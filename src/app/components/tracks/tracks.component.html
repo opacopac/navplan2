@@ -1,0 +1,67 @@
+<div class="container nonmapcontent">
+    <h2>Recorded Tracks</h2>
+    <div class="table-responsive">
+        <table id="track_list" class="table table-sm table-striped table-hover">
+            <thead>
+            <tr>
+                <th>Recorded</th>
+                <th>Track</th>
+                <th>Status</th>
+                <th>KML</th>
+                <th>&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- last recorded track -->
+            <!--<tr ng-show="lasttrack" ng-class="{ success: globalData.track.islasttrack }"  ng-click="onLastTrackSelected();">
+                <td>{{ getDateString(lasttrack.timestamp) }}</td>
+                <td>{{ lasttrack.name }}</td>
+                <td><i>unsaved</i></td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-circle" ng-click="$event.preventDefault(); $event.stopPropagation(); onKmlClicked(lasttrack);" title="export kml for google earth"><i class="glyphicon glyphicon-globe"></i></button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-success btn-circle" ng-disable="isLoggedIn()" ng-click="$event.stopPropagation(); onSaveLasttrackClicked();" title="save track"><i class="glyphicon glyphicon-save"></i></button>
+                    <button type="button" class="btn btn-danger btn-circle" ng-click="$event.stopPropagation(); onRemoveLasttrackClicked();" title="delete track"><i class="glyphicon glyphicon-remove"></i></button>
+                </td>
+            </tr>-->
+            <!-- saved tracks -->
+            <tr *ngFor="let track of this.trackList" ng-class="{ success: track.id == globalData.track.id }" (click)="onTrackSelected(track)" title="select to show on map" style="cursor: pointer">
+                <td>{{ getDateString(track.saveTime) }}</td>
+                <td>{{ track.name }}</td>
+                <td><i>saved</i></td>
+                <td>
+                    <button type="button" class="btn btn-info btn-sm" ng-click="$event.preventDefault(); $event.stopPropagation(); onKmlClicked(track);" title="export kml for google earth"><i class="fa fa-globe"></i></button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-warning btn-sm" ng-click="$event.stopPropagation(); onEditTrackClicked(track);" title="edit track"><i class="fa fa-edit"></i></button>
+                    <button type="button" class="btn btn-danger btn-sm" ng-click="$event.stopPropagation(); onRemoveTrackClicked(track);" title="delete track"><i class="fa fa-remove"></i></button>
+                </td>
+            </tr>
+            <!-- empty list -->
+            <tr *ngIf="this.trackList.length == 0 && !this.lastTrack">
+                <td colspan="5"><i>No tracks.</i></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- save track dialog -->
+<!--<div class="modal fade" id="saveTrackDialog" tabindex="-1" role="dialog" aria-labelledby="saveTrackModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="saveTrackModalLabel">Track</h4>
+            </div>
+            <div class="modal-body">
+                <p>Recorded: {{ editTrack.recorded }}</p>
+                Track Name: <input type="text" class="form-control" ng-model="editTrack.name" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="onSaveTrackClicked()" ng-disabled="!editTrack.name"><i class="fa fa-save"></i> Save Track</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>-->

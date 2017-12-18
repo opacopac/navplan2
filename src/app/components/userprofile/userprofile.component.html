@@ -1,0 +1,30 @@
+<div class="container nonmapcontent">
+    <h2>User Profile</h2>
+    <form #editUserForm="ngForm">
+        <div class="form-group">
+            <label for="email" class="col-form-label col-sm-3">E-Mail</label>
+            <div class="col-sm-6">
+                <input readonly type="text" id="email" class="form-control" [ngModel]="this.session.user.email" name="email">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="oldpassword" class="col-form-label col-sm-3">Current Passwort</label>
+            <div class="col-sm-6">
+                <input type="password" id="oldpassword" class="form-control" [(ngModel)]="oldpassword" name="oldpassword" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="newpassword" class="col-form-label col-sm-3">New Passwort</label>
+            <div class="col-sm-6">
+                <input type="password" id="newpassword" class="form-control" [(ngModel)]="newpassword" name="newpassword" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <span class="col-sm-3">&nbsp;</span>
+            <div class="col-sm-6">
+                <button type="submit" class="btn btn-primary" (click)="onChangePwClicked()" [disabled]="editUserForm.invalid">Change Password</button>
+                <button type="submit" class="btn btn-secondary" (click)="onLogoffClicked()">Log Off</button>
+            </div>
+        </div>
+    </form>
+</div>

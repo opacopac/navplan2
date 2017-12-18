@@ -1,20 +1,37 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{title}}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
-
+<nav class="navbar navbar-expand-sm navbar-dark bg-primary">
+    <a class="navbar-brand" href="/">NAVPLAN.CH</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup" data-toggle="collapse" data-target=".navbar-collapse.show">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" routerLink="./map" title="Map"><i class="fa fa-map-o"></i><span class="d-sm-none d-md-inline">&nbsp;  Map</span></a>
+            <a class="nav-item nav-link" routerLink="./route" title="Route & Fuel Calc"><i class="fa fa-list-alt"></i><span class="d-sm-none d-md-inline">&nbsp; Route &amp; Fuel</span></a>
+            <a *ngIf="this.sessionService.isLoggedIn()" class="nav-item nav-link" routerLink="./tracks" title="Recorded Tracks"><i class="fa fa-paw"></i><span class="d-sm-none d-md-inline">&nbsp; Tracks</span></a>
+            <a class="nav-item nav-link" routerLink="./map" title="Clear current Route and Track"><i class="fa fa-eraser"></i><span class="d-sm-none d-md-none d-lg-inline">&nbsp; Clear</span></a>
+            <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Export & Share Route">
+                    <i class="fa fa-share"></i><span class="d-sm-none d-md-none d-lg-inline">&nbsp; Export</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="#"><i class="fa fa-file-pdf-o fa-fw"></i>&nbsp; Route as PDF</a>
+                    <a class="dropdown-item" href="#"><i class="fa fa-file-excel-o fa-fw"></i>&nbsp; Route as Excel</a>
+                    <a class="dropdown-item" href="#"><i class="fa fa-globe fa-fw"></i>&nbsp; KML (Google Earth)</a>
+                    <a class="dropdown-item" href="#"><i class="fa fa-map-marker fa-fw"></i>&nbsp; GPX (Airnav Pro, SkyDemon, etc.)</a>
+                    <a class="dropdown-item" href="#"><i class="fa fa-map-marker fa-fw"></i>&nbsp; FPL (Garmin, Foreflight, etc.)</a>
+                    <a class="dropdown-item" href="#"><i class="fa fa-link fa-fw"></i>&nbsp;  Share URL</a>
+                </div>
+            </div>
+        </div>
+        <div class="navbar-nav ml-auto">
+            <a *ngIf="!this.sessionService.isLoggedIn()" class="nav-item nav-link" routerLink="./login" title="Login or Register"><i class="fa fa-user"></i><span class="d-sm-none d-md-none d-lg-inline">&nbsp; Login</span></a>
+            <a *ngIf="this.sessionService.isLoggedIn()" class="nav-item nav-link" routerLink="./userprofile" title="User Profile"><i class="fa fa-user"></i><span class="d-sm-none d-md-none d-lg-inline">&nbsp; {{ this.session.user.email }}</span></a>
+            <a class="nav-item nav-link" routerLink="./settings" title="Edit Settings"><i class="fa fa-cog"></i><span class="d-sm-none d-md-none d-lg-inline">&nbsp; Settings</span></a>
+            <a class="nav-item nav-link" routerLink="./about" title="About"><i class="fa fa-info-circle"></i><span class="d-sm-none d-md-none d-lg-inline">&nbsp; About</span></a>
+        </div>
+    </div>
+</nav>
+<!-- content -->
+<router-outlet></router-outlet>
+<!-- messages -->
+<app-message></app-message>

@@ -1,0 +1,82 @@
+<div class="container nonmapcontent">
+    <h2>Flight Route</h2>
+    <!-- load/delete route -->
+    <div *ngIf="this.sessionService.isLoggedIn()" class="form-group form-row" >
+        <label for="flightroute_list" class="col-form-label col-form-label-md col-sm-3">Saved Routes</label>
+        <div class="col-sm-9">
+            <div class="input-group">
+                <select id="flightroute_list" class="form-control form-control-md" [(ngModel)]="this.selectedFlightrouteId">
+                    <option [ngValue]="-1">--- Select ---</option>
+                    <option *ngFor="let flightroute of this.flightrouteList" [ngValue]="flightroute.id">{{ flightroute.title }}</option>
+                </select>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-md btn-success" title="Load Route" (click)="onLoadFlightrouteClicked()" [disabled]="!this.selectedFlightrouteId"><i class="fa fa-upload"></i></button>
+                    <button type="button" class="btn btn-md btn-danger" title="Delete Route" (click)="onDeleteFlightrouteClicked()" [disabled]="!this.selectedFlightrouteId"><i class="fa fa-trash"></i></button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <!-- save/copy route -->
+    <div class="form-group form-row">
+        <label for="flightroute_name" class="col-form-label col-form-label-md col-sm-3">Route Name</label>
+        <div class="col-sm-9">
+            <div class="input-group">
+                <input id="flightroute_name" type="text" class="form-control form-control-md" placeholder="Enter Name"
+                       [(ngModel)]="this.session.flightroute.title" maxlength="50"/>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-md btn-info" title="Save Route (login required)"
+                          (click)="onSaveFlightrouteClicked()"
+                          [disabled]="!this.session.flightroute.title || this.sessionService.isLoggedIn()"><i class="fa fa-download"></i></button>
+                    <button type="button" class="btn btn-md btn-info" title="Save Copy of Route"
+                          (click)="onSaveFlightrouteCopyClicked()"
+                          [disabled]="!this.session.flightroute.id || !this.session.flightroute.title || this.sessionService.isLoggedIn()"><i class="fa fa-copy"></i></button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <!-- speed -->
+    <div class="form-group form-row">
+        <label for="aircraft_speed" class="col-form-label col-form-label-md col-sm-3">Ground Speed</label>
+        <div class="col-sm-3">
+            <input type="number" id="aircraft_speed" class="form-control form-control-md"
+                   [(ngModel)]="this.session.flightroute.aircraft.speed" (focusout)="this.session.flightroute.recalcWaypointsAndFuel()" placeholder="kt" maxlength="3" size="3">
+        </div>
+    </div>
+    <!-- consumption -->
+    <div class="form-group form-row">
+        <label for="aircraft_consumption" class="col-form-label col-form-label-md col-sm-3">Fuel Consumption</label>
+        <div class="col-sm-3">
+            <input type="number" id="aircraft_consumption" class="form-control  form-control-md"
+                   [(ngModel)]="this.session.flightroute.aircraft.consumption" placeholder="l/h" maxlength="2"
+                   size="2">
+        </div>
+    </div>
+    <!-- waypoint list -->
+    <app-waypointlist></app-waypointlist>
+    <!-- comments & fuel section -->
+    <div class="row">
+        <!-- comments -->
+        <div class="col-sm-7">
+            <div class="form-group form-row">
+                <label for="comments" class="col-form-label col-form-label-md col-sm-3">Comments:</label>
+                <div class="col-sm-9">
+                    <textarea id="comments" class="form-control form-control-md" [(ngModel)]="this.session.flightroute.comments" rows="6" maxlength="2048"></textarea>
+                </div>
+            </div>
+        </div>
+        <!-- fuel calculation -->
+        <div class="col-sm-5">
+            <app-fuelcalc></app-fuelcalc>
+        </div>
+    </div>
+    <!-- download pdf / excel buttons -->
+    <div class="form-inline">
+        <div class="form-group row">
+            <a id="dlPdfLink" href="#" class="btn btn-md btn-danger" title="Print Navigation Log as PDF"
+               (click)="$event.preventDefault(); onExportFlightroutePdfClicked();"><i class="fa fa-print"></i> Print PDF</a>&nbsp;
+            <a id="dlExcelLink" href="#" class="btn btn-md btn-success" title="Export Navigation Log as Excel"
+               (click)="$event.preventDefault(); onExportFlightrouteExcelClicked();"><i class="fa fa-file-excel-o"></i>&nbsp;Excel
+                Export</a>&nbsp;
+        </div>
+    </div>
+</div>

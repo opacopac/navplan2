@@ -1,0 +1,1 @@
+nohup php -q maptile_downloader.php >>../../logs/maptile_downloader.log 2>>../../logs/maptile_downloader.log &

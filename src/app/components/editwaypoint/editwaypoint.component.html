@@ -1,0 +1,72 @@
+<div class="modal fade" id="selectedWaypointDialog" tabindex="-1" role="dialog" aria-labelledby="selectedWaypointModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="selectedWaypointModalLabel">Edit Waypoint</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <form [formGroup]="editWpForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="editWpCheckpoint">Checkpoint:</label>
+                        <input type="text" class="form-control" id="editWpCheckpoint" formControlName="checkpoint" maxlength="30" />
+                    </div>
+                    <div class="form-group">
+                        <label for="editWpFrequency">Frequency:</label>
+                        <input type="text" class="form-control" id="editWpFrequency" formControlName="freq" maxlength="7" />
+                    </div>
+                    <div class="form-group">
+                        <label for="editWpCallsign">Callsign:</label>
+                        <input type="text" class="form-control" id="editWpCallsign" formControlName="callsign" maxlength="10" />
+                    </div>
+                    <div class="form-group">
+                        <label for="editWpAltitude">Altitude:</label>
+                        <div class="form-inline">
+                            <input type="text" class="form-control" id="editWpAltitude" formControlName="alt" maxlength="5" min="0" max="99999" />
+                            <!--<div class="invalid-feedback" [ngClass]="getBsValidClass('alt')">Value must be a positive number!</div>-->
+                            <div class="btn-group"><!-- removed data-toggle="buttons" -->
+                                <label class="btn btn-secondary {{ this.editWpForm.value.isminalt ? ' active' : '' }}" (click)="onToggleCheckboxButtonClicked('isminalt')">
+                                    <input type="checkbox" formControlName="isminalt" autocomplete="off" style="display:none">min
+                                </label>
+                                <label class="btn btn-secondary {{ this.editWpForm.value.ismaxalt ? ' active' : '' }}" (click)="onToggleCheckboxButtonClicked('ismaxalt')">
+                                    <input type="checkbox" formControlName="ismaxalt" autocomplete="off" style="display:none">max
+                                </label>
+                            </div>
+                            @
+                            <div class="btn-group"><!-- removed data-toggle="buttons" -->
+                                <label class="btn btn-secondary {{ this.editWpForm.value.isaltatlegstart == '1' ? ' active' : '' }}" (click)="onToggleRadioButtonClicked('isaltatlegstart', '1')">
+                                    <input type="radio" formControlName="isaltatlegstart" value="1" autocomplete="off" style="visibility:hidden">leg start
+                                </label>
+                                <label class="btn btn-secondary {{ this.editWpForm.value.isaltatlegstart == '0' ? ' active' : '' }}" (click)="onToggleRadioButtonClicked('isaltatlegstart', '0')">
+                                    <input type="radio" formControlName="isaltatlegstart" value="0" autocomplete="off" style="visibility:hidden">leg end
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- TODO: debug values -->
+                    <!--<div>
+                        {{ this.editWpForm.value | json }}
+                    </div>-->
+                    <div class="form-group">
+                        <label for="editWpRemarks">Remarks:</label>
+                        <input type="text" class="form-control" id="editWpRemarks" formControlName="remark" maxlength="50"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="editWpSuppInfo">Supplemental Info (separate line):</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="editWpSuppInfo" formControlName="supp_info" maxlength="255"/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-secondary" type="button" (click)="onDeleteSuppInfoClicked()" title="delete supplemental info"><span class="fa fa-eraser" aria-hidden="true"></span></button>
+                            </span>
+                        </div>
+                        <!--<input type="text" class="form-control" id="editWpSuppInfo" ng-model="globalData.selectedWp.supp_info" maxlength="255" />-->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" data-dismiss="modal" (click)="onSaveClicked()" [disabled]="this.editWpForm.invalid">Save</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

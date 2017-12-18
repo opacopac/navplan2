@@ -9,7 +9,17 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "favicon.ico"
+        "php",
+        "data_import",
+        ".htaccess",
+        "index.php",
+        "manifest.php",
+        "manifest_iframe.html",
+        "offline.html",
+        "version.php",
+        "version.txt",
+        "favicon.png",
+        "summary_card_image.png"
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -19,9 +29,14 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
+        "../node_modules/openlayers/css/ol.css",
         "styles.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/jquery/dist/jquery.min.js",
+        "../node_modules/popper.js/dist/umd/popper.min.js",
+        "../node_modules/bootstrap/dist/js/bootstrap.min.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

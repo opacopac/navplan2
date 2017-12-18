@@ -1,0 +1,45 @@
+<table class="table table-sm table-bordered table-striped table-nonfluid">
+    <thead>
+        <tr>
+            <th>Fuel Calculation</th>
+            <th>Time</th>
+            <th>Fuel</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Trip</td>
+            <td><span *ngIf="this.session.flightroute.fuel.tripTime > 0">{{ formatHourMin(this.session.flightroute.fuel.tripTime) }}</span></td>
+            <td><span *ngIf="this.session.flightroute.fuel.tripTime > 0">{{ fuelByTime(this.session.flightroute.fuel.tripTime) }}</span></td>
+        </tr>
+        <tr>
+            <td>Alternate</td>
+            <td><span *ngIf="this.session.flightroute.fuel.alternateTime > 0">{{ formatHourMin(this.session.flightroute.fuel.alternateTime) }}</span></td>
+            <td><span *ngIf="this.session.flightroute.fuel.alternateTime > 0">{{ fuelByTime(this.session.flightroute.fuel.alternateTime) }}</span></td>
+        </tr>
+        <tr>
+            <td>Reserve</td>
+            <td>{{ formatHourMin(this.session.flightroute.fuel.reserveTime) }}</td>
+            <td>{{ fuelByTime(this.session.flightroute.fuel.reserveTime) }}</td>
+        </tr>
+        <tr>
+            <td>Minimum</td>
+            <td><span *ngIf="this.session.flightroute.fuel.tripTime > 0 || this.session.flightroute.fuel.alternateTime > 0">{{ formatHourMin(this.session.flightroute.fuel.tripTime
+                + this.session.flightroute.fuel.alternateTime + this.session.flightroute.fuel.reserveTime) }}</span></td>
+            <td><span *ngIf="this.session.flightroute.fuel.tripTime > 0 || this.session.flightroute.fuel.alternateTime > 0">{{ fuelByTime(this.session.flightroute.fuel.tripTime
+                + this.session.flightroute.fuel.alternateTime + this.session.flightroute.fuel.reserveTime) }}</span></td>
+        </tr>
+        <tr>
+            <td>Extra fuel</td>
+            <td><input id="extraFuelInput" type="text" class="form-control form-control-sm" maxlength="3" size="3" [(ngModel)]="this.session.flightroute.fuel.extraTime"></td>
+            <td><span *ngIf="this.session.flightroute.fuel.extraTime * 1 > 0">{{ fuelByTime(this.session.flightroute.fuel.extraTime) }}</span></td>
+        </tr>
+        <tr>
+            <td><b>Block fuel</b></td>
+            <td><span *ngIf="this.session.flightroute.fuel.tripTime > 0 || this.session.flightroute.fuel.alternateTime > 0"><b>{{ formatHourMin(this.session.flightroute.fuel.tripTime
+                + this.session.flightroute.fuel.alternateTime + this.session.flightroute.fuel.reserveTime + this.session.flightroute.fuel.extraTime * 1) }}</b></span></td>
+            <td><span *ngIf="this.session.flightroute.fuel.tripTime > 0 || this.session.flightroute.fuel.alternateTime > 0"><b>{{ fuelByTime(this.session.flightroute.fuel.tripTime
+                + this.session.flightroute.fuel.alternateTime + this.session.flightroute.fuel.reserveTime + this.session.flightroute.fuel.extraTime * 1) }}</b></span></td>
+        </tr>
+    </tbody>
+</table>

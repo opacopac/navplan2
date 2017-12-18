@@ -1,0 +1,43 @@
+<div class="container nonmapcontent">
+    <h2>Settings</h2>
+    <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()">
+        <!-- variation -->
+        <div class="form-group row">
+            <label for="variation" class="col-form-label col-sm-3">Magnetic Variation (&deg; W-, E+)</label>
+            <div class="col-sm-3">
+                <input type="number" id="variation" class="form-control" [ngClass]="getBsValidClass('variationDeg')" formControlName="variationDeg">
+                <div class="invalid-feedback">Value must be between -180 and 180!</div>
+            </div>
+        </div>
+        <!-- traffic altitude -->
+        <div class="form-group row">
+            <label for="maxTrafficAltitudeFt" class="col-form-label col-sm-3">Max. Traffic Altitute (ft AMSL)</label>
+            <div class="col-sm-3">
+                <input type="number" id="maxTrafficAltitudeFt" class="form-control" [ngClass]="getBsValidClass('maxTrafficAltitudeFt')" formControlName="maxTrafficAltitudeFt">
+                <div class="invalid-feedback">Value must be a positive number!</div>
+            </div>
+        </div>
+        <!-- map type -->
+        <div class="form-group row">
+            <label for="baseMapType" class="col-form-label col-sm-3">Base Map</label>
+            <div class="col-sm-3">
+                <select id="baseMapType" class="form-control" formControlName="baseMapType">
+                    <option [value]="MapbaselayerType.OPENTOPOMAP">OpenTopoMap</option>
+                    <option [value]="MapbaselayerType.MAPBOX">Mapbox</option>
+                    <option [value]="MapbaselayerType.MAPZEN">Mapzen</option>
+                    <option [value]="MapbaselayerType.OSM">OpenStreetMap</option>
+                </select>
+            </div>
+        </div>
+        <!-- save / cancel buttons -->
+        <button type="submit" class="btn btn-primary" [disabled]="this.settingsForm.invalid">Save</button>
+        <button type="button" class="btn btn-secondary" (click)="onCancelClicked()" [disabled]="!this.settingsForm.dirty" formnovalidate>Reset</button>
+        <!-- internal use only -->
+        <!--<div ng-show="isSelf(globalData.user.email)">
+            Click History (internal use only):<br />
+            <textarea class="form-control">{{ getClickHistoryString() }}</textarea><br />
+            Route as Polygon:<br />
+            <textarea class="form-control">{{ getRoutePolygonString() }}</textarea>
+        </div>-->
+    </form>
+</div>

@@ -1,0 +1,8 @@
+Require valid-user
+AuthType Basic
+AuthName 'Authentication required'
+AuthUserFile /home/tschanz/.htpasswds/htpasswd.6ea95365-075f-442b-b07c-882b2a8910a2
+
+
+#@__HCP_END__@#
+# Anything after the comment above is left alone
