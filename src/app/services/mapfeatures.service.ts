@@ -8,6 +8,11 @@ import { Extent } from '../model/map/extent';
 import { Mapfeatures } from '../model/map/mapfeatures';
 import { Navaid, NavaidRestItem } from '../model/map/navaid';
 import { Airport, AirportRestItem } from '../model/map/airport';
+import { Airspace, AirspaceRestItem} from '../model/map/airspace';
+import { Reportingpoint, ReportingPointRestItem } from '../model/map/reportingpoint';
+import { Userpoint, UserPointRestItem } from '../model/map/userpoint';
+import { Webcam, WebcamRestItem } from '../model/map/webcam';
+
 
 const OVERSIZE_FACTOR = 1.2;
 const MAPFEATURES_BASE_URL = environment.restApiBaseUrl + 'php/mapFeatures.php';
@@ -19,64 +24,12 @@ const USER_WP_BASE_URL = environment.restApiBaseUrl + 'php/userWaypoint.php';
 interface MapFeaturesResponse {
     navaids: NavaidRestItem[];
     airports: AirportRestItem[];
-    airspaces: AirspaceItem[];
-    reportingPoints: ReportingPointItem[];
-    userPoints: UserPointItem[];
-    webcams: WebcamItem[];
+    airspaces: AirspaceRestItem[];
+    reportingPoints: ReportingPointRestItem[];
+    userPoints: UserPointRestItem[];
+    webcams: WebcamRestItem[];
 }
 
-
-interface AirspaceItem {
-    id: number;
-    aip_id: number;
-    category: string;
-    country: string;
-    name: string;
-    alt: { top: AsAltitude, bottom: AsAltitude };
-    polygon: string;
-}
-
-interface AsAltitude {
-    ref: string;
-    height: number;
-    unit: string;
-}
-
-
-interface ReportingPointItem {
-    id: number;
-    type: string;
-    airport_icao: string;
-    name: string;
-    heli: boolean;
-    inbd_comp: boolean;
-    outbd_comp: boolean;
-    min_ft: number;
-    max_ft: number;
-    latitude: number;
-    longitude: number;
-    polygon: string;
-}
-
-
-interface UserPointItem {
-    id: number;
-    type: string;
-    name: string;
-    latitude: number;
-    longitude: number;
-    remark: string;
-    supp_info: string;
-}
-
-
-interface WebcamItem {
-    id: number;
-    name: string;
-    url: string;
-    latitude: number;
-    longitude: number;
-}
 
 // endregion
 
@@ -144,11 +97,33 @@ export class MapfeaturesService {
 
         // airports
         mapFeatures.airports = [];
-        for (const adItem of response.airports) {
-            mapFeatures.airports.push(new Airport(adItem));
+        for (const restItem of response.airports) {
+            mapFeatures.airports.push(new Airport(restItem));
         }
 
-        // TODO
+        // airspaces
+        mapFeatures.airspaces = [];
+        for (const key in response.airspaces) {
+            mapFeatures.airspaces.push(new Airspace(response.airspaces[key]));
+        }
+
+        // reporting points
+        mapFeatures.reportingpoints = [];
+        for (const restItem of response.reportingPoints) {
+            mapFeatures.reportingpoints.push(new Reportingpoint(restItem));
+        }
+
+        // user points
+        mapFeatures.userpoints = [];
+        for (const restItem of response.userPoints) {
+            mapFeatures.userpoints.push(new Userpoint(restItem));
+        }
+
+        // webcams
+        mapFeatures.webcams = [];
+        for (const restItem of response.webcams) {
+            mapFeatures.webcams.push(new Webcam(restItem));
+        }
 
         return mapFeatures;
     }

@@ -10,6 +10,13 @@ import { Navaid, NavaidOlFeatureFactory } from '../model/map/navaid';
 import { Airport, AirportOlFeatureFactory } from '../model/map/airport';
 import { RunwayOlFeatureFactory } from '../model/map/airport-runway';
 import { AirportFeatureOlFeatureFactory } from '../model/map/airport-feature';
+import {Airspace, AirspaceOlFeatureFactory} from "../model/map/airspace";
+import {
+    Reportingpoint, ReportingPointOlFeatureFactory,
+    ReportingSectorOlFeatureFactory
+} from "../model/map/reportingpoint";
+import {Userpoint, UserpointOlFeatureFactory} from "../model/map/userpoint";
+import {Webcam, WebcamOlFeatureFactory} from "../model/map/webcam";
 
 
 @Injectable()
@@ -19,6 +26,10 @@ export class MapService {
     private mapLayer: ol.layer.Layer;
     private navaidLayer: ol.layer.Layer;
     private airportLayer: ol.layer.Layer;
+    private airspaceLayer: ol.layer.Layer;
+    private reportingPointLayer: ol.layer.Layer;
+    private userPointLayer: ol.layer.Layer;
+    private webcamLayer: ol.layer.Layer;
     private onMovedZoomedRotatedCallback: () => void;
 
 
@@ -36,8 +47,12 @@ export class MapService {
             target: 'map',
             layers: [
                 this.mapLayer,
+                this.airspaceLayer,
                 this.navaidLayer,
-                this.airportLayer
+                this.airportLayer,
+                this.reportingPointLayer,
+                this.userPointLayer,
+                this.webcamLayer
             ],
             view: new ol.View({
                 center: this.session.map.position.getMercator(),
@@ -59,6 +74,10 @@ export class MapService {
         this.mapLayer = MapbaselayerFactory.create(this.session.settings.baseMapType);
         this.navaidLayer = this.createEmptyVectorLayer();
         this.airportLayer = this.createEmptyVectorLayer();
+        this.airspaceLayer = this.createEmptyVectorLayer();
+        this.reportingPointLayer = this.createEmptyVectorLayer();
+        this.userPointLayer = this.createEmptyVectorLayer();
+        this.webcamLayer = this.createEmptyVectorLayer();
     }
 
 
@@ -111,6 +130,10 @@ export class MapService {
     public drawMapFeatures(mapFeatures: Mapfeatures) {
         this.drawNavaidFeatures(mapFeatures.navaids);
         this.drawAirportFeatures(mapFeatures.airports);
+        this.drawAirspaceFeatures(mapFeatures.airspaces);
+        this.drawReportingPointFeatures(mapFeatures.reportingpoints);
+        this.drawUserPointFeatures(mapFeatures.userpoints);
+        this.drawWebcamFeatures(mapFeatures.webcams);
     }
 
 
@@ -156,6 +179,66 @@ export class MapService {
             }
         }
     }
+
+
+    private drawAirspaceFeatures(airspaces: Airspace[]) {
+        const source = this.airspaceLayer.getSource() as ol.source.Vector;
+        source.clear();
+
+        for (const airspace of airspaces) {
+            const feature = AirspaceOlFeatureFactory.createOlFeature(airspace);
+            if (feature) {
+                source.addFeature(feature);
+            }
+        }
+    }
+
+
+    private drawReportingPointFeatures(reportingpoints: Reportingpoint[]) {
+        const source = this.reportingPointLayer.getSource() as ol.source.Vector;
+        source.clear();
+
+        for (const rp of reportingpoints) {
+            let feature: ol.Feature;
+
+            if (rp.type === 'SECTOR') {
+                feature = ReportingSectorOlFeatureFactory.createOlFeature(rp);
+            } else {
+                feature = ReportingPointOlFeatureFactory.createOlFeature(rp);
+            }
+            if (feature) {
+                source.addFeature(feature);
+            }
+        }
+    }
+
+
+    private drawUserPointFeatures(userpoints: Userpoint[]) {
+        const source = this.userPointLayer.getSource() as ol.source.Vector;
+        source.clear();
+
+        for (const up of userpoints) {
+            const feature = UserpointOlFeatureFactory.createOlFeature(up);
+            if (feature) {
+                source.addFeature(feature);
+            }
+        }
+    }
+
+
+    private drawWebcamFeatures(webcams: Webcam[]) {
+        const source = this.webcamLayer.getSource() as ol.source.Vector;
+        source.clear();
+
+        for (const webcam of webcams) {
+            const feature = WebcamOlFeatureFactory.createOlFeature(webcam);
+            if (feature) {
+                source.addFeature(feature);
+            }
+        }
+    }
+
+
 
     // endregion
 
