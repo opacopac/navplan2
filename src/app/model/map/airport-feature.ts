@@ -1,6 +1,8 @@
 import * as ol from 'openlayers';
 import { environment } from '../../../environments/environment';
 import { Position2d } from '../position';
+import {MapItemGeometryType, MapItemModel, MapItemOlFeature} from './map-item-model';
+
 
 export interface AirportFeatureRestItem {
     type: string;
@@ -8,38 +10,34 @@ export interface AirportFeatureRestItem {
 }
 
 
-export class AirportFeature {
+export class AirportFeature implements MapItemModel {
     type: string;
     name: string;
+    position: Position2d;
 
-    constructor(restItem: AirportFeatureRestItem) {
+    constructor(restItem: AirportFeatureRestItem, position: Position2d) {
         this.type = restItem.type;
         this.name = restItem.name;
+        this.position = position;
+    }
+
+
+    public getGeometryType(): MapItemGeometryType {
+        return MapItemGeometryType.POINT;
+    }
+
+
+    public getGeometry(): Position2d {
+        return this.position;
     }
 }
 
 
-export class AirportFeatureOlFeatureFactory {
-    public static createOlFeature(adFeature: AirportFeature, pos: Position2d): ol.Feature {
-        const feature = new ol.Feature({
-            geometry: new ol.geom.Point(pos.getMercator())
-        });
-
-        const style = this.createOlStyle(adFeature);
-
-        if (style) {
-            feature.setStyle(style);
-            return feature;
-        } else {
-            return undefined;
-        }
-    }
-
-
-    private static createOlStyle(adFeature: AirportFeature): ol.style.Style {
+export class AirportFeatureOlFeature extends MapItemOlFeature<AirportFeature> {
+    protected createOlStyle(): ol.style.Style {
         const src = environment.iconBaseUrl;
 
-        if (adFeature.type !== 'PARACHUTE') {
+        if (this.mapItemModel.type !== 'PARACHUTE') {
             return undefined;
         }
 

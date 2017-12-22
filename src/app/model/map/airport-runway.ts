@@ -1,6 +1,7 @@
 import { environment } from '../../../environments/environment';
 import * as ol from 'openlayers';
 import { Position2d } from '../position';
+import {MapItemGeometryType, MapItemModel, MapItemOlFeature} from './map-item-model';
 
 
 export interface AirportRunwayRestItem {
@@ -19,7 +20,7 @@ export interface AirportRunwayRestItem {
 }
 
 
-export class AirportRunway {
+export class AirportRunway implements MapItemModel {
     name: string;
     surface: string;
     length: number;
@@ -32,8 +33,11 @@ export class AirportRunway {
     lda2: number;
     papi1: boolean;
     papi2: boolean;
+    position: Position2d;
+    isMil: boolean;
 
-    constructor(restItem: AirportRunwayRestItem) {
+
+    constructor(restItem: AirportRunwayRestItem, position: Position2d, isMil: boolean) {
         this.name = restItem.name;
         this.surface = restItem.surface;
         this.length = restItem.length;
@@ -44,33 +48,29 @@ export class AirportRunway {
         this.lda2 = restItem.lda2;
         this.papi1 = restItem.papi1;
         this.papi2 = restItem.papi2;
+        this.position = position;
+        this.isMil = isMil;
+    }
+
+
+    public getGeometryType(): MapItemGeometryType {
+        return MapItemGeometryType.POINT;
+    }
+
+
+    public getGeometry(): Position2d {
+        return this.position;
     }
 }
 
 
-export class RunwayOlFeatureFactory {
-    public static createOlFeature(rwy: AirportRunway, pos: Position2d, isMil: boolean): ol.Feature {
-        const feature = new ol.Feature({
-            geometry: new ol.geom.Point(pos.getMercator())
-        });
-
-        const style = this.createOlStyle(rwy, isMil);
-
-        if (style) {
-            feature.setStyle(style);
-            return feature;
-        } else {
-            return undefined;
-        }
-    }
-
-
-    private static createOlStyle(rwy: AirportRunway, isMil: boolean): ol.style.Style {
+export class AirportRunwayOlFeature extends MapItemOlFeature<AirportRunway> {
+    protected createOlStyle(): ol.style.Style {
         let src = environment.iconBaseUrl;
-        const rwy_surface = rwy.surface ? rwy.surface : undefined;
-        const rwy_direction = rwy.direction1 ? rwy.direction1 : undefined;
+        const rwy_surface = this.mapItemModel.surface ? this.mapItemModel.surface : undefined;
+        const rwy_direction = this.mapItemModel.direction1 ? this.mapItemModel.direction1 : undefined;
 
-        if (isMil) {
+        if (this.mapItemModel.isMil) {
             src += 'rwy_mil.png';
         } else if (rwy_surface === 'ASPH' || rwy_surface === 'CONC') {
             src += 'rwy_concrete.png';
@@ -93,4 +93,5 @@ export class RunwayOlFeatureFactory {
             }))
         });
     }
+
 }

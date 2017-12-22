@@ -1,6 +1,7 @@
 import * as ol from 'openlayers';
 import { environment } from '../../../environments/environment';
 import { Position2d } from '../position';
+import { MapItemGeometryType, MapItemModel, MapItemOlFeature } from './map-item-model';
 
 
 export interface NavaidRestItem {
@@ -18,7 +19,7 @@ export interface NavaidRestItem {
 }
 
 
-export class Navaid {
+export class Navaid implements MapItemModel {
     public id: number;
     public type: string;
     public kuerzel: string;
@@ -29,6 +30,7 @@ export class Navaid {
     public unit: string;
     public declination: number;
     public truenorth: boolean;
+
 
     constructor(restItem: NavaidRestItem) {
         this.id = restItem.id;
@@ -42,31 +44,25 @@ export class Navaid {
         this.declination = restItem.declination;
         this.truenorth = restItem.truenorth;
     }
-}
 
 
-export class NavaidOlFeatureFactory {
-    public static createOlFeature(navaid: Navaid): ol.Feature {
-        const feature = new ol.Feature({
-            geometry: new ol.geom.Point(navaid.position.getMercator())
-        });
-
-        const navaidStyle = NavaidOlFeatureFactory.createOlStyle(navaid);
-
-        if (navaidStyle) {
-            feature.setStyle(navaidStyle);
-            return feature;
-        } else {
-            return undefined;
-        }
+    public getGeometryType(): MapItemGeometryType {
+        return MapItemGeometryType.POINT;
     }
 
 
-    private static createOlStyle(navaid: Navaid): ol.style.Style {
+    public getGeometry(): Position2d {
+        return this.position;
+    }
+}
+
+
+export class NavaidOlFeature extends MapItemOlFeature<Navaid> {
+    protected createOlStyle() {
         let src = environment.iconBaseUrl;
         let textOffsetY;
 
-        switch (navaid.type) {
+        switch (this.mapItemModel.type) {
             case 'NDB':
                 src += 'navaid_ndb.png';
                 textOffsetY = 33;
@@ -109,8 +105,8 @@ export class NavaidOlFeatureFactory {
                 src: src
             })),
             text: new ol.style.Text({
-                //textAlign: align,
-                //textBaseline: baseline,
+                // textAlign: align,
+                // textBaseline: baseline,
                 font: 'bold 14px Calibri,sans-serif',
                 text: name,
                 fill: new ol.style.Fill({color: '#451A57'}),

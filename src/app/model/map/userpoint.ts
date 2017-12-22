@@ -1,6 +1,7 @@
-import { environment } from '../../../environments/environment';
 import * as ol from 'openlayers';
+import { environment } from '../../../environments/environment';
 import { Position2d } from '../position';
+import { MapItemGeometryType, MapItemModel, MapItemOlFeature } from './map-item-model';
 
 
 export interface UserPointRestItem {
@@ -14,7 +15,7 @@ export interface UserPointRestItem {
 }
 
 
-export class Userpoint {
+export class Userpoint implements MapItemModel {
     id: number;
     type: string;
     name: string;
@@ -33,27 +34,21 @@ export class Userpoint {
         this.remark = restItem.remark;
         this.supp_info = restItem.supp_info;
     }
-}
 
 
-export class UserpointOlFeatureFactory {
-    public static createOlFeature(userpoint: Userpoint): ol.Feature {
-        const feature = new ol.Feature({
-            geometry: new ol.geom.Point(userpoint.position.getMercator())
-        });
-
-        const style = UserpointOlFeatureFactory.createOlStyle(userpoint);
-
-        if (style) {
-            feature.setStyle(style);
-            return feature;
-        } else {
-            return undefined;
-        }
+    public getGeometryType(): MapItemGeometryType {
+        return MapItemGeometryType.POINT;
     }
 
 
-    private static createOlStyle(userpoint: Userpoint): ol.style.Style {
+    public getGeometry(): Position2d {
+        return this.position;
+    }
+}
+
+
+export class UserpointOlFeature extends MapItemOlFeature<Userpoint> {
+    protected createOlStyle(): ol.style.Style {
         const src = environment.iconBaseUrl;
 
         return new ol.style.Style({
@@ -67,7 +62,7 @@ export class UserpointOlFeatureFactory {
             })),
             text: new ol.style.Text({
                 font: 'bold 14px Calibri,sans-serif',
-                text: userpoint.name,
+                text: this.mapItemModel.name,
                 fill: new ol.style.Fill({color: '#0077FF'}),
                 stroke: new ol.style.Stroke({color: '#FFFFFF', width: 2}),
                 offsetX: 0,

@@ -1,5 +1,6 @@
 import * as ol from 'openlayers';
 import { Polygon } from '../polygon';
+import {MapItemGeometryType, MapItemModel, MapItemOlFeature} from './map-item-model';
 
 
 export interface AirspaceRestItem {
@@ -20,7 +21,7 @@ export interface AirspaceAltitudeRestItem {
 }
 
 
-export class Airspace {
+export class Airspace implements MapItemModel {
     id: number;
     aip_id: number;
     category: string;
@@ -41,6 +42,16 @@ export class Airspace {
         this.alt.bottom = new AirspaceAltitude(restItem.alt.bottom);
         this.polygon = Polygon.createFromLonLatList(restItem.polygon);
     }
+
+
+    public getGeometryType(): MapItemGeometryType {
+        return MapItemGeometryType.POLYGON;
+    }
+
+
+    public getGeometry(): Polygon {
+        return this.polygon;
+    }
 }
 
 
@@ -57,25 +68,9 @@ export class AirspaceAltitude {
 }
 
 
-export class AirspaceOlFeatureFactory {
-    public static createOlFeature(airspace: Airspace): ol.Feature {
-        const feature = new ol.Feature({
-            geometry: new ol.geom.Polygon([airspace.polygon.getMercatorList()]),
-        });
-
-        const style = AirspaceOlFeatureFactory.createOlStyle(airspace);
-
-        if (style) {
-            feature.setStyle(style);
-            return feature;
-        } else {
-            return undefined;
-        }
-    }
-
-
-    private static createOlStyle(airspace: Airspace): ol.style.Style {
-        switch (airspace.category) {
+export class AirspaceOlFeature extends MapItemOlFeature<Airspace> {
+    protected createOlStyle(): ol.style.Style {
+        switch (this.mapItemModel.category) {
             case 'CTR':
                 return new ol.style.Style({
                     fill: new ol.style.Fill({

@@ -1,11 +1,12 @@
 import * as ol from 'openlayers';
 import { environment } from '../../../environments/environment';
 import { Position2d } from '../position';
-import { AirportRunway, AirportRunwayRestItem } from './airport-runway';
+import { AirportRunway, AirportRunwayOlFeature, AirportRunwayRestItem } from './airport-runway';
 import { AirportRadio, AirportRadioRestItem } from './airport-radio';
 import { AirportWebcam, AirportWebcamRestItem } from './airport-webcam';
 import { AirportChart, AirportChartRestItem } from './airport-chart';
-import { AirportFeature, AirportFeatureRestItem } from './airport-feature';
+import { AirportFeature, AirportFeatureOlFeature, AirportFeatureRestItem } from './airport-feature';
+import { MapItemGeometryType, MapItemModel, MapItemOlFeature } from './map-item-model';
 
 
 export interface AirportRestItem {
@@ -25,7 +26,7 @@ export interface AirportRestItem {
 }
 
 
-export class Airport {
+export class Airport implements MapItemModel {
     public id: number;
     public type: string;
     public name: string;
@@ -51,7 +52,7 @@ export class Airport {
 
         this.runways = [];
         for (const item of restItem.runways) {
-            this.runways.push(new AirportRunway(item));
+            this.runways.push(new AirportRunway(item, this.position, this.isMilitary()));
         }
 
         this.radios = [];
@@ -71,8 +72,18 @@ export class Airport {
 
         this.features = [];
         for (const item of restItem.mapfeatures) {
-            this.features.push(new AirportFeature(item));
+            this.features.push(new AirportFeature(item, this.position));
         }
+    }
+
+
+    public getGeometryType(): MapItemGeometryType {
+        return MapItemGeometryType.POINT;
+    }
+
+
+    public getGeometry(): Position2d {
+        return this.position;
     }
 
 
@@ -102,29 +113,30 @@ export class Airport {
 }
 
 
-export class AirportOlFeatureFactory {
-    public static createOlFeature(airport: Airport): ol.Feature {
-        const feature = new ol.Feature({
-            geometry: new ol.geom.Point(airport.position.getMercator())
-        });
+export class AirportOlFeature extends MapItemOlFeature<Airport> {
+    public draw(source: ol.source.Vector) {
+        super.draw(source);
 
-        const style = this.createOlStyle(airport);
+        // runways
+        if (this.mapItemModel.runways && this.mapItemModel.runways.length > 0) {
+            const rwyOlFeature = new AirportRunwayOlFeature(this.mapItemModel.runways[0]);
+            rwyOlFeature.draw(source);
+        }
 
-        if (style) {
-            feature.setStyle(style);
-            return feature;
-        } else {
-            return undefined;
+        // airportfeatures
+        for (const adFeature of this.mapItemModel.features) {
+            const adFeatureOlFeature = new AirportFeatureOlFeature(adFeature);
+            adFeatureOlFeature.draw(source);
         }
     }
 
 
-    private static createOlStyle(airport: Airport): ol.style.Style {
+    protected createOlStyle(): ol.style.Style {
         let src = environment.iconBaseUrl;
         let textColor = '#451A57';
-        let name = airport.icao ? airport.icao : '';
+        let name = this.mapItemModel.icao ? this.mapItemModel.icao : '';
 
-        switch (airport.type) {
+        switch (this.mapItemModel.type) {
             case 'APT':
             case 'INTL_APT':
                 src += 'ad_civ.png';

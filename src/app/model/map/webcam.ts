@@ -1,5 +1,6 @@
-import { environment } from '../../../environments/environment';
 import * as ol from 'openlayers';
+import { environment } from '../../../environments/environment';
+import { MapItemGeometryType, MapItemModel, MapItemOlFeature } from './map-item-model';
 import { Position2d } from '../position';
 
 
@@ -12,7 +13,7 @@ export interface WebcamRestItem {
 }
 
 
-export class Webcam {
+export class Webcam implements MapItemModel {
     id: number;
     name: string;
     url: string;
@@ -25,27 +26,21 @@ export class Webcam {
         this.url = restItem.url;
         this.position = new Position2d(restItem.longitude, restItem.latitude);
     }
-}
 
 
-
-export class WebcamOlFeatureFactory {
-    public static createOlFeature(webcam: Webcam): ol.Feature {
-        const feature = new ol.Feature({
-            geometry: new ol.geom.Point(webcam.position.getMercator())
-        });
-
-        const style = this.createOlStyle(webcam);
-        if (style) {
-            feature.setStyle(style);
-            return feature;
-        } else {
-            return undefined;
-        }
+    public getGeometryType(): MapItemGeometryType {
+        return MapItemGeometryType.POINT;
     }
 
 
-    private static createOlStyle(webcam: Webcam): ol.style.Style {
+    public getGeometry(): Position2d {
+        return this.position;
+    }
+}
+
+
+export class WebcamOlFeature extends MapItemOlFeature<Webcam> {
+    protected createOlStyle(): ol.style.Style {
         const src = environment.iconBaseUrl;
 
         return new ol.style.Style({

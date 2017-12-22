@@ -1,5 +1,5 @@
-import { Timestamp } from './timestamp';
 import * as ol from 'openlayers';
+import { Timestamp } from './timestamp';
 
 
 export class Position2d {

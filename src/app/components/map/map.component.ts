@@ -7,7 +7,7 @@ import { MapfeaturesService } from '../../services/mapfeatures.service';
 import { Sessioncontext } from '../../model/sessioncontext';
 import { Mapfeatures } from '../../model/map/mapfeatures';
 
-const NAVBAR_HEIGHT_PX = 56;
+const NAVBAR_HEIGHT_PX = 54;
 
 
 @Component({
