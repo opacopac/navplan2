@@ -1,5 +1,6 @@
 import * as ol from 'openlayers';
 import { Timestamp } from './timestamp';
+import { Altitude } from './altitude';
 
 
 export class Position2d {
@@ -35,10 +36,27 @@ export class Position2d {
 
 
 export class Position3d extends Position2d {
-    public altitude: number;
+    public altitude: Altitude;
+
+
+    public constructor(lon: number, lat: number, altitude: Altitude) {
+        super(lon, lat);
+        this.altitude = altitude;
+    }
+
+
+    public hasAltitude(): boolean {
+        return this.altitude != null;
+    }
 }
 
 
 export class Position4d extends Position3d {
     public timestamp: Timestamp;
+
+
+    public constructor(lon: number, lat: number, altitude: Altitude, timestamp: Timestamp) {
+        super(lon, lat, altitude);
+        this.timestamp = timestamp;
+    }
 }

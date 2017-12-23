@@ -11,7 +11,7 @@ const BASE_URL_LOCAL = '//www.navplan.ch/maptiles/';
 
 export class Opentopobaselayer {
 
-    public static createBaseLayer(attributions: string[]): ol.layer.Layer {
+    public static createBaseLayer(attributions: string[]): ol.layer.Tile {
         const layer = new ol.layer.Tile({
             source: new ol.source.XYZ({
                 tileUrlFunction: Opentopobaselayer.getTileUrl,

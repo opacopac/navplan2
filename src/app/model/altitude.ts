@@ -1,0 +1,25 @@
+import { UnitconversionService } from '../services/unitconversion.service';
+
+
+export class Altitude {
+    private altitudeMeter: number;
+
+    public constructor(altitudeMeter: number) {
+        this.altitudeMeter = altitudeMeter;
+    }
+
+
+    public hasValue(): boolean {
+        return this.altitudeMeter != null;
+    }
+
+
+    public getInMt(): number {
+        return this.altitudeMeter;
+    }
+
+
+    public getInFt(): number {
+        return UnitconversionService.m2ft(this.altitudeMeter);
+    }
+}

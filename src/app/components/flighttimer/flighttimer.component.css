@@ -1,0 +1,46 @@
+.mapbutton-timer {
+    position: absolute;
+    top: 50px;
+    left: 70px;
+    z-index: 20;
+    opacity: 0.8;
+}
+
+#fullScreenContent:fullscreen .mapbutton-timer {
+    top: 10px;
+}
+
+#fullScreenContent:-webkit-full-screen .mapbutton-timer {
+    top: 10px;
+}
+
+#fullScreenContent:-moz-full-screen .mapbutton-timer {
+    top: 10px;
+}
+
+#fullScreenContent:-ms-fullscreen .mapbutton-timer {
+    top: 10px;
+}
+
+.map-currenttime {
+    font-size: x-large; /* 18px;*/
+    font-weight: bold;
+    text-shadow: -1px 0px #FFFFFF, 1px 0px #FFFFFF, 0px -1px #FFFFFF, 0px 1px #FFFFFF;
+    color: #000000;
+}
+
+.map-stoptime {
+    font-size: x-large;
+    font-style: italic;
+    font-weight: bold;
+    text-shadow: -1px 0px #FFFFFF, 1px 0px #FFFFFF, 0px -1px #FFFFFF, 0px 1px #FFFFFF;
+    color: #555555;
+}
+
+.map-timer {
+    font-size: x-large;
+    font-style: italic;
+    font-weight: bold;
+    text-shadow: -1px 0px #FFFFFF, 1px 0px #FFFFFF, 0px -1px #FFFFFF, 0px 1px #FFFFFF;
+    color: #FF0000;
+}

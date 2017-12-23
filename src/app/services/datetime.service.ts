@@ -4,21 +4,39 @@ import { StringnumberService } from './stringnumber.service';
 
 @Injectable()
 export class DatetimeService {
-    public static getMinSecString(timeMs: number): string {
+    public static getMinSecStringFromDate(date: Date) {
+        return StringnumberService.zeroPad(date.getMinutes()) + ':'
+            + StringnumberService.zeroPad(date.getSeconds());
+    }
+
+
+    public static getMinSecStringFromMs(timeMs: number): string {
         return StringnumberService.zeroPad(Math.floor(timeMs / 60000)) + ':' + StringnumberService.zeroPad(Math.floor(timeMs / 1000) % 60);
     }
 
 
-    public static getHourMinSecString(date: Date): string {
+    public static getHourMinSecStringFromDate(date: Date): string {
         return StringnumberService.zeroPad(date.getHours())
             + ':' + StringnumberService.zeroPad(date.getMinutes())
             + ':' + StringnumberService.zeroPad(date.getSeconds());
     }
 
 
-    public static getHourMinString(date: Date): string {
+    public static getHourMinStringFromDate(date: Date): string {
         return StringnumberService.zeroPad(date.getHours())
             + ':' + StringnumberService.zeroPad(date.getMinutes());
+    }
+
+
+    public static getHourMinStringFromMinutes(minutes: number): string {
+        if (!minutes) {
+            minutes = 0;
+        }
+
+        const h = Math.floor(minutes / 60);
+        const m = minutes - h * 60;
+
+        return StringnumberService.zeroPad(h, 2) + ':' + StringnumberService.zeroPad(m, 2);
     }
 
 
@@ -29,7 +47,7 @@ export class DatetimeService {
     }
 
 
-    public static getHourMinAgeString(timeMs: number): string {
+    public static getHourMinAgeStringFromMs(timeMs: number): string {
         const ms = Date.now() - timeMs;
         const h = Math.floor(ms / 1000 / 3600);
         const m = Math.floor(ms / 1000 / 60 - h * 60);

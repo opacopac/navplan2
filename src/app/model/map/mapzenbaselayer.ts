@@ -8,7 +8,7 @@ const API_KEY = 'mapzen-ECzH36f';
 
 export class Mapzenbaselayer {
 
-    public static createBaseLayer(attributions: string[]): ol.layer.Layer {
+    public static createBaseLayer(attributions: string[]): ol.layer.Tile {
         const layer = new ol.layer.Tile({
             source: new ol.source.XYZ({
                 tileUrlFunction: Mapzenbaselayer.getTileUrl,

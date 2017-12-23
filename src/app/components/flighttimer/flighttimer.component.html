@@ -1,0 +1,15 @@
+<div *ngIf="this.locationService.isActivated" id="map_timer" class="mapbutton-timer" align="center">
+	<span class="map-currenttime">
+		{{ this.timerService.getCurrentTimeString() }}
+	</span>
+  <br />
+  <button type="button" class="btn btn-secondary" (click)="this.timerService.onTimerClicked()" title="start timer"><span class="fa fa-clock-o"></span> Timer</button>
+  <br />
+  <span class="map-stoptime">
+		{{ this.timerService.getStopTimeString() }}
+	</span>
+  <br />
+  <span class="map-timer">
+		{{ this.timerService.getElapsedTimeString() }}
+	</span>
+</div>

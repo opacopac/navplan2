@@ -14,6 +14,7 @@ import { ReportingSectorOlFeature } from '../model/map/reportingsector';
 import { UserpointOlFeature } from '../model/map/userpoint';
 import { WebcamOlFeature } from '../model/map/webcam';
 import { AirportRunwayOlFeature } from '../model/map/airport-runway';
+import {Traffic, TrafficOlFeature} from "../model/map/traffic";
 
 
 const HIT_TOLERANCE_PIXELS = 10;
@@ -23,8 +24,10 @@ const HIT_TOLERANCE_PIXELS = 10;
 export class MapService {
     private map: ol.Map;
     private session: Sessioncontext;
-    private mapLayer: ol.layer.Layer;
-    private mapFeaturesLayer: ol.layer.Layer;
+    private mapLayer: ol.layer.Tile;
+    private mapFeaturesLayer: ol.layer.Vector;
+    private trafficLayer: ol.layer.Vector;
+    private locationLayer: ol.layer.Vector;
     private onMovedZoomedRotatedCallback: () => void;
     private onMapItemClickedCallback: (mapItem: MapItemModel) => void;
     private onMapClickedCallback: (position: Position2d) => void;
@@ -48,9 +51,17 @@ export class MapService {
         this.initLayers();
         this.map = new ol.Map({
             target: 'map',
+            controls: [
+                new ol.control.Attribution(),
+                new ol.control.FullScreen(),
+                new ol.control.ScaleLine(),
+                new ol.control.Rotate()
+            ],
             layers: [
                 this.mapLayer,
-                this.mapFeaturesLayer
+                this.mapFeaturesLayer,
+                this.trafficLayer,
+                this.locationLayer
             ],
             view: new ol.View({
                 center: this.session.map.position.getMercator(),
@@ -75,6 +86,8 @@ export class MapService {
     private initLayers() {
         this.mapLayer = MapbaselayerFactory.create(this.session.settings.baseMapType);
         this.mapFeaturesLayer = this.createEmptyVectorLayer();
+        this.trafficLayer = this.createEmptyVectorLayer();
+        this.locationLayer = this.createEmptyVectorLayer();
     }
 
 
@@ -89,6 +102,25 @@ export class MapService {
 
 
     // region map position / size
+
+
+    public zoomIn() {
+        const zoom = this.map.getView().getZoom();
+        const maxZoom = (this.mapLayer.getSource() as ol.source.Tile).getTileGrid().getMaxZoom();
+        if (zoom < maxZoom) {
+            this.map.getView().setZoom(zoom + 1);
+        }
+    }
+
+
+    public zoomOut() {
+        const zoom = this.map.getView().getZoom();
+        const minZoom = (this.mapLayer.getSource() as ol.source.Tile).getTileGrid().getMinZoom();
+        if (zoom > minZoom) {
+            this.map.getView().setZoom(zoom - 1);
+        }
+    }
+
 
     public getMapPosition(): Position2d {
         return Position2d.createFromMercator(this.map.getView().getCenter());
@@ -140,11 +172,42 @@ export class MapService {
 
 
     public drawMapFeatures(mapFeatures: Mapfeatures) {
-        const source = this.mapFeaturesLayer.getSource() as ol.source.Vector;
+        const source = this.mapFeaturesLayer.getSource();
         source.clear();
+
+        if (!mapFeatures) {
+            return;
+        }
 
         const mapFeaturesOlFeature = new MapfeaturesOlFeature(mapFeatures);
         mapFeaturesOlFeature.draw(source);
+    }
+
+
+    public drawLocation(ownPlane: Traffic) {
+        const source = this.locationLayer.getSource();
+        source.clear();
+
+        if (!ownPlane) {
+            return;
+        }
+
+        const ownPlaneOlFeature = new TrafficOlFeature(ownPlane);
+        ownPlaneOlFeature.draw(source);
+    }
+
+
+    public drawTraffic(trafficList: Traffic[]) {
+        const source = this.trafficLayer.getSource();
+        source.clear();
+
+        if (!trafficList)
+            return;
+
+        for (const traffic of trafficList) {
+            const trafficOlFeature = new TrafficOlFeature(traffic);
+            trafficOlFeature.draw(source);
+        }
     }
 
 

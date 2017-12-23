@@ -17,6 +17,8 @@ import { FuelcalcComponent } from './components/fuelcalc/fuelcalc.component';
 import { EditwaypointComponent } from './components/editwaypoint/editwaypoint.component';
 import { UserprofileComponent } from './components/userprofile/userprofile.component';
 import { ForgotpwComponent } from './components/forgotpw/forgotpw.component';
+import { ZoomButtonsComponent } from './components/zoom-buttons/zoom-buttons.component';
+import { LocationButtonComponent } from './components/location-button/location-button.component';
 
 import { SessionService } from './services/session.service';
 import { UserService } from './services/user.service';
@@ -27,6 +29,9 @@ import { StringnumberService } from './services/stringnumber.service';
 import { DatetimeService } from './services/datetime.service';
 import { MapService } from './services/map.service';
 import { MapfeaturesService } from './services/mapfeatures.service';
+import { FlighttimerService } from './services/flighttimer.service';
+import { LocationService } from './services/location.service';
+import { FlighttimerComponent } from './components/flighttimer/flighttimer.component';
 
 
 @NgModule({
@@ -43,7 +48,10 @@ import { MapfeaturesService } from './services/mapfeatures.service';
         ForgotpwComponent,
         WaypointlistComponent,
         FuelcalcComponent,
-        EditwaypointComponent
+        EditwaypointComponent,
+        ZoomButtonsComponent,
+        LocationButtonComponent,
+        FlighttimerComponent
     ],
     imports: [
         BrowserModule,
@@ -61,7 +69,9 @@ import { MapfeaturesService } from './services/mapfeatures.service';
         DatetimeService,
         StringnumberService,
         MapService,
-        MapfeaturesService
+        MapfeaturesService,
+        FlighttimerService,
+        LocationService
     ],
     bootstrap: [ AppComponent ]
 })

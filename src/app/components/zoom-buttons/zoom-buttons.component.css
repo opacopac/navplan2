@@ -1,0 +1,7 @@
+.mapbutton-zoom {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 20;
+    opacity: 0.8;
+}

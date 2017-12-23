@@ -12,7 +12,7 @@ export enum MapbaselayerType {
 }
 
 export class MapbaselayerFactory {
-    public static create(layer: MapbaselayerType): ol.layer.Layer {
+    public static create(layer: MapbaselayerType): ol.layer.Tile {
         const attributions = MapbaselayerFactory.getAttributions();
 
         switch (layer) {

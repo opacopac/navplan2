@@ -50,7 +50,7 @@ export class TracksComponent implements OnInit {
 
     getDateString(timestamp: Timestamp): string {
         const d: Date = new Date(timestamp.epochSec * 1000);
-        return DatetimeService.getYearMonthDayString(d) + ' ' + DatetimeService.getHourMinString(d);
+        return DatetimeService.getYearMonthDayString(d) + ' ' + DatetimeService.getHourMinStringFromDate(d);
     }
 
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Sessioncontext } from '../../model/sessioncontext';
 import { SessionService } from '../../services/session.service';
-import { StringnumberService } from '../../services/stringnumber.service';
+import { DatetimeService } from '../../services/datetime.service';
 
 
 @Component({
@@ -24,7 +24,7 @@ export class FuelcalcComponent implements OnInit {
 
     formatHourMin(minutes: number): string {
         if (minutes > 0) {
-            return StringnumberService.getHourColonMinString(minutes);
+            return DatetimeService.getHourMinStringFromMinutes(minutes);
         } else {
             return '';
         }
