@@ -68,7 +68,15 @@ export class AirspaceAltitude {
 }
 
 
-export class AirspaceOlFeature extends MapItemOlFeature<Airspace> {
+export class AirspaceOlFeature extends MapItemOlFeature {
+    public mapItemModel: Airspace;
+
+
+    public constructor(airspace: Airspace) {
+        super(airspace);
+    }
+
+
     protected createOlStyle(): ol.style.Style {
         switch (this.mapItemModel.category) {
             case 'CTR':

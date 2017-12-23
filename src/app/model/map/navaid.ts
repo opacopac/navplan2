@@ -57,7 +57,15 @@ export class Navaid implements MapItemModel {
 }
 
 
-export class NavaidOlFeature extends MapItemOlFeature<Navaid> {
+export class NavaidOlFeature extends MapItemOlFeature {
+    public mapItemModel: Navaid;
+
+
+    public constructor(navaid: Navaid) {
+        super(navaid);
+    }
+
+
     protected createOlStyle() {
         let src = environment.iconBaseUrl;
         let textOffsetY;

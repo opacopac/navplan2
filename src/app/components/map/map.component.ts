@@ -6,6 +6,8 @@ import { MapService } from '../../services/map.service';
 import { MapfeaturesService } from '../../services/mapfeatures.service';
 import { Sessioncontext } from '../../model/sessioncontext';
 import { Mapfeatures } from '../../model/map/mapfeatures';
+import {MapItemModel} from "../../model/map/map-item-model";
+import {Position2d} from "../../model/position";
 
 const NAVBAR_HEIGHT_PX = 54;
 
@@ -32,7 +34,10 @@ export class MapComponent implements OnInit {
     ngOnInit() {
         this.resizeMapToWindow();
         this.mapService.initMap(
-            this.onMovedZoomedRotatedCallback.bind(this)
+            this.onMovedZoomedRotatedCallback.bind(this),
+            this.onMapItemClickedCallback.bind(this),
+            this.onMapClickedCallback.bind(this),
+            this.onFullScreenClickedCallback.bind(this)
         );
     }
 
@@ -55,6 +60,18 @@ export class MapComponent implements OnInit {
             this.onMapFeaturesReceived.bind(this),
             this.onMapFeaturesError.bind(this)
         );
+    }
+
+
+    private onMapItemClickedCallback(mapItem: MapItemModel) {
+    }
+
+
+    private onMapClickedCallback(position: Position2d) {
+    }
+
+
+    private onFullScreenClickedCallback() {
     }
 
 

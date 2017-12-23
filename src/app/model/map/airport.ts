@@ -113,7 +113,15 @@ export class Airport implements MapItemModel {
 }
 
 
-export class AirportOlFeature extends MapItemOlFeature<Airport> {
+export class AirportOlFeature extends MapItemOlFeature {
+    public mapItemModel: Airport;
+
+
+    public constructor(airport: Airport) {
+        super(airport);
+    }
+
+
     public draw(source: ol.source.Vector) {
         super.draw(source);
 

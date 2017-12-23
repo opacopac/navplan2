@@ -39,7 +39,15 @@ export class Webcam implements MapItemModel {
 }
 
 
-export class WebcamOlFeature extends MapItemOlFeature<Webcam> {
+export class WebcamOlFeature extends MapItemOlFeature {
+    public mapItemModel: Webcam;
+
+
+    public constructor(webcam: Webcam) {
+        super(webcam);
+    }
+
+
     protected createOlStyle(): ol.style.Style {
         const src = environment.iconBaseUrl;
 

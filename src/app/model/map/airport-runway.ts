@@ -2,6 +2,7 @@ import { environment } from '../../../environments/environment';
 import * as ol from 'openlayers';
 import { Position2d } from '../position';
 import {MapItemGeometryType, MapItemModel, MapItemOlFeature} from './map-item-model';
+import {run} from "tslint/lib/runner";
 
 
 export interface AirportRunwayRestItem {
@@ -64,7 +65,15 @@ export class AirportRunway implements MapItemModel {
 }
 
 
-export class AirportRunwayOlFeature extends MapItemOlFeature<AirportRunway> {
+export class AirportRunwayOlFeature extends MapItemOlFeature {
+    public mapItemModel: AirportRunway;
+
+
+    public constructor(runway: AirportRunway) {
+        super(runway);
+    }
+
+
     protected createOlStyle(): ol.style.Style {
         let src = environment.iconBaseUrl;
         const rwy_surface = this.mapItemModel.surface ? this.mapItemModel.surface : undefined;
@@ -93,5 +102,4 @@ export class AirportRunwayOlFeature extends MapItemOlFeature<AirportRunway> {
             }))
         });
     }
-
 }

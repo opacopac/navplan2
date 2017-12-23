@@ -87,7 +87,15 @@ export class Mapfeatures implements MapItemModel {
 }
 
 
-export class MapfeaturesOlFeature extends MapItemOlFeature<Mapfeatures> {
+export class MapfeaturesOlFeature extends MapItemOlFeature {
+    public mapItemModel: Mapfeatures;
+
+
+    public constructor(mapfeatures: Mapfeatures) {
+        super(mapfeatures);
+    }
+
+
     public draw(source: ol.source.Vector) {
         // navaids
         for (const navaid of this.mapItemModel.navaids) {

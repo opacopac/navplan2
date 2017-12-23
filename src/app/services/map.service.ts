@@ -6,6 +6,17 @@ import { MapbaselayerFactory } from '../model/map/mapbaselayer-factory';
 import { Extent } from '../model/map/extent';
 import { Position2d } from '../model/position';
 import { Mapfeatures, MapfeaturesOlFeature } from '../model/map/mapfeatures';
+import { MapItemModel, MapItemOlFeature } from '../model/map/map-item-model';
+import { AirportOlFeature } from '../model/map/airport';
+import { NavaidOlFeature } from '../model/map/navaid';
+import { ReportingPointOlFeature } from '../model/map/reportingpoint';
+import { ReportingSectorOlFeature } from '../model/map/reportingsector';
+import { UserpointOlFeature } from '../model/map/userpoint';
+import { WebcamOlFeature } from '../model/map/webcam';
+import { AirportRunwayOlFeature } from '../model/map/airport-runway';
+
+
+const HIT_TOLERANCE_PIXELS = 10;
 
 
 @Injectable()
@@ -14,13 +25,10 @@ export class MapService {
     private session: Sessioncontext;
     private mapLayer: ol.layer.Layer;
     private mapFeaturesLayer: ol.layer.Layer;
-    private navaidLayer: ol.layer.Layer;
-    private airportLayer: ol.layer.Layer;
-    private airspaceLayer: ol.layer.Layer;
-    private reportingPointLayer: ol.layer.Layer;
-    private userPointLayer: ol.layer.Layer;
-    private webcamLayer: ol.layer.Layer;
     private onMovedZoomedRotatedCallback: () => void;
+    private onMapItemClickedCallback: (mapItem: MapItemModel) => void;
+    private onMapClickedCallback: (position: Position2d) => void;
+    private onFullScreenClickedCallback: () => void;
 
 
     constructor(private sessionService: SessionService) {
@@ -30,20 +38,19 @@ export class MapService {
 
     // region init
 
-    public initMap(onMovedZoomedRotatedCallback: () => void) {
+    public initMap(
+        onMovedZoomedRotatedCallback: () => void,
+        onMapItemClickedCallback: (mapItem: MapItemModel) => void,
+        onMapClickedCallback: (position: Position2d) => void,
+        onFullScreenClickedCallback: () => void
+    ) {
         // map
         this.initLayers();
         this.map = new ol.Map({
             target: 'map',
             layers: [
                 this.mapLayer,
-                this.mapFeaturesLayer,
-                this.airspaceLayer,
-                this.navaidLayer,
-                this.airportLayer,
-                this.reportingPointLayer,
-                this.userPointLayer,
-                this.webcamLayer
+                this.mapFeaturesLayer
             ],
             view: new ol.View({
                 center: this.session.map.position.getMercator(),
@@ -51,6 +58,7 @@ export class MapService {
             })
         });
 
+        // events
         this.map.on('moveend', this.onMoveEnd.bind(this));
         this.map.on('singleclick', this.onSingleClick.bind(this));
         this.map.on('pointermove', this.onPointerMove.bind(this));
@@ -58,18 +66,15 @@ export class MapService {
 
         // callbacks
         this.onMovedZoomedRotatedCallback = onMovedZoomedRotatedCallback;
+        this.onMapItemClickedCallback = onMapItemClickedCallback;
+        this.onMapClickedCallback = onMapClickedCallback;
+        this.onFullScreenClickedCallback = onFullScreenClickedCallback;
     }
 
 
     private initLayers() {
         this.mapLayer = MapbaselayerFactory.create(this.session.settings.baseMapType);
         this.mapFeaturesLayer = this.createEmptyVectorLayer();
-        this.navaidLayer = this.createEmptyVectorLayer();
-        this.airportLayer = this.createEmptyVectorLayer();
-        this.airspaceLayer = this.createEmptyVectorLayer();
-        this.reportingPointLayer = this.createEmptyVectorLayer();
-        this.userPointLayer = this.createEmptyVectorLayer();
-        this.webcamLayer = this.createEmptyVectorLayer();
     }
 
 
@@ -114,6 +119,20 @@ export class MapService {
         return Extent.createFromMercator(this.map.getView().calculateExtent(this.map.getSize()));
     }
 
+
+    /*public getClickRadiusDeg(position: Position2d): number {
+        const clickPos = [event.pixel[0], event.pixel[1]];
+        const coord1 = this.map.getCoordinateFromPixel(clickPos);
+        const lat1 = ol.proj.toLonLat(coord1)[1];
+
+        clickPos[1] -= 50;
+        const coord2 = map.getCoordinateFromPixel(clickPos);
+        const lat2 = ol.proj.toLonLat(coord2)[1];
+
+        return Math.abs(lat2 - lat1);
+    }*/
+
+
     // endregion
 
 
@@ -134,7 +153,7 @@ export class MapService {
 
     // region map events
 
-    private onMoveEnd(event) {
+    private onMoveEnd(event: ol.MapEvent) {
         // TODO
 
         if (this.onMovedZoomedRotatedCallback) {
@@ -143,20 +162,80 @@ export class MapService {
     }
 
 
-    private onSingleClick(event) {
-    }
-
-
-    private onPointerMove(event) {
-    }
-
-
-    private onViewRotation(event) {
+    private onViewRotation(event: ol.ObjectEvent) {
         // TODO
 
         if (this.onMovedZoomedRotatedCallback) {
             this.onMovedZoomedRotatedCallback();
         }
+    }
+
+
+    private onSingleClick(event: ol.MapBrowserEvent) {
+        const feature = this.getMapItemOlFeatureAtPixel(event.pixel, true);
+
+        if (feature && this.onMapItemClickedCallback) { // click on feature
+            this.onMapItemClickedCallback(feature.mapItemModel);
+        } else if (false) { // close overlay / geopointselection
+            // TODO
+        } else if (this.onMapClickedCallback) { // click on empty map
+            const position = Position2d.createFromMercator(event.coordinate);
+            this.onMapClickedCallback(position);
+        }
+    }
+
+
+    private onPointerMove(event: ol.MapBrowserEvent) {
+        if (event.dragging) {
+            return;
+        }
+
+        const feature = this.getMapItemOlFeatureAtPixel(event.pixel, true);
+
+        if (feature) {
+            const element = this.map.getTargetElement() as HTMLElement;
+            element.style.cursor = 'pointer';
+        } else {
+            const element = this.map.getTargetElement() as HTMLElement;
+            element.style.cursor = 'default';
+        }
+    }
+
+
+    private getMapItemOlFeatureAtPixel(pixel: ol.Pixel, onlyClickable: boolean): MapItemOlFeature {
+        const features = this.map.getFeaturesAtPixel(pixel,
+            { layerFilter: this.isClickableLayer.bind(this), hitTolerance: HIT_TOLERANCE_PIXELS });
+        if (!features) {
+            return undefined;
+        }
+
+        // TODO: sort by prio
+
+        for (const feature of features) {
+            if (feature instanceof MapItemOlFeature) {
+                if (onlyClickable === false || this.isClickableFeature(feature)) {
+                    return feature;
+                }
+            }
+        }
+
+        return undefined;
+    }
+
+
+    private isClickableLayer(layer: ol.layer.Layer): boolean {
+        return (layer === this.mapFeaturesLayer);
+    }
+
+
+    private isClickableFeature(feature: MapItemOlFeature): boolean {
+        return (feature instanceof AirportOlFeature === true ||
+                feature instanceof AirportRunwayOlFeature === true ||
+                feature instanceof NavaidOlFeature === true ||
+                feature instanceof ReportingPointOlFeature === true ||
+                feature instanceof ReportingSectorOlFeature === true ||
+                feature instanceof UserpointOlFeature === true ||
+                feature instanceof WebcamOlFeature === true);
     }
 
     // endregion

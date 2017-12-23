@@ -42,7 +42,15 @@ export class Reportingsector implements MapItemModel {
 }
 
 
-export class ReportingSectorOlFeature extends MapItemOlFeature<Reportingsector> {
+export class ReportingSectorOlFeature extends MapItemOlFeature {
+    public mapItemModel: Reportingsector;
+
+
+    public constructor(reportingsector: Reportingsector) {
+        super(reportingsector);
+    }
+
+
     protected createOlStyle(): ol.style.Style {
         return new ol.style.Style({
             fill: new ol.style.Fill({

@@ -33,7 +33,15 @@ export class AirportFeature implements MapItemModel {
 }
 
 
-export class AirportFeatureOlFeature extends MapItemOlFeature<AirportFeature> {
+export class AirportFeatureOlFeature extends MapItemOlFeature {
+    public mapItemModel: AirportFeature;
+
+
+    public constructor(airportFeature: AirportFeature) {
+        super(airportFeature);
+    }
+
+
     protected createOlStyle(): ol.style.Style {
         const src = environment.iconBaseUrl;
 

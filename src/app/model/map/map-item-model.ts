@@ -15,11 +15,11 @@ export interface MapItemModel {
 }
 
 
-export abstract class MapItemOlFeature<T extends MapItemModel> extends ol.Feature {
-    public mapItemModel: T;
+export abstract class MapItemOlFeature extends ol.Feature {
+    public abstract mapItemModel: MapItemModel;
 
 
-    public constructor(model: T) {
+    public constructor(model: MapItemModel) {
         super();
         this.mapItemModel = model;
     }

@@ -47,7 +47,15 @@ export class Userpoint implements MapItemModel {
 }
 
 
-export class UserpointOlFeature extends MapItemOlFeature<Userpoint> {
+export class UserpointOlFeature extends MapItemOlFeature {
+    public mapItemModel: Userpoint;
+
+
+    public constructor(userpoint: Userpoint) {
+        super(userpoint);
+    }
+
+
     protected createOlStyle(): ol.style.Style {
         const src = environment.iconBaseUrl;
 

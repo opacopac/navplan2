@@ -58,7 +58,15 @@ export class Reportingpoint implements MapItemModel {
 }
 
 
-export class ReportingPointOlFeature extends MapItemOlFeature<Reportingpoint> {
+export class ReportingPointOlFeature extends MapItemOlFeature {
+    public mapItemModel: Reportingpoint;
+
+
+    public constructor(reportingpoint: Reportingpoint) {
+        super(reportingpoint);
+    }
+
+
     protected createOlStyle(): ol.style.Style {
         let src = environment.iconBaseUrl;
         const rp = this.mapItemModel;
