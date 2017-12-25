@@ -2,6 +2,8 @@
     include "config.php";
 	include "helper.php";
 
+    header("Access-Control-Allow-Origin: *"); // TODO: remove for PROD
+
     $minLat = checkNumeric($_GET["minlat"]);
     $maxLat = checkNumeric($_GET["maxlat"]);
     $minLon = checkNumeric($_GET["minlon"]);

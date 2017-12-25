@@ -6,6 +6,7 @@ import { Track } from './track';
 
 
 export class Sessioncontext {
+    public sessionId: number;
     public user: User;
     public settings: Globalsettings;
     public map: Mapsettings;

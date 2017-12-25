@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MapService } from '../../services/map.service';
 import { FlighttimerService } from '../../services/flighttimer.service';
-import {LocationService, LocationServiceStatus} from '../../services/location.service';
-import { Position4d } from '../../model/position';
 import { MessageService } from '../../services/message.service';
-import {Traffic} from "../../model/map/traffic";
+import { LocationService, LocationServiceStatus } from '../../services/location.service';
+import {Traffic, TrafficPosition, TrafficPositionMethod, TrafficType} from '../../model/map/traffic';
+import { Position4d } from '../../model/position';
 
 
 @Component({
@@ -13,6 +13,8 @@ import {Traffic} from "../../model/map/traffic";
     styleUrls: ['./location-button.component.css']
 })
 export class LocationButtonComponent implements OnInit {
+    private ownPlane: Traffic;
+
     constructor(
         private messageService: MessageService,
         private mapService: MapService,
@@ -29,6 +31,7 @@ export class LocationButtonComponent implements OnInit {
         // $scope.stopFollowTraffic(); TODO
 
         if (!this.locationService.isActivated) {
+            this.ownPlane = this.getOwnAirplane();
             this.locationService.startWatching(this.onLocationChanged.bind(this), this.onLocationError.bind(this));
             this.timerService.startClockTimer();
         } else {
@@ -40,29 +43,42 @@ export class LocationButtonComponent implements OnInit {
     }
 
 
+    private getOwnAirplane(): Traffic {
+        return new Traffic(
+            '',
+                '',
+                TrafficType.OWN,
+                '',
+                '',
+                '',
+                '',
+                []);
+    }
+
+
     private onLocationChanged(currentPosition: Position4d) {
-        const lastPositions = this.locationService.lastPositions;
-        const ownPlane = Traffic.getOwnAirplane(lastPositions);
+        // draw own plane
+        const trafficPos = new TrafficPosition(currentPosition, TrafficPositionMethod.OWN, '', Date.now());
+        this.ownPlane.positions.push(trafficPos);
+        this.mapService.drawLocation(this.ownPlane);
 
-        this.mapService.drawLocation(ownPlane);
+        // move map
+        if (this.locationService.isActivated) {
+            const lastPositions = this.locationService.lastPositions;
+            const lastIdx = lastPositions.length - 1;
 
-        /*this.mapService.drawOwnPlane(lastPositions);
+            if (lastIdx > 0) {
+                const latDiff = lastPositions[lastIdx].latitude - lastPositions[lastIdx - 1].latitude;
+                const lonDiff = lastPositions[lastIdx].longitude - lastPositions[lastIdx - 1].longitude;
+                const newPos = this.mapService.getMapPosition();
+                newPos.latitude += latDiff;
+                newPos.longitude += lonDiff;
 
-        if ($scope.globalData.showLocation)
-        {
-            var lastIdx = lastPositions.length - 1;
-
-            if (lastIdx >= 1)
-            {
-                var latDiff = lastPositions[lastIdx].latitude - lastPositions[lastIdx - 1].latitude;
-                var lonDiff = lastPositions[lastIdx].longitude - lastPositions[lastIdx - 1].longitude;
-                var pos = mapService.getMapPosition();
-
-                mapService.setMapPosition(pos.center[1] + latDiff, pos.center[0] + lonDiff, pos.zoom);
+                this.mapService.setMapPosition(newPos);
+            } else {
+                this.mapService.setMapPosition(currentPosition);
             }
-            else
-                mapService.setMapPosition(currentPosition.coords.latitude, currentPosition.coords.longitude);
-        }*/
+        }
     }
 
 
@@ -75,12 +91,13 @@ export class LocationButtonComponent implements OnInit {
         const active = this.locationService.isActivated ? ' active' : '';
 
         switch (this.locationService.status) {
-            case LocationServiceStatus.current:
+            case LocationServiceStatus.CURRENT:
                 return 'btn-success' + active;
-            case LocationServiceStatus.waiting:
+            case LocationServiceStatus.WAITING:
                 return 'btn-warning' + active;
-            case LocationServiceStatus.error:
+            case LocationServiceStatus.ERROR:
                 return 'btn-danger' + active;
+            case LocationServiceStatus.OFF:
             default:
                 return 'btn-secondary' + active;
         }

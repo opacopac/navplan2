@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpResponseBase } from '@angular/common/http';
 
+
 export enum LogLevel {
     ERROR = 1,
     WARNING = 2,
     INFO = 3,
     DEBUG = 4
 }
+
 
 @Injectable()
 export class LoggingService {

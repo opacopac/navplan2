@@ -29,11 +29,19 @@ export abstract class MapItemOlFeature extends ol.Feature {
         switch (this.mapItemModel.getGeometryType()) {
             case MapItemGeometryType.POINT:
                 const position: Position2d = this.mapItemModel.getGeometry();
-                this.setGeometry(new ol.geom.Point(position.getMercator()));
+                if (position) {
+                    this.setGeometry(new ol.geom.Point(position.getMercator()));
+                } else {
+                    return;
+                }
                 break;
             case MapItemGeometryType.POLYGON:
                 const polygon: Polygon = this.mapItemModel.getGeometry();
-                this.setGeometry(new ol.geom.Polygon([polygon.getMercatorList()]));
+                if (polygon) {
+                    this.setGeometry(new ol.geom.Polygon([polygon.getMercatorList()]));
+                } else {
+                    return;
+                }
                 break;
             default:
                 return;

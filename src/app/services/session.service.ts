@@ -17,6 +17,7 @@ export class SessionService {
 
     initSessionContext() {
         this.context = new Sessioncontext();
+        this.context.sessionId = this.createSessionId();
         this.context.flightroute = new Flightroute();
         this.context.settings = new Globalsettings();
         this.context.settings.variationDeg = 2;
@@ -28,18 +29,29 @@ export class SessionService {
     }
 
 
-    getSessionContext() {
+    public getSessionContext() {
         return this.context;
     }
 
 
-    isLoggedIn(): boolean {
+    public isLoggedIn(): boolean {
         return (this.context.user != null && this.context.user.email != null && this.context.user.token != null);
     }
 
 
-
-    isSelf(): boolean {
+    public isSelf(): boolean {
         return (this.context.user != null && this.context.user.email === 'armand@tschanz.com');
+    }
+
+
+    public isIdle(timeoutMs: number) {
+        return false;
+        //TODO: !$scope.globalData.showLocation && Date.now() > $scope.globalData.lastActivity + IDLE_TIMEOUT_MS
+    }
+
+
+
+    private createSessionId(): number {
+        return Math.floor((Math.random() * 1000000000));
     }
 }

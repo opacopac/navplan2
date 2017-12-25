@@ -6,6 +6,9 @@ import { UnitconversionService } from '../../services/unitconversion.service';
 
 const MAX_AGE_SEC_INACTIVE = 30;
 
+
+// region ENUMS
+
 export enum TrafficType {
     'OWN',
     'HELICOPTER_ROTORCRAFT',
@@ -40,42 +43,29 @@ export enum TrafficPositionMethod {
     OWN
 }
 
+// endregion
+
 
 export class TrafficPosition {
-    public position: Position4d;
-    public method: TrafficPositionMethod;
-    public receiver: string;
-    public receivedTimestamp: number;
-
-
-    constructor(position: Position4d, method: TrafficPositionMethod) {
-        this.position = position;
-        this.method = method;
+    constructor(
+        public position: Position4d,
+        public method: TrafficPositionMethod,
+        public receiver: string,
+        public receivedTimeStampMs: number) {
     }
 }
 
 
 export class Traffic implements MapItemModel {
-    public acaddress: string;
-    public addresstype: string;
-    public actype: TrafficType;
-    public registration: string;
-    public callsign: string;
-    public opCallsign: string;
-    public aircraftModelType: string;
-    public positions: TrafficPosition[];
-
-
-    public static getOwnAirplane(positions: Position4d[]): Traffic {
-        const ownPlane = new Traffic();
-        ownPlane.actype = TrafficType.OWN;
-        ownPlane.positions = [];
-
-        for (const position of positions) {
-            ownPlane.positions.push(new TrafficPosition(position, TrafficPositionMethod.OWN));
-        }
-
-        return ownPlane;
+    constructor(
+        public acaddress: string,
+        public addresstype: string,
+        public actype: TrafficType,
+        public registration: string,
+        public callsign: string,
+        public opCallsign: string,
+        public aircraftModelType: string,
+        public positions: TrafficPosition[]) {
     }
 
 
@@ -85,7 +75,12 @@ export class Traffic implements MapItemModel {
 
 
     public getGeometry(): Position4d {
-        return this.getCurrentTrafficPosition().position;
+        const trafficPos = this.getCurrentTrafficPosition();
+        if (trafficPos) {
+            return trafficPos.position;
+        } else {
+            return undefined;
+        }
     }
 
 

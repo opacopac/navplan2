@@ -8,6 +8,7 @@ import { Sessioncontext } from '../../model/sessioncontext';
 import { Mapfeatures } from '../../model/map/mapfeatures';
 import {MapItemModel} from "../../model/map/map-item-model";
 import {Position2d} from "../../model/position";
+import {TrafficService} from "../../services/traffic.service";
 
 const NAVBAR_HEIGHT_PX = 54;
 
@@ -24,6 +25,7 @@ export class MapComponent implements OnInit {
     constructor(
         private sessionService: SessionService,
         private messageService: MessageService,
+        private trafficService: TrafficService,
         private mapService: MapService,
         private mapFeatureService: MapfeaturesService) {
 
@@ -55,6 +57,7 @@ export class MapComponent implements OnInit {
 
 
     private onMovedZoomedRotatedCallback() {
+        this.trafficService.setExtent(this.mapService.getExtent());
         this.mapFeatureService.getMapFeatures(
             this.mapService.getExtent(),
             this.onMapFeaturesReceived.bind(this),

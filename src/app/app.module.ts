@@ -32,6 +32,9 @@ import { MapfeaturesService } from './services/mapfeatures.service';
 import { FlighttimerService } from './services/flighttimer.service';
 import { LocationService } from './services/location.service';
 import { FlighttimerComponent } from './components/flighttimer/flighttimer.component';
+import { TrafficButtonComponent } from './components/traffic-button/traffic-button.component';
+import { TrafficService} from './services/traffic.service';
+import { TrafficOgnService } from './services/traffic-ogn.service';
 
 
 @NgModule({
@@ -51,7 +54,8 @@ import { FlighttimerComponent } from './components/flighttimer/flighttimer.compo
         EditwaypointComponent,
         ZoomButtonsComponent,
         LocationButtonComponent,
-        FlighttimerComponent
+        FlighttimerComponent,
+        TrafficButtonComponent
     ],
     imports: [
         BrowserModule,
@@ -71,7 +75,9 @@ import { FlighttimerComponent } from './components/flighttimer/flighttimer.compo
         MapService,
         MapfeaturesService,
         FlighttimerService,
-        LocationService
+        LocationService,
+        TrafficService,
+        TrafficOgnService
     ],
     bootstrap: [ AppComponent ]
 })

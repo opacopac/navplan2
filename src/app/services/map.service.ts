@@ -104,6 +104,16 @@ export class MapService {
     // region map position / size
 
 
+    public getZoom(): number {
+        return this.map.getView().getZoom();
+    }
+
+
+    public setZoom(zoom: number) {
+        return this.map.getView().setZoom(zoom);
+    }
+
+
     public zoomIn() {
         const zoom = this.map.getView().getZoom();
         const maxZoom = (this.mapLayer.getSource() as ol.source.Tile).getTileGrid().getMaxZoom();
@@ -124,27 +134,22 @@ export class MapService {
 
     public getMapPosition(): Position2d {
         return Position2d.createFromMercator(this.map.getView().getCenter());
-
-        // TODO: zoom?
     }
 
 
-    /*public setMapPosition(lat, lon, zoom, forceRender) {
-        if (!map || !map.getView())
+    public setMapPosition(position: Position2d, zoom?: number) {
+        if (!this.map || !this.map.getView()) {
             return;
-
-        if (lat && lon)
-        {
-            var pos = ol.proj.fromLonLat([lon, lat]);
-            map.getView().setCenter(pos);
         }
 
-        if (zoom)
-            map.getView().setZoom(zoom);
+        if (position) {
+            this.map.getView().setCenter(position.getMercator());
+        }
 
-        if (forceRender)
-            map.renderSync();
-    }*/
+        if (zoom != null) {
+            this.map.getView().setZoom(zoom);
+        }
+    }
 
 
     public getExtent(): Extent {

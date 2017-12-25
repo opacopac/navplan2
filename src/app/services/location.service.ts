@@ -4,17 +4,17 @@ import { Timestamp } from '../model/timestamp';
 
 
 export enum LocationServiceStatus {
-    off,
-    waiting,
-    current,
-    error,
+    OFF,
+    WAITING,
+    CURRENT,
+    ERROR,
 }
 
 
 @Injectable()
 export class LocationService {
     public isActivated = false;
-    public status = LocationServiceStatus.off;
+    public status = LocationServiceStatus.OFF;
     public lastPositions: Position4d[] = [];
     private geoLocationWatchId: number;
     private successCallback: (position: Position4d) => void;
@@ -49,7 +49,7 @@ export class LocationService {
             options);
 
         this.isActivated = true;
-        this.status = LocationServiceStatus.waiting;
+        this.status = LocationServiceStatus.WAITING;
         this.successCallback = successCallback;
         this.errorCallback = errorCallback;
     }
@@ -57,7 +57,7 @@ export class LocationService {
 
     public stopWatching() {
         this.isActivated = false;
-        this.status = LocationServiceStatus.off;
+        this.status = LocationServiceStatus.OFF;
         window.navigator.geolocation.clearWatch(this.geoLocationWatchId);
         this.successCallback = undefined;
         this.errorCallback = undefined;
@@ -65,7 +65,7 @@ export class LocationService {
 
 
     private onPositionUpdate(position) {
-        this.status = LocationServiceStatus.current;
+        this.status = LocationServiceStatus.CURRENT;
         const pos = new Position4d(
             position.coords.longitude,
             position.coords.latitude,
@@ -82,7 +82,7 @@ export class LocationService {
 
 
     private onPositionError(error) {
-        this.status = LocationServiceStatus.error;
+        this.status = LocationServiceStatus.ERROR;
 
         const message = 'ERROR: no position, error code=' + error.code;
         console.log(message);
