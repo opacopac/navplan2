@@ -3,13 +3,14 @@ import { environment } from '../../../environments/environment';
 import { Position4d } from '../position';
 import { MapItemGeometryType, MapItemModel, MapItemOlFeature } from './map-item-model';
 import { UnitconversionService } from '../../services/unitconversion.service';
+import {GeocalcService} from "../../services/geocalc.service";
 
 const MAX_AGE_SEC_INACTIVE = 30;
-
+const MAX_AGE_SEC_TRACK_DOT = 120;
 
 // region ENUMS
 
-export enum TrafficType {
+export enum TrafficAircraftType {
     'OWN',
     'HELICOPTER_ROTORCRAFT',
     'GLIDER',
@@ -26,6 +27,14 @@ export enum TrafficType {
     'JET_AIRCRAFT',
     'POWERED_AIRCRAFT',
     'TOW_PLANE',
+}
+
+
+export enum TrafficAddressType {
+    RANDOM,
+    ICAO,
+    FLARM,
+    OGN1
 }
 
 
@@ -59,8 +68,9 @@ export class TrafficPosition {
 export class Traffic implements MapItemModel {
     constructor(
         public acaddress: string,
-        public addresstype: string,
-        public actype: TrafficType,
+        public addresstype: TrafficAddressType,
+        public dataSource: TrafficDataSource,
+        public actype: TrafficAircraftType,
         public registration: string,
         public callsign: string,
         public opCallsign: string,
@@ -119,7 +129,15 @@ export class TrafficOlFeature extends MapItemOlFeature {
         super.draw(source);
 
         // draw dot trail
-        // TODO
+        const maxIdx = this.mapItemModel.positions.length - 1;
+        for (let i = maxIdx; i >= 0; i--) {
+            if (Date.now() - this.mapItemModel.positions[i].position.timestamp.getMs() < MAX_AGE_SEC_TRACK_DOT * 1000) {
+                const trackDotFeature = this.createTrackDotFeature(this.mapItemModel.positions[i]);
+                source.addFeature(trackDotFeature);
+            } else {
+                break;
+            }
+        }
     }
 
 
@@ -134,7 +152,7 @@ export class TrafficOlFeature extends MapItemOlFeature {
         let color = '#FF0000';
         let heighttext = '';
         let typetext = '';
-        let rotation = 0;
+        let rotation = this.getRotation();
 
         if (!ac.registration) {
             ac.registration = '';
@@ -152,55 +170,55 @@ export class TrafficOlFeature extends MapItemOlFeature {
         let rotWithView = true;
 
         switch (ac.actype) {
-            case TrafficType.OWN:
+            case TrafficAircraftType.OWN:
                 icon += 'own_plane.png';
                 color = '#0000FF';
                 break;
-            case TrafficType.HELICOPTER_ROTORCRAFT:
+            case TrafficAircraftType.HELICOPTER_ROTORCRAFT:
                 icon += 'traffic_heli' + iconSuffix + '.png';
                 break;
-            case TrafficType.GLIDER:
+            case TrafficAircraftType.GLIDER:
                 icon += 'traffic_glider' + iconSuffix + '.png';
                 break;
-            case TrafficType.PARACHUTE:
-            case TrafficType.HANG_GLIDER:
-            case TrafficType.PARA_GLIDER:
+            case TrafficAircraftType.PARACHUTE:
+            case TrafficAircraftType.HANG_GLIDER:
+            case TrafficAircraftType.PARA_GLIDER:
                 icon += 'traffic_parachute' + iconSuffix + '.png';
                 rotation = 0;
                 rotWithView = false;
                 break;
-            case TrafficType.BALLOON:
-            case TrafficType.AIRSHIP:
+            case TrafficAircraftType.BALLOON:
+            case TrafficAircraftType.AIRSHIP:
                 icon += 'traffic_balloon' + iconSuffix + '.png';
                 rotation = 0;
                 rotWithView = false;
                 break;
-            case TrafficType.UNKNOWN:
+            case TrafficAircraftType.UNKNOWN:
                 icon += 'traffic_unknown' + iconSuffix + '.png';
                 rotation = 0;
                 rotWithView = false;
                 break;
-            case TrafficType.STATIC_OBJECT:
+            case TrafficAircraftType.STATIC_OBJECT:
                 icon += 'traffic_static' + iconSuffix + '.png';
                 rotation = 0;
                 rotWithView = false;
                 break;
-            case TrafficType.DROP_PLANE:
+            case TrafficAircraftType.DROP_PLANE:
                 typetext = ' - Drop Plane';
                 icon += 'traffic_plane' + iconSuffix + '.png';
                 break;
-            case TrafficType.UFO:
+            case TrafficAircraftType.UFO:
                 typetext = ' - UFO';
                 icon += 'traffic_plane' + iconSuffix + '.png';
                 break;
-            case TrafficType.UAV:
+            case TrafficAircraftType.UAV:
                 icon += 'traffic_uav' + iconSuffix + '.png';
                 break;
-            case TrafficType.JET_AIRCRAFT:
+            case TrafficAircraftType.JET_AIRCRAFT:
                 icon += 'traffic_jetplane' + iconSuffix + '.png';
                 break;
-            case TrafficType.POWERED_AIRCRAFT:
-            case TrafficType.TOW_PLANE:
+            case TrafficAircraftType.POWERED_AIRCRAFT:
+            case TrafficAircraftType.TOW_PLANE:
             default:
                 icon += 'traffic_plane' + iconSuffix + '.png';
                 break;
@@ -225,6 +243,50 @@ export class TrafficOlFeature extends MapItemOlFeature {
                 offsetX: 0,
                 offsetY: 35
             })});
+    }
+
+
+    private createTrackDotFeature(position: TrafficPosition): ol.Feature {
+        let color: string;
+
+        if (this.mapItemModel.actype === TrafficAircraftType.OWN) {
+            color = '#0000FF';
+        } else {
+            color = '#FF0000';
+        }
+
+        const trackPoint = new ol.Feature({
+            geometry: new ol.geom.Point(ol.proj.fromLonLat([position.position.longitude, position.position.latitude]))
+        });
+
+        trackPoint.setStyle(
+            new ol.style.Style({
+                image: new ol.style.Circle({
+                    radius: 2,
+                    fill: new ol.style.Fill({
+                        color: color
+                    })
+                })
+            })
+        );
+
+        return trackPoint;
+    }
+
+
+    private getRotation(): number {
+        if (!this.mapItemModel.positions || this.mapItemModel.positions.length < 2) {
+            return 0;
+        }
+
+        const maxIdx = this.mapItemModel.positions.length - 1;
+        const rotation = GeocalcService.getBearing(
+            this.mapItemModel.positions[maxIdx - 1].position.latitude,
+            this.mapItemModel.positions[maxIdx - 1].position.longitude,
+            this.mapItemModel.positions[maxIdx].position.latitude,
+            this.mapItemModel.positions[maxIdx].position.longitude,
+            0);
+        return rotation;
     }
 }
 

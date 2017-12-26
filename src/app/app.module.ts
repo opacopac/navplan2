@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { MapComponent } from './components/map/map.component';
@@ -35,6 +35,7 @@ import { FlighttimerComponent } from './components/flighttimer/flighttimer.compo
 import { TrafficButtonComponent } from './components/traffic-button/traffic-button.component';
 import { TrafficService} from './services/traffic.service';
 import { TrafficOgnService } from './services/traffic-ogn.service';
+import { TrafficAdsbexchangeService } from './services/traffic-adsbexchange.service';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { TrafficOgnService } from './services/traffic-ogn.service';
         FormsModule,
         ReactiveFormsModule,
         AppRoutingModule,
-        HttpClientModule
+        HttpClientModule,
+        HttpClientJsonpModule
     ],
     providers: [
         SessionService,
@@ -77,7 +79,8 @@ import { TrafficOgnService } from './services/traffic-ogn.service';
         FlighttimerService,
         LocationService,
         TrafficService,
-        TrafficOgnService
+        TrafficOgnService,
+        TrafficAdsbexchangeService
     ],
     bootstrap: [ AppComponent ]
 })

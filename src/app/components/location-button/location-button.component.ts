@@ -3,7 +3,10 @@ import { MapService } from '../../services/map.service';
 import { FlighttimerService } from '../../services/flighttimer.service';
 import { MessageService } from '../../services/message.service';
 import { LocationService, LocationServiceStatus } from '../../services/location.service';
-import {Traffic, TrafficPosition, TrafficPositionMethod, TrafficType} from '../../model/map/traffic';
+import {
+    Traffic, TrafficAddressType, TrafficDataSource, TrafficPosition, TrafficPositionMethod,
+    TrafficAircraftType
+} from '../../model/map/traffic';
 import { Position4d } from '../../model/position';
 
 
@@ -46,19 +49,25 @@ export class LocationButtonComponent implements OnInit {
     private getOwnAirplane(): Traffic {
         return new Traffic(
             '',
-                '',
-                TrafficType.OWN,
-                '',
-                '',
-                '',
-                '',
-                []);
+            TrafficAddressType.RANDOM,
+            TrafficDataSource.OWN,
+            TrafficAircraftType.OWN,
+            '',
+            '',
+            '',
+            '',
+            []
+        );
     }
 
 
     private onLocationChanged(currentPosition: Position4d) {
         // draw own plane
-        const trafficPos = new TrafficPosition(currentPosition, TrafficPositionMethod.OWN, '', Date.now());
+        const trafficPos = new TrafficPosition(
+            currentPosition,
+            TrafficPositionMethod.OWN,
+            '',
+            Date.now());
         this.ownPlane.positions.push(trafficPos);
         this.mapService.drawLocation(this.ownPlane);
 

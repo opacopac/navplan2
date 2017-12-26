@@ -20,6 +20,10 @@ export class Altitude {
 
 
     public getInFt(): number {
-        return UnitconversionService.m2ft(this.altitudeMeter);
+        if (this.altitudeMeter != null) {
+            return UnitconversionService.m2ft(this.altitudeMeter);
+        } else {
+            return undefined;
+        }
     }
 }

@@ -4,7 +4,10 @@ import { environment } from '../../environments/environment';
 import { LoggingService } from './logging.service';
 import { SessionService } from './session.service';
 import { Sessioncontext } from '../model/sessioncontext';
-import { Traffic, TrafficPosition, TrafficPositionMethod, TrafficType } from '../model/map/traffic';
+import {
+    Traffic, TrafficAddressType, TrafficDataSource, TrafficPosition, TrafficPositionMethod,
+    TrafficAircraftType
+} from '../model/map/traffic';
 import { Extent } from '../model/map/extent';
 import { Altitude } from '../model/altitude';
 import { Timestamp } from '../model/timestamp';
@@ -57,12 +60,12 @@ export class TrafficOgnService {
     public readTraffic(
         extent: Extent,
         maxAgeSec: number,
+        waitForDataSec: number,
         successCallback: (Traffic) => void,
         errorCallback: (string) => void) {
 
-        const waitDataSec = 0; // TODO: remove?
         const url = OGN_TRAFFIC_BASE_URL + '?minlon=' + extent[0] + '&minlat=' + extent[1] + '&maxlon=' + extent[2] + '&maxlat=' + extent[3]
-            + '&maxagesec=' + maxAgeSec + '&sessionid=' + this.session.sessionId + '&waitDataSec=' + waitDataSec;
+            + '&maxagesec=' + maxAgeSec + '&sessionid=' + this.session.sessionId + '&waitDataSec=' + waitForDataSec;
 
 
         this.http
@@ -73,7 +76,7 @@ export class TrafficOgnService {
                     successCallback(trafficList);
                 },
                 err => {
-                    const message = 'ERROR reading map features!';
+                    const message = 'ERROR reading ogn traffic!';
                     LoggingService.logResponseError(message, err);
                     errorCallback(message);
                 }
@@ -84,12 +87,13 @@ export class TrafficOgnService {
     private getTrafficList(acList: TrafficOgnRestItem[]): Traffic[] {
         const trafficList: Traffic[] = [];
 
-        for (const acAddress in acList) {
-            const ac = acList[acAddress];
+        for (const acAddress of Object.keys(acList)) {
+            const ac: TrafficOgnRestItem = acList[acAddress];
             const traffic = new Traffic(
                 ac.id,
-                ac.addresstype,
-                TrafficType[ac.actype],
+                TrafficAddressType[ac.addresstype],
+                TrafficDataSource.OGN,
+                TrafficAircraftType[ac.actype],
                 ac.registration,
                 undefined,
                 undefined,
