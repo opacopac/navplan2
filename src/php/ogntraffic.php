@@ -2,8 +2,6 @@
     include "config.php";
 	include "helper.php";
 
-    header("Access-Control-Allow-Origin: *"); // TODO: remove for PROD
-
     $minLat = checkNumeric($_GET["minlat"]);
     $maxLat = checkNumeric($_GET["maxlat"]);
     $minLon = checkNumeric($_GET["minlon"]);
@@ -11,6 +9,7 @@
     $maxAgeSec = checkNumeric($_GET["maxagesec"]);
     $sessionId = checkNumeric($_GET["sessionid"]);
     $waitDataSec = checkNumeric($_GET["waitDataSec"]);
+    $callback = checkString($_GET["callback"], 1, 50);
 
     $dumpFiles[0] = '../tmp/ognlistener_' . $sessionId . '.dump0';
     $dumpFiles[1] = '../tmp/ognlistener_' . $sessionId . '.dump1';
@@ -104,8 +103,10 @@
     // load additional aircraft info (HB only)
     $aclist = getAircraftDetails($aclist);
 
-    // create json response
+    // create jsonp response
+    echo $callback . "(";
     echo json_encode(array("aclist" => $aclist), JSON_NUMERIC_CHECK);
+    echo ")";
 
     // close db
     $conn->close();

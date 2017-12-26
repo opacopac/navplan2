@@ -2,8 +2,6 @@
 	include "config.php";
 	include "helper.php";
 
-    header("Access-Control-Allow-Origin: *"); // TODO: remove for PROD
-
     // open db connection
 	$conn = openDb();
 
@@ -15,14 +13,16 @@
                 readUserTrack(
                     checkId(intval($_GET["id"])),
                     checkEscapeEmail($conn, $_GET["email"]),
-                    checkEscapeToken($conn, $_GET["token"])
+                    checkEscapeToken($conn, $_GET["token"]),
+                    checkString($_GET["callback"], 1, 50)
                 );
             }
             else
             {
                 readUserTrackList(
                     checkEscapeEmail($conn, $_GET["email"]),
-                    checkEscapeToken($conn, $_GET["token"])
+                    checkEscapeToken($conn, $_GET["token"]),
+                    checkString($_GET["callback"], 1, 50)
                 );
             }
             break;
@@ -60,7 +60,7 @@
 	$conn->close();
 
 
-	function readUserTrackList($email, $token)
+	function readUserTrackList($email, $token, $callback)
 	{
 	    global $conn;
 
@@ -86,11 +86,14 @@
 			);
 		}
 
+        // create jsonp response
+        echo $callback . "(";
 		echo json_encode(array("tracks" => $userTracks), JSON_NUMERIC_CHECK);
+		echo ")";
 	}
 
 
-	function readUserTrack($trackid, $email, $token)
+	function readUserTrack($trackid, $email, $token, $callback)
 	{
 	    global $conn;
 
@@ -113,7 +116,10 @@
             positions => json_decode($rs["positions"], true)
         );
 
+        // create jsonp response
+        echo $callback . "(";
 		echo json_encode(array("track" => $track), JSON_NUMERIC_CHECK);
+		echo ")";
 	}
 		
 		

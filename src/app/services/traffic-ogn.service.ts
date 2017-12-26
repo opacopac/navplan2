@@ -69,10 +69,10 @@ export class TrafficOgnService {
 
 
         this.http
-            .get<TrafficOgnResponse>(url, {observe: 'response'})
+            .jsonp<TrafficOgnResponse>(url, 'callback')
             .subscribe(
                 response => {
-                    const trafficList = this.getTrafficList(response.body.aclist);
+                    const trafficList = this.getTrafficList(response.aclist);
                     successCallback(trafficList);
                 },
                 err => {

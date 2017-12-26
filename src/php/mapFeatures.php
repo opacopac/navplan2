@@ -14,6 +14,7 @@ $minLon = checkNumeric($_GET["minlon"]);
 $maxLon = checkNumeric($_GET["maxlon"]);
 $email = $_GET["email"] ? checkEscapeEmail($conn, $_GET["email"]) : NULL;
 $token = $_GET["token"] ? checkEscapeToken($conn, $_GET["token"]) : NULL;
+$callback = checkString($_GET["callback"], 1, 50);
 
 // load data
 $extent = "GeomFromText('POLYGON((" . $minLon . " " . $minLat . "," . $maxLon . " " . $minLat . "," . $maxLon . " " . $maxLat . "," . $minLon . " " . $maxLat . "," . $minLon . " " . $minLat . "))')";
@@ -38,10 +39,13 @@ $return_object = json_encode(
         "webcams" => $webcams),
     JSON_NUMERIC_CHECK);
 
-header("Access-Control-Allow-Origin: *"); // TODO: remove for PROD
+
 header("Content-Type: application/json; charset=UTF-8");
 
+// create jsonp response
+echo $callback . "(";
 echo($return_object);
+echo ")";
 
 
 function getNavaids($extent)

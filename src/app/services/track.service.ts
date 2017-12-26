@@ -37,10 +37,10 @@ export class TrackService {
         const url: string = userTrackBaseUrl + '?email=' + this.session.user.email + '&token=' + this.session.user.token;
         let message: string;
         this.http
-            .get<TrackListResponse>(url, {observe: 'response'})
+            .jsonp<TrackListResponse>(url, 'callback')
             .subscribe(
                 response => {
-                    const trackList = this.getTrackListFromResponse(response.body);
+                    const trackList = this.getTrackListFromResponse(response);
                     successCallback(trackList);
                 },
                 err => {

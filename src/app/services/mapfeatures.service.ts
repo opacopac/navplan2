@@ -51,10 +51,10 @@ export class MapfeaturesService {
 
 
         this.http
-            .get<MapFeaturesResponse>(url, {observe: 'response'})
+            .jsonp<MapFeaturesResponse>(url, 'callback')
             .subscribe(
                 response => {
-                    const mapFeatures = new Mapfeatures(response.body);
+                    const mapFeatures = new Mapfeatures(response);
                     successCallback(mapFeatures);
                 },
                 err => {
