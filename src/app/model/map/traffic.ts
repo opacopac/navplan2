@@ -125,9 +125,6 @@ export class TrafficOlFeature extends MapItemOlFeature {
 
 
     public draw(source: ol.source.Vector) {
-        // draw traffic
-        super.draw(source);
-
         // draw dot trail
         const maxIdx = this.mapItemModel.positions.length - 1;
         for (let i = maxIdx; i >= 0; i--) {
@@ -137,6 +134,15 @@ export class TrafficOlFeature extends MapItemOlFeature {
             } else {
                 break;
             }
+        }
+
+        // draw traffic
+        super.draw(source);
+
+        // draw callsign
+        if (this.mapItemModel.registration || this.mapItemModel.callsign) {
+            const csFeature = this.createRegistrationCallsignFeature();
+            source.addFeature(csFeature);
         }
     }
 
@@ -244,6 +250,51 @@ export class TrafficOlFeature extends MapItemOlFeature {
                 offsetY: 35
             })});
     }
+
+
+    private createRegistrationCallsignFeature(): ol.Feature {
+        const color = '#FF0000';
+        const bgColor = '#FFFFFF';
+        let regCallText = '';
+
+        if (this.mapItemModel.opCallsign) {
+            regCallText = this.mapItemModel.opCallsign;
+        } else if (this.mapItemModel.callsign && !this.equalsRegCall()) {
+            regCallText = this.mapItemModel.callsign;
+        } else if (this.mapItemModel.registration) {
+            regCallText = this.mapItemModel.registration;
+        }
+
+        const position = this.mapItemModel.positions[this.mapItemModel.positions.length - 1];
+
+        const csFeature = new ol.Feature({
+            geometry: new ol.geom.Point(position.position.getMercator())
+        });
+
+        csFeature.setStyle(
+            new ol.style.Style({
+                text: new ol.style.Text({
+                    font: 'bold 14px Calibri,sans-serif',
+                    text: regCallText,
+                    fill: new ol.style.Fill({color: color}),
+                    stroke: new ol.style.Stroke({color: bgColor, width: 2}),
+                    offsetX: 0,
+                    offsetY: -35
+                })
+            })
+        );
+
+        return csFeature;
+    }
+
+
+    private equalsRegCall(): boolean {
+        const regStripped = this.mapItemModel.registration.toUpperCase().replace(/[^A-Z0-9]/g, '');
+        const callStripped = this.mapItemModel.callsign.toUpperCase().replace(/[^A-Z0-9]/g, '');
+
+        return regStripped === callStripped;
+    }
+
 
 
     private createTrackDotFeature(position: TrafficPosition): ol.Feature {
