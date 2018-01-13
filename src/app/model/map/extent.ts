@@ -39,6 +39,29 @@ export class Extent {
     }
 
 
+    public containsExtent(extent: Extent): boolean {
+        return (this[0] <= extent[0]
+            && this[1] <= extent[1]
+            && this[2] >= extent[2]
+            && this[3] >= extent[3]);
+    }
+
+
+    public getOversizeExtent(factor: number): Extent {
+        const halfDiffLon = (this[2] - this[0]) / 2;
+        const halfDiffLat = (this[3] - this[1]) / 2;
+        const centerLon = this[0] + halfDiffLon;
+        const centerLat = this[1] + halfDiffLat;
+
+        const oversizeExtent = Extent.createFromLatLon([centerLon - halfDiffLon * factor,
+          centerLat - halfDiffLat * factor,
+          centerLon + halfDiffLon * factor,
+          centerLat + halfDiffLat * factor]);
+
+        return oversizeExtent;
+    }
+
+
     private getExtent(): [number, number, number, number] {
         return [this[0], this[1], this[2], this[3]];
     }

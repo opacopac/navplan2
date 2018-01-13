@@ -58,7 +58,7 @@ export class MapComponent implements OnInit {
 
     private onMovedZoomedRotatedCallback() {
         this.trafficService.setExtent(this.mapService.getExtent());
-        this.mapFeatureService.getMapFeatures(
+        this.mapFeatureService.load(
             this.mapService.getExtent(),
             this.onMapFeaturesReceived.bind(this),
             this.onMapFeaturesError.bind(this)
