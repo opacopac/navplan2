@@ -12,6 +12,7 @@ import { Extent } from '../model/map/extent';
 import { Altitude } from '../model/altitude';
 import { Timestamp } from '../model/timestamp';
 import { Position4d } from '../model/position';
+import {IcaoCallsignService} from "./icaocallsign.service";
 
 
 const ADSBEXCHANGE_BASE_URL = 'https://public-api.adsbexchange.com/VirtualRadar/AircraftList.json';
@@ -126,39 +127,38 @@ export class TrafficAdsbexchangeService {
 
 
     private  getOperatorCallsign(ac: TrafficAdsbExRestItem): string {
-        return undefined;
+        let opCallsign: string;
+        let icaoCode: string;
 
-        // TODO
-        /*var opCallsign, icaoCode;
-
-        if (!ac.Call)
+        if (!ac.Call) {
             return undefined;
+        }
 
-        if (ac.Mil && !ac.OpIcao) // if military but no opcode -> assume tactical call sign
-            return undefined;
+        // if military but no opcode -> assume tactical call sign
+        if (ac.Mil && !ac.OpIcao) {
+           return undefined;
+        }
 
-        if (ac.Call.toUpperCase().match(/^[A-Z]{3}\d[A-Z0-9]{0,3}/)) // check for default format (3 letters + 1 digit + 1-3x digit/letter)
-        {
+        // check for default format (3 letters + 1 digit + 1-3x digit/letter)
+        if (ac.Call.toUpperCase().match(/^[A-Z]{3}\d[A-Z0-9]{0,3}/)) {
             icaoCode = ac.Call.substring(0, 3);
-            opCallsign = telephony[icaoCode];
+            opCallsign = IcaoCallsignService.getIcaoTelephonyDesignator(icaoCode);
 
             if (opCallsign)
                 return opCallsign + " " + ac.Call.substring(3);
             else
                 return undefined;
-        }
-        else if (ac.OpIcao && ac.Call.match(/^\d{1,4}$/)) // digits only but opcode present-> assume opcode as operator
-        {
+        } else if (ac.OpIcao && ac.Call.match(/^\d{1,4}$/)) { // digits only but opcode present-> assume opcode as operator
             icaoCode = ac.OpIcao;
-            opCallsign = telephony[icaoCode];
+            opCallsign = IcaoCallsignService.getIcaoTelephonyDesignator(icaoCode);
 
             if (opCallsign)
                 return opCallsign + " " + ac.Call;
             else
                 return undefined;
+        } else {
+            return undefined;
         }
-        else
-            return undefined;*/
     }
 
 
