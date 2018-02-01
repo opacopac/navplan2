@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
-import { LoggingService } from './logging.service';
-import { Track } from '../model/track';
-import { Timestamp } from '../model/timestamp';
-import { SessionService } from './session.service';
-import { Sessioncontext } from '../model/sessioncontext';
+import { environment } from '../../../environments/environment';
+import { LoggingService } from '../utils/logging.service';
+import { Track } from '../../model/track';
+import { Timestamp } from '../../model/timestamp';
+import { SessionService } from '../utils/session.service';
+import { Sessioncontext } from '../../model/sessioncontext';
 
 const userTrackBaseUrl =  environment.restApiBaseUrl + 'php/userTrack.php';
 

@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
-import { MapService } from '../../services/map.service';
-import { LocationService } from '../../services/location.service';
-import { TrafficService, TrafficServiceStatus} from '../../services/traffic.service';
+import { MapService } from '../../services/map/map.service';
+import { LocationService } from '../../services/track/location.service';
+import { TrafficService, TrafficServiceStatus} from '../../services/traffic/traffic.service';
 import { Traffic } from '../../model/traffic';
 
 

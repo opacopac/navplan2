@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
-import { Sessioncontext } from '../model/sessioncontext';
-import { SessionService } from './session.service';
-import { LoggingService} from './logging.service';
-import { Aircraft, Flightroute } from '../model/flightroute';
-import { Waypoint, Waypointaltitude, Waypointtype } from '../model/waypoint';
+import { environment } from '../../../environments/environment';
+import { Sessioncontext } from '../../model/sessioncontext';
+import { SessionService } from '../utils/session.service';
+import { LoggingService} from '../utils/logging.service';
+import { Aircraft, Flightroute } from '../../model/flightroute';
+import { Waypoint, Waypointaltitude, Waypointtype } from '../../model/waypoint';
 
 
 const flightrouteBaseUrl =  environment.restApiBaseUrl + 'php/navplan.php';

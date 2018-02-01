@@ -1,5 +1,5 @@
-import { UnitconversionService } from '../../services/unitconversion.service';
-import { GeocalcService } from '../../services/geocalc.service';
+import { UnitconversionService } from '../../services/utils/unitconversion.service';
+import { GeocalcService } from '../../services/utils/geocalc.service';
 import {OlClickableFeature, OlFeaturePoint} from './ol-feature';
 import { Traffic, TrafficAircraftType, TrafficPosition } from '../traffic';
 import { environment } from '../../../environments/environment';

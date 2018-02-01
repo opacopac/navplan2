@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { LoggingService } from './logging.service';
-import { SessionService } from './session.service';
-import { Sessioncontext } from '../model/sessioncontext';
-import { CachingExtentLoader } from './caching-extent-loader';
-import { Extent } from '../model/ol-model/extent';
-import { MetarTaf, MetarTafList } from '../model/metar-taf';
-import { StringnumberService } from "./stringnumber.service";
+import { LoggingService } from '../utils/logging.service';
+import { SessionService } from '../utils/session.service';
+import { Sessioncontext } from '../../model/sessioncontext';
+import { CachingExtentLoader } from '../map/caching-extent-loader';
+import { Extent } from '../../model/ol-model/extent';
+import { MetarTaf, MetarTafList } from '../../model/metar-taf';
+import { StringnumberService } from "../utils/stringnumber.service";
 
 
 const OVERSIZE_FACTOR = 1.3;

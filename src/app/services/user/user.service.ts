@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
-import { LoggingService } from './logging.service';
-import { ClientstorageService } from './clientstorage.service';
-import { SessionService } from './session.service';
-import { User } from '../model/user';
+import { environment } from '../../../environments/environment';
+import { LoggingService } from '../utils/logging.service';
+import { ClientstorageService } from '../utils/clientstorage.service';
+import { SessionService } from '../utils/session.service';
+import { User } from '../../model/user';
 
 
 const userBaseUrl =  environment.restApiBaseUrl + 'php/users.php';

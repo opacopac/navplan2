@@ -3,7 +3,7 @@ import { DatetimeService } from './datetime.service';
 
 
 @Injectable()
-export class FlighttimerService {
+export class TimerService {
     public currentTime: Date;
     public stopTime: Date;
     private timerId: number;

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MapService } from '../../services/map.service';
-import { FlighttimerService } from '../../services/flighttimer.service';
-import { MessageService } from '../../services/message.service';
-import { LocationService, LocationServiceStatus } from '../../services/location.service';
+import { MapService } from '../../services/map/map.service';
+import { TimerService } from '../../services/utils/timer.service';
+import { MessageService } from '../../services/utils/message.service';
+import { LocationService, LocationServiceStatus } from '../../services/track/location.service';
 import {
     Traffic, TrafficAddressType, TrafficDataSource, TrafficPosition, TrafficPositionMethod,
     TrafficAircraftType
@@ -22,7 +22,7 @@ export class LocationButtonComponent implements OnInit {
         private messageService: MessageService,
         private mapService: MapService,
         public locationService: LocationService,
-        public timerService: FlighttimerService) {
+        public timerService: TimerService) {
     }
 
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { LocationService } from '../../services/location.service';
-import { FlighttimerService } from '../../services/flighttimer.service';
+import { LocationService } from '../../services/track/location.service';
+import { TimerService } from '../../services/utils/timer.service';
 
 
 @Component({
@@ -10,7 +10,7 @@ import { FlighttimerService } from '../../services/flighttimer.service';
 })
 export class FlighttimerComponent implements OnInit {
     constructor(
-        public timerService: FlighttimerService,
+        public timerService: TimerService,
         public locationService: LocationService) {
     }
 

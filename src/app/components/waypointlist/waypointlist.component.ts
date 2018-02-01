@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import { SessionService } from '../../services/session.service';
+import { SessionService } from '../../services/utils/session.service';
 import { Sessioncontext } from '../../model/sessioncontext';
 import { EditwaypointComponent } from '../editwaypoint/editwaypoint.component';
 import { Waypoint, Waypointtype } from '../../model/waypoint';

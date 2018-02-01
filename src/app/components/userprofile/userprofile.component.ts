@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { SessionService } from '../../services/session.service';
+import { SessionService } from '../../services/utils/session.service';
 import { Sessioncontext } from '../../model/sessioncontext';
-import { UserService } from '../../services/user.service';
-import { MessageService } from '../../services/message.service';
+import { UserService } from '../../services/user/user.service';
+import { MessageService } from '../../services/utils/message.service';
 
 
 @Component({

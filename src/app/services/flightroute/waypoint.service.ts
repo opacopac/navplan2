@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Waypoint, Waypointtype } from '../model/waypoint';
-import { StringnumberService } from './stringnumber.service';
-import { GeocalcService } from './geocalc.service';
+import { Waypoint, Waypointtype } from '../../model/waypoint';
+import { StringnumberService } from '../utils/stringnumber.service';
+import { GeocalcService } from '../utils/geocalc.service';
 
 
 const ADDITIONAL_VAC_TIME_MIN = 5;

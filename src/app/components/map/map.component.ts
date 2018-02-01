@@ -1,10 +1,10 @@
 import * as $ from 'jquery';
 import { Component, OnInit } from '@angular/core';
-import { MessageService } from '../../services/message.service';
-import { SessionService } from '../../services/session.service';
-import { MapService } from '../../services/map.service';
-import { MapfeaturesService } from '../../services/mapfeatures.service';
-import { TrafficService } from '../../services/traffic.service';
+import { MessageService } from '../../services/utils/message.service';
+import { SessionService } from '../../services/utils/session.service';
+import { MapService } from '../../services/map/map.service';
+import { MapfeaturesService } from '../../services/map/mapfeatures.service';
+import { TrafficService } from '../../services/traffic/traffic.service';
 import { Sessioncontext } from '../../model/sessioncontext';
 import { Mapfeatures } from '../../model/mapfeatures';
 import { Position2d } from '../../model/position';

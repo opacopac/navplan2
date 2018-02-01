@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
-import { LoggingService } from './logging.service';
-import { SessionService } from './session.service';
-import { Sessioncontext } from '../model/sessioncontext';
-import { Extent } from '../model/ol-model/extent';
-import { Mapfeatures, MapFeaturesResponse } from '../model/mapfeatures';
-import { CachingExtentLoader } from "./caching-extent-loader";
+import { environment } from '../../../environments/environment';
+import { LoggingService } from '../utils/logging.service';
+import { SessionService } from '../utils/session.service';
+import { Sessioncontext } from '../../model/sessioncontext';
+import { Extent } from '../../model/ol-model/extent';
+import { Mapfeatures, MapFeaturesResponse } from '../../model/mapfeatures';
+import { CachingExtentLoader } from './caching-extent-loader';
 
 
 const OVERSIZE_FACTOR = 1.2;

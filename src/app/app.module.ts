@@ -20,22 +20,22 @@ import { ForgotpwComponent } from './components/forgotpw/forgotpw.component';
 import { ZoomButtonsComponent } from './components/zoom-buttons/zoom-buttons.component';
 import { LocationButtonComponent } from './components/location-button/location-button.component';
 
-import { SessionService } from './services/session.service';
-import { UserService } from './services/user.service';
-import { MessageService } from './services/message.service';
-import { TrackService } from './services/track.service';
-import { FlightrouteService } from './services/flightroute.service';
-import { StringnumberService } from './services/stringnumber.service';
-import { DatetimeService } from './services/datetime.service';
-import { MapService } from './services/map.service';
-import { MapfeaturesService } from './services/mapfeatures.service';
-import { FlighttimerService } from './services/flighttimer.service';
-import { LocationService } from './services/location.service';
+import { SessionService } from './services/utils/session.service';
+import { UserService } from './services/user/user.service';
+import { MessageService } from './services/utils/message.service';
+import { TrackService } from './services/track/track.service';
+import { FlightrouteService } from './services/flightroute/flightroute.service';
+import { StringnumberService } from './services/utils/stringnumber.service';
+import { DatetimeService } from './services/utils/datetime.service';
+import { MapService } from './services/map/map.service';
+import { MapfeaturesService } from './services/map/mapfeatures.service';
+import { TimerService } from './services/utils/timer.service';
+import { LocationService } from './services/track/location.service';
 import { FlighttimerComponent } from './components/flighttimer/flighttimer.component';
 import { TrafficButtonComponent } from './components/traffic-button/traffic-button.component';
-import { TrafficService} from './services/traffic.service';
-import { TrafficOgnService } from './services/traffic-ogn.service';
-import { TrafficAdsbexchangeService } from './services/traffic-adsbexchange.service';
+import { TrafficService} from './services/traffic/traffic.service';
+import { TrafficOgnService } from './services/traffic/traffic-ogn.service';
+import { TrafficAdsbexchangeService } from './services/traffic/traffic-adsbexchange.service';
 
 
 @NgModule({
@@ -76,7 +76,7 @@ import { TrafficAdsbexchangeService } from './services/traffic-adsbexchange.serv
         StringnumberService,
         MapService,
         MapfeaturesService,
-        FlighttimerService,
+        TimerService,
         LocationService,
         TrafficService,
         TrafficOgnService,

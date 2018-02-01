@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { SessionService } from '../../services/session.service';
-import { MessageService } from '../../services/message.service';
+import { SessionService } from '../../services/utils/session.service';
+import { MessageService } from '../../services/utils/message.service';
 import { Globalsettings, Sessioncontext } from '../../model/sessioncontext';
 import { MapbaselayerType } from '../../model/ol-model/mapbaselayer-factory';
 

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { SessionService } from '../../services/session.service';
-import { MessageService } from '../../services/message.service';
+import { SessionService } from '../../services/utils/session.service';
+import { MessageService } from '../../services/utils/message.service';
 import { Sessioncontext } from '../../model/sessioncontext';
-import { UserService } from '../../services/user.service';
-import { FlightrouteService } from '../../services/flightroute.service';
+import { UserService } from '../../services/user/user.service';
+import { FlightrouteService } from '../../services/flightroute/flightroute.service';
 import { Flightroute } from '../../model/flightroute';
 
 

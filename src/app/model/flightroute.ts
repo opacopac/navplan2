@@ -1,5 +1,5 @@
 import { Waypoint } from './waypoint';
-import { WaypointService } from '../services/waypoint.service';
+import { WaypointService } from '../services/flightroute/waypoint.service';
 
 
 export class Flightroute {

@@ -1,4 +1,4 @@
-import { UnitconversionService } from '../../services/unitconversion.service';
+import { UnitconversionService } from '../../services/utils/unitconversion.service';
 import { Flightroute } from '../flightroute';
 import { Waypoint } from '../waypoint';
 import * as ol from 'openlayers';

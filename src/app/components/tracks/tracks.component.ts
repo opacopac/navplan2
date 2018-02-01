@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Sessioncontext } from '../../model/sessioncontext';
-import { SessionService } from '../../services/session.service';
-import { MessageService } from '../../services/message.service';
-import { TrackService } from '../../services/track.service';
+import { SessionService } from '../../services/utils/session.service';
+import { MessageService } from '../../services/utils/message.service';
+import { TrackService } from '../../services/track/track.service';
 import { Track } from '../../model/track';
-import { DatetimeService } from '../../services/datetime.service';
+import { DatetimeService } from '../../services/utils/datetime.service';
 import { Timestamp } from '../../model/timestamp';
 
 @Component({

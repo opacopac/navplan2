@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Position4d } from '../model/position';
-import { Timestamp } from '../model/timestamp';
+import { Position4d } from '../../model/position';
+import { Timestamp } from '../../model/timestamp';
 
 
 export enum LocationServiceStatus {

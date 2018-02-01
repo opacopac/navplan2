@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Sessioncontext } from '../../model/sessioncontext';
-import { SessionService } from '../../services/session.service';
-import { DatetimeService } from '../../services/datetime.service';
+import { SessionService } from '../../services/utils/session.service';
+import { DatetimeService } from '../../services/utils/datetime.service';
 
 
 @Component({

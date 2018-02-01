@@ -1,8 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Sessioncontext } from '../../model/sessioncontext';
-import { SessionService } from '../../services/session.service';
-import { MessageService } from '../../services/message.service';
+import { SessionService } from '../../services/utils/session.service';
+import { MessageService } from '../../services/utils/message.service';
 import { Waypoint } from '../../model/waypoint';
 import {current} from "codelyzer/util/syntaxKind";
 import {isBoolean} from "util";

@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
-import { LoggingService } from './logging.service';
-import { SessionService } from './session.service';
-import { Sessioncontext } from '../model/sessioncontext';
+import { environment } from '../../../environments/environment';
+import { LoggingService } from '../utils/logging.service';
+import { SessionService } from '../utils/session.service';
+import { Sessioncontext } from '../../model/sessioncontext';
 import {
     Traffic, TrafficAddressType, TrafficDataSource, TrafficPosition, TrafficPositionMethod,
     TrafficAircraftType
-} from '../model/traffic';
-import { Extent } from '../model/ol-model/extent';
-import { Altitude } from '../model/altitude';
-import { Timestamp } from '../model/timestamp';
-import { Position4d } from '../model/position';
+} from '../../model/traffic';
+import { Extent } from '../../model/ol-model/extent';
+import { Altitude } from '../../model/altitude';
+import { Timestamp } from '../../model/timestamp';
+import { Position4d } from '../../model/position';
 
 
 const OGN_TRAFFIC_BASE_URL = environment.restApiBaseUrl + 'php/ogntraffic.php';
