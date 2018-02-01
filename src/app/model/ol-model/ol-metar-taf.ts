@@ -1,6 +1,6 @@
 import * as ol from 'openlayers';
 import { environment } from '../../../environments/environment';
-import { MetarTaf } from '../map/metar-taf';
+import { MetarTaf } from '../metar-taf';
 import { OlFeaturePoint } from './ol-feature';
 
 

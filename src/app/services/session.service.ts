@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Sessioncontext, Globalsettings, Mapsettings } from '../model/sessioncontext';
 import { Flightroute } from '../model/flightroute';
-import { MapbaselayerType } from '../model/map/mapbaselayer-factory';
+import { MapbaselayerType } from '../model/ol-model/mapbaselayer-factory';
 import { Position2d } from '../model/position';
 
 

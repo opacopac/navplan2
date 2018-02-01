@@ -1,7 +1,7 @@
 import { User } from './user';
 import { Position2d } from './position';
 import { Flightroute } from './flightroute';
-import { MapbaselayerType } from './map/mapbaselayer-factory';
+import { MapbaselayerType } from './ol-model/mapbaselayer-factory';
 import { Track } from './track';
 
 

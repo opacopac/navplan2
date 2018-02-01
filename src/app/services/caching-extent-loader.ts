@@ -1,4 +1,4 @@
-import {Extent} from "../model/map/extent";
+import {Extent} from "../model/ol-model/extent";
 
 
 export abstract class CachingExtentLoader<T> {

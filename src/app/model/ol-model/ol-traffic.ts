@@ -1,7 +1,7 @@
 import { UnitconversionService } from '../../services/unitconversion.service';
 import { GeocalcService } from '../../services/geocalc.service';
 import {OlClickableFeature, OlFeaturePoint} from './ol-feature';
-import { Traffic, TrafficAircraftType, TrafficPosition } from '../map/traffic';
+import { Traffic, TrafficAircraftType, TrafficPosition } from '../traffic';
 import { environment } from '../../../environments/environment';
 import * as ol from 'openlayers';
 

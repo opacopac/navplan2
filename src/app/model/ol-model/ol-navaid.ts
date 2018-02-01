@@ -1,5 +1,5 @@
 import { environment } from '../../../environments/environment';
-import { Navaid } from '../map/navaid';
+import { Navaid } from '../navaid';
 import { Position2d } from '../position';
 import { OlClickableFeature, OlFeaturePoint } from './ol-feature';
 import * as ol from 'openlayers';

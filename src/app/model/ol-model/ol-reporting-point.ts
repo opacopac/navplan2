@@ -1,6 +1,6 @@
 import * as ol from 'openlayers';
 import { environment } from '../../../environments/environment';
-import { Reportingpoint } from '../map/reportingpoint';
+import { Reportingpoint } from '../reportingpoint';
 import { OlFeaturePoint } from './ol-feature';
 
 

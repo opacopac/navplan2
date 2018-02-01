@@ -4,8 +4,8 @@ import { environment } from '../../environments/environment';
 import { LoggingService } from './logging.service';
 import { SessionService } from './session.service';
 import { Sessioncontext } from '../model/sessioncontext';
-import { Extent } from '../model/map/extent';
-import { Mapfeatures, MapFeaturesResponse } from '../model/map/mapfeatures';
+import { Extent } from '../model/ol-model/extent';
+import { Mapfeatures, MapFeaturesResponse } from '../model/mapfeatures';
 import { CachingExtentLoader } from "./caching-extent-loader";
 
 

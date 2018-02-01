@@ -1,4 +1,4 @@
-import { Polygon } from '../polygon';
+import { Polygon } from './polygon';
 
 
 export interface AirspaceRestItem {

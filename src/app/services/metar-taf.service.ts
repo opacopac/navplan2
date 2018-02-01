@@ -4,8 +4,8 @@ import { LoggingService } from './logging.service';
 import { SessionService } from './session.service';
 import { Sessioncontext } from '../model/sessioncontext';
 import { CachingExtentLoader } from './caching-extent-loader';
-import { Extent } from '../model/map/extent';
-import { MetarTaf, MetarTafList } from '../model/map/metar-taf';
+import { Extent } from '../model/ol-model/extent';
+import { MetarTaf, MetarTafList } from '../model/metar-taf';
 import { StringnumberService } from "./stringnumber.service";
 
 

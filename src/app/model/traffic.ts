@@ -1,4 +1,4 @@
-import { Position4d } from '../position';
+import { Position4d } from './position';
 
 
 const MAX_AGE_SEC_INACTIVE = 30;

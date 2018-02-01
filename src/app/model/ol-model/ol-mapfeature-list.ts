@@ -1,5 +1,5 @@
 import * as ol from 'openlayers';
-import { Mapfeatures } from '../map/mapfeatures';
+import { Mapfeatures } from '../mapfeatures';
 import { OlReportingPoint } from './ol-reporting-point';
 import { OlNavaid } from './ol-navaid';
 import { OlAirspace } from './ol-airspace';

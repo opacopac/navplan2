@@ -1,5 +1,5 @@
 import * as ol from 'openlayers';
-import { Reportingsector } from '../map/reportingsector';
+import { Reportingsector } from '../reportingsector';
 import { OlFeaturePolygon } from './ol-feature';
 
 

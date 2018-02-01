@@ -6,7 +6,7 @@ import { LocationService, LocationServiceStatus } from '../../services/location.
 import {
     Traffic, TrafficAddressType, TrafficDataSource, TrafficPosition, TrafficPositionMethod,
     TrafficAircraftType
-} from '../../model/map/traffic';
+} from '../../model/traffic';
 import { Position4d } from '../../model/position';
 
 

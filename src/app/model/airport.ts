@@ -1,4 +1,4 @@
-import { Position2d } from '../position';
+import { Position2d } from './position';
 import { AirportRunway, AirportRunwayRestItem } from './airport-runway';
 import { AirportRadio, AirportRadioRestItem } from './airport-radio';
 import { AirportWebcam, AirportWebcamRestItem } from './airport-webcam';

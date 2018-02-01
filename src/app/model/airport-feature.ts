@@ -1,4 +1,4 @@
-import { Position2d } from '../position';
+import { Position2d } from './position';
 
 
 export interface AirportFeatureRestItem {

@@ -1,7 +1,8 @@
-import { Position2d } from '../position';
+import { Polygon } from './polygon';
+import { ReportingPointRestItem } from './reportingpoint';
 
 
-export interface ReportingPointRestItem {
+export class Reportingsector {
     id: number;
     type: string;
     airport_icao: string;
@@ -11,23 +12,7 @@ export interface ReportingPointRestItem {
     outbd_comp: boolean;
     min_ft: number;
     max_ft: number;
-    latitude: number;
-    longitude: number;
-    polygon: [number, number][];
-}
-
-
-export class Reportingpoint {
-    id: number;
-    type: string;
-    airport_icao: string;
-    name: string;
-    heli: boolean;
-    inbd_comp: boolean;
-    outbd_comp: boolean;
-    min_ft: number;
-    max_ft: number;
-    position: Position2d;
+    polygon: Polygon;
 
 
     constructor(restItem: ReportingPointRestItem) {
@@ -40,6 +25,6 @@ export class Reportingpoint {
         this.outbd_comp = restItem.outbd_comp;
         this.min_ft = restItem.min_ft;
         this.max_ft = restItem.max_ft;
-        this.position = new Position2d(restItem.longitude, restItem.latitude);
+        this.polygon = Polygon.createFromLonLatList(restItem.polygon);
     }
 }

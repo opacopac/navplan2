@@ -7,8 +7,8 @@ import { Sessioncontext } from '../model/sessioncontext';
 import {
     Traffic, TrafficAddressType, TrafficDataSource, TrafficPosition, TrafficPositionMethod,
     TrafficAircraftType
-} from '../model/map/traffic';
-import { Extent } from '../model/map/extent';
+} from '../model/traffic';
+import { Extent } from '../model/ol-model/extent';
 import { Altitude } from '../model/altitude';
 import { Timestamp } from '../model/timestamp';
 import { Position4d } from '../model/position';

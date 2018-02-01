@@ -1,6 +1,6 @@
 import * as ol from 'openlayers';
 import { environment } from '../../../environments/environment';
-import { AirportRunway } from '../map/airport-runway';
+import { AirportRunway } from '../airport-runway';
 import { OlFeaturePoint } from './ol-feature';
 import { Position2d } from '../position';
 

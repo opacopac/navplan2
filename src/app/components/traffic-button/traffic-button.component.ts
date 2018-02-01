@@ -2,7 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { MapService } from '../../services/map.service';
 import { LocationService } from '../../services/location.service';
 import { TrafficService, TrafficServiceStatus} from '../../services/traffic.service';
-import { Traffic } from '../../model/map/traffic';
+import { Traffic } from '../../model/traffic';
 
 
 const TRAFFIC_TIMEOUT_MS = 10 * 60 * 1000;

@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SessionService } from './session.service';
 import { Sessioncontext } from '../model/sessioncontext';
-import { Extent } from '../model/map/extent';
+import { Extent } from '../model/ol-model/extent';
 import {
     Traffic, TrafficDataSource, TrafficAircraftType, TrafficPositionMethod,
     TrafficPosition
-} from '../model/map/traffic';
+} from '../model/traffic';
 import { TrafficOgnService } from './traffic-ogn.service';
 import { TrafficAdsbexchangeService } from './traffic-adsbexchange.service';
 

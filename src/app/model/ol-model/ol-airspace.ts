@@ -1,5 +1,5 @@
 import * as ol from 'openlayers';
-import { Airspace } from '../map/airspace';
+import { Airspace } from '../airspace';
 import { OlFeaturePolygon } from './ol-feature';
 
 export class OlAirspace extends OlFeaturePolygon {

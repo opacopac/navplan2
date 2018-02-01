@@ -6,7 +6,7 @@ import { MapService } from '../../services/map.service';
 import { MapfeaturesService } from '../../services/mapfeatures.service';
 import { TrafficService } from '../../services/traffic.service';
 import { Sessioncontext } from '../../model/sessioncontext';
-import { Mapfeatures } from '../../model/map/mapfeatures';
+import { Mapfeatures } from '../../model/mapfeatures';
 import { Position2d } from '../../model/position';
 import { OlFeature } from '../../model/ol-model/ol-feature';
 
