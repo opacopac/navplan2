@@ -1,10 +1,8 @@
-import * as ol from 'openlayers';
 import { Polygon } from '../polygon';
-import { MapItemGeometryType, MapItemModel, MapItemOlFeature } from './map-item-model';
 import { ReportingPointRestItem } from './reportingpoint';
 
 
-export class Reportingsector implements MapItemModel {
+export class Reportingsector {
     id: number;
     type: string;
     airport_icao: string;
@@ -28,42 +26,5 @@ export class Reportingsector implements MapItemModel {
         this.min_ft = restItem.min_ft;
         this.max_ft = restItem.max_ft;
         this.polygon = Polygon.createFromLonLatList(restItem.polygon);
-    }
-
-
-    public getGeometryType(): MapItemGeometryType {
-        return MapItemGeometryType.POLYGON;
-    }
-
-
-    public getGeometry(): Polygon {
-        return this.polygon;
-    }
-}
-
-
-export class ReportingSectorOlFeature extends MapItemOlFeature {
-    public mapItemModel: Reportingsector;
-
-
-    public constructor(reportingsector: Reportingsector) {
-        super(reportingsector);
-    }
-
-
-    protected createOlStyle(): ol.style.Style {
-        return new ol.style.Style({
-            fill: new ol.style.Fill({
-                color: 'rgba(124, 47, 215, 0.3)'}),
-            stroke: new ol.style.Stroke({
-                color: 'rgba(124, 47, 215, 0.5)',
-                width: 2}),
-            text: new ol.style.Text({
-                font: 'bold 14px Calibri,sans-serif',
-                text: this.mapItemModel.name,
-                fill: new ol.style.Fill({color: '#7C4AD7'}),
-                stroke: new ol.style.Stroke({color: '#FFFFFF', width: 2}),
-            })
-        });
     }
 }

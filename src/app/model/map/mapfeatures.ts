@@ -1,12 +1,10 @@
-import * as ol from 'openlayers';
-import { MapItemModel, MapItemOlFeature } from './map-item-model';
-import { Navaid, NavaidOlFeature, NavaidRestItem } from './navaid';
-import { Airport, AirportOlFeature, AirportRestItem } from './airport';
-import { Airspace, AirspaceOlFeature, AirspaceRestItem } from './airspace';
-import { Reportingpoint, ReportingPointOlFeature, ReportingPointRestItem } from './reportingpoint';
-import { Reportingsector, ReportingSectorOlFeature } from './reportingsector';
-import { Userpoint, UserpointOlFeature, UserPointRestItem } from './userpoint';
-import { Webcam, WebcamOlFeature, WebcamRestItem } from './webcam';
+import { Navaid, NavaidRestItem } from './navaid';
+import { Airport, AirportRestItem } from './airport';
+import { Airspace, AirspaceRestItem } from './airspace';
+import { Reportingpoint, ReportingPointRestItem } from './reportingpoint';
+import { Reportingsector } from './reportingsector';
+import { Userpoint, UserPointRestItem } from './userpoint';
+import { Webcam, WebcamRestItem } from './webcam';
 
 
 export interface MapFeaturesResponse {
@@ -19,7 +17,7 @@ export interface MapFeaturesResponse {
 }
 
 
-export class Mapfeatures implements MapItemModel {
+export class Mapfeatures {
     public navaids: Navaid[];
     public airports: Airport[];
     public airspaces: Airspace[];
@@ -73,75 +71,5 @@ export class Mapfeatures implements MapItemModel {
         for (const subRestItem of restItem.webcams) {
             this.webcams.push(new Webcam(subRestItem));
         }
-    }
-
-
-    public getGeometryType() {
-        return undefined;
-    }
-
-
-    public getGeometry() {
-        return undefined;
-    }
-}
-
-
-export class MapfeaturesOlFeature extends MapItemOlFeature {
-    public mapItemModel: Mapfeatures;
-
-
-    public constructor(mapfeatures: Mapfeatures) {
-        super(mapfeatures);
-    }
-
-
-    public draw(source: ol.source.Vector) {
-        // navaids
-        for (const navaid of this.mapItemModel.navaids) {
-            const olFeature = new NavaidOlFeature(navaid);
-            olFeature.draw(source);
-        }
-
-        // airports
-        for (const airport of this.mapItemModel.airports) {
-            const olFeature = new AirportOlFeature(airport);
-            olFeature.draw(source);
-        }
-
-        // airspaces
-        for (const airspace of this.mapItemModel.airspaces) {
-            const olFeature = new AirspaceOlFeature(airspace);
-            olFeature.draw(source);
-        }
-
-        // reporting points
-        for (const repPoint of this.mapItemModel.reportingpoints) {
-            const olFeature = new ReportingPointOlFeature(repPoint);
-            olFeature.draw(source);
-        }
-
-        // reporting sector
-        for (const repSec of this.mapItemModel.reportingsectors) {
-            const olFeature = new ReportingSectorOlFeature(repSec);
-            olFeature.draw(source);
-        }
-
-        // user points
-        for (const userPoint of this.mapItemModel.userpoints) {
-            const olFeature = new UserpointOlFeature(userPoint);
-            olFeature.draw(source);
-        }
-
-        // webcams
-        for (const webcam of this.mapItemModel.webcams) {
-            const olFeature = new WebcamOlFeature(webcam);
-            olFeature.draw(source);
-        }
-    }
-
-
-    public createOlStyle() {
-        return undefined;
     }
 }

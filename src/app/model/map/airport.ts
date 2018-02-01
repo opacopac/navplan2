@@ -1,12 +1,9 @@
-import * as ol from 'openlayers';
-import { environment } from '../../../environments/environment';
 import { Position2d } from '../position';
-import { AirportRunway, AirportRunwayOlFeature, AirportRunwayRestItem } from './airport-runway';
+import { AirportRunway, AirportRunwayRestItem } from './airport-runway';
 import { AirportRadio, AirportRadioRestItem } from './airport-radio';
 import { AirportWebcam, AirportWebcamRestItem } from './airport-webcam';
 import { AirportChart, AirportChartRestItem } from './airport-chart';
-import { AirportFeature, AirportFeatureOlFeature, AirportFeatureRestItem } from './airport-feature';
-import { MapItemGeometryType, MapItemModel, MapItemOlFeature } from './map-item-model';
+import { AirportFeature, AirportFeatureRestItem } from './airport-feature';
 
 
 export interface AirportRestItem {
@@ -26,7 +23,7 @@ export interface AirportRestItem {
 }
 
 
-export class Airport implements MapItemModel {
+export class Airport {
     public id: number;
     public type: string;
     public name: string;
@@ -77,16 +74,6 @@ export class Airport implements MapItemModel {
     }
 
 
-    public getGeometryType(): MapItemGeometryType {
-        return MapItemGeometryType.POINT;
-    }
-
-
-    public getGeometry(): Position2d {
-        return this.position;
-    }
-
-
     public hasRunways(): boolean {
         return (this.runways != null && this.runways.length > 0);
     }
@@ -109,92 +96,5 @@ export class Airport implements MapItemModel {
 
     public isClosed(): boolean {
         return (this.type === 'AD_CLOSED');
-    }
-}
-
-
-export class AirportOlFeature extends MapItemOlFeature {
-    public mapItemModel: Airport;
-
-
-    public constructor(airport: Airport) {
-        super(airport);
-    }
-
-
-    public draw(source: ol.source.Vector) {
-        super.draw(source);
-
-        // runways
-        if (this.mapItemModel.runways && this.mapItemModel.runways.length > 0) {
-            const rwyOlFeature = new AirportRunwayOlFeature(this.mapItemModel.runways[0]);
-            rwyOlFeature.draw(source);
-        }
-
-        // airportfeatures
-        for (const adFeature of this.mapItemModel.features) {
-            const adFeatureOlFeature = new AirportFeatureOlFeature(adFeature);
-            adFeatureOlFeature.draw(source);
-        }
-    }
-
-
-    protected createOlStyle(): ol.style.Style {
-        let src = environment.iconBaseUrl;
-        let textColor = '#451A57';
-        let name = this.mapItemModel.icao ? this.mapItemModel.icao : '';
-
-        switch (this.mapItemModel.type) {
-            case 'APT':
-            case 'INTL_APT':
-                src += 'ad_civ.png';
-                break;
-            case 'AF_CIVIL':
-            case 'GLIDING':
-            case 'LIGHT_AIRCRAFT':
-                src += 'ad_civ_nofac.png';
-                break;
-            case 'AF_MIL_CIVIL':
-                src += 'ad_civmil.png';
-                break;
-            case 'HELI_CIVIL':
-                src += 'ad_heli.png';
-                break;
-            case 'HELI_MIL':
-                src += 'ad_heli_mil.png';
-                break;
-            case 'AF_WATER':
-                src += 'ad_water.png';
-                break;
-            case 'AD_MIL':
-                src += 'ad_mil.png';
-                textColor = '#AE1E22';
-                break;
-            case 'AD_CLOSED':
-                src += 'ad_closed.png';
-                name = '';
-                break;
-            default:
-                return undefined;
-        }
-
-        return new ol.style.Style({
-            image: new ol.style.Icon(({
-                anchor: [0.5, 0.5],
-                anchorXUnits: 'fraction',
-                anchorYUnits: 'fraction',
-                scale: 1,
-                opacity: 0.75,
-                src: src
-            })),
-            text: new ol.style.Text({
-                font: 'bold 14px Calibri,sans-serif',
-                text: name,
-                fill: new ol.style.Fill({color: textColor}),
-                stroke: new ol.style.Stroke({color: '#FFFFFF', width: 2}),
-                offsetX: 0,
-                offsetY: 25
-            })
-        });
     }
 }

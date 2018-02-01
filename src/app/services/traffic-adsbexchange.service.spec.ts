@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { AdsbexchangeTrafficService } from './traffic-adsbexchange.service';
+import { TrafficAdsbexchangeService } from './traffic-adsbexchange.service';
 
-describe('AdsbexchangeTrafficService', () => {
+describe('TrafficAdsbexchangeService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AdsbexchangeTrafficService]
+      providers: [TrafficAdsbexchangeService]
     });
   });
 
-  it('should be created', inject([AdsbexchangeTrafficService], (service: AdsbexchangeTrafficService) => {
+  it('should be created', inject([TrafficAdsbexchangeService], (service: TrafficAdsbexchangeService) => {
     expect(service).toBeTruthy();
   }));
 });

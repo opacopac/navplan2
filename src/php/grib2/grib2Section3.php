@@ -26,6 +26,8 @@ class Grib2Section3 extends Grib2SectionVariableLength {
             case 0:
                 $this->gridDefTemplate = new Grib2Template3_0($byteArray["g"]);
                 break;
+            case 1:
+                $this->gridDefTemplate = new Grib2Template3_1($byteArray["g"]);
         }
     }
 
@@ -126,6 +128,96 @@ class Grib2Template3_0 extends Grib2GridDefinitionTemplate {
 }
 
 
+// GRID DEFINITION TEMPLATE 3.1
+// Rotate Latitude/Longitude (or equidistant cylindrical, or Plate Carree)
+class Grib2Template3_1 extends Grib2GridDefinitionTemplate {
+    public $shapeOfEarth;
+    public $sphericalEarthRadiusScaleFactor;
+    public $sphericalEarthRadiusScaleValue;
+    public $oblateSpheroidEarthMajorAxisScaleFactor;
+    public $oblateSpheroidEarthMajorAxisScaleValue;
+    public $oblateSpheroidEarthMinorAxisScaleFactor;
+    public $oblateSpheroidEarthMinorAxisScaleValue;
+    public $numPointsParallel;
+    public $numPointsMeridian;
+    public $basicAngle;
+    public $basicAngleSubdivisions;
+    public $firstGridPointLat;
+    public $firstGridPointLon;
+    public $resolutionComponentsFlags;
+    public $lastGridPointLat;
+    public $lastGridPointLon;
+    public $iDirectionInc;
+    public $jDirectionInc;
+    public $scanningMode;
+    public $southernPoleLat;
+    public $southernPoleLon;
+    public $rotationAngle;
+
+
+    protected function parse($content) {
+        $byteArray = unpack("C1a/C1b/N1c/C1d/N1e/C1f/N1g/N1h/N1i/N1j/N1k/N1l/N1m/C1n/N1o/N1p/N1q/N1r/A1s/N1t/N1u/N1v", $content);
+        $this->shapeOfEarth = new GribTable3_2($byteArray["a"]);
+        $this->sphericalEarthRadiusScaleFactor = $byteArray["b"];
+        $this->sphericalEarthRadiusScaleValue = $byteArray["c"];
+        $this->oblateSpheroidEarthMajorAxisScaleFactor = $byteArray["d"];
+        $this->oblateSpheroidEarthMajorAxisScaleValue = $byteArray["e"];
+        $this->oblateSpheroidEarthMinorAxisScaleFactor = $byteArray["f"];
+        $this->oblateSpheroidEarthMinorAxisScaleValue = $byteArray["g"];
+        $this->numPointsParallel = $byteArray["h"];
+        $this->numPointsMeridian = $byteArray["i"];
+        $this->basicAngle = $byteArray["j"];
+        $this->basicAngleSubdivisions = $byteArray["k"];
+        $this->firstGridPointLat = $byteArray["l"];
+        $this->firstGridPointLon = $byteArray["m"];
+        $this->resolutionComponentsFlags = new GribTable3_3($byteArray["n"]);
+        $this->lastGridPointLat = $byteArray["o"];
+        $this->lastGridPointLon = $byteArray["p"];
+        $this->iDirectionInc = $byteArray["q"];
+        $this->jDirectionInc = $byteArray["r"];
+        $this->scanningMode = new GribTable3_4($byteArray["s"]);
+        $this->southernPoleLat = $byteArray["t"];
+        $this->southernPoleLon = $byteArray["u"];
+        $this->rotationAngle = $byteArray["v"];
+    }
+
+
+    public function getDescription() {
+        return array(
+            "Shape of earth" => $this->shapeOfEarth->value . ": " . $this->shapeOfEarth->getDescription(),
+            "Scale Factor / Value of radius of spherical Earth" => $this->sphericalEarthRadiusScaleFactor . "/" . $this->sphericalEarthRadiusScaleValue,
+            "Scale factor / value of major axis of oblate spheroid Earth" => $this->oblateSpheroidEarthMajorAxisScaleFactor . "/" . $this->oblateSpheroidEarthMajorAxisScaleValue,
+            "Scale factor / value of minor axis of oblate spheroid Earth" => $this->oblateSpheroidEarthMinorAxisScaleFactor . "/" . $this->oblateSpheroidEarthMinorAxisScaleValue,
+            "Ni/Nj Number of points along parallel / meridian" => $this->numPointsParallel . "/" . $this->numPointsMeridian,
+            "Basic angle / Subdivisions" => $this->basicAngle . "/" . $this->basicAngleSubdivisions,
+            "Lat/Lon of first grid point" => $this->firstGridPointLat . "/" . $this->firstGridPointLon,
+            "Resolution and component flags" => $this->resolutionComponentsFlags->getDescription(),
+            "Lat/Lon of last grid point" => $this->lastGridPointLat . "/" . $this->lastGridPointLon,
+            "i direction increment" => $this->iDirectionInc,
+            "j direction increment" => $this->jDirectionInc,
+            "Scanning mode" => $this->scanningMode->getDescription(),
+            "Lat/Lon of southern pole of projection" => $this->southernPoleLat . "/" . $this->southernPoleLon,
+            "Rotation angle of projection" => $this->rotationAngle
+        );
+    }
+
+
+    public function getNumColumns() {
+        return $this->numPointsParallel;
+    }
+
+
+    public function getNumRows() {
+        return $this->numPointsMeridian;
+    }
+
+
+    public function getScanningMode() {
+        return $this->scanningMode;
+    }
+}
+
+
 // GRIB2 - TABLE 3.0
 // Source of Grid Definition
 class Grib2Table3_0 extends Grib2Table {
@@ -150,6 +242,7 @@ class Grib2Table3_1 extends Grib2Table {
     public function getDescription() {
         switch ($this->value) {
             case 0: return "Latitude/Longitude (See Template 3.0) Also called Equidistant Cylindrical or Plate Caree";
+            case 1: return "Rotated Latitude/Longitude (See Template 3.1)";
             case 65535: return "Missing";
         }
 

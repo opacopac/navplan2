@@ -7,6 +7,7 @@ include_once "../grib2/grib2Message.php";
 $inputFile = "./ICON_EU_pressure_level_elements_CLC_2018012812_000.grib2";
 $inputFile = "./ICON_EU_pressure_level_elements_CLC_2018012121_030.grib2";
 $inputFile = "./ICON_EU_single_level_elements_CLCL_2018012821_030.grib2";
+$inputFile = "./COSMODE_org_single_level_elements_CLCL_2018012821_014.grib2";
 $gribParser = new Grib2Parser($inputFile);
 $gribParser->parse();
 

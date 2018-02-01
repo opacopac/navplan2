@@ -1,20 +1,24 @@
-import { Injectable } from '@angular/core';
 import * as ol from 'openlayers';
+import { Injectable } from '@angular/core';
 import { SessionService } from './session.service';
 import { Sessioncontext } from '../model/sessioncontext';
 import { MapbaselayerFactory } from '../model/map/mapbaselayer-factory';
 import { Extent } from '../model/map/extent';
 import { Position2d } from '../model/position';
-import { Mapfeatures, MapfeaturesOlFeature } from '../model/map/mapfeatures';
-import { MapItemModel, MapItemOlFeature } from '../model/map/map-item-model';
-import { AirportOlFeature } from '../model/map/airport';
-import { NavaidOlFeature } from '../model/map/navaid';
-import { ReportingPointOlFeature } from '../model/map/reportingpoint';
-import { ReportingSectorOlFeature } from '../model/map/reportingsector';
-import { UserpointOlFeature } from '../model/map/userpoint';
-import { WebcamOlFeature } from '../model/map/webcam';
-import { AirportRunwayOlFeature } from '../model/map/airport-runway';
-import {Traffic, TrafficOlFeature} from "../model/map/traffic";
+import { Mapfeatures } from '../model/map/mapfeatures';
+import { Flightroute } from '../model/flightroute';
+import { Traffic } from '../model/map/traffic';
+import { OlFlightroute } from '../model/ol-model/ol-flightroute';
+import { OlTraffic } from '../model/ol-model/ol-traffic';
+import { OlWebcam } from '../model/ol-model/ol-webcam';
+import { OlNavaid } from '../model/ol-model/ol-navaid';
+import { OlFeature} from '../model/ol-model/ol-feature';
+import { OlAirport } from '../model/ol-model/ol-airport';
+import { OlReportingPoint } from '../model/ol-model/ol-reporting-point';
+import { OlAirportRunway } from '../model/ol-model/ol-airport-runway';
+import { OlReportingSector } from '../model/ol-model/ol-reporting-sector';
+import { OlUserPoint } from '../model/ol-model/ol-user-point';
+import { OlMapfeatureList } from '../model/ol-model/ol-mapfeature-list';
 
 
 const HIT_TOLERANCE_PIXELS = 10;
@@ -26,11 +30,13 @@ export class MapService {
     private session: Sessioncontext;
     private mapLayer: ol.layer.Tile;
     private mapFeaturesLayer: ol.layer.Vector;
+    private flightrouteLayer: ol.layer.Vector;
     private trafficLayer: ol.layer.Vector;
     private locationLayer: ol.layer.Vector;
     private onMovedZoomedRotatedCallback: () => void;
-    private onMapItemClickedCallback: (mapItem: MapItemModel) => void;
+    private onMapItemClickedCallback: (olFeature: OlFeature) => void;
     private onMapClickedCallback: (position: Position2d) => void;
+    private onFlightrouteChangedCallback: () => void;
     private onFullScreenClickedCallback: () => void;
 
 
@@ -43,8 +49,9 @@ export class MapService {
 
     public initMap(
         onMovedZoomedRotatedCallback: () => void,
-        onMapItemClickedCallback: (mapItem: MapItemModel) => void,
+        onMapItemClickedCallback: (olFeature: OlFeature) => void,
         onMapClickedCallback: (position: Position2d) => void,
+        onFlightrouteChangedCallback: () => void,
         onFullScreenClickedCallback: () => void
     ) {
         // map
@@ -60,6 +67,7 @@ export class MapService {
             layers: [
                 this.mapLayer,
                 this.mapFeaturesLayer,
+                this.flightrouteLayer,
                 this.trafficLayer,
                 this.locationLayer
             ],
@@ -79,6 +87,7 @@ export class MapService {
         this.onMovedZoomedRotatedCallback = onMovedZoomedRotatedCallback;
         this.onMapItemClickedCallback = onMapItemClickedCallback;
         this.onMapClickedCallback = onMapClickedCallback;
+        this.onFlightrouteChangedCallback = onFlightrouteChangedCallback;
         this.onFullScreenClickedCallback = onFullScreenClickedCallback;
     }
 
@@ -86,6 +95,7 @@ export class MapService {
     private initLayers() {
         this.mapLayer = MapbaselayerFactory.create(this.session.settings.baseMapType);
         this.mapFeaturesLayer = this.createEmptyVectorLayer();
+        this.flightrouteLayer = this.createEmptyVectorLayer();
         this.trafficLayer = this.createEmptyVectorLayer();
         this.locationLayer = this.createEmptyVectorLayer();
     }
@@ -184,7 +194,7 @@ export class MapService {
             return;
         }
 
-        const mapFeaturesOlFeature = new MapfeaturesOlFeature(mapFeatures);
+        const mapFeaturesOlFeature = new OlMapfeatureList(mapFeatures);
         mapFeaturesOlFeature.draw(source);
     }
 
@@ -197,7 +207,8 @@ export class MapService {
             return;
         }
 
-        const ownPlaneOlFeature = new TrafficOlFeature(ownPlane);
+        // const ownPlaneOlFeature = new TrafficOlFeature(ownPlane);
+        const ownPlaneOlFeature = new OlTraffic(ownPlane);
         ownPlaneOlFeature.draw(source);
     }
 
@@ -206,14 +217,66 @@ export class MapService {
         const source = this.trafficLayer.getSource();
         source.clear();
 
-        if (!trafficList)
+        if (!trafficList) {
             return;
+        }
 
         for (const traffic of trafficList) {
-            const trafficOlFeature = new TrafficOlFeature(traffic);
+            // const trafficOlFeature = new TrafficOlFeature(traffic);
+            const trafficOlFeature = new OlTraffic(traffic);
             trafficOlFeature.draw(source);
         }
     }
+
+
+    public drawFlightRoute(flightroute: Flightroute) {
+        const source = this.flightrouteLayer.getSource();
+        source.clear();
+
+        // TODO: remove interactions?
+        /*for (var j = 0; j < modifySnapInteractions.length; j++)
+            map.removeInteraction(modifySnapInteractions[j]);
+        modifySnapInteractions = [];*/
+
+        if (!flightroute) {
+            return;
+        }
+
+        const olFeature = new OlFlightroute(flightroute);
+        olFeature.draw(source, this.map.getView().getRotation());
+
+
+        // TODO: add snap interactions
+        /*addSnapInteraction(airportLayer);
+        addSnapInteraction(navaidLayer);
+        addSnapInteraction(reportingpointLayer);
+        addSnapInteraction(userWpLayer);*/
+    }
+
+
+    /*private addModifyInteraction(trackFeature: ol.Feature) {
+        const modInteraction = new ol.interaction.Modify({
+            deleteCondition : function(event) { return false; }, // no delete condition
+            features: new ol.Collection([trackFeature])
+        });
+
+        modInteraction.on('modifyend', onTrackModifyEnd);
+        modifySnapInteractions.push(modInteraction);
+
+        this.map.addInteraction(modInteraction);
+    }
+
+
+    private addSnapInteraction(layer: ol.layer.Vector) {
+        const snapInteraction = new ol.interaction.Snap({
+            source: layer.getSource(),
+            edge: false
+        });
+
+        modifySnapInteractions.push(snapInteraction);
+
+        this.map.addInteraction(snapInteraction);
+    }*/
 
 
     // endregion
@@ -243,7 +306,7 @@ export class MapService {
         const feature = this.getMapItemOlFeatureAtPixel(event.pixel, true);
 
         if (feature && this.onMapItemClickedCallback) { // click on feature
-            this.onMapItemClickedCallback(feature.mapItemModel);
+            this.onMapItemClickedCallback(feature);
         } else if (false) { // close overlay / geopointselection
             // TODO
         } else if (this.onMapClickedCallback) { // click on empty map
@@ -270,7 +333,7 @@ export class MapService {
     }
 
 
-    private getMapItemOlFeatureAtPixel(pixel: ol.Pixel, onlyClickable: boolean): MapItemOlFeature {
+    private getMapItemOlFeatureAtPixel(pixel: ol.Pixel, onlyClickable: boolean): OlFeature {
         const features = this.map.getFeaturesAtPixel(pixel,
             { layerFilter: this.isClickableLayer.bind(this), hitTolerance: HIT_TOLERANCE_PIXELS });
         if (!features) {
@@ -280,7 +343,7 @@ export class MapService {
         // TODO: sort by prio
 
         for (const feature of features) {
-            if (feature instanceof MapItemOlFeature) {
+            if (feature instanceof OlFeature) {
                 if (onlyClickable === false || this.isClickableFeature(feature)) {
                     return feature;
                 }
@@ -296,14 +359,14 @@ export class MapService {
     }
 
 
-    private isClickableFeature(feature: MapItemOlFeature): boolean {
-        return (feature instanceof AirportOlFeature === true ||
-                feature instanceof AirportRunwayOlFeature === true ||
-                feature instanceof NavaidOlFeature === true ||
-                feature instanceof ReportingPointOlFeature === true ||
-                feature instanceof ReportingSectorOlFeature === true ||
-                feature instanceof UserpointOlFeature === true ||
-                feature instanceof WebcamOlFeature === true);
+    private isClickableFeature(feature: OlFeature): boolean { // TODO => als property / interface
+        return (feature instanceof OlAirport === true ||
+                feature instanceof OlAirportRunway === true ||
+                feature instanceof OlNavaid === true ||
+                feature instanceof OlReportingPoint === true ||
+                feature instanceof OlReportingSector === true ||
+                feature instanceof OlUserPoint === true ||
+                feature instanceof OlWebcam === true);
     }
 
     // endregion

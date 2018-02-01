@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
+import { Component, OnInit } from '@angular/core';
 import { MessageService } from '../../services/message.service';
 import { SessionService } from '../../services/session.service';
 import { MapService } from '../../services/map.service';
 import { MapfeaturesService } from '../../services/mapfeatures.service';
+import { TrafficService } from '../../services/traffic.service';
 import { Sessioncontext } from '../../model/sessioncontext';
 import { Mapfeatures } from '../../model/map/mapfeatures';
-import {MapItemModel} from "../../model/map/map-item-model";
-import {Position2d} from "../../model/position";
-import {TrafficService} from "../../services/traffic.service";
+import { Position2d } from '../../model/position';
+import { OlFeature } from '../../model/ol-model/ol-feature';
 
 const NAVBAR_HEIGHT_PX = 54;
 
@@ -39,8 +39,13 @@ export class MapComponent implements OnInit {
             this.onMovedZoomedRotatedCallback.bind(this),
             this.onMapItemClickedCallback.bind(this),
             this.onMapClickedCallback.bind(this),
+            this.onFlightrouteChangedCallback.bind(this),
             this.onFullScreenClickedCallback.bind(this)
         );
+
+        if (this.session.flightroute) {
+            this.mapService.drawFlightRoute(this.session.flightroute);
+        }
     }
 
 
@@ -66,11 +71,15 @@ export class MapComponent implements OnInit {
     }
 
 
-    private onMapItemClickedCallback(mapItem: MapItemModel) {
+    private onMapItemClickedCallback(olFeature: OlFeature) {
     }
 
 
     private onMapClickedCallback(position: Position2d) {
+    }
+
+
+    private onFlightrouteChangedCallback() {
     }
 
 

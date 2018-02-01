@@ -1,8 +1,4 @@
-import { environment } from '../../../environments/environment';
-import * as ol from 'openlayers';
 import { Position2d } from '../position';
-import {MapItemGeometryType, MapItemModel, MapItemOlFeature} from './map-item-model';
-import {run} from "tslint/lib/runner";
 
 
 export interface AirportRunwayRestItem {
@@ -21,7 +17,7 @@ export interface AirportRunwayRestItem {
 }
 
 
-export class AirportRunway implements MapItemModel {
+export class AirportRunway {
     name: string;
     surface: string;
     length: number;
@@ -51,55 +47,5 @@ export class AirportRunway implements MapItemModel {
         this.papi2 = restItem.papi2;
         this.position = position;
         this.isMil = isMil;
-    }
-
-
-    public getGeometryType(): MapItemGeometryType {
-        return MapItemGeometryType.POINT;
-    }
-
-
-    public getGeometry(): Position2d {
-        return this.position;
-    }
-}
-
-
-export class AirportRunwayOlFeature extends MapItemOlFeature {
-    public mapItemModel: AirportRunway;
-
-
-    public constructor(runway: AirportRunway) {
-        super(runway);
-    }
-
-
-    protected createOlStyle(): ol.style.Style {
-        let src = environment.iconBaseUrl;
-        const rwy_surface = this.mapItemModel.surface ? this.mapItemModel.surface : undefined;
-        const rwy_direction = this.mapItemModel.direction1 ? this.mapItemModel.direction1 : undefined;
-
-        if (this.mapItemModel.isMil) {
-            src += 'rwy_mil.png';
-        } else if (rwy_surface === 'ASPH' || rwy_surface === 'CONC') {
-            src += 'rwy_concrete.png';
-        } else if (rwy_surface !== 'WATE') {
-            src += 'rwy_grass.png';
-        } else {
-            return undefined;
-        }
-
-        return new ol.style.Style({
-            image: new ol.style.Icon(({
-                anchor: [0.5, 0.5],
-                anchorXUnits: 'fraction',
-                anchorYUnits: 'fraction',
-                scale: 1,
-                rotation: (rwy_direction - 45) / 180 * Math.PI,
-                rotateWithView: true,
-                opacity: 0.75,
-                src: src
-            }))
-        });
     }
 }

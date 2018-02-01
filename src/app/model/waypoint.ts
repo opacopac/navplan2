@@ -6,6 +6,7 @@ export class Waypoint {
     distText = '';
     alt: Waypointaltitude = new Waypointaltitude();
     eetText = '';
+    variation: number;
 
     constructor(
         public type?: Waypointtype,

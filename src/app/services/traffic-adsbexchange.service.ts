@@ -4,15 +4,12 @@ import { UnitconversionService } from './unitconversion.service';
 import { LoggingService } from './logging.service';
 import { SessionService } from './session.service';
 import { Sessioncontext } from '../model/sessioncontext';
-import {
-    Traffic, TrafficAddressType, TrafficDataSource, TrafficPosition, TrafficPositionMethod,
-    TrafficAircraftType
-} from '../model/map/traffic';
+import { Traffic, TrafficAddressType, TrafficDataSource, TrafficPosition, TrafficPositionMethod, TrafficAircraftType } from '../model/map/traffic';
 import { Extent } from '../model/map/extent';
 import { Altitude } from '../model/altitude';
 import { Timestamp } from '../model/timestamp';
 import { Position4d } from '../model/position';
-import {IcaoCallsignService} from "./icaocallsign.service";
+import { IcaoCallsignService } from './icaocallsign.service';
 
 
 const ADSBEXCHANGE_BASE_URL = 'https://public-api.adsbexchange.com/VirtualRadar/AircraftList.json';
@@ -144,18 +141,20 @@ export class TrafficAdsbexchangeService {
             icaoCode = ac.Call.substring(0, 3);
             opCallsign = IcaoCallsignService.getIcaoTelephonyDesignator(icaoCode);
 
-            if (opCallsign)
-                return opCallsign + " " + ac.Call.substring(3);
-            else
+            if (opCallsign) {
+                return opCallsign + ' ' + ac.Call.substring(3);
+            } else {
                 return undefined;
+            }
         } else if (ac.OpIcao && ac.Call.match(/^\d{1,4}$/)) { // digits only but opcode present-> assume opcode as operator
             icaoCode = ac.OpIcao;
             opCallsign = IcaoCallsignService.getIcaoTelephonyDesignator(icaoCode);
 
-            if (opCallsign)
-                return opCallsign + " " + ac.Call;
-            else
+            if (opCallsign) {
+                return opCallsign + ' ' + ac.Call;
+            } else {
                 return undefined;
+            }
         } else {
             return undefined;
         }
