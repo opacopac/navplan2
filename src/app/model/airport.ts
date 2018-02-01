@@ -1,36 +1,7 @@
 import { Position2d } from './position';
-import { AirportRunway, AirportRunwayRestItem } from './airport-runway';
-import { AirportRadio, AirportRadioRestItem } from './airport-radio';
-import { AirportWebcam, AirportWebcamRestItem } from './airport-webcam';
-import { AirportChart, AirportChartRestItem } from './airport-chart';
-import { AirportFeature, AirportFeatureRestItem } from './airport-feature';
-
-
-export interface AirportRestItem {
-    id: number;
-    type: string;
-    name: string;
-    icao: string;
-    country: string;
-    latitude: number;
-    longitude: number;
-    elevation: number;
-    runways: AirportRunwayRestItem[];
-    radios: AirportRadioRestItem[];
-    webcams: AirportWebcamRestItem[];
-    charts: AirportChartRestItem[];
-    mapfeatures: AirportFeatureRestItem[];
-}
 
 
 export class Airport {
-    public id: number;
-    public type: string;
-    public name: string;
-    public icao: string;
-    public country: string;
-    public position: Position2d;
-    public elevation: number;
     public runways: AirportRunway[];
     public radios: AirportRadio[];
     public webcams: AirportWebcam[];
@@ -38,39 +9,20 @@ export class Airport {
     public features: AirportFeature[];
 
 
-    constructor(restItem: AirportRestItem) {
-        this.id = restItem.id;
-        this.type = restItem.type;
-        this.name = restItem.name;
-        this.icao = restItem.icao;
-        this.country = restItem.country;
-        this.position = new Position2d(restItem.longitude, restItem.latitude);
-        this.elevation = restItem.elevation;
+    constructor(
+        public id: number,
+        public type: string,
+        public name: string,
+        public icao: string,
+        public country: string,
+        public position: Position2d,
+        public elevation: number) {
 
         this.runways = [];
-        for (const item of restItem.runways) {
-            this.runways.push(new AirportRunway(item, this.position, this.isMilitary()));
-        }
-
         this.radios = [];
-        for (const item of restItem.radios) {
-            this.radios.push(new AirportRadio(item));
-        }
-
         this.webcams = [];
-        for (const item of restItem.webcams) {
-            this.webcams.push(new AirportWebcam(item));
-        }
-
         this.charts = [];
-        for (const item of restItem.charts) {
-            this.charts.push(new AirportChart(item));
-        }
-
         this.features = [];
-        for (const item of restItem.mapfeatures) {
-            this.features.push(new AirportFeature(item, this.position));
-        }
     }
 
 
@@ -96,5 +48,67 @@ export class Airport {
 
     public isClosed(): boolean {
         return (this.type === 'AD_CLOSED');
+    }
+}
+
+
+export class AirportRunway {
+    constructor(
+        public name: string,
+        public surface: string,
+        public length: number,
+        public width: number,
+        public direction1: number,
+        public direction2: number,
+        public tora1: number,
+        public tora2: number,
+        public lda1: number,
+        public lda2: number,
+        public papi1: boolean,
+        public papi2: boolean,
+        public position: Position2d,
+        public isMil: boolean) {
+    }
+}
+
+
+export class AirportRadio {
+    constructor(
+        public category: string,
+        public frequency: string,
+        public type: string,
+        public typespec: string,
+        public description: string) {
+    }
+}
+
+
+export class AirportWebcam {
+    constructor(
+        public name: string,
+        public url: string) {
+    }
+}
+
+
+export class AirportChart {
+    constructor(
+        public id: number,
+        public source: string,
+        public type: string,
+        public filename: string,
+        public mercator_n: string, // TODO: => extent
+        public mercator_s: string,
+        public mercator_e: string,
+        public mercator_w: string) {
+    }
+}
+
+
+export class AirportFeature {
+    constructor(
+        public type: string,
+        public name: string,
+        public position: Position2d) {
     }
 }
