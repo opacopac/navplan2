@@ -6,6 +6,7 @@ import { MapbaselayerFactory } from '../../model/ol-model/mapbaselayer-factory';
 import { Extent } from '../../model/ol-model/extent';
 import { Position2d } from '../../model/position';
 import { Mapfeatures } from '../../model/mapfeatures';
+import { MetarTafList } from '../../model/metar-taf';
 import { Flightroute } from '../../model/flightroute';
 import { Traffic } from '../../model/traffic';
 import { OlFlightroute } from '../../model/ol-model/ol-flightroute';
@@ -19,6 +20,9 @@ import { OlAirportRunway } from '../../model/ol-model/ol-airport-runway';
 import { OlReportingSector } from '../../model/ol-model/ol-reporting-sector';
 import { OlUserPoint } from '../../model/ol-model/ol-user-point';
 import { OlMapfeatureList } from '../../model/ol-model/ol-mapfeature-list';
+import { OlMetar } from '../../model/ol-model/ol-metar';
+import { OlMetarWind } from '../../model/ol-model/ol-metar-wind';
+import { OlMetarSky } from '../../model/ol-model/ol-metar-sky';
 
 
 const HIT_TOLERANCE_PIXELS = 10;
@@ -199,6 +203,20 @@ export class MapService {
     }
 
 
+    public drawMetarTaf(metarTafList: MetarTafList) {
+        const source = this.mapFeaturesLayer.getSource();
+
+        if (!metarTafList) {
+            return;
+        }
+
+        for (const metarTaf of metarTafList.items) {
+            const metarTafOlFeature = new OlMetar(metarTaf, this.map.getView().getRotation());
+            metarTafOlFeature.draw(source);
+        }
+    }
+
+
     public drawLocation(ownPlane: Traffic) {
         const source = this.locationLayer.getSource();
         source.clear();
@@ -366,7 +384,9 @@ export class MapService {
                 feature instanceof OlReportingPoint === true ||
                 feature instanceof OlReportingSector === true ||
                 feature instanceof OlUserPoint === true ||
-                feature instanceof OlWebcam === true);
+                feature instanceof OlWebcam === true ||
+                feature instanceof OlMetarSky === true ||
+                feature instanceof OlMetarWind === true);
     }
 
     // endregion

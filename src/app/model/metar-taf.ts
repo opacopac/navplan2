@@ -1,9 +1,13 @@
+import { Position2d } from './position';
+
 export class MetarTafList {
     public items: MetarTaf[] = [];
 }
 
 
 export class MetarTaf {
+    public position: Position2d;
+
     constructor(
         public ad_icao: string,
         public metar_obs_timestamp: number,

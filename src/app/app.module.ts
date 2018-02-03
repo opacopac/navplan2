@@ -29,6 +29,7 @@ import { StringnumberService } from './services/utils/stringnumber.service';
 import { DatetimeService } from './services/utils/datetime.service';
 import { MapService } from './services/map/map.service';
 import { MapfeaturesService } from './services/map/mapfeatures.service';
+import { MetarTafService } from './services/meteo/metar-taf.service';
 import { TimerService } from './services/utils/timer.service';
 import { LocationService } from './services/track/location.service';
 import { FlighttimerComponent } from './components/flighttimer/flighttimer.component';
@@ -76,6 +77,7 @@ import { TrafficAdsbexchangeService } from './services/traffic/traffic-adsbexcha
         StringnumberService,
         MapService,
         MapfeaturesService,
+        MetarTafService,
         TimerService,
         LocationService,
         TrafficService,

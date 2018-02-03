@@ -6,54 +6,54 @@ import { Sessioncontext } from '../../model/sessioncontext';
 import { CachingExtentLoader } from '../map/caching-extent-loader';
 import { Extent } from '../../model/ol-model/extent';
 import { MetarTaf, MetarTafList } from '../../model/metar-taf';
-import { StringnumberService } from "../utils/stringnumber.service";
+import { StringnumberService } from '../utils/stringnumber.service';
 
 
 const OVERSIZE_FACTOR = 1.3;
 const MAXAGESEC = 5 * 60 * 1000; // 5 min
-const METAR_TAF_BASE_URL = 'https://www.aviationweather.gov/gis/scripts/MetarJSON.php?taf=true&density=all&bbox='; //6.0,44.0,10.0,48.0';
+const METAR_TAF_BASE_URL = 'https://www.aviationweather.gov/gis/scripts/MetarJSON.php?taf=true&density=all&bbox='; // 6.0,44.0,10.0,48.0';
 
 
-//region interfaces
+// region interfaces
 
 interface MetarTafResponse {
-    type: string,
-    features: MetarTafFeature[]
+    type: string;
+    features: MetarTafFeature[];
 }
 
 interface MetarTafFeature {
-    type: string,
-    properties: MetarTafProperties,
-    geometry: MetarTafGeometry
+    type: string;
+    properties: MetarTafProperties;
+    geometry: MetarTafGeometry;
 }
 
 
 interface MetarTafProperties {
-    id: string,
-    site: string,
-    prior: string, // TODO?
-    obsTime: string,
-    temp: number,
-    dewp: number,
-    wspd: number,
-    wdir: number,
-    ceil: number,
-    cover: string,
-    wx: string,
-    visib: number,
-    fltcat: string,
-    altim: number,
-    rawOb: string,
-    rawTaf: string
+    id: string;
+    site: string;
+    prior: string; // TODO?
+    obsTime: string;
+    temp: number;
+    dewp: number;
+    wspd: number;
+    wdir: number;
+    ceil: number;
+    cover: string;
+    wx: string;
+    visib: number;
+    fltcat: string;
+    altim: number;
+    rawOb: string;
+    rawTaf: string;
 }
 
 
 interface MetarTafGeometry {
-    type: string,
-    coordinates: [number, number]
+    type: string;
+    coordinates: [number, number];
 }
 
-//endregion
+// endregion
 
 
 @Injectable()
@@ -80,14 +80,14 @@ export class MetarTafService extends CachingExtentLoader<MetarTafList> {
     }
 
 
-    public loadFromSource(
+    protected loadFromSource(
         extent: Extent,
         successCallback: (MetarTafList) => void,
         errorCallback: (string) => void) {
 
-        const url = METAR_TAF_BASE_URL + extent[0] + "," + extent[1] + "," + extent[2] + "," + extent[3];
+        const url = METAR_TAF_BASE_URL + extent[0] + ',' + extent[1] + ',' + extent[2] + ',' + extent[3];
         this.http
-            .jsonp<MetarTafResponse>(url, 'callback')
+            .jsonp<MetarTafResponse>(url, 'jsonp')
             .subscribe(
                 response => {
                     const metarTafList = this.getMetarTafList(response);
@@ -130,14 +130,14 @@ export class MetarTafService extends CachingExtentLoader<MetarTafList> {
 
         const matches = rawTaf.match(/^TAF( [A-Z]{3})? [A-Z]{4} (\d\d)(\d\d)(\d\d)Z.*$/);
 
-        if (!matches || matches.length != 5) {
+        if (!matches || matches.length !== 5) {
            return undefined;
         }
 
         const d = new Date();
-        const datestring = d.getFullYear() + "-"
-            + StringnumberService.zeroPad(d.getMonth() + 1) + "-"
-            + matches[2] + "T" + matches[3] + ":" + matches[4] + ":00Z";
+        const datestring = d.getFullYear() + '-'
+            + StringnumberService.zeroPad(d.getMonth() + 1) + '-'
+            + matches[2] + 'T' + matches[3] + ':' + matches[4] + ':00Z';
 
         return Date.parse(datestring);
     }

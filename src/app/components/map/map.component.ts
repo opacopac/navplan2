@@ -4,11 +4,13 @@ import { MessageService } from '../../services/utils/message.service';
 import { SessionService } from '../../services/utils/session.service';
 import { MapService } from '../../services/map/map.service';
 import { MapfeaturesService } from '../../services/map/mapfeatures.service';
+import { MetarTafService } from '../../services/meteo/metar-taf.service';
 import { TrafficService } from '../../services/traffic/traffic.service';
 import { Sessioncontext } from '../../model/sessioncontext';
 import { Mapfeatures } from '../../model/mapfeatures';
 import { Position2d } from '../../model/position';
 import { OlFeature } from '../../model/ol-model/ol-feature';
+import { MetarTafList } from '../../model/metar-taf';
 
 const NAVBAR_HEIGHT_PX = 54;
 
@@ -20,6 +22,9 @@ const NAVBAR_HEIGHT_PX = 54;
 })
 export class MapComponent implements OnInit {
     public session: Sessioncontext;
+    private currentMapFeatures: Mapfeatures;
+    private currentMetarTafList: MetarTafList;
+
 
 
     constructor(
@@ -27,7 +32,8 @@ export class MapComponent implements OnInit {
         private messageService: MessageService,
         private trafficService: TrafficService,
         private mapService: MapService,
-        private mapFeatureService: MapfeaturesService) {
+        private mapFeatureService: MapfeaturesService,
+        private metarTafService: MetarTafService) {
 
         this.session = this.sessionService.getSessionContext();
     }
@@ -65,8 +71,8 @@ export class MapComponent implements OnInit {
         this.trafficService.setExtent(this.mapService.getExtent());
         this.mapFeatureService.load(
             this.mapService.getExtent(),
-            this.onMapFeaturesReceived.bind(this),
-            this.onMapFeaturesError.bind(this)
+            this.onMapFeaturesLoaded.bind(this),
+            this.onMapFeaturesLoadError.bind(this)
         );
     }
 
@@ -87,11 +93,37 @@ export class MapComponent implements OnInit {
     }
 
 
-    private onMapFeaturesReceived(mapFeatures: Mapfeatures) {
+    private onMapFeaturesLoaded(mapFeatures: Mapfeatures) {
+        this.currentMapFeatures = mapFeatures;
         this.mapService.drawMapFeatures(mapFeatures);
+
+        this.metarTafService.load(
+            this.mapService.getExtent(),
+            this.onMetarTafLoaded.bind(this),
+            this.onMetarTafLoadError.bind(this));
     }
 
 
-    private onMapFeaturesError(message: string) {
+    private onMapFeaturesLoadError(message: string) {
+        // TODO
+    }
+
+
+    private onMetarTafLoaded(metarTafList: MetarTafList) {
+        this.currentMetarTafList = metarTafList;
+
+        // add positions (from airports)
+        for (const metarTaf of metarTafList.items) {
+            const ad = this.currentMapFeatures.getAirportByIcao(metarTaf.ad_icao);
+            if (ad) {
+                metarTaf.position = ad.position;
+            }
+        }
+
+        this.mapService.drawMetarTaf(metarTafList);
+    }
+
+    private onMetarTafLoadError(message: string) {
+        // TODO
     }
 }

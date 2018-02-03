@@ -15,6 +15,7 @@ export class Mapfeatures {
     public reportingsectors: Reportingsector[];
     public userpoints: Userpoint[];
     public webcams: Webcam[];
+    private airportIcaoLookup: Airport[];
 
     constructor() {
         this.navaids = [];
@@ -24,5 +25,23 @@ export class Mapfeatures {
         this.reportingsectors = [];
         this.userpoints = [];
         this.webcams = [];
+    }
+
+
+    public getAirportByIcao(icao: string): Airport {
+        if (!this.airportIcaoLookup) {
+            this.createAirportIcaoLookup();
+        }
+
+        return this.airportIcaoLookup[icao];
+    }
+
+
+    private createAirportIcaoLookup() {
+        this.airportIcaoLookup = [];
+        for (let i = 0; i < this.airports.length; i++) {
+            const ad = this.airports[i];
+            this.airportIcaoLookup[ad.icao] = ad;
+        }
     }
 }
