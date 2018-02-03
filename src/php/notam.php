@@ -10,6 +10,7 @@ $conn = openDb();
 
 $startTimestamp = checkNumeric($_GET["starttimestamp"]);
 $endTimestamp = checkNumeric($_GET["endtimestamp"]);
+$callback = checkString($_GET["callback"], 1, 50);
 $areaNotamList = NULL;
 $locationNotamList = NULL;
 
@@ -46,10 +47,13 @@ if ($_GET["icaolist"])
 }
 
 
-// return notams
+// create jsonp response
 header("Content-Type: application/json; charset=UTF-8");
+
 $return_object = buildReturnObject($locationNotamList, $areaNotamList);
+echo $callback . "(";
 echo($return_object);
+echo ")";
 
 
 // close db

@@ -1,7 +1,8 @@
 import { Position2d } from './position';
+import { Geometry2d, Geometry2dType } from './geometry2d';
 
 
-export class Polygon {
+export class Polygon implements Geometry2d {
     public positions: Position2d[];
 
 
@@ -21,6 +22,25 @@ export class Polygon {
         }
 
         return poly;
+    }
+
+
+    public static createFromMercatorList(mercatorList: [number, number][]): Polygon {
+        if (!mercatorList) {
+            return undefined;
+        }
+
+        const poly = new Polygon();
+        for (const mercator of mercatorList) {
+            poly.positions.push(Position2d.createFromMercator(mercator));
+        }
+
+        return poly;
+    }
+
+
+    public getGeometryType(): Geometry2dType {
+        return Geometry2dType.POLYGON;
     }
 
 

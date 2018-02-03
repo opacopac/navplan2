@@ -5,12 +5,14 @@ import { SessionService } from '../../services/utils/session.service';
 import { MapService } from '../../services/map/map.service';
 import { MapfeaturesService } from '../../services/map/mapfeatures.service';
 import { MetarTafService } from '../../services/meteo/metar-taf.service';
+import { NotamService } from '../../services/notam/notam.service';
 import { TrafficService } from '../../services/traffic/traffic.service';
 import { Sessioncontext } from '../../model/sessioncontext';
 import { Mapfeatures } from '../../model/mapfeatures';
 import { Position2d } from '../../model/position';
 import { OlFeature } from '../../model/ol-model/ol-feature';
 import { MetarTafList } from '../../model/metar-taf';
+import { NotamList } from '../../model/notam';
 
 const NAVBAR_HEIGHT_PX = 54;
 
@@ -24,6 +26,7 @@ export class MapComponent implements OnInit {
     public session: Sessioncontext;
     private currentMapFeatures: Mapfeatures;
     private currentMetarTafList: MetarTafList;
+    private currentNotamList: NotamList;
 
 
 
@@ -33,7 +36,8 @@ export class MapComponent implements OnInit {
         private trafficService: TrafficService,
         private mapService: MapService,
         private mapFeatureService: MapfeaturesService,
-        private metarTafService: MetarTafService) {
+        private metarTafService: MetarTafService,
+        private notamService: NotamService) {
 
         this.session = this.sessionService.getSessionContext();
     }
@@ -101,6 +105,11 @@ export class MapComponent implements OnInit {
             this.mapService.getExtent(),
             this.onMetarTafLoaded.bind(this),
             this.onMetarTafLoadError.bind(this));
+
+        this.notamService.load(
+            this.mapService.getExtent(),
+            this.onNotamLoaded.bind(this),
+            this.onNotamLoadError.bind(this));
     }
 
 
@@ -124,6 +133,18 @@ export class MapComponent implements OnInit {
     }
 
     private onMetarTafLoadError(message: string) {
+        // TODO
+    }
+
+
+    private onNotamLoaded(notamList: NotamList) {
+        this.currentNotamList = notamList;
+
+        this.mapService.drawNotams(notamList);
+    }
+
+
+    private onNotamLoadError(message: string) {
         // TODO
     }
 }

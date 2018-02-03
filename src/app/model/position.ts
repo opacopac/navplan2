@@ -1,15 +1,13 @@
 import * as ol from 'openlayers';
 import { Timestamp } from './timestamp';
 import { Altitude } from './altitude';
+import {Geometry2d, Geometry2dType} from './geometry2d';
 
 
-export class Position2d {
-    public latitude: number;
-    public longitude: number;
-
-    public constructor(lon: number, lat: number) {
-        this.longitude = lon;
-        this.latitude = lat;
+export class Position2d implements Geometry2d {
+    public constructor(
+        public longitude: number,
+        public latitude: number) {
     }
 
 
@@ -21,6 +19,11 @@ export class Position2d {
     public static createFromMercator(posMercator: [number, number]): Position2d {
         const lonLat = ol.proj.toLonLat(posMercator);
         return new Position2d(lonLat[0], lonLat[1]);
+    }
+
+
+    public getGeometryType(): Geometry2dType {
+        return Geometry2dType.POSITION;
     }
 
 

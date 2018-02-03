@@ -1,4 +1,4 @@
-import {Extent} from "../../model/ol-model/extent";
+import { Extent } from '../../model/ol-model/extent';
 
 
 export abstract class CachingExtentLoader<T> {
@@ -8,7 +8,7 @@ export abstract class CachingExtentLoader<T> {
     public abstract getOversizeFactor(): number;
 
 
-    public abstract getMaxAgeSec(): number;
+    public abstract getMaxAgeSec(): number; // TODO: replace by isValid() or so
 
 
     public load(

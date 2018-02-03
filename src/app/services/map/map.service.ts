@@ -23,6 +23,8 @@ import { OlMapfeatureList } from '../../model/ol-model/ol-mapfeature-list';
 import { OlMetar } from '../../model/ol-model/ol-metar';
 import { OlMetarWind } from '../../model/ol-model/ol-metar-wind';
 import { OlMetarSky } from '../../model/ol-model/ol-metar-sky';
+import {NotamList} from "../../model/notam";
+import {OlNotam} from "../../model/ol-model/ol-notam";
 
 
 const HIT_TOLERANCE_PIXELS = 10;
@@ -225,7 +227,6 @@ export class MapService {
             return;
         }
 
-        // const ownPlaneOlFeature = new TrafficOlFeature(ownPlane);
         const ownPlaneOlFeature = new OlTraffic(ownPlane);
         ownPlaneOlFeature.draw(source);
     }
@@ -240,9 +241,23 @@ export class MapService {
         }
 
         for (const traffic of trafficList) {
-            // const trafficOlFeature = new TrafficOlFeature(traffic);
             const trafficOlFeature = new OlTraffic(traffic);
             trafficOlFeature.draw(source);
+        }
+    }
+
+
+    public drawNotams(notamList: NotamList) {
+        const source = this.trafficLayer.getSource();
+        source.clear();
+
+        if (!notamList) {
+            return;
+        }
+
+        for (const notam of notamList.items) {
+            const notamOlFeature = new OlNotam(notam);
+            notamOlFeature.draw(source);
         }
     }
 

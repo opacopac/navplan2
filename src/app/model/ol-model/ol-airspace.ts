@@ -1,5 +1,6 @@
 import * as ol from 'openlayers';
 import { Airspace } from '../airspace';
+import { Polygon } from '../polygon';
 import { OlFeaturePolygon } from './ol-feature';
 
 export class OlAirspace extends OlFeaturePolygon {
@@ -10,7 +11,7 @@ export class OlAirspace extends OlFeaturePolygon {
     }
 
 
-    protected getPolygon() {
+    protected getPolygon(): Polygon {
         return this.airspace.polygon;
     }
 
