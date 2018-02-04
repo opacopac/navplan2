@@ -7,9 +7,9 @@ import { CachingExtentLoader } from '../map/caching-extent-loader';
 import { Extent } from '../../model/ol-model/extent';
 import { MetarTaf, MetarTafList } from '../../model/metar-taf';
 import { StringnumberService } from '../utils/stringnumber.service';
+import {environment} from "../../../environments/environment";
 
 
-const OVERSIZE_FACTOR = 1.3;
 const MAXAGESEC = 5 * 60 * 1000; // 5 min
 const METAR_TAF_BASE_URL = 'https://www.aviationweather.gov/gis/scripts/MetarJSON.php?taf=true&density=all&bbox='; // 6.0,44.0,10.0,48.0';
 
@@ -71,12 +71,12 @@ export class MetarTafService extends CachingExtentLoader<MetarTafList> {
 
 
     public getOversizeFactor(): number {
-        return OVERSIZE_FACTOR;
+        return environment.mapOversizeFactor;
     }
 
 
-    public getMaxAgeSec(): number {
-        return MAXAGESEC;
+    public isTimedOut(): boolean {
+        return (this.itemCache && this.itemCache.getAgeSec() > MAXAGESEC);
     }
 
 

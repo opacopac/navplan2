@@ -1,4 +1,5 @@
 import * as ol from 'openlayers';
+import { UnitconversionService } from '../../services/utils/unitconversion.service';
 import { OlFeaturePolygon } from './ol-feature';
 import { Notam } from '../notam';
 import { Polygon } from '../polygon';
@@ -22,12 +23,17 @@ export class OlNotam extends OlFeaturePolygon {
         if (this.notam.geometry.geometry2d.getGeometryType() === Geometry2dType.POLYGON) {
             return this.notam.geometry.geometry2d as Polygon;
         } else if (this.notam.geometry.geometry2d.getGeometryType() === Geometry2dType.CIRCLE) {
+            const circle = this.notam.geometry.geometry2d as Circle;
+            if (circle.radius_m > UnitconversionService.nautmile2m(50)) {
+                return undefined;
+            }
+
             const polycirc = ol.geom.Polygon.circular(
                 new ol.Sphere(6378137),
-                (this.notam.geometry.geometry2d as Circle).center.getLonLat(),
-                (this.notam.geometry.geometry2d as Circle).radius_m);
+                circle.center.getLonLat(),
+                circle.radius_m);
 
-            return Polygon.createFromMercatorList(polycirc.getCoordinates()[0]);
+            return Polygon.createFromLonLatList(polycirc.getCoordinates()[0]);
         } else {
             return undefined;
         }

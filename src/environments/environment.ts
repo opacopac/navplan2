@@ -6,5 +6,6 @@
 export const environment = {
     production: false,
     restApiBaseUrl: 'https://www.navplan.ch/v2/',
-    iconBaseUrl: './assets/icon/'
+    iconBaseUrl: './assets/icon/',
+    mapOversizeFactor: 1.3
 };

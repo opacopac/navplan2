@@ -3,12 +3,22 @@ import { Extent } from '../../model/ol-model/extent';
 
 export abstract class CachingExtentLoader<T> {
     protected itemCache: ExtentItemCache<T>;
+    protected lastLoadTimestampSec: number;
 
 
     public abstract getOversizeFactor(): number;
 
 
-    public abstract getMaxAgeSec(): number; // TODO: replace by isValid() or so
+    public abstract isTimedOut(): boolean;
+
+
+    public needsReload(extent: Extent): boolean {
+        if (!this.itemCache) {
+            return true;
+        }
+
+        return (!this.itemCache.extent.containsExtent(extent) || this.isTimedOut());
+    }
 
 
     public load(
@@ -16,15 +26,15 @@ export abstract class CachingExtentLoader<T> {
         successCallback: (T) => void,
         errorCallback: (string) => void) {
 
-        if (this.itemCache && this.itemCache.extent.containsExtent(extent)
-            && (!this.getMaxAgeSec() || this.itemCache.getAgeSec() < this.getMaxAgeSec())) {
-            this.loadFromCache(successCallback);
-        } else {
+        if (this.needsReload(extent)) {
+            this.lastLoadTimestampSec = Math.floor(Date.now() / 1000);
             const oversizeExtent = extent.getOversizeExtent(this.getOversizeFactor());
             this.loadFromSource(
                 oversizeExtent,
                 this.addToCacheAndCallback.bind(this, [oversizeExtent, successCallback]),
                 errorCallback);
+        } else {
+            this.loadFromCache(successCallback);
         }
     }
 

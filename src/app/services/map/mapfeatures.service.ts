@@ -18,7 +18,6 @@ import { Position2d } from '../../model/position';
 import { Polygon } from '../../model/polygon';
 
 
-const OVERSIZE_FACTOR = 1.2;
 const MAPFEATURES_BASE_URL = environment.restApiBaseUrl + 'php/mapFeatures.php';
 const USER_WP_BASE_URL = environment.restApiBaseUrl + 'php/userWaypoint.php';
 
@@ -187,12 +186,12 @@ export class MapfeaturesService extends CachingExtentLoader<Mapfeatures> {
 
 
     public getOversizeFactor(): number {
-        return OVERSIZE_FACTOR;
+        return environment.mapOversizeFactor;
     }
 
 
-    public getMaxAgeSec(): number {
-        return undefined;
+    public isTimedOut(): boolean {
+        return false;
     }
 
 

@@ -36,6 +36,7 @@ export class MapService {
     private session: Sessioncontext;
     private mapLayer: ol.layer.Tile;
     private mapFeaturesLayer: ol.layer.Vector;
+    private notamLayer: ol.layer.Vector;
     private flightrouteLayer: ol.layer.Vector;
     private trafficLayer: ol.layer.Vector;
     private locationLayer: ol.layer.Vector;
@@ -73,6 +74,7 @@ export class MapService {
             layers: [
                 this.mapLayer,
                 this.mapFeaturesLayer,
+                this.notamLayer,
                 this.flightrouteLayer,
                 this.trafficLayer,
                 this.locationLayer
@@ -101,6 +103,7 @@ export class MapService {
     private initLayers() {
         this.mapLayer = MapbaselayerFactory.create(this.session.settings.baseMapType);
         this.mapFeaturesLayer = this.createEmptyVectorLayer();
+        this.notamLayer = this.createEmptyVectorLayer();
         this.flightrouteLayer = this.createEmptyVectorLayer();
         this.trafficLayer = this.createEmptyVectorLayer();
         this.locationLayer = this.createEmptyVectorLayer();
@@ -248,7 +251,7 @@ export class MapService {
 
 
     public drawNotams(notamList: NotamList) {
-        const source = this.trafficLayer.getSource();
+        const source = this.notamLayer.getSource();
         source.clear();
 
         if (!notamList) {
@@ -388,7 +391,9 @@ export class MapService {
 
 
     private isClickableLayer(layer: ol.layer.Layer): boolean {
-        return (layer === this.mapFeaturesLayer);
+        return (layer === this.mapFeaturesLayer ||
+                layer === this.notamLayer ||
+                layer === this.trafficLayer);
     }
 
 
@@ -401,7 +406,9 @@ export class MapService {
                 feature instanceof OlUserPoint === true ||
                 feature instanceof OlWebcam === true ||
                 feature instanceof OlMetarSky === true ||
-                feature instanceof OlMetarWind === true);
+                feature instanceof OlMetarWind === true ||
+                feature instanceof OlNotam === true ||
+                feature instanceof OlTraffic === true);
     }
 
     // endregion

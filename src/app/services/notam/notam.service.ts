@@ -8,11 +8,10 @@ import { CachingExtentLoader } from '../map/caching-extent-loader';
 import { Notam, NotamGeometry, NotamList, NotamLocationType } from '../../model/notam';
 import { Extent } from '../../model/ol-model/extent';
 import { Circle } from '../../model/circle';
-import {Position2d} from "../../model/position";
-import {Polygon} from "../../model/polygon";
+import { Position2d } from '../../model/position';
+import { Polygon } from '../../model/polygon';
 
 
-const OVERSIZE_FACTOR = 1.3;
 const NOTAM_BASE_URL = environment.restApiBaseUrl + 'php/notam.php';
 
 
@@ -75,12 +74,12 @@ export class NotamService extends CachingExtentLoader<NotamList> {
 
 
     public getOversizeFactor(): number {
-        return OVERSIZE_FACTOR;
+        return environment.mapOversizeFactor;
     }
 
 
-    public getMaxAgeSec(): number {
-        return undefined;
+    public isTimedOut(): boolean {
+        return false;
     }
 
 

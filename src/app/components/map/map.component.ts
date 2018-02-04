@@ -10,6 +10,7 @@ import { TrafficService } from '../../services/traffic/traffic.service';
 import { Sessioncontext } from '../../model/sessioncontext';
 import { Mapfeatures } from '../../model/mapfeatures';
 import { Position2d } from '../../model/position';
+import { Extent } from '../../model/ol-model/extent';
 import { OlFeature } from '../../model/ol-model/ol-feature';
 import { MetarTafList } from '../../model/metar-taf';
 import { NotamList } from '../../model/notam';
@@ -53,6 +54,8 @@ export class MapComponent implements OnInit {
             this.onFullScreenClickedCallback.bind(this)
         );
 
+        this.updateMap(true);
+
         if (this.session.flightroute) {
             this.mapService.drawFlightRoute(this.session.flightroute);
         }
@@ -72,12 +75,7 @@ export class MapComponent implements OnInit {
 
 
     private onMovedZoomedRotatedCallback() {
-        this.trafficService.setExtent(this.mapService.getExtent());
-        this.mapFeatureService.load(
-            this.mapService.getExtent(),
-            this.onMapFeaturesLoaded.bind(this),
-            this.onMapFeaturesLoadError.bind(this)
-        );
+        this.updateMap(false);
     }
 
 
@@ -94,6 +92,26 @@ export class MapComponent implements OnInit {
 
 
     private onFullScreenClickedCallback() {
+    }
+
+
+    private updateMap(isInitialUpdate: boolean) {
+        const extent = this.mapService.getExtent();
+        this.trafficService.setExtent(extent);
+
+        if (!isInitialUpdate &&
+            !this.mapFeatureService.needsReload(extent) &&
+            !this.metarTafService.needsReload(extent) &&
+            !this.notamService.needsReload(extent)) {
+
+            return;
+        }
+
+        this.mapFeatureService.load(
+            extent,
+            this.onMapFeaturesLoaded.bind(this),
+            this.onMapFeaturesLoadError.bind(this)
+        );
     }
 
 
@@ -139,7 +157,6 @@ export class MapComponent implements OnInit {
 
     private onNotamLoaded(notamList: NotamList) {
         this.currentNotamList = notamList;
-
         this.mapService.drawNotams(notamList);
     }
 
