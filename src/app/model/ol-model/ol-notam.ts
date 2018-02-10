@@ -24,6 +24,8 @@ export class OlNotam extends OlFeaturePolygon {
             return this.notam.geometry.geometry2d as Polygon;
         } else if (this.notam.geometry.geometry2d.getGeometryType() === Geometry2dType.CIRCLE) {
             const circle = this.notam.geometry.geometry2d as Circle;
+
+            // TODO
             if (circle.radius_m > UnitconversionService.nautmile2m(50)) {
                 return undefined;
             }

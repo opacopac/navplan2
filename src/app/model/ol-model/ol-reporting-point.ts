@@ -6,7 +6,7 @@ import { OlFeaturePoint } from './ol-feature';
 
 export class OlReportingPoint extends OlFeaturePoint {
     public constructor(
-        private reportingpoint: Reportingpoint) {
+        public reportingpoint: Reportingpoint) {
 
         super();
     }

@@ -1,5 +1,7 @@
 import * as $ from 'jquery';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MapOverlayMetarTafComponent } from '../map-overlay/map-overlay-metar-taf/map-overlay-metar-taf.component';
+import { MapOverlayNavaidComponent } from '../map-overlay/map-overlay-navaid/map-overlay-navaid.component';
 import { MessageService } from '../../services/utils/message.service';
 import { SessionService } from '../../services/utils/session.service';
 import { MapService } from '../../services/map/map.service';
@@ -10,10 +12,18 @@ import { TrafficService } from '../../services/traffic/traffic.service';
 import { Sessioncontext } from '../../model/sessioncontext';
 import { Mapfeatures } from '../../model/mapfeatures';
 import { Position2d } from '../../model/position';
-import { Extent } from '../../model/ol-model/extent';
 import { OlFeature } from '../../model/ol-model/ol-feature';
-import { MetarTafList } from '../../model/metar-taf';
+import { MetarTafList} from '../../model/metar-taf';
 import { NotamList } from '../../model/notam';
+import { OlNavaid } from '../../model/ol-model/ol-navaid';
+import { OlMetarSky } from '../../model/ol-model/ol-metar-sky';
+import { OlTraffic} from '../../model/ol-model/ol-traffic';
+import { MapOverlayTrafficComponent } from '../map-overlay/map-overlay-traffic/map-overlay-traffic.component';
+import { MapOverlayReportingpointComponent } from '../map-overlay/map-overlay-reportingpoint/map-overlay-reportingpoint.component';
+import { OlReportingPoint } from '../../model/ol-model/ol-reporting-point';
+import { MapOverlayReportingsectorComponent } from '../map-overlay/map-overlay-reportingsector/map-overlay-reportingsector.component';
+import { OlReportingSector } from '../../model/ol-model/ol-reporting-sector';
+
 
 const NAVBAR_HEIGHT_PX = 54;
 
@@ -28,7 +38,17 @@ export class MapComponent implements OnInit {
     private currentMapFeatures: Mapfeatures;
     private currentMetarTafList: MetarTafList;
     private currentNotamList: NotamList;
+    private mapOverlayNavaidContainer: HTMLElement;
+    private mapOverlayReportingpointContainer: HTMLElement;
+    private mapOverlayReportingsectorContainer: HTMLElement;
+    private mapOverlayMetarTafContainer: HTMLElement;
+    private mapOverlayTrafficContainer: HTMLElement;
 
+    @ViewChild(MapOverlayNavaidComponent) mapOverlayNavaidComponent: MapOverlayNavaidComponent;
+    @ViewChild(MapOverlayReportingpointComponent) mapOverlayReportingpointComponent: MapOverlayReportingpointComponent;
+    @ViewChild(MapOverlayReportingsectorComponent) mapOverlayReportingsectorComponent: MapOverlayReportingsectorComponent;
+    @ViewChild(MapOverlayMetarTafComponent) mapOverlayMetarTafComponent: MapOverlayMetarTafComponent;
+    @ViewChild(MapOverlayTrafficComponent) mapOverlayTrafficComponent: MapOverlayTrafficComponent;
 
 
     constructor(
@@ -45,6 +65,12 @@ export class MapComponent implements OnInit {
 
 
     ngOnInit() {
+        this.mapOverlayNavaidContainer = document.getElementById('navaid-popup');
+        this.mapOverlayMetarTafContainer = document.getElementById('metartaf-popup');
+        this.mapOverlayTrafficContainer = document.getElementById('traffic-popup');
+        this.mapOverlayReportingpointContainer = document.getElementById('reportingpoint-popup');
+        this.mapOverlayReportingsectorContainer = document.getElementById('reportingsector-popup');
+
         this.resizeMapToWindow();
         this.mapService.initMap(
             this.onMovedZoomedRotatedCallback.bind(this),
@@ -79,7 +105,28 @@ export class MapComponent implements OnInit {
     }
 
 
-    private onMapItemClickedCallback(olFeature: OlFeature) {
+    private onMapItemClickedCallback(olFeature: OlFeature, clickPos: Position2d) {
+        if (olFeature instanceof OlNavaid) {
+            const navaid = (olFeature as OlNavaid).navaid;
+            this.mapOverlayNavaidComponent.navaid = navaid;
+            this.mapService.addOverlay(navaid.position, this.mapOverlayNavaidContainer, true);
+        } else if (olFeature instanceof OlReportingPoint) {
+            const reportingpoint = (olFeature as OlReportingPoint).reportingpoint;
+            this.mapOverlayReportingpointComponent.reportingpoint = reportingpoint;
+            this.mapService.addOverlay(reportingpoint.position, this.mapOverlayReportingpointContainer, true);
+        } else if (olFeature instanceof OlReportingSector) {
+            const reportingsector = (olFeature as OlReportingSector).reportingSector;
+            this.mapOverlayReportingsectorComponent.reportingsector = reportingsector;
+            this.mapService.addOverlay(clickPos, this.mapOverlayReportingpointContainer, true);
+        } else if (olFeature instanceof OlMetarSky) {
+            const metarTaf = (olFeature as OlMetarSky).metarTaf;
+            this.mapOverlayMetarTafComponent.metarTaf = metarTaf;
+            this.mapService.addOverlay(metarTaf.position, this.mapOverlayMetarTafContainer, true);
+        } else if (olFeature instanceof OlTraffic) {
+            const traffic = (olFeature as OlTraffic).traffic;
+            this.mapOverlayTrafficComponent.traffic = traffic;
+            this.mapService.addOverlay(traffic.getCurrentTrafficPosition().position, this.mapOverlayTrafficContainer, true);
+        }
     }
 
 

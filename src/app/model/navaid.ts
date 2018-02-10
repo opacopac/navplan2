@@ -8,7 +8,7 @@ export class Navaid {
         public kuerzel: string,
         public name: string,
         public position: Position2d,
-        public elevation: number,
+        public elevation_m: number, // TODO: own class
         public frequency: string,
         public unit: string,
         public declination: number,

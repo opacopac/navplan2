@@ -11,7 +11,7 @@ const MAX_AGE_SEC_TRACK_DOT = 120;
 
 export class OlTraffic extends OlFeaturePoint implements OlClickableFeature {
     public constructor(
-        private traffic: Traffic) {
+        public traffic: Traffic) {
 
         super();
     }

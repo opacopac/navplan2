@@ -1,0 +1,60 @@
+import {Component, Input, OnInit} from '@angular/core';
+import {StringnumberService} from '../../../services/utils/stringnumber.service';
+import {UnitconversionService} from '../../../services/utils/unitconversion.service';
+import {Navaid} from '../../../model/navaid';
+
+
+@Component({
+    selector: 'app-map-overlay-navaid',
+    templateUrl: './map-overlay-navaid.component.html',
+    styleUrls: ['./map-overlay-navaid.component.css']
+})
+export class MapOverlayNavaidComponent implements OnInit {
+    @Input() navaid: Navaid;
+
+
+    constructor() {
+    }
+
+
+    ngOnInit() {
+    }
+
+
+    public getPositionString(): string {
+        return StringnumberService.getDmsString(this.navaid.position.getLonLat());
+    }
+
+
+
+    public getElevationString() {
+        return Math.round(UnitconversionService.m2ft(this.navaid.elevation_m)) + 'ft';
+    }
+
+
+    public getMorseString() {
+        if (!this.navaid.kuerzel) {
+            return;
+        }
+
+        const dotHtml = ' <b>&middot;</b> ';
+        const dashHtml = ' <b>&#8211;</b> ';
+        const spacer = '&nbsp;&nbsp;&nbsp;';
+        let out = '';
+
+        for (let i = 0; i < this.navaid.kuerzel.length; i++) {
+            const letter = this.navaid.kuerzel.substring(i, i + 1).toUpperCase();
+            let code = StringnumberService.getMorseString(letter);
+            code = code.replace(/\./g, dotHtml);
+            code = code.replace(/\-/g, dashHtml);
+
+            if (i > 0) {
+                out += spacer;
+            }
+
+            out += letter + ' ' + code;
+        }
+
+        return out;
+    }
+}

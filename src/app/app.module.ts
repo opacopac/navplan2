@@ -38,6 +38,17 @@ import { TrafficButtonComponent } from './components/traffic-button/traffic-butt
 import { TrafficService} from './services/traffic/traffic.service';
 import { TrafficOgnService } from './services/traffic/traffic-ogn.service';
 import { TrafficAdsbexchangeService } from './services/traffic/traffic-adsbexchange.service';
+import { MapOverlayMetarTafComponent } from './components/map-overlay/map-overlay-metar-taf/map-overlay-metar-taf.component';
+import { MapOverlayTrafficComponent } from './components/map-overlay/map-overlay-traffic/map-overlay-traffic.component';
+import { MapOverlayNotamComponent } from './components/map-overlay/map-overlay-notam/map-overlay-notam.component';
+import { MapOverlayAirportComponent } from './components/map-overlay/map-overlay-airport/map-overlay-airport.component';
+import { MapOverlayNavaidComponent } from './components/map-overlay/map-overlay-navaid/map-overlay-navaid.component';
+import { MapOverlayAddToRouteComponent } from './components/map-overlay/map-overlay-add-to-route/map-overlay-add-to-route.component';
+import { MapOverlayCloseComponent } from './components/map-overlay/map-overlay-close/map-overlay-close.component';
+import { MapOverlayRemoveFromRouteComponent } from './components/map-overlay/map-overlay-remove-from-route/map-overlay-remove-from-route.component';
+import { MapOverlayEditWaypointComponent } from './components/map-overlay/map-overlay-edit-waypoint/map-overlay-edit-waypoint.component';
+import { MapOverlayReportingpointComponent } from './components/map-overlay/map-overlay-reportingpoint/map-overlay-reportingpoint.component';
+import { MapOverlayReportingsectorComponent } from './components/map-overlay/map-overlay-reportingsector/map-overlay-reportingsector.component';
 
 
 @NgModule({
@@ -58,7 +69,18 @@ import { TrafficAdsbexchangeService } from './services/traffic/traffic-adsbexcha
         ZoomButtonsComponent,
         LocationButtonComponent,
         FlighttimerComponent,
-        TrafficButtonComponent
+        TrafficButtonComponent,
+        MapOverlayMetarTafComponent,
+        MapOverlayTrafficComponent,
+        MapOverlayNotamComponent,
+        MapOverlayAirportComponent,
+        MapOverlayNavaidComponent,
+        MapOverlayAddToRouteComponent,
+        MapOverlayCloseComponent,
+        MapOverlayRemoveFromRouteComponent,
+        MapOverlayEditWaypointComponent,
+        MapOverlayReportingpointComponent,
+        MapOverlayReportingsectorComponent
     ],
     imports: [
         BrowserModule,

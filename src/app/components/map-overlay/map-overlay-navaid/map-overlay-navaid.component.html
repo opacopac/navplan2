@@ -1,0 +1,21 @@
+<div id="navaid-popup" class="ol-popup" style="visibility: hidden">
+    <div *ngIf="this.navaid">
+        <app-map-overlay-close></app-map-overlay-close>
+        <div>
+            <h5>{{ this.navaid.name }} {{ this.navaid.type }} ({{ this.navaid.kuerzel }}) </h5>
+            <p>Navigational Aid</p>
+            <p>{{ this.getPositionString() }}</p>
+            <p>Elevation: {{ this.getElevationString() }}</p>
+            <p>Frequency: {{ this.navaid.frequency }} {{ this.navaid.unit }}</p>
+            <p>Morse: <span [innerHtml]="this.getMorseString()"></span></p>
+            <div class="text-right small">
+                <em><a href="http://www.openaip.net/navaids?field_openaip_navaid_type_value_many_to_one=All&field_openaip_navaid_id_value=&field_openaip_navaid_country_value_many_to_one=All&title={{ this.navaid.name }}" target="_blank">add / correct data</a>
+                    <i class="glyphicon glyphicon-info-sign info-button" title="openAIP login is required for editing"></i></em>
+            </div>
+            <hr />
+            <app-map-overlay-add-to-route></app-map-overlay-add-to-route>
+            <app-map-overlay-edit-waypoint></app-map-overlay-edit-waypoint>
+            <app-map-overlay-remove-from-route></app-map-overlay-remove-from-route>
+        </div>
+    </div>
+</div>

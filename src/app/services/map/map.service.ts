@@ -9,6 +9,7 @@ import { Mapfeatures } from '../../model/mapfeatures';
 import { MetarTafList } from '../../model/metar-taf';
 import { Flightroute } from '../../model/flightroute';
 import { Traffic } from '../../model/traffic';
+import { NotamList } from '../../model/notam';
 import { OlFlightroute } from '../../model/ol-model/ol-flightroute';
 import { OlTraffic } from '../../model/ol-model/ol-traffic';
 import { OlWebcam } from '../../model/ol-model/ol-webcam';
@@ -23,8 +24,7 @@ import { OlMapfeatureList } from '../../model/ol-model/ol-mapfeature-list';
 import { OlMetar } from '../../model/ol-model/ol-metar';
 import { OlMetarWind } from '../../model/ol-model/ol-metar-wind';
 import { OlMetarSky } from '../../model/ol-model/ol-metar-sky';
-import {NotamList} from "../../model/notam";
-import {OlNotam} from "../../model/ol-model/ol-notam";
+import { OlNotam } from '../../model/ol-model/ol-notam';
 
 
 const HIT_TOLERANCE_PIXELS = 10;
@@ -41,10 +41,11 @@ export class MapService {
     private trafficLayer: ol.layer.Vector;
     private locationLayer: ol.layer.Vector;
     private onMovedZoomedRotatedCallback: () => void;
-    private onMapItemClickedCallback: (olFeature: OlFeature) => void;
+    private onMapItemClickedCallback: (olFeature: OlFeature, clickPos: Position2d) => void;
     private onMapClickedCallback: (position: Position2d) => void;
     private onFlightrouteChangedCallback: () => void;
     private onFullScreenClickedCallback: () => void;
+    private currentOverlay: ol.Overlay;
 
 
     constructor(private sessionService: SessionService) {
@@ -56,7 +57,7 @@ export class MapService {
 
     public initMap(
         onMovedZoomedRotatedCallback: () => void,
-        onMapItemClickedCallback: (olFeature: OlFeature) => void,
+        onMapItemClickedCallback: (olFeature: OlFeature, clickPos: Position2d) => void,
         onMapClickedCallback: (position: Position2d) => void,
         onFlightrouteChangedCallback: () => void,
         onFullScreenClickedCallback: () => void
@@ -318,6 +319,41 @@ export class MapService {
     // endregion
 
 
+    // region overlays
+
+    public addOverlay(coordinates: Position2d, container: HTMLElement, autoPan: boolean) {
+        if (this.currentOverlay) {
+            this.closeOverlay();
+        }
+
+        if (container.style.visibility = 'hidden') {
+            container.style.visibility = 'visible';
+        }
+
+        this.currentOverlay = new ol.Overlay({
+            element: container,
+            autoPan: autoPan,
+            autoPanAnimation: { source: undefined, duration: 250 }
+        });
+
+        this.map.addOverlay(this.currentOverlay);
+        this.currentOverlay.setPosition(coordinates.getMercator()); // force auto panning
+    }
+
+
+    public closeOverlay() {
+        if (!this.currentOverlay) {
+            return;
+        }
+
+        this.map.removeOverlay(this.currentOverlay);
+
+        this.currentOverlay = undefined;
+    }
+
+    // endregion
+
+
     // region map events
 
     private onMoveEnd(event: ol.MapEvent) {
@@ -340,14 +376,15 @@ export class MapService {
 
     private onSingleClick(event: ol.MapBrowserEvent) {
         const feature = this.getMapItemOlFeatureAtPixel(event.pixel, true);
+        const clickPos = Position2d.createFromMercator(event.coordinate);
 
         if (feature && this.onMapItemClickedCallback) { // click on feature
-            this.onMapItemClickedCallback(feature);
-        } else if (false) { // close overlay / geopointselection
-            // TODO
+            this.closeOverlay(); // TODO +close geopointselection
+            this.onMapItemClickedCallback(feature, clickPos);
+        } else if (this.currentOverlay) { // close overlay / TODO: this.currentOverlay || geopointselection
+            this.closeOverlay();
         } else if (this.onMapClickedCallback) { // click on empty map
-            const position = Position2d.createFromMercator(event.coordinate);
-            this.onMapClickedCallback(position);
+            this.onMapClickedCallback(clickPos);
         }
     }
 

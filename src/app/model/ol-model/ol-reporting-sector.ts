@@ -5,7 +5,7 @@ import { OlFeaturePolygon } from './ol-feature';
 
 export class OlReportingSector extends OlFeaturePolygon {
     public constructor(
-        private reportingSector: Reportingsector) {
+        public reportingSector: Reportingsector) {
 
         super();
     }

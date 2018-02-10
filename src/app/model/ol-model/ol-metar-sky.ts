@@ -7,7 +7,7 @@ import { Position2d } from '../position';
 
 export class OlMetarSky extends OlFeaturePoint {
     public constructor(
-        private metarTaf: MetarTaf) {
+        public metarTaf: MetarTaf) {
 
         super();
     }
