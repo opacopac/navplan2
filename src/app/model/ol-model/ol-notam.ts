@@ -9,9 +9,9 @@ import { Geometry2dType } from '../geometry2d';
 
 export class OlNotam extends OlFeaturePolygon {
     public constructor(
-        private notam: Notam) {
+        public notam: Notam) {
 
-        super();
+        super(notam);
     }
 
 

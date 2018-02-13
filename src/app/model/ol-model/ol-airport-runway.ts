@@ -9,7 +9,7 @@ export class OlAirportRunway extends OlFeaturePoint {
     public constructor(
         private runway: AirportRunway) {
 
-        super();
+        super(runway);
     }
 
 

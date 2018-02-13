@@ -14,7 +14,7 @@ export class OlMapfeatureList extends OlFeature {
     public constructor(
         private mapFeatureList: Mapfeatures) {
 
-        super();
+        super(mapFeatureList);
     }
 
 

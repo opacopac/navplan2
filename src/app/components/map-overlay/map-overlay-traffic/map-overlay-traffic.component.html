@@ -1,28 +1,23 @@
-<div id="traffic-popup" class="ol-popup ol-popup-traffic" style="visibility: hidden">
-    <div *ngIf="this.traffic">
-        <app-map-overlay-close></app-map-overlay-close>
-        <div>
-            <h4>{{ this.traffic.registration }}</h4>
-            <table cellspacing="2">
-                <tr>
-                    <td>Callsign:</td>
-                    <td>{{ this.traffic.callsign }}</td>
-                </tr>
-                <tr>
-                    <td>Model:</td>
-                    <td>{{ this.traffic.aircraftModelType }}</td>
-                </tr>
-                <tr>
-                    <td>Address:</td>
-                    <td>{{ this.traffic.acaddress }} ({{ this.traffic.addresstype }})</td>
-                </tr>
-                <tr>
-                    <td>Receiver:</td>
-                    <td>{{ this.getReceiver() }}</td>
-                </tr>
-            </table>
-            <hr/>
-            <p><a href="#" (click)="onFollowSelectedTraffic()" class="btn btn-sm btn-info"><i class="fa fa-crosshairs"></i></a> Follow Aircraft on Map</p>
-        </div>
-    </div>
+<div *ngIf="this.traffic">
+    <h5 class="card-title">{{ this.traffic.registration }}</h5>
+    <table cellspacing="2">
+        <tr>
+            <td>Callsign:</td>
+            <td>{{ this.traffic.callsign }}</td>
+        </tr>
+        <tr>
+            <td>Model:</td>
+            <td>{{ this.traffic.aircraftModelType }}</td>
+        </tr>
+        <tr>
+            <td>Address:</td>
+            <td>{{ this.traffic.acaddress }} ({{ this.getAddressType() }})</td>
+        </tr>
+        <tr>
+            <td>Receiver:</td>
+            <td>{{ this.getReceiver() }}</td>
+        </tr>
+    </table>
+    <hr/>
+    <p><a href="#" (click)="onFollowSelectedTraffic()" class="btn btn-sm btn-info"><i class="fa fa-crosshairs"></i></a> Follow Aircraft on Map</p>
 </div>

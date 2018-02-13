@@ -1,15 +1,14 @@
-<div id="notam-popup" class="ol-popup ol-popup-notam" style="visibility: hidden">
-    <app-map-overlay-close></app-map-overlay-close>
-    <div>
-        <h4>NOTAM <span ng-show="selectedNotam.id">{{ selectedNotam.id }}</span><span
-                ng-show="selectedNotam.airport_icao">for {{ selectedNotam.airport_icao }} (today &amp; tomorrow)</span>
-        </h4>
-        <div class="table-notam">
-            <table class="table table-striped table-condensed">
-                <tr ng-repeat="notam in selectedNotam.notams">
-                    <td><span ng-bind-html="getFormatedNotamHtml(notam)"></span></td>
-                </tr>
-            </table>
-        </div>
+<div *ngIf="this.notamList && this.notamList.length > 0">
+    <div class="table-notam">
+        <table classXXX="table table-striped table-condensed">
+            <tr *ngFor="let notam of this.notamList">
+                <td>
+                    <h5 class="card-title">{{ this.getNotamTitle(notam) }}</h5>
+                    <small><i>{{ this.getNotamValidity(notam) }}</i></small>
+                    <br />
+                    <span [innerHtml]="this.getNotamText(notam)"></span>
+                </td>
+            </tr>
+        </table>
     </div>
 </div>

@@ -1,11 +1,13 @@
 import { Position2d } from './position';
+import { DataItem } from './data-item';
+
 
 export class MetarTafList {
     public items: MetarTaf[] = [];
 }
 
 
-export class MetarTaf {
+export class MetarTaf extends DataItem {
     public position: Position2d;
 
     constructor(
@@ -18,5 +20,7 @@ export class MetarTaf {
         public wind_speed_kt: number,
         public raw_metar: string,
         public raw_taf: string) {
+
+        super();
     }
 }

@@ -1,16 +1,16 @@
 import * as ol from 'openlayers';
 import { environment } from '../../../environments/environment';
-import { Airport } from '../airport';
 import { OlFeaturePoint } from './ol-feature';
 import { OlAirportRunway } from './ol-airport-runway';
 import { OlAirportFeature } from './ol-airport-feature';
+import { Airport, AirportType } from '../airport';
 
 
 export class OlAirport extends OlFeaturePoint {
     public constructor(
-        private airport: Airport) {
+        public airport: Airport) {
 
-        super();
+        super(airport);
     }
 
 
@@ -42,32 +42,32 @@ export class OlAirport extends OlFeaturePoint {
         let name = this.airport.icao ? this.airport.icao : '';
 
         switch (this.airport.type) {
-            case 'APT':
-            case 'INTL_APT':
+            case AirportType.APT:
+            case AirportType.INTL_APT:
                 src += 'ad_civ.png';
                 break;
-            case 'AF_CIVIL':
-            case 'GLIDING':
-            case 'LIGHT_AIRCRAFT':
+            case AirportType.AF_CIVIL:
+            case AirportType.GLIDING:
+            case AirportType.LIGHT_AIRCRAFT:
                 src += 'ad_civ_nofac.png';
                 break;
-            case 'AF_MIL_CIVIL':
+            case AirportType.AF_MIL_CIVIL:
                 src += 'ad_civmil.png';
                 break;
-            case 'HELI_CIVIL':
+            case AirportType.HELI_CIVIL:
                 src += 'ad_heli.png';
                 break;
-            case 'HELI_MIL':
+            case AirportType.HELI_MIL:
                 src += 'ad_heli_mil.png';
                 break;
-            case 'AF_WATER':
+            case AirportType.AF_WATER:
                 src += 'ad_water.png';
                 break;
-            case 'AD_MIL':
+            case AirportType.AD_MIL:
                 src += 'ad_mil.png';
                 textColor = '#AE1E22';
                 break;
-            case 'AD_CLOSED':
+            case AirportType.AD_CLOSED:
                 src += 'ad_closed.png';
                 name = '';
                 break;

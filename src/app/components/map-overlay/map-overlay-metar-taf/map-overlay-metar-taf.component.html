@@ -1,18 +1,12 @@
-<div id="metartaf-popup" class="ol-popup ol-popup-metartaf" style="visibility: hidden">
-    <div *ngIf="this.metarTaf">
-        <app-map-overlay-close></app-map-overlay-close>
-        <div>
-            <h5>METAR / TAF for {{ this.metarTaf.ad_icao }}</h5>
-            <p *ngIf="this.metarTaf.raw_metar">
-                  METAR {{ this.metarTaf.raw_metar }}
-                  <br />
-                  <i>({{ this.getMetarAgeString() }} old)</i>
-            </p>
-            <p *ngIf="this.metarTaf.raw_taf" >
-                  {{ this.metarTaf.raw_taf }}
-                  <br />
-                  <i>({{ this.getTafAgeString() }} old)</i>
-            </p>
-        </div>
-    </div>
+<div *ngIf="this.metarTaf">
+    <p *ngIf="this.metarTaf.raw_metar">
+        METAR {{ this.metarTaf.raw_metar }}
+        <br />
+        <small><i>({{ this.getMetarAgeString() }} old)</i></small>
+    </p>
+    <p *ngIf="this.metarTaf.raw_taf" >
+        {{ this.metarTaf.raw_taf }}
+        <br />
+        <small><i>({{ this.getTafAgeString() }} old)</i></small>
+    </p>
 </div>

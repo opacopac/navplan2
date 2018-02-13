@@ -1,7 +1,8 @@
 import { Position2d } from './position';
+import { DataItem } from './data-item';
 
 
-export class Reportingpoint {
+export class Reportingpoint extends DataItem {
     constructor(
         public id: number,
         public type: string,
@@ -13,5 +14,7 @@ export class Reportingpoint {
         public min_ft: number,
         public max_ft: number,
         public position: Position2d) {
+
+        super();
     }
 }

@@ -17,7 +17,6 @@ import { OlNavaid } from '../../model/ol-model/ol-navaid';
 import { OlFeature} from '../../model/ol-model/ol-feature';
 import { OlAirport } from '../../model/ol-model/ol-airport';
 import { OlReportingPoint } from '../../model/ol-model/ol-reporting-point';
-import { OlAirportRunway } from '../../model/ol-model/ol-airport-runway';
 import { OlReportingSector } from '../../model/ol-model/ol-reporting-sector';
 import { OlUserPoint } from '../../model/ol-model/ol-user-point';
 import { OlMapfeatureList } from '../../model/ol-model/ol-mapfeature-list';
@@ -43,6 +42,7 @@ export class MapService {
     private onMovedZoomedRotatedCallback: () => void;
     private onMapItemClickedCallback: (olFeature: OlFeature, clickPos: Position2d) => void;
     private onMapClickedCallback: (position: Position2d) => void;
+    private onMapOverlayClosedCallback: () => void;
     private onFlightrouteChangedCallback: () => void;
     private onFullScreenClickedCallback: () => void;
     private currentOverlay: ol.Overlay;
@@ -59,6 +59,7 @@ export class MapService {
         onMovedZoomedRotatedCallback: () => void,
         onMapItemClickedCallback: (olFeature: OlFeature, clickPos: Position2d) => void,
         onMapClickedCallback: (position: Position2d) => void,
+        onMapOverlayClosedCallback: () => void,
         onFlightrouteChangedCallback: () => void,
         onFullScreenClickedCallback: () => void
     ) {
@@ -96,6 +97,7 @@ export class MapService {
         this.onMovedZoomedRotatedCallback = onMovedZoomedRotatedCallback;
         this.onMapItemClickedCallback = onMapItemClickedCallback;
         this.onMapClickedCallback = onMapClickedCallback;
+        this.onMapOverlayClosedCallback = onMapOverlayClosedCallback;
         this.onFlightrouteChangedCallback = onFlightrouteChangedCallback;
         this.onFullScreenClickedCallback = onFullScreenClickedCallback;
     }
@@ -347,8 +349,11 @@ export class MapService {
         }
 
         this.map.removeOverlay(this.currentOverlay);
-
         this.currentOverlay = undefined;
+
+        if (this.onMapOverlayClosedCallback) {
+            this.onMapOverlayClosedCallback();
+        }
     }
 
     // endregion
@@ -436,7 +441,7 @@ export class MapService {
 
     private isClickableFeature(feature: OlFeature): boolean { // TODO => als property / interface
         return (feature instanceof OlAirport === true ||
-                feature instanceof OlAirportRunway === true ||
+                // feature instanceof OlAirportRunway === true ||
                 feature instanceof OlNavaid === true ||
                 feature instanceof OlReportingPoint === true ||
                 feature instanceof OlReportingSector === true ||

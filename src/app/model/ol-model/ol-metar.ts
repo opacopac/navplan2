@@ -10,7 +10,7 @@ export class OlMetar extends OlFeature {
         private metarTaf: MetarTaf,
         private mapRotationRad: number) {
 
-        super();
+        super(metarTaf);
     }
 
 

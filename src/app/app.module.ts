@@ -43,12 +43,21 @@ import { MapOverlayTrafficComponent } from './components/map-overlay/map-overlay
 import { MapOverlayNotamComponent } from './components/map-overlay/map-overlay-notam/map-overlay-notam.component';
 import { MapOverlayAirportComponent } from './components/map-overlay/map-overlay-airport/map-overlay-airport.component';
 import { MapOverlayNavaidComponent } from './components/map-overlay/map-overlay-navaid/map-overlay-navaid.component';
-import { MapOverlayAddToRouteComponent } from './components/map-overlay/map-overlay-add-to-route/map-overlay-add-to-route.component';
-import { MapOverlayCloseComponent } from './components/map-overlay/map-overlay-close/map-overlay-close.component';
-import { MapOverlayRemoveFromRouteComponent } from './components/map-overlay/map-overlay-remove-from-route/map-overlay-remove-from-route.component';
-import { MapOverlayEditWaypointComponent } from './components/map-overlay/map-overlay-edit-waypoint/map-overlay-edit-waypoint.component';
 import { MapOverlayReportingpointComponent } from './components/map-overlay/map-overlay-reportingpoint/map-overlay-reportingpoint.component';
 import { MapOverlayReportingsectorComponent } from './components/map-overlay/map-overlay-reportingsector/map-overlay-reportingsector.component';
+import { MapOverlayUserpointComponent } from './components/map-overlay/map-overlay-userpoint/map-overlay-userpoint.component';
+import { MapOverlayButtonMetarTafComponent } from './components/map-overlay/map-overlay-button-metar-taf/map-overlay-button-metar-taf.component';
+import { MapOverlayButtonAddToRouteComponent } from './components/map-overlay/map-overlay-button-add-to-route/map-overlay-button-add-to-route.component';
+import { MapOverlayButtonEditWaypointComponent } from './components/map-overlay/map-overlay-button-edit-waypoint/map-overlay-button-edit-waypoint.component';
+import { MapOverlayButtonRemoveFromRouteComponent } from './components/map-overlay/map-overlay-button-remove-from-route/map-overlay-button-remove-from-route.component';
+import { MapOverlayButtonSetAlternateComponent } from './components/map-overlay/map-overlay-button-set-alternate/map-overlay-button-set-alternate.component';
+import { MapOverlayButtonNotamComponent } from './components/map-overlay/map-overlay-button-notam/map-overlay-button-notam.component';
+import { MapOverlayButtonMeteogramComponent } from './components/map-overlay/map-overlay-button-meteogram/map-overlay-button-meteogram.component';
+import { MapOverlayButtonWebcamComponent } from './components/map-overlay/map-overlay-button-webcam/map-overlay-button-webcam.component';
+import { MapOverlayButtonEditUserpointComponent } from './components/map-overlay/map-overlay-button-edit-userpoint/map-overlay-button-edit-userpoint.component';
+import { MapOverlayMeteogramComponent } from './components/map-overlay/map-overlay-meteogram/map-overlay-meteogram.component';
+import { MapOverlayContainerComponent } from './components/map-overlay/map-overlay-container/map-overlay-container.component';
+import { IconButtonComponent } from './components/icon-button/icon-button.component';
 
 
 @NgModule({
@@ -75,12 +84,21 @@ import { MapOverlayReportingsectorComponent } from './components/map-overlay/map
         MapOverlayNotamComponent,
         MapOverlayAirportComponent,
         MapOverlayNavaidComponent,
-        MapOverlayAddToRouteComponent,
-        MapOverlayCloseComponent,
-        MapOverlayRemoveFromRouteComponent,
-        MapOverlayEditWaypointComponent,
         MapOverlayReportingpointComponent,
-        MapOverlayReportingsectorComponent
+        MapOverlayReportingsectorComponent,
+        MapOverlayUserpointComponent,
+        MapOverlayButtonMetarTafComponent,
+        MapOverlayButtonAddToRouteComponent,
+        MapOverlayButtonEditWaypointComponent,
+        MapOverlayButtonRemoveFromRouteComponent,
+        MapOverlayButtonSetAlternateComponent,
+        MapOverlayButtonNotamComponent,
+        MapOverlayButtonMeteogramComponent,
+        MapOverlayButtonWebcamComponent,
+        MapOverlayButtonEditUserpointComponent,
+        MapOverlayMeteogramComponent,
+        MapOverlayContainerComponent,
+        IconButtonComponent,
     ],
     imports: [
         BrowserModule,

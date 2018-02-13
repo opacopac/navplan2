@@ -1,4 +1,5 @@
 import { Position4d } from './position';
+import { DataItem } from './data-item';
 
 
 const MAX_AGE_SEC_INACTIVE = 30;
@@ -61,7 +62,7 @@ export class TrafficPosition {
 }
 
 
-export class Traffic {
+export class Traffic extends DataItem {
     constructor(
         public acaddress: string,
         public addresstype: TrafficAddressType,
@@ -72,6 +73,8 @@ export class Traffic {
         public opCallsign: string,
         public aircraftModelType: string,
         public positions: TrafficPosition[]) {
+
+        super();
     }
 
 

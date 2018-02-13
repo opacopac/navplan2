@@ -1,7 +1,23 @@
 import { Position2d } from './position';
+import { DataItem } from './data-item';
 
 
-export class Airport {
+export enum AirportType {
+    AD_CLOSED,
+    AD_MIL,
+    AF_CIVIL,
+    AF_MIL_CIVIL,
+    AF_WATER,
+    APT,
+    GLIDING,
+    HELI_CIVIL,
+    HELI_MIL,
+    INTL_APT,
+    LIGHT_AIRCRAFT
+}
+
+
+export class Airport extends DataItem {
     public runways: AirportRunway[];
     public radios: AirportRadio[];
     public webcams: AirportWebcam[];
@@ -11,13 +27,14 @@ export class Airport {
 
     constructor(
         public id: number,
-        public type: string,
+        public type: AirportType,
         public name: string,
         public icao: string,
         public country: string,
         public position: Position2d,
-        public elevation: number) {
+        public elevation_m: number) {
 
+        super();
         this.runways = [];
         this.radios = [];
         this.webcams = [];
@@ -31,28 +48,33 @@ export class Airport {
     }
 
 
+    public hasRadios(): boolean {
+        return (this.radios != null && this.radios.length > 0);
+    }
+
+
     public hasFeatures(): boolean {
         return (this.features != null && this.features.length > 0);
     }
 
 
     public isHeliport(): boolean {
-        return (this.type === 'HELI_CIVIL' || this.type === 'HELI_MIL');
+        return (this.type === AirportType.HELI_CIVIL || this.type === AirportType.HELI_MIL);
     }
 
 
     public isMilitary(): boolean {
-        return (this.type === 'AD_MIL');
+        return (this.type === AirportType.AD_MIL);
     }
 
 
     public isClosed(): boolean {
-        return (this.type === 'AD_CLOSED');
+        return (this.type === AirportType.AD_CLOSED);
     }
 }
 
 
-export class AirportRunway {
+export class AirportRunway extends DataItem {
     constructor(
         public name: string,
         public surface: string,
@@ -68,6 +90,8 @@ export class AirportRunway {
         public papi2: boolean,
         public position: Position2d,
         public isMil: boolean) {
+
+        super();
     }
 }
 
@@ -105,10 +129,12 @@ export class AirportChart {
 }
 
 
-export class AirportFeature {
+export class AirportFeature extends DataItem {
     constructor(
         public type: string,
         public name: string,
         public position: Position2d) {
+
+        super();
     }
 }

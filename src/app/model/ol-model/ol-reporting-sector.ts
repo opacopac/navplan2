@@ -7,7 +7,7 @@ export class OlReportingSector extends OlFeaturePolygon {
     public constructor(
         public reportingSector: Reportingsector) {
 
-        super();
+        super(reportingSector);
     }
 
 

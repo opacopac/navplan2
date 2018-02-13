@@ -7,9 +7,9 @@ import { Position2d } from '../position';
 
 export class OlUserPoint extends OlFeaturePoint {
     public constructor(
-        private userPoint: Userpoint) {
+        public userPoint: Userpoint) {
 
-        super();
+        super(userPoint);
     }
 
 

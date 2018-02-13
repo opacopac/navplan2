@@ -11,7 +11,7 @@ export class OlMetarWind extends OlFeaturePoint {
         private metarTaf: MetarTaf,
         private mapRotationRad: number) {
 
-        super();
+        super(metarTaf);
     }
 
 

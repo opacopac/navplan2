@@ -9,13 +9,14 @@ export class OlMetarSky extends OlFeaturePoint {
     public constructor(
         public metarTaf: MetarTaf) {
 
-        super();
+        super(metarTaf);
     }
 
 
     protected getPosition(): Position2d {
         return this.metarTaf.position;
     }
+
 
     protected createPointStyle(): ol.style.Style {
         let src = environment.iconBaseUrl;

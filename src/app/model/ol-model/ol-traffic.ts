@@ -1,24 +1,19 @@
+import * as ol from 'openlayers';
+import { environment } from '../../../environments/environment';
 import { UnitconversionService } from '../../services/utils/unitconversion.service';
 import { GeocalcService } from '../../services/utils/geocalc.service';
-import {OlClickableFeature, OlFeaturePoint} from './ol-feature';
+import { OlFeaturePoint} from './ol-feature';
 import { Traffic, TrafficAircraftType, TrafficPosition } from '../traffic';
-import { environment } from '../../../environments/environment';
-import * as ol from 'openlayers';
 
 
 const MAX_AGE_SEC_TRACK_DOT = 120;
 
 
-export class OlTraffic extends OlFeaturePoint implements OlClickableFeature {
+export class OlTraffic extends OlFeaturePoint {
     public constructor(
         public traffic: Traffic) {
 
-        super();
-    }
-
-
-    public onFeatureClicked() {
-        // TODO
+        super(traffic);
     }
 
 

@@ -1,14 +1,29 @@
 import * as ol from 'openlayers';
 import { Position2d } from '../position';
 import { Polygon } from '../polygon';
-
-
-export interface OlClickableFeature {
-    onFeatureClicked();
-}
+import { DataItem } from '../data-item';
 
 
 export abstract class OlFeature extends ol.Feature {
+    protected dataItem: DataItem;
+
+
+    constructor(dataItem: DataItem) {
+        super();
+        this.dataItem = dataItem;
+    }
+
+
+    public getDataItem(): DataItem {
+        return this.dataItem;
+    }
+
+
+    public setDataItem(dataItem: DataItem) {
+        this.dataItem = dataItem;
+    }
+
+
     public abstract draw(source: ol.source.Vector);
 }
 

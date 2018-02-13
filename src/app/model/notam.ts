@@ -1,4 +1,5 @@
 import { Geometry2d } from './geometry2d';
+import { DataItem } from './data-item';
 
 
 export enum NotamLocationType {
@@ -21,7 +22,7 @@ export class NotamGeometry {
 }
 
 
-export class Notam {
+export class Notam extends DataItem {
     constructor(
         public id: string, // ID of the NOTAM
         public fullNotam: string, // Full NOTAM
@@ -44,5 +45,7 @@ export class Notam {
         public modifier: string, // Decoded sub-area of last 2 letters of the Q-code
         public message: string, // Message part of the NOTAM, if available
         public geometry: NotamGeometry) {
+
+        super();
     }
 }

@@ -1,0 +1,16 @@
+<div id="map-overlay-container" class="ol-popup card text-white bg-primary mb-3" style="visibility: hidden">
+    <div class="card-header">
+        {{ this.title }}
+        <a href="#" id="feature-popup-closer" class="ol-popup-closer" (click)="closeOverlay()"></a>
+    </div>
+    <div class="card-body">
+        <app-map-overlay-airport></app-map-overlay-airport>
+        <app-map-overlay-navaid></app-map-overlay-navaid>
+        <app-map-overlay-reportingpoint></app-map-overlay-reportingpoint>
+        <app-map-overlay-reportingsector></app-map-overlay-reportingsector>
+        <app-map-overlay-userpoint></app-map-overlay-userpoint>
+        <app-map-overlay-metar-taf></app-map-overlay-metar-taf>
+        <app-map-overlay-notam></app-map-overlay-notam>
+        <app-map-overlay-traffic></app-map-overlay-traffic>
+    </div>
+</div>

@@ -8,7 +8,7 @@ export class OlReportingPoint extends OlFeaturePoint {
     public constructor(
         public reportingpoint: Reportingpoint) {
 
-        super();
+        super(reportingpoint);
     }
 
 

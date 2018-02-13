@@ -1,7 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {StringnumberService} from '../../../services/utils/stringnumber.service';
-import {UnitconversionService} from '../../../services/utils/unitconversion.service';
-import {Navaid} from '../../../model/navaid';
+import { Component, OnInit} from '@angular/core';
+import { StringnumberService } from '../../../services/utils/stringnumber.service';
+import { UnitconversionService } from '../../../services/utils/unitconversion.service';
+import { Navaid } from '../../../model/navaid';
+import { MapOverlayContent } from '../map-overlay-content';
+import { Position2d } from '../../../model/position';
+import { OlNavaid } from '../../../model/ol-model/ol-navaid';
 
 
 @Component({
@@ -9,8 +12,8 @@ import {Navaid} from '../../../model/navaid';
     templateUrl: './map-overlay-navaid.component.html',
     styleUrls: ['./map-overlay-navaid.component.css']
 })
-export class MapOverlayNavaidComponent implements OnInit {
-    @Input() navaid: Navaid;
+export class MapOverlayNavaidComponent implements OnInit, MapOverlayContent {
+    public navaid: Navaid;
 
 
     constructor() {
@@ -18,6 +21,21 @@ export class MapOverlayNavaidComponent implements OnInit {
 
 
     ngOnInit() {
+    }
+
+
+    public bindFeatureData(navaid: Navaid) {
+        this.navaid = navaid;
+    }
+
+
+    public getTitle(): string {
+        return 'Navigational Aid';
+    }
+
+
+    public getPosition(clickPos: Position2d): Position2d {
+        return this.navaid.position;
     }
 
 

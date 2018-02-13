@@ -1,20 +1,15 @@
 import { environment } from '../../../environments/environment';
 import { Position2d } from '../position';
 import { Webcam } from '../webcam';
-import { OlClickableFeature, OlFeaturePoint } from './ol-feature';
+import { OlFeaturePoint } from './ol-feature';
 import * as ol from 'openlayers';
 
 
-export class OlWebcam extends OlFeaturePoint implements OlClickableFeature {
+export class OlWebcam extends OlFeaturePoint {
     public constructor(
         private webcam: Webcam) {
 
         super(webcam);
-    }
-
-
-    public onFeatureClicked() {
-        // TODO
     }
 
 

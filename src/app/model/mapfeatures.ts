@@ -5,9 +5,10 @@ import { Reportingpoint } from './reportingpoint';
 import { Reportingsector } from './reportingsector';
 import { Userpoint } from './userpoint';
 import { Webcam } from './webcam';
+import { DataItem } from './data-item';
 
 
-export class Mapfeatures {
+export class Mapfeatures extends DataItem {
     public navaids: Navaid[];
     public airports: Airport[];
     public airspaces: Airspace[];
@@ -17,7 +18,10 @@ export class Mapfeatures {
     public webcams: Webcam[];
     private airportIcaoLookup: Airport[];
 
+
     constructor() {
+        super();
+
         this.navaids = [];
         this.airports = [];
         this.airspaces = [];

@@ -1,20 +1,15 @@
 import { environment } from '../../../environments/environment';
 import { Navaid } from '../navaid';
 import { Position2d } from '../position';
-import { OlClickableFeature, OlFeaturePoint } from './ol-feature';
+import { OlFeaturePoint } from './ol-feature';
 import * as ol from 'openlayers';
 
 
-export class OlNavaid extends OlFeaturePoint implements OlClickableFeature {
+export class OlNavaid extends OlFeaturePoint {
     public constructor(
         public navaid: Navaid) {
 
-        super();
-    }
-
-
-    public onFeatureClicked() {
-        // TODO
+        super(navaid);
     }
 
 

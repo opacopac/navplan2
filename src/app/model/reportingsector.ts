@@ -1,7 +1,8 @@
 import { Polygon } from './polygon';
+import { DataItem } from './data-item';
 
 
-export class Reportingsector {
+export class Reportingsector extends DataItem {
     constructor(
         public id: number,
         public type: string,
@@ -13,5 +14,7 @@ export class Reportingsector {
         public min_ft: number,
         public max_ft: number,
         public polygon: Polygon) {
+
+        super();
     }
 }

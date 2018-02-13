@@ -1,7 +1,8 @@
 import { Polygon } from './polygon';
+import { DataItem } from './data-item';
 
 
-export class Airspace {
+export class Airspace extends DataItem {
     constructor(
         public id: number,
         public aip_id: number,
@@ -10,6 +11,8 @@ export class Airspace {
         public name: string,
         public alt: { top: AirspaceAltitude, bottom: AirspaceAltitude },
         public polygon: Polygon) {
+
+        super();
     }
 }
 

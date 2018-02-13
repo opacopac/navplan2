@@ -9,7 +9,10 @@ import { Mapfeatures } from '../../model/mapfeatures';
 import { CachingExtentLoader } from './caching-extent-loader';
 import { Reportingsector } from '../../model/reportingsector';
 import { Airspace, AirspaceAltitude} from '../../model/airspace';
-import { Airport, AirportRunway, AirportRadio, AirportWebcam, AirportChart, AirportFeature } from '../../model/airport';
+import {
+    Airport, AirportRunway, AirportRadio, AirportWebcam, AirportChart, AirportFeature,
+    AirportType
+} from '../../model/airport';
 import { Userpoint } from '../../model/userpoint';
 import { Reportingpoint } from '../../model/reportingpoint';
 import { Webcam } from '../../model/webcam';
@@ -284,7 +287,7 @@ export class MapfeaturesService extends CachingExtentLoader<Mapfeatures> {
     private getAirportFromRestItem(restItem: AirportRestItem): Airport {
         const airport = new Airport(
             restItem.id,
-            restItem.type,
+            AirportType[restItem.type],
             restItem.name,
             restItem.icao,
             restItem.country,

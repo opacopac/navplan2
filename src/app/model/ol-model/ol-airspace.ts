@@ -7,7 +7,7 @@ export class OlAirspace extends OlFeaturePolygon {
     public constructor(
         private airspace: Airspace) {
 
-        super();
+        super(airspace);
     }
 
 
