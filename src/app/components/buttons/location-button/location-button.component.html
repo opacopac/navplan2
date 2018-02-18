@@ -1,0 +1,9 @@
+<div class="mapbutton-location">
+    <button
+        appStatusButton
+        title="start/stop tracking own position"
+        [iconClass]="'fas fa-location-arrow'"
+        [size]="ButtonSize.LARGE"
+        [status]="this.getButtonStatus()"
+        (click)="this.onLocationClicked()" ></button>
+</div>

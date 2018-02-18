@@ -17,8 +17,8 @@ import { FuelcalcComponent } from './components/fuelcalc/fuelcalc.component';
 import { EditwaypointComponent } from './components/editwaypoint/editwaypoint.component';
 import { UserprofileComponent } from './components/userprofile/userprofile.component';
 import { ForgotpwComponent } from './components/forgotpw/forgotpw.component';
-import { ZoomButtonsComponent } from './components/zoom-buttons/zoom-buttons.component';
-import { LocationButtonComponent } from './components/location-button/location-button.component';
+import { ZoomButtonsComponent } from './components/buttons/zoom-buttons/zoom-buttons.component';
+import { LocationButtonComponent } from './components/buttons/location-button/location-button.component';
 
 import { SessionService } from './services/utils/session.service';
 import { UserService } from './services/user/user.service';
@@ -34,7 +34,7 @@ import { NotamService } from './services/notam/notam.service';
 import { TimerService } from './services/utils/timer.service';
 import { LocationService } from './services/track/location.service';
 import { FlighttimerComponent } from './components/flighttimer/flighttimer.component';
-import { TrafficButtonComponent } from './components/traffic-button/traffic-button.component';
+import { TrafficButtonComponent } from './components/buttons/traffic-button/traffic-button.component';
 import { TrafficService} from './services/traffic/traffic.service';
 import { TrafficOgnService } from './services/traffic/traffic-ogn.service';
 import { TrafficAdsbexchangeService } from './services/traffic/traffic-adsbexchange.service';
@@ -57,7 +57,9 @@ import { MapOverlayButtonWebcamComponent } from './components/map-overlay/map-ov
 import { MapOverlayButtonEditUserpointComponent } from './components/map-overlay/map-overlay-button-edit-userpoint/map-overlay-button-edit-userpoint.component';
 import { MapOverlayMeteogramComponent } from './components/map-overlay/map-overlay-meteogram/map-overlay-meteogram.component';
 import { MapOverlayContainerComponent } from './components/map-overlay/map-overlay-container/map-overlay-container.component';
-import { IconButtonComponent } from './components/icon-button/icon-button.component';
+import { IconButtonDirective } from './components/buttons/icon-button.directive';
+import { StatusButtonDirective } from './components/buttons/status-button.directive';
+import { TextButtonDirective } from './components/buttons/text-button.directive';
 
 
 @NgModule({
@@ -98,7 +100,9 @@ import { IconButtonComponent } from './components/icon-button/icon-button.compon
         MapOverlayButtonEditUserpointComponent,
         MapOverlayMeteogramComponent,
         MapOverlayContainerComponent,
-        IconButtonComponent,
+        IconButtonDirective,
+        StatusButtonDirective,
+        TextButtonDirective,
     ],
     imports: [
         BrowserModule,

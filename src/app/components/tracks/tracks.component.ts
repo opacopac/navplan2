@@ -6,6 +6,7 @@ import { TrackService } from '../../services/track/track.service';
 import { Track } from '../../model/track';
 import { DatetimeService } from '../../services/utils/datetime.service';
 import { Timestamp } from '../../model/timestamp';
+import {ButtonColor, ButtonSize} from "../buttons/button-base.directive";
 
 @Component({
   selector: 'app-tracks',
@@ -17,6 +18,8 @@ export class TracksComponent implements OnInit {
     public trackList: Track[];
     public lastTrack: Track;
     public selectedTrack: Track;
+    public ButtonSize = ButtonSize;
+    public ButtonColor = ButtonColor;
 
 
     constructor(
@@ -54,7 +57,22 @@ export class TracksComponent implements OnInit {
     }
 
 
-    onTrackSelected(track: Track): void {
+    onTrackSelected(track: Track) {
+        // TODO
+    }
+
+
+    onEditTrackClicked(track: Track) {
+        // TODO
+    }
+
+
+    onRemoveTrackClicked(track: Track) {
+        // TODO
+    }
+
+
+    onKmlClicked(track: Track) {
         // TODO
     }
 }

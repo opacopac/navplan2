@@ -9,37 +9,53 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="editWpCheckpoint">Checkpoint:</label>
-                        <input type="text" class="form-control" id="editWpCheckpoint" formControlName="checkpoint" maxlength="30" />
+                        <input type="text" class="form-control form-control-md" id="editWpCheckpoint" formControlName="checkpoint" maxlength="30" />
                     </div>
                     <div class="form-group">
                         <label for="editWpFrequency">Frequency:</label>
-                        <input type="text" class="form-control" id="editWpFrequency" formControlName="freq" maxlength="7" />
+                        <input type="text" class="form-control form-control-md" id="editWpFrequency" formControlName="freq" maxlength="7" />
                     </div>
                     <div class="form-group">
                         <label for="editWpCallsign">Callsign:</label>
-                        <input type="text" class="form-control" id="editWpCallsign" formControlName="callsign" maxlength="10" />
+                        <input type="text" class="form-control form-control-md" id="editWpCallsign" formControlName="callsign" maxlength="10" />
                     </div>
                     <div class="form-group">
                         <label for="editWpAltitude">Altitude:</label>
                         <div class="form-inline">
-                            <input type="text" class="form-control" id="editWpAltitude" formControlName="alt" maxlength="5" min="0" max="99999" />
-                            <!--<div class="invalid-feedback" [ngClass]="getBsValidClass('alt')">Value must be a positive number!</div>-->
-                            <div class="btn-group"><!-- removed data-toggle="buttons" -->
-                                <label class="btn btn-secondary {{ this.editWpForm.value.isminalt ? ' active' : '' }}" (click)="onToggleCheckboxButtonClicked('isminalt')">
-                                    <input type="checkbox" formControlName="isminalt" autocomplete="off" style="display:none">min
-                                </label>
-                                <label class="btn btn-secondary {{ this.editWpForm.value.ismaxalt ? ' active' : '' }}" (click)="onToggleCheckboxButtonClicked('ismaxalt')">
-                                    <input type="checkbox" formControlName="ismaxalt" autocomplete="off" style="display:none">max
-                                </label>
+                            <div class="input-group">
+                                <input type="text" class="form-control form-control-md" id="editWpAltitude" formControlName="alt" maxlength="5" min="0" max="99999" />
+                                <!--<div class="invalid-feedback" [ngClass]="getBsValidClass('alt')">Value must be a positive number!</div>-->
+                                <div class="input-group-append">
+                                    <div class="btn-group"><!-- removed data-toggle="buttons" -->
+                                        <button appTextButton
+                                                [buttonText]="'min'"
+                                                [size]="ButtonSize.MEDIUM"
+                                                [color]="ButtonColor.GRAY"
+                                                [isPressed]="this.waypoint.alt.isminalt"
+                                                (click)="this.waypoint.alt.isminalt = !this.waypoint.alt.isminalt"></button>
+                                        <button appTextButton
+                                                [buttonText]="'max'"
+                                                [size]="ButtonSize.MEDIUM"
+                                                [color]="ButtonColor.GRAY"
+                                                [isPressed]="this.waypoint.alt.ismaxalt"
+                                                (click)="this.waypoint.alt.ismaxalt = !this.waypoint.alt.ismaxalt"></button>
+                                    </div>
+                                </div>
                             </div>
                             @
                             <div class="btn-group"><!-- removed data-toggle="buttons" -->
-                                <label class="btn btn-secondary {{ this.editWpForm.value.isaltatlegstart == '1' ? ' active' : '' }}" (click)="onToggleRadioButtonClicked('isaltatlegstart', '1')">
-                                    <input type="radio" formControlName="isaltatlegstart" value="1" autocomplete="off" style="visibility:hidden">leg start
-                                </label>
-                                <label class="btn btn-secondary {{ this.editWpForm.value.isaltatlegstart == '0' ? ' active' : '' }}" (click)="onToggleRadioButtonClicked('isaltatlegstart', '0')">
-                                    <input type="radio" formControlName="isaltatlegstart" value="0" autocomplete="off" style="visibility:hidden">leg end
-                                </label>
+                                <button appTextButton
+                                        [buttonText]="'leg start'"
+                                        [size]="ButtonSize.MEDIUM"
+                                        [color]="ButtonColor.GRAY"
+                                        [isPressed]="this.waypoint.alt.isaltatlegstart"
+                                        (click)="this.waypoint.alt.isaltatlegstart = true"></button>
+                                <button appTextButton
+                                        [buttonText]="'leg end'"
+                                        [size]="ButtonSize.MEDIUM"
+                                        [color]="ButtonColor.GRAY"
+                                        [isPressed]="!this.waypoint.alt.isaltatlegstart"
+                                        (click)="this.waypoint.alt.isaltatlegstart = false"></button>
                             </div>
                         </div>
                     </div>
@@ -49,22 +65,22 @@
                     </div>-->
                     <div class="form-group">
                         <label for="editWpRemarks">Remarks:</label>
-                        <input type="text" class="form-control" id="editWpRemarks" formControlName="remark" maxlength="50"/>
+                        <input type="text" class="form-control form-control-md" id="editWpRemarks" formControlName="remark" maxlength="50"/>
                     </div>
                     <div class="form-group">
                         <label for="editWpSuppInfo">Supplemental Info (separate line):</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="editWpSuppInfo" formControlName="supp_info" maxlength="255"/>
-                            <span class="input-group-btn">
-                                <button class="btn btn-secondary" type="button" (click)="onDeleteSuppInfoClicked()" title="delete supplemental info"><span class="fa fa-eraser" aria-hidden="true"></span></button>
-                            </span>
+                            <input type="text" class="form-control form-control-md" id="editWpSuppInfo" formControlName="supp_info" maxlength="255"/>
+                            <div class="input-group-append">
+                                <button class="btn btn-md btn-secondary" type="button" (click)="onDeleteSuppInfoClicked()" title="delete supplemental info"><span class="fas fa-eraser" aria-hidden="true"></span></button>
+                            </div>
                         </div>
-                        <!--<input type="text" class="form-control" id="editWpSuppInfo" ng-model="globalData.selectedWp.supp_info" maxlength="255" />-->
+                        <!--<input type="text" class="form-control form-control-md" id="editWpSuppInfo" ng-model="globalData.selectedWp.supp_info" maxlength="255" />-->
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" data-dismiss="modal" (click)="onSaveClicked()" [disabled]="this.editWpForm.invalid">Save</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-md btn-primary" data-dismiss="modal" (click)="onSaveClicked()" [disabled]="this.editWpForm.invalid">Save</button>
+                    <button type="button" class="btn btn-md btn-secondary" data-dismiss="modal">Cancel</button>
                 </div>
             </form>
         </div>

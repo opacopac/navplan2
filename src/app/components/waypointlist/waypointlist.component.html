@@ -26,13 +26,25 @@
             <td>{{ wp.eetText }}</td>
             <td>{{ wp.remark }}</td>
             <td>
-                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#selectedWaypointDialog" (click)="onEditWaypointClicked(wp)"><i class="fa fa-edit"></i></button>
-                <button type="button" class="btn btn-danger btn-sm" (click)="onRemoveWaypointClicked(wp)"><i class="fa fa-remove"></i></button>
+                <button appIconButton
+                        title="Edit Waypoint"
+                        [iconClass]="'fas fa-edit'"
+                        [color]="ButtonColor.ORANGE"
+                        [size]="ButtonSize.SMALL"
+                        data-toggle="modal"
+                        data-target="#selectedWaypointDialog"
+                        (click)="this.onEditWaypointClicked(wp)"></button>
+                <button appIconButton
+                        title="Remove Waypoint"
+                        [iconClass]="'fas fa-trash'"
+                        [color]="ButtonColor.RED"
+                        [size]="ButtonSize.SMALL"
+                        (click)="this.onRemoveWaypointClicked(wp)"></button>
             </td>
         </tr>
         <tr *ngIf="wp.supp_info" class="">
             <td class="text-right text-info">
-                <small><i class="fa fa-info-circle" aria-hidden="true"></i></small>
+                <small><i class="fas fa-info-circle" aria-hidden="true"></i></small>
             </td>
             <td colspan="8" ngClass=""><em>{{ wp.supp_info }}</em></td>
         </tr>
@@ -74,8 +86,20 @@
             <td>{{ this.session.flightroute.alternate.eetText }}</td>
             <td>{{ this.session.flightroute.alternate.remark }}</td>
             <td>
-                <button type="button" class="btn btn-warning btn-sm" (click)="onEditWaypointClicked(this.session.flightroute.alternate);"><i class="fa fa-edit"></i></button>
-                <button type="button" class="btn btn-danger btn-sm" (click)="onRemoveAlternateClicked();"><i class="fa fa-remove"></i></button>
+                <button appIconButton
+                        title="Edit Waypoint"
+                        [iconClass]="'fas fa-edit'"
+                        [color]="ButtonColor.ORANGE"
+                        [size]="ButtonSize.SMALL"
+                        data-toggle="modal"
+                        data-target="#selectedWaypointDialog"
+                        (click)="this.onEditWaypointClicked(this.session.flightroute.alternate)"></button>
+                <button appIconButton
+                        title="Remove Waypoint"
+                        [iconClass]="'fas fa-trash'"
+                        [color]="ButtonColor.RED"
+                        [size]="ButtonSize.SMALL"
+                        (click)="this.onRemoveAlternateClicked()"></button>
             </td>
         </tr>
         <!-- empty list -->
@@ -86,7 +110,7 @@
     </table>
     <!-- reverse waypoints button -->
     <div class="form-group pull-right">
-        <button type="button" class="btn btn-md btn-secondary" title="Reverse Waypoint Order" (click)="onReverseWaypointsClicked();"><i class="fa fa-sort"></i> Reverse Waypoints</button>&nbsp;
+        <button type="button" class="btn btn-md btn-secondary" title="Reverse Waypoint Order" (click)="onReverseWaypointsClicked();"><i class="fas fa-sort"></i> Reverse Waypoints</button>&nbsp;
     </div>
 </div>
 <!-- edit waypoint dialog -->

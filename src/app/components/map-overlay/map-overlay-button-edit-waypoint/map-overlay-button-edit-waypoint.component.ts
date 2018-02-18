@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ButtonColor, ButtonSize } from '../../buttons/button-base.directive';
 
 
 @Component({
@@ -7,6 +8,10 @@ import {Component, OnInit} from '@angular/core';
     styleUrls: ['./map-overlay-button-edit-waypoint.component.css']
 })
 export class MapOverlayButtonEditWaypointComponent implements OnInit {
+    public ButtonSize = ButtonSize;
+    public ButtonColor = ButtonColor;
+
+
     constructor() {
     }
 

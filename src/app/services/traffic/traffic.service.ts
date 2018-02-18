@@ -3,10 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { SessionService } from '../utils/session.service';
 import { Sessioncontext } from '../../model/sessioncontext';
 import { Extent } from '../../model/ol-model/extent';
-import {
-    Traffic, TrafficDataSource, TrafficAircraftType, TrafficPositionMethod,
-    TrafficPosition
-} from '../../model/traffic';
+import { Traffic, TrafficDataSource, TrafficAircraftType, TrafficPositionMethod, TrafficPosition } from '../../model/traffic';
 import { TrafficOgnService } from './traffic-ogn.service';
 import { TrafficAdsbexchangeService } from './traffic-adsbexchange.service';
 
@@ -35,6 +32,7 @@ export class TrafficService {
     private trafficMap: Map<string, Traffic>;
     private successCallback: (trafficList: Traffic[]) => void;
     private errorCallback: (message: string) => void;
+
 
     constructor(private http: HttpClient,
                 private ognService: TrafficOgnService,

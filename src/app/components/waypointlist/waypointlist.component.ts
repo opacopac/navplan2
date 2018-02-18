@@ -1,8 +1,9 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SessionService } from '../../services/utils/session.service';
 import { Sessioncontext } from '../../model/sessioncontext';
 import { EditwaypointComponent } from '../editwaypoint/editwaypoint.component';
 import { Waypoint, Waypointtype } from '../../model/waypoint';
+import { ButtonColor, ButtonSize } from '../buttons/button-base.directive';
 
 
 @Component({
@@ -13,7 +14,8 @@ import { Waypoint, Waypointtype } from '../../model/waypoint';
 export class WaypointlistComponent implements OnInit {
     public session: Sessioncontext;
     public Waypointtype = Waypointtype;
-
+    public ButtonSize = ButtonSize;
+    public ButtonColor = ButtonColor;
     @ViewChild(EditwaypointComponent) editWaypointComponent: EditwaypointComponent;
 
 

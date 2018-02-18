@@ -1,4 +1,8 @@
 <div ng-show="!globalData.selectedWp.isNew" style="margin-bottom: 5px">
-    <app-button [color]="'ORANGE'" [size]="'SMALL'" [iconClass]="'fa fa-plus'" [hoverText]="'Set Alternate'"
-                (click)="this.onSetAlternateClicked()"></app-button>&nbsp;Set Alternate
+    <button
+            appIconButton
+            [color]="ButtonColor.ORANGE"
+            [size]="ButtonSize.SMALL"
+            [iconClass]="'fas fa-plus'"
+            (click)="this.onSetAlternateClicked()"></button>&nbsp;Set Alternate
 </div>

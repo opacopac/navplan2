@@ -109,7 +109,7 @@ export class MapOverlayNotamComponent implements OnInit, MapOverlayContent {
     private getLtString(date): string {
         const datePart = date.toLocaleDateString();
         const timePart = StringnumberService.zeroPad(date.getHours()) + ':' + StringnumberService.zeroPad(date.getMinutes());
-        return datePart + ' ' + timePart + ' UTC+' + Math.round(date.getTimezoneOffset() / -60);
+        return datePart + ' ' + timePart + 'LT'; // + Math.round(date.getTimezoneOffset() / -60);
     }
 
 

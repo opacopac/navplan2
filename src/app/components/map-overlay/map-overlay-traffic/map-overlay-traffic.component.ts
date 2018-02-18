@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Traffic, TrafficAddressType } from '../../../model/traffic';
 import { MapOverlayContent } from '../map-overlay-content';
 import { Position2d } from '../../../model/position';
+import { ButtonColor, ButtonSize } from '../../buttons/button-base.directive';
 
 
 @Component({
@@ -11,6 +12,8 @@ import { Position2d } from '../../../model/position';
 })
 export class MapOverlayTrafficComponent implements OnInit, MapOverlayContent {
     public traffic: Traffic;
+    public ButtonSize = ButtonSize;
+    public ButtonColor = ButtonColor;
 
 
     constructor() {

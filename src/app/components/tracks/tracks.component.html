@@ -31,11 +31,26 @@
                 <td>{{ track.name }}</td>
                 <td><i>saved</i></td>
                 <td>
-                    <button type="button" class="btn btn-info btn-sm" ng-click="$event.preventDefault(); $event.stopPropagation(); onKmlClicked(track);" title="export kml for google earth"><i class="fa fa-globe"></i></button>
+                    <button appIconButton
+                            title="Export KML for Google Earth"
+                            [iconClass]="'fas fa-globe'"
+                            [color]="ButtonColor.BLUE"
+                            [size]="ButtonSize.SMALL"
+                            (click)="onKmlClicked(track)"></button>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-warning btn-sm" ng-click="$event.stopPropagation(); onEditTrackClicked(track);" title="edit track"><i class="fa fa-edit"></i></button>
-                    <button type="button" class="btn btn-danger btn-sm" ng-click="$event.stopPropagation(); onRemoveTrackClicked(track);" title="delete track"><i class="fa fa-remove"></i></button>
+                    <button appIconButton
+                            title="Edit Track"
+                            [iconClass]="'fas fa-edit'"
+                            [color]="ButtonColor.ORANGE"
+                            [size]="ButtonSize.SMALL"
+                            (click)="onEditTrackClicked(track)"></button>
+                    <button appIconButton
+                            title="Delete Track"
+                            [iconClass]="'fas fa-trash'"
+                            [color]="ButtonColor.RED"
+                            [size]="ButtonSize.SMALL"
+                            (click)="onRemoveTrackClicked(track)"></button>
                 </td>
             </tr>
             <!-- empty list -->

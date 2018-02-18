@@ -1,5 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Notam } from '../../../model/notam';
+import { ButtonColor, ButtonSize } from '../../buttons/button-base.directive';
+
 
 @Component({
     selector: 'app-map-overlay-button-notam',
@@ -8,6 +10,8 @@ import { Notam } from '../../../model/notam';
 })
 export class MapOverlayButtonNotamComponent implements OnInit {
     public notamList: Notam[];
+    public ButtonSize = ButtonSize;
+    public ButtonColor = ButtonColor;
 
 
     constructor() {

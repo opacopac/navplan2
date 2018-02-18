@@ -1,7 +1,10 @@
-<p>
-  map-overlay-button-webcam works!
+<p ng-repeat="webcam in globalData.selectedWp.airport.webcams">
+    <button appIconButton
+            [color]="ButtonColor.GREEN"
+            [size]="ButtonSize.SMALL"
+            [iconClass]="'fas fa-video'"
+            (click)="this.onShowMetarTaf()"></button>&nbsp;(( webcam.name ))
 </p>
-
 <!--
             <p ng-repeat="webcam in globalData.selectedWp.airport.webcams"><a href="{{ webcam.url }}"
                                                                               target="_blank"

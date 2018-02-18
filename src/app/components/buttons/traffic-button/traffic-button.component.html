@@ -1,0 +1,9 @@
+<div class="mapbutton-traffic">
+    <button
+        appStatusButton
+        title="show/hide traffic"
+        [iconClass]="'fas fa-plane'"
+        [size]="ButtonSize.LARGE"
+        [status]="this.getButtonStatus()"
+        (click)="this.onTrafficClicked()"></button>
+</div>

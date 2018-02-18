@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { MapService } from '../../services/map/map.service';
-import { TimerService } from '../../services/utils/timer.service';
-import { MessageService } from '../../services/utils/message.service';
-import { LocationService, LocationServiceStatus } from '../../services/track/location.service';
-import {
-    Traffic, TrafficAddressType, TrafficDataSource, TrafficPosition, TrafficPositionMethod,
-    TrafficAircraftType
-} from '../../model/traffic';
-import { Position4d } from '../../model/position';
+import { MapService } from '../../../services/map/map.service';
+import { TimerService } from '../../../services/utils/timer.service';
+import { MessageService } from '../../../services/utils/message.service';
+import { LocationService, LocationServiceStatus } from '../../../services/track/location.service';
+import { Traffic, TrafficAddressType, TrafficDataSource, TrafficPosition, TrafficPositionMethod, TrafficAircraftType } from '../../../model/traffic';
+import { Position4d } from '../../../model/position';
+import { ButtonColor, ButtonSize } from '../button-base.directive';
+import { ButtonStatus } from '../status-button.directive';
 
 
 @Component({
@@ -16,7 +15,9 @@ import { Position4d } from '../../model/position';
     styleUrls: ['./location-button.component.css']
 })
 export class LocationButtonComponent implements OnInit {
+    public ButtonSize = ButtonSize;
     private ownPlane: Traffic;
+
 
     constructor(
         private messageService: MessageService,
@@ -96,7 +97,22 @@ export class LocationButtonComponent implements OnInit {
     }
 
 
-    public getButtonClass(): string {
+    public getButtonStatus(): ButtonStatus {
+        switch (this.locationService.status) {
+            case LocationServiceStatus.CURRENT:
+                return ButtonStatus.OK;
+            case LocationServiceStatus.WAITING:
+                return ButtonStatus.WARNING;
+            case LocationServiceStatus.ERROR:
+                return ButtonStatus.ERROR;
+            case LocationServiceStatus.OFF:
+            default:
+                return ButtonStatus.OFF;
+        }
+    }
+
+
+    /*public getButtonClass(): string {
         const active = this.locationService.isActivated ? ' active' : '';
 
         switch (this.locationService.status) {
@@ -110,5 +126,5 @@ export class LocationButtonComponent implements OnInit {
             default:
                 return 'btn-secondary' + active;
         }
-    }
+    }*/
 }

@@ -1,0 +1,14 @@
+<div class="btn-group-vertical mapbutton-zoom">
+    <button appIconButton
+            title="zoom in"
+            [iconClass]="'fas fa-plus'"
+            [size]="ButtonSize.LARGE"
+            [color]="ButtonColor.GRAY"
+            (click)="mapService.zoomIn()"></button>
+    <button appIconButton
+            title="zoom out"
+            [iconClass]="'fas fa-minus'"
+            [size]="ButtonSize.LARGE"
+            [color]="ButtonColor.GRAY"
+            (click)="mapService.zoomOut()"></button>
+</div>

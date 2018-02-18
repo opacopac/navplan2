@@ -1,8 +1,10 @@
-import { Component, OnInit} from '@angular/core';
-import { MapService } from '../../services/map/map.service';
-import { LocationService } from '../../services/track/location.service';
-import { TrafficService, TrafficServiceStatus} from '../../services/traffic/traffic.service';
-import { Traffic } from '../../model/traffic';
+import { Component, OnInit } from '@angular/core';
+import { MapService } from '../../../services/map/map.service';
+import { LocationService } from '../../../services/track/location.service';
+import { TrafficService, TrafficServiceStatus} from '../../../services/traffic/traffic.service';
+import { Traffic } from '../../../model/traffic';
+import { ButtonStatus } from '../status-button.directive';
+import { ButtonSize } from '../button-base.directive';
 
 
 const TRAFFIC_TIMEOUT_MS = 10 * 60 * 1000;
@@ -14,6 +16,9 @@ const TRAFFIC_TIMEOUT_MS = 10 * 60 * 1000;
     styleUrls: ['./traffic-button.component.css']
 })
 export class TrafficButtonComponent implements OnInit {
+    public ButtonSize = ButtonSize;
+
+
     constructor(
         private locationService: LocationService,
         private trafficService: TrafficService,
@@ -25,19 +30,17 @@ export class TrafficButtonComponent implements OnInit {
     }
 
 
-    public getButtonClass(): string {
-        const active = this.trafficService.isActivated ? ' active' : '';
-
+    public getButtonStatus(): ButtonStatus {
         switch (this.trafficService.status) {
             case TrafficServiceStatus.CURRENT:
-                return 'btn-success' + active;
+                return ButtonStatus.OK;
             case TrafficServiceStatus.WAITING:
-                return 'btn-warning' + active;
+                return ButtonStatus.WARNING;
             case TrafficServiceStatus.ERROR:
-                return 'btn-danger' + active;
+                return ButtonStatus.ERROR;
             case TrafficServiceStatus.OFF:
             default:
-                return 'btn-secondary' + active;
+                return ButtonStatus.OFF;
         }
     }
 

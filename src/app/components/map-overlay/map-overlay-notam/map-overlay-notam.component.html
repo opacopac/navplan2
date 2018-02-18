@@ -4,7 +4,7 @@
             <tr *ngFor="let notam of this.notamList">
                 <td>
                     <h5 class="card-title">{{ this.getNotamTitle(notam) }}</h5>
-                    <small><i>{{ this.getNotamValidity(notam) }}</i></small>
+                    <small><i>{{ this.getNotamValidity(notam) }}</i> <span class="fas fa-info-circle" title="LT = Browser Time"></span></small>
                     <br />
                     <span [innerHtml]="this.getNotamText(notam)"></span>
                 </td>

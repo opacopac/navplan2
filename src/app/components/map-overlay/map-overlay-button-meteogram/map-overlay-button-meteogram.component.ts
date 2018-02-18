@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ButtonColor, ButtonSize } from '../../buttons/button-base.directive';
 
 
 @Component({
@@ -7,10 +8,19 @@ import {Component, OnInit} from '@angular/core';
     styleUrls: ['./map-overlay-button-meteogram.component.css']
 })
 export class MapOverlayButtonMeteogramComponent implements OnInit {
+    public ButtonSize = ButtonSize;
+    public ButtonColor = ButtonColor;
+
+
     constructor() {
     }
 
 
     ngOnInit() {
+    }
+
+
+    public onShowWeather() {
+        // TODO
     }
 }

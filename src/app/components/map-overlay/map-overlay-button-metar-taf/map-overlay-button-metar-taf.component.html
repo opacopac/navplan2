@@ -1,9 +1,7 @@
-<p>
-  map-overlay-button-metar-taf works!
+<p ng-show="globalData.selectedWp.airport.weatherInfo">
+    <button appIconButton
+            [color]="ButtonColor.BLUE"
+            [size]="ButtonSize.SMALL"
+            [iconClass]="'fas fa-cloud'"
+            (click)="this.onShowMetarTaf()"></button>&nbsp;METAR / TAF
 </p>
-<!--
-            <p ng-show="globalData.selectedWp.airport.weatherInfo"><a href="#"
-                                                                      ng-click="$event.preventDefault(); onShowMetarTaf();"
-                                                                      class="btn btn-info btn-circle"><i
-                    class="fa fa-cloud" aria-hidden="true"></i></a> METAR / TAF</p>
--->

@@ -9,9 +9,21 @@
                     <option [ngValue]="-1">--- Select ---</option>
                     <option *ngFor="let flightroute of this.flightrouteList" [ngValue]="flightroute.id">{{ flightroute.title }}</option>
                 </select>
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-md btn-success" title="Load Route" (click)="onLoadFlightrouteClicked()" [disabled]="!this.selectedFlightrouteId"><i class="fa fa-upload"></i></button>
-                    <button type="button" class="btn btn-md btn-danger" title="Delete Route" (click)="onDeleteFlightrouteClicked()" [disabled]="!this.selectedFlightrouteId"><i class="fa fa-trash"></i></button>
+                <span class="input-group-append">
+                    <button appIconButton
+                            title="Load Route"
+                            [iconClass]="'fas fa-upload'"
+                            [color]="ButtonColor.GREEN"
+                            [size]="ButtonSize.MEDIUM"
+                            [isDisabled]="!this.selectedFlightrouteId"
+                            (click)="onLoadFlightrouteClicked()"></button>
+                    <button appIconButton
+                            title="Delete Route"
+                            [iconClass]="'fas fa-trash'"
+                            [color]="ButtonColor.RED"
+                            [size]="ButtonSize.MEDIUM"
+                            [isDisabled]="!this.selectedFlightrouteId"
+                            (click)="onDeleteFlightrouteClicked()"></button>
                 </span>
             </div>
         </div>
@@ -23,13 +35,21 @@
             <div class="input-group">
                 <input id="flightroute_name" type="text" class="form-control form-control-md" placeholder="Enter Name"
                        [(ngModel)]="this.session.flightroute.title" maxlength="50"/>
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-md btn-info" title="Save Route (login required)"
-                          (click)="onSaveFlightrouteClicked()"
-                          [disabled]="!this.session.flightroute.title || this.sessionService.isLoggedIn()"><i class="fa fa-download"></i></button>
-                    <button type="button" class="btn btn-md btn-info" title="Save Copy of Route"
-                          (click)="onSaveFlightrouteCopyClicked()"
-                          [disabled]="!this.session.flightroute.id || !this.session.flightroute.title || this.sessionService.isLoggedIn()"><i class="fa fa-copy"></i></button>
+                <span class="input-group-append">
+                    <button appIconButton
+                            title="Save Route (login required)"
+                            [iconClass]="'fas fa-download'"
+                            [color]="ButtonColor.BLUE"
+                            [size]="ButtonSize.MEDIUM"
+                            [disabled]="!this.session.flightroute.title || this.sessionService.isLoggedIn()"
+                            (click)="onSaveFlightrouteClicked()"></button>
+                    <button appIconButton
+                            title="Save Copy of Route"
+                            [iconClass]="'fas fa-copy'"
+                            [color]="ButtonColor.BLUE"
+                            [size]="ButtonSize.MEDIUM"
+                            [disabled]="!this.session.flightroute.id || !this.session.flightroute.title || this.sessionService.isLoggedIn()"
+                            (click)="onSaveFlightrouteCopyClicked()"></button>
                 </span>
             </div>
         </div>
@@ -73,9 +93,9 @@
     <div class="form-inline">
         <div class="form-group row">
             <a id="dlPdfLink" href="#" class="btn btn-md btn-danger" title="Print Navigation Log as PDF"
-               (click)="$event.preventDefault(); onExportFlightroutePdfClicked();"><i class="fa fa-print"></i> Print PDF</a>&nbsp;
+               (click)="$event.preventDefault(); onExportFlightroutePdfClicked();"><i class="fas fa-print"></i> Print PDF</a>&nbsp;
             <a id="dlExcelLink" href="#" class="btn btn-md btn-success" title="Export Navigation Log as Excel"
-               (click)="$event.preventDefault(); onExportFlightrouteExcelClicked();"><i class="fa fa-file-excel-o"></i>&nbsp;Excel
+               (click)="$event.preventDefault(); onExportFlightrouteExcelClicked();"><i class="fas fa-file-excel"></i>&nbsp;Excel
                 Export</a>&nbsp;
         </div>
     </div>

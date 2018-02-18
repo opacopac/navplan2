@@ -19,5 +19,12 @@
         </tr>
     </table>
     <hr/>
-    <p><a href="#" (click)="onFollowSelectedTraffic()" class="btn btn-sm btn-info"><i class="fa fa-crosshairs"></i></a> Follow Aircraft on Map</p>
+    <p>
+        <button
+                appIconButton
+                [iconClass]="'fas fa-crosshairs'"
+                [size]="ButtonSize.SMALL"
+                [color]="ButtonColor.BLUE"
+                (click)="onFollowSelectedTraffic()"></button>&nbsp;Follow Aircraft on Map
+    </p>
 </div>
