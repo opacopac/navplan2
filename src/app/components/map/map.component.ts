@@ -14,6 +14,8 @@ import { OlFeature } from '../../model/ol-model/ol-feature';
 import { MetarTafList} from '../../model/metar-taf';
 import { NotamList } from '../../model/notam';
 import { MapOverlayContainerComponent } from '../map-overlay/map-overlay-container/map-overlay-container.component';
+import {OlAirport} from "../../model/ol-model/ol-airport";
+import {OlWebcam} from "../../model/ol-model/ol-webcam";
 
 
 const NAVBAR_HEIGHT_PX = 54;

@@ -19,25 +19,6 @@ import { UserprofileComponent } from './components/userprofile/userprofile.compo
 import { ForgotpwComponent } from './components/forgotpw/forgotpw.component';
 import { ZoomButtonsComponent } from './components/buttons/zoom-buttons/zoom-buttons.component';
 import { LocationButtonComponent } from './components/buttons/location-button/location-button.component';
-
-import { SessionService } from './services/utils/session.service';
-import { UserService } from './services/user/user.service';
-import { MessageService } from './services/utils/message.service';
-import { TrackService } from './services/track/track.service';
-import { FlightrouteService } from './services/flightroute/flightroute.service';
-import { StringnumberService } from './services/utils/stringnumber.service';
-import { DatetimeService } from './services/utils/datetime.service';
-import { MapService } from './services/map/map.service';
-import { MapfeaturesService } from './services/map/mapfeatures.service';
-import { MetarTafService } from './services/meteo/metar-taf.service';
-import { NotamService } from './services/notam/notam.service';
-import { TimerService } from './services/utils/timer.service';
-import { LocationService } from './services/track/location.service';
-import { FlighttimerComponent } from './components/flighttimer/flighttimer.component';
-import { TrafficButtonComponent } from './components/buttons/traffic-button/traffic-button.component';
-import { TrafficService} from './services/traffic/traffic.service';
-import { TrafficOgnService } from './services/traffic/traffic-ogn.service';
-import { TrafficAdsbexchangeService } from './services/traffic/traffic-adsbexchange.service';
 import { MapOverlayMetarTafComponent } from './components/map-overlay/map-overlay-metar-taf/map-overlay-metar-taf.component';
 import { MapOverlayTrafficComponent } from './components/map-overlay/map-overlay-traffic/map-overlay-traffic.component';
 import { MapOverlayNotamComponent } from './components/map-overlay/map-overlay-notam/map-overlay-notam.component';
@@ -57,9 +38,30 @@ import { MapOverlayButtonWebcamComponent } from './components/map-overlay/map-ov
 import { MapOverlayButtonEditUserpointComponent } from './components/map-overlay/map-overlay-button-edit-userpoint/map-overlay-button-edit-userpoint.component';
 import { MapOverlayMeteogramComponent } from './components/map-overlay/map-overlay-meteogram/map-overlay-meteogram.component';
 import { MapOverlayContainerComponent } from './components/map-overlay/map-overlay-container/map-overlay-container.component';
+import { FlighttimerComponent } from './components/flighttimer/flighttimer.component';
+import { TrafficButtonComponent } from './components/buttons/traffic-button/traffic-button.component';
+import { SearchBoxComponent } from './components/search-box/search-box.component';
 import { IconButtonDirective } from './components/buttons/icon-button.directive';
 import { StatusButtonDirective } from './components/buttons/status-button.directive';
 import { TextButtonDirective } from './components/buttons/text-button.directive';
+import { ButtonBaseDirective } from './components/buttons/button-base.directive';
+import { SessionService } from './services/utils/session.service';
+import { UserService } from './services/user/user.service';
+import { MessageService } from './services/utils/message.service';
+import { TrackService } from './services/track/track.service';
+import { FlightrouteService } from './services/flightroute/flightroute.service';
+import { StringnumberService } from './services/utils/stringnumber.service';
+import { DatetimeService } from './services/utils/datetime.service';
+import { MapService } from './services/map/map.service';
+import { MapfeaturesService } from './services/map/mapfeatures.service';
+import { MetarTafService } from './services/meteo/metar-taf.service';
+import { NotamService } from './services/notam/notam.service';
+import { TimerService } from './services/utils/timer.service';
+import { LocationService } from './services/track/location.service';
+import { TrafficService} from './services/traffic/traffic.service';
+import { TrafficOgnService } from './services/traffic/traffic-ogn.service';
+import { TrafficAdsbexchangeService } from './services/traffic/traffic-adsbexchange.service';
+import { SearchService } from './services/search/search.service';
 
 
 @NgModule({
@@ -100,9 +102,11 @@ import { TextButtonDirective } from './components/buttons/text-button.directive'
         MapOverlayButtonEditUserpointComponent,
         MapOverlayMeteogramComponent,
         MapOverlayContainerComponent,
+        ButtonBaseDirective,
         IconButtonDirective,
         StatusButtonDirective,
         TextButtonDirective,
+        SearchBoxComponent,
     ],
     imports: [
         BrowserModule,
@@ -110,7 +114,7 @@ import { TextButtonDirective } from './components/buttons/text-button.directive'
         ReactiveFormsModule,
         AppRoutingModule,
         HttpClientModule,
-        HttpClientJsonpModule
+        HttpClientJsonpModule,
     ],
     providers: [
         SessionService,
@@ -128,7 +132,8 @@ import { TextButtonDirective } from './components/buttons/text-button.directive'
         LocationService,
         TrafficService,
         TrafficOgnService,
-        TrafficAdsbexchangeService
+        TrafficAdsbexchangeService,
+        SearchService
     ],
     bootstrap: [ AppComponent ]
 })

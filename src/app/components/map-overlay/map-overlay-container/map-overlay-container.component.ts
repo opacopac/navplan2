@@ -18,6 +18,7 @@ import { OlReportingPoint } from '../../../model/ol-model/ol-reporting-point';
 import { OlNotam } from '../../../model/ol-model/ol-notam';
 import { OlAirport } from '../../../model/ol-model/ol-airport';
 import { OlTraffic } from '../../../model/ol-model/ol-traffic';
+import { OlWebcam } from '../../../model/ol-model/ol-webcam';
 import { Position2d } from '../../../model/position';
 import { MapOverlayContent } from '../map-overlay-content';
 
@@ -69,6 +70,10 @@ export class MapOverlayContainerComponent implements OnInit {
             this.currentOverlayContent = this.mapOverlayNotamComponent;
         } else if (olFeature instanceof OlTraffic) {
             this.currentOverlayContent = this.mapOverlayTrafficComponent;
+        } else if (olFeature instanceof OlWebcam) {
+            const url = (olFeature as OlWebcam).webcam.url;
+            window.open(url, '_blank');
+            return;
         } else {
             return;
         }

@@ -1,0 +1,18 @@
+.mapsearch {
+    position: absolute;
+    top: 10px;
+    left: 55px;
+    z-index: 20;
+    opacity: 0.8;
+    max-width: 90%;
+}
+
+
+.list-group-item {
+    padding: 0.375rem 0.75rem;
+}
+
+
+.list-group-item.active {
+    background-color: #1c1e22;
+}

@@ -7,7 +7,7 @@ import * as ol from 'openlayers';
 
 export class OlWebcam extends OlFeaturePoint {
     public constructor(
-        private webcam: Webcam) {
+        public webcam: Webcam) {
 
         super(webcam);
     }

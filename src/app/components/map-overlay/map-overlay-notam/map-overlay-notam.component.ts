@@ -93,6 +93,13 @@ export class MapOverlayNotamComponent implements OnInit, MapOverlayContent {
     }
 
 
+    public getTimezoneOffsetString(): string {
+        const d = new Date();
+        const offset = -Math.round(d.getTimezoneOffset() / 6.0) / 10.0;
+        return 'UTC' + (offset >= 0 ? '+' : '') + offset;
+    }
+
+
     private getUtcDate(result): Date {
         const d = new Date(Date.UTC(
             parseInt('20' + result[2], 10),
@@ -109,7 +116,7 @@ export class MapOverlayNotamComponent implements OnInit, MapOverlayContent {
     private getLtString(date): string {
         const datePart = date.toLocaleDateString();
         const timePart = StringnumberService.zeroPad(date.getHours()) + ':' + StringnumberService.zeroPad(date.getMinutes());
-        return datePart + ' ' + timePart + 'LT'; // + Math.round(date.getTimezoneOffset() / -60);
+        return datePart + ' ' + timePart + ' LT'; // + Math.round(date.getTimezoneOffset() / -60);
     }
 
 

@@ -1,14 +1,12 @@
-<div *ngIf="this.notamList && this.notamList.length > 0">
-    <div class="table-notam">
-        <table classXXX="table table-striped table-condensed">
-            <tr *ngFor="let notam of this.notamList">
-                <td>
-                    <h5 class="card-title">{{ this.getNotamTitle(notam) }}</h5>
-                    <small><i>{{ this.getNotamValidity(notam) }}</i> <span class="fas fa-info-circle" title="LT = Browser Time"></span></small>
-                    <br />
-                    <span [innerHtml]="this.getNotamText(notam)"></span>
-                </td>
-            </tr>
-        </table>
-    </div>
+<div *ngIf="this.notamList && this.notamList.length > 0" class="ol-popup-notam">
+    <table class="table table-striped table-condensed">
+        <tr *ngFor="let notam of this.notamList">
+            <td>
+                <div class="float-right"><small><i>{{ this.getNotamValidity(notam) }}</i>
+                        <span class="fas fa-info-circle" title="LT = Browser Time ({{ this.getTimezoneOffsetString() }})"></span></small></div>
+                <h5 class="card-title">{{ this.getNotamTitle(notam) }}</h5>
+                <span [innerHtml]="this.getNotamText(notam)"></span>
+            </td>
+        </tr>
+    </table>
 </div>

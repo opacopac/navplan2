@@ -1,12 +1,14 @@
 /* COMPONENT POSITIONS */
 
 .nonmapcontent {
-    margin-top: 10px;
+    margin-top: 0.625rem;
 }
+
 
 hr {
     border-top: 1px solid rgba(255,255,255,0.3);
 }
+
 
 button[appStatusButton].btn-lg,
 button[appIconButton].btn-lg {
@@ -16,6 +18,7 @@ button[appIconButton].btn-lg {
     padding-right: 0;
 }
 
+
 button[appStatusButton].btn-md,
 button[appIconButton].btn-md {
     /* 37px */
@@ -24,12 +27,18 @@ button[appIconButton].btn-md {
     padding-right: 0;
 }
 
+
 button[appStatusButton].btn-sm,
 button[appIconButton].btn-sm {
     /* 29px */
     width: 1.8125rem;
     padding-left: 0;
     padding-right: 0;
+}
+
+
+.map-overlay-button {
+    margin-bottom: 0.3125rem;
 }
 
 
@@ -42,6 +51,13 @@ button[appIconButton].btn-sm {
     border-radius: 0.2rem;
 }
 
+
+.col-form-label-md {
+    padding-top: calc(0.375rem + 1px);
+    padding-bottom: calc(0.375rem + 1px);
+    font-size: 0.99609375rem;
+    line-height: 1.5;
+}
 
 .form-control-md, .input-group-md > .form-control,
 .input-group-md > .input-group-prepend > .input-group-text,
@@ -62,6 +78,7 @@ select.form-control-md:not([size]):not([multiple]), .input-group-md > select.for
 .input-group-md > .input-group-append > select.btn:not([size]):not([multiple]) {
     height: calc(2.244140625rem + 2px);
 }
+
 
 /* endregion */
 
@@ -90,55 +107,6 @@ select.form-control-md:not([size]):not([multiple]), .input-group-md > select.for
 /* endregion */
 
 
-/* region: ol popup */
-
-.ol-popup {
-    position: absolute;
-    user-select: text;
-    /*background-color: rgba(39, 43, 48, 0.9);
-    -webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
-    filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
-    padding: 15px;
-    border-radius: 10px;
-    border: 1px solid #000000;*/
-    bottom: 12px;
-    left: -50px;
-    min-width: 300px;
-    max-width: 600px;
-    /*max-width: 95%;*/
-    opacity: 0.9;
-    /*line-height: 1.0;*/
-}
-
-
-
-.ol-popup:after, .ol-popup:before {
-    top: 100%;
-    border: solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-}
-
-.ol-popup:before {
-    /*border-top-color: rgba(39, 43, 48, 0.8);*/
-    border-top-color: #3A3F44;
-    border-width: 11px;
-    left: 48px;
-    margin-left: -11px;
-}
-
-.ol-popup:after {
-    /*border-top-color: rgba(39, 43, 48, 0.9);*/
-    border-top-color: #3A3F44;
-    border-width: 10px;
-    left: 48px;
-    margin-left: -10px;
-}
-
-/* endregion */
 
 /* endregion */
 

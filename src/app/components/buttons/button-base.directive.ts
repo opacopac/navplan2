@@ -22,7 +22,7 @@ export enum ButtonColor {
 @Directive({
     selector: '[appButtonBase]'
 })
-export abstract class ButtonBaseDirective implements OnInit, OnChanges {
+export class ButtonBaseDirective implements OnInit, OnChanges {
     @Input() size: ButtonSize;
     @Input() color: ButtonColor;
     @Input() isDisabled: boolean;

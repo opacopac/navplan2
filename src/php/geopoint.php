@@ -1,7 +1,16 @@
 <?php
-require_once "config.php";
-require_once "helper.php";
-require_once "terrainHelper.php";
+require_once __DIR__ . "/config.php";
+require_once __DIR__ . "/helper.php";
+require_once __DIR__ . "/terrainHelper.php";
+require_once __DIR__ . "/search/SearchItemAirport.php";
+require_once __DIR__ . "/search/SearchItemNavaid.php";
+require_once __DIR__ . "/search/SearchItemReportingPoint.php";
+require_once __DIR__ . "/search/SearchItemUserPoint.php";
+require_once __DIR__ . "/search/SearchItemGeoname.php";
+
+
+const MAX_TEXT_SEARCH_RESULTS = 25;
+const MAX_TEXT_SEARCH_RESULTS_PER_ENTITY = 10;
 
 $conn = openDb();
 
@@ -11,7 +20,16 @@ switch($_GET["action"])
         searchByName(
             checkEscapeString($conn, $_GET["search"], 1, 100),
             $_COOKIE["email"] ? checkEscapeEmail($conn, $_COOKIE["email"]) : NULL,
-            $_COOKIE["token"] ? checkEscapeToken($conn, $_COOKIE["token"]) : NULL
+            $_COOKIE["token"] ? checkEscapeToken($conn, $_COOKIE["token"]) : NULL,
+            checkString($_GET["callback"], 1, 50)
+        );
+        break;
+    case "searchByName2":
+        searchByName2(
+            checkEscapeString($conn, $_GET["search"], 1, 100),
+            $_COOKIE["email"] ? checkEscapeEmail($conn, $_COOKIE["email"]) : NULL,
+            $_COOKIE["token"] ? checkEscapeToken($conn, $_COOKIE["token"]) : NULL,
+            checkString($_GET["callback"], 1, 50)
         );
         break;
     case "searchByPosition":
@@ -22,7 +40,8 @@ switch($_GET["action"])
             checkNumeric($_GET["minnotamtime"]),
             checkNumeric($_GET["maxnotamtime"]),
             $_COOKIE["email"] ? checkEscapeEmail($conn, $_COOKIE["email"]) : NULL,
-            $_COOKIE["token"] ? checkEscapeToken($conn, $_COOKIE["token"]) : NULL
+            $_COOKIE["token"] ? checkEscapeToken($conn, $_COOKIE["token"]) : NULL,
+            checkString($_GET["callback"], 1, 50)
         );
         break;
     default:
@@ -30,7 +49,72 @@ switch($_GET["action"])
 }
 
 
-function searchByName($search, $email, $token)
+function searchByName2($search, $email, $token, $callback)
+{
+    global $conn;
+    $resultNum = 0;
+
+    // search airports
+    $airports = SearchItemAirport::searchByText($conn, $search, getMaxResults($resultNum), $email);
+    $resultNum += count($airports);
+
+    // search reporting points
+    if ($resultNum < MAX_TEXT_SEARCH_RESULTS) {
+        $navaids = SearchItemNavaid::searchByText($conn, $search, getMaxResults($resultNum));
+        $resultNum += count($navaids);
+    } else {
+        $navaids = [];
+    }
+
+    // search reporting points
+    if ($resultNum < MAX_TEXT_SEARCH_RESULTS) {
+        $reportingPoints = SearchItemReportingPoint::searchByText($conn, $search, getMaxResults($resultNum));
+        $resultNum += count($reportingPoints);
+    } else {
+        $reportingPoints = [];
+    }
+
+    // search user points
+    if ($resultNum < MAX_TEXT_SEARCH_RESULTS && $email && $token) {
+        $userPoints = SearchItemUserPoint::searchByText($conn, $search, getMaxResults($resultNum), $email, $token);
+        $resultNum += count($userPoints);
+    } else {
+        $userPoints = [];
+    }
+
+    // search geonames
+    if ($resultNum < MAX_TEXT_SEARCH_RESULTS) {
+        $geonames = SearchItemGeoname::searchByText($conn, $search, getMaxResults($resultNum));
+        $resultNum += count($geonames);
+    } else {
+        $geonames = [];
+    }
+
+    $searchResults = array(
+        "airports" => $airports,
+        "navaids" => $navaids,
+        "reportingpoints" => $reportingPoints,
+        "userpoints" => $userPoints,
+        "geonames" => $geonames,
+        "notams" => []
+    );
+
+    // create jsonp response
+    header("Content-Type: application/json; charset=UTF-8");
+    echo $callback . "(";
+    echo json_encode($searchResults, JSON_NUMERIC_CHECK);
+    echo ")";
+
+    $conn->close();
+}
+
+
+function getMaxResults($resultNum) {
+    return min(MAX_TEXT_SEARCH_RESULTS - $resultNum, MAX_TEXT_SEARCH_RESULTS_PER_ENTITY);
+}
+
+
+function searchByName($search, $email, $token, $callback)
 {
     global $conn;
 
@@ -168,14 +252,19 @@ function searchByName($search, $email, $token)
     $geonamesList = buildGeonamesList($result, true, null);
 
     // build return object
-    print json_encode(array("geonames" => $geonamesList, "notams" => []), JSON_NUMERIC_CHECK);
+    //print json_encode(array("geonames" => $geonamesList, "notams" => []), JSON_NUMERIC_CHECK);
 
+    // create jsonp response
+    header("Content-Type: application/json; charset=UTF-8");
+    echo $callback . "(";
+    echo json_encode(array("geonames" => $geonamesList, "notams" => []), JSON_NUMERIC_CHECK);
+    echo ")";
 
     $conn->close();
 }
 
 
-function searchByPosition($lat, $lon, $rad, $minNotamTime, $maxNotamTime, $email, $token)
+function searchByPosition($lat, $lon, $rad, $minNotamTime, $maxNotamTime, $email, $token, $callback)
 {
     global $conn;
 
@@ -259,7 +348,13 @@ function searchByPosition($lat, $lon, $rad, $minNotamTime, $maxNotamTime, $email
 
 
     // build return object
-    print json_encode(array("geonames" => $geonamesList, "notams" => $notamList), JSON_NUMERIC_CHECK);
+    //print json_encode(array("geonames" => $geonamesList, "notams" => $notamList), JSON_NUMERIC_CHECK);
+
+    // create jsonp response
+    header("Content-Type: application/json; charset=UTF-8");
+    echo $callback . "(";
+    echo json_encode(array("geonames" => $geonamesList, "notams" => $notamList), JSON_NUMERIC_CHECK);
+    echo ")";
 
 
     $conn->close();

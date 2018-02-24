@@ -1,4 +1,4 @@
-<div *ngIf="this.airport">
+<div *ngIf="this.airport" class="ol-popup-airport">
     <div>
         <h5>{{ this.airport.name }}<span *ngIf="this.airport.icao"> ({{ this.airport.icao }})</span></h5>
         <p>{{ this.getPositionString() }}</p>
@@ -7,7 +7,7 @@
             <button class="btn btn-link btn-sm" (click)="onToggleElementClicked('#ad_details')">Runways / Frequencies &raquo;</button>
         </p>
         <div id="ad_details" class="collapse">
-            <table class="table table-striped table-condensed">
+            <table class="table table-sm table-striped table-condensed">
                 <tr>
                     <th>Runway</th>
                     <th>Surface</th>
@@ -25,7 +25,7 @@
                     <td>{{ runway.papi1 ? 'y' : '-' }} / {{ runway.papi2 ? 'y' : '-' }}</td>
                 </tr>
             </table>
-            <table class="table table-striped table-condensed" *ngIf="this.airport.hasRadios()">
+            <table class="table table-sm table-striped table-condensed" *ngIf="this.airport.hasRadios()">
                 <tr>
                     <th colspan="2">Frequency</th>
                 </tr>
@@ -56,7 +56,7 @@
         <app-map-overlay-button-notam></app-map-overlay-button-notam>
         <app-map-overlay-button-metar-taf></app-map-overlay-button-metar-taf>
         <app-map-overlay-button-meteogram></app-map-overlay-button-meteogram>
-        <app-map-overlay-button-webcam></app-map-overlay-button-webcam>
+        <app-map-overlay-button-webcam *ngFor="let webcam of this.airport.webcams" [webcam]="webcam"></app-map-overlay-button-webcam>
         <hr/>
         <app-map-overlay-button-add-to-route></app-map-overlay-button-add-to-route>
         <app-map-overlay-button-set-alternate></app-map-overlay-button-set-alternate>

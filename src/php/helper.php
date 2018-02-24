@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . "/services/DbService.php";
+
 
 //region CONSTANTS
 
@@ -13,25 +15,35 @@ const TMP_DIR_TIMEOUT_SEC = 300;
 
 function openDb()
 {
-    global $db_host, $db_user, $db_pw, $db_name;
+    return DbService::openDb();
+    /*global $db_host, $db_user, $db_pw, $db_name;
 
     // open db connection
     $conn = new mysqli($db_host, $db_user, $db_pw, $db_name);
     $conn->set_charset("utf8");
 
-    return $conn;
+    return $conn;*/
 }
 
 
 function getDbTimeString($timestamp)
 {
-    return date("Y-m-d H:i:s", $timestamp);
+    return DbService::getDbTimeString($timestamp);
+    //return date("Y-m-d H:i:s", $timestamp);
+}
+
+
+function getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat)
+{
+    return DbService::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
+    //return "ST_GeomFromText('POLYGON((" . $minLon . " " . $minLat . "," . $maxLon . " " . $minLat . "," . $maxLon . " " . $maxLat . "," . $minLon . " " . $maxLat . "," . $minLon . " " . $minLat . "))')";
 }
 
 
 function getDbPolygonString($lonLatList)
 {
-    $lonLatStrings = [];
+    return DbService::getDbPolygonString($lonLatList);
+    /*$lonLatStrings = [];
 
     foreach ($lonLatList as $lonLat)
         $lonLatStrings[] = join(" ", $lonLat);
@@ -41,13 +53,14 @@ function getDbPolygonString($lonLatList)
 
     $polyString = "ST_GeomFromText('POLYGON((" . join(",", $lonLatStrings) . "))')";
 
-    return $polyString;
+    return $polyString;*/
 }
 
 
 function getDbMultiPolygonString($polygonList)
 {
-    $polyStrings = [];
+    return DbService::getDbMultiPolygonString($polygonList);
+    /*$polyStrings = [];
     foreach ($polygonList as $polygon)
     {
         $lonLatStrings = [];
@@ -62,14 +75,15 @@ function getDbMultiPolygonString($polygonList)
 
     $multiPolyString = "ST_GeomFromText('MULTIPOLYGON(" . join(",", $polyStrings) . ")')";
 
-    return $multiPolyString;
+    return $multiPolyString;*/
 }
 
 
 // retrieve lon lat from the format: POINT(-76.867 38.8108)
 function parseLonLatFromDbPoint($dbPointString)
 {
-    $decimalRegExpPart = '([\-\+]?\d+\.?\d*)';
+    return DbService::parseLonLatFromDbPoint($dbPointString);
+    /*$decimalRegExpPart = '([\-\+]?\d+\.?\d*)';
     $dbPointRegexp = '/POINT\(\s*' . $decimalRegExpPart . '\s+' . $decimalRegExpPart . '\s*\)/im';
 
     $result = preg_match($dbPointRegexp, $dbPointString, $matches);
@@ -79,13 +93,14 @@ function parseLonLatFromDbPoint($dbPointString)
 
     $lonLat = [ floatval($matches[1]), floatval($matches[2]) ];
 
-    return $lonLat;
+    return $lonLat;*/
 }
 
 
 function getDbPointStringFromLonLat($lonLat)
 {
-    return "ST_GeomFromText('POINT(" . $lonLat[0]  . " " . $lonLat[1] . ")')";
+    return DbService::getDbPointStringFromLonLat($lonLat);
+    //return "ST_GeomFromText('POINT(" . $lonLat[0]  . " " . $lonLat[1] . ")')";
 }
 
 

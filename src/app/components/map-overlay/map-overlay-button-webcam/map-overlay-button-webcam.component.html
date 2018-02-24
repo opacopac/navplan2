@@ -1,10 +1,10 @@
-<p ng-repeat="webcam in globalData.selectedWp.airport.webcams">
+<div class="map-overlay-button">
     <button appIconButton
             [color]="ButtonColor.GREEN"
             [size]="ButtonSize.SMALL"
             [iconClass]="'fas fa-video'"
-            (click)="this.onShowMetarTaf()"></button>&nbsp;(( webcam.name ))
-</p>
+            (click)="this.onWebcamClicked()"></button>&nbsp;{{ this.webcam.name }}
+</div>
 <!--
             <p ng-repeat="webcam in globalData.selectedWp.airport.webcams"><a href="{{ webcam.url }}"
                                                                               target="_blank"
