@@ -55,12 +55,12 @@ function searchByName2($search, $email, $token, $callback)
     $resultNum = 0;
 
     // search airports
-    $airports = SearchItemAirport::searchByText($conn, $search, getMaxResults($resultNum), $email);
+    $airports = SearchItemAirport::searchByText($conn, $search, getMaxTextResults($resultNum), $email);
     $resultNum += count($airports);
 
     // search reporting points
     if ($resultNum < MAX_TEXT_SEARCH_RESULTS) {
-        $navaids = SearchItemNavaid::searchByText($conn, $search, getMaxResults($resultNum));
+        $navaids = SearchItemNavaid::searchByText($conn, $search, getMaxTextResults($resultNum));
         $resultNum += count($navaids);
     } else {
         $navaids = [];
@@ -68,7 +68,7 @@ function searchByName2($search, $email, $token, $callback)
 
     // search reporting points
     if ($resultNum < MAX_TEXT_SEARCH_RESULTS) {
-        $reportingPoints = SearchItemReportingPoint::searchByText($conn, $search, getMaxResults($resultNum));
+        $reportingPoints = SearchItemReportingPoint::searchByText($conn, $search, getMaxTextResults($resultNum));
         $resultNum += count($reportingPoints);
     } else {
         $reportingPoints = [];
@@ -76,7 +76,7 @@ function searchByName2($search, $email, $token, $callback)
 
     // search user points
     if ($resultNum < MAX_TEXT_SEARCH_RESULTS && $email && $token) {
-        $userPoints = SearchItemUserPoint::searchByText($conn, $search, getMaxResults($resultNum), $email, $token);
+        $userPoints = SearchItemUserPoint::searchByText($conn, $search, getMaxTextResults($resultNum), $email, $token);
         $resultNum += count($userPoints);
     } else {
         $userPoints = [];
@@ -84,7 +84,7 @@ function searchByName2($search, $email, $token, $callback)
 
     // search geonames
     if ($resultNum < MAX_TEXT_SEARCH_RESULTS) {
-        $geonames = SearchItemGeoname::searchByText($conn, $search, getMaxResults($resultNum));
+        $geonames = SearchItemGeoname::searchByText($conn, $search, getMaxTextResults($resultNum));
         $resultNum += count($geonames);
     } else {
         $geonames = [];

@@ -4,13 +4,29 @@ require_once __DIR__ . "/../terrainHelper.php";
 
 class SearchItemGeoname
 {
-    public static function searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat) {
-        die("not implemented");
-    }
+    public static function searchByPosition($conn, $lon, $lat, $maxRadius_deg, $maxResults) {
+        $query = "SELECT geo.*,";
+        $query .= "  cod1.name AS admin1_name,";
+        $query .= "  cod2.name AS admin2_name";
+        $query .= " FROM geonames AS geo";
+        $query .= "  LEFT JOIN geonames_admin1codes AS cod1";
+        $query .= "    ON cod1.geonames_key = CONCAT(geo.country_code, '.', geo.admin1_code)";
+        $query .= "  LEFT JOIN geonames_admin2codes AS cod2";
+        $query .= "    ON cod2.geonames_key = CONCAT(geo.country_code, '.', geo.admin1_code, '.' , geo.admin2_code)";
+        $query .= " WHERE";
+        $query .= "  latitude > " . ($lat - $maxRadius_deg);
+        $query .= "  AND latitude < " . ($lat + $maxRadius_deg);
+        $query .= "  AND longitude > " . ($lon - $maxRadius_deg);
+        $query .= "  AND longitude < " . ($lon + $maxRadius_deg);
+        $query .= "  AND " . self::getGeonamesFilterQuery();
+        $query .= " ORDER BY";
+        $query .= "  ((latitude - " . $lat . ") * (latitude - " . $lat . ") + (longitude - " . $lon . ") * (longitude - " . $lon . ")) ASC";
+        $query .= " LIMIT " . $maxResults;
 
+        $result = DbService::execMultiResultQuery($conn, $query, "error searching geonames by position");
+        $terrainHelper = new TerrainHelper();
 
-    public static function searchByReference($conn, $ref) {
-        die("not implemented");
+        return self::readGeonamesFromResultList($result, $terrainHelper, true, null);
     }
 
 
@@ -29,7 +45,7 @@ class SearchItemGeoname
         $query .= " ORDER BY CASE WHEN geo.country_code = 'CH' THEN 1 ELSE 2 END ASC, geo.population DESC";
         $query .= " LIMIT " . $maxResults;
 
-        $result = DbService::execMultiResultQuery($conn, $query, "error searching geonames");
+        $result = DbService::execMultiResultQuery($conn, $query, "error searching geonames by text");
         $terrainHelper = new TerrainHelper();
 
         return self::readGeonamesFromResultList($result, $terrainHelper, true, null);
@@ -61,7 +77,7 @@ class SearchItemGeoname
         }
 
         if ($renameDuplicates) {
-            $duplicateIdx = findDuplicates($geonames);
+            $duplicateIdx = self::findDuplicates($geonames);
 
             for ($i = 0; $i < count($geonames); $i++) {
                 if ($geonames[$i]["type"] != "geoname")
@@ -97,6 +113,41 @@ class SearchItemGeoname
         }*/
 
         return $geonames;
+    }
+
+
+    private static function findDuplicates($geonames) {
+        $duplicateNameIdx = array();
+        $duplicateAdmin1Idx = array();
+
+        // check for duplicate names
+        for ($i = 0; $i < count($geonames) - 1; $i++)
+        {
+            if ($geonames[$i]["type"] != "geoname")
+                continue;
+
+            for ($j = $i + 1; $j < count($geonames); $j++)
+            {
+                if ($i == $j || $geonames[$j]["type"] != "geoname")
+                    continue;
+
+                if ($geonames[$i]["name"] == $geonames[$j]["name"])
+                {
+                    if ($geonames[$i]["admin1"] == $geonames[$j]["admin1"])
+                    {
+                        array_push($duplicateAdmin1Idx, $i);
+                        array_push($duplicateAdmin1Idx, $j);
+                    }
+                    else
+                    {
+                        array_push($duplicateNameIdx, $i);
+                        array_push($duplicateNameIdx, $j);
+                    }
+                }
+            }
+        }
+
+        return array("nameidx" => $duplicateNameIdx, "admin1idx" => $duplicateAdmin1Idx);
     }
 
 

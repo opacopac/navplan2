@@ -106,7 +106,7 @@ export class SearchBoxComponent implements OnInit {
         const query = this.searchQuery.trim();
 
         if (query.length >= MIN_QUERY_LENGTH) {
-            this.searchService.searchByQuery(query, this.onSearchSuccess.bind(this), this.onSearchError.bind(this));
+            this.searchService.searchByText(query, this.onSearchSuccess.bind(this), this.onSearchError.bind(this));
         }
     }
 

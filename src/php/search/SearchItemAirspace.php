@@ -18,17 +18,18 @@ class SearchItemAirspace {
 
         $result = DbService::execMultiResultQuery($conn, $query, "error reading airspaces");
 
+        return self::readAirspaceFromResultList($result);
+    }
+
+
+    private static function readAirspaceFromResultList($result)
+    {
         $airspaces = [];
         while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
             $airspaces[$rs["aip_id"]] = self::readAirspaceFromResult($rs);
         }
 
         return $airspaces;
-    }
-
-
-    public static function searchById($conn, $id) {
-        // TODO: Implement SearchByReference() method.
     }
 
 

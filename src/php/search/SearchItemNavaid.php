@@ -9,18 +9,25 @@ class SearchItemNavaid {
         $query .= " FROM openaip_navaids";
         $query .= " WHERE MBRIntersects(lonlat, " . $extent . ")";
 
-        $result = DbService::execMultiResultQuery($conn, $query, "error reading navaids");
+        $result = DbService::execMultiResultQuery($conn, $query, "error searching navaids by extent");
 
         return self::readNavaidFromResultList($result);
     }
 
 
-    public static function searchByReference($conn, $ref) {
+    public static function searchByPosition($conn, $lon, $lat, $maxResults, $maxRadius_deg) {
         $query = "SELECT *";
         $query .= " FROM openaip_navaids";
-        $query .= " WHERE id = '" . $ref . "'";
+        $query .= " WHERE";
+        $query .= "  latitude > " . ($lat - $maxRadius_deg);
+        $query .= "  AND latitude < " . ($lat + $maxRadius_deg);
+        $query .= "  AND longitude > " . ($lon - $maxRadius_deg);
+        $query .= "  AND longitude < " . ($lon + $maxRadius_deg);
+        $query .= " ORDER BY";
+        $query .= "  ((latitude - " . $lat . ") * (latitude - " . $lat . ") + (longitude - " . $lon . ") * (longitude - " . $lon . ")) ASC";
+        $query .= " LIMIT " . $maxResults;
 
-        $result = DbService::execSingleResultQuery($conn, $query, false,"error reading navaid");
+        $result = DbService::execMultiResultQuery($conn, $query,"error searching navaids by position");
 
         return self::readNavaidFromResult($result->fetch_array(MYSQLI_ASSOC));
     }
@@ -35,7 +42,7 @@ class SearchItemNavaid {
         $query .= " ORDER BY CASE WHEN country = 'CH' THEN 1 ELSE 2 END ASC, kuerzel ASC";
         $query .= " LIMIT " . $maxResults;
 
-        $result = DbService::execMultiResultQuery($conn, $query, "error searching navaids");
+        $result = DbService::execMultiResultQuery($conn, $query, "error searching navaids by text");
 
         return self::readNavaidFromResultList($result);
     }

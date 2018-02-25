@@ -8,38 +8,32 @@ import { GeocalcService } from '../utils/geocalc.service';
 import { SearchItem, SearchItemList } from '../../model/search-item';
 import { Position2d } from '../../model/position';
 import { Notam } from '../../model/notam';
+import { NotamRestItem } from '../notam/notam.service';
+import { AirportRestItem } from '../../model/rest-model/rest-mapper-airport';
+import { NavaidRestItem } from '../../model/rest-model/rest-mapper-navaid';
+import { AirspaceRestItem } from '../../model/rest-model/rest-mapper-airspace';
+import { ReportingPointRestItem } from '../../model/rest-model/rest-mapper-reportingpoint';
+import { UserPointRestItem } from '../../model/rest-model/rest-mapper-userpoint';
+import { WebcamRestItem } from '../../model/rest-model/rest-mapper-webcam';
+import { GeonameRestItem } from '../../model/rest-model/rest-mapper-geoname';
 
 
-const SEARCH_BASE_URL = environment.restApiBaseUrl + 'php/geopoint.php';
+const SEARCH_BASE_URL = environment.restApiBaseUrl + 'php/search/SearchService.php';
 
 
 // region INTERFACES
 
 interface SearchResponse {
-    geonames: SearchResponseItem[],
-    notams: SearchResponseNotam[]
+    airports: AirportRestItem[];
+    navaids: NavaidRestItem[];
+    airspaces: AirspaceRestItem[];
+    reportingPoints: ReportingPointRestItem[];
+    userPoints: UserPointRestItem[];
+    webcams: WebcamRestItem[];
+    geonames: GeonameRestItem[];
+    notams: NotamRestItem[];
 }
 
-interface SearchResponseItem {
-    type: string;
-    id: string;
-    name: string;
-    wpname: string;
-    country: string;
-    admin1: string;
-    admin2: string;
-    frequency: string;
-    callsign: string;
-    airport_icao: string;
-    latitude: number;
-    longitude: number;
-    elevation: number;
-}
-
-
-interface SearchResponseNotam {
-    notam: string; // TODO
-}
 
 // endregion
 
@@ -56,7 +50,7 @@ export class SearchService {
     }
 
 
-    public searchByQuery(
+    public searchByText(
         queryString: string,
         successCallback: (SearchItemList) => void,
         errorCallback: (string) => void) {
@@ -74,7 +68,7 @@ export class SearchService {
     }
 
 
-    public searchByCoordinates(
+    public searchByPosition(
         position: Position2d,
         maxRadius_m: number,
         minNotamTimestamp: number,
@@ -98,7 +92,11 @@ export class SearchService {
         successCallback: (NotamList) => void,
         errorCallback: (string) => void) {
 
-        const url = SEARCH_BASE_URL + '?action=searchByName&search=' + queryString;
+        let url = SEARCH_BASE_URL + '?action=searchByText&searchText=' + queryString;
+        url += '&searchItems=airports,navaids,reportingpoints,userpoints,geonames';
+        if (this.sessionService.isLoggedIn()) {
+            url += '&email=' + this.session.user.email + '&token=' + this.session.user.token;
+        }
 
         this.http
             .jsonp<SearchResponse>(url, 'callback')
@@ -153,8 +151,9 @@ export class SearchService {
     }
 
 
-    private getSearchItem(responseItem: SearchResponseItem): SearchItem {
-        return new SearchItem(
+    private getSearchItem(responseItem: any): SearchItem {
+        return undefined;
+        /*return new SearchItem(
             responseItem.type,
             responseItem.id,
             responseItem.name,
@@ -167,11 +166,11 @@ export class SearchService {
             responseItem.airport_icao,
             responseItem.latitude,
             responseItem.longitude,
-            responseItem.elevation);
+            responseItem.elevation);*/
     }
 
 
-    private getNotam(responseNotem: SearchResponseNotam): Notam {
+    /*private getNotam(responseNotem: SearchResponseNotam): Notam {
         return undefined; // TODO
-    }
+    }*/
 }

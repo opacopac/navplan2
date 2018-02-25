@@ -20,11 +20,6 @@ class SearchItemWebcam {
     }
 
 
-    public static function searchById($conn, $id) {
-        // TODO: Implement SearchByReference() method.
-    }
-
-
     private static function readWebcamFromResult($rs) {
         return array(
             id => $rs["id"],

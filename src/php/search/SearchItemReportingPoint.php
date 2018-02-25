@@ -7,7 +7,7 @@ class SearchItemReportingPoint {
         $extent = DbService::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
         $query = "SELECT * FROM reporting_points WHERE MBRIntersects(extent, " . $extent . ")";
 
-        $result = DbService::execMultiResultQuery($conn, $query, "error reading reporting points");
+        $result = DbService::execMultiResultQuery($conn, $query, "error reading reporting points by extent");
 
         $reportingpoints = [];
         while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
@@ -18,12 +18,21 @@ class SearchItemReportingPoint {
     }
 
 
-    public static function searchById($conn, $id) {
-        $query = "SELECT * FROM reporting_points WHERE id = '" . $id . "'";
+    public static function searchByPosition($conn, $lon, $lat, $maxRadius_deg, $maxResults) {
+        $query = "SELECT *";
+        $query .= " FROM reporting_points";
+        $query .= " WHERE";
+        $query .= "  latitude > " . ($lat - $maxRadius_deg);
+        $query .= "  AND latitude < " . ($lat + $maxRadius_deg);
+        $query .= "  AND longitude > " . ($lon - $maxRadius_deg);
+        $query .= "  AND longitude < " . ($lon + $maxRadius_deg);
+        $query .= " ORDER BY";
+        $query .= "  ((latitude - " . $lat . ") * (latitude - " . $lat . ") + (longitude - " . $lon . ") * (longitude - " . $lon . ")) ASC";
+        $query .= " LIMIT " . $maxResults;
 
-        $result = DbService::execSingleResultQuery($conn, $query, false,"error reading reporting point");
+        $result = DbService::execMultiResultQuery($conn, $query,"error searching reporting points by position");
 
-        return self::readReportingPointFromResult($result->fetch_array(MYSQLI_ASSOC));
+        return self::readNavaidFromResult($result->fetch_array(MYSQLI_ASSOC));
     }
 
 
@@ -34,7 +43,7 @@ class SearchItemReportingPoint {
         $query .= " ORDER BY airport_icao ASC, name ASC";
         $query .= " LIMIT " . $maxResults;
 
-        $result = DbService::execMultiResultQuery($conn, $query, "error searching reporting points");
+        $result = DbService::execMultiResultQuery($conn, $query, "error searching reporting points by text");
 
         return self::readReportingPointFromResultList($result);
     }

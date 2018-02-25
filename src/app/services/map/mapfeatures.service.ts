@@ -19,6 +19,12 @@ import { Webcam } from '../../model/webcam';
 import { Navaid } from '../../model/navaid';
 import { Position2d } from '../../model/position';
 import { Polygon } from '../../model/polygon';
+import {NavaidRestItem, RestMapperNavaid} from '../../model/rest-model/rest-mapper-navaid';
+import {AirportRestItem, RestMapperAirport} from '../../model/rest-model/rest-mapper-airport';
+import {AirspaceRestItem, RestMapperAirspace} from '../../model/rest-model/rest-mapper-airspace';
+import {ReportingPointRestItem, RestMapperReportingpoint} from '../../model/rest-model/rest-mapper-reportingpoint';
+import {RestMapperUserpoint, UserPointRestItem} from '../../model/rest-model/rest-mapper-userpoint';
+import {RestMapperWebcam, WebcamRestItem} from '../../model/rest-model/rest-mapper-webcam';
 
 
 const MAPFEATURES_BASE_URL = environment.restApiBaseUrl + 'php/mapFeatures.php';
@@ -37,7 +43,7 @@ export interface MapFeaturesResponse {
 }
 
 
-export interface NavaidRestItem {
+/*export interface NavaidRestItem {
     id: number;
     type: string;
     kuerzel: string;
@@ -169,7 +175,7 @@ export interface WebcamRestItem {
     url: string;
     latitude: number;
     longitude: number;
-}
+}*/
 
 // endregion
 
@@ -230,46 +236,46 @@ export class MapfeaturesService extends CachingExtentLoader<Mapfeatures> {
 
         // navaids
         for (const restItem of response.navaids) {
-            mapFeatures.navaids.push(this.getNavaidFromRestItem(restItem));
+            mapFeatures.navaids.push(RestMapperNavaid.getNavaidFromRestItem(restItem));
         }
 
         // airports
         for (const restItem of response.airports) {
-            mapFeatures.airports.push(this.getAirportFromRestItem(restItem));
+            mapFeatures.airports.push(RestMapperAirport.getAirportFromRestItem(restItem));
         }
 
         // airspaces
         for (const key in response.airspaces) {
-            mapFeatures.airspaces.push(this.getAirspaceFromRestItem(response.airspaces[key]));
+            mapFeatures.airspaces.push(RestMapperAirspace.getAirspaceFromRestItem(response.airspaces[key]));
         }
 
         // reporting points
         for (const subRestItem of response.reportingPoints) {
             switch (subRestItem.type) {
                 case 'POINT':
-                    mapFeatures.reportingpoints.push(this.getReportingpointFromRestItem(subRestItem));
+                    mapFeatures.reportingpoints.push(RestMapperReportingpoint.getReportingpointFromRestItem(subRestItem));
                     break;
                 case 'SECTOR':
-                    mapFeatures.reportingsectors.push(this.getReportingSectorFromRestItem(subRestItem));
+                    mapFeatures.reportingsectors.push(RestMapperReportingpoint.getReportingSectorFromRestItem(subRestItem));
                     break;
             }
         }
 
         // user points
         for (const subRestItem of response.userPoints) {
-            mapFeatures.userpoints.push(this.getUserpointFromRestItem(subRestItem));
+            mapFeatures.userpoints.push(RestMapperUserpoint.getUserpointFromRestItem(subRestItem));
         }
 
         // webcams
         for (const subRestItem of response.webcams) {
-            mapFeatures.webcams.push(this.getWebcamFromRestItem(subRestItem));
+            mapFeatures.webcams.push(RestMapperWebcam.getWebcamFromRestItem(subRestItem));
         }
 
         return mapFeatures;
     }
 
 
-    private getNavaidFromRestItem(restItem: NavaidRestItem): Navaid {
+    /*private getNavaidFromRestItem(restItem: NavaidRestItem): Navaid {
         return new Navaid(
             restItem.id,
             restItem.type,
@@ -445,5 +451,5 @@ export class MapfeaturesService extends CachingExtentLoader<Mapfeatures> {
             restItem.name,
             restItem.url,
             new Position2d(restItem.longitude, restItem.latitude));
-    }
+    }*/
 }

@@ -23,7 +23,7 @@ interface NotamResponse {
 }
 
 
-interface NotamRestItem {
+export interface NotamRestItem {
     id: string;
     entity: string;
     status: string;
@@ -48,7 +48,7 @@ interface NotamRestItem {
 }
 
 
-interface NotamRestItemGeometry {
+export interface NotamRestItemGeometry {
     center: [number, number];
     radius: number;
     polygon: [number, number][];

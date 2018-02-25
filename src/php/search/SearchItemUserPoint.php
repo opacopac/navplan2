@@ -10,30 +10,36 @@ class SearchItemUserPoint {
             $query = "SELECT uwp.*";
             $query .= " FROM user_waypoints AS uwp";
             $query .= "   INNER JOIN users AS usr ON uwp.user_id = usr.id";
-            $query .= " WHERE usr.email = '" . $email . "' AND usr.token = '" . $token . "'";
-            $query .= " AND (uwp.longitude >= " . $minLon . " AND uwp.longitude <= " . $maxLon . " AND uwp.latitude >= " . $minLat . " AND uwp.latitude <= " . $maxLat . ")";
+            $query .= " WHERE";
+            $query .= "  usr.email = '" . $email . "' AND usr.token = '" . $token . "'";
+            $query .= "  AND (uwp.longitude >= " . $minLon . " AND uwp.longitude <= " . $maxLon . " AND uwp.latitude >= " . $minLat . " AND uwp.latitude <= " . $maxLat . ")";
 
-            $result = DbService::execMultiResultQuery($conn, $query, "error reading user points");
+            $result = DbService::execMultiResultQuery($conn, $query, "error searching user points by extent");
 
-            while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
-                $userPoints[] = self::readUserPointFromResult($rs);
-            }
+            return self::readUserPointFromResultList($result);
         }
 
         return $userPoints;
     }
 
 
-    public static function searchById($conn, $id, $email, $token) {
+    public static function searchByPosition($conn, $lon, $lat, $maxRadius_deg, $maxResults, $email, $token) {
         $query = "SELECT uwp.*";
         $query .= " FROM user_waypoints AS uwp";
         $query .= "   INNER JOIN users AS usr ON uwp.user_id = usr.id";
-        $query .= " WHERE usr.email = '" . $email . "' AND usr.token = '" . $token . "'";
-        $query .= " AND id = '" . $id . "'";
+        $query .= " WHERE";
+        $query .= "  usr.email = '" . $email . "' AND usr.token = '" . $token . "'";
+        $query .= "  AND latitude > " . ($lat - $maxRadius_deg);
+        $query .= "  AND latitude < " . ($lat + $maxRadius_deg);
+        $query .= "  AND longitude > " . ($lon - $maxRadius_deg);
+        $query .= "  AND longitude < " . ($lon + $maxRadius_deg);
+        $query .= " ORDER BY";
+        $query .= "  ((latitude - " . $lat . ") * (latitude - " . $lat . ") + (longitude - " . $lon . ") * (longitude - " . $lon . ")) ASC";
+        $query .= " LIMIT " . $maxResults;
 
-        $result = DbService::execSingleResultQuery($conn, $query, false,"error reading user point");
+        $result = DbService::execMultiResultQuery($conn, $query, "error searching user points by position");
 
-        return self::readUserPointFromResult($result->fetch_array(MYSQLI_ASSOC));
+        return self::readUserPointFromResultList($result);
     }
 
 
@@ -47,7 +53,7 @@ class SearchItemUserPoint {
         $query .= " ORDER BY name ASC";
         $query .= " LIMIT " . $maxResults;
 
-        $result = DbService::execMultiResultQuery($conn, $query, "error searching user points");
+        $result = DbService::execMultiResultQuery($conn, $query, "error searching user points by text");
 
         return self::readUserPointFromResultList($result);
     }

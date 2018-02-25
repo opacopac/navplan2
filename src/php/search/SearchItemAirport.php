@@ -9,7 +9,7 @@ class SearchItemAirport {
         $query .= " FROM openaip_airports";
         $query .= " WHERE MBRIntersects(lonlat, " . $extent . ")";
 
-        $result = DbService::execMultiResultQuery($conn, $query, "error reading airports");
+        $result = DbService::execMultiResultQuery($conn, $query, "error searching airports by extent");
         $airports = self::readAirportFromResultList($result);
         self::loadAirportSubItems($conn, $airports, $email);
 
@@ -17,9 +17,25 @@ class SearchItemAirport {
     }
 
 
-    public static function searchById($conn, $id) {
-        // TODO: Implement SearchByReference() method.
+    public static function searchByPosition($conn, $lon, $lat, $maxRadius_deg, $maxResults, $email = null) {
+        $query  = "SELECT *";
+        $query .= " FROM openaip_airports";
+        $query .= " WHERE";
+        $query .= "   latitude > " . ($lat - $maxRadius_deg);
+        $query .= "   AND latitude < " . ($lat + $maxRadius_deg);
+        $query .= "   AND longitude > " . ($lon - $maxRadius_deg);
+        $query .= "   AND longitude < " . ($lon + $maxRadius_deg);
+        $query .= " ORDER BY";
+        $query .= "  ((latitude - " . $lat . ") * (latitude - " . $lat . ") + (longitude - " . $lon . ") * (longitude - " . $lon . ")) ASC";
+        $query .= " LIMIT " . $maxResults;
+
+        $result = DbService::execMultiResultQuery($conn, $query, "error searching airports by position");
+        $airports = self::readAirportFromResultList($result);
+        self::loadAirportSubItems($conn, $airports, $email);
+
+        return $airports;
     }
+
 
     public static function searchByText($conn, $searchText, $maxResults, $email) {
         $query = "SELECT *";
@@ -38,7 +54,7 @@ class SearchItemAirport {
         $query .= "   icao ASC";
         $query .= " LIMIT " . $maxResults;
 
-        $result = DbService::execMultiResultQuery($conn, $query, "error searching airports");
+        $result = DbService::execMultiResultQuery($conn, $query, "error searching airports by text");
         $airports = self::readAirportFromResultList($result);
         self::loadAirportSubItems($conn, $airports, $email);
 
