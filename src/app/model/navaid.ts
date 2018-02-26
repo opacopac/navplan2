@@ -1,7 +1,8 @@
 import { Position2d } from './position';
+import { DataItem } from './data-item';
 
 
-export class Navaid {
+export class Navaid extends DataItem {
     constructor(
         public id: number,
         public type: string,
@@ -13,5 +14,7 @@ export class Navaid {
         public unit: string,
         public declination: number,
         public truenorth: boolean) {
+
+        super();
     }
 }

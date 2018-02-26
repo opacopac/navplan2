@@ -66,4 +66,17 @@ export class Polygon implements Geometry2d {
 
         return mercatorList;
     }
+
+
+    public getAveragePoint(): Position2d {
+        let lonSum = 0;
+        let latSum = 0;
+
+        for (const pos of this.positions) {
+            lonSum += pos.longitude;
+            latSum += pos.latitude;
+        }
+
+        return new Position2d(lonSum / this.positions.length, latSum / this.positions.length);
+    }
 }

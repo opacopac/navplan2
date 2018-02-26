@@ -80,9 +80,6 @@ class SearchItemGeoname
             $duplicateIdx = self::findDuplicates($geonames);
 
             for ($i = 0; $i < count($geonames); $i++) {
-                if ($geonames[$i]["type"] != "geoname")
-                    continue;
-
                 if (in_array($i, $duplicateIdx["admin1idx"]) && $geonames[$i]["admin2"])
                     $geonames[$i]["name"] .= " (" . $geonames[$i]["country"] . ", " . $geonames[$i]["admin1"] . ", " . $geonames[$i]["admin2"] . ")";
                 elseif (in_array($i, $duplicateIdx["nameidx"]) && $geonames[$i]["admin1"])
@@ -123,12 +120,9 @@ class SearchItemGeoname
         // check for duplicate names
         for ($i = 0; $i < count($geonames) - 1; $i++)
         {
-            if ($geonames[$i]["type"] != "geoname")
-                continue;
-
             for ($j = $i + 1; $j < count($geonames); $j++)
             {
-                if ($i == $j || $geonames[$j]["type"] != "geoname")
+                if ($i == $j)
                     continue;
 
                 if ($geonames[$i]["name"] == $geonames[$j]["name"])

@@ -23,7 +23,7 @@
             <a href="#"
                *ngFor="let result of this.searchResults.items; let idx = index"
                class="list-group-item list-group-item-action {{ this.selectedIndex === idx ? 'active' : '' }}"
-               (click)="this.onResultSelected(result)">{{ result.name }}</a>
+               (click)="this.onResultSelected(result)">{{ result.getName() }}</a>
         </div>
         <div *ngIf="this.searchResults.items.length == 0" class="search-results list-group list-group-flush">
             <div class="list-group-item list-group-item-action">&nbsp;<i>(no results found)&nbsp;</i></div>

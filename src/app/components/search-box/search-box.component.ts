@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {SearchService} from '../../services/search/search.service';
-import {ButtonColor, ButtonSize} from '../buttons/button-base.directive';
-import {SearchItem, SearchItemList} from '../../model/search-item';
+import { Component, OnInit } from '@angular/core';
+import { SearchService } from '../../services/search/search.service';
+import { ButtonColor, ButtonSize } from '../buttons/button-base.directive';
+import { SearchItem, SearchItemList } from '../../model/search-item';
+import { MapService } from '../../services/map/map.service';
 
 
 const MIN_QUERY_LENGTH = 2;
@@ -26,7 +27,9 @@ export class SearchBoxComponent implements OnInit {
     private currentTimer: number;
 
 
-    constructor(private searchService: SearchService) {
+    constructor(
+        private searchService: SearchService,
+        private mapService: MapService) {
     }
 
 
@@ -92,7 +95,7 @@ export class SearchBoxComponent implements OnInit {
         this.clearSearchResults();
 
         // TODO
-        // mapService.setMapPosition($item.latitude, $item.longitude, 11, true);
+        this.mapService.setMapPosition(result.getPosition(), 11);
         // mapService.drawGeopointSelection([ $item ], [], undefined);*/
     }
 
