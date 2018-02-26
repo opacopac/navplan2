@@ -8,14 +8,12 @@ import { MetarTafService } from '../../services/meteo/metar-taf.service';
 import { NotamService } from '../../services/notam/notam.service';
 import { TrafficService } from '../../services/traffic/traffic.service';
 import { Sessioncontext } from '../../model/sessioncontext';
+import { MapOverlayContainerComponent } from '../map-overlay/map-overlay-container/map-overlay-container.component';
 import { Mapfeatures } from '../../model/mapfeatures';
 import { Position2d } from '../../model/position';
-import { OlFeature } from '../../model/ol-model/ol-feature';
 import { MetarTafList} from '../../model/metar-taf';
 import { NotamList } from '../../model/notam';
-import { MapOverlayContainerComponent } from '../map-overlay/map-overlay-container/map-overlay-container.component';
-import {OlAirport} from "../../model/ol-model/ol-airport";
-import {OlWebcam} from "../../model/ol-model/ol-webcam";
+import { DataItem } from '../../model/data-item';
 
 
 const NAVBAR_HEIGHT_PX = 54;
@@ -31,7 +29,6 @@ export class MapComponent implements OnInit {
     private currentMapFeatures: Mapfeatures;
     private currentMetarTafList: MetarTafList;
     private currentNotamList: NotamList;
-
     @ViewChild(MapOverlayContainerComponent) mapOverlayContainer: MapOverlayContainerComponent;
 
 
@@ -72,6 +69,12 @@ export class MapComponent implements OnInit {
     }
 
 
+    onDataItemSelected(selection: [DataItem, Position2d]) {
+        this.mapOverlayContainer.showOverlay(selection[0], selection[1]);
+        this.mapService.setMapPosition(selection[1], 11);
+    }
+
+
     private resizeMapToWindow() {
         $('#map').offset({top: NAVBAR_HEIGHT_PX, left: 0});
         $('#map').height($(window).height() - NAVBAR_HEIGHT_PX);
@@ -84,8 +87,8 @@ export class MapComponent implements OnInit {
     }
 
 
-    private onMapItemClickedCallback(olFeature: OlFeature, clickPos: Position2d) {
-        this.mapOverlayContainer.showOverlay(olFeature, clickPos);
+    private onMapItemClickedCallback(dataItem: DataItem, clickPos: Position2d) {
+        this.mapOverlayContainer.showOverlay(dataItem, clickPos);
     }
 
 

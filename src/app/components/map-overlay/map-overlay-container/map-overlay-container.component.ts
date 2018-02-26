@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
 import { MapService } from '../../../services/map/map.service';
-import { OlFeature } from '../../../model/ol-model/ol-feature';
 import { MapOverlayNotamComponent } from '../map-overlay-notam/map-overlay-notam.component';
 import { MapOverlayReportingpointComponent } from '../map-overlay-reportingpoint/map-overlay-reportingpoint.component';
 import { MapOverlayMetarTafComponent } from '../map-overlay-metar-taf/map-overlay-metar-taf.component';
@@ -10,17 +9,20 @@ import { MapOverlayNavaidComponent } from '../map-overlay-navaid/map-overlay-nav
 import { MapOverlayMeteogramComponent } from '../map-overlay-meteogram/map-overlay-meteogram.component';
 import { MapOverlayAirportComponent } from '../map-overlay-airport/map-overlay-airport.component';
 import { MapOverlayUserpointComponent } from '../map-overlay-userpoint/map-overlay-userpoint.component';
-import { OlReportingSector } from '../../../model/ol-model/ol-reporting-sector';
-import { OlUserPoint } from '../../../model/ol-model/ol-user-point';
-import { OlMetarSky } from '../../../model/ol-model/ol-metar-sky';
-import { OlNavaid } from '../../../model/ol-model/ol-navaid';
-import { OlReportingPoint } from '../../../model/ol-model/ol-reporting-point';
-import { OlNotam } from '../../../model/ol-model/ol-notam';
-import { OlAirport } from '../../../model/ol-model/ol-airport';
-import { OlTraffic } from '../../../model/ol-model/ol-traffic';
-import { OlWebcam } from '../../../model/ol-model/ol-webcam';
+import { MapOverlayGeonameComponent } from '../map-overlay-geoname/map-overlay-geoname.component';
 import { Position2d } from '../../../model/position';
 import { MapOverlayContent } from '../map-overlay-content';
+import { DataItem } from '../../../model/data-item';
+import { Airport } from '../../../model/airport';
+import { Navaid } from '../../../model/navaid';
+import { Reportingpoint } from '../../../model/reportingpoint';
+import { Reportingsector } from '../../../model/reportingsector';
+import { Userpoint } from '../../../model/userpoint';
+import { MetarTaf } from '../../../model/metar-taf';
+import { Traffic } from '../../../model/traffic';
+import { Notam } from '../../../model/notam';
+import { Webcam } from '../../../model/webcam';
+import { Geoname } from '../../../model/geoname';
 
 
 @Component({
@@ -37,6 +39,7 @@ export class MapOverlayContainerComponent implements OnInit {
     @ViewChild(MapOverlayReportingpointComponent) mapOverlayReportingpointComponent: MapOverlayReportingpointComponent;
     @ViewChild(MapOverlayReportingsectorComponent) mapOverlayReportingsectorComponent: MapOverlayReportingsectorComponent;
     @ViewChild(MapOverlayUserpointComponent) mapOverlayUserpointComponent: MapOverlayUserpointComponent;
+    @ViewChild(MapOverlayGeonameComponent) mapOverlayGeonameComponent: MapOverlayGeonameComponent;
     @ViewChild(MapOverlayMetarTafComponent) mapOverlayMetarTafComponent: MapOverlayMetarTafComponent;
     @ViewChild(MapOverlayMeteogramComponent) mapOverlayMeteogramComponent: MapOverlayMeteogramComponent;
     @ViewChild(MapOverlayNotamComponent) mapOverlayNotamComponent: MapOverlayNotamComponent;
@@ -53,32 +56,37 @@ export class MapOverlayContainerComponent implements OnInit {
     }
 
 
-    public showOverlay(olFeature: OlFeature, clickPos: Position2d) {
-        if (olFeature instanceof OlAirport) {
+    public showOverlay(dataItem: DataItem, clickPos: Position2d) {
+        if (this.currentOverlayContent) {
+            this.closeOverlay();
+        }
+
+        if (dataItem instanceof Airport) {
             this.currentOverlayContent = this.mapOverlayAirportComponent;
-        } else if (olFeature instanceof OlNavaid) {
+        } else if (dataItem instanceof Navaid) {
             this.currentOverlayContent = this.mapOverlayNavaidComponent;
-        } else if (olFeature instanceof OlReportingPoint) {
+        } else if (dataItem instanceof Reportingpoint) {
             this.currentOverlayContent = this.mapOverlayReportingpointComponent;
-        } else if (olFeature instanceof OlReportingSector) {
+        } else if (dataItem instanceof Reportingsector) {
             this.currentOverlayContent = this.mapOverlayReportingsectorComponent;
-        } else if (olFeature instanceof OlUserPoint) {
+        } else if (dataItem instanceof Userpoint) {
             this.currentOverlayContent = this.mapOverlayUserpointComponent;
-        } else if (olFeature instanceof OlMetarSky) {
+        } else if (dataItem instanceof Geoname) {
+            this.currentOverlayContent = this.mapOverlayGeonameComponent;
+        } else if (dataItem instanceof MetarTaf) {
             this.currentOverlayContent = this.mapOverlayMetarTafComponent;
-        } else if (olFeature instanceof OlNotam) {
+        } else if (dataItem instanceof Notam) {
             this.currentOverlayContent = this.mapOverlayNotamComponent;
-        } else if (olFeature instanceof OlTraffic) {
+        } else if (dataItem instanceof Traffic) {
             this.currentOverlayContent = this.mapOverlayTrafficComponent;
-        } else if (olFeature instanceof OlWebcam) {
-            const url = (olFeature as OlWebcam).webcam.url;
-            window.open(url, '_blank');
+        } else if (dataItem instanceof Webcam) {
+            window.open(dataItem.url, '_blank');
             return;
         } else {
             return;
         }
 
-        this.currentOverlayContent.bindFeatureData(olFeature.getDataItem());
+        this.currentOverlayContent.bindFeatureData(dataItem);
         this.title = this.currentOverlayContent.getTitle();
         this.mapService.addOverlay(this.currentOverlayContent.getPosition(clickPos), this.mapOverlayContainer, true);
     }
@@ -90,7 +98,9 @@ export class MapOverlayContainerComponent implements OnInit {
 
 
     public onOverlayClosed() {
-        this.currentOverlayContent.bindFeatureData(undefined);
+        if (this.currentOverlayContent) {
+            this.currentOverlayContent.bindFeatureData(undefined);
+        }
         this.currentOverlayContent = undefined;
         this.title = undefined;
     }

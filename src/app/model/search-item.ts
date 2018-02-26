@@ -24,23 +24,23 @@ export class SearchItemList {
 
 
 export class SearchItem {
-    constructor(public item: DataItem) {
+    constructor(public dataItem: DataItem) {
     }
 
 
     public getName(): string {
-        if (this.item instanceof Airport) {
-            return this.item.icao ? this.item.name + ' (' + this.item.icao + ')' : this.item.name;
-        } else if (this.item instanceof Navaid) {
-            return this.item.name + ' (' + this.item.type + ')';
-        } else if (this.item instanceof Reportingpoint) {
-            return this.item.name + ' (' + this.item.airport_icao + ')';
-        } else if (this.item instanceof Reportingsector) {
-            return this.item.name + ' (' + this.item.airport_icao + ')';
-        } else if (this.item instanceof Userpoint) {
-            return this.item.name;
-        } else if (this.item instanceof Geoname) {
-            return this.item.name;
+        if (this.dataItem instanceof Airport) {
+            return this.dataItem.icao ? this.dataItem.name + ' (' + this.dataItem.icao + ')' : this.dataItem.name;
+        } else if (this.dataItem instanceof Navaid) {
+            return this.dataItem.name + ' (' + this.dataItem.type + ')';
+        } else if (this.dataItem instanceof Reportingpoint) {
+            return this.dataItem.name + ' (' + this.dataItem.airport_icao + ')';
+        } else if (this.dataItem instanceof Reportingsector) {
+            return this.dataItem.name + ' (' + this.dataItem.airport_icao + ')';
+        } else if (this.dataItem instanceof Userpoint) {
+            return this.dataItem.name;
+        } else if (this.dataItem instanceof Geoname) {
+            return this.dataItem.name;
         } else {
             return undefined;
         }
@@ -48,18 +48,18 @@ export class SearchItem {
 
 
     public getPosition(): Position2d {
-        if (this.item instanceof Airport) {
-            return this.item.position;
-        } else if (this.item instanceof Navaid) {
-            return this.item.position;
-        } else if (this.item instanceof Reportingpoint) {
-            return this.item.position;
-        } else if (this.item instanceof Reportingsector) {
-            return this.item.polygon.getAveragePoint();
-        } else if (this.item instanceof Userpoint) {
-            return this.item.position;
-        } else if (this.item instanceof Geoname) {
-            return this.item.position;
+        if (this.dataItem instanceof Airport) {
+            return this.dataItem.position;
+        } else if (this.dataItem instanceof Navaid) {
+            return this.dataItem.position;
+        } else if (this.dataItem instanceof Reportingpoint) {
+            return this.dataItem.position;
+        } else if (this.dataItem instanceof Reportingsector) {
+            return this.dataItem.polygon.getAveragePoint();
+        } else if (this.dataItem instanceof Userpoint) {
+            return this.dataItem.position;
+        } else if (this.dataItem instanceof Geoname) {
+            return this.dataItem.position;
         } else {
             return undefined;
         }

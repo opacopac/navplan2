@@ -2,7 +2,7 @@
     <!-- map -->
     <div id="map" class="map" (window:resize)="onResize()"></div>
     <!-- search box -->
-    <app-search-box></app-search-box>
+    <app-search-box (dataItemSelected)="this.onDataItemSelected($event)"></app-search-box>
     <!-- buttons -->
     <app-zoom-buttons></app-zoom-buttons>
     <app-location-button></app-location-button>

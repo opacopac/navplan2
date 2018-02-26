@@ -1,12 +1,13 @@
 <?php
-require_once "config.php";
-require_once "helper.php";
+require_once __DIR__ . "/config.php";
+require_once __DIR__ . "/helper.php";
+
 
 class TerrainHelper
 {
     //region FIELDS
 
-    const TERRAIN_TILE_BASE_DIR = '../terraintiles/';
+    const TERRAIN_TILE_BASE_DIR = __DIR__ . '/../terraintiles/';
     const TERRAIN_TILE_SUFFIX = '.hgt';
     const LINE_SIZE = 1201;
     const MAX_LINES = 1201;

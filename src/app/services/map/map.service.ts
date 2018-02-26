@@ -24,6 +24,7 @@ import { OlMetar } from '../../model/ol-model/ol-metar';
 import { OlMetarWind } from '../../model/ol-model/ol-metar-wind';
 import { OlMetarSky } from '../../model/ol-model/ol-metar-sky';
 import { OlNotam } from '../../model/ol-model/ol-notam';
+import { DataItem } from '../../model/data-item';
 
 
 const HIT_TOLERANCE_PIXELS = 10;
@@ -40,7 +41,7 @@ export class MapService {
     private trafficLayer: ol.layer.Vector;
     private locationLayer: ol.layer.Vector;
     private onMovedZoomedRotatedCallback: () => void;
-    private onMapItemClickedCallback: (olFeature: OlFeature, clickPos: Position2d) => void;
+    private onMapItemClickedCallback: (dataItem: DataItem, clickPos: Position2d) => void;
     private onMapClickedCallback: (position: Position2d) => void;
     private onMapOverlayClosedCallback: () => void;
     private onFlightrouteChangedCallback: () => void;
@@ -57,7 +58,7 @@ export class MapService {
 
     public initMap(
         onMovedZoomedRotatedCallback: () => void,
-        onMapItemClickedCallback: (olFeature: OlFeature, clickPos: Position2d) => void,
+        onMapItemClickedCallback: (dataItem: DataItem, clickPos: Position2d) => void,
         onMapClickedCallback: (position: Position2d) => void,
         onMapOverlayClosedCallback: () => void,
         onFlightrouteChangedCallback: () => void,
@@ -385,7 +386,7 @@ export class MapService {
 
         if (feature && this.onMapItemClickedCallback) { // click on feature
             this.closeOverlay(); // TODO +close geopointselection
-            this.onMapItemClickedCallback(feature, clickPos);
+            this.onMapItemClickedCallback(feature.getDataItem(), clickPos);
         } else if (this.currentOverlay) { // close overlay / TODO: this.currentOverlay || geopointselection
             this.closeOverlay();
         } else if (this.onMapClickedCallback) { // click on empty map

@@ -1,0 +1,9 @@
+<div *ngIf="this.geoname">
+  <h5 class="card-title">{{ this.geoname.name }}</h5>
+  <p>{{ this.getPositionString() }}</p>
+  <p>Elevation: {{ this.getElevationString() }}</p>
+  <hr/>
+  <app-map-overlay-button-add-to-route></app-map-overlay-button-add-to-route>
+  <app-map-overlay-button-edit-waypoint></app-map-overlay-button-edit-waypoint>
+  <app-map-overlay-button-remove-from-route></app-map-overlay-button-remove-from-route>
+</div>

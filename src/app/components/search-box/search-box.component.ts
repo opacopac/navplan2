@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { SearchService } from '../../services/search/search.service';
 import { ButtonColor, ButtonSize } from '../buttons/button-base.directive';
 import { SearchItem, SearchItemList } from '../../model/search-item';
 import { MapService } from '../../services/map/map.service';
+import { DataItem } from '../../model/data-item';
+import { Position2d } from '../../model/position';
 
 
 const MIN_QUERY_LENGTH = 2;
@@ -18,6 +20,7 @@ const ENTER_KEY_CODE = 13;
     styleUrls: ['./search-box.component.css']
 })
 export class SearchBoxComponent implements OnInit {
+    @Output() dataItemSelected = new EventEmitter<[DataItem, Position2d]>();
     public ButtonSize = ButtonSize;
     public ButtonColor = ButtonColor;
     public searchResults: SearchItemList;
@@ -93,10 +96,7 @@ export class SearchBoxComponent implements OnInit {
 
     public onResultSelected(result: SearchItem) {
         this.clearSearchResults();
-
-        // TODO
-        this.mapService.setMapPosition(result.getPosition(), 11);
-        // mapService.drawGeopointSelection([ $item ], [], undefined);*/
+        this.dataItemSelected.emit([result.dataItem, result.getPosition()]);
     }
 
 

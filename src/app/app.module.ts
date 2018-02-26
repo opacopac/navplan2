@@ -62,6 +62,7 @@ import { TrafficService} from './services/traffic/traffic.service';
 import { TrafficOgnService } from './services/traffic/traffic-ogn.service';
 import { TrafficAdsbexchangeService } from './services/traffic/traffic-adsbexchange.service';
 import { SearchService } from './services/search/search.service';
+import { MapOverlayGeonameComponent } from './components/map-overlay/map-overlay-geoname/map-overlay-geoname.component';
 
 
 @NgModule({
@@ -107,6 +108,7 @@ import { SearchService } from './services/search/search.service';
         StatusButtonDirective,
         TextButtonDirective,
         SearchBoxComponent,
+        MapOverlayGeonameComponent,
     ],
     imports: [
         BrowserModule,
