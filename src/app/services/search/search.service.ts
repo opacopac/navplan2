@@ -63,7 +63,7 @@ export class SearchService {
 
     public searchByPosition(
         position: Position2d,
-        maxRadius_m: number,
+        maxRadius_deg: number,
         minNotamTimestamp: number,
         maxNotamTimestamp: number,
         successCallback: (SearchItemList) => void,
@@ -71,7 +71,7 @@ export class SearchService {
 
         this.executePositionSearch(
             position,
-            maxRadius_m,
+            maxRadius_deg,
             minNotamTimestamp,
             maxNotamTimestamp,
             successCallback,
@@ -103,8 +103,8 @@ export class SearchService {
         successCallback: (NotamList) => void,
         errorCallback: (string) => void) {
 
-        let url = SEARCH_BASE_URL + '?action=searchByText&searchText=' + queryString;
-        url += '&searchItems=airports,navaids,reportingpoints,userpoints,geonames';
+        let url = SEARCH_BASE_URL + '?action=searchByText&searchText=' + queryString
+            + '&searchItems=airports,navaids,reportingpoints,userpoints,geonames';
         if (this.sessionService.isLoggedIn()) {
             url += '&email=' + this.session.user.email + '&token=' + this.session.user.token;
         }
@@ -126,14 +126,15 @@ export class SearchService {
 
     private executePositionSearch(
         position: Position2d,
-        maxRadius_m: number,
+        maxRadius_deg: number,
         minNotamTimestamp: number,
         maxNotamTimestamp: number,
         successCallback: (NotamList) => void,
         errorCallback: (string) => void) {
 
         const url = SEARCH_BASE_URL + '?action=searchByPosition&lat=' + position.latitude + '&lon=' + position.longitude
-            + '&rad=' + maxRadius_m + '&minnotamtime=' + minNotamTimestamp + '&maxnotamtime=' + maxNotamTimestamp;
+            + '&rad=' + maxRadius_deg + '&minnotamtime=' + minNotamTimestamp + '&maxnotamtime=' + maxNotamTimestamp
+            + '&searchItems=airports,navaids,reportingpoints,userpoints,geonames';
 
         this.http
             .jsonp<SearchResponse>(url, 'callback')

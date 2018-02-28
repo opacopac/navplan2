@@ -4,6 +4,7 @@ import { MessageService } from '../../services/utils/message.service';
 import { SessionService } from '../../services/utils/session.service';
 import { MapService } from '../../services/map/map.service';
 import { MapfeaturesService } from '../../services/map/mapfeatures.service';
+import { SearchService } from '../../services/search/search.service';
 import { MetarTafService } from '../../services/meteo/metar-taf.service';
 import { NotamService } from '../../services/notam/notam.service';
 import { TrafficService } from '../../services/traffic/traffic.service';
@@ -14,6 +15,7 @@ import { Position2d } from '../../model/position';
 import { MetarTafList} from '../../model/metar-taf';
 import { NotamList } from '../../model/notam';
 import { DataItem } from '../../model/data-item';
+import { SearchItemList } from '../../model/search-item';
 
 
 const NAVBAR_HEIGHT_PX = 54;
@@ -32,12 +34,13 @@ export class MapComponent implements OnInit {
     @ViewChild(MapOverlayContainerComponent) mapOverlayContainer: MapOverlayContainerComponent;
 
 
-    constructor(
+    public constructor(
         private sessionService: SessionService,
         private messageService: MessageService,
         private trafficService: TrafficService,
         private mapService: MapService,
         private mapFeatureService: MapfeaturesService,
+        private searchService: SearchService,
         private metarTafService: MetarTafService,
         private notamService: NotamService) {
 
@@ -45,7 +48,7 @@ export class MapComponent implements OnInit {
     }
 
 
-    ngOnInit() {
+    public ngOnInit() {
         this.resizeMapToWindow();
         this.mapService.initMap(
             this.onMovedZoomedRotatedCallback.bind(this),
@@ -64,12 +67,12 @@ export class MapComponent implements OnInit {
     }
 
 
-    onResize() {
+    public onResize() {
         this.resizeMapToWindow();
     }
 
 
-    onDataItemSelected(selection: [DataItem, Position2d]) {
+    public onDataItemSelected(selection: [DataItem, Position2d]) {
         this.mapOverlayContainer.showOverlay(selection[0], selection[1]);
         this.mapService.setMapPosition(selection[1], 11);
     }
@@ -98,6 +101,23 @@ export class MapComponent implements OnInit {
 
 
     private onMapClickedCallback(position: Position2d) {
+        this.searchService.searchByPosition(
+            position,
+            0.2, // TODO
+            0, // TODO
+            1, // TODO
+            this.onSearchByPositionSuccess.bind(this),
+            this.onSearchByPositionError.bind(this)
+        );
+    }
+
+
+    private onSearchByPositionSuccess(searchItems: SearchItemList) {
+        this.mapService.drawSearchItemSelection(searchItems);
+    }
+
+
+    private onSearchByPositionError(message: string) {
     }
 
 

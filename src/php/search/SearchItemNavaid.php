@@ -15,7 +15,7 @@ class SearchItemNavaid {
     }
 
 
-    public static function searchByPosition($conn, $lon, $lat, $maxResults, $maxRadius_deg) {
+    public static function searchByPosition($conn, $lon, $lat, $maxRadius_deg, $maxResults) {
         $query = "SELECT *";
         $query .= " FROM openaip_navaids";
         $query .= " WHERE";

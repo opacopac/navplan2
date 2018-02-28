@@ -263,15 +263,15 @@ function searchByExtent($conn, $searchItems, $minLon, $minLat, $maxLon, $maxLat,
 
 
 function getMaxTextResults($resultNum) {
-    return min(MAX_TEXT_SEARCH_RESULTS - $resultNum, MAX_TEXT_SEARCH_RESULTS_PER_ENTITY);
+    return max(min(MAX_TEXT_SEARCH_RESULTS - $resultNum, MAX_TEXT_SEARCH_RESULTS_PER_ENTITY), 0);
 }
 
 
 function getMaxPositionResults($resultNum) {
-    return min(MAX_POSITION_SEARCH_RESULTS - $resultNum, MAX_POSITION_SEARCH_RESULTS_PER_ENTITY);
+    return max(min(MAX_POSITION_SEARCH_RESULTS - $resultNum, MAX_POSITION_SEARCH_RESULTS_PER_ENTITY), 0);
 }
 
 
 function getMaxExtentResults($resultNum) {
-    return min(MAX_EXTENT_SEARCH_RESULTS - $resultNum, MAX_EXTENT_SEARCH_RESULTS_PER_ENTITY);
+    return max(min(MAX_EXTENT_SEARCH_RESULTS - $resultNum, MAX_EXTENT_SEARCH_RESULTS_PER_ENTITY), 0);
 }

@@ -25,6 +25,9 @@ import { OlMetarWind } from '../../model/ol-model/ol-metar-wind';
 import { OlMetarSky } from '../../model/ol-model/ol-metar-sky';
 import { OlNotam } from '../../model/ol-model/ol-notam';
 import { DataItem } from '../../model/data-item';
+import { SearchItemList} from '../../model/search-item';
+import { OlSearchItemSelection } from '../../model/ol-model/ol-searchitem-selection';
+import { OlSearchItem } from '../../model/ol-model/ol-searchitem';
 
 
 const HIT_TOLERANCE_PIXELS = 10;
@@ -38,6 +41,7 @@ export class MapService {
     private mapFeaturesLayer: ol.layer.Vector;
     private notamLayer: ol.layer.Vector;
     private flightrouteLayer: ol.layer.Vector;
+    private searchItemLayer: ol.layer.Vector;
     private trafficLayer: ol.layer.Vector;
     private locationLayer: ol.layer.Vector;
     private onMovedZoomedRotatedCallback: () => void;
@@ -47,6 +51,7 @@ export class MapService {
     private onFlightrouteChangedCallback: () => void;
     private onFullScreenClickedCallback: () => void;
     private currentOverlay: ol.Overlay;
+    private isSearchItemSelectionActive: boolean;
 
 
     constructor(private sessionService: SessionService) {
@@ -79,6 +84,7 @@ export class MapService {
                 this.mapFeaturesLayer,
                 this.notamLayer,
                 this.flightrouteLayer,
+                this.searchItemLayer,
                 this.trafficLayer,
                 this.locationLayer
             ],
@@ -109,6 +115,7 @@ export class MapService {
         this.mapFeaturesLayer = this.createEmptyVectorLayer();
         this.notamLayer = this.createEmptyVectorLayer();
         this.flightrouteLayer = this.createEmptyVectorLayer();
+        this.searchItemLayer = this.createEmptyVectorLayer();
         this.trafficLayer = this.createEmptyVectorLayer();
         this.locationLayer = this.createEmptyVectorLayer();
     }
@@ -269,6 +276,26 @@ export class MapService {
     }
 
 
+    public drawSearchItemSelection(searchItems: SearchItemList) {
+        const source = this.searchItemLayer.getSource();
+        source.clear();
+
+        if (!searchItems) {
+            return;
+        }
+
+        this.isSearchItemSelectionActive = true;
+        const searchItemSelectionFeature = new OlSearchItemSelection(searchItems.items);
+        searchItemSelectionFeature.draw(source);
+    }
+
+
+    public closeSearchItemSelection() {
+        this.searchItemLayer.getSource().clear();
+        this.isSearchItemSelectionActive = false;
+    }
+
+
     public drawFlightRoute(flightroute: Flightroute) {
         const source = this.flightrouteLayer.getSource();
         source.clear();
@@ -385,10 +412,14 @@ export class MapService {
         const clickPos = Position2d.createFromMercator(event.coordinate);
 
         if (feature && this.onMapItemClickedCallback) { // click on feature
-            this.closeOverlay(); // TODO +close geopointselection
-            this.onMapItemClickedCallback(feature.getDataItem(), clickPos);
-        } else if (this.currentOverlay) { // close overlay / TODO: this.currentOverlay || geopointselection
             this.closeOverlay();
+            this.closeSearchItemSelection();
+            this.onMapItemClickedCallback(feature.getDataItem(), clickPos);
+        } else if (this.currentOverlay) { // close overlay
+            this.closeOverlay();
+            this.closeSearchItemSelection();
+        } else if (this.isSearchItemSelectionActive) { // close search item selection
+            this.closeSearchItemSelection();
         } else if (this.onMapClickedCallback) { // click on empty map
             this.onMapClickedCallback(clickPos);
         }
@@ -436,6 +467,7 @@ export class MapService {
     private isClickableLayer(layer: ol.layer.Layer): boolean {
         return (layer === this.mapFeaturesLayer ||
                 layer === this.notamLayer ||
+                layer === this.searchItemLayer ||
                 layer === this.trafficLayer);
     }
 
@@ -451,6 +483,7 @@ export class MapService {
                 feature instanceof OlMetarSky === true ||
                 feature instanceof OlMetarWind === true ||
                 feature instanceof OlNotam === true ||
+                feature instanceof OlSearchItem === true ||
                 feature instanceof OlTraffic === true);
     }
 

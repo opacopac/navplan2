@@ -1,8 +1,8 @@
+import * as ol from 'openlayers';
 import { environment } from '../../../environments/environment';
 import { Navaid } from '../navaid';
 import { Position2d } from '../position';
 import { OlFeaturePoint } from './ol-feature';
-import * as ol from 'openlayers';
 
 
 export class OlNavaid extends OlFeaturePoint {

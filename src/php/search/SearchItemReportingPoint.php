@@ -9,12 +9,7 @@ class SearchItemReportingPoint {
 
         $result = DbService::execMultiResultQuery($conn, $query, "error reading reporting points by extent");
 
-        $reportingpoints = [];
-        while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
-            $reportingpoints[] = self::readReportingPointFromResult($rs);
-        }
-
-        return $reportingpoints;
+        return self::readReportingPointFromResultList($result);
     }
 
 
@@ -32,7 +27,7 @@ class SearchItemReportingPoint {
 
         $result = DbService::execMultiResultQuery($conn, $query,"error searching reporting points by position");
 
-        return self::readNavaidFromResult($result->fetch_array(MYSQLI_ASSOC));
+        return self::readReportingPointFromResultList($result);
     }
 
 
