@@ -74,4 +74,15 @@ export class StringnumberService {
 
         return out;
     }
+
+
+    public static multiPush<T>(values: T[], targetArray: T[]) {
+        if (!values || !targetArray) {
+            return;
+        }
+
+        for (const item of values) {
+            targetArray.push(item);
+        }
+    }
 }

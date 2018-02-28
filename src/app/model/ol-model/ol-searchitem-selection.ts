@@ -1,33 +1,33 @@
 import * as ol from 'openlayers';
+import { UnitconversionService } from '../../services/utils/unitconversion.service';
+import { StringnumberService } from '../../services/utils/stringnumber.service';
 import { OlFeature } from './ol-feature';
 import { SearchItem } from '../search-item';
 import { OlSearchItem } from './ol-searchitem';
-import {UnitconversionService} from "../../services/utils/unitconversion.service";
 
 
 const MAX_POINTS = 6;
 
 
 export class OlSearchItemSelection extends OlFeature {
-    private labelAngles_deg: number[];
-
-
     constructor(public searchItems: SearchItem[]) {
         super(undefined);
     }
 
 
     public draw(source: ol.source.Vector) {
-        this.calcLabelPositions();
+        const sortedItemsAngles = this.calcLabelPositions();
+        const sortedItems = sortedItemsAngles[0];
+        const labelAnglesDeg = sortedItemsAngles[1];
 
-        for (let i = 0; i < this.searchItems.length; i++) {
-            const dataItemFeature = new OlSearchItem(this.searchItems[i], this.labelAngles_deg[i]);
+        for (let i = 0; i < sortedItems.length; i++) {
+            const dataItemFeature = new OlSearchItem(sortedItems[i], labelAnglesDeg[i]);
             dataItemFeature.draw(source);
         }
     }
 
 
-    private calcLabelPositions() {
+    private calcLabelPositions(): [SearchItem[], number[]] {
         // limit to 6 points
         if (this.searchItems.length > MAX_POINTS) {
             this.searchItems = this.searchItems.splice(0, MAX_POINTS);
@@ -53,10 +53,22 @@ export class OlSearchItemSelection extends OlFeature {
         this.sortQuadrantClockwise(pointsTR, true, false);
         this.sortQuadrantClockwise(pointsB, false, true);
 
-        this.labelAngles_deg = [];
+        const sortedItems: SearchItem[] = [];
+        StringnumberService.multiPush(pointsTL, sortedItems);
+        StringnumberService.multiPush(pointsTR, sortedItems);
+        StringnumberService.multiPush(pointsB, sortedItems);
+
+        // labels
         this.calcLabelAngles(pointsTL, Math.PI * 1.5);
         this.calcLabelAngles(pointsTR, 0.0);
         this.calcLabelAngles(pointsB, Math.PI);
+
+        const labelAnglesDeg = [];
+        StringnumberService.multiPush(this.calcLabelAngles(pointsTL, Math.PI * 1.5), labelAnglesDeg);
+        StringnumberService.multiPush(this.calcLabelAngles(pointsTR, 0.0), labelAnglesDeg);
+        StringnumberService.multiPush(this.calcLabelAngles(pointsB, Math.PI), labelAnglesDeg);
+
+        return [sortedItems, labelAnglesDeg];
     }
 
 
@@ -92,16 +104,19 @@ export class OlSearchItemSelection extends OlFeature {
     }
 
 
-    private calcLabelAngles(searchItems: SearchItem[], rotationRad: number) {
+    private calcLabelAngles(searchItems: SearchItem[], rotationRad: number): number[] {
         if (searchItems.length === 0) {
             return;
         }
 
         const rotOffset = 0;
         const rotInc = Math.PI / 2 / (searchItems.length + 1);
+        const labelAnglesDeg: number[] = [];
         for (let i = 0; i < searchItems.length; i++) {
             const lableAngle_deg = UnitconversionService.rad2deg(rotationRad + (i + 1) * rotInc + rotOffset);
-            this.labelAngles_deg.push(lableAngle_deg);
+            labelAnglesDeg.push(lableAngle_deg);
         }
+
+        return labelAnglesDeg;
     }
 }

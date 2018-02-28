@@ -19,6 +19,7 @@ import { SearchItemList } from '../../model/search-item';
 
 
 const NAVBAR_HEIGHT_PX = 54;
+const CLICK_SEARCH_RADIUS_PIXEL = 50;
 
 
 @Component({
@@ -103,7 +104,7 @@ export class MapComponent implements OnInit {
     private onMapClickedCallback(position: Position2d) {
         this.searchService.searchByPosition(
             position,
-            0.2, // TODO
+            this.mapService.getRadiusDegByPixel(position, CLICK_SEARCH_RADIUS_PIXEL),
             0, // TODO
             1, // TODO
             this.onSearchByPositionSuccess.bind(this),

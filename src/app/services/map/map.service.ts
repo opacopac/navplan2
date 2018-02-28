@@ -28,6 +28,7 @@ import { DataItem } from '../../model/data-item';
 import { SearchItemList} from '../../model/search-item';
 import { OlSearchItemSelection } from '../../model/ol-model/ol-searchitem-selection';
 import { OlSearchItem } from '../../model/ol-model/ol-searchitem';
+import Pixel = ol.Pixel;
 
 
 const HIT_TOLERANCE_PIXELS = 10;
@@ -187,8 +188,14 @@ export class MapService {
     }
 
 
-    /*public getClickRadiusDeg(position: Position2d): number {
-        const clickPos = [event.pixel[0], event.pixel[1]];
+    public getRadiusDegByPixel(position: Position2d, radiusPixel: number): number {
+        const coord1Pixel = this.map.getPixelFromCoordinate(position.getMercator());
+        const coord2Pixel: Pixel = [coord1Pixel[0], coord1Pixel[1] - radiusPixel];
+        const coord2Deg = Position2d.createFromMercator(this.map.getCoordinateFromPixel(coord2Pixel));
+
+        return Math.abs(coord2Deg.latitude - position.latitude);
+
+        /*const clickPos = [event.pixel[0], event.pixel[1]];
         const coord1 = this.map.getCoordinateFromPixel(clickPos);
         const lat1 = ol.proj.toLonLat(coord1)[1];
 
@@ -196,8 +203,8 @@ export class MapService {
         const coord2 = map.getCoordinateFromPixel(clickPos);
         const lat2 = ol.proj.toLonLat(coord2)[1];
 
-        return Math.abs(lat2 - lat1);
-    }*/
+        return Math.abs(lat2 - lat1);*/
+    }
 
 
     // endregion
