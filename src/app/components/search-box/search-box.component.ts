@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import { SearchService } from '../../services/search/search.service';
 import { ButtonColor, ButtonSize } from '../buttons/button-base.directive';
 import { SearchItem, SearchItemList } from '../../model/search-item';
@@ -7,11 +7,12 @@ import { DataItem } from '../../model/data-item';
 import { Position2d } from '../../model/position';
 
 
-const MIN_QUERY_LENGTH = 2;
+const MIN_QUERY_LENGTH = 3;
 const QUERY_DELAY_MS = 250;
 const UP_KEY_CODE = 38;
 const DOWN_KEY_CODE = 40;
 const ENTER_KEY_CODE = 13;
+const ESC_KEY_CODE = 27;
 
 
 @Component({
@@ -21,6 +22,7 @@ const ENTER_KEY_CODE = 13;
 })
 export class SearchBoxComponent implements OnInit {
     @Output() dataItemSelected = new EventEmitter<[DataItem, Position2d]>();
+    @ViewChild('searchWpInput') searchWpInput: ElementRef;
     public ButtonSize = ButtonSize;
     public ButtonColor = ButtonColor;
     public searchResults: SearchItemList;
@@ -41,7 +43,17 @@ export class SearchBoxComponent implements OnInit {
     }
 
 
-    public onKeydown(event: KeyboardEvent) {
+    public focus() {
+        setTimeout(() => this.searchWpInput.nativeElement.focus(), 0);
+    }
+
+
+    public blur() {
+        setTimeout(() => this.searchWpInput.nativeElement.blur(), 0);
+    }
+
+
+    public onKeyDown(event: KeyboardEvent) {
         if (!this.searchResults || this.searchResults.items.length === 0) {
             return;
         }
@@ -50,26 +62,33 @@ export class SearchBoxComponent implements OnInit {
             case UP_KEY_CODE:
                 if (this.selectedIndex > 0) {
                     this.selectedIndex--;
+                    event.preventDefault();
                     event.stopPropagation();
                 }
                 break;
             case DOWN_KEY_CODE:
                 if (this.selectedIndex < this.searchResults.items.length - 1) {
                     this.selectedIndex++;
+                    event.preventDefault();
                     event.stopPropagation();
                 }
                 break;
             case ENTER_KEY_CODE:
                 this.onResultSelected(this.searchResults.items[this.selectedIndex]);
+                event.preventDefault();
+                event.stopPropagation();
+                break;
+            case ESC_KEY_CODE:
+                this.clearSearchResults();
+                this.blur();
+                event.preventDefault();
                 event.stopPropagation();
                 break;
         }
-
-        // TODO: if (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70)) { // check for ctrl+f
     }
 
 
-    public onKeyup(event: KeyboardEvent) {
+    public onKeyUp(event: KeyboardEvent) {
         if (this.searchQuery === this.lastQuery) {
             return;
         } else {
@@ -106,8 +125,9 @@ export class SearchBoxComponent implements OnInit {
 
 
     private executeSearch() {
-        const query = this.searchQuery.trim();
+        this.clearSearchResults();
 
+        const query = this.searchQuery.trim();
         if (query.length >= MIN_QUERY_LENGTH) {
             this.searchService.searchByText(query, this.onSearchSuccess.bind(this), this.onSearchError.bind(this));
         }

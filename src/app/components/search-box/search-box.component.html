@@ -1,14 +1,14 @@
 <div class="container mapsearch">
     <div class="input-group">
-        <input id="searchWpInput"
+        <input #searchWpInput
                type="text"
                class="form-control form-control-md"
                placeholder="search for AD, navaid, city, coordinates or click on map"
                autocomplete="off"
                [(ngModel)]="this.searchQuery"
                (blur)="this.onBlur()"
-               (keydown)="this.onKeydown($event)"
-               (keyup)="this.onKeyup($event)" />
+               (keydown)="this.onKeyDown($event)"
+               (keyup)="this.onKeyUp($event)" />
         <span class="input-group-append">
             <button appIconButton
                     title="search"
@@ -23,7 +23,7 @@
             <a href="#"
                *ngFor="let result of this.searchResults.items; let idx = index"
                class="list-group-item list-group-item-action {{ this.selectedIndex === idx ? 'active' : '' }}"
-               (click)="this.onResultSelected(result)">{{ result.getName() }}</a>
+               (click)="this.onResultSelected(result)">{{ result.getSearchResultName() }}</a>
         </div>
         <div *ngIf="this.searchResults.items.length == 0" class="search-results list-group list-group-flush">
             <div class="list-group-item list-group-item-action">&nbsp;<i>(no results found)&nbsp;</i></div>

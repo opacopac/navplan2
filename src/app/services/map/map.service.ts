@@ -113,7 +113,7 @@ export class MapService {
 
     private initLayers() {
         this.mapLayer = MapbaselayerFactory.create(this.session.settings.baseMapType);
-        this.mapFeaturesLayer = this.createEmptyVectorLayer();
+        this.mapFeaturesLayer = this.createEmptyVectorLayer(true);
         this.notamLayer = this.createEmptyVectorLayer();
         this.flightrouteLayer = this.createEmptyVectorLayer();
         this.searchItemLayer = this.createEmptyVectorLayer();
@@ -122,9 +122,10 @@ export class MapService {
     }
 
 
-    private createEmptyVectorLayer(): ol.layer.Vector {
+    private createEmptyVectorLayer(imageRenderMode: boolean = false): ol.layer.Vector {
         return new ol.layer.Vector({
-            source: new ol.source.Vector({})
+            source: new ol.source.Vector({}),
+            renderMode: imageRenderMode ? 'image' : undefined
         });
     }
 

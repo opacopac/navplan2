@@ -34,6 +34,15 @@ class DbService
     }
 
 
+    public static function execCUDQuery($conn, $query, $errorMessage = "error executing query") {
+        $result = $conn->query($query);
+        if ($result === FALSE)
+            die($errorMessage . ": " . $conn->error . " query:" . $query);
+
+        return $result;
+    }
+
+
     public static function getDbTimeString($timestamp)
     {
         return date("Y-m-d H:i:s", $timestamp);

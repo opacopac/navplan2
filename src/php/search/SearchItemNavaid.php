@@ -1,13 +1,33 @@
 <?php
 include_once __DIR__ . "/../services/DbService.php";
+include_once __DIR__ . "/../quadtree/QuadTree.php";
 
 
 class SearchItemNavaid {
-    public static function searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat) {
+    const FILENAME_NAVAID_INDEX = __DIR__ . "/../quadtree/index/navaid.qix";
+    const MIN_PIXEL_DISTANCE_BETWEEN_ITEMS = 200;  // TODO
+
+
+    public static function searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat, $zoom) {
+        // read ids from quad tree index
+        /*$resolutionDeg = $pixelResolutionDeg * self::MIN_PIXEL_DISTANCE_BETWEEN_ITEMS;
+        $file = fopen(self::FILENAME_NAVAID_INDEX, "r");
+        $itemIds = QuadTree::readItemsFromIndex($file, $minLon, $minLat, $maxLon, $maxLat, $resolutionDeg);
+        fclose($file);
+
+        if (!$itemIds || count($itemIds) == 0) {
+            return [];
+        }*/
+
         $extent = DbService::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
         $query = "SELECT *";
-        $query .= " FROM openaip_navaids";
-        $query .= " WHERE MBRIntersects(lonlat, " . $extent . ")";
+        $query .= " FROM openaip_navaids2";
+        $query .= " WHERE";
+        $query .= "  ST_INTERSECTS(lonlat, " . $extent . ")";
+        $query .= "    AND";
+        $query .= "  zoommin <= " . $zoom;
+        //$query .= " WHERE id IN (" . join(",", $itemIds) . ")";
+
 
         $result = DbService::execMultiResultQuery($conn, $query, "error searching navaids by extent");
 
@@ -29,7 +49,7 @@ class SearchItemNavaid {
 
         $result = DbService::execMultiResultQuery($conn, $query,"error searching navaids by position");
 
-        return self::readNavaidFromResult($result->fetch_array(MYSQLI_ASSOC));
+        return self::readNavaidFromResultList($result);
     }
 
 

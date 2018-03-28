@@ -1,5 +1,5 @@
 import * as $ from 'jquery';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import { MessageService } from '../../services/utils/message.service';
 import { SessionService } from '../../services/utils/session.service';
 import { MapService } from '../../services/map/map.service';
@@ -10,6 +10,7 @@ import { NotamService } from '../../services/notam/notam.service';
 import { TrafficService } from '../../services/traffic/traffic.service';
 import { Sessioncontext } from '../../model/sessioncontext';
 import { MapOverlayContainerComponent } from '../map-overlay/map-overlay-container/map-overlay-container.component';
+import { SearchBoxComponent } from '../search-box/search-box.component';
 import { Mapfeatures } from '../../model/mapfeatures';
 import { Position2d } from '../../model/position';
 import { MetarTafList} from '../../model/metar-taf';
@@ -20,6 +21,8 @@ import { SearchItemList } from '../../model/search-item';
 
 const NAVBAR_HEIGHT_PX = 54;
 const CLICK_SEARCH_RADIUS_PIXEL = 50;
+const F3_KEY_CODE = 114;
+const F_KEY_CODE = 70;
 
 
 @Component({
@@ -33,6 +36,8 @@ export class MapComponent implements OnInit {
     private currentMetarTafList: MetarTafList;
     private currentNotamList: NotamList;
     @ViewChild(MapOverlayContainerComponent) mapOverlayContainer: MapOverlayContainerComponent;
+    @ViewChild(SearchBoxComponent) searchBox: SearchBoxComponent;
+    @HostListener('window:keydown', ['$event']) keydown(event) { this.onKeyDown(event); }
 
 
     public constructor(
@@ -68,13 +73,22 @@ export class MapComponent implements OnInit {
     }
 
 
+    public onKeyDown(event: KeyboardEvent) {
+        if (event.keyCode === F3_KEY_CODE || (event.ctrlKey && event.keyCode === F_KEY_CODE)) {
+            this.searchBox.focus();
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    }
+
+
     public onResize() {
         this.resizeMapToWindow();
     }
 
 
     public onDataItemSelected(selection: [DataItem, Position2d]) {
-        this.mapOverlayContainer.showOverlay(selection[0], selection[1]);
+        this.mapOverlayContainer.showOverlay(selection[0], selection[1], undefined); // TODO: check if = waypoint
         this.mapService.setMapPosition(selection[1], 11);
     }
 
@@ -92,7 +106,7 @@ export class MapComponent implements OnInit {
 
 
     private onMapItemClickedCallback(dataItem: DataItem, clickPos: Position2d) {
-        this.mapOverlayContainer.showOverlay(dataItem, clickPos);
+        this.mapOverlayContainer.showOverlay(dataItem, clickPos, undefined);
     }
 
 

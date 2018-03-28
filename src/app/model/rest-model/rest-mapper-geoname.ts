@@ -5,6 +5,7 @@ import { Position2d } from '../position';
 export interface GeonameRestItem {
     id: string;
     name: string;
+    searchresultname: string;
     feature_class: string;
     feature_code: string;
     country: string;
@@ -22,6 +23,7 @@ export class RestMapperGeoname {
         return new Geoname(
             restItem.id,
             restItem.name,
+            restItem.searchresultname,
             restItem.feature_class,
             restItem.feature_code,
             restItem.country,

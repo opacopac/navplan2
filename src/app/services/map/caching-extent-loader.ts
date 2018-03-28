@@ -13,11 +13,13 @@ export abstract class CachingExtentLoader<T> {
 
 
     public needsReload(extent: Extent): boolean {
-        if (!this.itemCache) {
+        return true; // TODO
+
+        /*if (!this.itemCache) {
             return true;
         }
 
-        return (!this.itemCache.extent.containsExtent(extent) || this.isTimedOut());
+        return (!this.itemCache.extent.containsExtent(extent) || this.isTimedOut());*/
     }
 
 

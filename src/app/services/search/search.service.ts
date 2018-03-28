@@ -7,15 +7,14 @@ import { LoggingService } from '../utils/logging.service';
 import { GeocalcService } from '../utils/geocalc.service';
 import { SearchItemList } from '../../model/search-item';
 import { Position2d } from '../../model/position';
-import { Notam } from '../../model/notam';
 import { NotamRestItem } from '../notam/notam.service';
-import {AirportRestItem, RestMapperAirport} from '../../model/rest-model/rest-mapper-airport';
-import {NavaidRestItem, RestMapperNavaid} from '../../model/rest-model/rest-mapper-navaid';
+import { AirportRestItem, RestMapperAirport } from '../../model/rest-model/rest-mapper-airport';
+import { NavaidRestItem, RestMapperNavaid } from '../../model/rest-model/rest-mapper-navaid';
 import { AirspaceRestItem } from '../../model/rest-model/rest-mapper-airspace';
-import {ReportingPointRestItem, RestMapperReportingpoint} from '../../model/rest-model/rest-mapper-reportingpoint';
-import {RestMapperUserpoint, UserPointRestItem} from '../../model/rest-model/rest-mapper-userpoint';
+import { ReportingPointRestItem, RestMapperReportingpoint } from '../../model/rest-model/rest-mapper-reportingpoint';
+import { RestMapperUserpoint, UserPointRestItem } from '../../model/rest-model/rest-mapper-userpoint';
 import { WebcamRestItem } from '../../model/rest-model/rest-mapper-webcam';
-import {GeonameRestItem, RestMapperGeoname} from '../../model/rest-model/rest-mapper-geoname';
+import { GeonameRestItem, RestMapperGeoname} from '../../model/rest-model/rest-mapper-geoname';
 import { Extent } from '../../model/ol-model/extent';
 
 
@@ -42,6 +41,9 @@ interface SearchResponse {
 @Injectable()
 export class SearchService {
     private session: Sessioncontext;
+    private textSearchTimestamp;
+    private positionSearchTimestamp;
+
 
     constructor(
         private http: HttpClient,
@@ -109,10 +111,15 @@ export class SearchService {
             url += '&email=' + this.session.user.email + '&token=' + this.session.user.token;
         }
 
+        const timestamp = Date.now();
+        this.textSearchTimestamp = timestamp;
         this.http
             .jsonp<SearchResponse>(url, 'callback')
             .subscribe(
                 response => {
+                    if (timestamp !== this.textSearchTimestamp) {
+                        return;
+                    }
                     const searchItemList = this.getSearchItemList(response);
                     successCallback(searchItemList);
                 },
@@ -136,17 +143,22 @@ export class SearchService {
             + '&rad=' + maxRadius_deg + '&minnotamtime=' + minNotamTimestamp + '&maxnotamtime=' + maxNotamTimestamp
             + '&searchItems=airports,navaids,reportingpoints,userpoints,geonames';
 
+        const timestamp = Date.now();
+        this.positionSearchTimestamp = timestamp;
         this.http
             .jsonp<SearchResponse>(url, 'callback')
             .subscribe(
                 response => {
-                const searchItemList = this.getSearchItemList(response);
-                successCallback(searchItemList);
-            },
-            err => {
-                const message = 'ERROR performing position search!';
-                LoggingService.logResponseError(message, err);
-                errorCallback(message);
+                    if (timestamp !== this.positionSearchTimestamp) {
+                        return;
+                    }
+                    const searchItemList = this.getSearchItemList(response);
+                    successCallback(searchItemList);
+                },
+                err => {
+                    const message = 'ERROR performing position search!';
+                    LoggingService.logResponseError(message, err);
+                    errorCallback(message);
             });
     }
 

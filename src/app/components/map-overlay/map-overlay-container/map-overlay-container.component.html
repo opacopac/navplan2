@@ -13,5 +13,11 @@
         <app-map-overlay-metar-taf></app-map-overlay-metar-taf>
         <app-map-overlay-notam></app-map-overlay-notam>
         <app-map-overlay-traffic></app-map-overlay-traffic>
+        <hr/>
+        <app-map-overlay-button-add-to-route *ngIf="!this.currentWaypoint"></app-map-overlay-button-add-to-route>
+        <app-map-overlay-button-set-alternate *ngIf="this.isAirport()"></app-map-overlay-button-set-alternate>
+        <app-map-overlay-button-edit-waypoint *ngIf="this.currentWaypoint"></app-map-overlay-button-edit-waypoint>
+        <app-map-overlay-button-remove-from-route *ngIf="this.currentWaypoint"></app-map-overlay-button-remove-from-route>
+        <app-map-overlay-button-edit-userpoint *ngIf="this.isUserpoint()"></app-map-overlay-button-edit-userpoint>
     </div>
 </div>

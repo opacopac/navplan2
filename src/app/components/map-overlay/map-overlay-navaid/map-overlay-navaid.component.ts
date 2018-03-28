@@ -4,6 +4,7 @@ import { UnitconversionService } from '../../../services/utils/unitconversion.se
 import { Navaid } from '../../../model/navaid';
 import { MapOverlayContent } from '../map-overlay-content';
 import { Position2d } from '../../../model/position';
+import {Waypoint} from "../../../model/waypoint";
 
 
 @Component({

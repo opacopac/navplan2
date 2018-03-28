@@ -66,8 +66,8 @@
         echo "bootstrap/fonts/glyphicons-halflings-regular.svg\n";
 
         // openlayers
-        echo "openlayers/4.4.0/ol.css\n";
-        echo "openlayers/4.4.0/ol.js\n";
+        //echo "openlayers/4.4.0/ol.css\n";
+        //echo "openlayers/4.4.0/ol.js\n";
 
 		// css
 		echo "css/navplan.css?v=" . $ver . "\n";

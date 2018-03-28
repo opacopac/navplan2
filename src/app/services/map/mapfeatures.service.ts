@@ -1,24 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { MapService } from './map.service';
 import { LoggingService } from '../utils/logging.service';
 import { SessionService } from '../utils/session.service';
 import { Sessioncontext } from '../../model/sessioncontext';
 import { Extent } from '../../model/ol-model/extent';
 import { Mapfeatures } from '../../model/mapfeatures';
 import { CachingExtentLoader } from './caching-extent-loader';
-import { Reportingsector } from '../../model/reportingsector';
-import { Airspace, AirspaceAltitude} from '../../model/airspace';
-import {
-    Airport, AirportRunway, AirportRadio, AirportWebcam, AirportChart, AirportFeature,
-    AirportType
-} from '../../model/airport';
-import { Userpoint } from '../../model/userpoint';
-import { Reportingpoint } from '../../model/reportingpoint';
-import { Webcam } from '../../model/webcam';
-import { Navaid } from '../../model/navaid';
-import { Position2d } from '../../model/position';
-import { Polygon } from '../../model/polygon';
 import {NavaidRestItem, RestMapperNavaid} from '../../model/rest-model/rest-mapper-navaid';
 import {AirportRestItem, RestMapperAirport} from '../../model/rest-model/rest-mapper-airport';
 import {AirspaceRestItem, RestMapperAirspace} from '../../model/rest-model/rest-mapper-airspace';
@@ -48,7 +37,8 @@ export class MapfeaturesService extends CachingExtentLoader<Mapfeatures> {
 
     constructor(
         private http: HttpClient,
-        private sessionService: SessionService) {
+        private sessionService: SessionService,
+        private mapService: MapService) {
 
         super();
         this.session = sessionService.getSessionContext();
@@ -70,7 +60,7 @@ export class MapfeaturesService extends CachingExtentLoader<Mapfeatures> {
         successCallback: (Mapfeatures) => void,
         errorCallback: (string) => void) {
 
-        let url = MAPFEATURES_BASE_URL + '?minlon=' + extent[0] + '&minlat=' + extent[1] + '&maxlon=' + extent[2] + '&maxlat=' + extent[3];
+        let url = MAPFEATURES_BASE_URL + '?minlon=' + extent[0] + '&minlat=' + extent[1] + '&maxlon=' + extent[2] + '&maxlat=' + extent[3] + '&zoom=' + this.mapService.getZoom();
 
         if (this.sessionService.isLoggedIn()) {
             url += '&email=' + this.session.user.email + '&token=' + this.session.user.token;

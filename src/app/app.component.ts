@@ -16,8 +16,8 @@ export class AppComponent implements OnInit {
 
     constructor(
         public userService: UserService,
-        public  messageService: MessageService,
-        public  sessionService: SessionService) {
+        public messageService: MessageService,
+        public sessionService: SessionService) {
         this.session = sessionService.getSessionContext();
     }
 

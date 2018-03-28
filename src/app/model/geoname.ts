@@ -6,6 +6,7 @@ export class Geoname extends DataItem {
     constructor(
         public id: string,
         public name: string,
+        public searchresultname: string,
         public feature_class: string,
         public feature_code: string,
         public country: string,

@@ -23,6 +23,7 @@ import { Traffic } from '../../../model/traffic';
 import { Notam } from '../../../model/notam';
 import { Webcam } from '../../../model/webcam';
 import { Geoname } from '../../../model/geoname';
+import { Waypoint } from '../../../model/waypoint';
 
 
 @Component({
@@ -32,6 +33,8 @@ import { Geoname } from '../../../model/geoname';
 })
 export class MapOverlayContainerComponent implements OnInit {
     public title: string;
+    public currentDataItem: DataItem;
+    public currentWaypoint: Waypoint;
     private currentOverlayContent: MapOverlayContent;
     private mapOverlayContainer: HTMLElement;
     @ViewChild(MapOverlayAirportComponent) mapOverlayAirportComponent: MapOverlayAirportComponent;
@@ -56,7 +59,7 @@ export class MapOverlayContainerComponent implements OnInit {
     }
 
 
-    public showOverlay(dataItem: DataItem, clickPos: Position2d) {
+    public showOverlay(dataItem: DataItem, clickPos: Position2d, selectedWaypoint: Waypoint) {
         if (this.currentOverlayContent) {
             this.closeOverlay();
         }
@@ -86,6 +89,8 @@ export class MapOverlayContainerComponent implements OnInit {
             return;
         }
 
+        this.currentDataItem = dataItem;
+        this.currentWaypoint = selectedWaypoint;
         this.currentOverlayContent.bindFeatureData(dataItem);
         this.title = this.currentOverlayContent.getTitle();
         this.mapService.addOverlay(this.currentOverlayContent.getPosition(clickPos), this.mapOverlayContainer, true);
@@ -104,4 +109,15 @@ export class MapOverlayContainerComponent implements OnInit {
         this.currentOverlayContent = undefined;
         this.title = undefined;
     }
+
+
+    public isAirport(): boolean {
+        return (this.currentDataItem instanceof Airport);
+    }
+
+
+    public isUserpoint(): boolean {
+        return (this.currentDataItem instanceof Userpoint);
+    }
+
 }

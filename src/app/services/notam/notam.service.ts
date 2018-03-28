@@ -88,6 +88,11 @@ export class NotamService extends CachingExtentLoader<NotamList> {
         successCallback: (NotamList) => void,
         errorCallback: (string) => void) {
 
+        // TODO
+        if (1 === 1) {
+            return;
+        }
+
         const startEndTime = this.getDefaultNotamTimeslot();
         const url = NOTAM_BASE_URL + '?starttimestamp=' + startEndTime[0] + '&endtimestamp=' + startEndTime[1] +
             '&minlon=' + extent[0] + '&minlat=' + extent[1] + '&maxlon=' + extent[2] + '&maxlat=' + extent[3];

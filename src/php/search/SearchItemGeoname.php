@@ -18,7 +18,7 @@ class SearchItemGeoname
         $query .= "  AND latitude < " . ($lat + $maxRadius_deg);
         $query .= "  AND longitude > " . ($lon - $maxRadius_deg);
         $query .= "  AND longitude < " . ($lon + $maxRadius_deg);
-        $query .= "  AND " . self::getGeonamesFilterQuery();
+//        $query .= "  AND " . self::getGeonamesFilterQuery();
         $query .= " ORDER BY";
         $query .= "  ((latitude - " . $lat . ") * (latitude - " . $lat . ") + (longitude - " . $lon . ") * (longitude - " . $lon . ")) ASC";
         $query .= " LIMIT " . $maxResults;
@@ -41,7 +41,7 @@ class SearchItemGeoname
         $query .= "    ON cod2.geonames_key = CONCAT(geo.country_code, '.', geo.admin1_code, '.' , geo.admin2_code)";
         $query .= " WHERE";
         $query .= "   MATCH (geo.name, geo.alternatenames) AGAINST ('" . $searchText . "*' IN BOOLEAN MODE)";
-        $query .= "   AND " . self::getGeonamesFilterQuery();
+//        $query .= "   AND " . self::getGeonamesFilterQuery();
         $query .= " ORDER BY CASE WHEN geo.country_code = 'CH' THEN 1 ELSE 2 END ASC, geo.population DESC";
         $query .= " LIMIT " . $maxResults;
 
@@ -81,11 +81,15 @@ class SearchItemGeoname
 
             for ($i = 0; $i < count($geonames); $i++) {
                 if (in_array($i, $duplicateIdx["admin1idx"]) && $geonames[$i]["admin2"])
-                    $geonames[$i]["name"] .= " (" . $geonames[$i]["country"] . ", " . $geonames[$i]["admin1"] . ", " . $geonames[$i]["admin2"] . ")";
+                    $geonames[$i]["searchresultname"] = $geonames[$i]["name"] . " (" . $geonames[$i]["country"] . ", " . $geonames[$i]["admin1"] . ", " . $geonames[$i]["admin2"] . ")";
                 elseif (in_array($i, $duplicateIdx["nameidx"]) && $geonames[$i]["admin1"])
-                    $geonames[$i]["name"] .= " (" . $geonames[$i]["country"] . ", " . $geonames[$i]["admin1"] . ")";
+                    $geonames[$i]["searchresultname"] = $geonames[$i]["name"] . " (" . $geonames[$i]["country"] . ", " . $geonames[$i]["admin1"] . ")";
                 else
-                    $geonames[$i]["name"] .= " (" . $geonames[$i]["country"] . ")";
+                    $geonames[$i]["searchresultname"] = $geonames[$i]["name"] . " (" . $geonames[$i]["country"] . ")";
+            }
+        } else {
+            for ($i = 0; $i < count($geonames); $i++) {
+                $geonames[$i]["searchresultname"] = $geonames[$i]["name"];
             }
         }
 
@@ -149,6 +153,7 @@ class SearchItemGeoname
         return array(
             id => $rs["geonameid"],
             name => $rs["name"],
+            searchresultname => $rs["searchresultname"],
             feature_class => $rs["feature_class"],
             feature_code => $rs["feature_code"],
             country => $rs["country_code"] ? $rs["country_code"] : "",

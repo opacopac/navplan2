@@ -1,8 +1,8 @@
+import * as ol from 'openlayers';
 import { environment } from '../../../environments/environment';
 import { Position2d } from '../position';
 import { Webcam } from '../webcam';
 import { OlFeaturePoint } from './ol-feature';
-import * as ol from 'openlayers';
 
 
 export class OlWebcam extends OlFeaturePoint {

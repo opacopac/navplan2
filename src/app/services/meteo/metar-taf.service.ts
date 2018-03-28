@@ -85,6 +85,11 @@ export class MetarTafService extends CachingExtentLoader<MetarTafList> {
         successCallback: (MetarTafList) => void,
         errorCallback: (string) => void) {
 
+        // TODO
+        if (1 === 1) {
+            return;
+        }
+
         const url = METAR_TAF_BASE_URL + extent[0] + ',' + extent[1] + ',' + extent[2] + ',' + extent[3];
         this.http
             .jsonp<MetarTafResponse>(url, 'jsonp')

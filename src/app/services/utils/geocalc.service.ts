@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
 import * as ol from 'openlayers';
-import {Position2d} from "../../model/position";
+import { Injectable } from '@angular/core';
+import { Position2d } from '../../model/position';
+
 
 const wgs84Sphere = new ol.Sphere(6378137);
 const toRad = (Math.PI / 180);

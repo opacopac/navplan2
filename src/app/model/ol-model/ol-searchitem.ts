@@ -56,7 +56,7 @@ export class OlSearchItem extends OlFeaturePoint {
             }),
             text: new ol.style.Text({
                 font: 'bold 20px Calibri,sans-serif',
-                text: this.searchItem.getName(),
+                text: this.searchItem.getGeoselectionName(),
                 fill: new ol.style.Fill( { color: '#660066' } ),
                 stroke: new ol.style.Stroke( {color: '#FFFFFF', width: 20 } ),
                 offsetX: offsetX,

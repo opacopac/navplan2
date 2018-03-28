@@ -28,11 +28,11 @@ export class SearchItem {
     }
 
 
-    public getName(): string {
+    public getSearchResultName(): string {
         if (this.dataItem instanceof Airport) {
             return this.dataItem.icao ? this.dataItem.name + ' (' + this.dataItem.icao + ')' : this.dataItem.name;
         } else if (this.dataItem instanceof Navaid) {
-            return this.dataItem.name + ' (' + this.dataItem.type + ')';
+            return this.dataItem.name + ' ' + this.dataItem.type + ' (' + this.dataItem.kuerzel + ')';
         } else if (this.dataItem instanceof Reportingpoint) {
             return this.dataItem.name + ' (' + this.dataItem.airport_icao + ')';
         } else if (this.dataItem instanceof Reportingsector) {
@@ -40,9 +40,20 @@ export class SearchItem {
         } else if (this.dataItem instanceof Userpoint) {
             return this.dataItem.name;
         } else if (this.dataItem instanceof Geoname) {
-            return this.dataItem.name;
+            return this.dataItem.searchresultname;
         } else {
             return undefined;
+        }
+    }
+
+
+    public getGeoselectionName(): string {
+        if (this.dataItem instanceof Geoname) {
+            return this.dataItem.name;
+        } else if (this.dataItem instanceof Navaid) {
+            return this.dataItem.kuerzel + ' (' + this.dataItem.type + ')';
+        } else {
+            return this.getSearchResultName();
         }
     }
 
