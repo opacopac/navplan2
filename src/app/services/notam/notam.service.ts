@@ -10,6 +10,7 @@ import { Extent } from '../../model/ol-model/extent';
 import { Circle } from '../../model/circle';
 import { Position2d } from '../../model/position';
 import { Polygon } from '../../model/polygon';
+import {MapService} from "../map/map.service";
 
 
 const NOTAM_BASE_URL = environment.restApiBaseUrl + 'php/notam.php';
@@ -66,7 +67,8 @@ export class NotamService extends CachingExtentLoader<NotamList> {
 
     constructor(
         private http: HttpClient,
-        private sessionService: SessionService) {
+        private sessionService: SessionService,
+        private mapService: MapService) {
 
         super();
         this.session = this.sessionService.getSessionContext();
@@ -88,14 +90,10 @@ export class NotamService extends CachingExtentLoader<NotamList> {
         successCallback: (NotamList) => void,
         errorCallback: (string) => void) {
 
-        // TODO
-        if (1 === 1) {
-            return;
-        }
-
         const startEndTime = this.getDefaultNotamTimeslot();
         const url = NOTAM_BASE_URL + '?starttimestamp=' + startEndTime[0] + '&endtimestamp=' + startEndTime[1] +
-            '&minlon=' + extent[0] + '&minlat=' + extent[1] + '&maxlon=' + extent[2] + '&maxlat=' + extent[3];
+            '&minlon=' + extent[0] + '&minlat=' + extent[1] + '&maxlon=' + extent[2] + '&maxlat=' + extent[3] +
+            '&zoom=' + this.mapService.getZoom();
 
         this.http
             .jsonp<NotamResponse>(url, 'callback')

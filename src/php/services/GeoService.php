@@ -68,6 +68,10 @@ class GeoService {
         $dx = $x2 - $x1;
         $dy = $y2 - $y1;
 
+        if ($dx == 0 && $dy == 0) {
+            return sqrt(pow($x1 - $x0, 2) + pow($y1 - $y0, 2));
+        }
+
         return abs($dy * $x0 - $dx * $y0 + $x2 * $y1 - $y2 * $x1) / sqrt($dy * $dy + $dx * $dx);
     }
 
@@ -78,24 +82,15 @@ class GeoService {
 
 
     public static function calcGeoHash($longitude, $latitude, $maxZoomLevel) {
-        $minLon = -90.0;
-        $minLat = -180.0;
-        $maxLon = 90.0;
-        $maxLat = 180.0;
+        $minLon = -180.0;
+        $minLat = -90.0;
+        $maxLon = 180.0;
+        $maxLat = 90.0;
 
         $geoHash = "";
         for ($zoom = 0; $zoom <= $maxZoomLevel; $zoom++) {
             $midLon = ($minLon + $maxLon) / 2;
             $midLat = ($minLat + $maxLat) / 2;
-
-            /*print "lon: " . $longitude . "<br>\n";
-            print "lat: " . $latitude . "<br>\n";
-            print "minlon: " . $minLon . "<br>\n";
-            print "minlat: " . $minLat . "<br>\n";
-            print "midlon: " . $midLon . "<br>\n";
-            print "midlat: " . $midLat . "<br>\n";
-            print "maxlon: " . $maxLon . "<br>\n";
-            print "maxlat: " . $maxLat . "<br>\n";*/
 
             if ($longitude < $midLon) {
                 if ($latitude < $midLat) {
@@ -116,10 +111,6 @@ class GeoService {
                 }
                 $minLon = $midLon;
             }
-
-
-            /*print "geohash: " . $geoHash . "<br>\n";
-            print "<br><br>\n\n";*/
         }
 
         return $geoHash;
@@ -132,8 +123,7 @@ class GeoService {
 
         foreach ($coord_pairs as $latlon) {
             $coords = explode($xyDelimiter, trim($latlon));
-            $coords[0] = round($coords[0], $roundToDigits);
-            $coords[1] = round($coords[1], $roundToDigits);
+            self::reduceCoordinateAccuracy($coords, $roundToDigits);
 
             $polygon[] = $coords;
         }
@@ -149,5 +139,18 @@ class GeoService {
         }
 
         return join($pointDelimiter, $coordPairStrings);
+    }
+
+
+    public static function reduceCoordinateAccuracy(&$coordPair, $roundToDigits = 6) {
+        $coordPair[0] = round($coordPair[0], $roundToDigits);
+        $coordPair[1] = round($coordPair[1], $roundToDigits);
+    }
+
+
+    public static function reducePolygonAccuracy(&$polygon, $roundToDigits = 6) {
+        foreach ($polygon as &$coordPair) {
+            self::reduceCoordinateAccuracy($coordPair, $roundToDigits);
+        }
     }
 }

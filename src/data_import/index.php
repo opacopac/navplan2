@@ -7,10 +7,10 @@
 	<p><a href="data_import_airports.php">import airports</a></p>
 	<p><a href="data_import_navaids.php">import navaids</a></p>
 	<p><a href="data_import_airspace.php">import airspace</a></p>
-    <p><a href="data_import_create_airspace_detaillevels.php">calculate airspace detail levels</a></p>
 
-    <h4>quadtree index</h4>
-    <p><a href="data_import_create_quadtree_indexes.php">create quadtree indexes</a></p>
+    <h4>post-process AIP data</h4>
+    <p><a href="data_import_create_zoomlevels.php">calculate min zoom levels for airports / navaids</a></p>
+    <p><a href="data_import_create_airspace_detaillevels.php">calculate airspace detail levels</a></p>
 
 	<h4>geonames</h4>
 	<p><a href="data_import_geonames.php">import geonames</a></p>

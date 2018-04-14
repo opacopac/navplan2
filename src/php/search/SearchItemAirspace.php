@@ -4,10 +4,10 @@ include_once __DIR__ . "/../services/LoggingService.php";
 include_once __DIR__ . "/../services/GeoService.php";
 
 
-const MAX_BOTTOM_ALT_FL = 200;
 
 
 class SearchItemAirspace {
+    const MAX_BOTTOM_ALT_FL = 200;
     const MIN_PIXEL_AIRSPACE_DIAMETER = 50;  // TODO
     const MIN_PIXEL_COORDINATE_RESOLUTION = 2;  // TODO
 
@@ -34,7 +34,7 @@ class SearchItemAirspace {
         $query .= " WHERE";
         $query .= "  ST_INTERSECTS(air.extent, " . $extent . ")";
         $query .= "    AND";
-        $query .= "  (air.alt_bottom_height < " . MAX_BOTTOM_ALT_FL . " OR air.alt_bottom_unit <> 'FL')";
+        $query .= "  (air.alt_bottom_height < " . self::MAX_BOTTOM_ALT_FL . " OR air.alt_bottom_unit <> 'FL')";
         $query .= "    AND";
         $query .= "  air.diameter > " . $minDiameterDeg;
         $query .= "    AND";

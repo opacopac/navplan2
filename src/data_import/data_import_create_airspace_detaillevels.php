@@ -5,7 +5,6 @@ include_once __DIR__ . "/../php/services/GeoService.php";
 include_once __DIR__ . "/../php/services/DbService.php";
 include_once __DIR__ . "/../php/services/LoggingService.php";
 
-const MIN_PIXEL_AIRSPACE_DIAMETER = 10.0;
 const MIN_PIXEL_COORDINATE_RESOLUTION = 1.0;
 const MIN_ZOOM = 0;
 const MAX_ZOOM = 14;

@@ -63,6 +63,7 @@ switch($_GET["action"]) {
             checkNumeric($_GET["minlat"]),
             checkNumeric($_GET["maxlon"]),
             checkNumeric($_GET["maxlat"]),
+            checkNumeric($_GET["zoom"]),
             checkNumeric($_GET["minnotamtime"]),
             checkNumeric($_GET["maxnotamtime"]),
             $_GET["email"] ? checkEscapeEmail($conn, $_GET["email"]) : NULL,
@@ -200,7 +201,7 @@ function searchByPosition($conn, $searchItems, $lon, $lat, $maxRadius_deg, $minN
 }
 
 
-function searchByExtent($conn, $searchItems, $minLon, $minLat, $maxLon, $maxLat, $minnotamtime, $maxnotamtime, $email, $token)
+function searchByExtent($conn, $searchItems, $minLon, $minLat, $maxLon, $maxLat, $zoom, $minnotamtime, $maxnotamtime, $email, $token)
 {
     $resultNum = 0;
     $airports = [];
@@ -221,11 +222,11 @@ function searchByExtent($conn, $searchItems, $minLon, $minLat, $maxLon, $maxLat,
                 $resultNum += count($airports);
                 break;
             case SearchItems::NAVAIDS:
-                $navaids = SearchItemNavaid::searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat);
+                $navaids = SearchItemNavaid::searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat, $zoom);
                 $resultNum += count($navaids);
                 break;
             case SearchItems::AIRSPACES:
-                $airspaces = SearchItemAirspace::searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat);
+                $airspaces = SearchItemAirspace::searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat, $zoom);
                 $resultNum += count($airspaces);
                 break;
             case SearchItems::REPORTINGPOINTS:

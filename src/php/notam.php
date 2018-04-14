@@ -1,8 +1,10 @@
 <?php
-include_once "config.php";
-include_once "helper.php";
+include_once __DIR__ . "/config.php";
+include_once __DIR__ . "/helper.php";
+include_once __DIR__ . "/services/GeoService.php";
 
 const NOTAM_MAX_BOTTOM_FL = 195;
+const MIN_PIXEL_NOTAM_DIAMETER = 50;
 
 
 // open db connection
@@ -22,14 +24,15 @@ if ($_GET["minlat"])
     $maxLat = checkNumeric($_GET["maxlat"]);
     $minLon = checkNumeric($_GET["minlon"]);
     $maxLon = checkNumeric($_GET["maxlon"]);
+    $zoom = checkNumeric($_GET["zoom"]);
 
     $extentSql = "ST_GEOMFROMTEXT('POLYGON((" . $minLon . " " . $minLat . "," . $maxLon . " " . $minLat . "," . $maxLon . " " . $maxLat . "," . $minLon . " " . $maxLat . "," . $minLon . " " . $minLat . "))')";
 
     // get firs & ads within extent
-    $icaoList = getIcaoListByExtent($extentSql);
+    $icaoList = getIcaoListByExtent($extentSql, $zoom);
 
     // load notams
-    $areaNotamList = loadNotamList($icaoList, $startTimestamp, $endTimestamp);
+    $areaNotamList = loadNotamList($icaoList, $startTimestamp, $endTimestamp, $zoom);
     $areaNotamList = filterAreaNotams($areaNotamList);
 }
 
@@ -43,7 +46,7 @@ if ($_GET["icaolist"])
         $icaoList[] = checkEscapeAlphaNumeric($conn, $icao, 4, 4);
 
     // load notams
-    $locationNotamList = loadNotamList($icaoList, $startTimestamp, $endTimestamp);
+    $locationNotamList = loadNotamList($icaoList, $startTimestamp, $endTimestamp, $zoom);
 }
 
 
@@ -85,13 +88,13 @@ function buildReturnObject($locationNotamList, $areaNotamList)
 }
 
 
-function getIcaoListByExtent($extentSql) // TODO: return only ICAOs
+function getIcaoListByExtent($extentSql, $zoom) // TODO: return only ICAOs
 {
     global $conn;
 
     $query = "SELECT DISTINCT icao FROM icao_fir WHERE ST_INTERSECTS(polygon, " . $extentSql . ") AND icao <> ''";
     $query .= " UNION ";
-    $query .= "SELECT DISTINCT icao FROM openaip_airports WHERE ST_INTERSECTS(lonlat, " . $extentSql . ") AND icao <> ''";
+    $query .= "SELECT DISTINCT icao FROM openaip_airports2 WHERE zoommin <= " . $zoom . " AND ST_INTERSECTS(lonlat, " . $extentSql . ") AND icao <> ''";
 
     $result = $conn->query($query);
 
@@ -107,15 +110,21 @@ function getIcaoListByExtent($extentSql) // TODO: return only ICAOs
 }
 
 
-function loadNotamList($icaoList, $startTimestamp, $endTimestamp)
+function loadNotamList($icaoList, $startTimestamp, $endTimestamp, $zoom)
 {
     global $conn;
+    $pixelResolutionDeg = GeoService::calcDegPerPixelByZoom($zoom);
+    $minDiameterDeg = $pixelResolutionDeg * MIN_PIXEL_NOTAM_DIAMETER;
+
 
     $query = "SELECT ntm.notam AS notam, geo.geometry AS geometry, ST_AsText(geo.extent) AS extent FROM icao_notam AS ntm"
-        . " INNER JOIN icao_notam_geometry AS geo ON geo.icao_notam_id = ntm.id"
-        . " WHERE icao IN ('" .  join("','", $icaoList) . "')"
-        . " AND startdate <= '" . getDbTimeString($endTimestamp) . "'"
-        . " AND enddate >= '" . getDbTimeString($startTimestamp) . "'";
+        . " INNER JOIN icao_notam_geometry2 AS geo ON geo.icao_notam_id = ntm.id"
+        . " WHERE ntm.icao IN ('" .  join("','", $icaoList) . "')"
+        . " AND ntm.startdate <= '" . getDbTimeString($endTimestamp) . "'"
+        . " AND ntm.enddate >= '" . getDbTimeString($startTimestamp) . "'"
+        . " AND geo.diameter >= " . $minDiameterDeg
+        . " AND geo.zoommin <= " . $zoom
+        . " AND geo.zoommax >= " . $zoom;
     $result = $conn->query($query);
 
     if ($result === FALSE)
