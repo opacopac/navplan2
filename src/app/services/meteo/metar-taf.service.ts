@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 import { LoggingService } from '../utils/logging.service';
 import { SessionService } from '../utils/session.service';
 import { Sessioncontext } from '../../model/sessioncontext';
@@ -7,9 +8,9 @@ import { CachingExtentLoader } from '../map/caching-extent-loader';
 import { Extent } from '../../model/ol-model/extent';
 import { MetarTaf, MetarTafList } from '../../model/metar-taf';
 import { StringnumberService } from '../utils/stringnumber.service';
-import {environment} from "../../../environments/environment";
 
 
+const MIN_ZOOM_LEVEL = 8;
 const MAXAGESEC = 5 * 60 * 1000; // 5 min
 const METAR_TAF_BASE_URL = 'https://www.aviationweather.gov/gis/scripts/MetarJSON.php?taf=true&density=all&bbox='; // 6.0,44.0,10.0,48.0';
 
@@ -75,18 +76,19 @@ export class MetarTafService extends CachingExtentLoader<MetarTafList> {
     }
 
 
-    public isTimedOut(): boolean {
-        return (this.itemCache && this.itemCache.getAgeSec() > MAXAGESEC);
+    public isTimedOut(ageSec: number): boolean {
+        return (ageSec > MAXAGESEC);
     }
 
 
     protected loadFromSource(
         extent: Extent,
+        zoom: number,
         successCallback: (MetarTafList) => void,
         errorCallback: (string) => void) {
 
         // TODO
-        if (1 === 1) {
+        if (zoom <= MIN_ZOOM_LEVEL) {
             return;
         }
 

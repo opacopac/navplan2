@@ -27,6 +27,15 @@ class GeoService {
     }
 
 
+    public static function simplifyMultipolygon($polygonList, $epsilon) {
+        $simplePolygonList = [];
+        foreach ($polygonList as $polygon) {
+            $simplePolygonList[] = self::simplifyPolygon($polygon, $epsilon);
+        }
+        return $simplePolygonList;
+    }
+
+
     public static function simplifyLine($linePoints, $epsilon) {
         $numPoints = count($linePoints);
         if ($numPoints <= 2) {
@@ -151,6 +160,15 @@ class GeoService {
     public static function reducePolygonAccuracy(&$polygon, $roundToDigits = 6) {
         foreach ($polygon as &$coordPair) {
             self::reduceCoordinateAccuracy($coordPair, $roundToDigits);
+        }
+    }
+
+
+    public static function reduceMultiPolygonAccuracy(&$multiPolygon, $roundToDigits = 6) {
+        foreach ($multiPolygon as &$polygon) {
+            foreach ($polygon as &$coordPair) {
+                self::reduceCoordinateAccuracy($coordPair, $roundToDigits);
+            }
         }
     }
 }

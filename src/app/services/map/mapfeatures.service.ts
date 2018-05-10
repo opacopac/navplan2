@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { MapService } from './map.service';
 import { LoggingService } from '../utils/logging.service';
 import { SessionService } from '../utils/session.service';
 import { Sessioncontext } from '../../model/sessioncontext';
 import { Extent } from '../../model/ol-model/extent';
 import { Mapfeatures } from '../../model/mapfeatures';
 import { CachingExtentLoader } from './caching-extent-loader';
-import {NavaidRestItem, RestMapperNavaid} from '../../model/rest-model/rest-mapper-navaid';
-import {AirportRestItem, RestMapperAirport} from '../../model/rest-model/rest-mapper-airport';
-import {AirspaceRestItem, RestMapperAirspace} from '../../model/rest-model/rest-mapper-airspace';
-import {ReportingPointRestItem, RestMapperReportingpoint} from '../../model/rest-model/rest-mapper-reportingpoint';
-import {RestMapperUserpoint, UserPointRestItem} from '../../model/rest-model/rest-mapper-userpoint';
-import {RestMapperWebcam, WebcamRestItem} from '../../model/rest-model/rest-mapper-webcam';
+import { NavaidRestItem, RestMapperNavaid } from '../../model/rest-model/rest-mapper-navaid';
+import { AirportRestItem, RestMapperAirport } from '../../model/rest-model/rest-mapper-airport';
+import { AirspaceRestItem, RestMapperAirspace } from '../../model/rest-model/rest-mapper-airspace';
+import { ReportingPointRestItem, RestMapperReportingpoint } from '../../model/rest-model/rest-mapper-reportingpoint';
+import { RestMapperUserpoint, UserPointRestItem } from '../../model/rest-model/rest-mapper-userpoint';
+import { RestMapperWebcam, WebcamRestItem } from '../../model/rest-model/rest-mapper-webcam';
 
 
 const MAPFEATURES_BASE_URL = environment.restApiBaseUrl + 'php/mapFeatures.php';
@@ -37,8 +36,7 @@ export class MapfeaturesService extends CachingExtentLoader<Mapfeatures> {
 
     constructor(
         private http: HttpClient,
-        private sessionService: SessionService,
-        private mapService: MapService) {
+        private sessionService: SessionService) {
 
         super();
         this.session = sessionService.getSessionContext();
@@ -50,17 +48,19 @@ export class MapfeaturesService extends CachingExtentLoader<Mapfeatures> {
     }
 
 
-    public isTimedOut(): boolean {
+    public isTimedOut(ageSec: number): boolean {
         return false;
     }
 
 
     protected loadFromSource(
         extent: Extent,
+        zoom: number,
         successCallback: (Mapfeatures) => void,
         errorCallback: (string) => void) {
 
-        let url = MAPFEATURES_BASE_URL + '?minlon=' + extent[0] + '&minlat=' + extent[1] + '&maxlon=' + extent[2] + '&maxlat=' + extent[3] + '&zoom=' + this.mapService.getZoom();
+        let url = MAPFEATURES_BASE_URL + '?minlon=' + extent[0] + '&minlat=' + extent[1] + '&maxlon=' + extent[2]
+            + '&maxlat=' + extent[3] + '&zoom=' + zoom;
 
         if (this.sessionService.isLoggedIn()) {
             url += '&email=' + this.session.user.email + '&token=' + this.session.user.token;

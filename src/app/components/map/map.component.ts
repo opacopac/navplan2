@@ -146,18 +146,20 @@ export class MapComponent implements OnInit {
 
     private updateMap(isInitialUpdate: boolean) {
         const extent = this.mapService.getExtent();
+        const zoom = this.mapService.getZoom();
         this.trafficService.setExtent(extent);
 
         if (!isInitialUpdate &&
-            !this.mapFeatureService.needsReload(extent) &&
-            !this.metarTafService.needsReload(extent) &&
-            !this.notamService.needsReload(extent)) {
+            !this.mapFeatureService.needsReload(extent, zoom) &&
+            !this.metarTafService.needsReload(extent, zoom) &&
+            !this.notamService.needsReload(extent, zoom)) {
 
             return;
         }
 
         this.mapFeatureService.load(
             extent,
+            this.mapService.getZoom(),
             this.onMapFeaturesLoaded.bind(this),
             this.onMapFeaturesLoadError.bind(this)
         );
@@ -170,11 +172,13 @@ export class MapComponent implements OnInit {
 
         this.metarTafService.load(
             this.mapService.getExtent(),
+            this.mapService.getZoom(),
             this.onMetarTafLoaded.bind(this),
             this.onMetarTafLoadError.bind(this));
 
         this.notamService.load(
             this.mapService.getExtent(),
+            this.mapService.getZoom(),
             this.onNotamLoaded.bind(this),
             this.onNotamLoadError.bind(this));
     }

@@ -5,18 +5,13 @@ import { LoggingService } from '../utils/logging.service';
 import { SessionService } from '../utils/session.service';
 import { Sessioncontext } from '../../model/sessioncontext';
 import { CachingExtentLoader } from '../map/caching-extent-loader';
-import { Notam, NotamGeometry, NotamList, NotamLocationType } from '../../model/notam';
+import { NotamList } from '../../model/notam';
 import { Extent } from '../../model/ol-model/extent';
-import { Circle } from '../../model/circle';
-import { Position2d } from '../../model/position';
-import { Polygon } from '../../model/polygon';
-import {MapService} from "../map/map.service";
+import { NotamRestItem, RestMapperNotam } from '../../model/rest-model/rest-mapper-notam';
 
 
 const NOTAM_BASE_URL = environment.restApiBaseUrl + 'php/notam.php';
 
-
-// region INTERFACES
 
 interface NotamResponse {
     locationnotamlist: NotamRestItem[]; // TODO: remove
@@ -24,51 +19,14 @@ interface NotamResponse {
 }
 
 
-export interface NotamRestItem {
-    id: string;
-    entity: string;
-    status: string;
-    Qcode: string;
-    Area: string;
-    SubArea: string;
-    Condition: string;
-    Subject: string;
-    Modifier: string;
-    message: string;
-    startdate: string;
-    enddate: string;
-    all: string;
-    location: string;
-    isICAO: boolean;
-    Created: string;
-    key: string;
-    type: string;
-    StateCode: string;
-    StateName: string;
-    geometry: NotamRestItemGeometry;
-}
-
-
-export interface NotamRestItemGeometry {
-    center: [number, number];
-    radius: number;
-    polygon: [number, number][];
-    top: number;
-    bottom: number;
-}
-
-
-// endregion
-
-
 @Injectable()
 export class NotamService extends CachingExtentLoader<NotamList> {
     private session: Sessioncontext;
 
+
     constructor(
         private http: HttpClient,
-        private sessionService: SessionService,
-        private mapService: MapService) {
+        private sessionService: SessionService) {
 
         super();
         this.session = this.sessionService.getSessionContext();
@@ -80,20 +38,21 @@ export class NotamService extends CachingExtentLoader<NotamList> {
     }
 
 
-    public isTimedOut(): boolean {
+    public isTimedOut(ageSec: number): boolean {
         return false;
     }
 
 
     protected loadFromSource(
         extent: Extent,
+        zoom: number,
         successCallback: (NotamList) => void,
         errorCallback: (string) => void) {
 
         const startEndTime = this.getDefaultNotamTimeslot();
         const url = NOTAM_BASE_URL + '?starttimestamp=' + startEndTime[0] + '&endtimestamp=' + startEndTime[1] +
             '&minlon=' + extent[0] + '&minlat=' + extent[1] + '&maxlon=' + extent[2] + '&maxlat=' + extent[3] +
-            '&zoom=' + this.mapService.getZoom();
+            '&zoom=' + zoom;
 
         this.http
             .jsonp<NotamResponse>(url, 'callback')
@@ -123,55 +82,10 @@ export class NotamService extends CachingExtentLoader<NotamList> {
         const notamList = new NotamList();
 
         for (const item of response.areanotamlist) {
-            const notam = new Notam(
-                item.id,
-                item.all,
-                new Date(item.startdate),
-                new Date(item.enddate),
-                item.Created ? new Date(item.Created) : undefined,
-                item.location,
-                item.isICAO,
-                item.key,
-                NotamLocationType[item.type],
-                item.StateCode,
-                item.StateName,
-                item.entity,
-                item.status,
-                item.Qcode,
-                item.Area,
-                item.SubArea,
-                item.Condition,
-                item.Subject,
-                item.Modifier,
-                item.message,
-                this.getNotamGeometry(item));
-
+            const notam = RestMapperNotam.getNavaidFromRestItem(item);
             notamList.items.push(notam);
         }
 
         return notamList;
-    }
-
-
-    private getNotamGeometry(item: NotamRestItem): NotamGeometry {
-        if (!item.geometry) {
-            return undefined;
-        }
-
-        if (item.geometry.center) {
-            return new NotamGeometry(
-                new Circle(
-                    Position2d.createFromLonLat(item.geometry.center),
-                    item.geometry.radius),
-                item.geometry.top,
-                item.geometry.bottom);
-        } else if (item.geometry.polygon) {
-            return new NotamGeometry(
-                Polygon.createFromLonLatList(item.geometry.polygon),
-                item.geometry.top,
-                item.geometry.bottom);
-        }
-
-        return undefined;
     }
 }

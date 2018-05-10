@@ -1,5 +1,5 @@
-import {Polygon} from "../polygon";
-import {Airspace, AirspaceAltitude} from "../airspace";
+import { Polygon } from '../polygon';
+import { Airspace, AirspaceAltitude } from '../airspace';
 
 export interface AirspaceRestItem {
     id: number;

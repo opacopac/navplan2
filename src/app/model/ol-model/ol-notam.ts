@@ -1,13 +1,14 @@
 import * as ol from 'openlayers';
 import { UnitconversionService } from '../../services/utils/unitconversion.service';
-import { OlFeaturePolygon } from './ol-feature';
+import { OlFeature } from './ol-feature';
 import { Notam } from '../notam';
 import { Polygon } from '../polygon';
+import { Multipolygon } from '../multipolygon';
 import { Circle } from '../circle';
 import { Geometry2dType } from '../geometry2d';
 
 
-export class OlNotam extends OlFeaturePolygon {
+export class OlNotam extends OlFeature {
     public constructor(
         public notam: Notam) {
 
@@ -15,34 +16,47 @@ export class OlNotam extends OlFeaturePolygon {
     }
 
 
-    protected getPolygon(): Polygon {
-        if (!this.notam.geometry) {
-            return undefined;
+    public draw(source: ol.source.Vector) {
+        if (!this.notam || ! this.notam.geometry || ! this.notam.geometry.geometry2d) {
+            return;
         }
 
-        if (this.notam.geometry.geometry2d.getGeometryType() === Geometry2dType.POLYGON) {
-            return this.notam.geometry.geometry2d as Polygon;
-        } else if (this.notam.geometry.geometry2d.getGeometryType() === Geometry2dType.CIRCLE) {
-            const circle = this.notam.geometry.geometry2d as Circle;
+        switch (this.notam.geometry.geometry2d.getGeometryType()) {
+            case Geometry2dType.POLYGON:
+                this.setGeometry(new ol.geom.Polygon([(this.notam.geometry.geometry2d as Polygon).getMercatorList()]));
+                break;
+            case Geometry2dType.MULTIPOLYGON:
+                this.setGeometry(new ol.geom.Polygon((this.notam.geometry.geometry2d as Multipolygon).getMercatorList()));
+                break;
+            case Geometry2dType.CIRCLE:
+                const circle = this.notam.geometry.geometry2d as Circle;
 
-            // TODO
-            if (circle.radius_m > UnitconversionService.nautmile2m(50)) {
-                return undefined;
-            }
+                // TODO: skip circles > 50nm
+                if (circle.radius_m > UnitconversionService.nautmile2m(50)) {
+                    return;
+                }
 
-            const polycirc = ol.geom.Polygon.circular(
-                new ol.Sphere(6378137),
-                circle.center.getLonLat(),
-                circle.radius_m);
+                // create polygon from circle
+                const polycirc = ol.geom.Polygon.circular(
+                    new ol.Sphere(6378137),
+                    circle.center.getLonLat(),
+                    circle.radius_m);
+                this.setGeometry(new ol.geom.Polygon([Polygon.createFromLonLatList(polycirc.getCoordinates()[0]).getMercatorList()]));
+                break;
+            default:
+                return;
+        }
 
-            return Polygon.createFromLonLatList(polycirc.getCoordinates()[0]);
-        } else {
-            return undefined;
+
+        const style = this.createStyle();
+        if (style) {
+            this.setStyle(style);
+            source.addFeature(this);
         }
     }
 
 
-    protected createPolygonStyle(): ol.style.Style {
+    protected createStyle(): ol.style.Style {
         return new ol.style.Style({
             fill: new ol.style.Fill({
                 color: 'rgba(255, 0, 0, 0.15)'}),

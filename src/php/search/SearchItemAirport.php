@@ -1,4 +1,4 @@
-<?php
+ng <?php
 include_once __DIR__ . "/../services/DbService.php";
 
 
@@ -25,7 +25,7 @@ class SearchItemAirport {
 
     public static function searchByPosition($conn, $lon, $lat, $maxRadius_deg, $maxResults, $email = null) {
         $query  = "SELECT *";
-        $query .= " FROM openaip_airports";
+        $query .= " FROM openaip_airports2";
         $query .= " WHERE";
         $query .= "   latitude > " . ($lat - $maxRadius_deg);
         $query .= "   AND latitude < " . ($lat + $maxRadius_deg);
@@ -45,7 +45,7 @@ class SearchItemAirport {
 
     public static function searchByText($conn, $searchText, $maxResults, $email) {
         $query = "SELECT *";
-        $query .= " FROM openaip_airports";
+        $query .= " FROM openaip_airports2";
         $query .= " WHERE";
         $query .= "   icao LIKE '" . $searchText . "%'";
         $query .= "   OR name LIKE '" . $searchText . "%'";
@@ -92,7 +92,7 @@ class SearchItemAirport {
 
     private static function loadAirportRunways($conn, &$airports, $apIdList) {
         $query  = "SELECT *";
-        $query .= " FROM openaip_runways";
+        $query .= " FROM openaip_runways2";
         $query .= " WHERE operations = 'ACTIVE' AND airport_id IN (" . $apIdList . ")";
         $query .= " ORDER BY length DESC, surface ASC, id ASC";
 
@@ -113,7 +113,7 @@ class SearchItemAirport {
         $query  = "SELECT *,";
         $query .= "  (CASE WHEN category = 'COMMUNICATION' THEN 1 WHEN category = 'OTHER' THEN 2 WHEN category = 'INFORMATION' THEN 3 ELSE 4 END) AS sortorder1,";
         $query .= "  (CASE WHEN type = 'TOWER' THEN 1 WHEN type = 'CTAF' THEN 2 WHEN type = 'OTHER' THEN 3 ELSE 4 END) AS sortorder2";
-        $query .= " FROM openaip_radios";
+        $query .= " FROM openaip_radios2";
         $query .= " WHERE airport_id IN (" . $apIdList . ")";
         $query .= " ORDER BY";
         $query .= "   sortorder1 ASC,";

@@ -6,5 +6,6 @@ export interface Geometry2d {
 export enum Geometry2dType {
     POSITION,
     POLYGON,
+    MULTIPOLYGON,
     CIRCLE
 }

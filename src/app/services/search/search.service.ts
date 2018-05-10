@@ -7,7 +7,6 @@ import { LoggingService } from '../utils/logging.service';
 import { GeocalcService } from '../utils/geocalc.service';
 import { SearchItemList } from '../../model/search-item';
 import { Position2d } from '../../model/position';
-import { NotamRestItem } from '../notam/notam.service';
 import { AirportRestItem, RestMapperAirport } from '../../model/rest-model/rest-mapper-airport';
 import { NavaidRestItem, RestMapperNavaid } from '../../model/rest-model/rest-mapper-navaid';
 import { AirspaceRestItem } from '../../model/rest-model/rest-mapper-airspace';
@@ -15,6 +14,7 @@ import { ReportingPointRestItem, RestMapperReportingpoint } from '../../model/re
 import { RestMapperUserpoint, UserPointRestItem } from '../../model/rest-model/rest-mapper-userpoint';
 import { WebcamRestItem } from '../../model/rest-model/rest-mapper-webcam';
 import { GeonameRestItem, RestMapperGeoname} from '../../model/rest-model/rest-mapper-geoname';
+import { NotamRestItem } from '../../model/rest-model/rest-mapper-notam';
 import { Extent } from '../../model/ol-model/extent';
 
 
