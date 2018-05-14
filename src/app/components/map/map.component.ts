@@ -9,14 +9,31 @@ import { MetarTafService } from '../../services/meteo/metar-taf.service';
 import { NotamService } from '../../services/notam/notam.service';
 import { TrafficService } from '../../services/traffic/traffic.service';
 import { Sessioncontext } from '../../model/sessioncontext';
-import { MapOverlayContainerComponent } from '../map-overlay/map-overlay-container/map-overlay-container.component';
 import { SearchBoxComponent } from '../search-box/search-box.component';
 import { Mapfeatures } from '../../model/mapfeatures';
 import { Position2d } from '../../model/position';
-import { MetarTafList} from '../../model/metar-taf';
-import { NotamList } from '../../model/notam';
+import { MetarTaf, MetarTafList} from '../../model/metar-taf';
+import { Notam, NotamList} from '../../model/notam';
 import { DataItem } from '../../model/data-item';
 import { SearchItemList } from '../../model/search-item';
+import { Userpoint} from '../../model/userpoint';
+import { Navaid} from '../../model/navaid';
+import { Traffic} from '../../model/traffic';
+import { Geoname} from '../../model/geoname';
+import { Webcam} from '../../model/webcam';
+import { Reportingsector} from '../../model/reportingsector';
+import { Waypoint} from '../../model/waypoint';
+import { Reportingpoint} from '../../model/reportingpoint';
+import { Airport} from '../../model/airport';
+import { MapOverlayContainer} from '../map-overlay/map-overlay-container';
+import { MapOverlayAirportComponent} from '../map-overlay/map-overlay-airport/map-overlay-airport.component';
+import { MapOverlayGeonameComponent } from '../map-overlay/map-overlay-geoname/map-overlay-geoname.component';
+import { MapOverlayNavaidComponent } from '../map-overlay/map-overlay-navaid/map-overlay-navaid.component';
+import { MapOverlayReportingpointComponent } from '../map-overlay/map-overlay-reportingpoint/map-overlay-reportingpoint.component';
+import { MapOverlayReportingsectorComponent } from '../map-overlay/map-overlay-reportingsector/map-overlay-reportingsector.component';
+import { MapOverlayUserpointComponent } from '../map-overlay/map-overlay-userpoint/map-overlay-userpoint.component';
+import { MapOverlayTrafficComponent } from '../map-overlay/map-overlay-traffic/map-overlay-traffic.component';
+import { MapOverlayNotamComponent } from '../map-overlay/map-overlay-notam/map-overlay-notam.component';
 
 
 const NAVBAR_HEIGHT_PX = 54;
@@ -35,7 +52,14 @@ export class MapComponent implements OnInit {
     private currentMapFeatures: Mapfeatures;
     private currentMetarTafList: MetarTafList;
     private currentNotamList: NotamList;
-    @ViewChild(MapOverlayContainerComponent) mapOverlayContainer: MapOverlayContainerComponent;
+    @ViewChild(MapOverlayAirportComponent) mapOverlayAirportComponent: MapOverlayAirportComponent;
+    @ViewChild(MapOverlayNavaidComponent) mapOverlayNavaidComponent: MapOverlayNavaidComponent;
+    @ViewChild(MapOverlayReportingpointComponent) mapOverlayReportingpointComponent: MapOverlayReportingpointComponent;
+    @ViewChild(MapOverlayReportingsectorComponent) mapOverlayReportingsectorComponent: MapOverlayReportingsectorComponent;
+    @ViewChild(MapOverlayUserpointComponent) mapOverlayUserpointComponent: MapOverlayUserpointComponent;
+    @ViewChild(MapOverlayGeonameComponent) mapOverlayGeonameComponent: MapOverlayGeonameComponent;
+    @ViewChild(MapOverlayTrafficComponent) mapOverlayTrafficComponent: MapOverlayTrafficComponent;
+    @ViewChild(MapOverlayNotamComponent) mapOverlayNotamComponent: MapOverlayNotamComponent;
     @ViewChild(SearchBoxComponent) searchBox: SearchBoxComponent;
     @HostListener('window:keydown', ['$event']) keydown(event) { this.onKeyDown(event); }
 
@@ -53,6 +77,8 @@ export class MapComponent implements OnInit {
         this.session = this.sessionService.getSessionContext();
     }
 
+
+    // region events
 
     public ngOnInit() {
         this.resizeMapToWindow();
@@ -74,6 +100,7 @@ export class MapComponent implements OnInit {
 
 
     public onKeyDown(event: KeyboardEvent) {
+        // search: f3 or ctrl + f
         if (event.keyCode === F3_KEY_CODE || (event.ctrlKey && event.keyCode === F_KEY_CODE)) {
             this.searchBox.focus();
             event.preventDefault();
@@ -82,21 +109,14 @@ export class MapComponent implements OnInit {
     }
 
 
-    public onResize() {
-        this.resizeMapToWindow();
-    }
-
-
-    public onDataItemSelected(selection: [DataItem, Position2d]) {
-        this.mapOverlayContainer.showOverlay(selection[0], selection[1], undefined); // TODO: check if = waypoint
+    public onSearchResultSelected(selection: [DataItem, Position2d]) {
+        this.performSelectItemAction(selection[0], selection[1]);
         this.mapService.setMapPosition(selection[1], 11);
     }
 
 
-    private resizeMapToWindow() {
-        $('#map').offset({top: NAVBAR_HEIGHT_PX, left: 0});
-        $('#map').height($(window).height() - NAVBAR_HEIGHT_PX);
-        $('#map').width($(window).width());
+    public onResize() {
+        this.resizeMapToWindow();
     }
 
 
@@ -106,12 +126,17 @@ export class MapComponent implements OnInit {
 
 
     private onMapItemClickedCallback(dataItem: DataItem, clickPos: Position2d) {
-        this.mapOverlayContainer.showOverlay(dataItem, clickPos, undefined);
+        this.performSelectItemAction(dataItem, clickPos);
     }
 
 
     private onMapOverlayClosedCallback() {
-        this.mapOverlayContainer.onOverlayClosed();
+        // TODO: databind undef?
+    }
+
+
+    public onOverlayClose() {
+        this.mapService.closeOverlay();
     }
 
 
@@ -141,28 +166,6 @@ export class MapComponent implements OnInit {
 
 
     private onFullScreenClickedCallback() {
-    }
-
-
-    private updateMap(isInitialUpdate: boolean) {
-        const extent = this.mapService.getExtent();
-        const zoom = this.mapService.getZoom();
-        this.trafficService.setExtent(extent);
-
-        if (!isInitialUpdate &&
-            !this.mapFeatureService.needsReload(extent, zoom) &&
-            !this.metarTafService.needsReload(extent, zoom) &&
-            !this.notamService.needsReload(extent, zoom)) {
-
-            return;
-        }
-
-        this.mapFeatureService.load(
-            extent,
-            this.mapService.getZoom(),
-            this.onMapFeaturesLoaded.bind(this),
-            this.onMapFeaturesLoadError.bind(this)
-        );
     }
 
 
@@ -216,5 +219,110 @@ export class MapComponent implements OnInit {
 
     private onNotamLoadError(message: string) {
         // TODO
+    }
+
+
+    // endregion
+
+
+    private updateMap(isInitialUpdate: boolean) {
+        const extent = this.mapService.getExtent();
+        const zoom = this.mapService.getZoom();
+        this.trafficService.setExtent(extent);
+
+        if (!isInitialUpdate &&
+            !this.mapFeatureService.needsReload(extent, zoom) &&
+            !this.metarTafService.needsReload(extent, zoom) &&
+            !this.notamService.needsReload(extent, zoom)) {
+
+            return;
+        }
+
+        this.mapFeatureService.load(
+            extent,
+            this.mapService.getZoom(),
+            this.onMapFeaturesLoaded.bind(this),
+            this.onMapFeaturesLoadError.bind(this)
+        );
+    }
+
+
+    private resizeMapToWindow() {
+        $('#map').offset({top: NAVBAR_HEIGHT_PX, left: 0});
+        $('#map').height($(window).height() - NAVBAR_HEIGHT_PX);
+        $('#map').width($(window).width());
+    }
+
+
+    private performSelectItemAction(dataItem: DataItem, clickPos: Position2d) {
+        let overlay: MapOverlayContainer;
+        this.mapService.closeOverlay();
+
+        if (dataItem instanceof Airport) {
+            overlay = this.mapOverlayAirportComponent;
+            overlay.bindFeatureData(dataItem);
+
+            // load notams
+            if (!this.mapOverlayAirportComponent.airport || !this.mapOverlayAirportComponent.airport.notams
+                || this.mapOverlayAirportComponent.airport.notams.length === 0) {
+                this.notamService.loadByIcao([dataItem.icao], this.onAirportNotamLoadedSuccess.bind(this),
+                    this.onAirportNotamLoadedError.bind(this));
+            }
+            // load metar / taf
+            if (!this.mapOverlayAirportComponent.airport || !this.mapOverlayAirportComponent.airport.metarTaf) {
+                this.metarTafService.loadByIcao(dataItem.icao, this.onAirportMetarTafLoadedSuccess.bind(this),
+                    this.onAirportMetarTafLoadedError.bind(this));
+            }
+        } else if (dataItem instanceof Navaid) {
+            overlay = this.mapOverlayNavaidComponent;
+            overlay.bindFeatureData(dataItem);
+        } else if (dataItem instanceof Reportingpoint) {
+            overlay = this.mapOverlayReportingpointComponent;
+            overlay.bindFeatureData(dataItem);
+        } else if (dataItem instanceof Reportingsector) {
+            overlay = this.mapOverlayReportingsectorComponent;
+            overlay.bindFeatureData(dataItem);
+        } else if (dataItem instanceof Userpoint) {
+            overlay = this.mapOverlayUserpointComponent;
+            overlay.bindFeatureData(dataItem);
+        } else if (dataItem instanceof Geoname) {
+            overlay = this.mapOverlayGeonameComponent;
+            overlay.bindFeatureData(dataItem);
+        } else if (dataItem instanceof Notam) {
+            overlay = this.mapOverlayNotamComponent;
+            overlay.bindFeatureData(dataItem);
+        } else if (dataItem instanceof Traffic) {
+            overlay = this.mapOverlayTrafficComponent;
+            overlay.bindFeatureData(dataItem);
+        } else if (dataItem instanceof Webcam) {
+            window.open(dataItem.url, '_blank');
+            return;
+        } else {
+            return;
+        }
+
+        this.mapService.addOverlay(overlay.getPosition(clickPos), overlay.getContainerHtmlElement(), true);
+    }
+
+
+    private onAirportNotamLoadedSuccess(notamList: NotamList) {
+        if (this.mapOverlayAirportComponent.airport) {
+            this.mapOverlayAirportComponent.airport.notams = notamList.items;
+        }
+    }
+
+
+    private onAirportNotamLoadedError(message: string) {
+    }
+
+
+    private onAirportMetarTafLoadedSuccess(metarTaf: MetarTaf) {
+        if (this.mapOverlayAirportComponent.airport) {
+            this.mapOverlayAirportComponent.airport.metarTaf = metarTaf;
+        }
+    }
+
+
+    private onAirportMetarTafLoadedError(message: string) {
     }
 }

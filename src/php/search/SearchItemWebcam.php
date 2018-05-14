@@ -20,6 +20,11 @@ class SearchItemWebcam {
     }
 
 
+    public static function searchByIcao($conn, $icaoList, $minNotamTimestamp, $maxNotamTimestamp) {
+        die("not implemented!");
+    }
+
+
     private static function readWebcamFromResult($rs) {
         return array(
             id => $rs["id"],

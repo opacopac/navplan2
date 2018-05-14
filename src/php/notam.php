@@ -46,7 +46,7 @@ if ($_GET["icaolist"])
         $icaoList[] = checkEscapeAlphaNumeric($conn, $icao, 4, 4);
 
     // load notams
-    $locationNotamList = loadNotamList($icaoList, $startTimestamp, $endTimestamp, $zoom);
+    $locationNotamList = loadNotamList($icaoList, $startTimestamp, $endTimestamp, 255);
 }
 
 

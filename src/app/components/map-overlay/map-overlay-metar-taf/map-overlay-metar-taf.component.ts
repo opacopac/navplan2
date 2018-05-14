@@ -4,7 +4,6 @@ import { StringnumberService } from '../../../services/utils/stringnumber.servic
 import { MetarTaf } from '../../../model/metar-taf';
 import { SessionService } from '../../../services/utils/session.service';
 import { Sessioncontext } from '../../../model/sessioncontext';
-import {MapOverlayContent} from "../map-overlay-content";
 import {Position2d} from "../../../model/position";
 import {OlNavaid} from "../../../model/ol-model/ol-navaid";
 import {OlMetar} from "../../../model/ol-model/ol-metar";
@@ -17,7 +16,7 @@ import {OlMetarSky} from "../../../model/ol-model/ol-metar-sky";
   templateUrl: './map-overlay-metar-taf.component.html',
   styleUrls: ['./map-overlay-metar-taf.component.css']
 })
-export class MapOverlayMetarTafComponent implements OnInit, MapOverlayContent {
+export class MapOverlayMetarTafComponent implements OnInit {
     public session: Sessioncontext;
     @Input() metarTaf: MetarTaf;
 

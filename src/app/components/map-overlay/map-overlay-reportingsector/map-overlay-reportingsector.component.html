@@ -1,14 +1,26 @@
-<div *ngIf="this.reportingsector">
-    <h5 class="card-title">{{ this.reportingsector.name }} ({{ this.reportingsector.airport_icao }})</h5>
-    <p *ngIf="this.reportingsector.min_ft || this.reportingsector.max_ft">
-        Altitude:
-        {{ this.reportingsector.min_ft ? 'min. ' + this.reportingsector.min_ft + 'ft' : '' }}
-        <span *ngIf="this.reportingsector.min_ft && this.reportingsector.max_ft">/</span>
-        {{ this.reportingsector.max_ft ? 'max. ' + this.reportingsector.max_ft + 'ft' : '' }}
-    </p>
-    <p *ngIf="this.reportingsector.inbd_comp || this.reportingsector.outbd_comp">
-        Compulsory: {{ this.reportingsector.inbd_comp ? 'INBD' : '' }}
-        <span *ngIf="this.reportingsector.inbd_comp && this.reportingsector.outbd_comp">&amp;</span>
-        {{ this.reportingsector.outbd_comp ? 'OUTBD' : '' }}
-    </p>
+<div id="map-overlay-reportingsector-container" class="ol-popup card text-white bg-primary mb-3" style="visibility: hidden">
+    <div *ngIf="this.reportingsector">
+        <div class="card-header">
+            {{ this.reportingsector.name }} ({{ this.reportingsector.airport_icao }})
+            <app-map-overlay-button-close (click)="this.closeOverlay()"></app-map-overlay-button-close>
+        </div>
+        <div class="card-body">
+            <p>Type: ARR Sector</p>
+            <p *ngIf="this.reportingsector.min_ft || this.reportingsector.max_ft">
+                Altitude:
+                {{ this.reportingsector.min_ft ? 'min. ' + this.reportingsector.min_ft + 'ft' : '' }}
+                <span *ngIf="this.reportingsector.min_ft && this.reportingsector.max_ft">/</span>
+                {{ this.reportingsector.max_ft ? 'max. ' + this.reportingsector.max_ft + 'ft' : '' }}
+            </p>
+            <p *ngIf="this.reportingsector.inbd_comp || this.reportingsector.outbd_comp">
+                Compulsory: {{ this.reportingsector.inbd_comp ? 'INBD' : '' }}
+                <span *ngIf="this.reportingsector.inbd_comp && this.reportingsector.outbd_comp">&amp;</span>
+                {{ this.reportingsector.outbd_comp ? 'OUTBD' : '' }}
+            </p>
+            <hr/>
+            <app-map-overlay-button-add-to-route *ngIf="!this.currentWaypoint"></app-map-overlay-button-add-to-route>
+            <app-map-overlay-button-edit-waypoint *ngIf="this.currentWaypoint"></app-map-overlay-button-edit-waypoint>
+            <app-map-overlay-button-remove-from-route *ngIf="this.currentWaypoint"></app-map-overlay-button-remove-from-route>
+        </div>
+    </div>
 </div>

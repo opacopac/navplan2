@@ -44,6 +44,11 @@ class SearchItemReportingPoint {
     }
 
 
+    public static function searchByIcao($conn, $icaoList, $minNotamTimestamp, $maxNotamTimestamp) {
+        die("not implemented!");
+    }
+
+
     private static function readReportingPointFromResultList($result) {
         $reportingPoint = [];
         while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {

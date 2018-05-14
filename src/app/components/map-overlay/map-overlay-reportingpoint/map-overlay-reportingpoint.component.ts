@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Reportingpoint } from '../../../model/reportingpoint';
 import { StringnumberService } from '../../../services/utils/stringnumber.service';
-import { MapOverlayContent } from '../map-overlay-content';
 import { Position2d } from '../../../model/position';
+import { MapOverlayContainer } from '../map-overlay-container';
 
 
 @Component({
@@ -10,25 +10,23 @@ import { Position2d } from '../../../model/position';
     templateUrl: './map-overlay-reportingpoint.component.html',
     styleUrls: ['./map-overlay-reportingpoint.component.css']
 })
-export class MapOverlayReportingpointComponent implements OnInit, MapOverlayContent {
+export class MapOverlayReportingpointComponent extends MapOverlayContainer implements OnInit {
     public reportingpoint: Reportingpoint;
-
-
-    constructor() {
-    }
+    private container: HTMLElement;
 
 
     ngOnInit() {
+        this.container = document.getElementById('map-overlay-reportingpoint-container');
+    }
+
+
+    public getContainerHtmlElement() {
+        return this.container;
     }
 
 
     public bindFeatureData(reportingPoint: Reportingpoint) {
         this.reportingpoint = reportingPoint;
-    }
-
-
-    public getTitle(): string {
-        return 'Reporting Point';
     }
 
 

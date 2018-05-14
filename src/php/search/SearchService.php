@@ -27,7 +27,7 @@ const MAX_TEXT_SEARCH_RESULTS = 25;
 const MAX_TEXT_SEARCH_RESULTS_PER_ENTITY = 10;
 const MAX_POSITION_SEARCH_RESULTS = 80;
 const MAX_POSITION_SEARCH_RESULTS_PER_ENTITY = 80;
-const MAX_EXTENT_SEARCH_RESULTS = 1000;
+const MAX_EXTENT_SEARCH_RESULTS = 9999;
 const MAX_EXTENT_SEARCH_RESULTS_PER_ENTITY = 100;
 
 $conn = openDb();
@@ -49,8 +49,8 @@ switch($_GET["action"]) {
             checkNumeric($_GET["lon"]),
             checkNumeric($_GET["lat"]),
             checkNumeric($_GET["rad"]),
-            checkNumeric($_GET["minnotamtime"]),
-            checkNumeric($_GET["maxnotamtime"]),
+            $_GET["minnotamtime"] ? checkNumeric($_GET["minnotamtime"]) : 0,
+            $_GET["maxnotamtime"] ? checkNumeric($_GET["maxnotamtime"]) : 0,
             $_COOKIE["email"] ? checkEscapeEmail($conn, $_COOKIE["email"]) : NULL,
             $_COOKIE["token"] ? checkEscapeToken($conn, $_COOKIE["token"]) : NULL
         );
@@ -64,10 +64,19 @@ switch($_GET["action"]) {
             checkNumeric($_GET["maxlon"]),
             checkNumeric($_GET["maxlat"]),
             checkNumeric($_GET["zoom"]),
-            checkNumeric($_GET["minnotamtime"]),
-            checkNumeric($_GET["maxnotamtime"]),
+            $_GET["minnotamtime"] ? checkNumeric($_GET["minnotamtime"]) : 0,
+            $_GET["maxnotamtime"] ? checkNumeric($_GET["maxnotamtime"]) : 0,
             $_GET["email"] ? checkEscapeEmail($conn, $_GET["email"]) : NULL,
             $_GET["token"] ? checkEscapeToken($conn, $_GET["token"]) : NULL
+        );
+        break;
+    case "searchByIcao":
+        $searchResults = searchByIcao(
+            $conn,
+            checkSearchItems($_GET["searchItems"]),
+            checkIcaoList($_GET["icao"]),
+            $_GET["minnotamtime"] ? checkNumeric($_GET["minnotamtime"]) : 0,
+            $_GET["maxnotamtime"] ? checkNumeric($_GET["maxnotamtime"]) : 0
         );
         break;
     default:
@@ -88,10 +97,24 @@ function checkSearchItems($searchItemString) {
         die("search items not specified");
 
     $searchItems = explode(',', $searchItemString);
-    foreach ($searchItems as $item)
+    foreach ($searchItems as $item) {
         checkAlphaNumeric($item, 1, 20);
+    }
 
     return $searchItems;
+}
+
+
+function checkIcaoList($icaoString) {
+    if (!$icaoString)
+        die("icao list not specified");
+
+    $icaoList = explode(",", $icaoString);
+    foreach ($icaoList as $icao) {
+        checkAlphaNumeric($icao, 4, 4);
+    }
+
+    return $icaoList;
 }
 
 
@@ -218,7 +241,7 @@ function searchByExtent($conn, $searchItems, $minLon, $minLat, $maxLon, $maxLat,
 
         switch ($searchItem) {
             case SearchItems::AIRPORTS:
-                $airports = SearchItemAirport::searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat, $email);
+                $airports = SearchItemAirport::searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat, $email, $zoom);
                 $resultNum += count($airports);
                 break;
             case SearchItems::NAVAIDS:
@@ -256,6 +279,45 @@ function searchByExtent($conn, $searchItems, $minLon, $minLat, $maxLon, $maxLat,
         SearchItems::AIRSPACES => $airspaces,
         SearchItems::REPORTINGPOINTS => $reportingPoints,
         SearchItems::USERPOINTS => $userPoints,
+        SearchItems::WEBCAMS => $webcams,
+        SearchItems::GEONAMES => [],
+        SearchItems::NOTAMS => $notams
+    );
+}
+
+
+function searchByIcao($conn, $searchItems, $icaoList, $minnotamtime, $maxnotamtime)
+{
+    $airports = [];
+    $reportingPoints = [];
+    $webcams = [];
+    $notams = [];
+
+    foreach ($searchItems as $searchItem) {
+        switch ($searchItem) {
+            case SearchItems::AIRPORTS:
+                $airports = SearchItemAirport::searchByIcao($conn, $icaoList, $minnotamtime, $maxnotamtime);
+                break;
+            case SearchItems::REPORTINGPOINTS:
+                $reportingPoints = SearchItemReportingPoint::searchByIcao($conn, $icaoList, $minnotamtime, $maxnotamtime);
+                break;
+            case SearchItems::WEBCAMS:
+                $webcams = SearchItemWebcam::searchByIcao($conn, $icaoList, $minnotamtime, $maxnotamtime);
+                break;
+            case SearchItems::NOTAMS:
+                $notams = SearchItemNotam::searchByIcao($conn, $icaoList, $minnotamtime, $maxnotamtime);
+                break;
+        }
+    }
+
+
+    // return output
+    return array(
+        SearchItems::AIRPORTS => $airports,
+        SearchItems::NAVAIDS => [],
+        SearchItems::AIRSPACES => [],
+        SearchItems::REPORTINGPOINTS => $reportingPoints,
+        SearchItems::USERPOINTS =>[],
         SearchItems::WEBCAMS => $webcams,
         SearchItems::GEONAMES => [],
         SearchItems::NOTAMS => $notams

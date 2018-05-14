@@ -1,15 +1,27 @@
-<div *ngIf="this.reportingpoint">
-    <h5 class="card-title">{{ this.reportingpoint.name }} ({{ this.reportingpoint.airport_icao }})</h5>
-    <p>{{ this.getPositionString() }}</p>
-    <p *ngIf="this.reportingpoint.min_ft || this.reportingpoint.max_ft">
-        Altitude:
-        {{ this.reportingpoint.min_ft ? 'min. ' + this.reportingpoint.min_ft + 'ft' : '' }}
-        <span *ngIf="this.reportingpoint.min_ft && this.reportingpoint.max_ft">/</span>
-        {{ this.reportingpoint.max_ft ? 'max. ' + this.reportingpoint.max_ft + 'ft' : '' }}
-    </p>
-    <p *ngIf="this.reportingpoint.inbd_comp || this.reportingpoint.outbd_comp">
-        Compulsory: {{ this.reportingpoint.inbd_comp ? 'INBD' : '' }}
-        <span *ngIf="this.reportingpoint.inbd_comp && this.reportingpoint.outbd_comp">&amp;</span>
-        {{ this.reportingpoint.outbd_comp ? 'OUTBD' : '' }}
-    </p>
+<div id="map-overlay-reportingpoint-container" class="ol-popup card text-white bg-primary mb-3" style="visibility: hidden">
+    <div *ngIf="this.reportingpoint">
+        <div class="card-header">
+            {{ this.reportingpoint.name }} ({{ this.reportingpoint.airport_icao }})
+            <app-map-overlay-button-close (click)="this.closeOverlay()"></app-map-overlay-button-close>
+        </div>
+        <div class="card-body">
+            <p>Type: Reporting Point</p>
+            <p>{{ this.getPositionString(this.reportingpoint.position) }}</p>
+            <p *ngIf="this.reportingpoint.min_ft || this.reportingpoint.max_ft">
+                Altitude:
+                {{ this.reportingpoint.min_ft ? 'min. ' + this.reportingpoint.min_ft + 'ft' : '' }}
+                <span *ngIf="this.reportingpoint.min_ft && this.reportingpoint.max_ft">/</span>
+                {{ this.reportingpoint.max_ft ? 'max. ' + this.reportingpoint.max_ft + 'ft' : '' }}
+            </p>
+            <p *ngIf="this.reportingpoint.inbd_comp || this.reportingpoint.outbd_comp">
+                Compulsory: {{ this.reportingpoint.inbd_comp ? 'INBD' : '' }}
+                <span *ngIf="this.reportingpoint.inbd_comp && this.reportingpoint.outbd_comp">&amp;</span>
+                {{ this.reportingpoint.outbd_comp ? 'OUTBD' : '' }}
+            </p>
+            <hr/>
+            <app-map-overlay-button-add-to-route *ngIf="!this.currentWaypoint"></app-map-overlay-button-add-to-route>
+            <app-map-overlay-button-edit-waypoint *ngIf="this.currentWaypoint"></app-map-overlay-button-edit-waypoint>
+            <app-map-overlay-button-remove-from-route *ngIf="this.currentWaypoint"></app-map-overlay-button-remove-from-route>
+        </div>
+    </div>
 </div>

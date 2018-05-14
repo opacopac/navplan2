@@ -1,10 +1,8 @@
 import { Component, OnInit} from '@angular/core';
 import { StringnumberService } from '../../../services/utils/stringnumber.service';
-import { UnitconversionService } from '../../../services/utils/unitconversion.service';
 import { Navaid } from '../../../model/navaid';
-import { MapOverlayContent } from '../map-overlay-content';
 import { Position2d } from '../../../model/position';
-import {Waypoint} from "../../../model/waypoint";
+import { MapOverlayContainer } from '../map-overlay-container';
 
 
 @Component({
@@ -12,15 +10,18 @@ import {Waypoint} from "../../../model/waypoint";
     templateUrl: './map-overlay-navaid.component.html',
     styleUrls: ['./map-overlay-navaid.component.css']
 })
-export class MapOverlayNavaidComponent implements OnInit, MapOverlayContent {
+export class MapOverlayNavaidComponent extends MapOverlayContainer implements OnInit {
     public navaid: Navaid;
-
-
-    constructor() {
-    }
+    private container: HTMLElement;
 
 
     ngOnInit() {
+        this.container = document.getElementById('map-overlay-navaid-container');
+    }
+
+
+    public getContainerHtmlElement() {
+        return this.container;
     }
 
 
@@ -29,24 +30,8 @@ export class MapOverlayNavaidComponent implements OnInit, MapOverlayContent {
     }
 
 
-    public getTitle(): string {
-        return 'Navigational Aid';
-    }
-
-
     public getPosition(clickPos: Position2d): Position2d {
         return this.navaid.position;
-    }
-
-
-    public getPositionString(): string {
-        return StringnumberService.getDmsString(this.navaid.position.getLonLat());
-    }
-
-
-
-    public getElevationString() {
-        return Math.round(UnitconversionService.m2ft(this.navaid.elevation_m)) + 'ft';
     }
 
 

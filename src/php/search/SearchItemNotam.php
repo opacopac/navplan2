@@ -2,14 +2,20 @@
 include_once __DIR__ . "/../services/DbService.php";
 
 
-const NOTAM_MAX_BOTTOM_FL = 195;
-
-
 class SearchItemNotam {
-    public static function searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat, $minNotamTimestamp, $maxNotamTimestamp) {
+    const NOTAM_MAX_BOTTOM_FL = 195;
+    const MIN_PIXEL_NOTAMAREA_DIAMETER = 30;  // TODO
+    const MIN_PIXEL_COORDINATE_RESOLUTION = 2;  // TODO
+
+
+    public static function searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat, $zoom, $minNotamTimestamp, $maxNotamTimestamp) {
+        die("not implemented");
+
+        /*$extent = DbService::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
+        $pixelResolutionDeg = GeoService::calcDegPerPixelByZoom($zoom);
+        $minDiameterDeg = $pixelResolutionDeg * self::MIN_PIXEL_NOTAMAREA_DIAMETER;
         // get firs & ads within extent
-        $extentSql = DbService::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
-        $icaoList = getIcaoListByExtent($extentSql);
+        $icaoList = self::loadIcaoListByExtent($conn, $minLon, $minLat, $maxLon, $maxLat);
 
         // load notams by icao
         $query = "SELECT ntm.notam AS notam, geo.geometry AS geometry, ST_AsText(geo.extent) AS extent"
@@ -17,13 +23,19 @@ class SearchItemNotam {
             . "    INNER JOIN icao_notam_geometry AS geo ON geo.icao_notam_id = ntm.id"
             . "   WHERE icao IN ('" .  join("','", $icaoList) . "')"
             . "    AND startdate <= '" . DbService::getDbTimeString($maxNotamTimestamp) . "'"
-            . "    AND enddate >= '" . DbService::getDbTimeString($minNotamTimestamp) . "'";
+            . "    AND enddate >= '" . DbService::getDbTimeString($minNotamTimestamp) . "'"
+            . "  ST_INTERSECTS(air.extent, " . $extent . ")"
+            . "    AND"
+            . "  air.diameter > " . $minDiameterDeg
+            . "    AND"
+            . "  (" . $zoom . " >= det.zoommin AND " . $zoom . "<= det.zoommax)";
+
 
         $result = DbService::execMultiResultQuery($conn, $query, "error reading notams");
         $areaNotamList = self::readNotamFromResultList($result);
         $areaNotamList = self::removeNonAreaNotams($areaNotamList);
 
-        return $areaNotamList;
+        return $areaNotamList;*/
     }
 
 
@@ -46,6 +58,22 @@ class SearchItemNotam {
     }
 
 
+    public static function searchByIcao($conn, $icaoList, $minNotamTimestamp, $maxNotamTimestamp) {
+        $query = "SELECT ntm.notam AS notam"
+            . "   FROM icao_notam AS ntm"
+            . "    INNER JOIN icao_notam_geometry2 geo ON geo.icao_notam_id = ntm.id"
+            . "   WHERE"
+            . "    ntm.icao IN ('" . join("','", $icaoList) . "')"
+            . "    AND ntm.startdate <= '" . DbService::getDbTimeString($maxNotamTimestamp) . "'"
+            . "    AND ntm.enddate >= '" . DbService::getDbTimeString($minNotamTimestamp) . "'"
+            . "   ORDER BY ntm.startdate DESC";
+
+        $result = DbService::execMultiResultQuery($conn, $query, "error searching notams");
+
+        return self::readNotamFromResultList($result);
+    }
+
+
     public static function searchByReference($conn, $ref) {
         die("not implemented");
     }
@@ -56,7 +84,7 @@ class SearchItemNotam {
     }
 
 
-    private static function loadIcaoListByExtent($conn, $minLon, $minLat, $maxLon, $maxLat) {
+    /*private static function loadIcaoListByExtent($conn, $minLon, $minLat, $maxLon, $maxLat) {
         $extentSql = DbService::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
         $query = "SELECT DISTINCT icao FROM icao_fir WHERE ST_INTERSECTS(polygon, " . $extentSql . ") AND icao <> ''";
         $query .= " UNION ";
@@ -96,7 +124,7 @@ class SearchItemNotam {
         }
 
         return false;
-    }
+    }*/
 
 
     private static function readNotamFromResultList($result) {

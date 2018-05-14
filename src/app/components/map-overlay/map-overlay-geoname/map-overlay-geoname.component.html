@@ -1,5 +1,18 @@
-<div *ngIf="this.geoname">
-  <h5 class="card-title">{{ this.geoname.name }}</h5>
-  <p>{{ this.getPositionString() }}</p>
-  <p>Elevation: {{ this.getElevationString() }}</p>
+<div id="map-overlay-geoname-container" class="ol-popup card text-white bg-primary mb-3" style="visibility: hidden">
+    <div *ngIf="this.geoname">
+        <div class="card-header">
+            {{ this.geoname.name }}
+            <app-map-overlay-button-close (click)="this.closeOverlay()"></app-map-overlay-button-close>
+        </div>
+        <div class="card-body">
+            <p>{{ this.geoname.name }} ({{ this.getAdminString() }})</p>
+            <p>Type: {{ this.getTypeString() }}</p>
+            <p>{{ this.getPositionString(this.geoname.position) }}</p>
+            <p>Elevation: {{ this.getElevationString(this.geoname.elevation_m) }}</p>
+            <hr/>
+            <app-map-overlay-button-add-to-route *ngIf="!this.currentWaypoint"></app-map-overlay-button-add-to-route>
+            <app-map-overlay-button-edit-waypoint *ngIf="this.currentWaypoint"></app-map-overlay-button-edit-waypoint>
+            <app-map-overlay-button-remove-from-route *ngIf="this.currentWaypoint"></app-map-overlay-button-remove-from-route>
+        </div>
+    </div>
 </div>

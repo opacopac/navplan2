@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { StringnumberService } from '../../../services/utils/stringnumber.service';
 import { Notam } from '../../../model/notam';
-import { MapOverlayContent } from '../map-overlay-content';
 import { Position2d } from '../../../model/position';
+import { MapOverlayContainer } from '../map-overlay-container';
 
 
 @Component({
@@ -10,37 +10,23 @@ import { Position2d } from '../../../model/position';
     templateUrl: './map-overlay-notam.component.html',
     styleUrls: ['./map-overlay-notam.component.css']
 })
-export class MapOverlayNotamComponent implements OnInit, MapOverlayContent {
-    public notamList: Notam[];
-
-
-    constructor() {
-    }
+export class MapOverlayNotamComponent extends MapOverlayContainer implements OnInit {
+    public notam: Notam;
+    private container: HTMLElement;
 
 
     ngOnInit() {
+        this.container = document.getElementById('map-overlay-notam-container');
+    }
+
+
+    public getContainerHtmlElement() {
+        return this.container;
     }
 
 
     public bindFeatureData(notam: Notam) {
-        if (!notam) {
-            this.notamList = undefined;
-        } else {
-            this.notamList = [notam];
-        }
-    }
-
-
-    public getTitle(): string {
-        let title = 'NOTAM ';
-
-        if (this.notamList.length === 1) {
-            title += this.notamList[0].id;
-        } else if (this.notamList.length > 1) {
-            title += 'for ' + this.notamList[0].locationIcao + ' (today & tomorrow)';
-        }
-
-        return title;
+        this.notam = notam;
     }
 
 
@@ -49,29 +35,34 @@ export class MapOverlayNotamComponent implements OnInit, MapOverlayContent {
     }
 
 
-    public getNotamTitle(notam: Notam): string {
-        if (!notam || !notam.isIcaoFormat) {
+    public getNotamTitle(): string {
+        if (!this.notam || !this.notam.isIcaoFormat) {
             return '';
-        } else if (notam.qCode.indexOf('XX') === 0) {
+        } else if (this.notam.qCode.indexOf('XX') === 0) {
             return '';
-        } else if (notam.qCode.indexOf('XX') === 2) {
-            return notam.subject;
+        } else if (this.notam.qCode.indexOf('XX') === 2) {
+            return this.notam.subject;
         } else {
-            return notam.subject + ' ' + notam.modifier;
+            return this.notam.subject + ' ' + this.notam.modifier;
         }
     }
 
 
-    public getNotamValidity(notam: Notam): string {
+    public getNotamText(): string {
+        return this.notam.fullNotam.replace(/\n/g, '<br />');
+    }
+
+
+    public getNotamValidity(): string {
         let fromText, tillText: string;
 
         // TODO: move date parsing to import
-        if (notam.isIcaoFormat) {
+        if (this.notam.isIcaoFormat) {
             const timeRegFrom = /\sB\)\s+((\d\d)(\d\d)(\d\d)(\d\d)(\d\d))\s/im;
-            const result1 = notam.fullNotam.match(timeRegFrom);
+            const result1 = this.notam.fullNotam.match(timeRegFrom);
 
             const timeRegTill = /\sC\)\s+((\d\d)(\d\d)(\d\d)(\d\d)(\d\d)|PERM)\s/im;
-            const result2 = notam.fullNotam.match(timeRegTill);
+            const result2 = this.notam.fullNotam.match(timeRegTill);
 
             if (result1 && result2) {
                 const d1 = this.getUtcDate(result1);
@@ -85,8 +76,8 @@ export class MapOverlayNotamComponent implements OnInit, MapOverlayContent {
                 }
             }
         } else {
-            fromText = new Date(notam.startDate).toLocaleDateString();
-            tillText = new Date(notam.endDate).toLocaleDateString();
+            fromText = new Date(this.notam.startDate).toLocaleDateString();
+            tillText = new Date(this.notam.endDate).toLocaleDateString();
         }
 
         return '(' + fromText + ' - ' + tillText + ')';
@@ -117,10 +108,5 @@ export class MapOverlayNotamComponent implements OnInit, MapOverlayContent {
         const datePart = date.toLocaleDateString();
         const timePart = StringnumberService.zeroPad(date.getHours()) + ':' + StringnumberService.zeroPad(date.getMinutes());
         return datePart + ' ' + timePart + ' LT'; // + Math.round(date.getTimezoneOffset() / -60);
-    }
-
-
-    public getNotamText(notam: Notam): string {
-        return notam.fullNotam.replace(/\n/g, '<br />');
     }
 }

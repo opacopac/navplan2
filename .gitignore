@@ -43,3 +43,9 @@ Thumbs.db
 
 # pw files
 /src/php/config.php
+
+# data files
+/src/data_import/openaip_airports/*
+/src/data_import/openaip_airspace/*
+/src/data_import/openaip_navaids/*
+/src/meteoretriever/data/*

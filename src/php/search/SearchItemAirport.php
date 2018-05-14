@@ -1,4 +1,4 @@
-ng <?php
+<?php
 include_once __DIR__ . "/../services/DbService.php";
 
 
@@ -65,6 +65,11 @@ class SearchItemAirport {
         self::loadAirportSubItems($conn, $airports, $email);
 
         return $airports;
+    }
+
+
+    public static function searchByIcao($conn, $icaoList, $minNotamTimestamp, $maxNotamTimestamp) {
+        die("not implemented!");
     }
 
 

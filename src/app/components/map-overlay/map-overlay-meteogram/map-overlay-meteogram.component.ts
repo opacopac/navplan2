@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MapOverlayContent } from '../map-overlay-content';
 import { Position2d } from '../../../model/position';
 import { DataItem } from '../../../model/data-item';
 
@@ -9,7 +8,7 @@ import { DataItem } from '../../../model/data-item';
     templateUrl: './map-overlay-meteogram.component.html',
     styleUrls: ['./map-overlay-meteogram.component.css']
 })
-export class MapOverlayMeteogramComponent implements OnInit, MapOverlayContent {
+export class MapOverlayMeteogramComponent implements OnInit {
     constructor() {
     }
 

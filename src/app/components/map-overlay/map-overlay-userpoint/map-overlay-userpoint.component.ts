@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Userpoint } from '../../../model/userpoint';
-import { StringnumberService } from '../../../services/utils/stringnumber.service';
-import { MapOverlayContent } from '../map-overlay-content';
 import { Position2d } from '../../../model/position';
+import { MapOverlayContainer } from '../map-overlay-container';
 
 
 @Component({
@@ -10,15 +9,18 @@ import { Position2d } from '../../../model/position';
     templateUrl: './map-overlay-userpoint.component.html',
     styleUrls: ['./map-overlay-userpoint.component.css']
 })
-export class MapOverlayUserpointComponent implements OnInit, MapOverlayContent {
+export class MapOverlayUserpointComponent extends MapOverlayContainer implements OnInit {
     public userpoint: Userpoint;
-
-
-    constructor() {
-    }
+    private container: HTMLElement;
 
 
     ngOnInit() {
+        this.container = document.getElementById('map-overlay-userpoint-container');
+    }
+
+
+    public getContainerHtmlElement() {
+        return this.container;
     }
 
 
@@ -27,17 +29,7 @@ export class MapOverlayUserpointComponent implements OnInit, MapOverlayContent {
     }
 
 
-    public getTitle(): string {
-        return 'User Point';
-    }
-
-
     public getPosition(clickPos: Position2d): Position2d {
         return this.userpoint.position;
-    }
-
-
-    public getPositionString(): string {
-        return StringnumberService.getDmsString(this.userpoint.position.getLonLat());
     }
 }

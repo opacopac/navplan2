@@ -15,7 +15,7 @@ import { RestMapperUserpoint, UserPointRestItem } from '../../model/rest-model/r
 import { RestMapperWebcam, WebcamRestItem } from '../../model/rest-model/rest-mapper-webcam';
 
 
-const MAPFEATURES_BASE_URL = environment.restApiBaseUrl + 'php/mapFeatures.php';
+const MAPFEATURES_BASE_URL = environment.restApiBaseUrl + 'php/search/SearchService.php';
 const USER_WP_BASE_URL = environment.restApiBaseUrl + 'php/userWaypoint.php';
 
 
@@ -23,8 +23,8 @@ export interface MapFeaturesResponse {
     navaids: NavaidRestItem[];
     airports: AirportRestItem[];
     airspaces: AirspaceRestItem[];
-    reportingPoints: ReportingPointRestItem[];
-    userPoints: UserPointRestItem[];
+    reportingpoints: ReportingPointRestItem[];
+    userpoints: UserPointRestItem[];
     webcams: WebcamRestItem[];
 }
 
@@ -58,16 +58,8 @@ export class MapfeaturesService extends CachingExtentLoader<Mapfeatures> {
         zoom: number,
         successCallback: (Mapfeatures) => void,
         errorCallback: (string) => void) {
-
-        let url = MAPFEATURES_BASE_URL + '?minlon=' + extent[0] + '&minlat=' + extent[1] + '&maxlon=' + extent[2]
-            + '&maxlat=' + extent[3] + '&zoom=' + zoom;
-
-        if (this.sessionService.isLoggedIn()) {
-            url += '&email=' + this.session.user.email + '&token=' + this.session.user.token;
-        }
-
         this.http
-            .jsonp<MapFeaturesResponse>(url, 'callback')
+            .jsonp<MapFeaturesResponse>(this.buildRequestUrl(extent, zoom), 'callback')
             .subscribe(
                 response => {
                     const mapFeatures = this.getMapFeaturesFromResponse(response);
@@ -79,6 +71,23 @@ export class MapfeaturesService extends CachingExtentLoader<Mapfeatures> {
                     errorCallback(message);
                 }
             );
+    }
+
+
+    private buildRequestUrl(extent: Extent, zoom: number): string {
+        let url = MAPFEATURES_BASE_URL + '?action=searchByExtent' + '&minlon=' + extent[0] + '&minlat=' + extent[1]
+            + '&maxlon=' + extent[2] + '&maxlat=' + extent[3] + '&zoom=' + zoom;
+        url += '&searchItems=airports,navaids,airspaces';
+        if (zoom >= 10) {
+            url += ',webcams';
+        }
+        if (zoom >= 11) {
+            url += ',reportingpoints,userpoints';
+        }
+        if (this.sessionService.isLoggedIn()) {
+            url += '&email=' + this.session.user.email + '&token=' + this.session.user.token;
+        }
+        return url;
     }
 
 
@@ -101,7 +110,7 @@ export class MapfeaturesService extends CachingExtentLoader<Mapfeatures> {
         }
 
         // reporting points
-        for (const subRestItem of response.reportingPoints) {
+        for (const subRestItem of response.reportingpoints) {
             switch (subRestItem.type) {
                 case 'POINT':
                     mapFeatures.reportingpoints.push(RestMapperReportingpoint.getReportingpointFromRestItem(subRestItem));
@@ -113,7 +122,7 @@ export class MapfeaturesService extends CachingExtentLoader<Mapfeatures> {
         }
 
         // user points
-        for (const subRestItem of response.userPoints) {
+        for (const subRestItem of response.userpoints) {
             mapFeatures.userpoints.push(RestMapperUserpoint.getUserpointFromRestItem(subRestItem));
         }
 

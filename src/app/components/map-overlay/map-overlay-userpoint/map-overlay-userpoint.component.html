@@ -1,7 +1,19 @@
-<div *ngIf="this.userpoint">
-    <h5 class="card-title">{{ this.userpoint.name }}</h5>
-    <p>{{ this.getPositionString() }}</p>
-    <p *ngIf="this.userpoint.remark">Remark: {{ this.userpoint.remark }}</p>
-    <hr/>
-    <app-map-overlay-button-meteogram></app-map-overlay-button-meteogram>
+<div id="map-overlay-userpoint-container" class="ol-popup card text-white bg-primary mb-3"
+     style="visibility: hidden">
+    <div *ngIf="this.userpoint">
+        <div class="card-header">
+            {{ this.userpoint.name }}
+            <app-map-overlay-button-close (click)="this.closeOverlay()"></app-map-overlay-button-close>
+        </div>
+        <div class="card-body">
+            <p>Type: User Point</p>
+            <p>{{ this.getPositionString(this.userpoint.position) }}</p>
+            <p *ngIf="this.userpoint.remark">Remark: {{ this.userpoint.remark }}</p>
+            <hr/>
+            <app-map-overlay-button-add-to-route *ngIf="!this.currentWaypoint"></app-map-overlay-button-add-to-route>
+            <app-map-overlay-button-edit-waypoint *ngIf="this.currentWaypoint"></app-map-overlay-button-edit-waypoint>
+            <app-map-overlay-button-remove-from-route *ngIf="this.currentWaypoint"></app-map-overlay-button-remove-from-route>
+            <app-map-overlay-button-edit-userpoint></app-map-overlay-button-edit-userpoint>
+        </div>
+    </div>
 </div>

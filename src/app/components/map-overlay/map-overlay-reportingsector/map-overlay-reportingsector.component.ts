@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Reportingsector } from '../../../model/reportingsector';
-import { MapOverlayContent } from '../map-overlay-content';
+import { MapOverlayContainer } from '../map-overlay-container';
 import { Position2d } from '../../../model/position';
-import {Waypoint} from "../../../model/waypoint";
 
 
 @Component({
@@ -10,25 +9,23 @@ import {Waypoint} from "../../../model/waypoint";
     templateUrl: './map-overlay-reportingsector.component.html',
     styleUrls: ['./map-overlay-reportingsector.component.css']
 })
-export class MapOverlayReportingsectorComponent implements OnInit, MapOverlayContent {
+export class MapOverlayReportingsectorComponent extends MapOverlayContainer implements OnInit {
     public reportingsector: Reportingsector;
-
-
-    constructor() {
-    }
+    private container: HTMLElement;
 
 
     ngOnInit() {
+        this.container = document.getElementById('map-overlay-reportingsector-container');
+    }
+
+
+    public getContainerHtmlElement() {
+        return this.container;
     }
 
 
     public bindFeatureData(reportingSector: Reportingsector) {
         this.reportingsector = reportingSector;
-    }
-
-
-    public getTitle(): string {
-        return 'ARR Sector';
     }
 
 

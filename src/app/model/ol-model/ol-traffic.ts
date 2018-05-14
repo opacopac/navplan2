@@ -158,18 +158,7 @@ export class OlTraffic extends OlFeaturePoint {
     private createRegistrationCallsignFeature(): ol.Feature {
         const color = '#FF0000';
         const bgColor = '#FFFFFF';
-        let regCallText = '';
-
-        if (this.traffic.opCallsign) {
-            regCallText = this.traffic.opCallsign;
-        } else if (this.traffic.callsign && !this.equalsRegCall()) {
-            regCallText = this.traffic.callsign;
-        } else if (this.traffic.registration) {
-            regCallText = this.traffic.registration;
-        }
-
         const position = this.traffic.positions[this.traffic.positions.length - 1];
-
         const csFeature = new ol.Feature({
             geometry: new ol.geom.Point(position.position.getMercator())
         });
@@ -178,7 +167,7 @@ export class OlTraffic extends OlFeaturePoint {
             new ol.style.Style({
                 text: new ol.style.Text({
                     font: 'bold 14px Calibri,sans-serif',
-                    text: regCallText,
+                    text: this.traffic.getCommonName(),
                     fill: new ol.style.Fill({color: color}),
                     stroke: new ol.style.Stroke({color: bgColor, width: 2}),
                     offsetX: 0,
@@ -189,15 +178,6 @@ export class OlTraffic extends OlFeaturePoint {
 
         return csFeature;
     }
-
-
-    private equalsRegCall(): boolean {
-        const regStripped = this.traffic.registration.toUpperCase().replace(/[^A-Z0-9]/g, '');
-        const callStripped = this.traffic.callsign.toUpperCase().replace(/[^A-Z0-9]/g, '');
-
-        return regStripped === callStripped;
-    }
-
 
 
     private createTrackDotFeature(position: TrafficPosition): ol.Feature {

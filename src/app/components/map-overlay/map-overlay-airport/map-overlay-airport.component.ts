@@ -1,11 +1,9 @@
-import * as $ from 'jquery';
 import { Component, OnInit } from '@angular/core';
-import { StringnumberService } from '../../../services/utils/stringnumber.service';
-import { UnitconversionService } from '../../../services/utils/unitconversion.service';
-import { Airport, AirportRunway, AirportType } from '../../../model/airport';
-import { MapOverlayContent } from '../map-overlay-content';
+import { Airport, AirportChart, AirportRunway, AirportType } from '../../../model/airport';
 import { Position2d } from '../../../model/position';
-import { Waypoint } from '../../../model/waypoint';
+import { MapOverlayContainer } from '../map-overlay-container';
+import {StringnumberService} from "../../../services/utils/stringnumber.service";
+import {DatetimeService} from "../../../services/utils/datetime.service";
 
 
 @Component({
@@ -13,15 +11,13 @@ import { Waypoint } from '../../../model/waypoint';
     templateUrl: './map-overlay-airport.component.html',
     styleUrls: ['./map-overlay-airport.component.css']
 })
-export class MapOverlayAirportComponent implements OnInit, MapOverlayContent {
+export class MapOverlayAirportComponent extends MapOverlayContainer implements OnInit {
     public airport: Airport;
-
-
-    constructor() {
-    }
+    private container: HTMLElement;
 
 
     ngOnInit() {
+        this.container = document.getElementById('map-overlay-airport-container');
     }
 
 
@@ -30,7 +26,30 @@ export class MapOverlayAirportComponent implements OnInit, MapOverlayContent {
     }
 
 
+    public getContainerHtmlElement() {
+        return this.container;
+    }
+
+
     public getTitle(): string {
+        let title = this.airport.name;
+        if (this.airport.icao) {
+            title += ' (' + this.airport.icao + ')';
+        }
+        return title;
+    }
+
+
+    public getName(): string {
+        if (this.airport.icao) {
+            return this.airport.icao;
+        } else {
+            return this.airport.name;
+        }
+    }
+
+
+    public getAirportTypeString(): string {
         switch (this.airport.type) {
             case AirportType.AD_CLOSED : return 'Closed Aerodrome';
             case AirportType.AD_MIL : return 'Military Aerodrome';
@@ -53,22 +72,52 @@ export class MapOverlayAirportComponent implements OnInit, MapOverlayContent {
     }
 
 
-    public getPositionString(): string {
-        return StringnumberService.getDmsString(this.airport.position.getLonLat());
-    }
-
-
-    public getElevationString(): string {
-        return Math.round(UnitconversionService.m2ft(this.airport.elevation_m)) + 'ft';
-    }
-
-
-    public getDimensionsString(runway: AirportRunway): string {
+    public getRwyDimensionsString(runway: AirportRunway): string {
         return Math.round(runway.length) + ' x ' + Math.round(runway.width) + 'm';
     }
 
 
-    public onToggleElementClicked(elementId: string) {
-        $(elementId).toggle();
+    public getChartSourceName(chart: AirportChart): string {
+        switch (chart.source) {
+            case 'AVARE': return 'Avare.ch';
+            case 'VFRM': return 'swisstopo';
+        }
+    }
+
+
+    public getChartSourceUrl(chart: AirportChart): string {
+        switch (chart.source) {
+            case 'AVARE': return 'http://www.avare.ch/';
+            case 'VFRM': return 'https://www.swisstopo.admin.ch/';
+        }
+    }
+
+
+    public getMetarAgeString(): string { // TODO => import
+        if (!this.airport.metarTaf || !this.airport.metarTaf.metar_obs_timestamp) {
+            return;
+        }
+
+        return DatetimeService.getHourMinAgeStringFromMs(this.airport.metarTaf.metar_obs_timestamp);
+    }
+
+
+    public getTafAgeString(): string { // TODO => import
+        if (!this.airport.metarTaf || !this.airport.metarTaf.raw_taf) {
+            return undefined;
+        }
+
+        const matches = this.airport.metarTaf.raw_taf.match(/^TAF( [A-Z]{3})? [A-Z]{4} (\d\d)(\d\d)(\d\d)Z.*$/);
+
+        if (!matches || matches.length !== 5) {
+            return undefined;
+        }
+
+        const now = new Date();
+        const datestring = now.getFullYear() + '-' + StringnumberService.zeroPad(now.getMonth() + 1) +
+            '-' + matches[2] + 'T' + matches[3] + ':' + matches[4] + ':00Z';
+        const tafFimestamp = Date.parse(datestring);
+
+        return DatetimeService.getHourMinAgeStringFromMs(tafFimestamp);
     }
 }

@@ -1,3 +1,9 @@
 .ol-popup-airport {
     max-width: 600px;
 }
+
+.table-notam {
+    max-height: 600px;
+    overflow: auto;
+    margin-bottom: 10px;
+}

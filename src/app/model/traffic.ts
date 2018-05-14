@@ -31,7 +31,7 @@ export enum TrafficAddressType {
     RANDOM,
     ICAO,
     FLARM,
-    OGN1
+    OGN
 }
 
 
@@ -95,5 +95,26 @@ export class Traffic extends DataItem {
         } else {
             return false;
         }
+    }
+
+
+    public getCommonName(): string {
+        if (this.opCallsign) {
+            return this.opCallsign;
+        } else if (this.callsign && !this.isCallsignEqualsRegistration()) {
+            return this.callsign;
+        } else if (this.registration) {
+            return this.registration;
+        } else {
+            return undefined;
+        }
+    }
+
+
+    public isCallsignEqualsRegistration(): boolean {
+        const regStripped = this.registration.toUpperCase().replace(/[^A-Z0-9]/g, '');
+        const callStripped = this.callsign.toUpperCase().replace(/[^A-Z0-9]/g, '');
+
+        return regStripped === callStripped;
     }
 }

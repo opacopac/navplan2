@@ -18,4 +18,9 @@ export class MapOverlayButtonEditUserpointComponent implements OnInit {
 
     ngOnInit() {
     }
+
+
+    public onEditUserWaypointClicked(): void {
+        // TODO
+    }
 }

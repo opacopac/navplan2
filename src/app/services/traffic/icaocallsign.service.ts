@@ -3269,7 +3269,7 @@ const TELEPHONY_DESIGNATOR = {
   "OAP": "Coapa",
   "OAR": "Boss Air",
   "OAV": "Omni",
-  "OAW": "Arabella",
+  "OAW": "Helvetic",
   "OBA": "Aerobanana",
   "OBJ": "Objetivo",
   "OBK": "Amako Air",

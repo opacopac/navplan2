@@ -1,5 +1,7 @@
 import { Position2d } from './position';
 import { DataItem } from './data-item';
+import { MetarTaf } from './metar-taf';
+import { Notam } from './notam';
 
 
 export enum AirportType {
@@ -23,6 +25,8 @@ export class Airport extends DataItem {
     public webcams: AirportWebcam[];
     public charts: AirportChart[];
     public features: AirportFeature[];
+    public notams: Notam[];
+    public metarTaf: MetarTaf;
 
 
     constructor(
@@ -40,6 +44,7 @@ export class Airport extends DataItem {
         this.webcams = [];
         this.charts = [];
         this.features = [];
+        this.notams = [];
     }
 
 

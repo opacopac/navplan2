@@ -1,5 +1,10 @@
 <div class="map-overlay-button">
-  map-overlay-button-edit-userpoint works!
+    <button
+            appIconButton
+            [color]="ButtonColor.BLUE"
+            [size]="ButtonSize.SMALL"
+            [iconClass]="'fas fa-edit'"
+            (click)="this.onEditUserWaypointClicked()"></button>&nbsp;Edit my User Point
 </div>
 <!-- TODO: edit userwaypoint -->
 <!--<p ng-show="isLoggedIn()">

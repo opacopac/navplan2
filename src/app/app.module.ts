@@ -37,7 +37,6 @@ import { MapOverlayButtonMeteogramComponent } from './components/map-overlay/map
 import { MapOverlayButtonWebcamComponent } from './components/map-overlay/map-overlay-button-webcam/map-overlay-button-webcam.component';
 import { MapOverlayButtonEditUserpointComponent } from './components/map-overlay/map-overlay-button-edit-userpoint/map-overlay-button-edit-userpoint.component';
 import { MapOverlayMeteogramComponent } from './components/map-overlay/map-overlay-meteogram/map-overlay-meteogram.component';
-import { MapOverlayContainerComponent } from './components/map-overlay/map-overlay-container/map-overlay-container.component';
 import { FlighttimerComponent } from './components/flighttimer/flighttimer.component';
 import { TrafficButtonComponent } from './components/buttons/traffic-button/traffic-button.component';
 import { SearchBoxComponent } from './components/search-box/search-box.component';
@@ -63,6 +62,8 @@ import { TrafficOgnService } from './services/traffic/traffic-ogn.service';
 import { TrafficAdsbexchangeService } from './services/traffic/traffic-adsbexchange.service';
 import { SearchService } from './services/search/search.service';
 import { MapOverlayGeonameComponent } from './components/map-overlay/map-overlay-geoname/map-overlay-geoname.component';
+import { MapOverlayNotamItemComponent } from './components/map-overlay/map-overlay-notam-item/map-overlay-notam-item.component';
+import { MapOverlayButtonCloseComponent } from './components/map-overlay/map-overlay-button-close/map-overlay-button-close.component';
 
 
 @NgModule({
@@ -102,13 +103,14 @@ import { MapOverlayGeonameComponent } from './components/map-overlay/map-overlay
         MapOverlayButtonWebcamComponent,
         MapOverlayButtonEditUserpointComponent,
         MapOverlayMeteogramComponent,
-        MapOverlayContainerComponent,
         ButtonBaseDirective,
         IconButtonDirective,
         StatusButtonDirective,
         TextButtonDirective,
         SearchBoxComponent,
         MapOverlayGeonameComponent,
+        MapOverlayNotamItemComponent,
+        MapOverlayButtonCloseComponent,
     ],
     imports: [
         BrowserModule,

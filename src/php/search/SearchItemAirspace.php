@@ -5,7 +5,6 @@ include_once __DIR__ . "/../services/GeoService.php";
 
 
 
-
 class SearchItemAirspace {
     const MAX_BOTTOM_ALT_FL = 200;
     const MIN_PIXEL_AIRSPACE_DIAMETER = 50;  // TODO

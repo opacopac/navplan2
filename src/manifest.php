@@ -14,9 +14,9 @@
 	if(isset($_COOKIE["cachewaypoints"]))
 	{
 		addStaticUrls();
-        addMapFeatureUrls(json_decode($_COOKIE["mapfeaturesextent"]), true);
-		addTileUrls(json_decode($_COOKIE["cachewaypoints"]), true);
-		addChartUrls(json_decode($_COOKIE["cachecharts"]), true);
+        addMapFeatureUrls(json_decode($_COOKIE["mapfeaturesextent"], true), json_decode($_COOKIE["mapfeatureszoom"], true));
+		addTileUrls(json_decode($_COOKIE["cachewaypoints"], true));
+		addChartUrls(json_decode($_COOKIE["cachecharts"], true));
 	}
 	else // don't cache anything
 	{
@@ -173,15 +173,13 @@
     }
 
 
-    function addMapFeatureUrls($extent)
+    function addMapFeatureUrls($extent, $zoom)
     {
-        global $ver;
-
-        //$extent = getMapFeatureExtent($waypoints);
-
         echo "# map features\n";
         echo "CACHE:\n";
-        echo "php/mapFeatures.php?v=" . $ver . "&minlon=" . $extent[0] . "&minlat=" . $extent[1] . "&maxlon=" . $extent[2] . "&maxlat=" . $extent[3] . "\n";
+        echo "php/search/SearchService.php?action=searchByExtent";
+        echo "&minlon=" . $extent[0] . "&minlat=" . $extent[1] . "&maxlon=" . $extent[2] . "&maxlat=" . $extent[3] . "&zoom=" . $zoom;
+        echo "&minnotamtime=0&maxnotamtime=0&searchItems=airports,navaids,airspaces,reportingpoints,userpoints";
         echo "\n";
     }
 

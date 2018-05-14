@@ -2,12 +2,20 @@
     <!-- map -->
     <div id="map" class="map" (window:resize)="onResize()"></div>
     <!-- search box -->
-    <app-search-box (dataItemSelected)="this.onDataItemSelected($event)"></app-search-box>
+    <app-search-box (dataItemSelected)="this.onSearchResultSelected($event)"></app-search-box>
     <!-- buttons -->
     <app-zoom-buttons></app-zoom-buttons>
     <app-location-button></app-location-button>
     <app-flighttimer></app-flighttimer>
     <app-traffic-button></app-traffic-button>
     <!-- overlays -->
-    <app-map-overlay-container></app-map-overlay-container>
+    <!--<app-map-overlay-container></app-map-overlay-container>-->
+    <app-map-overlay-airport (close)="this.onOverlayClose()"></app-map-overlay-airport>
+    <app-map-overlay-navaid (close)="this.onOverlayClose()"></app-map-overlay-navaid>
+    <app-map-overlay-reportingpoint (close)="this.onOverlayClose()"></app-map-overlay-reportingpoint>
+    <app-map-overlay-reportingsector (close)="this.onOverlayClose()"></app-map-overlay-reportingsector>
+    <app-map-overlay-userpoint (close)="this.onOverlayClose()"></app-map-overlay-userpoint>
+    <app-map-overlay-geoname (close)="this.onOverlayClose()"></app-map-overlay-geoname>
+    <app-map-overlay-traffic (close)="this.onOverlayClose()"></app-map-overlay-traffic>
+    <app-map-overlay-notam (close)="this.onOverlayClose()"></app-map-overlay-notam>
 </div>
