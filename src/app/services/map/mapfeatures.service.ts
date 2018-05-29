@@ -7,26 +7,11 @@ import { Sessioncontext } from '../../model/sessioncontext';
 import { Extent } from '../../model/ol-model/extent';
 import { Mapfeatures } from '../../model/mapfeatures';
 import { CachingExtentLoader } from './caching-extent-loader';
-import { NavaidRestItem, RestMapperNavaid } from '../../model/rest-model/rest-mapper-navaid';
-import { AirportRestItem, RestMapperAirport } from '../../model/rest-model/rest-mapper-airport';
-import { AirspaceRestItem, RestMapperAirspace } from '../../model/rest-model/rest-mapper-airspace';
-import { ReportingPointRestItem, RestMapperReportingpoint } from '../../model/rest-model/rest-mapper-reportingpoint';
-import { RestMapperUserpoint, UserPointRestItem } from '../../model/rest-model/rest-mapper-userpoint';
-import { RestMapperWebcam, WebcamRestItem } from '../../model/rest-model/rest-mapper-webcam';
+import { MapFeaturesResponse, RestMapperMapfeatures } from "../../model/rest-model/rest-mapper-mapfeatures";
 
 
 const MAPFEATURES_BASE_URL = environment.restApiBaseUrl + 'php/search/SearchService.php';
 const USER_WP_BASE_URL = environment.restApiBaseUrl + 'php/userWaypoint.php';
-
-
-export interface MapFeaturesResponse {
-    navaids: NavaidRestItem[];
-    airports: AirportRestItem[];
-    airspaces: AirspaceRestItem[];
-    reportingpoints: ReportingPointRestItem[];
-    userpoints: UserPointRestItem[];
-    webcams: WebcamRestItem[];
-}
 
 
 @Injectable()
@@ -62,7 +47,7 @@ export class MapfeaturesService extends CachingExtentLoader<Mapfeatures> {
             .jsonp<MapFeaturesResponse>(this.buildRequestUrl(extent, zoom), 'callback')
             .subscribe(
                 response => {
-                    const mapFeatures = this.getMapFeaturesFromResponse(response);
+                    const mapFeatures = RestMapperMapfeatures.getMapFeaturesFromResponse(response);
                     successCallback(mapFeatures);
                 },
                 err => {
@@ -88,49 +73,5 @@ export class MapfeaturesService extends CachingExtentLoader<Mapfeatures> {
             url += '&email=' + this.session.user.email + '&token=' + this.session.user.token;
         }
         return url;
-    }
-
-
-    private getMapFeaturesFromResponse(response: MapFeaturesResponse): Mapfeatures {
-        const mapFeatures = new Mapfeatures();
-
-        // navaids
-        for (const restItem of response.navaids) {
-            mapFeatures.navaids.push(RestMapperNavaid.getNavaidFromRestItem(restItem));
-        }
-
-        // airports
-        for (const restItem of response.airports) {
-            mapFeatures.airports.push(RestMapperAirport.getAirportFromRestItem(restItem));
-        }
-
-        // airspaces
-        for (const key in response.airspaces) {
-            mapFeatures.airspaces.push(RestMapperAirspace.getAirspaceFromRestItem(response.airspaces[key]));
-        }
-
-        // reporting points
-        for (const subRestItem of response.reportingpoints) {
-            switch (subRestItem.type) {
-                case 'POINT':
-                    mapFeatures.reportingpoints.push(RestMapperReportingpoint.getReportingpointFromRestItem(subRestItem));
-                    break;
-                case 'SECTOR':
-                    mapFeatures.reportingsectors.push(RestMapperReportingpoint.getReportingSectorFromRestItem(subRestItem));
-                    break;
-            }
-        }
-
-        // user points
-        for (const subRestItem of response.userpoints) {
-            mapFeatures.userpoints.push(RestMapperUserpoint.getUserpointFromRestItem(subRestItem));
-        }
-
-        // webcams
-        for (const subRestItem of response.webcams) {
-            mapFeatures.webcams.push(RestMapperWebcam.getWebcamFromRestItem(subRestItem));
-        }
-
-        return mapFeatures;
     }
 }

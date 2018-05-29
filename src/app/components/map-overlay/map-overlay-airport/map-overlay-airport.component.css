@@ -1,9 +1,19 @@
 .ol-popup-airport {
-    max-width: 600px;
+  /*max-width: 75vw;*/
 }
 
 .table-notam {
-    max-height: 600px;
-    overflow: auto;
-    margin-bottom: 10px;
+  max-height: 50vh;
+  overflow: auto;
+  margin-bottom: 10px;
+}
+
+.nav-item {
+  width: 2.5rem;
+}
+
+.nav-link {
+  padding-left: 0;
+  padding-right: 0;
+  text-align: center;
 }

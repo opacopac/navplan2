@@ -56,7 +56,7 @@ import { MapfeaturesService } from './services/map/mapfeatures.service';
 import { MetarTafService } from './services/meteo/metar-taf.service';
 import { NotamService } from './services/notam/notam.service';
 import { TimerService } from './services/utils/timer.service';
-import { LocationService } from './services/track/location.service';
+import { LocationService } from './services/location/location.service';
 import { TrafficService} from './services/traffic/traffic.service';
 import { TrafficOgnService } from './services/traffic/traffic-ogn.service';
 import { TrafficAdsbexchangeService } from './services/traffic/traffic-adsbexchange.service';
@@ -64,6 +64,9 @@ import { SearchService } from './services/search/search.service';
 import { MapOverlayGeonameComponent } from './components/map-overlay/map-overlay-geoname/map-overlay-geoname.component';
 import { MapOverlayNotamItemComponent } from './components/map-overlay/map-overlay-notam-item/map-overlay-notam-item.component';
 import { MapOverlayButtonCloseComponent } from './components/map-overlay/map-overlay-button-close/map-overlay-button-close.component';
+import { MapOverlayWindyiframeComponent } from './components/map-overlay/map-overlay-windyiframe/map-overlay-windyiframe.component';
+import {ArrayService} from "./services/utils/array.service";
+import { MapOverlayButtonRemoveAlternateComponent } from './components/map-overlay/map-overlay-button-remove-alternate/map-overlay-button-remove-alternate.component';
 
 
 @NgModule({
@@ -111,6 +114,8 @@ import { MapOverlayButtonCloseComponent } from './components/map-overlay/map-ove
         MapOverlayGeonameComponent,
         MapOverlayNotamItemComponent,
         MapOverlayButtonCloseComponent,
+        MapOverlayWindyiframeComponent,
+        MapOverlayButtonRemoveAlternateComponent,
     ],
     imports: [
         BrowserModule,
@@ -137,7 +142,8 @@ import { MapOverlayButtonCloseComponent } from './components/map-overlay/map-ove
         TrafficService,
         TrafficOgnService,
         TrafficAdsbexchangeService,
-        SearchService
+        SearchService,
+        ArrayService,
     ],
     bootstrap: [ AppComponent ]
 })

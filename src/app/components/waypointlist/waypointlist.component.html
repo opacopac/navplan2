@@ -14,7 +14,7 @@
         </tr>
         </thead>
         <!-- trip checkpoints -->
-        <tbody *ngFor="let wp of this.session.flightroute.waypoints; first as isFirst; last as isLast" class="grabbable">
+        <tbody *ngFor="let wp of this.currentFlightroute.waypoints; first as isFirst; last as isLast" class="grabbable">
         <tr [ngClass]="{ 'table-active': (isFirst || isLast) && wp.type === this.Waypointtype.airport }">
             <td>{{ wp.freq }}</td>
             <td>{{ wp.callsign }}</td>
@@ -32,7 +32,7 @@
                         [color]="ButtonColor.ORANGE"
                         [size]="ButtonSize.SMALL"
                         data-toggle="modal"
-                        data-target="#selectedWaypointDialog"
+                        data-target="#selectedWaypointDialog2"
                         (click)="this.onEditWaypointClicked(wp)"></button>
                 <button appIconButton
                         title="Remove Waypoint"
@@ -51,19 +51,19 @@
         </tbody>
         <tbody>
         <!-- trip total -->
-        <tr *ngIf="this.session.flightroute.waypoints.length > 0">
+        <tr *ngIf="this.currentFlightroute.waypoints.length > 0">
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-            <td><strong>{{ this.session.flightroute.fuel.tripTime }}</strong></td>
+            <td><strong>{{ this.currentFlightroute.fuel.tripTime }}</strong></td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
         </tr>
         <!-- alternate checkpoint -->
-        <tr *ngIf="this.session.flightroute.fuel.alternateTime > 0">
+        <tr *ngIf="this.currentFlightroute.fuel.alternateTime > 0">
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td><i><u>Alternate:</u></i></td>
@@ -74,17 +74,17 @@
             <td>&nbsp;</td>
             <td>&nbsp;</td>
         </tr>
-        <tr *ngIf="this.session.flightroute.fuel.alternateTime > 0" [ngClass]="{ warning: true }">
-            <td>{{ this.session.flightroute.alternate.freq }}</td>
-            <td>{{ this.session.flightroute.alternate.callsign }}</td>
-            <td>{{ this.session.flightroute.alternate.checkpoint }}</td>
-            <td><span *ngIf="this.session.flightroute.alternate.alt.isaltatlegstart">&#8739;</span><span
-                    [ngStyle]="{ 'text-decoration': (this.session.flightroute.alternate.alt.isminalt ? 'underline' : '') + (this.session.flightroute.alternate.alt.ismaxalt ? ' overline' : '') }">{{ this.session.flightroute.alternate.alt.alt }}</span>
+        <tr *ngIf="this.currentFlightroute.fuel.alternateTime > 0" [ngClass]="{ warning: true }">
+            <td>{{ this.currentFlightroute.alternate.freq }}</td>
+            <td>{{ this.currentFlightroute.alternate.callsign }}</td>
+            <td>{{ this.currentFlightroute.alternate.checkpoint }}</td>
+            <td><span *ngIf="this.currentFlightroute.alternate.alt.isaltatlegstart">&#8739;</span><span
+                    [ngStyle]="{ 'text-decoration': (this.currentFlightroute.alternate.alt.isminalt ? 'underline' : '') + (this.currentFlightroute.alternate.alt.ismaxalt ? ' overline' : '') }">{{ this.currentFlightroute.alternate.alt.alt }}</span>
             </td>
-            <td>{{ this.session.flightroute.alternate.mtText }}</td>
-            <td>{{ this.session.flightroute.alternate.distText }}</td>
-            <td>{{ this.session.flightroute.alternate.eetText }}</td>
-            <td>{{ this.session.flightroute.alternate.remark }}</td>
+            <td>{{ this.currentFlightroute.alternate.mtText }}</td>
+            <td>{{ this.currentFlightroute.alternate.distText }}</td>
+            <td>{{ this.currentFlightroute.alternate.eetText }}</td>
+            <td>{{ this.currentFlightroute.alternate.remark }}</td>
             <td>
                 <button appIconButton
                         title="Edit Waypoint"
@@ -92,8 +92,8 @@
                         [color]="ButtonColor.ORANGE"
                         [size]="ButtonSize.SMALL"
                         data-toggle="modal"
-                        data-target="#selectedWaypointDialog"
-                        (click)="this.onEditWaypointClicked(this.session.flightroute.alternate)"></button>
+                        data-target="#selectedWaypointDialog2"
+                        (click)="this.onEditWaypointClicked(this.currentFlightroute.alternate)"></button>
                 <button appIconButton
                         title="Remove Waypoint"
                         [iconClass]="'fas fa-trash'"
@@ -103,15 +103,13 @@
             </td>
         </tr>
         <!-- empty list -->
-        <tr *ngIf="!this.session.flightroute || this.session.flightroute.waypoints.length == 0">
+        <tr *ngIf="!this.currentFlightroute || this.currentFlightroute.waypoints.length == 0">
             <td colspan="9"><i>Empty route, add waypoints on the map.</i></td>
         </tr>
         </tbody>
     </table>
     <!-- reverse waypoints button -->
     <div class="form-group pull-right">
-        <button type="button" class="btn btn-md btn-secondary" title="Reverse Waypoint Order" (click)="onReverseWaypointsClicked();"><i class="fas fa-sort"></i> Reverse Waypoints</button>&nbsp;
+        <button type="button" class="btn btn-md btn-secondary" title="Reverse Waypoint Order" (click)="this.onReverseWaypointsClicked();"><i class="fas fa-sort"></i> Reverse Waypoints</button>&nbsp;
     </div>
 </div>
-<!-- edit waypoint dialog -->
-<app-editwaypoint (onWaypointChanged)="onWaypointChanged()"></app-editwaypoint>

@@ -110,7 +110,7 @@ select.form-control-md:not([size]):not([multiple]), .input-group-md > select.for
 }
 
 .ol-overlay-container {
-    width: 100%
+    width: 100%;
 }
 
 
@@ -127,6 +127,7 @@ select.form-control-md:not([size]):not([multiple]), .input-group-md > select.for
     left: -50px;
     min-width: 300px;
     max-width: 95%;
+    /*max-height: 95%;*/
     opacity: 0.9;
 }
 

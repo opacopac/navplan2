@@ -1,11 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {SessionService} from '../../services/utils/session.service';
-import {MessageService} from '../../services/utils/message.service';
-import {Sessioncontext} from '../../model/sessioncontext';
-import {UserService} from '../../services/user/user.service';
-import {FlightrouteService} from '../../services/flightroute/flightroute.service';
-import {Flightroute} from '../../model/flightroute';
-import {ButtonColor, ButtonSize} from '../buttons/button-base.directive';
+import * as Rx from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { SessionService } from '../../services/utils/session.service';
+import { MessageService } from '../../services/utils/message.service';
+import { Sessioncontext } from '../../model/sessioncontext';
+import { UserService } from '../../services/user/user.service';
+import { FlightrouteService } from '../../services/flightroute/flightroute.service';
+import { Flightroute } from '../../model/flightroute';
+import { ButtonColor, ButtonSize } from '../buttons/button-base.directive';
 
 
 @Component({
@@ -13,12 +14,15 @@ import {ButtonColor, ButtonSize} from '../buttons/button-base.directive';
     templateUrl: './flightroute.component.html',
     styleUrls: ['./flightroute.component.css']
 })
-export class FlightrouteComponent implements OnInit {
+export class FlightrouteComponent implements OnInit, OnDestroy {
     public session: Sessioncontext;
-    public flightrouteList: Flightroute[] = [];
+    public flightrouteList: Flightroute[];
+    public currentFlightroute: Flightroute;
     public selectedFlightrouteId: number;
     public ButtonSize = ButtonSize;
     public ButtonColor = ButtonColor;
+    private flightrouteListSubscription: Rx.Subscription;
+    private currentFlightrouteSubscription: Rx.Subscription;
 
 
     constructor(public userService: UserService,
@@ -30,72 +34,57 @@ export class FlightrouteComponent implements OnInit {
     }
 
 
+    // region component life cycle
+
     ngOnInit() {
+        // TODO: refactor => rx
         this.selectedFlightrouteId = -1;
         if (this.sessionService.isLoggedIn()) {
-            this.flightrouteService.readFlightrouteList(
-                this.readTrackListSuccessCallback.bind(this),
-                this.readTrackListErrorCallback.bind(this)
-            );
+            this.flightrouteService.readFlightrouteList();
         }
+
+        this.flightrouteListSubscription = this.flightrouteService.routeList$.subscribe(
+            flightrouteList => { this.flightrouteList = flightrouteList; }
+        );
+
+        this.currentFlightrouteSubscription = this.flightrouteService.currentRoute$.subscribe(
+            currentFlightroute => { this.currentFlightroute = currentFlightroute; }
+        );
     }
 
 
-    private readTrackListSuccessCallback(flightrouteList: Flightroute[]) {
-        this.flightrouteList = flightrouteList;
+    ngOnDestroy() {
+        this.flightrouteListSubscription.unsubscribe();
+        this.currentFlightrouteSubscription.unsubscribe();
     }
 
-
-    private readTrackListErrorCallback(message: string) {
-        this.flightrouteList = [];
-        // TODO: error?
-    }
+    // endregion
 
 
     onLoadFlightrouteClicked() {
         if (this.selectedFlightrouteId > 0) {
-            this.flightrouteService.readFlightroute(
-                this.selectedFlightrouteId,
-                this.readFlightrouteSuccessCallback.bind(this),
-                this.readFlightrouteErrorCallback.bind(this)
-            );
+            this.flightrouteService.readFlightroute(this.selectedFlightrouteId);
         }
     }
 
 
-    private readFlightrouteSuccessCallback(flightroute: Flightroute) {
-        flightroute.recalcWaypointsAndFuel();
-        this.session.flightroute = flightroute;
+    public onSaveFlightrouteClicked() {
     }
 
 
-    private readFlightrouteErrorCallback(message: string) {
-        this.flightrouteList = [];
-        // TODO: error?
+    public onSaveFlightrouteCopyClicked() {
     }
 
 
-    onSaveFlightrouteClicked() {
+    public onDeleteFlightrouteClicked() {
     }
 
 
-    onSaveFlightrouteCopyClicked() {
+    public onExportFlightroutePdfClicked() {
     }
 
 
-    onDeleteFlightrouteClicked() {
-    }
-
-
-    onReverseWaypointsClicked() {
-    }
-
-
-    onExportFlightroutePdfClicked() {
-    }
-
-
-    onExportFlightrouteExcelClicked() {
+    public onExportFlightrouteExcelClicked() {
     }
 
 }

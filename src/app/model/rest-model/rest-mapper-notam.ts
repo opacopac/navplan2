@@ -2,7 +2,19 @@ import { Position2d } from '../position';
 import { Circle } from '../circle';
 import { Polygon } from '../polygon';
 import { Multipolygon } from '../multipolygon';
-import { Notam, NotamGeometry, NotamLocationType } from '../notam';
+import {Notam, NotamGeometry, NotamList, NotamLocationType} from '../notam';
+
+
+// TODO: deprecated
+export interface NotamResponse {
+    locationnotamlist: NotamRestItem[]; // TODO: remove
+    areanotamlist: NotamRestItem[];
+}
+
+
+export interface NotamResponse2 {
+    notams: NotamRestItem[];
+}
 
 
 export interface NotamRestItem {
@@ -41,6 +53,31 @@ export interface NotamRestItemGeometry {
 
 
 export class RestMapperNotam {
+    // TODO: deprecated
+    public static getNotamListFromResponse(response: NotamResponse): NotamList {
+        const notamList = new NotamList();
+
+        for (const item of response.areanotamlist) {
+            const notam = RestMapperNotam.getNavaidFromRestItem(item);
+            notamList.items.push(notam);
+        }
+
+        return notamList;
+    }
+
+
+    public static getNotamListFromResponse2(response: NotamResponse2): NotamList {
+        const notamList = new NotamList();
+
+        for (const item of response.notams) {
+            const notam = RestMapperNotam.getNavaidFromRestItem(item);
+            notamList.items.push(notam);
+        }
+
+        return notamList;
+    }
+
+
     public static getNavaidFromRestItem(restItem: NotamRestItem): Notam {
         return new Notam(
             restItem.id,

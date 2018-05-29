@@ -1,8 +1,8 @@
-<div ng-show="!globalData.selectedWp.isNew" class="map-overlay-button">
+<div class="map-overlay-button" *ngIf="this.session.selectedWaypoint && !this.session.selectedWaypoint.isNew">
     <button
-            appIconButton
-            [color]="ButtonColor.RED"
-            [size]="ButtonSize.SMALL"
-            [iconClass]="'fas fa-trash'"
-            (click)="this.onRemoveSelectedWaypointClicked()"></button>&nbsp;Remove from Route
+        appIconButton
+        [color]="ButtonColor.RED"
+        [size]="ButtonSize.SMALL"
+        [iconClass]="'fas fa-trash'"
+        (click)="this.onRemoveSelectedWaypointClicked()"></button>&nbsp;Remove from Route
 </div>

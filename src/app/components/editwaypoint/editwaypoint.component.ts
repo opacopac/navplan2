@@ -1,10 +1,12 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Sessioncontext } from '../../model/sessioncontext';
 import { SessionService } from '../../services/utils/session.service';
-import { MessageService } from '../../services/utils/message.service';
+import { FlightrouteService } from "../../services/flightroute/flightroute.service";
 import { Waypoint } from '../../model/waypoint';
 import { ButtonColor, ButtonSize } from '../buttons/button-base.directive';
+import $ from 'jquery';
+declare var $: $; // wtf? --> https://github.com/dougludlow/ng2-bs3-modal/issues/147
 
 
 @Component({
@@ -13,7 +15,7 @@ import { ButtonColor, ButtonSize } from '../buttons/button-base.directive';
     styleUrls: ['./editwaypoint.component.css']
 })
 export class EditwaypointComponent implements OnInit {
-    @Output() onWaypointChanged = new EventEmitter<boolean>();
+    @ViewChild('container') container: HTMLElement;
     public session: Sessioncontext;
     public editWpForm: FormGroup;
     public waypoint: Waypoint;
@@ -23,34 +25,40 @@ export class EditwaypointComponent implements OnInit {
 
     constructor(
         public sessionService: SessionService,
-        private messageService: MessageService) {
+        private flightrouteService: FlightrouteService) {
 
         this.session = sessionService.getSessionContext();
+        this.flightrouteService.editWaypointClicked$.subscribe(wp => this.editWaypoint(wp));
     }
 
 
     ngOnInit() {
-        this.waypoint = new Waypoint(); // dummy
-        this.initForm();
     }
 
 
-    editWaypoint(waypoint: Waypoint) {
-        this.waypoint = waypoint;
-        this.initForm();
-    }
-
-
-    onSaveClicked() {
+    public onSaveClicked() {
         if (this.editWpForm.valid) {
             this.updateWpByFormValues();
-            this.onWaypointChanged.emit(true);
+            this.waypoint = undefined;
+            //this.onWaypointChanged.emit(true);
         }
     }
 
 
-    onDeleteSuppInfoClicked() {
+    public onCancelClicke() {
+        this.waypoint = undefined;
+    }
+
+
+    public onDeleteSuppInfoClicked() {
         this.editWpForm.patchValue({'supp_info': ''});
+    }
+
+
+    private editWaypoint(waypoint: Waypoint) {
+        this.waypoint = waypoint;
+        this.initForm();
+        this.showForm();
     }
 
 
@@ -66,6 +74,14 @@ export class EditwaypointComponent implements OnInit {
             'remark': new FormControl(this.waypoint.remark, Validators.maxLength(50)),
             'supp_info': new FormControl(this.waypoint.supp_info, Validators.maxLength(255))
         });
+    }
+
+
+    private showForm() {
+        window.setTimeout(() => {
+            $('#selectedWaypointDialog').modal('show')
+        }, 10);
+        //$jq('#selectedWaypointDialog').modal('show');
     }
 
 

@@ -1,4 +1,4 @@
-<div id="map-overlay-reportingsector-container" class="ol-popup card text-white bg-primary mb-3" style="visibility: hidden">
+<div #container class="ol-popup card text-white bg-primary mb-3" style="visibility: hidden">
     <div *ngIf="this.reportingsector">
         <div class="card-header">
             {{ this.reportingsector.name }} ({{ this.reportingsector.airport_icao }})
@@ -18,9 +18,9 @@
                 {{ this.reportingsector.outbd_comp ? 'OUTBD' : '' }}
             </p>
             <hr/>
-            <app-map-overlay-button-add-to-route *ngIf="!this.currentWaypoint"></app-map-overlay-button-add-to-route>
-            <app-map-overlay-button-edit-waypoint *ngIf="this.currentWaypoint"></app-map-overlay-button-edit-waypoint>
-            <app-map-overlay-button-remove-from-route *ngIf="this.currentWaypoint"></app-map-overlay-button-remove-from-route>
+            <app-map-overlay-button-add-to-route></app-map-overlay-button-add-to-route>
+            <app-map-overlay-button-edit-waypoint></app-map-overlay-button-edit-waypoint>
+            <app-map-overlay-button-remove-from-route></app-map-overlay-button-remove-from-route>
         </div>
     </div>
 </div>

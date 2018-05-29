@@ -7,22 +7,11 @@ import { Sessioncontext } from '../../model/sessioncontext';
 import { CachingExtentLoader } from '../map/caching-extent-loader';
 import { NotamList } from '../../model/notam';
 import { Extent } from '../../model/ol-model/extent';
-import { NotamRestItem, RestMapperNotam } from '../../model/rest-model/rest-mapper-notam';
+import { NotamResponse, NotamResponse2, RestMapperNotam } from '../../model/rest-model/rest-mapper-notam';
 
 
 const NOTAM_BASE_URL = environment.restApiBaseUrl + 'php/notam.php'; // TODO: move to searchservice
 const NOTAM_BASE_URL2 = environment.restApiBaseUrl + 'php/search/SearchService.php';
-
-
-interface NotamResponse {
-    locationnotamlist: NotamRestItem[]; // TODO: remove
-    areanotamlist: NotamRestItem[];
-}
-
-
-interface NotamResponse2 {
-    notams: NotamRestItem[];
-}
 
 
 @Injectable()
@@ -64,7 +53,7 @@ export class NotamService extends CachingExtentLoader<NotamList> {
             .jsonp<NotamResponse>(url, 'callback')
             .subscribe(
                 response => {
-                    const notamList = this.getNotamList(response);
+                    const notamList = RestMapperNotam.getNotamListFromResponse(response);
                     successCallback(notamList);
                 },
                 err => {
@@ -90,7 +79,7 @@ export class NotamService extends CachingExtentLoader<NotamList> {
             .jsonp<NotamResponse2>(url, 'callback')
             .subscribe(
                 response => {
-                    const notamList = this.getNotamList2(response);
+                    const notamList = RestMapperNotam.getNotamListFromResponse2(response);
                     successCallback(notamList);
                 },
                 err => {
@@ -107,30 +96,5 @@ export class NotamService extends CachingExtentLoader<NotamList> {
         const maxTime = Math.floor(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 2).getTime() / 1000); // end of tomorrow LT
 
         return [minTime, maxTime];
-    }
-
-
-    // TODO: deprecated
-    private getNotamList(response: NotamResponse): NotamList {
-        const notamList = new NotamList();
-
-        for (const item of response.areanotamlist) {
-            const notam = RestMapperNotam.getNavaidFromRestItem(item);
-            notamList.items.push(notam);
-        }
-
-        return notamList;
-    }
-
-
-    private getNotamList2(response: NotamResponse2): NotamList {
-        const notamList = new NotamList();
-
-        for (const item of response.notams) {
-            const notam = RestMapperNotam.getNavaidFromRestItem(item);
-            notamList.items.push(notam);
-        }
-
-        return notamList;
     }
 }

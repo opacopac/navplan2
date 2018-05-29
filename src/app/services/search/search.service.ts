@@ -5,37 +5,12 @@ import { Sessioncontext } from '../../model/sessioncontext';
 import { SessionService } from '../utils/session.service';
 import { LoggingService } from '../utils/logging.service';
 import { GeocalcService } from '../utils/geocalc.service';
-import { SearchItemList } from '../../model/search-item';
 import { Position2d } from '../../model/position';
-import { AirportRestItem, RestMapperAirport } from '../../model/rest-model/rest-mapper-airport';
-import { NavaidRestItem, RestMapperNavaid } from '../../model/rest-model/rest-mapper-navaid';
-import { AirspaceRestItem } from '../../model/rest-model/rest-mapper-airspace';
-import { ReportingPointRestItem, RestMapperReportingpoint } from '../../model/rest-model/rest-mapper-reportingpoint';
-import { RestMapperUserpoint, UserPointRestItem } from '../../model/rest-model/rest-mapper-userpoint';
-import { WebcamRestItem } from '../../model/rest-model/rest-mapper-webcam';
-import { GeonameRestItem, RestMapperGeoname} from '../../model/rest-model/rest-mapper-geoname';
-import { NotamRestItem } from '../../model/rest-model/rest-mapper-notam';
 import { Extent } from '../../model/ol-model/extent';
+import { RestMapperSearch, SearchResponse } from "../../model/rest-model/rest-mapper-search";
 
 
 const SEARCH_BASE_URL = environment.restApiBaseUrl + 'php/search/SearchService.php';
-
-
-// region INTERFACES
-
-interface SearchResponse {
-    airports: AirportRestItem[];
-    navaids: NavaidRestItem[];
-    airspaces: AirspaceRestItem[];
-    reportingpoints: ReportingPointRestItem[];
-    userpoints: UserPointRestItem[];
-    webcams: WebcamRestItem[];
-    geonames: GeonameRestItem[];
-    notams: NotamRestItem[];
-}
-
-
-// endregion
 
 
 @Injectable()
@@ -120,7 +95,7 @@ export class SearchService {
                     if (timestamp !== this.textSearchTimestamp) {
                         return;
                     }
-                    const searchItemList = this.getSearchItemList(response);
+                    const searchItemList = RestMapperSearch.getSearchItemListFromResponse(response);
                     successCallback(searchItemList);
                 },
                 err => {
@@ -152,7 +127,7 @@ export class SearchService {
                     if (timestamp !== this.positionSearchTimestamp) {
                         return;
                     }
-                    const searchItemList = this.getSearchItemList(response);
+                    const searchItemList = RestMapperSearch.getSearchItemListFromResponse(response);
                     successCallback(searchItemList);
                 },
                 err => {
@@ -160,39 +135,5 @@ export class SearchService {
                     LoggingService.logResponseError(message, err);
                     errorCallback(message);
             });
-    }
-
-
-    private getSearchItemList(response: SearchResponse): SearchItemList {
-        const searchItemList = new SearchItemList();
-
-        for (const restItem of response.airports) {
-            searchItemList.appendSearchItem(RestMapperAirport.getAirportFromRestItem(restItem));
-        }
-
-        for (const restItem of response.navaids) {
-            searchItemList.appendSearchItem(RestMapperNavaid.getNavaidFromRestItem(restItem));
-        }
-
-        for (const restItem of response.reportingpoints) {
-            switch (restItem.type) {
-                case 'POINT':
-                    searchItemList.appendSearchItem(RestMapperReportingpoint.getReportingpointFromRestItem(restItem));
-                    break;
-                case 'SECTOR':
-                    searchItemList.appendSearchItem(RestMapperReportingpoint.getReportingSectorFromRestItem(restItem));
-                    break;
-            }
-        }
-
-        for (const restItem of response.userpoints) {
-            searchItemList.appendSearchItem(RestMapperUserpoint.getUserpointFromRestItem(restItem));
-        }
-
-        for (const restItem of response.geonames) {
-            searchItemList.appendSearchItem(RestMapperGeoname.getGeonameFromRestItem(restItem));
-        }
-
-        return searchItemList;
     }
 }

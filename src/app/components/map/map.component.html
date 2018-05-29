@@ -1,6 +1,6 @@
 <div style="position: relative" width="100%" height="100%">
     <!-- map -->
-    <div id="map" class="map" (window:resize)="onResize()"></div>
+    <div id="map" class="map"></div>
     <!-- search box -->
     <app-search-box (dataItemSelected)="this.onSearchResultSelected($event)"></app-search-box>
     <!-- buttons -->
@@ -9,7 +9,6 @@
     <app-flighttimer></app-flighttimer>
     <app-traffic-button></app-traffic-button>
     <!-- overlays -->
-    <!--<app-map-overlay-container></app-map-overlay-container>-->
     <app-map-overlay-airport (close)="this.onOverlayClose()"></app-map-overlay-airport>
     <app-map-overlay-navaid (close)="this.onOverlayClose()"></app-map-overlay-navaid>
     <app-map-overlay-reportingpoint (close)="this.onOverlayClose()"></app-map-overlay-reportingpoint>

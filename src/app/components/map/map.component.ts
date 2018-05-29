@@ -1,7 +1,9 @@
 import * as $ from 'jquery';
-import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
+import * as Rx from 'rxjs';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MessageService } from '../../services/utils/message.service';
 import { SessionService } from '../../services/utils/session.service';
+import { FlightrouteService } from "../../services/flightroute/flightroute.service";
 import { MapService } from '../../services/map/map.service';
 import { MapfeaturesService } from '../../services/map/mapfeatures.service';
 import { SearchService } from '../../services/search/search.service';
@@ -22,7 +24,6 @@ import { Traffic} from '../../model/traffic';
 import { Geoname} from '../../model/geoname';
 import { Webcam} from '../../model/webcam';
 import { Reportingsector} from '../../model/reportingsector';
-import { Waypoint} from '../../model/waypoint';
 import { Reportingpoint} from '../../model/reportingpoint';
 import { Airport} from '../../model/airport';
 import { MapOverlayContainer} from '../map-overlay/map-overlay-container';
@@ -34,6 +35,7 @@ import { MapOverlayReportingsectorComponent } from '../map-overlay/map-overlay-r
 import { MapOverlayUserpointComponent } from '../map-overlay/map-overlay-userpoint/map-overlay-userpoint.component';
 import { MapOverlayTrafficComponent } from '../map-overlay/map-overlay-traffic/map-overlay-traffic.component';
 import { MapOverlayNotamComponent } from '../map-overlay/map-overlay-notam/map-overlay-notam.component';
+import { WaypointFactory } from "../../model/waypoint-model/waypoint-factory";
 
 
 const NAVBAR_HEIGHT_PX = 54;
@@ -47,11 +49,20 @@ const F_KEY_CODE = 70;
     templateUrl: './map.component.html',
     styleUrls: ['./map.component.css']
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, OnDestroy {
     public session: Sessioncontext;
     private currentMapFeatures: Mapfeatures;
     private currentMetarTafList: MetarTafList;
     private currentNotamList: NotamList;
+    private currentFlightrouteSubscription: Rx.Subscription;
+    private mapMoveZoomedRotatedSubscription: Rx.Subscription;
+    private mapItemClickedSubscription: Rx.Subscription;
+    private mapClickedSubscription: Rx.Subscription;
+    private mapOverlayClosedSubscription: Rx.Subscription;
+    private flightrouteChangedSubscription: Rx.Subscription;
+    private fullScreenClickedSubscription: Rx.Subscription;
+    private windowResizeSubscription: Rx.Subscription;
+    private keyDownSubscription: Rx.Subscription;
     @ViewChild(MapOverlayAirportComponent) mapOverlayAirportComponent: MapOverlayAirportComponent;
     @ViewChild(MapOverlayNavaidComponent) mapOverlayNavaidComponent: MapOverlayNavaidComponent;
     @ViewChild(MapOverlayReportingpointComponent) mapOverlayReportingpointComponent: MapOverlayReportingpointComponent;
@@ -61,13 +72,13 @@ export class MapComponent implements OnInit {
     @ViewChild(MapOverlayTrafficComponent) mapOverlayTrafficComponent: MapOverlayTrafficComponent;
     @ViewChild(MapOverlayNotamComponent) mapOverlayNotamComponent: MapOverlayNotamComponent;
     @ViewChild(SearchBoxComponent) searchBox: SearchBoxComponent;
-    @HostListener('window:keydown', ['$event']) keydown(event) { this.onKeyDown(event); }
 
 
     public constructor(
         private sessionService: SessionService,
         private messageService: MessageService,
         private trafficService: TrafficService,
+        private flightrouteService: FlightrouteService,
         private mapService: MapService,
         private mapFeatureService: MapfeaturesService,
         private searchService: SearchService,
@@ -78,36 +89,86 @@ export class MapComponent implements OnInit {
     }
 
 
-    // region events
+    // region component life cycle
 
     public ngOnInit() {
         this.resizeMapToWindow();
-        this.mapService.initMap(
-            this.onMovedZoomedRotatedCallback.bind(this),
-            this.onMapItemClickedCallback.bind(this),
-            this.onMapClickedCallback.bind(this),
-            this.onMapOverlayClosedCallback.bind(this),
-            this.onFlightrouteChangedCallback.bind(this),
-            this.onFullScreenClickedCallback.bind(this)
+        this.mapService.initMap();
+
+
+        // subscribe to flightroute events
+        this.currentFlightrouteSubscription = this.flightrouteService.currentRoute$.subscribe(
+            currentFlightroute => { this.mapService.drawFlightRoute(currentFlightroute); }
         );
 
-        this.updateMap(true);
 
-        if (this.session.flightroute) {
-            this.mapService.drawFlightRoute(this.session.flightroute);
-        }
+        // subscribe to mapservice events
+        this.mapMoveZoomedRotatedSubscription = this.mapService.mapMovedZoomedRotated$.subscribe(() => {
+            this.updateMapContent(false);
+        });
+
+        this.mapItemClickedSubscription = this.mapService.mapItemClicked$.subscribe(([dataItem, clickPos]) => {
+            this.performSelectItemAction(dataItem, clickPos);
+        });
+
+        this.mapClickedSubscription = this.mapService.mapClicked$.subscribe((position: Position2d) => {
+            this.searchService.searchByPosition(
+                position,
+                this.mapService.getRadiusDegByPixel(position, CLICK_SEARCH_RADIUS_PIXEL),
+                0, // TODO
+                1, // TODO
+                this.onSearchByPositionSuccess.bind(this),
+                this.onSearchByPositionError.bind(this)
+            );
+        });
+
+        this.mapOverlayClosedSubscription = this.mapService.mapOverlayClosed$.subscribe(() => {
+            // TODO: databind undef?
+        });
+
+        this.flightrouteChangedSubscription = this.mapService.flightrouteChanged$.subscribe(() => {
+            // TODO
+        });
+
+        this.fullScreenClickedSubscription = this.mapService.fullScreenClicked$.subscribe(() => {
+            // TODO
+        });
+
+        this.windowResizeSubscription = Rx.Observable.fromEvent(window, 'resize').subscribe(() => {
+            this.resizeMapToWindow();
+        });
+
+        this.keyDownSubscription = Rx.Observable.fromEvent(document, 'keydown').subscribe((event: KeyboardEvent) => {
+            // search: f3 or ctrl + f
+            if (event.keyCode === F3_KEY_CODE || (event.ctrlKey && event.keyCode === F_KEY_CODE)) {
+                this.searchBox.focus();
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        });
+
+        this.updateMapContent(true);
     }
 
 
-    public onKeyDown(event: KeyboardEvent) {
-        // search: f3 or ctrl + f
-        if (event.keyCode === F3_KEY_CODE || (event.ctrlKey && event.keyCode === F_KEY_CODE)) {
-            this.searchBox.focus();
-            event.preventDefault();
-            event.stopPropagation();
-        }
+    public ngOnDestroy() {
+        // unsubscribe from flightroute events
+        this.currentFlightrouteSubscription.unsubscribe();
+
+        // unsubscribe from map service events
+        this.mapMoveZoomedRotatedSubscription.unsubscribe();
+        this.mapItemClickedSubscription.unsubscribe();
+        this.mapClickedSubscription.unsubscribe();
+        this.mapOverlayClosedSubscription.unsubscribe();
+        this.flightrouteChangedSubscription.unsubscribe();
+        this.fullScreenClickedSubscription.unsubscribe();
+        this.keyDownSubscription.unsubscribe();
     }
 
+    // endregion
+
+
+    // region events
 
     public onSearchResultSelected(selection: [DataItem, Position2d]) {
         this.performSelectItemAction(selection[0], selection[1]);
@@ -115,40 +176,13 @@ export class MapComponent implements OnInit {
     }
 
 
-    public onResize() {
-        this.resizeMapToWindow();
-    }
-
-
-    private onMovedZoomedRotatedCallback() {
-        this.updateMap(false);
-    }
-
-
-    private onMapItemClickedCallback(dataItem: DataItem, clickPos: Position2d) {
-        this.performSelectItemAction(dataItem, clickPos);
-    }
-
-
-    private onMapOverlayClosedCallback() {
-        // TODO: databind undef?
+    public onWaypointChanged() {
+         // TODO
     }
 
 
     public onOverlayClose() {
         this.mapService.closeOverlay();
-    }
-
-
-    private onMapClickedCallback(position: Position2d) {
-        this.searchService.searchByPosition(
-            position,
-            this.mapService.getRadiusDegByPixel(position, CLICK_SEARCH_RADIUS_PIXEL),
-            0, // TODO
-            1, // TODO
-            this.onSearchByPositionSuccess.bind(this),
-            this.onSearchByPositionError.bind(this)
-        );
     }
 
 
@@ -158,14 +192,6 @@ export class MapComponent implements OnInit {
 
 
     private onSearchByPositionError(message: string) {
-    }
-
-
-    private onFlightrouteChangedCallback() {
-    }
-
-
-    private onFullScreenClickedCallback() {
     }
 
 
@@ -222,10 +248,11 @@ export class MapComponent implements OnInit {
     }
 
 
+
     // endregion
 
 
-    private updateMap(isInitialUpdate: boolean) {
+    private updateMapContent(isInitialUpdate: boolean) {
         const extent = this.mapService.getExtent();
         const zoom = this.mapService.getZoom();
         this.trafficService.setExtent(extent);
@@ -257,43 +284,50 @@ export class MapComponent implements OnInit {
     private performSelectItemAction(dataItem: DataItem, clickPos: Position2d) {
         let overlay: MapOverlayContainer;
         this.mapService.closeOverlay();
+        this.session.selectedWaypoint = undefined;
 
         if (dataItem instanceof Airport) {
+            this.session.selectedWaypoint = WaypointFactory.createNewWaypointFromItem(dataItem, clickPos);
             overlay = this.mapOverlayAirportComponent;
-            overlay.bindFeatureData(dataItem);
+            overlay.bindFeatureData(dataItem, clickPos);
 
-            // load notams
+            // load notams if needed
             if (!this.mapOverlayAirportComponent.airport || !this.mapOverlayAirportComponent.airport.notams
                 || this.mapOverlayAirportComponent.airport.notams.length === 0) {
                 this.notamService.loadByIcao([dataItem.icao], this.onAirportNotamLoadedSuccess.bind(this),
                     this.onAirportNotamLoadedError.bind(this));
             }
-            // load metar / taf
+            // load metar / taf if needed
             if (!this.mapOverlayAirportComponent.airport || !this.mapOverlayAirportComponent.airport.metarTaf) {
                 this.metarTafService.loadByIcao(dataItem.icao, this.onAirportMetarTafLoadedSuccess.bind(this),
                     this.onAirportMetarTafLoadedError.bind(this));
             }
         } else if (dataItem instanceof Navaid) {
+            this.session.selectedWaypoint = WaypointFactory.createNewWaypointFromItem(dataItem, clickPos);
             overlay = this.mapOverlayNavaidComponent;
-            overlay.bindFeatureData(dataItem);
+            overlay.bindFeatureData(dataItem, clickPos);
         } else if (dataItem instanceof Reportingpoint) {
+            this.session.selectedWaypoint = WaypointFactory.createNewWaypointFromItem(dataItem, clickPos);
             overlay = this.mapOverlayReportingpointComponent;
-            overlay.bindFeatureData(dataItem);
+            overlay.bindFeatureData(dataItem, clickPos);
         } else if (dataItem instanceof Reportingsector) {
+            this.session.selectedWaypoint = WaypointFactory.createNewWaypointFromItem(dataItem, clickPos);
             overlay = this.mapOverlayReportingsectorComponent;
-            overlay.bindFeatureData(dataItem);
+            overlay.bindFeatureData(dataItem, clickPos);
         } else if (dataItem instanceof Userpoint) {
+            this.session.selectedWaypoint = WaypointFactory.createNewWaypointFromItem(dataItem, clickPos);
             overlay = this.mapOverlayUserpointComponent;
-            overlay.bindFeatureData(dataItem);
+            overlay.bindFeatureData(dataItem, clickPos);
         } else if (dataItem instanceof Geoname) {
+            this.session.selectedWaypoint = WaypointFactory.createNewWaypointFromItem(dataItem, clickPos);
             overlay = this.mapOverlayGeonameComponent;
-            overlay.bindFeatureData(dataItem);
+            overlay.bindFeatureData(dataItem, clickPos);
         } else if (dataItem instanceof Notam) {
             overlay = this.mapOverlayNotamComponent;
-            overlay.bindFeatureData(dataItem);
+            overlay.bindFeatureData(dataItem, clickPos);
         } else if (dataItem instanceof Traffic) {
             overlay = this.mapOverlayTrafficComponent;
-            overlay.bindFeatureData(dataItem);
+            overlay.bindFeatureData(dataItem, clickPos);
         } else if (dataItem instanceof Webcam) {
             window.open(dataItem.url, '_blank');
             return;
@@ -301,7 +335,7 @@ export class MapComponent implements OnInit {
             return;
         }
 
-        this.mapService.addOverlay(overlay.getPosition(clickPos), overlay.getContainerHtmlElement(), true);
+        this.mapService.addOverlay(overlay.getPosition(), overlay.getContainerHtmlElement(), true);
     }
 
 

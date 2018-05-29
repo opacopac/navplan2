@@ -1,4 +1,4 @@
-<div class="modal fade" id="selectedWaypointDialog" tabindex="-1" role="dialog" aria-labelledby="selectedWaypointModalLabel">
+<div *ngIf="this.waypoint" class="modal fade" id="selectedWaypointDialog" tabindex="-1" role="dialog" aria-labelledby="selectedWaypointModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -79,8 +79,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-md btn-primary" data-dismiss="modal" (click)="onSaveClicked()" [disabled]="this.editWpForm.invalid">Save</button>
-                    <button type="button" class="btn btn-md btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-md btn-primary" data-dismiss="modal" (click)="this.onSaveClicked()" [disabled]="this.editWpForm.invalid">Save</button>
+                    <button type="button" class="btn btn-md btn-secondary" data-dismiss="modal" (click)="this.onCancelClicke()" >Cancel</button>
                 </div>
             </form>
         </div>

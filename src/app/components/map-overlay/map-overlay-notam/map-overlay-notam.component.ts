@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { StringnumberService } from '../../../services/utils/stringnumber.service';
 import { Notam } from '../../../model/notam';
 import { Position2d } from '../../../model/position';
@@ -12,26 +12,26 @@ import { MapOverlayContainer } from '../map-overlay-container';
 })
 export class MapOverlayNotamComponent extends MapOverlayContainer implements OnInit {
     public notam: Notam;
-    private container: HTMLElement;
+    @ViewChild('container') container: ElementRef;
 
 
     ngOnInit() {
-        this.container = document.getElementById('map-overlay-notam-container');
     }
 
 
-    public getContainerHtmlElement() {
-        return this.container;
+    public getContainerHtmlElement(): HTMLElement {
+        return this.container.nativeElement;
     }
 
 
-    public bindFeatureData(notam: Notam) {
+    public bindFeatureData(notam: Notam, clickPos: Position2d) {
         this.notam = notam;
+        this.clickPos;
     }
 
 
-    public getPosition(clickPos: Position2d): Position2d {
-        return clickPos;
+    public getPosition(): Position2d {
+        return this.clickPos;
     }
 
 

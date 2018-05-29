@@ -7,18 +7,12 @@ import { Sessioncontext } from '../../model/sessioncontext';
 import { CachingExtentLoader } from '../map/caching-extent-loader';
 import { Extent } from '../../model/ol-model/extent';
 import { MetarTafList } from '../../model/metar-taf';
-import { MetarTafFeature, RestMapperMetarTaf } from '../../model/rest-model/rest-mapper-metar-taf';
+import { MetarTafResponse, RestMapperMetarTaf} from '../../model/rest-model/rest-mapper-metar-taf';
 
 
 const MIN_ZOOM_LEVEL = 8;
 const MAXAGESEC = 5 * 60 * 1000; // 5 min
 const METAR_TAF_BASE_URL = 'https://www.aviationweather.gov/gis/scripts/MetarJSON.php?taf=true&density=all&bbox='; // 6.0,44.0,10.0,48.0';
-
-
-interface MetarTafResponse {
-    type: string;
-    features: MetarTafFeature[];
-}
 
 
 @Injectable()
@@ -61,7 +55,7 @@ export class MetarTafService extends CachingExtentLoader<MetarTafList> {
             .jsonp<MetarTafResponse>(url, 'jsonp')
             .subscribe(
                 response => {
-                    const metarTafList = this.getMetarTafList(response);
+                    const metarTafList = RestMapperMetarTaf.getMetarTafListFromResponse(response);
                     successCallback(metarTafList);
                 },
                 err => {
@@ -91,17 +85,5 @@ export class MetarTafService extends CachingExtentLoader<MetarTafList> {
         }
 
         // TODO: load from aviationweather
-    }
-
-
-    private getMetarTafList(response: MetarTafResponse): MetarTafList {
-        const metarTafList: MetarTafList = new MetarTafList();
-
-        for (const metarTafRestItem of response.features) {
-            const metarTaf = RestMapperMetarTaf.getMetarTafFromRestItem(metarTafRestItem);
-            metarTafList.items.push(metarTaf);
-        }
-
-        return metarTafList;
     }
 }

@@ -3,6 +3,7 @@ import { Position2d } from './position';
 import { Flightroute } from './flightroute';
 import { MapbaselayerType } from './ol-model/mapbaselayer-factory';
 import { Track } from './track';
+import { Waypoint } from "./waypoint";
 
 
 export class Sessioncontext {
@@ -12,6 +13,7 @@ export class Sessioncontext {
     public map: Mapsettings;
     public flightroute: Flightroute;
     public track: Track;
+    public selectedWaypoint: Waypoint;
 }
 
 

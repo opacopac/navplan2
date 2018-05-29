@@ -49,3 +49,5 @@ Thumbs.db
 /src/data_import/openaip_airspace/*
 /src/data_import/openaip_navaids/*
 /src/meteoretriever/data/*
+devsbb/
+navplan2.iml

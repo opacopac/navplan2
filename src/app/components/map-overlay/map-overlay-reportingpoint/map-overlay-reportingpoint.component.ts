@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { Reportingpoint } from '../../../model/reportingpoint';
 import { StringnumberService } from '../../../services/utils/stringnumber.service';
 import { Position2d } from '../../../model/position';
 import { MapOverlayContainer } from '../map-overlay-container';
+import {Sessioncontext} from "../../../model/sessioncontext";
+import {SessionService} from "../../../services/utils/session.service";
 
 
 @Component({
@@ -12,25 +14,34 @@ import { MapOverlayContainer } from '../map-overlay-container';
 })
 export class MapOverlayReportingpointComponent extends MapOverlayContainer implements OnInit {
     public reportingpoint: Reportingpoint;
-    private container: HTMLElement;
+    private session: Sessioncontext;
+    @ViewChild('container') container: ElementRef;
+
+
+    constructor(
+        private sessionService: SessionService
+    ) {
+        super();
+        this.session = this.sessionService.getSessionContext();
+    }
 
 
     ngOnInit() {
-        this.container = document.getElementById('map-overlay-reportingpoint-container');
     }
 
 
-    public getContainerHtmlElement() {
-        return this.container;
+    public getContainerHtmlElement(): HTMLElement {
+        return this.container.nativeElement;
     }
 
 
-    public bindFeatureData(reportingPoint: Reportingpoint) {
+    public bindFeatureData(reportingPoint: Reportingpoint, clickPos: Position2d) {
         this.reportingpoint = reportingPoint;
+        this.clickPos = clickPos;
     }
 
 
-    public getPosition(clickPos: Position2d): Position2d {
+    public getPosition(): Position2d {
         return this.reportingpoint.position;
     }
 

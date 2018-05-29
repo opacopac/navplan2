@@ -1,14 +1,14 @@
 <div class="container mapsearch">
     <div class="input-group">
         <input #searchWpInput
+               id="searchField"
                type="text"
                class="form-control form-control-md"
                placeholder="search for AD, navaid, city, coordinates or click on map"
                autocomplete="off"
                [(ngModel)]="this.searchQuery"
                (blur)="this.onBlur()"
-               (keydown)="this.onKeyDown($event)"
-               (keyup)="this.onKeyUp($event)" />
+               (keydown)="this.onKeyDown($event)" />
         <span class="input-group-append">
             <button appIconButton
                     title="search"

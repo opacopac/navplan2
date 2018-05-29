@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MapService } from '../../../services/map/map.service';
-import { LocationService } from '../../../services/track/location.service';
+import { LocationService } from '../../../services/location/location.service';
 import { TrafficService, TrafficServiceStatus} from '../../../services/traffic/traffic.service';
 import { Traffic } from '../../../model/traffic';
 import { ButtonStatus } from '../status-button.directive';

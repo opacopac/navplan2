@@ -1,15 +1,17 @@
 import { Clonable } from './clonable';
+import { Position2d } from "./position";
 
 
 export class Waypoint implements Clonable<Waypoint> {
-    mt: number;
-    mtText = '';
-    vacTime = 0;
-    dist: number;
-    distText = '';
-    alt: Waypointaltitude = new Waypointaltitude();
-    eetText = '';
-    variation: number;
+    public mt: number = 0;
+    public mtText = '';
+    public vacTime = 0;
+    public dist: number;
+    public distText = '';
+    public alt: Waypointaltitude = new Waypointaltitude();
+    public eetText = '';
+    public variation: number = 0;
+    public isNew: boolean = false;
 
 
     constructor(
@@ -19,8 +21,7 @@ export class Waypoint implements Clonable<Waypoint> {
         public checkpoint = '',
         public remark = '',
         public supp_info = '',
-        public latitude?: number,
-        public longitude?: number) {
+        public position?: Position2d) {
     }
 
 
@@ -32,8 +33,7 @@ export class Waypoint implements Clonable<Waypoint> {
             this.checkpoint,
             this.remark,
             this.supp_info,
-            this.latitude,
-            this.longitude
+            new Position2d(this.position.longitude, this.position.latitude)
         );
         wp.mt = this.mt;
         wp.mtText = this.mtText;
@@ -53,7 +53,8 @@ export enum Waypointtype {
     airport,
     navaid,
     report,
-    user
+    user,
+    geoname
 }
 
 

@@ -1,13 +1,18 @@
 import * as ol from 'openlayers';
 import { Timestamp } from './timestamp';
 import { Altitude } from './altitude';
-import {Geometry2d, Geometry2dType} from './geometry2d';
+import { Geometry2d, Geometry2dType } from './geometry2d';
 
 
 export class Position2d implements Geometry2d {
     public constructor(
         public longitude: number,
         public latitude: number) {
+    }
+
+
+    public equals(position: Position2d): boolean {
+        return (position.latitude == this.latitude && position.longitude == this.longitude);
     }
 
 

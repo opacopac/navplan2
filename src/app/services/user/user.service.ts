@@ -27,12 +27,12 @@ export class UserService {
     private session;
 
 
-    constructor(private http: HttpClient, private sessionService: SessionService ) {
+    public constructor(private http: HttpClient, private sessionService: SessionService ) {
         this.session = sessionService.getSessionContext();
     }
 
 
-    initUser(): User {
+    public initUser(): User {
         const email = ClientstorageService.getCookie(COOKIE_EMAIL);
         const token = ClientstorageService.getCookie(COOKIE_TOKEN);
 
@@ -44,7 +44,7 @@ export class UserService {
     }
 
 
-    login(
+    public login(
         email: string,
         password: string,
         remember: boolean,
@@ -89,7 +89,7 @@ export class UserService {
     }
 
 
-    logout() {
+    public logout() {
         this.session.user = null;
 
         // TODO: window.localStorage.removeItem("user");
@@ -98,7 +98,7 @@ export class UserService {
     }
 
 
-    register(
+    public register(
         email: string,
         password: string,
         remember: boolean,
@@ -139,7 +139,7 @@ export class UserService {
     }
 
 
-    forgotPassword(
+    public forgotPassword(
         email: string,
         successCallback: () => void,
         errorCallback: (message: string) => void) {
@@ -176,7 +176,7 @@ export class UserService {
     }
 
 
-    updatePassword(
+    public updatePassword(
         email: string,
         oldPassword: string,
         newPassword: string,

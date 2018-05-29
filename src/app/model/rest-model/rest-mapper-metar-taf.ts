@@ -1,5 +1,11 @@
-import { MetarTaf } from '../metar-taf';
+import { MetarTaf, MetarTafList } from '../metar-taf';
 import { StringnumberService } from '../../services/utils/stringnumber.service';
+
+
+export interface MetarTafResponse {
+    type: string;
+    features: MetarTafFeature[];
+}
 
 
 export interface MetarTafFeature {
@@ -36,6 +42,17 @@ export interface MetarTafGeometry {
 
 
 export class RestMapperMetarTaf {
+    public static getMetarTafListFromResponse(response: MetarTafResponse): MetarTafList {
+        const metarTafList: MetarTafList = new MetarTafList();
+
+        for (const metarTafRestItem of response.features) {
+            const metarTaf = this.getMetarTafFromRestItem(metarTafRestItem);
+            metarTafList.items.push(metarTaf);
+        }
+
+        return metarTafList;
+    }
+
     public static getMetarTafFromRestItem(metarTafRestItem: MetarTafFeature): MetarTaf {
         return new MetarTaf(
             metarTafRestItem.properties.id,

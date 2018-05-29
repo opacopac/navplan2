@@ -30,6 +30,7 @@
       "prefix": "app",
       "styles": [
         "../node_modules/openlayers/css/ol.css",
+        "assets/bootstrap/bootstrap_slate_theme/bootstrap.min.css",
         "styles.css"
       ],
       "scripts": [

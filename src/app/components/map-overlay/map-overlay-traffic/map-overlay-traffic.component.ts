@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Traffic, TrafficAddressType, TrafficAircraftType} from '../../../model/traffic';
 import { Position2d } from '../../../model/position';
 import { ButtonColor, ButtonSize } from '../../buttons/button-base.directive';
@@ -34,25 +34,25 @@ export class MapOverlayTrafficComponent extends MapOverlayContainer implements O
     public traffic: Traffic;
     public ButtonSize = ButtonSize;
     public ButtonColor = ButtonColor;
-    private container: HTMLElement;
+    @ViewChild('container') container: ElementRef;
 
 
     ngOnInit() {
-        this.container = document.getElementById('map-overlay-traffic-container');
     }
 
 
-    public getContainerHtmlElement() {
-        return this.container;
+    public getContainerHtmlElement(): HTMLElement {
+        return this.container.nativeElement;
     }
 
 
-    public bindFeatureData(traffic: Traffic) {
+    public bindFeatureData(traffic: Traffic, clickPos: Position2d) {
         this.traffic = traffic;
+        this.clickPos = clickPos;
     }
 
 
-    public getPosition(clickPos: Position2d): Position2d {
+    public getPosition(): Position2d {
         return this.traffic.getCurrentTrafficPosition().position;
     }
 

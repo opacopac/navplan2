@@ -1,4 +1,4 @@
-<div id="map-overlay-airport-container" class="ol-popup card text-white bg-primary mb-3" style="visibility: hidden">
+<div #container class="ol-popup card text-white bg-primary mb-3" style="visibility: hidden">
     <div *ngIf="this.airport">
         <div class="card-header">
             {{ this.getTitle() }}
@@ -69,10 +69,13 @@
                             </p>
                         </div>
                         <!-- Meteogram -->
-                        <!--<p>Meteogram for {{ this.getName() }}</p>-->
-                        <span id="windytviframe">
-                            <iframe width="600" height="190" src="https://embed.windytv.com/embed2.html?lat=46.9458&lon=7.4713&type=forecast&metricWind=kt&metricTemp=%C2%B0C" frameborder="0"></iframe>
-                        </span>
+                        <p [hidden]="this.isMeteoGramVisible()"><small><em><a href="#" (click)="showMeteogram()">Show Meteogram &gt;&gt;</a></em></small></p>
+                        <div [hidden]="!this.isMeteoGramVisible()">
+                            <p>
+                                Meteogram for {{ this.getName() }}
+                                <app-map-overlay-windyiframe MEEPonDataNeeded="updateMeteogram()"></app-map-overlay-windyiframe>
+                            </p>
+                        </div>
                     </div>
                     <!-- notam tab -->
                     <div class="tab-pane" id="airport-notam" role="tabpanel" aria-labelledby="airport-notam-tab">
@@ -110,7 +113,7 @@
                         <a class="nav-link" id="airport-radio-tab" data-toggle="pill" data-target="#airport-radio" href="#" role="tab" aria-controls="airport-radio" aria-selected="false" onclick="$('#airport-radio-tab').tab('show'); return false;"><i class="fas fa-broadcast-tower"></i></a>
                     </li>
                     <li class="nav-item" title="METAR / TAF">
-                        <a class="nav-link" id="airport-meteo-tab" data-toggle="pill" data-target="#airport-meteo" href="#" role="tab" aria-controls="airport-meteo" aria-selected="false" onclick="$('#airport-meteo-tab').tab('show'); return false;"><i class="fas fa-cloud"></i></a>
+                        <a class="nav-link" id="airport-meteo-tab" data-toggle="pill" data-target="#airport-meteo" href="#" role="tab" aria-controls="airport-meteo" aria-selected="false" (click)="this.updateMeteogram()" onclick="$('#airport-meteo-tab').tab('show'); return false;"><i class="fas fa-cloud"></i></a>
                     </li>
                     <li class="nav-item" title="NOTAM">
                         <a class="nav-link" id="airport-notam-tab" data-toggle="pill" data-target="#airport-notam" href="#" role="tab" aria-controls="airport-notam" aria-selected="false" onclick="$('#airport-notam-tab').tab('show'); return false;"><i class="fas fas fa-exclamation-triangle"></i></a>
@@ -121,10 +124,11 @@
                 </ul>
             </div>
             <hr/>
-            <app-map-overlay-button-add-to-route *ngIf="!this.currentWaypoint"></app-map-overlay-button-add-to-route>
+            <app-map-overlay-button-add-to-route></app-map-overlay-button-add-to-route>
             <app-map-overlay-button-set-alternate></app-map-overlay-button-set-alternate>
-            <app-map-overlay-button-edit-waypoint *ngIf="this.currentWaypoint"></app-map-overlay-button-edit-waypoint>
-            <app-map-overlay-button-remove-from-route *ngIf="this.currentWaypoint"></app-map-overlay-button-remove-from-route>
+            <app-map-overlay-button-edit-waypoint></app-map-overlay-button-edit-waypoint>
+            <app-map-overlay-button-remove-from-route></app-map-overlay-button-remove-from-route>
+            <app-map-overlay-button-remove-alternate></app-map-overlay-button-remove-alternate>
         </div>
     </div>
 </div>

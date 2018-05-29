@@ -1,4 +1,4 @@
-<div id="map-overlay-userpoint-container" class="ol-popup card text-white bg-primary mb-3"
+<div #container class="ol-popup card text-white bg-primary mb-3"
      style="visibility: hidden">
     <div *ngIf="this.userpoint">
         <div class="card-header">
@@ -10,9 +10,9 @@
             <p>{{ this.getPositionString(this.userpoint.position) }}</p>
             <p *ngIf="this.userpoint.remark">Remark: {{ this.userpoint.remark }}</p>
             <hr/>
-            <app-map-overlay-button-add-to-route *ngIf="!this.currentWaypoint"></app-map-overlay-button-add-to-route>
-            <app-map-overlay-button-edit-waypoint *ngIf="this.currentWaypoint"></app-map-overlay-button-edit-waypoint>
-            <app-map-overlay-button-remove-from-route *ngIf="this.currentWaypoint"></app-map-overlay-button-remove-from-route>
+            <app-map-overlay-button-add-to-route></app-map-overlay-button-add-to-route>
+            <app-map-overlay-button-edit-waypoint></app-map-overlay-button-edit-waypoint>
+            <app-map-overlay-button-remove-from-route></app-map-overlay-button-remove-from-route>
             <app-map-overlay-button-edit-userpoint></app-map-overlay-button-edit-userpoint>
         </div>
     </div>

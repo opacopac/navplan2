@@ -1,4 +1,4 @@
-<div id="map-overlay-geoname-container" class="ol-popup card text-white bg-primary mb-3" style="visibility: hidden">
+<div #container class="ol-popup card text-white bg-primary mb-3" style="visibility: hidden">
     <div *ngIf="this.geoname">
         <div class="card-header">
             {{ this.geoname.name }}
@@ -10,9 +10,9 @@
             <p>{{ this.getPositionString(this.geoname.position) }}</p>
             <p>Elevation: {{ this.getElevationString(this.geoname.elevation_m) }}</p>
             <hr/>
-            <app-map-overlay-button-add-to-route *ngIf="!this.currentWaypoint"></app-map-overlay-button-add-to-route>
-            <app-map-overlay-button-edit-waypoint *ngIf="this.currentWaypoint"></app-map-overlay-button-edit-waypoint>
-            <app-map-overlay-button-remove-from-route *ngIf="this.currentWaypoint"></app-map-overlay-button-remove-from-route>
+            <app-map-overlay-button-add-to-route></app-map-overlay-button-add-to-route>
+            <app-map-overlay-button-edit-waypoint></app-map-overlay-button-edit-waypoint>
+            <app-map-overlay-button-remove-from-route></app-map-overlay-button-remove-from-route>
         </div>
     </div>
 </div>

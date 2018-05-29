@@ -1,8 +1,8 @@
-import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import * as Rx from 'rxjs';
+import { Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { SearchService } from '../../services/search/search.service';
 import { ButtonColor, ButtonSize } from '../buttons/button-base.directive';
 import { SearchItem, SearchItemList } from '../../model/search-item';
-import { MapService } from '../../services/map/map.service';
 import { DataItem } from '../../model/data-item';
 import { Position2d } from '../../model/position';
 
@@ -20,7 +20,7 @@ const ESC_KEY_CODE = 27;
     templateUrl: './search-box.component.html',
     styleUrls: ['./search-box.component.css']
 })
-export class SearchBoxComponent implements OnInit {
+export class SearchBoxComponent implements OnInit, OnDestroy {
     @Output() dataItemSelected = new EventEmitter<[DataItem, Position2d]>();
     @ViewChild('searchWpInput') searchWpInput: ElementRef;
     public ButtonSize = ButtonSize;
@@ -28,18 +28,28 @@ export class SearchBoxComponent implements OnInit {
     public searchResults: SearchItemList;
     public searchQuery: string;
     public selectedIndex: number;
-    private lastQuery: string;
-    private currentTimer: number;
+    private keyUpSubscription: Rx.Subscription;
 
 
     constructor(
-        private searchService: SearchService,
-        private mapService: MapService) {
+        private searchService: SearchService) {
     }
 
 
     ngOnInit() {
         this.selectedIndex = 0;
+        this.keyUpSubscription = Rx.Observable.fromEvent(this.searchWpInput.nativeElement, 'keyup')
+            .filter(() => this.searchQuery.trim().length >= MIN_QUERY_LENGTH)
+            .distinctUntilChanged()
+            .debounceTime(QUERY_DELAY_MS)
+            .subscribe(() => {
+                this.executeSearch();
+            });
+    }
+
+
+    ngOnDestroy() {
+        this.keyUpSubscription.unsubscribe();
     }
 
 
@@ -85,21 +95,6 @@ export class SearchBoxComponent implements OnInit {
                 event.stopPropagation();
                 break;
         }
-    }
-
-
-    public onKeyUp(event: KeyboardEvent) {
-        if (this.searchQuery === this.lastQuery) {
-            return;
-        } else {
-            this.lastQuery = this.searchQuery;
-        }
-
-        if (this.currentTimer) {
-            window.clearTimeout(this.currentTimer);
-        }
-
-        this.currentTimer = window.setTimeout(this.executeSearch.bind(this), QUERY_DELAY_MS);
     }
 
 

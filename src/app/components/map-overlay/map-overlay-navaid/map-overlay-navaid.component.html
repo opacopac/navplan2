@@ -1,4 +1,4 @@
-<div id="map-overlay-navaid-container" class="ol-popup card text-white bg-primary mb-3" style="visibility: hidden">
+<div #container class="ol-popup card text-white bg-primary mb-3" style="visibility: hidden">
     <div *ngIf="this.navaid">
         <div class="card-header">
             {{ this.navaid.name }} ({{ this.navaid.kuerzel }})
@@ -16,9 +16,9 @@
                     <i class="fas fa-info-circle" title="openAIP login is required for editing"></i></em>
             </div>
             <hr/>
-            <app-map-overlay-button-add-to-route *ngIf="!this.currentWaypoint"></app-map-overlay-button-add-to-route>
-            <app-map-overlay-button-edit-waypoint *ngIf="this.currentWaypoint"></app-map-overlay-button-edit-waypoint>
-            <app-map-overlay-button-remove-from-route *ngIf="this.currentWaypoint"></app-map-overlay-button-remove-from-route>
+            <app-map-overlay-button-add-to-route></app-map-overlay-button-add-to-route>
+            <app-map-overlay-button-edit-waypoint></app-map-overlay-button-edit-waypoint>
+            <app-map-overlay-button-remove-from-route></app-map-overlay-button-remove-from-route>
         </div>
     </div>
 </div>

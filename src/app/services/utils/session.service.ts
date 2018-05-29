@@ -19,6 +19,7 @@ export class SessionService {
         this.context = new Sessioncontext();
         this.context.sessionId = this.createSessionId();
         this.context.flightroute = new Flightroute();
+        this.context.selectedWaypoint = undefined;
         this.context.settings = new Globalsettings();
         this.context.settings.variationDeg = 2;
         this.context.settings.maxTrafficAltitudeFt = 15000;

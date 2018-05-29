@@ -19,7 +19,7 @@ export enum AirportType {
 }
 
 
-export class Airport extends DataItem {
+export class Airport extends DataItem  {
     public runways: AirportRunway[];
     public radios: AirportRadio[];
     public webcams: AirportWebcam[];
@@ -76,6 +76,7 @@ export class Airport extends DataItem {
     public isClosed(): boolean {
         return (this.type === AirportType.AD_CLOSED);
     }
+
 }
 
 

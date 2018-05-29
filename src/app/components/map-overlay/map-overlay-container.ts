@@ -6,20 +6,21 @@ import { Position2d } from '../../model/position';
 
 
 export abstract class MapOverlayContainer {
+    public clickPos: Position2d;
     @Output() close = new EventEmitter();
+
+
+    public abstract bindFeatureData(dataItem: DataItem, clickPos: Position2d);
 
 
     public abstract getContainerHtmlElement(): HTMLElement;
 
 
-    public abstract getPosition(clickPos: Position2d): Position2d;
-
-
-    public abstract bindFeatureData(dataItem: DataItem);
+    public abstract getPosition(): Position2d;
 
 
     public closeOverlay() {
-        this.bindFeatureData(undefined);
+        this.bindFeatureData(undefined, undefined);
         this.close.emit();
     }
 

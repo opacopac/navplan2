@@ -51,7 +51,7 @@ export class OlFlightroute {
 
     private drawWaypoint(source: ol.source.Vector, wp: Waypoint, nextWp: Waypoint, mapRotationRad: number) {
         // get wp coordinates
-        const mapCoord = ol.proj.fromLonLat([wp.longitude, wp.latitude]);  // TODO: => Pos2d
+        const mapCoord = wp.position.getMercator();
 
         // add waypoint + label
         const wpFeature  = new ol.Feature({
@@ -105,7 +105,7 @@ export class OlFlightroute {
         // get coordinate list
         const mapCoordList = [];
         for (let i = 0; i < wps.length; i++) {
-            mapCoordList.push(ol.proj.fromLonLat([wps[i].longitude, wps[i].latitude]));
+            mapCoordList.push(wps[i].position.getMercator());
         }
 
         // add track line segment

@@ -1,4 +1,5 @@
 import * as ol from 'openlayers';
+import * as Rx from 'rxjs';
 import { Injectable } from '@angular/core';
 import { SessionService } from '../utils/session.service';
 import { Sessioncontext } from '../../model/sessioncontext';
@@ -28,7 +29,6 @@ import { DataItem } from '../../model/data-item';
 import { SearchItemList} from '../../model/search-item';
 import { OlSearchItemSelection } from '../../model/ol-model/ol-searchitem-selection';
 import { OlSearchItem } from '../../model/ol-model/ol-searchitem';
-import Pixel = ol.Pixel;
 
 
 const HIT_TOLERANCE_PIXELS = 10;
@@ -36,6 +36,12 @@ const HIT_TOLERANCE_PIXELS = 10;
 
 @Injectable()
 export class MapService {
+    public mapMovedZoomedRotated$: Rx.Observable<void>;
+    public mapItemClicked$: Rx.Observable<[DataItem, Position2d]>;
+    public mapClicked$: Rx.Observable<Position2d>;
+    public mapOverlayClosed$: Rx.Observable<void>;
+    public flightrouteChanged$: Rx.Observable<void>;
+    public fullScreenClicked$: Rx.Observable<void>;
     private map: ol.Map;
     private session: Sessioncontext;
     private mapLayer: ol.layer.Tile;
@@ -45,31 +51,30 @@ export class MapService {
     private searchItemLayer: ol.layer.Vector;
     private trafficLayer: ol.layer.Vector;
     private locationLayer: ol.layer.Vector;
-    private onMovedZoomedRotatedCallback: () => void;
-    private onMapItemClickedCallback: (dataItem: DataItem, clickPos: Position2d) => void;
-    private onMapClickedCallback: (position: Position2d) => void;
-    private onMapOverlayClosedCallback: () => void;
-    private onFlightrouteChangedCallback: () => void;
-    private onFullScreenClickedCallback: () => void;
     private currentOverlay: ol.Overlay;
     private isSearchItemSelectionActive: boolean;
+    private mapMovedZoomedRotatedSource = new Rx.Subject<void>();
+    private mapItemClickedSource = new Rx.Subject<[DataItem, Position2d]>();
+    private mapClickedSource = new Rx.Subject<Position2d>();
+    private mapOverlayClosedSource = new Rx.Subject<void>();
+    private mapFlightrouteChangedSource = new Rx.Subject<void>();
+    private mapFullScreenClickedSource = new Rx.Subject<void>();
 
 
     constructor(private sessionService: SessionService) {
         this.session = sessionService.getSessionContext();
+        this.mapMovedZoomedRotated$ = this.mapMovedZoomedRotatedSource.asObservable().debounceTime(100);
+        this.mapItemClicked$ = this.mapItemClickedSource.asObservable();
+        this.mapClicked$ = this.mapClickedSource.asObservable();
+        this.mapOverlayClosed$ = this.mapOverlayClosedSource.asObservable();
+        this.flightrouteChanged$ = this.mapFlightrouteChangedSource.asObservable();
+        this.fullScreenClicked$ = this.mapFullScreenClickedSource.asObservable();
     }
 
 
     // region init
 
-    public initMap(
-        onMovedZoomedRotatedCallback: () => void,
-        onMapItemClickedCallback: (dataItem: DataItem, clickPos: Position2d) => void,
-        onMapClickedCallback: (position: Position2d) => void,
-        onMapOverlayClosedCallback: () => void,
-        onFlightrouteChangedCallback: () => void,
-        onFullScreenClickedCallback: () => void
-    ) {
+    public initMap() {
         // map
         this.initLayers();
         this.map = new ol.Map({
@@ -100,14 +105,6 @@ export class MapService {
         this.map.on('singleclick', this.onSingleClick.bind(this));
         this.map.on('pointermove', this.onPointerMove.bind(this));
         this.map.getView().on('change:rotation', this.onViewRotation.bind(this));
-
-        // callbacks
-        this.onMovedZoomedRotatedCallback = onMovedZoomedRotatedCallback;
-        this.onMapItemClickedCallback = onMapItemClickedCallback;
-        this.onMapClickedCallback = onMapClickedCallback;
-        this.onMapOverlayClosedCallback = onMapOverlayClosedCallback;
-        this.onFlightrouteChangedCallback = onFlightrouteChangedCallback;
-        this.onFullScreenClickedCallback = onFullScreenClickedCallback;
     }
 
 
@@ -191,7 +188,7 @@ export class MapService {
 
     public getRadiusDegByPixel(position: Position2d, radiusPixel: number): number {
         const coord1Pixel = this.map.getPixelFromCoordinate(position.getMercator());
-        const coord2Pixel: Pixel = [coord1Pixel[0], coord1Pixel[1] - radiusPixel];
+        const coord2Pixel: ol.Pixel = [coord1Pixel[0], coord1Pixel[1] - radiusPixel];
         const coord2Deg = Position2d.createFromMercator(this.map.getCoordinateFromPixel(coord2Pixel));
 
         return Math.abs(coord2Deg.latitude - position.latitude);
@@ -387,9 +384,7 @@ export class MapService {
         this.map.removeOverlay(this.currentOverlay);
         this.currentOverlay = undefined;
 
-        if (this.onMapOverlayClosedCallback) {
-            this.onMapOverlayClosedCallback();
-        }
+        this.mapOverlayClosedSource.next();
     }
 
     // endregion
@@ -398,20 +393,12 @@ export class MapService {
     // region map events
 
     private onMoveEnd(event: ol.MapEvent) {
-        // TODO
-
-        if (this.onMovedZoomedRotatedCallback) {
-            this.onMovedZoomedRotatedCallback();
-        }
+        this.mapMovedZoomedRotatedSource.next();
     }
 
 
     private onViewRotation(event: ol.ObjectEvent) {
-        // TODO
-
-        if (this.onMovedZoomedRotatedCallback) {
-            this.onMovedZoomedRotatedCallback();
-        }
+        this.mapMovedZoomedRotatedSource.next();
     }
 
 
@@ -419,17 +406,17 @@ export class MapService {
         const feature = this.getMapItemOlFeatureAtPixel(event.pixel, true);
         const clickPos = Position2d.createFromMercator(event.coordinate);
 
-        if (feature && this.onMapItemClickedCallback) { // click on feature
+        if (feature) { // click on feature
             this.closeOverlay();
             this.closeSearchItemSelection();
-            this.onMapItemClickedCallback(feature.getDataItem(), clickPos);
+            this.mapItemClickedSource.next([feature.getDataItem(), clickPos]);
         } else if (this.currentOverlay) { // close overlay
             this.closeOverlay();
             this.closeSearchItemSelection();
         } else if (this.isSearchItemSelectionActive) { // close search item selection
             this.closeSearchItemSelection();
-        } else if (this.onMapClickedCallback) { // click on empty map
-            this.onMapClickedCallback(clickPos);
+        } else { // click on empty map
+            this.mapClickedSource.next(clickPos);
         }
     }
 

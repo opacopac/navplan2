@@ -1,8 +1,10 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { StringnumberService } from '../../../services/utils/stringnumber.service';
 import { Navaid } from '../../../model/navaid';
 import { Position2d } from '../../../model/position';
 import { MapOverlayContainer } from '../map-overlay-container';
+import {SessionService} from "../../../services/utils/session.service";
+import {Sessioncontext} from "../../../model/sessioncontext";
 
 
 @Component({
@@ -12,25 +14,34 @@ import { MapOverlayContainer } from '../map-overlay-container';
 })
 export class MapOverlayNavaidComponent extends MapOverlayContainer implements OnInit {
     public navaid: Navaid;
-    private container: HTMLElement;
+    public session: Sessioncontext;
+    @ViewChild('container') container: ElementRef;
+
+
+    constructor(
+        private sessionService: SessionService
+    ) {
+        super();
+        this.session = this.sessionService.getSessionContext();
+    }
 
 
     ngOnInit() {
-        this.container = document.getElementById('map-overlay-navaid-container');
     }
 
 
-    public getContainerHtmlElement() {
-        return this.container;
+    public getContainerHtmlElement(): HTMLElement {
+        return this.container.nativeElement;
     }
 
 
-    public bindFeatureData(navaid: Navaid) {
+    public bindFeatureData(navaid: Navaid, clickPos: Position2d) {
+        this.clickPos = clickPos;
         this.navaid = navaid;
     }
 
 
-    public getPosition(clickPos: Position2d): Position2d {
+    public getPosition(): Position2d {
         return this.navaid.position;
     }
 

@@ -1,0 +1,8 @@
+<div class="map-overlay-button" *ngIf="this.session.selectedWaypoint && this.session.selectedWaypoint === this.currentFlightroute.alternate">
+    <button
+        appIconButton
+        [color]="ButtonColor.RED"
+        [size]="ButtonSize.SMALL"
+        [iconClass]="'fas fa-trash'"
+        (click)="this.onRemoveAlternateClicked()"></button>&nbsp;Remove as Alternate
+</div>

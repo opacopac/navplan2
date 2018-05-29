@@ -1,14 +1,14 @@
-<div ng-show="globalData.selectedWp.isNew" class="map-overlay-button form-inline">
+<div class="map-overlay-button form-inline" *ngIf="this.session.selectedWaypoint && this.session.selectedWaypoint.isNew">
     <button appIconButton
             [color]="ButtonColor.GREEN"
             [size]="ButtonSize.SMALL"
             [iconClass]="'fas fa-plus'"
             (click)="this.onAddSelectedWaypointClicked()"></button>&nbsp;Add to Route
-    <!--<select ng-show="globalData.navplan.waypoints.length > 0" class="form-control input-sm"
-            ng-model="addToRouteAfterWp">
+    &nbsp;
+    <select *ngIf="this.currentFlightroute.waypoints.length > 0" class="form-control-sm" [(ngModel)]="this.addAfterIndex">
         <option value="0">at the start</option>
-        <option ng-repeat="wp in globalData.navplan.waypoints" value="{{ $index + 1 }}">after {{ wp.checkpoint }}
+        <option *ngFor="let wp of this.currentFlightroute.waypoints; index as idx" value="{{ idx + 1 }}">after {{ wp.checkpoint }}
         </option>
-        <option value="{{ globalData.navplan.waypoints.length + 1 }}">at the end</option>
-    </select>-->
+        <option value="{{ this.currentFlightroute.waypoints.length + 1 }}">at the end</option>
+    </select>
 </div>

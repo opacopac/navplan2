@@ -2,10 +2,8 @@ import { UnitconversionService } from '../services/utils/unitconversion.service'
 
 
 export class Altitude {
-    private altitudeMeter: number;
-
-    public constructor(altitudeMeter: number) {
-        this.altitudeMeter = altitudeMeter;
+    public constructor(
+        public altitudeMeter: number) {
     }
 
 

@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { MapOverlayContainer } from '../map-overlay-container';
 import { Position2d } from '../../../model/position';
 import { Geoname } from '../../../model/geoname';
+import {Sessioncontext} from "../../../model/sessioncontext";
+import {SessionService} from "../../../services/utils/session.service";
 
 
 // region type strings
@@ -710,25 +712,34 @@ const GEONAME_CLASS_DESCRIPTION_SHORT = {
 })
 export class MapOverlayGeonameComponent extends MapOverlayContainer implements OnInit {
     public geoname: Geoname;
-    private container: HTMLElement;
+    private session: Sessioncontext;
+    @ViewChild('container') container: ElementRef;
+
+
+    constructor(
+        private sessionService: SessionService
+    ) {
+        super();
+        this.session = this.sessionService.getSessionContext();
+    }
 
 
     ngOnInit() {
-        this.container = document.getElementById('map-overlay-geoname-container');
     }
 
 
-    public getContainerHtmlElement() {
-        return this.container;
+    public getContainerHtmlElement(): HTMLElement {
+        return this.container.nativeElement;
     }
 
 
-    public bindFeatureData(geoname: Geoname) {
+    public bindFeatureData(geoname: Geoname, clickPos: Position2d) {
         this.geoname = geoname;
+        this.clickPos = clickPos;
     }
 
 
-    public getPosition(clickPos: Position2d): Position2d {
+    public getPosition(): Position2d {
         return this.geoname.position;
     }
 

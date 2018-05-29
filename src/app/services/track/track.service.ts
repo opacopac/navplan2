@@ -3,27 +3,17 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { LoggingService } from '../utils/logging.service';
 import { Track } from '../../model/track';
-import { Timestamp } from '../../model/timestamp';
 import { SessionService } from '../utils/session.service';
 import { Sessioncontext } from '../../model/sessioncontext';
+import { RestMapperTrack, TrackListResponse } from "../../model/rest-model/rest-mapper-track";
 
 const userTrackBaseUrl =  environment.restApiBaseUrl + 'php/userTrack.php';
-
-
-interface TrackListResponse {
-    tracks: TrackListEntry[];
-}
-
-interface TrackListEntry {
-    id: number;
-    timestamp: number;
-    name: string;
-}
 
 
 @Injectable()
 export class TrackService {
     private session: Sessioncontext;
+
 
     constructor(private http: HttpClient, private sessionService: SessionService) {
         this.session = sessionService.getSessionContext();
@@ -40,7 +30,7 @@ export class TrackService {
             .jsonp<TrackListResponse>(url, 'callback')
             .subscribe(
                 response => {
-                    const trackList = this.getTrackListFromResponse(response);
+                    const trackList = RestMapperTrack.getTrackListFromResponse(response);
                     successCallback(trackList);
                 },
                 err => {
@@ -49,26 +39,6 @@ export class TrackService {
                     errorCallback(message);
                 }
             );
-    }
-
-
-    private getTrackListFromResponse(response: TrackListResponse): Track[] {
-        if (!response.tracks || response.tracks.length === 0) {
-            return [];
-        }
-
-        const trackList: Track[] = [];
-        for (let i = 0; i < response.tracks.length; i++) {
-            const entry: TrackListEntry = response.tracks[i];
-            const track = new Track(
-                entry.id,
-                entry.name,
-                null,
-                new Timestamp(entry.timestamp));
-            trackList.push(track);
-        }
-
-        return trackList;
     }
 
 

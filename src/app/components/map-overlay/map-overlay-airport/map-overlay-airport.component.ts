@@ -1,33 +1,53 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnChanges, OnInit, ViewChild} from '@angular/core';
 import { Airport, AirportChart, AirportRunway, AirportType } from '../../../model/airport';
 import { Position2d } from '../../../model/position';
 import { MapOverlayContainer } from '../map-overlay-container';
-import {StringnumberService} from "../../../services/utils/stringnumber.service";
-import {DatetimeService} from "../../../services/utils/datetime.service";
-
+import { StringnumberService } from "../../../services/utils/stringnumber.service";
+import { DatetimeService } from "../../../services/utils/datetime.service";
+import { MapOverlayWindyiframeComponent } from "../map-overlay-windyiframe/map-overlay-windyiframe.component";
+import $ from "jquery";
+import {SessionService} from "../../../services/utils/session.service";
+import {Sessioncontext} from "../../../model/sessioncontext";
 
 @Component({
     selector: 'app-map-overlay-airport',
     templateUrl: './map-overlay-airport.component.html',
     styleUrls: ['./map-overlay-airport.component.css']
 })
-export class MapOverlayAirportComponent extends MapOverlayContainer implements OnInit {
+export class MapOverlayAirportComponent extends MapOverlayContainer implements OnInit, OnChanges {
     public airport: Airport;
-    private container: HTMLElement;
+    public isMeteoGramOpenClicked: boolean;
+    @ViewChild('container') container: ElementRef;
+    @ViewChild(MapOverlayWindyiframeComponent) windyComponent: MapOverlayWindyiframeComponent;
+
+
+    private session: Sessioncontext;
+    constructor(
+        private sessionService: SessionService
+    ) {
+        super();
+        this.session = this.sessionService.getSessionContext();
+    }
 
 
     ngOnInit() {
-        this.container = document.getElementById('map-overlay-airport-container');
     }
 
 
-    public bindFeatureData(airport: Airport) {
+    ngOnChanges() {
+    }
+
+
+    public bindFeatureData(airport: Airport, clickPos: Position2d) {
         this.airport = airport;
+        this.clickPos = clickPos;
+        this.isMeteoGramOpenClicked = false;
+        this.activateTab();
     }
 
 
-    public getContainerHtmlElement() {
-        return this.container;
+    public getContainerHtmlElement(): HTMLElement {
+        return this.container.nativeElement;
     }
 
 
@@ -67,7 +87,7 @@ export class MapOverlayAirportComponent extends MapOverlayContainer implements O
     }
 
 
-    public getPosition(clickPos: Position2d): Position2d {
+    public getPosition(): Position2d {
         return this.airport.position;
     }
 
@@ -119,5 +139,36 @@ export class MapOverlayAirportComponent extends MapOverlayContainer implements O
         const tafFimestamp = Date.parse(datestring);
 
         return DatetimeService.getHourMinAgeStringFromMs(tafFimestamp);
+    }
+
+
+    public showMeteogram() {
+        this.isMeteoGramOpenClicked = true;
+        this.updateMeteogram();
+    }
+
+
+    public updateMeteogram() {
+        if (this.airport && this.windyComponent) {
+            this.windyComponent.updateWeather(this.airport.position, this.getContainerHtmlElement().offsetWidth);
+        }
+    }
+
+
+    public isMeteoGramVisible(): boolean {
+        if (!this.airport) {
+            return false;
+        } else if (this.isMeteoGramOpenClicked) {
+            return true;
+        } else if (!this.airport.metarTaf) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    private activateTab(tabName: string = '#airport-info-tab') {
+        setTimeout(function() { $(tabName).click(); }, 10); // asynchronous because component is not in DOM yet due to ngif
     }
 }
