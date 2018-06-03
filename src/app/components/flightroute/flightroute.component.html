@@ -60,7 +60,7 @@
         <div class="col-sm-3">
             <input type="number" id="aircraft_speed" class="form-control form-control-md"
                    [(ngModel)]="this.currentFlightroute.aircraft.speed"
-                   (focusout)="this.flightrouteService.updateAircraftForRoute(this.currentFlightroute.aircraft, this.currentFlightroute)"
+                   (focusout)="this.flightrouteService.updateAircraftForRoute(this.currentFlightroute.aircraft)"
                    placeholder="kt" maxlength="3" size="3"><!-- TODO: local variable for aircraft -->
         </div>
     </div>

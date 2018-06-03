@@ -79,4 +79,25 @@ export class Polygon implements Geometry2d {
 
         return new Position2d(lonSum / this.positions.length, latSum / this.positions.length);
     }
+
+
+    // using ray casting method, source: http://alienryderflex.com/polygon/
+    public containsPoint(point: Position2d): boolean {
+        let j = this.positions.length - 1;
+        let oddNodes = false;
+
+        for (let i = 0; i < this.positions.length; i++) {
+            if (this.positions[i].latitude < point.latitude && this.positions[j].latitude >= point.latitude ||
+            this.positions[j].latitude < point.latitude && this.positions[i].latitude >= point.latitude)
+            {
+                if (this.positions[i].longitude + (point.latitude - this.positions[i].latitude) / (this.positions[j].latitude
+                    - this.positions[i].latitude) * (this.positions[j].longitude - this.positions[i].longitude) < point.longitude) {
+                    oddNodes = !oddNodes;
+                }
+            }
+            j = i;
+        }
+
+        return oddNodes;
+    }
 }

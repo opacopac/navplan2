@@ -14,10 +14,11 @@ import { WaypointUserpoint } from './waypoint-userpoint';
 import { Geoname } from '../geoname';
 import { WaypointGeoname } from './waypoint-geoname';
 import { Position2d } from '../position';
+import {WaypointCoordinate} from "./waypoint-coordinate";
+import {Waypoint2} from "../stream-model/waypoint2";
 
 
 export class WaypointFactory {
-    // private constructor, no instances allowed
     private constructor() {
     }
 
@@ -36,7 +37,26 @@ export class WaypointFactory {
         } else if (dataItem instanceof Geoname) {
             return this.mapWaypoint(new WaypointGeoname(dataItem));
         } else {
-            throw("invalid data item type");
+            return this.mapWaypoint(new WaypointCoordinate(clickPos));
+        }
+    }
+
+
+    public static createNewWaypointFromItem2(dataItem: DataItem, clickPos: Position2d): Waypoint2 {
+        if (dataItem instanceof Airport) {
+            return this.mapWaypoint2(new WaypointAirport(dataItem));
+        } else if (dataItem instanceof Navaid) {
+            return this.mapWaypoint2(new WaypointNavaid(dataItem));
+        } else if (dataItem instanceof Reportingpoint) {
+            return this.mapWaypoint2(new WaypointReportingpoint(dataItem));
+        } else if (dataItem instanceof Reportingsector) {
+            return this.mapWaypoint2(new WaypointReportingsector(dataItem, clickPos));
+        } else if (dataItem instanceof Userpoint) {
+            return this.mapWaypoint2(new WaypointUserpoint(dataItem));
+        } else if (dataItem instanceof Geoname) {
+            return this.mapWaypoint2(new WaypointGeoname(dataItem));
+        } else {
+            return this.mapWaypoint2(new WaypointCoordinate(clickPos));
         }
     }
 
@@ -53,6 +73,20 @@ export class WaypointFactory {
         wp.alt = wpMapper.getAltitude();
         wp.isNew = true;
 
+        return wp;
+    }
+
+
+    public static mapWaypoint2(wpMapper: WaypointBase): Waypoint2 {
+        const wp = new Waypoint2(
+            wpMapper.getType(),
+            wpMapper.getFrequency(),
+            wpMapper.getCallsign(),
+            wpMapper.getCheckpoint(),
+            wpMapper.getRemarks(),
+            wpMapper.getSuppInfo(),
+            wpMapper.getPosition(),
+            wpMapper.getAltitude2());
         return wp;
     }
 }

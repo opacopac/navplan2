@@ -2,6 +2,7 @@ import {Position2d} from "../position";
 import {Waypointaltitude, Waypointtype} from "../waypoint";
 import {WaypointBase} from "./waypoint-base";
 import {Reportingsector} from "../reportingsector";
+import {WaypointAltitude2} from "../stream-model/waypoint-altitude2";
 
 
 export class WaypointReportingsector extends WaypointBase {
@@ -30,6 +31,19 @@ export class WaypointReportingsector extends WaypointBase {
             return new Waypointaltitude(this.reportingsector.max_ft, false, true, false);
         } else if (this.reportingsector.min_ft) {
             return new Waypointaltitude(this.reportingsector.min_ft, true, false, false);
+        } else {
+            return new Waypointaltitude();
+        }
+    }
+
+
+    public getAltitude2(): WaypointAltitude2 {
+        if (this.reportingsector.max_ft) {
+            return new WaypointAltitude2(this.reportingsector.max_ft, false, true, false);
+        } else if (this.reportingsector.min_ft) {
+            return new WaypointAltitude2(this.reportingsector.min_ft, true, false, false);
+        } else {
+            return new WaypointAltitude2();
         }
     }
 }

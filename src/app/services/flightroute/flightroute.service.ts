@@ -1,20 +1,25 @@
 import * as Rx from 'rxjs';
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
-import { Sessioncontext } from '../../model/sessioncontext';
-import { SessionService } from '../utils/session.service';
-import { LoggingService} from '../utils/logging.service';
-import { Flightroute } from '../../model/flightroute';
-import { Aircraft } from '../../model/aircraft';
-import { FlightrouteListResponse, FlightrouteResponse, RestMapperFlightroute } from '../../model/rest-model/rest-mapper-flightroute';
-import { Waypoint, Waypointtype } from '../../model/waypoint';
-import { GeocalcService } from '../utils/geocalc.service';
-import { StringnumberService } from '../utils/stringnumber.service';
-import { ArrayService } from '../utils/array.service';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../../environments/environment';
+import {Sessioncontext} from '../../model/sessioncontext';
+import {SessionService} from '../utils/session.service';
+import {LoggingService} from '../utils/logging.service';
+import {Flightroute} from '../../model/flightroute';
+import {Aircraft} from '../../model/aircraft';
+import {
+    FlightrouteListResponse,
+    FlightrouteResponse,
+    RestMapperFlightroute
+} from '../../model/rest-model/rest-mapper-flightroute';
+import {Waypoint, Waypointtype} from '../../model/waypoint';
+import {GeocalcService} from '../utils/geocalc.service';
+import {StringnumberService} from '../utils/stringnumber.service';
+import {ArrayService} from '../utils/array.service';
+import {Flightroute2} from "../../model/stream-model/flightroute2";
 
 
-const flightrouteBaseUrl =  environment.restApiBaseUrl + 'php/navplan.php';
+const flightrouteBaseUrl = environment.restApiBaseUrl + 'php/navplan.php';
 const ADDITIONAL_VAC_TIME_MIN = 5;
 const VAC_STRING = 'VAC';
 
@@ -24,10 +29,10 @@ export class FlightrouteService {
     public routeList$: Rx.Observable<Flightroute[]>;
     public currentRoute$: Rx.Observable<Flightroute>;
     public editWaypointClicked$: Rx.Observable<Waypoint>;
+    public currentRoute: Flightroute; // TODO: temp public
     private routeListSource: Rx.BehaviorSubject<Flightroute[]>;
     private currentRouteSource: Rx.BehaviorSubject<Flightroute>;
     private editWaypointClickedSource: Rx.Subject<Waypoint>;
-    public currentRoute: Flightroute; // TODO: temp public
     private session: Sessioncontext;
 
 
@@ -70,24 +75,37 @@ export class FlightrouteService {
 
     // region flightroute CRUD
 
-    public readFlightroute(flightrouteId: number) {
+    public readFlightroute(flightrouteId: number): Rx.Observable<Flightroute2> {
         const url = flightrouteBaseUrl + '?id=' + flightrouteId + '&email=' + this.session.user.email + '&token=' + this.session.user.token;
-        let message: string;
+        //let message: string;
 
-        this.http
+        return this.http
             .get<FlightrouteResponse>(url, {observe: 'response'})
-            .subscribe(
-                response => {
-                    this.currentRoute = RestMapperFlightroute.getFlightrouteFromResponse(response.body);
-                    this.recalcWaypoints();
-                    this.recalcFuel();
-                    this.currentRouteSource.next(this.currentRoute);
-                },
-                err => {
-                    message = 'ERROR reading flight route!';
-                    LoggingService.logResponseError(message, err);
-                }
-            );
+            .catch((err, subject) => {
+                LoggingService.logResponseError('ERROR reading flight route', err);
+                return subject;
+            })
+            .map((response) => RestMapperFlightroute.getFlightrouteFromResponse2(response.body))
+
+
+        /*.subscribe(
+            response => {
+                // TODO: old
+                this.currentRoute = RestMapperFlightroute.getFlightrouteFromResponse(response.body);
+                this.recalcWaypoints();
+                this.recalcFuel();
+                this.currentRouteSource.next(this.currentRoute);
+
+                // TODO: new
+                this.session.setFlightroute(
+                    RestMapperFlightroute.getFlightrouteFromResponse2(response.body)
+                );
+            },
+            err => {
+                message = 'ERROR reading flight route!';
+                LoggingService.logResponseError(message, err);
+            }
+        );*/
     }
 
 
@@ -127,7 +145,7 @@ export class FlightrouteService {
 
     public addWaypointToRoute(waypoint: Waypoint, index: number) {
         // skip if coordinates identical as preceeding waypoint
-        if (index < this.currentRoute.waypoints.length  && this.currentRoute.waypoints[index].position.equals(waypoint.position)) {
+        if (index < this.currentRoute.waypoints.length && this.currentRoute.waypoints[index].position.equals(waypoint.position)) {
             return;
         }
 
@@ -148,7 +166,6 @@ export class FlightrouteService {
 
     public setAlternate(waypoint: Waypoint) {
         this.currentRoute.alternate = waypoint;
-
         this.recalcWaypoints();
         this.recalcFuel();
         this.currentRouteSource.next(this.currentRoute);
@@ -157,7 +174,6 @@ export class FlightrouteService {
 
     public removeAlternateFromRoute() {
         this.currentRoute.alternate = undefined;
-
         this.recalcWaypoints();
         this.recalcFuel();
         this.currentRouteSource.next(this.currentRoute);
@@ -165,6 +181,9 @@ export class FlightrouteService {
 
 
     public updateWaypoint(index: number, newWaypoint: Waypoint) {
+        this.currentRoute.waypoints[index] = newWaypoint;
+        this.recalcWaypoints();
+        this.recalcFuel();
         this.currentRouteSource.next(this.currentRoute);
     }
 
@@ -255,8 +274,8 @@ export class FlightrouteService {
     private recalcLeg(wp: Waypoint, prevWp: Waypoint, isAlternate: boolean, magvar: number, speed: number) {
         // distance & bearing
         if (prevWp) {
-            wp.dist = Math.ceil(GeocalcService.getDistance(wp.position.latitude, wp.position.longitude, prevWp.position.latitude, prevWp.position.longitude));
-            wp.mt = Math.round(GeocalcService.getBearing(prevWp.position.latitude, prevWp.position.longitude, wp.position.latitude, wp.position.longitude, magvar));
+            wp.dist = Math.ceil(GeocalcService.getDistance(wp.position, prevWp.position));
+            wp.mt = Math.round(GeocalcService.getBearing(prevWp.position, wp.position, magvar));
         } else {
             wp.dist = undefined;
             wp.mt = undefined;

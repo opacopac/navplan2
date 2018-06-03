@@ -2,17 +2,31 @@ import * as ol from 'openlayers';
 import { Timestamp } from './timestamp';
 import { Altitude } from './altitude';
 import { Geometry2d, Geometry2dType } from './geometry2d';
+import {Clonable} from "./clonable";
+import {StringnumberService} from "../services/utils/stringnumber.service";
 
 
-export class Position2d implements Geometry2d {
+export class Position2d implements Geometry2d, Clonable<Position2d> {
     public constructor(
         public longitude: number,
         public latitude: number) {
     }
 
 
-    public equals(position: Position2d): boolean {
-        return (position.latitude == this.latitude && position.longitude == this.longitude);
+    public clone(): Position2d {
+        return new Position2d(this.longitude, this.latitude);
+    }
+
+
+    public equals(position: Position2d, precisionDigits?: number): boolean {
+        return StringnumberService.equals(this.longitude, position.longitude, precisionDigits)
+            && StringnumberService.equals(this.latitude, position.latitude, precisionDigits);
+    }
+
+
+    public round(digits: number) {
+        this.longitude = StringnumberService.roundToDigits(this.longitude, digits);
+        this.latitude = StringnumberService.roundToDigits(this.latitude, digits);
     }
 
 

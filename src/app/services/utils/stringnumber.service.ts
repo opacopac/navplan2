@@ -18,6 +18,16 @@ export class StringnumberService {
     }
 
 
+    public static equals(num1: number, num2: number, precisionDigits?: number){
+        if (precisionDigits === undefined) {
+            return num1 === num2;
+        } else {
+            return Math.round(num1 * Math.pow(10, precisionDigits))
+                === Math.round(num2 * Math.pow(10, precisionDigits));
+        }
+    }
+
+
     public static getDmsString(lonLat: [number, number]): string {
         let latString = StringnumberService.getCoordString(lonLat[1]);
         if (lonLat[1] >= 0) {

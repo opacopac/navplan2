@@ -67,6 +67,7 @@ import { MapOverlayButtonCloseComponent } from './components/map-overlay/map-ove
 import { MapOverlayWindyiframeComponent } from './components/map-overlay/map-overlay-windyiframe/map-overlay-windyiframe.component';
 import {ArrayService} from "./services/utils/array.service";
 import { MapOverlayButtonRemoveAlternateComponent } from './components/map-overlay/map-overlay-button-remove-alternate/map-overlay-button-remove-alternate.component';
+import { MapOverlayWaypointComponent } from './components/map-overlay/map-overlay-waypoint/map-overlay-waypoint.component';
 
 
 @NgModule({
@@ -116,6 +117,7 @@ import { MapOverlayButtonRemoveAlternateComponent } from './components/map-overl
         MapOverlayButtonCloseComponent,
         MapOverlayWindyiframeComponent,
         MapOverlayButtonRemoveAlternateComponent,
+        MapOverlayWaypointComponent,
     ],
     imports: [
         BrowserModule,

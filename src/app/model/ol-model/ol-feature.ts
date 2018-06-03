@@ -24,12 +24,12 @@ export abstract class OlFeature extends ol.Feature {
     }
 
 
-    public abstract draw(source: ol.source.Vector);
+    public abstract draw(source: ol.source.Vector): void;
 }
 
 
 export abstract class OlFeaturePoint extends OlFeature {
-    public draw(source: ol.source.Vector) {
+    public draw(source: ol.source.Vector): void {
         const position: Position2d = this.getPosition();
         if (!position) {
             return;
@@ -53,7 +53,7 @@ export abstract class OlFeaturePoint extends OlFeature {
 
 
 export abstract class OlFeaturePolygon extends OlFeature {
-    public draw(source: ol.source.Vector) {
+    public draw(source: ol.source.Vector): void {
         const polygon: Polygon = this.getPolygon();
         if (!polygon) {
             return;

@@ -63,7 +63,8 @@ export class FlightrouteComponent implements OnInit, OnDestroy {
 
     onLoadFlightrouteClicked() {
         if (this.selectedFlightrouteId > 0) {
-            this.flightrouteService.readFlightroute(this.selectedFlightrouteId);
+            this.flightrouteService.readFlightroute(this.selectedFlightrouteId)
+                .subscribe((flightroute) => this.session.setFlightroute(flightroute));
         }
     }
 

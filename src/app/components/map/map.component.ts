@@ -1,41 +1,44 @@
 import * as $ from 'jquery';
 import * as Rx from 'rxjs';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MessageService } from '../../services/utils/message.service';
-import { SessionService } from '../../services/utils/session.service';
-import { FlightrouteService } from "../../services/flightroute/flightroute.service";
-import { MapService } from '../../services/map/map.service';
-import { MapfeaturesService } from '../../services/map/mapfeatures.service';
-import { SearchService } from '../../services/search/search.service';
-import { MetarTafService } from '../../services/meteo/metar-taf.service';
-import { NotamService } from '../../services/notam/notam.service';
-import { TrafficService } from '../../services/traffic/traffic.service';
-import { Sessioncontext } from '../../model/sessioncontext';
-import { SearchBoxComponent } from '../search-box/search-box.component';
-import { Mapfeatures } from '../../model/mapfeatures';
-import { Position2d } from '../../model/position';
-import { MetarTaf, MetarTafList} from '../../model/metar-taf';
-import { Notam, NotamList} from '../../model/notam';
-import { DataItem } from '../../model/data-item';
-import { SearchItemList } from '../../model/search-item';
-import { Userpoint} from '../../model/userpoint';
-import { Navaid} from '../../model/navaid';
-import { Traffic} from '../../model/traffic';
-import { Geoname} from '../../model/geoname';
-import { Webcam} from '../../model/webcam';
-import { Reportingsector} from '../../model/reportingsector';
-import { Reportingpoint} from '../../model/reportingpoint';
-import { Airport} from '../../model/airport';
-import { MapOverlayContainer} from '../map-overlay/map-overlay-container';
-import { MapOverlayAirportComponent} from '../map-overlay/map-overlay-airport/map-overlay-airport.component';
-import { MapOverlayGeonameComponent } from '../map-overlay/map-overlay-geoname/map-overlay-geoname.component';
-import { MapOverlayNavaidComponent } from '../map-overlay/map-overlay-navaid/map-overlay-navaid.component';
-import { MapOverlayReportingpointComponent } from '../map-overlay/map-overlay-reportingpoint/map-overlay-reportingpoint.component';
-import { MapOverlayReportingsectorComponent } from '../map-overlay/map-overlay-reportingsector/map-overlay-reportingsector.component';
-import { MapOverlayUserpointComponent } from '../map-overlay/map-overlay-userpoint/map-overlay-userpoint.component';
-import { MapOverlayTrafficComponent } from '../map-overlay/map-overlay-traffic/map-overlay-traffic.component';
-import { MapOverlayNotamComponent } from '../map-overlay/map-overlay-notam/map-overlay-notam.component';
-import { WaypointFactory } from "../../model/waypoint-model/waypoint-factory";
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {MessageService} from '../../services/utils/message.service';
+import {SessionService} from '../../services/utils/session.service';
+import {FlightrouteService} from "../../services/flightroute/flightroute.service";
+import {MapService, WaypointModification} from '../../services/map/map.service';
+import {MapfeaturesService} from '../../services/map/mapfeatures.service';
+import {SearchService} from '../../services/search/search.service';
+import {MetarTafService} from '../../services/meteo/metar-taf.service';
+import {NotamService} from '../../services/notam/notam.service';
+import {TrafficService} from '../../services/traffic/traffic.service';
+import {Sessioncontext} from '../../model/sessioncontext';
+import {SearchBoxComponent} from '../search-box/search-box.component';
+import {Mapfeatures} from '../../model/mapfeatures';
+import {Position2d} from '../../model/position';
+import {MetarTaf, MetarTafList} from '../../model/metar-taf';
+import {Notam, NotamList} from '../../model/notam';
+import {DataItem} from '../../model/data-item';
+import {SearchItemList} from '../../model/search-item';
+import {Userpoint} from '../../model/userpoint';
+import {Navaid} from '../../model/navaid';
+import {Traffic} from '../../model/traffic';
+import {Geoname} from '../../model/geoname';
+import {Webcam} from '../../model/webcam';
+import {Reportingsector} from '../../model/reportingsector';
+import {Reportingpoint} from '../../model/reportingpoint';
+import {Airport} from '../../model/airport';
+import {MapOverlayContainer} from '../map-overlay/map-overlay-container';
+import {MapOverlayAirportComponent} from '../map-overlay/map-overlay-airport/map-overlay-airport.component';
+import {MapOverlayGeonameComponent} from '../map-overlay/map-overlay-geoname/map-overlay-geoname.component';
+import {MapOverlayNavaidComponent} from '../map-overlay/map-overlay-navaid/map-overlay-navaid.component';
+import {MapOverlayReportingpointComponent} from '../map-overlay/map-overlay-reportingpoint/map-overlay-reportingpoint.component';
+import {MapOverlayReportingsectorComponent} from '../map-overlay/map-overlay-reportingsector/map-overlay-reportingsector.component';
+import {MapOverlayUserpointComponent} from '../map-overlay/map-overlay-userpoint/map-overlay-userpoint.component';
+import {MapOverlayTrafficComponent} from '../map-overlay/map-overlay-traffic/map-overlay-traffic.component';
+import {MapOverlayNotamComponent} from '../map-overlay/map-overlay-notam/map-overlay-notam.component';
+import {WaypointFactory} from "../../model/waypoint-model/waypoint-factory";
+import {Flightroute} from "../../model/flightroute";
+import {Waypoint} from "../../model/waypoint";
+import {MapOverlayWaypointComponent} from "../map-overlay/map-overlay-waypoint/map-overlay-waypoint.component";
 
 
 const NAVBAR_HEIGHT_PX = 54;
@@ -51,18 +54,6 @@ const F_KEY_CODE = 70;
 })
 export class MapComponent implements OnInit, OnDestroy {
     public session: Sessioncontext;
-    private currentMapFeatures: Mapfeatures;
-    private currentMetarTafList: MetarTafList;
-    private currentNotamList: NotamList;
-    private currentFlightrouteSubscription: Rx.Subscription;
-    private mapMoveZoomedRotatedSubscription: Rx.Subscription;
-    private mapItemClickedSubscription: Rx.Subscription;
-    private mapClickedSubscription: Rx.Subscription;
-    private mapOverlayClosedSubscription: Rx.Subscription;
-    private flightrouteChangedSubscription: Rx.Subscription;
-    private fullScreenClickedSubscription: Rx.Subscription;
-    private windowResizeSubscription: Rx.Subscription;
-    private keyDownSubscription: Rx.Subscription;
     @ViewChild(MapOverlayAirportComponent) mapOverlayAirportComponent: MapOverlayAirportComponent;
     @ViewChild(MapOverlayNavaidComponent) mapOverlayNavaidComponent: MapOverlayNavaidComponent;
     @ViewChild(MapOverlayReportingpointComponent) mapOverlayReportingpointComponent: MapOverlayReportingpointComponent;
@@ -71,8 +62,21 @@ export class MapComponent implements OnInit, OnDestroy {
     @ViewChild(MapOverlayGeonameComponent) mapOverlayGeonameComponent: MapOverlayGeonameComponent;
     @ViewChild(MapOverlayTrafficComponent) mapOverlayTrafficComponent: MapOverlayTrafficComponent;
     @ViewChild(MapOverlayNotamComponent) mapOverlayNotamComponent: MapOverlayNotamComponent;
+    @ViewChild(MapOverlayWaypointComponent) mapOverlayWaypointComponent: MapOverlayWaypointComponent;
     @ViewChild(SearchBoxComponent) searchBox: SearchBoxComponent;
-
+    private currentFlightroute: Flightroute;
+    private currentMapFeatures: Mapfeatures;
+    private currentMetarTafList: MetarTafList;
+    private currentNotamList: NotamList;
+    private currentFlightrouteSubscription: Rx.Subscription;
+    private mapMoveZoomedRotatedSubscription: Rx.Subscription;
+    private mapItemClickedSubscription: Rx.Subscription;
+    private mapClickedSubscription: Rx.Subscription;
+    private mapOverlayClosedSubscription: Rx.Subscription;
+    private flightrouteModifiedSubscription: Rx.Subscription;
+    private fullScreenClickedSubscription: Rx.Subscription;
+    private windowResizeSubscription: Rx.Subscription;
+    private keyDownSubscription: Rx.Subscription;
 
     public constructor(
         private sessionService: SessionService,
@@ -98,18 +102,33 @@ export class MapComponent implements OnInit, OnDestroy {
 
         // subscribe to flightroute events
         this.currentFlightrouteSubscription = this.flightrouteService.currentRoute$.subscribe(
-            currentFlightroute => { this.mapService.drawFlightRoute(currentFlightroute); }
+            currentFlightroute => {
+                this.currentFlightroute = currentFlightroute;
+                this.mapService.drawFlightRoute(currentFlightroute);
+            }
         );
+        /*this.currentFlightrouteSubscription = this.session.flightroute$
+            .withLatestFrom(
+                this.session.flightroute$.flatMap((flightroute) => flightroute.waypointList$) // TODO: wp positions
+            )
+            .distinctUntilChanged()
+            .debounceTime(250)
+            .subscribe(([flightroute, waypointList]) => {
+                this.mapService.drawFlightRoute2(flightroute);
+            }
+        );*/
 
 
         // subscribe to mapservice events
-        this.mapMoveZoomedRotatedSubscription = this.mapService.mapMovedZoomedRotated$.subscribe(() => {
-            this.updateMapContent(false);
-        });
+        this.mapMoveZoomedRotatedSubscription = this.mapService.mapMovedZoomedRotated$.subscribe(
+            () => {
+                this.updateMapContent(false);
+            });
 
-        this.mapItemClickedSubscription = this.mapService.mapItemClicked$.subscribe(([dataItem, clickPos]) => {
-            this.performSelectItemAction(dataItem, clickPos);
-        });
+        this.mapItemClickedSubscription = this.mapService.mapItemClicked$.subscribe(
+            ([dataItem, clickPos]) => {
+                this.performSelectItemAction(dataItem, clickPos);
+            });
 
         this.mapClickedSubscription = this.mapService.mapClicked$.subscribe((position: Position2d) => {
             this.searchService.searchByPosition(
@@ -122,18 +141,21 @@ export class MapComponent implements OnInit, OnDestroy {
             );
         });
 
-        this.mapOverlayClosedSubscription = this.mapService.mapOverlayClosed$.subscribe(() => {
-            // TODO: databind undef?
-        });
+        this.mapOverlayClosedSubscription = this.mapService.mapOverlayClosed$.subscribe(
+            () => {
+            }); // TODO: databind undef?
 
-        this.flightrouteChangedSubscription = this.mapService.flightrouteChanged$.subscribe(() => {
-            // TODO
-        });
+        this.flightrouteModifiedSubscription = this.mapService.flightrouteModified$.subscribe(
+            wpMod => {
+                this.onFlightrouteModified(wpMod);
+            });
 
-        this.fullScreenClickedSubscription = this.mapService.fullScreenClicked$.subscribe(() => {
-            // TODO
-        });
+        this.fullScreenClickedSubscription = this.mapService.fullScreenClicked$.subscribe(
+            () => {
+            }); // TODO
 
+
+        // subscribe to document/window events
         this.windowResizeSubscription = Rx.Observable.fromEvent(window, 'resize').subscribe(() => {
             this.resizeMapToWindow();
         });
@@ -147,6 +169,8 @@ export class MapComponent implements OnInit, OnDestroy {
             }
         });
 
+
+        // update map contents
         this.updateMapContent(true);
     }
 
@@ -160,9 +184,14 @@ export class MapComponent implements OnInit, OnDestroy {
         this.mapItemClickedSubscription.unsubscribe();
         this.mapClickedSubscription.unsubscribe();
         this.mapOverlayClosedSubscription.unsubscribe();
-        this.flightrouteChangedSubscription.unsubscribe();
+        this.flightrouteModifiedSubscription.unsubscribe();
         this.fullScreenClickedSubscription.unsubscribe();
+
+        // unsubscribe from document/window events
+        this.windowResizeSubscription.unsubscribe();
         this.keyDownSubscription.unsubscribe();
+
+        this.mapService.uninitMap();
     }
 
     // endregion
@@ -177,7 +206,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
 
     public onWaypointChanged() {
-         // TODO
+        // TODO
     }
 
 
@@ -195,9 +224,25 @@ export class MapComponent implements OnInit, OnDestroy {
     }
 
 
+    private onFlightrouteModified(wpMod: WaypointModification) {
+        if (wpMod === undefined) {
+            return;
+        }
+
+        const dataItem = this.mapFeatureService.findFlightrouteFeatureByPosition(wpMod.newPosition);
+        const newWp = WaypointFactory.createNewWaypointFromItem(dataItem, wpMod.newPosition);
+
+        if (wpMod.isNewWaypoint) {
+            this.flightrouteService.addWaypointToRoute(newWp, wpMod.waypointIndex);
+        } else {
+            this.flightrouteService.updateWaypoint(wpMod.waypointIndex, newWp);
+        }
+    }
+
+
     private onMapFeaturesLoaded(mapFeatures: Mapfeatures) {
         this.currentMapFeatures = mapFeatures;
-        this.mapService.drawMapFeatures(mapFeatures);
+        this.mapService.drawMapItems(mapFeatures);
 
         this.metarTafService.load(
             this.mapService.getExtent(),
@@ -247,8 +292,6 @@ export class MapComponent implements OnInit, OnDestroy {
         // TODO
     }
 
-
-
     // endregion
 
 
@@ -283,13 +326,23 @@ export class MapComponent implements OnInit, OnDestroy {
 
     private performSelectItemAction(dataItem: DataItem, clickPos: Position2d) {
         let overlay: MapOverlayContainer;
+        let clickedWaypoint: Waypoint;
         this.mapService.closeOverlay();
         this.session.selectedWaypoint = undefined;
 
+        // try to find map feature at this pos & replace dataitem
+        if (dataItem instanceof Waypoint) {
+            const origDataItem = this.mapFeatureService.findFlightrouteFeatureByPosition(dataItem.position);
+            if (origDataItem) {
+                clickedWaypoint = dataItem;
+                dataItem = origDataItem;
+            }
+        }
+
+        // determine overlay & create new waypoint
         if (dataItem instanceof Airport) {
-            this.session.selectedWaypoint = WaypointFactory.createNewWaypointFromItem(dataItem, clickPos);
+            this.session.setSelectedWaypoint(WaypointFactory.createNewWaypointFromItem2(dataItem, clickPos));
             overlay = this.mapOverlayAirportComponent;
-            overlay.bindFeatureData(dataItem, clickPos);
 
             // load notams if needed
             if (!this.mapOverlayAirportComponent.airport || !this.mapOverlayAirportComponent.airport.notams
@@ -303,38 +356,41 @@ export class MapComponent implements OnInit, OnDestroy {
                     this.onAirportMetarTafLoadedError.bind(this));
             }
         } else if (dataItem instanceof Navaid) {
-            this.session.selectedWaypoint = WaypointFactory.createNewWaypointFromItem(dataItem, clickPos);
+            this.session.setSelectedWaypoint(WaypointFactory.createNewWaypointFromItem2(dataItem, clickPos));
             overlay = this.mapOverlayNavaidComponent;
-            overlay.bindFeatureData(dataItem, clickPos);
         } else if (dataItem instanceof Reportingpoint) {
-            this.session.selectedWaypoint = WaypointFactory.createNewWaypointFromItem(dataItem, clickPos);
+            this.session.setSelectedWaypoint(WaypointFactory.createNewWaypointFromItem2(dataItem, clickPos));
             overlay = this.mapOverlayReportingpointComponent;
-            overlay.bindFeatureData(dataItem, clickPos);
         } else if (dataItem instanceof Reportingsector) {
-            this.session.selectedWaypoint = WaypointFactory.createNewWaypointFromItem(dataItem, clickPos);
+            this.session.setSelectedWaypoint(WaypointFactory.createNewWaypointFromItem2(dataItem, clickPos));
             overlay = this.mapOverlayReportingsectorComponent;
-            overlay.bindFeatureData(dataItem, clickPos);
         } else if (dataItem instanceof Userpoint) {
-            this.session.selectedWaypoint = WaypointFactory.createNewWaypointFromItem(dataItem, clickPos);
+            this.session.setSelectedWaypoint(WaypointFactory.createNewWaypointFromItem2(dataItem, clickPos));
             overlay = this.mapOverlayUserpointComponent;
-            overlay.bindFeatureData(dataItem, clickPos);
         } else if (dataItem instanceof Geoname) {
-            this.session.selectedWaypoint = WaypointFactory.createNewWaypointFromItem(dataItem, clickPos);
+            this.session.setSelectedWaypoint(WaypointFactory.createNewWaypointFromItem2(dataItem, clickPos));
             overlay = this.mapOverlayGeonameComponent;
-            overlay.bindFeatureData(dataItem, clickPos);
         } else if (dataItem instanceof Notam) {
             overlay = this.mapOverlayNotamComponent;
-            overlay.bindFeatureData(dataItem, clickPos);
         } else if (dataItem instanceof Traffic) {
             overlay = this.mapOverlayTrafficComponent;
-            overlay.bindFeatureData(dataItem, clickPos);
         } else if (dataItem instanceof Webcam) {
             window.open(dataItem.url, '_blank');
             return;
+        } else if (dataItem instanceof Waypoint) {
+            this.session.selectedWaypoint = dataItem;
+            this.session.selectedWaypoint.isNew = false;
+            overlay = this.mapOverlayWaypointComponent;
         } else {
             return;
         }
 
+        if (clickedWaypoint) {
+            this.session.selectedWaypoint = clickedWaypoint;
+            this.session.selectedWaypoint.isNew = false;
+        }
+
+        overlay.bindFeatureData(dataItem, clickPos);
         this.mapService.addOverlay(overlay.getPosition(), overlay.getContainerHtmlElement(), true);
     }
 

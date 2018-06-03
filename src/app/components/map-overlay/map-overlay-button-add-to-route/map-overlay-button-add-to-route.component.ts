@@ -1,10 +1,12 @@
 import * as Rx from 'rxjs';
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ButtonColor, ButtonSize } from '../../buttons/button-base.directive';
 import { SessionService } from "../../../services/utils/session.service";
 import { Sessioncontext } from "../../../model/sessioncontext";
 import { FlightrouteService } from "../../../services/flightroute/flightroute.service";
-import {Flightroute} from "../../../model/flightroute";
+import { Flightroute } from "../../../model/flightroute";
+import { Flightroute2 } from "../../../model/stream-model/flightroute2";
+import { Waypoint2 } from "../../../model/stream-model/waypoint2";
 
 
 @Component({
@@ -45,7 +47,20 @@ export class MapOverlayButtonAddToRouteComponent implements OnInit, OnDestroy {
 
 
     public onAddSelectedWaypointClicked() {
+        // TODO: old
         this.flightrouteService.addWaypointToRoute(this.session.selectedWaypoint, this.addAfterIndex);
         this.session.selectedWaypoint.isNew = false;
+
+
+        // TODO: new
+        this.session.flightroute$
+            .withLatestFrom(
+                this.session.flightroute$.flatMap(flightroute => flightroute.waypointList$),
+                this.session.selectedWaypoint$)
+            .first()
+            .subscribe(([flightroute, waypointList, selectedWaypoint]) => {
+                let index = waypointList.indexOf(selectedWaypoint);
+                flightroute.insertWaypoint(selectedWaypoint, index);
+            });
     }
 }

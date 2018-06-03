@@ -14,15 +14,23 @@ export class GeocalcService {
     }
 
 
-    public static getDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
-        return (wgs84Sphere.haversineDistance([lon1, lat1], [lon2, lat2]) * 0.000539957);
+    public static getDistance(pos1: Position2d, pos2: Position2d): number {
+        if (!pos1 || !pos2) {
+            return undefined;
+        }
+
+        return (wgs84Sphere.haversineDistance(pos1.getLonLat(), pos2.getLonLat()) * 0.000539957);
     }
 
 
-    public static getBearing(lat1, lon1, lat2, lon2, magvar): number {
-        const f1 = lat1 * toRad;
-        const f2 = lat2 * toRad;
-        const dl = (lon2 - lon1) * toRad;
+    public static getBearing(pos1: Position2d, pos2: Position2d, magvar): number {
+        if (!pos1 || !pos2 || !magvar) {
+            return undefined;
+        }
+
+        const f1 = pos1.latitude * toRad;
+        const f2 = pos2.latitude * toRad;
+        const dl = (pos2.longitude - pos1.longitude) * toRad;
         const y = Math.sin(dl) * Math.cos(f2);
         const x = Math.cos(f1) * Math.sin(f2) - Math.sin(f1) * Math.cos(f2) * Math.cos(dl);
         const t = Math.atan2(y, x);

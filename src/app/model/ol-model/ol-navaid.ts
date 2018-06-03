@@ -18,7 +18,7 @@ export class OlNavaid extends OlFeaturePoint {
     }
 
 
-    protected createPointStyle() {
+    protected createPointStyle(): ol.style.Style {
         let src = environment.iconBaseUrl;
         let textOffsetY;
 

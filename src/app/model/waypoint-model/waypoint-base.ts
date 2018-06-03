@@ -1,5 +1,6 @@
 import { Position2d } from "../position";
 import {Waypointaltitude, Waypointtype} from "../waypoint";
+import {WaypointAltitude2} from "../stream-model/waypoint-altitude2";
 
 
 export abstract class WaypointBase {
@@ -24,6 +25,11 @@ export abstract class WaypointBase {
 
     public getAltitude(): Waypointaltitude {
         return new Waypointaltitude();
+    }
+
+
+    public getAltitude2(): WaypointAltitude2 {
+        return new WaypointAltitude2();
     }
 
 

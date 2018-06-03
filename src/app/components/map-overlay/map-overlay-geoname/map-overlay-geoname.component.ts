@@ -716,9 +716,7 @@ export class MapOverlayGeonameComponent extends MapOverlayContainer implements O
     @ViewChild('container') container: ElementRef;
 
 
-    constructor(
-        private sessionService: SessionService
-    ) {
+    constructor(private sessionService: SessionService) {
         super();
         this.session = this.sessionService.getSessionContext();
     }

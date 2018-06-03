@@ -8,6 +8,8 @@ import { Extent } from '../../model/ol-model/extent';
 import { Mapfeatures } from '../../model/mapfeatures';
 import { CachingExtentLoader } from './caching-extent-loader';
 import { MapFeaturesResponse, RestMapperMapfeatures } from "../../model/rest-model/rest-mapper-mapfeatures";
+import { Position2d } from "../../model/position";
+import { DataItem } from "../../model/data-item";
 
 
 const MAPFEATURES_BASE_URL = environment.restApiBaseUrl + 'php/search/SearchService.php';
@@ -25,6 +27,52 @@ export class MapfeaturesService extends CachingExtentLoader<Mapfeatures> {
 
         super();
         this.session = sessionService.getSessionContext();
+    }
+
+
+    public findFlightrouteFeatureByPosition(position: Position2d, precisionDigits = 4): DataItem {
+        // iterate over all cache items
+        for (let cacheItem of this.cacheItemList) {
+            const mapFeatures = (cacheItem.item as Mapfeatures);
+
+            // search airports
+            for (let airport of mapFeatures.airports) {
+                if (airport.position.equals(position, precisionDigits)) {
+                    return airport;
+                }
+            }
+
+            // search navaids
+            for (let navaid of mapFeatures.navaids) {
+                if (navaid.position.equals(position, precisionDigits)) {
+                    return navaid;
+                }
+            }
+
+            // search user points
+            for (let userpoint of mapFeatures.userpoints) {
+                if (userpoint.position.equals(position, precisionDigits)) {
+                    return userpoint;
+                }
+            }
+
+
+            // search reporting point
+            for (let reportingpoint of mapFeatures.reportingpoints) {
+                if (reportingpoint.position.equals(position, precisionDigits)) {
+                    return reportingpoint;
+                }
+            }
+
+            // search reporting sectors
+            for (let reportingsector of mapFeatures.reportingsectors) {
+                if (reportingsector.polygon.containsPoint(position)) {
+                    return reportingsector;
+                }
+            }
+        }
+
+        return undefined;
     }
 
 

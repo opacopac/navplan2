@@ -29,7 +29,16 @@ import { DataItem } from '../../model/data-item';
 import { SearchItemList} from '../../model/search-item';
 import { OlSearchItemSelection } from '../../model/ol-model/ol-searchitem-selection';
 import { OlSearchItem } from '../../model/ol-model/ol-searchitem';
+import {OlWaypoint} from "../../model/ol-model/ol-waypoint";
+import {Flightroute2} from "../../model/stream-model/flightroute2";
 
+
+export class WaypointModification {
+    constructor(
+        public waypointIndex: number,
+        public isNewWaypoint: boolean,
+        public newPosition: Position2d) {}
+}
 
 const HIT_TOLERANCE_PIXELS = 10;
 
@@ -40,25 +49,29 @@ export class MapService {
     public mapItemClicked$: Rx.Observable<[DataItem, Position2d]>;
     public mapClicked$: Rx.Observable<Position2d>;
     public mapOverlayClosed$: Rx.Observable<void>;
-    public flightrouteChanged$: Rx.Observable<void>;
+    public flightrouteModified$: Rx.Observable<WaypointModification>;
     public fullScreenClicked$: Rx.Observable<void>;
     private map: ol.Map;
     private session: Sessioncontext;
     private mapLayer: ol.layer.Tile;
-    private mapFeaturesLayer: ol.layer.Vector;
+    private routeItemsLayer: ol.layer.Vector;
+    private nonrouteItemsLayer: ol.layer.Vector;
     private notamLayer: ol.layer.Vector;
     private flightrouteLayer: ol.layer.Vector;
     private searchItemLayer: ol.layer.Vector;
     private trafficLayer: ol.layer.Vector;
     private locationLayer: ol.layer.Vector;
     private currentOverlay: ol.Overlay;
+    private interactions: ol.interaction.Interaction[];
     private isSearchItemSelectionActive: boolean;
+    private routeCoordinatesBeforeModify: ol.Coordinate[];
     private mapMovedZoomedRotatedSource = new Rx.Subject<void>();
     private mapItemClickedSource = new Rx.Subject<[DataItem, Position2d]>();
     private mapClickedSource = new Rx.Subject<Position2d>();
     private mapOverlayClosedSource = new Rx.Subject<void>();
-    private mapFlightrouteChangedSource = new Rx.Subject<void>();
+    private mapFlightrouteModifiedSource = new Rx.Subject<WaypointModification>();
     private mapFullScreenClickedSource = new Rx.Subject<void>();
+    private flightrouteSubscription: Rx.Subscription;
 
 
     constructor(private sessionService: SessionService) {
@@ -67,16 +80,18 @@ export class MapService {
         this.mapItemClicked$ = this.mapItemClickedSource.asObservable();
         this.mapClicked$ = this.mapClickedSource.asObservable();
         this.mapOverlayClosed$ = this.mapOverlayClosedSource.asObservable();
-        this.flightrouteChanged$ = this.mapFlightrouteChangedSource.asObservable();
+        this.flightrouteModified$ = this.mapFlightrouteModifiedSource.asObservable().distinctUntilChanged();
         this.fullScreenClicked$ = this.mapFullScreenClickedSource.asObservable();
     }
 
 
     // region init
 
-    public initMap() {
+    public initMap(flightroute?: Rx.Observable<Flightroute2>) {
         // map
         this.initLayers();
+        this.interactions = [];
+
         this.map = new ol.Map({
             target: 'map',
             controls: [
@@ -87,7 +102,8 @@ export class MapService {
             ],
             layers: [
                 this.mapLayer,
-                this.mapFeaturesLayer,
+                this.nonrouteItemsLayer,
+                this.routeItemsLayer,
                 this.notamLayer,
                 this.flightrouteLayer,
                 this.searchItemLayer,
@@ -105,13 +121,32 @@ export class MapService {
         this.map.on('singleclick', this.onSingleClick.bind(this));
         this.map.on('pointermove', this.onPointerMove.bind(this));
         this.map.getView().on('change:rotation', this.onViewRotation.bind(this));
+
+        // subscribe to observables
+        this.flightrouteSubscription = flightroute.subscribe(
+            (flightroute) => { this.updateFlightroute(flightroute); }
+        );
+    }
+
+
+    public uninitMap() {
+        this.removeInteractions();
+        this.map.un('moveend', this.onMoveEnd.bind(this));
+        this.map.un('singleclick', this.onSingleClick.bind(this));
+        this.map.un('pointermove', this.onPointerMove.bind(this));
+        this.map.getView().un('change:rotation', this.onViewRotation.bind(this));
+        this.map.setTarget(undefined);
+        this.map = undefined;
+
+        this.flightrouteSubscription.unsubscribe();
     }
 
 
     private initLayers() {
         this.mapLayer = MapbaselayerFactory.create(this.session.settings.baseMapType);
-        this.mapFeaturesLayer = this.createEmptyVectorLayer(true);
-        this.notamLayer = this.createEmptyVectorLayer();
+        this.nonrouteItemsLayer = this.createEmptyVectorLayer(true);
+        this.routeItemsLayer = this.createEmptyVectorLayer();
+        this.notamLayer = this.createEmptyVectorLayer(true);
         this.flightrouteLayer = this.createEmptyVectorLayer();
         this.searchItemLayer = this.createEmptyVectorLayer();
         this.trafficLayer = this.createEmptyVectorLayer();
@@ -211,21 +246,25 @@ export class MapService {
     // region draw
 
 
-    public drawMapFeatures(mapFeatures: Mapfeatures) {
-        const source = this.mapFeaturesLayer.getSource();
-        source.clear();
+
+    public drawMapItems(mapFeatures: Mapfeatures) {
+        // non route items
+        const sourceNonRouteItems = this.nonrouteItemsLayer.getSource();
+        const sourceRouteItems = this.routeItemsLayer.getSource();
+        sourceNonRouteItems.clear();
+        sourceRouteItems.clear();
 
         if (!mapFeatures) {
             return;
         }
 
         const mapFeaturesOlFeature = new OlMapfeatureList(mapFeatures);
-        mapFeaturesOlFeature.draw(source);
+        mapFeaturesOlFeature.draw(sourceNonRouteItems, sourceRouteItems);
     }
 
 
     public drawMetarTaf(metarTafList: MetarTafList) {
-        const source = this.mapFeaturesLayer.getSource();
+        const source = this.nonrouteItemsLayer.getSource();
 
         if (!metarTafList) {
             return;
@@ -302,53 +341,67 @@ export class MapService {
 
 
     public drawFlightRoute(flightroute: Flightroute) {
+        this.removeInteractions();
         const source = this.flightrouteLayer.getSource();
         source.clear();
 
-        // TODO: remove interactions?
-        /*for (var j = 0; j < modifySnapInteractions.length; j++)
-            map.removeInteraction(modifySnapInteractions[j]);
-        modifySnapInteractions = [];*/
-
-        if (!flightroute) {
+        if (!flightroute || flightroute.waypoints.length === 0) {
             return;
         }
 
         const olFeature = new OlFlightroute(flightroute);
         olFeature.draw(source, this.map.getView().getRotation());
 
-
-        // TODO: add snap interactions
-        /*addSnapInteraction(airportLayer);
-        addSnapInteraction(navaidLayer);
-        addSnapInteraction(reportingpointLayer);
-        addSnapInteraction(userWpLayer);*/
+        // add interactions & remember current coordinates
+        if (olFeature.routeLineFeature) {
+            this.routeCoordinatesBeforeModify = (olFeature.routeLineFeature.getGeometry() as ol.geom.LineString).getCoordinates();
+            this.addModifyInteraction(new ol.Collection<ol.Feature>([olFeature.routeLineFeature]));
+            this.addSnapInteractions();
+        }
     }
 
 
-    /*private addModifyInteraction(trackFeature: ol.Feature) {
+    private updateFlightroute(flightroute: Flightroute2) {
+        const source = this.flightrouteLayer.getSource();
+        source.clear();
+
+        //flightroute.waypointList$
+
+    }
+
+    // endregion
+
+
+    // region interactions
+
+    private addModifyInteraction(routeLineFeatures: ol.Collection<ol.Feature>) {
         const modInteraction = new ol.interaction.Modify({
             deleteCondition : function(event) { return false; }, // no delete condition
-            features: new ol.Collection([trackFeature])
+            features: routeLineFeatures
         });
 
-        modInteraction.on('modifyend', onTrackModifyEnd);
-        modifySnapInteractions.push(modInteraction);
-
+        modInteraction.on('modifyend', this.onFlightrouteModifyEnd.bind(this));
+        this.interactions.push(modInteraction);
         this.map.addInteraction(modInteraction);
     }
 
 
-    private addSnapInteraction(layer: ol.layer.Vector) {
+    private addSnapInteractions() {
         const snapInteraction = new ol.interaction.Snap({
-            source: layer.getSource(),
+            source: this.routeItemsLayer.getSource(),
             edge: false
         });
 
-        modifySnapInteractions.push(snapInteraction);
-
+        this.interactions.push(snapInteraction);
         this.map.addInteraction(snapInteraction);
-    }*/
+    }
+
+
+    private removeInteractions() {
+        for (let interaction of this.interactions) {
+            this.map.removeInteraction(interaction);
+        }
+    }
 
 
     // endregion
@@ -438,6 +491,38 @@ export class MapService {
     }
 
 
+    private onFlightrouteModifyEnd(event: ol.interaction.Modify.Event) {
+        if (!event || !event.mapBrowserEvent)
+            return;
+
+        const lineFeature = event.features.getArray()[0];
+        const newCoordinates = (lineFeature.getGeometry() as ol.geom.LineString).getCoordinates();
+
+        // publish geometry modifications
+        const wpMod = this.findWaypointModification(newCoordinates);
+        this.mapFlightrouteModifiedSource.next(wpMod);
+    }
+
+
+    private findWaypointModification(newCoordinates: ol.Coordinate[]): WaypointModification {
+        // find index of changed wp
+        for (let i = 0; i < newCoordinates.length; i++) {
+            if (i >= this.routeCoordinatesBeforeModify.length
+                || this.routeCoordinatesBeforeModify[i][0] !== newCoordinates[i][0]
+                || this.routeCoordinatesBeforeModify[i][1] !== newCoordinates[i][1])
+            {
+                return new WaypointModification(
+                    i,
+                    (this.routeCoordinatesBeforeModify.length !== newCoordinates.length),
+                    Position2d.createFromMercator(newCoordinates[i])
+                );
+            }
+        }
+
+        return undefined;
+    }
+
+
     private getMapItemOlFeatureAtPixel(pixel: ol.Pixel, onlyClickable: boolean): OlFeature {
         const features = this.map.getFeaturesAtPixel(pixel,
             { layerFilter: this.isClickableLayer.bind(this), hitTolerance: HIT_TOLERANCE_PIXELS });
@@ -460,8 +545,10 @@ export class MapService {
 
 
     private isClickableLayer(layer: ol.layer.Layer): boolean {
-        return (layer === this.mapFeaturesLayer ||
+        return (layer === this.routeItemsLayer ||
+                layer === this.nonrouteItemsLayer ||
                 layer === this.notamLayer ||
+                layer === this.flightrouteLayer ||
                 layer === this.searchItemLayer ||
                 layer === this.trafficLayer);
     }
@@ -478,6 +565,7 @@ export class MapService {
                 feature instanceof OlMetarSky === true ||
                 feature instanceof OlMetarWind === true ||
                 feature instanceof OlNotam === true ||
+                feature instanceof OlWaypoint === true ||
                 feature instanceof OlSearchItem === true ||
                 feature instanceof OlTraffic === true);
     }

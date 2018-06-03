@@ -4,6 +4,10 @@ import { Waypoint, Waypointaltitude, Waypointtype } from "../waypoint";
 import { Flightroute } from "../flightroute";
 import { Position2d } from "../position";
 import { Aircraft } from "../aircraft";
+import {Waypoint2} from "../stream-model/waypoint2";
+import {WaypointAltitude2} from "../stream-model/waypoint-altitude2";
+import {Flightroute2} from "../stream-model/flightroute2";
+import {Aircraft2} from "../stream-model/aircraft2";
 
 export interface FlightrouteListResponse {
     navplanList: FlightrouteListEntry[];
@@ -90,6 +94,33 @@ export class RestMapperFlightroute {
     }
 
 
+    public static getFlightrouteFromResponse2(response: FlightrouteResponse): Flightroute2 {
+        const flightroute = new Flightroute2(
+            response.navplan.id,
+            response.navplan.title,
+            response.navplan.comments,
+        );
+
+        flightroute.aircraft = new Aircraft2(
+            response.navplan.aircraft_speed,
+            response.navplan.aircraft_consumption
+        );
+
+        const waypoints: Waypoint2[] = [];
+        for (let i = 0; i < response.navplan.waypoints.length; i++) {
+            const waypoint = this.getWaypointFromResponse2(response.navplan.waypoints[i]);
+            waypoints.push(waypoint);
+        }
+        flightroute.updateWaypointList(waypoints);
+
+        if (response.navplan.alternate) {
+            flightroute.alternate = this.getWaypointFromResponse2(response.navplan.alternate);
+        }
+
+        return flightroute;
+    }
+
+
     private static getWaypointFromResponse(entry: FlightrouteWaypoint): Waypoint {
         const waypoint = new Waypoint(
             Waypointtype[entry.type],
@@ -106,6 +137,27 @@ export class RestMapperFlightroute {
             entry.isminalt == true, // 0: false, 1: true
             entry.ismaxalt == true, // 0: false, 1: true
             entry.isaltatlegstart == true // 0: false, 1: true
+        );
+
+        return waypoint;
+    }
+
+
+    private static getWaypointFromResponse2(entry: FlightrouteWaypoint): Waypoint2 {
+        const waypoint = new Waypoint2(
+            Waypointtype[entry.type],
+            entry.freq,
+            entry.callsign,
+            entry.checkpoint,
+            entry.remark,
+            entry.supp_info,
+            new Position2d(entry.longitude,entry.latitude),
+            new WaypointAltitude2(
+                entry.alt,
+                entry.isminalt == true, // 0: false, 1: true
+                entry.ismaxalt == true, // 0: false, 1: true
+                entry.isaltatlegstart == true // 0: false, 1: true
+            )
         );
 
         return waypoint;
