@@ -60,7 +60,7 @@ export class OlWaypoint2 extends OlBase2 {
             waypoint.nextMt$,
             mapRotation_rad$,
         )
-            .filter(([text, mt, nextMt, mapRotation]) => text !== undefined || mapRotation !== undefined)
+            //.filter(([text, mt, nextMt, mapRotation]) => text !== undefined || mapRotation !== undefined)
             .debounceTime(250)
             .distinctUntilChanged()
             .subscribe(([text, mt, nextMt, mapRotation]) => {

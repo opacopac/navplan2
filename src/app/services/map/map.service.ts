@@ -37,6 +37,7 @@ import {OlFlightroute2} from "../../model/ol-model/ol-flightroute2";
 import 'rxjs/add/observable/fromEventPattern';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/distinctUntilChanged';
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 
 export class WaypointModification {
@@ -52,20 +53,24 @@ const HIT_TOLERANCE_PIXELS = 10;
 
 @Injectable()
 export class MapService {
-    public mapRotation_rad$: Observable<number>;
-    public mapPosition$: Observable<Position2d>;
-    public mapZoom$: Observable<number>;
-    public mapExtent$: Observable<Extent>;
-    public mapItemClicked$: Observable<[DataItem, Position2d]>;
-    private mapItemClickedSource: Subject<[DataItem, Position2d]>;
-    public mapClicked$: Observable<Position2d>;
-    private mapClickedSource: Subject<Position2d>;
-    public mapOverlayClosed$: Observable<void>;
-    private mapOverlayClosedSource: Subject<void>;
-    public flightrouteModified$: Observable<WaypointModification>;
-    private mapFlightrouteModifiedSource: Subject<WaypointModification>;
-    public fullScreenClicked$: Observable<void>;
-    private mapFullScreenClickedSource: Subject<void>;
+    public readonly mapPosition$: Observable<Position2d>;
+    private readonly mapPositionSource: BehaviorSubject<Position2d>;
+    public readonly mapZoom$: Observable<number>;
+    private readonly mapZoomSource: BehaviorSubject<number>;
+    public readonly mapExtent$: Observable<Extent>;
+    private readonly mapExtentSource: BehaviorSubject<Extent>;
+    public readonly mapRotation_rad$: Observable<number>;
+    private readonly mapRotationSource: BehaviorSubject<number>;
+    public readonly mapItemClicked$: Observable<[DataItem, Position2d]>;
+    private readonly mapItemClickedSource: Subject<[DataItem, Position2d]>;
+    public readonly mapClicked$: Observable<Position2d>;
+    private readonly mapClickedSource: Subject<Position2d>;
+    public readonly mapOverlayClosed$: Observable<void>;
+    private readonly mapOverlayClosedSource: Subject<void>;
+    public readonly flightrouteModified$: Observable<WaypointModification>;
+    private readonly mapFlightrouteModifiedSource: Subject<WaypointModification>;
+    public readonly fullScreenClicked$: Observable<void>;
+    private readonly mapFullScreenClickedSource: Subject<void>;
 
     private map: ol.Map;
     private session: Sessioncontext;
@@ -89,6 +94,14 @@ export class MapService {
         this.session = sessionService.getSessionContext();
 
         // init observables & sources
+        this.mapPositionSource = new BehaviorSubject<Position2d>(undefined);
+        this.mapPosition$ = this.mapPositionSource.asObservable().distinctUntilChanged();
+        this.mapZoomSource = new BehaviorSubject<number>(undefined);
+        this.mapZoom$ = this.mapZoomSource.asObservable().distinctUntilChanged();
+        this.mapExtentSource = new BehaviorSubject<Extent>(undefined);
+        this.mapExtent$ = this.mapExtentSource.asObservable().distinctUntilChanged();
+        this.mapRotationSource = new BehaviorSubject<number>(0);
+        this.mapRotation_rad$ = this.mapRotationSource.asObservable().distinctUntilChanged();
         this.mapItemClickedSource = new Subject<[DataItem,Position2d]>();
         this.mapItemClicked$ = this.mapItemClickedSource.asObservable();
         this.mapClickedSource = new Subject<Position2d>();
@@ -133,31 +146,11 @@ export class MapService {
             })
         });
 
-        // events
-        const zoomPos$ = Observable.fromEventPattern<ol.MapEvent>(
-            (handler) => this.map.on('moveend', handler.bind(this)),
-            (handler) => this.map.un('moveend', handler.bind(this))
-        );
-        this.mapPosition$ = zoomPos$
-            .map(zoomPos => Position2d.createFromMercator(zoomPos.map.getView().getCenter()))
-            .distinctUntilChanged();
-        this.mapZoom$ = zoomPos$
-            .map(zoomPos => zoomPos.map.getView().getZoom())
-            .distinctUntilChanged();
-        this.mapRotation_rad$ = Observable.fromEventPattern(
-            (handler) => this.map.getView().on('change:rotation', handler.bind(this)),
-            (handler) => this.map.getView().un('change:rotation', handler.bind(this)))
-            .map(() => this.map.getView().getZoom())
-            .distinctUntilChanged();
-        this.mapExtent$ = Observable.combineLatest(
-            this.mapPosition$,
-            this.mapZoom$,
-            this.mapRotation_rad$)
-            .map(() => Extent.createFromMercator(this.map.getView().calculateExtent(this.map.getSize())))
-            .distinctUntilChanged();
-
+        // map events
         this.map.on('singleclick', this.onSingleClick.bind(this));
         this.map.on('pointermove', this.onPointerMove.bind(this));
+        this.map.on('moveend', this.onMoveEnd.bind(this));
+        this.map.getView().on('change:rotation', this.onMapRotation.bind(this));
 
         // handle flightroute changes
         this.flightrouteSubscription = this.session.flightroute$
@@ -171,6 +164,8 @@ export class MapService {
         this.removeInteractions();
         this.map.un('singleclick', this.onSingleClick.bind(this));
         this.map.un('pointermove', this.onPointerMove.bind(this));
+        this.map.un('moveend', this.onMoveEnd.bind(this));
+        this.map.getView().un('change:rotation', this.onMapRotation.bind(this));
         this.map.setTarget(undefined);
         this.map = undefined;
 
@@ -204,12 +199,6 @@ export class MapService {
     // region map position / size
 
 
-    // TODO: delete
-    public getZoom(): number {
-        return this.map.getView().getZoom();
-    }
-
-
     public setZoom(zoom: number) {
         const minZoom = (this.mapLayer.getSource() as ol.source.Tile).getTileGrid().getMinZoom();
         const maxZoom = (this.mapLayer.getSource() as ol.source.Tile).getTileGrid().getMaxZoom();
@@ -231,12 +220,6 @@ export class MapService {
     }
 
 
-    // TODO: delete
-    public getMapPosition(): Position2d {
-        return Position2d.createFromMercator(this.map.getView().getCenter());
-    }
-
-
     public setMapPosition(position: Position2d, zoom?: number) {
         if (!this.map || !this.map.getView()) {
             return;
@@ -249,12 +232,6 @@ export class MapService {
         if (zoom != null) {
             this.map.getView().setZoom(zoom);
         }
-    }
-
-
-    // TODO: delete
-    public getExtent(): Extent {
-        return Extent.createFromMercator(this.map.getView().calculateExtent(this.map.getSize()));
     }
 
 
@@ -274,6 +251,29 @@ export class MapService {
         const lat2 = ol.proj.toLonLat(coord2)[1];
 
         return Math.abs(lat2 - lat1);*/
+    }
+
+
+    // TODO: private
+    public getZoom(): number {
+        return this.map.getView().getZoom();
+    }
+
+
+    // TODO: private
+    public getMapPosition(): Position2d {
+        return Position2d.createFromMercator(this.map.getView().getCenter());
+    }
+
+
+    // TODO: private
+    public getExtent(): Extent {
+        return Extent.createFromMercator(this.map.getView().calculateExtent(this.map.getSize()));
+    }
+
+
+    private getRotation(): number {
+        return this.map.getView().getRotation();
     }
 
 
@@ -481,6 +481,19 @@ export class MapService {
 
 
     // region map events
+
+    private onMoveEnd(event: ol.MapEvent) {
+        this.mapPositionSource.next(this.getMapPosition());
+        this.mapZoomSource.next(this.getZoom());
+        this.mapExtentSource.next(this.getExtent());
+    }
+
+
+    private onMapRotation(event: ol.ObjectEvent) {
+        this.mapRotationSource.next(this.getRotation());
+        this.mapExtentSource.next(this.getExtent());
+    }
+
 
     private onSingleClick(event: ol.MapBrowserEvent) {
         const feature = this.getMapItemOlFeatureAtPixel(event.pixel, true);

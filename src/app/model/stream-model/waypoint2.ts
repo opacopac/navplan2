@@ -67,13 +67,13 @@ export class Waypoint2 {
         this.alt = alt;
         this.previousPositionObservableSource = new BehaviorSubject<Observable<Position2d>>(undefined);
         this.previousPositionObservable$ = this.previousPositionObservableSource.asObservable();
-        this.previousPosition$ = this.previousPositionObservable$.flatMap(prevPosObs => prevPosObs);
-        this.speedObservableSource = new BehaviorSubject<Observable<number>>(undefined);
+        this.previousPosition$ = this.previousPositionObservable$.flatMap(prevPosObs => prevPosObs ? prevPosObs : Observable.of(undefined));
+        this.speedObservableSource = new BehaviorSubject<Observable<number>>(Observable.of(undefined));
         this.speedObservable$ = this.speedObservableSource.asObservable();
-        this.speed$ = this.speedObservable$.flatMap(speedObs => speedObs);
-        this.nextMtObservableSource = new BehaviorSubject<Observable<number>>(undefined);
+        this.speed$ = this.speedObservable$.flatMap(speedObs => speedObs ? speedObs : Observable.of(undefined));
+        this.nextMtObservableSource = new BehaviorSubject<Observable<number>>(Observable.of(undefined));
         this.nextMtObservable$ = this.nextMtObservableSource.asObservable();
-        this.nextMt$ = this.nextMtObservable$.flatMap(nextMtObs => nextMtObs);
+        this.nextMt$ = this.nextMtObservable$.flatMap(nextMtObs => nextMtObs ? nextMtObs : Observable.of(undefined));
         this.variation$ = this.position$.map((pos) => this.calcVariation(pos));
         this.mt$ = Observable.combineLatest(
             this.previousPosition$,

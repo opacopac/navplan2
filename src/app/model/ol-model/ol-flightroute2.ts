@@ -60,17 +60,17 @@ export class OlFlightroute2 extends OlBase2 {
         // handle alternate changes
         /*this.alternateSubscription =*/ Observable.combineLatest(
             this.flightroute.alternate$,
-            this.flightroute.alternate$.flatMap(alternate => alternate ? alternate.position$ : undefined),
-            this.flightroute.alternate$.flatMap(alternate => alternate ? alternate.previousPosition$ : undefined));
+            this.flightroute.alternate$.flatMap(alternate => alternate ? alternate.position$ : Observable.of(undefined)),
+            this.flightroute.alternate$.flatMap(alternate => alternate ? alternate.previousPosition$ : Observable.of(undefined)))
             //.distinctUntilChanged()
-            /*.subscribe(([alternate, position, previousPosition]) => {
+            .subscribe(([alternate, position, previousPosition]) => {
                 this.updateAlternate(alternate);
                 if (!position || !previousPosition) {
                     this.hideFeature(this.alternateLineOlFeature);
                 } else {
                     this.setLineGeometry(this.alternateLineOlFeature, [previousPosition, position]);
                 }
-            });*/
+            });
     }
 
 
@@ -95,13 +95,10 @@ export class OlFlightroute2 extends OlBase2 {
 
 
     private updateAlternate(wp: Waypoint2) {
-        if (this.alternateOlFeature) {
-            this.alternateOlFeature.destroy();
-        }
+        if (this.alternateOlFeature) { this.alternateOlFeature.destroy(); }
         if (wp) {
             this.alternateOlFeature = new OlWaypoint2(wp, this.source, this.mapRotation_rad$)
         }
-        this.alternateOlFeature = new OlWaypoint2(wp, this.source, this.mapRotation_rad$)
     }
 
 

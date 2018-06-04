@@ -223,7 +223,7 @@ export class MapComponent implements OnInit, OnDestroy {
         this.currentMapFeatures = mapFeatures;
         this.mapService.drawMapItems(mapFeatures);
 
-        this.metarTafService.load(
+        /*this.metarTafService.load(
             this.mapService.getExtent(),
             this.mapService.getZoom(),
             this.onMetarTafLoaded.bind(this),
@@ -233,7 +233,7 @@ export class MapComponent implements OnInit, OnDestroy {
             this.mapService.getExtent(),
             this.mapService.getZoom(),
             this.onNotamLoaded.bind(this),
-            this.onNotamLoadError.bind(this));
+            this.onNotamLoadError.bind(this));*/
     }
 
 
@@ -285,12 +285,12 @@ export class MapComponent implements OnInit, OnDestroy {
             return;
         }
 
-        this.mapFeatureService.load(
+        /*this.mapFeatureService.load(
             extent,
             this.mapService.getZoom(),
             this.onMapFeaturesLoaded.bind(this),
             this.onMapFeaturesLoadError.bind(this)
-        );
+        );*/
     }
 
 
