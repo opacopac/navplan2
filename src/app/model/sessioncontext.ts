@@ -1,4 +1,3 @@
-import * as Rx from 'rxjs';
 import { User } from './user';
 import { Position2d } from './position';
 import { MapbaselayerType } from './ol-model/mapbaselayer-factory';
@@ -6,6 +5,8 @@ import { Track } from './track';
 import { Waypoint } from "./waypoint";
 import { Flightroute2} from "./stream-model/flightroute2";
 import { Waypoint2 } from "./stream-model/waypoint2";
+import { Observable } from "rxjs/Observable";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
 
 export class Sessioncontext {
@@ -15,27 +16,36 @@ export class Sessioncontext {
     public map: Mapsettings;
     public track: Track;
     public selectedWaypoint: Waypoint;
-    public readonly flightroute$: Rx.Observable<Flightroute2>;
-    private readonly flightRouteSource: Rx.BehaviorSubject<Flightroute2>;
-    public readonly selectedWaypoint$: Rx.Observable<Waypoint2>;
-    private readonly selectedWaypointSource: Rx.BehaviorSubject<Waypoint2>;
+    public readonly flightroute$: Observable<Flightroute2>;
+    private readonly flightRouteSource: BehaviorSubject<Flightroute2>;
+    public readonly selectedWaypoint$: Observable<Waypoint2>;
+    private readonly selectedWaypointSource: BehaviorSubject<Waypoint2>;
+    public readonly editWaypointActive$: Observable<boolean>;
+    private readonly editWaypointActiveSource: BehaviorSubject<boolean>;
 
 
     constructor() {
-        this.flightRouteSource = new Rx.BehaviorSubject<Flightroute2>(new Flightroute2());
+        this.flightRouteSource = new BehaviorSubject<Flightroute2>(new Flightroute2());
         this.flightroute$ = this.flightRouteSource.asObservable();
-        this.selectedWaypointSource = new Rx.BehaviorSubject<Waypoint2>(undefined);
+        this.selectedWaypointSource = new BehaviorSubject<Waypoint2>(undefined);
         this.selectedWaypoint$ = this.selectedWaypointSource.asObservable();
+        this.editWaypointActiveSource = new BehaviorSubject<boolean>(false);
+        this.editWaypointActive$ = this.editWaypointActiveSource.asObservable();
     }
 
 
-    setSelectedWaypoint(waypoint: Waypoint2) {
-        this.selectedWaypointSource.next(waypoint);
+    setSelectedWaypoint(value: Waypoint2) {
+        this.selectedWaypointSource.next(value);
     }
 
 
-    setFlightroute(flightroute: Flightroute2) {
-        this.flightRouteSource.next(flightroute);
+    setFlightroute(value: Flightroute2) {
+        this.flightRouteSource.next(value);
+    }
+
+
+    setEditWaypointActive(value: boolean) {
+        this.editWaypointActiveSource.next(value);
     }
 }
 

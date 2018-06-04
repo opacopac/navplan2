@@ -1,15 +1,16 @@
-import * as Rx from 'rxjs';
+import {Observable} from "rxjs/Observable";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 
 export class WaypointAltitude2 {
-    public alt$: Rx.Observable<number>;
-    private altSource: Rx.BehaviorSubject<number>;
-    public isminalt$: Rx.Observable<boolean>;
-    private isminaltSource: Rx.BehaviorSubject<boolean>;
-    public ismaxalt$: Rx.Observable<boolean>;
-    private ismaxaltSource: Rx.BehaviorSubject<boolean>;
-    public isaltatlegstart$: Rx.Observable<boolean>;
-    private isaltatlegstartSource: Rx.BehaviorSubject<boolean>;
+    public alt$: Observable<number>;
+    private altSource: BehaviorSubject<number>;
+    public isminalt$: Observable<boolean>;
+    private isminaltSource: BehaviorSubject<boolean>;
+    public ismaxalt$: Observable<boolean>;
+    private ismaxaltSource: BehaviorSubject<boolean>;
+    public isaltatlegstart$: Observable<boolean>;
+    private isaltatlegstartSource: BehaviorSubject<boolean>;
 
 
     constructor(
@@ -17,13 +18,13 @@ export class WaypointAltitude2 {
         isminalt = false,
         ismaxalt = false,
         isaltatlegstart = false) {
-        this.altSource = new Rx.BehaviorSubject<number>(alt);
+        this.altSource = new BehaviorSubject<number>(alt);
         this.alt$ = this.altSource.asObservable();
-        this.isminaltSource = new Rx.BehaviorSubject<boolean>(isminalt);
+        this.isminaltSource = new BehaviorSubject<boolean>(isminalt);
         this.isminalt$ = this.isminaltSource.asObservable();
-        this.ismaxaltSource = new Rx.BehaviorSubject<boolean>(ismaxalt);
+        this.ismaxaltSource = new BehaviorSubject<boolean>(ismaxalt);
         this.ismaxalt$ = this.ismaxaltSource.asObservable();
-        this.isaltatlegstartSource = new Rx.BehaviorSubject<boolean>(isaltatlegstart);
+        this.isaltatlegstartSource = new BehaviorSubject<boolean>(isaltatlegstart);
         this.isaltatlegstart$ = this.isaltatlegstartSource.asObservable();
     }
 

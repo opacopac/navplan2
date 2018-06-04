@@ -1,5 +1,4 @@
 import * as $ from 'jquery';
-import * as Rx from 'rxjs';
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MessageService} from '../../services/utils/message.service';
 import {SessionService} from '../../services/utils/session.service';
@@ -36,9 +35,12 @@ import {MapOverlayUserpointComponent} from '../map-overlay/map-overlay-userpoint
 import {MapOverlayTrafficComponent} from '../map-overlay/map-overlay-traffic/map-overlay-traffic.component';
 import {MapOverlayNotamComponent} from '../map-overlay/map-overlay-notam/map-overlay-notam.component';
 import {WaypointFactory} from "../../model/waypoint-model/waypoint-factory";
-import {Flightroute} from "../../model/flightroute";
 import {Waypoint} from "../../model/waypoint";
 import {MapOverlayWaypointComponent} from "../map-overlay/map-overlay-waypoint/map-overlay-waypoint.component";
+import {Extent} from "../../model/ol-model/extent";
+import {Subscription} from "rxjs/Subscription";
+import {Observable} from "rxjs/Observable";
+import 'rxjs/add/observable/combineLatest';
 
 
 const NAVBAR_HEIGHT_PX = 54;
@@ -64,19 +66,17 @@ export class MapComponent implements OnInit, OnDestroy {
     @ViewChild(MapOverlayNotamComponent) mapOverlayNotamComponent: MapOverlayNotamComponent;
     @ViewChild(MapOverlayWaypointComponent) mapOverlayWaypointComponent: MapOverlayWaypointComponent;
     @ViewChild(SearchBoxComponent) searchBox: SearchBoxComponent;
-    private currentFlightroute: Flightroute;
     private currentMapFeatures: Mapfeatures;
     private currentMetarTafList: MetarTafList;
     private currentNotamList: NotamList;
-    private currentFlightrouteSubscription: Rx.Subscription;
-    private mapMoveZoomedRotatedSubscription: Rx.Subscription;
-    private mapItemClickedSubscription: Rx.Subscription;
-    private mapClickedSubscription: Rx.Subscription;
-    private mapOverlayClosedSubscription: Rx.Subscription;
-    private flightrouteModifiedSubscription: Rx.Subscription;
-    private fullScreenClickedSubscription: Rx.Subscription;
-    private windowResizeSubscription: Rx.Subscription;
-    private keyDownSubscription: Rx.Subscription;
+    private mapExtentSubscription: Subscription;
+    private mapItemClickedSubscription: Subscription;
+    private mapClickedSubscription: Subscription;
+    private mapOverlayClosedSubscription: Subscription;
+    private flightrouteModifiedSubscription: Subscription;
+    private fullScreenClickedSubscription: Subscription;
+    private windowResizeSubscription: Subscription;
+    private keyDownSubscription: Subscription;
 
     public constructor(
         private sessionService: SessionService,
@@ -99,30 +99,12 @@ export class MapComponent implements OnInit, OnDestroy {
         this.resizeMapToWindow();
         this.mapService.initMap();
 
-
-        // subscribe to flightroute events
-        this.currentFlightrouteSubscription = this.flightrouteService.currentRoute$.subscribe(
-            currentFlightroute => {
-                this.currentFlightroute = currentFlightroute;
-                this.mapService.drawFlightRoute(currentFlightroute);
-            }
-        );
-        /*this.currentFlightrouteSubscription = this.session.flightroute$
-            .withLatestFrom(
-                this.session.flightroute$.flatMap((flightroute) => flightroute.waypointList$) // TODO: wp positions
-            )
-            .distinctUntilChanged()
-            .debounceTime(250)
-            .subscribe(([flightroute, waypointList]) => {
-                this.mapService.drawFlightRoute2(flightroute);
-            }
-        );*/
-
-
         // subscribe to mapservice events
-        this.mapMoveZoomedRotatedSubscription = this.mapService.mapMovedZoomedRotated$.subscribe(
-            () => {
-                this.updateMapContent(false);
+        this.mapExtentSubscription = Observable.combineLatest(
+            this.mapService.mapExtent$,
+            this.mapService.mapZoom$)
+            .subscribe(([extent, zoom]) => {
+                this.updateMapContent(extent, zoom,false);
             });
 
         this.mapItemClickedSubscription = this.mapService.mapItemClicked$.subscribe(
@@ -156,11 +138,11 @@ export class MapComponent implements OnInit, OnDestroy {
 
 
         // subscribe to document/window events
-        this.windowResizeSubscription = Rx.Observable.fromEvent(window, 'resize').subscribe(() => {
+        this.windowResizeSubscription = Observable.fromEvent(window, 'resize').subscribe(() => {
             this.resizeMapToWindow();
         });
 
-        this.keyDownSubscription = Rx.Observable.fromEvent(document, 'keydown').subscribe((event: KeyboardEvent) => {
+        this.keyDownSubscription = Observable.fromEvent(document, 'keydown').subscribe((event: KeyboardEvent) => {
             // search: f3 or ctrl + f
             if (event.keyCode === F3_KEY_CODE || (event.ctrlKey && event.keyCode === F_KEY_CODE)) {
                 this.searchBox.focus();
@@ -171,16 +153,13 @@ export class MapComponent implements OnInit, OnDestroy {
 
 
         // update map contents
-        this.updateMapContent(true);
+        //this.updateMapContent(true);
     }
 
 
     public ngOnDestroy() {
-        // unsubscribe from flightroute events
-        this.currentFlightrouteSubscription.unsubscribe();
-
         // unsubscribe from map service events
-        this.mapMoveZoomedRotatedSubscription.unsubscribe();
+        this.mapExtentSubscription.unsubscribe();
         this.mapItemClickedSubscription.unsubscribe();
         this.mapClickedSubscription.unsubscribe();
         this.mapOverlayClosedSubscription.unsubscribe();
@@ -295,9 +274,7 @@ export class MapComponent implements OnInit, OnDestroy {
     // endregion
 
 
-    private updateMapContent(isInitialUpdate: boolean) {
-        const extent = this.mapService.getExtent();
-        const zoom = this.mapService.getZoom();
+    private updateMapContent(extent: Extent, zoom: number, isInitialUpdate: boolean) {
         this.trafficService.setExtent(extent);
 
         if (!isInitialUpdate &&

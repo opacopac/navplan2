@@ -1,4 +1,3 @@
-import * as Rx from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SessionService } from '../../services/utils/session.service';
 import { MessageService } from '../../services/utils/message.service';
@@ -7,6 +6,7 @@ import { UserService } from '../../services/user/user.service';
 import { FlightrouteService } from '../../services/flightroute/flightroute.service';
 import { Flightroute } from '../../model/flightroute';
 import { ButtonColor, ButtonSize } from '../buttons/button-base.directive';
+import { Subscription } from "rxjs/Subscription";
 
 
 @Component({
@@ -21,8 +21,8 @@ export class FlightrouteComponent implements OnInit, OnDestroy {
     public selectedFlightrouteId: number;
     public ButtonSize = ButtonSize;
     public ButtonColor = ButtonColor;
-    private flightrouteListSubscription: Rx.Subscription;
-    private currentFlightrouteSubscription: Rx.Subscription;
+    private flightrouteListSubscription: Subscription;
+    private currentFlightrouteSubscription: Subscription;
 
 
     constructor(public userService: UserService,

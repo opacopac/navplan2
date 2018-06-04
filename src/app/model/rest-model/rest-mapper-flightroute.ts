@@ -111,7 +111,7 @@ export class RestMapperFlightroute {
             const waypoint = this.getWaypointFromResponse2(response.navplan.waypoints[i]);
             waypoints.push(waypoint);
         }
-        flightroute.updateWaypointList(waypoints);
+        flightroute.waypointList.replaceList(waypoints);
 
         if (response.navplan.alternate) {
             flightroute.alternate = this.getWaypointFromResponse2(response.navplan.alternate);

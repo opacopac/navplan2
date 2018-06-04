@@ -1,9 +1,9 @@
-import * as Rx from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Waypoint, Waypointtype } from '../../model/waypoint';
 import { ButtonColor, ButtonSize } from '../buttons/button-base.directive';
 import { FlightrouteService } from "../../services/flightroute/flightroute.service";
 import { Flightroute } from "../../model/flightroute";
+import {Subscription} from "rxjs/Subscription";
 
 
 @Component({
@@ -16,7 +16,7 @@ export class WaypointlistComponent implements OnInit, OnDestroy {
     public ButtonSize = ButtonSize;
     public ButtonColor = ButtonColor;
     public currentFlightroute: Flightroute;
-    private currentFlightrouteSubscription: Rx.Subscription;
+    private currentFlightrouteSubscription: Subscription;
 
 
     constructor(

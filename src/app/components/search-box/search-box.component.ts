@@ -1,10 +1,15 @@
-import * as Rx from 'rxjs';
 import { Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { SearchService } from '../../services/search/search.service';
 import { ButtonColor, ButtonSize } from '../buttons/button-base.directive';
 import { SearchItem, SearchItemList } from '../../model/search-item';
 import { DataItem } from '../../model/data-item';
 import { Position2d } from '../../model/position';
+import {Subscription} from "rxjs/Subscription";
+import {Observable} from "rxjs/Observable";
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/filter'
+import 'rxjs/add/observable/fromEvent'
 
 
 const MIN_QUERY_LENGTH = 3;
@@ -28,7 +33,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     public searchResults: SearchItemList;
     public searchQuery: string;
     public selectedIndex: number;
-    private keyUpSubscription: Rx.Subscription;
+    private keyUpSubscription: Subscription;
 
 
     constructor(
@@ -38,7 +43,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.selectedIndex = 0;
-        this.keyUpSubscription = Rx.Observable.fromEvent(this.searchWpInput.nativeElement, 'keyup')
+        this.keyUpSubscription = Observable.fromEvent(this.searchWpInput.nativeElement, 'keyup')
             .filter(() => this.searchQuery.trim().length >= MIN_QUERY_LENGTH)
             .distinctUntilChanged()
             .debounceTime(QUERY_DELAY_MS)

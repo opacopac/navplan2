@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from "rxjs/Subscription";
 import { Sessioncontext } from '../../model/sessioncontext';
 import { SessionService } from '../../services/utils/session.service';
-import { FlightrouteService } from "../../services/flightroute/flightroute.service";
-import { Waypoint } from '../../model/waypoint';
 import { ButtonColor, ButtonSize } from '../buttons/button-base.directive';
+import { Waypoint2 } from "../../model/stream-model/waypoint2";
+import 'rxjs/add/operator/withLatestFrom';
 import $ from 'jquery';
 declare var $: $; // wtf? --> https://github.com/dougludlow/ng2-bs3-modal/issues/147
 
@@ -14,39 +15,54 @@ declare var $: $; // wtf? --> https://github.com/dougludlow/ng2-bs3-modal/issues
     templateUrl: './editwaypoint.component.html',
     styleUrls: ['./editwaypoint.component.css']
 })
-export class EditwaypointComponent implements OnInit {
+export class EditwaypointComponent implements OnInit, OnDestroy {
     @ViewChild('container') container: HTMLElement;
     public session: Sessioncontext;
     public editWpForm: FormGroup;
-    public waypoint: Waypoint;
+    public waypoint: Waypoint2;
     public ButtonSize = ButtonSize;
     public ButtonColor = ButtonColor;
+    private editWaypointActiveSubscription: Subscription;
 
 
     constructor(
-        public sessionService: SessionService,
-        private flightrouteService: FlightrouteService) {
+        public sessionService: SessionService) {
 
         this.session = sessionService.getSessionContext();
-        this.flightrouteService.editWaypointClicked$.subscribe(wp => this.editWaypoint(wp));
+        this.editWaypointActiveSubscription = this.session
+            .editWaypointActive$
+            .withLatestFrom(this.session.selectedWaypoint$)
+            .subscribe(([editActive, selectedWaypoint]) => {
+                this.waypoint = selectedWaypoint;
+                if (editActive && selectedWaypoint) {
+                    this.showForm();
+                } else {
+                    this.hideForm();
+                }
+            });
     }
 
 
     ngOnInit() {
+        this.initForm();
     }
 
 
-    public onSaveClicked() {
+    ngOnDestroy() {
+        this.editWaypointActiveSubscription.unsubscribe();
+    }
+
+
+    public onSaveClicked(waypoint) {
         if (this.editWpForm.valid) {
             this.updateWpByFormValues();
-            this.waypoint = undefined;
-            //this.onWaypointChanged.emit(true);
+            this.session.setSelectedWaypoint(undefined);
         }
     }
 
 
-    public onCancelClicke() {
-        this.waypoint = undefined;
+    public onCancelClicked() {
+        this.session.setSelectedWaypoint(undefined);
     }
 
 
@@ -55,24 +71,17 @@ export class EditwaypointComponent implements OnInit {
     }
 
 
-    private editWaypoint(waypoint: Waypoint) {
-        this.waypoint = waypoint;
-        this.initForm();
-        this.showForm();
-    }
-
-
     private initForm() {
         this.editWpForm = new FormGroup({
-            'checkpoint': new FormControl(this.waypoint.checkpoint, [Validators.required, Validators.maxLength(30)]),
-            'freq': new FormControl(this.waypoint.freq, Validators.maxLength(7)),
-            'callsign': new FormControl(this.waypoint.callsign, Validators.maxLength(10)),
-            'alt': new FormControl(this.waypoint.alt.alt, [Validators.maxLength(5), Validators.min(0), Validators.max(99999)]),
-            'isminalt': new FormControl(this.waypoint.alt.isminalt),
-            'ismaxalt': new FormControl(this.waypoint.alt.ismaxalt),
-            'isaltatlegstart': new FormControl(this.waypoint.alt.isaltatlegstart),
-            'remark': new FormControl(this.waypoint.remark, Validators.maxLength(50)),
-            'supp_info': new FormControl(this.waypoint.supp_info, Validators.maxLength(255))
+            'checkpoint': new FormControl(undefined, [Validators.required, Validators.maxLength(30)]),
+            'freq': new FormControl(undefined, Validators.maxLength(7)),
+            'callsign': new FormControl(undefined, Validators.maxLength(10)),
+            'alt': new FormControl(undefined, [Validators.maxLength(5), Validators.min(0), Validators.max(99999)]),
+            'isminalt': new FormControl(),
+            'ismaxalt': new FormControl(),
+            'isaltatlegstart': new FormControl(),
+            'remark': new FormControl(undefined, Validators.maxLength(50)),
+            'supp_info': new FormControl(undefined, Validators.maxLength(255))
         });
     }
 
@@ -81,7 +90,13 @@ export class EditwaypointComponent implements OnInit {
         window.setTimeout(() => {
             $('#selectedWaypointDialog').modal('show')
         }, 10);
-        //$jq('#selectedWaypointDialog').modal('show');
+    }
+
+
+    private hideForm() {
+        window.setTimeout(() => {
+            $('#selectedWaypointDialog').modal('hide')
+        }, 10);
     }
 
 

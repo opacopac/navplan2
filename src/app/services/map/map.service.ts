@@ -1,5 +1,4 @@
 import * as ol from 'openlayers';
-import * as Rx from 'rxjs';
 import { Injectable } from '@angular/core';
 import { SessionService } from '../utils/session.service';
 import { Sessioncontext } from '../../model/sessioncontext';
@@ -31,6 +30,13 @@ import { OlSearchItemSelection } from '../../model/ol-model/ol-searchitem-select
 import { OlSearchItem } from '../../model/ol-model/ol-searchitem';
 import {OlWaypoint} from "../../model/ol-model/ol-waypoint";
 import {Flightroute2} from "../../model/stream-model/flightroute2";
+import {Observable} from "rxjs/Observable";
+import {Subject} from "rxjs/Subject";
+import {Subscription} from "rxjs/Subscription";
+import {OlFlightroute2} from "../../model/ol-model/ol-flightroute2";
+import 'rxjs/add/observable/fromEventPattern';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 
 export class WaypointModification {
@@ -40,17 +46,27 @@ export class WaypointModification {
         public newPosition: Position2d) {}
 }
 
+
 const HIT_TOLERANCE_PIXELS = 10;
 
 
 @Injectable()
 export class MapService {
-    public mapMovedZoomedRotated$: Rx.Observable<void>;
-    public mapItemClicked$: Rx.Observable<[DataItem, Position2d]>;
-    public mapClicked$: Rx.Observable<Position2d>;
-    public mapOverlayClosed$: Rx.Observable<void>;
-    public flightrouteModified$: Rx.Observable<WaypointModification>;
-    public fullScreenClicked$: Rx.Observable<void>;
+    public mapRotation_rad$: Observable<number>;
+    public mapPosition$: Observable<Position2d>;
+    public mapZoom$: Observable<number>;
+    public mapExtent$: Observable<Extent>;
+    public mapItemClicked$: Observable<[DataItem, Position2d]>;
+    private mapItemClickedSource: Subject<[DataItem, Position2d]>;
+    public mapClicked$: Observable<Position2d>;
+    private mapClickedSource: Subject<Position2d>;
+    public mapOverlayClosed$: Observable<void>;
+    private mapOverlayClosedSource: Subject<void>;
+    public flightrouteModified$: Observable<WaypointModification>;
+    private mapFlightrouteModifiedSource: Subject<WaypointModification>;
+    public fullScreenClicked$: Observable<void>;
+    private mapFullScreenClickedSource: Subject<void>;
+
     private map: ol.Map;
     private session: Sessioncontext;
     private mapLayer: ol.layer.Tile;
@@ -65,29 +81,30 @@ export class MapService {
     private interactions: ol.interaction.Interaction[];
     private isSearchItemSelectionActive: boolean;
     private routeCoordinatesBeforeModify: ol.Coordinate[];
-    private mapMovedZoomedRotatedSource = new Rx.Subject<void>();
-    private mapItemClickedSource = new Rx.Subject<[DataItem, Position2d]>();
-    private mapClickedSource = new Rx.Subject<Position2d>();
-    private mapOverlayClosedSource = new Rx.Subject<void>();
-    private mapFlightrouteModifiedSource = new Rx.Subject<WaypointModification>();
-    private mapFullScreenClickedSource = new Rx.Subject<void>();
-    private flightrouteSubscription: Rx.Subscription;
+    private flightrouteSubscription: Subscription;
+    private currentFlightRoute: OlFlightroute2;
 
 
     constructor(private sessionService: SessionService) {
         this.session = sessionService.getSessionContext();
-        this.mapMovedZoomedRotated$ = this.mapMovedZoomedRotatedSource.asObservable().debounceTime(100);
+
+        // init observables & sources
+        this.mapItemClickedSource = new Subject<[DataItem,Position2d]>();
         this.mapItemClicked$ = this.mapItemClickedSource.asObservable();
+        this.mapClickedSource = new Subject<Position2d>();
         this.mapClicked$ = this.mapClickedSource.asObservable();
+        this.mapOverlayClosedSource = new Subject<void>();
         this.mapOverlayClosed$ = this.mapOverlayClosedSource.asObservable();
-        this.flightrouteModified$ = this.mapFlightrouteModifiedSource.asObservable().distinctUntilChanged();
+        this.mapFlightrouteModifiedSource = new Subject<WaypointModification>();
+        this.flightrouteModified$ = this.mapFlightrouteModifiedSource.asObservable();
+        this.mapFullScreenClickedSource = new Subject<void>();
         this.fullScreenClicked$ = this.mapFullScreenClickedSource.asObservable();
     }
 
 
     // region init
 
-    public initMap(flightroute?: Rx.Observable<Flightroute2>) {
+    public initMap(flightroute?: Observable<Flightroute2>) {
         // map
         this.initLayers();
         this.interactions = [];
@@ -117,24 +134,43 @@ export class MapService {
         });
 
         // events
-        this.map.on('moveend', this.onMoveEnd.bind(this));
+        const zoomPos$ = Observable.fromEventPattern<ol.MapEvent>(
+            (handler) => this.map.on('moveend', handler.bind(this)),
+            (handler) => this.map.un('moveend', handler.bind(this))
+        );
+        this.mapPosition$ = zoomPos$
+            .map(zoomPos => Position2d.createFromMercator(zoomPos.map.getView().getCenter()))
+            .distinctUntilChanged();
+        this.mapZoom$ = zoomPos$
+            .map(zoomPos => zoomPos.map.getView().getZoom())
+            .distinctUntilChanged();
+        this.mapRotation_rad$ = Observable.fromEventPattern(
+            (handler) => this.map.getView().on('change:rotation', handler.bind(this)),
+            (handler) => this.map.getView().un('change:rotation', handler.bind(this)))
+            .map(() => this.map.getView().getZoom())
+            .distinctUntilChanged();
+        this.mapExtent$ = Observable.combineLatest(
+            this.mapPosition$,
+            this.mapZoom$,
+            this.mapRotation_rad$)
+            .map(() => Extent.createFromMercator(this.map.getView().calculateExtent(this.map.getSize())))
+            .distinctUntilChanged();
+
         this.map.on('singleclick', this.onSingleClick.bind(this));
         this.map.on('pointermove', this.onPointerMove.bind(this));
-        this.map.getView().on('change:rotation', this.onViewRotation.bind(this));
 
-        // subscribe to observables
-        this.flightrouteSubscription = flightroute.subscribe(
-            (flightroute) => { this.updateFlightroute(flightroute); }
-        );
+        // handle flightroute changes
+        this.flightrouteSubscription = this.session.flightroute$
+            .subscribe((flightroute) => {
+                this.updateFlightroute(flightroute)
+            });
     }
 
 
     public uninitMap() {
         this.removeInteractions();
-        this.map.un('moveend', this.onMoveEnd.bind(this));
         this.map.un('singleclick', this.onSingleClick.bind(this));
         this.map.un('pointermove', this.onPointerMove.bind(this));
-        this.map.getView().un('change:rotation', this.onViewRotation.bind(this));
         this.map.setTarget(undefined);
         this.map = undefined;
 
@@ -168,34 +204,34 @@ export class MapService {
     // region map position / size
 
 
+    // TODO: delete
     public getZoom(): number {
         return this.map.getView().getZoom();
     }
 
 
     public setZoom(zoom: number) {
-        return this.map.getView().setZoom(zoom);
+        const minZoom = (this.mapLayer.getSource() as ol.source.Tile).getTileGrid().getMinZoom();
+        const maxZoom = (this.mapLayer.getSource() as ol.source.Tile).getTileGrid().getMaxZoom();
+        if (zoom >= minZoom && zoom <= maxZoom) {
+            return this.map.getView().setZoom(zoom);
+        }
     }
 
 
     public zoomIn() {
         const zoom = this.map.getView().getZoom();
-        const maxZoom = (this.mapLayer.getSource() as ol.source.Tile).getTileGrid().getMaxZoom();
-        if (zoom < maxZoom) {
-            this.map.getView().setZoom(zoom + 1);
-        }
+        this.setZoom(zoom + 1);
     }
 
 
     public zoomOut() {
         const zoom = this.map.getView().getZoom();
-        const minZoom = (this.mapLayer.getSource() as ol.source.Tile).getTileGrid().getMinZoom();
-        if (zoom > minZoom) {
-            this.map.getView().setZoom(zoom - 1);
-        }
+        this.setZoom(zoom - 1);
     }
 
 
+    // TODO: delete
     public getMapPosition(): Position2d {
         return Position2d.createFromMercator(this.map.getView().getCenter());
     }
@@ -216,6 +252,7 @@ export class MapService {
     }
 
 
+    // TODO: delete
     public getExtent(): Extent {
         return Extent.createFromMercator(this.map.getView().calculateExtent(this.map.getSize()));
     }
@@ -362,11 +399,11 @@ export class MapService {
 
 
     private updateFlightroute(flightroute: Flightroute2) {
-        const source = this.flightrouteLayer.getSource();
-        source.clear();
-
-        //flightroute.waypointList$
-
+        if (this.currentFlightRoute) { this.currentFlightRoute.destroy(); } // clean up
+        this.currentFlightRoute = new OlFlightroute2(
+            flightroute,
+            this.flightrouteLayer.getSource(),
+            this.mapRotation_rad$)
     }
 
     // endregion
@@ -444,16 +481,6 @@ export class MapService {
 
 
     // region map events
-
-    private onMoveEnd(event: ol.MapEvent) {
-        this.mapMovedZoomedRotatedSource.next();
-    }
-
-
-    private onViewRotation(event: ol.ObjectEvent) {
-        this.mapMovedZoomedRotatedSource.next();
-    }
-
 
     private onSingleClick(event: ol.MapBrowserEvent) {
         const feature = this.getMapItemOlFeatureAtPixel(event.pixel, true);

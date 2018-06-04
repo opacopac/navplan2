@@ -31,7 +31,7 @@
                                                 [buttonText]="'min'"
                                                 [size]="ButtonSize.MEDIUM"
                                                 [color]="ButtonColor.GRAY"
-                                                [isPressed]="this.waypoint.alt.isminalt"
+                                                [isPressed]="this.waypoint.alt.isminalt | async"
                                                 (click)="this.waypoint.alt.isminalt = !this.waypoint.alt.isminalt"></button>
                                         <button appTextButton
                                                 [buttonText]="'max'"
@@ -80,7 +80,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-md btn-primary" data-dismiss="modal" (click)="this.onSaveClicked()" [disabled]="this.editWpForm.invalid">Save</button>
-                    <button type="button" class="btn btn-md btn-secondary" data-dismiss="modal" (click)="this.onCancelClicke()" >Cancel</button>
+                    <button type="button" class="btn btn-md btn-secondary" data-dismiss="modal" (click)="this.onCancelClicked()" >Cancel</button>
                 </div>
             </form>
         </div>

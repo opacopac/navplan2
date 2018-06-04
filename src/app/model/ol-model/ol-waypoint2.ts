@@ -1,53 +1,64 @@
-import * as Rx from 'rxjs';
 import * as ol from "openlayers";
+import { Observable } from "rxjs/Observable";
+import { Subscription } from "rxjs/Subscription";
 import { UnitconversionService } from "../../services/utils/unitconversion.service";
 import { Waypoint2 } from "../stream-model/waypoint2";
 import { OlBase2 } from "./ol-base2";
+import 'rxjs/add/observable/combineLatest';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 
 export class OlWaypoint2 extends OlBase2 {
     private readonly dirBearFeature: ol.Feature;
     private readonly pointFeature: ol.Feature;
-    private positionSubscription: Rx.Subscription;
-    private previousPositionSubscription: Rx.Subscription;
-    private textMtRotSubscription: Rx.Subscription;
-    private mtDistVarRotSubscription: Rx.Subscription;
+    private positionSubscription: Subscription;
+    private previousPositionSubscription: Subscription;
+    private textMtRotSubscription: Subscription;
+    private mtDistVarRotSubscription: Subscription;
 
 
     constructor(
-        private readonly waypoint$: Rx.Observable<Waypoint2>,
+        private readonly waypoint: Waypoint2,
         private readonly source: ol.source.Vector,
-        private readonly mapRotation$: Rx.Observable<number>) {
+        private readonly mapRotation_rad$: Observable<number>) {
 
         super();
 
-        this.pointFeature = this.createFeature(waypoint$);
-        this.dirBearFeature = this.createFeature(waypoint$);
+        // create ol features & add to source
+        this.pointFeature = this.createFeature(waypoint);
+        this.dirBearFeature = this.createFeature(waypoint);
         this.source.addFeatures([this.pointFeature, this.dirBearFeature]);
 
-        this.positionSubscription = this.waypoint$
-            .flatMap(waypoint => waypoint.position$)
-            .filter((position) => position !== undefined) // TODO: hide element
+        // position changes => update point feature geometry
+        this.positionSubscription = waypoint.position$
             .debounceTime(250)
             .distinctUntilChanged()
             .subscribe((position) => {
-                this.setPointGeometry(this.pointFeature, position);
+                if (!position) {
+                    this.hideFeature(this.pointFeature);
+                } else {
+                    this.setPointGeometry(this.pointFeature, position);
+                }
             });
 
-        this.previousPositionSubscription = this.waypoint$
-            .flatMap(waypoint => waypoint.previousPosition$)
-            .filter((position) => position !== undefined) // TODO: hide element
+        // previous position changes => update dirbear feature geometry
+        this.previousPositionSubscription = waypoint.previousPosition$
             .debounceTime(250)
             .distinctUntilChanged()
             .subscribe((position) => {
-                this.setPointGeometry(this.dirBearFeature, position);
+                if (!position) {
+                    this.hideFeature(this.dirBearFeature);
+                } else {
+                    this.setPointGeometry(this.dirBearFeature, position);
+                }
             });
 
-        this.textMtRotSubscription = Rx.Observable.combineLatest(
-            this.waypoint$.flatMap(waypoint => waypoint.checkpoint$),
-            this.waypoint$.flatMap(waypoint => waypoint.mt$),
-            this.waypoint$.flatMap(waypoint => waypoint.nextMt$),
-            this.mapRotation$,
+        // handle point feature style changes
+        this.textMtRotSubscription = Observable.combineLatest(
+            waypoint.checkpoint$,
+            waypoint.mt$,
+            waypoint.nextMt$,
+            mapRotation_rad$,
         )
             .filter(([text, mt, nextMt, mapRotation]) => text !== undefined || mapRotation !== undefined)
             .debounceTime(250)
@@ -56,11 +67,12 @@ export class OlWaypoint2 extends OlBase2 {
                 this.pointFeature.setStyle(this.createPointStyle(text, mt, nextMt, mapRotation));
             });
 
-        this.mtDistVarRotSubscription = Rx.Observable.combineLatest(
-            this.waypoint$.flatMap(waypoint => waypoint.mt$),
-            this.waypoint$.flatMap(waypoint => waypoint.variation$),
-            this.waypoint$.flatMap(waypoint => waypoint.dist$),
-            this.mapRotation$,
+        // handle dirbear feature style changes
+        this.mtDistVarRotSubscription = Observable.combineLatest(
+            waypoint.mt$,
+            waypoint.variation$,
+            waypoint.dist$,
+            mapRotation_rad$,
         )
             .filter(([mt, variation, dist, mapRotation]) =>
                 mapRotation !== undefined || variation !== undefined || dist !== undefined)

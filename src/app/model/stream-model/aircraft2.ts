@@ -1,19 +1,20 @@
-import * as Rx from 'rxjs';
+import {Observable} from "rxjs/Observable";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 
 export class Aircraft2 {
-    public speed$: Rx.Observable<number>;
-    public consumption$: Rx.Observable<number>;
-    private speedSource: Rx.BehaviorSubject<number>;
-    private consumptionSource: Rx.BehaviorSubject<number>;
+    public speed$: Observable<number>;
+    public consumption$: Observable<number>;
+    private speedSource: BehaviorSubject<number>;
+    private consumptionSource: BehaviorSubject<number>;
 
 
     constructor(
         speed = 100,
         consumption = 20) {
-        this.speedSource = new Rx.BehaviorSubject<number>(speed);
+        this.speedSource = new BehaviorSubject<number>(speed);
         this.speed$ = this.speedSource.asObservable();
-        this.consumptionSource = new Rx.BehaviorSubject<number>(consumption);
+        this.consumptionSource = new BehaviorSubject<number>(consumption);
         this.consumption$ = this.consumptionSource.asObservable();
     }
 

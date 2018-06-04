@@ -1,10 +1,10 @@
-import * as Rx from "rxjs/Rx";
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Flightroute } from "../../../model/flightroute";
 import { ButtonColor, ButtonSize } from "../../buttons/button-base.directive";
 import { SessionService } from "../../../services/utils/session.service";
 import { Sessioncontext } from "../../../model/sessioncontext";
 import { FlightrouteService } from "../../../services/flightroute/flightroute.service";
+import {Subscription} from "rxjs/Subscription";
 
 
 @Component({
@@ -17,7 +17,7 @@ export class MapOverlayButtonRemoveAlternateComponent implements OnInit, OnDestr
     public ButtonColor = ButtonColor;
     public session: Sessioncontext;
     public currentFlightroute: Flightroute;
-    private currentFlightrouteSubscription: Rx.Subscription;
+    private currentFlightrouteSubscription: Subscription;
 
 
     constructor(

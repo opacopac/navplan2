@@ -5,18 +5,16 @@ import {ArrayService} from "../../services/utils/array.service";
 
 export class ObservableArray<T> {
     public readonly items$: Observable<T[]>;
-    private readonly itemsSource: BehaviorSubject<T[]>;
+    public readonly itemsSource: BehaviorSubject<T[]>;
 
 
-    constructor() {
-        this.itemsSource = new BehaviorSubject<T[]>([]);
+    constructor(itemList: T[]) {
+        this.itemsSource = new BehaviorSubject<T[]>(itemList)
         this.items$ = this.itemsSource.asObservable();
     }
 
 
-    public push(item: T) {
-        const itemList = this.itemsSource.getValue();
-        itemList.push(item);
+    public replaceList(itemList: T[]) {
         this.itemsSource.next(itemList);
     }
 
@@ -26,7 +24,9 @@ export class ObservableArray<T> {
     }
 
 
-    public replaceList(itemList: T[]) {
+    public push(item: T) {
+        const itemList = this.itemsSource.getValue();
+        itemList.push(item);
         this.itemsSource.next(itemList);
     }
 
@@ -49,5 +49,11 @@ export class ObservableArray<T> {
         const itemList = this.itemsSource.getValue();
         itemList[index] = item;
         this.itemsSource.next(itemList);
+    }
+
+
+    public indexOf(item: T): number {
+        const itemList = this.itemsSource.getValue();
+        return itemList.indexOf(item);
     }
 }

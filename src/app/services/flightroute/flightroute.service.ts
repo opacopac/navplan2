@@ -1,4 +1,3 @@
-import * as Rx from 'rxjs';
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
@@ -7,16 +6,16 @@ import {SessionService} from '../utils/session.service';
 import {LoggingService} from '../utils/logging.service';
 import {Flightroute} from '../../model/flightroute';
 import {Aircraft} from '../../model/aircraft';
-import {
-    FlightrouteListResponse,
-    FlightrouteResponse,
-    RestMapperFlightroute
-} from '../../model/rest-model/rest-mapper-flightroute';
+import { FlightrouteListResponse, FlightrouteResponse, RestMapperFlightroute } from '../../model/rest-model/rest-mapper-flightroute';
 import {Waypoint, Waypointtype} from '../../model/waypoint';
 import {GeocalcService} from '../utils/geocalc.service';
 import {StringnumberService} from '../utils/stringnumber.service';
 import {ArrayService} from '../utils/array.service';
 import {Flightroute2} from "../../model/stream-model/flightroute2";
+import {Observable} from "rxjs/Observable";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {Subject} from "rxjs/Subject";
+import 'rxjs/add/operator/catch';
 
 
 const flightrouteBaseUrl = environment.restApiBaseUrl + 'php/navplan.php';
@@ -26,13 +25,13 @@ const VAC_STRING = 'VAC';
 
 @Injectable()
 export class FlightrouteService {
-    public routeList$: Rx.Observable<Flightroute[]>;
-    public currentRoute$: Rx.Observable<Flightroute>;
-    public editWaypointClicked$: Rx.Observable<Waypoint>;
+    public routeList$: Observable<Flightroute[]>;
+    public currentRoute$: Observable<Flightroute>;
+    public editWaypointClicked$: Observable<Waypoint>;
     public currentRoute: Flightroute; // TODO: temp public
-    private routeListSource: Rx.BehaviorSubject<Flightroute[]>;
-    private currentRouteSource: Rx.BehaviorSubject<Flightroute>;
-    private editWaypointClickedSource: Rx.Subject<Waypoint>;
+    private routeListSource: BehaviorSubject<Flightroute[]>;
+    private currentRouteSource: BehaviorSubject<Flightroute>;
+    private editWaypointClickedSource: Subject<Waypoint>;
     private session: Sessioncontext;
 
 
@@ -41,12 +40,12 @@ export class FlightrouteService {
         private sessionService: SessionService) {
 
         this.session = sessionService.getSessionContext();
-        this.routeListSource = new Rx.BehaviorSubject<Flightroute[]>([]);
+        this.routeListSource = new BehaviorSubject<Flightroute[]>([]);
         this.routeList$ = this.routeListSource.asObservable();
         this.currentRoute = new Flightroute();
-        this.currentRouteSource = new Rx.BehaviorSubject(this.currentRoute);
+        this.currentRouteSource = new BehaviorSubject(this.currentRoute);
         this.currentRoute$ = this.currentRouteSource.asObservable();
-        this.editWaypointClickedSource = new Rx.Subject<Waypoint>();
+        this.editWaypointClickedSource = new Subject<Waypoint>();
         this.editWaypointClicked$ = this.editWaypointClickedSource.asObservable();
     }
 
@@ -75,7 +74,7 @@ export class FlightrouteService {
 
     // region flightroute CRUD
 
-    public readFlightroute(flightrouteId: number): Rx.Observable<Flightroute2> {
+    public readFlightroute(flightrouteId: number): Observable<Flightroute2> {
         const url = flightrouteBaseUrl + '?id=' + flightrouteId + '&email=' + this.session.user.email + '&token=' + this.session.user.token;
         //let message: string;
 

@@ -1,95 +1,108 @@
-import * as Rx from "rxjs/Rx";
 import * as ol from "openlayers";
 import { Flightroute2 } from "../stream-model/flightroute2";
 import { OlBase2 } from "./ol-base2";
 import { OlWaypoint2 } from "./ol-waypoint2";
 import { Waypoint2 } from "../stream-model/waypoint2";
+import { Subscription } from "rxjs/Subscription";
+import { Observable } from "rxjs/Observable";
+import 'rxjs/add/observable/combineLatest';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/withLatestFrom';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 
 export class OlFlightroute2 extends OlBase2 {
-    private waypointListSubscription: Rx.Subscription;
-    private alternateSubscription: Rx.Subscription;
-    private readonly waypointLineFeature: ol.Feature;
-    private readonly alternateLineFeature: ol.Feature;
-    private readonly waypointFeatureList: OlWaypoint2[];
-    private readonly alternateFeature: OlWaypoint2;
+    private waypointListSubscription: Subscription;
+    private alternateSubscription: Subscription;
+    private readonly waypointLineOlFeature: ol.Feature;
+    private readonly alternateLineOlFeature: ol.Feature;
+    private readonly waypointOlFeatureList: OlWaypoint2[];
+    private alternateOlFeature: OlWaypoint2;
 
 
     public constructor(
-        private readonly flightroute$: Rx.Observable<Flightroute2>,
+        private readonly flightroute: Flightroute2,
         private readonly source: ol.source.Vector,
-        private readonly mapRotation$: Rx.Observable<number>) {
+        private readonly mapRotation_rad$: Observable<number>) {
 
         super();
 
-        this.waypointLineFeature = this.createFeature(this.flightroute$);
-        this.waypointLineFeature.setStyle(this.getLineStyle());
-        this.alternateLineFeature = this.createFeature(this.flightroute$);
-        this.alternateLineFeature.setStyle(this.getAlternateLineStyle());
-        this.source.addFeatures([this.waypointLineFeature, this.alternateLineFeature]);
+        // create line features, apply styles & add to source
+        this.waypointLineOlFeature = this.createFeature(this.flightroute);
+        this.waypointLineOlFeature.setStyle(this.getLineStyle());
+        this.alternateLineOlFeature = this.createFeature(this.flightroute);
+        this.alternateLineOlFeature.setStyle(this.getAlternateLineStyle());
+        this.source.addFeatures([this.waypointLineOlFeature, this.alternateLineOlFeature]);
 
-        this.waypointFeatureList = [];
-        this.alternateFeature = new OlWaypoint2(
-            this.flightroute$.flatMap(route => route.alternate$), source, mapRotation$);
+        // init waypoint features
+        this.waypointOlFeatureList = [];
+        this.alternateOlFeature = undefined;
 
-        // waypoint list changes
-        const wpPosList$ = this.flightroute$
-            .flatMap(route => route.waypointList$)
+        // handle waypoint list changes
+        const wpPosList$ = this.flightroute.waypointList.items$
             .flatMap(wpList =>
-                Rx.Observable.combineLatest(
+                Observable.combineLatest(
                     wpList.map(wp => wp.position$)
                 )
             );
-        this.waypointListSubscription = this.flightroute$
-            .flatMap(route => Rx.Observable.combineLatest(route.waypointList$))
+        this.waypointListSubscription = this.flightroute.waypointList.items$
             .withLatestFrom(wpPosList$)
             .distinctUntilChanged()
-            .subscribe(([waypointList$, wpPosList]) => {
-                //this.updateWaypointList(waypointList$); // TODO
+            .subscribe(([waypointList, wpPosList]) => {
+                this.updateWaypointList(waypointList);
                 if (wpPosList.length < 2) {
-                    this.hideFeature(this.waypointLineFeature);
+                    this.hideFeature(this.waypointLineOlFeature);
                 } else {
-                    this.setLineGeometry(this.waypointLineFeature, wpPosList)
+                    this.setLineGeometry(this.waypointLineOlFeature, wpPosList)
                 }
             });
 
-        // alternate changes
-        this.alternateSubscription = this.flightroute$
-            .flatMap(route => route.alternate$)
-            .flatMap(alternate =>
-                Rx.Observable.combineLatest(
-                    alternate.position$,
-                    alternate.previousPosition$)
-            )
-            .distinctUntilChanged()
-            .subscribe(([position, previousPosition]) => {
+        // handle alternate changes
+        /*this.alternateSubscription =*/ Observable.combineLatest(
+            this.flightroute.alternate$,
+            this.flightroute.alternate$.flatMap(alternate => alternate ? alternate.position$ : undefined),
+            this.flightroute.alternate$.flatMap(alternate => alternate ? alternate.previousPosition$ : undefined));
+            //.distinctUntilChanged()
+            /*.subscribe(([alternate, position, previousPosition]) => {
+                this.updateAlternate(alternate);
                 if (!position || !previousPosition) {
-                    this.hideFeature(this.alternateLineFeature);
+                    this.hideFeature(this.alternateLineOlFeature);
                 } else {
-                    this.setLineGeometry(this.alternateLineFeature, [previousPosition, position]);
+                    this.setLineGeometry(this.alternateLineOlFeature, [previousPosition, position]);
                 }
-            });
+            });*/
     }
 
 
     public destroy() {
-        this.alternateFeature.destroy();
-        this.waypointFeatureList.forEach((waypoint) => waypoint.destroy());
+        if (this.alternateOlFeature) { this.alternateOlFeature.destroy(); }
+        this.waypointOlFeatureList.forEach((waypoint) => waypoint.destroy());
         this.waypointListSubscription.unsubscribe();
-        this.alternateSubscription.unsubscribe();
+        //this.alternateSubscription.unsubscribe();
     }
 
 
-    /*private updateWaypointList(waypointList$: Rx.Observable<Waypoint2[]>) {
-        this.waypointFeatureList.forEach(waypoint => waypoint.destroy());
-        this.waypointFeatureList.splice(0, this.waypointFeatureList.length); // clear array
+    private updateWaypointList(wpList: Waypoint2[]) {
+        this.waypointOlFeatureList.forEach(waypoint => waypoint.destroy());
+        this.waypointOlFeatureList.splice(0, this.waypointOlFeatureList.length); // clear array
 
-        waypointList$.forEach((waypoint) => {
-            this.waypointFeatureList.push(
-                new OlWaypoint2(waypoint.waypoint$, this.source, this.mapRotation$)
+        wpList.forEach((waypoint) => {
+            this.waypointOlFeatureList.push(
+                new OlWaypoint2(waypoint, this.source, this.mapRotation_rad$)
             )
         });
-    }*/
+    }
+
+
+    private updateAlternate(wp: Waypoint2) {
+        if (this.alternateOlFeature) {
+            this.alternateOlFeature.destroy();
+        }
+        if (wp) {
+            this.alternateOlFeature = new OlWaypoint2(wp, this.source, this.mapRotation_rad$)
+        }
+        this.alternateOlFeature = new OlWaypoint2(wp, this.source, this.mapRotation_rad$)
+    }
 
 
     private getLineStyle(): ol.style.Style {

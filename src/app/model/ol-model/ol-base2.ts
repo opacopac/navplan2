@@ -1,4 +1,3 @@
-import * as Rx from 'rxjs';
 import * as ol from "openlayers";
 import { Position2d } from "../position";
 import { DataItem } from "../data-item";
@@ -11,7 +10,7 @@ export abstract class OlBase2 {
     public abstract destroy();
 
 
-    protected createFeature(dataItem$: Rx.Observable<DataItem>): ol.Feature {
+    protected createFeature(dataItem$: DataItem): ol.Feature {
         const feature = new ol.Feature();
         feature.set(OlBase2.PROPERTYNAME_DATAITEM, dataItem$, true);
         return feature;

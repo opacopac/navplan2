@@ -1,8 +1,8 @@
-import * as Rx from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DatetimeService } from '../../services/utils/datetime.service';
 import { Flightroute } from "../../model/flightroute";
 import { FlightrouteService } from "../../services/flightroute/flightroute.service";
+import {Subscription} from "rxjs/Subscription";
 
 
 @Component({
@@ -12,7 +12,7 @@ import { FlightrouteService } from "../../services/flightroute/flightroute.servi
 })
 export class FuelcalcComponent implements OnInit, OnDestroy {
     public currentFlightroute: Flightroute;
-    private currentFlightrouteSubscription: Rx.Subscription;
+    private currentFlightrouteSubscription: Subscription;
 
 
     constructor(

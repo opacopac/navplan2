@@ -1,30 +1,32 @@
-import * as Rx from 'rxjs';
+import { Observable } from "rxjs/Observable";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import 'rxjs/add/observable/combineLatest';
 
 
 export class Routefuel2 {
-    public readonly reserveTime$: Rx.Observable<number>;
-    private readonly reserveTimeSource: Rx.BehaviorSubject<number>;
-    public readonly extraTime$: Rx.Observable<number>;
-    private readonly extraTimeSource: Rx.BehaviorSubject<number>;
-    public readonly totalTime$: Rx.Observable<number>;
-    public readonly tripFuel$: Rx.Observable<number>;
-    public readonly alternateFuel$: Rx.Observable<number>;
-    public readonly reserveFuel$: Rx.Observable<number>;
-    public readonly extraFuel$: Rx.Observable<number>;
-    public readonly totalFuel$: Rx.Observable<number>;
+    public readonly reserveTime$: Observable<number>;
+    private readonly reserveTimeSource: BehaviorSubject<number>;
+    public readonly extraTime$: Observable<number>;
+    private readonly extraTimeSource: BehaviorSubject<number>;
+    public readonly totalTime$: Observable<number>;
+    public readonly tripFuel$: Observable<number>;
+    public readonly alternateFuel$: Observable<number>;
+    public readonly reserveFuel$: Observable<number>;
+    public readonly extraFuel$: Observable<number>;
+    public readonly totalFuel$: Observable<number>;
 
 
     constructor(
-        private readonly consumption$: Rx.Observable<number>,
-        private readonly tripTime$: Rx.Observable<number>,
-        private readonly alternateTime$: Rx.Observable<number>,
+        private readonly consumption$: Observable<number>,
+        private readonly tripTime$: Observable<number>,
+        private readonly alternateTime$: Observable<number>,
         reserveTime = 45,
         extraTime = 0) {
-        this.reserveTimeSource = new Rx.BehaviorSubject<number>(reserveTime);
+        this.reserveTimeSource = new BehaviorSubject<number>(reserveTime);
         this.reserveTime$ = this.reserveTimeSource.asObservable();
-        this.extraTimeSource = new Rx.BehaviorSubject<number>(extraTime);
+        this.extraTimeSource = new BehaviorSubject<number>(extraTime);
         this.extraTime$ = this.extraTimeSource.asObservable();
-        this.totalTime$ = Rx.Observable.combineLatest(
+        this.totalTime$ = Observable.combineLatest(
             this.tripTime$,
             this.alternateTime$,
             this.reserveTime$,
@@ -32,22 +34,22 @@ export class Routefuel2 {
             (tripTime, alternateTime, reserveTime, extraTime) =>
                 this.calcTotalTime(tripTime, alternateTime, reserveTime, extraTime)
         );
-        this.tripFuel$ = Rx.Observable.combineLatest(
+        this.tripFuel$ = Observable.combineLatest(
             this.tripTime$,
             this.consumption$,
             (tripTime, consumption) => this.calcFuel(tripTime, consumption)
         );
-        this.alternateFuel$ = Rx.Observable.combineLatest(
+        this.alternateFuel$ = Observable.combineLatest(
             this.alternateTime$,
             this.consumption$,
             (alternateTime, consumption) => this.calcFuel(alternateTime, consumption)
         );
-        this.extraFuel$ = Rx.Observable.combineLatest(
+        this.extraFuel$ = Observable.combineLatest(
             this.extraTime$,
             this.consumption$,
             (extraTime, consumption) => this.calcFuel(extraTime, consumption)
         );
-        this.totalFuel$ = Rx.Observable.combineLatest(
+        this.totalFuel$ = Observable.combineLatest(
             this.tripFuel$,
             this.alternateFuel$,
             this.reserveFuel$,
