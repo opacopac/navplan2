@@ -7,6 +7,11 @@ import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/observable/of';
+import {Time} from "../units/time";
+import {Distance} from "../units/distance";
+import {Speed} from "../units/speed";
+import {Angle} from "../units/angle";
+import {AngleUnit, LengthUnit, SpeedUnit, TimeUnit} from "../../services/utils/unitconversion.service";
 
 
 export class Waypoint2 {
@@ -28,17 +33,17 @@ export class Waypoint2 {
     public readonly previousPosition$: Observable<Position2d>;
     private readonly previousPositionObservable$: Observable<Observable<Position2d>>;
     private readonly previousPositionObservableSource: BehaviorSubject<Observable<Position2d>>;
-    public readonly speed$: Observable<number>;
-    private readonly speedObservable$: Observable<Observable<number>>;
-    private readonly speedObservableSource: BehaviorSubject<Observable<number>>;
-    public readonly mt$: Observable<number>;
-    public readonly nextMt$: Observable<number>;
-    private readonly nextMtObservable$: Observable<Observable<number>>;
-    private readonly nextMtObservableSource: BehaviorSubject<Observable<number>>;
-    public readonly dist$: Observable<number>;
-    public readonly legTime$: Observable<number>;
-    public readonly vacTime$: Observable<number>;
-    public readonly variation$: Observable<number>;
+    public readonly speed$: Observable<Speed>;
+    private readonly speedObservable$: Observable<Observable<Speed>>;
+    private readonly speedObservableSource: BehaviorSubject<Observable<Speed>>;
+    public readonly mt$: Observable<Angle>;
+    public readonly nextMt$: Observable<Angle>;
+    private readonly nextMtObservable$: Observable<Observable<Angle>>;
+    private readonly nextMtObservableSource: BehaviorSubject<Observable<Angle>>;
+    public readonly dist$: Observable<Distance>;
+    public readonly legTime$: Observable<Time>;
+    public readonly vacTime$: Observable<Time>;
+    public readonly variation$: Observable<Angle>;
 
 
     constructor(
@@ -68,10 +73,10 @@ export class Waypoint2 {
         this.previousPositionObservableSource = new BehaviorSubject<Observable<Position2d>>(undefined);
         this.previousPositionObservable$ = this.previousPositionObservableSource.asObservable();
         this.previousPosition$ = this.previousPositionObservable$.flatMap(prevPosObs => prevPosObs ? prevPosObs : Observable.of(undefined));
-        this.speedObservableSource = new BehaviorSubject<Observable<number>>(Observable.of(undefined));
+        this.speedObservableSource = new BehaviorSubject<Observable<Speed>>(Observable.of(undefined));
         this.speedObservable$ = this.speedObservableSource.asObservable();
         this.speed$ = this.speedObservable$.flatMap(speedObs => speedObs ? speedObs : Observable.of(undefined));
-        this.nextMtObservableSource = new BehaviorSubject<Observable<number>>(Observable.of(undefined));
+        this.nextMtObservableSource = new BehaviorSubject<Observable<Angle>>(Observable.of(undefined));
         this.nextMtObservable$ = this.nextMtObservableSource.asObservable();
         this.nextMt$ = this.nextMtObservable$.flatMap(nextMtObs => nextMtObs ? nextMtObs : Observable.of(undefined));
         this.variation$ = this.position$.map((pos) => this.calcVariation(pos));
@@ -94,10 +99,10 @@ export class Waypoint2 {
             this.dist$,
             this.speed$,
             (distance, speed) => {
-                return this.calcLegTime_min(distance, speed);
+                return this.calcLegTime(distance, speed);
             }
         );
-        this.vacTime$ = Observable.of(0); // TODO
+        this.vacTime$ = Observable.of(new Time(0, TimeUnit.M)); // TODO
     }
 
 
@@ -141,27 +146,27 @@ export class Waypoint2 {
     }
 
 
-    set speedObservable(value: Observable<number>) {
+    set speedObservable(value: Observable<Speed>) {
         this.speedObservableSource.next(value);
     }
 
 
-    set nextMtObservable(value: Observable<number>) {
+    set nextMtObservable(value: Observable<Angle>) {
         this.nextMtObservableSource.next(value);
     }
 
 
-    private calcVariation(position: Position2d): number {
-        return 0; // TODO
+    private calcVariation(position: Position2d): Angle {
+        return new Angle(0, AngleUnit.DEG); // TODO
     }
 
 
-    private calcLegTime_min(distance_nm: number, speed_kt: number): number {
-        if (!distance_nm || !speed_kt) {
+    private calcLegTime(distance: Distance, speed: Speed): Time {
+        if (!distance || !speed) {
             return undefined;
         }
 
-        return distance_nm / speed_kt * 60;
+        return new Time(distance.getValue(LengthUnit.NM) / speed.getValue(SpeedUnit.KT) * 60, TimeUnit.M);
     }
 
     //TODO: get texts

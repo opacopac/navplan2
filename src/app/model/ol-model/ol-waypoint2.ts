@@ -2,7 +2,7 @@ import * as ol from "openlayers";
 import { Observable } from "rxjs/Observable";
 import { Subscription } from "rxjs/Subscription";
 import { UnitconversionService } from "../../services/utils/unitconversion.service";
-import { Waypoint2 } from "../stream-model/waypoint2";
+import { Waypoint2 } from "../flightroute-model/waypoint2";
 import { OlBase2 } from "./ol-base2";
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -157,18 +157,18 @@ export class OlWaypoint2 extends OlBase2 {
         const maprot_deg = UnitconversionService.rad2deg(mapRotation_rad);
         let rotRad, align, text;
 
-        if (!dist_nm) {
+        if (mt_deg === undefined) {
             rotRad = 0;
             align = 'end';
             text = '';
         } else if ((mt_deg + maprot_deg + 360) % 360 < 180) {
             rotRad = UnitconversionService.deg2rad(mt_deg - 90);
             align = 'end';
-            text = '   ' + mt_deg + '° ' + dist_nm + 'NM >';
+            text = '   ' + Math.round(mt_deg) + '° ' + Math.ceil(dist_nm) + 'NM >';
         } else {
             rotRad = UnitconversionService.deg2rad(mt_deg - 270);
             align = 'start';
-            text = '< ' + mt_deg + '° ' + dist_nm + 'NM   ';
+            text = '< ' + Math.round(mt_deg) + '° ' + Math.ceil(dist_nm) + 'NM   ';
         }
 
         return new ol.style.Style({

@@ -15,7 +15,7 @@ import { Geoname } from '../geoname';
 import { WaypointGeoname } from './waypoint-geoname';
 import { Position2d } from '../position';
 import {WaypointCoordinate} from "./waypoint-coordinate";
-import {Waypoint2} from "../stream-model/waypoint2";
+import {Waypoint2} from "../flightroute-model/waypoint2";
 
 
 export class WaypointFactory {

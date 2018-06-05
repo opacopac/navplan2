@@ -1,10 +1,12 @@
 import { Waypoint2 } from "./waypoint2";
 import { Routefuel2 } from "./routefuel2";
 import { Aircraft2 } from "./aircraft2";
-import { ObservableArray } from "./observable-array";
+import { ObservableArray } from "../observable-array";
 import { Observable } from "rxjs/Observable";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Subscription } from "rxjs/Subscription";
+import {Time} from "../units/time";
+import {TimeUnit} from "../../services/utils/unitconversion.service";
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/observable/combineLatest';
 
@@ -22,7 +24,7 @@ export class Flightroute2 {
     private readonly commentsSource: BehaviorSubject<string>;
     private readonly aircraftSource: BehaviorSubject<Aircraft2>;
     private readonly alternateSource: BehaviorSubject<Waypoint2>;
-    private readonly tripTime$: Observable<number>;
+    private readonly tripTime$: Observable<Time>;
     private readonly waypointListSubscription: Subscription;
 
 
@@ -44,7 +46,9 @@ export class Flightroute2 {
         this.waypointList = new ObservableArray<Waypoint2>([]);
         this.tripTime$ = this.waypointList.items$.flatMap(
             wpList => Observable.combineLatest(wpList.map(wp => wp.legTime$))
-                .map(numberList => numberList.reduce((sum, legTime) => sum + legTime), 0)
+                .map(numberList => numberList.reduce((sum, legTime) =>
+                    sum.add(legTime), new Time(0, TimeUnit.M))
+                )
         );
         this.fuel = new Routefuel2(
             this.aircraft$.flatMap((aircraft) => aircraft.consumption$),

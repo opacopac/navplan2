@@ -29,7 +29,7 @@ import { SearchItemList} from '../../model/search-item';
 import { OlSearchItemSelection } from '../../model/ol-model/ol-searchitem-selection';
 import { OlSearchItem } from '../../model/ol-model/ol-searchitem';
 import {OlWaypoint} from "../../model/ol-model/ol-waypoint";
-import {Flightroute2} from "../../model/stream-model/flightroute2";
+import {Flightroute2} from "../../model/flightroute-model/flightroute2";
 import {Observable} from "rxjs/Observable";
 import {Subject} from "rxjs/Subject";
 import {Subscription} from "rxjs/Subscription";

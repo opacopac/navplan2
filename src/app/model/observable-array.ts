@@ -1,6 +1,6 @@
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Observable} from "rxjs/Observable";
-import {ArrayService} from "../../services/utils/array.service";
+import {ArrayService} from "../services/utils/array.service";
 
 
 export class ObservableArray<T> {

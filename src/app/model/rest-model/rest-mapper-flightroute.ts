@@ -1,13 +1,17 @@
-// region INTERFACES
-
 import { Waypoint, Waypointaltitude, Waypointtype } from "../waypoint";
 import { Flightroute } from "../flightroute";
 import { Position2d } from "../position";
 import { Aircraft } from "../aircraft";
-import {Waypoint2} from "../stream-model/waypoint2";
-import {WaypointAltitude2} from "../stream-model/waypoint-altitude2";
-import {Flightroute2} from "../stream-model/flightroute2";
-import {Aircraft2} from "../stream-model/aircraft2";
+import {Waypoint2} from "../flightroute-model/waypoint2";
+import {WaypointAltitude2} from "../flightroute-model/waypoint-altitude2";
+import {Flightroute2} from "../flightroute-model/flightroute2";
+import {Aircraft2} from "../flightroute-model/aircraft2";
+import {Speed} from "../units/speed";
+import {ConsumptionUnit, SpeedUnit} from "../../services/utils/unitconversion.service";
+import {Consumption} from "../units/consumption";
+
+
+// region INTERFACES
 
 export interface FlightrouteListResponse {
     navplanList: FlightrouteListEntry[];
@@ -102,8 +106,8 @@ export class RestMapperFlightroute {
         );
 
         flightroute.aircraft = new Aircraft2(
-            response.navplan.aircraft_speed,
-            response.navplan.aircraft_consumption
+            new Speed(response.navplan.aircraft_speed, SpeedUnit.KT),
+            new Consumption(response.navplan.aircraft_consumption, ConsumptionUnit.L_PER_H)
         );
 
         const waypoints: Waypoint2[] = [];

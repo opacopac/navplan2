@@ -11,7 +11,7 @@ import {Waypoint, Waypointtype} from '../../model/waypoint';
 import {GeocalcService} from '../utils/geocalc.service';
 import {StringnumberService} from '../utils/stringnumber.service';
 import {ArrayService} from '../utils/array.service';
-import {Flightroute2} from "../../model/stream-model/flightroute2";
+import {Flightroute2} from "../../model/flightroute-model/flightroute2";
 import {Observable} from "rxjs/Observable";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Subject} from "rxjs/Subject";

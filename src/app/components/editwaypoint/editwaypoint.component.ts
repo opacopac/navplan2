@@ -4,7 +4,7 @@ import { Subscription } from "rxjs/Subscription";
 import { Sessioncontext } from '../../model/sessioncontext';
 import { SessionService } from '../../services/utils/session.service';
 import { ButtonColor, ButtonSize } from '../buttons/button-base.directive';
-import { Waypoint2 } from "../../model/stream-model/waypoint2";
+import { Waypoint2 } from "../../model/flightroute-model/waypoint2";
 import 'rxjs/add/operator/withLatestFrom';
 import $ from 'jquery';
 declare var $: $; // wtf? --> https://github.com/dougludlow/ng2-bs3-modal/issues/147

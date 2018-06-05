@@ -1,6 +1,9 @@
 import * as ol from 'openlayers';
 import { Injectable } from '@angular/core';
 import { Position2d } from '../../model/position';
+import {Angle} from "../../model/units/angle";
+import {AngleUnit, LengthUnit} from "./unitconversion.service";
+import {Distance} from "../../model/units/distance";
 
 
 const wgs84Sphere = new ol.Sphere(6378137);
@@ -14,16 +17,16 @@ export class GeocalcService {
     }
 
 
-    public static getDistance(pos1: Position2d, pos2: Position2d): number {
+    public static getDistance(pos1: Position2d, pos2: Position2d): Distance {
         if (!pos1 || !pos2) {
             return undefined;
         }
 
-        return (wgs84Sphere.haversineDistance(pos1.getLonLat(), pos2.getLonLat()) * 0.000539957);
+        return new Distance(wgs84Sphere.haversineDistance(pos1.getLonLat(), pos2.getLonLat()) * 0.000539957, LengthUnit.NM);
     }
 
 
-    public static getBearing(pos1: Position2d, pos2: Position2d, magvar): number {
+    public static getBearing(pos1: Position2d, pos2: Position2d, magvar: Angle): Angle {
         if (!pos1 || !pos2 || !magvar) {
             return undefined;
         }
@@ -35,7 +38,7 @@ export class GeocalcService {
         const x = Math.cos(f1) * Math.sin(f2) - Math.sin(f1) * Math.cos(f2) * Math.cos(dl);
         const t = Math.atan2(y, x);
 
-        return ((t * toDeg + 360) % 360 - magvar);
+        return new Angle((t * toDeg + 360) % 360 - magvar.getValue(AngleUnit.DEG), AngleUnit.DEG);
     }
 
 

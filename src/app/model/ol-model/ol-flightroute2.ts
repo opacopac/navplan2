@@ -1,8 +1,8 @@
 import * as ol from "openlayers";
-import { Flightroute2 } from "../stream-model/flightroute2";
+import { Flightroute2 } from "../flightroute-model/flightroute2";
 import { OlBase2 } from "./ol-base2";
 import { OlWaypoint2 } from "./ol-waypoint2";
-import { Waypoint2 } from "../stream-model/waypoint2";
+import { Waypoint2 } from "../flightroute-model/waypoint2";
 import { Subscription } from "rxjs/Subscription";
 import { Observable } from "rxjs/Observable";
 import 'rxjs/add/observable/combineLatest';

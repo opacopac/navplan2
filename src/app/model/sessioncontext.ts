@@ -3,8 +3,8 @@ import { Position2d } from './position';
 import { MapbaselayerType } from './ol-model/mapbaselayer-factory';
 import { Track } from './track';
 import { Waypoint } from "./waypoint";
-import { Flightroute2} from "./stream-model/flightroute2";
-import { Waypoint2 } from "./stream-model/waypoint2";
+import { Flightroute2} from "./flightroute-model/flightroute2";
+import { Waypoint2 } from "./flightroute-model/waypoint2";
 import { Observable } from "rxjs/Observable";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
