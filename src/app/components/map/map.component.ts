@@ -1,9 +1,10 @@
 import * as $ from 'jquery';
+import 'rxjs/add/observable/combineLatest';
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MessageService} from '../../services/utils/message.service';
-import {SessionService} from '../../services/utils/session.service';
-import {FlightrouteService} from "../../services/flightroute/flightroute.service";
-import {MapService, WaypointModification} from '../../services/map/map.service';
+import {SessionService} from '../../services/session/session.service';
+import {FlightrouteService} from '../../services/flightroute/flightroute.service';
+import {MapService} from '../../services/map/map.service';
 import {MapfeaturesService} from '../../services/map/mapfeatures.service';
 import {SearchService} from '../../services/search/search.service';
 import {MetarTafService} from '../../services/meteo/metar-taf.service';
@@ -34,13 +35,14 @@ import {MapOverlayReportingsectorComponent} from '../map-overlay/map-overlay-rep
 import {MapOverlayUserpointComponent} from '../map-overlay/map-overlay-userpoint/map-overlay-userpoint.component';
 import {MapOverlayTrafficComponent} from '../map-overlay/map-overlay-traffic/map-overlay-traffic.component';
 import {MapOverlayNotamComponent} from '../map-overlay/map-overlay-notam/map-overlay-notam.component';
-import {WaypointFactory} from "../../model/waypoint-model/waypoint-factory";
-import {Waypoint} from "../../model/waypoint";
-import {MapOverlayWaypointComponent} from "../map-overlay/map-overlay-waypoint/map-overlay-waypoint.component";
-import {Extent} from "../../model/ol-model/extent";
-import {Subscription} from "rxjs/Subscription";
-import {Observable} from "rxjs/Observable";
-import 'rxjs/add/observable/combineLatest';
+import {WaypointFactory} from '../../model/waypoint-model/waypoint-factory';
+import {Waypoint} from '../../model/waypoint';
+import {MapOverlayWaypointComponent} from '../map-overlay/map-overlay-waypoint/map-overlay-waypoint.component';
+import {Extent} from '../../model/ol-model/extent';
+import {Subscription} from 'rxjs/Subscription';
+import {Observable} from 'rxjs/Observable';
+import {WaypointModification} from '../../services/map/map-action.service';
+import {Waypoint2} from '../../model/flightroute-model/waypoint2';
 
 
 const NAVBAR_HEIGHT_PX = 54;
@@ -97,14 +99,22 @@ export class MapComponent implements OnInit, OnDestroy {
 
     public ngOnInit() {
         this.resizeMapToWindow();
-        this.mapService.initMap();
+        this.mapService.initMap(
+            this.session.map.baseMapType,
+            this.session.map.position,
+            this.session.map.zoom,
+            this.session.map.rotation,
+            this.session.flightroute$
+        );
 
         // subscribe to mapservice events
         this.mapExtentSubscription = Observable.combineLatest(
             this.mapService.mapExtent$,
-            this.mapService.mapZoom$)
+            this.mapService.mapZoom$
+        )
+            .filter(([extent, zoom]) => extent !== undefined && zoom !== undefined)
             .subscribe(([extent, zoom]) => {
-                this.updateMapContent(extent, zoom,false);
+                this.updateMapContent(extent, zoom, false);
             });
 
         this.mapItemClickedSubscription = this.mapService.mapItemClicked$.subscribe(
@@ -122,6 +132,7 @@ export class MapComponent implements OnInit, OnDestroy {
                 this.onSearchByPositionError.bind(this)
             );
         });
+
 
         this.mapOverlayClosedSubscription = this.mapService.mapOverlayClosed$.subscribe(
             () => {
@@ -153,7 +164,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
 
         // update map contents
-        //this.updateMapContent(true);
+        // this.updateMapContent(true);
     }
 
 
@@ -285,12 +296,12 @@ export class MapComponent implements OnInit, OnDestroy {
             return;
         }
 
-        /*this.mapFeatureService.load(
+        this.mapFeatureService.load(
             extent,
             this.mapService.getZoom(),
             this.onMapFeaturesLoaded.bind(this),
             this.onMapFeaturesLoadError.bind(this)
-        );*/
+        );
     }
 
 
@@ -303,12 +314,12 @@ export class MapComponent implements OnInit, OnDestroy {
 
     private performSelectItemAction(dataItem: DataItem, clickPos: Position2d) {
         let overlay: MapOverlayContainer;
-        let clickedWaypoint: Waypoint;
+        let clickedWaypoint: Waypoint2;
         this.mapService.closeOverlay();
         this.session.selectedWaypoint = undefined;
 
         // try to find map feature at this pos & replace dataitem
-        if (dataItem instanceof Waypoint) {
+        if (dataItem instanceof Waypoint2) {
             const origDataItem = this.mapFeatureService.findFlightrouteFeatureByPosition(dataItem.position);
             if (origDataItem) {
                 clickedWaypoint = dataItem;
@@ -318,7 +329,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
         // determine overlay & create new waypoint
         if (dataItem instanceof Airport) {
-            this.session.setSelectedWaypoint(WaypointFactory.createNewWaypointFromItem2(dataItem, clickPos));
+            this.session.selectedWaypoint = WaypointFactory.createNewWaypointFromItem2(dataItem, clickPos);
             overlay = this.mapOverlayAirportComponent;
 
             // load notams if needed
@@ -333,19 +344,19 @@ export class MapComponent implements OnInit, OnDestroy {
                     this.onAirportMetarTafLoadedError.bind(this));
             }
         } else if (dataItem instanceof Navaid) {
-            this.session.setSelectedWaypoint(WaypointFactory.createNewWaypointFromItem2(dataItem, clickPos));
+            this.session.selectedWaypoint = WaypointFactory.createNewWaypointFromItem2(dataItem, clickPos);
             overlay = this.mapOverlayNavaidComponent;
         } else if (dataItem instanceof Reportingpoint) {
-            this.session.setSelectedWaypoint(WaypointFactory.createNewWaypointFromItem2(dataItem, clickPos));
+            this.session.selectedWaypoint = WaypointFactory.createNewWaypointFromItem2(dataItem, clickPos);
             overlay = this.mapOverlayReportingpointComponent;
         } else if (dataItem instanceof Reportingsector) {
-            this.session.setSelectedWaypoint(WaypointFactory.createNewWaypointFromItem2(dataItem, clickPos));
+            this.session.selectedWaypoint = WaypointFactory.createNewWaypointFromItem2(dataItem, clickPos);
             overlay = this.mapOverlayReportingsectorComponent;
         } else if (dataItem instanceof Userpoint) {
-            this.session.setSelectedWaypoint(WaypointFactory.createNewWaypointFromItem2(dataItem, clickPos));
+            this.session.selectedWaypoint = WaypointFactory.createNewWaypointFromItem2(dataItem, clickPos);
             overlay = this.mapOverlayUserpointComponent;
         } else if (dataItem instanceof Geoname) {
-            this.session.setSelectedWaypoint(WaypointFactory.createNewWaypointFromItem2(dataItem, clickPos));
+            this.session.selectedWaypoint = WaypointFactory.createNewWaypointFromItem2(dataItem, clickPos);
             overlay = this.mapOverlayGeonameComponent;
         } else if (dataItem instanceof Notam) {
             overlay = this.mapOverlayNotamComponent;
@@ -354,17 +365,19 @@ export class MapComponent implements OnInit, OnDestroy {
         } else if (dataItem instanceof Webcam) {
             window.open(dataItem.url, '_blank');
             return;
-        } else if (dataItem instanceof Waypoint) {
+        } else if (dataItem instanceof Waypoint2) {
+            // TODO
+            // dataItem.isNew = false;
             this.session.selectedWaypoint = dataItem;
-            this.session.selectedWaypoint.isNew = false;
             overlay = this.mapOverlayWaypointComponent;
         } else {
             return;
         }
 
         if (clickedWaypoint) {
+            // TODO
+            // this.session.selectedWaypoint.isNew = false;
             this.session.selectedWaypoint = clickedWaypoint;
-            this.session.selectedWaypoint.isNew = false;
         }
 
         overlay.bindFeatureData(dataItem, clickPos);

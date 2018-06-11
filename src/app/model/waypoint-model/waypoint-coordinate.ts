@@ -1,6 +1,6 @@
-import { WaypointBase } from "./waypoint-base";
-import { Position2d } from "../position";
-import { Waypointtype } from "../waypoint";
+import { WaypointBase } from './waypoint-base';
+import { Position2d } from '../position';
+import { Waypointtype } from '../waypoint';
 
 
 export class WaypointCoordinate extends WaypointBase{

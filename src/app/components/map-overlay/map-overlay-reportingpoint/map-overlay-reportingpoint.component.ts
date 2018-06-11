@@ -3,8 +3,8 @@ import { Reportingpoint } from '../../../model/reportingpoint';
 import { StringnumberService } from '../../../services/utils/stringnumber.service';
 import { Position2d } from '../../../model/position';
 import { MapOverlayContainer } from '../map-overlay-container';
-import {Sessioncontext} from "../../../model/sessioncontext";
-import {SessionService} from "../../../services/utils/session.service";
+import {Sessioncontext} from '../../../model/sessioncontext';
+import {SessionService} from '../../../services/session/session.service';
 
 
 @Component({

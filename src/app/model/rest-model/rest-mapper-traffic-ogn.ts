@@ -1,7 +1,7 @@
-import { Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource, TrafficPosition, TrafficPositionMethod } from "../traffic";
-import {Position4d} from "../position";
-import {Altitude} from "../altitude";
-import {Timestamp} from "../timestamp";
+import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource, TrafficPosition, TrafficPositionMethod} from '../traffic';
+import {Position4d} from '../position';
+import {Altitude} from '../altitude';
+import {Timestamp} from '../timestamp';
 
 
 export interface TrafficOgnResponse {

@@ -1,7 +1,7 @@
-import {WaypointBase} from "./waypoint-base";
-import {Geoname} from "../geoname";
-import {Position2d} from "../position";
-import {Waypointtype} from "../waypoint";
+import {WaypointBase} from './waypoint-base';
+import {Geoname} from '../geoname';
+import {Position2d} from '../position';
+import {Waypointtype} from '../waypoint';
 
 
 export class WaypointGeoname extends WaypointBase {

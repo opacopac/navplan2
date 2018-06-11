@@ -1,7 +1,7 @@
-import {WaypointBase} from "./waypoint-base";
-import {Position2d} from "../position";
-import {Navaid} from "../navaid";
-import {Waypointtype} from "../waypoint";
+import {WaypointBase} from './waypoint-base';
+import {Position2d} from '../position';
+import {Navaid} from '../navaid';
+import {Waypointtype} from '../waypoint';
 
 
 export class WaypointNavaid extends WaypointBase {

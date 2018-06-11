@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { LoggingService } from '../utils/logging.service';
-import { SessionService } from '../utils/session.service';
+import { SessionService } from '../session/session.service';
 import { Sessioncontext } from '../../model/sessioncontext';
 import { CachingExtentLoader } from '../map/caching-extent-loader';
 import { NotamList } from '../../model/notam';

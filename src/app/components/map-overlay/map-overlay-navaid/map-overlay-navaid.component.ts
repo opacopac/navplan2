@@ -3,8 +3,8 @@ import { StringnumberService } from '../../../services/utils/stringnumber.servic
 import { Navaid } from '../../../model/navaid';
 import { Position2d } from '../../../model/position';
 import { MapOverlayContainer } from '../map-overlay-container';
-import {SessionService} from "../../../services/utils/session.service";
-import {Sessioncontext} from "../../../model/sessioncontext";
+import {SessionService} from '../../../services/session/session.service';
+import {Sessioncontext} from '../../../model/sessioncontext';
 
 
 @Component({

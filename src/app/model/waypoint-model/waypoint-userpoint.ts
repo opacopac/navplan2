@@ -1,7 +1,7 @@
-import {WaypointBase} from "./waypoint-base";
-import {Userpoint} from "../userpoint";
-import {Position2d} from "../position";
-import {Waypointtype} from "../waypoint";
+import {WaypointBase} from './waypoint-base';
+import {Userpoint} from '../userpoint';
+import {Position2d} from '../position';
+import {Waypointtype} from '../waypoint';
 
 
 export class WaypointUserpoint extends WaypointBase {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { SessionService } from '../utils/session.service';
+import { SessionService } from '../session/session.service';
 import { Sessioncontext } from '../../model/sessioncontext';
 import { Extent } from '../../model/ol-model/extent';
 import { Traffic, TrafficDataSource, TrafficAircraftType, TrafficPositionMethod, TrafficPosition } from '../../model/traffic';
@@ -151,18 +151,28 @@ export class TrafficService {
                 // update traffic info
                 if (newTraffic.dataSource === TrafficDataSource.ADSBX) {
                     // overwrite ac info if data source is adsbexchange
-                    ac.actype = (newTraffic.actype !== TrafficAircraftType.UNKNOWN && ac.actype !== TrafficAircraftType.DROP_PLANE) ? newTraffic.actype : ac.actype; // don't overwrite drop plane type
-                    ac.registration = (newTraffic.registration && newTraffic.registration !== '') ? newTraffic.registration : ac.registration;
-                    ac.callsign = (newTraffic.callsign && newTraffic.callsign !== '') ? newTraffic.callsign : ac.callsign;
-                    ac.opCallsign = (newTraffic.opCallsign && newTraffic.opCallsign !== '') ? newTraffic.opCallsign : ac.opCallsign;
-                    ac.aircraftModelType = (newTraffic.aircraftModelType && newTraffic.aircraftModelType !== '') ? newTraffic.aircraftModelType : ac.aircraftModelType;
+                    ac.actype = (newTraffic.actype !== TrafficAircraftType.UNKNOWN && ac.actype !== TrafficAircraftType.DROP_PLANE) ?
+                        newTraffic.actype : ac.actype; // don't overwrite drop plane type
+                    ac.registration = (newTraffic.registration && newTraffic.registration !== '') ?
+                        newTraffic.registration : ac.registration;
+                    ac.callsign = (newTraffic.callsign && newTraffic.callsign !== '') ?
+                        newTraffic.callsign : ac.callsign;
+                    ac.opCallsign = (newTraffic.opCallsign && newTraffic.opCallsign !== '') ?
+                        newTraffic.opCallsign : ac.opCallsign;
+                    ac.aircraftModelType = (newTraffic.aircraftModelType && newTraffic.aircraftModelType !== '') ?
+                        newTraffic.aircraftModelType : ac.aircraftModelType;
                 } else if (newTraffic.dataSource === TrafficDataSource.OGN) {
                     // overwrite ac info by ogn data only if previously empty
-                    ac.actype = (ac.actype === TrafficAircraftType.UNKNOWN || newTraffic.actype === TrafficAircraftType.DROP_PLANE) ? newTraffic.actype : ac.actype; // overwrite drop plane type
-                    ac.registration = (!ac.registration || ac.registration === '') ? newTraffic.registration : ac.registration;
-                    ac.callsign = (!ac.callsign || ac.callsign === '') ? newTraffic.callsign : ac.callsign;
-                    ac.opCallsign = (!ac.opCallsign || ac.opCallsign === '') ? newTraffic.opCallsign : ac.opCallsign;
-                    ac.aircraftModelType = (!ac.aircraftModelType || ac.aircraftModelType === '') ? newTraffic.aircraftModelType : ac.aircraftModelType;
+                    ac.actype = (ac.actype === TrafficAircraftType.UNKNOWN || newTraffic.actype === TrafficAircraftType.DROP_PLANE) ?
+                        newTraffic.actype : ac.actype; // overwrite drop plane type
+                    ac.registration = (!ac.registration || ac.registration === '') ?
+                        newTraffic.registration : ac.registration;
+                    ac.callsign = (!ac.callsign || ac.callsign === '') ?
+                        newTraffic.callsign : ac.callsign;
+                    ac.opCallsign = (!ac.opCallsign || ac.opCallsign === '') ?
+                        newTraffic.opCallsign : ac.opCallsign;
+                    ac.aircraftModelType = (!ac.aircraftModelType || ac.aircraftModelType === '') ?
+                        newTraffic.aircraftModelType : ac.aircraftModelType;
                 }
 
                 // add new positions

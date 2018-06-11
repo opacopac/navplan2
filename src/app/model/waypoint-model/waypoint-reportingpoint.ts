@@ -1,8 +1,8 @@
-import { WaypointBase } from "./waypoint-base";
-import { Position2d } from "../position";
-import { Reportingpoint } from "../reportingpoint";
-import {Waypointaltitude, Waypointtype} from "../waypoint";
-import {WaypointAltitude2} from "../flightroute-model/waypoint-altitude2";
+import { WaypointBase } from './waypoint-base';
+import { Position2d } from '../position';
+import { Reportingpoint } from '../reportingpoint';
+import {Waypointaltitude, Waypointtype} from '../waypoint';
+import {WaypointAltitude2} from '../flightroute-model/waypoint-altitude2';
 
 
 export class WaypointReportingpoint extends WaypointBase {

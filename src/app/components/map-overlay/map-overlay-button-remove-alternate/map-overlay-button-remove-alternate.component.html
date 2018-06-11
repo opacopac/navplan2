@@ -1,4 +1,4 @@
-<div class="map-overlay-button" *ngIf="this.session.selectedWaypoint && this.session.selectedWaypoint === this.currentFlightroute.alternate">
+<div class="map-overlay-button" *ngIf="(this.session.selectedWaypointIsAlternate$ | async)">
     <button
         appIconButton
         [color]="ButtonColor.RED"

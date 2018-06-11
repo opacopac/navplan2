@@ -1,10 +1,8 @@
-import * as Rx from "rxjs/Rx";
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ButtonColor, ButtonSize } from '../../buttons/button-base.directive';
-import { Sessioncontext } from "../../../model/sessioncontext";
-import { SessionService } from "../../../services/utils/session.service";
-import { FlightrouteService } from "../../../services/flightroute/flightroute.service";
-import { Flightroute } from "../../../model/flightroute";
+import {first} from 'rxjs/operators';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ButtonColor, ButtonSize} from '../../buttons/button-base.directive';
+import {Sessioncontext} from '../../../model/sessioncontext';
+import {SessionService} from '../../../services/session/session.service';
 
 
 @Component({
@@ -16,32 +14,29 @@ export class MapOverlayButtonRemoveFromRouteComponent implements OnInit, OnDestr
     public ButtonSize = ButtonSize;
     public ButtonColor = ButtonColor;
     public session: Sessioncontext;
-    public currentFlightroute: Flightroute;
-    private currentFlightrouteSubscription: Rx.Subscription;
 
 
     constructor(
-        private sessionService: SessionService,
-        private flightrouteService: FlightrouteService) {
+        private sessionService: SessionService) {
 
         this.session = this.sessionService.getSessionContext();
     }
 
 
     ngOnInit() {
-        this.currentFlightrouteSubscription = this.flightrouteService.currentRoute$.subscribe(
-            currentFlightroute => { this.currentFlightroute = currentFlightroute; }
-        );
     }
 
 
     ngOnDestroy() {
-        this.currentFlightrouteSubscription.unsubscribe();
     }
 
 
     public onRemoveSelectedWaypointClicked() {
-        this.flightrouteService.removeWaypointFromRoute(this.session.selectedWaypoint);
-        this.session.selectedWaypoint.isNew = true;
+        this.session.flightroute$
+            .withLatestFrom(this.session.selectedWaypoint$)
+            .pipe(first())
+            .subscribe(([flightroute, selectedWaypoint]) => {
+                flightroute.waypointList.remove(selectedWaypoint);
+            });
     }
 }

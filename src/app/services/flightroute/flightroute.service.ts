@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Sessioncontext} from '../../model/sessioncontext';
-import {SessionService} from '../utils/session.service';
+import {SessionService} from '../session/session.service';
 import {LoggingService} from '../utils/logging.service';
 import {Flightroute} from '../../model/flightroute';
 import {Aircraft} from '../../model/aircraft';
@@ -11,10 +11,10 @@ import {Waypoint, Waypointtype} from '../../model/waypoint';
 import {GeocalcService} from '../utils/geocalc.service';
 import {StringnumberService} from '../utils/stringnumber.service';
 import {ArrayService} from '../utils/array.service';
-import {Flightroute2} from "../../model/flightroute-model/flightroute2";
-import {Observable} from "rxjs/Observable";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {Subject} from "rxjs/Subject";
+import {Flightroute2} from '../../model/flightroute-model/flightroute2';
+import {Observable} from 'rxjs/Observable';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Subject} from 'rxjs/Subject';
 import 'rxjs/add/operator/catch';
 
 
@@ -273,8 +273,8 @@ export class FlightrouteService {
     private recalcLeg(wp: Waypoint, prevWp: Waypoint, isAlternate: boolean, magvar: number, speed: number) {
         // distance & bearing
         if (prevWp) {
-            wp.dist = Math.ceil(GeocalcService.getDistance(wp.position, prevWp.position));
-            wp.mt = Math.round(GeocalcService.getBearing(prevWp.position, wp.position, magvar));
+            wp.dist = Math.ceil(GeocalcService.getDistance_old(wp.position, prevWp.position));
+            wp.mt = Math.round(GeocalcService.getBearing_old(prevWp.position, wp.position, magvar));
         } else {
             wp.dist = undefined;
             wp.mt = undefined;

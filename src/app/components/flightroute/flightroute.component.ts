@@ -1,12 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { SessionService } from '../../services/utils/session.service';
-import { MessageService } from '../../services/utils/message.service';
-import { Sessioncontext } from '../../model/sessioncontext';
-import { UserService } from '../../services/user/user.service';
-import { FlightrouteService } from '../../services/flightroute/flightroute.service';
-import { Flightroute } from '../../model/flightroute';
-import { ButtonColor, ButtonSize } from '../buttons/button-base.directive';
-import { Subscription } from "rxjs/Subscription";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {SessionService} from '../../services/session/session.service';
+import {MessageService} from '../../services/utils/message.service';
+import {Sessioncontext} from '../../model/sessioncontext';
+import {UserService} from '../../services/user/user.service';
+import {FlightrouteService} from '../../services/flightroute/flightroute.service';
+import {Flightroute} from '../../model/flightroute';
+import {ButtonColor, ButtonSize} from '../buttons/button-base.directive';
+import {Subscription} from 'rxjs/Subscription';
 
 
 @Component({
@@ -63,8 +63,11 @@ export class FlightrouteComponent implements OnInit, OnDestroy {
 
     onLoadFlightrouteClicked() {
         if (this.selectedFlightrouteId > 0) {
-            this.flightrouteService.readFlightroute(this.selectedFlightrouteId)
-                .subscribe((flightroute) => this.session.setFlightroute(flightroute));
+            this.flightrouteService
+                .readFlightroute(this.selectedFlightrouteId)
+                .subscribe((flightroute) => {
+                    this.session.flightroute = flightroute;
+                });
         }
     }
 

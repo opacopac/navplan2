@@ -1,4 +1,5 @@
-import {ConsumptionUnit, UnitconversionService} from "../../services/utils/unitconversion.service";
+import { ConsumptionUnit, UnitconversionService } from '../../services/utils/unitconversion.service';
+
 
 export class Consumption {
     constructor(

@@ -1,10 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Flightroute } from "../../../model/flightroute";
-import { ButtonColor, ButtonSize } from "../../buttons/button-base.directive";
-import { SessionService } from "../../../services/utils/session.service";
-import { Sessioncontext } from "../../../model/sessioncontext";
-import { FlightrouteService } from "../../../services/flightroute/flightroute.service";
-import {Subscription} from "rxjs/Subscription";
+import {first} from 'rxjs/operators';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ButtonColor, ButtonSize} from '../../buttons/button-base.directive';
+import {SessionService} from '../../../services/session/session.service';
+import {Sessioncontext} from '../../../model/sessioncontext';
 
 
 @Component({
@@ -16,32 +14,28 @@ export class MapOverlayButtonRemoveAlternateComponent implements OnInit, OnDestr
     public ButtonSize = ButtonSize;
     public ButtonColor = ButtonColor;
     public session: Sessioncontext;
-    public currentFlightroute: Flightroute;
-    private currentFlightrouteSubscription: Subscription;
 
 
     constructor(
-        private sessionService: SessionService,
-        private flightrouteService: FlightrouteService) {
+        private sessionService: SessionService) {
 
         this.session = this.sessionService.getSessionContext();
     }
 
 
     ngOnInit() {
-        this.currentFlightrouteSubscription = this.flightrouteService.currentRoute$.subscribe(
-            currentFlightroute => { this.currentFlightroute = currentFlightroute; }
-        );
     }
 
 
     ngOnDestroy() {
-        this.currentFlightrouteSubscription.unsubscribe();
     }
 
 
     public onRemoveAlternateClicked() {
-        this.flightrouteService.removeAlternateFromRoute();
-        this.session.selectedWaypoint.isNew = true;
+        this.session.flightroute$
+            .pipe(first())
+            .subscribe((route) => {
+                route.waypointList.alternate = undefined;
+            });
     }
 }

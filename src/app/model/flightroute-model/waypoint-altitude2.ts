@@ -1,36 +1,38 @@
-import {Observable} from "rxjs/Observable";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {Observable} from 'rxjs/Observable';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 
 export class WaypointAltitude2 {
-    public alt$: Observable<number>;
     private altSource: BehaviorSubject<number>;
-    public isminalt$: Observable<boolean>;
     private isminaltSource: BehaviorSubject<boolean>;
-    public ismaxalt$: Observable<boolean>;
     private ismaxaltSource: BehaviorSubject<boolean>;
-    public isaltatlegstart$: Observable<boolean>;
     private isaltatlegstartSource: BehaviorSubject<boolean>;
 
 
     constructor(
-        alt?: number,
+        alt_ft?: number, // TODO: typed
         isminalt = false,
         ismaxalt = false,
         isaltatlegstart = false) {
-        this.altSource = new BehaviorSubject<number>(alt);
-        this.alt$ = this.altSource.asObservable();
+        this.altSource = new BehaviorSubject<number>(alt_ft);
         this.isminaltSource = new BehaviorSubject<boolean>(isminalt);
-        this.isminalt$ = this.isminaltSource.asObservable();
         this.ismaxaltSource = new BehaviorSubject<boolean>(ismaxalt);
-        this.ismaxalt$ = this.ismaxaltSource.asObservable();
         this.isaltatlegstartSource = new BehaviorSubject<boolean>(isaltatlegstart);
-        this.isaltatlegstart$ = this.isaltatlegstartSource.asObservable();
     }
 
 
-    set alt(value: number) {
+    get alt_ft$(): Observable<number> {
+        return this.altSource.asObservable();
+    }
+
+
+    set alt_ft(value: number) {
         this.altSource.next(value);
+    }
+
+
+    get isminalt$(): Observable<boolean> {
+        return this.isminaltSource.asObservable();
     }
 
 
@@ -39,8 +41,18 @@ export class WaypointAltitude2 {
     }
 
 
+    get ismaxalt$(): Observable<boolean> {
+        return this.ismaxaltSource.asObservable();
+    }
+
+
     set ismaxalt(value: boolean) {
         this.ismaxaltSource.next(value);
+    }
+
+
+    get isaltatlegstart$(): Observable<boolean> {
+        return this.isaltatlegstartSource.asObservable();
     }
 
 

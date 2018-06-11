@@ -1,8 +1,8 @@
-import {WaypointBase} from "./waypoint-base";
-import {Position2d} from "../position";
-import {Airport, AirportRadio} from "../airport";
-import {UnitconversionService} from "../../services/utils/unitconversion.service";
-import {Waypointtype} from "../waypoint";
+import {WaypointBase} from './waypoint-base';
+import {Position2d} from '../position';
+import {Airport, AirportRadio} from '../airport';
+import {UnitconversionService} from '../../services/utils/unitconversion.service';
+import {Waypointtype} from '../waypoint';
 
 
 export class WaypointAirport extends WaypointBase {
@@ -31,7 +31,7 @@ export class WaypointAirport extends WaypointBase {
 
 
     public getCallsign(): string {
-        if (this.airport.radios.length == 0) {
+        if (this.airport.radios.length === 0) {
             return '';
         } else {
             return this.getRadioCallsign(this.airport.radios[0]);
@@ -55,8 +55,8 @@ export class WaypointAirport extends WaypointBase {
 
         // altitude
         if (this.airport.elevation_m) {
-            const elevString = Math.round(UnitconversionService.m2ft(this.airport.elevation_m)) + "ft";
-            suppInfoPart.push("ELEV:" + elevString);
+            const elevString = Math.round(UnitconversionService.m2ft(this.airport.elevation_m)) + 'ft';
+            suppInfoPart.push('ELEV:' + elevString);
         }
 
         // runways
@@ -65,11 +65,11 @@ export class WaypointAirport extends WaypointBase {
             for (i = 0; i < this.airport.runways.length; i++) {
                 const rwy = this.airport.runways[i];
                 // skip GLD strip unless it's the only rwy
-                if (rwy.name.toString().indexOf("GLD") == -1 || this.airport.runways.length == 1) {
+                if (rwy.name.toString().indexOf('GLD') === -1 || this.airport.runways.length === 1) {
                     runwayStringList.push(rwy.name);
                 }
             }
-            suppInfoPart.push("RWY:" + runwayStringList.join(","));
+            suppInfoPart.push('RWY:' + runwayStringList.join(','));
         }
 
         // frequencies
@@ -79,9 +79,9 @@ export class WaypointAirport extends WaypointBase {
                 const radio = this.airport.radios[i];
                 const callsign = this.getRadioCallsign(radio);
                 // skip GLD, FIS, VDF freq unless it's the only frequency
-                if ((radio.type != 'GLIDING' && radio.type != 'INFO' && radio.type != 'FIS' && callsign != 'VDF')
-                    || this.airport.radios.length == 1) {
-                    radioStringList.push(callsign + ":" + radio.frequency);
+                if ((radio.type !== 'GLIDING' && radio.type !== 'INFO' && radio.type !== 'FIS' && callsign !== 'VDF')
+                    || this.airport.radios.length === 1) {
+                    radioStringList.push(callsign + ':' + radio.frequency);
                 }
             }
 
@@ -95,24 +95,24 @@ export class WaypointAirport extends WaypointBase {
 
     private getRadioCallsign(radio: AirportRadio): string {
         switch (radio.type) {
-            case "TOWER" : return "TWR";
-            case "APPROACH" : return "APP";
-            case "ARRIVAL" : return "ARR";
-            case "DEPARTURE" : return "DEP";
-            case "GLIDING" : return "GLD";
-            case "GROUND" : return "GND";
-            case "CTAF" :
+            case 'TOWER' : return 'TWR';
+            case 'APPROACH' : return 'APP';
+            case 'ARRIVAL' : return 'ARR';
+            case 'DEPARTURE' : return 'DEP';
+            case 'GLIDING' : return 'GLD';
+            case 'GROUND' : return 'GND';
+            case 'CTAF' :
                 // spezialregel nur für country = CH
-                if (this.airport.country == "CH") {
-                    return "AD";
+                if (this.airport.country === 'CH') {
+                    return 'AD';
                 } else {
-                    return "CTAF";
+                    return 'CTAF';
                 }
-            case "AFIS" : return "AFIS";
-            case "OTHER" : {
+            case 'AFIS' : return 'AFIS';
+            case 'OTHER' : {
                 // starts with AD...
-                if (radio.description.toUpperCase().indexOf("AD") == 0) {
-                    return "AD";
+                if (radio.description.toUpperCase().indexOf('AD') === 0) {
+                    return 'AD';
                 } else {
                     return radio.typespec;
                 }

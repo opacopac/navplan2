@@ -1,14 +1,15 @@
-<div class="map-overlay-button form-inline" *ngIf="this.session.selectedWaypoint && this.session.selectedWaypoint.isNew">
+<div class="map-overlay-button form-inline" *ngIf="(this.session.selectedWaypoint$ | async) && (this.session.selectedWaypointIsNew$ | async)">
     <button appIconButton
             [color]="ButtonColor.GREEN"
             [size]="ButtonSize.SMALL"
             [iconClass]="'fas fa-plus'"
             (click)="this.onAddSelectedWaypointClicked()"></button>&nbsp;Add to Route
     &nbsp;
-    <select *ngIf="this.currentFlightroute.waypoints.length > 0" class="form-control-sm" [(ngModel)]="this.addAfterIndex">
+    <select *ngIf="(this.session.flightrouteWaypoints$ | async).length > 0" class="form-control-sm" [ngModel]="this.addAfterIndex">
         <option value="0">at the start</option>
-        <option *ngFor="let wp of this.currentFlightroute.waypoints; index as idx" value="{{ idx + 1 }}">after {{ wp.checkpoint }}
+        <!--<option *ngFor="let wp of this.currentFlightroute.waypoints; index as idx" value="{{ idx + 1 }}">after {{ wp.checkpoint }}-->
+        <option *ngFor="let wp of (this.session.flightrouteWaypoints$ | async); index as idx" value="{{ idx + 1 }}">after {{ wp.checkpoint }}
         </option>
-        <option value="{{ this.currentFlightroute.waypoints.length + 1 }}">at the end</option>
+        <option value="{{ (this.session.flightrouteWaypoints$ | async).length  + 1 }}">at the end</option>
     </select>
 </div>

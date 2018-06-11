@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { SessionService } from '../../services/utils/session.service';
+import { SessionService } from '../../services/session/session.service';
 import { Sessioncontext } from '../../model/sessioncontext';
 import { UserService } from '../../services/user/user.service';
 import { MessageService } from '../../services/utils/message.service';

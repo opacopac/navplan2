@@ -26,7 +26,7 @@ export class MapOverlayNotamComponent extends MapOverlayContainer implements OnI
 
     public bindFeatureData(notam: Notam, clickPos: Position2d) {
         this.notam = notam;
-        this.clickPos;
+        // this.clickPos;
     }
 
 

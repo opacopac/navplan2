@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ButtonColor, ButtonSize } from '../../buttons/button-base.directive';
-import { Sessioncontext } from "../../../model/sessioncontext";
-import { SessionService } from "../../../services/utils/session.service";
-import { FlightrouteService } from "../../../services/flightroute/flightroute.service";
+import { Sessioncontext } from '../../../model/sessioncontext';
+import { SessionService } from '../../../services/session/session.service';
 
 
 @Component({
@@ -17,8 +16,7 @@ export class MapOverlayButtonEditWaypointComponent implements OnInit {
 
 
     constructor(
-        private sessionService: SessionService,
-        private flightrouteService: FlightrouteService) {
+        private sessionService: SessionService) {
 
         this.session = this.sessionService.getSessionContext();
     }
@@ -29,6 +27,6 @@ export class MapOverlayButtonEditWaypointComponent implements OnInit {
 
 
     public onEditWaypointClicked() {
-        this.flightrouteService.editWaypoint(this.session.selectedWaypoint);
+        this.session.editWaypointActive = true;
     }
 }

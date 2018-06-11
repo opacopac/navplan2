@@ -1,10 +1,15 @@
-import {UnitconversionService, VolumeUnit} from "../../services/utils/unitconversion.service";
+import {UnitconversionService, VolumeUnit} from '../../services/utils/unitconversion.service';
 
 
 export class Fuel {
     constructor(
         private readonly value: number,
         private readonly unit: VolumeUnit) {
+    }
+
+
+    public static addAll(...fuels: Fuel[]): Fuel {
+        return fuels.reduce((sum, fuel) => sum.add(fuel), new Fuel(0, VolumeUnit.L));
     }
 
 

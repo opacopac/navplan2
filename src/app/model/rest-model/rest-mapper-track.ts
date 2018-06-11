@@ -1,5 +1,5 @@
-import {Track} from "../track";
-import {Timestamp} from "../timestamp";
+import {Track} from '../track';
+import {Timestamp} from '../timestamp';
 
 
 export interface TrackListResponse {

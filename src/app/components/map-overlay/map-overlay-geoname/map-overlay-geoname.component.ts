@@ -1,9 +1,9 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import { MapOverlayContainer } from '../map-overlay-container';
-import { Position2d } from '../../../model/position';
-import { Geoname } from '../../../model/geoname';
-import {Sessioncontext} from "../../../model/sessioncontext";
-import {SessionService} from "../../../services/utils/session.service";
+import {MapOverlayContainer} from '../map-overlay-container';
+import {Position2d} from '../../../model/position';
+import {Geoname} from '../../../model/geoname';
+import {Sessioncontext} from '../../../model/sessioncontext';
+import {SessionService} from '../../../services/session/session.service';
 
 
 // region type strings

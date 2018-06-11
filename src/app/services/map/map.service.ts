@@ -1,50 +1,52 @@
 import * as ol from 'openlayers';
-import { Injectable } from '@angular/core';
-import { SessionService } from '../utils/session.service';
-import { Sessioncontext } from '../../model/sessioncontext';
-import { MapbaselayerFactory } from '../../model/ol-model/mapbaselayer-factory';
-import { Extent } from '../../model/ol-model/extent';
-import { Position2d } from '../../model/position';
-import { Mapfeatures } from '../../model/mapfeatures';
-import { MetarTafList } from '../../model/metar-taf';
-import { Flightroute } from '../../model/flightroute';
-import { Traffic } from '../../model/traffic';
-import { NotamList } from '../../model/notam';
-import { OlFlightroute } from '../../model/ol-model/ol-flightroute';
-import { OlTraffic } from '../../model/ol-model/ol-traffic';
-import { OlWebcam } from '../../model/ol-model/ol-webcam';
-import { OlNavaid } from '../../model/ol-model/ol-navaid';
-import { OlFeature} from '../../model/ol-model/ol-feature';
-import { OlAirport } from '../../model/ol-model/ol-airport';
-import { OlReportingPoint } from '../../model/ol-model/ol-reporting-point';
-import { OlReportingSector } from '../../model/ol-model/ol-reporting-sector';
-import { OlUserPoint } from '../../model/ol-model/ol-user-point';
-import { OlMapfeatureList } from '../../model/ol-model/ol-mapfeature-list';
-import { OlMetar } from '../../model/ol-model/ol-metar';
-import { OlMetarWind } from '../../model/ol-model/ol-metar-wind';
-import { OlMetarSky } from '../../model/ol-model/ol-metar-sky';
-import { OlNotam } from '../../model/ol-model/ol-notam';
-import { DataItem } from '../../model/data-item';
-import { SearchItemList} from '../../model/search-item';
-import { OlSearchItemSelection } from '../../model/ol-model/ol-searchitem-selection';
-import { OlSearchItem } from '../../model/ol-model/ol-searchitem';
-import {OlWaypoint} from "../../model/ol-model/ol-waypoint";
-import {Flightroute2} from "../../model/flightroute-model/flightroute2";
-import {Observable} from "rxjs/Observable";
-import {Subject} from "rxjs/Subject";
-import {Subscription} from "rxjs/Subscription";
-import {OlFlightroute2} from "../../model/ol-model/ol-flightroute2";
 import 'rxjs/add/observable/fromEventPattern';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/distinctUntilChanged';
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {Injectable} from '@angular/core';
+import {MapbaselayerFactory, MapbaselayerType} from '../../model/ol-model/mapbaselayer-factory';
+import {Extent} from '../../model/ol-model/extent';
+import {Position2d} from '../../model/position';
+import {Mapfeatures} from '../../model/mapfeatures';
+import {MetarTafList} from '../../model/metar-taf';
+import {Flightroute} from '../../model/flightroute';
+import {Traffic} from '../../model/traffic';
+import {NotamList} from '../../model/notam';
+import {OlFlightroute} from '../../model/ol-model/ol-flightroute';
+import {OlTraffic} from '../../model/ol-model/ol-traffic';
+import {OlWebcam} from '../../model/ol-model/ol-webcam';
+import {OlNavaid} from '../../model/ol-model/ol-navaid';
+import {OlFeature} from '../../model/ol-model/ol-feature';
+import {OlAirport} from '../../model/ol-model/ol-airport';
+import {OlReportingPoint} from '../../model/ol-model/ol-reporting-point';
+import {OlReportingSector} from '../../model/ol-model/ol-reporting-sector';
+import {OlUserPoint} from '../../model/ol-model/ol-user-point';
+import {OlMapfeatureList} from '../../model/ol-model/ol-mapfeature-list';
+import {OlMetar} from '../../model/ol-model/ol-metar';
+import {OlMetarWind} from '../../model/ol-model/ol-metar-wind';
+import {OlMetarSky} from '../../model/ol-model/ol-metar-sky';
+import {OlNotam} from '../../model/ol-model/ol-notam';
+import {DataItem} from '../../model/data-item';
+import {SearchItemList} from '../../model/search-item';
+import {OlSearchItemSelection} from '../../model/ol-model/ol-searchitem-selection';
+import {OlSearchItem} from '../../model/ol-model/ol-searchitem';
+import {OlWaypoint} from '../../model/ol-model/ol-waypoint';
+import {Flightroute2} from '../../model/flightroute-model/flightroute2';
+import {Observable} from 'rxjs/Observable';
+import {Subject} from 'rxjs/Subject';
+import {OlFlightroute2} from '../../ol-components/ol-flightroute2';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Angle} from '../../model/units/angle';
+import {AngleUnit} from '../utils/unitconversion.service';
+import {MapActionService, WaypointModification} from './map-action.service';
 
 
-export class WaypointModification {
+
+export class MapContext {
     constructor(
-        public waypointIndex: number,
-        public isNewWaypoint: boolean,
-        public newPosition: Position2d) {}
+        public map: ol.Map,
+        public mapService: MapService,
+        public mapActionService: MapActionService) {
+    }
 }
 
 
@@ -59,8 +61,8 @@ export class MapService {
     private readonly mapZoomSource: BehaviorSubject<number>;
     public readonly mapExtent$: Observable<Extent>;
     private readonly mapExtentSource: BehaviorSubject<Extent>;
-    public readonly mapRotation_rad$: Observable<number>;
-    private readonly mapRotationSource: BehaviorSubject<number>;
+    public readonly mapRotation$: Observable<Angle>;
+    private readonly mapRotationSource: BehaviorSubject<Angle>;
     public readonly mapItemClicked$: Observable<[DataItem, Position2d]>;
     private readonly mapItemClickedSource: Subject<[DataItem, Position2d]>;
     public readonly mapClicked$: Observable<Position2d>;
@@ -73,7 +75,6 @@ export class MapService {
     private readonly mapFullScreenClickedSource: Subject<void>;
 
     private map: ol.Map;
-    private session: Sessioncontext;
     private mapLayer: ol.layer.Tile;
     private routeItemsLayer: ol.layer.Vector;
     private nonrouteItemsLayer: ol.layer.Vector;
@@ -86,23 +87,19 @@ export class MapService {
     private interactions: ol.interaction.Interaction[];
     private isSearchItemSelectionActive: boolean;
     private routeCoordinatesBeforeModify: ol.Coordinate[];
-    private flightrouteSubscription: Subscription;
-    private currentFlightRoute: OlFlightroute2;
+    private flightRouteFeature: OlFlightroute2;
 
 
-    constructor(private sessionService: SessionService) {
-        this.session = sessionService.getSessionContext();
-
-        // init observables & sources
+    constructor(private mapActionService: MapActionService) {
         this.mapPositionSource = new BehaviorSubject<Position2d>(undefined);
         this.mapPosition$ = this.mapPositionSource.asObservable().distinctUntilChanged();
         this.mapZoomSource = new BehaviorSubject<number>(undefined);
         this.mapZoom$ = this.mapZoomSource.asObservable().distinctUntilChanged();
         this.mapExtentSource = new BehaviorSubject<Extent>(undefined);
         this.mapExtent$ = this.mapExtentSource.asObservable().distinctUntilChanged();
-        this.mapRotationSource = new BehaviorSubject<number>(0);
-        this.mapRotation_rad$ = this.mapRotationSource.asObservable().distinctUntilChanged();
-        this.mapItemClickedSource = new Subject<[DataItem,Position2d]>();
+        this.mapRotationSource = new BehaviorSubject<Angle>(new Angle(0, AngleUnit.DEG));
+        this.mapRotation$ = this.mapRotationSource.asObservable().distinctUntilChanged();
+        this.mapItemClickedSource = new Subject<[DataItem, Position2d]>();
         this.mapItemClicked$ = this.mapItemClickedSource.asObservable();
         this.mapClickedSource = new Subject<Position2d>();
         this.mapClicked$ = this.mapClickedSource.asObservable();
@@ -117,11 +114,13 @@ export class MapService {
 
     // region init
 
-    public initMap(flightroute?: Observable<Flightroute2>) {
+    public initMap(baseMapType: MapbaselayerType,
+                   position: Position2d,
+                   zoom: number,
+                   mapRotation: Angle,
+                   flightroute$: Observable<Flightroute2>) {
         // map
-        this.initLayers();
-        this.interactions = [];
-
+        this.initLayers(baseMapType);
         this.map = new ol.Map({
             target: 'map',
             controls: [
@@ -141,10 +140,16 @@ export class MapService {
                 this.locationLayer
             ],
             view: new ol.View({
-                center: this.session.map.position.getMercator(),
-                zoom: this.session.map.zoom
+                center: position.getMercator(),
+                zoom: zoom,
+                rotation: mapRotation.rad,
             })
         });
+
+        // set initial observable values
+        this.mapPositionSource.next(position);
+        this.mapZoomSource.next(zoom);
+        this.mapRotationSource.next(mapRotation);
 
         // map events
         this.map.on('singleclick', this.onSingleClick.bind(this));
@@ -152,29 +157,45 @@ export class MapService {
         this.map.on('moveend', this.onMoveEnd.bind(this));
         this.map.getView().on('change:rotation', this.onMapRotation.bind(this));
 
-        // handle flightroute changes
-        this.flightrouteSubscription = this.session.flightroute$
-            .subscribe((flightroute) => {
-                this.updateFlightroute(flightroute)
-            });
+        // create map context
+        const mapContext = new MapContext(this.map, this, this.mapActionService);
+
+        // add flightroute feature
+        this.flightRouteFeature = new OlFlightroute2(
+            mapContext,
+            flightroute$,
+            this.flightrouteLayer.getSource());
+
+        // add snap interaction (must be added last, see: https://openlayers.org/en/latest/examples/snap.html)
+        this.map.addInteraction(
+            new ol.interaction.Snap({
+                source: this.routeItemsLayer.getSource(),
+                edge: false
+            })
+        );
     }
 
 
     public uninitMap() {
-        this.removeInteractions();
+        // uninit features
+        this.flightRouteFeature.destroy();
+
+        // remove snap interactions
+        this.map.getInteractions().forEach((interaction) => {
+            this.map.removeInteraction(interaction);
+        });
+
         this.map.un('singleclick', this.onSingleClick.bind(this));
         this.map.un('pointermove', this.onPointerMove.bind(this));
         this.map.un('moveend', this.onMoveEnd.bind(this));
         this.map.getView().un('change:rotation', this.onMapRotation.bind(this));
         this.map.setTarget(undefined);
         this.map = undefined;
-
-        this.flightrouteSubscription.unsubscribe();
     }
 
 
-    private initLayers() {
-        this.mapLayer = MapbaselayerFactory.create(this.session.settings.baseMapType);
+    private initLayers(baseMapType: MapbaselayerType) {
+        this.mapLayer = MapbaselayerFactory.create(baseMapType);
         this.nonrouteItemsLayer = this.createEmptyVectorLayer(true);
         this.routeItemsLayer = this.createEmptyVectorLayer();
         this.notamLayer = this.createEmptyVectorLayer(true);
@@ -272,8 +293,8 @@ export class MapService {
     }
 
 
-    private getRotation(): number {
-        return this.map.getView().getRotation();
+    private getRotation(): Angle {
+        return new Angle(this.map.getView().getRotation(), AngleUnit.RAD);
     }
 
 
@@ -398,13 +419,14 @@ export class MapService {
     }
 
 
-    private updateFlightroute(flightroute: Flightroute2) {
-        if (this.currentFlightRoute) { this.currentFlightRoute.destroy(); } // clean up
-        this.currentFlightRoute = new OlFlightroute2(
+    /*private updateFlightroute(flightroute: Flightroute2) {
+        if (this.flightRouteFeature) { this.flightRouteFeature.destroy(); } // clean up
+        this.flightRouteFeature = new OlFlightroute2(
             flightroute,
             this.flightrouteLayer.getSource(),
-            this.mapRotation_rad$)
-    }
+            this.mapRotation$,
+            this.map);
+    }*/
 
     // endregion
 
@@ -435,7 +457,7 @@ export class MapService {
 
 
     private removeInteractions() {
-        for (let interaction of this.interactions) {
+        for (const interaction of this.interactions) {
             this.map.removeInteraction(interaction);
         }
     }
@@ -532,8 +554,7 @@ export class MapService {
 
 
     private onFlightrouteModifyEnd(event: ol.interaction.Modify.Event) {
-        if (!event || !event.mapBrowserEvent)
-            return;
+        if (!event || !event.mapBrowserEvent) { return; }
 
         const lineFeature = event.features.getArray()[0];
         const newCoordinates = (lineFeature.getGeometry() as ol.geom.LineString).getCoordinates();
@@ -549,8 +570,7 @@ export class MapService {
         for (let i = 0; i < newCoordinates.length; i++) {
             if (i >= this.routeCoordinatesBeforeModify.length
                 || this.routeCoordinatesBeforeModify[i][0] !== newCoordinates[i][0]
-                || this.routeCoordinatesBeforeModify[i][1] !== newCoordinates[i][1])
-            {
+                || this.routeCoordinatesBeforeModify[i][1] !== newCoordinates[i][1]) {
                 return new WaypointModification(
                     i,
                     (this.routeCoordinatesBeforeModify.length !== newCoordinates.length),

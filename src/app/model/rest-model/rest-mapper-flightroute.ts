@@ -1,14 +1,14 @@
-import { Waypoint, Waypointaltitude, Waypointtype } from "../waypoint";
-import { Flightroute } from "../flightroute";
-import { Position2d } from "../position";
-import { Aircraft } from "../aircraft";
-import {Waypoint2} from "../flightroute-model/waypoint2";
-import {WaypointAltitude2} from "../flightroute-model/waypoint-altitude2";
-import {Flightroute2} from "../flightroute-model/flightroute2";
-import {Aircraft2} from "../flightroute-model/aircraft2";
-import {Speed} from "../units/speed";
-import {ConsumptionUnit, SpeedUnit} from "../../services/utils/unitconversion.service";
-import {Consumption} from "../units/consumption";
+import {Waypoint, Waypointaltitude, Waypointtype} from '../waypoint';
+import {Flightroute} from '../flightroute';
+import {Position2d} from '../position';
+import {Aircraft} from '../aircraft';
+import {Waypoint2} from '../flightroute-model/waypoint2';
+import {WaypointAltitude2} from '../flightroute-model/waypoint-altitude2';
+import {Flightroute2} from '../flightroute-model/flightroute2';
+import {Aircraft2} from '../flightroute-model/aircraft2';
+import {Speed} from '../units/speed';
+import {ConsumptionUnit, SpeedUnit} from '../../services/utils/unitconversion.service';
+import {Consumption} from '../units/consumption';
 
 
 // region INTERFACES
@@ -118,7 +118,7 @@ export class RestMapperFlightroute {
         flightroute.waypointList.replaceList(waypoints);
 
         if (response.navplan.alternate) {
-            flightroute.alternate = this.getWaypointFromResponse2(response.navplan.alternate);
+            flightroute.waypointList.alternate = this.getWaypointFromResponse2(response.navplan.alternate);
         }
 
         return flightroute;
@@ -133,14 +133,14 @@ export class RestMapperFlightroute {
             entry.checkpoint,
             entry.remark,
             entry.supp_info,
-            new Position2d(entry.longitude,entry.latitude)
+            new Position2d(entry.longitude, entry.latitude)
         );
 
         waypoint.alt = new Waypointaltitude(
             entry.alt,
-            entry.isminalt == true, // 0: false, 1: true
-            entry.ismaxalt == true, // 0: false, 1: true
-            entry.isaltatlegstart == true // 0: false, 1: true
+            entry.isminalt === true, // 0: false, 1: true
+            entry.ismaxalt === true, // 0: false, 1: true
+            entry.isaltatlegstart === true // 0: false, 1: true
         );
 
         return waypoint;
@@ -155,12 +155,12 @@ export class RestMapperFlightroute {
             entry.checkpoint,
             entry.remark,
             entry.supp_info,
-            new Position2d(entry.longitude,entry.latitude),
+            new Position2d(entry.longitude, entry.latitude),
             new WaypointAltitude2(
                 entry.alt,
-                entry.isminalt == true, // 0: false, 1: true
-                entry.ismaxalt == true, // 0: false, 1: true
-                entry.isaltatlegstart == true // 0: false, 1: true
+                entry.isminalt === true, // 0: false, 1: true
+                entry.ismaxalt === true, // 0: false, 1: true
+                entry.isaltatlegstart === true // 0: false, 1: true
             )
         );
 

@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { SessionService } from '../../services/utils/session.service';
-import { MessageService } from '../../services/utils/message.service';
-import { Globalsettings, Sessioncontext } from '../../model/sessioncontext';
-import { MapbaselayerType } from '../../model/ol-model/mapbaselayer-factory';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {SessionService} from '../../services/session/session.service';
+import {MessageService} from '../../services/utils/message.service';
+import {Globalsettings, Sessioncontext} from '../../model/sessioncontext';
+import {MapbaselayerType} from '../../model/ol-model/mapbaselayer-factory';
+import {AngleUnit, UnitconversionService} from '../../services/utils/unitconversion.service';
+import {Angle} from '../../model/units/angle';
+import {Altitude} from '../../model/altitude';
 
 
 @Component({
@@ -55,19 +58,24 @@ export class SettingsComponent implements OnInit {
 
     private initFormValues() {
         this.settingsForm = new FormGroup({
-            'variationDeg': new FormControl(this.session.settings.variationDeg,[ Validators.required, Validators.min(-180), Validators.max(180) ] ),
-            'maxTrafficAltitudeFt' : new FormControl(this.session.settings.maxTrafficAltitudeFt, [ Validators.required, Validators.min(0) ]),
-            'baseMapType': new FormControl(this.session.settings.baseMapType, [ Validators.required ])
+            'variationDeg': new FormControl(
+                this.session.settings.variation.deg,
+                [ Validators.required, Validators.min(-180), Validators.max(180) ]),
+            'maxTrafficAltitudeFt' : new FormControl(
+                this.session.settings.maxTrafficAltitude.getInFt(),
+                [ Validators.required, Validators.min(0) ]),
+            'baseMapType': new FormControl(this.session.map.baseMapType, [ Validators.required ])
         });
     }
 
 
     private getFormValues(): Globalsettings {
         const formValues = this.settingsForm.value;
-        const settings = new Globalsettings();
-        settings.variationDeg = formValues.variationDeg as number;
-        settings.maxTrafficAltitudeFt = formValues.maxTrafficAltitudeFt as number;
-        settings.baseMapType =  MapbaselayerType[MapbaselayerType[formValues.baseMapType]];
+        const settings = new Globalsettings(
+            new Angle(formValues.variationDeg as number, AngleUnit.DEG),
+            new Altitude(UnitconversionService.ft2m(formValues.maxTrafficAltitudeFt as number))
+        );
+        // settings.baseMapType =  MapbaselayerType[MapbaselayerType[formValues.baseMapType]];
 
         return settings;
     }

@@ -1,49 +1,37 @@
-import { WaypointAltitude2 } from "./waypoint-altitude2";
-import { Position2d } from "../position";
-import { GeocalcService } from "../../services/utils/geocalc.service";
-import { Waypointtype } from "../waypoint";
-import { Observable } from "rxjs/Observable";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import {WaypointAltitude2} from './waypoint-altitude2';
+import {Position2d} from '../position';
+import {GeocalcService} from '../../services/utils/geocalc.service';
+import {Waypointtype} from '../waypoint';
+import {Observable} from 'rxjs/Observable';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Time} from '../units/time';
+import {Distance} from '../units/distance';
+import {Speed} from '../units/speed';
+import {Angle} from '../units/angle';
+import {AngleUnit, LengthUnit, SpeedUnit, TimeUnit} from '../../services/utils/unitconversion.service';
+import {RxService} from '../../services/utils/rx.service';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/observable/of';
-import {Time} from "../units/time";
-import {Distance} from "../units/distance";
-import {Speed} from "../units/speed";
-import {Angle} from "../units/angle";
-import {AngleUnit, LengthUnit, SpeedUnit, TimeUnit} from "../../services/utils/unitconversion.service";
+import {StringnumberService} from '../../services/utils/stringnumber.service';
+
+const ADDITIONAL_VAC_TIME = new Time(5, TimeUnit.M);
+const VAC_STRING = 'VAC';
 
 
 export class Waypoint2 {
-    public readonly type$: Observable<Waypointtype>;
     private readonly typeSource: BehaviorSubject<Waypointtype>;
-    public readonly freq$: Observable<string>;
     private readonly freqSource: BehaviorSubject<string>;
-    public readonly callsign$: Observable<string>;
     private readonly callsignSource: BehaviorSubject<string>;
-    public readonly checkpoint$: Observable<string>;
     private readonly checkpointSource: BehaviorSubject<string>;
-    public readonly remark$: Observable<string>;
     private readonly remarkSource: BehaviorSubject<string>;
-    public readonly supp_info$: Observable<string>;
     private readonly supp_infoSource: BehaviorSubject<string>;
-    public readonly position$: Observable<Position2d>;
     private readonly positionSource: BehaviorSubject<Position2d>;
+    private readonly isAlternateSource: BehaviorSubject<boolean>;
     public readonly alt: WaypointAltitude2;
-    public readonly previousPosition$: Observable<Position2d>;
-    private readonly previousPositionObservable$: Observable<Observable<Position2d>>;
-    private readonly previousPositionObservableSource: BehaviorSubject<Observable<Position2d>>;
-    public readonly speed$: Observable<Speed>;
-    private readonly speedObservable$: Observable<Observable<Speed>>;
     private readonly speedObservableSource: BehaviorSubject<Observable<Speed>>;
-    public readonly mt$: Observable<Angle>;
-    public readonly nextMt$: Observable<Angle>;
-    private readonly nextMtObservable$: Observable<Observable<Angle>>;
-    private readonly nextMtObservableSource: BehaviorSubject<Observable<Angle>>;
-    public readonly dist$: Observable<Distance>;
-    public readonly legTime$: Observable<Time>;
-    public readonly vacTime$: Observable<Time>;
-    public readonly variation$: Observable<Angle>;
+    private readonly previousWaypointSource: BehaviorSubject<Waypoint2>;
+    private readonly nextWaypointSource: BehaviorSubject<Waypoint2>;
 
 
     constructor(
@@ -56,53 +44,22 @@ export class Waypoint2 {
         position?: Position2d,
         alt: WaypointAltitude2 = new WaypointAltitude2()) {
         this.typeSource = new BehaviorSubject<Waypointtype>(type);
-        this.type$ = this.typeSource.asObservable();
         this.freqSource = new BehaviorSubject<string>(freq);
-        this.freq$ = this.freqSource.asObservable();
         this.callsignSource = new BehaviorSubject<string>(callsign);
-        this.callsign$ = this.callsignSource.asObservable();
         this.checkpointSource = new BehaviorSubject<string>(checkpoint);
-        this.checkpoint$ = this.checkpointSource.asObservable();
         this.remarkSource = new BehaviorSubject<string>(remark);
-        this.remark$ = this.remarkSource.asObservable();
         this.supp_infoSource = new BehaviorSubject<string>(supp_info);
-        this.supp_info$ = this.supp_infoSource.asObservable();
         this.positionSource = new BehaviorSubject<Position2d>(position);
-        this.position$ = this.positionSource.asObservable();
+        this.isAlternateSource = new BehaviorSubject<boolean>(false);
         this.alt = alt;
-        this.previousPositionObservableSource = new BehaviorSubject<Observable<Position2d>>(undefined);
-        this.previousPositionObservable$ = this.previousPositionObservableSource.asObservable();
-        this.previousPosition$ = this.previousPositionObservable$.flatMap(prevPosObs => prevPosObs ? prevPosObs : Observable.of(undefined));
-        this.speedObservableSource = new BehaviorSubject<Observable<Speed>>(Observable.of(undefined));
-        this.speedObservable$ = this.speedObservableSource.asObservable();
-        this.speed$ = this.speedObservable$.flatMap(speedObs => speedObs ? speedObs : Observable.of(undefined));
-        this.nextMtObservableSource = new BehaviorSubject<Observable<Angle>>(Observable.of(undefined));
-        this.nextMtObservable$ = this.nextMtObservableSource.asObservable();
-        this.nextMt$ = this.nextMtObservable$.flatMap(nextMtObs => nextMtObs ? nextMtObs : Observable.of(undefined));
-        this.variation$ = this.position$.map((pos) => this.calcVariation(pos));
-        this.mt$ = Observable.combineLatest(
-            this.previousPosition$,
-            this.position$,
-            this.variation$,
-            (pos1, pos2, magVar) => {
-                return GeocalcService.getBearing(pos1, pos2, magVar);
-            }
-        );
-        this.dist$ = Observable.combineLatest(
-            this.previousPosition$,
-            this.position$,
-            (pos1, pos2) => {
-                return GeocalcService.getDistance(pos1, pos2);
-            }
-        );
-        this.legTime$ = Observable.combineLatest(
-            this.dist$,
-            this.speed$,
-            (distance, speed) => {
-                return this.calcLegTime(distance, speed);
-            }
-        );
-        this.vacTime$ = Observable.of(new Time(0, TimeUnit.M)); // TODO
+        this.speedObservableSource = new BehaviorSubject<Observable<Speed>>(undefined);
+        this.previousWaypointSource = new BehaviorSubject<Waypoint2>(undefined);
+        this.nextWaypointSource = new BehaviorSubject<Waypoint2>(undefined);
+    }
+
+
+    get type$(): Observable<Waypointtype> {
+        return this.typeSource.asObservable();
     }
 
 
@@ -111,8 +68,18 @@ export class Waypoint2 {
     }
 
 
+    get freq$(): Observable<string> {
+        return this.freqSource.asObservable();
+    }
+
+
     set freq(value: string) {
         this.freqSource.next(value);
+    }
+
+
+    get callsign$(): Observable<string> {
+        return this.callsignSource.asObservable();
     }
 
 
@@ -121,8 +88,18 @@ export class Waypoint2 {
     }
 
 
+    get checkpoint$(): Observable<string> {
+        return this.checkpointSource.asObservable();
+    }
+
+
     set checkpoint(value: string) {
         this.checkpointSource.next(value);
+    }
+
+
+    get remark$(): Observable<string> {
+        return this.remarkSource.asObservable();
     }
 
 
@@ -131,8 +108,18 @@ export class Waypoint2 {
     }
 
 
+    get supp_info$(): Observable<string> {
+        return this.supp_infoSource.asObservable();
+    }
+
+
     set supp_info(value: string) {
         this.supp_infoSource.next(value);
+    }
+
+
+    get position$(): Observable<Position2d> {
+        return this.positionSource.asObservable();
     }
 
 
@@ -141,8 +128,48 @@ export class Waypoint2 {
     }
 
 
-    set previousPositionObservable(value: Observable<Position2d>) {
-        this.previousPositionObservableSource.next(value);
+    get previousPosition$(): Observable<Position2d> {
+        return this.previousWaypoint$
+            .flatMap(prevWp => prevWp ? prevWp.position$ : RxService.getEternal<Position2d>());
+    }
+
+    get isAlternate$(): Observable<boolean> {
+        return this.isAlternateSource.asObservable();
+    }
+
+
+    set isAlternate(value: boolean) {
+        this.isAlternateSource.next(value);
+    }
+
+
+    get previousWaypoint$(): Observable<Waypoint2> {
+        return this.previousWaypointSource.asObservable();
+    }
+
+
+    set previousWaypoint(value: Waypoint2) {
+        this.previousWaypointSource.next(value);
+    }
+
+
+    get nextWaypoint$(): Observable<Waypoint2> {
+        return this.nextWaypointSource.asObservable();
+    }
+
+
+    set nextWaypoint(value: Waypoint2) {
+        this.nextWaypointSource.next(value);
+    }
+
+
+    get speed$(): Observable<Speed> {
+        return this.speedObservable$.flatMap(speedObs => speedObs ? speedObs : RxService.getEternal<Speed>());
+    }
+
+
+    get speedObservable$(): Observable<Observable<Speed>> {
+        return this.speedObservableSource.asObservable();
     }
 
 
@@ -151,8 +178,81 @@ export class Waypoint2 {
     }
 
 
-    set nextMtObservable(value: Observable<Angle>) {
-        this.nextMtObservableSource.next(value);
+    get mt$(): Observable<Angle> {
+        return Observable.combineLatest(
+            this.previousPosition$,
+            this.position$,
+            this.variation$,
+            (pos1, pos2, magVar) => {
+                return GeocalcService.getBearing(pos1, pos2, magVar);
+            }
+        );
+    }
+
+
+    get mtText$(): Observable<string> {
+        return Observable.combineLatest(
+            this.mt$,
+            this.vacTime$,
+            this.isAlternate$)
+            .map(([mt, vacTime, isAlternate]) => this.getMtText(mt, vacTime, isAlternate));
+    }
+
+
+    get nextMt$(): Observable<Angle> {
+        return this.nextWaypoint$
+            .flatMap(nextWp => nextWp ? nextWp.mt$ : RxService.getEternal<Angle>());
+    }
+
+
+    get variation$(): Observable<Angle> {
+        return this.position$.map((pos) => this.calcVariation(pos));
+    }
+
+
+    get dist$(): Observable<Distance> {
+        return Observable.combineLatest(
+            this.previousPosition$,
+            this.position$,
+            (pos1, pos2) => {
+                return GeocalcService.getDistance(pos1, pos2);
+            }
+        );
+    }
+
+
+    get distText$(): Observable<string> {
+        return this.dist$
+            .map(dist => this.getDistText(dist));
+    }
+
+
+    get legTime$(): Observable<Time> {
+        return Observable.combineLatest(
+            this.dist$,
+            this.speed$,
+            (distance, speed) => {
+                return this.calcLegTime(distance, speed);
+            }
+        );
+    }
+
+
+    get vacTime$(): Observable<Time> {
+        // TODO
+        return Observable.combineLatest(
+            this.type$,
+            this.isAlternate$)
+            .map(([type, isAlternate]) => this.calcVacTime(type, isAlternate));
+    }
+
+
+    get eetText$(): Observable<string> {
+        return Observable.combineLatest(
+            this.dist$,
+            this.speed$,
+            this.vacTime$)
+            .map(([dist, speed, vacTime]) => this.getEetText(dist, speed, vacTime));
     }
 
 
@@ -169,21 +269,50 @@ export class Waypoint2 {
         return new Time(distance.getValue(LengthUnit.NM) / speed.getValue(SpeedUnit.KT) * 60, TimeUnit.M);
     }
 
-    //TODO: get texts
 
-    /*public mt: number = 0;
-    public mtText = '';
-    public vacTime = 0;
-    public dist: number;
-    public distText = '';
-    public alt: Waypointaltitude = new Waypointaltitude();
-    public eetText = '';
-    public variation: number = 0;
-    public isNew: boolean = false;
-        public freq = '',
-        public callsign = '',
-        public checkpoint = '',
-        public remark = '',
-        public supp_info = '',
-        public position?: Position2d*/
+    private calcVacTime(type: Waypointtype, isAlternate: boolean): Time {
+        if (isAlternate) {
+            return ADDITIONAL_VAC_TIME;
+        }
+
+        /*if ((i === 1 && this.currentRoute.waypoints[0].type === Waypointtype.airport)
+            || (i === this.currentRoute.waypoints.length - 1 && this.currentRoute.waypoints[i].type === Waypointtype.airport)) {
+            this.currentRoute.waypoints[i].vacTime = ADDITIONAL_VAC_TIME_MIN;
+        */
+    }
+
+
+    private getMtText(mt: Angle, vacTime: Time, isAlternate: boolean): string {
+        if (!mt || !vacTime) {
+            return '';
+        } else if (vacTime.min > 0 && !isAlternate) {
+            return VAC_STRING;
+        } else {
+            return StringnumberService.zeroPad(mt.deg, 3);
+        }
+    }
+
+
+    private getDistText(dist: Distance): string {
+        if (!dist) {
+            return '';
+        } else {
+            return '' + Math.ceil(dist.getValue(LengthUnit.NM));
+        }
+    }
+
+
+    private getEetText(dist: Distance, speed: Speed, vacTime: Time): string {
+        if (!dist || dist.getValue(LengthUnit.NM) <= 0 || !speed || speed.getValue(SpeedUnit.KT) <= 0 || !vacTime) {
+            return '';
+        }
+
+        const eet = '' + Math.ceil(dist.getValue(LengthUnit.NM) / speed.getValue(SpeedUnit.KT) * 60); // TODO
+
+        if (vacTime.min > 0) {
+            return eet + '/+' + vacTime.min;
+        } else {
+            return eet;
+        }
+    }
 }

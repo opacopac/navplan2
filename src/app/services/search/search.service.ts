@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Sessioncontext } from '../../model/sessioncontext';
-import { SessionService } from '../utils/session.service';
+import { SessionService } from '../session/session.service';
 import { LoggingService } from '../utils/logging.service';
 import { GeocalcService } from '../utils/geocalc.service';
 import { Position2d } from '../../model/position';

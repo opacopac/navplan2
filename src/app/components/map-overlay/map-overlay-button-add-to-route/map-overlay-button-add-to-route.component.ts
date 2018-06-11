@@ -1,10 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ButtonColor, ButtonSize } from '../../buttons/button-base.directive';
-import { SessionService } from "../../../services/utils/session.service";
-import { Sessioncontext } from "../../../model/sessioncontext";
-import { FlightrouteService } from "../../../services/flightroute/flightroute.service";
-import { Flightroute } from "../../../model/flightroute";
-import {Subscription} from "rxjs/Subscription";
+import {first} from 'rxjs/operators/first';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ButtonColor, ButtonSize} from '../../buttons/button-base.directive';
+import {SessionService} from '../../../services/session/session.service';
+import {Sessioncontext} from '../../../model/sessioncontext';
 
 
 @Component({
@@ -17,45 +15,29 @@ export class MapOverlayButtonAddToRouteComponent implements OnInit, OnDestroy {
     public ButtonColor = ButtonColor;
     public addAfterIndex: number;
     public session: Sessioncontext;
-    public currentFlightroute: Flightroute;
-    private currentFlightrouteSubscription: Subscription;
 
 
     constructor(
-        private sessionService: SessionService,
-        private flightrouteService: FlightrouteService) {
+        private sessionService: SessionService) {
 
         this.session = this.sessionService.getSessionContext();
     }
 
 
     ngOnInit() {
-        this.currentFlightrouteSubscription = this.flightrouteService.currentRoute$.subscribe(
-            currentFlightroute => {
-                this.currentFlightroute = currentFlightroute;
-                this.addAfterIndex = this.currentFlightroute.waypoints.length + 1;
-            }
-        );
     }
 
 
     ngOnDestroy() {
-        this.currentFlightrouteSubscription.unsubscribe();
     }
 
 
     public onAddSelectedWaypointClicked() {
-        // TODO: old
-        this.flightrouteService.addWaypointToRoute(this.session.selectedWaypoint, this.addAfterIndex);
-        this.session.selectedWaypoint.isNew = false;
-
-
-        // TODO: new
         this.session.flightroute$
             .withLatestFrom(this.session.selectedWaypoint$)
-            .first()
+            .pipe(first())
             .subscribe(([flightroute, selectedWaypoint]) => {
-                let index = flightroute.waypointList.indexOf(selectedWaypoint);
+                const index = flightroute.waypointList.indexOf(selectedWaypoint);
                 flightroute.waypointList.insert(selectedWaypoint, index);
             });
     }

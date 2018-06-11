@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LoggingService } from '../utils/logging.service';
-import { SessionService } from '../utils/session.service';
+import { SessionService } from '../session/session.service';
 import { Sessioncontext } from '../../model/sessioncontext';
 import { Extent } from '../../model/ol-model/extent';
-import { RestMapperTrafficAdexbEx, TrafficAdsbExResponse } from "../../model/rest-model/rest-mapper-traffic-adexb-ex";
+import { RestMapperTrafficAdexbEx, TrafficAdsbExResponse } from '../../model/rest-model/rest-mapper-traffic-adexb-ex';
 
 
 const ADSBEXCHANGE_BASE_URL = 'https://public-api.adsbexchange.com/VirtualRadar/AircraftList.json';

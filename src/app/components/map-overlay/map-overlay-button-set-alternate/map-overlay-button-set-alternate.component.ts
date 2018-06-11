@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ButtonColor, ButtonSize } from '../../buttons/button-base.directive';
-import { FlightrouteService } from "../../../services/flightroute/flightroute.service";
-import { SessionService } from "../../../services/utils/session.service";
-import { Sessioncontext } from "../../../model/sessioncontext";
+import { SessionService } from '../../../services/session/session.service';
+import { Sessioncontext } from '../../../model/sessioncontext';
+import {first} from 'rxjs/operators/first';
 
 
 @Component({
@@ -17,8 +17,7 @@ export class MapOverlayButtonSetAlternateComponent implements OnInit {
 
 
     constructor(
-        private sessionService: SessionService,
-        private flightrouteService: FlightrouteService) {
+        private sessionService: SessionService) {
 
         this.session = this.sessionService.getSessionContext();
     }
@@ -29,6 +28,11 @@ export class MapOverlayButtonSetAlternateComponent implements OnInit {
 
 
     public onSetAlternateClicked() {
-        this.flightrouteService.setAlternate(this.session.selectedWaypoint);
+        this.session.flightroute$
+            .withLatestFrom(this.session.selectedWaypoint$)
+            .pipe(first())
+            .subscribe(([flightroute, selectedWaypoint]) => {
+                flightroute.waypointList.alternate = selectedWaypoint;
+            });
     }
 }

@@ -1,12 +1,12 @@
+import $ from 'jquery';
+import 'rxjs/add/operator/withLatestFrom';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from "rxjs/Subscription";
+import { Subscription } from 'rxjs/Subscription';
 import { Sessioncontext } from '../../model/sessioncontext';
-import { SessionService } from '../../services/utils/session.service';
+import { SessionService } from '../../services/session/session.service';
 import { ButtonColor, ButtonSize } from '../buttons/button-base.directive';
-import { Waypoint2 } from "../../model/flightroute-model/waypoint2";
-import 'rxjs/add/operator/withLatestFrom';
-import $ from 'jquery';
+import { Waypoint2 } from '../../model/flightroute-model/waypoint2';
 declare var $: $; // wtf? --> https://github.com/dougludlow/ng2-bs3-modal/issues/147
 
 
@@ -56,13 +56,13 @@ export class EditwaypointComponent implements OnInit, OnDestroy {
     public onSaveClicked(waypoint) {
         if (this.editWpForm.valid) {
             this.updateWpByFormValues();
-            this.session.setSelectedWaypoint(undefined);
+            this.session.selectedWaypoint = undefined;
         }
     }
 
 
     public onCancelClicked() {
-        this.session.setSelectedWaypoint(undefined);
+        this.session.selectedWaypoint = undefined;
     }
 
 
@@ -88,14 +88,14 @@ export class EditwaypointComponent implements OnInit, OnDestroy {
 
     private showForm() {
         window.setTimeout(() => {
-            $('#selectedWaypointDialog').modal('show')
+            $('#selectedWaypointDialog').modal('show');
         }, 10);
     }
 
 
     private hideForm() {
         window.setTimeout(() => {
-            $('#selectedWaypointDialog').modal('hide')
+            $('#selectedWaypointDialog').modal('hide');
         }, 10);
     }
 
@@ -105,7 +105,7 @@ export class EditwaypointComponent implements OnInit, OnDestroy {
         this.waypoint.checkpoint = formValues.checkpoint;
         this.waypoint.freq = formValues.freq;
         this.waypoint.callsign = formValues.callsign;
-        this.waypoint.alt.alt = isNaN(formValues.alt) ? undefined : formValues.alt;
+        this.waypoint.alt.alt_ft = isNaN(formValues.alt) ? undefined : formValues.alt;
         this.waypoint.alt.isminalt = formValues.isminalt;
         this.waypoint.alt.ismaxalt = formValues.ismaxalt;
         this.waypoint.alt.isaltatlegstart = formValues.isaltatlegstart;

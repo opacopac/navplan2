@@ -214,7 +214,7 @@ export class OlTraffic extends OlFeaturePoint {
         }
 
         const maxIdx = this.traffic.positions.length - 1;
-        const rotation = GeocalcService.getBearing(
+        const rotation = GeocalcService.getBearing_old(
             this.traffic.positions[maxIdx - 1].position,
             this.traffic.positions[maxIdx].position,
             0);

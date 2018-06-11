@@ -1,13 +1,13 @@
-import { Component, ElementRef, OnChanges, OnInit, ViewChild} from '@angular/core';
-import { Airport, AirportChart, AirportRunway, AirportType } from '../../../model/airport';
-import { Position2d } from '../../../model/position';
-import { MapOverlayContainer } from '../map-overlay-container';
-import { StringnumberService } from "../../../services/utils/stringnumber.service";
-import { DatetimeService } from "../../../services/utils/datetime.service";
-import { MapOverlayWindyiframeComponent } from "../map-overlay-windyiframe/map-overlay-windyiframe.component";
-import $ from "jquery";
-import {SessionService} from "../../../services/utils/session.service";
-import {Sessioncontext} from "../../../model/sessioncontext";
+import $ from 'jquery';
+import {Component, ElementRef, OnChanges, OnInit, ViewChild} from '@angular/core';
+import {Airport, AirportChart, AirportRunway, AirportType} from '../../../model/airport';
+import {Position2d} from '../../../model/position';
+import {MapOverlayContainer} from '../map-overlay-container';
+import {StringnumberService} from '../../../services/utils/stringnumber.service';
+import {DatetimeService} from '../../../services/utils/datetime.service';
+import {MapOverlayWindyiframeComponent} from '../map-overlay-windyiframe/map-overlay-windyiframe.component';
+import {SessionService} from '../../../services/session/session.service';
+import {Sessioncontext} from '../../../model/sessioncontext';
 
 @Component({
     selector: 'app-map-overlay-airport',

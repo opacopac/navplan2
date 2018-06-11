@@ -1,7 +1,7 @@
-import { OlFeature } from "./ol-feature";
-import { Waypoint } from "../waypoint";
-import * as ol from "openlayers";
-import { UnitconversionService } from "../../services/utils/unitconversion.service";
+import { OlFeature } from './ol-feature';
+import { Waypoint } from '../waypoint';
+import * as ol from 'openlayers';
+import { UnitconversionService } from '../../services/utils/unitconversion.service';
 
 
 export class OlWaypoint extends OlFeature {
@@ -102,7 +102,7 @@ export class OlWaypoint extends OlFeature {
 
 
     private createDirBearStyle(wp: Waypoint, mapRotationRad: number): ol.style.Style {
-        const varRad = Number(wp) ? UnitconversionService.deg2rad(wp) : 0;
+        const varRad = Number(wp) ? UnitconversionService.deg2rad(wp.mt) : 0;
         const maprotDeg = UnitconversionService.rad2deg(mapRotationRad);
         let rotRad, align, text;
 
@@ -127,7 +127,7 @@ export class OlWaypoint extends OlFeature {
                 fill: new ol.style.Fill({color: '#000000'}),
                 stroke: new ol.style.Stroke({color: '#FFFFFF', width: 10}),
                 rotation: rotRad + varRad + mapRotationRad,
-                textAlign: align
+                textAlign: align,
             })
         });
     }

@@ -2,8 +2,8 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { Userpoint } from '../../../model/userpoint';
 import { Position2d } from '../../../model/position';
 import { MapOverlayContainer } from '../map-overlay-container';
-import {Sessioncontext} from "../../../model/sessioncontext";
-import {SessionService} from "../../../services/utils/session.service";
+import {Sessioncontext} from '../../../model/sessioncontext';
+import {SessionService} from '../../../services/session/session.service';
 
 
 @Component({

@@ -1,10 +1,15 @@
-import * as ol from "openlayers";
-import { Position2d } from "../position";
-import { DataItem } from "../data-item";
+import * as ol from 'openlayers';
+import {Position2d} from '../model/position';
+import {DataItem} from '../model/data-item';
+import {MapContext} from '../services/map/map.service';
 
 
-export abstract class OlBase2 {
+export abstract class OlComponent {
     public static readonly PROPERTYNAME_DATAITEM = 'navplanDataItem';
+
+
+    constructor(protected mapContext: MapContext) {
+    }
 
 
     public abstract destroy();
@@ -12,7 +17,7 @@ export abstract class OlBase2 {
 
     protected createFeature(dataItem$: DataItem): ol.Feature {
         const feature = new ol.Feature();
-        feature.set(OlBase2.PROPERTYNAME_DATAITEM, dataItem$, true);
+        feature.set(OlComponent.PROPERTYNAME_DATAITEM, dataItem$, true);
         return feature;
     }
 
@@ -23,8 +28,8 @@ export abstract class OlBase2 {
 
 
     protected removeFeatures(featureList: ol.Feature[], source: ol.source.Vector) {
-        for (let feature of featureList) {
-            feature.unset(OlBase2.PROPERTYNAME_DATAITEM, true);
+        for (const feature of featureList) {
+            feature.unset(OlComponent.PROPERTYNAME_DATAITEM, true);
             source.removeFeature(feature);
         }
     }
@@ -42,7 +47,7 @@ export abstract class OlBase2 {
             const newPos = position.getMercator();
             const olPoint = (feature.getGeometry() as ol.geom.Point);
             if (!olPoint) {
-                feature.setGeometry(new ol.geom.Point(newPos))
+                feature.setGeometry(new ol.geom.Point(newPos));
             } else {
                 olPoint.setCoordinates(newPos);
             }

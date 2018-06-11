@@ -1,4 +1,4 @@
-import {SpeedUnit, UnitconversionService} from "../../services/utils/unitconversion.service";
+import {SpeedUnit, UnitconversionService} from '../../services/utils/unitconversion.service';
 
 
 export class Speed {

@@ -1,12 +1,12 @@
-import {NotamRestItem} from "./rest-mapper-notam";
-import {WebcamRestItem} from "./rest-mapper-webcam";
-import {NavaidRestItem, RestMapperNavaid} from "./rest-mapper-navaid";
-import {ReportingPointRestItem, RestMapperReportingpoint} from "./rest-mapper-reportingpoint";
-import {AirportRestItem, RestMapperAirport} from "./rest-mapper-airport";
-import {AirspaceRestItem} from "./rest-mapper-airspace";
-import {RestMapperUserpoint, UserPointRestItem} from "./rest-mapper-userpoint";
-import {GeonameRestItem, RestMapperGeoname} from "./rest-mapper-geoname";
-import {SearchItemList} from "../search-item";
+import {NotamRestItem} from './rest-mapper-notam';
+import {WebcamRestItem} from './rest-mapper-webcam';
+import {NavaidRestItem, RestMapperNavaid} from './rest-mapper-navaid';
+import {ReportingPointRestItem, RestMapperReportingpoint} from './rest-mapper-reportingpoint';
+import {AirportRestItem, RestMapperAirport} from './rest-mapper-airport';
+import {AirspaceRestItem} from './rest-mapper-airspace';
+import {RestMapperUserpoint, UserPointRestItem} from './rest-mapper-userpoint';
+import {GeonameRestItem, RestMapperGeoname} from './rest-mapper-geoname';
+import {SearchItemList} from '../search-item';
 
 
 export interface SearchResponse {

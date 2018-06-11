@@ -2,14 +2,25 @@ import * as ol from 'openlayers';
 import { Timestamp } from './timestamp';
 import { Altitude } from './altitude';
 import { Geometry2d, Geometry2dType } from './geometry2d';
-import {Clonable} from "./clonable";
-import {StringnumberService} from "../services/utils/stringnumber.service";
+import {Clonable} from './clonable';
+import {StringnumberService} from '../services/utils/stringnumber.service';
 
 
 export class Position2d implements Geometry2d, Clonable<Position2d> {
     public constructor(
         public longitude: number,
         public latitude: number) {
+    }
+
+
+    public static createFromLonLat(lonLat: [number, number]): Position2d {
+        return new Position2d(lonLat[0], lonLat[1]);
+    }
+
+
+    public static createFromMercator(posMercator: [number, number]): Position2d {
+        const lonLat = ol.proj.toLonLat(posMercator);
+        return new Position2d(lonLat[0], lonLat[1]);
     }
 
 
@@ -27,17 +38,6 @@ export class Position2d implements Geometry2d, Clonable<Position2d> {
     public round(digits: number) {
         this.longitude = StringnumberService.roundToDigits(this.longitude, digits);
         this.latitude = StringnumberService.roundToDigits(this.latitude, digits);
-    }
-
-
-    public static createFromLonLat(lonLat: [number, number]): Position2d {
-        return new Position2d(lonLat[0], lonLat[1]);
-    }
-
-
-    public static createFromMercator(posMercator: [number, number]): Position2d {
-        const lonLat = ol.proj.toLonLat(posMercator);
-        return new Position2d(lonLat[0], lonLat[1]);
     }
 
 

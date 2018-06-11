@@ -3,9 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { LoggingService } from '../utils/logging.service';
 import { Track } from '../../model/track';
-import { SessionService } from '../utils/session.service';
+import { SessionService } from '../session/session.service';
 import { Sessioncontext } from '../../model/sessioncontext';
-import { RestMapperTrack, TrackListResponse } from "../../model/rest-model/rest-mapper-track";
+import { RestMapperTrack, TrackListResponse } from '../../model/rest-model/rest-mapper-track';
 
 const userTrackBaseUrl =  environment.restApiBaseUrl + 'php/userTrack.php';
 

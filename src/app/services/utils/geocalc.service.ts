@@ -1,9 +1,9 @@
 import * as ol from 'openlayers';
 import { Injectable } from '@angular/core';
 import { Position2d } from '../../model/position';
-import {Angle} from "../../model/units/angle";
-import {AngleUnit, LengthUnit} from "./unitconversion.service";
-import {Distance} from "../../model/units/distance";
+import { Angle } from '../../model/units/angle';
+import { AngleUnit, LengthUnit } from './unitconversion.service';
+import { Distance } from '../../model/units/distance';
 
 
 const wgs84Sphere = new ol.Sphere(6378137);
@@ -14,6 +14,16 @@ const toDeg = (180 / Math.PI);
 @Injectable()
 export class GeocalcService {
     constructor() {
+    }
+
+
+    public static getDistance_old(pos1: Position2d, pos2: Position2d): number {
+        return this.getDistance(pos1, pos2).getValue(LengthUnit.NM);
+    }
+
+
+    public static getBearing_old(pos1: Position2d, pos2: Position2d, magvar: number): number {
+        return this.getBearing(pos1, pos2, new Angle(magvar, AngleUnit.DEG)).deg;
     }
 
 
@@ -54,11 +64,13 @@ export class GeocalcService {
             let lonLat: Position2d;
 
             if (matchGradMinSec != null) {
-                lonLat = GeocalcService.getLonLatFromGradMinSec(matchGradMinSec[1], matchGradMinSec[2], matchGradMinSec[3], matchGradMinSec[4], matchGradMinSec[5], matchGradMinSec[6], matchGradMinSec[7], matchGradMinSec[8]);
+                lonLat = GeocalcService.getLonLatFromGradMinSec(matchGradMinSec[1], matchGradMinSec[2], matchGradMinSec[3],
+                    matchGradMinSec[4], matchGradMinSec[5], matchGradMinSec[6], matchGradMinSec[7], matchGradMinSec[8]);
             } else if (matchDecGrad != null) {
                 lonLat = new Position2d(parseFloat(matchDecGrad[2]), parseFloat(matchDecGrad[1]));
             } else if (matchNotam != null) {
-                lonLat = GeocalcService.getLonLatFromGradMinSec(matchNotam[1], matchNotam[2], matchNotam[3], matchNotam[4], matchNotam[5], matchNotam[6], matchNotam[7], matchNotam[8]);
+                lonLat = GeocalcService.getLonLatFromGradMinSec(matchNotam[1], matchNotam[2], matchNotam[3],
+                    matchNotam[4], matchNotam[5], matchNotam[6], matchNotam[7], matchNotam[8]);
             }
 
             return lonLat;
@@ -66,7 +78,15 @@ export class GeocalcService {
     }
 
 
-    public static getLonLatFromGradMinSec(latGrad: string, latMin: string, latSec: string, latDir: string, lonGrad: string, lonMin: string, lonSec: string, lonDir: string): Position2d {
+    public static getLonLatFromGradMinSec(
+        latGrad: string,
+        latMin: string,
+        latSec: string,
+        latDir: string,
+        lonGrad: string,
+        lonMin: string,
+        lonSec: string,
+        lonDir: string): Position2d {
         const latG = parseInt(latGrad, 10);
         const latM = parseInt(latMin, 10);
         const latS = parseFloat(latSec);

@@ -1,16 +1,9 @@
-import {
-    Traffic,
-    TrafficAddressType,
-    TrafficAircraftType,
-    TrafficDataSource,
-    TrafficPosition,
-    TrafficPositionMethod
-} from "../traffic";
-import {Altitude} from "../altitude";
-import {UnitconversionService} from "../../services/utils/unitconversion.service";
-import {IcaoCallsignService} from "../../services/traffic/icaocallsign.service";
-import {Position4d} from "../position";
-import {Timestamp} from "../timestamp";
+import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource, TrafficPosition, TrafficPositionMethod } from '../traffic';
+import {Altitude} from '../altitude';
+import {UnitconversionService} from '../../services/utils/unitconversion.service';
+import {IcaoCallsignService} from '../../services/traffic/icaocallsign.service';
+import {Position4d} from '../position';
+import {Timestamp} from '../timestamp';
 
 export interface TrafficAdsbExResponse {
     acList: TrafficAdsbExRestItem[];

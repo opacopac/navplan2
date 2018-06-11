@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { LoggingService } from '../utils/logging.service';
-import { ClientstorageService } from '../utils/clientstorage.service';
-import { SessionService } from '../utils/session.service';
+import { ClientstorageService } from '../session/clientstorage.service';
+import { SessionService } from '../session/session.service';
 import { User } from '../../model/user';
 
 

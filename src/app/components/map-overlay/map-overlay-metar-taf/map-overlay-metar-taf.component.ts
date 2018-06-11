@@ -2,13 +2,10 @@ import { Component, Input, OnInit} from '@angular/core';
 import { DatetimeService } from '../../../services/utils/datetime.service';
 import { StringnumberService } from '../../../services/utils/stringnumber.service';
 import { MetarTaf } from '../../../model/metar-taf';
-import { SessionService } from '../../../services/utils/session.service';
+import { SessionService } from '../../../services/session/session.service';
 import { Sessioncontext } from '../../../model/sessioncontext';
-import {Position2d} from "../../../model/position";
-import {OlNavaid} from "../../../model/ol-model/ol-navaid";
-import {OlMetar} from "../../../model/ol-model/ol-metar";
-import {OlAirport} from "../../../model/ol-model/ol-airport";
-import {OlMetarSky} from "../../../model/ol-model/ol-metar-sky";
+import {Position2d} from '../../../model/position';
+
 
 
 @Component({

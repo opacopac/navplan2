@@ -1,12 +1,14 @@
-import { User } from './user';
-import { Position2d } from './position';
-import { MapbaselayerType } from './ol-model/mapbaselayer-factory';
-import { Track } from './track';
-import { Waypoint } from "./waypoint";
-import { Flightroute2} from "./flightroute-model/flightroute2";
-import { Waypoint2 } from "./flightroute-model/waypoint2";
-import { Observable } from "rxjs/Observable";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import {User} from './user';
+import {Position2d} from './position';
+import {MapbaselayerType} from './ol-model/mapbaselayer-factory';
+import {Track} from './track';
+import {Flightroute2} from './flightroute-model/flightroute2';
+import {Waypoint2} from './flightroute-model/waypoint2';
+import {Observable} from 'rxjs/Observable';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Altitude} from './altitude';
+import {Angle} from './units/angle';
+import {RxService} from '../services/utils/rx.service';
 
 
 export class Sessioncontext {
@@ -15,49 +17,88 @@ export class Sessioncontext {
     public settings: Globalsettings;
     public map: Mapsettings;
     public track: Track;
-    public selectedWaypoint: Waypoint;
-    public readonly flightroute$: Observable<Flightroute2>;
     private readonly flightRouteSource: BehaviorSubject<Flightroute2>;
-    public readonly selectedWaypoint$: Observable<Waypoint2>;
     private readonly selectedWaypointSource: BehaviorSubject<Waypoint2>;
-    public readonly editWaypointActive$: Observable<boolean>;
-    private readonly editWaypointActiveSource: BehaviorSubject<boolean>;
+    private readonly editWaypointSource: BehaviorSubject<boolean>;
 
 
     constructor() {
         this.flightRouteSource = new BehaviorSubject<Flightroute2>(new Flightroute2());
-        this.flightroute$ = this.flightRouteSource.asObservable();
         this.selectedWaypointSource = new BehaviorSubject<Waypoint2>(undefined);
-        this.selectedWaypoint$ = this.selectedWaypointSource.asObservable();
-        this.editWaypointActiveSource = new BehaviorSubject<boolean>(false);
-        this.editWaypointActive$ = this.editWaypointActiveSource.asObservable();
+        this.editWaypointSource = new BehaviorSubject<boolean>(false);
     }
 
 
-    setSelectedWaypoint(value: Waypoint2) {
+    get selectedWaypoint$(): Observable<Waypoint2> {
+        return this.selectedWaypointSource.asObservable();
+    }
+
+
+    set selectedWaypoint(value: Waypoint2) {
         this.selectedWaypointSource.next(value);
     }
 
 
-    setFlightroute(value: Flightroute2) {
+    get selectedWaypointIsNew$(): Observable<boolean> {
+        return Observable.combineLatest(
+            this.selectedWaypoint$,
+            this.flightrouteWaypoints$)
+            .map(([selectedWaypoint, wpList]) => wpList.indexOf(selectedWaypoint) >= 0)
+            .distinctUntilChanged();
+    }
+
+
+    get selectedWaypointIsAlternate$(): Observable<boolean> {
+        return Observable.combineLatest(
+            this.selectedWaypoint$,
+            this.flightroute$.flatMap(route => route.waypointList.alternate$))
+            .map(([selectedWaypoint, alternate]) => selectedWaypoint === alternate)
+            .distinctUntilChanged();
+    }
+
+
+    get flightroute$(): Observable<Flightroute2> {
+        return this.flightRouteSource.asObservable();
+    }
+
+
+    set flightroute(value: Flightroute2) {
         this.flightRouteSource.next(value);
     }
 
 
-    setEditWaypointActive(value: boolean) {
-        this.editWaypointActiveSource.next(value);
+    get flightrouteWaypoints$(): Observable<Waypoint2[]> {
+        return Observable.combineLatest(
+            this.flightroute$.flatMap(route =>
+                route ? route.waypointList.items$ : RxService.getEternal<Waypoint2[]>([])))
+            .flatMap(items => items);
+    }
+
+
+    get editWaypointActive$(): Observable<boolean> {
+        return this.editWaypointSource.asObservable();
+    }
+
+
+    set editWaypointActive(value: boolean) {
+        this.editWaypointSource.next(value);
     }
 }
 
 
 export class Globalsettings {
-    variationDeg: number;
-    maxTrafficAltitudeFt: number;
-    baseMapType: MapbaselayerType;
+    constructor(
+        public variation: Angle,
+        public maxTrafficAltitude: Altitude) {
+    }
 }
 
 
 export class Mapsettings {
-    position: Position2d;
-    zoom: number;
+    constructor(
+        public baseMapType: MapbaselayerType,
+        public position: Position2d,
+        public zoom: number,
+        public rotation: Angle) {
+    }
 }

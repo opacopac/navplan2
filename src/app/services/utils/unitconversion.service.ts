@@ -79,21 +79,26 @@ export class UnitconversionService {
         if (unit === convertToUnit) { return value; }
         if (value === undefined) { return undefined; }
 
-        switch([unit, convertToUnit]) {
-            case [LengthUnit.NM, LengthUnit.FT]:
-                return value * FT_PER_NM;
-            case [LengthUnit.NM, LengthUnit.M]:
-                return value * M_PER_NM;
-            case [LengthUnit.FT, LengthUnit.NM]:
-                return value / FT_PER_NM;
-            case [LengthUnit.FT, LengthUnit.M]:
-                return value / FT_PER_M;
-            case [LengthUnit.M, LengthUnit.NM]:
-                return value / M_PER_NM;
-            case [LengthUnit.M, LengthUnit.FT]:
-                return value * FT_PER_M;
-            default:
-                return undefined;
+        switch (unit) {
+            case LengthUnit.NM:
+                switch (convertToUnit) {
+                    case LengthUnit.FT: return value * FT_PER_NM;
+                    case LengthUnit.M: return value * M_PER_NM;
+                    default: return undefined;
+                }
+            case LengthUnit.FT:
+                switch (convertToUnit) {
+                    case LengthUnit.FT: return value / FT_PER_NM;
+                    case LengthUnit.M: return value / FT_PER_M;
+                    default: return undefined;
+                }
+            case LengthUnit.M:
+                switch (convertToUnit) {
+                    case LengthUnit.FT: return value / M_PER_NM;
+                    case LengthUnit.M: return value * FT_PER_M;
+                    default: return undefined;
+                }
+            default: return undefined;
         }
     }
 
@@ -109,21 +114,27 @@ export class UnitconversionService {
         if (unit === convertToUnit) { return value; }
         if (value === undefined) { return undefined; }
 
-        switch([unit, convertToUnit]) {
-            case [SpeedUnit.KT, SpeedUnit.KMH]:
-                return value * (M_PER_NM / 1000);
-            case [SpeedUnit.KT, SpeedUnit.MPS]:
-                return value / (3600 / M_PER_NM);
-            case [SpeedUnit.KMH, SpeedUnit.KT]:
-                return value / (M_PER_NM / 1000);
-            case [SpeedUnit.KMH, SpeedUnit.MPS]:
-                return value * 3.6;
-            case [SpeedUnit.MPS, SpeedUnit.KT]:
-                return value * (3600 / M_PER_NM);
-            case [SpeedUnit.MPS, SpeedUnit.KMH]:
-                return value / 3.6;
-            default:
-                return undefined;
+
+        switch (unit) {
+            case SpeedUnit.KT:
+                switch (convertToUnit) {
+                    case SpeedUnit.KMH: return value * (M_PER_NM / 1000);
+                    case SpeedUnit.MPS: return value / (3600 / M_PER_NM);
+                    default: return undefined;
+                }
+            case SpeedUnit.KMH:
+                switch (convertToUnit) {
+                    case SpeedUnit.KT: return value / (M_PER_NM / 1000);
+                    case SpeedUnit.MPS: return value * 3.6;
+                    default: return undefined;
+                }
+            case SpeedUnit.MPS:
+                switch (convertToUnit) {
+                    case SpeedUnit.KT: return value * (3600 / M_PER_NM);
+                    case SpeedUnit.KMH: return value / 3.6;
+                    default: return undefined;
+                }
+            default: return undefined;
         }
     }
 
@@ -148,13 +159,19 @@ export class UnitconversionService {
         if (unit === convertToUnit) { return value; }
         if (value === undefined) { return undefined; }
 
-        switch([unit, convertToUnit]) {
-            case [AngleUnit.DEG, AngleUnit.RAD]:
-                return value / 360 * 2 * Math.PI;
-            case [AngleUnit.RAD, AngleUnit.DEG]:
-                return value / (2 * Math.PI) * 360;
-            default:
-                return undefined;
+
+        switch (unit) {
+            case AngleUnit.DEG:
+                switch (convertToUnit) {
+                    case AngleUnit.RAD: return value / 360 * 2 * Math.PI;
+                    default: return undefined;
+                }
+            case AngleUnit.RAD:
+                switch (convertToUnit) {
+                    case AngleUnit.DEG: return value / (2 * Math.PI) * 360;
+                    default: return undefined;
+                }
+            default: return undefined;
         }
     }
 
@@ -170,13 +187,18 @@ export class UnitconversionService {
         if (unit === convertToUnit) { return value; }
         if (value === undefined) { return undefined; }
 
-        switch([unit, convertToUnit]) {
-            case [VolumeUnit.L, VolumeUnit.GAL]:
-                return value / L_PER_GAL;
-            case [VolumeUnit.GAL, VolumeUnit.L]:
-                return value * L_PER_GAL;
-            default:
-                return undefined;
+        switch (unit) {
+            case VolumeUnit.L:
+                switch (convertToUnit) {
+                    case VolumeUnit.GAL: return value / L_PER_GAL;
+                    default: return undefined;
+                }
+            case VolumeUnit.GAL:
+                switch (convertToUnit) {
+                    case VolumeUnit.L: return value * L_PER_GAL;
+                    default: return undefined;
+                }
+            default: return undefined;
         }
     }
 
@@ -192,13 +214,18 @@ export class UnitconversionService {
         if (unit === convertToUnit) { return value; }
         if (value === undefined) { return undefined; }
 
-        switch([unit, convertToUnit]) {
-            case [ConsumptionUnit.L_PER_H, ConsumptionUnit.GAL_PER_H]:
-                return value / L_PER_GAL;
-            case [ConsumptionUnit.GAL_PER_H, ConsumptionUnit.L_PER_H]:
-                return value * L_PER_GAL;
-            default:
-                return undefined;
+        switch (unit) {
+            case ConsumptionUnit.L_PER_H:
+                switch (convertToUnit) {
+                    case ConsumptionUnit.GAL_PER_H: return value / L_PER_GAL;
+                    default: return undefined;
+                }
+            case ConsumptionUnit.GAL_PER_H:
+                switch (convertToUnit) {
+                    case ConsumptionUnit.L_PER_H: return value * L_PER_GAL;
+                    default: return undefined;
+                }
+            default: return undefined;
         }
     }
 
@@ -214,21 +241,27 @@ export class UnitconversionService {
         if (unit === convertToUnit) { return value; }
         if (value === undefined) { return undefined; }
 
-        switch([unit, convertToUnit]) {
-            case [TimeUnit.S, TimeUnit.M]:
-                return value / 60;
-            case [TimeUnit.S, TimeUnit.H]:
-                return value / 3600;
-            case [TimeUnit.M, TimeUnit.S]:
-                return value * 60;
-            case [TimeUnit.M, TimeUnit.H]:
-                return value / 60;
-            case [TimeUnit.H, TimeUnit.S]:
-                return value * 3600;
-            case [TimeUnit.H, TimeUnit.M]:
-                return value * 60;
-            default:
-                return undefined;
+
+        switch (unit) {
+            case TimeUnit.S:
+                switch (convertToUnit) {
+                    case TimeUnit.M: return value / 60;
+                    case TimeUnit.H: return value / 3600;
+                    default: return undefined;
+                }
+            case TimeUnit.M:
+                switch (convertToUnit) {
+                    case TimeUnit.S: return value * 60;
+                    case TimeUnit.H: return value / 60;
+                    default: return undefined;
+                }
+            case TimeUnit.H:
+                switch (convertToUnit) {
+                    case TimeUnit.S: return value * 3600;
+                    case TimeUnit.M: return value * 60;
+                    default: return undefined;
+                }
+            default: return undefined;
         }
     }
 

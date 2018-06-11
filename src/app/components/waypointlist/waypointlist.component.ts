@@ -1,9 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Waypoint, Waypointtype } from '../../model/waypoint';
-import { ButtonColor, ButtonSize } from '../buttons/button-base.directive';
-import { FlightrouteService } from "../../services/flightroute/flightroute.service";
-import { Flightroute } from "../../model/flightroute";
-import {Subscription} from "rxjs/Subscription";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Waypoint, Waypointtype} from '../../model/waypoint';
+import {ButtonColor, ButtonSize} from '../buttons/button-base.directive';
+import {FlightrouteService} from '../../services/flightroute/flightroute.service';
+import {Flightroute} from '../../model/flightroute';
+import {Subscription} from 'rxjs/Subscription';
+import {SessionService} from '../../services/session/session.service';
+import {Sessioncontext} from '../../model/sessioncontext';
+import {Waypoint2} from '../../model/flightroute-model/waypoint2';
 
 
 @Component({
@@ -17,10 +20,14 @@ export class WaypointlistComponent implements OnInit, OnDestroy {
     public ButtonColor = ButtonColor;
     public currentFlightroute: Flightroute;
     private currentFlightrouteSubscription: Subscription;
+    public session: Sessioncontext;
 
 
     constructor(
+        private sessionService: SessionService,
         private flightrouteService: FlightrouteService) {
+
+        this.session = this.sessionService.getSessionContext();
     }
 
 
@@ -40,19 +47,23 @@ export class WaypointlistComponent implements OnInit, OnDestroy {
     // endregion
 
 
-    onEditWaypointClicked(wp: Waypoint) {
-        this.flightrouteService.editWaypoint(wp);
+    onEditWaypointClicked(wp: Waypoint2) {
+        this.session.selectedWaypoint = wp;
+        this.session.editWaypointActive = true;
     }
 
 
-    onRemoveWaypointClicked(wp: Waypoint) {
-        this.flightrouteService.removeWaypointFromRoute(wp);
-    }
+    /*onRemoveWaypointClicked(wp: Waypoint2) {
+        this.session.flightroute$
+            .subscribe((flightroute) => {
+                flightroute.waypointList.remove(wp);
+            });
+    }*/
 
 
-    onRemoveAlternateClicked() {
+    /*onRemoveAlternateClicked() {
         this.flightrouteService.removeAlternateFromRoute();
-    }
+    }*/
 
 
     onReverseWaypointsClicked() {

@@ -1,17 +1,17 @@
 import { Clonable } from './clonable';
-import { Position2d } from "./position";
+import { Position2d } from './position';
 
 
 export class Waypoint implements Clonable<Waypoint> {
-    public mt: number = 0;
+    public mt = 0;
     public mtText = '';
     public vacTime = 0;
     public dist: number;
     public distText = '';
     public alt: Waypointaltitude = new Waypointaltitude();
     public eetText = '';
-    public variation: number = 0;
-    public isNew: boolean = false;
+    public variation = 0;
+    public isNew = false;
 
 
     constructor(
