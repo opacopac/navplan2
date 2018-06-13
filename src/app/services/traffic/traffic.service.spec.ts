@@ -1,15 +1,15 @@
 import {TestBed, inject} from '@angular/core/testing';
 
-import {TrafficIntegratorService} from './traffic.service';
+import {TrafficService} from './traffic.service';
 
 describe('TrafficIntegratorService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [TrafficIntegratorService]
+            providers: [TrafficService]
         });
     });
 
-    it('should be created', inject([TrafficIntegratorService], (service: TrafficIntegratorService) => {
+    it('should be created', inject([TrafficService], (service: TrafficService) => {
         expect(service).toBeTruthy();
     }));
 });

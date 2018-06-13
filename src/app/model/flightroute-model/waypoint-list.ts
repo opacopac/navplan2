@@ -56,7 +56,7 @@ export class WaypointList extends ObservableArray<Waypoint2> {
         return this.items$
             .flatMap(items =>
                 Observable.combineLatest<Time>(
-                    items.map(wp => wp.legTime$)
+                    items.map(wp => wp.eet$)
                 )
             );
     }

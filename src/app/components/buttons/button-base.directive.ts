@@ -23,10 +23,10 @@ export enum ButtonColor {
     selector: '[appButtonBase]'
 })
 export class ButtonBaseDirective implements OnInit, OnChanges {
-    @Input() size: ButtonSize;
-    @Input() color: ButtonColor;
-    @Input() isDisabled: boolean;
-    @Input() isPressed: boolean;
+    @Input() public size: ButtonSize;
+    @Input() public color: ButtonColor;
+    @Input() public isDisabled: boolean;
+    @Input() public isPressed: boolean;
     @HostBinding('class') protected class: string;
 
 

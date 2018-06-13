@@ -32,7 +32,7 @@ export class Flightroute2 {
         this.fuel = new Routefuel2(
             this.aircraft$.flatMap((aircraft) => aircraft.consumption$),
             this.waypointList.legTimeSum$,
-            this.waypointList.alternate$.flatMap(wp => wp ? wp.legTime$ : RxService.getEternal<Time>()));
+            this.waypointList.alternate$.flatMap(wp => wp ? wp.eet$ : RxService.getEternal<Time>()));
     }
 
 

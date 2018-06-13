@@ -11,6 +11,7 @@ import {Angle} from '../units/angle';
 import {AngleUnit, LengthUnit, SpeedUnit, TimeUnit} from '../../services/utils/unitconversion.service';
 import {RxService} from '../../services/utils/rx.service';
 import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/observable/of';
 import {StringnumberService} from '../../services/utils/stringnumber.service';
@@ -143,6 +144,23 @@ export class Waypoint2 {
     }
 
 
+    get isOriginAirport$(): Observable<boolean> {
+        return Observable.combineLatest(
+            this.type$,
+            this.previousWaypoint$,
+            (type, prevWp) => (type === Waypointtype.airport && !prevWp));
+    }
+
+
+    get isDestinationAirport$(): Observable<boolean> {
+        return Observable.combineLatest(
+            this.type$,
+            this.nextWaypoint$,
+            this.nextWaypoint$.flatMap(wp => wp ? wp.isAlternate$ : RxService.getEternal<boolean>(false)),
+            (type, nextWp, nextWpIsAlternate) => (type === Waypointtype.airport && (!nextWp || nextWpIsAlternate)));
+    }
+
+
     get previousWaypoint$(): Observable<Waypoint2> {
         return this.previousWaypointSource.asObservable();
     }
@@ -206,7 +224,8 @@ export class Waypoint2 {
 
 
     get variation$(): Observable<Angle> {
-        return this.position$.map((pos) => this.calcVariation(pos));
+        return this.position$
+            .map(pos => this.calcVariation(pos));
     }
 
 
@@ -227,23 +246,15 @@ export class Waypoint2 {
     }
 
 
-    get legTime$(): Observable<Time> {
+    get eet$(): Observable<Time> {
         return Observable.combineLatest(
             this.dist$,
             this.speed$,
-            (distance, speed) => {
-                return this.calcLegTime(distance, speed);
+            this.vacTime$,
+            (distance, speed, vacTime) => {
+                return this.calcEet(distance, speed, vacTime);
             }
         );
-    }
-
-
-    get vacTime$(): Observable<Time> {
-        // TODO
-        return Observable.combineLatest(
-            this.type$,
-            this.isAlternate$)
-            .map(([type, isAlternate]) => this.calcVacTime(type, isAlternate));
     }
 
 
@@ -256,39 +267,55 @@ export class Waypoint2 {
     }
 
 
+    get vacTime$(): Observable<Time> {
+        return Observable.combineLatest(
+            this.type$,
+            this.isAlternate$,
+            this.previousWaypoint$,
+            this.nextWaypoint$,
+            this.previousWaypoint$.flatMap(prevWp => prevWp ? prevWp.isOriginAirport$ : RxService.getEternal<boolean>(false)),
+            this.nextWaypoint$.flatMap(nextWp => nextWp ? nextWp.isAlternate$ : RxService.getEternal<boolean>(false))
+        )
+            .map(([type, isAlternate, prevWp, nextWp, prevWpIsOriginAirport, nextIsAlternate]) => {
+                return this.calcVacTime(type, isAlternate, prevWp, nextWp, prevWpIsOriginAirport, nextIsAlternate);
+            });
+    }
+
+
     private calcVariation(position: Position2d): Angle {
         return new Angle(0, AngleUnit.DEG); // TODO
     }
 
 
-    private calcLegTime(distance: Distance, speed: Speed): Time {
-        if (!distance || !speed) {
+    private calcEet(distance: Distance, speed: Speed, vacTime: Time): Time {
+        if (!distance || !speed || !vacTime) {
             return undefined;
         }
-
-        return new Time(distance.getValue(LengthUnit.NM) / speed.getValue(SpeedUnit.KT) * 60, TimeUnit.M);
+        const time = new Time(distance.getValue(LengthUnit.NM) / speed.getValue(SpeedUnit.KT) * 60, TimeUnit.M);
+        return time.add(vacTime);
     }
 
 
-    private calcVacTime(type: Waypointtype, isAlternate: boolean): Time {
-        if (isAlternate) {
+    private calcVacTime(type: Waypointtype, isAlternate: boolean, prevWp: Waypoint2, nextWp: Waypoint2, prevWpIsOriginAirport: boolean, nextWpIsAlternate: boolean): Time {
+        if (isAlternate && prevWp) {
             return ADDITIONAL_VAC_TIME;
+        } else if (prevWpIsOriginAirport) {
+            return ADDITIONAL_VAC_TIME;
+        } else if (type === Waypointtype.airport && prevWp && (!nextWp || nextWpIsAlternate)) {
+            return ADDITIONAL_VAC_TIME;
+        } else {
+            return new Time(0, TimeUnit.M);
         }
-
-        /*if ((i === 1 && this.currentRoute.waypoints[0].type === Waypointtype.airport)
-            || (i === this.currentRoute.waypoints.length - 1 && this.currentRoute.waypoints[i].type === Waypointtype.airport)) {
-            this.currentRoute.waypoints[i].vacTime = ADDITIONAL_VAC_TIME_MIN;
-        */
     }
 
 
     private getMtText(mt: Angle, vacTime: Time, isAlternate: boolean): string {
-        if (!mt || !vacTime) {
-            return '';
-        } else if (vacTime.min > 0 && !isAlternate) {
+        if (mt && vacTime && vacTime.min > 0 && !isAlternate) {
             return VAC_STRING;
-        } else {
+        } else if (mt) {
             return StringnumberService.zeroPad(mt.deg, 3);
+        } else {
+            return '';
         }
     }
 

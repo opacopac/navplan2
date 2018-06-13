@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { MapService } from '../../../services/map/map.service';
 import { TimerService } from '../../../services/utils/timer.service';
 import { MessageService } from '../../../services/utils/message.service';
 import { LocationService, LocationServiceStatus } from '../../../services/location/location.service';
 import { Traffic, TrafficAddressType, TrafficDataSource, TrafficPosition, TrafficPositionMethod, TrafficAircraftType } from '../../../model/traffic';
 import { Position4d } from '../../../model/position';
-import { ButtonColor, ButtonSize } from '../button-base.directive';
+import { ButtonSize } from '../button-base.directive';
 import { ButtonStatus } from '../status-button.directive';
 
 
