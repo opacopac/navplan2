@@ -9,6 +9,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Altitude} from './altitude';
 import {Angle} from './units/angle';
 import {RxService} from '../services/utils/rx.service';
+import {FlightrouteListEntry} from './flightroute-model/flightroute-list-entry';
 
 
 export class Sessioncontext {
@@ -17,12 +18,14 @@ export class Sessioncontext {
     public settings: Globalsettings;
     public map: Mapsettings;
     public track: Track;
+    private readonly flightRouteListSource: BehaviorSubject<FlightrouteListEntry[]>;
     private readonly flightRouteSource: BehaviorSubject<Flightroute2>;
     private readonly selectedWaypointSource: BehaviorSubject<Waypoint2>;
     private readonly editWaypointSource: BehaviorSubject<boolean>;
 
 
     constructor() {
+        this.flightRouteListSource = new BehaviorSubject<Flightroute2[]>([]);
         this.flightRouteSource = new BehaviorSubject<Flightroute2>(new Flightroute2());
         this.selectedWaypointSource = new BehaviorSubject<Waypoint2>(undefined);
         this.editWaypointSource = new BehaviorSubject<boolean>(false);
@@ -54,6 +57,16 @@ export class Sessioncontext {
             this.flightroute$.flatMap(route => route.waypointList.alternate$))
             .map(([selectedWaypoint, alternate]) => selectedWaypoint === alternate)
             .distinctUntilChanged();
+    }
+
+
+    get flightrouteList$(): Observable<FlightrouteListEntry[]> {
+        return this.flightRouteListSource.asObservable();
+    }
+
+
+    set flightrouteList(value: FlightrouteListEntry[]) {
+        this.flightRouteListSource.next(value);
     }
 
 

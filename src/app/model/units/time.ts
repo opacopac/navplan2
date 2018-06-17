@@ -39,17 +39,24 @@ export class Time {
     }
 
 
-    public getMinSec(roundSeconds = true): [number, number] {
+    public getMinSec(ceilSeconds = true): [number, number] {
         const min = Math.floor(this.getValue(TimeUnit.M));
         const sec = this.getValue(TimeUnit.S) - min * 60;
-        return roundSeconds ? [min, Math.round(sec)] : [min, sec];
+        return ceilSeconds ? [min, Math.ceil(sec)] : [min, sec];
     }
 
 
-    public getHourMinutesSec(roundSeconds = true): [number, number, number] {
+    public getHourMinutesSec(ceilSeconds = true): [number, number, number] {
         const hr = Math.floor(this.getValue(TimeUnit.H));
         const min = Math.floor(this.getValue(TimeUnit.M) - hr * 60);
         const sec = this.getValue(TimeUnit.S) - min * 60;
-        return roundSeconds ? [hr, min, Math.round(sec)] : [hr, min, sec];
+        return ceilSeconds ? [hr, min, Math.ceil(sec)] : [hr, min, sec];
+    }
+
+
+    public getHourMinutes(ceilMinutes = true): [number, number] {
+        const hr = Math.floor(this.getValue(TimeUnit.H));
+        const min = Math.floor(this.getValue(TimeUnit.M) - hr * 60);
+        return ceilMinutes ? [hr, Math.ceil(min)] : [hr, min];
     }
 }

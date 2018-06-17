@@ -313,7 +313,7 @@ export class Waypoint2 {
         if (mt && vacTime && vacTime.min > 0 && !isAlternate) {
             return VAC_STRING;
         } else if (mt) {
-            return StringnumberService.zeroPad(mt.deg, 3);
+            return StringnumberService.zeroPad(Math.round(mt.deg), 3);
         } else {
             return '';
         }

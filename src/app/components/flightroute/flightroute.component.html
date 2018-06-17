@@ -1,104 +1,107 @@
 <div class="container nonmapcontent">
     <h2>Flight Route</h2>
-    <!-- load/delete route -->
-    <div *ngIf="this.sessionService.isLoggedIn()" class="form-group form-row" >
-        <label for="flightroute_list" class="col-form-label col-form-label-md col-sm-3">Saved Routes</label>
-        <div class="col-sm-9">
-            <div class="input-group">
-                <select id="flightroute_list" class="form-control form-control-md" [(ngModel)]="this.selectedFlightrouteId">
-                    <option [ngValue]="-1">--- Select ---</option>
-                    <option *ngFor="let flightroute of this.flightrouteList" [ngValue]="flightroute.id">{{ flightroute.title }}</option>
-                </select>
-                <span class="input-group-append">
-                    <button appIconButton
-                            title="Load Route"
-                            [iconClass]="'fas fa-upload'"
-                            [color]="ButtonColor.GREEN"
-                            [size]="ButtonSize.MEDIUM"
-                            [isDisabled]="!this.selectedFlightrouteId"
-                            (click)="this.onLoadFlightrouteClicked()"></button>
-                    <button appIconButton
-                            title="Delete Route"
-                            [iconClass]="'fas fa-trash'"
-                            [color]="ButtonColor.RED"
-                            [size]="ButtonSize.MEDIUM"
-                            [isDisabled]="!this.selectedFlightrouteId"
-                            (click)="this.onDeleteFlightrouteClicked()"></button>
-                </span>
-            </div>
-        </div>
-    </div>
-    <!-- save/copy route -->
-    <div class="form-group form-row">
-        <label for="flightroute_name" class="col-form-label col-form-label-md col-sm-3">Route Name</label>
-        <div class="col-sm-9">
-            <div class="input-group">
-                <input id="flightroute_name" type="text" class="form-control form-control-md" placeholder="Enter Name"
-                       [(ngModel)]="this.currentFlightroute.title" maxlength="50"/>
-                <span class="input-group-append">
-                    <button appIconButton
-                            title="Save Route (login required)"
-                            [iconClass]="'fas fa-download'"
-                            [color]="ButtonColor.BLUE"
-                            [size]="ButtonSize.MEDIUM"
-                            [disabled]="!this.currentFlightroute.title || this.sessionService.isLoggedIn()"
-                            (click)="onSaveFlightrouteClicked()"></button>
-                    <button appIconButton
-                            title="Save Copy of Route"
-                            [iconClass]="'fas fa-copy'"
-                            [color]="ButtonColor.BLUE"
-                            [size]="ButtonSize.MEDIUM"
-                            [disabled]="!this.currentFlightroute.id || !this.currentFlightroute.title || this.sessionService.isLoggedIn()"
-                            (click)="onSaveFlightrouteCopyClicked()"></button>
-                </span>
-            </div>
-        </div>
-    </div>
-    <!-- speed -->
-    <div class="form-group form-row">
-        <label for="aircraft_speed" class="col-form-label col-form-label-md col-sm-3">Ground Speed</label>
-        <div class="col-sm-3">
-            <input type="number" id="aircraft_speed" class="form-control form-control-md"
-                   [(ngModel)]="this.currentFlightroute.aircraft.speed"
-                   (focusout)="this.flightrouteService.updateAircraftForRoute(this.currentFlightroute.aircraft)"
-                   placeholder="kt" maxlength="3" size="3"><!-- TODO: local variable for aircraft -->
-        </div>
-    </div>
-    <!-- consumption -->
-    <div class="form-group form-row">
-        <label for="aircraft_consumption" class="col-form-label col-form-label-md col-sm-3">Fuel Consumption</label>
-        <div class="col-sm-3">
-            <input type="number" id="aircraft_consumption" class="form-control  form-control-md"
-                   [(ngModel)]="this.currentFlightroute.aircraft.consumption" placeholder="l/h" maxlength="2"
-                   size="2">
-        </div>
-    </div>
-    <!-- waypoint list -->
-    <app-waypointlist></app-waypointlist>
-    <!-- comments & fuel section -->
-    <div class="row">
-        <!-- comments -->
-        <div class="col-sm-7">
-            <div class="form-group form-row">
-                <label for="comments" class="col-form-label col-form-label-md col-sm-3">Comments:</label>
-                <div class="col-sm-9">
-                    <textarea id="comments" class="form-control form-control-md" [(ngModel)]="this.currentFlightroute.comments" rows="6" maxlength="2048"></textarea>
+    <form [formGroup]="flightrouteForm">
+        <!-- load/delete route -->
+        <div class="form-group form-row" [hidden]="!this.sessionService.isLoggedIn()">
+            <label for="flightroute_list" class="col-form-label col-form-label-md col-sm-3">Saved Routes</label>
+            <div class="col-sm-9">
+                <div class="input-group">
+                    <select id="flightroute_list" class="form-control form-control-md" #flightrouteId formControlName="flightrouteId">
+                        <option [value]="-1" selected>--- Select ---</option>
+                        <option *ngFor="let flightrouteListEntry of (this.session.flightrouteList$ | async)" [value]="flightrouteListEntry.id">{{ flightrouteListEntry.title }}</option>
+                    </select>
+                    <span class="input-group-append">
+                        <!-- load route button -->
+                        <button appIconButton
+                                title="Load Route"
+                                [iconClass]="'fas fa-upload'"
+                                [color]="ButtonColor.GREEN"
+                                [size]="ButtonSize.MEDIUM"
+                                [disabled]="!this.sessionService.isLoggedIn() || !(flightrouteId.value > 0)"
+                                (click)="this.onLoadFlightrouteClicked(flightrouteId.value)"></button>
+                        <!-- delete route button -->
+                        <button appIconButton
+                                title="Delete Route"
+                                [iconClass]="'fas fa-trash'"
+                                [color]="ButtonColor.RED"
+                                [size]="ButtonSize.MEDIUM"
+                                [disabled]="!this.sessionService.isLoggedIn() || !(flightrouteId.value > 0)"
+                                (click)="this.onDeleteFlightrouteClicked(flightrouteId.value)"></button>
+                    </span>
                 </div>
             </div>
         </div>
-        <!-- fuel calculation -->
-        <div class="col-sm-5">
-            <app-fuelcalc></app-fuelcalc>
+        <!-- save/copy route -->
+        <div class="form-group form-row">
+            <label for="flightroute_name" class="col-form-label col-form-label-md col-sm-3">Route Name</label>
+            <div class="col-sm-9">
+                <div class="input-group">
+                    <input id="flightroute_name" type="text" class="form-control form-control-md" placeholder="Enter Name"
+                           maxlength="50" formControlName="flightrouteName" #routeName (input)="this.onUpdateRouteName(routeName.value)" />
+                    <span class="input-group-append">
+                        <!-- save route button -->
+                        <button appIconButton
+                                title="Save Route (login required)"
+                                [iconClass]="'fas fa-download'"
+                                [color]="ButtonColor.BLUE"
+                                [size]="ButtonSize.MEDIUM"
+                                [disabled]="!this.sessionService.isLoggedIn() || routeName.value === ''"
+                                (click)="onSaveFlightrouteClicked(flightrouteId.value)"></button>
+                        <!-- save copy route button -->
+                        <button appIconButton
+                                title="Save Copy of Route"
+                                [iconClass]="'fas fa-copy'"
+                                [color]="ButtonColor.BLUE"
+                                [size]="ButtonSize.MEDIUM"
+                                [disabled]="!this.sessionService.isLoggedIn() || routeName.value === '' || !flightrouteId || !(flightrouteId.value > 0)"
+                                (click)="onSaveFlightrouteCopyClicked()"></button>
+                    </span>
+                </div>
+            </div>
         </div>
-    </div>
-    <!-- download pdf / excel buttons -->
-    <div class="form-inline">
-        <div class="form-group row">
-            <a id="dlPdfLink" href="#" class="btn btn-md btn-danger" title="Print Navigation Log as PDF"
-               (click)="$event.preventDefault(); onExportFlightroutePdfClicked();"><i class="fas fa-print"></i> Print PDF</a>&nbsp;
-            <a id="dlExcelLink" href="#" class="btn btn-md btn-success" title="Export Navigation Log as Excel"
-               (click)="$event.preventDefault(); onExportFlightrouteExcelClicked();"><i class="fas fa-file-excel"></i>&nbsp;Excel
-                Export</a>&nbsp;
+        <!-- speed -->
+        <div class="form-group form-row">
+            <label for="aircraft_speed" class="col-form-label col-form-label-md col-sm-3">Ground Speed</label>
+            <div class="col-sm-3">
+                <input type="number" id="aircraft_speed" class="form-control form-control-md" formControlName="aircraftSpeed"
+                       placeholder="kt" maxlength="3" size="3" #aircraftSpeed (input)="this.onUpdateAircraftSpeed(aircraftSpeed.value)">
+            </div>
         </div>
-    </div>
+        <!-- consumption -->
+        <div class="form-group form-row">
+            <label for="aircraft_consumption" class="col-form-label col-form-label-md col-sm-3">Fuel Consumption</label>
+            <div class="col-sm-3">
+                <input type="number" id="aircraft_consumption" class="form-control form-control-md" formControlName="aircraftConsumption"
+                       placeholder="l/h" maxlength="2" size="2" #aircraftConsumption (input)="this.onUpdateAircraftConsumption(aircraftConsumption.value)" />
+            </div>
+        </div>
+        <!-- waypoint list -->
+        <app-waypointlist></app-waypointlist>
+        <!-- comments & fuel section -->
+        <div class="row">
+            <!-- comments -->
+            <div class="col-sm-7">
+                <div class="form-group form-row">
+                    <label for="comments" class="col-form-label col-form-label-md col-sm-3">Comments:</label>
+                    <div class="col-sm-9">
+                        <textarea id="comments" class="form-control form-control-md" formControlName="flightrouteComments" rows="6" maxlength="2048" #routeComments (input)="this.onUpdateRouteComments(routeComments.value)"></textarea>
+                    </div>
+                </div>
+            </div>
+            <!-- fuel calculation -->
+            <div class="col-sm-5">
+                <app-fuelcalc></app-fuelcalc>
+            </div>
+        </div>
+        <!-- download pdf / excel buttons -->
+        <div class="form-inline">
+            <div class="form-group row">
+                <a id="dlPdfLink" href="#" class="btn btn-md btn-danger" title="Print Navigation Log as PDF"
+                   (click)="$event.preventDefault(); onExportFlightroutePdfClicked(flightrouteId.value);"><i class="fas fa-print"></i> Print PDF</a>&nbsp;
+                <a id="dlExcelLink" href="#" class="btn btn-md btn-success" title="Export Navigation Log as Excel"
+                   (click)="$event.preventDefault(); onExportFlightrouteExcelClicked(flightrouteId.value);"><i class="fas fa-file-excel"></i>&nbsp;Excel
+                    Export</a>&nbsp;
+            </div>
+        </div>
+    </form>
 </div>

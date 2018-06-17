@@ -87,6 +87,20 @@ export class ObservableArray<T> {
     }
 
 
+    public reverse() {
+        const itemList = this.itemsSource.getValue();
+
+        if (itemList && itemList.length > 1) {
+            const reverseItems: T[] = [];
+            for (let i = itemList.length - 1; i >= 0; i--) {
+                reverseItems.push(itemList[i]);
+            }
+            this.beforeNextSource.next(reverseItems);
+            this.itemsSource.next(reverseItems);
+        }
+    }
+
+
     // TODO
     public indexOf(item: T): number {
         const itemList = this.itemsSource.getValue();

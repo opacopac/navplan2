@@ -96,8 +96,14 @@ describe('Waypoint', () => {
 
 
     it('calculates the isOriginAirport flag correctly (second wp)', () => {
+        // prev pos
+        waypoint2.previousWaypoint = undefined;
+        waypoint2.nextWaypoint = waypoint;
+        // current pos
         waypoint.type = Waypointtype.airport;
         waypoint.previousWaypoint = waypoint2;
+        waypoint.nextWaypoint = undefined;
+
         waypoint.isOriginAirport$
             .subscribe((isOriginAirport) => {
                 expect(isOriginAirport).toBeFalsy();
@@ -128,9 +134,14 @@ describe('Waypoint', () => {
 
 
     it('calculates the isDestinationAirport flag correctly (airport & next wp is not alternate)', () => {
-        waypoint2.isaltatlegstart = false;
+        // current pos
         waypoint.type = Waypointtype.airport;
+        waypoint.previousWaypoint = undefined;
         waypoint.nextWaypoint = waypoint2;
+        // next pos
+        waypoint2.previousWaypoint = waypoint;
+        waypoint2.nextWaypoint = undefined;
+
         waypoint.isDestinationAirport$
             .subscribe((isDestAirport) => {
                 expect(isDestAirport).toBeFalsy();
@@ -139,9 +150,14 @@ describe('Waypoint', () => {
 
 
     it('calculates the isDestinationAirport flag correctly (airport & next wp is alternate)', () => {
-        waypoint2.isaltatlegstart = true;
+        // current pos
         waypoint.type = Waypointtype.airport;
+        waypoint.previousWaypoint = undefined;
         waypoint.nextWaypoint = waypoint2;
+        // next pos
+        waypoint2.previousWaypoint = waypoint;
+        waypoint2.nextWaypoint = undefined;
+
         waypoint.isDestinationAirport$
             .subscribe((isDestAirport) => {
                 expect(isDestAirport).toBeFalsy();
@@ -188,9 +204,15 @@ describe('Waypoint', () => {
 
 
     it('calculates the correct mt', () => {
-        waypoint.previousWaypoint = waypoint2;
+        // prev pos
         waypoint2.position = new Position2d(0.0, 0.0); // prev pos
+        waypoint2.previousWaypoint = undefined;
+        waypoint2.nextWaypoint = waypoint;
+        // current pos
         waypoint.position = new Position2d(1.0, 0.0); // next pos
+        waypoint.previousWaypoint = waypoint2;
+        waypoint.nextWaypoint = undefined;
+
         waypoint.mt$
             .subscribe((mt) => {
                 expect(mt.deg).toBe(90);
@@ -199,27 +221,41 @@ describe('Waypoint', () => {
 
 
     it('calculates the correct mt text for non-airports', () => {
+        // prev pos
         waypoint2.type = Waypointtype.navaid;
-        waypoint2.position = new Position2d(0.0, 0.0); // prev pos
+        waypoint2.position = new Position2d(0.0, 0.0);
+        waypoint2.previousWaypoint = undefined;
+        waypoint2.nextWaypoint = waypoint;
+        // current pos
         waypoint.type = Waypointtype.navaid;
-        waypoint.position = new Position2d(1.0, 0.0); // current pos
+        waypoint.position = new Position2d(1.0, 1.0);
         waypoint.previousWaypoint = waypoint2;
+        waypoint.nextWaypoint = undefined;
+
         waypoint.mtText$
             .subscribe((mtText) => {
-                expect(mtText).toBe('090');
+                expect(mtText).toBe('045');
             });
     });
 
 
     it('calculates the correct mt text for the first leg', () => {
+        // prev pos
         waypoint2.type = Waypointtype.airport;
-        waypoint2.position = new Position2d(0.0, 0.0); // prev pos
-        waypoint3.type = Waypointtype.navaid;
-        waypoint3.position = new Position2d(2.0, 0.0); // next pos
+        waypoint2.position = new Position2d(0.0, 0.0);
+        waypoint2.previousWaypoint = undefined;
+        waypoint2.nextWaypoint = waypoint;
+        // current pos
         waypoint.type = Waypointtype.geoname;
-        waypoint.position = new Position2d(1.0, 0.0); // current pos
+        waypoint.position = new Position2d(1.0, 0.0);
         waypoint.previousWaypoint = waypoint2;
         waypoint.nextWaypoint = waypoint3;
+        // next pos
+        waypoint3.type = Waypointtype.navaid;
+        waypoint3.position = new Position2d(2.0, 0.0);
+        waypoint3.previousWaypoint = waypoint;
+        waypoint3.nextWaypoint = undefined;
+
         waypoint2.mtText$
             .subscribe((mtText) => {
                 expect(mtText).toBe('');
@@ -237,8 +273,14 @@ describe('Waypoint', () => {
 
 
     it('calculates the correct mt text for destination-airports', () => {
+        // prev pos
+        waypoint2.previousWaypoint = undefined;
+        waypoint2.nextWaypoint = waypoint;
+        // current pos
         waypoint.type = Waypointtype.airport;
         waypoint.previousWaypoint = waypoint2;
+        waypoint.nextWaypoint = undefined;
+
         waypoint.mtText$
             .subscribe((mtText) => {
                 expect(mtText).toBe('VAC');
@@ -247,13 +289,18 @@ describe('Waypoint', () => {
 
 
     it('calculates the correct mt text for alternate-airports', () => {
+        // prev pos
         waypoint2.type = Waypointtype.navaid;
-        waypoint2.position = new Position2d(0.0, 0.0); // prev pos
+        waypoint2.position = new Position2d(0.0, 0.0);
+        waypoint2.previousWaypoint = undefined;
+        waypoint2.nextWaypoint = waypoint;
+        // current pos
         waypoint.type = Waypointtype.airport;
-        waypoint.position = new Position2d(0.0, 1.0); // current pos
-        waypoint.previousWaypoint = waypoint2;
+        waypoint.position = new Position2d(0.0, 1.0);
         waypoint.isAlternate = true;
-        waypoint.nextWaypoint = waypoint2;
+        waypoint.previousWaypoint = waypoint2;
+        waypoint.nextWaypoint = undefined;
+
         waypoint.mtText$
             .subscribe((mtText) => {
                 expect(mtText).toBe('000');
@@ -316,7 +363,14 @@ describe('Waypoint', () => {
 
 
     it('calculates the correct vactime for the first wp (with next wp)', () => {
+        // previous waypoint
+        waypoint.previousWaypoint = undefined;
         waypoint.nextWaypoint = waypoint2;
+
+        // next waypoint
+        waypoint2.previousWaypoint = waypoint;
+        waypoint2.nextWaypoint = undefined;
+
         waypoint.vacTime$
             .subscribe((vacTime) => {
                 expect(vacTime.min).toBe(0);
@@ -325,9 +379,16 @@ describe('Waypoint', () => {
 
 
     it('calculates the correct vactime for the wp after the origin airport', () => {
+        // previous waypoint
         waypoint2.type = Waypointtype.airport;
+        waypoint2.previousWaypoint = undefined;
+        waypoint2.nextWaypoint = waypoint;
+
+        // next waypoint
         waypoint.type = Waypointtype.navaid;
         waypoint.previousWaypoint = waypoint2;
+        waypoint.nextWaypoint = undefined;
+
         waypoint.vacTime$
             .subscribe((vacTime) => {
                 expect(vacTime.min).toBe(5);
@@ -336,9 +397,16 @@ describe('Waypoint', () => {
 
 
     it('calculates the correct vactime for the destination airport', () => {
+        // previous waypoint
         waypoint2.type = Waypointtype.navaid;
+        waypoint2.previousWaypoint = undefined;
+        waypoint2.nextWaypoint = waypoint;
+
+        // next waypoint
         waypoint.type = Waypointtype.airport;
         waypoint.previousWaypoint = waypoint2;
+        waypoint.nextWaypoint = undefined;
+
         waypoint.vacTime$
             .subscribe((vacTime) => {
                 expect(vacTime.min).toBe(5);
@@ -349,6 +417,8 @@ describe('Waypoint', () => {
     it('calculates the correct vactime for alternate airport (without previous wp)', () => {
         waypoint.type = Waypointtype.airport;
         waypoint.isAlternate = true;
+        waypoint.previousWaypoint = undefined;
+        waypoint.nextWaypoint = undefined;
         waypoint.vacTime$
             .subscribe((vacTime) => {
                 expect(vacTime.min).toBe(0);
@@ -356,9 +426,16 @@ describe('Waypoint', () => {
     });
 
     it('calculates the correct vactime for alternate airport (with previous wp)', () => {
+        // previous waypoint
+        waypoint2.previousWaypoint = undefined;
+        waypoint2.nextWaypoint = waypoint;
+
+        // next waypoint
         waypoint.type = Waypointtype.airport;
         waypoint.previousWaypoint = waypoint2;
+        waypoint.nextWaypoint = undefined;
         waypoint.isAlternate = true;
+
         waypoint.vacTime$
             .subscribe((vacTime) => {
                 expect(vacTime.min).toBe(5);
@@ -378,14 +455,43 @@ describe('Waypoint', () => {
     });
 
 
+    it('calculates the correct (undefined) eet for the origin waypoint', () => {
+        const initSpeed = new Speed(60, SpeedUnit.KT);
+        // previous waypoint
+        waypoint.type = Waypointtype.navaid;
+        waypoint.position = new Position2d(0, 0); // current pos
+        waypoint.speedObservable = Observable.of(initSpeed);
+        waypoint.previousWaypoint = undefined;
+        waypoint.nextWaypoint = waypoint2;
+
+        // next waypoint
+        waypoint2.type = Waypointtype.airport;
+        waypoint2.position = new Position2d(0, 1); // next pos
+        waypoint2.previousWaypoint = waypoint;
+        waypoint2.nextWaypoint = undefined;
+
+        waypoint.eet$
+            .subscribe((legTime) => {
+                expect(legTime).toBeUndefined();
+            });
+    });
+
+
     it('calculates the correct eet to the next waypoint (without vac time)', () => {
         const initSpeed = new Speed(60, SpeedUnit.KT);
+        // previous waypoint
         waypoint2.type = Waypointtype.navaid;
         waypoint2.position = new Position2d(0, 0); // prev pos
+        waypoint2.previousWaypoint = undefined;
+        waypoint2.nextWaypoint = waypoint;
+
+        // next waypoint
         waypoint.type = Waypointtype.navaid;
         waypoint.position = new Position2d(0, 1); // current pos
         waypoint.speedObservable = Observable.of(initSpeed);
         waypoint.previousWaypoint = waypoint2;
+        waypoint.nextWaypoint = undefined;
+
         waypoint.eet$
             .subscribe((legTime) => {
                 expect(legTime.min).toBeCloseTo(60, 0);
@@ -395,11 +501,17 @@ describe('Waypoint', () => {
 
     it('calculates the correct eet to the next waypoint (with vac time)', () => {
         const initSpeed = new Speed(60, SpeedUnit.KT);
+        // previous waypoint
         waypoint2.position = new Position2d(0, 0); // prev pos
+        waypoint2.previousWaypoint = undefined;
+        waypoint2.nextWaypoint = waypoint;
+
+        // next waypoint
         waypoint.position = new Position2d(0, 1); // current pos
         waypoint.type = Waypointtype.airport;
         waypoint.speedObservable = Observable.of(initSpeed);
         waypoint.previousWaypoint = waypoint2;
+        waypoint.nextWaypoint = undefined;
         waypoint.eet$
             .subscribe((legTime) => {
                 expect(legTime.min).toBeCloseTo(60 + 5, 0);

@@ -11,4 +11,9 @@ export class Speed {
     public getValue(asUnit: SpeedUnit): number {
         return UnitconversionService.convertSpeed(this.value, this.unit, asUnit);
     }
+
+
+    get isNotZero(): boolean {
+        return this.value !== 0;
+    }
 }

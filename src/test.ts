@@ -26,7 +26,7 @@ getTestBed().initTestEnvironment(
 );
 // Then we find all the tests.
 //const context = require.context('./', true, /\.spec2\.ts$/);
-const context = require.context('./', true, /2\.spec\.ts$/);
+const context = require.context('./', true, /(2|list)\.spec\.ts$/);
 // And load the modules.
 context.keys().map(context);
 // Finally, start Karma to run the tests.

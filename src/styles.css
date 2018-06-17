@@ -60,6 +60,16 @@ button[appIconButton].btn-sm {
     font-size: 1.0rem;
 }
 
+.btn-success.disabled,
+.btn-success:disabled,
+.btn-danger.disabled,
+.btn-danger:disabled,
+.btn-info.disabled,
+.btn-info:disabled {
+    color: #DDDDDD;
+    cursor: not-allowed;
+}
+
 
 .col-form-label-md {
     padding-top: calc(0.375rem + 1px);

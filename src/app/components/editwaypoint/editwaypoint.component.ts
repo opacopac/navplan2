@@ -1,12 +1,12 @@
 import $ from 'jquery';
 import 'rxjs/add/operator/withLatestFrom';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs/Subscription';
-import { Sessioncontext } from '../../model/sessioncontext';
-import { SessionService } from '../../services/session/session.service';
-import { ButtonColor, ButtonSize } from '../buttons/button-base.directive';
-import { Waypoint2 } from '../../model/flightroute-model/waypoint2';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Subscription} from 'rxjs/Subscription';
+import {Sessioncontext} from '../../model/sessioncontext';
+import {SessionService} from '../../services/session/session.service';
+import {ButtonColor, ButtonSize} from '../buttons/button-base.directive';
+import {Waypoint2} from '../../model/flightroute-model/waypoint2';
 declare var $: $; // wtf? --> https://github.com/dougludlow/ng2-bs3-modal/issues/147
 
 
@@ -26,6 +26,7 @@ export class EditwaypointComponent implements OnInit, OnDestroy {
 
 
     constructor(
+        public formBuilder: FormBuilder,
         public sessionService: SessionService) {
 
         this.session = sessionService.getSessionContext();
@@ -72,16 +73,16 @@ export class EditwaypointComponent implements OnInit, OnDestroy {
 
 
     private initForm() {
-        this.editWpForm = new FormGroup({
-            'checkpoint': new FormControl(undefined, [Validators.required, Validators.maxLength(30)]),
-            'freq': new FormControl(undefined, Validators.maxLength(7)),
-            'callsign': new FormControl(undefined, Validators.maxLength(10)),
-            'alt': new FormControl(undefined, [Validators.maxLength(5), Validators.min(0), Validators.max(99999)]),
-            'isminalt': new FormControl(),
-            'ismaxalt': new FormControl(),
-            'isaltatlegstart': new FormControl(),
-            'remark': new FormControl(undefined, Validators.maxLength(50)),
-            'supp_info': new FormControl(undefined, Validators.maxLength(255))
+        this.editWpForm = this.formBuilder.group({
+            'checkpoint': ['', [Validators.required, Validators.maxLength(30)]],
+            'freq': ['', Validators.maxLength(7)],
+            'callsign': ['', Validators.maxLength(10)],
+            'alt': [undefined, [Validators.maxLength(5), Validators.min(0), Validators.max(99999)]],
+            'isminalt': false,
+            'ismaxalt': false,
+            'isaltatlegstart': false,
+            'remark': ['', Validators.maxLength(50)],
+            'supp_info': ['', Validators.maxLength(255)]
         });
     }
 

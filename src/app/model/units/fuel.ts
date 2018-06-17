@@ -13,6 +13,11 @@ export class Fuel {
     }
 
 
+    get isNotZero(): boolean {
+        return this.value !== 0;
+    }
+
+
     public getValue(asUnit: VolumeUnit): number {
         return UnitconversionService.convertVolume(this.value, this.unit, asUnit);
     }

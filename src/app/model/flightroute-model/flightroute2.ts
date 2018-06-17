@@ -8,6 +8,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Speed} from '../units/speed';
 import {RxService} from '../../services/utils/rx.service';
 import {Time} from '../units/time';
+import {TimeUnit} from '../../services/utils/unitconversion.service';
 
 
 export class Flightroute2 {
@@ -22,7 +23,8 @@ export class Flightroute2 {
     constructor(
         id?: number,
         title = '',
-        comments = '') {
+        comments = '',
+        extraTime = new Time(0, TimeUnit.M)) {
 
         this.idSource = new BehaviorSubject<number>(id);
         this.titleSource = new BehaviorSubject<string>(title);
@@ -31,8 +33,9 @@ export class Flightroute2 {
         this.waypointList = new WaypointList([], this.speed$);
         this.fuel = new Routefuel2(
             this.aircraft$.flatMap((aircraft) => aircraft.consumption$),
-            this.waypointList.legTimeSum$,
-            this.waypointList.alternate$.flatMap(wp => wp ? wp.eet$ : RxService.getEternal<Time>()));
+            this.waypointList.eetSum$,
+            this.waypointList.alternate$.flatMap(wp => wp ? wp.eet$ : RxService.getEternal<Time>()),
+            extraTime);
     }
 
 

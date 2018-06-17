@@ -19,6 +19,7 @@ export class WaypointList extends ObservableArray<Waypoint2> {
         private readonly speed$: Observable<Speed>) {
 
         super(waypointList);
+        waypointList.forEach(wp => wp.speedObservable = this.speed$);
 
         this.alternateSource = new BehaviorSubject<Waypoint2>(undefined);
         this.beforeNextSubscription = this.beforeNext$
@@ -26,6 +27,9 @@ export class WaypointList extends ObservableArray<Waypoint2> {
                 const alternate = this.alternateSource.getValue();
                 this.updateDependencies(wpList, alternate);
             });
+
+        // initial trigger manually to update dependencies
+        this.beforeNextSource.next(waypointList);
     }
 
 
@@ -36,7 +40,13 @@ export class WaypointList extends ObservableArray<Waypoint2> {
 
     set alternate(value: Waypoint2) {
         const wpList = this.itemsSource.getValue();
-        value.speedObservable = this.speed$;
+        const alt = this.alternateSource.getValue();
+        if (alt) {
+            alt.speedObservable = undefined;
+        }
+        if (value) {
+            value.speedObservable = this.speed$;
+        }
         this.updateDependencies(wpList, value);
         this.alternateSource.next(value);
     }
@@ -52,7 +62,7 @@ export class WaypointList extends ObservableArray<Waypoint2> {
     }
 
 
-    get legTimeList$(): Observable<Time[]> {
+    get eetList$(): Observable<Time[]> {
         return this.items$
             .flatMap(items =>
                 Observable.combineLatest<Time>(
@@ -62,14 +72,26 @@ export class WaypointList extends ObservableArray<Waypoint2> {
     }
 
 
-    get legTimeSum$(): Observable<Time> {
-        return this.legTimeList$
+    get eetSum$(): Observable<Time> {
+        return this.eetList$
             .map(numberList =>
                 numberList.reduce((sum, legTime) =>
                     legTime ? sum.add(legTime) : sum, new Time(0, TimeUnit.M)
                 )
             );
     }
+
+
+    public replaceList(waypointList: Waypoint2[]) {
+        waypointList.forEach(wp => wp.speedObservable = this.speed$);
+        super.replaceList(waypointList);
+    }
+
+
+    public clear() {
+        super.clear();
+    }
+
 
 
     public push(waypoint: Waypoint2) {
@@ -91,14 +113,21 @@ export class WaypointList extends ObservableArray<Waypoint2> {
     public remove(waypoint: Waypoint2) {
         if (waypoint) {
             super.remove(waypoint);
+            waypoint.speedObservable = undefined;
         }
     }
 
 
     public replace(index: number, waypoint: Waypoint2) {
         if (waypoint) {
+            waypoint.speedObservable = this.speed$;
             super.replace(index, waypoint);
         }
+    }
+
+
+    public reverse() {
+        super.reverse();
     }
 
 

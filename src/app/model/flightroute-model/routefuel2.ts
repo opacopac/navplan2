@@ -1,10 +1,10 @@
+import 'rxjs/add/observable/combineLatest';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Consumption} from '../units/consumption';
 import {Time} from '../units/time';
 import {Fuel} from '../units/fuel';
 import {ConsumptionUnit, TimeUnit, VolumeUnit} from '../../services/utils/unitconversion.service';
-import 'rxjs/add/observable/combineLatest';
 
 
 export class Routefuel2 {
@@ -16,8 +16,8 @@ export class Routefuel2 {
         public readonly consumption$: Observable<Consumption>,
         public readonly tripTime$: Observable<Time>,
         public readonly alternateTime$: Observable<Time>,
-        reserveTime = new Time(45, TimeUnit.M),
-        extraTime = new Time(0, TimeUnit.M)) {
+        extraTime = new Time(0, TimeUnit.M),
+        reserveTime = new Time(45, TimeUnit.M)) {
 
         this.reserveTimeSource = new BehaviorSubject<Time>(reserveTime);
         this.extraTimeSource = new BehaviorSubject<Time>(extraTime);
@@ -44,14 +44,25 @@ export class Routefuel2 {
     }
 
 
-    get totalTime$(): Observable<Time> {
+    get minimumTime$(): Observable<Time> {
+        return Observable.combineLatest(
+            this.tripTime$,
+            this.alternateTime$,
+            this.reserveTime$,
+            (tripTime, alternateTime, reserveTime) =>
+                this.calcMinimumTime(tripTime, alternateTime, reserveTime)
+        );
+    }
+
+
+    get blockTime$(): Observable<Time> {
         return Observable.combineLatest(
             this.tripTime$,
             this.alternateTime$,
             this.reserveTime$,
             this.extraTime$,
             (tripTime, alternateTime, reserveTime, extraTime) =>
-                this.calcTotalTime(tripTime, alternateTime, reserveTime, extraTime)
+                this.calcBlockTime(tripTime, alternateTime, reserveTime, extraTime)
         );
     }
 
@@ -92,14 +103,25 @@ export class Routefuel2 {
     }
 
 
-    get totalFuel$(): Observable<Fuel> {
+    get minimumFuel$(): Observable<Fuel> {
+        return Observable.combineLatest(
+            this.tripFuel$,
+            this.alternateFuel$,
+            this.reserveFuel$,
+            (tripFuel, alternateFuel, reserveFuel) =>
+                this.calcMinimumFuel(tripFuel, alternateFuel, reserveFuel)
+        );
+    }
+
+
+    get blockFuel$(): Observable<Fuel> {
         return Observable.combineLatest(
             this.tripFuel$,
             this.alternateFuel$,
             this.reserveFuel$,
             this.extraFuel$,
             (tripFuel, alternateFuel, reserveFuel, extraFuel) =>
-                this.calcTotalFuel(tripFuel, alternateFuel, reserveFuel, extraFuel)
+                this.calcBlockFuel(tripFuel, alternateFuel, reserveFuel, extraFuel)
         );
     }
 
@@ -113,7 +135,25 @@ export class Routefuel2 {
     }
 
 
-    private calcTotalTime(tripTime: Time, alternateTime: Time, reserveTime: Time, extraTime: Time): Time {
+    private calcMinimumTime(tripTime: Time, alternateTime: Time, reserveTime: Time): Time {
+        if (!tripTime) { return undefined; }
+        let time = tripTime;
+        if (alternateTime) { time = time.add(alternateTime); }
+        if (reserveTime) { time = time.add(reserveTime); }
+        return time;
+    }
+
+
+    private calcMinimumFuel(tripFuel: Fuel, alternateFuel: Fuel, reserveFuel: Fuel): Fuel {
+        if (!tripFuel) { return undefined; }
+        let fuel = tripFuel;
+        if (alternateFuel) { fuel = fuel.add(alternateFuel); }
+        if (reserveFuel) { fuel = fuel.add(reserveFuel); }
+        return fuel;
+    }
+
+
+    private calcBlockTime(tripTime: Time, alternateTime: Time, reserveTime: Time, extraTime: Time): Time {
         if (!tripTime) { return undefined; }
         let time = tripTime;
         if (alternateTime) { time = time.add(alternateTime); }
@@ -123,7 +163,7 @@ export class Routefuel2 {
     }
 
 
-    private calcTotalFuel(tripFuel: Fuel, alternateFuel: Fuel, reserveFuel: Fuel, extraFuel: Fuel): Fuel {
+    private calcBlockFuel(tripFuel: Fuel, alternateFuel: Fuel, reserveFuel: Fuel, extraFuel: Fuel): Fuel {
         if (!tripFuel) { return undefined; }
         let fuel = tripFuel;
         if (alternateFuel) { fuel = fuel.add(alternateFuel); }

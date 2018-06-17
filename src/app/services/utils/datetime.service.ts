@@ -34,7 +34,7 @@ export class DatetimeService {
         }
 
         const h = Math.floor(minutes / 60);
-        const m = minutes - h * 60;
+        const m = Math.round(minutes - h * 60);
 
         return StringnumberService.zeroPad(h, 2) + ':' + StringnumberService.zeroPad(m, 2);
     }

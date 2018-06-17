@@ -8,10 +8,8 @@ import {Extent} from '../../model/ol-model/extent';
 import {Position2d} from '../../model/position';
 import {Mapfeatures} from '../../model/mapfeatures';
 import {MetarTafList} from '../../model/metar-taf';
-import {Flightroute} from '../../model/flightroute';
 import {Traffic} from '../../model/traffic';
 import {NotamList} from '../../model/notam';
-import {OlFlightroute} from '../../model/ol-model/ol-flightroute';
 import {OlTraffic} from '../../model/ol-model/ol-traffic';
 import {OlWebcam} from '../../model/ol-model/ol-webcam';
 import {OlNavaid} from '../../model/ol-model/ol-navaid';
@@ -29,7 +27,6 @@ import {DataItem} from '../../model/data-item';
 import {SearchItemList} from '../../model/search-item';
 import {OlSearchItemSelection} from '../../model/ol-model/ol-searchitem-selection';
 import {OlSearchItem} from '../../model/ol-model/ol-searchitem';
-import {OlWaypoint} from '../../model/ol-model/ol-waypoint';
 import {Flightroute2} from '../../model/flightroute-model/flightroute2';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
@@ -38,6 +35,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Angle} from '../../model/units/angle';
 import {AngleUnit} from '../utils/unitconversion.service';
 import {MapActionService, WaypointModification} from './map-action.service';
+import {OlWaypoint2} from '../../ol-components/ol-waypoint2';
 
 
 
@@ -397,37 +395,6 @@ export class MapService {
         this.isSearchItemSelectionActive = false;
     }
 
-
-    public drawFlightRoute(flightroute: Flightroute) {
-        this.removeInteractions();
-        const source = this.flightrouteLayer.getSource();
-        source.clear();
-
-        if (!flightroute || flightroute.waypoints.length === 0) {
-            return;
-        }
-
-        const olFeature = new OlFlightroute(flightroute);
-        olFeature.draw(source, this.map.getView().getRotation());
-
-        // add interactions & remember current coordinates
-        if (olFeature.routeLineFeature) {
-            this.routeCoordinatesBeforeModify = (olFeature.routeLineFeature.getGeometry() as ol.geom.LineString).getCoordinates();
-            this.addModifyInteraction(new ol.Collection<ol.Feature>([olFeature.routeLineFeature]));
-            this.addSnapInteractions();
-        }
-    }
-
-
-    /*private updateFlightroute(flightroute: Flightroute2) {
-        if (this.flightRouteFeature) { this.flightRouteFeature.destroy(); } // clean up
-        this.flightRouteFeature = new OlFlightroute2(
-            flightroute,
-            this.flightrouteLayer.getSource(),
-            this.mapRotation$,
-            this.map);
-    }*/
-
     // endregion
 
 
@@ -625,7 +592,7 @@ export class MapService {
                 feature instanceof OlMetarSky === true ||
                 feature instanceof OlMetarWind === true ||
                 feature instanceof OlNotam === true ||
-                feature instanceof OlWaypoint === true ||
+                feature instanceof OlWaypoint2 === true ||
                 feature instanceof OlSearchItem === true ||
                 feature instanceof OlTraffic === true);
     }

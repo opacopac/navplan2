@@ -39,7 +39,7 @@
                             [iconClass]="'fas fa-trash'"
                             [color]="ButtonColor.RED"
                             [size]="ButtonSize.SMALL"
-                            (click)="flightroute.waypointList.remove(wp)"></button>
+                            (click)="this.onRemoveWaypointClicked(flightroute, wp)"></button>
                 </td>
             </tr>
             <tr *ngIf="(wp.supp_info$ | async) as supp_info" class="">
@@ -79,7 +79,7 @@
                 <td>{{ (alternate.callsign$ | async) }}</td>
                 <td>{{ (alternate.checkpoint$ | async) }}</td>
                 <td><span *ngIf="(alternate.alt.isaltatlegstart$ | async)">&#8739;</span><span
-                        [ngStyle]="{ 'text-decoration': ((alternate.alt.isminalt$ | async) ? 'underline' : '') + ((alternate.alt.ismaxalt$ | async) ? ' overline' : '') }">{{(alternate.alt.alt$ | async) }}</span>
+                        [ngStyle]="{ 'text-decoration': ((alternate.alt.isminalt$ | async) ? 'underline' : '') + ((alternate.alt.ismaxalt$ | async) ? ' overline' : '') }">{{(alternate.alt.alt_ft$ | async) }}</span>
                 </td>
                 <td>{{ (alternate.mtText$ | async) }}</td>
                 <td>{{ (alternate.distText$ | async) }}</td>
@@ -99,7 +99,7 @@
                             [iconClass]="'fas fa-trash'"
                             [color]="ButtonColor.RED"
                             [size]="ButtonSize.SMALL"
-                            (click)="flightroute.waypointList.alternate = undefined"></button>
+                            (click)="this.onRemoveAlternateClicked(flightroute)"></button>
                 </td>
             </tr>
             <!-- empty list -->
@@ -109,7 +109,12 @@
         </tbody>
     </table>
     <!-- reverse waypoints button -->
-    <div class="form-group pull-right">
-        <button type="button" class="btn btn-md btn-secondary" title="Reverse Waypoint Order" (click)="this.onReverseWaypointsClicked();"><i class="fas fa-sort"></i> Reverse Waypoints</button>&nbsp;
+    <div class="form-group float-right">
+        <button
+                type="button"
+                class="btn btn-md btn-secondary"
+                title="Reverse Waypoint Order"
+                [disabled]="(flightroute.waypointList.items$ | async).length < 2"
+                (click)="this.onReverseWaypointsClicked(flightroute)"><i class="fas fa-sort"></i> Reverse Waypoints</button>&nbsp;
     </div>
 </div>

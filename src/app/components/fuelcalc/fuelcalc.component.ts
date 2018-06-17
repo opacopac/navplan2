@@ -1,11 +1,15 @@
+import 'rxjs/add/operator/first';
+import 'rxjs/add/operator/distinctUntilChanged';
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {DatetimeService} from '../../services/utils/datetime.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SessionService} from '../../services/session/session.service';
 import {Sessioncontext} from '../../model/sessioncontext';
 import {Time} from '../../model/units/time';
-import {Observable} from 'rxjs/Observable';
 import {Fuel} from '../../model/units/fuel';
-import {VolumeUnit} from '../../services/utils/unitconversion.service';
+import {TimeUnit, VolumeUnit} from '../../services/utils/unitconversion.service';
+import {StringnumberService} from '../../services/utils/stringnumber.service';
+import {Subscription} from 'rxjs/Subscription';
+import 'rxjs/add/operator/switchMap';
 
 
 @Component({
@@ -15,11 +19,12 @@ import {VolumeUnit} from '../../services/utils/unitconversion.service';
 })
 export class FuelcalcComponent implements OnInit, OnDestroy {
     public session: Sessioncontext;
-    public Time = Time;
-    public Fuel = Fuel;
+    public extraTimeForm: FormGroup;
+    private flightRouteSubscription: Subscription;
 
 
     constructor(
+        private formBuilder: FormBuilder,
         private sessionService: SessionService) {
 
         this.session = this.sessionService.getSessionContext();
@@ -27,68 +32,55 @@ export class FuelcalcComponent implements OnInit, OnDestroy {
 
 
     ngOnInit() {
+        this.initForm();
+        // when flightroute is updated => update extra time field
+        this.flightRouteSubscription = this.session.flightroute$
+            .withLatestFrom(this.session.flightroute$.flatMap(route => route.fuel.extraTime$))
+            .subscribe(([route, extraTime]) => {
+                this.extraTimeForm.setValue({ extraTime: extraTime.min });
+            });
     }
 
 
     ngOnDestroy() {
+        this.flightRouteSubscription.unsubscribe();
     }
 
 
-    get fuelTimes$(): Observable<FuelTimes> {
-        return this.session.flightroute$
-            .filter(route => route !== undefined)
-            .flatMap(route => Observable.combineLatest(
-                route.fuel.tripTime$,
-                route.fuel.alternateTime$,
-                route.fuel.extraTime$,
-                route.fuel.reserveTime$,
-                route.fuel.totalTime$,
-                route.fuel.tripFuel$,
-                route.fuel.alternateFuel$,
-                route.fuel.extraFuel$,
-                route.fuel.reserveFuel$,
-                route.fuel.totalFuel$,
-                ([tripTime, alternateTime, extraTime, reserveTime, totalTime,
-                     tripFuel, alternateFuel, extraFuel, reserveFuel, totalFuel]) =>
-                new FuelTimes(tripTime, alternateTime, extraTime, reserveTime, totalTime,
-                    tripFuel, alternateFuel, extraFuel, reserveFuel, totalFuel)
-            ));
+    private initForm() {
+        this.extraTimeForm = this.formBuilder.group({
+            'extraTime': [undefined, [Validators.required, Validators.maxLength(3)]]
+        });
     }
 
 
-    // TODO
+    public updateExtraTime(extraTimeMin: string) {
+        const timeMin = Number(extraTimeMin)
+        if (timeMin !== undefined && timeMin >= 0) {
+            this.session.flightroute$
+                .first()
+                .subscribe((route) => {
+                    route.fuel.extraTime = new Time(timeMin, TimeUnit.M);
+                });
+        }
+    }
+
+
     public formatTime(time: Time): string {
         if (time && time.min > 0) {
-            return DatetimeService.getHourMinStringFromMinutes(time.min);
+            const hm = time.getHourMinutes();
+            return StringnumberService.zeroPad(hm[0], 2) + ':' + StringnumberService.zeroPad(hm[1], 2);
         } else {
             return '';
         }
     }
 
 
-    // TODO
     public formatFuel(fuel: Fuel): string {
         if (fuel) {
             return '' + fuel.getValue(VolumeUnit.L);
         } else {
             return '';
         }
-    }
-}
-
-
-
-export class FuelTimes {
-    constructor(
-        public tripTime: Time,
-        public alternateTime: Time,
-        public extraTime: Time,
-        public reserveTime: Time,
-        public totalTime: Time,
-        public tripFuel: Fuel,
-        public alternateFuel: Fuel,
-        public extraFuel: Fuel,
-        public reserveFuel: Fuel,
-        public totalFuel: Fuel) {
     }
 }

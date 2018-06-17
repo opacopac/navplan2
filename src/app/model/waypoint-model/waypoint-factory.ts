@@ -23,25 +23,6 @@ export class WaypointFactory {
     }
 
 
-    public static createNewWaypointFromItem(dataItem: DataItem, clickPos: Position2d): Waypoint {
-        if (dataItem instanceof Airport) {
-            return this.mapWaypoint(new WaypointAirport(dataItem));
-        } else if (dataItem instanceof Navaid) {
-            return this.mapWaypoint(new WaypointNavaid(dataItem));
-        } else if (dataItem instanceof Reportingpoint) {
-            return this.mapWaypoint(new WaypointReportingpoint(dataItem));
-        } else if (dataItem instanceof Reportingsector) {
-            return this.mapWaypoint(new WaypointReportingsector(dataItem, clickPos));
-        } else if (dataItem instanceof Userpoint) {
-            return this.mapWaypoint(new WaypointUserpoint(dataItem));
-        } else if (dataItem instanceof Geoname) {
-            return this.mapWaypoint(new WaypointGeoname(dataItem));
-        } else {
-            return this.mapWaypoint(new WaypointCoordinate(clickPos));
-        }
-    }
-
-
     public static createNewWaypointFromItem2(dataItem: DataItem, clickPos: Position2d): Waypoint2 {
         if (dataItem instanceof Airport) {
             return this.mapWaypoint2(new WaypointAirport(dataItem));
@@ -58,22 +39,6 @@ export class WaypointFactory {
         } else {
             return this.mapWaypoint2(new WaypointCoordinate(clickPos));
         }
-    }
-
-
-    public static mapWaypoint(wpMapper: WaypointBase): Waypoint {
-        const wp = new Waypoint(
-            wpMapper.getType(),
-            wpMapper.getFrequency(),
-            wpMapper.getCallsign(),
-            wpMapper.getCheckpoint(),
-            wpMapper.getRemarks(),
-            wpMapper.getSuppInfo(),
-            wpMapper.getPosition());
-        wp.alt = wpMapper.getAltitude();
-        wp.isNew = true;
-
-        return wp;
     }
 
 

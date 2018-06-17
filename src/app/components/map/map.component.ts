@@ -75,7 +75,6 @@ export class MapComponent implements OnInit, OnDestroy {
     private mapItemClickedSubscription: Subscription;
     private mapClickedSubscription: Subscription;
     private mapOverlayClosedSubscription: Subscription;
-    private flightrouteModifiedSubscription: Subscription;
     private fullScreenClickedSubscription: Subscription;
     private windowResizeSubscription: Subscription;
     private keyDownSubscription: Subscription;
@@ -138,11 +137,6 @@ export class MapComponent implements OnInit, OnDestroy {
             () => {
             }); // TODO: databind undef?
 
-        this.flightrouteModifiedSubscription = this.mapService.flightrouteModified$.subscribe(
-            wpMod => {
-                this.onFlightrouteModified(wpMod);
-            });
-
         this.fullScreenClickedSubscription = this.mapService.fullScreenClicked$.subscribe(
             () => {
             }); // TODO
@@ -174,7 +168,6 @@ export class MapComponent implements OnInit, OnDestroy {
         this.mapItemClickedSubscription.unsubscribe();
         this.mapClickedSubscription.unsubscribe();
         this.mapOverlayClosedSubscription.unsubscribe();
-        this.flightrouteModifiedSubscription.unsubscribe();
         this.fullScreenClickedSubscription.unsubscribe();
 
         // unsubscribe from document/window events
@@ -211,22 +204,6 @@ export class MapComponent implements OnInit, OnDestroy {
 
 
     private onSearchByPositionError(message: string) {
-    }
-
-
-    private onFlightrouteModified(wpMod: WaypointModification) {
-        if (wpMod === undefined) {
-            return;
-        }
-
-        const dataItem = this.mapFeatureService.findFlightrouteFeatureByPosition(wpMod.newPosition);
-        const newWp = WaypointFactory.createNewWaypointFromItem(dataItem, wpMod.newPosition);
-
-        if (wpMod.isNewWaypoint) {
-            this.flightrouteService.addWaypointToRoute(newWp, wpMod.waypointIndex);
-        } else {
-            this.flightrouteService.updateWaypoint(wpMod.waypointIndex, newWp);
-        }
     }
 
 
