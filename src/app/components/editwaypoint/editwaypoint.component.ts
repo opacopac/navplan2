@@ -7,6 +7,7 @@ import {Sessioncontext} from '../../model/sessioncontext';
 import {SessionService} from '../../services/session/session.service';
 import {ButtonColor, ButtonSize} from '../buttons/button-base.directive';
 import {Waypoint2} from '../../model/flightroute-model/waypoint2';
+import {Observable} from 'rxjs/Observable';
 declare var $: $; // wtf? --> https://github.com/dougludlow/ng2-bs3-modal/issues/147
 
 
@@ -19,10 +20,10 @@ export class EditwaypointComponent implements OnInit, OnDestroy {
     @ViewChild('container') container: HTMLElement;
     public session: Sessioncontext;
     public editWpForm: FormGroup;
-    public waypoint: Waypoint2;
     public ButtonSize = ButtonSize;
     public ButtonColor = ButtonColor;
     private editWaypointActiveSubscription: Subscription;
+    private selectedWaypointSubscription: Subscription;
 
 
     constructor(
@@ -30,40 +31,44 @@ export class EditwaypointComponent implements OnInit, OnDestroy {
         public sessionService: SessionService) {
 
         this.session = sessionService.getSessionContext();
-        this.editWaypointActiveSubscription = this.session
-            .editWaypointActive$
-            .withLatestFrom(this.session.selectedWaypoint$)
-            .subscribe(([editActive, selectedWaypoint]) => {
-                this.waypoint = selectedWaypoint;
-                if (editActive && selectedWaypoint) {
-                    this.showForm();
-                } else {
-                    this.hideForm();
-                }
-            });
     }
 
 
     ngOnInit() {
         this.initForm();
+        this.editWaypointActiveSubscription = this.session.editWaypointActive$
+            .subscribe((editActive) => {
+                if (editActive) {
+                    this.showForm();
+                } else {
+                    this.hideForm();
+                }
+            });
+        this.selectedWaypointSubscription = this.session.selectedWaypoint$
+            .subscribe((selectedWaypoint) => {
+                this.updateFormValues(selectedWaypoint);
+            });
     }
 
 
     ngOnDestroy() {
         this.editWaypointActiveSubscription.unsubscribe();
+        this.selectedWaypointSubscription.unsubscribe();
     }
 
 
-    public onSaveClicked(waypoint) {
+    public onSaveClicked() {
         if (this.editWpForm.valid) {
-            this.updateWpByFormValues();
+            this.updateSelectedWaypoint();
             this.session.selectedWaypoint = undefined;
+            this.session.editWaypointActive = false;
         }
     }
 
 
     public onCancelClicked() {
         this.session.selectedWaypoint = undefined;
+        this.session.editWaypointActive = false;
     }
 
 
@@ -72,18 +77,9 @@ export class EditwaypointComponent implements OnInit, OnDestroy {
     }
 
 
-    private initForm() {
-        this.editWpForm = this.formBuilder.group({
-            'checkpoint': ['', [Validators.required, Validators.maxLength(30)]],
-            'freq': ['', Validators.maxLength(7)],
-            'callsign': ['', Validators.maxLength(10)],
-            'alt': [undefined, [Validators.maxLength(5), Validators.min(0), Validators.max(99999)]],
-            'isminalt': false,
-            'ismaxalt': false,
-            'isaltatlegstart': false,
-            'remark': ['', Validators.maxLength(50)],
-            'supp_info': ['', Validators.maxLength(255)]
-        });
+    public onSetIsAltAtLegStartClicked(value: boolean) {
+        this.editWpForm.patchValue({'isaltatlegstart': value});
+        this.editWpForm.patchValue({'isaltatlegend': !value});
     }
 
 
@@ -101,16 +97,71 @@ export class EditwaypointComponent implements OnInit, OnDestroy {
     }
 
 
-    private updateWpByFormValues() {
+    private updateFormValues(waypoint: Waypoint2) {
+        if (!waypoint) { return; }
+        Observable.combineLatest(
+            waypoint.checkpoint$,
+            waypoint.freq$,
+            waypoint.callsign$,
+            waypoint.alt.alt_ft$,
+            waypoint.alt.ismaxalt$,
+            waypoint.alt.isminalt$,
+            waypoint.alt.isaltatlegstart$,
+            waypoint.remark$,
+            waypoint.supp_info$)
+            .first()
+            .subscribe(([checkpoint, freq, callsign, alt_ft, ismaxalt, isminalt, isaltatlegstart, remark, supp_info]) => {
+                this.setFormValues(checkpoint, freq, callsign, alt_ft, ismaxalt, isminalt, isaltatlegstart, remark, supp_info);
+            });
+    }
+
+
+    private updateSelectedWaypoint() {
         const formValues = this.editWpForm.value;
-        this.waypoint.checkpoint = formValues.checkpoint;
-        this.waypoint.freq = formValues.freq;
-        this.waypoint.callsign = formValues.callsign;
-        this.waypoint.alt.alt_ft = isNaN(formValues.alt) ? undefined : formValues.alt;
-        this.waypoint.alt.isminalt = formValues.isminalt;
-        this.waypoint.alt.ismaxalt = formValues.ismaxalt;
-        this.waypoint.alt.isaltatlegstart = formValues.isaltatlegstart;
-        this.waypoint.remark = formValues.remark;
-        this.waypoint.supp_info = formValues.supp_info;
+        this.session.selectedWaypoint$
+            .first()
+            .subscribe((waypoint) => {
+                waypoint.checkpoint = formValues.checkpoint;
+                waypoint.freq = formValues.freq;
+                waypoint.callsign = formValues.callsign;
+                waypoint.alt.alt_ft = isNaN(formValues.alt) ? undefined : formValues.alt;
+                waypoint.alt.isminalt = formValues.isminalt;
+                waypoint.alt.ismaxalt = formValues.ismaxalt;
+                waypoint.alt.isaltatlegstart = formValues.isaltatlegstart;
+                waypoint.remark = formValues.remark;
+                waypoint.supp_info = formValues.supp_info;
+            });
+    }
+
+
+    private initForm() {
+        this.editWpForm = this.formBuilder.group({
+            'checkpoint': ['', [Validators.required, Validators.maxLength(30)]],
+            'freq': ['', Validators.maxLength(7)],
+            'callsign': ['', Validators.maxLength(10)],
+            'alt': [undefined, [Validators.maxLength(5), Validators.min(0), Validators.max(99999)]],
+            'isminalt': false,
+            'ismaxalt': false,
+            'isaltatlegstart': false,
+            'isaltatlegend': true,
+            'remark': ['', Validators.maxLength(50)],
+            'supp_info': ['', Validators.maxLength(255)]
+        });
+    }
+
+
+    private setFormValues(checkpoint: string, freq: string, callsign: string, alt_ft: number, ismaxalt: boolean, isminalt: boolean, isaltatlegstart: boolean, remark: string, supp_info: string) {
+        this.editWpForm.setValue({
+            'checkpoint': checkpoint,
+            'freq': freq,
+            'callsign': callsign,
+            'alt': alt_ft,
+            'isminalt': isminalt,
+            'ismaxalt': ismaxalt,
+            'isaltatlegstart': isaltatlegstart,
+            'isaltatlegend': !isaltatlegstart,
+            'remark': remark,
+            'supp_info': supp_info
+        });
     }
 }

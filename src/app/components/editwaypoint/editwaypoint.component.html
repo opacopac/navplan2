@@ -1,4 +1,4 @@
-<div *ngIf="this.waypoint" class="modal fade" id="selectedWaypointDialog" tabindex="-1" role="dialog" aria-labelledby="selectedWaypointModalLabel">
+<div class="modal fade" id="selectedWaypointDialog" tabindex="-1" role="dialog" aria-labelledby="selectedWaypointModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -31,31 +31,33 @@
                                                 [buttonText]="'min'"
                                                 [size]="ButtonSize.MEDIUM"
                                                 [color]="ButtonColor.GRAY"
-                                                [isPressed]="this.waypoint.alt.isminalt | async"
-                                                (click)="this.waypoint.alt.isminalt = !this.waypoint.alt.isminalt"></button>
+                                                formControlName="isminalt"
+                                                [isToggle]="true"></button>
                                         <button appTextButton
                                                 [buttonText]="'max'"
                                                 [size]="ButtonSize.MEDIUM"
                                                 [color]="ButtonColor.GRAY"
-                                                [isPressed]="this.waypoint.alt.ismaxalt"
-                                                (click)="this.waypoint.alt.ismaxalt = !this.waypoint.alt.ismaxalt"></button>
+                                                formControlName="ismaxalt"
+                                                [isToggle]="true"></button>
                                     </div>
                                 </div>
                             </div>
                             @
                             <div class="btn-group"><!-- removed data-toggle="buttons" -->
-                                <button appTextButton
+                                <button #isaltatlegstart
+                                        appTextButton
                                         [buttonText]="'leg start'"
                                         [size]="ButtonSize.MEDIUM"
                                         [color]="ButtonColor.GRAY"
-                                        [isPressed]="this.waypoint.alt.isaltatlegstart"
-                                        (click)="this.waypoint.alt.isaltatlegstart = true"></button>
+                                        formControlName="isaltatlegstart"
+                                        (click)="this.onSetIsAltAtLegStartClicked(true)"></button>
                                 <button appTextButton
                                         [buttonText]="'leg end'"
                                         [size]="ButtonSize.MEDIUM"
                                         [color]="ButtonColor.GRAY"
-                                        [isPressed]="!this.waypoint.alt.isaltatlegstart"
-                                        (click)="this.waypoint.alt.isaltatlegstart = false"></button>
+                                        [isToggle]="true"
+                                        formControlName="isaltatlegend"
+                                        (click)="this.onSetIsAltAtLegStartClicked(false)"></button>
                             </div>
                         </div>
                     </div>

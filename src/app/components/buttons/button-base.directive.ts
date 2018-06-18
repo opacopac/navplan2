@@ -1,4 +1,5 @@
-import {Directive, ElementRef, HostBinding, HostListener, Input, OnChanges, OnInit} from '@angular/core';
+import {Directive, ElementRef, forwardRef, HostBinding, HostListener, Input, OnChanges, OnInit} from '@angular/core';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 
 export enum ButtonSize {
@@ -20,14 +21,21 @@ export enum ButtonColor {
 
 
 @Directive({
-    selector: '[appButtonBase]'
+    selector: '[appButtonBase]',
+    providers: [{
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => ButtonBaseDirective),
+        multi: true
+    }]
 })
-export class ButtonBaseDirective implements OnInit, OnChanges {
+export class ButtonBaseDirective implements OnInit, OnChanges, ControlValueAccessor {
     @Input() public size: ButtonSize;
     @Input() public color: ButtonColor;
     @Input() public isDisabled: boolean;
     @Input() public isPressed: boolean;
+    @Input() public isToggle = false;
     @HostBinding('class') protected class: string;
+    private propagateChange = (_: any) => {};
 
 
     constructor(protected el: ElementRef) {
@@ -43,7 +51,28 @@ export class ButtonBaseDirective implements OnInit, OnChanges {
     }
 
 
+    public writeValue(value: boolean) {
+        if (value !== undefined) {
+            this.isPressed = value;
+        }
+        this.ngOnChanges();
+    }
+
+
+    public registerOnChange(callback: (_: any) => void) {
+        this.propagateChange = callback;
+    }
+
+
+    public registerOnTouched() {
+    }
+
+
+
     @HostListener('click') protected onClick() {
+        this.isPressed = this.isToggle ? !this.isPressed : false;
+        this.ngOnChanges();
+        this.propagateChange(this.isPressed);
         this.el.nativeElement.blur(); // immediately remove focus
     }
 
