@@ -3,8 +3,8 @@ import {ClientstorageService} from './services/session/clientstorage.service';
 import {AppState} from './app.state';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
-import {getCurrentUser} from './user/selectors/user.selectors';
-import {AutoLoginUserAction} from './user/actions/user.actions';
+import {getCurrentUser} from './user/user.selectors';
+import {AutoLoginUserAction} from './user/user.actions';
 import {User} from './model/session/user';
 
 

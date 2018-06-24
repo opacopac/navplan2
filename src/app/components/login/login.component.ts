@@ -5,9 +5,9 @@ import {MessageService} from '../../services/utils/message.service';
 import {ClientstorageService} from '../../services/session/clientstorage.service';
 import {AppState} from '../../app.state';
 import {Store} from '@ngrx/store';
-import {getCurrentUser} from '../../user/selectors/user.selectors';
+import {getCurrentUser} from '../../user/user.selectors';
 import {Observable} from 'rxjs/Observable';
-import {LoginUserAction, RegisterUserAction} from '../../user/actions/user.actions';
+import {LoginUserAction, RegisterUserAction} from '../../user/user.actions';
 import {User} from '../../model/session/user';
 
 

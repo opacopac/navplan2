@@ -10,12 +10,12 @@ import {
     LogoutUserErrorAction,
     LogoutUserSuccessAction,
     UserActionTypes
-} from '../actions/user.actions';
-import {UserService} from '../../services/user/user.service';
+} from './user.actions';
+import {UserService} from '../services/user/user.service';
 import {Observable} from 'rxjs/Observable';
 import {Action} from '@ngrx/store';
-import {MessageService} from '../../services/utils/message.service';
-import {ClientstorageService} from '../../services/session/clientstorage.service';
+import {MessageService} from '../services/utils/message.service';
+import {ClientstorageService} from '../services/session/clientstorage.service';
 
 
 @Injectable()

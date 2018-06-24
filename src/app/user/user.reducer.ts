@@ -1,5 +1,5 @@
-import {User} from '../../model/session/user';
-import {RegisterUserSuccessAction, UserActions, UserActionTypes} from '../actions/user.actions';
+import {User} from '../model/session/user';
+import {RegisterUserSuccessAction, UserActions, UserActionTypes} from './user.actions';
 
 
 const initialState: User = undefined;

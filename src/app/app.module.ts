@@ -72,8 +72,8 @@ import {MapActionService} from 'app/services/map/map-action.service';
 import {ClientstorageService} from './services/session/clientstorage.service';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {StoreModule} from '@ngrx/store';
-import {userReducer} from './user/reducers/user.reducer';
-import {UserEffects} from './user/effects/user-effects.service';
+import {userReducer} from './user/user.reducer';
+import {UserEffects} from './user/user-effects.service';
 import {environment} from '../environments/environment';
 import {EffectsModule} from '@ngrx/effects';
 

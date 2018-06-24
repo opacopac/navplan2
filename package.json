@@ -29,11 +29,12 @@
     "bootstrap": "^4.1.1",
     "core-js": "^2.5.7",
     "jquery": "^3.3.1",
+    "npm": "^6.1.0",
     "openlayers": "^4.6.5",
     "popper.js": "^1.14.3",
     "rxjs": "^6.2.1",
-    "zone.js": "^0.8.26",
-    "rxjs-compat": "^6.0.0-rc.0"
+    "rxjs-compat": "^6.0.0-rc.0",
+    "zone.js": "^0.8.26"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.6.8",
