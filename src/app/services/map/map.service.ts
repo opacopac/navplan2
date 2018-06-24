@@ -5,12 +5,11 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import {Injectable} from '@angular/core';
 import {MapbaselayerFactory, MapbaselayerType} from '../../model/ol-model/mapbaselayer-factory';
 import {Extent} from '../../model/ol-model/extent';
-import {Position2d} from '../../model/position';
+import {Position2d} from '../../model/geometry/position2d';
 import {Mapfeatures} from '../../model/mapfeatures';
 import {MetarTafList} from '../../model/metar-taf';
 import {Traffic} from '../../model/traffic';
 import {NotamList} from '../../model/notam';
-import {OlTraffic} from '../../model/ol-model/ol-traffic';
 import {OlWebcam} from '../../model/ol-model/ol-webcam';
 import {OlNavaid} from '../../model/ol-model/ol-navaid';
 import {OlFeature} from '../../model/ol-model/ol-feature';
@@ -27,15 +26,16 @@ import {DataItem} from '../../model/data-item';
 import {SearchItemList} from '../../model/search-item';
 import {OlSearchItemSelection} from '../../model/ol-model/ol-searchitem-selection';
 import {OlSearchItem} from '../../model/ol-model/ol-searchitem';
-import {Flightroute2} from '../../model/flightroute-model/flightroute2';
+import {Flightroute2} from '../../model/flightroute/flightroute2';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
 import {OlFlightroute2} from '../../ol-components/ol-flightroute2';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Angle} from '../../model/units/angle';
+import {Angle} from '../../model/quantities/angle';
 import {AngleUnit} from '../utils/unitconversion.service';
 import {MapActionService, WaypointModification} from './map-action.service';
 import {OlWaypoint2} from '../../ol-components/ol-waypoint2';
+import {OlTraffic} from '../../ol-components/ol-traffic';
 
 
 
@@ -86,6 +86,7 @@ export class MapService {
     private isSearchItemSelectionActive: boolean;
     private routeCoordinatesBeforeModify: ol.Coordinate[];
     private flightRouteFeature: OlFlightroute2;
+    private ownPlaneFeature: OlTraffic;
 
 
     constructor(private mapActionService: MapActionService) {
@@ -116,7 +117,8 @@ export class MapService {
                    position: Position2d,
                    zoom: number,
                    mapRotation: Angle,
-                   flightroute$: Observable<Flightroute2>) {
+                   flightroute$: Observable<Flightroute2>,
+                   ownPlane$: Observable<Traffic>) {
         // map
         this.initLayers(baseMapType);
         this.map = new ol.Map({
@@ -155,14 +157,10 @@ export class MapService {
         this.map.on('moveend', this.onMoveEnd.bind(this));
         this.map.getView().on('change:rotation', this.onMapRotation.bind(this));
 
-        // create map context
+        // add features
         const mapContext = new MapContext(this.map, this, this.mapActionService);
-
-        // add flightroute feature
-        this.flightRouteFeature = new OlFlightroute2(
-            mapContext,
-            flightroute$,
-            this.flightrouteLayer.getSource());
+        this.ownPlaneFeature = new OlTraffic(mapContext, ownPlane$, this.locationLayer.getSource());
+        this.flightRouteFeature = new OlFlightroute2(mapContext, flightroute$, this.flightrouteLayer.getSource());
 
         // add snap interaction (must be added last, see: https://openlayers.org/en/latest/examples/snap.html)
         this.map.addInteraction(
@@ -175,7 +173,8 @@ export class MapService {
 
 
     public uninitMap() {
-        // uninit features
+        // destroy features
+        this.ownPlaneFeature.destroy();
         this.flightRouteFeature.destroy();
 
         // remove snap interactions
@@ -333,7 +332,7 @@ export class MapService {
     }
 
 
-    public drawLocation(ownPlane: Traffic) {
+    /*public drawLocation(ownPlane: Traffic) {
         const source = this.locationLayer.getSource();
         source.clear();
 
@@ -358,7 +357,7 @@ export class MapService {
             const trafficOlFeature = new OlTraffic(traffic);
             trafficOlFeature.draw(source);
         }
-    }
+    }*/
 
 
     public drawNotams(notamList: NotamList) {

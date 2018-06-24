@@ -3,10 +3,10 @@ import 'rxjs/add/operator/withLatestFrom';
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs/Subscription';
-import {Sessioncontext} from '../../model/sessioncontext';
+import {Sessioncontext} from '../../model/session/sessioncontext';
 import {SessionService} from '../../services/session/session.service';
 import {ButtonColor, ButtonSize} from '../buttons/button-base.directive';
-import {Waypoint2} from '../../model/flightroute-model/waypoint2';
+import {Waypoint2} from '../../model/flightroute/waypoint2';
 import {Observable} from 'rxjs/Observable';
 declare var $: $; // wtf? --> https://github.com/dougludlow/ng2-bs3-modal/issues/147
 
@@ -139,7 +139,7 @@ export class EditwaypointComponent implements OnInit, OnDestroy {
             'checkpoint': ['', [Validators.required, Validators.maxLength(30)]],
             'freq': ['', Validators.maxLength(7)],
             'callsign': ['', Validators.maxLength(10)],
-            'alt': [undefined, [Validators.maxLength(5), Validators.min(0), Validators.max(99999)]],
+            'alt': ['', [Validators.maxLength(5), Validators.min(0), Validators.max(99999)]],
             'isminalt': false,
             'ismaxalt': false,
             'isaltatlegstart': false,
@@ -155,7 +155,7 @@ export class EditwaypointComponent implements OnInit, OnDestroy {
             'checkpoint': checkpoint,
             'freq': freq,
             'callsign': callsign,
-            'alt': alt_ft,
+            'alt': alt_ft ? alt_ft : '',
             'isminalt': isminalt,
             'ismaxalt': ismaxalt,
             'isaltatlegstart': isaltatlegstart,

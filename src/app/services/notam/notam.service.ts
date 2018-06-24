@@ -3,11 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { LoggingService } from '../utils/logging.service';
 import { SessionService } from '../session/session.service';
-import { Sessioncontext } from '../../model/sessioncontext';
+import { Sessioncontext } from '../../model/session/sessioncontext';
 import { CachingExtentLoader } from '../map/caching-extent-loader';
 import { NotamList } from '../../model/notam';
 import { Extent } from '../../model/ol-model/extent';
-import { NotamResponse, NotamResponse2, RestMapperNotam } from '../../model/rest-model/rest-mapper-notam';
+import { NotamResponse, NotamResponse2, RestMapperNotam } from '../../model/rest-mapper/rest-mapper-notam';
+import {User} from '../../model/session/user';
 
 
 const NOTAM_BASE_URL = environment.restApiBaseUrl + 'php/notam.php'; // TODO: move to searchservice
@@ -41,6 +42,7 @@ export class NotamService extends CachingExtentLoader<NotamList> {
     protected loadFromSource(
         extent: Extent,
         zoom: number,
+        user: User,
         successCallback: (NotamList) => void,
         errorCallback: (string) => void) {
 

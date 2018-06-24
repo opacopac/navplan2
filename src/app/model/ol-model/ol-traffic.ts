@@ -18,7 +18,7 @@ export class OlTraffic extends OlFeaturePoint {
 
 
     public getPosition() {
-        const trafficPos = this.traffic.getCurrentTrafficPosition();
+        const trafficPos = this.traffic.getCurrentPosition();
         if (trafficPos) {
             return trafficPos.position;
         } else {
@@ -52,7 +52,7 @@ export class OlTraffic extends OlFeaturePoint {
 
     protected createPointStyle() {
         const ac = this.traffic;
-        const position = ac.getCurrentTrafficPosition().position;
+        const position = ac.getCurrentPosition().position;
         if (!position) {
             return undefined;
         }
@@ -67,8 +67,8 @@ export class OlTraffic extends OlFeaturePoint {
             ac.registration = '';
         }
 
-        if (position.hasAltitude() && position.altitude.getInFt() > 0) {
-            heighttext = Math.round(position.altitude.getInFt()).toString() + ' ft'; // TODO: einstellbar
+        if (position.hasAltitude() && position.altitude.ft > 0) {
+            heighttext = Math.round(position.altitude.ft).toString() + ' ft'; // TODO: einstellbar
         }
 
         let iconSuffix = '';

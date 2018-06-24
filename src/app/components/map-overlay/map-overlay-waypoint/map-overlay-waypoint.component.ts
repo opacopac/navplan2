@@ -1,8 +1,8 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {MapOverlayContainer} from '../map-overlay-container';
 import {Waypoint} from '../../../model/waypoint';
-import {Position2d} from '../../../model/position';
-import {Sessioncontext} from '../../../model/sessioncontext';
+import {Position2d} from '../../../model/geometry/position2d';
+import {Sessioncontext} from '../../../model/session/sessioncontext';
 import {SessionService} from '../../../services/session/session.service';
 
 

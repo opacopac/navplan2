@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { SessionService } from '../../services/session/session.service';
-import { Sessioncontext } from '../../model/sessioncontext';
-import { UserService } from '../../services/user/user.service';
-import { MessageService } from '../../services/utils/message.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {SessionService} from '../../services/session/session.service';
+import {Sessioncontext} from '../../model/session/sessioncontext';
+import {UserService} from '../../services/user/user.service';
+import {MessageService} from '../../services/utils/message.service';
 
 
 @Component({
@@ -11,7 +11,7 @@ import { MessageService } from '../../services/utils/message.service';
   templateUrl: './userprofile.component.html',
   styleUrls: ['./userprofile.component.css']
 })
-export class UserprofileComponent implements OnInit {
+export class UserprofileComponent implements OnInit, OnDestroy {
     public session: Sessioncontext;
     public oldpassword: string;
     public newpassword: string;
@@ -30,30 +30,32 @@ export class UserprofileComponent implements OnInit {
     }
 
 
+    ngOnDestroy() {
+    }
+
+
     onLogoffClicked() {
-        this.userService.logout();
-        this.messageService.writeSuccessMessage('User successfully logged out!');
-        this.router.navigate(['./map']);
+        this.userService.logout()
+            .subscribe(
+                () =>{
+                    this.messageService.writeSuccessMessage('User successfully logged out!');
+                    this.router.navigate(['./map']);
+                },
+                (error) => {
+                    this.messageService.writeErrorMessage(error);
+                });
     }
 
 
     onChangePwClicked() {
-        this.userService.updatePassword(
-            this.session.user.email,
-            this.oldpassword,
-            this.newpassword,
-            this.onChangePwSuccessCallback.bind(this),
-            this.onChangePwErrorCallback.bind(this));
-    }
-
-
-    private onChangePwSuccessCallback() {
-        this.messageService.writeSuccessMessage('Password successfully updated!');
-        //this.router.navigate(['./map']);
-    }
-
-
-    private onChangePwErrorCallback(message: string) {
-        this.messageService.writeErrorMessage(message);
+        this.userService.updatePassword(this.session.user.email, this.oldpassword, this.newpassword)
+            .subscribe(
+                () => {
+                    this.messageService.writeSuccessMessage('Password successfully updated!');
+                },
+                error => {
+                    this.messageService.writeErrorMessage(error);
+                }
+            );
     }
 }

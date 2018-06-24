@@ -2,10 +2,10 @@ import * as ol from 'openlayers';
 import { UnitconversionService } from '../../services/utils/unitconversion.service';
 import { OlFeature } from './ol-feature';
 import { Notam } from '../notam';
-import { Polygon } from '../polygon';
-import { Multipolygon } from '../multipolygon';
-import { Circle } from '../circle';
-import { Geometry2dType } from '../geometry2d';
+import { Polygon } from '../geometry/polygon';
+import { Multipolygon } from '../geometry/multipolygon';
+import { Circle } from '../geometry/circle';
+import { Geometry2dType } from '../geometry/geometry2d';
 
 
 export class OlNotam extends OlFeature {

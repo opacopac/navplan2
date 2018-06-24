@@ -4,7 +4,7 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/operator/distinctUntilChanged';
 import {OlComponent} from './ol-component';
-import {Waypoint2} from '../model/flightroute-model/waypoint2';
+import {Waypoint2} from '../model/flightroute/waypoint2';
 import {Subscription} from 'rxjs/Subscription';
 import {Observable} from 'rxjs/Observable';
 import {MapContext} from 'app/services/map/map.service';
@@ -30,8 +30,8 @@ export class OlAlternateLine extends OlComponent {
 
         // handle position changes
         this.posSubscription = Observable.combineLatest(
-            this.alternateWaypoint$.flatMap((wp) => wp ? wp.position$ : Observable.of(undefined)),
-            this.lastRouteWaypoint$.flatMap((wp) => wp ? wp.position$ : Observable.of(undefined))
+            this.alternateWaypoint$.switchMap((wp) => wp ? wp.position$ : Observable.of(undefined)),
+            this.lastRouteWaypoint$.switchMap((wp) => wp ? wp.position$ : Observable.of(undefined))
         )
         .distinctUntilChanged()
             .subscribe(([altPos, prevPos]) => {

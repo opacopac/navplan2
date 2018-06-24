@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { UserService } from '../../services/user/user.service';
-import { User } from '../../model/user';
-import { MessageService } from '../../services/utils/message.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {UserService} from '../../services/user/user.service';
+import {MessageService} from '../../services/utils/message.service';
+import {ClientstorageService} from '../../services/session/clientstorage.service';
 
 
 @Component({
@@ -10,7 +10,7 @@ import { MessageService } from '../../services/utils/message.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
     public email: string;
     public password: string;
     public rememberMeChecked: boolean;
@@ -18,7 +18,8 @@ export class LoginComponent implements OnInit {
 
     constructor(private router: Router,
                 private userService: UserService,
-                private messageService: MessageService) {
+                private messageService: MessageService,
+                private clientstorageService: ClientstorageService) {
     }
 
 
@@ -26,44 +27,34 @@ export class LoginComponent implements OnInit {
     }
 
 
+    ngOnDestroy() {
+    }
+
+
     onLoginClicked() {
-        this.userService.login(
-            this.email,
-            this.password,
-            this.rememberMeChecked,
-            this.onLoginSuccessCallback.bind(this),
-            this.onLoginErrorCallback.bind(this));
-    }
-
-
-    private onLoginSuccessCallback(user: User) {
-        this.messageService.writeSuccessMessage('Welcome ' + user.email + '!');
-        this.router.navigate(['./map']);
-    }
-
-
-    private onLoginErrorCallback(message: string) {
-        this.messageService.writeErrorMessage(message);
+        this.userService.login(this.email, this.password)
+            .subscribe(
+                user => {
+                    this.clientstorageService.persistUser(user, this.rememberMeChecked);
+                    this.messageService.writeSuccessMessage('Welcome ' + user.email + '!');
+                    this.router.navigate(['./map']);
+                },
+                error => {
+                    this.messageService.writeErrorMessage(error);
+                });
     }
 
 
     onRegisterClicked() {
-        this.userService.register(
-            this.email,
-            this.password,
-            this.rememberMeChecked,
-            this.onRegisterSuccessCallback.bind(this),
-            this.onRegisterErrorCallback.bind(this));
-    }
-
-
-    private onRegisterSuccessCallback(user: User) {
-        this.messageService.writeSuccessMessage('Welcome ' + user.email + '!');
-        this.router.navigate(['./map']);
-    }
-
-
-    private onRegisterErrorCallback(message: string) {
-        this.messageService.writeErrorMessage(message);
+        this.userService.register(this.email, this.password)
+            .subscribe(
+                user => {
+                    this.clientstorageService.persistUser(user, this.rememberMeChecked);
+                    this.messageService.writeSuccessMessage('Welcome ' + user.email + '!');
+                    this.router.navigate(['./map']);
+                },
+                error => {
+                    this.messageService.writeErrorMessage(error);
+                });
     }
 }

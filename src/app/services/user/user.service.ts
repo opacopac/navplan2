@@ -1,10 +1,9 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
-import { LoggingService } from '../utils/logging.service';
-import { ClientstorageService } from '../session/clientstorage.service';
-import { SessionService } from '../session/session.service';
-import { User } from '../../model/user';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../../environments/environment';
+import {LoggingService} from '../utils/logging.service';
+import {User} from '../../model/session/user';
+import {Observable} from 'rxjs/Observable';
 
 
 const userBaseUrl =  environment.restApiBaseUrl + 'php/users.php';
@@ -19,219 +18,134 @@ interface TokenResponse extends SimpleResponse {
     token: string;
 }
 
-const COOKIE_EMAIL = 'email';
-const COOKIE_TOKEN = 'token';
 
 @Injectable()
 export class UserService {
-    private session;
-
-
-    public constructor(private http: HttpClient, private sessionService: SessionService ) {
-        this.session = sessionService.getSessionContext();
-    }
-
-
-    public initUser(): User {
-        const email = ClientstorageService.getCookie(COOKIE_EMAIL);
-        const token = ClientstorageService.getCookie(COOKIE_TOKEN);
-
-        if (email && token) {
-            return this.persistInClient(email, token, true); // TODO: remember-flag correct
-        } else {
-            return null;
-        }
+    public constructor(
+        private http: HttpClient) {
     }
 
 
     public login(
         email: string,
-        password: string,
-        remember: boolean,
-        successCallback: (user: User) => void,
-        errorCallback: (message: string) => void) {
+        password: string): Observable<User> {
 
-        let message: string;
         const requestBody = {
             action: 'login',
             email: email,
             password: password
         };
-        this.http
+        return this.http
             .post<TokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'})
-            .subscribe(
-            response => {
+            .switchMap((response) => {
                 switch (response.body.resultcode) {
                     case 0:
-                        const user = this.persistInClient(email, response.body.token, remember);
-                        successCallback(user);
-                        break;
+                        return Observable.of(new User(email, response.body.token));
                     case -1:
-                        message = 'Wrong password!';
-                        errorCallback(message);
-                        break;
+                        return Observable.throw('Wrong password!');
                     case -2:
-                        message = 'Email not found!';
-                        errorCallback(message);
-                        break;
+                        return Observable.throw('Email not found!');
                     default:
-                        message = 'ERROR performing login';
+                        const message = 'ERROR performing login';
                         LoggingService.logResponseError(message, response);
-                        errorCallback(message);
+                        return Observable.throw(message);
                 }
-            },
-            err => {
-                message = 'ERROR performing login!';
-                LoggingService.logResponseError(message, err);
-                errorCallback(message);
-            }
-        );
+            });
     }
 
 
-    public logout() {
-        this.session.user = null;
+    public reLogin(
+        email: string,
+        token: string): Observable<User> {
 
-        // TODO: window.localStorage.removeItem("user");
-        ClientstorageService.deleteCookie(COOKIE_EMAIL);
-        ClientstorageService.deleteCookie(COOKIE_TOKEN);
+        // TODO: login with token
+        return Observable.of(new User(email, token));
+    }
+
+
+    public logout(): Observable<void> {
+
+        // TODO: remove token
+        return Observable.of();
+        // this.clientStorageService.deletePersistedUser();
+        // this.currentUserSource.next(undefined);
     }
 
 
     public register(
         email: string,
-        password: string,
-        remember: boolean,
-        successCallback: (user: User) => void,
-        errorCallback: (message: string) => void) {
+        password: string): Observable<User> {
 
-        let message: string;
         const requestBody = {
             action: 'register',
             email: email,
             password: password
         };
-        this.http
+        return this.http
             .post<TokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'})
-            .subscribe(
-                response => {
-                    switch (response.body.resultcode) {
-                        case 0:
-                            const user = this.persistInClient(email, response.body.token, remember);
-                            successCallback(user);
-                            break;
-                        case -1:
-                            message = 'Email already exists!';
-                            errorCallback(message);
-                            break;
-                        default:
-                            message = 'ERROR registering user';
-                            LoggingService.logResponseError(message, response);
-                            errorCallback(message);
-                    }
-                },
-                err => {
-                    message = 'ERROR registering user!';
-                    LoggingService.logResponseError(message, err);
-                    errorCallback(message);
+            .switchMap(response => {
+                switch (response.body.resultcode) {
+                    case 0:
+                        return Observable.of(new User(email, response.body.token));
+                    case -1:
+                        return Observable.throw('Email already exists!');
+                    default:
+                        const message = 'ERROR registering user';
+                        LoggingService.logResponseError(message, response);
+                        return Observable.throw(message);
                 }
-            );
+            });
     }
 
 
-    public forgotPassword(
-        email: string,
-        successCallback: () => void,
-        errorCallback: (message: string) => void) {
-
-        let message: string;
+    public forgotPassword(email: string): Observable<void> {
         const requestBody = {
             action: 'forgotpassword',
             email: email
         };
-        this.http
+        return this.http
             .post<SimpleResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'})
-            .subscribe(
-                response => {
-                    switch (response.body.resultcode) {
-                        case 0:
-                            successCallback();
-                            break;
-                        case -2:
-                            message = 'Email not found!';
-                            errorCallback(message);
-                            break;
-                        default:
-                            message = 'ERROR sending new pw';
-                            LoggingService.logResponseError(message, response);
-                            errorCallback(message);
-                    }
-                },
-                err => {
-                    message = 'ERROR sending new pw!';
-                    LoggingService.logResponseError(message, err);
-                    errorCallback(message);
+            .switchMap(response => {
+                switch (response.body.resultcode) {
+                    case 0:
+                        return Observable.of();
+                    case -2:
+                        return Observable.throw('Email not found!');
+                    default:
+                        const message = 'ERROR sending new pw';
+                        LoggingService.logResponseError(message, response);
+                        return Observable.throw(message);
                 }
-            );
+            });
     }
 
 
     public updatePassword(
         email: string,
         oldPassword: string,
-        newPassword: string,
-        successCallback: () => void,
-        errorCallback: (message: string) => void) {
+        newPassword: string): Observable<void> {
 
-    let message: string;
     const requestBody = {
         action: 'updatepassword',
         email: email,
         oldpassword: oldPassword,
         newpassword: newPassword
     };
-    this.http
+    return this.http
         .post<SimpleResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'})
-        .subscribe(
-            response => {
-                switch (response.body.resultcode) {
-                    case 0:
-                        successCallback();
-                        break;
-                    case -1:
-                        message = 'Wrong password!';
-                        errorCallback(message);
-                        break;
-                    case -2:
-                        message = 'Email not found!';
-                        errorCallback(message);
-                        break;
-                    default:
-                        message = 'ERROR updating pw';
-                        LoggingService.logResponseError(message, response);
-                        errorCallback(message);
-                }
-            },
-            err => {
-                message = 'ERROR updating pw!';
-                LoggingService.logResponseError(message, err);
-                errorCallback(message);
-            }
+        .switchMap(response => {
+            switch (response.body.resultcode) {
+                case 0:
+                    return Observable.of();
+                case -1:
+                    return Observable.throw('Wrong password!');
+                case -2:
+                    return Observable.throw('Email not found!');
+                default:
+                    const message = 'ERROR updating pw';
+                    LoggingService.logResponseError(message, response);
+                    return Observable.throw(message);
+            }}
         );
-    }
-
-
-    private persistInClient(email: string, token: string, remember: boolean): User {
-        const user = new User(
-            email,
-            token
-        );
-        this.session.user = user;
-
-        const rememberDays = remember ? 90 : 0;
-        ClientstorageService.setCookie(COOKIE_EMAIL, user.email, rememberDays);
-        ClientstorageService.setCookie(COOKIE_TOKEN, user.token, rememberDays);
-
-        return user;
     }
 }

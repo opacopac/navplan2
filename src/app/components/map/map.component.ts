@@ -10,10 +10,10 @@ import {SearchService} from '../../services/search/search.service';
 import {MetarTafService} from '../../services/meteo/metar-taf.service';
 import {NotamService} from '../../services/notam/notam.service';
 import {TrafficService} from '../../services/traffic/traffic.service';
-import {Sessioncontext} from '../../model/sessioncontext';
+import {Sessioncontext} from '../../model/session/sessioncontext';
 import {SearchBoxComponent} from '../search-box/search-box.component';
 import {Mapfeatures} from '../../model/mapfeatures';
-import {Position2d} from '../../model/position';
+import {Position2d} from '../../model/geometry/position2d';
 import {MetarTaf, MetarTafList} from '../../model/metar-taf';
 import {Notam, NotamList} from '../../model/notam';
 import {DataItem} from '../../model/data-item';
@@ -35,14 +35,14 @@ import {MapOverlayReportingsectorComponent} from '../map-overlay/map-overlay-rep
 import {MapOverlayUserpointComponent} from '../map-overlay/map-overlay-userpoint/map-overlay-userpoint.component';
 import {MapOverlayTrafficComponent} from '../map-overlay/map-overlay-traffic/map-overlay-traffic.component';
 import {MapOverlayNotamComponent} from '../map-overlay/map-overlay-notam/map-overlay-notam.component';
-import {WaypointFactory} from '../../model/waypoint-model/waypoint-factory';
-import {Waypoint} from '../../model/waypoint';
+import {WaypointFactory} from '../../model/waypoint-mapper/waypoint-factory';
 import {MapOverlayWaypointComponent} from '../map-overlay/map-overlay-waypoint/map-overlay-waypoint.component';
 import {Extent} from '../../model/ol-model/extent';
 import {Subscription} from 'rxjs/Subscription';
 import {Observable} from 'rxjs/Observable';
-import {WaypointModification} from '../../services/map/map-action.service';
-import {Waypoint2} from '../../model/flightroute-model/waypoint2';
+import {Waypoint2} from '../../model/flightroute/waypoint2';
+import {User} from '../../model/session/user';
+import {LocationService} from '../../services/location/location.service';
 
 
 const NAVBAR_HEIGHT_PX = 54;
@@ -86,6 +86,7 @@ export class MapComponent implements OnInit, OnDestroy {
         private flightrouteService: FlightrouteService,
         private mapService: MapService,
         private mapFeatureService: MapfeaturesService,
+        private locationService: LocationService,
         private searchService: SearchService,
         private metarTafService: MetarTafService,
         private notamService: NotamService) {
@@ -98,22 +99,26 @@ export class MapComponent implements OnInit, OnDestroy {
 
     public ngOnInit() {
         this.resizeMapToWindow();
+        const ownAirplane$ = this.locationService.position$
+            .map(pos => pos ? Traffic.createOwnAirplane(pos) : undefined);
         this.mapService.initMap(
             this.session.map.baseMapType,
             this.session.map.position,
             this.session.map.zoom,
             this.session.map.rotation,
-            this.session.flightroute$
+            this.session.flightroute$,
+            ownAirplane$
         );
 
         // subscribe to mapservice events
         this.mapExtentSubscription = Observable.combineLatest(
             this.mapService.mapExtent$,
-            this.mapService.mapZoom$
+            this.mapService.mapZoom$,
+            this.session.user$
         )
-            .filter(([extent, zoom]) => extent !== undefined && zoom !== undefined)
-            .subscribe(([extent, zoom]) => {
-                this.updateMapContent(extent, zoom, false);
+            .filter(([extent, zoom, user]) => extent !== undefined && zoom !== undefined)
+            .subscribe(([extent, zoom, user]) => {
+                this.updateMapContent(extent, zoom, user, false);
             });
 
         this.mapItemClickedSubscription = this.mapService.mapItemClicked$.subscribe(
@@ -262,13 +267,13 @@ export class MapComponent implements OnInit, OnDestroy {
     // endregion
 
 
-    private updateMapContent(extent: Extent, zoom: number, isInitialUpdate: boolean) {
+    private updateMapContent(extent: Extent, zoom: number, user: User, isInitialUpdate: boolean) {
         this.trafficService.setExtent(extent);
 
         if (!isInitialUpdate &&
-            !this.mapFeatureService.needsReload(extent, zoom) &&
-            !this.metarTafService.needsReload(extent, zoom) &&
-            !this.notamService.needsReload(extent, zoom)) {
+            !this.mapFeatureService.needsReload(extent, zoom, user) &&
+            !this.metarTafService.needsReload(extent, zoom, user) &&
+            !this.notamService.needsReload(extent, zoom, user)) {
 
             return;
         }
@@ -276,6 +281,7 @@ export class MapComponent implements OnInit, OnDestroy {
         this.mapFeatureService.load(
             extent,
             this.mapService.getZoom(),
+            user,
             this.onMapFeaturesLoaded.bind(this),
             this.onMapFeaturesLoadError.bind(this)
         );

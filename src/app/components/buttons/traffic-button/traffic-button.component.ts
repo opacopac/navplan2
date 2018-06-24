@@ -55,13 +55,13 @@ export class TrafficButtonComponent implements OnInit {
                 this.onTrafficError.bind(this));
         } else {
             this.trafficService.stopWatching();
-            this.mapService.drawTraffic(undefined);
+            //this.mapService.drawTraffic(undefined);
         }
     }
 
 
     public onTrafficUpdated(trafficList: Traffic[]) {
-        this.mapService.drawTraffic(trafficList);
+        //this.mapService.drawTraffic(trafficList);
     }
 
 

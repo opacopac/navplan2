@@ -1,5 +1,5 @@
 import { DataItem } from './data-item';
-import { Position2d } from './position';
+import { Position2d } from './geometry/position2d';
 
 
 export class Geoname extends DataItem {

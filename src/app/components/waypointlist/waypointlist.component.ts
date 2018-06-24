@@ -2,9 +2,9 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Waypointtype} from '../../model/waypoint';
 import {ButtonColor, ButtonSize} from '../buttons/button-base.directive';
 import {SessionService} from '../../services/session/session.service';
-import {Sessioncontext} from '../../model/sessioncontext';
-import {Waypoint2} from '../../model/flightroute-model/waypoint2';
-import {Flightroute2} from '../../model/flightroute-model/flightroute2';
+import {Sessioncontext} from '../../model/session/sessioncontext';
+import {Waypoint2} from '../../model/flightroute/waypoint2';
+import {Flightroute2} from '../../model/flightroute/flightroute2';
 
 
 @Component({

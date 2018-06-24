@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { LoggingService } from '../utils/logging.service';
 import { SessionService } from '../session/session.service';
-import { Sessioncontext } from '../../model/sessioncontext';
+import { Sessioncontext } from '../../model/session/sessioncontext';
 import { Extent } from '../../model/ol-model/extent';
 import { Mapfeatures } from '../../model/mapfeatures';
 import { CachingExtentLoader } from './caching-extent-loader';
-import { MapFeaturesResponse, RestMapperMapfeatures } from '../../model/rest-model/rest-mapper-mapfeatures';
-import { Position2d } from '../../model/position';
+import { MapFeaturesResponse, RestMapperMapfeatures } from '../../model/rest-mapper/rest-mapper-mapfeatures';
+import { Position2d } from '../../model/geometry/position2d';
 import { DataItem } from '../../model/data-item';
+import {User} from '../../model/session/user';
 
 
 const MAPFEATURES_BASE_URL = environment.restApiBaseUrl + 'php/search/SearchService.php';
@@ -89,10 +90,11 @@ export class MapfeaturesService extends CachingExtentLoader<Mapfeatures> {
     protected loadFromSource(
         extent: Extent,
         zoom: number,
+        user: User,
         successCallback: (Mapfeatures) => void,
         errorCallback: (string) => void) {
         this.http
-            .jsonp<MapFeaturesResponse>(this.buildRequestUrl(extent, zoom), 'callback')
+            .jsonp<MapFeaturesResponse>(this.buildRequestUrl(extent, zoom, user), 'callback')
             .subscribe(
                 response => {
                     const mapFeatures = RestMapperMapfeatures.getMapFeaturesFromResponse(response);
@@ -107,7 +109,7 @@ export class MapfeaturesService extends CachingExtentLoader<Mapfeatures> {
     }
 
 
-    private buildRequestUrl(extent: Extent, zoom: number): string {
+    private buildRequestUrl(extent: Extent, zoom: number, user: User): string {
         let url = MAPFEATURES_BASE_URL + '?action=searchByExtent' + '&minlon=' + extent[0] + '&minlat=' + extent[1]
             + '&maxlon=' + extent[2] + '&maxlat=' + extent[3] + '&zoom=' + zoom;
         url += '&searchItems=airports,navaids,airspaces';
@@ -117,8 +119,8 @@ export class MapfeaturesService extends CachingExtentLoader<Mapfeatures> {
         if (zoom >= 11) {
             url += ',reportingpoints,userpoints';
         }
-        if (this.sessionService.isLoggedIn()) {
-            url += '&email=' + this.session.user.email + '&token=' + this.session.user.token;
+        if (user) {
+            url += '&email=' + user.email + '&token=' + user.token;
         }
         return url;
     }

@@ -4,8 +4,8 @@ import { environment } from '../../../environments/environment';
 import { LoggingService } from '../utils/logging.service';
 import { Track } from '../../model/track';
 import { SessionService } from '../session/session.service';
-import { Sessioncontext } from '../../model/sessioncontext';
-import { RestMapperTrack, TrackListResponse } from '../../model/rest-model/rest-mapper-track';
+import { Sessioncontext } from '../../model/session/sessioncontext';
+import { RestMapperTrack, TrackListResponse } from '../../model/rest-mapper/rest-mapper-track';
 
 const userTrackBaseUrl =  environment.restApiBaseUrl + 'php/userTrack.php';
 

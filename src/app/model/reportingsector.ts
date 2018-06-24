@@ -1,4 +1,4 @@
-import { Polygon } from './polygon';
+import { Polygon } from './geometry/polygon';
 import { DataItem } from './data-item';
 
 

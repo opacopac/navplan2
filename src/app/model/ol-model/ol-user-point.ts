@@ -2,7 +2,7 @@ import * as ol from 'openlayers';
 import { environment } from '../../../environments/environment';
 import { Userpoint } from '../userpoint';
 import { OlFeaturePoint } from './ol-feature';
-import { Position2d } from '../position';
+import { Position2d } from '../geometry/position2d';
 
 
 export class OlUserPoint extends OlFeaturePoint {

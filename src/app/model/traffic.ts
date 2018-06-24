@@ -1,5 +1,6 @@
-import { Position4d } from './position';
+import { Position4d } from './geometry/position4d';
 import { DataItem } from './data-item';
+import {Position2d} from './geometry/position2d';
 
 
 const MAX_AGE_SEC_INACTIVE = 30;
@@ -78,7 +79,22 @@ export class Traffic extends DataItem {
     }
 
 
-    public getCurrentTrafficPosition(): TrafficPosition {
+    public static createOwnAirplane(position: Position4d): Traffic {
+        return new Traffic(
+            '',
+            TrafficAddressType.RANDOM,
+            TrafficDataSource.OWN,
+            TrafficAircraftType.OWN,
+            '',
+            '',
+            '',
+            '',
+            [new TrafficPosition(position, TrafficPositionMethod.OWN, '', 0)]
+        );
+    }
+
+
+    public getCurrentPosition(): TrafficPosition {
         if (!this.positions || this.positions.length === 0) {
             return undefined;
         }
@@ -88,7 +104,7 @@ export class Traffic extends DataItem {
 
 
     public isInactive(): boolean {
-        const pos = this.getCurrentTrafficPosition();
+        const pos = this.getCurrentPosition();
 
         if (!pos || Date.now() - pos.position.timestamp.getMs() > MAX_AGE_SEC_INACTIVE * 1000) {
             return true;

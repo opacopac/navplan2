@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
-import { Sessioncontext } from '../../model/sessioncontext';
-import { SessionService } from '../session/session.service';
-import { LoggingService } from '../utils/logging.service';
-import { GeocalcService } from '../utils/geocalc.service';
-import { Position2d } from '../../model/position';
-import { Extent } from '../../model/ol-model/extent';
-import { RestMapperSearch, SearchResponse } from "../../model/rest-model/rest-mapper-search";
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../../environments/environment';
+import {LoggingService} from '../utils/logging.service';
+import {GeocalcService} from '../utils/geocalc.service';
+import {Position2d} from '../../model/geometry/position2d';
+import {Extent} from '../../model/ol-model/extent';
+import {RestMapperSearch, SearchResponse} from '../../model/rest-mapper/rest-mapper-search';
+import {User} from '../../model/session/user';
+import {Observable} from 'rxjs/Observable';
+import {SearchItemList} from '../../model/search-item';
 
 
 const SEARCH_BASE_URL = environment.restApiBaseUrl + 'php/search/SearchService.php';
@@ -15,16 +16,12 @@ const SEARCH_BASE_URL = environment.restApiBaseUrl + 'php/search/SearchService.p
 
 @Injectable()
 export class SearchService {
-    private session: Sessioncontext;
     private textSearchTimestamp;
     private positionSearchTimestamp;
 
 
     constructor(
-        private http: HttpClient,
-        private sessionService: SessionService) {
-
-        this.session = this.sessionService.getSessionContext();
+        private http: HttpClient) {
     }
 
 
@@ -34,7 +31,6 @@ export class SearchService {
         maxNotamTimestamp: number,
         successCallback: (SearchItemList) => void,
         errorCallback: (string) => void) {
-
     }
 
 
@@ -57,52 +53,23 @@ export class SearchService {
     }
 
 
-    public searchByText(
-        queryString: string,
-        successCallback: (SearchItemList) => void,
-        errorCallback: (string) => void) {
-
+    public searchByText(queryString: string, user: User): Observable<SearchItemList> {
         // try to find coordinates in text
         const pos = GeocalcService.tryParseCoordinates(queryString);
         if (pos) {
-            if (successCallback) {
-                // TODO: create object
-            }
+            // TODO: create single object search result with coordinates
+            return Observable.of(undefined);
         } else {
-            // perform server query
-            this.executeTextSearch(queryString, successCallback, errorCallback);
+            let url = SEARCH_BASE_URL + '?action=searchByText&searchText=' + queryString
+                + '&searchItems=airports,navaids,reportingpoints,userpoints,geonames';
+            if (user) {
+                url += '&email=' + user.email + '&token=' + user.token;
+            }
+
+            return this.http
+                .jsonp<SearchResponse>(url, 'callback')
+                .map(response => RestMapperSearch.getSearchItemListFromResponse(response));
         }
-    }
-
-
-    private executeTextSearch(
-        queryString: string,
-        successCallback: (NotamList) => void,
-        errorCallback: (string) => void) {
-
-        let url = SEARCH_BASE_URL + '?action=searchByText&searchText=' + queryString
-            + '&searchItems=airports,navaids,reportingpoints,userpoints,geonames';
-        if (this.sessionService.isLoggedIn()) {
-            url += '&email=' + this.session.user.email + '&token=' + this.session.user.token;
-        }
-
-        const timestamp = Date.now();
-        this.textSearchTimestamp = timestamp;
-        this.http
-            .jsonp<SearchResponse>(url, 'callback')
-            .subscribe(
-                response => {
-                    if (timestamp !== this.textSearchTimestamp) {
-                        return;
-                    }
-                    const searchItemList = RestMapperSearch.getSearchItemListFromResponse(response);
-                    successCallback(searchItemList);
-                },
-                err => {
-                    const message = 'ERROR performing text search!';
-                    LoggingService.logResponseError(message, err);
-                    errorCallback(message);
-                });
     }
 
 

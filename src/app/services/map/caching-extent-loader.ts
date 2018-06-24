@@ -1,4 +1,5 @@
-import { Extent } from '../../model/ol-model/extent';
+import {Extent} from '../../model/ol-model/extent';
+import {User} from '../../model/session/user';
 
 
 const MAX_CACHE_ENTRIES = 10;
@@ -20,10 +21,10 @@ export abstract class CachingExtentLoader<T> {
     public abstract isTimedOut(ageSec: number): boolean;
 
 
-    public needsReload(extent: Extent, zoom: number): boolean {
+    public needsReload(extent: Extent, zoom: number, user: User): boolean {
         // check "current" cache item (at pos 0)
         if (this.cacheItemList.length > 0 &&
-            this.cacheItemList[0].containsExtentZoom(extent, zoom) &&
+            this.cacheItemList[0].containsExtentZoom(extent, zoom, user) &&
             !this.isTimedOut(this.cacheItemList[0].getAgeSec())) {
             return false;
         } else {
@@ -35,19 +36,21 @@ export abstract class CachingExtentLoader<T> {
     public load(
         extent: Extent,
         zoom: number,
+        user: User,
         successCallback: (T) => void,
         errorCallback: (string) => void) {
 
-        if (!this.containsValidCacheItem(extent, zoom)) {
+        if (!this.containsValidCacheItem(extent, zoom, user)) {
             this.lastLoadTimestampSec = Math.floor(Date.now() / 1000);
             const oversizeExtent = extent.getOversizeExtent(this.getOversizeFactor());
             this.loadFromSource(
                 oversizeExtent,
                 zoom,
-                this.addToCacheAndCallback.bind(this, [oversizeExtent, zoom, successCallback]),
+                user,
+                this.addToCacheAndCallback.bind(this, [oversizeExtent, zoom, user, successCallback]),
                 errorCallback);
         } else {
-            this.loadFromCache(extent, zoom, successCallback);
+            this.loadFromCache(extent, zoom, user, successCallback);
         }
     }
 
@@ -55,12 +58,13 @@ export abstract class CachingExtentLoader<T> {
     protected abstract loadFromSource(
         extent: Extent,
         zoom: number,
+        user: User,
         successCallback: (T) => void,
         errorCallback: (string) => void);
 
 
-    private addToCacheAndCallback([extent, zoom, successCallback], item: T) {
-        const cacheItem = new ExtentCacheItem(extent, zoom, item);
+    private addToCacheAndCallback([extent, zoom, user, successCallback], item: T) {
+        const cacheItem = new ExtentCacheItem(extent, zoom, user, item);
         this.addToFront(cacheItem);
 
         if (successCallback) {
@@ -69,8 +73,8 @@ export abstract class CachingExtentLoader<T> {
     }
 
 
-    private loadFromCache(extent: Extent, zoom: number, successCallback: (T) => void) {
-        const cacheItem = this.getMatchingCacheItem(extent, zoom);
+    private loadFromCache(extent: Extent, zoom: number, user: User, successCallback: (T) => void) {
+        const cacheItem = this.getMatchingCacheItem(extent, zoom, user);
         this.addToFront(cacheItem);
 
         if (successCallback && cacheItem) {
@@ -96,8 +100,8 @@ export abstract class CachingExtentLoader<T> {
     }
 
 
-    private containsValidCacheItem(extent, zoom): boolean {
-        const cacheItem = this.getMatchingCacheItem(extent, zoom);
+    private containsValidCacheItem(extent: Extent, zoom: number, user: User): boolean {
+        const cacheItem = this.getMatchingCacheItem(extent, zoom, user);
         if (cacheItem && !this.isTimedOut(cacheItem.getAgeSec())) {
             return true;
         } else {
@@ -106,9 +110,9 @@ export abstract class CachingExtentLoader<T> {
     }
 
 
-    private getMatchingCacheItem(extent, zoom): ExtentCacheItem<T> {
+    private getMatchingCacheItem(extent: Extent, zoom: number, user: User): ExtentCacheItem<T> {
         for (const cacheItem of this.cacheItemList) {
-            if (cacheItem.containsExtentZoom(extent, zoom)) {
+            if (cacheItem.containsExtentZoom(extent, zoom, user)) {
                 return cacheItem;
             }
         }
@@ -119,17 +123,15 @@ export abstract class CachingExtentLoader<T> {
 
 
 export class ExtentCacheItem<T> {
-    public extent: Extent;
-    public zoom: number;
     public timestampSec: number;
-    public item: T;
 
 
-    public constructor(extent: Extent, zoom: number, item: T) {
-        this.extent = extent;
-        this.zoom = zoom;
+    public constructor(
+        public extent: Extent,
+        public zoom: number,
+        public user: User,
+        public item: T) {
         this.timestampSec = Math.floor(Date.now() / 1000);
-        this.item = item;
     }
 
 
@@ -138,7 +140,7 @@ export class ExtentCacheItem<T> {
     }
 
 
-    public containsExtentZoom(extent: Extent, zoom: number): boolean {
-        return (this.zoom === zoom && this.extent.containsExtent(extent));
+    public containsExtentZoom(extent: Extent, zoom: number, user: User): boolean {
+        return (this.zoom === zoom && this.extent.containsExtent(extent) && user === this.user);
     }
 }

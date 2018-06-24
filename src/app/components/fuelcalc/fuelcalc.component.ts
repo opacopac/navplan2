@@ -3,9 +3,9 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SessionService} from '../../services/session/session.service';
-import {Sessioncontext} from '../../model/sessioncontext';
-import {Time} from '../../model/units/time';
-import {Fuel} from '../../model/units/fuel';
+import {Sessioncontext} from '../../model/session/sessioncontext';
+import {Time} from '../../model/quantities/time';
+import {Fuel} from '../../model/quantities/fuel';
 import {TimeUnit, VolumeUnit} from '../../services/utils/unitconversion.service';
 import {StringnumberService} from '../../services/utils/stringnumber.service';
 import {Subscription} from 'rxjs/Subscription';
@@ -35,7 +35,7 @@ export class FuelcalcComponent implements OnInit, OnDestroy {
         this.initForm();
         // when flightroute is updated => update extra time field
         this.flightRouteSubscription = this.session.flightroute$
-            .withLatestFrom(this.session.flightroute$.flatMap(route => route.fuel.extraTime$))
+            .withLatestFrom(this.session.flightroute$.switchMap(route => route.fuel.extraTime$))
             .subscribe(([route, extraTime]) => {
                 this.extraTimeForm.setValue({ extraTime: extraTime.min });
             });

@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { UserService } from '../../services/user/user.service';
-import { MessageService } from '../../services/utils/message.service';
-import { User } from '../../model/user';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {UserService} from '../../services/user/user.service';
+import {MessageService} from '../../services/utils/message.service';
 
 
 @Component({
@@ -10,7 +9,7 @@ import { User } from '../../model/user';
   templateUrl: './forgotpw.component.html',
   styleUrls: ['./forgotpw.component.css']
 })
-export class ForgotpwComponent implements OnInit {
+export class ForgotpwComponent implements OnInit, OnDestroy {
     public email: string;
 
     constructor(
@@ -24,21 +23,19 @@ export class ForgotpwComponent implements OnInit {
     }
 
 
+    ngOnDestroy() {
+    }
+
+
     onReqPwClicked() {
-        this.userService.forgotPassword(
-            this.email,
-            this.onLoginSuccessCallback.bind(this),
-            this.onLoginErrorCallback.bind(this));
-    }
-
-
-    private onLoginSuccessCallback() {
-        this.messageService.writeSuccessMessage('A new password has be sent to your email!');
-        this.router.navigate(['./login']);
-    }
-
-
-    private onLoginErrorCallback(message: string) {
-        this.messageService.writeErrorMessage(message);
+        this.userService.forgotPassword(this.email)
+            .subscribe(
+                () => {
+                    this.messageService.writeSuccessMessage('A new password has be sent to your email address!');
+                    this.router.navigate(['./login']);
+                },
+                error => {
+                    this.messageService.writeErrorMessage(error);
+                });
     }
 }

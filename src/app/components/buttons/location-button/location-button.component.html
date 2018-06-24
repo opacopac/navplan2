@@ -4,6 +4,7 @@
         title="start/stop tracking own position"
         [iconClass]="'fas fa-location-arrow'"
         [size]="ButtonSize.LARGE"
-        [status]="this.getButtonStatus()"
+        [status]="this.getButtonStatus(this.locationService.status$ | async)"
+        [isPressed]="(this.locationService.isWatching$ | async)"
         (click)="this.onLocationClicked()" ></button>
 </div>

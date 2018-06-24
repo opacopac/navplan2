@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ButtonColor, ButtonSize } from '../../buttons/button-base.directive';
 import { SessionService } from '../../../services/session/session.service';
-import { Sessioncontext } from '../../../model/sessioncontext';
+import { Sessioncontext } from '../../../model/session/sessioncontext';
 import {first} from 'rxjs/operators/first';
 
 

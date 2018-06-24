@@ -1,5 +1,5 @@
-import { Timestamp } from './timestamp';
-import { Position4d } from './position';
+import { Timestamp } from './quantities/timestamp';
+import { Position4d } from './geometry/position4d';
 
 
 export class Track {

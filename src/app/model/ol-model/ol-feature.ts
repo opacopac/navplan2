@@ -1,6 +1,6 @@
 import * as ol from 'openlayers';
-import { Position2d } from '../position';
-import { Polygon } from '../polygon';
+import { Position2d } from '../geometry/position2d';
+import { Polygon } from '../geometry/polygon';
 import { DataItem } from '../data-item';
 
 

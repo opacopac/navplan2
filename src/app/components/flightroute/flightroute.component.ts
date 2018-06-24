@@ -3,16 +3,18 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SessionService} from '../../services/session/session.service';
 import {MessageService} from '../../services/utils/message.service';
-import {Sessioncontext} from '../../model/sessioncontext';
+import {Sessioncontext} from '../../model/session/sessioncontext';
 import {UserService} from '../../services/user/user.service';
 import {FlightrouteService} from '../../services/flightroute/flightroute.service';
 import {ButtonColor, ButtonSize} from '../buttons/button-base.directive';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ConsumptionUnit, SpeedUnit} from '../../services/utils/unitconversion.service';
-import {Speed} from '../../model/units/speed';
-import {Consumption} from '../../model/units/consumption';
+import {Speed} from '../../model/quantities/speed';
+import {Consumption} from '../../model/quantities/consumption';
+import {Subscription} from 'rxjs/Subscription';
 import {Observable} from 'rxjs/Observable';
-import {Flightroute2} from '../../model/flightroute-model/flightroute2';
+import {Flightroute2} from '../../model/flightroute/flightroute2';
+import {Aircraft2} from '../../model/flightroute/aircraft2';
 
 
 @Component({
@@ -25,6 +27,7 @@ export class FlightrouteComponent implements OnInit, OnDestroy {
     public session: Sessioncontext;
     public ButtonSize = ButtonSize;
     public ButtonColor = ButtonColor;
+    private flightrouteSubscription: Subscription;
 
 
     constructor(
@@ -43,15 +46,25 @@ export class FlightrouteComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.initForm();
 
-        // fill initial values from current flightroute
-        this.updateFormValues(this.session.flightroute$);
-
-        // read latest flightroutes from user
-        this.updateFlightrouteList();
+        // subscribe to flightroute changes -> overwrite form values
+        const aircraft$ = this.session.flightroute$
+            .switchMap(route => route ? route.aircraft$ : Observable.of(undefined));
+        this.flightrouteSubscription = this.session.flightroute$
+            .filter(route => route !== undefined)
+            .withLatestFrom(
+                this.session.flightroute$.switchMap<Flightroute2, number>(route => route ? route.id$ : Observable.of(undefined)),
+                this.session.flightroute$.switchMap<Flightroute2, string>(route => route ? route.title$ : Observable.of(undefined)),
+                aircraft$.switchMap<Aircraft2, Speed>(aircraft => aircraft ? aircraft.speed$ : Observable.of(undefined)),
+                aircraft$.switchMap<Aircraft2, Consumption>(aircraft => aircraft ? aircraft.consumption$ : Observable.of(undefined)),
+                this.session.flightroute$.switchMap<Flightroute2, string>(route => route ? route.comments$ : Observable.of(undefined)))
+            .subscribe(([flightroute, id, title, speed, consumption, comments]) => {
+                this.setFormValues(id, title, speed, consumption, comments);
+            });
     }
 
 
     ngOnDestroy() {
+        this.flightrouteSubscription.unsubscribe();
     }
 
 
@@ -61,13 +74,12 @@ export class FlightrouteComponent implements OnInit, OnDestroy {
     onLoadFlightrouteClicked(flightRouteId: string) {
         const flightRouteIdValue = Number(flightRouteId);
         if (flightRouteIdValue && flightRouteIdValue > 0) {
-            const flightroute$ = this.flightrouteService.readFlightroute(flightRouteIdValue);
-            flightroute$
+            this.session.user$
                 .first()
-                .subscribe((route) => {
-                    this.session.flightroute = route;
-                });
-            this.updateFormValues(flightroute$);
+                .switchMap(user => this.flightrouteService.readFlightroute(flightRouteIdValue, user.email, user.token))
+                    .subscribe((route) => {
+                        this.session.flightroute = route;
+                    });
         }
     }
 
@@ -110,7 +122,7 @@ export class FlightrouteComponent implements OnInit, OnDestroy {
         const speedVal = Number(speed);
         if (speedVal && speedVal > 0) {
             this.session.flightroute$
-                .flatMap(route => route.aircraft$)
+                .switchMap(route => route.aircraft$)
                 .first()
                 .subscribe((aircraft) => {
                     aircraft.speed = new Speed(speedVal, SpeedUnit.KT);
@@ -123,7 +135,7 @@ export class FlightrouteComponent implements OnInit, OnDestroy {
         const consumptionVal = Number(consumption);
         if (consumptionVal && consumptionVal > 0) {
             this.session.flightroute$
-                .flatMap(route => route.aircraft$)
+                .switchMap(route => route.aircraft$)
                 .first()
                 .subscribe((aircraft) => {
                     aircraft.consumption = new Consumption(consumptionVal, ConsumptionUnit.L_PER_H);
@@ -137,32 +149,6 @@ export class FlightrouteComponent implements OnInit, OnDestroy {
 
 
     public onExportFlightrouteExcelClicked(flightRouteId: string) {
-    }
-
-
-    private updateFlightrouteList() {
-        if (this.sessionService.isLoggedIn()) {
-            this.flightrouteService.readFlightrouteList()
-                .first()
-                .subscribe((flightrouteList) => {
-                    this.session.flightrouteList = flightrouteList;
-                });
-        }
-    }
-
-
-    private updateFormValues(flightroute$: Observable<Flightroute2>) {
-        flightroute$
-            .withLatestFrom(
-                flightroute$.flatMap(route => route.id$),
-                flightroute$.flatMap(route => route.title$),
-                flightroute$.flatMap(route => route.aircraft$).flatMap(aircraft => aircraft.speed$),
-                flightroute$.flatMap(route => route.aircraft$).flatMap(aircraft => aircraft.consumption$),
-                flightroute$.flatMap(route => route.comments$))
-            .first()
-            .subscribe(([flightroute, id, title, speed, consumption, comments]) => {
-                this.setFormValues(id, title, speed, consumption, comments);
-            });
     }
 
 

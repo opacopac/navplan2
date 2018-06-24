@@ -2,13 +2,11 @@ import 'rxjs/add/operator/catch';
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {Sessioncontext} from '../../model/sessioncontext';
-import {SessionService} from '../session/session.service';
 import {LoggingService} from '../utils/logging.service';
-import {FlightrouteListResponse, FlightrouteResponse, RestMapperFlightroute } from '../../model/rest-model/rest-mapper-flightroute';
-import {Flightroute2} from '../../model/flightroute-model/flightroute2';
+import {FlightrouteListResponse, FlightrouteResponse, RestMapperFlightroute } from '../../model/rest-mapper/rest-mapper-flightroute';
+import {Flightroute2} from '../../model/flightroute/flightroute2';
 import {Observable} from 'rxjs/Observable';
-import {FlightrouteListEntry} from '../../model/flightroute-model/flightroute-list-entry';
+import {FlightrouteListEntry} from '../../model/flightroute/flightroute-list-entry';
 
 
 const flightrouteBaseUrl = environment.restApiBaseUrl + 'php/navplan.php';
@@ -16,21 +14,15 @@ const flightrouteBaseUrl = environment.restApiBaseUrl + 'php/navplan.php';
 
 @Injectable()
 export class FlightrouteService {
-    private session: Sessioncontext;
-
-
     constructor(
-        private http: HttpClient,
-        private sessionService: SessionService) {
-
-        this.session = sessionService.getSessionContext();
+        private http: HttpClient) {
     }
 
 
     // region flightroute list
 
-    public readFlightrouteList(): Observable<FlightrouteListEntry[]> {
-        const url: string = flightrouteBaseUrl + '?email=' + this.session.user.email + '&token=' + this.session.user.token;
+    public readFlightrouteList(email: string, token: string): Observable<FlightrouteListEntry[]> {
+        const url: string = flightrouteBaseUrl + '?email=' + email + '&token=' + token;
         return this.http
             .get<FlightrouteListResponse>(url, {observe: 'response'})
             .catch((err, subject) => {
@@ -45,8 +37,8 @@ export class FlightrouteService {
 
     // region flightroute CRUD
 
-    public readFlightroute(flightrouteId: number): Observable<Flightroute2> {
-        const url = flightrouteBaseUrl + '?id=' + flightrouteId + '&email=' + this.session.user.email + '&token=' + this.session.user.token;
+    public readFlightroute(flightrouteId: number, email: string, token: string): Observable<Flightroute2> {
+        const url = flightrouteBaseUrl + '?id=' + flightrouteId + '&email=' + email + '&token=' + token;
         // let message: string;
 
         return this.http

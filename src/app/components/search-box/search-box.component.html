@@ -1,31 +1,28 @@
 <div class="container mapsearch">
     <div class="input-group">
-        <input #searchWpInput
-               id="searchField"
+        <input #searchInput
                type="text"
                class="form-control form-control-md"
                placeholder="search for AD, navaid, city, coordinates or click on map"
                autocomplete="off"
-               [(ngModel)]="this.searchQuery"
-               (blur)="this.onBlur()"
-               (keydown)="this.onKeyDown($event)" />
+               (blur)="this.clearSearchResults()" />
         <span class="input-group-append">
             <button appIconButton
+                    #searchButton
                     title="search"
                     [iconClass]="'fas fa-search'"
                     [size]="ButtonSize.MEDIUM"
-                    [color]="ButtonColor.GRAY"
-                    (click)="this.onSearchButtonClicked()"></button>
+                    [color]="ButtonColor.GRAY"></button>
 		</span>
     </div>
-    <div *ngIf="this.searchResults">
-        <div *ngIf="this.searchResults.items.length > 0" class="search-results list-group list-group-flush">
+    <div *ngIf="(this.searchResults$ | async) as searchResults">
+        <div *ngIf="searchResults.items.length > 0" class="search-results list-group list-group-flush">
             <a href="#"
-               *ngFor="let result of this.searchResults.items; let idx = index"
-               class="list-group-item list-group-item-action {{ this.selectedIndex === idx ? 'active' : '' }}"
+               *ngFor="let result of searchResults.items; let idx = index"
+               class="list-group-item list-group-item-action {{ (this.selectedIndex$ | async) === idx ? 'active' : '' }}"
                (click)="this.onResultSelected(result)">{{ result.getSearchResultName() }}</a>
         </div>
-        <div *ngIf="this.searchResults.items.length == 0" class="search-results list-group list-group-flush">
+        <div *ngIf="searchResults.items.length == 0" class="search-results list-group list-group-flush">
             <div class="list-group-item list-group-item-action">&nbsp;<i>(no results found)&nbsp;</i></div>
         </div>
     </div>

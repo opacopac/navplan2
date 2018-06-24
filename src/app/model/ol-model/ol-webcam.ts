@@ -1,6 +1,6 @@
 import * as ol from 'openlayers';
 import { environment } from '../../../environments/environment';
-import { Position2d } from '../position';
+import { Position2d } from '../geometry/position2d';
 import { Webcam } from '../webcam';
 import { OlFeaturePoint } from './ol-feature';
 

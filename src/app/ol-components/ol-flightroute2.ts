@@ -1,9 +1,9 @@
 import * as ol from 'openlayers';
 import {RxService} from '../services/utils/rx.service';
-import {Flightroute2} from '../model/flightroute-model/flightroute2';
+import {Flightroute2} from '../model/flightroute/flightroute2';
 import {OlComponent} from './ol-component';
 import {OlWaypoint2} from './ol-waypoint2';
-import {Waypoint2} from '../model/flightroute-model/waypoint2';
+import {Waypoint2} from '../model/flightroute/waypoint2';
 import {Subscription} from 'rxjs/Subscription';
 import {Observable} from 'rxjs/Observable';
 import {OlRouteLine} from './ol-route-line';
@@ -37,8 +37,8 @@ export class OlFlightroute2 extends OlComponent {
             this.source);
         this.alternateLine = new OlAlternateLine(
             this.mapContext,
-            this.flightroute$.flatMap(route => route ? route.waypointList.alternate$ : RxService.getEternal<Waypoint2>()),
-            this.flightroute$.flatMap(route => route ? route.waypointList.lastItem$ : RxService.getEternal<Waypoint2>()),
+            this.flightroute$.switchMap(route => route ? route.waypointList.alternate$ : RxService.getEternal<Waypoint2>()),
+            this.flightroute$.switchMap(route => route ? route.waypointList.lastItem$ : RxService.getEternal<Waypoint2>()),
             this.source
         );
 
@@ -46,13 +46,13 @@ export class OlFlightroute2 extends OlComponent {
         this.waypointFeatureList = []; // start empty
         this.alternateFeature = new OlWaypoint2(
             this.mapContext,
-            this.flightroute$.flatMap(route => route ? route.waypointList.alternate$ : RxService.getEternal<Waypoint2>()),
+            this.flightroute$.switchMap(route => route ? route.waypointList.alternate$ : RxService.getEternal<Waypoint2>()),
             this.source
         );
 
         // handle waypoint list changes
         this.waypointListSubscription = this.flightroute$
-            .flatMap(route => route ? route.waypointList.items$ : RxService.getEternal<Waypoint2[]>([]))
+            .switchMap(route => route ? route.waypointList.items$ : RxService.getEternal<Waypoint2[]>([]))
             .subscribe((waypointList) => {
                 this.updateWaypointList(waypointList);
             });

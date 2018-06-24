@@ -1,13 +1,11 @@
 import {Injectable} from '@angular/core';
-import {SessionService} from '../session/session.service';
-import {Sessioncontext} from '../../model/sessioncontext';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
-import {Position2d} from '../../model/position';
+import {Position2d} from '../../model/geometry/position2d';
 import {DataItem} from '../../model/data-item';
 import {MapfeaturesService} from './mapfeatures.service';
-import {WaypointFactory} from '../../model/waypoint-model/waypoint-factory';
-import {Flightroute2} from '../../model/flightroute-model/flightroute2';
+import {WaypointFactory} from '../../model/waypoint-mapper/waypoint-factory';
+import {Flightroute2} from '../../model/flightroute/flightroute2';
 
 
 export class WaypointModification {
@@ -20,7 +18,6 @@ export class WaypointModification {
 
 @Injectable()
 export class MapActionService {
-    private session: Sessioncontext;
     public readonly mapItemClicked$: Observable<[DataItem, Position2d]>;
     private readonly mapItemClickedSource: Subject<[DataItem, Position2d]>;
     public readonly mapClicked$: Observable<Position2d>;
@@ -32,10 +29,8 @@ export class MapActionService {
 
 
     constructor(
-        private sessionService: SessionService,
         private mapFeatureService: MapfeaturesService) {
 
-        this.session = this.sessionService.getSessionContext();
         this.mapItemClickedSource = new Subject<[DataItem, Position2d]>();
         this.mapItemClicked$ = this.mapItemClickedSource.asObservable();
         this.mapClickedSource = new Subject<Position2d>();

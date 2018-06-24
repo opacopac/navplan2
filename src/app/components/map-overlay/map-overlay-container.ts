@@ -2,7 +2,7 @@ import { EventEmitter, Output } from '@angular/core';
 import { UnitconversionService } from '../../services/utils/unitconversion.service';
 import { StringnumberService } from '../../services/utils/stringnumber.service';
 import { DataItem } from '../../model/data-item';
-import { Position2d } from '../../model/position';
+import { Position2d } from '../../model/geometry/position2d';
 
 
 export abstract class MapOverlayContainer {

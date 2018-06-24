@@ -1,5 +1,5 @@
 import { Clonable } from './clonable';
-import { Position2d } from './position';
+import { Position2d } from './geometry/position2d';
 
 
 export class Waypoint implements Clonable<Waypoint> {

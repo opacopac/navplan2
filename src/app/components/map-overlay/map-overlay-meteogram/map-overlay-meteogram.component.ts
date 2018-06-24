@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Position2d } from '../../../model/position';
+import { Position2d } from '../../../model/geometry/position2d';
 import { DataItem } from '../../../model/data-item';
 
 

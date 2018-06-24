@@ -1,9 +1,9 @@
 import * as ol from 'openlayers';
 import { Injectable } from '@angular/core';
-import { Position2d } from '../../model/position';
-import { Angle } from '../../model/units/angle';
+import { Position2d } from '../../model/geometry/position2d';
+import { Angle } from '../../model/quantities/angle';
 import { AngleUnit, LengthUnit } from './unitconversion.service';
-import { Distance } from '../../model/units/distance';
+import { Distance } from '../../model/quantities/distance';
 
 
 const wgs84Sphere = new ol.Sphere(6378137);

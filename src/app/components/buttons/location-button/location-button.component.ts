@@ -1,12 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
-import { MapService } from '../../../services/map/map.service';
-import { TimerService } from '../../../services/utils/timer.service';
-import { MessageService } from '../../../services/utils/message.service';
-import { LocationService, LocationServiceStatus } from '../../../services/location/location.service';
-import { Traffic, TrafficAddressType, TrafficDataSource, TrafficPosition, TrafficPositionMethod, TrafficAircraftType } from '../../../model/traffic';
-import { Position4d } from '../../../model/position';
-import { ButtonSize } from '../button-base.directive';
-import { ButtonStatus } from '../status-button.directive';
+import {Component, OnInit} from '@angular/core';
+import {MapService} from '../../../services/map/map.service';
+import {TimerService} from '../../../services/utils/timer.service';
+import {MessageService} from '../../../services/utils/message.service';
+import {LocationService, LocationServiceStatus} from '../../../services/location/location.service';
+import {Traffic} from '../../../model/traffic';
+import {ButtonSize} from '../button-base.directive';
+import {ButtonStatus} from '../status-button.directive';
 
 
 @Component({
@@ -32,37 +31,23 @@ export class LocationButtonComponent implements OnInit {
 
 
     public onLocationClicked() {
+        this.locationService.toggleWatching();
         // $scope.stopFollowTraffic(); TODO
 
-        if (!this.locationService.isActivated) {
+        /*if (!this.locationService.isActivated) {
             this.ownPlane = this.getOwnAirplane();
-            this.locationService.startWatching(this.onLocationChanged.bind(this), this.onLocationError.bind(this));
+            this.locationService.startWatching();
             this.timerService.startClockTimer();
         } else {
             this.locationService.stopWatching();
             this.timerService.stopClockTimer();
             this.mapService.drawLocation(undefined);
             // $scope.storeTrackLocal(); TODO
-        }
+        }*/
     }
 
 
-    private getOwnAirplane(): Traffic {
-        return new Traffic(
-            '',
-            TrafficAddressType.RANDOM,
-            TrafficDataSource.OWN,
-            TrafficAircraftType.OWN,
-            '',
-            '',
-            '',
-            '',
-            []
-        );
-    }
-
-
-    private onLocationChanged(currentPosition: Position4d) {
+    /*private onLocationChanged(currentPosition: Position4d) {
         // draw own plane
         const trafficPos = new TrafficPosition(
             currentPosition,
@@ -89,16 +74,11 @@ export class LocationButtonComponent implements OnInit {
                 this.mapService.setMapPosition(currentPosition);
             }
         }
-    }
+    }*/
 
 
-    private onLocationError(message: string) {
-        this.messageService.writeErrorMessage(message);
-    }
-
-
-    public getButtonStatus(): ButtonStatus {
-        switch (this.locationService.status) {
+    public getButtonStatus(status: LocationServiceStatus): ButtonStatus {
+        switch (status) {
             case LocationServiceStatus.CURRENT:
                 return ButtonStatus.OK;
             case LocationServiceStatus.WAITING:
@@ -110,21 +90,4 @@ export class LocationButtonComponent implements OnInit {
                 return ButtonStatus.OFF;
         }
     }
-
-
-    /*public getButtonClass(): string {
-        const active = this.locationService.isActivated ? ' active' : '';
-
-        switch (this.locationService.status) {
-            case LocationServiceStatus.CURRENT:
-                return 'btn-success' + active;
-            case LocationServiceStatus.WAITING:
-                return 'btn-warning' + active;
-            case LocationServiceStatus.ERROR:
-                return 'btn-danger' + active;
-            case LocationServiceStatus.OFF:
-            default:
-                return 'btn-secondary' + active;
-        }
-    }*/
 }

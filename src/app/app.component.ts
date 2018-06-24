@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { SessionService } from './services/session/session.service';
-import { Sessioncontext } from './model/sessioncontext';
-import { UserService } from './services/user/user.service';
-import { User } from './model/user';
-import { MessageService } from './services/utils/message.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {SessionService} from './services/session/session.service';
+import {Sessioncontext} from './model/session/sessioncontext';
+import {UserService} from './services/user/user.service';
+import {MessageService} from './services/utils/message.service';
+import {ClientstorageService} from './services/session/clientstorage.service';
 
 
 @Component({
@@ -11,22 +11,43 @@ import { MessageService } from './services/utils/message.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
-    private session: Sessioncontext;
+export class AppComponent implements OnInit, OnDestroy {
+    public session: Sessioncontext;
 
 
     constructor(
-        public userService: UserService,
-        public messageService: MessageService,
-        public sessionService: SessionService) {
+        private userService: UserService,
+        private messageService: MessageService,
+        private sessionService: SessionService,
+        private clientstorageService: ClientstorageService) {
+
         this.session = sessionService.getSessionContext();
     }
 
 
     ngOnInit() {
-        const user: User = this.userService.initUser();
-        if (user) {
-            this.messageService.writeSuccessMessage('Welcome ' + user.email + '!');
+        // login "remembered" user
+        const persistedUser = this.clientstorageService.getPersistedUser();
+        if (persistedUser) {
+            this.userService.reLogin(persistedUser.email, persistedUser.token)
+                .subscribe(
+                    // success
+                    (user) => {
+                        this.session.user = user;
+                        this.clientstorageService.persistUser(user, true);
+                        this.messageService.writeSuccessMessage('Welcome ' + user.email + '!');
+                    },
+                    // error
+                    (error) =>  {
+                        this.session.user = undefined;
+                        this.clientstorageService.deletePersistedUser();
+                        this.messageService.writeErrorMessage(error);
+                    }
+                );
         }
+    }
+
+
+    ngOnDestroy() {
     }
 }

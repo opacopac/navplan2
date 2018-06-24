@@ -4,9 +4,9 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
 import {LengthUnit, UnitconversionService} from '../services/utils/unitconversion.service';
-import {Angle} from '../model/units/angle';
-import {Distance} from '../model/units/distance';
-import {Waypoint2} from '../model/flightroute-model/waypoint2';
+import {Angle} from '../model/quantities/angle';
+import {Distance} from '../model/quantities/distance';
+import {Waypoint2} from '../model/flightroute/waypoint2';
 import {OlComponent} from './ol-component';
 import {MapContext} from '../services/map/map.service';
 
@@ -25,12 +25,12 @@ export class OlWaypointBearingLabel extends OlComponent {
         super(mapContext);
 
         // create ol features & add to source
-        this.dirBearFeature = new ol.Feature();
+        this.dirBearFeature = this.createFeature(this.waypoint$);
         this.source.addFeatures([this.dirBearFeature]);
 
         // handle position changes
         this.previousPositionSubscription = this.waypoint$
-            .flatMap(wp => wp ? wp.previousPosition$ : Observable.of(undefined))
+            .switchMap(wp => wp ? wp.previousPosition$ : Observable.of(undefined))
             .distinctUntilChanged()
             .subscribe((position) => {
                 if (!position) {
@@ -43,9 +43,9 @@ export class OlWaypointBearingLabel extends OlComponent {
 
         // handle style changes
         this.mtDistVarRotSubscription = Observable.combineLatest(
-            this.waypoint$.flatMap(wp => wp ? wp.mt$ : Observable.of(undefined)),
-            this.waypoint$.flatMap(wp => wp ? wp.variation$ : Observable.of(undefined)),
-            this.waypoint$.flatMap(wp => wp ? wp.dist$ : Observable.of(undefined)),
+            this.waypoint$.switchMap(wp => wp ? wp.mt$ : Observable.of(undefined)),
+            this.waypoint$.switchMap(wp => wp ? wp.variation$ : Observable.of(undefined)),
+            this.waypoint$.switchMap(wp => wp ? wp.dist$ : Observable.of(undefined)),
             this.mapContext.mapService.mapRotation$
         )
             .filter(([mt, variation, dist, mapRotation]) =>

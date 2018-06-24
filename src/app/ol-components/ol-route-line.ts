@@ -6,11 +6,11 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import {Subscription} from 'rxjs/Subscription';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
-import {Position2d} from '../model/position';
+import {Position2d} from '../model/geometry/position2d';
 import {OlComponent} from './ol-component';
-import {Flightroute2} from '../model/flightroute-model/flightroute2';
+import {Flightroute2} from '../model/flightroute/flightroute2';
 import {RxService} from '../services/utils/rx.service';
-import {Waypoint2} from '../model/flightroute-model/waypoint2';
+import {Waypoint2} from '../model/flightroute/waypoint2';
 import {WaypointModification} from 'app/services/map/map-action.service';
 import {MapContext} from '../services/map/map.service';
 
@@ -57,9 +57,9 @@ export class OlRouteLine extends OlComponent {
 
         // handle waypoint list changes
         const wpPosList$ = this.flightroute$
-            .flatMap(route => route ? route.waypointList.positionList$ : RxService.getEternal<Position2d[]>([]));
+            .switchMap(route => route ? route.waypointList.positionList$ : RxService.getEternal<Position2d[]>([]));
         this.waypointListSubscription = this.flightroute$
-            .flatMap(route => route ? route.waypointList.items$ : RxService.getEternal<Waypoint2[]>([]))
+            .switchMap(route => route ? route.waypointList.items$ : RxService.getEternal<Waypoint2[]>([]))
             .withLatestFrom(wpPosList$)
             .distinctUntilChanged()
             .subscribe(([wpList, wpPosList]) => {

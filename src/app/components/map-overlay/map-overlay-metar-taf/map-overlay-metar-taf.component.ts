@@ -3,8 +3,8 @@ import { DatetimeService } from '../../../services/utils/datetime.service';
 import { StringnumberService } from '../../../services/utils/stringnumber.service';
 import { MetarTaf } from '../../../model/metar-taf';
 import { SessionService } from '../../../services/session/session.service';
-import { Sessioncontext } from '../../../model/sessioncontext';
-import {Position2d} from '../../../model/position';
+import { Sessioncontext } from '../../../model/session/sessioncontext';
+import {Position2d} from '../../../model/geometry/position2d';
 
 
 

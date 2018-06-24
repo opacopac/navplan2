@@ -3,11 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { LoggingService } from '../utils/logging.service';
 import { SessionService } from '../session/session.service';
-import { Sessioncontext } from '../../model/sessioncontext';
+import { Sessioncontext } from '../../model/session/sessioncontext';
 import { CachingExtentLoader } from '../map/caching-extent-loader';
 import { Extent } from '../../model/ol-model/extent';
 import { MetarTafList } from '../../model/metar-taf';
-import { MetarTafResponse, RestMapperMetarTaf} from '../../model/rest-model/rest-mapper-metar-taf';
+import { MetarTafResponse, RestMapperMetarTaf} from '../../model/rest-mapper/rest-mapper-metar-taf';
+import {User} from '../../model/session/user';
 
 
 const MIN_ZOOM_LEVEL = 8;
@@ -42,6 +43,7 @@ export class MetarTafService extends CachingExtentLoader<MetarTafList> {
     protected loadFromSource(
         extent: Extent,
         zoom: number,
+        user: User,
         successCallback: (MetarTafList) => void,
         errorCallback: (string) => void) {
 

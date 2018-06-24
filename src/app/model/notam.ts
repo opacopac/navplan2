@@ -1,4 +1,4 @@
-import { Geometry2d } from './geometry2d';
+import { Geometry2d } from './geometry/geometry2d';
 import { DataItem } from './data-item';
 
 

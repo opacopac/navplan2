@@ -1,4 +1,4 @@
-import { Position2d } from './position';
+import { Position2d } from './geometry/position2d';
 import { DataItem } from './data-item';
 import { MetarTaf } from './metar-taf';
 import { Notam } from './notam';

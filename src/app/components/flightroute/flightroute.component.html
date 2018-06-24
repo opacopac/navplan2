@@ -2,7 +2,7 @@
     <h2>Flight Route</h2>
     <form [formGroup]="flightrouteForm">
         <!-- load/delete route -->
-        <div class="form-group form-row" [hidden]="!this.sessionService.isLoggedIn()">
+        <div class="form-group form-row" [hidden]="!this.session.isLoggedIn$ | async">
             <label for="flightroute_list" class="col-form-label col-form-label-md col-sm-3">Saved Routes</label>
             <div class="col-sm-9">
                 <div class="input-group">
@@ -17,7 +17,7 @@
                                 [iconClass]="'fas fa-upload'"
                                 [color]="ButtonColor.GREEN"
                                 [size]="ButtonSize.MEDIUM"
-                                [disabled]="!this.sessionService.isLoggedIn() || !(flightrouteId.value > 0)"
+                                [disabled]="!(this.session.isLoggedIn$ | async) || !(flightrouteId.value > 0)"
                                 (click)="this.onLoadFlightrouteClicked(flightrouteId.value)"></button>
                         <!-- delete route button -->
                         <button appIconButton
@@ -25,7 +25,7 @@
                                 [iconClass]="'fas fa-trash'"
                                 [color]="ButtonColor.RED"
                                 [size]="ButtonSize.MEDIUM"
-                                [disabled]="!this.sessionService.isLoggedIn() || !(flightrouteId.value > 0)"
+                                [disabled]="!(this.session.isLoggedIn$ | async) || !(flightrouteId.value > 0)"
                                 (click)="this.onDeleteFlightrouteClicked(flightrouteId.value)"></button>
                     </span>
                 </div>
@@ -45,7 +45,7 @@
                                 [iconClass]="'fas fa-download'"
                                 [color]="ButtonColor.BLUE"
                                 [size]="ButtonSize.MEDIUM"
-                                [disabled]="!this.sessionService.isLoggedIn() || routeName.value === ''"
+                                [disabled]="!(this.session.isLoggedIn$ | async) || routeName.value === ''"
                                 (click)="onSaveFlightrouteClicked(flightrouteId.value)"></button>
                         <!-- save copy route button -->
                         <button appIconButton
@@ -53,7 +53,7 @@
                                 [iconClass]="'fas fa-copy'"
                                 [color]="ButtonColor.BLUE"
                                 [size]="ButtonSize.MEDIUM"
-                                [disabled]="!this.sessionService.isLoggedIn() || routeName.value === '' || !flightrouteId || !(flightrouteId.value > 0)"
+                                [disabled]="!(this.session.isLoggedIn$ | async) || routeName.value === '' || !flightrouteId || !(flightrouteId.value > 0)"
                                 (click)="onSaveFlightrouteCopyClicked()"></button>
                     </span>
                 </div>

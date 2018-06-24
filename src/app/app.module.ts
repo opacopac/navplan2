@@ -69,6 +69,7 @@ import {ArrayService} from './services/utils/array.service';
 import {MapOverlayButtonRemoveAlternateComponent} from './components/map-overlay/map-overlay-button-remove-alternate/map-overlay-button-remove-alternate.component';
 import {MapOverlayWaypointComponent} from './components/map-overlay/map-overlay-waypoint/map-overlay-waypoint.component';
 import {MapActionService} from 'app/services/map/map-action.service';
+import {ClientstorageService} from './services/session/clientstorage.service';
 
 
 @NgModule({
@@ -148,6 +149,7 @@ import {MapActionService} from 'app/services/map/map-action.service';
         TrafficAdsbexchangeService,
         SearchService,
         ArrayService,
+        ClientstorageService,
     ],
     bootstrap: [AppComponent]
 })

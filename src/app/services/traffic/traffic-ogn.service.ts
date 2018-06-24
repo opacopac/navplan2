@@ -3,9 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { LoggingService } from '../utils/logging.service';
 import { SessionService } from '../session/session.service';
-import { Sessioncontext } from '../../model/sessioncontext';
+import { Sessioncontext } from '../../model/session/sessioncontext';
 import { Extent } from '../../model/ol-model/extent';
-import { RestMapperTrafficOgn, TrafficOgnResponse } from "../../model/rest-model/rest-mapper-traffic-ogn";
+import { RestMapperTrafficOgn, TrafficOgnResponse } from "../../model/rest-mapper/rest-mapper-traffic-ogn";
 
 
 const OGN_TRAFFIC_BASE_URL = environment.restApiBaseUrl + 'php/ogntraffic.php';

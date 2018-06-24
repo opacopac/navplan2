@@ -2,7 +2,7 @@ import * as ol from 'openlayers';
 import { environment } from '../../../environments/environment';
 import { OlFeaturePoint } from './ol-feature';
 import { MetarTaf } from '../metar-taf';
-import { Position2d } from '../position';
+import { Position2d } from '../geometry/position2d';
 import { UnitconversionService } from '../../services/utils/unitconversion.service';
 
 

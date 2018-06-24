@@ -3,12 +3,12 @@ import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
 import {RxService} from '../services/utils/rx.service';
-import {Position2d} from '../model/position';
+import {Position2d} from '../model/geometry/position2d';
 import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
 import {UnitconversionService} from '../services/utils/unitconversion.service';
-import {Angle} from '../model/units/angle';
-import {Waypoint2} from '../model/flightroute-model/waypoint2';
+import {Angle} from '../model/quantities/angle';
+import {Waypoint2} from '../model/flightroute/waypoint2';
 import {OlComponent} from './ol-component';
 import {OlWaypointBearingLabel} from './ol-waypoint-bearing-label';
 import {MapContext} from '../services/map/map.service';
@@ -35,7 +35,7 @@ export class OlWaypoint2 extends OlComponent {
         this.bearingLabel = new OlWaypointBearingLabel(this.mapContext, this.waypoint$, source);
 
         // handle position changes
-        const pos$ = this.waypoint$.flatMap(wp => wp ? wp.position$ : RxService.getEternal<Position2d>());
+        const pos$ = this.waypoint$.switchMap(wp => wp ? wp.position$ : RxService.getEternal<Position2d>());
         this.positionSubscription = pos$
             .distinctUntilChanged()
             .subscribe(position => {
@@ -48,9 +48,9 @@ export class OlWaypoint2 extends OlComponent {
 
         // handle style changes
         this.textMtRotSubscription = Observable.combineLatest(
-            this.waypoint$.flatMap(wp => wp ? wp.checkpoint$ : RxService.getEternal<string>()),
-            this.waypoint$.flatMap(wp => wp ? wp.mt$ : RxService.getEternal<Angle>()),
-            this.waypoint$.flatMap(wp => wp ? wp.nextMt$ : RxService.getEternal<Angle>()),
+            this.waypoint$.switchMap(wp => wp ? wp.checkpoint$ : RxService.getEternal<string>()),
+            this.waypoint$.switchMap(wp => wp ? wp.mt$ : RxService.getEternal<Angle>()),
+            this.waypoint$.switchMap(wp => wp ? wp.nextMt$ : RxService.getEternal<Angle>()),
             this.mapContext.mapService.mapRotation$
         )
             // .filter(([text, mt, nextMt, mapRotation]) => text !== undefined || mapRotation !== undefined)
