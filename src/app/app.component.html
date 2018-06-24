@@ -7,7 +7,7 @@
         <div class="navbar-nav">
             <a class="nav-item nav-link" routerLink="./map" title="Map"><i class="far fa-map"></i><span class="d-sm-none d-md-inline">&nbsp;  Map</span></a>
             <a class="nav-item nav-link" routerLink="./route" title="Route & Fuel Calc"><i class="far fa-list-alt"></i><span class="d-sm-none d-md-inline">&nbsp; Route &amp; Fuel</span></a>
-            <a *ngIf="this.session.isLoggedIn$ | async" class="nav-item nav-link" routerLink="./tracks" title="Recorded Tracks"><i class="fas fa-paw"></i><span class="d-sm-none d-md-inline">&nbsp; Tracks</span></a>
+            <a *ngIf="this.currentUser$ | async" class="nav-item nav-link" routerLink="./tracks" title="Recorded Tracks"><i class="fas fa-paw"></i><span class="d-sm-none d-md-inline">&nbsp; Tracks</span></a>
             <a class="nav-item nav-link" routerLink="./map" title="Clear current Route and Track"><i class="fas fa-eraser"></i><span class="d-sm-none d-md-none d-lg-inline">&nbsp; Clear</span></a>
             <div class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Export & Share Route">
@@ -24,8 +24,16 @@
             </div>
         </div>
         <div class="navbar-nav ml-auto">
-            <a *ngIf="!this.session.isLoggedIn$ | async" class="nav-item nav-link" routerLink="./login" title="Login or Register"><i class="fas fa-user"></i><span class="d-sm-none d-md-none d-lg-inline">&nbsp; Login</span></a>
-            <a *ngIf="this.session.isLoggedIn$ | async" class="nav-item nav-link" routerLink="./userprofile" title="User Profile"><i class="fas fa-user"></i><span class="d-sm-none d-md-none d-lg-inline">&nbsp; {{ (this.session.user$ | async)?.email }}</span></a>
+            <a *ngIf="(this.currentUser$ | async) as currentUser; else noCurrentUser" class="nav-item nav-link" routerLink="./userprofile" title="User Profile">
+                <i class="fas fa-user"></i>
+                <span class="d-sm-none d-md-none d-lg-inline">&nbsp; {{ currentUser.email }}</span>
+            </a>
+            <ng-template #noCurrentUser>
+                <a class="nav-item nav-link" routerLink="./login" title="Login or Register">
+                    <i class="fas fa-user"></i>
+                    <span class="d-sm-none d-md-none d-lg-inline">&nbsp; Login</span>
+                </a>
+            </ng-template>
             <a class="nav-item nav-link" routerLink="./settings" title="Edit Settings"><i class="fas fa-cog"></i><span class="d-sm-none d-md-none d-lg-inline">&nbsp; Settings</span></a>
             <a class="nav-item nav-link" routerLink="./about" title="About"><i class="fas fa-info-circle"></i><span class="d-sm-none d-md-none d-lg-inline">&nbsp; About</span></a>
         </div>

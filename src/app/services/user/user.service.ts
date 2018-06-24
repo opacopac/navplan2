@@ -58,17 +58,51 @@ export class UserService {
         email: string,
         token: string): Observable<User> {
 
-        // TODO: login with token
-        return Observable.of(new User(email, token));
+        const requestBody = {
+            action: 'relogin',
+            email: email,
+            token: token
+        };
+        return this.http
+            .post<TokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'})
+            .switchMap((response) => {
+                switch (response.body.resultcode) {
+                    case 0:
+                        return Observable.of(new User(email, response.body.token));
+                    case -2:
+                        return Observable.throw('Email or token not found!');
+                    default:
+                        const message = 'ERROR performing login';
+                        LoggingService.logResponseError(message, response);
+                        return Observable.throw(message);
+                }
+            });
     }
 
 
-    public logout(): Observable<void> {
+    public logout(
+        email: string,
+        token: string): Observable<void> {
 
-        // TODO: remove token
-        return Observable.of();
-        // this.clientStorageService.deletePersistedUser();
-        // this.currentUserSource.next(undefined);
+        const requestBody = {
+            action: 'logout',
+            email: email,
+            token: token
+        };
+        return this.http
+            .post<SimpleResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'})
+            .switchMap((response) => {
+                switch (response.body.resultcode) {
+                    case 0:
+                        return Observable.of(undefined);
+                    case -2:
+                        return Observable.throw('Email or token not found!');
+                    default:
+                        const message = 'ERROR performing logout';
+                        LoggingService.logResponseError(message, response);
+                        return Observable.throw(message);
+                }
+            });
     }
 
 

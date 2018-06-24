@@ -23,7 +23,7 @@
         <div class="form-group">
             <span class="col-sm-3">&nbsp;</span>
             <div class="col-sm-6">
-                <button type="submit" class="btn btn-primary" (click)="onLoginClicked()" [disabled]="loginForm.invalid">Log In</button>
+                <button type="submit" class="btn btn-primary" (click)="onLoginClicked()" [disabled]="loginForm.invalid" routerLink="/map">Log In</button>
                 <button type="submit" class="btn btn-secondary" (click)="onRegisterClicked()" [disabled]="loginForm.invalid">Create New Account</button>
             </div>
         </div>

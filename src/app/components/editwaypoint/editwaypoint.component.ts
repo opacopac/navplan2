@@ -111,7 +111,7 @@ export class EditwaypointComponent implements OnInit, OnDestroy {
             waypoint.supp_info$)
             .first()
             .subscribe(([checkpoint, freq, callsign, alt_ft, ismaxalt, isminalt, isaltatlegstart, remark, supp_info]) => {
-                this.setFormValues(checkpoint, freq, callsign, alt_ft, ismaxalt, isminalt, isaltatlegstart, remark, supp_info);
+                this.setFormValues(checkpoint, freq, callsign, Number(alt_ft), Boolean(ismaxalt), Boolean(isminalt), Boolean(isaltatlegstart), remark, supp_info);
             });
     }
 

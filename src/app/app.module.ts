@@ -70,6 +70,12 @@ import {MapOverlayButtonRemoveAlternateComponent} from './components/map-overlay
 import {MapOverlayWaypointComponent} from './components/map-overlay/map-overlay-waypoint/map-overlay-waypoint.component';
 import {MapActionService} from 'app/services/map/map-action.service';
 import {ClientstorageService} from './services/session/clientstorage.service';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {StoreModule} from '@ngrx/store';
+import {userReducer} from './user/reducers/user.reducer';
+import {UserEffects} from './user/effects/user-effects.service';
+import {environment} from '../environments/environment';
+import {EffectsModule} from '@ngrx/effects';
 
 
 @NgModule({
@@ -128,6 +134,14 @@ import {ClientstorageService} from './services/session/clientstorage.service';
         AppRoutingModule,
         HttpClientModule,
         HttpClientJsonpModule,
+        StoreModule.forRoot({
+            currentUser: userReducer,
+        }),
+        EffectsModule.forRoot([UserEffects]),
+        StoreDevtoolsModule.instrument({
+            maxAge: 25, // Retains last 25 states
+            logOnly: environment.production, // Restrict extension to log-only mode
+        }),
     ],
     providers: [
         SessionService,
