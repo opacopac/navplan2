@@ -1,5 +1,8 @@
-import {User} from './model/session/user';
+import {UserState} from './user/model/user-state';
+import {SearchState} from './search/model/search-state';
+
 
 export interface AppState {
-    readonly currentUser: User;
+    readonly userState: UserState;
+    readonly searchState: SearchState;
 }

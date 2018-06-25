@@ -17,7 +17,7 @@ import {Position2d} from '../../model/geometry/position2d';
 import {MetarTaf, MetarTafList} from '../../model/metar-taf';
 import {Notam, NotamList} from '../../model/notam';
 import {DataItem} from '../../model/data-item';
-import {SearchItemList} from '../../model/search-item';
+import {SearchItemList} from '../../search/model/search-item-list';
 import {Userpoint} from '../../model/userpoint';
 import {Navaid} from '../../model/navaid';
 import {Traffic} from '../../model/traffic';
@@ -41,7 +41,7 @@ import {Extent} from '../../model/ol-model/extent';
 import {Subscription} from 'rxjs/Subscription';
 import {Observable} from 'rxjs/Observable';
 import {Waypoint2} from '../../model/flightroute/waypoint2';
-import {User} from '../../model/session/user';
+import {User} from '../../user/model/user';
 import {LocationService} from '../../services/location/location.service';
 
 

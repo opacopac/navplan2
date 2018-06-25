@@ -8,7 +8,7 @@ import { CachingExtentLoader } from '../map/caching-extent-loader';
 import { Extent } from '../../model/ol-model/extent';
 import { MetarTafList } from '../../model/metar-taf';
 import { MetarTafResponse, RestMapperMetarTaf} from '../../model/rest-mapper/rest-mapper-metar-taf';
-import {User} from '../../model/session/user';
+import {User} from '../../user/model/user';
 
 
 const MIN_ZOOM_LEVEL = 8;

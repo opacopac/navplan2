@@ -1,14 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {UserService} from '../../services/user/user.service';
-import {MessageService} from '../../services/utils/message.service';
-import {ClientstorageService} from '../../services/session/clientstorage.service';
+import {Component, OnInit} from '@angular/core';
 import {AppState} from '../../app.state';
 import {Store} from '@ngrx/store';
 import {getCurrentUser} from '../../user/user.selectors';
 import {Observable} from 'rxjs/Observable';
 import {LoginUserAction, RegisterUserAction} from '../../user/user.actions';
-import {User} from '../../model/session/user';
+import {User} from '../../user/model/user';
 
 
 @Component({
@@ -16,20 +12,11 @@ import {User} from '../../model/session/user';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit, OnDestroy {
-    public email: string;
-    public password: string;
-    public rememberMeChecked: boolean;
+export class LoginComponent implements OnInit {
     public currentUser$: Observable<User>;
 
 
-    constructor(
-        private appStore: Store<AppState>,
-        private router: Router,
-        private userService: UserService,
-        private messageService: MessageService,
-        private clientstorageService: ClientstorageService) {
-
+    constructor(private appStore: Store<AppState>) {
         this.currentUser$ = this.appStore.select(getCurrentUser);
     }
 
@@ -38,24 +25,20 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
 
-    ngOnDestroy() {
-    }
-
-
-    onLoginClicked() {
+    onLoginClicked(email: string, password: string, rememberMe: boolean) {
         this.appStore.dispatch(
-            new LoginUserAction(this.email, this.password, this.rememberMeChecked)
+            new LoginUserAction(email, password, rememberMe)
         );
     }
 
 
-    onRegisterClicked() {
+    onRegisterClicked(email: string, password: string, rememberMe: boolean) {
         this.appStore.dispatch(
-            new RegisterUserAction(this.email, this.password, this.rememberMeChecked)
+            new RegisterUserAction(email, password, rememberMe)
         );
 
         // TODO: old, remove
-        this.userService.register(this.email, this.password)
+        /*this.userService.register(this.email, this.password)
             .subscribe(
                 user => {
                     this.clientstorageService.persistUser(user, this.rememberMeChecked);
@@ -64,6 +47,6 @@ export class LoginComponent implements OnInit, OnDestroy {
                 },
                 error => {
                     this.messageService.writeErrorMessage(error);
-                });
+                });*/
     }
 }

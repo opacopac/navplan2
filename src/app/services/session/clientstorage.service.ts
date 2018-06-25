@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {User} from '../../model/session/user';
+import {User} from '../../user/model/user';
 
 const COOKIE_EMAIL = 'email';
 const COOKIE_TOKEN = 'token';

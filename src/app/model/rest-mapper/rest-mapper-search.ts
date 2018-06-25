@@ -6,7 +6,7 @@ import {AirportRestItem, RestMapperAirport} from './rest-mapper-airport';
 import {AirspaceRestItem} from './rest-mapper-airspace';
 import {RestMapperUserpoint, UserPointRestItem} from './rest-mapper-userpoint';
 import {GeonameRestItem, RestMapperGeoname} from './rest-mapper-geoname';
-import {SearchItemList} from '../search-item';
+import {SearchItemList} from '../../search/model/search-item-list';
 
 
 export interface SearchResponse {

@@ -1,14 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {SessionService} from '../../services/session/session.service';
-import {Sessioncontext} from '../../model/session/sessioncontext';
-import {UserService} from '../../services/user/user.service';
 import {MessageService} from '../../services/utils/message.service';
 import {AppState} from '../../app.state';
 import {Store} from '@ngrx/store';
 import {getCurrentUser} from '../../user/user.selectors';
 import {Observable} from 'rxjs/Observable';
 import {ChangePwAction, LogoutUserAction} from '../../user/user.actions';
-import {User} from '../../model/session/user';
+import {User} from '../../user/model/user';
 
 
 @Component({
@@ -17,22 +14,14 @@ import {User} from '../../model/session/user';
   styleUrls: ['./userprofile.component.css']
 })
 export class UserprofileComponent implements OnInit, OnDestroy {
-    public session: Sessioncontext;
-    public oldpassword: string;
-    public newpassword: string;
     public currentUser$: Observable<User>;
 
 
     constructor(
         private appStore: Store<AppState>,
-        public sessionService: SessionService,
-        public userService: UserService,
         public messageService: MessageService) {
 
         this.currentUser$ = this.appStore.select(getCurrentUser);
-
-        // TODO: remove
-        this.session = sessionService.getSessionContext();
     }
 
 
@@ -51,13 +40,13 @@ export class UserprofileComponent implements OnInit, OnDestroy {
     }
 
 
-    onChangePwClicked(currentUser: User) {
+    onChangePwClicked(currentUser: User, oldPassword: string, newPassword: string) {
         this.appStore.dispatch(
-            new ChangePwAction(currentUser.email, this.oldpassword, this.newpassword)
+            new ChangePwAction(currentUser.email, oldPassword, newPassword)
         );
 
         // TODO: remove
-        this.userService.updatePassword(this.session.user.email, this.oldpassword, this.newpassword)
+        /*this.userService.updatePassword(this.session.user.email, this.oldpassword, this.newpassword)
             .subscribe(
                 () => {
                     this.messageService.writeSuccessMessage('Password successfully updated!');
@@ -65,6 +54,6 @@ export class UserprofileComponent implements OnInit, OnDestroy {
                 error => {
                     this.messageService.writeErrorMessage(error);
                 }
-            );
+            );*/
     }
 }

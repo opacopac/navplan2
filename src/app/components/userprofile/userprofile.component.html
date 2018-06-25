@@ -10,19 +10,19 @@
         <div class="form-group">
             <label for="oldpassword" class="col-form-label col-sm-3">Current Passwort</label>
             <div class="col-sm-6">
-                <input type="password" id="oldpassword" class="form-control" [(ngModel)]="this.oldpassword" name="oldpassword" required>
+                <input type="password" id="oldpassword" class="form-control" #oldPassword name="oldpassword" required>
             </div>
         </div>
         <div class="form-group">
             <label for="newpassword" class="col-form-label col-sm-3">New Passwort</label>
             <div class="col-sm-6">
-                <input type="password" id="newpassword" class="form-control" [(ngModel)]="this.newpassword" name="newpassword" required>
+                <input type="password" id="newpassword" class="form-control" #newPassword name="newpassword" required>
             </div>
         </div>
         <div class="form-group">
             <span class="col-sm-3">&nbsp;</span>
             <div class="col-sm-6">
-                <button type="submit" class="btn btn-primary" (click)="onChangePwClicked(currentUser)" [disabled]="editUserForm.invalid">Change Password</button>
+                <button type="submit" class="btn btn-primary" (click)="onChangePwClicked(currentUser, oldPassword.value, newPassword.value)" [disabled]="editUserForm.invalid">Change Password</button>
                 <button type="submit" class="btn btn-secondary" (click)="onLogoffClicked(currentUser)">Log Off</button>
             </div>
         </div>
