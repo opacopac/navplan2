@@ -73,9 +73,11 @@ import {ClientstorageService} from './services/session/clientstorage.service';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {StoreModule} from '@ngrx/store';
 import {userReducer} from './user/user.reducer';
-import {UserEffects} from './user/user-effects.service';
+import {UserEffects} from './user/user.effects';
 import {environment} from '../environments/environment';
 import {EffectsModule} from '@ngrx/effects';
+import {SearchEffects} from './search/search.effects';
+import {searchReducer} from './search/search.reducer';
 
 
 @NgModule({
@@ -135,9 +137,13 @@ import {EffectsModule} from '@ngrx/effects';
         HttpClientModule,
         HttpClientJsonpModule,
         StoreModule.forRoot({
-            currentUser: userReducer,
+            userState: userReducer,
+            searchState: searchReducer
         }),
-        EffectsModule.forRoot([UserEffects]),
+        EffectsModule.forRoot([
+            UserEffects,
+            SearchEffects
+        ]),
         StoreDevtoolsModule.instrument({
             maxAge: 25, // Retains last 25 states
             logOnly: environment.production, // Restrict extension to log-only mode

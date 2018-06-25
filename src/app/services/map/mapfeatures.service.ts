@@ -10,7 +10,7 @@ import { CachingExtentLoader } from './caching-extent-loader';
 import { MapFeaturesResponse, RestMapperMapfeatures } from '../../model/rest-mapper/rest-mapper-mapfeatures';
 import { Position2d } from '../../model/geometry/position2d';
 import { DataItem } from '../../model/data-item';
-import {User} from '../../model/session/user';
+import {User} from '../../user/model/user';
 
 
 const MAPFEATURES_BASE_URL = environment.restApiBaseUrl + 'php/search/SearchService.php';

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {LoggingService} from '../utils/logging.service';
-import {User} from '../../model/session/user';
+import {User} from '../../user/model/user';
 import {Observable} from 'rxjs/Observable';
 
 

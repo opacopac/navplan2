@@ -23,7 +23,7 @@ import {OlMetarWind} from '../../model/ol-model/ol-metar-wind';
 import {OlMetarSky} from '../../model/ol-model/ol-metar-sky';
 import {OlNotam} from '../../model/ol-model/ol-notam';
 import {DataItem} from '../../model/data-item';
-import {SearchItemList} from '../../model/search-item';
+import {SearchItemList} from '../../search/model/search-item-list';
 import {OlSearchItemSelection} from '../../model/ol-model/ol-searchitem-selection';
 import {OlSearchItem} from '../../model/ol-model/ol-searchitem';
 import {Flightroute2} from '../../model/flightroute/flightroute2';

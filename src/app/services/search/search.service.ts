@@ -6,9 +6,9 @@ import {GeocalcService} from '../utils/geocalc.service';
 import {Position2d} from '../../model/geometry/position2d';
 import {Extent} from '../../model/ol-model/extent';
 import {RestMapperSearch, SearchResponse} from '../../model/rest-mapper/rest-mapper-search';
-import {User} from '../../model/session/user';
+import {User} from '../../user/model/user';
 import {Observable} from 'rxjs/Observable';
-import {SearchItemList} from '../../model/search-item';
+import {SearchItemList} from '../../search/model/search-item-list';
 
 
 const SEARCH_BASE_URL = environment.restApiBaseUrl + 'php/search/SearchService.php';

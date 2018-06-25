@@ -1,26 +1,11 @@
-import { Userpoint } from './userpoint';
-import { Navaid } from './navaid';
-import { Airport } from './airport';
-import { Reportingpoint } from './reportingpoint';
-import { Reportingsector } from './reportingsector';
-import { Geoname } from './geoname';
-import { DataItem } from './data-item';
-import { Position2d } from './geometry/position2d';
-
-
-export class SearchItemList {
-    public items: SearchItem[];
-
-
-    constructor() {
-        this.items = [];
-    }
-
-
-    public appendSearchItem(item: DataItem) {
-        this.items.push(new SearchItem(item));
-    }
-}
+import { Userpoint } from '../../model/userpoint';
+import { Navaid } from '../../model/navaid';
+import { Airport } from '../../model/airport';
+import { Reportingpoint } from '../../model/reportingpoint';
+import { Reportingsector } from '../../model/reportingsector';
+import { Geoname } from '../../model/geoname';
+import { DataItem } from '../../model/data-item';
+import { Position2d } from '../../model/geometry/position2d';
 
 
 export class SearchItem {

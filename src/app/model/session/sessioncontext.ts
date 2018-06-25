@@ -1,4 +1,4 @@
-import {User} from './user';
+import {User} from '../../user/model/user';
 import {Track} from '../track';
 import {Flightroute2} from '../flightroute/flightroute2';
 import {Waypoint2} from '../flightroute/waypoint2';

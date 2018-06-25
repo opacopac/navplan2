@@ -1,5 +1,5 @@
 import {Extent} from '../../model/ol-model/extent';
-import {User} from '../../model/session/user';
+import {User} from '../../user/model/user';
 
 
 const MAX_CACHE_ENTRIES = 10;

@@ -5,7 +5,7 @@ import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
 import {getCurrentUser} from './user/user.selectors';
 import {AutoLoginUserAction} from './user/user.actions';
-import {User} from './model/session/user';
+import {User} from './user/model/user';
 
 
 @Component({

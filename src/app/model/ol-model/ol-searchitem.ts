@@ -2,7 +2,7 @@ import * as ol from 'openlayers';
 import { UnitconversionService } from '../../services/utils/unitconversion.service';
 import { OlFeaturePoint } from './ol-feature';
 import { Position2d} from '../geometry/position2d';
-import { SearchItem } from '../search-item';
+import { SearchItem } from '../../search/model/search-item';
 
 
 const LABEL_DIST_PIXEL = 100;

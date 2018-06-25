@@ -1,4 +1,4 @@
-import {User} from '../model/session/user';
+import {User} from './model/user';
 import {RegisterUserSuccessAction, UserActions, UserActionTypes} from './user.actions';
 
 

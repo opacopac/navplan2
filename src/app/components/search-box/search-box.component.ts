@@ -3,22 +3,24 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/observable/fromEvent';
-import {merge} from 'rxjs/observable/merge';
-import {Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {SearchService} from '../../services/search/search.service';
+import {Component, OnInit} from '@angular/core';
 import {ButtonColor, ButtonSize} from '../buttons/button-base.directive';
-import {SearchItem, SearchItemList} from '../../model/search-item';
-import {DataItem} from '../../model/data-item';
-import {Position2d} from '../../model/geometry/position2d';
-import {Subscription} from 'rxjs/Subscription';
+import {SearchItem} from '../../search/model/search-item';
+import {SearchItemList} from '../../search/model/search-item-list';
 import {Observable} from 'rxjs/Observable';
-import {SessionService} from '../../services/session/session.service';
-import {Sessioncontext} from '../../model/session/sessioncontext';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Store} from '@ngrx/store';
+import {AppState} from '../../app.state';
+import {getSearchResults, getSelectedIndex} from '../../search/search.selectors';
+import {getCurrentUser} from '../../user/user.selectors';
+import {User} from '../../user/model/user';
+import {
+    HideSearchResultsAction, NextSearchItemAction,
+    PrevSearchItemAction,
+    SearchQuerySubmittedAction,
+    SearchItemSelectedAction
+} from '../../search/search.actions';
 
 
-const MIN_QUERY_LENGTH = 3;
-const QUERY_DELAY_MS = 250;
 const UP_KEY_CODE = 38;
 const DOWN_KEY_CODE = 40;
 const ENTER_KEY_CODE = 13;
@@ -30,131 +32,79 @@ const ESC_KEY_CODE = 27;
     templateUrl: './search-box.component.html',
     styleUrls: ['./search-box.component.css']
 })
-export class SearchBoxComponent implements OnInit, OnDestroy {
-    @Output() dataItemSelected = new EventEmitter<[DataItem, Position2d]>();
-    @ViewChild('searchInput') searchInput: ElementRef;
-    @ViewChild('searchButton') searchButton: ElementRef;
+export class SearchBoxComponent implements OnInit {
     public readonly ButtonSize = ButtonSize;
     public readonly ButtonColor = ButtonColor;
-    public readonly session: Sessioncontext;
-    private readonly searchResultSource: BehaviorSubject<SearchItemList>;
-    private readonly selectedIndexSource: BehaviorSubject<number>;
-    private searchResultsSubscription: Subscription;
-    private selectSearchResultSubscription: Subscription;
+    public searchResults$: Observable<SearchItemList>;
+    public selectedIndex$: Observable<number>;
+    public currentUser$: Observable<User>;
 
 
-    constructor(
-        private searchService: SearchService,
-        private sessionService: SessionService) {
-
-        this.session = this.sessionService.getSessionContext();
-        this.searchResultSource = new BehaviorSubject<SearchItemList>(undefined);
-        this.selectedIndexSource = new BehaviorSubject<number>(undefined);
-    }
-
-
-    get searchResults$(): Observable<SearchItemList> {
-        return this.searchResultSource.asObservable();
-    }
-
-
-    get selectedIndex$(): Observable<number> {
-        return this.selectedIndexSource.asObservable();
+    constructor(private appStore: Store<AppState>) {
+        this.searchResults$ = this.appStore.select(getSearchResults);
+        this.selectedIndex$ = this.appStore.select(getSelectedIndex);
+        this.currentUser$ = this.appStore.select(getCurrentUser);
     }
 
 
     ngOnInit() {
-        // subscribe to query input & search button click => execute query
-        const mouseClick$ = Observable.fromEvent<MouseEvent>(this.searchButton.nativeElement, 'click');
-        const keyboardInput$ = Observable.fromEvent<Event>(this.searchInput.nativeElement, 'input')
-            .map(event => (event.target as HTMLInputElement).value);
-        this.searchResultsSubscription = merge(keyboardInput$, mouseClick$)
-            .withLatestFrom(keyboardInput$)
-            .map(([triggerEvent, query]) => query)
-            .filter(query => query.trim().length >= MIN_QUERY_LENGTH)
-            .debounceTime(QUERY_DELAY_MS)
-            .withLatestFrom(this.session.user$)
-            .switchMap(([query, user]) => this.searchService.searchByText(query, user))
-            .subscribe((searchResults) => {
-                this.searchResultSource.next(searchResults);
-                this.selectedIndexSource.next(0);
-            });
-
-
-        // subscribe to keyboard events (up, down, enter, esc) => (un)select search result
-        this.selectSearchResultSubscription = Observable.fromEvent<KeyboardEvent>(this.searchInput.nativeElement, 'keydown')
-            .map(event => event.keyCode)
-            .filter(keyCode => keyCode === UP_KEY_CODE || keyCode === DOWN_KEY_CODE
-                || keyCode === ENTER_KEY_CODE || keyCode === ESC_KEY_CODE)
-            .withLatestFrom(
-                this.searchResults$,
-                this.selectedIndex$
-            )
-            .subscribe(([keyCode, searchResults, selectedIndex]) => {
-                this.onKeyDown(keyCode, searchResults, selectedIndex);
-            });
-    }
-
-
-    ngOnDestroy() {
-        this.searchResultsSubscription.unsubscribe();
-        this.selectSearchResultSubscription.unsubscribe();
     }
 
 
     public focus() {
-        setTimeout(() => this.searchInput.nativeElement.focus(), 0);
+        // setTimeout(() => this.searchInput.nativeElement.focus(), 0);
     }
 
 
-    public blur() {
-        setTimeout(() => this.searchInput.nativeElement.blur(), 0);
+    public onSearchInputChange(query: string) {
+        this.appStore.dispatch(
+            new SearchQuerySubmittedAction(query, undefined) // TODO: user
+        );
     }
 
 
-    public clearSearchResults() {
-        this.searchResultSource.next(undefined);
-        this.selectedIndexSource.next(undefined);
+    public onSearchButtonClick(query: string) {
+        this.appStore.dispatch(
+            new SearchQuerySubmittedAction(query, undefined) // TODO: user
+        );
+    }
+
+
+    public onSearchInputBlur() {
+        this.appStore.dispatch(
+            new HideSearchResultsAction()
+        );
     }
 
 
     public onResultSelected(result: SearchItem) {
-        this.clearSearchResults();
-        this.dataItemSelected.emit([result.dataItem, result.getPosition()]);
+        this.appStore.dispatch(
+            new SearchItemSelectedAction(result)
+        );
     }
 
 
-    private onKeyDown(keyCode: number, searchResults: SearchItemList, selectedIndex: number) {
-        if (!searchResults || searchResults.items.length === 0) {
-            return;
-        }
-
-        switch (keyCode) {
+    public onSearchInputKeyDown(event: KeyboardEvent) {
+        switch (event.keyCode) {
             case UP_KEY_CODE:
-                if (selectedIndex > 0) {
-                    this.selectedIndexSource.next(selectedIndex - 1);
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
+                this.appStore.dispatch(
+                    new PrevSearchItemAction()
+                );
                 break;
             case DOWN_KEY_CODE:
-                if (selectedIndex < searchResults.items.length - 1) {
-                    this.selectedIndexSource.next(selectedIndex + 1);
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
+                this.appStore.dispatch(
+                    new NextSearchItemAction()
+                );
                 break;
             case ENTER_KEY_CODE:
-                this.onResultSelected(searchResults.items[selectedIndex]);
-                event.preventDefault();
-                event.stopPropagation();
+                this.appStore.dispatch(
+                    new SearchItemSelectedAction(undefined) // TODO
+                );
                 break;
             case ESC_KEY_CODE:
-                this.clearSearchResults();
-                this.blur();
-                event.preventDefault();
-                event.stopPropagation();
-                break;
+                this.appStore.dispatch(
+                    new HideSearchResultsAction()
+                );
         }
     }
 }

@@ -5,14 +5,17 @@
                class="form-control form-control-md"
                placeholder="search for AD, navaid, city, coordinates or click on map"
                autocomplete="off"
-               (blur)="this.clearSearchResults()" />
+               (input)="this.onSearchInputChange(searchInput.value)"
+               (keydown)="this.onSearchInputKeyDown($event)"
+               (blur)="this.onSearchInputBlur()" />
         <span class="input-group-append">
             <button appIconButton
                     #searchButton
                     title="search"
                     [iconClass]="'fas fa-search'"
                     [size]="ButtonSize.MEDIUM"
-                    [color]="ButtonColor.GRAY"></button>
+                    [color]="ButtonColor.GRAY"
+                    (click)="this.onSearchButtonClick(searchInput.value)"></button>
 		</span>
     </div>
     <div *ngIf="(this.searchResults$ | async) as searchResults">
