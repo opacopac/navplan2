@@ -4,7 +4,6 @@ import {SearchState} from './model/search-state';
 
 const initialState: SearchState = {
     searchResults: undefined,
-    showResults: false,
     selectedIndex: undefined
 };
 
@@ -12,7 +11,7 @@ const initialState: SearchState = {
 export function searchReducer(state: SearchState = initialState, action: SearchActions) {
     switch (action.type) {
         case SearchActionTypes.SEARCH_RESULTS_RECEIVED:
-            return { ...state, searchResults: action.searchResults, showSearchResults: true, selectedIndex: undefined };
+            return { ...state, searchResults: action.searchResults, selectedIndex: undefined };
 
         case SearchActionTypes.SEARCH_PREV_ITEM:
             let prevIndex: number;
@@ -45,7 +44,7 @@ export function searchReducer(state: SearchState = initialState, action: SearchA
             return { ...state, selectedIndex: nextIndex };
 
         case SearchActionTypes.SEARCH_HIDE_RESULTS:
-            return { ...state, showSearchResults: false, selectedIndex: undefined };
+            return { ...state, searchResults: undefined, selectedIndex: undefined };
 
         default:
             return state;

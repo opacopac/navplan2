@@ -1,18 +1,20 @@
-import {User} from './model/user';
-import {RegisterUserSuccessAction, UserActions, UserActionTypes} from './user.actions';
+import {UserActions, UserActionTypes} from './user.actions';
+import {UserState} from './model/user-state';
 
 
-const initialState: User = undefined;
+const initialState: UserState = {
+    currentUser: undefined
+};
 
-export function userReducer(state: User = initialState, action: UserActions) {
+export function userReducer(state: UserState = initialState, action: UserActions) {
     switch (action.type) {
         case UserActionTypes.USER_LOGIN_SUCCESS:
         case UserActionTypes.USER_REGISTER_SUCCESS:
-            return (action as RegisterUserSuccessAction).user;
+            return { ...state, currentUser: action.user };
         case UserActionTypes.USER_LOGOUT:
         case UserActionTypes.USER_LOGIN_ERROR:
         case UserActionTypes.USER_REGISTER_ERROR:
-            return initialState;
+            return { ...state, currentUser: undefined};
         default:
             return state;
     }
