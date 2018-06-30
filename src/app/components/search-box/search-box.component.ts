@@ -58,14 +58,14 @@ export class SearchBoxComponent implements OnInit {
 
     public onSearchInputChange(query: string) {
         this.appStore.dispatch(
-            new SearchQuerySubmittedAction(query, undefined) // TODO: user
+            new SearchQuerySubmittedAction(query)
         );
     }
 
 
     public onSearchButtonClick(query: string) {
         this.appStore.dispatch(
-            new SearchQuerySubmittedAction(query, undefined) // TODO: user
+            new SearchQuerySubmittedAction(query)
         );
     }
 

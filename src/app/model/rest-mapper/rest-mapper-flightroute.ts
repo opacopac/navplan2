@@ -1,14 +1,14 @@
 import {Waypointtype} from '../waypoint';
 import {Position2d} from '../geometry/position2d';
-import {Waypoint2} from '../flightroute/waypoint2';
-import {WaypointAltitude2} from '../flightroute/waypoint-altitude2';
-import {Flightroute2} from '../flightroute/flightroute2';
-import {Aircraft2} from '../flightroute/aircraft2';
 import {Speed} from '../quantities/speed';
 import {ConsumptionUnit, SpeedUnit, TimeUnit} from '../../services/utils/unitconversion.service';
 import {Consumption} from '../quantities/consumption';
 import {Time} from '../quantities/time';
 import {FlightrouteListEntry} from '../flightroute/flightroute-list-entry';
+import {Flightroute} from "../../flightroute/model/flightroute";
+import {Aircraft} from "../../flightroute/model/aircraft";
+import {Waypoint} from "../../flightroute/model/waypoint";
+import {WaypointAltitude} from "../../flightroute/model/waypoint-altitude";
 
 
 // region INTERFACES
@@ -17,10 +17,12 @@ export interface FlightrouteListResponse {
     navplanList: FlightrouteListEntryRest[];
 }
 
+
 export interface FlightrouteListEntryRest {
     id: number;
     title: string;
 }
+
 
 export interface FlightrouteResponse {
     navplan: {
@@ -34,6 +36,7 @@ export interface FlightrouteResponse {
         alternate: FlightrouteWaypointRest,
     };
 }
+
 
 export interface FlightrouteWaypointRest {
     type: string;
@@ -81,36 +84,37 @@ export class RestMapperFlightroute {
 
     // region flightroute
 
-    public static getFlightrouteFromResponse2(response: FlightrouteResponse): Flightroute2 {
-        const flightroute = new Flightroute2(
-            response.navplan.id,
-            response.navplan.title,
-            response.navplan.comments,
-            new Time(response.navplan.extra_fuel, TimeUnit.M)
-        );
-
-        flightroute.aircraft = new Aircraft2(
+    public static getFlightrouteFromResponse(response: FlightrouteResponse): Flightroute {
+        const aircraft = new Aircraft(
             new Speed(response.navplan.aircraft_speed, SpeedUnit.KT),
             new Consumption(response.navplan.aircraft_consumption, ConsumptionUnit.L_PER_H)
         );
 
-        const waypoints: Waypoint2[] = [];
+        const waypoints: Waypoint[] = [];
         for (let i = 0; i < response.navplan.waypoints.length; i++) {
-            const waypoint = this.getWaypointFromResponse2(response.navplan.waypoints[i]);
+            const waypoint = this.getWaypointFromResponse(response.navplan.waypoints[i]);
             waypoints.push(waypoint);
         }
-        flightroute.waypointList.replaceList(waypoints);
 
+        let alternate: Waypoint = undefined;
         if (response.navplan.alternate) {
-            flightroute.waypointList.alternate = this.getWaypointFromResponse2(response.navplan.alternate);
+            alternate = this.getWaypointFromResponse(response.navplan.alternate);
         }
 
-        return flightroute;
+        return new Flightroute(
+            response.navplan.id,
+            response.navplan.title,
+            response.navplan.comments,
+            aircraft,
+            waypoints,
+            alternate,
+            new Time(response.navplan.extra_fuel, TimeUnit.M)
+        );
     }
 
 
-    private static getWaypointFromResponse2(entry: FlightrouteWaypointRest): Waypoint2 {
-        const waypoint = new Waypoint2(
+    private static getWaypointFromResponse(entry: FlightrouteWaypointRest): Waypoint {
+        return new Waypoint(
             Waypointtype[entry.type],
             entry.freq,
             entry.callsign,
@@ -118,15 +122,13 @@ export class RestMapperFlightroute {
             entry.remark,
             entry.supp_info,
             new Position2d(entry.longitude, entry.latitude),
-            new WaypointAltitude2(
+            new WaypointAltitude(
                 entry.alt,
                 entry.isminalt === true, // 0: false, 1: true
                 entry.ismaxalt === true, // 0: false, 1: true
                 entry.isaltatlegstart === true // 0: false, 1: true
             )
         );
-
-        return waypoint;
     }
 
     // endregion

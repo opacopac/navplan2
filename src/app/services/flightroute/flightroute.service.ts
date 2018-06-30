@@ -4,9 +4,10 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {LoggingService} from '../utils/logging.service';
 import {FlightrouteListResponse, FlightrouteResponse, RestMapperFlightroute } from '../../model/rest-mapper/rest-mapper-flightroute';
-import {Flightroute2} from '../../model/flightroute/flightroute2';
 import {Observable} from 'rxjs/Observable';
 import {FlightrouteListEntry} from '../../model/flightroute/flightroute-list-entry';
+import {Flightroute} from "../../flightroute/model/flightroute";
+import {User} from "../../user/model/user";
 
 
 const flightrouteBaseUrl = environment.restApiBaseUrl + 'php/navplan.php';
@@ -21,8 +22,8 @@ export class FlightrouteService {
 
     // region flightroute list
 
-    public readFlightrouteList(email: string, token: string): Observable<FlightrouteListEntry[]> {
-        const url: string = flightrouteBaseUrl + '?email=' + email + '&token=' + token;
+    public readFlightrouteList(user: User): Observable<FlightrouteListEntry[]> {
+        const url: string = flightrouteBaseUrl + '?email=' + user.email + '&token=' + user.token;
         return this.http
             .get<FlightrouteListResponse>(url, {observe: 'response'})
             .catch((err, subject) => {
@@ -37,8 +38,8 @@ export class FlightrouteService {
 
     // region flightroute CRUD
 
-    public readFlightroute(flightrouteId: number, email: string, token: string): Observable<Flightroute2> {
-        const url = flightrouteBaseUrl + '?id=' + flightrouteId + '&email=' + email + '&token=' + token;
+    public readFlightroute(flightrouteId: number, user: User): Observable<Flightroute> {
+        const url = flightrouteBaseUrl + '?id=' + flightrouteId + '&email=' + user.email + '&token=' + user.token;
         // let message: string;
 
         return this.http
@@ -47,22 +48,31 @@ export class FlightrouteService {
                 LoggingService.logResponseError('ERROR reading flight route', err);
                 return subject;
             })
-            .map((response) => RestMapperFlightroute.getFlightrouteFromResponse2(response.body));
+            .map((response) => RestMapperFlightroute.getFlightrouteFromResponse(response.body));
     }
 
 
-    public createFlightroute(globalData): void {
+    public createFlightroute(flightroute: Flightroute, user: User): Observable<Flightroute> {
         // return $http.post(navplanBaseUrl, obj2json({ globalData: globalData }));
+        return Observable.of(undefined);
     }
 
 
-    public updateFlightroute(globalData): void {
+    public duplicateFlightroute(flightroute: Flightroute, user: User): Observable<Flightroute> {
+        // return $http.post(navplanBaseUrl, obj2json({ globalData: globalData }));
+        return Observable.of(undefined);
+    }
+
+
+    public updateFlightroute(flightroute: Flightroute, user: User): Observable<Flightroute> {
         // return $http.put(navplanBaseUrl, obj2json({ globalData: globalData }));
+        return Observable.of(undefined);
     }
 
 
-    public deleteFlightroute(navplan_id): void {
+    public deleteFlightroute(flightrouteId: number, user: User): Observable<void> {
         // return $http.delete(navplanBaseUrlGet + '&id=' + navplan_id);
+        return Observable.of(undefined);
     }
 
     // endregion
@@ -70,13 +80,15 @@ export class FlightrouteService {
 
     // region shared flightroute CRUD
 
-    public createSharedFlightroute(globalData): void {
+    public createSharedFlightroute(flightroute: Flightroute): Observable<string> {
         // return $http.post(navplanBaseUrl, obj2json({ createShared: true, globalData: globalData }));
+        return Observable.of(undefined);
     }
 
 
-    public readSharedFlightroute(share_id): void {
+    public readSharedFlightroute(shareId: string): Observable<Flightroute> {
         // return $http.get(navplanBaseUrlGet + '&shareid=' + share_id);
+        return Observable.of(undefined);
     }
 
     // endregion

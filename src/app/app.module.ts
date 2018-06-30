@@ -78,6 +78,8 @@ import {environment} from '../environments/environment';
 import {EffectsModule} from '@ngrx/effects';
 import {SearchEffects} from './search/search.effects';
 import {searchReducer} from './search/search.reducer';
+import {flightrouteReducer} from "./flightroute/flightroute.reducer";
+import {FlightrouteEffects} from "./flightroute/flightroute.effects";
 
 
 @NgModule({
@@ -138,11 +140,13 @@ import {searchReducer} from './search/search.reducer';
         HttpClientJsonpModule,
         StoreModule.forRoot({
             userState: userReducer,
-            searchState: searchReducer
+            searchState: searchReducer,
+            flightrouteState: flightrouteReducer,
         }),
         EffectsModule.forRoot([
             UserEffects,
-            SearchEffects
+            SearchEffects,
+            FlightrouteEffects,
         ]),
         StoreDevtoolsModule.instrument({
             maxAge: 25, // Retains last 25 states

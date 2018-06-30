@@ -1,20 +1,25 @@
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/distinctUntilChanged';
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {SessionService} from '../../services/session/session.service';
-import {MessageService} from '../../services/utils/message.service';
-import {Sessioncontext} from '../../model/session/sessioncontext';
-import {UserService} from '../../services/user/user.service';
-import {FlightrouteService} from '../../services/flightroute/flightroute.service';
 import {ButtonColor, ButtonSize} from '../buttons/button-base.directive';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ConsumptionUnit, SpeedUnit} from '../../services/utils/unitconversion.service';
 import {Speed} from '../../model/quantities/speed';
 import {Consumption} from '../../model/quantities/consumption';
-import {Subscription} from 'rxjs/Subscription';
-import {Observable} from 'rxjs/Observable';
-import {Flightroute2} from '../../model/flightroute/flightroute2';
-import {Aircraft2} from '../../model/flightroute/aircraft2';
+import {AppState} from "../../app.state";
+import {Store} from "@ngrx/store";
+import {
+    CreateFlightrouteAction, DeleteFlightrouteAction, DuplicateFlightrouteAction,
+    ReadFlightrouteAction,
+    ReadFlightrouteListAction, UpdateAircraftConsumption, UpdateAircraftSpeed,
+    UpdateFlightrouteAction, UpdateFlightrouteComments, UpdateFlightrouteTitle
+} from "../../flightroute/flightroute.actions";
+import {Observable, Subscription} from "rxjs/Rx";
+import {Flightroute} from "../../flightroute/model/flightroute";
+import {getFlightroute, getFlightrouteList} from "../../flightroute/flightroute.selectors";
+import {FlightrouteListEntry} from "../../model/flightroute/flightroute-list-entry";
+import {User} from "../../user/model/user";
+import {getCurrentUser} from "../../user/user.selectors";
 
 
 @Component({
@@ -24,42 +29,41 @@ import {Aircraft2} from '../../model/flightroute/aircraft2';
 })
 export class FlightrouteComponent implements OnInit, OnDestroy {
     public flightrouteForm: FormGroup;
-    public session: Sessioncontext;
     public ButtonSize = ButtonSize;
     public ButtonColor = ButtonColor;
+    public currentUser$: Observable<User>;
+    public flightrouteList$: Observable<FlightrouteListEntry[]>;
+    private flightroute$: Observable<Flightroute>;
     private flightrouteSubscription: Subscription;
 
 
     constructor(
-        public formBuilder: FormBuilder,
-        public userService: UserService,
-        public flightrouteService: FlightrouteService,
-        public sessionService: SessionService,
-        private messageService: MessageService) {
+        private appStore: Store<AppState>,
+        public formBuilder: FormBuilder) {
 
-        this.session = sessionService.getSessionContext();
+        this.currentUser$ = this.appStore.select(getCurrentUser);
+        this.flightrouteList$ = this.appStore.select(getFlightrouteList);
+        this.flightroute$ = this.appStore.select(getFlightroute);
     }
 
-
-    // region component life cycle
 
     ngOnInit() {
         this.initForm();
 
-        // subscribe to flightroute changes -> overwrite form values
-        const aircraft$ = this.session.flightroute$
-            .switchMap(route => route ? route.aircraft$ : Observable.of(undefined));
-        this.flightrouteSubscription = this.session.flightroute$
-            .filter(route => route !== undefined)
-            .withLatestFrom(
-                this.session.flightroute$.switchMap<Flightroute2, number>(route => route ? route.id$ : Observable.of(undefined)),
-                this.session.flightroute$.switchMap<Flightroute2, string>(route => route ? route.title$ : Observable.of(undefined)),
-                aircraft$.switchMap<Aircraft2, Speed>(aircraft => aircraft ? aircraft.speed$ : Observable.of(undefined)),
-                aircraft$.switchMap<Aircraft2, Consumption>(aircraft => aircraft ? aircraft.consumption$ : Observable.of(undefined)),
-                this.session.flightroute$.switchMap<Flightroute2, string>(route => route ? route.comments$ : Observable.of(undefined)))
-            .subscribe(([flightroute, id, title, speed, consumption, comments]) => {
-                this.setFormValues(id, title, speed, consumption, comments);
-            });
+
+        this.appStore.dispatch(
+            new ReadFlightrouteListAction()
+        );
+
+
+        this.flightrouteSubscription = this.flightroute$.subscribe(flightroute => {
+            this.setFormValues(
+                flightroute.id,
+                flightroute.title,
+                flightroute.aircraft.speed,
+                flightroute.aircraft.consumption,
+                flightroute.comments);
+        });
     }
 
 
@@ -68,87 +72,74 @@ export class FlightrouteComponent implements OnInit, OnDestroy {
     }
 
 
-    // endregion
-
-
-    onLoadFlightrouteClicked(flightRouteId: string) {
-        const flightRouteIdValue = Number(flightRouteId);
-        if (flightRouteIdValue && flightRouteIdValue > 0) {
-            this.session.user$
-                .first()
-                .switchMap(user => this.flightrouteService.readFlightroute(flightRouteIdValue, user.email, user.token))
-                    .subscribe((route) => {
-                        this.session.flightroute = route;
-                    });
-        }
+    public onLoadFlightrouteClicked(flightRouteId: string) {
+        this.appStore.dispatch(
+            new ReadFlightrouteAction(Number(flightRouteId))
+        );
     }
 
 
     public onSaveFlightrouteClicked(flightRouteId: string) {
+        const flightRouteIdValue = Number(flightRouteId);
+        if (flightRouteIdValue > 0) {
+            this.appStore.dispatch(
+                new UpdateFlightrouteAction()
+            );
+        } else {
+            this.appStore.dispatch(
+                new CreateFlightrouteAction()
+            );
+        }
     }
 
 
     public onSaveFlightrouteCopyClicked() {
+        this.appStore.dispatch(
+            new DuplicateFlightrouteAction()
+        );
     }
 
 
     public onDeleteFlightrouteClicked(flightRouteId: string) {
+        this.appStore.dispatch(
+            new DeleteFlightrouteAction(Number(flightRouteId))
+        );
     }
 
 
     public onUpdateRouteName(name: string) {
-        if (name !== undefined) {
-            this.session.flightroute$
-                .first()
-                .subscribe((route) => {
-                    route.title = name;
-                });
-        }
+        this.appStore.dispatch(
+            new UpdateFlightrouteTitle(name)
+        );
     }
 
 
     public onUpdateRouteComments(comments: string) {
-        if (comments !== undefined) {
-            this.session.flightroute$
-                .first()
-                .subscribe((route) => {
-                    route.comments = comments;
-                });
-        }
+        this.appStore.dispatch(
+            new UpdateFlightrouteComments(comments)
+        );
     }
 
 
     public onUpdateAircraftSpeed(speed: string) {
-        const speedVal = Number(speed);
-        if (speedVal && speedVal > 0) {
-            this.session.flightroute$
-                .switchMap(route => route.aircraft$)
-                .first()
-                .subscribe((aircraft) => {
-                    aircraft.speed = new Speed(speedVal, SpeedUnit.KT);
-                });
-        }
+        this.appStore.dispatch(
+            new UpdateAircraftSpeed(Number(speed))
+        );
     }
 
 
     public onUpdateAircraftConsumption(consumption: string) {
-        const consumptionVal = Number(consumption);
-        if (consumptionVal && consumptionVal > 0) {
-            this.session.flightroute$
-                .switchMap(route => route.aircraft$)
-                .first()
-                .subscribe((aircraft) => {
-                    aircraft.consumption = new Consumption(consumptionVal, ConsumptionUnit.L_PER_H);
-                });
-        }
+        this.appStore.dispatch(
+            new UpdateAircraftConsumption(Number(consumption))
+        );
     }
 
 
-    public onExportFlightroutePdfClicked(flightRouteId: string) {
+    public onExportFlightroutePdfClicked() {
     }
 
 
-    public onExportFlightrouteExcelClicked(flightRouteId: string) {
+    public onExportFlightrouteExcelClicked() {
     }
 
 

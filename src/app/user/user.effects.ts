@@ -49,20 +49,18 @@ export class UserEffects {
 
     @Effect({ dispatch: false })
     loginUserSuccess$: Observable<Action> = this.actions$.ofType(UserActionTypes.USER_LOGIN_SUCCESS)
-        .flatMap((action: LoginUserSuccessAction) => {
+        .do((action: LoginUserSuccessAction) => {
             this.messageService.writeSuccessMessage('Welcome ' + action.user.email + '!');
             this.clientStorageService.persistUser(action.user, action.remember);
             this.router.navigate(['/map']);
-            return Observable.of(undefined);
         });
 
 
     @Effect({ dispatch: false })
     loginUserError$: Observable<Action> = this.actions$.ofType(UserActionTypes.USER_LOGIN_ERROR)
-        .flatMap((action: LoginUserErrorAction) => {
+        .do((action: LoginUserErrorAction) => {
             this.messageService.writeErrorMessage(action.error);
             this.clientStorageService.deletePersistedUser();
-            return Observable.of(undefined);
         });
 
     // endregion
@@ -80,20 +78,18 @@ export class UserEffects {
 
     @Effect({ dispatch: false })
     logoutUserSuccess$: Observable<Action> = this.actions$.ofType(UserActionTypes.USER_LOGOUT_SUCCESS)
-        .flatMap(() => {
+        .do(() => {
             this.messageService.writeSuccessMessage('User successfully logged out!');
             this.clientStorageService.deletePersistedUser();
             this.router.navigate(['/map']);
-            return Observable.of(undefined);
         });
 
 
     @Effect({ dispatch: false })
     logoutUserError$: Observable<Action> = this.actions$.ofType(UserActionTypes.USER_LOGOUT_ERROR)
-        .flatMap((action: LogoutUserErrorAction) => {
+        .do((action: LogoutUserErrorAction) => {
             this.messageService.writeErrorMessage(action.error);
             this.clientStorageService.deletePersistedUser();
-            return Observable.of(undefined);
         });
 
     // endregion

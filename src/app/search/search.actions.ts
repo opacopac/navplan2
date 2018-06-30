@@ -1,6 +1,5 @@
 import {Action} from '@ngrx/store';
 import {SearchItemList} from './model/search-item-list';
-import {User} from '../user/model/user';
 import {SearchItem} from './model/search-item';
 
 
@@ -17,9 +16,7 @@ export enum SearchActionTypes {
 export class SearchQuerySubmittedAction implements Action {
     readonly type = SearchActionTypes.SEARCH_QUERY_SUBMITTED;
 
-    constructor(
-        public query: string,
-        public currentUser: User) {}
+    constructor(public query: string) {}
 }
 
 

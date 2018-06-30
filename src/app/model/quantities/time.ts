@@ -1,7 +1,8 @@
 import { TimeUnit, UnitconversionService } from '../../services/utils/unitconversion.service';
+import {Clonable} from "../clonable";
 
 
-export class Time {
+export class Time implements Clonable<Time> {
     constructor(
         private readonly value: number,
         private readonly unit: TimeUnit) {
@@ -20,6 +21,11 @@ export class Time {
 
     get isNotZero(): boolean {
         return this.value !== 0;
+    }
+
+
+    public clone(): Time {
+        return new Time(this.value, this.unit);
     }
 
 

@@ -2,13 +2,13 @@
     <h2>Flight Route</h2>
     <form [formGroup]="flightrouteForm">
         <!-- load/delete route -->
-        <div class="form-group form-row" [hidden]="!this.session.isLoggedIn$ | async">
+        <div class="form-group form-row" *ngIf="(!this.currentUser$ | async)">
             <label for="flightroute_list" class="col-form-label col-form-label-md col-sm-3">Saved Routes</label>
             <div class="col-sm-9">
                 <div class="input-group">
                     <select id="flightroute_list" class="form-control form-control-md" #flightrouteId formControlName="flightrouteId">
                         <option [value]="-1" selected>--- Select ---</option>
-                        <option *ngFor="let flightrouteListEntry of (this.session.flightrouteList$ | async)" [value]="flightrouteListEntry.id">{{ flightrouteListEntry.title }}</option>
+                        <option *ngFor="let flightrouteListEntry of (this.flightrouteList$ | async)" [value]="flightrouteListEntry.id">{{ flightrouteListEntry.title }}</option>
                     </select>
                     <span class="input-group-append">
                         <!-- load route button -->
@@ -17,7 +17,7 @@
                                 [iconClass]="'fas fa-upload'"
                                 [color]="ButtonColor.GREEN"
                                 [size]="ButtonSize.MEDIUM"
-                                [disabled]="!(this.session.isLoggedIn$ | async) || !(flightrouteId.value > 0)"
+                                [disabled]="!(flightrouteId.value > 0)"
                                 (click)="this.onLoadFlightrouteClicked(flightrouteId.value)"></button>
                         <!-- delete route button -->
                         <button appIconButton
@@ -25,7 +25,7 @@
                                 [iconClass]="'fas fa-trash'"
                                 [color]="ButtonColor.RED"
                                 [size]="ButtonSize.MEDIUM"
-                                [disabled]="!(this.session.isLoggedIn$ | async) || !(flightrouteId.value > 0)"
+                                [disabled]="!(flightrouteId.value > 0)"
                                 (click)="this.onDeleteFlightrouteClicked(flightrouteId.value)"></button>
                     </span>
                 </div>
@@ -45,7 +45,7 @@
                                 [iconClass]="'fas fa-download'"
                                 [color]="ButtonColor.BLUE"
                                 [size]="ButtonSize.MEDIUM"
-                                [disabled]="!(this.session.isLoggedIn$ | async) || routeName.value === ''"
+                                [disabled]="!(this.currentUser$ | async) || routeName.value === ''"
                                 (click)="onSaveFlightrouteClicked(flightrouteId.value)"></button>
                         <!-- save copy route button -->
                         <button appIconButton
@@ -53,7 +53,7 @@
                                 [iconClass]="'fas fa-copy'"
                                 [color]="ButtonColor.BLUE"
                                 [size]="ButtonSize.MEDIUM"
-                                [disabled]="!(this.session.isLoggedIn$ | async) || routeName.value === '' || !flightrouteId || !(flightrouteId.value > 0)"
+                                [disabled]="!(this.currentUser$ | async) || routeName.value === '' || !flightrouteId || !(flightrouteId.value > 0)"
                                 (click)="onSaveFlightrouteCopyClicked()"></button>
                     </span>
                 </div>
@@ -97,9 +97,9 @@
         <div class="form-inline">
             <div class="form-group row">
                 <a id="dlPdfLink" href="#" class="btn btn-md btn-danger" title="Print Navigation Log as PDF"
-                   (click)="$event.preventDefault(); onExportFlightroutePdfClicked(flightrouteId.value);"><i class="fas fa-print"></i> Print PDF</a>&nbsp;
+                   (click)="$event.preventDefault(); onExportFlightroutePdfClicked();"><i class="fas fa-print"></i> Print PDF</a>&nbsp;
                 <a id="dlExcelLink" href="#" class="btn btn-md btn-success" title="Export Navigation Log as Excel"
-                   (click)="$event.preventDefault(); onExportFlightrouteExcelClicked(flightrouteId.value);"><i class="fas fa-file-excel"></i>&nbsp;Excel
+                   (click)="$event.preventDefault(); onExportFlightrouteExcelClicked();"><i class="fas fa-file-excel"></i>&nbsp;Excel
                     Export</a>&nbsp;
             </div>
         </div>
