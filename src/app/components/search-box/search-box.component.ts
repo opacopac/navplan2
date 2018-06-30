@@ -11,8 +11,6 @@ import {Observable} from 'rxjs/Observable';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../app.state';
 import {getSearchResults, getSelectedIndex} from '../../search/search.selectors';
-import {getCurrentUser} from '../../user/user.selectors';
-import {User} from '../../user/model/user';
 import {
     HideSearchResultsAction, NextSearchItemAction,
     PrevSearchItemAction,
@@ -37,13 +35,11 @@ export class SearchBoxComponent implements OnInit {
     public readonly ButtonColor = ButtonColor;
     public searchResults$: Observable<SearchItemList>;
     public selectedIndex$: Observable<number>;
-    public currentUser$: Observable<User>;
 
 
     constructor(private appStore: Store<AppState>) {
         this.searchResults$ = this.appStore.select(getSearchResults);
         this.selectedIndex$ = this.appStore.select(getSelectedIndex);
-        this.currentUser$ = this.appStore.select(getCurrentUser);
     }
 
 

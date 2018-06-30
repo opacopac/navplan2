@@ -1,3 +1,4 @@
+import 'rxjs/add/operator/do';
 import {Router} from '@angular/router';
 import {Injectable} from '@angular/core';
 import {Actions, Effect} from '@ngrx/effects';

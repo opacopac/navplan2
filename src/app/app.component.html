@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="navbar-nav ml-auto">
-            <a *ngIf="(this.currentUser$ | async) as user; else noCurrentUser" class="nav-item nav-link" routerLink="./userprofile" title="User Profile">
+            <a *ngIf="(this.currentUser$ | async) as currentUser; else noCurrentUser" class="nav-item nav-link" routerLink="./userprofile" title="User Profile">
                 <i class="fas fa-user"></i>
                 <span class="d-sm-none d-md-none d-lg-inline">&nbsp; {{ currentUser.email }}</span>
             </a>

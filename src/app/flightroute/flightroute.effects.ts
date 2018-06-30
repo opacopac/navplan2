@@ -33,18 +33,17 @@ import {Flightroute} from "./model/flightroute";
 
 @Injectable()
 export class FlightrouteEffects {
-    private currentUser$: Observable<User>;
-    private flightroute$: Observable<Flightroute>;
-
     constructor(
         private actions$: Actions,
         private appStore: Store<AppState>,
         private flightrouteService: FlightrouteService,
         private messageService: MessageService) {
-
-        this.currentUser$ = this.appStore.select(getCurrentUser);
-        this.flightroute$ = this.appStore.select(getFlightroute);
     }
+
+
+    private currentUser$: Observable<User> = this.appStore.select(getCurrentUser);
+    private flightroute$: Observable<Flightroute> = this.appStore.select(getFlightroute);
+
 
     // region flightroute list
 
