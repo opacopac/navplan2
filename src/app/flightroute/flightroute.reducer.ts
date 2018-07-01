@@ -1,7 +1,7 @@
 import {FlightrouteState} from "./model/flightroute-state";
 import {FlightrouteActions, FlightrouteActionTypes} from "./flightroute.actions";
 import {UserActions, UserActionTypes} from "../user/user.actions";
-import {WaypointsActions} from "./waypoints.actions";
+import {WaypointActionTypes, WaypointsActions} from "./waypoints.actions";
 import {Aircraft} from "./model/aircraft";
 import {Flightroute} from "./model/flightroute";
 import {Time} from "../model/quantities/time";
@@ -13,6 +13,7 @@ import {Consumption} from "../model/quantities/consumption";
 const initialState: FlightrouteState = {
     flightrouteList: undefined,
     flightroute: undefined,
+    editWaypoint: undefined,
     showShareId: undefined,
 };
 
@@ -71,6 +72,9 @@ export function flightrouteReducer(
             newFlightroute = state.flightroute.clone();
             newFlightroute.aircraft = newAircraft;
             return { ...state, flightroute: newFlightroute };
+
+        case WaypointActionTypes.WAYPOINTS_EDIT:
+            action
 
         default:
             return state;

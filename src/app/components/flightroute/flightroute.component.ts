@@ -11,7 +11,7 @@ import {Store} from "@ngrx/store";
 import {
     CreateFlightrouteAction, DeleteFlightrouteAction, DuplicateFlightrouteAction,
     ReadFlightrouteAction,
-    ReadFlightrouteListAction, UpdateAircraftConsumption, UpdateAircraftSpeed,
+    ReadFlightrouteListAction, UpdateAircraftConsumption, UpdateAircraftSpeed, UpdateExtraTime,
     UpdateFlightrouteAction, UpdateFlightrouteComments, UpdateFlightrouteTitle
 } from "../../flightroute/flightroute.actions";
 import {Observable, Subscription} from "rxjs/Rx";
@@ -33,7 +33,7 @@ export class FlightrouteComponent implements OnInit, OnDestroy {
     public ButtonColor = ButtonColor;
     public currentUser$: Observable<User>;
     public flightrouteList$: Observable<FlightrouteListEntry[]>;
-    private flightroute$: Observable<Flightroute>;
+    public flightroute$: Observable<Flightroute>;
     private flightrouteSubscription: Subscription;
 
 
@@ -48,22 +48,23 @@ export class FlightrouteComponent implements OnInit, OnDestroy {
 
 
     ngOnInit() {
-        this.initForm();
+        this.flightrouteSubscription = this.flightroute$.subscribe(flightroute => {
+            if (flightroute) {
+                this.setFormValues(
+                    flightroute.id,
+                    flightroute.title,
+                    flightroute.aircraft.speed,
+                    flightroute.aircraft.consumption,
+                    flightroute.comments);
+            } else {
+                this.initForm();
+            }
+        });
 
 
         this.appStore.dispatch(
             new ReadFlightrouteListAction()
         );
-
-
-        this.flightrouteSubscription = this.flightroute$.subscribe(flightroute => {
-            this.setFormValues(
-                flightroute.id,
-                flightroute.title,
-                flightroute.aircraft.speed,
-                flightroute.aircraft.consumption,
-                flightroute.comments);
-        });
     }
 
 
@@ -135,6 +136,13 @@ export class FlightrouteComponent implements OnInit, OnDestroy {
     }
 
 
+    public onUpdateExtraTime(extraTime: string) {
+        this.appStore.dispatch(
+            new UpdateExtraTime(Number(extraTime))
+        );
+    }
+
+
     public onExportFlightroutePdfClicked() {
     }
 
@@ -158,8 +166,8 @@ export class FlightrouteComponent implements OnInit, OnDestroy {
         this.flightrouteForm.setValue({
             'flightrouteId': id ? id : -1,
             'flightrouteName': title,
-            'aircraftSpeed': speed.getValue(SpeedUnit.KT),
-            'aircraftConsumption': consumption.getValue(ConsumptionUnit.L_PER_H),
+            'aircraftSpeed': speed.getValue(SpeedUnit.KT), // TODO
+            'aircraftConsumption': consumption.getValue(ConsumptionUnit.L_PER_H), // TODO
             'flightrouteComments': comments
         });
     }

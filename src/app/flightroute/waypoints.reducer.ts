@@ -6,6 +6,7 @@ const initialState: FlightrouteState = {
     flightrouteList: undefined,
     flightroute: undefined,
     showShareId: undefined,
+    editWaypoint: undefined,
 };
 
 

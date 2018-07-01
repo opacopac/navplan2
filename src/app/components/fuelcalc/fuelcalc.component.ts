@@ -1,15 +1,12 @@
-import 'rxjs/add/operator/first';
-import 'rxjs/add/operator/distinctUntilChanged';
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {SessionService} from '../../services/session/session.service';
-import {Sessioncontext} from '../../model/session/sessioncontext';
 import {Time} from '../../model/quantities/time';
 import {Fuel} from '../../model/quantities/fuel';
 import {TimeUnit, VolumeUnit} from '../../services/utils/unitconversion.service';
 import {StringnumberService} from '../../services/utils/stringnumber.service';
-import {Subscription} from 'rxjs/Subscription';
-import 'rxjs/add/operator/switchMap';
+import {Store} from "@ngrx/store";
+import {AppState} from "../../app.state";
+import {Flightroute} from "../../flightroute/model/flightroute";
 
 
 @Component({
@@ -18,32 +15,23 @@ import 'rxjs/add/operator/switchMap';
     styleUrls: ['./fuelcalc.component.css']
 })
 export class FuelcalcComponent implements OnInit, OnDestroy {
-    public session: Sessioncontext;
+    @Input() flightroute: Flightroute;
+    @Output() onInputExtraTime: EventEmitter<string>;
     public extraTimeForm: FormGroup;
-    private flightRouteSubscription: Subscription;
 
 
     constructor(
-        private formBuilder: FormBuilder,
-        private sessionService: SessionService) {
-
-        this.session = this.sessionService.getSessionContext();
+        private appStore: Store<AppState>,
+        private formBuilder: FormBuilder) {
     }
 
 
     ngOnInit() {
         this.initForm();
-        // when flightroute is updated => update extra time field
-        this.flightRouteSubscription = this.session.flightroute$
-            .withLatestFrom(this.session.flightroute$.switchMap(route => route.fuel.extraTime$))
-            .subscribe(([route, extraTime]) => {
-                this.extraTimeForm.setValue({ extraTime: extraTime.min });
-            });
     }
 
 
     ngOnDestroy() {
-        this.flightRouteSubscription.unsubscribe();
     }
 
 
@@ -54,15 +42,8 @@ export class FuelcalcComponent implements OnInit, OnDestroy {
     }
 
 
-    public updateExtraTime(extraTimeMin: string) {
-        const timeMin = Number(extraTimeMin)
-        if (timeMin !== undefined && timeMin >= 0) {
-            this.session.flightroute$
-                .first()
-                .subscribe((route) => {
-                    route.fuel.extraTime = new Time(timeMin, TimeUnit.M);
-                });
-        }
+    private setFormValues(extraTime: Time) {
+        this.extraTimeForm.setValue({ extraTime: extraTime.getValue(TimeUnit.M) }); // TODO
     }
 
 

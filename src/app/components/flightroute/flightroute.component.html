@@ -2,7 +2,7 @@
     <h2>Flight Route</h2>
     <form [formGroup]="flightrouteForm">
         <!-- load/delete route -->
-        <div class="form-group form-row" *ngIf="(!this.currentUser$ | async)">
+        <div class="form-group form-row" *ngIf="(this.currentUser$ | async)">
             <label for="flightroute_list" class="col-form-label col-form-label-md col-sm-3">Saved Routes</label>
             <div class="col-sm-9">
                 <div class="input-group">
@@ -90,7 +90,9 @@
             </div>
             <!-- fuel calculation -->
             <div class="col-sm-5">
-                <app-fuelcalc></app-fuelcalc>
+                <app-fuelcalc
+                    [flightroute]="this.flightroute$ | async"
+                    (onInputExtraTime)="onUpdateExtraTime($event)"></app-fuelcalc>
             </div>
         </div>
         <!-- download pdf / excel buttons -->

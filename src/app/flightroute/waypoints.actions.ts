@@ -1,14 +1,34 @@
 import {Action} from '@ngrx/store';
+import {Waypoint} from "./model/waypoint";
 
 
 export enum WaypointActionTypes {
-    WAYPOINTS_EDIT = '[Waypoint List or Map] Edit waypoint',
-    WAYPOINTS_UPDATE = '[Edit Waypoint Dialog] Update waypoint',
-    WAYPOINTS_DELETE = '[Waypoint List or Map] Delete waypoint',
-    WAYPOINTS_INSERT = '[Map] Insert waypoint',
-    WAYPOINTS_REORDER = '[Waypoint List] Re-order waypoints',
-    WAYPOINTS_REVERSE = '[Waypoint List] Reverse waypoints',
-    WAYPOINTS_MOVE = '[Map] Move waypoint'
+    WAYPOINTS_EDIT = '[Waypoint page] Edit waypoint',
+    WAYPOINTS_UPDATE = '[Edit waypoint dialog] Update waypoint',
+    WAYPOINTS_DELETE = '[Waypoint page] Delete waypoint',
+    WAYPOINTS_REORDER = '[Waypoint page] Re-order waypoints',
+    WAYPOINTS_REVERSE = '[Waypoint pist] Reverse waypoints',
+}
+
+
+export class EditWaypointAction implements Action {
+    readonly type = WaypointActionTypes.WAYPOINTS_EDIT;
+
+    constructor(waypoint: Waypoint) {}
+}
+
+
+export class UpdateWaypointAction implements Action {
+    readonly type = WaypointActionTypes.WAYPOINTS_UPDATE;
+
+    constructor(waypoint: Waypoint) {}
+}
+
+
+export class DeleteWaypointsAction implements Action {
+    readonly type = WaypointActionTypes.WAYPOINTS_DELETE;
+
+    constructor() {}
 }
 
 
@@ -19,13 +39,9 @@ export class ReverseWaypointsAction implements Action {
 }
 
 
-export class InsertWaypointAction implements Action {
-    readonly type = WaypointActionTypes.WAYPOINTS_INSERT;
-
-    constructor() {}
-}
-
-
 export type WaypointsActions =
-    ReverseWaypointsAction |
-    InsertWaypointAction;
+    EditWaypointAction |
+    UpdateWaypointAction |
+    DeleteWaypointsAction |
+
+    ReverseWaypointsAction;
