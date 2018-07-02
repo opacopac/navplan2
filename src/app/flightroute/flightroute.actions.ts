@@ -1,6 +1,6 @@
 import {Action} from '@ngrx/store';
-import {FlightrouteListEntry} from "../model/flightroute/flightroute-list-entry";
-import {Flightroute} from "./model/flightroute";
+import {FlightrouteListEntry} from '../model/flightroute/flightroute-list-entry';
+import {Flightroute} from './model/flightroute';
 
 
 export enum FlightrouteActionTypes {
@@ -30,6 +30,8 @@ export enum FlightrouteActionTypes {
     FLIGHTROUTE_UPDATE_EXTRA_TIME = '[Flightroute Page] Update extra time',
     FLIGHTROUTE_UPDATE_TITLE = '[Flightroute Page] Update route title',
     FLIGHTROUTE_UPDATE_COMMENTS = '[Flightroute Page] Update route comments',
+    FLIGHTROUTE_EXPORT_PDF = '[Flightroute Page] Export route as PDF',
+    FLIGHTROUTE_EXPORT_EXCEL = '[Flightroute Page] Export route as Excel',
 }
 
 
@@ -231,6 +233,24 @@ export class UpdateFlightrouteComments implements Action {
 // endregion
 
 
+// region flightroute exports
+
+export class ExportFlightroutePdf implements Action {
+    readonly type = FlightrouteActionTypes.FLIGHTROUTE_EXPORT_PDF;
+
+    constructor() {}
+}
+
+
+export class ExportFlightrouteExcel implements Action {
+    readonly type = FlightrouteActionTypes.FLIGHTROUTE_EXPORT_EXCEL;
+
+    constructor() {}
+}
+
+// endregion
+
+
 export type FlightrouteActions =
     ReadFlightrouteListAction
     | ReadFlightrouteListSuccessAction
@@ -257,4 +277,6 @@ export type FlightrouteActions =
     | UpdateAircraftConsumption
     | UpdateExtraTime
     | UpdateFlightrouteTitle
-    | UpdateFlightrouteComments;
+    | UpdateFlightrouteComments
+    | ExportFlightroutePdf
+    | ExportFlightrouteExcel;

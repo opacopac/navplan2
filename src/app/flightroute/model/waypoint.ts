@@ -1,9 +1,15 @@
-import {Position2d} from "../../model/geometry/position2d";
-import {WaypointAltitude} from "./waypoint-altitude";
-import {Waypointtype} from "../../model/waypoint";
-import {Clonable} from "../../model/clonable";
+import {Position2d} from '../../model/geometry/position2d';
+import {WaypointAltitude} from './waypoint-altitude';
+import {Waypointtype} from '../../model/waypoint';
+import {Clonable} from '../../model/clonable';
+
 
 export class Waypoint implements Clonable<Waypoint> {
+    public mtText;
+    public distText;
+    public eetText;
+
+
     constructor(
         public type: Waypointtype,
         public freq: string,

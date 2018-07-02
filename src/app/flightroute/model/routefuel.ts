@@ -1,5 +1,6 @@
-import {Time} from "../../model/quantities/time";
-import {Fuel} from "../../model/quantities/fuel";
+import {Time} from '../../model/quantities/time';
+import {Fuel} from '../../model/quantities/fuel';
+
 
 export class RouteFuel {
     public tripTime: Time;

@@ -78,8 +78,14 @@ import {environment} from '../environments/environment';
 import {EffectsModule} from '@ngrx/effects';
 import {SearchEffects} from './search/search.effects';
 import {searchReducer} from './search/search.reducer';
-import {flightrouteReducer} from "./flightroute/flightroute.reducer";
-import {FlightrouteEffects} from "./flightroute/flightroute.effects";
+import {flightrouteReducer} from './flightroute/flightroute.reducer';
+import {FlightrouteEffects} from './flightroute/flightroute.effects';
+import { FlightrouteContainerComponent } from './flightroute/components/flightroute-container/flightroute-container.component';
+import { FlightrouteFormComponent } from './flightroute/components/flightroute-form/flightroute-form.component';
+import { WaypointListComponent } from './flightroute/components/waypoint-list/waypoint-list.component';
+import { FuelCalculationComponent } from './flightroute/components/fuel-calculation/fuel-calculation.component';
+import { FlightrouteExportButtonsComponent } from './flightroute/components/flightroute-export-buttons/flightroute-export-buttons.component';
+import { WaypointListEntryComponent } from './flightroute/components/waypoint-list-entry/waypoint-list-entry.component';
 
 
 @NgModule({
@@ -130,6 +136,12 @@ import {FlightrouteEffects} from "./flightroute/flightroute.effects";
         MapOverlayWindyiframeComponent,
         MapOverlayButtonRemoveAlternateComponent,
         MapOverlayWaypointComponent,
+        FlightrouteContainerComponent,
+        FlightrouteFormComponent,
+        WaypointListComponent,
+        FuelCalculationComponent,
+        FlightrouteExportButtonsComponent,
+        WaypointListEntryComponent,
     ],
     imports: [
         BrowserModule,

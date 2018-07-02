@@ -1,0 +1,21 @@
+<div class="container nonmapcontent">
+    <h2>Flight Route</h2>
+    <app-flightroute-form
+            [currentUser]="this.currentUser$ | async"
+            [flightrouteList]="this.flightrouteList$ | async"
+            [flightroute]="this.flightroute$ | async"
+            (onLoadFlightrouteClicked)="this.onLoadFlightrouteClicked($event)"
+            (onSaveFlightrouteClicked)="this.onSaveFlightrouteClicked($event)"
+            (onSaveFlightrouteCopyClicked)="this.onSaveFlightrouteCopyClicked($event)"
+            (onDeleteFlightrouteClicked)="this.onDeleteFlightrouteClicked($event)"
+            (onUpdateRouteName)="this.onUpdateRouteName($event)"
+            (onUpdateRouteComments)="this.onUpdateRouteComments($event)"
+            (onUpdateAircraftSpeed)="this.onUpdateAircraftSpeed($event)"
+            (onUpdateAircraftConsumption)="this.onUpdateAircraftConsumption($event)"
+            (onUpdateExtraTime)="this.onUpdateExtraTime($event)">
+    </app-flightroute-form>
+    <app-flightroute-exports
+            (onExportFlightroutePdfClicked)="this.onExportFlightroutePdfClicked($event)"
+            (onExportFlightrouteExcelClicked)="this.onExportFlightrouteExcelClicked($event)">
+    </app-flightroute-exports>
+</div>

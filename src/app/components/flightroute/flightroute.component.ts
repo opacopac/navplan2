@@ -6,20 +6,20 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ConsumptionUnit, SpeedUnit} from '../../services/utils/unitconversion.service';
 import {Speed} from '../../model/quantities/speed';
 import {Consumption} from '../../model/quantities/consumption';
-import {AppState} from "../../app.state";
-import {Store} from "@ngrx/store";
+import {AppState} from '../../app.state';
+import {Store} from '@ngrx/store';
 import {
     CreateFlightrouteAction, DeleteFlightrouteAction, DuplicateFlightrouteAction,
     ReadFlightrouteAction,
     ReadFlightrouteListAction, UpdateAircraftConsumption, UpdateAircraftSpeed, UpdateExtraTime,
     UpdateFlightrouteAction, UpdateFlightrouteComments, UpdateFlightrouteTitle
-} from "../../flightroute/flightroute.actions";
-import {Observable, Subscription} from "rxjs/Rx";
-import {Flightroute} from "../../flightroute/model/flightroute";
-import {getFlightroute, getFlightrouteList} from "../../flightroute/flightroute.selectors";
-import {FlightrouteListEntry} from "../../model/flightroute/flightroute-list-entry";
-import {User} from "../../user/model/user";
-import {getCurrentUser} from "../../user/user.selectors";
+} from '../../flightroute/flightroute.actions';
+import {Observable, Subscription} from 'rxjs/Rx';
+import {Flightroute} from '../../flightroute/model/flightroute';
+import {getFlightroute, getFlightrouteList} from '../../flightroute/flightroute.selectors';
+import {FlightrouteListEntry} from '../../model/flightroute/flightroute-list-entry';
+import {User} from '../../user/model/user';
+import {getCurrentUser} from '../../user/user.selectors';
 
 
 @Component({

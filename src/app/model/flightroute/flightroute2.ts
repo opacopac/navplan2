@@ -1,4 +1,5 @@
 import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/combineLatest';
 import {WaypointList} from './waypoint-list';
 import {Routefuel2} from './routefuel2';

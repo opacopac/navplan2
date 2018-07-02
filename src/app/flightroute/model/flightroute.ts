@@ -1,12 +1,13 @@
-import {Aircraft} from "./aircraft";
-import {Waypoint} from "./waypoint";
-import {RouteFuel} from "./routefuel";
-import {Time} from "../../model/quantities/time";
-import {Clonable} from "../../model/clonable";
+import {Aircraft} from './aircraft';
+import {Waypoint} from './waypoint';
+import {RouteFuel} from './routefuel';
+import {Time} from '../../model/quantities/time';
+import {Clonable} from '../../model/clonable';
 
 
 export class Flightroute implements Clonable<Flightroute> {
     public fuel: RouteFuel;
+
 
     constructor(
         public id: number,

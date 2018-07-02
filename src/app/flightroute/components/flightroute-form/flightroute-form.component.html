@@ -1,0 +1,112 @@
+<form [formGroup]="flightrouteForm">
+    <!-- load/delete route -->
+    <div class="form-group form-row" *ngIf="this.currentUser">
+        <label for="flightroute_list" class="col-form-label col-form-label-md col-sm-3">Saved Routes</label>
+        <div class="col-sm-9">
+            <div class="input-group">
+                <select id="flightroute_list" class="form-control form-control-md" #flightrouteId
+                        formControlName="flightrouteId">
+                    <option [value]="-1" selected>--- Select ---</option>
+                    <option *ngFor="let flightrouteListEntry of this.flightrouteList" [value]="flightrouteListEntry.id">
+                        {{ flightrouteListEntry.title }}
+                    </option>
+                </select>
+                <span class="input-group-append">
+                      <!-- load route button -->
+                      <button appIconButton
+                              title="Load Route"
+                              [iconClass]="'fas fa-upload'"
+                              [color]="ButtonColor.GREEN"
+                              [size]="ButtonSize.MEDIUM"
+                              [disabled]="!(flightrouteId.value > 0)"
+                              (click)="this.onLoadFlightrouteClicked.emit(flightrouteId.value)"></button>
+                    <!-- delete route button -->
+                      <button appIconButton
+                              title="Delete Route"
+                              [iconClass]="'fas fa-trash'"
+                              [color]="ButtonColor.RED"
+                              [size]="ButtonSize.MEDIUM"
+                              [disabled]="!(flightrouteId.value > 0)"
+                              (click)="this.onDeleteFlightrouteClicked.emit(flightrouteId.value)"></button>
+                  </span>
+            </div>
+        </div>
+    </div>
+    <!-- save/copy route -->
+    <div class="form-group form-row">
+        <label for="flightroute_name" class="col-form-label col-form-label-md col-sm-3">Route Name</label>
+        <div class="col-sm-9">
+            <div class="input-group">
+                <input id="flightroute_name" type="text" class="form-control form-control-md" placeholder="Enter Name"
+                       maxlength="50" formControlName="flightrouteName" #routeName
+                       (input)="this.onUpdateRouteName.emit(routeName.value)"/>
+                <span class="input-group-append">
+                      <!-- save route button -->
+                      <button appIconButton
+                              title="Save Route (login required)"
+                              [iconClass]="'fas fa-download'"
+                              [color]="ButtonColor.BLUE"
+                              [size]="ButtonSize.MEDIUM"
+                              [disabled]="this.currentUser || routeName.value === ''"
+                              (click)="onSaveFlightrouteClicked.emit(flightrouteId.value)"></button>
+                    <!-- save copy route button -->
+                      <button appIconButton
+                              title="Save Copy of Route"
+                              [iconClass]="'fas fa-copy'"
+                              [color]="ButtonColor.BLUE"
+                              [size]="ButtonSize.MEDIUM"
+                              [disabled]="this.currentUser || routeName.value === '' || !flightrouteId || !(flightrouteId.value > 0)"
+                              (click)="onSaveFlightrouteCopyClicked.emit()"></button>
+                  </span>
+            </div>
+        </div>
+    </div>
+    <!-- aircraft speed -->
+    <div class="form-group form-row">
+        <label for="aircraft_speed" class="col-form-label col-form-label-md col-sm-3">Ground Speed</label>
+        <div class="col-sm-3">
+            <input type="number" id="aircraft_speed" class="form-control form-control-md"
+                   formControlName="aircraftSpeed"
+                   placeholder="kt" maxlength="3" size="3" #aircraftSpeed
+                   (input)="this.onUpdateAircraftSpeed.emit(aircraftSpeed.value)">
+        </div>
+    </div>
+    <!-- aircraft consumption -->
+    <div class="form-group form-row">
+        <label for="aircraft_consumption" class="col-form-label col-form-label-md col-sm-3">Fuel Consumption</label>
+        <div class="col-sm-3">
+            <input type="number" id="aircraft_consumption" class="form-control form-control-md"
+                   formControlName="aircraftConsumption"
+                   placeholder="l/h" maxlength="2" size="2" #aircraftConsumption
+                   (input)="this.onUpdateAircraftConsumption.emit(aircraftConsumption.value)"/>
+        </div>
+    </div>
+    <!-- waypoint list -->
+    <app-waypoint-list
+            [flightroute]="this._flightroute"
+            (onEditWaypointClicked)="this.onEditWaypointClicked.emit($event)"
+            (onRemoveWaypointClicked)="this.onRemoveWaypointClicked.emit($event)"
+            (onReverseWaypointsClicked)="this.onReverseWaypointsClicked.emit($event)">
+    </app-waypoint-list>
+    <!-- comments & fuel section -->
+    <div class="row">
+        <!-- comments -->
+        <div class="col-sm-7">
+            <div class="form-group form-row">
+                <label for="comments" class="col-form-label col-form-label-md col-sm-3">Comments:</label>
+                <div class="col-sm-9">
+                    <textarea id="comments" class="form-control form-control-md" formControlName="flightrouteComments"
+                              rows="6" maxlength="2048" #routeComments
+                              (input)="this.onUpdateRouteComments.emit(routeComments.value)"></textarea>
+                </div>
+            </div>
+        </div>
+        <!-- fuel calculation -->
+        <div class="col-sm-5">
+            <app-fuel-calculation
+                    [routeFuel]="this._flightroute.fuel"
+                    (onInputExtraTime)="this.onUpdateExtraTime.emit($event)">
+            </app-fuel-calculation>
+        </div>
+    </div>
+</form>
