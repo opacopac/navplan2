@@ -2,7 +2,7 @@
 <td>{{ this.wp.freq }}</td>
     <td>{{ this.wp.callsign }}</td>
     <td>{{ this.wp.checkpoint }}</td>
-    <td><span *ngIf="this.wp.alt.isaltatlegstart">&#8739;</span><span [ngStyle]="this.getAltStyle()">{{ this.wp.alt.alt_ft }}</span>
+    <td><span *ngIf="this.wp.alt.isaltatlegstart">&#8739;</span><span [ngStyle]="{ 'table-active': this.isFirstLastAirport(), 'warning': this.isAlternate }">{{ this.wp.alt.alt_ft }}</span>
     </td>
     <td>{{ this.wp.mtText }}</td>
     <td>{{ this.wp.distText }}</td>

@@ -5,7 +5,7 @@ import {Waypointtype} from '../../../model/waypoint';
 
 
 @Component({
-    selector: 'app-waypoint-list-entry',
+    selector: '[app-waypoint-list-entry]',
     templateUrl: './waypoint-list-entry.component.html',
     styleUrls: ['./waypoint-list-entry.component.css']
 })
@@ -28,11 +28,16 @@ export class WaypointListEntryComponent implements OnInit {
     }
 
 
+    public isFirstLastAirport(): boolean {
+        return ((this.isFirst || this.isLast) && this.wp.type === Waypointtype.airport);
+    }
+
+
     public getRowClass(): string {
         if ((this.isFirst || this.isLast) && this.wp.type === Waypointtype.airport) {
-            return '{ "table-active": true }';
+            return "{ 'table-active': true }";
         } else if (this.isAlternate) {
-            return '{ "warning": true }';
+            return "{ 'warning': true }";
         } else {
             return undefined;
         }
@@ -48,6 +53,6 @@ export class WaypointListEntryComponent implements OnInit {
             deco += ' overline';
         }
 
-        return '{ "text-decoration":' + deco + ' }';
+        return "{ 'text-decoration': '" + deco + "' }";
     }
 }

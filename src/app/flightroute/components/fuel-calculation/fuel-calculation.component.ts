@@ -13,24 +13,28 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
     styleUrls: ['./fuel-calculation.component.css']
 })
 export class FuelCalculationComponent implements OnInit {
-    @Output() onInputExtraTime: EventEmitter<string>;
+    @Output() onInputExtraTime = new EventEmitter<string>();
     public _routeFuel: RouteFuel;
     public extraTimeForm: FormGroup;
 
 
     constructor(private formBuilder: FormBuilder) {
+        this.initForm();
     }
 
 
     @Input()
     set routeFuel(value: RouteFuel) {
         this._routeFuel = value;
-        this.setFormValues(value.extraTime);
+        if (value) {
+            this.setFormValues(value.extraTime);
+        } else {
+            this.setFormValues(undefined);
+        }
     }
 
 
     ngOnInit() {
-        this.initForm();
     }
 
 
@@ -42,7 +46,7 @@ export class FuelCalculationComponent implements OnInit {
 
 
     private setFormValues(extraTime: Time) {
-        this.extraTimeForm.setValue({ extraTime: extraTime.getValue(TimeUnit.M) }); // TODO
+        this.extraTimeForm.setValue({ extraTime: extraTime ? extraTime.getValue(TimeUnit.M) : '' }); // TODO
     }
 
 

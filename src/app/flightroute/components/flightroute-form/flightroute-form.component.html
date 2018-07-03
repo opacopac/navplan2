@@ -104,7 +104,7 @@
         <!-- fuel calculation -->
         <div class="col-sm-5">
             <app-fuel-calculation
-                    [routeFuel]="this._flightroute.fuel"
+                    [routeFuel]="this._flightroute?.fuel"
                     (onInputExtraTime)="this.onUpdateExtraTime.emit($event)">
             </app-fuel-calculation>
         </div>

@@ -37,6 +37,7 @@ export class FlightrouteFormComponent implements OnInit {
 
 
     constructor(private formBuilder: FormBuilder) {
+        this.initForm();
     }
 
 
@@ -61,7 +62,6 @@ export class FlightrouteFormComponent implements OnInit {
 
 
     ngOnInit() {
-        this.initForm();
     }
 
 

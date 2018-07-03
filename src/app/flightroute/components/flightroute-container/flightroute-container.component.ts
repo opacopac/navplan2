@@ -14,6 +14,7 @@ import {
     ExportFlightrouteExcel,
     ExportFlightroutePdf,
     ReadFlightrouteAction,
+    ReadFlightrouteListAction,
     UpdateAircraftConsumption,
     UpdateAircraftSpeed,
     UpdateExtraTime,
@@ -42,6 +43,9 @@ export class FlightrouteContainerComponent implements OnInit {
 
 
     ngOnInit() {
+        this.appStore.dispatch(
+            new ReadFlightrouteListAction()
+        );
     }
 
 

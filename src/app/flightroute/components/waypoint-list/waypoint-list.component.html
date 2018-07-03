@@ -14,17 +14,17 @@
         </tr>
         </thead>
         <!-- trip checkpoints -->
-        <tbody *ngFor="let wp of this.flightroute.waypoints; first as isFirst; last as isLast" class="grabbable">
-        <app-waypoint-list-entry
-                [wp]="wp"
-                [isFirst]="isFirst"
-                [isLast]="isLast"
-                [isAlternate]="false"
-                (onEditWaypointClicked)="this.onEditWaypointClicked.emit($event)"
-                (onRemoveWaypointClicked)="this.onRemoveWaypointClicked.emit($event)"></app-waypoint-list-entry>
+        <tbody app-waypoint-list-entry
+            *ngFor="let wp of this.flightroute.waypoints; first as isFirst; last as isLast" class="grabbable"
+            [wp]="wp"
+            [isFirst]="isFirst"
+            [isLast]="isLast"
+            [isAlternate]="false"
+            (onEditWaypointClicked)="this.onEditWaypointClicked.emit($event)"
+            (onRemoveWaypointClicked)="this.onRemoveWaypointClicked.emit($event)">
         </tbody>
-        <tbody *ngIf="this.flightroute.fuel as fuel">
         <!-- trip total -->
+        <tbody *ngIf="this.flightroute.fuel as fuel">
         <tr *ngIf="fuel.tripTime > 0">
             <td>&nbsp;</td>
             <td>&nbsp;</td>
@@ -36,8 +36,10 @@
             <td>&nbsp;</td>
             <td>&nbsp;</td>
         </tr>
+        </tbody>
         <!-- alternate checkpoint -->
-        <tr *ngIf="this.flightroute.alternate">
+        <tbody *ngIf="this.flightroute.alternate as alternate">
+        <tr>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td><i><u>Alternate:</u></i></td>
@@ -48,20 +50,20 @@
             <td>&nbsp;</td>
             <td>&nbsp;</td>
         </tr>
-        <app-waypoint-list-entry
-                *ngIf="this.flightroute.alternate as alternate"
-                [wp]="alternate"
-                [isFirst]="false"
-                [isLast]="false"
-                [isAlternate]="true"
-                (onEditWaypointClicked)="this.onEditWaypointClicked.emit($event)"
-                (onRemoveWaypointClicked)="this.onRemoveWaypointClicked.emit($event)"></app-waypoint-list-entry>
+        </tbody>
+        <tbody app-waypoint-list-entry
+            *ngIf="this.flightroute.alternate as alternate"
+            [wp]="alternate"
+            [isFirst]="false"
+            [isLast]="false"
+            [isAlternate]="true"
+            (onEditWaypointClicked)="this.onEditWaypointClicked.emit($event)"
+            (onRemoveWaypointClicked)="this.onRemoveWaypointClicked.emit($event)">
         </tbody>
         <!-- empty list -->
         <tr *ngIf="this.flightroute.waypoints.length === 0">
             <td colspan="9"><i>Empty route, add waypoints on the map.</i></td>
         </tr>
-        </tbody>
     </table>
     <!-- reverse waypoints button -->
     <div class="form-group float-right">

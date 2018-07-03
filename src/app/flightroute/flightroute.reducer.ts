@@ -1,18 +1,29 @@
-import {FlightrouteState} from "./model/flightroute-state";
-import {FlightrouteActions, FlightrouteActionTypes} from "./flightroute.actions";
-import {UserActions, UserActionTypes} from "../user/user.actions";
-import {WaypointActionTypes, WaypointsActions} from "./waypoints.actions";
-import {Aircraft} from "./model/aircraft";
-import {Flightroute} from "./model/flightroute";
-import {Time} from "../model/quantities/time";
-import {ConsumptionUnit, SpeedUnit, TimeUnit} from "../services/utils/unitconversion.service";
-import {Speed} from "../model/quantities/speed";
-import {Consumption} from "../model/quantities/consumption";
+import {FlightrouteState} from './model/flightroute-state';
+import {FlightrouteActions, FlightrouteActionTypes} from './flightroute.actions';
+import {UserActions, UserActionTypes} from '../user/user.actions';
+import {WaypointActionTypes, WaypointsActions} from './waypoints.actions';
+import {Aircraft} from './model/aircraft';
+import {Flightroute} from './model/flightroute';
+import {Time} from '../model/quantities/time';
+import {ConsumptionUnit, SpeedUnit, TimeUnit} from '../services/utils/unitconversion.service';
+import {Speed} from '../model/quantities/speed';
+import {Consumption} from '../model/quantities/consumption';
 
 
 const initialState: FlightrouteState = {
-    flightrouteList: undefined,
-    flightroute: undefined,
+    flightrouteList: [],
+    flightroute: new Flightroute(
+        -1,
+        '',
+        '',
+        new Aircraft(
+            new Speed(100, SpeedUnit.KT),
+            new Consumption(20, ConsumptionUnit.L_PER_H)
+        ),
+        [],
+        undefined,
+        new Time(0, TimeUnit.M)
+    ),
     editWaypoint: undefined,
     showShareId: undefined,
 };
@@ -72,9 +83,6 @@ export function flightrouteReducer(
             newFlightroute = state.flightroute.clone();
             newFlightroute.aircraft = newAircraft;
             return { ...state, flightroute: newFlightroute };
-
-        case WaypointActionTypes.WAYPOINTS_EDIT:
-            action
 
         default:
             return state;
