@@ -22,6 +22,8 @@ import {
     UpdateFlightrouteComments,
     UpdateFlightrouteTitle
 } from '../../flightroute.actions';
+import {Waypoint} from '../../model/waypoint';
+import {DeleteWaypointAction, EditWaypointAction, ReverseWaypointsAction} from '../../waypoints.actions';
 
 
 @Component({
@@ -115,6 +117,27 @@ export class FlightrouteContainerComponent implements OnInit {
     public onUpdateExtraTime(extraTime: string) {
         this.appStore.dispatch(
             new UpdateExtraTime(Number(extraTime))
+        );
+    }
+
+
+    public onEditWaypointClicked(waypoint: Waypoint) {
+        this.appStore.dispatch(
+            new EditWaypointAction(waypoint)
+        );
+    }
+
+
+    public onRemoveWaypointClicked(waypoint: Waypoint) {
+        this.appStore.dispatch(
+            new DeleteWaypointAction(waypoint)
+        );
+    }
+
+
+    public onReverseWaypointsClicked() {
+        this.appStore.dispatch(
+            new ReverseWaypointsAction()
         );
     }
 

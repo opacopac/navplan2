@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {Waypoint} from "./model/waypoint";
+import {Waypoint} from './model/waypoint';
 
 
 export enum WaypointActionTypes {
@@ -25,10 +25,10 @@ export class UpdateWaypointAction implements Action {
 }
 
 
-export class DeleteWaypointsAction implements Action {
+export class DeleteWaypointAction implements Action {
     readonly type = WaypointActionTypes.WAYPOINTS_DELETE;
 
-    constructor() {}
+    constructor(waypoint: Waypoint) {}
 }
 
 
@@ -42,6 +42,6 @@ export class ReverseWaypointsAction implements Action {
 export type WaypointsActions =
     EditWaypointAction |
     UpdateWaypointAction |
-    DeleteWaypointsAction |
+    DeleteWaypointAction |
 
     ReverseWaypointsAction;

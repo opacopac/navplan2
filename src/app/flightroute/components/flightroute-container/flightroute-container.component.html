@@ -12,7 +12,10 @@
             (onUpdateRouteComments)="this.onUpdateRouteComments($event)"
             (onUpdateAircraftSpeed)="this.onUpdateAircraftSpeed($event)"
             (onUpdateAircraftConsumption)="this.onUpdateAircraftConsumption($event)"
-            (onUpdateExtraTime)="this.onUpdateExtraTime($event)">
+            (onUpdateExtraTime)="this.onUpdateExtraTime($event)"
+            (onEditWaypointClicked)="this.onEditWaypointClicked($event)"
+            (onRemoveWaypointClicked)="this.onRemoveWaypointClicked($event)"
+            (onReverseWaypointsClicked)="this.onReverseWaypointsClicked($event)">
     </app-flightroute-form>
     <app-flightroute-exports
             (onExportFlightroutePdfClicked)="this.onExportFlightroutePdfClicked($event)"

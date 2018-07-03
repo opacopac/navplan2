@@ -33,17 +33,6 @@ export class WaypointListEntryComponent implements OnInit {
     }
 
 
-    public getRowClass(): string {
-        if ((this.isFirst || this.isLast) && this.wp.type === Waypointtype.airport) {
-            return "{ 'table-active': true }";
-        } else if (this.isAlternate) {
-            return "{ 'warning': true }";
-        } else {
-            return undefined;
-        }
-    }
-
-
     public getAltStyle(): string {
         let deco = '';
         if (this.wp.alt.isminalt) {
@@ -52,7 +41,6 @@ export class WaypointListEntryComponent implements OnInit {
         if (this.wp.alt.ismaxalt) {
             deco += ' overline';
         }
-
-        return "{ 'text-decoration': '" + deco + "' }";
+        return deco;
     }
 }
