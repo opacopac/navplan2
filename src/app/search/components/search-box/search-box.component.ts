@@ -4,19 +4,19 @@ import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/observable/fromEvent';
 import {Component, OnInit} from '@angular/core';
-import {ButtonColor, ButtonSize} from '../buttons/button-base.directive';
-import {SearchItem} from '../../search/model/search-item';
-import {SearchItemList} from '../../search/model/search-item-list';
+import {ButtonColor, ButtonSize} from '../../../components/buttons/button-base.directive';
+import {SearchItem} from '../../model/search-item';
+import {SearchItemList} from '../../model/search-item-list';
 import {Observable} from 'rxjs/Observable';
 import {Store} from '@ngrx/store';
-import {AppState} from '../../app.state';
-import {getSearchResults, getSelectedIndex} from '../../search/search.selectors';
+import {AppState} from '../../../app.state';
+import {getSearchResults, getSelectedIndex} from '../../search.selectors';
 import {
     HideSearchResultsAction, NextSearchItemAction,
     PrevSearchItemAction,
     SearchQuerySubmittedAction,
     SearchItemSelectedAction
-} from '../../search/search.actions';
+} from '../../search.actions';
 
 
 const UP_KEY_CODE = 38;

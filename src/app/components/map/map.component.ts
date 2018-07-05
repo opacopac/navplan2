@@ -11,7 +11,7 @@ import {MetarTafService} from '../../services/meteo/metar-taf.service';
 import {NotamService} from '../../services/notam/notam.service';
 import {TrafficService} from '../../services/traffic/traffic.service';
 import {Sessioncontext} from '../../model/session/sessioncontext';
-import {SearchBoxComponent} from '../search-box/search-box.component';
+import {SearchBoxComponent} from '../../search/components/search-box/search-box.component';
 import {Mapfeatures} from '../../model/mapfeatures';
 import {Position2d} from '../../model/geometry/position2d';
 import {MetarTaf, MetarTafList} from '../../model/metar-taf';

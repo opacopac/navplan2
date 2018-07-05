@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FlightrouteComponent } from './flightroute.component';
+import { EditWaypointFormComponent } from './edit-waypoint-form.component';
 
-describe('FlightrouteComponent', () => {
-  let component: FlightrouteComponent;
-  let fixture: ComponentFixture<FlightrouteComponent>;
+describe('EditWaypointFormComponent', () => {
+  let component: EditWaypointFormComponent;
+  let fixture: ComponentFixture<EditWaypointFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FlightrouteComponent ]
+      declarations: [ EditWaypointFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FlightrouteComponent);
+    fixture = TestBed.createComponent(EditWaypointFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

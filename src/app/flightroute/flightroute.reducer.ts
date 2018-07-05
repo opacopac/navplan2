@@ -84,6 +84,12 @@ export function flightrouteReducer(
             newFlightroute.aircraft = newAircraft;
             return { ...state, flightroute: newFlightroute };
 
+        case WaypointActionTypes.WAYPOINTS_EDIT:
+            return { ...state, editWaypoint: action.waypoint };
+
+        case WaypointActionTypes.WAYPOINTS_EDIT_CANCEL:
+            return { ...state, editWaypoint: undefined };
+
         default:
             return state;
     }

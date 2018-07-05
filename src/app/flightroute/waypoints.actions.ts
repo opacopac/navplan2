@@ -4,7 +4,8 @@ import {Waypoint} from './model/waypoint';
 
 export enum WaypointActionTypes {
     WAYPOINTS_EDIT = '[Waypoint page] Edit waypoint',
-    WAYPOINTS_UPDATE = '[Edit waypoint dialog] Update waypoint',
+    WAYPOINTS_EDIT_SAVE = '[Edit waypoint dialog] Save edited waypoint',
+    WAYPOINTS_EDIT_CANCEL = '[Edit waypoint dialog] Cancel edited waypoint',
     WAYPOINTS_DELETE = '[Waypoint page] Delete waypoint',
     WAYPOINTS_REORDER = '[Waypoint page] Re-order waypoints',
     WAYPOINTS_REVERSE = '[Waypoint pist] Reverse waypoints',
@@ -14,21 +15,28 @@ export enum WaypointActionTypes {
 export class EditWaypointAction implements Action {
     readonly type = WaypointActionTypes.WAYPOINTS_EDIT;
 
-    constructor(waypoint: Waypoint) {}
+    constructor(public waypoint: Waypoint) {}
 }
 
 
-export class UpdateWaypointAction implements Action {
-    readonly type = WaypointActionTypes.WAYPOINTS_UPDATE;
+export class SaveEditWaypointAction implements Action {
+    readonly type = WaypointActionTypes.WAYPOINTS_EDIT_SAVE;
 
-    constructor(waypoint: Waypoint) {}
+    constructor(public waypoint: Waypoint) {}
+}
+
+
+export class CancelEditWaypointAction implements Action {
+    readonly type = WaypointActionTypes.WAYPOINTS_EDIT_CANCEL;
+
+    constructor() {}
 }
 
 
 export class DeleteWaypointAction implements Action {
     readonly type = WaypointActionTypes.WAYPOINTS_DELETE;
 
-    constructor(waypoint: Waypoint) {}
+    constructor(public waypoint: Waypoint) {}
 }
 
 
@@ -41,7 +49,7 @@ export class ReverseWaypointsAction implements Action {
 
 export type WaypointsActions =
     EditWaypointAction |
-    UpdateWaypointAction |
+    SaveEditWaypointAction |
+    CancelEditWaypointAction |
     DeleteWaypointAction |
-
     ReverseWaypointsAction;

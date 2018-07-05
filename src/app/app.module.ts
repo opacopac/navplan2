@@ -2,19 +2,14 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule, HttpClientJsonpModule} from '@angular/common/http';
-
 import {AppComponent} from './app.component';
 import {MapComponent} from './components/map/map.component';
-import {FlightrouteComponent} from './components/flightroute/flightroute.component';
 import {TracksComponent} from './components/tracks/tracks.component';
 import {SettingsComponent} from './components/settings/settings.component';
 import {AboutComponent} from './components/about/about.component';
 import {AppRoutingModule} from './app-routing.module';
 import {LoginComponent} from './components/login/login.component';
 import {MessageComponent} from './components/message/message.component';
-import {WaypointlistComponent} from './components/waypointlist/waypointlist.component';
-import {FuelcalcComponent} from './components/fuelcalc/fuelcalc.component';
-import {EditwaypointComponent} from './components/editwaypoint/editwaypoint.component';
 import {UserprofileComponent} from './components/userprofile/userprofile.component';
 import {ForgotpwComponent} from './components/forgotpw/forgotpw.component';
 import {ZoomButtonsComponent} from './components/buttons/zoom-buttons/zoom-buttons.component';
@@ -39,7 +34,7 @@ import {MapOverlayButtonEditUserpointComponent} from './components/map-overlay/m
 import {MapOverlayMeteogramComponent} from './components/map-overlay/map-overlay-meteogram/map-overlay-meteogram.component';
 import {FlighttimerComponent} from './components/flighttimer/flighttimer.component';
 import {TrafficButtonComponent} from './components/buttons/traffic-button/traffic-button.component';
-import {SearchBoxComponent} from './components/search-box/search-box.component';
+import {SearchBoxComponent} from './search/components/search-box/search-box.component';
 import {IconButtonDirective} from './components/buttons/icon-button.directive';
 import {StatusButtonDirective} from './components/buttons/status-button.directive';
 import {TextButtonDirective} from './components/buttons/text-button.directive';
@@ -86,13 +81,14 @@ import { WaypointListComponent } from './flightroute/components/waypoint-list/wa
 import { FuelCalculationComponent } from './flightroute/components/fuel-calculation/fuel-calculation.component';
 import { FlightrouteExportButtonsComponent } from './flightroute/components/flightroute-export-buttons/flightroute-export-buttons.component';
 import { WaypointListEntryComponent } from './flightroute/components/waypoint-list-entry/waypoint-list-entry.component';
+import { EditWaypointContainerComponent } from './flightroute/components/edit-waypoint-container/edit-waypoint-container.component';
+import { EditWaypointFormComponent } from './flightroute/components/edit-waypoint-form/edit-waypoint-form.component';
 
 
 @NgModule({
     declarations: [
         AppComponent,
         MapComponent,
-        FlightrouteComponent,
         TracksComponent,
         SettingsComponent,
         AboutComponent,
@@ -100,9 +96,6 @@ import { WaypointListEntryComponent } from './flightroute/components/waypoint-li
         MessageComponent,
         UserprofileComponent,
         ForgotpwComponent,
-        WaypointlistComponent,
-        FuelcalcComponent,
-        EditwaypointComponent,
         ZoomButtonsComponent,
         LocationButtonComponent,
         FlighttimerComponent,
@@ -142,6 +135,8 @@ import { WaypointListEntryComponent } from './flightroute/components/waypoint-li
         FuelCalculationComponent,
         FlightrouteExportButtonsComponent,
         WaypointListEntryComponent,
+        EditWaypointContainerComponent,
+        EditWaypointFormComponent,
     ],
     imports: [
         BrowserModule,
