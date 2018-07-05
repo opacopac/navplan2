@@ -1,6 +1,6 @@
 import * as ol from 'openlayers';
-import { UnitconversionService } from '../../services/utils/unitconversion.service';
-import { StringnumberService } from '../../services/utils/stringnumber.service';
+import { UnitconversionService } from '../../core/services/utils/unitconversion.service';
+import { StringnumberService } from '../../core/services/utils/stringnumber.service';
 import { OlFeature } from './ol-feature';
 import { SearchItem } from '../../search/model/search-item';
 import { OlSearchItem } from './ol-searchitem';

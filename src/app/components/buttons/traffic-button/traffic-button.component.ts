@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { MapService } from '../../../services/map/map.service';
-import { LocationService } from '../../../services/location/location.service';
-import { TrafficService, TrafficServiceStatus} from '../../../services/traffic/traffic.service';
+import { MapService } from '../../../core/services/map/map.service';
+import { LocationService } from '../../../core/services/location/location.service';
+import { TrafficService, TrafficServiceStatus} from '../../../core/services/traffic/traffic.service';
 import { Traffic } from '../../../model/traffic';
-import { ButtonStatus } from '../status-button.directive';
-import { ButtonSize } from '../button-base.directive';
+import { ButtonStatus } from '../../../shared/directives/status-button/status-button.directive';
+import { ButtonSize } from '../../../shared/directives/button-base/button-base.directive';
 
 
 const TRAFFIC_TIMEOUT_MS = 10 * 60 * 1000;

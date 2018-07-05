@@ -1,7 +1,7 @@
 import {WaypointBase} from './waypoint-base';
 import {Position2d} from '../geometry/position2d';
 import {Airport, AirportRadio} from '../airport';
-import {UnitconversionService} from '../../services/utils/unitconversion.service';
+import {UnitconversionService} from '../../core/services/utils/unitconversion.service';
 import {Waypointtype} from '../waypoint';
 
 

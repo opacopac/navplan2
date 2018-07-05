@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MapService } from '../../../services/map/map.service';
-import { ButtonColor, ButtonSize } from '../../buttons/button-base.directive';
+import { MapService } from '../../../core/services/map/map.service';
+import { ButtonColor, ButtonSize } from '../../../shared/directives/button-base/button-base.directive';
 
 
 @Component({

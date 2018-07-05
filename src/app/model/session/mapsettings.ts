@@ -1,7 +1,7 @@
 import {MapbaselayerType} from '../ol-model/mapbaselayer-factory';
 import {Position2d} from '../geometry/position2d';
 import {Angle} from '../quantities/angle';
-import {AngleUnit} from '../../services/utils/unitconversion.service';
+import {AngleUnit} from '../../core/services/utils/unitconversion.service';
 
 
 export class Mapsettings {

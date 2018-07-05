@@ -1,5 +1,5 @@
 import * as ol from 'openlayers';
-import { UnitconversionService } from '../../services/utils/unitconversion.service';
+import { UnitconversionService } from '../../core/services/utils/unitconversion.service';
 import { OlFeature } from './ol-feature';
 import { Notam } from '../notam';
 import { Polygon } from '../geometry/polygon';

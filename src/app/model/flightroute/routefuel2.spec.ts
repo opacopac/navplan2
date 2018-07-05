@@ -1,8 +1,8 @@
-import {ConsumptionUnit, TimeUnit, VolumeUnit} from '../../services/utils/unitconversion.service';
+import {ConsumptionUnit, TimeUnit, VolumeUnit} from '../../core/services/utils/unitconversion.service';
 import {Consumption} from '../quantities/consumption';
 import {Time} from '../quantities/time';
 import {Routefuel2} from './routefuel2';
-import {RxService} from '../../services/utils/rx.service';
+import {RxService} from '../../core/services/utils/rx.service';
 
 
 describe('RouteFuel', () => {

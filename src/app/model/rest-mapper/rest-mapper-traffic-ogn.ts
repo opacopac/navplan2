@@ -2,7 +2,7 @@ import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource, Tra
 import {Position4d} from '../geometry/position4d';
 import {Altitude} from '../quantities/altitude';
 import {Timestamp} from '../quantities/timestamp';
-import {LengthUnit} from '../../services/utils/unitconversion.service';
+import {LengthUnit} from '../../core/services/utils/unitconversion.service';
 
 
 export interface TrafficOgnResponse {

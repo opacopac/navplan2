@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import { StringnumberService } from '../../../services/utils/stringnumber.service';
+import { StringnumberService } from '../../../core/services/utils/stringnumber.service';
 import { Notam } from '../../../model/notam';
 import { Position2d } from '../../../model/geometry/position2d';
 import { MapOverlayContainer } from '../map-overlay-container';

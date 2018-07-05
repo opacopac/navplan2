@@ -3,7 +3,7 @@ import { environment } from '../../../environments/environment';
 import { OlFeaturePoint } from './ol-feature';
 import { MetarTaf } from '../metar-taf';
 import { Position2d } from '../geometry/position2d';
-import { UnitconversionService } from '../../services/utils/unitconversion.service';
+import { UnitconversionService } from '../../core/services/utils/unitconversion.service';
 
 
 export class OlMetarWind extends OlFeaturePoint {

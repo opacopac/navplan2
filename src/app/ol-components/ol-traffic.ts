@@ -1,11 +1,11 @@
 import * as ol from 'openlayers';
 import {OlComponent} from './ol-component';
-import {MapContext} from '../services/map/map.service';
+import {MapContext} from '../core/services/map/map.service';
 import {Observable} from 'rxjs/Observable';
 import {Traffic, TrafficAircraftType} from '../model/traffic';
 import {environment} from '../../environments/environment';
-import {UnitconversionService} from '../services/utils/unitconversion.service';
-import {GeocalcService} from '../services/utils/geocalc.service';
+import {UnitconversionService} from '../core/services/utils/unitconversion.service';
+import {GeocalcService} from '../core/services/utils/geocalc.service';
 import {Subscription} from 'rxjs/Subscription';
 import {OlTrafficTrail} from './ol-traffic-trail';
 

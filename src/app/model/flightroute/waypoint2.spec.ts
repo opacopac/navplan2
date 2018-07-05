@@ -5,7 +5,7 @@ import {Waypoint2} from './waypoint2';
 import {Waypointtype} from '../waypoint';
 import {Position2d} from '../geometry/position2d';
 import {WaypointAltitude2} from './waypoint-altitude2';
-import {LengthUnit, SpeedUnit} from '../../services/utils/unitconversion.service';
+import {LengthUnit, SpeedUnit} from '../../core/services/utils/unitconversion.service';
 import {Speed} from '../quantities/speed';
 import {Observable} from 'rxjs/Observable';
 

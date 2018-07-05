@@ -1,7 +1,7 @@
 import {Waypointtype} from '../waypoint';
 import {Position2d} from '../geometry/position2d';
 import {Speed} from '../quantities/speed';
-import {ConsumptionUnit, SpeedUnit, TimeUnit} from '../../services/utils/unitconversion.service';
+import {ConsumptionUnit, SpeedUnit, TimeUnit} from '../../core/services/utils/unitconversion.service';
 import {Consumption} from '../quantities/consumption';
 import {Time} from '../quantities/time';
 import {FlightrouteListEntry} from '../flightroute/flightroute-list-entry';

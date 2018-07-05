@@ -1,7 +1,7 @@
 import * as ol from 'openlayers';
 import {Geometry2d, Geometry2dType} from './geometry2d';
 import {Clonable} from '../clonable';
-import {StringnumberService} from '../../services/utils/stringnumber.service';
+import {StringnumberService} from '../../core/services/utils/stringnumber.service';
 
 
 export class Position2d implements Geometry2d, Clonable<Position2d> {

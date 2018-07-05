@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { StringnumberService } from '../../../services/utils/stringnumber.service';
+import { StringnumberService } from '../../../core/services/utils/stringnumber.service';
 import { Notam } from '../../../model/notam';
 
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { LocationService } from '../../services/location/location.service';
-import { TimerService } from '../../services/utils/timer.service';
+import { LocationService } from '../../core/services/location/location.service';
+import { TimerService } from '../../core/services/utils/timer.service';
 
 
 @Component({

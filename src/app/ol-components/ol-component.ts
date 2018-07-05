@@ -1,7 +1,7 @@
 import * as ol from 'openlayers';
 import {Position2d} from '../model/geometry/position2d';
 import {DataItem} from '../model/data-item';
-import {MapContext} from '../services/map/map.service';
+import {MapContext} from '../core/services/map/map.service';
 
 
 export abstract class OlComponent {

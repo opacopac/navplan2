@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {MapService} from '../../../services/map/map.service';
-import {TimerService} from '../../../services/utils/timer.service';
-import {MessageService} from '../../../services/utils/message.service';
-import {LocationService, LocationServiceStatus} from '../../../services/location/location.service';
+import {MapService} from '../../../core/services/map/map.service';
+import {TimerService} from '../../../core/services/utils/timer.service';
+import {MessageService} from '../../../core/services/utils/message.service';
+import {LocationService, LocationServiceStatus} from '../../../core/services/location/location.service';
 import {Traffic} from '../../../model/traffic';
-import {ButtonSize} from '../button-base.directive';
-import {ButtonStatus} from '../status-button.directive';
+import {ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
+import {ButtonStatus} from '../../../shared/directives/status-button/status-button.directive';
 
 
 @Component({

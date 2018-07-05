@@ -9,10 +9,10 @@ import {Subject} from 'rxjs/Subject';
 import {Position2d} from '../model/geometry/position2d';
 import {OlComponent} from './ol-component';
 import {Flightroute2} from '../model/flightroute/flightroute2';
-import {RxService} from '../services/utils/rx.service';
+import {RxService} from '../core/services/utils/rx.service';
 import {Waypoint2} from '../model/flightroute/waypoint2';
-import {WaypointModification} from 'app/services/map/map-action.service';
-import {MapContext} from '../services/map/map.service';
+import {WaypointModification} from 'app/core/services/map/map-action.service';
+import {MapContext} from '../core/services/map/map.service';
 
 
 export class OlRouteLine extends OlComponent {

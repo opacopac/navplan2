@@ -3,8 +3,8 @@ import {Action, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs/Observable';
 import {catchError, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
-import {MessageService} from '../services/utils/message.service';
-import {FlightrouteService} from '../services/flightroute/flightroute.service';
+import {MessageService} from '../core/services/utils/message.service';
+import {FlightrouteService} from './services/flightroute/flightroute.service';
 import {
     FlightrouteActionTypes,
     ReadFlightrouteListAction,

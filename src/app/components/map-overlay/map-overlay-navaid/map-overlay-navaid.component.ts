@@ -1,9 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { StringnumberService } from '../../../services/utils/stringnumber.service';
+import { StringnumberService } from '../../../core/services/utils/stringnumber.service';
 import { Navaid } from '../../../model/navaid';
 import { Position2d } from '../../../model/geometry/position2d';
 import { MapOverlayContainer } from '../map-overlay-container';
-import {SessionService} from '../../../services/session/session.service';
+import {SessionService} from '../../../core/services/session/session.service';
 import {Sessioncontext} from '../../../model/session/sessioncontext';
 
 

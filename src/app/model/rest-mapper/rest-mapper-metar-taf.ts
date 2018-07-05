@@ -1,5 +1,5 @@
 import { MetarTaf, MetarTafList } from '../metar-taf';
-import { StringnumberService } from '../../services/utils/stringnumber.service';
+import { StringnumberService } from '../../core/services/utils/stringnumber.service';
 
 
 export interface MetarTafResponse {

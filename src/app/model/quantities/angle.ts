@@ -1,4 +1,4 @@
-import {UnitconversionService, AngleUnit} from '../../services/utils/unitconversion.service';
+import {UnitconversionService, AngleUnit} from '../../core/services/utils/unitconversion.service';
 
 
 export class Angle {

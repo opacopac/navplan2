@@ -4,7 +4,7 @@ import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/observable/fromEvent';
 import {Component, OnInit} from '@angular/core';
-import {ButtonColor, ButtonSize} from '../../../components/buttons/button-base.directive';
+import {ButtonColor, ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
 import {SearchItem} from '../../model/search-item';
 import {SearchItemList} from '../../model/search-item-list';
 import {Observable} from 'rxjs/Observable';

@@ -2,16 +2,16 @@ import * as ol from 'openlayers';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
-import {RxService} from '../services/utils/rx.service';
+import {RxService} from '../core/services/utils/rx.service';
 import {Position2d} from '../model/geometry/position2d';
 import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
-import {UnitconversionService} from '../services/utils/unitconversion.service';
+import {UnitconversionService} from '../core/services/utils/unitconversion.service';
 import {Angle} from '../model/quantities/angle';
 import {Waypoint2} from '../model/flightroute/waypoint2';
 import {OlComponent} from './ol-component';
 import {OlWaypointBearingLabel} from './ol-waypoint-bearing-label';
-import {MapContext} from '../services/map/map.service';
+import {MapContext} from '../core/services/map/map.service';
 
 export class OlWaypoint2 extends OlComponent {
     private readonly pointFeature: ol.Feature;

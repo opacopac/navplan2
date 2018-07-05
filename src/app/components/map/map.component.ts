@@ -1,15 +1,15 @@
 import * as $ from 'jquery';
 import 'rxjs/add/observable/combineLatest';
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {MessageService} from '../../services/utils/message.service';
-import {SessionService} from '../../services/session/session.service';
-import {FlightrouteService} from '../../services/flightroute/flightroute.service';
-import {MapService} from '../../services/map/map.service';
-import {MapfeaturesService} from '../../services/map/mapfeatures.service';
-import {SearchService} from '../../services/search/search.service';
-import {MetarTafService} from '../../services/meteo/metar-taf.service';
-import {NotamService} from '../../services/notam/notam.service';
-import {TrafficService} from '../../services/traffic/traffic.service';
+import {MessageService} from '../../core/services/utils/message.service';
+import {SessionService} from '../../core/services/session/session.service';
+import {FlightrouteService} from '../../flightroute/services/flightroute/flightroute.service';
+import {MapService} from '../../core/services/map/map.service';
+import {MapfeaturesService} from '../../core/services/map/mapfeatures.service';
+import {SearchService} from '../../search/services/search/search.service';
+import {MetarTafService} from '../../core/services/meteo/metar-taf.service';
+import {NotamService} from '../../core/services/notam/notam.service';
+import {TrafficService} from '../../core/services/traffic/traffic.service';
 import {Sessioncontext} from '../../model/session/sessioncontext';
 import {SearchBoxComponent} from '../../search/components/search-box/search-box.component';
 import {Mapfeatures} from '../../model/mapfeatures';
@@ -42,7 +42,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {Observable} from 'rxjs/Observable';
 import {Waypoint2} from '../../model/flightroute/waypoint2';
 import {User} from '../../user/model/user';
-import {LocationService} from '../../services/location/location.service';
+import {LocationService} from '../../core/services/location/location.service';
 
 
 const NAVBAR_HEIGHT_PX = 54;

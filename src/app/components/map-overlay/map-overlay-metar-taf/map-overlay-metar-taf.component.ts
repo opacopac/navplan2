@@ -1,8 +1,8 @@
 import { Component, Input, OnInit} from '@angular/core';
-import { DatetimeService } from '../../../services/utils/datetime.service';
-import { StringnumberService } from '../../../services/utils/stringnumber.service';
+import { DatetimeService } from '../../../core/services/utils/datetime.service';
+import { StringnumberService } from '../../../core/services/utils/stringnumber.service';
 import { MetarTaf } from '../../../model/metar-taf';
-import { SessionService } from '../../../services/session/session.service';
+import { SessionService } from '../../../core/services/session/session.service';
 import { Sessioncontext } from '../../../model/session/sessioncontext';
 import {Position2d} from '../../../model/geometry/position2d';
 

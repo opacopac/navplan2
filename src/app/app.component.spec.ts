@@ -1,9 +1,9 @@
 import {TestBed, async} from '@angular/core/testing';
 import {AppComponent} from './app.component';
 import {Component} from '@angular/core';
-import {UserService} from './services/user/user.service';
-import {MessageService} from './services/utils/message.service';
-import {SessionService} from './services/session/session.service';
+import {UserService} from './user/services/user/user.service';
+import {MessageService} from './core/services/utils/message.service';
+import {SessionService} from './core/services/session/session.service';
 
 
 @Component({selector: 'router-outlet', template: ''})

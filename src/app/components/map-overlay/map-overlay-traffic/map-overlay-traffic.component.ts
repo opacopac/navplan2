@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Traffic, TrafficAddressType, TrafficAircraftType} from '../../../model/traffic';
 import { Position2d } from '../../../model/geometry/position2d';
-import { ButtonColor, ButtonSize } from '../../buttons/button-base.directive';
+import { ButtonColor, ButtonSize } from '../../../shared/directives/button-base/button-base.directive';
 import { MapOverlayContainer } from '../map-overlay-container';
 
 

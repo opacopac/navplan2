@@ -4,7 +4,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Consumption} from '../quantities/consumption';
 import {Time} from '../quantities/time';
 import {Fuel} from '../quantities/fuel';
-import {ConsumptionUnit, TimeUnit, VolumeUnit} from '../../services/utils/unitconversion.service';
+import {ConsumptionUnit, TimeUnit, VolumeUnit} from '../../core/services/utils/unitconversion.service';
 
 
 export class Routefuel2 {

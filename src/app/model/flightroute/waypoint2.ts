@@ -1,6 +1,6 @@
 import {WaypointAltitude2} from './waypoint-altitude2';
 import {Position2d} from '../geometry/position2d';
-import {GeocalcService} from '../../services/utils/geocalc.service';
+import {GeocalcService} from '../../core/services/utils/geocalc.service';
 import {Waypointtype} from '../waypoint';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
@@ -8,13 +8,13 @@ import {Time} from '../quantities/time';
 import {Distance} from '../quantities/distance';
 import {Speed} from '../quantities/speed';
 import {Angle} from '../quantities/angle';
-import {AngleUnit, LengthUnit, SpeedUnit, TimeUnit} from '../../services/utils/unitconversion.service';
-import {RxService} from '../../services/utils/rx.service';
+import {AngleUnit, LengthUnit, SpeedUnit, TimeUnit} from '../../core/services/utils/unitconversion.service';
+import {RxService} from '../../core/services/utils/rx.service';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/observable/of';
-import {StringnumberService} from '../../services/utils/stringnumber.service';
+import {StringnumberService} from '../../core/services/utils/stringnumber.service';
 
 const ADDITIONAL_VAC_TIME = new Time(5, TimeUnit.M);
 const VAC_STRING = 'VAC';

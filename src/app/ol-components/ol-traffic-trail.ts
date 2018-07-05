@@ -1,5 +1,5 @@
 import * as ol from 'openlayers';
-import {MapContext} from '../services/map/map.service';
+import {MapContext} from '../core/services/map/map.service';
 import {Observable} from 'rxjs/Observable';
 import {OlComponent} from './ol-component';
 import {Traffic, TrafficAircraftType} from '../model/traffic';

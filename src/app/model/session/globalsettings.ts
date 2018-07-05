@@ -1,6 +1,6 @@
 import {Angle} from '../quantities/angle';
 import {Altitude} from '../quantities/altitude';
-import {AngleUnit, LengthUnit} from '../../services/utils/unitconversion.service';
+import {AngleUnit, LengthUnit} from '../../core/services/utils/unitconversion.service';
 
 
 export class Globalsettings {

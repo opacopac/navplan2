@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {SessionService} from '../../services/session/session.service';
-import {MessageService} from '../../services/utils/message.service';
+import {SessionService} from '../../core/services/session/session.service';
+import {MessageService} from '../../core/services/utils/message.service';
 import {Sessioncontext} from '../../model/session/sessioncontext';
 import {MapbaselayerType} from '../../model/ol-model/mapbaselayer-factory';
-import {AngleUnit, LengthUnit} from '../../services/utils/unitconversion.service';
+import {AngleUnit, LengthUnit} from '../../core/services/utils/unitconversion.service';
 import {Angle} from '../../model/quantities/angle';
 import {Altitude} from '../../model/quantities/altitude';
 

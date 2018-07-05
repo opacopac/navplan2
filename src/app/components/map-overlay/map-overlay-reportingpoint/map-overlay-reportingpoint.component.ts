@@ -1,10 +1,10 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { Reportingpoint } from '../../../model/reportingpoint';
-import { StringnumberService } from '../../../services/utils/stringnumber.service';
+import { StringnumberService } from '../../../core/services/utils/stringnumber.service';
 import { Position2d } from '../../../model/geometry/position2d';
 import { MapOverlayContainer } from '../map-overlay-container';
 import {Sessioncontext} from '../../../model/session/sessioncontext';
-import {SessionService} from '../../../services/session/session.service';
+import {SessionService} from '../../../core/services/session/session.service';
 
 
 @Component({

@@ -7,7 +7,7 @@ import {OlComponent} from './ol-component';
 import {Waypoint2} from '../model/flightroute/waypoint2';
 import {Subscription} from 'rxjs/Subscription';
 import {Observable} from 'rxjs/Observable';
-import {MapContext} from 'app/services/map/map.service';
+import {MapContext} from 'app/core/services/map/map.service';
 
 
 export class OlAlternateLine extends OlComponent {

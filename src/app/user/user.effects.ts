@@ -15,9 +15,9 @@ import {
     LogoutUserSuccessAction,
     UserActionTypes
 } from './user.actions';
-import {UserService} from '../services/user/user.service';
-import {MessageService} from '../services/utils/message.service';
-import {ClientstorageService} from '../services/session/clientstorage.service';
+import {UserService} from './services/user/user.service';
+import {MessageService} from '../core/services/utils/message.service';
+import {ClientstorageService} from '../core/services/session/clientstorage.service';
 
 
 @Injectable()

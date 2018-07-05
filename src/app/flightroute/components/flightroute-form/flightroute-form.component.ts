@@ -1,12 +1,12 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ButtonColor, ButtonSize} from '../../../components/buttons/button-base.directive';
+import {ButtonColor, ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
 import {Flightroute} from '../../model/flightroute';
 import {FlightrouteListEntry} from '../../../model/flightroute/flightroute-list-entry';
 import {User} from '../../../user/model/user';
 import {Speed} from '../../../model/quantities/speed';
 import {Consumption} from '../../../model/quantities/consumption';
-import {ConsumptionUnit, SpeedUnit} from '../../../services/utils/unitconversion.service';
+import {ConsumptionUnit, SpeedUnit} from '../../../core/services/utils/unitconversion.service';
 import {Waypoint} from '../../model/waypoint';
 
 

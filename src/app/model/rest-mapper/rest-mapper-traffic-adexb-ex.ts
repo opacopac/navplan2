@@ -1,7 +1,7 @@
 import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource, TrafficPosition, TrafficPositionMethod } from '../traffic';
 import {Altitude} from '../quantities/altitude';
-import {LengthUnit, UnitconversionService} from '../../services/utils/unitconversion.service';
-import {IcaoCallsignService} from '../../services/traffic/icaocallsign.service';
+import {LengthUnit, UnitconversionService} from '../../core/services/utils/unitconversion.service';
+import {IcaoCallsignService} from '../../core/services/traffic/icaocallsign.service';
 import {Position4d} from '../geometry/position4d';
 import {Timestamp} from '../quantities/timestamp';
 

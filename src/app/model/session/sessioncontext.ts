@@ -4,7 +4,7 @@ import {Flightroute2} from '../flightroute/flightroute2';
 import {Waypoint2} from '../flightroute/waypoint2';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {RxService} from '../../services/utils/rx.service';
+import {RxService} from '../../core/services/utils/rx.service';
 import {FlightrouteListEntry} from '../flightroute/flightroute-list-entry';
 import {Globalsettings} from './globalsettings';
 import {Mapsettings} from './mapsettings';

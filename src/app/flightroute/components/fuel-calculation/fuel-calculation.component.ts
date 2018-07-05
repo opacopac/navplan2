@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {RouteFuel} from '../../model/routefuel';
 import {Time} from '../../../model/quantities/time';
-import {StringnumberService} from '../../../services/utils/stringnumber.service';
-import {TimeUnit, VolumeUnit} from '../../../services/utils/unitconversion.service';
+import {StringnumberService} from '../../../core/services/utils/stringnumber.service';
+import {TimeUnit, VolumeUnit} from '../../../core/services/utils/unitconversion.service';
 import {Fuel} from '../../../model/quantities/fuel';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 

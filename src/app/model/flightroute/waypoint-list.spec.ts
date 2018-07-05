@@ -5,10 +5,10 @@ import 'rxjs/add/operator/first';
 import {Waypoint2} from './waypoint2';
 import {WaypointList} from './waypoint-list';
 import {Speed} from '../quantities/speed';
-import {SpeedUnit} from '../../services/utils/unitconversion.service';
+import {SpeedUnit} from '../../core/services/utils/unitconversion.service';
 import {Waypointtype} from '../waypoint';
 import {Position2d} from '../geometry/position2d';
-import {RxService} from '../../services/utils/rx.service';
+import {RxService} from '../../core/services/utils/rx.service';
 import {Observable} from 'rxjs/Observable';
 
 

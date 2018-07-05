@@ -3,7 +3,7 @@ import {Waypoint2} from './waypoint2';
 import {Observable} from 'rxjs/Observable';
 import {Position2d} from '../geometry/position2d';
 import {Time} from '../quantities/time';
-import {TimeUnit} from '../../services/utils/unitconversion.service';
+import {TimeUnit} from '../../core/services/utils/unitconversion.service';
 import {Speed} from '../quantities/speed';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Subscription} from 'rxjs/Subscription';

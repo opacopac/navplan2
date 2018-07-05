@@ -3,7 +3,7 @@ import { Userpoint } from '../../../model/userpoint';
 import { Position2d } from '../../../model/geometry/position2d';
 import { MapOverlayContainer } from '../map-overlay-container';
 import {Sessioncontext} from '../../../model/session/sessioncontext';
-import {SessionService} from '../../../services/session/session.service';
+import {SessionService} from '../../../core/services/session/session.service';
 
 
 @Component({

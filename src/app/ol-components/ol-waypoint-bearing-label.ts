@@ -3,12 +3,12 @@ import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/distinctUntilChanged';
 import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
-import {LengthUnit, UnitconversionService} from '../services/utils/unitconversion.service';
+import {LengthUnit, UnitconversionService} from '../core/services/utils/unitconversion.service';
 import {Angle} from '../model/quantities/angle';
 import {Distance} from '../model/quantities/distance';
 import {Waypoint2} from '../model/flightroute/waypoint2';
 import {OlComponent} from './ol-component';
-import {MapContext} from '../services/map/map.service';
+import {MapContext} from '../core/services/map/map.service';
 
 
 export class OlWaypointBearingLabel extends OlComponent {

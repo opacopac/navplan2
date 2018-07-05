@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Waypoint} from '../../model/waypoint';
 import {Flightroute} from '../../model/flightroute';
-import {ButtonColor, ButtonSize} from '../../../components/buttons/button-base.directive';
+import {ButtonColor, ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
 
 
 @Component({

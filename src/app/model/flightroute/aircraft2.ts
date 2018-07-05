@@ -2,7 +2,7 @@ import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Speed} from 'app/model/quantities/speed';
 import {Consumption} from '../quantities/consumption';
-import {ConsumptionUnit, SpeedUnit} from '../../services/utils/unitconversion.service';
+import {ConsumptionUnit, SpeedUnit} from '../../core/services/utils/unitconversion.service';
 
 
 export class Aircraft2 {

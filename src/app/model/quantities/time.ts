@@ -1,4 +1,4 @@
-import { TimeUnit, UnitconversionService } from '../../services/utils/unitconversion.service';
+import { TimeUnit, UnitconversionService } from '../../core/services/utils/unitconversion.service';
 import {Clonable} from "../clonable";
 
 

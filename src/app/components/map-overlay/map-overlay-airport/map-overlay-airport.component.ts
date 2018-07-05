@@ -3,10 +3,10 @@ import {Component, ElementRef, OnChanges, OnInit, ViewChild} from '@angular/core
 import {Airport, AirportChart, AirportRunway, AirportType} from '../../../model/airport';
 import {Position2d} from '../../../model/geometry/position2d';
 import {MapOverlayContainer} from '../map-overlay-container';
-import {StringnumberService} from '../../../services/utils/stringnumber.service';
-import {DatetimeService} from '../../../services/utils/datetime.service';
+import {StringnumberService} from '../../../core/services/utils/stringnumber.service';
+import {DatetimeService} from '../../../core/services/utils/datetime.service';
 import {MapOverlayWindyiframeComponent} from '../map-overlay-windyiframe/map-overlay-windyiframe.component';
-import {SessionService} from '../../../services/session/session.service';
+import {SessionService} from '../../../core/services/session/session.service';
 import {Sessioncontext} from '../../../model/session/sessioncontext';
 
 @Component({

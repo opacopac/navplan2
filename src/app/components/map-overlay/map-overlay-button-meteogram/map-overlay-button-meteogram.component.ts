@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ButtonColor, ButtonSize } from '../../buttons/button-base.directive';
+import { ButtonColor, ButtonSize } from '../../../shared/directives/button-base/button-base.directive';
 
 
 @Component({

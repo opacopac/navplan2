@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Sessioncontext } from '../../model/session/sessioncontext';
-import { SessionService } from '../../services/session/session.service';
-import { MessageService } from '../../services/utils/message.service';
-import { TrackService } from '../../services/track/track.service';
+import { SessionService } from '../../core/services/session/session.service';
+import { MessageService } from '../../core/services/utils/message.service';
+import { TrackService } from '../../core/services/track/track.service';
 import { Track } from '../../model/track';
-import { DatetimeService } from '../../services/utils/datetime.service';
+import { DatetimeService } from '../../core/services/utils/datetime.service';
 import { Timestamp } from '../../model/quantities/timestamp';
-import {ButtonColor, ButtonSize} from '../buttons/button-base.directive';
+import {ButtonColor, ButtonSize} from '../../shared/directives/button-base/button-base.directive';
 
 @Component({
   selector: 'app-tracks',

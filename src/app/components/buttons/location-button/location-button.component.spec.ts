@@ -1,12 +1,12 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {LocationButtonComponent} from './location-button.component';
 import {Directive, Input} from '@angular/core';
-import {ButtonSize} from '../button-base.directive';
-import {ButtonStatus} from '../status-button.directive';
-import {MessageService} from '../../../services/utils/message.service';
-import {MapService} from '../../../services/map/map.service';
-import {LocationService} from '../../../services/location/location.service';
-import {TimerService} from '../../../services/utils/timer.service';
+import {ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
+import {ButtonStatus} from '../../../shared/directives/status-button/status-button.directive';
+import {MessageService} from '../../../core/services/utils/message.service';
+import {MapService} from '../../../core/services/map/map.service';
+import {LocationService} from '../../../core/services/location/location.service';
+import {TimerService} from '../../../core/services/utils/timer.service';
 
 
 @Directive({selector: '[appStatusButton]'})

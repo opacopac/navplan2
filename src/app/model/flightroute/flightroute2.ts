@@ -7,9 +7,9 @@ import {Aircraft2} from './aircraft2';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Speed} from '../quantities/speed';
-import {RxService} from '../../services/utils/rx.service';
+import {RxService} from '../../core/services/utils/rx.service';
 import {Time} from '../quantities/time';
-import {TimeUnit} from '../../services/utils/unitconversion.service';
+import {TimeUnit} from '../../core/services/utils/unitconversion.service';
 
 
 export class Flightroute2 {

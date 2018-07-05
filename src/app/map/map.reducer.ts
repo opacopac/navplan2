@@ -1,7 +1,7 @@
 import {MapState} from "./model/map-state";
 import {Position2d} from "../model/geometry/position2d";
 import {Angle} from "../model/quantities/angle";
-import {AngleUnit} from "../services/utils/unitconversion.service";
+import {AngleUnit} from "../core/services/utils/unitconversion.service";
 import {MapActions} from "./map.actions";
 
 

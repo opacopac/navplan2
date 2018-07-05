@@ -1,5 +1,5 @@
 import {Aircraft2} from './aircraft2';
-import {ConsumptionUnit, SpeedUnit} from '../../services/utils/unitconversion.service';
+import {ConsumptionUnit, SpeedUnit} from '../../core/services/utils/unitconversion.service';
 import {Speed} from '../quantities/speed';
 import {Consumption} from '../quantities/consumption';
 import {Flightroute2} from './flightroute2';

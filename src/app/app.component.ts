@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ClientstorageService} from './services/session/clientstorage.service';
+import {ClientstorageService} from './core/services/session/clientstorage.service';
 import {AppState} from './app.state';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';

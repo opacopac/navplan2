@@ -1,8 +1,8 @@
 import {first} from 'rxjs/operators';
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ButtonColor, ButtonSize} from '../../buttons/button-base.directive';
+import {ButtonColor, ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
 import {Sessioncontext} from '../../../model/session/sessioncontext';
-import {SessionService} from '../../../services/session/session.service';
+import {SessionService} from '../../../core/services/session/session.service';
 
 
 @Component({

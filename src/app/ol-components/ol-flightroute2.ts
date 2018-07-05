@@ -1,5 +1,5 @@
 import * as ol from 'openlayers';
-import {RxService} from '../services/utils/rx.service';
+import {RxService} from '../core/services/utils/rx.service';
 import {Flightroute2} from '../model/flightroute/flightroute2';
 import {OlComponent} from './ol-component';
 import {OlWaypoint2} from './ol-waypoint2';
@@ -12,7 +12,7 @@ import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/operator/distinctUntilChanged';
-import {MapContext} from '../services/map/map.service';
+import {MapContext} from '../core/services/map/map.service';
 
 
 export class OlFlightroute2 extends OlComponent {
