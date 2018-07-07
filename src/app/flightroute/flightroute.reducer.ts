@@ -4,10 +4,10 @@ import {UserActions, UserActionTypes} from '../user/user.actions';
 import {WaypointActionTypes, WaypointsActions} from './waypoints.actions';
 import {Aircraft} from './model/aircraft';
 import {Flightroute} from './model/flightroute';
-import {Time} from '../model/quantities/time';
-import {ConsumptionUnit, SpeedUnit, TimeUnit} from '../core/services/utils/unitconversion.service';
-import {Speed} from '../model/quantities/speed';
-import {Consumption} from '../model/quantities/consumption';
+import {Speed} from '../shared/model/quantities/speed';
+import {ConsumptionUnit, SpeedUnit, TimeUnit} from '../shared/model/units';
+import {Consumption} from '../shared/model/quantities/consumption';
+import {Time} from '../shared/model/quantities/time';
 
 
 const initialState: FlightrouteState = {

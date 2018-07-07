@@ -1,6 +1,6 @@
-import {Waypoint} from "../../flightroute/model/waypoint";
-import {Position2d} from "../../model/geometry/position2d";
-import {Angle} from "../../model/quantities/angle";
+import {Position2d} from '../../shared/model/geometry/position2d';
+import {Angle} from '../../shared/model/quantities/angle';
+import {Waypoint} from '../../flightroute/model/waypoint';
 
 
 export interface MapState {

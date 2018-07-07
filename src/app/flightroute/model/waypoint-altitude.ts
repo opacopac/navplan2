@@ -1,4 +1,4 @@
-import {Clonable} from "../../model/clonable";
+import {Clonable} from '../../shared/model/clonable';
 
 
 export class WaypointAltitude implements Clonable<WaypointAltitude> {

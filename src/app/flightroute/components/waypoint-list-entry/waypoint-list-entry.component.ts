@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Waypoint} from '../../model/waypoint';
 import {ButtonColor, ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
-import {Waypointtype} from '../../../model/waypoint';
+import {WaypointType} from '../../model/waypoint-type';
 
 
 @Component({
@@ -29,7 +29,7 @@ export class WaypointListEntryComponent implements OnInit {
 
 
     public isFirstLastAirport(): boolean {
-        return ((this.isFirst || this.isLast) && this.wp.type === Waypointtype.airport);
+        return ((this.isFirst || this.isLast) && this.wp.type === WaypointType.airport);
     }
 
 

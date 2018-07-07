@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ClientstorageService} from './core/services/session/clientstorage.service';
+import {ClientstorageService} from './shared/services/clientstorage/clientstorage.service';
 import {AppState} from './app.state';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
@@ -15,7 +15,6 @@ import {User} from './user/model/user';
 })
 export class AppComponent implements OnInit {
     public currentUser$: Observable<User>;
-    public isLoggedIn$: Observable<boolean>;
 
 
     constructor(

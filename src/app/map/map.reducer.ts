@@ -1,8 +1,8 @@
-import {MapState} from "./model/map-state";
-import {Position2d} from "../model/geometry/position2d";
-import {Angle} from "../model/quantities/angle";
-import {AngleUnit} from "../core/services/utils/unitconversion.service";
-import {MapActions} from "./map.actions";
+import {Position2d} from '../shared/model/geometry/position2d';
+import {MapState} from './model/map-state';
+import {Angle} from '../shared/model/quantities/angle';
+import {MapActions} from './map.actions';
+import {AngleUnit} from '../shared/model/units';
 
 
 const initialState: MapState = {

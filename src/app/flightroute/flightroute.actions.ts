@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {FlightrouteListEntry} from '../model/flightroute/flightroute-list-entry';
+import {FlightrouteListEntry} from './model/flightroute-list-entry';
 import {Flightroute} from './model/flightroute';
 
 

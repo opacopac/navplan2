@@ -1,8 +1,8 @@
 import {Aircraft} from './aircraft';
 import {Waypoint} from './waypoint';
 import {RouteFuel} from './routefuel';
-import {Time} from '../../model/quantities/time';
-import {Clonable} from '../../model/clonable';
+import {Clonable} from '../../shared/model/clonable';
+import {Time} from '../../shared/model/quantities/time';
 
 
 export class Flightroute implements Clonable<Flightroute> {

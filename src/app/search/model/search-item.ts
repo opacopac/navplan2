@@ -1,11 +1,11 @@
-import { Userpoint } from '../../model/userpoint';
-import { Navaid } from '../../model/navaid';
-import { Airport } from '../../model/airport';
-import { Reportingpoint } from '../../model/reportingpoint';
-import { Reportingsector } from '../../model/reportingsector';
-import { Geoname } from '../../model/geoname';
-import { DataItem } from '../../model/data-item';
-import { Position2d } from '../../model/geometry/position2d';
+import { Userpoint } from '../../map-features/model/userpoint';
+import { Navaid } from '../../map-features/model/navaid';
+import { Airport } from '../../map-features/model/airport';
+import { Reportingpoint } from '../../map-features/model/reportingpoint';
+import { Reportingsector } from '../../map-features/model/reportingsector';
+import { Geoname } from '../../map-features/model/geoname';
+import { DataItem } from '../../shared/model/data-item';
+import { Position2d } from '../../shared/model/geometry/position2d';
 
 
 export class SearchItem {

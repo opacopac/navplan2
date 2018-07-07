@@ -1,6 +1,6 @@
-import {Consumption} from "../../model/quantities/consumption";
-import {Speed} from "../../model/quantities/speed";
-import {Clonable} from "../../model/clonable";
+import {Clonable} from '../../shared/model/clonable';
+import {Speed} from '../../shared/model/quantities/speed';
+import {Consumption} from '../../shared/model/quantities/consumption';
 
 
 export class Aircraft implements Clonable<Aircraft> {

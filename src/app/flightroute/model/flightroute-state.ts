@@ -1,4 +1,4 @@
-import {FlightrouteListEntry} from '../../model/flightroute/flightroute-list-entry';
+import {FlightrouteListEntry} from './flightroute-list-entry';
 import {Flightroute} from './flightroute';
 import {Waypoint} from './waypoint';
 

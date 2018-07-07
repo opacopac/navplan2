@@ -2,12 +2,12 @@ import 'rxjs/add/operator/catch';
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
-import {LoggingService} from '../../../core/services/utils/logging.service';
-import {FlightrouteListResponse, FlightrouteResponse, RestMapperFlightroute } from '../../../model/rest-mapper/rest-mapper-flightroute';
+import {LoggingService} from '../../../shared/services/logging/logging.service';
 import {Observable} from 'rxjs/Observable';
-import {FlightrouteListEntry} from '../../../model/flightroute/flightroute-list-entry';
-import {Flightroute} from "../../model/flightroute";
-import {User} from "../../../user/model/user";
+import {FlightrouteListEntry} from '../../model/flightroute-list-entry';
+import {FlightrouteListResponse, FlightrouteResponse, RestMapperFlightroute} from '../../model/rest-mapper-flightroute';
+import {User} from '../../../user/model/user';
+import {Flightroute} from '../../model/flightroute';
 
 
 const flightrouteBaseUrl = environment.restApiBaseUrl + 'php/navplan.php';

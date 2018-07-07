@@ -1,7 +1,0 @@
-.map {
-    height: 95%; /* height adjusted dynamically later on */
-    width: 100%;
-    /*position: fixed;*/
-    position: absolute;
-    z-index: -1;
-}

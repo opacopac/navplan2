@@ -2,8 +2,7 @@ import {TestBed, async} from '@angular/core/testing';
 import {AppComponent} from './app.component';
 import {Component} from '@angular/core';
 import {UserService} from './user/services/user/user.service';
-import {MessageService} from './core/services/utils/message.service';
-import {SessionService} from './core/services/session/session.service';
+import {MessageService} from './shared/services/message/message.service';
 
 
 @Component({selector: 'router-outlet', template: ''})
@@ -19,19 +18,14 @@ class MessageStubComponent {}
 describe('AppComponent', () => {
     let userServiceStub: Partial<UserService>;
     let messageServiceStub: Partial<MessageService>;
-    let sessionServiceStub: Partial<SessionService>;
 
 
     beforeEach(async(() => {
         userServiceStub = {
-            initUser: () => undefined
+            // TODO
         };
         messageServiceStub = {
             // TODO
-        };
-        sessionServiceStub = {
-            getSessionContext: () => undefined,
-            isLoggedIn: () => undefined,
         };
 
         TestBed.configureTestingModule({
@@ -44,7 +38,6 @@ describe('AppComponent', () => {
             providers: [
                 { provide: UserService, useValue: userServiceStub },
                 { provide: MessageService, useValue: messageServiceStub },
-                { provide: SessionService, useValue: sessionServiceStub }
             ],
             imports: [
             ]

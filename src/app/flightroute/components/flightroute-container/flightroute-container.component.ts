@@ -4,7 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import {AppState} from '../../../app.state';
 import {getFlightroute, getFlightrouteList} from '../../flightroute.selectors';
 import {getCurrentUser} from '../../../user/user.selectors';
-import {FlightrouteListEntry} from '../../../model/flightroute/flightroute-list-entry';
+import {FlightrouteListEntry} from '../../model/flightroute-list-entry';
 import {Flightroute} from '../../model/flightroute';
 import {User} from '../../../user/model/user';
 import {

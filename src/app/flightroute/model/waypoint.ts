@@ -1,7 +1,7 @@
-import {Position2d} from '../../model/geometry/position2d';
 import {WaypointAltitude} from './waypoint-altitude';
-import {Waypointtype} from '../../model/waypoint';
-import {Clonable} from '../../model/clonable';
+import {Clonable} from '../../shared/model/clonable';
+import {Position2d} from '../../shared/model/geometry/position2d';
+import {WaypointType} from './waypoint-type';
 
 
 export class Waypoint implements Clonable<Waypoint> {
@@ -11,7 +11,7 @@ export class Waypoint implements Clonable<Waypoint> {
 
 
     constructor(
-        public type: Waypointtype,
+        public type: WaypointType,
         public freq: string,
         public callsign: string,
         public checkpoint: string,

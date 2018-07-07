@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {MessageService} from '../../../core/services/utils/message.service';
+import {MessageService} from '../../../shared/services/message/message.service';
 import {AppState} from '../../../app.state';
 import {Store} from '@ngrx/store';
 import {getCurrentUser} from '../../user.selectors';

@@ -1,5 +1,5 @@
-import {Time} from '../../model/quantities/time';
-import {Fuel} from '../../model/quantities/fuel';
+import {Fuel} from '../../shared/model/quantities/fuel';
+import {Time} from '../../shared/model/quantities/time';
 
 
 export class RouteFuel {

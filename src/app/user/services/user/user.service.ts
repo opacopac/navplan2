@@ -1,9 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
-import {LoggingService} from '../../../core/services/utils/logging.service';
+import {LoggingService} from '../../../shared/services/logging/logging.service';
 import {User} from '../../model/user';
 import {Observable} from 'rxjs/Observable';
+import {switchMap} from 'rxjs/operators';
+import {throwError} from 'rxjs/internal/observable/throwError';
 
 
 const userBaseUrl =  environment.restApiBaseUrl + 'php/users.php';
@@ -36,21 +38,22 @@ export class UserService {
             password: password
         };
         return this.http
-            .post<TokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'})
-            .switchMap((response) => {
-                switch (response.body.resultcode) {
-                    case 0:
-                        return Observable.of(new User(email, response.body.token));
-                    case -1:
-                        return Observable.throw('Wrong password!');
-                    case -2:
-                        return Observable.throw('Email not found!');
-                    default:
-                        const message = 'ERROR performing login';
-                        LoggingService.logResponseError(message, response);
-                        return Observable.throw(message);
-                }
-            });
+            .post<TokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+                switchMap((response) => {
+                    switch (response.body.resultcode) {
+                        case 0:
+                            return Observable.of(new User(email, response.body.token));
+                        case -1:
+                            return throwError('Wrong password!');
+                        case -2:
+                            return throwError('Email not found!');
+                        default:
+                            const message = 'ERROR performing login';
+                            LoggingService.logResponseError(message, response);
+                            return throwError(message);
+                    }
+                })
+            );
     }
 
 
@@ -64,19 +67,20 @@ export class UserService {
             token: token
         };
         return this.http
-            .post<TokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'})
-            .switchMap((response) => {
-                switch (response.body.resultcode) {
-                    case 0:
-                        return Observable.of(new User(email, response.body.token));
-                    case -2:
-                        return Observable.throw('Email or token not found!');
-                    default:
-                        const message = 'ERROR performing login';
-                        LoggingService.logResponseError(message, response);
-                        return Observable.throw(message);
-                }
-            });
+            .post<TokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+                switchMap((response) => {
+                    switch (response.body.resultcode) {
+                        case 0:
+                            return Observable.of(new User(email, response.body.token));
+                        case -2:
+                            return throwError('Email or token not found!');
+                        default:
+                            const message = 'ERROR performing login';
+                            LoggingService.logResponseError(message, response);
+                            return throwError(message);
+                    }
+                })
+            );
     }
 
 
@@ -90,19 +94,20 @@ export class UserService {
             token: token
         };
         return this.http
-            .post<SimpleResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'})
-            .switchMap((response) => {
-                switch (response.body.resultcode) {
-                    case 0:
-                        return Observable.of(undefined);
-                    case -2:
-                        return Observable.throw('Email or token not found!');
-                    default:
-                        const message = 'ERROR performing logout';
-                        LoggingService.logResponseError(message, response);
-                        return Observable.throw(message);
-                }
-            });
+            .post<SimpleResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+                switchMap((response) => {
+                    switch (response.body.resultcode) {
+                        case 0:
+                            return Observable.of(undefined);
+                        case -2:
+                            return throwError('Email or token not found!');
+                        default:
+                            const message = 'ERROR performing logout';
+                            LoggingService.logResponseError(message, response);
+                            return throwError(message);
+                    }
+                })
+            );
     }
 
 
@@ -116,19 +121,20 @@ export class UserService {
             password: password
         };
         return this.http
-            .post<TokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'})
-            .switchMap(response => {
-                switch (response.body.resultcode) {
-                    case 0:
-                        return Observable.of(new User(email, response.body.token));
-                    case -1:
-                        return Observable.throw('Email already exists!');
-                    default:
-                        const message = 'ERROR registering user';
-                        LoggingService.logResponseError(message, response);
-                        return Observable.throw(message);
-                }
-            });
+            .post<TokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+                switchMap(response => {
+                    switch (response.body.resultcode) {
+                        case 0:
+                            return Observable.of(new User(email, response.body.token));
+                        case -1:
+                            return throwError('Email already exists!');
+                        default:
+                            const message = 'ERROR registering user';
+                            LoggingService.logResponseError(message, response);
+                            return throwError(message);
+                    }
+                })
+            );
     }
 
 
@@ -138,19 +144,20 @@ export class UserService {
             email: email
         };
         return this.http
-            .post<SimpleResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'})
-            .switchMap(response => {
-                switch (response.body.resultcode) {
-                    case 0:
-                        return Observable.of();
-                    case -2:
-                        return Observable.throw('Email not found!');
-                    default:
-                        const message = 'ERROR sending new pw';
-                        LoggingService.logResponseError(message, response);
-                        return Observable.throw(message);
-                }
-            });
+            .post<SimpleResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+                switchMap(response => {
+                    switch (response.body.resultcode) {
+                        case 0:
+                            return Observable.of();
+                        case -2:
+                            return throwError('Email not found!');
+                        default:
+                            const message = 'ERROR sending new pw';
+                            LoggingService.logResponseError(message, response);
+                            return throwError(message);
+                    }
+                })
+            );
     }
 
 
@@ -166,20 +173,21 @@ export class UserService {
         newpassword: newPassword
     };
     return this.http
-        .post<SimpleResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'})
-        .switchMap(response => {
-            switch (response.body.resultcode) {
-                case 0:
-                    return Observable.of();
-                case -1:
-                    return Observable.throw('Wrong password!');
-                case -2:
-                    return Observable.throw('Email not found!');
-                default:
-                    const message = 'ERROR updating pw';
-                    LoggingService.logResponseError(message, response);
-                    return Observable.throw(message);
-            }}
+        .post<SimpleResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+            switchMap(response => {
+                switch (response.body.resultcode) {
+                    case 0:
+                        return Observable.of();
+                    case -1:
+                        return throwError('Wrong password!');
+                    case -2:
+                        return throwError('Email not found!');
+                    default:
+                        const message = 'ERROR updating pw';
+                        LoggingService.logResponseError(message, response);
+                        return throwError(message);
+                }
+            })
         );
     }
 }

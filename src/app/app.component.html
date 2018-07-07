@@ -1,49 +1,11 @@
-<nav class="navbar navbar-expand-sm navbar-dark bg-primary">
-    <a class="navbar-brand" href="/">NAVPLAN.CH</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup" data-toggle="collapse" data-target=".navbar-collapse.show">
-        <div class="navbar-nav">
-            <a class="nav-item nav-link" routerLink="./map" title="Map"><i class="far fa-map"></i><span class="d-sm-none d-md-inline">&nbsp;  Map</span></a>
-            <a class="nav-item nav-link" routerLink="./route" title="Route & Fuel Calc"><i class="far fa-list-alt"></i><span class="d-sm-none d-md-inline">&nbsp; Route &amp; Fuel</span></a>
-            <a *ngIf="this.currentUser$ | async" class="nav-item nav-link" routerLink="./tracks" title="Recorded Tracks"><i class="fas fa-paw"></i><span class="d-sm-none d-md-inline">&nbsp; Tracks</span></a>
-            <a class="nav-item nav-link" routerLink="./map" title="Clear current Route and Track"><i class="fas fa-eraser"></i><span class="d-sm-none d-md-none d-lg-inline">&nbsp; Clear</span></a>
-            <div class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Export & Share Route">
-                    <i class="fas fa-share"></i><span class="d-sm-none d-md-none d-lg-inline">&nbsp; Export</span>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="#"><i class="fas fa-file-pdf fa-fw"></i>&nbsp; Route as PDF</a>
-                    <a class="dropdown-item" href="#"><i class="fas fa-file-excel fa-fw"></i>&nbsp; Route as Excel</a>
-                    <a class="dropdown-item" href="#"><i class="fas fa-globe fa-fw"></i>&nbsp; KML (Google Earth)</a>
-                    <a class="dropdown-item" href="#"><i class="fas fa-map-marker-alt fa-fw"></i>&nbsp; GPX (Airnav Pro, SkyDemon, etc.)</a>
-                    <a class="dropdown-item" href="#"><i class="fas fa-map-marker-alt fa-fw"></i>&nbsp; FPL (Garmin, Foreflight, etc.)</a>
-                    <a class="dropdown-item" href="#"><i class="fas fa-link fa-fw"></i>&nbsp;  Share URL</a>
-                </div>
-            </div>
-        </div>
-        <div class="navbar-nav ml-auto">
-            <a *ngIf="(this.currentUser$ | async) as currentUser; else noCurrentUser" class="nav-item nav-link" routerLink="./userprofile" title="User Profile">
-                <i class="fas fa-user"></i>
-                <span class="d-sm-none d-md-none d-lg-inline">&nbsp; {{ currentUser.email }}</span>
-            </a>
-            <ng-template #noCurrentUser>
-                <a class="nav-item nav-link" routerLink="./login" title="Login or Register">
-                    <i class="fas fa-user"></i>
-                    <span class="d-sm-none d-md-none d-lg-inline">&nbsp; Login</span>
-                </a>
-            </ng-template>
-            <a class="nav-item nav-link" routerLink="./settings" title="Edit Settings"><i class="fas fa-cog"></i><span class="d-sm-none d-md-none d-lg-inline">&nbsp; Settings</span></a>
-            <a class="nav-item nav-link" routerLink="./about" title="About"><i class="fas fa-info-circle"></i><span class="d-sm-none d-md-none d-lg-inline">&nbsp; About</span></a>
-        </div>
+<div class="grid-container">
+    <app-navbar></app-navbar>
+    <div id="fullScreenContent" class="content">
+        <!-- content -->
+        <router-outlet></router-outlet>
+        <!-- edit waypoint dialog -->
+        <app-edit-waypoint-container></app-edit-waypoint-container>
+        <!-- messages -->
+        <app-message></app-message>
     </div>
-</nav>
-<div id="fullScreenContent">
-    <!-- content -->
-    <router-outlet></router-outlet>
-    <!-- edit waypoint -->
-    <app-edit-waypoint-container></app-edit-waypoint-container>
-    <!-- messages -->
-    <app-message></app-message>
 </div>

@@ -1,11 +1,12 @@
+import 'rxjs/add/observable/of';
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
-import {LoggingService} from '../../../core/services/utils/logging.service';
-import {GeocalcService} from '../../../core/services/utils/geocalc.service';
-import {Position2d} from '../../../model/geometry/position2d';
-import {Extent} from '../../../model/ol-model/extent';
-import {RestMapperSearch, SearchResponse} from '../../../model/rest-mapper/rest-mapper-search';
+import {LoggingService} from '../../../shared/services/logging/logging.service';
+import {GeocalcService} from '../../../shared/services/geocalc/geocalc.service';
+import {Position2d} from '../../../shared/model/geometry/position2d';
+import {Extent} from '../../../shared/model/extent';
+import {RestMapperSearch, SearchResponse} from '../../model/rest-mapper-search';
 import {User} from '../../../user/model/user';
 import {Observable} from 'rxjs/Observable';
 import {SearchItemList} from '../../model/search-item-list';
@@ -14,7 +15,9 @@ import {SearchItemList} from '../../model/search-item-list';
 const SEARCH_BASE_URL = environment.restApiBaseUrl + 'php/search/SearchService.php';
 
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class SearchService {
     private textSearchTimestamp;
     private positionSearchTimestamp;
