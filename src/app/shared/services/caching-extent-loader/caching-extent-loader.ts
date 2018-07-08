@@ -1,5 +1,5 @@
-import {Extent} from '../../shared/model/extent';
-import {User} from '../../user/model/user';
+import {Extent} from '../../model/extent';
+import {User} from '../../../user/model/user';
 
 
 const MAX_CACHE_ENTRIES = 10;

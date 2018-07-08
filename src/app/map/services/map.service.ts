@@ -2,14 +2,10 @@ import * as ol from 'openlayers';
 import 'rxjs/add/observable/fromEventPattern';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/distinctUntilChanged';
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {MapbaselayerFactory, MapbaselayerType} from '../model/mapbaselayer-factory';
 import {Extent} from '../../shared/model/extent';
 import {Position2d} from '../../shared/model/geometry/position2d';
-import {Mapfeatures} from '../../map-features/model/mapfeatures';
-import {MetarTafList} from '../../metar-taf/model/metar-taf';
-import {Traffic} from '../../traffic/model/traffic';
-import {NotamList} from '../../notam/model/notam';
 import {OlWebcam} from '../../map-features/ol-components/ol-webcam';
 import {OlNavaid} from '../../map-features/ol-components/ol-navaid';
 import {OlFeature} from '../../shared/model/ol-feature';
@@ -17,32 +13,15 @@ import {OlAirport} from '../../map-features/ol-components/ol-airport';
 import {OlReportingPoint} from '../../map-features/ol-components/ol-reporting-point';
 import {OlReportingSector} from '../../map-features/ol-components/ol-reporting-sector';
 import {OlUserPoint} from '../../map-features/ol-components/ol-user-point';
-import {OlMapfeatureList} from '../../map-features/ol-components/ol-mapfeature-list';
-import {OlMetar} from '../../metar-taf/ol-components/ol-metar';
 import {OlMetarWind} from '../../metar-taf/ol-components/ol-metar-wind';
 import {OlMetarSky} from '../../metar-taf/ol-components/ol-metar-sky';
 import {OlNotam} from '../../notam/ol-component/ol-notam';
-import {DataItem} from '../../shared/model/data-item';
-import {SearchItemList} from '../../search/model/search-item-list';
-import {OlSearchItemSelection} from '../../search/ol-components/ol-searchitem-selection';
 import {OlSearchItem} from '../../search/ol-components/ol-searchitem';
-import {Observable} from 'rxjs/Observable';
-import {Subject} from 'rxjs/Subject';
-import {OlFlightroute2} from '../../flightroute/ol-components/ol-flightroute2';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Angle} from '../../shared/model/quantities/angle';
 import {OlWaypoint2} from '../../flightroute/ol-components/ol-waypoint2';
 import {OlTraffic} from '../../traffic/ol-components/ol-traffic';
 import {AngleUnit} from '../../shared/model/units';
-
-
-
-export class MapContext {
-    constructor(
-        public map: ol.Map,
-        public mapService: MapService) {
-    }
-}
+import {DataItem} from '../../shared/model/data-item';
 
 
 const HIT_TOLERANCE_PIXELS = 10;
@@ -50,61 +29,25 @@ const HIT_TOLERANCE_PIXELS = 10;
 
 @Injectable()
 export class MapService {
-    public readonly mapPosition$: Observable<Position2d>;
-    private readonly mapPositionSource: BehaviorSubject<Position2d>;
-    public readonly mapZoom$: Observable<number>;
-    private readonly mapZoomSource: BehaviorSubject<number>;
-    public readonly mapExtent$: Observable<Extent>;
-    private readonly mapExtentSource: BehaviorSubject<Extent>;
-    public readonly mapRotation$: Observable<Angle>;
-    private readonly mapRotationSource: BehaviorSubject<Angle>;
-    public readonly mapItemClicked$: Observable<[DataItem, Position2d]>;
-    private readonly mapItemClickedSource: Subject<[DataItem, Position2d]>;
-    public readonly mapClicked$: Observable<Position2d>;
-    private readonly mapClickedSource: Subject<Position2d>;
-    public readonly mapOverlayClosed$: Observable<void>;
-    private readonly mapOverlayClosedSource: Subject<void>;
-    /*public readonly flightrouteModified$: Observable<WaypointModification>;
-    private readonly mapFlightrouteModifiedSource: Subject<WaypointModification>;*/
-    public readonly fullScreenClicked$: Observable<void>;
-    private readonly mapFullScreenClickedSource: Subject<void>;
-
-    private map: ol.Map;
-    private mapLayer: ol.layer.Tile;
-    private routeItemsLayer: ol.layer.Vector;
-    private nonrouteItemsLayer: ol.layer.Vector;
-    private notamLayer: ol.layer.Vector;
-    private flightrouteLayer: ol.layer.Vector;
-    private searchItemLayer: ol.layer.Vector;
-    private trafficLayer: ol.layer.Vector;
-    private locationLayer: ol.layer.Vector;
+    public map: ol.Map;
+    public mapLayer: ol.layer.Tile;
+    public routeItemsLayer: ol.layer.Vector;
+    public nonrouteItemsLayer: ol.layer.Vector;
+    public notamLayer: ol.layer.Vector;
+    public flightrouteLayer: ol.layer.Vector;
+    public searchItemLayer: ol.layer.Vector;
+    public trafficLayer: ol.layer.Vector;
+    public locationLayer: ol.layer.Vector;
+    public onMapMovedZoomedRotated = new EventEmitter<{ position: Position2d, zoom: number, rotation: Angle, extent: Extent }>();
+    public onFeatureClicked = new EventEmitter<{ feature: DataItem, clickPos: Position2d }>();
+    public onBackgroundClicked = new EventEmitter<Position2d>();
     private currentOverlay: ol.Overlay;
     private interactions: ol.interaction.Interaction[];
     private isSearchItemSelectionActive: boolean;
     private routeCoordinatesBeforeModify: ol.Coordinate[];
-    // private flightRouteFeature: OlFlightroute2;
-    // private ownPlaneFeature: OlTraffic;
 
 
     constructor() {
-        this.mapPositionSource = new BehaviorSubject<Position2d>(undefined);
-        this.mapPosition$ = this.mapPositionSource.asObservable().distinctUntilChanged();
-        this.mapZoomSource = new BehaviorSubject<number>(undefined);
-        this.mapZoom$ = this.mapZoomSource.asObservable().distinctUntilChanged();
-        this.mapExtentSource = new BehaviorSubject<Extent>(undefined);
-        this.mapExtent$ = this.mapExtentSource.asObservable().distinctUntilChanged();
-        this.mapRotationSource = new BehaviorSubject<Angle>(new Angle(0, AngleUnit.DEG));
-        this.mapRotation$ = this.mapRotationSource.asObservable().distinctUntilChanged();
-        this.mapItemClickedSource = new Subject<[DataItem, Position2d]>();
-        this.mapItemClicked$ = this.mapItemClickedSource.asObservable();
-        this.mapClickedSource = new Subject<Position2d>();
-        this.mapClicked$ = this.mapClickedSource.asObservable();
-        this.mapOverlayClosedSource = new Subject<void>();
-        this.mapOverlayClosed$ = this.mapOverlayClosedSource.asObservable();
-        // this.mapFlightrouteModifiedSource = new Subject<WaypointModification>();
-        // this.flightrouteModified$ = this.mapFlightrouteModifiedSource.asObservable();
-        this.mapFullScreenClickedSource = new Subject<void>();
-        this.fullScreenClicked$ = this.mapFullScreenClickedSource.asObservable();
     }
 
 
@@ -140,11 +83,6 @@ export class MapService {
                 rotation: mapRotation.rad,
             })
         });
-
-        // set initial observable values
-        this.mapPositionSource.next(position);
-        this.mapZoomSource.next(zoom);
-        this.mapRotationSource.next(mapRotation);
 
         // map events
         this.map.on('singleclick', this.onSingleClick.bind(this));
@@ -233,7 +171,7 @@ export class MapService {
     }
 
 
-    public setMapPosition(position: Position2d, zoom?: number) {
+    public setPosition(position: Position2d, zoom?: number) {
         if (!this.map || !this.map.getView()) {
             return;
         }
@@ -245,6 +183,26 @@ export class MapService {
         if (zoom != null) {
             this.map.getView().setZoom(zoom);
         }
+    }
+
+
+    public getZoom(): number {
+        return this.map.getView().getZoom();
+    }
+
+
+    public getMapPosition(): Position2d {
+        return Position2d.createFromMercator(this.map.getView().getCenter());
+    }
+
+
+    public getExtent(): Extent {
+        return Extent.createFromMercator(this.map.getView().calculateExtent(this.map.getSize()));
+    }
+
+
+    public getRotation(): Angle {
+        return new Angle(this.map.getView().getRotation(), AngleUnit.RAD);
     }
 
 
@@ -267,37 +225,12 @@ export class MapService {
     }
 
 
-    // TODO: private
-    public getZoom(): number {
-        return this.map.getView().getZoom();
-    }
-
-
-    // TODO: private
-    public getMapPosition(): Position2d {
-        return Position2d.createFromMercator(this.map.getView().getCenter());
-    }
-
-
-    // TODO: private
-    public getExtent(): Extent {
-        return Extent.createFromMercator(this.map.getView().calculateExtent(this.map.getSize()));
-    }
-
-
-    private getRotation(): Angle {
-        return new Angle(this.map.getView().getRotation(), AngleUnit.RAD);
-    }
-
-
     // endregion
 
 
     // region draw
 
-
-
-    public drawMapItems(mapFeatures: Mapfeatures) {
+    /*public drawMapItems(mapFeatures: Mapfeatures) {
         // non route items
         const sourceNonRouteItems = this.nonrouteItemsLayer.getSource();
         const sourceRouteItems = this.routeItemsLayer.getSource();
@@ -327,7 +260,7 @@ export class MapService {
     }
 
 
-    /*public drawLocation(ownPlane: Traffic) {
+    public drawLocation(ownPlane: Traffic) {
         const source = this.locationLayer.getSource();
         source.clear();
 
@@ -352,7 +285,7 @@ export class MapService {
             const trafficOlFeature = new OlTraffic(traffic);
             trafficOlFeature.draw(source);
         }
-    }*/
+    }
 
 
     public drawNotams(notamList: NotamList) {
@@ -387,7 +320,7 @@ export class MapService {
     public closeSearchItemSelection() {
         this.searchItemLayer.getSource().clear();
         this.isSearchItemSelectionActive = false;
-    }
+    }*/
 
     // endregion
 
@@ -456,8 +389,6 @@ export class MapService {
 
         this.map.removeOverlay(this.currentOverlay);
         this.currentOverlay = undefined;
-
-        this.mapOverlayClosedSource.next();
     }
 
     // endregion
@@ -466,15 +397,22 @@ export class MapService {
     // region map events
 
     private onMoveEnd(event: ol.MapEvent) {
-        this.mapPositionSource.next(this.getMapPosition());
-        this.mapZoomSource.next(this.getZoom());
-        this.mapExtentSource.next(this.getExtent());
+        this.emitPosZoomRotEvent();
     }
 
 
     private onMapRotation(event: ol.ObjectEvent) {
-        this.mapRotationSource.next(this.getRotation());
-        this.mapExtentSource.next(this.getExtent());
+        this.emitPosZoomRotEvent();
+    }
+
+
+    private emitPosZoomRotEvent() {
+        this.onMapMovedZoomedRotated.emit({
+            position: this.getMapPosition(),
+            zoom: this.getZoom(),
+            rotation: this.getRotation(),
+            extent: this.getExtent()
+        });
     }
 
 
@@ -483,17 +421,22 @@ export class MapService {
         const clickPos = Position2d.createFromMercator(event.coordinate);
 
         if (feature) { // click on feature
+            this.onFeatureClicked.emit({ feature: feature, clickPos: clickPos });
+        } else {
+            this.onBackgroundClicked.emit(clickPos);
+        }
+
+
+        /*if (feature) { // click on feature
             this.closeOverlay();
             this.closeSearchItemSelection();
-            this.mapItemClickedSource.next([feature.getDataItem(), clickPos]);
         } else if (this.currentOverlay) { // close overlay
             this.closeOverlay();
             this.closeSearchItemSelection();
         } else if (this.isSearchItemSelectionActive) { // close search item selection
             this.closeSearchItemSelection();
         } else { // click on empty map
-            this.mapClickedSource.next(clickPos);
-        }
+        }*/
     }
 
 

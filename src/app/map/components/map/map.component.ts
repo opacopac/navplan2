@@ -10,19 +10,8 @@ import {TrafficService} from '../../../traffic/services/traffic.service';
 import {SearchBoxComponent} from '../../../search/components/search-box/search-box.component';
 import {Mapfeatures} from '../../../map-features/model/mapfeatures';
 import {Position2d} from '../../../shared/model/geometry/position2d';
-import {MetarTaf, MetarTafList} from '../../../metar-taf/model/metar-taf';
-import {Notam, NotamList} from '../../../notam/model/notam';
 import {DataItem} from '../../../shared/model/data-item';
 import {SearchItemList} from '../../../search/model/search-item-list';
-import {Userpoint} from '../../../map-features/model/userpoint';
-import {Navaid} from '../../../map-features/model/navaid';
-import {Traffic} from '../../../traffic/model/traffic';
-import {Geoname} from '../../../map-features/model/geoname';
-import {Webcam} from '../../../map-features/model/webcam';
-import {Reportingsector} from '../../../map-features/model/reportingsector';
-import {Reportingpoint} from '../../../map-features/model/reportingpoint';
-import {Airport} from '../../../map-features/model/airport';
-import {MapOverlayContainer} from '../../../shared/components/map-overlay-container';
 import {MapOverlayAirportComponent} from '../../../map-features/components/map-overlay-airport/map-overlay-airport.component';
 import {MapOverlayGeonameComponent} from '../../../map-features/components/map-overlay-geoname/map-overlay-geoname.component';
 import {MapOverlayNavaidComponent} from '../../../map-features/components/map-overlay-navaid/map-overlay-navaid.component';
@@ -31,7 +20,6 @@ import {MapOverlayReportingsectorComponent} from '../../../map-features/componen
 import {MapOverlayUserpointComponent} from '../../../map-features/components/map-overlay-userpoint/map-overlay-userpoint.component';
 import {MapOverlayTrafficComponent} from '../../../traffic/components/map-overlay-traffic/map-overlay-traffic.component';
 import {MapOverlayNotamComponent} from '../../../notam/components/map-overlay-notam/map-overlay-notam.component';
-import {WaypointFactory} from '../../../map-features/model/waypoint-mapper/waypoint-factory';
 import {MapOverlayWaypointComponent} from '../../../flightroute/components/map-overlay-waypoint/map-overlay-waypoint.component';
 import {Extent} from '../../../shared/model/extent';
 import {Subscription} from 'rxjs/Subscription';
@@ -39,6 +27,13 @@ import {Observable} from 'rxjs/Observable';
 import {User} from '../../../user/model/user';
 import {LocationService} from '../../../location/services/location/location.service';
 import {MessageService} from '../../../shared/services/message/message.service';
+import {Store} from '@ngrx/store';
+import {AppState} from '../../../app.state';
+import {MapBackgroundClickedAction, MapFeatureClickedAction, MapMovedZoomedRotatedAction} from '../../map.actions';
+import {Angle} from '../../../shared/model/quantities/angle';
+import {getMapPosition, getMapRotation, getMapZoom} from '../../map.selectors';
+import {take} from 'rxjs/operators';
+import {MapbaselayerType} from '../../model/mapbaselayer-factory';
 
 
 const CLICK_SEARCH_RADIUS_PIXEL = 50;
@@ -62,18 +57,15 @@ export class MapComponent implements OnInit, OnDestroy {
     @ViewChild(MapOverlayNotamComponent) mapOverlayNotamComponent: MapOverlayNotamComponent;
     @ViewChild(MapOverlayWaypointComponent) mapOverlayWaypointComponent: MapOverlayWaypointComponent;
     @ViewChild(SearchBoxComponent) searchBox: SearchBoxComponent;
-    private currentMapFeatures: Mapfeatures;
-    private currentMetarTafList: MetarTafList;
-    private currentNotamList: NotamList;
-    private mapExtentSubscription: Subscription;
-    private mapItemClickedSubscription: Subscription;
-    private mapClickedSubscription: Subscription;
-    private mapOverlayClosedSubscription: Subscription;
-    private fullScreenClickedSubscription: Subscription;
+    private mapMovedZoomedRotatedSubscription: Subscription;
     private windowResizeSubscription: Subscription;
     private keyDownSubscription: Subscription;
+    private mapPosition$: Observable<Position2d>;
+    private mapZoom$: Observable<number>;
+    private mapRotation$: Observable<Angle>;
 
     public constructor(
+        private appStore: Store<AppState>,
         private messageService: MessageService,
         private trafficService: TrafficService,
         private flightrouteService: FlightrouteService,
@@ -83,15 +75,39 @@ export class MapComponent implements OnInit, OnDestroy {
         private searchService: SearchService,
         private metarTafService: MetarTafService,
         private notamService: NotamService) {
+
+        this.mapPosition$ = this.appStore.select(getMapPosition);
+        this.mapZoom$ = this.appStore.select(getMapZoom);
+        this.mapRotation$ = this.appStore.select(getMapRotation);
     }
 
 
     // region component life cycle
 
     public ngOnInit() {
-        const ownAirplane$ = this.locationService.position$
+        Observable.combineLatest(
+            this.mapPosition$,
+            this.mapZoom$,
+            this.mapRotation$
+        ).pipe(
+            take(1)
+        ).subscribe(([pos, zoom, rot]) => {
+            this.mapService.initMap(
+                MapbaselayerType.OPENTOPOMAP, // TODO
+                pos,
+                zoom,
+                rot);
+        });
+
+
+        this.mapMovedZoomedRotatedSubscription = this.mapService.onMapMovedZoomedRotated.subscribe(event => {
+            this.dispatchPosZoomRotAction(event.position, event.zoom, event.rotation, event.extent);
+        });
+
+
+        /*const ownAirplane$ = this.locationService.position$
             .map(pos => pos ? Traffic.createOwnAirplane(pos) : undefined);
-        /*this.mapService.initMap(
+        this.mapService.initMap(
             this.session.map.baseMapType,
             this.session.map.position,
             this.session.map.zoom,
@@ -108,7 +124,7 @@ export class MapComponent implements OnInit, OnDestroy {
                 this.updateMapContent(extent, zoom, user, false);
             });*/
 
-        this.mapItemClickedSubscription = this.mapService.mapItemClicked$.subscribe(
+        /*this.mapItemClickedSubscription = this.mapService.mapItemClicked$.subscribe(
             ([dataItem, clickPos]) => {
                 this.performSelectItemAction(dataItem, clickPos);
             });
@@ -122,17 +138,17 @@ export class MapComponent implements OnInit, OnDestroy {
                 this.onSearchByPositionSuccess.bind(this),
                 this.onSearchByPositionError.bind(this)
             );
-        });
+        });*/
 
 
-        this.mapOverlayClosedSubscription = this.mapService.mapOverlayClosed$.subscribe(
+        /*this.mapOverlayClosedSubscription = this.mapService.mapOverlayClosed$.subscribe(
             () => {
             }); // TODO: databind undef?
 
         this.fullScreenClickedSubscription = this.mapService.fullScreenClicked$.subscribe(
             () => {
             }); // TODO
-
+*/
 
         // subscribe to document/window events
         this.windowResizeSubscription = Observable.fromEvent(window, 'resize').subscribe(() => {
@@ -156,11 +172,13 @@ export class MapComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy() {
         // unsubscribe from map service events
-        this.mapExtentSubscription.unsubscribe();
+        /*this.mapExtentSubscription.unsubscribe();
         this.mapItemClickedSubscription.unsubscribe();
         this.mapClickedSubscription.unsubscribe();
         this.mapOverlayClosedSubscription.unsubscribe();
-        this.fullScreenClickedSubscription.unsubscribe();
+        this.fullScreenClickedSubscription.unsubscribe();*/
+
+        this.mapMovedZoomedRotatedSubscription.unsubscribe();
 
         // unsubscribe from document/window events
         this.windowResizeSubscription.unsubscribe();
@@ -174,9 +192,37 @@ export class MapComponent implements OnInit, OnDestroy {
 
     // region events
 
+
+    private dispatchPosZoomRotAction(position: Position2d, zoom: number, rotation: Angle, extent: Extent) {
+        this.appStore.dispatch(
+            new MapMovedZoomedRotatedAction(
+                position as Position2d,
+                zoom as number,
+                rotation as Angle,
+                extent as Extent)
+        );
+    }
+
+
+    private dispatchFeatureClickedAction([feature, position]) {
+        this.appStore.dispatch(
+            new MapFeatureClickedAction(
+                feature as DataItem,
+                position as Position2d)
+        );
+    }
+
+
+    private dispatchBackgroundClickedAction(position) {
+        this.appStore.dispatch(
+            new MapBackgroundClickedAction(position)
+        );
+    }
+
+
     public onSearchResultSelected(selection: [DataItem, Position2d]) {
         this.performSelectItemAction(selection[0], selection[1]);
-        this.mapService.setMapPosition(selection[1], 11);
+        this.mapService.setPosition(selection[1], 11);
     }
 
 
@@ -186,7 +232,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
 
     private onSearchByPositionSuccess(searchItems: SearchItemList) {
-        this.mapService.drawSearchItemSelection(searchItems);
+        // this.mapService.drawSearchItemSelection(searchItems);
     }
 
 
@@ -195,8 +241,8 @@ export class MapComponent implements OnInit, OnDestroy {
 
 
     private onMapFeaturesLoaded(mapFeatures: Mapfeatures) {
-        this.currentMapFeatures = mapFeatures;
-        this.mapService.drawMapItems(mapFeatures);
+        /*this.currentMapFeatures = mapFeatures;
+        this.mapService.drawMapItems(mapFeatures);*/
 
         /*this.metarTafService.load(
             this.mapService.getExtent(),
@@ -217,7 +263,7 @@ export class MapComponent implements OnInit, OnDestroy {
     }
 
 
-    private onMetarTafLoaded(metarTafList: MetarTafList) {
+    /*private onMetarTafLoaded(metarTafList: MetarTafList) {
         this.currentMetarTafList = metarTafList;
 
         // add positions (from airports)
@@ -244,7 +290,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
     private onNotamLoadError(message: string) {
         // TODO
-    }
+    }*/
 
     // endregion
 
@@ -344,7 +390,7 @@ export class MapComponent implements OnInit, OnDestroy {
     }
 
 
-    private onAirportNotamLoadedSuccess(notamList: NotamList) {
+    /*private onAirportNotamLoadedSuccess(notamList: NotamList) {
         if (this.mapOverlayAirportComponent.airport) {
             this.mapOverlayAirportComponent.airport.notams = notamList.items;
         }
@@ -363,5 +409,5 @@ export class MapComponent implements OnInit, OnDestroy {
 
 
     private onAirportMetarTafLoadedError(message: string) {
-    }
+    }*/
 }

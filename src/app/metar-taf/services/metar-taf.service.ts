@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {LoggingService} from '../../shared/services/logging/logging.service';
-import {CachingExtentLoader} from '../../map/services/caching-extent-loader';
+import {CachingExtentLoader} from '../../shared/services/caching-extent-loader/caching-extent-loader';
 import {Extent} from '../../shared/model/extent';
 import {MetarTafList} from '../model/metar-taf';
 import {MetarTafResponse, RestMapperMetarTaf} from '../model/rest-mapper-metar-taf';

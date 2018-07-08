@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { LoggingService } from '../../shared/services/logging/logging.service';
-import { CachingExtentLoader } from '../../map/services/caching-extent-loader';
+import { CachingExtentLoader } from '../../shared/services/caching-extent-loader/caching-extent-loader';
 import { NotamList } from '../model/notam';
 import {User} from '../../user/model/user';
 import {Extent} from '../../shared/model/extent';

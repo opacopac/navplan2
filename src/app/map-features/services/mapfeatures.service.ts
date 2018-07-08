@@ -4,7 +4,7 @@ import { environment } from '../../../environments/environment';
 import { LoggingService } from '../../shared/services/logging/logging.service';
 import { Extent } from '../../shared/model/extent';
 import { Mapfeatures } from '../model/mapfeatures';
-import { CachingExtentLoader } from '../../map/services/caching-extent-loader';
+import { CachingExtentLoader } from '../../shared/services/caching-extent-loader/caching-extent-loader';
 import { MapFeaturesResponse, RestMapperMapfeatures } from '../model/rest-mapper/rest-mapper-mapfeatures';
 import { Position2d } from '../../shared/model/geometry/position2d';
 import { DataItem } from '../../shared/model/data-item';

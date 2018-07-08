@@ -12,6 +12,8 @@ import {MapFeaturesModule} from '../map-features/map-features.module';
 import {NotamModule} from '../notam/notam.module';
 import {FlightrouteModule} from '../flightroute/flightroute.module';
 import {MetarTafModule} from '../metar-taf/metar-taf.module';
+import {StoreModule} from '@ngrx/store';
+import {mapReducer} from './map.reducer';
 
 
 @NgModule({
@@ -24,7 +26,8 @@ import {MetarTafModule} from '../metar-taf/metar-taf.module';
         MapFeaturesModule,
         NotamModule,
         FlightrouteModule,
-        MetarTafModule
+        MetarTafModule,
+        StoreModule.forFeature('mapState', mapReducer),
     ],
     declarations: [
         MapComponent,
