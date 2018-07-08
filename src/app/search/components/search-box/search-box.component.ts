@@ -9,7 +9,6 @@ import {SearchItem} from '../../model/search-item';
 import {SearchItemList} from '../../model/search-item-list';
 import {Observable} from 'rxjs/Observable';
 import {Store} from '@ngrx/store';
-import {AppState} from '../../../app.state';
 import {getSearchResults, getSelectedIndex} from '../../search.selectors';
 import {
     HideSearchResultsAction, NextSearchItemAction,
@@ -37,7 +36,7 @@ export class SearchBoxComponent implements OnInit {
     public selectedIndex$: Observable<number>;
 
 
-    constructor(private appStore: Store<AppState>) {
+    constructor(private appStore: Store<any>) {
         this.searchResults$ = this.appStore.select(getSearchResults);
         this.selectedIndex$ = this.appStore.select(getSelectedIndex);
     }

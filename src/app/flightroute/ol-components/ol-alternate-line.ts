@@ -6,8 +6,8 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import {OlComponent} from '../../shared/ol-component/ol-component';
 import {Subscription} from 'rxjs/Subscription';
 import {Observable} from 'rxjs/Observable';
-import {MapContext} from 'app/map/services/map.service';
 import {Waypoint} from '../model/waypoint';
+import {MapContext} from '../../map/model/map-context';
 
 
 export class OlAlternateLine extends OlComponent {

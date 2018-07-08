@@ -1,9 +1,9 @@
 import * as ol from 'openlayers';
-import {MapContext} from '../../map/services/map.service';
 import {Observable} from 'rxjs/Observable';
 import {OlComponent} from '../../shared/ol-component/ol-component';
 import {Traffic, TrafficAircraftType} from '../model/traffic';
 import {Subscription} from 'rxjs/Subscription';
+import {MapContext} from '../../map/model/map-context';
 
 
 const MAX_AGE_SEC_TRACK_DOT = 120;

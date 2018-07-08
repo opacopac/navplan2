@@ -10,9 +10,9 @@ import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/operator/distinctUntilChanged';
-import {MapContext} from '../../map/services/map.service';
 import {Flightroute} from '../model/flightroute';
 import {Waypoint} from '../model/waypoint';
+import {MapContext} from '../../map/model/map-context';
 
 
 export class OlFlightroute2 extends OlComponent {

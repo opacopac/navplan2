@@ -28,7 +28,6 @@ import {User} from '../../../user/model/user';
 import {LocationService} from '../../../location/services/location/location.service';
 import {MessageService} from '../../../shared/services/message/message.service';
 import {Store} from '@ngrx/store';
-import {AppState} from '../../../app.state';
 import {MapBackgroundClickedAction, MapFeatureClickedAction, MapMovedZoomedRotatedAction} from '../../map.actions';
 import {Angle} from '../../../shared/model/quantities/angle';
 import {getMapPosition, getMapRotation, getMapZoom} from '../../map.selectors';
@@ -65,7 +64,7 @@ export class MapComponent implements OnInit, OnDestroy {
     private mapRotation$: Observable<Angle>;
 
     public constructor(
-        private appStore: Store<AppState>,
+        private appStore: Store<any>,
         private messageService: MessageService,
         private trafficService: TrafficService,
         private flightrouteService: FlightrouteService,
@@ -85,20 +84,7 @@ export class MapComponent implements OnInit, OnDestroy {
     // region component life cycle
 
     public ngOnInit() {
-        Observable.combineLatest(
-            this.mapPosition$,
-            this.mapZoom$,
-            this.mapRotation$
-        ).pipe(
-            take(1)
-        ).subscribe(([pos, zoom, rot]) => {
-            this.mapService.initMap(
-                MapbaselayerType.OPENTOPOMAP, // TODO
-                pos,
-                zoom,
-                rot);
-        });
-
+        this.initMapAndFeaturesAsync();
 
         this.mapMovedZoomedRotatedSubscription = this.mapService.onMapMovedZoomedRotated.subscribe(event => {
             this.dispatchPosZoomRotAction(event.position, event.zoom, event.rotation, event.extent);
@@ -167,6 +153,25 @@ export class MapComponent implements OnInit, OnDestroy {
 
         // update map contents
         // this.updateMapContent(true);
+    }
+
+
+    private initMapAndFeaturesAsync() {
+        Observable.combineLatest(
+            this.mapPosition$,
+            this.mapZoom$,
+            this.mapRotation$
+        ).pipe(
+            take(1)
+        ).subscribe(([pos, zoom, rot]) => {
+            this.mapService.initMap(
+                MapbaselayerType.OPENTOPOMAP, // TODO
+                pos,
+                zoom,
+                rot);
+
+            // TODO: features
+        });
     }
 
 

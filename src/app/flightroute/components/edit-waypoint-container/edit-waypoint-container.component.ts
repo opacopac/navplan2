@@ -2,7 +2,6 @@ import $ from 'jquery';
 declare var $: $; // wtf? --> https://github.com/dougludlow/ng2-bs3-modal/issues/147
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {AppState} from '../../../app.state';
 import {Observable} from 'rxjs/Observable';
 import {Waypoint} from '../../model/waypoint';
 import {getEditWaypoint} from '../../flightroute.selectors';
@@ -20,7 +19,7 @@ export class EditWaypointContainerComponent implements OnInit, OnDestroy {
     private editWaypointActiveSubscription: Subscription;
 
 
-    constructor(private appStore: Store<AppState>) {
+    constructor(private appStore: Store<any>) {
         this.editWaypoint$ = this.appStore.select(getEditWaypoint);
     }
 

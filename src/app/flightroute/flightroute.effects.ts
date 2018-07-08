@@ -24,7 +24,6 @@ import {
     CreateSharedFlightrouteSuccessAction,
     CreateSharedFlightrouteErrorAction
 } from './flightroute.actions';
-import {AppState} from '../app.state';
 import {getCurrentUser} from '../user/user.selectors';
 import {User} from '../user/model/user';
 import {getFlightroute} from './flightroute.selectors';
@@ -35,7 +34,7 @@ import {Flightroute} from './model/flightroute';
 export class FlightrouteEffects {
     constructor(
         private actions$: Actions,
-        private appStore: Store<AppState>,
+        private appStore: Store<any>,
         private flightrouteService: FlightrouteService,
         private messageService: MessageService) {
     }

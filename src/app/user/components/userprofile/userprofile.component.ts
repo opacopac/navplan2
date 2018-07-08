@@ -1,6 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MessageService} from '../../../shared/services/message/message.service';
-import {AppState} from '../../../app.state';
 import {Store} from '@ngrx/store';
 import {getCurrentUser} from '../../user.selectors';
 import {Observable} from 'rxjs/Observable';
@@ -18,7 +17,7 @@ export class UserprofileComponent implements OnInit, OnDestroy {
 
 
     constructor(
-        private appStore: Store<AppState>,
+        private appStore: Store<any>,
         public messageService: MessageService) {
 
         this.currentUser$ = this.appStore.select(getCurrentUser);

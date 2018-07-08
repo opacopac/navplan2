@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {AppState} from '../../../app.state';
 import {Store} from '@ngrx/store';
 import {getCurrentUser} from '../../user.selectors';
 import {Observable} from 'rxjs/Observable';
@@ -16,7 +15,7 @@ export class LoginComponent implements OnInit {
     public currentUser$: Observable<User>;
 
 
-    constructor(private appStore: Store<AppState>) {
+    constructor(private appStore: Store<any>) {
         this.currentUser$ = this.appStore.select(getCurrentUser);
     }
 

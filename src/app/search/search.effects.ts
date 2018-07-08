@@ -8,7 +8,6 @@ import {SearchService} from './services/search/search.service';
 import {SearchActionTypes, SearchQuerySubmittedAction, SearchResultsReceivedAction} from './search.actions';
 import {getCurrentUser} from '../user/user.selectors';
 import {User} from '../user/model/user';
-import {AppState} from '../app.state';
 
 
 const MIN_QUERY_LENGTH = 3;
@@ -19,7 +18,7 @@ const QUERY_DELAY_MS = 250;
 export class SearchEffects {
     constructor(
         private actions$: Actions,
-        private appStore: Store<AppState>,
+        private appStore: Store<any>,
         private searchService: SearchService) {
     }
 

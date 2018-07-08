@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
-import {AppState} from '../../../app.state';
 import {getFlightroute, getFlightrouteList} from '../../flightroute.selectors';
 import {getCurrentUser} from '../../../user/user.selectors';
 import {FlightrouteListEntry} from '../../model/flightroute-list-entry';
@@ -37,7 +36,7 @@ export class FlightrouteContainerComponent implements OnInit {
     public flightroute$: Observable<Flightroute>;
 
 
-    constructor(private appStore: Store<AppState>) {
+    constructor(private appStore: Store<any>) {
         this.currentUser$ = this.appStore.select(getCurrentUser);
         this.flightrouteList$ = this.appStore.select(getFlightrouteList);
         this.flightroute$ = this.appStore.select(getFlightroute);

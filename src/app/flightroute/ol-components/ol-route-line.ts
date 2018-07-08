@@ -6,11 +6,9 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import {Subscription} from 'rxjs/Subscription';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
-import {Position2d} from '../../shared/model/geometry/position2d';
 import {OlComponent} from '../../shared/ol-component/ol-component';
-import {RxService} from '../../shared/services/rx/rx.service';
-import {MapContext} from '../../map/services/map.service';
 import {Flightroute} from '../model/flightroute';
+import {MapContext} from '../../map/model/map-context';
 
 
 export class OlRouteLine extends OlComponent {

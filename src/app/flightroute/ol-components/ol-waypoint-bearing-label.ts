@@ -7,9 +7,9 @@ import {UnitconversionService} from '../../shared/services/unitconversion/unitco
 import {Angle} from '../../shared/model/quantities/angle';
 import {Distance} from '../../shared/model/quantities/distance';
 import {OlComponent} from '../../shared/ol-component/ol-component';
-import {MapContext} from '../../map/services/map.service';
 import {Waypoint} from '../model/waypoint';
 import {LengthUnit} from '../../shared/model/units';
+import {MapContext} from '../../map/model/map-context';
 
 
 export class OlWaypointBearingLabel extends OlComponent {

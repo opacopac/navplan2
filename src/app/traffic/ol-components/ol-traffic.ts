@@ -1,6 +1,5 @@
 import * as ol from 'openlayers';
 import {OlComponent} from '../../shared/ol-component/ol-component';
-import {MapContext} from '../../map/services/map.service';
 import {Observable} from 'rxjs/Observable';
 import {Traffic, TrafficAircraftType} from '../model/traffic';
 import {environment} from '../../../environments/environment';
@@ -8,6 +7,7 @@ import {UnitconversionService} from '../../shared/services/unitconversion/unitco
 import {GeocalcService} from '../../shared/services/geocalc/geocalc.service';
 import {Subscription} from 'rxjs/Subscription';
 import {OlTrafficTrail} from './ol-traffic-trail';
+import {MapContext} from '../../map/model/map-context';
 
 
 export class OlTraffic extends OlComponent {
