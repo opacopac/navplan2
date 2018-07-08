@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {Store} from '@ngrx/store';
+import {MapZoomInAction, MapZoomOutAction} from '../../map.actions';
 
 
 @Component({
@@ -7,11 +9,25 @@ import {Component, OnInit} from '@angular/core';
     styleUrls: ['./map-container.component.css']
 })
 export class MapContainerComponent implements OnInit {
-    constructor() {
+    constructor(private appStore: Store<any>) {
     }
 
 
     ngOnInit() {
+    }
+
+
+    public onZoomInClicked() {
+        this.appStore.dispatch(
+            new MapZoomInAction()
+        );
+    }
+
+
+    public onZoomOutClicked() {
+        this.appStore.dispatch(
+            new MapZoomOutAction()
+        );
     }
 
 

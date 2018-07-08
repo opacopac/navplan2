@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MapService } from '../../services/map.service';
-import { ButtonColor, ButtonSize } from '../../../shared/directives/button-base/button-base.directive';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {ButtonColor, ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
 
 
 @Component({
@@ -9,11 +8,13 @@ import { ButtonColor, ButtonSize } from '../../../shared/directives/button-base/
     styleUrls: ['./zoom-buttons.component.css']
 })
 export class ZoomButtonsComponent implements OnInit {
+    @Output() onZoomInClicked = new EventEmitter<null>();
+    @Output() onZoomOutClicked = new EventEmitter<null>();
     public ButtonSize = ButtonSize;
     public ButtonColor = ButtonColor;
 
 
-    constructor(public mapService: MapService) {
+    constructor() {
     }
 
 

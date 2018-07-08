@@ -3,7 +3,10 @@
 <!-- search box -->
 <app-search-box></app-search-box>
 <!-- buttons -->
-<app-zoom-buttons></app-zoom-buttons>
+<app-zoom-buttons
+        (onZoomInClicked)="this.onZoomInClicked()"
+        (onZoomOutClicked)="this.onZoomOutClicked()">
+</app-zoom-buttons>
 <app-location-button></app-location-button>
 <app-flighttimer></app-flighttimer>
 <app-traffic-button></app-traffic-button>

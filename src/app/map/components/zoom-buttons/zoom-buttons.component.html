@@ -4,11 +4,11 @@
             [iconClass]="'fas fa-plus'"
             [size]="ButtonSize.LARGE"
             [color]="ButtonColor.GRAY"
-            (click)="mapService.zoomIn()"></button>
+            (click)="this.onZoomInClicked.emit()"></button>
     <button appIconButton
             title="zoom out"
             [iconClass]="'fas fa-minus'"
             [size]="ButtonSize.LARGE"
             [color]="ButtonColor.GRAY"
-            (click)="mapService.zoomOut()"></button>
+            (click)="this.onZoomOutClicked.emit()"></button>
 </div>

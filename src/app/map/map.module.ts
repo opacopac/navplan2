@@ -14,6 +14,8 @@ import {FlightrouteModule} from '../flightroute/flightroute.module';
 import {MetarTafModule} from '../metar-taf/metar-taf.module';
 import {StoreModule} from '@ngrx/store';
 import {mapReducer} from './map.reducer';
+import {EffectsModule} from '@ngrx/effects';
+import {MapEffects} from './map.effects';
 
 
 @NgModule({
@@ -28,6 +30,7 @@ import {mapReducer} from './map.reducer';
         FlightrouteModule,
         MetarTafModule,
         StoreModule.forFeature('mapState', mapReducer),
+        EffectsModule.forFeature([MapEffects])
     ],
     declarations: [
         MapComponent,

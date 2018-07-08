@@ -6,9 +6,25 @@ import {DataItem} from '../shared/model/data-item';
 
 
 export enum MapActionTypes {
+    MAP_ZOOM_IN = '[Map buttons] zoom in',
+    MAP_ZOOM_OUT = '[Map buttons] zoom out',
     MAP_MOVED_ZOOMED_ROTATED = '[Map] map moved / zoomed / rotated',
     MAP_FEATURE_CLICKED = '[Map] map feature clicked',
     MAP_BACKGROUND_CLICKED = '[Map] map background clicked',
+}
+
+
+export class MapZoomInAction implements Action {
+    readonly type = MapActionTypes.MAP_ZOOM_IN;
+
+    constructor() {}
+}
+
+
+export class MapZoomOutAction implements Action {
+    readonly type = MapActionTypes.MAP_ZOOM_OUT;
+
+    constructor() {}
 }
 
 
