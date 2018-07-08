@@ -299,11 +299,11 @@ export class MapService {
             return undefined;
         }
 
-        // TODO: sort by prio
+        // TODO: order by priority
 
-        for (const olFeature of olFeatures) {
-            const dataItem = OlComponent.getDataItem(olFeature as ol.Feature);
-            if (dataItem && (onlyClickable === false || OlComponent.isSelectable(olFeature as ol.Feature))) {
+        for (let i = olFeatures.length - 1; i >= 0; i--) {
+            const dataItem = OlComponent.getDataItem(olFeatures[i] as ol.Feature);
+            if (dataItem && (onlyClickable === false || OlComponent.isSelectable(olFeatures[i] as ol.Feature))) {
                 return dataItem;
             }
         }

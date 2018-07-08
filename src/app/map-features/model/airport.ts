@@ -48,32 +48,32 @@ export class Airport extends DataItem  {
     }
 
 
-    public hasRunways(): boolean {
+    public get hasRunways(): boolean {
         return (this.runways != null && this.runways.length > 0);
     }
 
 
-    public hasRadios(): boolean {
+    public get hasRadios(): boolean {
         return (this.radios != null && this.radios.length > 0);
     }
 
 
-    public hasFeatures(): boolean {
+    public get hasFeatures(): boolean {
         return (this.features != null && this.features.length > 0);
     }
 
 
-    public isHeliport(): boolean {
+    public get isHeliport(): boolean {
         return (this.type === AirportType.HELI_CIVIL || this.type === AirportType.HELI_MIL);
     }
 
 
-    public isMilitary(): boolean {
+    public get isMilitary(): boolean {
         return (this.type === AirportType.AD_MIL);
     }
 
 
-    public isClosed(): boolean {
+    public get isClosed(): boolean {
         return (this.type === AirportType.AD_CLOSED);
     }
 
@@ -93,9 +93,7 @@ export class AirportRunway extends DataItem {
         public lda1: number,
         public lda2: number,
         public papi1: boolean,
-        public papi2: boolean,
-        public position: Position2d,
-        public isMil: boolean) {
+        public papi2: boolean) {
 
         super();
     }
@@ -138,8 +136,7 @@ export class AirportChart {
 export class AirportFeature extends DataItem {
     constructor(
         public type: string,
-        public name: string,
-        public position: Position2d) {
+        public name: string) {
 
         super();
     }

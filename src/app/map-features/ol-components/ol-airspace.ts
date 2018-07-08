@@ -1,23 +1,37 @@
 import * as ol from 'openlayers';
-import { Airspace } from '../model/airspace';
-import { Polygon } from '../../shared/model/geometry/polygon';
-import { OlFeaturePolygon } from '../../shared/model/ol-feature';
+import {Airspace} from '../model/airspace';
+import {OlComponent} from '../../shared/ol-component/ol-component';
 
-export class OlAirspace extends OlFeaturePolygon {
+
+export class OlAirspace extends OlComponent {
+    private readonly olFeature: ol.Feature;
+
+
     public constructor(
-        private airspace: Airspace) {
+        airspace: Airspace,
+        private readonly source: ol.source.Vector) {
 
-        super(airspace);
+        super();
+
+        this.olFeature = this.createFeature(airspace);
+        this.olFeature.setStyle(this.createPolygonStyle(airspace));
+        this.setPolygonGeometry(this.olFeature, airspace.polygon);
+        this.source.addFeature(this.olFeature);
     }
 
 
-    protected getPolygon(): Polygon {
-        return this.airspace.polygon;
+    public get isSelectable(): boolean {
+        return false;
     }
 
 
-    protected createPolygonStyle(): ol.style.Style {
-        switch (this.airspace.category) {
+    public destroy() {
+        this.removeFeature(this.olFeature, this.source);
+    }
+
+
+    private createPolygonStyle(airspace: Airspace): ol.style.Style {
+        switch (airspace.category) {
             case 'CTR':
                 return new ol.style.Style({
                     fill: new ol.style.Fill({

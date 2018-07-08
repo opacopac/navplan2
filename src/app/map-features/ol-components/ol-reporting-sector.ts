@@ -1,22 +1,36 @@
 import * as ol from 'openlayers';
-import { Reportingsector } from '../model/reportingsector';
-import { OlFeaturePolygon } from '../../shared/model/ol-feature';
+import {Reportingsector} from '../model/reportingsector';
+import {OlComponent} from '../../shared/ol-component/ol-component';
 
 
-export class OlReportingSector extends OlFeaturePolygon {
+export class OlReportingSector extends OlComponent {
+    private readonly olFeature: ol.Feature;
+
+
     public constructor(
-        public reportingSector: Reportingsector) {
+        reportingSector: Reportingsector,
+        private readonly source: ol.source.Vector) {
 
-        super(reportingSector);
+        super();
+
+        this.olFeature = this.createFeature(reportingSector);
+        this.olFeature.setStyle(this.createPolygonStyle(reportingSector));
+        this.setPolygonGeometry(this.olFeature, reportingSector.polygon);
+        this.source.addFeature(this.olFeature);
     }
 
 
-    protected getPolygon() {
-        return this.reportingSector.polygon;
+    public get isSelectable(): boolean {
+        return true;
     }
 
 
-    protected createPolygonStyle(): ol.style.Style {
+    public destroy() {
+        this.removeFeature(this.olFeature, this.source);
+    }
+
+
+    private createPolygonStyle(reportingSector: Reportingsector): ol.style.Style {
         return new ol.style.Style({
             fill: new ol.style.Fill({
                 color: 'rgba(124, 47, 215, 0.3)'}),
@@ -25,7 +39,7 @@ export class OlReportingSector extends OlFeaturePolygon {
                 width: 2}),
             text: new ol.style.Text({
                 font: 'bold 14px Calibri,sans-serif',
-                text: this.reportingSector.name,
+                text: reportingSector.name,
                 fill: new ol.style.Fill({color: '#7C4AD7'}),
                 stroke: new ol.style.Stroke({color: '#FFFFFF', width: 2}),
             })

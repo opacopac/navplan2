@@ -1,47 +1,60 @@
 import * as ol from 'openlayers';
-import { environment } from '../../../environments/environment';
-import { OlFeaturePoint } from '../../shared/model/ol-feature';
-import { OlAirportRunway } from './ol-airport-runway';
-import { OlAirportFeature } from './ol-airport-feature';
-import { Airport, AirportType } from '../model/airport';
+import {environment} from '../../../environments/environment';
+import {OlAirportRunway} from './ol-airport-runway';
+import {OlAirportFeature} from './ol-airport-feature';
+import {Airport, AirportType} from '../model/airport';
+import {OlComponent} from '../../shared/ol-component/ol-component';
 
 
-export class OlAirport extends OlFeaturePoint {
+export class OlAirport extends OlComponent {
+    private readonly olFeature: ol.Feature;
+    private readonly olRunway: OlAirportRunway;
+    private readonly olAdFeatures: OlAirportFeature[];
+
+
     public constructor(
-        public airport: Airport) {
+        airport: Airport,
+        private readonly source: ol.source.Vector) {
 
-        super(airport);
-    }
+        super();
 
+        // airport
+        this.olFeature = this.createFeature(airport);
+        this.olFeature.setStyle(this.createPointStyle(airport));
+        this.setPointGeometry(this.olFeature, airport.position);
+        this.source.addFeature(this.olFeature);
 
-    public getPosition() {
-        return this.airport.position;
-    }
-
-
-    public draw(source: ol.source.Vector) {
-        super.draw(source);
-
-        // runways
-        if (this.airport.runways && this.airport.runways.length > 0) {
-            const rwyOlFeature = new OlAirportRunway(this.airport.runways[0]);
-            rwyOlFeature.draw(source);
+        // runway
+        if (airport.hasRunways) {
+            this.olRunway = new OlAirportRunway(airport, airport.runways[0], source);
         }
 
-        // airportfeatures
-        for (const adFeature of this.airport.features) {
-            const adFeatureOlFeature = new OlAirportFeature(adFeature);
-            adFeatureOlFeature.draw(source);
+        // airport-features
+        this.olAdFeatures = [];
+        for (const adFeature of airport.features) {
+            this.olAdFeatures.push(new OlAirportFeature(airport, adFeature, source));
         }
     }
 
 
-    protected createPointStyle(): ol.style.Style {
+    public get isSelectable(): boolean {
+        return true;
+    }
+
+
+    public destroy() {
+        this.removeFeature(this.olFeature, this.source);
+        if (this.olRunway) { this.olRunway.destroy(); }
+        this.olAdFeatures.forEach(olAdFeature => olAdFeature.destroy());
+    }
+
+
+    private createPointStyle(airport: Airport): ol.style.Style {
         let src = environment.iconBaseUrl;
         let textColor = '#451A57';
-        let name = this.airport.icao ? this.airport.icao : '';
+        let name = airport.icao ? airport.icao : '';
 
-        switch (this.airport.type) {
+        switch (airport.type) {
             case AirportType.APT:
             case AirportType.INTL_APT:
                 src += 'ad_civ.png';

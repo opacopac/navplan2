@@ -1,27 +1,41 @@
 import * as ol from 'openlayers';
-import { environment } from '../../../environments/environment';
-import { OlFeaturePoint } from '../../shared/model/ol-feature';
-import { Position2d } from '../../shared/model/geometry/position2d';
-import {AirportFeature} from '../model/airport';
+import {environment} from '../../../environments/environment';
+import {Airport, AirportFeature} from '../model/airport';
+import {OlComponent} from '../../shared/ol-component/ol-component';
 
 
-export class OlAirportFeature extends OlFeaturePoint {
+export class OlAirportFeature extends OlComponent {
+    private readonly olFeature: ol.Feature;
+
+
     public constructor(
-        private airportFeature: AirportFeature) {
+        airport: Airport,
+        airportFeature: AirportFeature,
+        private readonly source: ol.source.Vector) {
 
-        super(airportFeature);
+        super();
+
+        this.olFeature = this.createFeature(airport);
+        this.olFeature.setStyle(this.createPointStyle(airportFeature));
+        this.setPointGeometry(this.olFeature, airport.position);
+        this.source.addFeature(this.olFeature);
     }
 
 
-    protected getPosition(): Position2d {
-        return this.airportFeature.position;
+    public get isSelectable(): boolean {
+        return false;
     }
 
 
-    protected createPointStyle(): ol.style.Style {
+    public destroy() {
+        this.removeFeature(this.olFeature, this.source);
+    }
+
+
+    protected createPointStyle(airportFeature: AirportFeature): ol.style.Style {
         const src = environment.iconBaseUrl;
 
-        if (this.airportFeature.type !== 'PARACHUTE') {
+        if (airportFeature.type !== 'PARACHUTE') {
             return undefined;
         }
 

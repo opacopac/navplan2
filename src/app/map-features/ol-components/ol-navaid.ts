@@ -2,25 +2,21 @@ import * as ol from 'openlayers';
 import {environment} from '../../../environments/environment';
 import {Navaid} from '../model/navaid';
 import {OlComponent} from '../../shared/ol-component/ol-component';
-import {MapContext} from '../../map/model/map-context';
 
 
 export class OlNavaid extends OlComponent {
-    private readonly source: ol.source.Vector;
     private readonly olFeature: ol.Feature;
 
 
     public constructor(
-        mapContext: MapContext,
-        private navaid: Navaid) {
+        navaid: Navaid,
+        private readonly source: ol.source.Vector) {
 
-        super(mapContext);
+        super();
 
-        this.olFeature = this.createFeature(this.navaid);
-        this.olFeature.setStyle(this.createPointStyle(this.navaid));
-        this.setPointGeometry(this.olFeature, this.navaid.position);
-
-        this.source = this.mapContext.mapService.routeItemsLayer.getSource();
+        this.olFeature = this.createFeature(navaid);
+        this.olFeature.setStyle(this.createPointStyle(navaid));
+        this.setPointGeometry(this.olFeature, navaid.position);
         this.source.addFeature(this.olFeature);
     }
 

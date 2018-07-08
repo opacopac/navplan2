@@ -16,12 +16,12 @@ export class OlAlternateLine extends OlComponent {
 
 
     public constructor(
-        mapContext: MapContext,
+        private mapContext: MapContext,
         private readonly alternateWaypoint$: Observable<Waypoint>,
         private readonly lastRouteWaypoint$: Observable<Waypoint>,
         private readonly source: ol.source.Vector) {
 
-        super(mapContext);
+        super();
 
         // create line feature
         this.lineFeature = new ol.Feature();

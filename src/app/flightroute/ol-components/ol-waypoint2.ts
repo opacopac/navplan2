@@ -19,11 +19,11 @@ export class OlWaypoint2 extends OlComponent {
 
 
     constructor(
-        mapContext: MapContext,
+        private mapContext: MapContext,
         private readonly waypoint$: Observable<Waypoint>,
         private readonly source: ol.source.Vector) {
 
-        super(mapContext);
+        super();
 
         // create waypoint feature
         this.pointFeature = new ol.Feature();

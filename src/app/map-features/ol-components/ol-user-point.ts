@@ -1,24 +1,37 @@
 import * as ol from 'openlayers';
-import { environment } from '../../../environments/environment';
-import { Userpoint } from '../model/userpoint';
-import { OlFeaturePoint } from '../../shared/model/ol-feature';
-import { Position2d } from '../../shared/model/geometry/position2d';
+import {environment} from '../../../environments/environment';
+import {Userpoint} from '../model/userpoint';
+import {OlComponent} from '../../shared/ol-component/ol-component';
 
 
-export class OlUserPoint extends OlFeaturePoint {
+export class OlUserPoint extends OlComponent {
+    private readonly olFeature: ol.Feature;
+
+
     public constructor(
-        public userPoint: Userpoint) {
+        userPoint: Userpoint,
+        private readonly source: ol.source.Vector) {
 
-        super(userPoint);
+        super();
+
+        this.olFeature = this.createFeature(userPoint);
+        this.olFeature.setStyle(this.createPointStyle(userPoint));
+        this.setPointGeometry(this.olFeature, userPoint.position);
+        this.source.addFeature(this.olFeature);
     }
 
 
-    protected getPosition(): Position2d {
-        return this.userPoint.position;
+    public get isSelectable(): boolean {
+        return true;
     }
 
 
-    protected createPointStyle(): ol.style.Style {
+    public destroy() {
+        this.removeFeature(this.olFeature, this.source);
+    }
+
+
+    protected createPointStyle(userPoint: Userpoint): ol.style.Style {
         const src = environment.iconBaseUrl;
 
         return new ol.style.Style({
@@ -32,7 +45,7 @@ export class OlUserPoint extends OlFeaturePoint {
             })),
             text: new ol.style.Text({
                 font: 'bold 14px Calibri,sans-serif',
-                text: this.userPoint.name,
+                text: userPoint.name,
                 fill: new ol.style.Fill({color: '#0077FF'}),
                 stroke: new ol.style.Stroke({color: '#FFFFFF', width: 2}),
                 offsetX: 0,

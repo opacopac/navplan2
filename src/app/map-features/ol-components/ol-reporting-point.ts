@@ -1,25 +1,38 @@
 import * as ol from 'openlayers';
-import { environment } from '../../../environments/environment';
-import { Reportingpoint } from '../model/reportingpoint';
-import { OlFeaturePoint } from '../../shared/model/ol-feature';
+import {environment} from '../../../environments/environment';
+import {Reportingpoint} from '../model/reportingpoint';
+import {OlComponent} from '../../shared/ol-component/ol-component';
 
 
-export class OlReportingPoint extends OlFeaturePoint {
+export class OlReportingPoint extends OlComponent {
+    private readonly olFeature: ol.Feature;
+
+
     public constructor(
-        public reportingpoint: Reportingpoint) {
+        reportingpoint: Reportingpoint,
+        private readonly source: ol.source.Vector) {
 
-        super(reportingpoint);
+        super();
+
+        this.olFeature = this.createFeature(reportingpoint);
+        this.olFeature.setStyle(this.createPointStyle(reportingpoint));
+        this.setPointGeometry(this.olFeature, reportingpoint.position);
+        this.source.addFeature(this.olFeature);
     }
 
 
-    protected getPosition() {
-        return this.reportingpoint.position;
+    public get isSelectable(): boolean {
+        return true;
     }
 
 
-    protected createPointStyle(): ol.style.Style {
+    public destroy() {
+        this.removeFeature(this.olFeature, this.source);
+    }
+
+
+    private createPointStyle(rp: Reportingpoint): ol.style.Style {
         let src = environment.iconBaseUrl;
-        const rp = this.reportingpoint;
 
         if ((rp.inbd_comp && rp.outbd_comp) || (rp.inbd_comp == null && rp.outbd_comp == null)) {
             src += 'rp_comp.png';

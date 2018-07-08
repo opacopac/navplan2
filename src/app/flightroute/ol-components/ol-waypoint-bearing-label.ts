@@ -19,11 +19,11 @@ export class OlWaypointBearingLabel extends OlComponent {
 
 
     constructor(
-        mapContext: MapContext,
+        private mapContext: MapContext,
         private readonly waypoint$: Observable<Waypoint>,
         private readonly source: ol.source.Vector) {
 
-        super(mapContext);
+        super();
 
         // create ol features & add to source
         this.dirBearFeature = this.createFeature(this.waypoint$);

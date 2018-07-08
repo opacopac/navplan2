@@ -1,20 +1,33 @@
 import * as ol from 'openlayers';
-import { environment } from '../../../environments/environment';
-import { Position2d } from '../../shared/model/geometry/position2d';
-import { Webcam } from '../model/webcam';
-import { OlFeaturePoint } from '../../shared/model/ol-feature';
+import {environment} from '../../../environments/environment';
+import {Webcam} from '../model/webcam';
+import {OlComponent} from '../../shared/ol-component/ol-component';
 
 
-export class OlWebcam extends OlFeaturePoint {
+export class OlWebcam extends OlComponent {
+    private readonly olFeature: ol.Feature;
+
+
     public constructor(
-        public webcam: Webcam) {
+        public webcam: Webcam,
+        private readonly source: ol.source.Vector) {
 
-        super(webcam);
+        super();
+
+        this.olFeature = this.createFeature(webcam);
+        this.olFeature.setStyle(this.createPointStyle());
+        this.setPointGeometry(this.olFeature, webcam.position);
+        this.source.addFeature(this.olFeature);
     }
 
 
-    protected getPosition(): Position2d {
-        return this.webcam.position;
+    public get isSelectable(): boolean {
+        return true;
+    }
+
+
+    public destroy() {
+        this.removeFeature(this.olFeature, this.source);
     }
 
 

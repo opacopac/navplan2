@@ -1,7 +1,7 @@
 import * as ol from 'openlayers';
 import {Position2d} from '../model/geometry/position2d';
 import {DataItem} from '../model/data-item';
-import {MapContext} from '../../map/model/map-context';
+import {Polygon} from '../model/geometry/polygon';
 
 
 export abstract class OlComponent {
@@ -9,7 +9,7 @@ export abstract class OlComponent {
     public static readonly PROPERTYNAME_ISSELECTABLE = 'navplanIsSelectable';
 
 
-    constructor(protected mapContext: MapContext) {
+    constructor() {
     }
 
 
@@ -88,6 +88,20 @@ export abstract class OlComponent {
             feature.setGeometry(new ol.geom.LineString(newPosList));
         } else {
             olLine.setCoordinates(newPosList);
+        }
+    }
+
+
+    protected setPolygonGeometry(feature: ol.Feature, polygon: Polygon) {
+        if (!polygon) {
+            this.hideFeature(feature);
+        }
+        const newPolygon = polygon ? polygon.getMercatorList() : undefined;
+        const olPolygon = (feature.getGeometry() as ol.geom.Polygon);
+        if (!olPolygon) {
+            feature.setGeometry(new ol.geom.Polygon([newPolygon]));
+        } else {
+            olPolygon.setCoordinates([newPolygon]);
         }
     }
 }

@@ -24,11 +24,11 @@ export class OlRouteLine extends OlComponent {
 
 
     public constructor(
-        mapContext: MapContext,
+        private mapContext: MapContext,
         private readonly flightroute$: Observable<Flightroute>,
         private readonly source: ol.source.Vector) {
 
-        super(mapContext);
+        super();
 
         // create line feature
         this.lineFeature = new ol.Feature();

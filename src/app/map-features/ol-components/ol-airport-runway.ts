@@ -1,29 +1,42 @@
 import * as ol from 'openlayers';
-import { environment } from '../../../environments/environment';
-import { AirportRunway } from '../model/airport';
-import { OlFeaturePoint } from '../../shared/model/ol-feature';
-import { Position2d } from '../../shared/model/geometry/position2d';
+import {environment} from '../../../environments/environment';
+import {Airport, AirportRunway} from '../model/airport';
+import {OlComponent} from '../../shared/ol-component/ol-component';
 
 
-export class OlAirportRunway extends OlFeaturePoint {
+export class OlAirportRunway extends OlComponent {
+    private readonly olFeature: ol.Feature;
+
     public constructor(
-        private runway: AirportRunway) {
+        airport: Airport,
+        runway: AirportRunway,
+        private readonly source: ol.source.Vector) {
 
-        super(runway);
+        super();
+
+        this.olFeature = this.createFeature(airport);
+        this.olFeature.setStyle(this.createPointStyle(airport, runway));
+        this.setPointGeometry(this.olFeature, airport.position);
+        this.source.addFeature(this.olFeature);
     }
 
 
-    protected getPosition(): Position2d {
-        return this.runway.position;
+    public get isSelectable(): boolean {
+        return true;
     }
 
 
-    protected createPointStyle(): ol.style.Style {
+    public destroy() {
+        this.removeFeature(this.olFeature, this.source);
+    }
+
+
+    private createPointStyle(airport: Airport, runway: AirportRunway): ol.style.Style {
         let src = environment.iconBaseUrl;
-        const rwy_surface = this.runway.surface ? this.runway.surface : undefined;
-        const rwy_direction = this.runway.direction1 ? this.runway.direction1 : undefined;
+        const rwy_surface = runway.surface ? runway.surface : undefined;
+        const rwy_direction = runway.direction1 ? runway.direction1 : undefined;
 
-        if (this.runway.isMil) {
+        if (airport.isMilitary) {
             src += 'rwy_mil.png';
         } else if (rwy_surface === 'ASPH' || rwy_surface === 'CONC') {
             src += 'rwy_concrete.png';

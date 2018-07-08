@@ -20,7 +20,7 @@ export class OlMapfeatureList {
         /*for (const navaid of this.mapFeatureList.navaids) {
             const olFeature = new OlNavaid(navaid);
             olFeature.draw(sourceRouteItems);
-        }*/
+        }
 
         // airports
         for (const airport of this.mapFeatureList.airports) {
@@ -56,6 +56,6 @@ export class OlMapfeatureList {
         for (const webcam of this.mapFeatureList.webcams) {
             const olFeature = new OlWebcam(webcam);
             olFeature.draw(sourceNonRouteItems);
-        }
+        }*/
     }
 }

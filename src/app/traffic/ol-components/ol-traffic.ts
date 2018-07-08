@@ -18,11 +18,11 @@ export class OlTraffic extends OlComponent {
 
 
     constructor(
-        mapContext: MapContext,
+        private mapContext: MapContext,
         private readonly traffic$: Observable<Traffic>,
         private readonly source: ol.source.Vector) {
 
-        super(mapContext);
+        super();
 
         // add dot trail feature
         this.dotTrailFeature = new OlTrafficTrail(mapContext, this.traffic$, this.source);

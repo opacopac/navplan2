@@ -92,7 +92,7 @@ export class RestMapperAirport {
             restItem.elevation);
 
         for (const item of restItem.runways) {
-            airport.runways.push(this.getAirportRunwayFromRestItem(item, airport.position, airport.isMilitary()));
+            airport.runways.push(this.getAirportRunwayFromRestItem(item));
         }
 
         for (const item of restItem.radios) {
@@ -108,14 +108,14 @@ export class RestMapperAirport {
         }
 
         for (const item of restItem.mapfeatures) {
-            airport.features.push(this.getAirportFeatureFromRestItem(item, airport.position));
+            airport.features.push(this.getAirportFeatureFromRestItem(item));
         }
 
         return airport;
     }
 
 
-    private static getAirportRunwayFromRestItem(restItem: AirportRunwayRestItem, position: Position2d, isMil: boolean): AirportRunway {
+    private static getAirportRunwayFromRestItem(restItem: AirportRunwayRestItem): AirportRunway {
         return new AirportRunway(
             restItem.name,
             restItem.surface,
@@ -128,9 +128,7 @@ export class RestMapperAirport {
             restItem.lda1,
             restItem.lda2,
             restItem.papi1,
-            restItem.papi2,
-            position,
-            isMil);
+            restItem.papi2);
     }
 
 
@@ -166,10 +164,9 @@ export class RestMapperAirport {
     }
 
 
-    private static getAirportFeatureFromRestItem(restItem: AirportFeatureRestItem, position: Position2d): AirportFeature {
+    private static getAirportFeatureFromRestItem(restItem: AirportFeatureRestItem): AirportFeature {
         return new AirportFeature(
             restItem.type,
-            restItem.name,
-            position);
+            restItem.name);
     }
 }

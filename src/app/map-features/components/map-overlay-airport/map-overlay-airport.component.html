@@ -32,7 +32,7 @@
                                 <td>{{ runway.lda1 ? runway.lda1 : '-' }} / {{ runway.lda2 ? runway.lda2 : '-' }}</td>
                                 <td>{{ runway.papi1 ? 'y' : '-' }} / {{ runway.papi2 ? 'y' : '-' }}</td>
                             </tr>
-                            <tr *ngIf="!this.airport.hasRunways()">
+                            <tr *ngIf="!this.airport.hasRunways">
                                 <td colspan="6"><em>No runway info available</em></td>
                             </tr>
                         </table>
@@ -47,7 +47,7 @@
                                 <td>{{ radio.description ? radio.description : radio.type }}</td>
                                 <td>{{ radio.frequency }}</td>
                             </tr>
-                            <tr *ngIf="!this.airport.hasRadios()">
+                            <tr *ngIf="!this.airport.hasRadios">
                                 <td colspan="2"><em>No radio info available</em></td>
                             </tr>
                         </table>

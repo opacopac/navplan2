@@ -14,11 +14,11 @@ export class OlTrafficTrail extends OlComponent {
     private trafficSubscription: Subscription;
 
     constructor(
-        mapContext: MapContext,
+        private mapContext: MapContext,
         private readonly traffic$: Observable<Traffic>,
         private readonly source: ol.source.Vector) {
 
-        super(mapContext);
+        super();
 
         this.dotFeatures = [];
         this.trafficSubscription = this.traffic$.subscribe((traffic) => {
