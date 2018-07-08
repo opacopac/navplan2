@@ -59,6 +59,11 @@ export class OlFlightroute2 extends OlComponent {
     }
 
 
+    public get isSelectable(): boolean {
+        return false;
+    }
+
+
     public destroy() {
         this.routeLine.destroy();
         this.alternateLine.destroy();

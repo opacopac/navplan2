@@ -1,28 +1,45 @@
 import * as ol from 'openlayers';
-import { environment } from '../../../environments/environment';
-import { Navaid } from '../model/navaid';
-import { Position2d } from '../../shared/model/geometry/position2d';
-import { OlFeaturePoint } from '../../shared/model/ol-feature';
+import {environment} from '../../../environments/environment';
+import {Navaid} from '../model/navaid';
+import {OlComponent} from '../../shared/ol-component/ol-component';
+import {MapContext} from '../../map/model/map-context';
 
 
-export class OlNavaid extends OlFeaturePoint {
+export class OlNavaid extends OlComponent {
+    private readonly source: ol.source.Vector;
+    private readonly olFeature: ol.Feature;
+
+
     public constructor(
-        public navaid: Navaid) {
+        mapContext: MapContext,
+        private navaid: Navaid) {
 
-        super(navaid);
+        super(mapContext);
+
+        this.olFeature = this.createFeature(this.navaid);
+        this.olFeature.setStyle(this.createPointStyle(this.navaid));
+        this.setPointGeometry(this.olFeature, this.navaid.position);
+
+        this.source = this.mapContext.mapService.routeItemsLayer.getSource();
+        this.source.addFeature(this.olFeature);
     }
 
 
-    public getPosition(): Position2d {
-        return this.navaid.position;
+    public get isSelectable(): boolean {
+        return true;
     }
 
 
-    protected createPointStyle(): ol.style.Style {
+    public destroy() {
+        this.removeFeature(this.olFeature, this.source);
+    }
+
+
+    private createPointStyle(navaid: Navaid): ol.style.Style {
         let src = environment.iconBaseUrl;
         let textOffsetY;
 
-        switch (this.navaid.type) {
+        switch (navaid.type) {
             case 'NDB':
                 src += 'navaid_ndb.png';
                 textOffsetY = 33;

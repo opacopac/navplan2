@@ -44,6 +44,11 @@ export class OlAlternateLine extends OlComponent {
     }
 
 
+    public get isSelectable(): boolean {
+        return false;
+    }
+
+
     public destroy() {
         this.posSubscription.unsubscribe();
     }

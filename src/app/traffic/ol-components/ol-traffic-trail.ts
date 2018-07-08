@@ -45,6 +45,11 @@ export class OlTrafficTrail extends OlComponent {
     }
 
 
+    public get isSelectable(): boolean {
+        return false;
+    }
+
+
     destroy() {
         this.trafficSubscription.unsubscribe();
         this.removeFeatures(this.dotFeatures, this.source);

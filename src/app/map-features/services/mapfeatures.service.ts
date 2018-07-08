@@ -1,28 +1,54 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
-import { LoggingService } from '../../shared/services/logging/logging.service';
-import { Extent } from '../../shared/model/extent';
-import { Mapfeatures } from '../model/mapfeatures';
-import { CachingExtentLoader } from '../../shared/services/caching-extent-loader/caching-extent-loader';
-import { MapFeaturesResponse, RestMapperMapfeatures } from '../model/rest-mapper/rest-mapper-mapfeatures';
-import { Position2d } from '../../shared/model/geometry/position2d';
-import { DataItem } from '../../shared/model/data-item';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../../environments/environment';
+import {Extent} from '../../shared/model/extent';
+import {Mapfeatures} from '../model/mapfeatures';
+import {MapFeaturesResponse, RestMapperMapfeatures} from '../model/rest-mapper/rest-mapper-mapfeatures';
 import {User} from '../../user/model/user';
+import {Observable} from 'rxjs/Observable';
+import {catchError, map} from 'rxjs/operators';
+import {LoggingService} from '../../shared/services/logging/logging.service';
 
 
 const MAPFEATURES_BASE_URL = environment.restApiBaseUrl + 'php/search/SearchService.php';
-const USER_WP_BASE_URL = environment.restApiBaseUrl + 'php/userWaypoint.php';
 
 
 @Injectable()
-export class MapfeaturesService extends CachingExtentLoader<Mapfeatures> {
+export class MapfeaturesService  {
     constructor(private http: HttpClient) {
-        super();
     }
 
 
-    public findFlightrouteFeatureByPosition(position: Position2d, precisionDigits = 4): DataItem {
+    public load(
+        extent: Extent,
+        zoom: number,
+        user: User): Observable<Mapfeatures> {
+        return this.http
+            .jsonp<MapFeaturesResponse>(this.buildRequestUrl(extent, zoom, user), 'callback')
+            .pipe(
+                map(response => RestMapperMapfeatures.getMapFeaturesFromResponse(response)),
+                catchError((error, subject) => {
+                    LoggingService.logResponseError('ERROR reading map features', error);
+                    return subject;
+                }),
+            );
+
+
+        /*.subscribe(
+            response => {
+                const mapFeatures = RestMapperMapfeatures.getMapFeaturesFromResponse(response);
+                successCallback(mapFeatures);
+            },
+            err => {
+                const message = 'ERROR reading map features!';
+                LoggingService.logResponseError(message, err);
+                errorCallback(message);
+            }
+        );*/
+    }
+
+
+    /*public findFlightrouteFeatureByPosition(position: Position2d, precisionDigits = 4): DataItem {
         // iterate over all cache items
         for (const cacheItem of this.cacheItemList) {
             const mapFeatures = (cacheItem.item as Mapfeatures);
@@ -65,7 +91,7 @@ export class MapfeaturesService extends CachingExtentLoader<Mapfeatures> {
         }
 
         return undefined;
-    }
+    }*/
 
 
     public getOversizeFactor(): number {
@@ -75,28 +101,6 @@ export class MapfeaturesService extends CachingExtentLoader<Mapfeatures> {
 
     public isTimedOut(ageSec: number): boolean {
         return false;
-    }
-
-
-    protected loadFromSource(
-        extent: Extent,
-        zoom: number,
-        user: User,
-        successCallback: (Mapfeatures) => void,
-        errorCallback: (string) => void) {
-        this.http
-            .jsonp<MapFeaturesResponse>(this.buildRequestUrl(extent, zoom, user), 'callback')
-            .subscribe(
-                response => {
-                    const mapFeatures = RestMapperMapfeatures.getMapFeaturesFromResponse(response);
-                    successCallback(mapFeatures);
-                },
-                err => {
-                    const message = 'ERROR reading map features!';
-                    LoggingService.logResponseError(message, err);
-                    errorCallback(message);
-                }
-            );
     }
 
 

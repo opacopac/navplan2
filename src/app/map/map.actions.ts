@@ -9,8 +9,7 @@ export enum MapActionTypes {
     MAP_ZOOM_IN = '[Map buttons] zoom in',
     MAP_ZOOM_OUT = '[Map buttons] zoom out',
     MAP_MOVED_ZOOMED_ROTATED = '[Map] map moved / zoomed / rotated',
-    MAP_FEATURE_CLICKED = '[Map] map feature clicked',
-    MAP_BACKGROUND_CLICKED = '[Map] map background clicked',
+    MAP_CLICKED = '[Map] map clicked',
 }
 
 
@@ -39,23 +38,15 @@ export class MapMovedZoomedRotatedAction implements Action {
 }
 
 
-export class MapFeatureClickedAction implements Action {
-    readonly type = MapActionTypes.MAP_FEATURE_CLICKED;
+export class MapClickedAction implements Action {
+    readonly type = MapActionTypes.MAP_CLICKED;
 
     constructor(
-        public mapFeature: DataItem,
-        public clickPos: Position2d) {}
-}
-
-
-export class MapBackgroundClickedAction implements Action {
-    readonly type = MapActionTypes.MAP_BACKGROUND_CLICKED;
-
-    constructor(public clickPos: Position2d) {}
+        public clickPos: Position2d,
+        public dataItem: DataItem) {}
 }
 
 
 export type MapActions =
     MapMovedZoomedRotatedAction |
-    MapFeatureClickedAction |
-    MapBackgroundClickedAction;
+    MapClickedAction;

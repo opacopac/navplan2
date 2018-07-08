@@ -73,18 +73,7 @@ export class LocationService {
     }
 
 
-    public toggleWatching(): boolean {
-        if (this.watchIdSource.getValue()) {
-            this.stopWatching();
-            return false;
-        } else {
-            this.startWatching();
-            return true;
-        }
-    }
-
-
-    private startWatching() {
+    public startWatching() {
         this.statusSource.next(LocationServiceStatus.WAITING);
         if (window.navigator.geolocation) {
             this.lastPositions = []; // TODO
@@ -108,12 +97,15 @@ export class LocationService {
     }
 
 
-    private stopWatching() {
+    public stopWatching() {
         const watchId = this.watchIdSource.getValue();
-        window.navigator.geolocation.clearWatch(watchId);
-        this.watchIdSource.next(undefined);
-        this.positionSource.next(undefined);
-        this.statusSource.next(LocationServiceStatus.OFF);
+
+        if (watchId) {
+            window.navigator.geolocation.clearWatch(watchId);
+            this.watchIdSource.next(undefined);
+            this.positionSource.next(undefined);
+            this.statusSource.next(LocationServiceStatus.OFF);
+        }
     }
 
 

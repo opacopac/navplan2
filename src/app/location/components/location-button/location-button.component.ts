@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {MapService} from '../../../map/services/map.service';
-import {TimerService} from '../../../shared/services/timer/timer.service';
-import {MessageService} from '../../../shared/services/message/message.service';
-import {LocationService, LocationServiceStatus} from '../../services/location/location.service';
-import {Traffic} from '../../../traffic/model/traffic';
+import {LocationServiceStatus} from '../../services/location/location.service';
 import {ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
 import {ButtonStatus} from '../../../shared/directives/status-button/status-button.directive';
+import {Store} from '@ngrx/store';
+import {ToggleWatchLocationAction} from '../../location.actions';
+import {getLocationIsWatching, getLocationStatus} from '../../location.selectors';
 
 
 @Component({
@@ -15,14 +14,11 @@ import {ButtonStatus} from '../../../shared/directives/status-button/status-butt
 })
 export class LocationButtonComponent implements OnInit {
     public ButtonSize = ButtonSize;
-    private ownPlane: Traffic;
+    public locationStatus$ = this.appStore.select(getLocationStatus);
+    public locationIsWatching$ = this.appStore.select(getLocationIsWatching);
 
 
-    constructor(
-        private messageService: MessageService,
-        private mapService: MapService,
-        public locationService: LocationService,
-        public timerService: TimerService) {
+    constructor(private appStore: Store<any>) {
     }
 
 
@@ -31,19 +27,9 @@ export class LocationButtonComponent implements OnInit {
 
 
     public onLocationClicked() {
-        this.locationService.toggleWatching();
-        // $scope.stopFollowTraffic(); TODO
-
-        /*if (!this.locationService.isActivated) {
-            this.ownPlane = this.getOwnAirplane();
-            this.locationService.startWatching();
-            this.timerService.startClockTimer();
-        } else {
-            this.locationService.stopWatching();
-            this.timerService.stopClockTimer();
-            this.mapService.drawLocation(undefined);
-            // $scope.storeTrackLocal(); TODO
-        }*/
+        this.appStore.dispatch(
+            new ToggleWatchLocationAction()
+        );
     }
 
 

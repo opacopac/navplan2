@@ -6,18 +6,41 @@ import {MapContext} from '../../map/model/map-context';
 
 export abstract class OlComponent {
     public static readonly PROPERTYNAME_DATAITEM = 'navplanDataItem';
+    public static readonly PROPERTYNAME_ISSELECTABLE = 'navplanIsSelectable';
 
 
     constructor(protected mapContext: MapContext) {
     }
 
 
+    public static isSelectable(olFeature: ol.Feature): boolean {
+        if (!olFeature) {
+            return false;
+        } else {
+            return (olFeature.get(this.PROPERTYNAME_ISSELECTABLE) === true);
+        }
+    }
+
+
+    public static getDataItem(olFeature: ol.Feature): DataItem {
+        if (!olFeature) {
+            return undefined;
+        } else {
+            return olFeature.get(this.PROPERTYNAME_DATAITEM) as DataItem;
+        }
+    }
+
+
+    public abstract get isSelectable(): boolean;
+
+
     public abstract destroy();
 
 
-    protected createFeature(dataItem$: DataItem): ol.Feature {
+    protected createFeature(dataItem: DataItem): ol.Feature {
         const feature = new ol.Feature();
-        feature.set(OlComponent.PROPERTYNAME_DATAITEM, dataItem$, true);
+        feature.set(OlComponent.PROPERTYNAME_DATAITEM, dataItem, true);
+        feature.set(OlComponent.PROPERTYNAME_ISSELECTABLE, this.isSelectable, true);
         return feature;
     }
 

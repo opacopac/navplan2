@@ -13,6 +13,10 @@ import {MapOverlayWindyiframeComponent} from './components/map-overlay-windyifra
 import {MapOverlayButtonWebcamComponent} from './components/map-overlay-button-webcam/map-overlay-button-webcam.component';
 import {NotamModule} from '../notam/notam.module';
 import {FlightrouteModule} from '../flightroute/flightroute.module';
+import {StoreModule} from '@ngrx/store';
+import {mapFeaturesReducer} from './map-features.reducer';
+import {EffectsModule} from '@ngrx/effects';
+import {MapFeaturesEffects} from './map-features.effects';
 
 
 @NgModule({
@@ -20,7 +24,9 @@ import {FlightrouteModule} from '../flightroute/flightroute.module';
         CommonModule,
         SharedModule,
         NotamModule,
-        FlightrouteModule
+        FlightrouteModule,
+        StoreModule.forFeature('mapFeaturesState', mapFeaturesReducer),
+        EffectsModule.forFeature([MapFeaturesEffects])
     ],
     declarations: [
         MapOverlayAirportComponent,
@@ -33,7 +39,6 @@ import {FlightrouteModule} from '../flightroute/flightroute.module';
         MapOverlayReportingsectorComponent,
         MapOverlayUserpointComponent,
         MapOverlayWindyiframeComponent,
-
     ],
     exports: [
         MapOverlayAirportComponent,

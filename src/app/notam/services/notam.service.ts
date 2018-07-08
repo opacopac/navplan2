@@ -84,7 +84,7 @@ export class NotamService extends CachingExtentLoader<NotamList> {
     }
 
 
-    private getDefaultNotamTimeslot(): [number, number] {
+    public getDefaultNotamTimeslot(): [number, number] {
         const now = new Date();
         const minTime = Math.floor(new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime() / 1000); // beginning of today LT (notam timestamps from icao have day granularity...)
         const maxTime = Math.floor(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 2).getTime() / 1000); // end of tomorrow LT

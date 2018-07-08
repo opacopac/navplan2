@@ -3,7 +3,7 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/observable/fromEvent';
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ButtonColor, ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
 import {SearchItem} from '../../model/search-item';
 import {SearchItemList} from '../../model/search-item-list';
@@ -16,12 +16,15 @@ import {
     SearchQuerySubmittedAction,
     SearchItemSelectedAction
 } from '../../search.actions';
+import {Subscription} from 'rxjs/Subscription';
 
 
 const UP_KEY_CODE = 38;
 const DOWN_KEY_CODE = 40;
 const ENTER_KEY_CODE = 13;
 const ESC_KEY_CODE = 27;
+const F3_KEY_CODE = 114;
+const F_KEY_CODE = 70;
 
 
 @Component({
@@ -29,11 +32,12 @@ const ESC_KEY_CODE = 27;
     templateUrl: './search-box.component.html',
     styleUrls: ['./search-box.component.css']
 })
-export class SearchBoxComponent implements OnInit {
+export class SearchBoxComponent implements OnInit, OnDestroy {
     public readonly ButtonSize = ButtonSize;
     public readonly ButtonColor = ButtonColor;
     public searchResults$: Observable<SearchItemList>;
     public selectedIndex$: Observable<number>;
+    private keyDownSubscription: Subscription;
 
 
     constructor(private appStore: Store<any>) {
@@ -43,6 +47,19 @@ export class SearchBoxComponent implements OnInit {
 
 
     ngOnInit() {
+        this.keyDownSubscription = Observable.fromEvent(document, 'keydown').subscribe((event: KeyboardEvent) => {
+            // search: f3 or ctrl + f
+            if (event.keyCode === F3_KEY_CODE || (event.ctrlKey && event.keyCode === F_KEY_CODE)) {
+                this.focus();
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        });
+    }
+
+
+    ngOnDestroy() {
+        this.keyDownSubscription.unsubscribe();
     }
 
 

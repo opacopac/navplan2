@@ -17,10 +17,10 @@ export class OlMapfeatureList {
 
     public draw(sourceNonRouteItems: ol.source.Vector, sourceRouteItems: ol.source.Vector) {
         // navaids
-        for (const navaid of this.mapFeatureList.navaids) {
+        /*for (const navaid of this.mapFeatureList.navaids) {
             const olFeature = new OlNavaid(navaid);
             olFeature.draw(sourceRouteItems);
-        }
+        }*/
 
         // airports
         for (const airport of this.mapFeatureList.airports) {

@@ -58,6 +58,11 @@ export class OlWaypointBearingLabel extends OlComponent {
     }
 
 
+    public get isSelectable(): boolean {
+        return false;
+    }
+
+
     public destroy() {
         this.previousPositionSubscription.unsubscribe();
         this.mtDistVarRotSubscription.unsubscribe();

@@ -59,6 +59,11 @@ export class OlWaypoint2 extends OlComponent {
     }
 
 
+    public get isSelectable(): boolean {
+        return true;
+    }
+
+
     public destroy() {
         this.positionSubscription.unsubscribe();
         this.textMtRotSubscription.unsubscribe();

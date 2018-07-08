@@ -96,6 +96,11 @@ export class OlRouteLine extends OlComponent {
     }
 
 
+    public get isSelectable(): boolean {
+        return false;
+    }
+
+
     public destroy() {
         this.modifyEndSubscription.unsubscribe();
         this.modifyChangeSubscription.unsubscribe();

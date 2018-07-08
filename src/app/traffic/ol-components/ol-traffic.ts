@@ -49,6 +49,11 @@ export class OlTraffic extends OlComponent {
     }
 
 
+    public get isSelectable(): boolean {
+        return true;
+    }
+
+
     destroy() {
         this.trafficSubscription.unsubscribe();
         this.removeFeatures([this.trafficFeature, this.callsignFeature], this.source);
