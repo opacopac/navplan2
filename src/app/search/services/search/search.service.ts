@@ -1,6 +1,8 @@
-import 'rxjs/add/observable/of';
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {catchError, map} from 'rxjs/operators';
+import {of} from 'rxjs';
 import {environment} from '../../../../environments/environment';
 import {LoggingService} from '../../../shared/services/logging/logging.service';
 import {GeocalcService} from '../../../shared/services/geocalc/geocalc.service';
@@ -8,9 +10,7 @@ import {Position2d} from '../../../shared/model/geometry/position2d';
 import {Extent} from '../../../shared/model/extent';
 import {RestMapperSearch, SearchResponse} from '../../model/rest-mapper-search';
 import {User} from '../../../user/model/user';
-import {Observable} from 'rxjs/Observable';
 import {SearchItemList} from '../../model/search-item-list';
-
 
 const SEARCH_BASE_URL = environment.restApiBaseUrl + 'php/search/SearchService.php';
 
@@ -19,21 +19,15 @@ const SEARCH_BASE_URL = environment.restApiBaseUrl + 'php/search/SearchService.p
     providedIn: 'root'
 })
 export class SearchService {
-    private textSearchTimestamp;
-    private positionSearchTimestamp;
-
-
-    constructor(
-        private http: HttpClient) {
-    }
+    constructor(private http: HttpClient) {}
 
 
     public searchByExtent(
         extent: Extent,
         minNotamTimestamp: number,
-        maxNotamTimestamp: number,
-        successCallback: (SearchItemList) => void,
-        errorCallback: (string) => void) {
+        maxNotamTimestamp: number): Observable<SearchItemList> {
+
+        return of(undefined); // TODO
     }
 
 
@@ -41,17 +35,13 @@ export class SearchService {
         position: Position2d,
         maxRadius_deg: number,
         minNotamTimestamp: number,
-        maxNotamTimestamp: number,
-        successCallback: (SearchItemList) => void,
-        errorCallback: (string) => void) {
+        maxNotamTimestamp: number): Observable<SearchItemList> {
 
-        this.executePositionSearch(
+        return this.executePositionSearch(
             position,
             maxRadius_deg,
             minNotamTimestamp,
             maxNotamTimestamp,
-            successCallback,
-            errorCallback
         );
     }
 
@@ -61,7 +51,7 @@ export class SearchService {
         const pos = GeocalcService.tryParseCoordinates(queryString);
         if (pos) {
             // TODO: create single object search result with coordinates
-            return Observable.of(undefined);
+            return of(undefined);
         } else {
             let url = SEARCH_BASE_URL + '?action=searchByText&searchText=' + queryString
                 + '&searchItems=airports,navaids,reportingpoints,userpoints,geonames';
@@ -71,7 +61,13 @@ export class SearchService {
 
             return this.http
                 .jsonp<SearchResponse>(url, 'callback')
-                .map(response => RestMapperSearch.getSearchItemListFromResponse(response));
+                .pipe(
+                    map(response => RestMapperSearch.getSearchItemListFromResponse(response)),
+                    catchError((error, subject) => {
+                        LoggingService.logResponseError('ERROR performing text search', error);
+                        return subject;
+                    })
+                );
         }
     }
 
@@ -80,30 +76,20 @@ export class SearchService {
         position: Position2d,
         maxRadius_deg: number,
         minNotamTimestamp: number,
-        maxNotamTimestamp: number,
-        successCallback: (NotamList) => void,
-        errorCallback: (string) => void) {
+        maxNotamTimestamp: number): Observable<SearchItemList> {
 
         const url = SEARCH_BASE_URL + '?action=searchByPosition&lat=' + position.latitude + '&lon=' + position.longitude
             + '&rad=' + maxRadius_deg + '&minnotamtime=' + minNotamTimestamp + '&maxnotamtime=' + maxNotamTimestamp
             + '&searchItems=airports,navaids,reportingpoints,userpoints,geonames';
 
-        const timestamp = Date.now();
-        this.positionSearchTimestamp = timestamp;
-        this.http
+        return this.http
             .jsonp<SearchResponse>(url, 'callback')
-            .subscribe(
-                response => {
-                    if (timestamp !== this.positionSearchTimestamp) {
-                        return;
-                    }
-                    const searchItemList = RestMapperSearch.getSearchItemListFromResponse(response);
-                    successCallback(searchItemList);
-                },
-                err => {
-                    const message = 'ERROR performing position search!';
-                    LoggingService.logResponseError(message, err);
-                    errorCallback(message);
-            });
+            .pipe(
+                map(response => RestMapperSearch.getSearchItemListFromResponse(response)),
+                catchError((error, subject) => {
+                    LoggingService.logResponseError('ERROR performing position search', error);
+                    return subject;
+                })
+            );
     }
 }

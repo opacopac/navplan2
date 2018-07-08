@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ClientstorageService} from './shared/services/clientstorage/clientstorage.service';
 import {Store} from '@ngrx/store';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {getCurrentUser} from './user/user.selectors';
 import {AutoLoginUserAction} from './user/user.actions';
 import {User} from './user/model/user';

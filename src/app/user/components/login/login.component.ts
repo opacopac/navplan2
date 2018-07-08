@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {getCurrentUser} from '../../user.selectors';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {LoginUserAction, RegisterUserAction} from '../../user.actions';
 import {User} from '../../model/user';
 

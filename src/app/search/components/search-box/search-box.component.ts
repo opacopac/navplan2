@@ -1,14 +1,10 @@
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/delay';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/observable/fromEvent';
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Store} from '@ngrx/store';
+import {Observable, Subscription} from 'rxjs';
+import {fromEvent} from 'rxjs/internal/observable/fromEvent';
 import {ButtonColor, ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
 import {SearchItem} from '../../model/search-item';
 import {SearchItemList} from '../../model/search-item-list';
-import {Observable} from 'rxjs/Observable';
-import {Store} from '@ngrx/store';
 import {getSearchResults, getSelectedIndex} from '../../search.selectors';
 import {
     HideSearchResultsAction, NextSearchItemAction,
@@ -16,7 +12,6 @@ import {
     SearchQuerySubmittedAction,
     SearchItemSelectedAction
 } from '../../search.actions';
-import {Subscription} from 'rxjs/Subscription';
 
 
 const UP_KEY_CODE = 38;
@@ -47,7 +42,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
 
     ngOnInit() {
-        this.keyDownSubscription = Observable.fromEvent(document, 'keydown').subscribe((event: KeyboardEvent) => {
+        this.keyDownSubscription = fromEvent(document, 'keydown').subscribe((event: KeyboardEvent) => {
             // search: f3 or ctrl + f
             if (event.keyCode === F3_KEY_CODE || (event.ctrlKey && event.keyCode === F_KEY_CODE)) {
                 this.focus();

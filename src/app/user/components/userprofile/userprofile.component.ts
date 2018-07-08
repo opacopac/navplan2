@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MessageService} from '../../../shared/services/message/message.service';
 import {Store} from '@ngrx/store';
 import {getCurrentUser} from '../../user.selectors';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {ChangePwAction, LogoutUserAction} from '../../user.actions';
 import {User} from '../../model/user';
 

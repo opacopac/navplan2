@@ -1,9 +1,8 @@
-import 'rxjs/add/observable/combineLatest';
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {take} from 'rxjs/operators';
-import {Subscription} from 'rxjs/Subscription';
-import {Observable} from 'rxjs/Observable';
+import {combineLatest} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {MapService} from '../../services/map.service';
 import {SearchBoxComponent} from '../../../search/components/search-box/search-box.component';
 import {Position2d} from '../../../shared/model/geometry/position2d';
@@ -24,6 +23,7 @@ import {getMapPosition, getMapRotation, getMapZoom} from '../../map.selectors';
 import {MapbaselayerType} from '../../model/mapbaselayer-factory';
 import {OlMapFeaturesContainer} from '../../../map-features/ol-components/ol-map-features-container';
 import {MapContext} from '../../model/map-context';
+import {OlFlightrouteContainer} from '../../../flightroute/ol-components/ol-flightroute-container';
 
 
 @Component({
@@ -43,6 +43,7 @@ export class MapComponent implements OnInit, OnDestroy {
     @ViewChild(MapOverlayWaypointComponent) mapOverlayWaypointComponent: MapOverlayWaypointComponent;
     @ViewChild(SearchBoxComponent) searchBox: SearchBoxComponent;
     private olMapFeatures: OlMapFeaturesContainer;
+    private olFlightroute: OlFlightrouteContainer;
     private mapMovedZoomedRotatedSubscription: Subscription;
     private mapClickedSubscription: Subscription;
     private mapPosition$: Observable<Position2d>;
@@ -75,17 +76,18 @@ export class MapComponent implements OnInit, OnDestroy {
 
 
     public ngOnDestroy() {
-        this.olMapFeatures.destroy();
-
         this.mapMovedZoomedRotatedSubscription.unsubscribe();
         this.mapClickedSubscription.unsubscribe();
+
+        this.olMapFeatures.destroy();
+        this.olFlightroute.destroy();
 
         this.mapService.uninitMap();
     }
 
 
     private initMapAndFeaturesAsync() {
-        Observable.combineLatest(
+        combineLatest(
             this.mapPosition$,
             this.mapZoom$,
             this.mapRotation$
@@ -100,6 +102,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
             const mapContext = new MapContext(this.appStore, this.mapService.map, this.mapService);
             this.olMapFeatures = new OlMapFeaturesContainer(mapContext);
+            this.olFlightroute = new OlFlightrouteContainer(mapContext);
             // TODO: features
         });
     }

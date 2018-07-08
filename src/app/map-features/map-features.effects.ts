@@ -2,7 +2,7 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Action, Store} from '@ngrx/store';
 import {catchError, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {MapActionTypes, MapMovedZoomedRotatedAction} from '../map/map.actions';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {MapfeaturesService} from './services/mapfeatures.service';
 import {getCurrentUser} from '../user/user.selectors';

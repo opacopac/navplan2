@@ -5,7 +5,7 @@ import {Extent} from '../../shared/model/extent';
 import {Mapfeatures} from '../model/mapfeatures';
 import {MapFeaturesResponse, RestMapperMapfeatures} from '../model/rest-mapper/rest-mapper-mapfeatures';
 import {User} from '../../user/model/user';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {LoggingService} from '../../shared/services/logging/logging.service';
 

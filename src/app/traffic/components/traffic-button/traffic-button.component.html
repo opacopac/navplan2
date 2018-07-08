@@ -4,6 +4,7 @@
         title="show/hide traffic"
         [iconClass]="'fas fa-plane'"
         [size]="ButtonSize.LARGE"
-        [status]="this.getButtonStatus()"
-        (click)="this.onTrafficClicked()"></button>
+        [status]="this.getButtonStatus(this.trafficStatus$ | async)"
+        [isPressed]="(this.trafficIsWatching$ | async)"
+        (click)="this.onToggleTrafficClicked()"></button>
 </div>

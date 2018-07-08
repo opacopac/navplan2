@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Position4d} from '../../../shared/model/geometry/position4d';
 import {Timestamp} from '../../../shared/model/quantities/timestamp';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Observable} from 'rxjs/Observable';
+import {Observable, BehaviorSubject} from 'rxjs';
 import {Altitude} from '../../../shared/model/quantities/altitude';
 import {LengthUnit} from '../../../shared/model/units';
+import {map} from 'rxjs/operators';
 
 
 export enum LocationServiceStatus {
@@ -51,7 +51,10 @@ export class LocationService {
 
 
     get isWatching$(): Observable<boolean> {
-        return this.watchIdSource.asObservable().map(watchId => watchId !== undefined);
+        return this.watchIdSource.asObservable()
+            .pipe(
+                map(watchId => watchId !== undefined)
+            );
     }
 
 

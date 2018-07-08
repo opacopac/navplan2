@@ -1,8 +1,6 @@
 import * as ol from 'openlayers';
-import 'rxjs/add/observable/combineLatest';
-import 'rxjs/add/operator/distinctUntilChanged';
-import {Observable} from 'rxjs/Observable';
-import {Subscription} from 'rxjs/Subscription';
+import {Observable} from 'rxjs';
+import {Subscription} from 'rxjs';
 import {UnitconversionService} from '../../shared/services/unitconversion/unitconversion.service';
 import {Angle} from '../../shared/model/quantities/angle';
 import {Distance} from '../../shared/model/quantities/distance';

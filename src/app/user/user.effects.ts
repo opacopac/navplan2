@@ -2,9 +2,9 @@ import {Router} from '@angular/router';
 import {Injectable} from '@angular/core';
 import {Action} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {Observable} from 'rxjs/Observable';
-import {catchError, map, switchMap} from 'rxjs/operators';
-import 'rxjs/add/operator/do';
+import {Observable} from 'rxjs';
+import {catchError, map, switchMap, tap} from 'rxjs/operators';
+import {of} from 'rxjs';
 import {
     AutoLoginUserAction,
     LoginUserAction,
@@ -38,7 +38,7 @@ export class UserEffects {
         ofType(UserActionTypes.USER_AUTOLOGIN),
         switchMap((action: AutoLoginUserAction) => this.userService.reLogin(action.email, action.token).pipe(
             map(user => new LoginUserSuccessAction(user, true)),
-            catchError(error => Observable.of(new LoginUserErrorAction(error.message)))
+            catchError(error => of(new LoginUserErrorAction(error.message)))
         ))
     );
 
@@ -48,30 +48,30 @@ export class UserEffects {
         ofType(UserActionTypes.USER_LOGIN),
         switchMap((action: LoginUserAction) => this.userService.login(action.email, action.password).pipe(
             map(user => new LoginUserSuccessAction(user, action.remember)),
-            catchError(error => Observable.of(new LoginUserErrorAction(error.message)))
+            catchError(error => of(new LoginUserErrorAction(error.message)))
         ))
     );
 
 
     @Effect({ dispatch: false })
     loginUserSuccess$: Observable<Action> = this.actions$.pipe(
-        ofType(UserActionTypes.USER_LOGIN_SUCCESS)
-    )
-        .do((action: LoginUserSuccessAction) => {
+        ofType(UserActionTypes.USER_LOGIN_SUCCESS),
+        tap((action: LoginUserSuccessAction) => {
             this.messageService.writeSuccessMessage('Welcome ' + action.user.email + '!');
             this.clientStorageService.persistUser(action.user, action.remember);
             this.router.navigate(['/map']);
-        });
+        })
+    );
 
 
     @Effect({ dispatch: false })
     loginUserError$: Observable<Action> = this.actions$.pipe(
-        ofType(UserActionTypes.USER_LOGIN_ERROR)
-    )
-        .do((action: LoginUserErrorAction) => {
+        ofType(UserActionTypes.USER_LOGIN_ERROR),
+        tap((action: LoginUserErrorAction) => {
             this.messageService.writeErrorMessage(action.error);
             this.clientStorageService.deletePersistedUser();
-        });
+        })
+    );
 
     // endregion
 
@@ -83,30 +83,30 @@ export class UserEffects {
         ofType(UserActionTypes.USER_LOGOUT),
         switchMap((action: LogoutUserAction) => this.userService.logout(action.email, action.token).pipe(
             map(() => new LogoutUserSuccessAction()),
-            catchError(error => Observable.of(new LogoutUserErrorAction(error.message)))
+            catchError(error => of(new LogoutUserErrorAction(error.message)))
         ))
     );
 
 
     @Effect({ dispatch: false })
     logoutUserSuccess$: Observable<Action> = this.actions$.pipe(
-        ofType(UserActionTypes.USER_LOGOUT_SUCCESS)
-    )
-        .do(() => {
+        ofType(UserActionTypes.USER_LOGOUT_SUCCESS),
+        tap(() => {
             this.messageService.writeSuccessMessage('User successfully logged out!');
             this.clientStorageService.deletePersistedUser();
             this.router.navigate(['/map']);
-        });
+        })
+    );
 
 
     @Effect({ dispatch: false })
     logoutUserError$: Observable<Action> = this.actions$.pipe(
-        ofType(UserActionTypes.USER_LOGOUT_ERROR)
-    )
-        .do((action: LogoutUserErrorAction) => {
+        ofType(UserActionTypes.USER_LOGOUT_ERROR),
+        tap((action: LogoutUserErrorAction) => {
             this.messageService.writeErrorMessage(action.error);
             this.clientStorageService.deletePersistedUser();
-        });
+        })
+    );
 
     // endregion
 }

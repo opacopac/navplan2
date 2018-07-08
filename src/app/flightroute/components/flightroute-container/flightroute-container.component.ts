@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {getFlightroute, getFlightrouteList} from '../../flightroute.selectors';
 import {getCurrentUser} from '../../../user/user.selectors';
 import {FlightrouteListEntry} from '../../model/flightroute-list-entry';

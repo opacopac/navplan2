@@ -1,11 +1,6 @@
 import * as ol from 'openlayers';
-import 'rxjs/add/observable/combineLatest';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/withLatestFrom';
-import 'rxjs/add/operator/distinctUntilChanged';
 import {OlComponent} from '../../shared/ol-component/ol-component';
-import {Subscription} from 'rxjs/Subscription';
-import {Observable} from 'rxjs/Observable';
+import {Observable, Subscription} from 'rxjs';
 import {Waypoint} from '../model/waypoint';
 import {MapContext} from '../../map/model/map-context';
 

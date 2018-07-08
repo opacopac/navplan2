@@ -1,10 +1,9 @@
 import * as ol from 'openlayers';
 import {OlComponent} from '../../shared/ol-component/ol-component';
 import {MapContext} from '../../map/model/map-context';
-import {Observable} from 'rxjs/Observable';
 import {Mapfeatures} from '../model/mapfeatures';
 import {getMapFeatures} from '../map-features.selectors';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {OlNavaid} from './ol-navaid';
 import {OlAirport} from './ol-airport';
 import {OlReportingPoint} from './ol-reporting-point';
@@ -16,7 +15,6 @@ import {OlAirspace} from './ol-airspace';
 
 
 export class OlMapFeaturesContainer extends OlComponent {
-    private readonly mapFeatures$: Observable<Mapfeatures>;
     private readonly mapFeaturesSubscription: Subscription;
     private readonly olAirports: OlAirport[] = [];
     private readonly olNavaids: OlNavaid[] = [];
@@ -32,8 +30,8 @@ export class OlMapFeaturesContainer extends OlComponent {
 
         const routeItemsSource = mapContext.mapService.routeItemsLayer.getSource();
         const nonRouteItemsSource = mapContext.mapService.nonrouteItemsLayer.getSource();
-        this.mapFeatures$ = mapContext.appStore.select(getMapFeatures);
-        this.mapFeaturesSubscription = this.mapFeatures$.subscribe((mapFeatures) => {
+        const mapFeatures$ = mapContext.appStore.select(getMapFeatures);
+        this.mapFeaturesSubscription = mapFeatures$.subscribe((mapFeatures) => {
             this.addFeatures(mapFeatures, routeItemsSource, nonRouteItemsSource);
         });
     }

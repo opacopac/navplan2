@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Action, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {debounceTime, filter, map, switchMap, withLatestFrom, catchError} from 'rxjs/operators';
 import {throwError} from 'rxjs/index';
 import {SearchService} from './services/search/search.service';

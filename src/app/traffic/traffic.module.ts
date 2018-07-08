@@ -7,12 +7,18 @@ import {TrafficOgnService} from './services/traffic-ogn.service';
 import {MapOverlayTrafficComponent} from './components/map-overlay-traffic/map-overlay-traffic.component';
 import {TrafficButtonComponent} from './components/traffic-button/traffic-button.component';
 import {SharedModule} from '../shared/shared.module';
+import {StoreModule} from '@ngrx/store';
+import {trafficReducer} from './traffic.reducer';
+import {EffectsModule} from '@ngrx/effects';
+import {TrafficEffects} from './traffic.effects';
 
 
 @NgModule({
     imports: [
         CommonModule,
-        SharedModule
+        SharedModule,
+        StoreModule.forFeature('trafficState', trafficReducer),
+        EffectsModule.forFeature([TrafficEffects]),
     ],
     declarations: [
         MapOverlayTrafficComponent,

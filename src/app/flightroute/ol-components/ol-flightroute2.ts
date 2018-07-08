@@ -2,14 +2,10 @@ import * as ol from 'openlayers';
 import {RxService} from '../../shared/services/rx/rx.service';
 import {OlComponent} from '../../shared/ol-component/ol-component';
 import {OlWaypoint2} from './ol-waypoint2';
-import {Subscription} from 'rxjs/Subscription';
-import {Observable} from 'rxjs/Observable';
+import {Subscription} from 'rxjs';
+import {Observable} from 'rxjs';
 import {OlRouteLine} from './ol-route-line';
 import {OlAlternateLine} from './ol-alternate-line';
-import 'rxjs/add/observable/combineLatest';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/withLatestFrom';
-import 'rxjs/add/operator/distinctUntilChanged';
 import {Flightroute} from '../model/flightroute';
 import {Waypoint} from '../model/waypoint';
 import {MapContext} from '../../map/model/map-context';
@@ -31,10 +27,10 @@ export class OlFlightroute2 extends OlComponent {
         super();
 
         // create line features (route & alternate)
-        this.routeLine = new OlRouteLine(
+        /*this.routeLine = new OlRouteLine(
             this.mapContext,
             this.flightroute$,
-            this.source);
+            this.source);*/
         /*this.alternateLine = new OlAlternateLine(
             this.mapContext,
             this.flightroute$.switchMap(route => route ? route.waypointList.alternate$ : RxService.getEternal<Waypoint2>()),

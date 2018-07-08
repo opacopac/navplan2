@@ -2,10 +2,9 @@ import $ from 'jquery';
 declare var $: $; // wtf? --> https://github.com/dougludlow/ng2-bs3-modal/issues/147
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {Observable} from 'rxjs/Observable';
+import {Observable, Subscription} from 'rxjs';
 import {Waypoint} from '../../model/waypoint';
 import {getEditWaypoint} from '../../flightroute.selectors';
-import {Subscription} from 'rxjs/Subscription';
 import {CancelEditWaypointAction, SaveEditWaypointAction} from '../../waypoints.actions';
 
 

@@ -3,9 +3,10 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
 import {LoggingService} from '../../../shared/services/logging/logging.service';
 import {User} from '../../model/user';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {throwError} from 'rxjs/internal/observable/throwError';
+import {of} from 'rxjs/internal/observable/of';
 
 
 const userBaseUrl =  environment.restApiBaseUrl + 'php/users.php';
@@ -42,7 +43,7 @@ export class UserService {
                 switchMap((response) => {
                     switch (response.body.resultcode) {
                         case 0:
-                            return Observable.of(new User(email, response.body.token));
+                            return of(new User(email, response.body.token));
                         case -1:
                             return throwError('Wrong password!');
                         case -2:
@@ -71,7 +72,7 @@ export class UserService {
                 switchMap((response) => {
                     switch (response.body.resultcode) {
                         case 0:
-                            return Observable.of(new User(email, response.body.token));
+                            return of(new User(email, response.body.token));
                         case -2:
                             return throwError('Email or token not found!');
                         default:
@@ -98,7 +99,7 @@ export class UserService {
                 switchMap((response) => {
                     switch (response.body.resultcode) {
                         case 0:
-                            return Observable.of(undefined);
+                            return of(undefined);
                         case -2:
                             return throwError('Email or token not found!');
                         default:
@@ -125,7 +126,7 @@ export class UserService {
                 switchMap(response => {
                     switch (response.body.resultcode) {
                         case 0:
-                            return Observable.of(new User(email, response.body.token));
+                            return of(new User(email, response.body.token));
                         case -1:
                             return throwError('Email already exists!');
                         default:
@@ -148,7 +149,7 @@ export class UserService {
                 switchMap(response => {
                     switch (response.body.resultcode) {
                         case 0:
-                            return Observable.of();
+                            return of(undefined);
                         case -2:
                             return throwError('Email not found!');
                         default:
@@ -177,7 +178,7 @@ export class UserService {
             switchMap(response => {
                 switch (response.body.resultcode) {
                     case 0:
-                        return Observable.of();
+                        return of(undefined);
                     case -1:
                         return throwError('Wrong password!');
                     case -2:
