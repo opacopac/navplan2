@@ -1,35 +1,55 @@
 import * as ol from 'openlayers';
-import { UnitconversionService } from '../../shared/services/unitconversion/unitconversion.service';
-import { OlFeature } from '../../shared/model/ol-feature';
-import { Notam } from '../model/notam';
-import { Polygon } from '../../shared/model/geometry/polygon';
-import { Multipolygon } from '../../shared/model/geometry/multipolygon';
-import { Circle } from '../../shared/model/geometry/circle';
-import { Geometry2dType } from '../../shared/model/geometry/geometry2d';
+import {UnitconversionService} from '../../shared/services/unitconversion/unitconversion.service';
+import {Notam} from '../model/notam';
+import {Polygon} from '../../shared/model/geometry/polygon';
+import {Multipolygon} from '../../shared/model/geometry/multipolygon';
+import {Circle} from '../../shared/model/geometry/circle';
+import {Geometry2dType} from '../../shared/model/geometry/geometry2d';
+import {OlComponent} from '../../shared/ol-component/ol-component';
 
 
-export class OlNotam extends OlFeature {
+export class OlNotam extends OlComponent {
+    private readonly olFeature: ol.Feature;
+
+
     public constructor(
-        public notam: Notam) {
+        notam: Notam,
+        private readonly source: ol.source.Vector) {
 
-        super(notam);
+        super();
+
+
+        this.olFeature = this.createFeature(notam);
+        this.olFeature.setStyle(this.createStyle(notam));
+        this.setGeometry(this.olFeature, notam);
+        this.source.addFeature(this.olFeature);
     }
 
 
-    public draw(source: ol.source.Vector) {
-        if (!this.notam || ! this.notam.geometry || ! this.notam.geometry.geometry2d) {
+    public get isSelectable(): boolean {
+        return true;
+    }
+
+
+    public destroy() {
+        this.removeFeature(this.olFeature, this.source);
+    }
+
+
+    private setGeometry(feature: ol.Feature, notam: Notam) {
+        if (!notam || ! notam.geometry || ! notam.geometry.geometry2d) {
             return;
         }
 
-        switch (this.notam.geometry.geometry2d.getGeometryType()) {
+        switch (notam.geometry.geometry2d.getGeometryType()) {
             case Geometry2dType.POLYGON:
-                this.setGeometry(new ol.geom.Polygon([(this.notam.geometry.geometry2d as Polygon).getMercatorList()]));
+                this.setPolygonGeometry(feature, notam.geometry.geometry2d as Polygon);
                 break;
             case Geometry2dType.MULTIPOLYGON:
-                this.setGeometry(new ol.geom.Polygon((this.notam.geometry.geometry2d as Multipolygon).getMercatorList()));
+                this.setMultiPolygonGeometry(feature, notam.geometry.geometry2d as Multipolygon);
                 break;
             case Geometry2dType.CIRCLE:
-                const circle = this.notam.geometry.geometry2d as Circle;
+                const circle = notam.geometry.geometry2d as Circle;
 
                 // TODO: skip circles > 50nm
                 if (circle.radius_m > UnitconversionService.nautmile2m(50)) {
@@ -41,22 +61,15 @@ export class OlNotam extends OlFeature {
                     new ol.Sphere(6378137),
                     circle.center.getLonLat(),
                     circle.radius_m);
-                this.setGeometry(new ol.geom.Polygon([Polygon.createFromLonLatList(polycirc.getCoordinates()[0]).getMercatorList()]));
+                this.setPolygonGeometry(feature, Polygon.createFromLonLatList(polycirc.getCoordinates()[0]));
                 break;
             default:
                 return;
         }
-
-
-        const style = this.createStyle();
-        if (style) {
-            this.setStyle(style);
-            source.addFeature(this);
-        }
     }
 
 
-    protected createStyle(): ol.style.Style {
+    protected createStyle(notam: Notam): ol.style.Style {
         return new ol.style.Style({
             fill: new ol.style.Fill({
                 color: 'rgba(255, 0, 0, 0.15)'}),
@@ -66,7 +79,7 @@ export class OlNotam extends OlFeature {
             }),
             text: new ol.style.Text({
                 font: 'bold 14px Calibri,sans-serif',
-                text: this.notam.id,
+                text: notam.id,
                 fill: new ol.style.Fill({color: 'rgba(255, 0, 0, 1.0)'}),
                 stroke: new ol.style.Stroke({color: '#FFFFFF', width: 2}),
             })

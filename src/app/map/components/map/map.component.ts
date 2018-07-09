@@ -24,6 +24,7 @@ import {MapbaselayerType} from '../../model/mapbaselayer-factory';
 import {OlMapFeaturesContainer} from '../../../map-features/ol-components/ol-map-features-container';
 import {MapContext} from '../../model/map-context';
 import {OlFlightrouteContainer} from '../../../flightroute/ol-components/ol-flightroute-container';
+import {OlNotamContainer} from '../../../notam/ol-component/ol-notam-container';
 
 
 @Component({
@@ -44,6 +45,7 @@ export class MapComponent implements OnInit, OnDestroy {
     @ViewChild(SearchBoxComponent) searchBox: SearchBoxComponent;
     private olMapFeatures: OlMapFeaturesContainer;
     private olFlightroute: OlFlightrouteContainer;
+    private olNotams: OlNotamContainer;
     private mapMovedZoomedRotatedSubscription: Subscription;
     private mapClickedSubscription: Subscription;
     private mapPosition$: Observable<Position2d>;
@@ -81,6 +83,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
         this.olMapFeatures.destroy();
         this.olFlightroute.destroy();
+        this.olNotams.destroy();
 
         this.mapService.uninitMap();
     }
@@ -103,6 +106,7 @@ export class MapComponent implements OnInit, OnDestroy {
             const mapContext = new MapContext(this.appStore, this.mapService.map, this.mapService);
             this.olMapFeatures = new OlMapFeaturesContainer(mapContext);
             this.olFlightroute = new OlFlightrouteContainer(mapContext);
+            this.olNotams = new OlNotamContainer(mapContext);
             // TODO: features
         });
     }

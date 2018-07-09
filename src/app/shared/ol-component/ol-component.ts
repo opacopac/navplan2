@@ -2,6 +2,7 @@ import * as ol from 'openlayers';
 import {Position2d} from '../model/geometry/position2d';
 import {DataItem} from '../model/data-item';
 import {Polygon} from '../model/geometry/polygon';
+import {Multipolygon} from '../model/geometry/multipolygon';
 
 
 export abstract class OlComponent {
@@ -102,6 +103,20 @@ export abstract class OlComponent {
             feature.setGeometry(new ol.geom.Polygon([newPolygon]));
         } else {
             olPolygon.setCoordinates([newPolygon]);
+        }
+    }
+
+
+    protected setMultiPolygonGeometry(feature: ol.Feature, multiPolygon: Multipolygon) {
+        if (!multiPolygon) {
+            this.hideFeature(feature);
+        }
+        const newPolygon = multiPolygon ? multiPolygon.getMercatorList() : undefined;
+        const olPolygon = (feature.getGeometry() as ol.geom.Polygon);
+        if (!olPolygon) {
+            feature.setGeometry(new ol.geom.Polygon(newPolygon));
+        } else {
+            olPolygon.setCoordinates(newPolygon);
         }
     }
 }
