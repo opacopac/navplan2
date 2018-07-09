@@ -1,28 +1,43 @@
 import * as ol from 'openlayers';
-import { OlFeaturePoint } from '../../shared/model/ol-feature';
-import { Position2d } from '../../shared/model/geometry/position2d';
 import {environment} from '../../../environments/environment';
 import {MetarTaf} from '../model/metar-taf';
+import {OlComponent} from '../../shared/ol-component/ol-component';
+import {Position2d} from '../../shared/model/geometry/position2d';
 
 
-export class OlMetarSky extends OlFeaturePoint {
+export class OlMetarSky extends OlComponent {
+    private readonly olFeature: ol.Feature;
+
+
     public constructor(
-        public metarTaf: MetarTaf) {
+        metarTaf: MetarTaf,
+        position: Position2d,
+        private readonly source: ol.source.Vector) {
 
-        super(metarTaf);
+        super();
+
+        this.olFeature = this.createFeature(metarTaf);
+        this.olFeature.setStyle(this.createPointStyle(metarTaf));
+        this.setPointGeometry(this.olFeature, position);
+        this.source.addFeature(this.olFeature);
     }
 
 
-    protected getPosition(): Position2d {
-        return this.metarTaf.position;
+    public get isSelectable(): boolean {
+        return true;
     }
 
 
-    protected createPointStyle(): ol.style.Style {
+    public destroy() {
+        this.removeFeature(this.olFeature, this.source);
+    }
+
+
+    private createPointStyle(metarTaf: MetarTaf): ol.style.Style {
         let src = environment.iconBaseUrl;
-        const wx_cond = this.metarTaf.wx_cond ? this.metarTaf.wx_cond : '';
+        const wx_cond = metarTaf.wx_cond ? metarTaf.wx_cond : '';
 
-        switch (this.metarTaf.cloud_cover) {
+        switch (metarTaf.cloud_cover) {
             case 'CAVOK' :
             case 'SKC' :
             case 'CLR' :

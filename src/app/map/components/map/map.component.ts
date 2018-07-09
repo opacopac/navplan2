@@ -25,6 +25,7 @@ import {OlMapFeaturesContainer} from '../../../map-features/ol-components/ol-map
 import {MapContext} from '../../model/map-context';
 import {OlFlightrouteContainer} from '../../../flightroute/ol-components/ol-flightroute-container';
 import {OlNotamContainer} from '../../../notam/ol-component/ol-notam-container';
+import {OlMetarContainer} from '../../../metar-taf/ol-components/ol-metar-container';
 
 
 @Component({
@@ -46,6 +47,7 @@ export class MapComponent implements OnInit, OnDestroy {
     private olMapFeatures: OlMapFeaturesContainer;
     private olFlightroute: OlFlightrouteContainer;
     private olNotams: OlNotamContainer;
+    private olMetars: OlMetarContainer;
     private mapMovedZoomedRotatedSubscription: Subscription;
     private mapClickedSubscription: Subscription;
     private mapPosition$: Observable<Position2d>;
@@ -107,6 +109,7 @@ export class MapComponent implements OnInit, OnDestroy {
             this.olMapFeatures = new OlMapFeaturesContainer(mapContext);
             this.olFlightroute = new OlFlightrouteContainer(mapContext);
             this.olNotams = new OlNotamContainer(mapContext);
+            this.olMetars = new OlMetarContainer(mapContext);
             // TODO: features
         });
     }

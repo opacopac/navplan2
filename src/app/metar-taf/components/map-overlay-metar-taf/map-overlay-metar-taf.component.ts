@@ -30,7 +30,8 @@ export class MapOverlayMetarTafComponent implements OnInit {
 
 
     public getPosition(clickPos: Position2d): Position2d {
-        return this.metarTaf.position;
+        return undefined;
+        //return this.metarTaf.position;
     }
 
 

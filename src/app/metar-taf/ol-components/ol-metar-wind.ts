@@ -1,35 +1,51 @@
 import * as ol from 'openlayers';
-import { OlFeaturePoint } from '../../shared/model/ol-feature';
-import { MetarTaf } from '../model/metar-taf';
-import { Position2d } from '../../shared/model/geometry/position2d';
-import { UnitconversionService } from '../../shared/services/unitconversion/unitconversion.service';
+import {MetarTaf} from '../model/metar-taf';
+import {UnitconversionService} from '../../shared/services/unitconversion/unitconversion.service';
 import {environment} from '../../../environments/environment';
+import {OlComponent} from '../../shared/ol-component/ol-component';
+import {Position2d} from '../../shared/model/geometry/position2d';
+import {Angle} from '../../shared/model/quantities/angle';
 
 
-export class OlMetarWind extends OlFeaturePoint {
+export class OlMetarWind extends OlComponent {
+    private readonly olFeature: ol.Feature;
+
+
     public constructor(
-        private metarTaf: MetarTaf,
-        private mapRotationRad: number) {
+        metarTaf: MetarTaf,
+        position: Position2d,
+        mapRotation: Angle,
+        private readonly source: ol.source.Vector) {
 
-        super(metarTaf);
+        super();
+
+        this.olFeature = this.createFeature(metarTaf);
+        this.olFeature.setStyle(this.createPointStyle(metarTaf, mapRotation));
+        this.setPointGeometry(this.olFeature, position);
+        this.source.addFeature(this.olFeature);
     }
 
 
-    protected getPosition(): Position2d {
-        return this.metarTaf.position;
+    public get isSelectable(): boolean {
+        return true;
     }
 
 
-    protected createPointStyle(): ol.style.Style {
+    public destroy() {
+        this.removeFeature(this.olFeature, this.source);
+    }
+
+
+    private createPointStyle(metarTaf: MetarTaf, mapRotation: Angle): ol.style.Style {
         let src = environment.iconBaseUrl;
-        let rot = this.metarTaf.wind_dir_deg ?
-            UnitconversionService.deg2rad(this.metarTaf.wind_dir_deg + 90) + this.mapRotationRad : undefined;
+        let rot = metarTaf.wind_dir_deg ?
+            UnitconversionService.deg2rad(metarTaf.wind_dir_deg + 90) + mapRotation.rad : undefined;
         const windrange = [[0, '0'], [2, '1-2'], [7, '5'], [12, '10'], [17, '15'], [22, '20'], [27, '25'], [32, '30'],
             [37, '35'], [42, '40'], [47, '45'], [55, '50'], [65, '60'], [75, '70'], [85, '80'], [95, '90'], [105, '100']];
 
 
         for (let i = 0; i < windrange.length; i++) {
-            if (this.metarTaf.wind_speed_kt <= windrange[i][0]) {
+            if (metarTaf.wind_speed_kt <= windrange[i][0]) {
                 src += 'wind_' + windrange[i][1] + 'kt.png';
 
                 if (i === 0) {

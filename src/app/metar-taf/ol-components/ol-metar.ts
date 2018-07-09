@@ -1,27 +1,37 @@
 import * as ol from 'openlayers';
-import {MetarTaf} from '../model/metar-taf';
 import {OlMetarSky} from './ol-metar-sky';
 import {OlMetarWind} from './ol-metar-wind';
-import {OlFeature} from '../../shared/model/ol-feature';
+import {OlComponent} from '../../shared/ol-component/ol-component';
+import {MetarTaf} from '../model/metar-taf';
+import {Position2d} from '../../shared/model/geometry/position2d';
+import {Angle} from '../../shared/model/quantities/angle';
 
 
-export class OlMetar extends OlFeature {
+export class OlMetar extends OlComponent {
+    private readonly olMetarSky: OlMetarSky;
+    private readonly olMetarWind: OlMetarWind;
+
+
     public constructor(
-        private metarTaf: MetarTaf,
-        private mapRotationRad: number) {
+        metarTaf: MetarTaf,
+        position: Position2d,
+        mapRotation: Angle,
+        source: ol.source.Vector) {
 
-        super(metarTaf);
+        super();
+
+        this.olMetarSky = new OlMetarSky(metarTaf, position, source);
+        this.olMetarWind = new OlMetarWind(metarTaf, position, mapRotation, source);
     }
 
 
-    public draw(source: ol.source.Vector) {
-        // sky conditions
-        const skycondFeature = new OlMetarSky(this.metarTaf);
-        skycondFeature.draw(source);
+    public get isSelectable(): boolean {
+        return false;
+    }
 
 
-        // wind
-        const windFeature = new OlMetarWind(this.metarTaf, this.mapRotationRad);
-        windFeature.draw(source);
+    public destroy() {
+        this.olMetarSky.destroy();
+        this.olMetarWind.destroy();
     }
 }

@@ -1,5 +1,4 @@
 import {DataItem} from '../../shared/model/data-item';
-import {Position2d} from '../../shared/model/geometry/position2d';
 
 
 export class MetarTafList {
@@ -8,8 +7,6 @@ export class MetarTafList {
 
 
 export class MetarTaf extends DataItem {
-    public position: Position2d;
-
     constructor(
         public ad_icao: string,
         public metar_obs_timestamp: number,
