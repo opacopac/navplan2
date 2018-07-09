@@ -5,12 +5,18 @@ import {MapOverlayButtonNotamComponent} from './components/map-overlay-button-no
 import {MapOverlayNotamComponent} from './components/map-overlay-notam/map-overlay-notam.component';
 import {MapOverlayNotamItemComponent} from './components/map-overlay-notam-item/map-overlay-notam-item.component';
 import {SharedModule} from '../shared/shared.module';
+import {StoreModule} from '@ngrx/store';
+import {notamReducer} from './notam.reducer';
+import {EffectsModule} from '@ngrx/effects';
+import {NotamEffects} from './notam.effects';
 
 
 @NgModule({
     imports: [
         CommonModule,
-        SharedModule
+        SharedModule,
+        StoreModule.forFeature('notamState', notamReducer),
+        EffectsModule.forFeature([NotamEffects])
     ],
     declarations: [
         MapOverlayButtonNotamComponent,

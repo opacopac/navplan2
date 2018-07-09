@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
-import { LoggingService } from '../../shared/services/logging/logging.service';
-import { CachingExtentLoader } from '../../shared/services/caching-extent-loader/caching-extent-loader';
-import { NotamList } from '../model/notam';
-import {User} from '../../user/model/user';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../../environments/environment';
+import {LoggingService} from '../../shared/services/logging/logging.service';
+import {NotamList} from '../model/notam';
 import {Extent} from '../../shared/model/extent';
-import {NotamResponse, NotamResponse2, RestMapperNotam} from '../model/rest-mapper-notam';
+import {NotamResponse, RestMapperNotam} from '../model/rest-mapper-notam';
+import {Observable} from 'rxjs/internal/Observable';
+import {catchError, map} from 'rxjs/operators';
 
 
 const NOTAM_BASE_URL = environment.restApiBaseUrl + 'php/notam.php'; // TODO: move to searchservice
@@ -14,10 +14,8 @@ const NOTAM_BASE_URL2 = environment.restApiBaseUrl + 'php/search/SearchService.p
 
 
 @Injectable()
-export class NotamService extends CachingExtentLoader<NotamList> {
+export class NotamService {
     constructor(private http: HttpClient) {
-
-        super();
     }
 
 
@@ -31,30 +29,22 @@ export class NotamService extends CachingExtentLoader<NotamList> {
     }
 
 
-    protected loadFromSource(
-        extent: Extent,
-        zoom: number,
-        user: User,
-        successCallback: (NotamList) => void,
-        errorCallback: (string) => void) {
+    public load(extent: Extent, zoom: number): Observable<NotamList> {
 
         const startEndTime = this.getDefaultNotamTimeslot();
         const url = NOTAM_BASE_URL + '?starttimestamp=' + startEndTime[0] + '&endtimestamp=' + startEndTime[1] +
             '&minlon=' + extent[0] + '&minlat=' + extent[1] + '&maxlon=' + extent[2] + '&maxlat=' + extent[3] +
             '&zoom=' + zoom;
 
-        this.http
+        return this.http
             .jsonp<NotamResponse>(url, 'callback')
-            .subscribe(
-                response => {
-                    const notamList = RestMapperNotam.getNotamListFromResponse(response);
-                    successCallback(notamList);
-                },
-                err => {
-                    const message = 'ERROR reading NOTAMs!';
-                    LoggingService.logResponseError(message, err);
-                    errorCallback(message);
-                });
+            .pipe(
+                map(response => RestMapperNotam.getNotamListFromResponse(response)),
+                catchError((error, subject) => {
+                    LoggingService.logResponseError('ERROR reading NOTAMs!', error);
+                    return subject;
+                })
+            );
     }
 
 
@@ -63,13 +53,13 @@ export class NotamService extends CachingExtentLoader<NotamList> {
         successCallback: (NotamList) => void,
         errorCallback: (string) => void) {
 
-        const startEndTime = this.getDefaultNotamTimeslot();
-        const url = NOTAM_BASE_URL2 + '?action=searchByIcao&searchItems=notams&icao=' + icaoList.join(',')
-            + '&minnotamtime=' + startEndTime[0] + '&maxnotamtime=' + startEndTime[1];
+        // const startEndTime = this.getDefaultNotamTimeslot();
+        /* const url = NOTAM_BASE_URL2 + '?action=searchByIcao&searchItems=notams&icao=' + icaoList.join(',')
+            + '&minnotamtime=' + startEndTime[0] + '&maxnotamtime=' + startEndTime[1];*/
         /*const url = NOTAM_BASE_URL + '?icaolist=' + icaoList.join(',')
             + '&starttimestamp=' + startEndTime[0] + '&endtimestamp=' + startEndTime[1];*/
 
-        this.http
+        /* this.http
             .jsonp<NotamResponse2>(url, 'callback')
             .subscribe(
                 response => {
@@ -80,7 +70,7 @@ export class NotamService extends CachingExtentLoader<NotamList> {
                     const message = 'ERROR reading NOTAMs!';
                     LoggingService.logResponseError(message, err);
                     errorCallback(message);
-                });
+                });*/
     }
 
 

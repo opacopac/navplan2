@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs/internal/Observable';
+import {catchError, map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {LoggingService} from '../../shared/services/logging/logging.service';
-import {CachingExtentLoader} from '../../shared/services/caching-extent-loader/caching-extent-loader';
 import {Extent} from '../../shared/model/extent';
 import {MetarTafList} from '../model/metar-taf';
 import {MetarTafResponse, RestMapperMetarTaf} from '../model/rest-mapper-metar-taf';
-import {User} from '../../user/model/user';
 
 
 const MIN_ZOOM_LEVEL = 8;
@@ -15,10 +15,8 @@ const METAR_TAF_BASE_URL = 'https://www.aviationweather.gov/gis/scripts/MetarJSO
 
 
 @Injectable()
-export class MetarTafService extends CachingExtentLoader<MetarTafList> {
+export class MetarTafService {
     constructor(private http: HttpClient) {
-
-        super();
     }
 
 
@@ -32,31 +30,22 @@ export class MetarTafService extends CachingExtentLoader<MetarTafList> {
     }
 
 
-    protected loadFromSource(
-        extent: Extent,
-        zoom: number,
-        user: User,
-        successCallback: (MetarTafList) => void,
-        errorCallback: (string) => void) {
-
+    public load(extent: Extent, zoom: number): Observable<MetarTafList> {
         // TODO
         if (zoom <= MIN_ZOOM_LEVEL) {
             return;
         }
 
         const url = METAR_TAF_BASE_URL + extent[0] + ',' + extent[1] + ',' + extent[2] + ',' + extent[3];
-        this.http
+        return this.http
             .jsonp<MetarTafResponse>(url, 'jsonp')
-            .subscribe(
-                response => {
-                    const metarTafList = RestMapperMetarTaf.getMetarTafListFromResponse(response);
-                    successCallback(metarTafList);
-                },
-                err => {
-                    const message = 'ERROR reading METAR/TAF!';
-                    LoggingService.logResponseError(message, err);
-                    errorCallback(message);
-                });
+            .pipe(
+                map(response => RestMapperMetarTaf.getMetarTafListFromResponse(response)),
+                catchError((error, subject) => {
+                    LoggingService.logResponseError('ERROR reading METAR/TAF!', error);
+                    return subject;
+                }),
+            );
     }
 
 
@@ -66,7 +55,7 @@ export class MetarTafService extends CachingExtentLoader<MetarTafList> {
         errorCallback: (string) => void) {
 
         // search in cache
-        for (const cacheItem of this.cacheItemList) {
+        /*for (const cacheItem of this.cacheItemList) {
             for (const metarTaf of cacheItem.item.items) {
                 if (metarTaf.ad_icao === icao) {
                     if (successCallback) {
@@ -76,7 +65,7 @@ export class MetarTafService extends CachingExtentLoader<MetarTafList> {
                     return;
                 }
             }
-        }
+        }*/
 
         // TODO: load from aviationweather
     }
