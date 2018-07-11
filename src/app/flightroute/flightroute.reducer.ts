@@ -8,6 +8,7 @@ import {Speed} from '../shared/model/quantities/speed';
 import {ConsumptionUnit, SpeedUnit, TimeUnit} from '../shared/model/units';
 import {Consumption} from '../shared/model/quantities/consumption';
 import {Time} from '../shared/model/quantities/time';
+import {WaypointsReducer} from './waypoints.reducer';
 
 
 const initialState: FlightrouteState = {
@@ -46,7 +47,10 @@ export function flightrouteReducer(
             return { ...state, flightrouteList: undefined };
 
         case FlightrouteActionTypes.FLIGHTROUTE_READ_SUCCESS:
-            return { ...state, flightroute: action.flightroute };
+            newFlightroute = action.flightroute;
+            newFlightroute.waypoints = WaypointsReducer.calcWaypointList(action.flightroute);
+            newFlightroute.alternate = WaypointsReducer.calcAlternate(action.flightroute);
+            return { ...state, flightroute: newFlightroute };
 
         case FlightrouteActionTypes.FLIGHTROUTE_SAVE_SUCCESS:
             return { ...state, flightroute: action.flightroute };

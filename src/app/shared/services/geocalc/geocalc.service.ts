@@ -11,11 +11,6 @@ const toDeg = (180 / Math.PI);
 
 
 export class GeocalcService {
-    public static getDistance_old(pos1: Position2d, pos2: Position2d): number {
-        return this.getDistance(pos1, pos2).getValue(LengthUnit.NM);
-    }
-
-
     public static getBearing_old(pos1: Position2d, pos2: Position2d, magvar: number): number {
         return this.getBearing(pos1, pos2, new Angle(magvar, AngleUnit.DEG)).deg;
     }

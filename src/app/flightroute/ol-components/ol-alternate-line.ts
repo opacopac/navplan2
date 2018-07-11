@@ -1,41 +1,22 @@
 import * as ol from 'openlayers';
 import {OlComponent} from '../../shared/ol-component/ol-component';
-import {Observable, Subscription} from 'rxjs';
-import {Waypoint} from '../model/waypoint';
-import {MapContext} from '../../map/model/map-context';
+import {Flightroute} from '../model/flightroute';
 
 
 export class OlAlternateLine extends OlComponent {
     private readonly lineFeature: ol.Feature;
-    private posSubscription: Subscription;
 
 
     public constructor(
-        private mapContext: MapContext,
-        private readonly alternateWaypoint$: Observable<Waypoint>,
-        private readonly lastRouteWaypoint$: Observable<Waypoint>,
+        flightroute: Flightroute,
         private readonly source: ol.source.Vector) {
 
         super();
 
-        // create line feature
         this.lineFeature = new ol.Feature();
         this.lineFeature.setStyle(this.getStyle());
+        this.setGeometry(this.lineFeature, flightroute);
         this.source.addFeature(this.lineFeature);
-
-        // handle position changes
-        /*this.posSubscription = Observable.combineLatest(
-            this.alternateWaypoint$.switchMap((wp) => wp ? wp.position$ : Observable.of(undefined)),
-            this.lastRouteWaypoint$.switchMap((wp) => wp ? wp.position$ : Observable.of(undefined))
-        )
-        .distinctUntilChanged()
-            .subscribe(([altPos, prevPos]) => {
-                if (!altPos || !prevPos) {
-                    this.hideFeature(this.lineFeature);
-                } else {
-                    this.setLineGeometry(this.lineFeature, [prevPos, altPos]);
-                }
-            });*/
     }
 
 
@@ -45,7 +26,18 @@ export class OlAlternateLine extends OlComponent {
 
 
     public destroy() {
-        this.posSubscription.unsubscribe();
+        this.removeFeature(this.lineFeature, this.source);
+    }
+
+
+    private setGeometry(lineFeature: ol.Feature, flightroute: Flightroute) {
+        if (flightroute.waypoints.length > 0 && flightroute.alternate) {
+            const pos1 = flightroute.waypoints[flightroute.waypoints.length - 1].position;
+            const pos2 = flightroute.alternate.position;
+            this.setLineGeometry(lineFeature, [pos1, pos2]);
+        } else {
+            this.hideFeature(lineFeature);
+        }
     }
 
 

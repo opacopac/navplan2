@@ -1,57 +1,30 @@
 import * as ol from 'openlayers';
-import {Observable, Subscription} from 'rxjs';
 import {UnitconversionService} from '../../shared/services/unitconversion/unitconversion.service';
 import {Angle} from '../../shared/model/quantities/angle';
 import {OlComponent} from '../../shared/ol-component/ol-component';
 import {OlWaypointBearingLabel} from './ol-waypoint-bearing-label';
 import {Waypoint} from '../model/waypoint';
-import {MapContext} from '../../map/model/map-context';
+
 
 export class OlWaypoint2 extends OlComponent {
     private readonly pointFeature: ol.Feature;
     private readonly bearingLabel: OlWaypointBearingLabel;
-    private positionSubscription: Subscription;
-    private textMtRotSubscription: Subscription;
 
 
     constructor(
-        private mapContext: MapContext,
-        private readonly waypoint$: Observable<Waypoint>,
+        waypoint: Waypoint,
+        nextWaypoint: Waypoint,
+        mapRotation: Angle,
         private readonly source: ol.source.Vector) {
 
         super();
 
-        // create waypoint feature
         this.pointFeature = new ol.Feature();
+        this.pointFeature.setStyle(this.createStyle(waypoint, nextWaypoint, mapRotation));
+        this.setPointGeometry(this.pointFeature, waypoint.position);
         this.source.addFeature(this.pointFeature);
 
-        // create bearing label
-        this.bearingLabel = new OlWaypointBearingLabel(this.mapContext, this.waypoint$, source);
-
-        // handle position changes
-        /* const pos$ = this.waypoint$.switchMap(wp => wp ? wp.position$ : RxService.getEternal<Position2d>());
-        this.positionSubscription = pos$
-            .distinctUntilChanged()
-            .subscribe(position => {
-                if (!position) {
-                    this.hideFeature(this.pointFeature);
-                } else {
-                    this.setPointGeometry(this.pointFeature, position);
-                }
-            });
-
-        // handle style changes
-        this.textMtRotSubscription = Observable.combineLatest(
-            this.waypoint$.switchMap(wp => wp ? wp.checkpoint$ : RxService.getEternal<string>()),
-            this.waypoint$.switchMap(wp => wp ? wp.mt$ : RxService.getEternal<Angle>()),
-            this.waypoint$.switchMap(wp => wp ? wp.nextMt$ : RxService.getEternal<Angle>()),
-            this.mapContext.mapService.mapRotation$
-        )
-            // .filter(([text, mt, nextMt, mapRotation]) => text !== undefined || mapRotation !== undefined)
-            .distinctUntilChanged()
-            .subscribe(([text, mt, nextMt, mapRotation]) => {
-                this.pointFeature.setStyle(this.createStyle(text, mt, nextMt, mapRotation));
-            });*/
+        this.bearingLabel = new OlWaypointBearingLabel(waypoint, nextWaypoint, mapRotation, source);
     }
 
 
@@ -61,14 +34,15 @@ export class OlWaypoint2 extends OlComponent {
 
 
     public destroy() {
-        this.positionSubscription.unsubscribe();
-        this.textMtRotSubscription.unsubscribe();
         this.bearingLabel.destroy();
         this.removeFeature(this.pointFeature, this.source);
     }
 
 
-    private createStyle(text: string, mt: Angle, nextMt: Angle, mapRotation: Angle): ol.style.Style {
+    private createStyle(wp: Waypoint, nextWp: Waypoint, mapRotation: Angle): ol.style.Style {
+        const text = wp ? wp.checkpoint : undefined;
+        const mt = wp ? wp.mt : undefined;
+        const nextMt = nextWp ? nextWp.mt : undefined;
         let rot_deg, rot_rad: number;
         let align: string;
         let rotateWithView = true;

@@ -2,12 +2,19 @@ import {WaypointAltitude} from './waypoint-altitude';
 import {Clonable} from '../../shared/model/clonable';
 import {Position2d} from '../../shared/model/geometry/position2d';
 import {WaypointType} from './waypoint-type';
+import {Angle} from '../../shared/model/quantities/angle';
+import {Distance} from '../../shared/model/quantities/distance';
+import {AngleUnit} from '../../shared/model/units';
 
 
 export class Waypoint implements Clonable<Waypoint> {
-    public mtText;
-    public distText;
-    public eetText;
+    public mt: Angle;
+    public dist: Distance;
+    public mtText = '';
+    public distText = '';
+    public eetText = '';
+    public vacTime = 0;
+    public variation = new Angle(0, AngleUnit.DEG);
 
 
     constructor(
