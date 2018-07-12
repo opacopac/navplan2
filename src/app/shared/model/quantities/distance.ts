@@ -14,6 +14,16 @@ export class Distance {
     }
 
 
+    get isZero(): boolean {
+        return this.value === 0;
+    }
+
+
+    get isZeroOrNegative(): boolean {
+        return this.value <= 0;
+    }
+
+
     public getValue(asUnit: LengthUnit): number {
         return UnitconversionService.convertLength(this.value, this.unit, asUnit);
     }

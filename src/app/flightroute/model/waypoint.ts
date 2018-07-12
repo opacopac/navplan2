@@ -4,17 +4,19 @@ import {Position2d} from '../../shared/model/geometry/position2d';
 import {WaypointType} from './waypoint-type';
 import {Angle} from '../../shared/model/quantities/angle';
 import {Distance} from '../../shared/model/quantities/distance';
-import {AngleUnit} from '../../shared/model/units';
+import {AngleUnit, TimeUnit} from '../../shared/model/units';
+import {Time} from '../../shared/model/quantities/time';
 
 
 export class Waypoint implements Clonable<Waypoint> {
     public mt: Angle;
     public dist: Distance;
+    public eet = new Time(0, TimeUnit.M);
+    public vacTime = new Time(0, TimeUnit.M);
+    public variation = new Angle(0, AngleUnit.DEG);
     public mtText = '';
     public distText = '';
     public eetText = '';
-    public vacTime = 0;
-    public variation = new Angle(0, AngleUnit.DEG);
 
 
     constructor(
@@ -37,7 +39,8 @@ export class Waypoint implements Clonable<Waypoint> {
             this.checkpoint,
             this.remark,
             this.supp_info,
-            this.position.clone(),
-            this.alt.clone());
+            this.position ? this.position.clone() : undefined,
+            this.alt ? this.alt.clone() : undefined
+        );
     }
 }

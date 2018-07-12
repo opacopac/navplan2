@@ -9,12 +9,17 @@ export class Speed {
     }
 
 
-    public getValue(asUnit: SpeedUnit): number {
-        return UnitconversionService.convertSpeed(this.value, this.unit, asUnit);
+    get isZero(): boolean {
+        return this.value === 0;
     }
 
 
-    get isNotZero(): boolean {
-        return this.value !== 0;
+    get isZeroOrNegative(): boolean {
+        return this.value <= 0;
+    }
+
+
+    public getValue(asUnit: SpeedUnit): number {
+        return UnitconversionService.convertSpeed(this.value, this.unit, asUnit);
     }
 }

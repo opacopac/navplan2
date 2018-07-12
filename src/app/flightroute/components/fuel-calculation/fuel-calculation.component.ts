@@ -62,7 +62,7 @@ export class FuelCalculationComponent implements OnInit {
 
     public formatFuel(fuel: Fuel): string {
         if (fuel) {
-            return '' + fuel.getValue(VolumeUnit.L);
+            return '' + Math.ceil(fuel.getValue(VolumeUnit.L)); // TODO
         } else {
             return '';
         }

@@ -20,8 +20,13 @@ export class Time implements Clonable<Time> {
     }
 
 
-    get isNotZero(): boolean {
-        return this.value !== 0;
+    get isZero(): boolean {
+        return this.value === 0;
+    }
+
+
+    get isZeroOrNegative(): boolean {
+        return this.value <= 0;
     }
 
 

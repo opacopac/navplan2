@@ -9,8 +9,13 @@ export class Angle {
     }
 
 
-    public getValue(asUnit: AngleUnit): number {
-        return UnitconversionService.convertAngle(this.value, this.unit, asUnit);
+    get isZero(): boolean {
+        return this.value === 0;
+    }
+
+
+    get isZeroOrNegative(): boolean {
+        return this.value <= 0;
     }
 
 
@@ -21,5 +26,10 @@ export class Angle {
 
     public get deg(): number {
         return this.getValue(AngleUnit.DEG);
+    }
+
+
+    public getValue(asUnit: AngleUnit): number {
+        return UnitconversionService.convertAngle(this.value, this.unit, asUnit);
     }
 }

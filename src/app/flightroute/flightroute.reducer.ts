@@ -8,7 +8,7 @@ import {Speed} from '../shared/model/quantities/speed';
 import {ConsumptionUnit, SpeedUnit, TimeUnit} from '../shared/model/units';
 import {Consumption} from '../shared/model/quantities/consumption';
 import {Time} from '../shared/model/quantities/time';
-import {WaypointsReducer} from './waypoints.reducer';
+import {FlightrouteCalcService} from './services/flightroute-calc/flightroute-calc.service';
 
 
 const initialState: FlightrouteState = {
@@ -47,9 +47,8 @@ export function flightrouteReducer(
             return { ...state, flightrouteList: undefined };
 
         case FlightrouteActionTypes.FLIGHTROUTE_READ_SUCCESS:
-            newFlightroute = action.flightroute;
-            newFlightroute.waypoints = WaypointsReducer.calcWaypointList(action.flightroute);
-            newFlightroute.alternate = WaypointsReducer.calcAlternate(action.flightroute);
+            newFlightroute = action.flightroute.clone();
+            FlightrouteCalcService.calcFlightRoute(newFlightroute);
             return { ...state, flightroute: newFlightroute };
 
         case FlightrouteActionTypes.FLIGHTROUTE_SAVE_SUCCESS:
@@ -72,6 +71,8 @@ export function flightrouteReducer(
         case FlightrouteActionTypes.FLIGHTROUTE_UPDATE_EXTRA_TIME:
             newFlightroute = state.flightroute.clone();
             newFlightroute.extraTime = new Time(action.extraTimeValue, TimeUnit.M); // TODO
+            FlightrouteCalcService.calcFlightRoute(newFlightroute);
+
             return { ...state, flightroute: newFlightroute };
 
         case FlightrouteActionTypes.FLIGHTROUTE_UPDATE_AIRCRAFT_SPEED:
@@ -79,6 +80,7 @@ export function flightrouteReducer(
             newAircraft.speed = new Speed(action.aircraftSpeedValue, SpeedUnit.KT); // TODO
             newFlightroute = state.flightroute.clone();
             newFlightroute.aircraft = newAircraft;
+            FlightrouteCalcService.calcFlightRoute(newFlightroute);
             return { ...state, flightroute: newFlightroute };
 
         case FlightrouteActionTypes.FLIGHTROUTE_UPDATE_AIRCRAFT_CONSUMPTION:
@@ -86,6 +88,7 @@ export function flightrouteReducer(
             newAircraft.consumption = new Consumption(action.aircraftConsumptionValue, ConsumptionUnit.L_PER_H); // TODO
             newFlightroute = state.flightroute.clone();
             newFlightroute.aircraft = newAircraft;
+            FlightrouteCalcService.calcFlightRoute(newFlightroute);
             return { ...state, flightroute: newFlightroute };
 
         case WaypointActionTypes.WAYPOINTS_EDIT:

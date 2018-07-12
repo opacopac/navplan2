@@ -6,7 +6,7 @@ import {Time} from '../../shared/model/quantities/time';
 
 
 export class Flightroute implements Clonable<Flightroute> {
-    public fuel: RouteFuel;
+    public fuel = new RouteFuel();
 
 
     constructor(
@@ -28,9 +28,10 @@ export class Flightroute implements Clonable<Flightroute> {
             this.id,
             this.title,
             this.comments,
-            this.aircraft.clone(),
+            this.aircraft ? this.aircraft.clone() : undefined,
             newWaypoints,
-            this.alternate.clone(),
-            this.extraTime.clone());
+            this.alternate ? this.alternate.clone() : undefined,
+            this.extraTime ? this.extraTime.clone() : undefined
+        );
     }
 }

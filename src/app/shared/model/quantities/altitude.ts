@@ -9,6 +9,16 @@ export class Altitude {
     }
 
 
+    get isZero(): boolean {
+        return this.value === 0;
+    }
+
+
+    get isZeroOrNegative(): boolean {
+        return this.value <= 0;
+    }
+
+
     get ft(): number {
         return this.getValue(LengthUnit.FT);
     }

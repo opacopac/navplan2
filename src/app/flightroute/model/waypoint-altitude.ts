@@ -6,7 +6,7 @@ export class WaypointAltitude implements Clonable<WaypointAltitude> {
         public alt_ft?: number, // TODO: typed
         public isminalt = false,
         public ismaxalt = false,
-        public isaltatlegstart = false){
+        public isaltatlegstart = false) {
     }
 
 
