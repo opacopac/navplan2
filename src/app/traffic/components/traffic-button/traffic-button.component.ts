@@ -3,8 +3,8 @@ import {TrafficServiceStatus} from '../../services/traffic.service';
 import {ButtonStatus} from '../../../shared/directives/status-button/status-button.directive';
 import {ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
 import {Store} from '@ngrx/store';
-import {getTrafficIsWatching, getTrafficStatus} from '../../traffic.selectors';
 import {ToggleWatchTrafficAction} from '../../traffic.actions';
+import {getTrafficIsWatching, getTrafficStatus} from '../../traffic.selectors';
 
 
 @Component({

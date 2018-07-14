@@ -1,6 +1,7 @@
 import { Position4d } from '../../shared/model/geometry/position4d';
 import { DataItem } from '../../shared/model/data-item';
 import {TrafficPosition, TrafficPositionMethod} from './traffic-position';
+import {Clonable} from '../../shared/model/clonable';
 
 
 const MAX_AGE_SEC_INACTIVE = 30;
@@ -46,7 +47,7 @@ export enum TrafficDataSource {
 // endregion
 
 
-export class Traffic extends DataItem {
+export class Traffic extends DataItem implements Clonable<Traffic> {
     constructor(
         public acaddress: string,
         public addresstype: TrafficAddressType,
@@ -73,6 +74,24 @@ export class Traffic extends DataItem {
             '',
             '',
             [new TrafficPosition(position, TrafficPositionMethod.OWN, '', 0)]
+        );
+    }
+
+
+    public clone(): Traffic {
+        const newPositions: TrafficPosition[] = [];
+        this.positions.forEach((pos) => newPositions.push(pos.clone()));
+
+        return new Traffic(
+            this.acaddress,
+            this.addresstype,
+            this.dataSource,
+            this.actype,
+            this.registration,
+            this.callsign,
+            this.opCallsign,
+            this.aircraftModelType,
+            newPositions
         );
     }
 

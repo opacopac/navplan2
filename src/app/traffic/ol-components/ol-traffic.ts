@@ -1,50 +1,39 @@
 import * as ol from 'openlayers';
 import {OlComponent} from '../../shared/ol-component/ol-component';
-import {Observable, Subscription} from 'rxjs';
 import {Traffic, TrafficAircraftType} from '../model/traffic';
 import {environment} from '../../../environments/environment';
 import {UnitconversionService} from '../../shared/services/unitconversion/unitconversion.service';
 import {GeocalcService} from '../../shared/services/geocalc/geocalc.service';
 import {OlTrafficTrail} from './ol-traffic-trail';
-import {MapContext} from '../../map/model/map-context';
 
 
 export class OlTraffic extends OlComponent {
-    private readonly trafficFeature: ol.Feature;
-    private readonly callsignFeature: ol.Feature;
-    private readonly dotTrailFeature: OlTrafficTrail;
-    private trafficSubscription: Subscription;
+    private readonly olTrafficFeature: ol.Feature;
+    private readonly olCallsignFeature: ol.Feature;
+    private readonly olDotTrailFeature: OlTrafficTrail;
 
 
     constructor(
-        private mapContext: MapContext,
-        private readonly traffic$: Observable<Traffic>,
+        traffic: Traffic,
         private readonly source: ol.source.Vector) {
 
         super();
 
-        // add dot trail feature
-        this.dotTrailFeature = new OlTrafficTrail(mapContext, this.traffic$, this.source);
 
-        // add traffic features
-        this.trafficFeature = this.createFeature(this.traffic$);
-        this.callsignFeature = this.createFeature(this.traffic$);
-        this.source.addFeatures([this.trafficFeature, this.callsignFeature]);
+        // dot trail feature
+        this.olDotTrailFeature = new OlTrafficTrail(traffic, this.source);
 
-        // handle traffic changes
-        this.trafficSubscription = this.traffic$
-            .subscribe(traffic => {
-                const pos = traffic ? traffic.getCurrentPosition() : undefined;
-                if (pos) {
-                    this.setPointGeometry(this.trafficFeature, pos.position);
-                    this.trafficFeature.setStyle(this.getTrafficStyle(traffic));
-                    this.setPointGeometry(this.callsignFeature, pos.position);
-                    this.callsignFeature.setStyle(this.getCallsignStyle(traffic));
-                } else {
-                    this.hideFeature(this.trafficFeature);
-                    this.hideFeature(this.callsignFeature);
-                }
-            });
+        // traffic feature
+        this.olTrafficFeature = this.createFeature(traffic);
+        this.olTrafficFeature.setStyle(this.getTrafficStyle(traffic));
+        this.setPointGeometry(this.olTrafficFeature, traffic.getCurrentPosition().position);
+        this.source.addFeature(this.olTrafficFeature);
+
+        // call sign feature
+        this.olCallsignFeature = this.createFeature(traffic);
+        this.olCallsignFeature.setStyle(this.getCallsignStyle(traffic));
+        this.setPointGeometry(this.olCallsignFeature, traffic.getCurrentPosition().position);
+        this.source.addFeature(this.olCallsignFeature);
     }
 
 
@@ -54,8 +43,8 @@ export class OlTraffic extends OlComponent {
 
 
     destroy() {
-        this.trafficSubscription.unsubscribe();
-        this.removeFeatures([this.trafficFeature, this.callsignFeature], this.source);
+        this.olDotTrailFeature.destroy();
+        this.removeFeatures([this.olTrafficFeature, this.olCallsignFeature], this.source);
     }
 
 

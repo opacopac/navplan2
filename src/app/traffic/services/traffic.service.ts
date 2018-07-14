@@ -5,6 +5,11 @@ import {TrafficOgnService} from './traffic-ogn.service';
 import {TrafficAdsbexchangeService} from './traffic-adsbexchange.service';
 import {Extent} from '../../shared/model/extent';
 import {TrafficPosition, TrafficPositionMethod} from '../model/traffic-position';
+import {Observable} from 'rxjs/internal/Observable';
+import {timer} from 'rxjs/internal/observable/timer';
+import {map, repeat, withLatestFrom} from 'rxjs/operators';
+import {TrafficState} from '../model/traffic-state';
+import {Altitude} from '../../shared/model/quantities/altitude';
 
 
 const TRAFFIC_UPDATE_INTERVALL_MS = 5000;
@@ -23,126 +28,110 @@ export enum TrafficServiceStatus {
 
 @Injectable()
 export class TrafficService {
-    public isActivated: boolean;
-    public status: TrafficServiceStatus;
-    private trafficTimerId: number;
-    private extent: Extent;
-    private trafficMap: Map<string, Traffic>;
-    private successCallback: (trafficList: Traffic[]) => void;
-    private errorCallback: (message: string) => void;
+    private _extent: Extent;
 
 
     constructor(private http: HttpClient,
                 private ognService: TrafficOgnService,
                 private adsbExService: TrafficAdsbexchangeService) {
-
-        this.isActivated = false;
-        this.status = TrafficServiceStatus.OFF;
-        this.trafficMap = new Map<string, Traffic>();
     }
 
 
-    public startWatching(
-        extent: Extent,
-        successCallback: (trafficList: Traffic[]) => void,
-        errorCallback: (message: string) => void) {
-        if (this.isActivated) {
-            this.stopWatching();
-        }
+    /*public watchTraffic(): Observable<Traffic[]> {
+        return timer(0, TRAFFIC_UPDATE_INTERVALL_MS)
+            .pipe(
+                withLatestFrom(
+                    this.ognService.readTraffic(this._extent, TRAFFIC_MAX_AGE_SEC,  false ? TRAFFIC_OGN_WAIT_FOR_DATA_SEC : 0, '12345')
+                        .pipe(repeat()),
+                    this.adsbExService.readTraffic(this._extent, 15000)
+                        .pipe(repeat()),
+                ),
+                map(([tim, ogn, adsbEx]) => adsbEx)
+            ); // .subscribe(([tim, asdf]) => { asdf[0] });
 
-        this.isActivated = true;
-        this.extent = extent;
-        this.status = TrafficServiceStatus.WAITING;
-        this.successCallback = successCallback;
-        this.errorCallback = errorCallback;
-        this.trafficTimerId = window.setInterval(this.onTrafficTimer.bind(this), TRAFFIC_UPDATE_INTERVALL_MS);
-        this.sendTrafficRequests(true);
-    }
+        const isInitialRequest = false; // TODO
+        const ognTraffic$ = this.ognService.readTraffic(
+            this._extent,
+            TRAFFIC_MAX_AGE_SEC,
+            isInitialRequest ? TRAFFIC_OGN_WAIT_FOR_DATA_SEC : 0, '12345'); // TODO
 
-
-    public setExtent(extent: Extent) {
-        this.extent = extent;
-    }
-
-
-    public stopWatching() {
-        this.isActivated = false;
-        this.status = TrafficServiceStatus.OFF;
-        this.successCallback = undefined;
-        this.errorCallback = undefined;
-        window.clearInterval(this.trafficTimerId);
-    }
+        const adsbExTraffic$ = this.adsbExService.readTraffic(
+            this._extent,
+            15000 // TODO
+        );
 
 
-    private onTrafficTimer() {
-        /*if (this.sessionService.isIdle(TRAFFIC_IDLE_TIMEOUT_MS)) {
+        const trafficTimer$ =
+
+    }*/
+
+
+    /*private onTrafficTimer() {
+        if (this.sessionService.isIdle(TRAFFIC_IDLE_TIMEOUT_MS)) {
             this.stopWatching();
 
             if (this.errorCallback) {
                 this.errorCallback('Traffic updates automatically turned off after 10 minutes of inactivity');
             }
-        } else { // if ($scope.$route.current.controller == "mapCtrl") { TODO?*/
+        } else { // if ($scope.$route.current.controller == "mapCtrl") { TODO?
             this.sendTrafficRequests(false);
         // }
-    }
+    }*/
 
 
-    private sendTrafficRequests(isInitialRequest: boolean) {
+    /*private sendTrafficRequests(isInitialRequest: boolean) {
         // OGN
         this.ognService.readTraffic(
-            this.extent,
+            this._extent,
             TRAFFIC_MAX_AGE_SEC,
-            isInitialRequest ? TRAFFIC_OGN_WAIT_FOR_DATA_SEC : 0,
-            this.onReadTrafficSuccessCallback.bind(this),
-            this.onReadTrafficErrorCallback.bind(this));
+            isInitialRequest ? TRAFFIC_OGN_WAIT_FOR_DATA_SEC : 0, '12345'); // TODO
 
         // ADSB-Exchange
         this.adsbExService.readTraffic(
-            this.extent,
-            15000, // TODO
-            this.onReadTrafficSuccessCallback.bind(this),
-            this.onReadTrafficErrorCallback.bind(this)
+            this._extent,
+            15000 // TODO
         );
-    }
+    }*/
 
 
-    private onReadTrafficSuccessCallback(trafficList: Traffic[]) {
-        if (!this.isActivated) {
-            return;
-        }
-
-        this.status = TrafficServiceStatus.CURRENT;
+    /*private onReadTrafficSuccessCallback(trafficList: Traffic[]) {
         this.mergeTraffic(trafficList);
         this.compactTraffic();
+    }*/
 
-        if (this.successCallback) {
-            this.successCallback(Array.from(this.trafficMap.values()));
-        }
+
+    public static reduceTrafficMap(trafficMap: Map<string, Traffic>, newTrafficList): Map<string, Traffic> {
+        const newTrafficMap = this.cloneTrafficMap(trafficMap);
+        this.mergeTraffic(newTrafficMap, newTrafficList);
+        this.compactTraffic(newTrafficMap);
+        return newTrafficMap;
     }
 
 
-    private onReadTrafficErrorCallback(message: string) {
-        if (!this.isActivated) {
-            return;
+    private static cloneTrafficMap(trafficMap: Map<string, Traffic>): Map<string, Traffic> {
+        const newTrafficMap = new Map<string, Traffic>();
+        for (const trafficKey in trafficMap.keys()) {
+            newTrafficMap[trafficKey] = trafficMap[trafficKey].clone();
         }
 
-        this.status = TrafficServiceStatus.ERROR;
-
-        if (this.errorCallback) {
-            this.errorCallback(message);
-        }
+        return newTrafficMap;
     }
 
 
-    private mergeTraffic(newTrafficList: Traffic[]) {
+    private static getTrafficKey(ac: Traffic): string {
+        return ac.addresstype + '_' + ac.acaddress;
+    }
+
+
+    private static mergeTraffic(trafficMap: Map<string, Traffic>,  newTrafficList: Traffic[]) {
         for (const newTraffic of newTrafficList) {
             const trafficKey = this.getTrafficKey(newTraffic);
 
-            if (!this.trafficMap.has(trafficKey)) {
+            if (!trafficMap.has(trafficKey)) {
                 // add new ac to list
-                this.trafficMap.set(trafficKey, newTraffic);
+                trafficMap.set(trafficKey, newTraffic);
             } else {
-                const ac = this.trafficMap.get(trafficKey);
+                const ac = trafficMap.get(trafficKey);
 
                 // update traffic info
                 if (newTraffic.dataSource === TrafficDataSource.ADSBX) {
@@ -180,18 +169,13 @@ export class TrafficService {
     }
 
 
-    private getTrafficKey(ac: Traffic): string {
-        return ac.addresstype + '_' + ac.acaddress;
-    }
-
-
-    private compactTraffic() {
+    private static compactTraffic(trafficMap: Map<string, Traffic>) {
         let lastPos: TrafficPosition;
         const d = new Date();
         const oldestTimestamp = d.getTime() - TRAFFIC_MAX_AGE_SEC * 1000;
 
-        for (const trafficKey of Array.from(this.trafficMap.keys())) {
-            const ac = this.trafficMap.get(trafficKey);
+        for (const trafficKey of Array.from(trafficMap.keys())) {
+            const ac = trafficMap.get(trafficKey);
 
             // sort positions by time DESC
             ac.positions.sort(function (a: TrafficPosition, b: TrafficPosition) {
@@ -236,7 +220,7 @@ export class TrafficService {
 
             // remove aircrafts without positions
             if (newPositions.length === 0) {
-                this.trafficMap.delete(trafficKey);
+                trafficMap.delete(trafficKey);
             }
 
 
