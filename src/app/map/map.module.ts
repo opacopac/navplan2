@@ -16,6 +16,8 @@ import {StoreModule} from '@ngrx/store';
 import {mapReducer} from './map.reducer';
 import {EffectsModule} from '@ngrx/effects';
 import {MapEffects} from './map.effects';
+import {MapActions} from './map.actions';
+import {MapState} from './model/map-state';
 
 
 @NgModule({
@@ -29,7 +31,7 @@ import {MapEffects} from './map.effects';
         NotamModule,
         FlightrouteModule,
         MetarTafModule,
-        StoreModule.forFeature('mapState', mapReducer),
+        StoreModule.forFeature<MapState, MapActions>('mapState', mapReducer),
         EffectsModule.forFeature([MapEffects])
     ],
     declarations: [

@@ -213,7 +213,7 @@ export class UpdateAircraftConsumption implements Action {
 export class UpdateExtraTime implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_UPDATE_EXTRA_TIME;
 
-    constructor(public extraTimeValue: number) {}
+    constructor(public extraTimeMinutesValue: number) {}
 }
 
 

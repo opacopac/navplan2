@@ -10,6 +10,8 @@ import {StoreModule} from '@ngrx/store';
 import {userReducer} from './user.reducer';
 import {EffectsModule} from '@ngrx/effects';
 import {UserEffects} from './user.effects';
+import {UserState} from './model/user-state';
+import {UserActions} from './user.actions';
 
 
 @NgModule({
@@ -18,7 +20,7 @@ import {UserEffects} from './user.effects';
         FormsModule,
         ReactiveFormsModule,
         SharedModule,
-        StoreModule.forFeature('userState', userReducer),
+        // StoreModule.forFeature<UserState, UserActions>('userState', userReducer),
         EffectsModule.forFeature([UserEffects])
     ],
     declarations: [

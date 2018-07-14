@@ -20,6 +20,8 @@ import {LocationModule} from './location/location.module';
 import {TrafficModule} from './traffic/traffic.module';
 import {NotamModule} from './notam/notam.module';
 import {MapFeaturesModule} from './map-features/map-features.module';
+import {coreReducer} from './core/core.reducer';
+import {AppState} from './app-state';
 
 
 @NgModule({
@@ -36,7 +38,9 @@ import {MapFeaturesModule} from './map-features/map-features.module';
         AppRoutingModule,
         HttpClientModule,
         HttpClientJsonpModule,
-        StoreModule.forRoot({}),
+        StoreModule.forRoot<AppState>({
+            coreState: coreReducer
+        }),
         EffectsModule.forRoot([]),
         StoreDevtoolsModule.instrument({
             maxAge: 25, // Retains last 25 states

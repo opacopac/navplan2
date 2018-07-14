@@ -8,13 +8,15 @@ import {StoreModule} from '@ngrx/store';
 import {metarTafReducer} from './metar-taf.reducer';
 import {EffectsModule} from '@ngrx/effects';
 import {MetarTafEffects} from './metar-taf.effects';
+import {MetarTafState} from './model/metar-taf-state';
+import {MetarTafActions} from './metar-taf.actions';
 
 
 @NgModule({
     imports: [
         CommonModule,
         SharedModule,
-        StoreModule.forFeature('metarTafState', metarTafReducer),
+        StoreModule.forFeature<MetarTafState, MetarTafActions>('metarTafState', metarTafReducer),
         EffectsModule.forFeature([MetarTafEffects])
     ],
     declarations: [

@@ -9,13 +9,15 @@ import {StoreModule} from '@ngrx/store';
 import {notamReducer} from './notam.reducer';
 import {EffectsModule} from '@ngrx/effects';
 import {NotamEffects} from './notam.effects';
+import {NotamState} from './model/notam-state';
+import {NotamActions} from './notam.actions';
 
 
 @NgModule({
     imports: [
         CommonModule,
         SharedModule,
-        StoreModule.forFeature('notamState', notamReducer),
+        StoreModule.forFeature<NotamState, NotamActions>('notamState', notamReducer),
         EffectsModule.forFeature([NotamEffects])
     ],
     declarations: [

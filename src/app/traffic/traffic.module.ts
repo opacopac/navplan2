@@ -11,13 +11,15 @@ import {StoreModule} from '@ngrx/store';
 import {trafficReducer} from './traffic.reducer';
 import {EffectsModule} from '@ngrx/effects';
 import {TrafficEffects} from './traffic.effects';
+import {TrafficState} from './model/traffic-state';
+import {TrafficActions} from './traffic.actions';
 
 
 @NgModule({
     imports: [
         CommonModule,
         SharedModule,
-        StoreModule.forFeature('trafficState', trafficReducer),
+        StoreModule.forFeature<TrafficState, TrafficActions>('trafficState', trafficReducer),
         EffectsModule.forFeature([TrafficEffects]),
     ],
     declarations: [

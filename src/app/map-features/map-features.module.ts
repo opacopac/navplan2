@@ -17,6 +17,8 @@ import {StoreModule} from '@ngrx/store';
 import {mapFeaturesReducer} from './map-features.reducer';
 import {EffectsModule} from '@ngrx/effects';
 import {MapFeaturesEffects} from './map-features.effects';
+import {MapFeaturesActions} from './map-features.actions';
+import {MapFeaturesState} from './model/map-features-state';
 
 
 @NgModule({
@@ -25,7 +27,7 @@ import {MapFeaturesEffects} from './map-features.effects';
         SharedModule,
         NotamModule,
         FlightrouteModule,
-        StoreModule.forFeature('mapFeaturesState', mapFeaturesReducer),
+        StoreModule.forFeature<MapFeaturesState, MapFeaturesActions>('mapFeaturesState', mapFeaturesReducer),
         EffectsModule.forFeature([MapFeaturesEffects])
     ],
     declarations: [

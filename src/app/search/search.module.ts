@@ -7,13 +7,15 @@ import {StoreModule} from '@ngrx/store';
 import {searchReducer} from './search.reducer';
 import {EffectsModule} from '@ngrx/effects';
 import {SearchEffects} from './search.effects';
+import {SearchState} from './model/search-state';
+import {SearchActions} from './search.actions';
 
 
 @NgModule({
     imports: [
         CommonModule,
         SharedModule,
-        StoreModule.forFeature('searchState', searchReducer),
+        StoreModule.forFeature<SearchState, SearchActions>('searchState', searchReducer),
         EffectsModule.forFeature([SearchEffects])
     ],
     declarations: [

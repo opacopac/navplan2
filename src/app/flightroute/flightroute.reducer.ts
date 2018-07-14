@@ -5,7 +5,7 @@ import {WaypointActionTypes, WaypointsActions} from './waypoints.actions';
 import {Aircraft} from './model/aircraft';
 import {Flightroute} from './model/flightroute';
 import {Speed} from '../shared/model/quantities/speed';
-import {ConsumptionUnit, SpeedUnit, TimeUnit} from '../shared/model/units';
+import {ConsumptionUnit, LengthUnit, SpeedUnit, TimeUnit, VolumeUnit} from '../shared/model/units';
 import {Consumption} from '../shared/model/quantities/consumption';
 import {Time} from '../shared/model/quantities/time';
 import {FlightrouteCalcService} from './services/flightroute-calc/flightroute-calc.service';
@@ -27,14 +27,22 @@ const initialState: FlightrouteState = {
     ),
     editWaypoint: undefined,
     showShareId: undefined,
+    distanceUnit: LengthUnit.NM,
+    speedUnit: SpeedUnit.KT,
+    altitudeUnit: LengthUnit.FT,
+    fuelUnit: VolumeUnit.L,
+    consumptionUnit: ConsumptionUnit.L_PER_H
 };
+
+
+export type FlightrouteWaypointUserActions = FlightrouteActions
+    | WaypointsActions
+    | UserActions;
 
 
 export function flightrouteReducer(
     state: FlightrouteState = initialState,
-    action: FlightrouteActions
-        | WaypointsActions
-        | UserActions) {
+    action: FlightrouteWaypointUserActions) {
 
     let newAircraft: Aircraft;
     let newFlightroute: Flightroute;
@@ -70,14 +78,14 @@ export function flightrouteReducer(
 
         case FlightrouteActionTypes.FLIGHTROUTE_UPDATE_EXTRA_TIME:
             newFlightroute = state.flightroute.clone();
-            newFlightroute.extraTime = new Time(action.extraTimeValue, TimeUnit.M); // TODO
+            newFlightroute.extraTime = new Time(action.extraTimeMinutesValue, TimeUnit.M);
             FlightrouteCalcService.calcFlightRoute(newFlightroute);
 
             return { ...state, flightroute: newFlightroute };
 
         case FlightrouteActionTypes.FLIGHTROUTE_UPDATE_AIRCRAFT_SPEED:
             newAircraft = state.flightroute.aircraft.clone();
-            newAircraft.speed = new Speed(action.aircraftSpeedValue, SpeedUnit.KT); // TODO
+            newAircraft.speed = new Speed(action.aircraftSpeedValue, state.speedUnit);
             newFlightroute = state.flightroute.clone();
             newFlightroute.aircraft = newAircraft;
             FlightrouteCalcService.calcFlightRoute(newFlightroute);
@@ -85,7 +93,7 @@ export function flightrouteReducer(
 
         case FlightrouteActionTypes.FLIGHTROUTE_UPDATE_AIRCRAFT_CONSUMPTION:
             newAircraft = state.flightroute.aircraft.clone();
-            newAircraft.consumption = new Consumption(action.aircraftConsumptionValue, ConsumptionUnit.L_PER_H); // TODO
+            newAircraft.consumption = new Consumption(action.aircraftConsumptionValue, state.consumptionUnit);
             newFlightroute = state.flightroute.clone();
             newFlightroute.aircraft = newAircraft;
             FlightrouteCalcService.calcFlightRoute(newFlightroute);

@@ -2,11 +2,12 @@ import {UserActions, UserActionTypes} from './user.actions';
 import {UserState} from './model/user-state';
 
 
-const initialState: UserState = {
+export const initialState: UserState = {
     currentUser: undefined
 };
 
-export function userReducer(state: UserState = initialState, action: UserActions) {
+
+export function userReducer(state: UserState = initialState, action: UserActions): UserState {
     switch (action.type) {
         case UserActionTypes.USER_LOGIN_SUCCESS:
         case UserActionTypes.USER_REGISTER_SUCCESS:

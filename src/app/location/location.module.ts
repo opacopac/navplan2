@@ -10,13 +10,15 @@ import {StoreModule} from '@ngrx/store';
 import {locationReducer} from './location.reducer';
 import {EffectsModule} from '@ngrx/effects';
 import {LocationEffects} from './location.effects';
+import {LocationActions} from './location.actions';
+import {LocationState} from './model/location-state';
 
 
 @NgModule({
     imports: [
         CommonModule,
         SharedModule,
-        StoreModule.forFeature('locationState', locationReducer),
+        StoreModule.forFeature<LocationState, LocationActions>('locationState', locationReducer),
         EffectsModule.forFeature([LocationEffects])
     ],
     declarations: [
