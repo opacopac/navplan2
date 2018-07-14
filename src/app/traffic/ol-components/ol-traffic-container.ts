@@ -39,7 +39,6 @@ export class OlTrafficContainer extends OlComponent {
 
 
     private addFeatures(trafficList: Traffic[], source: ol.source.Vector) {
-        this.destroyFeatures();
         if (trafficList) {
             trafficList.forEach(traffic => this.olTrafficList.push(new OlTraffic(traffic, source)));
         }

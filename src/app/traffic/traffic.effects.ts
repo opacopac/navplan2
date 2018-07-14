@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {Action, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
-import {filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
+import {catchError, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {
-    ReadAdsbExTrafficSuccessAction,
-    ReadOgnTrafficSuccessAction,
+    ReadAdsbExTrafficSuccessAction, ReadAdsbExTrafficSuccessError,
+    ReadOgnTrafficSuccessAction, ReadOgnTrafficSuccessError,
     ReadTrafficTimerAction, StartWatchTrafficAction, StopWatchTrafficAction,
     TrafficActionTypes
 } from './traffic.actions';
@@ -14,6 +14,13 @@ import {TrafficOgnService} from './services/traffic-ogn.service';
 import {TrafficAdsbexchangeService} from './services/traffic-adsbexchange.service';
 import {TrafficState} from './model/traffic-state';
 import {timer} from 'rxjs/internal/observable/timer';
+import {of} from 'rxjs/internal/observable/of';
+
+
+const TRAFFIC_UPDATE_INTERVALL_MS = 5000;
+const TRAFFIC_MAX_AGE_SEC = 120;
+const TRAFFIC_OGN_FIRST_TIME_WAIT_SEC = 1;
+const TRAFFIC_IDLE_TIMEOUT_MS = 10 * 60 * 1000;
 
 
 @Injectable()
@@ -49,10 +56,10 @@ export class TrafficEffects {
     startTrafficWatch$: Observable<Action> = this.actions$
         .pipe(
             ofType(TrafficActionTypes.TRAFFIC_WATCH_START),
-            switchMap(() => timer(0, 5000)),
+            switchMap(() => timer(0, TRAFFIC_UPDATE_INTERVALL_MS)),
             withLatestFrom(this.isWatching$),
             filter(([tim, isWatching]) => tim === 0 || isWatching),
-            map(() => new ReadTrafficTimerAction())
+            map(([tim, isWatching]) => new ReadTrafficTimerAction(tim))
         );
 
 
@@ -60,15 +67,17 @@ export class TrafficEffects {
     readOgnTraffic$: Observable<Action> = this.actions$
         .pipe(
             ofType(TrafficActionTypes.TRAFFIC_READ_TIMER),
+            map(action => action as ReadTrafficTimerAction),
             withLatestFrom(this.trafficState$),
             switchMap(([action, trafficState]) => this.trafficOgnService.readTraffic(
                 trafficState.extent,
-                120, // TODO
-                0, // TODO
-                '12345'  // TODO
+                TRAFFIC_MAX_AGE_SEC,
+                action.count === 0 ? TRAFFIC_OGN_FIRST_TIME_WAIT_SEC : 0,
+                trafficState.sessionId
                 )
             ),
-            map(traffic => new ReadOgnTrafficSuccessAction(traffic))
+            map(traffic => new ReadOgnTrafficSuccessAction(traffic)),
+            catchError(error => of(new ReadOgnTrafficSuccessError(error)))
         );
 
 
@@ -82,6 +91,7 @@ export class TrafficEffects {
                 '12345'  // TODO
                 )
             ),
-            map(traffic => new ReadAdsbExTrafficSuccessAction(traffic))
+            map(traffic => new ReadAdsbExTrafficSuccessAction(traffic)),
+            catchError(error => of(new ReadAdsbExTrafficSuccessError(error)))
         );
 }

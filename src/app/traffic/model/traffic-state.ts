@@ -5,6 +5,7 @@ import {Extent} from '../../shared/model/extent';
 
 
 export interface TrafficState {
+    sessionId: string;
     extent: Extent;
     isWatching: boolean;
     status: TrafficServiceStatus;

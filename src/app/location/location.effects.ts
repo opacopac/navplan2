@@ -1,11 +1,17 @@
 import {Injectable} from '@angular/core';
-import {Store} from '@ngrx/store';
+import {Action, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {LocationService} from './services/location/location.service';
 import {getLocationIsWatching} from './location.selectors';
-import {LocationActionTypes} from './location.actions';
+import {
+    LocationActionTypes, ReadLocationErrorAction,
+    ReadLocationSuccessAction,
+    StartWatchLocationAction,
+    StopWatchLocationAction
+} from './location.actions';
+import {of} from 'rxjs/internal/observable/of';
 
 
 @Injectable()
@@ -20,17 +26,38 @@ export class LocationEffects {
     }
 
 
-    @Effect({ dispatch: false })
-    toggleLocationWatch$: Observable<any> = this.actions$
+    @Effect()
+    toggleLocationWatch$: Observable<Action> = this.actions$
         .pipe(
-            ofType(LocationActionTypes.LOCATION_TOGGLE_WATCH),
+            ofType(LocationActionTypes.LOCATION_WATCH_TOGGLE),
             withLatestFrom(this.locationIsWatching$),
-            tap(([action, isWatching]) => {
-                if (isWatching) {
-                    this.locationService.stopWatching();
+            map(([action, isWatching]) => {
+                if (!isWatching) {
+                    return new StartWatchLocationAction();
                 } else {
-                    this.locationService.startWatching();
+                    return new StopWatchLocationAction();
                 }
             })
+        );
+
+
+    @Effect()
+    startLocationWatch$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(LocationActionTypes.LOCATION_WATCH_START),
+            tap(() => this.locationService.startWatching()),
+            switchMap(() => {
+                return this.locationService.position$
+                    .pipe(
+                        map(pos => new ReadLocationSuccessAction(pos)),
+                        catchError(error => of(new ReadLocationErrorAction(error)))
+                    );
+            })
+        );
+
+    @Effect({ dispatch: false })
+    stopLocationWatch$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(LocationActionTypes.LOCATION_WATCH_STOP),
         );
 }

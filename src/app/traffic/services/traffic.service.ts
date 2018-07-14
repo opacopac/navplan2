@@ -5,11 +5,6 @@ import {TrafficOgnService} from './traffic-ogn.service';
 import {TrafficAdsbexchangeService} from './traffic-adsbexchange.service';
 import {Extent} from '../../shared/model/extent';
 import {TrafficPosition, TrafficPositionMethod} from '../model/traffic-position';
-import {Observable} from 'rxjs/internal/Observable';
-import {timer} from 'rxjs/internal/observable/timer';
-import {map, repeat, withLatestFrom} from 'rxjs/operators';
-import {TrafficState} from '../model/traffic-state';
-import {Altitude} from '../../shared/model/quantities/altitude';
 
 
 const TRAFFIC_UPDATE_INTERVALL_MS = 5000;

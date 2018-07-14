@@ -8,6 +8,7 @@ import {MapActions, MapActionTypes} from '../map/map.actions';
 
 
 const initialState: TrafficState = {
+    sessionId: Math.floor((Math.random() * 1000000000)).toString(),
     extent: undefined,
     isWatching: false,
     status: TrafficServiceStatus.OFF,

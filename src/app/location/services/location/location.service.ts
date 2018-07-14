@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
+import {map} from 'rxjs/operators';
 import {Position4d} from '../../../shared/model/geometry/position4d';
 import {Timestamp} from '../../../shared/model/quantities/timestamp';
 import {Observable, BehaviorSubject} from 'rxjs';
 import {Altitude} from '../../../shared/model/quantities/altitude';
 import {LengthUnit} from '../../../shared/model/units';
-import {map} from 'rxjs/operators';
 
 
 export enum LocationServiceStatus {

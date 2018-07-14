@@ -38,7 +38,7 @@ export class StopWatchTrafficAction implements Action {
 export class ReadTrafficTimerAction implements Action {
     readonly type = TrafficActionTypes.TRAFFIC_READ_TIMER;
 
-    constructor() {}
+    constructor(public count: number) {}
 }
 
 

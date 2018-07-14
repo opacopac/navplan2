@@ -1,4 +1,6 @@
-export class Timestamp {
+import {Clonable} from '../clonable';
+
+export class Timestamp implements Clonable<Timestamp> {
     public epochSec: number;
 
 
@@ -9,5 +11,10 @@ export class Timestamp {
 
     public getMs(): number {
         return this.epochSec * 1000;
+    }
+
+
+    public clone(): Timestamp {
+        return new Timestamp(this.epochSec);
     }
 }
