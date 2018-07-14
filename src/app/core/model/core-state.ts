@@ -2,6 +2,6 @@ import {UserState} from '../../user/model/user-state';
 
 
 export interface CoreState {
-    userState: UserState;
+    // userState: UserState;
     dummyState: string;
 }

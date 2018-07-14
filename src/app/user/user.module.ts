@@ -20,7 +20,7 @@ import {UserActions} from './user.actions';
         FormsModule,
         ReactiveFormsModule,
         SharedModule,
-        // StoreModule.forFeature<UserState, UserActions>('userState', userReducer),
+        StoreModule.forFeature<UserState, UserActions>('userState', userReducer),
         EffectsModule.forFeature([UserEffects])
     ],
     declarations: [
