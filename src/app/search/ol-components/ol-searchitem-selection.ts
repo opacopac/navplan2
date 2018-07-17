@@ -1,4 +1,4 @@
-import * as ol from 'openlayers';
+/*import ol from 'ol';
 import { UnitconversionService } from '../../shared/services/unitconversion/unitconversion.service';
 import { StringnumberService } from '../../shared/services/stringnumber/stringnumber.service';
 import { OlFeature } from '../../shared/model/ol-feature';
@@ -120,3 +120,4 @@ export class OlSearchItemSelection extends OlFeature {
         return labelAnglesDeg;
     }
 }
+*/

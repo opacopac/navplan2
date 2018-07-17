@@ -1,5 +1,5 @@
 import {TrafficState} from './model/traffic-state';
-import {TrafficService, TrafficServiceStatus} from './services/traffic.service';
+import {TrafficReducerService, TrafficServiceStatus} from './services/traffic-reducer.service';
 import {TrafficActions, TrafficActionTypes} from './traffic.actions';
 import {Altitude} from '../shared/model/quantities/altitude';
 import {LengthUnit} from '../shared/model/units';
@@ -36,16 +36,26 @@ export function trafficReducer(state: TrafficState = initialState, action: Traff
 
         case TrafficActionTypes.TRAFFIC_READ_OGN_SUCCESS:
         case TrafficActionTypes.TRAFFIC_READ_ADSBEX_SUCCESS:
-            return { ...state,
-                trafficMap: TrafficService.reduceTrafficMap(state.trafficMap, action.traffic),
-                status: TrafficServiceStatus.CURRENT,
-            };
+            if (state.isWatching) {
+                return {
+                    ...state,
+                    trafficMap: TrafficReducerService.reduceTrafficMap(state.trafficMap, action.traffic),
+                    status: TrafficServiceStatus.CURRENT,
+                };
+            } else {
+                return state;
+            }
 
         case TrafficActionTypes.TRAFFIC_READ_OGN_ERROR:
         case TrafficActionTypes.TRAFFIC_READ_ADSBEX_ERROR:
-            return { ...state,
-                status: TrafficServiceStatus.ERROR,
-            };
+            if (state.isWatching) {
+                return {
+                    ...state,
+                    status: TrafficServiceStatus.ERROR,
+                };
+            } else {
+                return state;
+            }
 
         default:
             return state;

@@ -1,24 +1,27 @@
+import * as ol from 'openlayers';
 import {OlComponent} from '../../shared/ol-component/ol-component';
 import {MapContext} from '../../map/model/map-context';
 import {Subscription} from 'rxjs';
 import {OlOwnPlane} from './ol-own-plane';
 import {getLocationState} from '../location.selectors';
+import {Position4d} from '../../shared/model/geometry/position4d';
 
 
 export class OlOwnPlaneContainer extends OlComponent {
     private readonly ownPlaneSubscription: Subscription;
+    private readonly ownPlaneLayer: ol.layer.Vector;
     private olOwnPlane: OlOwnPlane;
 
 
     constructor(mapContext: MapContext) {
         super();
 
-        const source = mapContext.mapService.trafficLayer.getSource();
+        this.ownPlaneLayer = mapContext.mapService.addVectorLayer(false, false);
         const locationState$ = mapContext.appStore.select(getLocationState);
         this.ownPlaneSubscription = locationState$.subscribe((locationState) => {
             this.destroyFeatures();
             if (locationState.isWatching) {
-                this.olOwnPlane = new OlOwnPlane(locationState.lastPositions, source);
+                this.addFeatures(locationState.lastPositions);
             }
         });
     }
@@ -35,9 +38,14 @@ export class OlOwnPlaneContainer extends OlComponent {
     }
 
 
+
+    private addFeatures(lastPositions: Position4d[]) {
+        this.olOwnPlane = new OlOwnPlane(lastPositions, this.ownPlaneLayer.getSource());
+    }
+
+
     private destroyFeatures() {
-        if (this.olOwnPlane) {
-            this.olOwnPlane.destroy();
-        }
+        this.olOwnPlane = undefined;
+        this.ownPlaneLayer.getSource().clear(true);
     }
 }

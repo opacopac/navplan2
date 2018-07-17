@@ -18,7 +18,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {MapEffects} from './map.effects';
 import {MapActions} from './map.actions';
 import {MapState} from './model/map-state';
-
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
     imports: [
@@ -32,7 +32,8 @@ import {MapState} from './model/map-state';
         FlightrouteModule,
         MetarTafModule,
         StoreModule.forFeature<MapState, MapActions>('mapState', mapReducer),
-        EffectsModule.forFeature([MapEffects])
+        EffectsModule.forFeature([MapEffects]),
+        MatButtonModule
     ],
     declarations: [
         MapComponent,

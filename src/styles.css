@@ -1,3 +1,24 @@
+/*@import "~@angular/material/prebuilt-themes/indigo-pink.css";*/
+
+html {
+    width: 100vw;
+    height: 100vh;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    /*font-family: Roboto,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;*/
+}
+
+iframe {
+    border: 0;
+}
+
+
+
+
 /* COMPONENT POSITIONS */
 
 .nonmapcontent {
@@ -5,13 +26,37 @@
 }
 
 
-hr {
+hr2 {
     border-top: 1px solid rgba(255,255,255,0.3);
 }
 
 
-button[appStatusButton].btn-lg,
-button[appIconButton].btn-lg {
+/* region button styles */
+
+button.btn-lg {
+    font-size: large;
+}
+
+.mat-fab.mat-status-ok {
+    background-color: green;
+    color: white;
+}
+
+.mat-fab.mat-status-warn {
+    background-color: orange;
+    color: white;
+}
+
+.mat-fab.mat-status-error {
+    background-color: red;
+    color: white;
+}
+
+/* endregion */
+
+
+button[appStatusButton2].btn-lg,
+button[appIconButton2].btn-lg {
     /* 48px */
     width: 3.0rem;
     height: 3.0rem;
@@ -20,8 +65,8 @@ button[appIconButton].btn-lg {
 }
 
 
-button[appStatusButton].btn-md,
-button[appIconButton].btn-md {
+button[appStatusButton2].btn-md,
+button[appIconButton2].btn-md {
     /* 37px */
     width: 2.3125rem;
     height: 2.3125rem;
@@ -30,8 +75,8 @@ button[appIconButton].btn-md {
 }
 
 
-button[appStatusButton].btn-sm,
-button[appIconButton].btn-sm {
+button[appStatusButton2].btn-sm,
+button[appIconButton2].btn-sm {
     /* 29px */
     width: 1.8125rem;
     height: 1.8125rem;
@@ -44,62 +89,6 @@ button[appIconButton].btn-sm {
     margin-bottom: 0.3125rem;
 }
 
-
-/* region: override of bootstrap styles */
-
-.btn-md, .btn-group-md > .btn {
-    padding: 0.375rem 0.75rem;
-    /*font-size: 0.99609375rem;*/
-    font-size: 1.0rem;
-    line-height: 1.5;
-    border-radius: 0.2rem;
-}
-
-
-.btn-lg, .btn-group-lg > .btn {
-    font-size: 1.0rem;
-}
-
-.btn-success.disabled,
-.btn-success:disabled,
-.btn-danger.disabled,
-.btn-danger:disabled,
-.btn-info.disabled,
-.btn-info:disabled {
-    color: #DDDDDD;
-    cursor: not-allowed;
-}
-
-
-.col-form-label-md {
-    padding-top: calc(0.375rem + 1px);
-    padding-bottom: calc(0.375rem + 1px);
-    font-size: 0.99609375rem;
-    line-height: 1.5;
-}
-
-.form-control-md, .input-group-md > .form-control,
-.input-group-md > .input-group-prepend > .input-group-text,
-.input-group-md > .input-group-append > .input-group-text,
-.input-group-md > .input-group-prepend > .btn,
-.input-group-md > .input-group-append > .btn {
-    padding: 0.375rem 0.75rem;
-    font-size: 0.99609375rem;
-    line-height: 1.5;
-    border-radius: 0.2rem;
-}
-
-
-select.form-control-md:not([size]):not([multiple]), .input-group-md > select.form-control:not([size]):not([multiple]),
-.input-group-md > .input-group-prepend > select.input-group-text:not([size]):not([multiple]),
-.input-group-md > .input-group-append > select.input-group-text:not([size]):not([multiple]),
-.input-group-md > .input-group-prepend > select.btn:not([size]):not([multiple]),
-.input-group-md > .input-group-append > select.btn:not([size]):not([multiple]) {
-    height: calc(2.244140625rem + 2px);
-}
-
-
-/* endregion */
 
 
 /* region: override of openlayer styles */

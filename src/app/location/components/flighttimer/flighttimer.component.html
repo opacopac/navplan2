@@ -1,4 +1,4 @@
-<div *ngIf="this.locationService.isActivated" id="map_timer" class="mapbutton-timer" align="center">
+<div *ngIf="this.locationIsWatching$ | async" id="map_timer" class="mapbutton-timer" align="center">
 	<span class="map-currenttime">
 		{{ this.timerService.getCurrentTimeString() }}
 	</span>

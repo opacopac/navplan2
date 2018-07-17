@@ -26,11 +26,6 @@ export class OlUserPoint extends OlComponent {
     }
 
 
-    public destroy() {
-        this.removeFeature(this.olFeature, this.source);
-    }
-
-
     protected createPointStyle(userPoint: Userpoint): ol.style.Style {
         const src = environment.iconBaseUrl;
 

@@ -31,11 +31,6 @@ export class OlMetarWind extends OlComponent {
     }
 
 
-    public destroy() {
-        this.removeFeature(this.olFeature, this.source);
-    }
-
-
     private createPointStyle(metarTaf: MetarTaf, mapRotation: Angle): ol.style.Style {
         let src = environment.iconBaseUrl;
         let rot = metarTaf.wind_dir_deg ?

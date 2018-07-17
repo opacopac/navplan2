@@ -1,8 +1,7 @@
 import * as ol from 'openlayers';
-import {OlComponent} from '../../shared/ol-component/ol-component';
-import {ArrayService} from '../../shared/services/array/array.service';
 import {combineLatest, Subscription} from 'rxjs';
 import {MapContext} from '../../map/model/map-context';
+import {OlComponent} from '../../shared/ol-component/ol-component';
 import {OlMetar} from './ol-metar';
 import {getMetarTafList} from '../metar-taf.selectors';
 import {MetarTafList} from '../model/metar-taf';
@@ -13,13 +12,14 @@ import {Angle} from '../../shared/model/quantities/angle';
 
 export class OlMetarContainer extends OlComponent {
     private readonly metarTafSubscription: Subscription;
-    private readonly olMetars: OlMetar[] = [];
+    private readonly metarTafLayer: ol.layer.Vector;
+    private olMetars: OlMetar[] = [];
 
 
     constructor(mapContext: MapContext) {
         super();
 
-        const source = mapContext.mapService.nonrouteItemsLayer.getSource();
+        this.metarTafLayer = mapContext.mapService.addVectorLayer(false, false);
         const metarTafList$ = mapContext.appStore.select(getMetarTafList);
         const airportList$ = mapContext.appStore.select(getMapFeaturesAirports);
         this.metarTafSubscription = combineLatest(
@@ -27,7 +27,8 @@ export class OlMetarContainer extends OlComponent {
             airportList$
         )
             .subscribe(([metarTafList, airportList]) => {
-                this.addFeatures(metarTafList, airportList, source, mapContext.mapService.getRotation());
+                this.destroyFeatures();
+                this.addFeatures(metarTafList, airportList, this.metarTafLayer.getSource(), mapContext.mapService.getRotation());
             });
     }
 
@@ -44,7 +45,6 @@ export class OlMetarContainer extends OlComponent {
 
 
     private addFeatures(metarTafList: MetarTafList, airports: Airport[], source: ol.source.Vector, mapRotation: Angle) {
-        this.destroyFeatures();
         if (metarTafList) {
             const adPosMao = this.createAdPosTable(airports);
 
@@ -73,9 +73,7 @@ export class OlMetarContainer extends OlComponent {
 
 
     private destroyFeatures() {
-        if (this.olMetars) {
-            this.olMetars.forEach(olComponent => olComponent.destroy());
-            ArrayService.clear<OlMetar>(this.olMetars);
-        }
+        this.olMetars = [];
+        this.metarTafLayer.getSource().clear(true);
     }
 }

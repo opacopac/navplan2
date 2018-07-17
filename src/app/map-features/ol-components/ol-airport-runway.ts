@@ -26,11 +26,6 @@ export class OlAirportRunway extends OlComponent {
     }
 
 
-    public destroy() {
-        this.removeFeature(this.olFeature, this.source);
-    }
-
-
     private createPointStyle(airport: Airport, runway: AirportRunway): ol.style.Style {
         let src = environment.iconBaseUrl;
         const rwy_surface = runway.surface ? runway.surface : undefined;

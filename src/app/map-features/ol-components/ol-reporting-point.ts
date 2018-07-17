@@ -26,11 +26,6 @@ export class OlReportingPoint extends OlComponent {
     }
 
 
-    public destroy() {
-        this.removeFeature(this.olFeature, this.source);
-    }
-
-
     private createPointStyle(rp: Reportingpoint): ol.style.Style {
         let src = environment.iconBaseUrl;
 

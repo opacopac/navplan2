@@ -39,8 +39,6 @@ export class OlRouteLine extends OlComponent {
         this.lineFeature.getGeometry().un('modifyend', this.onModifyEnd.bind(this));
 
         this.map.removeInteraction(this.modifyInteraction);
-
-        this.removeFeature(this.lineFeature, this.source);
     }
 
 

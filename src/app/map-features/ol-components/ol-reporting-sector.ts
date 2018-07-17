@@ -25,11 +25,6 @@ export class OlReportingSector extends OlComponent {
     }
 
 
-    public destroy() {
-        this.removeFeature(this.olFeature, this.source);
-    }
-
-
     private createPolygonStyle(reportingSector: Reportingsector): ol.style.Style {
         return new ol.style.Style({
             fill: new ol.style.Fill({

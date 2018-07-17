@@ -4,4 +4,9 @@
     left: 10px;
     z-index: 20;
     opacity: 0.8;
+    font-size: large;
+}
+
+.mat-success {
+    background-color: green;
 }

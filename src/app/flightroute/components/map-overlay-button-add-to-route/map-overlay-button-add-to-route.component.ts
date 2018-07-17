@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ButtonColor, ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
+import {Observable} from 'rxjs/internal/Observable';
+import {Waypoint} from '../../model/waypoint';
 
 
 @Component({
@@ -11,6 +13,9 @@ export class MapOverlayButtonAddToRouteComponent implements OnInit {
     public ButtonSize = ButtonSize;
     public ButtonColor = ButtonColor;
     public addAfterIndex: number;
+    public selectedWaypoint$: Observable<Waypoint>; // TODO
+    public flightrouteWaypoints$: Observable<Waypoint[]>; // TODO
+    public selectedWaypointIsNew$: Observable<boolean>; // TODO
 
 
     ngOnInit() {

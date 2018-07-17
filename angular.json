@@ -32,13 +32,10 @@
             ],
             "styles": [
               "node_modules/openlayers/css/ol.css",
-              "src/assets/bootstrap/bootstrap_slate_theme/bootstrap.min.css",
+              "src/navplan-app-theme.scss",
               "src/styles.css"
             ],
             "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/popper.js/dist/umd/popper.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js"
             ]
           },
           "configurations": {
@@ -86,13 +83,10 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/popper.js/dist/umd/popper.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js"
             ],
             "styles": [
               "node_modules/openlayers/css/ol.css",
-              "src/assets/bootstrap/bootstrap_slate_theme/bootstrap.min.css",
+              "src/navplan-app-theme.scss",
               "src/styles.css"
             ],
             "assets": [

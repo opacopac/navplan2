@@ -28,20 +28,30 @@ export function locationReducer(state: LocationState = initialState, action: Loc
             };
 
         case LocationActionTypes.LOCATION_READ_TIMER_SUCCESS:
-            const newLastPositions = state.lastPositions.slice();
-            if (action.position) {
-                newLastPositions.push(action.position.clone());
+            if (state.isWatching) {
+                const newLastPositions = state.lastPositions.slice();
+                if (action.position) {
+                    newLastPositions.push(action.position);
+                }
+                return {
+                    ...state,
+                    lastPositions: newLastPositions,
+                    status: LocationServiceStatus.CURRENT
+                };
+            } else {
+                return state;
             }
-            return { ...state,
-                lastPositions: newLastPositions,
-                status: LocationServiceStatus.CURRENT
-            };
 
         case LocationActionTypes.LOCATION_READ_TIMER_ERROR:
-            return { ...state,
-                isWatching: false,
-                status: LocationServiceStatus.ERROR
-            };
+            if (state.isWatching) {
+                return {
+                    ...state,
+                    isWatching: false,
+                    status: LocationServiceStatus.ERROR
+                };
+            } else {
+                return state;
+            }
 
         default:
             return state;

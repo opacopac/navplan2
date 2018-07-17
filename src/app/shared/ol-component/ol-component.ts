@@ -35,9 +35,6 @@ export abstract class OlComponent {
     public abstract get isSelectable(): boolean;
 
 
-    public abstract destroy();
-
-
     protected createFeature(dataItem: DataItem): ol.Feature {
         const feature = new ol.Feature();
         feature.set(OlComponent.PROPERTYNAME_DATAITEM, dataItem, true);

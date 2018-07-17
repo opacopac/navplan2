@@ -33,12 +33,6 @@ export class OlWaypoint2 extends OlComponent {
     }
 
 
-    public destroy() {
-        this.bearingLabel.destroy();
-        this.removeFeature(this.pointFeature, this.source);
-    }
-
-
     private createStyle(wp: Waypoint, nextWp: Waypoint, mapRotation: Angle): ol.style.Style {
         const text = wp ? wp.checkpoint : undefined;
         const mt = wp ? wp.mt : undefined;

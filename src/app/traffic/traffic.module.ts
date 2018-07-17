@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {IcaoCallsignService} from './services/icaocallsign.service';
-import {TrafficService} from './services/traffic.service';
+import {TrafficReducerService} from './services/traffic-reducer.service';
 import {TrafficAdsbexchangeService} from './services/traffic-adsbexchange.service';
 import {TrafficOgnService} from './services/traffic-ogn.service';
 import {MapOverlayTrafficComponent} from './components/map-overlay-traffic/map-overlay-traffic.component';
@@ -32,7 +32,7 @@ import {TrafficActions} from './traffic.actions';
     ],
     providers: [
         IcaoCallsignService,
-        TrafficService,
+        TrafficReducerService,
         TrafficAdsbexchangeService,
         TrafficOgnService
     ]

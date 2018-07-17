@@ -15,14 +15,8 @@ const HIT_TOLERANCE_PIXELS = 10;
 @Injectable()
 export class MapService {
     public map: ol.Map;
-    public mapLayer: ol.layer.Tile;
-    public routeItemsLayer: ol.layer.Vector;
-    public nonrouteItemsLayer: ol.layer.Vector;
-    public notamLayer: ol.layer.Vector;
-    public flightrouteLayer: ol.layer.Vector;
-    public searchItemLayer: ol.layer.Vector;
-    public trafficLayer: ol.layer.Vector;
-    public locationLayer: ol.layer.Vector;
+    private mapLayer: ol.layer.Tile;
+    private customLayers: ol.layer.Vector[] = [];
     public onMapMovedZoomedRotated = new EventEmitter<{ position: Position2d, zoom: number, rotation: Angle, extent: Extent }>();
     public onMapClicked = new EventEmitter<{ clickPos: Position2d, dataItem: DataItem }>();
     private currentOverlay: ol.Overlay;
@@ -39,7 +33,8 @@ export class MapService {
                    zoom: number,
                    mapRotation: Angle) {
 
-        this.initLayers(baseMapType);
+        this.mapLayer = MapbaselayerFactory.create(baseMapType);
+        this.customLayers = [];
         this.map = new ol.Map({
             target: 'map',
             controls: [
@@ -50,13 +45,6 @@ export class MapService {
             ],
             layers: [
                 this.mapLayer,
-                this.nonrouteItemsLayer,
-                this.routeItemsLayer,
-                this.notamLayer,
-                this.flightrouteLayer,
-                this.searchItemLayer,
-                this.trafficLayer,
-                this.locationLayer
             ],
             view: new ol.View({
                 center: position.getMercator(),
@@ -74,7 +62,7 @@ export class MapService {
 
 
         // add snap interaction (must be added last, see: https://openlayers.org/en/latest/examples/snap.html)
-        this.addSnapInteractions();
+        // this.addSnapInteractions(this.routeItemsLayer.getSource());
     }
 
 
@@ -91,15 +79,17 @@ export class MapService {
     }
 
 
-    private initLayers(baseMapType: MapbaselayerType) {
-        this.mapLayer = MapbaselayerFactory.create(baseMapType);
-        this.nonrouteItemsLayer = this.createEmptyVectorLayer(true);
-        this.routeItemsLayer = this.createEmptyVectorLayer();
-        this.notamLayer = this.createEmptyVectorLayer(true);
-        this.flightrouteLayer = this.createEmptyVectorLayer();
-        this.searchItemLayer = this.createEmptyVectorLayer();
-        this.trafficLayer = this.createEmptyVectorLayer();
-        this.locationLayer = this.createEmptyVectorLayer();
+    public addVectorLayer(imageRenderMode: boolean, addSnapInteraction: boolean): ol.layer.Vector {
+        const layer = this.createEmptyVectorLayer(imageRenderMode);
+        this.customLayers.push(layer);
+
+        this.map.addLayer(layer);
+
+        if (addSnapInteraction) {
+            this.addSnapInteractions(layer.getSource());
+        }
+
+        return layer;
     }
 
 
@@ -111,10 +101,10 @@ export class MapService {
     }
 
 
-    private addSnapInteractions() {
+    private addSnapInteractions(layerSource: ol.source.Vector) {
         this.map.addInteraction(
             new ol.interaction.Snap({
-                source: this.routeItemsLayer.getSource(),
+                source: layerSource,
                 edge: false
             })
         );
@@ -313,12 +303,13 @@ export class MapService {
 
 
     private isClickableLayer(layer: ol.layer.Layer): boolean {
-        return (layer === this.routeItemsLayer ||
+        return layer !== this.mapLayer;
+        /*return (layer === this.routeItemsLayer ||
             layer === this.nonrouteItemsLayer ||
             layer === this.notamLayer ||
             layer === this.flightrouteLayer ||
             layer === this.searchItemLayer ||
-            layer === this.trafficLayer);
+            layer === this.trafficLayer);*/
     }
 
     // endregion

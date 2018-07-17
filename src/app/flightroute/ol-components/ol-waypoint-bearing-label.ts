@@ -30,11 +30,6 @@ export class OlWaypointBearingLabel extends OlComponent {
     }
 
 
-    public destroy() {
-        this.removeFeature(this.dirBearFeature, this.source);
-    }
-
-
     private createStyle(wp: Waypoint, mapRotation: Angle): ol.style.Style {
         if (!wp) { return undefined; }
 

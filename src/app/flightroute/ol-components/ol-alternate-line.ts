@@ -25,11 +25,6 @@ export class OlAlternateLine extends OlComponent {
     }
 
 
-    public destroy() {
-        this.removeFeature(this.lineFeature, this.source);
-    }
-
-
     private setGeometry(lineFeature: ol.Feature, flightroute: Flightroute) {
         if (flightroute.waypoints.length > 0 && flightroute.alternate) {
             const pos1 = flightroute.waypoints[flightroute.waypoints.length - 1].position;

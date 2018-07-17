@@ -28,10 +28,4 @@ export class OlMetar extends OlComponent {
     public get isSelectable(): boolean {
         return false;
     }
-
-
-    public destroy() {
-        this.olMetarSky.destroy();
-        this.olMetarWind.destroy();
-    }
 }

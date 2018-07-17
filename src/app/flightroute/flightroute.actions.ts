@@ -100,7 +100,7 @@ export class UpdateFlightrouteAction implements Action {
 export class DuplicateFlightrouteAction implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_DUPLICATE;
 
-    constructor() {}
+    constructor(public flightrouteId: number) {}
 }
 
 
@@ -238,14 +238,14 @@ export class UpdateFlightrouteComments implements Action {
 export class ExportFlightroutePdf implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_EXPORT_PDF;
 
-    constructor() {}
+    constructor(public flightrouteId: number) {}
 }
 
 
 export class ExportFlightrouteExcel implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_EXPORT_EXCEL;
 
-    constructor() {}
+    constructor(public flightrouteId: number) {}
 }
 
 // endregion

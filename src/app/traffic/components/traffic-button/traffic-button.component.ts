@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {TrafficServiceStatus} from '../../services/traffic.service';
-import {ButtonStatus} from '../../../shared/directives/status-button/status-button.directive';
-import {ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
+import {TrafficServiceStatus} from '../../services/traffic-reducer.service';
 import {Store} from '@ngrx/store';
 import {ToggleWatchTrafficAction} from '../../traffic.actions';
 import {getTrafficIsWatching, getTrafficStatus} from '../../traffic.selectors';
@@ -13,7 +11,6 @@ import {getTrafficIsWatching, getTrafficStatus} from '../../traffic.selectors';
     styleUrls: ['./traffic-button.component.css']
 })
 export class TrafficButtonComponent implements OnInit {
-    public ButtonSize = ButtonSize;
     public trafficStatus$ = this.appStore.select(getTrafficStatus);
     public trafficIsWatching$ = this.appStore.select(getTrafficIsWatching);
 
@@ -26,24 +23,24 @@ export class TrafficButtonComponent implements OnInit {
     }
 
 
-    public getButtonStatus(trafficStatus: TrafficServiceStatus): ButtonStatus {
-        switch (trafficStatus) {
-            case TrafficServiceStatus.CURRENT:
-                return ButtonStatus.OK;
-            case TrafficServiceStatus.WAITING:
-                return ButtonStatus.WARNING;
-            case TrafficServiceStatus.ERROR:
-                return ButtonStatus.ERROR;
-            case TrafficServiceStatus.OFF:
-            default:
-                return ButtonStatus.OFF;
-        }
-    }
-
-
     public onToggleTrafficClicked() {
         this.appStore.dispatch(
             new ToggleWatchTrafficAction()
         );
+    }
+
+
+    public getStatusCLass(trafficStatus: TrafficServiceStatus): string {
+        switch (trafficStatus) {
+            case TrafficServiceStatus.CURRENT:
+                return 'status-ok';
+            case TrafficServiceStatus.WAITING:
+                return 'status-warn';
+            case TrafficServiceStatus.ERROR:
+                return 'status-error';
+            case TrafficServiceStatus.OFF:
+            default:
+                return 'accent';
+        }
     }
 }

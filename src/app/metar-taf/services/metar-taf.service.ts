@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/internal/Observable';
 import {catchError, map} from 'rxjs/operators';
+import {of} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {LoggingService} from '../../shared/services/logging/logging.service';
 import {Extent} from '../../shared/model/extent';
@@ -33,7 +34,7 @@ export class MetarTafService {
     public load(extent: Extent, zoom: number): Observable<MetarTafList> {
         // TODO
         if (zoom <= MIN_ZOOM_LEVEL) {
-            return;
+            return of(new MetarTafList());
         }
 
         const url = METAR_TAF_BASE_URL + extent[0] + ',' + extent[1] + ',' + extent[2] + ',' + extent[3];

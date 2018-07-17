@@ -6,6 +6,6 @@ export interface LocationState {
     status: LocationServiceStatus;
     isWatching: boolean;
     lastPositions: Position4d[];
-    startTime: number; // TODO
-    interimTime: number; // TODO
+    startTime: Date;
+    interimTime: Date;
 }

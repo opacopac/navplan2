@@ -1,4 +1,4 @@
-<div class="map-overlay-button" *ngIf="(this.session.selectedWaypoint$ | async) && !(this.session.selectedWaypointIsNew | async)">
+<div class="map-overlay-button" *ngIf="(this.selectedWaypoint$ | async) && !(this.selectedWaypointIsNew$ | async)">
     <button
             appIconButton
             [color]="ButtonColor.ORANGE"

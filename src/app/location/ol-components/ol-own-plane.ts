@@ -29,11 +29,6 @@ export class OlOwnPlane extends OlComponent {
     }
 
 
-    public destroy() {
-        this.removeFeatures([this.olOwnPlane], this.source);
-    }
-
-
     protected getStyle(lastPositions: Position4d[]) {
         if (!lastPositions || lastPositions.length === 0) {
             return undefined;

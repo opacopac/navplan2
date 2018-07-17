@@ -27,11 +27,6 @@ export class OlAirportFeature extends OlComponent {
     }
 
 
-    public destroy() {
-        this.removeFeature(this.olFeature, this.source);
-    }
-
-
     protected createPointStyle(airportFeature: AirportFeature): ol.style.Style {
         const src = environment.iconBaseUrl;
 

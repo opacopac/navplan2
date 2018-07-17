@@ -7,6 +7,7 @@ import {TextButtonDirective} from './directives/text-button/text-button.directiv
 import {MessageComponent} from './components/message/message.component';
 import {MessageService} from './services/message/message.service';
 import {MapOverlayButtonCloseComponent} from './components/map-overlay-button-close/map-overlay-button-close.component';
+import {MatButtonModule} from '@angular/material/button';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import {MapOverlayButtonCloseComponent} from './components/map-overlay-button-cl
         MapOverlayButtonCloseComponent,
         StatusButtonDirective,
         TextButtonDirective,
+        MatButtonModule,
     ],
     providers: [
         MessageService

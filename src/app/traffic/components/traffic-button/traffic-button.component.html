@@ -1,11 +1,9 @@
 <div class="mapbutton-traffic">
     <button
-        appStatusButton
-        title="show/hide traffic"
-        #trafficButton
-        [iconClass]="'fas fa-plane'"
-        [size]="ButtonSize.LARGE"
-        [status]="this.getButtonStatus(this.trafficStatus$ | async)"
-        [isPressed]="(this.trafficIsWatching$ | async)"
-        (click)="this.onToggleTrafficClicked()"></button>
+            mat-fab
+            title="show/hide traffic"
+            color="{{ this.getStatusCLass(this.trafficStatus$ | async) }}"
+            (click)="this.onToggleTrafficClicked()">
+        <i class="fas fa-plane"></i>
+    </button>
 </div>

@@ -12,6 +12,7 @@ import {Waypoint} from '../model/waypoint';
 
 export class OlFlightrouteContainer extends OlComponent {
     private readonly flightrouteSubscription: Subscription;
+    private readonly flightrouteLayer: ol.layer.Vector;
     private olRoutepoints: OlWaypoint2[];
     private olAlternate: OlWaypoint2;
     private olRouteLine: OlRouteLine;
@@ -21,10 +22,11 @@ export class OlFlightrouteContainer extends OlComponent {
     constructor(mapContext: MapContext) {
         super();
 
-        const source = mapContext.mapService.flightrouteLayer.getSource();
+        this.flightrouteLayer = mapContext.mapService.addVectorLayer(false, false);
         const flightroute$ = mapContext.appStore.select(getFlightroute);
         this.flightrouteSubscription = flightroute$.subscribe((flightroute) => {
-            this.addFeatures(flightroute, mapContext, source);
+            this.destroyFeatures();
+            this.addFeatures(flightroute, mapContext, this.flightrouteLayer.getSource());
         });
     }
 
@@ -41,7 +43,6 @@ export class OlFlightrouteContainer extends OlComponent {
 
 
     private addFeatures(flightroute: Flightroute, mapContext: MapContext, source: ol.source.Vector) {
-        this.destroyFeatures();
         if (flightroute) {
             const mapRotation = mapContext.mapService.getRotation();
             this.olRouteLine = new OlRouteLine(flightroute, mapContext.map, source);
@@ -72,9 +73,10 @@ export class OlFlightrouteContainer extends OlComponent {
 
 
     private destroyFeatures() {
-        if (this.olRouteLine) { this.olRouteLine.destroy(); }
-        if (this.olAlternateLine) { this.olAlternateLine.destroy(); }
-        if (this.olRoutepoints) { this.olRoutepoints.forEach(olWp => olWp.destroy()); }
-        if (this.olAlternate) { this.olAlternate.destroy(); }
+        this.olRouteLine = undefined;
+        this.olAlternateLine = undefined;
+        this.olRoutepoints = [];
+        this.olAlternate = undefined;
+        this.flightrouteLayer.getSource().clear(true);
     }
 }

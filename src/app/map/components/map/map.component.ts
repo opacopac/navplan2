@@ -88,8 +88,12 @@ export class MapComponent implements OnInit, OnDestroy {
         this.mapClickedSubscription.unsubscribe();
 
         this.olMapFeatures.destroy();
-        this.olFlightroute.destroy();
+        this.olMetars.destroy();
         this.olNotams.destroy();
+        this.olFlightroute.destroy();
+        // TODO: destroy search result layer
+        this.olTraffic.destroy();
+        this.olOwnPlane.destroy();
 
         this.mapService.uninitMap();
     }
@@ -111,12 +115,12 @@ export class MapComponent implements OnInit, OnDestroy {
 
             const mapContext = new MapContext(this.appStore, this.mapService.map, this.mapService);
             this.olMapFeatures = new OlMapFeaturesContainer(mapContext);
-            this.olFlightroute = new OlFlightrouteContainer(mapContext);
-            this.olNotams = new OlNotamContainer(mapContext);
             this.olMetars = new OlMetarContainer(mapContext);
+            this.olNotams = new OlNotamContainer(mapContext);
+            this.olFlightroute = new OlFlightrouteContainer(mapContext);
+            // TODO: search results
             this.olTraffic = new OlTrafficContainer(mapContext);
             this.olOwnPlane = new OlOwnPlaneContainer(mapContext);
-            // TODO: features
         });
     }
 

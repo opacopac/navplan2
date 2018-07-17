@@ -22,6 +22,10 @@ import {NotamModule} from './notam/notam.module';
 import {MapFeaturesModule} from './map-features/map-features.module';
 import {coreReducer} from './core/core.reducer';
 import {AppState} from './app-state';
+import {Navbar2Component} from './core/components/navbar2/navbar2.component';
+import {LayoutModule} from '@angular/cdk/layout';
+import {MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule} from '@angular/material';
+import {MatMenuModule} from '@angular/material/menu';
 
 
 @NgModule({
@@ -30,6 +34,7 @@ import {AppState} from './app-state';
         SettingsComponent,
         AboutComponent,
         NavbarComponent,
+        Navbar2Component,
     ],
     imports: [
         BrowserModule,
@@ -56,6 +61,13 @@ import {AppState} from './app-state';
         NotamModule,
         MapFeaturesModule,
         MapModule,
+        LayoutModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatSidenavModule,
+        MatIconModule,
+        MatListModule,
+        MatMenuModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

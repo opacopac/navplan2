@@ -28,11 +28,6 @@ export class OlMetarSky extends OlComponent {
     }
 
 
-    public destroy() {
-        this.removeFeature(this.olFeature, this.source);
-    }
-
-
     private createPointStyle(metarTaf: MetarTaf): ol.style.Style {
         let src = environment.iconBaseUrl;
         const wx_cond = metarTaf.wx_cond ? metarTaf.wx_cond : '';

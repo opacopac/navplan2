@@ -71,9 +71,9 @@ export class FlightrouteContainerComponent implements OnInit {
     }
 
 
-    public onSaveFlightrouteCopyClicked() {
+    public onSaveFlightrouteCopyClicked(flightRouteId: number) {
         this.appStore.dispatch(
-            new DuplicateFlightrouteAction()
+            new DuplicateFlightrouteAction(flightRouteId)
         );
     }
 
@@ -141,16 +141,16 @@ export class FlightrouteContainerComponent implements OnInit {
     }
 
 
-    public onExportFlightroutePdfClicked() {
+    public onExportFlightroutePdfClicked(flightRouteId: number) {
         this.appStore.dispatch(
-            new ExportFlightroutePdf()
+            new ExportFlightroutePdf(flightRouteId)
         );
     }
 
 
-    public onExportFlightrouteExcelClicked() {
+    public onExportFlightrouteExcelClicked(flightRouteId: number) {
         this.appStore.dispatch(
-            new ExportFlightrouteExcel()
+            new ExportFlightrouteExcel(flightRouteId)
         );
     }
 }

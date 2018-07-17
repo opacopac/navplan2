@@ -1,4 +1,4 @@
-import {TrafficServiceStatus} from '../services/traffic.service';
+import {TrafficServiceStatus} from '../services/traffic-reducer.service';
 import {Traffic} from './traffic';
 import {Altitude} from '../../shared/model/quantities/altitude';
 import {Extent} from '../../shared/model/extent';

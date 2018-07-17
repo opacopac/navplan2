@@ -19,6 +19,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {MapFeaturesEffects} from './map-features.effects';
 import {MapFeaturesActions} from './map-features.actions';
 import {MapFeaturesState} from './model/map-features-state';
+import {MapOverlayMeteogramComponent} from './components/map-overlay-meteogram/map-overlay-meteogram.component';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import {MapFeaturesState} from './model/map-features-state';
         MapOverlayButtonWebcamComponent,
         MapOverlayButtonMeteogramComponent,
         MapOverlayGeonameComponent,
+        MapOverlayMeteogramComponent,
         MapOverlayNavaidComponent,
         MapOverlayReportingpointComponent,
         MapOverlayReportingsectorComponent,
@@ -48,6 +50,7 @@ import {MapFeaturesState} from './model/map-features-state';
         MapOverlayButtonWebcamComponent,
         MapOverlayButtonMeteogramComponent,
         MapOverlayGeonameComponent,
+        MapOverlayMeteogramComponent,
         MapOverlayNavaidComponent,
         MapOverlayReportingpointComponent,
         MapOverlayReportingsectorComponent,

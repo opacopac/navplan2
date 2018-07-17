@@ -42,13 +42,6 @@ export class OlAirport extends OlComponent {
     }
 
 
-    public destroy() {
-        this.removeFeature(this.olFeature, this.source);
-        if (this.olRunway) { this.olRunway.destroy(); }
-        this.olAdFeatures.forEach(olAdFeature => olAdFeature.destroy());
-    }
-
-
     private createPointStyle(airport: Airport): ol.style.Style {
         let src = environment.iconBaseUrl;
         let textColor = '#451A57';

@@ -1,14 +1,9 @@
-<div class="btn-group-vertical mapbutton-zoom">
-    <button appIconButton
-            title="zoom in"
-            [iconClass]="'fas fa-plus'"
-            [size]="ButtonSize.LARGE"
-            [color]="ButtonColor.GRAY"
-            (click)="this.onZoomInClicked.emit()"></button>
-    <button appIconButton
-            title="zoom out"
-            [iconClass]="'fas fa-minus'"
-            [size]="ButtonSize.LARGE"
-            [color]="ButtonColor.GRAY"
-            (click)="this.onZoomOutClicked.emit()"></button>
+<div class="mapbutton-zoom">
+    <button mat-fab class="btn-lg" color="accent" (click)="this.onZoomInClicked.emit()">
+        <i class="fas fa-plus"></i>
+    </button>
+    <br>
+    <button mat-fab class="btn-lg" color="accent" style="margin-top: 10px" (click)="this.onZoomOutClicked.emit()">
+        <i class="fas fa-minus"></i>
+    </button>
 </div>

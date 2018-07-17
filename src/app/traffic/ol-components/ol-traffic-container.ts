@@ -5,23 +5,23 @@ import {Subscription} from 'rxjs';
 import {OlTraffic} from './ol-traffic';
 import {getTrafficState} from '../traffic.selectors';
 import {Traffic} from '../model/traffic';
-import {ArrayService} from '../../shared/services/array/array.service';
 
 
 export class OlTrafficContainer extends OlComponent {
     private readonly trafficSubscription: Subscription;
-    private readonly olTrafficList: OlTraffic[] = [];
+    private readonly trafficLayer: ol.layer.Vector;
+    private olTrafficList: OlTraffic[] = [];
 
 
     constructor(mapContext: MapContext) {
         super();
 
-        const source = mapContext.mapService.trafficLayer.getSource();
+        this.trafficLayer = mapContext.mapService.addVectorLayer(false, false);
         const trafficState$ = mapContext.appStore.select(getTrafficState);
         this.trafficSubscription = trafficState$.subscribe((trafficState) => {
             this.destroyFeatures();
             if (trafficState.isWatching) {
-                this.addFeatures(Array.from(trafficState.trafficMap.values()), source);
+                this.addFeatures(Array.from(trafficState.trafficMap.values()), this.trafficLayer.getSource());
             }
         });
     }
@@ -46,7 +46,7 @@ export class OlTrafficContainer extends OlComponent {
 
 
     private destroyFeatures() {
-        this.olTrafficList.forEach(olComponent => olComponent.destroy());
-        ArrayService.clear<OlTraffic>(this.olTrafficList);
+        this.olTrafficList = [];
+        this.trafficLayer.getSource().clear(true);
     }
 }

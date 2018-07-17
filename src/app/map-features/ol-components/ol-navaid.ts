@@ -26,11 +26,6 @@ export class OlNavaid extends OlComponent {
     }
 
 
-    public destroy() {
-        this.removeFeature(this.olFeature, this.source);
-    }
-
-
     private createPointStyle(navaid: Navaid): ol.style.Style {
         let src = environment.iconBaseUrl;
         let textOffsetY;

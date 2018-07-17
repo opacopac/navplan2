@@ -42,12 +42,6 @@ export class OlTraffic extends OlComponent {
     }
 
 
-    destroy() {
-        this.olDotTrailFeature.destroy();
-        this.removeFeatures([this.olTrafficFeature, this.olCallsignFeature], this.source);
-    }
-
-
     protected getTrafficStyle(traffic: Traffic) {
         const position = traffic.getCurrentPosition().position;
         if (!position) {
@@ -55,7 +49,6 @@ export class OlTraffic extends OlComponent {
         }
 
         let icon = environment.iconBaseUrl;
-        let color = '#FF0000';
         let heighttext = '';
         let typetext = '';
         let rotation = this.getRotation(traffic);
@@ -76,10 +69,6 @@ export class OlTraffic extends OlComponent {
         let rotWithView = true;
 
         switch (traffic.actype) {
-            case TrafficAircraftType.OWN:
-                icon += 'own_plane.png';
-                color = '#0000FF';
-                break;
             case TrafficAircraftType.HELICOPTER_ROTORCRAFT:
                 icon += 'traffic_heli' + iconSuffix + '.png';
                 break;
@@ -144,7 +133,7 @@ export class OlTraffic extends OlComponent {
             text: new ol.style.Text({
                 font: 'bold 14px Calibri,sans-serif',
                 text: heighttext + typetext,
-                fill: new ol.style.Fill({color: color}),
+                fill: new ol.style.Fill({color: '#FF0000'}),
                 stroke: new ol.style.Stroke({color: '#FFFFFF', width: 2}),
                 offsetX: 0,
                 offsetY: 35

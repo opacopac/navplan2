@@ -1,6 +1,5 @@
-import { Position4d } from '../../shared/model/geometry/position4d';
-import { DataItem } from '../../shared/model/data-item';
-import {TrafficPosition, TrafficPositionMethod} from './traffic-position';
+import {DataItem} from '../../shared/model/data-item';
+import {TrafficPosition} from './traffic-position';
 import {Clonable} from '../../shared/model/clonable';
 
 
@@ -10,7 +9,6 @@ const MAX_AGE_SEC_INACTIVE = 30;
 // region ENUMS
 
 export enum TrafficAircraftType {
-    'OWN',
     'HELICOPTER_ROTORCRAFT',
     'GLIDER',
     'PARACHUTE',
@@ -39,8 +37,7 @@ export enum TrafficAddressType {
 
 export enum TrafficDataSource {
     OGN,
-    ADSBX,
-    OWN
+    ADSBX
 }
 
 
@@ -60,21 +57,6 @@ export class Traffic extends DataItem implements Clonable<Traffic> {
         public positions: TrafficPosition[]) {
 
         super();
-    }
-
-
-    public static createOwnAirplane(position: Position4d): Traffic {
-        return new Traffic(
-            '',
-            TrafficAddressType.RANDOM,
-            TrafficDataSource.OWN,
-            TrafficAircraftType.OWN,
-            '',
-            '',
-            '',
-            '',
-            [new TrafficPosition(position, TrafficPositionMethod.OWN, '', 0)]
-        );
     }
 
 

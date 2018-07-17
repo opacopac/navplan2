@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {LocationServiceStatus} from '../../services/location/location.service';
-import {ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
-import {ButtonStatus} from '../../../shared/directives/status-button/status-button.directive';
 import {Store} from '@ngrx/store';
 import {ToggleWatchLocationAction} from '../../location.actions';
 import {getLocationIsWatching, getLocationStatus} from '../../location.selectors';
@@ -13,7 +11,6 @@ import {getLocationIsWatching, getLocationStatus} from '../../location.selectors
     styleUrls: ['./location-button.component.css']
 })
 export class LocationButtonComponent implements OnInit {
-    public ButtonSize = ButtonSize;
     public locationStatus$ = this.appStore.select(getLocationStatus);
     public locationIsWatching$ = this.appStore.select(getLocationIsWatching);
 
@@ -33,17 +30,17 @@ export class LocationButtonComponent implements OnInit {
     }
 
 
-    public getButtonStatus(locationStatus: LocationServiceStatus): ButtonStatus {
+    public getStatusCLass(locationStatus: LocationServiceStatus): string {
         switch (locationStatus) {
             case LocationServiceStatus.CURRENT:
-                return ButtonStatus.OK;
+                return 'status-ok';
             case LocationServiceStatus.WAITING:
-                return ButtonStatus.WARNING;
+                return 'status-warn';
             case LocationServiceStatus.ERROR:
-                return ButtonStatus.ERROR;
+                return 'status-error';
             case LocationServiceStatus.OFF:
             default:
-                return ButtonStatus.OFF;
+                return 'accent';
         }
     }
 }

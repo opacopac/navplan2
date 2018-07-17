@@ -6,7 +6,6 @@ import { MapOverlayContainer } from '../../../shared/components/map-overlay-cont
 
 
 const TRAFFIC_TYPE_DESCRIPTION = {
-    'OWN': 'Own Plane',
     'HELICOPTER_ROTORCRAFT': 'Helicopter',
     'GLIDER': 'Glider',
     'PARACHUTE': 'Parachute',

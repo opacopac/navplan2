@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ButtonColor, ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
+import {Waypoint} from '../../model/waypoint';
+import {Observable} from 'rxjs/internal/Observable';
 
 
 @Component({
@@ -10,6 +12,7 @@ import {ButtonColor, ButtonSize} from '../../../shared/directives/button-base/bu
 export class MapOverlayButtonRemoveAlternateComponent implements OnInit {
     public ButtonSize = ButtonSize;
     public ButtonColor = ButtonColor;
+    public selectedWaypointIsAlternate$: Observable<boolean>; // TODO
 
 
     ngOnInit() {

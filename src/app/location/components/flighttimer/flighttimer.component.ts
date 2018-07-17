@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { LocationService } from '../../services/location/location.service';
-import { TimerService } from '../../../shared/services/timer/timer.service';
+import {Component, OnInit} from '@angular/core';
+import {TimerService} from '../../../shared/services/timer/timer.service';
+import {getLocationIsWatching} from '../../location.selectors';
+import {Store} from '@ngrx/store';
+import {DatetimeService} from '../../../shared/services/datetime/datetime.service';
 
 
 @Component({
@@ -9,11 +11,36 @@ import { TimerService } from '../../../shared/services/timer/timer.service';
     styleUrls: ['./flighttimer.component.css']
 })
 export class FlighttimerComponent implements OnInit {
+    public locationIsWatching$ = this.appStore.select(getLocationIsWatching);
+
+
     constructor(
-        public timerService: TimerService,
-        public locationService: LocationService) {
+        private appStore: Store<any>,
+        public timerService: TimerService) {
     }
+
 
     ngOnInit() {
     }
+
+
+
+
+    /*public getStopTimeString(stopTime: Date): string {
+        if (stopTime) {
+            return DatetimeService.getHourMinSecStringFromDate(stopTime);
+        } else {
+            return '';
+        }
+    }
+
+
+    public getElapsedTimeString(elapsedTime: Date): string {
+        if (elapsedTime) {
+            const diffMs = this.currentTime.getTime() - stopTime.getTime();
+            return '+' + DatetimeService.getMinSecStringFromDate(new Date(diffMs));
+        } else {
+            return '';
+        }
+    }*/
 }

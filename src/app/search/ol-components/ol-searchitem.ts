@@ -1,4 +1,5 @@
-import * as ol from 'openlayers';
+/*
+import ol from 'ol';
 import { UnitconversionService } from '../../shared/services/unitconversion/unitconversion.service';
 import { OlFeaturePoint } from '../../shared/model/ol-feature';
 import { Position2d} from '../../shared/model/geometry/position2d';
@@ -89,3 +90,4 @@ export class OlSearchItem extends OlFeaturePoint {
         return lineFeature;
     }
 }
+*/

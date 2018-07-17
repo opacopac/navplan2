@@ -26,11 +26,6 @@ export class OlWebcam extends OlComponent {
     }
 
 
-    public destroy() {
-        this.removeFeature(this.olFeature, this.source);
-    }
-
-
     protected createPointStyle(): ol.style.Style {
         const src = environment.iconBaseUrl;
 

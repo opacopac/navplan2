@@ -48,14 +48,14 @@
                               [color]="ButtonColor.BLUE"
                               [size]="ButtonSize.MEDIUM"
                               [disabled]="this.currentUser || routeName.value === ''"
-                              (click)="onSaveFlightrouteClicked.emit(flightrouteId.value)"></button>
+                              (click)="onSaveFlightrouteClicked.emit('TODOflightrouteId.value')"></button>
                     <!-- save copy route button -->
                       <button appIconButton
                               title="Save Copy of Route"
                               [iconClass]="'fas fa-copy'"
                               [color]="ButtonColor.BLUE"
                               [size]="ButtonSize.MEDIUM"
-                              [disabled]="this.currentUser || routeName.value === '' || !flightrouteId || !(flightrouteId.value > 0)"
+                              [disabled]="this.currentUser || routeName.value === '' || '!TODOflightrouteId.value' || !('TODOflightrouteId.value' > 'TODO_0')"
                               (click)="onSaveFlightrouteCopyClicked.emit()"></button>
                   </span>
             </div>

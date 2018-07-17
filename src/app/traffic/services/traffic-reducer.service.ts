@@ -1,16 +1,8 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {Traffic, TrafficDataSource, TrafficAircraftType} from '../model/traffic';
-import {TrafficOgnService} from './traffic-ogn.service';
-import {TrafficAdsbexchangeService} from './traffic-adsbexchange.service';
-import {Extent} from '../../shared/model/extent';
 import {TrafficPosition, TrafficPositionMethod} from '../model/traffic-position';
 
 
-const TRAFFIC_UPDATE_INTERVALL_MS = 5000;
 const TRAFFIC_MAX_AGE_SEC = 120;
-const TRAFFIC_OGN_WAIT_FOR_DATA_SEC = 1;
-const TRAFFIC_IDLE_TIMEOUT_MS = 10 * 60 * 1000;
 
 
 export enum TrafficServiceStatus {
@@ -21,80 +13,7 @@ export enum TrafficServiceStatus {
 }
 
 
-@Injectable()
-export class TrafficService {
-    private _extent: Extent;
-
-
-    constructor(private http: HttpClient,
-                private ognService: TrafficOgnService,
-                private adsbExService: TrafficAdsbexchangeService) {
-    }
-
-
-    /*public watchTraffic(): Observable<Traffic[]> {
-        return timer(0, TRAFFIC_UPDATE_INTERVALL_MS)
-            .pipe(
-                withLatestFrom(
-                    this.ognService.readTraffic(this._extent, TRAFFIC_MAX_AGE_SEC,  false ? TRAFFIC_OGN_WAIT_FOR_DATA_SEC : 0, '12345')
-                        .pipe(repeat()),
-                    this.adsbExService.readTraffic(this._extent, 15000)
-                        .pipe(repeat()),
-                ),
-                map(([tim, ogn, adsbEx]) => adsbEx)
-            ); // .subscribe(([tim, asdf]) => { asdf[0] });
-
-        const isInitialRequest = false; // TODO
-        const ognTraffic$ = this.ognService.readTraffic(
-            this._extent,
-            TRAFFIC_MAX_AGE_SEC,
-            isInitialRequest ? TRAFFIC_OGN_WAIT_FOR_DATA_SEC : 0, '12345'); // TODO
-
-        const adsbExTraffic$ = this.adsbExService.readTraffic(
-            this._extent,
-            15000 // TODO
-        );
-
-
-        const trafficTimer$ =
-
-    }*/
-
-
-    /*private onTrafficTimer() {
-        if (this.sessionService.isIdle(TRAFFIC_IDLE_TIMEOUT_MS)) {
-            this.stopWatching();
-
-            if (this.errorCallback) {
-                this.errorCallback('Traffic updates automatically turned off after 10 minutes of inactivity');
-            }
-        } else { // if ($scope.$route.current.controller == "mapCtrl") { TODO?
-            this.sendTrafficRequests(false);
-        // }
-    }*/
-
-
-    /*private sendTrafficRequests(isInitialRequest: boolean) {
-        // OGN
-        this.ognService.readTraffic(
-            this._extent,
-            TRAFFIC_MAX_AGE_SEC,
-            isInitialRequest ? TRAFFIC_OGN_WAIT_FOR_DATA_SEC : 0, '12345'); // TODO
-
-        // ADSB-Exchange
-        this.adsbExService.readTraffic(
-            this._extent,
-            15000 // TODO
-        );
-    }*/
-
-
-    /*private onReadTrafficSuccessCallback(trafficList: Traffic[]) {
-        this.mergeTraffic(trafficList);
-        this.compactTraffic();
-    }*/
-
-
+export class TrafficReducerService {
     public static reduceTrafficMap(trafficMap: Map<string, Traffic>, newTrafficList): Map<string, Traffic> {
         const newTrafficMap = this.cloneTrafficMap(trafficMap);
         this.mergeTraffic(newTrafficMap, newTrafficList);
@@ -104,10 +23,9 @@ export class TrafficService {
 
 
     private static cloneTrafficMap(trafficMap: Map<string, Traffic>): Map<string, Traffic> {
+        // debugger;
         const newTrafficMap = new Map<string, Traffic>();
-        for (const trafficKey in trafficMap.keys()) {
-            newTrafficMap[trafficKey] = trafficMap[trafficKey].clone();
-        }
+        trafficMap.forEach((value, key) => newTrafficMap.set(key, trafficMap.get(key).clone()));
 
         return newTrafficMap;
     }

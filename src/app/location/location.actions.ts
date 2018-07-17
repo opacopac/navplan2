@@ -8,7 +8,7 @@ export enum LocationActionTypes {
     LOCATION_WATCH_STOP = '[LocationEffects] stop watch',
     LOCATION_READ_TIMER_SUCCESS = '[LocationEffects] read location success',
     LOCATION_READ_TIMER_ERROR = '[LocationEffects] read location error',
-
+    LOCATION_TIMER_GET_INTERIM_TIME = '[Timer Button] get interim time'
 }
 
 
@@ -47,9 +47,17 @@ export class ReadLocationErrorAction implements Action {
 }
 
 
+export class TimerGetInterimTimeAction implements Action {
+    readonly type = LocationActionTypes.LOCATION_TIMER_GET_INTERIM_TIME;
+
+    constructor(public interimTime: Date) {}
+}
+
+
 export type LocationActions =
     ToggleWatchLocationAction |
     StartWatchLocationAction |
     StopWatchLocationAction |
     ReadLocationSuccessAction |
-    ReadLocationErrorAction;
+    ReadLocationErrorAction |
+    TimerGetInterimTimeAction;

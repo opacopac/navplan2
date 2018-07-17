@@ -1,10 +1,9 @@
 <div class="mapbutton-location">
     <button
-        appStatusButton
+        mat-fab
         title="start/stop tracking own position"
-        [iconClass]="'fas fa-location-arrow'"
-        [size]="ButtonSize.LARGE"
-        [status]="this.getButtonStatus(this.locationStatus$ | async)"
-        [isPressed]="(this.locationIsWatching$ | async)"
-        (click)="this.onLocationClicked()" ></button>
+        color="{{ this.getStatusCLass(this.locationStatus$ | async) }}"
+        (click)="this.onLocationClicked()">
+            <i class="fas fa-location-arrow"></i>
+    </button>
 </div>

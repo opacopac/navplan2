@@ -1,4 +1,4 @@
-import * as ol from 'openlayers';
+/* import * as ol from 'ol';
 import { Position2d } from './geometry/position2d';
 import { Polygon } from './geometry/polygon';
 import { DataItem } from './data-item';
@@ -74,3 +74,4 @@ export abstract class OlFeaturePolygon extends OlFeature {
 
     protected abstract createPolygonStyle(): ol.style.Style;
 }
+*/

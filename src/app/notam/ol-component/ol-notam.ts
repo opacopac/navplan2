@@ -31,11 +31,6 @@ export class OlNotam extends OlComponent {
     }
 
 
-    public destroy() {
-        this.removeFeature(this.olFeature, this.source);
-    }
-
-
     private setGeometry(feature: ol.Feature, notam: Notam) {
         if (!notam || ! notam.geometry || ! notam.geometry.geometry2d) {
             return;

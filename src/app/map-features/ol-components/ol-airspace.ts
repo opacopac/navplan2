@@ -25,11 +25,6 @@ export class OlAirspace extends OlComponent {
     }
 
 
-    public destroy() {
-        this.removeFeature(this.olFeature, this.source);
-    }
-
-
     private createPolygonStyle(airspace: Airspace): ol.style.Style {
         switch (airspace.category) {
             case 'CTR':
