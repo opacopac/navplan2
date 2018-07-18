@@ -4,12 +4,28 @@ import {SearchItem} from './model/search-item';
 
 
 export enum SearchActionTypes {
+    SEARCH_SHOW = '[Navbar] Search button clicked',
+    SEARCH_HIDE = '[SearchBox] Blur',
     SEARCH_QUERY_SUBMITTED = '[Search box] Query submitted',
     SEARCH_RESULTS_RECEIVED = '[SearchService] Search results received',
     SEARCH_NEXT_ITEM = '[Search box] Go to next search item',
     SEARCH_PREV_ITEM = '[Search box] Go to previous search item',
     SEARCH_SELECT_ITEM = '[Search box] Select item',
     SEARCH_HIDE_RESULTS = '[Search box] Hide results'
+}
+
+
+export class SearchShowAction implements Action {
+    readonly type = SearchActionTypes.SEARCH_SHOW;
+
+    constructor() {}
+}
+
+
+export class SearchHideAction implements Action {
+    readonly type = SearchActionTypes.SEARCH_HIDE;
+
+    constructor() {}
 }
 
 
@@ -56,6 +72,8 @@ export class HideSearchResultsAction implements Action {
 
 
 export type SearchActions =
+    SearchShowAction |
+    SearchHideAction |
     SearchQuerySubmittedAction |
     SearchResultsReceivedAction |
     NextSearchItemAction |

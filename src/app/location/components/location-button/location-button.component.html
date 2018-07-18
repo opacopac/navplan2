@@ -2,6 +2,7 @@
     <button
         mat-fab
         title="start/stop tracking own position"
+        class="btn-lg2"
         color="{{ this.getStatusCLass(this.locationStatus$ | async) }}"
         (click)="this.onLocationClicked()">
             <i class="fas fa-location-arrow"></i>

@@ -13,7 +13,8 @@ import {EffectsModule} from '@ngrx/effects';
 import {TrafficEffects} from './traffic.effects';
 import {TrafficState} from './model/traffic-state';
 import {TrafficActions} from './traffic.actions';
-
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
     imports: [
@@ -21,6 +22,8 @@ import {TrafficActions} from './traffic.actions';
         SharedModule,
         StoreModule.forFeature<TrafficState, TrafficActions>('trafficState', trafficReducer),
         EffectsModule.forFeature([TrafficEffects]),
+        MatButtonModule,
+        MatIconModule
     ],
     declarations: [
         MapOverlayTrafficComponent,
@@ -34,7 +37,7 @@ import {TrafficActions} from './traffic.actions';
         IcaoCallsignService,
         TrafficReducerService,
         TrafficAdsbexchangeService,
-        TrafficOgnService
+        TrafficOgnService,
     ]
 })
 export class TrafficModule {}

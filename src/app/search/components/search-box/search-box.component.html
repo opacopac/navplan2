@@ -1,32 +1,33 @@
-<div class="container mapsearch">
+<div class="searchbox">
     <div class="input-group">
-        <input #searchInput
-               type="text"
-               class="form-control form-control-md"
-               placeholder="search for AD, navaid, city, coordinates or click on map"
-               autocomplete="off"
-               (input)="this.onSearchInputChange(searchInput.value)"
-               (keydown)="this.onSearchInputKeyDown($event)"
-               (blur)="this.onSearchInputBlur()" />
-        <span class="input-group-append">
-            <button appIconButton
-                    #searchButton
-                    title="search"
-                    [iconClass]="'fas fa-search'"
-                    [size]="ButtonSize.MEDIUM"
-                    [color]="ButtonColor.GRAY"
-                    (click)="this.onSearchButtonClick(searchInput.value)"></button>
-		</span>
-    </div>
-    <div *ngIf="(this.searchResults$ | async) as searchResults">
-        <div *ngIf="searchResults.items.length > 0" class="search-results list-group list-group-flush">
-            <a href="#"
-               *ngFor="let result of searchResults.items; let idx = index"
-               class="list-group-item list-group-item-action {{ (this.selectedIndex$ | async) === idx ? 'active' : '' }}"
-               (click)="this.onResultSelected(result)">{{ result.getSearchResultName() }}</a>
-        </div>
-        <div *ngIf="searchResults.items.length == 0" class="search-results list-group list-group-flush">
-            <div class="list-group-item list-group-item-action">&nbsp;<i>(no results found)&nbsp;</i></div>
-        </div>
+        <mat-form-field class="example-form-field" style="background-color: white">
+            <input
+                    #query
+                    matInput
+                    [matAutocomplete]="auto"
+                    type="text"
+                    placeholder="search for AD, navaid, city, coordinates or click on map"
+                    (input)="this.onSearchInputChange.emit(query.value)"
+                    (blur)="this.onSearchInputBlur.emit()">
+            <button
+                    mat-button
+                    *ngIf="query.value"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="Clear"
+                    (click)="query.value=''">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+        <mat-autocomplete
+                #auto="matAutocomplete"
+                [displayWith]="getDisplayName"
+                (optionSelected)="this.onResultSelected.emit($event.option.value)">
+            <mat-option
+                    *ngFor="let result of this.searchResults?.items; let idx = index"
+                    [value]="result">
+                {{ this.getDisplayName(result) }}
+            </mat-option>
+        </mat-autocomplete>
     </div>
 </div>

@@ -1,7 +1,7 @@
 .mapbutton-traffic {
     position: absolute;
-    top: 208px;
+    top: 201px;
     left: 10px;
     z-index: 20;
-    opacity: 0.8;
+    opacity: 0.9;
 }

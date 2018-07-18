@@ -9,6 +9,10 @@ import {EffectsModule} from '@ngrx/effects';
 import {SearchEffects} from './search.effects';
 import {SearchState} from './model/search-state';
 import {SearchActions} from './search.actions';
+import {MatInputModule} from '@angular/material/input';
+import {MatAutocompleteModule, MatFormFieldModule, MatIconModule} from '@angular/material';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { SearchContainerComponent } from './components/search-container/search-container.component';
 
 
 @NgModule({
@@ -16,13 +20,19 @@ import {SearchActions} from './search.actions';
         CommonModule,
         SharedModule,
         StoreModule.forFeature<SearchState, SearchActions>('searchState', searchReducer),
-        EffectsModule.forFeature([SearchEffects])
+        EffectsModule.forFeature([SearchEffects]),
+        MatInputModule,
+        MatFormFieldModule,
+        MatIconModule,
+        BrowserAnimationsModule,
+        MatAutocompleteModule,
     ],
     declarations: [
-        SearchBoxComponent
+        SearchBoxComponent,
+        SearchContainerComponent
     ],
     exports: [
-        SearchBoxComponent
+        SearchContainerComponent
     ],
     providers: [
         SearchService

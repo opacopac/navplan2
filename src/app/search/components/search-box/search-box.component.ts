@@ -1,25 +1,6 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Store} from '@ngrx/store';
-import {Observable, Subscription} from 'rxjs';
-import {fromEvent} from 'rxjs/internal/observable/fromEvent';
-import {ButtonColor, ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {SearchItem} from '../../model/search-item';
 import {SearchItemList} from '../../model/search-item-list';
-import {getSearchResults, getSelectedIndex} from '../../search.selectors';
-import {
-    HideSearchResultsAction, NextSearchItemAction,
-    PrevSearchItemAction,
-    SearchQuerySubmittedAction,
-    SearchItemSelectedAction
-} from '../../search.actions';
-
-
-const UP_KEY_CODE = 38;
-const DOWN_KEY_CODE = 40;
-const ENTER_KEY_CODE = 13;
-const ESC_KEY_CODE = 27;
-const F3_KEY_CODE = 114;
-const F_KEY_CODE = 70;
 
 
 @Component({
@@ -28,20 +9,21 @@ const F_KEY_CODE = 70;
     styleUrls: ['./search-box.component.css']
 })
 export class SearchBoxComponent implements OnInit, OnDestroy {
-    public readonly ButtonSize = ButtonSize;
-    public readonly ButtonColor = ButtonColor;
-    public searchResults$: Observable<SearchItemList>;
-    public selectedIndex$: Observable<number>;
-    private keyDownSubscription: Subscription;
+    @Input() public searchResults: SearchItemList;
+    @Output() public onSearchInputChange: EventEmitter<string> = new EventEmitter<string>();
+    @Output() public onSearchButtonClick: EventEmitter<string> = new EventEmitter<string>();
+    @Output() public onSearchInputBlur: EventEmitter<null> = new EventEmitter<null>();
+    @Output() public onResultSelected: EventEmitter<SearchItem> = new EventEmitter<SearchItem>();
 
 
-    constructor(private appStore: Store<any>) {
-        this.searchResults$ = this.appStore.select(getSearchResults);
-        this.selectedIndex$ = this.appStore.select(getSelectedIndex);
+    constructor() {
     }
 
 
     ngOnInit() {
+        /* TODO --> core
+        const F3_KEY_CODE = 114;
+        const F_KEY_CODE = 70;
         this.keyDownSubscription = fromEvent(document, 'keydown').subscribe((event: KeyboardEvent) => {
             // search: f3 or ctrl + f
             if (event.keyCode === F3_KEY_CODE || (event.ctrlKey && event.keyCode === F_KEY_CODE)) {
@@ -50,68 +32,18 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
                 event.stopPropagation();
             }
         });
+        public focus() {
+            // setTimeout(() => this.searchInput.nativeElement.focus(), 0);
+        }
+        */
     }
 
 
     ngOnDestroy() {
-        this.keyDownSubscription.unsubscribe();
     }
 
 
-    public focus() {
-        // setTimeout(() => this.searchInput.nativeElement.focus(), 0);
-    }
-
-
-    public onSearchInputChange(query: string) {
-        this.appStore.dispatch(
-            new SearchQuerySubmittedAction(query)
-        );
-    }
-
-
-    public onSearchButtonClick(query: string) {
-        this.appStore.dispatch(
-            new SearchQuerySubmittedAction(query)
-        );
-    }
-
-
-    public onSearchInputBlur() {
-        this.appStore.dispatch(
-            new HideSearchResultsAction()
-        );
-    }
-
-
-    public onResultSelected(result: SearchItem) {
-        this.appStore.dispatch(
-            new SearchItemSelectedAction(result)
-        );
-    }
-
-
-    public onSearchInputKeyDown(event: KeyboardEvent) {
-        switch (event.keyCode) {
-            case UP_KEY_CODE:
-                this.appStore.dispatch(
-                    new PrevSearchItemAction()
-                );
-                break;
-            case DOWN_KEY_CODE:
-                this.appStore.dispatch(
-                    new NextSearchItemAction()
-                );
-                break;
-            case ENTER_KEY_CODE:
-                this.appStore.dispatch(
-                    new SearchItemSelectedAction(undefined) // TODO
-                );
-                break;
-            case ESC_KEY_CODE:
-                this.appStore.dispatch(
-                    new HideSearchResultsAction()
-                );
-        }
+    public getDisplayName(searchItem: SearchItem): string {
+        return searchItem ? searchItem.getSearchResultName() : undefined;
     }
 }

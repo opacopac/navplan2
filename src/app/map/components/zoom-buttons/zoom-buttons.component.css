@@ -3,10 +3,18 @@
     top: 10px;
     left: 10px;
     z-index: 20;
-    opacity: 0.8;
+    opacity: 0.9;
     font-size: large;
 }
 
-.mat-success {
-    background-color: green;
+
+.zoom-in-button {
+    /*border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;*/
+}
+
+.zoom-out-button {
+    margin-top: 3px;
+    /*border-top-left-radius: 5px;
+    border-top-right-radius: 5px;*/
 }

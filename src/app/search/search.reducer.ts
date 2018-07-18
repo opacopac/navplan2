@@ -3,6 +3,7 @@ import {SearchState} from './model/search-state';
 
 
 const initialState: SearchState = {
+    searchIsActive: false,
     searchResults: undefined,
     selectedIndex: undefined
 };
@@ -10,6 +11,12 @@ const initialState: SearchState = {
 
 export function searchReducer(state: SearchState = initialState, action: SearchActions) {
     switch (action.type) {
+        case SearchActionTypes.SEARCH_SHOW:
+            return { ...state, searchIsActive: true };
+
+        case SearchActionTypes.SEARCH_HIDE:
+            return { ...state, searchIsActive: false };
+
         case SearchActionTypes.SEARCH_RESULTS_RECEIVED:
             return { ...state, searchResults: action.searchResults, selectedIndex: undefined };
 

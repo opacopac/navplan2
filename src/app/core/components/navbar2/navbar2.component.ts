@@ -5,6 +5,7 @@ import {map} from 'rxjs/operators';
 import {Store} from '@ngrx/store';
 import {getCurrentUser} from '../../../user/user.selectors';
 import {User} from '../../../user/model/user';
+import {SearchShowAction} from '../../../search/search.actions';
 
 
 @Component({
@@ -25,5 +26,12 @@ export class Navbar2Component {
         private breakpointObserver: BreakpointObserver) {
 
         this.currentUser$ = this.appStore.select(getCurrentUser);
+    }
+
+
+    public onShowSearchClicked() {
+        this.appStore.dispatch(
+            new SearchShowAction()
+        );
     }
 }
