@@ -19,10 +19,11 @@ import {MapOverlayButtonSetAlternateComponent} from './components/map-overlay-bu
 import {MapOverlayButtonRemoveAlternateComponent} from './components/map-overlay-button-remove-alternate/map-overlay-button-remove-alternate.component';
 import {MapOverlayButtonRemoveFromRouteComponent} from './components/map-overlay-button-remove-from-route/map-overlay-button-remove-from-route.component';
 import {MapOverlayWaypointComponent} from './components/map-overlay-waypoint/map-overlay-waypoint.component';
-import {flightrouteReducer, FlightrouteWaypointUserActions} from './flightroute.reducer';
+import {flightrouteReducer} from './flightroute.reducer';
 import {FlightrouteEffects} from './flightroute.effects';
 import {MapOverlayButtonAddToRouteComponent} from './components/map-overlay-button-add-to-route/map-overlay-button-add-to-route.component';
-import {FlightrouteState} from './model/flightroute-state';
+import {MatFormFieldModule, MatIconModule, MatSelectModule, MatTableModule, MatTooltipModule} from '@angular/material';
+import {MatInputModule} from '@angular/material/input';
 
 
 @NgModule({
@@ -32,7 +33,13 @@ import {FlightrouteState} from './model/flightroute-state';
         ReactiveFormsModule,
         SharedModule,
         StoreModule.forFeature('flightrouteState', flightrouteReducer),
-        EffectsModule.forFeature([FlightrouteEffects])
+        EffectsModule.forFeature([FlightrouteEffects]),
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatTableModule,
     ],
     declarations: [
         EditWaypointContainerComponent,

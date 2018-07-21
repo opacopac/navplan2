@@ -15,6 +15,7 @@ import {TrafficState} from './model/traffic-state';
 import {TrafficActions} from './traffic.actions';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {MatTooltipModule} from '@angular/material';
 
 @NgModule({
     imports: [
@@ -23,7 +24,8 @@ import {MatIconModule} from '@angular/material/icon';
         StoreModule.forFeature<TrafficState, TrafficActions>('trafficState', trafficReducer),
         EffectsModule.forFeature([TrafficEffects]),
         MatButtonModule,
-        MatIconModule
+        MatIconModule,
+        MatTooltipModule,
     ],
     declarations: [
         MapOverlayTrafficComponent,

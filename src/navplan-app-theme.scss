@@ -6,6 +6,7 @@
 // Be sure that you only ever include this mixin once!
 @include mat-core();
 
+$mat-custom1-text: #ffffff;
 $mat-custom1: (
         50: #41669c,
         100: #41669c,
@@ -22,23 +23,24 @@ $mat-custom1: (
         A400: #003c6d,
         A700: #001741,
         contrast: (
-                50: $light-primary-text,
-                100: $light-primary-text,
-                200: $light-primary-text,
-                300: $light-primary-text,
-                400: $light-primary-text,
-                500: $light-primary-text,
-                600: $light-primary-text,
-                700: $light-primary-text,
-                800: $light-primary-text,
-                900: $light-primary-text,
-                A100: $light-primary-text,
-                A200: $light-primary-text,
-                A400: $light-primary-text,
-                A700: $light-primary-text,
+                50: $mat-custom1-text,
+                100: $mat-custom1-text,
+                200: $mat-custom1-text,
+                300: $mat-custom1-text,
+                400: $mat-custom1-text,
+                500: $mat-custom1-text,
+                600: $mat-custom1-text,
+                700: $mat-custom1-text,
+                800: $mat-custom1-text,
+                900: $mat-custom1-text,
+                A100: $mat-custom1-text,
+                A200: $mat-custom1-text,
+                A400: $mat-custom1-text,
+                A700: $mat-custom1-text,
         )
 );
 
+$mat-custom2-text: #eeeeee;
 $mat-custom2: (
         50: #718792,
         100: #718792,
@@ -55,20 +57,54 @@ $mat-custom2: (
         A400: #455a64,
         A700: #1c313a,
         contrast: (
-                50: $dark-secondary-text,
-                100: $dark-secondary-text,
-                200: $dark-secondary-text,
-                300: $dark-secondary-text,
-                400: $light-secondary-text,
-                500: $light-secondary-text,
-                600: $light-secondary-text,
-                700: $light-secondary-text,
-                800: $light-secondary-text,
-                900: $light-secondary-text,
-                A100: $dark-secondary-text,
-                A200: $light-secondary-text,
-                A400: $light-secondary-text,
-                A700: $light-secondary-text,
+                50: $mat-custom2-text,
+                100: $mat-custom2-text,
+                200: $mat-custom2-text,
+                300: $mat-custom2-text,
+                400: $mat-custom2-text,
+                500: $mat-custom2-text,
+                600: $mat-custom2-text,
+                700: $mat-custom2-text,
+                800: $mat-custom2-text,
+                900: $mat-custom2-text,
+                A100: $mat-custom2-text,
+                A200: $mat-custom2-text,
+                A400: $mat-custom2-text,
+                A700: $mat-custom2-text,
+        )
+);
+
+$mat-custom3-text: #000000;
+$mat-custom3: (
+        50: #c3fdff,
+        100: #c3fdff,
+        200: #c3fdff,
+        300: #90caf9,
+        400: #90caf9,
+        500: #90caf9,
+        600: #90caf9,
+        700: #5d99c6,
+        800: #5d99c6,
+        900: #5d99c6,
+        A100: #c3fdff,
+        A200: #90caf9,
+        A400: #90caf9,
+        A700: #5d99c6,
+        contrast: (
+                50: $mat-custom3-text,
+                100: $mat-custom3-text,
+                200: $mat-custom3-text,
+                300: $mat-custom3-text,
+                400: $mat-custom3-text,
+                500: $mat-custom3-text,
+                600: $mat-custom3-text,
+                700: $mat-custom3-text,
+                800: $mat-custom3-text,
+                900: $mat-custom3-text,
+                A100: $mat-custom3-text,
+                A200: $mat-custom3-text,
+                A400: $mat-custom3-text,
+                A700: $mat-custom3-text,
         )
 );
 
@@ -77,16 +113,16 @@ $mat-custom2: (
 // hue. Available color palettes: https://material.io/design/color/
 //$candy-app-primary: mat-palette($mat-indigo);
 //$candy-app-accent: mat-palette($mat-blue-gray);
-$candy-app-primary: mat-palette($mat-custom1, 500, 100, 900);
-$candy-app-accent: mat-palette($mat-custom2, A200, A100, A700);
+$navplan-app-primary: mat-palette($mat-custom1, 500, 100, 900);
+$navplan-app-accent: mat-palette($mat-custom2, A200, A100, A700);
 
 // The warn palette is optional (defaults to red).
-$candy-app-warn: mat-palette($mat-red);
+$navplan-app-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
+$navplan-app-theme: mat-light-theme($navplan-app-primary, $navplan-app-accent, $navplan-app-accent);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($candy-app-theme);
+@include angular-material-theme($navplan-app-theme);

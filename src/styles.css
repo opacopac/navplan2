@@ -1,5 +1,3 @@
-/*@import "~@angular/material/prebuilt-themes/indigo-pink.css";*/
-
 html {
     width: 100vw;
     height: 100vh;
@@ -9,7 +7,7 @@ body {
     width: 100vw;
     height: 100vh;
     margin: 0;
-    /*font-family: Roboto,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;*/
+    font-family: Roboto,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
 }
 
 iframe {
@@ -17,21 +15,27 @@ iframe {
 }
 
 
+/* region: FLEXBOX */
 
-
-/* COMPONENT POSITIONS */
-
-.nonmapcontent {
-    margin-top: 0.625rem;
+.flex-row {
+    width: 100%;
+    display: flex;
 }
 
-
-hr2 {
-    border-top: 1px solid rgba(255,255,255,0.3);
+.mat-form-field {
+    flex: auto;
+    margin-right: 20px;
 }
 
+.inline-button {
+    flex: none;
+    margin-right: 10px !important;
+}
 
-/* region button styles */
+/* endregion */
+
+
+/* region: BUTTONS */
 
 button.btn-lg {
     font-size: large;
@@ -52,48 +56,15 @@ button.btn-lg {
     color: white;
 }
 
-/* endregion */
-
-
-button[appStatusButton2].btn-lg,
-button[appIconButton2].btn-lg {
-    /* 48px */
-    width: 3.0rem;
-    height: 3.0rem;
-    padding-left: 0;
-    padding-right: 0;
-}
-
-
-button[appStatusButton2].btn-md,
-button[appIconButton2].btn-md {
-    /* 37px */
-    width: 2.3125rem;
-    height: 2.3125rem;
-    padding-left: 0;
-    padding-right: 0;
-}
-
-
-button[appStatusButton2].btn-sm,
-button[appIconButton2].btn-sm {
-    /* 29px */
-    width: 1.8125rem;
-    height: 1.8125rem;
-    padding-left: 0;
-    padding-right: 0;
-}
-
-
+/* TODO */
 .map-overlay-button {
     margin-bottom: 0.3125rem;
 }
 
+/* endregion */
 
 
-/* region: override of openlayer styles */
-
-/* region: ol attributions */
+/* region: OPENLAYERS */
 
 .ol-attribution li {
     display: table;
@@ -111,7 +82,6 @@ button[appIconButton2].btn-sm {
 .ol-overlay-container {
     width: 100%;
 }
-
 
 .ol-popup {
     position: absolute;
@@ -157,8 +127,3 @@ button[appIconButton2].btn-sm {
 }
 
 /* endregion */
-
-
-
-/* endregion */
-

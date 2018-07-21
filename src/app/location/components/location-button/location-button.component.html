@@ -1,10 +1,7 @@
-<div class="mapbutton-location">
-    <button
-        mat-fab
-        title="start/stop tracking own position"
-        class="btn-lg2"
+<button mat-fab
+        matTooltip="start/stop tracking own position"
+        matTooltipPosition="right"
         color="{{ this.getStatusCLass(this.locationStatus$ | async) }}"
         (click)="this.onLocationClicked()">
-            <i class="fas fa-location-arrow"></i>
-    </button>
-</div>
+    <i class="fas fa-location-arrow"></i>
+</button>

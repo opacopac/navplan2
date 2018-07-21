@@ -12,6 +12,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {LocationEffects} from './location.effects';
 import {LocationActions} from './location.actions';
 import {LocationState} from './model/location-state';
+import {MatTooltipModule} from '@angular/material';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import {LocationState} from './model/location-state';
         CommonModule,
         SharedModule,
         StoreModule.forFeature<LocationState, LocationActions>('locationState', locationReducer),
-        EffectsModule.forFeature([LocationEffects])
+        EffectsModule.forFeature([LocationEffects]),
+        MatTooltipModule,
     ],
     declarations: [
         FlighttimerComponent,

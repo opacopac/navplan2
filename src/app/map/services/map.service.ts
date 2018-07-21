@@ -204,12 +204,26 @@ export class MapService {
 
     // region overlays
 
-    public addOverlay(coordinates: Position2d, container: HTMLElement, autoPan: boolean) {
+
+    public addOverlay(container: HTMLElement): ol.Overlay {
+        const overlay = new ol.Overlay({
+            element: container,
+            autoPan: true,
+            autoPanAnimation: { source: undefined, duration: 250 }
+        });
+
+        this.map.addOverlay(overlay);
+
+        return overlay;
+    }
+
+
+    public addOverlayOld(coordinates: Position2d, container: HTMLElement, autoPan: boolean) {
         if (this.currentOverlay) {
             this.closeOverlay();
         }
 
-        if (container.style.visibility = 'hidden') {
+        if (container.style.visibility === 'hidden') {
             container.style.visibility = 'visible';
         }
 

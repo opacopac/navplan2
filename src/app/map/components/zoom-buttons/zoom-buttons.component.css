@@ -1,20 +1,9 @@
-.mapbutton-zoom {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 20;
-    opacity: 0.9;
-    font-size: large;
-}
-
-
 .zoom-in-button {
-    /*border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;*/
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
 }
 
 .zoom-out-button {
-    margin-top: 3px;
-    /*border-top-left-radius: 5px;
-    border-top-right-radius: 5px;*/
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
 }

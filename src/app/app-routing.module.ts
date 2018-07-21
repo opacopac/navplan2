@@ -1,24 +1,24 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TracksComponent } from './location/components/tracks/tracks.component';
-import { SettingsComponent } from './core/components/settings/settings.component';
-import { AboutComponent } from './core/components/about/about.component';
+import { SettingsPageComponent } from './core/components/settings-page/settings-page.component';
+import { AboutPageComponent } from './core/components/about-page/about-page.component';
 import { LoginComponent } from './user/components/login/login.component';
 import { UserprofileComponent } from './user/components/userprofile/userprofile.component';
 import { ForgotpwComponent } from './user/components/forgotpw/forgotpw.component';
 import {FlightrouteContainerComponent} from './flightroute/components/flightroute-container/flightroute-container.component';
-import {MapContainerComponent} from './map/components/map-container/map-container.component';
+import {MapPageComponent} from './core/components/map-page/map-page.component';
 
 const routes: Routes = [
     { path: '', redirectTo: 'map', pathMatch: 'full' },
-    { path: 'map', component: MapContainerComponent },
+    { path: 'map', component: MapPageComponent },
     { path: 'route', component: FlightrouteContainerComponent },
     { path: 'tracks', component: TracksComponent },
     { path: 'login', component: LoginComponent },
     { path: 'userprofile', component: UserprofileComponent },
     { path: 'forgotpw', component: ForgotpwComponent },
-    { path: 'settings', component: SettingsComponent },
-    { path: 'about', component: AboutComponent }
+    { path: 'settings', component: SettingsPageComponent },
+    { path: 'about', component: AboutPageComponent }
 ];
 
 @NgModule({

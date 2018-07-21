@@ -1,4 +1,94 @@
 <div class="table-responsive" *ngIf="this.flightroute">
+    <h3>Waypoints</h3>
+    <table mat-table
+           multiTemplateDataRows
+           class="waypoints-table"
+           [dataSource]="this.flightroute.waypoints">
+
+        <ng-container matColumnDef="freq">
+            <th mat-header-cell *matHeaderCellDef>Freq</th>
+            <td mat-cell *matCellDef="let wp">{{ wp.freq }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="callsign">
+            <th mat-header-cell *matHeaderCellDef>Callsign</th>
+            <td mat-cell *matCellDef="let wp">{{ wp.callsign }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="checkpoint">
+            <th mat-header-cell *matHeaderCellDef>Checkpoint</th>
+            <td mat-cell *matCellDef="let wp">{{ wp.checkpoint }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="alt">
+            <th mat-header-cell *matHeaderCellDef>Alt</th>
+            <td mat-cell *matCellDef="let wp">
+                <span *ngIf="this.wp.alt.isaltatlegstart">&#8739;</span>
+                <span [style.text-decoration]="this.getAltStyle(wp)">{{ this.wp.alt.alt_ft }}</span>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="mt">
+            <th mat-header-cell *matHeaderCellDef>MT</th>
+            <td mat-cell *matCellDef="let wp">{{ wp.mtText }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="dist">
+            <th mat-header-cell *matHeaderCellDef>Dist</th>
+            <td mat-cell *matCellDef="let wp">{{ wp.distText }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="eet">
+            <th mat-header-cell *matHeaderCellDef>EET</th>
+            <td mat-cell *matCellDef="let wp">{{ wp.eetText }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="remarks">
+            <th mat-header-cell *matHeaderCellDef>Remarks</th>
+            <td mat-cell *matCellDef="let wp">{{ wp.remark }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="editIcon">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let wp">
+                <button mat-icon-button
+                        matTooltip="Edit Waypoint"
+                        color="accent"
+                        (click)="this.onEditWaypointClicked.emit(wp)">
+                    <i class="fas fa-edit"></i>
+                </button>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="deleteIcon">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let wp">
+                <button mat-icon-button
+                        matTooltip="Remove Waypoint"
+                        color="accent"
+                        (click)="this.onRemoveWaypointClicked.emit(wp)">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="supp_info">
+            <td mat-cell *matCellDef="let wp" [attr.colspan]="this.visibleColumns.length">
+                <small><i class="fas fa-info-circle"></i></small>&nbsp;
+                <em>{{ this.wp.supp_info }}</em>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="this.visibleColumns"></tr>
+        <tr mat-row *matRowDef="let wp; columns: this.visibleColumns"></tr>
+        <tr mat-row *matRowDef="let wp; columns: ['supp_info']" [hidden]="!wp.supp_info"></tr>
+    </table>
+
+<!--
+    <br>
+    <br>
+    <br>
+    <hr>
     <table id="waypoint_list" class="table table-sm table-hover" ui-sortable="sortableOptions">
         <thead>
         <tr>
@@ -13,7 +103,7 @@
             <th>&nbsp;</th>
         </tr>
         </thead>
-        <!-- trip checkpoints -->
+        <!-- trip checkpoints ->
         <tbody app-waypoint-list-entry
             *ngFor="let wp of this.flightroute.waypoints; first as isFirst; last as isLast" class="grabbable"
             [wp]="wp"
@@ -23,7 +113,7 @@
             (onEditWaypointClicked)="this.onEditWaypointClicked.emit($event)"
             (onRemoveWaypointClicked)="this.onRemoveWaypointClicked.emit($event)">
         </tbody>
-        <!-- trip total -->
+        <!-- trip total ->
         <tbody *ngIf="this.flightroute.fuel as fuel">
         <tr *ngIf="fuel.tripTime > 0">
             <td>&nbsp;</td>
@@ -37,7 +127,7 @@
             <td>&nbsp;</td>
         </tr>
         </tbody>
-        <!-- alternate checkpoint -->
+        <!-- alternate checkpoint ->
         <tbody *ngIf="this.flightroute.alternate as alternate">
         <tr>
             <td>&nbsp;</td>
@@ -60,17 +150,17 @@
             (onEditWaypointClicked)="this.onEditWaypointClicked.emit($event)"
             (onRemoveWaypointClicked)="this.onRemoveWaypointClicked.emit($event)">
         </tbody>
-        <!-- empty list -->
+        <!-- empty list ->
         <tr *ngIf="this.flightroute.waypoints.length === 0">
             <td colspan="9"><i>Empty route, add waypoints on the map.</i></td>
         </tr>
-    </table>
+    </table>-->
     <!-- reverse waypoints button -->
     <div class="form-group float-right">
         <button
+                mat-raised-button
                 type="button"
-                class="btn btn-md btn-secondary"
-                title="Reverse Waypoint Order"
+                matTooltip="Reverse Waypoint Order"
                 [disabled]="this.flightroute.waypoints.length < 2"
                 (click)="this.onReverseWaypointsClicked.emit()"><i class="fas fa-sort"></i> Reverse Waypoints
         </button>&nbsp;

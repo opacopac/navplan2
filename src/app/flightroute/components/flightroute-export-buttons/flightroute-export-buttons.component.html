@@ -1,12 +1,19 @@
 <!-- download pdf / excel buttons -->
-<div class="form-inline">
-    <div class="form-group row">
-        <a id="dlPdfLink" href="#" class="btn btn-md btn-danger" title="Print Navigation Log as PDF"
-           (click)="this.onExportFlightroutePdfClicked.emit();"><i
-                class="fas fa-print"></i> Print PDF</a>&nbsp;
-        <a id="dlExcelLink" href="#" class="btn btn-md btn-success" title="Export Navigation Log as Excel"
-           (click)="this.onExportFlightrouteExcelClicked.emit();"><i
-                class="fas fa-file-excel"></i>&nbsp;Excel
-            Export</a>&nbsp;
-    </div>
+<div class="flex-row">
+    <a mat-raised-button
+       color="accent"
+       class="button-pdf"
+       matTooltip="Print Navigation Log as PDF"
+       (click)="this.onExportFlightroutePdfClicked.emit()">
+        <i class="fas fa-print"></i>&nbsp;
+        Print PDF
+    </a>&nbsp;
+    <a mat-raised-button
+       color="accent"
+       class="button-excel"
+       matTooltip="Export Navigation Log as Excel"
+       (click)="this.onExportFlightrouteExcelClicked.emit()">
+        <i class="fas fa-file-excel"></i>&nbsp;
+        Excel Export
+    </a>&nbsp;
 </div>

@@ -47,9 +47,9 @@ export interface FlightrouteWaypointRest {
     latitude: number;
     longitude: number;
     alt: number;
-    isminalt: boolean;
-    ismaxalt: boolean;
-    isaltatlegstart: boolean;
+    isminalt: number;
+    ismaxalt: number;
+    isaltatlegstart: number;
     remark: string;
     supp_info: string;
 }
@@ -124,9 +124,9 @@ export class RestMapperFlightroute {
             new Position2d(entry.longitude, entry.latitude),
             new WaypointAltitude(
                 entry.alt,
-                entry.isminalt === true, // 0: false, 1: true
-                entry.ismaxalt === true, // 0: false, 1: true
-                entry.isaltatlegstart === true // 0: false, 1: true
+                entry.isminalt === 1, // 0: false, 1: true
+                entry.ismaxalt === 1, // 0: false, 1: true
+                entry.isaltatlegstart === 1 // 0: false, 1: true
             )
         );
     }

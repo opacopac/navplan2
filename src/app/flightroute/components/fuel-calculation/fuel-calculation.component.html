@@ -1,4 +1,61 @@
-<table class="table table-sm table-bordered table-striped table-nonfluid">
+<table mat-table
+       class="fuel-table"
+       [dataSource]="fuelDataSource">
+
+    <ng-container matColumnDef="fuelCalc">
+        <th mat-header-cell *matHeaderCellDef>Fuel Calculation</th>
+        <td mat-cell *matCellDef="let fuelRow">
+            <span *ngIf="!fuelRow.isBlock">
+                {{ fuelRow.title }}
+            </span>
+            <span *ngIf="fuelRow.isBlock">
+                <b>{{ fuelRow.title }}</b>
+            </span>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="time">
+        <th mat-header-cell *matHeaderCellDef>Time</th>
+        <td mat-cell *matCellDef="let fuelRow">
+            <span *ngIf="!fuelRow.isExtra && !fuelRow.isBlock">
+                {{ this.formatTime(fuelRow.time) }}
+            </span>
+            <span *ngIf="fuelRow.isExtra">
+                <form [formGroup]="extraTimeForm">
+                    <input
+                            matInput
+                            type="text"
+                            formControlName="extraTime"
+                            maxlength="3"
+                            size="3"
+                            (input)="this.onInputExtraTime.emit($event.target.value)">
+                </form>
+            </span>
+            <span *ngIf="fuelRow.isBlock">
+                <b>{{ this.formatTime(fuelRow.time) }}</b>
+            </span>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="fuel">
+        <th mat-header-cell *matHeaderCellDef>Fuel</th>
+        <td mat-cell *matCellDef="let fuelRow">
+            <span *ngIf="!fuelRow.isBlock">
+                {{ this.formatFuel(fuelRow.fuel) }}
+            </span>
+            <span *ngIf="fuelRow.isBlock">
+                <b>{{ this.formatFuel(fuelRow.fuel) }}</b>
+            </span>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['fuelCalc', 'time', 'fuel']"></tr>
+    <tr mat-row *matRowDef="let fuelRow; columns: ['fuelCalc', 'time', 'fuel']"></tr>
+</table>
+
+
+<!--<table
+        class="table table-sm table-bordered table-striped table-nonfluid">
     <thead>
     <tr>
         <th>Fuel Calculation</th>
@@ -51,3 +108,4 @@
     </tr>
     </tbody>
 </table>
+-->

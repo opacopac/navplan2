@@ -1,4 +1,30 @@
-<div #container class="ol-popup card text-white bg-primary mb-3" style="visibility: hidden">
+<div #container class="ol-popup" style="visibility: hidden">
+    <mat-card *ngIf="this.navaid">
+        <mat-card-header>
+            <mat-card-title>
+                {{ this.navaid.name }} ({{ this.navaid.kuerzel }})
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p>Type: {{ this.navaid.type }}</p>
+            <p>{{ this.getPositionString(this.navaid.position) }}</p>
+            <p>Elevation: {{ this.getElevationString(this.navaid.elevation_m) }}</p>
+            <p>Frequency: {{ this.navaid.frequency }} {{ this.navaid.unit }}</p>
+            <p>Morse: <span [innerHtml]="this.getMorseString()"></span></p>
+            <div class="text-right small">
+                <em><a href="http://www.openaip.net/navaids?field_openaip_navaid_type_value_many_to_one=All&field_openaip_navaid_id_value=&field_openaip_navaid_country_value_many_to_one=All&title={{ this.navaid.name }}"
+                       target="_blank">add / correct data</a>
+                    <i class="fas fa-info-circle" title="openAIP login is required for editing"></i></em>
+            </div>
+            <hr/>
+            <app-map-overlay-button-add-to-route></app-map-overlay-button-add-to-route>
+            <app-map-overlay-button-edit-waypoint></app-map-overlay-button-edit-waypoint>
+            <app-map-overlay-button-remove-from-route></app-map-overlay-button-remove-from-route>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+<!--<div #container class="ol-popup card text-white bg-primary mb-3" style="visibility: hidden">
     <div *ngIf="this.navaid">
         <div class="card-header">
             {{ this.navaid.name }} ({{ this.navaid.kuerzel }})
@@ -22,3 +48,4 @@
         </div>
     </div>
 </div>
+-->

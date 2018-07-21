@@ -1,0 +1,23 @@
+.zoom-buttons {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 20;
+    opacity: 0.9;
+}
+
+.location-button {
+    position: absolute;
+    top: 132px;
+    left: 10px;
+    z-index: 20;
+    opacity: 0.9;
+}
+
+.traffic-button {
+    position: absolute;
+    top: 198px;
+    left: 10px;
+    z-index: 20;
+    opacity: 0.9;
+}

@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Waypoint} from '../../model/waypoint';
 import {Flightroute} from '../../model/flightroute';
 import {ButtonColor, ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
+import {WaypointType} from '../../model/waypoint-type';
 
 
 @Component({
@@ -16,6 +17,7 @@ export class WaypointListComponent implements OnInit {
     @Output() onReverseWaypointsClicked = new EventEmitter<null>();
     public ButtonSize = ButtonSize;
     public ButtonColor = ButtonColor;
+    public visibleColumns = ['freq', 'callsign', 'checkpoint', 'alt', 'mt', 'dist', 'eet', 'remarks', 'editIcon', 'deleteIcon'];
 
 
     constructor() {
@@ -23,5 +25,22 @@ export class WaypointListComponent implements OnInit {
 
 
     ngOnInit() {
+    }
+
+
+    public isFirstLastAirport(wp: Waypoint, isFirst: boolean, isLast: boolean): boolean {
+        return ((isFirst || isLast) && wp.type === WaypointType.airport);
+    }
+
+
+    public getAltStyle(wp: Waypoint): string {
+        let deco = '';
+        if (wp.alt.isminalt) {
+            deco += 'underline';
+        }
+        if (wp.alt.ismaxalt) {
+            deco += ' overline';
+        }
+        return deco;
     }
 }

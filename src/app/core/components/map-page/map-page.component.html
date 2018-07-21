@@ -1,0 +1,17 @@
+<!-- map -->
+<app-map-container (onMapInitCompleted)="this.onMapInitCompleted($event)"></app-map-container>
+<!-- map ol components -->
+<app-map-ol-components-container></app-map-ol-components-container>
+<!-- map overlays -->
+<app-map-overlay-container></app-map-overlay-container>
+<!-- search box -->
+<app-search-container></app-search-container>
+<!-- buttons -->
+<app-zoom-buttons
+        class="zoom-buttons"
+        (onZoomInClicked)="this.onZoomInClicked()"
+        (onZoomOutClicked)="this.onZoomOutClicked()">
+</app-zoom-buttons>
+<app-location-button class="location-button"></app-location-button>
+<app-traffic-button class="traffic-button"></app-traffic-button>
+<!--<app-flighttimer></app-flighttimer>-->

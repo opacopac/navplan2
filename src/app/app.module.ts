@@ -2,15 +2,19 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule, HttpClientJsonpModule} from '@angular/common/http';
+import {LayoutModule} from '@angular/cdk/layout';
+import {MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule} from '@angular/material';
+import {MatMenuModule} from '@angular/material/menu';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {coreReducer} from './core/core.reducer';
 import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
-import {SettingsComponent} from './core/components/settings/settings.component';
-import {NavbarComponent} from './core/components/navbar/navbar.component';
-import {AboutComponent} from './core/components/about/about.component';
+import {AppState} from './app-state';
+import {SettingsPageComponent} from './core/components/settings-page/settings-page.component';
+import {AboutPageComponent} from './core/components/about-page/about-page.component';
 import {UserModule} from './user/user.module';
 import {SearchModule} from './search/search.module';
 import {FlightrouteModule} from './flightroute/flightroute.module';
@@ -20,21 +24,23 @@ import {LocationModule} from './location/location.module';
 import {TrafficModule} from './traffic/traffic.module';
 import {NotamModule} from './notam/notam.module';
 import {MapFeaturesModule} from './map-features/map-features.module';
-import {coreReducer} from './core/core.reducer';
-import {AppState} from './app-state';
-import {Navbar2Component} from './core/components/navbar2/navbar2.component';
-import {LayoutModule} from '@angular/cdk/layout';
-import {MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule} from '@angular/material';
-import {MatMenuModule} from '@angular/material/menu';
+import {NavbarComponent} from './core/components/navbar/navbar.component';
+import {MapOlComponentsContainerComponent} from './core/components/map-ol-components-container/map-ol-components-container.component';
+import {MapOverlayContainerComponent} from './core/components/map-overlay-container/map-overlay-container.component';
+import {MapPageComponent} from './core/components/map-page/map-page.component';
+import {NavbarOldComponent} from './core/components/navbar-old/navbar-old.component';
 
 
 @NgModule({
     declarations: [
         AppComponent,
-        SettingsComponent,
-        AboutComponent,
+        SettingsPageComponent,
+        AboutPageComponent,
         NavbarComponent,
-        Navbar2Component,
+        NavbarOldComponent,
+        MapPageComponent,
+        MapOlComponentsContainerComponent,
+        MapOverlayContainerComponent,
     ],
     imports: [
         BrowserModule,

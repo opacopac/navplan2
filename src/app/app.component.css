@@ -1,3 +1,7 @@
+.app-navbar {
+    z-index: 10;
+}
+
 .app-container {
     width: 100vw;
     height: 100vh;

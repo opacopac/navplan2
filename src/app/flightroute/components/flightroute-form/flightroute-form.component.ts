@@ -19,7 +19,7 @@ export class FlightrouteFormComponent implements OnInit {
     @Input() currentUser: User;
     @Input() flightrouteList: FlightrouteListEntry[];
     @Output() onLoadFlightrouteClicked = new EventEmitter<string>();
-    @Output() onSaveFlightrouteClicked = new EventEmitter<string>();
+    @Output() onSaveFlightrouteClicked = new EventEmitter<null>();
     @Output() onSaveFlightrouteCopyClicked = new EventEmitter<null>();
     @Output() onDeleteFlightrouteClicked = new EventEmitter<string>();
     @Output() onUpdateRouteName = new EventEmitter<string>();

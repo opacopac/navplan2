@@ -2,8 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {SharedModule} from '../shared/shared.module';
 import {MapService} from './services/map.service';
-import {MapComponent} from './components/map/map.component';
-import {MapContainerComponent} from './components/map-container/map-container.component';
+import {MapContainerComponent} from './components/map/map-container.component';
 import {ZoomButtonsComponent} from './components/zoom-buttons/zoom-buttons.component';
 import {SearchModule} from '../search/search.module';
 import {LocationModule} from '../location/location.module';
@@ -19,6 +18,7 @@ import {MapEffects} from './map.effects';
 import {MapActions} from './map.actions';
 import {MapState} from './model/map-state';
 import {MatButtonModule} from '@angular/material/button';
+import {MatTooltipModule} from '@angular/material';
 
 @NgModule({
     imports: [
@@ -33,10 +33,10 @@ import {MatButtonModule} from '@angular/material/button';
         MetarTafModule,
         StoreModule.forFeature<MapState, MapActions>('mapState', mapReducer),
         EffectsModule.forFeature([MapEffects]),
-        MatButtonModule
+        MatButtonModule,
+        MatTooltipModule,
     ],
     declarations: [
-        MapComponent,
         MapContainerComponent,
         ZoomButtonsComponent,
     ],
