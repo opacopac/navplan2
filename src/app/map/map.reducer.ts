@@ -12,8 +12,7 @@ const initialState: MapState = {
     rotation: new Angle(0, AngleUnit.RAD),
     extent: undefined,
     baseMapType: MapbaselayerType.OPENTOPOMAP,
-    selectedDataItem: undefined,
-    clickPos: undefined,
+    showOverlay: { dataItem: undefined, clickPos: undefined },
 };
 
 
@@ -27,8 +26,11 @@ export function mapReducer(state: MapState = initialState, action: MapActions) {
                 extent: action.extent };
         case MapActionTypes.MAP_CLICKED:
             return { ...state,
-                selectedDataItem: action.dataItem,
-                clickPos: action.clickPos };
+                showOverlay: {
+                    dataItem: action.dataItem,
+                    clickPos: action.clickPos
+                }
+            };
         default:
             return state;
     }

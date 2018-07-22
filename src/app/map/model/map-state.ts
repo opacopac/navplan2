@@ -5,12 +5,17 @@ import {MapbaselayerType} from './mapbaselayer-factory';
 import {DataItem} from '../../shared/model/data-item';
 
 
+export interface MapOverlayState {
+    dataItem: DataItem;
+    clickPos: Position2d;
+}
+
+
 export interface MapState {
     position: Position2d;
     zoom: number;
     rotation: Angle;
     extent: Extent;
     baseMapType: MapbaselayerType;
-    selectedDataItem: DataItem;
-    clickPos: Position2d;
+    showOverlay: MapOverlayState;
 }

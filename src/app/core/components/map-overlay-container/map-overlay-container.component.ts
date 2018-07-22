@@ -13,10 +13,18 @@ import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/internal/Observable';
 import {DataItem, DataItemType} from '../../../shared/model/data-item';
 import {Subscription} from 'rxjs/internal/Subscription';
-import {getSelectedDataItem} from '../../../map/map.selectors';
+import {getShowOverlay} from '../../../map/map.selectors';
 import {Airport} from '../../../map-features/model/airport';
 import {Navaid} from '../../../map-features/model/navaid';
 import {Reportingpoint} from '../../../map-features/model/reportingpoint';
+import {Reportingsector} from '../../../map-features/model/reportingsector';
+import {Position2d} from '../../../shared/model/geometry/position2d';
+import {Userpoint} from '../../../map-features/model/userpoint';
+import {Geoname} from '../../../map-features/model/geoname';
+import {Traffic} from '../../../traffic/model/traffic';
+import {Notam} from '../../../notam/model/notam';
+import {Waypoint} from '../../../flightroute/model/waypoint';
+import {MapOverlayState} from '../../../map/model/map-state';
 
 
 @Component({
@@ -34,19 +42,19 @@ export class MapOverlayContainerComponent implements OnInit, OnDestroy {
     @ViewChild(MapOverlayTrafficComponent) mapOverlayTrafficComponent: MapOverlayTrafficComponent;
     @ViewChild(MapOverlayNotamComponent) mapOverlayNotamComponent: MapOverlayNotamComponent;
     @ViewChild(MapOverlayWaypointComponent) mapOverlayWaypointComponent: MapOverlayWaypointComponent;
-    private selectedDataItem$: Observable<DataItem>;
+    private showOverlay$: Observable<MapOverlayState>;
     private selectedDateItemSubscription: Subscription;
 
 
     constructor(private appStore: Store<any>) {
-        this.selectedDataItem$ = this.appStore.select(getSelectedDataItem);
+        this.showOverlay$ = this.appStore.select(getShowOverlay);
     }
 
 
     ngOnInit() {
-        this.selectedDateItemSubscription = this.selectedDataItem$
-            .subscribe((dataItem) => {
-                this.showMapOverlay(dataItem);
+        this.selectedDateItemSubscription = this.showOverlay$
+            .subscribe((overlayState) => {
+                this.showMapOverlay(overlayState.dataItem, overlayState.clickPos);
             });
     }
 
@@ -79,7 +87,7 @@ export class MapOverlayContainerComponent implements OnInit, OnDestroy {
     }
 
 
-    private showMapOverlay(dataItem: DataItem) {
+    private showMapOverlay(dataItem: DataItem, clickPos: Position2d) {
         this.closeAllOverlays();
 
         if (!dataItem) {
@@ -88,15 +96,31 @@ export class MapOverlayContainerComponent implements OnInit, OnDestroy {
 
         switch (dataItem.dataItemType) {
             case DataItemType.airport:
-                this.mapOverlayAirportComponent.bindFeatureData(dataItem as Airport, undefined);
+                this.mapOverlayAirportComponent.bindFeatureData(dataItem as Airport, clickPos);
                 break;
-
             case DataItemType.navaid:
-                this.mapOverlayNavaidComponent.bindFeatureData(dataItem as Navaid, undefined);
+                this.mapOverlayNavaidComponent.bindFeatureData(dataItem as Navaid, clickPos);
                 break;
-
             case DataItemType.reportingPoint:
-                this.mapOverlayReportingpointComponent.bindFeatureData(dataItem as Reportingpoint, undefined);
+                this.mapOverlayReportingpointComponent.bindFeatureData(dataItem as Reportingpoint, clickPos);
+                break;
+            case DataItemType.reportingSector:
+                this.mapOverlayReportingsectorComponent.bindFeatureData(dataItem as Reportingsector, clickPos);
+                break;
+            case DataItemType.userPoint:
+                this.mapOverlayUserpointComponent.bindFeatureData(dataItem as Userpoint, clickPos);
+                break;
+            case DataItemType.geoname:
+                this.mapOverlayGeonameComponent.bindFeatureData(dataItem as Geoname, clickPos);
+                break;
+            case DataItemType.traffic:
+                this.mapOverlayTrafficComponent.bindFeatureData(dataItem as Traffic, clickPos);
+                break;
+            case DataItemType.notam:
+                this.mapOverlayNotamComponent.bindFeatureData(dataItem as Notam, clickPos);
+                break;
+            case DataItemType.waypoint:
+                this.mapOverlayWaypointComponent.bindFeatureData(dataItem as Waypoint, clickPos);
                 break;
         }
     }

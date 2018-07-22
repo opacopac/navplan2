@@ -7,5 +7,4 @@ export const getMapPosition = createSelector(getMapState, state => state.positio
 export const getMapZoom = createSelector(getMapState, state => state.zoom);
 export const getMapRotation = createSelector(getMapState, state => state.rotation);
 export const getMapExtent = createSelector(getMapState, state => state.extent);
-export const getSelectedDataItem = createSelector(getMapState, state => state.selectedDataItem);
-export const getClickPos = createSelector(getMapState, state => state.clickPos);
+export const getShowOverlay = createSelector(getMapState, state => state.showOverlay);

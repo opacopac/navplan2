@@ -1,19 +1,27 @@
 .ol-popup-airport {
-  /*max-width: 75vw;*/
+    /*max-width: 75vw;*/
+}
+
+.airport-card {
+    padding-bottom: 0;
+}
+
+/deep/ .mat-tab-label {
+    min-width: 0!important;
 }
 
 .table-notam {
-  max-height: 50vh;
-  overflow: auto;
-  margin-bottom: 10px;
+    max-height: 50vh;
+    overflow: auto;
+    margin-bottom: 10px;
 }
 
 .nav-item {
-  width: 2.5rem;
+    width: 2.5rem;
 }
 
 .nav-link {
-  padding-left: 0;
-  padding-right: 0;
-  text-align: center;
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
 }

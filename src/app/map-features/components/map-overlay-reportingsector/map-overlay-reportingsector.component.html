@@ -1,11 +1,14 @@
-<div #container class="ol-popup card text-white bg-primary mb-3">
-    <div *ngIf="this.reportingsector">
-        <div class="card-header">
-            {{ this.reportingsector.name }} ({{ this.reportingsector.airport_icao }})
-            <app-map-overlay-button-close (click)="this.onCloseOverlay()"></app-map-overlay-button-close>
-        </div>
-        <div class="card-body">
-            <p>Type: ARR Sector</p>
+<div #container class="ol-popup">
+    <mat-card *ngIf="this.reportingsector">
+        <mat-card-header>
+            <mat-card-title>
+                {{ this.reportingsector.name }} ({{ this.reportingsector.airport_icao }})
+            </mat-card-title>
+            <mat-card-subtitle>
+                ARR Sector
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
             <p *ngIf="this.reportingsector.min_ft || this.reportingsector.max_ft">
                 Altitude:
                 {{ this.reportingsector.min_ft ? 'min. ' + this.reportingsector.min_ft + 'ft' : '' }}
@@ -21,6 +24,6 @@
             <app-map-overlay-button-add-to-route></app-map-overlay-button-add-to-route>
             <app-map-overlay-button-edit-waypoint></app-map-overlay-button-edit-waypoint>
             <app-map-overlay-button-remove-from-route></app-map-overlay-button-remove-from-route>
-        </div>
-    </div>
+        </mat-card-content>
+    </mat-card>
 </div>

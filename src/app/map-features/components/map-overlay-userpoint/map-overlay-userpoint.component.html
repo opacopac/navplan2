@@ -1,19 +1,21 @@
-<div #container class="ol-popup card text-white bg-primary mb-3"
-     style="visibility: hidden">
-    <div *ngIf="this.userpoint">
-        <div class="card-header">
-            {{ this.userpoint.name }}
-            <app-map-overlay-button-close (click)="this.onCloseOverlay()"></app-map-overlay-button-close>
-        </div>
-        <div class="card-body">
-            <p>Type: User Point</p>
+<div #container class="ol-popup">
+    <mat-card *ngIf="this.userpoint">
+        <mat-card-header>
+            <mat-card-title>
+                {{ this.userpoint.name }}
+            </mat-card-title>
+            <mat-card-subtitle>
+                User Point
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="card-body">
             <p>{{ this.getPositionString(this.userpoint.position) }}</p>
             <p *ngIf="this.userpoint.remark">Remark: {{ this.userpoint.remark }}</p>
-            <hr/>
+            <!--<hr/>
             <app-map-overlay-button-add-to-route></app-map-overlay-button-add-to-route>
             <app-map-overlay-button-edit-waypoint></app-map-overlay-button-edit-waypoint>
             <app-map-overlay-button-remove-from-route></app-map-overlay-button-remove-from-route>
-            <app-map-overlay-button-edit-userpoint></app-map-overlay-button-edit-userpoint>
-        </div>
-    </div>
+            <app-map-overlay-button-edit-userpoint></app-map-overlay-button-edit-userpoint>-->
+        </mat-card-content>
+    </mat-card>
 </div>

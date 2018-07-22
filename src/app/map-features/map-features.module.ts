@@ -20,7 +20,7 @@ import {MapFeaturesEffects} from './map-features.effects';
 import {MapFeaturesActions} from './map-features.actions';
 import {MapFeaturesState} from './model/map-features-state';
 import {MapOverlayMeteogramComponent} from './components/map-overlay-meteogram/map-overlay-meteogram.component';
-import {MatCardModule} from '@angular/material';
+import {MatCardModule, MatTabsModule} from '@angular/material';
 
 
 @NgModule({
@@ -32,6 +32,7 @@ import {MatCardModule} from '@angular/material';
         StoreModule.forFeature<MapFeaturesState, MapFeaturesActions>('mapFeaturesState', mapFeaturesReducer),
         EffectsModule.forFeature([MapFeaturesEffects]),
         MatCardModule,
+        MatTabsModule
     ],
     declarations: [
         MapOverlayAirportComponent,

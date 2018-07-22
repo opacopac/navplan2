@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import { Reportingsector } from '../../model/reportingsector';
-import { MapOverlayContainer } from '../../../shared/components/map-overlay-container';
-import { Position2d } from '../../../shared/model/geometry/position2d';
+import {Reportingsector} from '../../model/reportingsector';
+import {Position2d} from '../../../shared/model/geometry/position2d';
+import {MapOverlayContainer} from '../../../shared/components/map-overlay-container';
 
 
 @Component({
