@@ -19,6 +19,7 @@
                     <!--<p>Type: {{ this.getAirportTypeString() }}</p>-->
                     <p>{{ this.getPositionString(this.airport.position) }}</p>
                     <p>Elevation: {{ this.getElevationString(this.airport.elevation_m) }}</p>
+                    <!-- TODO: webcams -->
                 </mat-tab>
 
                 <!-- runway tab -->
@@ -26,27 +27,46 @@
                     <ng-template mat-tab-label>
                         <i class="fas fa-road"></i>
                     </ng-template>
-                    <table class="table table-sm table-striped table-condensed">
-                        <tr>
-                            <th>Runway</th>
-                            <th>Surface</th>
-                            <th>Dimensions</th>
-                            <th>TORA[m]</th>
-                            <th>LDA[m]</th>
-                            <th>PAPI</th>
-                        </tr>
-                        <tr *ngFor="let runway of this.airport.runways">
-                            <td>{{ runway.name }}</td>
-                            <td>{{ runway.surface }}</td>
-                            <td>{{ this.getRwyDimensionsString(runway) }}</td>
-                            <td>{{ runway.tora1 ? runway.tora1 : '-' }} / {{ runway.tora2 ? runway.tora2 : '-' }}</td>
-                            <td>{{ runway.lda1 ? runway.lda1 : '-' }} / {{ runway.lda2 ? runway.lda2 : '-' }}</td>
-                            <td>{{ runway.papi1 ? 'y' : '-' }} / {{ runway.papi2 ? 'y' : '-' }}</td>
-                        </tr>
-                        <tr *ngIf="!this.airport.hasRunways">
-                            <td colspan="6"><em>No runway info available</em></td>
-                        </tr>
+                    <table mat-table
+                           *ngIf="this.airport.runways && this.airport.runways.length > 0"
+                           [dataSource]="this.airport.runways">
+
+                        <ng-container matColumnDef="runway">
+                            <th mat-header-cell *matHeaderCellDef>Runway</th>
+                            <td mat-cell *matCellDef="let runway">{{ runway.name }}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="surface">
+                            <th mat-header-cell *matHeaderCellDef>Surface</th>
+                            <td mat-cell *matCellDef="let runway">{{ runway.surface }}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="dimensions">
+                            <th mat-header-cell *matHeaderCellDef>Dimensions</th>
+                            <td mat-cell *matCellDef="let runway">{{ this.getRwyDimensionsString(runway) }}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="tora">
+                            <th mat-header-cell *matHeaderCellDef>TORA[m]</th>
+                            <td mat-cell *matCellDef="let runway">{{ runway.tora1 ? runway.tora1 : '-' }} / {{ runway.tora2 ? runway.tora2 : '-' }}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="lda">
+                            <th mat-header-cell *matHeaderCellDef>LDA[m]</th>
+                            <td mat-cell *matCellDef="let runway">{{ runway.lda1 ? runway.lda1 : '-' }} / {{ runway.lda2 ? runway.lda2 : '-' }}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="papi">
+                            <th mat-header-cell *matHeaderCellDef>PAPI</th>
+                            <td mat-cell *matCellDef="let runway">{{ runway.papi1 ? 'y' : '-' }} / {{ runway.papi2 ? 'y' : '-' }}</td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="this.getRwyColumns()"></tr>
+                        <tr mat-row *matRowDef="let row; columns: this.getRwyColumns();"></tr>
                     </table>
+                    <div *ngIf="!this.airport.hasRunways">
+                        <em>No runway info available</em>
+                    </div>
                 </mat-tab>
 
                 <!-- radio tab -->
@@ -54,8 +74,24 @@
                     <ng-template mat-tab-label>
                         <i class="fas fa-broadcast-tower"></i>
                     </ng-template>
-                    <table class="table table-sm table-striped table-condensed">
-                        <tr>
+                    <table mat-table
+                           *ngIf="this.airport.radios && this.airport.radios.length > 0"
+                           [dataSource]="this.airport.radios">
+
+                        <ng-container matColumnDef="type">
+                            <th mat-header-cell *matHeaderCellDef>Type</th>
+                            <td mat-cell *matCellDef="let radio">{{ radio.description ? radio.description : radio.type }}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="frequency">
+                            <th mat-header-cell *matHeaderCellDef>Frequency</th>
+                            <td mat-cell *matCellDef="let radio">{{ radio.frequency }}</td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="this.getRadioColumns()"></tr>
+                        <tr mat-row *matRowDef="let row; columns: this.getRadioColumns();"></tr>
+
+                        <!--<tr>
                             <th colspan="2">Frequency</th>
                         </tr>
                         <tr *ngFor="let radio of this.airport.radios">
@@ -64,8 +100,11 @@
                         </tr>
                         <tr *ngIf="!this.airport.hasRadios">
                             <td colspan="2"><em>No radio info available</em></td>
-                        </tr>
+                        </tr>-->
                     </table>
+                    <div *ngIf="!this.airport.hasRadios">
+                        <em>No radio info available</em>
+                    </div>
                 </mat-tab>
 
                 <!-- meteo tab -->
@@ -122,11 +161,12 @@
                         <i class="fas fa-map"></i>
                     </ng-template>
                     <h5>AD Charts</h5>
-                    <p *ngFor="let chart of this.airport.charts">
-                        <i class="fas fa-file"></i>
-                        {{ chart.type }}
-                        <i>&copy; by <a href="{{ this.getChartSourceUrl(chart) }}" target="_blank">{{ this.getChartSourceName(chart) }}</a></i>
-                    </p>
+                    <mat-list>
+                        <mat-list-item *ngFor="let chart of this.airport.charts">
+                            <i class="fas fa-file"></i>&nbsp;{{ chart.type }}
+                            <small><i>&copy; by <a href="{{ this.getChartSourceUrl(chart) }}" target="_blank">{{ this.getChartSourceName(chart) }}</a></i></small>
+                        </mat-list-item>
+                    </mat-list>
                 </mat-tab>
 
                 <!-- tab buttons -->

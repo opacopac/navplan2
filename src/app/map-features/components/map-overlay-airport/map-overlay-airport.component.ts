@@ -78,6 +78,16 @@ export class MapOverlayAirportComponent extends MapOverlayContainer implements O
     }
 
 
+    public getRwyColumns(): string[] {
+        return ['runway', 'surface', 'dimensions', 'tora', 'lda', 'papi'];
+    }
+
+
+    public getRadioColumns(): string[] {
+        return ['type', 'frequency'];
+    }
+
+
     public getRwyDimensionsString(runway: AirportRunway): string {
         return Math.round(runway.length) + ' x ' + Math.round(runway.width) + 'm';
     }

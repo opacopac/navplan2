@@ -57,13 +57,13 @@
         echo "angularjs/1.6.3/angular-resource.min.js\n";
 
 		// bootstrap
-        echo "bootstrap/3.3.7/bootstrap.min.js\n";
+        /* echo "bootstrap/3.3.7/bootstrap.min.js\n";
         echo "bootstrap/3.3.7/bootstrap.min.css\n";
         echo "bootstrap/fonts/glyphicons-halflings-regular.woff2\n";
         echo "bootstrap/fonts/glyphicons-halflings-regular.woff\n";
         echo "bootstrap/fonts/glyphicons-halflings-regular.ttf\n";
         echo "bootstrap/fonts/glyphicons-halflings-regular.eot\n";
-        echo "bootstrap/fonts/glyphicons-halflings-regular.svg\n";
+        echo "bootstrap/fonts/glyphicons-halflings-regular.svg\n"; */
 
         // openlayers
         //echo "openlayers/4.4.0/ol.css\n";
@@ -118,7 +118,7 @@
         echo "js/jquery-ui.min.js\n";
         echo "js/jquery.ui.touch-punch.min.js\n";
         echo "js/turf.min.js\n";
-        echo "js/ui-bootstrap-tpls-1.3.2.min.js\n";
+        // echo "js/ui-bootstrap-tpls-1.3.2.min.js\n";
         echo "js/sortable.min.js\n";
 		echo "js/WorldMagneticModel.js?v=" . $ver . "\n";
 		echo "js/telephony.js?v=" . $ver . "\n";
