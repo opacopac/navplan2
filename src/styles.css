@@ -111,18 +111,20 @@ button.btn-lg {
 }
 
 .ol-popup:before {
-    /*border-top-color: rgba(39, 43, 48, 0.8);*/
-    border-top-color: #3A3F44;
+    /* border-top-color: rgba(39, 43, 48, 0.8);*/
+    /*border-top-color: #3A3F44;*/
+    border-top-color: white;
     border-width: 11px;
-    left: 48px;
+    left: 50px;
     margin-left: -11px;
 }
 
 .ol-popup:after {
     /*border-top-color: rgba(39, 43, 48, 0.9);*/
-    border-top-color: #3A3F44;
+    /*border-top-color: #3A3F44;*/
+    border-top-color: white;
     border-width: 10px;
-    left: 48px;
+    left: 50px;
     margin-left: -10px;
 }
 

@@ -23,18 +23,13 @@ export class MapOverlayUserpointComponent extends MapOverlayContainer implements
     }
 
 
-    public getContainerHtmlElement(): HTMLElement {
+    public get containerHtmlElement(): HTMLElement {
         return this.container.nativeElement;
     }
 
 
     public bindFeatureData(userPoint: Userpoint, clickPos: Position2d) {
         this.userpoint = userPoint;
-        this.clickPos = clickPos;
-    }
-
-
-    public getPosition(): Position2d {
-        return this.userpoint.position;
+        this.olOverlay.setPosition(userPoint ? userPoint.position.getMercator() : undefined);
     }
 }

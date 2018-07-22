@@ -1,4 +1,4 @@
-import {DataItem} from '../../shared/model/data-item';
+import {DataItem, DataItemType} from '../../shared/model/data-item';
 import {Polygon} from '../../shared/model/geometry/polygon';
 
 
@@ -16,5 +16,10 @@ export class Reportingsector extends DataItem {
         public polygon: Polygon) {
 
         super();
+    }
+
+
+    public get dataItemType(): DataItemType {
+        return DataItemType.reportingSector;
     }
 }

@@ -24,19 +24,14 @@ export class MapOverlayNavaidComponent extends MapOverlayContainer implements On
     }
 
 
-    public getContainerHtmlElement(): HTMLElement {
+    public get containerHtmlElement(): HTMLElement {
         return this.container.nativeElement;
     }
 
 
     public bindFeatureData(navaid: Navaid, clickPos: Position2d) {
-        this.clickPos = clickPos;
         this.navaid = navaid;
-    }
-
-
-    public getPosition(): Position2d {
-        return this.navaid.position;
+        this.olOverlay.setPosition(navaid ? navaid.position.getMercator() : undefined);
     }
 
 

@@ -722,19 +722,14 @@ export class MapOverlayGeonameComponent extends MapOverlayContainer implements O
     }
 
 
-    public getContainerHtmlElement(): HTMLElement {
+    public get containerHtmlElement(): HTMLElement {
         return this.container.nativeElement;
     }
 
 
     public bindFeatureData(geoname: Geoname, clickPos: Position2d) {
         this.geoname = geoname;
-        this.clickPos = clickPos;
-    }
-
-
-    public getPosition(): Position2d {
-        return this.geoname.position;
+        this.olOverlay.setPosition(geoname ? geoname.position.getMercator() : undefined);
     }
 
 

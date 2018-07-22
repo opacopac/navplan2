@@ -23,18 +23,13 @@ export class MapOverlayReportingsectorComponent extends MapOverlayContainer impl
     }
 
 
-    public getContainerHtmlElement(): HTMLElement {
+    public get containerHtmlElement(): HTMLElement {
         return this.container.nativeElement;
     }
 
 
     public bindFeatureData(reportingSector: Reportingsector, clickPos: Position2d) {
         this.reportingsector = reportingSector;
-        this.clickPos = clickPos;
-    }
-
-
-    public getPosition(): Position2d {
-        return this.clickPos;
+        this.olOverlay.setPosition(clickPos ? clickPos.getMercator() : undefined);
     }
 }

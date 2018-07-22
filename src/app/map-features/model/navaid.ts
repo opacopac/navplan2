@@ -1,5 +1,5 @@
 import { Position2d } from '../../shared/model/geometry/position2d';
-import { DataItem } from '../../shared/model/data-item';
+import {DataItem, DataItemType} from '../../shared/model/data-item';
 
 
 export class Navaid extends DataItem {
@@ -16,5 +16,10 @@ export class Navaid extends DataItem {
         public truenorth: boolean) {
 
         super();
+    }
+
+
+    public get dataItemType(): DataItemType {
+        return DataItemType.navaid;
     }
 }

@@ -22,18 +22,14 @@ export class MapOverlayWaypointComponent extends MapOverlayContainer implements 
     ngOnInit() {
     }
 
-    public getContainerHtmlElement(): HTMLElement {
+
+    public get containerHtmlElement(): HTMLElement {
         return this.container.nativeElement;
     }
 
 
     public bindFeatureData(waypoint: Waypoint, clickPos: Position2d) {
         this.waypoint = waypoint;
-        this.clickPos = clickPos;
-    }
-
-
-    public getPosition(): Position2d {
-        return this.waypoint.position;
+        this.olOverlay.setPosition(waypoint ? waypoint.position.getMercator() : undefined);
     }
 }

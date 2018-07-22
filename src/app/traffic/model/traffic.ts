@@ -1,4 +1,4 @@
-import {DataItem} from '../../shared/model/data-item';
+import {DataItem, DataItemType} from '../../shared/model/data-item';
 import {TrafficPosition} from './traffic-position';
 import {Clonable} from '../../shared/model/clonable';
 
@@ -57,6 +57,11 @@ export class Traffic extends DataItem implements Clonable<Traffic> {
         public positions: TrafficPosition[]) {
 
         super();
+    }
+
+
+    public get dataItemType(): DataItemType {
+        return DataItemType.traffic;
     }
 
 

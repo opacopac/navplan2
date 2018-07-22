@@ -1,5 +1,5 @@
 import { Polygon } from '../../shared/model/geometry/polygon';
-import { DataItem } from '../../shared/model/data-item';
+import {DataItem, DataItemType} from '../../shared/model/data-item';
 
 
 export class Airspace extends DataItem {
@@ -13,6 +13,11 @@ export class Airspace extends DataItem {
         public polygon: Polygon) {
 
         super();
+    }
+
+
+    public get dataItemType(): DataItemType {
+        return DataItemType.airspace;
     }
 }
 

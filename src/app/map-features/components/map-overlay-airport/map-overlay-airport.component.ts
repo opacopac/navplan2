@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import {Component, ElementRef, OnChanges, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Airport, AirportChart, AirportRunway, AirportType} from '../../model/airport';
 import {Position2d} from '../../../shared/model/geometry/position2d';
 import {MapOverlayContainer} from '../../../shared/components/map-overlay-container';
@@ -12,7 +12,7 @@ import {MapOverlayWindyiframeComponent} from '../map-overlay-windyiframe/map-ove
     templateUrl: './map-overlay-airport.component.html',
     styleUrls: ['./map-overlay-airport.component.css']
 })
-export class MapOverlayAirportComponent extends MapOverlayContainer implements OnInit, OnChanges {
+export class MapOverlayAirportComponent extends MapOverlayContainer implements OnInit {
     public airport: Airport;
     public isMeteoGramOpenClicked: boolean;
     @ViewChild('container') container: ElementRef;
@@ -28,20 +28,17 @@ export class MapOverlayAirportComponent extends MapOverlayContainer implements O
     }
 
 
-    ngOnChanges() {
+    public get containerHtmlElement(): HTMLElement {
+        return this.container.nativeElement;
     }
 
 
     public bindFeatureData(airport: Airport, clickPos: Position2d) {
         this.airport = airport;
-        this.clickPos = clickPos;
         this.isMeteoGramOpenClicked = false;
+        this.olOverlay.setPosition(airport ? airport.position.getMercator() : undefined);
+
         this.activateTab();
-    }
-
-
-    public getContainerHtmlElement(): HTMLElement {
-        return this.container.nativeElement;
     }
 
 
@@ -78,11 +75,6 @@ export class MapOverlayAirportComponent extends MapOverlayContainer implements O
             case AirportType.LIGHT_AIRCRAFT : return 'Ultra Light Flying Site';
             default : return 'Unknown';
         }
-    }
-
-
-    public getPosition(): Position2d {
-        return this.airport.position;
     }
 
 
@@ -144,7 +136,7 @@ export class MapOverlayAirportComponent extends MapOverlayContainer implements O
 
     public updateMeteogram() {
         if (this.airport && this.windyComponent) {
-            this.windyComponent.updateWeather(this.airport.position, this.getContainerHtmlElement().offsetWidth);
+            this.windyComponent.updateWeather(this.airport.position, this.containerHtmlElement.offsetWidth);
         }
     }
 
@@ -163,6 +155,6 @@ export class MapOverlayAirportComponent extends MapOverlayContainer implements O
 
 
     private activateTab(tabName: string = '#airport-info-tab') {
-        setTimeout(function() { $(tabName).click(); }, 10); // asynchronous because component is not in DOM yet due to ngif
+        // setTimeout(function() { $(tabName).click(); }, 10); // asynchronous because component is not in DOM yet due to ngif
     }
 }

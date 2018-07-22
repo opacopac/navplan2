@@ -1,8 +1,8 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import { Reportingpoint } from '../../model/reportingpoint';
-import { StringnumberService } from '../../../shared/services/stringnumber/stringnumber.service';
-import { Position2d } from '../../../shared/model/geometry/position2d';
-import { MapOverlayContainer } from '../../../shared/components/map-overlay-container';
+import {Reportingpoint} from '../../model/reportingpoint';
+import {StringnumberService} from '../../../shared/services/stringnumber/stringnumber.service';
+import {Position2d} from '../../../shared/model/geometry/position2d';
+import {MapOverlayContainer} from '../../../shared/components/map-overlay-container';
 
 
 @Component({
@@ -24,19 +24,14 @@ export class MapOverlayReportingpointComponent extends MapOverlayContainer imple
     }
 
 
-    public getContainerHtmlElement(): HTMLElement {
+    public get containerHtmlElement(): HTMLElement {
         return this.container.nativeElement;
     }
 
 
     public bindFeatureData(reportingPoint: Reportingpoint, clickPos: Position2d) {
         this.reportingpoint = reportingPoint;
-        this.clickPos = clickPos;
-    }
-
-
-    public getPosition(): Position2d {
-        return this.reportingpoint.position;
+        this.olOverlay.setPosition(reportingPoint ? reportingPoint.position.getMercator() : undefined);
     }
 
 

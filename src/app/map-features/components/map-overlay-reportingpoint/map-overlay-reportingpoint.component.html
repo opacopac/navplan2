@@ -1,8 +1,8 @@
-<div #container class="ol-popup card text-white bg-primary mb-3" style="visibility: hidden">
+<div #container class="ol-popup card text-white bg-primary mb-3">
     <div *ngIf="this.reportingpoint">
         <div class="card-header">
             {{ this.reportingpoint.name }} ({{ this.reportingpoint.airport_icao }})
-            <app-map-overlay-button-close (click)="this.closeOverlay()"></app-map-overlay-button-close>
+            <app-map-overlay-button-close (click)="this.onCloseOverlay()"></app-map-overlay-button-close>
         </div>
         <div class="card-body">
             <p>Type: Reporting Point</p>

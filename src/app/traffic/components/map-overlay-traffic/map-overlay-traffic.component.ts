@@ -1,8 +1,8 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Traffic, TrafficAddressType, TrafficAircraftType} from '../../model/traffic';
 import { Position2d } from '../../../shared/model/geometry/position2d';
-import { ButtonColor, ButtonSize } from '../../../shared/directives/button-base/button-base.directive';
 import { MapOverlayContainer } from '../../../shared/components/map-overlay-container';
+import {MapContext} from '../../../map/model/map-context';
 
 
 const TRAFFIC_TYPE_DESCRIPTION = {
@@ -31,8 +31,6 @@ const TRAFFIC_TYPE_DESCRIPTION = {
 })
 export class MapOverlayTrafficComponent extends MapOverlayContainer implements OnInit {
     public traffic: Traffic;
-    public ButtonSize = ButtonSize;
-    public ButtonColor = ButtonColor;
     @ViewChild('container') container: ElementRef;
 
 
@@ -40,19 +38,13 @@ export class MapOverlayTrafficComponent extends MapOverlayContainer implements O
     }
 
 
-    public getContainerHtmlElement(): HTMLElement {
+    public get containerHtmlElement(): HTMLElement {
         return this.container.nativeElement;
     }
 
 
     public bindFeatureData(traffic: Traffic, clickPos: Position2d) {
         this.traffic = traffic;
-        this.clickPos = clickPos;
-    }
-
-
-    public getPosition(): Position2d {
-        return this.traffic.getCurrentPosition().position;
     }
 
 

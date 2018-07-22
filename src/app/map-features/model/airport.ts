@@ -1,5 +1,5 @@
 import { Position2d } from '../../shared/model/geometry/position2d';
-import { DataItem } from '../../shared/model/data-item';
+import {DataItem, DataItemType} from '../../shared/model/data-item';
 import { MetarTaf } from '../../metar-taf/model/metar-taf';
 import { Notam } from '../../notam/model/notam';
 
@@ -48,6 +48,11 @@ export class Airport extends DataItem  {
     }
 
 
+    public get dataItemType(): DataItemType {
+        return DataItemType.airport;
+    }
+
+
     public get hasRunways(): boolean {
         return (this.runways != null && this.runways.length > 0);
     }
@@ -80,7 +85,7 @@ export class Airport extends DataItem  {
 }
 
 
-export class AirportRunway extends DataItem {
+export class AirportRunway {
     constructor(
         public name: string,
         public surface: string,
@@ -94,8 +99,6 @@ export class AirportRunway extends DataItem {
         public lda2: number,
         public papi1: boolean,
         public papi2: boolean) {
-
-        super();
     }
 }
 
@@ -133,11 +136,9 @@ export class AirportChart {
 }
 
 
-export class AirportFeature extends DataItem {
+export class AirportFeature {
     constructor(
         public type: string,
         public name: string) {
-
-        super();
     }
 }

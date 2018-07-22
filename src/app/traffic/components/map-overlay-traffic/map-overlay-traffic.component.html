@@ -2,7 +2,7 @@
     <div *ngIf="this.traffic">
         <div class="card-header">
             {{ this.getTitle() }}
-            <app-map-overlay-button-close (click)="this.closeOverlay()"></app-map-overlay-button-close>
+            <app-map-overlay-button-close (click)="this.onCloseOverlay()"></app-map-overlay-button-close>
         </div>
         <div class="card-body">
             <p>Type: {{ this.getType() }}</p>

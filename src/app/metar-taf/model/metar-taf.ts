@@ -1,4 +1,4 @@
-import {DataItem} from '../../shared/model/data-item';
+import {DataItem, DataItemType} from '../../shared/model/data-item';
 
 
 export class MetarTafList {
@@ -19,5 +19,10 @@ export class MetarTaf extends DataItem {
         public raw_taf: string) {
 
         super();
+    }
+
+
+    public get dataItemType(): DataItemType {
+        return DataItemType.metarTaf;
     }
 }

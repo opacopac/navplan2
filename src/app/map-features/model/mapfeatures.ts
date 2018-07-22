@@ -5,7 +5,7 @@ import { Reportingpoint } from './reportingpoint';
 import { Reportingsector } from './reportingsector';
 import { Userpoint } from './userpoint';
 import { Webcam } from './webcam';
-import { DataItem } from '../../shared/model/data-item';
+import {DataItem, DataItemType} from '../../shared/model/data-item';
 
 
 export class Mapfeatures extends DataItem {
@@ -29,6 +29,11 @@ export class Mapfeatures extends DataItem {
         this.reportingsectors = [];
         this.userpoints = [];
         this.webcams = [];
+    }
+
+
+    public get dataItemType(): DataItemType {
+        return DataItemType.mapFeatures;
     }
 
 

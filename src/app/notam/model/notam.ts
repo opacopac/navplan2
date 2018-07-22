@@ -1,4 +1,4 @@
-import { DataItem } from '../../shared/model/data-item';
+import {DataItem, DataItemType} from '../../shared/model/data-item';
 import {Geometry2d} from '../../shared/model/geometry/geometry2d';
 
 
@@ -47,5 +47,10 @@ export class Notam extends DataItem {
         public geometry: NotamGeometry) {
 
         super();
+    }
+
+
+    public get dataItemType(): DataItemType {
+        return DataItemType.notam;
     }
 }

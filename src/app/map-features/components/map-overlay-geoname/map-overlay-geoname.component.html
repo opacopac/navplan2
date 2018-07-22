@@ -1,8 +1,8 @@
-<div #container class="ol-popup card text-white bg-primary mb-3" style="visibility: hidden">
+<div #container class="ol-popup card text-white bg-primary mb-3">
     <div *ngIf="this.geoname">
         <div class="card-header">
             {{ this.geoname.name }}
-            <app-map-overlay-button-close (click)="this.closeOverlay()"></app-map-overlay-button-close>
+            <app-map-overlay-button-close (click)="this.onCloseOverlay()"></app-map-overlay-button-close>
         </div>
         <div class="card-body">
             <p>{{ this.geoname.name }} ({{ this.getAdminString() }})</p>

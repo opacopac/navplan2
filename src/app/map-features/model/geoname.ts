@@ -1,4 +1,4 @@
-import { DataItem } from '../../shared/model/data-item';
+import {DataItem, DataItemType} from '../../shared/model/data-item';
 import { Position2d } from '../../shared/model/geometry/position2d';
 
 
@@ -17,5 +17,10 @@ export class Geoname extends DataItem {
         public elevation_m: number) {
 
         super();
+    }
+
+
+    public get dataItemType(): DataItemType {
+        return DataItemType.geoname;
     }
 }

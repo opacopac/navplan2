@@ -1,5 +1,5 @@
 import { Position2d } from '../../shared/model/geometry/position2d';
-import { DataItem } from '../../shared/model/data-item';
+import {DataItem, DataItemType} from '../../shared/model/data-item';
 
 
 export class Reportingpoint extends DataItem {
@@ -16,5 +16,10 @@ export class Reportingpoint extends DataItem {
         public position: Position2d) {
 
         super();
+    }
+
+
+    public get dataItemType(): DataItemType {
+        return DataItemType.reportingPoint;
     }
 }

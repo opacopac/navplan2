@@ -9,6 +9,14 @@ import {MapOverlayNotamComponent} from '../../../notam/components/map-overlay-no
 import {MapOverlayReportingpointComponent} from '../../../map-features/components/map-overlay-reportingpoint/map-overlay-reportingpoint.component';
 import {MapOverlayUserpointComponent} from '../../../map-features/components/map-overlay-userpoint/map-overlay-userpoint.component';
 import {MapContext} from '../../../map/model/map-context';
+import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs/internal/Observable';
+import {DataItem, DataItemType} from '../../../shared/model/data-item';
+import {Subscription} from 'rxjs/internal/Subscription';
+import {getSelectedDataItem} from '../../../map/map.selectors';
+import {Airport} from '../../../map-features/model/airport';
+import {Navaid} from '../../../map-features/model/navaid';
+import {Reportingpoint} from '../../../map-features/model/reportingpoint';
 
 
 @Component({
@@ -26,31 +34,25 @@ export class MapOverlayContainerComponent implements OnInit, OnDestroy {
     @ViewChild(MapOverlayTrafficComponent) mapOverlayTrafficComponent: MapOverlayTrafficComponent;
     @ViewChild(MapOverlayNotamComponent) mapOverlayNotamComponent: MapOverlayNotamComponent;
     @ViewChild(MapOverlayWaypointComponent) mapOverlayWaypointComponent: MapOverlayWaypointComponent;
-    private airportOverlay: ol.Overlay;
-    private navaidOverlay: ol.Overlay;
-    private reportingpointOverlay: ol.Overlay;
-    private reportingsectorOverlay: ol.Overlay;
-    private userpointOverlay: ol.Overlay;
-    private geonameOverlay: ol.Overlay;
-    private trafficOverlay: ol.Overlay;
-    private notamOverlay: ol.Overlay;
-    private waypointOverlay: ol.Overlay;
+    private selectedDataItem$: Observable<DataItem>;
+    private selectedDateItemSubscription: Subscription;
 
 
-    constructor() {
+    constructor(private appStore: Store<any>) {
+        this.selectedDataItem$ = this.appStore.select(getSelectedDataItem);
     }
 
 
     ngOnInit() {
+        this.selectedDateItemSubscription = this.selectedDataItem$
+            .subscribe((dataItem) => {
+                this.showMapOverlay(dataItem);
+            });
     }
 
 
     ngOnDestroy() {
-    }
-
-
-    public onOverlayClose() {
-        // TODO
+        this.selectedDateItemSubscription.unsubscribe();
     }
 
 
@@ -59,15 +61,56 @@ export class MapOverlayContainerComponent implements OnInit, OnDestroy {
     }
 
 
+    public onOverlayClosed() {
+        // TODO: action
+    }
+
+
     private addMapOverlays(mapContext: MapContext) {
-        this.airportOverlay = mapContext.mapService.addOverlay(this.mapOverlayAirportComponent.getContainerHtmlElement());
-        this.navaidOverlay = mapContext.mapService.addOverlay(this.mapOverlayNavaidComponent.getContainerHtmlElement());
-        this.reportingpointOverlay = mapContext.mapService.addOverlay(this.mapOverlayReportingpointComponent.getContainerHtmlElement());
-        this.reportingsectorOverlay = mapContext.mapService.addOverlay(this.mapOverlayReportingsectorComponent.getContainerHtmlElement());
-        this.userpointOverlay = mapContext.mapService.addOverlay(this.mapOverlayUserpointComponent.getContainerHtmlElement());
-        this.geonameOverlay = mapContext.mapService.addOverlay(this.mapOverlayGeonameComponent.getContainerHtmlElement());
-        this.trafficOverlay = mapContext.mapService.addOverlay(this.mapOverlayTrafficComponent.getContainerHtmlElement());
-        this.notamOverlay = mapContext.mapService.addOverlay(this.mapOverlayNotamComponent.getContainerHtmlElement());
-        this.waypointOverlay = mapContext.mapService.addOverlay(this.mapOverlayWaypointComponent.getContainerHtmlElement());
+        this.mapOverlayAirportComponent.init(mapContext);
+        this.mapOverlayNavaidComponent.init(mapContext);
+        this.mapOverlayReportingpointComponent.init(mapContext);
+        this.mapOverlayReportingsectorComponent.init(mapContext);
+        this.mapOverlayUserpointComponent.init(mapContext);
+        this.mapOverlayGeonameComponent.init(mapContext);
+        this.mapOverlayTrafficComponent.init(mapContext);
+        this.mapOverlayNotamComponent.init(mapContext);
+        this.mapOverlayWaypointComponent.init(mapContext);
+    }
+
+
+    private showMapOverlay(dataItem: DataItem) {
+        this.closeAllOverlays();
+
+        if (!dataItem) {
+            return;
+        }
+
+        switch (dataItem.dataItemType) {
+            case DataItemType.airport:
+                this.mapOverlayAirportComponent.bindFeatureData(dataItem as Airport, undefined);
+                break;
+
+            case DataItemType.navaid:
+                this.mapOverlayNavaidComponent.bindFeatureData(dataItem as Navaid, undefined);
+                break;
+
+            case DataItemType.reportingPoint:
+                this.mapOverlayReportingpointComponent.bindFeatureData(dataItem as Reportingpoint, undefined);
+                break;
+        }
+    }
+
+
+    private closeAllOverlays() {
+        this.mapOverlayAirportComponent.closeOverlay();
+        this.mapOverlayNavaidComponent.closeOverlay();
+        this.mapOverlayReportingpointComponent.closeOverlay();
+        this.mapOverlayReportingsectorComponent.closeOverlay();
+        this.mapOverlayUserpointComponent.closeOverlay();
+        this.mapOverlayGeonameComponent.closeOverlay();
+        this.mapOverlayTrafficComponent.closeOverlay();
+        this.mapOverlayNotamComponent.closeOverlay();
+        this.mapOverlayWaypointComponent.closeOverlay();
     }
 }

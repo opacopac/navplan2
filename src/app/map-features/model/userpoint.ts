@@ -1,4 +1,4 @@
-import {DataItem} from '../../shared/model/data-item';
+import {DataItem, DataItemType} from '../../shared/model/data-item';
 import {Position2d} from '../../shared/model/geometry/position2d';
 
 
@@ -12,5 +12,10 @@ export class Userpoint extends DataItem {
         public supp_info: string) {
 
         super();
+    }
+
+
+    public get dataItemType(): DataItemType {
+        return DataItemType.userPoint;
     }
 }

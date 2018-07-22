@@ -12,6 +12,8 @@ const initialState: MapState = {
     rotation: new Angle(0, AngleUnit.RAD),
     extent: undefined,
     baseMapType: MapbaselayerType.OPENTOPOMAP,
+    selectedDataItem: undefined,
+    clickPos: undefined,
 };
 
 
@@ -23,6 +25,10 @@ export function mapReducer(state: MapState = initialState, action: MapActions) {
                 zoom: action.zoom,
                 rotation: action.rotation,
                 extent: action.extent };
+        case MapActionTypes.MAP_CLICKED:
+            return { ...state,
+                selectedDataItem: action.dataItem,
+                clickPos: action.clickPos };
         default:
             return state;
     }
