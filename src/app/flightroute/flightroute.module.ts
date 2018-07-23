@@ -6,7 +6,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {SharedModule} from '../shared/shared.module';
 import {FlightrouteService} from './services/flightroute/flightroute.service';
 import {EditWaypointContainerComponent} from './components/edit-waypoint-container/edit-waypoint-container.component';
-import {EditWaypointFormComponent} from './components/edit-waypoint-form/edit-waypoint-form.component';
+import {EditWaypointDialogComponent} from './components/edit-waypoint-dialog/edit-waypoint-dialog.component';
 import {FlightrouteContainerComponent} from './components/flightroute-container/flightroute-container.component';
 import {FlightrouteFormComponent} from './components/flightroute-form/flightroute-form.component';
 import {FuelCalculationComponent} from './components/fuel-calculation/fuel-calculation.component';
@@ -22,7 +22,14 @@ import {MapOverlayWaypointComponent} from './components/map-overlay-waypoint/map
 import {flightrouteReducer} from './flightroute.reducer';
 import {FlightrouteEffects} from './flightroute.effects';
 import {MapOverlayButtonAddToRouteComponent} from './components/map-overlay-button-add-to-route/map-overlay-button-add-to-route.component';
-import {MatFormFieldModule, MatIconModule, MatSelectModule, MatTableModule, MatTooltipModule} from '@angular/material';
+import {
+    MatButtonToggleModule, MatDialogModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatSelectModule,
+    MatTableModule,
+    MatTooltipModule
+} from '@angular/material';
 import {MatInputModule} from '@angular/material/input';
 
 
@@ -40,10 +47,12 @@ import {MatInputModule} from '@angular/material/input';
         MatIconModule,
         MatTooltipModule,
         MatTableModule,
+        MatButtonToggleModule,
+        MatDialogModule,
     ],
     declarations: [
         EditWaypointContainerComponent,
-        EditWaypointFormComponent,
+        EditWaypointDialogComponent,
         FlightrouteContainerComponent,
         FlightrouteExportButtonsComponent,
         FlightrouteFormComponent,
@@ -70,6 +79,9 @@ import {MatInputModule} from '@angular/material/input';
     ],
     providers: [
         FlightrouteService
-    ]
+    ],
+    entryComponents: [
+        EditWaypointDialogComponent
+    ],
 })
 export class FlightrouteModule {}

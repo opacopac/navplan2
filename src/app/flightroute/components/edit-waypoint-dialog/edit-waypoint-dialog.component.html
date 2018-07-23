@@ -1,0 +1,88 @@
+<h3>Edit Waypoint</h3>
+<form [formGroup]="editWpForm">
+    <div class="modal-body">
+        <mat-form-field class="flex-row">
+            <input matInput
+                   type="text"
+                   formControlName="checkpoint"
+                   placeholder="Checkpoint"
+                   maxlength="30"
+            />
+        </mat-form-field>
+        <mat-form-field class="flex-row">
+            <input matInput
+                   type="text"
+                   formControlName="freq"
+                   placeholder="Frequency"
+                   maxlength="7"
+            />
+        </mat-form-field>
+        <mat-form-field class="flex-row">
+            <input matInput
+                   type="text"
+                   formControlName="callsign"
+                   placeholder="Callsign"
+                   maxlength="10"/>
+        </mat-form-field>
+        <div class="flex-row">
+            <mat-form-field>
+                <input matInput
+                       #alt
+                       type="text"
+                       formControlName="alt"
+                       placeholder="Altitude"
+                       maxlength="5"
+                       min="0"
+                       max="99999"
+                />
+                <mat-error *ngIf="alt.invalid">Value must be a positive number!</mat-error>
+            </mat-form-field>
+            <mat-button-toggle-group [multiple]="true" formControlName="isminalt">
+                <mat-button-toggle value="min">min</mat-button-toggle>
+                <mat-button-toggle value="max">max</mat-button-toggle>
+            </mat-button-toggle-group>
+            @
+            <mat-button-toggle-group formControlName="isaltatlegstart">
+                <mat-button-toggle value="true">leg start</mat-button-toggle>
+                <mat-button-toggle value="false">leg end</mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+        <mat-form-field class="flex-row">
+            <input matInput
+                   type="text"
+                   formControlName="remark"
+                   placeholder="Remarks"
+                   maxlength="50"
+            />
+        </mat-form-field>
+        <div class="flex-row">
+            <mat-form-field>
+                <input matInput
+                       type="text"
+                       formControlName="supp_info"
+                       placeholder="Supplemental Info (separate line)"
+                       maxlength="255"/>
+            </mat-form-field>
+            <button mat-icon-button
+                    (click)="this.onDeleteSuppInfoClicked()"
+                    title="delete supplemental info">
+                <i class="fas fa-eraser"></i>
+            </button>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button mat-raised-button
+                color="primary"
+                type="submit"
+                (click)="this.onSaveClicked()"
+                [disabled]="this.editWpForm.invalid">
+            Save
+        </button>
+        <button mat-raised-button
+                color="accent"
+                type="button"
+                (click)="this.onCancelClicked()">
+            Cancel
+        </button>
+    </div>
+</form>

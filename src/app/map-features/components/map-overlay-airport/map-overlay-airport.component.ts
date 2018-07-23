@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Airport, AirportChart, AirportRunway, AirportType} from '../../model/airport';
 import {Position2d} from '../../../shared/model/geometry/position2d';
@@ -164,7 +163,6 @@ export class MapOverlayAirportComponent extends MapOverlayContainer implements O
     }
 
 
-    private activateTab(tabName: string = '#airport-info-tab') {
-        // setTimeout(function() { $(tabName).click(); }, 10); // asynchronous because component is not in DOM yet due to ngif
+    private activateTab(tabName: string = 'TODO') {
     }
 }

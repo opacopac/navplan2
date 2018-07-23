@@ -6,6 +6,10 @@
     padding-bottom: 0;
 }
 
+table.mat-table {
+    width: 100%;
+}
+
 /deep/ .mat-tab-label {
     min-width: 0!important;
 }
