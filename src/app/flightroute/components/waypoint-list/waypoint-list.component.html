@@ -1,6 +1,7 @@
 <div class="table-responsive" *ngIf="this.flightroute">
     <h3>Waypoints</h3>
     <table mat-table
+           *ngIf="this.flightroute && this.flightroute.waypoints.length > 0"
            multiTemplateDataRows
            class="waypoints-table mat-elevation-z6"
            [dataSource]="this.flightroute.waypoints">
@@ -84,6 +85,11 @@
         <tr mat-row *matRowDef="let wp; columns: ['supp_info']" [hidden]="!wp.supp_info"></tr>
     </table>
 
+    <div *ngIf="!this.flightroute || this.flightroute.waypoints.length === 0">
+        <i>Empty route, add waypoints on the map.</i>
+    </div>
+
+
 <!--
     <br>
     <br>
@@ -156,7 +162,8 @@
         </tr>
     </table>-->
     <!-- reverse waypoints button -->
-    <div class="form-group float-right">
+    <div class="form-group float-right"
+         *ngIf="this.flightroute && this.flightroute.waypoints.length > 0">
         <button
                 mat-raised-button
                 type="button"

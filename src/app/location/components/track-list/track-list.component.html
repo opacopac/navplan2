@@ -1,0 +1,118 @@
+<table mat-table
+       *ngIf="this.trackList && this.trackList.length > 0"
+       class="mat-elevation-z6"
+       [dataSource]="this.trackList">
+
+    <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Recorded</th>
+        <td mat-cell *matCellDef="let track">
+            {{ getDateString(track.saveTime) }}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Track</th>
+        <td mat-cell *matCellDef="let track">
+            {{ track.name }}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let track">
+            saved
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="kml">
+        <th mat-header-cell *matHeaderCellDef>KML</th>
+        <td mat-cell *matCellDef="let track">
+            <button mat-icon-button
+                    title="Export KML for Google Earth"
+                    (click)="this.onKmlClicked.emit(track)">
+                <i class="fas fa-globe"></i>
+            </button>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let track">
+            <button mat-icon-button
+                    title="Edit Track"
+                    (click)="this.onEditTrackClicked.emit(track)">
+                <i class="fas fa-edit"></i>
+            </button>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let track">
+            <button mat-icon-button
+                    title="Delete Track"
+                    (click)="this.onRemoveTrackClicked.emit(track)">
+                <i class="fas fa-trash"></i>
+            </button>
+        </td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="this.getDisplayColumns()"></tr>
+    <tr mat-row *matRowDef="let track; columns: this.getDisplayColumns()"></tr>
+
+    <!--<thead>
+    <tr>
+        <th>Recorded</th>
+        <th>Track</th>
+        <th>Status</th>
+        <th>KML</th>
+        <th>&nbsp;</th>
+    </tr>
+    </thead>
+    <tbody>-->
+    <!-- last recorded track -->
+    <!--<tr ng-show="lasttrack" ng-class="{ success: globalData.track.islasttrack }"  ng-click="onLastTrackSelected();">
+        <td>{{ getDateString(lasttrack.timestamp) }}</td>
+        <td>{{ lasttrack.name }}</td>
+        <td><i>unsaved</i></td>
+        <td>
+            <button type="button" class="btn btn-primary btn-circle" ng-click="$event.preventDefault(); $event.stopPropagation(); onKmlClicked(lasttrack);" title="export kml for google earth"><i class="glyphicon glyphicon-globe"></i></button>
+        </td>
+        <td>
+            <button type="button" class="btn btn-success btn-circle" ng-disable="isLoggedIn()" ng-click="$event.stopPropagation(); onSaveLasttrackClicked();" title="save track"><i class="glyphicon glyphicon-save"></i></button>
+            <button type="button" class="btn btn-danger btn-circle" ng-click="$event.stopPropagation(); onRemoveLasttrackClicked();" title="delete track"><i class="glyphicon glyphicon-remove"></i></button>
+        </td>
+    </tr>-->
+    <!-- saved tracks -->
+    <!--<tr *ngFor="let track of this.trackList" ng-class="{ success: track.id == globalData.track.id }"
+        (click)="this.onTrackSelected.emit(track)" title="select to show on map" style="cursor: pointer">
+        <td>{{ getDateString(track.saveTime) }}</td>
+        <td>{{ track.name }}</td>
+        <td><i>saved</i></td>
+        <td>
+            <button appIconButton
+                    title="Export KML for Google Earth"
+                    [iconClass]="'fas fa-globe'"
+                    (click)="this.onKmlClicked.emit(track)"></button>
+        </td>
+        <td>
+            <button appIconButton
+                    title="Edit Track"
+                    [iconClass]="'fas fa-edit'"
+                    (click)="this.onEditTrackClicked.emit(track)"></button>
+            <button appIconButton
+                    title="Delete Track"
+                    [iconClass]="'fas fa-trash'"
+                    (click)="this.onRemoveTrackClicked.emit(track)"></button>
+        </td>
+    </tr>-->
+    <!-- empty list -->
+    <!--<tr *ngIf="this.trackList.length == 0 && !this.lastTrack">
+        <td colspan="5"><i>No tracks.</i></td>
+    </tr>
+    </tbody>-->
+</table>
+<div *ngIf="!this.trackList || this.trackList.length == 0">
+    <i>No recorded tracks</i>
+</div>

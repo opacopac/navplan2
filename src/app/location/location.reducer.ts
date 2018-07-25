@@ -8,7 +8,9 @@ const initialState: LocationState = {
     isWatching: false,
     lastPositions: [],
     startTime: undefined,
-    interimTime: undefined
+    interimTime: undefined,
+    trackList: [],
+    showTrack: undefined,
 };
 
 
@@ -52,6 +54,22 @@ export function locationReducer(state: LocationState = initialState, action: Loc
             } else {
                 return state;
             }
+
+        case LocationActionTypes.LOCATION_READ_TRACK_LIST_SUCCESS:
+            return { ...state,
+                trackList: action.trackList };
+
+        case LocationActionTypes.LOCATION_READ_TRACK_LIST_ERROR:
+            return { ...state,
+                trackList: [] };
+
+        case LocationActionTypes.LOCATION_READ_TRACK_SUCCESS:
+            return { ...state,
+                showTrack: action.track };
+
+        case LocationActionTypes.LOCATION_READ_TRACK_ERROR:
+            return { ...state,
+                showTrack: undefined };
 
         default:
             return state;

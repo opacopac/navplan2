@@ -1,10 +1,12 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
 import {environment} from '../../../../environments/environment';
 import {LoggingService} from '../../../shared/services/logging/logging.service';
+import {RestMapperTrack, SingleTrackResponse, TrackListResponse} from '../../model/rest-mapper-track';
 import {Track} from '../../model/track';
-import {RestMapperTrack, TrackListResponse} from '../../model/rest-mapper-track';
 import {User} from '../../../user/model/user';
+import {catchError, map} from 'rxjs/operators';
 
 const userTrackBaseUrl =  environment.restApiBaseUrl + 'php/userTrack.php';
 
@@ -15,31 +17,32 @@ export class TrackService {
     }
 
 
-    readUserTrackList(
-        user: User,
-        successCallback: (trackList: Track[]) => void,
-        errorCallback: (message: string) => void) {
+    readUserTrackList(user: User): Observable<Track[]> {
 
         const url: string = userTrackBaseUrl + '?email=' + user.email + '&token=' + user.token;
-        let message: string;
-        this.http
+        return this.http
             .jsonp<TrackListResponse>(url, 'callback')
-            .subscribe(
-                response => {
-                    const trackList = RestMapperTrack.getTrackListFromResponse(response);
-                    successCallback(trackList);
-                },
-                err => {
-                    message = 'ERROR reading tracks!';
-                    LoggingService.logResponseError(message, err);
-                    errorCallback(message);
-                }
+            .pipe(
+                map(response => RestMapperTrack.getTrackListFromResponse(response)),
+                catchError((err, subject) => {
+                    LoggingService.logResponseError('ERROR reading tracks', err);
+                    return subject;
+                })
             );
     }
 
 
-    readUserTrack(trackid) {
-        // return $http.get(userTrackBaseUrlGet + '&id=' + encodeURI(trackid));
+    readUserTrack(trackid, user: User): Observable<Track> {
+        const url: string = userTrackBaseUrl + '?email=' + user.email + '&token=' + user.token + '&id=' + encodeURI(trackid);
+        return this.http
+            .jsonp<SingleTrackResponse>(url, 'callback')
+            .pipe(
+                map(response => RestMapperTrack.getTrackFromResponse(response)),
+                catchError((err, subject) => {
+                    LoggingService.logResponseError('ERROR reading track', err);
+                    return subject;
+                })
+            );
     }
 
 

@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FlighttimerComponent} from './components/flighttimer/flighttimer.component';
 import {LocationButtonComponent} from './components/location-button/location-button.component';
-import {TracksComponent} from './components/tracks/tracks.component';
+import {TrackListComponent} from './components/track-list/track-list.component';
 import {LocationService} from './services/location/location.service';
 import {TrackService} from './services/track/track.service';
 import {SharedModule} from '../shared/shared.module';
@@ -12,7 +12,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {LocationEffects} from './location.effects';
 import {LocationActions} from './location.actions';
 import {LocationState} from './model/location-state';
-import {MatTooltipModule} from '@angular/material';
+import {MatButtonModule, MatTableModule, MatTooltipModule} from '@angular/material';
 
 
 @NgModule({
@@ -22,16 +22,18 @@ import {MatTooltipModule} from '@angular/material';
         StoreModule.forFeature<LocationState, LocationActions>('locationState', locationReducer),
         EffectsModule.forFeature([LocationEffects]),
         MatTooltipModule,
+        MatTableModule,
+        MatButtonModule,
     ],
     declarations: [
         FlighttimerComponent,
         LocationButtonComponent,
-        TracksComponent
+        TrackListComponent
     ],
     exports: [
         FlighttimerComponent,
         LocationButtonComponent,
-        TracksComponent
+        TrackListComponent
     ],
     providers: [
         LocationService,

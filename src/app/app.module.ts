@@ -29,6 +29,7 @@ import {MapOlComponentsContainerComponent} from './core/components/map-ol-compon
 import {MapOverlayContainerComponent} from './core/components/map-overlay-container/map-overlay-container.component';
 import {MapPageComponent} from './core/components/map-page/map-page.component';
 import {NavbarOldComponent} from './core/components/navbar-old/navbar-old.component';
+import { TracksPageComponent } from './core/components/tracks-page/tracks-page.component';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import {NavbarOldComponent} from './core/components/navbar-old/navbar-old.compon
         MapPageComponent,
         MapOlComponentsContainerComponent,
         MapOverlayContainerComponent,
+        TracksPageComponent,
     ],
     imports: [
         BrowserModule,
