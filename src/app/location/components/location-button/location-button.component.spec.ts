@@ -5,7 +5,7 @@ import {ButtonSize} from '../../../shared/directives/button-base/button-base.dir
 import {ButtonStatus} from '../../../shared/directives/status-button/status-button.directive';
 import {MessageService} from '../../../shared/services/message/message.service';
 import {MapService} from '../../../map/services/map.service';
-import {LocationService} from '../../services/location/location.service';
+import {LocationService} from '../../services/location.service';
 import {TimerService} from '../../../shared/services/timer/timer.service';
 
 

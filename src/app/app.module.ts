@@ -29,7 +29,8 @@ import {MapOlComponentsContainerComponent} from './core/components/map-ol-compon
 import {MapOverlayContainerComponent} from './core/components/map-overlay-container/map-overlay-container.component';
 import {MapPageComponent} from './core/components/map-page/map-page.component';
 import {NavbarOldComponent} from './core/components/navbar-old/navbar-old.component';
-import { TracksPageComponent } from './core/components/tracks-page/tracks-page.component';
+import {TracksPageComponent} from './core/components/tracks-page/tracks-page.component';
+import {TrackModule} from './track/track.module';
 
 
 @NgModule({
@@ -65,6 +66,7 @@ import { TracksPageComponent } from './core/components/tracks-page/tracks-page.c
         FlightrouteModule,
         MapModule,
         LocationModule,
+        TrackModule,
         TrafficModule,
         NotamModule,
         MapFeaturesModule,

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {LocationServiceStatus} from '../../services/location/location.service';
+import {LocationServiceStatus} from '../../services/location.service';
 import {Store} from '@ngrx/store';
 import {ToggleWatchLocationAction} from '../../location.actions';
 import {getLocationIsWatching, getLocationStatus} from '../../location.selectors';

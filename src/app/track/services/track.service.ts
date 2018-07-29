@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {environment} from '../../../../environments/environment';
-import {LoggingService} from '../../../shared/services/logging/logging.service';
-import {RestMapperTrack, SingleTrackResponse, TrackListResponse} from '../../model/rest-mapper-track';
-import {Track} from '../../model/track';
-import {User} from '../../../user/model/user';
+import {environment} from '../../../environments/environment';
+import {LoggingService} from '../../shared/services/logging/logging.service';
+import {RestMapperTrack, SingleTrackResponse, TrackListResponse} from '../model/rest-mapper-track';
+import {Track} from '../model/track';
+import {User} from '../../user/model/user';
 import {catchError, map} from 'rxjs/operators';
 
 const userTrackBaseUrl =  environment.restApiBaseUrl + 'php/userTrack.php';

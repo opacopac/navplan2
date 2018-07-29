@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TimerService} from '../../../shared/services/timer/timer.service';
-import {getLocationIsWatching} from '../../location.selectors';
+import {getLocationIsWatching} from '../../../location/location.selectors';
 import {Store} from '@ngrx/store';
 import {DatetimeService} from '../../../shared/services/datetime/datetime.service';
 

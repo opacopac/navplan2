@@ -1,6 +1,6 @@
 import {LocationState} from './model/location-state';
 import {LocationActions, LocationActionTypes} from './location.actions';
-import {LocationServiceStatus} from './services/location/location.service';
+import {LocationServiceStatus} from './services/location.service';
 
 
 const initialState: LocationState = {
@@ -9,8 +9,6 @@ const initialState: LocationState = {
     lastPositions: [],
     startTime: undefined,
     interimTime: undefined,
-    trackList: [],
-    showTrack: undefined,
 };
 
 
@@ -54,22 +52,6 @@ export function locationReducer(state: LocationState = initialState, action: Loc
             } else {
                 return state;
             }
-
-        case LocationActionTypes.LOCATION_READ_TRACK_LIST_SUCCESS:
-            return { ...state,
-                trackList: action.trackList };
-
-        case LocationActionTypes.LOCATION_READ_TRACK_LIST_ERROR:
-            return { ...state,
-                trackList: [] };
-
-        case LocationActionTypes.LOCATION_READ_TRACK_SUCCESS:
-            return { ...state,
-                showTrack: action.track };
-
-        case LocationActionTypes.LOCATION_READ_TRACK_ERROR:
-            return { ...state,
-                showTrack: undefined };
 
         default:
             return state;
