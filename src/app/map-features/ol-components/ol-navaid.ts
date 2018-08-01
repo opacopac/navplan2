@@ -37,17 +37,20 @@ export class OlNavaid extends OlComponent {
                 break;
             case 'VOR-DME':
             case 'DVOR-DME':
-                src += 'navaid_vor-dme.png';
-                textOffsetY = 20;
+                // src += 'navaid_vor-dme.png';
+                src += 'navaid_vor-dme2.svg';
+                textOffsetY = 22;
                 break;
             case 'VOR':
             case 'DVOR':
-                src += 'navaid_vor.png';
-                textOffsetY = 20;
+                // src += 'navaid_vor.png';
+                src += 'navaid_vor2.svg';
+                textOffsetY = 22;
                 break;
             case 'DME':
-                src += 'navaid_dme.png';
-                textOffsetY = 20;
+                // src += 'navaid_dme.png';
+                src += 'navaid_dme2.svg';
+                textOffsetY = 22;
                 break;
             case 'TACAN':
                 src += 'navaid_tacan.png';
@@ -68,15 +71,14 @@ export class OlNavaid extends OlComponent {
                 anchor: [0.5, 0.5],
                 anchorXUnits: 'fraction',
                 anchorYUnits: 'fraction',
-                scale: 1,
-                opacity: 0.75,
+                opacity: 0.9,
                 src: src
             })),
             text: new ol.style.Text({
                 // textAlign: align,
                 // textBaseline: baseline,
                 font: 'bold 14px Calibri,sans-serif',
-                text: name,
+                text: navaid.kuerzel,
                 fill: new ol.style.Fill({color: '#451A57'}),
                 stroke: new ol.style.Stroke({color: '#FFFFFF', width: 2}),
                 offsetX: 0,

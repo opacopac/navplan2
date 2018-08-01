@@ -1,6 +1,7 @@
 <div #container class="ol-popup">
     <mat-card *ngIf="this.navaid">
         <mat-card-header>
+            <img mat-card-avatar src="{{ this.getAvatarUrl() }}" />
             <mat-card-title>
                 {{ this.navaid.name }} ({{ this.navaid.kuerzel }})
             </mat-card-title>
