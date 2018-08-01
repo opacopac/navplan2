@@ -3,12 +3,12 @@ import {Position2d} from './position2d';
 import {Clonable} from '../clonable';
 
 export class Position3d extends Position2d implements Clonable<Position3d> {
-    public altitude: Altitude;
+    public constructor(
+        longitude: number,
+        latitude: number,
+        public altitude: Altitude) {
 
-
-    public constructor(lon: number, lat: number, altitude: Altitude) {
-        super(lon, lat);
-        this.altitude = altitude;
+        super(longitude, latitude);
     }
 
 

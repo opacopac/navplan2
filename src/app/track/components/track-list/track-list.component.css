@@ -1,0 +1,11 @@
+.track-list {
+    width: 100%;
+}
+
+.selected-row {
+    background-color: #41669c;
+}
+
+.selected-row > .mat-cell {
+    color: white;
+}

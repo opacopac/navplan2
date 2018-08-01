@@ -2,8 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {Track} from '../../../track/model/track';
-import {getTrackList} from '../../../track/track.selectors';
-import {ReadTrackListAction} from '../../../track/track.actions';
+import {getShowTrack, getTrackList} from '../../../track/track.selectors';
+import {
+    DeleteTrackAction,
+    EditTrackAction,
+    ExportTrackKmlAction,
+    ReadTrackAction,
+    ReadTrackListAction
+} from '../../../track/track.actions';
 
 
 @Component({
@@ -13,10 +19,12 @@ import {ReadTrackListAction} from '../../../track/track.actions';
 })
 export class TracksPageComponent implements OnInit {
     public readonly trackList$: Observable<Track[]>;
+    public readonly selectedTrack$: Observable<Track>;
 
 
     constructor(private appStore: Store<any>) {
         this.trackList$ = this.appStore.select(getTrackList);
+        this.selectedTrack$ = this.appStore.select(getShowTrack);
     }
 
 
@@ -24,5 +32,37 @@ export class TracksPageComponent implements OnInit {
         this.appStore.dispatch(
             new ReadTrackListAction()
         );
+    }
+
+
+    public onTrackSelected(track: Track) {
+        if (track.id) {
+            this.appStore.dispatch(
+                new ReadTrackAction(track.id)
+            );
+        }
+    }
+
+
+    public onKmlClicked(track: Track) {
+        this.appStore.dispatch(
+            new ExportTrackKmlAction(track)
+        );
+    }
+
+
+    public onEditTrackClicket(track: Track) {
+        this.appStore.dispatch(
+            new EditTrackAction(track)
+        );
+    }
+
+
+    public onRemoveTrackClicked(track: Track) {
+        if (track.id) {
+            this.appStore.dispatch(
+                new DeleteTrackAction(track.id)
+            );
+        }
     }
 }

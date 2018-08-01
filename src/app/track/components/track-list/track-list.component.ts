@@ -11,6 +11,7 @@ import {Timestamp} from '../../../shared/model/quantities/timestamp';
 })
 export class TrackListComponent implements OnInit {
     @Input() public trackList: Track[];
+    @Input() public selectedTrack: Track;
     @Output() public onTrackSelected = new EventEmitter<Track>();
     @Output() public onEditTrackClicked = new EventEmitter<Track>();
     @Output() public onRemoveTrackClicked = new EventEmitter<Track>();

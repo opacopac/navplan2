@@ -8,6 +8,7 @@ import {OlRouteLine} from './ol-route-line';
 import {OlWaypoint2} from './ol-waypoint2';
 import {OlAlternateLine} from './ol-alternate-line';
 import {Waypoint} from '../model/waypoint';
+import {OlDummy} from '../../track/ol-components/ol-dummy';
 
 
 export class OlFlightrouteContainer extends OlComponent {
@@ -17,6 +18,7 @@ export class OlFlightrouteContainer extends OlComponent {
     private olAlternate: OlWaypoint2;
     private olRouteLine: OlRouteLine;
     private olAlternateLine: OlAlternateLine;
+    private olDummy: OlDummy;
 
 
     constructor(mapContext: MapContext) {

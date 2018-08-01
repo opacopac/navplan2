@@ -2,7 +2,12 @@
     <h2>Recorded Tracks</h2>
     <div class="table-responsive">
         <app-track-list
-            [trackList]="this.trackList$ | async">
+            [trackList]="this.trackList$ | async"
+            [selectedTrack]="this.selectedTrack$ | async"
+            (onTrackSelected)="this.onTrackSelected($event)"
+            (onKmlClicked)="this.onKmlClicked($event)"
+            (onEditTrackClicked)="this.onEditTrackClicket($event)"
+            (onRemoveTrackClicked)="this.onRemoveTrackClicked($event)">
         </app-track-list>
     </div>
 </div>

@@ -45,6 +45,7 @@ export class MapOverlayTrafficComponent extends MapOverlayContainer implements O
 
     public bindFeatureData(traffic: Traffic, clickPos: Position2d) {
         this.traffic = traffic;
+        this.olOverlay.setPosition(traffic && traffic.hasPositions() ? traffic.getCurrentPosition().position.getMercator() : undefined);
     }
 
 

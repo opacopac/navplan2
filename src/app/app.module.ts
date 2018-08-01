@@ -31,6 +31,7 @@ import {MapPageComponent} from './core/components/map-page/map-page.component';
 import {NavbarOldComponent} from './core/components/navbar-old/navbar-old.component';
 import {TracksPageComponent} from './core/components/tracks-page/tracks-page.component';
 import {TrackModule} from './track/track.module';
+import {FlightTimerModule} from './flight-timer/flight-timer.module';
 
 
 @NgModule({
@@ -66,6 +67,7 @@ import {TrackModule} from './track/track.module';
         FlightrouteModule,
         MapModule,
         LocationModule,
+        FlightTimerModule,
         TrackModule,
         TrafficModule,
         NotamModule,

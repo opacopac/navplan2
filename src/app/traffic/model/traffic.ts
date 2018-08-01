@@ -83,8 +83,13 @@ export class Traffic extends DataItem implements Clonable<Traffic> {
     }
 
 
+    public hasPositions(): boolean {
+        return (this.positions && this.positions.length > 0);
+    }
+
+
     public getCurrentPosition(): TrafficPosition {
-        if (!this.positions || this.positions.length === 0) {
+        if (!this.hasPositions()) {
             return undefined;
         }
 

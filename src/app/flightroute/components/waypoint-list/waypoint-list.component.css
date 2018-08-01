@@ -1,3 +1,7 @@
 .waypoints-table {
     width: 100%;
 }
+
+.reverse-button {
+    float: right;
+}

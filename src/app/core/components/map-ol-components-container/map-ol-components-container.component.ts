@@ -6,6 +6,7 @@ import {OlTrafficContainer} from '../../../traffic/ol-components/ol-traffic-cont
 import {OlMapFeaturesContainer} from '../../../map-features/ol-components/ol-map-features-container';
 import {OlNotamContainer} from '../../../notam/ol-component/ol-notam-container';
 import {MapContext} from '../../../map/model/map-context';
+import {OlTrackContainer} from '../../../track/ol-components/ol-track-container';
 
 
 @Component({
@@ -16,6 +17,7 @@ import {MapContext} from '../../../map/model/map-context';
 export class MapOlComponentsContainerComponent implements OnInit, OnDestroy {
     private olMapFeatures: OlMapFeaturesContainer;
     private olFlightroute: OlFlightrouteContainer;
+    private olTrack: OlTrackContainer;
     private olNotams: OlNotamContainer;
     private olMetars: OlMetarContainer;
     private olTraffic: OlTrafficContainer;
@@ -34,6 +36,7 @@ export class MapOlComponentsContainerComponent implements OnInit, OnDestroy {
         this.olMapFeatures.destroy();
         this.olMetars.destroy();
         this.olNotams.destroy();
+        this.olTrack.destroy();
         this.olFlightroute.destroy();
         // TODO: destroy search result layer
         this.olTraffic.destroy();
@@ -50,6 +53,7 @@ export class MapOlComponentsContainerComponent implements OnInit, OnDestroy {
         this.olMapFeatures = new OlMapFeaturesContainer(mapContext);
         this.olMetars = new OlMetarContainer(mapContext);
         this.olNotams = new OlNotamContainer(mapContext);
+        this.olTrack = new OlTrackContainer(mapContext);
         this.olFlightroute = new OlFlightrouteContainer(mapContext);
         // TODO: search results
         this.olTraffic = new OlTrafficContainer(mapContext);

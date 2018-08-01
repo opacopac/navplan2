@@ -1,25 +1,34 @@
 <table mat-table
        *ngIf="this.trackList && this.trackList.length > 0"
-       class="mat-elevation-z6"
+       class="track-list mat-elevation-z6"
        [dataSource]="this.trackList">
 
     <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef>Recorded</th>
-        <td mat-cell *matCellDef="let track">
+        <td mat-cell
+            *matCellDef="let track"
+            class="clickable"
+            (click)="this.onTrackSelected.emit(track)">
             {{ getDateString(track.saveTime) }}
         </td>
     </ng-container>
 
     <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef>Track</th>
-        <td mat-cell *matCellDef="let track">
+        <td mat-cell
+            *matCellDef="let track"
+            class="clickable"
+            (click)="this.onTrackSelected.emit(track)">
             {{ track.name }}
         </td>
     </ng-container>
 
     <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef>Status</th>
-        <td mat-cell *matCellDef="let track">
+        <td mat-cell
+            *matCellDef="let track"
+            class="clickable"
+            (click)="this.onTrackSelected.emit(track)">
             saved
         </td>
     </ng-container>
@@ -58,8 +67,11 @@
     </ng-container>
 
 
-    <tr mat-header-row *matHeaderRowDef="this.getDisplayColumns()"></tr>
-    <tr mat-row *matRowDef="let track; columns: this.getDisplayColumns()"></tr>
+    <tr mat-header-row
+        *matHeaderRowDef="this.getDisplayColumns()"></tr>
+    <tr mat-row
+        class="{{ this.selectedTrack?.id === track?.id ? 'selected-row' : '' }}"
+        *matRowDef="let track; columns: this.getDisplayColumns()"></tr>
 
     <!--<thead>
     <tr>

@@ -51,14 +51,14 @@ export class UnitconversionService {
                 }
             case LengthUnit.FT:
                 switch (convertToUnit) {
-                    case LengthUnit.FT: return value / FT_PER_NM;
+                    case LengthUnit.NM: return value / FT_PER_NM;
                     case LengthUnit.M: return value / FT_PER_M;
                     default: return undefined;
                 }
             case LengthUnit.M:
                 switch (convertToUnit) {
-                    case LengthUnit.FT: return value / M_PER_NM;
-                    case LengthUnit.M: return value * FT_PER_M;
+                    case LengthUnit.NM: return value / M_PER_NM;
+                    case LengthUnit.FT: return value * FT_PER_M;
                     default: return undefined;
                 }
             default: return undefined;

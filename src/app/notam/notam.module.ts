@@ -11,6 +11,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {NotamEffects} from './notam.effects';
 import {NotamState} from './model/notam-state';
 import {NotamActions} from './notam.actions';
+import {MatCardModule} from '@angular/material';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import {NotamActions} from './notam.actions';
         CommonModule,
         SharedModule,
         StoreModule.forFeature<NotamState, NotamActions>('notamState', notamReducer),
-        EffectsModule.forFeature([NotamEffects])
+        EffectsModule.forFeature([NotamEffects]),
+        MatCardModule,
     ],
     declarations: [
         MapOverlayButtonNotamComponent,

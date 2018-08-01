@@ -1,5 +1,5 @@
 <div class="table-responsive" *ngIf="this.flightroute">
-    <h3>Waypoints</h3>
+    <!--<h3>Waypoints</h3>-->
     <table mat-table
            *ngIf="this.flightroute && this.flightroute.waypoints.length > 0"
            multiTemplateDataRows
@@ -162,8 +162,8 @@
         </tr>
     </table>-->
     <!-- reverse waypoints button -->
-    <div class="form-group float-right"
-         *ngIf="this.flightroute && this.flightroute.waypoints.length > 0">
+    <div class="reverse-button"
+         *ngIf="this.flightroute && this.flightroute.waypoints.length > 1">
         <button
                 mat-raised-button
                 type="button"

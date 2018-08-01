@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FlighttimerComponent} from '../flight-timer/components/flighttimer/flighttimer.component';
 import {LocationButtonComponent} from './components/location-button/location-button.component';
 import {LocationService} from './services/location.service';
 import {SharedModule} from '../shared/shared.module';
@@ -23,11 +22,9 @@ import {MatButtonModule, MatTooltipModule} from '@angular/material';
         MatButtonModule,
     ],
     declarations: [
-        FlighttimerComponent,
         LocationButtonComponent,
     ],
     exports: [
-        FlighttimerComponent,
         LocationButtonComponent,
     ],
     providers: [

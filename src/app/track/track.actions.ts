@@ -9,6 +9,9 @@ export enum TrackActionTypes {
     TRACK_READ = '[Tracks Page] read track',
     TRACK_READ_SUCCESS = '[Tracks Service] read track success',
     TRACK_READ_ERROR = '[Tracks Service] read track error',
+    TRACK_EXPORT_KML = '[Tracks Page] export track KML',
+    TRACK_EDIT = '[Tracks Page] edit track',
+    TRACK_DELETE = '[Tracks Page] delete track',
 }
 
 
@@ -54,10 +57,34 @@ export class ReadTrackErrorAction implements Action {
 }
 
 
+export class ExportTrackKmlAction implements Action {
+    readonly type = TrackActionTypes.TRACK_EXPORT_KML;
+
+    constructor(public track: Track) {}
+}
+
+
+export class EditTrackAction implements Action {
+    readonly type = TrackActionTypes.TRACK_EDIT;
+
+    constructor(public track: Track) {}
+}
+
+
+export class DeleteTrackAction implements Action {
+    readonly type = TrackActionTypes.TRACK_DELETE;
+
+    constructor(public id: number) {}
+}
+
+
 export type TrackActions =
     ReadTrackListAction |
     ReadTrackListSuccessAction |
     ReadTrackListErrorAction |
     ReadTrackAction |
     ReadTrackSuccessAction |
-    ReadTrackErrorAction;
+    ReadTrackErrorAction |
+    ExportTrackKmlAction |
+    EditTrackAction |
+    DeleteTrackAction;

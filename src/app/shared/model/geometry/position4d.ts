@@ -5,12 +5,13 @@ import {Clonable} from '../clonable';
 
 
 export class Position4d extends Position3d implements Clonable<Position4d> {
-    public timestamp: Timestamp;
+    public constructor(
+        longitude: number,
+        latitude: number,
+        altitude: Altitude,
+        public timestamp: Timestamp) {
 
-
-    public constructor(lon: number, lat: number, altitude: Altitude, timestamp: Timestamp) {
-        super(lon, lat, altitude);
-        this.timestamp = timestamp;
+        super(longitude, latitude, altitude);
     }
 
 

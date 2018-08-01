@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Action, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
-import {catchError, map, switchMap} from 'rxjs/operators';
+import {catchError, debounceTime, map, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs/internal/observable/of';
 import {MetarTafService} from './services/metar-taf.service';
 import {MapActionTypes, MapMovedZoomedRotatedAction} from '../map/map.actions';
@@ -23,6 +23,7 @@ export class MetarTafEffects {
         .pipe(
             ofType(MapActionTypes.MAP_MOVED_ZOOMED_ROTATED),
             map(action => action as MapMovedZoomedRotatedAction),
+            debounceTime(500),
             switchMap(action => this.metarTafService.load(action.extent, action.zoom)
                 .pipe(
                     map(metarTafList => new LoadMetarTafSuccessAction(metarTafList, action.extent, action.zoom)),

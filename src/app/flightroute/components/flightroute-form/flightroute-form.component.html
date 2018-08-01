@@ -96,7 +96,7 @@
             (onReverseWaypointsClicked)="this.onReverseWaypointsClicked.emit($event)">
     </app-waypoint-list>
     <!-- comments & fuel section -->
-    <div class="flex-row">
+    <!--<div class="flex-row">-->
         <!-- comments -->
         <mat-form-field class="route-comments">
             <textarea matInput
@@ -114,5 +114,5 @@
                 [routeFuel]="this._flightroute?.fuel"
                 (onInputExtraTime)="this.onUpdateExtraTime.emit($event)">
         </app-fuel-calculation>
-    </div>
+    <!--</div>-->
 </form>

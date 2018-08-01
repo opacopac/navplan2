@@ -1,21 +1,14 @@
 .app-container {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-content: stretch;
+    width: 100%;
+    height: 100%;
 }
 
 .app-navbar {
-    flex-basis: 54px;
+    height: 54px;
     width: 100%;
     z-index: 10;
 }
 
 .app-content {
-    flex-grow: 1;
-    flex-basis: 100%;
-    /*width: 100%;*/
-    /*height: 100%;*/
     position: relative;
 }

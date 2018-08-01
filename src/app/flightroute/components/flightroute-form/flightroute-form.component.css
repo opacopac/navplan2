@@ -1,15 +1,16 @@
 .flightroute-form {
     width: 100%;
-    min-width: 200px;
-    max-width: 800px;
 }
 
 .route-comments {
-    flex: 2;
+    /*order: 2;
+    flex: 2 2 70%;*/
+    width: 100%;
 }
 
 .route-fuel {
-    flex: 1;
+    /*order: 1;
+    flex: 1 1 30%;*/
 }
 
 /*

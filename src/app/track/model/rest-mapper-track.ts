@@ -74,8 +74,8 @@ export class RestMapperTrack {
         }
 
         return new Position4d(
-            posTuple[0],
             posTuple[1],
+            posTuple[0],
             new Altitude(posTuple[2], LengthUnit.M),
             new Timestamp(posTuple[3])
         );

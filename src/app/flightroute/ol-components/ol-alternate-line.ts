@@ -8,7 +8,7 @@ export class OlAlternateLine extends OlComponent {
 
 
     public constructor(
-        flightroute: Flightroute,
+        private readonly flightroute: Flightroute,
         private readonly source: ol.source.Vector) {
 
         super();
