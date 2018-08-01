@@ -1,3 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="0 0 640 640" width="30" height="30"><defs><path d="M80 130L560 130L560 510L80 510L80 130Z" id="afifrmElg"></path><path d="M372 321C372 349.15 349.15 372 321 372C292.85 372 270 349.15 270 321C270 292.85 292.85 270 321 270C349.15 270 372 292.85 372 321Z" id="b6IWzF0KA"></path><path d="M550 420L502 500L550 500L550 570L90 570L90 500L138 500L90 420L90 570L20 570L20 70L90 70L90 220L138 140L90 140L90 70L620 70L620 570L550 570L550 570L550 420ZM420 500L530 320L420 140L220 140L110 320L220 500L220 500L420 500ZM502 140L550 220L550 140L550 140L502 140Z" id="a4Msz8QZ0x"></path></defs><g><g><g><use xlink:href="#afifrmElg" opacity="1" fill="#ffffff" fill-opacity="1"></use></g><g><use xlink:href="#b6IWzF0KA" opacity="1" fill="#513282" fill-opacity="1"></use></g><g><use xlink:href="#a4Msz8QZ0x" opacity="1" fill="#513282" fill-opacity="1"></use></g></g></g></svg>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-300 -300 600 600" width="28" height="28">
+	<defs>
+		<path d="M-250 0 L-125 217 L125 217 L250 0 L125 -217 L-125 -217 Z" id="hexagon"></path>
+		<circle cx="0" cy="0" r="50" id="dot"></circle>
+		<rect x="-265" y="-217" width="530" height="434" id="rect"></rect>
+	</defs>
+	<g>
+		<g>
+			<g>
+				<use xlink:href="#rect" opacity="1" fill="#ffffff" />
+			</g>
+			<g>
+				<use xlink:href="#rect" opacity="1" stroke="#513282" stroke-width="60" fill="none" />
+			</g>
+			<g>
+				<use xlink:href="#hexagon" opacity="1" stroke="#513282" stroke-width="60" fill="none" />
+			</g>
+			<g>
+				<use xlink:href="#dot" opacity="1" fill="#513282" />
+			</g>
+		</g>
+	</g>
+</svg>
