@@ -1,9 +1,9 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { StringnumberService } from '../../../shared/services/stringnumber/stringnumber.service';
-import { Navaid } from '../../model/navaid';
-import { Position2d } from '../../../shared/model/geometry/position2d';
-import { MapOverlayContainer } from '../../../shared/components/map-overlay-container';
-import {environment} from '../../../../environments/environment';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {StringnumberService} from '../../../shared/services/stringnumber/stringnumber.service';
+import {Navaid} from '../../model/navaid';
+import {Position2d} from '../../../shared/model/geometry/position2d';
+import {MapOverlayContainer} from '../../../shared/components/map-overlay-container';
+import {NavaidIcon} from '../../model/navaid-icon';
 
 
 @Component({
@@ -37,27 +37,7 @@ export class MapOverlayNavaidComponent extends MapOverlayContainer implements On
 
 
     public getAvatarUrl(): string {
-        const src = environment.iconBaseUrl;
-
-        switch (this.navaid.type) {
-            case 'NDB':
-                return src + 'navaid_ndb.png';
-            case 'VOR-DME':
-            case 'DVOR-DME':
-                return src + 'navaid_vor-dme2.svg';
-            case 'VOR':
-            case 'DVOR':
-                return src + 'navaid_vor2.svg';
-            case 'DME':
-                return src + 'navaid_dme2.svg';
-            case 'TACAN':
-                return src + 'navaid_tacan.png';
-            case 'VORTAC':
-            case 'DVORTAC':
-                return src + 'navaid_vortac.png';
-            default:
-                return undefined;
-        }
+        return NavaidIcon.getUrl(this.navaid.type);
     }
 
 

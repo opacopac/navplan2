@@ -1,7 +1,7 @@
-import { Polygon } from '../../../shared/model/geometry/polygon';
-import { Position2d } from '../../../shared/model/geometry/position2d';
-import { Reportingpoint } from '../../model/reportingpoint';
-import { Reportingsector } from '../../model/reportingsector';
+import {Polygon} from '../../../shared/model/geometry/polygon';
+import {Position2d} from '../../../shared/model/geometry/position2d';
+import {Reportingpoint} from '../reportingpoint';
+import {Reportingsector} from '../reportingsector';
 
 
 export interface ReportingPointRestItem {
@@ -24,7 +24,6 @@ export class RestMapperReportingpoint {
     public static getReportingpointFromRestItem(restItem: ReportingPointRestItem): Reportingpoint {
         return new Reportingpoint(
             restItem.id,
-            restItem.type,
             restItem.airport_icao,
             restItem.name,
             restItem.heli,
@@ -39,7 +38,6 @@ export class RestMapperReportingpoint {
     public static getReportingSectorFromRestItem(restItem: ReportingPointRestItem): Reportingsector {
         return new Reportingsector(
             restItem.id,
-            restItem.type,
             restItem.airport_icao,
             restItem.name,
             restItem.heli,

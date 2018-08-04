@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-300 -300 600 600" width="28" height="28">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-285 -285 570 570" width="27" height="27">
 	<defs>
-		<path d="M-250 0 L-125 217 L125 217 L250 0 L125 -217 L-125 -217 Z" id="hexagon"></path>
-		<circle cx="0" cy="0" r="50" id="dot"></circle>
+		<polygon id="hexagon_outer" points="-285,0 -143,247 143,247, 285,0 143,-247 -143,-247, -285,0"></polygon>
+		<polygon id="hexagon_inner" points="-215,0 -108,186 108,186, 215,0 108,-186 -108,-186, -215,0"></polygon>
+		<circle id="dot" cx="0" cy="0" r="50"></circle>
 	</defs>
 	<g>
 		<g>
 			<g>
-				<use xlink:href="#hexagon" opacity="1" fill="#ffffff" />
+				<use xlink:href="#hexagon_outer" opacity="1" fill="#513282" stroke="none" />
 			</g>
 			<g>
-				<use xlink:href="#hexagon" opacity="1" stroke="#513282" stroke-width="60" fill="none" />
+				<use xlink:href="#hexagon_inner" opacity="1" fill="#ffffff" stroke="none" />
 			</g>
 			<g>
 				<use xlink:href="#dot" opacity="1" fill="#513282" />

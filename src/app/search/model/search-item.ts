@@ -17,7 +17,7 @@ export class SearchItem {
         if (this.dataItem instanceof Airport) {
             return this.dataItem.icao ? this.dataItem.name + ' (' + this.dataItem.icao + ')' : this.dataItem.name;
         } else if (this.dataItem instanceof Navaid) {
-            return this.dataItem.name + ' ' + this.dataItem.type + ' (' + this.dataItem.kuerzel + ')';
+            return this.dataItem.name + ' ' + this.dataItem.getTypeString() + ' (' + this.dataItem.kuerzel + ')';
         } else if (this.dataItem instanceof Reportingpoint) {
             return this.dataItem.name + ' (' + this.dataItem.airport_icao + ')';
         } else if (this.dataItem instanceof Reportingsector) {
@@ -36,7 +36,7 @@ export class SearchItem {
         if (this.dataItem instanceof Geoname) {
             return this.dataItem.name;
         } else if (this.dataItem instanceof Navaid) {
-            return this.dataItem.kuerzel + ' (' + this.dataItem.type + ')';
+            return this.dataItem.kuerzel + ' (' + this.dataItem.getTypeString() + ')';
         } else {
             return this.getSearchResultName();
         }

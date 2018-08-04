@@ -31,6 +31,6 @@ export class WaypointNavaid extends WaypointBase {
 
 
     public getCheckpoint(): string {
-        return this.navaid.kuerzel + ' ' + this.navaid.type;
+        return this.navaid.kuerzel + ' ' + this.navaid.getTypeString();
     }
 }

@@ -5,7 +5,6 @@ import {DataItem, DataItemType} from '../../shared/model/data-item';
 export class Reportingpoint extends DataItem {
     constructor(
         public id: number,
-        public type: string,
         public airport_icao: string,
         public name: string,
         public heli: boolean,

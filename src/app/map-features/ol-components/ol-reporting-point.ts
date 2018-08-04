@@ -1,7 +1,7 @@
 import * as ol from 'openlayers';
-import {environment} from '../../../environments/environment';
 import {Reportingpoint} from '../model/reportingpoint';
 import {OlComponent} from '../../shared/ol-component/ol-component';
+import {ReportingpointIcon} from '../model/reportingpoint-icon';
 
 
 export class OlReportingPoint extends OlComponent {
@@ -27,16 +27,7 @@ export class OlReportingPoint extends OlComponent {
 
 
     private createPointStyle(rp: Reportingpoint): ol.style.Style {
-        let src = environment.iconBaseUrl;
-
-        if ((rp.inbd_comp && rp.outbd_comp) || (rp.inbd_comp == null && rp.outbd_comp == null)) {
-            src += 'rp_comp.png';
-        } else if (rp.inbd_comp || rp.outbd_comp) {
-            src += 'rp_inbd.png';
-        } else {
-            src += 'rp.png';
-        }
-
+        const src = ReportingpointIcon.getUrl(rp);
 
         return new ol.style.Style({
             image: new ol.style.Icon(({
@@ -44,7 +35,7 @@ export class OlReportingPoint extends OlComponent {
                 anchorXUnits: 'fraction',
                 anchorYUnits: 'fraction',
                 scale: 1,
-                opacity: 0.75,
+                opacity: 0.9,
                 src: src
             })),
             text: new ol.style.Text({

@@ -6,11 +6,10 @@
                 {{ this.navaid.name }} ({{ this.navaid.kuerzel }})
             </mat-card-title>
             <mat-card-subtitle>
-                Navigational Aid
+                {{ this.navaid.getTypeString() }}
             </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-            <p>Type: {{ this.navaid.type }}</p>
             <p>{{ this.getPositionString(this.navaid.position) }}</p>
             <p>Elevation: {{ this.getElevationString(this.navaid.elevation_m) }}</p>
             <p>Frequency: {{ this.navaid.frequency }} {{ this.navaid.unit }}</p>

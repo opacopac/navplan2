@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-458 -458 916 916" width="38" height="38">
-	<defs>	
+	<defs>
 		<polygon id="hexagon_outer" points="285,0 458,-100 316,-347 143,-247 -143,-247 -316,-347 -458,-100 -285,0 -143, 247 -143,447 143,447 143, 247 285,0" />
-		<polygon id="hexagon_inner" points="-294,-265 -376,-122 -241,-44 -83,231 -83,387 83,387 83,231 241,-44 376,-122 294,-265 157,-187 -159,-187 -294,-265" />	
-		<circle id="dot" cx="0" cy="0" r="50"></circle>
+		<polygon id="hexagon_inner" points="-215,0 -108,186 108,186, 215,0 108,-186 -108,-186, -215,0"/>
+		<circle id="dot" cx="0" cy="0" r="50"/>
 	</defs>
 	<g>
 		<g>

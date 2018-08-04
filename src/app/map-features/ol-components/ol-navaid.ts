@@ -1,7 +1,7 @@
 import * as ol from 'openlayers';
-import {environment} from '../../../environments/environment';
-import {Navaid} from '../model/navaid';
+import {Navaid, NavaidType} from '../model/navaid';
 import {OlComponent} from '../../shared/ol-component/ol-component';
+import {NavaidIcon} from '../model/navaid-icon';
 
 
 export class OlNavaid extends OlComponent {
@@ -27,38 +27,30 @@ export class OlNavaid extends OlComponent {
 
 
     private createPointStyle(navaid: Navaid): ol.style.Style {
-        let src = environment.iconBaseUrl;
-        let textOffsetY;
+        const src = NavaidIcon.getUrl(navaid.type);
+        if (!src) { return undefined; }
 
+        let textOffsetY;
         switch (navaid.type) {
-            case 'NDB':
-                src += 'navaid_ndb.png';
+            case NavaidType.NDB:
                 textOffsetY = 33;
                 break;
-            case 'VOR-DME':
-            case 'DVOR-DME':
-                // src += 'navaid_vor-dme.png';
-                src += 'navaid_vor-dme2.svg';
+            case NavaidType.VOR_DME:
+            case NavaidType.DVOR_DME:
                 textOffsetY = 22;
                 break;
-            case 'VOR':
-            case 'DVOR':
-                // src += 'navaid_vor.png';
-                src += 'navaid_vor2.svg';
+            case NavaidType.VOR:
+            case NavaidType.DVOR:
                 textOffsetY = 22;
                 break;
-            case 'DME':
-                // src += 'navaid_dme.png';
-                src += 'navaid_dme2.svg';
+            case NavaidType.DME:
                 textOffsetY = 22;
                 break;
-            case 'TACAN':
-                src += 'navaid_tacan.png';
+            case NavaidType.TACAN:
                 textOffsetY = 25;
                 break;
-            case 'VORTAC':
-            case 'DVORTAC':
-                src += 'navaid_vortac.png';
+            case NavaidType.VORTAC:
+            case NavaidType.DVORTAC:
                 textOffsetY = 25;
                 break;
             default:

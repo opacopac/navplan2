@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-300 -300 600 600" width="28" height="28">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-295 -295 590 590" width="28" height="28">
 	<defs>
+		<rect id="rect_outer" x="-295" y="-248" width="590" height="496"></rect>
+		<rect id="rect_inner" x="-235" y="-187" width="470" height="374"></rect>
 		<circle cx="0" cy="0" r="50" id="dot"></circle>
-		<rect x="-265" y="-217" width="530" height="434" id="rect"></rect>
 	</defs>
 	<g>
 		<g>
 			<g>
-				<use xlink:href="#rect" opacity="1" fill="#ffffff" />
+				<use xlink:href="#rect_outer" opacity="1" fill="#513282" stroke="none" />
 			</g>
 			<g>
-				<use xlink:href="#rect" opacity="1" stroke="#513282" stroke-width="60" fill="none" />
+				<use xlink:href="#rect_inner" opacity="1" fill="#ffffff" stroke="none" />
 			</g>
 			<g>
 				<use xlink:href="#dot" opacity="1" fill="#513282" />

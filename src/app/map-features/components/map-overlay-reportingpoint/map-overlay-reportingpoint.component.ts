@@ -3,6 +3,7 @@ import {Reportingpoint} from '../../model/reportingpoint';
 import {StringnumberService} from '../../../shared/services/stringnumber/stringnumber.service';
 import {Position2d} from '../../../shared/model/geometry/position2d';
 import {MapOverlayContainer} from '../../../shared/components/map-overlay-container';
+import {ReportingpointIcon} from '../../model/reportingpoint-icon';
 
 
 @Component({
@@ -37,5 +38,10 @@ export class MapOverlayReportingpointComponent extends MapOverlayContainer imple
 
     public getPositionString(): string {
         return StringnumberService.getDmsString(this.reportingpoint.position.getLonLat());
+    }
+
+
+    public getAvatarUrl(): string {
+        return ReportingpointIcon.getUrl(this.reportingpoint);
     }
 }
