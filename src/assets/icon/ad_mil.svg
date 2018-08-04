@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-388 -388 776 776" width="35" height="35">
+	<defs>
+		<circle id="circle1_outer" cx="0" cy="0" r="290"></circle>
+		<circle id="circle1_inner" cx="0" cy="0" r="215"></circle>
+		<circle id="circle2_outer" cx="0" cy="0" r="165"></circle>
+		<circle id="circle2_inner" cx="0" cy="0" r="109"></circle>
+	</defs>
+	<g>
+		<g>
+			<use xlink:href="#circle1_outer" opacity="1" fill="#ae1e23" stroke="none" />
+		</g>
+		<g>
+			<use xlink:href="#circle1_inner" opacity="1" fill="#ffffff" stroke="none" />
+		</g>
+		<g>
+			<use xlink:href="#circle2_outer" opacity="1" fill="#ae1e23" stroke="none" />
+		</g>
+		<g>
+			<use xlink:href="#circle2_inner" opacity="1" fill="#ffffff" stroke="none" />
+		</g>
+	</g>
+</svg>

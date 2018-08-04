@@ -5,6 +5,8 @@ import {MapOverlayContainer} from '../../../shared/components/map-overlay-contai
 import {StringnumberService} from '../../../shared/services/stringnumber/stringnumber.service';
 import {DatetimeService} from '../../../shared/services/datetime/datetime.service';
 import {MapOverlayWindyiframeComponent} from '../map-overlay-windyiframe/map-overlay-windyiframe.component';
+import {NavaidIcon} from '../../model/navaid-icon';
+import {AirportIcon} from '../../model/airport-icon';
 
 @Component({
     selector: 'app-map-overlay-airport',
@@ -74,6 +76,11 @@ export class MapOverlayAirportComponent extends MapOverlayContainer implements O
             case AirportType.LIGHT_AIRCRAFT : return 'Ultra Light Flying Site';
             default : return 'Unknown';
         }
+    }
+
+
+    public getAvatarUrl(): string {
+        return AirportIcon.getUrl(this.airport.type);
     }
 
 

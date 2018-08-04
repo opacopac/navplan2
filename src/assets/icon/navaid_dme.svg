@@ -8,15 +8,13 @@
 	</defs>
 	<g>
 		<g>
-			<g>
-				<use xlink:href="#rect_outer" opacity="1" fill="#513282" stroke="none" />
-			</g>
-			<g>
-				<use xlink:href="#rect_inner" opacity="1" fill="#ffffff" stroke="none" />
-			</g>
-			<g>
-				<use xlink:href="#dot" opacity="1" fill="#513282" />
-			</g>
+			<use xlink:href="#rect_outer" opacity="1" fill="#513282" stroke="none" />
+		</g>
+		<g>
+			<use xlink:href="#rect_inner" opacity="1" fill="#ffffff" stroke="none" />
+		</g>
+		<g>
+			<use xlink:href="#dot" opacity="1" fill="#513282" />
 		</g>
 	</g>
 </svg>

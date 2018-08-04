@@ -2,21 +2,19 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-300 -300 600 600" width="30" height="30">
 	<defs>
-		<polygon id="triangle_bg" points="0,-300 -260,150 260,150 0,-300"></polygon>
-		<polygon id="triangle_outer" points="0,-280 -242,140 242,140 0,-280"></polygon>
-		<polygon id="triangle_inner" points="0,-220 -191,110 0,110 0,-220"></polygon>
+		<polygon id="triangle_bg" points="0,-300 -260,150 260,150 0,-300"/>
+		<polygon id="triangle_outer" points="0,-280 -242,140 242,140 0,-280"/>
+		<polygon id="triangle_inner" points="0,-220 -191,110 0,110 0,-220"/>
 	</defs>
 	<g>
 		<g>
-			<g>
-				<use xlink:href="#triangle_bg" opacity="1" fill="#ffffff" stroke="none" />
-			</g>
-			<g>
-				<use xlink:href="#triangle_outer" opacity="1" fill="#0077ff" stroke="none" />
-			</g>
-			<g>
-				<use xlink:href="#triangle_inner" opacity="1" fill="#ffffff" stroke="none" />
-			</g>
+			<use xlink:href="#triangle_bg" opacity="1" fill="#ffffff" stroke="none" />
+		</g>
+		<g>
+			<use xlink:href="#triangle_outer" opacity="1" fill="#0077ff" stroke="none" />
+		</g>
+		<g>
+			<use xlink:href="#triangle_inner" opacity="1" fill="#ffffff" stroke="none" />
 		</g>
 	</g>
 </svg>

@@ -1,9 +1,9 @@
 import * as ol from 'openlayers';
-import {environment} from '../../../environments/environment';
 import {OlAirportRunway} from './ol-airport-runway';
 import {OlAirportFeature} from './ol-airport-feature';
 import {Airport, AirportType} from '../model/airport';
 import {OlComponent} from '../../shared/ol-component/ol-component';
+import {AirportIcon} from '../model/airport-icon';
 
 
 export class OlAirport extends OlComponent {
@@ -25,7 +25,7 @@ export class OlAirport extends OlComponent {
         this.source.addFeature(this.olFeature);
 
         // runway
-        if (airport.hasRunways) {
+        if (airport.hasRunways && !airport.isClosed && !airport.isHeliport) {
             this.olRunway = new OlAirportRunway(airport, airport.runways[0], source);
         }
 
@@ -43,42 +43,18 @@ export class OlAirport extends OlComponent {
 
 
     private createPointStyle(airport: Airport): ol.style.Style {
-        let src = environment.iconBaseUrl;
+        const src = AirportIcon.getUrl(airport.type);
         let textColor = '#451A57';
         let name = airport.icao ? airport.icao : '';
 
         switch (airport.type) {
-            case AirportType.APT:
-            case AirportType.INTL_APT:
-                src += 'ad_civ.png';
-                break;
-            case AirportType.AF_CIVIL:
-            case AirportType.GLIDING:
-            case AirportType.LIGHT_AIRCRAFT:
-                src += 'ad_civ_nofac.png';
-                break;
-            case AirportType.AF_MIL_CIVIL:
-                src += 'ad_civmil.png';
-                break;
-            case AirportType.HELI_CIVIL:
-                src += 'ad_heli.png';
-                break;
-            case AirportType.HELI_MIL:
-                src += 'ad_heli_mil.png';
-                break;
-            case AirportType.AF_WATER:
-                src += 'ad_water.png';
-                break;
             case AirportType.AD_MIL:
-                src += 'ad_mil.png';
+            case AirportType.HELI_MIL:
                 textColor = '#AE1E22';
                 break;
             case AirportType.AD_CLOSED:
-                src += 'ad_closed.png';
                 name = '';
                 break;
-            default:
-                return undefined;
         }
 
         return new ol.style.Style({

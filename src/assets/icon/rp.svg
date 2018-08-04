@@ -8,15 +8,13 @@
 	</defs>
 	<g>
 		<g>
-			<g>
-				<use xlink:href="#triangle_bg" opacity="1" fill="#ffffff" stroke="none" />
-			</g>
-			<g>
-				<use xlink:href="#triangle_outer" opacity="1" fill="#0077ff" stroke="none" />
-			</g>
-			<g>
-				<use xlink:href="#triangle_inner" opacity="1" fill="#ffffff" stroke="none" />
-			</g>
+			<use xlink:href="#triangle_bg" opacity="1" fill="#ffffff" stroke="none" />
+		</g>
+		<g>
+			<use xlink:href="#triangle_outer" opacity="1" fill="#0077ff" stroke="none" />
+		</g>
+		<g>
+			<use xlink:href="#triangle_inner" opacity="1" fill="#ffffff" stroke="none" />
 		</g>
 	</g>
 </svg>

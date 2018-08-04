@@ -2,6 +2,8 @@ import * as ol from 'openlayers';
 import {environment} from '../../../environments/environment';
 import {Airport, AirportRunway} from '../model/airport';
 import {OlComponent} from '../../shared/ol-component/ol-component';
+import {run} from 'tslint/lib/runner';
+import {AirportIcon} from '../model/airport-icon';
 
 
 export class OlAirportRunway extends OlComponent {
@@ -27,17 +29,9 @@ export class OlAirportRunway extends OlComponent {
 
 
     private createPointStyle(airport: Airport, runway: AirportRunway): ol.style.Style {
-        let src = environment.iconBaseUrl;
-        const rwy_surface = runway.surface ? runway.surface : undefined;
+        const src = AirportIcon.getRwyUrl(airport, runway);
         const rwy_direction = runway.direction1 ? runway.direction1 : undefined;
-
-        if (airport.isMilitary) {
-            src += 'rwy_mil.png';
-        } else if (rwy_surface === 'ASPH' || rwy_surface === 'CONC') {
-            src += 'rwy_concrete.png';
-        } else if (rwy_surface !== 'WATE') {
-            src += 'rwy_grass.png';
-        } else {
+        if (!src || ! rwy_direction) {
             return undefined;
         }
 
@@ -47,9 +41,9 @@ export class OlAirportRunway extends OlComponent {
                 anchorXUnits: 'fraction',
                 anchorYUnits: 'fraction',
                 scale: 1,
-                rotation: (rwy_direction - 45) / 180 * Math.PI,
+                rotation: (rwy_direction) / 180 * Math.PI,
                 rotateWithView: true,
-                opacity: 0.75,
+                opacity: 0.8,
                 src: src
             }))
         });

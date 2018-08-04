@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-413 -413 826 826" width="35" height="35">
+	<defs>
+		<rect id="rect_outer" x="-65" y="-413" width="130" height="826"/>
+	</defs>
+	<g>
+		<use xlink:href="#rect_outer" opacity="1" fill="#ae1e23" stroke="none" />
+	</g>
+</svg>
