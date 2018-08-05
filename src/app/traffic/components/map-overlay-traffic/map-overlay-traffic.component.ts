@@ -15,7 +15,7 @@ const TRAFFIC_TYPE_DESCRIPTION = {
     'PARA_GLIDER': 'Paraglider',
     'BALLOON': 'Balloon',
     'AIRSHIP': 'Airship',
-    'UNKNOWN': 'Unknown',
+    'UNKNOWN': 'Unknown Type',
     'STATIC_OBJECT': 'Static Object',
     'DROP_PLANE': 'Drop Plane',
     'UFO': 'UFO',
@@ -65,7 +65,7 @@ export class MapOverlayTrafficComponent extends MapOverlayContainer implements O
         if (this.traffic.actype >= 0) {
             return TRAFFIC_TYPE_DESCRIPTION[TrafficAircraftType[this.traffic.actype]];
         } else {
-            return 'Unknown';
+            return 'Unknown Type';
         }
     }
 

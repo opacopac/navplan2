@@ -1,5 +1,5 @@
 import {environment} from '../../../environments/environment';
-import {Traffic, TrafficAircraftType} from './traffic';
+import {TrafficAircraftType} from './traffic';
 
 
 export class TrafficIcon {
@@ -11,31 +11,31 @@ export class TrafficIcon {
         }
 
         switch (type) {
-            case TrafficAircraftType.HELICOPTER_ROTORCRAFT:
-                return src + 'traffic_heli' + iconSuffix + '.svg';
-            case TrafficAircraftType.GLIDER:
-                return src + 'traffic_glider' + iconSuffix + '.svg';
-            case TrafficAircraftType.PARACHUTE:
-            case TrafficAircraftType.HANG_GLIDER:
-            case TrafficAircraftType.PARA_GLIDER:
-                return src + 'traffic_parachute' + iconSuffix + '.png';
-            case TrafficAircraftType.BALLOON:
-            case TrafficAircraftType.AIRSHIP:
-                return src + 'traffic_balloon' + iconSuffix + '.png';
-            case TrafficAircraftType.UNKNOWN:
-                return src + 'traffic_unknown' + iconSuffix + '.png';
-            case TrafficAircraftType.STATIC_OBJECT:
-                return src + 'traffic_static' + iconSuffix + '.png';
-            case TrafficAircraftType.UAV:
-                return src + 'traffic_uav' + iconSuffix + '.svg';
-            case TrafficAircraftType.JET_AIRCRAFT:
-                return src + 'traffic_jetplane' + iconSuffix + '.svg';
             case TrafficAircraftType.POWERED_AIRCRAFT:
             case TrafficAircraftType.DROP_PLANE:
             case TrafficAircraftType.TOW_PLANE:
+                return src +  'traffic_plane' + iconSuffix + '.svg';
+            case TrafficAircraftType.JET_AIRCRAFT:
+                return src + 'traffic_jetplane' + iconSuffix + '.svg';
+            case TrafficAircraftType.GLIDER:
+                return src + 'traffic_glider' + iconSuffix + '.svg';
+            case TrafficAircraftType.HELICOPTER_ROTORCRAFT:
+                return src + 'traffic_heli' + iconSuffix + '.svg';
+            case TrafficAircraftType.PARACHUTE:
+            case TrafficAircraftType.HANG_GLIDER:
+            case TrafficAircraftType.PARA_GLIDER:
+                return src + 'traffic_parachute' + iconSuffix + '.svg';
+            case TrafficAircraftType.BALLOON:
+            case TrafficAircraftType.AIRSHIP:
+                return src + 'traffic_balloon' + iconSuffix + '.svg';
+            case TrafficAircraftType.STATIC_OBJECT:
+                return src + 'traffic_static' + iconSuffix + '.svg';
+            case TrafficAircraftType.UAV:
+                return src + 'traffic_uav' + iconSuffix + '.svg';
+            case TrafficAircraftType.UNKNOWN:
             case TrafficAircraftType.UFO:
             default:
-                return src +  'traffic_plane' + iconSuffix + '.svg';
+                return src + 'traffic_unknown' + iconSuffix + '.svg';
         }
     }
 }

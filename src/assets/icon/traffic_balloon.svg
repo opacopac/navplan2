@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-240 -240 480 480" width="48" height="48">
+	<defs>
+		<path id="balloon" d="M -30.0 130.0 L 30.0 130.0 A 396.573 396.573 0 0 1 107.816 14.2862A 150 150 0 1 0 -107.816 14.2862A 396.573 396.573 0 0 1 -30 130" />
+		<path id="basket" d="M -35.0 180.0 L 35.0 180.0 L 35.0 240.0 L -35.0 240.0 L -35.0 180.0 " />
+		<g id="strings">
+			<line x1="-30" y1="130" x2="-35" y2="180" />
+			<line x1="30" y1="130" x2="35" y2="180" />
+		</g>
+	</defs>
+	<g>
+		<use xlink:href="#balloon" opacity="1" fill="#ff0000" stroke="none" />
+		<use xlink:href="#basket" opacity="1" fill="#ff0000" stroke="none" />
+		<use xlink:href="#strings" opacity="1" fill="none" stroke="#ff0000" stroke-width="5" />
+	</g>
+</svg>

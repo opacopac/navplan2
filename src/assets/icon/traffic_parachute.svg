@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-225 -225 450 450" width="45" height="45">
+	<defs>
+		<path id="parachute" d="M 180.0 -68.5 A 283.094 283.094 0 0 0 -180 -68.5L -225.0 -93.5 A 230.142 166.5 1.02495e-014 0 1 225 -93.5L 180.0 -68.5" />
+		<path id="panel"  d="M 44.045 63.35 L 34.045 78.35 A 308.415 308.415 0 0 0 -34.045 78.35L -44.045 63.35 A 296.51 296.51 0 0 1 44.045 63.35" />
+		<g id="strings">
+			<line x1="-44.045" y1="63.35" x2="-180.0" y2="-68.5" />
+			<line x1="-44.045" y1="63.35" x2="-111.871502256" y2="-110.051950546" />
+			<line x1="-44.045" y1="63.35" x2="-147.407206764" y2="-91.6885710871" />
+			<line x1="44.045" y1="63.35" x2="180.0" y2="-68.5" />
+			<line x1="44.045" y1="63.35" x2="111.871502256" y2="-110.051950546" />
+			<line x1="44.045" y1="63.35" x2="147.407206764" y2="-91.6885710871" />
+		</g>
+		<g id="human">
+			<circle id="head" cx="0" cy="114" r="10" />
+			<ellipse id="body" cx="0" cy="149" rx="12" ry="25" />
+			<ellipse id="leg1" cx="0" cy="0" rx="5" ry="28.5" transform="translate(-13.75 197.83) rotate(17.88)" />
+			<ellipse id="leg2" cx="0" cy="0" rx="5" ry="28.5" transform="translate(13.75 197.83) rotate(-17.88)" />
+			<ellipse id="arm1a" cx="0" cy="0" rx="4" ry="13.04" transform="translate(-17.00 122.06) rotate(-57.53)" />
+			<ellipse id="arm2a" cx="0" cy="0" rx="4" ry="13.04" transform="translate(17.00 122.06) rotate(57.53)" />
+			<ellipse id="arm1b" cx="0" cy="0" rx="4" ry="11.14" transform="translate(-24.49 104.49) rotate(18.38)" />
+			<ellipse id="arm2b" cx="0" cy="0" rx="4" ry="11.14" transform="translate(24.49 104.49) rotate(-18.38)" />
+		</g>
+	</defs>
+	<g>
+		<use xlink:href="#human" opacity="1" fill="#ff0000" stroke="none" />
+		<use xlink:href="#parachute" opacity="1" fill="#ff0000" stroke="none" />
+		<use xlink:href="#panel" opacity="1" fill="#ff0000" stroke="#ff0000" stroke-width="5" />
+		<use xlink:href="#strings" opacity="1" fill="none" stroke="#ff0000" stroke-width="5" />
+	</g>
+</svg>

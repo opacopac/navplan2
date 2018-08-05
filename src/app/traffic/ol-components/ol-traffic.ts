@@ -1,7 +1,6 @@
 import * as ol from 'openlayers';
 import {OlComponent} from '../../shared/ol-component/ol-component';
 import {Traffic, TrafficAircraftType} from '../model/traffic';
-import {environment} from '../../../environments/environment';
 import {UnitconversionService} from '../../shared/services/unitconversion/unitconversion.service';
 import {GeocalcService} from '../../shared/services/geocalc/geocalc.service';
 import {OlTrafficTrail} from './ol-traffic-trail';
