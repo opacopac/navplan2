@@ -3,6 +3,8 @@ import {Traffic, TrafficAddressType, TrafficAircraftType} from '../../model/traf
 import { Position2d } from '../../../shared/model/geometry/position2d';
 import { MapOverlayContainer } from '../../../shared/components/map-overlay-container';
 import {MapContext} from '../../../map/model/map-context';
+import {AirportIcon} from '../../../map-features/model/airport-icon';
+import {TrafficIcon} from '../../model/traffic-icon';
 
 
 const TRAFFIC_TYPE_DESCRIPTION = {
@@ -60,11 +62,16 @@ export class MapOverlayTrafficComponent extends MapOverlayContainer implements O
 
 
     public getType(): string {
-        if (this.traffic.actype) {
+        if (this.traffic.actype >= 0) {
             return TRAFFIC_TYPE_DESCRIPTION[TrafficAircraftType[this.traffic.actype]];
         } else {
             return 'Unknown';
         }
+    }
+
+
+    public getAvatarUrl(): string {
+        return TrafficIcon.getUrl(this.traffic.actype, false);
     }
 
 

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-270 -270 540 540" width="54" height="54">
+	<defs>
+		<path id="plane"  d="M -30.0 -185.0 L -30.0 -75.0 L -261.202536762 30.0 A 15 15 0 0 0 -270 43.6575L -270.0 85.0 L -30.0 45.0 L -30.0 119.551981464 A 60 60 0 0 0 -27.9772 135L -18.6514839348 170.0 L -85.1542708483 210.0 A 10 10 0 0 0 -90 218.569L -90.0 240.0 L -5.32899540995 220.0 L -4.4408920985e-16 240.0 L 5.32899540995 220.0 L 90.0 240.0 L 90.0 218.569334398 A 10 10 0 0 0 85.1543 210L 18.6514839348 170.0 L 27.9772259022 135.0 A 60 60 0 0 0 30 119.552L 30.0 45.0 L 270.0 85.0 L 270.0 43.6575450837 A 15 15 0 0 0 261.203 30L 30.0 -75.0 L 30.0 -185.0 A 65.4167 65.4167 0 0 0 0 -240A 65.4167 65.4167 0 0 0 -30 -185"/>
+		<clipPath id="clip">
+			<use xlink:href="#plane"/>
+		</clipPath>
+	</defs>
+	<g>
+		<g>
+			<use clip-path="url(#clip)" xlink:href="#plane" opacity="1" fill="none" stroke="#ff0000" stroke-width="40" />
+		</g>
+	</g>
+</svg>

@@ -5,6 +5,7 @@ import {environment} from '../../../environments/environment';
 import {UnitconversionService} from '../../shared/services/unitconversion/unitconversion.service';
 import {GeocalcService} from '../../shared/services/geocalc/geocalc.service';
 import {OlTrafficTrail} from './ol-traffic-trail';
+import {TrafficIcon} from '../model/traffic-icon';
 
 
 export class OlTraffic extends OlComponent {
@@ -48,7 +49,7 @@ export class OlTraffic extends OlComponent {
             return undefined;
         }
 
-        let icon = environment.iconBaseUrl;
+        const icon = TrafficIcon.getUrl(traffic.actype, traffic.isInactive());
         let heighttext = '';
         let typetext = '';
         let rotation = this.getRotation(traffic);
@@ -61,61 +62,24 @@ export class OlTraffic extends OlComponent {
             heighttext = Math.round(position.altitude.ft).toString() + ' ft'; // TODO: einstellbar
         }
 
-        let iconSuffix = '';
-        if (traffic.isInactive()) {
-            iconSuffix = '_inactive';
-        }
-
         let rotWithView = true;
 
         switch (traffic.actype) {
-            case TrafficAircraftType.HELICOPTER_ROTORCRAFT:
-                icon += 'traffic_heli' + iconSuffix + '.png';
-                break;
-            case TrafficAircraftType.GLIDER:
-                icon += 'traffic_glider' + iconSuffix + '.png';
-                break;
             case TrafficAircraftType.PARACHUTE:
             case TrafficAircraftType.HANG_GLIDER:
             case TrafficAircraftType.PARA_GLIDER:
-                icon += 'traffic_parachute' + iconSuffix + '.png';
-                rotation = 0;
-                rotWithView = false;
-                break;
             case TrafficAircraftType.BALLOON:
             case TrafficAircraftType.AIRSHIP:
-                icon += 'traffic_balloon' + iconSuffix + '.png';
-                rotation = 0;
-                rotWithView = false;
-                break;
             case TrafficAircraftType.UNKNOWN:
-                icon += 'traffic_unknown' + iconSuffix + '.png';
-                rotation = 0;
-                rotWithView = false;
-                break;
             case TrafficAircraftType.STATIC_OBJECT:
-                icon += 'traffic_static' + iconSuffix + '.png';
                 rotation = 0;
                 rotWithView = false;
                 break;
             case TrafficAircraftType.DROP_PLANE:
                 typetext = ' - Drop Plane';
-                icon += 'traffic_plane' + iconSuffix + '.png';
                 break;
             case TrafficAircraftType.UFO:
                 typetext = ' - UFO';
-                icon += 'traffic_plane' + iconSuffix + '.png';
-                break;
-            case TrafficAircraftType.UAV:
-                icon += 'traffic_uav' + iconSuffix + '.png';
-                break;
-            case TrafficAircraftType.JET_AIRCRAFT:
-                icon += 'traffic_jetplane' + iconSuffix + '.png';
-                break;
-            case TrafficAircraftType.POWERED_AIRCRAFT:
-            case TrafficAircraftType.TOW_PLANE:
-            default:
-                icon += 'traffic_plane' + iconSuffix + '.png';
                 break;
         }
 

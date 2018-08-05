@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-388 -388 776 776" width="35" height="35">
+	<defs>
+		<circle id="circle_outer" cx="0" cy="0" r="290"></circle>
+		<circle id="circle_inner" cx="0" cy="0" r="215"></circle>
+		<path id="anchor"  d="M 20 136 L 20 -80 L 80 -80 L 80 -120 L 20 -120 L 20 -180 L -20 -180 L -20 -120 L -80 -120 L -80 -80 L -20 -80 L -20 136 A 108 108 0 0 1 -108 30 L -148 30 A 148 148 0 0 0 148 30L 108 30 A 108 108 0 0 1 20 136" />
+	</defs>
+	<g>
+		<g>
+			<use xlink:href="#circle_outer" opacity="1" fill="#513282" stroke="none" />
+		</g>
+		<g>
+			<use xlink:href="#circle_inner" opacity="1" fill="#ffffff" stroke="none" />
+		</g>
+		<g>
+			<use xlink:href="#anchor" opacity="1" fill="#513282" stroke="none" />
+		</g>
+	</g>
+</svg>

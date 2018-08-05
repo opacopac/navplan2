@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-240 -240 480 480" width="48" height="48">
+	<defs>
+		<path id="plane"  d="M -30.0 -188.0 L -30.0 -98.0 L -225.0 -98.0 A 15 15 0 0 0 -240 -83L -240.0 -23.0 A 15 15 0 0 0 -225 -8L -30.0 -8.0 L -12.4596774194 137.0 L -80.0 137.0 A 10 10 0 0 0 -90 147L -90.0 187.0 A 10 10 0 0 0 -80 197L -5.20161290323 197.0 L 0.0 240.0 L 5.20161290323 197.0 L 80.0 197.0 A 10 10 0 0 0 90 187L 90.0 147.0 A 10 10 0 0 0 80 137L 12.4596774194 137.0 L 30.0 -8.0 L 225.0 -8.0 A 15 15 0 0 0 240 -23L 240.0 -83.0 A 15 15 0 0 0 225 -98L 30.0 -98.0 L 30.0 -188.0 A 60.0667 60.0667 0 0 0 0 -240A 60.0667 60.0667 0 0 0 -30 -188"/>
+	</defs>
+	<g>
+		<g>
+			<use xlink:href="#plane" opacity="1" fill="#0000ff" stroke="none" />
+		</g>
+	</g>
+</svg>

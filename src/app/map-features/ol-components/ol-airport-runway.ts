@@ -43,7 +43,7 @@ export class OlAirportRunway extends OlComponent {
                 scale: 1,
                 rotation: (rwy_direction) / 180 * Math.PI,
                 rotateWithView: true,
-                opacity: 0.8,
+                opacity: 0.9,
                 src: src
             }))
         });

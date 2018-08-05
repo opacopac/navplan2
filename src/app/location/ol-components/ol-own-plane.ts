@@ -42,7 +42,7 @@ export class OlOwnPlane extends OlComponent {
             heighttext = Math.round(position.altitude.ft).toString() + ' ft'; // TODO: einstellbar
         }
 
-        const icon = environment.iconBaseUrl + 'own_plane.png';
+        const icon = environment.iconBaseUrl + 'own_plane.svg';
 
         return new ol.style.Style({
             image: new ol.style.Icon({

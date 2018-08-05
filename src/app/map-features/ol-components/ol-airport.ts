@@ -58,13 +58,14 @@ export class OlAirport extends OlComponent {
         }
 
         return new ol.style.Style({
+            stroke: undefined,
             image: new ol.style.Icon(({
                 anchor: [0.5, 0.5],
                 anchorXUnits: 'fraction',
                 anchorYUnits: 'fraction',
                 scale: 1,
-                opacity: 0.75,
-                src: src
+                opacity: 0.9,
+                src: src,
             })),
             text: new ol.style.Text({
                 font: 'bold 14px Calibri,sans-serif',

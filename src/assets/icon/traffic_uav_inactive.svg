@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-225 -225 450 450" width="45" height="45">
+	<defs>
+		<mask id="rotor_mask" x="-225" y="-225" width="450" height="450" >
+			<rect x="-225" y="-225" width="450" height="450" style="stroke:none; fill:#ffffff"></rect>
+			<circle cx="-145" cy="-145" r="55" style="stroke:none; fill:#000000"/>
+			<circle cx="-145" cy="145" r="55" style="stroke:none; fill:#000000"/>
+			<circle cx="145" cy="-145" r="55" style="stroke:none; fill:#000000"/>
+			<circle cx="145" cy="145" r="55" style="stroke:none; fill:#000000"/>
+		</mask>
+		<path id="body_outer"  d="M -73.5868673198 -108.942206379 A 80 80 0 1 0 -108.942 -73.5869L -60.0 -24.6446609406 L -60.0 24.6446609407 L -108.942206379 73.5868673198 A 80 80 0 1 0 -73.5869 108.942L -24.6446609406 60.0 L 24.6446609406 60.0 L 73.5868673198 108.942206379 A 80 80 0 1 0 108.942 73.5869L 60.0 24.6446609407 L 60.0 -24.6446609407 L 108.942206379 -73.5868673198 A 80 80 0 1 0 73.5869 -108.942L 24.6446609406 -60.0 L -24.6446609406 -60.0 L -73.5868673198 -108.942206379 Z" style="mask: url(#rotor_mask)" />
+		<circle id="rotor_hub_1" cx="-145" cy="-145" r="25"></circle>
+		<circle id="rotor_hub_2" cx="-145" cy="145" r="25"></circle>
+		<circle id="rotor_hub_3" cx="145" cy="-145" r="25"></circle>
+		<circle id="rotor_hub_4" cx="145" cy="145" r="25"></circle>
+		<clipPath id="clip">
+			<use xlink:href="#body_outer"/>
+		</clipPath>
+	</defs>
+	<g>
+		<g>
+			<use clip-path="url(#clip)" xlink:href="#body_outer" opacity="1" fill="none" stroke="#ff0000" stroke-width="40" />
+		</g>
+		<g>
+			<use xlink:href="#rotor_hub_1" opacity="1" fill="#ff0000" stroke="none" />
+		</g>
+		<g>
+			<use xlink:href="#rotor_hub_2" opacity="1" fill="#ff0000" stroke="none" />
+		</g>
+		<g>
+			<use xlink:href="#rotor_hub_3" opacity="1" fill="#ff0000" stroke="none" />
+		</g>
+		<g>
+			<use xlink:href="#rotor_hub_4" opacity="1" fill="#ff0000" stroke="none" />
+		</g>
+	</g>
+</svg>

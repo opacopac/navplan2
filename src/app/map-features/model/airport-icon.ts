@@ -21,7 +21,7 @@ export class AirportIcon {
             case AirportType.HELI_MIL:
                 return src + 'ad_heli_mil.svg';
             case AirportType.AF_WATER:
-                return src + 'ad_water.png';
+                return src + 'ad_water.svg';
             case AirportType.AD_MIL:
                 return src + 'ad_mil.svg';
             case AirportType.AD_CLOSED:
