@@ -37,19 +37,19 @@ export class OlMetarSky extends OlComponent {
             case 'SKC' :
             case 'CLR' :
             case 'NSC' :
-                src += 'sky_skc.png';
+                src += 'sky_skc.svg';
                 break;
             case 'FEW' :
-                src += 'sky_few.png';
+                src += 'sky_few.svg';
                 break;
             case 'SCT' :
-                src += 'sky_sct.png';
+                src += 'sky_sct.svg';
                 break;
             case 'BKN' :
-                src += 'sky_bkn.png';
+                src += 'sky_bkn.svg';
                 break;
             case 'OVC' :
-                src += 'sky_ovc.png';
+                src += 'sky_ovc.svg';
                 break;
             default:
                 return;

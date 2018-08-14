@@ -1,7 +1,8 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import { Userpoint } from '../../model/userpoint';
-import { Position2d } from '../../../shared/model/geometry/position2d';
-import { MapOverlayContainer } from '../../../shared/components/map-overlay-container';
+import {Userpoint} from '../../model/userpoint';
+import {Position2d} from '../../../shared/model/geometry/position2d';
+import {MapOverlayContainer} from '../../../shared/components/map-overlay-container';
+import {UserpointIcon} from '../../model/userpoint-icon';
 
 
 @Component({
@@ -31,5 +32,10 @@ export class MapOverlayUserpointComponent extends MapOverlayContainer implements
     public bindFeatureData(userPoint: Userpoint, clickPos: Position2d) {
         this.userpoint = userPoint;
         this.olOverlay.setPosition(userPoint ? userPoint.position.getMercator() : undefined);
+    }
+
+
+    public getAvatarUrl(): string {
+        return UserpointIcon.getUrl();
     }
 }

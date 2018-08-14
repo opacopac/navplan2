@@ -1,7 +1,7 @@
 import * as ol from 'openlayers';
-import {environment} from '../../../environments/environment';
 import {Userpoint} from '../model/userpoint';
 import {OlComponent} from '../../shared/ol-component/ol-component';
+import {UserpointIcon} from '../model/userpoint-icon';
 
 
 export class OlUserPoint extends OlComponent {
@@ -27,7 +27,7 @@ export class OlUserPoint extends OlComponent {
 
 
     protected createPointStyle(userPoint: Userpoint): ol.style.Style {
-        const src = environment.iconBaseUrl;
+        const src = UserpointIcon.getUrl();
 
         return new ol.style.Style({
             image: new ol.style.Icon(({
@@ -35,8 +35,8 @@ export class OlUserPoint extends OlComponent {
                 anchorXUnits: 'fraction',
                 anchorYUnits: 'fraction',
                 scale: 1,
-                opacity: 0.75,
-                src: src + 'wp_user.png'
+                opacity: 0.9,
+                src: src
             })),
             text: new ol.style.Text({
                 font: 'bold 14px Calibri,sans-serif',

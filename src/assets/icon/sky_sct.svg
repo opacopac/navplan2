@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-80 -80 160 160" width="16" height="16">
+	<defs>
+		<circle id="background" cx="0" cy="0" r="80" />
+		<circle id="circle_outer" cx="0" cy="0" r="70" />
+		<circle id="circle_inner" cx="0" cy="0" r="60" />
+		<path id="coverage"  d="M 0 0 L 0 -60 A 60 60 0 0 1 0 60 Z"/>
+	</defs>
+	<g>
+		<use xlink:href="#background" opacity="1" fill="#ffffff" stroke="none" />
+		<use xlink:href="#circle_outer" opacity="1" fill="#000000" stroke="none" />
+		<use xlink:href="#circle_inner" opacity="1" fill="#ffffff" stroke="none" />
+		<use xlink:href="#coverage" opacity="1" fill="#000000" stroke="#000000" />
+	</g>
+</svg>

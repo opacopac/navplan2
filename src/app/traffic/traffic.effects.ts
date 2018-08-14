@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Action, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
-import {catchError, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
+import {catchError, filter, flatMap, map, mergeMap, switchMap, withLatestFrom} from 'rxjs/operators';
 import {
     ReadAdsbExTrafficSuccessAction, ReadAdsbExTrafficSuccessError,
     ReadOgnTrafficSuccessAction, ReadOgnTrafficSuccessError,
@@ -69,7 +69,7 @@ export class TrafficEffects {
             ofType(TrafficActionTypes.TRAFFIC_READ_TIMER),
             map(action => action as ReadTrafficTimerAction),
             withLatestFrom(this.trafficState$),
-            switchMap(([action, trafficState]) => this.trafficOgnService.readTraffic(
+            mergeMap(([action, trafficState]) => this.trafficOgnService.readTraffic(
                 trafficState.extent,
                 TRAFFIC_MAX_AGE_SEC,
                 action.count === 0 ? TRAFFIC_OGN_FIRST_TIME_WAIT_SEC : 0,
@@ -86,7 +86,7 @@ export class TrafficEffects {
         .pipe(
             ofType(TrafficActionTypes.TRAFFIC_READ_TIMER),
             withLatestFrom(this.trafficState$),
-            switchMap(([action, trafficState]) => this.trafficAdsbExService.readTraffic(
+            mergeMap(([action, trafficState]) => this.trafficAdsbExService.readTraffic(
                 trafficState.extent,
                 '12345'  // TODO
                 )
@@ -95,3 +95,6 @@ export class TrafficEffects {
             catchError(error => of(new ReadAdsbExTrafficSuccessError(error)))
         );
 }
+
+
+

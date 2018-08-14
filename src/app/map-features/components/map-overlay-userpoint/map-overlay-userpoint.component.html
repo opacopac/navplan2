@@ -1,6 +1,7 @@
 <div #container class="ol-popup">
     <mat-card *ngIf="this.userpoint">
         <mat-card-header>
+            <img mat-card-avatar src="{{ this.getAvatarUrl() }}" />
             <mat-card-title>
                 {{ this.userpoint.name }}
             </mat-card-title>
