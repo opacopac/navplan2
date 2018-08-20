@@ -41,7 +41,7 @@ export class OlMetarWind extends OlComponent {
 
         for (let i = 0; i < windrange.length; i++) {
             if (metarTaf.wind_speed_kt <= windrange[i][0]) {
-                src += 'wind_' + windrange[i][1] + 'kt.png';
+                src += 'wind_' + windrange[i][1] + 'kt.svg';
 
                 if (i === 0) {
                     rot = 0;

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-125 -125 250 250" width="25" height="25">
+	<defs>
+		<circle id="circle" cx="0" cy="0" r="125" />
+		<path id="cam"  d="M -70.0 35.0 L -70.0 -35.0 A 10 10 0 0 1 -60 -45L 20.0 -45.0 A 10 10 0 0 1 30 -35L 30.0 -15.0 L 70.0 -45.0 L 70.0 45.0 L 30.0 15.0 L 30.0 35.0 A 10 10 0 0 1 20 45L -60.0 45.0 A 10 10 0 0 1 -70 35" />
+	</defs>
+	<g>
+		<use xlink:href="#circle" opacity="1" fill="#00aa00" stroke="none" />
+		<use xlink:href="#cam" opacity="1" fill="#ffffff" stroke="none" />
+	</g>
+</svg>

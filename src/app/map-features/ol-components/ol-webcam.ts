@@ -36,7 +36,7 @@ export class OlWebcam extends OlComponent {
                 anchorYUnits: 'fraction',
                 scale: 1,
                 opacity: 0.9,
-                src: src + 'webcam.png'
+                src: src + 'webcam.svg'
             }))
         });
     }

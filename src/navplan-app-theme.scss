@@ -108,13 +108,49 @@ $mat-custom3: (
         )
 );
 
+
+$mat-custom4-text: #ffffff;
+$mat-custom4: (
+        50: #a4a4a4,
+        100: #a4a4a4,
+        200: #a4a4a4,
+        300: #757575,
+        400: #757575,
+        500: #757575,
+        600: #757575,
+        700: #494949,
+        800: #494949,
+        900: #494949,
+        A100: #a4a4a4,
+        A200: #757575,
+        A400: #757575,
+        A700: #494949,
+        contrast: (
+                50: $mat-custom4-text,
+                100: $mat-custom4-text,
+                200: $mat-custom4-text,
+                300: $mat-custom4-text,
+                400: $mat-custom4-text,
+                500: $mat-custom4-text,
+                600: $mat-custom4-text,
+                700: $mat-custom4-text,
+                800: $mat-custom4-text,
+                900: $mat-custom4-text,
+                A100: $mat-custom4-text,
+                A200: $mat-custom4-text,
+                A400: $mat-custom4-text,
+                A700: $mat-custom4-text,
+        )
+);
+
+
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 //$candy-app-primary: mat-palette($mat-indigo);
 //$candy-app-accent: mat-palette($mat-blue-gray);
 $navplan-app-primary: mat-palette($mat-custom1, 500, 100, 900);
-$navplan-app-accent: mat-palette($mat-custom2, A200, A100, A700);
+$navplan-app-accent: mat-palette($mat-custom4, A200, A100, A700);
 
 // The warn palette is optional (defaults to red).
 $navplan-app-warn: mat-palette($mat-red);
