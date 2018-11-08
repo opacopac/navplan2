@@ -6,12 +6,12 @@ import {LoginComponent} from './user/components/login/login.component';
 import {UserprofileComponent} from './user/components/userprofile/userprofile.component';
 import {ForgotpwComponent} from './user/components/forgotpw/forgotpw.component';
 import {FlightrouteContainerComponent} from './flightroute/components/flightroute-container/flightroute-container.component';
-import {MapPageComponent} from './core/components/map-page/map-page.component';
-import {TracksPageComponent} from './core/components/tracks-page/tracks-page.component';
+import {PlanningMapPageComponent} from './planning-map/components/map-page/planning-map-page.component';
+import {TracksPageComponent} from './track/components/tracks-page/tracks-page.component';
 
 const routes: Routes = [
     { path: '', redirectTo: 'map', pathMatch: 'full' },
-    { path: 'map', component: MapPageComponent },
+    { path: 'map', component: PlanningMapPageComponent },
     { path: 'route', component: FlightrouteContainerComponent },
     { path: 'tracks', component: TracksPageComponent },
     { path: 'login', component: LoginComponent },

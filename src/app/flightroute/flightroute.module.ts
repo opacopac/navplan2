@@ -11,17 +11,9 @@ import {FlightrouteContainerComponent} from './components/flightroute-container/
 import {FlightrouteFormComponent} from './components/flightroute-form/flightroute-form.component';
 import {FuelCalculationComponent} from './components/fuel-calculation/fuel-calculation.component';
 import {WaypointListComponent} from './components/waypoint-list/waypoint-list.component';
-import {WaypointListEntryComponent} from './components/waypoint-list-entry/waypoint-list-entry.component';
 import {FlightrouteExportButtonsComponent} from './components/flightroute-export-buttons/flightroute-export-buttons.component';
-import {MapOverlayButtonEditUserpointComponent} from './components/map-overlay-button-edit-userpoint/map-overlay-button-edit-userpoint.component';
-import {MapOverlayButtonEditWaypointComponent} from './components/map-overlay-button-edit-waypoint/map-overlay-button-edit-waypoint.component';
-import {MapOverlayButtonSetAlternateComponent} from './components/map-overlay-button-set-alternate/map-overlay-button-set-alternate.component';
-import {MapOverlayButtonRemoveAlternateComponent} from './components/map-overlay-button-remove-alternate/map-overlay-button-remove-alternate.component';
-import {MapOverlayButtonRemoveFromRouteComponent} from './components/map-overlay-button-remove-from-route/map-overlay-button-remove-from-route.component';
-import {MapOverlayWaypointComponent} from './components/map-overlay-waypoint/map-overlay-waypoint.component';
 import {flightrouteReducer} from './flightroute.reducer';
 import {FlightrouteEffects} from './flightroute.effects';
-import {MapOverlayButtonAddToRouteComponent} from './components/map-overlay-button-add-to-route/map-overlay-button-add-to-route.component';
 import {
     MatButtonToggleModule, MatDialogModule,
     MatFormFieldModule,
@@ -31,6 +23,9 @@ import {
     MatTooltipModule
 } from '@angular/material';
 import {MatInputModule} from '@angular/material/input';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import {BaseMapModule} from '../base-map/base-map.module';
+import {MapFeaturesModule} from '../map-features/map-features.module';
 
 
 @NgModule({
@@ -38,7 +33,6 @@ import {MatInputModule} from '@angular/material/input';
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        SharedModule,
         StoreModule.forFeature('flightrouteState', flightrouteReducer),
         EffectsModule.forFeature([FlightrouteEffects]),
         MatFormFieldModule,
@@ -49,6 +43,10 @@ import {MatInputModule} from '@angular/material/input';
         MatTableModule,
         MatButtonToggleModule,
         MatDialogModule,
+        DragDropModule,
+        SharedModule,
+        BaseMapModule,
+        MapFeaturesModule,
     ],
     declarations: [
         EditWaypointContainerComponent,
@@ -57,25 +55,10 @@ import {MatInputModule} from '@angular/material/input';
         FlightrouteExportButtonsComponent,
         FlightrouteFormComponent,
         FuelCalculationComponent,
-        MapOverlayButtonAddToRouteComponent,
-        MapOverlayButtonEditUserpointComponent,
-        MapOverlayButtonEditWaypointComponent,
-        MapOverlayButtonRemoveAlternateComponent,
-        MapOverlayButtonRemoveFromRouteComponent,
-        MapOverlayButtonSetAlternateComponent,
-        MapOverlayWaypointComponent,
         WaypointListComponent,
-        WaypointListEntryComponent
     ],
     exports: [
         EditWaypointContainerComponent,
-        MapOverlayButtonAddToRouteComponent,
-        MapOverlayButtonEditUserpointComponent,
-        MapOverlayButtonEditWaypointComponent,
-        MapOverlayButtonRemoveAlternateComponent,
-        MapOverlayButtonRemoveFromRouteComponent,
-        MapOverlayButtonSetAlternateComponent,
-        MapOverlayWaypointComponent,
     ],
     providers: [
         FlightrouteService

@@ -5,7 +5,7 @@ import {Observable} from 'rxjs';
 import {catchError, debounceTime, map, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs/internal/observable/of';
 import {NotamService} from './services/notam.service';
-import {MapActionTypes, MapMovedZoomedRotatedAction} from '../map/map.actions';
+import {MapActionTypes, MapMovedZoomedRotatedAction} from '../base-map/base-map.actions';
 import {LoadNotamErrorAction, LoadNotamSuccessAction} from './notam.actions';
 
 

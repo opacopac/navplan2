@@ -1,0 +1,31 @@
+<div #container class="ol-popup">
+    <mat-card *ngIf="this.reportingpoint">
+        <mat-card-header>
+            <img mat-card-avatar src="{{ this.getAvatarUrl() }}" />
+            <mat-card-title>
+                {{ this.reportingpoint.name }} ({{ this.reportingpoint.airport_icao }})
+            </mat-card-title>
+            <mat-card-subtitle>
+                Reporting Point
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <p>{{ this.getPositionString(this.reportingpoint.position) }}</p>
+            <p *ngIf="this.reportingpoint.min_ft || this.reportingpoint.max_ft">
+                Altitude:
+                {{ this.reportingpoint.min_ft ? 'min. ' + this.reportingpoint.min_ft + 'ft' : '' }}
+                <span *ngIf="this.reportingpoint.min_ft && this.reportingpoint.max_ft">/</span>
+                {{ this.reportingpoint.max_ft ? 'max. ' + this.reportingpoint.max_ft + 'ft' : '' }}
+            </p>
+            <p *ngIf="this.reportingpoint.inbd_comp || this.reportingpoint.outbd_comp">
+                Compulsory: {{ this.reportingpoint.inbd_comp ? 'INBD' : '' }}
+                <span *ngIf="this.reportingpoint.inbd_comp && this.reportingpoint.outbd_comp">&amp;</span>
+                {{ this.reportingpoint.outbd_comp ? 'OUTBD' : '' }}
+            </p>
+            <!--<hr/>
+            <app-ol-overlay-button-add-to-route></app-ol-overlay-button-add-to-route>
+            <app-ol-overlay-button-edit-waypoint></app-ol-overlay-button-edit-waypoint>
+            <app-ol-overlay-button-remove-from-route></app-ol-overlay-button-remove-from-route>-->
+        </mat-card-content>
+    </mat-card>
+</div>

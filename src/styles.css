@@ -55,22 +55,33 @@ td.mat-cell {
 
 /* region: BUTTONS */
 
+
 button.btn-lg {
     font-size: large;
 }
 
-.mat-fab.mat-status-ok {
-    background-color: green;
+/*.mat-fab.mat-status-inactive {
+    background-color: #003C88;
+    color: white;
+}*/
+
+.mat-fab.mat-mapoverlay-primary {
+    background-color: rgba(0, 60, 109, 0.6);
     color: white;
 }
 
-.mat-fab.mat-status-warn {
-    background-color: orange;
+.mat-fab.mat-mapoverlay-status-ok {
+    background-color: rgba(0, 128, 0, 0.6);
     color: white;
 }
 
-.mat-fab.mat-status-error {
-    background-color: red;
+.mat-fab.mat-mapoverlay-status-warn {
+    background-color: rgba(255, 165, 0, 0.6);;
+    color: white;
+}
+
+.mat-fab.mat-mapoverlay-status-error {
+    background-color: rgba(255, 0, 0, 0.6);
     color: white;
 }
 

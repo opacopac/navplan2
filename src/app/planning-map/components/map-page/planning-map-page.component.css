@@ -1,0 +1,28 @@
+.base-map-container {
+    width: 100%;
+    height: 100%;
+}
+
+.zoom-buttons {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 20;
+    /*opacity: 0.60;*/
+}
+
+.location-button {
+    position: absolute;
+    top: 132px;
+    left: 10px;
+    z-index: 20;
+    /*opacity: 0.60;*/
+}
+
+.traffic-button {
+    position: absolute;
+    top: 198px;
+    left: 10px;
+    z-index: 20;
+    /*opacity: 0.60;*/
+}

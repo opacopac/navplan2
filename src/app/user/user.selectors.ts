@@ -1,6 +1,6 @@
 import {createFeatureSelector, createSelector, Selector, Store} from '@ngrx/store';
-import {UserState} from './model/user-state';
-import {CoreState} from '../core/model/core-state';
+import {UserState} from './user-state';
+import {CoreState} from '../core/core-state';
 import {User} from './model/user';
 import {Observable} from 'rxjs/internal/Observable';
 import {getCoreState} from '../core/core.selectors';

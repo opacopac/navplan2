@@ -1,9 +1,9 @@
 import * as ol from 'openlayers';
-import {OlComponent} from '../../shared/ol-component/ol-component';
+import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
 import {Track} from '../model/track';
 
 
-export class OlTrackLine extends OlComponent {
+export class OlTrackLine extends OlComponentBase {
     private readonly lineFeature: ol.Feature;
 
 

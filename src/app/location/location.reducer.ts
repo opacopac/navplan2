@@ -1,4 +1,4 @@
-import {LocationState} from './model/location-state';
+import {LocationState} from './location-state';
 import {LocationActions, LocationActionTypes} from './location.actions';
 import {LocationServiceStatus} from './services/location.service';
 

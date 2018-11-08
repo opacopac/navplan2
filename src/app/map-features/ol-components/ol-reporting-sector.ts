@@ -1,9 +1,9 @@
 import * as ol from 'openlayers';
 import {Reportingsector} from '../model/reportingsector';
-import {OlComponent} from '../../shared/ol-component/ol-component';
+import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
 
 
-export class OlReportingSector extends OlComponent {
+export class OlReportingSector extends OlComponentBase {
     private readonly olFeature: ol.Feature;
 
 

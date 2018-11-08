@@ -2,12 +2,12 @@ import * as ol from 'openlayers';
 import {MetarTaf} from '../model/metar-taf';
 import {UnitconversionService} from '../../shared/services/unitconversion/unitconversion.service';
 import {environment} from '../../../environments/environment';
-import {OlComponent} from '../../shared/ol-component/ol-component';
+import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
 import {Position2d} from '../../shared/model/geometry/position2d';
 import {Angle} from '../../shared/model/quantities/angle';
 
 
-export class OlMetarWind extends OlComponent {
+export class OlMetarWind extends OlComponentBase {
     private readonly olFeature: ol.Feature;
 
 

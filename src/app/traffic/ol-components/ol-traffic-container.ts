@@ -1,23 +1,24 @@
 import * as ol from 'openlayers';
-import {OlComponent} from '../../shared/ol-component/ol-component';
-import {MapContext} from '../../map/model/map-context';
+import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
+import {BaseMapContext} from '../../base-map/model/base-map-context';
 import {Subscription} from 'rxjs';
 import {OlTraffic} from './ol-traffic';
 import {getTrafficState} from '../traffic.selectors';
 import {Traffic} from '../model/traffic';
+import {select} from '@ngrx/store';
 
 
-export class OlTrafficContainer extends OlComponent {
+export class OlTrafficContainer extends OlComponentBase {
     private readonly trafficSubscription: Subscription;
     private readonly trafficLayer: ol.layer.Vector;
     private olTrafficList: OlTraffic[] = [];
 
 
-    constructor(mapContext: MapContext) {
+    constructor(mapContext: BaseMapContext) {
         super();
 
-        this.trafficLayer = mapContext.mapService.addVectorLayer(false, false);
-        const trafficState$ = mapContext.appStore.select(getTrafficState);
+        this.trafficLayer = mapContext.mapService.addVectorLayer(false);
+        const trafficState$ = mapContext.appStore.pipe(select(getTrafficState));
         this.trafficSubscription = trafficState$.subscribe((trafficState) => {
             this.destroyFeatures();
             if (trafficState.isWatching) {

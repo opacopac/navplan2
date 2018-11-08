@@ -1,5 +1,5 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {MapFeaturesState} from './model/map-features-state';
+import {MapFeaturesState} from './map-features-state';
 
 
 export const getMapFeaturesState = createFeatureSelector<MapFeaturesState>('mapFeaturesState');

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Action, Store} from '@ngrx/store';
+import {Action, select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
 import {catchError, filter, flatMap, map, mergeMap, switchMap, withLatestFrom} from 'rxjs/operators';
@@ -12,7 +12,7 @@ import {
 import {getTrafficIsWatching, getTrafficState} from './traffic.selectors';
 import {TrafficOgnService} from './services/traffic-ogn.service';
 import {TrafficAdsbexchangeService} from './services/traffic-adsbexchange.service';
-import {TrafficState} from './model/traffic-state';
+import {TrafficState} from './traffic-state';
 import {timer} from 'rxjs/internal/observable/timer';
 import {of} from 'rxjs/internal/observable/of';
 
@@ -25,8 +25,8 @@ const TRAFFIC_IDLE_TIMEOUT_MS = 10 * 60 * 1000;
 
 @Injectable()
 export class TrafficEffects {
-    private trafficState$: Observable<TrafficState> = this.appStore.select(getTrafficState);
-    private isWatching$: Observable<boolean> = this.appStore.select(getTrafficIsWatching);
+    private trafficState$: Observable<TrafficState> = this.appStore.pipe(select(getTrafficState));
+    private isWatching$: Observable<boolean> = this.appStore.pipe(select(getTrafficIsWatching));
 
 
     constructor(

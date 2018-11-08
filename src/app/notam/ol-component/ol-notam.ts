@@ -5,10 +5,10 @@ import {Polygon} from '../../shared/model/geometry/polygon';
 import {Multipolygon} from '../../shared/model/geometry/multipolygon';
 import {Circle} from '../../shared/model/geometry/circle';
 import {Geometry2dType} from '../../shared/model/geometry/geometry2d';
-import {OlComponent} from '../../shared/ol-component/ol-component';
+import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
 
 
-export class OlNotam extends OlComponent {
+export class OlNotam extends OlComponentBase {
     private readonly olFeature: ol.Feature;
 
 

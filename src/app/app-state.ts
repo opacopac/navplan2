@@ -1,4 +1,4 @@
-import {CoreState} from './core/model/core-state';
+import {CoreState} from './core/core-state';
 
 
 export interface AppState {

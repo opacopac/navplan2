@@ -4,7 +4,7 @@ import {FlighttimerComponent} from './components/flighttimer/flighttimer.compone
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {LocationEffects} from '../location/location.effects';
-import {FlightTimerState} from './model/flight-timer-state';
+import {FlightTimerState} from './flight-timer-state';
 import {FlightTimerActions} from './flight-timer.actions';
 import {flightTimerReducer} from './flight-timer.reducer';
 

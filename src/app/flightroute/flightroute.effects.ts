@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Action, Store} from '@ngrx/store';
+import {Action, select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
 import {of} from 'rxjs';
@@ -8,22 +8,22 @@ import {MessageService} from '../shared/services/message/message.service';
 import {FlightrouteService} from './services/flightroute/flightroute.service';
 import {
     FlightrouteActionTypes,
-    ReadFlightrouteListAction,
-    ReadFlightrouteListErrorAction,
-    ReadFlightrouteListSuccessAction,
-    SaveFlightrouteSuccessAction,
-    SaveFlightrouteErrorAction,
-    DeleteFlightrouteAction,
-    DeleteFlightrouteSuccessAction,
-    DeleteFlightrouteErrorAction,
-    ReadFlightrouteAction,
-    ReadFlightrouteSuccessAction,
-    ReadFlightrouteErrorAction,
-    ReadSharedFlightrouteAction,
-    ReadSharedFlightrouteSuccessAction,
-    ReadSharedFlightrouteErrorAction,
-    CreateSharedFlightrouteSuccessAction,
-    CreateSharedFlightrouteErrorAction
+    FlightrouteReadListAction,
+    FlightrouteReadListErrorAction,
+    FlightrouteReadListSuccessAction,
+    FlightrouteSaveSuccessAction,
+    FlightrouteSaveErrorAction,
+    FlightrouteDeleteAction,
+    FlightrouteDeleteSuccessAction,
+    FlightrouteDeleteErrorAction,
+    FlightrouteReadAction,
+    FlightrouteReadSuccessAction,
+    FlightrouteReadErrorAction,
+    SharedFlightrouteReadAction,
+    SharedFlightrouteReadSuccessAction,
+    SharedFlightrouteReadErrorAction,
+    SharedFlightrouteCreateSuccessAction,
+    SharedFlightrouteCreateErrorAction
 } from './flightroute.actions';
 import {getCurrentUser} from '../user/user.selectors';
 import {User} from '../user/model/user';
@@ -41,8 +41,8 @@ export class FlightrouteEffects {
     }
 
 
-    private currentUser$: Observable<User> = this.appStore.select(getCurrentUser);
-    private flightroute$: Observable<Flightroute> = this.appStore.select(getFlightroute);
+    private currentUser$: Observable<User> = this.appStore.pipe(select(getCurrentUser));
+    private flightroute$: Observable<Flightroute> = this.appStore.pipe(select(getFlightroute));
 
 
     // region flightroute list
@@ -53,8 +53,8 @@ export class FlightrouteEffects {
         switchMap(action => this.currentUser$),
         filter(currentUser => currentUser !== undefined),
         switchMap(currentUser => this.flightrouteService.readFlightrouteList(currentUser).pipe(
-            map(routeList => new ReadFlightrouteListSuccessAction(routeList)),
-            catchError(error => of(new ReadFlightrouteListErrorAction(error)))
+            map(routeList => new FlightrouteReadListSuccessAction(routeList)),
+            catchError(error => of(new FlightrouteReadListErrorAction(error)))
         ))
     );
 
@@ -62,7 +62,7 @@ export class FlightrouteEffects {
     @Effect({ dispatch: false})
     readFlightrouteListError$: Observable<Action> = this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_LIST_READ_ERROR),
-        tap((action: ReadFlightrouteListErrorAction) => {
+        tap((action: FlightrouteReadListErrorAction) => {
             this.messageService.writeErrorMessage(action.error);
         })
     );
@@ -76,12 +76,12 @@ export class FlightrouteEffects {
     @Effect()
     readFlightroute$: Observable<Action> = this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_READ),
-        map((action: ReadFlightrouteAction) => action.flightrouteId),
+        map((action: FlightrouteReadAction) => action.flightrouteId),
         withLatestFrom(this.currentUser$),
         filter(([flightrouteId, currentUser]) => flightrouteId > 0 && currentUser !== undefined),
         switchMap(([flightrouteId, currentUser]) => this.flightrouteService.readFlightroute(flightrouteId, currentUser).pipe(
-            map(route => new ReadFlightrouteSuccessAction(route)),
-            catchError(error => of(new ReadFlightrouteErrorAction(error)))
+            map(route => new FlightrouteReadSuccessAction(route)),
+            catchError(error => of(new FlightrouteReadErrorAction(error)))
         ))
 );
 
@@ -89,7 +89,7 @@ export class FlightrouteEffects {
     @Effect({ dispatch: false})
     readFlightrouteError$: Observable<Action> = this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_READ_ERROR),
-        tap((action: ReadFlightrouteErrorAction) => {
+        tap((action: FlightrouteReadErrorAction) => {
             this.messageService.writeErrorMessage(action.error);
         })
     );
@@ -102,8 +102,8 @@ export class FlightrouteEffects {
         withLatestFrom(this.currentUser$),
         filter(([flightroute, currentUser]) => flightroute !== undefined && currentUser !== undefined),
         switchMap(([flightroute, currentUser]) => this.flightrouteService.createFlightroute(flightroute, currentUser).pipe(
-            map(route => new SaveFlightrouteSuccessAction(route)),
-            catchError(error => of(new SaveFlightrouteErrorAction(error)))
+            map(route => new FlightrouteSaveSuccessAction(route)),
+            catchError(error => of(new FlightrouteSaveErrorAction(error)))
         ))
     );
 
@@ -115,8 +115,8 @@ export class FlightrouteEffects {
         withLatestFrom(this.currentUser$),
         filter(([flightroute, currentUser]) => flightroute !== undefined && currentUser !== undefined),
         switchMap(([flightroute, currentUser]) => this.flightrouteService.updateFlightroute(flightroute, currentUser).pipe(
-            map(route => new SaveFlightrouteSuccessAction(route)),
-            catchError(error => of(new SaveFlightrouteErrorAction(error)))
+            map(route => new FlightrouteSaveSuccessAction(route)),
+            catchError(error => of(new FlightrouteSaveErrorAction(error)))
         ))
     );
 
@@ -128,8 +128,8 @@ export class FlightrouteEffects {
         withLatestFrom(this.currentUser$),
         filter(([flightroute, currentUser]) => flightroute !== undefined && currentUser !== undefined),
         switchMap(([flightroute, currentUser]) => this.flightrouteService.duplicateFlightroute(flightroute, currentUser).pipe(
-            map(route => new SaveFlightrouteSuccessAction(route)),
-            catchError(error => of(new SaveFlightrouteErrorAction(error)))
+            map(route => new FlightrouteSaveSuccessAction(route)),
+            catchError(error => of(new FlightrouteSaveErrorAction(error)))
         ))
     );
 
@@ -137,7 +137,7 @@ export class FlightrouteEffects {
     @Effect()
     saveFlightrouteSuccess$: Observable<Action> = this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_SAVE_SUCCESS),
-        map((action: SaveFlightrouteSuccessAction) => new ReadFlightrouteListAction()),
+        map((action: FlightrouteSaveSuccessAction) => new FlightrouteReadListAction()),
         tap(() => this.messageService.writeSuccessMessage('TODO'))
     );
 
@@ -145,7 +145,7 @@ export class FlightrouteEffects {
     @Effect({ dispatch: false})
     saveFlightrouteError$: Observable<Action> = this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_SAVE_ERROR),
-        tap((action: SaveFlightrouteErrorAction) => {
+        tap((action: FlightrouteSaveErrorAction) => {
             this.messageService.writeErrorMessage(action.error);
         })
     );
@@ -154,12 +154,12 @@ export class FlightrouteEffects {
     @Effect()
     deleteFlightroute$: Observable<Action> = this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_DELETE),
-        map((action: DeleteFlightrouteAction) => action.flightrouteId),
+        map((action: FlightrouteDeleteAction) => action.flightrouteId),
         withLatestFrom(this.currentUser$),
         filter(([flightrouteId, currentUser]) => flightrouteId > 0 && currentUser !== undefined),
         switchMap(([flightrouteId, currentUser]) => this.flightrouteService.deleteFlightroute(flightrouteId, currentUser).pipe(
-            map(() => new DeleteFlightrouteSuccessAction()),
-            catchError(error => of(new DeleteFlightrouteErrorAction(error)))
+            map(() => new FlightrouteDeleteSuccessAction()),
+            catchError(error => of(new FlightrouteDeleteErrorAction(error)))
         ))
     );
 
@@ -167,7 +167,7 @@ export class FlightrouteEffects {
     @Effect()
     deleteFlightrouteSuccess$: Observable<Action> = this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_DELETE_SUCCESS),
-        map((action: DeleteFlightrouteSuccessAction) => new ReadFlightrouteListAction()),
+        map((action: FlightrouteDeleteSuccessAction) => new FlightrouteReadListAction()),
         tap(() => this.messageService.writeSuccessMessage('TODO'))
     );
 
@@ -175,7 +175,7 @@ export class FlightrouteEffects {
     @Effect({ dispatch: false})
     deleteFlightrouteError$: Observable<Action> = this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_DELETE_ERROR),
-        tap((action: DeleteFlightrouteErrorAction) => {
+        tap((action: FlightrouteDeleteErrorAction) => {
             this.messageService.writeErrorMessage(action.error);
         })
     );
@@ -187,24 +187,24 @@ export class FlightrouteEffects {
 
     @Effect()
     readSharedFlightroute$: Observable<Action> = this.actions$.pipe(
-        ofType(FlightrouteActionTypes.FLIGHTROUTE_READ_SHARED),
-        map((action: ReadSharedFlightrouteAction) => action),
+        ofType(FlightrouteActionTypes.SHARED_FLIGHTROUTE_READ),
+        map((action: SharedFlightrouteReadAction) => action),
         filter(action => action.shareId !== undefined),
         switchMap(action => this.flightrouteService.readSharedFlightroute(action.shareId).pipe(
-            map(route => new ReadSharedFlightrouteSuccessAction(route)),
-            catchError(error => of(new ReadSharedFlightrouteErrorAction(error)))
+            map(route => new SharedFlightrouteReadSuccessAction(route)),
+            catchError(error => of(new SharedFlightrouteReadErrorAction(error)))
         ))
     );
 
 
     @Effect()
     createSharedFlightroute$: Observable<Action> = this.actions$.pipe(
-        ofType(FlightrouteActionTypes.FLIGHTROUTE_CREATE_SHARED),
+        ofType(FlightrouteActionTypes.SHARED_FLIGHTROUTE_CREATE),
         switchMap(action => this.flightroute$),
         filter(flightroute => flightroute !== undefined),
         switchMap(flightroute => this.flightrouteService.createSharedFlightroute(flightroute).pipe(
-            map(shareId => new CreateSharedFlightrouteSuccessAction(shareId)),
-            catchError(error => of(new CreateSharedFlightrouteErrorAction(error)))
+            map(shareId => new SharedFlightrouteCreateSuccessAction(shareId)),
+            catchError(error => of(new SharedFlightrouteCreateErrorAction(error)))
         ))
     );
 

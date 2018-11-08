@@ -1,5 +1,5 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {FlightTimerState} from './model/flight-timer-state';
+import {FlightTimerState} from './flight-timer-state';
 
 
 export const getFlightTimerState = createFeatureSelector<FlightTimerState>('flightTimerState');

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {getFlightroute, getFlightrouteList} from '../../flightroute.selectors';
 import {getCurrentUser} from '../../../user/user.selectors';
@@ -7,22 +7,22 @@ import {FlightrouteListEntry} from '../../model/flightroute-list-entry';
 import {Flightroute} from '../../model/flightroute';
 import {User} from '../../../user/model/user';
 import {
-    CreateFlightrouteAction,
-    DeleteFlightrouteAction,
-    DuplicateFlightrouteAction,
-    ExportFlightrouteExcel,
-    ExportFlightroutePdf,
-    ReadFlightrouteAction,
-    ReadFlightrouteListAction,
-    UpdateAircraftConsumption,
-    UpdateAircraftSpeed,
-    UpdateExtraTime,
-    UpdateFlightrouteAction,
-    UpdateFlightrouteComments,
-    UpdateFlightrouteTitle
+    FlightrouteCreateAction,
+    FlightrouteDeleteAction,
+    FlightrouteDuplicateAction,
+    ExportFlightrouteExcelAction,
+    ExportFlightroutePdfAction,
+    FlightrouteReadAction,
+    FlightrouteReadListAction,
+    UpdateAircraftConsumptionAction,
+    UpdateAircraftSpeedAction,
+    UpdateExtraTimeAction,
+    FlightrouteUpdateAction,
+    UpdateFlightrouteCommentsAction,
+    UpdateFlightrouteTitleAction
 } from '../../flightroute.actions';
 import {Waypoint} from '../../model/waypoint';
-import {DeleteWaypointAction, EditWaypointAction, ReverseWaypointsAction} from '../../waypoints.actions';
+import {DeleteWaypointAction, EditWaypointAction, ReverseWaypointsAction} from '../../flightroute.actions';
 
 
 @Component({
@@ -37,22 +37,22 @@ export class FlightrouteContainerComponent implements OnInit {
 
 
     constructor(private appStore: Store<any>) {
-        this.currentUser$ = this.appStore.select(getCurrentUser);
-        this.flightrouteList$ = this.appStore.select(getFlightrouteList);
-        this.flightroute$ = this.appStore.select(getFlightroute);
+        this.currentUser$ = this.appStore.pipe(select(getCurrentUser));
+        this.flightrouteList$ = this.appStore.pipe(select(getFlightrouteList));
+        this.flightroute$ = this.appStore.pipe(select(getFlightroute));
     }
 
 
     ngOnInit() {
         this.appStore.dispatch(
-            new ReadFlightrouteListAction()
+            new FlightrouteReadListAction()
         );
     }
 
 
     public onLoadFlightrouteClicked(flightRouteId: string) {
         this.appStore.dispatch(
-            new ReadFlightrouteAction(Number(flightRouteId))
+            new FlightrouteReadAction(Number(flightRouteId))
         );
     }
 
@@ -61,11 +61,11 @@ export class FlightrouteContainerComponent implements OnInit {
         const flightRouteIdValue = Number(flightRouteId);
         if (flightRouteIdValue > 0) {
             this.appStore.dispatch(
-                new UpdateFlightrouteAction()
+                new FlightrouteUpdateAction()
             );
         } else {
             this.appStore.dispatch(
-                new CreateFlightrouteAction()
+                new FlightrouteCreateAction()
             );
         }
     }
@@ -73,49 +73,49 @@ export class FlightrouteContainerComponent implements OnInit {
 
     public onSaveFlightrouteCopyClicked(flightRouteId: number) {
         this.appStore.dispatch(
-            new DuplicateFlightrouteAction(flightRouteId)
+            new FlightrouteDuplicateAction(flightRouteId)
         );
     }
 
 
     public onDeleteFlightrouteClicked(flightRouteId: string) {
         this.appStore.dispatch(
-            new DeleteFlightrouteAction(Number(flightRouteId))
+            new FlightrouteDeleteAction(Number(flightRouteId))
         );
     }
 
 
     public onUpdateRouteName(name: string) {
         this.appStore.dispatch(
-            new UpdateFlightrouteTitle(name)
+            new UpdateFlightrouteTitleAction(name)
         );
     }
 
 
     public onUpdateRouteComments(comments: string) {
         this.appStore.dispatch(
-            new UpdateFlightrouteComments(comments)
+            new UpdateFlightrouteCommentsAction(comments)
         );
     }
 
 
     public onUpdateAircraftSpeed(speed: string) {
         this.appStore.dispatch(
-            new UpdateAircraftSpeed(Number(speed))
+            new UpdateAircraftSpeedAction(Number(speed))
         );
     }
 
 
     public onUpdateAircraftConsumption(consumption: string) {
         this.appStore.dispatch(
-            new UpdateAircraftConsumption(Number(consumption))
+            new UpdateAircraftConsumptionAction(Number(consumption))
         );
     }
 
 
     public onUpdateExtraTime(extraTime: string) {
         this.appStore.dispatch(
-            new UpdateExtraTime(Number(extraTime))
+            new UpdateExtraTimeAction(Number(extraTime))
         );
     }
 
@@ -143,14 +143,14 @@ export class FlightrouteContainerComponent implements OnInit {
 
     public onExportFlightroutePdfClicked(flightRouteId: number) {
         this.appStore.dispatch(
-            new ExportFlightroutePdf(flightRouteId)
+            new ExportFlightroutePdfAction(flightRouteId)
         );
     }
 
 
     public onExportFlightrouteExcelClicked(flightRouteId: number) {
         this.appStore.dispatch(
-            new ExportFlightrouteExcel(flightRouteId)
+            new ExportFlightrouteExcelAction(flightRouteId)
         );
     }
 }

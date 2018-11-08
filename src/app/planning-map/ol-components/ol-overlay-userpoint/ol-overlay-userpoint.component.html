@@ -1,0 +1,22 @@
+<div #container class="ol-popup">
+    <mat-card *ngIf="this.userpoint">
+        <mat-card-header>
+            <img mat-card-avatar src="{{ this.getAvatarUrl() }}" />
+            <mat-card-title>
+                {{ this.userpoint.name }}
+            </mat-card-title>
+            <mat-card-subtitle>
+                User Point
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="card-body">
+            <p>{{ this.getPositionString(this.userpoint.position) }}</p>
+            <p *ngIf="this.userpoint.remark">Remark: {{ this.userpoint.remark }}</p>
+            <!--<hr/>
+            <app-ol-overlay-button-add-to-route></app-ol-overlay-button-add-to-route>
+            <app-ol-overlay-button-edit-waypoint></app-ol-overlay-button-edit-waypoint>
+            <app-ol-overlay-button-remove-from-route></app-ol-overlay-button-remove-from-route>
+            <app-ol-overlay-button-edit-userpoint></app-ol-overlay-button-edit-userpoint>-->
+        </mat-card-content>
+    </mat-card>
+</div>

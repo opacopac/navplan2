@@ -1,4 +1,4 @@
-import {MapFeaturesState} from './model/map-features-state';
+import {MapFeaturesState} from './map-features-state';
 import {MapFeaturesActions, MapFeaturesActionTypes} from './map-features.actions';
 
 

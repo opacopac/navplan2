@@ -1,12 +1,12 @@
 import * as ol from 'openlayers';
 import {UnitconversionService} from '../../shared/services/unitconversion/unitconversion.service';
 import {Angle} from '../../shared/model/quantities/angle';
-import {OlComponent} from '../../shared/ol-component/ol-component';
+import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
 import {Waypoint} from '../model/waypoint';
 import {LengthUnit} from '../../shared/model/units';
 
 
-export class OlWaypointBearingLabel extends OlComponent {
+export class OlWaypointBearingLabel extends OlComponentBase {
     private readonly dirBearFeature: ol.Feature;
 
 

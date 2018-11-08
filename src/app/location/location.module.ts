@@ -8,18 +8,20 @@ import {locationReducer} from './location.reducer';
 import {EffectsModule} from '@ngrx/effects';
 import {LocationEffects} from './location.effects';
 import {LocationActions} from './location.actions';
-import {LocationState} from './model/location-state';
+import {LocationState} from './location-state';
 import {MatButtonModule, MatTooltipModule} from '@angular/material';
+import {BaseMapModule} from '../base-map/base-map.module';
 
 
 @NgModule({
     imports: [
         CommonModule,
-        SharedModule,
         StoreModule.forFeature<LocationState, LocationActions>('locationState', locationReducer),
         EffectsModule.forFeature([LocationEffects]),
         MatTooltipModule,
         MatButtonModule,
+        SharedModule,
+        BaseMapModule,
     ],
     declarations: [
         LocationButtonComponent,

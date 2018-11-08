@@ -1,6 +1,7 @@
 import {Action} from '@ngrx/store';
 import {FlightrouteListEntry} from './model/flightroute-list-entry';
 import {Flightroute} from './model/flightroute';
+import {Waypoint} from './model/waypoint';
 
 
 export enum FlightrouteActionTypes {
@@ -18,13 +19,13 @@ export enum FlightrouteActionTypes {
     FLIGHTROUTE_DELETE = '[Flightroute] Delete flightroute',
     FLIGHTROUTE_DELETE_SUCCESS = '[FlightrouteService] Delete flightroute success',
     FLIGHTROUTE_DELETE_ERROR = '[FlightrouteService] Delete flightroute error',
-    FLIGHTROUTE_READ_SHARED = '[Router] Read shared flightroute',
-    FLIGHTROUTE_READ_SHARED_SUCCESS = '[FlightrouteService] Read shared flightroute success',
-    FLIGHTROUTE_READ_SHARED_ERROR = '[FlightrouteService] Read shared flightroute error',
-    FLIGHTROUTE_CREATE_SHARED = '[Flightroute] Create shared flightroute',
-    FLIGHTROUTE_CREATE_SHARED_SUCCESS = '[FlightrouteService] Create shared flightroute success',
-    FLIGHTROUTE_CREATE_SHARED_ERROR = '[FlightrouteService] Create shared flightroute error',
-    FLIGHTROUTE_HIDE_SHARED_URL = '[Share flightroute URL dialog] Hide shared URL',
+    SHARED_FLIGHTROUTE_READ = '[Router] Read shared flightroute',
+    SHARED_FLIGHTROUTE_READ_SUCCESS = '[FlightrouteService] Read shared flightroute success',
+    SHARED_FLIGHTROUTE_READ_ERROR = '[FlightrouteService] Read shared flightroute error',
+    SHARED_FLIGHTROUTE_CREATE = '[Flightroute] Create shared flightroute',
+    SHARED_FLIGHTROUTE_CREATE_SUCCESS = '[FlightrouteService] Create shared flightroute success',
+    SHARED_FLIGHTROUTE_CREATE_ERROR = '[FlightrouteService] Create shared flightroute error',
+    SHARED_FLIGHTROUTE_HIDE_URL = '[Share flightroute URL dialog] Hide shared URL',
     FLIGHTROUTE_UPDATE_AIRCRAFT_SPEED = '[Flightroute Page] Update aircraft speed',
     FLIGHTROUTE_UPDATE_AIRCRAFT_CONSUMPTION = '[Flightroute Page] Update aircraft consumption',
     FLIGHTROUTE_UPDATE_EXTRA_TIME = '[Flightroute Page] Update extra time',
@@ -32,26 +33,32 @@ export enum FlightrouteActionTypes {
     FLIGHTROUTE_UPDATE_COMMENTS = '[Flightroute Page] Update route comments',
     FLIGHTROUTE_EXPORT_PDF = '[Flightroute Page] Export route as PDF',
     FLIGHTROUTE_EXPORT_EXCEL = '[Flightroute Page] Export route as Excel',
+    WAYPOINTS_EDIT = '[Waypoint page] Edit waypoint',
+    WAYPOINTS_EDIT_SAVE = '[Edit waypoint dialog] Save edited waypoint',
+    WAYPOINTS_EDIT_CANCEL = '[Edit waypoint dialog] Cancel edited waypoint',
+    WAYPOINTS_DELETE = '[Waypoint page] Delete waypoint',
+    WAYPOINTS_INSERT = '[MapFeature Overlay] Add waypoint',
+    WAYPOINTS_REVERSE = '[Waypoint pist] Reverse waypoints',
 }
 
 
 // region flightroute list
 
-export class ReadFlightrouteListAction implements Action {
+export class FlightrouteReadListAction implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_LIST_READ;
 
     constructor() {}
 }
 
 
-export class ReadFlightrouteListSuccessAction implements Action {
+export class FlightrouteReadListSuccessAction implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_LIST_READ_SUCCESS;
 
     constructor(public flightrouteList: FlightrouteListEntry[]) {}
 }
 
 
-export class ReadFlightrouteListErrorAction implements Action {
+export class FlightrouteReadListErrorAction implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_LIST_READ_ERROR;
 
     constructor(public error: string) {}
@@ -62,77 +69,77 @@ export class ReadFlightrouteListErrorAction implements Action {
 
 // region flightroute CRUD
 
-export class ReadFlightrouteAction implements Action {
+export class FlightrouteReadAction implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_READ;
 
     constructor(public flightrouteId: number) {}
 }
 
 
-export class ReadFlightrouteSuccessAction implements Action {
+export class FlightrouteReadSuccessAction implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_READ_SUCCESS;
 
     constructor(public flightroute: Flightroute) {}
 }
 
 
-export class ReadFlightrouteErrorAction implements Action {
+export class FlightrouteReadErrorAction implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_READ_ERROR;
 
     constructor(public error: string) {}
 }
 
 
-export class CreateFlightrouteAction implements Action {
+export class FlightrouteCreateAction implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_CREATE;
 
     constructor() {}
 }
 
 
-export class UpdateFlightrouteAction implements Action {
+export class FlightrouteUpdateAction implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_UPDATE;
 
     constructor() {}
 }
 
 
-export class DuplicateFlightrouteAction implements Action {
+export class FlightrouteDuplicateAction implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_DUPLICATE;
 
     constructor(public flightrouteId: number) {}
 }
 
 
-export class SaveFlightrouteSuccessAction implements Action {
+export class FlightrouteSaveSuccessAction implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_SAVE_SUCCESS;
 
     constructor(public flightroute: Flightroute) {}
 }
 
 
-export class SaveFlightrouteErrorAction implements Action {
+export class FlightrouteSaveErrorAction implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_SAVE_ERROR;
 
     constructor(public error: string) {}
 }
 
 
-export class DeleteFlightrouteAction implements Action {
+export class FlightrouteDeleteAction implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_DELETE;
 
     constructor(public flightrouteId: number) {}
 }
 
 
-export class DeleteFlightrouteSuccessAction implements Action {
+export class FlightrouteDeleteSuccessAction implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_DELETE_SUCCESS;
 
     constructor() {}
 }
 
 
-export class DeleteFlightrouteErrorAction implements Action {
+export class FlightrouteDeleteErrorAction implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_DELETE_ERROR;
 
     constructor(public error: string) {}
@@ -143,50 +150,50 @@ export class DeleteFlightrouteErrorAction implements Action {
 
 // region shared flightroute
 
-export class ReadSharedFlightrouteAction implements Action {
-    readonly type = FlightrouteActionTypes.FLIGHTROUTE_READ_SHARED;
+export class SharedFlightrouteReadAction implements Action {
+    readonly type = FlightrouteActionTypes.SHARED_FLIGHTROUTE_READ;
 
     constructor(public shareId: string) {}
 }
 
 
-export class ReadSharedFlightrouteSuccessAction implements Action {
-    readonly type = FlightrouteActionTypes.FLIGHTROUTE_READ_SHARED_SUCCESS;
+export class SharedFlightrouteReadSuccessAction implements Action {
+    readonly type = FlightrouteActionTypes.SHARED_FLIGHTROUTE_READ_SUCCESS;
 
     constructor(public flightroute: Flightroute) {}
 }
 
 
-export class ReadSharedFlightrouteErrorAction implements Action {
-    readonly type = FlightrouteActionTypes.FLIGHTROUTE_READ_SHARED_ERROR;
+export class SharedFlightrouteReadErrorAction implements Action {
+    readonly type = FlightrouteActionTypes.SHARED_FLIGHTROUTE_READ_ERROR;
 
     constructor(public error: string) {}
 }
 
 
-export class CreateSharedFlightrouteAction implements Action {
-    readonly type = FlightrouteActionTypes.FLIGHTROUTE_CREATE_SHARED;
+export class SharedFlightrouteCreateAction implements Action {
+    readonly type = FlightrouteActionTypes.SHARED_FLIGHTROUTE_CREATE;
 
     constructor() {}
 }
 
 
-export class CreateSharedFlightrouteSuccessAction implements Action {
-    readonly type = FlightrouteActionTypes.FLIGHTROUTE_CREATE_SHARED_SUCCESS;
+export class SharedFlightrouteCreateSuccessAction implements Action {
+    readonly type = FlightrouteActionTypes.SHARED_FLIGHTROUTE_CREATE_SUCCESS;
 
     constructor(public shareId: string) {}
 }
 
 
-export class CreateSharedFlightrouteErrorAction implements Action {
-    readonly type = FlightrouteActionTypes.FLIGHTROUTE_CREATE_SHARED_ERROR;
+export class SharedFlightrouteCreateErrorAction implements Action {
+    readonly type = FlightrouteActionTypes.SHARED_FLIGHTROUTE_CREATE_ERROR;
 
     constructor(public error: string) {}
 }
 
 
-export class HideSharedFlightrouteUrlAction implements Action {
-    readonly type = FlightrouteActionTypes.FLIGHTROUTE_HIDE_SHARED_URL;
+export class SharedFlightrouteHideUrlAction implements Action {
+    readonly type = FlightrouteActionTypes.SHARED_FLIGHTROUTE_HIDE_URL;
 
     constructor() {}
 }
@@ -196,35 +203,35 @@ export class HideSharedFlightrouteUrlAction implements Action {
 
 // region flightroute parameters (title/speed/fuel/comments)
 
-export class UpdateAircraftSpeed implements Action {
+export class UpdateAircraftSpeedAction implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_UPDATE_AIRCRAFT_SPEED;
 
     constructor(public aircraftSpeedValue: number) {}
 }
 
 
-export class UpdateAircraftConsumption implements Action {
+export class UpdateAircraftConsumptionAction implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_UPDATE_AIRCRAFT_CONSUMPTION;
 
     constructor(public aircraftConsumptionValue: number) {}
 }
 
 
-export class UpdateExtraTime implements Action {
+export class UpdateExtraTimeAction implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_UPDATE_EXTRA_TIME;
 
     constructor(public extraTimeMinutesValue: number) {}
 }
 
 
-export class UpdateFlightrouteTitle implements Action {
+export class UpdateFlightrouteTitleAction implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_UPDATE_TITLE;
 
     constructor(public title: string) {}
 }
 
 
-export class UpdateFlightrouteComments implements Action {
+export class UpdateFlightrouteCommentsAction implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_UPDATE_COMMENTS;
 
     constructor(public comments: string) {}
@@ -235,14 +242,14 @@ export class UpdateFlightrouteComments implements Action {
 
 // region flightroute exports
 
-export class ExportFlightroutePdf implements Action {
+export class ExportFlightroutePdfAction implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_EXPORT_PDF;
 
     constructor(public flightrouteId: number) {}
 }
 
 
-export class ExportFlightrouteExcel implements Action {
+export class ExportFlightrouteExcelAction implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_EXPORT_EXCEL;
 
     constructor(public flightrouteId: number) {}
@@ -251,32 +258,87 @@ export class ExportFlightrouteExcel implements Action {
 // endregion
 
 
+// region waypoints
+
+export class EditWaypointAction implements Action {
+    readonly type = FlightrouteActionTypes.WAYPOINTS_EDIT;
+
+    constructor(public waypoint: Waypoint) {}
+}
+
+
+export class SaveEditWaypointAction implements Action {
+    readonly type = FlightrouteActionTypes.WAYPOINTS_EDIT_SAVE;
+
+    constructor(public waypoint: Waypoint) {}
+}
+
+
+export class CancelEditWaypointAction implements Action {
+    readonly type = FlightrouteActionTypes.WAYPOINTS_EDIT_CANCEL;
+
+    constructor() {}
+}
+
+
+export class DeleteWaypointAction implements Action {
+    readonly type = FlightrouteActionTypes.WAYPOINTS_DELETE;
+
+    constructor(public waypoint: Waypoint) {}
+}
+
+
+export class InsertWaypointAction implements Action {
+    readonly type = FlightrouteActionTypes.WAYPOINTS_INSERT;
+
+    constructor(
+        public newWaypoint: Waypoint,
+        public index: number) {}
+}
+
+
+export class ReverseWaypointsAction implements Action {
+    readonly type = FlightrouteActionTypes.WAYPOINTS_REVERSE;
+
+    constructor() {}
+}
+
+
+// endregion
+
+
 export type FlightrouteActions =
-    ReadFlightrouteListAction
-    | ReadFlightrouteListSuccessAction
-    | ReadFlightrouteListErrorAction
-    | ReadFlightrouteAction
-    | ReadFlightrouteSuccessAction
-    | ReadFlightrouteErrorAction
-    | CreateFlightrouteAction
-    | UpdateFlightrouteAction
-    | DuplicateFlightrouteAction
-    | SaveFlightrouteSuccessAction
-    | SaveFlightrouteErrorAction
-    | DeleteFlightrouteAction
-    | DeleteFlightrouteSuccessAction
-    | DeleteFlightrouteErrorAction
-    | ReadSharedFlightrouteAction
-    | ReadSharedFlightrouteSuccessAction
-    | ReadSharedFlightrouteErrorAction
-    | CreateSharedFlightrouteAction
-    | CreateSharedFlightrouteSuccessAction
-    | CreateSharedFlightrouteErrorAction
-    | HideSharedFlightrouteUrlAction
-    | UpdateAircraftSpeed
-    | UpdateAircraftConsumption
-    | UpdateExtraTime
-    | UpdateFlightrouteTitle
-    | UpdateFlightrouteComments
-    | ExportFlightroutePdf
-    | ExportFlightrouteExcel;
+    FlightrouteReadListAction
+    | FlightrouteReadListSuccessAction
+    | FlightrouteReadListErrorAction
+    | FlightrouteReadAction
+    | FlightrouteReadSuccessAction
+    | FlightrouteReadErrorAction
+    | FlightrouteCreateAction
+    | FlightrouteUpdateAction
+    | FlightrouteDuplicateAction
+    | FlightrouteSaveSuccessAction
+    | FlightrouteSaveErrorAction
+    | FlightrouteDeleteAction
+    | FlightrouteDeleteSuccessAction
+    | FlightrouteDeleteErrorAction
+    | SharedFlightrouteReadAction
+    | SharedFlightrouteReadSuccessAction
+    | SharedFlightrouteReadErrorAction
+    | SharedFlightrouteCreateAction
+    | SharedFlightrouteCreateSuccessAction
+    | SharedFlightrouteCreateErrorAction
+    | SharedFlightrouteHideUrlAction
+    | UpdateAircraftSpeedAction
+    | UpdateAircraftConsumptionAction
+    | UpdateExtraTimeAction
+    | UpdateFlightrouteTitleAction
+    | UpdateFlightrouteCommentsAction
+    | ExportFlightroutePdfAction
+    | ExportFlightrouteExcelAction
+    | EditWaypointAction
+    | SaveEditWaypointAction
+    | CancelEditWaypointAction
+    | DeleteWaypointAction
+    | InsertWaypointAction
+    | ReverseWaypointsAction;

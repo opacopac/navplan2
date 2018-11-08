@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {Observable, Subscription} from 'rxjs';
 import {Waypoint} from '../../model/waypoint';
 import {getEditWaypoint} from '../../flightroute.selectors';
-import {CancelEditWaypointAction, SaveEditWaypointAction} from '../../waypoints.actions';
+import {CancelEditWaypointAction, SaveEditWaypointAction} from '../../flightroute.actions';
 import {EditWaypointDialogComponent} from '../edit-waypoint-dialog/edit-waypoint-dialog.component';
 
 
@@ -22,7 +22,7 @@ export class EditWaypointContainerComponent implements OnInit, OnDestroy {
         private appStore: Store<any>,
         private dialog: MatDialog) {
 
-        this.editWaypoint$ = this.appStore.select(getEditWaypoint);
+        this.editWaypoint$ = this.appStore.pipe(select(getEditWaypoint));
     }
 
 

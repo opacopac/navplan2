@@ -2,11 +2,11 @@ import * as ol from 'openlayers';
 import {OlAirportRunway} from './ol-airport-runway';
 import {OlAirportFeature} from './ol-airport-feature';
 import {Airport, AirportType} from '../model/airport';
-import {OlComponent} from '../../shared/ol-component/ol-component';
+import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
 import {AirportIcon} from '../model/airport-icon';
 
 
-export class OlAirport extends OlComponent {
+export class OlAirport extends OlComponentBase {
     private readonly olFeature: ol.Feature;
     private readonly olRunway: OlAirportRunway;
     private readonly olAdFeatures: OlAirportFeature[];

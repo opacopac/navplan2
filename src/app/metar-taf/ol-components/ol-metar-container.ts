@@ -1,27 +1,28 @@
 import * as ol from 'openlayers';
 import {combineLatest, Subscription} from 'rxjs';
-import {MapContext} from '../../map/model/map-context';
-import {OlComponent} from '../../shared/ol-component/ol-component';
+import {BaseMapContext} from '../../base-map/model/base-map-context';
+import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
 import {OlMetar} from './ol-metar';
 import {getMetarTafList} from '../metar-taf.selectors';
 import {MetarTafList} from '../model/metar-taf';
 import {getMapFeaturesAirports} from '../../map-features/map-features.selectors';
 import {Airport} from '../../map-features/model/airport';
 import {Angle} from '../../shared/model/quantities/angle';
+import {select} from '@ngrx/store';
 
 
-export class OlMetarContainer extends OlComponent {
+export class OlMetarContainer extends OlComponentBase {
     private readonly metarTafSubscription: Subscription;
     private readonly metarTafLayer: ol.layer.Vector;
     private olMetars: OlMetar[] = [];
 
 
-    constructor(mapContext: MapContext) {
+    constructor(mapContext: BaseMapContext) {
         super();
 
-        this.metarTafLayer = mapContext.mapService.addVectorLayer(false, false);
-        const metarTafList$ = mapContext.appStore.select(getMetarTafList);
-        const airportList$ = mapContext.appStore.select(getMapFeaturesAirports);
+        this.metarTafLayer = mapContext.mapService.addVectorLayer(false);
+        const metarTafList$ = mapContext.appStore.pipe(select(getMetarTafList));
+        const airportList$ = mapContext.appStore.pipe(select(getMapFeaturesAirports));
         this.metarTafSubscription = combineLatest(
             metarTafList$,
             airportList$

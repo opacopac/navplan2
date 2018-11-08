@@ -1,0 +1,19 @@
+<div #container class="ol-popup card text-white bg-primary mb-3" style="visibility: hidden">
+    <div *ngIf="this.waypoint">
+        <div class="card-header">
+            {{ this.waypoint.checkpoint }}
+            <app-ol-overlay-button-close (click)="this.onCloseOverlay()"></app-ol-overlay-button-close>
+        </div>
+        <div class="card-body">
+            <p>{{ this.getPositionString(this.waypoint.position) }}</p>
+            <p *ngIf="this.waypoint.alt.alt_ft">
+                Altitude:
+                {{ (this.waypoint.alt.isminalt ? 'min. ' : 'max. ') + this.waypoint.alt.alt_ft + 'ft' }}
+            </p>
+            <hr/>
+            <app-ol-overlay-button-add-to-route></app-ol-overlay-button-add-to-route>
+            <app-ol-overlay-button-edit-waypoint></app-ol-overlay-button-edit-waypoint>
+            <app-ol-overlay-button-remove-from-route></app-ol-overlay-button-remove-from-route>
+        </div>
+    </div>
+</div>

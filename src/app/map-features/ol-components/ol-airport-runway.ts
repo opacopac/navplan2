@@ -1,12 +1,10 @@
 import * as ol from 'openlayers';
-import {environment} from '../../../environments/environment';
 import {Airport, AirportRunway} from '../model/airport';
-import {OlComponent} from '../../shared/ol-component/ol-component';
-import {run} from 'tslint/lib/runner';
+import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
 import {AirportIcon} from '../model/airport-icon';
 
 
-export class OlAirportRunway extends OlComponent {
+export class OlAirportRunway extends OlComponentBase {
     private readonly olFeature: ol.Feature;
 
     public constructor(

@@ -6,7 +6,7 @@ import {StatusButtonDirective} from './directives/status-button/status-button.di
 import {TextButtonDirective} from './directives/text-button/text-button.directive';
 import {MessageComponent} from './components/message/message.component';
 import {MessageService} from './services/message/message.service';
-import {MapOverlayButtonCloseComponent} from './components/map-overlay-button-close/map-overlay-button-close.component';
+import {OlOverlayButtonCloseComponent} from '../base-map/components/ol-overlay-button-close/ol-overlay-button-close.component';
 import {MatButtonModule} from '@angular/material/button';
 
 
@@ -18,7 +18,7 @@ import {MatButtonModule} from '@angular/material/button';
         MessageComponent,
         ButtonBaseDirective,
         IconButtonDirective,
-        MapOverlayButtonCloseComponent,
+        OlOverlayButtonCloseComponent,
         StatusButtonDirective,
         TextButtonDirective,
 
@@ -27,7 +27,7 @@ import {MatButtonModule} from '@angular/material/button';
         MessageComponent,
         ButtonBaseDirective,
         IconButtonDirective,
-        MapOverlayButtonCloseComponent,
+        OlOverlayButtonCloseComponent,
         StatusButtonDirective,
         TextButtonDirective,
         MatButtonModule,

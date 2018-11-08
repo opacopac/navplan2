@@ -1,32 +1,33 @@
 import * as ol from 'openlayers';
-import {OlComponent} from '../../shared/ol-component/ol-component';
-import {MapContext} from '../../map/model/map-context';
+import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
+import {BaseMapContext} from '../../base-map/model/base-map-context';
 import {Flightroute} from '../model/flightroute';
 import {getFlightroute} from '../flightroute.selectors';
 import {Subscription} from 'rxjs';
 import {OlRouteLine} from './ol-route-line';
-import {OlWaypoint2} from './ol-waypoint2';
+import {OlWaypoint} from './ol-waypoint';
 import {OlAlternateLine} from './ol-alternate-line';
 import {Waypoint} from '../model/waypoint';
+import {select} from '@ngrx/store';
 
 
-export class OlFlightrouteContainer extends OlComponent {
+export class OlFlightrouteContainer extends OlComponentBase {
     private readonly flightrouteSubscription: Subscription;
     private readonly flightrouteLayer: ol.layer.Vector;
-    private olRoutepoints: OlWaypoint2[];
-    private olAlternate: OlWaypoint2;
+    private olRoutepoints: OlWaypoint[];
+    private olAlternate: OlWaypoint;
     private olRouteLine: OlRouteLine;
     private olAlternateLine: OlAlternateLine;
 
 
-    constructor(mapContext: MapContext) {
+    constructor(mapContext: BaseMapContext, snapToLayers: ol.layer.Vector[]) {
         super();
 
-        this.flightrouteLayer = mapContext.mapService.addVectorLayer(false, false);
-        const flightroute$ = mapContext.appStore.select(getFlightroute);
+        this.flightrouteLayer = mapContext.mapService.addVectorLayer(false);
+        const flightroute$ = mapContext.appStore.pipe(select(getFlightroute));
         this.flightrouteSubscription = flightroute$.subscribe((flightroute) => {
             this.destroyFeatures();
-            this.addFeatures(flightroute, mapContext, this.flightrouteLayer.getSource());
+            this.addFeatures(flightroute, mapContext, this.flightrouteLayer.getSource(), snapToLayers);
         });
     }
 
@@ -42,20 +43,20 @@ export class OlFlightrouteContainer extends OlComponent {
     }
 
 
-    private addFeatures(flightroute: Flightroute, mapContext: MapContext, source: ol.source.Vector) {
+    private addFeatures(flightroute: Flightroute, mapContext: BaseMapContext, source: ol.source.Vector, snapToLayers: ol.layer.Vector[]) {
         if (flightroute) {
             const mapRotation = mapContext.mapService.getRotation();
-            this.olRouteLine = new OlRouteLine(flightroute, mapContext.map, source);
-            this.olAlternateLine = new OlAlternateLine(flightroute, source);
+            this.olRouteLine = new OlRouteLine(flightroute, mapContext.map, source, snapToLayers);
+            this.olAlternateLine = new OlAlternateLine(flightroute, source, snapToLayers);
             this.olRoutepoints = [];
             flightroute.waypoints.forEach((wp, index) => {
                 const nextWp = this.getNextWp(flightroute.waypoints, flightroute.alternate, index);
-                const olWp = new OlWaypoint2(wp, nextWp, mapRotation, source);
+                const olWp = new OlWaypoint(wp, nextWp, mapRotation, source);
                 this.olRoutepoints.push(olWp);
             });
 
             if (flightroute.alternate) {
-                this.olAlternate = new OlWaypoint2(flightroute.alternate, undefined, mapRotation, source);
+                this.olAlternate = new OlWaypoint(flightroute.alternate, undefined, mapRotation, source);
             }
         }
     }

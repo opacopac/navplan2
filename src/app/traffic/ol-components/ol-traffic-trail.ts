@@ -1,5 +1,5 @@
 import * as ol from 'openlayers';
-import {OlComponent} from '../../shared/ol-component/ol-component';
+import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
 import {Traffic} from '../model/traffic';
 
 
@@ -14,7 +14,7 @@ const DOT_STYLE = new ol.style.Style({
 });
 
 
-export class OlTrafficTrail extends OlComponent {
+export class OlTrafficTrail extends OlComponentBase {
     private readonly dotFeatures: ol.Feature[];
 
 

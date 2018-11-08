@@ -1,31 +1,33 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MetarTafService} from './services/metar-taf.service';
-import {MapOverlayButtonMetarTafComponent} from './components/map-overlay-button-metar-taf/map-overlay-button-metar-taf.component';
-import {MapOverlayMetarTafComponent} from './components/map-overlay-metar-taf/map-overlay-metar-taf.component';
+import {OlOverlayButtonMetarTafComponent} from './components/ol-overlay-button-metar-taf/ol-overlay-button-metar-taf.component';
+import {OlOverlayMetarTafComponent} from './components/ol-overlay-metar-taf/ol-overlay-metar-taf.component';
 import {SharedModule} from '../shared/shared.module';
 import {StoreModule} from '@ngrx/store';
 import {metarTafReducer} from './metar-taf.reducer';
 import {EffectsModule} from '@ngrx/effects';
 import {MetarTafEffects} from './metar-taf.effects';
-import {MetarTafState} from './model/metar-taf-state';
+import {MetarTafState} from './metar-taf-state';
 import {MetarTafActions} from './metar-taf.actions';
+import {BaseMapModule} from '../base-map/base-map.module';
 
 
 @NgModule({
     imports: [
         CommonModule,
-        SharedModule,
         StoreModule.forFeature<MetarTafState, MetarTafActions>('metarTafState', metarTafReducer),
-        EffectsModule.forFeature([MetarTafEffects])
+        EffectsModule.forFeature([MetarTafEffects]),
+        SharedModule,
+        BaseMapModule,
     ],
     declarations: [
-        MapOverlayButtonMetarTafComponent,
-        MapOverlayMetarTafComponent
+        OlOverlayButtonMetarTafComponent,
+        OlOverlayMetarTafComponent
     ],
     exports: [
-        MapOverlayButtonMetarTafComponent,
-        MapOverlayMetarTafComponent
+        OlOverlayButtonMetarTafComponent,
+        OlOverlayMetarTafComponent
     ],
     providers: [
         MetarTafService

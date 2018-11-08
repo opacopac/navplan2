@@ -16,22 +16,11 @@ import {AppState} from './app-state';
 import {SettingsPageComponent} from './core/components/settings-page/settings-page.component';
 import {AboutPageComponent} from './core/components/about-page/about-page.component';
 import {UserModule} from './user/user.module';
-import {SearchModule} from './search/search.module';
 import {FlightrouteModule} from './flightroute/flightroute.module';
 import {SharedModule} from './shared/shared.module';
-import {MapModule} from './map/map.module';
-import {LocationModule} from './location/location.module';
-import {TrafficModule} from './traffic/traffic.module';
-import {NotamModule} from './notam/notam.module';
-import {MapFeaturesModule} from './map-features/map-features.module';
 import {NavbarComponent} from './core/components/navbar/navbar.component';
-import {MapOlComponentsContainerComponent} from './core/components/map-ol-components-container/map-ol-components-container.component';
-import {MapOverlayContainerComponent} from './core/components/map-overlay-container/map-overlay-container.component';
-import {MapPageComponent} from './core/components/map-page/map-page.component';
-import {NavbarOldComponent} from './core/components/navbar-old/navbar-old.component';
-import {TracksPageComponent} from './core/components/tracks-page/tracks-page.component';
 import {TrackModule} from './track/track.module';
-import {FlightTimerModule} from './flight-timer/flight-timer.module';
+import {PlanningMapModule} from './planning-map/planning-map.module';
 
 
 @NgModule({
@@ -40,11 +29,6 @@ import {FlightTimerModule} from './flight-timer/flight-timer.module';
         SettingsPageComponent,
         AboutPageComponent,
         NavbarComponent,
-        NavbarOldComponent,
-        MapPageComponent,
-        MapOlComponentsContainerComponent,
-        MapOverlayContainerComponent,
-        TracksPageComponent,
     ],
     imports: [
         BrowserModule,
@@ -61,18 +45,6 @@ import {FlightTimerModule} from './flight-timer/flight-timer.module';
             maxAge: 25, // Retains last 25 states
             logOnly: environment.production, // Restrict extension to log-only mode
         }),
-        SharedModule,
-        UserModule,
-        SearchModule,
-        FlightrouteModule,
-        MapModule,
-        LocationModule,
-        FlightTimerModule,
-        TrackModule,
-        TrafficModule,
-        NotamModule,
-        MapFeaturesModule,
-        MapModule,
         LayoutModule,
         MatToolbarModule,
         MatButtonModule,
@@ -80,6 +52,11 @@ import {FlightTimerModule} from './flight-timer/flight-timer.module';
         MatIconModule,
         MatListModule,
         MatMenuModule,
+        SharedModule,
+        UserModule,
+        PlanningMapModule,
+        FlightrouteModule,
+        TrackModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

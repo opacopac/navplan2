@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ClientstorageService} from './shared/services/clientstorage/clientstorage.service';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {getCurrentUser} from './user/user.selectors';
 import {AutoLoginUserAction} from './user/user.actions';
@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
         private appStore: Store<any>,
         private clientstorageService: ClientstorageService) {
 
-        this.currentUser$ = this.appStore.select(getCurrentUser);
+        this.currentUser$ = this.appStore.pipe(select(getCurrentUser));
     }
 
 

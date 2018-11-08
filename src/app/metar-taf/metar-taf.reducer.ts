@@ -1,4 +1,4 @@
-import {MetarTafState} from './model/metar-taf-state';
+import {MetarTafState} from './metar-taf-state';
 import {MetarTafActions, MetarTafActionTypes} from './metar-taf.actions';
 
 const initialState: MetarTafState = {

@@ -1,23 +1,24 @@
 import * as ol from 'openlayers';
-import {OlComponent} from '../../shared/ol-component/ol-component';
-import {MapContext} from '../../map/model/map-context';
+import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
+import {BaseMapContext} from '../../base-map/model/base-map-context';
 import {Subscription} from 'rxjs';
 import {OlTrackLine} from './ol-track-line';
 import {getShowTrack} from '../track.selectors';
 import {Track} from '../model/track';
+import {select} from '@ngrx/store';
 
 
-export class OlTrackContainer extends OlComponent {
+export class OlTrackContainer extends OlComponentBase {
     private readonly trackSubscription: Subscription;
     private readonly trackLayer: ol.layer.Vector;
     private olTrackLine: OlTrackLine;
 
 
-    constructor(mapContext: MapContext) {
+    constructor(mapContext: BaseMapContext) {
         super();
 
-        this.trackLayer = mapContext.mapService.addVectorLayer(false, false);
-        const showTrack$ = mapContext.appStore.select(getShowTrack);
+        this.trackLayer = mapContext.mapService.addVectorLayer(false);
+        const showTrack$ = mapContext.appStore.pipe(select(getShowTrack));
         this.trackSubscription = showTrack$.subscribe((track) => {
             this.destroyFeatures();
             this.addFeatures(track, this.trackLayer.getSource());

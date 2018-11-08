@@ -1,9 +1,9 @@
 import * as ol from 'openlayers';
 import {Airspace} from '../model/airspace';
-import {OlComponent} from '../../shared/ol-component/ol-component';
+import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
 
 
-export class OlAirspace extends OlComponent {
+export class OlAirspace extends OlComponentBase {
     private readonly olFeature: ol.Feature;
 
 

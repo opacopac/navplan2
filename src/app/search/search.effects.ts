@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Action, Store} from '@ngrx/store';
+import {Action, select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
 import {debounceTime, filter, map, switchMap, withLatestFrom, catchError} from 'rxjs/operators';
@@ -22,7 +22,7 @@ export class SearchEffects {
         private searchService: SearchService) {
     }
 
-    private currentUser$: Observable<User> = this.appStore.select(getCurrentUser);
+    private currentUser$: Observable<User> = this.appStore.pipe(select(getCurrentUser));
 
     @Effect()
     executeQuery$: Observable<Action> = this.actions$.pipe(

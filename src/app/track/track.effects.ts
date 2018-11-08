@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Action, Store} from '@ngrx/store';
+import {Action, select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {catchError, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {Observable} from 'rxjs';
@@ -18,7 +18,7 @@ import {
 
 @Injectable()
 export class TrackEffects {
-    private currentUser$: Observable<User> = this.appStore.select(getCurrentUser);
+    private currentUser$: Observable<User> = this.appStore.pipe(select(getCurrentUser));
 
 
 

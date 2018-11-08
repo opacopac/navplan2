@@ -1,10 +1,10 @@
 import * as ol from 'openlayers';
 import {Navaid, NavaidType} from '../model/navaid';
-import {OlComponent} from '../../shared/ol-component/ol-component';
+import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
 import {NavaidIcon} from '../model/navaid-icon';
 
 
-export class OlNavaid extends OlComponent {
+export class OlNavaid extends OlComponentBase {
     private readonly olFeature: ol.Feature;
 
 

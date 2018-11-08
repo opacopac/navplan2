@@ -1,23 +1,24 @@
 import * as ol from 'openlayers';
-import {OlComponent} from '../../shared/ol-component/ol-component';
-import {MapContext} from '../../map/model/map-context';
+import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
+import {BaseMapContext} from '../../base-map/model/base-map-context';
 import {Subscription} from 'rxjs';
 import {OlNotam} from './ol-notam';
 import {getNotamList} from '../notam.selectors';
 import {NotamList} from '../model/notam';
+import {select} from '@ngrx/store';
 
 
-export class OlNotamContainer extends OlComponent {
+export class OlNotamContainer extends OlComponentBase {
     private readonly notamListSubscription: Subscription;
     private readonly notamLayer: ol.layer.Vector;
     private olNotams: OlNotam[] = [];
 
 
-    constructor(mapContext: MapContext) {
+    constructor(mapContext: BaseMapContext) {
         super();
 
-        this.notamLayer = mapContext.mapService.addVectorLayer(true, false);
-        const notamList$ = mapContext.appStore.select(getNotamList);
+        this.notamLayer = mapContext.mapService.addVectorLayer(true);
+        const notamList$ = mapContext.appStore.pipe(select(getNotamList));
         this.notamListSubscription = notamList$.subscribe((notamList) => {
             this.destroyFeatures();
             this.addFeatures(notamList, this.notamLayer.getSource());

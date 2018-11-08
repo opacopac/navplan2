@@ -7,7 +7,7 @@ import {StoreModule} from '@ngrx/store';
 import {searchReducer} from './search.reducer';
 import {EffectsModule} from '@ngrx/effects';
 import {SearchEffects} from './search.effects';
-import {SearchState} from './model/search-state';
+import {SearchState} from './search-state';
 import {SearchActions} from './search.actions';
 import {MatInputModule} from '@angular/material/input';
 import {MatAutocompleteModule, MatFormFieldModule, MatIconModule} from '@angular/material';
@@ -18,7 +18,6 @@ import {SearchContainerComponent} from './components/search-container/search-con
 @NgModule({
     imports: [
         CommonModule,
-        SharedModule,
         StoreModule.forFeature<SearchState, SearchActions>('searchState', searchReducer),
         EffectsModule.forFeature([SearchEffects]),
         MatInputModule,
@@ -26,6 +25,7 @@ import {SearchContainerComponent} from './components/search-container/search-con
         MatIconModule,
         BrowserAnimationsModule,
         MatAutocompleteModule,
+        SharedModule,
     ],
     declarations: [
         SearchBoxComponent,

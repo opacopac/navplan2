@@ -1,4 +1,4 @@
-import {TrackState} from './model/track-state';
+import {TrackState} from './track-state';
 import {TrackActions, TrackActionTypes} from './track.actions';
 
 

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TrafficServiceStatus} from '../../services/traffic-reducer.service';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {ToggleWatchTrafficAction} from '../../traffic.actions';
 import {getTrafficIsWatching, getTrafficStatus} from '../../traffic.selectors';
 
@@ -11,8 +11,8 @@ import {getTrafficIsWatching, getTrafficStatus} from '../../traffic.selectors';
     styleUrls: ['./traffic-button.component.css']
 })
 export class TrafficButtonComponent implements OnInit {
-    public trafficStatus$ = this.appStore.select(getTrafficStatus);
-    public trafficIsWatching$ = this.appStore.select(getTrafficIsWatching);
+    public trafficStatus$ = this.appStore.pipe(select(getTrafficStatus));
+    public trafficIsWatching$ = this.appStore.pipe(select(getTrafficIsWatching));
 
 
     constructor(private appStore: Store<any>) {
@@ -33,14 +33,14 @@ export class TrafficButtonComponent implements OnInit {
     public getStatusCLass(trafficStatus: TrafficServiceStatus): string {
         switch (trafficStatus) {
             case TrafficServiceStatus.CURRENT:
-                return 'status-ok';
+                return 'mapoverlay-status-ok';
             case TrafficServiceStatus.WAITING:
-                return 'status-warn';
+                return 'mapoverlay-status-warn';
             case TrafficServiceStatus.ERROR:
-                return 'status-error';
+                return 'mapoverlay-status-error';
             case TrafficServiceStatus.OFF:
             default:
-                return 'accent';
+                return 'mapoverlay-primary';
         }
     }
 }

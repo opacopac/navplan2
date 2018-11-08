@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {select, Store} from '@ngrx/store';
 import {LocationServiceStatus} from '../../services/location.service';
-import {Store} from '@ngrx/store';
 import {ToggleWatchLocationAction} from '../../location.actions';
 import {getLocationIsWatching, getLocationStatus} from '../../location.selectors';
 
@@ -11,8 +11,8 @@ import {getLocationIsWatching, getLocationStatus} from '../../location.selectors
     styleUrls: ['./location-button.component.css']
 })
 export class LocationButtonComponent implements OnInit {
-    public locationStatus$ = this.appStore.select(getLocationStatus);
-    public locationIsWatching$ = this.appStore.select(getLocationIsWatching);
+    public locationStatus$ = this.appStore.pipe(select(getLocationStatus));
+    public locationIsWatching$ = this.appStore.pipe(select(getLocationIsWatching));
 
 
     constructor(private appStore: Store<any>) {
@@ -33,14 +33,14 @@ export class LocationButtonComponent implements OnInit {
     public getStatusCLass(locationStatus: LocationServiceStatus): string {
         switch (locationStatus) {
             case LocationServiceStatus.CURRENT:
-                return 'status-ok';
+                return 'mapoverlay-status-ok';
             case LocationServiceStatus.WAITING:
-                return 'status-warn';
+                return 'mapoverlay-status-warn';
             case LocationServiceStatus.ERROR:
-                return 'status-error';
+                return 'mapoverlay-status-error';
             case LocationServiceStatus.OFF:
             default:
-                return 'accent';
+                return 'mapoverlay-primary';
         }
     }
 }

@@ -5,7 +5,7 @@ import {Observable} from 'rxjs';
 import {catchError, debounceTime, map, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs/internal/observable/of';
 import {MetarTafService} from './services/metar-taf.service';
-import {MapActionTypes, MapMovedZoomedRotatedAction} from '../map/map.actions';
+import {MapActionTypes, MapMovedZoomedRotatedAction} from '../base-map/base-map.actions';
 import {LoadMetarTafErrorAction, LoadMetarTafSuccessAction} from './metar-taf.actions';
 
 

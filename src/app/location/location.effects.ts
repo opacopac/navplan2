@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Action, Store} from '@ngrx/store';
+import {Action, select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {catchError, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {Observable} from 'rxjs';
@@ -17,7 +17,7 @@ import {of} from 'rxjs/internal/observable/of';
 
 @Injectable()
 export class LocationEffects {
-    private locationIsWatching$: Observable<boolean> = this.appStore.select(getLocationIsWatching);
+    private locationIsWatching$: Observable<boolean> = this.appStore.pipe(select(getLocationIsWatching));
 
 
     constructor(

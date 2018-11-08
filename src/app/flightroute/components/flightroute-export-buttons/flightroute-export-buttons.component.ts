@@ -2,7 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 
 @Component({
-    selector: 'app-flightroute-exports',
+    selector: 'app-flightroute-export-buttons',
     templateUrl: './flightroute-export-buttons.component.html',
     styleUrls: ['./flightroute-export-buttons.component.css']
 })

@@ -1,21 +1,23 @@
 import * as ol from 'openlayers';
-import {OlComponent} from '../../shared/ol-component/ol-component';
+import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
 import {Flightroute} from '../model/flightroute';
 import {EventEmitter} from '@angular/core';
 
 
-export class OlRouteLine extends OlComponent {
+export class OlRouteLine extends OlComponentBase {
     public onModifyStart2: EventEmitter<ol.interaction.Modify.Event> = new EventEmitter<ol.interaction.Modify.Event>();
     public onModifyEnd2: EventEmitter<ol.interaction.Modify.Event> = new EventEmitter<ol.interaction.Modify.Event>();
     public onModifyChange2: EventEmitter<ol.events.Event> = new EventEmitter<ol.events.Event>();
     private readonly lineFeature: ol.Feature;
     private modifyInteraction: ol.interaction.Modify;
+    private snapInteractions: ol.interaction.Snap[];
 
 
     public constructor(
         private readonly flightroute: Flightroute,
         private readonly map: ol.Map,
-        private readonly source: ol.source.Vector) {
+        private readonly source: ol.source.Vector,
+        private readonly snapToLayers: ol.layer.Vector[]) {
 
         super();
 
@@ -25,6 +27,7 @@ export class OlRouteLine extends OlComponent {
         this.source.addFeature(this.lineFeature);
 
         this.addModifyInteraction();
+        this.addSnapInteractions(snapToLayers);
     }
 
 
@@ -39,6 +42,7 @@ export class OlRouteLine extends OlComponent {
         this.lineFeature.getGeometry().un('modifyend', this.onModifyEnd.bind(this));
 
         this.map.removeInteraction(this.modifyInteraction);
+        this.removeSnapInteractions();
     }
 
 
@@ -60,6 +64,26 @@ export class OlRouteLine extends OlComponent {
 
         this.modifyInteraction.on('modifyend', (event) => {
             this.onModifyEnd(event as ol.interaction.Modify.Event);
+        });
+    }
+
+
+    private addSnapInteractions(snapToLayers: ol.layer.Vector[]) {
+        this.snapInteractions = [];
+        snapToLayers.forEach((layer) => {
+            const snapInt = new ol.interaction.Snap({
+                source: layer.getSource(),
+                edge: false
+            });
+            this.snapInteractions.push(snapInt);
+            this.map.addInteraction(snapInt);
+        });
+    }
+
+
+    private removeSnapInteractions() {
+        this.snapInteractions.forEach((interaction) => {
+            this.map.removeInteraction(interaction);
         });
     }
 

@@ -1,6 +1,6 @@
 import * as ol from 'openlayers';
-import {OlComponent} from '../../shared/ol-component/ol-component';
-import {MapContext} from '../../map/model/map-context';
+import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
+import {BaseMapContext} from '../../base-map/model/base-map-context';
 import {Mapfeatures} from '../model/mapfeatures';
 import {getMapFeatures} from '../map-features.selectors';
 import {Subscription} from 'rxjs';
@@ -11,9 +11,10 @@ import {OlUserPoint} from './ol-user-point';
 import {OlWebcam} from './ol-webcam';
 import {OlReportingSector} from './ol-reporting-sector';
 import {OlAirspace} from './ol-airspace';
+import {select} from '@ngrx/store';
 
 
-export class OlMapFeaturesContainer extends OlComponent {
+export class OlMapFeaturesContainer extends OlComponentBase {
     private readonly mapFeaturesSubscription: Subscription;
     private readonly airspaceLayer: ol.layer.Vector;
     private readonly reportingSectorLayer: ol.layer.Vector;
@@ -31,17 +32,17 @@ export class OlMapFeaturesContainer extends OlComponent {
     private olAirspaces: OlAirspace[] = [];
 
 
-    constructor(mapContext: MapContext) {
+    constructor(mapContext: BaseMapContext) {
         super();
 
-        this.airspaceLayer = mapContext.mapService.addVectorLayer(true, false);
-        this.reportingSectorLayer = mapContext.mapService.addVectorLayer(true, false);
-        this.webcamLayer = mapContext.mapService.addVectorLayer(false, false);
-        this.userPointLayer = mapContext.mapService.addVectorLayer(false, true);
-        this.reportingPointLayer = mapContext.mapService.addVectorLayer(false, true);
-        this.navaidLayer = mapContext.mapService.addVectorLayer(false, true);
-        this.airportLayer = mapContext.mapService.addVectorLayer(false, true);
-        const mapFeatures$ = mapContext.appStore.select(getMapFeatures);
+        this.airspaceLayer = mapContext.mapService.addVectorLayer(true);
+        this.reportingSectorLayer = mapContext.mapService.addVectorLayer(true);
+        this.webcamLayer = mapContext.mapService.addVectorLayer(false);
+        this.userPointLayer = mapContext.mapService.addVectorLayer(false);
+        this.reportingPointLayer = mapContext.mapService.addVectorLayer(false);
+        this.navaidLayer = mapContext.mapService.addVectorLayer(false);
+        this.airportLayer = mapContext.mapService.addVectorLayer(false);
+        const mapFeatures$ = mapContext.appStore.pipe(select(getMapFeatures));
         this.mapFeaturesSubscription = mapFeatures$.subscribe((mapFeatures) => {
             this.destroyFeatures();
             this.addFeatures(mapFeatures);
@@ -57,6 +58,16 @@ export class OlMapFeaturesContainer extends OlComponent {
     public destroy() {
         this.mapFeaturesSubscription.unsubscribe();
         this.destroyFeatures();
+    }
+
+
+    public getSnapToLayers(): ol.layer.Vector[] {
+        return [
+            this.userPointLayer,
+            this.reportingPointLayer,
+            this.navaidLayer,
+            this.airportLayer
+        ];
     }
 
 

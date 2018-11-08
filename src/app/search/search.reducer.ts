@@ -1,5 +1,5 @@
 import {SearchActions, SearchActionTypes} from './search.actions';
-import {SearchState} from './model/search-state';
+import {SearchState} from './search-state';
 
 
 const initialState: SearchState = {

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {getCurrentUser} from '../../user.selectors';
 import {Observable} from 'rxjs';
 import {LoginUserAction, RegisterUserAction} from '../../user.actions';
@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
 
 
     constructor(private appStore: Store<any>) {
-        this.currentUser$ = this.appStore.select(getCurrentUser);
+        this.currentUser$ = this.appStore.pipe(select(getCurrentUser));
     }
 
 

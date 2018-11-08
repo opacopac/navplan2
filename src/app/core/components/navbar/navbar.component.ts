@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {BreakpointObserver, Breakpoints, BreakpointState} from '@angular/cdk/layout';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {getCurrentUser} from '../../../user/user.selectors';
 import {User} from '../../../user/model/user';
 import {SearchShowAction} from '../../../search/search.actions';
@@ -25,7 +25,7 @@ export class NavbarComponent {
         private appStore: Store<any>,
         private breakpointObserver: BreakpointObserver) {
 
-        this.currentUser$ = this.appStore.select(getCurrentUser);
+        this.currentUser$ = this.appStore.pipe(select(getCurrentUser));
     }
 
 

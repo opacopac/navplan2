@@ -1,10 +1,10 @@
 import * as ol from 'openlayers';
 import {Userpoint} from '../model/userpoint';
-import {OlComponent} from '../../shared/ol-component/ol-component';
+import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
 import {UserpointIcon} from '../model/userpoint-icon';
 
 
-export class OlUserPoint extends OlComponent {
+export class OlUserPoint extends OlComponentBase {
     private readonly olFeature: ol.Feature;
 
 

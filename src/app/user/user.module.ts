@@ -10,7 +10,7 @@ import {StoreModule} from '@ngrx/store';
 import {userReducer} from './user.reducer';
 import {EffectsModule} from '@ngrx/effects';
 import {UserEffects} from './user.effects';
-import {UserState} from './model/user-state';
+import {UserState} from './user-state';
 import {UserActions} from './user.actions';
 
 
@@ -19,9 +19,9 @@ import {UserActions} from './user.actions';
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        SharedModule,
         StoreModule.forFeature<UserState, UserActions>('userState', userReducer),
-        EffectsModule.forFeature([UserEffects])
+        EffectsModule.forFeature([UserEffects]),
+        SharedModule,
     ],
     declarations: [
         LoginComponent,

@@ -1,12 +1,12 @@
 import * as ol from 'openlayers';
-import {OlComponent} from '../../shared/ol-component/ol-component';
+import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
 import {environment} from '../../../environments/environment';
 import {UnitconversionService} from '../../shared/services/unitconversion/unitconversion.service';
 import {GeocalcService} from '../../shared/services/geocalc/geocalc.service';
 import {Position4d} from '../../shared/model/geometry/position4d';
 
 
-export class OlOwnPlane extends OlComponent {
+export class OlOwnPlane extends OlComponentBase {
     private readonly olOwnPlane: ol.Feature;
 
 

@@ -4,7 +4,7 @@ import {Directive, Input} from '@angular/core';
 import {ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
 import {ButtonStatus} from '../../../shared/directives/status-button/status-button.directive';
 import {MessageService} from '../../../shared/services/message/message.service';
-import {MapService} from '../../../map/services/map.service';
+import {BaseMapService} from '../../../base-map/services/base-map.service';
 import {LocationService} from '../../services/location.service';
 import {TimerService} from '../../../shared/services/timer/timer.service';
 
@@ -21,7 +21,7 @@ describe('LocationButtonComponent', () => {
     let component: LocationButtonComponent;
     let fixture: ComponentFixture<LocationButtonComponent>;
     let messageServiceStub: Partial<MessageService>;
-    let mapServiceStub: Partial<MapService>;
+    let mapServiceStub: Partial<BaseMapService>;
     let locationServiceStub: Partial<LocationService>;
     let timerServiceStub: Partial<TimerService>;
 
@@ -43,7 +43,7 @@ describe('LocationButtonComponent', () => {
             ],
             providers: [
                 { provide: MessageService, useValue: messageServiceStub },
-                { provide: MapService, useValue: mapServiceStub },
+                { provide: BaseMapService, useValue: mapServiceStub },
                 { provide: LocationService, useValue: locationServiceStub },
                 { provide: TimerService, useValue: timerServiceStub }
             ],

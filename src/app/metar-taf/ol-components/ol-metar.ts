@@ -1,13 +1,13 @@
 import * as ol from 'openlayers';
 import {OlMetarSky} from './ol-metar-sky';
 import {OlMetarWind} from './ol-metar-wind';
-import {OlComponent} from '../../shared/ol-component/ol-component';
+import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
 import {MetarTaf} from '../model/metar-taf';
 import {Position2d} from '../../shared/model/geometry/position2d';
 import {Angle} from '../../shared/model/quantities/angle';
 
 
-export class OlMetar extends OlComponent {
+export class OlMetar extends OlComponentBase {
     private readonly olMetarSky: OlMetarSky;
     private readonly olMetarWind: OlMetarWind;
 

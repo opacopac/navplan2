@@ -1,15 +1,16 @@
 import * as ol from 'openlayers';
-import {OlComponent} from '../../shared/ol-component/ol-component';
+import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
 import {Flightroute} from '../model/flightroute';
 
 
-export class OlAlternateLine extends OlComponent {
+export class OlAlternateLine extends OlComponentBase {
     private readonly lineFeature: ol.Feature;
 
 
     public constructor(
         private readonly flightroute: Flightroute,
-        private readonly source: ol.source.Vector) {
+        private readonly source: ol.source.Vector,
+        private readonly snapToLayers: ol.layer.Vector[]) {
 
         super();
 

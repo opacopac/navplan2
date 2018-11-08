@@ -6,7 +6,7 @@ import {catchError, map} from 'rxjs/operators';
 import {environment} from '../../../../environments/environment';
 import {LoggingService} from '../../../shared/services/logging/logging.service';
 import {FlightrouteListEntry} from '../../model/flightroute-list-entry';
-import {FlightrouteListResponse, FlightrouteResponse, RestMapperFlightroute} from '../../model/rest-mapper-flightroute';
+import {FlightrouteListResponse, FlightrouteResponse, RestMapperFlightroute} from '../../model/rest-mapper/rest-mapper-flightroute';
 import {User} from '../../../user/model/user';
 import {Flightroute} from '../../model/flightroute';
 

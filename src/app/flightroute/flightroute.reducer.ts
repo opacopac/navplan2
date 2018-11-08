@@ -1,7 +1,6 @@
-import {FlightrouteState} from './model/flightroute-state';
+import {FlightrouteState} from './flightroute-state';
 import {FlightrouteActions, FlightrouteActionTypes} from './flightroute.actions';
 import {UserActions, UserActionTypes} from '../user/user.actions';
-import {WaypointActionTypes, WaypointsActions} from './waypoints.actions';
 import {Aircraft} from './model/aircraft';
 import {Flightroute} from './model/flightroute';
 import {Speed} from '../shared/model/quantities/speed';
@@ -9,6 +8,7 @@ import {ConsumptionUnit, LengthUnit, SpeedUnit, TimeUnit, VolumeUnit} from '../s
 import {Consumption} from '../shared/model/quantities/consumption';
 import {Time} from '../shared/model/quantities/time';
 import {FlightrouteCalcService} from './services/flightroute-calc/flightroute-calc.service';
+import {ArrayService} from '../shared/services/array/array.service';
 
 
 const initialState: FlightrouteState = {
@@ -36,7 +36,6 @@ const initialState: FlightrouteState = {
 
 
 export type FlightrouteWaypointUserActions = FlightrouteActions
-    | WaypointsActions
     | UserActions;
 
 
@@ -62,13 +61,13 @@ export function flightrouteReducer(
         case FlightrouteActionTypes.FLIGHTROUTE_SAVE_SUCCESS:
             return { ...state, flightroute: action.flightroute };
 
-        case FlightrouteActionTypes.FLIGHTROUTE_READ_SHARED_SUCCESS:
+        case FlightrouteActionTypes.SHARED_FLIGHTROUTE_READ_SUCCESS:
             return { ...state, flightroute: action.flightroute };
 
-        case FlightrouteActionTypes.FLIGHTROUTE_CREATE_SHARED_SUCCESS:
+        case FlightrouteActionTypes.SHARED_FLIGHTROUTE_CREATE_SUCCESS:
             return { ...state, showShareId: action.shareId };
 
-        case FlightrouteActionTypes.FLIGHTROUTE_HIDE_SHARED_URL:
+        case FlightrouteActionTypes.SHARED_FLIGHTROUTE_HIDE_URL:
             return { ...state, showShareId: false };
 
         case FlightrouteActionTypes.FLIGHTROUTE_UPDATE_COMMENTS:
@@ -99,11 +98,17 @@ export function flightrouteReducer(
             FlightrouteCalcService.calcFlightRoute(newFlightroute);
             return { ...state, flightroute: newFlightroute };
 
-        case WaypointActionTypes.WAYPOINTS_EDIT:
+        case FlightrouteActionTypes.WAYPOINTS_EDIT:
             return { ...state, editWaypoint: action.waypoint };
 
-        case WaypointActionTypes.WAYPOINTS_EDIT_CANCEL:
+        case FlightrouteActionTypes.WAYPOINTS_EDIT_CANCEL:
             return { ...state, editWaypoint: undefined };
+
+        case FlightrouteActionTypes.WAYPOINTS_INSERT:
+            newFlightroute = state.flightroute.clone();
+            ArrayService.insertAt(newFlightroute.waypoints, action.index, action.newWaypoint);
+            FlightrouteCalcService.calcFlightRoute(newFlightroute);
+            return { ...state, flightroute: newFlightroute };
 
         default:
             return state;

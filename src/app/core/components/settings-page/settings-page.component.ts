@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MessageService} from '../../../shared/services/message/message.service';
-import {MapbaselayerType} from '../../../map/model/mapbaselayer-factory';
+import {MapbaselayerType} from '../../../base-map/model/mapbaselayer-factory';
 import {Angle} from '../../../shared/model/quantities/angle';
 import {Altitude} from '../../../shared/model/quantities/altitude';
 

@@ -1,10 +1,10 @@
 import * as ol from 'openlayers';
 import {Reportingpoint} from '../model/reportingpoint';
-import {OlComponent} from '../../shared/ol-component/ol-component';
+import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
 import {ReportingpointIcon} from '../model/reportingpoint-icon';
 
 
-export class OlReportingPoint extends OlComponent {
+export class OlReportingPoint extends OlComponentBase {
     private readonly olFeature: ol.Feature;
 
 

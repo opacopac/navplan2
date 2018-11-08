@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {CoreState} from './model/core-state';
+import {CoreState} from './core-state';
 import {UserActions} from '../user/user.actions';
 import * as fromUser from '../user/user.reducer';
 

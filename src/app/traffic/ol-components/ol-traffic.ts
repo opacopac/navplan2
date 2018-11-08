@@ -1,5 +1,5 @@
 import * as ol from 'openlayers';
-import {OlComponent} from '../../shared/ol-component/ol-component';
+import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
 import {Traffic, TrafficAircraftType} from '../model/traffic';
 import {UnitconversionService} from '../../shared/services/unitconversion/unitconversion.service';
 import {GeocalcService} from '../../shared/services/geocalc/geocalc.service';
@@ -7,7 +7,7 @@ import {OlTrafficTrail} from './ol-traffic-trail';
 import {TrafficIcon} from '../model/traffic-icon';
 
 
-export class OlTraffic extends OlComponent {
+export class OlTraffic extends OlComponentBase {
     private readonly olTrafficFeature: ol.Feature;
     private readonly olCallsignFeature: ol.Feature;
     private readonly olDotTrailFeature: OlTrafficTrail;

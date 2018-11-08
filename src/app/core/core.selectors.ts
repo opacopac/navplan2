@@ -1,5 +1,5 @@
 import {Selector} from '@ngrx/store';
-import {CoreState} from '../core/model/core-state';
+import {CoreState} from './core-state';
 import {AppState} from '../app-state';
 
 
