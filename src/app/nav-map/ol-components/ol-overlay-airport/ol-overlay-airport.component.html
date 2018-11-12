@@ -1,0 +1,211 @@
+<div #container class="ol-popup">
+    <mat-card *ngIf="this.airport" class="airport-card">
+        <mat-card-header>
+            <img mat-card-avatar src="{{ this.getAvatarUrl() }}" />
+            <mat-card-title>
+                {{ this.getTitle() }}
+            </mat-card-title>
+            <mat-card-subtitle>
+                {{ this.getAirportTypeString() }}
+            </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+            <mat-tab-group headerPosition="below">
+                <!-- info tab -->
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <i class="fas fa-info"></i>
+                    </ng-template>
+                    <!--<p>Type: {{ this.getAirportTypeString() }}</p>-->
+                    <p>{{ this.getPositionString(this.airport.position) }}</p>
+                    <p>Elevation: {{ this.getElevationString(this.airport.elevation_m) }}</p>
+                    <!-- TODO: webcams -->
+                </mat-tab>
+
+                <!-- runway tab -->
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <i class="fas fa-road"></i>
+                    </ng-template>
+                    <table mat-table
+                           *ngIf="this.airport.runways && this.airport.runways.length > 0"
+                           [dataSource]="this.airport.runways">
+
+                        <ng-container matColumnDef="runway">
+                            <th mat-header-cell *matHeaderCellDef>Runway</th>
+                            <td mat-cell *matCellDef="let runway">{{ runway.name }}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="surface">
+                            <th mat-header-cell *matHeaderCellDef>Surface</th>
+                            <td mat-cell *matCellDef="let runway">{{ runway.surface }}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="dimensions">
+                            <th mat-header-cell *matHeaderCellDef>Dimensions</th>
+                            <td mat-cell *matCellDef="let runway">{{ this.getRwyDimensionsString(runway) }}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="tora">
+                            <th mat-header-cell *matHeaderCellDef>TORA[m]</th>
+                            <td mat-cell *matCellDef="let runway">{{ runway.tora1 ? runway.tora1 : '-' }} / {{ runway.tora2 ? runway.tora2 : '-' }}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="lda">
+                            <th mat-header-cell *matHeaderCellDef>LDA[m]</th>
+                            <td mat-cell *matCellDef="let runway">{{ runway.lda1 ? runway.lda1 : '-' }} / {{ runway.lda2 ? runway.lda2 : '-' }}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="papi">
+                            <th mat-header-cell *matHeaderCellDef>PAPI</th>
+                            <td mat-cell *matCellDef="let runway">{{ runway.papi1 ? 'y' : '-' }} / {{ runway.papi2 ? 'y' : '-' }}</td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="this.getRwyColumns()"></tr>
+                        <tr mat-row *matRowDef="let row; columns: this.getRwyColumns();"></tr>
+                    </table>
+                    <div *ngIf="!this.airport.hasRunways">
+                        <em>No runway info available</em>
+                    </div>
+                </mat-tab>
+
+                <!-- radio tab -->
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <i class="fas fa-broadcast-tower"></i>
+                    </ng-template>
+                    <table mat-table
+                           *ngIf="this.airport.radios && this.airport.radios.length > 0"
+                           [dataSource]="this.airport.radios">
+
+                        <ng-container matColumnDef="type">
+                            <th mat-header-cell *matHeaderCellDef>Type</th>
+                            <td mat-cell *matCellDef="let radio">{{ radio.description ? radio.description : radio.type }}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="frequency">
+                            <th mat-header-cell *matHeaderCellDef>Frequency</th>
+                            <td mat-cell *matCellDef="let radio">{{ radio.frequency }}</td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="this.getRadioColumns()"></tr>
+                        <tr mat-row *matRowDef="let row; columns: this.getRadioColumns();"></tr>
+
+                        <!--<tr>
+                            <th colspan="2">Frequency</th>
+                        </tr>
+                        <tr *ngFor="let radio of this.airport.radios">
+                            <td>{{ radio.description ? radio.description : radio.type }}</td>
+                            <td>{{ radio.frequency }}</td>
+                        </tr>
+                        <tr *ngIf="!this.airport.hasRadios">
+                            <td colspan="2"><em>No radio info available</em></td>
+                        </tr>-->
+                    </table>
+                    <div *ngIf="!this.airport.hasRadios">
+                        <em>No radio info available</em>
+                    </div>
+                </mat-tab>
+
+                <!-- meteo tab -->
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <i class="fas fa-cloud"></i>
+                    </ng-template>
+                    <div *ngIf="this.airport.metarTaf" class="ol-popup-metartaf">
+                        <!-- METAR -->
+                        <p *ngIf="this.airport.metarTaf.raw_metar">
+                            METAR {{ this.airport.metarTaf.raw_metar }}
+                            <br />
+                            <small><i>({{ this.getMetarAgeString() }} old)</i></small>
+                        </p>
+                        <!-- TAF -->
+                        <p *ngIf="this.airport.metarTaf.raw_taf" >
+                            {{ this.airport.metarTaf.raw_taf }}
+                            <br />
+                            <small><i>({{ this.getTafAgeString() }} old)</i></small>
+                        </p>
+                    </div>
+
+                    <!-- Meteogram -->
+                    <p [hidden]="this.isMeteoGramVisible()"><small><em><a href="#" (click)="showMeteogram()">Show Meteogram &gt;&gt;</a></em></small></p>
+                    <div [hidden]="!this.isMeteoGramVisible()">
+                        <p>
+                            Meteogram for {{ this.getName() }}
+                            <app-ol-overlay-windyiframe MEEPonDataNeeded="updateMeteogram()"></app-ol-overlay-windyiframe>
+                        </p>
+                    </div>
+                </mat-tab>
+
+                <!-- notam tab -->
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </ng-template>
+                    <div class="table-notam">
+                        <p>NOTAMs for {{ this.getName() }} (Today &amp; Tomorrow)</p>
+                        <table class="table table-striped table-condensed">
+                            <tr *ngFor="let notam of this.airport.notams">
+                                <td><app-map-overlay-notam-item [notam]="notam"></app-map-overlay-notam-item></td>
+                            </tr>
+                            <tr *ngIf="!this.airport.notams || this.airport.notams.length == 0">
+                                <td><em>No NOTAMs available</em></td>
+                            </tr>
+                        </table>
+                    </div>
+                </mat-tab>
+
+                <!-- charts tab -->
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <i class="fas fa-map"></i>
+                    </ng-template>
+                    <h5>AD Charts</h5>
+                    <mat-list>
+                        <mat-list-item *ngFor="let chart of this.airport.charts">
+                            <i class="fas fa-file"></i>&nbsp;{{ chart.type }}
+                            <small><i>&copy; by <a href="{{ this.getChartSourceUrl(chart) }}" target="_blank">{{ this.getChartSourceName(chart) }}</a></i></small>
+                        </mat-list-item>
+                    </mat-list>
+                </mat-tab>
+
+                <!-- tab buttons -->
+                <!--<ul class="nav nav-pills" id="airport-tabs" role="tablist">
+                    <li class="nav-item" title="Info">
+                        <a class="nav-link active" id="airport-info-tab" data-toggle="pill" data-target="#airport-info" href="#" role="tab" aria-controls="airport-info" aria-selected="true" onclick="$('#airport-info-tab').tab('show'); return false;"><i class="fas fa-info"></i></a>
+                    </li>
+                    <li class="nav-item" title="Runways">
+                        <a class="nav-link" id="airport-runway-tab" data-toggle="pill" data-target="#airport-runway" href="#" role="tab" aria-controls="airport-runway" aria-selected="false" onclick="$('#airport-runway-tab').tab('show'); return false;"><i class="fas fa-road"></i></a>
+                    </li>
+                    <li class="nav-item" title="Radios">
+                        <a class="nav-link" id="airport-radio-tab" data-toggle="pill" data-target="#airport-radio" href="#" role="tab" aria-controls="airport-radio" aria-selected="false" onclick="$('#airport-radio-tab').tab('show'); return false;"><i class="fas fa-broadcast-tower"></i></a>
+                    </li>
+                    <li class="nav-item" title="METAR / TAF">
+                        <a class="nav-link" id="airport-meteo-tab" data-toggle="pill" data-target="#airport-meteo" href="#" role="tab" aria-controls="airport-meteo" aria-selected="false" (click)="this.updateMeteogram()" onclick="$('#airport-meteo-tab').tab('show'); return false;"><i class="fas fa-cloud"></i></a>
+                    </li>
+                    <li class="nav-item" title="NOTAM">
+                        <a class="nav-link" id="airport-notam-tab" data-toggle="pill" data-target="#airport-notam" href="#" role="tab" aria-controls="airport-notam" aria-selected="false" onclick="$('#airport-notam-tab').tab('show'); return false;"><i class="fas fas fa-exclamation-triangle"></i></a>
+                    </li>
+                    <li class="nav-item" title="Charts">
+                        <a class="nav-link" id="airport-chart-tab" data-toggle="pill" data-target="#airport-chart" href="#" role="tab" aria-controls="airport-chart" aria-selected="false" onclick="$('#airport-chart-tab').tab('show'); return false;"><i class="fas fa-map"></i></a>
+                    </li>
+                </ul>-->
+            </mat-tab-group>
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions>
+            <app-ol-overlay-button-add-to-route
+                    [waypoint]="this.waypoint"
+                    [flightroute]="this.flightroute$ | async"
+                    (onInsertWaypointAt)="this.onInsertWaypointAt($event)"
+            ></app-ol-overlay-button-add-to-route>
+            <app-ol-overlay-button-edit-waypoint></app-ol-overlay-button-edit-waypoint>
+            <app-ol-overlay-button-remove-from-route
+                    [waypoint]="this.waypoint"
+                    (onDeleteWaypoint)="this.onDeleteWaypoint($event)"
+            ></app-ol-overlay-button-remove-from-route>
+        </mat-card-actions>
+
+    </mat-card>
+</div>

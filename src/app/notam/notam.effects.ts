@@ -5,7 +5,7 @@ import {Observable} from 'rxjs';
 import {catchError, debounceTime, map, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs/internal/observable/of';
 import {NotamService} from './services/notam.service';
-import {MapActionTypes, MapMovedZoomedRotatedAction} from '../base-map/base-map.actions';
+import {BaseMapActionTypes, BaseMapMovedZoomedRotatedAction} from '../base-map/base-map.actions';
 import {LoadNotamErrorAction, LoadNotamSuccessAction} from './notam.actions';
 
 
@@ -21,9 +21,9 @@ export class NotamEffects {
     @Effect()
     NotamLoad$: Observable<Action> = this.actions$
         .pipe(
-            ofType(MapActionTypes.MAP_MOVED_ZOOMED_ROTATED),
+            ofType(BaseMapActionTypes.BASEMAP_MOVED_ZOOMED_ROTATED),
             debounceTime(500),
-            map(action => action as MapMovedZoomedRotatedAction),
+            map(action => action as BaseMapMovedZoomedRotatedAction),
             switchMap(action => this.notamService.load(action.extent, action.zoom)
                 .pipe(
                     map(notamList => new LoadNotamSuccessAction(notamList, action.extent, action.zoom)),

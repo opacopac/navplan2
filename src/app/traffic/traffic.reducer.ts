@@ -4,7 +4,7 @@ import {TrafficActions, TrafficActionTypes} from './traffic.actions';
 import {Altitude} from '../shared/model/quantities/altitude';
 import {LengthUnit} from '../shared/model/units';
 import {Traffic} from './model/traffic';
-import {BaseMapActions, MapActionTypes} from '../base-map/base-map.actions';
+import {BaseMapActions, BaseMapActionTypes} from '../base-map/base-map.actions';
 
 
 const initialState: TrafficState = {
@@ -19,7 +19,7 @@ const initialState: TrafficState = {
 
 export function trafficReducer(state: TrafficState = initialState, action: TrafficActions | BaseMapActions) {
     switch (action.type) {
-        case MapActionTypes.MAP_MOVED_ZOOMED_ROTATED:
+        case BaseMapActionTypes.BASEMAP_MOVED_ZOOMED_ROTATED:
             return { ...state, extent: action.extent };
 
         case TrafficActionTypes.TRAFFIC_WATCH_START:

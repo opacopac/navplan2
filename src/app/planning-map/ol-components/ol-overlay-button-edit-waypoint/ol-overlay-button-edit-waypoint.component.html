@@ -1,8 +1,0 @@
-<div class="map-overlay-button" *ngIf="(this.selectedWaypoint$ | async) && !(this.selectedWaypointIsNew$ | async)">
-    <button
-            appIconButton
-            [color]="ButtonColor.ORANGE"
-            [size]="ButtonSize.SMALL"
-            [iconClass]="'fas fa-edit'"
-            (click)="this.onEditWaypointClicked()"></button>&nbsp;Edit Waypoint
-</div>

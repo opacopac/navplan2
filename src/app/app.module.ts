@@ -20,7 +20,8 @@ import {FlightrouteModule} from './flightroute/flightroute.module';
 import {SharedModule} from './shared/shared.module';
 import {NavbarComponent} from './core/components/navbar/navbar.component';
 import {TrackModule} from './track/track.module';
-import {PlanningMapModule} from './planning-map/planning-map.module';
+import {NavMapModule} from './nav-map/nav-map.module';
+import {ChartMapModule} from './chart-map/chart-map.module';
 
 
 @NgModule({
@@ -54,9 +55,10 @@ import {PlanningMapModule} from './planning-map/planning-map.module';
         MatMenuModule,
         SharedModule,
         UserModule,
-        PlanningMapModule,
+        NavMapModule,
         FlightrouteModule,
         TrackModule,
+        ChartMapModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

@@ -2,7 +2,7 @@ import {createFeatureSelector, createSelector} from '@ngrx/store';
 import {BaseMapState} from './base-map-state';
 
 
-export const getMapState = createFeatureSelector<BaseMapState>('mapState');
+export const getMapState = createFeatureSelector<BaseMapState>('baseMapState');
 export const getMapPosition = createSelector(getMapState, state => state.position);
 export const getMapZoom = createSelector(getMapState, state => state.zoom);
 export const getMapRotation = createSelector(getMapState, state => state.rotation);

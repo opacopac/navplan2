@@ -27,4 +27,15 @@ export class Distance {
     public getValue(asUnit: LengthUnit): number {
         return UnitconversionService.convertLength(this.value, this.unit, asUnit);
     }
+
+
+    public add(distance: Distance) {
+        if (!distance) {
+            return undefined;
+        } else if (this.unit === distance.unit) {
+            return new Distance(this.value + distance.value, this.unit);
+        } else {
+            return new Distance(this.getValue(LengthUnit.NM) + distance.getValue(LengthUnit.NM), LengthUnit.NM);
+        }
+    }
 }

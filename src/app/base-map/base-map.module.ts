@@ -16,7 +16,7 @@ import {MatTooltipModule} from '@angular/material';
 @NgModule({
     imports: [
         CommonModule,
-        StoreModule.forFeature<BaseMapState, BaseMapActions>('mapState', baseMapReducer),
+        StoreModule.forFeature<BaseMapState, BaseMapActions>('baseMapState', baseMapReducer),
         EffectsModule.forFeature([BaseMapEffects]),
         MatButtonModule,
         MatTooltipModule,

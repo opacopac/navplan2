@@ -4,15 +4,17 @@ import {BaseMapContext} from '../../base-map/model/base-map-context';
 import {Flightroute} from '../model/flightroute';
 import {getFlightroute} from '../flightroute.selectors';
 import {Subscription} from 'rxjs';
-import {OlRouteLine} from './ol-route-line';
+import {OlRouteLine, RouteLineModification} from './ol-route-line';
 import {OlWaypoint} from './ol-waypoint';
 import {OlAlternateLine} from './ol-alternate-line';
 import {Waypoint} from '../model/waypoint';
 import {select} from '@ngrx/store';
+import {RouteLineModifiedAction} from '../flightroute.actions';
 
 
 export class OlFlightrouteContainer extends OlComponentBase {
     private readonly flightrouteSubscription: Subscription;
+    private routeLineModifiedSubscription: Subscription;
     private readonly flightrouteLayer: ol.layer.Vector;
     private olRoutepoints: OlWaypoint[];
     private olAlternate: OlWaypoint;
@@ -20,14 +22,17 @@ export class OlFlightrouteContainer extends OlComponentBase {
     private olAlternateLine: OlAlternateLine;
 
 
-    constructor(mapContext: BaseMapContext, snapToLayers: ol.layer.Vector[]) {
+    constructor(private mapContext: BaseMapContext, snapToLayers: ol.layer.Vector[]) {
         super();
 
-        this.flightrouteLayer = mapContext.mapService.addVectorLayer(false);
-        const flightroute$ = mapContext.appStore.pipe(select(getFlightroute));
+        this.flightrouteLayer = this.mapContext.mapService.addVectorLayer(false);
+        const flightroute$ = this.mapContext.appStore.pipe(select(getFlightroute));
         this.flightrouteSubscription = flightroute$.subscribe((flightroute) => {
             this.destroyFeatures();
-            this.addFeatures(flightroute, mapContext, this.flightrouteLayer.getSource(), snapToLayers);
+            this.addFeatures(flightroute, this.mapContext, this.flightrouteLayer.getSource(), snapToLayers);
+            // re-subscribe to route line events
+            this.routeLineModifiedSubscription = this.olRouteLine.onRouteLineModifiedEnd
+                .subscribe(routeLineMod => this.emitRouteLineModifiedAction(routeLineMod));
         });
     }
 
@@ -39,6 +44,7 @@ export class OlFlightrouteContainer extends OlComponentBase {
 
     public destroy() {
         this.flightrouteSubscription.unsubscribe();
+        this.routeLineModifiedSubscription.unsubscribe();
         this.destroyFeatures();
     }
 
@@ -79,5 +85,14 @@ export class OlFlightrouteContainer extends OlComponentBase {
         this.olRoutepoints = [];
         this.olAlternate = undefined;
         this.flightrouteLayer.getSource().clear(true);
+    }
+
+
+    private emitRouteLineModifiedAction(routeLineMod: RouteLineModification) {
+        this.mapContext.appStore.dispatch(new RouteLineModifiedAction(
+            routeLineMod.index,
+            routeLineMod.isNewWp,
+            routeLineMod.newPos
+        ));
     }
 }

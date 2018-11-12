@@ -1,7 +1,7 @@
 import {Position2d} from '../shared/model/geometry/position2d';
 import {BaseMapState} from './base-map-state';
 import {Angle} from '../shared/model/quantities/angle';
-import {BaseMapActions, MapActionTypes} from './base-map.actions';
+import {BaseMapActions, BaseMapActionTypes} from './base-map.actions';
 import {AngleUnit} from '../shared/model/units';
 import {MapbaselayerType} from './model/mapbaselayer-factory';
 
@@ -18,14 +18,14 @@ const initialState: BaseMapState = {
 
 export function baseMapReducer(state: BaseMapState = initialState, action: BaseMapActions) {
     switch (action.type) {
-        case MapActionTypes.MAP_MOVED_ZOOMED_ROTATED:
+        case BaseMapActionTypes.BASEMAP_MOVED_ZOOMED_ROTATED:
             return { ...state,
                 position: action.position,
                 zoom: action.zoom,
                 rotation: action.rotation,
                 extent: action.extent };
 
-        case MapActionTypes.MAP_CLICKED:
+        case BaseMapActionTypes.BASEMAP_CLICKED:
             return { ...state,
                 showOverlay: {
                     dataItem: action.dataItem,
@@ -33,7 +33,7 @@ export function baseMapReducer(state: BaseMapState = initialState, action: BaseM
                 }
             };
 
-        case MapActionTypes.MAP_OVERLAY_CLOSE:
+        case BaseMapActionTypes.BASEMAP_OVERLAY_CLOSE:
             return { ...state,
                 showOverlay: { dataItem: undefined, clickPos: undefined }
             };

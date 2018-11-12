@@ -8,8 +8,7 @@ import {FlightrouteService} from './services/flightroute/flightroute.service';
 import {EditWaypointContainerComponent} from './components/edit-waypoint-container/edit-waypoint-container.component';
 import {EditWaypointDialogComponent} from './components/edit-waypoint-dialog/edit-waypoint-dialog.component';
 import {FlightrouteContainerComponent} from './components/flightroute-container/flightroute-container.component';
-import {FlightrouteFormComponent} from './components/flightroute-form/flightroute-form.component';
-import {FuelCalculationComponent} from './components/fuel-calculation/fuel-calculation.component';
+import {FuelCalcTableComponent} from './components/fuel-calc-table/fuel-calc-table.component';
 import {WaypointListComponent} from './components/waypoint-list/waypoint-list.component';
 import {FlightrouteExportButtonsComponent} from './components/flightroute-export-buttons/flightroute-export-buttons.component';
 import {flightrouteReducer} from './flightroute.reducer';
@@ -26,6 +25,8 @@ import {MatInputModule} from '@angular/material/input';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {BaseMapModule} from '../base-map/base-map.module';
 import {MapFeaturesModule} from '../map-features/map-features.module';
+import { FuelCalcContainerComponent } from './components/fuel-calc-container/fuel-calc-container.component';
+import { FlightroutePageComponent } from './components/flightroute-page/flightroute-page.component';
 
 
 @NgModule({
@@ -53,11 +54,13 @@ import {MapFeaturesModule} from '../map-features/map-features.module';
         EditWaypointDialogComponent,
         FlightrouteContainerComponent,
         FlightrouteExportButtonsComponent,
-        FlightrouteFormComponent,
-        FuelCalculationComponent,
+        FuelCalcTableComponent,
         WaypointListComponent,
+        FuelCalcContainerComponent,
+        FlightroutePageComponent,
     ],
     exports: [
+        FlightroutePageComponent,
         EditWaypointContainerComponent,
     ],
     providers: [

@@ -1,7 +1,7 @@
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Action, select, Store} from '@ngrx/store';
 import {catchError, debounceTime, map, switchMap, withLatestFrom} from 'rxjs/operators';
-import {MapActionTypes, MapMovedZoomedRotatedAction} from '../base-map/base-map.actions';
+import {BaseMapActionTypes, BaseMapMovedZoomedRotatedAction} from '../base-map/base-map.actions';
 import {Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {MapfeaturesService} from './services/mapfeatures.service';
@@ -25,9 +25,9 @@ export class MapFeaturesEffects {
 
     @Effect()
     mapMovedZoomedRotated$: Observable<Action> = this.actions$.pipe(
-        ofType(MapActionTypes.MAP_MOVED_ZOOMED_ROTATED),
+        ofType(BaseMapActionTypes.BASEMAP_MOVED_ZOOMED_ROTATED),
         debounceTime(500),
-        map(action => action as MapMovedZoomedRotatedAction),
+        map(action => action as BaseMapMovedZoomedRotatedAction),
         withLatestFrom(this.currentUser$, this.zoom$),
         switchMap(([action, currentUser, zoom]) => this.mapFeaturesService.load(action.extent, zoom, currentUser)
             .pipe(

@@ -110,6 +110,19 @@ export function flightrouteReducer(
             FlightrouteCalcService.calcFlightRoute(newFlightroute);
             return { ...state, flightroute: newFlightroute };
 
+        case FlightrouteActionTypes.WAYPOINTS_REPLACE:
+            newFlightroute = state.flightroute.clone();
+            newFlightroute.waypoints[action.index] = action.newWaypoint;
+            FlightrouteCalcService.calcFlightRoute(newFlightroute);
+            return { ...state, flightroute: newFlightroute };
+
+        case FlightrouteActionTypes.WAYPOINTS_DELETE:
+            newFlightroute = state.flightroute.clone();
+            const idx = state.flightroute.waypoints.indexOf(action.waypoint);
+            ArrayService.removeAt(newFlightroute.waypoints, idx);
+            FlightrouteCalcService.calcFlightRoute(newFlightroute);
+            return { ...state, flightroute: newFlightroute };
+
         default:
             return state;
     }

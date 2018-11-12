@@ -2,6 +2,7 @@ import {Action} from '@ngrx/store';
 import {FlightrouteListEntry} from './model/flightroute-list-entry';
 import {Flightroute} from './model/flightroute';
 import {Waypoint} from './model/waypoint';
+import {Position2d} from '../shared/model/geometry/position2d';
 
 
 export enum FlightrouteActionTypes {
@@ -36,9 +37,11 @@ export enum FlightrouteActionTypes {
     WAYPOINTS_EDIT = '[Waypoint page] Edit waypoint',
     WAYPOINTS_EDIT_SAVE = '[Edit waypoint dialog] Save edited waypoint',
     WAYPOINTS_EDIT_CANCEL = '[Edit waypoint dialog] Cancel edited waypoint',
-    WAYPOINTS_DELETE = '[Waypoint page] Delete waypoint',
+    WAYPOINTS_DELETE = '[Waypoint Page / MapFeature Overlay] Delete waypoint',
     WAYPOINTS_INSERT = '[MapFeature Overlay] Add waypoint',
-    WAYPOINTS_REVERSE = '[Waypoint pist] Reverse waypoints',
+    WAYPOINTS_REPLACE = '[Waypoint Page] Update waypoint',
+    WAYPOINTS_REVERSE = '[Waypoint List] Reverse waypoints',
+    WAYPOINTS_ROUTELINE_MODIFIED = '[NavMap] Route line modified',
 }
 
 
@@ -297,10 +300,29 @@ export class InsertWaypointAction implements Action {
 }
 
 
+export class ReplaceWaypointAction implements Action {
+    readonly type = FlightrouteActionTypes.WAYPOINTS_REPLACE;
+
+    constructor(
+        public newWaypoint: Waypoint,
+        public index: number) {}
+}
+
+
 export class ReverseWaypointsAction implements Action {
     readonly type = FlightrouteActionTypes.WAYPOINTS_REVERSE;
 
     constructor() {}
+}
+
+
+export class RouteLineModifiedAction implements Action {
+    readonly type = FlightrouteActionTypes.WAYPOINTS_ROUTELINE_MODIFIED;
+
+    constructor(
+        public index: number,
+        public isNewWaypoint: boolean,
+        public newPosition: Position2d) {}
 }
 
 
@@ -341,4 +363,5 @@ export type FlightrouteActions =
     | CancelEditWaypointAction
     | DeleteWaypointAction
     | InsertWaypointAction
+    | ReplaceWaypointAction
     | ReverseWaypointsAction;

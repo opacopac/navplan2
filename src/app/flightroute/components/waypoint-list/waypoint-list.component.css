@@ -2,6 +2,44 @@
     width: 100%;
 }
 
+th.mat-header-cell {
+    font-weight: bold;
+}
+
+tr.mat-footer-row {
+    font-weight: bold;
+}
+
+.fa-trash {
+    color: #dd0000;
+}
+
+.fa-edit {
+    color: darkgreen;
+}
+
+.fa-info-circle {
+    color: #41669c;
+}
+
 .reverse-button {
     float: right;
+}
+
+u {
+    text-decoration: underline;
+}
+
+
+.supp_info_row {
+    height: initial;
+    background-color: #eeeeee;
+}
+
+.orig_dest_row {
+    background-color: #dbe3f0;
+}
+
+.alt_row {
+    background-color: #ffebcc;
 }

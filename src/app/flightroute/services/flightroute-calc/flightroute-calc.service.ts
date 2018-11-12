@@ -9,6 +9,7 @@ import {Time} from '../../../shared/model/quantities/time';
 import {RouteFuel} from '../../model/routefuel';
 import {Fuel} from '../../../shared/model/quantities/fuel';
 import {Consumption} from '../../../shared/model/quantities/consumption';
+import {Distance} from '../../../shared/model/quantities/distance';
 
 
 export class FlightrouteCalcService {
@@ -17,6 +18,7 @@ export class FlightrouteCalcService {
 
         this.calcWaypointList(flightroute, lengthUnit);
         this.calcAlternate(flightroute, lengthUnit);
+        this.calcTripDist(flightroute, lengthUnit);
         this.calcTimesAndFuel(flightroute);
     }
 
@@ -132,6 +134,11 @@ export class FlightrouteCalcService {
         }
     }
 
+
+    private static calcTripDist(flightroute: Flightroute, lenghtUnit: LengthUnit): Distance {
+        return flightroute.waypoints.reduce((tripDist, wp) => wp.dist ? tripDist.add(wp.dist) : tripDist, new Distance(0, lenghtUnit));
+    }
+
     // endregion
 
 
@@ -142,12 +149,15 @@ export class FlightrouteCalcService {
         flightroute.fuel.tripTime = this.calcTripTime(flightroute.waypoints);
         flightroute.fuel.alternateTime = flightroute.alternate ? flightroute.alternate.eet : new Time(0, TimeUnit.M);
         flightroute.fuel.minimumTime = this.calcMinimumTime(flightroute.fuel);
+        flightroute.fuel.extraTime = flightroute.extraTime ? flightroute.extraTime : new Time(0, TimeUnit.M);
         flightroute.fuel.blockTime = this.calcBlockTime(flightroute.fuel);
 
         // fuel
         flightroute.fuel.tripFuel = this.calcFuel(flightroute.fuel.tripTime, flightroute.aircraft.consumption);
         flightroute.fuel.alternateFuel = this.calcFuel(flightroute.fuel.alternateTime, flightroute.aircraft.consumption);
+        flightroute.fuel.reserveFuel = this.calcFuel(flightroute.fuel.reserveTime, flightroute.aircraft.consumption);
         flightroute.fuel.minimumFuel = this.calcFuel(flightroute.fuel.minimumTime, flightroute.aircraft.consumption);
+        flightroute.fuel.extraFuel = this.calcFuel(flightroute.extraTime, flightroute.aircraft.consumption);
         flightroute.fuel.blockFuel = this.calcFuel(flightroute.fuel.blockTime, flightroute.aircraft.consumption);
     }
 

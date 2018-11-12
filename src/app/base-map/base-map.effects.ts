@@ -3,7 +3,7 @@ import {Action, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {BaseMapService} from './services/base-map.service';
-import {MapActionTypes} from './base-map.actions';
+import {BaseMapActionTypes} from './base-map.actions';
 import {tap} from 'rxjs/operators';
 
 
@@ -18,7 +18,7 @@ export class BaseMapEffects {
 
     @Effect({ dispatch: false })
     zoomIn$: Observable<Action> = this.actions$.pipe(
-        ofType(MapActionTypes.MAP_ZOOM_IN),
+        ofType(BaseMapActionTypes.BASEMAP_ZOOM_IN),
         tap((action) => {
             this.mapService.zoomIn();
         })
@@ -28,7 +28,7 @@ export class BaseMapEffects {
 
     @Effect({ dispatch: false })
     zoomOut$: Observable<Action> = this.actions$.pipe(
-        ofType(MapActionTypes.MAP_ZOOM_OUT),
+        ofType(BaseMapActionTypes.BASEMAP_ZOOM_OUT),
         tap((action) => {
             this.mapService.zoomOut();
         })

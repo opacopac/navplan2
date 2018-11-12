@@ -7,8 +7,8 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
     styleUrls: ['./flightroute-export-buttons.component.css']
 })
 export class FlightrouteExportButtonsComponent implements OnInit {
-    @Output() onExportFlightroutePdfClicked = new EventEmitter<number>();
-    @Output() onExportFlightrouteExcelClicked = new EventEmitter<number>();
+    @Output() onExportFlightroutePdfClick = new EventEmitter<number>();
+    @Output() onExportFlightrouteExcelClick = new EventEmitter<number>();
 
 
     constructor() {

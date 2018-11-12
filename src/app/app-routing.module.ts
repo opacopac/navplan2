@@ -5,14 +5,16 @@ import {AboutPageComponent} from './core/components/about-page/about-page.compon
 import {LoginComponent} from './user/components/login/login.component';
 import {UserprofileComponent} from './user/components/userprofile/userprofile.component';
 import {ForgotpwComponent} from './user/components/forgotpw/forgotpw.component';
-import {FlightrouteContainerComponent} from './flightroute/components/flightroute-container/flightroute-container.component';
-import {PlanningMapPageComponent} from './planning-map/components/map-page/planning-map-page.component';
+import {NavMapPageComponent} from './nav-map/components/nav-map-page/nav-map-page.component';
 import {TracksPageComponent} from './track/components/tracks-page/tracks-page.component';
+import {ChartMapPageComponent} from './chart-map/components/chart-map-page/chart-map-page.component';
+import {FlightroutePageComponent} from './flightroute/components/flightroute-page/flightroute-page.component';
 
 const routes: Routes = [
     { path: '', redirectTo: 'map', pathMatch: 'full' },
-    { path: 'map', component: PlanningMapPageComponent },
-    { path: 'route', component: FlightrouteContainerComponent },
+    { path: 'map', component: NavMapPageComponent },
+    { path: 'chartmap', component: ChartMapPageComponent },
+    { path: 'route', component: FlightroutePageComponent },
     { path: 'tracks', component: TracksPageComponent },
     { path: 'login', component: LoginComponent },
     { path: 'userprofile', component: UserprofileComponent },

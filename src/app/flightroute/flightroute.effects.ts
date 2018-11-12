@@ -23,12 +23,16 @@ import {
     SharedFlightrouteReadSuccessAction,
     SharedFlightrouteReadErrorAction,
     SharedFlightrouteCreateSuccessAction,
-    SharedFlightrouteCreateErrorAction
+    SharedFlightrouteCreateErrorAction, RouteLineModifiedAction, InsertWaypointAction, ReplaceWaypointAction
 } from './flightroute.actions';
 import {getCurrentUser} from '../user/user.selectors';
 import {User} from '../user/model/user';
 import {getFlightroute} from './flightroute.selectors';
 import {Flightroute} from './model/flightroute';
+import {MapfeaturesService} from '../map-features/services/mapfeatures.service';
+import {WaypointFactory} from './model/waypoint-mapper/waypoint-factory';
+import {getMapFeatures} from '../map-features/map-features.selectors';
+import {Mapfeatures} from '../map-features/model/mapfeatures';
 
 
 @Injectable()
@@ -37,12 +41,14 @@ export class FlightrouteEffects {
         private actions$: Actions,
         private appStore: Store<any>,
         private flightrouteService: FlightrouteService,
+        private mapFeaturesService: MapfeaturesService,
         private messageService: MessageService) {
     }
 
 
     private currentUser$: Observable<User> = this.appStore.pipe(select(getCurrentUser));
     private flightroute$: Observable<Flightroute> = this.appStore.pipe(select(getFlightroute));
+    private mapFeatures$: Observable<Mapfeatures> = this.appStore.pipe(select(getMapFeatures));
 
 
     // region flightroute list
@@ -208,6 +214,28 @@ export class FlightrouteEffects {
         ))
     );
 
+
+    // endregion
+
+
+    // region waypoint
+
+    @Effect()
+    modifyRouteLine$: Observable<Action> = this.actions$.pipe(
+        ofType(FlightrouteActionTypes.WAYPOINTS_ROUTELINE_MODIFIED),
+        map((action: RouteLineModifiedAction) => action),
+        withLatestFrom(this.mapFeatures$),
+        map(([action, mapFeatures]) => {
+            const dataItem = MapfeaturesService.findLoadedMapFeatureByPosition(mapFeatures, action.newPosition);
+            const wp = WaypointFactory.createNewWaypointFromDataItem(dataItem, action.newPosition);
+
+            if (action.isNewWaypoint) {
+                return new InsertWaypointAction(wp, action.index);
+            } else {
+                return new ReplaceWaypointAction(wp, action.index);
+            }
+        })
+    );
 
     // endregion
 }

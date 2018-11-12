@@ -156,7 +156,7 @@ $navplan-app-accent: mat-palette($mat-custom4, A200, A100, A700);
 $navplan-app-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$navplan-app-theme: mat-light-theme($navplan-app-primary, $navplan-app-accent, $navplan-app-accent);
+$navplan-app-theme: mat-light-theme($navplan-app-primary, $navplan-app-accent, $navplan-app-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component

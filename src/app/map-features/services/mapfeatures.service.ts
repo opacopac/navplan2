@@ -1,13 +1,17 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {select, Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
+import {catchError, map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {Extent} from '../../shared/model/extent';
 import {Mapfeatures} from '../model/mapfeatures';
 import {MapFeaturesResponse, RestMapperMapfeatures} from '../model/rest-mapper/rest-mapper-mapfeatures';
 import {User} from '../../user/model/user';
-import {Observable} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
 import {LoggingService} from '../../shared/services/logging/logging.service';
+import {Position2d} from '../../shared/model/geometry/position2d';
+import {DataItem} from '../../shared/model/data-item';
+import {getMapFeatures} from '../map-features.selectors';
 
 
 const MAPFEATURES_BASE_URL = environment.restApiBaseUrl + 'php/search/SearchService.php';
@@ -15,7 +19,53 @@ const MAPFEATURES_BASE_URL = environment.restApiBaseUrl + 'php/search/SearchServ
 
 @Injectable()
 export class MapfeaturesService  {
-    constructor(private http: HttpClient) {
+    private loadedMapFeatures$: Observable<Mapfeatures>;
+
+
+    constructor(
+        private http: HttpClient,
+        private appStore: Store<any>) {
+        this.loadedMapFeatures$ = this.appStore.pipe(select(getMapFeatures));
+    }
+
+
+    public static findLoadedMapFeatureByPosition(mapFeatures: Mapfeatures, position: Position2d, precisionDigits = 4): DataItem {
+        // search airports
+        for (const airport of mapFeatures.airports) {
+            if (airport.position.equals(position, precisionDigits)) {
+                return airport;
+            }
+        }
+
+        // search navaids
+        for (const navaid of mapFeatures.navaids) {
+            if (navaid.position.equals(position, precisionDigits)) {
+                return navaid;
+            }
+        }
+
+        // search user points
+        for (const userpoint of mapFeatures.userpoints) {
+            if (userpoint.position.equals(position, precisionDigits)) {
+                return userpoint;
+            }
+        }
+
+        // search reporting point
+        for (const reportingpoint of mapFeatures.reportingpoints) {
+            if (reportingpoint.position.equals(position, precisionDigits)) {
+                return reportingpoint;
+            }
+        }
+
+        // search reporting sectors
+        for (const reportingsector of mapFeatures.reportingsectors) {
+            if (reportingsector.polygon.containsPoint(position)) {
+                return reportingsector;
+            }
+        }
+
+        return undefined;
     }
 
 
@@ -32,66 +82,7 @@ export class MapfeaturesService  {
                     return subject;
                 }),
             );
-
-
-        /*.subscribe(
-            response => {
-                const mapFeatures = RestMapperMapfeatures.getMapFeaturesFromResponse(response);
-                successCallback(mapFeatures);
-            },
-            err => {
-                const message = 'ERROR reading map features!';
-                LoggingService.logResponseError(message, err);
-                errorCallback(message);
-            }
-        );*/
     }
-
-
-    /*public findFlightrouteFeatureByPosition(position: Position2d, precisionDigits = 4): DataItem {
-        // iterate over all cache items
-        for (const cacheItem of this.cacheItemList) {
-            const mapFeatures = (cacheItem.item as Mapfeatures);
-
-            // search airports
-            for (const airport of mapFeatures.airports) {
-                if (airport.position.equals(position, precisionDigits)) {
-                    return airport;
-                }
-            }
-
-            // search navaids
-            for (const navaid of mapFeatures.navaids) {
-                if (navaid.position.equals(position, precisionDigits)) {
-                    return navaid;
-                }
-            }
-
-            // search user points
-            for (const userpoint of mapFeatures.userpoints) {
-                if (userpoint.position.equals(position, precisionDigits)) {
-                    return userpoint;
-                }
-            }
-
-
-            // search reporting point
-            for (const reportingpoint of mapFeatures.reportingpoints) {
-                if (reportingpoint.position.equals(position, precisionDigits)) {
-                    return reportingpoint;
-                }
-            }
-
-            // search reporting sectors
-            for (const reportingsector of mapFeatures.reportingsectors) {
-                if (reportingsector.polygon.containsPoint(position)) {
-                    return reportingsector;
-                }
-            }
-        }
-
-        return undefined;
-    }*/
 
 
     public getOversizeFactor(): number {

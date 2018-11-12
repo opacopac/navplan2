@@ -7,7 +7,7 @@ import {BaseMapService} from '../../services/base-map.service';
 import {Position2d} from '../../../shared/model/geometry/position2d';
 import {DataItem} from '../../../shared/model/data-item';
 import {Extent} from '../../../shared/model/extent';
-import {MapClickedAction, MapMovedZoomedRotatedAction} from '../../base-map.actions';
+import {BaseMapClickedAction, BaseMapMovedZoomedRotatedAction} from '../../base-map.actions';
 import {Angle} from '../../../shared/model/quantities/angle';
 import {getMapPosition, getMapRotation, getMapZoom} from '../../base-map.selectors';
 import {MapbaselayerType} from '../../model/mapbaselayer-factory';
@@ -86,7 +86,7 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
 
     private dispatchPosZoomRotAction(position: Position2d, zoom: number, rotation: Angle, extent: Extent) {
         this.appStore.dispatch(
-            new MapMovedZoomedRotatedAction(
+            new BaseMapMovedZoomedRotatedAction(
                 position as Position2d,
                 zoom as number,
                 rotation as Angle,
@@ -97,7 +97,7 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
 
     private dispatchMapClickedAction(clickPos: Position2d, dataItem: DataItem) {
         this.appStore.dispatch(
-            new MapClickedAction(
+            new BaseMapClickedAction(
                 clickPos,
                 dataItem
             )

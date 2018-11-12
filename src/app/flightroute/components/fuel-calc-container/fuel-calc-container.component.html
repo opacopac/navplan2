@@ -1,0 +1,37 @@
+<h2>Fuel Calculation</h2>
+
+<!-- aircraft consumption -->
+<form class="fuel-form" [formGroup]="fuelForm">
+    <!-- aircraft consumption -->
+    <mat-form-field appearance="fill">
+        <mat-label>Fuel Consumption</mat-label>
+        <input matInput
+               #aircraftConsumption
+               type="number"
+               formControlName="aircraftConsumption"
+               maxlength="3"
+               size="3"
+               (input)="this.aircraftConsumption$.next(Number(aircraftConsumption.value))"
+        />
+        <span matSuffix>l/h</span>
+    </mat-form-field>
+
+    <!-- extra time -->
+    <mat-form-field appearance="fill">
+        <mat-label>Extra Time</mat-label>
+        <input matInput
+               #extraTime
+               type="number"
+               formControlName="extraTime"
+               maxlength="3"
+               size="3"
+               (input)="this.extraTime$.next(Number(extraTime.value))"
+        />
+        <span matSuffix>min</span>
+    </mat-form-field>
+</form>
+
+<!-- fuel calc table -->
+<app-fuel-calc-table
+        [routeFuel]="this.routeFuel$ | async">
+</app-fuel-calc-table>

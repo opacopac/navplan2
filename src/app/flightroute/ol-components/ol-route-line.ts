@@ -2,12 +2,20 @@ import * as ol from 'openlayers';
 import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
 import {Flightroute} from '../model/flightroute';
 import {EventEmitter} from '@angular/core';
+import {Position2d} from '../../shared/model/geometry/position2d';
+
+
+export class RouteLineModification {
+    constructor(
+        public index: number,
+        public isNewWp: boolean,
+        public newPos: Position2d) {
+    }
+}
 
 
 export class OlRouteLine extends OlComponentBase {
-    public onModifyStart2: EventEmitter<ol.interaction.Modify.Event> = new EventEmitter<ol.interaction.Modify.Event>();
-    public onModifyEnd2: EventEmitter<ol.interaction.Modify.Event> = new EventEmitter<ol.interaction.Modify.Event>();
-    public onModifyChange2: EventEmitter<ol.events.Event> = new EventEmitter<ol.events.Event>();
+    public onRouteLineModifiedEnd: EventEmitter<RouteLineModification> = new EventEmitter<RouteLineModification>();
     private readonly lineFeature: ol.Feature;
     private modifyInteraction: ol.interaction.Modify;
     private snapInteractions: ol.interaction.Snap[];
@@ -105,6 +113,10 @@ export class OlRouteLine extends OlComponentBase {
 
     private onModifyEnd(event: ol.interaction.Modify.Event) {
         // TODO: action
+        const wpMod = this.findRouteLineModification(event);
+        if (wpMod) {
+            this.onRouteLineModifiedEnd.emit(wpMod);
+        }
     }
 
 
@@ -113,20 +125,21 @@ export class OlRouteLine extends OlComponentBase {
     }
 
 
-    /*private findWaypointModification(featureGeometry: ol.geom.LineString, oldPosList: Position2d[]): WaypointModification {
-        // find index of changed wp
+    private findRouteLineModification(event: ol.interaction.Modify.Event): RouteLineModification {
+        const featureGeometry = event.features.item(0).getGeometry() as ol.geom.LineString;
         const newCoordinates = featureGeometry.getCoordinates();
 
+        // find index of changed wp
         for (let i = 0; i < newCoordinates.length; i++) {
-            if (i >= oldPosList.length || !oldPosList[i].equals(Position2d.createFromMercator(newCoordinates[i]), 4)) {
-                return new WaypointModification(
+            if (i >= this.flightroute.waypoints.length || !this.flightroute.waypoints[i].position.equals(Position2d.createFromMercator(newCoordinates[i]), 4)) {
+                return new RouteLineModification(
                     i,
-                    (oldPosList.length !== newCoordinates.length),
+                    (this.flightroute.waypoints.length !== newCoordinates.length),
                     Position2d.createFromMercator(newCoordinates[i])
                 );
             }
         }
 
         return undefined;
-    }*/
+    }
 }

@@ -1,0 +1,37 @@
+<div #container class="ol-popup">
+    <mat-card *ngIf="this.navaid">
+        <mat-card-header>
+            <img mat-card-avatar src="{{ this.getAvatarUrl() }}" />
+            <mat-card-title>
+                {{ this.navaid.name }} ({{ this.navaid.kuerzel }})
+            </mat-card-title>
+            <mat-card-subtitle>
+                {{ this.navaid.getTypeString() }}
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <p>{{ this.getPositionString(this.navaid.position) }}</p>
+            <p>Elevation: {{ this.getElevationString(this.navaid.elevation_m) }}</p>
+            <p>Frequency: {{ this.navaid.frequency }} {{ this.navaid.unit }}</p>
+            <p>Morse: <span [innerHtml]="this.getMorseString()"></span></p>
+            <div class="text-right small">
+                <em><a href="http://www.openaip.net/navaids?field_openaip_navaid_type_value_many_to_one=All&field_openaip_navaid_id_value=&field_openaip_navaid_country_value_many_to_one=All&title={{ this.navaid.name }}"
+                       target="_blank">add / correct data</a>
+                    <i class="fas fa-info-circle" title="openAIP login is required for editing"></i></em>
+            </div>
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions>
+            <app-ol-overlay-button-add-to-route
+                    [waypoint]="this.waypoint"
+                    [flightroute]="this.flightroute$ | async"
+                    (onInsertWaypointAt)="this.onInsertWaypointAt($event)"
+            ></app-ol-overlay-button-add-to-route>
+            <app-ol-overlay-button-edit-waypoint></app-ol-overlay-button-edit-waypoint>
+            <app-ol-overlay-button-remove-from-route
+                    [waypoint]="this.waypoint"
+                    (onDeleteWaypoint)="this.onDeleteWaypoint($event)"
+            ></app-ol-overlay-button-remove-from-route>
+        </mat-card-actions>
+    </mat-card>
+</div>

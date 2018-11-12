@@ -5,31 +5,31 @@ import {Angle} from '../shared/model/quantities/angle';
 import {DataItem} from '../shared/model/data-item';
 
 
-export enum MapActionTypes {
-    MAP_ZOOM_IN = '[Map buttons] zoom in',
-    MAP_ZOOM_OUT = '[Map buttons] zoom out',
-    MAP_MOVED_ZOOMED_ROTATED = '[Map] map moved / zoomed / rotated',
-    MAP_CLICKED = '[Map] map clicked',
-    MAP_OVERLAY_CLOSE = '[Map] close overlay'
+export enum BaseMapActionTypes {
+    BASEMAP_ZOOM_IN = '[Base Map Buttons] zoom in',
+    BASEMAP_ZOOM_OUT = '[Base Map Buttons] zoom out',
+    BASEMAP_MOVED_ZOOMED_ROTATED = '[Base Map] map moved / zoomed / rotated',
+    BASEMAP_CLICKED = '[Base Map] map clicked',
+    BASEMAP_OVERLAY_CLOSE = '[Base Map] close overlay'
 }
 
 
-export class MapZoomInAction implements Action {
-    readonly type = MapActionTypes.MAP_ZOOM_IN;
+export class BaseMapZoomInAction implements Action {
+    readonly type = BaseMapActionTypes.BASEMAP_ZOOM_IN;
 
     constructor() {}
 }
 
 
-export class MapZoomOutAction implements Action {
-    readonly type = MapActionTypes.MAP_ZOOM_OUT;
+export class BaseMapZoomOutAction implements Action {
+    readonly type = BaseMapActionTypes.BASEMAP_ZOOM_OUT;
 
     constructor() {}
 }
 
 
-export class MapMovedZoomedRotatedAction implements Action {
-    readonly type = MapActionTypes.MAP_MOVED_ZOOMED_ROTATED;
+export class BaseMapMovedZoomedRotatedAction implements Action {
+    readonly type = BaseMapActionTypes.BASEMAP_MOVED_ZOOMED_ROTATED;
 
     constructor(
         public position: Position2d,
@@ -39,8 +39,8 @@ export class MapMovedZoomedRotatedAction implements Action {
 }
 
 
-export class MapClickedAction implements Action {
-    readonly type = MapActionTypes.MAP_CLICKED;
+export class BaseMapClickedAction implements Action {
+    readonly type = BaseMapActionTypes.BASEMAP_CLICKED;
 
     constructor(
         public clickPos: Position2d,
@@ -48,16 +48,16 @@ export class MapClickedAction implements Action {
 }
 
 
-export class MapOverlayCloseAction implements Action {
-    readonly type = MapActionTypes.MAP_OVERLAY_CLOSE;
+export class BaseMapOverlayCloseAction implements Action {
+    readonly type = BaseMapActionTypes.BASEMAP_OVERLAY_CLOSE;
 
     constructor() {}
 }
 
 
 export type BaseMapActions =
-    MapZoomInAction |
-    MapZoomOutAction |
-    MapMovedZoomedRotatedAction |
-    MapClickedAction |
-    MapOverlayCloseAction;
+    BaseMapZoomInAction |
+    BaseMapZoomOutAction |
+    BaseMapMovedZoomedRotatedAction |
+    BaseMapClickedAction |
+    BaseMapOverlayCloseAction;
