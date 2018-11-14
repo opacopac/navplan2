@@ -25,7 +25,6 @@ const initialState: FlightrouteState = {
         undefined,
         new Time(0, TimeUnit.M)
     ),
-    editWaypoint: undefined,
     showShareId: undefined,
     distanceUnit: LengthUnit.NM,
     speedUnit: SpeedUnit.KT,
@@ -98,25 +97,26 @@ export function flightrouteReducer(
             FlightrouteCalcService.calcFlightRoute(newFlightroute);
             return { ...state, flightroute: newFlightroute };
 
-        case FlightrouteActionTypes.WAYPOINTS_EDIT:
-            return { ...state, editWaypoint: action.waypoint };
+        case FlightrouteActionTypes.WAYPOINT_UPDATE:
+            const wpIndex = state.flightroute.waypoints.indexOf(action.oldWp);
+            newFlightroute = state.flightroute.clone();
+            newFlightroute.waypoints[wpIndex] = action.newWp;
+            FlightrouteCalcService.calcFlightRoute(newFlightroute);
+            return { ...state, flightroute: newFlightroute };
 
-        case FlightrouteActionTypes.WAYPOINTS_EDIT_CANCEL:
-            return { ...state, editWaypoint: undefined };
-
-        case FlightrouteActionTypes.WAYPOINTS_INSERT:
+        case FlightrouteActionTypes.WAYPOINT_INSERT:
             newFlightroute = state.flightroute.clone();
             ArrayService.insertAt(newFlightroute.waypoints, action.index, action.newWaypoint);
             FlightrouteCalcService.calcFlightRoute(newFlightroute);
             return { ...state, flightroute: newFlightroute };
 
-        case FlightrouteActionTypes.WAYPOINTS_REPLACE:
+        case FlightrouteActionTypes.WAYPOINT_REPLACE:
             newFlightroute = state.flightroute.clone();
             newFlightroute.waypoints[action.index] = action.newWaypoint;
             FlightrouteCalcService.calcFlightRoute(newFlightroute);
             return { ...state, flightroute: newFlightroute };
 
-        case FlightrouteActionTypes.WAYPOINTS_DELETE:
+        case FlightrouteActionTypes.WAYPOINT_DELETE:
             newFlightroute = state.flightroute.clone();
             const idx = state.flightroute.waypoints.indexOf(action.waypoint);
             ArrayService.removeAt(newFlightroute.waypoints, idx);

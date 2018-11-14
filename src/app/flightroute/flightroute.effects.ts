@@ -23,7 +23,10 @@ import {
     SharedFlightrouteReadSuccessAction,
     SharedFlightrouteReadErrorAction,
     SharedFlightrouteCreateSuccessAction,
-    SharedFlightrouteCreateErrorAction, RouteLineModifiedAction, InsertWaypointAction, ReplaceWaypointAction
+    SharedFlightrouteCreateErrorAction,
+    RouteLineModifiedAction,
+    InsertWaypointAction,
+    ReplaceWaypointAction
 } from './flightroute.actions';
 import {getCurrentUser} from '../user/user.selectors';
 import {User} from '../user/model/user';
@@ -222,7 +225,7 @@ export class FlightrouteEffects {
 
     @Effect()
     modifyRouteLine$: Observable<Action> = this.actions$.pipe(
-        ofType(FlightrouteActionTypes.WAYPOINTS_ROUTELINE_MODIFIED),
+        ofType(FlightrouteActionTypes.WAYPOINT_ROUTELINE_MODIFIED),
         map((action: RouteLineModifiedAction) => action),
         withLatestFrom(this.mapFeatures$),
         map(([action, mapFeatures]) => {

@@ -5,8 +5,8 @@ import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {SharedModule} from '../shared/shared.module';
 import {FlightrouteService} from './services/flightroute/flightroute.service';
-import {EditWaypointContainerComponent} from './components/edit-waypoint-container/edit-waypoint-container.component';
 import {EditWaypointDialogComponent} from './components/edit-waypoint-dialog/edit-waypoint-dialog.component';
+import {EditWaypointFormComponent} from './components/edit-waypoint-form/edit-waypoint-form.component';
 import {FlightrouteContainerComponent} from './components/flightroute-container/flightroute-container.component';
 import {FuelCalcTableComponent} from './components/fuel-calc-table/fuel-calc-table.component';
 import {WaypointListComponent} from './components/waypoint-list/waypoint-list.component';
@@ -14,9 +14,10 @@ import {FlightrouteExportButtonsComponent} from './components/flightroute-export
 import {flightrouteReducer} from './flightroute.reducer';
 import {FlightrouteEffects} from './flightroute.effects';
 import {
+    MatAutocompleteModule,
     MatButtonToggleModule, MatDialogModule,
     MatFormFieldModule,
-    MatIconModule,
+    MatIconModule, MatPaginatorModule,
     MatSelectModule,
     MatTableModule,
     MatTooltipModule
@@ -25,8 +26,10 @@ import {MatInputModule} from '@angular/material/input';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {BaseMapModule} from '../base-map/base-map.module';
 import {MapFeaturesModule} from '../map-features/map-features.module';
-import { FuelCalcContainerComponent } from './components/fuel-calc-container/fuel-calc-container.component';
-import { FlightroutePageComponent } from './components/flightroute-page/flightroute-page.component';
+import {FuelCalcContainerComponent} from './components/fuel-calc-container/fuel-calc-container.component';
+import {FlightroutePageComponent} from './components/flightroute-page/flightroute-page.component';
+import {FlightrouteListDialogComponent} from './components/flightroute-list-dialog/flightroute-list-dialog.component';
+import {FlightrouteListComponent} from './components/flightroute-list/flightroute-list.component';
 
 
 @NgModule({
@@ -39,35 +42,40 @@ import { FlightroutePageComponent } from './components/flightroute-page/flightro
         MatFormFieldModule,
         MatSelectModule,
         MatInputModule,
+        MatAutocompleteModule,
         MatIconModule,
         MatTooltipModule,
         MatTableModule,
         MatButtonToggleModule,
         MatDialogModule,
+        MatPaginatorModule,
         DragDropModule,
         SharedModule,
         BaseMapModule,
         MapFeaturesModule,
     ],
     declarations: [
-        EditWaypointContainerComponent,
         EditWaypointDialogComponent,
+        EditWaypointFormComponent,
         FlightrouteContainerComponent,
         FlightrouteExportButtonsComponent,
         FuelCalcTableComponent,
         WaypointListComponent,
         FuelCalcContainerComponent,
         FlightroutePageComponent,
+        FlightrouteListDialogComponent,
+        FlightrouteListComponent,
     ],
     exports: [
         FlightroutePageComponent,
-        EditWaypointContainerComponent,
+        EditWaypointDialogComponent,
     ],
     providers: [
         FlightrouteService
     ],
     entryComponents: [
-        EditWaypointDialogComponent
+        EditWaypointDialogComponent,
+        FlightrouteListDialogComponent
     ],
 })
 export class FlightrouteModule {}

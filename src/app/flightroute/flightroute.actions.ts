@@ -34,14 +34,12 @@ export enum FlightrouteActionTypes {
     FLIGHTROUTE_UPDATE_COMMENTS = '[Flightroute Page] Update route comments',
     FLIGHTROUTE_EXPORT_PDF = '[Flightroute Page] Export route as PDF',
     FLIGHTROUTE_EXPORT_EXCEL = '[Flightroute Page] Export route as Excel',
-    WAYPOINTS_EDIT = '[Waypoint page] Edit waypoint',
-    WAYPOINTS_EDIT_SAVE = '[Edit waypoint dialog] Save edited waypoint',
-    WAYPOINTS_EDIT_CANCEL = '[Edit waypoint dialog] Cancel edited waypoint',
-    WAYPOINTS_DELETE = '[Waypoint Page / MapFeature Overlay] Delete waypoint',
-    WAYPOINTS_INSERT = '[MapFeature Overlay] Add waypoint',
-    WAYPOINTS_REPLACE = '[Waypoint Page] Update waypoint',
-    WAYPOINTS_REVERSE = '[Waypoint List] Reverse waypoints',
-    WAYPOINTS_ROUTELINE_MODIFIED = '[NavMap] Route line modified',
+    WAYPOINT_UPDATE = '[Edit Waypoint Dialog] Update waypoint',
+    WAYPOINT_DELETE = '[Waypoint Page / MapFeature Overlay] Delete waypoint',
+    WAYPOINT_INSERT = '[MapFeature Overlay] Add waypoint',
+    WAYPOINT_REPLACE = '[Waypoint Page] Update waypoint',
+    WAYPOINT_REVERSE = '[Waypoint List] Reverse waypoints',
+    WAYPOINT_ROUTELINE_MODIFIED = '[NavMap] Route line modified',
 }
 
 
@@ -263,36 +261,24 @@ export class ExportFlightrouteExcelAction implements Action {
 
 // region waypoints
 
-export class EditWaypointAction implements Action {
-    readonly type = FlightrouteActionTypes.WAYPOINTS_EDIT;
+export class UpdateWaypointAction implements Action {
+    readonly type = FlightrouteActionTypes.WAYPOINT_UPDATE;
 
-    constructor(public waypoint: Waypoint) {}
-}
-
-
-export class SaveEditWaypointAction implements Action {
-    readonly type = FlightrouteActionTypes.WAYPOINTS_EDIT_SAVE;
-
-    constructor(public waypoint: Waypoint) {}
-}
-
-
-export class CancelEditWaypointAction implements Action {
-    readonly type = FlightrouteActionTypes.WAYPOINTS_EDIT_CANCEL;
-
-    constructor() {}
+    constructor(
+        public oldWp: Waypoint,
+        public newWp: Waypoint) {}
 }
 
 
 export class DeleteWaypointAction implements Action {
-    readonly type = FlightrouteActionTypes.WAYPOINTS_DELETE;
+    readonly type = FlightrouteActionTypes.WAYPOINT_DELETE;
 
     constructor(public waypoint: Waypoint) {}
 }
 
 
 export class InsertWaypointAction implements Action {
-    readonly type = FlightrouteActionTypes.WAYPOINTS_INSERT;
+    readonly type = FlightrouteActionTypes.WAYPOINT_INSERT;
 
     constructor(
         public newWaypoint: Waypoint,
@@ -301,7 +287,7 @@ export class InsertWaypointAction implements Action {
 
 
 export class ReplaceWaypointAction implements Action {
-    readonly type = FlightrouteActionTypes.WAYPOINTS_REPLACE;
+    readonly type = FlightrouteActionTypes.WAYPOINT_REPLACE;
 
     constructor(
         public newWaypoint: Waypoint,
@@ -310,14 +296,14 @@ export class ReplaceWaypointAction implements Action {
 
 
 export class ReverseWaypointsAction implements Action {
-    readonly type = FlightrouteActionTypes.WAYPOINTS_REVERSE;
+    readonly type = FlightrouteActionTypes.WAYPOINT_REVERSE;
 
     constructor() {}
 }
 
 
 export class RouteLineModifiedAction implements Action {
-    readonly type = FlightrouteActionTypes.WAYPOINTS_ROUTELINE_MODIFIED;
+    readonly type = FlightrouteActionTypes.WAYPOINT_ROUTELINE_MODIFIED;
 
     constructor(
         public index: number,
@@ -358,9 +344,7 @@ export type FlightrouteActions =
     | UpdateFlightrouteCommentsAction
     | ExportFlightroutePdfAction
     | ExportFlightrouteExcelAction
-    | EditWaypointAction
-    | SaveEditWaypointAction
-    | CancelEditWaypointAction
+    | UpdateWaypointAction
     | DeleteWaypointAction
     | InsertWaypointAction
     | ReplaceWaypointAction

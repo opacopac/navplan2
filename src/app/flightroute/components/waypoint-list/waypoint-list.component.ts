@@ -4,7 +4,6 @@ import {Flightroute} from '../../model/flightroute';
 import {ButtonColor, ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
 import {WaypointType} from '../../model/waypoint-type';
 import {LengthUnit, TimeUnit} from '../../../shared/model/units';
-import {log} from 'util';
 
 
 interface WaypointListDataSourceRow {
@@ -23,12 +22,13 @@ interface WaypointListDataSourceRow {
 })
 export class WaypointListComponent implements OnInit {
     @Input() flightroute: Flightroute;
-    @Output() onEditWaypointClicked = new EventEmitter<Waypoint>();
-    @Output() onRemoveWaypointClicked = new EventEmitter<Waypoint>();
-    @Output() onReverseWaypointsClicked = new EventEmitter<null>();
+    @Output() onEditWaypointClick = new EventEmitter<Waypoint>();
+    @Output() onRemoveWaypointClick = new EventEmitter<Waypoint>();
+    @Output() onReverseWaypointsClick = new EventEmitter<null>();
+    public visibleColumns = ['freq', 'callsign', 'checkpoint', 'alt', 'mt', 'dist', 'eet', 'remarks', 'icons'];
     public ButtonSize = ButtonSize;
     public ButtonColor = ButtonColor;
-    public visibleColumns = ['freq', 'callsign', 'checkpoint', 'alt', 'mt', 'dist', 'eet', 'remarks', 'icons'];
+    public console = console;
 
 
     constructor() {

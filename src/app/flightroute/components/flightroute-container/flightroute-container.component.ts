@@ -1,4 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MatDialog} from '@angular/material';
 import {select, Store} from '@ngrx/store';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {debounceTime, map} from 'rxjs/operators';
@@ -13,17 +15,15 @@ import {
     UpdateAircraftSpeedAction,
     FlightrouteUpdateAction,
     UpdateFlightrouteCommentsAction,
-    UpdateFlightrouteTitleAction, SaveEditWaypointAction, CancelEditWaypointAction,
+    UpdateFlightrouteTitleAction,
+    UpdateWaypointAction,
 } from '../../flightroute.actions';
 import {Waypoint} from '../../model/waypoint';
-import {DeleteWaypointAction, EditWaypointAction, ReverseWaypointsAction} from '../../flightroute.actions';
-import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {DeleteWaypointAction, ReverseWaypointsAction} from '../../flightroute.actions';
 import {Speed} from '../../../shared/model/quantities/speed';
 import {Consumption} from '../../../shared/model/quantities/consumption';
 import {ConsumptionUnit, SpeedUnit} from '../../../shared/model/units';
 import {FlightrouteListDialogComponent} from '../flightroute-list-dialog/flightroute-list-dialog.component';
-import {MatDialog} from '@angular/material';
-import {EditWaypointFormComponent} from '../edit-waypoint-form/edit-waypoint-form.component';
 import {EditWaypointDialogComponent} from '../edit-waypoint-dialog/edit-waypoint-dialog.component';
 
 
@@ -104,23 +104,15 @@ export class FlightrouteContainerComponent implements OnInit, OnDestroy {
 
 
     public onEditWaypointClick(editWaypoint: Waypoint) {
-        //this.appStore.dispatch(new EditWaypointAction(waypoint)); TODO: remove action
-
         const dialogRef = this.dialog.open(EditWaypointDialogComponent, {
             // height: '800px',
             // width: '600px',
             data: editWaypoint
         });
 
-        dialogRef.afterClosed().subscribe((result: Waypoint) => {
-            if (result) {
-                this.appStore.dispatch(
-                    new SaveEditWaypointAction(result)
-                );
-            } else {
-                this.appStore.dispatch(
-                    new CancelEditWaypointAction()
-                );
+        dialogRef.afterClosed().subscribe(([oldWp, newWp]: [Waypoint, Waypoint]) => {
+            if (oldWp && newWp) {
+                this.appStore.dispatch(new UpdateWaypointAction(oldWp, newWp));
             }
         });
     }

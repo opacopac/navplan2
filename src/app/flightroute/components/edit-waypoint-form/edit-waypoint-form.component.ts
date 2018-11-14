@@ -2,7 +2,6 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angula
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Waypoint} from '../../model/waypoint';
 import {ButtonColor, ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
-import {WaypointAltitude} from '../../model/waypoint-altitude';
 
 
 @Component({
@@ -12,7 +11,7 @@ import {WaypointAltitude} from '../../model/waypoint-altitude';
 })
 export class EditWaypointFormComponent implements OnInit, OnChanges {
     @Input() editWaypoint: Waypoint;
-    @Output() onSaveClick: EventEmitter<Waypoint> = new EventEmitter<Waypoint>();
+    @Output() onSaveClick: EventEmitter<[Waypoint, Waypoint]> = new EventEmitter<[Waypoint, Waypoint]>();
     @Output() onCancelClick: EventEmitter<null> = new EventEmitter<null>();
     public editWpForm: FormGroup;
     public ButtonSize = ButtonSize;
@@ -38,23 +37,18 @@ export class EditWaypointFormComponent implements OnInit, OnChanges {
 
 
     public onSaveClicked() {
-        const wp = new Waypoint(
-            this.editWaypoint.type,
-            this.editWpForm.get('freq').value,
-            this.editWpForm.get('callsign').value,
-            this.editWpForm.get('checkpoint').value,
-            this.editWpForm.get('remark').value,
-            this.editWpForm.get('supp_info').value,
-            this.editWaypoint.position,
-            new WaypointAltitude(
-                this.editWpForm.get('alt').value,
-                this.editWpForm.get('isminalt').value,
-                this.editWpForm.get('ismaxalt').value,
-                this.editWpForm.get('isaltatlegstart').value
-            )
-        );
+        const newWp = this.editWaypoint.clone();
+        newWp.freq = this.editWpForm.get('freq').value;
+        newWp.callsign = this.editWpForm.get('callsign').value;
+        newWp.checkpoint = this.editWpForm.get('checkpoint').value;
+        newWp.remark = this.editWpForm.get('remark').value;
+        newWp.supp_info = this.editWpForm.get('supp_info').value;
+        newWp.alt.alt_ft = this.editWpForm.get('alt').value;
+        newWp.alt.isminalt = this.editWpForm.get('isminmaxalt').value.includes('min');
+        newWp.alt.ismaxalt = this.editWpForm.get('isminmaxalt').value.includes('max');
+        newWp.alt.isaltatlegstart = this.editWpForm.get('isaltatlegstart').value === 'true';
 
-        this.onSaveClick.emit(wp);
+        this.onSaveClick.emit([this.editWaypoint, newWp]);
     }
 
 
@@ -77,12 +71,10 @@ export class EditWaypointFormComponent implements OnInit, OnChanges {
             'alt': [
                 (editWaypoint && editWaypoint.alt.alt_ft) ? editWaypoint.alt.alt_ft : '',
                 [Validators.maxLength(5), Validators.min(0), Validators.max(99999)]],
-            'isminalt': [
-                editWaypoint ? editWaypoint.alt.isminalt : false],
-            'ismaxalt': [
-                editWaypoint ? editWaypoint.alt.ismaxalt : false],
+            'isminmaxalt': [
+                editWaypoint ? [editWaypoint.alt.isminalt ? 'min' : '', editWaypoint.alt.ismaxalt ? 'max' : ''] : []],
             'isaltatlegstart': [
-                editWaypoint ? editWaypoint.alt.isaltatlegstart : false ],
+                (editWaypoint && editWaypoint.alt.isaltatlegstart) ? 'true' : 'false'],
             'remark': [
                 editWaypoint ? editWaypoint.remark : '',
                 Validators.maxLength(50)],

@@ -7,7 +7,6 @@ import {ConsumptionUnit, LengthUnit, SpeedUnit, VolumeUnit} from '../shared/mode
 export interface FlightrouteState {
     flightrouteList: FlightrouteListEntry[];
     flightroute: Flightroute;
-    editWaypoint: Waypoint;
     showShareId: string;
     distanceUnit: LengthUnit;
     altitudeUnit: LengthUnit;

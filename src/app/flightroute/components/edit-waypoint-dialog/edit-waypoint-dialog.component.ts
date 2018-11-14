@@ -26,8 +26,8 @@ export class EditWaypointDialogComponent implements OnInit, OnDestroy {
     }
 
 
-    public onSaveClick(wp: Waypoint) {
-        this.dialogRef.close(wp);
+    public onSaveClick([oldWp, newWp]: [Waypoint, Waypoint]) {
+        this.dialogRef.close([oldWp, newWp]);
     }
 
 

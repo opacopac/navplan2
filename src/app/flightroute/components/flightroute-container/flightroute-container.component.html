@@ -62,9 +62,9 @@
     <!-- waypoint list -->
     <app-waypoint-list
             [flightroute]="this.loadedFlightroute$ | async"
-            (onEditWaypointClicked)="this.onEditWaypointClick($event)"
-            (onRemoveWaypointClicked)="this.onRemoveWaypointClick($event)"
-            (onReverseWaypointsClicked)="this.onReverseWaypointsClick()">
+            (onEditWaypointClick)="this.onEditWaypointClick($event)"
+            (onRemoveWaypointClick)="this.onRemoveWaypointClick($event)"
+            (onReverseWaypointsClick)="this.onReverseWaypointsClick()">
     </app-waypoint-list>
 
     <!-- comments -->
