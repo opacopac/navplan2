@@ -21,7 +21,7 @@ export class OlOverlayButtonEditWaypointComponent implements OnInit {
     }
 
 
-    public onEditWaypointClicked() {
+    public onEditWaypointClick() {
         // this.session.editWaypointActive = true;
     }
 }

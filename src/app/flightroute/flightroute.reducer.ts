@@ -123,6 +123,12 @@ export function flightrouteReducer(
             FlightrouteCalcService.calcFlightRoute(newFlightroute);
             return { ...state, flightroute: newFlightroute };
 
+        case FlightrouteActionTypes.WAYPOINT_REVERSE:
+            newFlightroute = state.flightroute.clone();
+            newFlightroute.waypoints.reverse();
+            FlightrouteCalcService.calcFlightRoute(newFlightroute);
+            return { ...state, flightroute: newFlightroute };
+
         default:
             return state;
     }

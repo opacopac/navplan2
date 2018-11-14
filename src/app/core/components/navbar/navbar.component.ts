@@ -1,8 +1,6 @@
 import {Component} from '@angular/core';
-import {BreakpointObserver, Breakpoints, BreakpointState} from '@angular/cdk/layout';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
 import {getCurrentUser} from '../../../user/user.selectors';
 import {User} from '../../../user/model/user';
 import {SearchShowAction} from '../../../search/search.actions';
@@ -14,16 +12,11 @@ import {SearchShowAction} from '../../../search/search.actions';
     styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
-    public currentUser$: Observable<User>;
-    isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-        .pipe(
-            map(result => result.matches)
-        );
+    public readonly currentUser$: Observable<User>;
 
 
     constructor(
-        private appStore: Store<any>,
-        private breakpointObserver: BreakpointObserver) {
+        private appStore: Store<any>) {
 
         this.currentUser$ = this.appStore.pipe(select(getCurrentUser));
     }

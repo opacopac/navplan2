@@ -5,6 +5,7 @@ import {HttpClientModule, HttpClientJsonpModule} from '@angular/common/http';
 import {LayoutModule} from '@angular/cdk/layout';
 import {MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule} from '@angular/material';
 import {MatMenuModule} from '@angular/material/menu';
+import {FlexLayoutModule} from '@angular/flex-layout';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
@@ -53,6 +54,7 @@ import {ChartMapModule} from './chart-map/chart-map.module';
         MatIconModule,
         MatListModule,
         MatMenuModule,
+        FlexLayoutModule,
         SharedModule,
         UserModule,
         NavMapModule,
