@@ -2,28 +2,29 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {debounceTime, map} from 'rxjs/operators';
-import {getFlightroute, getFlightrouteList} from '../../flightroute.selectors';
+import {getFlightroute} from '../../flightroute.selectors';
 import {getCurrentUser} from '../../../user/user.selectors';
-import {FlightrouteListEntry} from '../../model/flightroute-list-entry';
 import {Flightroute} from '../../model/flightroute';
 import {User} from '../../../user/model/user';
 import {
     FlightrouteCreateAction,
-    FlightrouteDeleteAction,
     FlightrouteDuplicateAction,
-    FlightrouteReadAction,
     FlightrouteReadListAction,
     UpdateAircraftSpeedAction,
     FlightrouteUpdateAction,
     UpdateFlightrouteCommentsAction,
-    UpdateFlightrouteTitleAction
+    UpdateFlightrouteTitleAction, SaveEditWaypointAction, CancelEditWaypointAction,
 } from '../../flightroute.actions';
 import {Waypoint} from '../../model/waypoint';
 import {DeleteWaypointAction, EditWaypointAction, ReverseWaypointsAction} from '../../flightroute.actions';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Speed} from '../../../shared/model/quantities/speed';
 import {Consumption} from '../../../shared/model/quantities/consumption';
 import {ConsumptionUnit, SpeedUnit} from '../../../shared/model/units';
+import {FlightrouteListDialogComponent} from '../flightroute-list-dialog/flightroute-list-dialog.component';
+import {MatDialog} from '@angular/material';
+import {EditWaypointFormComponent} from '../edit-waypoint-form/edit-waypoint-form.component';
+import {EditWaypointDialogComponent} from '../edit-waypoint-dialog/edit-waypoint-dialog.component';
 
 
 @Component({
@@ -33,30 +34,37 @@ import {ConsumptionUnit, SpeedUnit} from '../../../shared/model/units';
 })
 export class FlightrouteContainerComponent implements OnInit, OnDestroy {
     public currentUser$: Observable<User>;
-    public flightrouteList$: Observable<FlightrouteListEntry[]>;
-    public flightroute$: Observable<Flightroute>;
-    public flightrouteId$: Observable<number>;
+    public loadedFlightroute$: Observable<Flightroute>;
+    public loadedFlightrouteId$: Observable<number>;
     public routeName$: Subject<string>;
     public routeComments$: Subject<string>;
     public aircraftSpeed$: Subject<number>;
     public flightrouteForm: FormGroup;
     public Number = Number;
-    private flightrouteSubscription: Subscription;
+    public console = console;
+    private loadedFlightrouteSubscription: Subscription;
     private routeNameSubscription: Subscription;
     private routeCommentsSubscription: Subscription;
     private aircraftSpeedSubscription: Subscription;
 
 
+    get loadedFlightrouteIdControl(): AbstractControl {
+        return this.flightrouteForm.controls['loadedFlightrouteId'];
+    }
+
+
+    get loadedFlightrouteId(): number {
+        return Number(this.loadedFlightrouteIdControl.value.id);
+    }
+
+
     constructor(
         private appStore: Store<any>,
-        private formBuilder: FormBuilder) {
-
-        this.currentUser$ = this.appStore.pipe(select(getCurrentUser));
-        this.flightrouteList$ = this.appStore.pipe(select(getFlightrouteList));
-        this.flightroute$ = this.appStore.pipe(select(getFlightroute));
-        this.flightrouteId$ = this.flightroute$.pipe(map(flightroute => flightroute.id));
+        private formBuilder: FormBuilder,
+        private dialog: MatDialog) {
 
         this.initForm();
+        this.initObservables();
     }
 
 
@@ -72,18 +80,13 @@ export class FlightrouteContainerComponent implements OnInit, OnDestroy {
     }
 
 
-    public onLoadFlightrouteClick(flightRouteId: string) {
-        this.appStore.dispatch(new FlightrouteReadAction(Number(flightRouteId)));
-    }
-
-
-    public onDeleteFlightrouteClick(flightRouteId: string) {
-        this.appStore.dispatch(new FlightrouteDeleteAction(Number(flightRouteId)));
+    public onLoadFlightrouteClick() {
+        this.dialog.open(FlightrouteListDialogComponent);
     }
 
 
     public onSaveFlightrouteClick() {
-        if (this.getFlightrouteId() > 0) {
+        if (this.loadedFlightrouteId > 0) {
             this.appStore.dispatch(
                 new FlightrouteUpdateAction()
             );
@@ -96,12 +99,30 @@ export class FlightrouteContainerComponent implements OnInit, OnDestroy {
 
 
     public onSaveFlightrouteCopyClick() {
-        this.appStore.dispatch(new FlightrouteDuplicateAction(this.getFlightrouteId()));
+        this.appStore.dispatch(new FlightrouteDuplicateAction(this.loadedFlightrouteId));
     }
 
 
-    public onEditWaypointClick(waypoint: Waypoint) {
-        this.appStore.dispatch(new EditWaypointAction(waypoint));
+    public onEditWaypointClick(editWaypoint: Waypoint) {
+        //this.appStore.dispatch(new EditWaypointAction(waypoint)); TODO: remove action
+
+        const dialogRef = this.dialog.open(EditWaypointDialogComponent, {
+            // height: '800px',
+            // width: '600px',
+            data: editWaypoint
+        });
+
+        dialogRef.afterClosed().subscribe((result: Waypoint) => {
+            if (result) {
+                this.appStore.dispatch(
+                    new SaveEditWaypointAction(result)
+                );
+            } else {
+                this.appStore.dispatch(
+                    new CancelEditWaypointAction()
+                );
+            }
+        });
     }
 
 
@@ -117,7 +138,7 @@ export class FlightrouteContainerComponent implements OnInit, OnDestroy {
 
     private initForm() {
         this.flightrouteForm = this.formBuilder.group({
-            'flightrouteId': -1,
+            'loadedFlightrouteId': -1,
             'flightrouteName': ['', Validators.maxLength(50)],
             'aircraftSpeed': ['', [Validators.required, Validators.maxLength(3)]],
             'aircraftConsumption': ['', [Validators.required, Validators.maxLength(2)]],
@@ -126,9 +147,9 @@ export class FlightrouteContainerComponent implements OnInit, OnDestroy {
     }
 
 
-    private setFormValues(id: number, title: string, speed: Speed, consumption: Consumption, comments: string) {
+    private setFormValues(loadedFlightrouteId: number, title: string, speed: Speed, consumption: Consumption, comments: string) {
         this.flightrouteForm.setValue({
-            'flightrouteId': id ? id : -1,
+            'loadedFlightrouteId': loadedFlightrouteId ? loadedFlightrouteId : -1,
             'flightrouteName': title ? title : '',
             'aircraftSpeed': speed ? speed.getValue(SpeedUnit.KT) : '', // TODO
             'aircraftConsumption': consumption ? consumption.getValue(ConsumptionUnit.L_PER_H) : '', // TODO
@@ -137,15 +158,16 @@ export class FlightrouteContainerComponent implements OnInit, OnDestroy {
     }
 
 
-    private getFlightrouteId(): number {
-        const flightrouteId = this.flightrouteForm.controls['flightrouteId'].value;
-        return Number(flightrouteId);
+    private initObservables() {
+        this.currentUser$ = this.appStore.pipe(select(getCurrentUser));
+        this.loadedFlightroute$ = this.appStore.pipe(select(getFlightroute));
+        this.loadedFlightrouteId$ = this.loadedFlightroute$.pipe(map(flightroute => flightroute.id));
     }
 
 
     private initSubscriptions() {
-        // handle flightroute changes
-        this.flightrouteSubscription = this.flightroute$.subscribe((flightroute) => {
+        // handle flightroute changes (after loading/saving)
+        this.loadedFlightrouteSubscription = this.loadedFlightroute$.subscribe((flightroute) => {
             if (flightroute) {
                 this.setFormValues(
                     flightroute.id,
@@ -184,7 +206,7 @@ export class FlightrouteContainerComponent implements OnInit, OnDestroy {
 
 
     private cancelSubscriptions() {
-        this.flightrouteSubscription.unsubscribe();
+        this.loadedFlightrouteSubscription.unsubscribe();
         this.routeNameSubscription.unsubscribe();
         this.routeCommentsSubscription.unsubscribe();
         this.aircraftSpeedSubscription.unsubscribe();

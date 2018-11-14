@@ -6,7 +6,7 @@ import {ExportFlightrouteExcelAction, ExportFlightroutePdfAction} from '../../fl
 @Component({
     selector: 'app-flightroute-page',
     templateUrl: './flightroute-page.component.html',
-    styleUrls: ['./flightroute-page.component.css']
+    styleUrls: ['./flightroute-page.component.css'],
 })
 export class FlightroutePageComponent implements OnInit {
 

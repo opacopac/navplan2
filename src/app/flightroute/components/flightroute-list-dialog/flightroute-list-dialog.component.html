@@ -1,0 +1,17 @@
+<h3>Saved Routes</h3>
+
+<app-flightroute-list
+        [flightrouteList]="this.flightrouteList$ | async"
+        (onLoadRouteClick)="this.onLoadRouteClick($event)"
+        (onDuplicateRouteClick)="this.onDuplicateRouteClick($event)"
+        (onDeleteRouteClick)="this.onDeleteRouteClick($event)">
+</app-flightroute-list>
+
+<div>
+    <button mat-raised-button
+            color="accent"
+            type="button"
+            (click)="this.onCancelClick()">
+        Cancel
+    </button>
+</div>

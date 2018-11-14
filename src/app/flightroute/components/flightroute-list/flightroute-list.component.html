@@ -1,0 +1,55 @@
+<div *ngIf="this.flightrouteList && this.flightrouteList.length > 0">
+    <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
+
+    <table mat-table
+           [dataSource]="this.dataSource">
+
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Route</th>
+            <td mat-cell
+                *matCellDef="let entry"
+                class="clickable"
+                (click)="this.onLoadRouteClick.emit(entry.id)">
+                {{ entry.title }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="icons">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let entry" align="right">
+                <button mat-icon-button
+                        matTooltip="Load Route"
+                        color="accent"
+                        (click)="this.onLoadRouteClick.emit(entry.id)">
+                    <i class="fas fa-upload"></i>
+                </button>
+                <button mat-icon-button
+                        matTooltip="Duplicate Route"
+                        color="accent"
+                        (click)="this.onDuplicateRouteClick.emit(entry.id)">
+                    <i class="fas fa-copy"></i>
+                </button>
+                <button mat-icon-button
+                        matTooltip="Delete Route"
+                        color="accent"
+                        (click)="this.onDeleteRouteClick.emit(entry.id)">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row
+            *matHeaderRowDef="this.visibleColumns"></tr>
+        <tr mat-row
+            class="{{ this.flightrouteList?.id === routeListEntry?.id ? 'selected-row' : '' }}"
+            *matRowDef="let routeListEntry; columns: this.visibleColumns"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
+
+<div *ngIf="!this.flightrouteList || this.flightrouteList.length == 0">
+    <i>No Saved Routes</i>
+</div>

@@ -1,0 +1,24 @@
+table {
+    width: 100%;
+}
+
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+th.mat-header-cell {
+    font-weight: bold;
+}
+
+.fa-upload {
+    color: darkgreen;
+}
+
+.fa-copy {
+    color: #41669c;
+}
+
+.fa-trash {
+    color: #dd0000;
+}

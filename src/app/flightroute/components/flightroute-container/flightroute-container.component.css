@@ -2,6 +2,10 @@
     width: 100%;
 }
 
+::ng-deep .mat-autocomplete-panel {
+    max-height: 75vh !important;
+}
+
 .route-comments {
     /*order: 2;
     flex: 2 2 70%;*/
@@ -12,7 +16,6 @@
     /*order: 1;
     flex: 1 1 30%;*/
 }
-
 
 .button-load {
     background-color: green;

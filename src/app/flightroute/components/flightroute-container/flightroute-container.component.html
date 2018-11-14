@@ -1,55 +1,32 @@
 <h2>Flight Route</h2>
 
 <form class="flightroute-form" [formGroup]="flightrouteForm">
-
-    <!-- load/delete route -->
-    <div *ngIf="this.currentUser$ | async" class="flex-row">
-        <mat-form-field appearance="fill">
-            <mat-label>My Routes</mat-label>
-            <mat-select #routeListEntry>
-                <mat-option [value]="-1">--- Select ---</mat-option>
-                <mat-option
-                        *ngFor="let flightrouteListEntry of this.flightrouteList$ | async"
-                        [value]="flightrouteListEntry.id">
-                    {{ flightrouteListEntry.title }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-        <button mat-mini-fab
-                color="accent"
-                class="inline-button button-load"
-                matTooltip="Load Route"
-                matTooltipPosition="above"
-                [disabled]="!(routeListEntry?.value > 0)"
-                (click)="this.onLoadFlightrouteClick(routeListEntry.value)">
-            <i class="fas fa-upload"></i>
-        </button>
-        <button mat-mini-fab
-                color="accent"
-                class="inline-button button-delete"
-                matTooltip="Delete Route"
-                matTooltipPosition="above"
-                [disabled]="!(routeListEntry.value > 0)"
-                (click)="this.onDeleteFlightrouteClick(routeListEntry.value)">
-            <i class="fas fa-trash"></i>
-        </button>
-    </div>
-
-    <!-- save/copy route -->
     <div class="flex-row">
+        <!-- flightroute name  -->
         <mat-form-field appearance="fill">
             <mat-label>Route Name</mat-label>
             <input matInput
                    #routeName
                    type="text"
-                   maxlength="50" formControlName="flightrouteName"
+                   maxlength="50"
+                   formControlName="flightrouteName"
                    (input)="this.routeName$.next(routeName.value)"
             />
         </mat-form-field>
+
+        <!-- load / save / save copy buttons -->
+        <button mat-mini-fab
+                color="accent"
+                class="inline-button button-load"
+                matTooltipxxx="Load Route"
+                [disabled]="!(this.currentUser$ | async)"
+                (click)="this.onLoadFlightrouteClick()">
+            <i class="fas fa-folder-open"></i>
+        </button>
         <button mat-mini-fab
                 color="accent"
                 class="inline-button button-save"
-                matTooltip="Save Route (login required)"
+                matTooltipxxx="Save Route"
                 [disabled]="!(this.currentUser$ | async) || !(routeName.value && routeName.value.length > 0)"
                 (click)="this.onSaveFlightrouteClick()">
             <i class="fas fa-download"></i>
@@ -57,8 +34,8 @@
         <button mat-mini-fab
                 color="accent"
                 class="inline-button button-copy"
-                matTooltip="Save Copy of Route"
-                [disabled]="!(this.currentUser$ | async) || !(routeName.value && routeName.value.length > 0) || !((this.flightrouteId$ | async) > 0)"
+                matTooltipxxx="Save Copy of Route"
+                [disabled]="!(this.currentUser$ | async) || !(routeName.value && routeName.value.length > 0) || !((this.loadedFlightrouteId$ | async) > 0)"
                 (click)="this.onSaveFlightrouteCopyClick()">
             <i class="fas fa-copy"></i>
         </button>
@@ -84,7 +61,7 @@
 
     <!-- waypoint list -->
     <app-waypoint-list
-            [flightroute]="this.flightroute$ | async"
+            [flightroute]="this.loadedFlightroute$ | async"
             (onEditWaypointClicked)="this.onEditWaypointClick($event)"
             (onRemoveWaypointClicked)="this.onRemoveWaypointClick($event)"
             (onReverseWaypointsClicked)="this.onReverseWaypointsClick()">
