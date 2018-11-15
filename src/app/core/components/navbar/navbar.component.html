@@ -1,7 +1,7 @@
 <mat-toolbar color="primary" class="mat-elevation-z6">
     <!-- menu button for small screens -->
     <div fxShow="true" fxHide.gt-sm="true">
-        <button mat-icon-button [matMenuTriggerFor]="appMenu"><h1><i class="fas fa-bars"></i></h1></button>
+        <button mat-icon-button [matMenuTriggerFor]="verticalMenu"><h1><i class="fas fa-bars"></i></h1></button>
     </div>
 
     <!-- title -->
@@ -24,7 +24,7 @@
 </mat-toolbar>
 
 <!-- vertical menu for small screens -->
-<mat-menu #appMenu="matMenu">
+<mat-menu #verticalMenu="matMenu">
     <button mat-menu-item routerLink="./map" title="Map">Map</button>
     <button mat-menu-item routerLink="./route" title="Route & Fuel Calc">Route</button>
     <button mat-menu-item *ngIf="this.currentUser$ | async" routerLink="./tracks" title="Recorded Tracks">Tracks</button>
