@@ -1,9 +1,8 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {SharedModule} from '../shared/shared.module';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
-import {MatButtonModule, MatTableModule, MatTooltipModule} from '@angular/material';
+import {SharedModule} from '../shared/shared.module';
 import {TrackState} from './track-state';
 import {TrackActions} from './track.actions';
 import {trackReducer} from './track.reducer';
@@ -19,9 +18,6 @@ import {BaseMapModule} from '../base-map/base-map.module';
         CommonModule,
         StoreModule.forFeature<TrackState, TrackActions>('trackState', trackReducer),
         EffectsModule.forFeature([TrackEffects]),
-        MatTooltipModule,
-        MatTableModule,
-        MatButtonModule,
         SharedModule,
         BaseMapModule,
     ],

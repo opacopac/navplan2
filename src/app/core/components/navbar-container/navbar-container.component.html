@@ -1,0 +1,5 @@
+<app-navbar
+        [currentUser]="this.currentUser$ | async"
+        (onLogoffClick)="this.onLogoffClick($event)"
+        (onShowSearchClick)="this.onShowSearchClick()">
+</app-navbar>

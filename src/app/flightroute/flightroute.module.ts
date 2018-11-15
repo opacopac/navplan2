@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 import {SharedModule} from '../shared/shared.module';
 import {FlightrouteService} from './services/flightroute/flightroute.service';
 import {EditWaypointDialogComponent} from './components/edit-waypoint-dialog/edit-waypoint-dialog.component';
@@ -13,17 +14,6 @@ import {WaypointListComponent} from './components/waypoint-list/waypoint-list.co
 import {FlightrouteExportButtonsComponent} from './components/flightroute-export-buttons/flightroute-export-buttons.component';
 import {flightrouteReducer} from './flightroute.reducer';
 import {FlightrouteEffects} from './flightroute.effects';
-import {
-    MatAutocompleteModule,
-    MatButtonToggleModule, MatDialogModule,
-    MatFormFieldModule,
-    MatIconModule, MatPaginatorModule,
-    MatSelectModule,
-    MatTableModule,
-    MatTooltipModule
-} from '@angular/material';
-import {MatInputModule} from '@angular/material/input';
-import {DragDropModule} from '@angular/cdk/drag-drop';
 import {BaseMapModule} from '../base-map/base-map.module';
 import {MapFeaturesModule} from '../map-features/map-features.module';
 import {FuelCalcContainerComponent} from './components/fuel-calc-container/fuel-calc-container.component';
@@ -39,16 +29,6 @@ import {FlightrouteListComponent} from './components/flightroute-list/flightrout
         ReactiveFormsModule,
         StoreModule.forFeature('flightrouteState', flightrouteReducer),
         EffectsModule.forFeature([FlightrouteEffects]),
-        MatFormFieldModule,
-        MatSelectModule,
-        MatInputModule,
-        MatAutocompleteModule,
-        MatIconModule,
-        MatTooltipModule,
-        MatTableModule,
-        MatButtonToggleModule,
-        MatDialogModule,
-        MatPaginatorModule,
         DragDropModule,
         SharedModule,
         BaseMapModule,

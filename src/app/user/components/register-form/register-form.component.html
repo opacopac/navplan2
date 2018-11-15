@@ -1,0 +1,39 @@
+<h3>Create New Account</h3>
+<form [formGroup]="registerForm">
+    <div fxLayout="column">
+        <mat-form-field appearance="fill">
+            <mat-label>E-Mail</mat-label>
+            <input matInput
+                   type="email"
+                   formControlName="email"
+                   #email
+                   required>
+            <mat-error>Not a valid email</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input matInput
+                   type="password"
+                   formControlName="password"
+                   #password
+                   required>
+            <mat-error>Field is required</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Repeat Password</mat-label>
+            <input matInput
+                   type="password"
+                   formControlName="password2"
+                   required>
+            <mat-error>Field is required</mat-error>
+        </mat-form-field>
+        <div *ngIf="this.registerForm.errors?.passwordMismatch || this.registerForm.invalid">Passwords must be identical</div>
+        <div>
+            <button mat-raised-button
+                    color="primary"
+                    (click)="this.onRegisterClick.emit([email.value, password.value])"
+                    [disabled]="this.registerForm.invalid">Create New Account
+            </button>
+        </div>
+    </div>
+</form>

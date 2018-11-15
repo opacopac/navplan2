@@ -11,13 +11,13 @@
     <div fxLayout="row" fxFlex="grow" fxShow="true" fxHide.lt-md="true">
         <button mat-button routerLink="./map" title="Map">Map</button>
         <button mat-button routerLink="./route" title="Route & Fuel Calc">Route</button>
-        <button mat-button *ngIf="this.currentUser$ | async" routerLink="./tracks" title="Recorded Tracks">Tracks</button>
+        <button mat-button *ngIf="this.currentUser" routerLink="./tracks" title="Recorded Tracks">Tracks</button>
         <button mat-button routerLink="./map" title="Clear current Route and Track"><i class="fas fa-eraser"></i></button>
-        <button mat-button title="Search" (click)="this.onShowSearchClicked()"><i class="fas fa-search"></i></button>
+        <button mat-button title="Search" (click)="this.onShowSearchClick.emit()"><i class="fas fa-search"></i></button>
         <button mat-button routerLink="./chartmap" title="Chart Map">Chart Map</button>
-        <span fxFlex="grow"></span>
-        <button mat-icon-button *ngIf="(this.currentUser$ | async) as currentUser; else noCurrentUser" routerLink="./userprofile" title="User Profile"><i class="fas fa-user"></i></button>
-        <ng-template #noCurrentUser><button mat-icon-button routerLink="./login" title="Login or Register"><i class="fas fa-user"></i></button></ng-template>
+        <!--<span fxFlex="grow"></span>-->
+        <button mat-icon-button *ngIf="this.currentUser; else noCurrentUser" [matMenuTriggerFor]="userMenu" title="User Profile"><i class="fas fa-user"></i>&nbsp;&nbsp;{{ this.currentUser.email }}</button>
+        <ng-template #noCurrentUser><button mat-icon-button routerLink="./login" title="Login or Register"><i class="fas fa-user"></i>&nbsp;&nbsp;Login</button></ng-template>
         <button mat-icon-button routerLink="./settings" title="Edit Settings"><i class="fas fa-cog"></i></button>
         <button mat-icon-button routerLink="./about" title="About"><i class="fas fa-info-circle"></i></button>
     </div>
@@ -27,11 +27,16 @@
 <mat-menu #verticalMenu="matMenu">
     <button mat-menu-item routerLink="./map" title="Map">Map</button>
     <button mat-menu-item routerLink="./route" title="Route & Fuel Calc">Route</button>
-    <button mat-menu-item *ngIf="this.currentUser$ | async" routerLink="./tracks" title="Recorded Tracks">Tracks</button>
+    <button mat-menu-item *ngIf="this.currentUser" routerLink="./tracks" title="Recorded Tracks">Tracks</button>
     <button mat-menu-item routerLink="./map" title="Clear current Route and Track"><i class="fas fa-eraser"></i>&nbsp;&nbsp;Clear</button>
-    <button mat-menu-item title="Search" (click)="this.onShowSearchClicked()"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</button>
-    <button mat-menu-item *ngIf="(this.currentUser$ | async) as currentUserSmall; else noCurrentUserSmall" routerLink="./userprofile" title="User Profile"><i class="fas fa-user"></i>&nbsp;&nbsp;Profile</button>
+    <button mat-menu-item title="Search" (click)="this.onShowSearchClick.emit()"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</button>
+    <button mat-menu-item *ngIf="this.currentUser; else noCurrentUserSmall" [matMenuTriggerFor]="userMenu" title="User Profile"><i class="fas fa-user"></i>&nbsp;&nbsp;{{ this.currentUser.email }}</button>
     <ng-template #noCurrentUserSmall><button mat-menu-item routerLink="./login" title="Login or Register"><i class="fas fa-user"></i>&nbsp;&nbsp;Login</button></ng-template>
     <button mat-menu-item routerLink="./settings" title="Edit Settings"><i class="fas fa-cog"></i>&nbsp;&nbsp;Settings</button>
     <button mat-menu-item routerLink="./about" title="About"><i class="fas fa-info-circle"></i>&nbsp;&nbsp;About</button>
+</mat-menu>
+
+<mat-menu #userMenu="matMenu">
+    <button mat-menu-item routerLink="./userprofile">User Profile</button>
+    <button mat-menu-item (click)="this.onLogoffClick.emit(this.currentUser)">Logout</button>
 </mat-menu>

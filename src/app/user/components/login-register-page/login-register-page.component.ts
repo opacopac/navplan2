@@ -1,17 +1,16 @@
 import {Component, OnInit} from '@angular/core';
+import {Observable} from 'rxjs';
+import {User} from '../../model/user';
 import {select, Store} from '@ngrx/store';
 import {getCurrentUser} from '../../user.selectors';
-import {Observable} from 'rxjs';
 import {LoginUserAction, RegisterUserAction} from '../../user.actions';
-import {User} from '../../model/user';
-
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+    selector: 'app-login-register-page',
+    templateUrl: './login-register-page.component.html',
+    styleUrls: ['./login-register-page.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginRegisterPageComponent implements OnInit {
     public currentUser$: Observable<User>;
 
 
@@ -24,16 +23,16 @@ export class LoginComponent implements OnInit {
     }
 
 
-    onLoginClicked(email: string, password: string, rememberMe: boolean) {
+    public onLoginClick([email, password, rememberMe]: [string, string, boolean]) {
         this.appStore.dispatch(
             new LoginUserAction(email, password, rememberMe)
         );
     }
 
 
-    onRegisterClicked(email: string, password: string, rememberMe: boolean) {
+    public onRegisterClick([email, password]: [string, string]) {
         this.appStore.dispatch(
-            new RegisterUserAction(email, password, rememberMe)
+            new RegisterUserAction(email, password)
         );
 
         // TODO: old, remove

@@ -110,9 +110,9 @@ export class FlightrouteContainerComponent implements OnInit, OnDestroy {
             data: editWaypoint
         });
 
-        dialogRef.afterClosed().subscribe(([oldWp, newWp]: [Waypoint, Waypoint]) => {
-            if (oldWp && newWp) {
-                this.appStore.dispatch(new UpdateWaypointAction(oldWp, newWp));
+        dialogRef.afterClosed().subscribe((oldNewWp) => {
+            if (oldNewWp) {
+                this.appStore.dispatch(new UpdateWaypointAction(oldNewWp[0], oldNewWp[1]));
             }
         });
     }

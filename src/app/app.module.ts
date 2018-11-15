@@ -1,11 +1,6 @@
-import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {BrowserModule} from '@angular/platform-browser';
 import {HttpClientModule, HttpClientJsonpModule} from '@angular/common/http';
-import {LayoutModule} from '@angular/cdk/layout';
-import {MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule} from '@angular/material';
-import {MatMenuModule} from '@angular/material/menu';
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
@@ -23,6 +18,7 @@ import {NavbarComponent} from './core/components/navbar/navbar.component';
 import {TrackModule} from './track/track.module';
 import {NavMapModule} from './nav-map/nav-map.module';
 import {ChartMapModule} from './chart-map/chart-map.module';
+import {NavbarContainerComponent} from './core/components/navbar-container/navbar-container.component';
 
 
 @NgModule({
@@ -31,11 +27,10 @@ import {ChartMapModule} from './chart-map/chart-map.module';
         SettingsPageComponent,
         AboutPageComponent,
         NavbarComponent,
+        NavbarContainerComponent,
     ],
     imports: [
         BrowserModule,
-        FormsModule,
-        ReactiveFormsModule,
         AppRoutingModule,
         HttpClientModule,
         HttpClientJsonpModule,
@@ -47,14 +42,6 @@ import {ChartMapModule} from './chart-map/chart-map.module';
             maxAge: 25, // Retains last 25 states
             logOnly: environment.production, // Restrict extension to log-only mode
         }),
-        LayoutModule,
-        MatToolbarModule,
-        MatButtonModule,
-        MatSidenavModule,
-        MatIconModule,
-        MatListModule,
-        MatMenuModule,
-        FlexLayoutModule,
         SharedModule,
         UserModule,
         NavMapModule,

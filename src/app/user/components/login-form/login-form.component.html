@@ -1,0 +1,36 @@
+<h3>Login</h3>
+<form [formGroup]="loginForm">
+    <div fxLayout="column">
+        <mat-form-field appearance="fill">
+            <mat-label>E-Mail</mat-label>
+            <input matInput
+                   #email
+                   type="email"
+                   formControlName="email"
+                   required>
+            <mat-error>Not a valid email</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input matInput
+                   #password
+                   type="password"
+                   formControlName="password"
+                   required>
+            <mat-error>Required</mat-error>
+        </mat-form-field>
+        <p fxFlexAlign="end">
+            <a href="#/forgotpw">I forgot my password</a>
+        </p>
+        <mat-checkbox
+                #rememberMe
+                formControlName="rememberMe">remember me</mat-checkbox>
+        <div>
+            <button mat-raised-button
+                    color="primary"
+                    (click)="this.onLoginClick.emit([email.value, password.value, rememberMe.value])"
+                    [disabled]="this.loginForm.invalid" routerLink="/map">Log In
+            </button>
+        </div>
+    </div>
+</form>

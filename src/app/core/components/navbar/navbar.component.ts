@@ -1,9 +1,5 @@
-import {Component} from '@angular/core';
-import {select, Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
-import {getCurrentUser} from '../../../user/user.selectors';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {User} from '../../../user/model/user';
-import {SearchShowAction} from '../../../search/search.actions';
 
 
 @Component({
@@ -11,20 +7,16 @@ import {SearchShowAction} from '../../../search/search.actions';
     templateUrl: './navbar.component.html',
     styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent {
-    public readonly currentUser$: Observable<User>;
+export class NavbarComponent implements OnInit {
+    @Input() currentUser: User;
+    @Output() onShowSearchClick: EventEmitter<null> = new EventEmitter<null>();
+    @Output() onLogoffClick: EventEmitter<User> = new EventEmitter<User>();
 
 
-    constructor(
-        private appStore: Store<any>) {
-
-        this.currentUser$ = this.appStore.pipe(select(getCurrentUser));
+    constructor() {
     }
 
 
-    public onShowSearchClicked() {
-        this.appStore.dispatch(
-            new SearchShowAction()
-        );
+    ngOnInit() {
     }
 }

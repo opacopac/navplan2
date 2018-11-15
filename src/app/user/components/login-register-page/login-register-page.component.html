@@ -1,0 +1,11 @@
+<div class="content-container">
+    <app-login-form
+            [currentUser]="this.currentUser$ | async"
+            (onLoginClick)="this.onLoginClick($event)">
+    </app-login-form>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <app-register-form
+            (onRegisterClick)="this.onRegisterClick($event)">
+    </app-register-form>
+</div>

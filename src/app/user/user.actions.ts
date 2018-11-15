@@ -59,8 +59,7 @@ export class RegisterUserAction implements Action {
 
     constructor(
         public email: string,
-        public password: string,
-        public remember: boolean) {}
+        public password: string) {}
 }
 
 
