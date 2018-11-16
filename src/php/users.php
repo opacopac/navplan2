@@ -3,6 +3,7 @@ include_once __DIR__ . "/services/DbService.php";
 require_once __DIR__ . "/config.php";
 require_once __DIR__ . "/helper.php";
 
+
 header("Access-Control-Allow-Origin: *"); // TODO: remove for PROD
 
 $input = json_decode(file_get_contents('php://input'), true);
@@ -12,8 +13,8 @@ switch($input["action"])
     case "login":
         loginUser();
         break;
-    case "relogin":
-        reLoginUser();
+    case "autologin":
+        autoLoginUser();
         break;
     case "logout":
         logoutUser();
@@ -28,7 +29,7 @@ switch($input["action"])
         updatePassword();
         break;
     default:
-        die("no action defined!");
+        die("no or invalid action defined!");
 }
 
 
@@ -106,13 +107,6 @@ function loginUser()
     $email = mysqli_real_escape_string($conn, trim($input["email"]));
     $password = mysqli_real_escape_string($conn, trim($input["password"]));
 
-    if (!checkEmailFormat($email) || !checkPwFormat($password))
-    {
-        $resultcode = -3;
-        $message = "error: invalid format of email or password";
-    }
-
-
     // get token
     $query = "SELECT id, token, pw_hash FROM users WHERE email='" . $email . "'";
     $result = DbService::execSingleResultQuery($conn, $query);
@@ -160,7 +154,7 @@ function loginUser()
 }
 
 
-function reLoginUser()
+function autoLoginUser()
 {
     global $input;
 

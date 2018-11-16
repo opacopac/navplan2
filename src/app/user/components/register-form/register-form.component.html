@@ -27,7 +27,7 @@
                    required>
             <mat-error>Field is required</mat-error>
         </mat-form-field>
-        <div *ngIf="this.registerForm.errors?.passwordMismatch || this.registerForm.invalid">Passwords must be identical</div>
+        <mat-error *ngIf="this.registerForm.errors?.passwordMismatch">Passwords must be identical</mat-error>
         <div>
             <button mat-raised-button
                     color="primary"

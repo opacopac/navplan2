@@ -36,7 +36,7 @@ export class UserEffects {
     @Effect()
     autoLoginUser$: Observable<Action> = this.actions$.pipe(
         ofType(UserActionTypes.USER_AUTOLOGIN),
-        switchMap((action: AutoLoginUserAction) => this.userService.reLogin(action.email, action.token).pipe(
+        switchMap((action: AutoLoginUserAction) => this.userService.autoLogin(action.email, action.token).pipe(
             map(user => new LoginUserSuccessAction(user, true)),
             catchError(error => of(new LoginUserErrorAction(error.message)))
         ))

@@ -9,7 +9,7 @@ import {throwError} from 'rxjs/internal/observable/throwError';
 import {of} from 'rxjs/internal/observable/of';
 
 
-const userBaseUrl =  environment.restApiBaseUrl + 'php/users.php';
+const userBaseUrl =  environment.restApiBaseUrl + 'php/user/api.php';
 
 
 interface SimpleResponse {
@@ -58,12 +58,12 @@ export class UserService {
     }
 
 
-    public reLogin(
+    public autoLogin(
         email: string,
         token: string): Observable<User> {
 
         const requestBody = {
-            action: 'relogin',
+            action: 'autologin',
             email: email,
             token: token
         };

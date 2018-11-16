@@ -35,6 +35,6 @@ export class RegisterFormComponent implements OnInit {
             'email': ['', [Validators.required, Validators.email]],
             'password': ['', [Validators.required]],
             'password2': ['', [Validators.required]]
-        }, { validators: identicalPasswordsValidator });
+        }, { validator: identicalPasswordsValidator });
     }
 }

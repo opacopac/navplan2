@@ -4,7 +4,7 @@ require_once __DIR__ . "/../config.php";
 
 class DbService
 {
-    public static function openDb()
+    public static function openDb(): mysqli
     {
         global $db_host, $db_user, $db_pw, $db_name;
 
