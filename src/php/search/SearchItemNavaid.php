@@ -72,17 +72,17 @@ class SearchItemNavaid {
             $unit = "kHz";
 
         return array(
-            id => $rs["id"],
-            type => $rs["type"],
-            kuerzel => $rs["kuerzel"],
-            name => $rs["name"],
-            latitude => reduceDegAccuracy($rs["latitude"], "NAVAID"),
-            longitude => reduceDegAccuracy($rs["longitude"], "NAVAID"),
-            elevation => $rs["elevation"],
-            frequency => $rs["frequency"],
-            unit => $unit,
-            declination => $rs["declination"],
-            truenorth => $rs["truenorth"]
+            "id" => $rs["id"],
+            "type" => $rs["type"],
+            "kuerzel" => $rs["kuerzel"],
+            "name" => $rs["name"],
+            "latitude" => reduceDegAccuracy($rs["latitude"], "NAVAID"),
+            "longitude" => reduceDegAccuracy($rs["longitude"], "NAVAID"),
+            "elevation" => $rs["elevation"],
+            "frequency" => $rs["frequency"],
+            "unit" => $unit,
+            "declination" => $rs["declination"],
+            "truenorth" => $rs["truenorth"]
         );
     }
 }

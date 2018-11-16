@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {select, Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {Extent} from '../../shared/model/extent';
@@ -73,13 +73,14 @@ export class MapfeaturesService  {
         extent: Extent,
         zoom: number,
         user: User): Observable<Mapfeatures> {
+
         return this.http
             .jsonp<MapFeaturesResponse>(this.buildRequestUrl(extent, zoom, user), 'callback')
             .pipe(
                 map(response => RestMapperMapfeatures.getMapFeaturesFromResponse(response)),
-                catchError((error, subject) => {
+                catchError(error => {
                     LoggingService.logResponseError('ERROR reading map features', error);
-                    return subject;
+                    return throwError(error);
                 }),
             );
     }

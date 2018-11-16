@@ -6,6 +6,7 @@ import {RestMapperTrafficAdexbEx, TrafficAdsbExResponse} from '../model/rest-map
 import {catchError, map} from 'rxjs/operators';
 import {Observable} from 'rxjs/internal/Observable';
 import {Traffic} from '../model/traffic';
+import {throwError} from 'rxjs';
 
 
 const ADSBEXCHANGE_BASE_URL = 'https://public-api.adsbexchange.com/VirtualRadar/AircraftList.json';
@@ -27,9 +28,9 @@ export class TrafficAdsbexchangeService {
             .jsonp<TrafficAdsbExResponse>(url, 'callback')
             .pipe(
                 map((response) => RestMapperTrafficAdexbEx.getTrafficListFromResponse(response)),
-                catchError((err, subject) => {
+                catchError(err => {
                     LoggingService.logResponseError('ERROR reading ac traffic from ADSBExchange', err);
-                    return subject;
+                    return throwError(err);
                 })
             );
     }

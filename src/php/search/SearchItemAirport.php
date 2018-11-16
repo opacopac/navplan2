@@ -68,7 +68,7 @@ class SearchItemAirport {
     }
 
 
-    public static function searchByIcao($conn, $icaoList, $minNotamTimestamp, $maxNotamTimestamp) {
+    public static function searchByIcao($conn, $icaoList, $minNotamTimestamp, $maxNotamTimestamp): array {
         die("not implemented!");
     }
 
@@ -220,19 +220,19 @@ class SearchItemAirport {
 
     private static function readAirportFromResult($rs) {
         $ap = array(
-            id => $rs["id"],
-            type => $rs["type"],
-            name => $rs["name"],
-            icao => $rs["icao"],
-            country => $rs["country"],
-            latitude => reduceDegAccuracy($rs["latitude"], "AIRPORT"),
-            longitude => reduceDegAccuracy($rs["longitude"], "AIRPORT"),
-            elevation => $rs["elevation"],
-            runways => [],
-            radios => [],
-            webcams => [],
-            charts => [],
-            mapfeatures => []
+            "id" => $rs["id"],
+            "type" => $rs["type"],
+            "name" => $rs["name"],
+            "icao" => $rs["icao"],
+            "country" => $rs["country"],
+            "latitude" => reduceDegAccuracy($rs["latitude"], "AIRPORT"),
+            "longitude" => reduceDegAccuracy($rs["longitude"], "AIRPORT"),
+            "elevation" => $rs["elevation"],
+            "runways" => [],
+            "radios" => [],
+            "webcams" => [],
+            "charts" => [],
+            "mapfeatures" => []
         );
 
         $ap["runways"] = [];
@@ -248,59 +248,59 @@ class SearchItemAirport {
 
     private static function readAirportRunwayFromResult($rs) {
         return array(
-            name => $rs["name"],
-            surface => $rs["surface"],
-            length => $rs["length"],
-            width => $rs["width"],
-            direction1 => $rs["direction1"],
-            direction2 => $rs["direction2"],
-            tora1 => $rs["tora1"],
-            tora2 => $rs["tora2"],
-            lda1 => $rs["lda1"],
-            lda2 => $rs["lda2"],
-            papi1 => $rs["papi1"],
-            papi2 => $rs["papi2"]
+            "name" => $rs["name"],
+            "surface" => $rs["surface"],
+            "length" => $rs["length"],
+            "width" => $rs["width"],
+            "direction1" => $rs["direction1"],
+            "direction2" => $rs["direction2"],
+            "tora1" => $rs["tora1"],
+            "tora2" => $rs["tora2"],
+            "lda1" => $rs["lda1"],
+            "lda2" => $rs["lda2"],
+            "papi1" => $rs["papi1"],
+            "papi2" => $rs["papi2"]
         );
     }
 
 
     private static function readAirportRadioFromResult($rs) {
         return array(
-            category => $rs["category"],
-            frequency => $rs["frequency"],
-            type => $rs["type"],
-            typespec => $rs["typespec"],
-            description => $rs["description"]
+            "category" => $rs["category"],
+            "frequency" => $rs["frequency"],
+            "type" => $rs["type"],
+            "typespec" => $rs["typespec"],
+            "description" => $rs["description"]
         );
     }
 
 
     private static function readAirportChartFromResult($rs) {
         return array(
-            id => $rs["id"],
-            source => $rs["source"],
-            type => $rs["type"],
-            filename => $rs["filename"],
-            mercator_n => $rs["mercator_n"],
-            mercator_s => $rs["mercator_s"],
-            mercator_e => $rs["mercator_e"],
-            mercator_w => $rs["mercator_w"]
+            "id" => $rs["id"],
+            "source" => $rs["source"],
+            "type" => $rs["type"],
+            "filename" => $rs["filename"],
+            "mercator_n" => $rs["mercator_n"],
+            "mercator_s" => $rs["mercator_s"],
+            "mercator_e" => $rs["mercator_e"],
+            "mercator_w" => $rs["mercator_w"]
         );
     }
 
 
     private static function readAirportWebcamFromResult($rs) {
         return array(
-            name => $rs["name"],
-            url => $rs["url"]
+            "name" => $rs["name"],
+            "url" => $rs["url"]
         );
     }
 
 
     private static function readAirportFeatureFromResult($rs) {
         return array(
-            type => $rs["type"],
-            name => $rs["name"]
+            "type" => $rs["type"],
+            "name" => $rs["name"]
         );
     }
 }

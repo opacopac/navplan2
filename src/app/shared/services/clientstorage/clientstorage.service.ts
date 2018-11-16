@@ -1,7 +1,5 @@
 import {Injectable} from '@angular/core';
-import {User} from '../../../user/model/user';
 
-const COOKIE_EMAIL = 'email';
 const COOKIE_TOKEN = 'token';
 
 
@@ -12,31 +10,23 @@ export class ClientstorageService {
     constructor() { }
 
 
-    // region user
+    // region token
 
-    public getPersistedUser(): User {
-        const email = this.getCookie(COOKIE_EMAIL);
+    public getPersistedToken(): string {
         const token = this.getCookie(COOKIE_TOKEN);
+        return token ? token : undefined;
+    }
 
-        if (email && token) {
-            return new User(email, token);
-        } else {
-            return undefined;
+
+    public persistToken(token: string, remember: boolean) {
+        if (token) {
+            const rememberDays = remember ? 90 : 0; // TODO
+            this.setCookie(COOKIE_TOKEN, token, rememberDays);
         }
     }
 
 
-    public persistUser(user: User, remember: boolean) {
-        if (user) {
-            const rememberDays = remember ? 90 : 0;
-            this.setCookie(COOKIE_EMAIL, user.email, rememberDays);
-            this.setCookie(COOKIE_TOKEN, user.token, rememberDays);
-        }
-    }
-
-
-    public deletePersistedUser() {
-        this.deleteCookie(COOKIE_EMAIL);
+    public deletePersistedToken() {
         this.deleteCookie(COOKIE_TOKEN);
     }
 

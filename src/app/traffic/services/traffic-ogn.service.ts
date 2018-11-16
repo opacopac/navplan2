@@ -7,6 +7,7 @@ import {LoggingService} from '../../shared/services/logging/logging.service';
 import {Extent} from '../../shared/model/extent';
 import {RestMapperTrafficOgn, TrafficOgnResponse} from '../model/rest-mapper-traffic-ogn';
 import {Traffic} from '../model/traffic';
+import {throwError} from 'rxjs';
 
 
 const OGN_TRAFFIC_BASE_URL = environment.restApiBaseUrl + 'php/ogntraffic.php';
@@ -32,9 +33,9 @@ export class TrafficOgnService {
             .jsonp<TrafficOgnResponse>(url, 'callback')
             .pipe(
                 map((response) => RestMapperTrafficOgn.getTrafficListFromResponse(response)),
-                catchError((err, subject) => {
+                catchError(err => {
                     LoggingService.logResponseError('ERROR reading ogn traffic', err);
-                    return subject;
+                    return throwError(err);
                 })
             );
     }

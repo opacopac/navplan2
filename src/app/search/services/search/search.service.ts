@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {environment} from '../../../../environments/environment';
@@ -63,9 +63,9 @@ export class SearchService {
                 .jsonp<SearchResponse>(url, 'callback')
                 .pipe(
                     map(response => RestMapperSearch.getSearchItemListFromResponse(response)),
-                    catchError((error, subject) => {
+                    catchError(error => {
                         LoggingService.logResponseError('ERROR performing text search', error);
-                        return subject;
+                        return throwError(error);
                     })
                 );
         }
@@ -86,9 +86,9 @@ export class SearchService {
             .jsonp<SearchResponse>(url, 'callback')
             .pipe(
                 map(response => RestMapperSearch.getSearchItemListFromResponse(response)),
-                catchError((error, subject) => {
+                catchError(error => {
                     LoggingService.logResponseError('ERROR performing position search', error);
-                    return subject;
+                    return throwError(error);
                 })
             );
     }

@@ -7,6 +7,7 @@ import {Extent} from '../../shared/model/extent';
 import {NotamResponse, RestMapperNotam} from '../model/rest-mapper-notam';
 import {Observable} from 'rxjs/internal/Observable';
 import {catchError, map} from 'rxjs/operators';
+import {throwError} from 'rxjs';
 
 
 const NOTAM_BASE_URL = environment.restApiBaseUrl + 'php/notam.php'; // TODO: move to searchservice
@@ -40,9 +41,9 @@ export class NotamService {
             .jsonp<NotamResponse>(url, 'callback')
             .pipe(
                 map(response => RestMapperNotam.getNotamListFromResponse(response)),
-                catchError((error, subject) => {
+                catchError(error => {
                     LoggingService.logResponseError('ERROR reading NOTAMs!', error);
-                    return subject;
+                    return throwError(error);
                 })
             );
     }

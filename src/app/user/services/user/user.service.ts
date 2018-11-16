@@ -18,6 +18,7 @@ interface SimpleResponse {
 }
 
 interface TokenResponse extends SimpleResponse {
+    email: string;
     token: string;
 }
 
@@ -31,12 +32,14 @@ export class UserService {
 
     public login(
         email: string,
-        password: string): Observable<User> {
+        password: string,
+        rememberMe: boolean): Observable<User> {
 
         const requestBody = {
             action: 'login',
             email: email,
-            password: password
+            password: password,
+            rememberme: rememberMe ? '1' : '0'
         };
         return this.http
             .post<TokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
@@ -58,13 +61,10 @@ export class UserService {
     }
 
 
-    public autoLogin(
-        email: string,
-        token: string): Observable<User> {
+    public autoLogin(token: string): Observable<User> {
 
         const requestBody = {
             action: 'autologin',
-            email: email,
             token: token
         };
         return this.http
@@ -72,38 +72,11 @@ export class UserService {
                 switchMap((response) => {
                     switch (response.body.resultcode) {
                         case 0:
-                            return of(new User(email, response.body.token));
-                        case -2:
-                            return throwError('Email or token not found!');
+                            return of(new User(response.body.email, response.body.token));
+                        case -3:
+                            return throwError('invalid token!');
                         default:
-                            const message = 'ERROR performing login';
-                            LoggingService.logResponseError(message, response);
-                            return throwError(message);
-                    }
-                })
-            );
-    }
-
-
-    public logout(
-        email: string,
-        token: string): Observable<void> {
-
-        const requestBody = {
-            action: 'logout',
-            email: email,
-            token: token
-        };
-        return this.http
-            .post<SimpleResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
-                switchMap((response) => {
-                    switch (response.body.resultcode) {
-                        case 0:
-                            return of(undefined);
-                        case -2:
-                            return throwError('Email or token not found!');
-                        default:
-                            const message = 'ERROR performing logout';
+                            const message = 'ERROR performing autologin';
                             LoggingService.logResponseError(message, response);
                             return throwError(message);
                     }

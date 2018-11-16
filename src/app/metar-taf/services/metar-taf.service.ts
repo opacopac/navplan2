@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/internal/Observable';
 import {catchError, map} from 'rxjs/operators';
-import {of} from 'rxjs';
+import {of, throwError} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {LoggingService} from '../../shared/services/logging/logging.service';
 import {Extent} from '../../shared/model/extent';
@@ -42,9 +42,9 @@ export class MetarTafService {
             .jsonp<MetarTafResponse>(url, 'jsonp')
             .pipe(
                 map(response => RestMapperMetarTaf.getMetarTafListFromResponse(response)),
-                catchError((error, subject) => {
+                catchError(error => {
                     LoggingService.logResponseError('ERROR reading METAR/TAF!', error);
-                    return subject;
+                    return throwError(error);
                 }),
             );
     }

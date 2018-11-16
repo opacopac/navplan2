@@ -28,11 +28,27 @@ export class LoggingService {
     }
 
     public static logError(message: string) {
-        console.error(message);
+        this.log(LogLevel.ERROR, message);
     }
+
+
+    public static logWarning(message: string) {
+        this.log(LogLevel.WARNING, message);
+    }
+
+
+    public static logInfo(message: string) {
+        this.log(LogLevel.INFO, message);
+    }
+
+
+    public static logDebug(message: string) {
+        this.log(LogLevel.DEBUG, message);
+    }
+
 
     public static logResponseError(message: string, response: HttpResponseBase) {
         console.error(message);
-        console.error(response);
+        // console.error(response); // TODO
     }
 }

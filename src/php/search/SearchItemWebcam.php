@@ -20,18 +20,18 @@ class SearchItemWebcam {
     }
 
 
-    public static function searchByIcao($conn, $icaoList, $minNotamTimestamp, $maxNotamTimestamp) {
+    public static function searchByIcao($conn, $icaoList, $minNotamTimestamp, $maxNotamTimestamp): array {
         die("not implemented!");
     }
 
 
     private static function readWebcamFromResult($rs) {
         return array(
-            id => $rs["id"],
-            name => $rs["name"],
-            url => $rs["url"],
-            latitude => reduceDegAccuracy($rs["latitude"], "WEBCAM"),
-            longitude => reduceDegAccuracy($rs["longitude"], "WEBCAM")
+            "id" => $rs["id"],
+            "name" => $rs["name"],
+            "url" => $rs["url"],
+            "latitude" => reduceDegAccuracy($rs["latitude"], "WEBCAM"),
+            "longitude" => reduceDegAccuracy($rs["longitude"], "WEBCAM")
         );
     }
 }

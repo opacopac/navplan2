@@ -12,6 +12,7 @@ export class LoginFormComponent implements OnInit {
     @Input() currentUser: User; // TODO: needed?
     @Output() onLoginClick: EventEmitter<[string, string, boolean]> = new EventEmitter<[string, string, boolean]>();
     public loginForm: FormGroup;
+    public console = console;
 
 
     constructor(private formBuilder: FormBuilder) {

@@ -4,6 +4,7 @@ import {User} from './model/user';
 
 export enum UserActionTypes {
     USER_AUTOLOGIN = '[Startup] Auto login',
+    USER_AUTOLOGIN_SUCCESS = '[Startup] Auto login successful',
     USER_LOGIN = '[Login Page] Login',
     USER_LOGIN_SUCCESS = '[UserService] Login successful',
     USER_LOGIN_ERROR = '[UserService] Login error',
@@ -14,17 +15,20 @@ export enum UserActionTypes {
     USER_CHANGE_PW_SUCCESS = '[UserService] Change password successful',
     USER_CHANGE_PW_ERROR = '[UserService] Change password error',
     USER_LOGOUT = '[User Profile] Logout',
-    USER_LOGOUT_SUCCESS = '[UserService] Logout success',
-    USER_LOGOUT_ERROR = '[UserService] Logout error',
 }
 
 
 export class AutoLoginUserAction implements Action {
     readonly type = UserActionTypes.USER_AUTOLOGIN;
 
-    constructor(
-        public email: string,
-        public token: string) {}
+    constructor(public token: string) {}
+}
+
+
+export class AutoLoginUserSuccessAction implements Action {
+    readonly type = UserActionTypes.USER_AUTOLOGIN_SUCCESS;
+
+    constructor(public user: User) {}
 }
 
 
@@ -34,7 +38,7 @@ export class LoginUserAction implements Action {
     constructor(
         public email: string,
         public password: string,
-        public remember: boolean) {}
+        public rememberMe: boolean) {}
 }
 
 
@@ -43,7 +47,7 @@ export class LoginUserSuccessAction implements Action {
 
     constructor(
         public user: User,
-        public remember: boolean) {}
+        public rememberMe: boolean) {}
 }
 
 
@@ -68,7 +72,7 @@ export class RegisterUserSuccessAction implements Action {
 
     constructor(
         public user: User,
-        public remember: boolean) {}
+        public rememberMe: boolean) {}
 }
 
 
@@ -112,22 +116,9 @@ export class LogoutUserAction implements Action {
 }
 
 
-export class LogoutUserSuccessAction implements Action {
-    readonly type = UserActionTypes.USER_LOGOUT_SUCCESS;
-
-    constructor() {}
-}
-
-
-export class LogoutUserErrorAction implements Action {
-    readonly type = UserActionTypes.USER_LOGOUT_ERROR;
-
-    constructor(public error: string) {}
-}
-
-
 export type UserActions =
     AutoLoginUserAction |
+    AutoLoginUserSuccessAction |
     LoginUserAction |
     LoginUserSuccessAction |
     LoginUserErrorAction |
@@ -137,6 +128,4 @@ export type UserActions =
     ChangePwAction |
     ChangePwSuccessAction |
     ChangePwErrorAction |
-    LogoutUserAction |
-    LogoutUserSuccessAction |
-    LogoutUserErrorAction;
+    LogoutUserAction;

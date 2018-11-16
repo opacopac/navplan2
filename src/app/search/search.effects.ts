@@ -8,6 +8,7 @@ import {SearchService} from './services/search/search.service';
 import {SearchActionTypes, SearchQuerySubmittedAction, SearchResultsReceivedAction} from './search.actions';
 import {getCurrentUser} from '../user/user.selectors';
 import {User} from '../user/model/user';
+import {LoggingService} from '../shared/services/logging/logging.service';
 
 
 const MIN_QUERY_LENGTH = 3;
@@ -34,7 +35,7 @@ export class SearchEffects {
             switchMap(([query, currentUser]) => this.searchService.searchByText(query, currentUser).pipe(
                 map(result => new SearchResultsReceivedAction(result)),
                 catchError(error => {
-                    console.error(error);
+                    LoggingService.logResponseError('ERROR search by text', error);
                     return throwError(error);
                 })
             ))

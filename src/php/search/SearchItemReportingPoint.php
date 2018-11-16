@@ -44,7 +44,7 @@ class SearchItemReportingPoint {
     }
 
 
-    public static function searchByIcao($conn, $icaoList, $minNotamTimestamp, $maxNotamTimestamp) {
+    public static function searchByIcao($conn, $icaoList, $minNotamTimestamp, $maxNotamTimestamp): array {
         die("not implemented!");
     }
 
@@ -71,18 +71,18 @@ class SearchItemReportingPoint {
             $polygon = NULL;
 
         return array(
-            id => $rs["id"],
-            type => $rs["type"],
-            airport_icao => $rs["airport_icao"],
-            name => $rs["name"],
-            heli => $rs["heli"],
-            inbd_comp => $rs["inbd_comp"],
-            outbd_comp => $rs["outbd_comp"],
-            min_ft => $rs["min_ft"],
-            max_ft => $rs["max_ft"],
-            latitude => reduceDegAccuracy($rs["latitude"], "REPORTINGPOINT"),
-            longitude => reduceDegAccuracy($rs["longitude"], "REPORTINGPOINT"),
-            polygon => $polygon
+            "id" => $rs["id"],
+            "type" => $rs["type"],
+            "airport_icao" => $rs["airport_icao"],
+            "name" => $rs["name"],
+            "heli" => $rs["heli"],
+            "inbd_comp" => $rs["inbd_comp"],
+            "outbd_comp" => $rs["outbd_comp"],
+            "min_ft" => $rs["min_ft"],
+            "max_ft" => $rs["max_ft"],
+            "latitude" => reduceDegAccuracy($rs["latitude"], "REPORTINGPOINT"),
+            "longitude" => reduceDegAccuracy($rs["longitude"], "REPORTINGPOINT"),
+            "polygon" => $polygon
         );
     }
 }

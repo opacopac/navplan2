@@ -28,7 +28,7 @@
         <div>
             <button mat-raised-button
                     color="primary"
-                    (click)="this.onLoginClick.emit([email.value, password.value, rememberMe.value])"
+                    (click)="this.onLoginClick.emit([email.value, password.value, rememberMe.checked])"
                     [disabled]="this.loginForm.invalid" routerLink="/map">Log In
             </button>
         </div>

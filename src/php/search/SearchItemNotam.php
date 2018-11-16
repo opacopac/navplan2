@@ -8,7 +8,7 @@ class SearchItemNotam {
     const MIN_PIXEL_COORDINATE_RESOLUTION = 2;  // TODO
 
 
-    public static function searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat, $zoom, $minNotamTimestamp, $maxNotamTimestamp) {
+    public static function searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat, $zoom, $minNotamTimestamp, $maxNotamTimestamp): array {
         die("not implemented");
 
         /*$extent = DbService::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);

@@ -62,24 +62,24 @@ class SearchItemAirspace {
         //$polygon = GeoService::simplifyPolygon($polygon, $resolutionDeg);
 
         return array(
-            id => (int)$rs["id"],
-            aip_id => (int)$rs["aip_id"],
-            category => $rs["category"],
-            country => $rs["country"],
-            name => $rs["name"],
-            alt => array(
-                top => array(
-                    ref => $rs["alt_top_reference"],
-                    height => $rs["alt_top_height"],
-                    unit => $rs["alt_top_unit"]
+            "id" => (int)$rs["id"],
+            "aip_id" => (int)$rs["aip_id"],
+            "category" => $rs["category"],
+            "country" => $rs["country"],
+            "name" => $rs["name"],
+            "alt" => array(
+                "top" => array(
+                    "ref" => $rs["alt_top_reference"],
+                    "height" => $rs["alt_top_height"],
+                    "unit" => $rs["alt_top_unit"]
                 ),
-                bottom => array(
-                    ref => $rs["alt_bottom_reference"],
-                    height => $rs["alt_bottom_height"],
-                    unit => $rs["alt_bottom_unit"]
+                "bottom" => array(
+                    "ref" => $rs["alt_bottom_reference"],
+                    "height" => $rs["alt_bottom_height"],
+                    "unit" => $rs["alt_bottom_unit"]
                 )
             ),
-            polygon => $polygon
+            "polygon" => $polygon
         );
 
     }

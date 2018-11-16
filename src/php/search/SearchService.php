@@ -1,14 +1,15 @@
 <?php
-include_once __DIR__ . "/../helper.php";
+require_once __DIR__ . "/../user/User.php";
+require_once __DIR__ . "/../helper.php";
 require_once __DIR__ . "/../terrainHelper.php";
-include_once __DIR__ . "/SearchItemAirport.php";
-include_once __DIR__ . "/SearchItemNavaid.php";
-include_once __DIR__ . "/SearchItemAirspace.php";
-include_once __DIR__ . "/SearchItemReportingPoint.php";
-include_once __DIR__ . "/SearchItemUserPoint.php";
-include_once __DIR__ . "/SearchItemWebcam.php";
-include_once __DIR__ . "/SearchItemGeoname.php";
-include_once __DIR__ . "/SearchItemNotam.php";
+require_once __DIR__ . "/SearchItemAirport.php";
+require_once __DIR__ . "/SearchItemNavaid.php";
+require_once __DIR__ . "/SearchItemAirspace.php";
+require_once __DIR__ . "/SearchItemReportingPoint.php";
+require_once __DIR__ . "/SearchItemUserPoint.php";
+require_once __DIR__ . "/SearchItemWebcam.php";
+require_once __DIR__ . "/SearchItemGeoname.php";
+require_once __DIR__ . "/SearchItemNotam.php";
 
 
 class SearchItems {
@@ -38,8 +39,7 @@ switch($_GET["action"]) {
             $conn,
             checkSearchItems($_GET["searchItems"]),
             checkEscapeString($conn, $_GET["searchText"], 1, 100),
-            $_COOKIE["email"] ? checkEscapeEmail($conn, $_COOKIE["email"]) : NULL,
-            $_COOKIE["token"] ? checkEscapeToken($conn, $_COOKIE["token"]) : NULL
+            User::getAuthenticatedEmailOrNull($_GET["token"])
         );
         break;
     case "searchByPosition":
@@ -51,8 +51,7 @@ switch($_GET["action"]) {
             checkNumeric($_GET["rad"]),
             $_GET["minnotamtime"] ? checkNumeric($_GET["minnotamtime"]) : 0,
             $_GET["maxnotamtime"] ? checkNumeric($_GET["maxnotamtime"]) : 0,
-            $_COOKIE["email"] ? checkEscapeEmail($conn, $_COOKIE["email"]) : NULL,
-            $_COOKIE["token"] ? checkEscapeToken($conn, $_COOKIE["token"]) : NULL
+            User::getAuthenticatedEmailOrNull($_GET["token"])
         );
         break;
     case "searchByExtent":
@@ -66,8 +65,7 @@ switch($_GET["action"]) {
             checkNumeric($_GET["zoom"]),
             $_GET["minnotamtime"] ? checkNumeric($_GET["minnotamtime"]) : 0,
             $_GET["maxnotamtime"] ? checkNumeric($_GET["maxnotamtime"]) : 0,
-            $_GET["email"] ? checkEscapeEmail($conn, $_GET["email"]) : NULL,
-            $_GET["token"] ? checkEscapeToken($conn, $_GET["token"]) : NULL
+            User::getAuthenticatedEmailOrNull($_GET["token"])
         );
         break;
     case "searchByIcao":
@@ -118,7 +116,7 @@ function checkIcaoList($icaoString) {
 }
 
 
-function searchByText($conn, $searchItems, $searchText, $email, $token)
+function searchByText($conn, $searchItems, $searchText, $email = null)
 {
     $resultNum = 0;
     $airports = [];
@@ -145,7 +143,7 @@ function searchByText($conn, $searchItems, $searchText, $email, $token)
                 $resultNum += count($reportingPoints);
                 break;
             case SearchItems::USERPOINTS:
-                $userPoints = SearchItemUserPoint::searchByText($conn, $searchText, getMaxTextResults($resultNum), $email, $token);
+                $userPoints = SearchItemUserPoint::searchByText($conn, $searchText, getMaxTextResults($resultNum), $email);
                 $resultNum += count($userPoints);
                 break;
             case SearchItems::GEONAMES:
@@ -169,7 +167,7 @@ function searchByText($conn, $searchItems, $searchText, $email, $token)
 }
 
 
-function searchByPosition($conn, $searchItems, $lon, $lat, $maxRadius_deg, $minNotamTimestamp, $maxNotamTimestamp, $email, $token) {
+function searchByPosition($conn, $searchItems, $lon, $lat, $maxRadius_deg, $minNotamTimestamp, $maxNotamTimestamp, $email = null) {
     $resultNum = 0;
     $airports = [];
     $navaids = [];
@@ -196,7 +194,7 @@ function searchByPosition($conn, $searchItems, $lon, $lat, $maxRadius_deg, $minN
                 $resultNum += count($reportingPoints);
                 break;
             case SearchItems::USERPOINTS:
-                $userPoints = SearchItemUserPoint::searchByPosition($conn, $lon, $lat, $maxRadius_deg, getMaxPositionResults($resultNum), $email, $token);
+                $userPoints = SearchItemUserPoint::searchByPosition($conn, $lon, $lat, $maxRadius_deg, getMaxPositionResults($resultNum), $email);
                 $resultNum += count($userPoints);
                 break;
             case SearchItems::GEONAMES:
@@ -224,7 +222,7 @@ function searchByPosition($conn, $searchItems, $lon, $lat, $maxRadius_deg, $minN
 }
 
 
-function searchByExtent($conn, $searchItems, $minLon, $minLat, $maxLon, $maxLat, $zoom, $minnotamtime, $maxnotamtime, $email, $token)
+function searchByExtent($conn, $searchItems, $minLon, $minLat, $maxLon, $maxLat, $zoom, $minnotamtime, $maxnotamtime, $email = null)
 {
     $resultNum = 0;
     $airports = [];
@@ -257,7 +255,7 @@ function searchByExtent($conn, $searchItems, $minLon, $minLat, $maxLon, $maxLat,
                 $resultNum += count($reportingPoints);
                 break;
             case SearchItems::USERPOINTS:
-                $userPoints = SearchItemUserPoint::searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat, $email, $token);
+                $userPoints = SearchItemUserPoint::searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat, $email);
                 $resultNum += count($userPoints);
                 break;
             case SearchItems::WEBCAMS:
@@ -265,7 +263,7 @@ function searchByExtent($conn, $searchItems, $minLon, $minLat, $maxLon, $maxLat,
                 $resultNum += count($webcams);
                 break;
             case SearchItems::NOTAMS:
-                $notams = SearchItemNotam::searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat, $minnotamtime, $maxnotamtime);
+                $notams = SearchItemNotam::searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat, $zoom, $minnotamtime, $maxnotamtime);
                 $resultNum += count($notams);
                 break;
         }

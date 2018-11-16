@@ -1,8 +1,9 @@
 <?php
-require_once __DIR__ . "../services/DbService.php";
-require_once __DIR__ . "../config.php";
-require_once __DIR__ . "../helper.php";
-require_once __DIR__ . "/ReallySimpleJWT/Token.php";
+
+require_once __DIR__ . "/../services/DbService.php";
+require_once __DIR__ . "/../config.php";
+require_once __DIR__ . "/../helper.php";
+require_once __DIR__ . "/autoloader.php";
 
 use ReallySimpleJWT\Token;
 
@@ -24,7 +25,7 @@ class User
         $conn = DbService::openDb();
         $email = self::escapeEmail($conn, $input);
         $password = self::escapePassword($conn, $input);
-        $rememberMe = self::escapeRememberMe($conn, $input);
+        $rememberMe = self::escapeRememberMe($input);
 
         // verify pw
         $code = self::verifyPwHash($conn, $email, $password);
@@ -37,7 +38,7 @@ class User
         // create new token
         $token = self::createToken($email, $rememberMe);
 
-        self::sendResponse($code, $token);
+        self::sendResponse($code, $email, $token);
         $conn->close();
     }
 
@@ -46,30 +47,37 @@ class User
     {
         $conn = DbService::openDb();
         $token = self::escapeToken($conn, $input);
+        $email = self::getAuthenticatedEmailOrNull($token);
 
         // verify token
-        if (self::validateToken($token)) {
-            self::sendResponse(-3);
-            $conn->close();
-            return;
+        if ($email) {
+            self::sendResponse(0, $email, $token);
         } else {
-            self::sendResponse(0, $token);
+            self::sendResponse(-3);
         }
 
         $conn->close();
     }
 
 
-    public static function validateToken(string $token): bool {
+    public static function getAuthenticatedEmailOrNull($token): ?string {
+        if ($token && self::validateToken($token))
+            return self::getEmailFromToken($token);
+        else
+            return null;
+    }
+
+
+    private static function validateToken(string $token): bool {
         global $jwt_secret;
 
         return Token::validate($token, $jwt_secret);
     }
 
 
-    public static function getEmailFromToken(string $token): string {
+    private static function getEmailFromToken(string $token): string {
         $payload = json_decode(Token::getPayload($token));
-        return $payload["sub"];
+        return $payload->user_id;
     }
 
 
@@ -77,7 +85,8 @@ class User
         global $jwt_secret, $jwt_issuer;
 
         $validDays = $rememberMe ? self::JWT_LONG_EXP_TIME_DAYS : self::JWT_SHORT_EXP_TIME_DAYS;
-        $expiration = (new DateTime())->add(new DateInterval("P" . $validDays . "D"));
+        $expiration = time() + $validDays * 24 * 3600;
+
         return Token::getToken($email, $jwt_secret, $expiration, $jwt_issuer);
     }
 
@@ -112,21 +121,24 @@ class User
     }
 
 
-    private static function escapeRememberMe(mysqli $conn, array $input): bool {
+    private static function escapeRememberMe(array $input): bool {
         return ($input["rememberme"] === "1");
     }
 
 
     private static function escapeToken(mysqli $conn, array $input): string {
-        return checkEscapeAlphaNumeric($conn, trim($input["token"]), 10, 100);
+        return mysqli_real_escape_string($conn, trim($input["token"]));
     }
 
 
-    private static function sendResponse(int $code, string $token = '') {
+    private static function sendResponse(int $code, string $email = '', string $token = '') {
         $response = array(
             "resultcode" => $code,
             "message" => self::RESPONSE_MESSAGE_TEXTS[$code]
         );
+
+        if ($email != '')
+            $response["email"] = $email;
 
         if ($token != '')
             $response["token"] = $token;

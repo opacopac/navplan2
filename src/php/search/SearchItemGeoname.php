@@ -151,18 +151,18 @@ class SearchItemGeoname
 
     private static function readGeonameFromResult($rs, $terrainHelper) {
         return array(
-            id => $rs["geonameid"],
-            name => $rs["name"],
-            searchresultname => $rs["searchresultname"],
-            feature_class => $rs["feature_class"],
-            feature_code => $rs["feature_code"],
-            country => $rs["country_code"] ? $rs["country_code"] : "",
-            admin1 => $rs["admin1_name"] ? $rs["admin1_name"] : "",
-            admin2 => $rs["admin2_name"] ? $rs["admin2_name"] : "",
-            population => $rs["population"],
-            latitude => $rs["latitude"],
-            longitude => $rs["longitude"],
-            elevation => $rs["elevation"] ? $rs["elevation"] : $terrainHelper->getElevationMeters([$rs["longitude"], $rs["latitude"]])
+            "id" => $rs["geonameid"],
+            "name" => $rs["name"],
+            "searchresultname" => $rs["searchresultname"],
+            "feature_class" => $rs["feature_class"],
+            "feature_code" => $rs["feature_code"],
+            "country" => $rs["country_code"] ? $rs["country_code"] : "",
+            "admin1" => $rs["admin1_name"] ? $rs["admin1_name"] : "",
+            "admin2" => $rs["admin2_name"] ? $rs["admin2_name"] : "",
+            "population" => $rs["population"],
+            "latitude" => $rs["latitude"],
+            "longitude" => $rs["longitude"],
+            "elevation" => $rs["elevation"] ? $rs["elevation"] : $terrainHelper->getElevationMeters([$rs["longitude"], $rs["latitude"]])
         );
     }
 }

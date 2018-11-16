@@ -39,7 +39,7 @@ export class LoginRegisterPageComponent implements OnInit {
         /*this.userService.register(this.email, this.password)
             .subscribe(
                 user => {
-                    this.clientstorageService.persistUser(user, this.rememberMeChecked);
+                    this.clientstorageService.persistToken(user, this.rememberMeChecked);
                     this.messageService.writeSuccessMessage('Welcome ' + user.email + '!');
                     this.router.navigate(['./map']);
                 },

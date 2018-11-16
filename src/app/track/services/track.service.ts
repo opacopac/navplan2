@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {LoggingService} from '../../shared/services/logging/logging.service';
 import {RestMapperTrack, SingleTrackResponse, TrackListResponse} from '../model/rest-mapper-track';
@@ -24,9 +24,9 @@ export class TrackService {
             .jsonp<TrackListResponse>(url, 'callback')
             .pipe(
                 map(response => RestMapperTrack.getTrackListFromResponse(response)),
-                catchError((err, subject) => {
+                catchError(err => {
                     LoggingService.logResponseError('ERROR reading tracks', err);
-                    return subject;
+                    return throwError(err);
                 })
             );
     }
@@ -38,9 +38,9 @@ export class TrackService {
             .jsonp<SingleTrackResponse>(url, 'callback')
             .pipe(
                 map(response => RestMapperTrack.getTrackFromResponse(response)),
-                catchError((err, subject) => {
+                catchError(err => {
                     LoggingService.logResponseError('ERROR reading track', err);
-                    return subject;
+                    return throwError(err);
                 })
             );
     }

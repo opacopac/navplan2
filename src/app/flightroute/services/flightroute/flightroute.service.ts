@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {of} from 'rxjs/internal/observable/of';
 import {catchError, map} from 'rxjs/operators';
 import {environment} from '../../../../environments/environment';
@@ -29,9 +29,9 @@ export class FlightrouteService {
             .get<FlightrouteListResponse>(url, {observe: 'response'})
             .pipe(
                 map((response) => RestMapperFlightroute.getFlightrouteListFromResponse(response.body)),
-                catchError((err, subject) => {
+                catchError(err => {
                     LoggingService.logResponseError('ERROR reading flight route list', err);
-                    return subject;
+                    return throwError(err);
                 })
             );
     }
@@ -49,9 +49,9 @@ export class FlightrouteService {
             .get<FlightrouteResponse>(url, {observe: 'response'})
             .pipe(
                 map((response) => RestMapperFlightroute.getFlightrouteFromResponse(response.body)),
-                catchError((err, subject) => {
+                catchError(err => {
                     LoggingService.logResponseError('ERROR reading flight route', err);
-                    return subject;
+                    return throwError(err);
                 })
             );
     }

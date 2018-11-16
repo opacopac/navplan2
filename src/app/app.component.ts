@@ -26,11 +26,9 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
         // auto login "remembered" user
-        const persistedUser = this.clientstorageService.getPersistedUser();
-        if (persistedUser) {
-            this.appStore.dispatch(
-                new AutoLoginUserAction(persistedUser.email, persistedUser.token)
-            );
+        const persistedToken = this.clientstorageService.getPersistedToken();
+        if (persistedToken) {
+            this.appStore.dispatch(new AutoLoginUserAction(persistedToken));
         }
     }
 }
