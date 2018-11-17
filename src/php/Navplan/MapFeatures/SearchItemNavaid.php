@@ -1,6 +1,7 @@
 <?php namespace Navplan\MapFeatures;
 include_once __DIR__ . "/../NavplanHelper.php";
 
+use mysqli, mysqli_result;
 use Navplan\Shared\DbService;
 
 
@@ -8,7 +9,7 @@ class SearchItemNavaid {
     const MIN_PIXEL_DISTANCE_BETWEEN_ITEMS = 200;  // TODO
 
 
-    public static function searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat, $zoom) {
+    public static function searchByExtent(mysqli $conn, float $minLon, float $minLat, float $maxLon, float $maxLat, int $zoom) {
         $extent = DbService::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
         $query = "SELECT *";
         $query .= " FROM openaip_navaids2";
@@ -24,7 +25,7 @@ class SearchItemNavaid {
     }
 
 
-    public static function searchByPosition($conn, $lon, $lat, $maxRadius_deg, $maxResults) {
+    public static function searchByPosition(mysqli $conn, float $lon, float $lat, float $maxRadius_deg, int $maxResults) {
         $query = "SELECT *";
         $query .= " FROM openaip_navaids";
         $query .= " WHERE";
@@ -42,7 +43,7 @@ class SearchItemNavaid {
     }
 
 
-    public static function searchByText($conn, $searchText, $maxResults) {
+    public static function searchByText(mysqli $conn, string $searchText, int $maxResults) {
         $query = "SELECT *";
         $query .= " FROM openaip_navaids";
         $query .= " WHERE";
@@ -57,7 +58,7 @@ class SearchItemNavaid {
     }
 
 
-    private static function readNavaidFromResultList($result) {
+    private static function readNavaidFromResultList(mysqli_result $result): array {
         $navaids = [];
         while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
             $navaids[] = self::readNavaidFromResult($rs);
@@ -67,7 +68,7 @@ class SearchItemNavaid {
     }
 
 
-    private static function readNavaidFromResult($rs) {
+    private static function readNavaidFromResult(array $rs): array {
         $unit = "MHz";
 
         if ($rs["type"] == "NDB")
@@ -78,8 +79,8 @@ class SearchItemNavaid {
             "type" => $rs["type"],
             "kuerzel" => $rs["kuerzel"],
             "name" => $rs["name"],
-            "latitude" => reduceDegAccuracy($rs["latitude"], "NAVAID"),
-            "longitude" => reduceDegAccuracy($rs["longitude"], "NAVAID"),
+            "latitude" => MapFeaturesHelper::reduceDegAccuracy($rs["latitude"], "NAVAID"),
+            "longitude" => MapFeaturesHelper::reduceDegAccuracy($rs["longitude"], "NAVAID"),
             "elevation" => $rs["elevation"],
             "frequency" => $rs["frequency"],
             "unit" => $unit,

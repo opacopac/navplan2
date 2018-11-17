@@ -1,11 +1,12 @@
 <?php namespace Navplan\MapFeatures;
 include_once __DIR__ . "/../NavplanHelper.php";
 
+use mysqli;
 use Navplan\Shared\DbService;
 
 
 class SearchItemWebcam {
-    public static function searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat) {
+    public static function searchByExtent(mysqli $conn, float $minLon, float $minLat, float $maxLon, float $maxLat) {
         $query  = "SELECT *";
         $query .= " FROM webcams";
         $query .= " WHERE airport_icao IS NULL";
@@ -22,18 +23,13 @@ class SearchItemWebcam {
     }
 
 
-    public static function searchByIcao($conn, $icaoList): array {
-        die("not implemented!");
-    }
-
-
-    private static function readWebcamFromResult($rs) {
+    private static function readWebcamFromResult(array $rs): array {
         return array(
             "id" => $rs["id"],
             "name" => $rs["name"],
             "url" => $rs["url"],
-            "latitude" => reduceDegAccuracy($rs["latitude"], "WEBCAM"),
-            "longitude" => reduceDegAccuracy($rs["longitude"], "WEBCAM")
+            "latitude" => MapFeaturesHelper::reduceDegAccuracy($rs["latitude"], "WEBCAM"),
+            "longitude" => MapFeaturesHelper::reduceDegAccuracy($rs["longitude"], "WEBCAM")
         );
     }
 }

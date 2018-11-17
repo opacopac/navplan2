@@ -21,7 +21,7 @@ class SearchByExtent
     public static function searchByExtent()
     {
         $conn = DbService::openDb();
-        $searchItems = SearchHelper::checkSearchItems($conn, $_GET["searchItems"]);
+        $searchItems = SearchHelper::checkEscapeSearchItems($conn, $_GET["searchItems"]);
         $minLon = StringNumberService::checkNumeric($_GET["minlon"]);
         $minLat = StringNumberService::checkNumeric($_GET["minlat"]);
         $maxLon = StringNumberService::checkNumeric($_GET["maxlon"]);

@@ -1,6 +1,7 @@
 <?php namespace Navplan\MapFeatures;
 include_once __DIR__ . "/../NavplanHelper.php";
 
+use mysqli, mysqli_result;
 use Navplan\Shared\DbService;
 use Navplan\Shared\GeoService;
 
@@ -11,7 +12,7 @@ class SearchItemAirspace {
     const MIN_PIXEL_COORDINATE_RESOLUTION = 2;  // TODO
 
 
-    public static function searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat, $zoom) {
+    public static function searchByExtent(mysqli $conn, float $minLon, float $minLat, float $maxLon, float $maxLat, int $zoom): array {
         $extent = DbService::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
         $pixelResolutionDeg = GeoService::calcDegPerPixelByZoom($zoom);
         $minDiameterDeg = $pixelResolutionDeg * self::MIN_PIXEL_AIRSPACE_DIAMETER;
@@ -45,7 +46,7 @@ class SearchItemAirspace {
     }
 
 
-    private static function readAirspaceFromResultList($result, $pixelResolutionDeg)
+    private static function readAirspaceFromResultList(mysqli_result $result, float $pixelResolutionDeg): array
     {
         $airspaces = [];
         while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
@@ -55,7 +56,7 @@ class SearchItemAirspace {
     }
 
 
-    private static function readAirspaceFromResult($rs, $pixelResolutionDeg) {
+    private static function readAirspaceFromResult(array $rs, float $pixelResolutionDeg): array {
         // prepare coordinates
         $polygon = GeoService::parsePolygonFromString($rs["polygon"], 4);
         //$resolutionDeg = $pixelResolutionDeg * self::MIN_PIXEL_COORDINATE_RESOLUTION;
@@ -81,6 +82,5 @@ class SearchItemAirspace {
             ),
             "polygon" => $polygon
         );
-
     }
 }

@@ -1,11 +1,12 @@
 <?php namespace Navplan\MapFeatures;
 include_once __DIR__ . "/../NavplanHelper.php";
 
+use mysqli, mysqli_result;
 use Navplan\Shared\DbService;
 
 
 class SearchItemReportingPoint {
-    public static function searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat) {
+    public static function searchByExtent(mysqli $conn, float $minLon, float $minLat, float $maxLon, float $maxLat) {
         $extent = DbService::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
         $query = "SELECT * FROM reporting_points WHERE MBRIntersects(extent, " . $extent . ")";
 
@@ -15,7 +16,7 @@ class SearchItemReportingPoint {
     }
 
 
-    public static function searchByPosition($conn, $lon, $lat, $maxRadius_deg, $maxResults) {
+    public static function searchByPosition(mysqli $conn, float $lon, float $lat, float $maxRadius_deg, int $maxResults) {
         $query = "SELECT *";
         $query .= " FROM reporting_points";
         $query .= " WHERE";
@@ -33,7 +34,7 @@ class SearchItemReportingPoint {
     }
 
 
-    public static function searchByText($conn, $searchText, $maxResults) {
+    public static function searchByText(mysqli $conn, string $searchText, int $maxResults) {
         $query = "SELECT * FROM reporting_points";
         $query .= " WHERE";
         $query .= "   airport_icao LIKE '" . $searchText . "%'";
@@ -46,12 +47,12 @@ class SearchItemReportingPoint {
     }
 
 
-    public static function searchByIcao($conn, $icaoList): array {
+    public static function searchByIcao(mysqli $conn, $icaoList): array {
         die("not implemented!");
     }
 
 
-    private static function readReportingPointFromResultList($result) {
+    private static function readReportingPointFromResultList(mysqli_result $result): array {
         $reportingPoint = [];
         while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
             $reportingPoint[] = self::readReportingPointFromResult($rs);
@@ -61,7 +62,7 @@ class SearchItemReportingPoint {
     }
 
 
-    private static function readReportingPointFromResult($rs) {
+    private static function readReportingPointFromResult(array $rs): array {
         if ($rs["polygon"]) {
             // prepare coordinates
             $polygon = [];
@@ -82,9 +83,9 @@ class SearchItemReportingPoint {
             "outbd_comp" => $rs["outbd_comp"],
             "min_ft" => $rs["min_ft"],
             "max_ft" => $rs["max_ft"],
-            "latitude" => reduceDegAccuracy($rs["latitude"], "REPORTINGPOINT"),
-            "longitude" => reduceDegAccuracy($rs["longitude"], "REPORTINGPOINT"),
-            "polygon" => $polygon
+            "latitude" => $rs["latitude"] ? MapFeaturesHelper::reduceDegAccuracy($rs["latitude"], "REPORTINGPOINT") : NULL, // only for reporting points
+            "longitude" => $rs["longitude"] ? MapFeaturesHelper::reduceDegAccuracy($rs["longitude"], "REPORTINGPOINT") : NULL, // only for reporting points
+            "polygon" => $polygon // only for reporting sectors
         );
     }
 }

@@ -1,11 +1,12 @@
 <?php namespace Navplan\MapFeatures;
 include_once __DIR__ . "/../NavplanHelper.php";
 
+use mysqli, mysqli_result;
 use Navplan\Shared\DbService;
 
 
 class SearchItemUserPoint {
-    public static function searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat, $email = null) {
+    public static function searchByExtent(mysqli $conn, float $minLon, float $minLat, float $maxLon, float $maxLat, ?string $email = null) {
         if (!$email)
             return [];
 
@@ -22,7 +23,7 @@ class SearchItemUserPoint {
     }
 
 
-    public static function searchByPosition($conn, $lon, $lat, $maxRadius_deg, $maxResults, $email = null) {
+    public static function searchByPosition(mysqli $conn, float $lon, float $lat, float $maxRadius_deg, int $maxResults, ?string $email = null) {
         if (!$email)
             return [];
 
@@ -45,7 +46,7 @@ class SearchItemUserPoint {
     }
 
 
-    public static function searchByText($conn, $searchText, $maxResults, $email = null) {
+    public static function searchByText(mysqli $conn, string $searchText, int $maxResults, ?string $email = null) {
         if (!$email)
             return [];
 
@@ -64,7 +65,7 @@ class SearchItemUserPoint {
     }
 
 
-    private static function readUserPointFromResultList($result) {
+    private static function readUserPointFromResultList(mysqli_result $result): array {
         $userPoint = [];
         while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
             $userPoint[] = self::readUserPointFromResult($rs);
@@ -74,7 +75,7 @@ class SearchItemUserPoint {
     }
 
 
-    private static function readUserPointFromResult($rs) {
+    private static function readUserPointFromResult(array $rs): array {
         return array(
             "id" => $rs["id"],
             "type" => $rs["type"],
