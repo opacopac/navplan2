@@ -1,4 +1,4 @@
-<?php namespace Navplan\Search;
+<?php namespace Navplan\MapFeatures;
 include_once __DIR__ . "/../NavplanHelper.php";
 
 use mysqli, mysqli_result;
@@ -71,7 +71,7 @@ class SearchItemAirport {
     }
 
 
-    public static function searchByIcao(mysqli $conn, $icaoList, $minNotamTimestamp, $maxNotamTimestamp): array {
+    public static function searchByIcao(mysqli $conn, $icaoList): array {
         die("not implemented!");
     }
 

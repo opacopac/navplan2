@@ -45,7 +45,7 @@ class DbService
     }
 
 
-    public static function getDbTimeString($timestamp): string
+    public static function getDbTimeString(int $timestamp): string
     {
         return date("Y-m-d H:i:s", $timestamp);
     }
@@ -57,7 +57,7 @@ class DbService
     }
 
 
-    public static function getDbPolygonString($lonLatList): string
+    public static function getDbPolygonString(array $lonLatList): string
     {
         $lonLatStrings = [];
 

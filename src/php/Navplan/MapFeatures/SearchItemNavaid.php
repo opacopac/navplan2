@@ -1,4 +1,4 @@
-<?php namespace Navplan\Search;
+<?php namespace Navplan\MapFeatures;
 include_once __DIR__ . "/../NavplanHelper.php";
 
 use Navplan\Shared\DbService;

@@ -1,6 +1,7 @@
 <?php namespace Navplan\Search;
 include_once __DIR__ . "/../NavplanHelper.php";
 
+use mysqli, mysqli_result;
 use Navplan\Shared\DbService;
 
 
@@ -10,7 +11,7 @@ class SearchItemNotam {
     const MIN_PIXEL_COORDINATE_RESOLUTION = 2;  // TODO
 
 
-    public static function searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat, $zoom, $minNotamTimestamp, $maxNotamTimestamp): array {
+    public static function searchByExtent(mysqli $conn, float $minLon, float $minLat, float $maxLon, float $maxLat, int $zoom, int $minNotamTimestamp, int $maxNotamTimestamp): array {
         die("not implemented");
 
         /*$extent = DbService::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
@@ -41,7 +42,7 @@ class SearchItemNotam {
     }
 
 
-    public static function searchByPosition($conn, $lat, $lon, $minNotamTimestamp, $maxNotamTimestamp, $maxResults) {
+    public static function searchByPosition(mysqli $conn, float $lat, float $lon, int $minNotamTimestamp, int $maxNotamTimestamp, int $maxResults) {
         $query = "SELECT ntm.notam AS notam"
             . "   FROM icao_notam AS ntm"
             . "    INNER JOIN icao_notam_geometry geo ON geo.icao_notam_id = ntm.id "
@@ -60,7 +61,7 @@ class SearchItemNotam {
     }
 
 
-    public static function searchByIcao($conn, $icaoList, $minNotamTimestamp, $maxNotamTimestamp) {
+    public static function searchByIcao(mysqli $conn, array $icaoList, int $minNotamTimestamp, int $maxNotamTimestamp) {
         $query = "SELECT ntm.notam AS notam"
             . "   FROM icao_notam AS ntm"
             . "    INNER JOIN icao_notam_geometry2 geo ON geo.icao_notam_id = ntm.id"
@@ -76,12 +77,12 @@ class SearchItemNotam {
     }
 
 
-    public static function searchByReference($conn, $ref) {
+    public static function searchByReference(mysqli $conn, $ref) {
         die("not implemented");
     }
 
 
-    public static function searchByText($conn, $searchText, $maxResults) {
+    public static function searchByText(mysqli $conn, string $searchText, int $maxResults) {
         die("not implemented");
     }
 
@@ -129,7 +130,7 @@ class SearchItemNotam {
     }*/
 
 
-    private static function readNotamFromResultList($result) {
+    private static function readNotamFromResultList(mysqli_result $result): array {
         $notams = [];
         while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
             $notam = self::readNotamFromResult($rs);
@@ -149,7 +150,7 @@ class SearchItemNotam {
     }
 
 
-    private static function readNotamFromResult($rs) {
+    private static function readNotamFromResult(array $rs): array {
         $notam = json_decode($rs["notam"], JSON_NUMERIC_CHECK);
         $notam["notam_id"] = $notam["id"];
         $notam["id"] = $rs["id"];

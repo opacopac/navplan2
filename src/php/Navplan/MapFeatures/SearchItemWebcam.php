@@ -1,4 +1,4 @@
-<?php namespace Navplan\Search;
+<?php namespace Navplan\MapFeatures;
 include_once __DIR__ . "/../NavplanHelper.php";
 
 use Navplan\Shared\DbService;
@@ -22,7 +22,7 @@ class SearchItemWebcam {
     }
 
 
-    public static function searchByIcao($conn, $icaoList, $minNotamTimestamp, $maxNotamTimestamp): array {
+    public static function searchByIcao($conn, $icaoList): array {
         die("not implemented!");
     }
 

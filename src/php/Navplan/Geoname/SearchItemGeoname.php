@@ -1,4 +1,4 @@
-<?php namespace Navplan\Search;
+<?php namespace Navplan\Geoname;
 include_once __DIR__ . "/../NavplanHelper.php";
 require_once __DIR__ . "/../../terrainHelper.php"; // TODO
 
