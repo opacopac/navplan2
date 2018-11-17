@@ -1,12 +1,15 @@
-<?php
-include_once __DIR__ . "/../services/DbService.php";
+<?php namespace Navplan\Search;
+include_once __DIR__ . "/../NavplanHelper.php";
+
+use mysqli, mysqli_result;
+use Navplan\Shared\DbService;
 
 
 class SearchItemAirport {
     const MIN_PIXEL_DISTANCE_BETWEEN_ITEMS = 200;  // TODO
 
 
-    public static function searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat, $email = null, $zoom) {
+    public static function searchByExtent(mysqli $conn, float $minLon, float $minLat, float $maxLon, float $maxLat, int $zoom, string $email = NULL): array {
         $extent = DbService::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
         $query  = "SELECT *";
         $query .= " FROM openaip_airports2";
@@ -23,7 +26,7 @@ class SearchItemAirport {
     }
 
 
-    public static function searchByPosition($conn, $lon, $lat, $maxRadius_deg, $maxResults, $email = null) {
+    public static function searchByPosition(mysqli $conn, float $lon, float $lat, float $maxRadius_deg, int $maxResults, ?string $email = NULL): array {
         $query  = "SELECT *";
         $query .= " FROM openaip_airports2";
         $query .= " WHERE";
@@ -43,7 +46,7 @@ class SearchItemAirport {
     }
 
 
-    public static function searchByText($conn, $searchText, $maxResults, $email) {
+    public static function searchByText(mysqli $conn, string $searchText, int $maxResults, ?string $email = NULL): array {
         $query = "SELECT *";
         $query .= " FROM openaip_airports2";
         $query .= " WHERE";
@@ -68,12 +71,12 @@ class SearchItemAirport {
     }
 
 
-    public static function searchByIcao($conn, $icaoList, $minNotamTimestamp, $maxNotamTimestamp): array {
+    public static function searchByIcao(mysqli $conn, $icaoList, $minNotamTimestamp, $maxNotamTimestamp): array {
         die("not implemented!");
     }
 
 
-    private static function loadAirportSubItems($conn, &$airports, $email) {
+    private static function loadAirportSubItems(mysqli $conn, &$airports, ?string $email) {
         if (count($airports) == 0)
             return;
 
@@ -95,7 +98,7 @@ class SearchItemAirport {
     }
 
 
-    private static function loadAirportRunways($conn, &$airports, $apIdList) {
+    private static function loadAirportRunways(mysqli $conn, &$airports, string $apIdList) {
         $query  = "SELECT *";
         $query .= " FROM openaip_runways2";
         $query .= " WHERE operations = 'ACTIVE' AND airport_id IN (" . $apIdList . ")";
@@ -114,7 +117,7 @@ class SearchItemAirport {
     }
 
 
-    private static function loadAirportRadios($conn, &$airports, $apIdList) {
+    private static function loadAirportRadios(mysqli $conn, &$airports, string $apIdList) {
         $query  = "SELECT *,";
         $query .= "  (CASE WHEN category = 'COMMUNICATION' THEN 1 WHEN category = 'OTHER' THEN 2 WHEN category = 'INFORMATION' THEN 3 ELSE 4 END) AS sortorder1,";
         $query .= "  (CASE WHEN type = 'TOWER' THEN 1 WHEN type = 'CTAF' THEN 2 WHEN type = 'OTHER' THEN 3 ELSE 4 END) AS sortorder2";
@@ -138,7 +141,7 @@ class SearchItemAirport {
     }
 
 
-    private static function loadAirportChars($conn, &$airports, $apIcaoList, $email) {
+    private static function loadAirportChars(mysqli $conn, &$airports, string $apIcaoList, ?string $email) {
         $query = "SELECT *,";
         $query .= "  (CASE WHEN type LIKE 'AREA%' THEN 1 WHEN type LIKE 'VAC%' THEN 2 WHEN type LIKE 'AD INFO%' THEN 3 ELSE 4 END) AS sortorder1";
         $query .= " FROM ad_charts ";
@@ -166,7 +169,7 @@ class SearchItemAirport {
     }
 
 
-    private static function loadAirportWebcams($conn, &$airports, $apIcaoList) {
+    private static function loadAirportWebcams(mysqli $conn, &$airports, string $apIcaoList) {
         $query  = "SELECT *";
         $query .= " FROM webcams";
         $query .= " WHERE airport_icao IN (" .  $apIcaoList . ")";
@@ -186,7 +189,7 @@ class SearchItemAirport {
     }
 
 
-    private static function loadAirportFeatures($conn, &$airports, $apIcaoList) {
+    private static function loadAirportFeatures(mysqli $conn, &$airports, string $apIcaoList) {
         $query  = "SELECT *";
         $query .= " FROM map_features";
         $query .= " WHERE airport_icao IN (" .  $apIcaoList . ")";
@@ -207,7 +210,7 @@ class SearchItemAirport {
     }
 
 
-    private static function readAirportFromResultList($result) {
+    private static function readAirportFromResultList(mysqli_result $result): array {
         $airports = [];
 
         while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
@@ -218,7 +221,7 @@ class SearchItemAirport {
     }
 
 
-    private static function readAirportFromResult($rs) {
+    private static function readAirportFromResult(array $rs): array {
         $ap = array(
             "id" => $rs["id"],
             "type" => $rs["type"],
@@ -246,7 +249,7 @@ class SearchItemAirport {
 
 
 
-    private static function readAirportRunwayFromResult($rs) {
+    private static function readAirportRunwayFromResult(array $rs): array {
         return array(
             "name" => $rs["name"],
             "surface" => $rs["surface"],
@@ -264,7 +267,7 @@ class SearchItemAirport {
     }
 
 
-    private static function readAirportRadioFromResult($rs) {
+    private static function readAirportRadioFromResult(array $rs): array {
         return array(
             "category" => $rs["category"],
             "frequency" => $rs["frequency"],
@@ -275,7 +278,7 @@ class SearchItemAirport {
     }
 
 
-    private static function readAirportChartFromResult($rs) {
+    private static function readAirportChartFromResult(array $rs): array {
         return array(
             "id" => $rs["id"],
             "source" => $rs["source"],
@@ -289,7 +292,7 @@ class SearchItemAirport {
     }
 
 
-    private static function readAirportWebcamFromResult($rs) {
+    private static function readAirportWebcamFromResult(array $rs): array {
         return array(
             "name" => $rs["name"],
             "url" => $rs["url"]
@@ -297,7 +300,7 @@ class SearchItemAirport {
     }
 
 
-    private static function readAirportFeatureFromResult($rs) {
+    private static function readAirportFeatureFromResult(array $rs): array {
         return array(
             "type" => $rs["type"],
             "name" => $rs["name"]

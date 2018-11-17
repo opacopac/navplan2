@@ -1,9 +1,7 @@
 <?php namespace Navplan\User;
-require_once __DIR__ . "/UserHelper.php";
-require_once __DIR__ . "/../../services/DbService.php"; // TODO: temp
+require_once __DIR__ . "/../NavplanHelper.php";
 
-use DbService;
-use mysqli;
+use Navplan\Shared\DbService;
 
 
 class UserForgotPw
@@ -21,6 +19,7 @@ class UserForgotPw
     );
 
 
+    // TODO
     public static function forgotPassword(array $input)
     {
         $conn = DbService::openDb();

@@ -12,7 +12,7 @@ import {RestMapperSearch, SearchResponse} from '../../model/rest-mapper-search';
 import {User} from '../../../user/model/user';
 import {SearchItemList} from '../../model/search-item-list';
 
-const SEARCH_BASE_URL = environment.restApiBaseUrl + 'php/search/SearchService.php';
+const SEARCH_BASE_URL = environment.restApiBaseUrl + 'php/Navplan/Search/SearchService.php';
 
 
 @Injectable({

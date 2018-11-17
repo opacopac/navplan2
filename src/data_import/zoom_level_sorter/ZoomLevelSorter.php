@@ -1,7 +1,10 @@
 <?php
-include_once __DIR__ . "/../../php/services/GeoService.php";
-include_once __DIR__ . "/../../php/services/LoggingService.php";
+include_once __DIR__ . "/../../php/Navplan/Shared/GeoService.php";
+include_once __DIR__ . "/../../php/Navplan/Shared/LoggingService.php";
 include_once __DIR__ . "/ZoomLevelSortItemType.php";
+
+use Navplan\Shared\GeoService;
+use Navplan\Shared\LoggingService;
 
 
 const MAX_ZOOM = 14;

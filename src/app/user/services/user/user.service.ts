@@ -9,7 +9,7 @@ import {throwError} from 'rxjs/internal/observable/throwError';
 import {of} from 'rxjs/internal/observable/of';
 
 
-const userBaseUrl =  environment.restApiBaseUrl + 'php/user/UserService.php';
+const userBaseUrl =  environment.restApiBaseUrl + 'php/Navplan/User/UserService.php';
 
 
 interface SimpleResponse {

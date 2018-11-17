@@ -1,5 +1,7 @@
-<?php
-require_once __DIR__ . "/../config.php";
+<?php namespace Navplan\Shared;
+require_once __DIR__ . "/../NavplanHelper.php";
+
+use mysqli, mysqli_result;
 
 
 class DbService
@@ -16,7 +18,7 @@ class DbService
     }
 
 
-    public static function execSingleResultQuery($conn, $query, $allowZeroResults = true, $errorMessage = "error executing single result query") {
+    public static function execSingleResultQuery(mysqli $conn, string $query, bool $allowZeroResults = true, string $errorMessage = "error executing single result query"): mysqli_result {
         $result = $conn->query($query);
         if ($result === FALSE  || $result->num_rows > 1 || (!$allowZeroResults && $result->num_rows == 0))
             die($errorMessage . ": " . $conn->error . " query:" . $query);
@@ -25,7 +27,7 @@ class DbService
     }
 
 
-    public static function execMultiResultQuery($conn, $query, $errorMessage = "error executing multi result query") {
+    public static function execMultiResultQuery(mysqli $conn, string $query, string $errorMessage = "error executing multi result query"): mysqli_result {
         $result = $conn->query($query);
         if ($result === FALSE)
             die($errorMessage . ": " . $conn->error . " query:" . $query);
@@ -34,7 +36,7 @@ class DbService
     }
 
 
-    public static function execCUDQuery($conn, $query, $errorMessage = "error executing query") {
+    public static function execCUDQuery(mysqli $conn, string $query, string $errorMessage = "error executing query"): mysqli_result {
         $result = $conn->query($query);
         if ($result === FALSE)
             die($errorMessage . ": " . $conn->error . " query:" . $query);
@@ -43,19 +45,19 @@ class DbService
     }
 
 
-    public static function getDbTimeString($timestamp)
+    public static function getDbTimeString($timestamp): string
     {
         return date("Y-m-d H:i:s", $timestamp);
     }
 
 
-    public static function getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat)
+    public static function getDbExtentPolygon(float $minLon, float $minLat, float $maxLon, float $maxLat): string
     {
         return "ST_GeomFromText('POLYGON((" . $minLon . " " . $minLat . "," . $maxLon . " " . $minLat . "," . $maxLon . " " . $maxLat . "," . $minLon . " " . $maxLat . "," . $minLon . " " . $minLat . "))')";
     }
 
 
-    public static function getDbPolygonString($lonLatList)
+    public static function getDbPolygonString($lonLatList): string
     {
         $lonLatStrings = [];
 
@@ -71,7 +73,7 @@ class DbService
     }
 
 
-    public static function getDbMultiPolygonString($polygonList)
+    public static function getDbMultiPolygonString(array $polygonList): string
     {
         $polyStrings = [];
         foreach ($polygonList as $polygon) {
@@ -92,7 +94,7 @@ class DbService
 
 
     // retrieve lon lat from the format: POINT(-76.867 38.8108)
-    public static function parseLonLatFromDbPoint($dbPointString)
+    public static function parseLonLatFromDbPoint(string $dbPointString): array
     {
         $decimalRegExpPart = '([\-\+]?\d+\.?\d*)';
         $dbPointRegexp = '/POINT\(\s*' . $decimalRegExpPart . '\s+' . $decimalRegExpPart . '\s*\)/im';
@@ -108,7 +110,7 @@ class DbService
     }
 
 
-    public static function getDbPointStringFromLonLat($lonLat)
+    public static function getDbPointStringFromLonLat(array $lonLat): string
     {
         return "ST_GeomFromText('POINT(" . $lonLat[0] . " " . $lonLat[1] . ")')";
     }

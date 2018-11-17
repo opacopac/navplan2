@@ -1,5 +1,9 @@
-<?php
-require_once __DIR__ . "/../terrainHelper.php";
+<?php namespace Navplan\Search;
+include_once __DIR__ . "/../NavplanHelper.php";
+require_once __DIR__ . "/../../terrainHelper.php"; // TODO
+
+use Navplan\Shared\DbService;
+use TerrainHelper;
 
 
 class SearchItemGeoname

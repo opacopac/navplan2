@@ -1,8 +1,11 @@
 <?php
 include_once __DIR__ . "/../logger.php";
 include_once __DIR__ . "/../helper.php";
-include_once __DIR__ . "/../services/GeoService.php";
-include_once __DIR__ . "/../services/DbService.php";
+include_once __DIR__ . "/../Navplan/Shared/GeoService.php";
+include_once __DIR__ . "/../Navplan/Shared/DbService.php";
+
+use Navplan\Shared\GeoService;
+use Navplan\Shared\DbService;
 
 
 // TODO

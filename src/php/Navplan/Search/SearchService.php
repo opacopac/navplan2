@@ -1,15 +1,9 @@
-<?php
-require_once __DIR__ . "/../User/User.php";
-require_once __DIR__ . "/../helper.php";
-require_once __DIR__ . "/../terrainHelper.php";
-require_once __DIR__ . "/SearchItemAirport.php";
-require_once __DIR__ . "/SearchItemNavaid.php";
-require_once __DIR__ . "/SearchItemAirspace.php";
-require_once __DIR__ . "/SearchItemReportingPoint.php";
-require_once __DIR__ . "/SearchItemUserPoint.php";
-require_once __DIR__ . "/SearchItemWebcam.php";
-require_once __DIR__ . "/SearchItemGeoname.php";
-require_once __DIR__ . "/SearchItemNotam.php";
+<?php namespace Navplan\Search;
+require_once __DIR__ . "/../NavplanHelper.php";
+require_once __DIR__ . "/../../terrainHelper.php"; // TODO ...
+
+use Navplan\Shared\StringNumberService;
+use Navplan\User\UserHelper;
 
 
 class SearchItems {
@@ -38,34 +32,34 @@ switch($_GET["action"]) {
         $searchResults = searchByText(
             $conn,
             checkSearchItems($_GET["searchItems"]),
-            checkEscapeString($conn, $_GET["searchText"], 1, 100),
-            User::getAuthenticatedEmailOrNull($_GET["token"])
+            StringNumberService::checkEscapeString($conn, $_GET["searchText"], 1, 100),
+            UserHelper::getAuthenticatedEmailOrNull($_GET["token"])
         );
         break;
     case "searchByPosition":
         $searchResults = searchByPosition(
             $conn,
             checkSearchItems($_GET["searchItems"]),
-            checkNumeric($_GET["lon"]),
-            checkNumeric($_GET["lat"]),
-            checkNumeric($_GET["rad"]),
-            $_GET["minnotamtime"] ? checkNumeric($_GET["minnotamtime"]) : 0,
-            $_GET["maxnotamtime"] ? checkNumeric($_GET["maxnotamtime"]) : 0,
-            User::getAuthenticatedEmailOrNull($_GET["token"])
+            StringNumberService::checkNumeric($_GET["lon"]),
+            StringNumberService::checkNumeric($_GET["lat"]),
+            StringNumberService::checkNumeric($_GET["rad"]),
+            $_GET["minnotamtime"] ? StringNumberService::checkNumeric($_GET["minnotamtime"]) : 0,
+            $_GET["maxnotamtime"] ? StringNumberService::checkNumeric($_GET["maxnotamtime"]) : 0,
+            UserHelper::getAuthenticatedEmailOrNull($_GET["token"])
         );
         break;
     case "searchByExtent":
         $searchResults = searchByExtent(
             $conn,
             checkSearchItems($_GET["searchItems"]),
-            checkNumeric($_GET["minlon"]),
-            checkNumeric($_GET["minlat"]),
-            checkNumeric($_GET["maxlon"]),
-            checkNumeric($_GET["maxlat"]),
-            checkNumeric($_GET["zoom"]),
-            $_GET["minnotamtime"] ? checkNumeric($_GET["minnotamtime"]) : 0,
-            $_GET["maxnotamtime"] ? checkNumeric($_GET["maxnotamtime"]) : 0,
-            User::getAuthenticatedEmailOrNull($_GET["token"])
+            StringNumberService::checkNumeric($_GET["minlon"]),
+            StringNumberService::checkNumeric($_GET["minlat"]),
+            StringNumberService::checkNumeric($_GET["maxlon"]),
+            StringNumberService::checkNumeric($_GET["maxlat"]),
+            StringNumberService::checkNumeric($_GET["zoom"]),
+            $_GET["minnotamtime"] ? StringNumberService::checkNumeric($_GET["minnotamtime"]) : 0,
+            $_GET["maxnotamtime"] ? StringNumberService::checkNumeric($_GET["maxnotamtime"]) : 0,
+            UserHelper::getAuthenticatedEmailOrNull($_GET["token"])
         );
         break;
     case "searchByIcao":
@@ -73,8 +67,8 @@ switch($_GET["action"]) {
             $conn,
             checkSearchItems($_GET["searchItems"]),
             checkIcaoList($_GET["icao"]),
-            $_GET["minnotamtime"] ? checkNumeric($_GET["minnotamtime"]) : 0,
-            $_GET["maxnotamtime"] ? checkNumeric($_GET["maxnotamtime"]) : 0
+            $_GET["minnotamtime"] ? StringNumberService::checkNumeric($_GET["minnotamtime"]) : 0,
+            $_GET["maxnotamtime"] ? StringNumberService::checkNumeric($_GET["maxnotamtime"]) : 0
         );
         break;
     default:
@@ -83,7 +77,7 @@ switch($_GET["action"]) {
 
 // create jsonp response
 header("Content-Type: application/json; charset=UTF-8");
-echo checkAlphaNumeric($_GET["callback"], 1, 50) . "(";
+echo StringNumberService::checkAlphaNumeric($_GET["callback"], 1, 50) . "(";
 echo json_encode($searchResults, JSON_NUMERIC_CHECK);
 echo ")";
 
@@ -96,7 +90,7 @@ function checkSearchItems($searchItemString) {
 
     $searchItems = explode(',', $searchItemString);
     foreach ($searchItems as $item) {
-        checkAlphaNumeric($item, 1, 20);
+        StringNumberService::checkAlphaNumeric($item, 1, 20);
     }
 
     return $searchItems;
@@ -109,7 +103,7 @@ function checkIcaoList($icaoString) {
 
     $icaoList = explode(",", $icaoString);
     foreach ($icaoList as $icao) {
-        checkAlphaNumeric($icao, 4, 4);
+        StringNumberService::checkAlphaNumeric($icao, 4, 4);
     }
 
     return $icaoList;
@@ -239,7 +233,7 @@ function searchByExtent($conn, $searchItems, $minLon, $minLat, $maxLon, $maxLat,
 
         switch ($searchItem) {
             case SearchItems::AIRPORTS:
-                $airports = SearchItemAirport::searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat, $email, $zoom);
+                $airports = SearchItemAirport::searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat, $zoom, $email);
                 $resultNum += count($airports);
                 break;
             case SearchItems::NAVAIDS:

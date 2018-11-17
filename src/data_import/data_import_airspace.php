@@ -35,19 +35,19 @@ $corrLines = [];
 while ($rs = $result->fetch_array(MYSQLI_ASSOC))
 {
     $corrLines[] = array(
-        id => $rs["id"],
-        type => $rs["type"],
-        aip_country => $rs["aip_country"],
-        aip_cat => $rs["aip_cat"],
-        aip_name => $rs["aip_name"],
-        corr_cat => $rs["corr_cat"],
-        corr_alt_top_reference => $rs["corr_alt_top_reference"],
-        corr_alt_top_height => $rs["corr_alt_top_height"],
-        corr_alt_top_unit => $rs["corr_alt_top_unit"],
-        corr_alt_bottom_reference => $rs["corr_alt_bottom_reference"],
-        corr_alt_bottom_height => $rs["corr_alt_bottom_height"],
-        corr_alt_bottom_unit => $rs["corr_alt_bottom_unit"],
-        corr_polygon => $rs["corr_polygon"]
+        "id" => $rs["id"],
+        "type" => $rs["type"],
+        "aip_country" => $rs["aip_country"],
+        "aip_cat" => $rs["aip_cat"],
+        "aip_name" => $rs["aip_name"],
+        "corr_cat" => $rs["corr_cat"],
+        "corr_alt_top_reference" => $rs["corr_alt_top_reference"],
+        "corr_alt_top_height" => $rs["corr_alt_top_height"],
+        "corr_alt_top_unit" => $rs["corr_alt_top_unit"],
+        "corr_alt_bottom_reference" => $rs["corr_alt_bottom_reference"],
+        "corr_alt_bottom_height" => $rs["corr_alt_bottom_height"],
+        "corr_alt_bottom_unit" => $rs["corr_alt_bottom_unit"],
+        "corr_polygon" => $rs["corr_polygon"]
     );
 }
 

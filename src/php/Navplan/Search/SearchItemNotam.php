@@ -1,5 +1,7 @@
-<?php
-include_once __DIR__ . "/../services/DbService.php";
+<?php namespace Navplan\Search;
+include_once __DIR__ . "/../NavplanHelper.php";
+
+use Navplan\Shared\DbService;
 
 
 class SearchItemNotam {

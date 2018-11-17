@@ -11,7 +11,7 @@ import {User} from '../../../user/model/user';
 import {Flightroute} from '../../model/flightroute';
 
 
-const flightrouteBaseUrl = environment.restApiBaseUrl + 'php/navplan.php';
+const flightrouteBaseUrl = environment.restApiBaseUrl + 'php/Navplan/Flightroute/FlightrouteService.php';
 
 
 @Injectable()
@@ -24,7 +24,7 @@ export class FlightrouteService {
     // region flightroute list
 
     public readFlightrouteList(user: User): Observable<FlightrouteListEntry[]> {
-        const url: string = flightrouteBaseUrl + '?email=' + user.email + '&token=' + user.token;
+        const url: string = flightrouteBaseUrl + '?token=' + user.token;
         return this.http
             .get<FlightrouteListResponse>(url, {observe: 'response'})
             .pipe(
@@ -42,7 +42,7 @@ export class FlightrouteService {
     // region flightroute CRUD
 
     public readFlightroute(flightrouteId: number, user: User): Observable<Flightroute> {
-        const url = flightrouteBaseUrl + '?id=' + flightrouteId + '&email=' + user.email + '&token=' + user.token;
+        const url = flightrouteBaseUrl + '?id=' + flightrouteId + '&token=' + user.token;
         // let message: string;
 
         return this.http

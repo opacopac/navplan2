@@ -1,6 +1,8 @@
 <?php
 include_once __DIR__ . "/ZoomLevelSortItemType.php";
-include_once __DIR__ . "/../../php/services/DbService.php";
+include_once __DIR__ . "/../../php/Navplan/Shared/DbService.php";
+
+use Navplan\Shared\DbService;
 
 
 class ZoomLevelSortItemTypeAirport implements ZoomLevelSortItemType {

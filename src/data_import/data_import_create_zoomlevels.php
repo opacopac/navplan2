@@ -1,11 +1,15 @@
 <?php
 ini_set('max_execution_time', 600);
 
-include_once __DIR__ . "/../php/services/DbService.php";
-include_once __DIR__ . "/../php/services/LoggingService.php";
+include_once __DIR__ . "/../php/Navplan/Shared/DbService.php";
+include_once __DIR__ . "/../php/Navplan/Shared/LoggingService.php";
 include_once __DIR__ . "/zoom_level_sorter/ZoomLevelSorter.php";
 include_once __DIR__ . "/zoom_level_sorter/ZoomLevelSortItemTypeAirport.php";
 include_once __DIR__ . "/zoom_level_sorter/ZoomLevelSortItemTypeNavaid.php";
+
+use Navplan\Shared\DbService;
+use Navplan\Shared\LoggingService;
+
 
 $conn = DbService::openDb();
 

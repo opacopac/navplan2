@@ -11,7 +11,7 @@ import {throwError} from 'rxjs';
 
 
 const NOTAM_BASE_URL = environment.restApiBaseUrl + 'php/notam.php'; // TODO: move to searchservice
-const NOTAM_BASE_URL2 = environment.restApiBaseUrl + 'php/search/SearchService.php';
+const NOTAM_BASE_URL2 = environment.restApiBaseUrl + 'php/Navplan/Search/SearchService.php';
 
 
 @Injectable()

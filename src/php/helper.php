@@ -1,5 +1,8 @@
 <?php
-require_once __DIR__ . "/services/DbService.php";
+require_once __DIR__ . "/Navplan/Shared/DbService.php";
+
+use Navplan\Shared\DbService;
+
 
 // TODO: show errors on web page
 //error_reporting(E_ALL);

@@ -2,11 +2,17 @@
 require_once __DIR__ . "/config.php";
 require_once __DIR__ . "/helper.php";
 require_once __DIR__ . "/terrainHelper.php";
-require_once __DIR__ . "/search/SearchItemAirport.php";
-require_once __DIR__ . "/search/SearchItemNavaid.php";
-require_once __DIR__ . "/search/SearchItemReportingPoint.php";
-require_once __DIR__ . "/search/SearchItemUserPoint.php";
-require_once __DIR__ . "/search/SearchItemGeoname.php";
+require_once __DIR__ . "/Navplan/Search/SearchItemAirport.php";
+require_once __DIR__ . "/Navplan/Search/SearchItemNavaid.php";
+require_once __DIR__ . "/Navplan/Search/SearchItemReportingPoint.php";
+require_once __DIR__ . "/Navplan/Search/SearchItemUserPoint.php";
+require_once __DIR__ . "/Navplan/Search/SearchItemGeoname.php";
+
+use Navplan\Search\SearchItemAirport;
+use Navplan\Search\SearchItemNavaid;
+use Navplan\Search\SearchItemReportingPoint;
+use Navplan\Search\SearchItemUserPoint;
+use Navplan\Search\SearchItemGeoname;
 
 
 const MAX_TEXT_SEARCH_RESULTS = 25;

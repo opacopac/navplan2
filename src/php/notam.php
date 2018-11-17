@@ -1,7 +1,10 @@
 <?php
 include_once __DIR__ . "/config.php";
 include_once __DIR__ . "/helper.php";
-include_once __DIR__ . "/services/GeoService.php";
+include_once __DIR__ . "/Navplan/Shared/GeoService.php";
+
+use Navplan\Shared\GeoService;
+
 
 const NOTAM_MAX_BOTTOM_FL = 195;
 const MIN_PIXEL_NOTAM_DIAMETER = 30;

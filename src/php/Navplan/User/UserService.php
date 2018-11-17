@@ -1,9 +1,9 @@
 <?php namespace Navplan\User;
-include_once __DIR__ . "/../NavplanHelper.php";
+require_once __DIR__ . "/../NavplanHelper.php";
 
 header("Access-Control-Allow-Origin: *"); // TODO: remove for PROD
 
-$input = json_decode(file_get_contents('php://input'), true);
+$input = json_decode(file_get_contents('php://input'), TRUE);
 
 switch($input["action"])
 {

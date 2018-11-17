@@ -1,8 +1,9 @@
-<?php
+<?php namespace Navplan\Shared;
+require_once __DIR__ . "/../NavplanHelper.php";
 
 
 class GeoService {
-    public static function simplifyPolygon($polygonPoints, $epsilon) {
+    public static function simplifyPolygon(array $polygonPoints, float $epsilon): array {
         $numPoints = count($polygonPoints);
         if ($numPoints <= 3) {
             return $polygonPoints;
@@ -27,7 +28,7 @@ class GeoService {
     }
 
 
-    public static function simplifyMultipolygon($polygonList, $epsilon) {
+    public static function simplifyMultipolygon(array $polygonList, float $epsilon): array {
         $simplePolygonList = [];
         foreach ($polygonList as $polygon) {
             $simplePolygonList[] = self::simplifyPolygon($polygon, $epsilon);
@@ -36,7 +37,7 @@ class GeoService {
     }
 
 
-    public static function simplifyLine($linePoints, $epsilon) {
+    public static function simplifyLine(array $linePoints, float $epsilon): array {
         $numPoints = count($linePoints);
         if ($numPoints <= 2) {
             return $linePoints;
@@ -62,12 +63,12 @@ class GeoService {
     }
 
 
-    public static function calcDistance($pointA, $pointB) {
+    public static function calcDistance(array $pointA, array $pointB): float {
         return sqrt(pow($pointB[0] - $pointA[0], 2) + pow($pointB[1] - $pointA[1], 2));
     }
 
 
-    public static function calcPerpendicularDistance($linePointA, $linePointB, $distPointC) {
+    public static function calcPerpendicularDistance(array $linePointA, array $linePointB, array $distPointC): float {
         $x1 = $linePointA[0];
         $y1 = $linePointA[1];
         $x2 = $linePointB[0];
@@ -85,12 +86,12 @@ class GeoService {
     }
 
 
-    public static function calcDegPerPixelByZoom($zoom, $tileWidthPixel = 256) {
+    public static function calcDegPerPixelByZoom(int $zoom, int $tileWidthPixel = 256): float {
         return 360.0 / (pow(2, $zoom) * $tileWidthPixel);
     }
 
 
-    public static function calcGeoHash($longitude, $latitude, $maxZoomLevel) {
+    public static function calcGeoHash(float $longitude, float $latitude, int $maxZoomLevel): string {
         $minLon = -180.0;
         $minLat = -90.0;
         $maxLon = 180.0;
@@ -126,7 +127,7 @@ class GeoService {
     }
 
 
-    public static function parsePolygonFromString($polygonString, $roundToDigits = 6, $pointDelimiter = ",", $xyDelimiter = " ") {
+    public static function parsePolygonFromString(string $polygonString, int $roundToDigits = 6, string $pointDelimiter = ",", string $xyDelimiter = " "): array {
         $polygon = [];
         $coord_pairs = explode($pointDelimiter, $polygonString);
 
@@ -141,7 +142,7 @@ class GeoService {
     }
 
 
-    public static function joinPolygonToString($polygon, $pointDelimiter = ",", $xyDelimiter = " ") {
+    public static function joinPolygonToString(array $polygon, string $pointDelimiter = ",", string $xyDelimiter = " "): string {
         $coordPairStrings = [];
         foreach ($polygon as $coordPair) {
             $coordPairStrings[] = join($xyDelimiter, $coordPair);
@@ -151,20 +152,20 @@ class GeoService {
     }
 
 
-    public static function reduceCoordinateAccuracy(&$coordPair, $roundToDigits = 6) {
+    public static function reduceCoordinateAccuracy(&$coordPair, int $roundToDigits = 6) {
         $coordPair[0] = round($coordPair[0], $roundToDigits);
         $coordPair[1] = round($coordPair[1], $roundToDigits);
     }
 
 
-    public static function reducePolygonAccuracy(&$polygon, $roundToDigits = 6) {
+    public static function reducePolygonAccuracy(&$polygon, int $roundToDigits = 6) {
         foreach ($polygon as &$coordPair) {
             self::reduceCoordinateAccuracy($coordPair, $roundToDigits);
         }
     }
 
 
-    public static function reduceMultiPolygonAccuracy(&$multiPolygon, $roundToDigits = 6) {
+    public static function reduceMultiPolygonAccuracy(&$multiPolygon, int $roundToDigits = 6) {
         foreach ($multiPolygon as &$polygon) {
             foreach ($polygon as &$coordPair) {
                 self::reduceCoordinateAccuracy($coordPair, $roundToDigits);

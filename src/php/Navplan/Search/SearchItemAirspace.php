@@ -1,8 +1,8 @@
-<?php
-include_once __DIR__ . "/../services/DbService.php";
-include_once __DIR__ . "/../services/LoggingService.php";
-include_once __DIR__ . "/../services/GeoService.php";
+<?php namespace Navplan\Search;
+include_once __DIR__ . "/../NavplanHelper.php";
 
+use Navplan\Shared\DbService;
+use Navplan\Shared\GeoService;
 
 
 class SearchItemAirspace {

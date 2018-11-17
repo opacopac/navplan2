@@ -14,7 +14,7 @@ import {DataItem} from '../../shared/model/data-item';
 import {getMapFeatures} from '../map-features.selectors';
 
 
-const MAPFEATURES_BASE_URL = environment.restApiBaseUrl + 'php/search/SearchService.php';
+const MAPFEATURES_BASE_URL = environment.restApiBaseUrl + 'php/Navplan/Search/SearchService.php';
 
 
 @Injectable()

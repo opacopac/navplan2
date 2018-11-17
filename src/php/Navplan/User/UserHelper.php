@@ -1,8 +1,8 @@
 <?php namespace Navplan\User;
 require_once __DIR__ . "/../NavplanHelper.php";
 
-use ReallySimpleJWT\Token;
 use mysqli;
+use ReallySimpleJWT\Token;
 
 
 class UserHelper
@@ -27,6 +27,15 @@ class UserHelper
             return self::getEmailFromToken($token);
         else
             return null;
+    }
+
+
+    public static function getAuthenticatedEmailOrDie($token): string {
+        $email = self::getAuthenticatedEmailOrNull($token);
+        if (!$email || $email === '')
+            die('ERROR: invalid token');
+        else
+            return $email;
     }
 
 
@@ -70,6 +79,24 @@ class UserHelper
 
     public static function escapeToken(mysqli $conn, array $input): string {
         return mysqli_real_escape_string($conn, trim($input["token"]));
+    }
+
+
+    public static function checkEmailFormat($email)
+    {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email > 100))
+            return false;
+
+        return true;
+    }
+
+
+    public static function checkPwFormat(string $password): bool
+    {
+        if (strlen($password) < 6 || strlen($password) > 50)
+            return false;
+
+        return true;
     }
 
 
