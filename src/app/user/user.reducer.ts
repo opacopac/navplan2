@@ -10,6 +10,7 @@ export const initialState: UserState = {
 export function userReducer(state: UserState = initialState, action: UserActions): UserState {
     switch (action.type) {
         case UserActionTypes.USER_LOGIN_SUCCESS:
+        case UserActionTypes.USER_AUTOLOGIN_SUCCESS:
         case UserActionTypes.USER_REGISTER_SUCCESS:
             return { ...state, currentUser: action.user };
         case UserActionTypes.USER_LOGOUT:

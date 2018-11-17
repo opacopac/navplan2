@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/../user/User.php";
+require_once __DIR__ . "/../User/User.php";
 require_once __DIR__ . "/../helper.php";
 require_once __DIR__ . "/../terrainHelper.php";
 require_once __DIR__ . "/SearchItemAirport.php";

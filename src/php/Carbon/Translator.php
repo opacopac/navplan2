@@ -48,7 +48,7 @@ class Translator extends Translation\Translator
 
     public function __construct($locale, Translation\Formatter\MessageFormatterInterface $formatter = null, $cacheDir = null, $debug = false)
     {
-        $this->directories = [__DIR__.'/Lang'];
+        $this->directories = [__DIR__ . '/Lang'];
         $this->addLoader('array', new Translation\Loader\ArrayLoader());
         parent::__construct($locale, $formatter, $cacheDir, $debug);
     }

@@ -9,7 +9,7 @@ import {throwError} from 'rxjs/internal/observable/throwError';
 import {of} from 'rxjs/internal/observable/of';
 
 
-const userBaseUrl =  environment.restApiBaseUrl + 'php/user/api.php';
+const userBaseUrl =  environment.restApiBaseUrl + 'php/user/UserService.php';
 
 
 interface SimpleResponse {
@@ -45,11 +45,11 @@ export class UserService {
             .post<TokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
                 switchMap((response) => {
                     switch (response.body.resultcode) {
-                        case 0:
-                            return of(new User(email, response.body.token));
-                        case -1:
+                        case 10:
+                            return of(new User(response.body.email, response.body.token));
+                        case 91:
                             return throwError('Wrong password!');
-                        case -2:
+                        case 92:
                             return throwError('Email not found!');
                         default:
                             const message = 'ERROR performing login';
@@ -62,7 +62,6 @@ export class UserService {
 
 
     public autoLogin(token: string): Observable<User> {
-
         const requestBody = {
             action: 'autologin',
             token: token
@@ -71,9 +70,9 @@ export class UserService {
             .post<TokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
                 switchMap((response) => {
                     switch (response.body.resultcode) {
-                        case 0:
+                        case 10:
                             return of(new User(response.body.email, response.body.token));
-                        case -3:
+                        case 93:
                             return throwError('invalid token!');
                         default:
                             const message = 'ERROR performing autologin';
@@ -85,25 +84,54 @@ export class UserService {
     }
 
 
-    public register(
-        email: string,
-        password: string): Observable<User> {
-
+    public verifyEmail(email: string): Observable<string> {
         const requestBody = {
-            action: 'register',
-            email: email,
-            password: password
+            action: 'verifyemail',
+            email: email
         };
         return this.http
             .post<TokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
                 switchMap(response => {
                     switch (response.body.resultcode) {
-                        case 0:
-                            return of(new User(email, response.body.token));
-                        case -1:
-                            return throwError('Email already exists!');
+                        case 11:
+                            return of(response.body.email);
+                        case 94:
+                            return throwError('invalid email format!');
+                        case 96:
+                            return throwError('email already exists!');
                         default:
-                            const message = 'ERROR registering user';
+                            const message = 'ERROR verifying email';
+                            LoggingService.logResponseError(message, response);
+                            return throwError(message);
+                    }
+                })
+            );
+    }
+
+
+    public activate(
+        token: string,
+        rememberMe: boolean,
+        password: string): Observable<User> {
+
+        const requestBody = {
+            action: 'activate',
+            password: password,
+            rememberme: rememberMe,
+            token: token,
+        };
+        return this.http
+            .post<TokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+                switchMap(response => {
+                    switch (response.body.resultcode) {
+                        case 12:
+                            return of(new User(response.body.email, response.body.token));
+                        case 93:
+                            return throwError('invalid token!');
+                        case 95:
+                            return throwError('invalid password format!');
+                        default:
+                            const message = 'ERROR activating user';
                             LoggingService.logResponseError(message, response);
                             return throwError(message);
                     }
@@ -123,7 +151,7 @@ export class UserService {
                     switch (response.body.resultcode) {
                         case 0:
                             return of(undefined);
-                        case -2:
+                        case 95:
                             return throwError('Email not found!');
                         default:
                             const message = 'ERROR sending new pw';
@@ -152,9 +180,9 @@ export class UserService {
                 switch (response.body.resultcode) {
                     case 0:
                         return of(undefined);
-                    case -1:
+                    case 91:
                         return throwError('Wrong password!');
-                    case -2:
+                    case 92:
                         return throwError('Email not found!');
                     default:
                         const message = 'ERROR updating pw';
