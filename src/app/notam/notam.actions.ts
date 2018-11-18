@@ -22,7 +22,7 @@ export class LoadNotamSuccessAction implements Action {
 export class LoadNotamErrorAction implements Action {
     readonly type = NotamActionTypes.NOTAM_LOAD_ERROR;
 
-    constructor(public error: string) {}
+    constructor(public error: Error) {}
 }
 
 

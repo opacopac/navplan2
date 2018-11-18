@@ -20,7 +20,7 @@
     <div fxLayout="row" fxFlexAlign="end none" fxShow="true" fxHide.lt-md="true">
         <button mat-button *ngIf="this.currentUser; else noCurrentUser" [matMenuTriggerFor]="userMenu" title="User Profile"><i class="fas fa-user"></i>&nbsp;&nbsp;{{ this.currentUser.email }}</button>
         <ng-template #noCurrentUser>
-            <button mat-button routerLink="./login" title="Login or Register"><span><i class="fas fa-user"></i>&nbsp;&nbsp;Log In or Register</span></button>
+            <button mat-button routerLink="./login" title="Login or Register"><span><i class="fas fa-user"></i>&nbsp;&nbsp;Log In</span></button>
         </ng-template>
         <button mat-icon-button routerLink="./settings" title="Edit Settings"><i class="fas fa-cog"></i></button>
         <button mat-icon-button routerLink="./about" title="About"><i class="fas fa-info-circle"></i></button>

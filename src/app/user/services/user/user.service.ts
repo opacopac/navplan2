@@ -8,6 +8,7 @@ import {switchMap} from 'rxjs/operators';
 import {throwError} from 'rxjs/internal/observable/throwError';
 import {of} from 'rxjs/internal/observable/of';
 import {JwtService} from '../../../shared/services/jwt/jwt.service';
+import {TextError} from '../../../shared/model/text-error';
 
 
 const userBaseUrl =  environment.restApiBaseUrl + 'php/Navplan/User/UserService.php';
@@ -53,6 +54,29 @@ export class UserService {
     }
 
 
+    public autoLogin(token: string): Observable<User> {
+        const requestBody = {
+            action: 'autologin',
+            token: token
+        };
+        return this.http
+            .post<TokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+                switchMap((response) => {
+                    switch (response.body.resultcode) {
+                        case 0:
+                            return of(new User(response.body.email, response.body.token));
+                        case -1:
+                            return throwError(new TextError('Invalid token!'));
+                        default:
+                            const message = 'Unknown error while performing auto-login';
+                            LoggingService.logResponseError(message, response);
+                            return throwError(new TextError(message));
+                    }
+                })
+            );
+    }
+
+
     public login(
         email: string,
         password: string,
@@ -68,39 +92,16 @@ export class UserService {
             .post<TokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
                 switchMap((response) => {
                     switch (response.body.resultcode) {
-                        case 10:
+                        case 0:
                             return of(new User(response.body.email, response.body.token));
-                        case 91:
-                            return throwError('Wrong password!');
-                        case 92:
-                            return throwError('Email not found!');
+                        case -1:
+                            return throwError(new TextError('Password incorrect!'));
+                        case -2:
+                            return throwError(new TextError('Email not found!'));
                         default:
-                            const message = 'ERROR performing login';
+                            const message = 'Unknown error during login';
                             LoggingService.logResponseError(message, response);
-                            return throwError(message);
-                    }
-                })
-            );
-    }
-
-
-    public autoLogin(token: string): Observable<User> {
-        const requestBody = {
-            action: 'autologin',
-            token: token
-        };
-        return this.http
-            .post<TokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
-                switchMap((response) => {
-                    switch (response.body.resultcode) {
-                        case 10:
-                            return of(new User(response.body.email, response.body.token));
-                        case 93:
-                            return throwError('invalid token!');
-                        default:
-                            const message = 'ERROR performing autologin';
-                            LoggingService.logResponseError(message, response);
-                            return throwError(message);
+                            return throwError(new TextError(message));
                     }
                 })
             );
@@ -116,16 +117,16 @@ export class UserService {
             .post<TokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
                 switchMap(response => {
                     switch (response.body.resultcode) {
-                        case 11:
+                        case 0:
                             return of(response.body.email);
-                        case 94:
-                            return throwError('invalid email format!');
-                        case 96:
-                            return throwError('email already exists!');
+                        case -1:
+                            return throwError(new TextError('Invalid email format!'));
+                        case -2:
+                            return throwError(new TextError('An account with this email already exists!'));
                         default:
-                            const message = 'ERROR verifying email';
+                            const message = 'Unexpected error while verifying email';
                             LoggingService.logResponseError(message, response);
-                            return throwError(message);
+                            return throwError(new TextError(message));
                     }
                 })
             );
@@ -146,18 +147,21 @@ export class UserService {
         return this.http
             .post<TokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
                 switchMap(response => {
-                    // TODO
                     switch (response.body.resultcode) {
-                        case 12:
+                        case 0:
                             return of(new User(response.body.email, response.body.token));
-                        case 93:
-                            return throwError('invalid token!');
-                        case 95:
-                            return throwError('invalid password format!');
+                        case -1:
+                            return throwError(new TextError('Invalid password format!'));
+                        case -2:
+                            return throwError(new TextError('Invalid email format!'));
+                        case -3:
+                            return throwError(new TextError('An account with this email already exists!'));
+                        case -4:
+                            return throwError(new TextError('Invalid token!'));
                         default:
-                            const message = 'ERROR activating user';
+                            const message = 'Unknown error while activating user';
                             LoggingService.logResponseError(message, response);
-                            return throwError(message);
+                            return throwError(new TextError(message));
                     }
                 })
             );
@@ -176,11 +180,11 @@ export class UserService {
                         case 0:
                             return of(undefined);
                         case 95:
-                            return throwError('Email not found!');
+                            return throwError(new TextError('Email not found!'));
                         default:
-                            const message = 'ERROR sending new pw';
+                            const message = 'Unknown error while sending new password';
                             LoggingService.logResponseError(message, response);
-                            return throwError(message);
+                            return throwError(new TextError(message));
                     }
                 })
             );
@@ -205,13 +209,13 @@ export class UserService {
                     case 0:
                         return of(undefined);
                     case 91:
-                        return throwError('Wrong password!');
+                        return throwError(new TextError('Password incorrect!'));
                     case 92:
-                        return throwError('Email not found!');
+                        return throwError(new TextError('Email not found!'));
                     default:
-                        const message = 'ERROR updating pw';
+                        const message = 'Unknown error while updating password';
                         LoggingService.logResponseError(message, response);
-                        return throwError(message);
+                        return throwError(new TextError(message));
                 }
             })
         );

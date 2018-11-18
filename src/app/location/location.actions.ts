@@ -42,7 +42,7 @@ export class ReadLocationSuccessAction implements Action {
 export class ReadLocationErrorAction implements Action {
     readonly type = LocationActionTypes.LOCATION_READ_TIMER_ERROR;
 
-    constructor(public error: string) {}
+    constructor(public error: Error) {}
 }
 
 

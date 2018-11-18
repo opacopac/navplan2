@@ -2,24 +2,12 @@
 require_once __DIR__ . "/../NavplanHelper.php";
 
 use mysqli;
+use Navplan\Message;
 use Navplan\Shared\DbService;
 
 
 class UserRegister
 {
-    const RESPONSE_MESSAGE_TEXTS = array(
-        10 => 'login successful',
-        11 => 'activation email sent',
-        12 => 'registration successful',
-        91 => 'error: invalid password',
-        92 => 'error: invalid email',
-        93 => 'error: invalid token',
-        94 => 'error: invalid email format',
-        95 => 'error: invalid password format',
-        96 => 'error: email already exists'
-    );
-
-
     public static function verifyEmail(array $input)
     {
         $conn = DbService::openDb();
@@ -28,7 +16,7 @@ class UserRegister
         // check email format
         if (!UserHelper::checkEmailFormat($email))
         {
-            UserHelper::sendResponse(94);
+            UserHelper::sendErrorResponse(new Message(-1, 'error: invalid email format'));
             $conn->close();
             exit;
         }
@@ -36,7 +24,7 @@ class UserRegister
         // check duplicate email
         if (self::isDuplicateEmail($conn, $email))
         {
-            UserHelper::sendResponse(96);
+            UserHelper::sendErrorResponse(new Message(-2, 'error: email already exists'));
             $conn->close();
             exit;
         }
@@ -45,7 +33,7 @@ class UserRegister
         $token = UserHelper::createToken($email, false);
         self::sendActivationEmail($email, $token);
 
-        UserHelper::sendResponse(11, $email);
+        UserHelper::sendSuccessResponse($email, $token);
         $conn->close();
     }
 
@@ -61,14 +49,30 @@ class UserRegister
         // check pw format
         if (!UserHelper::checkPwFormat($password))
         {
-            UserHelper::sendResponse(95);
+            UserHelper::sendErrorResponse(new Message(-1, 'error: invalid password format'));
+            $conn->close();
+            exit;
+        }
+
+        // check email format
+        if (!UserHelper::checkEmailFormat($email))
+        {
+            UserHelper::sendErrorResponse(new Message(-2, 'error: invalid email format'));
+            $conn->close();
+            exit;
+        }
+
+        // check duplicate email
+        if (self::isDuplicateEmail($conn, $email))
+        {
+            UserHelper::sendErrorResponse(new Message(-3, 'error: email already exists'));
             $conn->close();
             exit;
         }
 
         // verify token
         if (!$email) {
-            UserHelper::sendResponse(93);
+            UserHelper::sendErrorResponse(new Message(-4, 'error: invalid token'));
             $conn->close();
             exit;
         }
@@ -77,7 +81,7 @@ class UserRegister
         self::createUser($conn, $email, $password);
         $token = UserHelper::createToken($email, $rememberMe);
 
-        UserHelper::sendResponse(12, $email, $token);
+        UserHelper::sendSuccessResponse($email, $token);
         $conn->close();
     }
 
@@ -93,18 +97,6 @@ class UserRegister
     }
 
 
-    private static function createUser(mysqli $conn, string $email, string $password): bool {
-        $pw_hash = crypt($password);
-        $query = "INSERT INTO users (token, email, pw_hash) VALUES ('DUMMY','" . $email . "','" . $pw_hash . "')";
-        $result = $conn->query($query);
-
-        if ($result === FALSE)
-            die("error creating user: " . $conn->error . " query:" . $query);
-
-        return true; // TODO
-    }
-
-
     private static function sendActivationEmail(string $email, string $token): bool {
         $subject = "Welcome to Navplan.ch";
         $message = '
@@ -113,12 +105,22 @@ class UserRegister
               <title>Welcome to Navplan.ch</title>
             </head>
             <body>
-              <p>Welcome ' . $email . '!</p>
-              <p>Please click on the link below to confirm your e-mail and activate your account:</p>
-              <p><a href="http://www.navplan.ch/#/register/' . $token . '">Activate Account</a></p>
+              <p>Welcome to Navplan.ch!</p>
+              <p>Please click the following link to confirm your email address and create your account on Navplan.ch:</p>
+              <p><a href="http://www.navplan.ch/#/register/' . $token . '">Create Account</a></p>
             </body>
             </html>';
 
         return UserHelper::sendEmail($email, $subject, $message);
+    }
+
+
+    private static function createUser(mysqli $conn, string $email, string $password) {
+        $pw_hash = crypt($password);
+        $query = "INSERT INTO users (token, email, pw_hash) VALUES ('DUMMY','" . $email . "','" . $pw_hash . "')";
+        $result = $conn->query($query);
+
+        if ($result === FALSE)
+            die("error creating user: " . $conn->error . " query:" . $query);
     }
 }

@@ -52,7 +52,7 @@ export class ReadOgnTrafficSuccessAction implements Action {
 export class ReadOgnTrafficSuccessError implements Action {
     readonly type = TrafficActionTypes.TRAFFIC_READ_OGN_ERROR;
 
-    constructor(public error: string) {}
+    constructor(public error: Error) {}
 }
 
 
@@ -66,7 +66,7 @@ export class ReadAdsbExTrafficSuccessAction implements Action {
 export class ReadAdsbExTrafficSuccessError implements Action {
     readonly type = TrafficActionTypes.TRAFFIC_READ_ADSBEX_ERROR;
 
-    constructor(public error: string) {}
+    constructor(public error: Error) {}
 }
 
 

@@ -1,7 +1,9 @@
 <?php namespace Navplan\User;
 require_once __DIR__ . "/../NavplanHelper.php";
 
+use Exception;
 use mysqli;
+use Navplan\Message;
 use ReallySimpleJWT\Token;
 
 
@@ -9,24 +11,13 @@ class UserHelper
 {
     const JWT_SHORT_EXP_TIME_DAYS = 1;
     const JWT_LONG_EXP_TIME_DAYS = 90;
-    const RESPONSE_MESSAGE_TEXTS = array(
-        10 => 'login successful',
-        11 => 'activation email sent',
-        12 => 'registration successful',
-        91 => 'error: invalid password',
-        92 => 'error: invalid email',
-        93 => 'error: invalid token',
-        94 => 'error: invalid email format',
-        95 => 'error: invalid password format',
-        96 => 'error: email already exists'
-    );
 
 
     public static function getAuthenticatedEmailOrNull($token): ?string {
         if ($token && self::validateToken($token))
             return self::getEmailFromToken($token);
         else
-            return null;
+            return NULL;
     }
 
 
@@ -42,7 +33,11 @@ class UserHelper
     public static function validateToken(string $token): bool {
         global $jwt_secret;
 
-        return Token::validate($token, $jwt_secret);
+        try {
+            return Token::validate($token, $jwt_secret);
+        } catch(Exception $ex) {
+            return FALSE;
+        }
     }
 
 
@@ -85,32 +80,38 @@ class UserHelper
     public static function checkEmailFormat($email)
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email > 100))
-            return false;
+            return FALSE;
 
-        return true;
+        return TRUE;
     }
 
 
     public static function checkPwFormat(string $password): bool
     {
         if (strlen($password) < 6 || strlen($password) > 50)
-            return false;
+            return FALSE;
 
-        return true;
+        return TRUE;
     }
 
 
-    public static function sendResponse(int $code, string $email = '', string $token = '') {
+    public static function sendSuccessResponse(string $email, string $token) {
         $response = array(
-            "resultcode" => $code,
-            "message" => self::RESPONSE_MESSAGE_TEXTS[$code]
+            "resultcode" => 0,
+            "message" => 'successful',
+            "email" => $email,
+            "token" => $token,
         );
 
-        if ($email != '')
-            $response["email"] = $email;
+        echo json_encode($response);
+    }
 
-        if ($token != '')
-            $response["token"] = $token;
+
+    public static function sendErrorResponse(Message $message) {
+        $response = array(
+            "resultcode" => $message->code,
+            "message" => $message->text
+        );
 
         echo json_encode($response);
     }

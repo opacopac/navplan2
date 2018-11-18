@@ -18,3 +18,7 @@
         </div>
     </div>
 </form>
+<!-- message if verify email has been sent successfully -->
+<mat-error *ngIf="this.verifyEmailSentTo">
+    <p>An email has just been sent to <strong>{{ this.verifyEmailSentTo }}</strong>. Please check your inbox and use the enclosed activation link to finish the registration.</p>
+</mat-error>

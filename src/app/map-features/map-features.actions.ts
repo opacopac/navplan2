@@ -28,7 +28,7 @@ export class LoadMapFeaturesSuccessAction implements Action {
 export class LoadMapFeaturesErrorAction implements Action {
     readonly type = MapFeaturesActionTypes.MAPFEATURES_LOAD_ERROR;
 
-    constructor(public error: string) {}
+    constructor(public error: Error) {}
 }
 
 

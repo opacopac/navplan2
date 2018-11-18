@@ -32,7 +32,7 @@ export class ReadTrackListSuccessAction implements Action {
 export class ReadTrackListErrorAction implements Action {
     readonly type = TrackActionTypes.TRACK_READ_LIST_ERROR;
 
-    constructor(public error: string) {}
+    constructor(public error: Error) {}
 }
 
 
@@ -53,7 +53,7 @@ export class ReadTrackSuccessAction implements Action {
 export class ReadTrackErrorAction implements Action {
     readonly type = TrackActionTypes.TRACK_READ_ERROR;
 
-    constructor(public error: string) {}
+    constructor(public error: Error) {}
 }
 
 

@@ -15,11 +15,6 @@ export function messageReducer(state: MessageState = initialState, action: Messa
                 currentMessage: new Message(action.messageType, action.message)
             };
 
-        case MessageActionTypes.MESSAGE_HIDE:
-            return { ...state,
-                currentMessage: undefined
-            };
-
         default:
             return state;
     }

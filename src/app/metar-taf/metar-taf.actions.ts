@@ -22,7 +22,7 @@ export class LoadMetarTafSuccessAction implements Action {
 export class LoadMetarTafErrorAction implements Action {
     readonly type = MetarTafActionTypes.METARTAF_LOAD_ERROR;
 
-    constructor(public error: string) {}
+    constructor(public error: Error) {}
 }
 
 

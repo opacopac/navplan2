@@ -30,7 +30,7 @@
         <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
             <button mat-raised-button
                     color="primary"
-                    (click)="this.onCreateAccount.emit([this.tokenString, password.value])"
+                    (click)="this.onCreateAccount.emit([this.tokenString, password.value, rememberMe.checked])"
                     [disabled]="this.registerForm.invalid">Create Account
             </button>
             <mat-checkbox

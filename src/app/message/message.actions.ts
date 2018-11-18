@@ -4,7 +4,6 @@ import {MessageType} from './model/message-type';
 
 export enum MessageActionTypes {
     MESSAGE_SHOW = '[MessageService] Show message',
-    MESSAGE_HIDE = '[MessageService] Hide message'
 }
 
 
@@ -17,13 +16,5 @@ export class ShowMessageAction implements Action {
 }
 
 
-export class HideMessageAction implements Action {
-    readonly type = MessageActionTypes.MESSAGE_HIDE;
-
-    constructor() {}
-}
-
-
 export type MessageActions =
-    ShowMessageAction |
-    HideMessageAction;
+    ShowMessageAction;

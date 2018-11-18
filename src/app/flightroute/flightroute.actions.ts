@@ -62,7 +62,7 @@ export class FlightrouteReadListSuccessAction implements Action {
 export class FlightrouteReadListErrorAction implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_LIST_READ_ERROR;
 
-    constructor(public error: string) {}
+    constructor(public error: Error) {}
 }
 
 // endregion
@@ -87,7 +87,7 @@ export class FlightrouteReadSuccessAction implements Action {
 export class FlightrouteReadErrorAction implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_READ_ERROR;
 
-    constructor(public error: string) {}
+    constructor(public error: Error) {}
 }
 
 
@@ -122,7 +122,7 @@ export class FlightrouteSaveSuccessAction implements Action {
 export class FlightrouteSaveErrorAction implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_SAVE_ERROR;
 
-    constructor(public error: string) {}
+    constructor(public error: Error) {}
 }
 
 
@@ -143,7 +143,7 @@ export class FlightrouteDeleteSuccessAction implements Action {
 export class FlightrouteDeleteErrorAction implements Action {
     readonly type = FlightrouteActionTypes.FLIGHTROUTE_DELETE_ERROR;
 
-    constructor(public error: string) {}
+    constructor(public error: Error) {}
 }
 
 // endregion
@@ -168,7 +168,7 @@ export class SharedFlightrouteReadSuccessAction implements Action {
 export class SharedFlightrouteReadErrorAction implements Action {
     readonly type = FlightrouteActionTypes.SHARED_FLIGHTROUTE_READ_ERROR;
 
-    constructor(public error: string) {}
+    constructor(public error: Error) {}
 }
 
 
@@ -189,7 +189,7 @@ export class SharedFlightrouteCreateSuccessAction implements Action {
 export class SharedFlightrouteCreateErrorAction implements Action {
     readonly type = FlightrouteActionTypes.SHARED_FLIGHTROUTE_CREATE_ERROR;
 
-    constructor(public error: string) {}
+    constructor(public error: Error) {}
 }
 
 

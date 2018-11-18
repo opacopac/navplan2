@@ -2,24 +2,12 @@
 require_once __DIR__ . "/../NavplanHelper.php";
 
 use mysqli;
+use Navplan\Message;
 use Navplan\Shared\DbService;
 
 
 class UserLogin
 {
-    const RESPONSE_MESSAGE_TEXTS = array(
-        10 => 'login successful',
-        11 => 'activation email sent',
-        12 => 'registration successful',
-        91 => 'error: invalid password',
-        92 => 'error: invalid email',
-        93 => 'error: invalid token',
-        94 => 'error: invalid email format',
-        95 => 'error: invalid password format',
-        96 => 'error: email already exists'
-    );
-
-
     public static function autoLogin(array $input)
     {
         $conn = DbService::openDb();
@@ -28,9 +16,9 @@ class UserLogin
 
         // verify token
         if ($email) {
-            UserHelper::sendResponse(10, $email, $token);
+            UserHelper::sendSuccessResponse($email, $token);
         } else {
-            UserHelper::sendResponse(93);
+            UserHelper::sendErrorResponse(new Message(-1, 'error: invalid token'));
         }
 
         $conn->close();
@@ -45,9 +33,9 @@ class UserLogin
         $rememberMe = UserHelper::escapeRememberMe($input);
 
         // verify pw
-        $code = self::verifyPwHash($conn, $email, $password);
-        if ($code != 10) {
-            UserHelper::sendResponse($code);
+        $msg = self::verifyPwHash($conn, $email, $password);
+        if ($msg->code !== 0) {
+            UserHelper::sendErrorResponse($msg);
             $conn->close();
             return;
         }
@@ -55,12 +43,12 @@ class UserLogin
         // create new token
         $token = UserHelper::createToken($email, $rememberMe);
 
-        UserHelper::sendResponse($code, $email, $token);
+        UserHelper::sendSuccessResponse($email, $token);
         $conn->close();
     }
 
 
-    private static function verifyPwHash(mysqli $conn, string $email, string $password): int {
+    private static function verifyPwHash(mysqli $conn, string $email, string $password): Message {
         $query = "SELECT pw_hash FROM users WHERE email='" . $email . "'";
         $result = DbService::execSingleResultQuery($conn, $query);
 
@@ -71,11 +59,11 @@ class UserLogin
 
             // compare pw hashes
             if ($pw_hash_db === crypt($password, $pw_hash_db))
-                return 10; // ok
+                return new Message(0, 'success');
             else
-                return 91; // wrong pw
+                return new Message(-1, 'error: invalid password');
         }
         else
-            return 92; // email not found
+            return new Message(-2, 'error: invalid email');
     }
 }

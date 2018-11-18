@@ -57,7 +57,7 @@ export class LoginUserSuccessAction implements Action {
 export class LoginUserErrorAction implements Action {
     readonly type = UserActionTypes.USER_LOGIN_ERROR;
 
-    constructor(public error: string) {}
+    constructor(public error: Error) {}
 }
 
 
@@ -71,14 +71,14 @@ export class VerifyEmailAction implements Action {
 export class VerifyEmailSuccessAction implements Action {
     readonly type = UserActionTypes.USER_VERIFY_EMAIL_SUCCESS;
 
-    constructor() {}
+    constructor(public email: string) {}
 }
 
 
 export class VerifyEmailErrorAction implements Action {
     readonly type = UserActionTypes.USER_VERIFY_EMAIL_ERROR;
 
-    constructor(public error: string) {}
+    constructor(public error: Error) {}
 }
 
 
@@ -104,7 +104,7 @@ export class RegisterUserSuccessAction implements Action {
 export class RegisterUserErrorAction implements Action {
     readonly type = UserActionTypes.USER_REGISTER_ERROR;
 
-    constructor(public error: string) {}
+    constructor(public error: Error) {}
 }
 
 
@@ -128,7 +128,7 @@ export class ChangePwSuccessAction implements Action {
 export class ChangePwErrorAction implements Action {
     readonly type = UserActionTypes.USER_CHANGE_PW_ERROR;
 
-    constructor(public error: string) {}
+    constructor(public error: Error) { }
 }
 
 

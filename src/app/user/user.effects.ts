@@ -35,7 +35,7 @@ export class UserEffects {
         ofType(UserActionTypes.USER_AUTOLOGIN),
         switchMap((action: AutoLoginUserAction) => this.userService.autoLogin(action.token).pipe(
             map(user => new AutoLoginUserSuccessAction(user)),
-            catchError(error => of(new LoginUserErrorAction(error.message)))
+            catchError(error => of(new LoginUserErrorAction(error)))
         ))
     );
 
@@ -55,7 +55,7 @@ export class UserEffects {
         ofType(UserActionTypes.USER_LOGIN),
         switchMap((action: LoginUserAction) => this.userService.login(action.email, action.password, action.rememberMe).pipe(
             map(user => new LoginUserSuccessAction(user, action.rememberMe)),
-            catchError(error => of(new LoginUserErrorAction(error.message)))
+            catchError(error => of(new LoginUserErrorAction(error)))
         ))
     );
 
@@ -83,24 +83,46 @@ export class UserEffects {
     // endregion
 
 
-    // region registration
+    // region registration - step 1
 
     @Effect()
     verifyEmail$: Observable<Action> = this.actions$.pipe(
         ofType(UserActionTypes.USER_VERIFY_EMAIL),
         switchMap((action: VerifyEmailAction) => this.userService.verifyEmail(action.email).pipe(
-            map(() => new VerifyEmailSuccessAction()),
-            catchError(error => of(new VerifyEmailErrorAction(error.message)))
+            map(email => new VerifyEmailSuccessAction(email)),
+            catchError(error => of(new VerifyEmailErrorAction(error)))
         ))
     );
 
+
+    @Effect({ dispatch: false })
+    verifyEmailSuccess$: Observable<Action> = this.actions$.pipe(
+        ofType(UserActionTypes.USER_VERIFY_EMAIL_SUCCESS),
+        tap((action: VerifyEmailSuccessAction) => {
+            this.messageService.writeSuccessMessage('Verification email successfully sent to ' + action.email + '!');
+        })
+    );
+
+
+    @Effect({ dispatch: false })
+    verifyEmailError$: Observable<Action> = this.actions$.pipe(
+        ofType(UserActionTypes.USER_VERIFY_EMAIL_ERROR),
+        tap((action: VerifyEmailErrorAction) => {
+            this.messageService.writeErrorMessage(action.error);
+        })
+    );
+
+    // endregion
+
+
+    // region registration - step 2
 
     @Effect()
     registerUser$: Observable<Action> = this.actions$.pipe(
         ofType(UserActionTypes.USER_REGISTER),
         switchMap((action: RegisterUserAction) => this.userService.register(action.token, action.password, action.rememberMe).pipe(
             map((user) => new RegisterUserSuccessAction(user, action.rememberMe)),
-            catchError(error => of(new RegisterUserErrorAction(error.message)))
+            catchError(error => of(new RegisterUserErrorAction(error)))
         ))
     );
 
@@ -118,9 +140,9 @@ export class UserEffects {
 
     @Effect({ dispatch: false })
     registerUserError$: Observable<Action> = this.actions$.pipe(
-        ofType(UserActionTypes.USER_LOGIN_ERROR),
+        ofType(UserActionTypes.USER_REGISTER_ERROR),
         tap((action: RegisterUserErrorAction) => {
-            this.messageService.writeErrorMessage('ERROR during registration: ' + action.error);
+            this.messageService.writeErrorMessage(action.error);
         })
     );
 

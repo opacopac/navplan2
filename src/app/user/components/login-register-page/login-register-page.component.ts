@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {User} from '../../model/user';
 import {select, Store} from '@ngrx/store';
-import {getCurrentUser} from '../../user.selectors';
+import {getCurrentUser, getVerifyEmailSentTo} from '../../user.selectors';
 import {LoginUserAction, VerifyEmailAction} from '../../user.actions';
 
 @Component({
@@ -12,10 +12,12 @@ import {LoginUserAction, VerifyEmailAction} from '../../user.actions';
 })
 export class LoginRegisterPageComponent implements OnInit {
     public currentUser$: Observable<User>;
+    public verifyEmailSentTo$: Observable<string>;
 
 
     constructor(private appStore: Store<any>) {
         this.currentUser$ = this.appStore.pipe(select(getCurrentUser));
+        this.verifyEmailSentTo$ = this.appStore.pipe(select(getVerifyEmailSentTo));
     }
 
 
