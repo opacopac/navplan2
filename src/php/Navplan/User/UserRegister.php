@@ -26,7 +26,7 @@ class UserRegister
         $email = UserHelper::escapeEmail($conn, $input);
 
         // check email format
-        if (!checkEmailFormat($email))
+        if (!UserHelper::checkEmailFormat($email))
         {
             UserHelper::sendResponse(94);
             $conn->close();
@@ -50,7 +50,7 @@ class UserRegister
     }
 
 
-    public static function activate(array $input)
+    public static function register(array $input)
     {
         $conn = DbService::openDb();
         $token = UserHelper::escapeToken($conn, $input);
@@ -59,7 +59,7 @@ class UserRegister
         $rememberMe = UserHelper::escapeRememberMe($input);
 
         // check pw format
-        if (!checkPwFormat($password))
+        if (!UserHelper::checkPwFormat($password))
         {
             UserHelper::sendResponse(95);
             $conn->close();
@@ -115,7 +115,7 @@ class UserRegister
             <body>
               <p>Welcome ' . $email . '!</p>
               <p>Please click on the link below to confirm your e-mail and activate your account:</p>
-              <p><a href="http://www.navplan.ch/#/activate?email=' . $email . '&token=' . $token . '">Activate Account</a></p>
+              <p><a href="http://www.navplan.ch/#/register/' . $token . '">Activate Account</a></p>
             </body>
             </html>';
 

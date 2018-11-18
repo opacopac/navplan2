@@ -16,6 +16,7 @@ iframe {
     padding-right: 20px;
 }
 
+
 .clickable {
     cursor: pointer;
 }
@@ -89,6 +90,26 @@ button.btn-lg {
 .map-overlay-button {
     margin-bottom: 0.3125rem;
 }
+
+/* endregion */
+
+
+/* region SNACKBAR */
+
+.success-snack-bar {
+    color: white;
+    background-color: #455a64;
+}
+
+.error-snack-bar {
+    color: white;
+    background-color: #d50000
+}
+
+.mat-simple-snackbar-action {
+    color: white !important;
+}
+
 
 /* endregion */
 

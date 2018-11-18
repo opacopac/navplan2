@@ -2,6 +2,7 @@
 include_once __DIR__ . "/../NavplanHelper.php";
 
 use mysqli, mysqli_result;
+use Navplan\NavplanHelper;
 use Navplan\Shared\DbService;
 
 
@@ -148,7 +149,7 @@ class SearchItemAirport {
         $query .= " WHERE airport_icao IN (" .  $apIcaoList . ")";
 
         // hack: show VFRM charts only in branch
-        if (!$email && !isBranch())
+        if (!$email && !NavplanHelper::isBranch())
             $query .= " AND source != 'VFRM' ";
 
         $query .= " ORDER BY";

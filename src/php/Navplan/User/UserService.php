@@ -16,8 +16,8 @@ switch($input["action"])
     case "verifyemail":
         UserRegister::verifyEmail($input);
         break;
-    case "activate":
-        UserRegister::activate($input);
+    case "register":
+        UserRegister::register($input);
         break;
     case "forgotpassword":
         UserForgotPw::forgotPassword($input);
