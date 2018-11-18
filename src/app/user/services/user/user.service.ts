@@ -7,6 +7,7 @@ import {Observable} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {throwError} from 'rxjs/internal/observable/throwError';
 import {of} from 'rxjs/internal/observable/of';
+import {JwtService} from '../../../shared/services/jwt/jwt.service';
 
 
 const userBaseUrl =  environment.restApiBaseUrl + 'php/Navplan/User/UserService.php';
@@ -22,11 +23,33 @@ interface TokenResponse extends SimpleResponse {
     token: string;
 }
 
+interface UserToken {
+    tokenString: string;
+    email: string;
+    expireTimestamp: number;
+    issuer: string;
+}
+
 
 @Injectable()
 export class UserService {
     public constructor(
         private http: HttpClient) {
+    }
+
+
+    public static parseUserToken(tokenString: string): UserToken {
+        try {
+            const token = JwtService.decodeToken(tokenString);
+            return {
+                'tokenString': tokenString,
+                'email': token['user_id'],
+                'expireTimestamp': token['exp'],
+                'issuer': token['iss']
+            };
+        } catch {
+            return null;
+        }
     }
 
 
@@ -109,20 +132,21 @@ export class UserService {
     }
 
 
-    public activate(
+    public register(
         token: string,
-        rememberMe: boolean,
-        password: string): Observable<User> {
+        password: string,
+        rememberMe: boolean): Observable<User> {
 
         const requestBody = {
-            action: 'activate',
+            action: 'register',
+            token: token,
             password: password,
             rememberme: rememberMe,
-            token: token,
         };
         return this.http
             .post<TokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
                 switchMap(response => {
+                    // TODO
                     switch (response.body.resultcode) {
                         case 12:
                             return of(new User(response.body.email, response.body.token));

@@ -2,12 +2,12 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {
     MatButtonModule, MatButtonToggleModule, MatCardModule,
-    MatCheckboxModule, MatDialogModule,
+    MatCheckboxModule, MatDialogModule, MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
     MatListModule,
-    MatMenuModule, MatPaginatorModule, MatSelectModule, MatTableModule,
+    MatMenuModule, MatPaginatorModule, MatSelectModule, MatSnackBarModule, MatTableModule,
     MatToolbarModule,
     MatTooltipModule
 } from '@angular/material';
@@ -16,8 +16,6 @@ import {ButtonBaseDirective} from './directives/button-base/button-base.directiv
 import {IconButtonDirective} from './directives/icon-button/icon-button.directive';
 import {StatusButtonDirective} from './directives/status-button/status-button.directive';
 import {TextButtonDirective} from './directives/text-button/text-button.directive';
-import {MessageComponent} from './components/message/message.component';
-import {MessageService} from './services/message/message.service';
 import {OlOverlayButtonCloseComponent} from '../base-map/components/ol-overlay-button-close/ol-overlay-button-close.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
@@ -32,6 +30,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
         MatCardModule,
         MatCheckboxModule,
         MatDialogModule,
+        MatExpansionModule,
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
@@ -39,6 +38,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
         MatMenuModule,
         MatPaginatorModule,
         MatSelectModule,
+        MatSnackBarModule,
         MatTableModule,
         MatToolbarModule,
         MatTooltipModule,
@@ -47,7 +47,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     declarations: [
         ButtonBaseDirective,
         IconButtonDirective,
-        MessageComponent,
         OlOverlayButtonCloseComponent,
         StatusButtonDirective,
         TextButtonDirective,
@@ -61,6 +60,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
         MatCardModule,
         MatCheckboxModule,
         MatDialogModule,
+        MatExpansionModule,
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
@@ -68,20 +68,19 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
         MatMenuModule,
         MatPaginatorModule,
         MatSelectModule,
+        MatSnackBarModule,
         MatTableModule,
         MatToolbarModule,
         MatTooltipModule,
-        ReactiveFormsModule,
 
+        ReactiveFormsModule,
         ButtonBaseDirective,
         IconButtonDirective,
-        MessageComponent,
         OlOverlayButtonCloseComponent,
         StatusButtonDirective,
         TextButtonDirective,
     ],
     providers: [
-        MessageService
     ]
 })
 export class SharedModule {

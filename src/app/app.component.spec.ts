@@ -2,7 +2,7 @@ import {TestBed, async} from '@angular/core/testing';
 import {AppComponent} from './app.component';
 import {Component} from '@angular/core';
 import {UserService} from './user/services/user/user.service';
-import {MessageService} from './shared/services/message/message.service';
+import {MessageService} from './message/services/message/message.service';
 
 
 @Component({selector: 'router-outlet', template: ''})

@@ -1,11 +1,21 @@
-<div class="content-container">
-    <app-login-form
-            [currentUser]="this.currentUser$ | async"
-            (onLoginClick)="this.onLoginClick($event)">
-    </app-login-form>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <app-register-form
-            (onRegisterClick)="this.onRegisterClick($event)">
-    </app-register-form>
+<div class="content-container" style="margin-top: 20px;">
+    <mat-accordion>
+        <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+                <mat-panel-title><strong>Log In</strong></mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-login-form
+                    [currentUser]="this.currentUser$ | async"
+                    (onLoginClick)="this.onLoginClick($event)">
+            </app-login-form>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title><strong>Create New Account</strong></mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-register-step1-form
+                    (onVerifyEmailClick)="this.onVerifyEmailClick($event)">
+            </app-register-step1-form>
+        </mat-expansion-panel>
+    </mat-accordion>
 </div>

@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {MessageService} from '../../../shared/services/message/message.service';
+import {MessageService} from '../../../message/services/message/message.service';
 import {select, Store} from '@ngrx/store';
 import {getCurrentUser} from '../../user.selectors';
 import {Observable} from 'rxjs';

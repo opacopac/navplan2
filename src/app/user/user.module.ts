@@ -12,7 +12,9 @@ import {UserEffects} from './user.effects';
 import {UserState} from './user-state';
 import {UserActions} from './user.actions';
 import {LoginRegisterPageComponent} from './components/login-register-page/login-register-page.component';
-import {RegisterFormComponent} from './components/register-form/register-form.component';
+import {RegisterStep1FormComponent} from './components/register-step1-form/register-step1-form.component';
+import { RegisterStep2FormComponent } from './components/register-step2-form/register-step2-form.component';
+import { RegisterStep2PageComponent } from './components/register-step2-page/register-step2-page.component';
 
 
 @NgModule({
@@ -25,10 +27,12 @@ import {RegisterFormComponent} from './components/register-form/register-form.co
     declarations: [
         LoginRegisterPageComponent,
         LoginFormComponent,
-        RegisterFormComponent,
+        RegisterStep1FormComponent,
         UserprofileComponent,
         ForgotpwComponent,
-        RegisterFormComponent,
+        RegisterStep1FormComponent,
+        RegisterStep2FormComponent,
+        RegisterStep2PageComponent,
     ],
     providers: [
         UserService,

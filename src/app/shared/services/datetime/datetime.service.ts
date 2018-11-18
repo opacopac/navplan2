@@ -2,7 +2,17 @@ import { StringnumberService } from '../stringnumber/stringnumber.service';
 
 
 export class DatetimeService {
-    public static getMinSecStringFromDate(date: Date) {
+    public static getCurrentTimestampSeconds(): number {
+        return Math.floor(Date.now() / 1000);
+    }
+
+
+    public static isTimestampSecondsExpired(timestampSeconds: number): boolean {
+        return (timestampSeconds < this.getCurrentTimestampSeconds());
+    }
+
+
+    public static getMinSecStringFromDate(date: Date): string {
         return StringnumberService.zeroPad(date.getMinutes()) + ':'
             + StringnumberService.zeroPad(date.getSeconds());
     }

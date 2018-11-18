@@ -19,6 +19,7 @@ import {TrackModule} from './track/track.module';
 import {NavMapModule} from './nav-map/nav-map.module';
 import {ChartMapModule} from './chart-map/chart-map.module';
 import {NavbarContainerComponent} from './core/components/navbar-container/navbar-container.component';
+import {MessageModule} from './message/message.module';
 
 
 @NgModule({
@@ -34,9 +35,7 @@ import {NavbarContainerComponent} from './core/components/navbar-container/navba
         AppRoutingModule,
         HttpClientModule,
         HttpClientJsonpModule,
-        StoreModule.forRoot<AppState>({
-            coreState: coreReducer
-        }),
+        StoreModule.forRoot<AppState>({ coreState: coreReducer }),
         EffectsModule.forRoot([]),
         StoreDevtoolsModule.instrument({
             maxAge: 25, // Retains last 25 states
@@ -48,6 +47,7 @@ import {NavbarContainerComponent} from './core/components/navbar-container/navba
         FlightrouteModule,
         TrackModule,
         ChartMapModule,
+        MessageModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

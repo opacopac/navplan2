@@ -4,7 +4,7 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
 import {of} from 'rxjs';
 import {catchError, filter, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
-import {MessageService} from '../shared/services/message/message.service';
+import {MessageService} from '../message/services/message/message.service';
 import {FlightrouteService} from './services/flightroute/flightroute.service';
 import {
     FlightrouteActionTypes,

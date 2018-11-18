@@ -9,6 +9,7 @@ import {TracksPageComponent} from './track/components/tracks-page/tracks-page.co
 import {ChartMapPageComponent} from './chart-map/components/chart-map-page/chart-map-page.component';
 import {FlightroutePageComponent} from './flightroute/components/flightroute-page/flightroute-page.component';
 import {LoginRegisterPageComponent} from './user/components/login-register-page/login-register-page.component';
+import {RegisterStep2PageComponent} from './user/components/register-step2-page/register-step2-page.component';
 
 const routes: Routes = [
     { path: '', redirectTo: 'map', pathMatch: 'full' },
@@ -17,6 +18,7 @@ const routes: Routes = [
     { path: 'route', component: FlightroutePageComponent },
     { path: 'tracks', component: TracksPageComponent },
     { path: 'login', component: LoginRegisterPageComponent },
+    { path: 'register/:token', component: RegisterStep2PageComponent },
     { path: 'userprofile', component: UserprofileComponent },
     { path: 'forgotpw', component: ForgotpwComponent },
     { path: 'settings', component: SettingsPageComponent },

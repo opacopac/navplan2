@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {User} from '../../model/user';
 import {select, Store} from '@ngrx/store';
 import {getCurrentUser} from '../../user.selectors';
-import {LoginUserAction, RegisterUserAction} from '../../user.actions';
+import {LoginUserAction, VerifyEmailAction} from '../../user.actions';
 
 @Component({
     selector: 'app-login-register-page',
@@ -30,21 +30,7 @@ export class LoginRegisterPageComponent implements OnInit {
     }
 
 
-    public onRegisterClick([email, password]: [string, string]) {
-        this.appStore.dispatch(
-            new RegisterUserAction(email, password)
-        );
-
-        // TODO: old, remove
-        /*this.userService.register(this.email, this.password)
-            .subscribe(
-                user => {
-                    this.clientstorageService.persistToken(user, this.rememberMeChecked);
-                    this.messageService.writeSuccessMessage('Welcome ' + user.email + '!');
-                    this.router.navigate(['./map']);
-                },
-                error => {
-                    this.messageService.writeErrorMessage(error);
-                });*/
+    public onVerifyEmailClick(email: string) {
+        this.appStore.dispatch(new VerifyEmailAction(email));
     }
 }

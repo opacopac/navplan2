@@ -1,4 +1,3 @@
-<h3>Login</h3>
 <form [formGroup]="loginForm">
     <div fxLayout="column">
         <mat-form-field appearance="fill">
@@ -19,18 +18,18 @@
                    required>
             <mat-error>Required</mat-error>
         </mat-form-field>
-        <p fxFlexAlign="end">
+        <p fxFlexAlign="end" style="margin-right: 20px">
             <a href="#/forgotpw">I forgot my password</a>
         </p>
-        <mat-checkbox
-                #rememberMe
-                formControlName="rememberMe">remember me</mat-checkbox>
-        <div>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
             <button mat-raised-button
                     color="primary"
                     (click)="this.onLoginClick.emit([email.value, password.value, rememberMe.checked])"
                     [disabled]="this.loginForm.invalid" routerLink="/map">Log In
             </button>
+            <mat-checkbox
+                    #rememberMe
+                    formControlName="rememberMe">remember me</mat-checkbox>
         </div>
     </div>
 </form>

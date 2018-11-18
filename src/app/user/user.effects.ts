@@ -9,11 +9,11 @@ import {
     AutoLoginUserAction, AutoLoginUserSuccessAction,
     LoginUserAction,
     LoginUserErrorAction,
-    LoginUserSuccessAction,
-    UserActionTypes
+    LoginUserSuccessAction, RegisterUserAction, RegisterUserErrorAction, RegisterUserSuccessAction,
+    UserActionTypes, VerifyEmailAction, VerifyEmailErrorAction, VerifyEmailSuccessAction
 } from './user.actions';
 import {UserService} from './services/user/user.service';
-import {MessageService} from '../shared/services/message/message.service';
+import {MessageService} from '../message/services/message/message.service';
 import {ClientstorageService} from '../shared/services/clientstorage/clientstorage.service';
 
 
@@ -77,6 +77,50 @@ export class UserEffects {
         tap((action: LoginUserErrorAction) => {
             this.messageService.writeErrorMessage(action.error);
             this.clientStorageService.deletePersistedToken();
+        })
+    );
+
+    // endregion
+
+
+    // region registration
+
+    @Effect()
+    verifyEmail$: Observable<Action> = this.actions$.pipe(
+        ofType(UserActionTypes.USER_VERIFY_EMAIL),
+        switchMap((action: VerifyEmailAction) => this.userService.verifyEmail(action.email).pipe(
+            map(() => new VerifyEmailSuccessAction()),
+            catchError(error => of(new VerifyEmailErrorAction(error.message)))
+        ))
+    );
+
+
+    @Effect()
+    registerUser$: Observable<Action> = this.actions$.pipe(
+        ofType(UserActionTypes.USER_REGISTER),
+        switchMap((action: RegisterUserAction) => this.userService.register(action.token, action.password, action.rememberMe).pipe(
+            map((user) => new RegisterUserSuccessAction(user, action.rememberMe)),
+            catchError(error => of(new RegisterUserErrorAction(error.message)))
+        ))
+    );
+
+
+    @Effect({ dispatch: false })
+    registerUserSuccess$: Observable<Action> = this.actions$.pipe(
+        ofType(UserActionTypes.USER_REGISTER_SUCCESS),
+        tap((action: RegisterUserSuccessAction) => {
+            this.messageService.writeSuccessMessage('Welcome ' + action.user.email + '!');
+            this.clientStorageService.persistToken(action.user.token, action.rememberMe);
+            this.router.navigate(['/map']);
+        })
+    );
+
+
+    @Effect({ dispatch: false })
+    registerUserError$: Observable<Action> = this.actions$.pipe(
+        ofType(UserActionTypes.USER_LOGIN_ERROR),
+        tap((action: RegisterUserErrorAction) => {
+            this.messageService.writeErrorMessage('ERROR during registration: ' + action.error);
         })
     );
 

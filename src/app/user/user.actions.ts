@@ -8,7 +8,10 @@ export enum UserActionTypes {
     USER_LOGIN = '[Login Page] Login',
     USER_LOGIN_SUCCESS = '[UserService] Login successful',
     USER_LOGIN_ERROR = '[UserService] Login error',
-    USER_REGISTER = '[Login Page] Register',
+    USER_VERIFY_EMAIL = '[Login Page] Verify E-Mail',
+    USER_VERIFY_EMAIL_SUCCESS = '[UserService] Verification email successfully sent',
+    USER_VERIFY_EMAIL_ERROR = '[UserService] Error sending verification email',
+    USER_REGISTER = '[Register Page] Register',
     USER_REGISTER_SUCCESS = '[UserService] Register successful',
     USER_REGISTER_ERROR = '[UserService] Register error',
     USER_CHANGE_PW = '[User Profile] Change password',
@@ -58,12 +61,34 @@ export class LoginUserErrorAction implements Action {
 }
 
 
+export class VerifyEmailAction implements Action {
+    readonly type = UserActionTypes.USER_VERIFY_EMAIL;
+
+    constructor(public email: string) {}
+}
+
+
+export class VerifyEmailSuccessAction implements Action {
+    readonly type = UserActionTypes.USER_VERIFY_EMAIL_SUCCESS;
+
+    constructor() {}
+}
+
+
+export class VerifyEmailErrorAction implements Action {
+    readonly type = UserActionTypes.USER_VERIFY_EMAIL_ERROR;
+
+    constructor(public error: string) {}
+}
+
+
 export class RegisterUserAction implements Action {
     readonly type = UserActionTypes.USER_REGISTER;
 
     constructor(
-        public email: string,
-        public password: string) {}
+        public token: string,
+        public password: string,
+        public rememberMe: boolean) {}
 }
 
 
@@ -87,7 +112,7 @@ export class ChangePwAction implements Action {
     readonly type = UserActionTypes.USER_CHANGE_PW;
 
     constructor(
-        public email: string,
+        public token: string,
         public oldPassword: string,
         public newPassword: string) {}
 }
@@ -122,6 +147,9 @@ export type UserActions =
     LoginUserAction |
     LoginUserSuccessAction |
     LoginUserErrorAction |
+    VerifyEmailAction |
+    VerifyEmailSuccessAction |
+    VerifyEmailErrorAction |
     RegisterUserAction |
     RegisterUserSuccessAction |
     RegisterUserErrorAction |

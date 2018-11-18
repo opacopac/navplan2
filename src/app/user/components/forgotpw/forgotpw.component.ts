@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {UserService} from '../../services/user/user.service';
-import {MessageService} from '../../../shared/services/message/message.service';
+import {MessageService} from '../../../message/services/message/message.service';
 
 
 @Component({
