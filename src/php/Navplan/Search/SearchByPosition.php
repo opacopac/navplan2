@@ -26,7 +26,7 @@ class SearchByPosition
         $maxRadius_deg = StringNumberService::checkNumeric($_GET["rad"]);
         $minNotamTimestamp = $_GET["minnotamtime"] ? StringNumberService::checkNumeric($_GET["minnotamtime"]) : 0;
         $maxNotamTimestamp = $_GET["maxnotamtime"] ? StringNumberService::checkNumeric($_GET["maxnotamtime"]) : 0;
-        $email = UserHelper::getAuthenticatedEmailOrNull($_GET["token"]);
+        $email = UserHelper::escapeAuthenticatedEmailOrNull($conn, $_GET["token"]);
 
         $resultNum = 0;
         $airports = [];

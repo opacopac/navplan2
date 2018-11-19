@@ -1,7 +1,9 @@
 <?php namespace Navplan\User;
 require_once __DIR__ . "/../NavplanHelper.php";
 
+use Navplan\NavplanHelper;
 use Navplan\Shared\DbService;
+use Navplan\Shared\MailService;
 
 
 class UserForgotPw
@@ -25,7 +27,7 @@ class UserForgotPw
         $conn = DbService::openDb();
         $email = UserHelper::escapeEmail($conn, $input);
 
-        if (!checkEmailFormat($email))
+        if (!UserHelper::checkEmailFormat($email))
         {
             $resultcode = -3;
             $message = "error: invalid email format";
@@ -79,6 +81,7 @@ class UserForgotPw
 
 
     private static function sendPwResetEmail(string $email, string $password): bool {
+        $loginUrl = NavplanHelper::NAVPLAN_BASE_URL . '/login';
         $subject = "Navplan.ch - Password Reset";
         $message = '
             <html>
@@ -87,10 +90,10 @@ class UserForgotPw
             </head>
             <body>
               <p>Your new password is: ' . $password . '</p>
-              <p><a href="http://www.navplan.ch/#/login">Open Login Page</a></p>
+              <p><a href="' . $loginUrl . '">Open Login Page</a></p>
             </body>
             </html>';
 
-        return UserHelper::sendEmail($email, $subject, $message);
+        return MailService::sendEmail($email, $subject, $message);
     }
 }

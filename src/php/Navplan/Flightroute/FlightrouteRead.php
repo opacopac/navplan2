@@ -52,7 +52,7 @@ class FlightrouteRead
     {
         $conn = DbService::openDb();
         $navplan_id = StringNumberService::checkId(intval($_GET["id"]));
-        $email = StringNumberService::checkEscapeEmail($conn, UserHelper::getAuthenticatedEmailOrDie($_GET["token"]));
+        $email = UserHelper::escapeAuthenticatedEmailOrDie($conn, $_GET["token"]);
 
         // get navplan details
         $query = "SELECT nav.id AS id, nav.title AS title, nav.aircraft_speed AS aircraft_speed, nav.aircraft_consumption AS aircraft_consumption, nav.extra_fuel AS extra_fuel, nav.comments AS comments FROM navplan AS nav";

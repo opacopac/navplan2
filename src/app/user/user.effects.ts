@@ -6,11 +6,22 @@ import {Observable} from 'rxjs';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {
-    AutoLoginUserAction, AutoLoginUserSuccessAction,
+    AutoLoginUserAction,
+    AutoLoginUserErrorAction,
+    AutoLoginUserSuccessAction,
+    ChangePwAction,
+    ChangePwErrorAction,
+    ChangePwSuccessAction,
     LoginUserAction,
     LoginUserErrorAction,
-    LoginUserSuccessAction, RegisterUserAction, RegisterUserErrorAction, RegisterUserSuccessAction,
-    UserActionTypes, VerifyEmailAction, VerifyEmailErrorAction, VerifyEmailSuccessAction
+    LoginUserSuccessAction,
+    RegisterUserAction,
+    RegisterUserErrorAction,
+    RegisterUserSuccessAction,
+    UserActionTypes,
+    VerifyEmailAction,
+    VerifyEmailErrorAction,
+    VerifyEmailSuccessAction
 } from './user.actions';
 import {UserService} from './services/user/user.service';
 import {MessageService} from '../message/services/message/message.service';
@@ -28,14 +39,14 @@ export class UserEffects {
     }
 
 
-    // region login
+    // region auto login
 
     @Effect()
     autoLoginUser$: Observable<Action> = this.actions$.pipe(
         ofType(UserActionTypes.USER_AUTOLOGIN),
         switchMap((action: AutoLoginUserAction) => this.userService.autoLogin(action.token).pipe(
             map(user => new AutoLoginUserSuccessAction(user)),
-            catchError(error => of(new LoginUserErrorAction(error)))
+            catchError(error => of(new AutoLoginUserErrorAction(error)))
         ))
     );
 
@@ -49,6 +60,20 @@ export class UserEffects {
         })
     );
 
+
+    @Effect({ dispatch: false })
+    autoLoginUserError$: Observable<Action> = this.actions$.pipe(
+        ofType(UserActionTypes.USER_AUTOLOGIN_ERROR),
+        tap((action: AutoLoginUserErrorAction) => {
+            console.error(action.error);
+            this.clientStorageService.deletePersistedToken();
+        })
+    );
+
+    // endregion
+
+
+    // region login
 
     @Effect()
     loginUser$: Observable<Action> = this.actions$.pipe(
@@ -142,6 +167,38 @@ export class UserEffects {
     registerUserError$: Observable<Action> = this.actions$.pipe(
         ofType(UserActionTypes.USER_REGISTER_ERROR),
         tap((action: RegisterUserErrorAction) => {
+            this.messageService.writeErrorMessage(action.error);
+        })
+    );
+
+    // endregion
+
+
+    // region change password
+
+    @Effect()
+    changePw$: Observable<Action> = this.actions$.pipe(
+        ofType(UserActionTypes.USER_CHANGE_PW),
+        switchMap((action: ChangePwAction) => this.userService.updatePassword(action.token, action.oldPassword, action.newPassword).pipe(
+            map(() => new ChangePwSuccessAction()),
+            catchError(error => of(new ChangePwErrorAction(error)))
+        ))
+    );
+
+
+    @Effect({ dispatch: false })
+    changePwSuccess$: Observable<Action> = this.actions$.pipe(
+        ofType(UserActionTypes.USER_CHANGE_PW_SUCCESS),
+        tap((action: ChangePwSuccessAction) => {
+            this.messageService.writeSuccessMessage('Password successfully changed!');
+        })
+    );
+
+
+    @Effect({ dispatch: false })
+    changePwError$: Observable<Action> = this.actions$.pipe(
+        ofType(UserActionTypes.USER_CHANGE_PW_ERROR),
+        tap((action: ChangePwErrorAction) => {
             this.messageService.writeErrorMessage(action.error);
         })
     );

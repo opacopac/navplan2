@@ -63,7 +63,7 @@ class FlightrouteCreate
     {
         $conn = DbService::openDb();
         $navplan = FlightrouteHelper::escapeNavplanData($conn, $input["globalData"]);
-        $email = StringNumberService::checkEscapeEmail($conn, UserHelper::getAuthenticatedEmailOrDie($_GET["token"]));
+        $email = UserHelper::escapeAuthenticatedEmailOrDie($conn, $_GET["token"]);
 
         // get user id
         $query = "SELECT id FROM users WHERE email = '" . $email . "'";

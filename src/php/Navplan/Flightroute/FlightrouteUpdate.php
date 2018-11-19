@@ -2,7 +2,6 @@
 require_once __DIR__ . "/../NavplanHelper.php";
 
 use Navplan\Shared\DbService;
-use Navplan\Shared\StringNumberService;
 use Navplan\User\UserHelper;
 
 
@@ -12,7 +11,7 @@ class FlightrouteUpdate
     {
         $conn = DbService::openDb();
         $navplan = FlightrouteHelper::escapeNavplanData($conn, $input["globalData"]);
-        $email = StringNumberService::checkEscapeEmail($conn, UserHelper::getAuthenticatedEmailOrDie($_GET["token"]));
+        $email = UserHelper::escapeAuthenticatedEmailOrDie($conn, $_GET["token"]);
 
         // check if navplan exists
         $query = "SELECT nav.id FROM navplan AS nav";

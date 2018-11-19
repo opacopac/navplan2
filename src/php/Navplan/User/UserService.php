@@ -23,7 +23,7 @@ switch($input["action"])
         UserForgotPw::forgotPassword($input);
         break;
     case "updatepassword":
-        updatePassword();
+        UserUpdatePw::updatePassword($input);
         break;
     default:
         die("no or invalid action defined!");

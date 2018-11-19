@@ -4,11 +4,12 @@ import {User} from './model/user';
 
 export enum UserActionTypes {
     USER_AUTOLOGIN = '[Startup] Auto login',
-    USER_AUTOLOGIN_SUCCESS = '[Startup] Auto login successful',
-    USER_LOGIN = '[Login Page] Login',
+    USER_AUTOLOGIN_SUCCESS = '[UserService] Auto login successful',
+    USER_AUTOLOGIN_ERROR = '[UserService] Auto login error',
+    USER_LOGIN = '[Login/Register Page] Login',
     USER_LOGIN_SUCCESS = '[UserService] Login successful',
     USER_LOGIN_ERROR = '[UserService] Login error',
-    USER_VERIFY_EMAIL = '[Login Page] Verify E-Mail',
+    USER_VERIFY_EMAIL = '[Login/Register Page] Verify E-Mail',
     USER_VERIFY_EMAIL_SUCCESS = '[UserService] Verification email successfully sent',
     USER_VERIFY_EMAIL_ERROR = '[UserService] Error sending verification email',
     USER_REGISTER = '[Register Page] Register',
@@ -17,7 +18,7 @@ export enum UserActionTypes {
     USER_CHANGE_PW = '[User Profile] Change password',
     USER_CHANGE_PW_SUCCESS = '[UserService] Change password successful',
     USER_CHANGE_PW_ERROR = '[UserService] Change password error',
-    USER_LOGOUT = '[User Profile] Logout',
+    USER_LOGOUT = '[Navbar] Logout',
 }
 
 
@@ -32,6 +33,13 @@ export class AutoLoginUserSuccessAction implements Action {
     readonly type = UserActionTypes.USER_AUTOLOGIN_SUCCESS;
 
     constructor(public user: User) {}
+}
+
+
+export class AutoLoginUserErrorAction implements Action {
+    readonly type = UserActionTypes.USER_AUTOLOGIN_ERROR;
+
+    constructor(public error: Error) {}
 }
 
 
@@ -121,7 +129,7 @@ export class ChangePwAction implements Action {
 export class ChangePwSuccessAction implements Action {
     readonly type = UserActionTypes.USER_CHANGE_PW_SUCCESS;
 
-    constructor(public user: User) {}
+    constructor() {}
 }
 
 
@@ -144,6 +152,7 @@ export class LogoutUserAction implements Action {
 export type UserActions =
     AutoLoginUserAction |
     AutoLoginUserSuccessAction |
+    AutoLoginUserErrorAction |
     LoginUserAction |
     LoginUserSuccessAction |
     LoginUserErrorAction |

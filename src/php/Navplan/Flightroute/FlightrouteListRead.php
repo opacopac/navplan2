@@ -2,7 +2,6 @@
 require_once __DIR__ . "/../NavplanHelper.php";
 
 use Navplan\Shared\DbService;
-use Navplan\Shared\StringNumberService;
 use Navplan\User\UserHelper;
 
 
@@ -11,7 +10,7 @@ class FlightrouteListRead
     public static function readNavplanList()
     {
         $conn = DbService::openDb();
-        $email = StringNumberService::checkEscapeEmail($conn, UserHelper::getAuthenticatedEmailOrDie($_GET["token"]));
+        $email = UserHelper::escapeAuthenticatedEmailOrDie($conn, $_GET["token"]);
 
         // get navplan list
         $query = "SELECT nav.id AS nav_id, nav.title AS nav_title FROM navplan AS nav";

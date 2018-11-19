@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {UserService} from './services/user/user.service';
-import {UserprofileComponent} from './components/userprofile/userprofile.component';
+import {UserProfilePageComponent} from './components/user-profile-page/user-profile-page.component';
 import {ForgotpwComponent} from './components/forgotpw/forgotpw.component';
 import {LoginFormComponent} from './components/login-form/login-form.component';
 import {SharedModule} from '../shared/shared.module';
@@ -15,6 +15,7 @@ import {LoginRegisterPageComponent} from './components/login-register-page/login
 import {RegisterStep1FormComponent} from './components/register-step1-form/register-step1-form.component';
 import { RegisterStep2FormComponent } from './components/register-step2-form/register-step2-form.component';
 import { RegisterStep2PageComponent } from './components/register-step2-page/register-step2-page.component';
+import { UserProfileFormComponent } from './components/user-profile-form/user-profile-form.component';
 
 
 @NgModule({
@@ -28,11 +29,12 @@ import { RegisterStep2PageComponent } from './components/register-step2-page/reg
         LoginRegisterPageComponent,
         LoginFormComponent,
         RegisterStep1FormComponent,
-        UserprofileComponent,
+        UserProfilePageComponent,
         ForgotpwComponent,
         RegisterStep1FormComponent,
         RegisterStep2FormComponent,
         RegisterStep2PageComponent,
+        UserProfileFormComponent,
     ],
     providers: [
         UserService,

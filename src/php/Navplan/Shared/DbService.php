@@ -36,7 +36,7 @@ class DbService
     }
 
 
-    public static function execCUDQuery(mysqli $conn, string $query, string $errorMessage = "error executing query"): mysqli_result {
+    public static function execCUDQuery(mysqli $conn, string $query, string $errorMessage = "error executing query"): bool {
         $result = $conn->query($query);
         if ($result === FALSE)
             die($errorMessage . ": " . $conn->error . " query:" . $query);

@@ -8,7 +8,8 @@ iframe {
     border: 0;
 }
 
-.content-container {
+.content-container,
+.content-container-topspacing {
     width: 100%;
     max-width: 1000px;
     margin: auto; /* center content */
@@ -16,6 +17,9 @@ iframe {
     padding-right: 20px;
 }
 
+.content-container-topspacing {
+    margin-top: 30px;
+}
 
 .clickable {
     cursor: pointer;

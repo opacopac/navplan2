@@ -22,7 +22,7 @@ class SearchByText
         $conn = DbService::openDb();
         $searchItems = SearchHelper::checkEscapeSearchItems($conn, $_GET["searchItems"]);
         $searchText = StringNumberService::checkEscapeString($conn, $_GET["searchText"], 1, 100);
-        $email = UserHelper::getAuthenticatedEmailOrNull($_GET["token"]);
+        $email = UserHelper::escapeAuthenticatedEmailOrNull($conn, $_GET["token"]);
 
         $resultNum = 0;
         $airports = [];

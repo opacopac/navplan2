@@ -16,6 +16,7 @@ export function userReducer(state: UserState = initialState, action: UserActions
             return { ...state, currentUser: action.user, verifyEmailSentTo: undefined };
 
         case UserActionTypes.USER_LOGOUT:
+        case UserActionTypes.USER_AUTOLOGIN_ERROR:
         case UserActionTypes.USER_LOGIN_ERROR:
         case UserActionTypes.USER_REGISTER_ERROR:
             return { ...state, currentUser: undefined };

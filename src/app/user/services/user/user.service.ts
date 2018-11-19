@@ -95,9 +95,9 @@ export class UserService {
                         case 0:
                             return of(new User(response.body.email, response.body.token));
                         case -1:
-                            return throwError(new TextError('Password incorrect!'));
-                        case -2:
                             return throwError(new TextError('Email not found!'));
+                        case -2:
+                            return throwError(new TextError('Password incorrect!'));
                         default:
                             const message = 'Unknown error during login';
                             LoggingService.logResponseError(message, response);
@@ -153,11 +153,9 @@ export class UserService {
                         case -1:
                             return throwError(new TextError('Invalid password format!'));
                         case -2:
-                            return throwError(new TextError('Invalid email format!'));
+                            return throwError(new TextError('Invalid token!'));
                         case -3:
                             return throwError(new TextError('An account with this email already exists!'));
-                        case -4:
-                            return throwError(new TextError('Invalid token!'));
                         default:
                             const message = 'Unknown error while activating user';
                             LoggingService.logResponseError(message, response);
@@ -192,13 +190,13 @@ export class UserService {
 
 
     public updatePassword(
-        email: string,
+        token: string,
         oldPassword: string,
-        newPassword: string): Observable<void> {
+        newPassword: string): Observable<boolean> {
 
     const requestBody = {
         action: 'updatepassword',
-        email: email,
+        token: token,
         oldpassword: oldPassword,
         newpassword: newPassword
     };
@@ -207,11 +205,13 @@ export class UserService {
             switchMap(response => {
                 switch (response.body.resultcode) {
                     case 0:
-                        return of(undefined);
-                    case 91:
-                        return throwError(new TextError('Password incorrect!'));
-                    case 92:
-                        return throwError(new TextError('Email not found!'));
+                        return of(true);
+                    case -1:
+                        return throwError(new TextError('Invalid new password format!'));
+                    case -2:
+                        return throwError(new TextError('Invalid token!'));
+                    case -3:
+                        return throwError(new TextError('Old password incorrect!'));
                     default:
                         const message = 'Unknown error while updating password';
                         LoggingService.logResponseError(message, response);
