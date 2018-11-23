@@ -1,16 +1,16 @@
 <?php namespace Navplan\Flightroute;
 require_once __DIR__ . "/../NavplanHelper.php";
 
-use Navplan\Shared\DbService;
+use mysqli;
+use Navplan\User\UserHelper;
 
 
 class FlightrouteDelete
 {
-    public static function deleteNavplan()
+    public static function deleteNavplan(mysqli $conn, array $args)
     {
-        $conn = DbService::openDb();
-        $navplan_id = checkId(intval($_GET["id"]));
-        $email = StringNumberService::checkEscapeEmail($conn, UserHelper::getAuthenticatedEmailOrDie($_GET["token"]));
+        $navplan_id = checkId(intval($args["id"]));
+        $email = UserHelper::escapeAuthenticatedEmailOrDie($conn, $args["token"]);
 
         // check if navplan exists
         $query = "SELECT nav.id FROM navplan AS nav";

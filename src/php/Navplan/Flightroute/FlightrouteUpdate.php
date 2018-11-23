@@ -1,16 +1,15 @@
 <?php namespace Navplan\Flightroute;
 require_once __DIR__ . "/../NavplanHelper.php";
 
-use Navplan\Shared\DbService;
+use mysqli;
 use Navplan\User\UserHelper;
 
 
 class FlightrouteUpdate
 {
-    public static function updateNavplan(array $input)
+    public static function updateNavplan(mysqli $conn, array $args)
     {
-        $conn = DbService::openDb();
-        $navplan = FlightrouteHelper::escapeNavplanData($conn, $input["globalData"]);
+        $navplan = FlightrouteHelper::escapeNavplanData($conn, $args["globalData"]);
         $email = UserHelper::escapeAuthenticatedEmailOrDie($conn, $_GET["token"]);
 
         // check if navplan exists

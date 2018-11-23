@@ -1,22 +1,21 @@
 <?php namespace Navplan\Search;
 require_once __DIR__ . "/../NavplanHelper.php";
 
+use mysqli;
 use Navplan\MapFeatures\SearchItemAirport;
 use Navplan\MapFeatures\SearchItemReportingPoint;
 use Navplan\MapFeatures\SearchItemWebcam;
-use Navplan\Shared\DbService;
 use Navplan\Shared\StringNumberService;
 
 
 class SearchByIcao
 {
-    public static function searchByIcao()
+    public static function searchByIcao(mysqli $conn, array $args)
     {
-        $conn = DbService::openDb();
-        $searchItems = SearchHelper::checkEscapeSearchItems($conn, $_GET["searchItems"]);
-        $icaoList = SearchHelper::checkEscapeIcaoList($conn, $_GET["icao"]);
-        $minNotamTimestamp = $_GET["minnotamtime"] ? StringNumberService::checkNumeric($_GET["minnotamtime"]) : 0;
-        $maxNotamTimestamp = $_GET["maxnotamtime"] ? StringNumberService::checkNumeric($_GET["maxnotamtime"]) : 0;
+        $searchItems = SearchHelper::checkEscapeSearchItems($conn, $args["searchItems"]);
+        $icaoList = SearchHelper::checkEscapeIcaoList($conn, $args["icao"]);
+        $minNotamTimestamp = $args["minnotamtime"] ? StringNumberService::checkNumeric($args["minnotamtime"]) : 0;
+        $maxNotamTimestamp = $args["maxnotamtime"] ? StringNumberService::checkNumeric($args["maxnotamtime"]) : 0;
 
         $airports = [];
         $reportingPoints = [];

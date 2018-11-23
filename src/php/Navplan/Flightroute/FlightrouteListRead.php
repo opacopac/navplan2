@@ -1,16 +1,15 @@
 <?php namespace Navplan\Flightroute;
 require_once __DIR__ . "/../NavplanHelper.php";
 
-use Navplan\Shared\DbService;
+use mysqli;
 use Navplan\User\UserHelper;
 
 
 class FlightrouteListRead
 {
-    public static function readNavplanList()
+    public static function readNavplanList(mysqli $conn, array $args)
     {
-        $conn = DbService::openDb();
-        $email = UserHelper::escapeAuthenticatedEmailOrDie($conn, $_GET["token"]);
+        $email = UserHelper::escapeAuthenticatedEmailOrDie($conn, $args["token"]);
 
         // get navplan list
         $query = "SELECT nav.id AS nav_id, nav.title AS nav_title FROM navplan AS nav";

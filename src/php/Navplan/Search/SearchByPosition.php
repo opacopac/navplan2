@@ -1,12 +1,12 @@
 <?php namespace Navplan\Search;
 require_once __DIR__ . "/../NavplanHelper.php";
 
+use mysqli;
 use Navplan\Geoname\SearchItemGeoname;
 use Navplan\MapFeatures\SearchItemAirport;
 use Navplan\MapFeatures\SearchItemNavaid;
 use Navplan\MapFeatures\SearchItemReportingPoint;
 use Navplan\MapFeatures\SearchItemUserPoint;
-use Navplan\Shared\DbService;
 use Navplan\Shared\StringNumberService;
 use Navplan\User\UserHelper;
 
@@ -17,16 +17,15 @@ class SearchByPosition
     const MAX_POSITION_SEARCH_RESULTS_PER_ENTITY = 80;
 
 
-    public static function searchByPosition()
+    public static function searchByPosition(mysqli $conn, array $args)
     {
-        $conn = DbService::openDb();
-        $searchItems = SearchHelper::checkEscapeSearchItems($conn, $_GET["searchItems"]);
-        $lon = StringNumberService::checkNumeric($_GET["lon"]);
-        $lat = StringNumberService::checkNumeric($_GET["lat"]);
-        $maxRadius_deg = StringNumberService::checkNumeric($_GET["rad"]);
-        $minNotamTimestamp = $_GET["minnotamtime"] ? StringNumberService::checkNumeric($_GET["minnotamtime"]) : 0;
-        $maxNotamTimestamp = $_GET["maxnotamtime"] ? StringNumberService::checkNumeric($_GET["maxnotamtime"]) : 0;
-        $email = UserHelper::escapeAuthenticatedEmailOrNull($conn, $_GET["token"]);
+        $searchItems = SearchHelper::checkEscapeSearchItems($conn, $args["searchItems"]);
+        $lon = StringNumberService::checkNumeric($args["lon"]);
+        $lat = StringNumberService::checkNumeric($args["lat"]);
+        $maxRadius_deg = StringNumberService::checkNumeric($args["rad"]);
+        $minNotamTimestamp = $args["minnotamtime"] ? StringNumberService::checkNumeric($args["minnotamtime"]) : 0;
+        $maxNotamTimestamp = $args["maxnotamtime"] ? StringNumberService::checkNumeric($args["maxnotamtime"]) : 0;
+        $email = UserHelper::escapeAuthenticatedEmailOrNull($conn, $args["token"]);
 
         $resultNum = 0;
         $airports = [];

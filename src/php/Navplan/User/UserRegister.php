@@ -10,10 +10,9 @@ use Navplan\Shared\MailService;
 
 class UserRegister
 {
-    public static function verifyEmail(array $input)
+    public static function verifyEmail(mysqli $conn, array $args, MailService $mailService)
     {
-        $conn = DbService::openDb();
-        $email = UserHelper::escapeTrimInput($conn, $input["email"]);
+        $email = UserHelper::escapeTrimInput($conn, $args["email"]);
 
         if (!UserHelper::checkEmailFormat($email))
             UserHelper::sendErrorResponseAndDie(new Message(-1, 'error: invalid email format'), $conn);
@@ -23,20 +22,18 @@ class UserRegister
 
         // send activation email
         $token = UserHelper::createToken($email, false);
-        self::sendActivationEmail($email, $token);
+        self::sendActivationEmail($mailService, $email, $token);
 
         UserHelper::sendSuccessResponse($email, $token);
-        $conn->close();
     }
 
 
-    public static function register(array $input)
+    public static function register(mysqli $conn, array $args)
     {
-        $conn = DbService::openDb();
-        $token = UserHelper::escapeTrimInput($conn, $input["token"]);
+        $token = UserHelper::escapeTrimInput($conn, $args["token"]);
         $email = UserHelper::escapeAuthenticatedEmailOrNull($conn, $token);
-        $password = UserHelper::escapeTrimInput($conn, $input["password"]);
-        $rememberMe = ($input["rememberme"] === "1");
+        $password = UserHelper::escapeTrimInput($conn, $args["password"]);
+        $rememberMe = ($args["rememberme"] === "1");
 
         if (!UserHelper::checkPwFormat($password))
             UserHelper::sendErrorResponseAndDie(new Message(-1, 'error: invalid password format'), $conn);
@@ -52,7 +49,6 @@ class UserRegister
         $token = UserHelper::createToken($email, $rememberMe);
 
         UserHelper::sendSuccessResponse($email, $token);
-        $conn->close();
     }
 
 
@@ -73,7 +69,7 @@ class UserRegister
     }
 
 
-    private static function sendActivationEmail(string $email, string $token): bool
+    private static function sendActivationEmail(MailService $mailService, string $email, string $token): bool
     {
         $activateUrl = NavplanHelper::NAVPLAN_BASE_URL . '/register/' . $token;
         $subject = "Welcome to Navplan.ch";
@@ -89,6 +85,6 @@ class UserRegister
             </body>
             </html>';
 
-        return MailService::sendEmail($email, $subject, $message);
+        return $mailService->sendEmail($email, $subject, $message);
     }
 }

@@ -2,17 +2,15 @@
 require_once __DIR__ . "/../NavplanHelper.php";
 
 use mysqli;
-use Navplan\Shared\DbService;
 use Navplan\Shared\StringNumberService;
 use Navplan\User\UserHelper;
 
 
 class FlightrouteRead
 {
-    public static function readSharedNavplan()
+    public static function readSharedNavplan(mysqli $conn, array $args)
     {
-        $conn = DbService::openDb();
-        $share_id = StringNumberService::checkEscapeString($conn, $_GET["shareid"], 10, 10);
+        $share_id = StringNumberService::checkEscapeString($conn, $args["shareid"], 10, 10);
 
         // get navplan details
         $query = "SELECT id, title, aircraft_speed, aircraft_consumption, extra_fuel, comments FROM navplan";
@@ -48,11 +46,10 @@ class FlightrouteRead
     }
 
 
-    public static function readNavplan()
+    public static function readNavplan(mysqli $conn, array $args)
     {
-        $conn = DbService::openDb();
-        $navplan_id = StringNumberService::checkId(intval($_GET["id"]));
-        $email = UserHelper::escapeAuthenticatedEmailOrDie($conn, $_GET["token"]);
+        $navplan_id = StringNumberService::checkId(intval($args["id"]));
+        $email = UserHelper::escapeAuthenticatedEmailOrDie($conn, $args["token"]);
 
         // get navplan details
         $query = "SELECT nav.id AS id, nav.title AS title, nav.aircraft_speed AS aircraft_speed, nav.aircraft_consumption AS aircraft_consumption, nav.extra_fuel AS extra_fuel, nav.comments AS comments FROM navplan AS nav";

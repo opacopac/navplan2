@@ -1,19 +1,19 @@
 <?php namespace Navplan\User;
 require_once __DIR__ . "/../NavplanHelper.php";
 
+use mysqli;
 use Navplan\Message;
 use Navplan\Shared\DbService;
 
 
 class UserUpdatePw
 {
-    public static function updatePassword(array $input)
+    public static function updatePassword(mysqli $conn, array $args)
     {
-        $conn = DbService::openDb();
-        $token = UserHelper::escapeTrimInput($conn, $input["token"]);
+        $token = UserHelper::escapeTrimInput($conn, $args["token"]);
         $email = UserHelper::escapeAuthenticatedEmailOrNull($conn, $token);
-        $oldpassword = UserHelper::escapeTrimInput($conn, $input["oldpassword"]);
-        $newpassword = UserHelper::escapeTrimInput($conn, $input["newpassword"]);
+        $oldpassword = UserHelper::escapeTrimInput($conn, $args["oldpassword"]);
+        $newpassword = UserHelper::escapeTrimInput($conn, $args["newpassword"]);
 
         if (!UserHelper::checkPwFormat($newpassword))
             UserHelper::sendErrorResponseAndDie(new Message(-1, 'error: invalid new password format'), $conn);
@@ -30,6 +30,5 @@ class UserUpdatePw
         DbService::execCUDQuery($conn, $query, "error updating password");
 
         UserHelper::sendSuccessResponse($email, $token);
-        $conn->close();
     }
 }

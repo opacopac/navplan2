@@ -1,6 +1,7 @@
 <?php namespace Navplan\User;
 require_once __DIR__ . "/../NavplanHelper.php";
 
+use mysqli;
 use Navplan\NavplanHelper;
 use Navplan\Shared\DbService;
 use Navplan\Shared\MailService;
@@ -22,10 +23,9 @@ class UserForgotPw
 
 
     // TODO
-    public static function forgotPassword(array $input)
+    public static function forgotPassword(mysqli $conn, array $args, MailService $mailService)
     {
-        $conn = DbService::openDb();
-        $email = UserHelper::escapeEmail($conn, $input);
+        $email = UserHelper::escapeEmail($conn, $args);
 
         if (!UserHelper::checkEmailFormat($email))
         {
@@ -56,7 +56,7 @@ class UserForgotPw
                 die("error updating password: " . $conn->error . " query:" . $query);
 
             // send email with pw
-            if (!self::sendPwResetEmail($email, $password))
+            if (!self::sendPwResetEmail($mailService, $email, $password))
 
             $message = "email sent successfully";
             $resultcode = 0;
@@ -74,13 +74,10 @@ class UserForgotPw
                 "message" => $message
             )
         );
-
-        // close db
-        $conn->close();
     }
 
 
-    private static function sendPwResetEmail(string $email, string $password): bool {
+    private static function sendPwResetEmail(MailService $mailService, string $email, string $password): bool {
         $loginUrl = NavplanHelper::NAVPLAN_BASE_URL . '/login';
         $subject = "Navplan.ch - Password Reset";
         $message = '
@@ -94,6 +91,6 @@ class UserForgotPw
             </body>
             </html>';
 
-        return MailService::sendEmail($email, $subject, $message);
+        return $mailService->sendEmail($email, $subject, $message);
     }
 }

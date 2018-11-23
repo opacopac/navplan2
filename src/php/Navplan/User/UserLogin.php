@@ -1,32 +1,29 @@
 <?php namespace Navplan\User;
 require_once __DIR__ . "/../NavplanHelper.php";
 
+use mysqli;
 use Navplan\Message;
-use Navplan\Shared\DbService;
 
 
 class UserLogin
 {
-    public static function autoLogin(array $input)
+    public static function autoLogin(mysqli $conn, array $args)
     {
-        $conn = DbService::openDb();
-        $token = UserHelper::escapeTrimInput($conn, $input["token"]);
+        $token = UserHelper::escapeTrimInput($conn, $args["token"]);
         $email = UserHelper::escapeAuthenticatedEmailOrNull($conn, $token);
 
         if (!$email)
             UserHelper::sendErrorResponseAndDie(new Message(-1, 'error: invalid token'), $conn);
 
         UserHelper::sendSuccessResponse($email, $token);
-        $conn->close();
     }
 
 
-    public static function login(array $input)
+    public static function login(mysqli $conn, array $args)
     {
-        $conn = DbService::openDb();
-        $email = UserHelper::escapeTrimInput($conn, $input["email"]);
-        $password = UserHelper::escapeTrimInput($conn, $input["password"]);
-        $rememberMe = ($input["rememberme"] === "1");
+        $email = UserHelper::escapeTrimInput($conn, $args["email"]);
+        $password = UserHelper::escapeTrimInput($conn, $args["password"]);
+        $rememberMe = ($args["rememberme"] === "1");
 
         if (!UserHelper::checkEmailFormat($email) || !UserHelper::checkEmailExists($conn, $email))
             UserHelper::sendErrorResponseAndDie(new Message(-1, 'error: invalid email'), $conn);
@@ -38,6 +35,5 @@ class UserLogin
         $token = UserHelper::createToken($email, $rememberMe);
 
         UserHelper::sendSuccessResponse($email, $token);
-        $conn->close();
     }
 }

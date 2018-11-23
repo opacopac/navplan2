@@ -2,17 +2,15 @@
 require_once __DIR__ . "/../NavplanHelper.php";
 
 use mysqli;
-use Navplan\Shared\DbService;
 use Navplan\Shared\StringNumberService;
 use Navplan\User\UserHelper;
 
 
 class FlightrouteCreate
 {
-    public static function createSharedNavplan(array $input)
+    public static function createSharedNavplan(mysqli $conn, array $args)
     {
-        $conn = DbService::openDb();
-        $navplan = FlightrouteHelper::escapeNavplanData($conn, $input["globalData"]);
+        $navplan = FlightrouteHelper::escapeNavplanData($conn, $args["globalData"]);
 
         // check if shared navplan already exists
         $navplanHash = hash("md5", serialize($navplan));
@@ -59,11 +57,10 @@ class FlightrouteCreate
     }
 
 
-    public static function createNavplan(array $input)
+    public static function createNavplan(mysqli $conn, array $args)
     {
-        $conn = DbService::openDb();
-        $navplan = FlightrouteHelper::escapeNavplanData($conn, $input["globalData"]);
-        $email = UserHelper::escapeAuthenticatedEmailOrDie($conn, $_GET["token"]);
+        $navplan = FlightrouteHelper::escapeNavplanData($conn, $args["globalData"]);
+        $email = UserHelper::escapeAuthenticatedEmailOrDie($conn, $args["token"]);
 
         // get user id
         $query = "SELECT id FROM users WHERE email = '" . $email . "'";

@@ -1,13 +1,13 @@
 <?php namespace Navplan\Search;
 require_once __DIR__ . "/../NavplanHelper.php";
 
+use mysqli;
 use Navplan\MapFeatures\SearchItemAirport;
 use Navplan\MapFeatures\SearchItemAirspace;
 use Navplan\MapFeatures\SearchItemNavaid;
 use Navplan\MapFeatures\SearchItemReportingPoint;
 use Navplan\MapFeatures\SearchItemUserPoint;
 use Navplan\MapFeatures\SearchItemWebcam;
-use Navplan\Shared\DbService;
 use Navplan\Shared\StringNumberService;
 use Navplan\User\UserHelper;
 
@@ -18,18 +18,17 @@ class SearchByExtent
     const MAX_EXTENT_SEARCH_RESULTS_PER_ENTITY = 100;
 
 
-    public static function searchByExtent()
+    public static function searchByExtent(mysqli $conn, array $args)
     {
-        $conn = DbService::openDb();
-        $searchItems = SearchHelper::checkEscapeSearchItems($conn, $_GET["searchItems"]);
-        $minLon = StringNumberService::checkNumeric($_GET["minlon"]);
-        $minLat = StringNumberService::checkNumeric($_GET["minlat"]);
-        $maxLon = StringNumberService::checkNumeric($_GET["maxlon"]);
-        $maxLat = StringNumberService::checkNumeric($_GET["maxlat"]);
-        $zoom = StringNumberService::checkNumeric($_GET["zoom"]);
-        $minNotamTimestamp = $_GET["minnotamtime"] ? StringNumberService::checkNumeric($_GET["minnotamtime"]) : 0;
-        $maxNotamTimestamp = $_GET["maxnotamtime"] ? StringNumberService::checkNumeric($_GET["maxnotamtime"]) : 0;
-        $email = UserHelper::escapeAuthenticatedEmailOrNull($conn, $_GET["token"]);
+        $searchItems = SearchHelper::checkEscapeSearchItems($conn, $args["searchItems"]);
+        $minLon = StringNumberService::checkNumeric($args["minlon"]);
+        $minLat = StringNumberService::checkNumeric($args["minlat"]);
+        $maxLon = StringNumberService::checkNumeric($args["maxlon"]);
+        $maxLat = StringNumberService::checkNumeric($args["maxlat"]);
+        $zoom = StringNumberService::checkNumeric($args["zoom"]);
+        $minNotamTimestamp = $args["minnotamtime"] ? StringNumberService::checkNumeric($args["minnotamtime"]) : 0;
+        $maxNotamTimestamp = $args["maxnotamtime"] ? StringNumberService::checkNumeric($args["maxnotamtime"]) : 0;
+        $email = UserHelper::escapeAuthenticatedEmailOrNull($conn, $args["token"]);
 
         $resultNum = 0;
         $airports = [];

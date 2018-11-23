@@ -1,12 +1,12 @@
 <?php namespace Navplan\Search;
 require_once __DIR__ . "/../NavplanHelper.php";
 
+use mysqli;
 use Navplan\Geoname\SearchItemGeoname;
 use Navplan\MapFeatures\SearchItemAirport;
 use Navplan\MapFeatures\SearchItemNavaid;
 use Navplan\MapFeatures\SearchItemReportingPoint;
 use Navplan\MapFeatures\SearchItemUserPoint;
-use Navplan\Shared\DbService;
 use Navplan\Shared\StringNumberService;
 use Navplan\User\UserHelper;
 
@@ -17,12 +17,11 @@ class SearchByText
     const MAX_TEXT_SEARCH_RESULTS_PER_ENTITY = 10;
 
 
-    public static function searchByText()
+    public static function searchByText(mysqli $conn, array $args)
     {
-        $conn = DbService::openDb();
-        $searchItems = SearchHelper::checkEscapeSearchItems($conn, $_GET["searchItems"]);
-        $searchText = StringNumberService::checkEscapeString($conn, $_GET["searchText"], 1, 100);
-        $email = UserHelper::escapeAuthenticatedEmailOrNull($conn, $_GET["token"]);
+        $searchItems = SearchHelper::checkEscapeSearchItems($conn, $args["searchItems"]);
+        $searchText = StringNumberService::checkEscapeString($conn, $args["searchText"], 1, 100);
+        $email = UserHelper::escapeAuthenticatedEmailOrNull($conn, $args["token"]);
 
         $resultNum = 0;
         $airports = [];
