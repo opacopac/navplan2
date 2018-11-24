@@ -1,15 +1,27 @@
 <?php namespace Navplan\MapFeatures;
 include_once __DIR__ . "/../NavplanHelper.php";
 
-use mysqli, mysqli_result;
+use Navplan\Shared\DbConnection;
+use Navplan\Shared\DbResult;
 use Navplan\Shared\DbService;
+use Navplan\Shared\DbException;
 
 
 class SearchItemNavaid {
     const MIN_PIXEL_DISTANCE_BETWEEN_ITEMS = 200;  // TODO
 
 
-    public static function searchByExtent(mysqli $conn, float $minLon, float $minLat, float $maxLon, float $maxLat, int $zoom) {
+    /**
+     * @param DbConnection $conn
+     * @param float $minLon
+     * @param float $minLat
+     * @param float $maxLon
+     * @param float $maxLat
+     * @param int $zoom
+     * @return array
+     * @throws DbException
+     */
+    public static function searchByExtent(DbConnection $conn, float $minLon, float $minLat, float $maxLon, float $maxLat, int $zoom) {
         $extent = DbService::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
         $query = "SELECT *";
         $query .= " FROM openaip_navaids2";
@@ -25,7 +37,16 @@ class SearchItemNavaid {
     }
 
 
-    public static function searchByPosition(mysqli $conn, float $lon, float $lat, float $maxRadius_deg, int $maxResults) {
+    /**
+     * @param DbConnection $conn
+     * @param float $lon
+     * @param float $lat
+     * @param float $maxRadius_deg
+     * @param int $maxResults
+     * @return array
+     * @throws DbException
+     */
+    public static function searchByPosition(DbConnection $conn, float $lon, float $lat, float $maxRadius_deg, int $maxResults) {
         $query = "SELECT *";
         $query .= " FROM openaip_navaids";
         $query .= " WHERE";
@@ -43,7 +64,14 @@ class SearchItemNavaid {
     }
 
 
-    public static function searchByText(mysqli $conn, string $searchText, int $maxResults) {
+    /**
+     * @param DbConnection $conn
+     * @param string $searchText
+     * @param int $maxResults
+     * @return array
+     * @throws DbException
+     */
+    public static function searchByText(DbConnection $conn, string $searchText, int $maxResults) {
         $query = "SELECT *";
         $query .= " FROM openaip_navaids";
         $query .= " WHERE";
@@ -58,7 +86,7 @@ class SearchItemNavaid {
     }
 
 
-    private static function readNavaidFromResultList(mysqli_result $result): array {
+    private static function readNavaidFromResultList(DbResult $result): array {
         $navaids = [];
         while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
             $navaids[] = self::readNavaidFromResult($rs);

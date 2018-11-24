@@ -1,13 +1,14 @@
 <?php namespace Navplan\User;
 require_once __DIR__ . "/../NavplanHelper.php";
 
-use mysqli;
 use Navplan\Message;
+use Navplan\Shared\DbConnection;
+use Navplan\Shared\DbException;
 
 
 class UserLogin
 {
-    public static function autoLogin(mysqli $conn, array $args)
+    public static function autoLogin(DbConnection $conn, array $args)
     {
         $token = UserHelper::escapeTrimInput($conn, $args["token"]);
         $email = UserHelper::escapeAuthenticatedEmailOrNull($conn, $token);
@@ -19,7 +20,12 @@ class UserLogin
     }
 
 
-    public static function login(mysqli $conn, array $args)
+    /**
+     * @param DbConnection $conn
+     * @param array $args
+     * @throws DbException
+     */
+    public static function login(DbConnection $conn, array $args)
     {
         $email = UserHelper::escapeTrimInput($conn, $args["email"]);
         $password = UserHelper::escapeTrimInput($conn, $args["password"]);

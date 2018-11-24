@@ -1,12 +1,18 @@
 <?php namespace Navplan\Search;
 require_once __DIR__ . "/../NavplanHelper.php";
 
-use mysqli;
+use Navplan\Shared\DbConnection;
+use Navplan\Shared\DbException;
 
 
 class SearchServiceProcessor
 {
-    public static function processRequest(array $getVars, mysqli $conn)
+    /**
+     * @param array $getVars
+     * @param DbConnection $conn
+     * @throws DbException
+     */
+    public static function processRequest(array $getVars, DbConnection $conn)
     {
         switch ($getVars["action"]) {
             case "searchByText":

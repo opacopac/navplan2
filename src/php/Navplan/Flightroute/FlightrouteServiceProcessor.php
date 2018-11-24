@@ -1,12 +1,20 @@
 <?php namespace Navplan\Flightroute;
 require_once __DIR__ . "/../NavplanHelper.php";
 
-use mysqli;
+use Navplan\Shared\DbConnection;
+use Navplan\Shared\DbException;
 
 
 class FlightrouteServiceProcessor
 {
-    public static function processRequest(string $requestMethod, ?array $getVars, ?array $postVars, mysqli $conn)
+    /**
+     * @param string $requestMethod
+     * @param array|null $getVars
+     * @param array|null $postVars
+     * @param DbConnection $conn
+     * @throws DbException
+     */
+    public static function processRequest(string $requestMethod, ?array $getVars, ?array $postVars, DbConnection $conn)
     {
         switch ($requestMethod) {
             case 'GET':

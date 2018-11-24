@@ -1,13 +1,20 @@
 <?php namespace Navplan\User;
 require_once __DIR__ . "/../NavplanHelper.php";
 
-use mysqli;
+use Navplan\Shared\DbConnection;
+use Navplan\Shared\DbException;
 use Navplan\Shared\MailService;
 
 
 class UserServiceProcessor
 {
-    public static function processRequest(?array $postVars, mysqli $conn, MailService $mailService)
+    /**
+     * @param array|null $postVars
+     * @param DbConnection $conn
+     * @param MailService $mailService
+     * @throws DbException
+     */
+    public static function processRequest(?array $postVars, DbConnection $conn, MailService $mailService)
     {
         switch ($postVars["action"]) {
             case "login":

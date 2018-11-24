@@ -1,14 +1,20 @@
 <?php namespace Navplan\Flightroute;
 require_once __DIR__ . "/../NavplanHelper.php";
 
-use mysqli;
+use Navplan\Shared\DbConnection;
+use Navplan\Shared\DbException;
 use Navplan\Shared\StringNumberService;
 use Navplan\User\UserHelper;
 
 
 class FlightrouteCreate
 {
-    public static function createSharedNavplan(mysqli $conn, array $args)
+    /**
+     * @param DbConnection $conn
+     * @param array $args
+     * @throws DbException
+     */
+    public static function createSharedNavplan(DbConnection $conn, array $args)
     {
         $navplan = FlightrouteHelper::escapeNavplanData($conn, $args["globalData"]);
 
@@ -19,9 +25,9 @@ class FlightrouteCreate
         $result = $conn->query($query);
 
         if ($result === FALSE)
-            die("error reading navplan by hash: " . $conn->error . " query:" . $query);
+            throw new DbException("error reading navplan by hash", $conn->getError(), $query);
 
-        if ($result->num_rows > 0)
+        if ($result->getNumRows() > 0)
         {
             $row = $result->fetch_assoc();
             $share_id = $row["share_id"];
@@ -44,9 +50,9 @@ class FlightrouteCreate
             $result = $conn->query($query);
 
             if ($result === FALSE)
-                die("error inserting navplan: " . $conn->error . " query:" . $query);
+                throw new DbException("error inserting navplan", $conn->getError(), $query);
             else
-                $navplan_id = $conn->insert_id;
+                $navplan_id = $conn->getInsertId();
 
             // create waypoints
             self::createWaypoints($conn, $navplan["waypoints"], $navplan["alternate"], $navplan_id);
@@ -57,7 +63,12 @@ class FlightrouteCreate
     }
 
 
-    public static function createNavplan(mysqli $conn, array $args)
+    /**
+     * @param DbConnection $conn
+     * @param array $args
+     * @throws DbException
+     */
+    public static function createNavplan(DbConnection $conn, array $args)
     {
         $navplan = FlightrouteHelper::escapeNavplanData($conn, $args["globalData"]);
         $email = UserHelper::escapeAuthenticatedEmailOrDie($conn, $args["token"]);
@@ -67,9 +78,9 @@ class FlightrouteCreate
         $result = $conn->query($query);
 
         if ($result === FALSE)
-            die("error reading user id: " . $conn->error . " query:" . $query);
+            throw new DbException("error reading user id", $conn->getError(), $query);
 
-        if ($result->num_rows > 0)
+        if ($result->getNumRows() > 0)
         {
             $row = $result->fetch_assoc();
             $user_id = $row["id"];
@@ -89,9 +100,9 @@ class FlightrouteCreate
         $result = $conn->query($query);
 
         if ($result === FALSE)
-            die("error inserting navplan: " . $conn->error . " query:" . $query);
+            throw new DbException("error inserting navplan", $conn->getError(), $query);
         else
-            $navplan_id = $conn->insert_id;
+            $navplan_id = $conn->getInsertId();
 
 
         // update waypoints
@@ -102,7 +113,14 @@ class FlightrouteCreate
     }
 
 
-    public static function createWaypoints(mysqli $conn, array $waypoints, array $alternate, int $navplan_id)
+    /**
+     * @param DbConnection $conn
+     * @param array $waypoints
+     * @param array $alternate
+     * @param int $navplan_id
+     * @throws DbException
+     */
+    public static function createWaypoints(DbConnection $conn, array $waypoints, array $alternate, int $navplan_id)
     {
         for ($i = 0; $i < count($waypoints); $i++)
         {
@@ -110,7 +128,7 @@ class FlightrouteCreate
             $result = $conn->query($query);
 
             if ($result === FALSE)
-                die("error inserting waypoint: " . $conn->error . " query:" . $query);
+                throw new DbException("error inserting waypoint", $conn->getError(), $query);
         }
 
         if ($alternate)
@@ -119,7 +137,7 @@ class FlightrouteCreate
             $result = $conn->query($query);
 
             if ($result === FALSE)
-                die("error inserting alternate: " . $conn->error . " query:" . $query);
+                throw new DbException("error inserting alternate", $conn->getError(), $query);
         }
     }
 

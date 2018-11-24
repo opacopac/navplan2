@@ -1,13 +1,19 @@
 <?php namespace Navplan\Flightroute;
 require_once __DIR__ . "/../NavplanHelper.php";
 
-use mysqli;
+use Navplan\Shared\DbConnection;
+use Navplan\Shared\DbException;
 use Navplan\User\UserHelper;
 
 
 class FlightrouteUpdate
 {
-    public static function updateNavplan(mysqli $conn, array $args)
+    /**
+     * @param DbConnection $conn
+     * @param array $args
+     * @throws DbException
+     */
+    public static function updateNavplan(DbConnection $conn, array $args)
     {
         $navplan = FlightrouteHelper::escapeNavplanData($conn, $args["globalData"]);
         $email = UserHelper::escapeAuthenticatedEmailOrDie($conn, $_GET["token"]);
@@ -18,10 +24,10 @@ class FlightrouteUpdate
         $query .= " WHERE nav.id = '" . $navplan["id"] . "' AND usr.email = '" . $email . "'";
         $result = $conn->query($query);
         if ($result === FALSE)
-            die("error reading navplan/user: " . $conn->error . " query:" . $query);
+            throw new DbException("error reading navplan/user", $conn->getError(), $query);
 
-        if ($result->num_rows <= 0)
-            die("no navplan with id: '" . $navplan["id"] . "' of current user found");
+        if ($result->getNumRows() <= 0)
+            throw new DbException("no navplan with this id of current user found", $conn->getError(), $query);
 
         // update navplan
         $query = "UPDATE navplan SET";
@@ -33,13 +39,13 @@ class FlightrouteUpdate
         $query .= " WHERE id = '" . $navplan["id"] . "'";
         $result = $conn->query($query);
         if ($result === FALSE)
-            die("error updating navplan: " . $conn->error . " query:" . $query);
+            throw new DbException("error updating navplan", $conn->getError(), $query);
 
         // update waypoints
         $query = "DELETE FROM navplan_waypoints WHERE navplan_id = '" . $navplan["id"] . "'";
         $result = $conn->query($query);
         if ($result === FALSE)
-            die("error deleting waypoints from navplan: " . $conn->error . " query:" . $query);
+            throw new DbException("error deleting waypoints from navplan", $conn->getError(), $query);
 
         FlightrouteCreate::createWaypoints($conn, $navplan["waypoints"], $navplan["alternate"], $navplan["id"]);
 

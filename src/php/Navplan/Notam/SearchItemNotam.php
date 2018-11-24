@@ -1,8 +1,11 @@
 <?php namespace Navplan\Search;
 include_once __DIR__ . "/../NavplanHelper.php";
 
-use mysqli, mysqli_result;
+use BadMethodCallException;
+use Navplan\Shared\DbConnection;
+use Navplan\Shared\DbResult;
 use Navplan\Shared\DbService;
+use Navplan\Shared\DbException;
 
 
 class SearchItemNotam {
@@ -11,8 +14,8 @@ class SearchItemNotam {
     const MIN_PIXEL_COORDINATE_RESOLUTION = 2;  // TODO
 
 
-    public static function searchByExtent(mysqli $conn, float $minLon, float $minLat, float $maxLon, float $maxLat, int $zoom, int $minNotamTimestamp, int $maxNotamTimestamp): array {
-        die("not implemented");
+    public static function searchByExtent(DbConnection $conn, float $minLon, float $minLat, float $maxLon, float $maxLat, int $zoom, int $minNotamTimestamp, int $maxNotamTimestamp): array {
+        throw new BadMethodCallException("not implemented");
 
         /*$extent = DbService::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
         $pixelResolutionDeg = GeoService::calcDegPerPixelByZoom($zoom);
@@ -42,7 +45,17 @@ class SearchItemNotam {
     }
 
 
-    public static function searchByPosition(mysqli $conn, float $lat, float $lon, int $minNotamTimestamp, int $maxNotamTimestamp, int $maxResults) {
+    /**
+     * @param DbConnection $conn
+     * @param float $lat
+     * @param float $lon
+     * @param int $minNotamTimestamp
+     * @param int $maxNotamTimestamp
+     * @param int $maxResults
+     * @return array
+     * @throws DbException
+     */
+    public static function searchByPosition(DbConnection $conn, float $lat, float $lon, int $minNotamTimestamp, int $maxNotamTimestamp, int $maxResults) {
         $query = "SELECT ntm.notam AS notam"
             . "   FROM icao_notam AS ntm"
             . "    INNER JOIN icao_notam_geometry geo ON geo.icao_notam_id = ntm.id "
@@ -61,7 +74,15 @@ class SearchItemNotam {
     }
 
 
-    public static function searchByIcao(mysqli $conn, array $icaoList, int $minNotamTimestamp, int $maxNotamTimestamp) {
+    /**
+     * @param DbConnection $conn
+     * @param array $icaoList
+     * @param int $minNotamTimestamp
+     * @param int $maxNotamTimestamp
+     * @return array
+     * @throws DbException
+     */
+    public static function searchByIcao(DbConnection $conn, array $icaoList, int $minNotamTimestamp, int $maxNotamTimestamp) {
         $query = "SELECT ntm.notam AS notam"
             . "   FROM icao_notam AS ntm"
             . "    INNER JOIN icao_notam_geometry2 geo ON geo.icao_notam_id = ntm.id"
@@ -77,13 +98,13 @@ class SearchItemNotam {
     }
 
 
-    public static function searchByReference(mysqli $conn, $ref) {
-        die("not implemented");
+    public static function searchByReference(DbConnection $conn, $ref) {
+        throw new BadMethodCallException("not implemented");
     }
 
 
-    public static function searchByText(mysqli $conn, string $searchText, int $maxResults) {
-        die("not implemented");
+    public static function searchByText(DbConnection $conn, string $searchText, int $maxResults) {
+        throw new BadMethodCallException("not implemented");
     }
 
 
@@ -130,7 +151,7 @@ class SearchItemNotam {
     }*/
 
 
-    private static function readNotamFromResultList(mysqli_result $result): array {
+    private static function readNotamFromResultList(DbResult $result): array {
         $notams = [];
         while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
             $notam = self::readNotamFromResult($rs);

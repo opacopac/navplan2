@@ -1,6 +1,7 @@
 <?php namespace Navplan\Search;
 require_once __DIR__ . "/../NavplanHelper.php";
 
+
 class SearchItem {
     const AIRPORTS = 'airports';
     const NAVAIDS = 'navaids';

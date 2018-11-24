@@ -1,14 +1,20 @@
 <?php namespace Navplan\User;
 require_once __DIR__ . "/../NavplanHelper.php";
 
-use mysqli;
 use Navplan\Message;
+use Navplan\Shared\DbConnection;
+use Navplan\Shared\DbException;
 use Navplan\Shared\DbService;
 
 
 class UserUpdatePw
 {
-    public static function updatePassword(mysqli $conn, array $args)
+    /**
+     * @param DbConnection $conn
+     * @param array $args
+     * @throws DbException
+     */
+    public static function updatePassword(DbConnection $conn, array $args)
     {
         $token = UserHelper::escapeTrimInput($conn, $args["token"]);
         $email = UserHelper::escapeAuthenticatedEmailOrNull($conn, $token);

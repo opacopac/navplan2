@@ -1,12 +1,12 @@
 <?php namespace Navplan\Shared;
 require_once __DIR__ . "/../NavplanHelper.php";
 
-use mysqli, mysqli_result;
+use mysqli;
 
 
 class DbService
 {
-    public static function openDb(): mysqli
+    public static function openDb(): DbConnection
     {
         global $db_host, $db_user, $db_pw, $db_name;
 
@@ -14,32 +14,57 @@ class DbService
         $conn = new mysqli($db_host, $db_user, $db_pw, $db_name);
         $conn->set_charset("utf8");
 
-        return $conn;
+        return new DbConnection($conn);
     }
 
 
-    public static function execSingleResultQuery(mysqli $conn, string $query, bool $allowZeroResults = true, string $errorMessage = "error executing single result query"): mysqli_result {
+    /**
+     * @param DbConnection $conn
+     * @param string $query
+     * @param bool $allowZeroResults
+     * @param string $errorMessage
+     * @return DbResult
+     * @throws DbException
+     */
+    public static function execSingleResultQuery(DbConnection $conn, string $query, bool $allowZeroResults = true, string $errorMessage = "error executing single result query"): DbResult {
         $result = $conn->query($query);
-        if ($result === FALSE  || $result->num_rows > 1 || (!$allowZeroResults && $result->num_rows == 0))
-            die($errorMessage . ": " . $conn->error . " query:" . $query);
+        if ($result === FALSE
+            || $result->getNumRows() > 1
+            || (!$allowZeroResults && $result->getNumRows() == 0)) {
+            throw new DbException($errorMessage, $conn->getError(), $query);
+        }
 
         return $result;
     }
 
 
-    public static function execMultiResultQuery(mysqli $conn, string $query, string $errorMessage = "error executing multi result query"): mysqli_result {
+    /**
+     * @param DbConnection $conn
+     * @param string $query
+     * @param string $errorMessage
+     * @return DbResult
+     * @throws DbException
+     */
+    public static function execMultiResultQuery(DbConnection $conn, string $query, string $errorMessage = "error executing multi result query"): DbResult {
         $result = $conn->query($query);
         if ($result === FALSE)
-            die($errorMessage . ": " . $conn->error . " query:" . $query);
+            throw new DbException($errorMessage, $conn->getError(), $query);
 
         return $result;
     }
 
 
-    public static function execCUDQuery(mysqli $conn, string $query, string $errorMessage = "error executing query"): bool {
+    /**
+     * @param DbConnection $conn
+     * @param string $query
+     * @param string $errorMessage
+     * @return bool
+     * @throws DbException
+     */
+    public static function execCUDQuery(DbConnection $conn, string $query, string $errorMessage = "error executing query"): bool {
         $result = $conn->query($query);
         if ($result === FALSE)
-            die($errorMessage . ": " . $conn->error . " query:" . $query);
+            throw new DbException($errorMessage, $conn->getError(), $query);
 
         return $result;
     }

@@ -1,12 +1,22 @@
 <?php namespace Navplan\MapFeatures;
 include_once __DIR__ . "/../NavplanHelper.php";
 
-use mysqli;
+use Navplan\Shared\DbConnection;
 use Navplan\Shared\DbService;
+use Navplan\Shared\DbException;
 
 
 class SearchItemWebcam {
-    public static function searchByExtent(mysqli $conn, float $minLon, float $minLat, float $maxLon, float $maxLat) {
+    /**
+     * @param DbConnection $conn
+     * @param float $minLon
+     * @param float $minLat
+     * @param float $maxLon
+     * @param float $maxLat
+     * @return array
+     * @throws DbException
+     */
+    public static function searchByExtent(DbConnection $conn, float $minLon, float $minLat, float $maxLon, float $maxLat) {
         $query  = "SELECT *";
         $query .= " FROM webcams";
         $query .= " WHERE airport_icao IS NULL";

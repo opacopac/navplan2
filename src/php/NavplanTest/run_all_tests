@@ -1,0 +1,1 @@
+../vendor/phpunit/phpunit --bootstrap ../Autoloader.php ./

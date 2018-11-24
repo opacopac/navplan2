@@ -1,13 +1,19 @@
 <?php namespace Navplan\Flightroute;
 require_once __DIR__ . "/../NavplanHelper.php";
 
-use mysqli;
+use Navplan\Shared\DbConnection;
+use Navplan\Shared\DbException;
 use Navplan\User\UserHelper;
 
 
 class FlightrouteListRead
 {
-    public static function readNavplanList(mysqli $conn, array $args)
+    /**
+     * @param DbConnection $conn
+     * @param array $args
+     * @throws DbException
+     */
+    public static function readNavplanList(DbConnection $conn, array $args)
     {
         $email = UserHelper::escapeAuthenticatedEmailOrDie($conn, $args["token"]);
 
@@ -20,7 +26,7 @@ class FlightrouteListRead
         $result = $conn->query($query);
 
         if ($result === FALSE)
-            die("error reading navplan list: " . $conn->error . " query:" . $query);
+            throw new DbException("error reading navplan list", $conn->getError(), $query);
 
         // create result array
         while ($row = $result->fetch_array(MYSQLI_ASSOC))

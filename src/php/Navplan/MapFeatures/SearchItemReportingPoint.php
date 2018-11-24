@@ -1,12 +1,24 @@
 <?php namespace Navplan\MapFeatures;
 include_once __DIR__ . "/../NavplanHelper.php";
 
-use mysqli, mysqli_result;
+use BadMethodCallException;
+use Navplan\Shared\DbConnection;
+use Navplan\Shared\DbResult;
 use Navplan\Shared\DbService;
+use Navplan\Shared\DbException;
 
 
 class SearchItemReportingPoint {
-    public static function searchByExtent(mysqli $conn, float $minLon, float $minLat, float $maxLon, float $maxLat) {
+    /**
+     * @param DbConnection $conn
+     * @param float $minLon
+     * @param float $minLat
+     * @param float $maxLon
+     * @param float $maxLat
+     * @return array
+     * @throws DbException
+     */
+    public static function searchByExtent(DbConnection $conn, float $minLon, float $minLat, float $maxLon, float $maxLat) {
         $extent = DbService::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
         $query = "SELECT * FROM reporting_points WHERE MBRIntersects(extent, " . $extent . ")";
 
@@ -16,7 +28,16 @@ class SearchItemReportingPoint {
     }
 
 
-    public static function searchByPosition(mysqli $conn, float $lon, float $lat, float $maxRadius_deg, int $maxResults) {
+    /**
+     * @param DbConnection $conn
+     * @param float $lon
+     * @param float $lat
+     * @param float $maxRadius_deg
+     * @param int $maxResults
+     * @return array
+     * @throws DbException
+     */
+    public static function searchByPosition(DbConnection $conn, float $lon, float $lat, float $maxRadius_deg, int $maxResults) {
         $query = "SELECT *";
         $query .= " FROM reporting_points";
         $query .= " WHERE";
@@ -34,7 +55,14 @@ class SearchItemReportingPoint {
     }
 
 
-    public static function searchByText(mysqli $conn, string $searchText, int $maxResults) {
+    /**
+     * @param DbConnection $conn
+     * @param string $searchText
+     * @param int $maxResults
+     * @return array
+     * @throws DbException
+     */
+    public static function searchByText(DbConnection $conn, string $searchText, int $maxResults) {
         $query = "SELECT * FROM reporting_points";
         $query .= " WHERE";
         $query .= "   airport_icao LIKE '" . $searchText . "%'";
@@ -47,12 +75,12 @@ class SearchItemReportingPoint {
     }
 
 
-    public static function searchByIcao(mysqli $conn, $icaoList): array {
-        die("not implemented!");
+    public static function searchByIcao(DbConnection $conn, $icaoList): array {
+        throw new BadMethodCallException("not implemented!");
     }
 
 
-    private static function readReportingPointFromResultList(mysqli_result $result): array {
+    private static function readReportingPointFromResultList(DbResult $result): array {
         $reportingPoint = [];
         while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
             $reportingPoint[] = self::readReportingPointFromResult($rs);

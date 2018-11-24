@@ -1,14 +1,20 @@
 <?php namespace Navplan\Flightroute;
 require_once __DIR__ . "/../NavplanHelper.php";
 
-use mysqli;
+use Navplan\Shared\DbConnection;
+use Navplan\Shared\DbException;
 use Navplan\Shared\StringNumberService;
 use Navplan\User\UserHelper;
 
 
 class FlightrouteRead
 {
-    public static function readSharedNavplan(mysqli $conn, array $args)
+    /**
+     * @param DbConnection $conn
+     * @param array $args
+     * @throws DbException
+     */
+    public static function readSharedNavplan(DbConnection $conn, array $args)
     {
         $share_id = StringNumberService::checkEscapeString($conn, $args["shareid"], 10, 10);
 
@@ -19,9 +25,9 @@ class FlightrouteRead
         $result = $conn->query($query);
 
         if ($result === FALSE)
-            die("error reading navplan: " . $conn->error . " query:" . $query);
+            throw new DbException("error reading shared navplan", $conn->getError(), $query);
 
-        if ($result->num_rows > 0)
+        if ($result->getNumRows() > 0)
         {
             $row = $result->fetch_assoc();
             $navplan["id"] = $row["id"];
@@ -32,7 +38,7 @@ class FlightrouteRead
             $navplan["comments"] = $row["comments"];
         }
         else
-            die("no navplan with share-id: '" . $share_id . "' found");
+            throw new DbException("no navplan with this share-id found", $conn->getError(), $query);
 
         // add waypoints
         $wpalt = self::readNavplanWaypoints($conn, $navplan["id"]);
@@ -46,7 +52,12 @@ class FlightrouteRead
     }
 
 
-    public static function readNavplan(mysqli $conn, array $args)
+    /**
+     * @param DbConnection $conn
+     * @param array $args
+     * @throws DbException
+     */
+    public static function readNavplan(DbConnection $conn, array $args)
     {
         $navplan_id = StringNumberService::checkId(intval($args["id"]));
         $email = UserHelper::escapeAuthenticatedEmailOrDie($conn, $args["token"]);
@@ -59,9 +70,9 @@ class FlightrouteRead
         $result = $conn->query($query);
 
         if ($result === FALSE)
-            die("error reading navplan: " . $conn->error . " query:" . $query);
+            throw new DbException("error reading navplan", $conn->getError(), $query);
 
-        if ($result->num_rows > 0)
+        if ($result->getNumRows() > 0)
         {
             $row = $result->fetch_assoc();
             $navplan["id"] = $row["id"];
@@ -72,7 +83,7 @@ class FlightrouteRead
             $navplan["comments"] = $row["comments"];
         }
         else
-            die("no navplan with id: '" . $navplan_id . "' of current user found");
+            throw new DbException("no navplan with this id of current user found", $conn->getError(), $query);
 
         // add waypoints
         $wpalt = self::readNavplanWaypoints($conn, $navplan_id);
@@ -84,7 +95,13 @@ class FlightrouteRead
     }
 
 
-    private static function readNavplanWaypoints(mysqli $conn, int $navplanId): array
+    /**
+     * @param DbConnection $conn
+     * @param int $navplanId
+     * @return array
+     * @throws DbException
+     */
+    private static function readNavplanWaypoints(DbConnection $conn, int $navplanId): array
     {
         // get navplan waypoints
         $query = "SELECT wp.type, wp.freq, wp.callsign, wp.checkpoint, wp.alt, wp.isminalt, wp.ismaxalt, wp.isaltatlegstart, wp.remark, wp.supp_info, wp.latitude, wp.longitude, wp.airport_icao, wp.is_alternate FROM navplan_waypoints AS wp";
@@ -94,9 +111,11 @@ class FlightrouteRead
         $result = $conn->query($query);
 
         if ($result === FALSE)
-            die("error reading navplan waypoints: " . $conn->error . " query:" . $query);
+            throw new DbException("error reading navplan waypoints", $conn->getError(), $query);
 
         // create result array
+        $waypoints = [];
+        $alternate = NULL;
         while ($row = $result->fetch_assoc())
         {
             $wp = array(

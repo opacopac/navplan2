@@ -1,16 +1,16 @@
 <?php namespace Navplan\Search;
 require_once __DIR__ . "/../NavplanHelper.php";
 
-use mysqli;
 use Navplan\MapFeatures\SearchItemAirport;
 use Navplan\MapFeatures\SearchItemReportingPoint;
 use Navplan\MapFeatures\SearchItemWebcam;
+use Navplan\Shared\DbConnection;
 use Navplan\Shared\StringNumberService;
 
 
 class SearchByIcao
 {
-    public static function searchByIcao(mysqli $conn, array $args)
+    public static function searchByIcao(DbConnection $conn, array $args)
     {
         $searchItems = SearchHelper::checkEscapeSearchItems($conn, $args["searchItems"]);
         $icaoList = SearchHelper::checkEscapeIcaoList($conn, $args["icao"]);

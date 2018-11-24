@@ -1,10 +1,12 @@
 <?php namespace Navplan\User;
 require_once __DIR__ . "/../NavplanHelper.php";
 
-use mysqli;
 use Navplan\NavplanHelper;
+use Navplan\Shared\DbConnection;
+use Navplan\Shared\DbException;
 use Navplan\Shared\DbService;
 use Navplan\Shared\MailService;
+use Navplan\Shared\StringNumberService;
 
 
 class UserForgotPw
@@ -23,9 +25,16 @@ class UserForgotPw
 
 
     // TODO
-    public static function forgotPassword(mysqli $conn, array $args, MailService $mailService)
+
+    /**
+     * @param DbConnection $conn
+     * @param array $args
+     * @param MailService $mailService
+     * @throws DbException
+     */
+    public static function forgotPassword(DbConnection $conn, array $args, MailService $mailService)
     {
-        $email = UserHelper::escapeEmail($conn, $args);
+        $email = UserHelper::escapeAuthenticatedEmailOrDie($conn, $args["token"]);
 
         if (!UserHelper::checkEmailFormat($email))
         {
@@ -38,12 +47,12 @@ class UserForgotPw
         $query = "SELECT id FROM users WHERE email='" . $email . "'";
         $result = DbService::execSingleResultQuery($conn, $query);
 
-        if ($result->num_rows == 1)
+        if ($result->getNumRows() == 1)
         {
             $row = $result->fetch_assoc();
 
             // generate random pw
-            $password = generateRandomPw(8);
+            $password = StringNumberService::createRandomString(8);
 
             // hash pw
             $pw_hash = crypt($password);
@@ -53,7 +62,7 @@ class UserForgotPw
             $result = $conn->query($query);
 
             if ($result === FALSE)
-                die("error updating password: " . $conn->error . " query:" . $query);
+                throw new DbException("error updating password", $conn->getError(), $query);
 
             // send email with pw
             if (!self::sendPwResetEmail($mailService, $email, $password))

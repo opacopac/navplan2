@@ -1,13 +1,14 @@
 <?php namespace Navplan\Search;
 require_once __DIR__ . "/../NavplanHelper.php";
 
-use mysqli;
 use Navplan\MapFeatures\SearchItemAirport;
 use Navplan\MapFeatures\SearchItemAirspace;
 use Navplan\MapFeatures\SearchItemNavaid;
 use Navplan\MapFeatures\SearchItemReportingPoint;
 use Navplan\MapFeatures\SearchItemUserPoint;
 use Navplan\MapFeatures\SearchItemWebcam;
+use Navplan\Shared\DbConnection;
+use Navplan\Shared\DbException;
 use Navplan\Shared\StringNumberService;
 use Navplan\User\UserHelper;
 
@@ -18,7 +19,12 @@ class SearchByExtent
     const MAX_EXTENT_SEARCH_RESULTS_PER_ENTITY = 100;
 
 
-    public static function searchByExtent(mysqli $conn, array $args)
+    /**
+     * @param DbConnection $conn
+     * @param array $args
+     * @throws DbException
+     */
+    public static function searchByExtent(DbConnection $conn, array $args)
     {
         $searchItems = SearchHelper::checkEscapeSearchItems($conn, $args["searchItems"]);
         $minLon = StringNumberService::checkNumeric($args["minlon"]);

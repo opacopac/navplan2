@@ -1,8 +1,6 @@
 <?php namespace Navplan\Shared;
 require_once __DIR__ . "/../NavplanHelper.php";
 
-use mysqli;
-
 
 class StringNumberService
 {
@@ -85,21 +83,21 @@ class StringNumberService
     }
 
 
-    public static function checkEscapeAlphaNumeric(mysqli $conn, string $string, int $minlen, int $maxlen): string
+    public static function checkEscapeAlphaNumeric(DbConnection $conn, string $string, int $minlen, int $maxlen): string
     {
-        return mysqli_real_escape_string($conn, self::checkAlphaNumeric($string, $minlen, $maxlen));
+        return $conn->real_escape_string(self::checkAlphaNumeric($string, $minlen, $maxlen));
     }
 
 
-    public static function checkEscapeString(mysqli $conn, string $string, int $minlen, int $maxlen): string
+    public static function checkEscapeString(DbConnection $conn, string $string, int $minlen, int $maxlen): string
     {
-        return mysqli_real_escape_string($conn, self::checkString($string, $minlen, $maxlen));
+        return $conn->real_escape_string(self::checkString($string, $minlen, $maxlen));
     }
 
 
-    public static function checkEscapeEmail(mysqli $conn, string $email): string
+    public static function checkEscapeEmail(DbConnection $conn, string $email): string
     {
-        return mysqli_real_escape_string($conn, self::checkEmail($email));
+        return $conn->real_escape_string(self::checkEmail($email));
     }
 
 

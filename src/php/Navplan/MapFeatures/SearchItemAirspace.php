@@ -1,9 +1,11 @@
 <?php namespace Navplan\MapFeatures;
 include_once __DIR__ . "/../NavplanHelper.php";
 
-use mysqli, mysqli_result;
+use Navplan\Shared\DbConnection;
+use Navplan\Shared\DbResult;
 use Navplan\Shared\DbService;
 use Navplan\Shared\GeoService;
+use Navplan\Shared\DbException;
 
 
 class SearchItemAirspace {
@@ -12,7 +14,17 @@ class SearchItemAirspace {
     const MIN_PIXEL_COORDINATE_RESOLUTION = 2;  // TODO
 
 
-    public static function searchByExtent(mysqli $conn, float $minLon, float $minLat, float $maxLon, float $maxLat, int $zoom): array {
+    /**
+     * @param DbConnection $conn
+     * @param float $minLon
+     * @param float $minLat
+     * @param float $maxLon
+     * @param float $maxLat
+     * @param int $zoom
+     * @return array
+     * @throws DbException
+     */
+    public static function searchByExtent(DbConnection $conn, float $minLon, float $minLat, float $maxLon, float $maxLat, int $zoom): array {
         $extent = DbService::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
         $pixelResolutionDeg = GeoService::calcDegPerPixelByZoom($zoom);
         $minDiameterDeg = $pixelResolutionDeg * self::MIN_PIXEL_AIRSPACE_DIAMETER;
@@ -46,7 +58,7 @@ class SearchItemAirspace {
     }
 
 
-    private static function readAirspaceFromResultList(mysqli_result $result, float $pixelResolutionDeg): array
+    private static function readAirspaceFromResultList(DbResult $result, float $pixelResolutionDeg): array
     {
         $airspaces = [];
         while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {

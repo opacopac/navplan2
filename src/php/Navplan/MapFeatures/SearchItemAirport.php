@@ -1,16 +1,30 @@
 <?php namespace Navplan\MapFeatures;
 include_once __DIR__ . "/../NavplanHelper.php";
 
-use mysqli, mysqli_result;
+use BadMethodCallException;
 use Navplan\NavplanHelper;
+use Navplan\Shared\DbConnection;
+use Navplan\Shared\DbResult;
 use Navplan\Shared\DbService;
+use Navplan\Shared\DbException;
 
 
 class SearchItemAirport {
     const MIN_PIXEL_DISTANCE_BETWEEN_ITEMS = 200;  // TODO
 
 
-    public static function searchByExtent(mysqli $conn, float $minLon, float $minLat, float $maxLon, float $maxLat, int $zoom, string $email = NULL): array {
+    /**
+     * @param DbConnection $conn
+     * @param float $minLon
+     * @param float $minLat
+     * @param float $maxLon
+     * @param float $maxLat
+     * @param int $zoom
+     * @param string|NULL $email
+     * @return array
+     * @throws DbException
+     */
+    public static function searchByExtent(DbConnection $conn, float $minLon, float $minLat, float $maxLon, float $maxLat, int $zoom, string $email = NULL): array {
         $extent = DbService::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
         $query  = "SELECT *";
         $query .= " FROM openaip_airports2";
@@ -27,7 +41,17 @@ class SearchItemAirport {
     }
 
 
-    public static function searchByPosition(mysqli $conn, float $lon, float $lat, float $maxRadius_deg, int $maxResults, ?string $email = NULL): array {
+    /**
+     * @param DbConnection $conn
+     * @param float $lon
+     * @param float $lat
+     * @param float $maxRadius_deg
+     * @param int $maxResults
+     * @param null|string $email
+     * @return array
+     * @throws DbException
+     */
+    public static function searchByPosition(DbConnection $conn, float $lon, float $lat, float $maxRadius_deg, int $maxResults, ?string $email = NULL): array {
         $query  = "SELECT *";
         $query .= " FROM openaip_airports2";
         $query .= " WHERE";
@@ -47,7 +71,15 @@ class SearchItemAirport {
     }
 
 
-    public static function searchByText(mysqli $conn, string $searchText, int $maxResults, ?string $email = NULL): array {
+    /**
+     * @param DbConnection $conn
+     * @param string $searchText
+     * @param int $maxResults
+     * @param null|string $email
+     * @return array
+     * @throws DbException
+     */
+    public static function searchByText(DbConnection $conn, string $searchText, int $maxResults, ?string $email = NULL): array {
         $query = "SELECT *";
         $query .= " FROM openaip_airports2";
         $query .= " WHERE";
@@ -72,12 +104,18 @@ class SearchItemAirport {
     }
 
 
-    public static function searchByIcao(mysqli $conn, $icaoList): array {
-        die("not implemented!");
+    public static function searchByIcao(DbConnection $conn, $icaoList): array {
+        throw new BadMethodCallException("not implemented!");
     }
 
 
-    private static function loadAirportSubItems(mysqli $conn, &$airports, ?string $email) {
+    /**
+     * @param DbConnection $conn
+     * @param $airports
+     * @param null|string $email
+     * @throws DbException
+     */
+    private static function loadAirportSubItems(DbConnection $conn, &$airports, ?string $email) {
         if (count($airports) == 0)
             return;
 
@@ -99,7 +137,13 @@ class SearchItemAirport {
     }
 
 
-    private static function loadAirportRunways(mysqli $conn, &$airports, string $apIdList) {
+    /**
+     * @param DbConnection $conn
+     * @param $airports
+     * @param string $apIdList
+     * @throws DbException
+     */
+    private static function loadAirportRunways(DbConnection $conn, &$airports, string $apIdList) {
         $query  = "SELECT *";
         $query .= " FROM openaip_runways2";
         $query .= " WHERE operations = 'ACTIVE' AND airport_id IN (" . $apIdList . ")";
@@ -118,7 +162,13 @@ class SearchItemAirport {
     }
 
 
-    private static function loadAirportRadios(mysqli $conn, &$airports, string $apIdList) {
+    /**
+     * @param DbConnection $conn
+     * @param $airports
+     * @param string $apIdList
+     * @throws DbException
+     */
+    private static function loadAirportRadios(DbConnection $conn, &$airports, string $apIdList) {
         $query  = "SELECT *,";
         $query .= "  (CASE WHEN category = 'COMMUNICATION' THEN 1 WHEN category = 'OTHER' THEN 2 WHEN category = 'INFORMATION' THEN 3 ELSE 4 END) AS sortorder1,";
         $query .= "  (CASE WHEN type = 'TOWER' THEN 1 WHEN type = 'CTAF' THEN 2 WHEN type = 'OTHER' THEN 3 ELSE 4 END) AS sortorder2";
@@ -142,7 +192,14 @@ class SearchItemAirport {
     }
 
 
-    private static function loadAirportChars(mysqli $conn, &$airports, string $apIcaoList, ?string $email) {
+    /**
+     * @param DbConnection $conn
+     * @param $airports
+     * @param string $apIcaoList
+     * @param null|string $email
+     * @throws DbException
+     */
+    private static function loadAirportChars(DbConnection $conn, &$airports, string $apIcaoList, ?string $email) {
         $query = "SELECT *,";
         $query .= "  (CASE WHEN type LIKE 'AREA%' THEN 1 WHEN type LIKE 'VAC%' THEN 2 WHEN type LIKE 'AD INFO%' THEN 3 ELSE 4 END) AS sortorder1";
         $query .= " FROM ad_charts ";
@@ -170,7 +227,13 @@ class SearchItemAirport {
     }
 
 
-    private static function loadAirportWebcams(mysqli $conn, &$airports, string $apIcaoList) {
+    /**
+     * @param DbConnection $conn
+     * @param $airports
+     * @param string $apIcaoList
+     * @throws DbException
+     */
+    private static function loadAirportWebcams(DbConnection $conn, &$airports, string $apIcaoList) {
         $query  = "SELECT *";
         $query .= " FROM webcams";
         $query .= " WHERE airport_icao IN (" .  $apIcaoList . ")";
@@ -190,7 +253,13 @@ class SearchItemAirport {
     }
 
 
-    private static function loadAirportFeatures(mysqli $conn, &$airports, string $apIcaoList) {
+    /**
+     * @param DbConnection $conn
+     * @param $airports
+     * @param string $apIcaoList
+     * @throws DbException
+     */
+    private static function loadAirportFeatures(DbConnection $conn, &$airports, string $apIcaoList) {
         $query  = "SELECT *";
         $query .= " FROM map_features";
         $query .= " WHERE airport_icao IN (" .  $apIcaoList . ")";
@@ -211,7 +280,7 @@ class SearchItemAirport {
     }
 
 
-    private static function readAirportFromResultList(mysqli_result $result): array {
+    private static function readAirportFromResultList(DbResult $result): array {
         $airports = [];
 
         while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {

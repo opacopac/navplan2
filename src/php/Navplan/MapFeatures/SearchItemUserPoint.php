@@ -1,12 +1,25 @@
 <?php namespace Navplan\MapFeatures;
 include_once __DIR__ . "/../NavplanHelper.php";
 
-use mysqli, mysqli_result;
+use Navplan\Shared\DbConnection;
+use Navplan\Shared\DbResult;
 use Navplan\Shared\DbService;
+use Navplan\Shared\DbException;
 
 
 class SearchItemUserPoint {
-    public static function searchByExtent(mysqli $conn, float $minLon, float $minLat, float $maxLon, float $maxLat, ?string $email = null) {
+
+    /**
+     * @param DbConnection $conn
+     * @param float $minLon
+     * @param float $minLat
+     * @param float $maxLon
+     * @param float $maxLat
+     * @param null|string $email
+     * @return array
+     * @throws DbException
+     */
+    public static function searchByExtent(DbConnection $conn, float $minLon, float $minLat, float $maxLon, float $maxLat, ?string $email = null) {
         if (!$email)
             return [];
 
@@ -23,7 +36,17 @@ class SearchItemUserPoint {
     }
 
 
-    public static function searchByPosition(mysqli $conn, float $lon, float $lat, float $maxRadius_deg, int $maxResults, ?string $email = null) {
+    /**
+     * @param DbConnection $conn
+     * @param float $lon
+     * @param float $lat
+     * @param float $maxRadius_deg
+     * @param int $maxResults
+     * @param null|string $email
+     * @return array
+     * @throws DbException
+     */
+    public static function searchByPosition(DbConnection $conn, float $lon, float $lat, float $maxRadius_deg, int $maxResults, ?string $email = null) {
         if (!$email)
             return [];
 
@@ -46,7 +69,15 @@ class SearchItemUserPoint {
     }
 
 
-    public static function searchByText(mysqli $conn, string $searchText, int $maxResults, ?string $email = null) {
+    /**
+     * @param DbConnection $conn
+     * @param string $searchText
+     * @param int $maxResults
+     * @param null|string $email
+     * @return array
+     * @throws DbException
+     */
+    public static function searchByText(DbConnection $conn, string $searchText, int $maxResults, ?string $email = null) {
         if (!$email)
             return [];
 
@@ -65,7 +96,7 @@ class SearchItemUserPoint {
     }
 
 
-    private static function readUserPointFromResultList(mysqli_result $result): array {
+    private static function readUserPointFromResultList(DbResult $result): array {
         $userPoint = [];
         while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
             $userPoint[] = self::readUserPointFromResult($rs);

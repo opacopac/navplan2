@@ -1,16 +1,23 @@
 <?php namespace Navplan\User;
 require_once __DIR__ . "/../NavplanHelper.php";
 
-use mysqli;
 use Navplan\Message;
 use Navplan\NavplanHelper;
+use Navplan\Shared\DbConnection;
+use Navplan\Shared\DbException;
 use Navplan\Shared\DbService;
 use Navplan\Shared\MailService;
 
 
 class UserRegister
 {
-    public static function verifyEmail(mysqli $conn, array $args, MailService $mailService)
+    /**
+     * @param DbConnection $conn
+     * @param array $args
+     * @param MailService $mailService
+     * @throws DbException
+     */
+    public static function verifyEmail(DbConnection $conn, array $args, MailService $mailService)
     {
         $email = UserHelper::escapeTrimInput($conn, $args["email"]);
 
@@ -28,7 +35,12 @@ class UserRegister
     }
 
 
-    public static function register(mysqli $conn, array $args)
+    /**
+     * @param DbConnection $conn
+     * @param array $args
+     * @throws DbException
+     */
+    public static function register(DbConnection $conn, array $args)
     {
         $token = UserHelper::escapeTrimInput($conn, $args["token"]);
         $email = UserHelper::escapeAuthenticatedEmailOrNull($conn, $token);
@@ -52,16 +64,28 @@ class UserRegister
     }
 
 
-    private static function isDuplicateEmail(mysqli $conn, string $email): bool
+    /**
+     * @param DbConnection $conn
+     * @param string $email
+     * @return bool
+     * @throws DbException
+     */
+    private static function isDuplicateEmail(DbConnection $conn, string $email): bool
     {
         $query = "SELECT id FROM users WHERE email='" . $email . "'";
         $result = DbService::execSingleResultQuery($conn, $query, true, "error checking for duplicate user");
 
-        return ($result->num_rows > 0);
+        return ($result->getNumRows() > 0);
     }
 
 
-    private static function createUser(mysqli $conn, string $email, string $password)
+    /**
+     * @param DbConnection $conn
+     * @param string $email
+     * @param string $password
+     * @throws DbException
+     */
+    private static function createUser(DbConnection $conn, string $email, string $password)
     {
         $pw_hash = crypt($password);
         $query = "INSERT INTO users (token, email, pw_hash) VALUES ('DUMMY','" . $email . "','" . $pw_hash . "')";

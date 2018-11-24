@@ -2,8 +2,9 @@
 require_once __DIR__ . "/../NavplanHelper.php";
 
 use Exception;
-use mysqli;
 use Navplan\Message;
+use Navplan\Shared\DbConnection;
+use Navplan\Shared\DbException;
 use Navplan\Shared\DbService;
 use ReallySimpleJWT\Token;
 
@@ -16,9 +17,9 @@ class UserHelper
 
     // region handle input
 
-    public static function escapeTrimInput(mysqli $conn, string $value): string
+    public static function escapeTrimInput(DbConnection $conn, string $value): string
     {
-        return mysqli_real_escape_string($conn, trim($value));
+        return $conn->real_escape_string(trim($value));
     }
 
 
@@ -74,7 +75,7 @@ class UserHelper
     }
 
 
-    public static function escapeAuthenticatedEmailOrDie($conn, $token): string
+    public static function escapeAuthenticatedEmailOrDie(DbConnection $conn, string $token): string
     {
         $email = self::escapeAuthenticatedEmailOrNull($conn, $token);
         if (!$email)
@@ -84,7 +85,7 @@ class UserHelper
     }
 
 
-    public static function escapeAuthenticatedEmailOrNull($conn, $token): ?string
+    public static function escapeAuthenticatedEmailOrNull(DbConnection $conn, string $token): ?string
     {
         if (!$token || !self::validateToken($token))
             return NULL;
@@ -93,7 +94,7 @@ class UserHelper
         if (!$email || $email === '')
             return NULL;
 
-        return mysqli_real_escape_string($conn, $email);
+        return $conn->real_escape_string($email);
     }
 
     // endregion
@@ -101,24 +102,37 @@ class UserHelper
 
     // region check email / pw in DB
 
-    public static function checkEmailExists(mysqli $conn, string $email): bool
+    /**
+     * @param DbConnection $conn
+     * @param string $email
+     * @return bool
+     * @throws DbException
+     */
+    public static function checkEmailExists(DbConnection $conn, string $email): bool
     {
         $query = "SELECT id FROM users WHERE email='" . $email . "'";
         $result = DbService::execSingleResultQuery($conn, $query);
 
-        if ($result->num_rows == 1)
+        if ($result->getNumRows() == 1)
             return TRUE;
         else
             return FALSE;
     }
 
 
-    public static function verifyPwHash(mysqli $conn, string $email, string $password): bool
+    /**
+     * @param DbConnection $conn
+     * @param string $email
+     * @param string $password
+     * @return bool
+     * @throws DbException
+     */
+    public static function verifyPwHash(DbConnection $conn, string $email, string $password): bool
     {
         $query = "SELECT pw_hash FROM users WHERE email='" . $email . "'";
         $result = DbService::execSingleResultQuery($conn, $query);
 
-        if ($result->num_rows == 1)
+        if ($result->getNumRows() == 1)
         {
             $row = $result->fetch_assoc();
             $pw_hash_db = $row["pw_hash"];
@@ -151,7 +165,7 @@ class UserHelper
     }
 
 
-    public static function sendErrorResponseAndDie(Message $message, ?mysqli $conn = NULL)
+    public static function sendErrorResponseAndDie(Message $message, ?DbConnection $conn = NULL)
     {
         $response = array(
             "resultcode" => $message->code,

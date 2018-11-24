@@ -110,10 +110,10 @@
 		$rs = $result->fetch_array(MYSQLI_ASSOC);
 
         $track = array(
-            id => $rs["id"],
-            timestamp => strtotime($rs["timestamp"]),
-            name => $rs["name"],
-            positions => json_decode($rs["positions"], true)
+            "id" => $rs["id"],
+            "timestamp" => strtotime($rs["timestamp"]),
+            "name" => $rs["name"],
+            "positions" => json_decode($rs["positions"], true)
         );
 
         // create jsonp response

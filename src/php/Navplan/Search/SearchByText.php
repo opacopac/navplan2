@@ -1,12 +1,13 @@
 <?php namespace Navplan\Search;
 require_once __DIR__ . "/../NavplanHelper.php";
 
-use mysqli;
 use Navplan\Geoname\SearchItemGeoname;
 use Navplan\MapFeatures\SearchItemAirport;
 use Navplan\MapFeatures\SearchItemNavaid;
 use Navplan\MapFeatures\SearchItemReportingPoint;
 use Navplan\MapFeatures\SearchItemUserPoint;
+use Navplan\Shared\DbConnection;
+use Navplan\Shared\DbException;
 use Navplan\Shared\StringNumberService;
 use Navplan\User\UserHelper;
 
@@ -17,7 +18,12 @@ class SearchByText
     const MAX_TEXT_SEARCH_RESULTS_PER_ENTITY = 10;
 
 
-    public static function searchByText(mysqli $conn, array $args)
+    /**
+     * @param DbConnection $conn
+     * @param array $args
+     * @throws DbException
+     */
+    public static function searchByText(DbConnection $conn, array $args)
     {
         $searchItems = SearchHelper::checkEscapeSearchItems($conn, $args["searchItems"]);
         $searchText = StringNumberService::checkEscapeString($conn, $args["searchText"], 1, 100);

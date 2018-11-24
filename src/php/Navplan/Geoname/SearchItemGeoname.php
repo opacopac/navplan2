@@ -2,13 +2,15 @@
 include_once __DIR__ . "/../NavplanHelper.php";
 require_once __DIR__ . "/../../terrainHelper.php"; // TODO
 
+use Navplan\Shared\DbConnection;
+use Navplan\Shared\DbResult;
 use Navplan\Shared\DbService;
 use TerrainHelper;
 
 
 class SearchItemGeoname
 {
-    public static function searchByPosition($conn, $lon, $lat, $maxRadius_deg, $maxResults) {
+    public static function searchByPosition(DbConnection $conn, float $lon, float $lat, float $maxRadius_deg, int $maxResults) {
         $query = "SELECT geo.*,";
         $query .= "  cod1.name AS admin1_name,";
         $query .= "  cod2.name AS admin2_name";
@@ -34,7 +36,7 @@ class SearchItemGeoname
     }
 
 
-    public static function searchByText($conn, $searchText, $maxResults) {
+    public static function searchByText(DbConnection $conn, string $searchText, int $maxResults) {
         $query = "SELECT geo.*,";
         $query .= "  cod1.name AS admin1_name,";
         $query .= "  cod2.name AS admin2_name";
@@ -73,7 +75,7 @@ class SearchItemGeoname
     }
 
 
-    private static function readGeonamesFromResultList($result, $terrainHelper, $renameDuplicates, $lonLat) {
+    private static function readGeonamesFromResultList(DbResult $result, TerrainHelper $terrainHelper, bool $renameDuplicates, array $lonLat) {
         $geonames = [];
 
         while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
@@ -121,7 +123,7 @@ class SearchItemGeoname
     }
 
 
-    private static function findDuplicates($geonames) {
+    private static function findDuplicates(array $geonames) {
         $duplicateNameIdx = array();
         $duplicateAdmin1Idx = array();
 
@@ -153,7 +155,7 @@ class SearchItemGeoname
     }
 
 
-    private static function readGeonameFromResult($rs, $terrainHelper) {
+    private static function readGeonameFromResult(array $rs, TerrainHelper $terrainHelper) {
         return array(
             "id" => $rs["geonameid"],
             "name" => $rs["name"],
