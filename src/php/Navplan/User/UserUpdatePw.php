@@ -12,9 +12,10 @@ class UserUpdatePw
     /**
      * @param DbConnection $conn
      * @param array $args
+     * @return bool
      * @throws DbException
      */
-    public static function updatePassword(DbConnection $conn, array $args)
+    public static function updatePassword(DbConnection $conn, array $args): bool
     {
         $token = UserHelper::escapeTrimInput($conn, $args["token"]);
         $email = UserHelper::escapeAuthenticatedEmailOrNull($conn, $token);
@@ -22,19 +23,19 @@ class UserUpdatePw
         $newpassword = UserHelper::escapeTrimInput($conn, $args["newpassword"]);
 
         if (!UserHelper::checkPwFormat($newpassword))
-            UserHelper::sendErrorResponseAndDie(new Message(-1, 'error: invalid new password format'), $conn);
+            return UserHelper::sendErrorResponse(new Message(-1, 'error: invalid new password format'), $conn);
 
         if (!$email || !UserHelper::checkEmailFormat($email) || !UserHelper::checkEmailExists($conn, $email))
-            UserHelper::sendErrorResponseAndDie(new Message(-2, 'error: invalid token'), $conn);
+            return UserHelper::sendErrorResponse(new Message(-2, 'error: invalid token'), $conn);
 
         if (!UserHelper::checkPwFormat($oldpassword) || !UserHelper::verifyPwHash($conn, $email, $oldpassword))
-            UserHelper::sendErrorResponseAndDie(new Message(-3, 'error: invalid old password'), $conn);
+            return UserHelper::sendErrorResponse(new Message(-3, 'error: invalid old password'), $conn);
 
         // create new pw
         $newpw_hash = crypt($newpassword);
         $query = "UPDATE users SET pw_hash='" . $newpw_hash . "' WHERE email='" . $email . "'";
         DbService::execCUDQuery($conn, $query, "error updating password");
 
-        UserHelper::sendSuccessResponse($email, $token);
+        return UserHelper::sendSuccessResponse($email, $token);
     }
 }

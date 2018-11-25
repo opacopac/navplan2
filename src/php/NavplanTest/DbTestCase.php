@@ -18,24 +18,14 @@ abstract class DbTestCase extends TestCase
         array("id" => 3, "name" => "third")];
 
 
-    public function getDbConnection($result): DbConnection
+    public function getDbConnection($dbResult): DbConnection
     {
-        $conn = $this->createMock(DbConnection::class);
-        $conn->method('query')
-            ->willReturn($result);
-
-        return $conn;
+        return new DbConnectionMock($dbResult);
     }
 
 
     public function getDbResult(array $resultList): DbResult
     {
-        $result = $this->createMock(DbResult::class);
-        $result->method('getNumRows')
-            ->willReturn(count($resultList));
-        $result->method('fetch_array')
-            ->willReturn(array_shift($resultList));
-
-        return $result;
+        return new DbResultMock($resultList);
     }
 }

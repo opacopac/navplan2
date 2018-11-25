@@ -152,7 +152,7 @@ class UserHelper
 
     // region send responses
 
-    public static function sendSuccessResponse(string $email, string $token)
+    public static function sendSuccessResponse(string $email, string $token): bool
     {
         $response = array(
             "resultcode" => 0,
@@ -162,10 +162,12 @@ class UserHelper
         );
 
         echo json_encode($response);
+
+        return TRUE;
     }
 
 
-    public static function sendErrorResponseAndDie(Message $message, ?DbConnection $conn = NULL)
+    public static function sendErrorResponse(Message $message, ?DbConnection $conn = NULL): bool
     {
         $response = array(
             "resultcode" => $message->code,
@@ -177,7 +179,7 @@ class UserHelper
         if ($conn)
             $conn->close();
 
-        die();
+        return FALSE;
     }
 
     // endregion

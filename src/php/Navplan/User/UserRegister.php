@@ -15,32 +15,34 @@ class UserRegister
      * @param DbConnection $conn
      * @param array $args
      * @param MailService $mailService
+     * @return bool
      * @throws DbException
      */
-    public static function verifyEmail(DbConnection $conn, array $args, MailService $mailService)
+    public static function verifyEmail(DbConnection $conn, array $args, MailService $mailService): bool
     {
         $email = UserHelper::escapeTrimInput($conn, $args["email"]);
 
         if (!UserHelper::checkEmailFormat($email))
-            UserHelper::sendErrorResponseAndDie(new Message(-1, 'error: invalid email format'), $conn);
+            return UserHelper::sendErrorResponse(new Message(-1, 'error: invalid email format'), $conn);
 
         if (self::isDuplicateEmail($conn, $email))
-            UserHelper::sendErrorResponseAndDie(new Message(-2, 'error: email already exists'), $conn);
+            return UserHelper::sendErrorResponse(new Message(-2, 'error: email already exists'), $conn);
 
         // send activation email
         $token = UserHelper::createToken($email, false);
         self::sendActivationEmail($mailService, $email, $token);
 
-        UserHelper::sendSuccessResponse($email, $token);
+        return UserHelper::sendSuccessResponse($email, $token);
     }
 
 
     /**
      * @param DbConnection $conn
      * @param array $args
+     * @return bool
      * @throws DbException
      */
-    public static function register(DbConnection $conn, array $args)
+    public static function register(DbConnection $conn, array $args): bool
     {
         $token = UserHelper::escapeTrimInput($conn, $args["token"]);
         $email = UserHelper::escapeAuthenticatedEmailOrNull($conn, $token);
@@ -48,19 +50,19 @@ class UserRegister
         $rememberMe = ($args["rememberme"] === "1");
 
         if (!UserHelper::checkPwFormat($password))
-            UserHelper::sendErrorResponseAndDie(new Message(-1, 'error: invalid password format'), $conn);
+            return UserHelper::sendErrorResponse(new Message(-1, 'error: invalid password format'), $conn);
 
         if (!$email || !UserHelper::checkEmailFormat($email))
-            UserHelper::sendErrorResponseAndDie(new Message(-2, 'error: invalid token'), $conn);
+            return UserHelper::sendErrorResponse(new Message(-2, 'error: invalid token'), $conn);
 
         if (self::isDuplicateEmail($conn, $email))
-            UserHelper::sendErrorResponseAndDie(new Message(-3, 'error: email already exists'), $conn);
+            return UserHelper::sendErrorResponse(new Message(-3, 'error: email already exists'), $conn);
 
         // create new user & token
         self::createUser($conn, $email, $password);
         $token = UserHelper::createToken($email, $rememberMe);
 
-        UserHelper::sendSuccessResponse($email, $token);
+        return UserHelper::sendSuccessResponse($email, $token);
     }
 
 
