@@ -10,7 +10,7 @@ import {Traffic} from '../model/traffic';
 import {throwError} from 'rxjs';
 
 
-const OGN_TRAFFIC_BASE_URL = environment.restApiBaseUrl + 'php/ogntraffic.php';
+const OGN_TRAFFIC_BASE_URL = environment.restApiBaseUrl + 'php/Navplan/Traffic/TrafficService.php';
 
 
 @Injectable()

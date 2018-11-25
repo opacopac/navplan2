@@ -75,7 +75,7 @@ class UserHelper
     }
 
 
-    public static function escapeAuthenticatedEmailOrDie(DbConnection $conn, string $token): string
+    public static function escapeAuthenticatedEmailOrDie(DbConnection $conn, ?string $token): string
     {
         $email = self::escapeAuthenticatedEmailOrNull($conn, $token);
         if (!$email)
@@ -85,7 +85,7 @@ class UserHelper
     }
 
 
-    public static function escapeAuthenticatedEmailOrNull(DbConnection $conn, string $token): ?string
+    public static function escapeAuthenticatedEmailOrNull(DbConnection $conn, ?string $token): ?string
     {
         if (!$token || !self::validateToken($token))
             return NULL;
