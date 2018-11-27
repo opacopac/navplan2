@@ -1,102 +1,120 @@
 <?php namespace Navplan\User;
 require_once __DIR__ . "/../NavplanHelper.php";
 
+use Navplan\Message;
 use Navplan\NavplanHelper;
 use Navplan\Shared\DbConnection;
 use Navplan\Shared\DbException;
 use Navplan\Shared\DbService;
 use Navplan\Shared\MailService;
-use Navplan\Shared\StringNumberService;
 
 
 class UserForgotPw
 {
-    const RESPONSE_MESSAGE_TEXTS = array(
-        10 => 'login successful',
-        11 => 'activation email sent',
-        12 => 'registration successful',
-        91 => 'error: invalid password',
-        92 => 'error: invalid email',
-        93 => 'error: invalid token',
-        94 => 'error: invalid email format',
-        95 => 'error: invalid password format',
-        96 => 'error: email already exists'
-    );
-
-
-    // TODO
-
     /**
      * @param DbConnection $conn
      * @param array $args
      * @param MailService $mailService
+     * @return bool
      * @throws DbException
      */
-    public static function forgotPassword(DbConnection $conn, array $args, MailService $mailService)
+    public static function forgotPassword(DbConnection $conn, array $args, MailService $mailService): bool
     {
-        $email = UserHelper::escapeAuthenticatedEmailOrDie($conn, $args["token"]);
+        if (!$args["email"])
+            return UserHelper::sendErrorResponse(new Message(-1, 'error: email missing'), $conn);
+
+        $email = UserHelper::escapeTrimInput($conn, $args["email"]);
 
         if (!UserHelper::checkEmailFormat($email))
-        {
-            $resultcode = -3;
-            $message = "error: invalid email format";
-        }
+            return UserHelper::sendErrorResponse(new Message(-1, 'error: invalid email format'), $conn);
 
+        if (!self::isExistingEMail($conn, $email))
+            return UserHelper::sendErrorResponse(new Message(-2, 'error: email does not exist'), $conn);
 
-        // check if email exists
-        $query = "SELECT id FROM users WHERE email='" . $email . "'";
-        $result = DbService::execSingleResultQuery($conn, $query);
+        // send activation email
+        $token = UserHelper::createToken($email, false);
+        self::sendResetPwEmail($mailService, $email, $token);
 
-        if ($result->getNumRows() == 1)
-        {
-            $row = $result->fetch_assoc();
-
-            // generate random pw
-            $password = StringNumberService::createRandomString(8);
-
-            // hash pw
-            $pw_hash = crypt($password);
-
-            // save hashed pw
-            $query = "UPDATE users SET pw_hash='" . $pw_hash . "' WHERE email='" . $email . "'";
-            $result = $conn->query($query);
-
-            if ($result === FALSE)
-                throw new DbException("error updating password", $conn->getError(), $query);
-
-            // send email with pw
-            if (!self::sendPwResetEmail($mailService, $email, $password))
-
-            $message = "email sent successfully";
-            $resultcode = 0;
-        }
-        else
-        {
-            $message = "error: invalid email";
-            $resultcode = -2;
-        }
-
-        // output result
-        echo json_encode(
-            array(
-                "resultcode" => $resultcode,
-                "message" => $message
-            )
-        );
+        return UserHelper::sendSuccessResponse($email, '');
     }
 
 
-    private static function sendPwResetEmail(MailService $mailService, string $email, string $password): bool {
-        $loginUrl = NavplanHelper::NAVPLAN_BASE_URL . '/login';
-        $subject = "Navplan.ch - Password Reset";
+    /**
+     * @param DbConnection $conn
+     * @param array $args
+     * @return bool
+     * @throws DbException
+     */
+    public static function resetPassword(DbConnection $conn, array $args): bool
+    {
+        if (!$args["token"])
+            return UserHelper::sendErrorResponse(new Message(-2, 'error: token missing'), $conn);
+
+        if (!$args["password"])
+            return UserHelper::sendErrorResponse(new Message(-1, 'error: password missing'), $conn);
+
+        $token = UserHelper::escapeTrimInput($conn, $args["token"]);
+        $email = UserHelper::escapeAuthenticatedEmailOrNull($conn, $token);
+        $password = UserHelper::escapeTrimInput($conn, $args["password"]);
+        $rememberMe = ($args["rememberme"] === "1");
+
+        if (!UserHelper::checkPwFormat($password))
+            return UserHelper::sendErrorResponse(new Message(-1, 'error: invalid password format'), $conn);
+
+        if (!$email || !UserHelper::checkEmailFormat($email))
+            return UserHelper::sendErrorResponse(new Message(-2, 'error: invalid token'), $conn);
+
+        if (!self::isExistingEMail($conn, $email))
+            return UserHelper::sendErrorResponse(new Message(-2, 'error: email does not exists'), $conn);
+
+        self::updatePassword($conn, $email, $password);
+        $token = UserHelper::createToken($email, $rememberMe);
+
+        return UserHelper::sendSuccessResponse($email, $token);
+    }
+
+
+    /**
+     * @param DbConnection $conn
+     * @param string $email
+     * @return bool
+     * @throws DbException
+     */
+    private static function isExistingEMail(DbConnection $conn, string $email): bool
+    {
+        $query = "SELECT id FROM users WHERE email='" . $email . "'";
+        $result = DbService::execSingleResultQuery($conn, $query, true, "error checking for existing email");
+
+        return ($result->getNumRows() > 0);
+    }
+
+
+    /**
+     * @param DbConnection $conn
+     * @param string $email
+     * @param string $password
+     * @throws DbException
+     */
+    private static function updatePassword(DbConnection $conn, string $email, string $password)
+    {
+        $pw_hash = crypt($password);
+        $query = "UPDATE users SET pw_hash='" . $pw_hash . "' WHERE email='" . $email . "'";
+        DbService::execCUDQuery($conn, $query, "error updating password");
+    }
+
+
+    private static function sendResetPwEmail(MailService $mailService, string $email, string $token): bool
+    {
+        $resetPwUrl = NavplanHelper::NAVPLAN_BASE_URL . '/resetpw/' . $token;
+        $subject = "Navplan.ch - Reset Password";
         $message = '
             <html>
             <head>
-              <title>Navplan.ch - Password Reset</title>
+              <title>Navplan.ch - Reset Password</title>
             </head>
             <body>
-              <p>Your new password is: ' . $password . '</p>
-              <p><a href="' . $loginUrl . '">Open Login Page</a></p>
+              <p>Please click the following link to reset your password on Navplan.ch:</p>
+              <p><a href="' . $resetPwUrl . '">Create Account</a></p>
             </body>
             </html>';
 

@@ -32,7 +32,7 @@ class UserRegister
         $token = UserHelper::createToken($email, false);
         self::sendActivationEmail($mailService, $email, $token);
 
-        return UserHelper::sendSuccessResponse($email, $token);
+        return UserHelper::sendSuccessResponse($email, '');
     }
 
 

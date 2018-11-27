@@ -61,8 +61,8 @@ class UserLoginTest extends DbTestCase
         $email = "test@navplan.ch";
         $password = "123456";
         $pw_hash = crypt($password);
-        $expectedResult = $this->getDbResult([array("email" => $email, "pw_hash" => $pw_hash)]);
-        $conn = $this->getDbConnection($expectedResult);
+        $conn = $this->getDbConnectionFromResultList([array("email" => $email)]);
+        $this->addMockResultsFromResultList($conn, [array("pw_hash" => $pw_hash)]);
         $args = array("email" => $email, "password" => $password, "rememberme" => "0");
 
         UserLogin::login($conn, $args);
@@ -77,8 +77,8 @@ class UserLoginTest extends DbTestCase
         $email = "test@navplan.ch";
         $password = "123456";
         $pw_hash = crypt($password);
-        $expectedResult = $this->getDbResult([array("email" => $email, "pw_hash" => $pw_hash)]);
-        $conn = $this->getDbConnection($expectedResult);
+        $conn = $this->getDbConnectionFromResultList([array("email" => $email)]);
+        $this->addMockResultsFromResultList($conn, [array("pw_hash" => $pw_hash)]);
         $args = array("email" => $email, "password" => $password . "x", "rememberme" => "0");
 
         UserLogin::login($conn, $args);
