@@ -108,9 +108,9 @@ export class UserService {
     }
 
 
-    public verifyEmail(email: string): Observable<string> {
+    public sendRegisterEmail(email: string): Observable<string> {
         const requestBody = {
-            action: 'verifyemail',
+            action: 'sendregisteremail',
             email: email
         };
         return this.http
@@ -124,7 +124,7 @@ export class UserService {
                         case -2:
                             return throwError(new TextError('An account with this email already exists!'));
                         default:
-                            const message = 'Unexpected error while verifying email';
+                            const message = 'Unexpected error while sending registration email';
                             LoggingService.logResponseError(message, response);
                             return throwError(new TextError(message));
                     }
@@ -166,21 +166,56 @@ export class UserService {
     }
 
 
-    public forgotPassword(email: string): Observable<void> {
+    public sendLostPwEmail(email: string): Observable<string> {
         const requestBody = {
-            action: 'forgotpassword',
+            action: 'sendlostpwemail',
             email: email
         };
         return this.http
-            .post<SimpleResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+            .post<TokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
                 switchMap(response => {
                     switch (response.body.resultcode) {
                         case 0:
-                            return of(undefined);
-                        case 95:
-                            return throwError(new TextError('Email not found!'));
+                            return of(response.body.email);
+                        case -1:
+                            return throwError(new TextError('Invalid email format!'));
+                        case -2:
+                            return throwError(new TextError('An account with this email already exists!'));
                         default:
-                            const message = 'Unknown error while sending new password';
+                            const message = 'Unexpected error while sending pw recovery email';
+                            LoggingService.logResponseError(message, response);
+                            return throwError(new TextError(message));
+                    }
+                })
+            );
+    }
+
+
+    public resetPassword(
+        token: string,
+        newPassword: string,
+        rememberMe: boolean): Observable<User> {
+
+        const requestBody = {
+            action: 'resetpassword',
+            token: token,
+            password: newPassword,
+            rememberme: rememberMe
+        };
+        return this.http
+            .post<TokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+                switchMap(response => {
+                    switch (response.body.resultcode) {
+                        case 0:
+                            return of(new User(response.body.email, response.body.token));
+                        case -1:
+                            return throwError(new TextError('Invalid password format!'));
+                        case -2:
+                            return throwError(new TextError('Invalid token!'));
+                        case -3:
+                            return throwError(new TextError('Email does not exists!'));
+                        default:
+                            const message = 'Unknown error while resetting password';
                             LoggingService.logResponseError(message, response);
                             return throwError(new TextError(message));
                     }

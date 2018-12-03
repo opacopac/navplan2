@@ -1,0 +1,7 @@
+<div class="content-container-topspacing">
+    <h3>Change Password</h3>
+    <app-forgot-pw-step2-form
+            [tokenString]="this.token$ | async"
+            (onResetPwClick)="this.onResetPwClick($event)">
+    </app-forgot-pw-step2-form>
+</div>

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ForgotpwComponent } from './forgotpw.component';
+import { ForgotPwStep1FormComponent } from './forgot-pw-step1-form.component';
 
-describe('ForgotpwComponent', () => {
-  let component: ForgotpwComponent;
-  let fixture: ComponentFixture<ForgotpwComponent>;
+describe('ForgotPwStep1FormComponent', () => {
+  let component: ForgotPwStep1FormComponent;
+  let fixture: ComponentFixture<ForgotPwStep1FormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ForgotpwComponent ]
+      declarations: [ ForgotPwStep1FormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ForgotpwComponent);
+    fixture = TestBed.createComponent(ForgotPwStep1FormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

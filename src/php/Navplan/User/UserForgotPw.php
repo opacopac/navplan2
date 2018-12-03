@@ -18,7 +18,7 @@ class UserForgotPw
      * @return bool
      * @throws DbException
      */
-    public static function forgotPassword(DbConnection $conn, array $args, MailService $mailService): bool
+    public static function sendLostPwEmail(DbConnection $conn, array $args, MailService $mailService): bool
     {
         if (!$args["email"])
             return UserHelper::sendErrorResponse(new Message(-1, 'error: email missing'), $conn);
@@ -31,9 +31,9 @@ class UserForgotPw
         if (!self::isExistingEMail($conn, $email))
             return UserHelper::sendErrorResponse(new Message(-2, 'error: email does not exist'), $conn);
 
-        // send activation email
+        // send pw recovery email
         $token = UserHelper::createToken($email, false);
-        self::sendResetPwEmail($mailService, $email, $token);
+        self::sendPwRecoveryEmail($mailService, $email, $token);
 
         return UserHelper::sendSuccessResponse($email, '');
     }
@@ -103,7 +103,7 @@ class UserForgotPw
     }
 
 
-    private static function sendResetPwEmail(MailService $mailService, string $email, string $token): bool
+    private static function sendPwRecoveryEmail(MailService $mailService, string $email, string $token): bool
     {
         $resetPwUrl = NavplanHelper::NAVPLAN_BASE_URL . '/resetpw/' . $token;
         $subject = "Navplan.ch - Reset Password";
@@ -114,7 +114,7 @@ class UserForgotPw
             </head>
             <body>
               <p>Please click the following link to reset your password on Navplan.ch:</p>
-              <p><a href="' . $resetPwUrl . '">Create Account</a></p>
+              <p><a href="' . $resetPwUrl . '">Reset Password</a></p>
             </body>
             </html>';
 

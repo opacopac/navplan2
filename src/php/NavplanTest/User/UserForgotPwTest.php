@@ -10,7 +10,7 @@ use NavplanTest\MailServiceMock;
 
 class UserForgotPwTest extends DbTestCase
 {
-    // region forgotPw
+    // region forgotPw (step 1)
 
     /**
      * @throws DbException
@@ -21,7 +21,7 @@ class UserForgotPwTest extends DbTestCase
         $args = array("email" => $email);
         $mailService = MailServiceMock::getInstance();
 
-        UserForgotPw::forgotPassword($conn, $args, $mailService);
+        UserForgotPw::sendLostPwEmail($conn, $args, $mailService);
         $this->expectOutputRegex('/(.*)"resultcode":0/');
     }
 
@@ -35,7 +35,7 @@ class UserForgotPwTest extends DbTestCase
         $args = array("email" => $email);
         $mailService = MailServiceMock::getInstance();
 
-        UserForgotPw::forgotPassword($conn, $args, $mailService);
+        UserForgotPw::sendLostPwEmail($conn, $args, $mailService);
         $this->expectOutputRegex('/(.*)"resultcode":-2/');
     }
 
@@ -49,7 +49,7 @@ class UserForgotPwTest extends DbTestCase
         $args = array("wrongkey" => $email);
         $mailService = MailServiceMock::getInstance();
 
-        UserForgotPw::forgotPassword($conn, $args, $mailService);
+        UserForgotPw::sendLostPwEmail($conn, $args, $mailService);
         $this->expectOutputRegex('/(.*)"resultcode":-1/');
     }
 
@@ -63,7 +63,7 @@ class UserForgotPwTest extends DbTestCase
         $args = array("email" => $email);
         $mailService = MailServiceMock::getInstance();
 
-        UserForgotPw::forgotPassword($conn, $args, $mailService);
+        UserForgotPw::sendLostPwEmail($conn, $args, $mailService);
         $this->expectOutputRegex('/(.*)"resultcode":-1/');
     }
 
@@ -77,7 +77,7 @@ class UserForgotPwTest extends DbTestCase
         $args = array("email" => $email);
         $mailService = MailServiceMock::getInstance();
 
-        UserForgotPw::forgotPassword($conn, $args, $mailService);
+        UserForgotPw::sendLostPwEmail($conn, $args, $mailService);
         $this->expectOutputRegex('/(.*)"resultcode":-1/');
     }
 
@@ -91,7 +91,7 @@ class UserForgotPwTest extends DbTestCase
         $args = array("email" => $email);
         $mailService = MailServiceMock::getInstance();
 
-        UserForgotPw::forgotPassword($conn, $args, $mailService);
+        UserForgotPw::sendLostPwEmail($conn, $args, $mailService);
         $this->expectOutputRegex('/(.*)"resultcode":-1/');
     }
 
@@ -99,7 +99,7 @@ class UserForgotPwTest extends DbTestCase
     // endregion
     
     
-    // region resetPw
+    // region resetPw (step 2)
 
     /**
      * @throws DbException

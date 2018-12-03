@@ -8,8 +8,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
     styleUrls: ['./register-step1-form.component.css']
 })
 export class RegisterStep1FormComponent implements OnInit {
-    @Input() verifyEmailSentTo: string;
-    @Output() onVerifyEmailClick: EventEmitter<string> = new EventEmitter<string>();
+    @Input() registerEmailSentTo: string;
+    @Output() onSendRegisterEmailClick: EventEmitter<string> = new EventEmitter<string>();
     public registerForm: FormGroup;
 
 

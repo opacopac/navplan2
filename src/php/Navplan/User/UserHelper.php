@@ -176,9 +176,6 @@ class UserHelper
 
         echo json_encode($response);
 
-        if ($conn)
-            $conn->close();
-
         return FALSE;
     }
 

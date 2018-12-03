@@ -9,12 +9,18 @@ export enum UserActionTypes {
     USER_LOGIN = '[Login/Register Page] Login',
     USER_LOGIN_SUCCESS = '[UserService] Login successful',
     USER_LOGIN_ERROR = '[UserService] Login error',
-    USER_VERIFY_EMAIL = '[Login/Register Page] Verify E-Mail',
-    USER_VERIFY_EMAIL_SUCCESS = '[UserService] Verification email successfully sent',
-    USER_VERIFY_EMAIL_ERROR = '[UserService] Error sending verification email',
+    USER_SEND_REGISTER_EMAIL = '[Login/Register Page] Send register email',
+    USER_SEND_REGISTER_EMAIL_SUCCESS = '[UserService] Register email successfully sent',
+    USER_SEND_REGISTER_EMAIL_ERROR = '[UserService] Error sending register email',
     USER_REGISTER = '[Register Page] Register',
     USER_REGISTER_SUCCESS = '[UserService] Register successful',
     USER_REGISTER_ERROR = '[UserService] Register error',
+    USER_SEND_LOST_PW_EMAIL = '[Lost pw page 1] Send lost pw email',
+    USER_SEND_LOST_PW_EMAIL_SUCCESS = '[UserService] Lost pw email successfully sent',
+    USER_SEND_LOST_PW_EMAIL_ERROR = '[UserService] Error sending lost pw email',
+    USER_RESET_PW = '[Lost pw page 2] Reset password',
+    USER_RESET_PW_SUCCESS = '[UserService] Reset password successful',
+    USER_RESET_PW_ERROR = '[UserService] Reset password error',
     USER_CHANGE_PW = '[User Profile] Change password',
     USER_CHANGE_PW_SUCCESS = '[UserService] Change password successful',
     USER_CHANGE_PW_ERROR = '[UserService] Change password error',
@@ -69,22 +75,43 @@ export class LoginUserErrorAction implements Action {
 }
 
 
-export class VerifyEmailAction implements Action {
-    readonly type = UserActionTypes.USER_VERIFY_EMAIL;
+export class SendRegisterEmailAction implements Action {
+    readonly type = UserActionTypes.USER_SEND_REGISTER_EMAIL;
 
     constructor(public email: string) {}
 }
 
 
-export class VerifyEmailSuccessAction implements Action {
-    readonly type = UserActionTypes.USER_VERIFY_EMAIL_SUCCESS;
+export class SendRegisterEmailSuccessAction implements Action {
+    readonly type = UserActionTypes.USER_SEND_REGISTER_EMAIL_SUCCESS;
 
     constructor(public email: string) {}
 }
 
 
-export class VerifyEmailErrorAction implements Action {
-    readonly type = UserActionTypes.USER_VERIFY_EMAIL_ERROR;
+export class SendRegisterEmailErrorAction implements Action {
+    readonly type = UserActionTypes.USER_SEND_REGISTER_EMAIL_ERROR;
+
+    constructor(public error: Error) {}
+}
+
+
+export class SendLostPwEmailAction implements Action {
+    readonly type = UserActionTypes.USER_SEND_LOST_PW_EMAIL;
+
+    constructor(public email: string) {}
+}
+
+
+export class SendLostPwEmailSuccessAction implements Action {
+    readonly type = UserActionTypes.USER_SEND_LOST_PW_EMAIL_SUCCESS;
+
+    constructor(public email: string) {}
+}
+
+
+export class SendLostPwEmailErrorAction implements Action {
+    readonly type = UserActionTypes.USER_SEND_LOST_PW_EMAIL_ERROR;
 
     constructor(public error: Error) {}
 }
@@ -113,6 +140,32 @@ export class RegisterUserErrorAction implements Action {
     readonly type = UserActionTypes.USER_REGISTER_ERROR;
 
     constructor(public error: Error) {}
+}
+
+
+export class ResetPwAction implements Action {
+    readonly type = UserActionTypes.USER_RESET_PW;
+
+    constructor(
+        public token: string,
+        public newPassword: string,
+        public rememberMe: boolean) {}
+}
+
+
+export class ResetPwSuccessAction implements Action {
+    readonly type = UserActionTypes.USER_RESET_PW_SUCCESS;
+
+    constructor(
+        public user: User,
+        public rememberMe: boolean) {}
+}
+
+
+export class ResetPwErrorAction implements Action {
+    readonly type = UserActionTypes.USER_RESET_PW_ERROR;
+
+    constructor(public error: Error) { }
 }
 
 
@@ -156,13 +209,19 @@ export type UserActions =
     LoginUserAction |
     LoginUserSuccessAction |
     LoginUserErrorAction |
-    VerifyEmailAction |
-    VerifyEmailSuccessAction |
-    VerifyEmailErrorAction |
+    SendRegisterEmailAction |
+    SendRegisterEmailSuccessAction |
+    SendRegisterEmailErrorAction |
     RegisterUserAction |
     RegisterUserSuccessAction |
     RegisterUserErrorAction |
-    ChangePwAction |
+    SendLostPwEmailAction |
+    SendLostPwEmailSuccessAction |
+    SendLostPwEmailErrorAction |
+    ResetPwAction |
+    ResetPwSuccessAction |
+    ResetPwErrorAction |
+    ResetPwAction |
     ChangePwSuccessAction |
     ChangePwErrorAction |
     LogoutUserAction;

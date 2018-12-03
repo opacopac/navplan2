@@ -23,14 +23,17 @@ class UserServiceProcessor
             case "autologin":
                 UserLogin::autoLogin($conn, $postVars);
                 break;
-            case "verifyemail":
-                UserRegister::verifyEmail($conn, $postVars, $mailService);
+            case "sendregisteremail":
+                UserRegister::sendRegisterEmail($conn, $postVars, $mailService);
                 break;
             case "register":
                 UserRegister::register($conn, $postVars);
                 break;
-            case "forgotpassword":
-                UserForgotPw::forgotPassword($conn, $postVars, $mailService);
+            case "sendlostpwemail":
+                UserForgotPw::sendLostPwEmail($conn, $postVars, $mailService);
+                break;
+            case "resetpassword":
+                UserForgotPw::resetPassword($conn, $postVars);
                 break;
             case "updatepassword":
                 UserUpdatePw::updatePassword($conn, $postVars);

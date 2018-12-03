@@ -14,8 +14,8 @@
                 <mat-panel-title><strong>Create New Account</strong></mat-panel-title>
             </mat-expansion-panel-header>
             <app-register-step1-form
-                    [verifyEmailSentTo]="this.verifyEmailSentTo$ | async"
-                    (onVerifyEmailClick)="this.onVerifyEmailClick($event)">
+                    [registerEmailSentTo]="this.registerEmailSentTo$ | async"
+                    (onSendRegisterEmailClick)="this.onSendRegisterEmailClick($event)">
             </app-register-step1-form>
         </mat-expansion-panel>
     </mat-accordion>

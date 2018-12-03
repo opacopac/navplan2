@@ -1,0 +1,7 @@
+<div class="content-container-topspacing">
+    <h3>Forgot Password</h3>
+    <app-forgot-pw-step1-form
+            [lostPwEmailSentTo]="this.lostPwEmailSentTo$ | async"
+            (onSendLostPwEmailEmailClick)="this.onSendLostPwEmailClick($event)">
+    </app-forgot-pw-step1-form>
+</div>

@@ -18,7 +18,7 @@ class UserRegister
      * @return bool
      * @throws DbException
      */
-    public static function verifyEmail(DbConnection $conn, array $args, MailService $mailService): bool
+    public static function sendRegisterEmail(DbConnection $conn, array $args, MailService $mailService): bool
     {
         $email = UserHelper::escapeTrimInput($conn, $args["email"]);
 

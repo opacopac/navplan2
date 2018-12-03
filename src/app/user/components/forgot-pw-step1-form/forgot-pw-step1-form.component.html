@@ -1,4 +1,4 @@
-<form [formGroup]="registerForm">
+<form [formGroup]="lostPwStep1Form">
     <div fxLayout="column">
         <mat-form-field appearance="fill">
             <mat-label>E-Mail</mat-label>
@@ -12,13 +12,13 @@
         <div>
             <button mat-raised-button
                     color="primary"
-                    (click)="this.onSendRegisterEmailClick.emit(email.value)"
-                    [disabled]="this.registerForm.invalid">Verify E-Mail
+                    (click)="this.onSendLostPwEmailEmailClick.emit(email.value)"
+                    [disabled]="this.lostPwStep1Form.invalid">Reset Password
             </button>
         </div>
     </div>
 </form>
-<!-- message if register email has been sent successfully -->
-<mat-error *ngIf="this.registerEmailSentTo">
-    <p>An email has just been sent to <strong>{{ this.registerEmailSentTo }}</strong>. Please check your inbox and use the enclosed activation link to finish the registration.</p>
+<!-- message if verify email has been sent successfully -->
+<mat-error *ngIf="this.lostPwEmailSentTo">
+    <p>An email has just been sent to <strong>{{ this.lostPwEmailSentTo }}</strong>. Please check your inbox and use the enclosed link to change your password.</p>
 </mat-error>

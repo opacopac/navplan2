@@ -19,9 +19,13 @@ import {
     RegisterUserErrorAction,
     RegisterUserSuccessAction,
     UserActionTypes,
-    VerifyEmailAction,
-    VerifyEmailErrorAction,
-    VerifyEmailSuccessAction
+    SendRegisterEmailAction,
+    SendRegisterEmailErrorAction,
+    SendRegisterEmailSuccessAction,
+    SendLostPwEmailErrorAction,
+    SendLostPwEmailSuccessAction,
+    SendLostPwEmailAction,
+    ResetPwErrorAction, ResetPwSuccessAction, ResetPwAction
 } from './user.actions';
 import {UserService} from './services/user/user.service';
 import {MessageService} from '../message/services/message/message.service';
@@ -111,28 +115,28 @@ export class UserEffects {
     // region registration - step 1
 
     @Effect()
-    verifyEmail$: Observable<Action> = this.actions$.pipe(
-        ofType(UserActionTypes.USER_VERIFY_EMAIL),
-        switchMap((action: VerifyEmailAction) => this.userService.verifyEmail(action.email).pipe(
-            map(email => new VerifyEmailSuccessAction(email)),
-            catchError(error => of(new VerifyEmailErrorAction(error)))
+    sendRegisterEmail$: Observable<Action> = this.actions$.pipe(
+        ofType(UserActionTypes.USER_SEND_REGISTER_EMAIL),
+        switchMap((action: SendRegisterEmailAction) => this.userService.sendRegisterEmail(action.email).pipe(
+            map(email => new SendRegisterEmailSuccessAction(email)),
+            catchError(error => of(new SendRegisterEmailErrorAction(error)))
         ))
     );
 
 
     @Effect({ dispatch: false })
-    verifyEmailSuccess$: Observable<Action> = this.actions$.pipe(
-        ofType(UserActionTypes.USER_VERIFY_EMAIL_SUCCESS),
-        tap((action: VerifyEmailSuccessAction) => {
+    sendRegisterEmailSuccess$: Observable<Action> = this.actions$.pipe(
+        ofType(UserActionTypes.USER_SEND_REGISTER_EMAIL_SUCCESS),
+        tap((action: SendRegisterEmailSuccessAction) => {
             this.messageService.writeSuccessMessage('Verification email successfully sent to ' + action.email + '!');
         })
     );
 
 
     @Effect({ dispatch: false })
-    verifyEmailError$: Observable<Action> = this.actions$.pipe(
-        ofType(UserActionTypes.USER_VERIFY_EMAIL_ERROR),
-        tap((action: VerifyEmailErrorAction) => {
+    sendRegisterEmailError$: Observable<Action> = this.actions$.pipe(
+        ofType(UserActionTypes.USER_SEND_REGISTER_EMAIL_ERROR),
+        tap((action: SendRegisterEmailErrorAction) => {
             this.messageService.writeErrorMessage(action.error);
         })
     );
@@ -167,6 +171,72 @@ export class UserEffects {
     registerUserError$: Observable<Action> = this.actions$.pipe(
         ofType(UserActionTypes.USER_REGISTER_ERROR),
         tap((action: RegisterUserErrorAction) => {
+            this.messageService.writeErrorMessage(action.error);
+        })
+    );
+
+    // endregion
+
+
+    // region lost pw - step 1
+
+    @Effect()
+    sendLostPwEmail$: Observable<Action> = this.actions$.pipe(
+        ofType(UserActionTypes.USER_SEND_LOST_PW_EMAIL),
+        switchMap((action: SendLostPwEmailAction) => this.userService.sendLostPwEmail(action.email).pipe(
+            map(email => new SendLostPwEmailSuccessAction(email)),
+            catchError(error => of(new SendLostPwEmailErrorAction(error)))
+        ))
+    );
+
+
+    @Effect({ dispatch: false })
+    sendLostPwEmailSuccess$: Observable<Action> = this.actions$.pipe(
+        ofType(UserActionTypes.USER_SEND_LOST_PW_EMAIL_SUCCESS),
+        tap((action: SendLostPwEmailSuccessAction) => {
+            this.messageService.writeSuccessMessage('Password recovery email successfully sent to ' + action.email + '!');
+        })
+    );
+
+
+    @Effect({ dispatch: false })
+    sendLostPwEmailError$: Observable<Action> = this.actions$.pipe(
+        ofType(UserActionTypes.USER_SEND_LOST_PW_EMAIL_ERROR),
+        tap((action: SendLostPwEmailErrorAction) => {
+            this.messageService.writeErrorMessage(action.error);
+        })
+    );
+
+    // endregion
+
+
+    // region lost pw - step 2
+
+    @Effect()
+    resetPw$: Observable<Action> = this.actions$.pipe(
+        ofType(UserActionTypes.USER_RESET_PW),
+        switchMap((action: ResetPwAction) => this.userService.resetPassword(action.token, action.newPassword, action.rememberMe).pipe(
+            map((user) => new ResetPwSuccessAction(user, action.rememberMe)),
+            catchError(error => of(new ResetPwErrorAction(error)))
+        ))
+    );
+
+
+    @Effect({ dispatch: false })
+    resetPwSuccess$: Observable<Action> = this.actions$.pipe(
+        ofType(UserActionTypes.USER_RESET_PW_SUCCESS),
+        tap((action: ResetPwSuccessAction) => {
+            this.messageService.writeSuccessMessage('Password successfully changed!');
+            this.clientStorageService.persistToken(action.user.token, action.rememberMe);
+            this.router.navigate(['/map']);
+        })
+    );
+
+
+    @Effect({ dispatch: false })
+    resetPwError$: Observable<Action> = this.actions$.pipe(
+        ofType(UserActionTypes.USER_RESET_PW_ERROR),
+        tap((action: ResetPwErrorAction) => {
             this.messageService.writeErrorMessage(action.error);
         })
     );

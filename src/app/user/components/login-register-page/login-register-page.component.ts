@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {User} from '../../model/user';
 import {select, Store} from '@ngrx/store';
-import {getCurrentUser, getVerifyEmailSentTo} from '../../user.selectors';
-import {LoginUserAction, VerifyEmailAction} from '../../user.actions';
+import {getCurrentUser, getRegisterEmailSentTo} from '../../user.selectors';
+import {LoginUserAction, SendRegisterEmailAction} from '../../user.actions';
 
 @Component({
     selector: 'app-login-register-page',
@@ -12,12 +12,12 @@ import {LoginUserAction, VerifyEmailAction} from '../../user.actions';
 })
 export class LoginRegisterPageComponent implements OnInit {
     public currentUser$: Observable<User>;
-    public verifyEmailSentTo$: Observable<string>;
+    public registerEmailSentTo$: Observable<string>;
 
 
     constructor(private appStore: Store<any>) {
         this.currentUser$ = this.appStore.pipe(select(getCurrentUser));
-        this.verifyEmailSentTo$ = this.appStore.pipe(select(getVerifyEmailSentTo));
+        this.registerEmailSentTo$ = this.appStore.pipe(select(getRegisterEmailSentTo));
     }
 
 
@@ -32,7 +32,7 @@ export class LoginRegisterPageComponent implements OnInit {
     }
 
 
-    public onVerifyEmailClick(email: string) {
-        this.appStore.dispatch(new VerifyEmailAction(email));
+    public onSendRegisterEmailClick(email: string) {
+        this.appStore.dispatch(new SendRegisterEmailAction(email));
     }
 }
