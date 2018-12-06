@@ -1,0 +1,8 @@
+<h5>AD Charts</h5>
+<mat-list>
+    <mat-list-item *ngFor="let chart of this.airport.charts">
+        <i class="fas fa-file"></i>&nbsp;{{ chart.type }}
+        <small><i>&copy; by <a href="{{ this.getChartSourceUrl(chart) }}" target="_blank">{{
+            this.getChartSourceName(chart) }}</a></i></small>
+    </mat-list-item>
+</mat-list>

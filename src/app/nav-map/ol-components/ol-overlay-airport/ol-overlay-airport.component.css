@@ -6,30 +6,10 @@
     padding-bottom: 0;
 }
 
-table.mat-table {
-    width: 100%;
-}
-
 /deep/ .mat-tab-label {
     min-width: 0!important;
 }
 
 .mat-card-avatar {
     border-radius: initial;
-}
-
-.table-notam {
-    max-height: 50%;
-    overflow: auto;
-    margin-bottom: 10px;
-}
-
-.nav-item {
-    width: 2.5rem;
-}
-
-.nav-link {
-    padding-left: 0;
-    padding-right: 0;
-    text-align: center;
 }

@@ -1,0 +1,13 @@
+<div class="table-notam">
+    <p>NOTAMs for {{ this.getName() }} (Today &amp; Tomorrow)</p>
+    <table class="table table-striped table-condensed">
+        <tr *ngFor="let notam of this.airport.notams">
+            <td>
+                <app-map-overlay-notam-item [notam]="notam"></app-map-overlay-notam-item>
+            </td>
+        </tr>
+        <tr *ngIf="!this.airport.notams || this.airport.notams.length == 0">
+            <td><em>No NOTAMs available</em></td>
+        </tr>
+    </table>
+</div>

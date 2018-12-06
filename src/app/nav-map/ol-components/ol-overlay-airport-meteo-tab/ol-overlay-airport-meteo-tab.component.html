@@ -1,0 +1,25 @@
+<div *ngIf="this.airport.metarTaf" class="ol-popup-metartaf">
+    <!-- METAR -->
+    <p *ngIf="this.airport.metarTaf.raw_metar">
+        METAR {{ this.airport.metarTaf.raw_metar }}
+        <br/>
+        <small><i>({{ this.getMetarAgeString() }} old)</i></small>
+    </p>
+    <!-- TAF -->
+    <p *ngIf="this.airport.metarTaf.raw_taf">
+        {{ this.airport.metarTaf.raw_taf }}
+        <br/>
+        <small><i>({{ this.getTafAgeString() }} old)</i></small>
+    </p>
+</div>
+
+<!-- Meteogram -->
+<p [hidden]="this.isMeteoGramVisible()">
+    <small><em><a href="#" (click)="showMeteogram()">Show Meteogram &gt;&gt;</a></em></small>
+</p>
+<div [hidden]="!this.isMeteoGramVisible()">
+    <p>
+        Meteogram for {{ this.getName() }}
+        <app-ol-overlay-windyiframe MEEPonDataNeeded="updateMeteogram()"></app-ol-overlay-windyiframe>
+    </p>
+</div>

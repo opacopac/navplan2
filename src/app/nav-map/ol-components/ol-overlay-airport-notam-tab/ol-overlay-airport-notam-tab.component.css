@@ -1,0 +1,10 @@
+table.mat-table {
+    width: 100%;
+}
+
+
+.table-notam {
+    max-height: 50%;
+    overflow: auto;
+    margin-bottom: 10px;
+}

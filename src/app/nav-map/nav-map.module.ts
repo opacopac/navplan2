@@ -39,6 +39,11 @@ import {OlOverlayButtonRemoveAlternateComponent} from './ol-components/ol-overla
 import {OlOverlayButtonRemoveFromRouteComponent} from './ol-components/ol-overlay-button-remove-from-route/ol-overlay-button-remove-from-route.component';
 import {OlOverlayButtonSetAlternateComponent} from './ol-components/ol-overlay-button-set-alternate/ol-overlay-button-set-alternate.component';
 import {OlOverlayWaypointComponent} from './ol-components/ol-overlay-waypoint/ol-overlay-waypoint.component';
+import { OlOverlayAirportRunwayTabComponent } from './ol-components/ol-overlay-airport-runway-tab/ol-overlay-airport-runway-tab.component';
+import { OlOverlayAirportRadioTabComponent } from './ol-components/ol-overlay-airport-radio-tab/ol-overlay-airport-radio-tab.component';
+import { OlOverlayAirportMeteoTabComponent } from './ol-components/ol-overlay-airport-meteo-tab/ol-overlay-airport-meteo-tab.component';
+import { OlOverlayAirportNotamTabComponent } from './ol-components/ol-overlay-airport-notam-tab/ol-overlay-airport-notam-tab.component';
+import { OlOverlayAirportChartTabComponent } from './ol-components/ol-overlay-airport-chart-tab/ol-overlay-airport-chart-tab.component';
 
 @NgModule({
     declarations: [
@@ -63,6 +68,11 @@ import {OlOverlayWaypointComponent} from './ol-components/ol-overlay-waypoint/ol
         OlOverlayButtonRemoveFromRouteComponent,
         OlOverlayButtonSetAlternateComponent,
         OlOverlayWaypointComponent,
+        OlOverlayAirportRunwayTabComponent,
+        OlOverlayAirportRadioTabComponent,
+        OlOverlayAirportMeteoTabComponent,
+        OlOverlayAirportNotamTabComponent,
+        OlOverlayAirportChartTabComponent,
     ],
     imports: [
         CommonModule,
