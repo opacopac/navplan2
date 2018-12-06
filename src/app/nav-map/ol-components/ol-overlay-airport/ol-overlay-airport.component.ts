@@ -15,7 +15,6 @@ import {WaypointFactory} from '../../../flightroute/model/waypoint-mapper/waypoi
 export class OlOverlayAirportComponent extends OlOverlayWaypointBase implements OnInit {
     public airport: Airport;
     public waypoint: Waypoint;
-    public isMeteoGramOpenClicked: boolean;
     @ViewChild('container') container: ElementRef;
 
 
@@ -31,10 +30,7 @@ export class OlOverlayAirportComponent extends OlOverlayWaypointBase implements 
     public bindDataItem(airport: Airport, clickPos: Position2d) {
         this.airport = airport;
         this.waypoint = airport ? WaypointFactory.createNewWaypointFromDataItem(airport, clickPos) : undefined;
-        this.isMeteoGramOpenClicked = false;
         this.olOverlay.setPosition(airport ? airport.position.getMercator() : undefined);
-
-        this.activateTab();
     }
 
 
@@ -70,6 +66,29 @@ export class OlOverlayAirportComponent extends OlOverlayWaypointBase implements 
     }
 
 
-    private activateTab(tabName: string = 'TODO') {
+    public getRwyUrl(): string {
+        if (!this.airport.hasRunways) {
+            return '';
+        }
+
+        return AirportIcon.getRwyUrl(this.airport, this.airport.runways[0]);
+    }
+
+
+    public getRwyRotDeg(): number {
+        if (!this.airport.hasRunways) {
+            return 0;
+        }
+
+        return this.airport.runways[0].direction1;
+    }
+
+
+    public getRwyStyle(): string {
+        if (!this.airport.hasRunways) {
+            return '';
+        }
+
+        return 'transform: rotate(' + this.airport.runways[0].direction1 + 'deg);';
     }
 }
