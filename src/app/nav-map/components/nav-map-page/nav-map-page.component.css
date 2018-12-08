@@ -1,6 +1,6 @@
 .base-map-container {
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: calc(100vh - 54px);
 }
 
 .zoom-buttons {
