@@ -21,8 +21,7 @@ export interface ListEntry {
 @Component({
     selector: 'app-flightroute-list',
     templateUrl: './flightroute-list.component.html',
-    styleUrls: ['./flightroute-list.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    styleUrls: ['./flightroute-list.component.css']
 })
 export class FlightrouteListComponent implements OnInit, OnChanges {
     @Input() flightrouteList: FlightrouteListEntry[];

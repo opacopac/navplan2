@@ -96,31 +96,32 @@ export class OlOverlayContainerComponent implements OnInit, OnDestroy {
 
         switch (dataItem.dataItemType) {
             case DataItemType.airport:
-                this.mapOverlayAirportComponent.bindDataItem(dataItem as Airport, clickPos);
+                this.mapOverlayAirportComponent.setDataItem(dataItem as Airport, clickPos);
+
                 break;
             case DataItemType.navaid:
-                this.mapOverlayNavaidComponent.bindDataItem(dataItem as Navaid, clickPos);
+                this.mapOverlayNavaidComponent.setDataItem(dataItem as Navaid, clickPos);
                 break;
             case DataItemType.reportingPoint:
-                this.mapOverlayReportingpointComponent.bindDataItem(dataItem as Reportingpoint, clickPos);
+                this.mapOverlayReportingpointComponent.setDataItem(dataItem as Reportingpoint, clickPos);
                 break;
             case DataItemType.reportingSector:
-                this.mapOverlayReportingsectorComponent.bindDataItem(dataItem as Reportingsector, clickPos);
+                this.mapOverlayReportingsectorComponent.setDataItem(dataItem as Reportingsector, clickPos);
                 break;
             case DataItemType.userPoint:
-                this.mapOverlayUserpointComponent.bindDataItem(dataItem as Userpoint, clickPos);
+                this.mapOverlayUserpointComponent.setDataItem(dataItem as Userpoint, clickPos);
                 break;
             case DataItemType.geoname:
-                this.mapOverlayGeonameComponent.bindDataItem(dataItem as Geoname, clickPos);
+                this.mapOverlayGeonameComponent.setDataItem(dataItem as Geoname, clickPos);
                 break;
             case DataItemType.traffic:
-                this.mapOverlayTrafficComponent.bindDataItem(dataItem as Traffic, clickPos);
+                this.mapOverlayTrafficComponent.setDataItem(dataItem as Traffic, clickPos);
                 break;
             case DataItemType.notam:
-                this.mapOverlayNotamComponent.bindDataItem(dataItem as Notam, clickPos);
+                this.mapOverlayNotamComponent.setDataItem(dataItem as Notam, clickPos);
                 break;
             case DataItemType.waypoint:
-                this.mapOverlayWaypointComponent.bindDataItem(dataItem as Waypoint, clickPos);
+                this.mapOverlayWaypointComponent.setDataItem(dataItem as Waypoint, clickPos);
                 break;
         }
     }

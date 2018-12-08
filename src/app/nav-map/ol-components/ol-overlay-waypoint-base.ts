@@ -6,6 +6,7 @@ import {InsertWaypointAction, DeleteWaypointAction} from '../../flightroute/flig
 import {getFlightroute} from '../../flightroute/flightroute.selectors';
 import {Flightroute} from '../../flightroute/model/flightroute';
 import {BaseMapOverlayCloseAction} from '../../base-map/base-map.actions';
+import {ChangeDetectorRef} from '@angular/core';
 
 
 export abstract class OlOverlayWaypointBase extends OlOverlayBase {
@@ -13,8 +14,10 @@ export abstract class OlOverlayWaypointBase extends OlOverlayBase {
     public isNewWaypoint$: Observable<boolean>;
 
 
-    public constructor(private appStore: Store<any>) {
-        super();
+    public constructor(
+        cdRef: ChangeDetectorRef,
+        private appStore: Store<any>) {
+        super(cdRef);
         this.flightroute$ = this.appStore.pipe(select(getFlightroute));
     }
 

@@ -17,8 +17,7 @@ interface WaypointListDataSourceRow {
 @Component({
     selector: 'app-waypoint-list',
     templateUrl: './waypoint-list.component.html',
-    styleUrls: ['./waypoint-list.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    styleUrls: ['./waypoint-list.component.css']
 })
 export class WaypointListComponent implements OnInit {
     @Input() flightroute: Flightroute;

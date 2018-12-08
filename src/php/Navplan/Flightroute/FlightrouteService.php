@@ -4,7 +4,7 @@ require_once __DIR__ . "/../NavplanHelper.php";
 use Navplan\Shared\DbService;
 
 
-header("Access-Control-Allow-Origin: *"); // TODO: remove for PROD
+// header("Access-Control-Allow-Origin: *"); // TODO: remove for PROD
 
 $conn = DbService::openDb();
 

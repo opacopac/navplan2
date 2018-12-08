@@ -1,7 +1,7 @@
 <?php
 	include "../php/config.php";
 
-	header("Access-Control-Allow-Origin: *"); //TODO: remove
+	// header("Access-Control-Allow-Origin: *"); //TODO: remove
 
 	$mysqli = mysqli_init();
 	mysqli_options($mysqli, MYSQLI_OPT_LOCAL_INFILE, true);

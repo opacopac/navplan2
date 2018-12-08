@@ -18,7 +18,7 @@
         </mat-card-header>
 
         <mat-card-content>
-            <mat-tab-group [color]="accent" [backgroundColor]="primary" headerPosition="below">
+            <mat-tab-group headerPosition="below">
                 <!-- info tab -->
                 <mat-tab>
                     <ng-template mat-tab-label>
@@ -71,8 +71,9 @@
                 </mat-tab>
             </mat-tab-group>
         </mat-card-content>
-        <mat-divider></mat-divider>
-        <mat-card-actions>
+        <!--<mat-divider></mat-divider>-->
+        <!--<mat-card-actions>-->
+        <div fxLayout="column">
             <app-ol-overlay-button-add-to-route
                     [waypoint]="this.waypoint"
                     [flightroute]="this.flightroute$ | async"
@@ -83,7 +84,7 @@
                     [waypoint]="this.waypoint"
                     (onDeleteWaypoint)="this.onDeleteWaypoint($event)">
             </app-ol-overlay-button-remove-from-route>
-        </mat-card-actions>
-
+        <!--</mat-card-actions>-->
+        </div>
     </mat-card>
 </div>

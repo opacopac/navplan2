@@ -1,4 +1,4 @@
-import {EventEmitter, Output} from '@angular/core';
+import {ChangeDetectorRef, EventEmitter, Output} from '@angular/core';
 import {UnitconversionService} from '../../shared/services/unitconversion/unitconversion.service';
 import {StringnumberService} from '../../shared/services/stringnumber/stringnumber.service';
 import {DataItem} from '../../shared/model/data-item';
@@ -11,6 +11,10 @@ export abstract class OlOverlayBase {
     public olOverlay: ol.Overlay;
 
 
+    public constructor(private cdRef: ChangeDetectorRef) {
+    }
+
+
     public abstract get containerHtmlElement(): HTMLElement;
 
 
@@ -19,12 +23,18 @@ export abstract class OlOverlayBase {
     }
 
 
-    public abstract bindDataItem(dataItem: DataItem, clickPos: Position2d);
+    public setDataItem(dataItem: DataItem, clickPos: Position2d) {
+        this.bindDataItem(dataItem, clickPos);
+        this.cdRef.markForCheck();
+    }
+
+
+    protected abstract bindDataItem(dataItem: DataItem, clickPos: Position2d);
 
 
     public closeOverlay() {
         this.olOverlay.setPosition(undefined);
-        this.bindDataItem(undefined, undefined);
+        this.setDataItem(undefined, undefined);
     }
 
 

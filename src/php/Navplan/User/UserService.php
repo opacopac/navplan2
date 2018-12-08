@@ -5,7 +5,7 @@ use Navplan\Shared\DbService;
 use Navplan\Shared\MailService;
 
 
-header("Access-Control-Allow-Origin: *"); // TODO: remove for PROD
+// header("Access-Control-Allow-Origin: *"); // TODO: remove for PROD
 
 $conn = DbService::openDb();
 

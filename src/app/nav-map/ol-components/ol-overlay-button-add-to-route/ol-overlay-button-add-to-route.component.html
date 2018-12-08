@@ -1,20 +1,16 @@
-<!--<div class="map-overlay-button2" *ngIf="this.flightroute">-->
-    <button mat-stroked-button (click)="this.onAddSelectedWaypointClicked()">
-        <i class="fas fa-plus"></i>
-    </button>
-    <mat-form-field>
-        <mat-select [(value)]="this.addAfterIndex" placeholder="Add to Route">
-            <mat-option value="0">
-                at the start
-            </mat-option>
-            <mat-option *ngFor="let wp of this.flightroute.waypoints; index as idx" value="{{ idx + 1 }}">
-                after {{ wp.checkpoint }}
-            </mat-option>
-            <mat-option *ngIf="this.flightroute.waypoints.length > 0" value="{{ this.flightroute.waypoints.length  + 1 }}">
-                at the end
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-<!--</div>
-
-<button mat-button><i class="fas fa-plus"></i> Add to Route</button>-->
+<button mat-mini-fab style="background-color: green" (click)="this.onAddSelectedWaypointClicked()">
+    <i class="fas fa-plus"></i>
+</button>&nbsp;
+<mat-form-field>
+    <mat-select [(value)]="this.addAfterIndex" placeholder="Add to Route">
+        <mat-option value="0">
+            at the start
+        </mat-option>
+        <mat-option *ngFor="let wp of this.flightroute.waypoints; index as idx" value="{{ idx + 1 }}">
+            after {{ wp.checkpoint }}
+        </mat-option>
+        <mat-option *ngIf="this.flightroute.waypoints.length > 0" value="{{ this.flightroute.waypoints.length  + 1 }}">
+            at the end
+        </mat-option>
+    </mat-select>
+</mat-form-field>
