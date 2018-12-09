@@ -1,5 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Waypoint} from '../../../flightroute/model/waypoint';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 
 @Component({
@@ -8,13 +7,9 @@ import {Waypoint} from '../../../flightroute/model/waypoint';
   styleUrls: ['./ol-overlay-button-remove-alternate.component.css']
 })
 export class OlOverlayButtonRemoveAlternateComponent implements OnInit {
-    @Input() waypoint: Waypoint;
+    @Output() public click: EventEmitter<null> = new EventEmitter<null>();
 
 
     ngOnInit() {
-    }
-
-
-    public onRemoveAlternateClick() {
     }
 }

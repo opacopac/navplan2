@@ -129,6 +129,12 @@ export function flightrouteReducer(
             FlightrouteCalcService.calcFlightRoute(newFlightroute);
             return { ...state, flightroute: newFlightroute };
 
+        case FlightrouteActionTypes.WAYPOINT_SET_ALTERNATE:
+            newFlightroute = state.flightroute.clone();
+            newFlightroute.alternate = action.alternate;
+            FlightrouteCalcService.calcFlightRoute(newFlightroute);
+            return { ...state, flightroute: newFlightroute };
+
         default:
             return state;
     }

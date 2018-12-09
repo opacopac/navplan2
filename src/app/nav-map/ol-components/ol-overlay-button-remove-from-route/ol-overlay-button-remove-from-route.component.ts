@@ -10,17 +10,12 @@ import {Waypoint} from '../../../flightroute/model/waypoint';
 })
 export class OlOverlayButtonRemoveFromRouteComponent implements OnInit {
     @Input() public waypoint: Waypoint;
-    @Output() public onDeleteWaypoint: EventEmitter<Waypoint> = new EventEmitter<Waypoint>();
+    @Output() public click: EventEmitter<Waypoint> = new EventEmitter<Waypoint>();
     public ButtonSize = ButtonSize;
     public ButtonColor = ButtonColor;
 
 
 
     ngOnInit() {
-    }
-
-
-    public onDeleteWaypointClicked() {
-        this.onDeleteWaypoint.emit(this.waypoint);
     }
 }

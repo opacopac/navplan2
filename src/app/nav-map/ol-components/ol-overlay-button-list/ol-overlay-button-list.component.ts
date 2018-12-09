@@ -1,12 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {BaseMapOverlayCloseAction} from '../../../base-map/base-map.actions';
-import {DeleteWaypointAction, InsertWaypointAction} from '../../../flightroute/flightroute.actions';
+import {DeleteWaypointAction, InsertWaypointAction, SetAlternateAction} from '../../../flightroute/flightroute.actions';
 import {getFlightroute} from '../../../flightroute/flightroute.selectors';
 import {Flightroute} from '../../../flightroute/model/flightroute';
 import {Waypoint} from '../../../flightroute/model/waypoint';
-import {map} from 'rxjs/operators';
 
 
 @Component({
@@ -50,5 +50,10 @@ export class OlOverlayButtonListComponent implements OnInit {
     public onDeleteWaypoint(waypoint: Waypoint) {
         this.appStore.dispatch(new BaseMapOverlayCloseAction());
         this.appStore.dispatch(new DeleteWaypointAction(waypoint));
+    }
+
+
+    public onSetAlternate(waypoint: Waypoint) {
+        this.appStore.dispatch(new SetAlternateAction(waypoint));
     }
 }

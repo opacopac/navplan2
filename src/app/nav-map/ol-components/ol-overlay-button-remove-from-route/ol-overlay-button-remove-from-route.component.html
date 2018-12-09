@@ -1,9 +1,3 @@
-<!--<div class="map-overlay-button2" *ngIf="this.waypoint">
-    <button mat-icon-button (click)="this.onDeleteWaypointClicked()">
-        <i class="fas fa-trash"></i>
-    </button>Remove from Route
-</div>
--->
 <button mat-mini-fab>
-    <i class="fas fa-trash" (click)="this.onDeleteWaypointClicked()"></i>
+    <i class="fas fa-trash" (click)="this.click.emit(this.waypoint)"></i>
 </button>&nbsp;Remove from Route

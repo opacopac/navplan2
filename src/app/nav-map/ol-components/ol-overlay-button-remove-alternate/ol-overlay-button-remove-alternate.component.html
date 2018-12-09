@@ -1,13 +1,3 @@
-<!--<div class="map-overlay-button" *ngIf="(this.selectedWaypointIsAlternate$ | async)">
-    <button
-        appIconButton
-        [color]="ButtonColor.RED"
-        [size]="ButtonSize.SMALL"
-        [iconClass]="'fas fa-trash'"
-        (click)="this.onRemoveAlternateClicked()"></button>&nbsp;Remove as Alternate
-</div>-->
-
-
 <button mat-mini-fab>
-    <i class="fas fa-trash" (click)="this.onRemoveAlternateClick()"></i>
+    <i class="fas fa-trash" (click)="this.click.emit(null)"></i>
 </button>&nbsp;Remove Alternate

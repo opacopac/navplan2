@@ -40,6 +40,7 @@ export enum FlightrouteActionTypes {
     WAYPOINT_REPLACE = '[Waypoint Page] Update waypoint',
     WAYPOINT_REVERSE = '[Waypoint List] Reverse waypoints',
     WAYPOINT_ROUTELINE_MODIFIED = '[NavMap] Route line modified',
+    WAYPOINT_SET_ALTERNATE = '[MapFeature Overlay] Set alternate',
 }
 
 
@@ -312,6 +313,12 @@ export class RouteLineModifiedAction implements Action {
 }
 
 
+export class SetAlternateAction implements Action {
+    readonly type = FlightrouteActionTypes.WAYPOINT_SET_ALTERNATE;
+
+    constructor(public alternate: Waypoint) {}
+}
+
 // endregion
 
 
@@ -348,4 +355,5 @@ export type FlightrouteActions =
     | DeleteWaypointAction
     | InsertWaypointAction
     | ReplaceWaypointAction
-    | ReverseWaypointsAction;
+    | ReverseWaypointsAction
+    | SetAlternateAction;

@@ -95,12 +95,6 @@ export class Flightroute implements Clonable<Flightroute> {
             return false;
         }
 
-        if (this.waypoints && this.waypoints.length > 0) {
-            const lastWp = this.waypoints[this.waypoints.length - 1];
-
-            return !this.isDestinationAirport(lastWp);
-        }
-
-        return true;
+        return !this.isDestinationAirport(waypoint);
     }
 }
