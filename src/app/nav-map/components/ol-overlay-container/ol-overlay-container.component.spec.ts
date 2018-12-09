@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {OlOverlayContainerComponent} from './ol-overlay-container.component';
 
-import { OlOverlayContainerComponent } from './ol-overlay-container.component';
 
-describe('MapOverlayContainerComponent', () => {
-  let component: OlOverlayContainerComponent;
-  let fixture: ComponentFixture<OlOverlayContainerComponent>;
+xdescribe('MapOverlayContainerComponent', () => {
+    let component: OlOverlayContainerComponent;
+    let fixture: ComponentFixture<OlOverlayContainerComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ OlOverlayContainerComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [OlOverlayContainerComponent]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(OlOverlayContainerComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(OlOverlayContainerComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

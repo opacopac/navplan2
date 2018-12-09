@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {OlOverlayButtonRemoveFromRouteComponent} from './ol-overlay-button-remove-from-route.component';
 
-import { OlOverlayButtonRemoveFromRouteComponent } from './ol-overlay-button-remove-from-route.component';
 
-describe('MapOverlayButtonRemoveFromRouteComponent', () => {
-  let component: OlOverlayButtonRemoveFromRouteComponent;
-  let fixture: ComponentFixture<OlOverlayButtonRemoveFromRouteComponent>;
+xdescribe('MapOverlayButtonRemoveFromRouteComponent', () => {
+    let component: OlOverlayButtonRemoveFromRouteComponent;
+    let fixture: ComponentFixture<OlOverlayButtonRemoveFromRouteComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ OlOverlayButtonRemoveFromRouteComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [OlOverlayButtonRemoveFromRouteComponent]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(OlOverlayButtonRemoveFromRouteComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(OlOverlayButtonRemoveFromRouteComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

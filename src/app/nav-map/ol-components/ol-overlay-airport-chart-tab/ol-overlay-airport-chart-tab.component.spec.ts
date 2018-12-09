@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {OlOverlayAirportChartTabComponent} from './ol-overlay-airport-chart-tab.component';
 
-import { OlOverlayAirportChartTabComponent } from './ol-overlay-airport-chart-tab.component';
 
-describe('OlOverlayAirportChartTabComponent', () => {
-  let component: OlOverlayAirportChartTabComponent;
-  let fixture: ComponentFixture<OlOverlayAirportChartTabComponent>;
+xdescribe('OlOverlayAirportChartTabComponent', () => {
+    let component: OlOverlayAirportChartTabComponent;
+    let fixture: ComponentFixture<OlOverlayAirportChartTabComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ OlOverlayAirportChartTabComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [OlOverlayAirportChartTabComponent]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(OlOverlayAirportChartTabComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(OlOverlayAirportChartTabComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

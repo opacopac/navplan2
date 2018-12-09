@@ -17,7 +17,7 @@ class StatusButtonStubDirective {
 }
 
 
-describe('LocationButtonComponent', () => {
+xdescribe('LocationButtonComponent', () => {
     let component: LocationButtonComponent;
     let fixture: ComponentFixture<LocationButtonComponent>;
     let messageServiceStub: Partial<MessageService>;

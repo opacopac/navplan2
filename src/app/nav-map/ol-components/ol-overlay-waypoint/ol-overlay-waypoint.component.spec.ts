@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {OlOverlayWaypointComponent} from './ol-overlay-waypoint.component';
 
-import { OlOverlayWaypointComponent } from './ol-overlay-waypoint.component';
 
-describe('MapOverlayWaypointComponent', () => {
-  let component: OlOverlayWaypointComponent;
-  let fixture: ComponentFixture<OlOverlayWaypointComponent>;
+xdescribe('MapOverlayWaypointComponent', () => {
+    let component: OlOverlayWaypointComponent;
+    let fixture: ComponentFixture<OlOverlayWaypointComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ OlOverlayWaypointComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [OlOverlayWaypointComponent]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(OlOverlayWaypointComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(OlOverlayWaypointComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });
