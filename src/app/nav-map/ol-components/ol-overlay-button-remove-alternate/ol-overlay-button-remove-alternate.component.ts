@@ -7,7 +7,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
   styleUrls: ['./ol-overlay-button-remove-alternate.component.css']
 })
 export class OlOverlayButtonRemoveAlternateComponent implements OnInit {
-    @Output() public click: EventEmitter<null> = new EventEmitter<null>();
+    @Output() public removeAlternateClick: EventEmitter<null> = new EventEmitter<null>();
 
 
     ngOnInit() {

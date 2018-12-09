@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ButtonColor, ButtonSize } from '../../../shared/directives/button-base/button-base.directive';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Waypoint} from '../../../flightroute/model/waypoint';
 
 
 @Component({
@@ -8,8 +8,8 @@ import { ButtonColor, ButtonSize } from '../../../shared/directives/button-base/
     styleUrls: ['./ol-overlay-button-edit-userpoint.component.css']
 })
 export class OlOverlayButtonEditUserpointComponent implements OnInit {
-    public ButtonSize = ButtonSize;
-    public ButtonColor = ButtonColor;
+    @Input() public waypoint: Waypoint;
+    @Output() public editUserpointClick: EventEmitter<Waypoint> = new EventEmitter<Waypoint>();
 
 
     constructor() {
@@ -17,10 +17,5 @@ export class OlOverlayButtonEditUserpointComponent implements OnInit {
 
 
     ngOnInit() {
-    }
-
-
-    public onEditUserWaypointClicked(): void {
-        // TODO
     }
 }

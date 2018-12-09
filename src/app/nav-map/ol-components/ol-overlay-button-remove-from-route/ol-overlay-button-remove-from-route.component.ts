@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ButtonColor, ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
 import {Waypoint} from '../../../flightroute/model/waypoint';
 
 
@@ -10,9 +9,7 @@ import {Waypoint} from '../../../flightroute/model/waypoint';
 })
 export class OlOverlayButtonRemoveFromRouteComponent implements OnInit {
     @Input() public waypoint: Waypoint;
-    @Output() public click: EventEmitter<Waypoint> = new EventEmitter<Waypoint>();
-    public ButtonSize = ButtonSize;
-    public ButtonColor = ButtonColor;
+    @Output() public removeWaypointClick: EventEmitter<Waypoint> = new EventEmitter<Waypoint>();
 
 
 

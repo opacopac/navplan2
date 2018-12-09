@@ -12,7 +12,7 @@ import {Time} from '../../shared/model/quantities/time';
 describe('Flightroute', () => {
     let ac1: Aircraft;
     let wp1, wp2, wp3, wp4, alt: Waypoint;
-    let route1, route2: Flightroute;
+    let route1: Flightroute;
     beforeEach(() => {
         ac1 = new Aircraft(new Speed(100, SpeedUnit.KT), new Consumption(20, ConsumptionUnit.L_PER_H));
         wp1 = new Waypoint(WaypointType.airport, '', '', '', '', '', new Position2d(7, 47), undefined);
@@ -21,7 +21,6 @@ describe('Flightroute', () => {
         wp4 = new Waypoint(WaypointType.navaid, '', '', '', '', '', new Position2d(8.2, 48.2), undefined);
         alt = new Waypoint(WaypointType.airport, '', '', '', '', '', new Position2d(8.6, 48.6), undefined);
         route1 = new Flightroute(1, '', '', ac1, [wp1, wp2, wp3], alt, new Time(30, TimeUnit.M));
-        route2 = new Flightroute(2, '', '', ac1, [wp1, wp2], alt, new Time(30, TimeUnit.M));
 
     });
 
@@ -31,13 +30,25 @@ describe('Flightroute', () => {
     });
 
 
+    it('getWaypointIndex correctly detects the waypoints index', () => {
+        expect(route1.getWaypointIndex(wp1)).toBe(0);
+        expect(route1.getWaypointIndex(wp2)).toBe(1);
+        expect(route1.getWaypointIndex(wp3)).toBe(2);
+        expect(route1.getWaypointIndex(wp4)).toBe(-1);
+        expect(route1.getWaypointIndex(alt)).toBe(-1);
+    });
+
+
     it('containsWaypoint correctly detects if waypoints is in route', () => {
+        expect(route1.containsWaypoint(wp1)).toBe(true);
+        expect(route1.containsWaypoint(wp2)).toBe(true);
         expect(route1.containsWaypoint(wp3)).toBe(true);
     });
 
 
     it('containsWaypoint correctly detects if waypoints is NOT in route', () => {
-        expect(route2.containsWaypoint(wp3)).toBe(false);
+        expect(route1.containsWaypoint(wp4)).toBe(false);
+        expect(route1.containsWaypoint(alt)).toBe(false);
     });
 
 

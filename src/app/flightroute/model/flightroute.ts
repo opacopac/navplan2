@@ -41,17 +41,22 @@ export class Flightroute implements Clonable<Flightroute> {
 
 
     public containsWaypoint(waypoint: Waypoint): boolean {
+        return (this.getWaypointIndex(waypoint) >= 0);
+    }
+
+
+    public getWaypointIndex(waypoint: Waypoint): number {
         if (!waypoint || !waypoint.position || !this.waypoints || this.waypoints.length === 0) {
-            return false;
+            return -1;
         }
 
-        for (const wp of this.waypoints) {
-            if (wp.position.equals(waypoint.position)) {
-                return true;
+        for (let i = 0; i < this.waypoints.length; i++) {
+            if (this.waypoints[i].position.equals(waypoint.position)) {
+                return i;
             }
         }
 
-        return false;
+        return -1;
     }
 
 

@@ -54,6 +54,19 @@ export class OlOverlayButtonListComponent implements OnInit {
 
 
     public onSetAlternate(waypoint: Waypoint) {
+        this.appStore.dispatch(new BaseMapOverlayCloseAction());
         this.appStore.dispatch(new SetAlternateAction(waypoint));
+    }
+
+
+    public onEditWaypoint(waypoint: Waypoint) {
+        /*this.appStore.dispatch(new BaseMapOverlayCloseAction());
+        this.appStore.dispatch(new DeleteWaypointAction(waypoint));*/
+    }
+
+
+    public onEditUserpoint(waypoint: Waypoint) {
+        /*this.appStore.dispatch(new BaseMapOverlayCloseAction());
+        this.appStore.dispatch(new DeleteWaypointAction(waypoint));*/
     }
 }

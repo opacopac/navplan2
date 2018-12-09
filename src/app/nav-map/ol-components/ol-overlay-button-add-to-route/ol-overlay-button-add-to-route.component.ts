@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {ButtonColor, ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
 import {Flightroute} from '../../../flightroute/model/flightroute';
 import {Waypoint} from '../../../flightroute/model/waypoint';
 
@@ -12,10 +11,8 @@ import {Waypoint} from '../../../flightroute/model/waypoint';
 export class OlOverlayButtonAddToRouteComponent implements OnInit, OnChanges {
     @Input() public waypoint: Waypoint;
     @Input() public flightroute: Flightroute;
-    @Output() public onInsertWaypointAt: EventEmitter<[Waypoint, number]> = new EventEmitter<[Waypoint, number]>();
-    public ButtonSize = ButtonSize;
-    public ButtonColor = ButtonColor;
-    public addAfterIndex: number;
+    @Output() public insertWaypointClick: EventEmitter<[Waypoint, number]> = new EventEmitter<[Waypoint, number]>();
+    public addAfterIndex: string;
 
 
     ngOnInit() {
@@ -25,14 +22,14 @@ export class OlOverlayButtonAddToRouteComponent implements OnInit, OnChanges {
     ngOnChanges() {
         // set initial dropdown selection
         if (this.flightroute && this.flightroute.waypoints.length > 0) {
-            this.addAfterIndex = this.flightroute.waypoints.length + 1;
+            this.addAfterIndex = (this.flightroute.waypoints.length + 1).toString();
         } else {
-            this.addAfterIndex = 0;
+            this.addAfterIndex = '0';
         }
     }
 
 
     public onAddSelectedWaypointClicked() {
-        this.onInsertWaypointAt.emit([this.waypoint, this.addAfterIndex]);
+        this.insertWaypointClick.emit([this.waypoint, parseInt(this.addAfterIndex, 10)]);
     }
 }

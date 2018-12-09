@@ -9,7 +9,7 @@ import {Waypoint} from '../../../flightroute/model/waypoint';
 })
 export class OlOverlayButtonSetAlternateComponent implements OnInit {
     @Input() public waypoint: Waypoint;
-    @Output() public click: EventEmitter<Waypoint> = new EventEmitter<Waypoint>();
+    @Output() public setAlternateClick: EventEmitter<Waypoint> = new EventEmitter<Waypoint>();
 
 
     ngOnInit() {

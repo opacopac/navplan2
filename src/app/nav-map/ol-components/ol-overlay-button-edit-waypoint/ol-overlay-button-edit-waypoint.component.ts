@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Waypoint} from '../../../flightroute/model/waypoint';
 
 
@@ -8,13 +8,10 @@ import {Waypoint} from '../../../flightroute/model/waypoint';
     styleUrls: ['./ol-overlay-button-edit-waypoint.component.css']
 })
 export class OlOverlayButtonEditWaypointComponent implements OnInit {
-    @Input() waypoint: Waypoint;
+    @Input() public waypoint: Waypoint;
+    @Output() public editWaypointClick: EventEmitter<Waypoint> = new EventEmitter<Waypoint>();
 
 
     ngOnInit() {
-    }
-
-
-    public onEditWaypointClick() {
     }
 }

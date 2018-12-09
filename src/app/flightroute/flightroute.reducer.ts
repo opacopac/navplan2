@@ -118,7 +118,7 @@ export function flightrouteReducer(
 
         case FlightrouteActionTypes.WAYPOINT_DELETE:
             newFlightroute = state.flightroute.clone();
-            const idx = state.flightroute.waypoints.indexOf(action.waypoint);
+            const idx = state.flightroute.getWaypointIndex(action.waypoint);
             ArrayService.removeAt(newFlightroute.waypoints, idx);
             FlightrouteCalcService.calcFlightRoute(newFlightroute);
             return { ...state, flightroute: newFlightroute };

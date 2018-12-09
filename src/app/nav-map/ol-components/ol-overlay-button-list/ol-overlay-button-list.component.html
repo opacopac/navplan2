@@ -3,24 +3,25 @@
             *ngIf="!(this.isWaypointInFlightroute$ | async)"
             [waypoint]="this.waypoint"
             [flightroute]="this.flightroute$ | async"
-            (onInsertWaypointAt)="this.onInsertWaypointAt($event)">
+            (insertWaypointClick)="this.onInsertWaypointAt($event)">
     </app-ol-overlay-button-add-to-route>
     <app-ol-overlay-button-edit-waypoint
             *ngIf="this.isWaypointInFlightroute$ | async"
-            [waypoint]="this.waypoint">
+            [waypoint]="this.waypoint"
+            (editWaypointClick)="this.onEditWaypoint($event)">
     </app-ol-overlay-button-edit-waypoint>
     <app-ol-overlay-button-remove-from-route
             *ngIf="this.isWaypointInFlightroute$ | async"
             [waypoint]="this.waypoint"
-            (click)="this.onDeleteWaypoint($event)">
+            (removeWaypointClick)="this.onDeleteWaypoint($event)">
     </app-ol-overlay-button-remove-from-route>
     <app-ol-overlay-button-set-alternate
             *ngIf="!(this.isAlternateWaypoint$ | async) && (this.isAlternateEligible$ | async)"
             [waypoint]="this.waypoint"
-            (click)="this.onSetAlternate($event)">
+            (setAlternateClick)="this.onSetAlternate($event)">
     </app-ol-overlay-button-set-alternate>
     <app-ol-overlay-button-remove-alternate
             *ngIf="(this.isAlternateWaypoint$ | async)"
-            (click)="this.onSetAlternate(undefined)">
+            (removeAlternateClick)="this.onSetAlternate(undefined)">
     </app-ol-overlay-button-remove-alternate>
 </div>
