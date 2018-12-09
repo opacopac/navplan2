@@ -5,7 +5,7 @@ import {Extent} from '../../shared/model/extent';
 import {Position2d} from '../../shared/model/geometry/position2d';
 import {Angle} from '../../shared/model/quantities/angle';
 import {AngleUnit} from '../../shared/model/units';
-import {DataItem} from '../../shared/model/data-item';
+import {DataItem, DataItemType} from '../../shared/model/data-item';
 import {OlComponentBase} from '../ol-component/ol-component-base';
 
 
@@ -281,16 +281,21 @@ export class BaseMapService {
             return undefined;
         }
 
-        // TODO: order by priority
-
-        for (let i = olFeatures.length - 1; i >= 0; i--) {
-            const dataItem = OlComponentBase.getDataItem(olFeatures[i] as ol.Feature);
-            if (dataItem && (onlyClickable === false || OlComponentBase.isSelectable(olFeatures[i] as ol.Feature))) {
-                return dataItem;
+        const dataItems: DataItem[] = [];
+        for (const feature of olFeatures) {
+            const dataItem = OlComponentBase.getDataItem(feature as ol.Feature);
+            if (dataItem && (onlyClickable === false || OlComponentBase.isSelectable(feature as ol.Feature))) {
+                dataItems.push(dataItem);
             }
         }
 
-        return undefined;
+        if (dataItems.length === 0) {
+            return undefined;
+        } else {
+            dataItems.sort(this.clickPrioComparer);
+        }
+
+        return dataItems[0];
     }
 
 
@@ -302,6 +307,11 @@ export class BaseMapService {
             layer === this.flightrouteLayer ||
             layer === this.searchItemLayer ||
             layer === this.trafficLayer);*/
+    }
+
+
+    private clickPrioComparer(item1: DataItem, item2: DataItem): number {
+        return item1.getClickPrio() - item2.getClickPrio();
     }
 
     // endregion
