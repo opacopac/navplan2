@@ -15,7 +15,9 @@ const MAXAGESEC = 5 * 60 * 1000; // 5 min
 const METAR_TAF_BASE_URL = 'https://www.aviationweather.gov/gis/scripts/MetarJSON.php?taf=true&density=all&bbox='; // 6.0,44.0,10.0,48.0';
 
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class MetarTafService {
     constructor(private http: HttpClient) {
     }

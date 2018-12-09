@@ -5261,7 +5261,9 @@ const TELEPHONY_DESIGNATOR = {
 // endregion
 
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class IcaoCallsignService {
     static getIcaoTelephonyDesignator(operator: string): string {
         return TELEPHONY_DESIGNATOR[operator];

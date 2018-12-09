@@ -20,18 +20,6 @@
                     <i class="fas fa-info-circle" title="openAIP login is required for editing"></i></em>
             </div>
         </mat-card-content>
-        <mat-divider></mat-divider>
-        <mat-card-actions>
-            <app-ol-overlay-button-add-to-route
-                    [waypoint]="this.waypoint"
-                    [flightroute]="this.flightroute$ | async"
-                    (onInsertWaypointAt)="this.onInsertWaypointAt($event)"
-            ></app-ol-overlay-button-add-to-route>
-            <app-ol-overlay-button-edit-waypoint></app-ol-overlay-button-edit-waypoint>
-            <app-ol-overlay-button-remove-from-route
-                    [waypoint]="this.waypoint"
-                    (onDeleteWaypoint)="this.onDeleteWaypoint($event)"
-            ></app-ol-overlay-button-remove-from-route>
-        </mat-card-actions>
+        <app-ol-overlay-button-list [waypoint]="this.waypoint"></app-ol-overlay-button-list>
     </mat-card>
 </div>

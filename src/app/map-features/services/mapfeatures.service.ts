@@ -17,7 +17,9 @@ import {getMapFeatures} from '../map-features.selectors';
 const MAPFEATURES_BASE_URL = environment.restApiBaseUrl + 'php/Navplan/Search/SearchService.php';
 
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class MapfeaturesService  {
     private loadedMapFeatures$: Observable<Mapfeatures>;
 

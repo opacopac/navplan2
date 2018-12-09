@@ -14,7 +14,9 @@ const NOTAM_BASE_URL = environment.restApiBaseUrl + 'php/notam.php'; // TODO: mo
 const NOTAM_BASE_URL2 = environment.restApiBaseUrl + 'php/Navplan/Search/SearchService.php';
 
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class NotamService {
     constructor(private http: HttpClient) {
     }

@@ -12,11 +12,7 @@
         <mat-card-content class="card-body">
             <p>{{ this.getPositionString(this.userpoint.position) }}</p>
             <p *ngIf="this.userpoint.remark">Remark: {{ this.userpoint.remark }}</p>
-            <!--<hr/>
-            <app-ol-overlay-button-add-to-route></app-ol-overlay-button-add-to-route>
-            <app-ol-overlay-button-edit-waypoint></app-ol-overlay-button-edit-waypoint>
-            <app-ol-overlay-button-remove-from-route></app-ol-overlay-button-remove-from-route>
-            <app-ol-overlay-button-edit-userpoint></app-ol-overlay-button-edit-userpoint>-->
         </mat-card-content>
+        <app-ol-overlay-button-list [waypoint]="this.waypoint"></app-ol-overlay-button-list>
     </mat-card>
 </div>

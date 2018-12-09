@@ -1,8 +1,8 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {OlOverlayBase} from '../../../base-map/components/ol-overlay-base';
 import {Position2d} from '../../../shared/model/geometry/position2d';
 import {Geoname} from '../../../map-features/model/geoname';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
+import {WaypointFactory} from '../../../flightroute/model/waypoint-mapper/waypoint-factory';
 
 
 // region type strings
@@ -725,6 +725,7 @@ export class OlOverlayGeonameComponent extends OlOverlayWaypointBase implements 
 
     public bindDataItem(geoname: Geoname, clickPos: Position2d) {
         this.geoname = geoname;
+        this.waypoint = geoname ? WaypointFactory.createNewWaypointFromDataItem(geoname, clickPos) : undefined;
         this.olOverlay.setPosition(geoname ? geoname.position.getMercator() : undefined);
     }
 

@@ -12,7 +12,9 @@ import {throwError} from 'rxjs';
 const ADSBEXCHANGE_BASE_URL = 'https://public-api.adsbexchange.com/VirtualRadar/AircraftList.json';
 
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class TrafficAdsbexchangeService {
     constructor(private http: HttpClient) {
     }

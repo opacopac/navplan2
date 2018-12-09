@@ -32,7 +32,9 @@ interface UserToken {
 }
 
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class UserService {
     public constructor(
         private http: HttpClient) {

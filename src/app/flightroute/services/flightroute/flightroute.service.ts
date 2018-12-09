@@ -14,7 +14,9 @@ import {Flightroute} from '../../model/flightroute';
 const flightrouteBaseUrl = environment.restApiBaseUrl + 'php/Navplan/Flightroute/FlightrouteService.php';
 
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class FlightrouteService {
     constructor(
         private http: HttpClient) {

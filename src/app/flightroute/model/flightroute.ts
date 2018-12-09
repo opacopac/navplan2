@@ -5,6 +5,7 @@ import {Clonable} from '../../shared/model/clonable';
 import {Time} from '../../shared/model/quantities/time';
 import {Distance} from '../../shared/model/quantities/distance';
 import {LengthUnit} from '../../shared/model/units';
+import {WaypointType} from './waypoint-type';
 
 
 export class Flightroute implements Clonable<Flightroute> {
@@ -23,7 +24,7 @@ export class Flightroute implements Clonable<Flightroute> {
     }
 
 
-    clone(): Flightroute {
+    public clone(): Flightroute {
         const newWaypoints: Waypoint[] = [];
         this.waypoints.forEach(wp => newWaypoints.push(wp.clone()));
 
@@ -36,5 +37,70 @@ export class Flightroute implements Clonable<Flightroute> {
             this.alternate ? this.alternate.clone() : undefined,
             this.extraTime ? this.extraTime.clone() : undefined
         );
+    }
+
+
+    public containsWaypoint(waypoint: Waypoint): boolean {
+        if (!waypoint || !waypoint.position || !this.waypoints || this.waypoints.length === 0) {
+            return false;
+        }
+
+        for (const wp of this.waypoints) {
+            if (wp.position.equals(waypoint.position)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    public isOriginAirport(waypoint: Waypoint): boolean {
+        if (!waypoint || !waypoint.position || waypoint.type !== WaypointType.airport) {
+            return false;
+        }
+
+        if (!this.waypoints || this.waypoints.length === 0) {
+            return false;
+        }
+
+        return this.waypoints[0].position.equals(waypoint.position);
+    }
+
+
+    public isDestinationAirport(waypoint: Waypoint): boolean {
+        if (!waypoint || !waypoint.position || waypoint.type !== WaypointType.airport) {
+            return false;
+        }
+
+        if (!this.waypoints || this.waypoints.length <= 1) {
+            return false;
+        }
+
+        return this.waypoints[this.waypoints.length - 1].position.equals(waypoint.position);
+    }
+
+
+    public isAlternateWaypoint(waypoint: Waypoint): boolean {
+        if (!waypoint || !waypoint.position || ! this.alternate || !this.alternate.position) {
+            return false;
+        }
+
+        return this.alternate.position.equals(waypoint.position);
+    }
+
+
+    public isALternateEligible(waypoint: Waypoint): boolean {
+        if (!waypoint || !waypoint.position || waypoint.type !== WaypointType.airport) {
+            return false;
+        }
+
+        if (this.waypoints && this.waypoints.length > 0) {
+            const lastWp = this.waypoints[this.waypoints.length - 1];
+
+            return !this.isDestinationAirport(lastWp);
+        }
+
+        return true;
     }
 }

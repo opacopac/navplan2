@@ -4,7 +4,6 @@ import {Navaid} from '../../../map-features/model/navaid';
 import {Position2d} from '../../../shared/model/geometry/position2d';
 import {NavaidIcon} from '../../../map-features/model/navaid-icon';
 import {WaypointFactory} from '../../../flightroute/model/waypoint-mapper/waypoint-factory';
-import {Waypoint} from '../../../flightroute/model/waypoint';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
 
 
@@ -15,7 +14,6 @@ import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
 })
 export class OlOverlayNavaidComponent extends OlOverlayWaypointBase implements OnInit {
     public navaid: Navaid;
-    public waypoint: Waypoint;
     @ViewChild('container') container: ElementRef;
 
 

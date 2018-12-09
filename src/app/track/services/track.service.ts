@@ -11,7 +11,9 @@ import {catchError, map} from 'rxjs/operators';
 const userTrackBaseUrl =  environment.restApiBaseUrl + 'php/userTrack.php';
 
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class TrackService {
     constructor(private http: HttpClient) {
     }

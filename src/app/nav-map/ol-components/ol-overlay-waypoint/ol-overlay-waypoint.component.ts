@@ -10,7 +10,6 @@ import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
     styleUrls: ['./ol-overlay-waypoint.component.css']
 })
 export class OlOverlayWaypointComponent extends OlOverlayWaypointBase implements OnInit {
-    public waypoint: Waypoint;
     @ViewChild('container') container: ElementRef;
 
 

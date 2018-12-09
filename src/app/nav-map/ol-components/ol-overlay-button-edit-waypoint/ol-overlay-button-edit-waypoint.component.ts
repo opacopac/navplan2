@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ButtonColor, ButtonSize } from '../../../shared/directives/button-base/button-base.directive';
+import {Component, Input, OnInit} from '@angular/core';
 import {Waypoint} from '../../../flightroute/model/waypoint';
-import {Observable} from 'rxjs/internal/Observable';
 
 
 @Component({
@@ -10,11 +8,7 @@ import {Observable} from 'rxjs/internal/Observable';
     styleUrls: ['./ol-overlay-button-edit-waypoint.component.css']
 })
 export class OlOverlayButtonEditWaypointComponent implements OnInit {
-    public ButtonSize = ButtonSize;
-    public ButtonColor = ButtonColor;
-    public selectedWaypoint$: Observable<Waypoint>; // TODO
-    public flightrouteWaypoints$: Observable<Waypoint[]>; // TODO
-    public selectedWaypointIsNew$: Observable<boolean>; // TODO
+    @Input() waypoint: Waypoint;
 
 
     ngOnInit() {
@@ -22,6 +16,5 @@ export class OlOverlayButtonEditWaypointComponent implements OnInit {
 
 
     public onEditWaypointClick() {
-        // this.session.editWaypointActive = true;
     }
 }

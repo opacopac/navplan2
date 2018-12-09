@@ -12,7 +12,9 @@ import {OlComponentBase} from '../ol-component/ol-component-base';
 const HIT_TOLERANCE_PIXELS = 10;
 
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class BaseMapService {
     public map: ol.Map;
     private mapLayer: ol.layer.Tile;

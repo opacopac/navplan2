@@ -3,7 +3,6 @@ import {Airport, AirportType} from '../../../map-features/model/airport';
 import {Position2d} from '../../../shared/model/geometry/position2d';
 import {AirportIcon} from '../../../map-features/model/airport-icon';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
-import {Waypoint} from '../../../flightroute/model/waypoint';
 import {WaypointFactory} from '../../../flightroute/model/waypoint-mapper/waypoint-factory';
 
 
@@ -14,7 +13,6 @@ import {WaypointFactory} from '../../../flightroute/model/waypoint-mapper/waypoi
 })
 export class OlOverlayAirportComponent extends OlOverlayWaypointBase implements OnInit {
     public airport: Airport;
-    public waypoint: Waypoint;
     @ViewChild('container') container: ElementRef;
 
 
@@ -81,14 +79,5 @@ export class OlOverlayAirportComponent extends OlOverlayWaypointBase implements 
         }
 
         return this.airport.runways[0].direction1;
-    }
-
-
-    public getRwyStyle(): string {
-        if (!this.airport.hasRunways) {
-            return '';
-        }
-
-        return 'transform: rotate(' + this.airport.runways[0].direction1 + 'deg);';
     }
 }

@@ -10,7 +10,6 @@ import {
     MatTabsModule
 } from '@angular/material';
 import {OlOverlayAirportComponent} from './ol-components/ol-overlay-airport/ol-overlay-airport.component';
-import {OlOverlayButtonMeteogramComponent} from './ol-components/ol-overlay-button-meteogram/ol-overlay-button-meteogram.component';
 import {OlOverlayButtonWebcamComponent} from './ol-components/ol-overlay-button-webcam/ol-overlay-button-webcam.component';
 import {OlOverlayGeonameComponent} from './ol-components/ol-overlay-geoname/ol-overlay-geoname.component';
 import {OlOverlayMeteogramComponent} from './ol-components/ol-overlay-meteogram/ol-overlay-meteogram.component';
@@ -44,6 +43,7 @@ import { OlOverlayAirportRadioTabComponent } from './ol-components/ol-overlay-ai
 import { OlOverlayAirportMeteoTabComponent } from './ol-components/ol-overlay-airport-meteo-tab/ol-overlay-airport-meteo-tab.component';
 import { OlOverlayAirportNotamTabComponent } from './ol-components/ol-overlay-airport-notam-tab/ol-overlay-airport-notam-tab.component';
 import { OlOverlayAirportChartTabComponent } from './ol-components/ol-overlay-airport-chart-tab/ol-overlay-airport-chart-tab.component';
+import { OlOverlayButtonListComponent } from './ol-components/ol-overlay-button-list/ol-overlay-button-list.component';
 
 @NgModule({
     declarations: [
@@ -51,9 +51,7 @@ import { OlOverlayAirportChartTabComponent } from './ol-components/ol-overlay-ai
         OlComponentsContainerComponent,
         OlOverlayContainerComponent,
         OlOverlayAirportComponent,
-        OlOverlayButtonMeteogramComponent,
         OlOverlayButtonWebcamComponent,
-        OlOverlayButtonMeteogramComponent,
         OlOverlayGeonameComponent,
         OlOverlayMeteogramComponent,
         OlOverlayNavaidComponent,
@@ -73,6 +71,7 @@ import { OlOverlayAirportChartTabComponent } from './ol-components/ol-overlay-ai
         OlOverlayAirportMeteoTabComponent,
         OlOverlayAirportNotamTabComponent,
         OlOverlayAirportChartTabComponent,
+        OlOverlayButtonListComponent,
     ],
     imports: [
         CommonModule,

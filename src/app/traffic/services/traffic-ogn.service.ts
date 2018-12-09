@@ -13,7 +13,9 @@ import {throwError} from 'rxjs';
 const OGN_TRAFFIC_BASE_URL = environment.restApiBaseUrl + 'php/Navplan/Traffic/TrafficService.php';
 
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class TrafficOgnService {
     constructor(private http: HttpClient) {
     }

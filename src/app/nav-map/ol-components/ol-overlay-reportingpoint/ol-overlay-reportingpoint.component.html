@@ -22,10 +22,7 @@
                 <span *ngIf="this.reportingpoint.inbd_comp && this.reportingpoint.outbd_comp">&amp;</span>
                 {{ this.reportingpoint.outbd_comp ? 'OUTBD' : '' }}
             </p>
-            <!--<hr/>
-            <app-ol-overlay-button-add-to-route></app-ol-overlay-button-add-to-route>
-            <app-ol-overlay-button-edit-waypoint></app-ol-overlay-button-edit-waypoint>
-            <app-ol-overlay-button-remove-from-route></app-ol-overlay-button-remove-from-route>-->
         </mat-card-content>
+        <app-ol-overlay-button-list [waypoint]="this.waypoint"></app-ol-overlay-button-list>
     </mat-card>
 </div>
