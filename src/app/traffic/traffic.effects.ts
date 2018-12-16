@@ -4,10 +4,10 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
 import {catchError, filter, flatMap, map, mergeMap, switchMap, withLatestFrom} from 'rxjs/operators';
 import {
-    ReadAdsbExTrafficSuccessAction, ReadAdsbExTrafficSuccessError,
-    ReadOgnTrafficSuccessAction, ReadOgnTrafficSuccessError,
+    ReadAdsbExTrafficSuccessAction, ReadAdsbExTrafficErrorAction,
+    ReadOgnTrafficSuccessAction, ReadOgnTrafficErrorAction,
     ReadTrafficTimerAction, StartWatchTrafficAction, StopWatchTrafficAction,
-    TrafficActionTypes
+    TrafficActionTypes, ReadOpenSkyTrafficSuccessAction, ReadOpenSkyExTrafficErrorAction
 } from './traffic.actions';
 import {getTrafficIsWatching, getTrafficState} from './traffic.selectors';
 import {TrafficOgnService} from './services/traffic-ogn.service';
@@ -15,6 +15,7 @@ import {TrafficAdsbexchangeService} from './services/traffic-adsbexchange.servic
 import {TrafficState} from './traffic-state';
 import {timer} from 'rxjs/internal/observable/timer';
 import {of} from 'rxjs/internal/observable/of';
+import {TrafficOpenskyService} from './services/traffic-opensky.service';
 
 
 const TRAFFIC_UPDATE_INTERVALL_MS = 5000;
@@ -33,6 +34,7 @@ export class TrafficEffects {
         private actions$: Actions,
         private appStore: Store<any>,
         private trafficOgnService: TrafficOgnService,
+        private trafficOpenSkyService: TrafficOpenskyService,
         private trafficAdsbExService: TrafficAdsbexchangeService) {
     }
 
@@ -64,6 +66,22 @@ export class TrafficEffects {
 
 
     @Effect()
+    readAdsbExTraffic$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(TrafficActionTypes.TRAFFIC_READ_TIMER),
+            map(action => action as ReadTrafficTimerAction),
+            withLatestFrom(this.trafficState$),
+            mergeMap(([action, trafficState]) => this.trafficAdsbExService.readTraffic(
+                trafficState.extent,
+                '15000'  // TODO
+                )
+            ),
+            map(traffic => new ReadAdsbExTrafficSuccessAction(traffic)),
+            catchError(error => of(new ReadAdsbExTrafficErrorAction(error)))
+        );
+
+
+    @Effect()
     readOgnTraffic$: Observable<Action> = this.actions$
         .pipe(
             ofType(TrafficActionTypes.TRAFFIC_READ_TIMER),
@@ -77,24 +95,17 @@ export class TrafficEffects {
                 )
             ),
             map(traffic => new ReadOgnTrafficSuccessAction(traffic)),
-            catchError(error => of(new ReadOgnTrafficSuccessError(error)))
+            catchError(error => of(new ReadOgnTrafficErrorAction(error)))
         );
-
 
     @Effect()
-    readAdsbExTraffic$: Observable<Action> = this.actions$
+    readOpenSkyTraffic$: Observable<Action> = this.actions$
         .pipe(
             ofType(TrafficActionTypes.TRAFFIC_READ_TIMER),
+            map(action => action as ReadTrafficTimerAction),
             withLatestFrom(this.trafficState$),
-            mergeMap(([action, trafficState]) => this.trafficAdsbExService.readTraffic(
-                trafficState.extent,
-                '12345'  // TODO
-                )
-            ),
-            map(traffic => new ReadAdsbExTrafficSuccessAction(traffic)),
-            catchError(error => of(new ReadAdsbExTrafficSuccessError(error)))
+            mergeMap(([action, trafficState]) => this.trafficOpenSkyService.readTraffic(trafficState.extent)),
+            map(traffic => new ReadOpenSkyTrafficSuccessAction(traffic)),
+            catchError(error => of(new ReadOpenSkyExTrafficErrorAction(error)))
         );
 }
-
-
-

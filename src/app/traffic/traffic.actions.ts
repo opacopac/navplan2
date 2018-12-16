@@ -10,7 +10,9 @@ export enum TrafficActionTypes {
     TRAFFIC_READ_OGN_SUCCESS = '[TrafficOgnService] read ogn traffic success',
     TRAFFIC_READ_OGN_ERROR = '[TrafficOgnService] read ogn traffic error',
     TRAFFIC_READ_ADSBEX_SUCCESS = '[TrafficAdsbExService] read adsbEx traffic success',
-    TRAFFIC_READ_ADSBEX_ERROR = '[TrafficAdsbEXService] read adsbEx traffic error',
+    TRAFFIC_READ_ADSBEX_ERROR = '[TrafficAdsbExService] read adsbEx traffic error',
+    TRAFFIC_READ_OPENSKY_SUCCESS = '[TrafficOpenSkyService] read openSky network traffic success',
+    TRAFFIC_READ_OPENSKY_ERROR = '[TrafficOpenSkyService] read openSky network traffic error',
 }
 
 
@@ -49,7 +51,7 @@ export class ReadOgnTrafficSuccessAction implements Action {
 }
 
 
-export class ReadOgnTrafficSuccessError implements Action {
+export class ReadOgnTrafficErrorAction implements Action {
     readonly type = TrafficActionTypes.TRAFFIC_READ_OGN_ERROR;
 
     constructor(public error: Error) {}
@@ -63,8 +65,22 @@ export class ReadAdsbExTrafficSuccessAction implements Action {
 }
 
 
-export class ReadAdsbExTrafficSuccessError implements Action {
+export class ReadAdsbExTrafficErrorAction implements Action {
     readonly type = TrafficActionTypes.TRAFFIC_READ_ADSBEX_ERROR;
+
+    constructor(public error: Error) {}
+}
+
+
+export class ReadOpenSkyTrafficSuccessAction implements Action {
+    readonly type = TrafficActionTypes.TRAFFIC_READ_OPENSKY_SUCCESS;
+
+    constructor(public traffic: Traffic[]) {}
+}
+
+
+export class ReadOpenSkyExTrafficErrorAction implements Action {
+    readonly type = TrafficActionTypes.TRAFFIC_READ_OPENSKY_ERROR;
 
     constructor(public error: Error) {}
 }
@@ -76,6 +92,8 @@ export type TrafficActions =
     StopWatchTrafficAction |
     ReadTrafficTimerAction |
     ReadOgnTrafficSuccessAction |
-    ReadOgnTrafficSuccessError |
+    ReadOgnTrafficErrorAction |
     ReadAdsbExTrafficSuccessAction |
-    ReadAdsbExTrafficSuccessError;
+    ReadAdsbExTrafficErrorAction |
+    ReadOpenSkyTrafficSuccessAction |
+    ReadOpenSkyExTrafficErrorAction;

@@ -40,7 +40,7 @@ export class OlRouteLine extends OlComponentBase {
 
 
     public get isSelectable(): boolean {
-        return true;
+        return false;
     }
 
 

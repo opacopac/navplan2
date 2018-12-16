@@ -37,7 +37,7 @@ export class RestMapperTrafficOgn {
         for (const acAddress of Object.keys(response.aclist)) {
             const ac: TrafficOgnRestItem = response.aclist[acAddress];
             const traffic = new Traffic(
-                ac.id,
+                ac.id.toUpperCase(),
                 TrafficAddressType[ac.addresstype],
                 TrafficDataSource.OGN,
                 TrafficAircraftType[ac.actype],

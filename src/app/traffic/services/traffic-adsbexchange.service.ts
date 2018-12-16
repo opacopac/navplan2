@@ -7,9 +7,11 @@ import {catchError, map} from 'rxjs/operators';
 import {Observable} from 'rxjs/internal/Observable';
 import {Traffic} from '../model/traffic';
 import {throwError} from 'rxjs';
+import {environment} from '../../../environments/environment';
 
 
 const ADSBEXCHANGE_BASE_URL = 'https://public-api.adsbexchange.com/VirtualRadar/AircraftList.json';
+const ADSBEX_TRAFFIC_BASE_URL = environment.restApiBaseUrl + 'php/Navplan/Traffic/TrafficService.php?action=readadsbextraffic';
 
 
 @Injectable({
@@ -26,6 +28,11 @@ export class TrafficAdsbexchangeService {
 
         const url = ADSBEXCHANGE_BASE_URL + '?fAltL=0&fAltU=' + maxHeightFt + '&fWBnd='
             + extent[0] + '&fSBnd=' + extent[1] + '&fEBnd=' + extent[2] + '&fNBnd=' + extent[3];
+
+        /*const midPos = extent.getMidPos();
+        const radiusNm = extent.getRadius().nm;
+        const url = ADSBEX_TRAFFIC_BASE_URL + '&lat=' + midPos.latitude + '&lon=' + midPos.longitude + '&dist=' + radiusNm;*/
+
         return this.http
             .jsonp<TrafficAdsbExResponse>(url, 'callback')
             .pipe(

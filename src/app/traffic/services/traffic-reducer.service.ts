@@ -1,4 +1,4 @@
-import {Traffic, TrafficDataSource, TrafficAircraftType} from '../model/traffic';
+import {Traffic, TrafficAircraftType, TrafficDataSource} from '../model/traffic';
 import {TrafficPosition, TrafficPositionMethod} from '../model/traffic-position';
 
 
@@ -32,7 +32,7 @@ export class TrafficReducerService {
 
 
     private static getTrafficKey(ac: Traffic): string {
-        return ac.addresstype + '_' + ac.acaddress;
+        return ac.addresstype + '_' + ac.acaddress.toUpperCase();
     }
 
 
@@ -71,6 +71,12 @@ export class TrafficReducerService {
                         newTraffic.opCallsign : ac.opCallsign;
                     ac.aircraftModelType = (!ac.aircraftModelType || ac.aircraftModelType === '') ?
                         newTraffic.aircraftModelType : ac.aircraftModelType;
+                } else if (newTraffic.dataSource === TrafficDataSource.OPENSKY) {
+                    // overwrite callsign only if previously empty
+                    ac.callsign = (!ac.callsign || ac.callsign === '') ?
+                        newTraffic.callsign : ac.callsign;
+                    ac.opCallsign = (!ac.opCallsign || ac.opCallsign === '') ?
+                        newTraffic.opCallsign : ac.opCallsign;
                 }
 
                 // add new positions

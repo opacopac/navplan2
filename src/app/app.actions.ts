@@ -1,17 +1,18 @@
 import {Action} from '@ngrx/store';
+import {ActiveMapType} from './app-state';
 
 
 export enum AppActionTypes {
-    APP_DUMMY_ACTION = '[DUMMY] action',
+    APP_SELECT_ACTIVE_MAP = '[Router] Select active map',
 }
 
 
-export class AppDummyAction implements Action {
-    readonly type = AppActionTypes.APP_DUMMY_ACTION;
+export class SelectActiveMapAction implements Action {
+    readonly type = AppActionTypes.APP_SELECT_ACTIVE_MAP;
 
-    constructor() {}
+    constructor(public activeMap: ActiveMapType) {}
 }
 
 
 export type AppActions =
-    AppDummyAction;
+    SelectActiveMapAction;

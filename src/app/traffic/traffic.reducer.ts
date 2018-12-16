@@ -36,6 +36,7 @@ export function trafficReducer(state: TrafficState = initialState, action: Traff
 
         case TrafficActionTypes.TRAFFIC_READ_OGN_SUCCESS:
         case TrafficActionTypes.TRAFFIC_READ_ADSBEX_SUCCESS:
+        case TrafficActionTypes.TRAFFIC_READ_OPENSKY_SUCCESS:
             if (state.isWatching) {
                 return {
                     ...state,
@@ -48,6 +49,7 @@ export function trafficReducer(state: TrafficState = initialState, action: Traff
 
         case TrafficActionTypes.TRAFFIC_READ_OGN_ERROR:
         case TrafficActionTypes.TRAFFIC_READ_ADSBEX_ERROR:
+        case TrafficActionTypes.TRAFFIC_READ_OPENSKY_ERROR:
             if (state.isWatching) {
                 return {
                     ...state,

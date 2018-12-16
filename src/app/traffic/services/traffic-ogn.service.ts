@@ -10,7 +10,7 @@ import {Traffic} from '../model/traffic';
 import {throwError} from 'rxjs';
 
 
-const OGN_TRAFFIC_BASE_URL = environment.restApiBaseUrl + 'php/Navplan/Traffic/TrafficService.php';
+const OGN_TRAFFIC_BASE_URL = environment.restApiBaseUrl + 'php/Navplan/Traffic/TrafficService.php?action=readogntraffic';
 
 
 @Injectable({
@@ -27,7 +27,7 @@ export class TrafficOgnService {
         waitForDataSec: number,
         sessionId: string): Observable<Traffic[]> {
 
-        const url = OGN_TRAFFIC_BASE_URL + '?minlon=' + extent[0] + '&minlat=' + extent[1] + '&maxlon=' + extent[2] + '&maxlat=' + extent[3]
+        const url = OGN_TRAFFIC_BASE_URL + '&minlon=' + extent[0] + '&minlat=' + extent[1] + '&maxlon=' + extent[2] + '&maxlat=' + extent[3]
             + '&maxagesec=' + maxAgeSec + '&sessionid=' + sessionId + '&waitDataSec=' + waitForDataSec;
 
 

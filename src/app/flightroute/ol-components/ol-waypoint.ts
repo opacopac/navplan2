@@ -19,7 +19,7 @@ export class OlWaypoint extends OlComponentBase {
 
         super();
 
-        this.pointFeature = new ol.Feature();
+        this.pointFeature = this.createFeature(waypoint);
         this.pointFeature.setStyle(this.createStyle(waypoint, nextWaypoint, mapRotation));
         this.setPointGeometry(this.pointFeature, waypoint.position);
         this.source.addFeature(this.pointFeature);

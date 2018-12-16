@@ -1,4 +1,7 @@
 import * as ol from 'openlayers';
+import {Position2d} from './geometry/position2d';
+import {GeocalcService} from '../services/geocalc/geocalc.service';
+import {Distance} from './quantities/distance';
 
 
 const MERCATOR_PROJECTION = 'EPSG:3857';
@@ -29,6 +32,36 @@ export class Extent {
     }
 
 
+    public get minLon(): number {
+        return this[0];
+    }
+
+
+    public get minLat(): number {
+        return this[1];
+    }
+
+
+    public get maxLon(): number {
+        return this[2];
+    }
+
+
+    public get maxLat(): number {
+        return this[3];
+    }
+
+
+    public get minPos(): Position2d {
+        return new Position2d(this.minLon, this.minLat);
+    }
+
+
+    public get maxPos(): Position2d {
+        return new Position2d(this.maxLon, this.minLat);
+    }
+
+
     public getAsLatLon(): [number, number, number, number] {
         return this.getExtent();
     }
@@ -36,6 +69,19 @@ export class Extent {
 
     public getAsMercator(): [number, number, number, number] {
         return ol.proj.transformExtent(this.getExtent(), LONLAT_PROJECTION, MERCATOR_PROJECTION);
+    }
+
+
+    public getMidPos(): Position2d {
+        return new Position2d(
+            (this.minLon + this.maxLon) / 2,
+            (this.minLat + this.maxLat) / 2
+        );
+    }
+
+
+    public getRadius(): Distance {
+        return GeocalcService.getDistance(this.minPos, this.getMidPos());
     }
 
 
@@ -53,12 +99,10 @@ export class Extent {
         const centerLon = this[0] + halfDiffLon;
         const centerLat = this[1] + halfDiffLat;
 
-        const oversizeExtent = Extent.createFromLatLon([centerLon - halfDiffLon * factor,
+        return Extent.createFromLatLon([centerLon - halfDiffLon * factor,
           centerLat - halfDiffLat * factor,
           centerLon + halfDiffLon * factor,
           centerLat + halfDiffLat * factor]);
-
-        return oversizeExtent;
     }
 
 

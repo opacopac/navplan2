@@ -31,13 +31,15 @@ export interface TrafficAdsbExRestItem {
 }
 
 
+
+
 export class RestMapperTrafficAdexbEx {
     public static getTrafficListFromResponse(response: TrafficAdsbExResponse): Traffic[] {
         const trafficList: Traffic[] = [];
 
         for (const ac of response.acList) {
             const traffic = new Traffic(
-                ac.Icao,
+                ac.Icao.toUpperCase(),
                 TrafficAddressType.ICAO,
                 TrafficDataSource.ADSBX,
                 this.getTrafficType(ac),

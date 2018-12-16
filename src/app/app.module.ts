@@ -16,6 +16,10 @@ import {ChartMapModule} from './chart-map/chart-map.module';
 import {MessageModule} from './message/message.module';
 import {CoreModule} from './core/core.module';
 import {RouterModule} from '@angular/router';
+import {appReducer} from './app.reducer';
+import {AppEffects} from './app.effects';
+import {AppActions} from './app.actions';
+import {AppState} from './app-state';
 
 
 @NgModule({
@@ -27,8 +31,8 @@ import {RouterModule} from '@angular/router';
         HttpClientModule,
         HttpClientJsonpModule,
         RouterModule,
-        StoreModule.forRoot({}),
-        EffectsModule.forRoot([]),
+        StoreModule.forRoot({'appState': appReducer }),
+        EffectsModule.forRoot([AppEffects]),
         StoreDevtoolsModule.instrument({
             maxAge: 25, // Retains last 25 states
             logOnly: environment.production, // Restrict extension to log-only mode

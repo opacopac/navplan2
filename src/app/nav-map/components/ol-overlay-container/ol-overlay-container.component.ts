@@ -97,7 +97,6 @@ export class OlOverlayContainerComponent implements OnInit, OnDestroy {
         switch (dataItem.dataItemType) {
             case DataItemType.airport:
                 this.mapOverlayAirportComponent.setDataItem(dataItem as Airport, clickPos);
-
                 break;
             case DataItemType.navaid:
                 this.mapOverlayNavaidComponent.setDataItem(dataItem as Navaid, clickPos);

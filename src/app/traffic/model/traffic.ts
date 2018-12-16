@@ -37,7 +37,8 @@ export enum TrafficAddressType {
 
 export enum TrafficDataSource {
     OGN,
-    ADSBX
+    ADSBX,
+    OPENSKY
 }
 
 
