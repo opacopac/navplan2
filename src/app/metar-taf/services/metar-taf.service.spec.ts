@@ -1,11 +1,12 @@
 import {TestBed, inject} from '@angular/core/testing';
+import {HttpClient, HttpHandler} from '@angular/common/http';
 import {MetarTafService} from './metar-taf.service';
 
 
-xdescribe('MetarTafService', () => {
+describe('MetarTafService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [MetarTafService]
+            providers: [MetarTafService, HttpClient, HttpHandler]
         });
     });
 

@@ -12,8 +12,8 @@
         <mat-card-content>
             <p *ngIf="this.traffic.registration">Registration: {{ this.traffic.registration }}</p>
             <p *ngIf="this.traffic.callsign && !this.traffic.isCallsignEqualsRegistration()">Callsign: {{ this.getCallsign() }}</p>
-            <p *ngIf="this.traffic.aircraftModelType">Model: {{ this.traffic.aircraftModelType }}</p>
-            <p>Address: {{ this.traffic.acaddress }} ({{ this.getAddressType() }})</p>
+            <p *ngIf="this.traffic.acModel">Model: {{ this.traffic.acModel }}</p>
+            <p>Address: {{ this.traffic.acAddress }} ({{ this.getAddressType() }})</p>
             <p>Reveicer: {{ this.getReceiver() }}</p>
         </mat-card-content>
         <mat-card-actions>

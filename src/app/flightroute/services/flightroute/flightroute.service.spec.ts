@@ -1,11 +1,12 @@
 import {TestBed, inject} from '@angular/core/testing';
+import {HttpClient, HttpHandler} from '@angular/common/http';
 import {FlightrouteService} from './flightroute.service';
 
 
-xdescribe('FlightrouteService', () => {
+describe('FlightrouteService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [FlightrouteService]
+            providers: [FlightrouteService, HttpClient, HttpHandler]
         });
     });
 

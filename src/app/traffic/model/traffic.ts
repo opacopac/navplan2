@@ -47,14 +47,14 @@ export enum TrafficDataSource {
 
 export class Traffic extends DataItem implements Clonable<Traffic> {
     constructor(
-        public acaddress: string,
-        public addresstype: TrafficAddressType,
+        public acAddress: string,
+        public addressType: TrafficAddressType,
         public dataSource: TrafficDataSource,
-        public actype: TrafficAircraftType,
+        public acType: TrafficAircraftType,
         public registration: string,
         public callsign: string,
         public opCallsign: string,
-        public aircraftModelType: string,
+        public acModel: string,
         public positions: TrafficPosition[]) {
 
         super();
@@ -71,14 +71,14 @@ export class Traffic extends DataItem implements Clonable<Traffic> {
         this.positions.forEach((pos) => newPositions.push(pos.clone()));
 
         return new Traffic(
-            this.acaddress,
-            this.addresstype,
+            this.acAddress,
+            this.addressType,
             this.dataSource,
-            this.actype,
+            this.acType,
             this.registration,
             this.callsign,
             this.opCallsign,
-            this.aircraftModelType,
+            this.acModel,
             newPositions
         );
     }

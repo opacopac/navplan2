@@ -313,8 +313,8 @@
 
                     $ognmessage = array(
                         "id" => $matches2["id"],
-                        "addresstype" => getAddressType($matches2["details"]),
-                        "actype" => getAcType($matches2["details"]),
+                        "addressType" => getAddressType($matches2["details"]),
+                        "acType" => getAcType($matches2["details"]),
                         //"notracking" => getFlag($matches2["details"], $notrackingflag_mask),
                         "time" => date("H:i:s", $time_utc),
                         "latitude" => $lat,

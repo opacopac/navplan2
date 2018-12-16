@@ -60,8 +60,8 @@ export class OlOverlayTrafficComponent extends OlOverlayBase implements OnInit {
 
 
     public getType(): string {
-        if (this.traffic.actype >= 0) {
-            return TRAFFIC_TYPE_DESCRIPTION[TrafficAircraftType[this.traffic.actype]];
+        if (this.traffic.acType >= 0) {
+            return TRAFFIC_TYPE_DESCRIPTION[TrafficAircraftType[this.traffic.acType]];
         } else {
             return 'Unknown Type';
         }
@@ -69,7 +69,7 @@ export class OlOverlayTrafficComponent extends OlOverlayBase implements OnInit {
 
 
     public getAvatarUrl(): string {
-        return TrafficIcon.getUrl(this.traffic.actype, false);
+        return TrafficIcon.getUrl(this.traffic.acType, false);
     }
 
 
@@ -83,7 +83,7 @@ export class OlOverlayTrafficComponent extends OlOverlayBase implements OnInit {
 
 
     public getAddressType(): string {
-        return TrafficAddressType[this.traffic.addresstype];
+        return TrafficAddressType[this.traffic.addressType];
     }
 
 

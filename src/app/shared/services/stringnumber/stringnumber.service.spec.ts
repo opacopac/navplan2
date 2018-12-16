@@ -2,7 +2,7 @@ import {TestBed, inject} from '@angular/core/testing';
 import {StringnumberService} from './stringnumber.service';
 
 
-xdescribe('StringnumberService', () => {
+describe('StringnumberService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [StringnumberService]

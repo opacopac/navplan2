@@ -2,7 +2,7 @@ import {TestBed, inject} from '@angular/core/testing';
 import {GeocalcService} from './geocalc.service';
 
 
-xdescribe('GeocalcService', () => {
+describe('GeocalcService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [GeocalcService]

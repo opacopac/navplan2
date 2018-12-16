@@ -48,7 +48,7 @@ export class OlTraffic extends OlComponentBase {
             return undefined;
         }
 
-        const icon = TrafficIcon.getUrl(traffic.actype, traffic.isInactive());
+        const icon = TrafficIcon.getUrl(traffic.acType, traffic.isInactive());
         let heighttext = '';
         let typetext = '';
         let rotation = this.getRotation(traffic);
@@ -63,7 +63,7 @@ export class OlTraffic extends OlComponentBase {
 
         let rotWithView = true;
 
-        switch (traffic.actype) {
+        switch (traffic.acType) {
             case TrafficAircraftType.PARACHUTE:
             case TrafficAircraftType.HANG_GLIDER:
             case TrafficAircraftType.PARA_GLIDER:

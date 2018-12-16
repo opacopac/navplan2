@@ -97,7 +97,7 @@ class ReadOgnTraffic
 
                 // add new aircrafts to list
                 if (!$aclist[$msg["id"]]) {
-                    $ac = array("id" => $msg["id"], "addresstype" => $msg["addresstype"], "actype" => $msg["actype"], "positions" => array());
+                    $ac = array("id" => $msg["id"], "addressType" => $msg["addressType"], "acType" => $msg["acType"], "positions" => array());
                     $aclist[$msg["id"]] = $ac;
                 }
 
@@ -166,7 +166,7 @@ class ReadOgnTraffic
 
             if ($ac) {
                 $ac["registration"] = $rs["registration"];
-                $ac["aircraftModelType"] = $rs["aircraftModelType"];
+                $ac["acModel"] = $rs["acModel"];
                 $ac["aircraftCategoryId"] = $rs["aircraftCategoryId"];
 
                 $acList[$rs["icaohex"]] = $ac;

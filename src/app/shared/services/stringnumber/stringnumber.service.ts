@@ -1,4 +1,9 @@
 export class StringnumberService {
+    public static isNullOrEmpty(text: string) {
+        return (!text || text === '');
+    }
+
+
     public static zeroPad(number: number, digits: number = 2): string {
         let text = number.toString();
         while (text.length < digits) {

@@ -26,7 +26,7 @@
 	        address => $rs["icaohex"],
 	        addresstype => 'ICAO',
 	        registration => $rs["registration"],
-	        aircraftModelType => $rs["aircraftModelType"],
+	        aircraftModelType => $rs["acModel"],
 	        manufacturer => $rs["manufacturer"],
 	        aircraftCategoryId => $rs["aircraftCategoryId"],
 	        ownerOperators => json_decode($rs["ownerOperators"])

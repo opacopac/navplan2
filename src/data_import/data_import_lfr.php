@@ -37,10 +37,10 @@
 
             foreach ($entries as $entry)
             {
-                $query = "INSERT INTO lfr_ch (icaohex, registration, aircraftModelType, manufacturer, aircraftCategoryId, ownerOperators) VALUES (";
+                $query = "INSERT INTO lfr_ch (icaohex, registration, acModel, manufacturer, aircraftCategoryId, ownerOperators) VALUES (";
                 $query .= " '" . mysqli_real_escape_string($conn, strtoupper($entry["details"]["aircraftAddresses"]["hex"])) . "',";
                 $query .= " '" . mysqli_real_escape_string($conn, $entry["registration"]) . "',";
-                $query .= " '" . mysqli_real_escape_string($conn, $entry["aircraftModelType"]) . "',";
+                $query .= " '" . mysqli_real_escape_string($conn, $entry["acModel"]) . "',";
                 $query .= " '" . mysqli_real_escape_string($conn, $entry["manufacturer"]) . "',";
                 $query .= " '" . mysqli_real_escape_string($conn, $entry["aircraftCategoryId"]) . "',";
                 $query .= " '" . mysqli_real_escape_string($conn, json_encode($entry["ownerOperators"])) . "'";
