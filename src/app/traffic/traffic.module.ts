@@ -14,6 +14,7 @@ import {TrafficEffects} from './traffic.effects';
 import {TrafficState} from './traffic-state';
 import {TrafficActions} from './traffic.actions';
 import {BaseMapModule} from '../base-map/base-map.module';
+import {TrafficTimerService} from './services/traffic-timer.service';
 
 @NgModule({
     imports: [
@@ -36,6 +37,7 @@ import {BaseMapModule} from '../base-map/base-map.module';
         TrafficReducerService,
         TrafficAdsbexchangeService,
         TrafficOgnService,
+        TrafficTimerService
     ]
 })
 export class TrafficModule {}

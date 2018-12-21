@@ -3,7 +3,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {OlMapContainerComponent} from './ol-map-container.component';
 import {StoreModule} from '@ngrx/store';
 
-describe('MapContainerComponent', () => {
+xdescribe('MapContainerComponent', () => {
     let component: OlMapContainerComponent;
     let fixture: ComponentFixture<OlMapContainerComponent>;
 
