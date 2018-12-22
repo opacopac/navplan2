@@ -4,6 +4,8 @@ import {environment} from '../../../environments/environment';
 import {UnitconversionService} from '../../shared/services/unitconversion/unitconversion.service';
 import {GeocalcService} from '../../shared/services/geocalc/geocalc.service';
 import {Position4d} from '../../shared/model/geometry/position4d';
+import {AngleUnit} from '../../shared/model/units';
+import {Angle} from '../../shared/model/quantities/angle';
 
 
 export class OlOwnPlane extends OlComponentBase {
@@ -35,7 +37,7 @@ export class OlOwnPlane extends OlComponentBase {
         }
 
         const position = this.getCurrentPosition(lastPositions);
-        const rotation = this.getRotation(lastPositions);
+        const rotation = this.getRotation(lastPositions).rad;
 
         let heighttext = '';
         if (position.hasAltitude() && position.altitude.ft > 0) {
@@ -66,17 +68,15 @@ export class OlOwnPlane extends OlComponentBase {
     }
 
 
-    private getRotation(lastPositions: Position4d[]): number {
+    private getRotation(lastPositions: Position4d[]): Angle {
         if (!lastPositions || lastPositions.length < 2) {
-            return 0;
+            return Angle.getZero();
         }
 
         const maxIdx = lastPositions.length - 1;
-        const rotation = GeocalcService.getBearing_old(
+        return GeocalcService.getBearing(
             lastPositions[maxIdx - 1],
-            lastPositions[maxIdx],
-            0);
-        return rotation;
+            lastPositions[maxIdx]);
     }
 
 

@@ -1,6 +1,8 @@
 import {DataItem, DataItemType} from '../../shared/model/data-item';
 import {TrafficPosition} from './traffic-position';
 import {Clonable} from '../../shared/model/clonable';
+import {GeocalcService} from '../../shared/services/geocalc/geocalc.service';
+import {Angle} from '../../shared/model/quantities/angle';
 
 
 const MAX_AGE_SEC_INACTIVE = 30;
@@ -127,5 +129,20 @@ export class Traffic extends DataItem implements Clonable<Traffic> {
         const callStripped = this.callsign.toUpperCase().replace(/[^A-Z0-9]/g, '');
 
         return regStripped === callStripped;
+    }
+
+
+    public getRotation(): Angle {
+        if (!this.positions || this.positions.length < 2) {
+            return Angle.getZero();
+        }
+
+        const posList = TrafficPosition.get2dPositionsFromList(this.positions);
+        return GeocalcService.calcCircleApproxBearing(posList.slice(-5));
+
+        /*const maxIdx = this.positions.length - 1;
+        return GeocalcService.getBearing(
+            this.positions[maxIdx - 1].position,
+            this.positions[maxIdx].position);*/
     }
 }

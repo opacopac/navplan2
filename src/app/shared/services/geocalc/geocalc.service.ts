@@ -1,8 +1,9 @@
 import * as ol from 'openlayers';
-import { Position2d } from '../../model/geometry/position2d';
-import { Angle } from '../../model/quantities/angle';
-import { AngleUnit, LengthUnit } from '../../model/units';
-import { Distance } from '../../model/quantities/distance';
+import {Position2d} from '../../model/geometry/position2d';
+import {Angle} from '../../model/quantities/angle';
+import {AngleUnit, LengthUnit} from '../../model/units';
+import {Distance} from '../../model/quantities/distance';
+import {CircleFitter} from '../circle-fitter/circle-fitter';
 
 
 const wgs84Sphere = new ol.Sphere(6378137);
@@ -11,11 +12,6 @@ const toDeg = (180 / Math.PI);
 
 
 export class GeocalcService {
-    public static getBearing_old(pos1: Position2d, pos2: Position2d, magvar: number): number {
-        return this.getBearing(pos1, pos2, new Angle(magvar, AngleUnit.DEG)).deg;
-    }
-
-
     public static getDistance(pos1: Position2d, pos2: Position2d): Distance {
         if (!pos1 || !pos2) {
             return undefined;
@@ -25,7 +21,7 @@ export class GeocalcService {
     }
 
 
-    public static getBearing(pos1: Position2d, pos2: Position2d, magvar: Angle): Angle {
+    public static getBearing(pos1: Position2d, pos2: Position2d, magvar: Angle = Angle.getZero()): Angle {
         if (!pos1 || !pos2 || !magvar) {
             return undefined;
         }
@@ -38,6 +34,61 @@ export class GeocalcService {
         const t = Math.atan2(y, x);
 
         return new Angle((t * toDeg + 360) % 360 - magvar.getValue(AngleUnit.DEG), AngleUnit.DEG);
+    }
+
+
+    public static calcCircleApproxBearing(posList: Position2d[]): Angle {
+        if (!posList || posList.length <= 1) {
+            return Angle.getZero();
+        }
+
+        if (posList.length === 2) {
+            return this.getBearing(posList[0], posList[1]);
+        }
+
+        const PRECISION_FACTOR = 100000;
+        const cf = new CircleFitter();
+        const refLat = posList[0].latitude;
+        for (const pos of posList) {
+            cf.addPoint(
+                this.calcLatProj(pos.latitude, refLat, PRECISION_FACTOR),
+                pos.longitude * PRECISION_FACTOR);
+        }
+        const result = cf.compute();
+        if (!result.success) {
+            return Angle.getZero();
+        }
+
+        const center = new Position2d(
+            result.center.y / PRECISION_FACTOR,
+            this.calcLatUnProj(result.center.x, refLat, PRECISION_FACTOR));
+        const radiusBearing = this.getBearing(center, posList[posList.length - 1]);
+
+        const dirDeg = (radiusBearing.deg + (90 * this.getTurnDirection(posList, center))) % 360;
+        return new Angle(dirDeg, AngleUnit.DEG);
+    }
+
+
+    private static calcLatProj(lat: number, refLat: number, precisionFactor: number): number {
+        return (refLat + (lat - refLat) / Math.cos(refLat * toRad)) * precisionFactor;
+    }
+
+
+    private static calcLatUnProj(latProj: number, refLat: number, precisionFactor: number): number {
+        return (latProj / precisionFactor - refLat) * Math.cos(refLat * toRad) + refLat;
+    }
+
+
+    private static getTurnDirection(posList: Position2d[], center: Position2d): number {
+        let rotDeg = 0;
+        let rad1 = this.getBearing(center, posList[0]);
+        for (let i = 1; i < posList.length; i++) {
+            const rad2 = this.getBearing(center, posList[i]);
+            rotDeg += (rad2.deg - rad1.deg);
+            rad1 = rad2;
+        }
+
+        return rotDeg > 0 ? 1 : -1;
     }
 
 

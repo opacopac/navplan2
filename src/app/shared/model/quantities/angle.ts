@@ -9,6 +9,11 @@ export class Angle {
     }
 
 
+    public static getZero(): Angle {
+        return new Angle(0, AngleUnit.DEG);
+    }
+
+
     get isZero(): boolean {
         return this.value === 0;
     }

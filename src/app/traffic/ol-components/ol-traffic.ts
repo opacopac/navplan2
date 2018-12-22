@@ -2,7 +2,6 @@ import * as ol from 'openlayers';
 import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
 import {Traffic, TrafficAircraftType} from '../model/traffic';
 import {UnitconversionService} from '../../shared/services/unitconversion/unitconversion.service';
-import {GeocalcService} from '../../shared/services/geocalc/geocalc.service';
 import {OlTrafficTrail} from './ol-traffic-trail';
 import {TrafficIcon} from '../model/traffic-icon';
 
@@ -51,7 +50,7 @@ export class OlTraffic extends OlComponentBase {
         const icon = TrafficIcon.getUrl(traffic.acType, traffic.isInactive());
         let heighttext = '';
         let typetext = '';
-        let rotation = this.getRotation(traffic);
+        let rotation = traffic.getRotation().deg;
 
         if (!traffic.registration) {
             traffic.registration = '';
@@ -118,19 +117,5 @@ export class OlTraffic extends OlComponentBase {
                 offsetY: -35
             })
         });
-    }
-
-
-    private getRotation(traffic: Traffic): number {
-        if (!traffic.positions || traffic.positions.length < 2) {
-            return 0;
-        }
-
-        const maxIdx = traffic.positions.length - 1;
-        const rotation = GeocalcService.getBearing_old(
-            traffic.positions[maxIdx - 1].position,
-            traffic.positions[maxIdx].position,
-            0);
-        return rotation;
     }
 }
