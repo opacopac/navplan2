@@ -20,7 +20,7 @@ export enum TrafficServiceStatus {
 
 
 export class TrafficReducerService {
-    public static reduceTrafficMap(trafficMap: Map<string, Traffic>, newTrafficList): Map<string, Traffic> {
+    public static reduceTrafficMap(trafficMap: Map<string, Traffic>, newTrafficList: Traffic[]): Map<string, Traffic> {
         const newTrafficMap = this.cloneTrafficMap(trafficMap);
         this.insertOrMergeTraffic(newTrafficMap, newTrafficList);
         this.compactTraffic(newTrafficMap);

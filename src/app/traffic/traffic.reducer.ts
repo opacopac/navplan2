@@ -7,7 +7,7 @@ import {Traffic} from './model/traffic';
 import {BaseMapActions, BaseMapActionTypes} from '../base-map/base-map.actions';
 
 
-const initialState: TrafficState = {
+export const initialTrafficState: TrafficState = {
     sessionId: Math.floor((Math.random() * 1000000000)).toString(),
     extent: undefined,
     isWatching: false,
@@ -17,7 +17,7 @@ const initialState: TrafficState = {
 };
 
 
-export function trafficReducer(state: TrafficState = initialState, action: TrafficActions | BaseMapActions) {
+export function trafficReducer(state: TrafficState = initialTrafficState, action: TrafficActions | BaseMapActions) {
     switch (action.type) {
         case BaseMapActionTypes.BASEMAP_MOVED_ZOOMED_ROTATED:
             return { ...state, extent: action.extent };
@@ -34,9 +34,7 @@ export function trafficReducer(state: TrafficState = initialState, action: Traff
                 status: TrafficServiceStatus.OFF
             };
 
-        case TrafficActionTypes.TRAFFIC_READ_OGN_SUCCESS:
-        case TrafficActionTypes.TRAFFIC_READ_ADSBEX_SUCCESS:
-        case TrafficActionTypes.TRAFFIC_READ_OPENSKY_SUCCESS:
+        case TrafficActionTypes.TRAFFIC_READ_SUCCESS:
             if (state.isWatching) {
                 return {
                     ...state,
@@ -47,9 +45,7 @@ export function trafficReducer(state: TrafficState = initialState, action: Traff
                 return state;
             }
 
-        case TrafficActionTypes.TRAFFIC_READ_OGN_ERROR:
-        case TrafficActionTypes.TRAFFIC_READ_ADSBEX_ERROR:
-        case TrafficActionTypes.TRAFFIC_READ_OPENSKY_ERROR:
+        case TrafficActionTypes.TRAFFIC_READ_ERROR:
             if (state.isWatching) {
                 return {
                     ...state,

@@ -1,4 +1,4 @@
-import {TrafficTimerService} from './traffic-timer.service';
+import {TrafficTimerService, TrafficTimerServiceConfig} from './traffic-timer.service';
 import {MockStore} from '../../shared/test/mock-store';
 
 
@@ -15,13 +15,13 @@ describe('TrafficTimerService', () => {
 
 
     it('should be created', () => {
-        const ttService = new TrafficTimerService(store, 10);
+        const ttService = new TrafficTimerService(store, TrafficTimerServiceConfig.create(10));
         expect(ttService).toBeTruthy();
     });
 
 
     it('regularly dispatches ReadTrafficTimerActions after starting', (done) => {
-        const ttService = new TrafficTimerService(store, 10);
+        const ttService = new TrafficTimerService(store, TrafficTimerServiceConfig.create(10));
         ttService.start();
 
         setTimeout(() => {
@@ -33,7 +33,7 @@ describe('TrafficTimerService', () => {
 
 
     it('stops dispatching ReadTrafficTimerActions after stopping', (done) => {
-        const ttService = new TrafficTimerService(store, 10);
+        const ttService = new TrafficTimerService(store, TrafficTimerServiceConfig.create(10));
         ttService.start();
         setTimeout(() => ttService.stop(), 1);
 
@@ -45,7 +45,7 @@ describe('TrafficTimerService', () => {
 
 
     it('restarts dispatching ReadTrafficTimerActions after start-stop-start', (done) => {
-        const ttService = new TrafficTimerService(store, 10);
+        const ttService = new TrafficTimerService(store, TrafficTimerServiceConfig.create(10));
         ttService.start();
         setTimeout(() => ttService.stop(), 1);
         setTimeout(() => ttService.start(), 10);
@@ -60,7 +60,7 @@ describe('TrafficTimerService', () => {
 
     it('does NOT dispatch ReadTrafficTimerActions after starting while not watching', (done) => {
         store.setState({ trafficState: { isWatching: false }});
-        const ttService = new TrafficTimerService(store, 10);
+        const ttService = new TrafficTimerService(store, TrafficTimerServiceConfig.create(10));
         ttService.start();
 
         setTimeout(() => {

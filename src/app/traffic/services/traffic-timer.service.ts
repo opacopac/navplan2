@@ -6,11 +6,20 @@ import {getTrafficIsWatching} from '../traffic.selectors';
 import {filter, map, withLatestFrom} from 'rxjs/operators';
 
 
+export const TRAFFIC_UPDATE_INTERVALL_MS = 5000;
+
 @Injectable({
     providedIn: 'root'
 })
 export class TrafficTimerServiceConfig {
-    public TRAFFIC_UPDATE_INTERVALL_MS = 5000;
+    public trafficUpdateIntervallMs = TRAFFIC_UPDATE_INTERVALL_MS;
+
+
+    public static create(intervallMs: number = TRAFFIC_UPDATE_INTERVALL_MS): TrafficTimerServiceConfig {
+        const config = new TrafficTimerServiceConfig();
+        config.trafficUpdateIntervallMs = intervallMs;
+        return config;
+    }
 }
 
 
@@ -29,7 +38,7 @@ export class TrafficTimerService {
         private config: TrafficTimerServiceConfig) {
 
         this.isWatching$ = this.appStore.select<boolean>(getTrafficIsWatching);
-        this.timer$ = timer(1, config.TRAFFIC_UPDATE_INTERVALL_MS);
+        this.timer$ = timer(1, config.trafficUpdateIntervallMs);
         this.isWatchingAndTimer$ = this.timer$.pipe(
             withLatestFrom(this.isWatching$),
             filter(([tim, isWatching]) => isWatching === true),

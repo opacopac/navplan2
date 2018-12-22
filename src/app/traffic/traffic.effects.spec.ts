@@ -8,13 +8,8 @@ import {TrafficOgnService} from './services/traffic-ogn.service';
 import {TrafficAdsbexchangeService} from './services/traffic-adsbexchange.service';
 import {Traffic} from './model/traffic';
 import {TrafficOpenskyService} from './services/traffic-opensky.service';
-import {
-    ReadAdsbExTrafficErrorAction,
-    ReadAdsbExTrafficSuccessAction, ReadOgnTrafficErrorAction,
-    ReadOgnTrafficSuccessAction, ReadOpenSkyExTrafficErrorAction,
-    ReadOpenSkyTrafficSuccessAction,
-    ReadTrafficTimerAction, StartWatchTrafficAction, StopWatchTrafficAction, ToggleWatchTrafficAction
-} from './traffic.actions';
+import {ReadTrafficErrorAction, ReadTrafficSuccessAction, ReadTrafficTimerAction, StartWatchTrafficAction,
+    StopWatchTrafficAction, ToggleWatchTrafficAction} from './traffic.actions';
 import {Extent} from '../shared/model/extent';
 import {LengthUnit} from '../shared/model/units';
 import {Altitude} from '../shared/model/quantities/altitude';
@@ -179,23 +174,23 @@ describe('TrafficEffects', () => {
     });
 
 
-    it('dispatches a ReadOgnTrafficSuccessAction after success response from TrafficOgnService.readTraffic', () => {
+    it('dispatches a ReadTrafficSuccessAction after success response from TrafficOgnService.readTraffic', () => {
         const action = new ReadTrafficTimerAction(1);
         const action$ = new Actions(of(action));
         const effects = createTrafficEffects(action$);
         effects.readOgnTraffic$.subscribe(readOgnTraffic => {
-            expect(readOgnTraffic).toEqual(jasmine.any(ReadOgnTrafficSuccessAction));
+            expect(readOgnTraffic).toEqual(jasmine.any(ReadTrafficSuccessAction));
         });
     });
 
 
-    it('dispatches a ReadOgnTrafficErrorAction after error response from TrafficOgnService.readTraffic', () => {
+    it('dispatches a ReadTrafficErrorAction after error response from TrafficOgnService.readTraffic', () => {
         const action = new ReadTrafficTimerAction(1);
         const action$ = new Actions(of(action));
         trafficOgnService = createOgnServiceMock(new Error('MEEP'));
         const effects = createTrafficEffects(action$);
         effects.readOgnTraffic$.subscribe(readOgnTraffic => {
-            expect(readOgnTraffic).toEqual(jasmine.any(ReadOgnTrafficErrorAction));
+            expect(readOgnTraffic).toEqual(jasmine.any(ReadTrafficErrorAction));
         });
     });
 
@@ -211,9 +206,9 @@ describe('TrafficEffects', () => {
         const effects = createTrafficEffects(action$);
 
         const reAction$ = cold('a-b-c', {
-            a: new ReadOgnTrafficErrorAction(error),
-            b: new ReadOgnTrafficErrorAction(error),
-            c: new ReadOgnTrafficErrorAction(error)
+            a: new ReadTrafficErrorAction(error),
+            b: new ReadTrafficErrorAction(error),
+            c: new ReadTrafficErrorAction(error)
         });
         expect(effects.readOgnTraffic$).toBeObservable(reAction$);
     });
@@ -233,28 +228,28 @@ describe('TrafficEffects', () => {
     });
 
 
-    it('dispatches a ReadOpenSkyTrafficSuccessAction after success response from TrafficOpenskyService.readTraffic', () => {
+    it('dispatches a ReadTrafficSuccessAction after success response from TrafficOpenskyService.readTraffic', () => {
         const action = new ReadTrafficTimerAction(1);
         const action$ = new Actions(of(action));
         const effects = createTrafficEffects(action$);
         effects.readOpenSkyTraffic$.subscribe(readOpenSkyTraffic => {
-            expect(readOpenSkyTraffic).toEqual(jasmine.any(ReadOpenSkyTrafficSuccessAction));
+            expect(readOpenSkyTraffic).toEqual(jasmine.any(ReadTrafficSuccessAction));
         });
     });
 
 
-    it('dispatches a ReadOpenSkyExTrafficErrorAction after error response from TrafficOpenskyService.readTraffic', () => {
+    it('dispatches a ReadTrafficErrorAction after error response from TrafficOpenskyService.readTraffic', () => {
         const action = new ReadTrafficTimerAction(1);
         const action$ = new Actions(of(action));
         trafficOpenskyService = createOpenSkyServiceMock(new Error('MEEP'));
         const effects = createTrafficEffects(action$);
         effects.readOpenSkyTraffic$.subscribe(readOpenSkyTraffic => {
-            expect(readOpenSkyTraffic).toEqual(jasmine.any(ReadOpenSkyExTrafficErrorAction));
+            expect(readOpenSkyTraffic).toEqual(jasmine.any(ReadTrafficErrorAction));
         });
     });
 
 
-    it('does NOT terminate the stream after an error response from TrafficOgnService.readTraffic', () => {
+    it('does NOT terminate the stream after an error response from TrafficOpenskyService.readTraffic', () => {
         const action$ = cold('a-b-c', {
             a: new ReadTrafficTimerAction(1),
             b: new ReadTrafficTimerAction(2),
@@ -265,9 +260,9 @@ describe('TrafficEffects', () => {
         const effects = createTrafficEffects(action$);
 
         const reAction$ = cold('a-b-c', {
-            a: new ReadOpenSkyExTrafficErrorAction(error),
-            b: new ReadOpenSkyExTrafficErrorAction(error),
-            c: new ReadOpenSkyExTrafficErrorAction(error)
+            a: new ReadTrafficErrorAction(error),
+            b: new ReadTrafficErrorAction(error),
+            c: new ReadTrafficErrorAction(error)
         });
         expect(effects.readOpenSkyTraffic$).toBeObservable(reAction$);
     });
@@ -287,23 +282,23 @@ describe('TrafficEffects', () => {
     });
 
 
-    it('dispatches a ReadAdsbExTrafficSuccessAction after success response from TrafficAdsbexchangeService.readTraffic', () => {
+    it('dispatches a ReadTrafficSuccessAction after success response from TrafficAdsbexchangeService.readTraffic', () => {
         const action = new ReadTrafficTimerAction(1);
         const action$ = new Actions(of(action));
         const effects = createTrafficEffects(action$);
         effects.readAdsbExTraffic$.subscribe(readAdsbExTraffic => {
-            expect(readAdsbExTraffic).toEqual(jasmine.any(ReadAdsbExTrafficSuccessAction));
+            expect(readAdsbExTraffic).toEqual(jasmine.any(ReadTrafficSuccessAction));
         });
     });
 
 
-    it('dispatches a ReadAdsbExTrafficErrorAction after error response from TrafficAdsbexchangeService.readTraffic', () => {
+    it('dispatches a ReadTrafficErrorAction after error response from TrafficAdsbexchangeService.readTraffic', () => {
         const action = new ReadTrafficTimerAction(1);
         const action$ = new Actions(of(action));
         trafficAdsbexchangeService = createAdsbexServiceMock(new Error('MEEP'));
         const effects = createTrafficEffects(action$);
         effects.readAdsbExTraffic$.subscribe(readAdsbExTraffic => {
-            expect(readAdsbExTraffic).toEqual(jasmine.any(ReadAdsbExTrafficErrorAction));
+            expect(readAdsbExTraffic).toEqual(jasmine.any(ReadTrafficErrorAction));
         });
     });
 
@@ -319,12 +314,28 @@ describe('TrafficEffects', () => {
         const effects = createTrafficEffects(action$);
 
         const reAction$ = cold('a-b-c', {
-            a: new ReadAdsbExTrafficErrorAction(error),
-            b: new ReadAdsbExTrafficErrorAction(error),
-            c: new ReadAdsbExTrafficErrorAction(error)
+            a: new ReadTrafficErrorAction(error),
+            b: new ReadTrafficErrorAction(error),
+            c: new ReadTrafficErrorAction(error)
         });
         expect(effects.readAdsbExTraffic$).toBeObservable(reAction$);
     });
 
     // endregion
+
+
+    // region updateTrafficDisplay$
+
+    /*it('it sends a updates the display after a success response', (done) => {
+        const action = new ToggleWatchTrafficAction();
+        const action$ = new Actions(of(action));
+        store.setState({ ...initialTrafficState, trafficState: { ...initialTrafficState, isWatching: false }} );
+        const effects = createTrafficEffects(action$);
+        effects.updateTrafficDisplay$.subscribe(toggleTrafficWatch => {
+            expect(toggleTrafficWatch).toEqual(jasmine.any(StartWatchTrafficAction));
+        });
+    });*/
+
+    // endregion
+
 });

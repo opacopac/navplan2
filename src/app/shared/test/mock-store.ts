@@ -1,7 +1,9 @@
 import {Action, ActionsSubject, ReducerManager, StateObservable, Store} from '@ngrx/store';
 import {BehaviorSubject, Observable, of} from 'rxjs';
+import {Injectable} from '@angular/core';
 
 
+@Injectable()
 export class MockStore extends Store<any> {
     private state: BehaviorSubject<any>;
     private _dispatchCallCount: number;
@@ -46,3 +48,4 @@ export class MockStore extends Store<any> {
         this._dispatchedActions = [];
     }
 }
+
