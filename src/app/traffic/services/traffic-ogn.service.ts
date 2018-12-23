@@ -10,13 +10,13 @@ import {Traffic} from '../model/traffic';
 import {throwError} from 'rxjs';
 
 
-const OGN_TRAFFIC_BASE_URL = environment.restApiBaseUrl + 'php/Navplan/Traffic/TrafficService.php?action=readogntraffic';
-
-
 @Injectable({
     providedIn: 'root'
 })
 export class TrafficOgnService {
+    public static readonly OGN_TRAFFIC_BASE_URL = environment.restApiBaseUrl + 'php/Navplan/Traffic/TrafficService.php?action=readogntraffic';
+
+
     constructor(private http: HttpClient) {
     }
 
@@ -27,12 +27,12 @@ export class TrafficOgnService {
         waitForDataSec: number,
         sessionId: string): Observable<Traffic[]> {
 
-        const url = OGN_TRAFFIC_BASE_URL + '&minlon=' + extent[0] + '&minlat=' + extent[1] + '&maxlon=' + extent[2] + '&maxlat=' + extent[3]
+        const url = TrafficOgnService.OGN_TRAFFIC_BASE_URL + '&minlon=' + extent[0] + '&minlat=' + extent[1] + '&maxlon=' + extent[2] + '&maxlat=' + extent[3]
             + '&maxagesec=' + maxAgeSec + '&sessionid=' + sessionId + '&waitDataSec=' + waitForDataSec;
 
 
         return this.http
-            .jsonp<TrafficOgnResponse>(url, 'callback')
+            .get<TrafficOgnResponse>(url)
             .pipe(
                 map((response) => RestMapperTrafficOgn.getTrafficListFromResponse(response)),
                 catchError(err => {

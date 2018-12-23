@@ -6,12 +6,14 @@ import {IcaoCallsignService} from '../services/icaocallsign.service';
 import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource} from './traffic';
 import {TrafficPosition, TrafficPositionMethod} from './traffic-position';
 
+
+// details: https://www.adsbexchange.com/datafields/
 export interface TrafficAdsbExResponse {
     acList: TrafficAdsbExRestItem[];
+    stm: number;
 }
 
 
-// details: https://www.adsbexchange.com/datafields/
 export interface TrafficAdsbExRestItem {
     Icao: string;
     Reg: string;
@@ -29,8 +31,6 @@ export interface TrafficAdsbExRestItem {
     Mil: boolean;
     Mlat: boolean;
 }
-
-
 
 
 export class RestMapperTrafficAdexbEx {

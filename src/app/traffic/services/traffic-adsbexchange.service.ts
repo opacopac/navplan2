@@ -1,23 +1,23 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { LoggingService } from '../../shared/services/logging/logging.service';
-import {Extent} from '../../shared/model/extent';
-import {RestMapperTrafficAdexbEx, TrafficAdsbExResponse} from '../model/rest-mapper-traffic-adexb-ex';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {Observable} from 'rxjs/internal/Observable';
-import {Traffic} from '../model/traffic';
-import {throwError} from 'rxjs';
 import {environment} from '../../../environments/environment';
-
-
-const ADSBEXCHANGE_BASE_URL = 'https://public-api.adsbexchange.com/VirtualRadar/AircraftList.json';
-const ADSBEX_TRAFFIC_BASE_URL = environment.restApiBaseUrl + 'php/Navplan/Traffic/TrafficService.php?action=readadsbextraffic';
+import {LoggingService} from '../../shared/services/logging/logging.service';
+import {Extent} from '../../shared/model/extent';
+import {Traffic} from '../model/traffic';
+import {RestMapperTrafficAdexbEx, TrafficAdsbExResponse} from '../model/rest-mapper-traffic-adexb-ex';
 
 
 @Injectable({
     providedIn: 'root'
 })
 export class TrafficAdsbexchangeService {
+    public static readonly ADSBEXCHANGE_BASE_URL = 'https://public-api.adsbexchange.com/VirtualRadar/AircraftList.json';
+    public static readonly ADSBEX_TRAFFIC_BASE_URL = environment.restApiBaseUrl + 'php/Navplan/Traffic/TrafficService.php?action=readadsbextraffic';
+
+
     constructor(private http: HttpClient) {
     }
 
@@ -26,7 +26,7 @@ export class TrafficAdsbexchangeService {
         extent: Extent,
         maxHeightFt): Observable<Traffic[]> {
 
-        const url = ADSBEXCHANGE_BASE_URL + '?fAltL=0&fAltU=' + maxHeightFt + '&fWBnd='
+        const url = TrafficAdsbexchangeService.ADSBEXCHANGE_BASE_URL + '?fAltL=0&fAltU=' + maxHeightFt + '&fWBnd='
             + extent[0] + '&fSBnd=' + extent[1] + '&fEBnd=' + extent[2] + '&fNBnd=' + extent[3];
 
         /*const midPos = extent.getMidPos();
@@ -34,7 +34,7 @@ export class TrafficAdsbexchangeService {
         const url = ADSBEX_TRAFFIC_BASE_URL + '&lat=' + midPos.latitude + '&lon=' + midPos.longitude + '&dist=' + radiusNm;*/
 
         return this.http
-            .jsonp<TrafficAdsbExResponse>(url, 'callback')
+            .get<TrafficAdsbExResponse>(url)
             .pipe(
                 map((response) => RestMapperTrafficAdexbEx.getTrafficListFromResponse(response)),
                 catchError(err => {

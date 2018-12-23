@@ -7,7 +7,9 @@ import {TrafficPosition, TrafficPositionMethod} from './traffic-position';
 
 
 export interface TrafficOgnResponse {
-    aclist: TrafficOgnRestItem[];
+    aclist: {
+        [key: string]: TrafficOgnRestItem
+    };
 }
 
 
@@ -15,9 +17,10 @@ export interface TrafficOgnRestItem {
     id: string;
     addresstype: string;
     actype: string;
+    positions: TrafficOgnPositionRestItem[];
     registration: string;
     aircraftModelType: string;
-    positions: TrafficOgnPositionRestItem[];
+    aircraftCategoryId: number;
 }
 
 

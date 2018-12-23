@@ -10,38 +10,13 @@ import {BaseMapMovedZoomedRotatedAction} from '../base-map/base-map.actions';
 import {Position2d} from '../shared/model/geometry/position2d';
 import {Extent} from '../shared/model/extent';
 import {Angle} from '../shared/model/quantities/angle';
-import {AngleUnit, LengthUnit} from '../shared/model/units';
+import {AngleUnit} from '../shared/model/units';
 import {TrafficServiceStatus} from './services/traffic-reducer.service';
-import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource} from './model/traffic';
-import {TrafficPosition, TrafficPositionMethod} from './model/traffic-position';
-import {Position4d} from '../shared/model/geometry/position4d';
-import {Altitude} from '../shared/model/quantities/altitude';
-import {Timestamp} from '../shared/model/quantities/timestamp';
+import {TrafficMock} from './tests/traffic-mock';
 
 
 describe('trafficReducer', () => {
-    let dummyTrafficMap: Map<string, Traffic>;
-    let dummyTraffic: Traffic;
-
-
     beforeEach(() => {
-        dummyTrafficMap = new Map<string, Traffic>();
-        dummyTraffic = new Traffic(
-            '12345',
-            TrafficAddressType.ICAO,
-            TrafficDataSource.OGN,
-            TrafficAircraftType.UAV,
-            'HB-UAV',
-            'SWR123',
-            'Swiss 123',
-            'Airbus A320',
-            [new TrafficPosition(
-                new Position4d(47.1, 47.1, new Altitude(1600, LengthUnit.FT), Timestamp.now()),
-                TrafficPositionMethod.FLARM,
-                'receiver123',
-                Date.now()
-            )]
-        );
     });
 
 
@@ -123,7 +98,7 @@ describe('trafficReducer', () => {
 
     it('sets merges the traffic on TRAFFIC_READ_SUCCESS', () => {
         const state1 = { ...initialTrafficState, isWatching: true, status: TrafficServiceStatus.WAITING };
-        const action2 = new ReadTrafficSuccessAction([dummyTraffic]);
+        const action2 = new ReadTrafficSuccessAction([TrafficMock.MOCK_TRAFFIC_1]);
         const state2 = trafficReducer(state1, action2);
 
         expect(state2.trafficMap.size).toEqual(1);
@@ -132,7 +107,7 @@ describe('trafficReducer', () => {
 
     it('ignores TRAFFIC_READ_SUCCESS if status isWatching is false', () => {
         const state1 = { ...initialTrafficState, isWatching: false, status: TrafficServiceStatus.OFF };
-        const action2 = new ReadTrafficSuccessAction([dummyTraffic]);
+        const action2 = new ReadTrafficSuccessAction([TrafficMock.MOCK_TRAFFIC_1]);
         const state2 = trafficReducer(state1, action2);
 
         expect(state2.trafficMap.size).toEqual(0);

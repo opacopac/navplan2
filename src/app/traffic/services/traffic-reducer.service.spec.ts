@@ -4,7 +4,7 @@ import {Position4d} from '../../shared/model/geometry/position4d';
 import {Altitude} from '../../shared/model/quantities/altitude';
 import {LengthUnit} from '../../shared/model/units';
 import {Timestamp} from '../../shared/model/quantities/timestamp';
-import {TrafficMergerPositions} from './traffic-merger-positions';
+import {TrafficMergerPositions} from './traffic-merger/traffic-merger-positions';
 import {TrafficReducerService} from './traffic-reducer.service';
 
 

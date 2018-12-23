@@ -91,7 +91,7 @@ describe('TrafficEffects', () => {
 
 
     beforeEach((done) => {
-        store = new MockStore(initialState);
+        store = new MockStore({ initialState: initialState});
         trafficOgnService = createOgnServiceMock([]);
         trafficOpenskyService = createOpenSkyServiceMock([]);
         trafficAdsbexchangeService = createAdsbexServiceMock([]);

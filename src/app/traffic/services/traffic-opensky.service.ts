@@ -8,19 +8,19 @@ import {LoggingService} from '../../shared/services/logging/logging.service';
 import {RestMapperTrafficOpensky, TrafficOpenskyResponse} from '../model/rest-mapper-traffic-opensky';
 
 
-const OPENSKY_TRAFFIC_BASE_URL = 'https://opensky-network.org/api/states/all'; // '?lamin=45.8389&lomin=5.9962&lamax=47.8229&lomax=10.5226';
-
-
 @Injectable({
     providedIn: 'root'
 })
 export class TrafficOpenskyService {
+    public static readonly OPENSKY_TRAFFIC_BASE_URL = 'https://opensky-network.org/api/states/all'; // '?lamin=45.8389&lomin=5.9962&lamax=47.8229&lomax=10.5226';
+
+
     constructor(private http: HttpClient) {
     }
 
 
     public readTraffic(extent: Extent): Observable<Traffic[]> {
-        const url = OPENSKY_TRAFFIC_BASE_URL + '?lamin=' + extent.minLat + '&lomin=' + extent.minLon
+        const url = TrafficOpenskyService.OPENSKY_TRAFFIC_BASE_URL + '?lamin=' + extent.minLat + '&lomin=' + extent.minLon
             + '&lamax=' + extent.maxLat + '&lomax=' + extent.maxLon;
 
         return this.http

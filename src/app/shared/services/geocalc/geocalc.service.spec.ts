@@ -92,7 +92,6 @@ describe('GeocalcService', () => {
 
 
     it('calculates a bearing based on 4 position of a straight track in lsge', () => {
-        debugger;
         const pos1 = new Position2d(6.126777, 46.250043);
         const pos2 = new Position2d(6.110511, 46.238964);
         const pos3 = new Position2d(6.091362, 46.226048);

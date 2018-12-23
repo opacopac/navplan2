@@ -7,7 +7,7 @@ describe('TrafficTimerService', () => {
 
 
     beforeEach((done) => {
-        store = new MockStore({});
+        store = new MockStore({initialState: {}});
         store.setState({ trafficState: { isWatching: true }});
 
         setTimeout(() => done(), 1);

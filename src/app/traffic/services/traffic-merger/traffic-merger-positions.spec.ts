@@ -1,9 +1,9 @@
-import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource} from '../model/traffic';
-import {TrafficPosition, TrafficPositionMethod} from '../model/traffic-position';
-import {Position4d} from '../../shared/model/geometry/position4d';
-import {Altitude} from '../../shared/model/quantities/altitude';
-import {LengthUnit} from '../../shared/model/units';
-import {Timestamp} from '../../shared/model/quantities/timestamp';
+import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource} from '../../model/traffic';
+import {TrafficPosition, TrafficPositionMethod} from '../../model/traffic-position';
+import {Position4d} from '../../../shared/model/geometry/position4d';
+import {Altitude} from '../../../shared/model/quantities/altitude';
+import {LengthUnit} from '../../../shared/model/units';
+import {Timestamp} from '../../../shared/model/quantities/timestamp';
 import {TrafficMergerPositions} from './traffic-merger-positions';
 
 

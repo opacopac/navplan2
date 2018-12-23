@@ -1,4 +1,4 @@
-import {Traffic} from '../model/traffic';
+import {Traffic} from '../../model/traffic';
 import {TrafficMergerAcType} from './traffic-merger-ac-type';
 import {TrafficMergerRegistration} from './traffic-merger-registration';
 import {TrafficMergerCallsign} from './traffic-merger-callsign';

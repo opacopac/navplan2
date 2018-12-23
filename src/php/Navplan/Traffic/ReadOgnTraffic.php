@@ -24,7 +24,7 @@ class ReadOgnTraffic
         $maxAgeSec = StringNumberService::checkNumeric($args["maxagesec"]);
         $sessionId = StringNumberService::checkNumeric($args["sessionid"]);
         $waitDataSec = $args["waitDataSec"] ? StringNumberService::checkNumeric($args["waitDataSec"]) : 0;
-        $callback = StringNumberService::checkString($args["callback"], 1, 50);
+        $callback = $args["callback"] ? StringNumberService::checkString($args["callback"], 1, 50) : NULL;
 
         self::writeFilterFile($sessionId, $minLon, $minLat, $maxLon, $maxLat);
         self::checkStartListener($sessionId);
@@ -97,7 +97,7 @@ class ReadOgnTraffic
 
                 // add new aircrafts to list
                 if (!$aclist[$msg["id"]]) {
-                    $ac = array("id" => $msg["id"], "addressType" => $msg["addressType"], "acType" => $msg["acType"], "positions" => array());
+                    $ac = array("id" => $msg["id"], "addresstype" => $msg["addresstype"], "actype" => $msg["actype"], "positions" => array());
                     $aclist[$msg["id"]] = $ac;
                 }
 
@@ -177,10 +177,16 @@ class ReadOgnTraffic
     }
 
 
-    private static function sendResponse(array $acList, string $callback)
+    private static function sendResponse(array $acList, ?string $callback)
     {
-        echo $callback . "(";
-        echo json_encode(array("aclist" => $acList), JSON_NUMERIC_CHECK);
-        echo ")";
+        $json = json_encode(array("aclist" => $acList), JSON_NUMERIC_CHECK);
+
+        if ($callback) {
+            echo $callback . "(";
+            echo $json;
+            echo ")";
+        } else {
+            echo $json;
+        }
     }
 }

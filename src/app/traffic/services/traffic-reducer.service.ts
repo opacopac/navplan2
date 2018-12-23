@@ -1,5 +1,5 @@
 import {Traffic} from '../model/traffic';
-import {TrafficMerger} from './traffic-merger';
+import {TrafficMerger} from './traffic-merger/traffic-merger';
 
 
 export enum TrafficServiceStatus {

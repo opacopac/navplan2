@@ -1,5 +1,5 @@
-import {Traffic, TrafficDataSource} from '../model/traffic';
-import {StringnumberService} from '../../shared/services/stringnumber/stringnumber.service';
+import {Traffic, TrafficDataSource} from '../../model/traffic';
+import {StringnumberService} from '../../../shared/services/stringnumber/stringnumber.service';
 
 
 export class TrafficMergerCallsign {
