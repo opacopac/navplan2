@@ -36,18 +36,20 @@ export class RestMapperTrafficOpensky {
     public static getTrafficListFromResponse(response: TrafficOpenskyResponse): Traffic[] {
         const trafficList: Traffic[] = [];
 
-        for (const ac of response.states) {
-            const traffic = new Traffic(
-                ac[0].toUpperCase(),
-                TrafficAddressType.ICAO,
-                TrafficDataSource.OPENSKY,
-                TrafficAircraftType.UNKNOWN,
-                undefined,
-                ac[1],
-                this.getOperatorCallsign(ac[1]),
-                undefined,
-                this.getPositionList(ac[5], ac[6], ac[3], ac[13], ac[16], response.time));
-            trafficList.push(traffic);
+        if (response.states) {
+            for (const ac of response.states) {
+                const traffic = new Traffic(
+                    ac[0].toUpperCase(),
+                    TrafficAddressType.ICAO,
+                    TrafficDataSource.OPENSKY,
+                    TrafficAircraftType.UNKNOWN,
+                    undefined,
+                    ac[1],
+                    this.getOperatorCallsign(ac[1]),
+                    undefined,
+                    this.getPositionList(ac[5], ac[6], ac[3], ac[13], ac[16], response.time));
+                trafficList.push(traffic);
+            }
         }
 
         return trafficList;

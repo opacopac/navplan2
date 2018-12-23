@@ -139,10 +139,5 @@ export class Traffic extends DataItem implements Clonable<Traffic> {
 
         const posList = TrafficPosition.get2dPositionsFromList(this.positions);
         return GeocalcService.calcCircleApproxBearing(posList.slice(-5));
-
-        /*const maxIdx = this.positions.length - 1;
-        return GeocalcService.getBearing(
-            this.positions[maxIdx - 1].position,
-            this.positions[maxIdx].position);*/
     }
 }
