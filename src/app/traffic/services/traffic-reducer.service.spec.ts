@@ -4,7 +4,6 @@ import {Position4d} from '../../shared/model/geometry/position4d';
 import {Altitude} from '../../shared/model/quantities/altitude';
 import {LengthUnit} from '../../shared/model/units';
 import {Timestamp} from '../../shared/model/quantities/timestamp';
-import {TrafficMergerPositions} from './traffic-merger/traffic-merger-positions';
 import {TrafficReducerService} from './traffic-reducer.service';
 
 
@@ -19,6 +18,7 @@ describe('TrafficReducerService', () => {
         const timestamp = timestampSec ? new Timestamp(timestampSec) : Timestamp.now();
         return new TrafficPosition(
             new Position4d(lon, lat, new Altitude(2000, LengthUnit.FT), timestamp),
+            TrafficDataSource.OPENSKY,
             TrafficPositionMethod.ADSB,
             'rec123',
             timestamp.getMs()

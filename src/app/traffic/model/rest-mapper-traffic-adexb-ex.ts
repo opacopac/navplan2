@@ -127,6 +127,7 @@ export class RestMapperTrafficAdexbEx {
                 new Altitude(ac.Gnd ? undefined : ac.GAlt, LengthUnit.FT),
                 new Timestamp(Math.floor((Math.min(ac.PosTime, now) / 1000)))
             ),
+            TrafficDataSource.ADSBX,
             ac.Mlat ? TrafficPositionMethod.MLAT : TrafficPositionMethod.ADSB,
             ac.Mlat ? 'ADSBExchange (MLAT)' : 'ADSBExchange (ADS-B)',
             now

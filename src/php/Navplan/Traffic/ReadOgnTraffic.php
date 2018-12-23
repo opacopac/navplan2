@@ -166,7 +166,7 @@ class ReadOgnTraffic
 
             if ($ac) {
                 $ac["registration"] = $rs["registration"];
-                $ac["acModel"] = $rs["acModel"];
+                $ac["aircraftModelType"] = $rs["aircraftModelType"];
                 $ac["aircraftCategoryId"] = $rs["aircraftCategoryId"];
 
                 $acList[$rs["icaohex"]] = $ac;

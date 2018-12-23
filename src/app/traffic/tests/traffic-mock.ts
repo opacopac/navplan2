@@ -13,6 +13,14 @@ import {TrafficOgnResponse, TrafficOgnRestItem} from '../model/rest-mapper-traff
 export class TrafficMock {
     public static readonly MOCK_EXTENT_1 = Extent.createFromLatLon([7.0, 47.0, 7.1, 47.1]);
 
+    public static readonly MOCK_POSITION_1 = new TrafficPosition(
+        new Position4d(47.1, 47.1, new Altitude(1600, LengthUnit.FT), Timestamp.now()),
+        TrafficDataSource.OGN,
+        TrafficPositionMethod.FLARM,
+        'receiver123',
+        Date.now()
+    );
+
     public static readonly MOCK_TRAFFIC_1 = new Traffic(
         '12345',
         TrafficAddressType.ICAO,
@@ -22,14 +30,7 @@ export class TrafficMock {
         'SWR123',
         'Swiss 123',
         'Airbus A320',
-        [
-            new TrafficPosition(
-                new Position4d(47.1, 47.1, new Altitude(1600, LengthUnit.FT), Timestamp.now()),
-                TrafficPositionMethod.FLARM,
-                'receiver123',
-                Date.now()
-            )
-        ]
+        [TrafficMock.MOCK_POSITION_1]
     );
 
 
@@ -91,4 +92,22 @@ export class TrafficMock {
         ],
         stm: 1545563203965
     };
+
+
+    public static createPosition(
+        lon: number,
+        lat: number,
+        timestampSec?: number,
+        source: TrafficDataSource = TrafficDataSource.OPENSKY,
+        posMethod: TrafficPositionMethod = TrafficPositionMethod.ADSB
+    ): TrafficPosition {
+        const timestamp = timestampSec ? new Timestamp(timestampSec) : Timestamp.now();
+        return new TrafficPosition(
+            new Position4d(lon, lat, new Altitude(2000, LengthUnit.FT), timestamp),
+            source,
+            posMethod,
+            'rec123',
+            timestamp.getMs()
+        );
+    }
 }

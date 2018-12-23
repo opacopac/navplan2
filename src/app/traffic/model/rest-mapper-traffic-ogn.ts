@@ -67,6 +67,7 @@ export class RestMapperTrafficOgn {
                     new Altitude(acPos.altitude, LengthUnit.M),
                     new Timestamp(this.getEpocSecFromOgnTime(acPos.time))
                 ),
+                TrafficDataSource.OGN,
                 TrafficPositionMethod.FLARM,
                 'Open Glider Network (' + acPos.receiver + ')',
                 Date.now()
