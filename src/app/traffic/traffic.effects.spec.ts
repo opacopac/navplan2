@@ -13,7 +13,7 @@ import {ReadTrafficErrorAction, ReadTrafficSuccessAction, ReadTrafficTimerAction
 import {Extent} from '../shared/model/extent';
 import {LengthUnit} from '../shared/model/units';
 import {Altitude} from '../shared/model/quantities/altitude';
-import {TrafficServiceStatus} from './services/traffic-reducer.service';
+import {TrafficServiceStatus} from './services/traffic-service-status';
 import {TrafficState} from './traffic-state';
 import {MockStore} from '../shared/test/mock-store';
 import {TrafficTimerService} from './services/traffic-timer.service';

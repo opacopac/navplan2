@@ -5,7 +5,7 @@ import {catchError, map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {LoggingService} from '../../shared/services/logging/logging.service';
 import {Extent} from '../../shared/model/extent';
-import {RestMapperTrafficOgn, TrafficOgnResponse} from '../model/rest-mapper-traffic-ogn';
+import {RestMapperTrafficOgn, TrafficOgnResponse} from '../rest-mapper/rest-mapper-traffic-ogn';
 import {Traffic} from '../model/traffic';
 import {throwError} from 'rxjs';
 

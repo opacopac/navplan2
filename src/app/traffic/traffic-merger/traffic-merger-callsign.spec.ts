@@ -1,4 +1,4 @@
-import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource} from '../../model/traffic';
+import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource} from '../model/traffic';
 import {TrafficMergerCallsign} from './traffic-merger-callsign';
 
 

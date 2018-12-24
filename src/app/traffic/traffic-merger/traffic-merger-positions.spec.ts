@@ -1,8 +1,8 @@
-import {Traffic, TrafficDataSource} from '../../model/traffic';
-import {TrafficPosition, TrafficPositionMethod} from '../../model/traffic-position';
-import {Timestamp} from '../../../shared/model/quantities/timestamp';
+import {Traffic, TrafficDataSource} from '../model/traffic';
+import {TrafficPosition, TrafficPositionMethod} from '../model/traffic-position';
+import {Timestamp} from '../../shared/model/quantities/timestamp';
 import {TrafficMergerPositions} from './traffic-merger-positions';
-import {TrafficMock} from '../../tests/traffic-mock';
+import {TrafficMock} from '../test/traffic-mock';
 
 
 describe('TrafficMergerPositions', () => {

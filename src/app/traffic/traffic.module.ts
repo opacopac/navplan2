@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {IcaoCallsignService} from './services/icaocallsign.service';
-import {TrafficReducerService} from './services/traffic-reducer.service';
+import {TrafficMerger} from './traffic-merger/traffic-merger';
 import {TrafficAdsbexchangeService} from './services/traffic-adsbexchange.service';
 import {TrafficOgnService} from './services/traffic-ogn.service';
 import {OlOverlayTrafficComponent} from './components/ol-overlay-traffic/ol-overlay-traffic.component';
@@ -34,7 +34,7 @@ import {TrafficTimerService} from './services/traffic-timer.service';
     ],
     providers: [
         IcaoCallsignService,
-        TrafficReducerService,
+        TrafficMerger,
         TrafficAdsbexchangeService,
         TrafficOgnService,
         TrafficTimerService

@@ -4,10 +4,10 @@ import {Position4d} from '../../shared/model/geometry/position4d';
 import {Altitude} from '../../shared/model/quantities/altitude';
 import {LengthUnit} from '../../shared/model/units';
 import {Timestamp} from '../../shared/model/quantities/timestamp';
-import {TrafficOpenskyResponse} from '../model/rest-mapper-traffic-opensky';
+import {TrafficOpenskyResponse} from '../rest-mapper/rest-mapper-traffic-opensky';
 import {Extent} from '../../shared/model/extent';
-import {TrafficAdsbExResponse, TrafficAdsbExRestItem} from '../model/rest-mapper-traffic-adexb-ex';
-import {TrafficOgnResponse, TrafficOgnRestItem} from '../model/rest-mapper-traffic-ogn';
+import {TrafficAdsbExResponse, TrafficAdsbExRestItem} from '../rest-mapper/rest-mapper-traffic-adexb-ex';
+import {TrafficOgnResponse, TrafficOgnRestItem} from '../rest-mapper/rest-mapper-traffic-ogn';
 
 
 export class TrafficMock {

@@ -1,7 +1,7 @@
-import {TrafficServiceStatus} from './services/traffic-reducer.service';
 import {Traffic} from './model/traffic';
 import {Altitude} from '../shared/model/quantities/altitude';
 import {Extent} from '../shared/model/extent';
+import {TrafficServiceStatus} from './services/traffic-service-status';
 
 
 export interface TrafficState {

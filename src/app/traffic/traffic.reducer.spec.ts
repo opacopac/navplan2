@@ -11,8 +11,8 @@ import {Position2d} from '../shared/model/geometry/position2d';
 import {Extent} from '../shared/model/extent';
 import {Angle} from '../shared/model/quantities/angle';
 import {AngleUnit} from '../shared/model/units';
-import {TrafficServiceStatus} from './services/traffic-reducer.service';
-import {TrafficMock} from './tests/traffic-mock';
+import {TrafficServiceStatus} from './services/traffic-service-status';
+import {TrafficMock} from './test/traffic-mock';
 
 
 describe('trafficReducer', () => {

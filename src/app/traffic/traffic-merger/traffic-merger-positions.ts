@@ -1,6 +1,6 @@
-import {Traffic} from '../../model/traffic';
-import {TrafficPosition} from '../../model/traffic-position';
-import {TrafficPrio} from '../../model/traffic-prio';
+import {Traffic} from '../model/traffic';
+import {TrafficPosition} from '../model/traffic-position';
+import {TrafficPrio} from '../model/traffic-prio';
 
 
 export class TrafficMergerPositions {

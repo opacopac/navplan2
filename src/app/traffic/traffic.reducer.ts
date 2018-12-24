@@ -1,10 +1,11 @@
 import {TrafficState} from './traffic-state';
-import {TrafficReducerService, TrafficServiceStatus} from './services/traffic-reducer.service';
+import {TrafficMerger} from './traffic-merger/traffic-merger';
 import {TrafficActions, TrafficActionTypes} from './traffic.actions';
 import {Altitude} from '../shared/model/quantities/altitude';
 import {LengthUnit} from '../shared/model/units';
 import {Traffic} from './model/traffic';
 import {BaseMapActions, BaseMapActionTypes} from '../base-map/base-map.actions';
+import {TrafficServiceStatus} from './services/traffic-service-status';
 
 
 export const initialTrafficState: TrafficState = {
@@ -38,7 +39,7 @@ export function trafficReducer(state: TrafficState = initialTrafficState, action
             if (state.isWatching) {
                 return {
                     ...state,
-                    trafficMap: TrafficReducerService.reduceTrafficMap(state.trafficMap, action.traffic),
+                    trafficMap: TrafficMerger.mergeTrafficMap(state.trafficMap, action.traffic),
                     status: TrafficServiceStatus.CURRENT,
                 };
             } else {

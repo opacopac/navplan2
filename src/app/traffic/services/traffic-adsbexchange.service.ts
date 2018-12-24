@@ -7,7 +7,7 @@ import {environment} from '../../../environments/environment';
 import {LoggingService} from '../../shared/services/logging/logging.service';
 import {Extent} from '../../shared/model/extent';
 import {Traffic} from '../model/traffic';
-import {RestMapperTrafficAdexbEx, TrafficAdsbExResponse} from '../model/rest-mapper-traffic-adexb-ex';
+import {RestMapperTrafficAdexbEx, TrafficAdsbExResponse} from '../rest-mapper/rest-mapper-traffic-adexb-ex';
 
 
 @Injectable({
@@ -34,7 +34,7 @@ export class TrafficAdsbexchangeService {
         const url = ADSBEX_TRAFFIC_BASE_URL + '&lat=' + midPos.latitude + '&lon=' + midPos.longitude + '&dist=' + radiusNm;*/
 
         return this.http
-            .get<TrafficAdsbExResponse>(url)
+            .jsonp<TrafficAdsbExResponse>(url, 'callback')
             .pipe(
                 map((response) => RestMapperTrafficAdexbEx.getTrafficListFromResponse(response)),
                 catchError(err => {

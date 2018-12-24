@@ -1,5 +1,5 @@
 import {RestMapperTrafficOpensky} from './rest-mapper-traffic-opensky';
-import {TrafficMock} from '../tests/traffic-mock';
+import {TrafficMock} from '../test/traffic-mock';
 
 
 describe('RestMapperTrafficOpensky', () => {

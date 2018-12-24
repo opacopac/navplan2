@@ -5,7 +5,7 @@ import {Observable, throwError} from 'rxjs';
 import {Traffic} from '../model/traffic';
 import {catchError, map} from 'rxjs/operators';
 import {LoggingService} from '../../shared/services/logging/logging.service';
-import {RestMapperTrafficOpensky, TrafficOpenskyResponse} from '../model/rest-mapper-traffic-opensky';
+import {RestMapperTrafficOpensky, TrafficOpenskyResponse} from '../rest-mapper/rest-mapper-traffic-opensky';
 
 
 @Injectable({

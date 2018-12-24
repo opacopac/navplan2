@@ -1,7 +1,7 @@
 import {TrafficPrio} from './traffic-prio';
 import {TrafficDataSource} from './traffic';
 import {TrafficPositionMethod} from './traffic-position';
-import {TrafficMock} from '../tests/traffic-mock';
+import {TrafficMock} from '../test/traffic-mock';
 
 
 describe('TrafficPrio', () => {

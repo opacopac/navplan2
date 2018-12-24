@@ -2,8 +2,8 @@ import {Position4d} from '../../shared/model/geometry/position4d';
 import {Altitude} from '../../shared/model/quantities/altitude';
 import {Timestamp} from '../../shared/model/quantities/timestamp';
 import {LengthUnit} from '../../shared/model/units';
-import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource} from './traffic';
-import {TrafficPosition, TrafficPositionMethod} from './traffic-position';
+import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource} from '../model/traffic';
+import {TrafficPosition, TrafficPositionMethod} from '../model/traffic-position';
 
 
 export interface TrafficOgnResponse {

@@ -1,7 +1,7 @@
 import {TestBed} from '@angular/core/testing';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {TrafficAdsbexchangeService} from './traffic-adsbexchange.service';
-import {TrafficMock} from '../tests/traffic-mock';
+import {TrafficMock} from '../test/traffic-mock';
 
 
 describe('TrafficAdsbexchangeService', () => {
@@ -31,11 +31,11 @@ describe('TrafficAdsbexchangeService', () => {
     });
 
 
-    it('makes a GET call to the adsb-exchange server after calling readTraffic', () => {
+    it('makes a JSONP call to the adsb-exchange server after calling readTraffic', () => {
         trafficAdsbexService.readTraffic(TrafficMock.MOCK_EXTENT_1, maxHeightFt).subscribe(() => {});
 
         const request = httpMock.expectOne(req => req.url.startsWith(TrafficAdsbexchangeService.ADSBEXCHANGE_BASE_URL));
-        expect(request.request.method).toBe('GET');
+        expect(request.request.method).toBe('JSONP');
 
         request.flush(TrafficMock.ADSBEX_MOCK_RESPONSE_1);
     });

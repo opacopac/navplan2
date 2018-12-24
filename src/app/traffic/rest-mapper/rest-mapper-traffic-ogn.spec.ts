@@ -1,6 +1,6 @@
-import {TrafficMock} from '../tests/traffic-mock';
+import {TrafficMock} from '../test/traffic-mock';
 import {RestMapperTrafficOgn, TrafficOgnRestItem} from './rest-mapper-traffic-ogn';
-import {TrafficAddressType, TrafficAircraftType, TrafficDataSource} from './traffic';
+import {TrafficAddressType, TrafficAircraftType, TrafficDataSource} from '../model/traffic';
 
 
 describe('RestMapperTrafficOgn', () => {
