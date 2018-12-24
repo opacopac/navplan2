@@ -34,7 +34,7 @@ describe('TrafficOgnService', () => {
     });
 
 
-    it('makes a GET call to the ogn server after calling readTraffic', () => {
+    it('makes a JSONP call to the ogn server after calling readTraffic', () => {
         trafficOgnService.readTraffic(
             TrafficMock.MOCK_EXTENT_1,
             maxAgeSec,
@@ -42,7 +42,7 @@ describe('TrafficOgnService', () => {
             sessionId).subscribe(() => {});
 
         const request = httpMock.expectOne(req => req.url.startsWith(TrafficOgnService.OGN_TRAFFIC_BASE_URL));
-        expect(request.request.method).toBe('GET');
+        expect(request.request.method).toBe('JSONP');
 
         request.flush(TrafficMock.OGN_MOCK_RESPONSE_1);
     });

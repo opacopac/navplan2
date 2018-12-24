@@ -32,7 +32,7 @@ export class TrafficOgnService {
 
 
         return this.http
-            .get<TrafficOgnResponse>(url)
+            .jsonp<TrafficOgnResponse>(url, 'callback')
             .pipe(
                 map((response) => RestMapperTrafficOgn.getTrafficListFromResponse(response)),
                 catchError(err => {

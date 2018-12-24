@@ -3,7 +3,8 @@ import {Position2d} from '../../model/geometry/position2d';
 import {Angle} from '../../model/quantities/angle';
 import {AngleUnit, LengthUnit} from '../../model/units';
 import {Distance} from '../../model/quantities/distance';
-import {CircleFitter} from '../circle-fitter/circle-fitter';
+import {BearingPos} from '../../model/geometry/bearing-pos';
+import {HyperCircleFitter} from '../circle-fitter/hyper-circle-fitter';
 
 
 const wgs84Sphere = new ol.Sphere(6378137);
@@ -37,17 +38,23 @@ export class GeocalcService {
     }
 
 
-    public static calcCircleApproxBearing(posList: Position2d[]): Angle {
-        if (!posList || posList.length <= 1) {
-            return Angle.getZero();
+    public static calcApproxBearingPos(posList: Position2d[]): BearingPos {
+        if (!posList || posList.length === 0) {
+            return undefined;
+        }
+
+        const lastPos = posList[posList.length - 1];
+
+        if (posList.length <= 1) {
+            return new BearingPos(lastPos, Angle.getZero());
         }
 
         if (posList.length === 2) {
-            return this.getBearing(posList[0], posList[1]);
+            return new BearingPos(lastPos, this.getBearing(posList[0], posList[1]));
         }
 
-        const PRECISION_FACTOR = 100000;
-        const cf = new CircleFitter();
+        const PRECISION_FACTOR = 1;
+        const cf = new HyperCircleFitter();
         const refLat = posList[0].latitude;
         for (const pos of posList) {
             cf.addPoint(
@@ -56,16 +63,14 @@ export class GeocalcService {
         }
         const result = cf.compute();
         if (!result.success) {
-            return Angle.getZero();
+            return new BearingPos(lastPos, Angle.getZero());
         }
 
         const center = new Position2d(
             result.center.y / PRECISION_FACTOR,
             this.calcLatUnProj(result.center.x, refLat, PRECISION_FACTOR));
-        const radiusBearing = this.getBearing(center, posList[posList.length - 1]);
 
-        const dirDeg = (radiusBearing.deg + (90 * this.getTurnDirection(posList, center))) % 360;
-        return new Angle(dirDeg, AngleUnit.DEG);
+        return this.getBearingPos(posList, center);
     }
 
 
@@ -79,16 +84,34 @@ export class GeocalcService {
     }
 
 
-    private static getTurnDirection(posList: Position2d[], center: Position2d): number {
-        let rotDeg = 0;
-        let rad1 = this.getBearing(center, posList[0]);
+    private static getBearingPos(posList: Position2d[], center: Position2d): BearingPos {
+        let dirCount = 0;
+        let minPos = posList[0];
+        let minDirCount = 0;
+        let maxPos = posList[0];
+        let maxDirCount = 0;
+        let prevRadial = this.getBearing(center, posList[0]);
         for (let i = 1; i < posList.length; i++) {
-            const rad2 = this.getBearing(center, posList[i]);
-            rotDeg += (rad2.deg - rad1.deg);
-            rad1 = rad2;
+            const radial = this.getBearing(center, posList[i]);
+            const dir = (radial.deg - prevRadial.deg) > 0 ? 1 : -1;
+            dirCount += dir;
+            minDirCount = Math.min(minDirCount, dirCount);
+            maxDirCount = Math.max(maxDirCount, dirCount);
+            if (dirCount === maxDirCount) {
+                maxPos = posList[i];
+            }
+            if (dirCount === minDirCount) {
+                minPos = posList[i];
+            }
+            prevRadial = radial;
         }
 
-        return rotDeg > 0 ? 1 : -1;
+        const headPos = dirCount > 0 ? maxPos : minPos;
+        const headOrientation = dirCount > 0 ? 1 : -1;
+        const headPosRadialBearing = this.getBearing(center, headPos);
+        const dirDeg = (headPosRadialBearing.deg + (90 * headOrientation)) % 360;
+
+        return new BearingPos(headPos, new Angle(dirDeg, AngleUnit.DEG));
     }
 
 

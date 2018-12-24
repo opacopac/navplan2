@@ -1,9 +1,9 @@
 <?php namespace Navplan\Traffic;
 
+
 use Navplan\Shared\DbConnection;
 use Navplan\Shared\DbService;
 use Navplan\Shared\StringNumberService;
-
 
 class ReadOgnTraffic
 {
@@ -24,6 +24,7 @@ class ReadOgnTraffic
         $maxAgeSec = StringNumberService::checkNumeric($args["maxagesec"]);
         $sessionId = StringNumberService::checkNumeric($args["sessionid"]);
         $waitDataSec = $args["waitDataSec"] ? StringNumberService::checkNumeric($args["waitDataSec"]) : 0;
+        $callback = $args["callback"] ? StringNumberService::checkString($args["callback"], 1, 50) : NULL;
 
         self::writeFilterFile($sessionId, $minLon, $minLat, $maxLon, $maxLat);
         self::checkStartListener($sessionId);
@@ -31,7 +32,7 @@ class ReadOgnTraffic
         $acList = self::readTrafficListFromFiles($sessionId, $minLon, $minLat, $maxLon, $maxLat, $maxAgeSec);
         self::sortPositionTimestamps($acList);
         $acList = self::getAircraftDetails($conn, $acList);
-        self::sendResponse($acList);
+        self::sendResponse($acList, $callback);
     }
 
 
@@ -176,8 +177,16 @@ class ReadOgnTraffic
     }
 
 
-    private static function sendResponse(array $acList)
+    private static function sendResponse(array $acList, ?string $callback)
     {
-        echo json_encode(array("aclist" => $acList), JSON_NUMERIC_CHECK);
+        $json = json_encode(array("aclist" => $acList), JSON_NUMERIC_CHECK);
+
+        if ($callback) {
+            echo $callback . "(";
+            echo $json;
+            echo ")";
+        } else {
+            echo $json;
+        }
     }
 }
