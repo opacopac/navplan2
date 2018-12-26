@@ -17,6 +17,14 @@ export class TrafficMergerPositions {
     }
 
 
+    public static mergeNew(newTraffic: Traffic): TrafficPosition[] {
+        const newPosList: TrafficPosition[] = [];
+        this.addPositions(newTraffic, newPosList);
+        this.sortPositions(newPosList);
+        return this.filterPosList(newPosList);
+    }
+
+
     private static addPositions(traffic: Traffic, newPosList: TrafficPosition[]) {
         // TODO: compare to server time
         const oldestTimestampMs = Date.now() - TrafficMergerPositions.TRAFFIC_MAX_AGE_SEC * 1000;

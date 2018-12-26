@@ -38,6 +38,16 @@ export class GeocalcService {
     }
 
 
+    public static getTurnDirection(angle1: Angle, angle2: Angle): Angle {
+        const deg1 = angle1.deg % 360;
+        const deg2 = angle2.deg % 360;
+        const diff = (deg2 - deg1 + 360) % 360;
+        const deg = diff > 180 ? diff - 360 : diff;
+
+        return new Angle(deg, AngleUnit.DEG);
+    }
+
+
     public static calcApproxBearingPos(posList: Position2d[]): BearingPos {
         if (!posList || posList.length === 0) {
             return undefined;
@@ -62,8 +72,11 @@ export class GeocalcService {
                 pos.longitude * PRECISION_FACTOR);
         }
         const result = cf.compute();
-        if (!result.success) {
-            return new BearingPos(lastPos, Angle.getZero());
+
+        // linear dependent or circle radius too big: assume straight line
+        if (!result.success || result.radius > 10) {
+            const directBearing = this.getBearing(posList[0], lastPos);
+            return new BearingPos(lastPos, directBearing);
         }
 
         const center = new Position2d(
@@ -85,29 +98,28 @@ export class GeocalcService {
 
 
     private static getBearingPos(posList: Position2d[], center: Position2d): BearingPos {
-        let dirCount = 0;
+        let dirSumDeg = 0;
+        let minDirSum = 0;
+        let maxDirSum = 0;
         let minPos = posList[0];
-        let minDirCount = 0;
         let maxPos = posList[0];
-        let maxDirCount = 0;
         let prevRadial = this.getBearing(center, posList[0]);
         for (let i = 1; i < posList.length; i++) {
             const radial = this.getBearing(center, posList[i]);
-            const dir = (radial.deg - prevRadial.deg) > 0 ? 1 : -1;
-            dirCount += dir;
-            minDirCount = Math.min(minDirCount, dirCount);
-            maxDirCount = Math.max(maxDirCount, dirCount);
-            if (dirCount === maxDirCount) {
+            dirSumDeg += this.getTurnDirection(prevRadial, radial).deg;
+            minDirSum = Math.min(minDirSum, dirSumDeg);
+            maxDirSum = Math.max(maxDirSum, dirSumDeg);
+            if (dirSumDeg === maxDirSum) {
                 maxPos = posList[i];
             }
-            if (dirCount === minDirCount) {
+            if (dirSumDeg === minDirSum) {
                 minPos = posList[i];
             }
             prevRadial = radial;
         }
 
-        const headPos = dirCount > 0 ? maxPos : minPos;
-        const headOrientation = dirCount > 0 ? 1 : -1;
+        const headPos = dirSumDeg > 0 ? maxPos : minPos;
+        const headOrientation = dirSumDeg > 0 ? 1 : -1;
         const headPosRadialBearing = this.getBearing(center, headPos);
         const dirDeg = (headPosRadialBearing.deg + (90 * headOrientation)) % 360;
 

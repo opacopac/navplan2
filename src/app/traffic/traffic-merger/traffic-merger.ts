@@ -37,6 +37,7 @@ export class TrafficMerger {
 
             if (!trafficMap.has(trafficKey)) {
                 trafficMap.set(trafficKey, newTraffic); // add new ac to list
+                newTraffic.positions = TrafficMergerPositions.mergeNew(newTraffic);
             } else {
                 const ac = trafficMap.get(trafficKey);
                 ac.dataSource = newTraffic.dataSource;

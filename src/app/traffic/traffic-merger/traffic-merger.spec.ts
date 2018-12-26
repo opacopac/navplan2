@@ -3,6 +3,7 @@ import {TrafficPosition} from '../model/traffic-position';
 import {Timestamp} from '../../shared/model/quantities/timestamp';
 import {TrafficMerger} from './traffic-merger';
 import {TrafficMock} from '../test/traffic-mock';
+import {TrafficMergerPositions} from './traffic-merger-positions';
 
 
 describe('TrafficMerger', () => {
@@ -36,6 +37,19 @@ describe('TrafficMerger', () => {
         const newTrafficMap = TrafficMerger.mergeTrafficMap(trafficMap, newTrafficList);
 
         expect(newTrafficMap.size).toBe(2);
+    });
+
+
+    it('it skips new traffic with only old positions', () => {
+        trafficMap.clear();
+        expect(trafficMap.size).toBe(0);
+        pos1.position.timestamp = new Timestamp(Timestamp.now().epochSec - TrafficMergerPositions.TRAFFIC_MAX_AGE_SEC - 20);
+        pos2.position.timestamp = new Timestamp(Timestamp.now().epochSec - TrafficMergerPositions.TRAFFIC_MAX_AGE_SEC - 10);
+        acNew1.positions = [pos1, pos2];
+        const newTrafficMap = TrafficMerger.mergeTrafficMap(trafficMap, [acNew1]);
+
+        expect(newTrafficMap.size).toBe(0);
+        expect(newTrafficMap.get(TrafficMerger.getTrafficMapKey(acNew1))).toBeUndefined();
     });
 
 
