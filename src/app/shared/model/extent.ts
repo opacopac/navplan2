@@ -58,7 +58,7 @@ export class Extent {
 
 
     public get maxPos(): Position2d {
-        return new Position2d(this.maxLon, this.minLat);
+        return new Position2d(this.maxLon, this.maxLat);
     }
 
 
