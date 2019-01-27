@@ -1,7 +1,9 @@
 import * as ol from 'openlayers';
-import {Airport, AirportRunway} from '../model/airport';
+import {Airport} from '../model/airport';
 import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
 import {AirportIcon} from '../model/airport-icon';
+import {AirportRunway} from '../model/airport-runway';
+import {GeocalcService} from '../../shared/services/geocalc/geocalc.service';
 
 
 export class OlAirportRunway extends OlComponentBase {
@@ -28,9 +30,13 @@ export class OlAirportRunway extends OlComponentBase {
 
     private createPointStyle(airport: Airport, runway: AirportRunway): ol.style.Style {
         const src = AirportIcon.getRwyUrl(airport, runway);
-        const rwy_direction = runway.direction1 ? runway.direction1 : undefined;
+        let rwy_direction = runway.direction1 ? runway.direction1 : undefined;
         if (!src || ! rwy_direction) {
             return undefined;
+        }
+
+        if (!runway.directionContainsMagneticVariation()) {
+            rwy_direction += GeocalcService.calcMagneticVariation(airport.position).deg;
         }
 
         return new ol.style.Style({

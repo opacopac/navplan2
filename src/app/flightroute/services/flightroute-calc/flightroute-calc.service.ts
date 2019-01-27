@@ -66,8 +66,8 @@ export class FlightrouteCalcService {
 
         // calc distance & bearing
         if (prevWp) {
-            wp.dist = GeocalcService.getDistance(wp.position, prevWp.position);
-            wp.mt = GeocalcService.getBearing(prevWp.position, wp.position, wp.variation);
+            wp.dist = GeocalcService.calcDistance(wp.position, prevWp.position);
+            wp.mt = GeocalcService.calcBearing(prevWp.position, wp.position, wp.variation);
         } else {
             wp.dist = undefined;
             wp.mt = undefined;

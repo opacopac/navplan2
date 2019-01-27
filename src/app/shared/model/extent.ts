@@ -81,7 +81,7 @@ export class Extent {
 
 
     public getRadius(): Distance {
-        return GeocalcService.getDistance(this.minPos, this.getMidPos());
+        return GeocalcService.calcDistance(this.minPos, this.getMidPos());
     }
 
 

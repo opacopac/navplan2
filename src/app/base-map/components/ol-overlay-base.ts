@@ -4,6 +4,8 @@ import {StringnumberService} from '../../shared/services/stringnumber/stringnumb
 import {DataItem} from '../../shared/model/data-item';
 import {Position2d} from '../../shared/model/geometry/position2d';
 import {BaseMapService} from '../services/base-map.service';
+import {Angle} from '../../shared/model/quantities/angle';
+import {GeocalcService} from '../../shared/services/geocalc/geocalc.service';
 
 
 export abstract class OlOverlayBase {
@@ -51,5 +53,11 @@ export abstract class OlOverlayBase {
 
     public getElevationString(elevation_m: number): string {
         return Math.round(UnitconversionService.m2ft(elevation_m)) + 'ft'; // TODO
+    }
+
+
+    public getVariationString(pos: Position2d): string {
+        const magVar = GeocalcService.calcMagneticVariation(pos);
+        return StringnumberService.getEWString(magVar, 1);
     }
 }

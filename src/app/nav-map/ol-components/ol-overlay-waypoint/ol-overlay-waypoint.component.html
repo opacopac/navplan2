@@ -11,6 +11,7 @@
         </mat-card-header>
         <mat-card-content class="card-body">
             <p>{{ this.getPositionString(this.waypoint.position) }}</p>
+            <p>VAR: {{ this.getVariationString(this.waypoint.position) }}</p>
             <p *ngIf="this.waypoint.alt.alt_ft">
                 Altitude:
                 {{ (this.waypoint.alt.isminalt ? 'min. ' : 'max. ') + this.waypoint.alt.alt_ft + 'ft' }}

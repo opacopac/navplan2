@@ -75,7 +75,7 @@ describe('Extent', () => {
             (lonLatPosArray1[0] + lonLatPosArray1[2]) / 2,
             (lonLatPosArray1[1] + lonLatPosArray1[3]) / 2);
         const minPos = new Position2d(lonLatPosArray1[0], lonLatPosArray1[1]);
-        const radExpected = GeocalcService.getDistance(minPos, midPos);
+        const radExpected = GeocalcService.calcDistance(minPos, midPos);
         expect(extent.getRadius().nm).toEqual(radExpected.nm);
     });
 

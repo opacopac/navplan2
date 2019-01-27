@@ -1,3 +1,5 @@
+import {Angle} from '../../model/quantities/angle';
+
 export class StringnumberService {
     public static isNullOrEmpty(text: string) {
         return (!text || text === '');
@@ -25,6 +27,17 @@ export class StringnumberService {
         } else {
             return Math.round(num1 * Math.pow(10, precisionDigits))
                 === Math.round(num2 * Math.pow(10, precisionDigits));
+        }
+    }
+
+
+    public static getEWString(angle: Angle, digits: number): string {
+        const angleValue = StringnumberService.roundToDigits(angle.deg, digits);
+
+        if (angleValue > 0) {
+            return angleValue.toString() + '° E';
+        } else {
+            return Math.abs(angleValue).toString() + '° W';
         }
     }
 

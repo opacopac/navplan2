@@ -4,6 +4,7 @@ import {Position2d} from '../../../shared/model/geometry/position2d';
 import {AirportIcon} from '../../../map-features/model/airport-icon';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
 import {WaypointFactory} from '../../../flightroute/model/waypoint-mapper/waypoint-factory';
+import {GeocalcService} from '../../../shared/services/geocalc/geocalc.service';
 
 
 @Component({
@@ -78,6 +79,12 @@ export class OlOverlayAirportComponent extends OlOverlayWaypointBase implements 
             return 0;
         }
 
-        return this.airport.runways[0].direction1;
+        const rwy = this.airport.runways[0];
+        if (rwy.directionContainsMagneticVariation()) {
+            return rwy.direction1;
+        }
+        const magVar = GeocalcService.calcMagneticVariation(this.airport.position);
+
+        return rwy.direction1 + magVar.deg;
     }
 }

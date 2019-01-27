@@ -11,6 +11,7 @@
         </mat-card-header>
         <mat-card-content>
             <p>{{ this.getPositionString(this.reportingpoint.position) }}</p>
+            <!--<p>VAR: {{ this.getVariationString(this.reportingpoint.position) }}</p>-->
             <p *ngIf="this.reportingpoint.min_ft || this.reportingpoint.max_ft">
                 Altitude:
                 {{ this.reportingpoint.min_ft ? 'min. ' + this.reportingpoint.min_ft + 'ft' : '' }}

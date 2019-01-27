@@ -1,5 +1,6 @@
 import {environment} from '../../../environments/environment';
-import {Airport, AirportRunway, AirportType} from './airport';
+import {Airport, AirportType} from './airport';
+import {AirportRunway} from './airport-runway';
 
 
 export class AirportIcon {

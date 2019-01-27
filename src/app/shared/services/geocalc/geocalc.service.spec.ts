@@ -9,12 +9,12 @@ describe('GeocalcService', () => {
     });
 
 
-    // region getDistance
+    // region calcDistance
 
     it('calculates the correct distance between 2 positions', () => {
         const pos1 = new Position2d(7.0, 47.0);
         const pos2 = new Position2d(7.1, 47.1);
-        const dist = GeocalcService.getDistance(pos1, pos2);
+        const dist = GeocalcService.calcDistance(pos1, pos2);
 
         expect(dist.getValue(LengthUnit.M)).toBeCloseTo(13470.352, 0);
     });
@@ -22,12 +22,12 @@ describe('GeocalcService', () => {
     // endregion
 
 
-    // region getBearing
+    // region calcBearing
 
     it('calculates the correct bearing between 2 positions', () => {
         const pos1 = new Position2d(7.0, 47.0);
         const pos2 = new Position2d(7.1, 47.1);
-        const bearing = GeocalcService.getBearing(pos1, pos2);
+        const bearing = GeocalcService.calcBearing(pos1, pos2);
 
         expect(bearing.deg).toBeCloseTo(34.23, 1);
     });
@@ -35,12 +35,32 @@ describe('GeocalcService', () => {
     // endregion
 
 
-    // region getTurnDirection
+    // region calcMagneticVariation
+
+    it('calculates the correct mag var for a position in CH', () => {
+        const pos = new Position2d(7.0, 47.0);
+        const magVar = GeocalcService.calcMagneticVariation(pos);
+
+        expect(magVar.deg).toBeCloseTo(2, 0);
+    });
+
+
+    it('calculates the correct mag var for a position in greenland', () => {
+        const pos = new Position2d(-51.7500000, 64.1833333);
+        const magVar = GeocalcService.calcMagneticVariation(pos);
+
+        expect(magVar.deg).toBeCloseTo(-26.62, 0);
+    });
+
+    // endregion
+
+
+    // region calcTurnDirection
 
     it('gets the turn direction for identical angles', () => {
         const angle1 = new Angle(10, AngleUnit.DEG);
         const angle2 = new Angle(10, AngleUnit.DEG);
-        const dir = GeocalcService.getTurnDirection(angle1, angle2);
+        const dir = GeocalcService.calcTurnDirection(angle1, angle2);
 
         expect(dir.deg).toBe(0);
     });
@@ -49,7 +69,7 @@ describe('GeocalcService', () => {
     it('gets the turn direction for increasing small angles', () => {
         const angle1 = new Angle(10, AngleUnit.DEG);
         const angle2 = new Angle(12, AngleUnit.DEG);
-        const dir = GeocalcService.getTurnDirection(angle1, angle2);
+        const dir = GeocalcService.calcTurnDirection(angle1, angle2);
 
         expect(dir.deg).toBe(2);
     });
@@ -58,7 +78,7 @@ describe('GeocalcService', () => {
     it('gets the turn direction for decreasing small angles', () => {
         const angle1 = new Angle(10, AngleUnit.DEG);
         const angle2 = new Angle(8, AngleUnit.DEG);
-        const dir = GeocalcService.getTurnDirection(angle1, angle2);
+        const dir = GeocalcService.calcTurnDirection(angle1, angle2);
 
         expect(dir.deg).toBe(-2);
     });
@@ -67,7 +87,7 @@ describe('GeocalcService', () => {
     it('gets the turn direction for increasing angles near 0/360', () => {
         const angle1 = new Angle(358, AngleUnit.DEG);
         const angle2 = new Angle(5, AngleUnit.DEG);
-        const dir = GeocalcService.getTurnDirection(angle1, angle2);
+        const dir = GeocalcService.calcTurnDirection(angle1, angle2);
 
         expect(dir.deg).toBe(7);
     });
@@ -76,7 +96,7 @@ describe('GeocalcService', () => {
     it('gets the turn direction for decreasing angles near 0/360', () => {
         const angle1 = new Angle(2, AngleUnit.DEG);
         const angle2 = new Angle(355, AngleUnit.DEG);
-        const dir = GeocalcService.getTurnDirection(angle1, angle2);
+        const dir = GeocalcService.calcTurnDirection(angle1, angle2);
 
         expect(dir.deg).toBe(-7);
     });
@@ -85,7 +105,7 @@ describe('GeocalcService', () => {
     it('gets the turn direction for increasing large angles', () => {
         const angle1 = new Angle(90, AngleUnit.DEG);
         const angle2 = new Angle(270, AngleUnit.DEG);
-        const dir = GeocalcService.getTurnDirection(angle1, angle2);
+        const dir = GeocalcService.calcTurnDirection(angle1, angle2);
 
         expect(dir.deg).toBe(180);
     });
@@ -94,7 +114,7 @@ describe('GeocalcService', () => {
     it('gets the turn direction for decreasing large angles', () => {
         const angle1 = new Angle(90, AngleUnit.DEG);
         const angle2 = new Angle(271, AngleUnit.DEG);
-        const dir = GeocalcService.getTurnDirection(angle1, angle2);
+        const dir = GeocalcService.calcTurnDirection(angle1, angle2);
 
         expect(dir.deg).toBe(-179);
     });
@@ -122,7 +142,7 @@ describe('GeocalcService', () => {
         const pos1 = new Position2d(7.0, 47.0);
         const pos2 = new Position2d(7.1, 47.1);
         const bearPos = GeocalcService.calcApproxBearingPos([pos1, pos2]);
-        const bearing2 = GeocalcService.getBearing(pos1, pos2);
+        const bearing2 = GeocalcService.calcBearing(pos1, pos2);
 
         expect(bearPos.bearing.deg).toBe(bearing2.deg);
         expect(bearPos.position).toEqual(pos2);
@@ -158,7 +178,7 @@ describe('GeocalcService', () => {
         const pos4 = new Position2d(7.0653, 46.6892);
         const pos5 = new Position2d(7.0864, 46.7001);
         const bearPos = GeocalcService.calcApproxBearingPos([pos1, pos2, pos3, pos4, pos5]);
-        const directBear = GeocalcService.getBearing(pos1, pos5);
+        const directBear = GeocalcService.calcBearing(pos1, pos5);
 
         expect(bearPos.bearing.deg).toBe(directBear.deg);
         expect(bearPos.position.latitude).toBeCloseTo(pos5.latitude, 3);
@@ -233,7 +253,6 @@ describe('GeocalcService', () => {
 
 
     xit('TEST', () => {
-        debugger;
         const pos1 = new Position2d(7.42155, 47.182966666666665);
         const pos2 = new Position2d(7.4211833333333335, 47.18286666666667);
         const pos3 = new Position2d(7.420816666666667, 47.18275);
@@ -249,7 +268,6 @@ describe('GeocalcService', () => {
 
 
     xit('TEST2', () => {
-        debugger;
         const pos0 = new Position2d(7.26147, 47.13158);
         const pos1 = new Position2d(7.26313, 47.1259);
         const pos2 = new Position2d(7.264076, 47.138378);

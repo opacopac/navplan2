@@ -3,11 +3,11 @@ import {
     AirportChart,
     AirportFeature,
     AirportRadio,
-    AirportRunway,
     AirportType,
     AirportWebcam
 } from '../airport';
 import { Position2d } from '../../../shared/model/geometry/position2d';
+import {AirportRunway} from '../airport-runway';
 
 
 // region interfaces

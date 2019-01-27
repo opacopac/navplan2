@@ -74,12 +74,11 @@ export class DatetimeService {
     }
 
 
-    public static getDecimalYear(): number {
-        const d1 = new Date();
-        const d2 = new Date(d1.getFullYear(), 0, 0, 0, 0, 0, 0);
-        const d3 = new Date(d1.getFullYear() + 1, 0, 0, 0, 0, 0, 0);
-        const dec = (d1.getTime() - d2.getTime()) / (d3.getTime() - d2.getTime());
+    public static calcDecimalYear(date = new Date()): number {
+        const d2 = new Date(date.getFullYear(), 0, 0, 0, 0, 0, 0);
+        const d3 = new Date(date.getFullYear() + 1, 0, 0, 0, 0, 0, 0);
+        const dec = (date.getTime() - d2.getTime()) / (d3.getTime() - d2.getTime());
 
-        return d1.getFullYear() + dec;
+        return date.getFullYear() + dec;
     }
 }

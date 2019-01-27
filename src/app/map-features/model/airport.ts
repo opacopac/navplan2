@@ -1,7 +1,8 @@
-import { Position2d } from '../../shared/model/geometry/position2d';
+import {Position2d} from '../../shared/model/geometry/position2d';
 import {DataItem, DataItemType} from '../../shared/model/data-item';
-import { MetarTaf } from '../../metar-taf/model/metar-taf';
-import { Notam } from '../../notam/model/notam';
+import {MetarTaf} from '../../metar-taf/model/metar-taf';
+import {Notam} from '../../notam/model/notam';
+import {AirportRunway} from './airport-runway';
 
 
 export enum AirportType {
@@ -82,24 +83,6 @@ export class Airport extends DataItem  {
         return (this.type === AirportType.AD_CLOSED);
     }
 
-}
-
-
-export class AirportRunway {
-    constructor(
-        public name: string,
-        public surface: string,
-        public length: number,
-        public width: number,
-        public direction1: number,
-        public direction2: number,
-        public tora1: number,
-        public tora2: number,
-        public lda1: number,
-        public lda2: number,
-        public papi1: boolean,
-        public papi2: boolean) {
-    }
 }
 
 

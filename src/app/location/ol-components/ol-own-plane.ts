@@ -74,7 +74,7 @@ export class OlOwnPlane extends OlComponentBase {
         }
 
         const maxIdx = lastPositions.length - 1;
-        return GeocalcService.getBearing(
+        return GeocalcService.calcBearing(
             lastPositions[maxIdx - 1],
             lastPositions[maxIdx]);
     }
