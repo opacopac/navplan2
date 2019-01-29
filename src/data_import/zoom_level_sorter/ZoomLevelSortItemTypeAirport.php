@@ -2,6 +2,7 @@
 include_once __DIR__ . "/ZoomLevelSortItemType.php";
 include_once __DIR__ . "/../../php/Navplan/Shared/DbService.php";
 
+use Navplan\Shared\DbConnection;
 use Navplan\Shared\DbService;
 
 
@@ -24,18 +25,27 @@ class ZoomLevelSortItemTypeAirport implements ZoomLevelSortItemType {
     private $conn;
 
 
-    public function __construct($conn) {
+    public function __construct(DbConnection $conn) {
         $this->conn = $conn;
     }
 
 
+    /**
+     * @throws \Navplan\Shared\DbException
+     */
     public function cleanZoomLevels() {
         $query =  "UPDATE openaip_airports2 SET zoommin = NULL";
         DbService::execCUDQuery($this->conn, $query);
     }
 
 
-    public function getNextBatch($lastGeoHash, $maxCount) {
+    /**
+     * @param string $lastGeoHash
+     * @param int $maxCount
+     * @return \Navplan\Shared\DbResult
+     * @throws \Navplan\Shared\DbException
+     */
+    public function getNextBatch(?string $lastGeoHash, int $maxCount) {
         $query = " SELECT apt.id, apt.type, apt.latitude, apt.longitude, apt.icao, apt.geohash,";
         $query .= " (SELECT COUNT(rwy.id) FROM openaip_runways2 rwy WHERE rwy.airport_id = apt.id) AS rwycount,";
         $query .= " (SELECT rwy.length FROM openaip_runways2 rwy WHERE rwy.airport_id = apt.id ORDER BY rwy.length DESC LIMIT 1) AS rwylen";
@@ -49,7 +59,12 @@ class ZoomLevelSortItemTypeAirport implements ZoomLevelSortItemType {
     }
 
 
-    public function updateZoomLevels($zoomMin, $idList) {
+    /**
+     * @param int $zoomMin
+     * @param array $idList
+     * @throws \Navplan\Shared\DbException
+     */
+    public function updateZoomLevels(int $zoomMin, array $idList) {
         $query =  "UPDATE openaip_airports2";
         $query .= " SET zoommin = " . $zoomMin;
         $query .= " WHERE id IN (" . join(",", $idList) . ")";

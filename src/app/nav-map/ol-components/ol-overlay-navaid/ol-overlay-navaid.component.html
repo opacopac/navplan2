@@ -12,7 +12,7 @@
         <mat-card-content>
             <p>{{ this.getPositionString(this.navaid.position) }}</p>
             <p>VAR: {{ this.getVariationString(this.navaid.position) }}</p>
-            <!--<p>Elevation: {{ this.getElevationString(this.navaid.elevation_m) }}</p>-->
+            <p>Elevation: {{ this.getElevationString(this.navaid.elevation_m) }}</p>
             <p>Frequency: {{ this.navaid.frequency }} {{ this.navaid.unit }}</p>
             <p>Morse: <span [innerHtml]="this.getMorseString()"></span></p>
             <div class="text-right small">

@@ -41,15 +41,15 @@ foreach ($dir_entries as $filename) {
             LoggingService::echoLineToBrowser($navaidCount . " navaids...");
         }
 
-        $longitude = $navaid->GEOLOCATION->LON;
-        $latitude = $navaid->GEOLOCATION->LAT;
+        $longitude = $navaid->GEOLOCATION->LON->__toString();
+        $latitude = $navaid->GEOLOCATION->LAT->__toString();
         $geohash = GeoService::calcGeoHash($longitude, $latitude, MAX_ZOOM);
 
 
         $query = "INSERT INTO openaip_navaids2 (type, country, name, kuerzel, latitude, longitude, elevation, frequency, declination, truenorth, geohash, lonlat) VALUES (";
         $query .= " '" . $navaid['TYPE'] . "',";
         $query .= " '" . $navaid->COUNTRY . "',";
-        $query .= " '" . mysqli_real_escape_string($conn, $navaid->NAME) . "',";
+        $query .= " '" . mysqli_real_escape_string($conn->getMySqli(), $navaid->NAME) . "',";
         $query .= " '" . $navaid->ID . "',";
         $query .= " '" . $latitude . "',";
         $query .= " '" . $longitude . "',";
