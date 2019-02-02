@@ -1,10 +1,14 @@
-<?php namespace Navplan\MapFeatures;
-include_once __DIR__ . "/../NavplanHelper.php";
+<?php declare(strict_types=1);
+
+namespace Navplan\MapFeatures;
 
 use Navplan\Shared\DbConnection;
+use Navplan\Shared\DbHelper;
 use Navplan\Shared\DbResult;
 use Navplan\Shared\DbService;
 use Navplan\Shared\DbException;
+
+include_once __DIR__ . "/../NavplanHelper.php";
 
 
 class SearchItemNavaid {
@@ -22,7 +26,7 @@ class SearchItemNavaid {
      * @throws DbException
      */
     public static function searchByExtent(DbConnection $conn, float $minLon, float $minLat, float $maxLon, float $maxLat, int $zoom) {
-        $extent = DbService::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
+        $extent = DbHelper::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
         $query = "SELECT *";
         $query .= " FROM openaip_navaids2";
         $query .= " WHERE";

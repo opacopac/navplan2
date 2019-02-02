@@ -1,11 +1,15 @@
-<?php namespace Navplan\Search;
-include_once __DIR__ . "/../NavplanHelper.php";
+<?php declare(strict_types=1);
+
+namespace Navplan\Search;
 
 use BadMethodCallException;
 use Navplan\Shared\DbConnection;
+use Navplan\Shared\DbHelper;
 use Navplan\Shared\DbResult;
 use Navplan\Shared\DbService;
 use Navplan\Shared\DbException;
+
+include_once __DIR__ . "/../NavplanHelper.php";
 
 
 class SearchItemNotam {
@@ -61,10 +65,10 @@ class SearchItemNotam {
             . "    INNER JOIN icao_notam_geometry geo ON geo.icao_notam_id = ntm.id "
             . "    INNER JOIN icao_fir fir ON fir.statecode = ntm.country"
             . "    LEFT JOIN icao_fir fir2 ON fir2.icao = ntm.icao"
-            . "   WHERE ST_INTERSECTS(geo.extent,". DbService::getDbPointStringFromLonLat([$lon, $lat]) . ")"
-            . "    AND ntm.startdate <= '" . DbService::getDbTimeString($maxNotamTimestamp) . "'"
-            . "    AND ntm.enddate >= '" . DbService::getDbTimeString($minNotamTimestamp) . "'"
-            . "    AND (ST_INTERSECTS(fir.polygon,". DbService::getDbPointStringFromLonLat([$lon, $lat]) . "))" //" OR (fir2.icao IS NULL AND geo.geometry IS NOT NULL))"
+            . "   WHERE ST_INTERSECTS(geo.extent,". DbHelper::getDbPointStringFromLonLat([$lon, $lat]) . ")"
+            . "    AND ntm.startdate <= '" . DbHelper::getDbTimeString($maxNotamTimestamp) . "'"
+            . "    AND ntm.enddate >= '" . DbHelper::getDbTimeString($minNotamTimestamp) . "'"
+            . "    AND (ST_INTERSECTS(fir.polygon,". DbHelper::getDbPointStringFromLonLat([$lon, $lat]) . "))" //" OR (fir2.icao IS NULL AND geo.geometry IS NOT NULL))"
             . "   ORDER BY ntm.startdate DESC"
             . "   LIMIT " . $maxResults;
 
@@ -88,8 +92,8 @@ class SearchItemNotam {
             . "    INNER JOIN icao_notam_geometry2 geo ON geo.icao_notam_id = ntm.id"
             . "   WHERE"
             . "    ntm.icao IN ('" . join("','", $icaoList) . "')"
-            . "    AND ntm.startdate <= '" . DbService::getDbTimeString($maxNotamTimestamp) . "'"
-            . "    AND ntm.enddate >= '" . DbService::getDbTimeString($minNotamTimestamp) . "'"
+            . "    AND ntm.startdate <= '" . DbHelper::getDbTimeString($maxNotamTimestamp) . "'"
+            . "    AND ntm.enddate >= '" . DbHelper::getDbTimeString($minNotamTimestamp) . "'"
             . "   ORDER BY ntm.startdate DESC";
 
         $result = DbService::execMultiResultQuery($conn, $query, "error searching notams");

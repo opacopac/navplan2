@@ -2,6 +2,7 @@
 require_once __DIR__ . "/Navplan/Shared/DbService.php";
 
 use Navplan\Shared\DbService;
+use Navplan\Shared\DbHelper;
 
 
 // TODO: show errors on web page
@@ -35,21 +36,21 @@ function openDb()
 
 function getDbTimeString($timestamp)
 {
-    return DbService::getDbTimeString($timestamp);
+    return DbHelper::getDbTimeString($timestamp);
     //return date("Y-m-d H:i:s", $timestamp);
 }
 
 
 function getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat)
 {
-    return DbService::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
+    return DbHelper::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
     //return "ST_GeomFromText('POLYGON((" . $minLon . " " . $minLat . "," . $maxLon . " " . $minLat . "," . $maxLon . " " . $maxLat . "," . $minLon . " " . $maxLat . "," . $minLon . " " . $minLat . "))')";
 }
 
 
 function getDbPolygonString($lonLatList)
 {
-    return DbService::getDbPolygonString($lonLatList);
+    return DbHelper::getDbPolygonString($lonLatList);
     /*$lonLatStrings = [];
 
     foreach ($lonLatList as $lonLat)
@@ -66,7 +67,7 @@ function getDbPolygonString($lonLatList)
 
 function getDbMultiPolygonString($polygonList)
 {
-    return DbService::getDbMultiPolygonString($polygonList);
+    return DbHelper::getDbMultiPolygonString($polygonList);
     /*$polyStrings = [];
     foreach ($polygonList as $polygon)
     {
@@ -89,7 +90,7 @@ function getDbMultiPolygonString($polygonList)
 // retrieve lon lat from the format: POINT(-76.867 38.8108)
 function parseLonLatFromDbPoint($dbPointString)
 {
-    return DbService::parseLonLatFromDbPoint($dbPointString);
+    return DbHelper::parseLonLatFromDbPoint($dbPointString);
     /*$decimalRegExpPart = '([\-\+]?\d+\.?\d*)';
     $dbPointRegexp = '/POINT\(\s*' . $decimalRegExpPart . '\s+' . $decimalRegExpPart . '\s*\)/im';
 
@@ -106,7 +107,7 @@ function parseLonLatFromDbPoint($dbPointString)
 
 function getDbPointStringFromLonLat($lonLat)
 {
-    return DbService::getDbPointStringFromLonLat($lonLat);
+    return DbHelper::getDbPointStringFromLonLat($lonLat);
     //return "ST_GeomFromText('POINT(" . $lonLat[0]  . " " . $lonLat[1] . ")')";
 }
 

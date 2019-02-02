@@ -3,7 +3,7 @@ require_once __DIR__ . "/../NavplanHelper.php";
 
 use Navplan\Shared\DbConnection;
 use Navplan\Shared\DbException;
-use Navplan\Shared\MailService;
+use Navplan\Shared\IMailService;
 
 
 class UserServiceProcessor
@@ -11,10 +11,10 @@ class UserServiceProcessor
     /**
      * @param array|null $postVars
      * @param DbConnection $conn
-     * @param MailService $mailService
+     * @param IMailService $mailService
      * @throws DbException
      */
-    public static function processRequest(?array $postVars, DbConnection $conn, MailService $mailService)
+    public static function processRequest(?array $postVars, DbConnection $conn, IMailService $mailService)
     {
         switch ($postVars["action"]) {
             case "login":

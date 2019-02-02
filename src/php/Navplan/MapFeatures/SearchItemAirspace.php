@@ -1,12 +1,15 @@
-<?php namespace Navplan\MapFeatures;
-include_once __DIR__ . "/../NavplanHelper.php";
+<?php declare(strict_types=1);
+
+namespace Navplan\MapFeatures;
 
 use Navplan\Shared\DbConnection;
+use Navplan\Shared\DbHelper;
 use Navplan\Shared\DbResult;
 use Navplan\Shared\DbService;
 use Navplan\Shared\GeoService;
 use Navplan\Shared\DbException;
 
+include_once __DIR__ . "/../NavplanHelper.php";
 
 class SearchItemAirspace {
     const MAX_BOTTOM_ALT_FL = 200;
@@ -25,7 +28,7 @@ class SearchItemAirspace {
      * @throws DbException
      */
     public static function searchByExtent(DbConnection $conn, float $minLon, float $minLat, float $maxLon, float $maxLat, int $zoom): array {
-        $extent = DbService::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
+        $extent = DbHelper::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
         $pixelResolutionDeg = GeoService::calcDegPerPixelByZoom($zoom);
         $minDiameterDeg = $pixelResolutionDeg * self::MIN_PIXEL_AIRSPACE_DIAMETER;
         $query  = "SELECT";

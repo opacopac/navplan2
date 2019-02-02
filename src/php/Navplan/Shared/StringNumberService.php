@@ -1,106 +1,173 @@
 <?php namespace Navplan\Shared;
+use http\Exception\InvalidArgumentException;
+
 require_once __DIR__ . "/../NavplanHelper.php";
 
 
 class StringNumberService
 {
+    /***
+     * @param $num
+     * @return mixed
+     * @throws InvalidFormatException
+     */
     public static function checkNumeric($num)
     {
         if (!is_numeric($num))
-            die("format error: '" . $num . "' is not numeric");
+            throw new InvalidFormatException("format error: '" . $num . "' is not numeric");
 
         return $num;
     }
 
 
+    /***
+     * @param string $string
+     * @param int $minlen
+     * @param int $maxlen
+     * @return string
+     * @throws InvalidFormatException
+     */
     public static function checkString(string $string, int $minlen, int $maxlen): string
     {
         if (isset($maxlen) && strlen($string) > $maxlen)
-            die("format error: string '" . $string . "' too long");
+            throw new InvalidFormatException("format error: string '" . $string . "' too long");
 
         if (isset($minlen) && strlen($string) < $minlen)
-            die("format error: string '" . $string . "' too short");
+            throw new InvalidFormatException("format error: string '" . $string . "' too short");
 
         return $string;
     }
 
 
+    /***
+     * @param string $string
+     * @param int $minlen
+     * @param int $maxlen
+     * @return string
+     * @throws InvalidFormatException
+     */
     public static function checkAlphaNumeric(string $string, int $minlen, int $maxlen): string
     {
         $pattern = "/[a-zA-Z0-9]/";
 
         if (!$string)
-            die("format error: string is null");
+            throw new InvalidFormatException("format error: string is null");
 
         if (!preg_match($pattern, $string))
-            die("format error: string '" . $string . "' is not alphanumeric");
+            throw new InvalidFormatException("format error: string '" . $string . "' is not alphanumeric");
 
         return self::checkString($string, $minlen, $maxlen);
     }
 
+
+    /***
+     * @param string $filename
+     * @return string
+     * @throws InvalidFormatException
+     */
     public static function checkFilename(string $filename): string
     {
         $pattern = '/^[a-zA-Z0-9]+[a-zA-Z0-9_\-]*\.[a-zA-Z0-9]+$/';
 
         if (!$filename)
-            die("format error: empty string");
+            throw new InvalidFormatException("format error: empty string");
 
         if (!preg_match($pattern, $filename))
-            die("format error: string '" . $filename . "' is not a filename");
+            throw new InvalidFormatException("format error: string '" . $filename . "' is not a filename");
 
         return self::checkString($filename, 1, 50);
     }
 
 
-
+    /***
+     * @param string $email
+     * @return string
+     * @throws InvalidFormatException
+     */
     public static function checkEmail(string $email): string
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
-            die("format error: not an email");
+            throw new InvalidFormatException("format error: not an email");
 
         return self::checkString($email, 1, 100);
     }
 
 
+    /***
+     * @param string $token
+     * @return string
+     * @throws InvalidFormatException
+     */
     public static function checkToken(string $token): string
     {
         if (!$token)
-            die("token is null");
+            throw new InvalidFormatException("token is null");
 
         return self::checkString($token, 1, 2000);
     }
 
 
+    /***
+     * @param int $id
+     * @return int
+     * @throws InvalidFormatException
+     */
     public static function checkId(int $id): int
     {
         if (!is_numeric($id))
-            die("format error");
+            throw new InvalidFormatException("format error");
 
         if ($id < 0 || $id > 4294967295)
-            die("format error");
+            throw new InvalidFormatException("format error");
 
         return $id;
     }
 
 
+    /***
+     * @param DbConnection $conn
+     * @param string $string
+     * @param int $minlen
+     * @param int $maxlen
+     * @return string
+     * @throws InvalidFormatException
+     */
     public static function checkEscapeAlphaNumeric(DbConnection $conn, string $string, int $minlen, int $maxlen): string
     {
         return $conn->real_escape_string(self::checkAlphaNumeric($string, $minlen, $maxlen));
     }
 
 
+    /***
+     * @param DbConnection $conn
+     * @param string $string
+     * @param int $minlen
+     * @param int $maxlen
+     * @return string
+     * @throws InvalidFormatException
+     */
     public static function checkEscapeString(DbConnection $conn, string $string, int $minlen, int $maxlen): string
     {
         return $conn->real_escape_string(self::checkString($string, $minlen, $maxlen));
     }
 
 
+    /***
+     * @param DbConnection $conn
+     * @param string $email
+     * @return string
+     * @throws InvalidFormatException
+     */
     public static function checkEscapeEmail(DbConnection $conn, string $email): string
     {
         return $conn->real_escape_string(self::checkEmail($email));
     }
 
 
+    /***
+     * @param int $len
+     * @return string
+     */
     public static function createRandomString(int $len): string
     {
         $result = "";
@@ -115,6 +182,11 @@ class StringNumberService
     }
 
 
+    /***
+     * @param int $number
+     * @param int $digits
+     * @return string
+     */
     public static function zeroPad(int $number, int $digits): string
     {
         $numstr = '' . $number;
@@ -126,10 +198,17 @@ class StringNumberService
     }
 
 
+    /***
+     * @param string $glue
+     * @param string $separator
+     * @param array $array
+     * @return string
+     * @throws InvalidArgumentException
+     */
     public static function array_implode(string $glue, string $separator, array $array): string
     {
         if (!is_array($array))
-            die('ERROR: input is not an array');
+            throw new InvalidArgumentException('ERROR: input is not an array');
 
         $string = array();
         foreach ($array as $key => $val)

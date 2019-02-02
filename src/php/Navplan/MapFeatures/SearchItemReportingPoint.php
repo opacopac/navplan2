@@ -1,11 +1,15 @@
-<?php namespace Navplan\MapFeatures;
-include_once __DIR__ . "/../NavplanHelper.php";
+<?php declare(strict_types=1);
+
+namespace Navplan\MapFeatures;
 
 use BadMethodCallException;
 use Navplan\Shared\DbConnection;
+use Navplan\Shared\DbHelper;
 use Navplan\Shared\DbResult;
 use Navplan\Shared\DbService;
 use Navplan\Shared\DbException;
+
+include_once __DIR__ . "/../NavplanHelper.php";
 
 
 class SearchItemReportingPoint {
@@ -19,7 +23,7 @@ class SearchItemReportingPoint {
      * @throws DbException
      */
     public static function searchByExtent(DbConnection $conn, float $minLon, float $minLat, float $maxLon, float $maxLat) {
-        $extent = DbService::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
+        $extent = DbHelper::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
         $query = "SELECT * FROM reporting_points WHERE MBRIntersects(extent, " . $extent . ")";
 
         $result = DbService::execMultiResultQuery($conn, $query, "error reading reporting points by extent");

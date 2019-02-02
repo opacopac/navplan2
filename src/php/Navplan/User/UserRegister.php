@@ -6,7 +6,7 @@ use Navplan\NavplanHelper;
 use Navplan\Shared\DbConnection;
 use Navplan\Shared\DbException;
 use Navplan\Shared\DbService;
-use Navplan\Shared\MailService;
+use Navplan\Shared\IMailService;
 
 
 class UserRegister
@@ -14,11 +14,11 @@ class UserRegister
     /**
      * @param DbConnection $conn
      * @param array $args
-     * @param MailService $mailService
+     * @param IMailService $mailService
      * @return bool
      * @throws DbException
      */
-    public static function sendRegisterEmail(DbConnection $conn, array $args, MailService $mailService): bool
+    public static function sendRegisterEmail(DbConnection $conn, array $args, IMailService $mailService): bool
     {
         $email = UserHelper::escapeTrimInput($conn, $args["email"]);
 
@@ -95,7 +95,7 @@ class UserRegister
     }
 
 
-    private static function sendActivationEmail(MailService $mailService, string $email, string $token): bool
+    private static function sendActivationEmail(IMailService $mailService, string $email, string $token): bool
     {
         $activateUrl = NavplanHelper::NAVPLAN_BASE_URL . '/register/' . $token;
         $subject = "Welcome to Navplan.ch";

@@ -1,5 +1,6 @@
-<?php namespace Navplan\Traffic;
+<?php declare(strict_types=1);
 
+namespace Navplan\Traffic;
 use Navplan\Shared\StringNumberService;
 
 
@@ -8,6 +9,10 @@ class ReadAdsbexTraffic {
     private const ADSBEXCHANGE_BASE_URL = 'https://adsbexchange.com/api/aircraft/json/'; // lat/37.16611/lon/-119.44944/dist/10/';
 
 
+    /***
+     * @param array $args
+     * @throws \Navplan\Shared\InvalidFormatException
+     */
     public static function readTraffic(array $args) {
         $lat = StringNumberService::checkNumeric($args["lat"]);
         $lon = StringNumberService::checkNumeric($args["lon"]);

@@ -1,19 +1,22 @@
-<?php namespace Navplan\Traffic;
+<?php
+declare(strict_types=1);
 
-
+namespace Navplan\Traffic;
 use Navplan\Shared\DbConnection;
 use Navplan\Shared\DbService;
 use Navplan\Shared\StringNumberService;
+
 
 class ReadOgnTraffic
 {
     const TMP_FILE_BASE_PATH = __DIR__ . "/../../../tmp/";
 
 
-    /**
+    /***
      * @param DbConnection $conn
      * @param array $args
      * @throws \Navplan\Shared\DbException
+     * @throws \Navplan\Shared\InvalidFormatException
      */
     public static function readTraffic(DbConnection $conn, array $args)
     {
@@ -139,11 +142,12 @@ class ReadOgnTraffic
     }
 
 
-    /**
+    /***
      * @param DbConnection $conn
      * @param array $acList
      * @return array
      * @throws \Navplan\Shared\DbException
+     * @throws \Navplan\Shared\InvalidFormatException
      */
     private static function getAircraftDetails(DbConnection $conn, array $acList): array
     {

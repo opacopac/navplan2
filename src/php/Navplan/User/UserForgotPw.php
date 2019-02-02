@@ -6,7 +6,7 @@ use Navplan\NavplanHelper;
 use Navplan\Shared\DbConnection;
 use Navplan\Shared\DbException;
 use Navplan\Shared\DbService;
-use Navplan\Shared\MailService;
+use Navplan\Shared\IMailService;
 
 
 class UserForgotPw
@@ -14,11 +14,11 @@ class UserForgotPw
     /**
      * @param DbConnection $conn
      * @param array $args
-     * @param MailService $mailService
+     * @param IMailService $mailService
      * @return bool
      * @throws DbException
      */
-    public static function sendLostPwEmail(DbConnection $conn, array $args, MailService $mailService): bool
+    public static function sendLostPwEmail(DbConnection $conn, array $args, IMailService $mailService): bool
     {
         if (!$args["email"])
             return UserHelper::sendErrorResponse(new Message(-1, 'error: email missing'), $conn);
@@ -103,7 +103,7 @@ class UserForgotPw
     }
 
 
-    private static function sendPwRecoveryEmail(MailService $mailService, string $email, string $token): bool
+    private static function sendPwRecoveryEmail(IMailService $mailService, string $email, string $token): bool
     {
         $resetPwUrl = NavplanHelper::NAVPLAN_BASE_URL . '/resetpw/' . $token;
         $subject = "Navplan.ch - Reset Password";

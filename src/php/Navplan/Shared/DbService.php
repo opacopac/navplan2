@@ -1,7 +1,10 @@
-<?php namespace Navplan\Shared;
-require_once __DIR__ . "/../NavplanHelper.php";
+<?php declare(strict_types=1);
+
+namespace Navplan\Shared;
 
 use mysqli;
+
+require_once __DIR__ . "/../NavplanHelper.php";
 
 
 class DbService
@@ -67,76 +70,5 @@ class DbService
             throw new DbException($errorMessage, $conn->getError(), $query);
 
         return $result;
-    }
-
-
-    public static function getDbTimeString(int $timestamp): string
-    {
-        return date("Y-m-d H:i:s", $timestamp);
-    }
-
-
-    public static function getDbExtentPolygon(float $minLon, float $minLat, float $maxLon, float $maxLat): string
-    {
-        return "ST_GeomFromText('POLYGON((" . $minLon . " " . $minLat . "," . $maxLon . " " . $minLat . "," . $maxLon . " " . $maxLat . "," . $minLon . " " . $maxLat . "," . $minLon . " " . $minLat . "))')";
-    }
-
-
-    public static function getDbPolygonString(array $lonLatList): string
-    {
-        $lonLatStrings = [];
-
-        foreach ($lonLatList as $lonLat)
-            $lonLatStrings[] = join(" ", $lonLat);
-
-        if ($lonLatStrings[0] != $lonLatStrings[count($lonLatStrings) - 1]) // close polygon if necessary
-            $lonLatStrings[] = $lonLatStrings[0];
-
-        $polyString = "ST_GeomFromText('POLYGON((" . join(",", $lonLatStrings) . "))')";
-
-        return $polyString;
-    }
-
-
-    public static function getDbMultiPolygonString(array $polygonList): string
-    {
-        $polyStrings = [];
-        foreach ($polygonList as $polygon) {
-            $lonLatStrings = [];
-            foreach ($polygon as $lonLat)
-                $lonLatStrings[] = join(" ", $lonLat);
-
-            if ($lonLatStrings[0] != $lonLatStrings[count($lonLatStrings) - 1]) // close polygon if necessary
-                $lonLatStrings[] = $lonLatStrings[0];
-
-            $polyStrings[] = "((" . join(",", $lonLatStrings) . "))";
-        }
-
-        $multiPolyString = "ST_GeomFromText('MULTIPOLYGON(" . join(",", $polyStrings) . ")')";
-
-        return $multiPolyString;
-    }
-
-
-    // retrieve lon lat from the format: POINT(-76.867 38.8108)
-    public static function parseLonLatFromDbPoint(string $dbPointString): array
-    {
-        $decimalRegExpPart = '([\-\+]?\d+\.?\d*)';
-        $dbPointRegexp = '/POINT\(\s*' . $decimalRegExpPart . '\s+' . $decimalRegExpPart . '\s*\)/im';
-
-        $result = preg_match($dbPointRegexp, $dbPointString, $matches);
-
-        if (!$result)
-            return null;
-
-        $lonLat = [floatval($matches[1]), floatval($matches[2])];
-
-        return $lonLat;
-    }
-
-
-    public static function getDbPointStringFromLonLat(array $lonLat): string
-    {
-        return "ST_GeomFromText('POINT(" . $lonLat[0] . " " . $lonLat[1] . ")')";
     }
 }

@@ -1,12 +1,16 @@
-<?php namespace Navplan\MapFeatures;
-include_once __DIR__ . "/../NavplanHelper.php";
+<?php declare(strict_types=1);
+
+namespace Navplan\MapFeatures;
 
 use BadMethodCallException;
 use Navplan\NavplanHelper;
 use Navplan\Shared\DbConnection;
+use Navplan\Shared\DbHelper;
 use Navplan\Shared\DbResult;
 use Navplan\Shared\DbService;
 use Navplan\Shared\DbException;
+
+include_once __DIR__ . "/../NavplanHelper.php";
 
 
 class SearchItemAirport {
@@ -25,7 +29,7 @@ class SearchItemAirport {
      * @throws DbException
      */
     public static function searchByExtent(DbConnection $conn, float $minLon, float $minLat, float $maxLon, float $maxLat, int $zoom, string $email = NULL): array {
-        $extent = DbService::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
+        $extent = DbHelper::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
         $query  = "SELECT *";
         $query .= " FROM openaip_airports2";
         $query .= " WHERE";
