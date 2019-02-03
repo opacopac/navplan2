@@ -50,6 +50,7 @@ Thumbs.db
 /src/data_import/openaip_airspace/*
 /src/data_import/openaip_navaids/*
 /src/data_import/icao_aircraft_types/*
+/src/data_import/icao_telephony_designators/*
 /src/meteoretriever/data/*
 devsbb/
 navplan2.iml
