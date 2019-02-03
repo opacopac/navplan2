@@ -65,6 +65,15 @@ describe('TrafficMergerCallsign', () => {
     });
 
 
+    it('should overwrite callsign for source adsbX2', () => {
+        acOld.callsign = 'SWR123';
+        acNew.callsign = 'EZS567';
+        acNew.dataSource = TrafficDataSource.ADSBX2;
+        callsign = TrafficMergerCallsign.merge(acOld, acNew);
+        expect(callsign).toBe('EZS567');
+    });
+
+
     it('should not overwrite callsign for source ogn', () => {
         acOld.callsign = 'SWR123';
         acNew.callsign = 'EZS567';

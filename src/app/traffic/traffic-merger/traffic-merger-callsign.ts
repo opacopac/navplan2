@@ -12,10 +12,10 @@ export class TrafficMergerCallsign {
         }
 
         switch (newTraffic.dataSource) {
-            case TrafficDataSource.ADSBX :
+            case TrafficDataSource.ADSBX:
+            case TrafficDataSource.ADSBX2:
             case TrafficDataSource.OPENSKY:
                 return newTraffic.callsign;
-            case TrafficDataSource.OGN:
             default:
                 return oldTraffic.callsign;
         }

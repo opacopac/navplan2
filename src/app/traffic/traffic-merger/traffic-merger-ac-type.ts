@@ -21,7 +21,6 @@ export class TrafficMergerAcType {
             case TrafficDataSource.ADSBX :
             case TrafficDataSource.OGN:
                 return newTraffic.acType;
-            case TrafficDataSource.OPENSKY:
             default:
                 return oldTraffic.acType;
         }

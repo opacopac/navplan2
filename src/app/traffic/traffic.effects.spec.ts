@@ -17,6 +17,7 @@ import {TrafficServiceStatus} from './services/traffic-service-status';
 import {TrafficState} from './traffic-state';
 import {MockStore} from '../shared/test/mock-store';
 import {TrafficTimerService} from './services/traffic-timer.service';
+import {TrafficAdsbexchangeService2} from './services/traffic-adsbexchange2.service';
 
 
 
@@ -25,6 +26,7 @@ describe('TrafficEffects', () => {
     let trafficOgnService: TrafficOgnService;
     let trafficOpenskyService: TrafficOpenskyService;
     let trafficAdsbexchangeService: TrafficAdsbexchangeService;
+    let trafficAdsbexchangeService2: TrafficAdsbexchangeService2;
     let trafficTimerService: TrafficTimerService;
     const initialTrafficState: TrafficState = {
         extent: Extent.createFromLatLon([0, 1, 2, 3]),
@@ -69,6 +71,16 @@ describe('TrafficEffects', () => {
     }
 
 
+    function createAdsbexService2Mock(response: Traffic[] | Error): SpyObj<TrafficAdsbexchangeService2> {
+        const service = createSpyObj<TrafficAdsbexchangeService2>('trafficAdsbexchangeService2', ['readTraffic']);
+        const isError = response instanceof Error;
+        const serviceResponse = isError ? throwError(response as Error) : of<Traffic[]>(response as Traffic[]);
+        service.readTraffic.and.returnValue(serviceResponse);
+
+        return service;
+    }
+
+
     function createTrafficTimerServiceMock(): SpyObj<TrafficTimerService> {
         const service = createSpyObj<TrafficTimerService>('trafficTimerService', ['start', 'stop']);
         service.start.and.stub();
@@ -85,6 +97,7 @@ describe('TrafficEffects', () => {
             trafficOgnService,
             trafficOpenskyService,
             trafficAdsbexchangeService,
+            trafficAdsbexchangeService2,
             trafficTimerService
         );
     }
@@ -95,6 +108,7 @@ describe('TrafficEffects', () => {
         trafficOgnService = createOgnServiceMock([]);
         trafficOpenskyService = createOpenSkyServiceMock([]);
         trafficAdsbexchangeService = createAdsbexServiceMock([]);
+        trafficAdsbexchangeService2 = createAdsbexService2Mock([]);
         trafficTimerService = createTrafficTimerServiceMock();
 
         setTimeout(() => done(), 1);
@@ -272,11 +286,11 @@ describe('TrafficEffects', () => {
 
     // region readAdsbExTraffic$
 
-    it('calls TrafficAdsbexchangeService.readTraffic on ReadTrafficTimerAction', () => {
+    /*it('calls TrafficAdsbexchangeService.readTraffic on ReadTrafficTimerAction', () => {
         const action = new ReadTrafficTimerAction(3);
         const action$ = new Actions(of(action));
         const effects = createTrafficEffects(action$);
-        effects.readAdsbExTraffic$.subscribe(readOgnTraffic => {
+        effects.readAdsbExTraffic$.subscribe(() => {
             expect(trafficAdsbexchangeService.readTraffic).toHaveBeenCalled();
         });
     });
@@ -319,6 +333,60 @@ describe('TrafficEffects', () => {
             c: new ReadTrafficErrorAction(error)
         });
         expect(effects.readAdsbExTraffic$).toBeObservable(reAction$);
+    });*/
+
+    // endregion
+
+
+    // region readAdsbEx2Traffic$
+
+    it('calls TrafficAdsbexchange2Service.readTraffic on ReadTrafficTimerAction', () => {
+        const action = new ReadTrafficTimerAction(3);
+        const action$ = new Actions(of(action));
+        const effects = createTrafficEffects(action$);
+        effects.readAdsbEx2Traffic$.subscribe(() => {
+            expect(trafficAdsbexchangeService2.readTraffic).toHaveBeenCalled();
+        });
+    });
+
+
+    it('dispatches a ReadTrafficSuccessAction after success response from TrafficAdsbexchangeService2.readTraffic', () => {
+        const action = new ReadTrafficTimerAction(1);
+        const action$ = new Actions(of(action));
+        const effects = createTrafficEffects(action$);
+        effects.readAdsbEx2Traffic$.subscribe(readAdsbEx2Traffic => {
+            expect(readAdsbEx2Traffic).toEqual(jasmine.any(ReadTrafficSuccessAction));
+        });
+    });
+
+
+    it('dispatches a ReadTrafficErrorAction after error response from TrafficAdsbexchangeService2.readTraffic', () => {
+        const action = new ReadTrafficTimerAction(1);
+        const action$ = new Actions(of(action));
+        trafficAdsbexchangeService2 = createAdsbexService2Mock(new Error('MEEP'));
+        const effects = createTrafficEffects(action$);
+        effects.readAdsbEx2Traffic$.subscribe(readAdsbExTraffic => {
+            expect(readAdsbExTraffic).toEqual(jasmine.any(ReadTrafficErrorAction));
+        });
+    });
+
+
+    it('does NOT terminate the stream after an error response from TrafficAdsbexchangeService2.readTraffic', () => {
+        const action$ = cold('a-b-c', {
+            a: new ReadTrafficTimerAction(1),
+            b: new ReadTrafficTimerAction(2),
+            c: new ReadTrafficTimerAction(3)
+        });
+        const error = new Error('MEEP');
+        trafficAdsbexchangeService2 = createAdsbexService2Mock(error);
+        const effects = createTrafficEffects(action$);
+
+        const reAction$ = cold('a-b-c', {
+            a: new ReadTrafficErrorAction(error),
+            b: new ReadTrafficErrorAction(error),
+            c: new ReadTrafficErrorAction(error)
+        });
+        expect(effects.readAdsbEx2Traffic$).toBeObservable(reAction$);
     });
 
     // endregion

@@ -18,6 +18,7 @@ import {TrafficState} from './traffic-state';
 import {of} from 'rxjs/internal/observable/of';
 import {TrafficOpenskyService} from './services/traffic-opensky.service';
 import {TrafficTimerService} from './services/traffic-timer.service';
+import {TrafficAdsbexchangeService2} from './services/traffic-adsbexchange2.service';
 
 
 const TRAFFIC_MAX_AGE_SEC = 120;
@@ -37,6 +38,7 @@ export class TrafficEffects {
         private trafficOgnService: TrafficOgnService,
         private trafficOpenSkyService: TrafficOpenskyService,
         private trafficAdsbExService: TrafficAdsbexchangeService,
+        private trafficAdsbExService2: TrafficAdsbexchangeService2,
         private trafficTimerService: TrafficTimerService) {
     }
 
@@ -103,18 +105,34 @@ export class TrafficEffects {
         );
 
 
-    @Effect()
+    /*@Effect()
     readAdsbExTraffic$: Observable<Action> = this.actions$
         .pipe(
             ofType(TrafficActionTypes.TRAFFIC_READ_TIMER),
             map(action => action as ReadTrafficTimerAction),
             withLatestFrom(this.trafficState$),
             mergeMap(([action, trafficState]) => this.trafficAdsbExService.readTraffic(
-                trafficState.extent,
-                '15000'  // TODO
+                    trafficState.extent,
+                    '15000'  // TODO
                 ).pipe(
-                map(traffic => new ReadTrafficSuccessAction(traffic)),
-                catchError(error => of(new ReadTrafficErrorAction(error)))
+                    map(traffic => new ReadTrafficSuccessAction(traffic)),
+                    catchError(error => of(new ReadTrafficErrorAction(error)))
+                )
+            )
+        );*/
+
+
+    @Effect()
+    readAdsbEx2Traffic$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(TrafficActionTypes.TRAFFIC_READ_TIMER),
+            map(action => action as ReadTrafficTimerAction),
+            withLatestFrom(this.trafficState$),
+            mergeMap(([action, trafficState]) => this.trafficAdsbExService2.readTraffic(
+                    trafficState.extent
+                ).pipe(
+                    map(traffic => new ReadTrafficSuccessAction(traffic)),
+                    catchError(error => of(new ReadTrafficErrorAction(error)))
                 )
             )
         );

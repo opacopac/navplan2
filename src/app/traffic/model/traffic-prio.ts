@@ -10,12 +10,16 @@ export interface TrafficPrioItem {
 
 
 export class TrafficPrio {
+    public static readonly LOWEST_PRIO = 5;
+
     public static readonly TRAFFIC_PRIO_LIST: TrafficPrioItem[] = [
         { source: TrafficDataSource.OGN, posMethod: TrafficPositionMethod.FLARM, prio: 1 },
         { source: TrafficDataSource.OPENSKY, posMethod: TrafficPositionMethod.ADSB, prio: 1 },
-        { source: TrafficDataSource.OPENSKY, posMethod: TrafficPositionMethod.MLAT, prio: 3 },
-        { source: TrafficDataSource.ADSBX, posMethod: TrafficPositionMethod.ADSB, prio: 2 },
-        { source: TrafficDataSource.ADSBX, posMethod: TrafficPositionMethod.MLAT, prio: 3 },
+        { source: TrafficDataSource.ADSBX2, posMethod: TrafficPositionMethod.ADSB, prio: 2 },
+        { source: TrafficDataSource.ADSBX, posMethod: TrafficPositionMethod.ADSB, prio: 3 },
+        { source: TrafficDataSource.OPENSKY, posMethod: TrafficPositionMethod.MLAT, prio: 4 },
+        { source: TrafficDataSource.ADSBX2, posMethod: TrafficPositionMethod.MLAT, prio: 4 },
+        { source: TrafficDataSource.ADSBX, posMethod: TrafficPositionMethod.MLAT, prio: 5 },
     ];
 
 
@@ -26,7 +30,7 @@ export class TrafficPrio {
             }
         }
 
-        return 3;
+        return this.LOWEST_PRIO;
     }
 
 

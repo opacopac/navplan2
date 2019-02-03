@@ -15,6 +15,8 @@ import {TrafficState} from './traffic-state';
 import {TrafficActions} from './traffic.actions';
 import {BaseMapModule} from '../base-map/base-map.module';
 import {TrafficTimerService} from './services/traffic-timer.service';
+import {TrafficAdsbexchangeService2} from './services/traffic-adsbexchange2.service';
+
 
 @NgModule({
     imports: [
@@ -36,6 +38,7 @@ import {TrafficTimerService} from './services/traffic-timer.service';
         IcaoCallsignService,
         TrafficMerger,
         TrafficAdsbexchangeService,
+        TrafficAdsbexchangeService2,
         TrafficOgnService,
         TrafficTimerService
     ]

@@ -1,6 +1,6 @@
 import {TrafficMock} from '../test/traffic-mock';
 import {RestMapperTrafficAdsbEx2} from './rest-mapper-traffic-adsb-ex2';
-import {TrafficAddressType} from '../model/traffic';
+import {TrafficAddressType, TrafficAircraftType, TrafficDataSource} from '../model/traffic';
 import {TrafficPositionMethod} from '../model/traffic-position';
 
 
@@ -14,9 +14,10 @@ describe('RestMapperTrafficAdsbEx2', () => {
         const trafficList = RestMapperTrafficAdsbEx2.getTrafficListFromResponse(response);
         expect(trafficList.length).toEqual(2);
         expect(trafficList[0].acAddress).toEqual(response.ac[0].icao.toUpperCase());
-        expect(trafficList[0].acModel).toBeUndefined();
-        expect(trafficList[0].acType).toBeUndefined();
+        expect(trafficList[0].acModel).toEqual(response.ac[0].type);
+        expect(trafficList[0].acType).toEqual(TrafficAircraftType.UNKNOWN);
         expect(trafficList[0].addressType).toEqual(TrafficAddressType.ICAO);
+        expect(trafficList[0].dataSource).toEqual(TrafficDataSource.ADSBX2);
         expect(trafficList[0].callsign).toEqual(response.ac[0].call);
         expect(trafficList[0].opCallsign).toBeUndefined();
         expect(trafficList[0].registration).toEqual(response.ac[0].reg);
@@ -40,8 +41,8 @@ describe('RestMapperTrafficAdsbEx2', () => {
         expect(trafficList[1].positions[0].receiver).toEqual(RestMapperTrafficAdsbEx2.RECEIVER_NAME_MLAT);
         expect(trafficList[0].positions[0].receivedTimeStampMs).toEqual(response.ctime);
         expect(trafficList[1].positions[0].receivedTimeStampMs).toEqual(response.ctime);
-        expect(trafficList[0].positions[0].source).toBeUndefined();
-        expect(trafficList[1].positions[0].source).toBeUndefined();
+        expect(trafficList[0].positions[0].source).toEqual(TrafficDataSource.ADSBX2);
+        expect(trafficList[1].positions[0].source).toEqual(TrafficDataSource.ADSBX2);
         expect(trafficList[0].positions[0].position.timestamp.epochMs).toEqual(parseInt(response.ac[0].postime, 10));
         expect(trafficList[1].positions[0].position.timestamp.epochMs).toEqual(parseInt(response.ac[1].postime, 10));
         expect(trafficList[0].positions[0].position.latitude).toEqual(parseFloat(response.ac[0].lat));

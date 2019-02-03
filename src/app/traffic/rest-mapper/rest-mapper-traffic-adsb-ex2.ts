@@ -1,4 +1,4 @@
-import {Traffic, TrafficAddressType, TrafficDataSource} from '../model/traffic';
+import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource} from '../model/traffic';
 import {TrafficPosition, TrafficPositionMethod} from '../model/traffic-position';
 import {Position4d} from '../../shared/model/geometry/position4d';
 import {Altitude} from '../../shared/model/quantities/altitude';
@@ -54,12 +54,12 @@ export class RestMapperTrafficAdsbEx2 {
             const traffic = new Traffic(
                 ac.icao.toUpperCase(),
                 TrafficAddressType.ICAO,
-                TrafficDataSource.ADSBX,
-                undefined,
+                TrafficDataSource.ADSBX2,
+                TrafficAircraftType.UNKNOWN,
                 ac.reg,
                 ac.call,
                 undefined,
-                undefined,
+                ac.type,
                 this.getPositionList(response, ac));
             trafficList.push(traffic);
         }
@@ -76,7 +76,7 @@ export class RestMapperTrafficAdsbEx2 {
                 this.getAltitude(ac),
                 Timestamp.createFromMs(parseInt(ac.postime, 10))
             ),
-            undefined,
+            TrafficDataSource.ADSBX2,
             ac.mlat === '1' ? TrafficPositionMethod.MLAT : TrafficPositionMethod.ADSB,
             ac.mlat === '1' ? this.RECEIVER_NAME_MLAT : this.RECEIVER_NAME_ADSB,
             response.ctime
