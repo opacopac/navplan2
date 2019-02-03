@@ -1,9 +1,10 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Navplan\Traffic;
+
 use Navplan\Shared\DbConnection;
 use Navplan\Shared\DbService;
+use Navplan\Shared\IFileService;
 use Navplan\Shared\StringNumberService;
 
 
@@ -13,20 +14,21 @@ class ReadOgnTraffic
 
 
     /***
-     * @param DbConnection $conn
      * @param array $args
+     * @param IFileService $fileService
+     * @param DbConnection $conn
      * @throws \Navplan\Shared\DbException
      * @throws \Navplan\Shared\InvalidFormatException
      */
-    public static function readTraffic(DbConnection $conn, array $args)
+    public static function readTraffic(array $args, IFileService $fileService, DbConnection $conn)
     {
-        $minLat = StringNumberService::checkNumeric($args["minlat"]);
-        $maxLat = StringNumberService::checkNumeric($args["maxlat"]);
-        $minLon = StringNumberService::checkNumeric($args["minlon"]);
-        $maxLon = StringNumberService::checkNumeric($args["maxlon"]);
-        $maxAgeSec = StringNumberService::checkNumeric($args["maxagesec"]);
-        $sessionId = StringNumberService::checkNumeric($args["sessionid"]);
-        $waitDataSec = $args["waitDataSec"] ? StringNumberService::checkNumeric($args["waitDataSec"]) : 0;
+        $minLat = floatval(StringNumberService::checkNumeric($args["minlat"]));
+        $maxLat = floatval(StringNumberService::checkNumeric($args["maxlat"]));
+        $minLon = floatval(StringNumberService::checkNumeric($args["minlon"]));
+        $maxLon = floatval(StringNumberService::checkNumeric($args["maxlon"]));
+        $maxAgeSec = intval(StringNumberService::checkNumeric($args["maxagesec"]));
+        $sessionId = intval(StringNumberService::checkNumeric($args["sessionid"]));
+        $waitDataSec = $args["waitDataSec"] ? intval(StringNumberService::checkNumeric($args["waitDataSec"])) : 0;
         $callback = $args["callback"] ? StringNumberService::checkString($args["callback"], 1, 50) : NULL;
 
         self::writeFilterFile($sessionId, $minLon, $minLat, $maxLon, $maxLat);
@@ -86,6 +88,9 @@ class ReadOgnTraffic
             {
                 // parse single line
                 $line = fgets($file);
+                if ($line === FALSE)
+                    continue;
+
                 $msg = json_decode($line, true);
 
                 // skip line if out of lat/lon/time

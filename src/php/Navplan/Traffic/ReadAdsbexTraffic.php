@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
 namespace Navplan\Traffic;
+use Navplan\Shared\IFileService;
 use Navplan\Shared\StringNumberService;
 
 
@@ -11,9 +12,10 @@ class ReadAdsbexTraffic {
 
     /***
      * @param array $args
+     * @param IFileService $fileService
      * @throws \Navplan\Shared\InvalidFormatException
      */
-    public static function readTraffic(array $args) {
+    public static function readTraffic(array $args, IFileService $fileService) {
         $lat = StringNumberService::checkNumeric($args["lat"]);
         $lon = StringNumberService::checkNumeric($args["lon"]);
         $dist = StringNumberService::checkNumeric($args["dist"]);
@@ -28,7 +30,7 @@ class ReadAdsbexTraffic {
         $context = stream_context_create($opts);
 
         $url = self::ADSBEXCHANGE_BASE_URL . 'lat/' . $lat . '/lon/' . $lon . '/dist/' . $dist . '/';
-        $adsbexResponse = file_get_contents($url, false, $context);
+        $adsbexResponse = $fileService->fileGetContents($url, false, $context);
 
         self::sendResponse($adsbexResponse, $callback);
     }

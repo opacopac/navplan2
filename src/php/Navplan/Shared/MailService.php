@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
 namespace Navplan\Shared;
+
 require_once __DIR__ . "/../NavplanHelper.php";
 
 
@@ -10,7 +11,7 @@ class MailService implements IMailService {
     private static $instance = NULL;
 
 
-    public static function getInstance(): IMailService {
+    public static function getInstance(): MailService {
         if (!isset(static::$instance)) {
             static::$instance = new static;
         }

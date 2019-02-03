@@ -2,8 +2,9 @@
 
 namespace Navplan\Traffic;
 
-use \InvalidArgumentException;
-use Navplan\Shared\DbConnection;
+use InvalidArgumentException;
+use Navplan\Shared\IDbService;
+use Navplan\Shared\IFileService;
 
 require_once __DIR__ . "/../NavplanHelper.php";
 
@@ -11,18 +12,21 @@ require_once __DIR__ . "/../NavplanHelper.php";
 class TrafficServiceProcessor {
     /***
      * @param array $getVars
-     * @param DbConnection $conn
+     * @param IDbService $dbService
+     * @param IFileService $fileService
      * @throws \Navplan\Shared\DbException
      * @throws \Navplan\Shared\InvalidFormatException
      */
-    public static function processRequest(array $getVars, DbConnection $conn)
+    public static function processRequest(array $getVars, IDbService $dbService, IFileService $fileService)
     {
         switch ($getVars["action"]) {
             case "readogntraffic":
-                ReadOgnTraffic::readTraffic($conn, $getVars);
+                $conn = $dbService->openDb();
+                ReadOgnTraffic::readTraffic($getVars, $fileService, $conn);
+                $dbService->closeDb();
                 break;
             case "readadsbextraffic":
-                ReadAdsbexTraffic::readTraffic($getVars);
+                ReadAdsbexTraffic::readTraffic($getVars, $fileService);
                 break;
             default:
                 throw new InvalidArgumentException("no or invalid action defined!");

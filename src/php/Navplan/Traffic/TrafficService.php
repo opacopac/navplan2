@@ -2,15 +2,12 @@
 
 namespace Navplan\Traffic;
 
-use Navplan\Shared\DbService;
+require_once __DIR__ . "/../NavplanBootstrap.php";
 
-require_once __DIR__ . "/../NavplanHelper.php";
+use Navplan\NavplanBootstrap;
 
-
-$conn = DbService::openDb();
 
 TrafficServiceProcessor::processRequest(
     $_GET,
-    $conn);
-
-$conn->close();
+    NavplanBootstrap::getAndInitDbService(),
+    NavplanBootstrap::getFileService());
