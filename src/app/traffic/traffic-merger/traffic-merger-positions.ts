@@ -30,7 +30,7 @@ export class TrafficMergerPositions {
         const oldestTimestampMs = Date.now() - TrafficMergerPositions.TRAFFIC_MAX_AGE_SEC * 1000;
 
         traffic.positions.forEach(pos => {
-            if (pos.position.timestamp.getMs() >= oldestTimestampMs) {
+            if (pos.position.timestamp.epochMs >= oldestTimestampMs) {
                 newPosList.push(pos);
             }
         });
@@ -40,7 +40,7 @@ export class TrafficMergerPositions {
     private static sortPositions(positions: TrafficPosition[]) {
         // sort positions by pos timestamp DESC
         positions.sort(function (a: TrafficPosition, b: TrafficPosition) {
-            return a.position.timestamp.getMs() - b.position.timestamp.getMs();
+            return a.position.timestamp.epochMs - b.position.timestamp.epochMs;
         });
     }
 
@@ -80,7 +80,7 @@ export class TrafficMergerPositions {
             return false;
         }
 
-        return pos1.position.timestamp.getMs() === pos2.position.timestamp.getMs();
+        return pos1.position.timestamp.epochMs === pos2.position.timestamp.epochMs;
     }
 
 

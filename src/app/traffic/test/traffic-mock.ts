@@ -94,6 +94,70 @@ export class TrafficMock {
     };
 
 
+    public static readonly ADSBEX2_MOCK_RESPONSE_1_ITEM_1 = {
+        'postime': '1549195031085',
+        'icao': '39840F',
+        'reg': 'F-HBAP',
+        'type': 'A320',
+        'spd': '343',
+        'alt': '18650',
+        'lat': '46.685658',
+        'lon': '7.302544',
+        'vsi': '-1408',
+        'trak': '24.8',
+        'sqk': '1022',
+        'call': 'AAF786',
+        'gnd': '0',
+        'trt': '4',
+        'pos': '1',
+        'mlat': '0',
+        'tisb': '0',
+        'mil': '0'
+    };
+
+
+    public static readonly ADSBEX2_MOCK_RESPONSE_1_ITEM_2 = {
+        'postime': '1549203306398',
+        'icao': '407343',
+        'reg': 'G-SGSG',
+        'type': 'GL5T',
+        'spd': '0',
+        'alt': '1550',
+        'lat': '46.912708',
+        'lon': '7.50095',
+        'vsi': '0',
+        'trak': '236.3',
+        'sqk': '4074',
+        'call': 'GSGSG',
+        'gnd': '1',
+        'trt': '5',
+        'pos': '1',
+        'mlat': '1',
+        'tisb': '0',
+        'mil': '0'
+    };
+
+
+    public static readonly ADSBEX2_MOCK_RESPONSE_1 = {
+        'ac': [
+            TrafficMock.ADSBEX2_MOCK_RESPONSE_1_ITEM_1,
+            TrafficMock.ADSBEX2_MOCK_RESPONSE_1_ITEM_2
+        ],
+        'total': 2,
+        'ctime': 1549195033854,
+        'req_ip': '217.26.58.54'
+    };
+
+
+    public static readonly ADSBEX2_MOCK_RESPONSE_2 = {
+        'ac': null,
+        'total': 0,
+        'ctime': 1549196379859,
+        'req_ip': '217.26.58.54'
+    };
+
+
+
     public static createPosition(
         lon: number,
         lat: number,
@@ -101,13 +165,13 @@ export class TrafficMock {
         source: TrafficDataSource = TrafficDataSource.OPENSKY,
         posMethod: TrafficPositionMethod = TrafficPositionMethod.ADSB
     ): TrafficPosition {
-        const timestamp = timestampSec ? new Timestamp(timestampSec) : Timestamp.now();
+        const timestamp = timestampSec ? Timestamp.createFromSec(timestampSec) : Timestamp.now();
         return new TrafficPosition(
             new Position4d(lon, lat, new Altitude(2000, LengthUnit.FT), timestamp),
             source,
             posMethod,
             'rec123',
-            timestamp.getMs()
+            timestamp.epochMs
         );
     }
 }

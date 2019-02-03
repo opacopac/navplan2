@@ -117,7 +117,7 @@ export class LocationService {
             position.coords.longitude,
             position.coords.latitude,
             new Altitude(position.coords.altitude, LengthUnit.M),
-            new Timestamp(position.timestamp));
+            Timestamp.createFromSec(position.timestamp));
     }
 
 

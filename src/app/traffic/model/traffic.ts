@@ -103,7 +103,7 @@ export class Traffic extends DataItem implements Clonable<Traffic> {
     public isInactive(): boolean {
         const pos = this.getCurrentPosition();
 
-        if (!pos || Date.now() - pos.position.timestamp.getMs() > MAX_AGE_SEC_INACTIVE * 1000) {
+        if (!pos || Date.now() - pos.position.timestamp.epochMs > MAX_AGE_SEC_INACTIVE * 1000) {
             return true;
         } else {
             return false;

@@ -27,7 +27,7 @@ export class OlTrafficTrail extends OlComponentBase {
         this.dotFeatures = [];
         for (let i = traffic.positions.length - 1; i >= 0; i--) {
             const pos4d = traffic.positions[i].position;
-            if (Date.now() - pos4d.timestamp.getMs() < MAX_AGE_SEC_TRACK_DOT * 1000) {
+            if (Date.now() - pos4d.timestamp.epochMs < MAX_AGE_SEC_TRACK_DOT * 1000) {
                 const dotFeature = this.createFeature(traffic);
                 dotFeature.setStyle(DOT_STYLE);
                 this.setPointGeometry(dotFeature, pos4d);

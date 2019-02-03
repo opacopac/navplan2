@@ -43,7 +43,7 @@ export class RestMapperTrack {
                 entry.id,
                 entry.name,
                 undefined,
-                new Timestamp(entry.timestamp));
+                Timestamp.createFromSec(entry.timestamp));
             trackList.push(track);
         }
 
@@ -63,7 +63,7 @@ export class RestMapperTrack {
             response.track.id,
             response.track.name,
             positions,
-            new Timestamp(response.track.timestamp)
+            Timestamp.createFromSec(response.track.timestamp)
         );
     }
 
@@ -77,7 +77,7 @@ export class RestMapperTrack {
             posTuple[1],
             posTuple[0],
             new Altitude(posTuple[2], LengthUnit.M),
-            new Timestamp(posTuple[3])
+            Timestamp.createFromSec(posTuple[3])
         );
     }
 }

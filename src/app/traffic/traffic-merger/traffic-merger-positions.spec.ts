@@ -47,9 +47,9 @@ describe('TrafficMergerPositions', () => {
 
     it('removes expired positions from the list', () => {
         const expTimeSec = Timestamp.now().epochSec - TrafficMergerPositions.TRAFFIC_MAX_AGE_SEC;
-        pos1.position.timestamp = new Timestamp(expTimeSec - 100);
+        pos1.position.timestamp = Timestamp.createFromSec(expTimeSec - 100);
         pos2.position.timestamp = Timestamp.now();
-        pos3.position.timestamp = new Timestamp(expTimeSec - 1);
+        pos3.position.timestamp = Timestamp.createFromSec(expTimeSec - 1);
         acOld.positions = [pos1, pos3];
         acNew.positions = [pos2];
         const newPos = TrafficMergerPositions.merge(acOld, acNew);

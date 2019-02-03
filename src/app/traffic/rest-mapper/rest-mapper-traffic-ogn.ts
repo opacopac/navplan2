@@ -65,7 +65,7 @@ export class RestMapperTrafficOgn {
                     acPos.longitude,
                     acPos.latitude,
                     new Altitude(acPos.altitude, LengthUnit.M),
-                    new Timestamp(this.getEpocSecFromOgnTime(acPos.time))
+                    Timestamp.createFromSec(this.getEpocSecFromOgnTime(acPos.time))
                 ),
                 TrafficDataSource.OGN,
                 TrafficPositionMethod.FLARM,

@@ -83,7 +83,7 @@ export class RestMapperTrafficOpensky {
                 lon,
                 lat,
                 new Altitude(geo_alt, LengthUnit.M),
-                new Timestamp(time_pos)
+                Timestamp.createFromSec(time_pos)
             ),
              TrafficDataSource.OPENSKY,
              pos_source === 2 ? TrafficPositionMethod.MLAT : TrafficPositionMethod.ADSB,

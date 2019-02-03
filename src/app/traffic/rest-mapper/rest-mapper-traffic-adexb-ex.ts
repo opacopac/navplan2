@@ -34,6 +34,9 @@ export interface TrafficAdsbExRestItem {
 
 
 export class RestMapperTrafficAdexbEx {
+    public static readonly RECEIVER_NAME_ADSB = 'ADSBExchange (ADS-B)';
+    public static readonly RECEIVER_NAME_MLAT = 'ADSBExchange (MLAT)';
+
     public static getTrafficListFromResponse(response: TrafficAdsbExResponse): Traffic[] {
         const trafficList: Traffic[] = [];
 
@@ -125,11 +128,11 @@ export class RestMapperTrafficAdexbEx {
                 ac.Long,
                 ac.Lat,
                 new Altitude(ac.Gnd ? undefined : ac.GAlt, LengthUnit.FT),
-                new Timestamp(Math.floor((Math.min(ac.PosTime, now) / 1000)))
+                Timestamp.createFromSec(Math.floor((Math.min(ac.PosTime, now) / 1000)))
             ),
             TrafficDataSource.ADSBX,
             ac.Mlat ? TrafficPositionMethod.MLAT : TrafficPositionMethod.ADSB,
-            ac.Mlat ? 'ADSBExchange (MLAT)' : 'ADSBExchange (ADS-B)',
+            ac.Mlat ? this.RECEIVER_NAME_MLAT : this.RECEIVER_NAME_ADSB,
             now
         );
 
