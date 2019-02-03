@@ -19,7 +19,7 @@ class ReadAdsbexTraffic {
         $lat = StringNumberService::checkNumeric($args["lat"]);
         $lon = StringNumberService::checkNumeric($args["lon"]);
         $dist = StringNumberService::checkNumeric($args["dist"]);
-        $callback = StringNumberService::checkString($args["callback"], 1, 50);
+        $callback = $args["callback"] ? StringNumberService::checkString($args["callback"], 1, 50) : NULL;
 
         $opts = array(
             'http'=>array(
@@ -36,10 +36,14 @@ class ReadAdsbexTraffic {
     }
 
 
-    private static function sendResponse(string $adsbexResponse, string $callback)
+    private static function sendResponse(string $adsbexResponse, ?string $callback)
     {
-        echo $callback . "(";
-        echo $adsbexResponse;
-        echo ")";
+        if ($callback !== NULL) {
+            echo $callback . "(";
+            echo $adsbexResponse;
+            echo ")";
+        } else {
+            echo $adsbexResponse;
+        }
     }
 }
