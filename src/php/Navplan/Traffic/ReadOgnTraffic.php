@@ -161,7 +161,7 @@ class ReadOgnTraffic
 
         foreach ($acList as $ac)
         {
-            $icaohex = StringNumberService::checkEscapeString($conn, strtoupper($ac["id"]), 1, 6);
+            $icaohex = StringNumberService::checkEscapeString($conn, strtoupper(strval($ac["id"])), 1, 6);
             array_push($icaoList, $icaohex);
         }
 

@@ -30,4 +30,20 @@ describe('RestMapperTrafficOgn', () => {
         const trafficList = RestMapperTrafficOgn.getTrafficListFromResponse(response);
         expect(trafficList).toEqual([]);
     });
+
+
+    it('maps a lower case icao code correctly', () => {
+        const response = { ...TrafficMock.OGN_MOCK_RESPONSE_1, aclist: {} };
+        response.aclist['4b406a'] = { ...TrafficMock.OGN_MOCK_RESPONSE_1_ITEM_1, id: '4b406a' };
+        const trafficList = RestMapperTrafficOgn.getTrafficListFromResponse(response);
+        expect(trafficList[0].acAddress).toEqual('4B406A');
+    });
+
+
+    it('maps an icao code of numbers only correctly', () => {
+        const response = { ...TrafficMock.OGN_MOCK_RESPONSE_1, aclist: {} };
+        response.aclist['445566'] = { ...TrafficMock.OGN_MOCK_RESPONSE_1_ITEM_1, id: 445566 };
+        const trafficList = RestMapperTrafficOgn.getTrafficListFromResponse(response);
+        expect(trafficList[0].acAddress).toEqual('445566');
+    });
 });
