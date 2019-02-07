@@ -1,32 +1,31 @@
-<?php namespace Navplan\User;
-require_once __DIR__ . "/../NavplanHelper.php";
+<?php declare(strict_types=1);
+
+namespace Navplan\User;
 
 use Navplan\Message;
 use Navplan\NavplanHelper;
-use Navplan\Shared\DbConnection;
 use Navplan\Shared\DbException;
-use Navplan\Shared\DbService;
+use Navplan\Shared\IDbService;
 use Navplan\Shared\IMailService;
 
 
 class UserRegister
 {
     /**
-     * @param DbConnection $conn
+     * @param IDbService $dbService
      * @param array $args
      * @param IMailService $mailService
      * @return bool
-     * @throws DbException
      */
-    public static function sendRegisterEmail(DbConnection $conn, array $args, IMailService $mailService): bool
+    public static function sendRegisterEmail(IDbService $dbService, array $args, IMailService $mailService): bool
     {
-        $email = UserHelper::escapeTrimInput($conn, $args["email"]);
+        $email = UserHelper::escapeTrimInput($dbService, $args["email"]);
 
         if (!UserHelper::checkEmailFormat($email))
-            return UserHelper::sendErrorResponse(new Message(-1, 'error: invalid email format'), $conn);
+            return UserHelper::sendErrorResponse(new Message(-1, 'error: invalid email format'));
 
-        if (self::isDuplicateEmail($conn, $email))
-            return UserHelper::sendErrorResponse(new Message(-2, 'error: email already exists'), $conn);
+        if (self::isDuplicateEmail($dbService, $email))
+            return UserHelper::sendErrorResponse(new Message(-2, 'error: email already exists'));
 
         // send activation email
         $token = UserHelper::createToken($email, false);
@@ -37,61 +36,55 @@ class UserRegister
 
 
     /**
-     * @param DbConnection $conn
+     * @param IDbService $dbService
      * @param array $args
      * @return bool
      * @throws DbException
      */
-    public static function register(DbConnection $conn, array $args): bool
+    public static function register(IDbService $dbService, array $args): bool
     {
-        $token = UserHelper::escapeTrimInput($conn, $args["token"]);
-        $email = UserHelper::escapeAuthenticatedEmailOrNull($conn, $token);
-        $password = UserHelper::escapeTrimInput($conn, $args["password"]);
+        $token = UserHelper::escapeTrimInput($dbService, $args["token"]);
+        $email = UserHelper::escapeAuthenticatedEmailOrNull2($dbService, $token);
+        $password = UserHelper::escapeTrimInput($dbService, $args["password"]);
         $rememberMe = ($args["rememberme"] === "1");
 
         if (!UserHelper::checkPwFormat($password))
-            return UserHelper::sendErrorResponse(new Message(-1, 'error: invalid password format'), $conn);
+            return UserHelper::sendErrorResponse(new Message(-1, 'error: invalid password format'));
 
         if (!$email || !UserHelper::checkEmailFormat($email))
-            return UserHelper::sendErrorResponse(new Message(-2, 'error: invalid token'), $conn);
+            return UserHelper::sendErrorResponse(new Message(-2, 'error: invalid token'));
 
-        if (self::isDuplicateEmail($conn, $email))
-            return UserHelper::sendErrorResponse(new Message(-3, 'error: email already exists'), $conn);
+        if (self::isDuplicateEmail($dbService, $email))
+            return UserHelper::sendErrorResponse(new Message(-3, 'error: email already exists'));
 
         // create new user & token
-        self::createUser($conn, $email, $password);
+        self::createUser($dbService, $email, $password);
         $token = UserHelper::createToken($email, $rememberMe);
 
         return UserHelper::sendSuccessResponse($email, $token);
     }
 
 
-    /**
-     * @param DbConnection $conn
-     * @param string $email
-     * @return bool
-     * @throws DbException
-     */
-    private static function isDuplicateEmail(DbConnection $conn, string $email): bool
+    private static function isDuplicateEmail(IDbService $dbService, string $email): bool
     {
         $query = "SELECT id FROM users WHERE email='" . $email . "'";
-        $result = DbService::execSingleResultQuery($conn, $query, true, "error checking for duplicate user");
+        $result = $dbService->execSingleResultQuery($query, true, "error checking for duplicate user");
 
         return ($result->getNumRows() > 0);
     }
 
 
     /**
-     * @param DbConnection $conn
+     * @param IDbService $dbService
      * @param string $email
      * @param string $password
      * @throws DbException
      */
-    private static function createUser(DbConnection $conn, string $email, string $password)
+    private static function createUser(IDbService $dbService, string $email, string $password)
     {
         $pw_hash = crypt($password);
         $query = "INSERT INTO users (token, email, pw_hash) VALUES ('DUMMY','" . $email . "','" . $pw_hash . "')";
-        DbService::execCUDQuery($conn, $query, "error creating user");
+        $dbService->execCUDQuery($query, "error creating user");
     }
 
 

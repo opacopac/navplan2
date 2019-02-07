@@ -2,22 +2,28 @@
 
 namespace NavplanTest;
 
-use Navplan\Shared\DbConnection;
-use Navplan\Shared\DbResult;
+use InvalidArgumentException;
+use Navplan\Shared\IDbResult;
 use Navplan\Shared\IDbService;
 
 
 class DbServiceMock implements IDbService {
-    private $mockResult;
+    private $mockResultList = [];
+    public $lastQuery = NULL;
 
 
-    private function getConnectionMockResult(): DbResultMock {
-        return $this->mockResult;
+    private function shiftMockResult($query): DbResultMock {
+        if (!$this->mockResultList || count($this->mockResultList) === 0) {
+            throw new InvalidArgumentException("no mock result available for query: " . $query);
+        }
+
+        $result = array_shift($this->mockResultList);
+        return new DbResultMock($result);
     }
 
 
-    public function setConnectionMockResult(DbResultMock $mockResult) {
-        $this->mockResult = $mockResult;
+    public function pushMockResult(array $mockResultRows) {
+        array_push($this->mockResultList, $mockResultRows);
     }
 
 
@@ -25,27 +31,33 @@ class DbServiceMock implements IDbService {
     }
 
 
-    public function openDb(): DbConnection {
-        return new DbConnectionMock($this->mockResult);
+    public function openDb() {
     }
 
 
-    public function closeDb(): bool {
-        return true;
+    public function closeDb() {
     }
 
 
-    public function execSingleResultQuery(string $query, bool $allowZeroResults, string $errorMessage): DbResult {
-        return $this->getConnectionMockResult();
+    public function escapeString(string $escapeString): string {
+        return str_replace("'", "\\'", $escapeString);
     }
 
 
-    public function execMultiResultQuery(string $query, string $errorMessage): DbResult {
-        return $this->getConnectionMockResult();
+    public function execSingleResultQuery(string $query, bool $allowZeroResults, string $errorMessage): IDbResult {
+        $this->lastQuery = $query;
+        return $this->shiftMockResult($query);
+    }
+
+
+    public function execMultiResultQuery(string $query, string $errorMessage): IDbResult {
+        $this->lastQuery = $query;
+        return $this->shiftMockResult($query);
     }
 
 
     public function execCUDQuery(string $query, string $errorMessage): bool {
+        $this->lastQuery = $query;
         return true;
     }
 }

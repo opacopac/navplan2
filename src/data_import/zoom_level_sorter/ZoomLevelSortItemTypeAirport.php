@@ -42,7 +42,7 @@ class ZoomLevelSortItemTypeAirport implements ZoomLevelSortItemType {
     /**
      * @param string $lastGeoHash
      * @param int $maxCount
-     * @return \Navplan\Shared\DbResult
+     * @return \Navplan\Shared\MySqlDbResult
      * @throws \Navplan\Shared\DbException
      */
     public function getNextBatch(?string $lastGeoHash, int $maxCount) {

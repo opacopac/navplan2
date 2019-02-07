@@ -5,7 +5,7 @@ namespace Navplan\MapFeatures;
 use BadMethodCallException;
 use Navplan\Shared\DbConnection;
 use Navplan\Shared\DbHelper;
-use Navplan\Shared\DbResult;
+use Navplan\Shared\MySqlDbResult;
 use Navplan\Shared\DbService;
 use Navplan\Shared\DbException;
 
@@ -84,7 +84,7 @@ class SearchItemReportingPoint {
     }
 
 
-    private static function readReportingPointFromResultList(DbResult $result): array {
+    private static function readReportingPointFromResultList(MySqlDbResult $result): array {
         $reportingPoint = [];
         while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
             $reportingPoint[] = self::readReportingPointFromResult($rs);

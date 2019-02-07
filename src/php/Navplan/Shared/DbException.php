@@ -3,10 +3,11 @@
 namespace Navplan\Shared;
 
 use Exception;
+use Throwable;
 
 
 class DbException extends Exception {
-    public function __construct(string $message, string $error, string $query) {
-        parent::__construct($message . ": " . $error . " query:" . $query);
+    public function __construct(string $message, string $dbError, string $query = 'n/a', int $code = 0, Throwable $previous = NULL) {
+        parent::__construct($message . ": " . $dbError . " query:" . $query, $code, $previous);
     }
 }

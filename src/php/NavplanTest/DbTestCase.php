@@ -1,12 +1,11 @@
-<?php namespace NavplanTest;
+<?php declare(strict_types=1);
 
-use Navplan\Shared\DbConnection;
-use Navplan\Shared\DbResult;
+namespace NavplanTest;
+
 use PHPUnit\Framework\TestCase;
 
 
-abstract class DbTestCase extends TestCase
-{
+abstract class DbTestCase extends TestCase {
     public const DUMMY_RESULT_LIST_0_ENTRY = [];
     public const DUMMY_RESULT_LIST_1_ENTRY = [array("id" => 1, "name" => "first")];
     public const DUMMY_RESULT_LIST_2_ENTRIES = [
@@ -18,27 +17,23 @@ abstract class DbTestCase extends TestCase
         array("id" => 3, "name" => "third")];
 
 
-    public function getDbConnection($dbResult): DbConnectionMock
-    {
+    public function getDbConnection($dbResult): DbConnectionMock {
         return new DbConnectionMock($dbResult);
     }
 
 
-    public function getDbResult(array $resultList): DbResultMock
-    {
+    public function getDbResult(array $resultList): DbResultMock {
         return new DbResultMock($resultList);
     }
 
 
-    public function getDbConnectionFromResultList(array $resultList): DbConnectionMock
-    {
+    public function getDbConnectionFromResultList(array $resultList): DbConnectionMock {
         $result = self::getDbResult($resultList);
         return self:: getDbConnection($result);
     }
 
 
-    public function addMockResultsFromResultList(DbConnectionMock $conn, array $resultList)
-    {
+    public function addMockResultsFromResultList(DbConnectionMock $conn, array $resultList) {
         $result = self::getDbResult($resultList);
         $conn->addMockResult($result);
     }

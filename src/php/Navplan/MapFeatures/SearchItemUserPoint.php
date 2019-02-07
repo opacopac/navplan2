@@ -2,7 +2,7 @@
 include_once __DIR__ . "/../NavplanHelper.php";
 
 use Navplan\Shared\DbConnection;
-use Navplan\Shared\DbResult;
+use Navplan\Shared\MySqlDbResult;
 use Navplan\Shared\DbService;
 use Navplan\Shared\DbException;
 
@@ -96,7 +96,7 @@ class SearchItemUserPoint {
     }
 
 
-    private static function readUserPointFromResultList(DbResult $result): array {
+    private static function readUserPointFromResultList(MySqlDbResult $result): array {
         $userPoint = [];
         while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
             $userPoint[] = self::readUserPointFromResult($rs);

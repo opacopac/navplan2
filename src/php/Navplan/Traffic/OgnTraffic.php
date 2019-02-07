@@ -2,26 +2,25 @@
 
 namespace Navplan\Traffic;
 
-use Navplan\Shared\DbConnection;
-use Navplan\Shared\DbService;
+use Navplan\Shared\IDbService;
 use Navplan\Shared\IFileService;
 use Navplan\Shared\StringNumberService;
 
 
-class ReadOgnTraffic
+class OgnTraffic
 {
     const TMP_FILE_BASE_PATH = __DIR__ . "/../../../tmp/";
 
 
-    /***
+    /**
      * @param array $args
      * @param IFileService $fileService
-     * @param DbConnection $conn
-     * @throws \Navplan\Shared\DbException
+     * @param IDbService $dbService
      * @throws \Navplan\Shared\InvalidFormatException
      */
-    public static function readTraffic(array $args, IFileService $fileService, DbConnection $conn)
-    {
+    public static function readTraffic(array $args, IFileService $fileService, IDbService $dbService) {
+        $dbService->openDb();
+
         $minLat = floatval(StringNumberService::checkNumeric($args["minlat"]));
         $maxLat = floatval(StringNumberService::checkNumeric($args["maxlat"]));
         $minLon = floatval(StringNumberService::checkNumeric($args["minlon"]));
@@ -31,25 +30,27 @@ class ReadOgnTraffic
         $waitDataSec = $args["waitDataSec"] ? intval(StringNumberService::checkNumeric($args["waitDataSec"])) : 0;
         $callback = $args["callback"] ? StringNumberService::checkString($args["callback"], 1, 50) : NULL;
 
-        self::writeFilterFile($sessionId, $minLon, $minLat, $maxLon, $maxLat);
-        self::checkStartListener($sessionId);
+        self::writeFilterFile($sessionId, $minLon, $minLat, $maxLon, $maxLat, $fileService);
+        self::checkStartListener($sessionId, $fileService);
         self::conditionalWait($waitDataSec);
-        $acList = self::readTrafficListFromFiles($sessionId, $minLon, $minLat, $maxLon, $maxLat, $maxAgeSec);
+        $acList = self::readTrafficListFromFiles($sessionId, $minLon, $minLat, $maxLon, $maxLat, $maxAgeSec, $fileService);
         self::sortPositionTimestamps($acList);
-        $acList = self::getAircraftDetails($conn, $acList);
+        $acList = self::getAircraftDetails($dbService, $acList);
         self::sendResponse($acList, $callback);
+
+        $dbService->closeDb();
     }
 
 
-    private static function writeFilterFile(int $sessionId, float $minLon, float $minLat, float $maxLon, float $maxLat)
+    private static function writeFilterFile(int $sessionId, float $minLon, float $minLat, float $maxLon, float $maxLat, IFileService $fileService)
     {
         $filterFile = self::TMP_FILE_BASE_PATH . 'ognlistener_' . $sessionId . '.filter';
         $filter = "a/" . $maxLat . "/" . $minLon . "/" . $minLat . "/" . $maxLon;
-        file_put_contents($filterFile, $filter, LOCK_EX);
+        $fileService->filePutContents($filterFile, $filter, LOCK_EX);
     }
 
 
-    private static function checkStartListener(int $sessionId)
+    private static function checkStartListener(int $sessionId, IFileService $fileService)
     {
         $lockFile = self::TMP_FILE_BASE_PATH . 'ognlistener_' . $sessionId . '.lock';
 
@@ -69,7 +70,7 @@ class ReadOgnTraffic
     }
 
 
-    private static function readTrafficListFromFiles(int $sessionId, float $minLon, float $minLat, float $maxLon, float $maxLat, int $maxAgeSec): array
+    private static function readTrafficListFromFiles(int $sessionId, float $minLon, float $minLat, float $maxLon, float $maxLat, int $maxAgeSec, IFileService $fileService): array
     {
         $aclist = array();
         $dumpFiles[0] = self::TMP_FILE_BASE_PATH . 'ognlistener_' . $sessionId . '.dump0';
@@ -137,7 +138,7 @@ class ReadOgnTraffic
     private static function sortPositionTimestamps(array &$acList)
     {
         foreach ($acList as $ac)
-            usort($acList[$ac["id"]]["positions"], array('Navplan\Traffic\ReadOgnTraffic', 'timecompare'));
+            usort($acList[$ac["id"]]["positions"], array('Navplan\Traffic\OgnTraffic', 'timecompare'));
     }
 
 
@@ -147,29 +148,28 @@ class ReadOgnTraffic
     }
 
 
-    /***
-     * @param DbConnection $conn
+    /**
+     * @param IDbService $dbService
      * @param array $acList
      * @return array
-     * @throws \Navplan\Shared\DbException
      * @throws \Navplan\Shared\InvalidFormatException
      */
-    private static function getAircraftDetails(DbConnection $conn, array $acList): array
+    private static function getAircraftDetails(IDbService $dbService, array $acList): array
     {
         // get and escape all icao hex ac identifiers
         $icaoList = array();
 
         foreach ($acList as $ac)
         {
-            $icaohex = StringNumberService::checkEscapeString($conn, strtoupper(strval($ac["id"])), 1, 6);
+            $icaohex = StringNumberService::checkEscapeString2($dbService, strtoupper(strval($ac["id"])), 1, 6);
             array_push($icaoList, $icaohex);
         }
 
         // exec query
         $query = "SELECT * FROM lfr_ch WHERE icaohex IN ('" . join("','", $icaoList) . "')";
-        $result = DbService::execMultiResultQuery($conn, $query);
+        $result = $dbService->execMultiResultQuery($query, 'error reading ac details from lfr');
 
-        while ($rs = $result->fetch_array(MYSQLI_ASSOC))
+        while ($rs = $result->fetch_assoc())
         {
             $ac = $acList[$rs["icaohex"]];
 

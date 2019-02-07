@@ -2,7 +2,6 @@
 
 namespace NavplanTest\Shared;
 
-use Navplan\Shared\DbConnection;
 use Navplan\Shared\DbException;
 use PHPUnit\Framework\TestCase;
 use Navplan\Shared\MySqlDbService;
@@ -28,40 +27,67 @@ class MySqlDbServiceTest extends TestCase {
     }
 
 
-    public function test_openDb() {
-        $conn = $this->getDbService()->openDb();
+    // region openDb
 
-        $this->assertNotNull($conn);
-        $this->assertTrue($conn instanceof DbConnection);
+    public function test_openDb_success() {
+        $this->assertFalse($this->getDbService()->isOpen());
+        $this->getDbService()->openDb();
+        $this->assertTrue($this->getDbService()->isOpen());
     }
 
 
+    public function test_openDb_error() {
+        $this->getDbService()->init('', '', '', '');
+        $this->expectException(DbException::class);
+        $this->getDbService()->openDb();
+    }
+
+    // endregion
+
+
+    // region closeDb
+
     public function test_closeDb_success() {
         $this->getDbService()->openDb();
-        $result = $this->getDbService()->closeDb();
+        $this->getDbService()->closeDb();
 
-        $this->assertTrue($result);
+        $this->assertFalse($this->getDbService()->isOpen());
     }
 
 
     public function test_closeDb_throws_dbexception_on_error() {
         $this->getDbService()->openDb();
-        $result = $this->getDbService()->closeDb();
-        $this->assertTrue($result);
+        $this->getDbService()->closeDb();
+        $this->assertFalse($this->getDbService()->isOpen());
         $this->expectException(DbException::class);
         $this->getDbService()->closeDb();
     }
 
+    // endregion
 
-    public function test_getConnection() {
-        $conn1 = $this->getDbService()->openDb();
-        $conn2 = $this->getDbService()->getConnection();
 
-        $this->assertNotNull($conn2);
-        $this->assertTrue($conn2 instanceof DbConnection);
-        $this->assertEquals($conn1, $conn2);
+    // region escapeString
+
+    public function test_escapeString_success() {
+        $this->getDbService()->openDb();
+        $result1 = $this->getDbService()->escapeString("abcabc");
+        $result2 = $this->getDbService()->escapeString("abc'abc");
+        $this->assertEquals("abcabc", $result1);
+        $this->assertEquals("abc\\'abc", $result2);
     }
 
+
+    public function test_escapeString_throw_error_if_db_closed() {
+        $this->getDbService()->openDb();
+        $this->getDbService()->closeDb();
+        $this->expectException(DbException::class);
+        $this->getDbService()->escapeString("abc");
+    }
+
+    // endregion
+
+
+    // region execSingleResultQuery
 
     public function test_execSingleResultQuery_success() {
         $query = "SELECT 3";
@@ -107,6 +133,10 @@ class MySqlDbServiceTest extends TestCase {
         $this->getDbService()->execSingleResultQuery($query, false);
     }
 
+    // endregion
+
+
+    // region execMultiResultQuery
 
     public function test_execMultiResultQuery_success() {
         $query = "SELECT 3 UNION SELECT 4";
@@ -125,6 +155,10 @@ class MySqlDbServiceTest extends TestCase {
         $this->getDbService()->execMultiResultQuery($query);
     }
 
+    // endregion
+
+
+    // region execCUDQuery
 
     public function test_execCUDQuery_success() {
         $query = "create temporary table temp as select 'a' as a";
@@ -133,4 +167,6 @@ class MySqlDbServiceTest extends TestCase {
 
         $this->assertEquals(TRUE, $result);
     }
+
+    // endregion
 }

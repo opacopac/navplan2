@@ -4,7 +4,7 @@ namespace Navplan\MapFeatures;
 
 use Navplan\Shared\DbConnection;
 use Navplan\Shared\DbHelper;
-use Navplan\Shared\DbResult;
+use Navplan\Shared\MySqlDbResult;
 use Navplan\Shared\DbService;
 use Navplan\Shared\DbException;
 
@@ -90,7 +90,7 @@ class SearchItemNavaid {
     }
 
 
-    private static function readNavaidFromResultList(DbResult $result): array {
+    private static function readNavaidFromResultList(MySqlDbResult $result): array {
         $navaids = [];
         while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
             $navaids[] = self::readNavaidFromResult($rs);

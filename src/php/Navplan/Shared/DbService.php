@@ -26,10 +26,10 @@ class DbService
      * @param string $query
      * @param bool $allowZeroResults
      * @param string $errorMessage
-     * @return DbResult
+     * @return MySqlDbResult
      * @throws DbException
      */
-    public static function execSingleResultQuery(DbConnection $conn, string $query, bool $allowZeroResults = true, string $errorMessage = "error executing single result query"): DbResult {
+    public static function execSingleResultQuery(DbConnection $conn, string $query, bool $allowZeroResults = true, string $errorMessage = "error executing single result query"): IDbResult {
         $result = $conn->query($query);
         if ($result === FALSE
             || $result->getNumRows() > 1
@@ -45,10 +45,10 @@ class DbService
      * @param DbConnection $conn
      * @param string $query
      * @param string $errorMessage
-     * @return DbResult
+     * @return MySqlDbResult
      * @throws DbException
      */
-    public static function execMultiResultQuery(DbConnection $conn, string $query, string $errorMessage = "error executing multi result query"): DbResult {
+    public static function execMultiResultQuery(DbConnection $conn, string $query, string $errorMessage = "error executing multi result query"): IDbResult {
         $result = $conn->query($query);
         if ($result === FALSE)
             throw new DbException($errorMessage, $conn->getError(), $query);

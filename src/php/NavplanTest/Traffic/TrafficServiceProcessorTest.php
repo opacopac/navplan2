@@ -33,22 +33,48 @@ class TrafficServiceProcessorTest extends TestCase {
 
 
     public function test_processRequest_ogn_gets_called() {
+        $reqMeth = 'GET';
         $getVars["action"] = "readadsbextraffic";
         $this->expectException(InvalidFormatException::class); // expected, due to missing parameters
-        TrafficServiceProcessor::processRequest($getVars, $this->getDbService(), $this->getFileService());
+        TrafficServiceProcessor::processRequest($reqMeth, $getVars, NULL, $this->getDbService(), $this->getFileService());
     }
 
 
     public function test_processRequest_adsbex_gets_called() {
+        $reqMeth = 'GET';
         $getVars["action"] = "readogntraffic";
         $this->expectException(InvalidFormatException::class); // expected, due to missing parameters
-        TrafficServiceProcessor::processRequest($getVars, $this->getDbService(), $this->getFileService());
+        TrafficServiceProcessor::processRequest($reqMeth, $getVars, NULL, $this->getDbService(), $this->getFileService());
     }
 
 
-    public function test_processRequest_throws_exception_for_unknown_action() {
+    /*public function test_processRequest_read_aircraft_details_gets_called() {
+        $reqMeth = 'POST';
+        $postVars["action"] = "readacdetails";
+        $this->expectException(InvalidFormatException::class); // expected, due to missing parameters
+        TrafficServiceProcessor::processRequest($reqMeth, NULL, $postVars, $this->getDbService(), $this->getFileService());
+    }*/
+
+
+    public function test_processRequest_throws_exception_for_unknown_req_method() {
+        $reqMeth = 'XXX';
+        $this->expectException(InvalidArgumentException::class);
+        TrafficServiceProcessor::processRequest($reqMeth, NULL, NULL, $this->getDbService(), $this->getFileService());
+    }
+
+
+    public function test_processRequest_throws_exception_for_unknown_get_action() {
+        $reqMeth = 'GET';
         $getVars = array('action' => 'xxx');
         $this->expectException(InvalidArgumentException::class);
-        TrafficServiceProcessor::processRequest($getVars, $this->getDbService(), $this->getFileService());
+        TrafficServiceProcessor::processRequest($reqMeth, $getVars, NULL, $this->getDbService(), $this->getFileService());
+    }
+
+
+    public function test_processRequest_throws_exception_for_unknown_post_action() {
+        $reqMeth = 'POST';
+        $getVars = array('action' => 'xxx');
+        $this->expectException(InvalidArgumentException::class);
+        TrafficServiceProcessor::processRequest($reqMeth, $getVars, NULL, $this->getDbService(), $this->getFileService());
     }
 }

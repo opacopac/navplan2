@@ -4,7 +4,7 @@ namespace Navplan\MapFeatures;
 
 use Navplan\Shared\DbConnection;
 use Navplan\Shared\DbHelper;
-use Navplan\Shared\DbResult;
+use Navplan\Shared\MySqlDbResult;
 use Navplan\Shared\DbService;
 use Navplan\Shared\GeoService;
 use Navplan\Shared\DbException;
@@ -61,7 +61,7 @@ class SearchItemAirspace {
     }
 
 
-    private static function readAirspaceFromResultList(DbResult $result, float $pixelResolutionDeg): array
+    private static function readAirspaceFromResultList(MySqlDbResult $result, float $pixelResolutionDeg): array
     {
         $airspaces = [];
         while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {

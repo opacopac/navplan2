@@ -32,7 +32,7 @@ class DbConnection
     {
         $result = $this->conn->query($query);
         if ($result instanceof mysqli_result)
-            return new DbResult($result);
+            return new MySqlDbResult($result);
         else
             return $result;
     }

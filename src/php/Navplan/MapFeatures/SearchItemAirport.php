@@ -6,7 +6,7 @@ use BadMethodCallException;
 use Navplan\NavplanHelper;
 use Navplan\Shared\DbConnection;
 use Navplan\Shared\DbHelper;
-use Navplan\Shared\DbResult;
+use Navplan\Shared\MySqlDbResult;
 use Navplan\Shared\DbService;
 use Navplan\Shared\DbException;
 
@@ -284,7 +284,7 @@ class SearchItemAirport {
     }
 
 
-    private static function readAirportFromResultList(DbResult $result): array {
+    private static function readAirportFromResultList(MySqlDbResult $result): array {
         $airports = [];
 
         while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {

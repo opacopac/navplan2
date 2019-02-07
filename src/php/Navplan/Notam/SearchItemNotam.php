@@ -5,7 +5,7 @@ namespace Navplan\Search;
 use BadMethodCallException;
 use Navplan\Shared\DbConnection;
 use Navplan\Shared\DbHelper;
-use Navplan\Shared\DbResult;
+use Navplan\Shared\MySqlDbResult;
 use Navplan\Shared\DbService;
 use Navplan\Shared\DbException;
 
@@ -155,7 +155,7 @@ class SearchItemNotam {
     }*/
 
 
-    private static function readNotamFromResultList(DbResult $result): array {
+    private static function readNotamFromResultList(MySqlDbResult $result): array {
         $notams = [];
         while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
             $notam = self::readNotamFromResult($rs);

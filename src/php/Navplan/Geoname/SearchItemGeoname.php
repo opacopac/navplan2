@@ -3,7 +3,7 @@ include_once __DIR__ . "/../NavplanHelper.php";
 require_once __DIR__ . "/../../terrainHelper.php"; // TODO
 
 use Navplan\Shared\DbConnection;
-use Navplan\Shared\DbResult;
+use Navplan\Shared\MySqlDbResult;
 use Navplan\Shared\DbService;
 use TerrainHelper;
 
@@ -75,7 +75,7 @@ class SearchItemGeoname
     }
 
 
-    private static function readGeonamesFromResultList(DbResult $result, TerrainHelper $terrainHelper, bool $renameDuplicates, array $lonLat) {
+    private static function readGeonamesFromResultList(MySqlDbResult $result, TerrainHelper $terrainHelper, bool $renameDuplicates, array $lonLat) {
         $geonames = [];
 
         while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {

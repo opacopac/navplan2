@@ -1,11 +1,12 @@
 <?php declare(strict_types=1);
 
 namespace Navplan\Traffic;
+
 use Navplan\Shared\IFileService;
 use Navplan\Shared\StringNumberService;
 
 
-class ReadAdsbexTraffic {
+class AdsbexTraffic {
     private const API_KEY = '5768a18d-4eaf-4fa5-8e7d-bf07db9307b1';
     private const ADSBEXCHANGE_BASE_URL = 'https://adsbexchange.com/api/aircraft/json/'; // lat/37.16611/lon/-119.44944/dist/10/';
 

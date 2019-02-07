@@ -1,35 +1,33 @@
-<?php namespace Navplan\User;
-require_once __DIR__ . "/../NavplanHelper.php";
+<?php declare(strict_types=1);
+
+namespace Navplan\User;
 
 use Navplan\Message;
 use Navplan\NavplanHelper;
-use Navplan\Shared\DbConnection;
 use Navplan\Shared\DbException;
-use Navplan\Shared\DbService;
+use Navplan\Shared\IDbService;
 use Navplan\Shared\IMailService;
 
 
-class UserForgotPw
-{
+class UserForgotPw {
     /**
-     * @param DbConnection $conn
      * @param array $args
      * @param IMailService $mailService
+     * @param IDbService $dbService
      * @return bool
-     * @throws DbException
      */
-    public static function sendLostPwEmail(DbConnection $conn, array $args, IMailService $mailService): bool
+    public static function sendLostPwEmail(array $args, IMailService $mailService, IDbService $dbService): bool
     {
         if (!$args["email"])
-            return UserHelper::sendErrorResponse(new Message(-1, 'error: email missing'), $conn);
+            return UserHelper::sendErrorResponse(new Message(-1, 'error: email missing'));
 
-        $email = UserHelper::escapeTrimInput($conn, $args["email"]);
+        $email = UserHelper::escapeTrimInput($dbService, $args["email"]);
 
         if (!UserHelper::checkEmailFormat($email))
-            return UserHelper::sendErrorResponse(new Message(-1, 'error: invalid email format'), $conn);
+            return UserHelper::sendErrorResponse(new Message(-1, 'error: invalid email format'));
 
-        if (!self::isExistingEMail($conn, $email))
-            return UserHelper::sendErrorResponse(new Message(-2, 'error: email does not exist'), $conn);
+        if (!self::isExistingEMail($dbService, $email))
+            return UserHelper::sendErrorResponse(new Message(-2, 'error: email does not exist'));
 
         // send pw recovery email
         $token = UserHelper::createToken($email, false);
@@ -40,34 +38,33 @@ class UserForgotPw
 
 
     /**
-     * @param DbConnection $conn
      * @param array $args
+     * @param IDbService $dbService
      * @return bool
      * @throws DbException
      */
-    public static function resetPassword(DbConnection $conn, array $args): bool
-    {
+    public static function resetPassword(array $args, IDbService $dbService): bool {
         if (!$args["token"])
-            return UserHelper::sendErrorResponse(new Message(-2, 'error: token missing'), $conn);
+            return UserHelper::sendErrorResponse(new Message(-2, 'error: token missing'));
 
         if (!$args["password"])
-            return UserHelper::sendErrorResponse(new Message(-1, 'error: password missing'), $conn);
+            return UserHelper::sendErrorResponse(new Message(-1, 'error: password missing'));
 
-        $token = UserHelper::escapeTrimInput($conn, $args["token"]);
-        $email = UserHelper::escapeAuthenticatedEmailOrNull($conn, $token);
-        $password = UserHelper::escapeTrimInput($conn, $args["password"]);
+        $token = UserHelper::escapeTrimInput($dbService, $args["token"]);
+        $email = UserHelper::escapeAuthenticatedEmailOrNull2($dbService, $token);
+        $password = UserHelper::escapeTrimInput($dbService, $args["password"]);
         $rememberMe = ($args["rememberme"] === "1");
 
         if (!UserHelper::checkPwFormat($password))
-            return UserHelper::sendErrorResponse(new Message(-1, 'error: invalid password format'), $conn);
+            return UserHelper::sendErrorResponse(new Message(-1, 'error: invalid password format'));
 
         if (!$email || !UserHelper::checkEmailFormat($email))
-            return UserHelper::sendErrorResponse(new Message(-2, 'error: invalid token'), $conn);
+            return UserHelper::sendErrorResponse(new Message(-2, 'error: invalid token'));
 
-        if (!self::isExistingEMail($conn, $email))
-            return UserHelper::sendErrorResponse(new Message(-2, 'error: email does not exists'), $conn);
+        if (!self::isExistingEMail($dbService, $email))
+            return UserHelper::sendErrorResponse(new Message(-2, 'error: email does not exists'));
 
-        self::updatePassword($conn, $email, $password);
+        self::updatePassword($dbService, $email, $password);
         $token = UserHelper::createToken($email, $rememberMe);
 
         return UserHelper::sendSuccessResponse($email, $token);
@@ -75,36 +72,31 @@ class UserForgotPw
 
 
     /**
-     * @param DbConnection $conn
+     * @param IDbService $dbService
      * @param string $email
      * @return bool
-     * @throws DbException
      */
-    private static function isExistingEMail(DbConnection $conn, string $email): bool
-    {
+    private static function isExistingEMail(IDbService $dbService, string $email): bool {
         $query = "SELECT id FROM users WHERE email='" . $email . "'";
-        $result = DbService::execSingleResultQuery($conn, $query, true, "error checking for existing email");
+        $result = $dbService->execSingleResultQuery($query, true, "error checking for existing email");
 
         return ($result->getNumRows() > 0);
     }
 
 
     /**
-     * @param DbConnection $conn
+     * @param IDbService $dbService
      * @param string $email
      * @param string $password
-     * @throws DbException
      */
-    private static function updatePassword(DbConnection $conn, string $email, string $password)
-    {
+    private static function updatePassword(IDbService $dbService, string $email, string $password) {
         $pw_hash = crypt($password);
         $query = "UPDATE users SET pw_hash='" . $pw_hash . "' WHERE email='" . $email . "'";
-        DbService::execCUDQuery($conn, $query, "error updating password");
+        $dbService->execCUDQuery($query, "error updating password");
     }
 
 
-    private static function sendPwRecoveryEmail(IMailService $mailService, string $email, string $token): bool
-    {
+    private static function sendPwRecoveryEmail(IMailService $mailService, string $email, string $token): bool {
         $resetPwUrl = NavplanHelper::NAVPLAN_BASE_URL . '/resetpw/' . $token;
         $subject = "Navplan.ch - Reset Password";
         $message = '
