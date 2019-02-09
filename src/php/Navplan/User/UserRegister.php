@@ -19,6 +19,8 @@ class UserRegister
      */
     public static function sendRegisterEmail(IDbService $dbService, array $args, IMailService $mailService): bool
     {
+        $dbService->openDb();
+
         $email = UserHelper::escapeTrimInput($dbService, $args["email"]);
 
         if (!UserHelper::checkEmailFormat($email))
@@ -30,6 +32,8 @@ class UserRegister
         // send activation email
         $token = UserHelper::createToken($email, false);
         self::sendActivationEmail($mailService, $email, $token);
+
+        $dbService->closeDb();
 
         return UserHelper::sendSuccessResponse($email, '');
     }
@@ -43,8 +47,10 @@ class UserRegister
      */
     public static function register(IDbService $dbService, array $args): bool
     {
+        $dbService->openDb();
+
         $token = UserHelper::escapeTrimInput($dbService, $args["token"]);
-        $email = UserHelper::escapeAuthenticatedEmailOrNull2($dbService, $token);
+        $email = UserHelper::escapeAuthenticatedEmailOrNull($dbService, $token);
         $password = UserHelper::escapeTrimInput($dbService, $args["password"]);
         $rememberMe = ($args["rememberme"] === "1");
 
@@ -60,6 +66,8 @@ class UserRegister
         // create new user & token
         self::createUser($dbService, $email, $password);
         $token = UserHelper::createToken($email, $rememberMe);
+
+        $dbService->closeDb();
 
         return UserHelper::sendSuccessResponse($email, $token);
     }

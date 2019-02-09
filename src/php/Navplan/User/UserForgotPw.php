@@ -18,6 +18,8 @@ class UserForgotPw {
      */
     public static function sendLostPwEmail(array $args, IMailService $mailService, IDbService $dbService): bool
     {
+        $dbService->openDb();
+
         if (!$args["email"])
             return UserHelper::sendErrorResponse(new Message(-1, 'error: email missing'));
 
@@ -33,6 +35,8 @@ class UserForgotPw {
         $token = UserHelper::createToken($email, false);
         self::sendPwRecoveryEmail($mailService, $email, $token);
 
+        $dbService->closeDb();
+
         return UserHelper::sendSuccessResponse($email, '');
     }
 
@@ -44,6 +48,8 @@ class UserForgotPw {
      * @throws DbException
      */
     public static function resetPassword(array $args, IDbService $dbService): bool {
+        $dbService->openDb();
+
         if (!$args["token"])
             return UserHelper::sendErrorResponse(new Message(-2, 'error: token missing'));
 
@@ -51,7 +57,7 @@ class UserForgotPw {
             return UserHelper::sendErrorResponse(new Message(-1, 'error: password missing'));
 
         $token = UserHelper::escapeTrimInput($dbService, $args["token"]);
-        $email = UserHelper::escapeAuthenticatedEmailOrNull2($dbService, $token);
+        $email = UserHelper::escapeAuthenticatedEmailOrNull($dbService, $token);
         $password = UserHelper::escapeTrimInput($dbService, $args["password"]);
         $rememberMe = ($args["rememberme"] === "1");
 
@@ -66,6 +72,8 @@ class UserForgotPw {
 
         self::updatePassword($dbService, $email, $password);
         $token = UserHelper::createToken($email, $rememberMe);
+
+        $dbService->closeDb();
 
         return UserHelper::sendSuccessResponse($email, $token);
     }

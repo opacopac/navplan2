@@ -5,7 +5,6 @@ namespace Navplan\User;
 use Exception;
 use InvalidArgumentException;
 use Navplan\Message;
-use Navplan\Shared\DbConnection;
 use Navplan\Shared\DbException;
 use Navplan\Shared\IDbService;
 use ReallySimpleJWT\Token;
@@ -78,8 +77,8 @@ class UserHelper {
     }
 
 
-    public static function escapeAuthenticatedEmailOrDie(DbConnection $conn, ?string $token): string {
-        $email = self::escapeAuthenticatedEmailOrNull($conn, $token);
+    public static function escapeAuthenticatedEmailOrDie(IDbService $dbService, ?string $token): string {
+        $email = self::escapeAuthenticatedEmailOrNull($dbService, $token);
         if (!$email)
             throw new InvalidArgumentException('ERROR: invalid token');
         else
@@ -87,28 +86,7 @@ class UserHelper {
     }
 
 
-    public static function escapeAuthenticatedEmailOrDie2(IDbService $dbService, ?string $token): string {
-        $email = self::escapeAuthenticatedEmailOrNull2($dbService, $token);
-        if (!$email)
-            throw new InvalidArgumentException('ERROR: invalid token');
-        else
-            return $email;
-    }
-
-
-    public static function escapeAuthenticatedEmailOrNull(DbConnection $conn, ?string $token): ?string {
-        if (!$token || !self::validateToken($token))
-            return NULL;
-
-        $email = self::getEmailFromToken($token);
-        if (!$email || $email === '')
-            return NULL;
-
-        return $conn->real_escape_string($email);
-    }
-
-
-    public static function escapeAuthenticatedEmailOrNull2(IDbService $dbService, ?string $token): ?string {
+    public static function escapeAuthenticatedEmailOrNull(IDbService $dbService, ?string $token): ?string {
         if (!$token || !self::validateToken($token))
             return NULL;
 

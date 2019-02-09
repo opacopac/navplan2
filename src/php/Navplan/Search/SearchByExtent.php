@@ -1,5 +1,6 @@
-<?php namespace Navplan\Search;
-require_once __DIR__ . "/../NavplanHelper.php";
+<?php declare(strict_types=1);
+
+namespace Navplan\Search;
 
 use Navplan\MapFeatures\SearchItemAirport;
 use Navplan\MapFeatures\SearchItemAirspace;
@@ -7,34 +8,28 @@ use Navplan\MapFeatures\SearchItemNavaid;
 use Navplan\MapFeatures\SearchItemReportingPoint;
 use Navplan\MapFeatures\SearchItemUserPoint;
 use Navplan\MapFeatures\SearchItemWebcam;
-use Navplan\Shared\DbConnection;
-use Navplan\Shared\DbException;
+use Navplan\Shared\IDbService;
 use Navplan\Shared\StringNumberService;
 use Navplan\User\UserHelper;
 
 
-class SearchByExtent
-{
+class SearchByExtent {
     const MAX_EXTENT_SEARCH_RESULTS = 9999;
     const MAX_EXTENT_SEARCH_RESULTS_PER_ENTITY = 100;
 
 
-    /**
-     * @param DbConnection $conn
-     * @param array $args
-     * @throws DbException
-     */
-    public static function searchByExtent(DbConnection $conn, array $args)
-    {
-        $searchItems = SearchHelper::checkEscapeSearchItems($conn, $args["searchItems"]);
-        $minLon = StringNumberService::checkNumeric($args["minlon"]);
-        $minLat = StringNumberService::checkNumeric($args["minlat"]);
-        $maxLon = StringNumberService::checkNumeric($args["maxlon"]);
-        $maxLat = StringNumberService::checkNumeric($args["maxlat"]);
-        $zoom = StringNumberService::checkNumeric($args["zoom"]);
-        $minNotamTimestamp = $args["minnotamtime"] ? StringNumberService::checkNumeric($args["minnotamtime"]) : 0;
-        $maxNotamTimestamp = $args["maxnotamtime"] ? StringNumberService::checkNumeric($args["maxnotamtime"]) : 0;
-        $email = UserHelper::escapeAuthenticatedEmailOrNull($conn, $args["token"]);
+    public static function searchByExtent(array $args, IDbService $dbService) {
+        $dbService->openDb();
+
+        $searchItems = SearchHelper::checkEscapeSearchItems($dbService, $args["searchItems"]);
+        $minLon = floatval(StringNumberService::checkNumeric($args["minlon"]));
+        $minLat = floatval(StringNumberService::checkNumeric($args["minlat"]));
+        $maxLon = floatval(StringNumberService::checkNumeric($args["maxlon"]));
+        $maxLat = floatval(StringNumberService::checkNumeric($args["maxlat"]));
+        $zoom = intval(StringNumberService::checkNumeric($args["zoom"]));
+        $minNotamTimestamp = $args["minnotamtime"] ? intval(StringNumberService::checkNumeric($args["minnotamtime"])) : 0;
+        $maxNotamTimestamp = $args["maxnotamtime"] ? intval(StringNumberService::checkNumeric($args["maxnotamtime"])) : 0;
+        $email = UserHelper::escapeAuthenticatedEmailOrNull($dbService, $args["token"]);
 
         $resultNum = 0;
         $airports = [];
@@ -51,31 +46,31 @@ class SearchByExtent
 
             switch ($searchItem) {
                 case SearchItem::AIRPORTS:
-                    $airports = SearchItemAirport::searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat, $zoom, $email);
+                    $airports = SearchItemAirport::searchByExtent($dbService, $minLon, $minLat, $maxLon, $maxLat, $zoom, $email);
                     $resultNum += count($airports);
                     break;
                 case SearchItem::NAVAIDS:
-                    $navaids = SearchItemNavaid::searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat, $zoom);
+                    $navaids = SearchItemNavaid::searchByExtent($dbService, $minLon, $minLat, $maxLon, $maxLat, $zoom);
                     $resultNum += count($navaids);
                     break;
                 case SearchItem::AIRSPACES:
-                    $airspaces = SearchItemAirspace::searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat, $zoom);
+                    $airspaces = SearchItemAirspace::searchByExtent($dbService, $minLon, $minLat, $maxLon, $maxLat, $zoom);
                     $resultNum += count($airspaces);
                     break;
                 case SearchItem::REPORTINGPOINTS:
-                    $reportingPoints = SearchItemReportingPoint::searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat);
+                    $reportingPoints = SearchItemReportingPoint::searchByExtent($dbService, $minLon, $minLat, $maxLon, $maxLat);
                     $resultNum += count($reportingPoints);
                     break;
                 case SearchItem::USERPOINTS:
-                    $userPoints = SearchItemUserPoint::searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat, $email);
+                    $userPoints = SearchItemUserPoint::searchByExtent($dbService, $minLon, $minLat, $maxLon, $maxLat, $email);
                     $resultNum += count($userPoints);
                     break;
                 case SearchItem::WEBCAMS:
-                    $webcams = SearchItemWebcam::searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat);
+                    $webcams = SearchItemWebcam::searchByExtent($dbService, $minLon, $minLat, $maxLon, $maxLat);
                     $resultNum += count($webcams);
                     break;
                 case SearchItem::NOTAMS:
-                    $notams = SearchItemNotam::searchByExtent($conn, $minLon, $minLat, $maxLon, $maxLat, $zoom, $minNotamTimestamp, $maxNotamTimestamp);
+                    $notams = SearchItemNotam::searchByExtent($dbService, $minLon, $minLat, $maxLon, $maxLat, $zoom, $minNotamTimestamp, $maxNotamTimestamp);
                     $resultNum += count($notams);
                     break;
             }
@@ -92,6 +87,8 @@ class SearchByExtent
             SearchItem::GEONAMES => [],
             SearchItem::NOTAMS => $notams
         ));
+
+        $dbService->closeDb();
     }
 
 

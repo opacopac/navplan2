@@ -124,20 +124,6 @@ class StringNumberService
     }
 
 
-    /***
-     * @param DbConnection $conn
-     * @param string $string
-     * @param int $minlen
-     * @param int $maxlen
-     * @return string
-     * @throws InvalidFormatException
-     */
-    public static function checkEscapeAlphaNumeric(DbConnection $conn, string $string, int $minlen, int $maxlen): string
-    {
-        return $conn->real_escape_string(self::checkAlphaNumeric($string, $minlen, $maxlen));
-    }
-
-
     /**
      * @param IDbService $dbService
      * @param string $string
@@ -146,27 +132,13 @@ class StringNumberService
      * @return string
      * @throws InvalidFormatException
      */
-    public static function checkEscapeAlphaNumeric2(IDbService $dbService, string $string, int $minlen, int $maxlen): string
+    public static function checkEscapeAlphaNumeric(IDbService $dbService, string $string, int $minlen, int $maxlen): string
     {
         return $dbService->escapeString((self::checkAlphaNumeric($string, $minlen, $maxlen)));
     }
 
 
 
-    /***
-     * @param DbConnection $conn
-     * @param string $string
-     * @param int $minlen
-     * @param int $maxlen
-     * @return string
-     * @throws InvalidFormatException
-     */
-    public static function checkEscapeString(DbConnection $conn, string $string, int $minlen, int $maxlen): string
-    {
-        return $conn->real_escape_string(self::checkString($string, $minlen, $maxlen));
-    }
-
-
     /**
      * @param IDbService $dbService
      * @param string $string
@@ -175,31 +147,19 @@ class StringNumberService
      * @return string
      * @throws InvalidFormatException
      */
-    public static function checkEscapeString2(IDbService $dbService, string $string, int $minlen, int $maxlen): string
+    public static function checkEscapeString(IDbService $dbService, string $string, int $minlen, int $maxlen): string
     {
         return $dbService->escapeString(self::checkString($string, $minlen, $maxlen));
     }
 
 
-    /***
-     * @param DbConnection $conn
-     * @param string $email
-     * @return string
-     * @throws InvalidFormatException
-     */
-    public static function checkEscapeEmail(DbConnection $conn, string $email): string
-    {
-        return $conn->real_escape_string(self::checkEmail($email));
-    }
-
-
     /**
      * @param IDbService $dbService
      * @param string $email
      * @return string
      * @throws InvalidFormatException
      */
-    public static function checkEscapeEmail2(IDbService $dbService, string $email): string
+    public static function checkEscapeEmail(IDbService $dbService, string $email): string
     {
         return $dbService->escapeString(self::checkEmail($email));
     }

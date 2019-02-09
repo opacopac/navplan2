@@ -1,33 +1,29 @@
-<?php namespace Navplan\Flightroute;
-require_once __DIR__ . "/../NavplanHelper.php";
+<?php declare(strict_types=1);
 
-use Navplan\Shared\DbConnection;
+namespace Navplan\Flightroute;
+
 use Navplan\Shared\DbException;
+use Navplan\Shared\IDbService;
 use Navplan\User\UserHelper;
 
 
-class FlightrouteUpdate
-{
-    /**
-     * @param DbConnection $conn
-     * @param array $args
-     * @throws DbException
-     */
-    public static function updateNavplan(DbConnection $conn, array $args)
-    {
-        $navplan = FlightrouteHelper::escapeNavplanData($conn, $args["globalData"]);
-        $email = UserHelper::escapeAuthenticatedEmailOrDie($conn, $_GET["token"]);
+class FlightrouteUpdate {
+    public static function updateNavplan(IDbService $dbService, array $args) {
+        $dbService->openDb();
+
+        $navplan = FlightrouteHelper::escapeNavplanData($dbService, $args["globalData"]);
+        $email = UserHelper::escapeAuthenticatedEmailOrDie($dbService, $_GET["token"]);
 
         // check if navplan exists
         $query = "SELECT nav.id FROM navplan AS nav";
         $query .= " INNER JOIN users AS usr ON nav.user_id = usr.id";
         $query .= " WHERE nav.id = '" . $navplan["id"] . "' AND usr.email = '" . $email . "'";
-        $result = $conn->query($query);
-        if ($result === FALSE)
-            throw new DbException("error reading navplan/user", $conn->getError(), $query);
 
-        if ($result->getNumRows() <= 0)
-            throw new DbException("no navplan with this id of current user found", $conn->getError(), $query);
+        $result = $dbService->execSingleResultQuery($query, true, "error reading navplan/user");
+
+        if ($result->getNumRows() <= 0) {
+            throw new DbException("no navplan with this id of current user found", "n/a", $query);
+        }
 
         // update navplan
         $query = "UPDATE navplan SET";
@@ -37,18 +33,17 @@ class FlightrouteUpdate
         $query .= " extra_fuel = '" . $navplan["extra_fuel"] . "',";
         $query .= " comments = '" . $navplan["comments"] . "' ";
         $query .= " WHERE id = '" . $navplan["id"] . "'";
-        $result = $conn->query($query);
-        if ($result === FALSE)
-            throw new DbException("error updating navplan", $conn->getError(), $query);
+
+        $dbService->execCUDQuery($query, "error updating navplan");
 
         // update waypoints
         $query = "DELETE FROM navplan_waypoints WHERE navplan_id = '" . $navplan["id"] . "'";
-        $result = $conn->query($query);
-        if ($result === FALSE)
-            throw new DbException("error deleting waypoints from navplan", $conn->getError(), $query);
+        $dbService->execCUDQuery($query, "error deleting waypoints from navplan");
 
-        FlightrouteCreate::createWaypoints($conn, $navplan["waypoints"], $navplan["alternate"], $navplan["id"]);
+        FlightrouteCreate::createWaypoints($dbService, $navplan["waypoints"], $navplan["alternate"], $navplan["id"]);
 
         echo json_encode(array("success" => 1), JSON_NUMERIC_CHECK);
+
+        $dbService->closeDb();
     }
 }

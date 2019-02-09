@@ -97,11 +97,11 @@ class UserHelperTest extends TestCase {
         $token1 = UserHelper::createToken($email, FALSE);
         $token2 = "xxx.yyy.zzz";
 
-        $result1 = UserHelper::escapeAuthenticatedEmailOrDie2($this->getDbService(), $token1);
+        $result1 = UserHelper::escapeAuthenticatedEmailOrDie($this->getDbService(), $token1);
         $this->assertEquals($result1, "test@navplan\\'s.ch");
 
         $this->expectException(InvalidArgumentException::class);
-        UserHelper::escapeAuthenticatedEmailOrDie2($this->getDbService(), $token2);
+        UserHelper::escapeAuthenticatedEmailOrDie($this->getDbService(), $token2);
     }
 
 
@@ -109,8 +109,8 @@ class UserHelperTest extends TestCase {
         $email = "test@navplan's.ch";
         $token1 = UserHelper::createToken($email, FALSE);
         $token2 = "xxx.yyy.zzz";
-        $result1 = UserHelper::escapeAuthenticatedEmailOrDie2($this->getDbService(), $token1);
-        $result2 = UserHelper::escapeAuthenticatedEmailOrDie2($this->getDbService(), $token2);
+        $result1 = UserHelper::escapeAuthenticatedEmailOrDie($this->getDbService(), $token1);
+        $result2 = UserHelper::escapeAuthenticatedEmailOrDie($this->getDbService(), $token2);
 
         $this->assertEquals($result1, "test@navplan\\'s.ch");
         $this->assertEquals($result2, NULL);

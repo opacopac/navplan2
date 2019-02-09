@@ -2,9 +2,9 @@
 
 namespace Navplan\MapFeatures;
 
-use InvalidArgumentException;
-
 include_once __DIR__ . "/../NavplanHelper.php";
+
+use InvalidArgumentException;
 
 
 class MapFeaturesHelper

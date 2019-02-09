@@ -111,7 +111,7 @@ class UserForgotPwTest extends TestCase {
         UserForgotPw::resetPassword($args, $this->getDbService());
         $output = $this->getActualOutput();
         preg_match('/"token":"(.+)"/', $output, $matches);
-        $tokenEmail = UserHelper::escapeAuthenticatedEmailOrNull2($this->getDbService(), $matches[1]);
+        $tokenEmail = UserHelper::escapeAuthenticatedEmailOrNull($this->getDbService(), $matches[1]);
         $this->assertEquals($email, $tokenEmail);
         $this->expectOutputRegex('/(.*)"resultcode":0/');
     }

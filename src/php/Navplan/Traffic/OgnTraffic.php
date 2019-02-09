@@ -161,7 +161,7 @@ class OgnTraffic
 
         foreach ($acList as $ac)
         {
-            $icaohex = StringNumberService::checkEscapeString2($dbService, strtoupper(strval($ac["id"])), 1, 6);
+            $icaohex = StringNumberService::checkEscapeString($dbService, strtoupper(strval($ac["id"])), 1, 6);
             array_push($icaoList, $icaohex);
         }
 

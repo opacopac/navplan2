@@ -3,7 +3,6 @@
 namespace Navplan\User;
 
 require_once __DIR__ . "/../NavplanBootstrap.php";
-require_once __DIR__ . "/../NavplanHelper.php";
 
 use Navplan\NavplanBootstrap;
 

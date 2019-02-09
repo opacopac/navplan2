@@ -6,5 +6,5 @@ namespace Navplan\Shared;
 interface IDbResult {
     public function getNumRows(): int;
 
-    public function fetch_assoc(): array;
+    public function fetch_assoc(): ?array;
 }

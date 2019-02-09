@@ -34,7 +34,7 @@ class DbResultMock implements IDbResult
     }
 
 
-    public function fetch_assoc(): array {
+    public function fetch_assoc(): ?array {
         return array_shift($this->mockResultList);
     }
 }

@@ -57,10 +57,12 @@ class MySqlDbResultTest extends TestCase {
         $dbResult = new MySqlDbResult($result);
         $row1 = $dbResult->fetch_assoc();
         $row2 = $dbResult->fetch_assoc();
+        $row3 = $dbResult->fetch_assoc();
 
         $this->assertEquals($row1['col1'], 3);
         $this->assertEquals($row1['col2'], 4);
         $this->assertEquals($row2['col1'], 5);
         $this->assertEquals($row2['col2'], 6);
+        $this->assertNull($row3);
     }
 }

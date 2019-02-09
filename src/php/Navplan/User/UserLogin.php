@@ -16,14 +16,18 @@ class UserLogin
      */
     public static function autoLogin(array $args, IDbService $dbService): bool
     {
+        $dbService->openDb();
+
         if (!$args["token"])
             return UserHelper::sendErrorResponse(new Message(-1, 'error: token is missing'));
 
         $token = UserHelper::escapeTrimInput($dbService, $args["token"]);
-        $email = UserHelper::escapeAuthenticatedEmailOrNull2($dbService, $token);
+        $email = UserHelper::escapeAuthenticatedEmailOrNull($dbService, $token);
 
         if (!$email)
             return UserHelper::sendErrorResponse(new Message(-1, 'error: invalid token'));
+
+        $dbService->closeDb();
 
         return UserHelper::sendSuccessResponse($email, $token);
     }
@@ -37,6 +41,8 @@ class UserLogin
      */
     public static function login(array $args, IDbService $dbService): bool
     {
+        $dbService->openDb();
+
         if (!$args["email"])
             return UserHelper::sendErrorResponse(new Message(-1, 'error: email missing'));
 
@@ -55,6 +61,8 @@ class UserLogin
 
         // create new token
         $token = UserHelper::createToken($email, $rememberMe);
+
+        $dbService->closeDb();
 
         return UserHelper::sendSuccessResponse($email, $token);
     }

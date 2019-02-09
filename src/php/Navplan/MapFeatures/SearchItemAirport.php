@@ -4,31 +4,16 @@ namespace Navplan\MapFeatures;
 
 use BadMethodCallException;
 use Navplan\NavplanHelper;
-use Navplan\Shared\DbConnection;
 use Navplan\Shared\DbHelper;
-use Navplan\Shared\MySqlDbResult;
-use Navplan\Shared\DbService;
-use Navplan\Shared\DbException;
-
-include_once __DIR__ . "/../NavplanHelper.php";
+use Navplan\Shared\IDbResult;
+use Navplan\Shared\IDbService;
 
 
 class SearchItemAirport {
     const MIN_PIXEL_DISTANCE_BETWEEN_ITEMS = 200;  // TODO
 
 
-    /**
-     * @param DbConnection $conn
-     * @param float $minLon
-     * @param float $minLat
-     * @param float $maxLon
-     * @param float $maxLat
-     * @param int $zoom
-     * @param string|NULL $email
-     * @return array
-     * @throws DbException
-     */
-    public static function searchByExtent(DbConnection $conn, float $minLon, float $minLat, float $maxLon, float $maxLat, int $zoom, string $email = NULL): array {
+    public static function searchByExtent(IDbService $dbService, float $minLon, float $minLat, float $maxLon, float $maxLat, int $zoom, string $email = NULL): array {
         $extent = DbHelper::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
         $query  = "SELECT *";
         $query .= " FROM openaip_airports2";
@@ -37,25 +22,15 @@ class SearchItemAirport {
         $query .= "    AND";
         $query .= "  zoommin <= " . $zoom;
 
-        $result = DbService::execMultiResultQuery($conn, $query, "error searching airports by extent");
+        $result = $dbService->execMultiResultQuery($query, "error searching airports by extent");
         $airports = self::readAirportFromResultList($result);
-        self::loadAirportSubItems($conn, $airports, $email);
+        self::loadAirportSubItems($dbService, $airports, $email);
 
         return $airports;
     }
 
 
-    /**
-     * @param DbConnection $conn
-     * @param float $lon
-     * @param float $lat
-     * @param float $maxRadius_deg
-     * @param int $maxResults
-     * @param null|string $email
-     * @return array
-     * @throws DbException
-     */
-    public static function searchByPosition(DbConnection $conn, float $lon, float $lat, float $maxRadius_deg, int $maxResults, ?string $email = NULL): array {
+    public static function searchByPosition(IDbService $dbService, float $lon, float $lat, float $maxRadius_deg, int $maxResults, ?string $email = NULL): array {
         $query  = "SELECT *";
         $query .= " FROM openaip_airports2";
         $query .= " WHERE";
@@ -67,23 +42,15 @@ class SearchItemAirport {
         $query .= "  ((latitude - " . $lat . ") * (latitude - " . $lat . ") + (longitude - " . $lon . ") * (longitude - " . $lon . ")) ASC";
         $query .= " LIMIT " . $maxResults;
 
-        $result = DbService::execMultiResultQuery($conn, $query, "error searching airports by position");
+        $result = $dbService->execMultiResultQuery($query, "error searching airports by position");
         $airports = self::readAirportFromResultList($result);
-        self::loadAirportSubItems($conn, $airports, $email);
+        self::loadAirportSubItems($dbService, $airports, $email);
 
         return $airports;
     }
 
 
-    /**
-     * @param DbConnection $conn
-     * @param string $searchText
-     * @param int $maxResults
-     * @param null|string $email
-     * @return array
-     * @throws DbException
-     */
-    public static function searchByText(DbConnection $conn, string $searchText, int $maxResults, ?string $email = NULL): array {
+    public static function searchByText(IDbService $dbService, string $searchText, int $maxResults, ?string $email = NULL): array {
         $query = "SELECT *";
         $query .= " FROM openaip_airports2";
         $query .= " WHERE";
@@ -100,26 +67,20 @@ class SearchItemAirport {
         $query .= "   icao ASC";
         $query .= " LIMIT " . $maxResults;
 
-        $result = DbService::execMultiResultQuery($conn, $query, "error searching airports by text");
+        $result = $dbService->execMultiResultQuery($query, "error searching airports by text");
         $airports = self::readAirportFromResultList($result);
-        self::loadAirportSubItems($conn, $airports, $email);
+        self::loadAirportSubItems($dbService, $airports, $email);
 
         return $airports;
     }
 
 
-    public static function searchByIcao(DbConnection $conn, $icaoList): array {
+    public static function searchByIcao(IDbService $dbService, $icaoList): array {
         throw new BadMethodCallException("not implemented!");
     }
 
 
-    /**
-     * @param DbConnection $conn
-     * @param $airports
-     * @param null|string $email
-     * @throws DbException
-     */
-    private static function loadAirportSubItems(DbConnection $conn, &$airports, ?string $email) {
+    private static function loadAirportSubItems(IDbService $dbService, &$airports, ?string $email) {
         if (count($airports) == 0)
             return;
 
@@ -133,29 +94,23 @@ class SearchItemAirport {
         $apIdList = join(",", $apIds);
         $apIcaoList = "'" . join("','", $apIcaos) . "'";
 
-        self::loadAirportRunways($conn, $airports, $apIdList);
-        self::loadAirportRadios($conn, $airports, $apIdList);
-        self::loadAirportChars($conn, $airports, $apIcaoList, $email);
-        self::loadAirportWebcams($conn, $airports, $apIcaoList);
-        self::loadAirportFeatures($conn, $airports, $apIcaoList);
+        self::loadAirportRunways($dbService, $airports, $apIdList);
+        self::loadAirportRadios($dbService, $airports, $apIdList);
+        self::loadAirportChars($dbService, $airports, $apIcaoList, $email);
+        self::loadAirportWebcams($dbService, $airports, $apIcaoList);
+        self::loadAirportFeatures($dbService, $airports, $apIcaoList);
     }
 
 
-    /**
-     * @param DbConnection $conn
-     * @param $airports
-     * @param string $apIdList
-     * @throws DbException
-     */
-    private static function loadAirportRunways(DbConnection $conn, &$airports, string $apIdList) {
+    private static function loadAirportRunways(IDbService $dbService, &$airports, string $apIdList) {
         $query  = "SELECT *";
         $query .= " FROM openaip_runways2";
         $query .= " WHERE operations = 'ACTIVE' AND airport_id IN (" . $apIdList . ")";
         $query .= " ORDER BY length DESC, surface ASC, id ASC";
 
-        $result = DbService::execMultiResultQuery($conn, $query, "error reading runways");
+        $result = $dbService->execMultiResultQuery($query, "error reading runways");
 
-        while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
+        while ($rs = $result->fetch_assoc()) {
             foreach ($airports as &$ap) {
                 if ($ap["id"] == $rs["airport_id"]) {
                     $ap["runways"][] = self::readAirportRunwayFromResult($rs);
@@ -166,13 +121,7 @@ class SearchItemAirport {
     }
 
 
-    /**
-     * @param DbConnection $conn
-     * @param $airports
-     * @param string $apIdList
-     * @throws DbException
-     */
-    private static function loadAirportRadios(DbConnection $conn, &$airports, string $apIdList) {
+    private static function loadAirportRadios(IDbService $dbService, &$airports, string $apIdList) {
         $query  = "SELECT *,";
         $query .= "  (CASE WHEN category = 'COMMUNICATION' THEN 1 WHEN category = 'OTHER' THEN 2 WHEN category = 'INFORMATION' THEN 3 ELSE 4 END) AS sortorder1,";
         $query .= "  (CASE WHEN type = 'TOWER' THEN 1 WHEN type = 'CTAF' THEN 2 WHEN type = 'OTHER' THEN 3 ELSE 4 END) AS sortorder2";
@@ -183,9 +132,9 @@ class SearchItemAirport {
         $query .= "   sortorder2 ASC,";
         $query .= "   frequency ASC";
 
-        $result = DbService::execMultiResultQuery($conn, $query, "error reading radios");
+        $result = $dbService->execMultiResultQuery($query, "error reading radios");
 
-        while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
+        while ($rs = $result->fetch_assoc()) {
             foreach ($airports as &$ap) {
                 if ($ap["id"] == $rs["airport_id"]) {
                     $ap["radios"][] = self::readAirportRadioFromResult($rs);
@@ -196,14 +145,7 @@ class SearchItemAirport {
     }
 
 
-    /**
-     * @param DbConnection $conn
-     * @param $airports
-     * @param string $apIcaoList
-     * @param null|string $email
-     * @throws DbException
-     */
-    private static function loadAirportChars(DbConnection $conn, &$airports, string $apIcaoList, ?string $email) {
+    private static function loadAirportChars(IDbService $dbService, &$airports, string $apIcaoList, ?string $email) {
         $query = "SELECT *,";
         $query .= "  (CASE WHEN type LIKE 'AREA%' THEN 1 WHEN type LIKE 'VAC%' THEN 2 WHEN type LIKE 'AD INFO%' THEN 3 ELSE 4 END) AS sortorder1";
         $query .= " FROM ad_charts ";
@@ -218,9 +160,9 @@ class SearchItemAirport {
         $query .= "   sortorder1 ASC,";
         $query .= "   type ASC";
 
-        $result = DbService::execMultiResultQuery($conn, $query, "error reading charts");
+        $result = $dbService->execMultiResultQuery($query, "error reading charts");
 
-        while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
+        while ($rs = $result->fetch_assoc()) {
             foreach ($airports as &$ap) {
                 if ($ap["icao"] == $rs["airport_icao"]) {
                     $ap["charts"][] = self::readAirportChartFromResult($rs);
@@ -231,22 +173,16 @@ class SearchItemAirport {
     }
 
 
-    /**
-     * @param DbConnection $conn
-     * @param $airports
-     * @param string $apIcaoList
-     * @throws DbException
-     */
-    private static function loadAirportWebcams(DbConnection $conn, &$airports, string $apIcaoList) {
+    private static function loadAirportWebcams(IDbService $dbService, &$airports, string $apIcaoList) {
         $query  = "SELECT *";
         $query .= " FROM webcams";
         $query .= " WHERE airport_icao IN (" .  $apIcaoList . ")";
         $query .= " ORDER BY";
         $query .= "   name ASC";
 
-        $result = DbService::execMultiResultQuery($conn, $query, "error reading webcams");
+        $result = $dbService->execMultiResultQuery($query, "error reading webcams");
 
-        while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
+        while ($rs = $result->fetch_assoc()) {
             foreach ($airports as &$ap) {
                 if ($ap["icao"] == $rs["airport_icao"]) {
                     $ap["webcams"][] = self::readAirportWebcamFromResult($rs);
@@ -257,13 +193,7 @@ class SearchItemAirport {
     }
 
 
-    /**
-     * @param DbConnection $conn
-     * @param $airports
-     * @param string $apIcaoList
-     * @throws DbException
-     */
-    private static function loadAirportFeatures(DbConnection $conn, &$airports, string $apIcaoList) {
+    private static function loadAirportFeatures(IDbService $dbService, &$airports, string $apIcaoList) {
         $query  = "SELECT *";
         $query .= " FROM map_features";
         $query .= " WHERE airport_icao IN (" .  $apIcaoList . ")";
@@ -271,9 +201,9 @@ class SearchItemAirport {
         $query .= "   type ASC,";
         $query .= "   name ASC";
 
-        $result = DbService::execMultiResultQuery($conn, $query, "error reading map features");
+        $result = $dbService->execMultiResultQuery($query, "error reading map features");
 
-        while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
+        while ($rs = $result->fetch_assoc()) {
             foreach ($airports as &$ap) {
                 if ($ap["icao"] == $rs["airport_icao"]) {
                     $ap["mapfeatures"][] = self::readAirportFeatureFromResult($rs);
@@ -284,10 +214,10 @@ class SearchItemAirport {
     }
 
 
-    private static function readAirportFromResultList(MySqlDbResult $result): array {
+    private static function readAirportFromResultList(IDbResult $result): array {
         $airports = [];
 
-        while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
+        while ($rs = $result->fetch_assoc()) {
             $airports[] = self::readAirportFromResult($rs);
         }
 

@@ -1,19 +1,19 @@
-<?php namespace Navplan\Search;
-require_once __DIR__ . "/../NavplanHelper.php";
+<?php declare(strict_types=1);
+
+namespace Navplan\Search;
 
 use Navplan\MapFeatures\SearchItemAirport;
 use Navplan\MapFeatures\SearchItemReportingPoint;
-use Navplan\MapFeatures\SearchItemWebcam;
-use Navplan\Shared\DbConnection;
+use Navplan\Shared\IDbService;
 use Navplan\Shared\StringNumberService;
 
 
-class SearchByIcao
-{
-    public static function searchByIcao(DbConnection $conn, array $args)
-    {
-        $searchItems = SearchHelper::checkEscapeSearchItems($conn, $args["searchItems"]);
-        $icaoList = SearchHelper::checkEscapeIcaoList($conn, $args["icao"]);
+class SearchByIcao {
+    public static function searchByIcao(array $args, IDbService $dbService) {
+        $dbService->openDb();
+
+        $searchItems = SearchHelper::checkEscapeSearchItems($dbService, $args["searchItems"]);
+        $icaoList = SearchHelper::checkEscapeIcaoList($dbService, $args["icao"]);
         $minNotamTimestamp = $args["minnotamtime"] ? StringNumberService::checkNumeric($args["minnotamtime"]) : 0;
         $maxNotamTimestamp = $args["maxnotamtime"] ? StringNumberService::checkNumeric($args["maxnotamtime"]) : 0;
 
@@ -25,23 +25,21 @@ class SearchByIcao
         foreach ($searchItems as $searchItem) {
             switch ($searchItem) {
                 case SearchItem::AIRPORTS:
-                    $airports = SearchItemAirport::searchByIcao($conn, $icaoList);
+                    $airports = SearchItemAirport::searchByIcao($dbService, $icaoList);
                     break;
                 case SearchItem::REPORTINGPOINTS:
-                    $reportingPoints = SearchItemReportingPoint::searchByIcao($conn, $icaoList);
+                    $reportingPoints = SearchItemReportingPoint::searchByIcao($dbService, $icaoList);
                     break;
-                case SearchItem::WEBCAMS:
-                    $webcams = SearchItemWebcam::searchByIcao($conn, $icaoList);
-                    break;
+                /*case SearchItem::WEBCAMS:
+                    $webcams = SearchItemWebcam::searchByIcao($dbService, $icaoList);
+                    break;*/
                 case SearchItem::NOTAMS:
-                    $notams = SearchItemNotam::searchByIcao($conn, $icaoList, $minNotamTimestamp, $maxNotamTimestamp);
+                    $notams = SearchItemNotam::searchByIcao($dbService, $icaoList, $minNotamTimestamp, $maxNotamTimestamp);
                     break;
             }
         }
 
-
-        // return output
-        return array(
+        SearchHelper::sendSearchResultResponse(array(
             SearchItem::AIRPORTS => $airports,
             SearchItem::NAVAIDS => [],
             SearchItem::AIRSPACES => [],
@@ -50,6 +48,8 @@ class SearchByIcao
             SearchItem::WEBCAMS => $webcams,
             SearchItem::GEONAMES => [],
             SearchItem::NOTAMS => $notams
-        );
+        ));
+        
+        $dbService->closeDb();
     }
 }

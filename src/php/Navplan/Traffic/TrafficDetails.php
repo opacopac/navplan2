@@ -14,6 +14,8 @@ class TrafficDetails {
      * @throws InvalidFormatException
      */
     public static function getDetails(array $args, IDbService $dbService) {
+        $dbService->openDb();
+
         $response = [];
         foreach ($args as $ac) {
             self::parseCheckInput($ac);
@@ -21,6 +23,8 @@ class TrafficDetails {
 
         $callback = $args["callback"] ? StringNumberService::checkString($args["callback"], 1, 50) : NULL;
         self::sendResponse($response, $callback);
+
+        $dbService->closeDb();
     }
 
 

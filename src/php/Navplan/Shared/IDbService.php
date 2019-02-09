@@ -19,4 +19,6 @@ interface IDbService {
     public function execMultiResultQuery(string $query, string $errorMessage): IDbResult;
 
     public function execCUDQuery(string $query, string $errorMessage): bool;
+
+    public function getInsertId(): int;
 }

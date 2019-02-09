@@ -60,4 +60,8 @@ class DbServiceMock implements IDbService {
         $this->lastQuery = $query;
         return true;
     }
+
+    public function getInsertId(): int {
+        return 12345;
+    }
 }

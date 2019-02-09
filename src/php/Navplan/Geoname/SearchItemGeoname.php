@@ -1,16 +1,16 @@
-<?php namespace Navplan\Geoname;
-include_once __DIR__ . "/../NavplanHelper.php";
+<?php declare(strict_types=1);
+
+namespace Navplan\Geoname;
+
 require_once __DIR__ . "/../../terrainHelper.php"; // TODO
 
-use Navplan\Shared\DbConnection;
-use Navplan\Shared\MySqlDbResult;
-use Navplan\Shared\DbService;
+use Navplan\Shared\IDbResult;
+use Navplan\Shared\IDbService;
 use TerrainHelper;
 
 
-class SearchItemGeoname
-{
-    public static function searchByPosition(DbConnection $conn, float $lon, float $lat, float $maxRadius_deg, int $maxResults) {
+class SearchItemGeoname {
+    public static function searchByPosition(IDbService $dbService, float $lon, float $lat, float $maxRadius_deg, int $maxResults) {
         $query = "SELECT geo.*,";
         $query .= "  cod1.name AS admin1_name,";
         $query .= "  cod2.name AS admin2_name";
@@ -29,14 +29,14 @@ class SearchItemGeoname
         $query .= "  ((latitude - " . $lat . ") * (latitude - " . $lat . ") + (longitude - " . $lon . ") * (longitude - " . $lon . ")) ASC";
         $query .= " LIMIT " . $maxResults;
 
-        $result = DbService::execMultiResultQuery($conn, $query, "error searching geonames by position");
+        $result = $dbService->execMultiResultQuery($query, "error searching geonames by position");
         $terrainHelper = new TerrainHelper();
 
         return self::readGeonamesFromResultList($result, $terrainHelper, true, null);
     }
 
 
-    public static function searchByText(DbConnection $conn, string $searchText, int $maxResults) {
+    public static function searchByText(IDbService $dbService, string $searchText, int $maxResults) {
         $query = "SELECT geo.*,";
         $query .= "  cod1.name AS admin1_name,";
         $query .= "  cod2.name AS admin2_name";
@@ -51,7 +51,7 @@ class SearchItemGeoname
         $query .= " ORDER BY CASE WHEN geo.country_code = 'CH' THEN 1 ELSE 2 END ASC, geo.population DESC";
         $query .= " LIMIT " . $maxResults;
 
-        $result = DbService::execMultiResultQuery($conn, $query, "error searching geonames by text");
+        $result = $dbService->execMultiResultQuery($query, "error searching geonames by text");
         $terrainHelper = new TerrainHelper();
 
         return self::readGeonamesFromResultList($result, $terrainHelper, true, null);
@@ -75,10 +75,10 @@ class SearchItemGeoname
     }
 
 
-    private static function readGeonamesFromResultList(MySqlDbResult $result, TerrainHelper $terrainHelper, bool $renameDuplicates, array $lonLat) {
+    private static function readGeonamesFromResultList(IDbResult $result, TerrainHelper $terrainHelper, bool $renameDuplicates, array $lonLat) {
         $geonames = [];
 
-        while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
+        while ($rs = $result->fetch_assoc()) {
             $geonames[] = self::readGeonameFromResult($rs, $terrainHelper);
         }
 

@@ -3,45 +3,23 @@
 namespace Navplan\MapFeatures;
 
 use BadMethodCallException;
-use Navplan\Shared\DbConnection;
 use Navplan\Shared\DbHelper;
-use Navplan\Shared\MySqlDbResult;
-use Navplan\Shared\DbService;
-use Navplan\Shared\DbException;
-
-include_once __DIR__ . "/../NavplanHelper.php";
+use Navplan\Shared\IDbResult;
+use Navplan\Shared\IDbService;
 
 
 class SearchItemReportingPoint {
-    /**
-     * @param DbConnection $conn
-     * @param float $minLon
-     * @param float $minLat
-     * @param float $maxLon
-     * @param float $maxLat
-     * @return array
-     * @throws DbException
-     */
-    public static function searchByExtent(DbConnection $conn, float $minLon, float $minLat, float $maxLon, float $maxLat) {
+    public static function searchByExtent(IDbService $dbService, float $minLon, float $minLat, float $maxLon, float $maxLat) {
         $extent = DbHelper::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
         $query = "SELECT * FROM reporting_points WHERE MBRIntersects(extent, " . $extent . ")";
 
-        $result = DbService::execMultiResultQuery($conn, $query, "error reading reporting points by extent");
+        $result = $dbService->execMultiResultQuery($query, "error reading reporting points by extent");
 
         return self::readReportingPointFromResultList($result);
     }
 
 
-    /**
-     * @param DbConnection $conn
-     * @param float $lon
-     * @param float $lat
-     * @param float $maxRadius_deg
-     * @param int $maxResults
-     * @return array
-     * @throws DbException
-     */
-    public static function searchByPosition(DbConnection $conn, float $lon, float $lat, float $maxRadius_deg, int $maxResults) {
+    public static function searchByPosition(IDbService $dbService, float $lon, float $lat, float $maxRadius_deg, int $maxResults) {
         $query = "SELECT *";
         $query .= " FROM reporting_points";
         $query .= " WHERE";
@@ -53,40 +31,33 @@ class SearchItemReportingPoint {
         $query .= "  ((latitude - " . $lat . ") * (latitude - " . $lat . ") + (longitude - " . $lon . ") * (longitude - " . $lon . ")) ASC";
         $query .= " LIMIT " . $maxResults;
 
-        $result = DbService::execMultiResultQuery($conn, $query,"error searching reporting points by position");
+        $result = $dbService->execMultiResultQuery($query,"error searching reporting points by position");
 
         return self::readReportingPointFromResultList($result);
     }
 
 
-    /**
-     * @param DbConnection $conn
-     * @param string $searchText
-     * @param int $maxResults
-     * @return array
-     * @throws DbException
-     */
-    public static function searchByText(DbConnection $conn, string $searchText, int $maxResults) {
+    public static function searchByText(IDbService $dbService, string $searchText, int $maxResults) {
         $query = "SELECT * FROM reporting_points";
         $query .= " WHERE";
         $query .= "   airport_icao LIKE '" . $searchText . "%'";
         $query .= " ORDER BY airport_icao ASC, name ASC";
         $query .= " LIMIT " . $maxResults;
 
-        $result = DbService::execMultiResultQuery($conn, $query, "error searching reporting points by text");
+        $result = $dbService->execMultiResultQuery($query, "error searching reporting points by text");
 
         return self::readReportingPointFromResultList($result);
     }
 
 
-    public static function searchByIcao(DbConnection $conn, $icaoList): array {
+    public static function searchByIcao(IDbService $dbService, $icaoList): array {
         throw new BadMethodCallException("not implemented!");
     }
 
 
-    private static function readReportingPointFromResultList(MySqlDbResult $result): array {
+    private static function readReportingPointFromResultList(IDbResult $result): array {
         $reportingPoint = [];
-        while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
+        while ($rs = $result->fetch_assoc()) {
             $reportingPoint[] = self::readReportingPointFromResult($rs);
         }
 

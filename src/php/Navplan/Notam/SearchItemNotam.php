@@ -3,13 +3,9 @@
 namespace Navplan\Search;
 
 use BadMethodCallException;
-use Navplan\Shared\DbConnection;
 use Navplan\Shared\DbHelper;
-use Navplan\Shared\MySqlDbResult;
-use Navplan\Shared\DbService;
-use Navplan\Shared\DbException;
-
-include_once __DIR__ . "/../NavplanHelper.php";
+use Navplan\Shared\IDbResult;
+use Navplan\Shared\IDbService;
 
 
 class SearchItemNotam {
@@ -18,7 +14,7 @@ class SearchItemNotam {
     const MIN_PIXEL_COORDINATE_RESOLUTION = 2;  // TODO
 
 
-    public static function searchByExtent(DbConnection $conn, float $minLon, float $minLat, float $maxLon, float $maxLat, int $zoom, int $minNotamTimestamp, int $maxNotamTimestamp): array {
+    public static function searchByExtent(IDbService $dbService, float $minLon, float $minLat, float $maxLon, float $maxLat, int $zoom, int $minNotamTimestamp, int $maxNotamTimestamp): array {
         throw new BadMethodCallException("not implemented");
 
         /*$extent = DbService::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
@@ -49,17 +45,7 @@ class SearchItemNotam {
     }
 
 
-    /**
-     * @param DbConnection $conn
-     * @param float $lat
-     * @param float $lon
-     * @param int $minNotamTimestamp
-     * @param int $maxNotamTimestamp
-     * @param int $maxResults
-     * @return array
-     * @throws DbException
-     */
-    public static function searchByPosition(DbConnection $conn, float $lat, float $lon, int $minNotamTimestamp, int $maxNotamTimestamp, int $maxResults) {
+    public static function searchByPosition(IDbService $dbService, float $lat, float $lon, int $minNotamTimestamp, int $maxNotamTimestamp, int $maxResults) {
         $query = "SELECT ntm.notam AS notam"
             . "   FROM icao_notam AS ntm"
             . "    INNER JOIN icao_notam_geometry geo ON geo.icao_notam_id = ntm.id "
@@ -72,21 +58,13 @@ class SearchItemNotam {
             . "   ORDER BY ntm.startdate DESC"
             . "   LIMIT " . $maxResults;
 
-        $result = DbService::execMultiResultQuery($conn, $query, "error searching notams");
+        $result = $dbService->execMultiResultQuery($query, "error searching notams");
 
         return self::readNotamFromResultList($result);
     }
 
 
-    /**
-     * @param DbConnection $conn
-     * @param array $icaoList
-     * @param int $minNotamTimestamp
-     * @param int $maxNotamTimestamp
-     * @return array
-     * @throws DbException
-     */
-    public static function searchByIcao(DbConnection $conn, array $icaoList, int $minNotamTimestamp, int $maxNotamTimestamp) {
+    public static function searchByIcao(IDbService $dbService, array $icaoList, int $minNotamTimestamp, int $maxNotamTimestamp) {
         $query = "SELECT ntm.notam AS notam"
             . "   FROM icao_notam AS ntm"
             . "    INNER JOIN icao_notam_geometry2 geo ON geo.icao_notam_id = ntm.id"
@@ -96,18 +74,18 @@ class SearchItemNotam {
             . "    AND ntm.enddate >= '" . DbHelper::getDbTimeString($minNotamTimestamp) . "'"
             . "   ORDER BY ntm.startdate DESC";
 
-        $result = DbService::execMultiResultQuery($conn, $query, "error searching notams");
+        $result = $dbService->execMultiResultQuery($query, "error searching notams");
 
         return self::readNotamFromResultList($result);
     }
 
 
-    public static function searchByReference(DbConnection $conn, $ref) {
+    public static function searchByReference(IDbService $dbService, $ref) {
         throw new BadMethodCallException("not implemented");
     }
 
 
-    public static function searchByText(DbConnection $conn, string $searchText, int $maxResults) {
+    public static function searchByText(IDbService $dbService, string $searchText, int $maxResults) {
         throw new BadMethodCallException("not implemented");
     }
 
@@ -155,9 +133,9 @@ class SearchItemNotam {
     }*/
 
 
-    private static function readNotamFromResultList(MySqlDbResult $result): array {
+    private static function readNotamFromResultList(IDbResult $result): array {
         $notams = [];
-        while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
+        while ($rs = $result->fetch_assoc()) {
             $notam = self::readNotamFromResult($rs);
 
             // filter by max FL195

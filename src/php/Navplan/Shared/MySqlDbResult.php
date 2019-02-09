@@ -9,17 +9,22 @@ class MySqlDbResult implements IDbResult {
     private $result;
 
 
+    private function getResult(): mysqli_result {
+        return $this->result;
+    }
+
+
     public function __construct(mysqli_result $result) {
         $this->result = $result;
     }
 
 
     public function getNumRows(): int {
-        return $this->result->num_rows;
+        return $this->getResult()->num_rows;
     }
 
 
-    public function fetch_assoc(): array {
-        return $this->result->fetch_assoc();
+    public function fetch_assoc(): ?array {
+        return $this->getResult()->fetch_assoc();
     }
 }

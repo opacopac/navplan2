@@ -15,8 +15,10 @@ class UserUpdatePw {
      * @throws DbException
      */
     public static function updatePassword(IDbService $dbService, array $args): bool {
+        $dbService->openDb();
+
         $token = UserHelper::escapeTrimInput($dbService, $args["token"]);
-        $email = UserHelper::escapeAuthenticatedEmailOrNull2($dbService, $token);
+        $email = UserHelper::escapeAuthenticatedEmailOrNull($dbService, $token);
 
         $oldpassword = UserHelper::escapeTrimInput($dbService, $args["oldpassword"]);
         $newpassword = UserHelper::escapeTrimInput($dbService, $args["newpassword"]);
@@ -34,6 +36,8 @@ class UserUpdatePw {
         $newpw_hash = crypt($newpassword);
         $query = "UPDATE users SET pw_hash='" . $newpw_hash . "' WHERE email='" . $email . "'";
         $dbService->execCUDQuery($query, "error updating password");
+
+        $dbService->closeDb();
 
         return UserHelper::sendSuccessResponse($email, $token);
     }

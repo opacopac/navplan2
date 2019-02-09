@@ -140,4 +140,9 @@ class MySqlDbService implements IDbService {
 
         return $result;
     }
+
+
+    public function getInsertId(): int {
+        return intval($this->getConnection()->insert_id);
+    }
 }
