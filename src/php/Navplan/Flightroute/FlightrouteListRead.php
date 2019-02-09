@@ -3,6 +3,7 @@
 namespace Navplan\Flightroute;
 
 use Navplan\Shared\IDbService;
+use Navplan\Shared\RequestResponseHelper;
 use Navplan\User\UserHelper;
 
 
@@ -28,7 +29,7 @@ class FlightrouteListRead {
             );
         }
 
-        echo json_encode(array("navplanList" => $navplans), JSON_NUMERIC_CHECK);
+        RequestResponseHelper::sendArrayResponseWithRoot("navplanList", $navplans);
 
         $dbService->closeDb();
     }

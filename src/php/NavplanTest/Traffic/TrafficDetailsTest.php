@@ -1,6 +1,5 @@
 <?php declare(strict_types=1);
 
-use Navplan\Shared\InvalidFormatException;
 use Navplan\Traffic\TrafficDetails;
 use NavplanTest\DbServiceMock;
 use PHPUnit\Framework\TestCase;
@@ -8,9 +7,12 @@ use PHPUnit\Framework\TestCase;
 
 class TrafficDetailsTest extends TestCase {
     private $dbService;
-    private $args;
-    private $response;
-
+    private $mockResultLfrCh1 = array('icaohex' => '4B3142', 'registration' => 'HB-SRA', 'aircraftModelType' => 'AT-3 R100', 'manufacturer' => 'AERO AT SP. Z O.O.');
+    private $mockResultBasestation1 = array('mode_s' => '4B3142', 'registration' => 'HB-SRA', 'manufacturer' => 'AERO 3', 'icao_type_code' => 'AAT3');
+    private $mockResultIcaoAcTypes1 = array('designator' => 'AAT3', 'model' => 'AT-3', 'manufacturer' => 'AERO 3', 'ac_type' => 'L', 'eng_type' => 'P');
+    private $mockResultIcaoAcTypes2 = array('designator' => 'A320', 'model' => 'A-320 Prestige', 'manufacturer' => 'AIRBUS', 'ac_type' => 'L', 'eng_type' => 'J');
+    private $mockResultIcaoAcTypes3 = array('designator' => 'A320', 'model' => 'A-320', 'manufacturer' => 'AIRBUS', 'ac_type' => 'L', 'eng_type' => 'J');
+    private $mockResultIcaoAcTypes4 = array('designator' => 'A320', 'model' => 'A-320 Fantasy', 'manufacturer' => 'BOEING', 'ac_type' => 'L', 'eng_type' => 'J');
 
     private function getDbService(): DbServiceMock {
         return $this->dbService;
@@ -21,42 +23,157 @@ class TrafficDetailsTest extends TestCase {
         parent::setUp();
 
         $this->dbService = new DbServiceMock();
-        $this->args = [
-            array('icao' => 'C0FFEE', 'ac_type' => 'AAT3', 'reg' => 'HB-SRA', 'call' => 'TODO'),
-            array('icao' => '4b18f3', 'ac_type' => 'GAZL', 'reg' => 'HB-ZRD', 'call' => 'TODO'),
-            array('icao' => '446622', 'ac_type' => 'A320', 'reg' => 'N12345', 'call' => 'SWR123')
-        ];
-
-        $this->response = [
-            array('icao' => 'C0FFEE', 'reg' => 'HB-SRA', 'manufacturer' => 'AERO (3)', 'model' => 'AT-3', 'opCallsign' => NULL, 'ac_type' => 'L', 'eng_type' => 'P'),
-            array('icao' => '4b18f3', 'reg' => 'HB-ZRD', 'manufacturer' => 'ABHCO', 'model' => 'Gazelle', 'opCallsign' => 'TODO', 'ac_type' => 'H', 'eng_type' => 'J'),
-            array('icao' => '446622', 'reg' => 'N12345', 'manufacturer' => 'AIRBUS', 'model' => 'A-320', 'opCallsign' => 'Swiss 123', 'ac_type' => 'L', 'eng_type' => 'J')
-        ];
-    }
-
-
-    /*public function test_getDetails_returns_details_for_an_icao_code() {
-        $args = [array('icao' => 'C0FFEE')];
-        $this->expectOutputRegex('/\{\"acdetails.*\}/');
-        TrafficDetails::getDetails($this->args, $this->getDbService());
     }
 
 
     public function test_getDetails_empty_argument_returns_empty_result() {
+        $args = [];
+        TrafficDetails::getDetails($args, $this->getDbService());
+
         $this->expectOutputRegex('/^\{\"acdetails\"\:\[\]\}$/');
-        TrafficDetails::getDetails([], $this->getDbService());
     }
 
 
-    public function test_getDetails_response_json() {
-        $this->expectOutputRegex('/^\{.*\}$/');
-        TrafficDetails::getDetails([], $this->getDbService());
+    public function test_getDetails_returns_details_from_lfc_ch() {
+        $args = [array('icao24' => $this->mockResultLfrCh1['icaohex'])];
+        $this->getDbService()->pushMockResult([$this->mockResultLfrCh1]);
+        $this->getDbService()->pushMockResult([]);
+        $this->getDbService()->pushMockResult([]);
+        TrafficDetails::getDetails($args, $this->getDbService());
+
+        $this->assertContains('FROM lfr_ch', $this->getDbService()->lastQueryList[0]);
+        $expectedRegExp = '/\{"acdetails":\[\{';
+        $expectedRegExp .= '"icao24":"' . $this->mockResultLfrCh1['icaohex'] . '",';
+        $expectedRegExp .= '"reg":"' . $this->mockResultLfrCh1['registration'] . '",';
+        $expectedRegExp .= '"model":"' . $this->mockResultLfrCh1['aircraftModelType'] . '",';
+        $expectedRegExp .= '"manufacturer":"' . $this->mockResultLfrCh1['manufacturer'] . '",';
+        $expectedRegExp .= '"ac_type":null,';
+        $expectedRegExp .= '"ac_class":null,';
+        $expectedRegExp .= '"eng_class":null';
+        $expectedRegExp .= '\}\]\}/';
+        $this->expectOutputRegex($expectedRegExp);
     }
 
 
-    public function test_getDetails_response_jsonp() {
-        $this->args["callback"] = "callback77";
-        $this->expectOutputRegex('/^callback77\(\{.*\}\)$/');
-        TrafficDetails::getDetails([], $this->getDbService());
-    }*/
+    public function test_getDetails_returns_details_from_basestation() {
+        $args = [array('icao24' => $this->mockResultBasestation1['mode_s'])];
+        $this->getDbService()->pushMockResult([]);
+        $this->getDbService()->pushMockResult([$this->mockResultBasestation1]);
+        $this->getDbService()->pushMockResult([]);
+        TrafficDetails::getDetails($args, $this->getDbService());
+
+        $this->assertContains('FROM basestation_aircrafts', $this->getDbService()->lastQueryList[1]);
+        $expectedRegExp = '/\{"acdetails":\[\{';
+        $expectedRegExp .= '"icao24":"' . $this->mockResultBasestation1['mode_s'] . '",';
+        $expectedRegExp .= '"reg":"' . $this->mockResultBasestation1['registration'] . '",';
+        $expectedRegExp .= '"model":null,';
+        $expectedRegExp .= '"manufacturer":"' . $this->mockResultBasestation1['manufacturer'] . '",';
+        $expectedRegExp .= '"ac_type":"' . $this->mockResultBasestation1['icao_type_code'] . '",';
+        $expectedRegExp .= '"ac_class":null,';
+        $expectedRegExp .= '"eng_class":null';
+        $expectedRegExp .= '\}\]\}/';
+        $this->expectOutputRegex($expectedRegExp);
+    }
+
+
+    public function test_getDetails_returns_details_from_icao_ac_types() {
+        $args = [array('icao24' => 'C0FFEE', 'ac_type' => $this->mockResultIcaoAcTypes1['designator'])];
+        $this->getDbService()->pushMockResult([]);
+        $this->getDbService()->pushMockResult([]);
+        $this->getDbService()->pushMockResult([$this->mockResultIcaoAcTypes1]);
+        TrafficDetails::getDetails($args, $this->getDbService());
+
+        $this->assertContains('FROM icao_aircraft_type', $this->getDbService()->lastQueryList[2]);
+        $expectedRegExp = '/\{"acdetails":\[\{';
+        $expectedRegExp .= '"icao24":"C0FFEE",';
+        $expectedRegExp .= '"reg":null,';
+        $expectedRegExp .= '"model":"' . $this->mockResultIcaoAcTypes1['model'] . '",';
+        $expectedRegExp .= '"manufacturer":"' . $this->mockResultIcaoAcTypes1['manufacturer'] . '",';
+        $expectedRegExp .= '"ac_type":"' . $this->mockResultIcaoAcTypes1['designator'] . '",';
+        $expectedRegExp .= '"ac_class":"' . $this->mockResultIcaoAcTypes1['ac_type'] . '",';
+        $expectedRegExp .= '"eng_class":"' . $this->mockResultIcaoAcTypes1['eng_type'] . '"';
+        $expectedRegExp .= '\}\]\}/';
+        $this->expectOutputRegex($expectedRegExp);
+    }
+
+
+    public function test_getDetails_combines_details_from_3_sources() {
+        $args = [array('icao24' => $this->mockResultLfrCh1['icaohex'])];
+        $this->getDbService()->pushMockResult([$this->mockResultLfrCh1]);
+        $this->getDbService()->pushMockResult([$this->mockResultBasestation1]);
+        $this->getDbService()->pushMockResult([$this->mockResultIcaoAcTypes1]);
+        TrafficDetails::getDetails($args, $this->getDbService());
+
+        $this->assertContains('FROM icao_aircraft_type', $this->getDbService()->lastQueryList[2]);
+        $expectedRegExp = '/\{"acdetails":\[\{';
+        $expectedRegExp .= '"icao24":"' . $this->mockResultLfrCh1['icaohex'] . '",';
+        $expectedRegExp .= '"reg":"' . $this->mockResultLfrCh1['registration'] . '",';
+        $expectedRegExp .= '"model":"' . $this->mockResultLfrCh1['aircraftModelType'] . '",';
+        $expectedRegExp .= '"manufacturer":"' . $this->mockResultLfrCh1['manufacturer'] . '",';
+        $expectedRegExp .= '"ac_type":"' . $this->mockResultBasestation1['icao_type_code'] . '",';
+        $expectedRegExp .= '"ac_class":"' . $this->mockResultIcaoAcTypes1['ac_type'] . '",';
+        $expectedRegExp .= '"eng_class":"' . $this->mockResultIcaoAcTypes1['eng_type'] . '"';
+        $expectedRegExp .= '\}\]\}/';
+        $this->expectOutputRegex($expectedRegExp);
+    }
+
+
+    public function test_getDetails_combines_details_from_2_sources() {
+        $args = [array('icao24' => $this->mockResultBasestation1['mode_s'])];
+        $this->getDbService()->pushMockResult([]);
+        $this->getDbService()->pushMockResult([$this->mockResultBasestation1]);
+        $this->getDbService()->pushMockResult([$this->mockResultIcaoAcTypes1]);
+        TrafficDetails::getDetails($args, $this->getDbService());
+
+        $expectedRegExp = '/\{"acdetails":\[\{';
+        $expectedRegExp .= '"icao24":"' . $this->mockResultBasestation1['mode_s'] . '",';
+        $expectedRegExp .= '"reg":"' . $this->mockResultBasestation1['registration'] . '",';
+        $expectedRegExp .= '"model":"' . $this->mockResultIcaoAcTypes1['model'] . '",';
+        $expectedRegExp .= '"manufacturer":"' . $this->mockResultBasestation1['manufacturer'] . '",';
+        $expectedRegExp .= '"ac_type":"' . $this->mockResultBasestation1['icao_type_code'] . '",';
+        $expectedRegExp .= '"ac_class":"' . $this->mockResultIcaoAcTypes1['ac_type'] . '",';
+        $expectedRegExp .= '"eng_class":"' . $this->mockResultIcaoAcTypes1['eng_type'] . '"';
+        $expectedRegExp .= '\}\]\}/';
+        $this->expectOutputRegex($expectedRegExp);
+    }
+
+
+    public function test_getDetails_multiple_entries_of_same_aircraft_type() {
+        $args = [array('icao24' => 'C0FFEE', 'ac_type' => $this->mockResultIcaoAcTypes2['designator'])];
+        $this->getDbService()->pushMockResult([]);
+        $this->getDbService()->pushMockResult([]);
+        $this->getDbService()->pushMockResult([$this->mockResultIcaoAcTypes2, $this->mockResultIcaoAcTypes3]);
+        TrafficDetails::getDetails($args, $this->getDbService());
+
+        $expectedRegExp = '/\{"acdetails":\[\{';
+        $expectedRegExp .= '"icao24":"C0FFEE",';
+        $expectedRegExp .= '"reg":null,';
+        $expectedRegExp .= '"model":null,';
+        $expectedRegExp .= '"manufacturer":"' . $this->mockResultIcaoAcTypes2['manufacturer'] . '",';
+        $expectedRegExp .= '"ac_type":"' . $this->mockResultIcaoAcTypes2['designator'] . '",';
+        $expectedRegExp .= '"ac_class":"' . $this->mockResultIcaoAcTypes2['ac_type'] . '",';
+        $expectedRegExp .= '"eng_class":"' . $this->mockResultIcaoAcTypes2['eng_type'] . '"';
+        $expectedRegExp .= '\}\]\}/';
+        $this->expectOutputRegex($expectedRegExp);
+    }
+
+
+    public function test_getDetails_multiple_entries_of_same_aircraft_type_different_manufacturers() {
+        $args = [array('icao24' => 'C0FFEE', 'ac_type' => $this->mockResultIcaoAcTypes2['designator'])];
+        $this->getDbService()->pushMockResult([]);
+        $this->getDbService()->pushMockResult([]);
+        $this->getDbService()->pushMockResult([$this->mockResultIcaoAcTypes2, $this->mockResultIcaoAcTypes3, $this->mockResultIcaoAcTypes4]);
+        TrafficDetails::getDetails($args, $this->getDbService());
+
+        $expectedRegExp = '/\{"acdetails":\[\{';
+        $expectedRegExp .= '"icao24":"C0FFEE",';
+        $expectedRegExp .= '"reg":null,';
+        $expectedRegExp .= '"model":null,';
+        $expectedRegExp .= '"manufacturer":null,';
+        $expectedRegExp .= '"ac_type":"' . $this->mockResultIcaoAcTypes2['designator'] . '",';
+        $expectedRegExp .= '"ac_class":"' . $this->mockResultIcaoAcTypes2['ac_type'] . '",';
+        $expectedRegExp .= '"eng_class":"' . $this->mockResultIcaoAcTypes2['eng_type'] . '"';
+        $expectedRegExp .= '\}\]\}/';
+        $this->expectOutputRegex($expectedRegExp);
+    }
 }

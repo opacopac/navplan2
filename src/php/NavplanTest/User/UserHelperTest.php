@@ -92,7 +92,7 @@ class UserHelperTest extends TestCase {
     }
 
 
-    public function test_escapeAuthenticatedEmailOrDie2() {
+    public function test_escapeAuthenticatedEmailOrDie() {
         $email = "test@navplan's.ch";
         $token1 = UserHelper::createToken($email, FALSE);
         $token2 = "xxx.yyy.zzz";
@@ -105,12 +105,12 @@ class UserHelperTest extends TestCase {
     }
 
 
-    public function test_escapeAuthenticatedEmailOrNull2() {
+    public function test_escapeAuthenticatedEmailOrNull() {
         $email = "test@navplan's.ch";
         $token1 = UserHelper::createToken($email, FALSE);
         $token2 = "xxx.yyy.zzz";
-        $result1 = UserHelper::escapeAuthenticatedEmailOrDie($this->getDbService(), $token1);
-        $result2 = UserHelper::escapeAuthenticatedEmailOrDie($this->getDbService(), $token2);
+        $result1 = UserHelper::escapeAuthenticatedEmailOrNull($this->getDbService(), $token1);
+        $result2 = UserHelper::escapeAuthenticatedEmailOrNull($this->getDbService(), $token2);
 
         $this->assertEquals($result1, "test@navplan\\'s.ch");
         $this->assertEquals($result2, NULL);

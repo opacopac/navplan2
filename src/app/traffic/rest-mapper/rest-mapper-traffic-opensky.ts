@@ -11,23 +11,23 @@ import {IcaoCallsignService} from '../services/icaocallsign.service';
 export interface TrafficOpenskyResponse {
     time: number;
     states: [
-        string, // 0: icao24
-        string, // 1: callsign
-        string, // 2: origin_country
-        number, // 3: time_position
-        number, // 4: last_contact
-        number, // 5: longitude
-        number, // 6: latitude
-        number, // 7: baro_altitude
-        boolean, // 8: on_ground
-        number, // 9: velocity
-        number, // 10: true_track
-        number, // 11: vertical_rate
-        number[], // 12: sensors
-        number, // 13: geo_altitude
-        string, // 14: squawk
-        boolean, // 15: spi
-        number // 16: position_source
+        string, // 0: icao24 (Unique ICAO 24-bit address of the transponder in hex string representation.)
+        string, // 1: callsign (Callsign of the vehicle (8 chars). Can be null if no callsign has been received.)
+        string, // 2: origin_country (Country name inferred from the ICAO 24-bit address.)
+        number, // 3: time_position (Unix timestamp (seconds) for the last position update. Can be null if no position report was received by OpenSky within the past 15s.)
+        number, // 4: last_contact (Unix timestamp (seconds) for the last update in general. This field is updated for any new, valid message received from the transponder.)
+        number, // 5: longitude (WGS-84 longitude in decimal degrees. Can be null.)
+        number, // 6: latitude (WGS-84 latitude in decimal degrees. Can be null.)
+        number, // 7: baro_altitude (Barometric altitude in meters. Can be null.)
+        boolean, // 8: on_ground (Boolean value which indicates if the position was retrieved from a surface position report.)
+        number, // 9: velocity (Velocity over ground in m/s. Can be null.)
+        number, // 10: true_track (True track in decimal degrees clockwise from north (north=0°). Can be null.)
+        number, // 11: vertical_rate (Vertical rate in m/s. A positive value indicates that the airplane is climbing, a negative value indicates that it descends. Can be null)
+        number[], // 12: sensors (IDs of the receivers which contributed to this state vector. Is null if no filtering for sensor was used in the request)
+        number, // 13: geo_altitude (Geometric altitude in meters. Can be null.)
+        string, // 14: squawk (The transponder code aka Squawk. Can be null.)
+        boolean, // 15: spi (Whether flight status indicates special purpose indicator)
+        number // 16: position_source (0 = ADS-B, 1 = ASTERIX, 2 = MLAT)
     ][];
 }
 

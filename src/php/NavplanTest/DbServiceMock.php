@@ -10,6 +10,7 @@ use Navplan\Shared\IDbService;
 class DbServiceMock implements IDbService {
     private $mockResultList = [];
     public $lastQuery = NULL;
+    public $lastQueryList = [];
 
 
     private function shiftMockResult($query): DbResultMock {
@@ -46,18 +47,21 @@ class DbServiceMock implements IDbService {
 
     public function execSingleResultQuery(string $query, bool $allowZeroResults, string $errorMessage): IDbResult {
         $this->lastQuery = $query;
+        array_push($this->lastQueryList, $query);
         return $this->shiftMockResult($query);
     }
 
 
     public function execMultiResultQuery(string $query, string $errorMessage): IDbResult {
         $this->lastQuery = $query;
+        array_push($this->lastQueryList, $query);
         return $this->shiftMockResult($query);
     }
 
 
     public function execCUDQuery(string $query, string $errorMessage): bool {
         $this->lastQuery = $query;
+        array_push($this->lastQueryList, $query);
         return true;
     }
 

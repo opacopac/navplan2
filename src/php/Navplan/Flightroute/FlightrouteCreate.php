@@ -4,6 +4,7 @@ namespace Navplan\Flightroute;
 
 use Navplan\Shared\DbException;
 use Navplan\Shared\IDbService;
+use Navplan\Shared\RequestResponseHelper;
 use Navplan\Shared\StringNumberService;
 use Navplan\User\UserHelper;
 
@@ -45,7 +46,7 @@ class FlightrouteCreate {
             self::createWaypoints($dbService, $navplan["waypoints"], $navplan["alternate"], $navplan_id);
         }
 
-        echo json_encode(array("share_id" => $share_id), JSON_NUMERIC_CHECK);
+        RequestResponseHelper::sendArrayResponse(array("share_id" => $share_id));
 
         $dbService->closeDb();
     }
@@ -83,7 +84,7 @@ class FlightrouteCreate {
         // update waypoints
         self::createWaypoints($dbService, $navplan["waypoints"], $navplan["alternate"], $navplan_id);
 
-        echo json_encode(array("navplan_id" => $navplan_id), JSON_NUMERIC_CHECK);
+        RequestResponseHelper::sendArrayResponse(array("navplan_id" => $navplan_id));
 
         $dbService->closeDb();
     }

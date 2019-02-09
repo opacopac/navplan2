@@ -7,6 +7,7 @@ use InvalidArgumentException;
 use Navplan\Message;
 use Navplan\Shared\DbException;
 use Navplan\Shared\IDbService;
+use Navplan\Shared\RequestResponseHelper;
 use ReallySimpleJWT\Token;
 
 
@@ -144,7 +145,7 @@ class UserHelper {
 
     // region send responses
 
-    public static function sendSuccessResponse(string $email, string $token): bool {
+    public static function sendSuccessResponse(string $email, string $token) {
         $response = array(
             "resultcode" => 0,
             "message" => 'successful',
@@ -152,21 +153,17 @@ class UserHelper {
             "token" => $token,
         );
 
-        echo json_encode($response);
-
-        return TRUE;
+        RequestResponseHelper::sendArrayResponse($response);
     }
 
 
-    public static function sendErrorResponse(Message $message): bool {
+    public static function sendErrorResponse(Message $message) {
         $response = array(
             "resultcode" => $message->code,
             "message" => $message->text
         );
 
-        echo json_encode($response);
-
-        return FALSE;
+        RequestResponseHelper::sendArrayResponse($response);
     }
 
     // endregion

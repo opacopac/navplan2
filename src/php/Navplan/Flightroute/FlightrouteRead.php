@@ -4,6 +4,7 @@ namespace Navplan\Flightroute;
 
 use Navplan\Shared\DbException;
 use Navplan\Shared\IDbService;
+use Navplan\Shared\RequestResponseHelper;
 use Navplan\Shared\StringNumberService;
 use Navplan\User\UserHelper;
 
@@ -40,7 +41,7 @@ class FlightrouteRead {
         $navplan["alternate"] = $wpalt["alternate"];
         $navplan["id"] = NULL;
 
-        echo json_encode(array("navplan" => $navplan), JSON_NUMERIC_CHECK);
+        RequestResponseHelper::sendArrayResponseWithRoot("navplan", $navplan);
 
         $dbService->closeDb();
     }
@@ -77,7 +78,7 @@ class FlightrouteRead {
         $navplan["waypoints"] = $wpalt["waypoints"];
         $navplan["alternate"] = $wpalt["alternate"];
 
-        echo json_encode(array("navplan" => $navplan), JSON_NUMERIC_CHECK);
+        RequestResponseHelper::sendArrayResponseWithRoot("navplan", $navplan);
 
         $dbService->closeDb();
     }

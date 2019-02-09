@@ -6,9 +6,6 @@ use InvalidArgumentException;
 use Navplan\Shared\IDbService;
 use Navplan\Shared\IFileService;
 
-require_once __DIR__ . "/../NavplanHelper.php";
-
-
 class TrafficServiceProcessor {
     /***
      * @param string $requestMethod

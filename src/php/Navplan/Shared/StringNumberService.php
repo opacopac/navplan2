@@ -1,7 +1,8 @@
-<?php namespace Navplan\Shared;
-use http\Exception\InvalidArgumentException;
+<?php declare(strict_types=1);
 
-require_once __DIR__ . "/../NavplanHelper.php";
+namespace Navplan\Shared;
+
+use http\Exception\InvalidArgumentException;
 
 
 class StringNumberService

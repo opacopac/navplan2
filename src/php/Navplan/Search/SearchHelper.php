@@ -4,6 +4,7 @@ namespace Navplan\Search;
 
 use InvalidArgumentException;
 use Navplan\Shared\IDbService;
+use Navplan\Shared\RequestResponseHelper;
 use Navplan\Shared\StringNumberService;
 
 
@@ -44,9 +45,8 @@ class SearchHelper
 
 
     public static function sendSearchResultResponse(array $searchResults) {
-        header("Content-Type: application/json; charset=UTF-8");
-        echo StringNumberService::checkAlphaNumeric($_GET["callback"], 1, 50) . "(";
-        echo json_encode($searchResults, JSON_NUMERIC_CHECK);
-        echo ")";
+        $callback = $_GET["callback"] ? StringNumberService::checkAlphaNumeric($_GET["callback"], 1, 50) : NULL;
+
+        RequestResponseHelper::sendArrayResponse($searchResults, $callback);
     }
 }

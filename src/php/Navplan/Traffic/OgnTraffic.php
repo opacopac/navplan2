@@ -4,6 +4,7 @@ namespace Navplan\Traffic;
 
 use Navplan\Shared\IDbService;
 use Navplan\Shared\IFileService;
+use Navplan\Shared\RequestResponseHelper;
 use Navplan\Shared\StringNumberService;
 
 
@@ -36,7 +37,8 @@ class OgnTraffic
         $acList = self::readTrafficListFromFiles($sessionId, $minLon, $minLat, $maxLon, $maxLat, $maxAgeSec, $fileService);
         self::sortPositionTimestamps($acList);
         $acList = self::getAircraftDetails($dbService, $acList);
-        self::sendResponse($acList, $callback);
+
+        RequestResponseHelper::sendArrayResponseWithRoot("aclist", $acList, $callback);
 
         $dbService->closeDb();
     }
@@ -183,19 +185,5 @@ class OgnTraffic
         }
 
         return $acList;
-    }
-
-
-    private static function sendResponse(array $acList, ?string $callback)
-    {
-        $json = json_encode(array("aclist" => $acList), JSON_NUMERIC_CHECK);
-
-        if ($callback) {
-            echo $callback . "(";
-            echo $json;
-            echo ")";
-        } else {
-            echo $json;
-        }
     }
 }

@@ -3,6 +3,7 @@
 namespace Navplan\Traffic;
 
 use Navplan\Shared\IFileService;
+use Navplan\Shared\RequestResponseHelper;
 use Navplan\Shared\StringNumberService;
 
 
@@ -33,18 +34,6 @@ class AdsbexTraffic {
         $url = self::ADSBEXCHANGE_BASE_URL . 'lat/' . $lat . '/lon/' . $lon . '/dist/' . $dist . '/';
         $adsbexResponse = $fileService->fileGetContents($url, false, $context);
 
-        self::sendResponse($adsbexResponse, $callback);
-    }
-
-
-    private static function sendResponse(string $adsbexResponse, ?string $callback)
-    {
-        if ($callback !== NULL) {
-            echo $callback . "(";
-            echo $adsbexResponse;
-            echo ")";
-        } else {
-            echo $adsbexResponse;
-        }
+        RequestResponseHelper::sendStringResponse($adsbexResponse, $callback);
     }
 }

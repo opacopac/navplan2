@@ -9,25 +9,27 @@ use Navplan\Shared\IDbService;
 use Navplan\Shared\IMailService;
 
 
-class UserRegister
-{
+class UserRegister {
     /**
      * @param IDbService $dbService
      * @param array $args
      * @param IMailService $mailService
      * @return bool
      */
-    public static function sendRegisterEmail(IDbService $dbService, array $args, IMailService $mailService): bool
-    {
+    public static function sendRegisterEmail(IDbService $dbService, array $args, IMailService $mailService): void {
         $dbService->openDb();
 
         $email = UserHelper::escapeTrimInput($dbService, $args["email"]);
 
-        if (!UserHelper::checkEmailFormat($email))
-            return UserHelper::sendErrorResponse(new Message(-1, 'error: invalid email format'));
+        if (!UserHelper::checkEmailFormat($email)) {
+            UserHelper::sendErrorResponse(new Message(-1, 'error: invalid email format'));
+            return;
+        }
 
-        if (self::isDuplicateEmail($dbService, $email))
-            return UserHelper::sendErrorResponse(new Message(-2, 'error: email already exists'));
+        if (self::isDuplicateEmail($dbService, $email)) {
+            UserHelper::sendErrorResponse(new Message(-2, 'error: email already exists'));
+            return;
+        }
 
         // send activation email
         $token = UserHelper::createToken($email, false);
@@ -35,7 +37,7 @@ class UserRegister
 
         $dbService->closeDb();
 
-        return UserHelper::sendSuccessResponse($email, '');
+        UserHelper::sendSuccessResponse($email, '');
     }
 
 
@@ -45,8 +47,7 @@ class UserRegister
      * @return bool
      * @throws DbException
      */
-    public static function register(IDbService $dbService, array $args): bool
-    {
+    public static function register(IDbService $dbService, array $args): void {
         $dbService->openDb();
 
         $token = UserHelper::escapeTrimInput($dbService, $args["token"]);
@@ -54,14 +55,20 @@ class UserRegister
         $password = UserHelper::escapeTrimInput($dbService, $args["password"]);
         $rememberMe = ($args["rememberme"] === "1");
 
-        if (!UserHelper::checkPwFormat($password))
-            return UserHelper::sendErrorResponse(new Message(-1, 'error: invalid password format'));
+        if (!UserHelper::checkPwFormat($password)) {
+            UserHelper::sendErrorResponse(new Message(-1, 'error: invalid password format'));
+            return;
+        }
 
-        if (!$email || !UserHelper::checkEmailFormat($email))
-            return UserHelper::sendErrorResponse(new Message(-2, 'error: invalid token'));
+        if (!$email || !UserHelper::checkEmailFormat($email)) {
+            UserHelper::sendErrorResponse(new Message(-2, 'error: invalid token'));
+            return;
+        }
 
-        if (self::isDuplicateEmail($dbService, $email))
-            return UserHelper::sendErrorResponse(new Message(-3, 'error: email already exists'));
+        if (self::isDuplicateEmail($dbService, $email)) {
+            UserHelper::sendErrorResponse(new Message(-3, 'error: email already exists'));
+            return;
+        }
 
         // create new user & token
         self::createUser($dbService, $email, $password);
@@ -69,7 +76,7 @@ class UserRegister
 
         $dbService->closeDb();
 
-        return UserHelper::sendSuccessResponse($email, $token);
+        UserHelper::sendSuccessResponse($email, $token);
     }
 
 

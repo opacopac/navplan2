@@ -14,7 +14,7 @@ class UserUpdatePw {
      * @return bool
      * @throws DbException
      */
-    public static function updatePassword(IDbService $dbService, array $args): bool {
+    public static function updatePassword(IDbService $dbService, array $args): void {
         $dbService->openDb();
 
         $token = UserHelper::escapeTrimInput($dbService, $args["token"]);
@@ -23,14 +23,20 @@ class UserUpdatePw {
         $oldpassword = UserHelper::escapeTrimInput($dbService, $args["oldpassword"]);
         $newpassword = UserHelper::escapeTrimInput($dbService, $args["newpassword"]);
 
-        if (!UserHelper::checkPwFormat($newpassword))
-            return UserHelper::sendErrorResponse(new Message(-1, 'error: invalid new password format'));
+        if (!UserHelper::checkPwFormat($newpassword)) {
+            UserHelper::sendErrorResponse(new Message(-1, 'error: invalid new password format'));
+            return;
+        }
 
-        if (!$email || !UserHelper::checkEmailFormat($email) || !UserHelper::checkEmailExists($dbService, $email))
-            return UserHelper::sendErrorResponse(new Message(-2, 'error: invalid token'));
+        if (!$email || !UserHelper::checkEmailFormat($email) || !UserHelper::checkEmailExists($dbService, $email)) {
+            UserHelper::sendErrorResponse(new Message(-2, 'error: invalid token'));
+            return;
+        }
 
-        if (!UserHelper::checkPwFormat($oldpassword) || !UserHelper::verifyPwHash($dbService, $email, $oldpassword))
-            return UserHelper::sendErrorResponse(new Message(-3, 'error: invalid old password'));
+        if (!UserHelper::checkPwFormat($oldpassword) || !UserHelper::verifyPwHash($dbService, $email, $oldpassword)) {
+            UserHelper::sendErrorResponse(new Message(-3, 'error: invalid old password'));
+            return;
+        }
 
         // create new pw
         $newpw_hash = crypt($newpassword);
@@ -39,6 +45,6 @@ class UserUpdatePw {
 
         $dbService->closeDb();
 
-        return UserHelper::sendSuccessResponse($email, $token);
+        UserHelper::sendSuccessResponse($email, $token);
     }
 }

@@ -4,6 +4,7 @@ namespace Navplan\Flightroute;
 
 use Navplan\Shared\DbException;
 use Navplan\Shared\IDbService;
+use Navplan\Shared\RequestResponseHelper;
 use Navplan\User\UserHelper;
 
 
@@ -29,7 +30,7 @@ class FlightrouteDelete {
         $query = "DELETE FROM navplan WHERE id = '" . $navplan_id . "'";
         $dbService->execCUDQuery($query, "error deleting navplan");
 
-        echo json_encode(array("success" => 1), JSON_NUMERIC_CHECK);
+        RequestResponseHelper::sendArrayResponse(array("success" => 1));
 
         $dbService->closeDb();
     }
