@@ -5,6 +5,7 @@ import {TrafficMergerCallsign} from './traffic-merger-callsign';
 import {TrafficMergerOpCallsign} from './traffic-merger-op-callsign';
 import {TrafficMergerAcModel} from './traffic-merger-ac-model';
 import {TrafficMergerPositions} from './traffic-merger-positions';
+import {TrafficMergerIcaoType} from './traffic-merger-icao-type';
 
 
 
@@ -42,6 +43,7 @@ export class TrafficMerger {
                 const ac = trafficMap.get(trafficKey);
                 ac.dataSource = newTraffic.dataSource;
                 ac.acType = TrafficMergerAcType.merge(ac, newTraffic);
+                ac.icaoType = TrafficMergerIcaoType.merge(ac, newTraffic);
                 ac.registration = TrafficMergerRegistration.merge(ac, newTraffic);
                 ac.callsign = TrafficMergerCallsign.merge(ac, newTraffic);
                 ac.opCallsign = TrafficMergerOpCallsign.merge(ac, newTraffic);

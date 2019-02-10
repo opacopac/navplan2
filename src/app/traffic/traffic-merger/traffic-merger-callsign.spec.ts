@@ -12,6 +12,7 @@ describe('TrafficMergerCallsign', () => {
             TrafficAddressType.ICAO,
             TrafficDataSource.OGN,
             TrafficAircraftType.UNKNOWN,
+            undefined,
             '',
             'EZS456',
             '',

@@ -26,6 +26,7 @@ export class TrafficMock {
         TrafficAddressType.ICAO,
         TrafficDataSource.OGN,
         TrafficAircraftType.UAV,
+        'A320',
         'HB-UAV',
         'SWR123',
         'Swiss 123',
@@ -156,6 +157,34 @@ export class TrafficMock {
         'req_ip': '217.26.58.54'
     };
 
+
+    public static readonly TRAFFIC_DETAILS_MOCK_RESPONSE_1_ITEM_1 = {
+        'icao24': '4B3142',
+        'reg': 'HB-SRA',
+        'model': 'AT-3 R100',
+        'manufacturer': 'AERO AT SP. Z O.O.',
+        'ac_type': 'AAT3',
+        'ac_class': 'L',
+        'eng_class': 'P'
+    };
+
+
+    public static readonly TRAFFIC_DETAILS_MOCK_RESPONSE_1_ITEM_2 = {
+        'icao24': 'c0ffee',
+        'reg': undefined,
+        'model': undefined,
+        'manufacturer': 'AIRBUS',
+        'ac_type': 'A320',
+        'ac_class': 'L',
+        'eng_class': 'J'
+    };
+
+    public static readonly TRAFFIC_DETAILS_MOCK_RESPONSE_1 = {
+        'acdetails': [
+            TrafficMock.TRAFFIC_DETAILS_MOCK_RESPONSE_1_ITEM_1,
+            TrafficMock.TRAFFIC_DETAILS_MOCK_RESPONSE_1_ITEM_2,
+        ]
+    };
 
 
     public static createPosition(

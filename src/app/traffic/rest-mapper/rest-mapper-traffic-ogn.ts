@@ -44,6 +44,7 @@ export class RestMapperTrafficOgn {
                 TrafficAddressType[ac.addresstype],
                 TrafficDataSource.OGN,
                 TrafficAircraftType[ac.actype],
+                undefined,
                 ac.registration,
                 undefined,
                 undefined,

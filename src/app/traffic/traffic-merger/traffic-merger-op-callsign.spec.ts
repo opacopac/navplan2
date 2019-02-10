@@ -12,6 +12,7 @@ describe('TrafficMergerOpCallsign', () => {
             TrafficAddressType.ICAO,
             TrafficDataSource.OGN,
             TrafficAircraftType.UNKNOWN,
+            undefined,
             '',
             '',
             'Topswiss 456',

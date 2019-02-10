@@ -12,6 +12,7 @@ describe('TrafficMergerAcType', () => {
             TrafficAddressType.ICAO,
             TrafficDataSource.OGN,
             TrafficAircraftType.UNKNOWN,
+            undefined,
             '',
             '',
             '',

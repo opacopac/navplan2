@@ -56,6 +56,7 @@ export class RestMapperTrafficAdsbEx2 {
                 TrafficAddressType.ICAO,
                 TrafficDataSource.ADSBX2,
                 TrafficAircraftType.UNKNOWN,
+                ac.type,
                 ac.reg,
                 ac.call,
                 undefined,

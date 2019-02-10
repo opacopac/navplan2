@@ -44,6 +44,7 @@ export class RestMapperTrafficOpensky {
                     TrafficDataSource.OPENSKY,
                     TrafficAircraftType.UNKNOWN,
                     undefined,
+                    undefined,
                     ac[1],
                     this.getOperatorCallsign(ac[1]),
                     undefined,

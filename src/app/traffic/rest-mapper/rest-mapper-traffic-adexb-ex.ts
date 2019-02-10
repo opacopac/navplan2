@@ -46,6 +46,7 @@ export class RestMapperTrafficAdexbEx {
                 TrafficAddressType.ICAO,
                 TrafficDataSource.ADSBX,
                 this.getTrafficType(ac),
+                ac.Type,
                 ac.Reg,
                 this.getCallsign(ac),
                 this.getOperatorCallsign(ac),

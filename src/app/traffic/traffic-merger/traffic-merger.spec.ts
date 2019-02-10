@@ -81,6 +81,16 @@ describe('TrafficMerger', () => {
     });
 
 
+    it('merges the icao type', () => {
+        acOld1.icaoType = undefined;
+        acNew1.icaoType = 'AAT3';
+        const key = TrafficMerger.getTrafficMapKey(acOld1);
+        const newTrafficMap = TrafficMerger.mergeTrafficMap(trafficMap, newTrafficList);
+
+        expect(newTrafficMap.get(key).icaoType).toBe('AAT3');
+    });
+
+
     it('merges the registration', () => {
         acOld1.registration = '';
         acNew1.registration = 'HB-SRA';
