@@ -13,7 +13,12 @@ class TrafficDetails {
         $dbService->openDb();
 
         $callback = $args["callback"] ? StringNumberService::checkString($args["callback"], 1, 50) : NULL;
-        $acMap = self::parseCheckInputToAcMap($args, $dbService);
+
+        if (!$args["aclist"]) {
+            throw new InvalidArgumentException('parameter aclist is missing or empty');
+        }
+
+        $acMap = self::parseCheckInputToAcMap($args["aclist"], $dbService);
 
         self::addDetailsFromLfrCh($acMap, $dbService);
         self::addDetailsFromBasestation($acMap, $dbService);
@@ -44,11 +49,11 @@ class TrafficDetails {
         }
 
         return array(
-            "icao24" => StringNumberService::checkEscapeAlphaNumeric($dbService, $ac["icao24"], 1, 6),
+            "icao24" => StringNumberService::checkEscapeAlphaNumeric($dbService, strtoupper($ac["icao24"]), 1, 6),
             "reg" => NULL,
             "model" => NULL,
             "manufacturer" => NULL,
-            "ac_type" => $ac["ac_type"] ? StringNumberService::checkEscapeAlphaNumeric($dbService, $ac["ac_type"], 1, 4) : NULL,
+            "ac_type" => $ac["ac_type"] ? StringNumberService::checkEscapeAlphaNumeric($dbService, strtoupper($ac["ac_type"]), 1, 4) : NULL,
             "ac_class" => NULL,
             "eng_class" => NULL
         );
@@ -106,7 +111,9 @@ class TrafficDetails {
             if (!$ac["manufacturer"]) {
                 $ac["manufacturer"] = $row["manufacturer"];
             }
-            $ac["ac_type"] = $row["icao_type_code"];
+            if ($row["icao_type_code"] !== '0000') {
+                $ac["ac_type"] = $row["icao_type_code"];
+            }
         }
     }
 

@@ -48,12 +48,12 @@ class TrafficServiceProcessorTest extends TestCase {
     }
 
 
-    /*public function test_processRequest_read_aircraft_details_gets_called() {
+    public function test_processRequest_read_aircraft_details_gets_called() {
         $reqMeth = 'POST';
         $postVars["action"] = "readacdetails";
-        $this->expectException(InvalidFormatException::class); // expected, due to missing parameters
+        $this->expectException(InvalidArgumentException::class); // expected, due to missing parameters
         TrafficServiceProcessor::processRequest($reqMeth, NULL, $postVars, $this->getDbService(), $this->getFileService());
-    }*/
+    }
 
 
     public function test_processRequest_throws_exception_for_unknown_req_method() {
