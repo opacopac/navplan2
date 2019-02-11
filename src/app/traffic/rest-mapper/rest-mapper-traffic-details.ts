@@ -31,25 +31,19 @@ export interface TrafficDetailsRestItem {
 
 export class RestMapperTrafficDetails {
     public static getTrafficDetailsListFromResponse(response: TrafficDetailsResponse): TrafficDetails[] {
-        const detailsList: TrafficDetails[] = [];
-
         if (!response.acdetails) {
-            return detailsList;
+            return [];
         }
 
-        for (const ac of response.acdetails) {
-            const traffic = new TrafficDetails(
-                ac.icao24.toUpperCase(),
-                ac.reg,
-                ac.model,
-                ac.manufacturer,
-                ac.ac_type,
-                this.getAircraftClass(ac.ac_class),
-                this.getEngineClass(ac.eng_class));
-            detailsList.push(traffic);
-        }
-
-        return detailsList;
+        return response.acdetails.map(ac => new TrafficDetails(
+            ac.icao24.toString().toUpperCase(),
+            ac.reg,
+            ac.model,
+            ac.manufacturer,
+            ac.ac_type,
+            this.getAircraftClass(ac.ac_class),
+            this.getEngineClass(ac.eng_class)
+        ));
     }
 
 

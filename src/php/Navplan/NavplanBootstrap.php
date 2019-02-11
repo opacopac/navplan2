@@ -3,7 +3,7 @@
 namespace Navplan;
 
 // show errors on web page
-//error_reporting(E_ALL);
+// error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
 require_once __DIR__ . "/../config.php";
@@ -15,6 +15,8 @@ use Navplan\Shared\IFileService;
 use Navplan\Shared\IMailService;
 use Navplan\Shared\MailService;
 use Navplan\Shared\MySqlDbService;
+
+// header("Access-Control-Allow-Origin: *"); // TODO: remove for PROD
 
 
 class NavplanBootstrap {

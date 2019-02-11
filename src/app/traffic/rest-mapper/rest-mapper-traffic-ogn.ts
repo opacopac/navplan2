@@ -58,25 +58,18 @@ export class RestMapperTrafficOgn {
 
 
     private static getTrafficPositions(acPosList: TrafficOgnPositionRestItem[]): TrafficPosition[] {
-        const positionList: TrafficPosition[] = [];
-
-        for (const acPos of acPosList) {
-            const position = new TrafficPosition(
-                new Position4d(
-                    acPos.longitude,
-                    acPos.latitude,
-                    new Altitude(acPos.altitude, LengthUnit.M),
-                    Timestamp.createFromSec(this.getEpocSecFromOgnTime(acPos.time))
-                ),
-                TrafficDataSource.OGN,
-                TrafficPositionMethod.FLARM,
-                'Open Glider Network (' + acPos.receiver + ')',
-                Date.now()
-            );
-            positionList.push(position);
-        }
-
-        return positionList;
+        return acPosList.map(acPos => new TrafficPosition(
+            new Position4d(
+                acPos.longitude,
+                acPos.latitude,
+                new Altitude(acPos.altitude, LengthUnit.M),
+                Timestamp.createFromSec(this.getEpocSecFromOgnTime(acPos.time))
+            ),
+            TrafficDataSource.OGN,
+            TrafficPositionMethod.FLARM,
+            'Open Glider Network (' + acPos.receiver + ')',
+            Date.now()
+        ));
     }
 
 

@@ -2,14 +2,14 @@ import {Injectable} from '@angular/core';
 import {Action, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
-import {catchError, map, mergeMap, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, filter, map, mergeMap, tap, withLatestFrom} from 'rxjs/operators';
 import {
     ReadTrafficTimerAction,
     StartWatchTrafficAction,
     StopWatchTrafficAction,
     TrafficActionTypes,
     ReadTrafficSuccessAction,
-    ReadTrafficErrorAction,
+    ReadTrafficErrorAction, ReadTrafficDetailsSuccessAction, ReadTrafficDetailsErrorAction,
 } from './traffic.actions';
 import {getTrafficIsWatching, getTrafficState} from './traffic.selectors';
 import {TrafficOgnService} from './services/traffic-ogn.service';
@@ -19,6 +19,8 @@ import {of} from 'rxjs/internal/observable/of';
 import {TrafficOpenskyService} from './services/traffic-opensky.service';
 import {TrafficTimerService} from './services/traffic-timer.service';
 import {TrafficAdsbexchangeService2} from './services/traffic-adsbexchange2.service';
+import {TrafficDetailsService} from './services/traffic-details.service';
+import {Traffic} from './model/traffic';
 
 
 const TRAFFIC_MAX_AGE_SEC = 120;
@@ -39,6 +41,7 @@ export class TrafficEffects {
         private trafficOpenSkyService: TrafficOpenskyService,
         private trafficAdsbExService: TrafficAdsbexchangeService,
         private trafficAdsbExService2: TrafficAdsbexchangeService2,
+        private trafficDetailsService: TrafficDetailsService,
         private trafficTimerService: TrafficTimerService) {
     }
 
@@ -136,4 +139,28 @@ export class TrafficEffects {
                 )
             )
         );
+
+
+    @Effect()
+    readTrafficDetails$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(TrafficActionTypes.TRAFFIC_READ_TIMER),
+            map(action => action as ReadTrafficTimerAction),
+            withLatestFrom(this.trafficState$),
+            mergeMap(([action, trafficState]) => {
+                return this.trafficDetailsService.readDetails(this.getMissingTrafficDetailsAcList(trafficState)).pipe(
+                    map(trafficDetails => new ReadTrafficDetailsSuccessAction(trafficDetails)),
+                    catchError(error => of(new ReadTrafficDetailsErrorAction(error)))
+                );
+            })
+        );
+
+
+    private getMissingTrafficDetailsAcList(trafficState: TrafficState): Traffic[] {
+        const missingTrafficAcList: Traffic[] = [];
+
+        trafficState.trafficMap.forEach(ac => missingTrafficAcList.push(ac)); // TODO: temp
+
+        return missingTrafficAcList;
+    }
 }

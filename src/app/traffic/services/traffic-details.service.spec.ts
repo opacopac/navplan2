@@ -1,6 +1,7 @@
 import {TestBed} from '@angular/core/testing';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {TrafficDetailsService} from './traffic-details.service';
+import {TrafficMock} from '../test/traffic-mock';
 
 
 describe('TrafficDetailsService', () => {
@@ -30,12 +31,21 @@ describe('TrafficDetailsService', () => {
     });
 
 
-    /*it('makes a JSONP call to the traffic details server after calling readTrafficDetails', () => {
-        trafficDetailsService.readTrafficDetails().subscribe(() => {});
+    it('makes a POST call to the traffic details server upon calling readDetails', () => {
+        trafficDetailsService.readDetails([TrafficMock.MOCK_TRAFFIC_1]).subscribe(() => {});
 
-        const request = httpMock.expectOne(req => req.url.startsWith(TrafficAdsbexchangeService2.ADSBEX_TRAFFIC_BASE_URL));
-        expect(request.request.method).toBe('JSONP');
+        const request = httpMock.expectOne(req => req.url.startsWith(TrafficDetailsService.TRAFFIC_DETAILS_BASE_URL));
+        expect(request.request.method).toBe('POST');
 
         request.flush(TrafficMock.ADSBEX2_MOCK_RESPONSE_1);
-    });*/
+    });
+
+
+    it('makes NO call to the traffic details server upon calling readDetails with an empty list', () => {
+        trafficDetailsService.readDetails([]).subscribe((details) => {
+            expect(details.length).toBe(0);
+        });
+
+        httpMock.expectNone(req => req.url.startsWith(TrafficDetailsService.TRAFFIC_DETAILS_BASE_URL));
+    });
 });

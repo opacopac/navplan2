@@ -37,25 +37,20 @@ export class RestMapperTrafficAdexbEx {
     public static readonly RECEIVER_NAME_ADSB = 'ADSBExchange (ADS-B)';
     public static readonly RECEIVER_NAME_MLAT = 'ADSBExchange (MLAT)';
 
+
     public static getTrafficListFromResponse(response: TrafficAdsbExResponse): Traffic[] {
-        const trafficList: Traffic[] = [];
-
-        for (const ac of response.acList) {
-            const traffic = new Traffic(
-                ac.Icao.toUpperCase(),
-                TrafficAddressType.ICAO,
-                TrafficDataSource.ADSBX,
-                this.getTrafficType(ac),
-                ac.Type,
-                ac.Reg,
-                this.getCallsign(ac),
-                this.getOperatorCallsign(ac),
-                ac.Mdl,
-                this.getPositionList(ac));
-            trafficList.push(traffic);
-        }
-
-        return trafficList;
+        return response.acList.map(ac => new Traffic(
+            ac.Icao.toUpperCase(),
+            TrafficAddressType.ICAO,
+            TrafficDataSource.ADSBX,
+            this.getTrafficType(ac),
+            ac.Type,
+            ac.Reg,
+            this.getCallsign(ac),
+            this.getOperatorCallsign(ac),
+            ac.Mdl,
+            this.getPositionList(ac)
+        ));
     }
 
 

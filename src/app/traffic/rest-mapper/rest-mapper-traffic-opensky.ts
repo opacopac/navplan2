@@ -34,26 +34,22 @@ export interface TrafficOpenskyResponse {
 
 export class RestMapperTrafficOpensky {
     public static getTrafficListFromResponse(response: TrafficOpenskyResponse): Traffic[] {
-        const trafficList: Traffic[] = [];
-
-        if (response.states) {
-            for (const ac of response.states) {
-                const traffic = new Traffic(
-                    ac[0].toUpperCase(),
-                    TrafficAddressType.ICAO,
-                    TrafficDataSource.OPENSKY,
-                    TrafficAircraftType.UNKNOWN,
-                    undefined,
-                    undefined,
-                    ac[1],
-                    this.getOperatorCallsign(ac[1]),
-                    undefined,
-                    this.getPositionList(ac[5], ac[6], ac[3], ac[13], ac[16], response.time));
-                trafficList.push(traffic);
-            }
+        if (!response.states) {
+            return [];
         }
 
-        return trafficList;
+        return response.states.map(ac => new Traffic(
+            ac[0].toUpperCase(),
+            TrafficAddressType.ICAO,
+            TrafficDataSource.OPENSKY,
+            TrafficAircraftType.UNKNOWN,
+            undefined,
+            undefined,
+            ac[1],
+            this.getOperatorCallsign(ac[1]),
+            undefined,
+            this.getPositionList(ac[5], ac[6], ac[3], ac[13], ac[16], response.time)
+        ));
     }
 
 
@@ -92,9 +88,6 @@ export class RestMapperTrafficOpensky {
             rec_time * 1000
         );
 
-        const positionList: TrafficPosition[] = []; // will contain only one entry
-        positionList.push(pos);
-
-        return positionList;
+        return [pos];
     }
 }

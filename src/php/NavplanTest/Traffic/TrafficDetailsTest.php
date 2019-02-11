@@ -208,7 +208,7 @@ class TrafficDetailsTest extends TestCase {
         TrafficDetails::getDetails($this->args, $this->getDbService());
 
         $expectedRegExp = '/\{"acdetails":\[\{';
-        $expectedRegExp .= '"icao24":' . $this->mockResultBasestation2['mode_s'] . ',';
+        $expectedRegExp .= '"icao24":"' . $this->mockResultBasestation2['mode_s'] . '",';
         $expectedRegExp .= '"reg":null,';
         $expectedRegExp .= '"model":null,';
         $expectedRegExp .= '"manufacturer":null,';

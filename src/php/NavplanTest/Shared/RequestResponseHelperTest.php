@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use Navplan\Shared\RequestResponseHelper;
 use PHPUnit\Framework\TestCase;
 
+
 class RequestResponseHelperTest extends TestCase {
     // region sendRestResponse
 
@@ -57,6 +58,21 @@ class RequestResponseHelperTest extends TestCase {
         RequestResponseHelper::sendArrayResponse($data, "");
     }
 
+
+    public function test_sendRestResponse_json_numeric() {
+        $data = array('icao' => '112233');
+        RequestResponseHelper::sendArrayResponse($data, NULL, TRUE);
+
+        $this->expectOutputRegex('/^{"icao":112233}$/');
+    }
+
+
+    public function test_sendRestResponse_json_non_numeric() {
+        $data = array('icao' => '112233');
+        RequestResponseHelper::sendArrayResponse($data, NULL, FALSE);
+
+        $this->expectOutputRegex('/^{"icao":"112233"}$/');
+    }
     // endregion
 
 

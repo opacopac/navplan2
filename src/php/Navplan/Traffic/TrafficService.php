@@ -6,6 +6,7 @@ require_once __DIR__ . "/../NavplanBootstrap.php";
 
 use Navplan\NavplanBootstrap;
 
+header("Access-Control-Allow-Origin: *"); // TODO: remove for PROD
 
 TrafficServiceProcessor::processRequest(
     $_SERVER['REQUEST_METHOD'],

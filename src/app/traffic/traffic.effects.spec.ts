@@ -18,6 +18,8 @@ import {TrafficState} from './traffic-state';
 import {MockStore} from '../shared/test/mock-store';
 import {TrafficTimerService} from './services/traffic-timer.service';
 import {TrafficAdsbexchangeService2} from './services/traffic-adsbexchange2.service';
+import {TrafficDetailsService} from './services/traffic-details.service';
+import {TrafficDetails} from './model/traffic-details';
 
 
 
@@ -27,6 +29,7 @@ describe('TrafficEffects', () => {
     let trafficOpenskyService: TrafficOpenskyService;
     let trafficAdsbexchangeService: TrafficAdsbexchangeService;
     let trafficAdsbexchangeService2: TrafficAdsbexchangeService2;
+    let trafficDetailsService: TrafficDetailsService;
     let trafficTimerService: TrafficTimerService;
     const initialTrafficState: TrafficState = {
         extent: Extent.createFromLatLon([0, 1, 2, 3]),
@@ -81,6 +84,16 @@ describe('TrafficEffects', () => {
     }
 
 
+    function createTrafficDetailsServiceMock(response: TrafficDetails[] | Error): SpyObj<TrafficDetailsService> {
+        const service = createSpyObj<TrafficDetailsService>('trafficDetailsService', ['readDetails']);
+        const isError = response instanceof Error;
+        const serviceResponse = isError ? throwError(response as Error) : of<TrafficDetails[]>(response as TrafficDetails[]);
+        service.readDetails.and.returnValue(serviceResponse);
+
+        return service;
+    }
+
+
     function createTrafficTimerServiceMock(): SpyObj<TrafficTimerService> {
         const service = createSpyObj<TrafficTimerService>('trafficTimerService', ['start', 'stop']);
         service.start.and.stub();
@@ -98,6 +111,7 @@ describe('TrafficEffects', () => {
             trafficOpenskyService,
             trafficAdsbexchangeService,
             trafficAdsbexchangeService2,
+            trafficDetailsService,
             trafficTimerService
         );
     }
@@ -109,6 +123,7 @@ describe('TrafficEffects', () => {
         trafficOpenskyService = createOpenSkyServiceMock([]);
         trafficAdsbexchangeService = createAdsbexServiceMock([]);
         trafficAdsbexchangeService2 = createAdsbexService2Mock([]);
+        trafficDetailsService = createTrafficDetailsServiceMock([]);
         trafficTimerService = createTrafficTimerServiceMock();
 
         setTimeout(() => done(), 1);
@@ -388,6 +403,21 @@ describe('TrafficEffects', () => {
         });
         expect(effects.readAdsbEx2Traffic$).toBeObservable(reAction$);
     });
+
+    // endregion
+
+
+    // region traffic details
+
+    it('reads missing traffic details on traffic timer', () => {
+        const action = new ReadTrafficTimerAction(2);
+        const action$ = new Actions(of(action));
+        const effects = createTrafficEffects(action$);
+        effects.readTrafficDetails$.subscribe(() => {
+            expect(trafficDetailsService.readDetails).toHaveBeenCalled();
+        });
+    });
+
 
     // endregion
 

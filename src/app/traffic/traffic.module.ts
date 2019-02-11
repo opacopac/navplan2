@@ -16,6 +16,7 @@ import {TrafficActions} from './traffic.actions';
 import {BaseMapModule} from '../base-map/base-map.module';
 import {TrafficTimerService} from './services/traffic-timer.service';
 import {TrafficAdsbexchangeService2} from './services/traffic-adsbexchange2.service';
+import {TrafficDetailsService} from './services/traffic-details.service';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import {TrafficAdsbexchangeService2} from './services/traffic-adsbexchange2.serv
         TrafficAdsbexchangeService,
         TrafficAdsbexchangeService2,
         TrafficOgnService,
+        TrafficDetailsService,
         TrafficTimerService
     ]
 })

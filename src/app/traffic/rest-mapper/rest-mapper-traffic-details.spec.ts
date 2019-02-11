@@ -36,4 +36,12 @@ describe('RestMapperTrafficDetails', () => {
         const trafficList = RestMapperTrafficAdsbEx2.getTrafficListFromResponse(response);
         expect(trafficList.length).toEqual(0);
     });
+
+
+    it('maps a numeric only icao code correctly', () => {
+        const response = TrafficMock.TRAFFIC_DETAILS_MOCK_RESPONSE_2;
+        const detailList = RestMapperTrafficDetails.getTrafficDetailsListFromResponse(response);
+        expect(detailList.length).toEqual(1);
+        expect(detailList[0].icao24).toEqual(response.acdetails[0].icao24.toString().toUpperCase());
+    });
 });

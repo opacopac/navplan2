@@ -179,10 +179,29 @@ export class TrafficMock {
         'eng_class': 'J'
     };
 
+
+    public static readonly TRAFFIC_DETAILS_MOCK_RESPONSE_2_ITEM_1 = {
+        'icao24': 'c0ffee',
+        'reg': undefined,
+        'model': undefined,
+        'manufacturer': 'AIRBUS',
+        'ac_type': 'A320',
+        'ac_class': 'L',
+        'eng_class': 'J'
+    };
+
+
     public static readonly TRAFFIC_DETAILS_MOCK_RESPONSE_1 = {
         'acdetails': [
             TrafficMock.TRAFFIC_DETAILS_MOCK_RESPONSE_1_ITEM_1,
             TrafficMock.TRAFFIC_DETAILS_MOCK_RESPONSE_1_ITEM_2,
+        ]
+    };
+
+
+    public static readonly TRAFFIC_DETAILS_MOCK_RESPONSE_2 = {
+        'acdetails': [
+            TrafficMock.TRAFFIC_DETAILS_MOCK_RESPONSE_2_ITEM_1,
         ]
     };
 

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
+import {Observable, of, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {Traffic, TrafficAddressType} from '../model/traffic';
@@ -27,6 +27,9 @@ export class TrafficDetailsService {
 
     public readDetails(trafficList: Traffic[]): Observable<TrafficDetails[]> {
         const requestBody = this.getRequest(trafficList);
+        if (requestBody.aclist.length <= 0) {
+            return of([]);
+        }
 
         return this.http
             .post<TrafficDetailsResponse>(
@@ -44,17 +47,11 @@ export class TrafficDetailsService {
 
 
     private getRequest(trafficList: Traffic[]): TrafficDetailsRequest {
-        const aclist: TrafficDetailsRequestItem[] = [];
-
-        for (const traffic of trafficList) {
-            if (traffic.addressType === TrafficAddressType.ICAO) {
-                aclist.push(this.getRequestItem(traffic));
-            }
-        }
-
         return {
-            action: 'readtrafficdetails',
-            aclist: aclist
+            action: 'readacdetails',
+            aclist: trafficList
+                .filter(traffic => traffic.addressType === TrafficAddressType.ICAO)
+                .map(traffic => this.getRequestItem(traffic))
         };
     }
 

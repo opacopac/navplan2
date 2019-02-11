@@ -44,28 +44,22 @@ export class RestMapperTrafficAdsbEx2 {
 
 
     public static getTrafficListFromResponse(response: TrafficAdsbEx2Response): Traffic[] {
-        const trafficList: Traffic[] = [];
-
         if (!response.ac) {
-            return trafficList;
+            return [];
         }
 
-        for (const ac of response.ac) {
-            const traffic = new Traffic(
-                ac.icao.toUpperCase(),
-                TrafficAddressType.ICAO,
-                TrafficDataSource.ADSBX2,
-                TrafficAircraftType.UNKNOWN,
-                ac.type,
-                ac.reg,
-                ac.call,
-                undefined,
-                ac.type,
-                this.getPositionList(response, ac));
-            trafficList.push(traffic);
-        }
-
-        return trafficList;
+        return response.ac.map(ac => new Traffic(
+            ac.icao.toUpperCase(),
+            TrafficAddressType.ICAO,
+            TrafficDataSource.ADSBX2,
+            TrafficAircraftType.UNKNOWN,
+            ac.type,
+            ac.reg,
+            ac.call,
+            undefined,
+            ac.type,
+            this.getPositionList(response, ac)
+        ));
     }
 
 
