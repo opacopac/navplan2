@@ -24,6 +24,8 @@ describe('TrafficMergerIcaoType', () => {
     });
 
 
+    // region merge traffic
+
     it('should always overwrite undefined icao type', () => {
         acOld.icaoType = undefined;
         acNew.icaoType = 'AAT3';
@@ -37,7 +39,7 @@ describe('TrafficMergerIcaoType', () => {
     });
 
 
-    it('should never overwrite with undefined icao type', () => {
+    it('should never overwrite an existing with an undefined icao type', () => {
         acOld.icaoType = 'A320';
         acNew.icaoType = undefined;
         icaoType = TrafficMergerIcaoType.merge(acOld, acNew);
@@ -48,4 +50,6 @@ describe('TrafficMergerIcaoType', () => {
         icaoType = TrafficMergerIcaoType.merge(acOld, acNew);
         expect(icaoType).toBe('A320');
     });
+
+    // endregion
 });

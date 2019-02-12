@@ -42,6 +42,15 @@ describe('TrafficMergerAcType', () => {
     });
 
 
+    it('should not overwrite existing type with an unknown type', () => {
+        acOld.acType = TrafficAircraftType.POWERED_AIRCRAFT;
+        acNew.acType = TrafficAircraftType.UNKNOWN;
+        acNew.dataSource = TrafficDataSource.DETAILS;
+        acType = TrafficMergerAcType.merge(acOld, acNew);
+        expect(acType).toBe(TrafficAircraftType.POWERED_AIRCRAFT);
+    });
+
+
     it('should always keep drop plane type', () => {
         acOld.acType = TrafficAircraftType.POWERED_AIRCRAFT;
         acNew.acType = TrafficAircraftType.DROP_PLANE;

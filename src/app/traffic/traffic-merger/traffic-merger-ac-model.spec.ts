@@ -34,14 +34,17 @@ describe('TrafficMergerAcModel', () => {
         acNew.acModel = 'Airbus A319 111';
         reg = TrafficMergerAcModel.merge(acOld, acNew);
         expect(reg).toBe('Airbus A319 111');
+    });
 
+
+    it('should never overwrite an existing registration with an empty one', () => {
         acOld.acModel = 'Airbus A319 111';
         acNew.acModel = undefined;
         reg = TrafficMergerAcModel.merge(acOld, acNew);
         expect(reg).toBe('Airbus A319 111');
 
         acOld.acModel = 'Airbus A319 111';
-        acNew.acModel = undefined;
+        acNew.acModel = '';
         reg = TrafficMergerAcModel.merge(acOld, acNew);
         expect(reg).toBe('Airbus A319 111');
     });

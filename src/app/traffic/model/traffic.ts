@@ -41,7 +41,8 @@ export enum TrafficDataSource {
     OGN,
     ADSBX,
     ADSBX2,
-    OPENSKY
+    OPENSKY,
+    DETAILS
 }
 
 

@@ -5,7 +5,6 @@ import {catchError, map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {Traffic, TrafficAddressType} from '../model/traffic';
 import {LoggingService} from '../../shared/services/logging/logging.service';
-import {TrafficDetails} from '../model/traffic-details';
 import {
     RestMapperTrafficDetails,
     TrafficDetailsRequest,
@@ -25,7 +24,7 @@ export class TrafficDetailsService {
     }
 
 
-    public readDetails(trafficList: Traffic[]): Observable<TrafficDetails[]> {
+    public readDetails(trafficList: Traffic[]): Observable<Traffic[]> {
         const requestBody = this.getRequest(trafficList);
         if (requestBody.aclist.length <= 0) {
             return of([]);
@@ -37,7 +36,7 @@ export class TrafficDetailsService {
                 JSON.stringify(requestBody),
                 {observe: 'response'})
             .pipe(
-                map(response => RestMapperTrafficDetails.getTrafficDetailsListFromResponse(response.body)),
+                map(response => RestMapperTrafficDetails.getTrafficListFromResponse(response.body)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading traffic details', err);
                     return throwError(err);

@@ -1,4 +1,4 @@
-import {AircraftClass, EngineClass, TrafficDetails} from '../model/traffic-details';
+import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource} from '../model/traffic';
 
 
 export interface TrafficDetailsRequest {
@@ -23,61 +23,68 @@ export interface TrafficDetailsRestItem {
     'reg': string;
     'model': string;
     'manufacturer': string;
-    'ac_type': string;
-    'ac_class': string;
-    'eng_class': string;
+    'ac_type': string; // 4-characters
+    'ac_class': string; // A=Amphibian, G=Gyrocopter, H=Helicopter, L=Landplane, S=Seaplane, T=Tiltrotor
+    'eng_class': string; // E=Electric, J=Jet, P=Piston, R=Rocket, T=Turboprop
 }
 
 
 export class RestMapperTrafficDetails {
-    public static getTrafficDetailsListFromResponse(response: TrafficDetailsResponse): TrafficDetails[] {
+    public static getTrafficListFromResponse(response: TrafficDetailsResponse): Traffic[] {
         if (!response.acdetails) {
             return [];
         }
 
-        return response.acdetails.map(ac => new TrafficDetails(
+        return response.acdetails.map(ac => new Traffic(
             ac.icao24.toString().toUpperCase(),
-            ac.reg,
-            ac.model,
-            ac.manufacturer,
+            TrafficAddressType.ICAO,
+            TrafficDataSource.DETAILS,
+            this.getAircraftType(ac),
             ac.ac_type,
-            this.getAircraftClass(ac.ac_class),
-            this.getEngineClass(ac.eng_class)
+            ac.reg,
+            undefined,
+            undefined,
+            ac.model,
+            []
         ));
     }
 
 
-    private static getAircraftClass(ac_class: string): AircraftClass {
-        if (!ac_class) {
-            return AircraftClass.UNKNOWN;
+    private static getAircraftType(restItem: TrafficDetailsRestItem): TrafficAircraftType {
+        if (!restItem.ac_class) {
+            return TrafficAircraftType.UNKNOWN;
         }
 
-        switch (ac_class.toUpperCase()) {
-            case 'A': return AircraftClass.AMPHIBIAN;
-            case 'G': return AircraftClass.GYROCOPTER;
-            case 'H': return AircraftClass.HELICOPTER;
-            case 'L': return AircraftClass.LANDPLANE;
-            case 'S': return AircraftClass.SEAPLANE;
-            case 'T': return AircraftClass.TILTROTOR;
+        switch (restItem.ac_class) {
+            case 'H': // HELICOPTER
+            case 'G': // GYROCOPTER
+                return TrafficAircraftType.HELICOPTER_ROTORCRAFT;
+            case 'L': // LANDPLANE
+            case 'S': // SEAPLANE
+            case 'A': // AMPHIBIAN
+                return this.isJetEngine(restItem) ? TrafficAircraftType.JET_AIRCRAFT : TrafficAircraftType.POWERED_AIRCRAFT;
+            case 'T': // TILTROTOR
+                return TrafficAircraftType.POWERED_AIRCRAFT;
             default:
-                return AircraftClass.UNKNOWN;
+                return TrafficAircraftType.UNKNOWN;
         }
     }
 
 
-    private static getEngineClass(eng_class: string): EngineClass {
-        if (!eng_class) {
-            return EngineClass.UNKNOWN;
+    private static isJetEngine(restItem: TrafficDetailsRestItem): boolean {
+        if (!restItem.eng_class) {
+            return false;
         }
 
-        switch (eng_class.toUpperCase()) {
-            case 'E': return EngineClass.ELECTRIC;
-            case 'J': return EngineClass.JET;
-            case 'P': return EngineClass.PISTON;
-            case 'R': return EngineClass.ROCKET;
-            case 'T': return EngineClass.TURBOPROP;
+        switch (restItem.eng_class) {
+            case 'J': // JET
+            case 'R': // ROCKET
+                return true;
+            case 'P': // PISTON
+            case 'E': // ELECTRIC
+            case 'T': // TURBOPROP
             default:
-                return EngineClass.UNKNOWN;
+                return false;
         }
     }
 }

@@ -42,8 +42,8 @@ describe('TrafficDetailsService', () => {
 
 
     it('makes NO call to the traffic details server upon calling readDetails with an empty list', () => {
-        trafficDetailsService.readDetails([]).subscribe((details) => {
-            expect(details.length).toBe(0);
+        trafficDetailsService.readDetails([]).subscribe((trafficList) => {
+            expect(trafficList.length).toBe(0);
         });
 
         httpMock.expectNone(req => req.url.startsWith(TrafficDetailsService.TRAFFIC_DETAILS_BASE_URL));

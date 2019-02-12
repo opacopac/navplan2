@@ -8,8 +8,14 @@ import {TrafficOgnService} from './services/traffic-ogn.service';
 import {TrafficAdsbexchangeService} from './services/traffic-adsbexchange.service';
 import {Traffic} from './model/traffic';
 import {TrafficOpenskyService} from './services/traffic-opensky.service';
-import {ReadTrafficErrorAction, ReadTrafficSuccessAction, ReadTrafficTimerAction, StartWatchTrafficAction,
-    StopWatchTrafficAction, ToggleWatchTrafficAction} from './traffic.actions';
+import {
+    ReadTrafficErrorAction,
+    ReadTrafficSuccessAction,
+    ReadTrafficTimerAction,
+    StartWatchTrafficAction,
+    StopWatchTrafficAction,
+    ToggleWatchTrafficAction
+} from './traffic.actions';
 import {Extent} from '../shared/model/extent';
 import {LengthUnit} from '../shared/model/units';
 import {Altitude} from '../shared/model/quantities/altitude';
@@ -19,8 +25,6 @@ import {MockStore} from '../shared/test/mock-store';
 import {TrafficTimerService} from './services/traffic-timer.service';
 import {TrafficAdsbexchangeService2} from './services/traffic-adsbexchange2.service';
 import {TrafficDetailsService} from './services/traffic-details.service';
-import {TrafficDetails} from './model/traffic-details';
-
 
 
 describe('TrafficEffects', () => {
@@ -84,10 +88,10 @@ describe('TrafficEffects', () => {
     }
 
 
-    function createTrafficDetailsServiceMock(response: TrafficDetails[] | Error): SpyObj<TrafficDetailsService> {
+    function createTrafficDetailsServiceMock(response: Traffic[] | Error): SpyObj<TrafficDetailsService> {
         const service = createSpyObj<TrafficDetailsService>('trafficDetailsService', ['readDetails']);
         const isError = response instanceof Error;
-        const serviceResponse = isError ? throwError(response as Error) : of<TrafficDetails[]>(response as TrafficDetails[]);
+        const serviceResponse = isError ? throwError(response as Error) : of<Traffic[]>(response as Traffic[]);
         service.readDetails.and.returnValue(serviceResponse);
 
         return service;
@@ -415,6 +419,16 @@ describe('TrafficEffects', () => {
         const effects = createTrafficEffects(action$);
         effects.readTrafficDetails$.subscribe(() => {
             expect(trafficDetailsService.readDetails).toHaveBeenCalled();
+        });
+    });
+
+
+    it('dispatches a ReadTrafficSuccessAction after success response from TrafficDetailsService.readDetails', () => {
+        const action = new ReadTrafficTimerAction(1);
+        const action$ = new Actions(of(action));
+        const effects = createTrafficEffects(action$);
+        effects.readTrafficDetails$.subscribe(readTrafficDetails => {
+            expect(readTrafficDetails).toEqual(jasmine.any(ReadTrafficSuccessAction));
         });
     });
 

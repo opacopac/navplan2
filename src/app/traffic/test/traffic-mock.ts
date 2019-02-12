@@ -35,6 +35,20 @@ export class TrafficMock {
     );
 
 
+    public static readonly MOCK_TRAFFIC_2 = new Traffic(
+        '4B3142',
+        TrafficAddressType.ICAO,
+        TrafficDataSource.OGN,
+        TrafficAircraftType.UNKNOWN,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        [TrafficMock.MOCK_POSITION_1]
+    );
+
+
     public static readonly OGN_MOCK_RESPONSE_1_ITEM_1: TrafficOgnRestItem = {
         id: '4B406A',
         addresstype: 'ICAO',
@@ -158,52 +172,7 @@ export class TrafficMock {
     };
 
 
-    public static readonly TRAFFIC_DETAILS_MOCK_RESPONSE_1_ITEM_1 = {
-        'icao24': '4B3142',
-        'reg': 'HB-SRA',
-        'model': 'AT-3 R100',
-        'manufacturer': 'AERO AT SP. Z O.O.',
-        'ac_type': 'AAT3',
-        'ac_class': 'L',
-        'eng_class': 'P'
-    };
 
-
-    public static readonly TRAFFIC_DETAILS_MOCK_RESPONSE_1_ITEM_2 = {
-        'icao24': 'c0ffee',
-        'reg': undefined,
-        'model': undefined,
-        'manufacturer': 'AIRBUS',
-        'ac_type': 'A320',
-        'ac_class': 'L',
-        'eng_class': 'J'
-    };
-
-
-    public static readonly TRAFFIC_DETAILS_MOCK_RESPONSE_2_ITEM_1 = {
-        'icao24': 'c0ffee',
-        'reg': undefined,
-        'model': undefined,
-        'manufacturer': 'AIRBUS',
-        'ac_type': 'A320',
-        'ac_class': 'L',
-        'eng_class': 'J'
-    };
-
-
-    public static readonly TRAFFIC_DETAILS_MOCK_RESPONSE_1 = {
-        'acdetails': [
-            TrafficMock.TRAFFIC_DETAILS_MOCK_RESPONSE_1_ITEM_1,
-            TrafficMock.TRAFFIC_DETAILS_MOCK_RESPONSE_1_ITEM_2,
-        ]
-    };
-
-
-    public static readonly TRAFFIC_DETAILS_MOCK_RESPONSE_2 = {
-        'acdetails': [
-            TrafficMock.TRAFFIC_DETAILS_MOCK_RESPONSE_2_ITEM_1,
-        ]
-    };
 
 
     public static createPosition(

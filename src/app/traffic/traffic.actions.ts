@@ -1,6 +1,5 @@
 import {Action} from '@ngrx/store';
 import {Traffic} from './model/traffic';
-import {TrafficDetails} from './model/traffic-details';
 
 
 export enum TrafficActionTypes {
@@ -10,8 +9,6 @@ export enum TrafficActionTypes {
     TRAFFIC_READ_TIMER = '[TrafficEffects] read timer',
     TRAFFIC_READ_SUCCESS = '[TrafficEffects] read traffic success',
     TRAFFIC_READ_ERROR = '[TrafficEffects] read traffic error',
-    TRAFFIC_READ_DETAILS_SUCCESS = '[TrafficEffects] read traffic details success',
-    TRAFFIC_READ_DETAILS_ERROR = '[TrafficEffects] read traffic details error',
 }
 
 
@@ -57,26 +54,10 @@ export class ReadTrafficErrorAction implements Action {
 }
 
 
-export class ReadTrafficDetailsSuccessAction implements Action {
-    readonly type = TrafficActionTypes.TRAFFIC_READ_DETAILS_SUCCESS;
-
-    constructor(public traffic: TrafficDetails[]) {}
-}
-
-
-export class ReadTrafficDetailsErrorAction implements Action {
-    readonly type = TrafficActionTypes.TRAFFIC_READ_DETAILS_ERROR;
-
-    constructor(public error: Error) {}
-}
-
-
 export type TrafficActions =
     ToggleWatchTrafficAction |
     StartWatchTrafficAction |
     StopWatchTrafficAction |
     ReadTrafficTimerAction |
     ReadTrafficSuccessAction |
-    ReadTrafficErrorAction |
-    ReadTrafficDetailsSuccessAction |
-    ReadTrafficDetailsErrorAction;
+    ReadTrafficErrorAction;

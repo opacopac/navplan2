@@ -2,14 +2,14 @@ import {Injectable} from '@angular/core';
 import {Action, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
-import {catchError, filter, map, mergeMap, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, map, mergeMap, tap, withLatestFrom} from 'rxjs/operators';
 import {
     ReadTrafficTimerAction,
     StartWatchTrafficAction,
     StopWatchTrafficAction,
     TrafficActionTypes,
     ReadTrafficSuccessAction,
-    ReadTrafficErrorAction, ReadTrafficDetailsSuccessAction, ReadTrafficDetailsErrorAction,
+    ReadTrafficErrorAction,
 } from './traffic.actions';
 import {getTrafficIsWatching, getTrafficState} from './traffic.selectors';
 import {TrafficOgnService} from './services/traffic-ogn.service';
@@ -149,8 +149,8 @@ export class TrafficEffects {
             withLatestFrom(this.trafficState$),
             mergeMap(([action, trafficState]) => {
                 return this.trafficDetailsService.readDetails(this.getMissingTrafficDetailsAcList(trafficState)).pipe(
-                    map(trafficDetails => new ReadTrafficDetailsSuccessAction(trafficDetails)),
-                    catchError(error => of(new ReadTrafficDetailsErrorAction(error)))
+                    map(trafficList => new ReadTrafficSuccessAction(trafficList)),
+                    catchError(error => of(new ReadTrafficErrorAction(error)))
                 );
             })
         );
@@ -159,7 +159,9 @@ export class TrafficEffects {
     private getMissingTrafficDetailsAcList(trafficState: TrafficState): Traffic[] {
         const missingTrafficAcList: Traffic[] = [];
 
-        trafficState.trafficMap.forEach(ac => missingTrafficAcList.push(ac)); // TODO: temp
+        if (trafficState.trafficMap) {
+            trafficState.trafficMap.forEach(ac => missingTrafficAcList.push(ac)); // TODO: temp
+        }
 
         return missingTrafficAcList;
     }

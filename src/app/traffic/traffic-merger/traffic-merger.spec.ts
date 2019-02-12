@@ -32,6 +32,21 @@ describe('TrafficMerger', () => {
     });
 
 
+    // region getTrafficMapKey
+
+    it('creates a lookup key from an traffic object', () => {
+        const ac = TrafficMock.MOCK_TRAFFIC_1.clone();
+        const expectedKey = ac.addressType + '_' + ac.acAddress;
+        const actualKey = TrafficMerger.getTrafficMapKey(ac);
+
+        expect(actualKey).toEqual(expectedKey);
+    });
+
+    // endregion
+
+
+    // region mergeTrafficMap
+
     it('it merges the new traffic into the traffic map', () => {
         expect(trafficMap.size).toBe(1);
         const newTrafficMap = TrafficMerger.mergeTrafficMap(trafficMap, newTrafficList);
@@ -129,4 +144,6 @@ describe('TrafficMerger', () => {
 
         expect(newTrafficMap.get(key).acModel).toBe('Airbus A319 111');
     });
+
+    // endregion
 });
