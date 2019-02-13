@@ -1,4 +1,9 @@
 import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource} from './traffic';
+import {TrafficPosition, TrafficPositionMethod} from './traffic-position';
+import {Position4d} from '../../shared/model/geometry/position4d';
+import {Altitude} from '../../shared/model/quantities/altitude';
+import {LengthUnit} from '../../shared/model/units';
+import {Timestamp} from '../../shared/model/quantities/timestamp';
 
 
 describe('Traffic', () => {
@@ -12,6 +17,7 @@ describe('Traffic', () => {
     const mock1OpCallsign = 'Swiss 123';
     const mock1AcModel =  'AT-3 R100';
     let mock1Traffic: Traffic;
+    let mockPos1: TrafficPosition;
 
 
     beforeEach(() => {
@@ -27,6 +33,14 @@ describe('Traffic', () => {
             mock1AcModel,
             []
         );
+
+        mockPos1 = new TrafficPosition(
+            new Position4d(7.0, 47.0, new Altitude(5000, LengthUnit.FT), Timestamp.now()),
+            TrafficDataSource.OGN,
+            TrafficPositionMethod.FLARM,
+            'receiver',
+            Timestamp.now().epochMs
+        );
     });
 
 
@@ -40,11 +54,16 @@ describe('Traffic', () => {
         expect(mock1Traffic.callsign).toEqual(mock1Callsign);
         expect(mock1Traffic.opCallsign).toEqual(mock1OpCallsign);
         expect(mock1Traffic.acModel).toEqual(mock1AcModel);
+        expect(mock1Traffic.positions.length).toEqual(0);
+        expect(mock1Traffic.isDetailsLoaded).toBeFalsy();
     });
 
 
     it('clones an instance', () => {
+        mock1Traffic.positions.push(mockPos1);
+        mock1Traffic.isDetailsLoaded = true;
         const traffic2 = mock1Traffic.clone();
+
         expect(traffic2.acAddress).toEqual(mock1acAddress);
         expect(traffic2.addressType).toEqual(mock1addressType);
         expect(traffic2.dataSource).toEqual(mock1DataSource);
@@ -54,5 +73,7 @@ describe('Traffic', () => {
         expect(traffic2.callsign).toEqual(mock1Callsign);
         expect(traffic2.opCallsign).toEqual(mock1OpCallsign);
         expect(traffic2.acModel).toEqual(mock1AcModel);
+        expect(traffic2.positions.length).toEqual(1);
+        expect(traffic2.isDetailsLoaded).toBeTruthy();
     });
 });

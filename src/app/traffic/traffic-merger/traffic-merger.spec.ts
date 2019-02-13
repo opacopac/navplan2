@@ -145,5 +145,17 @@ describe('TrafficMerger', () => {
         expect(newTrafficMap.get(key).acModel).toBe('Airbus A319 111');
     });
 
+    it('sets the details loaded flag', () => {
+        acOld1.dataSource = TrafficDataSource.ADSBX;
+        acNew1.dataSource = TrafficDataSource.DETAILS;
+        acNew2.dataSource = TrafficDataSource.OGN;
+        const key1 = TrafficMerger.getTrafficMapKey(acOld1);
+        const key2 = TrafficMerger.getTrafficMapKey(acNew2);
+        const newTrafficMap = TrafficMerger.mergeTrafficMap(trafficMap, newTrafficList);
+
+        expect(newTrafficMap.get(key1).isDetailsLoaded).toBeTruthy();
+        expect(newTrafficMap.get(key2).isDetailsLoaded).toBeFalsy();
+    });
+
     // endregion
 });

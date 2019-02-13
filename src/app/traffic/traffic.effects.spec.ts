@@ -1,12 +1,10 @@
 import {Actions} from '@ngrx/effects';
 import {of, throwError} from 'rxjs';
-import createSpyObj = jasmine.createSpyObj;
-import SpyObj = jasmine.SpyObj;
-import {hot, cold} from 'jasmine-marbles';
+import {cold} from 'jasmine-marbles';
 import {TrafficEffects} from './traffic.effects';
 import {TrafficOgnService} from './services/traffic-ogn.service';
 import {TrafficAdsbexchangeService} from './services/traffic-adsbexchange.service';
-import {Traffic} from './model/traffic';
+import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource} from './model/traffic';
 import {TrafficOpenskyService} from './services/traffic-opensky.service';
 import {
     ReadTrafficErrorAction,
@@ -25,6 +23,8 @@ import {MockStore} from '../shared/test/mock-store';
 import {TrafficTimerService} from './services/traffic-timer.service';
 import {TrafficAdsbexchangeService2} from './services/traffic-adsbexchange2.service';
 import {TrafficDetailsService} from './services/traffic-details.service';
+import createSpyObj = jasmine.createSpyObj;
+import SpyObj = jasmine.SpyObj;
 
 
 describe('TrafficEffects', () => {
@@ -35,12 +35,28 @@ describe('TrafficEffects', () => {
     let trafficAdsbexchangeService2: TrafficAdsbexchangeService2;
     let trafficDetailsService: TrafficDetailsService;
     let trafficTimerService: TrafficTimerService;
+    const mockTraffic1 = new Traffic(
+        'C0FFEE',
+        TrafficAddressType.OGN,
+        TrafficDataSource.OGN,
+        TrafficAircraftType.POWERED_AIRCRAFT,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        []
+    );
+    const mockTraffic2 = mockTraffic1.clone();
+    mockTraffic2.isDetailsLoaded = true;
     const initialTrafficState: TrafficState = {
         extent: Extent.createFromLatLon([0, 1, 2, 3]),
         sessionId: '123456',
         status: TrafficServiceStatus.CURRENT,
         isWatching: true,
-        trafficMap: undefined,
+        trafficMap: new Map<string, Traffic>()
+            .set('1_C0FFEE', mockTraffic1)
+            .set('1_AABBCC', mockTraffic2),
         trafficMaxAltitude: new Altitude(15000, LengthUnit.FT),
     };
     const initialState = {
@@ -419,6 +435,16 @@ describe('TrafficEffects', () => {
         const effects = createTrafficEffects(action$);
         effects.readTrafficDetails$.subscribe(() => {
             expect(trafficDetailsService.readDetails).toHaveBeenCalled();
+        });
+    });
+
+
+    it('reads missing traffic details only for traffic with details flag = false', () => {
+        const action = new ReadTrafficTimerAction(2);
+        const action$ = new Actions(of(action));
+        const effects = createTrafficEffects(action$);
+        effects.readTrafficDetails$.subscribe(() => {
+            expect(trafficDetailsService.readDetails).toHaveBeenCalledWith([mockTraffic1]);
         });
     });
 

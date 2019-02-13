@@ -160,7 +160,11 @@ export class TrafficEffects {
         const missingTrafficAcList: Traffic[] = [];
 
         if (trafficState.trafficMap) {
-            trafficState.trafficMap.forEach(ac => missingTrafficAcList.push(ac)); // TODO: temp
+            trafficState.trafficMap.forEach(ac => {
+                if (!ac.isDetailsLoaded) {
+                    missingTrafficAcList.push(ac);
+                }
+            });
         }
 
         return missingTrafficAcList;

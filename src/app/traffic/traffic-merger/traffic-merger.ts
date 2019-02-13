@@ -1,4 +1,4 @@
-import {Traffic} from '../model/traffic';
+import {Traffic, TrafficDataSource} from '../model/traffic';
 import {TrafficMergerAcType} from './traffic-merger-ac-type';
 import {TrafficMergerRegistration} from './traffic-merger-registration';
 import {TrafficMergerCallsign} from './traffic-merger-callsign';
@@ -6,7 +6,6 @@ import {TrafficMergerOpCallsign} from './traffic-merger-op-callsign';
 import {TrafficMergerAcModel} from './traffic-merger-ac-model';
 import {TrafficMergerPositions} from './traffic-merger-positions';
 import {TrafficMergerIcaoType} from './traffic-merger-icao-type';
-
 
 
 export class TrafficMerger {
@@ -49,6 +48,10 @@ export class TrafficMerger {
                 ac.opCallsign = TrafficMergerOpCallsign.merge(ac, newTraffic);
                 ac.acModel = TrafficMergerAcModel.merge(ac, newTraffic);
                 ac.positions = TrafficMergerPositions.merge(ac, newTraffic);
+
+                if (newTraffic.dataSource === TrafficDataSource.DETAILS) {
+                    ac.isDetailsLoaded = true;
+                }
             }
         }
     }

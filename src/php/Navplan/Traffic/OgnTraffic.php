@@ -36,7 +36,6 @@ class OgnTraffic
         self::conditionalWait($waitDataSec);
         $acList = self::readTrafficListFromFiles($sessionId, $minLon, $minLat, $maxLon, $maxLat, $maxAgeSec, $fileService);
         self::sortPositionTimestamps($acList);
-        $acList = self::getAircraftDetails($dbService, $acList);
 
         RequestResponseHelper::sendArrayResponseWithRoot("aclist", $acList, $callback);
 
@@ -147,43 +146,5 @@ class OgnTraffic
     public static function timecompare($posa, $posb)
     {
         return strcmp($posa["time"], $posb["time"]);
-    }
-
-
-    /**
-     * @param IDbService $dbService
-     * @param array $acList
-     * @return array
-     * @throws \Navplan\Shared\InvalidFormatException
-     */
-    private static function getAircraftDetails(IDbService $dbService, array $acList): array
-    {
-        // get and escape all icao hex ac identifiers
-        $icaoList = array();
-
-        foreach ($acList as $ac)
-        {
-            $icaohex = StringNumberService::checkEscapeString($dbService, strtoupper(strval($ac["id"])), 1, 6);
-            array_push($icaoList, $icaohex);
-        }
-
-        // exec query
-        $query = "SELECT * FROM lfr_ch WHERE icaohex IN ('" . join("','", $icaoList) . "')";
-        $result = $dbService->execMultiResultQuery($query, 'error reading ac details from lfr');
-
-        while ($rs = $result->fetch_assoc())
-        {
-            $ac = $acList[$rs["icaohex"]];
-
-            if ($ac) {
-                $ac["registration"] = $rs["registration"];
-                $ac["aircraftModelType"] = $rs["aircraftModelType"];
-                $ac["aircraftCategoryId"] = $rs["aircraftCategoryId"];
-
-                $acList[$rs["icaohex"]] = $ac;
-            }
-        }
-
-        return $acList;
     }
 }

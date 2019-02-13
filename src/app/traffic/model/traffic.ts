@@ -50,6 +50,8 @@ export enum TrafficDataSource {
 
 
 export class Traffic extends DataItem implements Clonable<Traffic> {
+    public isDetailsLoaded = false;
+
     constructor(
         public acAddress: string,
         public addressType: TrafficAddressType,
@@ -75,7 +77,7 @@ export class Traffic extends DataItem implements Clonable<Traffic> {
         const newPositions: TrafficPosition[] = [];
         this.positions.forEach((pos) => newPositions.push(pos.clone()));
 
-        return new Traffic(
+        const cloneTraffic = new Traffic(
             this.acAddress,
             this.addressType,
             this.dataSource,
@@ -87,6 +89,9 @@ export class Traffic extends DataItem implements Clonable<Traffic> {
             this.acModel,
             newPositions
         );
+        cloneTraffic.isDetailsLoaded = this.isDetailsLoaded;
+
+        return cloneTraffic;
     }
 
 
