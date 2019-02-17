@@ -1,7 +1,7 @@
 import {Track} from './track';
 import {Timestamp} from '../../shared/model/quantities/timestamp';
 import {Position4d} from '../../shared/model/geometry/position4d';
-import {Altitude} from '../../shared/model/quantities/altitude';
+import {Length} from '../../shared/model/quantities/length';
 import {LengthUnit} from '../../shared/model/units';
 
 
@@ -76,7 +76,7 @@ export class RestMapperTrack {
         return new Position4d(
             posTuple[1],
             posTuple[0],
-            new Altitude(posTuple[2], LengthUnit.M),
+            new Length(posTuple[2], LengthUnit.M),
             Timestamp.createFromSec(posTuple[3])
         );
     }

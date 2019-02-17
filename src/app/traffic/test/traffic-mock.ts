@@ -1,7 +1,7 @@
 import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource} from '../model/traffic';
 import {TrafficPosition, TrafficPositionMethod} from '../model/traffic-position';
 import {Position4d} from '../../shared/model/geometry/position4d';
-import {Altitude} from '../../shared/model/quantities/altitude';
+import {Length} from '../../shared/model/quantities/length';
 import {LengthUnit} from '../../shared/model/units';
 import {Timestamp} from '../../shared/model/quantities/timestamp';
 import {TrafficOpenskyResponse} from '../rest-mapper/rest-mapper-traffic-opensky';
@@ -11,10 +11,10 @@ import {TrafficOgnResponse, TrafficOgnRestItem} from '../rest-mapper/rest-mapper
 
 
 export class TrafficMock {
-    public static readonly MOCK_EXTENT_1 = Extent.createFromLatLon([7.0, 47.0, 7.1, 47.1]);
+    public static readonly MOCK_EXTENT_1 = new Extent(7.0, 47.0, 7.1, 47.1);
 
     public static readonly MOCK_POSITION_1 = new TrafficPosition(
-        new Position4d(47.1, 47.1, new Altitude(1600, LengthUnit.FT), Timestamp.now()),
+        new Position4d(47.1, 47.1, new Length(1600, LengthUnit.FT), Timestamp.now()),
         TrafficDataSource.OGN,
         TrafficPositionMethod.FLARM,
         'receiver123',
@@ -184,7 +184,7 @@ export class TrafficMock {
     ): TrafficPosition {
         const timestamp = timestampSec ? Timestamp.createFromSec(timestampSec) : Timestamp.now();
         return new TrafficPosition(
-            new Position4d(lon, lat, new Altitude(2000, LengthUnit.FT), timestamp),
+            new Position4d(lon, lat, new Length(2000, LengthUnit.FT), timestamp),
             source,
             posMethod,
             'rec123',

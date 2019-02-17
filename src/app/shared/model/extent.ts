@@ -1,7 +1,7 @@
 import * as ol from 'openlayers';
 import {Position2d} from './geometry/position2d';
 import {GeocalcService} from '../services/geocalc/geocalc.service';
-import {Distance} from './quantities/distance';
+import {Length} from './quantities/length';
 
 
 const MERCATOR_PROJECTION = 'EPSG:3857';
@@ -9,46 +9,18 @@ const LONLAT_PROJECTION = 'EPSG:4326';
 
 
 export class Extent {
-    [index: number]: number;
-
-
-    private constructor() {
-    }
-
-
-    public static createFromLatLon(extent: [number, number, number, number]): Extent {
-        const ext = new Extent();
-        ext.setExtent(extent);
-
-        return ext;
+    public constructor(
+        public minLon: number,
+        public minLat: number,
+        public maxLon: number,
+        public maxLat: number
+    ) {
     }
 
 
     public static createFromMercator(extent: [number, number, number, number]): Extent {
-        const ext = new Extent();
-        ext.setExtent(ol.proj.transformExtent(extent, MERCATOR_PROJECTION, LONLAT_PROJECTION));
-
-        return ext;
-    }
-
-
-    public get minLon(): number {
-        return this[0];
-    }
-
-
-    public get minLat(): number {
-        return this[1];
-    }
-
-
-    public get maxLon(): number {
-        return this[2];
-    }
-
-
-    public get maxLat(): number {
-        return this[3];
+        const ext = ol.proj.transformExtent(extent, MERCATOR_PROJECTION, LONLAT_PROJECTION);
+        return new Extent(ext[0], ext[1], ext[2], ext[3]);
     }
 
 
@@ -80,41 +52,35 @@ export class Extent {
     }
 
 
-    public getRadius(): Distance {
+    public getRadius(): Length {
         return GeocalcService.calcDistance(this.minPos, this.getMidPos());
     }
 
 
     public containsExtent(extent: Extent): boolean {
-        return (this[0] <= extent[0]
-            && this[1] <= extent[1]
-            && this[2] >= extent[2]
-            && this[3] >= extent[3]);
+        return (this.minLon <= extent.minLon
+            && this.minLat <= extent.minLat
+            && this.maxLon >= extent.maxLon
+            && this.maxLat >= extent.maxLat);
     }
 
 
     public getOversizeExtent(factor: number): Extent {
-        const halfDiffLon = (this[2] - this[0]) / 2;
-        const halfDiffLat = (this[3] - this[1]) / 2;
-        const centerLon = this[0] + halfDiffLon;
-        const centerLat = this[1] + halfDiffLat;
+        const halfDiffLon = (this.maxLon - this.minLon) / 2;
+        const halfDiffLat = (this.maxLat - this.minLat) / 2;
+        const centerLon = this.minLon + halfDiffLon;
+        const centerLat = this.minLat + halfDiffLat;
 
-        return Extent.createFromLatLon([centerLon - halfDiffLon * factor,
-          centerLat - halfDiffLat * factor,
-          centerLon + halfDiffLon * factor,
-          centerLat + halfDiffLat * factor]);
+        return new Extent(
+            centerLon - halfDiffLon * factor,
+            centerLat - halfDiffLat * factor,
+            centerLon + halfDiffLon * factor,
+            centerLat + halfDiffLat * factor
+        );
     }
 
 
     private getExtent(): [number, number, number, number] {
-        return [this[0], this[1], this[2], this[3]];
-    }
-
-
-    private setExtent(extent: [number, number, number, number]) {
-        this[0] = extent[0];
-        this[1] = extent[1];
-        this[2] = extent[2];
-        this[3] = extent[3];
+        return [this.minLon, this.minLat, this.maxLon, this.maxLat];
     }
 }

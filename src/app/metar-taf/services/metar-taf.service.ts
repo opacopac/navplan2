@@ -39,7 +39,7 @@ export class MetarTafService {
             return of(new MetarTafList());
         }
 
-        const url = METAR_TAF_BASE_URL + extent[0] + ',' + extent[1] + ',' + extent[2] + ',' + extent[3];
+        const url = METAR_TAF_BASE_URL + extent.minLon + ',' + extent.minLat + ',' + extent.maxLon + ',' + extent.maxLat;
         return this.http
             .jsonp<MetarTafResponse>(url, 'jsonp')
             .pipe(

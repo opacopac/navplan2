@@ -1,5 +1,5 @@
 import {Position4d} from '../../shared/model/geometry/position4d';
-import {Altitude} from '../../shared/model/quantities/altitude';
+import {Length} from '../../shared/model/quantities/length';
 import {Timestamp} from '../../shared/model/quantities/timestamp';
 import {LengthUnit} from '../../shared/model/units';
 import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource} from '../model/traffic';
@@ -62,7 +62,7 @@ export class RestMapperTrafficOgn {
             new Position4d(
                 acPos.longitude,
                 acPos.latitude,
-                new Altitude(acPos.altitude, LengthUnit.M),
+                new Length(acPos.altitude, LengthUnit.M),
                 Timestamp.createFromSec(this.getEpocSecFromOgnTime(acPos.time))
             ),
             TrafficDataSource.OGN,

@@ -32,7 +32,7 @@ describe('trafficReducer', () => {
 
     it('updates the extent on BASEMAP_MOVED_ZOOMED_ROTATED', () => {
         const pos = new Position2d(7, 47);
-        const extent = Extent.createFromLatLon([6, 46, 8, 48]);
+        const extent = new Extent(6, 46, 8, 48);
         const action = new BaseMapMovedZoomedRotatedAction(pos, 11, new Angle(0, AngleUnit.DEG), extent);
         const state = trafficReducer(undefined, action);
 

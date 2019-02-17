@@ -9,7 +9,7 @@ import {Time} from '../../../shared/model/quantities/time';
 import {RouteFuel} from '../../model/routefuel';
 import {Fuel} from '../../../shared/model/quantities/fuel';
 import {Consumption} from '../../../shared/model/quantities/consumption';
-import {Distance} from '../../../shared/model/quantities/distance';
+import {Length} from '../../../shared/model/quantities/length';
 
 
 export class FlightrouteCalcService {
@@ -135,8 +135,8 @@ export class FlightrouteCalcService {
     }
 
 
-    private static calcTripDist(flightroute: Flightroute, lenghtUnit: LengthUnit): Distance {
-        return flightroute.waypoints.reduce((tripDist, wp) => wp.dist ? tripDist.add(wp.dist) : tripDist, new Distance(0, lenghtUnit));
+    private static calcTripDist(flightroute: Flightroute, lenghtUnit: LengthUnit): Length {
+        return flightroute.waypoints.reduce((tripDist, wp) => wp.dist ? tripDist.add(wp.dist) : tripDist, new Length(0, lenghtUnit));
     }
 
     // endregion

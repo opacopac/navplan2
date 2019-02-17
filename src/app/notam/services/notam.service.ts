@@ -36,7 +36,7 @@ export class NotamService {
 
         const startEndTime = this.getDefaultNotamTimeslot();
         const url = NOTAM_BASE_URL + '?starttimestamp=' + startEndTime[0] + '&endtimestamp=' + startEndTime[1] +
-            '&minlon=' + extent[0] + '&minlat=' + extent[1] + '&maxlon=' + extent[2] + '&maxlat=' + extent[3] +
+            '&minlon=' + extent.minLon + '&minlat=' + extent.minLat + '&maxlon=' + extent.maxLon + '&maxlat=' + extent.maxLat +
             '&zoom=' + zoom;
 
         return this.http

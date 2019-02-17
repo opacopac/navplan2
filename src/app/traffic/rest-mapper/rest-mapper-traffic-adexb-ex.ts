@@ -1,4 +1,4 @@
-import {Altitude} from '../../shared/model/quantities/altitude';
+import {Length} from '../../shared/model/quantities/length';
 import {LengthUnit} from '../../shared/model/units';
 import {Position4d} from '../../shared/model/geometry/position4d';
 import {Timestamp} from '../../shared/model/quantities/timestamp';
@@ -123,7 +123,7 @@ export class RestMapperTrafficAdexbEx {
             new Position4d(
                 ac.Long,
                 ac.Lat,
-                new Altitude(ac.Gnd ? undefined : ac.GAlt, LengthUnit.FT),
+                new Length(ac.Gnd ? undefined : ac.GAlt, LengthUnit.FT),
                 Timestamp.createFromSec(Math.floor((Math.min(ac.PosTime, now) / 1000)))
             ),
             TrafficDataSource.ADSBX,

@@ -1,7 +1,7 @@
 import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource} from '../model/traffic';
 import {TrafficPosition, TrafficPositionMethod} from '../model/traffic-position';
 import {Position4d} from '../../shared/model/geometry/position4d';
-import {Altitude} from '../../shared/model/quantities/altitude';
+import {Length} from '../../shared/model/quantities/length';
 import {Timestamp} from '../../shared/model/quantities/timestamp';
 import {LengthUnit} from '../../shared/model/units';
 
@@ -81,11 +81,11 @@ export class RestMapperTrafficAdsbEx2 {
     }
 
 
-    private static getAltitude(ac: TrafficAdsbEx2RestItem): Altitude {
+    private static getAltitude(ac: TrafficAdsbEx2RestItem): Length {
         if (ac.gnd === '1') {
             return undefined;
         }
 
-        return new Altitude(parseInt(ac.alt, 10), LengthUnit.FT);
+        return new Length(parseInt(ac.alt, 10), LengthUnit.FT);
     }
 }

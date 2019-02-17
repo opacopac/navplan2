@@ -16,7 +16,7 @@ import {
 } from './traffic.actions';
 import {Extent} from '../shared/model/extent';
 import {LengthUnit} from '../shared/model/units';
-import {Altitude} from '../shared/model/quantities/altitude';
+import {Length} from '../shared/model/quantities/length';
 import {TrafficServiceStatus} from './services/traffic-service-status';
 import {TrafficState} from './traffic-state';
 import {MockStore} from '../shared/test/mock-store';
@@ -50,14 +50,14 @@ describe('TrafficEffects', () => {
     const mockTraffic2 = mockTraffic1.clone();
     mockTraffic2.isDetailsLoaded = true;
     const initialTrafficState: TrafficState = {
-        extent: Extent.createFromLatLon([0, 1, 2, 3]),
+        extent: new Extent(0, 1, 2, 3),
         sessionId: '123456',
         status: TrafficServiceStatus.CURRENT,
         isWatching: true,
         trafficMap: new Map<string, Traffic>()
             .set('1_C0FFEE', mockTraffic1)
             .set('1_AABBCC', mockTraffic2),
-        trafficMaxAltitude: new Altitude(15000, LengthUnit.FT),
+        trafficMaxAltitude: new Length(15000, LengthUnit.FT),
     };
     const initialState = {
         trafficState: initialTrafficState

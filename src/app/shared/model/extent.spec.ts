@@ -1,38 +1,35 @@
-import {Extent} from "./extent";
-import {Position2d} from "./geometry/position2d";
-import {GeocalcService} from "../services/geocalc/geocalc.service";
+import {Extent} from './extent';
+import {Position2d} from './geometry/position2d';
+import {GeocalcService} from '../services/geocalc/geocalc.service';
 
 
 describe('Extent', () => {
-    let lonLatPosArray1: [number, number, number, number] = [7.0, 47.0, 8.0, 48.0];
-    let lonLatPosArray2: [number, number, number, number] = [7.1, 47.1, 7.9, 47.9];
+    const minLon1 = 7.0;
+    const minLat1 = 47.0;
+    const maxLon1 = 8.0;
+    const maxLat1 = 48.0;
+    const minLon2 = 7.1;
+    const minLat2 = 47.1;
+    const maxLon2 = 7.9;
+    const maxLat2 = 47.9;
 
 
     beforeEach(() => {
     });
 
 
-    it('has the correct indexer defined', () => {
-        const extent = Extent.createFromLatLon(lonLatPosArray1);
-        expect(extent[0]).toBe(lonLatPosArray1[0]);
-        expect(extent[1]).toBe(lonLatPosArray1[1]);
-        expect(extent[2]).toBe(lonLatPosArray1[2]);
-        expect(extent[3]).toBe(lonLatPosArray1[3]);
-    });
-
-
     it('has the correct lon/lat properties defined', () => {
-        const extent = Extent.createFromLatLon(lonLatPosArray1);
-        expect(extent.minLon).toBe(lonLatPosArray1[0]);
-        expect(extent.minLat).toBe(lonLatPosArray1[1]);
-        expect(extent.maxLon).toBe(lonLatPosArray1[2]);
-        expect(extent.maxLat).toBe(lonLatPosArray1[3]);
+        const extent = new Extent(minLon1, minLat1, maxLon1, maxLat1);
+        expect(extent.minLon).toBe(minLon1);
+        expect(extent.minLat).toBe(minLat1);
+        expect(extent.maxLon).toBe(maxLon1);
+        expect(extent.maxLat).toBe(maxLat1);
     });
 
 
     it('gets the correct lon/lat pos array', () => {
-        const extent = Extent.createFromLatLon(lonLatPosArray1);
-        expect(extent.getAsLatLon()).toEqual(lonLatPosArray1);
+        const extent = new Extent(minLon1, minLat1, maxLon1, maxLat1);
+        expect(extent.getAsLatLon()).toEqual([minLon1, minLat1, maxLon1, maxLat1]);
     });
 
 
@@ -47,42 +44,42 @@ describe('Extent', () => {
 
 
     it('gets the correct min position', () => {
-        const extent = Extent.createFromLatLon(lonLatPosArray1);
-        const minPosExpected = new Position2d(lonLatPosArray1[0], lonLatPosArray1[1]);
+        const extent = new Extent(minLon1, minLat1, maxLon1, maxLat1);
+        const minPosExpected = new Position2d(minLon1, minLat1);
         expect(extent.minPos).toEqual(minPosExpected);
     });
 
 
     it('gets the correct max position', () => {
-        const extent = Extent.createFromLatLon(lonLatPosArray1);
-        const maxPosExpected = new Position2d(lonLatPosArray1[2], lonLatPosArray1[3]);
+        const extent = new Extent(minLon1, minLat1, maxLon1, maxLat1);
+        const maxPosExpected = new Position2d(maxLon1, maxLat1);
         expect(extent.maxPos).toEqual(maxPosExpected);
     });
 
 
     it('calculates the correct mid position', () => {
-        const extent = Extent.createFromLatLon(lonLatPosArray1);
+        const extent = new Extent(minLon1, minLat1, maxLon1, maxLat1);
         const midPosExpected = new Position2d(
-            (lonLatPosArray1[0] + lonLatPosArray1[2]) / 2,
-            (lonLatPosArray1[1] + lonLatPosArray1[3]) / 2);
+            (minLon1 + maxLon1) / 2,
+            (minLat1 + maxLat1) / 2);
         expect(extent.getMidPos()).toEqual(midPosExpected);
     });
 
 
     it('calculates the correct radius from mid to corner', () => {
-        const extent = Extent.createFromLatLon(lonLatPosArray1);
+        const extent = new Extent(minLon1, minLat1, maxLon1, maxLat1);
         const midPos = new Position2d(
-            (lonLatPosArray1[0] + lonLatPosArray1[2]) / 2,
-            (lonLatPosArray1[1] + lonLatPosArray1[3]) / 2);
-        const minPos = new Position2d(lonLatPosArray1[0], lonLatPosArray1[1]);
+            (minLon1 + maxLon1) / 2,
+            (minLat1 + maxLat1) / 2);
+        const minPos = new Position2d(minLon1, minLat1);
         const radExpected = GeocalcService.calcDistance(minPos, midPos);
         expect(extent.getRadius().nm).toEqual(radExpected.nm);
     });
 
 
     it('correctly determines a contained extent', () => {
-        const extent1 = Extent.createFromLatLon(lonLatPosArray1);
-        const extent2 = Extent.createFromLatLon(lonLatPosArray2);
+        const extent1 = new Extent(minLon1, minLat1, maxLon1, maxLat1);
+        const extent2 = new Extent(minLon2, minLat2, maxLon2, maxLat2);
         expect(extent1.containsExtent(extent2)).toBe(true);
         expect(extent2.containsExtent(extent1)).toBe(false);
         expect(extent1.containsExtent(extent1)).toBe(true);
@@ -90,8 +87,8 @@ describe('Extent', () => {
 
 
     it('correctly calculates an oversize extent', () => {
-        const extent = Extent.createFromLatLon([-1, -1, 1, 1]);
-        const expOversize = Extent.createFromLatLon([-1.2, -1.2, 1.2, 1.2]);
+        const extent = new Extent(-1, -1, 1, 1);
+        const expOversize = new Extent(-1.2, -1.2, 1.2, 1.2);
         expect(extent.getOversizeExtent(1)).toEqual(extent);
         expect(extent.getOversizeExtent(1.2)).toEqual(expOversize);
     });

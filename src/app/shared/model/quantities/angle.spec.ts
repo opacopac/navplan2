@@ -1,7 +1,8 @@
-import {Angle} from "./angle";
-import {AngleUnit} from "../units";
+import {Angle} from './angle';
+import {AngleUnit} from '../units';
 
-describe('Extent', () => {
+
+describe('Angle', () => {
     beforeEach(() => {
     });
 

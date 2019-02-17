@@ -1,7 +1,7 @@
 import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource} from './traffic';
 import {TrafficPosition, TrafficPositionMethod} from './traffic-position';
 import {Position4d} from '../../shared/model/geometry/position4d';
-import {Altitude} from '../../shared/model/quantities/altitude';
+import {Length} from '../../shared/model/quantities/length';
 import {LengthUnit} from '../../shared/model/units';
 import {Timestamp} from '../../shared/model/quantities/timestamp';
 
@@ -35,7 +35,7 @@ describe('Traffic', () => {
         );
 
         mockPos1 = new TrafficPosition(
-            new Position4d(7.0, 47.0, new Altitude(5000, LengthUnit.FT), Timestamp.now()),
+            new Position4d(7.0, 47.0, new Length(5000, LengthUnit.FT), Timestamp.now()),
             TrafficDataSource.OGN,
             TrafficPositionMethod.FLARM,
             'receiver',

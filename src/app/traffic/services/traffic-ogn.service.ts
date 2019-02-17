@@ -27,7 +27,7 @@ export class TrafficOgnService {
         waitForDataSec: number,
         sessionId: string): Observable<Traffic[]> {
 
-        const url = TrafficOgnService.OGN_TRAFFIC_BASE_URL + '&minlon=' + extent[0] + '&minlat=' + extent[1] + '&maxlon=' + extent[2] + '&maxlat=' + extent[3]
+        const url = TrafficOgnService.OGN_TRAFFIC_BASE_URL + '&minlon=' + extent.minLon + '&minlat=' + extent.minLat + '&maxlon=' + extent.maxLon + '&maxlat=' + extent.maxLat
             + '&maxagesec=' + maxAgeSec + '&sessionid=' + sessionId + '&waitDataSec=' + waitForDataSec;
 
 

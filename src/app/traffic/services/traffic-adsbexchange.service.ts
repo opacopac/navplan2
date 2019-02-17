@@ -27,7 +27,7 @@ export class TrafficAdsbexchangeService {
         maxHeightFt): Observable<Traffic[]> {
 
         const url = TrafficAdsbexchangeService.ADSBEXCHANGE_BASE_URL + '?fAltL=0&fAltU=' + maxHeightFt + '&fWBnd='
-            + extent[0] + '&fSBnd=' + extent[1] + '&fEBnd=' + extent[2] + '&fNBnd=' + extent[3];
+            + extent.minLon + '&fSBnd=' + extent.minLat + '&fEBnd=' + extent.maxLon + '&fNBnd=' + extent.maxLat;
 
         /*const midPos = extent.getMidPos();
         const radiusNm = extent.getRadius().nm;

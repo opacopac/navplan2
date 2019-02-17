@@ -1,5 +1,5 @@
 import {Traffic} from './model/traffic';
-import {Altitude} from '../shared/model/quantities/altitude';
+import {Length} from '../shared/model/quantities/length';
 import {Extent} from '../shared/model/extent';
 import {TrafficServiceStatus} from './services/traffic-service-status';
 
@@ -10,5 +10,5 @@ export interface TrafficState {
     isWatching: boolean;
     status: TrafficServiceStatus;
     trafficMap: Map<string, Traffic>;
-    trafficMaxAltitude: Altitude;
+    trafficMaxAltitude: Length;
 }

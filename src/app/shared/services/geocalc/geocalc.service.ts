@@ -2,7 +2,7 @@ import * as ol from 'openlayers';
 import {Position2d} from '../../model/geometry/position2d';
 import {Angle} from '../../model/quantities/angle';
 import {AngleUnit, LengthUnit} from '../../model/units';
-import {Distance} from '../../model/quantities/distance';
+import {Length} from '../../model/quantities/length';
 import {BearingPos} from '../../model/geometry/bearing-pos';
 import {HyperCircleFitter} from '../circle-fitter/hyper-circle-fitter';
 import {WorldMagneticModel} from '../../model/world-magnetic-model/WorldMagneticModel';
@@ -18,12 +18,12 @@ export class GeocalcService {
     private static wmm = new WorldMagneticModel();
 
 
-    public static calcDistance(pos1: Position2d, pos2: Position2d): Distance {
+    public static calcDistance(pos1: Position2d, pos2: Position2d): Length {
         if (!pos1 || !pos2) {
             return undefined;
         }
 
-        return new Distance(wgs84Sphere.haversineDistance(pos1.getLonLat(), pos2.getLonLat()) * 0.000539957, LengthUnit.NM);
+        return new Length(wgs84Sphere.haversineDistance(pos1.getLonLat(), pos2.getLonLat()) * 0.000539957, LengthUnit.NM);
     }
 
 

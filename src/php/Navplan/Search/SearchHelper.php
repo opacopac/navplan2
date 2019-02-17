@@ -47,6 +47,6 @@ class SearchHelper
     public static function sendSearchResultResponse(array $searchResults) {
         $callback = $_GET["callback"] ? StringNumberService::checkAlphaNumeric($_GET["callback"], 1, 50) : NULL;
 
-        RequestResponseHelper::sendArrayResponse($searchResults, $callback);
+        RequestResponseHelper::sendArrayResponse($searchResults, $callback, TRUE);
     }
 }

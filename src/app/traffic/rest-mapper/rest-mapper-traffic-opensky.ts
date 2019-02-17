@@ -1,4 +1,4 @@
-import {Altitude} from '../../shared/model/quantities/altitude';
+import {Length} from '../../shared/model/quantities/length';
 import {LengthUnit} from '../../shared/model/units';
 import {Position4d} from '../../shared/model/geometry/position4d';
 import {Timestamp} from '../../shared/model/quantities/timestamp';
@@ -79,7 +79,7 @@ export class RestMapperTrafficOpensky {
             new Position4d(
                 lon,
                 lat,
-                new Altitude(geo_alt, LengthUnit.M),
+                new Length(geo_alt, LengthUnit.M),
                 Timestamp.createFromSec(time_pos)
             ),
              TrafficDataSource.OPENSKY,

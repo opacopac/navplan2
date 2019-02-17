@@ -99,8 +99,8 @@ export class MapfeaturesService  {
 
 
     private buildRequestUrl(extent: Extent, zoom: number, user: User): string {
-        let url = MAPFEATURES_BASE_URL + '?action=searchByExtent' + '&minlon=' + extent[0] + '&minlat=' + extent[1]
-            + '&maxlon=' + extent[2] + '&maxlat=' + extent[3] + '&zoom=' + zoom;
+        let url = MAPFEATURES_BASE_URL + '?action=searchByExtent' + '&minlon=' + extent.minLon + '&minlat=' + extent.minLat
+            + '&maxlon=' + extent.maxLon + '&maxlat=' + extent.maxLat + '&zoom=' + zoom;
         url += '&searchItems=airports,navaids,airspaces';
         if (zoom >= 10) {
             url += ',webcams';

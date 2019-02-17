@@ -1,7 +1,7 @@
 import {TrafficState} from './traffic-state';
 import {TrafficMerger} from './traffic-merger/traffic-merger';
 import {TrafficActions, TrafficActionTypes} from './traffic.actions';
-import {Altitude} from '../shared/model/quantities/altitude';
+import {Length} from '../shared/model/quantities/length';
 import {LengthUnit} from '../shared/model/units';
 import {Traffic} from './model/traffic';
 import {BaseMapActions, BaseMapActionTypes} from '../base-map/base-map.actions';
@@ -14,7 +14,7 @@ export const initialTrafficState: TrafficState = {
     isWatching: false,
     status: TrafficServiceStatus.OFF,
     trafficMap: new Map<string, Traffic>(),
-    trafficMaxAltitude: new Altitude(15000, LengthUnit.FT),
+    trafficMaxAltitude: new Length(15000, LengthUnit.FT),
 };
 
 

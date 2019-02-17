@@ -3,7 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MessageService} from '../../../message/services/message/message.service';
 import {MapbaselayerType} from '../../../base-map/model/mapbaselayer-factory';
 import {Angle} from '../../../shared/model/quantities/angle';
-import {Altitude} from '../../../shared/model/quantities/altitude';
+import {Length} from '../../../shared/model/quantities/length';
 
 
 @Component({
@@ -68,7 +68,7 @@ export class SettingsPageComponent implements OnInit {
         /*
         const formValues = this.settingsForm.value;
         this.session.settings.variation = new Angle(formValues.variationDeg as number, AngleUnit.DEG);
-        this.session.settings.maxTrafficAltitude = new Altitude(formValues.maxTrafficAltitudeFt as number, LengthUnit.FT);
+        this.session.settings.maxTrafficAltitude = new Length(formValues.maxTrafficAltitudeFt as number, LengthUnit.FT);
         this.session.map.baseMapType = MapbaselayerType[MapbaselayerType[formValues.baseMapType]];
         */
     }

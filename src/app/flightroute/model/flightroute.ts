@@ -3,14 +3,14 @@ import {Waypoint} from './waypoint';
 import {RouteFuel} from './routefuel';
 import {Clonable} from '../../shared/model/clonable';
 import {Time} from '../../shared/model/quantities/time';
-import {Distance} from '../../shared/model/quantities/distance';
+import {Length} from '../../shared/model/quantities/length';
 import {LengthUnit} from '../../shared/model/units';
 import {WaypointType} from './waypoint-type';
 
 
 export class Flightroute implements Clonable<Flightroute> {
     public fuel = new RouteFuel();
-    public tripDist = new Distance(0, LengthUnit.NM);
+    public tripDist = new Length(0, LengthUnit.NM);
 
 
     constructor(

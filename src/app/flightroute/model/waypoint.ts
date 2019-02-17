@@ -3,7 +3,7 @@ import {Clonable} from '../../shared/model/clonable';
 import {Position2d} from '../../shared/model/geometry/position2d';
 import {WaypointType} from './waypoint-type';
 import {Angle} from '../../shared/model/quantities/angle';
-import {Distance} from '../../shared/model/quantities/distance';
+import {Length} from '../../shared/model/quantities/length';
 import {AngleUnit, TimeUnit} from '../../shared/model/units';
 import {Time} from '../../shared/model/quantities/time';
 import {DataItem, DataItemType} from '../../shared/model/data-item';
@@ -11,7 +11,7 @@ import {DataItem, DataItemType} from '../../shared/model/data-item';
 
 export class Waypoint extends DataItem implements Clonable<Waypoint> {
     public mt: Angle;
-    public dist: Distance;
+    public dist: Length;
     public eet = new Time(0, TimeUnit.M);
     public vacTime = new Time(0, TimeUnit.M);
     public variation = new Angle(0, AngleUnit.DEG);
