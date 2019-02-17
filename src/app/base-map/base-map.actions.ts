@@ -1,6 +1,6 @@
 import {Action} from '@ngrx/store';
 import {Position2d} from '../shared/model/geometry/position2d';
-import {Extent} from '../shared/model/extent';
+import {Extent2d} from '../shared/model/extent2d';
 import {Angle} from '../shared/model/quantities/angle';
 import {DataItem} from '../shared/model/data-item';
 
@@ -35,7 +35,7 @@ export class BaseMapMovedZoomedRotatedAction implements Action {
         public position: Position2d,
         public zoom: number,
         public rotation: Angle,
-        public extent: Extent) {}
+        public extent: Extent2d) {}
 }
 
 

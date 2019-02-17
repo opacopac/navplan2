@@ -1,7 +1,7 @@
 import * as ol from 'openlayers';
 import {EventEmitter, Injectable} from '@angular/core';
 import {MapbaselayerFactory, MapbaselayerType} from '../model/mapbaselayer-factory';
-import {Extent} from '../../shared/model/extent';
+import {Extent2d} from '../../shared/model/extent2d';
 import {Position2d} from '../../shared/model/geometry/position2d';
 import {Angle} from '../../shared/model/quantities/angle';
 import {AngleUnit} from '../../shared/model/units';
@@ -19,7 +19,7 @@ export class BaseMapService {
     public map: ol.Map;
     private mapLayer: ol.layer.Tile;
     private customLayers: ol.layer.Vector[] = [];
-    public onMapMovedZoomedRotated = new EventEmitter<{ position: Position2d, zoom: number, rotation: Angle, extent: Extent }>();
+    public onMapMovedZoomedRotated = new EventEmitter<{ position: Position2d, zoom: number, rotation: Angle, extent: Extent2d }>();
     public onMapClicked = new EventEmitter<{ clickPos: Position2d, dataItem: DataItem }>();
     private currentOverlay: ol.Overlay;
 
@@ -153,8 +153,8 @@ export class BaseMapService {
     }
 
 
-    public getExtent(): Extent {
-        return Extent.createFromMercator(this.map.getView().calculateExtent(this.map.getSize()));
+    public getExtent(): Extent2d {
+        return Extent2d.createFromMercator(this.map.getView().calculateExtent(this.map.getSize()));
     }
 
 

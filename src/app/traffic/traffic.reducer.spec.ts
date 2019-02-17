@@ -8,7 +8,7 @@ import {
 } from './traffic.actions';
 import {BaseMapMovedZoomedRotatedAction} from '../base-map/base-map.actions';
 import {Position2d} from '../shared/model/geometry/position2d';
-import {Extent} from '../shared/model/extent';
+import {Extent2d} from '../shared/model/extent2d';
 import {Angle} from '../shared/model/quantities/angle';
 import {AngleUnit} from '../shared/model/units';
 import {TrafficServiceStatus} from './services/traffic-service-status';
@@ -32,7 +32,7 @@ describe('trafficReducer', () => {
 
     it('updates the extent on BASEMAP_MOVED_ZOOMED_ROTATED', () => {
         const pos = new Position2d(7, 47);
-        const extent = new Extent(6, 46, 8, 48);
+        const extent = new Extent2d(6, 46, 8, 48);
         const action = new BaseMapMovedZoomedRotatedAction(pos, 11, new Angle(0, AngleUnit.DEG), extent);
         const state = trafficReducer(undefined, action);
 

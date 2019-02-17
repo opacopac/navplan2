@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {Extent} from '../shared/model/extent';
+import {Extent2d} from '../shared/model/extent2d';
 import {Mapfeatures} from './model/mapfeatures';
 import {User} from '../user/model/user';
 
@@ -14,14 +14,14 @@ export enum MapFeaturesActionTypes {
 export class LoadMapFeaturesAction implements Action {
     readonly type = MapFeaturesActionTypes.MAPFEATURES_LOAD;
 
-    constructor(public extent: Extent, public zoom: number) {}
+    constructor(public extent: Extent2d, public zoom: number) {}
 }
 
 
 export class LoadMapFeaturesSuccessAction implements Action {
     readonly type = MapFeaturesActionTypes.MAPFEATURES_LOAD_SUCCESS;
 
-    constructor(public mapFeatures: Mapfeatures, public extent: Extent, public zoom: number, user: User) {}
+    constructor(public mapFeatures: Mapfeatures, public extent: Extent2d, public zoom: number, user: User) {}
 }
 
 

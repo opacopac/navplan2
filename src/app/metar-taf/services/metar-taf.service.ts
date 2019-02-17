@@ -5,7 +5,7 @@ import {catchError, map} from 'rxjs/operators';
 import {of, throwError} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {LoggingService} from '../../shared/services/logging/logging.service';
-import {Extent} from '../../shared/model/extent';
+import {Extent2d} from '../../shared/model/extent2d';
 import {MetarTafList} from '../model/metar-taf';
 import {MetarTafResponse, RestMapperMetarTaf} from '../model/rest-mapper-metar-taf';
 
@@ -33,7 +33,7 @@ export class MetarTafService {
     }
 
 
-    public load(extent: Extent, zoom: number): Observable<MetarTafList> {
+    public load(extent: Extent2d, zoom: number): Observable<MetarTafList> {
         // TODO
         if (zoom <= MIN_ZOOM_LEVEL) {
             return of(new MetarTafList());

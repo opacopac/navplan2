@@ -2,13 +2,14 @@ import * as ol from 'openlayers';
 import {Position2d} from './geometry/position2d';
 import {GeocalcService} from '../services/geocalc/geocalc.service';
 import {Length} from './quantities/length';
+import {Clonable} from './clonable';
 
 
 const MERCATOR_PROJECTION = 'EPSG:3857';
 const LONLAT_PROJECTION = 'EPSG:4326';
 
 
-export class Extent {
+export class Extent2d implements Clonable<Extent2d> {
     public constructor(
         public minLon: number,
         public minLat: number,
@@ -18,9 +19,9 @@ export class Extent {
     }
 
 
-    public static createFromMercator(extent: [number, number, number, number]): Extent {
+    public static createFromMercator(extent: [number, number, number, number]): Extent2d {
         const ext = ol.proj.transformExtent(extent, MERCATOR_PROJECTION, LONLAT_PROJECTION);
-        return new Extent(ext[0], ext[1], ext[2], ext[3]);
+        return new Extent2d(ext[0], ext[1], ext[2], ext[3]);
     }
 
 
@@ -31,6 +32,11 @@ export class Extent {
 
     public get maxPos(): Position2d {
         return new Position2d(this.maxLon, this.maxLat);
+    }
+
+
+    public clone(): Extent2d {
+        return new Extent2d(this.minLon, this.minLat, this.maxLon, this.maxLat);
     }
 
 
@@ -57,7 +63,7 @@ export class Extent {
     }
 
 
-    public containsExtent(extent: Extent): boolean {
+    public containsExtent(extent: Extent2d): boolean {
         return (this.minLon <= extent.minLon
             && this.minLat <= extent.minLat
             && this.maxLon >= extent.maxLon
@@ -65,13 +71,13 @@ export class Extent {
     }
 
 
-    public getOversizeExtent(factor: number): Extent {
+    public getOversizeExtent(factor: number): Extent2d {
         const halfDiffLon = (this.maxLon - this.minLon) / 2;
         const halfDiffLat = (this.maxLat - this.minLat) / 2;
         const centerLon = this.minLon + halfDiffLon;
         const centerLat = this.minLat + halfDiffLat;
 
-        return new Extent(
+        return new Extent2d(
             centerLon - halfDiffLon * factor,
             centerLat - halfDiffLat * factor,
             centerLon + halfDiffLon * factor,

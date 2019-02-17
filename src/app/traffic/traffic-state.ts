@@ -1,12 +1,12 @@
 import {Traffic} from './model/traffic';
 import {Length} from '../shared/model/quantities/length';
-import {Extent} from '../shared/model/extent';
+import {Extent2d} from '../shared/model/extent2d';
 import {TrafficServiceStatus} from './services/traffic-service-status';
 
 
 export interface TrafficState {
     sessionId: string;
-    extent: Extent;
+    extent: Extent2d;
     isWatching: boolean;
     status: TrafficServiceStatus;
     trafficMap: Map<string, Traffic>;

@@ -1,4 +1,4 @@
-import {Extent} from '../../model/extent';
+import {Extent2d} from '../../model/extent2d';
 import {User} from '../../../user/model/user';
 
 
@@ -21,7 +21,7 @@ export abstract class CachingExtentLoader<T> {
     public abstract isTimedOut(ageSec: number): boolean;
 
 
-    public needsReload(extent: Extent, zoom: number, user: User): boolean {
+    public needsReload(extent: Extent2d, zoom: number, user: User): boolean {
         // check "current" cache item (at pos 0)
         if (this.cacheItemList.length > 0 &&
             this.cacheItemList[0].containsExtentZoom(extent, zoom, user) &&
@@ -34,7 +34,7 @@ export abstract class CachingExtentLoader<T> {
 
 
     public load(
-        extent: Extent,
+        extent: Extent2d,
         zoom: number,
         user: User,
         successCallback: (T) => void,
@@ -56,7 +56,7 @@ export abstract class CachingExtentLoader<T> {
 
 
     protected abstract loadFromSource(
-        extent: Extent,
+        extent: Extent2d,
         zoom: number,
         user: User,
         successCallback: (T) => void,
@@ -73,7 +73,7 @@ export abstract class CachingExtentLoader<T> {
     }
 
 
-    private loadFromCache(extent: Extent, zoom: number, user: User, successCallback: (T) => void) {
+    private loadFromCache(extent: Extent2d, zoom: number, user: User, successCallback: (T) => void) {
         const cacheItem = this.getMatchingCacheItem(extent, zoom, user);
         this.addToFront(cacheItem);
 
@@ -100,7 +100,7 @@ export abstract class CachingExtentLoader<T> {
     }
 
 
-    private containsValidCacheItem(extent: Extent, zoom: number, user: User): boolean {
+    private containsValidCacheItem(extent: Extent2d, zoom: number, user: User): boolean {
         const cacheItem = this.getMatchingCacheItem(extent, zoom, user);
         if (cacheItem && !this.isTimedOut(cacheItem.getAgeSec())) {
             return true;
@@ -110,7 +110,7 @@ export abstract class CachingExtentLoader<T> {
     }
 
 
-    private getMatchingCacheItem(extent: Extent, zoom: number, user: User): ExtentCacheItem<T> {
+    private getMatchingCacheItem(extent: Extent2d, zoom: number, user: User): ExtentCacheItem<T> {
         for (const cacheItem of this.cacheItemList) {
             if (cacheItem.containsExtentZoom(extent, zoom, user)) {
                 return cacheItem;
@@ -127,7 +127,7 @@ export class ExtentCacheItem<T> {
 
 
     public constructor(
-        public extent: Extent,
+        public extent: Extent2d,
         public zoom: number,
         public user: User,
         public item: T) {
@@ -140,7 +140,7 @@ export class ExtentCacheItem<T> {
     }
 
 
-    public containsExtentZoom(extent: Extent, zoom: number, user: User): boolean {
+    public containsExtentZoom(extent: Extent2d, zoom: number, user: User): boolean {
         return (this.zoom === zoom && this.extent.containsExtent(extent) && user === this.user);
     }
 }

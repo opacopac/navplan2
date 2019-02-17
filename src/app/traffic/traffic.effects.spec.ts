@@ -14,7 +14,7 @@ import {
     StopWatchTrafficAction,
     ToggleWatchTrafficAction
 } from './traffic.actions';
-import {Extent} from '../shared/model/extent';
+import {Extent2d} from '../shared/model/extent2d';
 import {LengthUnit} from '../shared/model/units';
 import {Length} from '../shared/model/quantities/length';
 import {TrafficServiceStatus} from './services/traffic-service-status';
@@ -50,7 +50,7 @@ describe('TrafficEffects', () => {
     const mockTraffic2 = mockTraffic1.clone();
     mockTraffic2.isDetailsLoaded = true;
     const initialTrafficState: TrafficState = {
-        extent: new Extent(0, 1, 2, 3),
+        extent: new Extent2d(0, 1, 2, 3),
         sessionId: '123456',
         status: TrafficServiceStatus.CURRENT,
         isWatching: true,

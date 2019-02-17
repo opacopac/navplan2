@@ -5,7 +5,7 @@ import {catchError, map} from 'rxjs/operators';
 import {Observable} from 'rxjs/internal/Observable';
 import {environment} from '../../../environments/environment';
 import {LoggingService} from '../../shared/services/logging/logging.service';
-import {Extent} from '../../shared/model/extent';
+import {Extent2d} from '../../shared/model/extent2d';
 import {Traffic} from '../model/traffic';
 import {RestMapperTrafficAdexbEx, TrafficAdsbExResponse} from '../rest-mapper/rest-mapper-traffic-adexb-ex';
 
@@ -23,7 +23,7 @@ export class TrafficAdsbexchangeService {
 
 
     public readTraffic(
-        extent: Extent,
+        extent: Extent2d,
         maxHeightFt): Observable<Traffic[]> {
 
         const url = TrafficAdsbexchangeService.ADSBEXCHANGE_BASE_URL + '?fAltL=0&fAltU=' + maxHeightFt + '&fWBnd='

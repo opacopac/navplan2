@@ -5,13 +5,13 @@ import {Length} from '../../shared/model/quantities/length';
 import {LengthUnit} from '../../shared/model/units';
 import {Timestamp} from '../../shared/model/quantities/timestamp';
 import {TrafficOpenskyResponse} from '../rest-mapper/rest-mapper-traffic-opensky';
-import {Extent} from '../../shared/model/extent';
+import {Extent2d} from '../../shared/model/extent2d';
 import {TrafficAdsbExResponse, TrafficAdsbExRestItem} from '../rest-mapper/rest-mapper-traffic-adexb-ex';
 import {TrafficOgnResponse, TrafficOgnRestItem} from '../rest-mapper/rest-mapper-traffic-ogn';
 
 
 export class TrafficMock {
-    public static readonly MOCK_EXTENT_1 = new Extent(7.0, 47.0, 7.1, 47.1);
+    public static readonly MOCK_EXTENT_1 = new Extent2d(7.0, 47.0, 7.1, 47.1);
 
     public static readonly MOCK_POSITION_1 = new TrafficPosition(
         new Position4d(47.1, 47.1, new Length(1600, LengthUnit.FT), Timestamp.now()),
