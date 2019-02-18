@@ -1,6 +1,6 @@
 import {Extent2d} from './extent2d';
-import {Position2d} from './geometry/position2d';
-import {GeocalcService} from '../services/geocalc/geocalc.service';
+import {Position2d} from './position2d';
+import {GeocalcService} from '../../services/geocalc/geocalc.service';
 
 
 describe('Extent2d', () => {

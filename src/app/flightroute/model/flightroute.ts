@@ -4,7 +4,7 @@ import {RouteFuel} from './routefuel';
 import {Clonable} from '../../shared/model/clonable';
 import {Time} from '../../shared/model/quantities/time';
 import {Length} from '../../shared/model/quantities/length';
-import {LengthUnit} from '../../shared/model/units';
+import {LengthUnit} from '../../shared/model/quantities/units';
 import {WaypointType} from './waypoint-type';
 
 

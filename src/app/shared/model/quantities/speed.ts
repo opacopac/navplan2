@@ -1,5 +1,5 @@
 import {UnitconversionService} from '../../services/unitconversion/unitconversion.service';
-import {SpeedUnit} from '../units';
+import {SpeedUnit} from './units';
 
 
 export class Speed {

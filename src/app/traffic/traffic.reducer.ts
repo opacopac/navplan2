@@ -2,7 +2,7 @@ import {TrafficState} from './traffic-state';
 import {TrafficMerger} from './traffic-merger/traffic-merger';
 import {TrafficActions, TrafficActionTypes} from './traffic.actions';
 import {Length} from '../shared/model/quantities/length';
-import {LengthUnit} from '../shared/model/units';
+import {LengthUnit} from '../shared/model/quantities/units';
 import {Traffic} from './model/traffic';
 import {BaseMapActions, BaseMapActionTypes} from '../base-map/base-map.actions';
 import {TrafficServiceStatus} from './services/traffic-service-status';

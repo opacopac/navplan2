@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {Extent2d} from '../shared/model/extent2d';
+import {Extent2d} from '../shared/model/geometry/extent2d';
 import {Mapfeatures} from './model/mapfeatures';
 import {User} from '../user/model/user';
 

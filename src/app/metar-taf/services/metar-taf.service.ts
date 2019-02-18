@@ -5,7 +5,7 @@ import {catchError, map} from 'rxjs/operators';
 import {of, throwError} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {LoggingService} from '../../shared/services/logging/logging.service';
-import {Extent2d} from '../../shared/model/extent2d';
+import {Extent2d} from '../../shared/model/geometry/extent2d';
 import {MetarTafList} from '../model/metar-taf';
 import {MetarTafResponse, RestMapperMetarTaf} from '../model/rest-mapper-metar-taf';
 

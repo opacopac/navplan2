@@ -1,8 +1,8 @@
 import * as ol from 'openlayers';
-import {Position2d} from './geometry/position2d';
-import {GeocalcService} from '../services/geocalc/geocalc.service';
-import {Length} from './quantities/length';
-import {Clonable} from './clonable';
+import {Position2d} from './position2d';
+import {GeocalcService} from '../../services/geocalc/geocalc.service';
+import {Length} from '../quantities/length';
+import {Clonable} from '../clonable';
 
 
 const MERCATOR_PROJECTION = 'EPSG:3857';

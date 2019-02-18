@@ -2,10 +2,10 @@ import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource} fro
 import {TrafficPosition, TrafficPositionMethod} from '../model/traffic-position';
 import {Position4d} from '../../shared/model/geometry/position4d';
 import {Length} from '../../shared/model/quantities/length';
-import {LengthUnit} from '../../shared/model/units';
+import {LengthUnit} from '../../shared/model/quantities/units';
 import {Timestamp} from '../../shared/model/quantities/timestamp';
 import {TrafficOpenskyResponse} from '../rest-mapper/rest-mapper-traffic-opensky';
-import {Extent2d} from '../../shared/model/extent2d';
+import {Extent2d} from '../../shared/model/geometry/extent2d';
 import {TrafficAdsbExResponse, TrafficAdsbExRestItem} from '../rest-mapper/rest-mapper-traffic-adexb-ex';
 import {TrafficOgnResponse, TrafficOgnRestItem} from '../rest-mapper/rest-mapper-traffic-ogn';
 

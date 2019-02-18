@@ -6,7 +6,7 @@ import {Observable, Subscription} from 'rxjs';
 import {BaseMapService} from '../../services/base-map.service';
 import {Position2d} from '../../../shared/model/geometry/position2d';
 import {DataItem} from '../../../shared/model/data-item';
-import {Extent2d} from '../../../shared/model/extent2d';
+import {Extent2d} from '../../../shared/model/geometry/extent2d';
 import {BaseMapClickedAction, BaseMapMovedZoomedRotatedAction} from '../../base-map.actions';
 import {Angle} from '../../../shared/model/quantities/angle';
 import {getMapPosition, getMapRotation, getMapZoom} from '../../base-map.selectors';

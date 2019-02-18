@@ -1,7 +1,7 @@
 import * as ol from 'openlayers';
 import {Position2d} from '../../model/geometry/position2d';
 import {Angle} from '../../model/quantities/angle';
-import {AngleUnit, LengthUnit} from '../../model/units';
+import {AngleUnit, LengthUnit} from '../../model/quantities/units';
 import {Length} from '../../model/quantities/length';
 import {BearingPos} from '../../model/geometry/bearing-pos';
 import {HyperCircleFitter} from '../circle-fitter/hyper-circle-fitter';

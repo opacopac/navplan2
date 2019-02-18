@@ -1,6 +1,6 @@
 import {Extent2d} from './extent2d';
-import {Length} from './quantities/length';
-import {Clonable} from './clonable';
+import {Length} from '../quantities/length';
+import {Clonable} from '../clonable';
 
 
 export class Extent3d extends Extent2d implements Clonable<Extent3d> {

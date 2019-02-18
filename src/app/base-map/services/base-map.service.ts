@@ -1,10 +1,10 @@
 import * as ol from 'openlayers';
 import {EventEmitter, Injectable} from '@angular/core';
 import {MapbaselayerFactory, MapbaselayerType} from '../model/mapbaselayer-factory';
-import {Extent2d} from '../../shared/model/extent2d';
+import {Extent2d} from '../../shared/model/geometry/extent2d';
 import {Position2d} from '../../shared/model/geometry/position2d';
 import {Angle} from '../../shared/model/quantities/angle';
-import {AngleUnit} from '../../shared/model/units';
+import {AngleUnit} from '../../shared/model/quantities/units';
 import {DataItem, DataItemType} from '../../shared/model/data-item';
 import {OlComponentBase} from '../ol-component/ol-component-base';
 

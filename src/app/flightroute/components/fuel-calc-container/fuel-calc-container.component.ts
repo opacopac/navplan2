@@ -8,7 +8,7 @@ import {UpdateAircraftConsumptionAction, UpdateExtraTimeAction} from '../../flig
 import {RouteFuel} from '../../model/routefuel';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Consumption} from '../../../shared/model/quantities/consumption';
-import {ConsumptionUnit, TimeUnit} from '../../../shared/model/units';
+import {ConsumptionUnit, TimeUnit} from '../../../shared/model/quantities/units';
 import {Time} from '../../../shared/model/quantities/time';
 
 @Component({

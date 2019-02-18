@@ -1,5 +1,5 @@
 import {UnitconversionService} from '../../services/unitconversion/unitconversion.service';
-import {LengthUnit} from '../units';
+import {LengthUnit} from './units';
 import {Clonable} from '../clonable';
 
 

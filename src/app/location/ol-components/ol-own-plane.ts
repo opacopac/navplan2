@@ -4,7 +4,7 @@ import {environment} from '../../../environments/environment';
 import {UnitconversionService} from '../../shared/services/unitconversion/unitconversion.service';
 import {GeocalcService} from '../../shared/services/geocalc/geocalc.service';
 import {Position4d} from '../../shared/model/geometry/position4d';
-import {AngleUnit} from '../../shared/model/units';
+import {AngleUnit} from '../../shared/model/quantities/units';
 import {Angle} from '../../shared/model/quantities/angle';
 
 

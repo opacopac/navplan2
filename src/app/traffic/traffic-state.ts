@@ -1,6 +1,6 @@
 import {Traffic} from './model/traffic';
 import {Length} from '../shared/model/quantities/length';
-import {Extent2d} from '../shared/model/extent2d';
+import {Extent2d} from '../shared/model/geometry/extent2d';
 import {TrafficServiceStatus} from './services/traffic-service-status';
 
 

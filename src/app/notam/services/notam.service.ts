@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {LoggingService} from '../../shared/services/logging/logging.service';
 import {NotamList} from '../model/notam';
-import {Extent2d} from '../../shared/model/extent2d';
+import {Extent2d} from '../../shared/model/geometry/extent2d';
 import {NotamResponse, RestMapperNotam} from '../model/rest-mapper-notam';
 import {Observable} from 'rxjs/internal/Observable';
 import {catchError, map} from 'rxjs/operators';

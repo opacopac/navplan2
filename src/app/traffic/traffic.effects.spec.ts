@@ -14,8 +14,8 @@ import {
     StopWatchTrafficAction,
     ToggleWatchTrafficAction
 } from './traffic.actions';
-import {Extent2d} from '../shared/model/extent2d';
-import {LengthUnit} from '../shared/model/units';
+import {Extent2d} from '../shared/model/geometry/extent2d';
+import {LengthUnit} from '../shared/model/quantities/units';
 import {Length} from '../shared/model/quantities/length';
 import {TrafficServiceStatus} from './services/traffic-service-status';
 import {TrafficState} from './traffic-state';

@@ -1,4 +1,4 @@
-import {Extent2d} from '../../model/extent2d';
+import {Extent2d} from '../../model/geometry/extent2d';
 import {User} from '../../../user/model/user';
 
 

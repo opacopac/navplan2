@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Extent2d} from '../../shared/model/extent2d';
+import {Extent2d} from '../../shared/model/geometry/extent2d';
 import {Observable, throwError} from 'rxjs';
 import {Traffic} from '../model/traffic';
 import {catchError, map} from 'rxjs/operators';

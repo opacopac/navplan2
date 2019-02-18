@@ -1,6 +1,6 @@
 import {GeocalcService} from './geocalc.service';
 import {Position2d} from '../../model/geometry/position2d';
-import {AngleUnit, LengthUnit} from '../../model/units';
+import {AngleUnit, LengthUnit} from '../../model/quantities/units';
 import {Angle} from '../../model/quantities/angle';
 
 

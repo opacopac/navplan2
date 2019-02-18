@@ -1,5 +1,5 @@
 import {Angle} from './angle';
-import {AngleUnit} from '../units';
+import {AngleUnit} from './units';
 
 
 describe('Angle', () => {

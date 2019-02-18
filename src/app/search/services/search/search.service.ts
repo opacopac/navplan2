@@ -7,7 +7,7 @@ import {environment} from '../../../../environments/environment';
 import {LoggingService} from '../../../shared/services/logging/logging.service';
 import {GeocalcService} from '../../../shared/services/geocalc/geocalc.service';
 import {Position2d} from '../../../shared/model/geometry/position2d';
-import {Extent2d} from '../../../shared/model/extent2d';
+import {Extent2d} from '../../../shared/model/geometry/extent2d';
 import {RestMapperSearch, SearchResponse} from '../../model/rest-mapper-search';
 import {User} from '../../../user/model/user';
 import {SearchItemList} from '../../model/search-item-list';

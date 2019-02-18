@@ -1,6 +1,6 @@
-import {Length} from './quantities/length';
-import {LengthUnit} from './units';
-import {Timestamp} from './quantities/timestamp';
+import {Length} from '../quantities/length';
+import {LengthUnit} from '../quantities/units';
+import {Timestamp} from '../quantities/timestamp';
 import {Extent4d} from './extent4d';
 
 

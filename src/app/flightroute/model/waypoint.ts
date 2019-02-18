@@ -4,7 +4,7 @@ import {Position2d} from '../../shared/model/geometry/position2d';
 import {WaypointType} from './waypoint-type';
 import {Angle} from '../../shared/model/quantities/angle';
 import {Length} from '../../shared/model/quantities/length';
-import {AngleUnit, TimeUnit} from '../../shared/model/units';
+import {AngleUnit, TimeUnit} from '../../shared/model/quantities/units';
 import {Time} from '../../shared/model/quantities/time';
 import {DataItem, DataItemType} from '../../shared/model/data-item';
 

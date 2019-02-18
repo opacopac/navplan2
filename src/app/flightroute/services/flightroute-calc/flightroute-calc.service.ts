@@ -3,11 +3,11 @@ import {Speed} from '../../../shared/model/quantities/speed';
 import {Waypoint} from '../../model/waypoint';
 import {GeocalcService} from '../../../shared/services/geocalc/geocalc.service';
 import {StringnumberService} from '../../../shared/services/stringnumber/stringnumber.service';
-import {ConsumptionUnit, LengthUnit, SpeedUnit, TimeUnit, VolumeUnit} from '../../../shared/model/units';
+import {ConsumptionUnit, LengthUnit, SpeedUnit, TimeUnit, VolumeUnit} from '../../../shared/model/quantities/units';
 import {WaypointType} from '../../model/waypoint-type';
 import {Time} from '../../../shared/model/quantities/time';
 import {RouteFuel} from '../../model/routefuel';
-import {Fuel} from '../../../shared/model/quantities/fuel';
+import {Volume} from '../../../shared/model/quantities/volume';
 import {Consumption} from '../../../shared/model/quantities/consumption';
 import {Length} from '../../../shared/model/quantities/length';
 
@@ -180,9 +180,9 @@ export class FlightrouteCalcService {
     }
 
 
-    private static calcFuel(time: Time, consumption: Consumption): Fuel {
+    private static calcFuel(time: Time, consumption: Consumption): Volume {
         const fuel_l = time.min / 60 * consumption.getValue(ConsumptionUnit.L_PER_H);
-        return new Fuel(fuel_l, VolumeUnit.L);
+        return new Volume(fuel_l, VolumeUnit.L);
     }
 
     // endregion

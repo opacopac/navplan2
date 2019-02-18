@@ -1,7 +1,7 @@
 import {Position4d} from '../../shared/model/geometry/position4d';
 import {Length} from '../../shared/model/quantities/length';
 import {Timestamp} from '../../shared/model/quantities/timestamp';
-import {LengthUnit} from '../../shared/model/units';
+import {LengthUnit} from '../../shared/model/quantities/units';
 import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource} from '../model/traffic';
 import {TrafficPosition, TrafficPositionMethod} from '../model/traffic-position';
 

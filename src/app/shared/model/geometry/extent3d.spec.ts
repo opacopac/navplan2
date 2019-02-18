@@ -1,6 +1,6 @@
 import {Extent3d} from './extent3d';
-import {Length} from './quantities/length';
-import {LengthUnit} from './units';
+import {Length} from '../quantities/length';
+import {LengthUnit} from '../quantities/units';
 
 
 describe('Extent3d', () => {

@@ -1,5 +1,5 @@
 import {UnitconversionService} from '../../services/unitconversion/unitconversion.service';
-import {ConsumptionUnit} from '../units';
+import {ConsumptionUnit} from './units';
 
 
 export class Consumption {

@@ -4,7 +4,7 @@ import {select, Store} from '@ngrx/store';
 import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
-import {Extent2d} from '../../shared/model/extent2d';
+import {Extent2d} from '../../shared/model/geometry/extent2d';
 import {Mapfeatures} from '../model/mapfeatures';
 import {MapFeaturesResponse, RestMapperMapfeatures} from '../model/rest-mapper/rest-mapper-mapfeatures';
 import {User} from '../../user/model/user';

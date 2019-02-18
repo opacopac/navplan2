@@ -2,7 +2,7 @@ import {Track} from './track';
 import {Timestamp} from '../../shared/model/quantities/timestamp';
 import {Position4d} from '../../shared/model/geometry/position4d';
 import {Length} from '../../shared/model/quantities/length';
-import {LengthUnit} from '../../shared/model/units';
+import {LengthUnit} from '../../shared/model/quantities/units';
 
 
 export interface TrackListResponse {

@@ -1,7 +1,7 @@
-import {Length} from './quantities/length';
+import {Length} from '../quantities/length';
 import {Extent3d} from './extent3d';
-import {Timestamp} from './quantities/timestamp';
-import {Clonable} from './clonable';
+import {Timestamp} from '../quantities/timestamp';
+import {Clonable} from '../clonable';
 
 
 export class Extent4d extends Extent3d implements Clonable<Extent4d> {

@@ -1,4 +1,4 @@
-import {Extent2d} from '../shared/model/extent2d';
+import {Extent2d} from '../shared/model/geometry/extent2d';
 import {MetarTafList} from './model/metar-taf';
 
 

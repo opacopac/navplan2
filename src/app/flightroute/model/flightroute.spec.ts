@@ -1,7 +1,7 @@
 import {Flightroute} from './flightroute';
 import {Aircraft} from './aircraft';
 import {Speed} from '../../shared/model/quantities/speed';
-import {ConsumptionUnit, SpeedUnit, TimeUnit} from '../../shared/model/units';
+import {ConsumptionUnit, SpeedUnit, TimeUnit} from '../../shared/model/quantities/units';
 import {Consumption} from '../../shared/model/quantities/consumption';
 import {WaypointType} from './waypoint-type';
 import {Waypoint} from './waypoint';

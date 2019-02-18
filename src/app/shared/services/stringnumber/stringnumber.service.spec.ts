@@ -1,7 +1,7 @@
 import {inject, TestBed} from '@angular/core/testing';
 import {StringnumberService} from './stringnumber.service';
 import {Angle} from '../../model/quantities/angle';
-import {AngleUnit} from '../../model/units';
+import {AngleUnit} from '../../model/quantities/units';
 
 
 describe('StringnumberService', () => {
