@@ -2,6 +2,7 @@ import {Length} from '../quantities/length';
 import {Extent3d} from './extent3d';
 import {Timestamp} from '../quantities/timestamp';
 import {Clonable} from '../clonable';
+import {Position4d} from './position4d';
 
 
 export class Extent4d extends Extent3d implements Clonable<Extent4d> {
@@ -29,6 +30,14 @@ export class Extent4d extends Extent3d implements Clonable<Extent4d> {
             this.maxLat,
             this.maxHeight,
             this.maxTimestamp
+        );
+    }
+
+
+    containsPoint(pos: Position4d): boolean {
+        return (super.containsPoint(pos)
+            && pos.timestamp.epochMs >= this.minTimestamp.epochMs
+            && pos.timestamp.epochMs <= this.maxTimestamp.epochMs
         );
     }
 }

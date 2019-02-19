@@ -14,7 +14,6 @@ import {
     StopWatchTrafficAction,
     ToggleWatchTrafficAction
 } from './traffic.actions';
-import {Extent2d} from '../shared/model/geometry/extent2d';
 import {LengthUnit} from '../shared/model/quantities/units';
 import {Length} from '../shared/model/quantities/length';
 import {TrafficServiceStatus} from './services/traffic-service-status';
@@ -23,8 +22,10 @@ import {MockStore} from '../shared/test/mock-store';
 import {TrafficTimerService} from './services/traffic-timer.service';
 import {TrafficAdsbexchangeService2} from './services/traffic-adsbexchange2.service';
 import {TrafficDetailsService} from './services/traffic-details.service';
+import {Extent4d} from '../shared/model/geometry/extent4d';
 import createSpyObj = jasmine.createSpyObj;
 import SpyObj = jasmine.SpyObj;
+import {Timestamp} from '../shared/model/quantities/timestamp';
 
 
 describe('TrafficEffects', () => {
@@ -50,14 +51,22 @@ describe('TrafficEffects', () => {
     const mockTraffic2 = mockTraffic1.clone();
     mockTraffic2.isDetailsLoaded = true;
     const initialTrafficState: TrafficState = {
-        extent: new Extent2d(0, 1, 2, 3),
+        extent: new Extent4d(
+            7.0,
+            47.0,
+            new Length(0, LengthUnit.FT),
+            Timestamp.createFromRelSec(-120),
+            8.0,
+            48.0,
+            new Length(15000, LengthUnit.FT),
+            Timestamp.now()
+        ),
         sessionId: '123456',
         status: TrafficServiceStatus.CURRENT,
         isWatching: true,
         trafficMap: new Map<string, Traffic>()
             .set('1_C0FFEE', mockTraffic1)
             .set('1_AABBCC', mockTraffic2),
-        trafficMaxAltitude: new Length(15000, LengthUnit.FT),
     };
     const initialState = {
         trafficState: initialTrafficState

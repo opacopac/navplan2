@@ -6,6 +6,7 @@ import {TrafficMergerOpCallsign} from './traffic-merger-op-callsign';
 import {TrafficMergerAcModel} from './traffic-merger-ac-model';
 import {TrafficMergerPositions} from './traffic-merger-positions';
 import {TrafficMergerIcaoType} from './traffic-merger-icao-type';
+import {Extent4d} from '../../shared/model/geometry/extent4d';
 
 
 export class TrafficMerger {
@@ -14,9 +15,10 @@ export class TrafficMerger {
     }
 
 
-    public static mergeTrafficMap(trafficMap: Map<string, Traffic>, newTrafficList: Traffic[]): Map<string, Traffic> {
+    public static mergeTrafficMap(trafficMap: Map<string, Traffic>, newTrafficList: Traffic[], extent: Extent4d): Map<string, Traffic> {
+        const newTrafficListFiltered = this.filterTrafficListByExtent(newTrafficList, extent);
         const newTrafficMap = TrafficMerger.cloneTrafficMap(trafficMap);
-        TrafficMerger.mergeTraffic(newTrafficMap, newTrafficList);
+        TrafficMerger.mergeTraffic(newTrafficMap, newTrafficListFiltered);
         TrafficMerger.removeTrafficWithoutPosition(newTrafficMap);
 
         return newTrafficMap;
@@ -28,6 +30,15 @@ export class TrafficMerger {
         trafficMap.forEach((value, key) => newTrafficMap.set(key, trafficMap.get(key).clone()));
 
         return newTrafficMap;
+    }
+
+
+    private static filterTrafficListByExtent(trafficList: Traffic[], extent: Extent4d): Traffic[] {
+        return trafficList.map(traffic => {
+            const filteredTraffic = traffic.clone();
+            filteredTraffic.positions = traffic.positions.filter(pos => extent.containsPoint(pos.position));
+            return filteredTraffic;
+        }).filter(traffic => traffic.positions.length > 0);
     }
 
 

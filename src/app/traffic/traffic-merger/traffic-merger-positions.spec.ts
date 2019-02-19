@@ -17,7 +17,7 @@ describe('TrafficMergerPositions', () => {
         pos3 = TrafficMock.createPosition(7.2, 47.2, timSec - 3);
         pos4 = TrafficMock.createPosition(7.3, 47.3, timSec - 2);
         pos5 = TrafficMock.createPosition(7.4, 47.4, timSec - 1);
-        acOld = TrafficMock.MOCK_TRAFFIC_1;
+        acOld = TrafficMock.MOCK_TRAFFIC_1.clone();
 
         acNew = acOld.clone();
         acNew.dataSource = TrafficDataSource.OPENSKY;

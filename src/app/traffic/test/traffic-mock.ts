@@ -8,13 +8,23 @@ import {TrafficOpenskyResponse} from '../rest-mapper/rest-mapper-traffic-opensky
 import {Extent2d} from '../../shared/model/geometry/extent2d';
 import {TrafficAdsbExResponse, TrafficAdsbExRestItem} from '../rest-mapper/rest-mapper-traffic-adexb-ex';
 import {TrafficOgnResponse, TrafficOgnRestItem} from '../rest-mapper/rest-mapper-traffic-ogn';
+import {Extent4d} from '../../shared/model/geometry/extent4d';
 
 
 export class TrafficMock {
-    public static readonly MOCK_EXTENT_1 = new Extent2d(7.0, 47.0, 7.1, 47.1);
+    public static readonly MOCK_EXTENT_1 = new Extent4d(
+        7.0,
+        47.0,
+        new Length(0, LengthUnit.FT),
+        Timestamp.createFromRelSec(-120),
+        8.0,
+        48.0,
+        new Length(15000, LengthUnit.FT),
+        Timestamp.now(),
+    );
 
     public static readonly MOCK_POSITION_1 = new TrafficPosition(
-        new Position4d(47.1, 47.1, new Length(1600, LengthUnit.FT), Timestamp.now()),
+        new Position4d(7.1, 47.1, new Length(1600, LengthUnit.FT), Timestamp.now()),
         TrafficDataSource.OGN,
         TrafficPositionMethod.FLARM,
         'receiver123',
@@ -170,9 +180,6 @@ export class TrafficMock {
         'ctime': 1549196379859,
         'req_ip': '217.26.58.54'
     };
-
-
-
 
 
     public static createPosition(

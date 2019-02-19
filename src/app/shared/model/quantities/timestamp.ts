@@ -35,6 +35,11 @@ export class Timestamp implements Clonable<Timestamp> {
     }
 
 
+    public static createFromRelSec(relSec: number): Timestamp {
+        return new Timestamp(Date.now() + relSec * 1000);
+    }
+
+
     public clone(): Timestamp {
         return new Timestamp(this.epochSec);
     }

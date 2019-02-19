@@ -36,7 +36,10 @@ describe('trafficReducer', () => {
         const action = new BaseMapMovedZoomedRotatedAction(pos, 11, new Angle(0, AngleUnit.DEG), extent);
         const state = trafficReducer(undefined, action);
 
-        expect(state.extent).toEqual(extent);
+        expect(state.extent.minLon).toEqual(extent.minLon);
+        expect(state.extent.minLat).toEqual(extent.minLat);
+        expect(state.extent.maxLon).toEqual(extent.maxLon);
+        expect(state.extent.maxLat).toEqual(extent.maxLat);
     });
 
     // endregion
@@ -98,8 +101,8 @@ describe('trafficReducer', () => {
 
 
     it('merges the traffic on TRAFFIC_READ_SUCCESS', () => {
-        const state1 = { ...initialTrafficState, isWatching: true, status: TrafficServiceStatus.WAITING };
-        const action2 = new ReadTrafficSuccessAction([TrafficMock.MOCK_TRAFFIC_1]);
+        const state1 = { ...initialTrafficState, extent: TrafficMock.MOCK_EXTENT_1, isWatching: true, status: TrafficServiceStatus.WAITING };
+        const action2 = new ReadTrafficSuccessAction([TrafficMock.MOCK_TRAFFIC_1.clone()]);
         const state2 = trafficReducer(state1, action2);
 
         expect(state2.trafficMap.size).toEqual(1);
@@ -108,7 +111,7 @@ describe('trafficReducer', () => {
 
     it('ignores TRAFFIC_READ_SUCCESS if status isWatching is false', () => {
         const state1 = { ...initialTrafficState, isWatching: false, status: TrafficServiceStatus.OFF };
-        const action2 = new ReadTrafficSuccessAction([TrafficMock.MOCK_TRAFFIC_1]);
+        const action2 = new ReadTrafficSuccessAction([TrafficMock.MOCK_TRAFFIC_1.clone()]);
         const state2 = trafficReducer(state1, action2);
 
         expect(state2.trafficMap.size).toEqual(0);
@@ -145,7 +148,7 @@ describe('trafficReducer', () => {
 
 
     it('merges the traffic on TRAFFIC_DETAILS_READ_SUCCESS', () => {
-        const state1 = { ...initialTrafficState, isWatching: true, status: TrafficServiceStatus.CURRENT };
+        const state1 = { ...initialTrafficState, extent: TrafficMock.MOCK_EXTENT_1, isWatching: true, status: TrafficServiceStatus.CURRENT };
         const action1 = new ReadTrafficSuccessAction([TrafficMock.MOCK_TRAFFIC_2]);
         const state2 = trafficReducer(state1, action1);
         const mockTrafficDetails = TrafficMock.MOCK_TRAFFIC_2.clone();
