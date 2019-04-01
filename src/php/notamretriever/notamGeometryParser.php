@@ -2,10 +2,12 @@
 include_once __DIR__ . "/../logger.php";
 include_once __DIR__ . "/../helper.php";
 include_once __DIR__ . "/../Navplan/Shared/GeoService.php";
-include_once __DIR__ . "/../Navplan/Shared/DbService.php";
+include_once __DIR__ . "/../Navplan/Shared/StringNumberService.php";
+include_once __DIR__ . "/../Navplan/NavplanBootstrap.php";
 
 use Navplan\Shared\GeoService;
-use Navplan\Shared\DbService;
+use Navplan\Shared\StringNumberService;
+use Navplan\NavplanBootstrap;
 
 
 // TODO
@@ -25,12 +27,12 @@ class NotamGeometryParser
     const REGEXP_PART_RADIUS = '(RADIUS|AROUND|CENTERED)';
     const REGEXP_PART_RADVAL = '(\d+[\.\,]?\d*)\s?(NM|KM|M)(?=\W)';
     const REGEXP_PART_NOBRACKETS_NUMS = '[^\(\)0-9]+?';
-    const PROCESS_CHUNK_SIZE = 200;
+    const PROCESS_CHUNK_SIZE = 1000;
     const MIN_PIXEL_COORDINATE_RESOLUTION = 1.0;
     const MIN_ZOOM = 0;
     const MAX_ZOOM = 14;
 
-    private $conn;
+    private $dbService;
     private $logger;
 
     //endregion
@@ -40,12 +42,13 @@ class NotamGeometryParser
 
     function __construct() {
         $this->logger = new Logger(NULL);
-        $this->conn = DbService::openDb();
+        $this->dbService = NavplanBootstrap::getAndInitDbService();
+        $this->dbService->openDb();
     }
 
 
     function __destruct() {
-        $this->conn->close();
+        $this->dbService->closeDb();
         $this->logger->closeLog();
     }
 
@@ -57,9 +60,9 @@ class NotamGeometryParser
 
     public function test($testNotamId) {
         $this->logger->addOutputLogLevel("DEBUG");
-        $testNotamId = checkEscapeString($this->conn, $testNotamId, 1, 20);
+        $testNotamId = StringNumberService::checkEscapeString($this->dbService, $testNotamId, 1, 20);
         $this->logger->writelog("INFO", "loading test notam '" . $testNotamId . "'...");
-        $notamList = $this->loadNotams($testNotamId);
+        $notamList = $this->loadNotamByKey($testNotamId);
         if (count($notamList) == 0) {
             $this->logger->writelog("WARNING", "notam not found, exiting.");
             return;
@@ -148,32 +151,24 @@ class NotamGeometryParser
 
 
     public function go() {
-        $this->logger->writelog("INFO", "loading notams...");
-        $notamList = $this->loadNotams();
-
-        if (count($notamList) == 0) {
-            $this->logger->writelog("WARNING", "notam list empty, exiting.");
-            return;
-        }
-
-        $this->logger->writelog("INFO", "loading extent list...");
-        $extentList = $this->loadExtentList($notamList);
-
-        // parse geometry from notam text
-        $this->logger->writelog("INFO", "parse geometry from notam texts...");
-        foreach ($notamList as &$notam) {
-            $notamContent = json_decode($notam["notam"], JSON_NUMERIC_CHECK);
-            $notam["geometry"] = $this->parseNotamGeometry($notamContent);
-            $notam["dbExtent"] = $this->getNotamDbExtent($notam, $extentList[$notam["icao"]]);
-        }
-
         $this->clearNotamGeometries();
 
-        $notamChunkList = array_chunk($notamList, self::PROCESS_CHUNK_SIZE);
-        $chunkCount = 0;
-        foreach ($notamChunkList as $notamChunk) {
-            $chunkCount++;
-            $this->logger->writelog("INFO", "processing chunk " . $chunkCount . "...");
+        $lastNotamId = 0;
+        do {
+            $this->logger->writelog("INFO", "loading notams starting after id " . $lastNotamId . "...");
+            $notamChunk = $this->loadNotams($lastNotamId, self::PROCESS_CHUNK_SIZE);
+            $this->logger->writelog("INFO", count($notamChunk) . " notams found");
+
+            $this->logger->writelog("INFO", "loading extent list...");
+            $extentList = $this->loadExtentList($notamChunk);
+
+            // parse geometry from notam text
+            $this->logger->writelog("INFO", "parse geometry from notam texts...");
+            foreach ($notamChunk as &$notam) {
+                $notamContent = json_decode($notam["notam"], JSON_NUMERIC_CHECK);
+                $notam["geometry"] = $this->parseNotamGeometry($notamContent);
+                $notam["dbExtent"] = $this->getNotamDbExtent($notam, $extentList[$notam["icao"]]);
+            }
 
             $this->logger->writelog("INFO", "try to find matching airspace...");
             $this->tryFindMatchingAirspace($notamChunk);
@@ -183,9 +178,61 @@ class NotamGeometryParser
 
             $this->logger->writelog("INFO", "save geometries to db...");
             $this->saveNotamGeometries($notamChunk);
-        }
+
+            if (count($notamChunk) > 0)
+                $lastNotamId = $notamChunk[count($notamChunk) - 1]["id"];
+
+        } while(count($notamChunk) > 0);
 
         $this->logger->writelog("INFO", "done.");
+
+
+
+        /*$this->logger->writelog("INFO", "loading notams...");
+        $notamList = $this->loadNotams();
+
+        if (count($notamList) == 0) {
+            $this->logger->writelog("WARNING", "notam list empty, exiting.");
+            return;
+        }
+
+        $this->logMemUsage();
+        $this->logger->writelog("INFO", "loading extent list...");
+        $extentList = $this->loadExtentList($notamList);
+
+        // parse geometry from notam text
+        $this->logMemUsage();
+        $this->logger->writelog("INFO", "parse geometry from notam texts...");
+        foreach ($notamList as &$notam) {
+            $notamContent = json_decode($notam["notam"], JSON_NUMERIC_CHECK);
+            $notam["geometry"] = $this->parseNotamGeometry($notamContent);
+            $notam["dbExtent"] = $this->getNotamDbExtent($notam, $extentList[$notam["icao"]]);
+        }
+
+        $this->logMemUsage();
+        $this->clearNotamGeometries();
+
+        $notamChunkList = array_chunk($notamList, self::PROCESS_CHUNK_SIZE);
+        $chunkCount = 0;
+        foreach ($notamChunkList as $notamChunk) {
+            $chunkCount++;
+            $this->logMemUsage();
+            $this->logger->writelog("INFO", "processing notams " . $chunkCount * self::PROCESS_CHUNK_SIZE . "...");
+
+            $this->logMemUsage();
+            $this->logger->writelog("INFO", "try to find matching airspace...");
+            $this->tryFindMatchingAirspace($notamChunk);
+
+            $this->logMemUsage();
+            $this->logger->writelog("INFO", "calculate different zoom levels...");
+            $this->calculateZoomLevelGeometries($notamChunk);
+
+            $this->logMemUsage();
+            $this->logger->writelog("INFO", "save geometries to db...");
+            $this->saveNotamGeometries($notamChunk);
+        }
+
+        $this->logger->writelog("INFO", "done.");*/
     }
 
 
@@ -194,14 +241,33 @@ class NotamGeometryParser
 
     // region PRIVATE METHODS
 
-    private function loadNotams($notamId = NULL) {
+    private function loadNotams($lastNotamId, $maxCount) {
         $query = "SELECT id, icao, notam FROM icao_notam";
-        if ($notamId) // id optional (returns all notams if empty)
-            $query .= " WHERE notam_id='" . $notamId . "'";
-        $result = DbService::execMultiResultQuery($this->conn, $query, "error reading notams");
+        $query .= " WHERE id > '" . $lastNotamId . "'";
+        $query .= " ORDER BY id ASC";
+        $query .= " LIMIT " . $maxCount;
+        $result = $this->dbService->execMultiResultQuery($query, "error reading notams");
 
         $notamList = array();
-        while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
+        while ($rs = $result->fetch_assoc()) {
+            $notamList[] = array(
+                "id" => $rs["id"],
+                "icao" => $rs["icao"],
+                "notam" => $rs["notam"]
+            );
+        }
+
+        return $notamList;
+    }
+
+
+    private function loadNotamByKey($notamKey) {
+        $query = "SELECT id, icao, notam FROM icao_notam";
+        $query .= " WHERE notam_id = '" . $notamKey . "'";
+        $result = $this->dbService->execMultiResultQuery($query, "error reading notams");
+
+        $notamList = array();
+        while ($rs = $result->fetch_assoc()) {
             $notamList[] = array(
                 "id" => $rs["id"],
                 "icao" => $rs["icao"],
@@ -225,11 +291,11 @@ class NotamGeometryParser
         $query = "SELECT 'fir' AS type, icao, ST_AsText(polygon) AS polygon, NULL AS lonlat FROM icao_fir WHERE icao IN ('" . join("','", $icaoList) . "')"
             . " UNION "
             . "SELECT 'ad' AS type, icao, NULL AS polygon, ST_AsText(lonlat) as lonlat FROM openaip_airports WHERE icao IN ('" . join("','", $icaoList) . "')";
-        $result = DbService::execMultiResultQuery($this->conn, $query, "error reading firs/ads");
+        $result = $this->dbService->execMultiResultQuery($query, "error reading firs/ads");
 
         // build return list
         $extentList = array();
-        while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
+        while ($rs = $result->fetch_assoc()) {
             $extentList[$rs["icao"]] = array(
                 "type" => $rs["type"],
                 "polygon" => $rs["polygon"],
@@ -245,7 +311,7 @@ class NotamGeometryParser
         $this->logger->writelog("INFO", "clear geometry table...");
 
         $query = "TRUNCATE TABLE icao_notam_geometry2";
-        DbService::execCUDQuery($this->conn, $query, "error truncating notam geometry table");
+        $this->dbService->execCUDQuery($query, "error truncating notam geometry table");
     }
 
 
@@ -262,7 +328,7 @@ class NotamGeometryParser
 
             if ($notam["geometry"] && $notam["geometry"]["center"]) {
                 GeoService::reduceCoordinateAccuracy($notam["geometry"]["center"]);
-                $geometryString = "'" . checkEscapeString($this->conn, json_encode($notam["geometry"], JSON_NUMERIC_CHECK), 0, 999999999) . "'";
+                $geometryString = "'" . StringNumberService::checkEscapeString($this->dbService, json_encode($notam["geometry"], JSON_NUMERIC_CHECK), 0, 999999999) . "'";
                 // circle: one entry matches all zoom levels
                 $zoommin = 0;
                 $zoommax = 255;
@@ -273,7 +339,7 @@ class NotamGeometryParser
                     $geometry = $notam["geometry"];
                     $geometry["polygon"] = $polyZoomLevel["polygon"];
                     GeoService::reducePolygonAccuracy($geometry["polygon"]);
-                    $geometryString = "'" . checkEscapeString($this->conn, json_encode($geometry, JSON_NUMERIC_CHECK), 0, 999999999) . "'";
+                    $geometryString = "'" . StringNumberService::checkEscapeString($this->dbService, json_encode($geometry, JSON_NUMERIC_CHECK), 0, 999999999) . "'";
 
                     $queryParts[] = "('"
                         . checkNumeric($notam["id"]) . "',"
@@ -288,7 +354,7 @@ class NotamGeometryParser
                     $geometry = $notam["geometry"];
                     $geometry["multipolygon"] = $multiPolyZoomLevel["multipolygon"];
                     GeoService::reduceMultiPolygonAccuracy($geometry["multipolygon"]);
-                    $geometryString = "'" . checkEscapeString($this->conn, json_encode($geometry, JSON_NUMERIC_CHECK), 0, 999999999) . "'";
+                    $geometryString = "'" . StringNumberService::checkEscapeString($this->dbService, json_encode($geometry, JSON_NUMERIC_CHECK), 0, 999999999) . "'";
 
                     $queryParts[] = "('"
                         . checkNumeric($notam["id"]) . "',"
@@ -309,10 +375,20 @@ class NotamGeometryParser
             }
         }
 
+
         if (count($queryParts) > 0) {
             $query = "INSERT INTO icao_notam_geometry2 (icao_notam_id, zoommin, zoommax, geometry, diameter, extent) VALUES " . join(",", $queryParts);
-            DbService::execCUDQuery($this->conn, $query, "error adding notam geometries");
+            $this->dbService->execCUDQuery($query, "error adding notam geometries");
         }
+    }
+
+
+    private function queryPartLength($queryParts) {
+        $len = 0;
+        foreach ($queryParts as $part) {
+            $len+= strlen($part);
+        }
+        return $len;
     }
 
 
@@ -777,20 +853,20 @@ class NotamGeometryParser
         }
 
         $query = join(" UNION ", $queryParts);
-        $result = DbService::execMultiResultQuery($this->conn, $query, "error searching airspace");
+        $result = $this->dbService->execMultiResultQuery($query, "error searching airspace");
 
-        if ($result->num_rows == 0) {
+        if ($result->getNumRows() == 0) {
             $this->logger->writelog("DEBUG", "no intersecting airspaces found");
             return;
         }
         else {
-            $this->logger->writelog("DEBUG", $result->num_rows . " intersecting airspaces found");
+            $this->logger->writelog("DEBUG", $result->getNumRows() . " intersecting airspaces found");
         }
 
 
 
         // try to find name of airspace in notam text
-        while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
+        while ($rs = $result->fetch_assoc()) {
             $index = intval($rs["notamindex"]);
             $notam = &$notamList[$index];
             $notamContent = json_decode($notam["notam"], JSON_NUMERIC_CHECK);
@@ -923,5 +999,9 @@ class NotamGeometryParser
 
 
     // endregion
-}
 
+
+    private function logMemUsage() {
+        $this->logger->writelog("INFO", "memory used: " . memory_get_usage(TRUE));
+    }
+}
