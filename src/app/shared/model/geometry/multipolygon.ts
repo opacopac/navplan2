@@ -3,11 +3,9 @@ import { Polygon } from './polygon';
 
 
 export class Multipolygon implements Geometry2d {
-    public polygons: Polygon[];
-
-
-    public constructor() {
-        this.polygons = [];
+    public constructor(
+        public polygons: Polygon[] = []
+    ) {
     }
 
 
@@ -16,12 +14,9 @@ export class Multipolygon implements Geometry2d {
             return undefined;
         }
 
-        const multiPoly = new Multipolygon();
-        for (const lonLatList of lonLatListList) {
-            multiPoly.polygons.push(Polygon.createFromLonLatList(lonLatList));
-        }
-
-        return multiPoly;
+        return new Multipolygon(
+            lonLatListList.map(lonLatList => Polygon.createFromLonLatList(lonLatList))
+        );
     }
 
 
@@ -31,23 +26,11 @@ export class Multipolygon implements Geometry2d {
 
 
     public getLonLatList(): [number, number][][] {
-        const polyList: [number, number][][] = [];
-
-        for (const polygon of this.polygons) {
-            polyList.push(polygon.getLonLatList());
-        }
-
-        return polyList;
+        return this.polygons.map(polygon => polygon.getLonLatList());
     }
 
 
     public getMercatorList(): [number, number][][] {
-        const polyList: [number, number][][] = [];
-
-        for (const polygon of this.polygons) {
-            polyList.push(polygon.getMercatorList());
-        }
-
-        return polyList;
+        return this.polygons.map(polygon => polygon.getMercatorList());
     }
 }
