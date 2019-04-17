@@ -11,7 +11,7 @@ export class Line implements Geometry2d, Clonable<Line> {
 
 
     public getGeometryType(): Geometry2dType {
-        return Geometry2dType.POLYGON;
+        return Geometry2dType.LINE;
     }
 
 

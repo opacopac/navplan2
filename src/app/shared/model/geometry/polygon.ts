@@ -3,11 +3,9 @@ import { Geometry2d, Geometry2dType } from './geometry2d';
 
 
 export class Polygon implements Geometry2d {
-    public positions: Position2d[];
-
-
-    public constructor() {
-        this.positions = [];
+    public constructor(
+        public positions: Position2d[]
+    ) {
     }
 
 
@@ -16,12 +14,7 @@ export class Polygon implements Geometry2d {
             return undefined;
         }
 
-        const poly = new Polygon();
-        for (const lonLat of lonLatList) {
-            poly.positions.push(new Position2d(lonLat[0], lonLat[1]));
-        }
-
-        return poly;
+        return new Polygon(lonLatList.map(lonLat => new Position2d(lonLat[0], lonLat[1])));
     }
 
 
@@ -30,12 +23,7 @@ export class Polygon implements Geometry2d {
             return undefined;
         }
 
-        const poly = new Polygon();
-        for (const mercator of mercatorList) {
-            poly.positions.push(Position2d.createFromMercator(mercator));
-        }
-
-        return poly;
+        return new Polygon(mercatorList.map(mercator => Position2d.createFromMercator(mercator)));
     }
 
 
@@ -45,26 +33,12 @@ export class Polygon implements Geometry2d {
 
 
     public getLonLatList(): [number, number][] {
-        const lonLatList: [number, number][] = [];
-
-        // convert to mercator
-        for (const pos of this.positions) {
-            lonLatList.push(pos.getLonLat());
-        }
-
-        return lonLatList;
+        return this.positions.map(pos => pos.getLonLat());
     }
 
 
     public getMercatorList(): [number, number][] {
-        const mercatorList: [number, number][] = [];
-
-        // convert to mercator
-        for (const pos of this.positions) {
-            mercatorList.push(pos.getMercator());
-        }
-
-        return mercatorList;
+        return this.positions.map(pos => pos.getMercator());
     }
 
 
