@@ -6,15 +6,15 @@ import {TrafficMock} from '../test/traffic-mock';
 import {TrafficMergerPositions} from './traffic-merger-positions';
 import {Length} from '../../shared/model/quantities/length';
 import {LengthUnit} from '../../shared/model/quantities/units';
-import {Extent4d} from '../../shared/model/geometry/extent4d';
+import {Extent3d} from '../../shared/model/geometry/extent3d';
 
 
 describe('TrafficMerger', () => {
     let pos1, pos2, pos3: TrafficPosition;
-    let acOld1, acNew1, acNew2: Traffic;
+    let ac1Old, ac1New, ac2New: Traffic;
     let trafficMap: Map<string, Traffic>;
     let newTrafficList: Traffic[];
-    let extent: Extent4d;
+    let extent: Extent3d;
 
 
     beforeEach(() => {
@@ -22,26 +22,24 @@ describe('TrafficMerger', () => {
         pos1 = TrafficMock.createPosition(7.0, 47.0, timSec - 3);
         pos2 = TrafficMock.createPosition(7.1, 47.1, timSec - 2);
         pos3 = TrafficMock.createPosition(7.2, 47.2, timSec - 1);
-        acOld1 = TrafficMock.MOCK_TRAFFIC_1.clone();
-        acOld1.acAddress = 'AAAAAA';
-        acOld1.positions = [pos1, pos2];
-        acNew1 = acOld1.clone();
-        acNew1.acAddress = 'AAAAAA';
-        acNew1.positions = [pos3];
-        acNew2 = acOld1.clone();
-        acNew2.acAddress = 'BBBBBB';
+        ac1Old = TrafficMock.MOCK_TRAFFIC_1.clone();
+        ac1Old.acAddress = 'AAAAAA';
+        ac1Old.positions = [pos1, pos2];
+        ac1New = ac1Old.clone();
+        ac1New.acAddress = 'AAAAAA';
+        ac1New.positions = [pos3];
+        ac2New = ac1Old.clone();
+        ac2New.acAddress = 'BBBBBB';
         trafficMap = new Map<string, Traffic>();
-        trafficMap.set(TrafficMerger.getTrafficMapKey(acOld1), acOld1);
-        newTrafficList = [acNew1, acNew2];
-        extent = new Extent4d(
+        trafficMap.set(TrafficMerger.getTrafficMapKey(ac1Old), ac1Old);
+        newTrafficList = [ac1New, ac2New];
+        extent = new Extent3d(
             7.0,
             47.0,
             new Length(0, LengthUnit.FT),
-            Timestamp.createFromRelSec(-120),
             8.0,
             48.0,
             new Length(15000, LengthUnit.FT),
-            Timestamp.now()
         );
     });
 
@@ -74,36 +72,46 @@ describe('TrafficMerger', () => {
         expect(trafficMap.size).toBe(0);
         pos1.position.timestamp = Timestamp.createFromSec(Timestamp.now().epochSec - TrafficMergerPositions.TRAFFIC_MAX_AGE_SEC - 20);
         pos2.position.timestamp = Timestamp.createFromSec(Timestamp.now().epochSec - TrafficMergerPositions.TRAFFIC_MAX_AGE_SEC - 10);
-        acNew1.positions = [pos1, pos2];
-        const newTrafficMap = TrafficMerger.mergeTrafficMap(trafficMap, [acNew1], extent);
+        ac1New.positions = [pos1, pos2];
+        const newTrafficMap = TrafficMerger.mergeTrafficMap(trafficMap, [ac1New], extent);
 
         expect(newTrafficMap.size).toBe(0);
-        expect(newTrafficMap.get(TrafficMerger.getTrafficMapKey(acNew1))).toBeUndefined();
+        expect(newTrafficMap.get(TrafficMerger.getTrafficMapKey(ac1New))).toBeUndefined();
     });
 
 
     it('it removes traffic without positions from the map', () => {
-        acNew2.positions = [];
+        ac2New.positions = [];
         const newTrafficMap = TrafficMerger.mergeTrafficMap(trafficMap, newTrafficList, extent);
 
         expect(newTrafficMap.size).toBe(1);
-        expect(newTrafficMap.get(TrafficMerger.getTrafficMapKey(acNew2))).toBeUndefined();
+        expect(newTrafficMap.get(TrafficMerger.getTrafficMapKey(ac2New))).toBeUndefined();
+    });
+
+
+    it('it removes traffic with only old positions from the map', () => {
+        const oldPos = TrafficMock.createPosition(7.0, 47.0, Timestamp.createFromRelSec( -TrafficMergerPositions.TRAFFIC_MAX_AGE_SEC - 1).epochSec);
+        ac1Old.positions = [oldPos];
+        const newTrafficMap = TrafficMerger.mergeTrafficMap(trafficMap, [], extent);
+
+        expect(newTrafficMap.size).toBe(0);
+        expect(newTrafficMap.get(TrafficMerger.getTrafficMapKey(ac1Old))).toBeUndefined();
     });
 
 
     // TODO: take data source from last pos
     xit('should always overwrite data source', () => {
-        acOld1.dataSource = TrafficDataSource.ADSBX;
-        acNew1.dataSource = TrafficDataSource.OGN;
+        ac1Old.dataSource = TrafficDataSource.ADSBX;
+        ac1New.dataSource = TrafficDataSource.OGN;
         // TrafficMerger.merge(acOld1, acNew1);
-        expect(acOld1.dataSource).toBe(TrafficDataSource.OGN);
+        expect(ac1Old.dataSource).toBe(TrafficDataSource.OGN);
     });
 
 
     it('merges the ac type', () => {
-        acOld1.acType = TrafficAircraftType.UNKNOWN;
-        acNew1.acType = TrafficAircraftType.JET_AIRCRAFT;
-        const key = TrafficMerger.getTrafficMapKey(acOld1);
+        ac1Old.acType = TrafficAircraftType.UNKNOWN;
+        ac1New.acType = TrafficAircraftType.JET_AIRCRAFT;
+        const key = TrafficMerger.getTrafficMapKey(ac1Old);
         const newTrafficMap = TrafficMerger.mergeTrafficMap(trafficMap, newTrafficList, extent);
 
         expect(newTrafficMap.get(key).acType).toBe(TrafficAircraftType.JET_AIRCRAFT);
@@ -111,9 +119,9 @@ describe('TrafficMerger', () => {
 
 
     it('merges the icao type', () => {
-        acOld1.icaoType = undefined;
-        acNew1.icaoType = 'AAT3';
-        const key = TrafficMerger.getTrafficMapKey(acOld1);
+        ac1Old.icaoType = undefined;
+        ac1New.icaoType = 'AAT3';
+        const key = TrafficMerger.getTrafficMapKey(ac1Old);
         const newTrafficMap = TrafficMerger.mergeTrafficMap(trafficMap, newTrafficList, extent);
 
         expect(newTrafficMap.get(key).icaoType).toBe('AAT3');
@@ -121,9 +129,9 @@ describe('TrafficMerger', () => {
 
 
     it('merges the registration', () => {
-        acOld1.registration = '';
-        acNew1.registration = 'HB-SRA';
-        const key = TrafficMerger.getTrafficMapKey(acOld1);
+        ac1Old.registration = '';
+        ac1New.registration = 'HB-SRA';
+        const key = TrafficMerger.getTrafficMapKey(ac1Old);
         const newTrafficMap = TrafficMerger.mergeTrafficMap(trafficMap, newTrafficList, extent);
 
         expect(newTrafficMap.get(key).registration).toBe('HB-SRA');
@@ -131,9 +139,9 @@ describe('TrafficMerger', () => {
 
 
     it('merges the callsign', () => {
-        acOld1.callsign = '';
-        acNew1.callsign = 'SWR123';
-        const key = TrafficMerger.getTrafficMapKey(acOld1);
+        ac1Old.callsign = '';
+        ac1New.callsign = 'SWR123';
+        const key = TrafficMerger.getTrafficMapKey(ac1Old);
         const newTrafficMap = TrafficMerger.mergeTrafficMap(trafficMap, newTrafficList, extent);
 
         expect(newTrafficMap.get(key).callsign).toBe('SWR123');
@@ -141,9 +149,9 @@ describe('TrafficMerger', () => {
 
 
     it('merges the op callsign', () => {
-        acOld1.opCallsign = '';
-        acNew1.opCallsign = 'Swiss 123';
-        const key = TrafficMerger.getTrafficMapKey(acOld1);
+        ac1Old.opCallsign = '';
+        ac1New.opCallsign = 'Swiss 123';
+        const key = TrafficMerger.getTrafficMapKey(ac1Old);
         const newTrafficMap = TrafficMerger.mergeTrafficMap(trafficMap, newTrafficList, extent);
 
         expect(newTrafficMap.get(key).opCallsign).toBe('Swiss 123');
@@ -151,37 +159,52 @@ describe('TrafficMerger', () => {
 
 
     it('merges the ac model', () => {
-        acOld1.acModel = '';
-        acNew1.acModel = 'Airbus A319 111';
-        const key = TrafficMerger.getTrafficMapKey(acOld1);
+        ac1Old.acModel = '';
+        ac1New.acModel = 'Airbus A319 111';
+        const key = TrafficMerger.getTrafficMapKey(ac1Old);
         const newTrafficMap = TrafficMerger.mergeTrafficMap(trafficMap, newTrafficList, extent);
 
         expect(newTrafficMap.get(key).acModel).toBe('Airbus A319 111');
     });
 
+
+    it('merges traffic details', () => {
+        ac1Old.dataSource = TrafficDataSource.ADSBX;
+        ac1Old.acModel = '';
+        ac1New.dataSource = TrafficDataSource.DETAILS;
+        ac1New.acModel = 'AAT3';
+        ac1New.positions = [];
+        const key1 = TrafficMerger.getTrafficMapKey(ac1Old);
+        const newTrafficMap = TrafficMerger.mergeTrafficMap(trafficMap, newTrafficList, extent);
+
+        expect(newTrafficMap.get(key1).isDetailsLoaded).toBeTruthy();
+        expect(newTrafficMap.get(key1).acModel).toEqual('AAT3');
+    });
+
+
     it('sets the details loaded flag', () => {
-        acOld1.dataSource = TrafficDataSource.ADSBX;
-        acNew1.dataSource = TrafficDataSource.DETAILS;
-        acNew2.dataSource = TrafficDataSource.OGN;
-        const key1 = TrafficMerger.getTrafficMapKey(acOld1);
-        const key2 = TrafficMerger.getTrafficMapKey(acNew2);
+        ac1Old.dataSource = TrafficDataSource.ADSBX;
+        ac1New.dataSource = TrafficDataSource.DETAILS;
+        ac2New.dataSource = TrafficDataSource.OGN;
+        const key1 = TrafficMerger.getTrafficMapKey(ac1Old);
+        const key2 = TrafficMerger.getTrafficMapKey(ac2New);
         const newTrafficMap = TrafficMerger.mergeTrafficMap(trafficMap, newTrafficList, extent);
 
         expect(newTrafficMap.get(key1).isDetailsLoaded).toBeTruthy();
         expect(newTrafficMap.get(key2).isDetailsLoaded).toBeFalsy();
     });
 
-    // endregion
-
 
     it('filters traffic by extent', () => {
-        const acTooWest = acNew1.clone();
+        const acTooWest = ac1New.clone();
         acTooWest.positions[0].position.longitude = 2.0;
-        const acTooHigh = acNew1.clone();
+        const acTooHigh = ac1New.clone();
         acTooWest.positions[0].position.altitude = new Length(16000, LengthUnit.FT);
         const emptyTrafficMap = new Map<string, Traffic>();
         const newTrafficMap = TrafficMerger.mergeTrafficMap(emptyTrafficMap, [acTooWest, acTooHigh], extent);
 
         expect(newTrafficMap.size).toBe(0);
     });
+
+    // endregion
 });

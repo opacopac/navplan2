@@ -6,8 +6,7 @@ import {LengthUnit} from '../shared/model/quantities/units';
 import {Traffic} from './model/traffic';
 import {BaseMapActions, BaseMapActionTypes} from '../base-map/base-map.actions';
 import {TrafficServiceStatus} from './services/traffic-service-status';
-import {Extent4d} from '../shared/model/geometry/extent4d';
-import {Timestamp} from '../shared/model/quantities/timestamp';
+import {Extent3d} from '../shared/model/geometry/extent3d';
 
 
 export const initialTrafficState: TrafficState = {
@@ -24,15 +23,13 @@ export function trafficReducer(state: TrafficState = initialTrafficState, action
         case BaseMapActionTypes.BASEMAP_MOVED_ZOOMED_ROTATED:
             return {
                 ...state,
-                extent: new Extent4d(
+                extent: new Extent3d(
                     action.extent.minLon,
                     action.extent.minLat,
                     new Length(0, LengthUnit.FT), // TODO
-                    Timestamp.createFromRelSec(-120), // TODO
                     action.extent.maxLon,
                     action.extent.maxLat,
                     new Length(15000, LengthUnit.FT), // TODO
-                    Timestamp.now(),
                 )
             };
 

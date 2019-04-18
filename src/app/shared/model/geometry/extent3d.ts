@@ -30,9 +30,11 @@ export class Extent3d extends Extent2d implements Clonable<Extent3d> {
 
 
     containsPoint(point: Position3d): boolean {
+        const pointFt = point.altitude ? point.altitude.ft : 0;
+
         return (super.containsPoint(point)
-            && point.altitude.ft >= this.minHeight.ft
-            && point.altitude.ft <= this.maxHeight.ft
+            && pointFt >= this.minHeight.ft
+            && pointFt <= this.maxHeight.ft
         );
     }
 }

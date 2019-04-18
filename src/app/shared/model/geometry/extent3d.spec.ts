@@ -2,6 +2,8 @@ import {Extent3d} from './extent3d';
 import {Length} from '../quantities/length';
 import {LengthUnit} from '../quantities/units';
 import {Position3d} from './position3d';
+import {Position4d} from './position4d';
+import {Timestamp} from '../quantities/timestamp';
 
 
 describe('Extent3d', () => {
@@ -50,5 +52,15 @@ describe('Extent3d', () => {
         expect(extent.containsPoint(pointIn)).toBeTruthy();
         expect(extent.containsPoint(pointOut)).toBeFalsy();
         expect(extent.containsPoint(pointOut2)).toBeFalsy();
+    });
+
+
+    it('assumes undefined altitude as 0', () => {
+        const extent2 = extent.clone();
+        extent2.minHeight = new Length(10, LengthUnit.FT);
+        const point = new Position3d(7.5, 47.5, undefined);
+
+        expect(extent.containsPoint(point)).toBeTruthy();
+        expect(extent2.containsPoint(point)).toBeFalsy();
     });
 });

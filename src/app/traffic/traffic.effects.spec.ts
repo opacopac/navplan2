@@ -22,10 +22,9 @@ import {MockStore} from '../shared/test/mock-store';
 import {TrafficTimerService} from './services/traffic-timer.service';
 import {TrafficAdsbexchangeService2} from './services/traffic-adsbexchange2.service';
 import {TrafficDetailsService} from './services/traffic-details.service';
-import {Extent4d} from '../shared/model/geometry/extent4d';
 import createSpyObj = jasmine.createSpyObj;
 import SpyObj = jasmine.SpyObj;
-import {Timestamp} from '../shared/model/quantities/timestamp';
+import {Extent3d} from '../shared/model/geometry/extent3d';
 
 
 describe('TrafficEffects', () => {
@@ -51,15 +50,13 @@ describe('TrafficEffects', () => {
     const mockTraffic2 = mockTraffic1.clone();
     mockTraffic2.isDetailsLoaded = true;
     const initialTrafficState: TrafficState = {
-        extent: new Extent4d(
+        extent: new Extent3d(
             7.0,
             47.0,
             new Length(0, LengthUnit.FT),
-            Timestamp.createFromRelSec(-120),
             8.0,
             48.0,
-            new Length(15000, LengthUnit.FT),
-            Timestamp.now()
+            new Length(15000, LengthUnit.FT)
         ),
         sessionId: '123456',
         status: TrafficServiceStatus.CURRENT,
