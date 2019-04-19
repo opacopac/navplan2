@@ -3,6 +3,7 @@ import { StringnumberService } from '../../../shared/services/stringnumber/strin
 import { Notam } from '../../model/notam';
 import { Position2d } from '../../../shared/model/geometry/position2d';
 import { OlOverlayBase } from '../../../base-map/components/ol-overlay-base';
+import {OlHelper} from '../../../base-map/model/ol-helper';
 
 
 @Component({
@@ -26,7 +27,7 @@ export class OlOverlayNotamComponent extends OlOverlayBase implements OnInit {
 
     public bindDataItem(notam: Notam, clickPos: Position2d) {
         this.notam = notam;
-        this.olOverlay.setPosition(notam ? clickPos.getMercator() : undefined);
+        this.olOverlay.setPosition(notam ? OlHelper.getMercator(clickPos) : undefined);
     }
 
 

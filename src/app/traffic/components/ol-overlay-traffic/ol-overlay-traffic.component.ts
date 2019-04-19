@@ -3,6 +3,7 @@ import {Traffic, TrafficAddressType, TrafficAircraftType} from '../../model/traf
 import { Position2d } from '../../../shared/model/geometry/position2d';
 import { OlOverlayBase } from '../../../base-map/components/ol-overlay-base';
 import {TrafficIcon} from '../../model/traffic-icon';
+import {OlHelper} from '../../../base-map/model/ol-helper';
 
 
 const TRAFFIC_TYPE_DESCRIPTION = {
@@ -45,7 +46,7 @@ export class OlOverlayTrafficComponent extends OlOverlayBase implements OnInit {
 
     public bindDataItem(traffic: Traffic, clickPos: Position2d) {
         this.traffic = traffic;
-        this.olOverlay.setPosition(traffic && traffic.hasPositions() ? traffic.getCurrentPosition().position.getMercator() : undefined);
+        this.olOverlay.setPosition(traffic && traffic.hasPositions() ? OlHelper.getMercator(traffic.getCurrentPosition().position) : undefined);
     }
 
 

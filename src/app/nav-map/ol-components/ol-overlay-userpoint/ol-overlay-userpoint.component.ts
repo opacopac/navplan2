@@ -4,6 +4,7 @@ import {Position2d} from '../../../shared/model/geometry/position2d';
 import {UserpointIcon} from '../../../map-features/model/userpoint-icon';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
 import {WaypointFactory} from '../../../flightroute/model/waypoint-mapper/waypoint-factory';
+import {OlHelper} from '../../../base-map/model/ol-helper';
 
 
 @Component({
@@ -28,7 +29,7 @@ export class OlOverlayUserpointComponent extends OlOverlayWaypointBase implement
     public bindDataItem(userPoint: Userpoint, clickPos: Position2d) {
         this.userpoint = userPoint;
         this.waypoint = userPoint ? WaypointFactory.createNewWaypointFromDataItem(userPoint, clickPos) : undefined;
-        this.olOverlay.setPosition(userPoint ? userPoint.position.getMercator() : undefined);
+        this.olOverlay.setPosition(userPoint ? OlHelper.getMercator(userPoint.position) : undefined);
     }
 
 

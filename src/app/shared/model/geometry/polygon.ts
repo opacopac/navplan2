@@ -18,15 +18,6 @@ export class Polygon implements Geometry2d {
     }
 
 
-    public static createFromMercatorList(mercatorList: [number, number][]): Polygon {
-        if (!mercatorList) {
-            return undefined;
-        }
-
-        return new Polygon(mercatorList.map(mercator => Position2d.createFromMercator(mercator)));
-    }
-
-
     public getGeometryType(): Geometry2dType {
         return Geometry2dType.POLYGON;
     }
@@ -34,11 +25,6 @@ export class Polygon implements Geometry2d {
 
     public getLonLatList(): [number, number][] {
         return this.positions.map(pos => pos.getLonLat());
-    }
-
-
-    public getMercatorList(): [number, number][] {
-        return this.positions.map(pos => pos.getMercator());
     }
 
 

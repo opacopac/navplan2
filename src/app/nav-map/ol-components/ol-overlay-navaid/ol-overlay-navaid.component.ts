@@ -5,6 +5,7 @@ import {Position2d} from '../../../shared/model/geometry/position2d';
 import {NavaidIcon} from '../../../map-features/model/navaid-icon';
 import {WaypointFactory} from '../../../flightroute/model/waypoint-mapper/waypoint-factory';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
+import {OlHelper} from '../../../base-map/model/ol-helper';
 
 
 @Component({
@@ -29,7 +30,7 @@ export class OlOverlayNavaidComponent extends OlOverlayWaypointBase implements O
     public bindDataItem(navaid: Navaid, clickPos: Position2d) {
         this.navaid = navaid;
         this.waypoint = navaid ? WaypointFactory.createNewWaypointFromDataItem(navaid, clickPos) : undefined;
-        this.olOverlay.setPosition(navaid ? navaid.position.getMercator() : undefined);
+        this.olOverlay.setPosition(navaid ? OlHelper.getMercator(navaid.position) : undefined);
     }
 
 

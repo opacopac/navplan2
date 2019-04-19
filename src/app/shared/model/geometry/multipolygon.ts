@@ -28,9 +28,4 @@ export class Multipolygon implements Geometry2d {
     public getLonLatList(): [number, number][][] {
         return this.polygons.map(polygon => polygon.getLonLatList());
     }
-
-
-    public getMercatorList(): [number, number][][] {
-        return this.polygons.map(polygon => polygon.getMercatorList());
-    }
 }

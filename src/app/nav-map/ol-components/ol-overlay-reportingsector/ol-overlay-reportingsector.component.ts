@@ -3,6 +3,7 @@ import {Reportingsector} from '../../../map-features/model/reportingsector';
 import {Position2d} from '../../../shared/model/geometry/position2d';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
 import {WaypointFactory} from '../../../flightroute/model/waypoint-mapper/waypoint-factory';
+import {OlHelper} from '../../../base-map/model/ol-helper';
 
 
 @Component({
@@ -27,6 +28,6 @@ export class OlOverlayReportingsectorComponent extends OlOverlayWaypointBase imp
     public bindDataItem(reportingSector: Reportingsector, clickPos: Position2d) {
         this.reportingsector = reportingSector;
         this.waypoint = reportingSector ? WaypointFactory.createNewWaypointFromDataItem(reportingSector, clickPos) : undefined;
-        this.olOverlay.setPosition(clickPos ? clickPos.getMercator() : undefined);
+        this.olOverlay.setPosition(clickPos ? OlHelper.getMercator(clickPos) : undefined);
     }
 }

@@ -7,6 +7,7 @@ import {Angle} from '../../shared/model/quantities/angle';
 import {AngleUnit} from '../../shared/model/quantities/units';
 import {DataItem, DataItemType} from '../../shared/model/data-item';
 import {OlComponentBase} from '../ol-component/ol-component-base';
+import {OlHelper} from '../model/ol-helper';
 
 
 const HIT_TOLERANCE_PIXELS = 10;
@@ -49,7 +50,7 @@ export class BaseMapService {
                 this.mapLayer,
             ],
             view: new ol.View({
-                center: position.getMercator(),
+                center: OlHelper.getMercator(position),
                 zoom: zoom,
                 rotation: mapRotation.rad,
             })
@@ -129,7 +130,7 @@ export class BaseMapService {
 
 
     public getMapPosition(): Position2d {
-        return Position2d.createFromMercator(this.map.getView().getCenter());
+        return OlHelper.getPosFromMercator(this.map.getView().getCenter());
     }
 
 
@@ -139,7 +140,7 @@ export class BaseMapService {
         }
 
         if (position) {
-            this.map.getView().setCenter(position.getMercator());
+            this.map.getView().setCenter(OlHelper.getMercator(position));
         }
 
         if (zoom != null) {
@@ -159,9 +160,9 @@ export class BaseMapService {
 
 
     public getRadiusDegByPixel(position: Position2d, radiusPixel: number): number {
-        const coord1Pixel = this.map.getPixelFromCoordinate(position.getMercator());
+        const coord1Pixel = this.map.getPixelFromCoordinate(OlHelper.getMercator(position));
         const coord2Pixel: ol.Pixel = [coord1Pixel[0], coord1Pixel[1] - radiusPixel];
-        const coord2Deg = Position2d.createFromMercator(this.map.getCoordinateFromPixel(coord2Pixel));
+        const coord2Deg = OlHelper.getPosFromMercator(this.map.getCoordinateFromPixel(coord2Pixel));
 
         return Math.abs(coord2Deg.latitude - position.latitude);
 
@@ -212,7 +213,7 @@ export class BaseMapService {
         });
 
         this.map.addOverlay(this.currentOverlay);
-        this.currentOverlay.setPosition(coordinates.getMercator()); // force auto panning
+        this.currentOverlay.setPosition(OlHelper.getMercator(coordinates)); // force auto panning
     }
 
 
@@ -252,7 +253,7 @@ export class BaseMapService {
 
     private onSingleClick(event: ol.MapBrowserEvent) {
         const dataItem = this.getDataItemAtPixel(event.pixel, true);
-        const clickPos = Position2d.createFromMercator(event.coordinate);
+        const clickPos = OlHelper.getPosFromMercator(event.coordinate);
         this.onMapClicked.emit({ clickPos: clickPos, dataItem: dataItem });
     }
 

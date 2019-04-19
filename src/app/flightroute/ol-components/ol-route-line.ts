@@ -3,6 +3,7 @@ import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
 import {Flightroute} from '../model/flightroute';
 import {EventEmitter} from '@angular/core';
 import {Position2d} from '../../shared/model/geometry/position2d';
+import {OlHelper} from '../../base-map/model/ol-helper';
 
 
 export class RouteLineModification {
@@ -131,11 +132,11 @@ export class OlRouteLine extends OlComponentBase {
 
         // find index of changed wp
         for (let i = 0; i < newCoordinates.length; i++) {
-            if (i >= this.flightroute.waypoints.length || !this.flightroute.waypoints[i].position.equals(Position2d.createFromMercator(newCoordinates[i]), 4)) {
+            if (i >= this.flightroute.waypoints.length || !this.flightroute.waypoints[i].position.equals(OlHelper.getPosFromMercator(newCoordinates[i]), 4)) {
                 return new RouteLineModification(
                     i,
                     (this.flightroute.waypoints.length !== newCoordinates.length),
-                    Position2d.createFromMercator(newCoordinates[i])
+                    OlHelper.getPosFromMercator(newCoordinates[i])
                 );
             }
         }
