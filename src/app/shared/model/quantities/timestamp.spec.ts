@@ -1,7 +1,7 @@
 import {Timestamp} from './timestamp';
 
 
-describe('Extent2d', () => {
+describe('Timestamp', () => {
     const epochSec1 = 1549218773;
     const epochMs2 = 1549195031085;
 

@@ -92,7 +92,7 @@ export class FlightrouteCalcService {
         const eet = new Time(eet_min, TimeUnit.M);
 
 
-        if (!wp.vacTime.isZeroOrNegative) {
+        if (!wp.vacTime.isZeroOrNegative()) {
             return eet.add(wp.vacTime);
         } else {
             return eet;
@@ -103,7 +103,7 @@ export class FlightrouteCalcService {
     private static calcMtText(wp: Waypoint): string {
         if (!wp || !wp.mt || isNaN(wp.mt.deg)) {
             return '';
-        } else if (!wp.vacTime.isZeroOrNegative) {
+        } else if (!wp.vacTime.isZeroOrNegative()) {
             return 'VAC';
         }
 
@@ -121,13 +121,13 @@ export class FlightrouteCalcService {
 
 
     private static calcEetText(wp: Waypoint): string {
-        if (!wp || !wp.eet || wp.eet.isZeroOrNegative) {
+        if (!wp || !wp.eet || wp.eet.isZeroOrNegative()) {
             return '';
         }
 
         const eet_min = Math.ceil(wp.eet.getValue(TimeUnit.M));
 
-        if (!wp.vacTime.isZeroOrNegative) {
+        if (!wp.vacTime.isZeroOrNegative()) {
             return eet_min + '/+' + Math.ceil(wp.vacTime.getValue(TimeUnit.M));
         } else {
             return eet_min.toString();

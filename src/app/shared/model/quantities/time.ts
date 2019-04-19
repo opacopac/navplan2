@@ -1,32 +1,12 @@
 import {UnitconversionService} from '../../services/unitconversion/unitconversion.service';
 import {TimeUnit} from './units';
 import {Clonable} from '../clonable';
+import {AbstractQuantity} from './abstract-quantity';
 
 
-export class Time implements Clonable<Time> {
-    constructor(
-        private readonly value: number,
-        private readonly unit: TimeUnit) {
-    }
-
-
-    public static addAll(...times: Time[]): Time {
-        return times.reduce((sum, time) => sum.add(time), new Time(0, TimeUnit.M));
-    }
-
-
+export class Time extends AbstractQuantity<Time, TimeUnit> implements Clonable<Time> {
     get min(): number {
         return this.getValue(TimeUnit.M);
-    }
-
-
-    get isZero(): boolean {
-        return this.value === 0;
-    }
-
-
-    get isZeroOrNegative(): boolean {
-        return this.value <= 0;
     }
 
 
@@ -40,14 +20,10 @@ export class Time implements Clonable<Time> {
     }
 
 
-    public add(time: Time) {
-        if (!time) {
-            return undefined;
-        } else if (this.unit === time.unit) {
-            return new Time(this.value + time.value, this.unit);
-        } else {
-            return new Time(this.getValue(TimeUnit.S) + time.getValue(TimeUnit.S), TimeUnit.S);
-        }
+    public getHourMinutes(ceilMinutes = true): [number, number] {
+        const hr = Math.floor(this.getValue(TimeUnit.H));
+        const min = this.getValue(TimeUnit.M) - hr * 60;
+        return ceilMinutes ? [hr, Math.ceil(min)] : [hr, min];
     }
 
 
@@ -61,14 +37,17 @@ export class Time implements Clonable<Time> {
     public getHourMinutesSec(ceilSeconds = true): [number, number, number] {
         const hr = Math.floor(this.getValue(TimeUnit.H));
         const min = Math.floor(this.getValue(TimeUnit.M) - hr * 60);
-        const sec = this.getValue(TimeUnit.S) - min * 60;
+        const sec = this.getValue(TimeUnit.S) - hr * 60 * 60 - min * 60;
         return ceilSeconds ? [hr, min, Math.ceil(sec)] : [hr, min, sec];
     }
 
 
-    public getHourMinutes(ceilMinutes = true): [number, number] {
-        const hr = Math.floor(this.getValue(TimeUnit.H));
-        const min = Math.floor(this.getValue(TimeUnit.M) - hr * 60);
-        return ceilMinutes ? [hr, Math.ceil(min)] : [hr, min];
+    protected createInstance(value: number, unit: TimeUnit): Time {
+        return new Time(value, unit);
+    }
+
+
+    protected getDefaultUnit(): TimeUnit {
+        return TimeUnit.S;
     }
 }
