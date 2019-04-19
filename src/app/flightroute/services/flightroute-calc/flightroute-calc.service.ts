@@ -84,7 +84,7 @@ export class FlightrouteCalcService {
 
 
     private static calcEet(wp: Waypoint, speed: Speed): Time {
-        if (!wp || !wp.dist || wp.dist.isZeroOrNegative || !speed || speed.isZeroOrNegative) {
+        if (!wp || !wp.dist || wp.dist.isZeroOrNegative() || !speed || speed.isZeroOrNegative()) {
             return new Time(0, TimeUnit.M);
         }
 

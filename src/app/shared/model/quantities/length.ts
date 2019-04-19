@@ -1,25 +1,10 @@
 import {UnitconversionService} from '../../services/unitconversion/unitconversion.service';
 import {LengthUnit} from './units';
 import {Clonable} from '../clonable';
+import {AbstractQuantity} from './abstract-quantity';
 
 
-export class Length implements Clonable<Length> {
-    constructor(
-        private readonly value: number,
-        private readonly unit: LengthUnit) {
-    }
-
-
-    get isZero(): boolean {
-        return this.value === 0;
-    }
-
-
-    get isZeroOrNegative(): boolean {
-        return this.value <= 0;
-    }
-
-
+export class Length extends AbstractQuantity<Length, LengthUnit> implements Clonable<Length> {
     get ft(): number {
         return this.getValue(LengthUnit.FT);
     }
@@ -47,13 +32,12 @@ export class Length implements Clonable<Length> {
     }
 
 
-    public add(length: Length): Length {
-        if (!length) {
-            return undefined;
-        } else if (this.unit === length.unit) {
-            return new Length(this.value + length.value, this.unit);
-        } else {
-            return new Length(this.getValue(LengthUnit.M) + length.getValue(LengthUnit.M), LengthUnit.M);
-        }
+    protected createInstance(value: number, unit: LengthUnit): Length {
+        return new Length(value, unit);
+    }
+
+
+    protected getDefaultUnit(): LengthUnit {
+        return LengthUnit.M;
     }
 }

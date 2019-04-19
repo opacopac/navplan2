@@ -11,24 +11,7 @@ describe('Length', () => {
     it('can create an instance', () => {
         const len = new Length(1, LengthUnit.NM);
         expect(len).toBeDefined();
-    });
-
-
-    it('correctly determines zero values', () => {
-        const len1 = new Length(0, LengthUnit.NM);
-        const len2 = new Length(1, LengthUnit.NM);
-        expect(len1.isZero).toBeTruthy();
-        expect(len2.isZero).toBeFalsy();
-    });
-
-
-    it('correctly determines zero/negative values', () => {
-        const len1 = new Length(0, LengthUnit.NM);
-        const len2 = new Length(1, LengthUnit.NM);
-        const len3 = new Length(-1, LengthUnit.NM);
-        expect(len1.isZeroOrNegative).toBeTruthy();
-        expect(len2.isZeroOrNegative).toBeFalsy();
-        expect(len3.isZeroOrNegative).toBeTruthy();
+        expect(len.getValue(LengthUnit.NM)).toEqual(1);
     });
 
 

@@ -1,26 +1,11 @@
 import {UnitconversionService} from '../../services/unitconversion/unitconversion.service';
 import {AngleUnit} from './units';
+import {AbstractQuantity} from './abstract-quantity';
 
 
-export class Angle {
-    constructor(
-        private readonly value: number,
-        private readonly unit: AngleUnit) {
-    }
-
-
+export class Angle extends AbstractQuantity<Angle, AngleUnit> {
     public static getZero(): Angle {
         return new Angle(0, AngleUnit.DEG);
-    }
-
-
-    get isZero(): boolean {
-        return this.value === 0;
-    }
-
-
-    get isZeroOrNegative(): boolean {
-        return this.value <= 0;
     }
 
 
@@ -36,5 +21,15 @@ export class Angle {
 
     public getValue(asUnit: AngleUnit): number {
         return UnitconversionService.convertAngle(this.value, this.unit, asUnit);
+    }
+
+
+    protected createInstance(value: number, unit: AngleUnit): Angle {
+        return new Angle(value, unit);
+    }
+
+
+    protected getDefaultUnit(): AngleUnit {
+        return AngleUnit.DEG;
     }
 }

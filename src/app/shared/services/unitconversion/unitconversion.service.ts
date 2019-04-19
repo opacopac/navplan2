@@ -4,7 +4,7 @@ import {AngleUnit, ConsumptionUnit, LengthUnit, SpeedUnit, TimeUnit, VolumeUnit}
 const FT_PER_M = 3.2808;
 const M_PER_NM = 1852;
 const FT_PER_NM = FT_PER_M * M_PER_NM;
-const L_PER_GAL = 3.785;
+const L_PER_GAL = 3.78541;
 
 
 export class UnitconversionService {
