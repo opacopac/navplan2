@@ -23,7 +23,7 @@ export class GeocalcService {
             return undefined;
         }
 
-        return new Length(wgs84Sphere.haversineDistance(pos1.getLonLat(), pos2.getLonLat()) * 0.000539957, LengthUnit.NM);
+        return new Length(wgs84Sphere.haversineDistance(pos1.toArray(), pos2.toArray()) * 0.000539957, LengthUnit.NM);
     }
 
 

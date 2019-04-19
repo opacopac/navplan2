@@ -54,9 +54,9 @@ export class OlNotam extends OlComponentBase {
                 // create polygon from circle
                 const polycirc = ol.geom.Polygon.circular(
                     new ol.Sphere(6378137),
-                    circle.center.getLonLat(),
+                    circle.center.toArray(),
                     circle.radius.m);
-                this.setPolygonGeometry(feature, Polygon.createFromLonLatList(polycirc.getCoordinates()[0]));
+                this.setPolygonGeometry(feature, Polygon.createFromArray(polycirc.getCoordinates()[0]));
                 break;
             default:
                 return;

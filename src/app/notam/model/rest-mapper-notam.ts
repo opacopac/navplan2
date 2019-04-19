@@ -114,19 +114,19 @@ export class RestMapperNotam {
         if (restItem.geometry.center) {
             return new NotamGeometry(
                 new Circle(
-                    Position2d.createFromLonLat(restItem.geometry.center),
+                    Position2d.createFromArray(restItem.geometry.center),
                     new Length(restItem.geometry.radius, LengthUnit.M)
                 ),
                 restItem.geometry.top,
                 restItem.geometry.bottom);
         } else if (restItem.geometry.polygon) {
             return new NotamGeometry(
-                Polygon.createFromLonLatList(restItem.geometry.polygon),
+                Polygon.createFromArray(restItem.geometry.polygon),
                 restItem.geometry.top,
                 restItem.geometry.bottom);
         } else if (restItem.geometry.multipolygon) {
             return new NotamGeometry(
-                Multipolygon.createFromLonLatListList(restItem.geometry.multipolygon),
+                Multipolygon.createFromArray(restItem.geometry.multipolygon),
                 restItem.geometry.top,
                 restItem.geometry.bottom);
         }

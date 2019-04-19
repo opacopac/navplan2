@@ -9,7 +9,7 @@ export class Polygon implements Geometry2d {
     }
 
 
-    public static createFromLonLatList(lonLatList: [number, number][]): Polygon {
+    public static createFromArray(lonLatList: [number, number][]): Polygon {
         if (!lonLatList) {
             return undefined;
         }
@@ -23,8 +23,8 @@ export class Polygon implements Geometry2d {
     }
 
 
-    public getLonLatList(): [number, number][] {
-        return this.positions.map(pos => pos.getLonLat());
+    public toArray(): [number, number][] {
+        return this.positions.map(pos => pos.toArray());
     }
 
 

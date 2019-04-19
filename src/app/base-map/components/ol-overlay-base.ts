@@ -47,7 +47,7 @@ export abstract class OlOverlayBase {
 
 
     public getPositionString(pos: Position2d): string {
-        return StringnumberService.getDmsString(pos.getLonLat());
+        return StringnumberService.getDmsString(pos.toArray());
     }
 
 

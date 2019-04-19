@@ -16,8 +16,8 @@ describe('Position2d', () => {
     });
 
 
-    it('creates an instance from a lon/lat pair', () => {
-        const pos = Position2d.createFromLonLat([1.0, 2.0]);
+    it('creates an instance from a lon/lat array', () => {
+        const pos = Position2d.createFromArray([1.0, 2.0]);
         expect(pos).toBeDefined();
         expect(pos.longitude).toEqual(1.0);
         expect(pos.latitude).toEqual(2.0);
@@ -70,9 +70,9 @@ describe('Position2d', () => {
     });
 
 
-    it('creates a lon/lat pair', () => {
+    it('creates a lon/lat array', () => {
         const pos = new Position2d(7.125, 47.271);
-        const lonLat = pos.getLonLat();
+        const lonLat = pos.toArray();
 
         expect(lonLat).toBeDefined();
         expect(lonLat.length).toBe(2);

@@ -29,7 +29,7 @@ export class RestMapperAirspace {
             restItem.name,
             { top: this.getAirspaceAltitudeFromRestItem(restItem.alt.top),
                 bottom: this.getAirspaceAltitudeFromRestItem(restItem.alt.bottom) },
-            Polygon.createFromLonLatList(restItem.polygon));
+            Polygon.createFromArray(restItem.polygon));
     }
 
 

@@ -9,13 +9,13 @@ export class Multipolygon implements Geometry2d {
     }
 
 
-    public static createFromLonLatListList(lonLatListList: [number, number][][]): Multipolygon {
+    public static createFromArray(lonLatListList: [number, number][][]): Multipolygon {
         if (!lonLatListList) {
             return undefined;
         }
 
         return new Multipolygon(
-            lonLatListList.map(lonLatList => Polygon.createFromLonLatList(lonLatList))
+            lonLatListList.map(lonLatList => Polygon.createFromArray(lonLatList))
         );
     }
 
@@ -25,7 +25,7 @@ export class Multipolygon implements Geometry2d {
     }
 
 
-    public getLonLatList(): [number, number][][] {
-        return this.polygons.map(polygon => polygon.getLonLatList());
+    public toArray(): [number, number][][] {
+        return this.polygons.map(polygon => polygon.toArray());
     }
 }

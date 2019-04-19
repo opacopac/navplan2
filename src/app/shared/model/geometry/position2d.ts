@@ -10,7 +10,7 @@ export class Position2d implements Geometry2d, Clonable<Position2d> {
     }
 
 
-    public static createFromLonLat(lonLat: [number, number]): Position2d {
+    public static createFromArray(lonLat: [number, number]): Position2d {
         return new Position2d(lonLat[0], lonLat[1]);
     }
 
@@ -37,7 +37,7 @@ export class Position2d implements Geometry2d, Clonable<Position2d> {
     }
 
 
-    public getLonLat(): [number, number] {
+    public toArray(): [number, number] {
         return [ this.longitude, this.latitude ];
     }
 }

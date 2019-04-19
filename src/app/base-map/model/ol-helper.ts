@@ -7,7 +7,7 @@ export class OlHelper {
 
 
     public static getMercator(pos: Position2d): [number, number] {
-        return ol.proj.fromLonLat(pos.getLonLat());
+        return ol.proj.fromLonLat(pos.toArray());
     }
 
 

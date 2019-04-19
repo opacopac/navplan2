@@ -1,10 +1,9 @@
-import {Position2d} from "./position2d";
-import {Geometry2dType} from "./geometry2d";
-import {Polygon} from "./polygon";
+import {Position2d} from './position2d';
+import {Geometry2dType} from './geometry2d';
+import {Polygon} from './polygon';
 
 
 describe('Polygon', () => {
-    let poly: Polygon;
     let posList: Position2d[];
 
     beforeEach(() => {
@@ -13,11 +12,11 @@ describe('Polygon', () => {
             new Position2d(8.0, 48.0),
             new Position2d(7.5, 46.0)
         ];
-        poly = new Polygon(posList);
     });
 
 
     it('can create an instance', () => {
+        const poly = new Polygon(posList);
         expect(poly).toBeDefined();
         expect(poly.positions).toBeDefined();
         expect(poly.positions.length).toBe(posList.length);
@@ -25,8 +24,8 @@ describe('Polygon', () => {
     });
 
 
-    it('creates an instance from a list of lon/lat pairs', () => {
-        const poly = Polygon.createFromLonLatList([[1.0, 10.0], [2.0, 20.0], [3.0, 30.0]]);
+    it('creates an instance from a lon/lat array', () => {
+        const poly = Polygon.createFromArray([[1.0, 10.0], [2.0, 20.0], [3.0, 30.0]]);
         expect(poly).toBeDefined();
         expect(poly.positions).toBeDefined();
         expect(poly.positions.length).toBe(3);
@@ -36,8 +35,9 @@ describe('Polygon', () => {
     });
 
 
-    it('creates a lon/lat pair list from an instance', () => {
-        const lonLatList = poly.getLonLatList();
+    it('creates a lon/lat array from an instance', () => {
+        const poly = new Polygon(posList);
+        const lonLatList = poly.toArray();
         expect(lonLatList).toBeDefined();
         expect(lonLatList.length).toBe(posList.length);
         expect(lonLatList[0]).toEqual([posList[0].longitude, posList[0].latitude]);
@@ -47,7 +47,7 @@ describe('Polygon', () => {
 
 
     it('calculates the average coordinate', () => {
-        const poly = Polygon.createFromLonLatList([[-2.0, 10.0], [5.0, 20.0], [3.0, -60.0]]);
+        const poly = Polygon.createFromArray([[-2.0, 10.0], [5.0, 20.0], [3.0, -60.0]]);
         const avgPos = poly.getAveragePoint();
         expect(avgPos).toBeDefined();
         expect(avgPos.longitude).toBe(2);

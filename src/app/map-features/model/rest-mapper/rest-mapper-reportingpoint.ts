@@ -45,6 +45,6 @@ export class RestMapperReportingpoint {
             restItem.outbd_comp,
             restItem.min_ft,
             restItem.max_ft,
-            Polygon.createFromLonLatList(restItem.polygon));
+            Polygon.createFromArray(restItem.polygon));
     }
 }
