@@ -1,7 +1,7 @@
-import {Altitude} from "./altitude";
-import {LengthUnit, SpeedUnit} from "../units";
-import {Speed} from "./speed";
-import {UnitconversionService} from "../../services/unitconversion/unitconversion.service";
+import {Speed} from './speed';
+import {UnitconversionService} from '../../services/unitconversion/unitconversion.service';
+import {SpeedUnit} from './units';
+
 
 describe('Speed', () => {
     beforeEach(() => {

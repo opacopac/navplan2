@@ -1,8 +1,9 @@
-import {Geometry2dType} from "./geometry2d";
-import {Altitude} from "../quantities/altitude";
-import {LengthUnit} from "../units";
-import {Position4d} from "./position4d";
-import {Timestamp} from "../quantities/timestamp";
+import {Geometry2dType} from './geometry2d';
+import {Position4d} from './position4d';
+import {Timestamp} from '../quantities/timestamp';
+import {Length} from '../quantities/length';
+import {LengthUnit} from '../quantities/units';
+
 
 describe('Position4d', () => {
     beforeEach(() => {
@@ -14,14 +15,14 @@ describe('Position4d', () => {
         const pos = new Position4d(
             7.0,
             47.0,
-            new Altitude(500, LengthUnit.FT),
+            new Length(500, LengthUnit.FT),
             timestamp
         );
 
         expect(pos).toBeDefined();
         expect(pos.longitude).toEqual(7.0);
         expect(pos.latitude).toEqual(47.0);
-        expect(pos.altitude).toEqual(new Altitude(500, LengthUnit.FT));
+        expect(pos.altitude).toEqual(new Length(500, LengthUnit.FT));
         expect(pos.timestamp).toEqual(timestamp);
         expect(pos.getGeometryType()).toEqual(Geometry2dType.POSITION);
     });
@@ -31,7 +32,7 @@ describe('Position4d', () => {
         const pos1 = new Position4d(
             7.0,
             47.0,
-            new Altitude(500, LengthUnit.FT),
+            new Length(500, LengthUnit.FT),
             Timestamp.now()
         );
         const pos2 = pos1.clone();

@@ -1,11 +1,19 @@
 import {Timestamp} from './timestamp';
 
+
 describe('Extent2d', () => {
     const epochSec1 = 1549218773;
     const epochMs2 = 1549195031085;
 
 
     beforeEach(() => {
+    });
+
+
+    it('creates an instance based on current timestamp', () => {
+        const ms = Date.now();
+        const ts = Timestamp.now();
+        expect(ts.epochMs).toEqual(ms);
     });
 
 
@@ -31,5 +39,13 @@ describe('Extent2d', () => {
         expect(ts.epochMs).toEqual(ms);
         expect(tsP3.epochMs).toEqual(ms + 3000);
         expect(tsM5.epochMs).toEqual(ms - 5000);
+    });
+
+
+    it('clones an instance', () => {
+        const ts = Timestamp.now();
+        const ts_clone = ts.clone();
+        expect(ts_clone.epochSec).toEqual(ts.epochSec);
+        expect(ts_clone.epochMs).toEqual(ts.epochMs);
     });
 });

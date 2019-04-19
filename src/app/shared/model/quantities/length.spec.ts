@@ -1,5 +1,6 @@
 import {Length} from './length';
 import {LengthUnit} from './units';
+import {UnitconversionService} from '../../services/unitconversion/unitconversion.service';
 
 
 describe('Length', () => {
@@ -46,6 +47,16 @@ describe('Length', () => {
         expect(len1.nm).toBeCloseTo(1, 0);
         expect(len2.nm).toBeCloseTo(1, 0);
         expect(len3.nm).toBe(1);
+    });
+
+
+    it('correctly gets the m value', () => {
+        const len_m = new Length(1, LengthUnit.M);
+        const len_ft = new Length(1, LengthUnit.FT);
+        const len_nm = new Length(1, LengthUnit.NM);
+        expect(len_m.m).toEqual(1);
+        expect(len_ft.m).toEqual(UnitconversionService.convertLength(1, LengthUnit.FT, LengthUnit.M));
+        expect(len_nm.m).toEqual(UnitconversionService.convertLength(1, LengthUnit.NM, LengthUnit.M));
     });
 
 

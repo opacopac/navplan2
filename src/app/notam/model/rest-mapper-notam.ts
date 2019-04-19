@@ -1,8 +1,10 @@
-import { Position2d } from '../../shared/model/geometry/position2d';
-import { Circle } from '../../shared/model/geometry/circle';
-import { Polygon } from '../../shared/model/geometry/polygon';
-import { Multipolygon } from '../../shared/model/geometry/multipolygon';
+import {Position2d} from '../../shared/model/geometry/position2d';
+import {Circle} from '../../shared/model/geometry/circle';
+import {Polygon} from '../../shared/model/geometry/polygon';
+import {Multipolygon} from '../../shared/model/geometry/multipolygon';
 import {Notam, NotamGeometry, NotamList, NotamLocationType} from './notam';
+import {Length} from '../../shared/model/quantities/length';
+import {LengthUnit} from '../../shared/model/quantities/units';
 
 
 // TODO: deprecated
@@ -113,7 +115,8 @@ export class RestMapperNotam {
             return new NotamGeometry(
                 new Circle(
                     Position2d.createFromLonLat(restItem.geometry.center),
-                    restItem.geometry.radius),
+                    new Length(restItem.geometry.radius, LengthUnit.M)
+                ),
                 restItem.geometry.top,
                 restItem.geometry.bottom);
         } else if (restItem.geometry.polygon) {

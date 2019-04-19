@@ -30,6 +30,11 @@ export class Length implements Clonable<Length> {
     }
 
 
+    get m(): number {
+        return this.getValue(LengthUnit.M);
+    }
+
+
     public getValue(asUnit: LengthUnit): number {
         return UnitconversionService.convertLength(this.value, this.unit, asUnit);
     }

@@ -1,7 +1,7 @@
-import {Geometry2dType} from "./geometry2d";
-import {Position3d} from "./position3d";
-import {Altitude} from "../quantities/altitude";
-import {LengthUnit} from "../units";
+import {Geometry2dType} from './geometry2d';
+import {Position3d} from './position3d';
+import {LengthUnit} from '../quantities/units';
+import {Length} from '../quantities/length';
 
 describe('Position3d', () => {
     beforeEach(() => {
@@ -9,18 +9,18 @@ describe('Position3d', () => {
 
 
     it('can create an instance', () => {
-        const pos = new Position3d(7.0, 47.0, new Altitude(500, LengthUnit.FT));
+        const pos = new Position3d(7.0, 47.0, new Length(500, LengthUnit.FT));
 
         expect(pos).toBeDefined();
         expect(pos.longitude).toEqual(7.0);
         expect(pos.latitude).toEqual(47.0);
-        expect(pos.altitude).toEqual(new Altitude(500, LengthUnit.FT));
+        expect(pos.altitude).toEqual(new Length(500, LengthUnit.FT));
         expect(pos.getGeometryType()).toEqual(Geometry2dType.POSITION);
     });
 
 
     it('indicates if an altitude is set', () => {
-        const pos1 = new Position3d(7.0, 47.0, new Altitude(500, LengthUnit.FT));
+        const pos1 = new Position3d(7.0, 47.0, new Length(500, LengthUnit.FT));
         const pos2 = new Position3d(7.0, 47.0, undefined);
         const pos3 = new Position3d(7.0, 47.0, null);
 
@@ -31,7 +31,7 @@ describe('Position3d', () => {
 
 
     it('can be cloned', () => {
-        const pos = new Position3d(7.0, 47.0, new Altitude(500, LengthUnit.FT));
+        const pos = new Position3d(7.0, 47.0, new Length(500, LengthUnit.FT));
         const pos2 = pos.clone();
 
         expect(pos2).toBeDefined();

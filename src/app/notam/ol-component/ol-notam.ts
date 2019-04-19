@@ -47,7 +47,7 @@ export class OlNotam extends OlComponentBase {
                 const circle = notam.geometry.geometry2d as Circle;
 
                 // TODO: skip circles > 50nm
-                if (circle.radius_m > UnitconversionService.nautmile2m(50)) {
+                if (circle.radius.m > UnitconversionService.nautmile2m(50)) {
                     return;
                 }
 
@@ -55,7 +55,7 @@ export class OlNotam extends OlComponentBase {
                 const polycirc = ol.geom.Polygon.circular(
                     new ol.Sphere(6378137),
                     circle.center.getLonLat(),
-                    circle.radius_m);
+                    circle.radius.m);
                 this.setPolygonGeometry(feature, Polygon.createFromLonLatList(polycirc.getCoordinates()[0]));
                 break;
             default:
