@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {LoggingService} from '../../shared/services/logging/logging.service';
 import {NotamList} from '../model/notam';
-import {Extent} from '../../shared/model/extent';
+import {Extent2d} from '../../shared/model/geometry/extent2d';
 import {NotamResponse, RestMapperNotam} from '../model/rest-mapper-notam';
 import {Observable} from 'rxjs/internal/Observable';
 import {catchError, map} from 'rxjs/operators';
@@ -32,11 +32,11 @@ export class NotamService {
     }
 
 
-    public load(extent: Extent, zoom: number): Observable<NotamList> {
+    public load(extent: Extent2d, zoom: number): Observable<NotamList> {
 
         const startEndTime = this.getDefaultNotamTimeslot();
         const url = NOTAM_BASE_URL + '?starttimestamp=' + startEndTime[0] + '&endtimestamp=' + startEndTime[1] +
-            '&minlon=' + extent[0] + '&minlat=' + extent[1] + '&maxlon=' + extent[2] + '&maxlat=' + extent[3] +
+            '&minlon=' + extent.minLon + '&minlat=' + extent.minLat + '&maxlon=' + extent.maxLon + '&maxlat=' + extent.maxLat +
             '&zoom=' + zoom;
 
         return this.http

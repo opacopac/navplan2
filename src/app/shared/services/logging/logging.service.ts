@@ -49,6 +49,6 @@ export class LoggingService {
 
     public static logResponseError(message: string, response: HttpResponseBase) {
         console.error(message);
-        // console.error(response); // TODO
+        console.error(response); // TODO
     }
 }

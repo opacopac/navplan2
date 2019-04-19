@@ -15,7 +15,6 @@ export class TrafficMergerRegistration {
             case TrafficDataSource.ADSBX :
             case TrafficDataSource.OGN:
                 return newTraffic.registration;
-            case TrafficDataSource.OPENSKY:
             default:
                 return oldTraffic.registration;
         }

@@ -3,7 +3,7 @@ import {UnitconversionService} from '../../shared/services/unitconversion/unitco
 import {Angle} from '../../shared/model/quantities/angle';
 import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
 import {Waypoint} from '../model/waypoint';
-import {LengthUnit} from '../../shared/model/units';
+import {LengthUnit} from '../../shared/model/quantities/units';
 
 
 export class OlWaypointBearingLabel extends OlComponentBase {

@@ -1,10 +1,12 @@
 import * as ol from 'openlayers';
 import {Position2d} from '../../model/geometry/position2d';
 import {Angle} from '../../model/quantities/angle';
-import {AngleUnit, LengthUnit} from '../../model/units';
-import {Distance} from '../../model/quantities/distance';
+import {AngleUnit, LengthUnit} from '../../model/quantities/units';
+import {Length} from '../../model/quantities/length';
 import {BearingPos} from '../../model/geometry/bearing-pos';
 import {HyperCircleFitter} from '../circle-fitter/hyper-circle-fitter';
+import {WorldMagneticModel} from '../../model/world-magnetic-model/WorldMagneticModel';
+import {DatetimeService} from '../datetime/datetime.service';
 
 
 const wgs84Sphere = new ol.Sphere(6378137);
@@ -13,16 +15,19 @@ const toDeg = (180 / Math.PI);
 
 
 export class GeocalcService {
-    public static getDistance(pos1: Position2d, pos2: Position2d): Distance {
+    private static wmm = new WorldMagneticModel();
+
+
+    public static calcDistance(pos1: Position2d, pos2: Position2d): Length {
         if (!pos1 || !pos2) {
             return undefined;
         }
 
-        return new Distance(wgs84Sphere.haversineDistance(pos1.getLonLat(), pos2.getLonLat()) * 0.000539957, LengthUnit.NM);
+        return new Length(wgs84Sphere.haversineDistance(pos1.getLonLat(), pos2.getLonLat()) * 0.000539957, LengthUnit.NM);
     }
 
 
-    public static getBearing(pos1: Position2d, pos2: Position2d, magvar: Angle = Angle.getZero()): Angle {
+    public static calcBearing(pos1: Position2d, pos2: Position2d, magvar: Angle = Angle.getZero()): Angle {
         if (!pos1 || !pos2 || !magvar) {
             return undefined;
         }
@@ -38,7 +43,15 @@ export class GeocalcService {
     }
 
 
-    public static getTurnDirection(angle1: Angle, angle2: Angle): Angle {
+    public static calcMagneticVariation(pos: Position2d): Angle {
+        const decYear = DatetimeService.calcDecimalYear();
+        const magvar = this.wmm.declination(0, pos.latitude, pos.longitude, decYear);
+
+        return new Angle(magvar, AngleUnit.DEG);
+    }
+
+
+    public static calcTurnDirection(angle1: Angle, angle2: Angle): Angle {
         const deg1 = angle1.deg % 360;
         const deg2 = angle2.deg % 360;
         const diff = (deg2 - deg1 + 360) % 360;
@@ -60,7 +73,7 @@ export class GeocalcService {
         }
 
         if (posList.length === 2) {
-            return new BearingPos(lastPos, this.getBearing(posList[0], posList[1]));
+            return new BearingPos(lastPos, this.calcBearing(posList[0], posList[1]));
         }
 
         const PRECISION_FACTOR = 1;
@@ -75,7 +88,7 @@ export class GeocalcService {
 
         // linear dependent or circle radius too big: assume straight line
         if (!result.success || result.radius > 10) {
-            const directBearing = this.getBearing(posList[0], lastPos);
+            const directBearing = this.calcBearing(posList[0], lastPos);
             return new BearingPos(lastPos, directBearing);
         }
 
@@ -83,7 +96,7 @@ export class GeocalcService {
             result.center.y / PRECISION_FACTOR,
             this.calcLatUnProj(result.center.x, refLat, PRECISION_FACTOR));
 
-        return this.getBearingPos(posList, center);
+        return this.calcBearingPos(posList, center);
     }
 
 
@@ -97,16 +110,16 @@ export class GeocalcService {
     }
 
 
-    private static getBearingPos(posList: Position2d[], center: Position2d): BearingPos {
+    private static calcBearingPos(posList: Position2d[], center: Position2d): BearingPos {
         let dirSumDeg = 0;
         let minDirSum = 0;
         let maxDirSum = 0;
         let minPos = posList[0];
         let maxPos = posList[0];
-        let prevRadial = this.getBearing(center, posList[0]);
+        let prevRadial = this.calcBearing(center, posList[0]);
         for (let i = 1; i < posList.length; i++) {
-            const radial = this.getBearing(center, posList[i]);
-            dirSumDeg += this.getTurnDirection(prevRadial, radial).deg;
+            const radial = this.calcBearing(center, posList[i]);
+            dirSumDeg += this.calcTurnDirection(prevRadial, radial).deg;
             minDirSum = Math.min(minDirSum, dirSumDeg);
             maxDirSum = Math.max(maxDirSum, dirSumDeg);
             if (dirSumDeg === maxDirSum) {
@@ -120,7 +133,7 @@ export class GeocalcService {
 
         const headPos = dirSumDeg > 0 ? maxPos : minPos;
         const headOrientation = dirSumDeg > 0 ? 1 : -1;
-        const headPosRadialBearing = this.getBearing(center, headPos);
+        const headPosRadialBearing = this.calcBearing(center, headPos);
         const dirDeg = (headPosRadialBearing.deg + (90 * headOrientation)) % 360;
 
         return new BearingPos(headPos, new Angle(dirDeg, AngleUnit.DEG));
@@ -139,12 +152,12 @@ export class GeocalcService {
             let lonLat: Position2d;
 
             if (matchGradMinSec != null) {
-                lonLat = GeocalcService.getLonLatFromGradMinSec(matchGradMinSec[1], matchGradMinSec[2], matchGradMinSec[3],
+                lonLat = GeocalcService.calcLonLatFromGradMinSec(matchGradMinSec[1], matchGradMinSec[2], matchGradMinSec[3],
                     matchGradMinSec[4], matchGradMinSec[5], matchGradMinSec[6], matchGradMinSec[7], matchGradMinSec[8]);
             } else if (matchDecGrad != null) {
                 lonLat = new Position2d(parseFloat(matchDecGrad[2]), parseFloat(matchDecGrad[1]));
             } else if (matchNotam != null) {
-                lonLat = GeocalcService.getLonLatFromGradMinSec(matchNotam[1], matchNotam[2], matchNotam[3],
+                lonLat = GeocalcService.calcLonLatFromGradMinSec(matchNotam[1], matchNotam[2], matchNotam[3],
                     matchNotam[4], matchNotam[5], matchNotam[6], matchNotam[7], matchNotam[8]);
             }
 
@@ -153,7 +166,7 @@ export class GeocalcService {
     }
 
 
-    public static getLonLatFromGradMinSec(
+    public static calcLonLatFromGradMinSec(
         latGrad: string,
         latMin: string,
         latSec: string,

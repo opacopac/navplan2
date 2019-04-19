@@ -1,13 +1,13 @@
-<?php namespace Navplan\Search;
-require_once __DIR__ . "/../NavplanHelper.php";
+<?php declare(strict_types=1);
 
-use Navplan\Shared\DbService;
+namespace Navplan\Search;
 
+require_once __DIR__ . "/../NavplanBootstrap.php";
 
-$conn = DbService::openDb();
+use Navplan\NavplanBootstrap;
+
 
 SearchServiceProcessor::processRequest(
     $_GET,
-    $conn);
-
-$conn->close();
+    NavplanBootstrap::getAndInitDbService()
+);

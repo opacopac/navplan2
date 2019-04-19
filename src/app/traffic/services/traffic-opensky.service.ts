@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Extent} from '../../shared/model/extent';
+import {Extent2d} from '../../shared/model/geometry/extent2d';
 import {Observable, throwError} from 'rxjs';
 import {Traffic} from '../model/traffic';
 import {catchError, map} from 'rxjs/operators';
@@ -19,7 +19,7 @@ export class TrafficOpenskyService {
     }
 
 
-    public readTraffic(extent: Extent): Observable<Traffic[]> {
+    public readTraffic(extent: Extent2d): Observable<Traffic[]> {
         const url = TrafficOpenskyService.OPENSKY_TRAFFIC_BASE_URL + '?lamin=' + extent.minLat + '&lomin=' + extent.minLon
             + '&lamax=' + extent.maxLat + '&lomax=' + extent.maxLon;
 

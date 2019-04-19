@@ -2,6 +2,7 @@
 include_once __DIR__ . "/ZoomLevelSortItemType.php";
 include_once __DIR__ . "/../../php/Navplan/Shared/DbService.php";
 
+use Navplan\Shared\DbConnection;
 use Navplan\Shared\DbService;
 
 
@@ -22,18 +23,27 @@ class ZoomLevelSortItemTypeNavaid implements ZoomLevelSortItemType {
     private $conn;
 
 
-    public function __construct($conn) {
+    public function __construct(DbConnection $conn) {
         $this->conn = $conn;
     }
 
 
+    /**
+     * @throws \Navplan\Shared\DbException
+     */
     public function cleanZoomLevels() {
         $query =  "UPDATE openaip_navaids2 SET zoommin = NULL";
         DbService::execCUDQuery($this->conn, $query);
     }
 
 
-    public function getNextBatch($lastGeoHash, $maxCount) {
+    /**
+     * @param string $lastGeoHash
+     * @param int $maxCount
+     * @return \Navplan\Shared\MySqlDbResult
+     * @throws \Navplan\Shared\DbException
+     */
+    public function getNextBatch(?string $lastGeoHash, int $maxCount) {
     // read batch from DB
         $query = "SELECT ";
         $query .= "  id, type, latitude, longitude, geohash";
@@ -47,7 +57,12 @@ class ZoomLevelSortItemTypeNavaid implements ZoomLevelSortItemType {
     }
 
 
-    public function updateZoomLevels($zoomMin, $idList) {
+    /**
+     * @param int $zoomMin
+     * @param array $idList
+     * @throws \Navplan\Shared\DbException
+     */
+    public function updateZoomLevels(int $zoomMin, array $idList) {
         $query = "UPDATE openaip_navaids2";
         $query .= " SET zoommin = " . $zoomMin;
         $query .= " WHERE id IN (" . join(",", $idList) . ")";

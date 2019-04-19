@@ -7,7 +7,7 @@ import {Flightroute} from '../flightroute';
 import {Aircraft} from '../aircraft';
 import {Waypoint} from '../waypoint';
 import {WaypointAltitude} from '../waypoint-altitude';
-import {ConsumptionUnit, SpeedUnit, TimeUnit} from '../../../shared/model/units';
+import {ConsumptionUnit, SpeedUnit, TimeUnit} from '../../../shared/model/quantities/units';
 import {WaypointType} from '../waypoint-type';
 
 

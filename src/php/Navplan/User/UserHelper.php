@@ -1,39 +1,37 @@
-<?php namespace Navplan\User;
-require_once __DIR__ . "/../NavplanHelper.php";
+<?php declare(strict_types=1);
+
+namespace Navplan\User;
 
 use Exception;
+use InvalidArgumentException;
 use Navplan\Message;
-use Navplan\Shared\DbConnection;
 use Navplan\Shared\DbException;
-use Navplan\Shared\DbService;
+use Navplan\Shared\IDbService;
+use Navplan\Shared\RequestResponseHelper;
 use ReallySimpleJWT\Token;
 
 
-class UserHelper
-{
+class UserHelper {
     const JWT_SHORT_EXP_TIME_DAYS = 1;
     const JWT_LONG_EXP_TIME_DAYS = 90;
 
 
     // region handle input
 
-    public static function escapeTrimInput(DbConnection $conn, string $value): string
-    {
-        return $conn->real_escape_string(trim($value));
+    public static function escapeTrimInput(IDbService $dbService, string $value): string {
+        return $dbService->escapeString(trim($value));
     }
 
 
-    public static function checkEmailFormat($email)
-    {
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email > 100))
+    public static function checkEmailFormat(string $email) {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 100)
             return FALSE;
 
         return TRUE;
     }
 
 
-    public static function checkPwFormat(string $password): bool
-    {
+    public static function checkPwFormat(string $password): bool {
         if (strlen($password) < 6 || strlen($password) > 50)
             return FALSE;
 
@@ -45,19 +43,21 @@ class UserHelper
 
     // region token
 
-    public static function createToken(string $email, bool $rememberMe): string
-    {
+    public static function createToken(string $email, bool $rememberMe): string {
         global $jwt_secret, $jwt_issuer;
+
+        if (!$jwt_secret || !$jwt_issuer) {
+            throw new InvalidArgumentException('jwt_secret, jwt_issuer missing');
+        }
 
         $validDays = $rememberMe ? self::JWT_LONG_EXP_TIME_DAYS : self::JWT_SHORT_EXP_TIME_DAYS;
         $expiration = time() + $validDays * 24 * 3600;
 
-        return Token::getToken($email, $jwt_secret, $expiration, $jwt_issuer);
+        return Token::getToken($email, $jwt_secret, $expiration . "", $jwt_issuer);
     }
 
 
-    public static function validateToken(string $token): bool
-    {
+    public static function validateToken(string $token): bool {
         global $jwt_secret;
 
         try {
@@ -68,25 +68,26 @@ class UserHelper
     }
 
 
-    public static function getEmailFromToken(string $token): string
-    {
+    public static function getEmailFromToken(string $token): ?string {
+        if (!self::validateToken($token)) {
+            return NULL;
+        }
+
         $payload = json_decode(Token::getPayload($token));
         return $payload->user_id;
     }
 
 
-    public static function escapeAuthenticatedEmailOrDie(DbConnection $conn, ?string $token): string
-    {
-        $email = self::escapeAuthenticatedEmailOrNull($conn, $token);
+    public static function escapeAuthenticatedEmailOrDie(IDbService $dbService, ?string $token): string {
+        $email = self::escapeAuthenticatedEmailOrNull($dbService, $token);
         if (!$email)
-            die('ERROR: invalid token');
+            throw new InvalidArgumentException('ERROR: invalid token');
         else
             return $email;
     }
 
 
-    public static function escapeAuthenticatedEmailOrNull(DbConnection $conn, ?string $token): ?string
-    {
+    public static function escapeAuthenticatedEmailOrNull(IDbService $dbService, ?string $token): ?string {
         if (!$token || !self::validateToken($token))
             return NULL;
 
@@ -94,7 +95,7 @@ class UserHelper
         if (!$email || $email === '')
             return NULL;
 
-        return $conn->real_escape_string($email);
+        return $dbService->escapeString($email);
     }
 
     // endregion
@@ -103,15 +104,14 @@ class UserHelper
     // region check email / pw in DB
 
     /**
-     * @param DbConnection $conn
+     * @param IDbService $dbService
      * @param string $email
      * @return bool
      * @throws DbException
      */
-    public static function checkEmailExists(DbConnection $conn, string $email): bool
-    {
+    public static function checkEmailExists(IDbService $dbService, string $email): bool {
         $query = "SELECT id FROM users WHERE email='" . $email . "'";
-        $result = DbService::execSingleResultQuery($conn, $query);
+        $result = $dbService->execSingleResultQuery($query, TRUE, "error checking email");
 
         if ($result->getNumRows() == 1)
             return TRUE;
@@ -120,17 +120,9 @@ class UserHelper
     }
 
 
-    /**
-     * @param DbConnection $conn
-     * @param string $email
-     * @param string $password
-     * @return bool
-     * @throws DbException
-     */
-    public static function verifyPwHash(DbConnection $conn, string $email, string $password): bool
-    {
+    public static function verifyPwHash(IDbService $dbService, string $email, string $password): bool {
         $query = "SELECT pw_hash FROM users WHERE email='" . $email . "'";
-        $result = DbService::execSingleResultQuery($conn, $query);
+        $result = $dbService->execSingleResultQuery($query, TRUE, "error verifying pw hash");
 
         if ($result->getNumRows() == 1)
         {
@@ -147,13 +139,13 @@ class UserHelper
         return FALSE;
     }
 
+
     // endregion
 
 
     // region send responses
 
-    public static function sendSuccessResponse(string $email, string $token): bool
-    {
+    public static function sendSuccessResponse(string $email, string $token) {
         $response = array(
             "resultcode" => 0,
             "message" => 'successful',
@@ -161,22 +153,17 @@ class UserHelper
             "token" => $token,
         );
 
-        echo json_encode($response);
-
-        return TRUE;
+        RequestResponseHelper::sendArrayResponse($response);
     }
 
 
-    public static function sendErrorResponse(Message $message, ?DbConnection $conn = NULL): bool
-    {
+    public static function sendErrorResponse(Message $message) {
         $response = array(
             "resultcode" => $message->code,
             "message" => $message->text
         );
 
-        echo json_encode($response);
-
-        return FALSE;
+        RequestResponseHelper::sendArrayResponse($response);
     }
 
     // endregion

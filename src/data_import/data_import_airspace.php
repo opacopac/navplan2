@@ -2,21 +2,24 @@
 include "../php/config.php";
 include "../php/helper.php";
 
+include_once __DIR__ . "/../php/Navplan/Shared/DbService.php";
+
+use Navplan\Shared\DbService;
+use Navplan\Shared\DbException;
+
+
 const START_NUM_CORR_ADD_ENTRIES = 999000000;
 
 header('Content-type: text/html; charset=utf-8');
 
-$conn = openDb();
+$conn = DbService::openDb();
 
 
 // clear table
 printLine("clearing old data...");
 
 $query = "TRUNCATE TABLE openaip_airspace2";
-$result = $conn->query($query);
-
-if ($result === FALSE)
-    die("ERROR: " . $conn->error);
+DbService::execCUDQuery($conn, $query);
 
 printLine("ok");
 
@@ -25,10 +28,7 @@ printLine("ok");
 printLine("reading correction table...");
 
 $query = "SELECT * from airspace_corr";
-$result = $conn->query($query);
-
-if ($result === FALSE)
-    die("ERROR: " . $conn->error);
+$result = DbService::execMultiResultQuery($conn, $query);
 
 $corrLines = [];
 
@@ -106,17 +106,17 @@ foreach ($dir_entries as $filename)
     foreach ($data_file->AIRSPACES->ASP as $airspace)
     {
         // get values
-        $category = $airspace['CATEGORY'];
-        $aip_id = $airspace->ID;
-        $country = $airspace->COUNTRY;
-        $name = $airspace->NAME;
-        $alt_top_reference = $airspace->ALTLIMIT_TOP['REFERENCE'];
-        $alt_top_height = $airspace->ALTLIMIT_TOP->ALT;
-        $alt_top_unit = $airspace->ALTLIMIT_TOP->ALT['UNIT'];
-        $alt_bottom_reference = $airspace->ALTLIMIT_BOTTOM['REFERENCE'];
-        $alt_bottom_height = $airspace->ALTLIMIT_BOTTOM->ALT;
-        $alt_bottom_unit = $airspace->ALTLIMIT_BOTTOM->ALT['UNIT'];
-        $polygon = $airspace->GEOMETRY->POLYGON;
+        $category = $airspace['CATEGORY']->__toString();
+        $aip_id = $airspace->ID->__toString();
+        $country = $airspace->COUNTRY->__toString();
+        $name = $airspace->NAME->__toString();
+        $alt_top_reference = $airspace->ALTLIMIT_TOP['REFERENCE']->__toString();
+        $alt_top_height = $airspace->ALTLIMIT_TOP->ALT->__toString();
+        $alt_top_unit = $airspace->ALTLIMIT_TOP->ALT['UNIT']->__toString();
+        $alt_bottom_reference = $airspace->ALTLIMIT_BOTTOM['REFERENCE']->__toString();
+        $alt_bottom_height = $airspace->ALTLIMIT_BOTTOM->ALT->__toString();
+        $alt_bottom_unit = $airspace->ALTLIMIT_BOTTOM->ALT['UNIT']->__toString();
+        $polygon = $airspace->GEOMETRY->POLYGON->__toString();
 
 
         // check correction entries
@@ -175,7 +175,18 @@ foreach ($dir_entries as $filename)
 printLine("finished.");
 
 
-function insertIntoDb($category, $aip_id, $country, $name, $alt_top_reference, $alt_top_height, $alt_top_unit, $alt_bottom_reference, $alt_bottom_height, $alt_bottom_unit, $polygon)
+function insertIntoDb(
+    string $category,
+    int $aip_id,
+    string $country,
+    string $name,
+    string $alt_top_reference,
+    string $alt_top_height,
+    string $alt_top_unit,
+    string $alt_bottom_reference,
+    string $alt_bottom_height,
+    string $alt_bottom_unit,
+    string $polygon)
 {
     global $conn;
 
@@ -183,7 +194,7 @@ function insertIntoDb($category, $aip_id, $country, $name, $alt_top_reference, $
     $query .= " '" . $category . "',";
     $query .= " '" . $aip_id . "',";
     $query .= " '" . $country . "',";
-    $query .= " '" . mysqli_real_escape_string($conn, $name) . "',";
+    $query .= " '" . mysqli_real_escape_string($conn->getMySqli(), $name) . "',";
     $query .= " '" . $alt_top_reference . "',";
     $query .= " '" . $alt_top_height . "',";
     $query .= " '" . $alt_top_unit . "',";
@@ -194,11 +205,10 @@ function insertIntoDb($category, $aip_id, $country, $name, $alt_top_reference, $
     $query .= " GeomFromText('POLYGON((" . $polygon  . "))')";
     $query .= ")";
 
-    $result = $conn->query($query);
-
-    if ($result === FALSE)
-    {
-        printLine("ERROR: " . $conn->error);
-        //printLine("query: " . $query);
+    try {
+        DbService::execCUDQuery($conn, $query);
+    } catch (DbException $ex) {
+        printLine($ex->getMessage());
+        printLine("skipped");
     }
 }

@@ -1,6 +1,7 @@
 import {Traffic} from '../model/traffic';
 import {TrafficPosition} from '../model/traffic-position';
 import {TrafficPrio} from '../model/traffic-prio';
+import {Extent3d} from '../../shared/model/geometry/extent3d';
 
 
 export class TrafficMergerPositions {
@@ -8,29 +9,26 @@ export class TrafficMergerPositions {
     public static readonly INFERIOR_TRAFFIC_DELAY_SEC = 30;
 
 
-    public static merge(oldTraffic: Traffic, newTraffic: Traffic): TrafficPosition[] {
+    public static merge(oldTraffic: Traffic, newTraffic: Traffic, extent: Extent3d): TrafficPosition[] {
         const newPosList: TrafficPosition[] = [];
-        this.addPositions(oldTraffic, newPosList);
-        this.addPositions(newTraffic, newPosList);
+
+        this.addPositions(oldTraffic, newPosList, extent);
+        this.addPositions(newTraffic, newPosList, extent);
         this.sortPositions(newPosList);
-        return this.filterPosList(newPosList);
+        return this.filterPosList(newPosList, extent);
     }
 
 
-    public static mergeNew(newTraffic: Traffic): TrafficPosition[] {
-        const newPosList: TrafficPosition[] = [];
-        this.addPositions(newTraffic, newPosList);
-        this.sortPositions(newPosList);
-        return this.filterPosList(newPosList);
-    }
+    private static addPositions(traffic: Traffic, newPosList: TrafficPosition[], extent: Extent3d) {
+        if (!traffic) {
+            return;
+        }
 
-
-    private static addPositions(traffic: Traffic, newPosList: TrafficPosition[]) {
         // TODO: compare to server time
         const oldestTimestampMs = Date.now() - TrafficMergerPositions.TRAFFIC_MAX_AGE_SEC * 1000;
 
         traffic.positions.forEach(pos => {
-            if (pos.position.timestamp.getMs() >= oldestTimestampMs) {
+            if (extent.containsPoint(pos.position) && pos.position.timestamp.epochMs >= oldestTimestampMs) {
                 newPosList.push(pos);
             }
         });
@@ -40,12 +38,12 @@ export class TrafficMergerPositions {
     private static sortPositions(positions: TrafficPosition[]) {
         // sort positions by pos timestamp DESC
         positions.sort(function (a: TrafficPosition, b: TrafficPosition) {
-            return a.position.timestamp.getMs() - b.position.timestamp.getMs();
+            return a.position.timestamp.epochMs - b.position.timestamp.epochMs;
         });
     }
 
 
-    private static filterPosList(positions: TrafficPosition[]): TrafficPosition[] {
+    private static filterPosList(positions: TrafficPosition[], extent: Extent3d): TrafficPosition[] {
         const newPos: TrafficPosition[] = [];
         let lastValidPos: TrafficPosition = null;
 
@@ -80,7 +78,7 @@ export class TrafficMergerPositions {
             return false;
         }
 
-        return pos1.position.timestamp.getMs() === pos2.position.timestamp.getMs();
+        return pos1.position.timestamp.epochMs === pos2.position.timestamp.epochMs;
     }
 
 

@@ -1,9 +1,11 @@
-<?php namespace Navplan\Shared;
+<?php declare(strict_types=1);
+
+namespace Navplan\Shared;
+
 require_once __DIR__ . "/../NavplanHelper.php";
 
 
-class MailService
-{
+class MailService implements IMailService {
     const NAVPLAN_EMAIL_FROM = "info@navplan.ch";
 
     private static $instance = NULL;
@@ -18,8 +20,7 @@ class MailService
     }
 
 
-    private function __construct()
-    {
+    private function __construct() {
     }
 
 

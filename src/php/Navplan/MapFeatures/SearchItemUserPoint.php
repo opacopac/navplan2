@@ -1,25 +1,13 @@
-<?php namespace Navplan\MapFeatures;
-include_once __DIR__ . "/../NavplanHelper.php";
+<?php declare(strict_types=1);
 
-use Navplan\Shared\DbConnection;
-use Navplan\Shared\DbResult;
-use Navplan\Shared\DbService;
-use Navplan\Shared\DbException;
+namespace Navplan\MapFeatures;
+
+use Navplan\Shared\IDbResult;
+use Navplan\Shared\IDbService;
 
 
 class SearchItemUserPoint {
-
-    /**
-     * @param DbConnection $conn
-     * @param float $minLon
-     * @param float $minLat
-     * @param float $maxLon
-     * @param float $maxLat
-     * @param null|string $email
-     * @return array
-     * @throws DbException
-     */
-    public static function searchByExtent(DbConnection $conn, float $minLon, float $minLat, float $maxLon, float $maxLat, ?string $email = null) {
+    public static function searchByExtent(IDbService $dbService, float $minLon, float $minLat, float $maxLon, float $maxLat, ?string $email = null) {
         if (!$email)
             return [];
 
@@ -30,23 +18,13 @@ class SearchItemUserPoint {
         $query .= "  usr.email = '" . $email . "'";
         $query .= "  AND (uwp.longitude >= " . $minLon . " AND uwp.longitude <= " . $maxLon . " AND uwp.latitude >= " . $minLat . " AND uwp.latitude <= " . $maxLat . ")";
 
-        $result = DbService::execMultiResultQuery($conn, $query, "error searching user points by extent");
+        $result = $dbService->execMultiResultQuery($query, "error searching user points by extent");
 
         return self::readUserPointFromResultList($result);
     }
 
 
-    /**
-     * @param DbConnection $conn
-     * @param float $lon
-     * @param float $lat
-     * @param float $maxRadius_deg
-     * @param int $maxResults
-     * @param null|string $email
-     * @return array
-     * @throws DbException
-     */
-    public static function searchByPosition(DbConnection $conn, float $lon, float $lat, float $maxRadius_deg, int $maxResults, ?string $email = null) {
+    public static function searchByPosition(IDbService $dbService, float $lon, float $lat, float $maxRadius_deg, int $maxResults, ?string $email = null) {
         if (!$email)
             return [];
 
@@ -63,21 +41,13 @@ class SearchItemUserPoint {
         $query .= "  ((latitude - " . $lat . ") * (latitude - " . $lat . ") + (longitude - " . $lon . ") * (longitude - " . $lon . ")) ASC";
         $query .= " LIMIT " . $maxResults;
 
-        $result = DbService::execMultiResultQuery($conn, $query, "error searching user points by position");
+        $result = $dbService->execMultiResultQuery($query, "error searching user points by position");
 
         return self::readUserPointFromResultList($result);
     }
 
 
-    /**
-     * @param DbConnection $conn
-     * @param string $searchText
-     * @param int $maxResults
-     * @param null|string $email
-     * @return array
-     * @throws DbException
-     */
-    public static function searchByText(DbConnection $conn, string $searchText, int $maxResults, ?string $email = null) {
+    public static function searchByText(IDbService $dbService, string $searchText, int $maxResults, ?string $email = null) {
         if (!$email)
             return [];
 
@@ -90,15 +60,15 @@ class SearchItemUserPoint {
         $query .= " ORDER BY name ASC";
         $query .= " LIMIT " . $maxResults;
 
-        $result = DbService::execMultiResultQuery($conn, $query, "error searching user points by text");
+        $result = $dbService->execMultiResultQuery($query, "error searching user points by text");
 
         return self::readUserPointFromResultList($result);
     }
 
 
-    private static function readUserPointFromResultList(DbResult $result): array {
+    private static function readUserPointFromResultList(IDbResult $result): array {
         $userPoint = [];
-        while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
+        while ($rs = $result->fetch_assoc()) {
             $userPoint[] = self::readUserPointFromResult($rs);
         }
 

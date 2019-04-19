@@ -40,7 +40,9 @@ export enum TrafficAddressType {
 export enum TrafficDataSource {
     OGN,
     ADSBX,
-    OPENSKY
+    ADSBX2,
+    OPENSKY,
+    DETAILS
 }
 
 
@@ -48,11 +50,14 @@ export enum TrafficDataSource {
 
 
 export class Traffic extends DataItem implements Clonable<Traffic> {
+    public isDetailsLoaded = false;
+
     constructor(
         public acAddress: string,
         public addressType: TrafficAddressType,
         public dataSource: TrafficDataSource,
         public acType: TrafficAircraftType,
+        public icaoType: string,
         public registration: string,
         public callsign: string,
         public opCallsign: string,
@@ -72,17 +77,21 @@ export class Traffic extends DataItem implements Clonable<Traffic> {
         const newPositions: TrafficPosition[] = [];
         this.positions.forEach((pos) => newPositions.push(pos.clone()));
 
-        return new Traffic(
+        const cloneTraffic = new Traffic(
             this.acAddress,
             this.addressType,
             this.dataSource,
             this.acType,
+            this.icaoType,
             this.registration,
             this.callsign,
             this.opCallsign,
             this.acModel,
             newPositions
         );
+        cloneTraffic.isDetailsLoaded = this.isDetailsLoaded;
+
+        return cloneTraffic;
     }
 
 
@@ -103,7 +112,7 @@ export class Traffic extends DataItem implements Clonable<Traffic> {
     public isInactive(): boolean {
         const pos = this.getCurrentPosition();
 
-        if (!pos || Date.now() - pos.position.timestamp.getMs() > MAX_AGE_SEC_INACTIVE * 1000) {
+        if (!pos || Date.now() - pos.position.timestamp.epochMs > MAX_AGE_SEC_INACTIVE * 1000) {
             return true;
         } else {
             return false;

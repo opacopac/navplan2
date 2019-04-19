@@ -1,11 +1,11 @@
-<?php namespace Navplan\MapFeatures;
-include_once __DIR__ . "/../NavplanHelper.php";
+<?php declare(strict_types=1);
 
-use Navplan\Shared\DbConnection;
-use Navplan\Shared\DbResult;
-use Navplan\Shared\DbService;
+namespace Navplan\MapFeatures;
+
+use Navplan\Shared\DbHelper;
+use Navplan\Shared\IDbResult;
+use Navplan\Shared\IDbService;
 use Navplan\Shared\GeoService;
-use Navplan\Shared\DbException;
 
 
 class SearchItemAirspace {
@@ -14,18 +14,8 @@ class SearchItemAirspace {
     const MIN_PIXEL_COORDINATE_RESOLUTION = 2;  // TODO
 
 
-    /**
-     * @param DbConnection $conn
-     * @param float $minLon
-     * @param float $minLat
-     * @param float $maxLon
-     * @param float $maxLat
-     * @param int $zoom
-     * @return array
-     * @throws DbException
-     */
-    public static function searchByExtent(DbConnection $conn, float $minLon, float $minLat, float $maxLon, float $maxLat, int $zoom): array {
-        $extent = DbService::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
+    public static function searchByExtent(IDbService $dbService, float $minLon, float $minLat, float $maxLon, float $maxLat, int $zoom): array {
+        $extent = DbHelper::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
         $pixelResolutionDeg = GeoService::calcDegPerPixelByZoom($zoom);
         $minDiameterDeg = $pixelResolutionDeg * self::MIN_PIXEL_AIRSPACE_DIAMETER;
         $query  = "SELECT";
@@ -52,16 +42,16 @@ class SearchItemAirspace {
         $query .= "    AND";
         $query .= "  (" . $zoom . " >= det.zoommin AND " . $zoom . "<= det.zoommax)";
         //$query .= "  ST_Distance(ST_PointN(ST_ExteriorRing(ST_Envelope(extent)), 1), ST_PointN(ST_ExteriorRing(ST_Envelope(extent)), 3)) > " . $minDiameterDeg;
-        $result = DbService::execMultiResultQuery($conn, $query, "error reading airspaces");
+        $result = $dbService->execMultiResultQuery($query, "error reading airspaces");
 
         return self::readAirspaceFromResultList($result, $pixelResolutionDeg);
     }
 
 
-    private static function readAirspaceFromResultList(DbResult $result, float $pixelResolutionDeg): array
+    private static function readAirspaceFromResultList(IDbResult $result, float $pixelResolutionDeg): array
     {
         $airspaces = [];
-        while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
+        while ($rs = $result->fetch_assoc()) {
             $airspaces[$rs["aip_id"]] = self::readAirspaceFromResult($rs, $pixelResolutionDeg);
         }
         return $airspaces;

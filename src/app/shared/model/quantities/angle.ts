@@ -1,5 +1,5 @@
 import {UnitconversionService} from '../../services/unitconversion/unitconversion.service';
-import {AngleUnit} from '../units';
+import {AngleUnit} from './units';
 
 
 export class Angle {

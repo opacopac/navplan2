@@ -1,6 +1,6 @@
 import {Position2d} from '../shared/model/geometry/position2d';
 import {Angle} from '../shared/model/quantities/angle';
-import {Extent} from '../shared/model/extent';
+import {Extent2d} from '../shared/model/geometry/extent2d';
 import {MapbaselayerType} from './model/mapbaselayer-factory';
 import {DataItem} from '../shared/model/data-item';
 
@@ -15,7 +15,7 @@ export interface BaseMapState {
     position: Position2d;
     zoom: number;
     rotation: Angle;
-    extent: Extent;
+    extent: Extent2d;
     baseMapType: MapbaselayerType;
     showOverlay: MapOverlayState;
 }

@@ -1,17 +1,14 @@
-<?php namespace Navplan\User;
-require_once __DIR__ . "/../NavplanHelper.php";
+<?php declare(strict_types=1);
 
-use Navplan\Shared\DbService;
-use Navplan\Shared\MailService;
+namespace Navplan\User;
 
+require_once __DIR__ . "/../NavplanBootstrap.php";
 
-// header("Access-Control-Allow-Origin: *"); // TODO: remove for PROD
+use Navplan\NavplanBootstrap;
 
-$conn = DbService::openDb();
 
 UserServiceProcessor::processRequest(
     json_decode(file_get_contents('php://input'), TRUE),
-    $conn,
-    MailService::getInstance());
-
-$conn->close();
+    NavplanBootstrap::getMailService(),
+    NavplanBootstrap::getAndInitDbService()
+);

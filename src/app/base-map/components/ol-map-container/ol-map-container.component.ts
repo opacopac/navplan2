@@ -6,7 +6,7 @@ import {Observable, Subscription} from 'rxjs';
 import {BaseMapService} from '../../services/base-map.service';
 import {Position2d} from '../../../shared/model/geometry/position2d';
 import {DataItem} from '../../../shared/model/data-item';
-import {Extent} from '../../../shared/model/extent';
+import {Extent2d} from '../../../shared/model/geometry/extent2d';
 import {BaseMapClickedAction, BaseMapMovedZoomedRotatedAction} from '../../base-map.actions';
 import {Angle} from '../../../shared/model/quantities/angle';
 import {getMapPosition, getMapRotation, getMapZoom} from '../../base-map.selectors';
@@ -84,13 +84,13 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
 
     // region events
 
-    private dispatchPosZoomRotAction(position: Position2d, zoom: number, rotation: Angle, extent: Extent) {
+    private dispatchPosZoomRotAction(position: Position2d, zoom: number, rotation: Angle, extent: Extent2d) {
         this.appStore.dispatch(
             new BaseMapMovedZoomedRotatedAction(
                 position as Position2d,
                 zoom as number,
                 rotation as Angle,
-                extent as Extent)
+                extent as Extent2d)
         );
     }
 

@@ -1,9 +1,11 @@
-<?php namespace NavplanTest;
+<?php declare(strict_types=1);
 
-use Navplan\Shared\DbResult;
+namespace NavplanTest;
+
+use Navplan\Shared\IDbResult;
 
 
-class DbResultMock extends DbResult
+class DbResultMock implements IDbResult
 {
     const DUMMY_RESULT_LIST_0_ENTRY = [];
     const DUMMY_RESULT_LIST_1_ENTRY = [
@@ -20,8 +22,7 @@ class DbResultMock extends DbResult
     private $mockResultList;
     private $mockNumRows;
 
-    public function __construct(array $mockResultList)
-    {
+    public function __construct(array $mockResultList) {
         $this->mockResultList = $mockResultList;
         $this->mockNumRows = count($mockResultList);
     }
@@ -33,14 +34,7 @@ class DbResultMock extends DbResult
     }
 
 
-    public function fetch_assoc()
-    {
-        return array_shift($this->mockResultList);
-    }
-
-
-    public function fetch_array(int $resultType = MYSQLI_ASSOC)
-    {
+    public function fetch_assoc(): ?array {
         return array_shift($this->mockResultList);
     }
 }

@@ -2,6 +2,7 @@
 
 use mysqli;
 use mysqli_result;
+use Exception;
 
 
 class DbConnection
@@ -31,7 +32,7 @@ class DbConnection
     {
         $result = $this->conn->query($query);
         if ($result instanceof mysqli_result)
-            return new DbResult($result);
+            return new MySqlDbResult($result);
         else
             return $result;
     }
@@ -49,7 +50,15 @@ class DbConnection
     }
 
 
+    /***
+     * @return bool
+     * @throws DbException
+     */
     public function close(): bool {
-        return $this->conn->close();
+        try {
+            return $this->conn->close();
+        } catch (Exception $ex) {
+            throw new DbException('error closing DB', $ex->getMessage(), 'n/a');
+        }
     }
 }

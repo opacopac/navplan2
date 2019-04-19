@@ -4,7 +4,7 @@ import {select, Store} from '@ngrx/store';
 import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
-import {Extent} from '../../shared/model/extent';
+import {Extent2d} from '../../shared/model/geometry/extent2d';
 import {Mapfeatures} from '../model/mapfeatures';
 import {MapFeaturesResponse, RestMapperMapfeatures} from '../model/rest-mapper/rest-mapper-mapfeatures';
 import {User} from '../../user/model/user';
@@ -72,7 +72,7 @@ export class MapfeaturesService  {
 
 
     public load(
-        extent: Extent,
+        extent: Extent2d,
         zoom: number,
         user: User): Observable<Mapfeatures> {
 
@@ -98,9 +98,9 @@ export class MapfeaturesService  {
     }
 
 
-    private buildRequestUrl(extent: Extent, zoom: number, user: User): string {
-        let url = MAPFEATURES_BASE_URL + '?action=searchByExtent' + '&minlon=' + extent[0] + '&minlat=' + extent[1]
-            + '&maxlon=' + extent[2] + '&maxlat=' + extent[3] + '&zoom=' + zoom;
+    private buildRequestUrl(extent: Extent2d, zoom: number, user: User): string {
+        let url = MAPFEATURES_BASE_URL + '?action=searchByExtent' + '&minlon=' + extent.minLon + '&minlat=' + extent.minLat
+            + '&maxlon=' + extent.maxLon + '&maxlat=' + extent.maxLat + '&zoom=' + zoom;
         url += '&searchItems=airports,navaids,airspaces';
         if (zoom >= 10) {
             url += ',webcams';

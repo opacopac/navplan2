@@ -1,101 +1,109 @@
-<?php namespace Navplan\User;
-require_once __DIR__ . "/../NavplanHelper.php";
+<?php declare(strict_types=1);
+
+namespace Navplan\User;
 
 use Navplan\Message;
 use Navplan\NavplanHelper;
-use Navplan\Shared\DbConnection;
 use Navplan\Shared\DbException;
-use Navplan\Shared\DbService;
-use Navplan\Shared\MailService;
+use Navplan\Shared\IDbService;
+use Navplan\Shared\IMailService;
 
 
-class UserRegister
-{
+class UserRegister {
     /**
-     * @param DbConnection $conn
+     * @param IDbService $dbService
      * @param array $args
-     * @param MailService $mailService
+     * @param IMailService $mailService
      * @return bool
-     * @throws DbException
      */
-    public static function sendRegisterEmail(DbConnection $conn, array $args, MailService $mailService): bool
-    {
-        $email = UserHelper::escapeTrimInput($conn, $args["email"]);
+    public static function sendRegisterEmail(IDbService $dbService, array $args, IMailService $mailService): void {
+        $dbService->openDb();
 
-        if (!UserHelper::checkEmailFormat($email))
-            return UserHelper::sendErrorResponse(new Message(-1, 'error: invalid email format'), $conn);
+        $email = UserHelper::escapeTrimInput($dbService, $args["email"]);
 
-        if (self::isDuplicateEmail($conn, $email))
-            return UserHelper::sendErrorResponse(new Message(-2, 'error: email already exists'), $conn);
+        if (!UserHelper::checkEmailFormat($email)) {
+            UserHelper::sendErrorResponse(new Message(-1, 'error: invalid email format'));
+            return;
+        }
+
+        if (self::isDuplicateEmail($dbService, $email)) {
+            UserHelper::sendErrorResponse(new Message(-2, 'error: email already exists'));
+            return;
+        }
 
         // send activation email
         $token = UserHelper::createToken($email, false);
         self::sendActivationEmail($mailService, $email, $token);
 
-        return UserHelper::sendSuccessResponse($email, '');
+        $dbService->closeDb();
+
+        UserHelper::sendSuccessResponse($email, '');
     }
 
 
     /**
-     * @param DbConnection $conn
+     * @param IDbService $dbService
      * @param array $args
      * @return bool
      * @throws DbException
      */
-    public static function register(DbConnection $conn, array $args): bool
-    {
-        $token = UserHelper::escapeTrimInput($conn, $args["token"]);
-        $email = UserHelper::escapeAuthenticatedEmailOrNull($conn, $token);
-        $password = UserHelper::escapeTrimInput($conn, $args["password"]);
+    public static function register(IDbService $dbService, array $args): void {
+        $dbService->openDb();
+
+        $token = UserHelper::escapeTrimInput($dbService, $args["token"]);
+        $email = UserHelper::escapeAuthenticatedEmailOrNull($dbService, $token);
+        $password = UserHelper::escapeTrimInput($dbService, $args["password"]);
         $rememberMe = ($args["rememberme"] === "1");
 
-        if (!UserHelper::checkPwFormat($password))
-            return UserHelper::sendErrorResponse(new Message(-1, 'error: invalid password format'), $conn);
+        if (!UserHelper::checkPwFormat($password)) {
+            UserHelper::sendErrorResponse(new Message(-1, 'error: invalid password format'));
+            return;
+        }
 
-        if (!$email || !UserHelper::checkEmailFormat($email))
-            return UserHelper::sendErrorResponse(new Message(-2, 'error: invalid token'), $conn);
+        if (!$email || !UserHelper::checkEmailFormat($email)) {
+            UserHelper::sendErrorResponse(new Message(-2, 'error: invalid token'));
+            return;
+        }
 
-        if (self::isDuplicateEmail($conn, $email))
-            return UserHelper::sendErrorResponse(new Message(-3, 'error: email already exists'), $conn);
+        if (self::isDuplicateEmail($dbService, $email)) {
+            UserHelper::sendErrorResponse(new Message(-3, 'error: email already exists'));
+            return;
+        }
 
         // create new user & token
-        self::createUser($conn, $email, $password);
+        self::createUser($dbService, $email, $password);
         $token = UserHelper::createToken($email, $rememberMe);
 
-        return UserHelper::sendSuccessResponse($email, $token);
+        $dbService->closeDb();
+
+        UserHelper::sendSuccessResponse($email, $token);
     }
 
 
-    /**
-     * @param DbConnection $conn
-     * @param string $email
-     * @return bool
-     * @throws DbException
-     */
-    private static function isDuplicateEmail(DbConnection $conn, string $email): bool
+    private static function isDuplicateEmail(IDbService $dbService, string $email): bool
     {
         $query = "SELECT id FROM users WHERE email='" . $email . "'";
-        $result = DbService::execSingleResultQuery($conn, $query, true, "error checking for duplicate user");
+        $result = $dbService->execSingleResultQuery($query, true, "error checking for duplicate user");
 
         return ($result->getNumRows() > 0);
     }
 
 
     /**
-     * @param DbConnection $conn
+     * @param IDbService $dbService
      * @param string $email
      * @param string $password
      * @throws DbException
      */
-    private static function createUser(DbConnection $conn, string $email, string $password)
+    private static function createUser(IDbService $dbService, string $email, string $password)
     {
         $pw_hash = crypt($password);
         $query = "INSERT INTO users (token, email, pw_hash) VALUES ('DUMMY','" . $email . "','" . $pw_hash . "')";
-        DbService::execCUDQuery($conn, $query, "error creating user");
+        $dbService->execCUDQuery($query, "error creating user");
     }
 
 
-    private static function sendActivationEmail(MailService $mailService, string $email, string $token): bool
+    private static function sendActivationEmail(IMailService $mailService, string $email, string $token): bool
     {
         $activateUrl = NavplanHelper::NAVPLAN_BASE_URL . '/register/' . $token;
         $subject = "Welcome to Navplan.ch";

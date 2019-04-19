@@ -1,34 +1,28 @@
-<?php namespace Navplan\Flightroute;
-require_once __DIR__ . "/../NavplanHelper.php";
+<?php declare(strict_types=1);
 
-use Navplan\Shared\DbConnection;
+namespace Navplan\Flightroute;
+
 use Navplan\Shared\DbException;
+use Navplan\Shared\IDbService;
+use Navplan\Shared\RequestResponseHelper;
 use Navplan\Shared\StringNumberService;
 use Navplan\User\UserHelper;
 
 
-class FlightrouteRead
-{
-    /**
-     * @param DbConnection $conn
-     * @param array $args
-     * @throws DbException
-     */
-    public static function readSharedNavplan(DbConnection $conn, array $args)
-    {
-        $share_id = StringNumberService::checkEscapeString($conn, $args["shareid"], 10, 10);
+class FlightrouteRead {
+    public static function readSharedNavplan(IDbService $dbService, array $args) {
+        $dbService->openDb();
+
+        $share_id = StringNumberService::checkEscapeString($dbService, $args["shareid"], 10, 10);
 
         // get navplan details
         $query = "SELECT id, title, aircraft_speed, aircraft_consumption, extra_fuel, comments FROM navplan";
         $query .= " WHERE share_id = '" . $share_id . "'";
 
-        $result = $conn->query($query);
+        $result = $dbService->execSingleResultQuery($query, true, "error reading shared navplan");
 
-        if ($result === FALSE)
-            throw new DbException("error reading shared navplan", $conn->getError(), $query);
 
-        if ($result->getNumRows() > 0)
-        {
+        if ($result->getNumRows() > 0) {
             $row = $result->fetch_assoc();
             $navplan["id"] = $row["id"];
             $navplan["title"] = $row["title"];
@@ -36,44 +30,37 @@ class FlightrouteRead
             $navplan["aircraft_consumption"] = $row["aircraft_consumption"];
             $navplan["extra_fuel"] = $row["extra_fuel"];
             $navplan["comments"] = $row["comments"];
+        } else {
+            throw new DbException("no navplan with this share-id found", "n/a", $query);
         }
-        else
-            throw new DbException("no navplan with this share-id found", $conn->getError(), $query);
 
         // add waypoints
-        $wpalt = self::readNavplanWaypoints($conn, $navplan["id"]);
+        $wpalt = self::readNavplanWaypoints($dbService, $navplan["id"]);
 
         $navplan["waypoints"] = $wpalt["waypoints"];
         $navplan["alternate"] = $wpalt["alternate"];
         $navplan["id"] = NULL;
 
+        RequestResponseHelper::sendArrayResponseWithRoot("navplan", $navplan);
 
-        echo json_encode(array("navplan" => $navplan), JSON_NUMERIC_CHECK);
+        $dbService->closeDb();
     }
 
 
-    /**
-     * @param DbConnection $conn
-     * @param array $args
-     * @throws DbException
-     */
-    public static function readNavplan(DbConnection $conn, array $args)
-    {
+    public static function readNavplan(IDbService $dbService, array $args) {
+        $dbService->openDb();
+
         $navplan_id = StringNumberService::checkId(intval($args["id"]));
-        $email = UserHelper::escapeAuthenticatedEmailOrDie($conn, $args["token"]);
+        $email = UserHelper::escapeAuthenticatedEmailOrDie($dbService, $args["token"]);
 
         // get navplan details
         $query = "SELECT nav.id AS id, nav.title AS title, nav.aircraft_speed AS aircraft_speed, nav.aircraft_consumption AS aircraft_consumption, nav.extra_fuel AS extra_fuel, nav.comments AS comments FROM navplan AS nav";
         $query .= " INNER JOIN users AS usr ON nav.user_id = usr.id";
         $query .= " WHERE nav.id = '" . $navplan_id . "' AND usr.email = '" . $email . "'";
 
-        $result = $conn->query($query);
+        $result = $dbService->execSingleResultQuery($query, true, "error reading navplan");
 
-        if ($result === FALSE)
-            throw new DbException("error reading navplan", $conn->getError(), $query);
-
-        if ($result->getNumRows() > 0)
-        {
+        if ($result->getNumRows() > 0) {
             $row = $result->fetch_assoc();
             $navplan["id"] = $row["id"];
             $navplan["title"] = $row["title"];
@@ -81,43 +68,34 @@ class FlightrouteRead
             $navplan["aircraft_consumption"] = $row["aircraft_consumption"];
             $navplan["extra_fuel"] = $row["extra_fuel"];
             $navplan["comments"] = $row["comments"];
+        } else {
+            throw new DbException("no navplan with this id of current user found", "n/a", $query);
         }
-        else
-            throw new DbException("no navplan with this id of current user found", $conn->getError(), $query);
 
         // add waypoints
-        $wpalt = self::readNavplanWaypoints($conn, $navplan_id);
+        $wpalt = self::readNavplanWaypoints($dbService, $navplan_id);
 
         $navplan["waypoints"] = $wpalt["waypoints"];
         $navplan["alternate"] = $wpalt["alternate"];
 
-        echo json_encode(array("navplan" => $navplan), JSON_NUMERIC_CHECK);
+        RequestResponseHelper::sendArrayResponseWithRoot("navplan", $navplan);
+
+        $dbService->closeDb();
     }
 
 
-    /**
-     * @param DbConnection $conn
-     * @param int $navplanId
-     * @return array
-     * @throws DbException
-     */
-    private static function readNavplanWaypoints(DbConnection $conn, int $navplanId): array
-    {
+    private static function readNavplanWaypoints(IDbService $dbService, int $navplanId): array {
         // get navplan waypoints
         $query = "SELECT wp.type, wp.freq, wp.callsign, wp.checkpoint, wp.alt, wp.isminalt, wp.ismaxalt, wp.isaltatlegstart, wp.remark, wp.supp_info, wp.latitude, wp.longitude, wp.airport_icao, wp.is_alternate FROM navplan_waypoints AS wp";
         $query .= " WHERE wp.navplan_id = '" . $navplanId . "'";
         $query .= " ORDER BY wp.sortorder ASC";
 
-        $result = $conn->query($query);
-
-        if ($result === FALSE)
-            throw new DbException("error reading navplan waypoints", $conn->getError(), $query);
+        $result = $dbService->execMultiResultQuery($query, "error reading navplan waypoints");
 
         // create result array
         $waypoints = [];
         $alternate = NULL;
-        while ($row = $result->fetch_assoc())
-        {
+        while ($row = $result->fetch_assoc()) {
             $wp = array(
                 "type" => $row["type"],
                 "freq" => $row["freq"],
@@ -134,10 +112,11 @@ class FlightrouteRead
                 "supp_info" => $row["supp_info"]
             );
 
-            if ($row["is_alternate"] == 1)
+            if ($row["is_alternate"] == 1) {
                 $alternate = $wp;
-            else
+            } else {
                 $waypoints[] = $wp;
+            }
         }
 
         return array("waypoints" => $waypoints, "alternate" => $alternate);

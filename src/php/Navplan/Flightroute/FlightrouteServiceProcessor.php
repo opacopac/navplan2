@@ -1,44 +1,36 @@
-<?php namespace Navplan\Flightroute;
-require_once __DIR__ . "/../NavplanHelper.php";
+<?php declare(strict_types=1);
 
-use Navplan\Shared\DbConnection;
-use Navplan\Shared\DbException;
+namespace Navplan\Flightroute;
+
+use http\Exception\InvalidArgumentException;
+use Navplan\Shared\IDbService;
 
 
-class FlightrouteServiceProcessor
-{
-    /**
-     * @param string $requestMethod
-     * @param array|null $getVars
-     * @param array|null $postVars
-     * @param DbConnection $conn
-     * @throws DbException
-     */
-    public static function processRequest(string $requestMethod, ?array $getVars, ?array $postVars, DbConnection $conn)
-    {
+class FlightrouteServiceProcessor {
+    public static function processRequest(string $requestMethod, ?array $getVars, ?array $postVars, IDbService $dbService) {
         switch ($requestMethod) {
             case 'GET':
                 if ($getVars["shareid"])
-                    FlightrouteRead::readSharedNavplan($conn, $getVars);
+                    FlightrouteRead::readSharedNavplan($dbService, $getVars);
                 elseif ($getVars["id"])
-                    FlightrouteRead::readNavplan($conn, $getVars);
+                    FlightrouteRead::readNavplan($dbService, $getVars);
                 else
-                    FlightrouteListRead::readNavplanList($conn, $getVars);
+                    FlightrouteListRead::readNavplanList($dbService, $getVars);
                 break;
             case 'POST':
                 if ($postVars["createShared"] === TRUE)
-                    FlightrouteCreate::createSharedNavplan($conn, $postVars);
+                    FlightrouteCreate::createSharedNavplan($dbService, $postVars);
                 else
-                    FlightrouteCreate::createNavplan($conn, $postVars);
+                    FlightrouteCreate::createNavplan($dbService, $postVars);
                 break;
             case 'PUT':
-                FlightrouteUpdate::updateNavplan($conn, $postVars);
+                FlightrouteUpdate::updateNavplan($dbService, $postVars);
                 break;
             case 'DELETE':
-                FlightrouteDelete::deleteNavplan($conn, $getVars);
+                FlightrouteDelete::deleteNavplan($dbService, $getVars);
                 break;
             default:
-                die("unknown request");
+                throw new InvalidArgumentException('unknown request');
         }
     }
 }

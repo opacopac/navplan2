@@ -4,7 +4,7 @@ import {Observable} from 'rxjs/internal/Observable';
 import {catchError, map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {LoggingService} from '../../shared/services/logging/logging.service';
-import {Extent} from '../../shared/model/extent';
+import {Extent2d} from '../../shared/model/geometry/extent2d';
 import {RestMapperTrafficOgn, TrafficOgnResponse} from '../rest-mapper/rest-mapper-traffic-ogn';
 import {Traffic} from '../model/traffic';
 import {throwError} from 'rxjs';
@@ -22,12 +22,12 @@ export class TrafficOgnService {
 
 
     public readTraffic(
-        extent: Extent,
+        extent: Extent2d,
         maxAgeSec: number,
         waitForDataSec: number,
         sessionId: string): Observable<Traffic[]> {
 
-        const url = TrafficOgnService.OGN_TRAFFIC_BASE_URL + '&minlon=' + extent[0] + '&minlat=' + extent[1] + '&maxlon=' + extent[2] + '&maxlat=' + extent[3]
+        const url = TrafficOgnService.OGN_TRAFFIC_BASE_URL + '&minlon=' + extent.minLon + '&minlat=' + extent.minLat + '&maxlon=' + extent.maxLon + '&maxlat=' + extent.maxLat
             + '&maxagesec=' + maxAgeSec + '&sessionid=' + sessionId + '&waitDataSec=' + waitForDataSec;
 
 

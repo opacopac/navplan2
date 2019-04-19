@@ -1,23 +1,51 @@
-<?php namespace Navplan\Traffic;
-require_once __DIR__ . "/../NavplanHelper.php";
+<?php declare(strict_types=1);
 
-use Navplan\Shared\DbConnection;
+namespace Navplan\Traffic;
 
+use InvalidArgumentException;
+use Navplan\Shared\IDbService;
+use Navplan\Shared\IFileService;
 
 class TrafficServiceProcessor {
-    public static function processRequest(array $getVars, DbConnection $conn)
+    /***
+     * @param string $requestMethod
+     * @param array|null $getVars
+     * @param array|null $postVars
+     * @param IDbService $dbService
+     * @param IFileService $fileService
+     * @throws \Navplan\Shared\InvalidFormatException
+     */
+    public static function processRequest(string $requestMethod, ?array $getVars, ?array $postVars, IDbService $dbService, IFileService $fileService)
     {
-
-
-        switch ($getVars["action"]) {
-            case "readogntraffic":
-                ReadOgnTraffic::readTraffic($conn, $getVars);
+        switch ($requestMethod) {
+            case 'GET':
+                switch ($getVars["action"]) {
+                    case "readogntraffic":
+                        OgnTraffic::readTraffic($getVars, $fileService, $dbService);
+                        break;
+                    case "readadsbextraffic":
+                        AdsbexTraffic::readTraffic($getVars, $fileService);
+                        break;
+                    default:
+                        self::throwInvalidArgumentError();
+                }
                 break;
-            case "readadsbextraffic":
-                ReadAdsbexTraffic::readTraffic($getVars);
+            case 'POST':
+                switch ($postVars["action"]) {
+                    case "readacdetails":
+                        TrafficDetails::getDetails($postVars, $dbService);
+                        break;
+                    default:
+                        self::throwInvalidArgumentError();
+                }
                 break;
             default:
-                die("no or invalid action defined!");
+                self::throwInvalidArgumentError();
         }
+    }
+
+
+    private static function throwInvalidArgumentError() {
+        throw new InvalidArgumentException("no or invalid action defined!");
     }
 }

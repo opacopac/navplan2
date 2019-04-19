@@ -30,4 +30,9 @@ export class ArrayService {
             itemList.push(item);
         }
     }
+
+
+    public static mergeUnique<T>(itemList1: Array<T>, itemList2: Array<T>): Array<T> {
+        return Array.from(new Set<T>([...itemList1, ...itemList2]));
+    }
 }

@@ -1,45 +1,46 @@
-<?php namespace Navplan\User;
-require_once __DIR__ . "/../NavplanHelper.php";
+<?php declare(strict_types=1);
 
-use Navplan\Shared\DbConnection;
+namespace Navplan\User;
+
+use InvalidArgumentException;
 use Navplan\Shared\DbException;
-use Navplan\Shared\MailService;
+use Navplan\Shared\IDbService;
+use Navplan\Shared\IMailService;
 
 
-class UserServiceProcessor
-{
+class UserServiceProcessor {
     /**
      * @param array|null $postVars
-     * @param DbConnection $conn
-     * @param MailService $mailService
+     * @param IMailService $mailService
+     * @param IDbService $dbService
      * @throws DbException
+     * @throws InvalidArgumentException
      */
-    public static function processRequest(?array $postVars, DbConnection $conn, MailService $mailService)
-    {
+    public static function processRequest(?array $postVars, IMailService $mailService, IDbService $dbService) {
         switch ($postVars["action"]) {
             case "login":
-                UserLogin::login($conn, $postVars);
+                UserLogin::login($postVars, $dbService);
                 break;
             case "autologin":
-                UserLogin::autoLogin($conn, $postVars);
+                UserLogin::autoLogin($postVars, $dbService);
                 break;
             case "sendregisteremail":
-                UserRegister::sendRegisterEmail($conn, $postVars, $mailService);
+                UserRegister::sendRegisterEmail($dbService, $postVars, $mailService);
                 break;
             case "register":
-                UserRegister::register($conn, $postVars);
+                UserRegister::register($dbService, $postVars);
                 break;
             case "sendlostpwemail":
-                UserForgotPw::sendLostPwEmail($conn, $postVars, $mailService);
+                UserForgotPw::sendLostPwEmail($postVars, $mailService, $dbService);
                 break;
             case "resetpassword":
-                UserForgotPw::resetPassword($conn, $postVars);
+                UserForgotPw::resetPassword($postVars, $dbService);
                 break;
             case "updatepassword":
-                UserUpdatePw::updatePassword($conn, $postVars);
+                UserUpdatePw::updatePassword($dbService, $postVars);
                 break;
             default:
-                die("no or invalid action defined!");
+                throw new InvalidArgumentException("no or invalid action defined!");
         }
     }
 }

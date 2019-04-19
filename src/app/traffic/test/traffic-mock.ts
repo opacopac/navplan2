@@ -1,20 +1,30 @@
 import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource} from '../model/traffic';
 import {TrafficPosition, TrafficPositionMethod} from '../model/traffic-position';
 import {Position4d} from '../../shared/model/geometry/position4d';
-import {Altitude} from '../../shared/model/quantities/altitude';
-import {LengthUnit} from '../../shared/model/units';
+import {Length} from '../../shared/model/quantities/length';
+import {LengthUnit} from '../../shared/model/quantities/units';
 import {Timestamp} from '../../shared/model/quantities/timestamp';
 import {TrafficOpenskyResponse} from '../rest-mapper/rest-mapper-traffic-opensky';
-import {Extent} from '../../shared/model/extent';
+import {Extent2d} from '../../shared/model/geometry/extent2d';
 import {TrafficAdsbExResponse, TrafficAdsbExRestItem} from '../rest-mapper/rest-mapper-traffic-adexb-ex';
 import {TrafficOgnResponse, TrafficOgnRestItem} from '../rest-mapper/rest-mapper-traffic-ogn';
+import {Extent4d} from '../../shared/model/geometry/extent4d';
 
 
 export class TrafficMock {
-    public static readonly MOCK_EXTENT_1 = Extent.createFromLatLon([7.0, 47.0, 7.1, 47.1]);
+    public static readonly MOCK_EXTENT_1 = new Extent4d(
+        7.0,
+        47.0,
+        new Length(0, LengthUnit.FT),
+        Timestamp.createFromRelSec(-120),
+        8.0,
+        48.0,
+        new Length(15000, LengthUnit.FT),
+        Timestamp.now(),
+    );
 
     public static readonly MOCK_POSITION_1 = new TrafficPosition(
-        new Position4d(47.1, 47.1, new Altitude(1600, LengthUnit.FT), Timestamp.now()),
+        new Position4d(7.1, 47.1, new Length(1600, LengthUnit.FT), Timestamp.now()),
         TrafficDataSource.OGN,
         TrafficPositionMethod.FLARM,
         'receiver123',
@@ -26,10 +36,25 @@ export class TrafficMock {
         TrafficAddressType.ICAO,
         TrafficDataSource.OGN,
         TrafficAircraftType.UAV,
+        'A320',
         'HB-UAV',
         'SWR123',
         'Swiss 123',
         'Airbus A320',
+        [TrafficMock.MOCK_POSITION_1]
+    );
+
+
+    public static readonly MOCK_TRAFFIC_2 = new Traffic(
+        '4B3142',
+        TrafficAddressType.ICAO,
+        TrafficDataSource.OGN,
+        TrafficAircraftType.UNKNOWN,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
         [TrafficMock.MOCK_POSITION_1]
     );
 
@@ -94,6 +119,69 @@ export class TrafficMock {
     };
 
 
+    public static readonly ADSBEX2_MOCK_RESPONSE_1_ITEM_1 = {
+        'postime': '1549195031085',
+        'icao': '39840F',
+        'reg': 'F-HBAP',
+        'type': 'A320',
+        'spd': '343',
+        'alt': '18650',
+        'lat': '46.685658',
+        'lon': '7.302544',
+        'vsi': '-1408',
+        'trak': '24.8',
+        'sqk': '1022',
+        'call': 'AAF786',
+        'gnd': '0',
+        'trt': '4',
+        'pos': '1',
+        'mlat': '0',
+        'tisb': '0',
+        'mil': '0'
+    };
+
+
+    public static readonly ADSBEX2_MOCK_RESPONSE_1_ITEM_2 = {
+        'postime': '1549203306398',
+        'icao': '407343',
+        'reg': 'G-SGSG',
+        'type': 'GL5T',
+        'spd': '0',
+        'alt': '1550',
+        'lat': '46.912708',
+        'lon': '7.50095',
+        'vsi': '0',
+        'trak': '236.3',
+        'sqk': '4074',
+        'call': 'GSGSG',
+        'gnd': '1',
+        'trt': '5',
+        'pos': '1',
+        'mlat': '1',
+        'tisb': '0',
+        'mil': '0'
+    };
+
+
+    public static readonly ADSBEX2_MOCK_RESPONSE_1 = {
+        'ac': [
+            TrafficMock.ADSBEX2_MOCK_RESPONSE_1_ITEM_1,
+            TrafficMock.ADSBEX2_MOCK_RESPONSE_1_ITEM_2
+        ],
+        'total': 2,
+        'ctime': 1549195033854,
+        'req_ip': '217.26.58.54'
+    };
+
+
+    public static readonly ADSBEX2_MOCK_RESPONSE_2 = {
+        'ac': null,
+        'total': 0,
+        'ctime': 1549196379859,
+        'req_ip': '217.26.58.54'
+    };
+
+
     public static createPosition(
         lon: number,
         lat: number,
@@ -101,13 +189,13 @@ export class TrafficMock {
         source: TrafficDataSource = TrafficDataSource.OPENSKY,
         posMethod: TrafficPositionMethod = TrafficPositionMethod.ADSB
     ): TrafficPosition {
-        const timestamp = timestampSec ? new Timestamp(timestampSec) : Timestamp.now();
+        const timestamp = timestampSec ? Timestamp.createFromSec(timestampSec) : Timestamp.now();
         return new TrafficPosition(
-            new Position4d(lon, lat, new Altitude(2000, LengthUnit.FT), timestamp),
+            new Position4d(lon, lat, new Length(2000, LengthUnit.FT), timestamp),
             source,
             posMethod,
             'rec123',
-            timestamp.getMs()
+            timestamp.epochMs
         );
     }
 }

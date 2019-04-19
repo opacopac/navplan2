@@ -1,9 +1,9 @@
 import {Mapfeatures} from './model/mapfeatures';
-import {Extent} from '../shared/model/extent';
+import {Extent2d} from '../shared/model/geometry/extent2d';
 
 
 export interface MapFeaturesState {
-    extent: Extent;
+    extent: Extent2d;
     zoom: number;
     mapFeatures: Mapfeatures;
 }

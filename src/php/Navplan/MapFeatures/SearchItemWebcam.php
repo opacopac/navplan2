@@ -1,31 +1,21 @@
-<?php namespace Navplan\MapFeatures;
-include_once __DIR__ . "/../NavplanHelper.php";
+<?php declare(strict_types=1);
 
-use Navplan\Shared\DbConnection;
-use Navplan\Shared\DbService;
-use Navplan\Shared\DbException;
+namespace Navplan\MapFeatures;
+
+use Navplan\Shared\IDbService;
 
 
 class SearchItemWebcam {
-    /**
-     * @param DbConnection $conn
-     * @param float $minLon
-     * @param float $minLat
-     * @param float $maxLon
-     * @param float $maxLat
-     * @return array
-     * @throws DbException
-     */
-    public static function searchByExtent(DbConnection $conn, float $minLon, float $minLat, float $maxLon, float $maxLat) {
+    public static function searchByExtent(IDbService $dbService, float $minLon, float $minLat, float $maxLon, float $maxLat) {
         $query  = "SELECT *";
         $query .= " FROM webcams";
         $query .= " WHERE airport_icao IS NULL";
         $query .= "   AND (longitude >= " . $minLon . " AND longitude <= " . $maxLon . " AND latitude >= " . $minLat . " AND latitude <= " . $maxLat . ")";
 
-        $result = DbService::execMultiResultQuery($conn, $query, "error reading webcams");
+        $result = $dbService->execMultiResultQuery($query, "error reading webcams");
 
         $webcams = [];
-        while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
+        while ($rs = $result->fetch_assoc()) {
             $webcams[] = self::readWebcamFromResult($rs);
         }
 

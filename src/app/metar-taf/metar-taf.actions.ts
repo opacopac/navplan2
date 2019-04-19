@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {Extent} from '../shared/model/extent';
+import {Extent2d} from '../shared/model/geometry/extent2d';
 import {MetarTafList} from './model/metar-taf';
 
 
@@ -14,7 +14,7 @@ export class LoadMetarTafSuccessAction implements Action {
 
     constructor(
         public metarTafList: MetarTafList,
-        public extent: Extent,
+        public extent: Extent2d,
         public zoom: number) {}
 }
 

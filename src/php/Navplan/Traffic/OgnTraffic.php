@@ -1,50 +1,57 @@
-<?php namespace Navplan\Traffic;
+<?php declare(strict_types=1);
 
+namespace Navplan\Traffic;
 
-use Navplan\Shared\DbConnection;
-use Navplan\Shared\DbService;
+use Navplan\Shared\IDbService;
+use Navplan\Shared\IFileService;
+use Navplan\Shared\RequestResponseHelper;
 use Navplan\Shared\StringNumberService;
 
-class ReadOgnTraffic
+
+class OgnTraffic
 {
     const TMP_FILE_BASE_PATH = __DIR__ . "/../../../tmp/";
 
 
     /**
-     * @param DbConnection $conn
      * @param array $args
-     * @throws \Navplan\Shared\DbException
+     * @param IFileService $fileService
+     * @param IDbService $dbService
+     * @throws \Navplan\Shared\InvalidFormatException
      */
-    public static function readTraffic(DbConnection $conn, array $args)
-    {
-        $minLat = StringNumberService::checkNumeric($args["minlat"]);
-        $maxLat = StringNumberService::checkNumeric($args["maxlat"]);
-        $minLon = StringNumberService::checkNumeric($args["minlon"]);
-        $maxLon = StringNumberService::checkNumeric($args["maxlon"]);
-        $maxAgeSec = StringNumberService::checkNumeric($args["maxagesec"]);
-        $sessionId = StringNumberService::checkNumeric($args["sessionid"]);
-        $waitDataSec = $args["waitDataSec"] ? StringNumberService::checkNumeric($args["waitDataSec"]) : 0;
+    public static function readTraffic(array $args, IFileService $fileService, IDbService $dbService) {
+        $dbService->openDb();
+
+        $minLat = floatval(StringNumberService::checkNumeric($args["minlat"]));
+        $maxLat = floatval(StringNumberService::checkNumeric($args["maxlat"]));
+        $minLon = floatval(StringNumberService::checkNumeric($args["minlon"]));
+        $maxLon = floatval(StringNumberService::checkNumeric($args["maxlon"]));
+        $maxAgeSec = intval(StringNumberService::checkNumeric($args["maxagesec"]));
+        $sessionId = intval(StringNumberService::checkNumeric($args["sessionid"]));
+        $waitDataSec = $args["waitDataSec"] ? intval(StringNumberService::checkNumeric($args["waitDataSec"])) : 0;
         $callback = $args["callback"] ? StringNumberService::checkString($args["callback"], 1, 50) : NULL;
 
-        self::writeFilterFile($sessionId, $minLon, $minLat, $maxLon, $maxLat);
-        self::checkStartListener($sessionId);
+        self::writeFilterFile($sessionId, $minLon, $minLat, $maxLon, $maxLat, $fileService);
+        self::checkStartListener($sessionId, $fileService);
         self::conditionalWait($waitDataSec);
-        $acList = self::readTrafficListFromFiles($sessionId, $minLon, $minLat, $maxLon, $maxLat, $maxAgeSec);
+        $acList = self::readTrafficListFromFiles($sessionId, $minLon, $minLat, $maxLon, $maxLat, $maxAgeSec, $fileService);
         self::sortPositionTimestamps($acList);
-        $acList = self::getAircraftDetails($conn, $acList);
-        self::sendResponse($acList, $callback);
+
+        RequestResponseHelper::sendArrayResponseWithRoot("aclist", $acList, $callback);
+
+        $dbService->closeDb();
     }
 
 
-    private static function writeFilterFile(int $sessionId, float $minLon, float $minLat, float $maxLon, float $maxLat)
+    private static function writeFilterFile(int $sessionId, float $minLon, float $minLat, float $maxLon, float $maxLat, IFileService $fileService)
     {
         $filterFile = self::TMP_FILE_BASE_PATH . 'ognlistener_' . $sessionId . '.filter';
         $filter = "a/" . $maxLat . "/" . $minLon . "/" . $minLat . "/" . $maxLon;
-        file_put_contents($filterFile, $filter, LOCK_EX);
+        $fileService->filePutContents($filterFile, $filter, LOCK_EX);
     }
 
 
-    private static function checkStartListener(int $sessionId)
+    private static function checkStartListener(int $sessionId, IFileService $fileService)
     {
         $lockFile = self::TMP_FILE_BASE_PATH . 'ognlistener_' . $sessionId . '.lock';
 
@@ -64,7 +71,7 @@ class ReadOgnTraffic
     }
 
 
-    private static function readTrafficListFromFiles(int $sessionId, float $minLon, float $minLat, float $maxLon, float $maxLat, int $maxAgeSec): array
+    private static function readTrafficListFromFiles(int $sessionId, float $minLon, float $minLat, float $maxLon, float $maxLat, int $maxAgeSec, IFileService $fileService): array
     {
         $aclist = array();
         $dumpFiles[0] = self::TMP_FILE_BASE_PATH . 'ognlistener_' . $sessionId . '.dump0';
@@ -83,6 +90,9 @@ class ReadOgnTraffic
             {
                 // parse single line
                 $line = fgets($file);
+                if ($line === FALSE)
+                    continue;
+
                 $msg = json_decode($line, true);
 
                 // skip line if out of lat/lon/time
@@ -129,64 +139,12 @@ class ReadOgnTraffic
     private static function sortPositionTimestamps(array &$acList)
     {
         foreach ($acList as $ac)
-            usort($acList[$ac["id"]]["positions"], array('Navplan\Traffic\ReadOgnTraffic', 'timecompare'));
+            usort($acList[$ac["id"]]["positions"], array('Navplan\Traffic\OgnTraffic', 'timecompare'));
     }
 
 
     public static function timecompare($posa, $posb)
     {
         return strcmp($posa["time"], $posb["time"]);
-    }
-
-
-    /**
-     * @param DbConnection $conn
-     * @param array $acList
-     * @return array
-     * @throws \Navplan\Shared\DbException
-     */
-    private static function getAircraftDetails(DbConnection $conn, array $acList): array
-    {
-        // get and escape all icao hex ac identifiers
-        $icaoList = array();
-
-        foreach ($acList as $ac)
-        {
-            $icaohex = StringNumberService::checkEscapeString($conn, strtoupper($ac["id"]), 1, 6);
-            array_push($icaoList, $icaohex);
-        }
-
-        // exec query
-        $query = "SELECT * FROM lfr_ch WHERE icaohex IN ('" . join("','", $icaoList) . "')";
-        $result = DbService::execMultiResultQuery($conn, $query);
-
-        while ($rs = $result->fetch_array(MYSQLI_ASSOC))
-        {
-            $ac = $acList[$rs["icaohex"]];
-
-            if ($ac) {
-                $ac["registration"] = $rs["registration"];
-                $ac["aircraftModelType"] = $rs["aircraftModelType"];
-                $ac["aircraftCategoryId"] = $rs["aircraftCategoryId"];
-
-                $acList[$rs["icaohex"]] = $ac;
-            }
-        }
-
-        return $acList;
-    }
-
-
-    private static function sendResponse(array $acList, ?string $callback)
-    {
-        $json = json_encode(array("aclist" => $acList), JSON_NUMERIC_CHECK);
-
-        if ($callback) {
-            echo $callback . "(";
-            echo $json;
-            echo ")";
-        } else {
-            echo $json;
-        }
     }
 }

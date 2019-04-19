@@ -1,21 +1,17 @@
-<?php namespace Navplan\Flightroute;
-require_once __DIR__ . "/../NavplanHelper.php";
+<?php declare(strict_types=1);
 
-use Navplan\Shared\DbConnection;
-use Navplan\Shared\DbException;
+namespace Navplan\Flightroute;
+
+use Navplan\Shared\IDbService;
+use Navplan\Shared\RequestResponseHelper;
 use Navplan\User\UserHelper;
 
 
-class FlightrouteListRead
-{
-    /**
-     * @param DbConnection $conn
-     * @param array $args
-     * @throws DbException
-     */
-    public static function readNavplanList(DbConnection $conn, array $args)
-    {
-        $email = UserHelper::escapeAuthenticatedEmailOrDie($conn, $args["token"]);
+class FlightrouteListRead {
+    public static function readNavplanList(IDbService $dbService, array $args) {
+        $dbService->openDb();
+
+        $email = UserHelper::escapeAuthenticatedEmailOrDie($dbService, $args["token"]);
 
         // get navplan list
         $query = "SELECT nav.id AS nav_id, nav.title AS nav_title FROM navplan AS nav";
@@ -23,20 +19,18 @@ class FlightrouteListRead
         $query .= " WHERE usr.email = '" . $email . "'";
         $query .= " ORDER BY nav.title ASC";
 
-        $result = $conn->query($query);
-
-        if ($result === FALSE)
-            throw new DbException("error reading navplan list", $conn->getError(), $query);
+        $result = $dbService->execMultiResultQuery($query, "error reading navplan list");
 
         // create result array
-        while ($row = $result->fetch_array(MYSQLI_ASSOC))
-        {
+        while ($row = $result->fetch_assoc()) {
             $navplans[] = array(
                 "id" => $row["nav_id"],
                 "title" => $row["nav_title"]
             );
         }
 
-        echo json_encode(array("navplanList" => $navplans), JSON_NUMERIC_CHECK);
+        RequestResponseHelper::sendArrayResponseWithRoot("navplanList", $navplans);
+
+        $dbService->closeDb();
     }
 }

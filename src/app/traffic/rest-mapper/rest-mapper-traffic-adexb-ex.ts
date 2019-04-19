@@ -1,5 +1,5 @@
-import {Altitude} from '../../shared/model/quantities/altitude';
-import {LengthUnit} from '../../shared/model/units';
+import {Length} from '../../shared/model/quantities/length';
+import {LengthUnit} from '../../shared/model/quantities/units';
 import {Position4d} from '../../shared/model/geometry/position4d';
 import {Timestamp} from '../../shared/model/quantities/timestamp';
 import {IcaoCallsignService} from '../services/icaocallsign.service';
@@ -34,24 +34,23 @@ export interface TrafficAdsbExRestItem {
 
 
 export class RestMapperTrafficAdexbEx {
+    public static readonly RECEIVER_NAME_ADSB = 'ADSBExchange (ADS-B)';
+    public static readonly RECEIVER_NAME_MLAT = 'ADSBExchange (MLAT)';
+
+
     public static getTrafficListFromResponse(response: TrafficAdsbExResponse): Traffic[] {
-        const trafficList: Traffic[] = [];
-
-        for (const ac of response.acList) {
-            const traffic = new Traffic(
-                ac.Icao.toUpperCase(),
-                TrafficAddressType.ICAO,
-                TrafficDataSource.ADSBX,
-                this.getTrafficType(ac),
-                ac.Reg,
-                this.getCallsign(ac),
-                this.getOperatorCallsign(ac),
-                ac.Mdl,
-                this.getPositionList(ac));
-            trafficList.push(traffic);
-        }
-
-        return trafficList;
+        return response.acList.map(ac => new Traffic(
+            ac.Icao.toUpperCase(),
+            TrafficAddressType.ICAO,
+            TrafficDataSource.ADSBX,
+            this.getTrafficType(ac),
+            ac.Type,
+            ac.Reg,
+            this.getCallsign(ac),
+            this.getOperatorCallsign(ac),
+            ac.Mdl,
+            this.getPositionList(ac)
+        ));
     }
 
 
@@ -124,12 +123,12 @@ export class RestMapperTrafficAdexbEx {
             new Position4d(
                 ac.Long,
                 ac.Lat,
-                new Altitude(ac.Gnd ? undefined : ac.GAlt, LengthUnit.FT),
-                new Timestamp(Math.floor((Math.min(ac.PosTime, now) / 1000)))
+                new Length(ac.Gnd ? undefined : ac.GAlt, LengthUnit.FT),
+                Timestamp.createFromSec(Math.floor((Math.min(ac.PosTime, now) / 1000)))
             ),
             TrafficDataSource.ADSBX,
             ac.Mlat ? TrafficPositionMethod.MLAT : TrafficPositionMethod.ADSB,
-            ac.Mlat ? 'ADSBExchange (MLAT)' : 'ADSBExchange (ADS-B)',
+            ac.Mlat ? this.RECEIVER_NAME_MLAT : this.RECEIVER_NAME_ADSB,
             now
         );
 

@@ -24,8 +24,8 @@
                     <ng-template mat-tab-label>
                         <i class="fas fa-info"></i>
                     </ng-template>
-                    <!--<p>Type: {{ this.getAirportTypeString() }}</p>-->
                     <p>{{ this.getPositionString(this.airport.position) }}</p>
+                    <p>VAR: {{ this.getVariationString(this.airport.position) }}</p>
                     <p>Elevation: {{ this.getElevationString(this.airport.elevation_m) }}</p>
                     <!-- TODO: webcams -->
                 </mat-tab>

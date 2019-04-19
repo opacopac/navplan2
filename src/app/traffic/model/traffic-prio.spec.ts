@@ -8,13 +8,15 @@ describe('TrafficPrio', () => {
     it('gets the correct prio from the table', () => {
         expect(TrafficPrio.getPrio(TrafficDataSource.OGN, TrafficPositionMethod.FLARM)).toBe(1);
         expect(TrafficPrio.getPrio(TrafficDataSource.OPENSKY, TrafficPositionMethod.ADSB)).toBe(1);
-        expect(TrafficPrio.getPrio(TrafficDataSource.ADSBX, TrafficPositionMethod.ADSB)).toBe(2);
-        expect(TrafficPrio.getPrio(TrafficDataSource.ADSBX, TrafficPositionMethod.MLAT)).toBe(3);
+        expect(TrafficPrio.getPrio(TrafficDataSource.ADSBX2, TrafficPositionMethod.ADSB)).toBe(2);
+        expect(TrafficPrio.getPrio(TrafficDataSource.ADSBX, TrafficPositionMethod.ADSB)).toBe(3);
+        expect(TrafficPrio.getPrio(TrafficDataSource.ADSBX2, TrafficPositionMethod.MLAT)).toBe(4);
+        expect(TrafficPrio.getPrio(TrafficDataSource.ADSBX, TrafficPositionMethod.MLAT)).toBe(5);
     });
 
 
-    it('gets the correct prio if not in table', () => {
-        expect(TrafficPrio.getPrio(TrafficDataSource.OGN, TrafficPositionMethod.MLAT)).toBe(3);
+    it('gets the lowest prio if not in table', () => {
+        expect(TrafficPrio.getPrio(TrafficDataSource.OGN, TrafficPositionMethod.MLAT)).toBe(TrafficPrio.LOWEST_PRIO);
     });
 
 

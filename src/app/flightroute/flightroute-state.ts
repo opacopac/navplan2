@@ -1,7 +1,7 @@
 import {FlightrouteListEntry} from './model/flightroute-list-entry';
 import {Flightroute} from './model/flightroute';
 import {Waypoint} from './model/waypoint';
-import {ConsumptionUnit, LengthUnit, SpeedUnit, VolumeUnit} from '../shared/model/units';
+import {ConsumptionUnit, LengthUnit, SpeedUnit, VolumeUnit} from '../shared/model/quantities/units';
 
 
 export interface FlightrouteState {

@@ -4,7 +4,7 @@ import {UserActions, UserActionTypes} from '../user/user.actions';
 import {Aircraft} from './model/aircraft';
 import {Flightroute} from './model/flightroute';
 import {Speed} from '../shared/model/quantities/speed';
-import {ConsumptionUnit, LengthUnit, SpeedUnit, TimeUnit, VolumeUnit} from '../shared/model/units';
+import {ConsumptionUnit, LengthUnit, SpeedUnit, TimeUnit, VolumeUnit} from '../shared/model/quantities/units';
 import {Consumption} from '../shared/model/quantities/consumption';
 import {Time} from '../shared/model/quantities/time';
 import {FlightrouteCalcService} from './services/flightroute-calc/flightroute-calc.service';

@@ -106,7 +106,7 @@ function getIcaoListByExtent($extentSql, $zoom) // TODO: return only ICAOs
 
     $icaoList = [];
 
-    while ($rs = $result->fetch_array(MYSQLI_ASSOC))
+    while ($rs = $result->fetch_assoc())
         $icaoList[] = $rs["icao"];
 
     return $icaoList;
@@ -135,7 +135,7 @@ function loadNotamList($icaoList, $startTimestamp, $endTimestamp, $zoom)
 
     $notamList = [];
 
-    while ($rs = $result->fetch_array(MYSQLI_ASSOC))
+    while ($rs = $result->fetch_assoc())
     {
         $notam = json_decode($rs["notam"], JSON_NUMERIC_CHECK);
         $notam["geometry"] = json_decode($rs["geometry"], JSON_NUMERIC_CHECK);

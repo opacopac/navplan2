@@ -50,14 +50,14 @@ foreach ($dir_entries as $filename) {
 
 		/*if ($airport->COUNTRY != 'CH' && $airport->ICAO != 'LFSB')
 			continue;*/
-		$longitude = $airport->GEOLOCATION->LON;
-        $latitude = $airport->GEOLOCATION->LAT;
+		$longitude = $airport->GEOLOCATION->LON->__toString();
+        $latitude = $airport->GEOLOCATION->LAT->__toString();
         $geohash = GeoService::calcGeoHash($longitude, $latitude, MAX_ZOOM);
 
 		$query = "INSERT INTO openaip_airports2 (type, country, name, icao, latitude, longitude, elevation, geohash, lonlat) VALUES (";
 		$query .= " '" . $airport['TYPE'] . "',";
 		$query .= " '" . $airport->COUNTRY . "',";
-		$query .= " '" . mysqli_real_escape_string($conn, $airport->NAME) . "',";
+		$query .= " '" . mysqli_real_escape_string($conn->getMySqli(), $airport->NAME) . "',";
 		$query .= " '" . $airport->ICAO . "',";
 		$query .= " '" . $latitude . "',";
 		$query .= " '" . $longitude . "',";
@@ -78,7 +78,7 @@ foreach ($dir_entries as $filename) {
 			continue;
 		}*/
 
-		$airport_id = $conn->insert_id;
+		$airport_id = $conn->getMySqli()->insert_id;
 
 		// add runways
 		foreach ($airport->RWY as $runway) {
@@ -92,7 +92,7 @@ foreach ($dir_entries as $filename) {
 			$query = "INSERT INTO openaip_runways2 (airport_id, operations, name, surface, length, width, direction1, direction2, tora1, tora2, lda1, lda2, papi1, papi2) VALUES (";
 			$query .= " '" . $airport_id . "',";
 			$query .= " '" . $runway['OPERATIONS'] . "',";
-			$query .= " '" . mysqli_real_escape_string($conn, $runway->NAME) . "',";
+			$query .= " '" . mysqli_real_escape_string($conn->getMySqli(), $runway->NAME) . "',";
 			$query .= " '" . $runway->SFC . "',";
 			$query .= " '" . $runway->LENGTH . "',";
 			$query .= " '" . $runway->WIDTH . "',";
@@ -126,7 +126,7 @@ foreach ($dir_entries as $filename) {
 			$query .= " '" . $radio->FREQUENCY . "',";
 			$query .= " '" . $radio->TYPE . "',";
 			$query .= " '" . $radio->TYPESPEC . "',";
-			$query .= " '" . mysqli_real_escape_string($conn, $radio->DESCRIPTION) . "'";
+			$query .= " '" . mysqli_real_escape_string($conn->getMySqli(), $radio->DESCRIPTION) . "'";
 			$query .= ")";
 
             DbService::execCUDQuery($conn, $query);

@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Airport, AirportRunway} from '../../../map-features/model/airport';
+import {Airport} from '../../../map-features/model/airport';
+import {AirportRunway} from '../../../map-features/model/airport-runway';
 
 
 @Component({

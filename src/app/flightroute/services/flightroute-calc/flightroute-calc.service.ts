@@ -3,13 +3,13 @@ import {Speed} from '../../../shared/model/quantities/speed';
 import {Waypoint} from '../../model/waypoint';
 import {GeocalcService} from '../../../shared/services/geocalc/geocalc.service';
 import {StringnumberService} from '../../../shared/services/stringnumber/stringnumber.service';
-import {ConsumptionUnit, LengthUnit, SpeedUnit, TimeUnit, VolumeUnit} from '../../../shared/model/units';
+import {ConsumptionUnit, LengthUnit, SpeedUnit, TimeUnit, VolumeUnit} from '../../../shared/model/quantities/units';
 import {WaypointType} from '../../model/waypoint-type';
 import {Time} from '../../../shared/model/quantities/time';
 import {RouteFuel} from '../../model/routefuel';
-import {Fuel} from '../../../shared/model/quantities/fuel';
+import {Volume} from '../../../shared/model/quantities/volume';
 import {Consumption} from '../../../shared/model/quantities/consumption';
-import {Distance} from '../../../shared/model/quantities/distance';
+import {Length} from '../../../shared/model/quantities/length';
 
 
 export class FlightrouteCalcService {
@@ -66,8 +66,8 @@ export class FlightrouteCalcService {
 
         // calc distance & bearing
         if (prevWp) {
-            wp.dist = GeocalcService.getDistance(wp.position, prevWp.position);
-            wp.mt = GeocalcService.getBearing(prevWp.position, wp.position, wp.variation);
+            wp.dist = GeocalcService.calcDistance(wp.position, prevWp.position);
+            wp.mt = GeocalcService.calcBearing(prevWp.position, wp.position, wp.variation);
         } else {
             wp.dist = undefined;
             wp.mt = undefined;
@@ -135,8 +135,8 @@ export class FlightrouteCalcService {
     }
 
 
-    private static calcTripDist(flightroute: Flightroute, lenghtUnit: LengthUnit): Distance {
-        return flightroute.waypoints.reduce((tripDist, wp) => wp.dist ? tripDist.add(wp.dist) : tripDist, new Distance(0, lenghtUnit));
+    private static calcTripDist(flightroute: Flightroute, lenghtUnit: LengthUnit): Length {
+        return flightroute.waypoints.reduce((tripDist, wp) => wp.dist ? tripDist.add(wp.dist) : tripDist, new Length(0, lenghtUnit));
     }
 
     // endregion
@@ -180,9 +180,9 @@ export class FlightrouteCalcService {
     }
 
 
-    private static calcFuel(time: Time, consumption: Consumption): Fuel {
+    private static calcFuel(time: Time, consumption: Consumption): Volume {
         const fuel_l = time.min / 60 * consumption.getValue(ConsumptionUnit.L_PER_H);
-        return new Fuel(fuel_l, VolumeUnit.L);
+        return new Volume(fuel_l, VolumeUnit.L);
     }
 
     // endregion

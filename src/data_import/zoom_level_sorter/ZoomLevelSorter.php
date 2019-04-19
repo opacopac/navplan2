@@ -20,8 +20,8 @@ class ZoomLevelSorter {
         $loopCount = 0;
         do {
             // circuit breaker
-            if ($loopCount > 5)
-                die;
+            if ($loopCount > 50)
+                die("abort by circuit breaker: max loop count exceeded!");
 
             $isOpenStart = true;
             if ($lastGeoHash === NULL) {

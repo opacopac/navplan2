@@ -12,6 +12,7 @@ describe('TrafficMergerAcType', () => {
             TrafficAddressType.ICAO,
             TrafficDataSource.OGN,
             TrafficAircraftType.UNKNOWN,
+            undefined,
             '',
             '',
             '',
@@ -38,6 +39,15 @@ describe('TrafficMergerAcType', () => {
         acNew.acType = TrafficAircraftType.UNKNOWN;
         acType = TrafficMergerAcType.merge(acOld, acNew);
         expect(acType).toBe(TrafficAircraftType.UNKNOWN);
+    });
+
+
+    it('should not overwrite existing type with an unknown type', () => {
+        acOld.acType = TrafficAircraftType.POWERED_AIRCRAFT;
+        acNew.acType = TrafficAircraftType.UNKNOWN;
+        acNew.dataSource = TrafficDataSource.DETAILS;
+        acType = TrafficMergerAcType.merge(acOld, acNew);
+        expect(acType).toBe(TrafficAircraftType.POWERED_AIRCRAFT);
     });
 
 

@@ -12,6 +12,7 @@ describe('TrafficMergerRegistration', () => {
             TrafficAddressType.ICAO,
             TrafficDataSource.OGN,
             TrafficAircraftType.UNKNOWN,
+            undefined,
             'HB-SRA',
             '',
             '',

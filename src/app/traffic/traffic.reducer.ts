@@ -1,11 +1,12 @@
 import {TrafficState} from './traffic-state';
 import {TrafficMerger} from './traffic-merger/traffic-merger';
 import {TrafficActions, TrafficActionTypes} from './traffic.actions';
-import {Altitude} from '../shared/model/quantities/altitude';
-import {LengthUnit} from '../shared/model/units';
+import {Length} from '../shared/model/quantities/length';
+import {LengthUnit} from '../shared/model/quantities/units';
 import {Traffic} from './model/traffic';
 import {BaseMapActions, BaseMapActionTypes} from '../base-map/base-map.actions';
 import {TrafficServiceStatus} from './services/traffic-service-status';
+import {Extent3d} from '../shared/model/geometry/extent3d';
 
 
 export const initialTrafficState: TrafficState = {
@@ -14,14 +15,23 @@ export const initialTrafficState: TrafficState = {
     isWatching: false,
     status: TrafficServiceStatus.OFF,
     trafficMap: new Map<string, Traffic>(),
-    trafficMaxAltitude: new Altitude(15000, LengthUnit.FT),
 };
 
 
 export function trafficReducer(state: TrafficState = initialTrafficState, action: TrafficActions | BaseMapActions) {
     switch (action.type) {
         case BaseMapActionTypes.BASEMAP_MOVED_ZOOMED_ROTATED:
-            return { ...state, extent: action.extent };
+            return {
+                ...state,
+                extent: new Extent3d(
+                    action.extent.minLon,
+                    action.extent.minLat,
+                    new Length(0, LengthUnit.FT), // TODO
+                    action.extent.maxLon,
+                    action.extent.maxLat,
+                    new Length(15000, LengthUnit.FT), // TODO
+                )
+            };
 
         case TrafficActionTypes.TRAFFIC_WATCH_START:
             return { ...state,
@@ -39,7 +49,7 @@ export function trafficReducer(state: TrafficState = initialTrafficState, action
             if (state.isWatching) {
                 return {
                     ...state,
-                    trafficMap: TrafficMerger.mergeTrafficMap(state.trafficMap, action.traffic),
+                    trafficMap: TrafficMerger.mergeTrafficMap(state.trafficMap, action.traffic, state.extent),
                     status: TrafficServiceStatus.CURRENT,
                 };
             } else {

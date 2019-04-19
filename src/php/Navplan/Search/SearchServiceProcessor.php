@@ -1,31 +1,25 @@
-<?php namespace Navplan\Search;
-require_once __DIR__ . "/../NavplanHelper.php";
+<?php declare(strict_types=1);
 
-use Navplan\Shared\DbConnection;
-use Navplan\Shared\DbException;
+namespace Navplan\Search;
+
+use Navplan\Shared\IDbService;
 
 
 class SearchServiceProcessor
 {
-    /**
-     * @param array $getVars
-     * @param DbConnection $conn
-     * @throws DbException
-     */
-    public static function processRequest(array $getVars, DbConnection $conn)
-    {
+    public static function processRequest(array $getVars, IDbService $dbService) {
         switch ($getVars["action"]) {
             case "searchByText":
-                SearchByText::searchByText($conn, $getVars);
+                SearchByText::searchByText($getVars, $dbService);
                 break;
             case "searchByPosition":
-                SearchByPosition::searchByPosition($conn, $getVars);
+                SearchByPosition::searchByPosition($getVars, $dbService);
                 break;
             case "searchByExtent":
-                SearchByExtent::searchByExtent($conn, $getVars);
+                SearchByExtent::searchByExtent($getVars, $dbService);
                 break;
             case "searchByIcao":
-                SearchByIcao::searchByIcao($conn, $getVars);
+                SearchByIcao::searchByIcao($getVars, $dbService);
                 break;
             default:
                 die("unknown action!");

@@ -1,14 +1,12 @@
 import {Traffic} from './model/traffic';
-import {Altitude} from '../shared/model/quantities/altitude';
-import {Extent} from '../shared/model/extent';
 import {TrafficServiceStatus} from './services/traffic-service-status';
+import {Extent3d} from '../shared/model/geometry/extent3d';
 
 
 export interface TrafficState {
     sessionId: string;
-    extent: Extent;
+    extent: Extent3d;
     isWatching: boolean;
     status: TrafficServiceStatus;
     trafficMap: Map<string, Traffic>;
-    trafficMaxAltitude: Altitude;
 }

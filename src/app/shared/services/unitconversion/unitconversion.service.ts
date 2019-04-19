@@ -1,4 +1,4 @@
-import {AngleUnit, ConsumptionUnit, LengthUnit, SpeedUnit, TimeUnit, VolumeUnit} from '../../model/units';
+import {AngleUnit, ConsumptionUnit, LengthUnit, SpeedUnit, TimeUnit, VolumeUnit} from '../../model/quantities/units';
 
 
 const FT_PER_M = 3.2808;

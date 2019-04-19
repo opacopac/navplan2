@@ -3,8 +3,8 @@ import {map} from 'rxjs/operators';
 import {Position4d} from '../../shared/model/geometry/position4d';
 import {Timestamp} from '../../shared/model/quantities/timestamp';
 import {Observable, BehaviorSubject} from 'rxjs';
-import {Altitude} from '../../shared/model/quantities/altitude';
-import {LengthUnit} from '../../shared/model/units';
+import {Length} from '../../shared/model/quantities/length';
+import {LengthUnit} from '../../shared/model/quantities/units';
 
 
 export enum LocationServiceStatus {
@@ -116,8 +116,8 @@ export class LocationService {
         return new Position4d(
             position.coords.longitude,
             position.coords.latitude,
-            new Altitude(position.coords.altitude, LengthUnit.M),
-            new Timestamp(position.timestamp));
+            new Length(position.coords.altitude, LengthUnit.M),
+            Timestamp.createFromSec(position.timestamp));
     }
 
 

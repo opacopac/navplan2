@@ -43,11 +43,16 @@ Thumbs.db
 
 # pw files
 /src/php/config.php
+/src/php/config_test.php
 
 # data files
 /src/data_import/openaip_airports/*
 /src/data_import/openaip_airspace/*
 /src/data_import/openaip_navaids/*
+/src/data_import/icao_aircraft_types/*
+/src/data_import/icao_telephony_designators/*
+/src/data_import/lfr_ch/*
+/src/data_import/basestation/*
 /src/meteoretriever/data/*
 devsbb/
 navplan2.iml

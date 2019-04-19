@@ -1,6 +1,6 @@
 import {TestBed, inject} from '@angular/core/testing';
 import {UnitconversionService} from './unitconversion.service';
-import {TimeUnit} from '../../model/units';
+import {TimeUnit} from '../../model/quantities/units';
 
 
 describe('UnitconversionService', () => {

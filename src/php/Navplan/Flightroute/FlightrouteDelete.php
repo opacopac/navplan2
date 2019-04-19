@@ -1,39 +1,37 @@
-<?php namespace Navplan\Flightroute;
-require_once __DIR__ . "/../NavplanHelper.php";
+<?php declare(strict_types=1);
 
-use Navplan\Shared\DbConnection;
+namespace Navplan\Flightroute;
+
 use Navplan\Shared\DbException;
+use Navplan\Shared\IDbService;
+use Navplan\Shared\RequestResponseHelper;
 use Navplan\User\UserHelper;
 
 
-class FlightrouteDelete
-{
-    /**
-     * @param DbConnection $conn
-     * @param array $args
-     * @throws DbException
-     */
-    public static function deleteNavplan(DbConnection $conn, array $args)
-    {
+class FlightrouteDelete {
+    public static function deleteNavplan(IDbService $dbService, array $args) {
+        $dbService->openDb();
+
         $navplan_id = checkId(intval($args["id"]));
-        $email = UserHelper::escapeAuthenticatedEmailOrDie($conn, $args["token"]);
+        $email = UserHelper::escapeAuthenticatedEmailOrDie($dbService, $args["token"]);
 
         // check if navplan exists
         $query = "SELECT nav.id FROM navplan AS nav";
         $query .= " INNER JOIN users AS usr ON nav.user_id = usr.id";
         $query .= " WHERE nav.id = '" . $navplan_id . "' AND usr.email = '" . $email . "'";
-        $result = $conn->query($query);
-        if ($result === FALSE)
-            throw new DbException("error searching navplan/user", $conn->getError(), $query);
-        if ($result->getNumRows() <= 0)
-            throw new DbException("no navplan with this id of current user found", $conn->getError(), $query);
+
+        $result = $dbService->execSingleResultQuery($query, true, "error searching navplan/user");
+
+        if ($result->getNumRows() <= 0) {
+            throw new DbException("no navplan with this id of current user found", "n/a", $query);
+        }
 
         // update navplan
         $query = "DELETE FROM navplan WHERE id = '" . $navplan_id . "'";
-        $result = $conn->query($query);
-        if ($result === FALSE)
-            throw new DbException("error deleting navplan", $conn->getError(), $query);
+        $dbService->execCUDQuery($query, "error deleting navplan");
 
-        echo json_encode(array("success" => 1), JSON_NUMERIC_CHECK);
+        RequestResponseHelper::sendArrayResponse(array("success" => 1));
+
+        $dbService->closeDb();
     }
 }

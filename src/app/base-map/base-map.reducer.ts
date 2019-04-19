@@ -2,7 +2,7 @@ import {Position2d} from '../shared/model/geometry/position2d';
 import {BaseMapState} from './base-map-state';
 import {Angle} from '../shared/model/quantities/angle';
 import {BaseMapActions, BaseMapActionTypes} from './base-map.actions';
-import {AngleUnit} from '../shared/model/units';
+import {AngleUnit} from '../shared/model/quantities/units';
 import {MapbaselayerType} from './model/mapbaselayer-factory';
 
 

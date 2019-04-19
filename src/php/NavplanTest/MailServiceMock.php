@@ -1,22 +1,31 @@
-<?php namespace NavplanTest;
+<?php declare(strict_types=1);
 
-use Navplan\Shared\MailService;
+namespace NavplanTest;
+
+use Navplan\Shared\IMailService;
 
 
-class MailServiceMock extends MailService
-{
-    public static function getInstance(): MailService {
+class MailServiceMock implements IMailService {
+    private $emailRecipient;
+
+
+    public function getEmailRecipient(): ?string {
+        return $this->emailRecipient;
+    }
+
+
+    public static function getInstance(): IMailService {
         return new MailServiceMock();
     }
 
 
-    private function __construct()
-    {
+    private function __construct() {
+        $this->emailRecipient = NULL;
     }
 
 
-    public function sendEmail(string $emailTo, string $subject, string $message): bool
-    {
+    public function sendEmail(string $emailTo, string $subject, string $message): bool {
+        $this->emailRecipient = $emailTo;
         return TRUE;
     }
 }

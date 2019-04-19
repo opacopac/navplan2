@@ -1,7 +1,7 @@
 import {Position4d} from '../../shared/model/geometry/position4d';
-import {Altitude} from '../../shared/model/quantities/altitude';
+import {Length} from '../../shared/model/quantities/length';
 import {Timestamp} from '../../shared/model/quantities/timestamp';
-import {LengthUnit} from '../../shared/model/units';
+import {LengthUnit} from '../../shared/model/quantities/units';
 import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource} from '../model/traffic';
 import {TrafficPosition, TrafficPositionMethod} from '../model/traffic-position';
 
@@ -40,10 +40,11 @@ export class RestMapperTrafficOgn {
         for (const acAddress of Object.keys(response.aclist)) {
             const ac: TrafficOgnRestItem = response.aclist[acAddress];
             const traffic = new Traffic(
-                ac.id.toUpperCase(),
+                ac.id.toString().toUpperCase(),
                 TrafficAddressType[ac.addresstype],
                 TrafficDataSource.OGN,
                 TrafficAircraftType[ac.actype],
+                undefined,
                 ac.registration,
                 undefined,
                 undefined,
@@ -57,25 +58,18 @@ export class RestMapperTrafficOgn {
 
 
     private static getTrafficPositions(acPosList: TrafficOgnPositionRestItem[]): TrafficPosition[] {
-        const positionList: TrafficPosition[] = [];
-
-        for (const acPos of acPosList) {
-            const position = new TrafficPosition(
-                new Position4d(
-                    acPos.longitude,
-                    acPos.latitude,
-                    new Altitude(acPos.altitude, LengthUnit.M),
-                    new Timestamp(this.getEpocSecFromOgnTime(acPos.time))
-                ),
-                TrafficDataSource.OGN,
-                TrafficPositionMethod.FLARM,
-                'Open Glider Network (' + acPos.receiver + ')',
-                Date.now()
-            );
-            positionList.push(position);
-        }
-
-        return positionList;
+        return acPosList.map(acPos => new TrafficPosition(
+            new Position4d(
+                acPos.longitude,
+                acPos.latitude,
+                new Length(acPos.altitude, LengthUnit.M),
+                Timestamp.createFromSec(this.getEpocSecFromOgnTime(acPos.time))
+            ),
+            TrafficDataSource.OGN,
+            TrafficPositionMethod.FLARM,
+            'Open Glider Network (' + acPos.receiver + ')',
+            Date.now()
+        ));
     }
 
 

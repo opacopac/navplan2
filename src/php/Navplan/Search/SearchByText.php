@@ -1,33 +1,28 @@
-<?php namespace Navplan\Search;
-require_once __DIR__ . "/../NavplanHelper.php";
+<?php declare(strict_types=1);
+
+namespace Navplan\Search;
 
 use Navplan\Geoname\SearchItemGeoname;
 use Navplan\MapFeatures\SearchItemAirport;
 use Navplan\MapFeatures\SearchItemNavaid;
 use Navplan\MapFeatures\SearchItemReportingPoint;
 use Navplan\MapFeatures\SearchItemUserPoint;
-use Navplan\Shared\DbConnection;
-use Navplan\Shared\DbException;
+use Navplan\Shared\IDbService;
 use Navplan\Shared\StringNumberService;
 use Navplan\User\UserHelper;
 
 
-class SearchByText
-{
+class SearchByText {
     const MAX_TEXT_SEARCH_RESULTS = 25;
     const MAX_TEXT_SEARCH_RESULTS_PER_ENTITY = 10;
 
 
-    /**
-     * @param DbConnection $conn
-     * @param array $args
-     * @throws DbException
-     */
-    public static function searchByText(DbConnection $conn, array $args)
-    {
-        $searchItems = SearchHelper::checkEscapeSearchItems($conn, $args["searchItems"]);
-        $searchText = StringNumberService::checkEscapeString($conn, $args["searchText"], 1, 100);
-        $email = UserHelper::escapeAuthenticatedEmailOrNull($conn, $args["token"]);
+    public static function searchByText(array $args, IDbService $dbService) {
+        $dbService->openDb();
+
+        $searchItems = SearchHelper::checkEscapeSearchItems($dbService, $args["searchItems"]);
+        $searchText = StringNumberService::checkEscapeString($dbService, $args["searchText"], 1, 100);
+        $email = UserHelper::escapeAuthenticatedEmailOrNull($dbService, $args["token"]);
 
         $resultNum = 0;
         $airports = [];
@@ -42,23 +37,23 @@ class SearchByText
 
             switch ($searchItem) {
                 case SearchItem::AIRPORTS:
-                    $airports = SearchItemAirport::searchByText($conn, $searchText, self::getMaxTextResults($resultNum), $email);
+                    $airports = SearchItemAirport::searchByText($dbService, $searchText, self::getMaxTextResults($resultNum), $email);
                     $resultNum += count($airports);
                     break;
                 case SearchItem::NAVAIDS:
-                    $navaids = SearchItemNavaid::searchByText($conn, $searchText, self::getMaxTextResults($resultNum));
+                    $navaids = SearchItemNavaid::searchByText($dbService, $searchText, self::getMaxTextResults($resultNum));
                     $resultNum += count($navaids);
                     break;
                 case SearchItem::REPORTINGPOINTS:
-                    $reportingPoints = SearchItemReportingPoint::searchByText($conn, $searchText, self::getMaxTextResults($resultNum));
+                    $reportingPoints = SearchItemReportingPoint::searchByText($dbService, $searchText, self::getMaxTextResults($resultNum));
                     $resultNum += count($reportingPoints);
                     break;
                 case SearchItem::USERPOINTS:
-                    $userPoints = SearchItemUserPoint::searchByText($conn, $searchText, self::getMaxTextResults($resultNum), $email);
+                    $userPoints = SearchItemUserPoint::searchByText($dbService, $searchText, self::getMaxTextResults($resultNum), $email);
                     $resultNum += count($userPoints);
                     break;
                 case SearchItem::GEONAMES:
-                    $geonames = SearchItemGeoname::searchByText($conn, $searchText, self::getMaxTextResults($resultNum));
+                    $geonames = SearchItemGeoname::searchByText($dbService, $searchText, self::getMaxTextResults($resultNum));
                     $resultNum += count($geonames);
                     break;
             }
@@ -75,6 +70,8 @@ class SearchByText
             SearchItem::GEONAMES => $geonames,
             SearchItem::NOTAMS => []
         ));
+
+        $dbService->closeDb();
     }
 
 

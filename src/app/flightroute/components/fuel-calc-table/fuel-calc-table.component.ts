@@ -2,14 +2,14 @@ import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {RouteFuel} from '../../model/routefuel';
 import {StringnumberService} from '../../../shared/services/stringnumber/stringnumber.service';
 import {Time} from '../../../shared/model/quantities/time';
-import {VolumeUnit} from '../../../shared/model/units';
-import {Fuel} from '../../../shared/model/quantities/fuel';
+import {VolumeUnit} from '../../../shared/model/quantities/units';
+import {Volume} from '../../../shared/model/quantities/volume';
 
 
 interface FuelDataSourceRow {
     title: string;
     time: Time;
-    fuel: Fuel;
+    fuel: Volume;
     isBlock: boolean;
 }
 
@@ -71,7 +71,7 @@ export class FuelCalcTableComponent implements OnInit, OnChanges {
     }
 
 
-    private createFuelDataSourceRow(title: string, time: Time, fuel: Fuel, isBlock = false): FuelDataSourceRow {
+    private createFuelDataSourceRow(title: string, time: Time, fuel: Volume, isBlock = false): FuelDataSourceRow {
         return { title: title, time: time, fuel: fuel, isBlock: isBlock };
     }
 
@@ -86,7 +86,7 @@ export class FuelCalcTableComponent implements OnInit, OnChanges {
     }
 
 
-    public formatFuel(fuel: Fuel): string {
+    public formatFuel(fuel: Volume): string {
         if (fuel) {
             return '' + Math.ceil(fuel.getValue(VolumeUnit.L)); // TODO
         } else {

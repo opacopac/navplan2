@@ -15,7 +15,6 @@ export class TrafficMergerAcModel {
             case TrafficDataSource.ADSBX :
             case TrafficDataSource.OGN:
                 return newTraffic.acModel;
-            case TrafficDataSource.OPENSKY:
             default:
                 return oldTraffic.acModel;
         }
