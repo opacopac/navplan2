@@ -15,14 +15,22 @@ use Navplan\User\UserHelper;
 class SearchByText {
     const MAX_TEXT_SEARCH_RESULTS = 25;
     const MAX_TEXT_SEARCH_RESULTS_PER_ENTITY = 10;
+    const ARG_SEARCH_ITEMS = "searchItems";
+    const ARG_SEARCH_TEXT = "searchText";
+    const ARG_TOKEN = "token";
 
 
+    /**
+     * @param array $args
+     * @param IDbService $dbService
+     * @throws \Navplan\Shared\InvalidFormatException
+     */
     public static function searchByText(array $args, IDbService $dbService) {
         $dbService->openDb();
 
-        $searchItems = SearchHelper::checkEscapeSearchItems($dbService, $args["searchItems"]);
-        $searchText = StringNumberService::checkEscapeString($dbService, $args["searchText"], 1, 100);
-        $email = UserHelper::escapeAuthenticatedEmailOrNull($dbService, $args["token"]);
+        $searchItems = SearchHelper::checkEscapeSearchItems($dbService, $args[self::ARG_SEARCH_ITEMS]);
+        $searchText = StringNumberService::checkEscapeString($dbService, $args[self::ARG_SEARCH_TEXT], 1, 100);
+        $email = UserHelper::escapeAuthenticatedEmailOrNull($dbService, $args[self::ARG_TOKEN]);
 
         $resultNum = 0;
         $airports = [];

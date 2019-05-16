@@ -15,18 +15,30 @@ use Navplan\User\UserHelper;
 class SearchByPosition {
     const MAX_POSITION_SEARCH_RESULTS = 80;
     const MAX_POSITION_SEARCH_RESULTS_PER_ENTITY = 80;
+    const ARG_SEARCH_ITEMS = "searchItems";
+    const ARG_LON = "lon";
+    const ARG_LAT = "lat";
+    const ARG_RADIUS = "rad";
+    const ARG_MIN_NOTAM_TIME = "minnotamtime";
+    const ARG_MAX_NOTAM_TIME = "maxnotamtime";
+    const ARG_TOKEN = "token";
 
 
+    /**
+     * @param array $args
+     * @param IDbService $dbService
+     * @throws \Navplan\Shared\InvalidFormatException
+     */
     public static function searchByPosition(array $args, IDbService $dbService) {
         $dbService->openDb();
 
-        $searchItems = SearchHelper::checkEscapeSearchItems($dbService, $args["searchItems"]);
-        $lon = StringNumberService::checkNumeric($args["lon"]);
-        $lat = StringNumberService::checkNumeric($args["lat"]);
-        $maxRadius_deg = StringNumberService::checkNumeric($args["rad"]);
-        $minNotamTimestamp = $args["minnotamtime"] ? StringNumberService::checkNumeric($args["minnotamtime"]) : 0;
-        $maxNotamTimestamp = $args["maxnotamtime"] ? StringNumberService::checkNumeric($args["maxnotamtime"]) : 0;
-        $email = UserHelper::escapeAuthenticatedEmailOrNull($dbService, $args["token"]);
+        $searchItems = SearchHelper::checkEscapeSearchItems($dbService, $args[self::ARG_SEARCH_ITEMS]);
+        $lon = floatval(StringNumberService::checkNumeric($args[self::ARG_LON]));
+        $lat = floatval(StringNumberService::checkNumeric($args[self::ARG_LAT]));
+        $maxRadius_deg = floatval(StringNumberService::checkNumeric($args[self::ARG_RADIUS]));
+        $minNotamTimestamp = $args[self::ARG_MIN_NOTAM_TIME] ? intval(StringNumberService::checkNumeric($args[self::ARG_MIN_NOTAM_TIME])) : 0;
+        $maxNotamTimestamp = $args[self::ARG_MAX_NOTAM_TIME] ? intval(StringNumberService::checkNumeric($args[self::ARG_MAX_NOTAM_TIME])) : 0;
+        $email = UserHelper::escapeAuthenticatedEmailOrNull($dbService, $args[self::ARG_TOKEN]);
 
         $resultNum = 0;
         $airports = [];
