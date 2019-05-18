@@ -10,8 +10,10 @@ require_once __DIR__ . "/../config.php";
 require_once __DIR__ . "/../Autoloader.php";
 
 use Navplan\Shared\FileService;
+use Navplan\Shared\HttpResponseService;
 use Navplan\Shared\IDbService;
 use Navplan\Shared\IFileService;
+use Navplan\Shared\IHttpResponseService;
 use Navplan\Shared\IMailService;
 use Navplan\Shared\MailService;
 use Navplan\Shared\MySqlDbService;
@@ -22,6 +24,11 @@ use Navplan\Shared\MySqlDbService;
 class NavplanBootstrap {
     public static function getFileService(): IFileService {
         return FileService::getInstance();
+    }
+
+
+    public static function getHttpResponseService(): IHttpResponseService {
+        return HttpResponseService::getInstance();
     }
 
 

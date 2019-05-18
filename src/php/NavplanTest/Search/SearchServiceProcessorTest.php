@@ -7,11 +7,18 @@ use Navplan\Search\SearchByPosition;
 use Navplan\Search\SearchByExtent;
 use Navplan\Search\SearchByIcao;
 use NavplanTest\DbServiceMock;
+use NavplanTest\HttpResponseServiceMock;
 use PHPUnit\Framework\TestCase;
 
 
 class SearchServiceProcessorTest extends TestCase {
+    private $httpService;
     private $dbService;
+
+
+    private function getHttpService(): HttpResponseServiceMock {
+        return $this->httpService;
+    }
 
 
     private function getDbService(): DbServiceMock {
@@ -57,6 +64,7 @@ class SearchServiceProcessorTest extends TestCase {
     protected function setUp() {
         parent::setUp();
 
+        $this->httpService = new HttpResponseServiceMock();
         $this->dbService = new DbServiceMock();
     }
 
@@ -66,7 +74,7 @@ class SearchServiceProcessorTest extends TestCase {
             "dummy" => "dummy"
         );
         $this->expectException("InvalidArgumentException");
-        SearchServiceProcessor::processRequest($getVars, $this->getDbService());
+        SearchServiceProcessor::processRequest($getVars, $this->getDbService(), $this->getHttpService());
     }
 
 
@@ -78,7 +86,11 @@ class SearchServiceProcessorTest extends TestCase {
         );
         $this->expectOutputRegex('/(.*)"kuerzel":"FRI1"/');
         $this->getDbService()->pushMockResult($this->getNavaidResultMock("FRI1"));
-        SearchServiceProcessor::processRequest($getVars, $this->getDbService());
+        SearchServiceProcessor::processRequest($getVars, $this->getDbService(), $this->getHttpService());
+
+        //var_dump($this->getHttpService());
+
+        //$this->assertRegExp('/(.*)"kuerzel":"FRI1"/', $this->getHttpService()->payloadList[0]);
     }
 
 
@@ -92,7 +104,7 @@ class SearchServiceProcessorTest extends TestCase {
         );
         $this->expectOutputRegex('/(.*)"kuerzel":"FRI2"/');
         $this->getDbService()->pushMockResult($this->getNavaidResultMock("FRI2"));
-        SearchServiceProcessor::processRequest($getVars, $this->getDbService());
+        SearchServiceProcessor::processRequest($getVars, $this->getDbService(), $this->getHttpService());
     }
 
 
@@ -108,7 +120,7 @@ class SearchServiceProcessorTest extends TestCase {
         );
         $this->expectOutputRegex('/(.*)"kuerzel":"FRI3"/');
         $this->getDbService()->pushMockResult($this->getNavaidResultMock("FRI3"));
-        SearchServiceProcessor::processRequest($getVars, $this->getDbService());
+        SearchServiceProcessor::processRequest($getVars, $this->getDbService(), $this->getHttpService());
     }
 
 
@@ -122,6 +134,6 @@ class SearchServiceProcessorTest extends TestCase {
         //$this->expectOutputRegex('/(.*)"name":"W"/');
         $this->expectException("BadMethodCallException");
         $this->getDbService()->pushMockResult($this->getRepPointResultMock("W"));
-        SearchServiceProcessor::processRequest($getVars, $this->getDbService());
+        SearchServiceProcessor::processRequest($getVars, $this->getDbService(), $this->getHttpService());
     }
 }

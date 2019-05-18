@@ -8,6 +8,7 @@ use Navplan\MapFeatures\SearchItemNavaid;
 use Navplan\MapFeatures\SearchItemReportingPoint;
 use Navplan\MapFeatures\SearchItemUserPoint;
 use Navplan\Shared\IDbService;
+use Navplan\Shared\IHttpResponseService;
 use Navplan\Shared\StringNumberService;
 use Navplan\User\UserHelper;
 
@@ -25,7 +26,7 @@ class SearchByText {
      * @param IDbService $dbService
      * @throws \Navplan\Shared\InvalidFormatException
      */
-    public static function searchByText(array $args, IDbService $dbService) {
+    public static function searchByText(array $args, IDbService $dbService, IHttpResponseService $httpService) {
         $dbService->openDb();
 
         $searchItems = SearchHelper::checkEscapeSearchItems($dbService, $args[self::ARG_SEARCH_ITEMS]);
@@ -68,16 +69,19 @@ class SearchByText {
         }
 
 
-        SearchHelper::sendSearchResultResponse(array(
-            SearchItem::AIRPORTS => $airports,
-            SearchItem::NAVAIDS => $navaids,
-            SearchItem::AIRSPACES => [],
-            SearchItem::REPORTINGPOINTS => $reportingPoints,
-            SearchItem::USERPOINTS => $userPoints,
-            SearchItem::WEBCAMS => [],
-            SearchItem::GEONAMES => $geonames,
-            SearchItem::NOTAMS => []
-        ));
+        SearchHelper::sendSearchResultResponse(
+            array(
+                SearchItem::AIRPORTS => $airports,
+                SearchItem::NAVAIDS => $navaids,
+                SearchItem::AIRSPACES => [],
+                SearchItem::REPORTINGPOINTS => $reportingPoints,
+                SearchItem::USERPOINTS => $userPoints,
+                SearchItem::WEBCAMS => [],
+                SearchItem::GEONAMES => $geonames,
+                SearchItem::NOTAMS => []
+            ),
+            $httpService
+        );
 
         $dbService->closeDb();
     }

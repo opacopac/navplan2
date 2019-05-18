@@ -4,6 +4,7 @@ namespace Navplan\Search;
 
 use InvalidArgumentException;
 use Navplan\Shared\IDbService;
+use Navplan\Shared\IHttpResponseService;
 use Navplan\Shared\RequestResponseHelper;
 use Navplan\Shared\StringNumberService;
 
@@ -44,7 +45,7 @@ class SearchHelper
     }
 
 
-    public static function sendSearchResultResponse(array $searchResults) {
+    public static function sendSearchResultResponse(array $searchResults, IHttpResponseService $httpService) {
         $callback = $_GET["callback"] ? StringNumberService::checkAlphaNumeric($_GET["callback"], 1, 50) : NULL;
 
         RequestResponseHelper::sendArrayResponse($searchResults, $callback, TRUE);
