@@ -2,10 +2,10 @@
 
 namespace NavplanTest\OpenAip\RepoGateway;
 
-use Navplan\OpenAip\RepoGateway\INavaidRepository;
+use Navplan\OpenAip\RepoGateway\INavaidRepo;
 
 
-class NavaidRepositoryMock implements INavaidRepository {
+class NavaidRepoMock implements INavaidRepo {
     public $searchByExtentParams = [];
     public $searchByPositionParams = [];
     public $searchByTextParams = [];

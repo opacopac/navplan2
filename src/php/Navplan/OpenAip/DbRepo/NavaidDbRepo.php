@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\OpenAipDbRepo;
+namespace Navplan\OpenAip\DbRepo;
 
 use Navplan\OpenAip\Domain\Navaid;
-use Navplan\OpenAip\RepoGateway\INavaidRepository;
+use Navplan\OpenAip\RepoGateway\INavaidRepo;
 use Navplan\Shared\DbHelper;
 use Navplan\Shared\IDbResult;
 use Navplan\Shared\IDbService;
 
 
-class NavaidDbRepo implements INavaidRepository {
+class NavaidDbRepo implements INavaidRepo {
     private $dbService;
 
 

@@ -4,7 +4,8 @@ namespace NavplanTest\OpenAip\UseCase;
 
 use Navplan\OpenAip\Domain\Navaid;
 use Navplan\OpenAip\UseCase\NavaidSearch;
-use NavplanTest\OpenAip\RepoGateway\NavaidRepositoryMock;
+use NavplanTest\OpenAip\Mocks\DummyNavaid1;
+use NavplanTest\OpenAip\RepoGateway\NavaidRepoMock;
 use PHPUnit\Framework\TestCase;
 
 
@@ -14,7 +15,7 @@ class NavaidSearchTest extends TestCase {
     private $expectedResult;
 
 
-    private function getNavaidRepoMock(): NavaidRepositoryMock {
+    private function getNavaidRepoMock(): NavaidRepoMock {
         return $this->navaidRepoMock;
     }
 
@@ -24,26 +25,9 @@ class NavaidSearchTest extends TestCase {
     }
 
 
-    private function createDummyNavaid1(): Navaid {
-        return new Navaid(
-            1218,
-            "VOR-DME",
-            "FRI",
-            "FRIBOURG",
-            46.7775,
-            7.22361,
-            799,
-            "110.85",
-            "MHz",
-            1.34846,
-            false
-        );
-    }
-
-
     protected function setUp(): void {
-        $this->expectedResult = array($this->createDummyNavaid1(), $this->createDummyNavaid1());
-        $this->navaidRepoMock = new NavaidRepositoryMock($this->expectedResult);
+        $this->expectedResult = array(DummyNavaid1::create(), DummyNavaid1::create());
+        $this->navaidRepoMock = new NavaidRepoMock($this->expectedResult);
         $this->navaidSearch = new NavaidSearch($this->navaidRepoMock);
     }
 

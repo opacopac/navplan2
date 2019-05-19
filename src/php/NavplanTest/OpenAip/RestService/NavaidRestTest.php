@@ -1,32 +1,16 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\OpenAipRestService;
+namespace NavplanTest\OpenAip\RestService;
 
 use Navplan\OpenAip\Domain\Navaid;
-use Navplan\OpenAipRestService\NavaidRest;
+use Navplan\OpenAip\RestService\NavaidRest;
+use NavplanTest\OpenAip\Mocks\DummyNavaid1;
 use PHPUnit\Framework\TestCase;
 
 
 class NavaidRestTest extends TestCase {
-    private function createDummyNavaid1(): Navaid {
-        return new Navaid(
-            1218,
-            "VOR-DME",
-            "FRI",
-            "FRIBOURG",
-            46.7775,
-            7.22361,
-            799,
-            "110.85",
-            "MHz",
-            1.34846,
-            false
-        );
-    }
-
-
     public function test_toArray() {
-        $navaid = $this->createDummyNavaid1();
+        $navaid = DummyNavaid1::create();
         $navaidRest = NavaidRest::toArray($navaid);
 
         $this->assertEquals($navaid->id, $navaidRest["id"]);

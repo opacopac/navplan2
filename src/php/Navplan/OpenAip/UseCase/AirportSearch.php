@@ -2,19 +2,19 @@
 
 namespace Navplan\OpenAip\UseCase;
 
-use Navplan\OpenAip\RepoGateway\INavaidRepo;
+use Navplan\OpenAip\RepoGateway\IAirportRepo;
 
 
-class NavaidSearch {
+class AirportSearch {
     private $repo;
 
 
-    private function getRepo(): INavaidRepo {
+    private function getRepo(): IAirportRepo {
         return $this->repo;
     }
 
 
-    public function __construct(INavaidRepo $repo) {
+    public function __construct(IAirportRepo $repo) {
         $this->repo = $repo;
     }
 

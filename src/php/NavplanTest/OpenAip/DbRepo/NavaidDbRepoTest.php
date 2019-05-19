@@ -1,16 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\OpenAipDbRepoTest;
+namespace NavplanTest\OpenAip\DbRepo;
 
 use Navplan\OpenAip\Domain\Navaid;
-use Navplan\OpenAipDbRepo\NavaidDbRepo;
+use Navplan\OpenAip\DbRepo\NavaidDbRepo;
 use NavplanTest\DbServiceMock;
+use NavplanTest\OpenAip\Mocks\DummyNavaid1;
 use PHPUnit\Framework\TestCase;
 
 
 class NavaidDbRepoTest extends TestCase {
     private $dbService;
-    private $navaidRepo;
+    private $dbRepo;
 
 
     private function getDbService(): DbServiceMock {
@@ -18,25 +19,8 @@ class NavaidDbRepoTest extends TestCase {
     }
 
 
-    private function getNavaidRepo(): NavaidDbRepo {
-        return $this->navaidRepo;
-    }
-
-
-    private function createDummyNavaidResult(): array {
-        return array(
-            "id" => 1218,
-            "type" => "VOR-DME",
-            "kuerzel" => "FRI",
-            "name" => "FRIBOURG",
-            "latitude" => 46.7775,
-            "longitude" => 7.22361,
-            "elevation" => 799,
-            "frequency" => "110.85",
-            "unit" => "MHz",
-            "declination" => 1.34846,
-            "truenorth" => false
-        );
+    private function getDbRepo(): NavaidDbRepo {
+        return $this->dbRepo;
     }
 
 
@@ -57,19 +41,19 @@ class NavaidDbRepoTest extends TestCase {
 
     protected function setUp(): void {
         $this->dbService = new DbServiceMock();
-        $this->navaidRepo = new NavaidDbRepo($this->getDbService());
+        $this->dbRepo = new NavaidDbRepo($this->getDbService());
     }
 
 
     public function test_create_instance() {
-        $this->assertNotNull($this->getNavaidRepo());
+        $this->assertNotNull($this->getDbRepo());
     }
 
 
     public function test_searchByExtent() {
-        $navaidDbResult = $this->createDummyNavaidResult();
+        $navaidDbResult = DummyNavaid1::createDbResult();
         $this->getDbService()->pushMockResult([$navaidDbResult]);
-        $navaidResultList = $this->getNavaidRepo()->searchByExtent(7.0, 47.0, 7.9, 47.9, 11);
+        $navaidResultList = $this->getDbRepo()->searchByExtent(7.0, 47.0, 7.9, 47.9, 11);
 
         $this->assertEquals(1, count($navaidResultList));
         $this->assertEqualNavaid($navaidDbResult, $navaidResultList[0]);
@@ -77,10 +61,10 @@ class NavaidDbRepoTest extends TestCase {
 
 
     public function test_searchByPosition() {
-        $navaidDbResult1 = $this->createDummyNavaidResult();
-        $navaidDbResult2 = $this->createDummyNavaidResult();
+        $navaidDbResult1 = DummyNavaid1::createDbResult();
+        $navaidDbResult2 = DummyNavaid1::createDbResult();
         $this->getDbService()->pushMockResult([$navaidDbResult1, $navaidDbResult2]);
-        $navaidResultList = $this->getNavaidRepo()->searchByPosition(7.0, 47.0, 0.5, 20);
+        $navaidResultList = $this->getDbRepo()->searchByPosition(7.0, 47.0, 0.5, 20);
 
         $this->assertEquals(2, count($navaidResultList));
         $this->assertEqualNavaid($navaidDbResult2, $navaidResultList[1]);
@@ -88,9 +72,9 @@ class NavaidDbRepoTest extends TestCase {
 
 
     public function test_searchByText() {
-        $navaidDbResult = $this->createDummyNavaidResult();
+        $navaidDbResult = DummyNavaid1::createDbResult();
         $this->getDbService()->pushMockResult([$navaidDbResult]);
-        $navaidResultList = $this->getNavaidRepo()->searchByText("FRI", 20);
+        $navaidResultList = $this->getDbRepo()->searchByText("FRI", 20);
 
         $this->assertEquals(1, count($navaidResultList));
         $this->assertEqualNavaid($navaidDbResult, $navaidResultList[0]);

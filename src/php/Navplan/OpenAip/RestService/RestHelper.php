@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\OpenAipRestService;
+namespace Navplan\OpenAip\RestService;
 
 
-class OpenAipRestHelper {
+class RestHelper {
     public static function reduceDegAccuracy(float $value, string $type): float {
         switch ($type)  {
             case "AIRSPACE":

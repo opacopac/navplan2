@@ -1,9 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\OpenAipRestService;
+namespace Navplan\OpenAip\RestService;
 
 use Navplan\OpenAip\Domain\Navaid;
-use Navplan\OpenAipRestService\OpenAipRestHelper;
 
 
 class NavaidRest {
@@ -13,8 +12,8 @@ class NavaidRest {
             "type" => $navaid->type,
             "kuerzel" => $navaid->kuerzel,
             "name" => $navaid->name,
-            "latitude" => OpenAipRestHelper::reduceDegAccuracy($navaid->latitude, "NAVAID"),
-            "longitude" => OpenAipRestHelper::reduceDegAccuracy($navaid->longitude, "NAVAID"),
+            "latitude" => RestHelper::reduceDegAccuracy($navaid->latitude, "NAVAID"),
+            "longitude" => RestHelper::reduceDegAccuracy($navaid->longitude, "NAVAID"),
             "elevation" => $navaid->elevation,
             "frequency" => $navaid->frequency,
             "unit" => $navaid->unit,
