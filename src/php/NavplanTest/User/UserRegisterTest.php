@@ -7,12 +7,14 @@ require_once __DIR__ . "/../../config.php";
 use Navplan\User\UserHelper;
 use Navplan\User\UserRegister;
 use NavplanTest\DbServiceMock;
+use NavplanTest\HttpResponseServiceMock;
 use NavplanTest\MailServiceMock;
 use PHPUnit\Framework\TestCase;
 
 
 class UserRegisterTest extends TestCase {
     private $dbService;
+    private $httpService;
     private $mailService;
 
 
@@ -21,15 +23,21 @@ class UserRegisterTest extends TestCase {
     }
 
 
+    private function getHttpService(): HttpResponseServiceMock {
+        return $this->httpService;
+    }
+
+
     private function getMailService(): MailServiceMock {
         return $this->mailService;
     }
 
 
-    protected function setUp() {
+    protected function setUp(): void {
         parent::setUp();
 
         $this->dbService = new DbServiceMock();
+        $this->httpService = new HttpResponseServiceMock();
         $this->mailService = MailServiceMock::getInstance();
     }
 
@@ -40,11 +48,11 @@ class UserRegisterTest extends TestCase {
         $email = "test@navplan.ch";
         $args = array("email" => $email);
         $this->getDbService()->pushMockResult([]);
-        UserRegister::sendRegisterEmail($this->getDbService(), $args, $this->getMailService());
+        UserRegister::sendRegisterEmail($args, $this->getDbService(), $this->getHttpService(), $this->getMailService());
 
-        $this->expectOutputRegex('/(.*)"resultcode":0/');
-        $this->expectOutputRegex('/(.*)"email":' . $email . '/');
-        $this->expectOutputRegex('/(.*)"token":""/');
+        $this->assertRegExp('/(.*)"resultcode":0/', $this->getHttpService()->body);
+        $this->assertRegExp('/(.*)"email":"' . $email . '"/', $this->getHttpService()->body);
+        $this->assertRegExp('/(.*)"token":""/', $this->getHttpService()->body);
     }
 
 
@@ -52,9 +60,9 @@ class UserRegisterTest extends TestCase {
         $email = "test@navplan.ch";
         $args = array("email" => $email);
         $this->getDbService()->pushMockResult([]);
-        UserRegister::sendRegisterEmail($this->getDbService(), $args, $this->getMailService());
+        UserRegister::sendRegisterEmail($args, $this->getDbService(), $this->getHttpService(), $this->getMailService());
 
-        $this->expectOutputRegex('/(.*)"resultcode":0/');
+        $this->assertRegExp('/(.*)"resultcode":0/', $this->getHttpService()->body);
         $this->assertEquals($email, $this->getMailService()->getEmailRecipient());
     }
 
@@ -62,9 +70,9 @@ class UserRegisterTest extends TestCase {
     public function test_sendRegisterEmail_invalid_email_returns_code_m1() {
         $email = "xxx";
         $args = array("email" => $email);
-        UserRegister::sendRegisterEmail($this->getDbService(), $args, $this->getMailService());
+        UserRegister::sendRegisterEmail($args, $this->getDbService(), $this->getHttpService(), $this->getMailService());
 
-        $this->expectOutputRegex('/(.*)"resultcode":-1/');
+        $this->assertRegExp('/(.*)"resultcode":-1/', $this->getHttpService()->body);
     }
 
 
@@ -72,9 +80,9 @@ class UserRegisterTest extends TestCase {
         $email = "test@navplan.ch";
         $args = array("email" => $email);
         $this->getDbService()->pushMockResult([array("id" => 12345)]);
-        UserRegister::sendRegisterEmail($this->getDbService(), $args, $this->getMailService());
+        UserRegister::sendRegisterEmail($args, $this->getDbService(), $this->getHttpService(), $this->getMailService());
 
-        $this->expectOutputRegex('/(.*)"resultcode":-2/');
+        $this->assertRegExp('/(.*)"resultcode":-2/', $this->getHttpService()->body);
     }
 
     // endregion
@@ -89,11 +97,11 @@ class UserRegisterTest extends TestCase {
         $rememberme = "1";
         $args = array("token" => $token, "password" => $password, "rememberme" => $rememberme);
         $this->getDbService()->pushMockResult([]);
-        UserRegister::register($this->getDbService(), $args);
+        UserRegister::register($args, $this->getDbService(), $this->getHttpService());
 
-        $this->expectOutputRegex('/(.*)"resultcode":0/');
-        $this->expectOutputRegex('/(.*)"email":' . $email . '/');
-        $this->expectOutputRegex('/(.*)"token":".{10,}"/');
+        $this->assertRegExp('/(.*)"resultcode":0/', $this->getHttpService()->body);
+        $this->assertRegExp('/(.*)"email":"' . $email . '"/', $this->getHttpService()->body);
+        $this->assertRegExp('/(.*)"token":".{10,}"/', $this->getHttpService()->body);
     }
 
 
@@ -104,10 +112,10 @@ class UserRegisterTest extends TestCase {
         $rememberme = "1";
         $args = array("token" => $token, "password" => $password, "rememberme" => $rememberme);
         $this->getDbService()->pushMockResult([]);
-        UserRegister::register($this->getDbService(), $args);
+        UserRegister::register($args, $this->getDbService(), $this->getHttpService());
 
-        $this->assertContains("INSERT INTO users", $this->getDbService()->lastQuery);
-        $this->expectOutputRegex('/(.*)"resultcode":0/');
+        $this->assertStringContainsString("INSERT INTO users", $this->getDbService()->lastQuery);
+        $this->assertRegExp('/(.*)"resultcode":0/', $this->getHttpService()->body);
     }
 
 
@@ -117,9 +125,9 @@ class UserRegisterTest extends TestCase {
         $password = "1234";
         $rememberme = "1";
         $args = array("token" => $token, "password" => $password, "rememberme" => $rememberme);
-        UserRegister::register($this->getDbService(), $args);
+        UserRegister::register($args, $this->getDbService(), $this->getHttpService());
 
-        $this->expectOutputRegex('/(.*)"resultcode":-1/');
+        $this->assertRegExp('/(.*)"resultcode":-1/', $this->getHttpService()->body);
     }
 
 
@@ -128,9 +136,9 @@ class UserRegisterTest extends TestCase {
         $password = "123456";
         $rememberme = "1";
         $args = array("token" => $token, "password" => $password, "rememberme" => $rememberme);
-        UserRegister::register($this->getDbService(), $args);
+        UserRegister::register($args, $this->getDbService(), $this->getHttpService());
 
-        $this->expectOutputRegex('/(.*)"resultcode":-2/');
+        $this->assertRegExp('/(.*)"resultcode":-2/', $this->getHttpService()->body);
     }
 
 
@@ -141,9 +149,9 @@ class UserRegisterTest extends TestCase {
         $rememberme = "1";
         $args = array("token" => $token, "password" => $password, "rememberme" => $rememberme);
         $this->getDbService()->pushMockResult([array("id" => 12345)]);
-        UserRegister::register($this->getDbService(), $args);
+        UserRegister::register($args, $this->getDbService(), $this->getHttpService());
 
-        $this->expectOutputRegex('/(.*)"resultcode":-3/');
+        $this->assertRegExp('/(.*)"resultcode":-3/', $this->getHttpService()->body);
     }
 
     // endregion

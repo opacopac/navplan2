@@ -17,7 +17,7 @@ class MySqlDbResultTest extends TestCase {
     }
 
 
-    protected function setUp() {
+    protected function setUp(): void {
         global $db_host, $db_user, $db_pw, $db_name;
         parent::setUp();
 
@@ -26,7 +26,7 @@ class MySqlDbResultTest extends TestCase {
     }
 
 
-    protected function tearDown() {
+    protected function tearDown(): void {
         parent::tearDown();
 
         $this->getConnection()->close();

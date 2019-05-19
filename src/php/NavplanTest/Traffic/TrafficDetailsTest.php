@@ -2,12 +2,14 @@
 
 use Navplan\Traffic\TrafficDetails;
 use NavplanTest\DbServiceMock;
+use NavplanTest\HttpResponseServiceMock;
 use PHPUnit\Framework\TestCase;
 
 
 class TrafficDetailsTest extends TestCase {
     private $args = array("action" => "readacdetails");
     private $dbService;
+    private $httpService;
     private $mockResultLfrCh1 = array('icaohex' => '4B3142', 'registration' => 'HB-SRA', 'aircraftModelType' => 'AT-3 R100', 'manufacturer' => 'AERO AT SP. Z O.O.');
     private $mockResultBasestation1 = array('mode_s' => '4B3142', 'registration' => 'HB-SRA', 'manufacturer' => 'AERO 3', 'icao_type_code' => 'AAT3');
     private $mockResultBasestation2 = array('mode_s' => '111111', 'registration' => NULL, 'manufacturer' => NULL, 'icao_type_code' => '0000');
@@ -16,23 +18,30 @@ class TrafficDetailsTest extends TestCase {
     private $mockResultIcaoAcTypes3 = array('designator' => 'A320', 'model' => 'A-320', 'manufacturer' => 'AIRBUS', 'ac_type' => 'L', 'eng_type' => 'J');
     private $mockResultIcaoAcTypes4 = array('designator' => 'A320', 'model' => 'A-320 Fantasy', 'manufacturer' => 'BOEING', 'ac_type' => 'L', 'eng_type' => 'J');
 
+
     private function getDbService(): DbServiceMock {
         return $this->dbService;
     }
 
 
-    protected function setUp() {
+    private function getHttpService(): HttpResponseServiceMock {
+        return $this->httpService;
+    }
+
+
+    protected function setUp(): void {
         parent::setUp();
 
         $this->args = array("action" => "readacdetails");
         $this->dbService = new DbServiceMock();
+        $this->httpService = new \NavplanTest\HttpResponseServiceMock();
     }
 
 
     public function test_getDetails_empty_argument_throws_an_exception() {
         $this->args["aclist"] = [];
         $this->expectException(InvalidArgumentException::class);
-        TrafficDetails::getDetails($this->args, $this->getDbService());
+        TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
     }
 
 
@@ -41,9 +50,9 @@ class TrafficDetailsTest extends TestCase {
         $this->getDbService()->pushMockResult([$this->mockResultLfrCh1]);
         $this->getDbService()->pushMockResult([]);
         $this->getDbService()->pushMockResult([]);
-        TrafficDetails::getDetails($this->args, $this->getDbService());
+        TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
 
-        $this->assertContains('FROM lfr_ch', $this->getDbService()->lastQueryList[0]);
+        $this->assertStringContainsString('FROM lfr_ch', $this->getDbService()->lastQueryList[0]);
         $expectedRegExp = '/\{"acdetails":\[\{';
         $expectedRegExp .= '"icao24":"' . $this->mockResultLfrCh1['icaohex'] . '",';
         $expectedRegExp .= '"reg":"' . $this->mockResultLfrCh1['registration'] . '",';
@@ -53,7 +62,7 @@ class TrafficDetailsTest extends TestCase {
         $expectedRegExp .= '"ac_class":null,';
         $expectedRegExp .= '"eng_class":null';
         $expectedRegExp .= '\}\]\}/';
-        $this->expectOutputRegex($expectedRegExp);
+        $this->assertRegExp($expectedRegExp, $this->getHttpService()->body);
     }
 
 
@@ -62,9 +71,9 @@ class TrafficDetailsTest extends TestCase {
         $this->getDbService()->pushMockResult([]);
         $this->getDbService()->pushMockResult([$this->mockResultBasestation1]);
         $this->getDbService()->pushMockResult([]);
-        TrafficDetails::getDetails($this->args, $this->getDbService());
+        TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
 
-        $this->assertContains('FROM basestation_aircrafts', $this->getDbService()->lastQueryList[1]);
+        $this->assertStringContainsString('FROM basestation_aircrafts', $this->getDbService()->lastQueryList[1]);
         $expectedRegExp = '/\{"acdetails":\[\{';
         $expectedRegExp .= '"icao24":"' . $this->mockResultBasestation1['mode_s'] . '",';
         $expectedRegExp .= '"reg":"' . $this->mockResultBasestation1['registration'] . '",';
@@ -74,7 +83,7 @@ class TrafficDetailsTest extends TestCase {
         $expectedRegExp .= '"ac_class":null,';
         $expectedRegExp .= '"eng_class":null';
         $expectedRegExp .= '\}\]\}/';
-        $this->expectOutputRegex($expectedRegExp);
+        $this->assertRegExp($expectedRegExp, $this->getHttpService()->body);
     }
 
 
@@ -83,9 +92,9 @@ class TrafficDetailsTest extends TestCase {
         $this->getDbService()->pushMockResult([]);
         $this->getDbService()->pushMockResult([]);
         $this->getDbService()->pushMockResult([$this->mockResultIcaoAcTypes1]);
-        TrafficDetails::getDetails($this->args, $this->getDbService());
+        TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
 
-        $this->assertContains('FROM icao_aircraft_type', $this->getDbService()->lastQueryList[2]);
+        $this->assertStringContainsString('FROM icao_aircraft_type', $this->getDbService()->lastQueryList[2]);
         $expectedRegExp = '/\{"acdetails":\[\{';
         $expectedRegExp .= '"icao24":"C0FFEE",';
         $expectedRegExp .= '"reg":null,';
@@ -95,7 +104,7 @@ class TrafficDetailsTest extends TestCase {
         $expectedRegExp .= '"ac_class":"' . $this->mockResultIcaoAcTypes1['ac_type'] . '",';
         $expectedRegExp .= '"eng_class":"' . $this->mockResultIcaoAcTypes1['eng_type'] . '"';
         $expectedRegExp .= '\}\]\}/';
-        $this->expectOutputRegex($expectedRegExp);
+        $this->assertRegExp($expectedRegExp, $this->getHttpService()->body);
     }
 
 
@@ -104,9 +113,9 @@ class TrafficDetailsTest extends TestCase {
         $this->getDbService()->pushMockResult([$this->mockResultLfrCh1]);
         $this->getDbService()->pushMockResult([$this->mockResultBasestation1]);
         $this->getDbService()->pushMockResult([$this->mockResultIcaoAcTypes1]);
-        TrafficDetails::getDetails($this->args, $this->getDbService());
+        TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
 
-        $this->assertContains('FROM icao_aircraft_type', $this->getDbService()->lastQueryList[2]);
+        $this->assertStringContainsString('FROM icao_aircraft_type', $this->getDbService()->lastQueryList[2]);
         $expectedRegExp = '/\{"acdetails":\[\{';
         $expectedRegExp .= '"icao24":"' . $this->mockResultLfrCh1['icaohex'] . '",';
         $expectedRegExp .= '"reg":"' . $this->mockResultLfrCh1['registration'] . '",';
@@ -116,7 +125,7 @@ class TrafficDetailsTest extends TestCase {
         $expectedRegExp .= '"ac_class":"' . $this->mockResultIcaoAcTypes1['ac_type'] . '",';
         $expectedRegExp .= '"eng_class":"' . $this->mockResultIcaoAcTypes1['eng_type'] . '"';
         $expectedRegExp .= '\}\]\}/';
-        $this->expectOutputRegex($expectedRegExp);
+        $this->assertRegExp($expectedRegExp, $this->getHttpService()->body);
     }
 
 
@@ -125,7 +134,7 @@ class TrafficDetailsTest extends TestCase {
         $this->getDbService()->pushMockResult([]);
         $this->getDbService()->pushMockResult([$this->mockResultBasestation1]);
         $this->getDbService()->pushMockResult([$this->mockResultIcaoAcTypes1]);
-        TrafficDetails::getDetails($this->args, $this->getDbService());
+        TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
 
         $expectedRegExp = '/\{"acdetails":\[\{';
         $expectedRegExp .= '"icao24":"' . $this->mockResultBasestation1['mode_s'] . '",';
@@ -136,7 +145,7 @@ class TrafficDetailsTest extends TestCase {
         $expectedRegExp .= '"ac_class":"' . $this->mockResultIcaoAcTypes1['ac_type'] . '",';
         $expectedRegExp .= '"eng_class":"' . $this->mockResultIcaoAcTypes1['eng_type'] . '"';
         $expectedRegExp .= '\}\]\}/';
-        $this->expectOutputRegex($expectedRegExp);
+        $this->assertRegExp($expectedRegExp, $this->getHttpService()->body);
     }
 
 
@@ -145,7 +154,7 @@ class TrafficDetailsTest extends TestCase {
         $this->getDbService()->pushMockResult([]);
         $this->getDbService()->pushMockResult([]);
         $this->getDbService()->pushMockResult([$this->mockResultIcaoAcTypes2, $this->mockResultIcaoAcTypes3]);
-        TrafficDetails::getDetails($this->args, $this->getDbService());
+        TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
 
         $expectedRegExp = '/\{"acdetails":\[\{';
         $expectedRegExp .= '"icao24":"C0FFEE",';
@@ -156,7 +165,7 @@ class TrafficDetailsTest extends TestCase {
         $expectedRegExp .= '"ac_class":"' . $this->mockResultIcaoAcTypes2['ac_type'] . '",';
         $expectedRegExp .= '"eng_class":"' . $this->mockResultIcaoAcTypes2['eng_type'] . '"';
         $expectedRegExp .= '\}\]\}/';
-        $this->expectOutputRegex($expectedRegExp);
+        $this->assertRegExp($expectedRegExp, $this->getHttpService()->body);
     }
 
 
@@ -165,7 +174,7 @@ class TrafficDetailsTest extends TestCase {
         $this->getDbService()->pushMockResult([]);
         $this->getDbService()->pushMockResult([]);
         $this->getDbService()->pushMockResult([$this->mockResultIcaoAcTypes2, $this->mockResultIcaoAcTypes3, $this->mockResultIcaoAcTypes4]);
-        TrafficDetails::getDetails($this->args, $this->getDbService());
+        TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
 
         $expectedRegExp = '/\{"acdetails":\[\{';
         $expectedRegExp .= '"icao24":"C0FFEE",';
@@ -176,7 +185,7 @@ class TrafficDetailsTest extends TestCase {
         $expectedRegExp .= '"ac_class":"' . $this->mockResultIcaoAcTypes2['ac_type'] . '",';
         $expectedRegExp .= '"eng_class":"' . $this->mockResultIcaoAcTypes2['eng_type'] . '"';
         $expectedRegExp .= '\}\]\}/';
-        $this->expectOutputRegex($expectedRegExp);
+        $this->assertRegExp($expectedRegExp, $this->getHttpService()->body);
     }
 
 
@@ -185,7 +194,7 @@ class TrafficDetailsTest extends TestCase {
         $this->getDbService()->pushMockResult([]);
         $this->getDbService()->pushMockResult([]);
         $this->getDbService()->pushMockResult([]);
-        TrafficDetails::getDetails($this->args, $this->getDbService());
+        TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
 
         $expectedRegExp = '/\{"acdetails":\[\{';
         $expectedRegExp .= '"icao24":"C0FFEE",';
@@ -196,7 +205,7 @@ class TrafficDetailsTest extends TestCase {
         $expectedRegExp .= '"ac_class":null,';
         $expectedRegExp .= '"eng_class":null';
         $expectedRegExp .= '\}\]\}/';
-        $this->expectOutputRegex($expectedRegExp);
+        $this->assertRegExp($expectedRegExp, $this->getHttpService()->body);
     }
 
 
@@ -205,7 +214,7 @@ class TrafficDetailsTest extends TestCase {
         $this->getDbService()->pushMockResult([]);
         $this->getDbService()->pushMockResult([$this->mockResultBasestation2]);
         $this->getDbService()->pushMockResult([]);
-        TrafficDetails::getDetails($this->args, $this->getDbService());
+        TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
 
         $expectedRegExp = '/\{"acdetails":\[\{';
         $expectedRegExp .= '"icao24":"' . $this->mockResultBasestation2['mode_s'] . '",';
@@ -216,7 +225,7 @@ class TrafficDetailsTest extends TestCase {
         $expectedRegExp .= '"ac_class":null,';
         $expectedRegExp .= '"eng_class":null';
         $expectedRegExp .= '\}\]\}/';
-        $this->expectOutputRegex($expectedRegExp);
+        $this->assertRegExp($expectedRegExp, $this->getHttpService()->body);
     }
 
 
@@ -225,7 +234,7 @@ class TrafficDetailsTest extends TestCase {
         $this->getDbService()->pushMockResult([]);
         $this->getDbService()->pushMockResult([]);
         $this->getDbService()->pushMockResult([]);
-        TrafficDetails::getDetails($this->args, $this->getDbService());
+        TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
 
         $expectedRegExp = '/\{"acdetails":\[\{';
         $expectedRegExp .= '"icao24":"C0FFEE",';
@@ -236,6 +245,6 @@ class TrafficDetailsTest extends TestCase {
         $expectedRegExp .= '"ac_class":null,';
         $expectedRegExp .= '"eng_class":null';
         $expectedRegExp .= '\}\]\}/';
-        $this->expectOutputRegex($expectedRegExp);
+        $this->assertRegExp($expectedRegExp, $this->getHttpService()->body);
     }
 }

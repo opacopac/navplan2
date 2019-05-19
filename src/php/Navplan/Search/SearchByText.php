@@ -21,17 +21,12 @@ class SearchByText {
     const ARG_TOKEN = "token";
 
 
-    /**
-     * @param array $args
-     * @param IDbService $dbService
-     * @throws \Navplan\Shared\InvalidFormatException
-     */
     public static function searchByText(array $args, IDbService $dbService, IHttpResponseService $httpService) {
         $dbService->openDb();
 
         $searchItems = SearchHelper::checkEscapeSearchItems($dbService, $args[self::ARG_SEARCH_ITEMS]);
         $searchText = StringNumberService::checkEscapeString($dbService, $args[self::ARG_SEARCH_TEXT], 1, 100);
-        $email = UserHelper::escapeAuthenticatedEmailOrNull($dbService, $args[self::ARG_TOKEN]);
+        $email = isset($args[self::ARG_TOKEN]) ? UserHelper::escapeAuthenticatedEmailOrNull($dbService, $args[self::ARG_TOKEN]) : NULL;
 
         $resultNum = 0;
         $airports = [];

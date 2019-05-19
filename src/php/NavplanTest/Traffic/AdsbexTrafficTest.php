@@ -2,6 +2,7 @@
 
 use Navplan\Shared\InvalidFormatException;
 use NavplanTest\FileServiceMock;
+use NavplanTest\HttpResponseServiceMock;
 use PHPUnit\Framework\TestCase;
 use Navplan\Traffic\AdsbexTraffic;
 
@@ -12,14 +13,19 @@ class AdsbexTrafficTest extends TestCase
     private $dummyResponse1;
     private $dummyResponse2;
     private $fileService;
+    private $httpService;
 
 
     private function getFileService(): FileServiceMock {
         return $this->fileService;
     }
 
+    private function getHttpService(): HttpResponseServiceMock {
+        return $this->httpService;
+    }
 
-    protected function setUp()
+
+    protected function setUp(): void
     {
         parent::setUp();
         $this->dummyArgs1 = array(
@@ -37,6 +43,7 @@ class AdsbexTrafficTest extends TestCase
         $this->dummyResponse2 = '{"ac":null,"total":0,"ctime":1549196379859,"req_ip":"217.26.58.54"}';
 
         $this->fileService = new FileServiceMock();
+        $this->httpService = new HttpResponseServiceMock();
     }
 
 
@@ -46,7 +53,7 @@ class AdsbexTrafficTest extends TestCase
     {
         $args = array("lon" => "7.0", "dist" => "123");
         $this->expectException(InvalidFormatException::class);
-        AdsbexTraffic::readTraffic($args, $this->getFileService());
+        AdsbexTraffic::readTraffic($args, $this->getFileService(), $this->getHttpService());
     }
 
 
@@ -54,7 +61,7 @@ class AdsbexTrafficTest extends TestCase
     {
         $args = array("lat" => "47.0", "dist" => "123");
         $this->expectException(InvalidFormatException::class);
-        AdsbexTraffic::readTraffic($args, $this->getFileService());
+        AdsbexTraffic::readTraffic($args, $this->getFileService(), $this->getHttpService());
     }
 
 
@@ -62,7 +69,7 @@ class AdsbexTrafficTest extends TestCase
     {
         $args = array("lat" => "47.0a", "lon" => 7.0, "dist" => "123");
         $this->expectException(InvalidFormatException::class);
-        AdsbexTraffic::readTraffic($args, $this->getFileService());
+        AdsbexTraffic::readTraffic($args, $this->getFileService(), $this->getHttpService());
     }
 
 
@@ -70,7 +77,7 @@ class AdsbexTrafficTest extends TestCase
     {
         $args = array("lat" => "abc", "lon" => 7.0, "dist" => "123");
         $this->expectException(InvalidFormatException::class);
-        AdsbexTraffic::readTraffic($args, $this->getFileService());
+        AdsbexTraffic::readTraffic($args, $this->getFileService(), $this->getHttpService());
     }
 
 
@@ -78,7 +85,7 @@ class AdsbexTrafficTest extends TestCase
     {
         $args = array("lat" => "47.0", "lon" => "abc", "dist" => "123");
         $this->expectException(InvalidFormatException::class);
-        AdsbexTraffic::readTraffic($args, $this->getFileService());
+        AdsbexTraffic::readTraffic($args, $this->getFileService(), $this->getHttpService());
     }
 
 
@@ -86,7 +93,7 @@ class AdsbexTrafficTest extends TestCase
     {
         $args = array("lat" => "47.0", "lon" => "7.0", "dist" => "abc");
         $this->expectException(InvalidFormatException::class);
-        AdsbexTraffic::readTraffic($args, $this->getFileService());
+        AdsbexTraffic::readTraffic($args, $this->getFileService(), $this->getHttpService());
     }
 
     // endregion
@@ -95,23 +102,23 @@ class AdsbexTrafficTest extends TestCase
     public function test_readTraffic_url_contains_parameters()
     {
         $this->getFileService()->setResultFileGetContents($this->dummyResponse1);
-        $this->expectOutputRegex('/./');
-        AdsbexTraffic::readTraffic($this->dummyArgs1, $this->getFileService());
+        AdsbexTraffic::readTraffic($this->dummyArgs1, $this->getFileService(), $this->getHttpService());
         $urlCalled = $this->getFileService()->getFileGetContentsFilename();
 
-        $this->assertContains('lat/' . $this->dummyArgs1["lat"] , $urlCalled);
-        $this->assertContains('lon/' . $this->dummyArgs1["lon"], $urlCalled);
-        $this->assertContains('dist/' . $this->dummyArgs1["dist"], $urlCalled);
+        $this->assertRegExp('/./', $this->getHttpService()->body);
+        $this->assertStringContainsString('lat/' . $this->dummyArgs1["lat"] , $urlCalled);
+        $this->assertStringContainsString('lon/' . $this->dummyArgs1["lon"], $urlCalled);
+        $this->assertStringContainsString('dist/' . $this->dummyArgs1["dist"], $urlCalled);
     }
 
 
     public function test_readTraffic_options_for_http_header_are_set()
     {
         $this->getFileService()->setResultFileGetContents($this->dummyResponse1);
-        $this->expectOutputRegex('/./');
-        AdsbexTraffic::readTraffic($this->dummyArgs1, $this->getFileService());
+        AdsbexTraffic::readTraffic($this->dummyArgs1, $this->getFileService(), $this->getHttpService());
         $context = $this->getFileService()->getFileGetContentsContext();
 
+        $this->assertRegExp('/./', $this->getHttpService()->body);
         $this->assertNotNull($context);
     }
 
@@ -120,9 +127,10 @@ class AdsbexTrafficTest extends TestCase
     {
         unset($this->dummyArgs1["callback"]);
         $this->getFileService()->setResultFileGetContents($this->dummyResponse1);
-        $this->expectOutputRegex('/^\{\"ac\".*postime.*postime.*total.*\}$/');
-        AdsbexTraffic::readTraffic($this->dummyArgs1, $this->getFileService());
+        AdsbexTraffic::readTraffic($this->dummyArgs1, $this->getFileService(), $this->getHttpService());
         $this->getFileService()->getFileGetContentsFilename();
+
+        $this->assertRegExp('/^\{\"ac\".*postime.*postime.*total.*\}$/', $this->getHttpService()->body);
     }
 
 
@@ -130,8 +138,9 @@ class AdsbexTrafficTest extends TestCase
     {
         $this->dummyArgs1["callback"] = "callback77";
         $this->getFileService()->setResultFileGetContents($this->dummyResponse1);
-        $this->expectOutputRegex('/^callback77\(.*\{\"ac\".*postime.*postime.*total.*\}\)$/');
-        AdsbexTraffic::readTraffic($this->dummyArgs1, $this->getFileService());
+        AdsbexTraffic::readTraffic($this->dummyArgs1, $this->getFileService(), $this->getHttpService());
         $this->getFileService()->getFileGetContentsFilename();
+
+        $this->assertRegExp('/^callback77\(.*\{\"ac\".*postime.*postime.*total.*\}\)$/', $this->getHttpService()->body);
     }
 }

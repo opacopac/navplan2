@@ -2,17 +2,19 @@
 
 namespace NavplanTest\Shared;
 
-require_once __DIR__ . "/../../config.php";
+require_once __DIR__ . "/../../config_test.php";
 
 use Navplan\Shared\DbException;
 use Navplan\User\UserHelper;
 use Navplan\User\UserLogin;
 use NavplanTest\DbServiceMock;
+use NavplanTest\HttpResponseServiceMock;
 use PHPUnit\Framework\TestCase;
 
 
 class UserLoginTest extends TestCase {
     private $dbService;
+    private $httpService;
 
 
     private function getDbService(): DbServiceMock {
@@ -20,10 +22,16 @@ class UserLoginTest extends TestCase {
     }
 
 
-    protected function setUp() {
+    private function getHttpService(): HttpResponseServiceMock {
+        return $this->httpService;
+    }
+
+
+    protected function setUp(): void {
         parent::setUp();
 
         $this->dbService = new DbServiceMock();
+        $this->httpService = new HttpResponseServiceMock();
     }
 
     // region autoLogin
@@ -32,24 +40,24 @@ class UserLoginTest extends TestCase {
         $token = UserHelper::createToken("test@navplan.ch", false);
         $args = array("token" => $token);
 
-        UserLogin::autoLogin($args, $this->getDbService());
-        $this->expectOutputRegex('/(.*)"resultcode":0/');
+        UserLogin::autoLogin($args, $this->getDbService(), $this->getHttpService());
+        $this->assertRegExp('/(.*)"resultcode":0/', $this->getHttpService()->body);
     }
 
 
     public function test_autoLogin_invalid_token_resultcode_is_n1() {
         $args = array("token" => "invalid.dummy.token");
 
-        UserLogin::autoLogin($args, $this->getDbService());
-        $this->expectOutputRegex('/(.*)"resultcode":\-1/');
+        UserLogin::autoLogin($args, $this->getDbService(), $this->getHttpService());
+        $this->assertRegExp('/(.*)"resultcode":-1/', $this->getHttpService()->body);
     }
 
 
     public function test_autoLogin_no_token_resultcode_is_n1() {
         $args = array("wrongarg" => "dummy");
 
-        UserLogin::autoLogin($args, $this->getDbService());
-        $this->expectOutputRegex('/(.*)"resultcode":\-1/');
+        UserLogin::autoLogin($args, $this->getDbService(), $this->getHttpService());
+        $this->assertRegExp('/(.*)"resultcode":-1/', $this->getHttpService()->body);
     }
 
 
@@ -57,8 +65,8 @@ class UserLoginTest extends TestCase {
         $expiredToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidGVzdEBuYXZwbGFuLmNoIiwiaXNzIjoiTkFWUExBTi5DSCIsImV4cCI6MTU0MzEzODk5OCwic3ViIjoiIiwiYXVkIjoiIn0.YcMmyrdm-Mxd4au2EqKKb5vVgGy0S_J9wlDZzSkP6Z4";
         $args = array("token" => $expiredToken);
 
-        UserLogin::autoLogin($args, $this->getDbService());
-        $this->expectOutputRegex('/(.*)"resultcode":\-1/');
+        UserLogin::autoLogin($args, $this->getDbService(), $this->getHttpService());
+        $this->assertRegExp('/(.*)"resultcode":-1/', $this->getHttpService()->body);
     }
 
     // endregion
@@ -72,13 +80,13 @@ class UserLoginTest extends TestCase {
     public function test_login_success_resultcode_is_0() {
         $email = "test@navplan.ch";
         $password = "123456";
-        $pw_hash = crypt($password);
+        $pw_hash = password_hash($password, PASSWORD_BCRYPT);
         $this->getDbService()->pushMockResult([array("email" => $email)]);
         $this->getDbService()->pushMockResult([array("pw_hash" => $pw_hash)]);
         $args = array("email" => $email, "password" => $password, "rememberme" => "0");
 
-        UserLogin::login($args, $this->getDbService());
-        $this->expectOutputRegex('/(.*)"resultcode":0/');
+        UserLogin::login($args, $this->getDbService(), $this->getHttpService());
+        $this->assertRegExp('/(.*)"resultcode":0/', $this->getHttpService()->body);
     }
 
 
@@ -88,13 +96,13 @@ class UserLoginTest extends TestCase {
     public function test_login_wrong_password_resultcode_is_n2() {
         $email = "test@navplan.ch";
         $password = "123456";
-        $pw_hash = crypt($password);
+        $pw_hash = password_hash($password, PASSWORD_BCRYPT);
         $this->getDbService()->pushMockResult([array("email" => $email)]);
         $this->getDbService()->pushMockResult([array("pw_hash" => $pw_hash)]);
         $args = array("email" => $email, "password" => $password . "x", "rememberme" => "0");
 
-        UserLogin::login($args, $this->getDbService());
-        $this->expectOutputRegex('/(.*)"resultcode":-2/');
+        UserLogin::login($args, $this->getDbService(), $this->getHttpService());
+        $this->assertRegExp('/(.*)"resultcode":-2/', $this->getHttpService()->body);
     }
 
 
@@ -107,8 +115,8 @@ class UserLoginTest extends TestCase {
         $this->getDbService()->pushMockResult([]);
         $args = array("email" => $email, "password" => $password, "rememberme" => "0");
 
-        UserLogin::login($args, $this->getDbService());
-        $this->expectOutputRegex('/(.*)"resultcode":-1/');
+        UserLogin::login($args, $this->getDbService(), $this->getHttpService());
+        $this->assertRegExp('/(.*)"resultcode":-1/', $this->getHttpService()->body);
     }
 
 
@@ -120,8 +128,8 @@ class UserLoginTest extends TestCase {
         $this->getDbService()->pushMockResult([]);
         $args = array("password" => $password, "rememberme" => "0");
 
-        UserLogin::login($args, $this->getDbService());
-        $this->expectOutputRegex('/(.*)"resultcode":-1/');
+        UserLogin::login($args, $this->getDbService(), $this->getHttpService());
+        $this->assertRegExp('/(.*)"resultcode":-1/', $this->getHttpService()->body);
     }
 
 
@@ -134,8 +142,8 @@ class UserLoginTest extends TestCase {
         $this->getDbService()->pushMockResult([]);
         $args = array("email" => $email, "password" => $password, "rememberme" => "0");
 
-        UserLogin::login($args, $this->getDbService());
-        $this->expectOutputRegex('/(.*)"resultcode":-1/');
+        UserLogin::login($args, $this->getDbService(), $this->getHttpService());
+        $this->assertRegExp('/(.*)"resultcode":-1/', $this->getHttpService()->body);
     }
 
 
@@ -148,8 +156,8 @@ class UserLoginTest extends TestCase {
         $this->getDbService()->pushMockResult([]);
         $args = array("email" => $email, "password" => $password, "rememberme" => "0");
 
-        UserLogin::login($args, $this->getDbService());
-        $this->expectOutputRegex('/(.*)"resultcode":-1/');
+        UserLogin::login($args, $this->getDbService(), $this->getHttpService());
+        $this->assertRegExp('/(.*)"resultcode":-1/', $this->getHttpService()->body);
     }
 
 
@@ -162,8 +170,8 @@ class UserLoginTest extends TestCase {
         $this->getDbService()->pushMockResult([]);
         $args = array("email" => $email, "password" => $password, "rememberme" => "0");
 
-        UserLogin::login($args, $this->getDbService());
-        $this->expectOutputRegex('/(.*)"resultcode":-1/');
+        UserLogin::login($args, $this->getDbService(), $this->getHttpService());
+        $this->assertRegExp('/(.*)"resultcode":-1/', $this->getHttpService()->body);
     }
 
 
@@ -175,8 +183,8 @@ class UserLoginTest extends TestCase {
         $this->getDbService()->pushMockResult([]);
         $args = array("email" => $email, "rememberme" => "0");
 
-        UserLogin::login($args, $this->getDbService());
-        $this->expectOutputRegex('/(.*)"resultcode":-2/');
+        UserLogin::login($args, $this->getDbService(), $this->getHttpService());
+        $this->assertRegExp('/(.*)"resultcode":-2/', $this->getHttpService()->body);
     }
 
 
@@ -189,8 +197,8 @@ class UserLoginTest extends TestCase {
         $this->getDbService()->pushMockResult([]);
         $args = array("email" => $email, "password" => $password, "rememberme" => "0");
 
-        UserLogin::login($args, $this->getDbService());
-        $this->expectOutputRegex('/(.*)"resultcode":-2/');
+        UserLogin::login($args, $this->getDbService(), $this->getHttpService());
+        $this->assertRegExp('/(.*)"resultcode":-2/', $this->getHttpService()->body);
     }
 
 
@@ -200,12 +208,12 @@ class UserLoginTest extends TestCase {
     public function test_login_password_too_long_resultcode_is_n1() {
         $email = "test@navplan.ch";
         $password = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
-        $pw_hash = crypt($password);
+        $pw_hash = password_hash($password, PASSWORD_BCRYPT);
         $this->getDbService()->pushMockResult([array("email" => $email, "pw_hash" => $pw_hash)]);
         $args = array("email" => $email, "password" => $password, "rememberme" => "0");
 
-        UserLogin::login($args, $this->getDbService());
-        $this->expectOutputRegex('/(.*)"resultcode":-2/');
+        UserLogin::login($args, $this->getDbService(), $this->getHttpService());
+        $this->assertRegExp('/(.*)"resultcode":-2/', $this->getHttpService()->body);
     }
 
     // endregion

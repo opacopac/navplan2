@@ -7,7 +7,7 @@ use Navplan\Shared\IHttpResponseService;
 
 class HttpResponseServiceMock implements IHttpResponseService {
     public $headerList = [];
-    public $payloadList = [];
+    public $body = "";
 
 
     public function header(string $header) {
@@ -16,6 +16,6 @@ class HttpResponseServiceMock implements IHttpResponseService {
 
 
     public function payload(string $data) {
-        array_push($this->payloadList, $data);
+        $this->body .= $data;
     }
 }

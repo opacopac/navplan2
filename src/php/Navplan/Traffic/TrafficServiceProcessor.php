@@ -5,35 +5,40 @@ namespace Navplan\Traffic;
 use InvalidArgumentException;
 use Navplan\Shared\IDbService;
 use Navplan\Shared\IFileService;
+use Navplan\Shared\IHttpResponseService;
+use Navplan\Shared\InvalidFormatException;
 
 class TrafficServiceProcessor {
-    /***
+    /**
      * @param string $requestMethod
      * @param array|null $getVars
      * @param array|null $postVars
      * @param IDbService $dbService
      * @param IFileService $fileService
-     * @throws \Navplan\Shared\InvalidFormatException
+     * @param IHttpResponseService $httpService
+     * @throws InvalidFormatException
      */
-    public static function processRequest(string $requestMethod, ?array $getVars, ?array $postVars, IDbService $dbService, IFileService $fileService)
+    public static function processRequest(string $requestMethod, ?array $getVars, ?array $postVars, IDbService $dbService, IFileService $fileService, IHttpResponseService $httpService)
     {
         switch ($requestMethod) {
             case 'GET':
-                switch ($getVars["action"]) {
+                $action = isset($getVars["action"]) ? $getVars["action"] : NULL;
+                switch ($action) {
                     case "readogntraffic":
-                        OgnTraffic::readTraffic($getVars, $fileService, $dbService);
+                        OgnTraffic::readTraffic($getVars, $fileService, $dbService, $httpService);
                         break;
                     case "readadsbextraffic":
-                        AdsbexTraffic::readTraffic($getVars, $fileService);
+                        AdsbexTraffic::readTraffic($getVars, $fileService, $httpService);
                         break;
                     default:
                         self::throwInvalidArgumentError();
                 }
                 break;
             case 'POST':
-                switch ($postVars["action"]) {
+                $action = isset($postVars["action"]) ? $postVars["action"] : NULL;
+                switch ($action) {
                     case "readacdetails":
-                        TrafficDetails::getDetails($postVars, $dbService);
+                        TrafficDetails::getDetails($postVars, $dbService, $httpService);
                         break;
                     default:
                         self::throwInvalidArgumentError();

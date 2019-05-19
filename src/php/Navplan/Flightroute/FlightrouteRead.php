@@ -4,13 +4,14 @@ namespace Navplan\Flightroute;
 
 use Navplan\Shared\DbException;
 use Navplan\Shared\IDbService;
+use Navplan\Shared\IHttpResponseService;
 use Navplan\Shared\RequestResponseHelper;
 use Navplan\Shared\StringNumberService;
 use Navplan\User\UserHelper;
 
 
 class FlightrouteRead {
-    public static function readSharedNavplan(IDbService $dbService, array $args) {
+    public static function readSharedNavplan(IDbService $dbService, IHttpResponseService $httpService, array $args) {
         $dbService->openDb();
 
         $share_id = StringNumberService::checkEscapeString($dbService, $args["shareid"], 10, 10);
@@ -41,13 +42,13 @@ class FlightrouteRead {
         $navplan["alternate"] = $wpalt["alternate"];
         $navplan["id"] = NULL;
 
-        RequestResponseHelper::sendArrayResponseWithRoot("navplan", $navplan);
+        RequestResponseHelper::sendArrayResponseWithRoot($httpService, "navplan", $navplan);
 
         $dbService->closeDb();
     }
 
 
-    public static function readNavplan(IDbService $dbService, array $args) {
+    public static function readNavplan(IDbService $dbService, IHttpResponseService $httpService, array $args) {
         $dbService->openDb();
 
         $navplan_id = StringNumberService::checkId(intval($args["id"]));
@@ -78,7 +79,7 @@ class FlightrouteRead {
         $navplan["waypoints"] = $wpalt["waypoints"];
         $navplan["alternate"] = $wpalt["alternate"];
 
-        RequestResponseHelper::sendArrayResponseWithRoot("navplan", $navplan);
+        RequestResponseHelper::sendArrayResponseWithRoot($httpService,"navplan", $navplan);
 
         $dbService->closeDb();
     }

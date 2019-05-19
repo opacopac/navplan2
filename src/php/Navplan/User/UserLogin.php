@@ -5,16 +5,19 @@ namespace Navplan\User;
 use Navplan\Message;
 use Navplan\Shared\DbException;
 use Navplan\Shared\IDbService;
+use Navplan\Shared\IHttpResponseService;
+use Navplan\Shared\StringNumberService;
 
 
 class UserLogin
 {
-    public static function autoLogin(array $args, IDbService $dbService): void
+    public static function autoLogin(array $args, IDbService $dbService, IHttpResponseService $httpService): void
     {
         $dbService->openDb();
 
-        if (!$args["token"]) {
-            UserHelper::sendErrorResponse(new Message(-1, 'error: token is missing'));
+        $argToken = StringNumberService::getValueOrNull($args, "token");
+        if (!$argToken) {
+            UserHelper::sendErrorResponse($httpService, new Message(-1, 'error: token is missing'));
             return;
         }
 
@@ -22,27 +25,29 @@ class UserLogin
         $email = UserHelper::escapeAuthenticatedEmailOrNull($dbService, $token);
 
         if (!$email) {
-            UserHelper::sendErrorResponse(new Message(-1, 'error: invalid token'));
+            UserHelper::sendErrorResponse($httpService, new Message(-1, 'error: invalid token'));
             return;
         }
 
         $dbService->closeDb();
 
-        UserHelper::sendSuccessResponse($email, $token);
+        UserHelper::sendSuccessResponse($httpService, $email, $token);
     }
 
 
-    public static function login(array $args, IDbService $dbService): void
+    public static function login(array $args, IDbService $dbService, IHttpResponseService $httpService): void
     {
         $dbService->openDb();
 
-        if (!$args["email"]) {
-            UserHelper::sendErrorResponse(new Message(-1, 'error: email missing'));
+        $argEmail = StringNumberService::getValueOrNull($args, "email");
+        if (!$argEmail) {
+            UserHelper::sendErrorResponse($httpService, new Message(-1, 'error: email missing'));
             return;
         }
 
-        if (!$args["password"]) {
-            UserHelper::sendErrorResponse(new Message(-2, 'error: password missing'));
+        $argPw = StringNumberService::getValueOrNull($args, "password");
+        if (!$argPw) {
+            UserHelper::sendErrorResponse($httpService, new Message(-2, 'error: password missing'));
             return;
         }
 
@@ -51,12 +56,12 @@ class UserLogin
         $rememberMe = ($args["rememberme"] === "1");
 
         if (!UserHelper::checkEmailFormat($email) || !UserHelper::checkEmailExists($dbService, $email)) {
-            UserHelper::sendErrorResponse(new Message(-1, 'error: invalid email'));
+            UserHelper::sendErrorResponse($httpService, new Message(-1, 'error: invalid email'));
             return;
         }
 
         if (!UserHelper::checkPwFormat($password) || !UserHelper::verifyPwHash($dbService, $email, $password)) {
-            UserHelper::sendErrorResponse(new Message(-2, 'error: invalid password'));
+            UserHelper::sendErrorResponse($httpService, new Message(-2, 'error: invalid password'));
             return;
         }
 
@@ -65,6 +70,6 @@ class UserLogin
 
         $dbService->closeDb();
 
-        UserHelper::sendSuccessResponse($email, $token);
+        UserHelper::sendSuccessResponse($httpService, $email, $token);
     }
 }

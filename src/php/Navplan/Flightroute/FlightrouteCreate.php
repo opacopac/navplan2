@@ -4,13 +4,14 @@ namespace Navplan\Flightroute;
 
 use Navplan\Shared\DbException;
 use Navplan\Shared\IDbService;
+use Navplan\Shared\IHttpResponseService;
 use Navplan\Shared\RequestResponseHelper;
 use Navplan\Shared\StringNumberService;
 use Navplan\User\UserHelper;
 
 
 class FlightrouteCreate {
-    public static function createSharedNavplan(IDbService $dbService, array $args) {
+    public static function createSharedNavplan(IDbService $dbService, IHttpResponseService $httpService, array $args) {
         $dbService->openDb();
 
         $navplan = FlightrouteHelper::escapeNavplanData($dbService, $args["globalData"]);
@@ -46,13 +47,13 @@ class FlightrouteCreate {
             self::createWaypoints($dbService, $navplan["waypoints"], $navplan["alternate"], $navplan_id);
         }
 
-        RequestResponseHelper::sendArrayResponse(array("share_id" => $share_id));
+        RequestResponseHelper::sendArrayResponse($httpService, array("share_id" => $share_id));
 
         $dbService->closeDb();
     }
 
 
-    public static function createNavplan(IDbService $dbService, array $args) {
+    public static function createNavplan(IDbService $dbService, IHttpResponseService $httpService, array $args) {
         $dbService->openDb();
 
         $navplan = FlightrouteHelper::escapeNavplanData2($dbService, $args["globalData"]);
@@ -84,7 +85,7 @@ class FlightrouteCreate {
         // update waypoints
         self::createWaypoints($dbService, $navplan["waypoints"], $navplan["alternate"], $navplan_id);
 
-        RequestResponseHelper::sendArrayResponse(array("navplan_id" => $navplan_id));
+        RequestResponseHelper::sendArrayResponse($httpService, array("navplan_id" => $navplan_id));
 
         $dbService->closeDb();
     }

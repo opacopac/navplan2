@@ -4,17 +4,18 @@ namespace Navplan\Traffic;
 
 use InvalidArgumentException;
 use Navplan\Shared\IDbService;
+use Navplan\Shared\IHttpResponseService;
 use Navplan\Shared\RequestResponseHelper;
 use Navplan\Shared\StringNumberService;
 
 
 class TrafficDetails {
-    public static function getDetails(array $args, IDbService $dbService) {
+    public static function getDetails(array $args, IDbService $dbService, IHttpResponseService $httpService) {
         $dbService->openDb();
 
-        $callback = $args["callback"] ? StringNumberService::checkString($args["callback"], 1, 50) : NULL;
+        $callback = isset($args["callback"]) ? StringNumberService::checkString($args["callback"], 1, 50) : NULL;
 
-        if (!$args["aclist"]) {
+        if (!isset($args["aclist"]) || count($args["aclist"]) === 0) {
             throw new InvalidArgumentException('parameter aclist is missing or empty');
         }
 
@@ -25,7 +26,7 @@ class TrafficDetails {
         self::addDetailsFromIcaoAcTypes($acMap, $dbService);
 
         $acList = self::getAcListFromMap($acMap);
-        RequestResponseHelper::sendArrayResponseWithRoot("acdetails", $acList, $callback);
+        RequestResponseHelper::sendArrayResponseWithRoot($httpService,"acdetails", $acList, $callback);
 
         $dbService->closeDb();
     }
@@ -53,7 +54,7 @@ class TrafficDetails {
             "reg" => NULL,
             "model" => NULL,
             "manufacturer" => NULL,
-            "ac_type" => $ac["ac_type"] ? StringNumberService::checkEscapeAlphaNumeric($dbService, strtoupper($ac["ac_type"]), 1, 4) : NULL,
+            "ac_type" => isset($ac["ac_type"]) ? StringNumberService::checkEscapeAlphaNumeric($dbService, strtoupper($ac["ac_type"]), 1, 4) : NULL,
             "ac_class" => NULL,
             "eng_class" => NULL
         );
@@ -133,7 +134,7 @@ class TrafficDetails {
         $acTypeLookup = array();
         while ($row = $result->fetch_assoc()) {
             $acType = $row['designator'];
-            if ($acTypeLookup[$acType]) {
+            if (isset($acTypeLookup[$acType])) {
                 // use ac_type instead of model in case of multiple entries (always different)
                 $acTypeLookup[$acType]['model'] = NULL;
 
@@ -148,10 +149,10 @@ class TrafficDetails {
         }
 
         foreach ($acMap as $icao24 => &$ac) {
-            $acTypeRow = $acTypeLookup[$ac["ac_type"]];
-            if (!$acTypeRow) {
+            if (!isset($ac["ac_type"]) || !isset($acTypeLookup[$ac["ac_type"]])) {
                 continue;
             }
+            $acTypeRow = $acTypeLookup[$ac["ac_type"]];
 
             if (!$ac['model']) {
                 $ac['model'] = $acTypeRow['model'];

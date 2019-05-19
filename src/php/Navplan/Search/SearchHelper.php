@@ -46,8 +46,8 @@ class SearchHelper
 
 
     public static function sendSearchResultResponse(array $searchResults, IHttpResponseService $httpService) {
-        $callback = $_GET["callback"] ? StringNumberService::checkAlphaNumeric($_GET["callback"], 1, 50) : NULL;
+        $callback = isset($_GET["callback"]) ? StringNumberService::checkAlphaNumeric($_GET["callback"], 1, 50) : NULL;
 
-        RequestResponseHelper::sendArrayResponse($searchResults, $callback, TRUE);
+        RequestResponseHelper::sendArrayResponse($httpService, $searchResults, $callback, TRUE);
     }
 }

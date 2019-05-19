@@ -15,14 +15,14 @@ class FileServiceTest extends TestCase {
     }
 
 
-    protected function setUp() {
+    protected function setUp(): void {
         parent::setUp();
         $this->tmpFile = tmpfile();
         $this->tmpFileName = stream_get_meta_data($this->tmpFile)['uri'];
     }
 
 
-    protected function tearDown() {
+    protected function tearDown(): void {
         parent::tearDown();
 
         @fclose($this->tmpFile); // remark: @ prevents exceptions

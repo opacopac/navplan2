@@ -9,5 +9,6 @@ use Navplan\NavplanBootstrap;
 
 SearchServiceProcessor::processRequest(
     $_GET,
-    NavplanBootstrap::getAndInitDbService()
+    NavplanBootstrap::getAndInitDbService(),
+    NavplanBootstrap::getHttpResponseService()
 );

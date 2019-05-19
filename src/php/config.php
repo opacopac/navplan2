@@ -1,11 +1,11 @@
 <?php
 	// db parameters
-	$db_host = "XXXX";
-	$db_name = "XXXX";
-	$db_user = "XXXX";
-	$db_pw = "XXXX";
+	$db_host = "localhost";
+	$db_name = "tschanz_test";
+	$db_user = "tschanz_test";
+	$db_pw = "12kEadL7gTUb";
 	
 	// jwt
-	$jwt_secret = "XXXX";	
+$jwt_secret = "6FE2vIIS9y#vYvL15C!geA";
 	$jwt_issuer = "NAVPLAN.CH"
 ?>

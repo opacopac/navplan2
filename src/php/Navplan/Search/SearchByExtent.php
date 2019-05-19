@@ -9,6 +9,7 @@ use Navplan\MapFeatures\SearchItemReportingPoint;
 use Navplan\MapFeatures\SearchItemUserPoint;
 use Navplan\MapFeatures\SearchItemWebcam;
 use Navplan\Shared\IDbService;
+use Navplan\Shared\IHttpResponseService;
 use Navplan\Shared\StringNumberService;
 use Navplan\User\UserHelper;
 
@@ -27,7 +28,7 @@ class SearchByExtent {
     const ARG_TOKEN = "token";
 
 
-    public static function searchByExtent(array $args, IDbService $dbService) {
+    public static function searchByExtent(array $args, IDbService $dbService, IHttpResponseService $httpService) {
         $dbService->openDb();
 
         $searchItems = SearchHelper::checkEscapeSearchItems($dbService, $args[self::ARG_SEARCH_ITEMS]);
@@ -36,9 +37,9 @@ class SearchByExtent {
         $maxLon = floatval(StringNumberService::checkNumeric($args[self::ARG_MAX_LON]));
         $maxLat = floatval(StringNumberService::checkNumeric($args[self::ARG_MAX_LAT]));
         $zoom = intval(StringNumberService::checkNumeric($args[self::ARG_ZOOM]));
-        $minNotamTimestamp = $args[self::ARG_MIN_NOTAM_TIME] ? intval(StringNumberService::checkNumeric($args[self::ARG_MIN_NOTAM_TIME])) : 0;
-        $maxNotamTimestamp = $args[self::ARG_MAX_NOTAM_TIME] ? intval(StringNumberService::checkNumeric($args[self::ARG_MAX_NOTAM_TIME])) : 0;
-        $email = UserHelper::escapeAuthenticatedEmailOrNull($dbService, $args[self::ARG_TOKEN]);
+        $minNotamTimestamp = isset($args[self::ARG_MIN_NOTAM_TIME]) ? intval(StringNumberService::checkNumeric($args[self::ARG_MIN_NOTAM_TIME])) : 0;
+        $maxNotamTimestamp = isset($args[self::ARG_MAX_NOTAM_TIME]) ? intval(StringNumberService::checkNumeric($args[self::ARG_MAX_NOTAM_TIME])) : 0;
+        $email = isset($args[self::ARG_TOKEN]) ? UserHelper::escapeAuthenticatedEmailOrNull($dbService, $args[self::ARG_TOKEN]) : NULL;
 
         $resultNum = 0;
         $airports = [];
@@ -86,16 +87,19 @@ class SearchByExtent {
         }
 
         // return output
-        SearchHelper::sendSearchResultResponse(array(
-            SearchItem::AIRPORTS => $airports,
-            SearchItem::NAVAIDS => $navaids,
-            SearchItem::AIRSPACES => $airspaces,
-            SearchItem::REPORTINGPOINTS => $reportingPoints,
-            SearchItem::USERPOINTS => $userPoints,
-            SearchItem::WEBCAMS => $webcams,
-            SearchItem::GEONAMES => [],
-            SearchItem::NOTAMS => $notams
-        ));
+        SearchHelper::sendSearchResultResponse(
+            array(
+                SearchItem::AIRPORTS => $airports,
+                SearchItem::NAVAIDS => $navaids,
+                SearchItem::AIRSPACES => $airspaces,
+                SearchItem::REPORTINGPOINTS => $reportingPoints,
+                SearchItem::USERPOINTS => $userPoints,
+                SearchItem::WEBCAMS => $webcams,
+                SearchItem::GEONAMES => [],
+                SearchItem::NOTAMS => $notams
+            ),
+            $httpService
+        );
 
         $dbService->closeDb();
     }

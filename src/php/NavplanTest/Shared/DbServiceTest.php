@@ -34,45 +34,43 @@ class DbServiceTest extends DbTestCase
 
 
     /**
-     * @expectedException \Navplan\Shared\DbException
+     * @throws DbException
      */
     public function test_execSingleResultQuery_throws_exception_for_empty_list() {
         $expectedResult = $this->getDbResult(self::DUMMY_RESULT_LIST_0_ENTRY);
         $conn = $this->getDbConnection($expectedResult);
-
+        $this->expectException("Navplan\Shared\DbException");
         DbService::execSingleResultQuery($conn, "dummy", false);
     }
 
 
     /**
-     * @expectedException \Navplan\Shared\DbException
+     * @throws DbException
      */
     public function test_execSingleResultQuery_throws_exception_for_multi_list() {
         $expectedResult = $this->getDbResult(self::DUMMY_RESULT_LIST_2_ENTRIES);
         $conn = $this->getDbConnection($expectedResult);
-
+        $this->expectException("Navplan\Shared\DbException");
         DbService::execSingleResultQuery($conn, "dummy", false);
     }
 
 
     /**
-     * @expectedException \Navplan\Shared\DbException
-     * @expectedExceptionMessageRegExp /(.*)error executing single result query(.*)/
+     * @throws DbException
      */
     public function test_execSingleResultQuery_throws_exception_for_query_error() {
         $conn = $this->getDbConnection(FALSE);
-
+        $this->expectException("Navplan\Shared\DbException");
         DbService::execSingleResultQuery($conn, "dummy");
     }
 
 
     /**
-     * @expectedException \Navplan\Shared\DbException
-     * @expectedExceptionMessageRegExp /(.*)custom error text(.*)/
+     * @throws DbException
      */
     public function test_execSingleResultQuery_throws_exception_with_custom_text() {
         $conn = $this->getDbConnection(FALSE);
-
+        $this->expectException("Navplan\Shared\DbException");
         DbService::execSingleResultQuery($conn, "dummy", false, "custom error text");
     }
 
@@ -106,23 +104,21 @@ class DbServiceTest extends DbTestCase
 
 
     /**
-     * @expectedException \Navplan\Shared\DbException
-     * @expectedExceptionMessageRegExp /(.*)error executing multi result query(.*)/
+     * @throws DbException
      */
     public function test_execMultiResultQuery_throws_exception_for_query_error() {
         $conn = $this->getDbConnection(FALSE);
-
+        $this->expectException("Navplan\Shared\DbException");
         DbService::execMultiResultQuery($conn, "dummy");
     }
 
 
     /**
-     * @expectedException \Navplan\Shared\DbException
-     * @expectedExceptionMessageRegExp /(.*)custom error text(.*)/
+     * @throws DbException
      */
     public function test_execMultiResultQuery_throws_exception_with_custom_text() {
         $conn = $this->getDbConnection(FALSE);
-
+        $this->expectException("Navplan\Shared\DbException");
         DbService::execMultiResultQuery($conn, "dummy", "custom error text");
     }
 
@@ -137,30 +133,27 @@ class DbServiceTest extends DbTestCase
      */
     public function test_execCUDQuery_returns_true_on_success() {
         $conn = $this->getDbConnection(TRUE);
-
         $result = DbService::execCUDQuery($conn, "dummy");
         $this->assertEquals(TRUE, $result);
     }
 
 
     /**
-     * @expectedException \Navplan\Shared\DbException
-     * @expectedExceptionMessageRegExp /(.*)error executing query(.*)/
+     * @throws DbException
      */
     public function test_execCUDQuery_throws_exception_for_query_error() {
         $conn = $this->getDbConnection(FALSE);
-
+        $this->expectException("Navplan\Shared\DbException");
         DbService::execCUDQuery($conn, "dummy");
     }
 
 
     /**
-     * @expectedException \Navplan\Shared\DbException
-     * @expectedExceptionMessageRegExp /(.*)custom error text(.*)/
+     * @throws DbException
      */
     public function test_execCUDQuery_throws_exception_with_custom_text() {
         $conn = $this->getDbConnection(FALSE);
-
+        $this->expectException("Navplan\Shared\DbException");
         DbService::execCUDQuery($conn, "dummy", "custom error text");
     }
 

@@ -4,6 +4,7 @@ namespace Navplan\Traffic;
 
 use Navplan\Shared\IDbService;
 use Navplan\Shared\IFileService;
+use Navplan\Shared\IHttpResponseService;
 use Navplan\Shared\RequestResponseHelper;
 use Navplan\Shared\StringNumberService;
 
@@ -17,19 +18,20 @@ class OgnTraffic
      * @param array $args
      * @param IFileService $fileService
      * @param IDbService $dbService
+     * @param IHttpResponseService $httpService
      * @throws \Navplan\Shared\InvalidFormatException
      */
-    public static function readTraffic(array $args, IFileService $fileService, IDbService $dbService) {
+    public static function readTraffic(array $args, IFileService $fileService, IDbService $dbService, IHttpResponseService $httpService) {
         $dbService->openDb();
 
-        $minLat = floatval(StringNumberService::checkNumeric($args["minlat"]));
-        $maxLat = floatval(StringNumberService::checkNumeric($args["maxlat"]));
-        $minLon = floatval(StringNumberService::checkNumeric($args["minlon"]));
-        $maxLon = floatval(StringNumberService::checkNumeric($args["maxlon"]));
-        $maxAgeSec = intval(StringNumberService::checkNumeric($args["maxagesec"]));
-        $sessionId = intval(StringNumberService::checkNumeric($args["sessionid"]));
-        $waitDataSec = $args["waitDataSec"] ? intval(StringNumberService::checkNumeric($args["waitDataSec"])) : 0;
-        $callback = $args["callback"] ? StringNumberService::checkString($args["callback"], 1, 50) : NULL;
+        $minLat = floatval(StringNumberService::checkNumeric(StringNumberService::getValueOrNull($args, "minlat")));
+        $maxLat = floatval(StringNumberService::checkNumeric(StringNumberService::getValueOrNull($args, "maxlat")));
+        $minLon = floatval(StringNumberService::checkNumeric(StringNumberService::getValueOrNull($args, "minlon")));
+        $maxLon = floatval(StringNumberService::checkNumeric(StringNumberService::getValueOrNull($args, "maxlon")));
+        $maxAgeSec = intval(StringNumberService::checkNumeric(StringNumberService::getValueOrNull($args, "maxagesec")));
+        $sessionId = intval(StringNumberService::checkNumeric(StringNumberService::getValueOrNull($args, "sessionid")));
+        $waitDataSec = isset($args["waitDataSec"]) ? intval(StringNumberService::checkNumeric($args["waitDataSec"])) : 0;
+        $callback = isset($args["callback"]) ? StringNumberService::checkString($args["callback"], 1, 50) : NULL;
 
         self::writeFilterFile($sessionId, $minLon, $minLat, $maxLon, $maxLat, $fileService);
         self::checkStartListener($sessionId, $fileService);
@@ -37,7 +39,7 @@ class OgnTraffic
         $acList = self::readTrafficListFromFiles($sessionId, $minLon, $minLat, $maxLon, $maxLat, $maxAgeSec, $fileService);
         self::sortPositionTimestamps($acList);
 
-        RequestResponseHelper::sendArrayResponseWithRoot("aclist", $acList, $callback);
+        RequestResponseHelper::sendArrayResponseWithRoot($httpService,"aclist", $acList, $callback);
 
         $dbService->closeDb();
     }

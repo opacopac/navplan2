@@ -16,7 +16,8 @@ class SearchServiceProcessor
     const ACTION_SEARCH_BY_ICAO = "searchByIcao";
 
     public static function processRequest(array $getVars, IDbService $dbService, IHttpResponseService $httpService) {
-        switch ($getVars[self::ARG_ACTION]) {
+        $action = isset($getVars[self::ARG_ACTION]) ? $getVars[self::ARG_ACTION] : NULL;
+        switch ($action) {
             case self::ACTION_SEARCH_BY_TEXT:
                 SearchByText::searchByText($getVars, $dbService, $httpService);
                 break;

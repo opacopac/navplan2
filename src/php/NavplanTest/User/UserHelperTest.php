@@ -2,15 +2,19 @@
 
 namespace NavplanTest\Shared;
 
+require_once __DIR__ . "/../../config_test.php";
+
 use InvalidArgumentException;
 use Navplan\Message;
 use Navplan\User\UserHelper;
 use NavplanTest\DbServiceMock;
+use NavplanTest\HttpResponseServiceMock;
 use PHPUnit\Framework\TestCase;
 
 
 class UserHelperTest extends TestCase {
     private $dbService;
+    private $httpService;
 
 
     private function getDbService(): DbServiceMock {
@@ -18,10 +22,16 @@ class UserHelperTest extends TestCase {
     }
 
 
-    protected function setUp() {
+    private function getHttpService(): HttpResponseServiceMock {
+        return $this->httpService;
+    }
+
+
+    protected function setUp(): void {
         parent::setUp();
 
         $this->dbService = new DbServiceMock();
+        $this->httpService = new HttpResponseServiceMock();
     }
 
 
@@ -133,7 +143,7 @@ class UserHelperTest extends TestCase {
     public function test_verifyPwHash() {
         $email = "test@navplan.ch";
         $password = "123456";
-        $pw_hash = crypt($password);
+        $pw_hash = password_hash($password, PASSWORD_BCRYPT);
 
         $this->getDbService()->pushMockResult([array("pw_hash" => $pw_hash)]);
         $result1 = UserHelper::verifyPwHash($this->getDbService(), $email, $password);
@@ -152,17 +162,17 @@ class UserHelperTest extends TestCase {
     public function test_sendSuccessResponse() {
         $email = "test@navplan.ch";
         $token = "xxx.yyy.zzz";
-        UserHelper::sendSuccessResponse($email, $token);
+        UserHelper::sendSuccessResponse($this->getHttpService(), $email, $token);
 
-        $this->expectOutputRegex('/(.*)"resultcode":0/');
-        $this->expectOutputRegex('/(.*)"email":"' . $email . '"/');
-        $this->expectOutputRegex('/(.*)"token":"' . $token . '"/');
+        $this->assertRegExp('/(.*)"resultcode":0/', $this->getHttpService()->body);
+        $this->assertRegExp('/(.*)"email":"' . $email . '"/', $this->getHttpService()->body);
+        $this->assertRegExp('/(.*)"token":"' . $token . '"/', $this->getHttpService()->body);
     }
 
 
     public function test_sendErrorResponse() {
-        UserHelper::sendErrorResponse(new Message(-2, 'xxx'));
+        UserHelper::sendErrorResponse($this->getHttpService(), new Message(-2, 'xxx'));
 
-        $this->expectOutputRegex('/(.*)"resultcode":-2/');
+        $this->assertRegExp('/(.*)"resultcode":-2/', $this->getHttpService()->body);
     }
 }

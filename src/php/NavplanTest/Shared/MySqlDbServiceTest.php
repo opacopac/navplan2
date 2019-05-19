@@ -18,7 +18,7 @@ class MySqlDbServiceTest extends TestCase {
     }
 
 
-    protected function setUp() {
+    protected function setUp(): void {
         global $db_host, $db_user, $db_pw, $db_name;
         parent::setUp();
 
@@ -37,7 +37,7 @@ class MySqlDbServiceTest extends TestCase {
 
 
     public function test_openDb_error() {
-        $this->getDbService()->init('', '', '', '');
+        $this->getDbService()->init('xxx', 'xxx', 'xxx', 'xxx');
         $this->expectException(DbException::class);
         $this->getDbService()->openDb();
     }

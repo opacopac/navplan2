@@ -7,6 +7,15 @@ use http\Exception\InvalidArgumentException;
 
 class StringNumberService
 {
+    public static function getValueOrNull(array $keyValues, string $key): ?string {
+        if (!$keyValues || !isset($keyValues[$key])) {
+            return NULL;
+        }
+
+        return $keyValues[$key];
+    }
+
+
     /***
      * @param $num
      * @return mixed

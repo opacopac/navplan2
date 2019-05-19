@@ -6,12 +6,14 @@ use Navplan\Shared\InvalidFormatException;
 use Navplan\Traffic\TrafficServiceProcessor;
 use NavplanTest\DbServiceMock;
 use NavplanTest\FileServiceMock;
+use NavplanTest\HttpResponseServiceMock;
 use PHPUnit\Framework\TestCase;
 
 
 class TrafficServiceProcessorTest extends TestCase {
     private $dbService;
     private $fileService;
+    private $httpService;
 
 
     private function getDbService(): IDbService {
@@ -24,11 +26,17 @@ class TrafficServiceProcessorTest extends TestCase {
     }
 
 
-    protected function setUp() {
+    private function getHttpService(): HttpResponseServiceMock {
+        return $this->httpService;
+    }
+
+
+    protected function setUp(): void {
         parent::setUp();
 
         $this->dbService = new DbServiceMock();
         $this->fileService = new FileServiceMock();
+        $this->httpService = new \NavplanTest\HttpResponseServiceMock();
     }
 
 
@@ -36,7 +44,7 @@ class TrafficServiceProcessorTest extends TestCase {
         $reqMeth = 'GET';
         $getVars["action"] = "readadsbextraffic";
         $this->expectException(InvalidFormatException::class); // expected, due to missing parameters
-        TrafficServiceProcessor::processRequest($reqMeth, $getVars, NULL, $this->getDbService(), $this->getFileService());
+        TrafficServiceProcessor::processRequest($reqMeth, $getVars, NULL, $this->getDbService(), $this->getFileService(), $this->getHttpService());
     }
 
 
@@ -44,7 +52,7 @@ class TrafficServiceProcessorTest extends TestCase {
         $reqMeth = 'GET';
         $getVars["action"] = "readogntraffic";
         $this->expectException(InvalidFormatException::class); // expected, due to missing parameters
-        TrafficServiceProcessor::processRequest($reqMeth, $getVars, NULL, $this->getDbService(), $this->getFileService());
+        TrafficServiceProcessor::processRequest($reqMeth, $getVars, NULL, $this->getDbService(), $this->getFileService(), $this->getHttpService());
     }
 
 
@@ -52,14 +60,14 @@ class TrafficServiceProcessorTest extends TestCase {
         $reqMeth = 'POST';
         $postVars["action"] = "readacdetails";
         $this->expectException(InvalidArgumentException::class); // expected, due to missing parameters
-        TrafficServiceProcessor::processRequest($reqMeth, NULL, $postVars, $this->getDbService(), $this->getFileService());
+        TrafficServiceProcessor::processRequest($reqMeth, NULL, $postVars, $this->getDbService(), $this->getFileService(), $this->getHttpService());
     }
 
 
     public function test_processRequest_throws_exception_for_unknown_req_method() {
         $reqMeth = 'XXX';
         $this->expectException(InvalidArgumentException::class);
-        TrafficServiceProcessor::processRequest($reqMeth, NULL, NULL, $this->getDbService(), $this->getFileService());
+        TrafficServiceProcessor::processRequest($reqMeth, NULL, NULL, $this->getDbService(), $this->getFileService(), $this->getHttpService());
     }
 
 
@@ -67,7 +75,7 @@ class TrafficServiceProcessorTest extends TestCase {
         $reqMeth = 'GET';
         $getVars = array('action' => 'xxx');
         $this->expectException(InvalidArgumentException::class);
-        TrafficServiceProcessor::processRequest($reqMeth, $getVars, NULL, $this->getDbService(), $this->getFileService());
+        TrafficServiceProcessor::processRequest($reqMeth, $getVars, NULL, $this->getDbService(), $this->getFileService(), $this->getHttpService());
     }
 
 
@@ -75,6 +83,6 @@ class TrafficServiceProcessorTest extends TestCase {
         $reqMeth = 'POST';
         $getVars = array('action' => 'xxx');
         $this->expectException(InvalidArgumentException::class);
-        TrafficServiceProcessor::processRequest($reqMeth, $getVars, NULL, $this->getDbService(), $this->getFileService());
+        TrafficServiceProcessor::processRequest($reqMeth, $getVars, NULL, $this->getDbService(), $this->getFileService(), $this->getHttpService());
     }
 }

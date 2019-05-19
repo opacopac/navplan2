@@ -8,6 +8,7 @@ use Navplan\MapFeatures\SearchItemNavaid;
 use Navplan\MapFeatures\SearchItemReportingPoint;
 use Navplan\MapFeatures\SearchItemUserPoint;
 use Navplan\Shared\IDbService;
+use Navplan\Shared\IHttpResponseService;
 use Navplan\Shared\StringNumberService;
 use Navplan\User\UserHelper;
 
@@ -24,21 +25,16 @@ class SearchByPosition {
     const ARG_TOKEN = "token";
 
 
-    /**
-     * @param array $args
-     * @param IDbService $dbService
-     * @throws \Navplan\Shared\InvalidFormatException
-     */
-    public static function searchByPosition(array $args, IDbService $dbService) {
+    public static function searchByPosition(array $args, IDbService $dbService, IHttpResponseService $httpService) {
         $dbService->openDb();
 
         $searchItems = SearchHelper::checkEscapeSearchItems($dbService, $args[self::ARG_SEARCH_ITEMS]);
         $lon = floatval(StringNumberService::checkNumeric($args[self::ARG_LON]));
         $lat = floatval(StringNumberService::checkNumeric($args[self::ARG_LAT]));
         $maxRadius_deg = floatval(StringNumberService::checkNumeric($args[self::ARG_RADIUS]));
-        $minNotamTimestamp = $args[self::ARG_MIN_NOTAM_TIME] ? intval(StringNumberService::checkNumeric($args[self::ARG_MIN_NOTAM_TIME])) : 0;
-        $maxNotamTimestamp = $args[self::ARG_MAX_NOTAM_TIME] ? intval(StringNumberService::checkNumeric($args[self::ARG_MAX_NOTAM_TIME])) : 0;
-        $email = UserHelper::escapeAuthenticatedEmailOrNull($dbService, $args[self::ARG_TOKEN]);
+        $minNotamTimestamp = isset($args[self::ARG_MIN_NOTAM_TIME]) ? intval(StringNumberService::checkNumeric($args[self::ARG_MIN_NOTAM_TIME])) : 0;
+        $maxNotamTimestamp = isset($args[self::ARG_MAX_NOTAM_TIME]) ? intval(StringNumberService::checkNumeric($args[self::ARG_MAX_NOTAM_TIME])) : 0;
+        $email = isset($args[self::ARG_TOKEN]) ? UserHelper::escapeAuthenticatedEmailOrNull($dbService, $args[self::ARG_TOKEN]) : NULL;
 
         $resultNum = 0;
         $airports = [];
@@ -81,16 +77,19 @@ class SearchByPosition {
         }
 
 
-        SearchHelper::sendSearchResultResponse(array(
-            SearchItem::AIRPORTS => $airports,
-            SearchItem::NAVAIDS => $navaids,
-            SearchItem::AIRSPACES => [],
-            SearchItem::REPORTINGPOINTS => $reportingPoints,
-            SearchItem::USERPOINTS => $userPoints,
-            SearchItem::WEBCAMS => [],
-            SearchItem::GEONAMES => $geonames,
-            SearchItem::NOTAMS => $notams
-        ));
+        SearchHelper::sendSearchResultResponse(
+            array(
+                SearchItem::AIRPORTS => $airports,
+                SearchItem::NAVAIDS => $navaids,
+                SearchItem::AIRSPACES => [],
+                SearchItem::REPORTINGPOINTS => $reportingPoints,
+                SearchItem::USERPOINTS => $userPoints,
+                SearchItem::WEBCAMS => [],
+                SearchItem::GEONAMES => $geonames,
+                SearchItem::NOTAMS => $notams
+            ),
+            $httpService
+        );
 
         $dbService->closeDb();
     }

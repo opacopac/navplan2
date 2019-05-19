@@ -6,16 +6,16 @@ use InvalidArgumentException;
 
 
 class RequestResponseHelper {
-    public static function sendArrayResponseWithRoot(string $rootElement, array $data, ?string $callback = NULL, ?bool $jsonNumericCheck = FALSE) {
+    public static function sendArrayResponseWithRoot(IHttpResponseService $httpService, string $rootElement, array $data, ?string $callback = NULL, ?bool $jsonNumericCheck = FALSE) {
         if (strlen($rootElement) === 0) {
             throw new InvalidArgumentException('root element must not be empty');
         }
 
-        self::sendArrayResponse(array($rootElement => $data), $callback, $jsonNumericCheck);
+        self::sendArrayResponse($httpService, array($rootElement => $data), $callback, $jsonNumericCheck);
     }
 
 
-    public static function sendArrayResponse(array $data, ?string $callback = NULL, ?bool $jsonNumericCheck = FALSE) {
+    public static function sendArrayResponse(IHttpResponseService $httpService, array $data, ?string $callback = NULL, ?bool $jsonNumericCheck = FALSE) {
         if ($callback !== NULL && strlen($callback) === 0) {
             throw new InvalidArgumentException('callback must not be empty');
         }
@@ -27,17 +27,17 @@ class RequestResponseHelper {
 
         $json = json_encode($data, $jsonOptions);
 
-        self::sendStringResponse($json, $callback);
+        self::sendStringResponse($httpService, $json, $callback);
     }
 
 
-    public static function sendStringResponse(string $data, ?string $callback = NULL) {
+    public static function sendStringResponse(IHttpResponseService $httpService, string $data, ?string $callback = NULL) {
         $outputData = self::decorateWithCallback($data, $callback);
 
         if ($callback !== NULL) {
-            self::sendJsonp($outputData);
+            self::sendJsonp($httpService, $outputData);
         } else {
-            self::sendJson($outputData);
+            self::sendJson($httpService, $outputData);
         }
     }
 
@@ -55,14 +55,14 @@ class RequestResponseHelper {
     }
 
 
-    private static function sendJson(string $data) {
-        header("Content-Type: application/json; charset=UTF-8");
-        echo $data;
+    private static function sendJson(IHttpResponseService $httpService, string $data) {
+        $httpService->header("Content-Type: application/json; charset=UTF-8");
+        $httpService->payload($data);
     }
 
 
-    private static function sendJsonp(string $data) {
-        header("Content-Type: application/javascript; charset=UTF-8");
-        echo $data;
+    private static function sendJsonp(IHttpResponseService $httpService, string $data) {
+        $httpService->header("Content-Type: application/javascript; charset=UTF-8");
+        $httpService->payload($data);
     }
 }

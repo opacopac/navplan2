@@ -61,7 +61,7 @@ class SearchServiceProcessorTest extends TestCase {
     }
 
 
-    protected function setUp() {
+    protected function setUp(): void {
         parent::setUp();
 
         $this->httpService = new HttpResponseServiceMock();
@@ -84,13 +84,9 @@ class SearchServiceProcessorTest extends TestCase {
             SearchByText::ARG_SEARCH_ITEMS => SearchItem::NAVAIDS,
             SearchByText::ARG_SEARCH_TEXT => "FRI"
         );
-        $this->expectOutputRegex('/(.*)"kuerzel":"FRI1"/');
         $this->getDbService()->pushMockResult($this->getNavaidResultMock("FRI1"));
         SearchServiceProcessor::processRequest($getVars, $this->getDbService(), $this->getHttpService());
-
-        //var_dump($this->getHttpService());
-
-        //$this->assertRegExp('/(.*)"kuerzel":"FRI1"/', $this->getHttpService()->payloadList[0]);
+        $this->assertRegExp('/(.*)"kuerzel":"FRI1"/', $this->getHttpService()->body);
     }
 
 
@@ -102,9 +98,9 @@ class SearchServiceProcessorTest extends TestCase {
             SearchByPosition::ARG_LAT => "47.0",
             SearchByPosition::ARG_RADIUS => "10"
         );
-        $this->expectOutputRegex('/(.*)"kuerzel":"FRI2"/');
         $this->getDbService()->pushMockResult($this->getNavaidResultMock("FRI2"));
         SearchServiceProcessor::processRequest($getVars, $this->getDbService(), $this->getHttpService());
+        $this->assertRegExp('/(.*)"kuerzel":"FRI2"/', $this->getHttpService()->body);
     }
 
 
@@ -118,9 +114,9 @@ class SearchServiceProcessorTest extends TestCase {
             SearchByExtent::ARG_MAX_LAT => "7.1",
             SearchByExtent::ARG_ZOOM => "11"
         );
-        $this->expectOutputRegex('/(.*)"kuerzel":"FRI3"/');
         $this->getDbService()->pushMockResult($this->getNavaidResultMock("FRI3"));
         SearchServiceProcessor::processRequest($getVars, $this->getDbService(), $this->getHttpService());
+        $this->assertRegExp('/(.*)"kuerzel":"FRI3"/', $this->getHttpService()->body);
     }
 
 
@@ -130,8 +126,6 @@ class SearchServiceProcessorTest extends TestCase {
             SearchByIcao::ARG_SEARCH_ITEMS => SearchItem::REPORTINGPOINTS,
             SearchByIcao::ARG_ICAO => "LSZB"
         );
-        //TODO
-        //$this->expectOutputRegex('/(.*)"name":"W"/');
         $this->expectException("BadMethodCallException");
         $this->getDbService()->pushMockResult($this->getRepPointResultMock("W"));
         SearchServiceProcessor::processRequest($getVars, $this->getDbService(), $this->getHttpService());

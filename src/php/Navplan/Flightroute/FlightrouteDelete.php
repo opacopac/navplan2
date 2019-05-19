@@ -4,12 +4,13 @@ namespace Navplan\Flightroute;
 
 use Navplan\Shared\DbException;
 use Navplan\Shared\IDbService;
+use Navplan\Shared\IHttpResponseService;
 use Navplan\Shared\RequestResponseHelper;
 use Navplan\User\UserHelper;
 
 
 class FlightrouteDelete {
-    public static function deleteNavplan(IDbService $dbService, array $args) {
+    public static function deleteNavplan(IDbService $dbService, IHttpResponseService $httpService, array $args) {
         $dbService->openDb();
 
         $navplan_id = checkId(intval($args["id"]));
@@ -30,7 +31,7 @@ class FlightrouteDelete {
         $query = "DELETE FROM navplan WHERE id = '" . $navplan_id . "'";
         $dbService->execCUDQuery($query, "error deleting navplan");
 
-        RequestResponseHelper::sendArrayResponse(array("success" => 1));
+        RequestResponseHelper::sendArrayResponse($httpService, array("success" => 1));
 
         $dbService->closeDb();
     }

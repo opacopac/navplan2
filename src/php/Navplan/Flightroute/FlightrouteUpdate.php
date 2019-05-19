@@ -4,12 +4,13 @@ namespace Navplan\Flightroute;
 
 use Navplan\Shared\DbException;
 use Navplan\Shared\IDbService;
+use Navplan\Shared\IHttpResponseService;
 use Navplan\Shared\RequestResponseHelper;
 use Navplan\User\UserHelper;
 
 
 class FlightrouteUpdate {
-    public static function updateNavplan(IDbService $dbService, array $args) {
+    public static function updateNavplan(IDbService $dbService, IHttpResponseService $httpService, array $args) {
         $dbService->openDb();
 
         $navplan = FlightrouteHelper::escapeNavplanData($dbService, $args["globalData"]);
@@ -43,7 +44,7 @@ class FlightrouteUpdate {
 
         FlightrouteCreate::createWaypoints($dbService, $navplan["waypoints"], $navplan["alternate"], $navplan["id"]);
 
-        RequestResponseHelper::sendArrayResponse(array("success" => 1));
+        RequestResponseHelper::sendArrayResponse($httpService, array("success" => 1));
 
         $dbService->closeDb();
     }

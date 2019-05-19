@@ -7,11 +7,13 @@ require_once __DIR__ . "/../../config.php";
 use Navplan\User\UserHelper;
 use Navplan\User\UserUpdatePw;
 use NavplanTest\DbServiceMock;
+use NavplanTest\HttpResponseServiceMock;
 use PHPUnit\Framework\TestCase;
 
 
 class UserUpdatePwTest extends TestCase {
     private $dbService;
+    private $httpService;
 
 
     private function getDbService(): DbServiceMock {
@@ -19,10 +21,16 @@ class UserUpdatePwTest extends TestCase {
     }
 
 
-    protected function setUp() {
+    private function getHttpService(): HttpResponseServiceMock {
+        return $this->httpService;
+    }
+
+
+    protected function setUp(): void {
         parent::setUp();
 
         $this->dbService = new DbServiceMock();
+        $this->httpService = new HttpResponseServiceMock();
     }
 
 
@@ -31,15 +39,15 @@ class UserUpdatePwTest extends TestCase {
         $token = UserHelper::createToken($email, FALSE);
         $oldPassword = "123456";
         $newPassword = "654321";
-        $pw_hash = crypt($oldPassword);
+        $pw_hash = password_hash($oldPassword, PASSWORD_BCRYPT);
         $args = array("token" => $token, "oldpassword" => $oldPassword, "newpassword" => $newPassword);
         $this->getDbService()->pushMockResult([array("id" => 123456)]);
         $this->getDbService()->pushMockResult([array("pw_hash" => $pw_hash)]);
-        UserUpdatePw::updatePassword($this->getDbService(), $args);
+        UserUpdatePw::updatePassword($args, $this->getDbService(), $this->getHttpService());
 
-        $this->expectOutputRegex('/(.*)"resultcode":0/');
-        $this->expectOutputRegex('/(.*)"email":' . $email . '/');
-        $this->expectOutputRegex('/(.*)"token":".{10,}"/');
+        $this->assertRegExp('/(.*)"resultcode":0/', $this->getHttpService()->body);
+        $this->assertRegExp('/(.*)"email":"' . $email . '"/', $this->getHttpService()->body);
+        $this->assertRegExp('/(.*)"token":".{10,}"/', $this->getHttpService()->body);
     }
 
 
@@ -48,14 +56,14 @@ class UserUpdatePwTest extends TestCase {
         $token = UserHelper::createToken($email, FALSE);
         $oldPassword = "123456";
         $newPassword = "654321";
-        $pw_hash = crypt($oldPassword);
+        $pw_hash = password_hash($oldPassword, PASSWORD_BCRYPT);
         $args = array("token" => $token, "oldpassword" => $oldPassword, "newpassword" => $newPassword);
         $this->getDbService()->pushMockResult([array("id" => 123456)]);
         $this->getDbService()->pushMockResult([array("pw_hash" => $pw_hash)]);
-        UserUpdatePw::updatePassword($this->getDbService(), $args);
+        UserUpdatePw::updatePassword($args, $this->getDbService(), $this->getHttpService());
 
-        $this->assertContains("UPDATE users SET pw_hash", $this->getDbService()->lastQuery);
-        $this->expectOutputRegex('/(.*)"resultcode":0/');
+        $this->assertStringContainsString("UPDATE users SET pw_hash", $this->getDbService()->lastQuery);
+        $this->assertRegExp('/(.*)"resultcode":0/', $this->getHttpService()->body);
     }
 
 
@@ -65,9 +73,9 @@ class UserUpdatePwTest extends TestCase {
         $oldPassword = "123456";
         $newPassword = "654";
         $args = array("token" => $token, "oldpassword" => $oldPassword, "newpassword" => $newPassword);
-        UserUpdatePw::updatePassword($this->getDbService(), $args);
+        UserUpdatePw::updatePassword($args, $this->getDbService(), $this->getHttpService());
 
-        $this->expectOutputRegex('/(.*)"resultcode":-1/');
+        $this->assertRegExp('/(.*)"resultcode":-1/', $this->getHttpService()->body);
     }
 
 
@@ -76,9 +84,9 @@ class UserUpdatePwTest extends TestCase {
         $oldPassword = "123456";
         $newPassword = "654321";
         $args = array("token" => $token, "oldpassword" => $oldPassword, "newpassword" => $newPassword);
-        UserUpdatePw::updatePassword($this->getDbService(), $args);
+        UserUpdatePw::updatePassword($args, $this->getDbService(), $this->getHttpService());
 
-        $this->expectOutputRegex('/(.*)"resultcode":-2/');
+        $this->assertRegExp('/(.*)"resultcode":-2/', $this->getHttpService()->body);
     }
 
 
@@ -89,8 +97,8 @@ class UserUpdatePwTest extends TestCase {
         $newPassword = "654321";
         $this->getDbService()->pushMockResult([array("id" => 123456)]);
         $args = array("token" => $token, "oldpassword" => $oldPassword, "newpassword" => $newPassword);
-        UserUpdatePw::updatePassword($this->getDbService(), $args);
+        UserUpdatePw::updatePassword($args, $this->getDbService(), $this->getHttpService());
 
-        $this->expectOutputRegex('/(.*)"resultcode":-3/');
+        $this->assertRegExp('/(.*)"resultcode":-3/', $this->getHttpService()->body);
     }
 }

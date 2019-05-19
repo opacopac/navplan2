@@ -3,12 +3,13 @@
 namespace Navplan\Flightroute;
 
 use Navplan\Shared\IDbService;
+use Navplan\Shared\IHttpResponseService;
 use Navplan\Shared\RequestResponseHelper;
 use Navplan\User\UserHelper;
 
 
 class FlightrouteListRead {
-    public static function readNavplanList(IDbService $dbService, array $args) {
+    public static function readNavplanList(IDbService $dbService, IHttpResponseService $httpService, array $args) {
         $dbService->openDb();
 
         $email = UserHelper::escapeAuthenticatedEmailOrDie($dbService, $args["token"]);
@@ -29,7 +30,7 @@ class FlightrouteListRead {
             );
         }
 
-        RequestResponseHelper::sendArrayResponseWithRoot("navplanList", $navplans);
+        RequestResponseHelper::sendArrayResponseWithRoot($httpService,"navplanList", $navplans);
 
         $dbService->closeDb();
     }
