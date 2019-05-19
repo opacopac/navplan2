@@ -23,8 +23,8 @@ class DbServiceMock implements IDbService {
     }
 
 
-    public function pushMockResult(array $mockResultRows) {
-        array_push($this->mockResultList, $mockResultRows);
+    public function pushMockResult(array $resultSet) {
+        array_push($this->mockResultList, $resultSet);
     }
 
 

@@ -1,11 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\OpenAip\Domain;
+namespace Navplan\OpenAipRestService;
 
-use Navplan\OpenAipDbRepo\OpenAipRestHelper;
+use Navplan\OpenAip\Domain\Navaid;
+use Navplan\OpenAipRestService\OpenAipRestHelper;
 
 
-class RestNavaid {
+class NavaidRest {
     public static function toArray(Navaid $navaid): array {
         return array(
             "id" => $navaid->id,

@@ -53,7 +53,7 @@ class NavaidSearchTest extends TestCase {
     }
 
 
-    public function test_SearchByExtent() {
+    public function test_searchByExtent() {
         $navaidResult = $this->getNavaidSearch()->searchByExtent(7.0, 47.0, 7.9, 47.9, 11);
         $this->assertEquals(count($this->expectedResult), count($navaidResult));
 
@@ -67,7 +67,7 @@ class NavaidSearchTest extends TestCase {
     }
 
 
-    public function test_SearchByText() {
+    public function test_searchByText() {
         $navaidResult = $this->getNavaidSearch()->searchByText("FRI", 10);
         $this->assertEquals(count($this->expectedResult), count($navaidResult));
 
@@ -78,7 +78,7 @@ class NavaidSearchTest extends TestCase {
     }
 
 
-    public function test_SearchByPosition() {
+    public function test_searchByPosition() {
         $navaidResult = $this->getNavaidSearch()->searchByPosition(7.0, 47.0, 0.5, 10);
         $this->assertEquals(count($this->expectedResult), count($navaidResult));
 

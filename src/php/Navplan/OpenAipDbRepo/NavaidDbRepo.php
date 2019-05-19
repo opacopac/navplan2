@@ -9,7 +9,7 @@ use Navplan\Shared\IDbResult;
 use Navplan\Shared\IDbService;
 
 
-class DbRepoNavaid implements INavaidRepository {
+class NavaidDbRepo implements INavaidRepository {
     private $dbService;
 
 
