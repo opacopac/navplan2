@@ -54,8 +54,8 @@ class AirportDbRepoTest extends TestCase {
         $this->assertEquals($adDb['type'], $ad->type);
         $this->assertEquals($adDb['name'], $ad->name);
         $this->assertEquals($adDb['country'], $ad->country);
-        $this->assertEquals($adDb['latitude'], $ad->latitude);
-        $this->assertEquals($adDb['longitude'], $ad->longitude);
+        $this->assertEquals($adDb['latitude'], $ad->position->latitude);
+        $this->assertEquals($adDb['longitude'], $ad->position->longitude);
         $this->assertEquals($adDb['elevation'], $ad->elevation);
 
         for ($i = 0; $i < count($ad->runways); $i++) {

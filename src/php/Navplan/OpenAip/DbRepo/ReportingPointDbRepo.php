@@ -3,10 +3,11 @@
 namespace Navplan\OpenAip\DbRepo;
 
 use BadMethodCallException;
+use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\Domain\ReportingPoint;
 use Navplan\OpenAip\RepoGateway\IReportingPointRepo;
 use Navplan\Shared\DbHelper;
-use Navplan\Shared\Domain\Polygon;
+use Navplan\Geometry\Domain\Polygon;
 use Navplan\Shared\IDbResult;
 use Navplan\Shared\IDbService;
 use Navplan\Shared\StringNumberService;
@@ -93,9 +94,20 @@ class ReportingPointDbRepo implements IReportingPointRepo {
             !StringNumberService::isNullOrEmpty($rs, "outbd_comp") ? boolval($rs["outbd_comp"]): FALSE,
             !StringNumberService::isNullOrEmpty($rs, "min_ft") ? intval($rs["min_ft"]) : NULL,
             !StringNumberService::isNullOrEmpty($rs, "max_ft") ? intval($rs["max_ft"]) : NULL,
-            !StringNumberService::isNullOrEmpty($rs, "latitude") ? floatval($rs["latitude"]) : NULL, // only for reporting points
-            !StringNumberService::isNullOrEmpty($rs, "longitude") ? floatval($rs["longitude"]) : NULL, // only for reporting points
+            $this->readPos2dFromResult($rs), // only for reporting points
             !StringNumberService::isNullOrEmpty($rs, "polygon") ? Polygon::createFromString($rs["polygon"]) : NULL // only for reporting sectors
+        );
+    }
+
+
+    private function readPos2dFromResult(array $rs): ?Position2d {
+        if (StringNumberService::isNullOrEmpty($rs, "latitude") || StringNumberService::isNullOrEmpty($rs, "longitude")) {
+            return NULL;
+        }
+
+        return new Position2d(
+            floatval($rs["longitude"]),
+            floatval($rs["latitude"])
         );
     }
 }

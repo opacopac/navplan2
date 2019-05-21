@@ -17,8 +17,8 @@ class ReportingPointRest {
             "outbd_comp" => $rp->outbd_comp,
             "min_ft" => $rp->min_ft,
             "max_ft" => $rp->max_ft,
-            "latitude" => $rp->latitude ? RestHelper::reduceDegAccuracy($rp->latitude, "REPORTINGPOINT") : NULL, // only for reporting points
-            "longitude" => $rp->longitude ? RestHelper::reduceDegAccuracy($rp->longitude, "REPORTINGPOINT") : NULL, // only for reporting points
+            "latitude" => $rp->position ? RestHelper::reduceDegAccuracy($rp->position->latitude, "REPORTINGPOINT") : NULL, // only for reporting points
+            "longitude" => $rp->position ? RestHelper::reduceDegAccuracy($rp->position->longitude, "REPORTINGPOINT") : NULL, // only for reporting points
             "polygon" => $rp->polygon // only for reporting sectors
         );
     }

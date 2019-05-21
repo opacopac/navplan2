@@ -3,14 +3,15 @@
 namespace Navplan\OpenAip\Domain;
 
 
+use Navplan\Geometry\Domain\Position2d;
+
 class Airport {
     public $id;
     public $type;
     public $name;
     public $icao;
     public $country;
-    public $latitude;
-    public $longitude;
+    public $position;
     public $elevation;
     public $runways;
     public $radios;
@@ -25,8 +26,7 @@ class Airport {
         string $name,
         string $icao,
         string $country,
-        float $latitude,
-        float $longitude,
+        Position2d $position,
         float $elevation,
         array $runways,
         array $radios,
@@ -39,8 +39,7 @@ class Airport {
         $this->name = $name;
         $this->icao = $icao;
         $this->country = $country;
-        $this->latitude = $latitude;
-        $this->longitude = $longitude;
+        $this->position = $position;
         $this->elevation = $elevation;
         $this->runways = $runways;
         $this->radios = $radios;

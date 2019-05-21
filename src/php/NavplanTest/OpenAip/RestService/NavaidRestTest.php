@@ -17,8 +17,8 @@ class NavaidRestTest extends TestCase {
         $this->assertEquals($navaid->type, $navaidRest["type"]);
         $this->assertEquals($navaid->kuerzel, $navaidRest["kuerzel"]);
         $this->assertEquals($navaid->name, $navaidRest["name"]);
-        $this->assertEquals($navaid->latitude, $navaidRest["latitude"]);
-        $this->assertEquals($navaid->longitude, $navaidRest["longitude"]);
+        $this->assertEquals($navaid->position->latitude, $navaidRest["latitude"]);
+        $this->assertEquals($navaid->position->longitude, $navaidRest["longitude"]);
         $this->assertEquals($navaid->elevation, $navaidRest["elevation"]);
         $this->assertEquals($navaid->frequency, $navaidRest["frequency"]);
         $this->assertEquals($navaid->unit, $navaidRest["unit"]);

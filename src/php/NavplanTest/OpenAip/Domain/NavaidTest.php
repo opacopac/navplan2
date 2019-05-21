@@ -2,6 +2,7 @@
 
 namespace NavplanTest\OpenAip\Domain;
 
+use Navplan\Geometry\Domain\Position2d;
 use PHPUnit\Framework\TestCase;
 use Navplan\OpenAip\Domain\Navaid;
 
@@ -18,8 +19,7 @@ class NavaidTest extends TestCase {
             "VOR-DME",
             "FRI",
             "FRIBOURG",
-            46.7775,
-            7.22361,
+            new Position2d(7.22361,46.7775),
             799,
             "110.85",
             "MHz",
@@ -41,8 +41,7 @@ class NavaidTest extends TestCase {
             $values[6],
             $values[7],
             $values[8],
-            $values[9],
-            $values[10]
+            $values[9]
         );
     }
 
@@ -55,12 +54,12 @@ class NavaidTest extends TestCase {
         $this->assertEquals($values[1], $navaid->type);
         $this->assertEquals($values[2], $navaid->kuerzel);
         $this->assertEquals($values[3], $navaid->name);
-        $this->assertEquals($values[4], $navaid->latitude);
-        $this->assertEquals($values[5], $navaid->longitude);
-        $this->assertEquals($values[6], $navaid->elevation);
-        $this->assertEquals($values[7], $navaid->frequency);
-        $this->assertEquals($values[8], $navaid->unit);
-        $this->assertEquals($values[9], $navaid->declination);
-        $this->assertEquals($values[10], $navaid->truenorth);
+        $this->assertEquals($values[4]->latitude, $navaid->position->latitude);
+        $this->assertEquals($values[4]->longitude, $navaid->position->longitude);
+        $this->assertEquals($values[5], $navaid->elevation);
+        $this->assertEquals($values[6], $navaid->frequency);
+        $this->assertEquals($values[7], $navaid->unit);
+        $this->assertEquals($values[8], $navaid->declination);
+        $this->assertEquals($values[9], $navaid->truenorth);
     }
 }

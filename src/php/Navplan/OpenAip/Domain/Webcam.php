@@ -2,23 +2,22 @@
 
 namespace Navplan\OpenAip\Domain;
 
+use Navplan\Geometry\Domain\Position2d;
+
 
 class Webcam {
     public $name;
     public $url;
-    public $latitude;
-    public $longitude;
+    public $position;
 
 
     public function __construct(
         string $name,
         string $url,
-        ?float $latitude,
-        ?float $longitude
+        ?Position2d $position
     ) {
         $this->name = $name;
         $this->url = $url;
-        $this->latitude = $latitude;
-        $this->longitude = $longitude;
+        $this->position = $position;
     }
 }

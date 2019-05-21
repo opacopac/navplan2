@@ -2,14 +2,15 @@
 
 namespace Navplan\OpenAip\Domain;
 
+use Navplan\Geometry\Domain\Position2d;
+
 
 class Navaid {
     public $id;
     public $type;
     public $kuerzel;
     public $name;
-    public $latitude;
-    public $longitude;
+    public $position;
     public $elevation;
     public $frequency;
     public $unit;
@@ -22,8 +23,7 @@ class Navaid {
         string $type,
         string $kuerzel,
         string $name,
-        float $latitude,
-        float $longitude,
+        Position2d $position,
         float $elevation,
         string $frequency,
         string $unit,
@@ -34,8 +34,7 @@ class Navaid {
         $this->type = $type;
         $this->name = $name;
         $this->kuerzel = $kuerzel;
-        $this->latitude = $latitude;
-        $this->longitude = $longitude;
+        $this->position = $position;
         $this->elevation = $elevation;
         $this->frequency = $frequency;
         $this->unit = $unit;

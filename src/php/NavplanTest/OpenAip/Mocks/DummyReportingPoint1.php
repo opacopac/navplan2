@@ -2,6 +2,7 @@
 
 namespace NavplanTest\OpenAip\Mocks;
 
+use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\Domain\ReportingPoint;
 
 
@@ -17,8 +18,7 @@ class DummyReportingPoint1 {
             true,
             3500,
             4500,
-            46.9458,
-            7.5475,
+            new Position2d(7.5475,46.9458),
             NULL
         );
     }

@@ -6,7 +6,7 @@ use Navplan\OpenAip\Domain\Airspace;
 use Navplan\OpenAip\Domain\AirspaceAltitude;
 use Navplan\OpenAip\RepoGateway\IAirspaceRepo;
 use Navplan\Shared\DbHelper;
-use Navplan\Shared\Domain\Polygon;
+use Navplan\Geometry\Domain\Polygon;
 use Navplan\Shared\GeoService;
 use Navplan\Shared\IDbResult;
 use Navplan\Shared\IDbService;

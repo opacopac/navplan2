@@ -18,8 +18,8 @@ class AirportRestTest extends TestCase {
         $this->assertEquals($ad->name, $adRest["name"]);
         $this->assertEquals($ad->icao, $adRest["icao"]);
         $this->assertEquals($ad->country, $adRest["country"]);
-        $this->assertEquals(round($ad->latitude, 6), $adRest["latitude"]);
-        $this->assertEquals(round($ad->longitude, 6), $adRest["longitude"]);
+        $this->assertEquals(round($ad->position->latitude, 6), $adRest["latitude"]);
+        $this->assertEquals(round($ad->position->longitude, 6), $adRest["longitude"]);
         $this->assertEquals($ad->elevation, $adRest["elevation"]);
         $this->assertEquals(count($ad->runways), count($adRest["runways"]));
         $this->assertEquals(count($ad->radios), count($adRest["radios"]));

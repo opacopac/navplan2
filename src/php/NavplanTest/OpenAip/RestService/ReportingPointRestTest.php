@@ -21,8 +21,8 @@ class ReportingPointRestTest extends TestCase {
         $this->assertEquals($rep->outbd_comp, $repRest["outbd_comp"]);
         $this->assertEquals($rep->min_ft, $repRest["min_ft"]);
         $this->assertEquals($rep->max_ft, $repRest["max_ft"]);
-        $this->assertEquals($rep->latitude, $repRest["latitude"]);
-        $this->assertEquals($rep->longitude, $repRest["longitude"]);
+        $this->assertEquals($rep->position->latitude, $repRest["latitude"]);
+        $this->assertEquals($rep->position->longitude, $repRest["longitude"]);
         $this->assertEquals($rep->polygon, $repRest["polygon"]);
     }
 }

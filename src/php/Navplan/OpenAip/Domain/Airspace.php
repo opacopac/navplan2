@@ -3,7 +3,7 @@
 namespace Navplan\OpenAip\Domain;
 
 
-use Navplan\Shared\Domain\Polygon;
+use Navplan\Geometry\Domain\Polygon;
 
 class Airspace {
     public $id;

@@ -17,7 +17,7 @@ class AirspaceRest {
                 "top" => AirspaceAltitudeRest::toArray($airspace->alt_top),
                 "bottom" => AirspaceAltitudeRest::toArray($airspace->alt_bottom)
             ),
-            "polygon" => $airspace->polygon->lonLatList
+            "polygon" => $airspace->polygon->position2dList
         );
     }
 }

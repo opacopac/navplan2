@@ -29,8 +29,8 @@ class NavaidDbRepoTest extends TestCase {
         $this->assertEquals($navaidDbResult['type'], $navaid->type);
         $this->assertEquals($navaidDbResult['kuerzel'], $navaid->kuerzel);
         $this->assertEquals($navaidDbResult['name'], $navaid->name);
-        $this->assertEquals($navaidDbResult['latitude'], $navaid->latitude);
-        $this->assertEquals($navaidDbResult['longitude'], $navaid->longitude);
+        $this->assertEquals($navaidDbResult['latitude'], $navaid->position->latitude);
+        $this->assertEquals($navaidDbResult['longitude'], $navaid->position->longitude);
         $this->assertEquals($navaidDbResult['elevation'], $navaid->elevation);
         $this->assertEquals($navaidDbResult['frequency'], $navaid->frequency);
         $this->assertEquals($navaidDbResult['unit'], $navaid->unit);

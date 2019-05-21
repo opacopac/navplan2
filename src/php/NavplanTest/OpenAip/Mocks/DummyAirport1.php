@@ -3,6 +3,7 @@
 namespace NavplanTest\OpenAip\Mocks;
 
 
+use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\Domain\Airport;
 use Navplan\OpenAip\Domain\AirportRadio;
 use Navplan\OpenAip\Domain\AirportRunway;
@@ -18,8 +19,7 @@ class DummyAirport1 {
             "BERN-BELP",
             "LSZB",
             "CH",
-            46.9122005,
-            7.4991705,
+            new Position2d(7.4991705, 46.9122005),
             510,
             [ self::createRunway1(), self::createRunway2() ],
             [ self::createRadio1(), self::createRadio2() ],

@@ -2,6 +2,7 @@
 
 namespace Navplan\OpenAip\DbRepo;
 
+use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\Domain\Navaid;
 use Navplan\OpenAip\RepoGateway\INavaidRepo;
 use Navplan\Shared\DbHelper;
@@ -91,8 +92,7 @@ class NavaidDbRepo implements INavaidRepo {
             $rs["type"],
             $rs["kuerzel"],
             $rs["name"],
-            floatval($rs["latitude"]),
-            floatval($rs["longitude"]),
+            new Position2d(floatval($rs["longitude"]), floatval($rs["latitude"])),
             floatval($rs["elevation"]),
             $rs["frequency"],
             $unit,

@@ -4,7 +4,7 @@ namespace NavplanTest\OpenAip\Mocks;
 
 use Navplan\OpenAip\Domain\Airspace;
 use Navplan\OpenAip\Domain\AirspaceAltitude;
-use Navplan\Shared\Domain\Polygon;
+use Navplan\Geometry\Domain\Polygon;
 
 
 class DummyAirspace1 {
@@ -17,7 +17,7 @@ class DummyAirspace1 {
             "CTR Payerne (HX): 128.67",
             new AirspaceAltitude("GND", 0, "F"),
             new AirspaceAltitude("STD", 100, "FL"),
-            new Polygon([
+            Polygon::createFromArray([
                 [6.9919444444444, 46.939444444444],
                 [7.0763888888889, 46.875833333333],
                 [6.8536111111111, 46.735555555556],

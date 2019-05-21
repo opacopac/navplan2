@@ -4,7 +4,7 @@ namespace NavplanTest\OpenAip\DbRepo;
 
 use Navplan\OpenAip\DbRepo\ReportingPointDbRepo;
 use Navplan\OpenAip\Domain\ReportingPoint;
-use Navplan\Shared\Domain\Polygon;
+use Navplan\Geometry\Domain\Polygon;
 use NavplanTest\DbServiceMock;
 use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;
 use NavplanTest\OpenAip\Mocks\DummyReportingSector1;
@@ -36,8 +36,16 @@ class ReportingPointDbRepoTest extends TestCase {
         $this->assertEquals($dbRepPoint['outbd_comp'], $repPoint->outbd_comp);
         $this->assertEquals($dbRepPoint['min_ft'], $repPoint->min_ft);
         $this->assertEquals($dbRepPoint['max_ft'], $repPoint->max_ft);
-        $this->assertEquals($dbRepPoint['latitude'], $repPoint->latitude);
-        $this->assertEquals($dbRepPoint['longitude'], $repPoint->longitude);
+        if ($dbRepPoint['latitude']) {
+            $this->assertEquals($dbRepPoint['latitude'], $repPoint->position->latitude);
+        } else {
+            $this->assertEquals(NULL, $repPoint->position);
+        }
+        if ($dbRepPoint['latitude']) {
+            $this->assertEquals($dbRepPoint['longitude'], $repPoint->position->longitude);
+        } else {
+            $this->assertEquals(NULL, $repPoint->position);
+        }
         $this->assertEquals($dbRepPoint['polygon'] ? Polygon::createFromString($dbRepPoint['polygon']) : NULL, $repPoint->polygon);
     }
 
@@ -57,7 +65,7 @@ class ReportingPointDbRepoTest extends TestCase {
         $repPointDbResult1 = DummyReportingPoint1::createDbResult();
         $repPointDbResult2 = DummyReportingSector1::createDbResult();
         $this->getDbService()->pushMockResult([$repPointDbResult1, $repPointDbResult2]);
-        $repPointResultList = $this->getDbRepo()->searchByExtent(7.0, 47.0, 7.9, 47.9, 11);
+        $repPointResultList = $this->getDbRepo()->searchByExtent(7.0, 47.0, 7.9, 47.9);
 
         $this->assertEquals(2, count($repPointResultList));
         $this->assertEqualReportingPoint($repPointDbResult1, $repPointResultList[0]);

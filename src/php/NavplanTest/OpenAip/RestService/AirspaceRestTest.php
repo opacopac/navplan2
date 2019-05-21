@@ -23,6 +23,6 @@ class AirspaceRestTest extends TestCase {
         $this->assertEquals($as->alt_top->reference, $asRest["alt"]["top"]["ref"]);
         $this->assertEquals($as->alt_top->height, $asRest["alt"]["top"]["height"]);
         $this->assertEquals($as->alt_top->unit, $asRest["alt"]["top"]["unit"]);
-        $this->assertEquals($as->polygon->lonLatList, $asRest["polygon"]);
+        $this->assertEquals($as->polygon->position2dList, $asRest["polygon"]);
     }
 }

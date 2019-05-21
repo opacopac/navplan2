@@ -2,6 +2,7 @@
 
 namespace NavplanTest\OpenAip\Mocks;
 
+use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\Domain\Navaid;
 
 
@@ -12,8 +13,7 @@ class DummyNavaid1 {
             "VOR-DME",
             "FRI",
             "FRIBOURG",
-            46.7775,
-            7.22361,
+            new Position2d(7.22361,46.7775),
             799,
             "110.85",
             "MHz",

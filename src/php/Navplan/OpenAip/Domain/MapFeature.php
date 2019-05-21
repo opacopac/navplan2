@@ -2,23 +2,22 @@
 
 namespace Navplan\OpenAip\Domain;
 
+use Navplan\Geometry\Domain\Position2d;
+
 
 class MapFeature {
     public $type;
     public $name;
-    public $longitude;
-    public $latitude;
+    public $position;
 
 
     public function __construct(
         string $type,
         string $name,
-        ?float $longitude,
-        ?float $latitude
+        ?Position2d $position
     ) {
         $this->type = $type;
         $this->name = $name;
-        $this->longitude = $longitude;
-        $this->latitude = $latitude;
+        $this->position = $position;
     }
 }

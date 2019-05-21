@@ -2,7 +2,8 @@
 
 namespace Navplan\OpenAip\Domain;
 
-use Navplan\Shared\Domain\Polygon;
+use Navplan\Geometry\Domain\Polygon;
+use Navplan\Geometry\Domain\Position2d;
 
 
 // TODO: split into ReportingPoint & ReportingSector
@@ -16,8 +17,7 @@ class ReportingPoint {
     public $outbd_comp;
     public $min_ft;
     public $max_ft;
-    public $latitude;
-    public $longitude;
+    public $position;
     public $polygon;
 
 
@@ -31,8 +31,7 @@ class ReportingPoint {
         bool $outbd_comp,
         ?int $min_ft,
         ?int $max_ft,
-        ?float $latitude,
-        ?float $longitude,
+        ?Position2d $position,
         ?Polygon $polygon
     ) {
         $this->id = $id;
@@ -44,8 +43,7 @@ class ReportingPoint {
         $this->outbd_comp = $outbd_comp;
         $this->min_ft = $min_ft;
         $this->max_ft = $max_ft;
-        $this->latitude = $latitude;
-        $this->longitude = $longitude;
+        $this->position = $position;
         $this->polygon = $polygon;
     }
 }

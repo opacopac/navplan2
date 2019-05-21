@@ -3,7 +3,7 @@
 namespace NavplanTest\OpenAip\Mocks;
 
 use Navplan\OpenAip\Domain\ReportingPoint;
-use Navplan\Shared\Domain\Polygon;
+use Navplan\Geometry\Domain\Polygon;
 
 
 class DummyReportingSector1 {
@@ -13,7 +13,6 @@ class DummyReportingSector1 {
             "SECTOR",
             "LSGE",
             "Sect S",
-            NULL,
             NULL,
             NULL,
             NULL,

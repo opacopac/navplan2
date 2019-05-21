@@ -3,6 +3,7 @@
 namespace Navplan\OpenAip\DbRepo;
 
 use BadMethodCallException;
+use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\Domain\Airport;
 use Navplan\OpenAip\Domain\AirportRadio;
 use Navplan\OpenAip\Domain\AirportRunway;
@@ -247,8 +248,7 @@ class AirportDbRepo implements IAirportRepo {
             $rs["name"],
             $rs["icao"],
             $rs["country"],
-            floatval($rs["latitude"]),
-            floatval($rs["longitude"]),
+            new Position2d(floatval($rs["longitude"]), floatval($rs["latitude"])),
             floatval($rs["elevation"]),
             [],
             [],

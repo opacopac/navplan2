@@ -4,7 +4,7 @@ namespace NavplanTest\OpenAip\DbRepo;
 
 use Navplan\OpenAip\DbRepo\AirspaceDbRepo;
 use Navplan\OpenAip\Domain\Airspace;
-use Navplan\Shared\Domain\Polygon;
+use Navplan\Geometry\Domain\Polygon;
 use NavplanTest\DbServiceMock;
 use NavplanTest\OpenAip\Mocks\DummyAirspace1;
 use PHPUnit\Framework\TestCase;
