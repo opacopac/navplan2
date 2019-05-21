@@ -14,4 +14,14 @@ class StringNumberServiceTest extends TestCase {
         $val0 = StringNumberService::getValueOrNull($args, "key0");
         $this->assertEquals(NULL, $val0);
     }
+
+
+    public function test_isNullOrEmpty() {
+        $args = array("key1" => "val1", "key2" => "val2");
+        $val1 = StringNumberService::isNullOrEmpty($args, "key1");
+        $this->assertEquals(false, $val1);
+
+        $val0 = StringNumberService::isNullOrEmpty($args, "key0");
+        $this->assertEquals(true, $val0);
+    }
 }

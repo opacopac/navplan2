@@ -8,11 +8,20 @@ use http\Exception\InvalidArgumentException;
 class StringNumberService
 {
     public static function getValueOrNull(array $keyValues, string $key): ?string {
-        if (!$keyValues || !isset($keyValues[$key])) {
+        if (!isset($keyValues[$key])) {
             return NULL;
         }
 
         return $keyValues[$key];
+    }
+
+
+    public static function isNullOrEmpty(array $keyValues, string $key): bool {
+        if (!isset($keyValues[$key]) || $keyValues[$key] === '') {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 

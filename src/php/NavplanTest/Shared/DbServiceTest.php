@@ -1,4 +1,6 @@
-<?php namespace NavplanTest\Shared;
+<?php declare(strict_types=1);
+
+namespace NavplanTest\Shared;
 
 use Navplan\Shared\DbService;
 use Navplan\Shared\DbException;
