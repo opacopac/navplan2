@@ -10,8 +10,8 @@ class WebcamRest {
         return array(
             "name" => $cam->name,
             "url" => $cam->url,
-            "latitude" => $cam->latitude,
-            "longitude" => $cam->longitude
+            "latitude" => $cam->position ? $cam->position->latitude : NULL,
+            "longitude" => $cam->position ? $cam->position->longitude : NULL
         );
     }
 }
