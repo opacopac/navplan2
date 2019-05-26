@@ -9,8 +9,9 @@ ini_set('display_errors', '1');
 require_once __DIR__ . "/../config.php";
 require_once __DIR__ . "/../Autoloader.php";
 
+use Navplan\Geoname\DbRepo\GeonameDbRepoFactory;
+use Navplan\Geoname\IRepo\IGeonameRepoFactory;
 use Navplan\OpenAip\DbRepo\OpenAipDbRepoFactory;
-use Navplan\OpenAip\DbRepo\UserDbRepoFactory;
 use Navplan\OpenAip\IRepo\IOpenAipRepoFactory;
 use Navplan\Shared\FileService;
 use Navplan\Shared\HttpResponseService;
@@ -20,7 +21,8 @@ use Navplan\Shared\IHttpResponseService;
 use Navplan\Shared\IMailService;
 use Navplan\Shared\MailService;
 use Navplan\Shared\MySqlDbService;
-use Navplan\User\RepoGateway\IUserRepoFactory;
+use Navplan\User\DbRepo\UserDbRepoFactory;
+use Navplan\User\IRepo\IUserRepoFactory;
 
 // header("Access-Control-Allow-Origin: *"); // TODO: remove for PROD
 
@@ -58,5 +60,10 @@ class NavplanBootstrap {
 
     public static function getUserDbRepoFactory(IDbService $dbService): IUserRepoFactory {
         return new UserDbRepoFactory($dbService);
+    }
+
+
+    public static function getGeonameDbRepoFactory(IDbService $dbService): IGeonameRepoFactory {
+        return new GeonameDbRepoFactory($dbService);
     }
 }

@@ -4,7 +4,6 @@ namespace Navplan\Search\Rest;
 
 use InvalidArgumentException;
 use Navplan\Search\Domain\SearchByIcaoQuery;
-use Navplan\Search\IConfig\ISearchConfig;
 use Navplan\Shared\StringNumberService;
 
 
@@ -15,10 +14,7 @@ class SearchByIcaoQueryRest {
     const ARG_MAX_NOTAM_TIME = "maxnotamtime";
 
 
-    public static function fromArray(
-        array $args,
-        ISearchConfig $config // TODO: remove
-    ): SearchByIcaoQuery {
+    public static function fromArray(array $args): SearchByIcaoQuery {
         $searchItems = SearchItemTypeRest::fromString(StringNumberService::parseStringOrError($args, self::ARG_SEARCH_ITEMS));
         $icaoList = self::checkEscapeIcaoList($args[self::ARG_ICAO]);
         $minNotamTimestamp = StringNumberService::parseIntOrZero($args, self::ARG_MIN_NOTAM_TIME);

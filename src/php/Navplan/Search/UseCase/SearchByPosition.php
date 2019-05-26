@@ -43,14 +43,16 @@ class SearchByPosition {
                     $resultNum += count($reportingPoints);
                     break;
                 case SearchItemType::USERPOINTS:
-                    $userPoints = $config->getUserRepoFactory()->createUserPointRepo()->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum), $query->email);
-                    $resultNum += count($userPoints);
+                    if ($query->token) {
+                        $userPoints = $config->getUserRepoFactory()->createUserPointRepo()->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum), $query->token);
+                        $resultNum += count($userPoints);
+                    }
                     break;
-                /*case SearchItemType::GEONAMES:
-                    $geonames = SearchItemGeoname::searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum));
+                case SearchItemType::GEONAMES:
+                    $geonames = $config->getGeonameRepoFactory()->createGeonameRepo()->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum));
                     $resultNum += count($geonames);
                     break;
-                case SearchItemType::NOTAMS:
+                /*case SearchItemType::NOTAMS:
                     $geonames = SearchItemNotam::searchByPosition($dbService, $lon, $lat, $minNotamTimestamp, $maxNotamTimestamp, self::getMaxPositionResults($resultNum));
                     $resultNum += count($geonames);
                     break;*/

@@ -60,6 +60,17 @@ class UserPointDbRepoTest extends TestCase {
     }
 
 
+    public function test_searchByExtent_escape_character() {
+        $upDbResult1 = DummyUserPoint1::createDbResult();
+        $this->getDbService()->pushMockResult([$upDbResult1]);
+        $extent = Extent::createFromCoords(7.0, 47.0, 7.9, 47.9);
+        $this->getDbRepo()->searchByExtent($extent, "asdf@asdf.c'om");
+
+        $this->assertRegExp("/asdf@asdf\.c\\\\'om/", $this->getDbService()->getAllQueriesString());
+        $this->assertNotRegExp("/asdf@asdf\.c'om/", $this->getDbService()->getAllQueriesString());
+    }
+
+
     public function test_searchByPosition() {
         $upDbResult1 = DummyUserPoint1::createDbResult();
         $upDbResult2 = DummyUserPoint2::createDbResult();
@@ -73,6 +84,17 @@ class UserPointDbRepoTest extends TestCase {
     }
 
 
+    public function test_searchByPosition_escape_character() {
+        $upDbResult1 = DummyUserPoint1::createDbResult();
+        $this->getDbService()->pushMockResult([$upDbResult1]);
+        $pos = new Position2d(7.0, 47.0);
+        $this->getDbRepo()->searchByPosition($pos, 0.5, 20, "asdf@asdf.c'om");
+
+        $this->assertRegExp("/asdf@asdf\.c\\\\'om/", $this->getDbService()->getAllQueriesString());
+        $this->assertNotRegExp("/asdf@asdf\.c'om/", $this->getDbService()->getAllQueriesString());
+    }
+
+
     public function test_searchByText() {
         $upDbResult1 = DummyUserPoint1::createDbResult();
         $upDbResult2 = DummyUserPoint2::createDbResult();
@@ -82,5 +104,17 @@ class UserPointDbRepoTest extends TestCase {
         $this->assertEquals(2, count($upResultList));
         $this->assertEqualUserPoint($upDbResult1, $upResultList[0]);
         $this->assertEqualUserPoint($upDbResult2, $upResultList[1]);
+    }
+
+
+    public function test_searchByText_escape_character() {
+        $upDbResult1 = DummyUserPoint1::createDbResult();
+        $this->getDbService()->pushMockResult([$upDbResult1]);
+        $this->getDbRepo()->searchByText("F'R;I", 20, "asdf@asdf.c'om");
+
+        $this->assertRegExp("/F\\\\'R;I/", $this->getDbService()->getAllQueriesString());
+        $this->assertNotRegExp("/F'R;I/", $this->getDbService()->getAllQueriesString());
+        $this->assertRegExp("/asdf@asdf\.c\\\\'om/", $this->getDbService()->getAllQueriesString());
+        $this->assertNotRegExp("/asdf@asdf\.c'om/", $this->getDbService()->getAllQueriesString());
     }
 }

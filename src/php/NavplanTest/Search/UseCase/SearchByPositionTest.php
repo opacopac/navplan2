@@ -6,12 +6,16 @@ use Navplan\Geometry\Domain\Position2d;
 use Navplan\Search\Domain\SearchByPositionQuery;
 use Navplan\Search\Domain\SearchItemType;
 use Navplan\Search\UseCase\SearchByPosition;
+use Navplan\User\UserHelper;
 use NavplanTest\OpenAip\Mocks\AirspaceRepoMock;
 use NavplanTest\OpenAip\Mocks\DummyAirspace1;
 use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;
 use NavplanTest\OpenAip\Mocks\DummyReportingSector1;
 use NavplanTest\OpenAip\Mocks\ReportingPointRepoMock;
 use NavplanTest\Search\Mocks\SearchConfigMock;
+use NavplanTest\User\Mocks\DummyUserPoint1;
+use NavplanTest\User\Mocks\DummyUserPoint2;
+use NavplanTest\User\Mocks\UserPointRepoMock;
 use PHPUnit\Framework\TestCase;
 
 
@@ -36,6 +40,12 @@ class SearchByPositionTest extends TestCase {
     }
 
 
+    private function getUserPointRepoMock(): UserPointRepoMock {
+        $repo = $this->getConfig()->getUserRepoFactory()->createUserPointRepo();
+        return $repo instanceof UserPointRepoMock ? $repo : NULL;
+    }
+
+
     protected function setUp(): void {
         $this->config = new SearchConfigMock();
     }
@@ -46,7 +56,7 @@ class SearchByPositionTest extends TestCase {
             [],
             new Position2d(7.0, 47.0),
             0.5,
-            "asdf@asef.com"
+            UserHelper::createToken("asdf@asef.com", FALSE)
         );
         $result = SearchByPosition::search($query, $this->getConfig());
         $this->assertNotNull($result);
@@ -66,7 +76,7 @@ class SearchByPositionTest extends TestCase {
             [SearchItemType::REPORTINGPOINTS],
             new Position2d(7.0, 47.0),
             0.5,
-            "asdf@asef.com"
+            UserHelper::createToken("asdf@asef.com", FALSE)
         );
         $airspaceResults = [ DummyAirspace1::create(), DummyAirspace1::create() ] ;
         $reportingPointResults = [ DummyReportingPoint1::create(), DummyReportingSector1::create() ];
@@ -77,5 +87,21 @@ class SearchByPositionTest extends TestCase {
         $this->assertNotNull($result);
         $this->assertEquals(count($reportingPointResults), count($result->reportingPoints));
         $this->assertEquals(0, count($result->airspaces));
+    }
+
+
+    public function test_search_no_token_no_userpoints() {
+        $query = new SearchByPositionQuery(
+            [SearchItemType::USERPOINTS],
+            new Position2d(7.0, 47.0),
+            0.5,
+            NULL
+        );
+        $upResults = [ DummyUserPoint1::create(), DummyUserPoint2::create() ];
+        $this->getUserPointRepoMock()->pushMockResult($upResults);
+
+        $result = SearchByPosition::search($query, $this->getConfig());
+        $this->assertNotNull($result);
+        $this->assertEquals(0, count($result->userPoints));
     }
 }

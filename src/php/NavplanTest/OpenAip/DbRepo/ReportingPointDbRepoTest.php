@@ -97,4 +97,14 @@ class ReportingPointDbRepoTest extends TestCase {
         $this->assertEqualReportingPoint($repPointDbResult1, $repPointResultList[0]);
         $this->assertEqualReportingPoint($repPointDbResult2, $repPointResultList[1]);
     }
+
+
+    public function test_searchByText_escape_character() {
+        $repPointDbResult1 = DummyReportingPoint1::createDbResult();
+        $this->getDbService()->pushMockResult([$repPointDbResult1]);
+        $this->getDbRepo()->searchByText("LS'Z", 20);
+
+        $this->assertRegExp("/LS\\\\'Z/", $this->getDbService()->getAllQueriesString());
+        $this->assertNotRegExp("/LS'Z/", $this->getDbService()->getAllQueriesString());
+    }
 }

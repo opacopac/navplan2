@@ -2,7 +2,10 @@
 
 namespace Navplan\User\UseCase;
 
-use Navplan\User\RepoGateway\IUserPointRepo;
+use Navplan\Geometry\Domain\Extent;
+use Navplan\Geometry\Domain\Position2d;
+use Navplan\User\IRepo\IUserPointRepo;
+use Navplan\User\UserHelper;
 
 
 class UserPointSearch {
@@ -19,18 +22,33 @@ class UserPointSearch {
     }
 
 
-    public function searchByExtent(float $minLon, float $minLat, float $maxLon, float $maxLat, string $email): array {
-        return $this->getRepo()->searchByExtent($minLon, $minLat, $maxLon, $maxLat, $email);
+    public function searchByExtent(Extent $extent, string $token): array {
+        $email = UserHelper::getEmailFromToken($token);
+        if (!$email) {
+            return [];
+        }
+
+        return $this->getRepo()->searchByExtent($extent, $email);
     }
 
 
-    public function searchByPosition(float $lon, float $lat, float $maxRadius_deg, int $maxResults, string $email): array {
-        return $this->getRepo()->searchByPosition($lon, $lat, $maxRadius_deg, $maxResults, $email);
+    public function searchByPosition(Position2d $position, float $maxRadius_deg, int $maxResults, string $token): array {
+        $email = UserHelper::getEmailFromToken($token);
+        if (!$email) {
+            return [];
+        }
+
+        return $this->getRepo()->searchByPosition($position, $maxRadius_deg, $maxResults, $email);
 
     }
 
 
-    public function searchByText(string $searchText, int $maxResults, string $email): array {
+    public function searchByText(string $searchText, int $maxResults, string $token): array {
+        $email = UserHelper::getEmailFromToken($token);
+        if (!$email) {
+            return [];
+        }
+
         return $this->getRepo()->searchByText($searchText, $maxResults, $email);
     }
 }

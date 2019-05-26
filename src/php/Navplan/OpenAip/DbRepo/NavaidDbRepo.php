@@ -60,6 +60,7 @@ class NavaidDbRepo implements INavaidRepo {
 
 
     public function searchByText(string $searchText, int $maxResults): array {
+        $searchText = $this->getDbService()->escapeString($searchText);
         $query = "SELECT *";
         $query .= " FROM openaip_navaids";
         $query .= " WHERE";

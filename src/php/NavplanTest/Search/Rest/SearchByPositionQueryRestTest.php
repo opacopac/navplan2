@@ -4,17 +4,14 @@ namespace NavplanTest\Search\Rest;
 
 use Navplan\Search\Domain\SearchItemType;
 use Navplan\Search\Rest\SearchByPositionQueryRest;
-use NavplanTest\Search\Mocks\SearchConfigMock;
 use PHPUnit\Framework\TestCase;
 
 
 class SearchByPositionQueryRestTest extends TestCase {
     private $args;
-    private $config;
 
 
     protected function setUp(): void {
-        $this->config = new SearchConfigMock();
         $this->args = array(
             SearchByPositionQueryRest::ARG_SEARCH_ITEMS => "airports,navaids",
             SearchByPositionQueryRest::ARG_LON => "7.0",
@@ -26,12 +23,12 @@ class SearchByPositionQueryRestTest extends TestCase {
 
 
     public function testFromArray() {
-        $query = SearchByPositionQueryRest::fromArray($this->args, $this->config);
+        $query = SearchByPositionQueryRest::fromArray($this->args);
         $this->assertNotNull($query);
         $this->assertEquals([SearchItemType::AIRPORTS, SearchItemType::NAVAIDS], $query->searchItems);
         $this->assertEquals(7.0, $query->position->longitude);
         $this->assertEquals(47.0, $query->position->latitude);
         $this->assertEquals(0.5, $query->maxRadius_deg);
-        $this->assertEquals(NULL, $query->email);
+        $this->assertEquals(NULL, $query->token);
     }
 }

@@ -4,9 +4,7 @@ namespace Navplan\Search\Rest;
 
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Search\Domain\SearchByExtentQuery;
-use Navplan\Search\IConfig\ISearchConfig;
 use Navplan\Shared\StringNumberService;
-use Navplan\User\UserHelper;
 
 
 class SearchByExtentQueryRest {
@@ -21,10 +19,7 @@ class SearchByExtentQueryRest {
     const ARG_TOKEN = "token";
 
 
-    public static function fromArray(
-        array $args,
-        ISearchConfig $config // TODO: remove
-    ): SearchByExtentQuery {
+    public static function fromArray(array $args): SearchByExtentQuery {
         $searchItems = SearchItemTypeRest::fromString(StringNumberService::parseStringOrError($args, self::ARG_SEARCH_ITEMS));
         $minLon = StringNumberService::parseFloatOrError($args, self::ARG_MIN_LON);
         $minLat = StringNumberService::parseFloatOrError($args, self::ARG_MIN_LAT);
@@ -34,8 +29,7 @@ class SearchByExtentQueryRest {
         $zoom = StringNumberService::parseIntOrError($args, self::ARG_ZOOM);
         $minNotamTimestamp = StringNumberService::parseIntOrZero($args, self::ARG_MIN_NOTAM_TIME);
         $maxNotamTimestamp = StringNumberService::parseIntOrZero($args, self::ARG_MAX_NOTAM_TIME);
-        $email = isset($args[self::ARG_TOKEN]) ? UserHelper::escapeAuthenticatedEmailOrNull($config->getDbService(), $args[self::ARG_TOKEN]) : NULL;
-
+        $token = StringNumberService::parseStringOrNull($args, self::ARG_TOKEN);
 
         return new SearchByExtentQuery(
             $searchItems,
@@ -43,7 +37,7 @@ class SearchByExtentQueryRest {
             $zoom,
             $minNotamTimestamp,
             $maxNotamTimestamp,
-            $email
+            $token
         );
     }
 }

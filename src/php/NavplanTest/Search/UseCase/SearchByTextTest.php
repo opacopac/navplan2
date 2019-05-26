@@ -5,6 +5,7 @@ namespace NavplanTest\Search\UseCase;
 use Navplan\Search\Domain\SearchByTextQuery;
 use Navplan\Search\Domain\SearchItemType;
 use Navplan\Search\UseCase\SearchByText;
+use Navplan\User\UserHelper;
 use NavplanTest\Search\Mocks\SearchConfigMock;
 use NavplanTest\User\Mocks\DummyUserPoint1;
 use NavplanTest\User\Mocks\DummyUserPoint2;
@@ -36,7 +37,7 @@ class SearchByTextTest extends TestCase {
         $query = new SearchByTextQuery(
             [],
             "LSZB",
-            "asdf@asef.com"
+            UserHelper::createToken("asdf@asef.com", FALSE)
         );
         $result = SearchByText::search($query, $this->getConfig());
         $this->assertNotNull($result);
@@ -55,7 +56,7 @@ class SearchByTextTest extends TestCase {
         $query = new SearchByTextQuery(
             [SearchItemType::USERPOINTS],
             "LSZB",
-            "asdf@asef.com"
+            UserHelper::createToken("asdf@asef.com", FALSE)
         );
         $upResults = [ DummyUserPoint1::create(), DummyUserPoint2::create() ] ;
         $this->getUserPointRepoMock()->pushMockResult($upResults);
@@ -65,5 +66,20 @@ class SearchByTextTest extends TestCase {
         $this->assertNotNull($result);
         $this->assertEquals(count($upResults), count($result->userPoints));
         $this->assertEquals(0, count($result->geonames));
+    }
+
+
+    public function test_search_no_token_no_userpoints() {
+        $query = new SearchByTextQuery(
+            [SearchItemType::USERPOINTS],
+            "LSZB",
+            NULL
+        );
+        $upResults = [ DummyUserPoint1::create(), DummyUserPoint2::create() ];
+        $this->getUserPointRepoMock()->pushMockResult($upResults);
+
+        $result = SearchByText::search($query, $this->getConfig());
+        $this->assertNotNull($result);
+        $this->assertEquals(0, count($result->userPoints));
     }
 }

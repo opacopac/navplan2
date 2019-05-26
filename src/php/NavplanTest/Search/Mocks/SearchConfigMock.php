@@ -2,6 +2,7 @@
 
 namespace NavplanTest\Search\Mocks;
 
+use Navplan\Geoname\IRepo\IGeonameRepoFactory;
 use Navplan\Search\IConfig\ISearchConfig;
 use Navplan\Shared\IDbService;
 use Navplan\Shared\IMailService;
@@ -9,6 +10,7 @@ use Navplan\Shared\IHttpResponseService;
 use Navplan\OpenAip\IRepo\IOpenAipRepoFactory;
 use Navplan\User\IRepo\IUserRepoFactory;
 use NavplanTest\DbServiceMock;
+use NavplanTest\Geoname\Mocks\GeonameMockRepoFactory;
 use NavplanTest\HttpResponseServiceMock;
 use NavplanTest\MailServiceMock;
 use NavplanTest\OpenAip\Mocks\OpenAipMockRepoFactory;
@@ -21,6 +23,7 @@ class SearchConfigMock implements ISearchConfig {
     private $httpResponseService;
     private $openAipRepoFactory;
     private $userRepoFactory;
+    private $geonameRepoFactory;
 
 
     public function __construct() {
@@ -29,6 +32,7 @@ class SearchConfigMock implements ISearchConfig {
         $this->httpResponseService = new HttpResponseServiceMock();
         $this->openAipRepoFactory = new OpenAipMockRepoFactory();
         $this->userRepoFactory = new UserMockRepoFactory();
+        $this->geonameRepoFactory = new GeonameMockRepoFactory();
     }
 
 
@@ -54,5 +58,10 @@ class SearchConfigMock implements ISearchConfig {
 
     public function getUserRepoFactory(): IUserRepoFactory {
         return $this->userRepoFactory;
+    }
+
+
+    public function getGeonameRepoFactory(): IGeonameRepoFactory {
+        return $this->geonameRepoFactory;
     }
 }

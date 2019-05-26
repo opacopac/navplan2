@@ -69,6 +69,7 @@ class AirportDbRepo implements IAirportRepo {
 
 
     public function searchByText(string $searchText, int $maxResults): array {
+        $searchText = $this->getDbService()->escapeString($searchText);
         $query = "SELECT *";
         $query .= " FROM openaip_airports2";
         $query .= " WHERE";
@@ -121,6 +122,7 @@ class AirportDbRepo implements IAirportRepo {
 
 
     private function loadAirportRunways(array &$airports, string $apIdList) {
+        $this->getDbService()->escapeString($apIdList);
         $query  = "SELECT *";
         $query .= " FROM openaip_runways2";
         $query .= " WHERE operations = 'ACTIVE' AND airport_id IN (" . $apIdList . ")";
@@ -140,6 +142,7 @@ class AirportDbRepo implements IAirportRepo {
 
 
     private function loadAirportRadios(array &$airports, string $apIdList) {
+        $this->getDbService()->escapeString($apIdList);
         $query  = "SELECT *,";
         $query .= "  (CASE WHEN category = 'COMMUNICATION' THEN 1 WHEN category = 'OTHER' THEN 2 WHEN category = 'INFORMATION' THEN 3 ELSE 4 END) AS sortorder1,";
         $query .= "  (CASE WHEN type = 'TOWER' THEN 1 WHEN type = 'CTAF' THEN 2 WHEN type = 'OTHER' THEN 3 ELSE 4 END) AS sortorder2";
@@ -192,6 +195,7 @@ class AirportDbRepo implements IAirportRepo {
 
 
     private function loadAirportWebcams(array &$airports, string $apIcaoList) {
+        $this->getDbService()->escapeString($apIcaoList);
         $query  = "SELECT *";
         $query .= " FROM webcams";
         $query .= " WHERE airport_icao IN (" .  $apIcaoList . ")";
@@ -212,6 +216,7 @@ class AirportDbRepo implements IAirportRepo {
 
 
     private function loadAirportFeatures(array &$airports, string $apIcaoList) {
+        $this->getDbService()->escapeString($apIcaoList);
         $query  = "SELECT *";
         $query .= " FROM map_features";
         $query .= " WHERE airport_icao IN (" .  $apIcaoList . ")";

@@ -48,8 +48,10 @@ class SearchByExtent {
                     $resultNum += count($reportingPoints);
                     break;
                 case SearchItemType::USERPOINTS:
-                    $userPoints = $config->getUserRepoFactory()->createUserPointRepo()->searchByExtent($query->extent, $query->email);
-                    $resultNum += count($userPoints);
+                    if ($query->token) {
+                        $userPoints = $config->getUserRepoFactory()->createUserPointRepo()->searchByExtent($query->extent, $query->token);
+                        $resultNum += count($userPoints);
+                    }
                     break;
                 case SearchItemType::WEBCAMS:
                     $webcams = $config->getOpenAipRepoFactory()->createWebcamRepo()->searchByExtent($query->extent);

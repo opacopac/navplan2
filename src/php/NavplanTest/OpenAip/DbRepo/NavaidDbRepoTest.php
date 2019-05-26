@@ -83,4 +83,14 @@ class NavaidDbRepoTest extends TestCase {
         $this->assertEquals(1, count($navaidResultList));
         $this->assertEqualNavaid($navaidDbResult, $navaidResultList[0]);
     }
+
+
+    public function test_searchByText_escape_character() {
+        $navaidDbResult = DummyNavaid1::createDbResult();
+        $this->getDbService()->pushMockResult([$navaidDbResult]);
+        $this->getDbRepo()->searchByText("FR'I", 20);
+
+        $this->assertRegExp("/FR\\\\'I/", $this->getDbService()->getAllQueriesString());
+        $this->assertNotRegExp("/FR'I/", $this->getDbService()->getAllQueriesString());
+    }
 }

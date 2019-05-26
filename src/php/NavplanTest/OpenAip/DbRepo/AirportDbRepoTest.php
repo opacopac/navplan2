@@ -154,4 +154,13 @@ class AirportDbRepoTest extends TestCase {
         $this->assertEquals(1, count($adList));
         $this->assertEqualAirport($prepDbResults, $adList[0]);
     }
+
+
+    public function test_searchByText_escape_character() {
+        $this->prepareAirport1DbResult();
+        $this->getDbRepo()->searchByText("L'ZB", 20);
+
+        $this->assertRegExp("/L\\\\'ZB/", $this->getDbService()->getAllQueriesString());
+        $this->assertNotRegExp("/L'ZB/", $this->getDbService()->getAllQueriesString());
+    }
 }

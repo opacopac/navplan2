@@ -26,22 +26,22 @@ class SearchServiceProcessor {
         $action = isset($getVars[self::ARG_ACTION]) ? $getVars[self::ARG_ACTION] : NULL;
         switch ($action) {
             case self::ACTION_SEARCH_BY_TEXT:
-                $query = SearchByTextQueryRest::fromArray($getVars, $config);
+                $query = SearchByTextQueryRest::fromArray($getVars);
                 $result = SearchByText::search($query, $config);
                 self::sendSearchResultResponse($result, $config->getHttpResponseService());
                 break;
             case self::ACTION_SEARCH_BY_POSITION:
-                $query = SearchByPositionQueryRest::fromArray($getVars, $config);
+                $query = SearchByPositionQueryRest::fromArray($getVars);
                 $result = SearchByPosition::search($query, $config);
                 self::sendSearchResultResponse($result, $config->getHttpResponseService());
                 break;
             case self::ACTION_SEARCH_BY_EXTENT:
-                $query = SearchByExtentQueryRest::fromArray($getVars, $config);
+                $query = SearchByExtentQueryRest::fromArray($getVars);
                 $result = SearchByExtent::search($query, $config);
                 self::sendSearchResultResponse($result, $config->getHttpResponseService());
                 break;
             case self::ACTION_SEARCH_BY_ICAO:
-                $query = SearchByIcaoQueryRest::fromArray($getVars, $config);
+                $query = SearchByIcaoQueryRest::fromArray($getVars);
                 $result = SearchByIcao::search($query, $config);
                 self::sendSearchResultResponse($result, $config->getHttpResponseService());
                 break;

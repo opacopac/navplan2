@@ -9,8 +9,13 @@ use Navplan\Shared\IDbService;
 
 class DbServiceMock implements IDbService {
     private $mockResultList = [];
-    public $lastQuery = NULL;
+    public $lastQuery;
     public $lastQueryList = [];
+
+
+    public function getAllQueriesString(): string {
+        return join(' ', $this->lastQueryList);
+    }
 
 
     private function shiftMockResult($query): DbResultMock {

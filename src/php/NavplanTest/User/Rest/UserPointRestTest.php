@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\User\RestService;
+namespace NavplanTest\User\Rest;
 
 use Navplan\User\Rest\UserPointRest;
 use Navplan\User\Domain\UserPoint;

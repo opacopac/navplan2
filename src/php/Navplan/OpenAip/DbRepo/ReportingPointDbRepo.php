@@ -58,6 +58,7 @@ class ReportingPointDbRepo implements IReportingPointRepo {
 
 
     public function searchByText(string $searchText, int $maxResults): array {
+        $searchText = $this->getDbService()->escapeString($searchText);
         $query = "SELECT * FROM reporting_points";
         $query .= " WHERE";
         $query .= "   airport_icao LIKE '" . $searchText . "%'";

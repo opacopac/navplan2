@@ -6,16 +6,16 @@ namespace Navplan\Search\Domain;
 class SearchByTextQuery {
     public $searchItems;
     public $searchText;
-    public $email;
+    public $token;
 
 
     public function __construct(
         array $searchItems,
         string $searchText,
-        ?string $email
+        ?string $token
     ) {
         $this->searchItems = $searchItems;
         $this->searchText = $searchText;
-        $this->email = $email;
+        $this->token = $token;
     }
 }

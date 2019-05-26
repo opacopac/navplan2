@@ -42,13 +42,15 @@ class SearchByText {
                     $resultNum += count($reportingPoints);
                     break;
                 case SearchItemType::USERPOINTS:
-                    $userPoints = $config->getUserRepoFactory()->createUserPointRepo()->searchByText($query->searchText, self::getMaxTextResults($resultNum), $query->email);
-                    $resultNum += count($userPoints);
+                    if ($query->token) {
+                        $userPoints = $config->getUserRepoFactory()->createUserPointRepo()->searchByText($query->searchText, self::getMaxTextResults($resultNum), $query->token);
+                        $resultNum += count($userPoints);
+                    }
                     break;
-                /*case SearchItemType::GEONAMES:
-                    $geonames = SearchItemGeoname::searchByText($query->searchText, self::getMaxTextResults($resultNum));
+                case SearchItemType::GEONAMES:
+                    $geonames = $config->getGeonameRepoFactory()->createGeonameRepo()->searchByText($query->searchText, self::getMaxTextResults($resultNum));
                     $resultNum += count($geonames);
-                    break;*/
+                    break;
             }
         }
 

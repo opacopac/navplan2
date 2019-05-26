@@ -9,18 +9,18 @@ class SearchByPositionQuery {
     public $searchItems;
     public $position;
     public $maxRadius_deg;
-    public $email;
+    public $token;
 
 
     public function __construct(
         array $searchItems,
         Position2d $position,
         float $maxRadius_deg,
-        ?string $email
+        ?string $token
     ) {
         $this->searchItems = $searchItems;
         $this->position = $position;
         $this->maxRadius_deg = $maxRadius_deg;
-        $this->email = $email;
+        $this->token = $token;
     }
 }

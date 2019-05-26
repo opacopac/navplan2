@@ -11,7 +11,7 @@ class SearchByExtentQuery {
     public $zoom;
     public $minNotamTimestamp;
     public $maxNotamTimestamp;
-    public $email;
+    public $token;
 
 
     public function __construct(
@@ -20,13 +20,13 @@ class SearchByExtentQuery {
         int $zoom,
         int $minNotamTimestamp,
         int $maxNotamTimestamp,
-        ?string $email
+        ?string $token
     ) {
         $this->searchItems = $searchItems;
         $this->extent = $extent;
         $this->zoom = $zoom;
         $this->minNotamTimestamp = $minNotamTimestamp;
         $this->maxNotamTimestamp = $maxNotamTimestamp;
-        $this->email = $email;
+        $this->token = $token;
     }
 }

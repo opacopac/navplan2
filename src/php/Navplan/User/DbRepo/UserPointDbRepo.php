@@ -25,8 +25,9 @@ class UserPointDbRepo implements IUserPointRepo {
     }
 
 
-    // TODO: verify token!
     public function searchByExtent(Extent $extent, string $email): array {
+        $email = $this->getDbService()->escapeString($email);
+
         $query = "SELECT uwp.*";
         $query .= " FROM user_waypoints AS uwp";
         $query .= "   INNER JOIN users AS usr ON uwp.user_id = usr.id";
@@ -41,8 +42,9 @@ class UserPointDbRepo implements IUserPointRepo {
     }
 
 
-    // TODO: verify token!
     public function searchByPosition(Position2d $position, float $maxRadius_deg, int $maxResults, string $email): array {
+        $email = $this->getDbService()->escapeString($email);
+
         $query = "SELECT uwp.*";
         $query .= " FROM user_waypoints AS uwp";
         $query .= "   INNER JOIN users AS usr ON uwp.user_id = usr.id";
@@ -63,13 +65,15 @@ class UserPointDbRepo implements IUserPointRepo {
     }
 
 
-    // TODO: verify token!
     public function searchByText(string $searchText, int $maxResults, string $email): array {
+        $searchText = $this->getDbService()->escapeString($searchText);
+        $email = $this->getDbService()->escapeString($email);
+
         $query = "SELECT uwp.*";
         $query .= " FROM user_waypoints AS uwp";
         $query .= "   INNER JOIN users AS usr ON uwp.user_id = usr.id";
         $query .= " WHERE";
-        $query .= "   usr.email = '" . $email . "''";
+        $query .= "   usr.email = '" . $email . "'";
         $query .= "   AND name LIKE '" . $searchText . "%'";
         $query .= " ORDER BY name ASC";
         $query .= " LIMIT " . $maxResults;

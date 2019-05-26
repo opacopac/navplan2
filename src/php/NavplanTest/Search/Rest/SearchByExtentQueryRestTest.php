@@ -4,17 +4,14 @@ namespace NavplanTest\Search\Rest;
 
 use Navplan\Search\Domain\SearchItemType;
 use Navplan\Search\Rest\SearchByExtentQueryRest;
-use NavplanTest\Search\Mocks\SearchConfigMock;
 use PHPUnit\Framework\TestCase;
 
 
 class SearchByExtentQueryRestTest extends TestCase {
     private $args;
-    private $config;
 
 
     protected function setUp(): void {
-        $this->config = new SearchConfigMock();
         $this->args = array(
             SearchByExtentQueryRest::ARG_SEARCH_ITEMS => "airports,navaids",
             SearchByExtentQueryRest::ARG_MIN_LON => "7.0",
@@ -30,7 +27,7 @@ class SearchByExtentQueryRestTest extends TestCase {
 
 
     public function testFromArray() {
-        $query = SearchByExtentQueryRest::fromArray($this->args, $this->config);
+        $query = SearchByExtentQueryRest::fromArray($this->args);
         $this->assertNotNull($query);
         $this->assertEquals([SearchItemType::AIRPORTS, SearchItemType::NAVAIDS], $query->searchItems);
         $this->assertEquals(7.0, $query->extent->minPos->longitude);
@@ -40,6 +37,6 @@ class SearchByExtentQueryRestTest extends TestCase {
         $this->assertEquals(11, $query->zoom);
         $this->assertEquals(1558819678, $query->minNotamTimestamp);
         $this->assertEquals(1558919678, $query->maxNotamTimestamp);
-        $this->assertEquals(NULL, $query->email);
+        $this->assertEquals(NULL, $query->token);
     }
 }

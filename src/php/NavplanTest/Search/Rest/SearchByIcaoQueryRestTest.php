@@ -4,17 +4,14 @@ namespace NavplanTest\Search\Rest;
 
 use Navplan\Search\Domain\SearchItemType;
 use Navplan\Search\Rest\SearchByIcaoQueryRest;
-use NavplanTest\Search\Mocks\SearchConfigMock;
 use PHPUnit\Framework\TestCase;
 
 
 class SearchByIcaoQueryRestTest extends TestCase {
     private $args;
-    private $config;
 
 
     protected function setUp(): void {
-        $this->config = new SearchConfigMock();
         $this->args = array(
             SearchByIcaoQueryRest::ARG_SEARCH_ITEMS => "airports,navaids",
             SearchByIcaoQueryRest::ARG_ICAO => "LSZB,LSZG,LSMP",
@@ -25,7 +22,7 @@ class SearchByIcaoQueryRestTest extends TestCase {
 
 
     public function testFromArray() {
-        $query = SearchByIcaoQueryRest::fromArray($this->args, $this->config);
+        $query = SearchByIcaoQueryRest::fromArray($this->args);
         $this->assertNotNull($query);
         $this->assertEquals([SearchItemType::AIRPORTS, SearchItemType::NAVAIDS], $query->searchItems);
         $this->assertEquals(['LSZB', 'LSZG', 'LSMP'], $query->icaoList);
