@@ -57,7 +57,7 @@ class UserRegister {
         $token = UserHelper::escapeTrimInput($dbService, $args["token"]);
         $email = UserHelper::escapeAuthenticatedEmailOrNull($dbService, $token);
         $password = UserHelper::escapeTrimInput($dbService, $args["password"]);
-        $rememberMe = (StringNumberService::getValueOrNull($args, "rememberme") === "1");
+        $rememberMe = (StringNumberService::parseStringOrNull($args, "rememberme") === "1");
 
         if (!UserHelper::checkPwFormat($password)) {
             UserHelper::sendErrorResponse($httpService, new Message(-1, 'error: invalid password format'));

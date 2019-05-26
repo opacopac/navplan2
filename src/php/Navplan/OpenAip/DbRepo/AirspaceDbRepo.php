@@ -2,9 +2,10 @@
 
 namespace Navplan\OpenAip\DbRepo;
 
+use Navplan\Geometry\Domain\Extent;
 use Navplan\OpenAip\Domain\Airspace;
 use Navplan\OpenAip\Domain\AirspaceAltitude;
-use Navplan\OpenAip\RepoGateway\IAirspaceRepo;
+use Navplan\OpenAip\IRepo\IAirspaceRepo;
 use Navplan\Shared\DbHelper;
 use Navplan\Geometry\Domain\Polygon;
 use Navplan\Shared\GeoService;
@@ -30,8 +31,8 @@ class AirspaceDbRepo implements IAirspaceRepo {
     }
 
 
-    public function searchByExtent(float $minLon, float $minLat, float $maxLon, float $maxLat, int $zoom): array {
-        $extent = DbHelper::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
+    public function searchByExtent(Extent $extent, int $zoom): array {
+        $extent = DbHelper::getDbExtentPolygon2($extent);
         $pixelResolutionDeg = GeoService::calcDegPerPixelByZoom($zoom);
         $minDiameterDeg = $pixelResolutionDeg * self::MIN_PIXEL_AIRSPACE_DIAMETER;
         $query  = "SELECT";

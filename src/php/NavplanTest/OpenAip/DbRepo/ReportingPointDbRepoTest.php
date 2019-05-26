@@ -2,6 +2,8 @@
 
 namespace NavplanTest\OpenAip\DbRepo;
 
+use Navplan\Geometry\Domain\Extent;
+use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\DbRepo\ReportingPointDbRepo;
 use Navplan\OpenAip\Domain\ReportingPoint;
 use Navplan\Geometry\Domain\Polygon;
@@ -65,7 +67,8 @@ class ReportingPointDbRepoTest extends TestCase {
         $repPointDbResult1 = DummyReportingPoint1::createDbResult();
         $repPointDbResult2 = DummyReportingSector1::createDbResult();
         $this->getDbService()->pushMockResult([$repPointDbResult1, $repPointDbResult2]);
-        $repPointResultList = $this->getDbRepo()->searchByExtent(7.0, 47.0, 7.9, 47.9);
+        $extent = Extent::createFromCoords(7.0, 47.0, 7.9, 47.9);
+        $repPointResultList = $this->getDbRepo()->searchByExtent($extent);
 
         $this->assertEquals(2, count($repPointResultList));
         $this->assertEqualReportingPoint($repPointDbResult1, $repPointResultList[0]);
@@ -76,7 +79,8 @@ class ReportingPointDbRepoTest extends TestCase {
     public function test_searchByPosition() {
         $repPointDbResult1 = DummyReportingPoint1::createDbResult();
         $this->getDbService()->pushMockResult([$repPointDbResult1]);
-        $repPointResultList = $this->getDbRepo()->searchByPosition(7.0, 47.0, 0.5, 20);
+        $pos = new Position2d(7.0, 47.0);
+        $repPointResultList = $this->getDbRepo()->searchByPosition($pos, 0.5, 20);
 
         $this->assertEquals(1, count($repPointResultList));
         $this->assertEqualReportingPoint($repPointDbResult1, $repPointResultList[0]);

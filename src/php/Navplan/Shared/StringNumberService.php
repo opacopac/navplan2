@@ -2,26 +2,75 @@
 
 namespace Navplan\Shared;
 
-use http\Exception\InvalidArgumentException;
+use InvalidArgumentException;
 
 
 class StringNumberService
 {
-    public static function getValueOrNull(array $keyValues, string $key): ?string {
-        if (!isset($keyValues[$key])) {
-            return NULL;
-        }
-
-        return $keyValues[$key];
-    }
-
-
     public static function isNullOrEmpty(array $keyValues, string $key): bool {
         if (!isset($keyValues[$key]) || $keyValues[$key] === '') {
             return true;
         } else {
             return false;
         }
+    }
+
+
+    public static function parseStringOrNull(array $keyValues, string $key): ?string {
+        if (!isset($keyValues[$key])) {
+            return NULL;
+        }
+
+        return strval($keyValues[$key]);
+    }
+
+
+    public static function parseStringOrError(array $keyValues, string $key): string {
+        if (!isset($keyValues[$key])) {
+            throw new InvalidArgumentException("argument '" . $key . "' is missing'");
+        }
+
+        return strval($keyValues[$key]);
+    }
+
+
+    public static function parseIntOrZero(array $keyValues, string $key): int {
+        if (!isset($keyValues[$key]) || !is_numeric($keyValues[$key])) {
+            return 0;
+        }
+
+        return intval($keyValues[$key]);
+    }
+
+
+    public static function parseIntOrError(array $keyValues, string $key): int {
+        if (!isset($keyValues[$key])) {
+            throw new InvalidArgumentException("argument '" . $key . "' is missing'");
+        } else if (!is_numeric($keyValues[$key])) {
+            throw new InvalidArgumentException("parameter '" . $key . "' is not numeric: " . $keyValues[$key]);
+        }
+
+        return intval($keyValues[$key]);
+    }
+
+
+    public static function parseFloatOrZero(array $keyValues, string $key): float {
+        if (!isset($keyValues[$key]) || !is_numeric($keyValues[$key])) {
+            return 0;
+        }
+
+        return floatval($keyValues[$key]);
+    }
+
+
+    public static function parseFloatOrError(array $keyValues, string $key): float {
+        if (!isset($keyValues[$key])) {
+            throw new InvalidArgumentException("argument '" . $key . "' is missing'");
+        } else if (!is_numeric($keyValues[$key])) {
+            throw new InvalidArgumentException("parameter '" . $key . "' is not numeric: " . $keyValues[$key]);
+        }
+
+        return floatval($keyValues[$key]);
     }
 
 

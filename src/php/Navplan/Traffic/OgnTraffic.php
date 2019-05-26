@@ -24,12 +24,12 @@ class OgnTraffic
     public static function readTraffic(array $args, IFileService $fileService, IDbService $dbService, IHttpResponseService $httpService) {
         $dbService->openDb();
 
-        $minLat = floatval(StringNumberService::checkNumeric(StringNumberService::getValueOrNull($args, "minlat")));
-        $maxLat = floatval(StringNumberService::checkNumeric(StringNumberService::getValueOrNull($args, "maxlat")));
-        $minLon = floatval(StringNumberService::checkNumeric(StringNumberService::getValueOrNull($args, "minlon")));
-        $maxLon = floatval(StringNumberService::checkNumeric(StringNumberService::getValueOrNull($args, "maxlon")));
-        $maxAgeSec = intval(StringNumberService::checkNumeric(StringNumberService::getValueOrNull($args, "maxagesec")));
-        $sessionId = intval(StringNumberService::checkNumeric(StringNumberService::getValueOrNull($args, "sessionid")));
+        $minLat = floatval(StringNumberService::checkNumeric(StringNumberService::parseStringOrNull($args, "minlat")));
+        $maxLat = floatval(StringNumberService::checkNumeric(StringNumberService::parseStringOrNull($args, "maxlat")));
+        $minLon = floatval(StringNumberService::checkNumeric(StringNumberService::parseStringOrNull($args, "minlon")));
+        $maxLon = floatval(StringNumberService::checkNumeric(StringNumberService::parseStringOrNull($args, "maxlon")));
+        $maxAgeSec = intval(StringNumberService::checkNumeric(StringNumberService::parseStringOrNull($args, "maxagesec")));
+        $sessionId = intval(StringNumberService::checkNumeric(StringNumberService::parseStringOrNull($args, "sessionid")));
         $waitDataSec = isset($args["waitDataSec"]) ? intval(StringNumberService::checkNumeric($args["waitDataSec"])) : 0;
         $callback = isset($args["callback"]) ? StringNumberService::checkString($args["callback"], 1, 50) : NULL;
 

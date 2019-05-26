@@ -2,6 +2,7 @@
 
 namespace NavplanTest\OpenAip\DbRepo;
 
+use Navplan\Geometry\Domain\Extent;
 use Navplan\OpenAip\DbRepo\WebcamDbRepo;
 use Navplan\OpenAip\Domain\Webcam;
 use NavplanTest\DbServiceMock;
@@ -48,7 +49,8 @@ class WebcamDbRepoTest extends TestCase {
         $camDbResult1 = DummyWebcam1::createDbResult();
         $camDbResult2 = DummyWebcam2::createDbResult();
         $this->getDbService()->pushMockResult([$camDbResult1, $camDbResult2]);
-        $navaidResultList = $this->getDbRepo()->searchByExtent(7.0, 47.0, 7.9, 47.9);
+        $extent = Extent::createFromCoords(7.0, 47.0, 7.9, 47.9);
+        $navaidResultList = $this->getDbRepo()->searchByExtent($extent);
 
         $this->assertEquals(2, count($navaidResultList));
         $this->assertEqualNavaid($camDbResult1, $navaidResultList[0]);

@@ -15,7 +15,7 @@ class UserLogin
     {
         $dbService->openDb();
 
-        $argToken = StringNumberService::getValueOrNull($args, "token");
+        $argToken = StringNumberService::parseStringOrNull($args, "token");
         if (!$argToken) {
             UserHelper::sendErrorResponse($httpService, new Message(-1, 'error: token is missing'));
             return;
@@ -39,13 +39,13 @@ class UserLogin
     {
         $dbService->openDb();
 
-        $argEmail = StringNumberService::getValueOrNull($args, "email");
+        $argEmail = StringNumberService::parseStringOrNull($args, "email");
         if (!$argEmail) {
             UserHelper::sendErrorResponse($httpService, new Message(-1, 'error: email missing'));
             return;
         }
 
-        $argPw = StringNumberService::getValueOrNull($args, "password");
+        $argPw = StringNumberService::parseStringOrNull($args, "password");
         if (!$argPw) {
             UserHelper::sendErrorResponse($httpService, new Message(-2, 'error: password missing'));
             return;

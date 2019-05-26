@@ -2,9 +2,10 @@
 
 namespace Navplan\OpenAip\DbRepo;
 
+use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\Domain\Webcam;
-use Navplan\OpenAip\RepoGateway\IWebcamRepo;
+use Navplan\OpenAip\IRepo\IWebcamRepo;
 use Navplan\Shared\IDbService;
 use Navplan\Shared\StringNumberService;
 
@@ -23,11 +24,12 @@ class WebcamDbRepo implements IWebcamRepo {
     }
 
 
-    public function searchByExtent(float $minLon, float $minLat, float $maxLon, float $maxLat): array {
+    public function searchByExtent(Extent $extent): array {
         $query  = "SELECT *";
         $query .= " FROM webcams";
         $query .= " WHERE airport_icao IS NULL";
-        $query .= "   AND (longitude >= " . $minLon . " AND longitude <= " . $maxLon . " AND latitude >= " . $minLat . " AND latitude <= " . $maxLat . ")";
+        $query .= "   AND (longitude >= " . $extent->minPos->longitude . " AND longitude <= " . $extent->maxPos->longitude .
+            " AND latitude >= " . $extent->minPos->latitude . " AND latitude <= " . $extent->maxPos->latitude . ")";
 
         $result = $this->getDbService()->execMultiResultQuery($query, "error reading webcams");
 

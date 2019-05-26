@@ -3,9 +3,10 @@
 namespace Navplan\OpenAip\DbRepo;
 
 use BadMethodCallException;
+use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\Domain\ReportingPoint;
-use Navplan\OpenAip\RepoGateway\IReportingPointRepo;
+use Navplan\OpenAip\IRepo\IReportingPointRepo;
 use Navplan\Shared\DbHelper;
 use Navplan\Geometry\Domain\Polygon;
 use Navplan\Shared\IDbResult;
@@ -27,9 +28,9 @@ class ReportingPointDbRepo implements IReportingPointRepo {
     }
 
 
-    public function searchByExtent(float $minLon, float $minLat, float $maxLon, float $maxLat): array {
-        $extent = DbHelper::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
-        $query = "SELECT * FROM reporting_points WHERE MBRIntersects(extent, " . $extent . ")";
+    public function searchByExtent(Extent $extent): array {
+        $extentPoly = DbHelper::getDbExtentPolygon2($extent);
+        $query = "SELECT * FROM reporting_points WHERE MBRIntersects(extent, " . $extentPoly . ")";
 
         $result = $this->getDbService()->execMultiResultQuery($query, "error reading reporting points by extent");
 
@@ -37,16 +38,17 @@ class ReportingPointDbRepo implements IReportingPointRepo {
     }
 
 
-    public function searchByPosition(float $lon, float $lat, float $maxRadius_deg, int $maxResults): array {
+    public function searchByPosition(Position2d $position, float $maxRadius_deg, int $maxResults): array {
         $query = "SELECT *";
         $query .= " FROM reporting_points";
         $query .= " WHERE";
-        $query .= "  latitude > " . ($lat - $maxRadius_deg);
-        $query .= "  AND latitude < " . ($lat + $maxRadius_deg);
-        $query .= "  AND longitude > " . ($lon - $maxRadius_deg);
-        $query .= "  AND longitude < " . ($lon + $maxRadius_deg);
+        $query .= "  latitude > " . ($position->latitude - $maxRadius_deg);
+        $query .= "  AND latitude < " . ($position->latitude + $maxRadius_deg);
+        $query .= "  AND longitude > " . ($position->longitude - $maxRadius_deg);
+        $query .= "  AND longitude < " . ($position->longitude + $maxRadius_deg);
         $query .= " ORDER BY";
-        $query .= "  ((latitude - " . $lat . ") * (latitude - " . $lat . ") + (longitude - " . $lon . ") * (longitude - " . $lon . ")) ASC";
+        $query .= "  ((latitude - " . $position->latitude . ") * (latitude - " . $position->latitude .
+            ") + (longitude - " . $position->longitude . ") * (longitude - " . $position->longitude . ")) ASC";
         $query .= " LIMIT " . $maxResults;
 
         $result = $this->getDbService()->execMultiResultQuery($query,"error searching reporting points by position");

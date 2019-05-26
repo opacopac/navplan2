@@ -3,13 +3,14 @@
 namespace Navplan\OpenAip\DbRepo;
 
 use BadMethodCallException;
+use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\Domain\Airport;
 use Navplan\OpenAip\Domain\AirportRadio;
 use Navplan\OpenAip\Domain\AirportRunway;
 use Navplan\OpenAip\Domain\MapFeature;
 use Navplan\OpenAip\Domain\Webcam;
-use Navplan\OpenAip\RepoGateway\IAirportRepo;
+use Navplan\OpenAip\IRepo\IAirportRepo;
 use Navplan\Shared\DbHelper;
 use Navplan\Shared\IDbResult;
 use Navplan\Shared\IDbService;
@@ -29,44 +30,45 @@ class AirportDbRepo implements IAirportRepo {
     }
 
 
-    public function searchByExtent(float $minLon, float $minLat, float $maxLon, float $maxLat, int $zoom, string $email = NULL): array {
-        $extent = DbHelper::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
+    public function searchByExtent(Extent $extent, int $zoom): array {
+        $extentPoly = DbHelper::getDbExtentPolygon2($extent);
         $query  = "SELECT *";
         $query .= " FROM openaip_airports2";
         $query .= " WHERE";
-        $query .= "  ST_INTERSECTS(lonlat, " . $extent . ")";
+        $query .= "  ST_INTERSECTS(lonlat, " . $extentPoly . ")";
         $query .= "    AND";
         $query .= "  zoommin <= " . $zoom;
 
         $result = $this->getDbService()->execMultiResultQuery($query, "error searching airports by extent");
         $airports = self::readAirportFromResultList($result);
-        self::loadAirportSubItems($airports, $email);
+        self::loadAirportSubItems($airports);
 
         return $airports;
     }
 
 
-    public function searchByPosition(float $lon, float $lat, float $maxRadius_deg, int $maxResults, ?string $email = NULL): array {
+    public function searchByPosition(Position2d $position, float $maxRadius_deg, int $maxResults): array {
         $query  = "SELECT *";
         $query .= " FROM openaip_airports2";
         $query .= " WHERE";
-        $query .= "   latitude > " . ($lat - $maxRadius_deg);
-        $query .= "   AND latitude < " . ($lat + $maxRadius_deg);
-        $query .= "   AND longitude > " . ($lon - $maxRadius_deg);
-        $query .= "   AND longitude < " . ($lon + $maxRadius_deg);
+        $query .= "   latitude > " . ($position->latitude - $maxRadius_deg);
+        $query .= "   AND latitude < " . ($position->latitude + $maxRadius_deg);
+        $query .= "   AND longitude > " . ($position->longitude - $maxRadius_deg);
+        $query .= "   AND longitude < " . ($position->longitude + $maxRadius_deg);
         $query .= " ORDER BY";
-        $query .= "  ((latitude - " . $lat . ") * (latitude - " . $lat . ") + (longitude - " . $lon . ") * (longitude - " . $lon . ")) ASC";
+        $query .= "  ((latitude - " . $position->latitude . ") * (latitude - " . $position->latitude .
+            ") + (longitude - " . $position->longitude . ") * (longitude - " . $position->longitude . ")) ASC";
         $query .= " LIMIT " . $maxResults;
 
         $result = $this->getDbService()->execMultiResultQuery($query, "error searching airports by position");
         $airports = self::readAirportFromResultList($result);
-        self::loadAirportSubItems($airports, $email);
+        self::loadAirportSubItems($airports);
 
         return $airports;
     }
 
 
-    public function searchByText(string $searchText, int $maxResults, ?string $email = NULL): array {
+    public function searchByText(string $searchText, int $maxResults): array {
         $query = "SELECT *";
         $query .= " FROM openaip_airports2";
         $query .= " WHERE";
@@ -85,7 +87,7 @@ class AirportDbRepo implements IAirportRepo {
 
         $result = $this->getDbService()->execMultiResultQuery($query, "error searching airports by text");
         $airports = self::readAirportFromResultList($result);
-        self::loadAirportSubItems($airports, $email);
+        self::loadAirportSubItems($airports);
 
         return $airports;
     }
@@ -96,7 +98,7 @@ class AirportDbRepo implements IAirportRepo {
     }
 
 
-    private function loadAirportSubItems(array &$airports, ?string $email) {
+    private function loadAirportSubItems(array &$airports) {
         if (count($airports) == 0)
             return;
 
@@ -306,7 +308,6 @@ class AirportDbRepo implements IAirportRepo {
         return new Webcam(
             $rs["name"],
             $rs["url"],
-            NULL,
             NULL
         );
     }
@@ -316,7 +317,6 @@ class AirportDbRepo implements IAirportRepo {
         return new MapFeature(
             $rs["type"],
             $rs["name"],
-            NULL,
             NULL
         );
     }

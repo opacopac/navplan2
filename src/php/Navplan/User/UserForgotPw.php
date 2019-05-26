@@ -22,7 +22,7 @@ class UserForgotPw {
     public static function sendLostPwEmail(array $args, IDbService $dbService, IHttpResponseService $httpService, IMailService $mailService): void {
         $dbService->openDb();
 
-        if (!StringNumberService::getValueOrNull($args, "email")) {
+        if (!StringNumberService::parseStringOrNull($args, "email")) {
             UserHelper::sendErrorResponse($httpService, new Message(-1, 'error: email missing'));
             return;
         }
@@ -58,12 +58,12 @@ class UserForgotPw {
     public static function resetPassword(array $args, IDbService $dbService, IHttpResponseService $httpService): void {
         $dbService->openDb();
 
-        if (!StringNumberService::getValueOrNull($args, "token")) {
+        if (!StringNumberService::parseStringOrNull($args, "token")) {
             UserHelper::sendErrorResponse($httpService, new Message(-2, 'error: token missing'));
             return;
         }
 
-        if (!StringNumberService::getValueOrNull($args, "password")) {
+        if (!StringNumberService::parseStringOrNull($args, "password")) {
             UserHelper::sendErrorResponse($httpService, new Message(-1, 'error: password missing'));
             return;
         }
@@ -71,7 +71,7 @@ class UserForgotPw {
         $token = UserHelper::escapeTrimInput($dbService, $args["token"]);
         $email = UserHelper::escapeAuthenticatedEmailOrNull($dbService, $token);
         $password = UserHelper::escapeTrimInput($dbService, $args["password"]);
-        $rememberMe = (StringNumberService::getValueOrNull($args, "rememberme") === "1");
+        $rememberMe = (StringNumberService::parseStringOrNull($args, "rememberme") === "1");
 
         if (!UserHelper::checkPwFormat($password)) {
             UserHelper::sendErrorResponse($httpService, new Message(-1, 'error: invalid password format'));

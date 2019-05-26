@@ -2,7 +2,9 @@
 
 namespace Navplan\OpenAip\UseCase;
 
-use Navplan\OpenAip\RepoGateway\IAirportRepo;
+use Navplan\Geometry\Domain\Extent;
+use Navplan\Geometry\Domain\Position2d;
+use Navplan\OpenAip\IRepo\IAirportRepo;
 
 
 class AirportSearch {
@@ -19,13 +21,13 @@ class AirportSearch {
     }
 
 
-    public function searchByExtent(float $minLon, float $minLat, float $maxLon, float $maxLat, int $zoom): array {
-        return $this->getRepo()->searchByExtent($minLon, $minLat, $maxLon, $maxLat, $zoom);
+    public function searchByExtent(Extent $extent, int $zoom): array {
+        return $this->getRepo()->searchByExtent($extent, $zoom);
     }
 
 
-    public function searchByPosition(float $lon, float $lat, float $maxRadius_deg, int $maxResults): array {
-        return $this->getRepo()->searchByPosition($lon, $lat, $maxRadius_deg, $maxResults);
+    public function searchByPosition(Position2d $position, float $maxRadius_deg, int $maxResults): array {
+        return $this->getRepo()->searchByPosition($position, $maxRadius_deg, $maxResults);
 
     }
 

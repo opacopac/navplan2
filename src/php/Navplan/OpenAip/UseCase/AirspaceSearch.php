@@ -2,7 +2,8 @@
 
 namespace Navplan\OpenAip\UseCase;
 
-use Navplan\OpenAip\RepoGateway\IAirspaceRepo;
+use Navplan\Geometry\Domain\Extent;
+use Navplan\OpenAip\IRepo\IAirspaceRepo;
 
 
 class AirspaceSearch {
@@ -19,7 +20,7 @@ class AirspaceSearch {
     }
 
 
-    public function searchByExtent(float $minLon, float $minLat, float $maxLon, float $maxLat, int $zoom): array {
-        return $this->getRepo()->searchByExtent($minLon, $minLat, $maxLon, $maxLat, $zoom);
+    public function searchByExtent(Extent $extent, int $zoom): array {
+        return $this->getRepo()->searchByExtent($extent, $zoom);
     }
 }

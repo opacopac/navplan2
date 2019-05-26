@@ -4,11 +4,10 @@ namespace Navplan\Search;
 
 require_once __DIR__ . "/../NavplanBootstrap.php";
 
-use Navplan\NavplanBootstrap;
+use Navplan\Search\Config\SearchConfigProd;
+use Navplan\Search\Rest\SearchServiceProcessor;
 
 
-SearchServiceProcessor::processRequest(
-    $_GET,
-    NavplanBootstrap::getAndInitDbService(),
-    NavplanBootstrap::getHttpResponseService()
-);
+$args = $_GET;
+$config = new SearchConfigProd();
+SearchServiceProcessor::processRequest($args, $config);

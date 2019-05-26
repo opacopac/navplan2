@@ -14,12 +14,7 @@ class MailServiceMock implements IMailService {
     }
 
 
-    public static function getInstance(): IMailService {
-        return new MailServiceMock();
-    }
-
-
-    private function __construct() {
+    public function __construct() {
         $this->emailRecipient = NULL;
     }
 

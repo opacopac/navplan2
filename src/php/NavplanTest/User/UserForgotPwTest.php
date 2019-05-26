@@ -42,7 +42,7 @@ class UserForgotPwTest extends TestCase {
         $email = "test@navplan.ch";
         $this->getDbService()->pushMockResult([array("email" => $email)]);
         $args = array("email" => $email);
-        $mailService = MailServiceMock::getInstance();
+        $mailService = new MailServiceMock();
 
         UserForgotPw::sendLostPwEmail($args, $this->getDbService(), $this->getHttpService(), $mailService);
         $this->assertRegExp('/(.*)"resultcode":0/', $this->getHttpService()->body);
@@ -53,7 +53,7 @@ class UserForgotPwTest extends TestCase {
         $email = "test@navplan.ch";
         $this->getDbService()->pushMockResult([]);
         $args = array("email" => $email);
-        $mailService = MailServiceMock::getInstance();
+        $mailService = new MailServiceMock();
 
         UserForgotPw::sendLostPwEmail($args, $this->getDbService(), $this->getHttpService(), $mailService);
         $this->assertRegExp('/(.*)"resultcode":-2/', $this->getHttpService()->body);
@@ -64,7 +64,7 @@ class UserForgotPwTest extends TestCase {
         $email = "test@navplan.ch";
         $this->getDbService()->pushMockResult([]);
         $args = array("wrongkey" => $email);
-        $mailService = MailServiceMock::getInstance();
+        $mailService = new MailServiceMock();
 
         UserForgotPw::sendLostPwEmail($args, $this->getDbService(), $this->getHttpService(), $mailService);
         $this->assertRegExp('/(.*)"resultcode":-1/', $this->getHttpService()->body);
@@ -75,7 +75,7 @@ class UserForgotPwTest extends TestCase {
         $email = "";
         $this->getDbService()->pushMockResult([]);
         $args = array("email" => $email);
-        $mailService = MailServiceMock::getInstance();
+        $mailService = new MailServiceMock();
 
         UserForgotPw::sendLostPwEmail($args, $this->getDbService(), $this->getHttpService(), $mailService);
         $this->assertRegExp('/(.*)"resultcode":-1/', $this->getHttpService()->body);
@@ -86,7 +86,7 @@ class UserForgotPwTest extends TestCase {
         $email = "www.test.com";
         $this->getDbService()->pushMockResult([]);
         $args = array("email" => $email);
-        $mailService = MailServiceMock::getInstance();
+        $mailService = new MailServiceMock();
 
         UserForgotPw::sendLostPwEmail($args, $this->getDbService(), $this->getHttpService(), $mailService);
         $this->assertRegExp('/(.*)"resultcode":-1/', $this->getHttpService()->body);
@@ -97,7 +97,7 @@ class UserForgotPwTest extends TestCase {
         $email = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890@navplan.ch";
         $this->getDbService()->pushMockResult([]);
         $args = array("email" => $email);
-        $mailService = MailServiceMock::getInstance();
+        $mailService = new MailServiceMock();
 
         UserForgotPw::sendLostPwEmail($args, $this->getDbService(), $this->getHttpService(), $mailService);
         $this->assertRegExp('/(.*)"resultcode":-1/', $this->getHttpService()->body);

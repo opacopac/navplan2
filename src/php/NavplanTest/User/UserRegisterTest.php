@@ -38,7 +38,7 @@ class UserRegisterTest extends TestCase {
 
         $this->dbService = new DbServiceMock();
         $this->httpService = new HttpResponseServiceMock();
-        $this->mailService = MailServiceMock::getInstance();
+        $this->mailService = new MailServiceMock();
     }
 
 

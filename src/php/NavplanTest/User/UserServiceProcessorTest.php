@@ -24,7 +24,7 @@ class UserServiceProcessorTest extends TestCase {
         parent::setUp();
 
         $this->dbService = new DbServiceMock();
-        $this->mailService = MailServiceMock::getInstance();
+        $this->mailService = new MailServiceMock();
         $this->httpService = new HttpResponseServiceMock();
     }
 

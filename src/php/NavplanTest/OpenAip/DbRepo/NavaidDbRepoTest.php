@@ -2,6 +2,8 @@
 
 namespace NavplanTest\OpenAip\DbRepo;
 
+use Navplan\Geometry\Domain\Extent;
+use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\Domain\Navaid;
 use Navplan\OpenAip\DbRepo\NavaidDbRepo;
 use NavplanTest\DbServiceMock;
@@ -53,7 +55,8 @@ class NavaidDbRepoTest extends TestCase {
     public function test_searchByExtent() {
         $navaidDbResult = DummyNavaid1::createDbResult();
         $this->getDbService()->pushMockResult([$navaidDbResult]);
-        $navaidResultList = $this->getDbRepo()->searchByExtent(7.0, 47.0, 7.9, 47.9, 11);
+        $extent = Extent::createFromCoords(7.0, 47.0, 7.9, 47.9);
+        $navaidResultList = $this->getDbRepo()->searchByExtent($extent, 11);
 
         $this->assertEquals(1, count($navaidResultList));
         $this->assertEqualNavaid($navaidDbResult, $navaidResultList[0]);
@@ -64,7 +67,8 @@ class NavaidDbRepoTest extends TestCase {
         $navaidDbResult1 = DummyNavaid1::createDbResult();
         $navaidDbResult2 = DummyNavaid1::createDbResult();
         $this->getDbService()->pushMockResult([$navaidDbResult1, $navaidDbResult2]);
-        $navaidResultList = $this->getDbRepo()->searchByPosition(7.0, 47.0, 0.5, 20);
+        $pos = new Position2d(7.0, 47.0);
+        $navaidResultList = $this->getDbRepo()->searchByPosition($pos, 0.5, 20);
 
         $this->assertEquals(2, count($navaidResultList));
         $this->assertEqualNavaid($navaidDbResult2, $navaidResultList[1]);

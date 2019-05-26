@@ -3,6 +3,8 @@
 namespace Navplan\Shared;
 
 
+use Navplan\Geometry\Domain\Extent;
+
 class DbHelper {
     public static function getDbTimeString(int $timestamp): string
     {
@@ -13,6 +15,17 @@ class DbHelper {
     public static function getDbExtentPolygon(float $minLon, float $minLat, float $maxLon, float $maxLat): string
     {
         return "ST_GeomFromText('POLYGON((" . $minLon . " " . $minLat . "," . $maxLon . " " . $minLat . "," . $maxLon . " " . $maxLat . "," . $minLon . " " . $maxLat . "," . $minLon . " " . $minLat . "))')";
+    }
+
+
+    public static function getDbExtentPolygon2(Extent $extent): string
+    {
+        return "ST_GeomFromText('POLYGON((" .
+            $extent->minPos->longitude . " " . $extent->minPos->latitude . "," .
+            $extent->maxPos->longitude . " " . $extent->minPos->latitude . "," .
+            $extent->maxPos->longitude . " " . $extent->maxPos->latitude . "," .
+            $extent->minPos->longitude . " " . $extent->maxPos->latitude . "," .
+            $extent->minPos->longitude . " " . $extent->minPos->latitude . "))')";
     }
 
 

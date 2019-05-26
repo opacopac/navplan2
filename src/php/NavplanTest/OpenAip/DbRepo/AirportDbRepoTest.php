@@ -2,6 +2,8 @@
 
 namespace NavplanTest\OpenAip\DbRepo;
 
+use Navplan\Geometry\Domain\Extent;
+use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\DbRepo\AirportDbRepo;
 use Navplan\OpenAip\Domain\Airport;
 use Navplan\OpenAip\Domain\AirportRadio;
@@ -127,7 +129,8 @@ class AirportDbRepoTest extends TestCase {
 
     public function test_searchByExtent() {
         $prepDbResults = $this->prepareAirport1DbResult();
-        $adList = $this->getDbRepo()->searchByExtent(7.0, 47.0, 7.9, 47.9, 11);
+        $extent = Extent::createFromCoords(7.0, 47.0, 7.9, 47.9);
+        $adList = $this->getDbRepo()->searchByExtent($extent, 11);
 
         $this->assertEquals(1, count($adList));
         $this->assertEqualAirport($prepDbResults, $adList[0]);
@@ -136,7 +139,8 @@ class AirportDbRepoTest extends TestCase {
 
     public function test_searchByPosition() {
         $prepDbResults = $this->prepareAirport1DbResult();
-        $adList = $this->getDbRepo()->searchByPosition(7.0, 47.0, 0.5, 20);
+        $pos = new Position2d(7.0, 47.0);
+        $adList = $this->getDbRepo()->searchByPosition($pos, 0.5, 20);
 
         $this->assertEquals(1, count($adList));
         $this->assertEqualAirport($prepDbResults, $adList[0]);

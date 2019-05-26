@@ -2,6 +2,7 @@
 
 namespace NavplanTest\OpenAip\DbRepo;
 
+use Navplan\Geometry\Domain\Extent;
 use Navplan\OpenAip\DbRepo\AirspaceDbRepo;
 use Navplan\OpenAip\Domain\Airspace;
 use Navplan\Geometry\Domain\Polygon;
@@ -55,7 +56,8 @@ class AirspaceDbRepoTest extends TestCase {
     public function test_searchByExtent() {
         $asDb = DummyAirspace1::createDbResult();
         $this->getDbService()->pushMockResult([$asDb]);
-        $asList = $this->getDbRepo()->searchByExtent(7.0, 47.0, 7.9, 47.9, 11);
+        $extent = Extent::createFromCoords(7.0, 47.0, 7.9, 47.9);
+        $asList = $this->getDbRepo()->searchByExtent($extent, 11);
 
         $this->assertEquals(1, count($asList));
         $this->assertEqualAirspace($asDb, $asList[0]);

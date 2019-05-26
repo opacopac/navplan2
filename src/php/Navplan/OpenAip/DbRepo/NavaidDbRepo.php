@@ -2,9 +2,10 @@
 
 namespace Navplan\OpenAip\DbRepo;
 
+use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\Domain\Navaid;
-use Navplan\OpenAip\RepoGateway\INavaidRepo;
+use Navplan\OpenAip\IRepo\INavaidRepo;
 use Navplan\Shared\DbHelper;
 use Navplan\Shared\IDbResult;
 use Navplan\Shared\IDbService;
@@ -24,8 +25,8 @@ class NavaidDbRepo implements INavaidRepo {
     }
 
 
-    public function searchByExtent(float $minLon, float $minLat, float $maxLon, float $maxLat, int $zoom): array {
-        $extent = DbHelper::getDbExtentPolygon($minLon, $minLat, $maxLon, $maxLat);
+    public function searchByExtent(Extent $extent, int $zoom): array {
+        $extent = DbHelper::getDbExtentPolygon2($extent);
         $query = "SELECT *";
         $query .= " FROM openaip_navaids2";
         $query .= " WHERE";
@@ -39,16 +40,17 @@ class NavaidDbRepo implements INavaidRepo {
     }
 
 
-    public function searchByPosition(float $lon, float $lat, float $maxRadius_deg, int $maxResults): array {
+    public function searchByPosition(Position2d $position, float $maxRadius_deg, int $maxResults): array {
         $query = "SELECT *";
         $query .= " FROM openaip_navaids";
         $query .= " WHERE";
-        $query .= "  latitude > " . ($lat - $maxRadius_deg);
-        $query .= "  AND latitude < " . ($lat + $maxRadius_deg);
-        $query .= "  AND longitude > " . ($lon - $maxRadius_deg);
-        $query .= "  AND longitude < " . ($lon + $maxRadius_deg);
+        $query .= "  latitude > " . ($position->latitude - $maxRadius_deg);
+        $query .= "  AND latitude < " . ($position->latitude + $maxRadius_deg);
+        $query .= "  AND longitude > " . ($position->longitude - $maxRadius_deg);
+        $query .= "  AND longitude < " . ($position->longitude + $maxRadius_deg);
         $query .= " ORDER BY";
-        $query .= "  ((latitude - " . $lat . ") * (latitude - " . $lat . ") + (longitude - " . $lon . ") * (longitude - " . $lon . ")) ASC";
+        $query .= "  ((latitude - " . $position->latitude . ") * (latitude - " . $position->latitude .
+            ") + (longitude - " . $position->longitude . ") * (longitude - " . $position->longitude . ")) ASC";
         $query .= " LIMIT " . $maxResults;
 
         $result = $this->getDbService()->execMultiResultQuery($query,"error searching navaids by position");
