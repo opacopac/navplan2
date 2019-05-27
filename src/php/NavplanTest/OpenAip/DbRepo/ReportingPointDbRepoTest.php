@@ -6,7 +6,7 @@ use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\DbRepo\ReportingPointDbRepo;
 use Navplan\OpenAip\Domain\ReportingPoint;
-use Navplan\Geometry\Domain\Polygon;
+use Navplan\Geometry\Domain\Ring2d;
 use NavplanTest\DbServiceMock;
 use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;
 use NavplanTest\OpenAip\Mocks\DummyReportingSector1;
@@ -48,7 +48,7 @@ class ReportingPointDbRepoTest extends TestCase {
         } else {
             $this->assertEquals(NULL, $repPoint->position);
         }
-        $this->assertEquals($dbRepPoint['polygon'] ? Polygon::createFromString($dbRepPoint['polygon']) : NULL, $repPoint->polygon);
+        $this->assertEquals($dbRepPoint['polygon'] ? Ring2d::createFromString($dbRepPoint['polygon']) : NULL, $repPoint->polygon);
     }
 
 

@@ -8,7 +8,7 @@ use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\Domain\ReportingPoint;
 use Navplan\OpenAip\IRepo\IReportingPointRepo;
 use Navplan\Shared\DbHelper;
-use Navplan\Geometry\Domain\Polygon;
+use Navplan\Geometry\Domain\Ring2d;
 use Navplan\Shared\IDbResult;
 use Navplan\Shared\IDbService;
 use Navplan\Shared\StringNumberService;
@@ -98,7 +98,7 @@ class ReportingPointDbRepo implements IReportingPointRepo {
             !StringNumberService::isNullOrEmpty($rs, "min_ft") ? intval($rs["min_ft"]) : NULL,
             !StringNumberService::isNullOrEmpty($rs, "max_ft") ? intval($rs["max_ft"]) : NULL,
             $this->readPos2dFromResult($rs), // only for reporting points
-            !StringNumberService::isNullOrEmpty($rs, "polygon") ? Polygon::createFromString($rs["polygon"]) : NULL // only for reporting sectors
+            !StringNumberService::isNullOrEmpty($rs, "polygon") ? Ring2d::createFromString($rs["polygon"]) : NULL // only for reporting sectors
         );
     }
 

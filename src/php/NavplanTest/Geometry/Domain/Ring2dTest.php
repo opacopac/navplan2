@@ -3,31 +3,31 @@
 namespace NavplanTest\Geometry\Domain;
 
 use InvalidArgumentException;
-use Navplan\Geometry\Domain\Polygon;
+use Navplan\Geometry\Domain\Ring2d;
 use PHPUnit\Framework\TestCase;
 
 
-class PolygonTest extends TestCase
+class Ring2dTest extends TestCase
 {
 
     public function test__construct()
     {
-        $poly = new Polygon([]);
+        $poly = new Ring2d([]);
         $this->assertNotNull($poly);
         $this->assertNotNull($poly->position2dList);
         $this->assertEquals(0, count($poly->position2dList));
 
-        $poly2 = new Polygon();
-        $this->assertNotNull($poly);
-        $this->assertNotNull($poly->position2dList);
-        $this->assertEquals(0, count($poly->position2dList));
+        $poly2 = new Ring2d();
+        $this->assertNotNull($poly2);
+        $this->assertNotNull($poly2->position2dList);
+        $this->assertEquals(0, count($poly2->position2dList));
     }
 
 
     public function test_createFromString()
     {
         $polyString = "7.1 47.1,7.9 47.9,8.1 48.1,7.1 47.1";
-        $poly = Polygon::createFromString($polyString);
+        $poly = Ring2d::createFromString($polyString);
 
         $this->assertNotNull($poly);
         $this->assertEquals(array(7.1, 47.1), $poly->position2dList[0]->toArray());
@@ -40,7 +40,7 @@ class PolygonTest extends TestCase
     public function test_createFromString2()
     {
         $polyString = "7.1 47.1, 7.9 47.9, 8.1 48.1, 7.1 47.1";
-        $poly = Polygon::createFromString($polyString);
+        $poly = Ring2d::createFromString($polyString);
 
         $this->assertNotNull($poly);
         $this->assertEquals(array(7.1, 47.1), $poly->position2dList[0]->toArray());
@@ -54,7 +54,7 @@ class PolygonTest extends TestCase
     {
         $polyString = "XXX";
         $this->expectException(InvalidArgumentException::class);
-        Polygon::createFromString($polyString);
+        Ring2d::createFromString($polyString);
     }
 
 
@@ -62,7 +62,7 @@ class PolygonTest extends TestCase
     {
         $polyString = "7.1 47.1,7.9 xx.x,8.1 48.1,7.1 47.1";
         $this->expectException(InvalidArgumentException::class);
-        Polygon::createFromString($polyString);
+        Ring2d::createFromString($polyString);
     }
 
 
@@ -70,21 +70,21 @@ class PolygonTest extends TestCase
     {
         $polyString = "7.1 47.1,7.9,8.1 48.1,7.1 47.1";
         $this->expectException(InvalidArgumentException::class);
-        Polygon::createFromString($polyString);
+        Ring2d::createFromString($polyString);
     }
 
 
     public function test_createFromArray()
     {
         $polyArray = [[7.1, 47.1], [7.9, 47.9], [8.1, 48.1], [7.1, 47.1]];
-        $poly = Polygon::createFromArray($polyArray);
+        $poly = Ring2d::createFromArray($polyArray);
         $this->assertEquals($poly->toArray(), $polyArray);
     }
 
 
     public function test_toString()
     {
-        $poly = Polygon::createFromArray([[7.1, 47.1], [7.9, 47.9], [8.1, 48.1], [7.1, 47.1]]);
+        $poly = Ring2d::createFromArray([[7.1, 47.1], [7.9, 47.9], [8.1, 48.1], [7.1, 47.1]]);
         $polyString = $poly->toString();
         $this->assertEquals("7.1 47.1,7.9 47.9,8.1 48.1,7.1 47.1", $polyString);
     }

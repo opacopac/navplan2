@@ -29,7 +29,7 @@ class NotamRest {
             "created" => $notam->created,
             "key" => $notam->key,
             "type" => $notam->type,
-            "geometry" => $notam->geometry
+            "geometry" => NotamGeometryRest::toArray($notam->geometry)
         );
     }
 }

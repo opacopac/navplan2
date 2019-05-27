@@ -49,7 +49,7 @@ class Notam {
         string $created,
         string $key,
         string $type,
-        ?string $geometry
+        ?NotamGeometry $geometry
     ) {
         $this->id = $id;
         $this->stateCode = $stateCode;

@@ -5,7 +5,7 @@ namespace Navplan\Geometry\Domain;
 use InvalidArgumentException;
 
 
-class Position2d {
+class Position2d implements IGeometry2d {
     public $longitude;
     public $latitude;
 

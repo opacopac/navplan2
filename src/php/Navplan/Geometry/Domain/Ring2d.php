@@ -5,32 +5,32 @@ namespace Navplan\Geometry\Domain;
 use InvalidArgumentException;
 
 
-class Polygon {
+class Ring2d implements IGeometry2d {
     public $position2dList = [];
 
 
     /**
-     * @param string $polygonString
+     * @param string $ringString
      * @param string $posSeparator
      * @param string $lonLatSeparator
-     * @return Polygon
+     * @return Ring2d
      * @throws InvalidArgumentException
      */
-    public static function createFromString(string $polygonString, string $posSeparator = ',', string $lonLatSeparator = ' '): Polygon {
-        return new Polygon(
+    public static function createFromString(string $ringString, string $posSeparator = ',', string $lonLatSeparator = ' '): Ring2d {
+        return new Ring2d(
             array_map(
                 function (string $posString) use ($lonLatSeparator) {
                     return Position2d::createFromString($posString, $lonLatSeparator);
                 },
-                explode($posSeparator, $polygonString),
+                explode($posSeparator, $ringString),
                 [$lonLatSeparator]
             )
         );
     }
 
 
-    public static function createFromArray(array $lonLatList): Polygon {
-        return new Polygon(
+    public static function createFromArray(array $lonLatList): Ring2d {
+        return new Ring2d(
             array_map(
                 function (array $lonLat) { return Position2d::createFromArray($lonLat); },
                 $lonLatList

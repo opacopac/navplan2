@@ -3,7 +3,7 @@
 namespace Navplan\OpenAip\Domain;
 
 
-use Navplan\Geometry\Domain\Polygon;
+use Navplan\Geometry\Domain\Ring2d;
 
 class Airspace {
     public $id;
@@ -24,7 +24,7 @@ class Airspace {
         string $name,
         AirspaceAltitude $alt_bottom,
         AirspaceAltitude $alt_top,
-        Polygon $polygon
+        Ring2d $polygon
     ) {
         $this->id = $id;
         $this->aip_id = $aip_id;

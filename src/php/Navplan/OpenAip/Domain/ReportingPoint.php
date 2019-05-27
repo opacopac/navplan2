@@ -2,7 +2,7 @@
 
 namespace Navplan\OpenAip\Domain;
 
-use Navplan\Geometry\Domain\Polygon;
+use Navplan\Geometry\Domain\Ring2d;
 use Navplan\Geometry\Domain\Position2d;
 
 
@@ -32,7 +32,7 @@ class ReportingPoint {
         ?int $min_ft,
         ?int $max_ft,
         ?Position2d $position,
-        ?Polygon $polygon
+        ?Ring2d $polygon
     ) {
         $this->id = $id;
         $this->type = $type;

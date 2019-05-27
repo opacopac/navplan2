@@ -2,7 +2,12 @@
 
 namespace NavplanTest\Notam\Mocks;
 
+use Navplan\Geometry\Domain\Altitude;
+use Navplan\Geometry\Domain\AltitudeReference;
+use Navplan\Geometry\Domain\AltitudeUnit;
+use Navplan\Geometry\Domain\Ring2d;
 use Navplan\Notam\Domain\Notam;
+use Navplan\Notam\Domain\NotamGeometry;
 
 class DummyNotam3
 {
@@ -30,7 +35,11 @@ class DummyNotam3
             "",
             "W0997\/19-LSAS",
             "airspace",
-            "TODO"
+            new NotamGeometry(
+                Ring2d::createFromArray([[28.231586,-26.128897],[28.231642,-26.128453],[28.230906,-26.128975]]),
+                new Altitude(0, AltitudeUnit::FL, AltitudeReference::STD),
+                new Altitude(130, AltitudeUnit::FL, AltitudeReference::STD)
+            )
         );
     }
 
@@ -45,7 +54,8 @@ class DummyNotam3
             "icao" => "LSAS",
             "startdate" => "2019-05-27 16:00:00",
             "enddate" => "2019-05-27 16:40:00",
-            "notam" => '{"_id":"5ce9c61eab233e84992b7e0b","id":"W0997\/19","entity":"RR","status":"CA","Qcode":"RRCA","Area":"Navigation Warnings","SubArea":"Airspace restrictions","Condition":"Changes","Subject":"Restricted area","Modifier":"Activated","message":"R-AREA LS-R2 HOHGANT ACT.","startdate":"2019-05-27T14:00:00.000Z","enddate":"2019-05-27T14:40:00.000Z","all":"W0997\/19 NOTAMN \nQ) LSAS\/QRRCA\/V\/BO\/W\/100\/130\/4648N00801E018\nA) LSAS B) 1905271400 C) 1905271440\nE) R-AREA LS-R2 HOHGANT ACT.\nF) FL100\nG) FL130\nCREATED: 24 May 2019 10:36:00 \nSOURCE: LSSNYNYX","location":"LSAS","isICAO":true,"Created":"","key":"W0997\/19-LSAS","type":"airspace","StateCode":"CHE","StateName":"Switzerland"}'
+            "notam" => '{"_id":"5ce9c61eab233e84992b7e0b","id":"W0997\/19","entity":"RR","status":"CA","Qcode":"RRCA","Area":"Navigation Warnings","SubArea":"Airspace restrictions","Condition":"Changes","Subject":"Restricted area","Modifier":"Activated","message":"R-AREA LS-R2 HOHGANT ACT.","startdate":"2019-05-27T14:00:00.000Z","enddate":"2019-05-27T14:40:00.000Z","all":"W0997\/19 NOTAMN \nQ) LSAS\/QRRCA\/V\/BO\/W\/100\/130\/4648N00801E018\nA) LSAS B) 1905271400 C) 1905271440\nE) R-AREA LS-R2 HOHGANT ACT.\nF) FL100\nG) FL130\nCREATED: 24 May 2019 10:36:00 \nSOURCE: LSSNYNYX","location":"LSAS","isICAO":true,"Created":"","key":"W0997\/19-LSAS","type":"airspace","StateCode":"CHE","StateName":"Switzerland"}',
+            "geometry" => '{"polygon":[[28.231586,-26.128897],[28.231642,-26.128453],[28.230906,-26.128975]]}'
         );
     }
 }

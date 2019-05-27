@@ -7,7 +7,7 @@ use Navplan\OpenAip\Domain\Airspace;
 use Navplan\OpenAip\Domain\AirspaceAltitude;
 use Navplan\OpenAip\IRepo\IAirspaceRepo;
 use Navplan\Shared\DbHelper;
-use Navplan\Geometry\Domain\Polygon;
+use Navplan\Geometry\Domain\Ring2d;
 use Navplan\Shared\GeoService;
 use Navplan\Shared\IDbResult;
 use Navplan\Shared\IDbService;
@@ -92,7 +92,7 @@ class AirspaceDbRepo implements IAirspaceRepo {
                 intval($rs["alt_top_height"]),
                 $rs["alt_top_unit"]
             ),
-            Polygon::createFromString($rs["polygon"])
+            Ring2d::createFromString($rs["polygon"])
         );
     }
 }
