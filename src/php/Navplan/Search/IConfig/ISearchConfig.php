@@ -3,6 +3,7 @@
 namespace Navplan\Search\IConfig;
 
 use Navplan\Geoname\IRepo\IGeonameRepoFactory;
+use Navplan\Notam\IRepo\INotamRepoFactory;
 use Navplan\OpenAip\IRepo\IOpenAipRepoFactory;
 use Navplan\Shared\IDbService;
 use Navplan\Shared\IHttpResponseService;
@@ -22,4 +23,6 @@ interface ISearchConfig {
     function getUserRepoFactory(): IUserRepoFactory;
 
     function getGeonameRepoFactory(): IGeonameRepoFactory;
+
+    function getNotamRepoFactory(): INotamRepoFactory;
 }

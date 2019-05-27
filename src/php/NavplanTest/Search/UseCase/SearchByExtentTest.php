@@ -55,8 +55,8 @@ class SearchByExtentTest extends TestCase {
             [],
             Extent::createFromCoords(7.0, 47.0, 7.9, 47.9),
             11,
-            12345,
-            12346,
+            1558977934,
+            1559977934,
             UserHelper::createToken("asdf@asef.com", FALSE)
         );
         $result = SearchByExtent::search($query, $this->getConfig());
@@ -77,8 +77,8 @@ class SearchByExtentTest extends TestCase {
             [SearchItemType::AIRPORTS],
             Extent::createFromCoords(7.0, 47.0, 7.9, 47.9),
             11,
-            12345,
-            12346,
+            1558977934,
+            1559977934,
             UserHelper::createToken("asdf@asef.com", FALSE)
         );
         $airportResults = [ DummyAirport1::create(), DummyAirport1::create() ] ;
@@ -98,8 +98,8 @@ class SearchByExtentTest extends TestCase {
             [SearchItemType::USERPOINTS],
             Extent::createFromCoords(7.0, 47.0, 7.9, 47.9),
             11,
-            12345,
-            12346,
+            1558977934,
+            1559977934,
             NULL
         );
         $upResults = [ DummyUserPoint1::create(), DummyUserPoint2::create() ];

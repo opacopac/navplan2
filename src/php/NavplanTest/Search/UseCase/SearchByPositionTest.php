@@ -2,6 +2,8 @@
 
 namespace NavplanTest\Search\UseCase;
 
+require_once __DIR__ . "/../../../config_test.php"; // TODO => inject config
+
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\Search\Domain\SearchByPositionQuery;
 use Navplan\Search\Domain\SearchItemType;
@@ -56,6 +58,8 @@ class SearchByPositionTest extends TestCase {
             [],
             new Position2d(7.0, 47.0),
             0.5,
+            1558977934,
+            1559977934,
             UserHelper::createToken("asdf@asef.com", FALSE)
         );
         $result = SearchByPosition::search($query, $this->getConfig());
@@ -76,6 +80,8 @@ class SearchByPositionTest extends TestCase {
             [SearchItemType::REPORTINGPOINTS],
             new Position2d(7.0, 47.0),
             0.5,
+            1558977934,
+            1559977934,
             UserHelper::createToken("asdf@asef.com", FALSE)
         );
         $airspaceResults = [ DummyAirspace1::create(), DummyAirspace1::create() ] ;
@@ -95,6 +101,8 @@ class SearchByPositionTest extends TestCase {
             [SearchItemType::USERPOINTS],
             new Position2d(7.0, 47.0),
             0.5,
+            1558977934,
+            1559977934,
             NULL
         );
         $upResults = [ DummyUserPoint1::create(), DummyUserPoint2::create() ];

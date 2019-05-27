@@ -2,13 +2,8 @@
 
 namespace NavplanTest\OpenAip\DbRepo;
 
-use Navplan\Geometry\Domain\Extent;
-use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\DbRepo\OpenAipDbRepoFactory;
-use Navplan\OpenAip\Domain\Navaid;
-use Navplan\OpenAip\DbRepo\NavaidDbRepo;
 use NavplanTest\DbServiceMock;
-use NavplanTest\OpenAip\Mocks\DummyNavaid1;
 use PHPUnit\Framework\TestCase;
 
 

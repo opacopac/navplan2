@@ -29,9 +29,9 @@ class SearchByIcao {
                 case SearchItemType::REPORTINGPOINTS:
                     $reportingPoints = $config->getOpenAipRepoFactory()->createReportingPointRepo()->searchByIcao($query->icaoList);
                     break;
-                /*case SearchItem::NOTAMS:
-                    $notams = SearchItemNotam::searchByIcao($dbService, $icaoList, $minNotamTimestamp, $maxNotamTimestamp);
-                    break;*/
+                case SearchItemType::NOTAMS:
+                    $notams = $config->getNotamRepoFactory()->createNotamRepo()->searchByIcao($query->icaoList, $query->minNotamTimestamp, $query->maxNotamTimestamp);
+                    break;
             }
         }
 

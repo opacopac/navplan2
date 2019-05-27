@@ -9,6 +9,8 @@ class SearchByPositionQuery {
     public $searchItems;
     public $position;
     public $maxRadius_deg;
+    public $minNotamTimestamp;
+    public $maxNotamTimestamp;
     public $token;
 
 
@@ -16,11 +18,15 @@ class SearchByPositionQuery {
         array $searchItems,
         Position2d $position,
         float $maxRadius_deg,
+        int $minNotamTimestamp,
+        int $maxNotamTimestamp,
         ?string $token
     ) {
         $this->searchItems = $searchItems;
         $this->position = $position;
         $this->maxRadius_deg = $maxRadius_deg;
+        $this->minNotamTimestamp = $minNotamTimestamp;
+        $this->maxNotamTimestamp = $maxNotamTimestamp;
         $this->token = $token;
     }
 }

@@ -57,10 +57,10 @@ class SearchByExtent {
                     $webcams = $config->getOpenAipRepoFactory()->createWebcamRepo()->searchByExtent($query->extent);
                     $resultNum += count($webcams);
                     break;
-                /*case SearchItemType::NOTAMS:
-                    $notams = SearchItemNotam::searchByExtent($config->getDbService(), $minLon, $minLat, $maxLon, $maxLat, $zoom, $minNotamTimestamp, $maxNotamTimestamp);
+                case SearchItemType::NOTAMS:
+                    $notams = $config->getNotamRepoFactory()->createNotamRepo()->searchByExtent($query->extent, $query->zoom, $query->minNotamTimestamp, $query->maxNotamTimestamp);
                     $resultNum += count($notams);
-                    break;*/
+                    break;
             }
         }
 

@@ -17,6 +17,8 @@ class SearchByPositionQueryRestTest extends TestCase {
             SearchByPositionQueryRest::ARG_LON => "7.0",
             SearchByPositionQueryRest::ARG_LAT => "47.0",
             SearchByPositionQueryRest::ARG_RADIUS => "0.5",
+            SearchByPositionQueryRest::ARG_MIN_NOTAM_TIME => "1558819678",
+            SearchByPositionQueryRest::ARG_MAX_NOTAM_TIME => "1558919678",
             SearchByPositionQueryRest::ARG_TOKEN => NULL, // TODO
         );
     }
@@ -29,6 +31,8 @@ class SearchByPositionQueryRestTest extends TestCase {
         $this->assertEquals(7.0, $query->position->longitude);
         $this->assertEquals(47.0, $query->position->latitude);
         $this->assertEquals(0.5, $query->maxRadius_deg);
+        $this->assertEquals(1558819678, $query->minNotamTimestamp);
+        $this->assertEquals(1558919678, $query->maxNotamTimestamp);
         $this->assertEquals(NULL, $query->token);
     }
 }

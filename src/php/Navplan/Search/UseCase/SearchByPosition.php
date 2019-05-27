@@ -52,10 +52,10 @@ class SearchByPosition {
                     $geonames = $config->getGeonameRepoFactory()->createGeonameRepo()->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum));
                     $resultNum += count($geonames);
                     break;
-                /*case SearchItemType::NOTAMS:
-                    $geonames = SearchItemNotam::searchByPosition($dbService, $lon, $lat, $minNotamTimestamp, $maxNotamTimestamp, self::getMaxPositionResults($resultNum));
+                case SearchItemType::NOTAMS:
+                    $geonames = $config->getNotamRepoFactory()->createNotamRepo()->searchByPosition($query->position, $query->minNotamTimestamp, $query->maxNotamTimestamp, self::getMaxPositionResults($resultNum));
                     $resultNum += count($geonames);
-                    break;*/
+                    break;
             }
         }
 

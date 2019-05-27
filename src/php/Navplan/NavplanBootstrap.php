@@ -11,6 +11,8 @@ require_once __DIR__ . "/../Autoloader.php";
 
 use Navplan\Geoname\DbRepo\GeonameDbRepoFactory;
 use Navplan\Geoname\IRepo\IGeonameRepoFactory;
+use Navplan\Notam\DbRepo\NotamDbRepoFactory;
+use Navplan\Notam\IRepo\INotamRepoFactory;
 use Navplan\OpenAip\DbRepo\OpenAipDbRepoFactory;
 use Navplan\OpenAip\IRepo\IOpenAipRepoFactory;
 use Navplan\Shared\FileService;
@@ -65,5 +67,10 @@ class NavplanBootstrap {
 
     public static function getGeonameDbRepoFactory(IDbService $dbService): IGeonameRepoFactory {
         return new GeonameDbRepoFactory($dbService);
+    }
+
+
+    public static function getNotamDbRepoFactory(IDbService $dbService): INotamRepoFactory {
+        return new NotamDbRepoFactory($dbService);
     }
 }

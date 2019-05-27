@@ -12,6 +12,8 @@ class DummySearchByPositionQuery1 {
             DummySearchItemType1::createAllItemTypesList(),
             new Position2d(7.0, 47.0),
             0.5,
+            1558799351,
+            1558899351,
             "asdf@asdf.com"
         );
     }

@@ -4,6 +4,7 @@ namespace Navplan\Search\Config;
 
 use Navplan\Geoname\IRepo\IGeonameRepoFactory;
 use Navplan\NavplanBootstrap;
+use Navplan\Notam\IRepo\INotamRepoFactory;
 use Navplan\Search\IConfig\ISearchConfig;
 use Navplan\Shared\IDbService;
 use Navplan\Shared\IMailService;
@@ -19,6 +20,7 @@ class SearchConfigProd implements ISearchConfig {
     private $openAipRepoFactory;
     private $userRepoFactory;
     private $geonameRepoFactory;
+    private $notamRepoFactory;
 
 
     public function __construct() {
@@ -28,6 +30,7 @@ class SearchConfigProd implements ISearchConfig {
         $this->openAipRepoFactory = NavplanBootstrap::getOpenAipDbRepoFactory($this->getDbService());
         $this->userRepoFactory = NavplanBootstrap::getUserDbRepoFactory($this->getDbService());
         $this->geonameRepoFactory = NavplanBootstrap::getGeonameDbRepoFactory($this->getDbService());
+        $this->notamRepoFactory = NavplanBootstrap::getNotamDbRepoFactory($this->getDbService());
     }
 
 
@@ -58,5 +61,10 @@ class SearchConfigProd implements ISearchConfig {
 
     public function getGeonameRepoFactory(): IGeonameRepoFactory {
         return $this->geonameRepoFactory;
+    }
+
+
+    public function getNotamRepoFactory(): INotamRepoFactory {
+        return $this->notamRepoFactory;
     }
 }
