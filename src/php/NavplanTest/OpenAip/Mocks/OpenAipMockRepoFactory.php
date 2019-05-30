@@ -2,12 +2,12 @@
 
 namespace NavplanTest\OpenAip\Mocks;
 
-use Navplan\OpenAip\IRepo\IAirportRepo;
-use Navplan\OpenAip\IRepo\IAirspaceRepo;
-use Navplan\OpenAip\IRepo\INavaidRepo;
+use Navplan\OpenAip\IRepo\IAirportSearch;
+use Navplan\OpenAip\IRepo\IAirspaceSearch;
+use Navplan\OpenAip\IRepo\INavaidSearch;
 use Navplan\OpenAip\IRepo\IOpenAipRepoFactory;
-use Navplan\OpenAip\IRepo\IReportingPointRepo;
-use Navplan\OpenAip\IRepo\IWebcamRepo;
+use Navplan\OpenAip\IRepo\IReportingPointSearch;
+use Navplan\OpenAip\IRepo\IWebcamSearch;
 
 
 class OpenAipMockRepoFactory implements IOpenAipRepoFactory {
@@ -19,35 +19,35 @@ class OpenAipMockRepoFactory implements IOpenAipRepoFactory {
 
 
     public function __construct() {
-        $this->airportRepoMock = new AirportRepoMock();
-        $this->airspaceRepoMock = new AirspaceRepoMock();
-        $this->navaidRepoMock = new NavaidRepoMock();
-        $this->reportingPointRepoMock = new ReportingPointRepoMock();
-        $this->webcamRepoMock = new WebcamRepoMock();
+        $this->airportRepoMock = new AirportSearchMock();
+        $this->airspaceRepoMock = new AirspaceSearchMock();
+        $this->navaidRepoMock = new NavaidSearchMock();
+        $this->reportingPointRepoMock = new ReportingPointSearchMock();
+        $this->webcamRepoMock = new WebcamSearchMock();
     }
 
 
-    public function createAirportRepo(): IAirportRepo {
+    public function createAirportSearch(): IAirportSearch {
         return $this->airportRepoMock;
     }
 
 
-    public function createAirspaceRepo(): IAirspaceRepo {
+    public function createAirspaceSearch(): IAirspaceSearch {
         return $this->airspaceRepoMock;
     }
 
 
-    public function createNavaidRepo(): INavaidRepo {
+    public function createNavaidSearch(): INavaidSearch {
         return $this->navaidRepoMock;
     }
 
 
-    public function createReportingPointRepo(): IReportingPointRepo {
+    public function createReportingPointSearch(): IReportingPointSearch {
         return $this->reportingPointRepoMock;
     }
 
 
-    public function createWebcamRepo(): IWebcamRepo {
+    public function createWebcamSearch(): IWebcamSearch {
         return $this->webcamRepoMock;
     }
 }

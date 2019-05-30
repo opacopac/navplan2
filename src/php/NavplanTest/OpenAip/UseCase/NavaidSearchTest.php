@@ -6,7 +6,7 @@ use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\UseCase\NavaidSearch;
 use NavplanTest\OpenAip\Mocks\DummyNavaid1;
-use NavplanTest\OpenAip\Mocks\NavaidRepoMock;
+use NavplanTest\OpenAip\Mocks\NavaidSearchMock;
 use PHPUnit\Framework\TestCase;
 
 
@@ -23,7 +23,7 @@ class NavaidSearchTest extends TestCase {
 
     protected function setUp(): void {
         $this->expectedResult = [ DummyNavaid1::create(), DummyNavaid1::create() ];
-        $this->repoMock = new NavaidRepoMock();
+        $this->repoMock = new NavaidSearchMock();
         $this->repoMock->pushMockResult($this->expectedResult);
         $this->navaidSearch = new NavaidSearch($this->repoMock);
     }

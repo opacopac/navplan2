@@ -4,7 +4,7 @@ namespace Navplan\User\UseCase;
 
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
-use Navplan\User\IRepo\IUserPointRepo;
+use Navplan\User\IRepo\IUserPointSearch;
 use Navplan\User\UserHelper;
 
 
@@ -12,12 +12,12 @@ class UserPointSearch {
     private $repo;
 
 
-    private function getRepo(): IUserPointRepo {
+    private function getRepo(): IUserPointSearch {
         return $this->repo;
     }
 
 
-    public function __construct(IUserPointRepo $repo) {
+    public function __construct(IUserPointSearch $repo) {
         $this->repo = $repo;
     }
 

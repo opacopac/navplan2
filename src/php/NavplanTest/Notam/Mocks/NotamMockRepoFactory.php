@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Notam\Mocks;
 
-use Navplan\Notam\IRepo\INotamRepo;
+use Navplan\Notam\IRepo\INotamSearch;
 use Navplan\Notam\IRepo\INotamRepoFactory;
 
 
@@ -11,11 +11,11 @@ class NotamMockRepoFactory implements INotamRepoFactory {
 
 
     public function __construct() {
-        $this->repoMock = new NotamRepoMock();
+        $this->repoMock = new NotamSearchMock();
     }
 
 
-    public function createNotamRepo(): INotamRepo {
+    public function createNotamSearch(): INotamSearch {
         return $this->repoMock;
     }
 }

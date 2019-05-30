@@ -8,7 +8,7 @@ use Navplan\Notam\UseCase\NotamSearch;
 use NavplanTest\Notam\Mocks\DummyNotam1;
 use NavplanTest\Notam\Mocks\DummyNotam2;
 use NavplanTest\Notam\Mocks\DummyNotam3;
-use NavplanTest\Notam\Mocks\NotamRepoMock;
+use NavplanTest\Notam\Mocks\NotamSearchMock;
 use PHPUnit\Framework\TestCase;
 
 
@@ -25,7 +25,7 @@ class NotamSearchTest extends TestCase {
 
     protected function setUp(): void {
         $this->expectedResult = [ DummyNotam1::create(), DummyNotam2::create(), DummyNotam3::create() ];
-        $this->repoMock = new NotamRepoMock();
+        $this->repoMock = new NotamSearchMock();
         $this->repoMock->pushMockResult($this->expectedResult);
         $this->notamSearch = new NotamSearch($this->repoMock);
     }

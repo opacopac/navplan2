@@ -5,7 +5,7 @@ namespace NavplanTest\Geoname\UseCase;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\Geoname\UseCase\GeonameSearch;
 use NavplanTest\Geoname\Mocks\DummyGeoname1;
-use NavplanTest\Geoname\Mocks\GeonameRepoMock;
+use NavplanTest\Geoname\Mocks\GeonameSearchMock;
 use PHPUnit\Framework\TestCase;
 
 
@@ -22,7 +22,7 @@ class GeonameSearchTest extends TestCase {
 
     protected function setUp(): void {
         $this->expectedResult = [ DummyGeoname1::create(), DummyGeoname1::create() ];
-        $this->repoMock = new GeonameRepoMock();
+        $this->repoMock = new GeonameSearchMock();
         $this->repoMock->pushMockResult($this->expectedResult);
         $this->geonameSearch = new GeonameSearch($this->repoMock);
     }

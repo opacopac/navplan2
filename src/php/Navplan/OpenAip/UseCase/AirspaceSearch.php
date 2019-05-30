@@ -3,19 +3,19 @@
 namespace Navplan\OpenAip\UseCase;
 
 use Navplan\Geometry\Domain\Extent;
-use Navplan\OpenAip\IRepo\IAirspaceRepo;
+use Navplan\OpenAip\IRepo\IAirspaceSearch;
 
 
 class AirspaceSearch {
     private $repo;
 
 
-    private function getRepo(): IAirspaceRepo {
+    private function getRepo(): IAirspaceSearch {
         return $this->repo;
     }
 
 
-    public function __construct(IAirspaceRepo $repo) {
+    public function __construct(IAirspaceSearch $repo) {
         $this->repo = $repo;
     }
 

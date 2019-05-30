@@ -32,33 +32,33 @@ class SearchByExtent {
 
             switch ($searchItem) {
                 case SearchItemType::AIRPORTS:
-                    $airports = $config->getOpenAipRepoFactory()->createAirportRepo()->searchByExtent($query->extent, $query->zoom);
+                    $airports = $config->getOpenAipRepoFactory()->createAirportSearch()->searchByExtent($query->extent, $query->zoom);
                     $resultNum += count($airports);
                     break;
                 case SearchItemType::NAVAIDS:
-                    $navaids = $config->getOpenAipRepoFactory()->createNavaidRepo()->searchByExtent($query->extent, $query->zoom);
+                    $navaids = $config->getOpenAipRepoFactory()->createNavaidSearch()->searchByExtent($query->extent, $query->zoom);
                     $resultNum += count($navaids);
                     break;
                 case SearchItemType::AIRSPACES:
-                    $airspaces = $config->getOpenAipRepoFactory()->createAirspaceRepo()->searchByExtent($query->extent, $query->zoom);
+                    $airspaces = $config->getOpenAipRepoFactory()->createAirspaceSearch()->searchByExtent($query->extent, $query->zoom);
                     $resultNum += count($airspaces);
                     break;
                 case SearchItemType::REPORTINGPOINTS:
-                    $reportingPoints = $config->getOpenAipRepoFactory()->createReportingPointRepo()->searchByExtent($query->extent);
+                    $reportingPoints = $config->getOpenAipRepoFactory()->createReportingPointSearch()->searchByExtent($query->extent);
                     $resultNum += count($reportingPoints);
                     break;
                 case SearchItemType::USERPOINTS:
                     if ($query->token) {
-                        $userPoints = $config->getUserRepoFactory()->createUserPointRepo()->searchByExtent($query->extent, $query->token);
+                        $userPoints = $config->getUserRepoFactory()->createUserPointSearch()->searchByExtent($query->extent, $query->token);
                         $resultNum += count($userPoints);
                     }
                     break;
                 case SearchItemType::WEBCAMS:
-                    $webcams = $config->getOpenAipRepoFactory()->createWebcamRepo()->searchByExtent($query->extent);
+                    $webcams = $config->getOpenAipRepoFactory()->createWebcamSearch()->searchByExtent($query->extent);
                     $resultNum += count($webcams);
                     break;
                 case SearchItemType::NOTAMS:
-                    $notams = $config->getNotamRepoFactory()->createNotamRepo()->searchByExtent($query->extent, $query->zoom, $query->minNotamTimestamp, $query->maxNotamTimestamp);
+                    $notams = $config->getNotamRepoFactory()->createNotamSearch()->searchByExtent($query->extent, $query->zoom, $query->minNotamTimestamp, $query->maxNotamTimestamp);
                     $resultNum += count($notams);
                     break;
             }

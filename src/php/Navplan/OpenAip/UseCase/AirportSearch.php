@@ -4,19 +4,19 @@ namespace Navplan\OpenAip\UseCase;
 
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
-use Navplan\OpenAip\IRepo\IAirportRepo;
+use Navplan\OpenAip\IRepo\IAirportSearch;
 
 
 class AirportSearch {
     private $repo;
 
 
-    private function getRepo(): IAirportRepo {
+    private function getRepo(): IAirportSearch {
         return $this->repo;
     }
 
 
-    public function __construct(IAirportRepo $repo) {
+    public function __construct(IAirportSearch $repo) {
         $this->repo = $repo;
     }
 

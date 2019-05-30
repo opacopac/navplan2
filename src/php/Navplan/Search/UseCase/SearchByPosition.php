@@ -31,20 +31,20 @@ class SearchByPosition {
 
             switch ($searchItem) {
                 case SearchItemType::AIRPORTS:
-                    $airports = $config->getOpenAipRepoFactory()->createAirportRepo()->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum));
+                    $airports = $config->getOpenAipRepoFactory()->createAirportSearch()->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum));
                     $resultNum += count($airports);
                     break;
                 case SearchItemType::NAVAIDS:
-                    $navaids = $config->getOpenAipRepoFactory()->createNavaidRepo()->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum));
+                    $navaids = $config->getOpenAipRepoFactory()->createNavaidSearch()->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum));
                     $resultNum += count($navaids);
                     break;
                 case SearchItemType::REPORTINGPOINTS:
-                    $reportingPoints = $config->getOpenAipRepoFactory()->createReportingPointRepo()->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum));
+                    $reportingPoints = $config->getOpenAipRepoFactory()->createReportingPointSearch()->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum));
                     $resultNum += count($reportingPoints);
                     break;
                 case SearchItemType::USERPOINTS:
                     if ($query->token) {
-                        $userPoints = $config->getUserRepoFactory()->createUserPointRepo()->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum), $query->token);
+                        $userPoints = $config->getUserRepoFactory()->createUserPointSearch()->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum), $query->token);
                         $resultNum += count($userPoints);
                     }
                     break;
@@ -53,7 +53,7 @@ class SearchByPosition {
                     $resultNum += count($geonames);
                     break;
                 case SearchItemType::NOTAMS:
-                    $geonames = $config->getNotamRepoFactory()->createNotamRepo()->searchByPosition($query->position, $query->minNotamTimestamp, $query->maxNotamTimestamp, self::getMaxPositionResults($resultNum));
+                    $geonames = $config->getNotamRepoFactory()->createNotamSearch()->searchByPosition($query->position, $query->minNotamTimestamp, $query->maxNotamTimestamp, self::getMaxPositionResults($resultNum));
                     $resultNum += count($geonames);
                     break;
             }

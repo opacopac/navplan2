@@ -4,5 +4,5 @@ namespace Navplan\Geoname\IRepo;
 
 
 interface IGeonameRepoFactory {
-    function createGeonameRepo(): IGeonameRepo;
+    function createGeonameRepo(): IGeonameSearch;
 }

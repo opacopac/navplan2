@@ -3,19 +3,19 @@
 namespace Navplan\Geoname\UseCase;
 
 use Navplan\Geometry\Domain\Position2d;
-use Navplan\Geoname\IRepo\IGeonameRepo;
+use Navplan\Geoname\IRepo\IGeonameSearch;
 
 
 class GeonameSearch {
     private $repo;
 
 
-    private function getRepo(): IGeonameRepo {
+    private function getRepo(): IGeonameSearch {
         return $this->repo;
     }
 
 
-    public function __construct(IGeonameRepo $repo) {
+    public function __construct(IGeonameSearch $repo) {
         $this->repo = $repo;
     }
 

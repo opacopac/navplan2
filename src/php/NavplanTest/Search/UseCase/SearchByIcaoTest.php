@@ -5,13 +5,13 @@ namespace NavplanTest\Search\UseCase;
 use Navplan\Search\Domain\SearchByIcaoQuery;
 use Navplan\Search\Domain\SearchItemType;
 use Navplan\Search\UseCase\SearchByIcao;
-use NavplanTest\OpenAip\Mocks\AirportRepoMock;
+use NavplanTest\OpenAip\Mocks\AirportSearchMock;
 use NavplanTest\OpenAip\Mocks\DummyAirport1;
 use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;
 use NavplanTest\OpenAip\Mocks\DummyReportingSector1;
-use NavplanTest\OpenAip\Mocks\ReportingPointRepoMock;
+use NavplanTest\OpenAip\Mocks\ReportingPointSearchMock;
 use NavplanTest\Search\Mocks\SearchConfigMock;
-use NavplanTest\User\Mocks\UserPointRepoMock;
+use NavplanTest\User\Mocks\UserPointSearchMock;
 use PHPUnit\Framework\TestCase;
 
 
@@ -24,21 +24,21 @@ class SearchByIcaoTest extends TestCase {
     }
 
 
-    private function getAirportRepoMock(): AirportRepoMock {
-        $repo = $this->getConfig()->getOpenAipRepoFactory()->createAirportRepo();
-        return $repo instanceof AirportRepoMock ? $repo : NULL;
+    private function getAirportRepoMock(): AirportSearchMock {
+        $repo = $this->getConfig()->getOpenAipRepoFactory()->createAirportSearch();
+        return $repo instanceof AirportSearchMock ? $repo : NULL;
     }
 
 
-    private function getReportingPointRepoMock(): ReportingPointRepoMock {
-        $repo = $this->getConfig()->getOpenAipRepoFactory()->createReportingPointRepo();
-        return $repo instanceof ReportingPointRepoMock ? $repo : NULL;
+    private function getReportingPointRepoMock(): ReportingPointSearchMock {
+        $repo = $this->getConfig()->getOpenAipRepoFactory()->createReportingPointSearch();
+        return $repo instanceof ReportingPointSearchMock ? $repo : NULL;
     }
 
 
-    private function getUserPointRepoMock(): UserPointRepoMock {
-        $repo = $this->getConfig()->getUserRepoFactory()->createUserPointRepo();
-        return $repo instanceof UserPointRepoMock ? $repo : NULL;
+    private function getUserPointRepoMock(): UserPointSearchMock {
+        $repo = $this->getConfig()->getUserRepoFactory()->createUserPointSearch();
+        return $repo instanceof UserPointSearchMock ? $repo : NULL;
     }
 
 

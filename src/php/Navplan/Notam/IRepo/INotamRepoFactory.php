@@ -4,5 +4,5 @@ namespace Navplan\Notam\IRepo;
 
 
 interface INotamRepoFactory {
-    function createNotamRepo(): INotamRepo;
+    function createNotamSearch(): INotamSearch;
 }

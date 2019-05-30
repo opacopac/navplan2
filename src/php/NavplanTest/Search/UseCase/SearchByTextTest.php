@@ -9,7 +9,7 @@ use Navplan\User\UserHelper;
 use NavplanTest\Search\Mocks\SearchConfigMock;
 use NavplanTest\User\Mocks\DummyUserPoint1;
 use NavplanTest\User\Mocks\DummyUserPoint2;
-use NavplanTest\User\Mocks\UserPointRepoMock;
+use NavplanTest\User\Mocks\UserPointSearchMock;
 use PHPUnit\Framework\TestCase;
 
 
@@ -22,9 +22,9 @@ class SearchByTextTest extends TestCase {
     }
 
 
-    private function getUserPointRepoMock(): UserPointRepoMock {
-        $repo = $this->getConfig()->getUserRepoFactory()->createUserPointRepo();
-        return $repo instanceof UserPointRepoMock ? $repo : NULL;
+    private function getUserPointRepoMock(): UserPointSearchMock {
+        $repo = $this->getConfig()->getUserRepoFactory()->createUserPointSearch();
+        return $repo instanceof UserPointSearchMock ? $repo : NULL;
     }
 
 

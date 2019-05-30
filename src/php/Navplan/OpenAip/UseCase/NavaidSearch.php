@@ -4,19 +4,19 @@ namespace Navplan\OpenAip\UseCase;
 
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
-use Navplan\OpenAip\IRepo\INavaidRepo;
+use Navplan\OpenAip\IRepo\INavaidSearch;
 
 
 class NavaidSearch {
     private $repo;
 
 
-    private function getRepo(): INavaidRepo {
+    private function getRepo(): INavaidSearch {
         return $this->repo;
     }
 
 
-    public function __construct(INavaidRepo $repo) {
+    public function __construct(INavaidSearch $repo) {
         $this->repo = $repo;
     }
 

@@ -4,19 +4,19 @@ namespace Navplan\Notam\UseCase;
 
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
-use Navplan\Notam\IRepo\INotamRepo;
+use Navplan\Notam\IRepo\INotamSearch;
 
 
 class NotamSearch {
     private $repo;
 
 
-    private function getRepo(): INotamRepo {
+    private function getRepo(): INotamSearch {
         return $this->repo;
     }
 
 
-    public function __construct(INotamRepo $repo) {
+    public function __construct(INotamSearch $repo) {
         $this->repo = $repo;
     }
 

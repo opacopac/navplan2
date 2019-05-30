@@ -74,4 +74,20 @@ class Notam {
         $this->type = $type;
         $this->geometry = $geometry;
     }
+
+
+    public function isAreaNotam(): bool {
+        if ($this->isIcao) {
+            $qtype = strtoupper(substr($this->qcode, 0, 1));
+
+            if ($qtype == "W" || $qtype == "R") { // || $qtype == "X")
+                return true;
+            }
+        } else {
+            if ($this->type == "airspace")
+                return true;
+        }
+
+        return false;
+    }
 }

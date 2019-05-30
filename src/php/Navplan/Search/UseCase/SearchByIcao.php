@@ -24,13 +24,13 @@ class SearchByIcao {
         foreach ($query->searchItems as $searchItem) {
             switch ($searchItem) {
                 case SearchItemType::AIRPORTS:
-                    $airports = $config->getOpenAipRepoFactory()->createAirportRepo()->searchByIcao($query->icaoList);
+                    $airports = $config->getOpenAipRepoFactory()->createAirportSearch()->searchByIcao($query->icaoList);
                     break;
                 case SearchItemType::REPORTINGPOINTS:
-                    $reportingPoints = $config->getOpenAipRepoFactory()->createReportingPointRepo()->searchByIcao($query->icaoList);
+                    $reportingPoints = $config->getOpenAipRepoFactory()->createReportingPointSearch()->searchByIcao($query->icaoList);
                     break;
                 case SearchItemType::NOTAMS:
-                    $notams = $config->getNotamRepoFactory()->createNotamRepo()->searchByIcao($query->icaoList, $query->minNotamTimestamp, $query->maxNotamTimestamp);
+                    $notams = $config->getNotamRepoFactory()->createNotamSearch()->searchByIcao($query->icaoList, $query->minNotamTimestamp, $query->maxNotamTimestamp);
                     break;
             }
         }

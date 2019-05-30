@@ -4,19 +4,19 @@ namespace Navplan\OpenAip\UseCase;
 
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
-use Navplan\OpenAip\IRepo\IReportingPointRepo;
+use Navplan\OpenAip\IRepo\IReportingPointSearch;
 
 
 class ReportingPointSearch {
     private $repo;
 
 
-    private function getRepo(): IReportingPointRepo {
+    private function getRepo(): IReportingPointSearch {
         return $this->repo;
     }
 
 
-    public function __construct(IReportingPointRepo $repo) {
+    public function __construct(IReportingPointSearch $repo) {
         $this->repo = $repo;
     }
 

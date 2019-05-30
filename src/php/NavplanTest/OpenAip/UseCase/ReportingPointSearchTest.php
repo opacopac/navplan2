@@ -7,7 +7,7 @@ use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\UseCase\ReportingPointSearch;
 use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;
 use NavplanTest\OpenAip\Mocks\DummyReportingSector1;
-use NavplanTest\OpenAip\Mocks\ReportingPointRepoMock;
+use NavplanTest\OpenAip\Mocks\ReportingPointSearchMock;
 use PHPUnit\Framework\TestCase;
 
 
@@ -24,7 +24,7 @@ class ReportingPointSearchTest extends TestCase {
 
     protected function setUp(): void {
         $this->expectedResult = [ DummyReportingPoint1::create(), DummyReportingSector1::create() ];
-        $this->repoMock = new ReportingPointRepoMock();
+        $this->repoMock = new ReportingPointSearchMock();
         $this->repoMock->pushMockResult($this->expectedResult);
         $this->rpSearch = new ReportingPointSearch($this->repoMock);
     }

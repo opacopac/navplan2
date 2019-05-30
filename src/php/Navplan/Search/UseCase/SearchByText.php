@@ -30,20 +30,20 @@ class SearchByText {
 
             switch ($searchItem) {
                 case SearchItemType::AIRPORTS:
-                    $airports = $config->getOpenAipRepoFactory()->createAirportRepo()->searchByText($query->searchText, self::getMaxTextResults($resultNum));
+                    $airports = $config->getOpenAipRepoFactory()->createAirportSearch()->searchByText($query->searchText, self::getMaxTextResults($resultNum));
                     $resultNum += count($airports);
                     break;
                 case SearchItemType::NAVAIDS:
-                    $navaids = $config->getOpenAipRepoFactory()->createNavaidRepo()->searchByText($query->searchText, self::getMaxTextResults($resultNum));
+                    $navaids = $config->getOpenAipRepoFactory()->createNavaidSearch()->searchByText($query->searchText, self::getMaxTextResults($resultNum));
                     $resultNum += count($navaids);
                     break;
                 case SearchItemType::REPORTINGPOINTS:
-                    $reportingPoints = $config->getOpenAipRepoFactory()->createReportingPointRepo()->searchByText($query->searchText, self::getMaxTextResults($resultNum));
+                    $reportingPoints = $config->getOpenAipRepoFactory()->createReportingPointSearch()->searchByText($query->searchText, self::getMaxTextResults($resultNum));
                     $resultNum += count($reportingPoints);
                     break;
                 case SearchItemType::USERPOINTS:
                     if ($query->token) {
-                        $userPoints = $config->getUserRepoFactory()->createUserPointRepo()->searchByText($query->searchText, self::getMaxTextResults($resultNum), $query->token);
+                        $userPoints = $config->getUserRepoFactory()->createUserPointSearch()->searchByText($query->searchText, self::getMaxTextResults($resultNum), $query->token);
                         $resultNum += count($userPoints);
                     }
                     break;

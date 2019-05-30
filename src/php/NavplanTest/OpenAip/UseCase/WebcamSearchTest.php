@@ -6,7 +6,7 @@ use Navplan\Geometry\Domain\Extent;
 use Navplan\OpenAip\UseCase\WebcamSearch;
 use NavplanTest\OpenAip\Mocks\DummyWebcam1;
 use NavplanTest\OpenAip\Mocks\DummyWebcam2;
-use NavplanTest\OpenAip\Mocks\WebcamRepoMock;
+use NavplanTest\OpenAip\Mocks\WebcamSearchMock;
 use PHPUnit\Framework\TestCase;
 
 
@@ -23,7 +23,7 @@ class WebcamSearchTest extends TestCase {
 
     protected function setUp(): void {
         $this->expectedResult = [ DummyWebcam1::create(), DummyWebcam2::create() ];
-        $this->repoMock = new WebcamRepoMock();
+        $this->repoMock = new WebcamSearchMock();
         $this->repoMock->pushMockResult($this->expectedResult);
         $this->camSearch = new WebcamSearch($this->repoMock);
     }

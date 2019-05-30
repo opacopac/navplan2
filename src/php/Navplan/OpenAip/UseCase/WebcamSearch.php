@@ -3,19 +3,19 @@
 namespace Navplan\OpenAip\UseCase;
 
 use Navplan\Geometry\Domain\Extent;
-use Navplan\OpenAip\IRepo\IWebcamRepo;
+use Navplan\OpenAip\IRepo\IWebcamSearch;
 
 
 class WebcamSearch {
     private $repo;
 
 
-    private function getRepo(): IWebcamRepo {
+    private function getRepo(): IWebcamSearch {
         return $this->repo;
     }
 
 
-    public function __construct(IWebcamRepo $repo) {
+    public function __construct(IWebcamSearch $repo) {
         $this->repo = $repo;
     }
 

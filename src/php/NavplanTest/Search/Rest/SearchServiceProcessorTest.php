@@ -11,8 +11,8 @@ use Navplan\Search\Rest\SearchServiceProcessor;
 use NavplanTest\HttpResponseServiceMock;
 use NavplanTest\OpenAip\Mocks\DummyNavaid1;
 use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;
-use NavplanTest\OpenAip\Mocks\NavaidRepoMock;
-use NavplanTest\OpenAip\Mocks\ReportingPointRepoMock;
+use NavplanTest\OpenAip\Mocks\NavaidSearchMock;
+use NavplanTest\OpenAip\Mocks\ReportingPointSearchMock;
 use NavplanTest\Search\Mocks\SearchConfigMock;
 use PHPUnit\Framework\TestCase;
 
@@ -34,15 +34,15 @@ class SearchServiceProcessorTest extends TestCase {
     }
 
 
-    private function getNavaidMockRepo(): NavaidRepoMock {
-        $mockRepo = $this->getConfig()->getOpenAipRepoFactory()->createNavaidRepo();
-        return $mockRepo instanceof NavaidRepoMock ? $mockRepo : NULL;
+    private function getNavaidMockRepo(): NavaidSearchMock {
+        $mockRepo = $this->getConfig()->getOpenAipRepoFactory()->createNavaidSearch();
+        return $mockRepo instanceof NavaidSearchMock ? $mockRepo : NULL;
     }
 
 
-    private function getRpMockRepo(): ReportingPointRepoMock {
-        $mockRepo = $this->getConfig()->getOpenAipRepoFactory()->createReportingPointRepo();
-        return $mockRepo instanceof ReportingPointRepoMock ? $mockRepo : NULL;
+    private function getRpMockRepo(): ReportingPointSearchMock {
+        $mockRepo = $this->getConfig()->getOpenAipRepoFactory()->createReportingPointSearch();
+        return $mockRepo instanceof ReportingPointSearchMock ? $mockRepo : NULL;
     }
 
 

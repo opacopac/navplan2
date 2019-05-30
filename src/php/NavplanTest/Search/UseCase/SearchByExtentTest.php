@@ -7,14 +7,14 @@ use Navplan\Search\Domain\SearchByExtentQuery;
 use Navplan\Search\Domain\SearchItemType;
 use Navplan\Search\UseCase\SearchByExtent;
 use Navplan\User\UserHelper;
-use NavplanTest\OpenAip\Mocks\AirportRepoMock;
+use NavplanTest\OpenAip\Mocks\AirportSearchMock;
 use NavplanTest\OpenAip\Mocks\DummyAirport1;
 use NavplanTest\OpenAip\Mocks\DummyNavaid1;
-use NavplanTest\OpenAip\Mocks\NavaidRepoMock;
+use NavplanTest\OpenAip\Mocks\NavaidSearchMock;
 use NavplanTest\Search\Mocks\SearchConfigMock;
 use NavplanTest\User\Mocks\DummyUserPoint1;
 use NavplanTest\User\Mocks\DummyUserPoint2;
-use NavplanTest\User\Mocks\UserPointRepoMock;
+use NavplanTest\User\Mocks\UserPointSearchMock;
 use PHPUnit\Framework\TestCase;
 
 
@@ -27,21 +27,21 @@ class SearchByExtentTest extends TestCase {
     }
 
 
-    private function getAirportRepoMock(): AirportRepoMock {
-        $repo = $this->getConfig()->getOpenAipRepoFactory()->createAirportRepo();
-        return $repo instanceof AirportRepoMock ? $repo : NULL;
+    private function getAirportRepoMock(): AirportSearchMock {
+        $repo = $this->getConfig()->getOpenAipRepoFactory()->createAirportSearch();
+        return $repo instanceof AirportSearchMock ? $repo : NULL;
     }
 
 
-    private function getNavaidRepoMock(): NavaidRepoMock {
-        $repo = $this->getConfig()->getOpenAipRepoFactory()->createNavaidRepo();
-        return $repo instanceof NavaidRepoMock ? $repo : NULL;
+    private function getNavaidRepoMock(): NavaidSearchMock {
+        $repo = $this->getConfig()->getOpenAipRepoFactory()->createNavaidSearch();
+        return $repo instanceof NavaidSearchMock ? $repo : NULL;
     }
 
 
-    private function getUserPointRepoMock(): UserPointRepoMock {
-        $repo = $this->getConfig()->getUserRepoFactory()->createUserPointRepo();
-        return $repo instanceof UserPointRepoMock ? $repo : NULL;
+    private function getUserPointRepoMock(): UserPointSearchMock {
+        $repo = $this->getConfig()->getUserRepoFactory()->createUserPointSearch();
+        return $repo instanceof UserPointSearchMock ? $repo : NULL;
     }
 
 

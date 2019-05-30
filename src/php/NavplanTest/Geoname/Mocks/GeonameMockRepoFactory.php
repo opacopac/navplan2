@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Geoname\Mocks;
 
-use Navplan\Geoname\IRepo\IGeonameRepo;
+use Navplan\Geoname\IRepo\IGeonameSearch;
 use Navplan\Geoname\IRepo\IGeonameRepoFactory;
 
 
@@ -11,11 +11,11 @@ class GeonameMockRepoFactory implements IGeonameRepoFactory {
 
 
     public function __construct() {
-        $this->repoMock = new GeonameRepoMock();
+        $this->repoMock = new GeonameSearchMock();
     }
 
 
-    public function createGeonameRepo(): IGeonameRepo {
+    public function createGeonameRepo(): IGeonameSearch {
         return $this->repoMock;
     }
 }

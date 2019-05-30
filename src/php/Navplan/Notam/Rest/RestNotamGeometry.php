@@ -15,26 +15,33 @@ use Navplan\Notam\Domain\NotamGeometry;
 class RestNotamGeometry {
     public static function toArray(NotamGeometry $notamGeometry): array {
         return array(
-            "shape" => self::getShape($notamGeometry->shape),
-            "bottom_alt" => $notamGeometry->bottomAltitude ? RestAltitude::toArray($notamGeometry->bottomAltitude) : NULL,
-            "top_alt" => $notamGeometry->topAltitude ? RestAltitude::toArray($notamGeometry->topAltitude) : NULL,
+            self::getShapeType($notamGeometry->shape) => self::getShape($notamGeometry->shape),
+            "alt_bottom" => $notamGeometry->bottomAltitude ? RestAltitude::toArray($notamGeometry->bottomAltitude) : NULL,
+            "alt_top" => $notamGeometry->topAltitude ? RestAltitude::toArray($notamGeometry->topAltitude) : NULL,
         );
+    }
+
+
+    private static function getShapeType(IGeometry2d $shape): string {
+        if ($shape instanceof Circle2d) {
+            return "circle";
+        } else if ($shape instanceof Ring2d) {
+            return "polygon";
+        } else if ($shape instanceof MultiRing2d) {
+            return "multipolygon";
+        } else {
+            throw new InvalidArgumentException('unknown shape');
+        }
     }
 
 
     private static function getShape(IGeometry2d $shape): array {
         if ($shape instanceof Circle2d) {
-            return array(
-                "circle" => RestCircle2d::toArray($shape)
-            );
+            return RestCircle2d::toArray($shape);
         } else if ($shape instanceof Ring2d) {
-            return array(
-                "polygon" => $shape->toArray()
-            );
+            return $shape->toArray();
         } else if ($shape instanceof MultiRing2d) {
-            return array(
-                "multipolygon" => $shape->toArray()
-            );
+            return $shape->toArray();
         } else {
             throw new InvalidArgumentException('unknown shape');
         }
