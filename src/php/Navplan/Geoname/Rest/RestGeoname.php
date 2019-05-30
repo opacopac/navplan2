@@ -6,7 +6,7 @@ use Navplan\Geoname\Domain\Geoname;
 use Navplan\OpenAip\Rest\RestHelper;
 
 
-class GeonameRest {
+class RestGeoname {
     public static function toArray(Geoname $geo): array {
         return array(
             "id" => $geo->id,

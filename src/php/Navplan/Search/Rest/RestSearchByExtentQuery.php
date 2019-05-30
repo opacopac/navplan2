@@ -7,7 +7,7 @@ use Navplan\Search\Domain\SearchByExtentQuery;
 use Navplan\Shared\StringNumberService;
 
 
-class SearchByExtentQueryRest {
+class RestSearchByExtentQuery {
     const ARG_SEARCH_ITEMS = "searchItems";
     const ARG_MIN_LON = "minlon";
     const ARG_MIN_LAT = "minlat";
@@ -20,7 +20,7 @@ class SearchByExtentQueryRest {
 
 
     public static function fromArray(array $args): SearchByExtentQuery {
-        $searchItems = SearchItemTypeRest::fromString(StringNumberService::parseStringOrError($args, self::ARG_SEARCH_ITEMS));
+        $searchItems = RestSearchItemType::fromString(StringNumberService::parseStringOrError($args, self::ARG_SEARCH_ITEMS));
         $minLon = StringNumberService::parseFloatOrError($args, self::ARG_MIN_LON);
         $minLat = StringNumberService::parseFloatOrError($args, self::ARG_MIN_LAT);
         $maxLon = StringNumberService::parseFloatOrError($args, self::ARG_MAX_LON);

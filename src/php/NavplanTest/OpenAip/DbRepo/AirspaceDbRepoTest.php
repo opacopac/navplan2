@@ -2,6 +2,8 @@
 
 namespace NavplanTest\OpenAip\DbRepo;
 
+use Navplan\Geometry\Domain\AltitudeReference;
+use Navplan\Geometry\Domain\AltitudeUnit;
 use Navplan\Geometry\Domain\Extent;
 use Navplan\OpenAip\DbRepo\AirspaceDbRepo;
 use Navplan\OpenAip\Domain\Airspace;
@@ -32,12 +34,12 @@ class AirspaceDbRepoTest extends TestCase {
         $this->assertEquals($asDb['category'], $as->category);
         $this->assertEquals($asDb['country'], $as->country);
         $this->assertEquals($asDb['name'], $as->name);
-        $this->assertEquals($asDb['alt_bottom_reference'], $as->alt_bottom->reference);
-        $this->assertEquals($asDb['alt_bottom_height'], $as->alt_bottom->height);
-        $this->assertEquals($asDb['alt_bottom_unit'], $as->alt_bottom->unit);
-        $this->assertEquals($asDb['alt_top_reference'], $as->alt_top->reference);
-        $this->assertEquals($asDb['alt_top_height'], $as->alt_top->height);
-        $this->assertEquals($asDb['alt_top_unit'], $as->alt_top->unit);
+        $this->assertEquals(AltitudeReference::fromString($asDb['alt_bottom_reference']), $as->alt_bottom->reference);
+        $this->assertEquals($asDb['alt_bottom_height'], $as->alt_bottom->value);
+        $this->assertEquals(AltitudeUnit::fromString($asDb['alt_bottom_unit']), $as->alt_bottom->unit);
+        $this->assertEquals(AltitudeReference::fromString($asDb['alt_top_reference']),$as->alt_top->reference);
+        $this->assertEquals($asDb['alt_top_height'], $as->alt_top->value);
+        $this->assertEquals(AltitudeUnit::fromString($asDb['alt_top_unit']), $as->alt_top->unit);
         $this->assertEquals(Ring2d::createFromString($asDb['polygon']), $as->polygon);
     }
 

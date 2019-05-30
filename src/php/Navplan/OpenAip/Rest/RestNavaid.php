@@ -5,7 +5,7 @@ namespace Navplan\OpenAip\Rest;
 use Navplan\OpenAip\Domain\Navaid;
 
 
-class NavaidRest {
+class RestNavaid {
     public static function toArray(Navaid $navaid): array {
         return array(
             "id" => $navaid->id,

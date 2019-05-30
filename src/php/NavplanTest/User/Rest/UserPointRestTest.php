@@ -2,7 +2,7 @@
 
 namespace NavplanTest\User\Rest;
 
-use Navplan\User\Rest\UserPointRest;
+use Navplan\User\Rest\RestUserPoint;
 use Navplan\User\Domain\UserPoint;
 use NavplanTest\User\Mocks\DummyUserPoint1;
 use NavplanTest\User\Mocks\DummyUserPoint2;
@@ -23,7 +23,7 @@ class UserPointRestTest extends TestCase {
 
     public function test_toArray_1() {
         $up = DummyUserPoint1::create();
-        $upRest = UserPointRest::toArray($up);
+        $upRest = RestUserPoint::toArray($up);
 
         $this->assertEqualUserPoint($upRest, $up);
     }
@@ -31,7 +31,7 @@ class UserPointRestTest extends TestCase {
 
     public function test_toArray_2() {
         $up = DummyUserPoint2::create();
-        $upRest = UserPointRest::toArray($up);
+        $upRest = RestUserPoint::toArray($up);
 
         $this->assertEqualUserPoint($upRest, $up);
     }

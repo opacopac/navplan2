@@ -2,16 +2,16 @@
 
 namespace NavplanTest\OpenAip\Rest;
 
-use Navplan\OpenAip\Rest\AirportRest;
+use Navplan\OpenAip\Rest\RestAirport;
 use NavplanTest\OpenAip\Mocks\DummyAirport1;
 use PHPUnit\Framework\TestCase;
 
 
-class AirportRestTest extends TestCase {
+class RestAirportTest extends TestCase {
     public function test_toArray()
     {
         $ad = DummyAirport1::create();
-        $adRest = AirportRest::toArray($ad);
+        $adRest = RestAirport::toArray($ad);
 
         $this->assertEquals($ad->id, $adRest["id"]);
         $this->assertEquals($ad->type, $adRest["type"]);

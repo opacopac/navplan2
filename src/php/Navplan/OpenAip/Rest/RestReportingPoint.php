@@ -5,7 +5,7 @@ namespace Navplan\OpenAip\Rest;
 use Navplan\OpenAip\Domain\ReportingPoint;
 
 
-class ReportingPointRest {
+class RestReportingPoint {
     public static function toArray(ReportingPoint $rp): array {
         return array(
             "id" => $rp->id,

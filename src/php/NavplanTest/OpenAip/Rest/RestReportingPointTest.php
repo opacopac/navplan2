@@ -2,15 +2,15 @@
 
 namespace NavplanTest\OpenAip\RestService;
 
-use Navplan\OpenAip\Rest\ReportingPointRest;
+use Navplan\OpenAip\Rest\RestReportingPoint;
 use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;
 use PHPUnit\Framework\TestCase;
 
 
-class ReportingPointRestTest extends TestCase {
+class RestReportingPointTest extends TestCase {
     public function test_toArray_ReportingPoint() {
         $rep = DummyReportingPoint1::create();
-        $repRest = ReportingPointRest::toArray($rep);
+        $repRest = RestReportingPoint::toArray($rep);
 
         $this->assertEquals($rep->id, $repRest["id"]);
         $this->assertEquals($rep->type, $repRest["type"]);

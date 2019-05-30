@@ -5,7 +5,7 @@ namespace Navplan\OpenAip\Rest;
 use Navplan\OpenAip\Domain\Webcam;
 
 
-class WebcamRest {
+class RestWebcam {
     public static function toArray(Webcam $cam): array {
         return array(
             "name" => $cam->name,

@@ -5,7 +5,7 @@ namespace Navplan\OpenAip\Rest;
 use Navplan\OpenAip\Domain\MapFeature;
 
 
-class AirportFeatureRest {
+class RestAirportFeature {
     public static function toArray(MapFeature $mapFeature): array {
         return array(
             "type" => $mapFeature->type,

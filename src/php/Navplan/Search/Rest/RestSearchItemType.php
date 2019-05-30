@@ -6,7 +6,7 @@ use InvalidArgumentException;
 use Navplan\Search\Domain\SearchItemType;
 
 
-class SearchItemTypeRest{
+class RestSearchItemType{
     const SEARCH_ITEM_DELIMITER = ",";
     const SEARCH_ITEM_KEY_MAP = array(
         SearchItemType::AIRPORTS => 'airports',

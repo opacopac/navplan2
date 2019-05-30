@@ -2,15 +2,15 @@
 
 namespace NavplanTest\Notam\Rest;
 
-use Navplan\Notam\Rest\NotamRest;
+use Navplan\Notam\Rest\RestNotam;
 use NavplanTest\Notam\Mocks\DummyNotam1;
 use PHPUnit\Framework\TestCase;
 
 
-class NotamRestTest extends TestCase {
+class RestNotamTest extends TestCase {
     public function test_toArray() {
         $notam = DummyNotam1::create();
-        $notamRest = NotamRest::toArray($notam);
+        $notamRest = RestNotam::toArray($notam);
 
         $this->assertEquals($notam->id, $notamRest["id"]);
         $this->assertEquals($notam->stateCode, $notamRest["statecode"]);

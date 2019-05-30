@@ -5,7 +5,7 @@ namespace Navplan\Search\Rest;
 use Navplan\Search\Domain\SearchResult;
 
 
-class SearchResultRest {
+class RestSearchResult {
     public static function toArray(
         SearchResult $result
     ): array {

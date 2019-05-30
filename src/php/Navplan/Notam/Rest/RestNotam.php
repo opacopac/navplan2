@@ -5,7 +5,7 @@ namespace Navplan\Notam\Rest;
 
 use Navplan\Notam\Domain\Notam;
 
-class NotamRest {
+class RestNotam {
     public static function toArray(Notam $notam): array {
         return array(
             "id" => $notam->id,
@@ -29,7 +29,7 @@ class NotamRest {
             "created" => $notam->created,
             "key" => $notam->key,
             "type" => $notam->type,
-            "geometry" => NotamGeometryRest::toArray($notam->geometry)
+            "geometry" => RestNotamGeometry::toArray($notam->geometry)
         );
     }
 }

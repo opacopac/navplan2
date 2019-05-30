@@ -5,7 +5,7 @@ namespace Navplan\OpenAip\Rest;
 use Navplan\OpenAip\Domain\AirportRunway;
 
 
-class AirportRunwayRest {
+class RestAirportRunway {
     public static function toArray(AirportRunway $rwy): array {
         return array(
             "name" => $rwy->name,

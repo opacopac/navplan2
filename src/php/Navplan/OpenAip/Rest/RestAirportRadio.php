@@ -5,7 +5,7 @@ namespace Navplan\OpenAip\Rest;
 use Navplan\OpenAip\Domain\AirportRadio;
 
 
-class AirportRadioRest {
+class RestAirportRadio {
     public static function toArray(AirportRadio $radio): array {
         return array(
             "category" => $radio->category,

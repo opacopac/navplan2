@@ -2,9 +2,11 @@
 
 namespace Navplan\OpenAip\DbRepo;
 
+use Navplan\Geometry\Domain\Altitude;
+use Navplan\Geometry\Domain\AltitudeReference;
+use Navplan\Geometry\Domain\AltitudeUnit;
 use Navplan\Geometry\Domain\Extent;
 use Navplan\OpenAip\Domain\Airspace;
-use Navplan\OpenAip\Domain\AirspaceAltitude;
 use Navplan\OpenAip\IRepo\IAirspaceRepo;
 use Navplan\Shared\DbHelper;
 use Navplan\Geometry\Domain\Ring2d;
@@ -82,15 +84,15 @@ class AirspaceDbRepo implements IAirspaceRepo {
             $rs["category"],
             $rs["country"],
             $rs["name"],
-            new AirspaceAltitude(
-                $rs["alt_bottom_reference"],
+            new Altitude(
                 intval($rs["alt_bottom_height"]),
-                $rs["alt_bottom_unit"]
+                AltitudeUnit::fromString($rs["alt_bottom_unit"]),
+                AltitudeReference::fromString($rs["alt_bottom_reference"])
             ),
-            new AirspaceAltitude(
-                $rs["alt_top_reference"],
+            new Altitude(
                 intval($rs["alt_top_height"]),
-                $rs["alt_top_unit"]
+                AltitudeUnit::fromString($rs["alt_top_unit"]),
+                AltitudeReference::fromString($rs["alt_top_reference"])
             ),
             Ring2d::createFromString($rs["polygon"])
         );

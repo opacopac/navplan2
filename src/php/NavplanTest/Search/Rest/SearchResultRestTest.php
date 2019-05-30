@@ -4,8 +4,8 @@ namespace NavplanTest\Search\Rest;
 
 use Navplan\Search\Domain\SearchItemType;
 use Navplan\Search\Domain\SearchResult;
-use Navplan\Search\Rest\SearchItemTypeRest;
-use Navplan\Search\Rest\SearchResultRest;
+use Navplan\Search\Rest\RestSearchItemType;
+use Navplan\Search\Rest\RestSearchResult;
 use NavplanTest\OpenAip\Mocks\DummyAirport1;
 use NavplanTest\OpenAip\Mocks\DummyAirspace1;
 use NavplanTest\OpenAip\Mocks\DummyNavaid1;
@@ -45,15 +45,15 @@ class SearchResultRestTest extends TestCase {
 
 
     public function test_toArray() {
-        $resArray = SearchResultRest::toArray($this->getSearchResult());
+        $resArray = RestSearchResult::toArray($this->getSearchResult());
         $this->assertNotNull($resArray);
-        $this->assertEquals(count($this->getSearchResult()->airports), count($resArray[SearchItemTypeRest::getRestKeyFromType(SearchItemType::AIRPORTS)]));
-        $this->assertEquals(count($this->getSearchResult()->navaids), count($resArray[SearchItemTypeRest::getRestKeyFromType(SearchItemType::NAVAIDS)]));
-        $this->assertEquals(count($this->getSearchResult()->airspaces), count($resArray[SearchItemTypeRest::getRestKeyFromType(SearchItemType::AIRSPACES)]));
-        $this->assertEquals(count($this->getSearchResult()->reportingPoints), count($resArray[SearchItemTypeRest::getRestKeyFromType(SearchItemType::REPORTINGPOINTS)]));
-        $this->assertEquals(count($this->getSearchResult()->userPoints), count($resArray[SearchItemTypeRest::getRestKeyFromType(SearchItemType::USERPOINTS)]));
-        $this->assertEquals(count($this->getSearchResult()->webcams), count($resArray[SearchItemTypeRest::getRestKeyFromType(SearchItemType::WEBCAMS)]));
-        $this->assertEquals(count($this->getSearchResult()->geonames), count($resArray[SearchItemTypeRest::getRestKeyFromType(SearchItemType::GEONAMES)]));
-        $this->assertEquals(count($this->getSearchResult()->notams), count($resArray[SearchItemTypeRest::getRestKeyFromType(SearchItemType::NOTAMS)]));
+        $this->assertEquals(count($this->getSearchResult()->airports), count($resArray[RestSearchItemType::getRestKeyFromType(SearchItemType::AIRPORTS)]));
+        $this->assertEquals(count($this->getSearchResult()->navaids), count($resArray[RestSearchItemType::getRestKeyFromType(SearchItemType::NAVAIDS)]));
+        $this->assertEquals(count($this->getSearchResult()->airspaces), count($resArray[RestSearchItemType::getRestKeyFromType(SearchItemType::AIRSPACES)]));
+        $this->assertEquals(count($this->getSearchResult()->reportingPoints), count($resArray[RestSearchItemType::getRestKeyFromType(SearchItemType::REPORTINGPOINTS)]));
+        $this->assertEquals(count($this->getSearchResult()->userPoints), count($resArray[RestSearchItemType::getRestKeyFromType(SearchItemType::USERPOINTS)]));
+        $this->assertEquals(count($this->getSearchResult()->webcams), count($resArray[RestSearchItemType::getRestKeyFromType(SearchItemType::WEBCAMS)]));
+        $this->assertEquals(count($this->getSearchResult()->geonames), count($resArray[RestSearchItemType::getRestKeyFromType(SearchItemType::GEONAMES)]));
+        $this->assertEquals(count($this->getSearchResult()->notams), count($resArray[RestSearchItemType::getRestKeyFromType(SearchItemType::NOTAMS)]));
     }
 }

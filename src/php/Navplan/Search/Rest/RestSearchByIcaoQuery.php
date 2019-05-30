@@ -7,7 +7,7 @@ use Navplan\Search\Domain\SearchByIcaoQuery;
 use Navplan\Shared\StringNumberService;
 
 
-class SearchByIcaoQueryRest {
+class RestSearchByIcaoQuery {
     const ARG_SEARCH_ITEMS = "searchItems";
     const ARG_ICAO = "icao";
     const ARG_MIN_NOTAM_TIME = "minnotamtime";
@@ -15,7 +15,7 @@ class SearchByIcaoQueryRest {
 
 
     public static function fromArray(array $args): SearchByIcaoQuery {
-        $searchItems = SearchItemTypeRest::fromString(StringNumberService::parseStringOrError($args, self::ARG_SEARCH_ITEMS));
+        $searchItems = RestSearchItemType::fromString(StringNumberService::parseStringOrError($args, self::ARG_SEARCH_ITEMS));
         $icaoList = self::checkEscapeIcaoList($args[self::ARG_ICAO]);
         $minNotamTimestamp = StringNumberService::parseIntOrZero($args, self::ARG_MIN_NOTAM_TIME);
         $maxNotamTimestamp = StringNumberService::parseIntOrZero($args, self::ARG_MAX_NOTAM_TIME);

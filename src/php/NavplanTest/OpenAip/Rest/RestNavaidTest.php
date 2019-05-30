@@ -2,15 +2,15 @@
 
 namespace NavplanTest\OpenAip\Rest;
 
-use Navplan\OpenAip\Rest\NavaidRest;
+use Navplan\OpenAip\Rest\RestNavaid;
 use NavplanTest\OpenAip\Mocks\DummyNavaid1;
 use PHPUnit\Framework\TestCase;
 
 
-class NavaidRestTest extends TestCase {
+class RestNavaidTest extends TestCase {
     public function test_toArray() {
         $navaid = DummyNavaid1::create();
-        $navaidRest = NavaidRest::toArray($navaid);
+        $navaidRest = RestNavaid::toArray($navaid);
 
         $this->assertEquals($navaid->id, $navaidRest["id"]);
         $this->assertEquals($navaid->type, $navaidRest["type"]);

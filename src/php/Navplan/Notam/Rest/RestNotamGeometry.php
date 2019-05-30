@@ -7,17 +7,17 @@ use Navplan\Geometry\Domain\Circle2d;
 use Navplan\Geometry\Domain\IGeometry2d;
 use Navplan\Geometry\Domain\MultiRing2d;
 use Navplan\Geometry\Domain\Ring2d;
-use Navplan\Geometry\Rest\AltitudeRest;
-use Navplan\Geometry\Rest\Circle2dRest;
+use Navplan\Geometry\Rest\RestAltitude;
+use Navplan\Geometry\Rest\RestCircle2d;
 use Navplan\Notam\Domain\NotamGeometry;
 
 
-class NotamGeometryRest {
+class RestNotamGeometry {
     public static function toArray(NotamGeometry $notamGeometry): array {
         return array(
             "shape" => self::getShape($notamGeometry->shape),
-            "bottom_alt" => $notamGeometry->bottomAltitude ? AltitudeRest::toArray($notamGeometry->bottomAltitude) : NULL,
-            "top_alt" => $notamGeometry->topAltitude ? AltitudeRest::toArray($notamGeometry->topAltitude) : NULL,
+            "bottom_alt" => $notamGeometry->bottomAltitude ? RestAltitude::toArray($notamGeometry->bottomAltitude) : NULL,
+            "top_alt" => $notamGeometry->topAltitude ? RestAltitude::toArray($notamGeometry->topAltitude) : NULL,
         );
     }
 
@@ -25,7 +25,7 @@ class NotamGeometryRest {
     private static function getShape(IGeometry2d $shape): array {
         if ($shape instanceof Circle2d) {
             return array(
-                "circle" => Circle2dRest::toArray($shape)
+                "circle" => RestCircle2d::toArray($shape)
             );
         } else if ($shape instanceof Ring2d) {
             return array(

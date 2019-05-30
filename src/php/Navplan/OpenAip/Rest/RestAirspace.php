@@ -2,10 +2,11 @@
 
 namespace Navplan\OpenAip\Rest;
 
+use Navplan\Geometry\Rest\RestAltitude;
 use Navplan\OpenAip\Domain\Airspace;
 
 
-class AirspaceRest {
+class RestAirspace {
     public static function toArray(Airspace $airspace): array {
         return array(
             "id" => $airspace->id,
@@ -13,11 +14,9 @@ class AirspaceRest {
             "category" => $airspace->category,
             "country" => $airspace->country,
             "name" => $airspace->name,
-            "alt" => array( // TODO: replace by alt_bottom, alt_top
-                "top" => AirspaceAltitudeRest::toArray($airspace->alt_top),
-                "bottom" => AirspaceAltitudeRest::toArray($airspace->alt_bottom)
-            ),
-            "polygon" => $airspace->polygon->position2dList
+            "alt_top" => RestAltitude::toArray($airspace->alt_top),
+            "alt_bottom" => RestAltitude::toArray($airspace->alt_bottom),
+            "polygon" => $airspace->polygon->toArray()
         );
     }
 }

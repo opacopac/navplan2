@@ -2,15 +2,15 @@
 
 namespace NavplanTest\Geoname\Rest;
 
-use Navplan\Geoname\Rest\GeonameRest;
+use Navplan\Geoname\Rest\RestGeoname;
 use NavplanTest\Geoname\Mocks\DummyGeoname1;
 use PHPUnit\Framework\TestCase;
 
 
-class GeonameRestTest extends TestCase {
+class RestGeonameTest extends TestCase {
     public function test_toArray() {
         $geo = DummyGeoname1::create();
-        $geoRest = GeonameRest::toArray($geo);
+        $geoRest = RestGeoname::toArray($geo);
 
         $this->assertEquals($geo->id, $geoRest["id"]);
         $this->assertEquals($geo->name, $geoRest["name"]);

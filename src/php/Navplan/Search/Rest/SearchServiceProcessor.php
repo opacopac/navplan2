@@ -26,22 +26,22 @@ class SearchServiceProcessor {
         $action = isset($getVars[self::ARG_ACTION]) ? $getVars[self::ARG_ACTION] : NULL;
         switch ($action) {
             case self::ACTION_SEARCH_BY_TEXT:
-                $query = SearchByTextQueryRest::fromArray($getVars);
+                $query = RestSearchByTextQuery::fromArray($getVars);
                 $result = SearchByText::search($query, $config);
                 self::sendSearchResultResponse($result, $config->getHttpResponseService());
                 break;
             case self::ACTION_SEARCH_BY_POSITION:
-                $query = SearchByPositionQueryRest::fromArray($getVars);
+                $query = RestSearchByPositionQuery::fromArray($getVars);
                 $result = SearchByPosition::search($query, $config);
                 self::sendSearchResultResponse($result, $config->getHttpResponseService());
                 break;
             case self::ACTION_SEARCH_BY_EXTENT:
-                $query = SearchByExtentQueryRest::fromArray($getVars);
+                $query = RestSearchByExtentQuery::fromArray($getVars);
                 $result = SearchByExtent::search($query, $config);
                 self::sendSearchResultResponse($result, $config->getHttpResponseService());
                 break;
             case self::ACTION_SEARCH_BY_ICAO:
-                $query = SearchByIcaoQueryRest::fromArray($getVars);
+                $query = RestSearchByIcaoQuery::fromArray($getVars);
                 $result = SearchByIcao::search($query, $config);
                 self::sendSearchResultResponse($result, $config->getHttpResponseService());
                 break;
@@ -52,7 +52,7 @@ class SearchServiceProcessor {
 
 
     private static function sendSearchResultResponse(SearchResult $result, IHttpResponseService $httpService) {
-        $resultArray = SearchResultRest::toArray($result);
+        $resultArray = RestSearchResult::toArray($result);
         $callback = isset($_GET["callback"]) ? StringNumberService::checkAlphaNumeric($_GET["callback"], 1, 50) : NULL;
         RequestResponseHelper::sendArrayResponse($httpService, $resultArray, $callback, TRUE);
     }

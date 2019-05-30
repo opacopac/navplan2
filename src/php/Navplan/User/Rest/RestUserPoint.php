@@ -5,7 +5,7 @@ namespace Navplan\User\Rest;
 use Navplan\User\Domain\UserPoint;
 
 
-class UserPointRest {
+class RestUserPoint {
     public static function toArray(UserPoint $up): array {
         return array(
             "id" => $up->id,
