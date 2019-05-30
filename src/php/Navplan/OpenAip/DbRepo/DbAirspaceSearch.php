@@ -7,7 +7,7 @@ use Navplan\Geometry\Domain\AltitudeReference;
 use Navplan\Geometry\Domain\AltitudeUnit;
 use Navplan\Geometry\Domain\Extent;
 use Navplan\OpenAip\Domain\Airspace;
-use Navplan\OpenAip\IRepo\IAirspaceSearch;
+use Navplan\OpenAip\UseCase\IAirspaceSearch;
 use Navplan\Shared\DbHelper;
 use Navplan\Geometry\Domain\Ring2d;
 use Navplan\Shared\GeoService;

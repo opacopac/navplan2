@@ -1,12 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Geoname\IRepo;
+namespace Navplan\OpenAip\UseCase;
 
+use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
 
 
-interface IGeonameSearch {
+interface IAirportSearch {
+    function searchByExtent(Extent $extent, int $zoom): array;
+
     function searchByPosition(Position2d $position, float $maxRadius_deg, int $maxResults): array;
 
     function searchByText(string $searchText, int $maxResults): array;
+
+    function searchByIcao(array $icaoList): array;
 }

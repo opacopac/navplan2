@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Search\Rest;
 
-use Navplan\Search\IConfig\ISearchConfig;
+use Navplan\Search\UseCase\ISearchConfig;
 use Navplan\Search\Rest\RestSearchByExtentQuery;
 use Navplan\Search\Rest\RestSearchByIcaoQuery;
 use Navplan\Search\Rest\RestSearchByPositionQuery;

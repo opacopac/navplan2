@@ -4,7 +4,6 @@ namespace Navplan\Notam\UseCase;
 
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
-use Navplan\Notam\IRepo\INotamSearch;
 
 
 class NotamSearch {

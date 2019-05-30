@@ -2,8 +2,8 @@
 
 namespace Navplan\Notam\DbRepo;
 
-use Navplan\Notam\IRepo\INotamSearch;
-use Navplan\Notam\IRepo\INotamRepoFactory;
+use Navplan\Notam\UseCase\INotamSearch;
+use Navplan\Notam\UseCase\INotamRepoFactory;
 use Navplan\Shared\IDbService;
 
 

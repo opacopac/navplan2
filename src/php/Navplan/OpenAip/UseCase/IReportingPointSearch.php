@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\OpenAip\IRepo;
+namespace Navplan\OpenAip\UseCase;
 
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
 
 
-interface IAirportSearch {
-    function searchByExtent(Extent $extent, int $zoom): array;
+interface IReportingPointSearch {
+    function searchByExtent(Extent $extent): array;
 
     function searchByPosition(Position2d $position, float $maxRadius_deg, int $maxResults): array;
 

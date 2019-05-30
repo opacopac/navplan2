@@ -4,7 +4,7 @@ namespace NavplanTest\OpenAip\Mocks;
 
 use InvalidArgumentException;
 use Navplan\Geometry\Domain\Extent;
-use Navplan\OpenAip\IRepo\IAirspaceSearch;
+use Navplan\OpenAip\UseCase\IAirspaceSearch;
 
 
 class AirspaceSearchMock implements IAirspaceSearch {

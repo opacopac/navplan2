@@ -3,8 +3,8 @@
 namespace Navplan\User\DbRepo;
 
 use Navplan\Shared\IDbService;
-use Navplan\User\IRepo\IUserPointSearch;
-use Navplan\User\IRepo\IUserRepoFactory;
+use Navplan\User\UseCase\IUserPointSearch;
+use Navplan\User\UseCase\IUserRepoFactory;
 
 
 class DbUserRepoFactory implements IUserRepoFactory {

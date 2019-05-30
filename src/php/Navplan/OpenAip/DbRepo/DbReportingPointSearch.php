@@ -6,7 +6,7 @@ use BadMethodCallException;
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\Domain\ReportingPoint;
-use Navplan\OpenAip\IRepo\IReportingPointSearch;
+use Navplan\OpenAip\UseCase\IReportingPointSearch;
 use Navplan\Shared\DbHelper;
 use Navplan\Geometry\Domain\Ring2d;
 use Navplan\Shared\IDbResult;

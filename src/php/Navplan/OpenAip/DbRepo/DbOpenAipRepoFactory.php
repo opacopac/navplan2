@@ -2,12 +2,12 @@
 
 namespace Navplan\OpenAip\DbRepo;
 
-use Navplan\OpenAip\IRepo\IAirportSearch;
-use Navplan\OpenAip\IRepo\IAirspaceSearch;
-use Navplan\OpenAip\IRepo\INavaidSearch;
-use Navplan\OpenAip\IRepo\IOpenAipRepoFactory;
-use Navplan\OpenAip\IRepo\IReportingPointSearch;
-use Navplan\OpenAip\IRepo\IWebcamSearch;
+use Navplan\OpenAip\UseCase\IAirportSearch;
+use Navplan\OpenAip\UseCase\IAirspaceSearch;
+use Navplan\OpenAip\UseCase\INavaidSearch;
+use Navplan\OpenAip\UseCase\IOpenAipRepoFactory;
+use Navplan\OpenAip\UseCase\IReportingPointSearch;
+use Navplan\OpenAip\UseCase\IWebcamSearch;
 use Navplan\Shared\IDbService;
 
 

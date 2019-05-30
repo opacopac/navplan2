@@ -2,8 +2,8 @@
 
 namespace NavplanTest\User\Mocks;
 
-use Navplan\User\IRepo\IUserPointSearch;
-use Navplan\User\IRepo\IUserRepoFactory;
+use Navplan\User\UseCase\IUserPointSearch;
+use Navplan\User\UseCase\IUserRepoFactory;
 
 
 class UserMockRepoFactory implements IUserRepoFactory {

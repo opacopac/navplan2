@@ -5,7 +5,7 @@ namespace Navplan\OpenAip\DbRepo;
 use BadMethodCallException;
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
-use Navplan\OpenAip\IRepo\IAirportSearch;
+use Navplan\OpenAip\UseCase\IAirportSearch;
 use Navplan\Shared\DbHelper;
 use Navplan\Shared\IDbResult;
 use Navplan\Shared\IDbService;

@@ -4,7 +4,6 @@ namespace Navplan\Search\UseCase;
 
 use Navplan\Search\Domain\SearchByPositionQuery;
 use Navplan\Search\Domain\SearchItemType;
-use Navplan\Search\IConfig\ISearchConfig;
 use Navplan\Search\Domain\SearchResult;
 
 

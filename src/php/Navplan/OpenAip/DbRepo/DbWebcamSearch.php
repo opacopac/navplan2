@@ -5,7 +5,7 @@ namespace Navplan\OpenAip\DbRepo;
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\Domain\Webcam;
-use Navplan\OpenAip\IRepo\IWebcamSearch;
+use Navplan\OpenAip\UseCase\IWebcamSearch;
 use Navplan\Shared\IDbService;
 use Navplan\Shared\StringNumberService;
 

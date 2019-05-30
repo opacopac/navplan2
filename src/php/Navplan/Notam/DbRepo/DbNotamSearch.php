@@ -5,7 +5,7 @@ namespace Navplan\Notam\DbRepo;
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\Notam\Domain\Notam;
-use Navplan\Notam\IRepo\INotamSearch;
+use Navplan\Notam\UseCase\INotamSearch;
 use Navplan\Shared\DbHelper;
 use Navplan\Shared\GeoService;
 use Navplan\Shared\IDbResult;

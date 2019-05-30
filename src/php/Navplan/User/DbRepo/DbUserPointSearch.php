@@ -6,7 +6,7 @@ use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\Shared\IDbResult;
 use Navplan\Shared\IDbService;
-use Navplan\User\IRepo\IUserPointSearch;
+use Navplan\User\UseCase\IUserPointSearch;
 
 
 

@@ -1,15 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Search\IConfig;
+namespace Navplan\Search\UseCase;
 
-use Navplan\Geoname\IRepo\IGeonameRepoFactory;
-use Navplan\Notam\IRepo\INotamRepoFactory;
-use Navplan\OpenAip\IRepo\IOpenAipRepoFactory;
+use Navplan\Geoname\UseCase\IGeonameRepoFactory;
+use Navplan\Notam\UseCase\INotamRepoFactory;
+use Navplan\OpenAip\UseCase\IOpenAipRepoFactory;
 use Navplan\Shared\IDbService;
 use Navplan\Shared\IHttpResponseService;
 use Navplan\Shared\IMailService;
-use Navplan\User\IRepo\IUserRepoFactory;
-
+use Navplan\User\UseCase\IUserRepoFactory;
 
 interface ISearchConfig {
     function getDbService(): IDbService;

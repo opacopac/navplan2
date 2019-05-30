@@ -3,7 +3,7 @@
 namespace Navplan\Geoname\DbRepo;
 
 use Navplan\Geometry\Domain\Position2d;
-use Navplan\Geoname\IRepo\IGeonameSearch;
+use Navplan\Geoname\UseCase\IGeonameSearch;
 use Navplan\Shared\IDbResult;
 use Navplan\Shared\IDbService;
 

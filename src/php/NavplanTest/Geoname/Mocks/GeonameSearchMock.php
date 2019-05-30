@@ -4,7 +4,7 @@ namespace NavplanTest\Geoname\Mocks;
 
 use InvalidArgumentException;
 use Navplan\Geometry\Domain\Position2d;
-use Navplan\Geoname\IRepo\IGeonameSearch;
+use Navplan\Geoname\UseCase\IGeonameSearch;
 
 
 class GeonameSearchMock implements IGeonameSearch {

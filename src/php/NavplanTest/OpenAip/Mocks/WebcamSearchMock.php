@@ -4,7 +4,7 @@ namespace NavplanTest\OpenAip\Mocks;
 
 use InvalidArgumentException;
 use Navplan\Geometry\Domain\Extent;
-use Navplan\OpenAip\IRepo\IWebcamSearch;
+use Navplan\OpenAip\UseCase\IWebcamSearch;
 
 
 class WebcamSearchMock implements IWebcamSearch {

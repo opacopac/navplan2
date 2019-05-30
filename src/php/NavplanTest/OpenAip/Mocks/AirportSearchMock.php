@@ -5,7 +5,7 @@ namespace NavplanTest\OpenAip\Mocks;
 use InvalidArgumentException;
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
-use Navplan\OpenAip\IRepo\IAirportSearch;
+use Navplan\OpenAip\UseCase\IAirportSearch;
 
 
 class AirportSearchMock implements IAirportSearch {

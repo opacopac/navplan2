@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\User\IRepo;
+namespace Navplan\User\UseCase;
 
 
 interface IUserRepoFactory {

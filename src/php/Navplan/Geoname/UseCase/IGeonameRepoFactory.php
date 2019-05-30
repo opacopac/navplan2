@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Geoname\IRepo;
+namespace Navplan\Geoname\UseCase;
 
 
 interface IGeonameRepoFactory {

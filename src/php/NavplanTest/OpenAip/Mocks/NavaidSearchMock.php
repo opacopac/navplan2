@@ -5,7 +5,7 @@ namespace NavplanTest\OpenAip\Mocks;
 use InvalidArgumentException;
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
-use Navplan\OpenAip\IRepo\INavaidSearch;
+use Navplan\OpenAip\UseCase\INavaidSearch;
 
 
 class NavaidSearchMock implements INavaidSearch {

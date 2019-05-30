@@ -2,8 +2,7 @@
 
 namespace Navplan\Geoname\DbRepo;
 
-use Navplan\Geoname\IRepo\IGeonameSearch;
-use Navplan\Geoname\IRepo\IGeonameRepoFactory;
+use Navplan\Geoname\UseCase\IGeonameRepoFactory;
 use Navplan\Shared\IDbService;
 
 

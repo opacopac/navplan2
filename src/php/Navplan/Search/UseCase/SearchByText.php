@@ -2,7 +2,6 @@
 
 namespace Navplan\Search\UseCase;
 
-use Navplan\Search\IConfig\ISearchConfig;
 use Navplan\Search\Domain\SearchByTextQuery;
 use Navplan\Search\Domain\SearchItemType;
 use Navplan\Search\Domain\SearchResult;

@@ -5,7 +5,7 @@ namespace NavplanTest\User\Mocks;
 use InvalidArgumentException;
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
-use Navplan\User\IRepo\IUserPointSearch;
+use Navplan\User\UseCase\IUserPointSearch;
 
 
 class UserPointSearchMock implements IUserPointSearch {

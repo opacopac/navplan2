@@ -3,7 +3,6 @@
 namespace Navplan\OpenAip\UseCase;
 
 use Navplan\Geometry\Domain\Extent;
-use Navplan\OpenAip\IRepo\IAirspaceSearch;
 
 
 class AirspaceSearch {

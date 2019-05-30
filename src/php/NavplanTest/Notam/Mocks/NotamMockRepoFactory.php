@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Notam\Mocks;
 
-use Navplan\Notam\IRepo\INotamSearch;
-use Navplan\Notam\IRepo\INotamRepoFactory;
+use Navplan\Notam\UseCase\INotamSearch;
+use Navplan\Notam\UseCase\INotamRepoFactory;
 
 
 class NotamMockRepoFactory implements INotamRepoFactory {

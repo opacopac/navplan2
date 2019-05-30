@@ -1,28 +1,32 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\Search\Mocks;
+namespace Navplan\Search;
 
+// show errors on web page
+// error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
+require_once __DIR__ . "/../../Autoloader.php";
+
+use Navplan\Db\DbConfigProd;
+use Navplan\Geoname\DbRepo\DbGeonameRepoFactory;
 use Navplan\Geoname\UseCase\IGeonameRepoFactory;
+use Navplan\Notam\DbRepo\DbNotamRepoFactory;
 use Navplan\Notam\UseCase\INotamRepoFactory;
+use Navplan\OpenAip\DbRepo\DbOpenAipRepoFactory;
 use Navplan\Search\UseCase\ISearchConfig;
 use Navplan\Shared\IDbService;
 use Navplan\Shared\IMailService;
 use Navplan\Shared\IHttpResponseService;
 use Navplan\OpenAip\UseCase\IOpenAipRepoFactory;
+use Navplan\System\SystemConfigProd;
+use Navplan\User\DbRepo\DbUserRepoFactory;
 use Navplan\User\UseCase\IUserRepoFactory;
-use NavplanTest\DbServiceMock;
-use NavplanTest\Geoname\Mocks\GeonameMockRepoFactory;
-use NavplanTest\HttpResponseServiceMock;
-use NavplanTest\MailServiceMock;
-use NavplanTest\Notam\Mocks\NotamMockRepoFactory;
-use NavplanTest\OpenAip\Mocks\OpenAipMockRepoFactory;
-use NavplanTest\User\Mocks\UserMockRepoFactory;
 
 
-class SearchConfigMock implements ISearchConfig {
-    private $dbService;
-    private $mailService;
-    private $httpResponseService;
+class SearchConfigProd implements ISearchConfig {
+    private $dbConfig;
+    private $systemConfig;
     private $openAipRepoFactory;
     private $userRepoFactory;
     private $geonameRepoFactory;
@@ -30,28 +34,27 @@ class SearchConfigMock implements ISearchConfig {
 
 
     public function __construct() {
-        $this->dbService = new DbServiceMock();
-        $this->mailService = new MailServiceMock();
-        $this->httpResponseService = new HttpResponseServiceMock();
-        $this->openAipRepoFactory = new OpenAipMockRepoFactory();
-        $this->userRepoFactory = new UserMockRepoFactory();
-        $this->geonameRepoFactory = new GeonameMockRepoFactory();
-        $this->notamRepoFactory = new NotamMockRepoFactory();
+        $this->dbConfig = new DbConfigProd();
+        $this->systemConfig = new SystemConfigProd();
+        $this->openAipRepoFactory = new DbOpenAipRepoFactory($this->getDbService());
+        $this->userRepoFactory = new DbUserRepoFactory($this->getDbService());
+        $this->geonameRepoFactory = new DbGeonameRepoFactory($this->getDbService());
+        $this->notamRepoFactory = new DbNotamRepoFactory($this->getDbService());
     }
 
 
     public function getDbService(): IDbService {
-        return $this->dbService;
+        return $this->dbConfig->getDbService();
     }
 
 
     public function getMailService(): IMailService{
-        return $this->mailService;
+        return $this->systemConfig->getMailService();
     }
 
 
     public function getHttpResponseService(): IHttpResponseService {
-        return $this->httpResponseService;
+        return $this->systemConfig->getHttpResponseService();
     }
 
 

@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Geoname\Mocks;
 
-use Navplan\Geoname\IRepo\IGeonameSearch;
-use Navplan\Geoname\IRepo\IGeonameRepoFactory;
+use Navplan\Geoname\UseCase\IGeonameRepoFactory;
+use Navplan\Geoname\UseCase\IGeonameSearch;
 
 
 class GeonameMockRepoFactory implements IGeonameRepoFactory {

@@ -4,7 +4,6 @@ namespace Navplan\User\UseCase;
 
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
-use Navplan\User\IRepo\IUserPointSearch;
 use Navplan\User\UserHelper;
 
 

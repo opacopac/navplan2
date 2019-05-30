@@ -3,7 +3,6 @@
 namespace Navplan\Geoname\UseCase;
 
 use Navplan\Geometry\Domain\Position2d;
-use Navplan\Geoname\IRepo\IGeonameSearch;
 
 
 class GeonameSearch {

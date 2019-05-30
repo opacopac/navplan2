@@ -4,7 +4,7 @@ namespace Navplan\OpenAip\DbRepo;
 
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
-use Navplan\OpenAip\IRepo\INavaidSearch;
+use Navplan\OpenAip\UseCase\INavaidSearch;
 use Navplan\Shared\DbHelper;
 use Navplan\Shared\IDbResult;
 use Navplan\Shared\IDbService;
