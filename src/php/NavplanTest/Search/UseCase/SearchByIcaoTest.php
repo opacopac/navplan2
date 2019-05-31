@@ -11,7 +11,7 @@ use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;
 use NavplanTest\OpenAip\Mocks\DummyReportingSector1;
 use NavplanTest\OpenAip\Mocks\ReportingPointSearchMock;
 use NavplanTest\Search\Mocks\SearchConfigMock;
-use NavplanTest\User\Mocks\UserPointSearchMock;
+use NavplanTest\User\Mocks\UserPointRepoMock;
 use PHPUnit\Framework\TestCase;
 
 
@@ -36,9 +36,9 @@ class SearchByIcaoTest extends TestCase {
     }
 
 
-    private function getUserPointRepoMock(): UserPointSearchMock {
-        $repo = $this->getConfig()->getUserRepoFactory()->createUserPointSearch();
-        return $repo instanceof UserPointSearchMock ? $repo : NULL;
+    private function getUserPointRepoMock(): UserPointRepoMock {
+        $repo = $this->getConfig()->getUserRepoFactory()->createUserPointRepo();
+        return $repo instanceof UserPointRepoMock ? $repo : NULL;
     }
 
 

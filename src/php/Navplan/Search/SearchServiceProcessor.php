@@ -1,9 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Search\Rest;
+namespace Navplan\Search;
 
 use InvalidArgumentException;
 use Navplan\Search\Domain\SearchResult;
+use Navplan\Search\Rest\RestSearchByExtentQuery;
+use Navplan\Search\Rest\RestSearchByIcaoQuery;
+use Navplan\Search\Rest\RestSearchByPositionQuery;
+use Navplan\Search\Rest\RestSearchByTextQuery;
+use Navplan\Search\Rest\RestSearchResult;
 use Navplan\Search\UseCase\ISearchConfig;
 use Navplan\Search\UseCase\SearchByExtent;
 use Navplan\Search\UseCase\SearchByIcao;
@@ -26,22 +31,22 @@ class SearchServiceProcessor {
         $action = isset($getArgs[self::ARG_ACTION]) ? $getArgs[self::ARG_ACTION] : NULL;
         switch ($action) {
             case self::ACTION_SEARCH_BY_TEXT:
-                $query = RestSearchByTextQuery::fromArray($getArgs);
+                $query = RestSearchByTextQuery::fromArgs($getArgs);
                 $result = SearchByText::search($query, $config);
                 self::sendSearchResultResponse($result, $config->getHttpResponseService());
                 break;
             case self::ACTION_SEARCH_BY_POSITION:
-                $query = RestSearchByPositionQuery::fromArray($getArgs);
+                $query = RestSearchByPositionQuery::fromArgs($getArgs);
                 $result = SearchByPosition::search($query, $config);
                 self::sendSearchResultResponse($result, $config->getHttpResponseService());
                 break;
             case self::ACTION_SEARCH_BY_EXTENT:
-                $query = RestSearchByExtentQuery::fromArray($getArgs);
+                $query = RestSearchByExtentQuery::fromArgs($getArgs);
                 $result = SearchByExtent::search($query, $config);
                 self::sendSearchResultResponse($result, $config->getHttpResponseService());
                 break;
             case self::ACTION_SEARCH_BY_ICAO:
-                $query = RestSearchByIcaoQuery::fromArray($getArgs);
+                $query = RestSearchByIcaoQuery::fromArgs($getArgs);
                 $result = SearchByIcao::search($query, $config);
                 self::sendSearchResultResponse($result, $config->getHttpResponseService());
                 break;

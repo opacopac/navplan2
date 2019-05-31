@@ -17,7 +17,7 @@ class RestSearchByPositionQuery {
     const ARG_TOKEN = "token";
 
 
-    public static function fromArray(array $args): SearchByPositionQuery {
+    public static function fromArgs(array $args): SearchByPositionQuery {
         $searchItems = RestSearchItemType::fromString(StringNumberService::parseStringOrError($args, self::ARG_SEARCH_ITEMS));
         $lon = StringNumberService::parseFloatOrError($args, self::ARG_LON);
         $lat = StringNumberService::parseFloatOrError($args, self::ARG_LAT);

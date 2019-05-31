@@ -2,8 +2,6 @@
 
 namespace Navplan\Search;
 
-use Navplan\Search\Rest\SearchServiceProcessor;
-
 
 $getArgs = $_GET;
 $config = new SearchConfigProd();

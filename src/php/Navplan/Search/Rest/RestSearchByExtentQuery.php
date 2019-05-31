@@ -19,7 +19,7 @@ class RestSearchByExtentQuery {
     const ARG_TOKEN = "token";
 
 
-    public static function fromArray(array $args): SearchByExtentQuery {
+    public static function fromArgs(array $args): SearchByExtentQuery {
         $searchItems = RestSearchItemType::fromString(StringNumberService::parseStringOrError($args, self::ARG_SEARCH_ITEMS));
         $minLon = StringNumberService::parseFloatOrError($args, self::ARG_MIN_LON);
         $minLat = StringNumberService::parseFloatOrError($args, self::ARG_MIN_LAT);

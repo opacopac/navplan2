@@ -2,6 +2,8 @@
 
 namespace NavplanTest\Search\Mocks;
 
+require_once __DIR__ . "/../../../config_test.php";
+
 use Navplan\Geoname\UseCase\IGeonameRepoFactory;
 use Navplan\Notam\UseCase\INotamRepoFactory;
 use Navplan\Search\UseCase\ISearchConfig;
@@ -17,7 +19,6 @@ use NavplanTest\MailServiceMock;
 use NavplanTest\Notam\Mocks\NotamMockRepoFactory;
 use NavplanTest\OpenAip\Mocks\OpenAipMockRepoFactory;
 use NavplanTest\User\Mocks\UserMockRepoFactory;
-
 
 class SearchConfigMock implements ISearchConfig {
     private $dbService;

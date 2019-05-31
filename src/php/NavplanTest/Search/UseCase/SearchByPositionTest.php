@@ -2,13 +2,11 @@
 
 namespace NavplanTest\Search\UseCase;
 
-require_once __DIR__ . "/../../../config_test.php"; // TODO => inject config
-
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\Search\Domain\SearchByPositionQuery;
 use Navplan\Search\Domain\SearchItemType;
 use Navplan\Search\UseCase\SearchByPosition;
-use Navplan\User\UserHelper;
+use Navplan\User\UseCase\UserHelper;
 use NavplanTest\OpenAip\Mocks\AirspaceSearchMock;
 use NavplanTest\OpenAip\Mocks\DummyAirspace1;
 use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;
@@ -17,8 +15,12 @@ use NavplanTest\OpenAip\Mocks\ReportingPointSearchMock;
 use NavplanTest\Search\Mocks\SearchConfigMock;
 use NavplanTest\User\Mocks\DummyUserPoint1;
 use NavplanTest\User\Mocks\DummyUserPoint2;
-use NavplanTest\User\Mocks\UserPointSearchMock;
+use NavplanTest\User\Mocks\UserPointRepoMock;
 use PHPUnit\Framework\TestCase;
+
+
+// TODO: inject with config
+require_once __DIR__ . "/../../../config_test.php";
 
 
 class SearchByPositionTest extends TestCase {
@@ -42,9 +44,9 @@ class SearchByPositionTest extends TestCase {
     }
 
 
-    private function getUserPointRepoMock(): UserPointSearchMock {
-        $repo = $this->getConfig()->getUserRepoFactory()->createUserPointSearch();
-        return $repo instanceof UserPointSearchMock ? $repo : NULL;
+    private function getUserPointRepoMock(): UserPointRepoMock {
+        $repo = $this->getConfig()->getUserRepoFactory()->createUserPointRepo();
+        return $repo instanceof UserPointRepoMock ? $repo : NULL;
     }
 
 

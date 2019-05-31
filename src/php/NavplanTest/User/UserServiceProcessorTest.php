@@ -3,84 +3,117 @@
 namespace NavplanTest\Shared;
 
 use InvalidArgumentException;
+use Navplan\User\UseCase\IUserConfig;
 use Navplan\User\UserServiceProcessor;
-use NavplanTest\DbServiceMock;
 use NavplanTest\HttpResponseServiceMock;
-use NavplanTest\MailServiceMock;
+use NavplanTest\User\Mocks\UserConfigMock;
 use PHPUnit\Framework\TestCase;
 
+
 class UserServiceProcessorTest extends TestCase {
-    private $dbService;
-    private $mailService;
-    private $httpService;
+    private $config;
+
+
+    private function getConfig(): IUserConfig {
+        return $this->config;
+    }
 
 
     private function getHttpService(): HttpResponseServiceMock {
-        return $this->httpService;
+        /* @var $service HttpResponseServiceMock */
+        $service = $this->getConfig()->getHttpResponseService();
+        return $service;
     }
 
 
     protected function setUp(): void {
-        parent::setUp();
-
-        $this->dbService = new DbServiceMock();
-        $this->mailService = new MailServiceMock();
-        $this->httpService = new HttpResponseServiceMock();
+        $this->config = new UserConfigMock();
     }
 
 
     public function test_processRequest_login_gets_called() {
-        $postVars = array("action" => "login");
-        UserServiceProcessor::processRequest($postVars, $this->mailService, $this->dbService, $this->getHttpService());
+        $postVars = array(
+            UserServiceProcessor::ARG_ACTION => UserServiceProcessor::ACTION_LOGIN,
+            "email" => "",
+            "password" => "",
+            "rememberme" => "0"
+        );
+        UserServiceProcessor::processRequest($postVars, $this->getConfig());
         $this->assertRegExp('/error/', $this->getHttpService()->body);
     }
 
 
     public function test_processRequest_autologin_gets_called() {
-        $postVars = array("action" => "autologin");
-        UserServiceProcessor::processRequest($postVars, $this->mailService, $this->dbService, $this->getHttpService());
+        $postVars = array(
+            UserServiceProcessor::ARG_ACTION => UserServiceProcessor::ACTION_AUTOLOGIN,
+            "token" => ""
+        );
+        UserServiceProcessor::processRequest($postVars, $this->getConfig());
         $this->assertRegExp('/error/', $this->getHttpService()->body);
     }
 
 
     public function test_processRequest_sendRegisterEmail_gets_called() {
-        $postVars = array("action" => "sendregisteremail", "email" => "");
-        UserServiceProcessor::processRequest($postVars, $this->mailService, $this->dbService, $this->getHttpService());
+        $postVars = array(
+            UserServiceProcessor::ARG_ACTION => UserServiceProcessor::ACTION_SEND_REGISTER_MAIL,
+            "email" => ""
+        );
+        UserServiceProcessor::processRequest($postVars, $this->getConfig());
         $this->assertRegExp('/error/', $this->getHttpService()->body);
     }
 
 
     public function test_processRequest_register_gets_called() {
-        $postVars = array("action" => "register", "token" => "", "password" => "");
-        UserServiceProcessor::processRequest($postVars, $this->mailService, $this->dbService, $this->getHttpService());
+        $postVars = array(
+            UserServiceProcessor::ARG_ACTION => UserServiceProcessor::ACTION_REGISTER,
+            "token" => "",
+            "password" => "",
+            "rememberme" => "0"
+        );
+        UserServiceProcessor::processRequest($postVars, $this->getConfig());
         $this->assertRegExp('/error/', $this->getHttpService()->body);
     }
 
 
     public function test_processRequest_sendlostpwemail_gets_called() {
-        $postVars = array("action" => "sendlostpwemail");
-        UserServiceProcessor::processRequest($postVars, $this->mailService, $this->dbService, $this->getHttpService());
+        $postVars = array(
+            UserServiceProcessor::ARG_ACTION => UserServiceProcessor::ACTION_SEND_LOST_PW,
+            "email" => ""
+        );
+        UserServiceProcessor::processRequest($postVars, $this->getConfig());
         $this->assertRegExp('/error/', $this->getHttpService()->body);
     }
 
 
     public function test_processRequest_resetpassword_gets_called() {
-        $postVars = array("action" => "resetpassword");
-        UserServiceProcessor::processRequest($postVars, $this->mailService, $this->dbService, $this->getHttpService());
+        $postVars = array(
+            UserServiceProcessor::ARG_ACTION => UserServiceProcessor::ACTION_RESET_PW,
+            "token" => "",
+            "password" => "",
+            "rememberme" => "0"
+        );
+        UserServiceProcessor::processRequest($postVars, $this->getConfig());
         $this->assertRegExp('/error/', $this->getHttpService()->body);
     }
 
 
     public function test_processRequest_updatepassword_gets_called() {
-        $postVars = array("action" => "updatepassword", "token" => "", "oldpassword" => "", "newpassword" => "");
-        UserServiceProcessor::processRequest($postVars, $this->mailService, $this->dbService, $this->getHttpService());
+        $postVars = array(
+            UserServiceProcessor::ARG_ACTION => UserServiceProcessor::ACTION_UPDATE_PW,
+            "token" => "",
+            "oldpassword" => "",
+            "newpassword" => ""
+        );
+        UserServiceProcessor::processRequest($postVars, $this->getConfig());
         $this->assertRegExp('/error/', $this->getHttpService()->body);
     }
 
 
     public function test_processRequest_unknown_action_throws_exception() {
-        $postVars = array("action" => "xxx");
+        $postVars = array(
+            UserServiceProcessor::ARG_ACTION => "xxx"
+        );
         $this->expectException(InvalidArgumentException::class);
-        UserServiceProcessor::processRequest($postVars, $this->mailService, $this->dbService, $this->getHttpService());
+        UserServiceProcessor::processRequest($postVars, $this->getConfig());
     }
 }

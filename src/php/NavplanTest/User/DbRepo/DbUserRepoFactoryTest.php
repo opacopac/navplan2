@@ -24,6 +24,6 @@ class DbUserRepoFactoryTest extends TestCase {
     public function test_create_instance() {
         $factory = new DbUserRepoFactory($this->getDbService());
         $this->assertNotNull($factory);
-        $this->assertNotNull($factory->createUserPointSearch());
+        $this->assertNotNull($factory->createUserPointRepo());
     }
 }

@@ -4,19 +4,18 @@ namespace Navplan\User\UseCase;
 
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
-use Navplan\User\UserHelper;
 
 
 class UserPointSearch {
     private $repo;
 
 
-    private function getRepo(): IUserPointSearch {
+    private function getRepo(): IUserPointRepo {
         return $this->repo;
     }
 
 
-    public function __construct(IUserPointSearch $repo) {
+    public function __construct(IUserPointRepo $repo) {
         $this->repo = $repo;
     }
 
@@ -38,7 +37,6 @@ class UserPointSearch {
         }
 
         return $this->getRepo()->searchByPosition($position, $maxRadius_deg, $maxResults, $email);
-
     }
 
 

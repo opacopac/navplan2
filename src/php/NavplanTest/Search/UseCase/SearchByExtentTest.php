@@ -6,7 +6,7 @@ use Navplan\Geometry\Domain\Extent;
 use Navplan\Search\Domain\SearchByExtentQuery;
 use Navplan\Search\Domain\SearchItemType;
 use Navplan\Search\UseCase\SearchByExtent;
-use Navplan\User\UserHelper;
+use Navplan\User\UseCase\UserHelper;
 use NavplanTest\OpenAip\Mocks\AirportSearchMock;
 use NavplanTest\OpenAip\Mocks\DummyAirport1;
 use NavplanTest\OpenAip\Mocks\DummyNavaid1;
@@ -14,7 +14,7 @@ use NavplanTest\OpenAip\Mocks\NavaidSearchMock;
 use NavplanTest\Search\Mocks\SearchConfigMock;
 use NavplanTest\User\Mocks\DummyUserPoint1;
 use NavplanTest\User\Mocks\DummyUserPoint2;
-use NavplanTest\User\Mocks\UserPointSearchMock;
+use NavplanTest\User\Mocks\UserPointRepoMock;
 use PHPUnit\Framework\TestCase;
 
 
@@ -39,9 +39,9 @@ class SearchByExtentTest extends TestCase {
     }
 
 
-    private function getUserPointRepoMock(): UserPointSearchMock {
-        $repo = $this->getConfig()->getUserRepoFactory()->createUserPointSearch();
-        return $repo instanceof UserPointSearchMock ? $repo : NULL;
+    private function getUserPointRepoMock(): UserPointRepoMock {
+        $repo = $this->getConfig()->getUserRepoFactory()->createUserPointRepo();
+        return $repo instanceof UserPointRepoMock ? $repo : NULL;
     }
 
 

@@ -12,7 +12,7 @@ class RestSearchByTextQuery {
     const ARG_TOKEN = "token";
 
 
-    public static function fromArray(array $args): SearchByTextQuery {
+    public static function fromArgs(array $args): SearchByTextQuery {
         $searchItems = RestSearchItemType::fromString(StringNumberService::parseStringOrError($args, self::ARG_SEARCH_ITEMS));
         $searchText = StringNumberService::parseStringOrError($args, self::ARG_SEARCH_TEXT);
         StringNumberService::checkString($searchText, 1, 100);

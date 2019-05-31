@@ -5,11 +5,11 @@ namespace NavplanTest\Search\UseCase;
 use Navplan\Search\Domain\SearchByTextQuery;
 use Navplan\Search\Domain\SearchItemType;
 use Navplan\Search\UseCase\SearchByText;
-use Navplan\User\UserHelper;
+use Navplan\User\UseCase\UserHelper;
 use NavplanTest\Search\Mocks\SearchConfigMock;
 use NavplanTest\User\Mocks\DummyUserPoint1;
 use NavplanTest\User\Mocks\DummyUserPoint2;
-use NavplanTest\User\Mocks\UserPointSearchMock;
+use NavplanTest\User\Mocks\UserPointRepoMock;
 use PHPUnit\Framework\TestCase;
 
 
@@ -22,9 +22,9 @@ class SearchByTextTest extends TestCase {
     }
 
 
-    private function getUserPointRepoMock(): UserPointSearchMock {
-        $repo = $this->getConfig()->getUserRepoFactory()->createUserPointSearch();
-        return $repo instanceof UserPointSearchMock ? $repo : NULL;
+    private function getUserPointRepoMock(): UserPointRepoMock {
+        $repo = $this->getConfig()->getUserRepoFactory()->createUserPointRepo();
+        return $repo instanceof UserPointRepoMock ? $repo : NULL;
     }
 
 

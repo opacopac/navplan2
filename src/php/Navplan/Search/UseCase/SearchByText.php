@@ -42,7 +42,7 @@ class SearchByText {
                     break;
                 case SearchItemType::USERPOINTS:
                     if ($query->token) {
-                        $userPoints = $config->getUserRepoFactory()->createUserPointSearch()->searchByText($query->searchText, self::getMaxTextResults($resultNum), $query->token);
+                        $userPoints = $config->getUserRepoFactory()->createUserPointRepo()->searchByText($query->searchText, self::getMaxTextResults($resultNum), $query->token);
                         $resultNum += count($userPoints);
                     }
                     break;

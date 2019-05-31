@@ -4,5 +4,7 @@ namespace Navplan\User\UseCase;
 
 
 interface IUserRepoFactory {
-    function createUserPointSearch(): IUserPointSearch;
+    function createUserRepo(): IUserRepo;
+
+    function createUserPointRepo(): IUserPointRepo;
 }

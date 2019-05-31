@@ -22,7 +22,7 @@ class SearchByIcaoQueryRestTest extends TestCase {
 
 
     public function testFromArray() {
-        $query = RestSearchByIcaoQuery::fromArray($this->args);
+        $query = RestSearchByIcaoQuery::fromArgs($this->args);
         $this->assertNotNull($query);
         $this->assertEquals([SearchItemType::AIRPORTS, SearchItemType::NAVAIDS], $query->searchItems);
         $this->assertEquals(['LSZB', 'LSZG', 'LSMP'], $query->icaoList);

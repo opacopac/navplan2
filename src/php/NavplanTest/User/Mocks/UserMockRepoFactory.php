@@ -2,21 +2,28 @@
 
 namespace NavplanTest\User\Mocks;
 
-use Navplan\User\UseCase\IUserPointSearch;
+use Navplan\User\UseCase\IUserPointRepo;
+use Navplan\User\UseCase\IUserRepo;
 use Navplan\User\UseCase\IUserRepoFactory;
 
 
 class UserMockRepoFactory implements IUserRepoFactory {
+    private $userRepoMock;
     private $userPointRepoMock;
 
 
     public function __construct() {
-        $this->userPointRepoMock = new UserPointSearchMock();
+        $this->userRepoMock = new UserRepoMock();
+        $this->userPointRepoMock = new UserPointRepoMock();
     }
 
 
-    public function createUserPointSearch(): IUserPointSearch {
+    public function createUserPointRepo(): IUserPointRepo {
         return $this->userPointRepoMock;
     }
 
+
+    public function createUserRepo(): IUserRepo {
+        return $this->userRepoMock;
+    }
 }

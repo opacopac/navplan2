@@ -48,7 +48,7 @@ class SearchByExtent {
                     break;
                 case SearchItemType::USERPOINTS:
                     if ($query->token) {
-                        $userPoints = $config->getUserRepoFactory()->createUserPointSearch()->searchByExtent($query->extent, $query->token);
+                        $userPoints = $config->getUserRepoFactory()->createUserPointRepo()->searchByExtent($query->extent, $query->token);
                         $resultNum += count($userPoints);
                     }
                     break;

@@ -5,10 +5,10 @@ namespace NavplanTest\User\Mocks;
 use InvalidArgumentException;
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
-use Navplan\User\UseCase\IUserPointSearch;
+use Navplan\User\UseCase\IUserPointRepo;
 
 
-class UserPointSearchMock implements IUserPointSearch {
+class UserPointRepoMock implements IUserPointRepo {
     private $mockResultList = [];
 
 

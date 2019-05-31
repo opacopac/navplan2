@@ -21,7 +21,7 @@ class SearchByTextQueryRestTest extends TestCase {
 
 
     public function test_FromArray() {
-        $query = RestSearchByTextQuery::fromArray($this->args);
+        $query = RestSearchByTextQuery::fromArgs($this->args);
         $this->assertNotNull($query);
         $this->assertEquals([SearchItemType::AIRPORTS, SearchItemType::NAVAIDS], $query->searchItems);
         $this->assertEquals("LSZB", $query->searchText);

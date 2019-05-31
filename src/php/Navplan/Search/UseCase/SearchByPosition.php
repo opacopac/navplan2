@@ -43,7 +43,7 @@ class SearchByPosition {
                     break;
                 case SearchItemType::USERPOINTS:
                     if ($query->token) {
-                        $userPoints = $config->getUserRepoFactory()->createUserPointSearch()->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum), $query->token);
+                        $userPoints = $config->getUserRepoFactory()->createUserPointRepo()->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum), $query->token);
                         $resultNum += count($userPoints);
                     }
                     break;

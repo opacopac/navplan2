@@ -6,11 +6,11 @@ use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\Shared\IDbResult;
 use Navplan\Shared\IDbService;
-use Navplan\User\UseCase\IUserPointSearch;
+use Navplan\User\UseCase\IUserPointRepo;
 
 
 
-class DbUserPointSearch implements IUserPointSearch {
+class DbUserPointRepo implements IUserPointRepo {
     private $dbService;
 
 

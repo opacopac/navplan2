@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\Search\Rest;
+namespace NavplanTest\Search;
 
+use Navplan\Search\SearchServiceProcessor;
 use Navplan\Search\UseCase\ISearchConfig;
 use Navplan\Search\Rest\RestSearchByExtentQuery;
 use Navplan\Search\Rest\RestSearchByIcaoQuery;
 use Navplan\Search\Rest\RestSearchByPositionQuery;
 use Navplan\Search\Rest\RestSearchByTextQuery;
-use Navplan\Search\Rest\SearchServiceProcessor;
 use NavplanTest\HttpResponseServiceMock;
 use NavplanTest\OpenAip\Mocks\DummyNavaid1;
 use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;

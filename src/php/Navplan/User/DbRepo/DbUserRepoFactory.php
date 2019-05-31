@@ -3,7 +3,8 @@
 namespace Navplan\User\DbRepo;
 
 use Navplan\Shared\IDbService;
-use Navplan\User\UseCase\IUserPointSearch;
+use Navplan\User\UseCase\IUserPointRepo;
+use Navplan\User\UseCase\IUserRepo;
 use Navplan\User\UseCase\IUserRepoFactory;
 
 
@@ -21,7 +22,12 @@ class DbUserRepoFactory implements IUserRepoFactory {
     }
 
 
-    public function createUserPointSearch(): IUserPointSearch {
-        return new DbUserPointSearch($this->getDbService());
+    public function createUserRepo(): IUserRepo {
+        return new DbUserRepo($this->getDbService());
+    }
+
+
+    public function createUserPointRepo(): IUserPointRepo {
+        return new DbUserPointRepo($this->getDbService());
     }
 }

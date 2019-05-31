@@ -25,7 +25,7 @@ class SearchByPositionQueryRestTest extends TestCase {
 
 
     public function testFromArray() {
-        $query = RestSearchByPositionQuery::fromArray($this->args);
+        $query = RestSearchByPositionQuery::fromArgs($this->args);
         $this->assertNotNull($query);
         $this->assertEquals([SearchItemType::AIRPORTS, SearchItemType::NAVAIDS], $query->searchItems);
         $this->assertEquals(7.0, $query->position->longitude);

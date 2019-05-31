@@ -14,7 +14,7 @@ class RestSearchByIcaoQuery {
     const ARG_MAX_NOTAM_TIME = "maxnotamtime";
 
 
-    public static function fromArray(array $args): SearchByIcaoQuery {
+    public static function fromArgs(array $args): SearchByIcaoQuery {
         $searchItems = RestSearchItemType::fromString(StringNumberService::parseStringOrError($args, self::ARG_SEARCH_ITEMS));
         $icaoList = self::checkEscapeIcaoList($args[self::ARG_ICAO]);
         $minNotamTimestamp = StringNumberService::parseIntOrZero($args, self::ARG_MIN_NOTAM_TIME);
