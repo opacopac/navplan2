@@ -6,7 +6,7 @@ use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\Notam\DbRepo\DbNotamSearch;
 use Navplan\Notam\Domain\Notam;
-use NavplanTest\DbServiceMock;
+use NavplanTest\Db\Mock\DbServiceMock;
 use NavplanTest\Notam\Mocks\DummyNotam1;
 use NavplanTest\Notam\Mocks\DummyNotam2;
 use NavplanTest\Notam\Mocks\DummyNotam3;

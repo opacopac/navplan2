@@ -10,7 +10,7 @@ use Navplan\OpenAip\Domain\AirportRadio;
 use Navplan\OpenAip\Domain\AirportRunway;
 use Navplan\OpenAip\Domain\MapFeature;
 use Navplan\OpenAip\Domain\Webcam;
-use NavplanTest\DbServiceMock;
+use NavplanTest\Db\Mock\DbServiceMock;
 use NavplanTest\OpenAip\Mocks\DummyAirport1;
 use PHPUnit\Framework\TestCase;
 

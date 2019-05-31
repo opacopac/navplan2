@@ -8,11 +8,11 @@ use Navplan\Geometry\Domain\AltitudeUnit;
 use Navplan\Geometry\Domain\Extent;
 use Navplan\OpenAip\Domain\Airspace;
 use Navplan\OpenAip\UseCase\IAirspaceSearch;
-use Navplan\Shared\DbHelper;
+use Navplan\Db\MySqlDb\DbHelper;
 use Navplan\Geometry\Domain\Ring2d;
 use Navplan\Shared\GeoService;
-use Navplan\Shared\IDbResult;
-use Navplan\Shared\IDbService;
+use Navplan\Db\IDb\IDbResult;
+use Navplan\Db\IDb\IDbService;
 
 
 class DbAirspaceSearch implements IAirspaceSearch {

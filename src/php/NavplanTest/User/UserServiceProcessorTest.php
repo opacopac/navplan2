@@ -5,7 +5,7 @@ namespace NavplanTest\Shared;
 use InvalidArgumentException;
 use Navplan\User\UseCase\IUserConfig;
 use Navplan\User\UserServiceProcessor;
-use NavplanTest\HttpResponseServiceMock;
+use NavplanTest\System\Mock\HttpResponseServiceMock;
 use NavplanTest\User\Mocks\UserConfigMock;
 use PHPUnit\Framework\TestCase;
 

@@ -5,9 +5,9 @@ namespace Navplan\Search\UseCase;
 use Navplan\Geoname\UseCase\IGeonameRepoFactory;
 use Navplan\Notam\UseCase\INotamRepoFactory;
 use Navplan\OpenAip\UseCase\IOpenAipRepoFactory;
-use Navplan\Shared\IDbService;
-use Navplan\Shared\IHttpResponseService;
-use Navplan\Shared\IMailService;
+use Navplan\Db\IDb\IDbService;
+use Navplan\System\IHttpResponseService;
+use Navplan\System\IMailService;
 use Navplan\User\UseCase\IUserRepoFactory;
 
 interface ISearchConfig {

@@ -6,7 +6,7 @@ use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\DbRepo\DbNavaidSearch;
 use Navplan\OpenAip\Domain\Navaid;
-use NavplanTest\DbServiceMock;
+use NavplanTest\Db\Mock\DbServiceMock;
 use NavplanTest\OpenAip\Mocks\DummyNavaid1;
 use PHPUnit\Framework\TestCase;
 

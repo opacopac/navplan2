@@ -7,7 +7,7 @@ use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\DbRepo\DbReportingPointSearch;
 use Navplan\OpenAip\Domain\ReportingPoint;
 use Navplan\Geometry\Domain\Ring2d;
-use NavplanTest\DbServiceMock;
+use NavplanTest\Db\Mock\DbServiceMock;
 use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;
 use NavplanTest\OpenAip\Mocks\DummyReportingSector1;
 use PHPUnit\Framework\TestCase;

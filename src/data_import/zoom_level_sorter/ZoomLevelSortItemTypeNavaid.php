@@ -1,9 +1,11 @@
 <?php
 include_once __DIR__ . "/ZoomLevelSortItemType.php";
-include_once __DIR__ . "/../../php/Navplan/Shared/DbService.php";
+include_once __DIR__ . "/../../php/Navplan/Db\MySqlDb/DbService.php";
 
-use Navplan\Shared\DbConnection;
-use Navplan\Shared\DbService;
+use Navplan\Db\Domain\DbException;
+use Navplan\Db\MySqlDb\DbConnection;
+use Navplan\Db\MySqlDb\DbService;
+use Navplan\Db\MySqlDb\MySqlDbResult;
 
 
 class ZoomLevelSortItemTypeNavaid implements ZoomLevelSortItemType {
@@ -29,7 +31,7 @@ class ZoomLevelSortItemTypeNavaid implements ZoomLevelSortItemType {
 
 
     /**
-     * @throws \Navplan\Shared\DbException
+     * @throws DbException
      */
     public function cleanZoomLevels() {
         $query =  "UPDATE openaip_navaids2 SET zoommin = NULL";
@@ -40,8 +42,8 @@ class ZoomLevelSortItemTypeNavaid implements ZoomLevelSortItemType {
     /**
      * @param string $lastGeoHash
      * @param int $maxCount
-     * @return \Navplan\Shared\MySqlDbResult
-     * @throws \Navplan\Shared\DbException
+     * @return MySqlDbResult
+     * @throws DbException
      */
     public function getNextBatch(?string $lastGeoHash, int $maxCount) {
     // read batch from DB
@@ -60,7 +62,7 @@ class ZoomLevelSortItemTypeNavaid implements ZoomLevelSortItemType {
     /**
      * @param int $zoomMin
      * @param array $idList
-     * @throws \Navplan\Shared\DbException
+     * @throws DbException
      */
     public function updateZoomLevels(int $zoomMin, array $idList) {
         $query = "UPDATE openaip_navaids2";

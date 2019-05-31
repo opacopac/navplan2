@@ -9,14 +9,14 @@ ini_set('display_errors', '1');
 require_once __DIR__ . "/../config.php";
 require_once __DIR__ . "/../Autoloader.php";
 
-use Navplan\Shared\FileService;
-use Navplan\Shared\HttpResponseService;
-use Navplan\Shared\IDbService;
-use Navplan\Shared\IFileService;
-use Navplan\Shared\IHttpResponseService;
-use Navplan\Shared\IMailService;
-use Navplan\Shared\MailService;
-use Navplan\Shared\MySqlDbService;
+use Navplan\Db\MySqlDb\MySqlDbService;
+use Navplan\System\FileService;
+use Navplan\System\HttpResponseService;
+use Navplan\Db\IDb\IDbService;
+use Navplan\System\IFileService;
+use Navplan\System\IHttpResponseService;
+use Navplan\System\IMailService;
+use Navplan\System\MailService;
 
 // header("Access-Control-Allow-Origin: *"); // TODO: remove for PROD
 

@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\Shared;
+namespace NavplanTest\System;
 
 use InvalidArgumentException;
 use Navplan\Shared\RequestResponseHelper;
-use NavplanTest\HttpResponseServiceMock;
+use NavplanTest\System\Mock\HttpResponseServiceMock;
 use PHPUnit\Framework\TestCase;
 
 

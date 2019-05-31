@@ -2,14 +2,14 @@
 
 namespace NavplanTest\User\Mocks;
 
-use Navplan\Shared\IDbService;
-use Navplan\Shared\IMailService;
-use Navplan\Shared\IHttpResponseService;
+use Navplan\Db\IDb\IDbService;
+use Navplan\System\IMailService;
+use Navplan\System\IHttpResponseService;
 use Navplan\User\UseCase\IUserConfig;
 use Navplan\User\UseCase\IUserRepoFactory;
-use NavplanTest\DbServiceMock;
-use NavplanTest\HttpResponseServiceMock;
-use NavplanTest\MailServiceMock;
+use NavplanTest\Db\Mock\DbServiceMock;
+use NavplanTest\System\Mock\HttpResponseServiceMock;
+use NavplanTest\System\Mock\MailServiceMock;
 
 
 class UserConfigMock implements IUserConfig {

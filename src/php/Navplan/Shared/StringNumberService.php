@@ -3,6 +3,7 @@
 namespace Navplan\Shared;
 
 use InvalidArgumentException;
+use Navplan\Db\IDb\IDbService;
 
 
 class StringNumberService

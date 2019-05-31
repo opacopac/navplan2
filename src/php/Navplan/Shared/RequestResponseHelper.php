@@ -3,6 +3,7 @@
 namespace Navplan\Shared;
 
 use InvalidArgumentException;
+use Navplan\System\IHttpResponseService;
 
 
 class RequestResponseHelper {

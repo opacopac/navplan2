@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\Shared;
+namespace NavplanTest\System;
 
 use InvalidArgumentException;
 use Navplan\Shared\StringNumberService;

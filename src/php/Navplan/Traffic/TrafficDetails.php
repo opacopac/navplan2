@@ -3,8 +3,8 @@
 namespace Navplan\Traffic;
 
 use InvalidArgumentException;
-use Navplan\Shared\IDbService;
-use Navplan\Shared\IHttpResponseService;
+use Navplan\Db\IDb\IDbService;
+use Navplan\System\IHttpResponseService;
 use Navplan\Shared\RequestResponseHelper;
 use Navplan\Shared\StringNumberService;
 

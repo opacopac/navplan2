@@ -2,9 +2,9 @@
 
 namespace NavplanTest;
 
-use Navplan\Shared\FileService;
-use Navplan\Shared\MailService;
-use Navplan\Shared\MySqlDbService;
+use Navplan\System\FileService;
+use Navplan\System\MailService;
+use Navplan\Db\MySqlDb\MySqlDbService;
 use PHPUnit\Framework\TestCase;
 use Navplan\NavplanBootstrap;
 

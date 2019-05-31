@@ -5,7 +5,7 @@ namespace NavplanTest\OpenAip\DbRepo;
 use Navplan\Geometry\Domain\Extent;
 use Navplan\OpenAip\DbRepo\DbWebcamSearch;
 use Navplan\OpenAip\Domain\Webcam;
-use NavplanTest\DbServiceMock;
+use NavplanTest\Db\Mock\DbServiceMock;
 use NavplanTest\OpenAip\Mocks\DummyWebcam1;
 use NavplanTest\OpenAip\Mocks\DummyWebcam2;
 use PHPUnit\Framework\TestCase;

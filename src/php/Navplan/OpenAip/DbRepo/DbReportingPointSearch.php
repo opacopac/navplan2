@@ -7,10 +7,10 @@ use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\Domain\ReportingPoint;
 use Navplan\OpenAip\UseCase\IReportingPointSearch;
-use Navplan\Shared\DbHelper;
+use Navplan\Db\MySqlDb\DbHelper;
 use Navplan\Geometry\Domain\Ring2d;
-use Navplan\Shared\IDbResult;
-use Navplan\Shared\IDbService;
+use Navplan\Db\IDb\IDbResult;
+use Navplan\Db\IDb\IDbService;
 use Navplan\Shared\StringNumberService;
 
 

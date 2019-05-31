@@ -2,7 +2,7 @@
 
 namespace Navplan\Flightroute;
 
-use Navplan\Shared\IDbService;
+use Navplan\Db\IDb\IDbService;
 
 
 class FlightrouteHelper

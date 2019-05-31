@@ -8,7 +8,7 @@ use Navplan\Geometry\Domain\Extent;
 use Navplan\OpenAip\DbRepo\DbAirspaceSearch;
 use Navplan\OpenAip\Domain\Airspace;
 use Navplan\Geometry\Domain\Ring2d;
-use NavplanTest\DbServiceMock;
+use NavplanTest\Db\Mock\DbServiceMock;
 use NavplanTest\OpenAip\Mocks\DummyAirspace1;
 use PHPUnit\Framework\TestCase;
 

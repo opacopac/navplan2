@@ -3,8 +3,8 @@
 namespace Navplan\Flightroute;
 
 use http\Exception\InvalidArgumentException;
-use Navplan\Shared\IDbService;
-use Navplan\Shared\IHttpResponseService;
+use Navplan\Db\IDb\IDbService;
+use Navplan\System\IHttpResponseService;
 
 
 class FlightrouteServiceProcessor {

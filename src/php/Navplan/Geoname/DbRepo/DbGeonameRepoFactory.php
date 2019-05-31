@@ -3,7 +3,7 @@
 namespace Navplan\Geoname\DbRepo;
 
 use Navplan\Geoname\UseCase\IGeonameRepoFactory;
-use Navplan\Shared\IDbService;
+use Navplan\Db\IDb\IDbService;
 
 
 class DbGeonameRepoFactory implements IGeonameRepoFactory {

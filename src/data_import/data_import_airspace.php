@@ -2,10 +2,10 @@
 include "../php/config.php";
 include "../php/helper.php";
 
-include_once __DIR__ . "/../php/Navplan/Shared/DbService.php";
+include_once __DIR__ . "/../php/Navplan/Db/MySqlDb/DbService.php";
 
-use Navplan\Shared\DbService;
-use Navplan\Shared\DbException;
+use Navplan\Db\MySqlDb\DbService;
+use Navplan\Db\Domain\DbException;
 
 
 const START_NUM_CORR_ADD_ENTRIES = 999000000;

@@ -2,8 +2,8 @@
 
 namespace Navplan\Traffic;
 
-use Navplan\Shared\IFileService;
-use Navplan\Shared\IHttpResponseService;
+use Navplan\System\IFileService;
+use Navplan\System\IHttpResponseService;
 use Navplan\Shared\RequestResponseHelper;
 use Navplan\Shared\StringNumberService;
 

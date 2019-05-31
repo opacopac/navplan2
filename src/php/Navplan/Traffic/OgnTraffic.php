@@ -2,9 +2,9 @@
 
 namespace Navplan\Traffic;
 
-use Navplan\Shared\IDbService;
-use Navplan\Shared\IFileService;
-use Navplan\Shared\IHttpResponseService;
+use Navplan\Db\IDb\IDbService;
+use Navplan\System\IFileService;
+use Navplan\System\IHttpResponseService;
 use Navplan\Shared\RequestResponseHelper;
 use Navplan\Shared\StringNumberService;
 

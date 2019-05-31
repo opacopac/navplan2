@@ -2,9 +2,9 @@
 
 namespace Navplan\User\UseCase;
 
-use Navplan\Shared\IDbService;
-use Navplan\Shared\IHttpResponseService;
-use Navplan\Shared\IMailService;
+use Navplan\Db\IDb\IDbService;
+use Navplan\System\IHttpResponseService;
+use Navplan\System\IMailService;
 
 
 interface IUserConfig {

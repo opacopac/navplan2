@@ -2,11 +2,11 @@
 
 namespace Navplan\Flightroute;
 
-use Navplan\Shared\DbException;
-use Navplan\Shared\IDbService;
-use Navplan\Shared\IHttpResponseService;
+use Navplan\Db\Domain\DbException;
+use Navplan\Db\IDb\IDbService;
+use Navplan\System\IHttpResponseService;
 use Navplan\Shared\RequestResponseHelper;
-use Navplan\User\UserHelper;
+use Navplan\User\UseCase\UserHelper;
 
 
 class FlightrouteUpdate {

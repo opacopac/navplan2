@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
 use Navplan\Traffic\TrafficDetails;
-use NavplanTest\DbServiceMock;
-use NavplanTest\HttpResponseServiceMock;
+use NavplanTest\Db\Mock\DbServiceMock;
+use NavplanTest\System\Mock\HttpResponseServiceMock;
 use PHPUnit\Framework\TestCase;
 
 
@@ -34,7 +34,7 @@ class TrafficDetailsTest extends TestCase {
 
         $this->args = array("action" => "readacdetails");
         $this->dbService = new DbServiceMock();
-        $this->httpService = new \NavplanTest\HttpResponseServiceMock();
+        $this->httpService = new HttpResponseServiceMock();
     }
 
 

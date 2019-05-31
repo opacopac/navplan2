@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
 use Navplan\Shared\InvalidFormatException;
-use NavplanTest\FileServiceMock;
-use NavplanTest\HttpResponseServiceMock;
+use NavplanTest\System\Mock\FileServiceMock;
+use NavplanTest\System\Mock\HttpResponseServiceMock;
 use PHPUnit\Framework\TestCase;
 use Navplan\Traffic\AdsbexTraffic;
 

@@ -4,7 +4,7 @@ namespace Navplan\Notam\DbRepo;
 
 use Navplan\Notam\UseCase\INotamSearch;
 use Navplan\Notam\UseCase\INotamRepoFactory;
-use Navplan\Shared\IDbService;
+use Navplan\Db\IDb\IDbService;
 
 
 class DbNotamRepoFactory implements INotamRepoFactory {

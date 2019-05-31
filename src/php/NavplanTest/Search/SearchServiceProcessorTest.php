@@ -8,12 +8,12 @@ use Navplan\Search\Rest\RestSearchByExtentQuery;
 use Navplan\Search\Rest\RestSearchByIcaoQuery;
 use Navplan\Search\Rest\RestSearchByPositionQuery;
 use Navplan\Search\Rest\RestSearchByTextQuery;
-use NavplanTest\HttpResponseServiceMock;
 use NavplanTest\OpenAip\Mocks\DummyNavaid1;
 use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;
 use NavplanTest\OpenAip\Mocks\NavaidSearchMock;
 use NavplanTest\OpenAip\Mocks\ReportingPointSearchMock;
 use NavplanTest\Search\Mocks\SearchConfigMock;
+use NavplanTest\System\Mock\HttpResponseServiceMock;
 use PHPUnit\Framework\TestCase;
 
 

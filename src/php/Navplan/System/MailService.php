@@ -1,0 +1,35 @@
+<?php declare(strict_types=1);
+
+namespace Navplan\System;
+
+require_once __DIR__ . "/../NavplanHelper.php";
+
+
+class MailService implements IMailService {
+    const NAVPLAN_EMAIL_FROM = "info@navplan.ch";
+
+    private static $instance = NULL;
+
+
+    public static function getInstance(): MailService {
+        if (!isset(static::$instance)) {
+            static::$instance = new static;
+        }
+
+        return static::$instance;
+    }
+
+
+    private function __construct() {
+    }
+
+
+    public function sendEmail(string $emailTo, string $subject, string $message): bool {
+        $headers  = 'MIME-Version: 1.0' . "\r\n";
+        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+        $headers .= 'From: ' . self::NAVPLAN_EMAIL_FROM . "\r\n";
+        $headers .= 'Reply-To: ' . self::NAVPLAN_EMAIL_FROM . "\r\n";
+
+        return mail($emailTo, $subject, $message, $headers);
+    }
+}

@@ -4,7 +4,7 @@ namespace NavplanTest\User\UseCase;
 
 use Navplan\User\Domain\SendLostPwRequest;
 use Navplan\User\UseCase\SendLostPw;
-use NavplanTest\MailServiceMock;
+use NavplanTest\System\Mock\MailServiceMock;
 use NavplanTest\User\Mocks\UserConfigMock;
 use NavplanTest\User\Mocks\UserRepoMock;
 use PHPUnit\Framework\TestCase;

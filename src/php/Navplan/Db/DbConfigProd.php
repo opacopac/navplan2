@@ -5,12 +5,12 @@ namespace Navplan\Db;
 require_once __DIR__ . "/../../config.php";
 require_once __DIR__ . "/../../Autoloader.php";
 
-use Navplan\Search\UseCase\IDb;
-use Navplan\Shared\IDbService;
-use Navplan\Shared\MySqlDbService;
+use Navplan\Db\IDb\IDbConfig;
+use Navplan\Db\IDb\IDbService;
+use Navplan\Db\MySqlDb\MySqlDbService;
 
 
-class DbConfigProd implements IDb {
+class DbConfigProd implements IDbConfig {
     private $dbService;
 
 
@@ -22,6 +22,7 @@ class DbConfigProd implements IDb {
     private static function getAndInitDbService(): IDbService {
         global $db_host, $db_user, $db_pw, $db_name;
 
+        /* @var $dbService IDbService */
         $dbService = MySqlDbService::getInstance();
         $dbService->init($db_host, $db_user, $db_pw, $db_name);
 

@@ -4,8 +4,8 @@ namespace Navplan\Geoname\DbRepo;
 
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\Geoname\UseCase\IGeonameSearch;
-use Navplan\Shared\IDbResult;
-use Navplan\Shared\IDbService;
+use Navplan\Db\IDb\IDbResult;
+use Navplan\Db\IDb\IDbService;
 
 
 class DbGeonameSearch implements IGeonameSearch {

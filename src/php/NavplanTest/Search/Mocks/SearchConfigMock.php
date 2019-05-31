@@ -7,17 +7,17 @@ require_once __DIR__ . "/../../../config_test.php";
 use Navplan\Geoname\UseCase\IGeonameRepoFactory;
 use Navplan\Notam\UseCase\INotamRepoFactory;
 use Navplan\Search\UseCase\ISearchConfig;
-use Navplan\Shared\IDbService;
-use Navplan\Shared\IMailService;
-use Navplan\Shared\IHttpResponseService;
+use Navplan\Db\IDb\IDbService;
+use Navplan\System\IMailService;
+use Navplan\System\IHttpResponseService;
 use Navplan\OpenAip\UseCase\IOpenAipRepoFactory;
 use Navplan\User\UseCase\IUserRepoFactory;
-use NavplanTest\DbServiceMock;
+use NavplanTest\Db\Mock\DbServiceMock;
 use NavplanTest\Geoname\Mocks\GeonameMockRepoFactory;
-use NavplanTest\HttpResponseServiceMock;
-use NavplanTest\MailServiceMock;
 use NavplanTest\Notam\Mocks\NotamMockRepoFactory;
 use NavplanTest\OpenAip\Mocks\OpenAipMockRepoFactory;
+use NavplanTest\System\Mock\HttpResponseServiceMock;
+use NavplanTest\System\Mock\MailServiceMock;
 use NavplanTest\User\Mocks\UserMockRepoFactory;
 
 class SearchConfigMock implements ISearchConfig {
