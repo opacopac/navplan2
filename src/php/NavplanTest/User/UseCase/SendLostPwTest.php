@@ -6,7 +6,7 @@ use Navplan\User\Domain\SendLostPwRequest;
 use Navplan\User\UseCase\SendLostPw;
 use NavplanTest\System\Mock\MailServiceMock;
 use NavplanTest\User\Mocks\UserConfigMock;
-use NavplanTest\User\Mocks\UserRepoMock;
+use NavplanTest\User\Mocks\UserMockRepo;
 use PHPUnit\Framework\TestCase;
 
 // TODO: inject with config
@@ -18,8 +18,8 @@ class UserForgotPwTest extends TestCase {
     private $config;
 
 
-    private function getUserRepoMock(): UserRepoMock {
-        /* @var $userRepoMock UserRepoMock */
+    private function getUserRepoMock(): UserMockRepo {
+        /* @var $userRepoMock UserMockRepo */
         $userRepoMock = $this->config->getUserRepoFactory()->createUserRepo();
         return $userRepoMock;
     }

@@ -2,10 +2,49 @@
 
 namespace Navplan\Db\MySqlDb;
 
+use Navplan\Db\IDb\IDbService;
 use Navplan\Geometry\Domain\Extent;
 
 
 class DbHelper {
+    public static function getStringValue(IDbService $dbService, ?string $value, string $nullValue = 'NULL'): string {
+        if ($value === NULL) {
+            return $nullValue;
+        } else {
+            return "'" . $dbService->escapeString($value) . "'";
+        }
+    }
+
+
+    public static function getIntValue(?int $value, string $nullValue = 'NULL'): string {
+        if ($value === NULL) {
+            return $nullValue;
+        } else {
+            return "'" . $value . "'";
+        }
+    }
+
+
+    public static function getFloatValue(?float $value, string $nullValue = 'NULL'): string {
+        if ($value === NULL) {
+            return $nullValue;
+        } else {
+            return "'" . $value . "'";
+        }
+    }
+
+
+    public static function getBoolValue(?bool $value, string $nullValue = 'NULL'): string {
+        if ($value === NULL) {
+            return $nullValue;
+        } else if ($value === TRUE) {
+            return "'1'";
+        } else {
+            return "'0'";
+        }
+    }
+
+
     public static function getDbTimeString(int $timestamp): string
     {
         return date("Y-m-d H:i:s", $timestamp);

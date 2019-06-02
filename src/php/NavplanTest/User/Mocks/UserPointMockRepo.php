@@ -8,7 +8,7 @@ use Navplan\Geometry\Domain\Position2d;
 use Navplan\User\UseCase\IUserPointRepo;
 
 
-class UserPointRepoMock implements IUserPointRepo {
+class UserPointMockRepo implements IUserPointRepo {
     private $mockResultList = [];
 
 

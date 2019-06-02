@@ -35,12 +35,19 @@ class StringNumberService
     }
 
 
-    public static function parseIntOrZero(array $keyValues, string $key): int {
+    public static function parseIntOrNull(array $keyValues, string $key): ?int {
         if (!isset($keyValues[$key]) || !is_numeric($keyValues[$key])) {
-            return 0;
+            return NULL;
         }
 
         return intval($keyValues[$key]);
+    }
+
+
+    public static function parseIntOrZero(array $keyValues, string $key): int {
+        $value = self::parseIntOrNull($keyValues, $key);
+
+        return $value !== NULL ? $value : 0;
     }
 
 
@@ -55,12 +62,19 @@ class StringNumberService
     }
 
 
-    public static function parseFloatOrZero(array $keyValues, string $key): float {
+    public static function parseFloatOrNull(array $keyValues, string $key): ?float {
         if (!isset($keyValues[$key]) || !is_numeric($keyValues[$key])) {
-            return 0;
+            return NULL;
         }
 
         return floatval($keyValues[$key]);
+    }
+
+
+    public static function parseFloatOrZero(array $keyValues, string $key): float {
+        $value = self::parseFloatOrNull($keyValues, $key);
+
+        return $value !== NULL ? $value : 0;
     }
 
 
@@ -72,6 +86,44 @@ class StringNumberService
         }
 
         return floatval($keyValues[$key]);
+    }
+
+
+    public static function parseBoolOrNull(array $keyValues, string $key): ?bool {
+        if (!isset($keyValues[$key])) {
+            return NULL;
+        }
+
+        $val = $keyValues[$key];
+        if (is_bool($val)) {
+            return $val;
+        } else if (is_numeric($val)) {
+            switch (floatval($val)) {
+                case 1: return TRUE;
+                case 0: return FALSE;
+            }
+        } else if (is_string($val)) {
+            switch (trim(strtolower($val))) {
+                case '1':
+                case 'true':
+                    return TRUE;
+                case '0':
+                case 'false':
+                    return FALSE;
+            }
+        }
+
+        return NULL;
+    }
+
+
+    public static function parseBoolOrError(array $keyValues, string $key): bool {
+        $val = self::parseBoolOrNull($keyValues, $key);
+        if ($val === NULL) {
+            throw new InvalidArgumentException("argument '" . $key . "' is missing or not a boolean");
+        }
+
+        return $val;
     }
 
 

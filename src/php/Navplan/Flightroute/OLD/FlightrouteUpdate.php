@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Flightroute;
+namespace Navplan\Flightroute\OLD;
 
 use Navplan\Db\Domain\DbException;
 use Navplan\Db\IDb\IDbService;

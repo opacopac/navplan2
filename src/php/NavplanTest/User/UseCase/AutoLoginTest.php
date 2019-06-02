@@ -9,7 +9,7 @@ use Navplan\User\Domain\AutoLoginRequest;
 use Navplan\User\UseCase\AutoLogin;
 use Navplan\User\UseCase\UserHelper;
 use NavplanTest\User\Mocks\UserConfigMock;
-use NavplanTest\User\Mocks\UserRepoMock;
+use NavplanTest\User\Mocks\UserMockRepo;
 use PHPUnit\Framework\TestCase;
 
 

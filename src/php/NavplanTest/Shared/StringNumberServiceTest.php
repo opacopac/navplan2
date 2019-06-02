@@ -162,4 +162,110 @@ class StringNumberServiceTest extends TestCase {
     }
 
     // endregion
+
+
+    // region parseBoolOrError
+
+    public function test_parseBoolOrError_success_true() {
+        $args = array("key1" => true, "key2" => 1, "key3" => "true", "key4" => "1", "key5" => " TruE ");
+        $val1 = StringNumberService::parseBoolOrError($args, "key1");
+        $this->assertEquals(true, $val1);
+        $val1 = StringNumberService::parseBoolOrError($args, "key2");
+        $this->assertEquals(true, $val1);
+        $val1 = StringNumberService::parseBoolOrError($args, "key3");
+        $this->assertEquals(true, $val1);
+        $val1 = StringNumberService::parseBoolOrError($args, "key4");
+        $this->assertEquals(true, $val1);
+        $val1 = StringNumberService::parseBoolOrError($args, "key5");
+        $this->assertEquals(true, $val1);
+    }
+
+
+    public function test_parseBoolOrError_success_false() {
+        $args = array("key1" => FALSE, "key2" => 0, "key3" => "false", "key4" => "0", "key5" => " fALse ");
+        $val1 = StringNumberService::parseBoolOrError($args, "key1");
+        $this->assertEquals(FALSE, $val1);
+        $val1 = StringNumberService::parseBoolOrError($args, "key2");
+        $this->assertEquals(FALSE, $val1);
+        $val1 = StringNumberService::parseBoolOrError($args, "key3");
+        $this->assertEquals(FALSE, $val1);
+        $val1 = StringNumberService::parseBoolOrError($args, "key4");
+        $this->assertEquals(FALSE, $val1);
+        $val1 = StringNumberService::parseBoolOrError($args, "key5");
+        $this->assertEquals(FALSE, $val1);
+    }
+
+
+    public function test_parseBoolOrError_throw1() {
+        $args = array("key1" => true, "key2" => false);
+        $this->expectException(InvalidArgumentException::class);
+        StringNumberService::parseBoolOrError($args, "key0");
+    }
+
+
+    public function test_parseBoolOrError_throw2() {
+        $args = array("key1" => 2, "key2" => false);
+        $this->expectException(InvalidArgumentException::class);
+        StringNumberService::parseBoolOrError($args, "key1");
+    }
+
+
+    public function test_parseBoolOrError_throw3() {
+        $args = array("key1" => "falsch", "key2" => false);
+        $this->expectException(InvalidArgumentException::class);
+        StringNumberService::parseBoolOrError($args, "key1");
+    }
+
+
+    // endregion
+
+
+    // region parseBoolOrNull
+
+    public function test_parseBoolOrNull_true() {
+        $args = array("key1" => true, "key2" => 1, "key3" => "true", "key4" => "1", "key5" => " TruE ");
+        $val1 = StringNumberService::parseBoolOrNull($args, "key1");
+        $this->assertEquals(true, $val1);
+        $val1 = StringNumberService::parseBoolOrNull($args, "key2");
+        $this->assertEquals(true, $val1);
+        $val1 = StringNumberService::parseBoolOrNull($args, "key3");
+        $this->assertEquals(true, $val1);
+        $val1 = StringNumberService::parseBoolOrNull($args, "key4");
+        $this->assertEquals(true, $val1);
+        $val1 = StringNumberService::parseBoolOrNull($args, "key5");
+        $this->assertEquals(true, $val1);
+    }
+
+
+    public function test_parseBoolOrNull_false() {
+        $args = array("key1" => FALSE, "key2" => 0, "key3" => "false", "key4" => "0", "key5" => " fALse ");
+        $val1 = StringNumberService::parseBoolOrNull($args, "key1");
+        $this->assertEquals(FALSE, $val1);
+        $val1 = StringNumberService::parseBoolOrNull($args, "key2");
+        $this->assertEquals(FALSE, $val1);
+        $val1 = StringNumberService::parseBoolOrNull($args, "key3");
+        $this->assertEquals(FALSE, $val1);
+        $val1 = StringNumberService::parseBoolOrNull($args, "key4");
+        $this->assertEquals(FALSE, $val1);
+        $val1 = StringNumberService::parseBoolOrNull($args, "key5");
+        $this->assertEquals(FALSE, $val1);
+    }
+
+
+    public function test_parseBoolOrNull_null() {
+        $args = array("key1" => 2, "key2" => "falsch", "key3" => -2, "key4" => "2");
+        $val1 = StringNumberService::parseBoolOrNull($args, "key0");
+        $this->assertEquals(NULL, $val1);
+        $val1 = StringNumberService::parseBoolOrNull($args, "key1");
+        $this->assertEquals(NULL, $val1);
+        $val1 = StringNumberService::parseBoolOrNull($args, "key2");
+        $this->assertEquals(NULL, $val1);
+        $val1 = StringNumberService::parseBoolOrNull($args, "key3");
+        $this->assertEquals(NULL, $val1);
+        $val1 = StringNumberService::parseBoolOrNull($args, "key4");
+        $this->assertEquals(NULL, $val1);
+    }
+
+
+    // endregion
 }

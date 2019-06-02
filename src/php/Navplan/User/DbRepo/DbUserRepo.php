@@ -3,6 +3,7 @@
 namespace Navplan\User\DbRepo;
 
 use Navplan\Db\IDb\IDbService;
+use Navplan\User\Domain\User;
 use Navplan\User\UseCase\IUserRepo;
 
 
@@ -34,11 +35,25 @@ class DbUserRepo implements IUserRepo {
 
 
     public function createUser(string $email, string $password) {
-        $this->getDbService()->escapeString($email);
+        $email = $this->getDbService()->escapeString($email);
         $pw_hash = password_hash($password, PASSWORD_BCRYPT);
         $pw_hash = $this->getDbService()->escapeString($pw_hash);
         $query = "INSERT INTO users (token, email, pw_hash) VALUES ('DUMMY','" . $email . "','" . $pw_hash . "')";
         $this->getDbService()->execCUDQuery($query, "error creating user");
+    }
+
+
+    public function readUser(string $email): ?User {
+        $email = $this->getDbService()->escapeString($email);
+        $query = "SELECT id FROM users WHERE email = '" . $email . "'";
+        $result = $this->getDbService()->execSingleResultQuery($query, TRUE, "error reading user");
+
+        if ($result->getNumRows() !== 1) {
+            return NULL;
+        } else {
+            $row = $result->fetch_assoc();
+            return DbUser::fromDbResult($row);
+        }
     }
 
 
@@ -51,7 +66,7 @@ class DbUserRepo implements IUserRepo {
 
 
     public function verifyPwHash(string $email, string $password): bool {
-        $this->getDbService()->escapeString($email);
+        $email = $this->getDbService()->escapeString($email);
         $query = "SELECT pw_hash FROM users WHERE email='" . $email . "'";
         $result = $this->getDbService()->execSingleResultQuery($query, TRUE, "error verifying pw hash");
 

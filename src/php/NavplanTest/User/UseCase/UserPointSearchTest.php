@@ -10,7 +10,7 @@ use Navplan\User\UseCase\UserHelper;
 use Navplan\User\UseCase\UserPointSearch;
 use NavplanTest\User\Mocks\DummyUserPoint1;
 use NavplanTest\User\Mocks\DummyUserPoint2;
-use NavplanTest\User\Mocks\UserPointRepoMock;
+use NavplanTest\User\Mocks\UserPointMockRepo;
 use PHPUnit\Framework\TestCase;
 
 
@@ -28,7 +28,7 @@ class UserPointSearchTest extends TestCase {
 
     protected function setUp(): void {
         $this->expectedResult = [ DummyUserPoint1::create(), DummyUserPoint2::create() ];
-        $this->repoMock = new UserPointRepoMock();
+        $this->repoMock = new UserPointMockRepo();
         $this->repoMock->pushMockResult($this->expectedResult);
         $this->upSearch = new UserPointSearch($this->repoMock);
         $this->validToken = UserHelper::createToken("asdf@asdf.com", FALSE);

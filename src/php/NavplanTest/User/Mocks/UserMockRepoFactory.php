@@ -13,8 +13,8 @@ class UserMockRepoFactory implements IUserRepoFactory {
 
 
     public function __construct() {
-        $this->userRepoMock = new UserRepoMock();
-        $this->userPointRepoMock = new UserPointRepoMock();
+        $this->userRepoMock = new UserMockRepo();
+        $this->userPointRepoMock = new UserPointMockRepo();
     }
 
 

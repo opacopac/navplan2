@@ -9,7 +9,7 @@ use Navplan\User\Domain\UpdatePwRequest;
 use Navplan\User\UseCase\UpdatePw;
 use Navplan\User\UseCase\UserHelper;
 use NavplanTest\User\Mocks\UserConfigMock;
-use NavplanTest\User\Mocks\UserRepoMock;
+use NavplanTest\User\Mocks\UserMockRepo;
 use PHPUnit\Framework\TestCase;
 
 
@@ -18,8 +18,8 @@ class UpdatePwTest extends TestCase {
     private $config;
 
 
-    private function getUserRepoMock(): UserRepoMock {
-        /* @var $userRepoMock UserRepoMock */
+    private function getUserRepoMock(): UserMockRepo {
+        /* @var $userRepoMock UserMockRepo */
         $userRepoMock = $this->config->getUserRepoFactory()->createUserRepo();
         return $userRepoMock;
     }
