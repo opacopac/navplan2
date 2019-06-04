@@ -1,9 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\User\Rest;
+namespace Navplan\Flightroute\Rest;
 
 use Navplan\Flightroute\Domain\FlightrouteListResponse;
-use Navplan\Flightroute\Rest\RestFlightroute;
 
 
 class RestFlightrouteListResponse {

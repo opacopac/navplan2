@@ -52,7 +52,7 @@ class TrafficDetailsTest extends TestCase {
         $this->getDbService()->pushMockResult([]);
         TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
 
-        $this->assertStringContainsString('FROM lfr_ch', $this->getDbService()->lastQueryList[0]);
+        $this->assertStringContainsString('FROM lfr_ch', $this->getDbService()->queryList[0]);
         $expectedRegExp = '/\{"acdetails":\[\{';
         $expectedRegExp .= '"icao24":"' . $this->mockResultLfrCh1['icaohex'] . '",';
         $expectedRegExp .= '"reg":"' . $this->mockResultLfrCh1['registration'] . '",';
@@ -73,7 +73,7 @@ class TrafficDetailsTest extends TestCase {
         $this->getDbService()->pushMockResult([]);
         TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
 
-        $this->assertStringContainsString('FROM basestation_aircrafts', $this->getDbService()->lastQueryList[1]);
+        $this->assertStringContainsString('FROM basestation_aircrafts', $this->getDbService()->queryList[1]);
         $expectedRegExp = '/\{"acdetails":\[\{';
         $expectedRegExp .= '"icao24":"' . $this->mockResultBasestation1['mode_s'] . '",';
         $expectedRegExp .= '"reg":"' . $this->mockResultBasestation1['registration'] . '",';
@@ -94,7 +94,7 @@ class TrafficDetailsTest extends TestCase {
         $this->getDbService()->pushMockResult([$this->mockResultIcaoAcTypes1]);
         TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
 
-        $this->assertStringContainsString('FROM icao_aircraft_type', $this->getDbService()->lastQueryList[2]);
+        $this->assertStringContainsString('FROM icao_aircraft_type', $this->getDbService()->queryList[2]);
         $expectedRegExp = '/\{"acdetails":\[\{';
         $expectedRegExp .= '"icao24":"C0FFEE",';
         $expectedRegExp .= '"reg":null,';
@@ -115,7 +115,7 @@ class TrafficDetailsTest extends TestCase {
         $this->getDbService()->pushMockResult([$this->mockResultIcaoAcTypes1]);
         TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
 
-        $this->assertStringContainsString('FROM icao_aircraft_type', $this->getDbService()->lastQueryList[2]);
+        $this->assertStringContainsString('FROM icao_aircraft_type', $this->getDbService()->queryList[2]);
         $expectedRegExp = '/\{"acdetails":\[\{';
         $expectedRegExp .= '"icao24":"' . $this->mockResultLfrCh1['icaohex'] . '",';
         $expectedRegExp .= '"reg":"' . $this->mockResultLfrCh1['registration'] . '",';

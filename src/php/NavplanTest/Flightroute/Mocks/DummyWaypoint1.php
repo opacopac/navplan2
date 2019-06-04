@@ -47,4 +47,23 @@ class DummyWaypoint1 {
             "is_alternate" => 0
         );
     }
+
+
+    public static function createRestArgs(): array {
+        return array(
+            "type" => "airport",
+            "freq" => "124.525",
+            "callsign" => "AD",
+            "checkpoint" => "LSPN",
+            "airport_icao" => "LSPN",
+            "latitude" => 47.2267,
+            "longitude" => 8.0781,
+            "alt" => "",
+            "isminalt" => 0,
+            "ismaxalt" => 0,
+            "isaltatlegstart" => 0,
+            "remark" => "",
+            "supp_info" => NULL
+        );
+    }
 }

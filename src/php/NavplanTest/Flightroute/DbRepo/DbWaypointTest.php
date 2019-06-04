@@ -78,4 +78,30 @@ class DbWaypointTest extends TestCase {
         $this->assertRegExp("/" . $flightrouteId . "/", $sql3);
         $this->assertRegExp("/" . $sortOrder . "/", $sql3);
     }
+
+
+    public function test_toInsertSql_escape_special_characters() {
+        $wp = DummyWaypoint1::create();
+        $wp->type = "xxx'type'xxx";
+        $wp->frequency = "xxx'frequency'xxx";
+        $wp->callsign = "xxx'callsign'xxx";
+        $wp->checkpoint = "xxx'checkpoint'xxx";
+        $wp->altitude = "xxx'altitude'xxx";
+        $wp->remark = "xxx'remark'xxx";
+        $wp->suppInfo = "xxx'suppInfo'xxx";
+        $wp->airportIcao = "xxx'airportIcao'xxx";
+        $flightrouteId = 12345;
+        $sortOrder = 131;
+
+        $sql = DbWaypoint::toInsertSql($this->dbService, $wp, $flightrouteId, $sortOrder);
+
+        $this->assertRegExp("/xxx\\\\'type\\\\'xxx/", $sql);
+        $this->assertRegExp("/xxx\\\\'frequency\\\\'xxx/", $sql);
+        $this->assertRegExp("/xxx\\\\'callsign\\\\'xxx/", $sql);
+        $this->assertRegExp("/xxx\\\\'checkpoint\\\\'xxx/", $sql);
+        $this->assertRegExp("/xxx\\\\'altitude\\\\'xxx/", $sql);
+        $this->assertRegExp("/xxx\\\\'remark\\\\'xxx/", $sql);
+        $this->assertRegExp("/xxx\\\\'suppInfo\\\\'xxx/", $sql);
+        $this->assertRegExp("/xxx\\\\'airportIcao\\\\'xxx/", $sql);
+    }
 }

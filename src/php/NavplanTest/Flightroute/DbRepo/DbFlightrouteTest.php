@@ -78,6 +78,23 @@ class DbFlightrouteTest extends TestCase {
     }
 
 
+    public function test_toInsertSql_escape_special_chars() {
+        $flightroute1 = DummyFlightroute1::create();
+        $flightroute1->title = "xxx'title'xxx";
+        $flightroute1->comments = "xxx'comments'xxx";
+        $flightroute1->shareId = "xxx'shareid'xxx";
+        $flightroute1->hash = "xxx'hash'xxx";
+        $user = DummyUser1::create();
+
+        $sql = DbFlightroute::toInsertSql($this->dbService, $flightroute1, $user->id);
+
+        $this->assertRegExp("/xxx\\\\'title\\\\'xxx/", $sql);
+        $this->assertRegExp("/xxx\\\\'comments\\\\'xxx/", $sql);
+        $this->assertRegExp("/xxx\\\\'shareid\\\\'xxx/", $sql);
+        $this->assertRegExp("/xxx\\\\'hash\\\\'xxx/", $sql);
+    }
+
+
     public function test_toUpdateSql() {
         $flightroute1 = DummyFlightroute1::create();
         $flightroute2 = DummyFlightroute2::create();
@@ -93,5 +110,21 @@ class DbFlightrouteTest extends TestCase {
         $this->assertRegExp("/" . $flightroute2->id . "/", $sql2);
         $this->assertRegExp("/UPDATE/", $sql3);
         $this->assertRegExp("/" . $flightroute3->id . "/", $sql3);
+    }
+
+
+    public function test_toUpdateSql_escape_special_chars() {
+        $flightroute = DummyFlightroute1::create();
+        $flightroute->title = "xxx'title'xxx";
+        $flightroute->comments = "xxx'comments'xxx";
+        $flightroute->shareId = "xxx'shareid'xxx";
+        $flightroute->hash = "xxx'hash'xxx";
+
+        $sql = DbFlightroute::toUpdateSql($this->dbService, $flightroute);
+
+        $this->assertRegExp("/xxx\\\\'title\\\\'xxx/", $sql);
+        $this->assertRegExp("/xxx\\\\'comments\\\\'xxx/", $sql);
+        $this->assertRegExp("/xxx\\\\'shareid\\\\'xxx/", $sql);
+        $this->assertRegExp("/xxx\\\\'hash\\\\'xxx/", $sql);
     }
 }

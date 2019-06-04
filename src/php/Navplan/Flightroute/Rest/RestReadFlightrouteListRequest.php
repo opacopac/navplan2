@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\User\Rest;
+namespace Navplan\Flightroute\Rest;
 
 use Navplan\Flightroute\Domain\ReadFlightrouteListRequest;
 use Navplan\Shared\StringNumberService;

@@ -35,4 +35,18 @@ class DummyFlightroute1 {
             "comments" => "",
         );
     }
+
+
+    public static function createRestArgs(): array {
+        return array(
+            "id" => 24,
+            "title" => "Triengen-Bern via Transit South",
+            "aircraft_speed" => "100",
+            "aircraft_consumption" => "20",
+            "extra_fuel" => "0",
+            "comments" => "",
+            "waypoints" => [DummyWaypoint1::createRestArgs(), DummyWaypoint2::createRestArgs()],
+            "alternate" => DummyWaypoint3::createRestArgs()
+        );
+    }
 }

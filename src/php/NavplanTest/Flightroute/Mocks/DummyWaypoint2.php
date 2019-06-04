@@ -47,4 +47,23 @@ class DummyWaypoint2 {
             "is_alternate" => 0
         );
     }
+
+
+    public static function createRestArgs(): array {
+        return array(
+            "type" => "navaid",
+            "freq" => "110.85",
+            "callsign" => "FRI",
+            "checkpoint" => "FRI VOR-DME",
+            "airport_icao" => NULL,
+            "latitude" => 46.7775,
+            "longitude" => 7.22361,
+            "alt" => "6000",
+            "isminalt" => 1,
+            "ismaxalt" => 0,
+            "isaltatlegstart" => 0,
+            "remark" => "WIL R228, 127.325",
+            "supp_info" => NULL
+        );
+    }
 }

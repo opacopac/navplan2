@@ -1,8 +1,7 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\OpenAip\DbRepo;
+namespace Navplan\Flightroute\DbRepo;
 
-use Navplan\Flightroute\DbRepo\DbFlightrouteRepo;
 use Navplan\Flightroute\UseCase\IFlightrouteRepo;
 use Navplan\Flightroute\UseCase\IFlightrouteRepoFactory;
 use Navplan\Db\IDb\IDbService;

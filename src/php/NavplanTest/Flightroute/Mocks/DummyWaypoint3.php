@@ -47,4 +47,23 @@ class DummyWaypoint3 {
             "is_alternate" => 1
         );
     }
+
+
+    public static function createRestArgs(): array {
+        return array(
+            "type" => "airport",
+            "freq" => "120.1",
+            "callsign" => "TWR",
+            "checkpoint" => "LSZG",
+            "airport_icao" => "LSZG",
+            "latitude" => 47.1814,
+            "longitude" => 7.41639,
+            "alt" => "",
+            "isminalt" => 0,
+            "ismaxalt" => 0,
+            "isaltatlegstart" => 0,
+            "remark" => "",
+            "supp_info" => "ELEV:1411ft RWY:07/25,07R/25L,07L/25R TWR:120.1 GND:121.8 ATIS:121.1"
+        );
+    }
 }

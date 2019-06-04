@@ -22,9 +22,10 @@ class RestWaypoint {
             StringNumberService::parseStringOrNull($args, "supp_info"),
             new Position2d(
                 StringNumberService::parseFloatOrError($args, "longitude"),
-                StringNumberService::parseFloatOrError($args, "longitude")
+                StringNumberService::parseFloatOrError($args, "latitude")
             ),
-            StringNumberService::parseStringOrNull($args, "airport_icao")
+            StringNumberService::parseStringOrNull($args, "airport_icao"),
+            FALSE
         );
     }
 

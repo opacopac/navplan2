@@ -9,12 +9,12 @@ use Navplan\Db\IDb\IDbService;
 
 class DbServiceMock implements IDbService {
     private $mockResultList = [];
-    public $lastQuery;
-    public $lastQueryList = [];
+    public $queryList = [];
+    public $insertId = 12345;
 
 
-    public function getAllQueriesString(): string {
-        return join(' ', $this->lastQueryList);
+    public function getAllQueriesString(string $separator = ' '): string {
+        return join($separator, $this->queryList);
     }
 
 
@@ -51,26 +51,24 @@ class DbServiceMock implements IDbService {
 
 
     public function execSingleResultQuery(string $query, bool $allowZeroResults, string $errorMessage): IDbResult {
-        $this->lastQuery = $query;
-        array_push($this->lastQueryList, $query);
+        array_push($this->queryList, $query);
         return $this->shiftMockResult($query);
     }
 
 
     public function execMultiResultQuery(string $query, string $errorMessage): IDbResult {
-        $this->lastQuery = $query;
-        array_push($this->lastQueryList, $query);
+        array_push($this->queryList, $query);
         return $this->shiftMockResult($query);
     }
 
 
     public function execCUDQuery(string $query, string $errorMessage): bool {
-        $this->lastQuery = $query;
-        array_push($this->lastQueryList, $query);
+        array_push($this->queryList, $query);
         return true;
     }
 
+
     public function getInsertId(): int {
-        return 12345;
+        return $this->insertId;
     }
 }
