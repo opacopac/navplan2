@@ -2,12 +2,12 @@
 
 namespace Navplan\OpenAip\DbRepo;
 
-use Navplan\OpenAip\UseCase\IAirportSearch;
-use Navplan\OpenAip\UseCase\IAirspaceSearch;
-use Navplan\OpenAip\UseCase\INavaidSearch;
+use Navplan\OpenAip\UseCase\IAirportRepo;
+use Navplan\OpenAip\UseCase\IAirspaceRepo;
+use Navplan\OpenAip\UseCase\INavaidRepo;
 use Navplan\OpenAip\UseCase\IOpenAipRepoFactory;
-use Navplan\OpenAip\UseCase\IReportingPointSearch;
-use Navplan\OpenAip\UseCase\IWebcamSearch;
+use Navplan\OpenAip\UseCase\IReportingPointRepo;
+use Navplan\OpenAip\UseCase\IWebcamRepo;
 use Navplan\Db\IDb\IDbService;
 
 
@@ -25,27 +25,27 @@ class DbOpenAipRepoFactory implements IOpenAipRepoFactory {
     }
 
 
-    public function createAirportSearch(): IAirportSearch {
-        return new DbAirportSearch($this->getDbService());
+    public function createAirportSearch(): IAirportRepo {
+        return new DbAirportRepo($this->getDbService());
     }
 
 
-    public function createAirspaceSearch(): IAirspaceSearch {
-        return new DbAirspaceSearch($this->getDbService());
+    public function createAirspaceSearch(): IAirspaceRepo {
+        return new DbAirspaceRepo($this->getDbService());
     }
 
 
-    public function createNavaidSearch(): INavaidSearch {
-        return new DbNavaidSearch($this->getDbService());
+    public function createNavaidSearch(): INavaidRepo {
+        return new DbNavaidRepo($this->getDbService());
     }
 
 
-    public function createReportingPointSearch(): IReportingPointSearch {
-        return new DbReportingPointSearch($this->getDbService());
+    public function createReportingPointSearch(): IReportingPointRepo {
+        return new DbReportingPointRepo($this->getDbService());
     }
 
 
-    public function createWebcamSearch(): IWebcamSearch {
-        return new DbWebcamSearch($this->getDbService());
+    public function createWebcamSearch(): IWebcamRepo {
+        return new DbWebcamRepo($this->getDbService());
     }
 }

@@ -5,8 +5,8 @@ namespace NavplanTest\Shared;
 use InvalidArgumentException;
 use Navplan\User\UseCase\IUserConfig;
 use Navplan\User\UserServiceProcessor;
-use NavplanTest\System\Mock\HttpResponseServiceMock;
-use NavplanTest\User\Mocks\UserConfigMock;
+use NavplanTest\System\Mock\MockHttpResponseService;
+use NavplanTest\User\Mocks\MockUserConfig;
 use PHPUnit\Framework\TestCase;
 
 
@@ -19,15 +19,15 @@ class UserServiceProcessorTest extends TestCase {
     }
 
 
-    private function getHttpService(): HttpResponseServiceMock {
-        /* @var $service HttpResponseServiceMock */
+    private function getHttpService(): MockHttpResponseService {
+        /* @var $service MockHttpResponseService */
         $service = $this->getConfig()->getHttpResponseService();
         return $service;
     }
 
 
     protected function setUp(): void {
-        $this->config = new UserConfigMock();
+        $this->config = new MockUserConfig();
     }
 
 

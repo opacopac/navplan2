@@ -16,20 +16,20 @@ use Navplan\User\UseCase\UserHelper;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\FlightrouteConfigMock;
 use NavplanTest\Flightroute\Mocks\FlightrouteMockRepo;
-use NavplanTest\System\Mock\HttpResponseServiceMock;
+use NavplanTest\System\Mock\MockHttpResponseService;
 use NavplanTest\User\Mocks\DummyUser1;
-use NavplanTest\User\Mocks\UserMockRepo;
+use NavplanTest\User\Mocks\MockUserRepo;
 use PHPUnit\Framework\TestCase;
 
 
 class FlightrouteServiceProcessorTest extends TestCase {
     /* @var $config FlightrouteConfigMock */
     private $config;
-    /* @var $httpService HttpResponseServiceMock */
+    /* @var $httpService MockHttpResponseService */
     private $httpService;
     /* @var $flightrouteRepo FlightrouteMockRepo */
     private $flightrouteRepo;
-    /* @var $userRepo UserMockRepo */
+    /* @var $userRepo MockUserRepo */
     private $userRepo;
 
 

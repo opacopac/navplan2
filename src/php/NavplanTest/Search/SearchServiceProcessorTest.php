@@ -10,10 +10,10 @@ use Navplan\Search\Rest\RestSearchByPositionQuery;
 use Navplan\Search\Rest\RestSearchByTextQuery;
 use NavplanTest\OpenAip\Mocks\DummyNavaid1;
 use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;
-use NavplanTest\OpenAip\Mocks\NavaidSearchMock;
-use NavplanTest\OpenAip\Mocks\ReportingPointSearchMock;
-use NavplanTest\Search\Mocks\SearchConfigMock;
-use NavplanTest\System\Mock\HttpResponseServiceMock;
+use NavplanTest\OpenAip\Mocks\MockNavaidRepo;
+use NavplanTest\OpenAip\Mocks\MockReportingPointRepo;
+use NavplanTest\Search\Mocks\MockSearchConfig;
+use NavplanTest\System\Mock\MockHttpResponseService;
 use PHPUnit\Framework\TestCase;
 
 
@@ -28,26 +28,26 @@ class SearchServiceProcessorTest extends TestCase {
     }
 
 
-    private function getHttpService(): HttpResponseServiceMock {
+    private function getHttpService(): MockHttpResponseService {
         $service = $this->getConfig()->getHttpResponseService();
-        return $service instanceof HttpResponseServiceMock ? $service : NULL;
+        return $service instanceof MockHttpResponseService ? $service : NULL;
     }
 
 
-    private function getNavaidMockRepo(): NavaidSearchMock {
+    private function getNavaidMockRepo(): MockNavaidRepo {
         $mockRepo = $this->getConfig()->getOpenAipRepoFactory()->createNavaidSearch();
-        return $mockRepo instanceof NavaidSearchMock ? $mockRepo : NULL;
+        return $mockRepo instanceof MockNavaidRepo ? $mockRepo : NULL;
     }
 
 
-    private function getRpMockRepo(): ReportingPointSearchMock {
+    private function getRpMockRepo(): MockReportingPointRepo {
         $mockRepo = $this->getConfig()->getOpenAipRepoFactory()->createReportingPointSearch();
-        return $mockRepo instanceof ReportingPointSearchMock ? $mockRepo : NULL;
+        return $mockRepo instanceof MockReportingPointRepo ? $mockRepo : NULL;
     }
 
 
     protected function setUp(): void {
-        $this->config = new SearchConfigMock();
+        $this->config = new MockSearchConfig();
 
         $navaid = DummyNavaid1::create();
         $this->expectedNavaidRegexp = '/(.*)"kuerzel":"' . $navaid->kuerzel . '"/';

@@ -2,6 +2,7 @@
 
 namespace Navplan\Search\UseCase;
 
+use Navplan\Geoname\UseCase\SearchGeoname;
 use Navplan\Search\Domain\SearchByPositionQuery;
 use Navplan\Search\Domain\SearchItemType;
 use Navplan\Search\Domain\SearchResult;
@@ -48,7 +49,8 @@ class SearchByPosition {
                     }
                     break;
                 case SearchItemType::GEONAMES:
-                    $geonames = $config->getGeonameRepoFactory()->createGeonameRepo()->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum));
+                    $geonameSearch = new SearchGeoname($config->getGeonameRepoFactory()->createGeonameRepo());
+                    $geonames = $geonameSearch->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum));
                     $resultNum += count($geonames);
                     break;
                 case SearchItemType::NOTAMS:

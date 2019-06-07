@@ -2,7 +2,7 @@
 
 namespace Navplan\Notam\DbRepo;
 
-use Navplan\Notam\UseCase\INotamSearch;
+use Navplan\Notam\UseCase\INotamRepo;
 use Navplan\Notam\UseCase\INotamRepoFactory;
 use Navplan\Db\IDb\IDbService;
 
@@ -21,7 +21,7 @@ class DbNotamRepoFactory implements INotamRepoFactory {
     }
 
 
-    public function createNotamSearch(): INotamSearch {
-        return new DbNotamSearch($this->getDbService());
+    public function createNotamSearch(): INotamRepo {
+        return new DbNotamRepo($this->getDbService());
     }
 }

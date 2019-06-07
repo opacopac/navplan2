@@ -1,8 +1,22 @@
 <?php namespace Navplan\Shared;
+use Navplan\Geometry\Domain\Position2d;
+
 require_once __DIR__ . "/../NavplanHelper.php";
 
 
 class GeoService {
+    public static function calcDistanceMeters(Position2d $pos1, Position2d $pos2) {
+        $theta = $pos1->longitude - $pos2->longitude;
+        $dist = sin(deg2rad($pos1->latitude)) * sin(deg2rad($pos2->latitude))
+            +  cos(deg2rad($pos1->latitude)) * cos(deg2rad($pos2->latitude)) * cos(deg2rad($theta));
+        $dist = acos($dist);
+        $dist = rad2deg($dist);
+        $miles = $dist * 60 * 1.1515;
+
+        return $miles * 1.609344 * 1000;
+    }
+
+
     public static function simplifyPolygon(array $polygonPoints, float $epsilon): array {
         $numPoints = count($polygonPoints);
         if ($numPoints <= 3) {
@@ -13,7 +27,7 @@ class GeoService {
         $distMax = 0;
         $mostDistantPointIndex = 1;
         for ($i = 1; $i < $numPoints - 1; $i++) {
-            $dist = self::calcDistance($polygonPoints[0], $polygonPoints[$i]);
+            $dist = self::calcPseudoDistance($polygonPoints[0], $polygonPoints[$i]);
             if ($dist >= $distMax) {
                 $distMax = $dist;
                 $mostDistantPointIndex = $i;
@@ -63,7 +77,7 @@ class GeoService {
     }
 
 
-    public static function calcDistance(array $pointA, array $pointB): float {
+    public static function calcPseudoDistance(array $pointA, array $pointB): float {
         return sqrt(pow($pointB[0] - $pointA[0], 2) + pow($pointB[1] - $pointA[1], 2));
     }
 

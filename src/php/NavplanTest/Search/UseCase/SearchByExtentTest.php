@@ -7,14 +7,14 @@ use Navplan\Search\Domain\SearchByExtentQuery;
 use Navplan\Search\Domain\SearchItemType;
 use Navplan\Search\UseCase\SearchByExtent;
 use Navplan\User\UseCase\UserHelper;
-use NavplanTest\OpenAip\Mocks\AirportSearchMock;
+use NavplanTest\OpenAip\Mocks\MockAirportRepo;
 use NavplanTest\OpenAip\Mocks\DummyAirport1;
 use NavplanTest\OpenAip\Mocks\DummyNavaid1;
-use NavplanTest\OpenAip\Mocks\NavaidSearchMock;
-use NavplanTest\Search\Mocks\SearchConfigMock;
+use NavplanTest\OpenAip\Mocks\MockNavaidRepo;
+use NavplanTest\Search\Mocks\MockSearchConfig;
 use NavplanTest\User\Mocks\DummyUserPoint1;
 use NavplanTest\User\Mocks\DummyUserPoint2;
-use NavplanTest\User\Mocks\UserPointMockRepo;
+use NavplanTest\User\Mocks\MockUserPointRepo;
 use PHPUnit\Framework\TestCase;
 
 
@@ -22,31 +22,31 @@ class SearchByExtentTest extends TestCase {
     private $config;
 
 
-    private function getConfig(): SearchConfigMock {
+    private function getConfig(): MockSearchConfig {
         return $this->config;
     }
 
 
-    private function getAirportRepoMock(): AirportSearchMock {
+    private function getAirportRepoMock(): MockAirportRepo {
         $repo = $this->getConfig()->getOpenAipRepoFactory()->createAirportSearch();
-        return $repo instanceof AirportSearchMock ? $repo : NULL;
+        return $repo instanceof MockAirportRepo ? $repo : NULL;
     }
 
 
-    private function getNavaidRepoMock(): NavaidSearchMock {
+    private function getNavaidRepoMock(): MockNavaidRepo {
         $repo = $this->getConfig()->getOpenAipRepoFactory()->createNavaidSearch();
-        return $repo instanceof NavaidSearchMock ? $repo : NULL;
+        return $repo instanceof MockNavaidRepo ? $repo : NULL;
     }
 
 
-    private function getUserPointRepoMock(): UserPointMockRepo {
+    private function getUserPointRepoMock(): MockUserPointRepo {
         $repo = $this->getConfig()->getUserRepoFactory()->createUserPointRepo();
-        return $repo instanceof UserPointMockRepo ? $repo : NULL;
+        return $repo instanceof MockUserPointRepo ? $repo : NULL;
     }
 
 
     protected function setUp(): void {
-        $this->config = new SearchConfigMock();
+        $this->config = new MockSearchConfig();
     }
 
 

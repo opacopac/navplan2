@@ -6,10 +6,10 @@ use Navplan\Search\Domain\SearchByTextQuery;
 use Navplan\Search\Domain\SearchItemType;
 use Navplan\Search\UseCase\SearchByText;
 use Navplan\User\UseCase\UserHelper;
-use NavplanTest\Search\Mocks\SearchConfigMock;
+use NavplanTest\Search\Mocks\MockSearchConfig;
 use NavplanTest\User\Mocks\DummyUserPoint1;
 use NavplanTest\User\Mocks\DummyUserPoint2;
-use NavplanTest\User\Mocks\UserPointMockRepo;
+use NavplanTest\User\Mocks\MockUserPointRepo;
 use PHPUnit\Framework\TestCase;
 
 
@@ -17,19 +17,19 @@ class SearchByTextTest extends TestCase {
     private $config;
 
 
-    private function getConfig(): SearchConfigMock {
+    private function getConfig(): MockSearchConfig {
         return $this->config;
     }
 
 
-    private function getUserPointRepoMock(): UserPointMockRepo {
+    private function getUserPointRepoMock(): MockUserPointRepo {
         $repo = $this->getConfig()->getUserRepoFactory()->createUserPointRepo();
-        return $repo instanceof UserPointMockRepo ? $repo : NULL;
+        return $repo instanceof MockUserPointRepo ? $repo : NULL;
     }
 
 
     protected function setUp(): void {
-        $this->config = new SearchConfigMock();
+        $this->config = new MockSearchConfig();
     }
 
 

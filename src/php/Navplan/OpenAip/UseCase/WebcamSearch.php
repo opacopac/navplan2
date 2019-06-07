@@ -9,12 +9,12 @@ class WebcamSearch {
     private $repo;
 
 
-    private function getRepo(): IWebcamSearch {
+    private function getRepo(): IWebcamRepo {
         return $this->repo;
     }
 
 
-    public function __construct(IWebcamSearch $repo) {
+    public function __construct(IWebcamRepo $repo) {
         $this->repo = $repo;
     }
 

@@ -7,12 +7,8 @@ use Navplan\Db\IDb\IDbService;
 
 
 class DbGeonameRepoFactory implements IGeonameRepoFactory {
+    /* @var $dbService IDbService */
     private $dbService;
-
-
-    private function getDbService(): IDbService {
-        return $this->dbService;
-    }
 
 
     public function __construct(IDbService $dbService) {
@@ -21,6 +17,6 @@ class DbGeonameRepoFactory implements IGeonameRepoFactory {
 
 
     public function createGeonameRepo(): IGeonameSearch {
-        return new DbGeonameSearch($this->getDbService());
+        return new DbGeonameRepo($this->dbService);
     }
 }

@@ -7,25 +7,25 @@ require_once __DIR__ . "/../../../config_test.php";
 
 use Navplan\User\Domain\LoginRequest;
 use Navplan\User\UseCase\Login;
-use NavplanTest\User\Mocks\UserConfigMock;
-use NavplanTest\User\Mocks\UserMockRepo;
+use NavplanTest\User\Mocks\MockUserConfig;
+use NavplanTest\User\Mocks\MockUserRepo;
 use PHPUnit\Framework\TestCase;
 
 
 class LoginTest extends TestCase {
-    /* @var $config UserConfigMock */
+    /* @var $config MockUserConfig */
     private $config;
 
 
-    private function getUserRepoMock(): UserMockRepo {
-        /* @var $userRepoMock UserMockRepo */
+    private function getUserRepoMock(): MockUserRepo {
+        /* @var $userRepoMock MockUserRepo */
         $userRepoMock = $this->config->getUserRepoFactory()->createUserRepo();
         return $userRepoMock;
     }
 
 
     protected function setUp(): void {
-        $this->config = new UserConfigMock();
+        $this->config = new MockUserConfig();
     }
 
 

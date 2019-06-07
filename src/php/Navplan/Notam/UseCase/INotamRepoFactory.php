@@ -4,5 +4,5 @@ namespace Navplan\Notam\UseCase;
 
 
 interface INotamRepoFactory {
-    function createNotamSearch(): INotamSearch;
+    function createNotamSearch(): INotamRepo;
 }

@@ -6,7 +6,9 @@ use InvalidArgumentException;
 
 
 class Position2d implements IGeometry2d {
+    /* @var $longitude float */
     public $longitude;
+    /* @var $latitude float */
     public $latitude;
 
 

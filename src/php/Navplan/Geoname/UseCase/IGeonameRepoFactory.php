@@ -4,5 +4,5 @@ namespace Navplan\Geoname\UseCase;
 
 
 interface IGeonameRepoFactory {
-    function createGeonameRepo(): IGeonameSearch;
+    function createGeonameRepo(): IGeonameRepo;
 }

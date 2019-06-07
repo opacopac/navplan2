@@ -3,8 +3,8 @@
 namespace Navplan\System;
 
 use Exception;
-use Navplan\System\IFileService;
 
+// TODO: remove
 require_once __DIR__ . "/../NavplanHelper.php";
 
 
@@ -25,13 +25,6 @@ class FileService implements IFileService {
     }
 
 
-    /**
-     * @param string $filename
-     * @param bool $use_include_path
-     * @param null $context
-     * @return string
-     * @throws FileServiceException
-     */
     public function fileGetContents(string $filename, bool $use_include_path = FALSE, $context = NULL): string {
         try {
             $result = file_get_contents($filename, $use_include_path, $context);
@@ -47,14 +40,6 @@ class FileService implements IFileService {
     }
 
 
-    /**
-     * @param string $filename
-     * @param $data
-     * @param int $flags
-     * @param null $context
-     * @return int
-     * @throws FileServiceException
-     */
     public function filePutContents(string $filename, $data, int $flags = 0, $context = null): int {
         try {
             $result = file_put_contents($filename, $data, $flags, $context);
@@ -67,5 +52,15 @@ class FileService implements IFileService {
         } else {
             return $result;
         }
+    }
+
+
+    public function file_exists(string $filename): bool {
+        return file_exists($filename);
+    }
+
+
+    public function fopen(string $filename, string $mode): IFile {
+        return new File(fopen($filename, $mode));
     }
 }

@@ -15,7 +15,7 @@ use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\FlightrouteConfigMock;
 use NavplanTest\Flightroute\Mocks\FlightrouteMockRepo;
 use NavplanTest\User\Mocks\DummyUser1;
-use NavplanTest\User\Mocks\UserMockRepo;
+use NavplanTest\User\Mocks\MockUserRepo;
 use PHPUnit\Framework\TestCase;
 use Throwable;
 
@@ -23,7 +23,7 @@ use Throwable;
 class DeleteFlightrouteTest extends TestCase {
     /* @var $config FlightrouteConfigMock */
     private $config;
-    /* @var $userRepo UserMockRepo */
+    /* @var $userRepo MockUserRepo */
     private $userRepo;
     /* @var $flightrouteRepo FlightrouteMockRepo */
     private $flightrouteRepo;

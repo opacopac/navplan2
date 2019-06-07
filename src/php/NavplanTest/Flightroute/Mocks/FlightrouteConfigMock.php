@@ -11,9 +11,9 @@ use Navplan\System\IMailService;
 use Navplan\System\IHttpResponseService;
 use Navplan\User\UseCase\IUserRepoFactory;
 use NavplanTest\Db\Mock\DbServiceMock;
-use NavplanTest\System\Mock\HttpResponseServiceMock;
-use NavplanTest\System\Mock\MailServiceMock;
-use NavplanTest\User\Mocks\UserMockRepoFactory;
+use NavplanTest\System\Mock\MockHttpResponseService;
+use NavplanTest\System\Mock\MockMailService;
+use NavplanTest\User\Mocks\MockUserRepoFactory;
 
 
 class FlightrouteConfigMock implements IFlightrouteConfig {
@@ -26,10 +26,10 @@ class FlightrouteConfigMock implements IFlightrouteConfig {
 
     public function __construct() {
         $this->dbService = new DbServiceMock();
-        $this->mailService = new MailServiceMock();
-        $this->httpResponseService = new HttpResponseServiceMock();
+        $this->mailService = new MockMailService();
+        $this->httpResponseService = new MockHttpResponseService();
         $this->flightrouteRepoFactory = new FlightrouteMockRepoFactory();
-        $this->userRepoFactory = new UserMockRepoFactory();
+        $this->userRepoFactory = new MockUserRepoFactory();
     }
 
 

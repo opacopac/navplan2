@@ -7,33 +7,33 @@ require_once __DIR__ . "/../../../config.php";
 
 use Navplan\User\Domain\SendRegisterEmailRequest;
 use Navplan\User\UseCase\SendRegisterEmail;
-use NavplanTest\System\Mock\MailServiceMock;
-use NavplanTest\User\Mocks\UserConfigMock;
-use NavplanTest\User\Mocks\UserMockRepo;
+use NavplanTest\System\Mock\MockMailService;
+use NavplanTest\User\Mocks\MockUserConfig;
+use NavplanTest\User\Mocks\MockUserRepo;
 use PHPUnit\Framework\TestCase;
 
 
 class SendRegisterEmailTest extends TestCase {
-    /* @var $config UserConfigMock */
+    /* @var $config MockUserConfig */
     private $config;
 
 
-    private function getUserRepoMock(): UserMockRepo {
-        /* @var $userRepoMock UserMockRepo */
+    private function getUserRepoMock(): MockUserRepo {
+        /* @var $userRepoMock MockUserRepo */
         $userRepoMock = $this->config->getUserRepoFactory()->createUserRepo();
         return $userRepoMock;
     }
 
 
-    private function getMailServiceMock(): MailServiceMock {
-        /* @var $mailServiceMock MailServiceMock */
+    private function getMailServiceMock(): MockMailService {
+        /* @var $mailServiceMock MockMailService */
         $mailServiceMock = $this->config->getMailService();
         return $mailServiceMock;
     }
 
 
     protected function setUp(): void {
-        $this->config = new UserConfigMock();
+        $this->config = new MockUserConfig();
     }
 
 

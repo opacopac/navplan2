@@ -4,7 +4,7 @@ namespace NavplanTest\System;
 
 use InvalidArgumentException;
 use Navplan\Shared\RequestResponseHelper;
-use NavplanTest\System\Mock\HttpResponseServiceMock;
+use NavplanTest\System\Mock\MockHttpResponseService;
 use PHPUnit\Framework\TestCase;
 
 
@@ -12,7 +12,7 @@ class RequestResponseHelperTest extends TestCase {
     private $httpService;
 
 
-    private function getHttpService(): HttpResponseServiceMock {
+    private function getHttpService(): MockHttpResponseService {
         return $this->httpService;
     }
 
@@ -20,7 +20,7 @@ class RequestResponseHelperTest extends TestCase {
     protected function setUp(): void {
         parent::setUp();
 
-        $this->httpService = new HttpResponseServiceMock();
+        $this->httpService = new MockHttpResponseService();
     }
 
 

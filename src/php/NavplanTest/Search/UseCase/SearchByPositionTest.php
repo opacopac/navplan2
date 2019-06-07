@@ -7,15 +7,15 @@ use Navplan\Search\Domain\SearchByPositionQuery;
 use Navplan\Search\Domain\SearchItemType;
 use Navplan\Search\UseCase\SearchByPosition;
 use Navplan\User\UseCase\UserHelper;
-use NavplanTest\OpenAip\Mocks\AirspaceSearchMock;
+use NavplanTest\OpenAip\Mocks\MockAirspaceRepo;
 use NavplanTest\OpenAip\Mocks\DummyAirspace1;
 use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;
 use NavplanTest\OpenAip\Mocks\DummyReportingSector1;
-use NavplanTest\OpenAip\Mocks\ReportingPointSearchMock;
-use NavplanTest\Search\Mocks\SearchConfigMock;
+use NavplanTest\OpenAip\Mocks\MockReportingPointRepo;
+use NavplanTest\Search\Mocks\MockSearchConfig;
 use NavplanTest\User\Mocks\DummyUserPoint1;
 use NavplanTest\User\Mocks\DummyUserPoint2;
-use NavplanTest\User\Mocks\UserPointMockRepo;
+use NavplanTest\User\Mocks\MockUserPointRepo;
 use PHPUnit\Framework\TestCase;
 
 
@@ -27,31 +27,31 @@ class SearchByPositionTest extends TestCase {
     private $config;
 
 
-    private function getConfig(): SearchConfigMock {
+    private function getConfig(): MockSearchConfig {
         return $this->config;
     }
 
 
-    private function getAirspaceRepoMock(): AirspaceSearchMock {
+    private function getAirspaceRepoMock(): MockAirspaceRepo {
         $repo = $this->getConfig()->getOpenAipRepoFactory()->createAirspaceSearch();
-        return $repo instanceof AirspaceSearchMock ? $repo : NULL;
+        return $repo instanceof MockAirspaceRepo ? $repo : NULL;
     }
 
 
-    private function getReportingPointRepoMock(): ReportingPointSearchMock {
+    private function getReportingPointRepoMock(): MockReportingPointRepo {
         $repo = $this->getConfig()->getOpenAipRepoFactory()->createReportingPointSearch();
-        return $repo instanceof ReportingPointSearchMock ? $repo : NULL;
+        return $repo instanceof MockReportingPointRepo ? $repo : NULL;
     }
 
 
-    private function getUserPointRepoMock(): UserPointMockRepo {
+    private function getUserPointRepoMock(): MockUserPointRepo {
         $repo = $this->getConfig()->getUserRepoFactory()->createUserPointRepo();
-        return $repo instanceof UserPointMockRepo ? $repo : NULL;
+        return $repo instanceof MockUserPointRepo ? $repo : NULL;
     }
 
 
     protected function setUp(): void {
-        $this->config = new SearchConfigMock();
+        $this->config = new MockSearchConfig();
     }
 
 
