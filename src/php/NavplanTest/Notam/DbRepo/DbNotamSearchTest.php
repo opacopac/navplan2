@@ -6,7 +6,7 @@ use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\Notam\DbRepo\DbNotamRepo;
 use Navplan\Notam\Domain\Notam;
-use NavplanTest\Db\Mock\DbServiceMock;
+use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\Notam\Mocks\DummyNotam1;
 use NavplanTest\Notam\Mocks\DummyNotam2;
 use NavplanTest\Notam\Mocks\DummyNotam3;
@@ -18,7 +18,7 @@ class DbNotamSearchTest extends TestCase {
     private $dbRepo;
 
 
-    private function getDbService(): DbServiceMock {
+    private function getDbService(): MockDbService {
         return $this->dbService;
     }
 
@@ -41,7 +41,7 @@ class DbNotamSearchTest extends TestCase {
 
 
     protected function setUp(): void {
-        $this->dbService = new DbServiceMock();
+        $this->dbService = new MockDbService();
         $this->dbRepo = new DbNotamRepo($this->getDbService());
     }
 

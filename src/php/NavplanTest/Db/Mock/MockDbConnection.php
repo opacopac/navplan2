@@ -5,7 +5,7 @@ namespace NavplanTest\Db\Mock;
 use Navplan\Db\MySqlDb\DbConnection;
 
 
-class DbConnectionMock extends DbConnection
+class MockDbConnection extends DbConnection
 {
     private $mockResultList = [];
 

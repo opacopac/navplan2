@@ -4,12 +4,6 @@ namespace Navplan\System;
 
 require_once __DIR__ . "/../../Autoloader.php";
 
-use Navplan\Shared\HttpResponseService;
-use Navplan\System\IFileService;
-use Navplan\System\IMailService;
-use Navplan\System\IHttpResponseService;
-use Navplan\System\MailService;
-
 
 class SystemConfigProd implements ISystemConfig {
     private $mailService;

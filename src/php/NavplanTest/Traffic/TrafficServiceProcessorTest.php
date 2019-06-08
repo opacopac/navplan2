@@ -4,7 +4,7 @@ use Navplan\Db\IDb\IDbService;
 use Navplan\System\IFileService;
 use Navplan\Shared\InvalidFormatException;
 use Navplan\Traffic\TrafficServiceProcessor;
-use NavplanTest\Db\Mock\DbServiceMock;
+use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\System\Mock\MockFileService;
 use NavplanTest\System\Mock\MockHttpResponseService;
 use PHPUnit\Framework\TestCase;
@@ -34,7 +34,7 @@ class TrafficServiceProcessorTest extends TestCase {
     protected function setUp(): void {
         parent::setUp();
 
-        $this->dbService = new DbServiceMock();
+        $this->dbService = new MockDbService();
         $this->fileService = new MockFileService();
         $this->httpService = new MockHttpResponseService();
     }

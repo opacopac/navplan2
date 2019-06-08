@@ -7,7 +7,7 @@ use Navplan\Flightroute\UseCase\IFlightrouteRepo;
 use Navplan\User\Domain\User;
 
 
-class FlightrouteMockRepo implements IFlightrouteRepo {
+class MockFlightrouteRepo implements IFlightrouteRepo {
     /* @var $addArgs array */
     public $addArgs;
     /* @var $addResult Flightroute */

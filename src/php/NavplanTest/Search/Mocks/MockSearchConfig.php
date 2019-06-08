@@ -4,21 +4,22 @@ namespace NavplanTest\Search\Mocks;
 
 require_once __DIR__ . "/../../../config_test.php";
 
-use Navplan\Geoname\UseCase\IGeonameRepoFactory;
-use Navplan\Notam\UseCase\INotamRepoFactory;
+use Navplan\Geoname\UseCase\IGeonameRepo;
+use Navplan\Notam\UseCase\INotamRepo;
 use Navplan\Search\UseCase\ISearchConfig;
-use Navplan\Db\IDb\IDbService;
 use Navplan\System\IMailService;
 use Navplan\System\IHttpResponseService;
 use Navplan\OpenAip\UseCase\IOpenAipRepoFactory;
+use Navplan\Terrain\UseCase\ITerrainRepo;
 use Navplan\User\UseCase\IUserRepoFactory;
-use NavplanTest\Db\Mock\DbServiceMock;
-use NavplanTest\Geoname\Mocks\MockGeonameRepoFactory;
-use NavplanTest\Notam\Mocks\MockNotamRepoFactory;
+use NavplanTest\Geoname\Mocks\MockGeonameRepo;
+use NavplanTest\Notam\Mocks\MockNotamRepo;
 use NavplanTest\OpenAip\Mocks\MockOpenAipRepoFactory;
 use NavplanTest\System\Mock\MockHttpResponseService;
 use NavplanTest\System\Mock\MockMailService;
+use NavplanTest\Terrain\Mocks\MockTerrainRepo;
 use NavplanTest\User\Mocks\MockUserRepoFactory;
+
 
 class MockSearchConfig implements ISearchConfig {
     private $dbService;
@@ -26,23 +27,19 @@ class MockSearchConfig implements ISearchConfig {
     private $httpResponseService;
     private $openAipRepoFactory;
     private $userRepoFactory;
-    private $geonameRepoFactory;
-    private $notamRepoFactory;
+    private $geonameRepo;
+    private $notamRepo;
+    private $terrainRepo;
 
 
     public function __construct() {
-        $this->dbService = new DbServiceMock();
         $this->mailService = new MockMailService();
         $this->httpResponseService = new MockHttpResponseService();
         $this->openAipRepoFactory = new MockOpenAipRepoFactory();
         $this->userRepoFactory = new MockUserRepoFactory();
-        $this->geonameRepoFactory = new MockGeonameRepoFactory();
-        $this->notamRepoFactory = new MockNotamRepoFactory();
-    }
-
-
-    public function getDbService(): IDbService {
-        return $this->dbService;
+        $this->geonameRepo = new MockGeonameRepo();
+        $this->notamRepo = new MockNotamRepo();
+        $this->terrainRepo = new MockTerrainRepo();
     }
 
 
@@ -66,12 +63,17 @@ class MockSearchConfig implements ISearchConfig {
     }
 
 
-    public function getGeonameRepoFactory(): IGeonameRepoFactory {
-        return $this->geonameRepoFactory;
+    public function getGeonameRepo(): IGeonameRepo {
+        return $this->geonameRepo;
     }
 
 
-    public function getNotamRepoFactory(): INotamRepoFactory {
-        return $this->notamRepoFactory;
+    public function getNotamRepo(): INotamRepo {
+        return $this->notamRepo;
+    }
+
+
+    public function getTerrainRepo(): ITerrainRepo {
+        return $this->terrainRepo;
     }
 }

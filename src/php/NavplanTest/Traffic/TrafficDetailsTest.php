@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 use Navplan\Traffic\TrafficDetails;
-use NavplanTest\Db\Mock\DbServiceMock;
+use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\System\Mock\MockHttpResponseService;
 use PHPUnit\Framework\TestCase;
 
@@ -19,7 +19,7 @@ class TrafficDetailsTest extends TestCase {
     private $mockResultIcaoAcTypes4 = array('designator' => 'A320', 'model' => 'A-320 Fantasy', 'manufacturer' => 'BOEING', 'ac_type' => 'L', 'eng_type' => 'J');
 
 
-    private function getDbService(): DbServiceMock {
+    private function getDbService(): MockDbService {
         return $this->dbService;
     }
 
@@ -33,7 +33,7 @@ class TrafficDetailsTest extends TestCase {
         parent::setUp();
 
         $this->args = array("action" => "readacdetails");
-        $this->dbService = new DbServiceMock();
+        $this->dbService = new MockDbService();
         $this->httpService = new MockHttpResponseService();
     }
 

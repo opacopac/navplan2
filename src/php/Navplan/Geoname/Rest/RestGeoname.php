@@ -2,6 +2,7 @@
 
 namespace Navplan\Geoname\Rest;
 
+use Navplan\Geometry\Rest\RestAltitude;
 use Navplan\Geoname\Domain\Geoname;
 use Navplan\OpenAip\Rest\RestHelper;
 
@@ -20,7 +21,7 @@ class RestGeoname {
             "population" => $geo->population,
             "latitude" => RestHelper::reduceDegAccuracy($geo->position->latitude, "GEONAME"),
             "longitude" => RestHelper::reduceDegAccuracy($geo->position->longitude, "GEONAME"),
-            "elevation" => $geo->elevation,
+            "elevation" => RestAltitude::toArray($geo->elevation),
         );
     }
 }

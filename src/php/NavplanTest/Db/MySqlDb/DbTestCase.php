@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Db\MySqlDb;
 
-use NavplanTest\Db\Mock\DbConnectionMock;
-use NavplanTest\Db\Mock\DbResultMock;
+use NavplanTest\Db\Mock\MockDbConnection;
+use NavplanTest\Db\Mock\MockDbResult;
 use PHPUnit\Framework\TestCase;
 
 
@@ -19,23 +19,23 @@ abstract class DbTestCase extends TestCase {
         array("id" => 3, "name" => "third")];
 
 
-    public function getDbConnection($dbResult): DbConnectionMock {
-        return new DbConnectionMock($dbResult);
+    public function getDbConnection($dbResult): MockDbConnection {
+        return new MockDbConnection($dbResult);
     }
 
 
-    public function getDbResult(array $resultList): DbResultMock {
-        return new DbResultMock($resultList);
+    public function getDbResult(array $resultList): MockDbResult {
+        return new MockDbResult($resultList);
     }
 
 
-    public function getDbConnectionFromResultList(array $resultList): DbConnectionMock {
+    public function getDbConnectionFromResultList(array $resultList): MockDbConnection {
         $result = self::getDbResult($resultList);
         return self:: getDbConnection($result);
     }
 
 
-    public function addMockResultsFromResultList(DbConnectionMock $conn, array $resultList) {
+    public function addMockResultsFromResultList(MockDbConnection $conn, array $resultList) {
         $result = self::getDbResult($resultList);
         $conn->addMockResult($result);
     }

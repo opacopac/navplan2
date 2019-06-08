@@ -33,13 +33,13 @@ class SearchByPositionTest extends TestCase {
 
 
     private function getAirspaceRepoMock(): MockAirspaceRepo {
-        $repo = $this->getConfig()->getOpenAipRepoFactory()->createAirspaceSearch();
+        $repo = $this->getConfig()->getOpenAipRepoFactory()->createAirspaceRepo();
         return $repo instanceof MockAirspaceRepo ? $repo : NULL;
     }
 
 
     private function getReportingPointRepoMock(): MockReportingPointRepo {
-        $repo = $this->getConfig()->getOpenAipRepoFactory()->createReportingPointSearch();
+        $repo = $this->getConfig()->getOpenAipRepoFactory()->createReportingPointRepo();
         return $repo instanceof MockReportingPointRepo ? $repo : NULL;
     }
 

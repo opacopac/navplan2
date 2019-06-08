@@ -2,17 +2,20 @@
 
 namespace Navplan\Search\UseCase;
 
-use Navplan\Geoname\UseCase\IGeonameRepoFactory;
-use Navplan\Notam\UseCase\INotamRepoFactory;
+use Navplan\Geoname\UseCase\IGeonameConfig;
+use Navplan\Geoname\UseCase\IGeonameRepo;
+use Navplan\Notam\UseCase\INotamConfig;
+use Navplan\Notam\UseCase\INotamRepo;
+use Navplan\OpenAip\UseCase\IOpenAipConfig;
 use Navplan\OpenAip\UseCase\IOpenAipRepoFactory;
-use Navplan\Db\IDb\IDbService;
 use Navplan\System\IHttpResponseService;
 use Navplan\System\IMailService;
+use Navplan\Terrain\UseCase\ITerrainRepo;
+use Navplan\User\UseCase\IUserConfig;
 use Navplan\User\UseCase\IUserRepoFactory;
 
-interface ISearchConfig {
-    function getDbService(): IDbService;
 
+interface ISearchConfig extends IOpenAipConfig, IGeonameConfig, IUserConfig, INotamConfig {
     function getMailService(): IMailService;
 
     function getHttpResponseService(): IHttpResponseService;
@@ -21,7 +24,9 @@ interface ISearchConfig {
 
     function getUserRepoFactory(): IUserRepoFactory;
 
-    function getGeonameRepoFactory(): IGeonameRepoFactory;
+    function getNotamRepo(): INotamRepo;
 
-    function getNotamRepoFactory(): INotamRepoFactory;
+    function getGeonameRepo(): IGeonameRepo;
+
+    function getTerrainRepo(): ITerrainRepo;
 }

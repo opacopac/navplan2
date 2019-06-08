@@ -12,7 +12,7 @@ use Navplan\User\UseCase\UserHelper;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute2;
 use NavplanTest\Flightroute\Mocks\FlightrouteConfigMock;
-use NavplanTest\Flightroute\Mocks\FlightrouteMockRepo;
+use NavplanTest\Flightroute\Mocks\MockFlightrouteRepo;
 use NavplanTest\User\Mocks\DummyUser1;
 use NavplanTest\User\Mocks\MockUserRepo;
 use PHPUnit\Framework\TestCase;
@@ -24,13 +24,13 @@ class ReadFlightrouteListTest extends TestCase {
     private $config;
     /* @var $userRepo MockUserRepo */
     private $userRepo;
-    /* @var $flightrouteRepo FlightrouteMockRepo */
+    /* @var $flightrouteRepo MockFlightrouteRepo */
     private $flightrouteRepo;
 
 
     protected function setUp(): void {
         $this->config = new FlightrouteConfigMock();
-        $this->flightrouteRepo = $this->config->getFlightrouteRepoFactory()->createFlightrouteRepo();
+        $this->flightrouteRepo = $this->config->getFlightrouteRepo();
         $this->userRepo = $this->config->getUserRepoFactory()->createUserRepo();
     }
 

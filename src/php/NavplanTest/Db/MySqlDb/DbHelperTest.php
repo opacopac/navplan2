@@ -3,7 +3,7 @@
 namespace NavplanTest\Db\MySqlDb;
 
 use Navplan\Db\MySqlDb\DbHelper;
-use NavplanTest\Db\Mock\DbServiceMock;
+use NavplanTest\Db\Mock\MockDbService;
 
 
 class DbHelperTest extends DbTestCase {
@@ -11,7 +11,7 @@ class DbHelperTest extends DbTestCase {
 
 
     protected function setUp(): void {
-        $this->dbService = new DbServiceMock();
+        $this->dbService = new MockDbService();
     }
 
 

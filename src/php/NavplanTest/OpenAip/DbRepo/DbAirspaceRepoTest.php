@@ -8,7 +8,7 @@ use Navplan\Geometry\Domain\Extent;
 use Navplan\OpenAip\DbRepo\DbAirspaceRepo;
 use Navplan\OpenAip\Domain\Airspace;
 use Navplan\Geometry\Domain\Ring2d;
-use NavplanTest\Db\Mock\DbServiceMock;
+use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\OpenAip\Mocks\DummyAirspace1;
 use PHPUnit\Framework\TestCase;
 
@@ -18,7 +18,7 @@ class DbAirspaceRepoTest extends TestCase {
     private $dbRepo;
 
 
-    private function getDbService(): DbServiceMock {
+    private function getDbService(): MockDbService {
         return $this->dbService;
     }
 
@@ -45,7 +45,7 @@ class DbAirspaceRepoTest extends TestCase {
 
 
     protected function setUp(): void {
-        $this->dbService = new DbServiceMock();
+        $this->dbService = new MockDbService();
         $this->dbRepo = new DbAirspaceRepo($this->getDbService());
     }
 

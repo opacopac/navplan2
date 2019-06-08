@@ -25,27 +25,27 @@ class DbOpenAipRepoFactory implements IOpenAipRepoFactory {
     }
 
 
-    public function createAirportSearch(): IAirportRepo {
+    public function createAirportRepo(): IAirportRepo {
         return new DbAirportRepo($this->getDbService());
     }
 
 
-    public function createAirspaceSearch(): IAirspaceRepo {
+    public function createAirspaceRepo(): IAirspaceRepo {
         return new DbAirspaceRepo($this->getDbService());
     }
 
 
-    public function createNavaidSearch(): INavaidRepo {
+    public function createNavaidRepo(): INavaidRepo {
         return new DbNavaidRepo($this->getDbService());
     }
 
 
-    public function createReportingPointSearch(): IReportingPointRepo {
+    public function createReportingPointRepo(): IReportingPointRepo {
         return new DbReportingPointRepo($this->getDbService());
     }
 
 
-    public function createWebcamSearch(): IWebcamRepo {
+    public function createWebcamRepo(): IWebcamRepo {
         return new DbWebcamRepo($this->getDbService());
     }
 }

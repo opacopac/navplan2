@@ -2,6 +2,9 @@
 
 namespace NavplanTest\Geoname\Mocks;
 
+use Navplan\Geometry\Domain\Altitude;
+use Navplan\Geometry\Domain\AltitudeReference;
+use Navplan\Geometry\Domain\AltitudeUnit;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\Geoname\Domain\Geoname;
 
@@ -19,7 +22,7 @@ class DummyGeoname1 {
             "246",
             121631,
             new Position2d(7.44744,46.9481),
-            0
+            new Altitude(0, AltitudeUnit::M, AltitudeReference::MSL)
         );
     }
 
@@ -36,7 +39,7 @@ class DummyGeoname1 {
             "admin2" => "246",
             "population" => 121631,
             "latitude" => 46.7775,
-            "longitude" => 46.9481,
+            "longitude" => 7.44744,
             "elevation" => 0
         );
     }

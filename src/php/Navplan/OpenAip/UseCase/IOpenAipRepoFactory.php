@@ -4,13 +4,13 @@ namespace Navplan\OpenAip\UseCase;
 
 
 interface IOpenAipRepoFactory {
-    function createAirportSearch(): IAirportRepo;
+    function createAirportRepo(): IAirportRepo;
 
-    function createAirspaceSearch(): IAirspaceRepo;
+    function createAirspaceRepo(): IAirspaceRepo;
 
-    function createNavaidSearch(): INavaidRepo;
+    function createNavaidRepo(): INavaidRepo;
 
-    function createReportingPointSearch(): IReportingPointRepo;
+    function createReportingPointRepo(): IReportingPointRepo;
 
-    function createWebcamSearch(): IWebcamRepo;
+    function createWebcamRepo(): IWebcamRepo;
 }

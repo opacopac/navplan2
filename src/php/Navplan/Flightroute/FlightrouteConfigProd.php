@@ -9,43 +9,53 @@ ini_set('display_errors', '1');
 require_once __DIR__ . "/../../Autoloader.php";
 
 use Navplan\Db\DbConfigProd;
-use Navplan\Db\IDb\IDbService;
+use Navplan\Flightroute\DbRepo\DbFlightrouteRepo;
 use Navplan\Flightroute\UseCase\IFlightrouteConfig;
-use Navplan\Flightroute\UseCase\IFlightrouteRepoFactory;
-use Navplan\OpenAip\DbRepo\DbFlightrouteRepoFactory;
+use Navplan\Flightroute\UseCase\IFlightrouteRepo;
+use Navplan\System\IFileService;
 use Navplan\System\IHttpResponseService;
+use Navplan\System\IMailService;
 use Navplan\System\SystemConfigProd;
 use Navplan\User\DbRepo\DbUserRepoFactory;
 use Navplan\User\UseCase\IUserRepoFactory;
 
 
 class FlightrouteConfigProd implements IFlightrouteConfig {
-    private $dbConfig;
-    private $systemConfig;
-    private $flightrouteRepoFactory;
+    private $fileService;
+    private $mailService;
+    private $httpService;
+    private $flightrouteRepo;
     private $userRepoFactory;
 
 
     public function __construct() {
-        $this->dbConfig = new DbConfigProd();
-        $this->systemConfig = new SystemConfigProd();
-        $this->flightrouteRepoFactory = new DbFlightrouteRepoFactory($this->getDbService());
-        $this->userRepoFactory = new DbUserRepoFactory($this->getDbService());
+        $dbConfig = new DbConfigProd();
+        $systemConfig = new SystemConfigProd();
+        $this->mailService = $systemConfig->getMailService();
+        $this->fileService = $systemConfig->getFileService();
+        $this->httpService = $systemConfig->getHttpResponseService();
+        $this->flightrouteRepo = new DbFlightrouteRepo($dbConfig->getDbService());
+        $this->userRepoFactory = new DbUserRepoFactory($dbConfig->getDbService());
     }
 
 
-    public function getDbService(): IDbService {
-        return $this->dbConfig->getDbService();
+    public function getFileService(): IFileService {
+        return $this->fileService;
+    }
+
+
+    public function getMailService(): IMailService {
+        return $this->mailService;
     }
 
 
     public function getHttpResponseService(): IHttpResponseService {
-        return $this->systemConfig->getHttpResponseService();
+        return $this->httpService;
     }
 
 
-    public function getFlightrouteRepoFactory(): IFlightrouteRepoFactory {
-        return $this->flightrouteRepoFactory;
+    public function getFlightrouteRepo(): IFlightrouteRepo {
+        return $this->flightrouteRepo;
     }
 
 

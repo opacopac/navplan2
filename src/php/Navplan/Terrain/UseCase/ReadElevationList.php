@@ -14,8 +14,8 @@ class ReadElevationList {
     private $repo;
 
 
-    public function __construct(ITerrainRepo $repo) {
-        $this->repo = $repo;
+    public function __construct(ITerrainConfig $config) {
+        $this->repo = $config->getTerrainRepo();
     }
 
 

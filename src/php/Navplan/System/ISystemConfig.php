@@ -2,9 +2,6 @@
 
 namespace Navplan\System;
 
-use Navplan\System\IHttpResponseService;
-use Navplan\System\IMailService;
-
 
 interface ISystemConfig {
     function getMailService(): IMailService;

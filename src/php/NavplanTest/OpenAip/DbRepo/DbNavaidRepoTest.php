@@ -6,7 +6,7 @@ use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\DbRepo\DbNavaidRepo;
 use Navplan\OpenAip\Domain\Navaid;
-use NavplanTest\Db\Mock\DbServiceMock;
+use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\OpenAip\Mocks\DummyNavaid1;
 use PHPUnit\Framework\TestCase;
 
@@ -16,7 +16,7 @@ class DbNavaidRepoTest extends TestCase {
     private $dbRepo;
 
 
-    private function getDbService(): DbServiceMock {
+    private function getDbService(): MockDbService {
         return $this->dbService;
     }
 
@@ -42,7 +42,7 @@ class DbNavaidRepoTest extends TestCase {
 
 
     protected function setUp(): void {
-        $this->dbService = new DbServiceMock();
+        $this->dbService = new MockDbService();
         $this->dbRepo = new DbNavaidRepo($this->getDbService());
     }
 

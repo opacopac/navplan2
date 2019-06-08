@@ -6,20 +6,15 @@ use Navplan\Geometry\Domain\Extent;
 
 
 class SearchAirspace {
-    private $repo;
+    private $airspaceRepo;
 
 
-    private function getRepo(): IAirspaceRepo {
-        return $this->repo;
-    }
-
-
-    public function __construct(IAirspaceRepo $repo) {
-        $this->repo = $repo;
+    public function __construct(IOpenAipConfig $config) {
+        $this->airspaceRepo = $config->getOpenAipRepoFactory()->createAirspaceRepo();
     }
 
 
     public function searchByExtent(Extent $extent, int $zoom): array {
-        return $this->getRepo()->searchByExtent($extent, $zoom);
+        return $this->airspaceRepo->searchByExtent($extent, $zoom);
     }
 }

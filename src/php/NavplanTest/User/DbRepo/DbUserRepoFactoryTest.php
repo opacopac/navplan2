@@ -3,7 +3,7 @@
 namespace NavplanTest\User\DbRepo;
 
 use Navplan\User\DbRepo\DbUserRepoFactory;
-use NavplanTest\Db\Mock\DbServiceMock;
+use NavplanTest\Db\Mock\MockDbService;
 use PHPUnit\Framework\TestCase;
 
 
@@ -11,13 +11,13 @@ class DbUserRepoFactoryTest extends TestCase {
     private $dbService;
 
 
-    private function getDbService(): DbServiceMock {
+    private function getDbService(): MockDbService {
         return $this->dbService;
     }
 
 
     protected function setUp(): void {
-        $this->dbService = new DbServiceMock();
+        $this->dbService = new MockDbService();
     }
 
 

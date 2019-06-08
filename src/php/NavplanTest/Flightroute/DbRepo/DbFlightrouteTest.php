@@ -7,7 +7,7 @@ require_once __DIR__ . "/../../../config_test.php";
 
 use Navplan\Flightroute\DbRepo\DbFlightroute;
 use Navplan\Flightroute\Domain\Flightroute;
-use NavplanTest\Db\Mock\DbServiceMock;
+use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute2;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute3;
@@ -30,7 +30,7 @@ class DbFlightrouteTest extends TestCase {
 
 
     protected function setUp(): void {
-        $this->dbService = new DbServiceMock();
+        $this->dbService = new MockDbService();
     }
 
 

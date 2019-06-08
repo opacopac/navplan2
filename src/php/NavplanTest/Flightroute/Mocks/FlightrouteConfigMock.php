@@ -5,12 +5,13 @@ namespace NavplanTest\Flightroute\Mocks;
 require_once __DIR__ . "/../../../config_test.php";
 
 use Navplan\Flightroute\UseCase\IFlightrouteConfig;
-use Navplan\Flightroute\UseCase\IFlightrouteRepoFactory;
-use Navplan\Db\IDb\IDbService;
-use Navplan\System\IMailService;
+use Navplan\Flightroute\UseCase\IFlightrouteRepo;
+use Navplan\System\IFileService;
 use Navplan\System\IHttpResponseService;
+use Navplan\System\IMailService;
 use Navplan\User\UseCase\IUserRepoFactory;
-use NavplanTest\Db\Mock\DbServiceMock;
+use NavplanTest\Db\Mock\MockDbService;
+use NavplanTest\System\Mock\MockFileService;
 use NavplanTest\System\Mock\MockHttpResponseService;
 use NavplanTest\System\Mock\MockMailService;
 use NavplanTest\User\Mocks\MockUserRepoFactory;
@@ -19,27 +20,29 @@ use NavplanTest\User\Mocks\MockUserRepoFactory;
 class FlightrouteConfigMock implements IFlightrouteConfig {
     private $dbService;
     private $mailService;
+    private $fileService;
     private $httpResponseService;
-    private $flightrouteRepoFactory;
+    private $flightrouteRepo;
     private $userRepoFactory;
 
 
     public function __construct() {
-        $this->dbService = new DbServiceMock();
+        $this->dbService = new MockDbService();
         $this->mailService = new MockMailService();
+        $this->fileService = new MockFileService();
         $this->httpResponseService = new MockHttpResponseService();
-        $this->flightrouteRepoFactory = new FlightrouteMockRepoFactory();
+        $this->flightrouteRepo = new MockFlightrouteRepo();
         $this->userRepoFactory = new MockUserRepoFactory();
     }
 
 
-    public function getDbService(): IDbService {
-        return $this->dbService;
+    public function getMailService(): IMailService {
+        return $this->mailService;
     }
 
 
-    public function getMailService(): IMailService{
-        return $this->mailService;
+    public function getFileService(): IFileService {
+        return $this->fileService;
     }
 
 
@@ -48,8 +51,8 @@ class FlightrouteConfigMock implements IFlightrouteConfig {
     }
 
 
-    public function getFlightrouteRepoFactory(): IFlightrouteRepoFactory {
-        return $this->flightrouteRepoFactory;
+    public function getFlightrouteRepo(): IFlightrouteRepo {
+        return $this->flightrouteRepo;
     }
 
 

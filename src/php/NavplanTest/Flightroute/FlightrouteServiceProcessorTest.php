@@ -15,7 +15,7 @@ use Navplan\Flightroute\Rest\RestUpdateFlightrouteRequest;
 use Navplan\User\UseCase\UserHelper;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\FlightrouteConfigMock;
-use NavplanTest\Flightroute\Mocks\FlightrouteMockRepo;
+use NavplanTest\Flightroute\Mocks\MockFlightrouteRepo;
 use NavplanTest\System\Mock\MockHttpResponseService;
 use NavplanTest\User\Mocks\DummyUser1;
 use NavplanTest\User\Mocks\MockUserRepo;
@@ -27,7 +27,7 @@ class FlightrouteServiceProcessorTest extends TestCase {
     private $config;
     /* @var $httpService MockHttpResponseService */
     private $httpService;
-    /* @var $flightrouteRepo FlightrouteMockRepo */
+    /* @var $flightrouteRepo MockFlightrouteRepo */
     private $flightrouteRepo;
     /* @var $userRepo MockUserRepo */
     private $userRepo;
@@ -36,7 +36,7 @@ class FlightrouteServiceProcessorTest extends TestCase {
     protected function setUp(): void {
         $this->config = new FlightrouteConfigMock();
         $this->httpService = $this->config->getHttpResponseService();
-        $this->flightrouteRepo = $this->config->getFlightrouteRepoFactory()->createFlightrouteRepo();
+        $this->flightrouteRepo = $this->config->getFlightrouteRepo();
         $this->userRepo = $this->config->getUserRepoFactory()->createUserRepo();
     }
 

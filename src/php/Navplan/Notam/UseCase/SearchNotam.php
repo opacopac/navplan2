@@ -7,30 +7,26 @@ use Navplan\Geometry\Domain\Position2d;
 
 
 class SearchNotam {
-    private $repo;
+    /* @var $notamRepo INotamRepo */
+    private $notamRepo;
 
 
-    private function getRepo(): INotamRepo {
-        return $this->repo;
-    }
-
-
-    public function __construct(INotamRepo $repo) {
-        $this->repo = $repo;
+    public function __construct(INotamConfig $config) {
+        $this->notamRepo = $config->getNotamRepo();
     }
 
 
     public function searchByExtent(Extent $extent, int $zoom, int $minNotamTimestamp, int $maxNotamTimestamp): array {
-        return $this->getRepo()->searchByExtent($extent, $zoom, $minNotamTimestamp, $maxNotamTimestamp);
+        return $this->notamRepo->searchByExtent($extent, $zoom, $minNotamTimestamp, $maxNotamTimestamp);
     }
 
 
     public function searchByPosition(Position2d $position, int $minNotamTimestamp, int $maxNotamTimestamp, int $maxResults): array {
-        return $this->getRepo()->searchByPosition($position, $minNotamTimestamp, $maxNotamTimestamp, $maxResults);
+        return $this->notamRepo->searchByPosition($position, $minNotamTimestamp, $maxNotamTimestamp, $maxResults);
     }
 
 
     public function searchByIcao(array $icaoList, int $minNotamTimestamp, int $maxNotamTimestamp): array {
-        return $this->getRepo()->searchByIcao($icaoList, $minNotamTimestamp, $maxNotamTimestamp);
+        return $this->notamRepo->searchByIcao($icaoList, $minNotamTimestamp, $maxNotamTimestamp);
     }
 }

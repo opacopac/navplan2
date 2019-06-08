@@ -7,7 +7,7 @@ use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\DbRepo\DbReportingPointRepo;
 use Navplan\OpenAip\Domain\ReportingPoint;
 use Navplan\Geometry\Domain\Ring2d;
-use NavplanTest\Db\Mock\DbServiceMock;
+use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;
 use NavplanTest\OpenAip\Mocks\DummyReportingSector1;
 use PHPUnit\Framework\TestCase;
@@ -18,7 +18,7 @@ class DbReportingPointRepoTest extends TestCase {
     private $dbRepo;
 
 
-    private function getDbService(): DbServiceMock {
+    private function getDbService(): MockDbService {
         return $this->dbService;
     }
 
@@ -53,7 +53,7 @@ class DbReportingPointRepoTest extends TestCase {
 
 
     protected function setUp(): void {
-        $this->dbService = new DbServiceMock();
+        $this->dbService = new MockDbService();
         $this->dbRepo = new DbReportingPointRepo($this->getDbService());
     }
 

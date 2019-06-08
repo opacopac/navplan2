@@ -10,7 +10,7 @@ use Navplan\OpenAip\Domain\AirportRadio;
 use Navplan\OpenAip\Domain\AirportRunway;
 use Navplan\OpenAip\Domain\MapFeature;
 use Navplan\OpenAip\Domain\Webcam;
-use NavplanTest\Db\Mock\DbServiceMock;
+use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\OpenAip\Mocks\DummyAirport1;
 use PHPUnit\Framework\TestCase;
 
@@ -20,7 +20,7 @@ class DbAirportRepoTest extends TestCase {
     private $dbRepo;
 
 
-    private function getDbService(): DbServiceMock {
+    private function getDbService(): MockDbService {
         return $this->dbService;
     }
 
@@ -117,7 +117,7 @@ class DbAirportRepoTest extends TestCase {
 
 
     protected function setUp(): void {
-        $this->dbService = new DbServiceMock();
+        $this->dbService = new MockDbService();
         $this->dbRepo = new DbAirportRepo($this->getDbService());
     }
 

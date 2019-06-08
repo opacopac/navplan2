@@ -2,17 +2,22 @@
 
 namespace Navplan\Flightroute\UseCase;
 
-use Navplan\Db\IDb\IDbService;
+use Navplan\System\IMailService;
+use Navplan\System\IFileService;
 use Navplan\System\IHttpResponseService;
+use Navplan\System\ISystemConfig;
+use Navplan\User\UseCase\IUserConfig;
 use Navplan\User\UseCase\IUserRepoFactory;
 
 
-interface IFlightrouteConfig {
-    function getDbService(): IDbService;
+interface IFlightrouteConfig extends ISystemConfig, IUserConfig {
+    function getMailService(): IMailService;
 
     function getHttpResponseService(): IHttpResponseService;
 
-    function getFlightrouteRepoFactory(): IFlightrouteRepoFactory;
+    function getFileService(): IFileService;
+
+    function getFlightrouteRepo(): IFlightrouteRepo;
 
     function getUserRepoFactory(): IUserRepoFactory;
 }

@@ -7,30 +7,33 @@ use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\UseCase\SearchAirport;
 use NavplanTest\OpenAip\Mocks\MockAirportRepo;
 use NavplanTest\OpenAip\Mocks\DummyAirport1;
+use NavplanTest\OpenAip\Mocks\MockOpenAipConfig;
 use PHPUnit\Framework\TestCase;
 
 
 class SearchAirportTest extends TestCase {
-    private $repoMock;
-    private $airportSearch;
+    /* @var $airportRepo MockAirportRepo */
+    private $airportRepo;
+    private $searchAirport;
     private $expectedResult;
 
 
     private function getAirportSearch(): SearchAirport {
-        return $this->airportSearch;
+        return $this->searchAirport;
     }
 
 
     protected function setUp(): void {
         $this->expectedResult = [ DummyAirport1::create(), DummyAirport1::create() ];
-        $this->repoMock = new MockAirportRepo();
-        $this->repoMock->pushMockResult($this->expectedResult);
-        $this->airportSearch = new SearchAirport($this->repoMock);
+        $config = new MockOpenAipConfig();
+        $this->airportRepo = $config->getOpenAipRepoFactory()->createAirportRepo();
+        $this->airportRepo->pushMockResult($this->expectedResult);
+        $this->searchAirport = new SearchAirport($config);
     }
 
 
     public function test_create_instance() {
-        $this->assertNotNull($this->airportSearch);
+        $this->assertNotNull($this->searchAirport);
     }
 
 
@@ -54,6 +57,14 @@ class SearchAirportTest extends TestCase {
     public function test_searchByPosition() {
         $pos = new Position2d(7.0, 47.0);
         $result = $this->getAirportSearch()->searchByPosition($pos, 0.5, 10);
+        $this->assertEquals(count($this->expectedResult), count($result));
+        $this->assertEquals($this->expectedResult[0], $result[0]);
+        $this->assertEquals($this->expectedResult[1], $result[1]);
+    }
+
+
+    public function test_searchByIcao() {
+        $result = $this->getAirportSearch()->searchByIcao(["LSZB", "LSGE"]);
         $this->assertEquals(count($this->expectedResult), count($result));
         $this->assertEquals($this->expectedResult[0], $result[0]);
         $this->assertEquals($this->expectedResult[1], $result[1]);

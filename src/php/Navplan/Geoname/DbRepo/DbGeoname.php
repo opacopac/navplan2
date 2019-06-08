@@ -2,6 +2,9 @@
 
 namespace Navplan\Geoname\DbRepo;
 
+use Navplan\Geometry\Domain\Altitude;
+use Navplan\Geometry\Domain\AltitudeReference;
+use Navplan\Geometry\Domain\AltitudeUnit;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\Geoname\Domain\Geoname;
 
@@ -19,7 +22,16 @@ class DbGeoname {
             $rs["admin2"],
             intval($rs["population"]),
             new Position2d(floatval($rs["longitude"]), floatval($rs["latitude"])),
-            intval($rs["elevation"]) // $this->getTerrainHelper()->getElevationMeters([$rs["longitude"], $rs["latitude"]])
+            self::getAltitude($rs)
+        );
+    }
+
+
+    private static function getAltitude(array $rs): Altitude {
+        return new Altitude(
+            intval($rs["elevation"]),
+            AltitudeUnit::M,
+            AltitudeReference::MSL
         );
     }
 }

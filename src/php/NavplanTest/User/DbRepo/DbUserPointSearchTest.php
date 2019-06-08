@@ -4,7 +4,7 @@ use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\User\DbRepo\DbUserPointRepo;
 use Navplan\User\Domain\UserPoint;
-use NavplanTest\Db\Mock\DbServiceMock;
+use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\User\Mocks\DummyUserPoint1;
 use NavplanTest\User\Mocks\DummyUserPoint2;
 use PHPUnit\Framework\TestCase;
@@ -15,7 +15,7 @@ class DbUserPointSearchTest extends TestCase {
     private $dbRepo;
 
 
-    private function getDbService(): DbServiceMock {
+    private function getDbService(): MockDbService {
         return $this->dbService;
     }
 
@@ -37,7 +37,7 @@ class DbUserPointSearchTest extends TestCase {
 
 
     protected function setUp(): void {
-        $this->dbService = new DbServiceMock();
+        $this->dbService = new MockDbService();
         $this->dbRepo = new DbUserPointRepo($this->getDbService());
     }
 

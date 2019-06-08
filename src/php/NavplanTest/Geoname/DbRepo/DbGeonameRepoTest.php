@@ -5,7 +5,7 @@ namespace NavplanTest\Geoname\DbRepo;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\Geoname\DbRepo\DbGeonameRepo;
 use Navplan\Geoname\Domain\Geoname;
-use NavplanTest\Db\Mock\DbServiceMock;
+use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\Geoname\Mocks\DummyGeoname1;
 use PHPUnit\Framework\TestCase;
 
@@ -15,7 +15,7 @@ class DbGeonameRepoTest extends TestCase {
     private $dbRepo;
 
 
-    private function getDbService(): DbServiceMock {
+    private function getDbService(): MockDbService {
         return $this->dbService;
     }
 
@@ -38,12 +38,12 @@ class DbGeonameRepoTest extends TestCase {
         $this->assertEquals($dbResult['population'], $geo->population);
         $this->assertEquals($dbResult['longitude'], $geo->position->longitude);
         $this->assertEquals($dbResult['latitude'], $geo->position->latitude);
-        $this->assertEquals($dbResult['elevation'], $geo->elevation);
+        $this->assertEquals($dbResult['elevation'], $geo->elevation->value);
     }
 
 
     protected function setUp(): void {
-        $this->dbService = new DbServiceMock();
+        $this->dbService = new MockDbService();
         $this->dbRepo = new DbGeonameRepo($this->getDbService());
     }
 

@@ -2,6 +2,9 @@
 
 namespace Navplan\Search\UseCase;
 
+use Navplan\Notam\UseCase\SearchNotam;
+use Navplan\OpenAip\UseCase\SearchAirport;
+use Navplan\OpenAip\UseCase\SearchReportingPoint;
 use Navplan\Search\Domain\SearchByIcaoQuery;
 use Navplan\Search\Domain\SearchResult;
 use Navplan\Search\Domain\SearchItemType;
@@ -23,13 +26,16 @@ class SearchByIcao {
         foreach ($query->searchItems as $searchItem) {
             switch ($searchItem) {
                 case SearchItemType::AIRPORTS:
-                    $airports = $config->getOpenAipRepoFactory()->createAirportSearch()->searchByIcao($query->icaoList);
+                    $searchAirport = new SearchAirport($config);
+                    $airports = $searchAirport->searchByIcao($query->icaoList);
                     break;
                 case SearchItemType::REPORTINGPOINTS:
-                    $reportingPoints = $config->getOpenAipRepoFactory()->createReportingPointSearch()->searchByIcao($query->icaoList);
+                    $searchReportingPoint = new SearchReportingPoint($config);
+                    $reportingPoints = $searchReportingPoint->searchByIcao($query->icaoList);
                     break;
                 case SearchItemType::NOTAMS:
-                    $notams = $config->getNotamRepoFactory()->createNotamSearch()->searchByIcao($query->icaoList, $query->minNotamTimestamp, $query->maxNotamTimestamp);
+                    $searchNotam = new SearchNotam($config);
+                    $notams = $searchNotam->searchByIcao($query->icaoList, $query->minNotamTimestamp, $query->maxNotamTimestamp);
                     break;
             }
         }

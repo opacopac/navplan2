@@ -35,13 +35,13 @@ class SearchServiceProcessorTest extends TestCase {
 
 
     private function getNavaidMockRepo(): MockNavaidRepo {
-        $mockRepo = $this->getConfig()->getOpenAipRepoFactory()->createNavaidSearch();
+        $mockRepo = $this->getConfig()->getOpenAipRepoFactory()->createNavaidRepo();
         return $mockRepo instanceof MockNavaidRepo ? $mockRepo : NULL;
     }
 
 
     private function getRpMockRepo(): MockReportingPointRepo {
-        $mockRepo = $this->getConfig()->getOpenAipRepoFactory()->createReportingPointSearch();
+        $mockRepo = $this->getConfig()->getOpenAipRepoFactory()->createReportingPointRepo();
         return $mockRepo instanceof MockReportingPointRepo ? $mockRepo : NULL;
     }
 

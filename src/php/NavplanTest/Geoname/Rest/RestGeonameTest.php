@@ -2,6 +2,8 @@
 
 namespace NavplanTest\Geoname\Rest;
 
+use Navplan\Geometry\Domain\AltitudeReference;
+use Navplan\Geometry\Domain\AltitudeUnit;
 use Navplan\Geoname\Rest\RestGeoname;
 use NavplanTest\Geoname\Mocks\DummyGeoname1;
 use PHPUnit\Framework\TestCase;
@@ -23,6 +25,8 @@ class RestGeonameTest extends TestCase {
         $this->assertEquals($geo->population, $geoRest["population"]);
         $this->assertEquals($geo->position->latitude, $geoRest["latitude"]);
         $this->assertEquals($geo->position->longitude, $geoRest["longitude"]);
-        $this->assertEquals($geo->elevation, $geoRest["elevation"]);
+        $this->assertEquals($geo->elevation->value, $geoRest["elevation"][0]);
+        $this->assertEquals(AltitudeUnit::toString($geo->elevation->unit), $geoRest["elevation"][1]);
+        $this->assertEquals(AltitudeReference::toString($geo->elevation->reference), $geoRest["elevation"][2]);
     }
 }

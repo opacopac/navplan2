@@ -7,12 +7,14 @@ use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\UseCase\SearchReportingPoint;
 use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;
 use NavplanTest\OpenAip\Mocks\DummyReportingSector1;
+use NavplanTest\OpenAip\Mocks\MockOpenAipConfig;
 use NavplanTest\OpenAip\Mocks\MockReportingPointRepo;
 use PHPUnit\Framework\TestCase;
 
 
 class SearchReportingPointTest extends TestCase {
-    private $repoMock;
+    /* @var $rpRepo MockReportingPointRepo */
+    private $rpRepo;
     private $rpSearch;
     private $expectedResult;
 
@@ -24,9 +26,10 @@ class SearchReportingPointTest extends TestCase {
 
     protected function setUp(): void {
         $this->expectedResult = [ DummyReportingPoint1::create(), DummyReportingSector1::create() ];
-        $this->repoMock = new MockReportingPointRepo();
-        $this->repoMock->pushMockResult($this->expectedResult);
-        $this->rpSearch = new SearchReportingPoint($this->repoMock);
+        $config = new MockOpenAipConfig();
+        $this->rpRepo = $config->getOpenAipRepoFactory()->createReportingPointRepo();
+        $this->rpRepo->pushMockResult($this->expectedResult);
+        $this->rpSearch = new SearchReportingPoint($config);
     }
 
 
@@ -55,6 +58,14 @@ class SearchReportingPointTest extends TestCase {
     public function test_searchByPosition() {
         $pos = new Position2d(7.0, 47.0);
         $result = $this->getRpSearch()->searchByPosition($pos, 0.5, 10);
+        $this->assertEquals(count($this->expectedResult), count($result));
+        $this->assertEquals($this->expectedResult[0], $result[0]);
+        $this->assertEquals($this->expectedResult[1], $result[1]);
+    }
+
+
+    public function test_searchByIcao() {
+        $result = $this->getRpSearch()->searchByIcao(["LSZB", "LSGE"]);
         $this->assertEquals(count($this->expectedResult), count($result));
         $this->assertEquals($this->expectedResult[0], $result[0]);
         $this->assertEquals($this->expectedResult[1], $result[1]);

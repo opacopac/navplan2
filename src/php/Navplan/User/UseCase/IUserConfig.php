@@ -8,8 +8,6 @@ use Navplan\System\IMailService;
 
 
 interface IUserConfig {
-    function getDbService(): IDbService;
-
     function getMailService(): IMailService;
 
     function getHttpResponseService(): IHttpResponseService;

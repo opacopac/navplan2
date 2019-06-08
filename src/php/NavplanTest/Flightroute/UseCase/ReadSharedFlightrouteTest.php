@@ -9,20 +9,20 @@ use Navplan\Flightroute\Domain\ReadSharedFlightrouteRequest;
 use Navplan\Flightroute\UseCase\ReadSharedFlightroute;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\FlightrouteConfigMock;
-use NavplanTest\Flightroute\Mocks\FlightrouteMockRepo;
+use NavplanTest\Flightroute\Mocks\MockFlightrouteRepo;
 use PHPUnit\Framework\TestCase;
 
 
 class ReadSharedFlightrouteTest extends TestCase {
     /* @var $config FlightrouteConfigMock */
     private $config;
-    /* @var $flightrouteRepo FlightrouteMockRepo */
+    /* @var $flightrouteRepo MockFlightrouteRepo */
     private $flightrouteRepo;
 
 
     protected function setUp(): void {
         $this->config = new FlightrouteConfigMock();
-        $this->flightrouteRepo = $this->config->getFlightrouteRepoFactory()->createFlightrouteRepo();
+        $this->flightrouteRepo = $this->config->getFlightrouteRepo();
     }
 
 

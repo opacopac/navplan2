@@ -25,13 +25,13 @@ class SearchByIcaoTest extends TestCase {
 
 
     private function getAirportRepoMock(): MockAirportRepo {
-        $repo = $this->getConfig()->getOpenAipRepoFactory()->createAirportSearch();
+        $repo = $this->getConfig()->getOpenAipRepoFactory()->createAirportRepo();
         return $repo instanceof MockAirportRepo ? $repo : NULL;
     }
 
 
     private function getReportingPointRepoMock(): MockReportingPointRepo {
-        $repo = $this->getConfig()->getOpenAipRepoFactory()->createReportingPointSearch();
+        $repo = $this->getConfig()->getOpenAipRepoFactory()->createReportingPointRepo();
         return $repo instanceof MockReportingPointRepo ? $repo : NULL;
     }
 

@@ -7,30 +7,33 @@ require_once __DIR__ . "/../../../config_test.php"; // TODO => inject config
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\User\UseCase\UserHelper;
-use Navplan\User\UseCase\UserPointSearch;
+use Navplan\User\UseCase\SearchUserPoint;
 use NavplanTest\User\Mocks\DummyUserPoint1;
 use NavplanTest\User\Mocks\DummyUserPoint2;
+use NavplanTest\User\Mocks\MockUserConfig;
 use NavplanTest\User\Mocks\MockUserPointRepo;
 use PHPUnit\Framework\TestCase;
 
 
 class UserPointSearchTest extends TestCase {
-    private $repoMock;
+    /* @var $upRepo MockUserPointRepo */
+    private $upRepo;
     private $upSearch;
     private $expectedResult;
     private $validToken;
 
 
-    private function getUserPointSearch(): UserPointSearch {
+    private function getUserPointSearch(): SearchUserPoint {
         return $this->upSearch;
     }
 
 
     protected function setUp(): void {
         $this->expectedResult = [ DummyUserPoint1::create(), DummyUserPoint2::create() ];
-        $this->repoMock = new MockUserPointRepo();
-        $this->repoMock->pushMockResult($this->expectedResult);
-        $this->upSearch = new UserPointSearch($this->repoMock);
+        $config = new MockUserConfig();
+        $this->upRepo = $config->getUserRepoFactory()->createUserPointRepo();
+        $this->upRepo->pushMockResult($this->expectedResult);
+        $this->upSearch = new SearchUserPoint($config);
         $this->validToken = UserHelper::createToken("asdf@asdf.com", FALSE);
     }
 

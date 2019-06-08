@@ -7,7 +7,7 @@ use Navplan\Db\IDb\IDbResult;
 use Navplan\Db\IDb\IDbService;
 
 
-class DbServiceMock implements IDbService {
+class MockDbService implements IDbService {
     private $mockResultList = [];
     public $queryList = [];
     public $insertId = 12345;
@@ -18,13 +18,13 @@ class DbServiceMock implements IDbService {
     }
 
 
-    private function shiftMockResult($query): DbResultMock {
+    private function shiftMockResult($query): MockDbResult {
         if (!$this->mockResultList || count($this->mockResultList) === 0) {
             throw new InvalidArgumentException("no mock result available for query: " . $query);
         }
 
         $result = array_shift($this->mockResultList);
-        return new DbResultMock($result);
+        return new MockDbResult($result);
     }
 
 

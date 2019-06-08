@@ -5,7 +5,7 @@ namespace NavplanTest\Db\Mock;
 use Navplan\Db\IDb\IDbResult;
 
 
-class DbResultMock implements IDbResult
+class MockDbResult implements IDbResult
 {
     const DUMMY_RESULT_LIST_0_ENTRY = [];
     const DUMMY_RESULT_LIST_1_ENTRY = [

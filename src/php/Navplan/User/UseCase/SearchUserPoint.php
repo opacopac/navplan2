@@ -6,17 +6,12 @@ use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
 
 
-class UserPointSearch {
-    private $repo;
+class SearchUserPoint {
+    private $userPointRepo;
 
 
-    private function getRepo(): IUserPointRepo {
-        return $this->repo;
-    }
-
-
-    public function __construct(IUserPointRepo $repo) {
-        $this->repo = $repo;
+    public function __construct(IUserConfig $config) {
+        $this->userPointRepo = $config->getUserRepoFactory()->createUserPointRepo();
     }
 
 
@@ -26,7 +21,7 @@ class UserPointSearch {
             return [];
         }
 
-        return $this->getRepo()->searchByExtent($extent, $email);
+        return $this->userPointRepo->searchByExtent($extent, $email);
     }
 
 
@@ -36,7 +31,7 @@ class UserPointSearch {
             return [];
         }
 
-        return $this->getRepo()->searchByPosition($position, $maxRadius_deg, $maxResults, $email);
+        return $this->userPointRepo->searchByPosition($position, $maxRadius_deg, $maxResults, $email);
     }
 
 
@@ -46,6 +41,6 @@ class UserPointSearch {
             return [];
         }
 
-        return $this->getRepo()->searchByText($searchText, $maxResults, $email);
+        return $this->userPointRepo->searchByText($searchText, $maxResults, $email);
     }
 }

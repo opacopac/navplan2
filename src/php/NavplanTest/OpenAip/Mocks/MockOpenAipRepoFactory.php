@@ -27,27 +27,27 @@ class MockOpenAipRepoFactory implements IOpenAipRepoFactory {
     }
 
 
-    public function createAirportSearch(): IAirportRepo {
+    public function createAirportRepo(): IAirportRepo {
         return $this->airportRepoMock;
     }
 
 
-    public function createAirspaceSearch(): IAirspaceRepo {
+    public function createAirspaceRepo(): IAirspaceRepo {
         return $this->airspaceRepoMock;
     }
 
 
-    public function createNavaidSearch(): INavaidRepo {
+    public function createNavaidRepo(): INavaidRepo {
         return $this->navaidRepoMock;
     }
 
 
-    public function createReportingPointSearch(): IReportingPointRepo {
+    public function createReportingPointRepo(): IReportingPointRepo {
         return $this->reportingPointRepoMock;
     }
 
 
-    public function createWebcamSearch(): IWebcamRepo {
+    public function createWebcamRepo(): IWebcamRepo {
         return $this->webcamRepoMock;
     }
 }

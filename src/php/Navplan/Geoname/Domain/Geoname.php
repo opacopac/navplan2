@@ -2,6 +2,7 @@
 
 namespace Navplan\Geoname\Domain;
 
+use Navplan\Geometry\Domain\Altitude;
 use Navplan\Geometry\Domain\Position2d;
 
 
@@ -29,7 +30,7 @@ class Geoname {
         string $admin2,
         int $population,
         Position2d $position,
-        int $elevation
+        Altitude $elevation
     ) {
         $this->id = $id;
         $this->name = $name;

@@ -13,7 +13,7 @@ class DeleteFlightroute {
 
 
     public function __construct(IFlightrouteConfig $config) {
-        $this->flightrouteRepo = $config->getFlightrouteRepoFactory()->createFlightrouteRepo();
+        $this->flightrouteRepo = $config->getFlightrouteRepo();
         $this->userRepo = $config->getUserRepoFactory()->createUserRepo();
     }
 
