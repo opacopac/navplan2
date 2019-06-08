@@ -2,7 +2,7 @@
 
 namespace Navplan\Db\MySqlDb;
 
-use Navplan\Db\IDb\IDbService;
+use Navplan\Db\UseCase\IDbService;
 use Navplan\Geometry\Domain\Extent;
 
 

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Db\IDb;
+namespace Navplan\Db\UseCase;
 
 
 interface IDbResult {

@@ -5,8 +5,8 @@ namespace Navplan\Db;
 require_once __DIR__ . "/../../config.php";
 require_once __DIR__ . "/../../Autoloader.php";
 
-use Navplan\Db\IDb\IDbConfig;
-use Navplan\Db\IDb\IDbService;
+use Navplan\Db\UseCase\IDbConfig;
+use Navplan\Db\UseCase\IDbService;
 use Navplan\Db\MySqlDb\MySqlDbService;
 
 

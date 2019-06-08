@@ -3,7 +3,7 @@
 namespace Navplan\Traffic;
 
 use InvalidArgumentException;
-use Navplan\Db\IDb\IDbService;
+use Navplan\Db\UseCase\IDbService;
 use Navplan\System\IFileService;
 use Navplan\System\IHttpService;
 use Navplan\Shared\InvalidFormatException;

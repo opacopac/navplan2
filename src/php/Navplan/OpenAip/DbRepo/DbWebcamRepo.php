@@ -6,7 +6,7 @@ use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\Domain\Webcam;
 use Navplan\OpenAip\UseCase\IWebcamRepo;
-use Navplan\Db\IDb\IDbService;
+use Navplan\Db\UseCase\IDbService;
 use Navplan\Shared\StringNumberService;
 
 

@@ -11,8 +11,8 @@ use Navplan\OpenAip\UseCase\IAirspaceRepo;
 use Navplan\Db\MySqlDb\DbHelper;
 use Navplan\Geometry\Domain\Ring2d;
 use Navplan\Shared\GeoService;
-use Navplan\Db\IDb\IDbResult;
-use Navplan\Db\IDb\IDbService;
+use Navplan\Db\UseCase\IDbResult;
+use Navplan\Db\UseCase\IDbService;
 
 
 class DbAirspaceRepo implements IAirspaceRepo {

@@ -4,7 +4,7 @@ namespace Navplan\Db\MySqlDb;
 
 use mysqli;
 use Navplan\Db\Domain\DbException;
-use Navplan\Db\IDb\IDbResult;
+use Navplan\Db\UseCase\IDbResult;
 
 require_once __DIR__ . "/../../NavplanHelper.php";
 

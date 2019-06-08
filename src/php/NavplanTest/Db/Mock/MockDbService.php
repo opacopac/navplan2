@@ -3,8 +3,8 @@
 namespace NavplanTest\Db\Mock;
 
 use InvalidArgumentException;
-use Navplan\Db\IDb\IDbResult;
-use Navplan\Db\IDb\IDbService;
+use Navplan\Db\UseCase\IDbResult;
+use Navplan\Db\UseCase\IDbService;
 
 
 class MockDbService implements IDbService {

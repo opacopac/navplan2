@@ -8,7 +8,7 @@ use Navplan\OpenAip\UseCase\INavaidRepo;
 use Navplan\OpenAip\UseCase\IOpenAipRepoFactory;
 use Navplan\OpenAip\UseCase\IReportingPointRepo;
 use Navplan\OpenAip\UseCase\IWebcamRepo;
-use Navplan\Db\IDb\IDbService;
+use Navplan\Db\UseCase\IDbService;
 
 
 class DbOpenAipRepoFactory implements IOpenAipRepoFactory {

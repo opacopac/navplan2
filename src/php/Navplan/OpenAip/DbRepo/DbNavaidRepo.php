@@ -6,8 +6,8 @@ use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\UseCase\INavaidRepo;
 use Navplan\Db\MySqlDb\DbHelper;
-use Navplan\Db\IDb\IDbResult;
-use Navplan\Db\IDb\IDbService;
+use Navplan\Db\UseCase\IDbResult;
+use Navplan\Db\UseCase\IDbService;
 
 
 class DbNavaidRepo implements INavaidRepo {

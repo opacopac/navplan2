@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use Navplan\Db\IDb\IDbService;
+use Navplan\Db\UseCase\IDbService;
 use Navplan\System\IFileService;
 use Navplan\Shared\InvalidFormatException;
 use Navplan\Traffic\TrafficServiceProcessor;

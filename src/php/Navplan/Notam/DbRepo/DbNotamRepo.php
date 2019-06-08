@@ -8,8 +8,8 @@ use Navplan\Notam\Domain\Notam;
 use Navplan\Notam\UseCase\INotamRepo;
 use Navplan\Db\MySqlDb\DbHelper;
 use Navplan\Shared\GeoService;
-use Navplan\Db\IDb\IDbResult;
-use Navplan\Db\IDb\IDbService;
+use Navplan\Db\UseCase\IDbResult;
+use Navplan\Db\UseCase\IDbService;
 
 
 class DbNotamRepo implements INotamRepo {

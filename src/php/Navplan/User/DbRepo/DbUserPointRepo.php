@@ -4,8 +4,8 @@ namespace Navplan\User\DbRepo;
 
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
-use Navplan\Db\IDb\IDbResult;
-use Navplan\Db\IDb\IDbService;
+use Navplan\Db\UseCase\IDbResult;
+use Navplan\Db\UseCase\IDbService;
 use Navplan\User\UseCase\IUserPointRepo;
 
 

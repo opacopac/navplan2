@@ -9,8 +9,8 @@ use Navplan\OpenAip\Domain\ReportingPoint;
 use Navplan\OpenAip\UseCase\IReportingPointRepo;
 use Navplan\Db\MySqlDb\DbHelper;
 use Navplan\Geometry\Domain\Ring2d;
-use Navplan\Db\IDb\IDbResult;
-use Navplan\Db\IDb\IDbService;
+use Navplan\Db\UseCase\IDbResult;
+use Navplan\Db\UseCase\IDbService;
 use Navplan\Shared\StringNumberService;
 
 

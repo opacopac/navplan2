@@ -2,7 +2,7 @@
 
 namespace Navplan\Flightroute\DbRepo;
 
-use Navplan\Db\IDb\IDbService;
+use Navplan\Db\UseCase\IDbService;
 use Navplan\Db\MySqlDb\DbHelper;
 use Navplan\Flightroute\Domain\Flightroute;
 use Navplan\Shared\StringNumberService;
