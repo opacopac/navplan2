@@ -10,7 +10,7 @@ require_once __DIR__ . "/../../Autoloader.php";
 
 use Navplan\Db\DbConfigProd;
 use Navplan\System\IMailService;
-use Navplan\System\IHttpResponseService;
+use Navplan\System\IHttpService;
 use Navplan\System\SystemConfigProd;
 use Navplan\User\DbRepo\DbUserRepoFactory;
 use Navplan\User\UseCase\IUserConfig;
@@ -19,7 +19,7 @@ use Navplan\User\UseCase\IUserRepoFactory;
 
 class UserConfigProd implements IUserConfig {
     private $mailService;
-    private $httpResponseService;
+    private $httpService;
     private $userRepoFactory;
 
 
@@ -27,7 +27,7 @@ class UserConfigProd implements IUserConfig {
         $dbConfig = new DbConfigProd();
         $systemConfig = new SystemConfigProd();
         $this->mailService = $systemConfig->getMailService();
-        $this->httpResponseService = $systemConfig->getHttpResponseService();
+        $this->httpService = $systemConfig->getHttpService();
         $this->userRepoFactory = new DbUserRepoFactory($dbConfig->getDbService());
     }
 
@@ -37,8 +37,8 @@ class UserConfigProd implements IUserConfig {
     }
 
 
-    public function getHttpResponseService(): IHttpResponseService {
-        return $this->httpResponseService;
+    public function getHttpService(): IHttpService {
+        return $this->httpService;
     }
 
 

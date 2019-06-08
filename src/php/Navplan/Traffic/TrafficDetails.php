@@ -4,13 +4,13 @@ namespace Navplan\Traffic;
 
 use InvalidArgumentException;
 use Navplan\Db\IDb\IDbService;
-use Navplan\System\IHttpResponseService;
+use Navplan\System\IHttpService;
 use Navplan\Shared\RequestResponseHelper;
 use Navplan\Shared\StringNumberService;
 
 
 class TrafficDetails {
-    public static function getDetails(array $args, IDbService $dbService, IHttpResponseService $httpService) {
+    public static function getDetails(array $args, IDbService $dbService, IHttpService $httpService) {
         $dbService->openDb();
 
         $callback = isset($args["callback"]) ? StringNumberService::checkString($args["callback"], 1, 50) : NULL;

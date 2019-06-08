@@ -8,13 +8,13 @@ require_once __DIR__ . "/../../Autoloader.php";
 class SystemConfigProd implements ISystemConfig {
     private $mailService;
     private $fileService;
-    private $httpResponseService;
+    private $httpService;
 
 
     public function __construct() {
         $this->mailService = MailService::getInstance();
         $this->fileService = FileService::getInstance();
-        $this->httpResponseService = HttpResponseService::getInstance();
+        $this->httpService = HttpService::getInstance();
     }
 
 
@@ -23,8 +23,8 @@ class SystemConfigProd implements ISystemConfig {
     }
 
 
-    public function getHttpResponseService(): IHttpResponseService {
-        return $this->httpResponseService;
+    public function getHttpService(): IHttpService {
+        return $this->httpService;
     }
 
 

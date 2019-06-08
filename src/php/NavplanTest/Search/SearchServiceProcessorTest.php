@@ -13,7 +13,7 @@ use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;
 use NavplanTest\OpenAip\Mocks\MockNavaidRepo;
 use NavplanTest\OpenAip\Mocks\MockReportingPointRepo;
 use NavplanTest\Search\Mocks\MockSearchConfig;
-use NavplanTest\System\Mock\MockHttpResponseService;
+use NavplanTest\System\Mock\MockHttpService;
 use PHPUnit\Framework\TestCase;
 
 
@@ -28,9 +28,9 @@ class SearchServiceProcessorTest extends TestCase {
     }
 
 
-    private function getHttpService(): MockHttpResponseService {
-        $service = $this->getConfig()->getHttpResponseService();
-        return $service instanceof MockHttpResponseService ? $service : NULL;
+    private function getHttpService(): MockHttpService {
+        $service = $this->getConfig()->getHttpService();
+        return $service instanceof MockHttpService ? $service : NULL;
     }
 
 

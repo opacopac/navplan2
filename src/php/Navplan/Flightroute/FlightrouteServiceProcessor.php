@@ -23,7 +23,7 @@ use Navplan\Flightroute\UseCase\ReadSharedFlightroute;
 use Navplan\Flightroute\UseCase\UpdateFlightroute;
 use Navplan\Flightroute\UseCase\IFlightrouteConfig;
 use Navplan\Shared\RequestResponseHelper;
-use Navplan\System\IHttpResponseService;
+use Navplan\System\IHttpService;
 
 
 class FlightrouteServiceProcessor {
@@ -39,37 +39,37 @@ class FlightrouteServiceProcessor {
                 if (isset($getVars[RestReadSharedFlightrouteRequest::ARG_SHARE_ID])) {
                     $request = RestReadSharedFlightrouteRequest::fromArgs($getVars);
                     $response = (new ReadSharedFlightroute($config))->read($request);
-                    self::sendFlighrouteResponse($response, $config->getHttpResponseService());
+                    self::sendFlighrouteResponse($response, $config->getHttpService());
                 } elseif (isset($getVars[RestReadFlightrouteRequest::ARG_ID])) {
                     $request = RestReadFlightrouteRequest::fromArgs($getVars);
                     $response = (new ReadFlightroute($config))->read($request);
-                    self::sendFlighrouteResponse($response, $config->getHttpResponseService());
+                    self::sendFlighrouteResponse($response, $config->getHttpService());
                 } else {
                     $request = RestReadFlightrouteListRequest::fromArgs($getVars);
                     $response = (new ReadFlightrouteList($config))->read($request);
-                    self::sendFlighrouteListResponse($response, $config->getHttpResponseService());
+                    self::sendFlighrouteListResponse($response, $config->getHttpService());
                 }
                 break;
             case self::REQ_METHOD_POST:
                 if (isset($postVars[RestCreateSharedFlightrouteRequest::ARG_CREATE_SHARED]) && $postVars[RestCreateSharedFlightrouteRequest::ARG_CREATE_SHARED] === TRUE) {
                     $request = RestCreateSharedFlightrouteRequest::fromArgs($postVars);
                     $response = (new CreateSharedFlightroute($config))->create($request);
-                    self::sendFlighrouteResponse($response, $config->getHttpResponseService());
+                    self::sendFlighrouteResponse($response, $config->getHttpService());
                 } else {
                     $request = RestCreateFlightrouteRequest::fromArgs($postVars);
                     $response = (new CreateFlightroute($config))->create($request);
-                    self::sendFlighrouteResponse($response, $config->getHttpResponseService());
+                    self::sendFlighrouteResponse($response, $config->getHttpService());
                 }
                 break;
             case self::REQ_METHOD_PUT:
                 $request = RestUpdateFlightrouteRequest::fromArgs($postVars);
                 $response = (new UpdateFlightroute($config))->update($request);
-                self::sendFlighrouteResponse($response, $config->getHttpResponseService());
+                self::sendFlighrouteResponse($response, $config->getHttpService());
                 break;
             case self::REQ_METHOD_DELETE:
                 $request = RestDeleteFlightrouteRequest::fromArgs($getVars);
                 (new DeleteFlightroute($config))->delete($request);
-                self::sendSuccessResponse($config->getHttpResponseService());
+                self::sendSuccessResponse($config->getHttpService());
                 break;
             default:
                 throw new InvalidArgumentException('unknown request');
@@ -77,19 +77,19 @@ class FlightrouteServiceProcessor {
     }
 
 
-    private static function sendFlighrouteResponse(FlightrouteResponse $response, IHttpResponseService $httpService) {
+    private static function sendFlighrouteResponse(FlightrouteResponse $response, IHttpService $httpService) {
         $resultArray = RestFlightrouteResponse::toArray($response);
         RequestResponseHelper::sendArrayResponse($httpService, $resultArray);
     }
 
 
-    private static function sendFlighrouteListResponse(FlightrouteListResponse $response, IHttpResponseService $httpService) {
+    private static function sendFlighrouteListResponse(FlightrouteListResponse $response, IHttpService $httpService) {
         $resultArray = RestFlightrouteListResponse::toArray($response);
         RequestResponseHelper::sendArrayResponse($httpService, $resultArray);
     }
 
 
-    private static function sendSuccessResponse(IHttpResponseService $httpService) {
+    private static function sendSuccessResponse(IHttpService $httpService) {
         $resultArray = array("success" => 1);
         RequestResponseHelper::sendArrayResponse($httpService, $resultArray);
     }

@@ -3,7 +3,7 @@
 namespace Navplan\System;
 
 
-interface IHttpResponseService {
+interface IHttpService {
     public function header(string $header);
 
     public function payload(string $data);

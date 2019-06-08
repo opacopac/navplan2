@@ -2,10 +2,10 @@
 
 namespace NavplanTest\System\Mock;
 
-use Navplan\System\IHttpResponseService;
+use Navplan\System\IHttpService;
 
 
-class MockHttpResponseService implements IHttpResponseService {
+class MockHttpService implements IHttpService {
     public $headerList = [];
     public $body = "";
 

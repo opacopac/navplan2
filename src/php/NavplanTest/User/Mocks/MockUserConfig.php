@@ -3,22 +3,22 @@
 namespace NavplanTest\User\Mocks;
 
 use Navplan\System\IMailService;
-use Navplan\System\IHttpResponseService;
+use Navplan\System\IHttpService;
 use Navplan\User\UseCase\IUserConfig;
 use Navplan\User\UseCase\IUserRepoFactory;
-use NavplanTest\System\Mock\MockHttpResponseService;
+use NavplanTest\System\Mock\MockHttpService;
 use NavplanTest\System\Mock\MockMailService;
 
 
 class MockUserConfig implements IUserConfig {
     private $mailService;
-    private $httpResponseService;
+    private $httpService;
     private $userRepoFactory;
 
 
     public function __construct() {
         $this->mailService = new MockMailService();
-        $this->httpResponseService = new MockHttpResponseService();
+        $this->httpService = new MockHttpService();
         $this->userRepoFactory = new MockUserRepoFactory();
     }
 
@@ -28,8 +28,8 @@ class MockUserConfig implements IUserConfig {
     }
 
 
-    public function getHttpResponseService(): IHttpResponseService {
-        return $this->httpResponseService;
+    public function getHttpService(): IHttpService {
+        return $this->httpService;
     }
 
 

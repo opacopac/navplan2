@@ -16,7 +16,7 @@ use Navplan\Notam\UseCase\INotamRepo;
 use Navplan\OpenAip\DbRepo\DbOpenAipRepoFactory;
 use Navplan\Search\UseCase\ISearchConfig;
 use Navplan\System\IMailService;
-use Navplan\System\IHttpResponseService;
+use Navplan\System\IHttpService;
 use Navplan\OpenAip\UseCase\IOpenAipRepoFactory;
 use Navplan\System\SystemConfigProd;
 use Navplan\Terrain\FileRepo\FileTerrainRepo;
@@ -39,7 +39,7 @@ class SearchConfigProd implements ISearchConfig {
         $dbConfig = new DbConfigProd();
         $systemConfig = new SystemConfigProd();
         $this->mailService = $systemConfig->getMailService();
-        $this->httpService = $systemConfig->getHttpResponseService();
+        $this->httpService = $systemConfig->getHttpService();
         $this->openAipRepoFactory = new DbOpenAipRepoFactory($dbConfig->getDbService());
         $this->userRepoFactory = new DbUserRepoFactory($dbConfig->getDbService());
         $this->geonameRepo = new DbGeonameRepo($dbConfig->getDbService());
@@ -53,7 +53,7 @@ class SearchConfigProd implements ISearchConfig {
     }
 
 
-    public function getHttpResponseService(): IHttpResponseService {
+    public function getHttpService(): IHttpService {
         return $this->httpService;
     }
 

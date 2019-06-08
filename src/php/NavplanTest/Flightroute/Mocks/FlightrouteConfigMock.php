@@ -7,12 +7,12 @@ require_once __DIR__ . "/../../../config_test.php";
 use Navplan\Flightroute\UseCase\IFlightrouteConfig;
 use Navplan\Flightroute\UseCase\IFlightrouteRepo;
 use Navplan\System\IFileService;
-use Navplan\System\IHttpResponseService;
+use Navplan\System\IHttpService;
 use Navplan\System\IMailService;
 use Navplan\User\UseCase\IUserRepoFactory;
 use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\System\Mock\MockFileService;
-use NavplanTest\System\Mock\MockHttpResponseService;
+use NavplanTest\System\Mock\MockHttpService;
 use NavplanTest\System\Mock\MockMailService;
 use NavplanTest\User\Mocks\MockUserRepoFactory;
 
@@ -21,7 +21,7 @@ class FlightrouteConfigMock implements IFlightrouteConfig {
     private $dbService;
     private $mailService;
     private $fileService;
-    private $httpResponseService;
+    private $httpService;
     private $flightrouteRepo;
     private $userRepoFactory;
 
@@ -30,7 +30,7 @@ class FlightrouteConfigMock implements IFlightrouteConfig {
         $this->dbService = new MockDbService();
         $this->mailService = new MockMailService();
         $this->fileService = new MockFileService();
-        $this->httpResponseService = new MockHttpResponseService();
+        $this->httpService = new MockHttpService();
         $this->flightrouteRepo = new MockFlightrouteRepo();
         $this->userRepoFactory = new MockUserRepoFactory();
     }
@@ -46,8 +46,8 @@ class FlightrouteConfigMock implements IFlightrouteConfig {
     }
 
 
-    public function getHttpResponseService(): IHttpResponseService {
-        return $this->httpResponseService;
+    public function getHttpService(): IHttpService {
+        return $this->httpService;
     }
 
 

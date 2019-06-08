@@ -13,7 +13,7 @@ class Register {
 
     public function __construct(IUserConfig $config) {
         $this->userRepo = $config->getUserRepoFactory()->createUserRepo();
-        $this->httpService = $config->getHttpResponseService();
+        $this->httpService = $config->getHttpService();
     }
 
 

@@ -4,7 +4,7 @@ namespace Navplan\Traffic;
 
 use Navplan\Db\IDb\IDbService;
 use Navplan\System\IFileService;
-use Navplan\System\IHttpResponseService;
+use Navplan\System\IHttpService;
 use Navplan\Shared\RequestResponseHelper;
 use Navplan\Shared\StringNumberService;
 
@@ -18,10 +18,10 @@ class OgnTraffic
      * @param array $args
      * @param IFileService $fileService
      * @param IDbService $dbService
-     * @param IHttpResponseService $httpService
+     * @param IHttpService $httpService
      * @throws \Navplan\Shared\InvalidFormatException
      */
-    public static function readTraffic(array $args, IFileService $fileService, IDbService $dbService, IHttpResponseService $httpService) {
+    public static function readTraffic(array $args, IFileService $fileService, IDbService $dbService, IHttpService $httpService) {
         $dbService->openDb();
 
         $minLat = floatval(StringNumberService::checkNumeric(StringNumberService::parseStringOrNull($args, "minlat")));

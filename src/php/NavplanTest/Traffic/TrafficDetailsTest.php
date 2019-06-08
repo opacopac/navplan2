@@ -2,7 +2,7 @@
 
 use Navplan\Traffic\TrafficDetails;
 use NavplanTest\Db\Mock\MockDbService;
-use NavplanTest\System\Mock\MockHttpResponseService;
+use NavplanTest\System\Mock\MockHttpService;
 use PHPUnit\Framework\TestCase;
 
 
@@ -24,7 +24,7 @@ class TrafficDetailsTest extends TestCase {
     }
 
 
-    private function getHttpService(): MockHttpResponseService {
+    private function getHttpService(): MockHttpService {
         return $this->httpService;
     }
 
@@ -34,7 +34,7 @@ class TrafficDetailsTest extends TestCase {
 
         $this->args = array("action" => "readacdetails");
         $this->dbService = new MockDbService();
-        $this->httpService = new MockHttpResponseService();
+        $this->httpService = new MockHttpService();
     }
 
 

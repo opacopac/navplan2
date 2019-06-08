@@ -8,7 +8,7 @@ use Navplan\Notam\UseCase\INotamConfig;
 use Navplan\Notam\UseCase\INotamRepo;
 use Navplan\OpenAip\UseCase\IOpenAipConfig;
 use Navplan\OpenAip\UseCase\IOpenAipRepoFactory;
-use Navplan\System\IHttpResponseService;
+use Navplan\System\IHttpService;
 use Navplan\System\IMailService;
 use Navplan\Terrain\UseCase\ITerrainRepo;
 use Navplan\User\UseCase\IUserConfig;
@@ -18,7 +18,7 @@ use Navplan\User\UseCase\IUserRepoFactory;
 interface ISearchConfig extends IOpenAipConfig, IGeonameConfig, IUserConfig, INotamConfig {
     function getMailService(): IMailService;
 
-    function getHttpResponseService(): IHttpResponseService;
+    function getHttpService(): IHttpService;
 
     function getOpenAipRepoFactory(): IOpenAipRepoFactory;
 

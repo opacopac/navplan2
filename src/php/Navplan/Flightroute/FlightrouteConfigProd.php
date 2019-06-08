@@ -13,7 +13,7 @@ use Navplan\Flightroute\DbRepo\DbFlightrouteRepo;
 use Navplan\Flightroute\UseCase\IFlightrouteConfig;
 use Navplan\Flightroute\UseCase\IFlightrouteRepo;
 use Navplan\System\IFileService;
-use Navplan\System\IHttpResponseService;
+use Navplan\System\IHttpService;
 use Navplan\System\IMailService;
 use Navplan\System\SystemConfigProd;
 use Navplan\User\DbRepo\DbUserRepoFactory;
@@ -33,7 +33,7 @@ class FlightrouteConfigProd implements IFlightrouteConfig {
         $systemConfig = new SystemConfigProd();
         $this->mailService = $systemConfig->getMailService();
         $this->fileService = $systemConfig->getFileService();
-        $this->httpService = $systemConfig->getHttpResponseService();
+        $this->httpService = $systemConfig->getHttpService();
         $this->flightrouteRepo = new DbFlightrouteRepo($dbConfig->getDbService());
         $this->userRepoFactory = new DbUserRepoFactory($dbConfig->getDbService());
     }
@@ -49,7 +49,7 @@ class FlightrouteConfigProd implements IFlightrouteConfig {
     }
 
 
-    public function getHttpResponseService(): IHttpResponseService {
+    public function getHttpService(): IHttpService {
         return $this->httpService;
     }
 

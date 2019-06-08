@@ -2,14 +2,14 @@
 
 namespace NavplanTest\System;
 
-use Navplan\System\HttpResponseService;
-use Navplan\System\IHttpResponseService;
+use Navplan\System\HttpService;
+use Navplan\System\IHttpService;
 use PHPUnit\Framework\TestCase;
 
 
-class HttpResponseServiceTest extends TestCase {
-    private function getHttpService(): IHttpResponseService {
-        return HttpResponseService::getInstance();
+class HttpServiceTest extends TestCase {
+    private function getHttpService(): IHttpService {
+        return HttpService::getInstance();
     }
 
 

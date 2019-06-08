@@ -3,11 +3,11 @@
 namespace Navplan\System;
 
 
-class HttpResponseService implements IHttpResponseService {
+class HttpService implements IHttpService {
     private static $instance = NULL;
 
 
-    public static function getInstance(): IHttpResponseService {
+    public static function getInstance(): IHttpService {
         if (!isset(static::$instance)) {
             static::$instance = new static;
         }

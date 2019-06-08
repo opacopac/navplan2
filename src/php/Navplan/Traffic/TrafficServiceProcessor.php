@@ -5,7 +5,7 @@ namespace Navplan\Traffic;
 use InvalidArgumentException;
 use Navplan\Db\IDb\IDbService;
 use Navplan\System\IFileService;
-use Navplan\System\IHttpResponseService;
+use Navplan\System\IHttpService;
 use Navplan\Shared\InvalidFormatException;
 
 class TrafficServiceProcessor {
@@ -15,10 +15,10 @@ class TrafficServiceProcessor {
      * @param array|null $postVars
      * @param IDbService $dbService
      * @param IFileService $fileService
-     * @param IHttpResponseService $httpService
+     * @param IHttpService $httpService
      * @throws InvalidFormatException
      */
-    public static function processRequest(string $requestMethod, ?array $getVars, ?array $postVars, IDbService $dbService, IFileService $fileService, IHttpResponseService $httpService)
+    public static function processRequest(string $requestMethod, ?array $getVars, ?array $postVars, IDbService $dbService, IFileService $fileService, IHttpService $httpService)
     {
         switch ($requestMethod) {
             case 'GET':

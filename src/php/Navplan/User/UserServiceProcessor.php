@@ -3,7 +3,7 @@
 namespace Navplan\User;
 
 use InvalidArgumentException;
-use Navplan\System\IHttpResponseService;
+use Navplan\System\IHttpService;
 use Navplan\Shared\RequestResponseHelper;
 use Navplan\User\Domain\UserResponse;
 use Navplan\User\Rest\RestAutoLoginRequest;
@@ -41,37 +41,37 @@ class UserServiceProcessor {
             case self::ACTION_LOGIN:
                 $request = RestLoginRequest::fromArgs($postVars);
                 $response = (new Login($config))->login($request);
-                self::sendUserResponse($response, $config->getHttpResponseService());
+                self::sendUserResponse($response, $config->getHttpService());
                 break;
             case self::ACTION_AUTOLOGIN:
                 $request = RestAutologinRequest::fromArgs($postVars);
                 $response = (new AutoLogin($config))->autologin($request);
-                self::sendUserResponse($response, $config->getHttpResponseService());
+                self::sendUserResponse($response, $config->getHttpService());
                 break;
             case self::ACTION_SEND_REGISTER_MAIL:
                 $request = RestSendRegisterEmailRequest::fromArgs($postVars);
                 $response = (new SendRegisterEmail($config))->sendRegisterEmail($request);
-                self::sendUserResponse($response, $config->getHttpResponseService());
+                self::sendUserResponse($response, $config->getHttpService());
                 break;
             case self::ACTION_REGISTER:
                 $request = RestRegisterRequest::fromArgs($postVars);
                 $response = (new Register($config))->register($request);
-                self::sendUserResponse($response, $config->getHttpResponseService());
+                self::sendUserResponse($response, $config->getHttpService());
                 break;
             case self::ACTION_SEND_LOST_PW:
                 $request = RestSendLostPwRequest::fromArgs($postVars);
                 $response = (new SendLostPw($config))->sendLostPw($request);
-                self::sendUserResponse($response, $config->getHttpResponseService());
+                self::sendUserResponse($response, $config->getHttpService());
                 break;
             case self::ACTION_RESET_PW:
                 $request = RestResetPwRequest::fromArgs($postVars);
                 $response = (new ResetPw($config))->resetPassword($request);
-                self::sendUserResponse($response, $config->getHttpResponseService());
+                self::sendUserResponse($response, $config->getHttpService());
                 break;
             case self::ACTION_UPDATE_PW:
                 $request = RestUpdatePwRequest::fromArgs($postVars);
                 $response = (new UpdatePw($config))->updatePassword($request);
-                self::sendUserResponse($response, $config->getHttpResponseService());
+                self::sendUserResponse($response, $config->getHttpService());
                 break;
             default:
                 throw new InvalidArgumentException("no or invalid action defined!");
@@ -79,7 +79,7 @@ class UserServiceProcessor {
     }
 
 
-    private static function sendUserResponse(UserResponse $response, IHttpResponseService $httpService) {
+    private static function sendUserResponse(UserResponse $response, IHttpService $httpService) {
         $resultArray = RestUserResponse::toArray($response);
         RequestResponseHelper::sendArrayResponse($httpService, $resultArray);
     }

@@ -2,7 +2,7 @@
 
 use Navplan\Shared\InvalidFormatException;
 use NavplanTest\System\Mock\MockFileService;
-use NavplanTest\System\Mock\MockHttpResponseService;
+use NavplanTest\System\Mock\MockHttpService;
 use PHPUnit\Framework\TestCase;
 use Navplan\Traffic\AdsbexTraffic;
 
@@ -20,7 +20,7 @@ class AdsbexTrafficTest extends TestCase
         return $this->fileService;
     }
 
-    private function getHttpService(): MockHttpResponseService {
+    private function getHttpService(): MockHttpService {
         return $this->httpService;
     }
 
@@ -43,7 +43,7 @@ class AdsbexTrafficTest extends TestCase
         $this->dummyResponse2 = '{"ac":null,"total":0,"ctime":1549196379859,"req_ip":"217.26.58.54"}';
 
         $this->fileService = new MockFileService();
-        $this->httpService = new MockHttpResponseService();
+        $this->httpService = new MockHttpService();
     }
 
 

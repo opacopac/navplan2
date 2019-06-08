@@ -6,7 +6,7 @@ namespace Navplan\System;
 interface ISystemConfig {
     function getMailService(): IMailService;
 
-    function getHttpResponseService(): IHttpResponseService;
+    function getHttpService(): IHttpService;
 
     function getFileService(): IFileService;
 }

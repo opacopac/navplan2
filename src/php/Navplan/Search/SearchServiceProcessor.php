@@ -14,7 +14,7 @@ use Navplan\Search\UseCase\SearchByExtent;
 use Navplan\Search\UseCase\SearchByIcao;
 use Navplan\Search\UseCase\SearchByPosition;
 use Navplan\Search\UseCase\SearchByText;
-use Navplan\System\IHttpResponseService;
+use Navplan\System\IHttpService;
 use Navplan\Shared\RequestResponseHelper;
 use Navplan\Shared\StringNumberService;
 
@@ -33,22 +33,22 @@ class SearchServiceProcessor {
             case self::ACTION_SEARCH_BY_TEXT:
                 $query = RestSearchByTextQuery::fromArgs($getArgs);
                 $result = SearchByText::search($query, $config);
-                self::sendSearchResultResponse($result, $config->getHttpResponseService());
+                self::sendSearchResultResponse($result, $config->getHttpService());
                 break;
             case self::ACTION_SEARCH_BY_POSITION:
                 $query = RestSearchByPositionQuery::fromArgs($getArgs);
                 $result = SearchByPosition::search($query, $config);
-                self::sendSearchResultResponse($result, $config->getHttpResponseService());
+                self::sendSearchResultResponse($result, $config->getHttpService());
                 break;
             case self::ACTION_SEARCH_BY_EXTENT:
                 $query = RestSearchByExtentQuery::fromArgs($getArgs);
                 $result = SearchByExtent::search($query, $config);
-                self::sendSearchResultResponse($result, $config->getHttpResponseService());
+                self::sendSearchResultResponse($result, $config->getHttpService());
                 break;
             case self::ACTION_SEARCH_BY_ICAO:
                 $query = RestSearchByIcaoQuery::fromArgs($getArgs);
                 $result = SearchByIcao::search($query, $config);
-                self::sendSearchResultResponse($result, $config->getHttpResponseService());
+                self::sendSearchResultResponse($result, $config->getHttpService());
                 break;
             default:
                 throw new InvalidArgumentException("no or unknown action defined: '" . $action . "'");
@@ -56,7 +56,7 @@ class SearchServiceProcessor {
     }
 
 
-    private static function sendSearchResultResponse(SearchResult $result, IHttpResponseService $httpService) {
+    private static function sendSearchResultResponse(SearchResult $result, IHttpService $httpService) {
         $resultArray = RestSearchResult::toArray($result);
         $callback = isset($_GET["callback"]) ? StringNumberService::checkAlphaNumeric($_GET["callback"], 1, 50) : NULL;
         RequestResponseHelper::sendArrayResponse($httpService, $resultArray, $callback, TRUE);

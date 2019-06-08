@@ -14,5 +14,5 @@ TrafficServiceProcessor::processRequest(
     json_decode(file_get_contents('php://input'), TRUE),
     NavplanBootstrap::getAndInitDbService(),
     NavplanBootstrap::getFileService(),
-    NavplanBootstrap::getHttpResponseService()
+    NavplanBootstrap::getHttpService()
 );

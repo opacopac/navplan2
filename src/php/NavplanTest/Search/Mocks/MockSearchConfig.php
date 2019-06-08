@@ -8,23 +8,22 @@ use Navplan\Geoname\UseCase\IGeonameRepo;
 use Navplan\Notam\UseCase\INotamRepo;
 use Navplan\Search\UseCase\ISearchConfig;
 use Navplan\System\IMailService;
-use Navplan\System\IHttpResponseService;
+use Navplan\System\IHttpService;
 use Navplan\OpenAip\UseCase\IOpenAipRepoFactory;
 use Navplan\Terrain\UseCase\ITerrainRepo;
 use Navplan\User\UseCase\IUserRepoFactory;
 use NavplanTest\Geoname\Mocks\MockGeonameRepo;
 use NavplanTest\Notam\Mocks\MockNotamRepo;
 use NavplanTest\OpenAip\Mocks\MockOpenAipRepoFactory;
-use NavplanTest\System\Mock\MockHttpResponseService;
+use NavplanTest\System\Mock\MockHttpService;
 use NavplanTest\System\Mock\MockMailService;
 use NavplanTest\Terrain\Mocks\MockTerrainRepo;
 use NavplanTest\User\Mocks\MockUserRepoFactory;
 
 
 class MockSearchConfig implements ISearchConfig {
-    private $dbService;
     private $mailService;
-    private $httpResponseService;
+    private $httpService;
     private $openAipRepoFactory;
     private $userRepoFactory;
     private $geonameRepo;
@@ -34,7 +33,7 @@ class MockSearchConfig implements ISearchConfig {
 
     public function __construct() {
         $this->mailService = new MockMailService();
-        $this->httpResponseService = new MockHttpResponseService();
+        $this->httpService = new MockHttpService();
         $this->openAipRepoFactory = new MockOpenAipRepoFactory();
         $this->userRepoFactory = new MockUserRepoFactory();
         $this->geonameRepo = new MockGeonameRepo();
@@ -48,8 +47,8 @@ class MockSearchConfig implements ISearchConfig {
     }
 
 
-    public function getHttpResponseService(): IHttpResponseService {
-        return $this->httpResponseService;
+    public function getHttpService(): IHttpService {
+        return $this->httpService;
     }
 
 

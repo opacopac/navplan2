@@ -4,7 +4,7 @@ namespace Navplan\Flightroute\UseCase;
 
 use Navplan\System\IMailService;
 use Navplan\System\IFileService;
-use Navplan\System\IHttpResponseService;
+use Navplan\System\IHttpService;
 use Navplan\System\ISystemConfig;
 use Navplan\User\UseCase\IUserConfig;
 use Navplan\User\UseCase\IUserRepoFactory;
@@ -13,7 +13,7 @@ use Navplan\User\UseCase\IUserRepoFactory;
 interface IFlightrouteConfig extends ISystemConfig, IUserConfig {
     function getMailService(): IMailService;
 
-    function getHttpResponseService(): IHttpResponseService;
+    function getHttpService(): IHttpService;
 
     function getFileService(): IFileService;
 

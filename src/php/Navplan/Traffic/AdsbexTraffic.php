@@ -3,7 +3,7 @@
 namespace Navplan\Traffic;
 
 use Navplan\System\IFileService;
-use Navplan\System\IHttpResponseService;
+use Navplan\System\IHttpService;
 use Navplan\Shared\RequestResponseHelper;
 use Navplan\Shared\StringNumberService;
 
@@ -16,10 +16,10 @@ class AdsbexTraffic {
     /**
      * @param array $args
      * @param IFileService $fileService
-     * @param IHttpResponseService $httpService
+     * @param IHttpService $httpService
      * @throws \Navplan\Shared\InvalidFormatException
      */
-    public static function readTraffic(array $args, IFileService $fileService, IHttpResponseService $httpService) {
+    public static function readTraffic(array $args, IFileService $fileService, IHttpService $httpService) {
         $lat = StringNumberService::checkNumeric(isset($args["lat"]) ? $args["lat"] : NULL);
         $lon = StringNumberService::checkNumeric(isset($args["lon"]) ? $args["lon"] : NULL);
         $dist = StringNumberService::checkNumeric(isset($args["dist"]) ? $args["dist"] : NULL);

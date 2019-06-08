@@ -3,11 +3,11 @@
 namespace Navplan\Shared;
 
 use InvalidArgumentException;
-use Navplan\System\IHttpResponseService;
+use Navplan\System\IHttpService;
 
 
 class RequestResponseHelper {
-    public static function sendArrayResponseWithRoot(IHttpResponseService $httpService, string $rootElement, array $data, ?string $callback = NULL, ?bool $jsonNumericCheck = FALSE) {
+    public static function sendArrayResponseWithRoot(IHttpService $httpService, string $rootElement, array $data, ?string $callback = NULL, ?bool $jsonNumericCheck = FALSE) {
         if (strlen($rootElement) === 0) {
             throw new InvalidArgumentException('root element must not be empty');
         }
@@ -16,7 +16,7 @@ class RequestResponseHelper {
     }
 
 
-    public static function sendArrayResponse(IHttpResponseService $httpService, array $data, ?string $callback = NULL, ?bool $jsonNumericCheck = FALSE) {
+    public static function sendArrayResponse(IHttpService $httpService, array $data, ?string $callback = NULL, ?bool $jsonNumericCheck = FALSE) {
         if ($callback !== NULL && strlen($callback) === 0) {
             throw new InvalidArgumentException('callback must not be empty');
         }
@@ -32,7 +32,7 @@ class RequestResponseHelper {
     }
 
 
-    public static function sendStringResponse(IHttpResponseService $httpService, string $data, ?string $callback = NULL) {
+    public static function sendStringResponse(IHttpService $httpService, string $data, ?string $callback = NULL) {
         $outputData = self::decorateWithCallback($data, $callback);
 
         if ($callback !== NULL) {
@@ -56,13 +56,13 @@ class RequestResponseHelper {
     }
 
 
-    private static function sendJson(IHttpResponseService $httpService, string $data) {
+    private static function sendJson(IHttpService $httpService, string $data) {
         $httpService->header("Content-Type: application/json; charset=UTF-8");
         $httpService->payload($data);
     }
 
 
-    private static function sendJsonp(IHttpResponseService $httpService, string $data) {
+    private static function sendJsonp(IHttpService $httpService, string $data) {
         $httpService->header("Content-Type: application/javascript; charset=UTF-8");
         $httpService->payload($data);
     }

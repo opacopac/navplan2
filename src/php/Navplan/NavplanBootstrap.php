@@ -11,10 +11,10 @@ require_once __DIR__ . "/../Autoloader.php";
 
 use Navplan\Db\MySqlDb\MySqlDbService;
 use Navplan\System\FileService;
-use Navplan\System\HttpResponseService;
+use Navplan\System\HttpService;
 use Navplan\Db\IDb\IDbService;
 use Navplan\System\IFileService;
-use Navplan\System\IHttpResponseService;
+use Navplan\System\IHttpService;
 use Navplan\System\IMailService;
 use Navplan\System\MailService;
 
@@ -27,8 +27,8 @@ class NavplanBootstrap {
     }
 
 
-    public static function getHttpResponseService(): IHttpResponseService {
-        return HttpResponseService::getInstance();
+    public static function getHttpService(): IHttpService {
+        return HttpService::getInstance();
     }
 
 
