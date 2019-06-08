@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 use Navplan\Db\UseCase\IDbService;
-use Navplan\System\IFileService;
+use Navplan\System\UseCase\IFileService;
 use Navplan\Shared\InvalidFormatException;
 use Navplan\Traffic\TrafficServiceProcessor;
 use NavplanTest\Db\Mock\MockDbService;

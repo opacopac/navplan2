@@ -4,8 +4,8 @@ namespace Navplan\Traffic;
 
 use InvalidArgumentException;
 use Navplan\Db\UseCase\IDbService;
-use Navplan\System\IFileService;
-use Navplan\System\IHttpService;
+use Navplan\System\UseCase\IFileService;
+use Navplan\System\UseCase\IHttpService;
 use Navplan\Shared\InvalidFormatException;
 
 class TrafficServiceProcessor {

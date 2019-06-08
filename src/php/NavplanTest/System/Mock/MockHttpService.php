@@ -2,7 +2,7 @@
 
 namespace NavplanTest\System\Mock;
 
-use Navplan\System\IHttpService;
+use Navplan\System\UseCase\IHttpService;
 
 
 class MockHttpService implements IHttpService {

@@ -2,7 +2,7 @@
 
 namespace NavplanTest\System\Mock;
 
-use Navplan\System\IMailService;
+use Navplan\System\UseCase\IMailService;
 
 
 class MockMailService implements IMailService {

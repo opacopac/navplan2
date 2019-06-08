@@ -1,7 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\System;
+namespace Navplan\System\Posix;
 
+
+use Navplan\System\UseCase\IHttpService;
 
 class HttpService implements IHttpService {
     private static $instance = NULL;

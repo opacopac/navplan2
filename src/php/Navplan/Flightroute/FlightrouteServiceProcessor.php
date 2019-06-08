@@ -23,7 +23,7 @@ use Navplan\Flightroute\UseCase\ReadSharedFlightroute;
 use Navplan\Flightroute\UseCase\UpdateFlightroute;
 use Navplan\Flightroute\UseCase\IFlightrouteConfig;
 use Navplan\Shared\RequestResponseHelper;
-use Navplan\System\IHttpService;
+use Navplan\System\UseCase\IHttpService;
 
 
 class FlightrouteServiceProcessor {

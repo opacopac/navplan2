@@ -14,7 +14,7 @@ use Navplan\Search\UseCase\SearchByExtent;
 use Navplan\Search\UseCase\SearchByIcao;
 use Navplan\Search\UseCase\SearchByPosition;
 use Navplan\Search\UseCase\SearchByText;
-use Navplan\System\IHttpService;
+use Navplan\System\UseCase\IHttpService;
 use Navplan\Shared\RequestResponseHelper;
 use Navplan\Shared\StringNumberService;
 

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\System;
+namespace Navplan\System\UseCase;
 
 interface IFileService {
     public function fileGetContents(string $filename, bool $use_include_path = FALSE, $context = NULL): string;

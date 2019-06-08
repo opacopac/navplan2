@@ -2,8 +2,8 @@
 
 namespace NavplanTest\User\Mocks;
 
-use Navplan\System\IMailService;
-use Navplan\System\IHttpService;
+use Navplan\System\UseCase\IMailService;
+use Navplan\System\UseCase\IHttpService;
 use Navplan\User\UseCase\IUserConfig;
 use Navplan\User\UseCase\IUserRepoFactory;
 use NavplanTest\System\Mock\MockHttpService;

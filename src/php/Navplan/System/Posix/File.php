@@ -1,8 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\System;
+namespace Navplan\System\Posix;
 
 use InvalidArgumentException;
+use Navplan\System\UseCase\IFile;
 
 
 class File implements IFile {

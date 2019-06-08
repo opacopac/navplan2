@@ -10,13 +10,13 @@ require_once __DIR__ . "/../config.php";
 require_once __DIR__ . "/../Autoloader.php";
 
 use Navplan\Db\MySqlDb\MySqlDbService;
-use Navplan\System\FileService;
-use Navplan\System\HttpService;
+use Navplan\System\Posix\FileService;
+use Navplan\System\Posix\HttpService;
 use Navplan\Db\UseCase\IDbService;
-use Navplan\System\IFileService;
-use Navplan\System\IHttpService;
-use Navplan\System\IMailService;
-use Navplan\System\MailService;
+use Navplan\System\UseCase\IFileService;
+use Navplan\System\UseCase\IHttpService;
+use Navplan\System\UseCase\IMailService;
+use Navplan\System\Posix\MailService;
 
 // header("Access-Control-Allow-Origin: *"); // TODO: remove for PROD
 

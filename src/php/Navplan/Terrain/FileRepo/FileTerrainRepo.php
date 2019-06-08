@@ -6,8 +6,8 @@ use Navplan\Geometry\Domain\Altitude;
 use Navplan\Geometry\Domain\AltitudeUnit;
 use Navplan\Geometry\Domain\AltitudeReference;
 use Navplan\Geometry\Domain\Position3d;
-use Navplan\System\IFile;
-use Navplan\System\IFileService;
+use Navplan\System\UseCase\IFile;
+use Navplan\System\UseCase\IFileService;
 use Navplan\Terrain\UseCase\ITerrainRepo;
 
 

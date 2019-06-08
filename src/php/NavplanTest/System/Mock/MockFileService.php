@@ -2,8 +2,8 @@
 
 namespace NavplanTest\System\Mock;
 
-use Navplan\System\IFile;
-use Navplan\System\IFileService;
+use Navplan\System\UseCase\IFile;
+use Navplan\System\UseCase\IFileService;
 
 
 class MockFileService implements IFileService

@@ -3,7 +3,7 @@
 namespace Navplan\User;
 
 use InvalidArgumentException;
-use Navplan\System\IHttpService;
+use Navplan\System\UseCase\IHttpService;
 use Navplan\Shared\RequestResponseHelper;
 use Navplan\User\Domain\UserResponse;
 use Navplan\User\Rest\RestAutoLoginRequest;

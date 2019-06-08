@@ -3,8 +3,8 @@
 namespace Navplan\Traffic;
 
 use Navplan\Db\UseCase\IDbService;
-use Navplan\System\IFileService;
-use Navplan\System\IHttpService;
+use Navplan\System\UseCase\IFileService;
+use Navplan\System\UseCase\IHttpService;
 use Navplan\Shared\RequestResponseHelper;
 use Navplan\Shared\StringNumberService;
 

@@ -2,7 +2,7 @@
 
 namespace NavplanTest\System\Mock;
 
-use Navplan\System\IFile;
+use Navplan\System\UseCase\IFile;
 
 
 class MockFile implements IFile {

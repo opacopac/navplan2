@@ -3,8 +3,8 @@
 namespace NavplanTest\System;
 
 use PHPUnit\Framework\TestCase;
-use Navplan\System\IMailService;
-use Navplan\System\MailService;
+use Navplan\System\UseCase\IMailService;
+use Navplan\System\Posix\MailService;
 
 
 class MailServiceTest extends TestCase

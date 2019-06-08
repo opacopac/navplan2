@@ -4,7 +4,7 @@ namespace Navplan\Terrain\FileRepo;
 
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\Shared\StringNumberService;
-use Navplan\System\IFile;
+use Navplan\System\UseCase\IFile;
 
 
 class SrtmTileReader {

@@ -2,6 +2,10 @@
 
 namespace Navplan\System;
 
+use Navplan\System\Posix\FileService;
+use Navplan\System\Posix\HttpService;
+use Navplan\System\Posix\MailService;
+
 require_once __DIR__ . "/../../Autoloader.php";
 
 

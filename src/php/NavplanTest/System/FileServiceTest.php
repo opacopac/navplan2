@@ -2,8 +2,8 @@
 
 namespace NavplanTest\System;
 
-use Navplan\System\FileService;
-use Navplan\System\FileServiceException;
+use Navplan\System\Posix\FileService;
+use Navplan\System\Domain\FileServiceException;
 use PHPUnit\Framework\TestCase;
 
 

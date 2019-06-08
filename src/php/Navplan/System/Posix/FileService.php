@@ -1,11 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\System;
+namespace Navplan\System\Posix;
 
 use Exception;
+use Navplan\System\Domain\FileServiceException;
+use Navplan\System\UseCase\IFile;
+use Navplan\System\UseCase\IFileService;
 
 // TODO: remove
-require_once __DIR__ . "/../NavplanHelper.php";
+require_once __DIR__ . "/../../NavplanHelper.php";
 
 
 class FileService implements IFileService {

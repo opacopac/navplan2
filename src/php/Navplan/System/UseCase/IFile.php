@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\System;
+namespace Navplan\System\UseCase;
 
 interface IFile {
     public function fclose();

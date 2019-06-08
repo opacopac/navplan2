@@ -2,10 +2,10 @@
 
 namespace Navplan\Flightroute\UseCase;
 
-use Navplan\System\IMailService;
-use Navplan\System\IFileService;
-use Navplan\System\IHttpService;
-use Navplan\System\ISystemConfig;
+use Navplan\System\UseCase\IMailService;
+use Navplan\System\UseCase\IFileService;
+use Navplan\System\UseCase\IHttpService;
+use Navplan\System\UseCase\ISystemConfig;
 use Navplan\User\UseCase\IUserConfig;
 use Navplan\User\UseCase\IUserRepoFactory;
 

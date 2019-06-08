@@ -9,8 +9,8 @@ ini_set('display_errors', '1');
 require_once __DIR__ . "/../../Autoloader.php";
 
 use Navplan\Db\DbConfigProd;
-use Navplan\System\IMailService;
-use Navplan\System\IHttpService;
+use Navplan\System\UseCase\IMailService;
+use Navplan\System\UseCase\IHttpService;
 use Navplan\System\SystemConfigProd;
 use Navplan\User\DbRepo\DbUserRepoFactory;
 use Navplan\User\UseCase\IUserConfig;

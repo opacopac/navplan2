@@ -1,9 +1,9 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
-namespace Navplan\System;
+namespace Navplan\System\Domain;
 
 use Exception;
+
 
 class FileServiceException extends Exception {
 }

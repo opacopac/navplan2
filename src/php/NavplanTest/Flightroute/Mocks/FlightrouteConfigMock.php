@@ -6,9 +6,9 @@ require_once __DIR__ . "/../../../config_test.php";
 
 use Navplan\Flightroute\UseCase\IFlightrouteConfig;
 use Navplan\Flightroute\UseCase\IFlightrouteRepo;
-use Navplan\System\IFileService;
-use Navplan\System\IHttpService;
-use Navplan\System\IMailService;
+use Navplan\System\UseCase\IFileService;
+use Navplan\System\UseCase\IHttpService;
+use Navplan\System\UseCase\IMailService;
 use Navplan\User\UseCase\IUserRepoFactory;
 use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\System\Mock\MockFileService;

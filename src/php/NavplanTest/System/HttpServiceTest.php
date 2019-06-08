@@ -2,8 +2,8 @@
 
 namespace NavplanTest\System;
 
-use Navplan\System\HttpService;
-use Navplan\System\IHttpService;
+use Navplan\System\Posix\HttpService;
+use Navplan\System\UseCase\IHttpService;
 use PHPUnit\Framework\TestCase;
 
 

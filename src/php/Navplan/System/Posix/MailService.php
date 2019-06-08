@@ -1,8 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\System;
+namespace Navplan\System\Posix;
 
-require_once __DIR__ . "/../NavplanHelper.php";
+use Navplan\System\UseCase\IMailService;
+
+require_once __DIR__ . "/../../NavplanHelper.php";
 
 
 class MailService implements IMailService {
