@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\System;
+namespace NavplanTest\System\Posix;
 
 use PHPUnit\Framework\TestCase;
 use Navplan\System\UseCase\IMailService;

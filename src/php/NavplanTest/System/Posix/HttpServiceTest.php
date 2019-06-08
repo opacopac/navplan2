@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\System;
+namespace NavplanTest\System\Posix;
 
 use Navplan\System\Posix\HttpService;
 use Navplan\System\UseCase\IHttpService;
