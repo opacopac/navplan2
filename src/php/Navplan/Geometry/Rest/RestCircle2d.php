@@ -6,10 +6,10 @@ use Navplan\Geometry\Domain\Circle2d;
 
 
 class RestCircle2d {
-    public static function toArray(Circle2d $circle): array {
+    public static function toRest(Circle2d $circle): array {
         return array(
             "center" => $circle->center->toArray(),
-            "radius" => RestLength::toArray($circle->radius),
+            "radius" => RestLength::toRest($circle->radius),
         );
     }
 }

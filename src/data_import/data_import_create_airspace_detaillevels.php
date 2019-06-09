@@ -1,12 +1,12 @@
 <?php
 ini_set('max_execution_time', 600);
 
-include_once __DIR__ . "/../php/Navplan/Shared/GeoService.php";
+include_once __DIR__ . "/../php/Navplan/Shared/GeoHelper.php";
 include_once __DIR__ . "/../php/Navplan/Db/MySqlDb/DbService.php";
 include_once __DIR__ . "/../php/Navplan/Shared/LoggingService.php";
 
 use Navplan\Db\MySqlDb\DbService;
-use Navplan\Shared\GeoService;
+use Navplan\Shared\GeoHelper;
 use Navplan\Shared\LoggingService;
 
 
@@ -40,7 +40,7 @@ while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
     $diameter = $rs["diameter"];
     writeDistance($conn, $id, $diameter);
 
-    $polygonOrig = GeoService::parsePolygonFromString($rs["polygon"], 4);
+    $polygonOrig = GeoHelper::parsePolygonFromString($rs["polygon"], 4);
     $origPoints = count($polygonOrig);
     $lastPoints = null;
     $lastZoom = 0;
@@ -48,9 +48,9 @@ while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
     /*print "<br><br>\n\n";
     print "polygon: " . $id . "<br>\n";*/
     for ($zoom = MIN_ZOOM; $zoom <= MAX_ZOOM; $zoom++) {
-        $resolutionDeg = GeoService::calcDegPerPixelByZoom($zoom);
+        $resolutionDeg = GeoHelper::calcDegPerPixelByZoom($zoom);
         $pixelResolutionDeg = $resolutionDeg * MIN_PIXEL_COORDINATE_RESOLUTION;
-        $polygonSimple = GeoService::simplifyPolygon($polygonOrig, $pixelResolutionDeg);
+        $polygonSimple = GeoHelper::simplifyPolygon($polygonOrig, $pixelResolutionDeg);
         $points = count($polygonSimple);
 
         /*print "zoom: " . $zoom . "<br>\n";
@@ -61,7 +61,7 @@ while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
 
         if ($lastPoints != $points) {
             if ($lastPoints != null) {
-                $polygonString = GeoService::joinPolygonToString($polygonSimple);
+                $polygonString = GeoHelper::joinPolygonToString($polygonSimple);
                 writePolygonDetailLevel($conn, $id, $lastZoom, $zoom - 1, $polygonString);
             }
             $lastPoints = $points;
@@ -69,7 +69,7 @@ while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
         }
 
         if ($zoom == MAX_ZOOM) {
-            $polygonString = GeoService::joinPolygonToString($polygonSimple);
+            $polygonString = GeoHelper::joinPolygonToString($polygonSimple);
             writePolygonDetailLevel($conn, $id, $lastZoom, 255, $polygonString);
         }
     }

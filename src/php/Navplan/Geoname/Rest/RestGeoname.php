@@ -21,7 +21,7 @@ class RestGeoname {
             "population" => $geo->population,
             "latitude" => RestHelper::reduceDegAccuracy($geo->position->latitude, "GEONAME"),
             "longitude" => RestHelper::reduceDegAccuracy($geo->position->longitude, "GEONAME"),
-            "elevation" => RestAltitude::toArray($geo->elevation),
+            "elevation" => RestAltitude::toRest($geo->elevation),
         );
     }
 }

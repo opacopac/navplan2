@@ -1,11 +1,11 @@
 <?php
 include_once __DIR__ . "/../logger.php";
 include_once __DIR__ . "/../helper.php";
-include_once __DIR__ . "/../Navplan/Shared/GeoService.php";
+include_once __DIR__ . "/../Navplan/Shared/GeoHelper.php";
 include_once __DIR__ . "/../Navplan/Shared/StringNumberService.php";
 include_once __DIR__ . "/../Navplan/NavplanBootstrap.php";
 
-use Navplan\Shared\GeoService;
+use Navplan\Shared\GeoHelper;
 use Navplan\Shared\StringNumberService;
 use Navplan\NavplanBootstrap;
 
@@ -327,7 +327,7 @@ class NotamGeometryParser
             $distanceString = "ST_Distance(ST_PointN(ST_ExteriorRing(ST_Envelope(" . $notam["dbExtent"] . ")), 1), ST_PointN(ST_ExteriorRing(ST_Envelope(" . $notam["dbExtent"] . ")), 3))";
 
             if ($notam["geometry"] && $notam["geometry"]["center"]) {
-                GeoService::reduceCoordinateAccuracy($notam["geometry"]["center"]);
+                GeoHelper::reduceCoordinateAccuracy($notam["geometry"]["center"]);
                 $geometryString = "'" . StringNumberService::checkEscapeString($this->dbService, json_encode($notam["geometry"], JSON_NUMERIC_CHECK), 0, 999999999) . "'";
                 // circle: one entry matches all zoom levels
                 $zoommin = 0;
@@ -338,7 +338,7 @@ class NotamGeometryParser
                 foreach ($notam["polyzoomlevels"] as $polyZoomLevel) {
                     $geometry = $notam["geometry"];
                     $geometry["polygon"] = $polyZoomLevel["polygon"];
-                    GeoService::reducePolygonAccuracy($geometry["polygon"]);
+                    GeoHelper::reducePolygonAccuracy($geometry["polygon"]);
                     $geometryString = "'" . StringNumberService::checkEscapeString($this->dbService, json_encode($geometry, JSON_NUMERIC_CHECK), 0, 999999999) . "'";
 
                     $queryParts[] = "('"
@@ -353,7 +353,7 @@ class NotamGeometryParser
                 foreach ($notam["multipolyzoomlevels"] as $multiPolyZoomLevel) {
                     $geometry = $notam["geometry"];
                     $geometry["multipolygon"] = $multiPolyZoomLevel["multipolygon"];
-                    GeoService::reduceMultiPolygonAccuracy($geometry["multipolygon"]);
+                    GeoHelper::reduceMultiPolygonAccuracy($geometry["multipolygon"]);
                     $geometryString = "'" . StringNumberService::checkEscapeString($this->dbService, json_encode($geometry, JSON_NUMERIC_CHECK), 0, 999999999) . "'";
 
                     $queryParts[] = "('"
@@ -402,9 +402,9 @@ class NotamGeometryParser
                 $lastZoom = 0;
 
                 for ($zoom = self::MIN_ZOOM; $zoom <= self::MAX_ZOOM; $zoom++) {
-                    $resolutionDeg = GeoService::calcDegPerPixelByZoom($zoom);
+                    $resolutionDeg = GeoHelper::calcDegPerPixelByZoom($zoom);
                     $pixelResolutionDeg = $resolutionDeg * self::MIN_PIXEL_COORDINATE_RESOLUTION;
-                    $polygonSimple = GeoService::simplifyPolygon($polygonOrig, $pixelResolutionDeg);
+                    $polygonSimple = GeoHelper::simplifyPolygon($polygonOrig, $pixelResolutionDeg);
                     $points = count($polygonSimple);
 
                     if ($lastPoints !== $points) {
@@ -438,9 +438,9 @@ class NotamGeometryParser
                 $lastZoom = 0;
 
                 for ($zoom = self::MIN_ZOOM; $zoom <= self::MAX_ZOOM; $zoom++) {
-                    $resolutionDeg = GeoService::calcDegPerPixelByZoom($zoom);
+                    $resolutionDeg = GeoHelper::calcDegPerPixelByZoom($zoom);
                     $pixelResolutionDeg = $resolutionDeg * self::MIN_PIXEL_COORDINATE_RESOLUTION;
-                    $multiPolySimple = GeoService::simplifyMultipolygon($multiPolyOrig, $pixelResolutionDeg);
+                    $multiPolySimple = GeoHelper::simplifyMultipolygon($multiPolyOrig, $pixelResolutionDeg);
                     $points = 0;
                     foreach ($multiPolySimple as $polygonSimple) {
                         $points += count($polygonSimple);

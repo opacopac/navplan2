@@ -2,8 +2,9 @@
 
 namespace Navplan\Terrain\UseCase;
 
+use Navplan\Geometry\Domain\LengthUnit;
 use Navplan\Geometry\Domain\Position2d;
-use Navplan\Shared\GeoService;
+use Navplan\Shared\GeoHelper;
 
 
 class ReadElevationList {
@@ -26,18 +27,18 @@ class ReadElevationList {
             return $this->repo->readElevation($posList);
         }
 
-        $totalDist = $this->calcTotalDist($posList);
-        $minStepSizeM = max(self::RESOLUTION_M, $totalDist / self::MAX_STEPS);
+        $totalDistM = $this->calcTotalDistM($posList);
+        $minStepSizeM = max(self::RESOLUTION_M, $totalDistM / self::MAX_STEPS);
         $elevationPosList = $this->getElevationPosList($posList, $minStepSizeM);
 
         return $this->repo->readElevation($elevationPosList);
     }
 
 
-    private function calcTotalDist(array $positionList): float {
+    private function calcTotalDistM(array $positionList): float {
         $routeDist = 0;
         for ($i = 0; $i < count($positionList) - 1; $i++) {
-            $routeDist += GeoService::calcDistanceMeters($positionList[$i], $positionList[$i + 1]);
+            $routeDist += GeoHelper::calcHaversineDistance($positionList[$i], $positionList[$i + 1])->getValue(LengthUnit::M);
         }
 
         return $routeDist;
@@ -57,7 +58,7 @@ class ReadElevationList {
 
 
     private function addLegPosList(array &$elevationPosList, Position2d $pos1, Position2d $pos2, float $minStepSizeM) {
-        $legDistM = GeoService::calcDistanceMeters($pos1, $pos2);
+        $legDistM = GeoHelper::calcHaversineDistance($pos1, $pos2)->getValue(LengthUnit::M);
         $steps = ceil($legDistM / $minStepSizeM);
         $stepSize = $legDistM / $steps;
         $deltaLon = ($pos2->longitude - $pos1->longitude) / $legDistM * $stepSize;

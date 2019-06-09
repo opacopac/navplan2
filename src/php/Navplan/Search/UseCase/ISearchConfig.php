@@ -10,23 +10,22 @@ use Navplan\OpenAip\UseCase\IOpenAipConfig;
 use Navplan\OpenAip\UseCase\IOpenAipRepoFactory;
 use Navplan\System\UseCase\IHttpService;
 use Navplan\System\UseCase\IMailService;
+use Navplan\System\UseCase\ISystemServiceFactory;
 use Navplan\Terrain\UseCase\ITerrainRepo;
 use Navplan\User\UseCase\IUserConfig;
 use Navplan\User\UseCase\IUserRepoFactory;
 
 
 interface ISearchConfig extends IOpenAipConfig, IGeonameConfig, IUserConfig, INotamConfig {
-    function getMailService(): IMailService;
-
-    function getHttpService(): IHttpService;
-
     function getOpenAipRepoFactory(): IOpenAipRepoFactory;
+
+    function getGeonameRepo(): IGeonameRepo;
+
+    function getSystemServiceFactory(): ISystemServiceFactory;
 
     function getUserRepoFactory(): IUserRepoFactory;
 
     function getNotamRepo(): INotamRepo;
-
-    function getGeonameRepo(): IGeonameRepo;
 
     function getTerrainRepo(): ITerrainRepo;
 }

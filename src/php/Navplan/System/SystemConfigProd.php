@@ -2,37 +2,23 @@
 
 namespace Navplan\System;
 
-use Navplan\System\Posix\FileService;
-use Navplan\System\Posix\HttpService;
-use Navplan\System\Posix\MailService;
+use Navplan\System\UseCase\ISystemConfig;
+use Navplan\System\UseCase\ISystemServiceFactory;
 
+// TODO
 require_once __DIR__ . "/../../Autoloader.php";
 
 
 class SystemConfigProd implements ISystemConfig {
-    private $mailService;
-    private $fileService;
-    private $httpService;
+    private $systemServiceFactory;
 
 
     public function __construct() {
-        $this->mailService = MailService::getInstance();
-        $this->fileService = FileService::getInstance();
-        $this->httpService = HttpService::getInstance();
+        $this->systemServiceFactory = new SystemServiceFactory();
     }
 
 
-    public function getMailService(): IMailService{
-        return $this->mailService;
-    }
-
-
-    public function getHttpService(): IHttpService {
-        return $this->httpService;
-    }
-
-
-    public function getFileService(): IFileService {
-        return $this->fileService;
+    public function getSystemServiceFactory(): ISystemServiceFactory {
+        return $this->systemServiceFactory;
     }
 }

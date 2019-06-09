@@ -8,7 +8,7 @@ use Navplan\Geometry\Domain\AltitudeUnit;
 
 
 class RestAltitude {
-    public static function toArray(Altitude $alt): array {
+    public static function toRest(Altitude $alt): array {
         return [
             $alt->value,
             AltitudeUnit::toString($alt->unit),

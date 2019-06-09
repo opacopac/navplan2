@@ -1,9 +1,9 @@
 <?php
-include_once __DIR__ . "/../../php/Navplan/Shared/GeoService.php";
+include_once __DIR__ . "/../../php/Navplan/Shared/GeoHelper.php";
 include_once __DIR__ . "/../../php/Navplan/Shared/LoggingService.php";
 include_once __DIR__ . "/ZoomLevelSortItemType.php";
 
-use Navplan\Shared\GeoService;
+use Navplan\Shared\GeoHelper;
 use Navplan\Shared\LoggingService;
 
 

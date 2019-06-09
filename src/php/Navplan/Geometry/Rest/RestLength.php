@@ -7,7 +7,7 @@ use Navplan\Geometry\Domain\LengthUnit;
 
 
 class RestLength {
-    public static function toArray(Length $length): array {
+    public static function toRest(Length $length): array {
         return [
             $length->value,
             LengthUnit::toString($length->unit),

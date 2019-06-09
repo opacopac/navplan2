@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 class Position2dTest extends TestCase {
     public function test__construct() {
         $pos = new Position2d(7.0, 47.0);
+
         $this->assertNotNull($pos);
         $this->assertEquals(7.0, $pos->longitude);
         $this->assertEquals(47.0, $pos->latitude);
@@ -17,6 +18,7 @@ class Position2dTest extends TestCase {
 
 
     public function test_createFromString() {
+
         $pos = Position2d::createFromString("7.0 47.0");
         $this->assertNotNull($pos);
         $this->assertEquals(7.0, $pos->longitude);
@@ -26,6 +28,7 @@ class Position2dTest extends TestCase {
 
     public function test_createFromString_custom_separator() {
         $pos = Position2d::createFromString("7.0|47.0", "|");
+
         $this->assertNotNull($pos);
         $this->assertEquals(7.0, $pos->longitude);
         $this->assertEquals(47.0, $pos->latitude);
@@ -34,6 +37,7 @@ class Position2dTest extends TestCase {
 
     public function test_createFromString_trim_space() {
         $pos = Position2d::createFromString("7.0, 47.0", ",");
+
         $this->assertNotNull($pos);
         $this->assertEquals(7.0, $pos->longitude);
         $this->assertEquals(47.0, $pos->latitude);

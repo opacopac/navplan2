@@ -3,11 +3,11 @@ ini_set('max_execution_time', 600);
 
 include_once __DIR__ . "/../php/Navplan/Db/MySqlDb/DbService.php";
 include_once __DIR__ . "/../php/Navplan/Shared/LoggingService.php";
-include_once __DIR__ . "/../php/Navplan/Shared/GeoService.php";
+include_once __DIR__ . "/../php/Navplan/Shared/GeoHelper.php";
 
 use Navplan\Db\MySqlDb\DbService;
 use Navplan\Shared\LoggingService;
-use Navplan\Shared\GeoService;
+use Navplan\Shared\GeoHelper;
 
 
 const MAX_ZOOM = 14;
@@ -43,7 +43,7 @@ foreach ($dir_entries as $filename) {
 
         $longitude = $navaid->GEOLOCATION->LON->__toString();
         $latitude = $navaid->GEOLOCATION->LAT->__toString();
-        $geohash = GeoService::calcGeoHash($longitude, $latitude, MAX_ZOOM);
+        $geohash = GeoHelper::calcGeoHash($longitude, $latitude, MAX_ZOOM);
 
 
         $query = "INSERT INTO openaip_navaids2 (type, country, name, kuerzel, latitude, longitude, elevation, frequency, declination, truenorth, geohash, lonlat) VALUES (";

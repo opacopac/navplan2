@@ -16,8 +16,8 @@ class RestNotamGeometry {
     public static function toArray(NotamGeometry $notamGeometry): array {
         return array(
             self::getShapeType($notamGeometry->shape) => self::getShape($notamGeometry->shape),
-            "alt_bottom" => $notamGeometry->bottomAltitude ? RestAltitude::toArray($notamGeometry->bottomAltitude) : NULL,
-            "alt_top" => $notamGeometry->topAltitude ? RestAltitude::toArray($notamGeometry->topAltitude) : NULL,
+            "alt_bottom" => $notamGeometry->bottomAltitude ? RestAltitude::toRest($notamGeometry->bottomAltitude) : NULL,
+            "alt_top" => $notamGeometry->topAltitude ? RestAltitude::toRest($notamGeometry->topAltitude) : NULL,
         );
     }
 
@@ -37,7 +37,7 @@ class RestNotamGeometry {
 
     private static function getShape(IGeometry2d $shape): array {
         if ($shape instanceof Circle2d) {
-            return RestCircle2d::toArray($shape);
+            return RestCircle2d::toRest($shape);
         } else if ($shape instanceof Ring2d) {
             return $shape->toArray();
         } else if ($shape instanceof MultiRing2d) {

@@ -28,4 +28,22 @@ class Extent {
         $this->minPos = $minPos;
         $this->maxPos = $maxPos;
     }
+
+
+    public function calcMidPos(): Position2d {
+        return new Position2d(
+            ($this->minPos->longitude + $this->maxPos->longitude) / 2,
+            ($this->minPos->latitude + $this->maxPos->latitude) / 2
+        );
+    }
+
+
+    public function containsPos(Position2d $pos): bool {
+        if (($pos->longitude < $this->minPos->longitude) || ($pos->latitude < $this->minPos->latitude) ||
+            ($pos->longitude > $this->maxPos->longitude) || ($pos->latitude > $this->maxPos->latitude)) {
+            return false;
+        }
+
+        return true;
+    }
 }

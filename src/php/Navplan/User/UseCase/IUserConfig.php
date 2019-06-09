@@ -2,14 +2,11 @@
 
 namespace Navplan\User\UseCase;
 
-use Navplan\System\UseCase\IHttpService;
-use Navplan\System\UseCase\IMailService;
+use Navplan\System\UseCase\ISystemServiceFactory;
 
 
 interface IUserConfig {
-    function getMailService(): IMailService;
-
-    function getHttpService(): IHttpService;
+    function getSystemServiceFactory(): ISystemServiceFactory;
 
     function getUserRepoFactory(): IUserRepoFactory;
 }

@@ -39,37 +39,37 @@ class FlightrouteServiceProcessor {
                 if (isset($getVars[RestReadSharedFlightrouteRequest::ARG_SHARE_ID])) {
                     $request = RestReadSharedFlightrouteRequest::fromArgs($getVars);
                     $response = (new ReadSharedFlightroute($config))->read($request);
-                    self::sendFlighrouteResponse($response, $config->getHttpService());
+                    self::sendFlighrouteResponse($response, $config->getSystemServiceFactory()->getHttpService());
                 } elseif (isset($getVars[RestReadFlightrouteRequest::ARG_ID])) {
                     $request = RestReadFlightrouteRequest::fromArgs($getVars);
                     $response = (new ReadFlightroute($config))->read($request);
-                    self::sendFlighrouteResponse($response, $config->getHttpService());
+                    self::sendFlighrouteResponse($response, $config->getSystemServiceFactory()->getHttpService());
                 } else {
                     $request = RestReadFlightrouteListRequest::fromArgs($getVars);
                     $response = (new ReadFlightrouteList($config))->read($request);
-                    self::sendFlighrouteListResponse($response, $config->getHttpService());
+                    self::sendFlighrouteListResponse($response, $config->getSystemServiceFactory()->getHttpService());
                 }
                 break;
             case self::REQ_METHOD_POST:
                 if (isset($postVars[RestCreateSharedFlightrouteRequest::ARG_CREATE_SHARED]) && $postVars[RestCreateSharedFlightrouteRequest::ARG_CREATE_SHARED] === TRUE) {
                     $request = RestCreateSharedFlightrouteRequest::fromArgs($postVars);
                     $response = (new CreateSharedFlightroute($config))->create($request);
-                    self::sendFlighrouteResponse($response, $config->getHttpService());
+                    self::sendFlighrouteResponse($response, $config->getSystemServiceFactory()->getHttpService());
                 } else {
                     $request = RestCreateFlightrouteRequest::fromArgs($postVars);
                     $response = (new CreateFlightroute($config))->create($request);
-                    self::sendFlighrouteResponse($response, $config->getHttpService());
+                    self::sendFlighrouteResponse($response, $config->getSystemServiceFactory()->getHttpService());
                 }
                 break;
             case self::REQ_METHOD_PUT:
                 $request = RestUpdateFlightrouteRequest::fromArgs($postVars);
                 $response = (new UpdateFlightroute($config))->update($request);
-                self::sendFlighrouteResponse($response, $config->getHttpService());
+                self::sendFlighrouteResponse($response, $config->getSystemServiceFactory()->getHttpService());
                 break;
             case self::REQ_METHOD_DELETE:
                 $request = RestDeleteFlightrouteRequest::fromArgs($getVars);
                 (new DeleteFlightroute($config))->delete($request);
-                self::sendSuccessResponse($config->getHttpService());
+                self::sendSuccessResponse($config->getSystemServiceFactory()->getHttpService());
                 break;
             default:
                 throw new InvalidArgumentException('unknown request');

@@ -14,8 +14,8 @@ class RestAirspace {
             "category" => $airspace->category,
             "country" => $airspace->country,
             "name" => $airspace->name,
-            "alt_top" => RestAltitude::toArray($airspace->alt_top),
-            "alt_bottom" => RestAltitude::toArray($airspace->alt_bottom),
+            "alt_top" => RestAltitude::toRest($airspace->alt_top),
+            "alt_bottom" => RestAltitude::toRest($airspace->alt_bottom),
             "polygon" => $airspace->polygon->toArray()
         );
     }

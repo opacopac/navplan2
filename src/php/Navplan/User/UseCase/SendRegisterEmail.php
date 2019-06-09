@@ -15,8 +15,8 @@ class SendRegisterEmail {
 
     public function __construct(IUserConfig $config) {
         $this->userRepo = $config->getUserRepoFactory()->createUserRepo();
-        $this->httpService = $config->getHttpService();
-        $this->mailService = $config->getMailService();
+        $this->httpService = $config->getSystemServiceFactory()->getHttpService();
+        $this->mailService = $config->getSystemServiceFactory()->getMailService();
     }
 
 

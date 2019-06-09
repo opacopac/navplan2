@@ -22,7 +22,7 @@ export interface TrafficAdsbEx2RestItem {
     'reg': string;
     'type': string;
     'spd': string;
-    'alt': string;
+    'galt': string;
     'lat': string;
     'lon': string;
     'vsi': string;
@@ -86,6 +86,6 @@ export class RestMapperTrafficAdsbEx2 {
             return undefined;
         }
 
-        return new Length(parseInt(ac.alt, 10), LengthUnit.FT);
+        return new Length(parseInt(ac.galt, 10), LengthUnit.FT);
     }
 }

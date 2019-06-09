@@ -27,7 +27,7 @@ class UserForgotPwTest extends TestCase {
 
     private function getMailServiceMock(): MockMailService {
         /* @var $mailServiceMock MockMailService */
-        $mailServiceMock = $this->config->getMailService();
+        $mailServiceMock = $this->config->getSystemServiceFactory()->getMailService();
         return $mailServiceMock;
     }
 

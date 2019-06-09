@@ -6,48 +6,30 @@ require_once __DIR__ . "/../../../config_test.php";
 
 use Navplan\Flightroute\UseCase\IFlightrouteConfig;
 use Navplan\Flightroute\UseCase\IFlightrouteRepo;
-use Navplan\System\UseCase\IFileService;
-use Navplan\System\UseCase\IHttpService;
-use Navplan\System\UseCase\IMailService;
+use Navplan\System\UseCase\ISystemServiceFactory;
 use Navplan\User\UseCase\IUserRepoFactory;
 use NavplanTest\Db\Mock\MockDbService;
-use NavplanTest\System\Mock\MockFileService;
-use NavplanTest\System\Mock\MockHttpService;
-use NavplanTest\System\Mock\MockMailService;
+use NavplanTest\System\Mock\MockSystemServiceFactory;
 use NavplanTest\User\Mocks\MockUserRepoFactory;
 
 
 class FlightrouteConfigMock implements IFlightrouteConfig {
     private $dbService;
-    private $mailService;
-    private $fileService;
-    private $httpService;
+    private $systemServiceFactory;
     private $flightrouteRepo;
     private $userRepoFactory;
 
 
     public function __construct() {
         $this->dbService = new MockDbService();
-        $this->mailService = new MockMailService();
-        $this->fileService = new MockFileService();
-        $this->httpService = new MockHttpService();
+        $this->systemServiceFactory = new MockSystemServiceFactory();
         $this->flightrouteRepo = new MockFlightrouteRepo();
         $this->userRepoFactory = new MockUserRepoFactory();
     }
 
 
-    public function getMailService(): IMailService {
-        return $this->mailService;
-    }
-
-
-    public function getFileService(): IFileService {
-        return $this->fileService;
-    }
-
-
-    public function getHttpService(): IHttpService {
-        return $this->httpService;
+    public function getSystemServiceFactory(): ISystemServiceFactory {
+        return $this->systemServiceFactory;
     }
 
 

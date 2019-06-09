@@ -33,22 +33,22 @@ class SearchServiceProcessor {
             case self::ACTION_SEARCH_BY_TEXT:
                 $query = RestSearchByTextQuery::fromArgs($getArgs);
                 $result = SearchByText::search($query, $config);
-                self::sendSearchResultResponse($result, $config->getHttpService());
+                self::sendSearchResultResponse($result, $config->getSystemServiceFactory()->getHttpService());
                 break;
             case self::ACTION_SEARCH_BY_POSITION:
                 $query = RestSearchByPositionQuery::fromArgs($getArgs);
                 $result = SearchByPosition::search($query, $config);
-                self::sendSearchResultResponse($result, $config->getHttpService());
+                self::sendSearchResultResponse($result, $config->getSystemServiceFactory()->getHttpService());
                 break;
             case self::ACTION_SEARCH_BY_EXTENT:
                 $query = RestSearchByExtentQuery::fromArgs($getArgs);
                 $result = SearchByExtent::search($query, $config);
-                self::sendSearchResultResponse($result, $config->getHttpService());
+                self::sendSearchResultResponse($result, $config->getSystemServiceFactory()->getHttpService());
                 break;
             case self::ACTION_SEARCH_BY_ICAO:
                 $query = RestSearchByIcaoQuery::fromArgs($getArgs);
                 $result = SearchByIcao::search($query, $config);
-                self::sendSearchResultResponse($result, $config->getHttpService());
+                self::sendSearchResultResponse($result, $config->getSystemServiceFactory()->getHttpService());
                 break;
             default:
                 throw new InvalidArgumentException("no or unknown action defined: '" . $action . "'");

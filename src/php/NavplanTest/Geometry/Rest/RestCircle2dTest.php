@@ -16,10 +16,10 @@ class RestCircle2dTest extends TestCase {
         $pos = new Position2d(7.0, 47.0);
         $len = new Length(12.3, LengthUnit::NM);
         $circ = new Circle2d($pos, $len);
-        $rest = RestCircle2d::toArray($circ);
+        $rest = RestCircle2d::toRest($circ);
 
         $this->assertNotNull($rest);
         $this->assertEquals($pos->toArray(), $rest["center"]);
-        $this->assertEquals(RestLength::toArray($len), $rest["radius"]);
+        $this->assertEquals(RestLength::toRest($len), $rest["radius"]);
     }
 }

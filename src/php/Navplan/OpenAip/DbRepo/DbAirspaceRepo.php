@@ -10,7 +10,7 @@ use Navplan\OpenAip\Domain\Airspace;
 use Navplan\OpenAip\UseCase\IAirspaceRepo;
 use Navplan\Db\MySqlDb\DbHelper;
 use Navplan\Geometry\Domain\Ring2d;
-use Navplan\Shared\GeoService;
+use Navplan\Shared\GeoHelper;
 use Navplan\Db\UseCase\IDbResult;
 use Navplan\Db\UseCase\IDbService;
 
@@ -35,7 +35,7 @@ class DbAirspaceRepo implements IAirspaceRepo {
 
     public function searchByExtent(Extent $extent, int $zoom): array {
         $extent = DbHelper::getDbExtentPolygon2($extent);
-        $pixelResolutionDeg = GeoService::calcDegPerPixelByZoom($zoom);
+        $pixelResolutionDeg = GeoHelper::calcDegPerPixelByZoom($zoom);
         $minDiameterDeg = $pixelResolutionDeg * self::MIN_PIXEL_AIRSPACE_DIAMETER;
         $query  = "SELECT";
         $query .= "  air.id,";

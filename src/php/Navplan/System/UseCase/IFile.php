@@ -3,9 +3,13 @@
 namespace Navplan\System\UseCase;
 
 interface IFile {
-    public function fclose();
+    public function fclose(): bool;
 
     public function fseek(int $offset): int;
 
-    public function fread(int $length): string;
+    public function fread(int $length): ?string;
+
+    public function fgets(): ?string;
+
+    public function feof(): bool;
 }

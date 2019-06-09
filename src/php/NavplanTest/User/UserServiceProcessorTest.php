@@ -21,7 +21,7 @@ class UserServiceProcessorTest extends TestCase {
 
     private function getHttpService(): MockHttpService {
         /* @var $service MockHttpService */
-        $service = $this->getConfig()->getHttpService();
+        $service = $this->getConfig()->getSystemServiceFactory()->getHttpService();
         return $service;
     }
 

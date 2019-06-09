@@ -26,9 +26,9 @@ class RestNotamGeometryTest extends TestCase {
         $notamGeometry = new NotamGeometry($circle, $alt_bottom, $alt_top);
         $rest = RestNotamGeometry::toArray($notamGeometry);
 
-        $this->assertEquals(RestCircle2d::toArray($circle), $rest["circle"]);
-        $this->assertEquals(RestAltitude::toArray($alt_bottom), $rest["alt_bottom"]);
-        $this->assertEquals(RestAltitude::toArray($alt_top), $rest["alt_top"]);
+        $this->assertEquals(RestCircle2d::toRest($circle), $rest["circle"]);
+        $this->assertEquals(RestAltitude::toRest($alt_bottom), $rest["alt_bottom"]);
+        $this->assertEquals(RestAltitude::toRest($alt_top), $rest["alt_top"]);
     }
 
 
@@ -50,6 +50,6 @@ class RestNotamGeometryTest extends TestCase {
         $rest = RestNotamGeometry::toArray($notamGeometry);
 
         $this->assertEquals($multipoly->toArray(), $rest["multipolygon"]);
-        $this->assertEquals(RestAltitude::toArray($alt_bottom), $rest["alt_bottom"]);
+        $this->assertEquals(RestAltitude::toRest($alt_bottom), $rest["alt_bottom"]);
     }
 }

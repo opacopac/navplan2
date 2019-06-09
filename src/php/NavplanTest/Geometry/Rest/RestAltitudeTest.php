@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 class RestAltitudeTest extends TestCase {
     public function test_toArray() {
         $alt = new Altitude(10, AltitudeUnit::FL, AltitudeReference::STD);
-        $rest = RestAltitude::toArray($alt);
+        $rest = RestAltitude::toRest($alt);
 
         $this->assertNotNull($rest);
         $this->assertEquals(10, $rest[0]);

@@ -9,5 +9,5 @@ interface IFileService {
 
     public function file_exists(string $filename): bool;
 
-    public function fopen(string $filename, string $mode): IFile;
+    public function fopen(string $filename, string $mode): ?IFile;
 }

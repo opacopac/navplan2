@@ -42,6 +42,7 @@ class FileTerrainRepoTest extends TestCase {
         $this->file = new MockFile();
         $this->file->fseekResult = 0;
         $this->file->freadResult = pack("n", 123);
+        $this->file->fcloseResult = TRUE;
         $this->fileService = new MockFileService();
         $this->fileService->fileExistsResult = true;
         $this->fileService->fopenResult = $this->file;

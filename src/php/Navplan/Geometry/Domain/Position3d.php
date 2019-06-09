@@ -12,15 +12,4 @@ class Position3d extends Position2d {
         parent::__construct($longitude, $latitude);
         $this->altitude = $altitude;
     }
-
-
-    public function toString(string $separator = ' '): string {
-        // TODO
-        return '';
-    }
-
-
-    public function toArray(): array {
-        return [$this->longitude, $this->latitude, $this->altitude];
-    }
 }

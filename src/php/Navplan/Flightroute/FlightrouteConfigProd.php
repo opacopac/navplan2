@@ -12,18 +12,14 @@ use Navplan\Db\DbConfigProd;
 use Navplan\Flightroute\DbRepo\DbFlightrouteRepo;
 use Navplan\Flightroute\UseCase\IFlightrouteConfig;
 use Navplan\Flightroute\UseCase\IFlightrouteRepo;
-use Navplan\System\UseCase\IFileService;
-use Navplan\System\UseCase\IHttpService;
-use Navplan\System\UseCase\IMailService;
 use Navplan\System\SystemConfigProd;
+use Navplan\System\UseCase\ISystemServiceFactory;
 use Navplan\User\DbRepo\DbUserRepoFactory;
 use Navplan\User\UseCase\IUserRepoFactory;
 
 
 class FlightrouteConfigProd implements IFlightrouteConfig {
-    private $fileService;
-    private $mailService;
-    private $httpService;
+    private $systemServiceFactory;
     private $flightrouteRepo;
     private $userRepoFactory;
 
@@ -31,26 +27,14 @@ class FlightrouteConfigProd implements IFlightrouteConfig {
     public function __construct() {
         $dbConfig = new DbConfigProd();
         $systemConfig = new SystemConfigProd();
-        $this->mailService = $systemConfig->getMailService();
-        $this->fileService = $systemConfig->getFileService();
-        $this->httpService = $systemConfig->getHttpService();
+        $this->systemServiceFactory = $systemConfig->getSystemServiceFactory();
         $this->flightrouteRepo = new DbFlightrouteRepo($dbConfig->getDbService());
         $this->userRepoFactory = new DbUserRepoFactory($dbConfig->getDbService());
     }
 
 
-    public function getFileService(): IFileService {
-        return $this->fileService;
-    }
-
-
-    public function getMailService(): IMailService {
-        return $this->mailService;
-    }
-
-
-    public function getHttpService(): IHttpService {
-        return $this->httpService;
+    public function getSystemServiceFactory(): ISystemServiceFactory {
+        return $this->systemServiceFactory;
     }
 
 

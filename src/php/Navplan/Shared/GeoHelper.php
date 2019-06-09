@@ -1,23 +1,32 @@
 <?php namespace Navplan\Shared;
+
+use Navplan\Geometry\Domain\Angle;
+use Navplan\Geometry\Domain\AngleUnit;
+use Navplan\Geometry\Domain\Length;
+use Navplan\Geometry\Domain\LengthUnit;
 use Navplan\Geometry\Domain\Position2d;
 
 require_once __DIR__ . "/../NavplanHelper.php";
 
 
-class GeoService {
-    public static function calcDistanceMeters(Position2d $pos1, Position2d $pos2) {
-        $theta = $pos1->longitude - $pos2->longitude;
-        $dist = sin(deg2rad($pos1->latitude)) * sin(deg2rad($pos2->latitude))
-            +  cos(deg2rad($pos1->latitude)) * cos(deg2rad($pos2->latitude)) * cos(deg2rad($theta));
-        $dist = acos($dist);
-        $dist = rad2deg($dist);
-        $miles = $dist * 60 * 1.1515;
+class GeoHelper {
+    public static function calcHaversineDistance(Position2d $pos1, Position2d $pos2): Length {
+        $radE = 6371000;
+        $phi1 = Angle::convert($pos1->latitude, AngleUnit::DEG, AngleUnit::RAD);
+        $phi2 = Angle::convert($pos2->latitude, AngleUnit::DEG, AngleUnit::RAD);
+        $dphi = Angle::convert($pos2->latitude - $pos1->latitude, AngleUnit::DEG, AngleUnit::RAD);
+        $dlambda = Angle::convert($pos2->longitude - $pos1->longitude, AngleUnit::DEG, AngleUnit::RAD);
 
-        return $miles * 1.609344 * 1000;
+        $a = sin($dphi / 2) * sin($dphi / 2) + cos($phi1) * cos($phi2) * sin($dlambda / 2) * sin($dlambda / 2);
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+        $d = $radE * $c;
+
+        return new Length($d, LengthUnit::M);
     }
 
 
-    public static function simplifyPolygon(array $polygonPoints, float $epsilon): array {
+    public static function simplifyPolygon(array $polygonPoints, float $epsilon): array
+    {
         $numPoints = count($polygonPoints);
         if ($numPoints <= 3) {
             return $polygonPoints;
@@ -42,7 +51,8 @@ class GeoService {
     }
 
 
-    public static function simplifyMultipolygon(array $polygonList, float $epsilon): array {
+    public static function simplifyMultipolygon(array $polygonList, float $epsilon): array
+    {
         $simplePolygonList = [];
         foreach ($polygonList as $polygon) {
             $simplePolygonList[] = self::simplifyPolygon($polygon, $epsilon);
@@ -51,7 +61,8 @@ class GeoService {
     }
 
 
-    public static function simplifyLine(array $linePoints, float $epsilon): array {
+    public static function simplifyLine(array $linePoints, float $epsilon): array
+    {
         $numPoints = count($linePoints);
         if ($numPoints <= 2) {
             return $linePoints;
@@ -77,12 +88,14 @@ class GeoService {
     }
 
 
-    public static function calcPseudoDistance(array $pointA, array $pointB): float {
+    public static function calcPseudoDistance(array $pointA, array $pointB): float
+    {
         return sqrt(pow($pointB[0] - $pointA[0], 2) + pow($pointB[1] - $pointA[1], 2));
     }
 
 
-    public static function calcPerpendicularDistance(array $linePointA, array $linePointB, array $distPointC): float {
+    public static function calcPerpendicularDistance(array $linePointA, array $linePointB, array $distPointC): float
+    {
         $x1 = $linePointA[0];
         $y1 = $linePointA[1];
         $x2 = $linePointB[0];
@@ -100,12 +113,14 @@ class GeoService {
     }
 
 
-    public static function calcDegPerPixelByZoom(int $zoom, int $tileWidthPixel = 256): float {
+    public static function calcDegPerPixelByZoom(int $zoom, int $tileWidthPixel = 256): float
+    {
         return 360.0 / (pow(2, $zoom) * $tileWidthPixel);
     }
 
 
-    public static function calcGeoHash(float $longitude, float $latitude, int $maxZoomLevel): string {
+    public static function calcGeoHash(float $longitude, float $latitude, int $maxZoomLevel): string
+    {
         $minLon = -180.0;
         $minLat = -90.0;
         $maxLon = 180.0;
@@ -141,7 +156,8 @@ class GeoService {
     }
 
 
-    public static function parsePolygonFromString(string $polygonString, int $roundToDigits = 6, string $pointDelimiter = ",", string $xyDelimiter = " "): array {
+    public static function parsePolygonFromString(string $polygonString, int $roundToDigits = 6, string $pointDelimiter = ",", string $xyDelimiter = " "): array
+    {
         $polygon = [];
         $coord_pairs = explode($pointDelimiter, $polygonString);
 
@@ -156,7 +172,8 @@ class GeoService {
     }
 
 
-    public static function joinPolygonToString(array $polygon, string $pointDelimiter = ",", string $xyDelimiter = " "): string {
+    public static function joinPolygonToString(array $polygon, string $pointDelimiter = ",", string $xyDelimiter = " "): string
+    {
         $coordPairStrings = [];
         foreach ($polygon as $coordPair) {
             $coordPairStrings[] = join($xyDelimiter, $coordPair);
@@ -166,20 +183,23 @@ class GeoService {
     }
 
 
-    public static function reduceCoordinateAccuracy(&$coordPair, int $roundToDigits = 6) {
+    public static function reduceCoordinateAccuracy(&$coordPair, int $roundToDigits = 6)
+    {
         $coordPair[0] = round($coordPair[0], $roundToDigits);
         $coordPair[1] = round($coordPair[1], $roundToDigits);
     }
 
 
-    public static function reducePolygonAccuracy(&$polygon, int $roundToDigits = 6) {
+    public static function reducePolygonAccuracy(&$polygon, int $roundToDigits = 6)
+    {
         foreach ($polygon as &$coordPair) {
             self::reduceCoordinateAccuracy($coordPair, $roundToDigits);
         }
     }
 
 
-    public static function reduceMultiPolygonAccuracy(&$multiPolygon, int $roundToDigits = 6) {
+    public static function reduceMultiPolygonAccuracy(&$multiPolygon, int $roundToDigits = 6)
+    {
         foreach ($multiPolygon as &$polygon) {
             foreach ($polygon as &$coordPair) {
                 self::reduceCoordinateAccuracy($coordPair, $roundToDigits);

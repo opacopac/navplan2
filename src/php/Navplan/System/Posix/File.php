@@ -19,8 +19,8 @@ class File implements IFile {
     }
 
 
-    public function fclose() {
-        fclose($this->file);
+    public function fclose(): bool {
+        return fclose($this->file);
     }
 
 
@@ -29,7 +29,21 @@ class File implements IFile {
     }
 
 
-    public function fread(int $length): string {
-        return fread($this->file, $length);
+    public function fread(int $length): ?string {
+        $result = fread($this->file, $length);
+
+        return $result === FALSE ? NULL : $result;
+    }
+
+
+    public function fgets(): ?string {
+        $result = fgets($this->file);
+
+        return $result === FALSE ? NULL : $result;
+    }
+
+
+    public function feof(): bool {
+        return feof($this->file);
     }
 }

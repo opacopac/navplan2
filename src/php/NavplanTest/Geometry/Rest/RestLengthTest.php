@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 class RestLengthTest extends TestCase {
     public function test_toArray() {
         $len = new Length(10.5, LengthUnit::M);
-        $rest = RestLength::toArray($len);
+        $rest = RestLength::toRest($len);
 
         $this->assertNotNull($rest);
         $this->assertEquals(10.5, $rest[0]);

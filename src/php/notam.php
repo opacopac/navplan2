@@ -1,9 +1,9 @@
 <?php
 include_once __DIR__ . "/config.php";
 include_once __DIR__ . "/helper.php";
-include_once __DIR__ . "/Navplan/Shared/GeoService.php";
+include_once __DIR__ . "/Navplan/Shared/GeoHelper.php";
 
-use Navplan\Shared\GeoService;
+use Navplan\Shared\GeoHelper;
 
 
 const NOTAM_MAX_BOTTOM_FL = 195;
@@ -116,7 +116,7 @@ function getIcaoListByExtent($extentSql, $zoom) // TODO: return only ICAOs
 function loadNotamList($icaoList, $startTimestamp, $endTimestamp, $zoom)
 {
     global $conn;
-    $pixelResolutionDeg = GeoService::calcDegPerPixelByZoom($zoom);
+    $pixelResolutionDeg = GeoHelper::calcDegPerPixelByZoom($zoom);
     $minDiameterDeg = $pixelResolutionDeg * MIN_PIXEL_NOTAM_DIAMETER;
 
 

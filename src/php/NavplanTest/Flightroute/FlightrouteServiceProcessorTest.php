@@ -35,7 +35,7 @@ class FlightrouteServiceProcessorTest extends TestCase {
 
     protected function setUp(): void {
         $this->config = new FlightrouteConfigMock();
-        $this->httpService = $this->config->getHttpService();
+        $this->httpService = $this->config->getSystemServiceFactory()->getHttpService();
         $this->flightrouteRepo = $this->config->getFlightrouteRepo();
         $this->userRepo = $this->config->getUserRepoFactory()->createUserRepo();
     }

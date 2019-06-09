@@ -7,7 +7,7 @@ use Navplan\Geometry\Domain\Position2d;
 use Navplan\Notam\Domain\Notam;
 use Navplan\Notam\UseCase\INotamRepo;
 use Navplan\Db\MySqlDb\DbHelper;
-use Navplan\Shared\GeoService;
+use Navplan\Shared\GeoHelper;
 use Navplan\Db\UseCase\IDbResult;
 use Navplan\Db\UseCase\IDbService;
 
@@ -33,7 +33,7 @@ class DbNotamRepo implements INotamRepo {
 
     public function searchByExtent(Extent $extent, int $zoom, int $minNotamTimestamp, int $maxNotamTimestamp): array {
         $dbExtent = DbHelper::getDbExtentPolygon2($extent);
-        $pixelResolutionDeg = GeoService::calcDegPerPixelByZoom($zoom); // TODO
+        $pixelResolutionDeg = GeoHelper::calcDegPerPixelByZoom($zoom); // TODO
         $minDiameterDeg = $pixelResolutionDeg * self::MIN_PIXEL_NOTAMAREA_DIAMETER;
         // get firs & ads within extent
         $icaoList = $this->loadIcaoListByExtent($extent);
