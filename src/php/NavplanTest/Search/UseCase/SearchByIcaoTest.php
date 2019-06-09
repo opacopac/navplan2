@@ -5,12 +5,12 @@ namespace NavplanTest\Search\UseCase;
 use Navplan\Search\Domain\SearchByIcaoQuery;
 use Navplan\Search\Domain\SearchItemType;
 use Navplan\Search\UseCase\SearchByIcao;
+use NavplanTest\MockNavplanConfig;
 use NavplanTest\OpenAip\Mocks\MockAirportRepo;
 use NavplanTest\OpenAip\Mocks\DummyAirport1;
 use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;
 use NavplanTest\OpenAip\Mocks\DummyReportingSector1;
 use NavplanTest\OpenAip\Mocks\MockReportingPointRepo;
-use NavplanTest\Search\Mocks\MockSearchConfig;
 use NavplanTest\User\Mocks\MockUserPointRepo;
 use PHPUnit\Framework\TestCase;
 
@@ -19,7 +19,7 @@ class SearchByIcaoTest extends TestCase {
     private $config;
 
 
-    private function getConfig(): MockSearchConfig {
+    private function getConfig(): MockNavplanConfig {
         return $this->config;
     }
 
@@ -43,7 +43,7 @@ class SearchByIcaoTest extends TestCase {
 
 
     protected function setUp(): void {
-        $this->config = new MockSearchConfig();
+        $this->config = new MockNavplanConfig();
     }
 
 

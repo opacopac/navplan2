@@ -8,17 +8,17 @@ require_once __DIR__ . "/../../../config_test.php";
 use Navplan\User\Domain\AutoLoginRequest;
 use Navplan\User\UseCase\AutoLogin;
 use Navplan\User\UseCase\UserHelper;
-use NavplanTest\User\Mocks\MockUserConfig;
+use NavplanTest\MockNavplanConfig;
 use PHPUnit\Framework\TestCase;
 
 
 class AutoLoginTest extends TestCase {
-    /* @var $config MockUserConfig */
+    /* @var $config MockNavplanConfig */
     private $config;
 
 
     protected function setUp(): void {
-        $this->config = new MockUserConfig();
+        $this->config = new MockNavplanConfig();
     }
 
 

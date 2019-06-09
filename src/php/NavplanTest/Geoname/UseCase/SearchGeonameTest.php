@@ -9,8 +9,8 @@ use Navplan\Geometry\Domain\Position2d;
 use Navplan\Geoname\UseCase\SearchGeoname;
 use NavplanTest\Geoname\Mocks\DummyGeoname1;
 use NavplanTest\Geoname\Mocks\DummyGeoname2;
-use NavplanTest\Geoname\Mocks\MockGeonameConfig;
 use NavplanTest\Geoname\Mocks\MockGeonameRepo;
+use NavplanTest\MockNavplanConfig;
 use NavplanTest\Terrain\Mocks\MockTerrainRepo;
 use PHPUnit\Framework\TestCase;
 
@@ -27,7 +27,7 @@ class SearchGeonameTest extends TestCase {
 
     protected function setUp(): void {
         $this->expectedResult = [ DummyGeoname1::create(), DummyGeoname2::create() ];
-        $geonameConfig = new MockGeonameConfig();
+        $geonameConfig = new MockNavplanConfig();
         $this->geonameRepo = $geonameConfig->getGeonameRepo();
         $this->geonameRepo->pushMockResult($this->expectedResult);
         $this->terrainRepo = $geonameConfig->getTerrainRepo();

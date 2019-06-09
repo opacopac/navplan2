@@ -8,11 +8,11 @@ use Navplan\Search\Rest\RestSearchByExtentQuery;
 use Navplan\Search\Rest\RestSearchByIcaoQuery;
 use Navplan\Search\Rest\RestSearchByPositionQuery;
 use Navplan\Search\Rest\RestSearchByTextQuery;
+use NavplanTest\MockNavplanConfig;
 use NavplanTest\OpenAip\Mocks\DummyNavaid1;
 use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;
 use NavplanTest\OpenAip\Mocks\MockNavaidRepo;
 use NavplanTest\OpenAip\Mocks\MockReportingPointRepo;
-use NavplanTest\Search\Mocks\MockSearchConfig;
 use NavplanTest\System\Mock\MockHttpService;
 use PHPUnit\Framework\TestCase;
 
@@ -47,7 +47,7 @@ class SearchServiceProcessorTest extends TestCase {
 
 
     protected function setUp(): void {
-        $this->config = new MockSearchConfig();
+        $this->config = new MockNavplanConfig();
 
         $navaid = DummyNavaid1::create();
         $this->expectedNavaidRegexp = '/(.*)"kuerzel":"' . $navaid->kuerzel . '"/';

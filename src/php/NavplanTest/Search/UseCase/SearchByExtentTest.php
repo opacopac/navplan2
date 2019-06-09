@@ -7,6 +7,7 @@ use Navplan\Search\Domain\SearchByExtentQuery;
 use Navplan\Search\Domain\SearchItemType;
 use Navplan\Search\UseCase\SearchByExtent;
 use Navplan\User\UseCase\UserHelper;
+use NavplanTest\MockNavplanConfig;
 use NavplanTest\OpenAip\Mocks\MockAirportRepo;
 use NavplanTest\OpenAip\Mocks\DummyAirport1;
 use NavplanTest\OpenAip\Mocks\DummyNavaid1;
@@ -30,7 +31,7 @@ class SearchByExtentTest extends TestCase {
 
 
     protected function setUp(): void {
-        $this->searchConfig = new MockSearchConfig();
+        $this->searchConfig = new MockNavplanConfig();
         $this->airportRepo = $this->searchConfig->getOpenAipRepoFactory()->createAirportRepo();
         $this->navaidRepo = $this->searchConfig->getOpenAipRepoFactory()->createNavaidRepo();
         $this->upRepo = $this->searchConfig->getUserRepoFactory()->createUserPointRepo();

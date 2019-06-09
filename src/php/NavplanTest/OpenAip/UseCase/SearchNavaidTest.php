@@ -5,9 +5,9 @@ namespace NavplanTest\OpenAip\UseCase;
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\UseCase\SearchNavaid;
+use NavplanTest\MockNavplanConfig;
 use NavplanTest\OpenAip\Mocks\DummyNavaid1;
 use NavplanTest\OpenAip\Mocks\MockNavaidRepo;
-use NavplanTest\OpenAip\Mocks\MockOpenAipConfig;
 use PHPUnit\Framework\TestCase;
 
 
@@ -22,7 +22,7 @@ class SearchNavaidTest extends TestCase {
 
     protected function setUp(): void {
         $this->expectedResult = [ DummyNavaid1::create(), DummyNavaid1::create() ];
-        $config = new MockOpenAipConfig();
+        $config = new MockNavplanConfig();
         $this->navaidRepo = $config->getOpenAipRepoFactory()->createNavaidRepo();
         $this->navaidRepo->pushMockResult($this->expectedResult);
         $this->searchNavaid = new SearchNavaid($config);

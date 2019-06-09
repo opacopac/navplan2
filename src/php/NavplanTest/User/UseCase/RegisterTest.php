@@ -8,13 +8,13 @@ require_once __DIR__ . "/../../../config.php";
 use Navplan\User\Domain\RegisterRequest;
 use Navplan\User\UseCase\Register;
 use Navplan\User\UseCase\UserHelper;
-use NavplanTest\User\Mocks\MockUserConfig;
+use NavplanTest\MockNavplanConfig;
 use NavplanTest\User\Mocks\MockUserRepo;
 use PHPUnit\Framework\TestCase;
 
 
 class RegisterTest extends TestCase {
-    /* @var $config MockUserConfig */
+    /* @var $config MockNavplanConfig */
     private $config;
 
 
@@ -26,7 +26,7 @@ class RegisterTest extends TestCase {
 
 
     protected function setUp(): void {
-        $this->config = new MockUserConfig();
+        $this->config = new MockNavplanConfig();
     }
 
 

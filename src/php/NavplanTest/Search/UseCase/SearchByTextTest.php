@@ -12,6 +12,7 @@ use Navplan\User\UseCase\UserHelper;
 use NavplanTest\Geoname\Mocks\DummyGeoname1;
 use NavplanTest\Geoname\Mocks\DummyGeoname2;
 use NavplanTest\Geoname\Mocks\MockGeonameRepo;
+use NavplanTest\MockNavplanConfig;
 use NavplanTest\Search\Mocks\MockSearchConfig;
 use NavplanTest\Terrain\Mocks\MockTerrainRepo;
 use NavplanTest\User\Mocks\DummyUserPoint1;
@@ -32,7 +33,7 @@ class SearchByTextTest extends TestCase {
 
 
     protected function setUp(): void {
-        $this->config = new MockSearchConfig();
+        $this->config = new MockNavplanConfig();
         $this->userPointRepo = $this->config->getUserRepoFactory()->createUserPointRepo();
         $this->geonameRepo = $this->config->getGeonameRepo();
         $this->terrainRepo = $this->config->getTerrainRepo();

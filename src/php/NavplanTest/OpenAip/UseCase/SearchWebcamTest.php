@@ -4,9 +4,9 @@ namespace NavplanTest\OpenAip\UseCase;
 
 use Navplan\Geometry\Domain\Extent;
 use Navplan\OpenAip\UseCase\SearchWebcam;
+use NavplanTest\MockNavplanConfig;
 use NavplanTest\OpenAip\Mocks\DummyWebcam1;
 use NavplanTest\OpenAip\Mocks\DummyWebcam2;
-use NavplanTest\OpenAip\Mocks\MockOpenAipConfig;
 use NavplanTest\OpenAip\Mocks\MockWebcamRepo;
 use PHPUnit\Framework\TestCase;
 
@@ -25,7 +25,7 @@ class SearchWebcamTest extends TestCase {
 
     protected function setUp(): void {
         $this->expectedResult = [ DummyWebcam1::create(), DummyWebcam2::create() ];
-        $config = new MockOpenAipConfig();
+        $config = new MockNavplanConfig();
         $this->webcamRepo = $config->getOpenAipRepoFactory()->createWebcamRepo();
         $this->webcamRepo->pushMockResult($this->expectedResult);
         $this->camSearch = new SearchWebcam($config);

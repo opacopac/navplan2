@@ -77,7 +77,12 @@ class ReadOgnTraffic {
             $filteredPosList = [];
             /* @var $pos TrafficPosition */
             foreach ($traffic->positionList as $pos) {
-                if (!$currentPos || $currentPos->position->timestamp->toMs() !== $pos->position->timestamp->toMs()) {
+                if ($currentPos && $currentPos->position->timestamp->toMs() === $pos->position->timestamp->toMs()) {
+                    continue; // skip same timestamp
+                } elseif ($currentPos && $currentPos->position->longitude === $pos->position->longitude
+                    && $currentPos->position->latitude === $pos->position->latitude) {
+                    continue; // skip same coordinates
+                } else {
                     $filteredPosList[] = $pos;
                     $currentPos = $pos;
                 }

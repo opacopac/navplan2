@@ -16,6 +16,7 @@ use Navplan\User\UseCase\UserHelper;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\FlightrouteConfigMock;
 use NavplanTest\Flightroute\Mocks\MockFlightrouteRepo;
+use NavplanTest\MockNavplanConfig;
 use NavplanTest\System\Mock\MockHttpService;
 use NavplanTest\User\Mocks\DummyUser1;
 use NavplanTest\User\Mocks\MockUserRepo;
@@ -34,7 +35,7 @@ class FlightrouteServiceProcessorTest extends TestCase {
 
 
     protected function setUp(): void {
-        $this->config = new FlightrouteConfigMock();
+        $this->config = new MockNavplanConfig();
         $this->httpService = $this->config->getSystemServiceFactory()->getHttpService();
         $this->flightrouteRepo = $this->config->getFlightrouteRepo();
         $this->userRepo = $this->config->getUserRepoFactory()->createUserRepo();

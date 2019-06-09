@@ -5,9 +5,9 @@ namespace NavplanTest\OpenAip\UseCase;
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\UseCase\SearchAirport;
+use NavplanTest\MockNavplanConfig;
 use NavplanTest\OpenAip\Mocks\MockAirportRepo;
 use NavplanTest\OpenAip\Mocks\DummyAirport1;
-use NavplanTest\OpenAip\Mocks\MockOpenAipConfig;
 use PHPUnit\Framework\TestCase;
 
 
@@ -25,7 +25,7 @@ class SearchAirportTest extends TestCase {
 
     protected function setUp(): void {
         $this->expectedResult = [ DummyAirport1::create(), DummyAirport1::create() ];
-        $config = new MockOpenAipConfig();
+        $config = new MockNavplanConfig();
         $this->airportRepo = $config->getOpenAipRepoFactory()->createAirportRepo();
         $this->airportRepo->pushMockResult($this->expectedResult);
         $this->searchAirport = new SearchAirport($config);

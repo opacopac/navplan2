@@ -2,7 +2,10 @@
 
 namespace Navplan\User;
 
+use Navplan\NavplanConfigProd;
 
+
+$config = new NavplanConfigProd();
 $postArgs = json_decode(file_get_contents('php://input'), TRUE);
-$config = new UserConfigProd();
+
 UserServiceProcessor::processRequest($postArgs, $config);

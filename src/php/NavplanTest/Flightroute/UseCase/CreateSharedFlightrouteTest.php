@@ -10,6 +10,7 @@ use Navplan\Flightroute\UseCase\CreateSharedFlightroute;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\FlightrouteConfigMock;
 use NavplanTest\Flightroute\Mocks\MockFlightrouteRepo;
+use NavplanTest\MockNavplanConfig;
 use PHPUnit\Framework\TestCase;
 
 
@@ -21,7 +22,7 @@ class CreateSharedFlightrouteTest extends TestCase {
 
 
     protected function setUp(): void {
-        $this->config = new FlightrouteConfigMock();
+        $this->config = new MockNavplanConfig();
         $this->flightrouteRepo = $this->config->getFlightrouteRepo();
     }
 

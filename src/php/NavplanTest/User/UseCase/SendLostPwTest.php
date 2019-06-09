@@ -4,8 +4,8 @@ namespace NavplanTest\User\UseCase;
 
 use Navplan\User\Domain\SendLostPwRequest;
 use Navplan\User\UseCase\SendLostPw;
+use NavplanTest\MockNavplanConfig;
 use NavplanTest\System\Mock\MockMailService;
-use NavplanTest\User\Mocks\MockUserConfig;
 use NavplanTest\User\Mocks\MockUserRepo;
 use PHPUnit\Framework\TestCase;
 
@@ -14,7 +14,7 @@ require_once __DIR__ . "/../../../config_test.php";
 
 
 class UserForgotPwTest extends TestCase {
-    /* @var $config MockUserConfig */
+    /* @var $config MockNavplanConfig */
     private $config;
 
 
@@ -33,7 +33,7 @@ class UserForgotPwTest extends TestCase {
 
 
     protected function setUp(): void {
-        $this->config = new MockUserConfig();
+        $this->config = new MockNavplanConfig();
     }
 
 

@@ -3,42 +3,46 @@
 namespace Navplan\Traffic;
 
 use InvalidArgumentException;
-use Navplan\Db\UseCase\IDbService;
-use Navplan\System\UseCase\IFileService;
-use Navplan\System\UseCase\IHttpService;
-use Navplan\Shared\InvalidFormatException;
+use Navplan\Shared\RequestResponseHelper;
+use Navplan\Traffic\Rest\RestReadTrafficRequest;
+use Navplan\Traffic\Rest\RestTrafficListResponse;
+use Navplan\Traffic\UseCase\ITrafficConfig;
+use Navplan\Traffic\UseCase\ReadAdsbexTraffic;
+use Navplan\Traffic\UseCase\ReadOgnTraffic;
+
 
 class TrafficServiceProcessor {
-    /**
-     * @param string $requestMethod
-     * @param array|null $getVars
-     * @param array|null $postVars
-     * @param IDbService $dbService
-     * @param IFileService $fileService
-     * @param IHttpService $httpService
-     * @throws InvalidFormatException
-     */
-    public static function processRequest(string $requestMethod, ?array $getVars, ?array $postVars, IDbService $dbService, IFileService $fileService, IHttpService $httpService)
-    {
+    public const REQUEST_METHOD_GET = "GET";
+    public const REQUEST_METHOD_POST = "POST";
+    public const ACTION_READ_OGN_TRAFFIC = "readogntraffic";
+    public const ACTION_READ_ADSBEX_TRAFFIC = "readadsbextraffic";
+    public const ACTION_READ_AC_DETAILS = "readacdetails";
+
+
+    public static function processRequest(string $requestMethod, ?array $getVars, ?array $postVars, ITrafficConfig $config) {
         switch ($requestMethod) {
-            case 'GET':
+            case self::REQUEST_METHOD_GET:
                 $action = isset($getVars["action"]) ? $getVars["action"] : NULL;
                 switch ($action) {
-                    case "readogntraffic":
-                        OgnTraffic::readTraffic($getVars, $fileService, $dbService, $httpService);
+                    case self::ACTION_READ_OGN_TRAFFIC:
+                        $request = RestReadTrafficRequest::fromArgs($getVars);
+                        $response = (new ReadOgnTraffic($config))->read($request);
+                        self::sendTrafficListResponse($response, $config);
                         break;
-                    case "readadsbextraffic":
-                        AdsbexTraffic::readTraffic($getVars, $fileService, $httpService);
+                    case self::ACTION_READ_ADSBEX_TRAFFIC:
+                        $request = RestReadTrafficRequest::fromArgs($getVars);
+                        $response = (new ReadAdsbexTraffic($config))->read($request);
+                        self::sendTrafficListResponse($response, $config);
                         break;
                     default:
                         self::throwInvalidArgumentError();
                 }
                 break;
-            case 'POST':
+            case self::REQUEST_METHOD_POST:
                 $action = isset($postVars["action"]) ? $postVars["action"] : NULL;
                 switch ($action) {
-                    case "readacdetails":
-                        TrafficDetails::getDetails($postVars, $dbService, $httpService);
+                    case self::ACTION_READ_AC_DETAILS:
+                        // TrafficDetails::getDetails($postVars, $dbService, $httpService);
                         break;
                     default:
                         self::throwInvalidArgumentError();
@@ -47,6 +51,13 @@ class TrafficServiceProcessor {
             default:
                 self::throwInvalidArgumentError();
         }
+    }
+
+
+    private static function sendTrafficListResponse(array $trafficList, ITrafficConfig $config) {
+        $resultArray = RestTrafficListResponse::toRest($trafficList);
+        $httpService = $config->getSystemServiceFactory()->getHttpService();
+        RequestResponseHelper::sendArrayResponse($httpService, $resultArray);
     }
 
 

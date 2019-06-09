@@ -4,9 +4,9 @@ namespace NavplanTest\OpenAip\UseCase;
 
 use Navplan\Geometry\Domain\Extent;
 use Navplan\OpenAip\UseCase\SearchAirspace;
+use NavplanTest\MockNavplanConfig;
 use NavplanTest\OpenAip\Mocks\MockAirspaceRepo;
 use NavplanTest\OpenAip\Mocks\DummyAirspace1;
-use NavplanTest\OpenAip\Mocks\MockOpenAipConfig;
 use PHPUnit\Framework\TestCase;
 
 
@@ -24,7 +24,7 @@ class SearchAirspaceTest extends TestCase {
 
     protected function setUp(): void {
         $this->expectedResult = [ DummyAirspace1::create(), DummyAirspace1::create() ];
-        $config = new MockOpenAipConfig();
+        $config = new MockNavplanConfig();
         $this->airspaceRepo = $config->getOpenAipRepoFactory()->createAirspaceRepo();
         $this->airspaceRepo->pushMockResult($this->expectedResult);
         $this->airspaceSearch = new SearchAirspace($config);

@@ -5,10 +5,10 @@ namespace NavplanTest\Notam\UseCase;
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\Notam\UseCase\SearchNotam;
+use NavplanTest\MockNavplanConfig;
 use NavplanTest\Notam\Mocks\DummyNotam1;
 use NavplanTest\Notam\Mocks\DummyNotam2;
 use NavplanTest\Notam\Mocks\DummyNotam3;
-use NavplanTest\Notam\Mocks\MockNotamConfig;
 use NavplanTest\Notam\Mocks\MockNotamRepo;
 use PHPUnit\Framework\TestCase;
 
@@ -24,7 +24,7 @@ class NotamRepoTest extends TestCase {
 
     protected function setUp(): void {
         $this->expectedResult = [ DummyNotam1::create(), DummyNotam2::create(), DummyNotam3::create() ];
-        $config = new MockNotamConfig();
+        $config = new MockNavplanConfig();
         $this->notamRepo = $config->getNotamRepo();
         $this->notamRepo->pushMockResult($this->expectedResult);
         $this->searchNotam = new SearchNotam($config);

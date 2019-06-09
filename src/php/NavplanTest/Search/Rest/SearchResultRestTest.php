@@ -6,6 +6,7 @@ use Navplan\Search\Domain\SearchItemType;
 use Navplan\Search\Domain\SearchResult;
 use Navplan\Search\Rest\RestSearchItemType;
 use Navplan\Search\Rest\RestSearchResult;
+use NavplanTest\MockNavplanConfig;
 use NavplanTest\OpenAip\Mocks\DummyAirport1;
 use NavplanTest\OpenAip\Mocks\DummyAirspace1;
 use NavplanTest\OpenAip\Mocks\DummyNavaid1;
@@ -13,7 +14,6 @@ use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;
 use NavplanTest\OpenAip\Mocks\DummyReportingSector1;
 use NavplanTest\OpenAip\Mocks\DummyWebcam1;
 use NavplanTest\OpenAip\Mocks\DummyWebcam2;
-use NavplanTest\Search\Mocks\MockSearchConfig;
 use NavplanTest\User\Mocks\DummyUserPoint1;
 use NavplanTest\User\Mocks\DummyUserPoint2;
 use PHPUnit\Framework\TestCase;
@@ -30,7 +30,7 @@ class SearchResultRestTest extends TestCase {
 
 
     protected function setUp(): void {
-        $this->config = new MockSearchConfig();
+        $this->config = new MockNavplanConfig();
         $this->result = new SearchResult(
             [ DummyAirport1::create(), DummyAirport1::create() ],
             [ DummyNavaid1::create(), DummyNavaid1::create() ],

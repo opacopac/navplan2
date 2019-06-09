@@ -7,13 +7,13 @@ require_once __DIR__ . "/../../../config_test.php";
 
 use Navplan\User\Domain\LoginRequest;
 use Navplan\User\UseCase\Login;
-use NavplanTest\User\Mocks\MockUserConfig;
+use NavplanTest\MockNavplanConfig;
 use NavplanTest\User\Mocks\MockUserRepo;
 use PHPUnit\Framework\TestCase;
 
 
 class LoginTest extends TestCase {
-    /* @var $config MockUserConfig */
+    /* @var $config MockNavplanConfig */
     private $config;
 
 
@@ -25,7 +25,7 @@ class LoginTest extends TestCase {
 
 
     protected function setUp(): void {
-        $this->config = new MockUserConfig();
+        $this->config = new MockNavplanConfig();
     }
 
 

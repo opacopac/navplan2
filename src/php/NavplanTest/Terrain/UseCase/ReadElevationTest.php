@@ -7,7 +7,7 @@ use Navplan\Geometry\Domain\AltitudeReference;
 use Navplan\Geometry\Domain\AltitudeUnit;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\Terrain\UseCase\ReadElevation;
-use NavplanTest\Terrain\Mocks\MockTerrainConfig;
+use NavplanTest\MockNavplanConfig;
 use NavplanTest\Terrain\Mocks\MockTerrainRepo;
 use PHPUnit\Framework\TestCase;
 
@@ -20,7 +20,7 @@ class ReadElevationTest extends TestCase {
 
 
     protected function setUp(): void {
-        $config = new MockTerrainConfig();
+        $config = new MockNavplanConfig();
         $this->repoMock = $config->getTerrainRepo();
         $this->getElevation = new ReadElevation($config);
     }

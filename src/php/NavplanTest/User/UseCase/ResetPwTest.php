@@ -5,7 +5,7 @@ namespace NavplanTest\User\UseCase;
 use Navplan\User\Domain\ResetPwRequest;
 use Navplan\User\UseCase\ResetPw;
 use Navplan\User\UseCase\UserHelper;
-use NavplanTest\User\Mocks\MockUserConfig;
+use NavplanTest\MockNavplanConfig;
 use NavplanTest\User\Mocks\MockUserRepo;
 use PHPUnit\Framework\TestCase;
 
@@ -14,7 +14,7 @@ require_once __DIR__ . "/../../../config_test.php";
 
 
 class ResetPwTest extends TestCase {
-    /* @var $config MockUserConfig */
+    /* @var $config MockNavplanConfig */
     private $config;
 
 
@@ -26,7 +26,7 @@ class ResetPwTest extends TestCase {
 
 
     protected function setUp(): void {
-        $this->config = new MockUserConfig();
+        $this->config = new MockNavplanConfig();
     }
 
 

@@ -8,11 +8,11 @@ use Navplan\Geometry\Domain\Time;
 use Navplan\Geometry\Domain\TimeUnit;
 use Navplan\Traffic\Domain\ReadTrafficRequest;
 use Navplan\Traffic\UseCase\ReadAdsbexTraffic;
+use NavplanTest\MockNavplanConfig;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTraffic1;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTraffic2;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTraffic3;
 use NavplanTest\Traffic\Mocks\MockAdsbexGateway;
-use NavplanTest\Traffic\Mocks\MockTrafficConfig;
 use PHPUnit\Framework\TestCase;
 
 
@@ -24,7 +24,7 @@ class ReadAdsbexTrafficTest extends TestCase {
 
 
     protected function setUp(): void {
-        $config = new MockTrafficConfig();
+        $config = new MockNavplanConfig();
         $this->adsbexGateway = $config->getAdsbexGateway();
         $this->readAdsbexTraffic = new ReadAdsbexTraffic($config);
     }

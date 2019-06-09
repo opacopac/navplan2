@@ -7,12 +7,12 @@ use Navplan\Search\Domain\SearchByPositionQuery;
 use Navplan\Search\Domain\SearchItemType;
 use Navplan\Search\UseCase\SearchByPosition;
 use Navplan\User\UseCase\UserHelper;
+use NavplanTest\MockNavplanConfig;
 use NavplanTest\OpenAip\Mocks\MockAirspaceRepo;
 use NavplanTest\OpenAip\Mocks\DummyAirspace1;
 use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;
 use NavplanTest\OpenAip\Mocks\DummyReportingSector1;
 use NavplanTest\OpenAip\Mocks\MockReportingPointRepo;
-use NavplanTest\Search\Mocks\MockSearchConfig;
 use NavplanTest\User\Mocks\DummyUserPoint1;
 use NavplanTest\User\Mocks\DummyUserPoint2;
 use NavplanTest\User\Mocks\MockUserPointRepo;
@@ -27,7 +27,7 @@ class SearchByPositionTest extends TestCase {
     private $config;
 
 
-    private function getConfig(): MockSearchConfig {
+    private function getConfig(): MockNavplanConfig {
         return $this->config;
     }
 
@@ -51,7 +51,7 @@ class SearchByPositionTest extends TestCase {
 
 
     protected function setUp(): void {
-        $this->config = new MockSearchConfig();
+        $this->config = new MockNavplanConfig();
     }
 
 

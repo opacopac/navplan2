@@ -47,6 +47,6 @@ class AdsbexGatewayTest extends TestCase {
         $this->assertRegExp('/7\.1/', $this->fileService->fileGetContentsArgs[0]);
         $this->assertRegExp('/47\.1/', $this->fileService->fileGetContentsArgs[0]);
         $this->assertRegExp('/10/', $this->fileService->fileGetContentsArgs[0]);
-        $this->assertNotNull($this->fileService->fileGetContentsArgs[2]);
+        $this->assertNotNull($this->fileService->fileGetContentsArgs[2]); // http context (auth)
     }
 }

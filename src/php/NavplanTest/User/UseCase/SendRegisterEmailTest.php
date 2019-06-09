@@ -7,14 +7,14 @@ require_once __DIR__ . "/../../../config.php";
 
 use Navplan\User\Domain\SendRegisterEmailRequest;
 use Navplan\User\UseCase\SendRegisterEmail;
+use NavplanTest\MockNavplanConfig;
 use NavplanTest\System\Mock\MockMailService;
-use NavplanTest\User\Mocks\MockUserConfig;
 use NavplanTest\User\Mocks\MockUserRepo;
 use PHPUnit\Framework\TestCase;
 
 
 class SendRegisterEmailTest extends TestCase {
-    /* @var $config MockUserConfig */
+    /* @var $config MockNavplanConfig */
     private $config;
 
 
@@ -33,7 +33,7 @@ class SendRegisterEmailTest extends TestCase {
 
 
     protected function setUp(): void {
-        $this->config = new MockUserConfig();
+        $this->config = new MockNavplanConfig();
     }
 
 

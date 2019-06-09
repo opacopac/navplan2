@@ -2,17 +2,12 @@
 
 namespace Navplan\Traffic;
 
-require_once __DIR__ . "/../NavplanBootstrap.php";
+use Navplan\NavplanConfigProd;
 
-use Navplan\NavplanBootstrap;
 
-header("Access-Control-Allow-Origin: *"); // TODO: remove for PROD
+$config = new NavplanConfigProd();
+$requestMethod = $_SERVER['REQUEST_METHOD'];
+$getArgs = $_GET;
+$postArgs = json_decode(file_get_contents('php://input'), TRUE);
 
-TrafficServiceProcessor::processRequest(
-    $_SERVER['REQUEST_METHOD'],
-    $_GET,
-    json_decode(file_get_contents('php://input'), TRUE),
-    NavplanBootstrap::getAndInitDbService(),
-    NavplanBootstrap::getFileService(),
-    NavplanBootstrap::getHttpService()
-);
+TrafficServiceProcessor::processRequest($requestMethod, $getArgs, $postArgs, $config);

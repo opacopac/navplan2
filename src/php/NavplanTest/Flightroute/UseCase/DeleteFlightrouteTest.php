@@ -6,14 +6,12 @@ namespace NavplanTest\Flightroute\UseCase;
 require_once __DIR__ . "/../../../config_test.php";
 
 use InvalidArgumentException;
-use Navplan\Flightroute\Domain\CreateFlightrouteRequest;
 use Navplan\Flightroute\Domain\DeleteFlightrouteRequest;
-use Navplan\Flightroute\UseCase\CreateFlightroute;
 use Navplan\Flightroute\UseCase\DeleteFlightroute;
 use Navplan\User\UseCase\UserHelper;
-use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\FlightrouteConfigMock;
 use NavplanTest\Flightroute\Mocks\MockFlightrouteRepo;
+use NavplanTest\MockNavplanConfig;
 use NavplanTest\User\Mocks\DummyUser1;
 use NavplanTest\User\Mocks\MockUserRepo;
 use PHPUnit\Framework\TestCase;
@@ -30,7 +28,7 @@ class DeleteFlightrouteTest extends TestCase {
 
 
     protected function setUp(): void {
-        $this->config = new FlightrouteConfigMock();
+        $this->config = new MockNavplanConfig();
         $this->flightrouteRepo = $this->config->getFlightrouteRepo();
         $this->userRepo = $this->config->getUserRepoFactory()->createUserRepo();
     }
