@@ -2,9 +2,6 @@
 
 namespace NavplanTest\Flightroute;
 
-// TODO => config
-require_once __DIR__ . "/../../config_test.php";
-
 use Navplan\Flightroute\FlightrouteServiceProcessor;
 use Navplan\Flightroute\Rest\RestCreateFlightrouteRequest;
 use Navplan\Flightroute\Rest\RestCreateSharedFlightrouteRequest;
@@ -12,9 +9,8 @@ use Navplan\Flightroute\Rest\RestDeleteFlightrouteRequest;
 use Navplan\Flightroute\Rest\RestReadFlightrouteRequest;
 use Navplan\Flightroute\Rest\RestReadSharedFlightrouteRequest;
 use Navplan\Flightroute\Rest\RestUpdateFlightrouteRequest;
-use Navplan\User\UseCase\UserHelper;
+use Navplan\User\UseCase\TokenService;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
-use NavplanTest\Flightroute\Mocks\FlightrouteConfigMock;
 use NavplanTest\Flightroute\Mocks\MockFlightrouteRepo;
 use NavplanTest\MockNavplanConfig;
 use NavplanTest\System\Mock\MockHttpService;
@@ -24,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 
 
 class FlightrouteServiceProcessorTest extends TestCase {
-    /* @var $config FlightrouteConfigMock */
+    /* @var $config MockNavplanConfig */
     private $config;
     /* @var $httpService MockHttpService */
     private $httpService;
@@ -32,13 +28,15 @@ class FlightrouteServiceProcessorTest extends TestCase {
     private $flightrouteRepo;
     /* @var $userRepo MockUserRepo */
     private $userRepo;
-
+    /* @var $tokenService TokenService */
+    private $tokenService;
 
     protected function setUp(): void {
         $this->config = new MockNavplanConfig();
         $this->httpService = $this->config->getSystemServiceFactory()->getHttpService();
         $this->flightrouteRepo = $this->config->getFlightrouteRepo();
         $this->userRepo = $this->config->getUserRepoFactory()->createUserRepo();
+        $this->tokenService = $this->config->getTokenService();
     }
 
 
@@ -68,9 +66,9 @@ class FlightrouteServiceProcessorTest extends TestCase {
         $requestMethod = FlightrouteServiceProcessor::REQ_METHOD_GET;
         $getVars = array(
             RestReadFlightrouteRequest::ARG_ID => 123,
-            RestReadFlightrouteRequest::ARG_TOKEN => UserHelper::createToken('test@navplan.ch', FALSE)
+            RestReadFlightrouteRequest::ARG_TOKEN => $this->tokenService->createToken('test@navplan.ch', FALSE)
         );
-        $this->userRepo->readUserResult = DummyUser1::create();
+        $this->userRepo->readUserResult = DummyUser1::create($this->tokenService);
         $this->flightrouteRepo->readResult = NULL;
 
         FlightrouteServiceProcessor::processRequest($requestMethod, $getVars, NULL, $this->config);
@@ -83,9 +81,9 @@ class FlightrouteServiceProcessorTest extends TestCase {
     public function test_ReadFlightrouteList_gets_called() {
         $requestMethod = FlightrouteServiceProcessor::REQ_METHOD_GET;
         $getVars = array(
-            RestReadFlightrouteRequest::ARG_TOKEN => UserHelper::createToken('test@navplan.ch', FALSE)
+            RestReadFlightrouteRequest::ARG_TOKEN => $this->tokenService->createToken('test@navplan.ch', FALSE)
         );
-        $this->userRepo->readUserResult = DummyUser1::create();
+        $this->userRepo->readUserResult = DummyUser1::create($this->tokenService);
         $this->flightrouteRepo->readListResult = [];
 
         FlightrouteServiceProcessor::processRequest($requestMethod, $getVars, NULL, $this->config);
@@ -113,10 +111,10 @@ class FlightrouteServiceProcessorTest extends TestCase {
     public function test_CreateFlightroute_gets_called() {
         $requestMethod = FlightrouteServiceProcessor::REQ_METHOD_POST;
         $postVars = array(
-            RestCreateFlightrouteRequest::ARG_TOKEN => UserHelper::createToken('test@navplan.ch', FALSE),
+            RestCreateFlightrouteRequest::ARG_TOKEN => $this->tokenService->createToken('test@navplan.ch', FALSE),
             RestCreateFlightrouteRequest::ARG_ROUTE => DummyFlightroute1::createRestArgs()
         );
-        $this->userRepo->readUserResult = DummyUser1::create();
+        $this->userRepo->readUserResult = DummyUser1::create($this->tokenService);
         $this->flightrouteRepo->addResult = DummyFlightroute1::create();
 
         FlightrouteServiceProcessor::processRequest($requestMethod, NULL, $postVars, $this->config);
@@ -130,10 +128,10 @@ class FlightrouteServiceProcessorTest extends TestCase {
     public function test_UpdateFlightroute_gets_called() {
         $requestMethod = FlightrouteServiceProcessor::REQ_METHOD_PUT;
         $postVars = array(
-            RestUpdateFlightrouteRequest::ARG_TOKEN => UserHelper::createToken('test@navplan.ch', FALSE),
+            RestUpdateFlightrouteRequest::ARG_TOKEN => $this->tokenService->createToken('test@navplan.ch', FALSE),
             RestUpdateFlightrouteRequest::ARG_ROUTE => DummyFlightroute1::createRestArgs()
         );
-        $this->userRepo->readUserResult = DummyUser1::create();
+        $this->userRepo->readUserResult = DummyUser1::create($this->tokenService);
         $this->flightrouteRepo->readResult = DummyFlightroute1::create();
         $this->flightrouteRepo->updateResult = DummyFlightroute1::create();
 
@@ -148,9 +146,9 @@ class FlightrouteServiceProcessorTest extends TestCase {
         $requestMethod = FlightrouteServiceProcessor::REQ_METHOD_DELETE;
         $getVars = array(
             RestDeleteFlightrouteRequest::ARG_ID => 123,
-            RestDeleteFlightrouteRequest::ARG_TOKEN => UserHelper::createToken('test@navplan.ch', FALSE)
+            RestDeleteFlightrouteRequest::ARG_TOKEN => $this->tokenService->createToken('test@navplan.ch', FALSE)
         );
-        $this->userRepo->readUserResult = DummyUser1::create();
+        $this->userRepo->readUserResult = DummyUser1::create($this->tokenService);
 
         FlightrouteServiceProcessor::processRequest($requestMethod, $getVars, NULL, $this->config);
 

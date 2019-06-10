@@ -2,8 +2,8 @@
 
 namespace NavplanTest;
 
-require_once __DIR__ . "/../config_test.php";
-
+use Navplan\Db\UseCase\IDbConfig;
+use Navplan\Db\UseCase\IDbService;
 use Navplan\Flightroute\UseCase\IFlightrouteConfig;
 use Navplan\Flightroute\UseCase\IFlightrouteRepo;
 use Navplan\Geoname\UseCase\IGeonameConfig;
@@ -23,6 +23,8 @@ use Navplan\Traffic\UseCase\IOgnGateway;
 use Navplan\Traffic\UseCase\ITrafficRepo;
 use Navplan\User\UseCase\IUserConfig;
 use Navplan\User\UseCase\IUserRepoFactory;
+use Navplan\User\UseCase\TokenService;
+use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\Flightroute\Mocks\MockFlightrouteRepo;
 use NavplanTest\Geoname\Mocks\MockGeonameRepo;
 use NavplanTest\Notam\Mocks\MockNotamRepo;
@@ -35,12 +37,14 @@ use NavplanTest\Traffic\Mocks\MockTrafficRepo;
 use NavplanTest\User\Mocks\MockUserRepoFactory;
 
 
-class MockNavplanConfig implements ISystemConfig, ITerrainConfig, IUserConfig, IFlightrouteConfig, IGeonameConfig,
+class MockNavplanConfig implements ISystemConfig, IDbConfig, ITerrainConfig, IUserConfig, IFlightrouteConfig, IGeonameConfig,
     INotamConfig, IOpenAipConfig, ISearchConfig, ITrafficConfig {
     private $systemServiceFactory;
+    private $dbService;
     private $flightrouteRepo;
     private $openAipRepoFactory;
     private $userRepoFactory;
+    private $tokenService;
     private $geonameRepo;
     private $notamRepo;
     private $terrainRepo;
@@ -50,10 +54,15 @@ class MockNavplanConfig implements ISystemConfig, ITerrainConfig, IUserConfig, I
 
 
     public function __construct() {
+        global $jwt_secret, $jwt_issuer;
+        require_once __DIR__ . "/../config_test.php";
+
         $this->systemServiceFactory = new MockSystemServiceFactory();
+        $this->dbService = new MockDbService();
         $this->flightrouteRepo = new MockFlightrouteRepo();
         $this->openAipRepoFactory = new MockOpenAipRepoFactory();
         $this->userRepoFactory = new MockUserRepoFactory();
+        $this->tokenService = new TokenService($jwt_secret, $jwt_issuer);
         $this->geonameRepo = new MockGeonameRepo();
         $this->notamRepo = new MockNotamRepo();
         $this->terrainRepo = new MockTerrainRepo();
@@ -65,6 +74,11 @@ class MockNavplanConfig implements ISystemConfig, ITerrainConfig, IUserConfig, I
 
     public function getSystemServiceFactory(): ISystemServiceFactory {
         return $this->systemServiceFactory;
+    }
+
+
+    public function getDbService(): IDbService {
+        return $this->dbService;
     }
 
 
@@ -80,6 +94,11 @@ class MockNavplanConfig implements ISystemConfig, ITerrainConfig, IUserConfig, I
 
     public function getUserRepoFactory(): IUserRepoFactory {
         return $this->userRepoFactory;
+    }
+
+
+    public function getTokenService(): TokenService {
+        return $this->tokenService;
     }
 
 

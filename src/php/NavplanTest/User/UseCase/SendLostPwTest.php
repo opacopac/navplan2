@@ -9,57 +9,45 @@ use NavplanTest\System\Mock\MockMailService;
 use NavplanTest\User\Mocks\MockUserRepo;
 use PHPUnit\Framework\TestCase;
 
-// TODO: inject with config
-require_once __DIR__ . "/../../../config_test.php";
-
-
 class UserForgotPwTest extends TestCase {
     /* @var $config MockNavplanConfig */
     private $config;
-
-
-    private function getUserRepoMock(): MockUserRepo {
-        /* @var $userRepoMock MockUserRepo */
-        $userRepoMock = $this->config->getUserRepoFactory()->createUserRepo();
-        return $userRepoMock;
-    }
-
-
-    private function getMailServiceMock(): MockMailService {
-        /* @var $mailServiceMock MockMailService */
-        $mailServiceMock = $this->config->getSystemServiceFactory()->getMailService();
-        return $mailServiceMock;
-    }
+    /* @var $userRepoMock MockUserRepo */
+    private $userRepoMock;
+    /* @var $mailServiceMock MockMailService */
+    private $mailServiceMock;
 
 
     protected function setUp(): void {
         $this->config = new MockNavplanConfig();
+        $this->userRepoMock = $this->config->getUserRepoFactory()->createUserRepo();
+        $this->mailServiceMock = $this->config->getSystemServiceFactory()->getMailService();
     }
 
 
     public function test_sendLostPw_success_resultcode_is_0() {
         $email = "test@navplan.ch";
-        $this->getUserRepoMock()->checkEmailExistsResult = TRUE;
+        $this->userRepoMock->checkEmailExistsResult = TRUE;
         $request = new SendLostPwRequest($email);
         $response = (new SendLostPw($this->config))->sendLostPw($request);
-        $repoArgs = $this->getUserRepoMock()->checkEmailExistArgs;
+        $repoArgs = $this->userRepoMock->checkEmailExistArgs;
 
         $this->assertEquals(0, $response->code);
         $this->assertEquals($email, $repoArgs[0]);
-        $this->assertEquals($email, $this->getMailServiceMock()->getEmailRecipient());
+        $this->assertEquals($email, $this->mailServiceMock->getEmailRecipient());
     }
 
 
     public function test_sendLostPw_email_not_found_resultcode_is_n2() {
         $email = "test@navplan.ch";
-        $this->getUserRepoMock()->checkEmailExistsResult = FALSE;
+        $this->userRepoMock->checkEmailExistsResult = FALSE;
         $request = new SendLostPwRequest($email);
         $response = (new SendLostPw($this->config))->sendLostPw($request);
-        $repoArgs = $this->getUserRepoMock()->checkEmailExistArgs;
+        $repoArgs = $this->userRepoMock->checkEmailExistArgs;
 
         $this->assertEquals(-2, $response->code);
         $this->assertEquals($email, $repoArgs[0]);
-        $this->assertEquals(NULL, $this->getMailServiceMock()->getEmailRecipient());
+        $this->assertEquals(NULL, $this->mailServiceMock->getEmailRecipient());
     }
 
 
@@ -67,11 +55,11 @@ class UserForgotPwTest extends TestCase {
         $email = "";
         $request = new SendLostPwRequest($email);
         $response = (new SendLostPw($this->config))->sendLostPw($request);
-        $repoArgs = $this->getUserRepoMock()->checkEmailExistArgs;
+        $repoArgs = $this->userRepoMock->checkEmailExistArgs;
 
         $this->assertEquals(-1, $response->code);
         $this->assertEquals(NULL, $repoArgs);
-        $this->assertEquals(NULL, $this->getMailServiceMock()->getEmailRecipient());
+        $this->assertEquals(NULL, $this->mailServiceMock->getEmailRecipient());
     }
 
 
@@ -79,11 +67,11 @@ class UserForgotPwTest extends TestCase {
         $email = "www.test.com";
         $request = new SendLostPwRequest($email);
         $response = (new SendLostPw($this->config))->sendLostPw($request);
-        $repoArgs = $this->getUserRepoMock()->checkEmailExistArgs;
+        $repoArgs = $this->userRepoMock->checkEmailExistArgs;
 
         $this->assertEquals(-1, $response->code);
         $this->assertEquals(NULL, $repoArgs);
-        $this->assertEquals(NULL, $this->getMailServiceMock()->getEmailRecipient());
+        $this->assertEquals(NULL, $this->mailServiceMock->getEmailRecipient());
     }
 
 
@@ -91,10 +79,10 @@ class UserForgotPwTest extends TestCase {
         $email = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890@navplan.ch";
         $request = new SendLostPwRequest($email);
         $response = (new SendLostPw($this->config))->sendLostPw($request);
-        $repoArgs = $this->getUserRepoMock()->checkEmailExistArgs;
+        $repoArgs = $this->userRepoMock->checkEmailExistArgs;
 
         $this->assertEquals(-1, $response->code);
         $this->assertEquals(NULL, $repoArgs);
-        $this->assertEquals(NULL, $this->getMailServiceMock()->getEmailRecipient());
+        $this->assertEquals(NULL, $this->mailServiceMock->getEmailRecipient());
     }
 }

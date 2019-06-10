@@ -8,15 +8,17 @@ use Navplan\Geometry\Domain\Position2d;
 
 class SearchUserPoint {
     private $userPointRepo;
+    private $tokenService;
 
 
     public function __construct(IUserConfig $config) {
         $this->userPointRepo = $config->getUserRepoFactory()->createUserPointRepo();
+        $this->tokenService = $config->getTokenService();
     }
 
 
     public function searchByExtent(Extent $extent, string $token): array {
-        $email = UserHelper::getEmailFromToken($token);
+        $email = $this->tokenService->getEmailFromToken($token);
         if (!$email) {
             return [];
         }
@@ -26,7 +28,7 @@ class SearchUserPoint {
 
 
     public function searchByPosition(Position2d $position, float $maxRadius_deg, int $maxResults, string $token): array {
-        $email = UserHelper::getEmailFromToken($token);
+        $email = $this->tokenService->getEmailFromToken($token);
         if (!$email) {
             return [];
         }
@@ -36,7 +38,7 @@ class SearchUserPoint {
 
 
     public function searchByText(string $searchText, int $maxResults, string $token): array {
-        $email = UserHelper::getEmailFromToken($token);
+        $email = $this->tokenService->getEmailFromToken($token);
         if (!$email) {
             return [];
         }

@@ -2,12 +2,9 @@
 
 namespace NavplanTest\Shared;
 
-// TODO => config
-require_once __DIR__ . "/../../../config.php";
-
 use Navplan\User\Domain\RegisterRequest;
 use Navplan\User\UseCase\Register;
-use Navplan\User\UseCase\UserHelper;
+use Navplan\User\UseCase\TokenService;
 use NavplanTest\MockNavplanConfig;
 use NavplanTest\User\Mocks\MockUserRepo;
 use PHPUnit\Framework\TestCase;
@@ -16,30 +13,28 @@ use PHPUnit\Framework\TestCase;
 class RegisterTest extends TestCase {
     /* @var $config MockNavplanConfig */
     private $config;
-
-
-    private function getUserRepoMock(): MockUserRepo {
-        /* @var $userRepoMock MockUserRepo */
-        $userRepoMock = $this->config->getUserRepoFactory()->createUserRepo();
-        return $userRepoMock;
-    }
+    /* @var $tokenService TokenService */
+    private $tokenService;
+    /* @var $userRepoMock MockUserRepo */
+    private $userRepoMock;
 
 
     protected function setUp(): void {
         $this->config = new MockNavplanConfig();
+        $this->tokenService = $this->config->getTokenService();
+        $this->userRepoMock = $this->config->getUserRepoFactory()->createUserRepo();
     }
-
 
 
     public function test_register_returns_success_response_and_creates_new_user() {
         $email = "test@navplan.ch";
-        $token = UserHelper::createToken($email, TRUE);
+        $token = $this->tokenService->createToken($email, TRUE);
         $password = "123456";
-        $this->getUserRepoMock()->checkEmailExistsResult = FALSE;
+        $this->userRepoMock->checkEmailExistsResult = FALSE;
         $request = new RegisterRequest($token, $password, TRUE);
         $response = (new Register($this->config))->register($request);
-        $checkEmailExistsArgs = $this->getUserRepoMock()->checkEmailExistArgs;
-        $createUserArgs = $this->getUserRepoMock()->createUserArgs;
+        $checkEmailExistsArgs = $this->userRepoMock->checkEmailExistArgs;
+        $createUserArgs = $this->userRepoMock->createUserArgs;
 
         $this->assertEquals(0, $response->code);
         $this->assertEquals($email, $response->email);
@@ -52,12 +47,12 @@ class RegisterTest extends TestCase {
 
     public function test_register_invalid_pw_returns_code_m1() {
         $email = "test@navplan.ch";
-        $token = UserHelper::createToken($email, TRUE);
+        $token = $this->tokenService->createToken($email, TRUE);
         $password = "1234";
         $request = new RegisterRequest($token, $password, TRUE);
         $response = (new Register($this->config))->register($request);
-        $checkEmailExistsArgs = $this->getUserRepoMock()->checkEmailExistArgs;
-        $createUserArgs = $this->getUserRepoMock()->createUserArgs;
+        $checkEmailExistsArgs = $this->userRepoMock->checkEmailExistArgs;
+        $createUserArgs = $this->userRepoMock->createUserArgs;
 
         $this->assertEquals(-1, $response->code);
         $this->assertEquals(NULL, $response->email);
@@ -72,8 +67,8 @@ class RegisterTest extends TestCase {
         $password = "123456";
         $request = new RegisterRequest($token, $password, TRUE);
         $response = (new Register($this->config))->register($request);
-        $checkEmailExistsArgs = $this->getUserRepoMock()->checkEmailExistArgs;
-        $createUserArgs = $this->getUserRepoMock()->createUserArgs;
+        $checkEmailExistsArgs = $this->userRepoMock->checkEmailExistArgs;
+        $createUserArgs = $this->userRepoMock->createUserArgs;
 
         $this->assertEquals(-2, $response->code);
         $this->assertEquals(NULL, $response->email);
@@ -85,13 +80,13 @@ class RegisterTest extends TestCase {
 
     public function test_register_existing_email_returns_code_m3() {
         $email = "test@navplan.ch";
-        $token = UserHelper::createToken($email, TRUE);
+        $token = $this->tokenService->createToken($email, TRUE);
         $password = "123456";
-        $this->getUserRepoMock()->checkEmailExistsResult = TRUE;
+        $this->userRepoMock->checkEmailExistsResult = TRUE;
         $request = new RegisterRequest($token, $password, TRUE);
         $response = (new Register($this->config))->register($request);
-        $checkEmailExistsArgs = $this->getUserRepoMock()->checkEmailExistArgs;
-        $createUserArgs = $this->getUserRepoMock()->createUserArgs;
+        $checkEmailExistsArgs = $this->userRepoMock->checkEmailExistArgs;
+        $createUserArgs = $this->userRepoMock->createUserArgs;
 
         $this->assertEquals(-3, $response->code);
         $this->assertEquals(NULL, $response->email);

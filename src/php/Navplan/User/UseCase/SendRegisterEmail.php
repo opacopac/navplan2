@@ -4,24 +4,27 @@ namespace Navplan\User\UseCase;
 
 use Navplan\NavplanHelper;
 use Navplan\User\Domain\SendRegisterEmailRequest;
+use Navplan\User\Domain\User;
 use Navplan\User\Domain\UserResponse;
 
 
 class SendRegisterEmail {
     private $userRepo;
+    private $tokenService;
     private $httpService;
     private $mailService;
 
 
     public function __construct(IUserConfig $config) {
         $this->userRepo = $config->getUserRepoFactory()->createUserRepo();
+        $this->tokenService = $config->getTokenService();
         $this->httpService = $config->getSystemServiceFactory()->getHttpService();
         $this->mailService = $config->getSystemServiceFactory()->getMailService();
     }
 
 
     public function sendRegisterEmail(SendRegisterEmailRequest $request): UserResponse {
-        if (!UserHelper::checkEmailFormat($request->email)) {
+        if (!User::checkEmailFormat($request->email)) {
             return new UserResponse(-1, 'error: invalid email format');
         }
 
@@ -30,7 +33,7 @@ class SendRegisterEmail {
         }
 
         // send activation email
-        $token = UserHelper::createToken($request->email, false);
+        $token = $this->tokenService->createToken($request->email, false);
         $this->sendActivationEmail($request->email, $token);
 
         return new UserResponse(0, NULL, $request->email, '');

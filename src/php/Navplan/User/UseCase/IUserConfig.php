@@ -9,4 +9,6 @@ interface IUserConfig {
     function getSystemServiceFactory(): ISystemServiceFactory;
 
     function getUserRepoFactory(): IUserRepoFactory;
+
+    function getTokenService(): TokenService;
 }

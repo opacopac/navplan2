@@ -2,19 +2,29 @@
 
 namespace NavplanTest\Flightroute\Domain;
 
-// TODO => config
-require_once __DIR__ . "/../../../config_test.php";
-
 use Navplan\Flightroute\Domain\UpdateFlightrouteRequest;
-use Navplan\User\UseCase\UserHelper;
+use Navplan\User\UseCase\TokenService;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
+use NavplanTest\MockNavplanConfig;
 use PHPUnit\Framework\TestCase;
 
 
 class UpdateFlightrouteRequestTest extends TestCase {
+    /* @var $config MockNavplanConfig */
+    private $config;
+    /* @var $tokenService TokenService */
+    private $tokenService;
+
+
+    protected function setUp(): void {
+        $this->config = new MockNavplanConfig();
+        $this->tokenService = $this->config->getTokenService();
+    }
+
+
     public function test__construct() {
         $route = DummyFlightroute1::create();
-        $token = UserHelper::createToken("test@navplan.ch", FALSE);
+        $token = $this->tokenService->createToken("test@navplan.ch", FALSE);
         $request = new UpdateFlightrouteRequest($route, $token);
 
         $this->assertNotNull($request);

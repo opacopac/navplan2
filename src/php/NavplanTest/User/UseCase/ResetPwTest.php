@@ -4,41 +4,37 @@ namespace NavplanTest\User\UseCase;
 
 use Navplan\User\Domain\ResetPwRequest;
 use Navplan\User\UseCase\ResetPw;
-use Navplan\User\UseCase\UserHelper;
+use Navplan\User\UseCase\TokenService;
 use NavplanTest\MockNavplanConfig;
 use NavplanTest\User\Mocks\MockUserRepo;
 use PHPUnit\Framework\TestCase;
-
-// TODO: inject with config
-require_once __DIR__ . "/../../../config_test.php";
 
 
 class ResetPwTest extends TestCase {
     /* @var $config MockNavplanConfig */
     private $config;
-
-
-    private function getUserRepoMock(): MockUserRepo {
-        /* @var $userRepoMock MockUserRepo */
-        $userRepoMock = $this->config->getUserRepoFactory()->createUserRepo();
-        return $userRepoMock;
-    }
+    /* @var $userRepoMock MockUserRepo */
+    private $userRepoMock;
+    /* @var $tokenService TokenService */
+    private $tokenService;
 
 
     protected function setUp(): void {
         $this->config = new MockNavplanConfig();
+        $this->userRepoMock = $this->config->getUserRepoFactory()->createUserRepo();
+        $this->tokenService = $this->config->getTokenService();
     }
 
 
     public function test_resetPw_success_resultcode_is_0_and_token_is_valid_for_email() {
         $email = "test@navplan.ch";
         $password = "123456";
-        $token = UserHelper::createToken($email, FALSE);
-        $this->getUserRepoMock()->checkEmailExistsResult = TRUE;
+        $token = $this->tokenService->createToken($email, FALSE);
+        $this->userRepoMock->checkEmailExistsResult = TRUE;
         $request = new ResetPwRequest($token, $password, FALSE);
         $response = (new ResetPw($this->config))->resetPassword($request);
-        $tokenEmail = UserHelper::getEmailFromToken($response->token);
-        $repoArgs = $this->getUserRepoMock()->checkEmailExistArgs;
+        $tokenEmail = $this->tokenService->getEmailFromToken($response->token);
+        $repoArgs = $this->userRepoMock->checkEmailExistArgs;
 
         $this->assertEquals($response->code, 0);
         $this->assertEquals($email, $tokenEmail);
@@ -49,11 +45,11 @@ class ResetPwTest extends TestCase {
     public function test_resetPw_email_not_found_resultcode_is_n2() {
         $email = "test@navplan.ch";
         $password = "123456";
-        $token = UserHelper::createToken($email, FALSE);
-        $this->getUserRepoMock()->checkEmailExistsResult = FALSE;
+        $token = $this->tokenService->createToken($email, FALSE);
+        $this->userRepoMock->checkEmailExistsResult = FALSE;
         $request = new ResetPwRequest($token, $password, FALSE);
         $response = (new ResetPw($this->config))->resetPassword($request);
-        $repoArgs = $this->getUserRepoMock()->checkEmailExistArgs;
+        $repoArgs = $this->userRepoMock->checkEmailExistArgs;
 
         $this->assertEquals($response->code, -2);
         $this->assertEquals($email, $repoArgs[0]);
@@ -65,7 +61,7 @@ class ResetPwTest extends TestCase {
         $token = "";
         $request = new ResetPwRequest($token, $password, FALSE);
         $response = (new ResetPw($this->config))->resetPassword($request);
-        $repoArgs = $this->getUserRepoMock()->checkEmailExistArgs;
+        $repoArgs = $this->userRepoMock->checkEmailExistArgs;
 
         $this->assertEquals($response->code, -2);
         $this->assertEquals(NULL, $repoArgs);
@@ -75,10 +71,10 @@ class ResetPwTest extends TestCase {
     public function test_resetPw_token_invalid_resultcode_is_n2() {
         $email = "test@navplan.ch";
         $password = "123456";
-        $token = "xxx" . UserHelper::createToken($email, FALSE);
+        $token = "xxx" . $this->tokenService->createToken($email, FALSE);
         $request = new ResetPwRequest($token, $password, FALSE);
         $response = (new ResetPw($this->config))->resetPassword($request);
-        $repoArgs = $this->getUserRepoMock()->checkEmailExistArgs;
+        $repoArgs = $this->userRepoMock->checkEmailExistArgs;
 
         $this->assertEquals($response->code, -2);
         $this->assertEquals(NULL, $repoArgs);
@@ -88,10 +84,10 @@ class ResetPwTest extends TestCase {
     public function test_resetPw_password_empty_resultcode_is_n1() {
         $email = "test@navplan.ch";
         $password = "";
-        $token = UserHelper::createToken($email, FALSE);
+        $token = $this->tokenService->createToken($email, FALSE);
         $request = new ResetPwRequest($token, $password, FALSE);
         $response = (new ResetPw($this->config))->resetPassword($request);
-        $repoArgs = $this->getUserRepoMock()->checkEmailExistArgs;
+        $repoArgs = $this->userRepoMock->checkEmailExistArgs;
 
         $this->assertEquals($response->code, -1);
         $this->assertEquals(NULL, $repoArgs);
@@ -101,10 +97,10 @@ class ResetPwTest extends TestCase {
     public function test_resetPw_password_too_short_resultcode_is_n1() {
         $email = "test@navplan.ch";
         $password = "12345";
-        $token = UserHelper::createToken($email, FALSE);
+        $token = $this->tokenService->createToken($email, FALSE);
         $request = new ResetPwRequest($token, $password, FALSE);
         $response = (new ResetPw($this->config))->resetPassword($request);
-        $repoArgs = $this->getUserRepoMock()->checkEmailExistArgs;
+        $repoArgs = $this->userRepoMock->checkEmailExistArgs;
 
         $this->assertEquals($response->code, -1);
         $this->assertEquals(NULL, $repoArgs);
@@ -114,10 +110,10 @@ class ResetPwTest extends TestCase {
     public function test_resetPw_password_too_long_resultcode_is_n1() {
         $email = "test@navplan.ch";
         $password = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
-        $token = UserHelper::createToken($email, FALSE);
+        $token = $this->tokenService->createToken($email, FALSE);
         $request = new ResetPwRequest($token, $password, FALSE);
         $response = (new ResetPw($this->config))->resetPassword($request);
-        $repoArgs = $this->getUserRepoMock()->checkEmailExistArgs;
+        $repoArgs = $this->userRepoMock->checkEmailExistArgs;
 
         $this->assertEquals($response->code, -1);
         $this->assertEquals(NULL, $repoArgs);

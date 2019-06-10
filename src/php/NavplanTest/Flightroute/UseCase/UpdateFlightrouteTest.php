@@ -2,15 +2,11 @@
 
 namespace NavplanTest\Flightroute\UseCase;
 
-// TODO => config
-require_once __DIR__ . "/../../../config_test.php";
-
 use InvalidArgumentException;
 use Navplan\Flightroute\Domain\UpdateFlightrouteRequest;
 use Navplan\Flightroute\UseCase\UpdateFlightroute;
-use Navplan\User\UseCase\UserHelper;
+use Navplan\User\UseCase\TokenService;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
-use NavplanTest\Flightroute\Mocks\FlightrouteConfigMock;
 use NavplanTest\Flightroute\Mocks\MockFlightrouteRepo;
 use NavplanTest\MockNavplanConfig;
 use NavplanTest\User\Mocks\DummyUser1;
@@ -20,26 +16,28 @@ use Throwable;
 
 
 class UpdateFlightrouteTest extends TestCase {
-    /* @var $config FlightrouteConfigMock */
+    /* @var $config MockNavplanConfig */
     private $config;
     /* @var $userRepo MockUserRepo */
     private $userRepo;
     /* @var $flightrouteRepo MockFlightrouteRepo */
     private $flightrouteRepo;
-
+    /* @var $tokenService TokenService */
+    private $tokenService;
 
     protected function setUp(): void {
         $this->config = new MockNavplanConfig();
         $this->flightrouteRepo = $this->config->getFlightrouteRepo();
         $this->userRepo = $this->config->getUserRepoFactory()->createUserRepo();
+        $this->tokenService = $this->config->getTokenService();
     }
 
 
     public function test__update() {
         $email = "test@navplan.ch";
-        $token = UserHelper::createToken($email, FALSE);
+        $token = $this->tokenService->createToken($email, FALSE);
         $flightroute = DummyFlightroute1::create();
-        $user = DummyUser1::create();
+        $user = DummyUser1::create($this->tokenService);
         $this->userRepo->readUserResult = $user;
         $this->flightrouteRepo->readResult = $flightroute;
         $this->flightrouteRepo->updateResult = $flightroute;
@@ -74,7 +72,7 @@ class UpdateFlightrouteTest extends TestCase {
 
     public function test__update_user_not_found() {
         $email = "test@navplan.ch";
-        $token = UserHelper::createToken($email, FALSE);
+        $token = $this->tokenService->createToken($email, FALSE);
         $flightroute = DummyFlightroute1::create();
         $this->userRepo->readUserResult = NULL;
         $request = new UpdateFlightrouteRequest($flightroute, $token);
@@ -92,9 +90,9 @@ class UpdateFlightrouteTest extends TestCase {
 
     public function test__update_flightroute_not_found() {
         $email = "test@navplan.ch";
-        $token = UserHelper::createToken($email, FALSE);
+        $token = $this->tokenService->createToken($email, FALSE);
         $flightroute = DummyFlightroute1::create();
-        $user = DummyUser1::create();
+        $user = DummyUser1::create($this->tokenService);
         $this->userRepo->readUserResult = $user;
         $this->flightrouteRepo->readResult = NULL;
 

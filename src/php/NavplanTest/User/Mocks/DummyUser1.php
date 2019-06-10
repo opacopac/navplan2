@@ -3,24 +3,24 @@
 namespace NavplanTest\User\Mocks;
 
 use Navplan\User\Domain\User;
-use Navplan\User\UseCase\UserHelper;
+use Navplan\User\UseCase\TokenService;
 
 
 class DummyUser1 {
-    public static function create(): User {
+    public static function create(TokenService $tokenService): User {
         return new User(
             123,
-            UserHelper::createToken("test@navplan.ch", FALSE),
+            $tokenService->createToken("test@navplan.ch", FALSE),
             "test@navplan.ch",
             password_hash('123456', PASSWORD_BCRYPT)
         );
     }
 
 
-    public static function createDbResult(): array {
+    public static function createDbResult(TokenService $tokenService): array {
         return array(
             "id" => 22,
-            "token" => UserHelper::createToken("test@navplan.ch", FALSE),
+            "token" => $tokenService->createToken("test@navplan.ch", FALSE),
             "email" => "test@navplan.ch",
             "pw_hash" => password_hash('123456', PASSWORD_BCRYPT)
         );

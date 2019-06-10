@@ -2,12 +2,9 @@
 
 namespace NavplanTest\Shared;
 
-// TODO => config
-require_once __DIR__ . "/../../../config_test.php";
-
 use Navplan\User\Domain\AutoLoginRequest;
 use Navplan\User\UseCase\AutoLogin;
-use Navplan\User\UseCase\UserHelper;
+use Navplan\User\UseCase\TokenService;
 use NavplanTest\MockNavplanConfig;
 use PHPUnit\Framework\TestCase;
 
@@ -15,15 +12,18 @@ use PHPUnit\Framework\TestCase;
 class AutoLoginTest extends TestCase {
     /* @var $config MockNavplanConfig */
     private $config;
+    /* @var $tokenService TokenService */
+    private $tokenService;
 
 
     protected function setUp(): void {
         $this->config = new MockNavplanConfig();
+        $this->tokenService = $this->config->getTokenService();
     }
 
 
     public function test_autoLogin_success_resultcode_is_0() {
-        $token = UserHelper::createToken("test@navplan.ch", false);
+        $token = $this->tokenService->createToken("test@navplan.ch", false);
         $request = new AutoLoginRequest($token);
         $response = (new AutoLogin($this->config))->autologin($request);
 

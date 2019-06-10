@@ -8,14 +8,13 @@ require_once __DIR__ . "/../../../config_test.php";
 use Navplan\Flightroute\Domain\CreateSharedFlightrouteRequest;
 use Navplan\Flightroute\UseCase\CreateSharedFlightroute;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
-use NavplanTest\Flightroute\Mocks\FlightrouteConfigMock;
 use NavplanTest\Flightroute\Mocks\MockFlightrouteRepo;
 use NavplanTest\MockNavplanConfig;
 use PHPUnit\Framework\TestCase;
 
 
 class CreateSharedFlightrouteTest extends TestCase {
-    /* @var $config FlightrouteConfigMock */
+    /* @var $config MockNavplanConfig */
     private $config;
     /* @var $flightrouteRepo MockFlightrouteRepo */
     private $flightrouteRepo;

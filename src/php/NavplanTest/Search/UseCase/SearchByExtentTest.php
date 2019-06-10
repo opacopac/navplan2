@@ -6,13 +6,12 @@ use Navplan\Geometry\Domain\Extent;
 use Navplan\Search\Domain\SearchByExtentQuery;
 use Navplan\Search\Domain\SearchItemType;
 use Navplan\Search\UseCase\SearchByExtent;
-use Navplan\User\UseCase\UserHelper;
+use Navplan\User\UseCase\TokenService;
 use NavplanTest\MockNavplanConfig;
 use NavplanTest\OpenAip\Mocks\MockAirportRepo;
 use NavplanTest\OpenAip\Mocks\DummyAirport1;
 use NavplanTest\OpenAip\Mocks\DummyNavaid1;
 use NavplanTest\OpenAip\Mocks\MockNavaidRepo;
-use NavplanTest\Search\Mocks\MockSearchConfig;
 use NavplanTest\User\Mocks\DummyUserPoint1;
 use NavplanTest\User\Mocks\DummyUserPoint2;
 use NavplanTest\User\Mocks\MockUserPointRepo;
@@ -20,21 +19,24 @@ use PHPUnit\Framework\TestCase;
 
 
 class SearchByExtentTest extends TestCase {
-    /* @var $searchConfig MockSearchConfig */
-    private $searchConfig;
+    /* @var $config MockNavplanConfig */
+    private $config;
     /* @var $airportRepo MockAirportRepo */
     private $airportRepo;
     /* @var $navaidRepo MockNavaidRepo */
     private $navaidRepo;
     /* @var $upRepo MockUserPointRepo */
     private $upRepo;
+    /* @var $tokenService TokenService */
+    private $tokenService;
 
 
     protected function setUp(): void {
-        $this->searchConfig = new MockNavplanConfig();
-        $this->airportRepo = $this->searchConfig->getOpenAipRepoFactory()->createAirportRepo();
-        $this->navaidRepo = $this->searchConfig->getOpenAipRepoFactory()->createNavaidRepo();
-        $this->upRepo = $this->searchConfig->getUserRepoFactory()->createUserPointRepo();
+        $this->config = new MockNavplanConfig();
+        $this->airportRepo = $this->config->getOpenAipRepoFactory()->createAirportRepo();
+        $this->navaidRepo = $this->config->getOpenAipRepoFactory()->createNavaidRepo();
+        $this->upRepo = $this->config->getUserRepoFactory()->createUserPointRepo();
+        $this->tokenService = $this->config->getTokenService();
     }
 
 
@@ -45,9 +47,9 @@ class SearchByExtentTest extends TestCase {
             11,
             1558977934,
             1559977934,
-            UserHelper::createToken("asdf@asef.com", FALSE)
+            $this->tokenService->createToken("asdf@asef.com", FALSE)
         );
-        $result = SearchByExtent::search($query, $this->searchConfig);
+        $result = SearchByExtent::search($query, $this->config);
         $this->assertNotNull($result);
         $this->assertEquals(0, count($result->airports));
         $this->assertEquals(0, count($result->navaids));
@@ -67,14 +69,14 @@ class SearchByExtentTest extends TestCase {
             11,
             1558977934,
             1559977934,
-            UserHelper::createToken("asdf@asef.com", FALSE)
+            $this->tokenService->createToken("asdf@asef.com", FALSE)
         );
         $airportResults = [ DummyAirport1::create(), DummyAirport1::create() ] ;
         $navaidResults = [ DummyNavaid1::create(), DummyNavaid1::create() ];
         $this->airportRepo->pushMockResult($airportResults);
         $this->navaidRepo->pushMockResult($navaidResults);
 
-        $result = SearchByExtent::search($query, $this->searchConfig);
+        $result = SearchByExtent::search($query, $this->config);
         $this->assertNotNull($result);
         $this->assertEquals(count($airportResults), count($result->airports));
         $this->assertEquals(0, count($result->navaids));
@@ -93,7 +95,7 @@ class SearchByExtentTest extends TestCase {
         $upResults = [ DummyUserPoint1::create(), DummyUserPoint2::create() ];
         $this->upRepo->pushMockResult($upResults);
 
-        $result = SearchByExtent::search($query, $this->searchConfig);
+        $result = SearchByExtent::search($query, $this->config);
         $this->assertNotNull($result);
         $this->assertEquals(0, count($result->userPoints));
     }

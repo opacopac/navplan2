@@ -2,11 +2,8 @@
 
 namespace NavplanTest\User\UseCase;
 
-require_once __DIR__ . "/../../../config_test.php"; // TODO => inject config
-
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
-use Navplan\User\UseCase\UserHelper;
 use Navplan\User\UseCase\SearchUserPoint;
 use NavplanTest\MockNavplanConfig;
 use NavplanTest\User\Mocks\DummyUserPoint1;
@@ -34,7 +31,7 @@ class UserPointSearchTest extends TestCase {
         $this->upRepo = $config->getUserRepoFactory()->createUserPointRepo();
         $this->upRepo->pushMockResult($this->expectedResult);
         $this->upSearch = new SearchUserPoint($config);
-        $this->validToken = UserHelper::createToken("asdf@asdf.com", FALSE);
+        $this->validToken = $config->getTokenService()->createToken("asdf@asdf.com", FALSE);
     }
 
 

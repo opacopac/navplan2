@@ -8,11 +8,13 @@ use Navplan\User\Domain\UserResponse;
 
 class AutoLogin {
     private $userRepo;
+    private $tokenService;
     private $httpService;
 
 
     public function __construct(IUserConfig $config) {
         $this->userRepo = $config->getUserRepoFactory()->createUserRepo();
+        $this->tokenService = $config->getTokenService();
         $this->httpService = $config->getSystemServiceFactory()->getHttpService();
     }
 
@@ -22,7 +24,7 @@ class AutoLogin {
             return new UserResponse(-1, 'error: token is missing');
         }
 
-        $email = UserHelper::getEmailFromToken($request->token);
+        $email = $this->tokenService->getEmailFromToken($request->token);
         if (!$email || $email === "") {
             return new UserResponse(-1, 'error: invalid token');
         }

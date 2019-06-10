@@ -2,21 +2,20 @@
 
 namespace NavplanTest\Flightroute\DbRepo;
 
-// TODO => config
-require_once __DIR__ . "/../../../config_test.php";
-
 use Navplan\Flightroute\DbRepo\DbFlightroute;
 use Navplan\Flightroute\Domain\Flightroute;
-use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute2;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute3;
+use NavplanTest\MockNavplanConfig;
 use NavplanTest\User\Mocks\DummyUser1;
 use PHPUnit\Framework\TestCase;
 
 
 class DbFlightrouteTest extends TestCase {
     private $dbService;
+    private $tokenService;
+
 
     private function assertEqualDbResult(array $dbResult, Flightroute $flightroute) {
         $this->assertEquals($dbResult["id"], $flightroute->id);
@@ -30,7 +29,10 @@ class DbFlightrouteTest extends TestCase {
 
 
     protected function setUp(): void {
-        $this->dbService = new MockDbService();
+        $config = new MockNavplanConfig();
+        $this->dbService = $config->getDbService();
+        $this->tokenService = $config->getTokenService();
+
     }
 
 
@@ -63,7 +65,7 @@ class DbFlightrouteTest extends TestCase {
         $flightroute1 = DummyFlightroute1::create();
         $flightroute2 = DummyFlightroute2::create();
         $flightroute3 = DummyFlightroute3::create();
-        $user = DummyUser1::create();
+        $user = DummyUser1::create($this->tokenService);
 
         $sql1 = DbFlightroute::toInsertSql($this->dbService, $flightroute1, $user->id);
         $sql2 = DbFlightroute::toInsertSql($this->dbService, $flightroute2, $user->id);
@@ -84,7 +86,7 @@ class DbFlightrouteTest extends TestCase {
         $flightroute1->comments = "xxx'comments'xxx";
         $flightroute1->shareId = "xxx'shareid'xxx";
         $flightroute1->hash = "xxx'hash'xxx";
-        $user = DummyUser1::create();
+        $user = DummyUser1::create($this->tokenService);
 
         $sql = DbFlightroute::toInsertSql($this->dbService, $flightroute1, $user->id);
 

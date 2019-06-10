@@ -2,12 +2,9 @@
 
 namespace NavplanTest\Shared;
 
-// TODO => config
-require_once __DIR__ . "/../../../config.php";
-
 use Navplan\User\Domain\UpdatePwRequest;
 use Navplan\User\UseCase\UpdatePw;
-use Navplan\User\UseCase\UserHelper;
+use Navplan\User\UseCase\TokenService;
 use NavplanTest\MockNavplanConfig;
 use NavplanTest\User\Mocks\MockUserRepo;
 use PHPUnit\Framework\TestCase;
@@ -16,32 +13,31 @@ use PHPUnit\Framework\TestCase;
 class UpdatePwTest extends TestCase {
     /* @var $config MockNavplanConfig */
     private $config;
-
-
-    private function getUserRepoMock(): MockUserRepo {
-        /* @var $userRepoMock MockUserRepo */
-        $userRepoMock = $this->config->getUserRepoFactory()->createUserRepo();
-        return $userRepoMock;
-    }
+    /* @var $userRepoMock MockUserRepo */
+    private $userRepoMock;
+    /* @var $tokenService TokenService */
+    private $tokenService;
 
 
     protected function setUp(): void {
         $this->config = new MockNavplanConfig();
+        $this->userRepoMock = $this->config->getUserRepoFactory()->createUserRepo();
+        $this->tokenService = $this->config->getTokenService();        
     }
 
 
     public function test_updatePassword_returns_a_success_response_and_updates_password() {
         $email = "test@navplan.ch";
-        $token = UserHelper::createToken($email, TRUE);
+        $token = $this->tokenService->createToken($email, TRUE);
         $oldPassword = "123456";
         $newPassword = "654321";
-        $this->getUserRepoMock()->checkEmailExistsResult = TRUE;
-        $this->getUserRepoMock()->verifyPwHashResult = TRUE;
+        $this->userRepoMock->checkEmailExistsResult = TRUE;
+        $this->userRepoMock->verifyPwHashResult = TRUE;
         $request = new UpdatePwRequest($token, $oldPassword, $newPassword);
         $response = (new UpdatePw($this->config))->updatePassword($request);
-        $checkEmailExistsArgs = $this->getUserRepoMock()->checkEmailExistArgs;
-        $verifyPwHashArgs = $this->getUserRepoMock()->verifyPwHashArgs;
-        $updatePwArgs = $this->getUserRepoMock()->updatePasswordArgs;
+        $checkEmailExistsArgs = $this->userRepoMock->checkEmailExistArgs;
+        $verifyPwHashArgs = $this->userRepoMock->verifyPwHashArgs;
+        $updatePwArgs = $this->userRepoMock->updatePasswordArgs;
 
         $this->assertEquals(0, $response->code);
         $this->assertEquals($email, $response->email);
@@ -56,14 +52,14 @@ class UpdatePwTest extends TestCase {
 
     public function test_updatePassword_invalid_new_password_returns_code_m1() {
         $email = "test@navplan.ch";
-        $token = UserHelper::createToken($email, FALSE);
+        $token = $this->tokenService->createToken($email, FALSE);
         $oldPassword = "123456";
         $newPassword = "654";
         $request = new UpdatePwRequest($token, $oldPassword, $newPassword);
         $response = (new UpdatePw($this->config))->updatePassword($request);
-        $checkEmailExistsArgs = $this->getUserRepoMock()->checkEmailExistArgs;
-        $verifyPwHashArgs = $this->getUserRepoMock()->verifyPwHashArgs;
-        $updatePwArgs = $this->getUserRepoMock()->updatePasswordArgs;
+        $checkEmailExistsArgs = $this->userRepoMock->checkEmailExistArgs;
+        $verifyPwHashArgs = $this->userRepoMock->verifyPwHashArgs;
+        $updatePwArgs = $this->userRepoMock->updatePasswordArgs;
 
         $this->assertEquals(-1, $response->code);
         $this->assertEquals(NULL, $checkEmailExistsArgs);
@@ -78,9 +74,9 @@ class UpdatePwTest extends TestCase {
         $newPassword = "654321";
         $request = new UpdatePwRequest($token, $oldPassword, $newPassword);
         $response = (new UpdatePw($this->config))->updatePassword($request);
-        $checkEmailExistsArgs = $this->getUserRepoMock()->checkEmailExistArgs;
-        $verifyPwHashArgs = $this->getUserRepoMock()->verifyPwHashArgs;
-        $updatePwArgs = $this->getUserRepoMock()->updatePasswordArgs;
+        $checkEmailExistsArgs = $this->userRepoMock->checkEmailExistArgs;
+        $verifyPwHashArgs = $this->userRepoMock->verifyPwHashArgs;
+        $updatePwArgs = $this->userRepoMock->updatePasswordArgs;
 
         $this->assertEquals(-2, $response->code);
         $this->assertEquals(NULL, $checkEmailExistsArgs);
@@ -91,15 +87,15 @@ class UpdatePwTest extends TestCase {
 
     public function test_updatePassword_invalid_old_password_returns_code_m3() {
         $email = "test@navplan.ch";
-        $token = UserHelper::createToken($email, FALSE);
+        $token = $this->tokenService->createToken($email, FALSE);
         $oldPassword = "123";
         $newPassword = "654321";
-        $this->getUserRepoMock()->checkEmailExistsResult = TRUE;
+        $this->userRepoMock->checkEmailExistsResult = TRUE;
         $request = new UpdatePwRequest($token, $oldPassword, $newPassword);
         $response = (new UpdatePw($this->config))->updatePassword($request);
-        $checkEmailExistsArgs = $this->getUserRepoMock()->checkEmailExistArgs;
-        $verifyPwHashArgs = $this->getUserRepoMock()->verifyPwHashArgs;
-        $updatePwArgs = $this->getUserRepoMock()->updatePasswordArgs;
+        $checkEmailExistsArgs = $this->userRepoMock->checkEmailExistArgs;
+        $verifyPwHashArgs = $this->userRepoMock->verifyPwHashArgs;
+        $updatePwArgs = $this->userRepoMock->updatePasswordArgs;
 
         $this->assertEquals(-3, $response->code);
         $this->assertEquals($email, $checkEmailExistsArgs[0]);
@@ -110,16 +106,16 @@ class UpdatePwTest extends TestCase {
 
     public function test_updatePassword_wrong_old_password_returns_code_m3() {
         $email = "test@navplan.ch";
-        $token = UserHelper::createToken($email, FALSE);
+        $token = $this->tokenService->createToken($email, FALSE);
         $oldPassword = "1234567";
         $newPassword = "654321";
-        $this->getUserRepoMock()->checkEmailExistsResult = TRUE;
-        $this->getUserRepoMock()->verifyPwHashResult = FALSE;
+        $this->userRepoMock->checkEmailExistsResult = TRUE;
+        $this->userRepoMock->verifyPwHashResult = FALSE;
         $request = new UpdatePwRequest($token, $oldPassword, $newPassword);
         $response = (new UpdatePw($this->config))->updatePassword($request);
-        $checkEmailExistsArgs = $this->getUserRepoMock()->checkEmailExistArgs;
-        $verifyPwHashArgs = $this->getUserRepoMock()->verifyPwHashArgs;
-        $updatePwArgs = $this->getUserRepoMock()->updatePasswordArgs;
+        $checkEmailExistsArgs = $this->userRepoMock->checkEmailExistArgs;
+        $verifyPwHashArgs = $this->userRepoMock->verifyPwHashArgs;
+        $updatePwArgs = $this->userRepoMock->updatePasswordArgs;
 
         $this->assertEquals(-3, $response->code);
         $this->assertEquals($email, $checkEmailExistsArgs[0]);

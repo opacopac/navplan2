@@ -3,16 +3,19 @@
 namespace Navplan\User\UseCase;
 
 use Navplan\User\Domain\ResetPwRequest;
+use Navplan\User\Domain\User;
 use Navplan\User\Domain\UserResponse;
 
 
 class ResetPw {
     private $userRepo;
+    private $tokenService;
     private $httpService;
 
 
     public function __construct(IUserConfig $config) {
         $this->userRepo = $config->getUserRepoFactory()->createUserRepo();
+        $this->tokenService = $config->getTokenService();
         $this->httpService = $config->getSystemServiceFactory()->getHttpService();
     }
 
@@ -26,12 +29,12 @@ class ResetPw {
             return new UserResponse(-1, 'error: password missing');
         }
 
-        if (!UserHelper::checkPwFormat($request->password)) {
+        if (!User::checkPwFormat($request->password)) {
             return new UserResponse(-1, 'error: invalid password format');
         }
 
-        $email = UserHelper::getEmailFromToken($request->token);
-        if (!$email || !UserHelper::checkEmailFormat($email)) {
+        $email = $this->tokenService->getEmailFromToken($request->token);
+        if (!$email || !User::checkEmailFormat($email)) {
             return new UserResponse(-2, 'error: invalid token');
         }
 
@@ -40,7 +43,7 @@ class ResetPw {
         }
 
         $this->userRepo->updatePassword($email, $request->password);
-        $token = UserHelper::createToken($email, $request->rememberMe);
+        $token = $this->tokenService->createToken($email, $request->rememberMe);
 
         return new UserResponse(0, NULL, $email, $token);
     }

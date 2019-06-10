@@ -8,7 +8,9 @@ ini_set('display_errors', '1');
 
 require_once __DIR__ . "/../Autoloader.php";
 
-use Navplan\Db\DbConfigProd;
+use Navplan\Db\MySqlDb\MySqlDbService;
+use Navplan\Db\UseCase\IDbConfig;
+use Navplan\Db\UseCase\IDbService;
 use Navplan\Flightroute\DbRepo\DbFlightrouteRepo;
 use Navplan\Flightroute\UseCase\IFlightrouteConfig;
 use Navplan\Flightroute\UseCase\IFlightrouteRepo;
@@ -23,7 +25,6 @@ use Navplan\OpenAip\UseCase\IOpenAipConfig;
 use Navplan\Search\UseCase\ISearchConfig;
 use Navplan\System\SystemServiceFactory;
 use Navplan\OpenAip\UseCase\IOpenAipRepoFactory;
-use Navplan\System\SystemConfigProd;
 use Navplan\System\UseCase\ISystemConfig;
 use Navplan\System\UseCase\ISystemServiceFactory;
 use Navplan\Terrain\FileRepo\FileTerrainRepo;
@@ -39,13 +40,17 @@ use Navplan\Traffic\UseCase\ITrafficRepo;
 use Navplan\User\DbRepo\DbUserRepoFactory;
 use Navplan\User\UseCase\IUserConfig;
 use Navplan\User\UseCase\IUserRepoFactory;
+use Navplan\User\UseCase\TokenService;
 
 
-class NavplanConfigProd implements ISystemConfig, ITerrainConfig, IUserConfig, IFlightrouteConfig, IGeonameConfig,
-    INotamConfig, IOpenAipConfig, ISearchConfig, ITrafficConfig {
+class NavplanConfigProd implements ISystemConfig, IDbConfig, ITerrainConfig, IUserConfig, IFlightrouteConfig,
+    IGeonameConfig, INotamConfig, IOpenAipConfig, ISearchConfig, ITrafficConfig
+{
     private $systemServiceFactory;
+    private $dbService;
     private $flightrouteRepo;
     private $userRepoFactory;
+    private $tokenService;
     private $openAipRepoFactory;
     private $geonameRepo;
     private $notamRepo;
@@ -56,26 +61,35 @@ class NavplanConfigProd implements ISystemConfig, ITerrainConfig, IUserConfig, I
 
 
     public function __construct() {
-        $dbConfig = new DbConfigProd();
-        $systemConfig = new SystemConfigProd();
+        global $db_host, $db_user, $db_pw, $db_name, $jwt_secret, $jwt_issuer;
+        require_once __DIR__ . "/../config.php";
+
+        $this->dbService = MySqlDbService::getInstance();
+        $this->dbService->init($db_host, $db_user, $db_pw, $db_name);
         $this->systemServiceFactory = new SystemServiceFactory();
-        $this->flightrouteRepo = new DbFlightrouteRepo($dbConfig->getDbService());
-        $this->openAipRepoFactory = new DbOpenAipRepoFactory($dbConfig->getDbService());
-        $this->userRepoFactory = new DbUserRepoFactory($dbConfig->getDbService());
-        $this->geonameRepo = new DbGeonameRepo($dbConfig->getDbService());
-        $this->notamRepo = new DbNotamRepo($dbConfig->getDbService());
-        $this->terrainRepo = new FileTerrainRepo($systemConfig->getSystemServiceFactory()->getFileService());
-        $this->adsbexGateway = new AdsbexGateway($systemConfig->getSystemServiceFactory()->getFileService());
-        $this->ognGateway = new OgnGateway($systemConfig->getSystemServiceFactory());
-        $this->trafficRepo = new DbTrafficRepo($dbConfig->getDbService());
+        $this->flightrouteRepo = new DbFlightrouteRepo($this->dbService);
+        $this->openAipRepoFactory = new DbOpenAipRepoFactory($this->dbService);
+        $this->userRepoFactory = new DbUserRepoFactory($this->dbService);
+        $this->tokenService = new TokenService($jwt_secret, $jwt_issuer);
+        $this->geonameRepo = new DbGeonameRepo($this->dbService);
+        $this->notamRepo = new DbNotamRepo($this->dbService);
+        $this->terrainRepo = new FileTerrainRepo($this->systemServiceFactory->getFileService());
+        $this->adsbexGateway = new AdsbexGateway($this->systemServiceFactory->getFileService());
+        $this->ognGateway = new OgnGateway($this->systemServiceFactory);
+        $this->trafficRepo = new DbTrafficRepo($this->dbService);
     }
     
     
     public function getSystemServiceFactory(): ISystemServiceFactory {
         return $this->systemServiceFactory;
     }
-    
-    
+
+
+    public function getDbService(): IDbService {
+        return $this->dbService;
+    }
+
+
     public function getFlightrouteRepo(): IFlightrouteRepo {
         return $this->flightrouteRepo;
     }
@@ -85,6 +99,10 @@ class NavplanConfigProd implements ISystemConfig, ITerrainConfig, IUserConfig, I
         return $this->userRepoFactory;
     }
 
+
+    public function getTokenService(): TokenService {
+        return $this->tokenService;
+    }
 
     public function getGeonameRepo(): IGeonameRepo {
         return $this->geonameRepo;

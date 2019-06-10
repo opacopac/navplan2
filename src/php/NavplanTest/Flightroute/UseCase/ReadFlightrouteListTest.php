@@ -2,16 +2,12 @@
 
 namespace NavplanTest\Flightroute\UseCase;
 
-// TODO => config
-require_once __DIR__ . "/../../../config_test.php";
-
 use InvalidArgumentException;
 use Navplan\Flightroute\Domain\ReadFlightrouteListRequest;
 use Navplan\Flightroute\UseCase\ReadFlightrouteList;
-use Navplan\User\UseCase\UserHelper;
+use Navplan\User\UseCase\TokenService;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute2;
-use NavplanTest\Flightroute\Mocks\FlightrouteConfigMock;
 use NavplanTest\Flightroute\Mocks\MockFlightrouteRepo;
 use NavplanTest\MockNavplanConfig;
 use NavplanTest\User\Mocks\DummyUser1;
@@ -21,27 +17,30 @@ use Throwable;
 
 
 class ReadFlightrouteListTest extends TestCase {
-    /* @var $config FlightrouteConfigMock */
+    /* @var $config MockNavplanConfig */
     private $config;
     /* @var $userRepo MockUserRepo */
     private $userRepo;
     /* @var $flightrouteRepo MockFlightrouteRepo */
     private $flightrouteRepo;
+    /* @var $tokenService TokenService */
+    private $tokenService;
 
 
     protected function setUp(): void {
         $this->config = new MockNavplanConfig();
         $this->flightrouteRepo = $this->config->getFlightrouteRepo();
         $this->userRepo = $this->config->getUserRepoFactory()->createUserRepo();
+        $this->tokenService = $this->config->getTokenService();
     }
 
 
     public function test__readList() {
         $email = "test@navplan.ch";
-        $token = UserHelper::createToken($email, FALSE);
+        $token = $this->tokenService->createToken($email, FALSE);
         $flightroute1 = DummyFlightroute1::create();
         $flightroute2 = DummyFlightroute2::create();
-        $user = DummyUser1::create();
+        $user = DummyUser1::create($this->tokenService);
         $this->userRepo->readUserResult = $user;
         $this->flightrouteRepo->readListResult = [$flightroute1, $flightroute2];
 
@@ -58,8 +57,8 @@ class ReadFlightrouteListTest extends TestCase {
 
     public function test__readList_empty() {
         $email = "test@navplan.ch";
-        $token = UserHelper::createToken($email, FALSE);
-        $user = DummyUser1::create();
+        $token = $this->tokenService->createToken($email, FALSE);
+        $user = DummyUser1::create($this->tokenService);
         $this->userRepo->readUserResult = $user;
         $this->flightrouteRepo->readListResult = [];
 
@@ -88,7 +87,7 @@ class ReadFlightrouteListTest extends TestCase {
 
     public function test__readList_user_not_found() {
         $email = "test@navplan.ch";
-        $token = UserHelper::createToken($email, FALSE);
+        $token = $this->tokenService->createToken($email, FALSE);
         $this->userRepo->readUserResult = NULL;
         $request = new ReadFlightrouteListRequest($token);
         try {

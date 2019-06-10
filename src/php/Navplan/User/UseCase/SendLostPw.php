@@ -4,17 +4,20 @@ namespace Navplan\User\UseCase;
 
 use Navplan\NavplanHelper;
 use Navplan\User\Domain\SendLostPwRequest;
+use Navplan\User\Domain\User;
 use Navplan\User\Domain\UserResponse;
 
 
 class SendLostPw {
     private $userRepo;
+    private $tokenService;
     private $httpService;
     private $mailService;
 
 
     public function __construct(IUserConfig $config) {
         $this->userRepo = $config->getUserRepoFactory()->createUserRepo();
+        $this->tokenService = $config->getTokenService();
         $this->httpService = $config->getSystemServiceFactory()->getHttpService();
         $this->mailService = $config->getSystemServiceFactory()->getMailService();
     }
@@ -25,7 +28,7 @@ class SendLostPw {
             return new UserResponse(-1, 'error: email missing');
         }
 
-        if (!UserHelper::checkEmailFormat($request->email)) {
+        if (!User::checkEmailFormat($request->email)) {
             return new UserResponse(-1, 'error: invalid email format');
         }
 
@@ -34,7 +37,7 @@ class SendLostPw {
         }
 
         // send pw recovery email
-        $token = UserHelper::createToken($request->email, false);
+        $token = $this->tokenService->createToken($request->email, false);
         $this->sendPwRecoveryEmail($request->email, $token);
 
         return new UserResponse(0, NULL, $request->email, '');

@@ -6,7 +6,7 @@ use Navplan\Geometry\Domain\Position2d;
 use Navplan\Search\Domain\SearchByPositionQuery;
 use Navplan\Search\Domain\SearchItemType;
 use Navplan\Search\UseCase\SearchByPosition;
-use Navplan\User\UseCase\UserHelper;
+use Navplan\User\UseCase\TokenService;
 use NavplanTest\MockNavplanConfig;
 use NavplanTest\OpenAip\Mocks\MockAirspaceRepo;
 use NavplanTest\OpenAip\Mocks\DummyAirspace1;
@@ -19,39 +19,26 @@ use NavplanTest\User\Mocks\MockUserPointRepo;
 use PHPUnit\Framework\TestCase;
 
 
-// TODO: inject with config
-require_once __DIR__ . "/../../../config_test.php";
-
-
 class SearchByPositionTest extends TestCase {
+    /* @var $config MockNavplanConfig */
     private $config;
+    /* @var $airspaceRepoMock MockAirspaceRepo */
+    private $airspaceRepoMock;
+    /* @var $reportingPointRepoMock MockReportingPointRepo */
+    private $reportingPointRepoMock;
+    /* @var $userPointRepoMock MockUserPointRepo */
+    private $userPointRepoMock;
+    /* @var $tokenService TokenService */
+    private $tokenService;
 
-
-    private function getConfig(): MockNavplanConfig {
-        return $this->config;
-    }
-
-
-    private function getAirspaceRepoMock(): MockAirspaceRepo {
-        $repo = $this->getConfig()->getOpenAipRepoFactory()->createAirspaceRepo();
-        return $repo instanceof MockAirspaceRepo ? $repo : NULL;
-    }
-
-
-    private function getReportingPointRepoMock(): MockReportingPointRepo {
-        $repo = $this->getConfig()->getOpenAipRepoFactory()->createReportingPointRepo();
-        return $repo instanceof MockReportingPointRepo ? $repo : NULL;
-    }
-
-
-    private function getUserPointRepoMock(): MockUserPointRepo {
-        $repo = $this->getConfig()->getUserRepoFactory()->createUserPointRepo();
-        return $repo instanceof MockUserPointRepo ? $repo : NULL;
-    }
 
 
     protected function setUp(): void {
         $this->config = new MockNavplanConfig();
+        $this->airspaceRepoMock = $this->config ->getOpenAipRepoFactory()->createAirspaceRepo();
+        $this->reportingPointRepoMock = $this->config->getOpenAipRepoFactory()->createReportingPointRepo();
+        $this->userPointRepoMock = $this->config->getUserRepoFactory()->createUserPointRepo();
+        $this->tokenService = $this->config->getTokenService();
     }
 
 
@@ -62,9 +49,9 @@ class SearchByPositionTest extends TestCase {
             0.5,
             1558977934,
             1559977934,
-            UserHelper::createToken("asdf@asef.com", FALSE)
+            $this->tokenService->createToken("asdf@asef.com", FALSE)
         );
-        $result = SearchByPosition::search($query, $this->getConfig());
+        $result = SearchByPosition::search($query, $this->config);
         $this->assertNotNull($result);
         $this->assertEquals(0, count($result->airports));
         $this->assertEquals(0, count($result->navaids));
@@ -84,14 +71,14 @@ class SearchByPositionTest extends TestCase {
             0.5,
             1558977934,
             1559977934,
-            UserHelper::createToken("asdf@asef.com", FALSE)
+            $this->tokenService->createToken("asdf@asef.com", FALSE)
         );
         $airspaceResults = [ DummyAirspace1::create(), DummyAirspace1::create() ] ;
         $reportingPointResults = [ DummyReportingPoint1::create(), DummyReportingSector1::create() ];
-        $this->getAirspaceRepoMock()->pushMockResult($airspaceResults);
-        $this->getReportingPointRepoMock()->pushMockResult($reportingPointResults);
+        $this->airspaceRepoMock->pushMockResult($airspaceResults);
+        $this->reportingPointRepoMock->pushMockResult($reportingPointResults);
 
-        $result = SearchByPosition::search($query, $this->getConfig());
+        $result = SearchByPosition::search($query, $this->config);
         $this->assertNotNull($result);
         $this->assertEquals(count($reportingPointResults), count($result->reportingPoints));
         $this->assertEquals(0, count($result->airspaces));
@@ -108,9 +95,9 @@ class SearchByPositionTest extends TestCase {
             NULL
         );
         $upResults = [ DummyUserPoint1::create(), DummyUserPoint2::create() ];
-        $this->getUserPointRepoMock()->pushMockResult($upResults);
+        $this->userPointRepoMock->pushMockResult($upResults);
 
-        $result = SearchByPosition::search($query, $this->getConfig());
+        $result = SearchByPosition::search($query, $this->config);
         $this->assertNotNull($result);
         $this->assertEquals(0, count($result->userPoints));
     }

@@ -2,14 +2,12 @@
 
 namespace NavplanTest\Flightroute\DbRepo;
 
-// TODO => config
-require_once __DIR__ . "/../../../config_test.php";
-
-
 use Navplan\Flightroute\DbRepo\DbFlightrouteRepo;
+use Navplan\User\UseCase\TokenService;
 use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\DummyWaypoint1;
+use NavplanTest\MockNavplanConfig;
 use NavplanTest\User\Mocks\DummyUser1;
 use PHPUnit\Framework\TestCase;
 
@@ -19,11 +17,14 @@ class DbFlightrouteRepoTest extends TestCase {
     private $dbService;
     /* @var $dbFlightrouteRepo DbFlightrouteRepo */
     private $dbFlightrouteRepo;
-
+    /* @var $tokenService TokenService */
+    private $tokenService;
 
     protected function setUp(): void {
-        $this->dbService = new MockDbService();
+        $config = new MockNavplanConfig();
+        $this->dbService = $config->getDbService();
         $this->dbFlightrouteRepo = new DbFlightrouteRepo($this->dbService);
+        $this->tokenService = $config->getTokenService();
     }
 
 
@@ -35,7 +36,7 @@ class DbFlightrouteRepoTest extends TestCase {
 
     public function test_add() {
         $route = DummyFlightroute1::create();
-        $user = DummyUser1::create();
+        $user = DummyUser1::create($this->tokenService);
         $numQueriesExpected = 1 + count($route->waypoinList) + ($route->alternate ? 1 : 0);
 
         $routeResult = $this->dbFlightrouteRepo->add($route, $user);
@@ -62,7 +63,7 @@ class DbFlightrouteRepoTest extends TestCase {
 
     public function test_delete() {
         $routeId = 123234;
-        $user = DummyUser1::create();
+        $user = DummyUser1::create($this->tokenService);
         $numQueriesExpected = 2;
 
         $this->dbFlightrouteRepo->delete($routeId, $user);
@@ -75,7 +76,7 @@ class DbFlightrouteRepoTest extends TestCase {
 
     public function test_update() {
         $route = DummyFlightroute1::create();
-        $user = DummyUser1::create();
+        $user = DummyUser1::create($this->tokenService);
         $numQueriesExpected = 1 + 1 + count($route->waypoinList) + ($route->alternate ? 1 : 0);
 
         $routeResult = $this->dbFlightrouteRepo->update($route, $user);
@@ -91,7 +92,7 @@ class DbFlightrouteRepoTest extends TestCase {
 
     public function test_read() {
         $routeId = 123234;
-        $user = DummyUser1::create();
+        $user = DummyUser1::create($this->tokenService);
         $dbResultRoute = DummyFlightroute1::createDbResult();
         $dbResultWp = DummyWaypoint1::createDbResult();
         $this->dbService->pushMockResult([$dbResultRoute]);
@@ -166,7 +167,7 @@ class DbFlightrouteRepoTest extends TestCase {
 
 
     public function test_readList() {
-        $user = DummyUser1::create();
+        $user = DummyUser1::create($this->tokenService);
         $dbResultRoute = DummyFlightroute1::createDbResult();
         $dbResultWp = DummyWaypoint1::createDbResult();
         $this->dbService->pushMockResult([$dbResultRoute]);

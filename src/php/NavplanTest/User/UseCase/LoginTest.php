@@ -2,9 +2,6 @@
 
 namespace NavplanTest\Shared;
 
-// TODO => config
-require_once __DIR__ . "/../../../config_test.php";
-
 use Navplan\User\Domain\LoginRequest;
 use Navplan\User\UseCase\Login;
 use NavplanTest\MockNavplanConfig;
@@ -15,29 +12,25 @@ use PHPUnit\Framework\TestCase;
 class LoginTest extends TestCase {
     /* @var $config MockNavplanConfig */
     private $config;
-
-
-    private function getUserRepoMock(): MockUserRepo {
-        /* @var $userRepoMock MockUserRepo */
-        $userRepoMock = $this->config->getUserRepoFactory()->createUserRepo();
-        return $userRepoMock;
-    }
+    /* @var $userRepoMock MockUserRepo */
+    private $userRepoMock;
 
 
     protected function setUp(): void {
         $this->config = new MockNavplanConfig();
+        $this->userRepoMock = $this->config->getUserRepoFactory()->createUserRepo();
     }
 
 
     public function test_login_success_resultcode_is_0() {
         $email = "test@navplan.ch";
         $password = "123456";
-        $this->getUserRepoMock()->checkEmailExistsResult = TRUE;
-        $this->getUserRepoMock()->verifyPwHashResult = TRUE;
+        $this->userRepoMock->checkEmailExistsResult = TRUE;
+        $this->userRepoMock->verifyPwHashResult = TRUE;
         $request = new LoginRequest($email, $password, FALSE);
         $response = (new Login($this->config))->login($request);
-        $checkEmailExistsArgs = $this->getUserRepoMock()->checkEmailExistArgs;
-        $verifyPwArgs = $this->getUserRepoMock()->verifyPwHashArgs;
+        $checkEmailExistsArgs = $this->userRepoMock->checkEmailExistArgs;
+        $verifyPwArgs = $this->userRepoMock->verifyPwHashArgs;
 
         $this->assertEquals(0, $response->code);
         $this->assertEquals($email, $checkEmailExistsArgs[0]);
@@ -49,12 +42,12 @@ class LoginTest extends TestCase {
     public function test_login_wrong_password_resultcode_is_n2() {
         $email = "test@navplan.ch";
         $password = "123456";
-        $this->getUserRepoMock()->checkEmailExistsResult = TRUE;
-        $this->getUserRepoMock()->verifyPwHashResult = FALSE;
+        $this->userRepoMock->checkEmailExistsResult = TRUE;
+        $this->userRepoMock->verifyPwHashResult = FALSE;
         $request = new LoginRequest($email, $password, FALSE);
         $response = (new Login($this->config))->login($request);
-        $checkEmailExistsArgs = $this->getUserRepoMock()->checkEmailExistArgs;
-        $verifyPwArgs = $this->getUserRepoMock()->verifyPwHashArgs;
+        $checkEmailExistsArgs = $this->userRepoMock->checkEmailExistArgs;
+        $verifyPwArgs = $this->userRepoMock->verifyPwHashArgs;
 
         $this->assertEquals(-2, $response->code);
         $this->assertEquals($email, $checkEmailExistsArgs[0]);
@@ -66,11 +59,11 @@ class LoginTest extends TestCase {
     public function test_login_email_not_found_resultcode_is_n1() {
         $email = "test@navplan.ch";
         $password = "123456";
-        $this->getUserRepoMock()->checkEmailExistsResult = FALSE;
+        $this->userRepoMock->checkEmailExistsResult = FALSE;
         $request = new LoginRequest($email, $password, FALSE);
         $response = (new Login($this->config))->login($request);
-        $checkEmailExistsArgs = $this->getUserRepoMock()->checkEmailExistArgs;
-        $verifyPwArgs = $this->getUserRepoMock()->verifyPwHashArgs;
+        $checkEmailExistsArgs = $this->userRepoMock->checkEmailExistArgs;
+        $verifyPwArgs = $this->userRepoMock->verifyPwHashArgs;
 
         $this->assertEquals(-1, $response->code);
         $this->assertEquals($email, $checkEmailExistsArgs[0]);
@@ -83,8 +76,8 @@ class LoginTest extends TestCase {
         $password = "123456";
         $request = new LoginRequest($email, $password, FALSE);
         $response = (new Login($this->config))->login($request);
-        $checkEmailExistsArgs = $this->getUserRepoMock()->checkEmailExistArgs;
-        $verifyPwArgs = $this->getUserRepoMock()->verifyPwHashArgs;
+        $checkEmailExistsArgs = $this->userRepoMock->checkEmailExistArgs;
+        $verifyPwArgs = $this->userRepoMock->verifyPwHashArgs;
 
         $this->assertEquals(-1, $response->code);
         $this->assertEquals(NULL, $checkEmailExistsArgs);
@@ -97,8 +90,8 @@ class LoginTest extends TestCase {
         $password = "123456";
         $request = new LoginRequest($email, $password, FALSE);
         $response = (new Login($this->config))->login($request);
-        $checkEmailExistsArgs = $this->getUserRepoMock()->checkEmailExistArgs;
-        $verifyPwArgs = $this->getUserRepoMock()->verifyPwHashArgs;
+        $checkEmailExistsArgs = $this->userRepoMock->checkEmailExistArgs;
+        $verifyPwArgs = $this->userRepoMock->verifyPwHashArgs;
 
         $this->assertEquals(-1, $response->code);
         $this->assertEquals(NULL, $checkEmailExistsArgs);
@@ -111,8 +104,8 @@ class LoginTest extends TestCase {
         $password = "123456";
         $request = new LoginRequest($email, $password, FALSE);
         $response = (new Login($this->config))->login($request);
-        $checkEmailExistsArgs = $this->getUserRepoMock()->checkEmailExistArgs;
-        $verifyPwArgs = $this->getUserRepoMock()->verifyPwHashArgs;
+        $checkEmailExistsArgs = $this->userRepoMock->checkEmailExistArgs;
+        $verifyPwArgs = $this->userRepoMock->verifyPwHashArgs;
 
         $this->assertEquals(-1, $response->code);
         $this->assertEquals(NULL, $checkEmailExistsArgs);
@@ -125,8 +118,8 @@ class LoginTest extends TestCase {
         $password = "";
         $request = new LoginRequest($email, $password, FALSE);
         $response = (new Login($this->config))->login($request);
-        $checkEmailExistsArgs = $this->getUserRepoMock()->checkEmailExistArgs;
-        $verifyPwArgs = $this->getUserRepoMock()->verifyPwHashArgs;
+        $checkEmailExistsArgs = $this->userRepoMock->checkEmailExistArgs;
+        $verifyPwArgs = $this->userRepoMock->verifyPwHashArgs;
 
         $this->assertEquals(-2, $response->code);
         $this->assertEquals(NULL, $checkEmailExistsArgs);
@@ -137,11 +130,11 @@ class LoginTest extends TestCase {
     public function test_login_password_too_long_resultcode_is_n1() {
         $email = "test@navplan.ch";
         $password = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
-        $this->getUserRepoMock()->checkEmailExistsResult = TRUE;
+        $this->userRepoMock->checkEmailExistsResult = TRUE;
         $request = new LoginRequest($email, $password, FALSE);
         $response = (new Login($this->config))->login($request);
-        $checkEmailExistsArgs = $this->getUserRepoMock()->checkEmailExistArgs;
-        $verifyPwArgs = $this->getUserRepoMock()->verifyPwHashArgs;
+        $checkEmailExistsArgs = $this->userRepoMock->checkEmailExistArgs;
+        $verifyPwArgs = $this->userRepoMock->verifyPwHashArgs;
 
         $this->assertEquals(-2, $response->code);
         $this->assertEquals($email, $checkEmailExistsArgs[0]);

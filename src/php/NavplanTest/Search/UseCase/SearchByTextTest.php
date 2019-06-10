@@ -8,12 +8,11 @@ use Navplan\Geometry\Domain\AltitudeUnit;
 use Navplan\Search\Domain\SearchByTextQuery;
 use Navplan\Search\Domain\SearchItemType;
 use Navplan\Search\UseCase\SearchByText;
-use Navplan\User\UseCase\UserHelper;
+use Navplan\User\UseCase\TokenService;
 use NavplanTest\Geoname\Mocks\DummyGeoname1;
 use NavplanTest\Geoname\Mocks\DummyGeoname2;
 use NavplanTest\Geoname\Mocks\MockGeonameRepo;
 use NavplanTest\MockNavplanConfig;
-use NavplanTest\Search\Mocks\MockSearchConfig;
 use NavplanTest\Terrain\Mocks\MockTerrainRepo;
 use NavplanTest\User\Mocks\DummyUserPoint1;
 use NavplanTest\User\Mocks\DummyUserPoint2;
@@ -22,10 +21,12 @@ use PHPUnit\Framework\TestCase;
 
 
 class SearchByTextTest extends TestCase {
-    /* @var $config MockSearchConfig */
+    /* @var $config MockNavplanConfig */
     private $config;
     /* @var $userPointRepo MockUserPointRepo */
     private $userPointRepo;
+    /* @var $tokenService TokenService */
+    private $tokenService;
     /* @var $terrainRepo MockTerrainRepo */
     private $terrainRepo;
     /* @var $geonameRepo MockGeonameRepo */
@@ -35,6 +36,7 @@ class SearchByTextTest extends TestCase {
     protected function setUp(): void {
         $this->config = new MockNavplanConfig();
         $this->userPointRepo = $this->config->getUserRepoFactory()->createUserPointRepo();
+        $this->tokenService = $this->config->getTokenService();
         $this->geonameRepo = $this->config->getGeonameRepo();
         $this->terrainRepo = $this->config->getTerrainRepo();
     }
@@ -44,7 +46,7 @@ class SearchByTextTest extends TestCase {
         $query = new SearchByTextQuery(
             [],
             "LSZB",
-            UserHelper::createToken("asdf@asef.com", FALSE)
+            $this->tokenService->createToken("asdf@asef.com", FALSE)
         );
         $result = SearchByText::search($query, $this->config);
         $this->assertNotNull($result);
@@ -63,7 +65,7 @@ class SearchByTextTest extends TestCase {
         $query = new SearchByTextQuery(
             [SearchItemType::USERPOINTS],
             "LSZB",
-            UserHelper::createToken("asdf@asef.com", FALSE)
+            $this->tokenService->createToken("asdf@asef.com", FALSE)
         );
         $upResults = [ DummyUserPoint1::create(), DummyUserPoint2::create() ] ;
         $this->userPointRepo->pushMockResult($upResults);
@@ -80,7 +82,7 @@ class SearchByTextTest extends TestCase {
         $query = new SearchByTextQuery(
             [SearchItemType::USERPOINTS, SearchItemType::GEONAMES],
             "LSZB",
-            UserHelper::createToken("asdf@asef.com", FALSE)
+            $this->tokenService->createToken("asdf@asef.com", FALSE)
         );
         $upResults = [DummyUserPoint1::create(), DummyUserPoint2::create()] ;
         $this->userPointRepo->pushMockResult($upResults);
