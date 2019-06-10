@@ -21,4 +21,19 @@ class DummyOgnTraffic2 {
             [ DummyOgnTrafficPosition2::create() ]
         );
     }
+
+
+    public static function createRest(): array {
+        return array(
+            "acAddress" => "4B1A91",
+            "addressType" => "ICAO",
+            "acType" => "TOW_PLANE",
+            "icaoType" => NULL,
+            "registration" => NULL,
+            "callsign" => NULL,
+            "opIcao" => NULL,
+            "acModel" => NULL,
+            "positionList" => [ DummyOgnTrafficPosition2::createRest() ],
+        );
+    }
 }

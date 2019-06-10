@@ -21,4 +21,21 @@ class DummyAdsbexTraffic3 {
             [ DummyAdsbexTrafficPosition3::create() ]
         );
     }
+
+
+
+
+    public static function createRest(): array {
+        return array(
+            "acAddress" => "4BAA8F",
+            "addressType" => "ICAO",
+            "acType" => "UNKNOWN",
+            "icaoType" => "A321",
+            "registration" => "TC-JTO",
+            "callsign" => "THY4PF",
+            "opIcao" => "THY",
+            "acModel" => NULL,
+            "positionList" => [ DummyAdsbexTrafficPosition3::createRest() ],
+        );
+    }
 }

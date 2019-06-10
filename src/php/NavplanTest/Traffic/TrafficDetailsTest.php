@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use Navplan\Traffic\TrafficDetails;
+use Navplan\Traffic\OLD_TrafficDetails;
 use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\System\Mock\MockHttpService;
 use PHPUnit\Framework\TestCase;
@@ -41,7 +41,7 @@ class TrafficDetailsTest extends TestCase {
     public function test_getDetails_empty_argument_throws_an_exception() {
         $this->args["aclist"] = [];
         $this->expectException(InvalidArgumentException::class);
-        TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
+        OLD_TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
     }
 
 
@@ -50,7 +50,7 @@ class TrafficDetailsTest extends TestCase {
         $this->getDbService()->pushMockResult([$this->mockResultLfrCh1]);
         $this->getDbService()->pushMockResult([]);
         $this->getDbService()->pushMockResult([]);
-        TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
+        OLD_TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
 
         $this->assertStringContainsString('FROM lfr_ch', $this->getDbService()->queryList[0]);
         $expectedRegExp = '/\{"acdetails":\[\{';
@@ -71,7 +71,7 @@ class TrafficDetailsTest extends TestCase {
         $this->getDbService()->pushMockResult([]);
         $this->getDbService()->pushMockResult([$this->mockResultBasestation1]);
         $this->getDbService()->pushMockResult([]);
-        TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
+        OLD_TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
 
         $this->assertStringContainsString('FROM basestation_aircrafts', $this->getDbService()->queryList[1]);
         $expectedRegExp = '/\{"acdetails":\[\{';
@@ -92,7 +92,7 @@ class TrafficDetailsTest extends TestCase {
         $this->getDbService()->pushMockResult([]);
         $this->getDbService()->pushMockResult([]);
         $this->getDbService()->pushMockResult([$this->mockResultIcaoAcTypes1]);
-        TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
+        OLD_TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
 
         $this->assertStringContainsString('FROM icao_aircraft_type', $this->getDbService()->queryList[2]);
         $expectedRegExp = '/\{"acdetails":\[\{';
@@ -113,7 +113,7 @@ class TrafficDetailsTest extends TestCase {
         $this->getDbService()->pushMockResult([$this->mockResultLfrCh1]);
         $this->getDbService()->pushMockResult([$this->mockResultBasestation1]);
         $this->getDbService()->pushMockResult([$this->mockResultIcaoAcTypes1]);
-        TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
+        OLD_TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
 
         $this->assertStringContainsString('FROM icao_aircraft_type', $this->getDbService()->queryList[2]);
         $expectedRegExp = '/\{"acdetails":\[\{';
@@ -134,7 +134,7 @@ class TrafficDetailsTest extends TestCase {
         $this->getDbService()->pushMockResult([]);
         $this->getDbService()->pushMockResult([$this->mockResultBasestation1]);
         $this->getDbService()->pushMockResult([$this->mockResultIcaoAcTypes1]);
-        TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
+        OLD_TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
 
         $expectedRegExp = '/\{"acdetails":\[\{';
         $expectedRegExp .= '"icao24":"' . $this->mockResultBasestation1['mode_s'] . '",';
@@ -154,7 +154,7 @@ class TrafficDetailsTest extends TestCase {
         $this->getDbService()->pushMockResult([]);
         $this->getDbService()->pushMockResult([]);
         $this->getDbService()->pushMockResult([$this->mockResultIcaoAcTypes2, $this->mockResultIcaoAcTypes3]);
-        TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
+        OLD_TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
 
         $expectedRegExp = '/\{"acdetails":\[\{';
         $expectedRegExp .= '"icao24":"C0FFEE",';
@@ -174,7 +174,7 @@ class TrafficDetailsTest extends TestCase {
         $this->getDbService()->pushMockResult([]);
         $this->getDbService()->pushMockResult([]);
         $this->getDbService()->pushMockResult([$this->mockResultIcaoAcTypes2, $this->mockResultIcaoAcTypes3, $this->mockResultIcaoAcTypes4]);
-        TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
+        OLD_TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
 
         $expectedRegExp = '/\{"acdetails":\[\{';
         $expectedRegExp .= '"icao24":"C0FFEE",';
@@ -194,7 +194,7 @@ class TrafficDetailsTest extends TestCase {
         $this->getDbService()->pushMockResult([]);
         $this->getDbService()->pushMockResult([]);
         $this->getDbService()->pushMockResult([]);
-        TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
+        OLD_TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
 
         $expectedRegExp = '/\{"acdetails":\[\{';
         $expectedRegExp .= '"icao24":"C0FFEE",';
@@ -214,7 +214,7 @@ class TrafficDetailsTest extends TestCase {
         $this->getDbService()->pushMockResult([]);
         $this->getDbService()->pushMockResult([$this->mockResultBasestation2]);
         $this->getDbService()->pushMockResult([]);
-        TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
+        OLD_TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
 
         $expectedRegExp = '/\{"acdetails":\[\{';
         $expectedRegExp .= '"icao24":"' . $this->mockResultBasestation2['mode_s'] . '",';
@@ -234,7 +234,7 @@ class TrafficDetailsTest extends TestCase {
         $this->getDbService()->pushMockResult([]);
         $this->getDbService()->pushMockResult([]);
         $this->getDbService()->pushMockResult([]);
-        TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
+        OLD_TrafficDetails::getDetails($this->args, $this->getDbService(), $this->getHttpService());
 
         $expectedRegExp = '/\{"acdetails":\[\{';
         $expectedRegExp .= '"icao24":"C0FFEE",';

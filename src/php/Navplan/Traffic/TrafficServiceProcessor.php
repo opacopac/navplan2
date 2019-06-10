@@ -4,11 +4,14 @@ namespace Navplan\Traffic;
 
 use InvalidArgumentException;
 use Navplan\Shared\RequestResponseHelper;
+use Navplan\Traffic\Rest\RestReadTrafficDetailRequest;
 use Navplan\Traffic\Rest\RestReadTrafficRequest;
+use Navplan\Traffic\Rest\RestTrafficDetailListResponse;
 use Navplan\Traffic\Rest\RestTrafficListResponse;
 use Navplan\Traffic\UseCase\ITrafficConfig;
 use Navplan\Traffic\UseCase\ReadAdsbexTraffic;
 use Navplan\Traffic\UseCase\ReadOgnTraffic;
+use Navplan\Traffic\UseCase\ReadTrafficDetails;
 
 
 class TrafficServiceProcessor {
@@ -42,7 +45,9 @@ class TrafficServiceProcessor {
                 $action = isset($postVars["action"]) ? $postVars["action"] : NULL;
                 switch ($action) {
                     case self::ACTION_READ_AC_DETAILS:
-                        // TrafficDetails::getDetails($postVars, $dbService, $httpService);
+                        $request = RestReadTrafficDetailRequest::fromRest($postVars);
+                        $response = (new ReadTrafficDetails($config))->readDetails($request);
+                        self::sendTrafficDetailListResponse($response, $config);
                         break;
                     default:
                         self::throwInvalidArgumentError();
@@ -56,6 +61,13 @@ class TrafficServiceProcessor {
 
     private static function sendTrafficListResponse(array $trafficList, ITrafficConfig $config) {
         $resultArray = RestTrafficListResponse::toRest($trafficList);
+        $httpService = $config->getSystemServiceFactory()->getHttpService();
+        RequestResponseHelper::sendArrayResponse($httpService, $resultArray);
+    }
+
+
+    private static function sendTrafficDetailListResponse(array $trafficList, ITrafficConfig $config) {
+        $resultArray = RestTrafficDetailListResponse::toRest($trafficList);
         $httpService = $config->getSystemServiceFactory()->getHttpService();
         RequestResponseHelper::sendArrayResponse($httpService, $resultArray);
     }

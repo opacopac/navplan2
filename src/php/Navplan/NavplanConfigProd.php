@@ -30,10 +30,12 @@ use Navplan\Terrain\FileRepo\FileTerrainRepo;
 use Navplan\Terrain\UseCase\ITerrainConfig;
 use Navplan\Terrain\UseCase\ITerrainRepo;
 use Navplan\Traffic\AdsbexGateway\AdsbexGateway;
+use Navplan\Traffic\DbRepo\DbTrafficRepo;
 use Navplan\Traffic\OgnGateway\OgnGateway;
 use Navplan\Traffic\UseCase\IAdsbexGateway;
 use Navplan\Traffic\UseCase\IOgnGateway;
 use Navplan\Traffic\UseCase\ITrafficConfig;
+use Navplan\Traffic\UseCase\ITrafficRepo;
 use Navplan\User\DbRepo\DbUserRepoFactory;
 use Navplan\User\UseCase\IUserConfig;
 use Navplan\User\UseCase\IUserRepoFactory;
@@ -50,6 +52,7 @@ class NavplanConfigProd implements ISystemConfig, ITerrainConfig, IUserConfig, I
     private $terrainRepo;
     private $adsbexGateway;
     private $ognGateway;
+    private $trafficRepo;
 
 
     public function __construct() {
@@ -64,6 +67,7 @@ class NavplanConfigProd implements ISystemConfig, ITerrainConfig, IUserConfig, I
         $this->terrainRepo = new FileTerrainRepo($systemConfig->getSystemServiceFactory()->getFileService());
         $this->adsbexGateway = new AdsbexGateway($systemConfig->getSystemServiceFactory()->getFileService());
         $this->ognGateway = new OgnGateway($systemConfig->getSystemServiceFactory());
+        $this->trafficRepo = new DbTrafficRepo($dbConfig->getDbService());
     }
     
     
@@ -109,5 +113,10 @@ class NavplanConfigProd implements ISystemConfig, ITerrainConfig, IUserConfig, I
     
     public function getOgnGateway(): IOgnGateway {
         return $this->ognGateway;
+    }
+
+
+    public function getTrafficRepo(): ITrafficRepo {
+        return $this->trafficRepo;
     }
 }

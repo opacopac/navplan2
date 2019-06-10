@@ -20,6 +20,7 @@ use Navplan\Terrain\UseCase\ITerrainRepo;
 use Navplan\Traffic\UseCase\ITrafficConfig;
 use Navplan\Traffic\UseCase\IAdsbexGateway;
 use Navplan\Traffic\UseCase\IOgnGateway;
+use Navplan\Traffic\UseCase\ITrafficRepo;
 use Navplan\User\UseCase\IUserConfig;
 use Navplan\User\UseCase\IUserRepoFactory;
 use NavplanTest\Flightroute\Mocks\MockFlightrouteRepo;
@@ -30,6 +31,7 @@ use NavplanTest\System\Mock\MockSystemServiceFactory;
 use NavplanTest\Terrain\Mocks\MockTerrainRepo;
 use NavplanTest\Traffic\Mocks\MockAdsbexGateway;
 use NavplanTest\Traffic\Mocks\MockOgnGateway;
+use NavplanTest\Traffic\Mocks\MockTrafficRepo;
 use NavplanTest\User\Mocks\MockUserRepoFactory;
 
 
@@ -44,6 +46,7 @@ class MockNavplanConfig implements ISystemConfig, ITerrainConfig, IUserConfig, I
     private $terrainRepo;
     private $adsbexGateway;
     private $ognGateway;
+    private $trafficRepo;
 
 
     public function __construct() {
@@ -56,6 +59,7 @@ class MockNavplanConfig implements ISystemConfig, ITerrainConfig, IUserConfig, I
         $this->terrainRepo = new MockTerrainRepo();
         $this->adsbexGateway = new MockAdsbexGateway();
         $this->ognGateway = new MockOgnGateway();
+        $this->trafficRepo = new MockTrafficRepo();
     }
 
 
@@ -101,5 +105,10 @@ class MockNavplanConfig implements ISystemConfig, ITerrainConfig, IUserConfig, I
 
     public function getOgnGateway(): IOgnGateway {
         return $this->ognGateway;
+    }
+
+
+    public function getTrafficRepo(): ITrafficRepo {
+        return $this->trafficRepo;
     }
 }

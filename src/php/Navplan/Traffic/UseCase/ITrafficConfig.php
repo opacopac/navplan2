@@ -12,4 +12,6 @@ interface ITrafficConfig extends ISystemConfig {
     public function getAdsbexGateway(): IAdsbexGateway;
 
     public function getOgnGateway(): IOgnGateway;
+
+    public function getTrafficRepo(): ITrafficRepo;
 }

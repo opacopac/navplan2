@@ -8,9 +8,9 @@ use Navplan\Geometry\Domain\AltitudeUnit;
 
 
 class RestAltitude {
-    public static function toRest(Altitude $alt): array {
+    public static function toRest(Altitude $alt, ?int $roundToDigits = NULL): array {
         return [
-            $alt->value,
+            $roundToDigits === NULL ? $alt->value : round($alt->value, $roundToDigits),
             AltitudeUnit::toString($alt->unit),
             AltitudeReference::toString($alt->reference)
         ];

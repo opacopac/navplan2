@@ -27,4 +27,19 @@ class DummyOgnTrafficPosition2 {
             Timestamp::fromMs(1560075378000)
         );
     }
+
+
+    public static function createRest(): array {
+        return array(
+            "position" => array(
+                "pos" => [7.730933, 47.177383],
+                "alt" => [549.0, "M", "MSL"],
+                "time" => 1560075378000
+            ),
+            "source" => "OGN",
+            "method" => "FLARM",
+            "receiver" => "LSPL",
+            "timestamp" => 1560075378000
+        );
+    }
 }

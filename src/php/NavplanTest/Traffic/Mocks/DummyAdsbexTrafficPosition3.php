@@ -27,4 +27,19 @@ class DummyAdsbexTrafficPosition3 {
             Timestamp::fromMs(1560000523926)
         );
     }
+
+
+    public static function createRest(): array {
+        return array(
+            "position" => array(
+                "pos" => [7.100327, 46.645947],
+                "alt" => [24263, "FT", "MSL"],
+                "time" => 1560000518739
+            ),
+            "source" => "ADSBX2",
+            "method" => "ADSB",
+            "receiver" => "ADSBExchange (ADS-B)",
+            "timestamp" => 1560000523926
+        );
+    }
 }

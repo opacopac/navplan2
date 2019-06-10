@@ -9,7 +9,7 @@ use Navplan\Shared\RequestResponseHelper;
 use Navplan\Shared\StringNumberService;
 
 
-class TrafficDetails {
+class OLD_TrafficDetails {
     public static function getDetails(array $args, IDbService $dbService, IHttpService $httpService) {
         $dbService->openDb();
 
