@@ -5,14 +5,17 @@ namespace Navplan\Meteo\DbRepo;
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Db\UseCase\IDbService;
 use Navplan\Meteo\UseCase\IMeteoRepo;
+use Navplan\System\UseCase\ISystemServiceFactory;
 
 
 class DbMeteoRepo implements IMeteoRepo {
     private $dbService;
+    private $timeService;
 
 
-    public function __construct(IDbService $dbService) {
+    public function __construct(IDbService $dbService, ISystemServiceFactory $systemServiceFactory) {
         $this->dbService = $dbService;
+        $this->timeService = $systemServiceFactory->getTimeService();
     }
 
 
@@ -40,7 +43,7 @@ class DbMeteoRepo implements IMeteoRepo {
 
         $measurementList = [];
         while ($rs = $result->fetch_assoc()) {
-            $measurementList[] = DbSmaMeasurement::fromDbResult($rs);
+            $measurementList[] = DbSmaMeasurement::fromDbResult($rs, $this->timeService);
         }
 
         return $measurementList;

@@ -7,13 +7,14 @@ use Navplan\Geometry\Domain\Timestamp;
 use Navplan\Geometry\Domain\TimeUnit;
 use Navplan\Meteo\Domain\SmaMeasurement;
 use Navplan\Shared\StringNumberService;
+use Navplan\System\UseCase\ITimeService;
 
 
 class DbSmaMeasurement {
-    public static function fromDbResult(array $rs): SmaMeasurement {
+    public static function fromDbResult(array $rs, ITimeService $timeService): SmaMeasurement {
         return new SmaMeasurement(
             DbSmaStation::fromDbResult($rs),
-            self::getTimestamp($rs),
+            self::getTimestamp($rs, $timeService),
             StringNumberService::parseFloatOrNull($rs, "temp_c"),
             self::getSunTime($rs),
             StringNumberService::parseFloatOrNull($rs, "precip_mm"),
@@ -26,9 +27,9 @@ class DbSmaMeasurement {
     }
 
 
-    private static function getTimestamp(array $rs): Timestamp {
+    private static function getTimestamp(array $rs, ITimeService $timeService): Timestamp {
         return Timestamp::fromS(
-            strtotime($rs["measurement_time"] . " UTC")
+            $timeService->strtotime($rs["measurement_time"] . " UTC")
         );
     }
 

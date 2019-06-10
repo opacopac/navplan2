@@ -81,7 +81,7 @@ class NavplanConfigProd implements ISystemConfig, IDbConfig, ITerrainConfig, IUs
         $this->adsbexGateway = new AdsbexGateway($this->systemServiceFactory->getFileService());
         $this->ognGateway = new OgnGateway($this->systemServiceFactory);
         $this->trafficRepo = new DbTrafficRepo($this->dbService);
-        $this->meteoRepo = new DbMeteoRepo($this->dbService);
+        $this->meteoRepo = new DbMeteoRepo($this->dbService, $this->systemServiceFactory);
     }
     
     
