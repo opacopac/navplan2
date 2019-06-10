@@ -8,12 +8,14 @@ use InvalidArgumentException;
 class TimeUnit {
     const S = 1;
     const MS = 2;
+    const MIN = 3;
 
 
     public static function fromString(string $timeUnitString): int {
         switch(trim(strtoupper($timeUnitString))) {
             case 'S': return self::S;
             case 'MS': return self::MS;
+            case 'MIN': return self::MIN;
             default: throw new InvalidArgumentException('unknown time unit ' . $timeUnitString);
         }
     }
@@ -23,6 +25,7 @@ class TimeUnit {
         switch($timeUnit) {
             case self::S: return 'S';
             case self::MS: return 'MS';
+            case self::MIN: return 'MIN';
             default: throw new InvalidArgumentException('unknown time unit: ' . $timeUnit);
         }
     }

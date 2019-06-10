@@ -17,6 +17,9 @@ use Navplan\Flightroute\UseCase\IFlightrouteRepo;
 use Navplan\Geoname\DbRepo\DbGeonameRepo;
 use Navplan\Geoname\UseCase\IGeonameConfig;
 use Navplan\Geoname\UseCase\IGeonameRepo;
+use Navplan\Meteo\DbRepo\DbMeteoRepo;
+use Navplan\Meteo\UseCase\IMeteoConfig;
+use Navplan\Meteo\UseCase\IMeteoRepo;
 use Navplan\Notam\DbRepo\DbNotamRepo;
 use Navplan\Notam\UseCase\INotamConfig;
 use Navplan\Notam\UseCase\INotamRepo;
@@ -44,7 +47,7 @@ use Navplan\User\UseCase\TokenService;
 
 
 class NavplanConfigProd implements ISystemConfig, IDbConfig, ITerrainConfig, IUserConfig, IFlightrouteConfig,
-    IGeonameConfig, INotamConfig, IOpenAipConfig, ISearchConfig, ITrafficConfig
+    IGeonameConfig, INotamConfig, IOpenAipConfig, ISearchConfig, ITrafficConfig, IMeteoConfig
 {
     private $systemServiceFactory;
     private $dbService;
@@ -58,6 +61,7 @@ class NavplanConfigProd implements ISystemConfig, IDbConfig, ITerrainConfig, IUs
     private $adsbexGateway;
     private $ognGateway;
     private $trafficRepo;
+    private $meteoRepo;
 
 
     public function __construct() {
@@ -77,6 +81,7 @@ class NavplanConfigProd implements ISystemConfig, IDbConfig, ITerrainConfig, IUs
         $this->adsbexGateway = new AdsbexGateway($this->systemServiceFactory->getFileService());
         $this->ognGateway = new OgnGateway($this->systemServiceFactory);
         $this->trafficRepo = new DbTrafficRepo($this->dbService);
+        $this->meteoRepo = new DbMeteoRepo($this->dbService);
     }
     
     
@@ -136,5 +141,10 @@ class NavplanConfigProd implements ISystemConfig, IDbConfig, ITerrainConfig, IUs
 
     public function getTrafficRepo(): ITrafficRepo {
         return $this->trafficRepo;
+    }
+
+
+    public function getMeteoRepo(): IMeteoRepo {
+        return $this->meteoRepo;
     }
 }
