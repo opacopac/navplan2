@@ -2,6 +2,8 @@
 
 namespace Navplan\Terrain;
 
+require_once __DIR__ . "/../../Autoloader.php";
+
 use Navplan\NavplanConfigProd;
 
 

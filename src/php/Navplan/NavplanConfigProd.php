@@ -6,8 +6,6 @@ namespace Navplan;
 // error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
-require_once __DIR__ . "/../Autoloader.php";
-
 use Navplan\Db\MySqlDb\MySqlDbService;
 use Navplan\Db\UseCase\IDbConfig;
 use Navplan\Db\UseCase\IDbService;
@@ -26,7 +24,7 @@ use Navplan\Notam\UseCase\INotamRepo;
 use Navplan\OpenAip\DbRepo\DbOpenAipRepoFactory;
 use Navplan\OpenAip\UseCase\IOpenAipConfig;
 use Navplan\Search\UseCase\ISearchConfig;
-use Navplan\System\SystemServiceFactory;
+use Navplan\System\Posix\SystemServiceFactory;
 use Navplan\OpenAip\UseCase\IOpenAipRepoFactory;
 use Navplan\System\UseCase\ISystemConfig;
 use Navplan\System\UseCase\ISystemServiceFactory;
@@ -83,8 +81,15 @@ class NavplanConfigProd implements ISystemConfig, IDbConfig, ITerrainConfig, IUs
         $this->trafficRepo = new DbTrafficRepo($this->dbService);
         $this->meteoRepo = new DbMeteoRepo($this->dbService, $this->systemServiceFactory);
     }
-    
-    
+
+
+    public function __destruct() {
+        if ($this->dbService->isOpen()) {
+            $this->dbService->closeDb();
+        }
+    }
+
+
     public function getSystemServiceFactory(): ISystemServiceFactory {
         return $this->systemServiceFactory;
     }
@@ -108,6 +113,7 @@ class NavplanConfigProd implements ISystemConfig, IDbConfig, ITerrainConfig, IUs
     public function getTokenService(): TokenService {
         return $this->tokenService;
     }
+
 
     public function getGeonameRepo(): IGeonameRepo {
         return $this->geonameRepo;

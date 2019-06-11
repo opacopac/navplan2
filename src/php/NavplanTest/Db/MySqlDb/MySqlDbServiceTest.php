@@ -78,11 +78,13 @@ class MySqlDbServiceTest extends TestCase {
     }
 
 
-    public function test_escapeString_throw_error_if_db_closed() {
+    public function test_escapeString_auto_open_if_db_closed() {
         $this->getDbService()->openDb();
         $this->getDbService()->closeDb();
-        $this->expectException(DbException::class);
-        $this->getDbService()->escapeString("abc");
+
+        $result1 = $this->getDbService()->escapeString("abc");
+
+        $this->assertEquals("abc", $result1);
     }
 
     // endregion

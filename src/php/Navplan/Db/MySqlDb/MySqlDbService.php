@@ -16,12 +16,8 @@ class MySqlDbService implements IDbService {
     private $db_user;
     private $db_pw;
     private $db_name;
+    /* @var $connection mysqli */
     private $connection;
-
-
-    private function getConnection(): mysqli {
-        return $this->connection;
-    }
 
 
     public static function getInstance(): MySqlDbService {
@@ -72,7 +68,7 @@ class MySqlDbService implements IDbService {
         }
 
         try {
-            $this->getConnection()->close();
+            $this->connection->close();
             $this->connection = NULL;
         } catch (Exception $ex) {
             throw new DbException('error closing DB', $ex->getMessage());
@@ -86,11 +82,9 @@ class MySqlDbService implements IDbService {
      * @throws DbException
      */
     public function escapeString(string $escapeString): string {
-        if ($this->connection === NULL) {
-            throw new DbException('error escaping string', 'no db connection');
-        }
+        $this->autoOpen();
 
-        return $this->getConnection()->real_escape_string($escapeString);
+        return $this->connection->real_escape_string($escapeString);
     }
 
 
@@ -102,12 +96,14 @@ class MySqlDbService implements IDbService {
      * @throws DbException
      */
     public function execSingleResultQuery(string $query, bool $allowZeroResults = true, string $errorMessage = "error executing single result query"): IDbResult {
-        $result = $this->getConnection()->query($query);
+        $this->autoOpen();
+
+        $result = $this->connection->query($query);
         if ($result === FALSE
             || $result->num_rows > 1
             || (!$allowZeroResults && $result->num_rows == 0)
         ) {
-            throw new DbException($errorMessage, $this->getConnection()->error, $query);
+            throw new DbException($errorMessage, $this->connection->error, $query);
         }
 
         return new MySqlDbResult($result);
@@ -121,9 +117,11 @@ class MySqlDbService implements IDbService {
      * @throws DbException
      */
     public function execMultiResultQuery(string $query, string $errorMessage = "error executing multi result query"): IDbResult {
-        $result = $this->getConnection()->query($query);
+        $this->autoOpen();
+
+        $result = $this->connection->query($query);
         if ($result === FALSE) {
-            throw new DbException($errorMessage, $this->getConnection()->error, $query);
+            throw new DbException($errorMessage, $this->connection->error, $query);
         }
 
         return new MySqlDbResult($result);
@@ -137,15 +135,35 @@ class MySqlDbService implements IDbService {
      * @throws DbException
      */
     public function execCUDQuery(string $query, string $errorMessage = "error executing query"): bool {
-        $result = $this->getConnection()->query($query);
+        $this->autoOpen();
+
+        $result = $this->connection->query($query);
         if ($result === FALSE)
-            throw new DbException($errorMessage, $this->getConnection()->error, $query);
+            throw new DbException($errorMessage, $this->connection->error, $query);
 
         return $result;
     }
 
 
+    /**
+     * @return int
+     * @throws DbException
+     */
     public function getInsertId(): int {
-        return intval($this->getConnection()->insert_id);
+        if ($this->connection === NULL) {
+            throw new DbException('error getting insert id', 'no db connection');
+        }
+
+        return intval($this->connection->insert_id);
+    }
+
+
+    /**
+     * @throws DbException
+     */
+    private function autoOpen() {
+        if (!$this->isOpen()) {
+            $this->openDb();
+        }
     }
 }

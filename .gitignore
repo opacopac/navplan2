@@ -60,4 +60,6 @@ navplan2.iml
 *.grib2
 
 # 3rd party php
+/vendor
 /src/php/vendor
+composer.lock
