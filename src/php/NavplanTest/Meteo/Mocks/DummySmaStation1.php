@@ -20,13 +20,12 @@ class DummySmaStation1 {
     }
 
 
-    public static function createDbResult(): array {
+    public static function createRest(): array {
         return array(
-            "station_id" => "BER",
-            "station_name" => "Bern / Zollikofen",
-            "station_lat" => 46.9907,
-            "station_lon" => 7.464,
-            "station_alt_m" => 552
+            "id" => "BER",
+            "name" => "Bern / Zollikofen",
+            "pos" => [7.464, 46.9907],
+            "alt" => [552, "M", "MSL"]
         );
     }
 }

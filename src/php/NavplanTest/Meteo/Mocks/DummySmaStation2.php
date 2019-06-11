@@ -20,13 +20,12 @@ class DummySmaStation2 {
     }
 
 
-    public static function createDbResult(): array {
+    public static function createRest(): array {
         return array(
-            "station_id" => "BEZ",
-            "station_name" => "Beznau",
-            "station_lat" => 47.5572,
-            "station_lon" => 8.23325,
-            "station_alt_m" => 325
+            "id" => "BEZ",
+            "name" => "Beznau",
+            "pos" => [8.23325, 47.5572],
+            "alt" => [325, "M", "MSL"]
         );
     }
 }

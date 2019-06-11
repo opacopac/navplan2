@@ -8,6 +8,8 @@ use Navplan\Flightroute\UseCase\IFlightrouteConfig;
 use Navplan\Flightroute\UseCase\IFlightrouteRepo;
 use Navplan\Geoname\UseCase\IGeonameConfig;
 use Navplan\Geoname\UseCase\IGeonameRepo;
+use Navplan\Meteo\UseCase\IMeteoConfig;
+use Navplan\Meteo\UseCase\IMeteoRepo;
 use Navplan\Notam\UseCase\INotamConfig;
 use Navplan\Notam\UseCase\INotamRepo;
 use Navplan\OpenAip\UseCase\IOpenAipConfig;
@@ -27,6 +29,7 @@ use Navplan\User\UseCase\TokenService;
 use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\Flightroute\Mocks\MockFlightrouteRepo;
 use NavplanTest\Geoname\Mocks\MockGeonameRepo;
+use NavplanTest\Meteo\Mocks\MockMeteoRepo;
 use NavplanTest\Notam\Mocks\MockNotamRepo;
 use NavplanTest\OpenAip\Mocks\MockOpenAipRepoFactory;
 use NavplanTest\System\Mock\MockSystemServiceFactory;
@@ -38,7 +41,7 @@ use NavplanTest\User\Mocks\MockUserRepoFactory;
 
 
 class MockNavplanConfig implements ISystemConfig, IDbConfig, ITerrainConfig, IUserConfig, IFlightrouteConfig, IGeonameConfig,
-    INotamConfig, IOpenAipConfig, ISearchConfig, ITrafficConfig {
+    INotamConfig, IOpenAipConfig, ISearchConfig, ITrafficConfig, IMeteoConfig {
     private $systemServiceFactory;
     private $dbService;
     private $flightrouteRepo;
@@ -51,6 +54,7 @@ class MockNavplanConfig implements ISystemConfig, IDbConfig, ITerrainConfig, IUs
     private $adsbexGateway;
     private $ognGateway;
     private $trafficRepo;
+    private $meteoRepo;
 
 
     public function __construct() {
@@ -69,6 +73,7 @@ class MockNavplanConfig implements ISystemConfig, IDbConfig, ITerrainConfig, IUs
         $this->adsbexGateway = new MockAdsbexGateway();
         $this->ognGateway = new MockOgnGateway();
         $this->trafficRepo = new MockTrafficRepo();
+        $this->meteoRepo = new MockMeteoRepo();
     }
 
 
@@ -129,5 +134,10 @@ class MockNavplanConfig implements ISystemConfig, IDbConfig, ITerrainConfig, IUs
 
     public function getTrafficRepo(): ITrafficRepo {
         return $this->trafficRepo;
+    }
+
+
+    public function getMeteoRepo(): IMeteoRepo {
+        return $this->meteoRepo;
     }
 }
