@@ -2,6 +2,8 @@
 
 namespace NavplanTest\OpenAip\Mocks;
 
+use Navplan\Geometry\Domain\Length;
+use Navplan\Geometry\Domain\LengthUnit;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\Domain\ReportingPoint;
 
@@ -16,8 +18,8 @@ class DummyReportingPoint1 {
             false,
             true,
             true,
-            3500,
-            4500,
+            new Length(3500, LengthUnit::FT),
+            new Length(4500, LengthUnit::FT),
             new Position2d(7.5475,46.9458),
             NULL
         );
@@ -38,6 +40,23 @@ class DummyReportingPoint1 {
             "latitude" =>46.9458,
             "longitude" => 7.5475,
             "polygon" => ""
+        );
+    }
+
+
+    public static function createRest(): array {
+        return array(
+            "id" => 3,
+            "type" => "POINT",
+            "airport_icao" => "LSZB",
+            "name" => "E1",
+            "heli" => FALSE,
+            "inbd_comp" => TRUE,
+            "outbd_comp" => TRUE,
+            "alt_min" => [3500, "FT"],
+            "alt_max" => [4500, "FT"],
+            "pos" => [7.5475, 46.9458],
+            "polygon" => NULL
         );
     }
 }

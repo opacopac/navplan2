@@ -12,7 +12,7 @@ class RestFlightrouteResponseTest extends TestCase {
     public function test_toArray() {
         $route1 = DummyFlightroute1::create();
         $response = new FlightrouteResponse($route1);
-        $responseRest = RestFlightrouteResponse::toArray($response);
+        $responseRest = RestFlightrouteResponse::toRest($response);
 
         $this->assertNotNull($responseRest["navplan"]);
     }

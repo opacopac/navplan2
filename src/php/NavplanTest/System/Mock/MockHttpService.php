@@ -2,20 +2,25 @@
 
 namespace NavplanTest\System\Mock;
 
+use Navplan\System\Posix\HttpService;
 use Navplan\System\UseCase\IHttpService;
 
 
-class MockHttpService implements IHttpService {
+class MockHttpService extends HttpService implements IHttpService {
     public $headerList = [];
     public $body = "";
 
 
-    public function header(string $header) {
+    public function __construct() {
+    }
+
+
+    public function sendHeader(string $header) {
         array_push($this->headerList, $header);
     }
 
 
-    public function payload(string $data) {
+    public function sendPayload(string $data) {
         $this->body .= $data;
     }
 }

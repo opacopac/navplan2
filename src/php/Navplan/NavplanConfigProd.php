@@ -5,6 +5,7 @@ namespace Navplan;
 // show errors on web page
 // error_reporting(E_ALL);
 ini_set('display_errors', '1');
+header("Access-Control-Allow-Origin: *"); // TODO: remove for PROD
 
 use Navplan\Db\MySqlDb\MySqlDbService;
 use Navplan\Db\UseCase\IDbConfig;

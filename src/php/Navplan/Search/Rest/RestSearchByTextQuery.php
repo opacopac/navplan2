@@ -3,7 +3,7 @@
 namespace Navplan\Search\Rest;
 
 use Navplan\Search\Domain\SearchByTextQuery;
-use Navplan\Shared\StringNumberService;
+use Navplan\Shared\StringNumberHelper;
 
 
 class RestSearchByTextQuery {
@@ -13,10 +13,10 @@ class RestSearchByTextQuery {
 
 
     public static function fromArgs(array $args): SearchByTextQuery {
-        $searchItems = RestSearchItemType::fromString(StringNumberService::parseStringOrError($args, self::ARG_SEARCH_ITEMS));
-        $searchText = StringNumberService::parseStringOrError($args, self::ARG_SEARCH_TEXT);
-        StringNumberService::checkString($searchText, 1, 100);
-        $token = StringNumberService::parseStringOrNull($args, self::ARG_TOKEN);
+        $searchItems = RestSearchItemType::fromString(StringNumberHelper::parseStringOrError($args, self::ARG_SEARCH_ITEMS));
+        $searchText = StringNumberHelper::parseStringOrError($args, self::ARG_SEARCH_TEXT);
+        StringNumberHelper::checkString($searchText, 1, 100);
+        $token = StringNumberHelper::parseStringOrNull($args, self::ARG_TOKEN);
 
         return new SearchByTextQuery(
             $searchItems,

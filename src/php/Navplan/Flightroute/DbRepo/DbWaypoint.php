@@ -6,7 +6,7 @@ use Navplan\Db\UseCase\IDbService;
 use Navplan\Db\MySqlDb\DbHelper;
 use Navplan\Flightroute\Domain\Waypoint;
 use Navplan\Geometry\Domain\Position2d;
-use Navplan\Shared\StringNumberService;
+use Navplan\Shared\StringNumberHelper;
 
 
 class DbWaypoint {
@@ -21,16 +21,16 @@ class DbWaypoint {
             $rs["ismaxalt"] === 1,
             $rs["isaltatlegstart"] === 1,
             $rs["remark"],
-            StringNumberService::parseStringOrNull($rs, "supp_info"),
+            StringNumberHelper::parseStringOrNull($rs, "supp_info"),
             self::getPositionFromDbResult($rs),
-            StringNumberService::parseStringOrNull($rs, "airport_icao"),
+            StringNumberHelper::parseStringOrNull($rs, "airport_icao"),
         $rs["is_alternate"] === 1
         );
     }
 
 
     private static function getPositionFromDbResult(array $rs): ?Position2d {
-        if (StringNumberService::isNullOrEmpty($rs, "latitude") || StringNumberService::isNullOrEmpty($rs, "longitude")) {
+        if (StringNumberHelper::isNullOrEmpty($rs, "latitude") || StringNumberHelper::isNullOrEmpty($rs, "longitude")) {
             return NULL;
         }
 

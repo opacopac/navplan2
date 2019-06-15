@@ -13,7 +13,7 @@ use Navplan\Notam\Domain\NotamGeometry;
 
 
 class RestNotamGeometry {
-    public static function toArray(NotamGeometry $notamGeometry): array {
+    public static function toRest(NotamGeometry $notamGeometry): array {
         return array(
             self::getShapeType($notamGeometry->shape) => self::getShape($notamGeometry->shape),
             "alt_bottom" => $notamGeometry->bottomAltitude ? RestAltitude::toRest($notamGeometry->bottomAltitude) : NULL,

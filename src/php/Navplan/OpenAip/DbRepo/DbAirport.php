@@ -2,9 +2,10 @@
 
 namespace Navplan\OpenAip\DbRepo;
 
+use Navplan\Geometry\Domain\Length;
+use Navplan\Geometry\Domain\LengthUnit;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\Domain\Airport;
-use Navplan\OpenAip\Domain\Webcam;
 
 
 class DbAirport {
@@ -13,24 +14,15 @@ class DbAirport {
             intval($rs["id"]),
             $rs["type"],
             $rs["name"],
-            $rs["icao"],
+            $rs["icao"] !== "" ? $rs["icao"] : NULL,
             $rs["country"],
             new Position2d(floatval($rs["longitude"]), floatval($rs["latitude"])),
-            floatval($rs["elevation"]),
+            new Length(floatval($rs["elevation"]), LengthUnit::M),
             [],
             [],
             [],
             [],
             []
-        );
-    }
-
-
-    private function readAirportWebcamFromResult(array $rs): Webcam {
-        return new Webcam(
-            $rs["name"],
-            $rs["url"],
-            NULL
         );
     }
 }

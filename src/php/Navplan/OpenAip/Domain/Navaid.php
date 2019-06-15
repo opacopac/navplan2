@@ -2,6 +2,7 @@
 
 namespace Navplan\OpenAip\Domain;
 
+use Navplan\Geometry\Domain\Length;
 use Navplan\Geometry\Domain\Position2d;
 
 
@@ -24,7 +25,7 @@ class Navaid {
         string $kuerzel,
         string $name,
         Position2d $position,
-        float $elevation,
+        Length $elevation,
         string $frequency,
         string $unit,
         float $declination,

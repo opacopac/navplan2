@@ -7,9 +7,9 @@ use Navplan\Geometry\Domain\LengthUnit;
 
 
 class RestLength {
-    public static function toRest(Length $length): array {
+    public static function toRest(Length $length, ?int $roundToDigits = NULL): array {
         return [
-            $length->value,
+            $roundToDigits === NULL ? $length->value : round($length->value, $roundToDigits),
             LengthUnit::toString($length->unit),
         ];
     }

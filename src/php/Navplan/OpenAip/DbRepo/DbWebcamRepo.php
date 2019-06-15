@@ -7,7 +7,7 @@ use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\Domain\Webcam;
 use Navplan\OpenAip\UseCase\IWebcamRepo;
 use Navplan\Db\UseCase\IDbService;
-use Navplan\Shared\StringNumberService;
+use Navplan\Shared\StringNumberHelper;
 
 
 class DbWebcamRepo implements IWebcamRepo {
@@ -52,7 +52,7 @@ class DbWebcamRepo implements IWebcamRepo {
 
 
     private function getPosition(array $rs): ?Position2d {
-        if (StringNumberService::isNullOrEmpty($rs, "latitude") || StringNumberService::isNullOrEmpty($rs, "longitude")) {
+        if (StringNumberHelper::isNullOrEmpty($rs, "latitude") || StringNumberHelper::isNullOrEmpty($rs, "longitude")) {
             return NULL;
         }
 

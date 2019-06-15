@@ -4,27 +4,27 @@ namespace Navplan\Flightroute\Rest;
 
 use Navplan\Flightroute\Domain\Waypoint;
 use Navplan\Geometry\Domain\Position2d;
-use Navplan\Shared\StringNumberService;
+use Navplan\Shared\StringNumberHelper;
 
 
 class RestWaypoint {
     public static function fromArgs(array $args): Waypoint {
         return new Waypoint(
-            StringNumberService::parseStringOrError($args, "type"),
-            StringNumberService::parseStringOrError($args, "freq"),
-            StringNumberService::parseStringOrError($args, "callsign"),
-            StringNumberService::parseStringOrError($args, "checkpoint"),
-            StringNumberService::parseStringOrError($args, "alt"),
-            StringNumberService::parseBoolOrError($args, "isminalt"),
-            StringNumberService::parseBoolOrError($args, "ismaxalt"),
-            StringNumberService::parseBoolOrError($args, "isaltatlegstart"),
-            StringNumberService::parseStringOrError($args, "remark"),
-            StringNumberService::parseStringOrNull($args, "supp_info"),
+            StringNumberHelper::parseStringOrError($args, "type"),
+            StringNumberHelper::parseStringOrError($args, "freq"),
+            StringNumberHelper::parseStringOrError($args, "callsign"),
+            StringNumberHelper::parseStringOrError($args, "checkpoint"),
+            StringNumberHelper::parseStringOrError($args, "alt"),
+            StringNumberHelper::parseBoolOrError($args, "isminalt"),
+            StringNumberHelper::parseBoolOrError($args, "ismaxalt"),
+            StringNumberHelper::parseBoolOrError($args, "isaltatlegstart"),
+            StringNumberHelper::parseStringOrError($args, "remark"),
+            StringNumberHelper::parseStringOrNull($args, "supp_info"),
             new Position2d(
-                StringNumberService::parseFloatOrError($args, "longitude"),
-                StringNumberService::parseFloatOrError($args, "latitude")
+                StringNumberHelper::parseFloatOrError($args, "longitude"),
+                StringNumberHelper::parseFloatOrError($args, "latitude")
             ),
-            StringNumberService::parseStringOrNull($args, "airport_icao"),
+            StringNumberHelper::parseStringOrNull($args, "airport_icao"),
             FALSE
         );
     }

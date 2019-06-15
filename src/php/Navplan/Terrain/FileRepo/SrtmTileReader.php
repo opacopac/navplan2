@@ -3,7 +3,7 @@
 namespace Navplan\Terrain\FileRepo;
 
 use Navplan\Geometry\Domain\Position2d;
-use Navplan\Shared\StringNumberService;
+use Navplan\Shared\StringNumberHelper;
 use Navplan\System\UseCase\IFile;
 
 
@@ -25,9 +25,9 @@ class SrtmTileReader {
 
     public static function getTerrainFilePath(Position2d $position): string {
         $filename = $position->latitude >= 0 ? "N" : "S";
-        $filename .= StringNumberService::zeroPad(intval(abs(floor($position->latitude))), 2);
+        $filename .= StringNumberHelper::zeroPad(intval(abs(floor($position->latitude))), 2);
         $filename .= $position->longitude >= 0 ? "E" : "W";
-        $filename .= StringNumberService::zeroPad(intval(abs(floor($position->longitude))), 3);
+        $filename .= StringNumberHelper::zeroPad(intval(abs(floor($position->longitude))), 3);
 
         return self::TERRAIN_TILE_BASE_DIR . $filename . self::TERRAIN_TILE_SUFFIX;
     }

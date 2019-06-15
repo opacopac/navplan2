@@ -2,6 +2,7 @@
 
 namespace NavplanTest\Db\MySqlDb;
 
+use InvalidArgumentException;
 use Navplan\Db\MySqlDb\DbHelper;
 use NavplanTest\Db\Mock\MockDbService;
 
@@ -69,4 +70,22 @@ class DbHelperTest extends DbTestCase {
         $this->assertEquals("NULL", $result3);
         $this->assertEquals("'0'", $result4);
     }
+
+
+    public function test_getDbTimeString() {
+        $timestampS = 1560461028;
+
+        $result = DbHelper::getDbUtcTimeString($timestampS);
+
+        $this->assertEquals("2019-06-13 21:23:48", $result);
+    }
+
+
+    public function test_getDbTimeString_invalid_timestamp_ms() {
+        $timestampS = 1560549600000;
+        $this->expectException(InvalidArgumentException::class);
+
+        $result = DbHelper::getDbUtcTimeString($timestampS);
+    }
+
 }

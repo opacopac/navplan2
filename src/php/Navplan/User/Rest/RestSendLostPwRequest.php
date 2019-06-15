@@ -2,14 +2,14 @@
 
 namespace Navplan\User\Rest;
 
-use Navplan\Shared\StringNumberService;
+use Navplan\Shared\StringNumberHelper;
 use Navplan\User\Domain\SendLostPwRequest;
 
 
 class RestSendLostPwRequest {
     public static function fromArgs(array $args): SendLostPwRequest {
         return new SendLostPwRequest(
-            StringNumberService::parseStringOrError($args, "email")
+            StringNumberHelper::parseStringOrError($args, "email")
         );
     }
 }

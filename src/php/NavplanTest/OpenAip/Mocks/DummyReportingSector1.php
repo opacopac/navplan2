@@ -40,4 +40,21 @@ class DummyReportingSector1 {
             "polygon" => "7.0282 46.7227, 7.0486 46.7382, 7.0894 46.7328, 7.0952 46.7168, 7.0808 46.7137, 7.0661 46.7128, 7.0513 46.7143, 7.0394 46.7176, 7.0282 46.7227"
         );
     }
+
+
+    public static function createRest(): array {
+        return array(
+            "id" => 72,
+            "type" => "SECTOR",
+            "airport_icao" => "LSGE",
+            "name" => "Sect S",
+            "heli" => FALSE,
+            "inbd_comp" => FALSE,
+            "outbd_comp" => FALSE,
+            "alt_min" => NULL,
+            "alt_max" => NULL,
+            "pos" => NULL,
+            "polygon" => [[7.0282, 46.7227], [7.0486, 46.7382], [7.0894, 46.7328], [7.0952, 46.7168], [7.0808, 46.7137], [7.0661, 46.7128], [7.0513, 46.7143], [7.0394, 46.7176], [7.0282, 46.7227]]
+        );
+    }
 }

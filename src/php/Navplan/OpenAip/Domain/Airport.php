@@ -2,8 +2,9 @@
 
 namespace Navplan\OpenAip\Domain;
 
-
+use Navplan\Geometry\Domain\Length;
 use Navplan\Geometry\Domain\Position2d;
+
 
 class Airport {
     public $id;
@@ -24,10 +25,10 @@ class Airport {
         int $id,
         string $type,
         string $name,
-        string $icao,
+        ?string $icao,
         string $country,
         Position2d $position,
-        float $elevation,
+        Length $elevation,
         array $runways,
         array $radios,
         array $webcams,

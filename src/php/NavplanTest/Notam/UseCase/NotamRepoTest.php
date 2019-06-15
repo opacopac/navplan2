@@ -4,6 +4,7 @@ namespace NavplanTest\Notam\UseCase;
 
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
+use Navplan\Notam\Domain\ReadNotamByExtentRequest;
 use Navplan\Notam\UseCase\SearchNotam;
 use NavplanTest\MockNavplanConfig;
 use NavplanTest\Notam\Mocks\DummyNotam1;
@@ -38,10 +39,11 @@ class NotamRepoTest extends TestCase {
 
     public function test_searchByExtent() {
         $extent = Extent::createFromCoords(7.0, 47.0, 7.9, 47.9);
-        $result = $this->searchNotam->searchByExtent($extent, 11, 1558819678, 1559819678);
-        $this->assertEquals(count($this->expectedResult), count($result));
-        $this->assertEquals($this->expectedResult[0], $result[0]);
-        $this->assertEquals($this->expectedResult[1], $result[1]);
+        $request = new ReadNotamByExtentRequest($extent, 11, 1558819678, 1559819678);
+        $result = $this->searchNotam->searchByExtent($request);
+        $this->assertEquals(count($this->expectedResult), count($result->notams));
+        $this->assertEquals($this->expectedResult[0], $result->notams[0]);
+        $this->assertEquals($this->expectedResult[1], $result->notams[1]);
     }
 
 

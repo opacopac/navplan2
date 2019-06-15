@@ -9,25 +9,14 @@ use PHPUnit\Framework\TestCase;
 
 
 class RestWebcamTest extends TestCase {
-    public function test_toArray() {
-        $cam = DummyWebcam1::create();
-        $camRest = RestWebcam::toArray($cam);
+    public function test_toRest() {
+        $cam1 = DummyWebcam1::create();
+        $cam2 = DummyWebcam2::create();
 
-        $this->assertEquals($cam->name, $camRest["name"]);
-        $this->assertEquals($cam->url, $camRest["url"]);
-        $this->assertEquals($cam->position ? $cam->position->latitude : NULL, $camRest["latitude"]);
-        $this->assertEquals($cam->position ? $cam->position->longitude : NULL, $camRest["longitude"]);
+        $camRest1 = RestWebcam::toRest($cam1);
+        $camRest2 = RestWebcam::toRest($cam2);
+
+        $this->assertEquals(DummyWebcam1::createRest(), $camRest1);
+        $this->assertEquals(DummyWebcam2::createRest(), $camRest2);
     }
-
-
-    public function test_toArray2() {
-        $cam = DummyWebcam2::create();
-        $camRest = RestWebcam::toArray($cam);
-
-        $this->assertEquals($cam->name, $camRest["name"]);
-        $this->assertEquals($cam->url, $camRest["url"]);
-        $this->assertEquals($cam->position ? $cam->position->latitude : NULL, $camRest["latitude"]);
-        $this->assertEquals($cam->position ? $cam->position->longitude : NULL, $camRest["longitude"]);
-    }
-
 }

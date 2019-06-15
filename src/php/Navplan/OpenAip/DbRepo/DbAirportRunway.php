@@ -2,24 +2,34 @@
 
 namespace Navplan\OpenAip\DbRepo;
 
+use Navplan\Geometry\Domain\Length;
+use Navplan\Geometry\Domain\LengthUnit;
 use Navplan\OpenAip\Domain\AirportRunway;
+use Navplan\Shared\StringNumberHelper;
 
 
 class DbAirportRunway {
     public static function fromDbResult(array $rs): AirportRunway {
+        $length = StringNumberHelper::parseFloatOrNull($rs, "length", TRUE);
+        $width = StringNumberHelper::parseFloatOrNull($rs, "width", TRUE);
+        $tora1 = StringNumberHelper::parseFloatOrNull($rs, "tora1", TRUE);
+        $tora2 = StringNumberHelper::parseFloatOrNull($rs, "tora2", TRUE);
+        $lda1 = StringNumberHelper::parseFloatOrNull($rs, "lda1", TRUE);
+        $lda2 = StringNumberHelper::parseFloatOrNull($rs, "lda2", TRUE);
+
         return new AirportRunway(
             $rs["name"],
             $rs["surface"],
-            floatval($rs["length"]),
-            floatval($rs["width"]),
+            $length ? new Length($length, LengthUnit::M) : NULL,
+            $width ? new Length($width, LengthUnit::M) : NULL,
             intval($rs["direction1"]),
             intval($rs["direction2"]),
-            intval($rs["tora1"]),
-            intval($rs["tora2"]),
-            intval($rs["lda1"]),
-            intval($rs["lda2"]),
-            boolval($rs["papi1"]),
-            boolval($rs["papi2"])
+            $tora1 ? new Length($tora1, LengthUnit::M) : NULL,
+            $tora2 ? new Length($tora2, LengthUnit::M) : NULL,
+            $lda1 ? new Length($lda1, LengthUnit::M) : NULL,
+            $lda2 ? new Length($lda2, LengthUnit::M) : NULL,
+            StringNumberHelper::parseBoolOrNull($rs, "papi1"),
+            StringNumberHelper::parseBoolOrNull($rs, "papi2")
         );
     }
 }

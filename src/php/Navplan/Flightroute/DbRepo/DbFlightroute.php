@@ -5,14 +5,14 @@ namespace Navplan\Flightroute\DbRepo;
 use Navplan\Db\UseCase\IDbService;
 use Navplan\Db\MySqlDb\DbHelper;
 use Navplan\Flightroute\Domain\Flightroute;
-use Navplan\Shared\StringNumberService;
+use Navplan\Shared\StringNumberHelper;
 
 
 class DbFlightroute {
     public static function fromDbResult(array $rs): Flightroute {
-        $acSpeed = StringNumberService::isNullOrEmpty($rs, "aircraft_speed") ? NULL : StringNumberService::parseFloatOrZero($rs, "aircraft_speed");
-        $acConsumption = StringNumberService::isNullOrEmpty($rs, "aircraft_consumption") ? NULL : StringNumberService::parseFloatOrZero($rs, "aircraft_consumption");
-        $extraFuel = StringNumberService::isNullOrEmpty($rs, "extra_fuel") ? NULL : StringNumberService::parseFloatOrZero($rs, "extra_fuel");
+        $acSpeed = StringNumberHelper::isNullOrEmpty($rs, "aircraft_speed") ? NULL : StringNumberHelper::parseFloatOrZero($rs, "aircraft_speed");
+        $acConsumption = StringNumberHelper::isNullOrEmpty($rs, "aircraft_consumption") ? NULL : StringNumberHelper::parseFloatOrZero($rs, "aircraft_consumption");
+        $extraFuel = StringNumberHelper::isNullOrEmpty($rs, "extra_fuel") ? NULL : StringNumberHelper::parseFloatOrZero($rs, "extra_fuel");
 
         return new Flightroute(
             intval($rs["id"]),
@@ -21,8 +21,8 @@ class DbFlightroute {
             $acConsumption,
             $extraFuel,
             $rs["comments"],
-            StringNumberService::parseStringOrNull($rs, "shareId"),
-            StringNumberService::parseStringOrNull($rs, "md5_hash"),
+            StringNumberHelper::parseStringOrNull($rs, "shareId"),
+            StringNumberHelper::parseStringOrNull($rs, "md5_hash"),
             [],
             NULL
         );

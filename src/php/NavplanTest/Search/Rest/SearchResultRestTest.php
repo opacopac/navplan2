@@ -44,8 +44,8 @@ class SearchResultRestTest extends TestCase {
     }
 
 
-    public function test_toArray() {
-        $resArray = RestSearchResult::toArray($this->getSearchResult());
+    public function test_toRest() {
+        $resArray = RestSearchResult::toRest($this->getSearchResult());
         $this->assertNotNull($resArray);
         $this->assertEquals(count($this->getSearchResult()->airports), count($resArray[RestSearchItemType::getRestKeyFromType(SearchItemType::AIRPORTS)]));
         $this->assertEquals(count($this->getSearchResult()->navaids), count($resArray[RestSearchItemType::getRestKeyFromType(SearchItemType::NAVAIDS)]));

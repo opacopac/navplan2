@@ -4,7 +4,7 @@ namespace Navplan\Flightroute\UseCase;
 
 use Navplan\Flightroute\Domain\CreateSharedFlightrouteRequest;
 use Navplan\Flightroute\Domain\FlightrouteResponse;
-use Navplan\Shared\StringNumberService;
+use Navplan\Shared\StringNumberHelper;
 
 
 class CreateSharedFlightroute {
@@ -28,7 +28,7 @@ class CreateSharedFlightroute {
 
         // create shared flightroute
         $request->flightroute;
-        $request->flightroute->shareId = StringNumberService::createRandomString(10);
+        $request->flightroute->shareId = StringNumberHelper::createRandomString(10);
         $request->flightroute->hash = $hash;
 
         return new FlightrouteResponse(

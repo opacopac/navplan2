@@ -2,6 +2,7 @@
 
 namespace Navplan\Search\UseCase;
 
+use Navplan\Notam\Domain\ReadNotamByExtentRequest;
 use Navplan\Notam\UseCase\SearchNotam;
 use Navplan\OpenAip\UseCase\SearchAirport;
 use Navplan\OpenAip\UseCase\SearchAirspace;
@@ -71,7 +72,8 @@ class SearchByExtent {
                     break;
                 case SearchItemType::NOTAMS:
                     $searchNotam = new SearchNotam($config);
-                    $notams = $searchNotam->searchByExtent($query->extent, $query->zoom, $query->minNotamTimestamp, $query->maxNotamTimestamp);
+                    $request = new ReadNotamByExtentRequest($query->extent, $query->zoom, $query->minNotamTimestamp, $query->maxNotamTimestamp);
+                    $notams = $searchNotam->searchByExtent($request)->notams;
                     $resultNum += count($notams);
                     break;
             }

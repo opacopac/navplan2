@@ -2,16 +2,16 @@
 
 namespace Navplan\User\Rest;
 
-use Navplan\Shared\StringNumberService;
+use Navplan\Shared\StringNumberHelper;
 use Navplan\User\Domain\UpdatePwRequest;
 
 
 class RestUpdatePwRequest {
     public static function fromArgs(array $args): UpdatePwRequest {
         return new UpdatePwRequest(
-            StringNumberService::parseStringOrNull($args, "token"),
-            StringNumberService::parseStringOrNull($args, "oldpassword"),
-            StringNumberService::parseStringOrNull($args, "newpassword")
+            StringNumberHelper::parseStringOrNull($args, "token"),
+            StringNumberHelper::parseStringOrNull($args, "oldpassword"),
+            StringNumberHelper::parseStringOrNull($args, "newpassword")
         );
     }
 }

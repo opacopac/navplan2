@@ -6,7 +6,7 @@ use Navplan\Flightroute\Domain\FlightrouteListResponse;
 
 
 class RestFlightrouteListResponse {
-    public static function toArray(FlightrouteListResponse $response): array  {
+    public static function toRest(FlightrouteListResponse $response): array  {
         return array(
             "navplanList" => array_map(
                 function ($flightroute) { return RestFlightroute::toListResultArray($flightroute); },

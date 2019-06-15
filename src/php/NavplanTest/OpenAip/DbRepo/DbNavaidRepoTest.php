@@ -5,7 +5,6 @@ namespace NavplanTest\OpenAip\DbRepo;
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\DbRepo\DbNavaidRepo;
-use Navplan\OpenAip\Domain\Navaid;
 use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\OpenAip\Mocks\DummyNavaid1;
 use PHPUnit\Framework\TestCase;
@@ -26,21 +25,6 @@ class DbNavaidRepoTest extends TestCase {
     }
 
 
-    private function assertEqualNavaid(array $navaidDbResult, Navaid $navaid) {
-        $this->assertEquals($navaidDbResult['id'], $navaid->id);
-        $this->assertEquals($navaidDbResult['type'], $navaid->type);
-        $this->assertEquals($navaidDbResult['kuerzel'], $navaid->kuerzel);
-        $this->assertEquals($navaidDbResult['name'], $navaid->name);
-        $this->assertEquals($navaidDbResult['latitude'], $navaid->position->latitude);
-        $this->assertEquals($navaidDbResult['longitude'], $navaid->position->longitude);
-        $this->assertEquals($navaidDbResult['elevation'], $navaid->elevation);
-        $this->assertEquals($navaidDbResult['frequency'], $navaid->frequency);
-        $this->assertEquals($navaidDbResult['unit'], $navaid->unit);
-        $this->assertEquals($navaidDbResult['declination'], $navaid->declination);
-        $this->assertEquals($navaidDbResult['truenorth'], $navaid->truenorth);
-    }
-
-
     protected function setUp(): void {
         $this->dbService = new MockDbService();
         $this->dbRepo = new DbNavaidRepo($this->getDbService());
@@ -56,10 +40,11 @@ class DbNavaidRepoTest extends TestCase {
         $navaidDbResult = DummyNavaid1::createDbResult();
         $this->getDbService()->pushMockResult([$navaidDbResult]);
         $extent = Extent::createFromCoords(7.0, 47.0, 7.9, 47.9);
+
         $navaidResultList = $this->getDbRepo()->searchByExtent($extent, 11);
 
         $this->assertEquals(1, count($navaidResultList));
-        $this->assertEqualNavaid($navaidDbResult, $navaidResultList[0]);
+        $this->assertEquals(DummyNavaid1::create(), $navaidResultList[0]);
     }
 
 
@@ -71,7 +56,8 @@ class DbNavaidRepoTest extends TestCase {
         $navaidResultList = $this->getDbRepo()->searchByPosition($pos, 0.5, 20);
 
         $this->assertEquals(2, count($navaidResultList));
-        $this->assertEqualNavaid($navaidDbResult2, $navaidResultList[1]);
+        $this->assertEquals(DummyNavaid1::create(), $navaidResultList[0]);
+        $this->assertEquals(DummyNavaid1::create(), $navaidResultList[1]);
     }
 
 
@@ -81,7 +67,7 @@ class DbNavaidRepoTest extends TestCase {
         $navaidResultList = $this->getDbRepo()->searchByText("FRI", 20);
 
         $this->assertEquals(1, count($navaidResultList));
-        $this->assertEqualNavaid($navaidDbResult, $navaidResultList[0]);
+        $this->assertEquals(DummyNavaid1::create(), $navaidResultList[0]);
     }
 
 

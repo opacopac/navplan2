@@ -3,7 +3,7 @@
 namespace Navplan\Notam\DbRepo;
 
 use Navplan\Notam\Domain\Notam;
-use Navplan\Shared\StringNumberService;
+use Navplan\Shared\StringNumberHelper;
 
 
 class DbNotam {
@@ -15,15 +15,15 @@ class DbNotam {
             $notam["StateCode"],
             $notam["StateName"],
             $notam["id"],
-            StringNumberService::parseStringOrNull($notam, "entity"),
-            StringNumberService::parseStringOrNull($notam, "status"),
-            StringNumberService::parseStringOrNull($notam, "Qcode"),
-            StringNumberService::parseStringOrNull($notam, "Area"),
-            StringNumberService::parseStringOrNull($notam, "SubArea"),
-            StringNumberService::parseStringOrNull($notam, "Condition"),
-            StringNumberService::parseStringOrNull($notam, "Subject"),
-            StringNumberService::parseStringOrNull($notam, "Modifier"),
-            StringNumberService::parseStringOrNull($notam, "message"),
+            StringNumberHelper::parseStringOrNull($notam, "entity"),
+            StringNumberHelper::parseStringOrNull($notam, "status"),
+            StringNumberHelper::parseStringOrNull($notam, "Qcode"),
+            StringNumberHelper::parseStringOrNull($notam, "Area"),
+            StringNumberHelper::parseStringOrNull($notam, "SubArea"),
+            StringNumberHelper::parseStringOrNull($notam, "Condition"),
+            StringNumberHelper::parseStringOrNull($notam, "Subject"),
+            StringNumberHelper::parseStringOrNull($notam, "Modifier"),
+            StringNumberHelper::parseStringOrNull($notam, "message"),
             $notam["startdate"],
             $notam["enddate"],
             $notam["all"],

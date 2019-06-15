@@ -22,7 +22,6 @@ class SearchAirport {
 
     public function searchByPosition(Position2d $position, float $maxRadius_deg, int $maxResults): array {
         return $this->airportRepo->searchByPosition($position, $maxRadius_deg, $maxResults);
-
     }
 
 

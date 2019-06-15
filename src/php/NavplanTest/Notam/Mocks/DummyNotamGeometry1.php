@@ -27,4 +27,16 @@ class DummyNotamGeometry1 {
             "geometry" => '{"bottom":0,"top":150,"center":[-22.883333,16.133333],"radius":9260}'
         );
     }
+
+
+    public static function createRest(): array {
+        return array(
+            "circle" => array(
+                "center" => [-22.883333, 16.133333],
+                "radius" => [9260, "NM"]
+            ),
+            "alt_bottom" => [0, "FL", "STD"],
+            "alt_top" => [150, "FL", "STD"]
+        );
+    }
 }

@@ -2,8 +2,9 @@
 
 namespace Navplan\Notam\UseCase;
 
-use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
+use Navplan\Notam\Domain\ReadNotamByExtentRequest;
+use Navplan\Notam\Domain\ReadNotamResponse;
 
 
 class SearchNotam {
@@ -16,8 +17,15 @@ class SearchNotam {
     }
 
 
-    public function searchByExtent(Extent $extent, int $zoom, int $minNotamTimestamp, int $maxNotamTimestamp): array {
-        return $this->notamRepo->searchByExtent($extent, $zoom, $minNotamTimestamp, $maxNotamTimestamp);
+    public function searchByExtent(ReadNotamByExtentRequest $request): ReadNotamResponse {
+        $notamList = $this->notamRepo->searchByExtent(
+            $request->extent,
+            $request->zoom,
+            $request->minNotamTimestamp,
+            $request->maxNotamTimestamp
+        );
+
+        return new ReadNotamResponse($notamList);
     }
 
 

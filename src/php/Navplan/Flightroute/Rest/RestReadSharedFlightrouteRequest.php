@@ -3,7 +3,7 @@
 namespace Navplan\Flightroute\Rest;
 
 use Navplan\Flightroute\Domain\ReadSharedFlightrouteRequest;
-use Navplan\Shared\StringNumberService;
+use Navplan\Shared\StringNumberHelper;
 
 
 class RestReadSharedFlightrouteRequest {
@@ -12,7 +12,7 @@ class RestReadSharedFlightrouteRequest {
 
     public static function fromArgs(array $args): ReadSharedFlightrouteRequest {
         return new ReadSharedFlightrouteRequest(
-            StringNumberService::parseStringOrError($args, self::ARG_SHARE_ID)
+            StringNumberHelper::parseStringOrError($args, self::ARG_SHARE_ID)
         );
     }
 }

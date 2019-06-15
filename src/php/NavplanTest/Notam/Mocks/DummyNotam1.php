@@ -55,4 +55,39 @@ class DummyNotam1 {
             "geometry" => '{"bottom":0,"top":150,"center":[-22.883333,16.133333],"radius":9260}'
         );
     }
+
+
+    public static function createRest(): array {
+        return array(
+            "id" => 23947586,
+            "statecode" => "IND",
+            "statename" => "India",
+            "notamid" => "C0310/07",
+            "entity" => "SA",
+            "status" => "AS",
+            "qcode" => "SAAS",
+            "area" => "ATM",
+            "subarea" => "Air traffic and VOLMET services",
+            "condition" => "Availability",
+            "subject" => "Automatic terminal information service",
+            "modifier" => "Unserviceable",
+            "message" => "DATIS 126.8 MHZ NOT AVBL\nCREATED: 24 Aug 2007 10:57:00 \nSOURCE: VECCYNYX",
+            "startdate" => "2007-08-24T11:30:00.000Z",
+            "enddate" => "2007-08-30T11:30:00.000Z",
+            "all" => "C0310\/07 NOTAMR C0307\/07\nQ) VECF\/QSAAS\/IV\/NBO\/A\/000\/999\/\nA) VEBS B) 0708241130 C) 0708301130 EST\nE) DATIS 126.8 MHZ NOT AVBL\nCREATED: 24 Aug 2007 10:57:00 \nSOURCE: VECCYNYX",
+            "location" => "VEBS",
+            "isicao" => true,
+            "created" => "2007-08-24T10:57:00.000Z",
+            "key" => "C0310\/07-VEBS",
+            "type" => "airport",
+            "geometry" => array(
+                "circle" => array(
+                    "center" => [22.366667, -34],
+                    "radius" => [9260, "NM"]
+                ),
+                "alt_bottom" => NULL,
+                "alt_top" => NULL
+            )
+        );
+    }
 }

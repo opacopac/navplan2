@@ -4,7 +4,7 @@ namespace Navplan\Search\Rest;
 
 use InvalidArgumentException;
 use Navplan\Search\Domain\SearchByIcaoQuery;
-use Navplan\Shared\StringNumberService;
+use Navplan\Shared\StringNumberHelper;
 
 
 class RestSearchByIcaoQuery {
@@ -15,10 +15,10 @@ class RestSearchByIcaoQuery {
 
 
     public static function fromArgs(array $args): SearchByIcaoQuery {
-        $searchItems = RestSearchItemType::fromString(StringNumberService::parseStringOrError($args, self::ARG_SEARCH_ITEMS));
+        $searchItems = RestSearchItemType::fromString(StringNumberHelper::parseStringOrError($args, self::ARG_SEARCH_ITEMS));
         $icaoList = self::checkEscapeIcaoList($args[self::ARG_ICAO]);
-        $minNotamTimestamp = StringNumberService::parseIntOrZero($args, self::ARG_MIN_NOTAM_TIME);
-        $maxNotamTimestamp = StringNumberService::parseIntOrZero($args, self::ARG_MAX_NOTAM_TIME);
+        $minNotamTimestamp = StringNumberHelper::parseIntOrZero($args, self::ARG_MIN_NOTAM_TIME);
+        $maxNotamTimestamp = StringNumberHelper::parseIntOrZero($args, self::ARG_MAX_NOTAM_TIME);
 
         return new SearchByIcaoQuery(
             $searchItems,
@@ -36,7 +36,7 @@ class RestSearchByIcaoQuery {
 
         $icaoList = explode(",", $icaoString);
         foreach ($icaoList as $icao) {
-            StringNumberService::checkAlphaNumeric($icao, 4, 4);
+            StringNumberHelper::checkAlphaNumeric($icao, 4, 4);
         }
 
         return $icaoList;

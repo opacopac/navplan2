@@ -2,7 +2,12 @@
 
 namespace Navplan\Notam\UseCase;
 
+use Navplan\System\UseCase\ISystemConfig;
+use Navplan\System\UseCase\ISystemServiceFactory;
 
-interface INotamConfig {
+
+interface INotamConfig extends ISystemConfig {
     function getNotamRepo(): INotamRepo;
+
+    function getSystemServiceFactory(): ISystemServiceFactory;
 }

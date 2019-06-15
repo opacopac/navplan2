@@ -46,4 +46,32 @@ class DummyNotam2 {
             "geometry" => '{"multipolygon":[[[10.8833,54.5667],[10.9833,54.4958],[10.8833,54.4333],[10.8833,54.5667]],[[10.8833,54.5667],[10.9833,54.4958],[10.8833,54.4333],[10.8833,54.5667]]],"bottom":null,"top":400}'
         );
     }
+
+
+    public static function createRest(): array {
+        return array(
+            "id" => 23947586,
+            "statecode" => "USA",
+            "statename" => "United States of America",
+            "notamid" => "!FDC 9\/0861",
+            "entity" => NULL,
+            "status" => NULL,
+            "qcode" => NULL,
+            "area" => NULL,
+            "subarea" => NULL,
+            "condition" => NULL,
+            "subject" => NULL,
+            "modifier" => NULL,
+            "message" => NULL,
+            "startdate" => "2019-05-21T17:19:00.000Z",
+            "enddate" => "2021-05-21T17:19:00.000Z",
+            "all" => "!FDC 9\/0861 DCA SID RONALD REAGAN WASHINGTON NATIONAL,\nWashington, DC.\nNATIONAL SEVEN DEPARTURE...\nTAKEOFF OBSTACLE NOTES: RWY 22: BUILDING 3439 FT FROM DER, 337 FT\nRIGHT OF CENTERLINE, 118 FT AGL\/153 FT MSL\n(2015-AEA-7017\/7018\/6509\/6512-OE).\nALL OTHER DATA REMAINS AS PUBLISHED. 1905211719-2105211719EST\nCREATED: 21 May 2019 17:19:00 \nSOURCE: KDZZNAXX",
+            "location" => "KDCA",
+            "isicao" => false,
+            "created" => "2019-05-21T17:19:00.000Z",
+            "key" => "!FDC 9\/0861-KDCA",
+            "type" => "airport",
+            "geometry" => NULL
+        );
+    }
 }

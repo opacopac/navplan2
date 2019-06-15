@@ -6,7 +6,7 @@ use InvalidArgumentException;
 use Navplan\Db\UseCase\IDbService;
 
 
-class StringNumberService
+class StringNumberHelper
 {
     public static function isNullOrEmpty(array $keyValues, string $key): bool {
         if (!isset($keyValues[$key]) || $keyValues[$key] === '') {
@@ -35,12 +35,17 @@ class StringNumberService
     }
 
 
-    public static function parseIntOrNull(array $keyValues, string $key): ?int {
+    public static function parseIntOrNull(array $keyValues, string $key, bool $zeroIsNull = FALSE): ?int {
         if (!isset($keyValues[$key]) || !is_numeric($keyValues[$key])) {
             return NULL;
         }
 
-        return intval($keyValues[$key]);
+        $value = intval($keyValues[$key]);
+        if ($zeroIsNull === TRUE && $value === 0) {
+            return NULL;
+        }
+
+        return $value;
     }
 
 
@@ -62,12 +67,17 @@ class StringNumberService
     }
 
 
-    public static function parseFloatOrNull(array $keyValues, string $key): ?float {
+    public static function parseFloatOrNull(array $keyValues, string $key, bool $zeroIsNull = FALSE): ?float {
         if (!isset($keyValues[$key]) || !is_numeric($keyValues[$key])) {
             return NULL;
         }
 
-        return floatval($keyValues[$key]);
+        $value = floatval($keyValues[$key]);
+        if ($zeroIsNull === TRUE && $value === 0.0) {
+            return NULL;
+        }
+
+        return $value;
     }
 
 
@@ -114,6 +124,16 @@ class StringNumberService
         }
 
         return NULL;
+    }
+
+
+    public static function parseBoolOrFalse(array $keyValues, string $key): bool {
+        $val = self::parseBoolOrNull($keyValues, $key);
+        if ($val === NULL) {
+            return FALSE;
+        }
+
+        return $val;
     }
 
 

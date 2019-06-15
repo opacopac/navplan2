@@ -2,14 +2,16 @@
 
 namespace Navplan\OpenAip\Rest;
 
+use Navplan\Geometry\Rest\RestPosition2d;
 use Navplan\OpenAip\Domain\MapFeature;
 
 
 class RestAirportFeature {
-    public static function toArray(MapFeature $mapFeature): array {
+    public static function toRest(MapFeature $mapFeature): array {
         return array(
             "type" => $mapFeature->type,
             "name" => $mapFeature->name,
+            "pos" => $mapFeature->position ? RestPosition2d::toRest($mapFeature->position) : NULL
         );
     }
 }

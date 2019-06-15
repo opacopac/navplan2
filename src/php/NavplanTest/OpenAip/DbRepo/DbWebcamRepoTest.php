@@ -4,7 +4,6 @@ namespace NavplanTest\OpenAip\DbRepo;
 
 use Navplan\Geometry\Domain\Extent;
 use Navplan\OpenAip\DbRepo\DbWebcamRepo;
-use Navplan\OpenAip\Domain\Webcam;
 use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\OpenAip\Mocks\DummyWebcam1;
 use NavplanTest\OpenAip\Mocks\DummyWebcam2;
@@ -26,14 +25,6 @@ class DbWebcamRepoTest extends TestCase {
     }
 
 
-    private function assertEqualNavaid(array $camDbResult, Webcam $cam) {
-        $this->assertEquals($camDbResult['name'], $cam->name);
-        $this->assertEquals($camDbResult['url'], $cam->url);
-        $this->assertEquals($camDbResult['latitude'], $cam->position ? $cam->position->latitude : NULL);
-        $this->assertEquals($camDbResult['longitude'], $cam->position ? $cam->position->longitude : NULL);
-    }
-
-
     protected function setUp(): void {
         $this->dbService = new MockDbService();
         $this->dbRepo = new DbWebcamRepo($this->getDbService());
@@ -50,10 +41,11 @@ class DbWebcamRepoTest extends TestCase {
         $camDbResult2 = DummyWebcam2::createDbResult();
         $this->getDbService()->pushMockResult([$camDbResult1, $camDbResult2]);
         $extent = Extent::createFromCoords(7.0, 47.0, 7.9, 47.9);
+
         $navaidResultList = $this->getDbRepo()->searchByExtent($extent);
 
         $this->assertEquals(2, count($navaidResultList));
-        $this->assertEqualNavaid($camDbResult1, $navaidResultList[0]);
-        $this->assertEqualNavaid($camDbResult2, $navaidResultList[1]);
+        $this->assertEquals(DummyWebcam1::create(), $navaidResultList[0]);
+        $this->assertEquals(DummyWebcam2::create(), $navaidResultList[1]);
     }
 }

@@ -39,18 +39,15 @@ class DbNotamRepo implements INotamRepo {
         $icaoList = $this->loadIcaoListByExtent($extent);
 
         // load notams by icao
-        $query = "SELECT ntm.notam AS notam, geo.geometry AS geometry, ST_AsText(geo.extent) AS extent"
+        $query = "SELECT ntm.id, ntm.notam AS notam, geo.geometry AS geometry, ST_AsText(geo.extent) AS extent"
             . "   FROM icao_notam AS ntm"
-            . "    INNER JOIN icao_notam_geometry AS geo ON geo.icao_notam_id = ntm.id"
+            . "    INNER JOIN icao_notam_geometry2 AS geo ON geo.icao_notam_id = ntm.id"
             . "   WHERE icao IN ('" .  join("','", $icaoList) . "')"
-            . "    AND startdate <= '" . DbHelper::getDbTimeString($maxNotamTimestamp) . "'"
-            . "    AND enddate >= '" . DbHelper::getDbTimeString($minNotamTimestamp) . "'"
-            . "  ST_INTERSECTS(air.extent, " . $dbExtent . ")"
-            . "    AND"
-            . "  air.diameter > " . $minDiameterDeg
-            . "    AND"
-            . "  (" . $zoom . " >= det.zoommin AND " . $zoom . "<= det.zoommax)";
-
+            . "    AND startdate <= '" . DbHelper::getDbUtcTimeString($maxNotamTimestamp) . "'"
+            . "    AND enddate >= '" . DbHelper::getDbUtcTimeString($minNotamTimestamp) . "'"
+            . "    AND ST_INTERSECTS(geo.extent, " . $dbExtent . ")"
+            . "    AND geo.diameter > " . $minDiameterDeg
+            . "    AND (" . $zoom . " >= geo.zoommin AND " . $zoom . "<= geo.zoommax)";
 
         $result = $this->getDbService()->execMultiResultQuery($query, "error reading notams");
         $areaNotamList = self::readNotamFromResultList($result);
@@ -61,14 +58,14 @@ class DbNotamRepo implements INotamRepo {
 
 
     public function searchByPosition(Position2d $position, int $minNotamTimestamp, int $maxNotamTimestamp, int $maxResults): array {
-        $query = "SELECT ntm.notam AS notam"
+        $query = "SELECT ntm.id, ntm.notam AS notam"
             . "   FROM icao_notam AS ntm"
             . "    INNER JOIN icao_notam_geometry geo ON geo.icao_notam_id = ntm.id "
             . "    INNER JOIN icao_fir fir ON fir.statecode = ntm.country"
             . "    LEFT JOIN icao_fir fir2 ON fir2.icao = ntm.icao"
             . "   WHERE ST_INTERSECTS(geo.extent,". DbHelper::getDbPointStringFromLonLat([$position->longitude, $position->latitude]) . ")"
-            . "    AND ntm.startdate <= '" . DbHelper::getDbTimeString($maxNotamTimestamp) . "'"
-            . "    AND ntm.enddate >= '" . DbHelper::getDbTimeString($minNotamTimestamp) . "'"
+            . "    AND ntm.startdate <= '" . DbHelper::getDbUtcTimeString($maxNotamTimestamp) . "'"
+            . "    AND ntm.enddate >= '" . DbHelper::getDbUtcTimeString($minNotamTimestamp) . "'"
             . "    AND (ST_INTERSECTS(fir.polygon,". DbHelper::getDbPointStringFromLonLat([$position->longitude, $position->latitude]) . "))" //" OR (fir2.icao IS NULL AND geo.geometry IS NOT NULL))"
             . "   ORDER BY ntm.startdate DESC"
             . "   LIMIT " . $maxResults;
@@ -80,13 +77,13 @@ class DbNotamRepo implements INotamRepo {
 
 
     public function searchByIcao(array $icaoList, int $minNotamTimestamp, int $maxNotamTimestamp): array {
-        $query = "SELECT ntm.notam AS notam"
+        $query = "SELECT ntm.id, ntm.notam AS notam"
             . "   FROM icao_notam AS ntm"
             . "    INNER JOIN icao_notam_geometry2 geo ON geo.icao_notam_id = ntm.id"
             . "   WHERE"
             . "    ntm.icao IN ('" . join("','", $icaoList) . "')"
-            . "    AND ntm.startdate <= '" . DbHelper::getDbTimeString($maxNotamTimestamp) . "'"
-            . "    AND ntm.enddate >= '" . DbHelper::getDbTimeString($minNotamTimestamp) . "'"
+            . "    AND ntm.startdate <= '" . DbHelper::getDbUtcTimeString($maxNotamTimestamp) . "'"
+            . "    AND ntm.enddate >= '" . DbHelper::getDbUtcTimeString($minNotamTimestamp) . "'"
             . "   ORDER BY ntm.startdate DESC";
 
         $result = $this->getDbService()->execMultiResultQuery($query, "error searching notams");

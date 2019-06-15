@@ -3,7 +3,6 @@
 namespace Navplan\Traffic;
 
 use InvalidArgumentException;
-use Navplan\Shared\RequestResponseHelper;
 use Navplan\Traffic\Rest\RestReadTrafficDetailRequest;
 use Navplan\Traffic\Rest\RestReadTrafficRequest;
 use Navplan\Traffic\Rest\RestTrafficDetailListResponse;
@@ -23,6 +22,7 @@ class TrafficServiceProcessor {
 
 
     public static function processRequest(string $requestMethod, ?array $getVars, ?array $postVars, ITrafficConfig $config) {
+        $httpService = $config->getSystemServiceFactory()->getHttpService();
         switch ($requestMethod) {
             case self::REQUEST_METHOD_GET:
                 $action = isset($getVars["action"]) ? $getVars["action"] : NULL;
@@ -30,15 +30,15 @@ class TrafficServiceProcessor {
                     case self::ACTION_READ_OGN_TRAFFIC:
                         $request = RestReadTrafficRequest::fromArgs($getVars);
                         $response = (new ReadOgnTraffic($config))->read($request);
-                        self::sendTrafficListResponse($response, $config);
+                        $httpService->sendArrayResponse(RestTrafficListResponse::toRest($response));
                         break;
                     case self::ACTION_READ_ADSBEX_TRAFFIC:
                         $request = RestReadTrafficRequest::fromArgs($getVars);
                         $response = (new ReadAdsbexTraffic($config))->read($request);
-                        self::sendTrafficListResponse($response, $config);
+                        $httpService->sendArrayResponse(RestTrafficListResponse::toRest($response));
                         break;
                     default:
-                        self::throwInvalidArgumentError();
+                        throw new InvalidArgumentException("no or invalid action defined!");
                 }
                 break;
             case self::REQUEST_METHOD_POST:
@@ -47,33 +47,14 @@ class TrafficServiceProcessor {
                     case self::ACTION_READ_AC_DETAILS:
                         $request = RestReadTrafficDetailRequest::fromRest($postVars);
                         $response = (new ReadTrafficDetails($config))->readDetails($request);
-                        self::sendTrafficDetailListResponse($response, $config);
+                        $httpService->sendArrayResponse(RestTrafficDetailListResponse::toRest($response));
                         break;
                     default:
-                        self::throwInvalidArgumentError();
+                        throw new InvalidArgumentException("no or invalid action defined!");
                 }
                 break;
             default:
-                self::throwInvalidArgumentError();
+                throw new InvalidArgumentException("no or invalid action defined!");
         }
-    }
-
-
-    private static function sendTrafficListResponse(array $trafficList, ITrafficConfig $config) {
-        $resultArray = RestTrafficListResponse::toRest($trafficList);
-        $httpService = $config->getSystemServiceFactory()->getHttpService();
-        RequestResponseHelper::sendArrayResponse($httpService, $resultArray);
-    }
-
-
-    private static function sendTrafficDetailListResponse(array $trafficList, ITrafficConfig $config) {
-        $resultArray = RestTrafficDetailListResponse::toRest($trafficList);
-        $httpService = $config->getSystemServiceFactory()->getHttpService();
-        RequestResponseHelper::sendArrayResponse($httpService, $resultArray);
-    }
-
-
-    private static function throwInvalidArgumentError() {
-        throw new InvalidArgumentException("no or invalid action defined!");
     }
 }

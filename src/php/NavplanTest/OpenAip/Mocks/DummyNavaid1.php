@@ -2,6 +2,8 @@
 
 namespace NavplanTest\OpenAip\Mocks;
 
+use Navplan\Geometry\Domain\Length;
+use Navplan\Geometry\Domain\LengthUnit;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\Domain\Navaid;
 
@@ -14,7 +16,7 @@ class DummyNavaid1 {
             "FRI",
             "FRIBOURG",
             new Position2d(7.22361,46.7775),
-            799,
+            new Length(799, LengthUnit::M),
             "110.85",
             "MHz",
             1.34846,
@@ -36,6 +38,22 @@ class DummyNavaid1 {
             "unit" => "MHz",
             "declination" => 1.34846,
             "truenorth" => false
+        );
+    }
+
+
+    public static function createRest(): array {
+        return array(
+            "id" => 1218,
+            "type" => "VOR-DME",
+            "kuerzel" => "FRI",
+            "name" => "FRIBOURG",
+            "pos" => [7.22361, 46.7775],
+            "elevation" => [799, "M"],
+            "frequency" => "110.85",
+            "unit" => "MHz",
+            "declination" => 1.34846,
+            "truenorth" => false,
         );
     }
 }

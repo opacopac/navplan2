@@ -2,14 +2,14 @@
 
 namespace Navplan\User\Rest;
 
-use Navplan\Shared\StringNumberService;
+use Navplan\Shared\StringNumberHelper;
 use Navplan\User\Domain\AutoLoginRequest;
 
 
 class RestAutoLoginRequest {
     public static function fromArgs(array $args): AutoLoginRequest {
         return new AutoLoginRequest(
-            StringNumberService::parseStringOrError($args, "token")
+            StringNumberHelper::parseStringOrError($args, "token")
         );
     }
 }

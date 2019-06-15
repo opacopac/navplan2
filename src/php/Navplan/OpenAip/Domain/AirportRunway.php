@@ -2,17 +2,25 @@
 
 namespace Navplan\OpenAip\Domain;
 
+use Navplan\Geometry\Domain\Length;
+
 
 class AirportRunway {
     public $name;
     public $surface;
+    /* @var $length ?Length */
     public $length;
+    /* @var $width ?Length */
     public $width;
     public $direction1;
     public $direction2;
+    /* @var $tora1 ?Length */
     public $tora1;
+    /* @var $tora2 ?Length */
     public $tora2;
+    /* @var $lda1 ?Length */
     public $lda1;
+    /* @var $lda2 ?Length */
     public $lda2;
     public $papi1;
     public $papi2;
@@ -21,16 +29,16 @@ class AirportRunway {
     public function __construct(
         string $name,
         string $surface,
-        float $length,
-        float $width,
+        ?Length $length,
+        ?Length $width,
         int $direction1,
         int $direction2,
-        int $tora1,
-        int $tora2,
-        int $lda1,
-        int $lda2,
-        bool $papi1,
-        bool $papi2
+        ?Length $tora1,
+        ?Length $tora2,
+        ?Length $lda1,
+        ?Length $lda2,
+        ?bool $papi1,
+        ?bool $papi2
     ) {
         $this->name = $name;
         $this->surface = $surface;

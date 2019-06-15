@@ -2,11 +2,18 @@
 
 namespace Navplan\OpenAip\Rest;
 
+use Navplan\Geometry\Rest\RestLength;
+use Navplan\Geometry\Rest\RestPosition2d;
+use Navplan\Geometry\Rest\RestRing2d;
 use Navplan\OpenAip\Domain\ReportingPoint;
 
 
 class RestReportingPoint {
-    public static function toArray(ReportingPoint $rp): array {
+    public const ROUND_DIGITS_POS = 6;
+    public const ROUND_DIGITS_POLY = 6;
+
+
+    public static function toRest(ReportingPoint $rp): array {
         return array(
             "id" => $rp->id,
             "type" => $rp->type,
@@ -15,11 +22,10 @@ class RestReportingPoint {
             "heli" => $rp->heli,
             "inbd_comp" => $rp->inbd_comp,
             "outbd_comp" => $rp->outbd_comp,
-            "min_ft" => $rp->min_ft,
-            "max_ft" => $rp->max_ft,
-            "latitude" => $rp->position ? RestHelper::reduceDegAccuracy($rp->position->latitude, "REPORTINGPOINT") : NULL, // only for reporting points
-            "longitude" => $rp->position ? RestHelper::reduceDegAccuracy($rp->position->longitude, "REPORTINGPOINT") : NULL, // only for reporting points
-            "polygon" => $rp->polygon // only for reporting sectors
+            "alt_min" => $rp->alt_min ? RestLength::toRest($rp->alt_min) : NULL,
+            "alt_max" => $rp->alt_max ? RestLength::toRest($rp->alt_max) : NULL,
+            "pos" => $rp->position ? RestPosition2d::toRest($rp->position, self::ROUND_DIGITS_POS) : NULL, // only for reporting points
+            "polygon" => $rp->polygon ? RestRing2d::toRest($rp->polygon, self::ROUND_DIGITS_POLY) : NULL // only for reporting sectors
         );
     }
 }

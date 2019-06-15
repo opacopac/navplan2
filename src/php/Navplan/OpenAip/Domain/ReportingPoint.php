@@ -2,6 +2,7 @@
 
 namespace Navplan\OpenAip\Domain;
 
+use Navplan\Geometry\Domain\Length;
 use Navplan\Geometry\Domain\Ring2d;
 use Navplan\Geometry\Domain\Position2d;
 
@@ -15,8 +16,8 @@ class ReportingPoint {
     public $heli;
     public $inbd_comp;
     public $outbd_comp;
-    public $min_ft;
-    public $max_ft;
+    public $alt_min;
+    public $alt_max;
     public $position;
     public $polygon;
 
@@ -29,8 +30,8 @@ class ReportingPoint {
         bool $heli,
         bool $inbd_comp,
         bool $outbd_comp,
-        ?int $min_ft,
-        ?int $max_ft,
+        ?Length $alt_min,
+        ?Length $alt_max,
         ?Position2d $position,
         ?Ring2d $polygon
     ) {
@@ -41,8 +42,8 @@ class ReportingPoint {
         $this->heli = $heli;
         $this->inbd_comp = $inbd_comp;
         $this->outbd_comp = $outbd_comp;
-        $this->min_ft = $min_ft;
-        $this->max_ft = $max_ft;
+        $this->alt_min = $alt_min;
+        $this->alt_max = $alt_max;
         $this->position = $position;
         $this->polygon = $polygon;
     }

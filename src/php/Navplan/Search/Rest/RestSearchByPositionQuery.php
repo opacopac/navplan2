@@ -4,7 +4,7 @@ namespace Navplan\Search\Rest;
 
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\Search\Domain\SearchByPositionQuery;
-use Navplan\Shared\StringNumberService;
+use Navplan\Shared\StringNumberHelper;
 
 
 class RestSearchByPositionQuery {
@@ -18,14 +18,14 @@ class RestSearchByPositionQuery {
 
 
     public static function fromArgs(array $args): SearchByPositionQuery {
-        $searchItems = RestSearchItemType::fromString(StringNumberService::parseStringOrError($args, self::ARG_SEARCH_ITEMS));
-        $lon = StringNumberService::parseFloatOrError($args, self::ARG_LON);
-        $lat = StringNumberService::parseFloatOrError($args, self::ARG_LAT);
+        $searchItems = RestSearchItemType::fromString(StringNumberHelper::parseStringOrError($args, self::ARG_SEARCH_ITEMS));
+        $lon = StringNumberHelper::parseFloatOrError($args, self::ARG_LON);
+        $lat = StringNumberHelper::parseFloatOrError($args, self::ARG_LAT);
         $position = new Position2d($lon, $lat);
-        $maxRadius_deg = StringNumberService::parseFloatOrError($args, self::ARG_RADIUS);
-        $minNotamTimestamp = StringNumberService::parseIntOrZero($args, self::ARG_MIN_NOTAM_TIME);
-        $maxNotamTimestamp = StringNumberService::parseIntOrZero($args, self::ARG_MAX_NOTAM_TIME);
-        $token = StringNumberService::parseStringOrNull($args, self::ARG_TOKEN);
+        $maxRadius_deg = StringNumberHelper::parseFloatOrError($args, self::ARG_RADIUS);
+        $minNotamTimestamp = StringNumberHelper::parseIntOrZero($args, self::ARG_MIN_NOTAM_TIME);
+        $maxNotamTimestamp = StringNumberHelper::parseIntOrZero($args, self::ARG_MAX_NOTAM_TIME);
+        $token = StringNumberHelper::parseStringOrNull($args, self::ARG_TOKEN);
 
         return new SearchByPositionQuery(
             $searchItems,

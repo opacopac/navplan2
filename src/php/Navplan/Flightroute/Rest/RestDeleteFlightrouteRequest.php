@@ -3,7 +3,7 @@
 namespace Navplan\Flightroute\Rest;
 
 use Navplan\Flightroute\Domain\DeleteFlightrouteRequest;
-use Navplan\Shared\StringNumberService;
+use Navplan\Shared\StringNumberHelper;
 
 
 class RestDeleteFlightrouteRequest {
@@ -13,8 +13,8 @@ class RestDeleteFlightrouteRequest {
 
     public static function fromArgs(array $args): DeleteFlightrouteRequest {
         return new DeleteFlightrouteRequest(
-            StringNumberService::parseIntOrError($args, self::ARG_ID),
-            StringNumberService::parseStringOrError($args, self::ARG_TOKEN)
+            StringNumberHelper::parseIntOrError($args, self::ARG_ID),
+            StringNumberHelper::parseStringOrError($args, self::ARG_TOKEN)
         );
     }
 }

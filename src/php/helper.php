@@ -36,7 +36,7 @@ function openDb()
 
 function getDbTimeString($timestamp)
 {
-    return DbHelper::getDbTimeString($timestamp);
+    return DbHelper::getDbUtcTimeString($timestamp);
     //return date("Y-m-d H:i:s", $timestamp);
 }
 

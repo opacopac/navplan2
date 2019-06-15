@@ -6,7 +6,7 @@ use Navplan\OpenAip\Domain\AirportRadio;
 
 
 class RestAirportRadio {
-    public static function toArray(AirportRadio $radio): array {
+    public static function toRest(AirportRadio $radio): array {
         return array(
             "category" => $radio->category,
             "frequency" => $radio->frequency,

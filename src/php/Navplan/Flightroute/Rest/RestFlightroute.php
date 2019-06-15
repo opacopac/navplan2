@@ -3,19 +3,19 @@
 namespace Navplan\Flightroute\Rest;
 
 use Navplan\Flightroute\Domain\Flightroute;
-use Navplan\Shared\StringNumberService;
+use Navplan\Shared\StringNumberHelper;
 
 
 class RestFlightroute {
     public static function fromArgs(array $args): Flightroute {
         return new Flightroute(
-            StringNumberService::parseIntOrNull($args, "id"),
-            StringNumberService::parseStringOrNull($args, "title"),
-            StringNumberService::parseFloatOrNull($args, "aircraft_speed"),
-            StringNumberService::parseFloatOrNull($args, "aircraft_consumption"),
-            StringNumberService::parseFloatOrNull($args, "extra_fuel"),
-            StringNumberService::parseStringOrNull($args, "comments"),
-            StringNumberService::parseIntOrNull($args, "shareid"),
+            StringNumberHelper::parseIntOrNull($args, "id"),
+            StringNumberHelper::parseStringOrNull($args, "title"),
+            StringNumberHelper::parseFloatOrNull($args, "aircraft_speed"),
+            StringNumberHelper::parseFloatOrNull($args, "aircraft_consumption"),
+            StringNumberHelper::parseFloatOrNull($args, "extra_fuel"),
+            StringNumberHelper::parseStringOrNull($args, "comments"),
+            StringNumberHelper::parseIntOrNull($args, "shareid"),
             NULL,
             isset($args["waypoints"]) ?
             array_map(

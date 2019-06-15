@@ -2,11 +2,11 @@
 include_once __DIR__ . "/../logger.php";
 include_once __DIR__ . "/../helper.php";
 include_once __DIR__ . "/../Navplan/Shared/GeoHelper.php";
-include_once __DIR__ . "/../Navplan/Shared/StringNumberService.php";
+include_once __DIR__ . "/../Navplan/Shared/StringNumberHelper.php";
 include_once __DIR__ . "/../Navplan/NavplanBootstrap.php";
 
 use Navplan\Shared\GeoHelper;
-use Navplan\Shared\StringNumberService;
+use Navplan\Shared\StringNumberHelper;
 use Navplan\NavplanBootstrap;
 
 
@@ -60,7 +60,7 @@ class NotamGeometryParser
 
     public function test($testNotamId) {
         $this->logger->addOutputLogLevel("DEBUG");
-        $testNotamId = StringNumberService::checkEscapeString($this->dbService, $testNotamId, 1, 20);
+        $testNotamId = StringNumberHelper::checkEscapeString($this->dbService, $testNotamId, 1, 20);
         $this->logger->writelog("INFO", "loading test notam '" . $testNotamId . "'...");
         $notamList = $this->loadNotamByKey($testNotamId);
         if (count($notamList) == 0) {
@@ -328,7 +328,7 @@ class NotamGeometryParser
 
             if ($notam["geometry"] && $notam["geometry"]["center"]) {
                 GeoHelper::reduceCoordinateAccuracy($notam["geometry"]["center"]);
-                $geometryString = "'" . StringNumberService::checkEscapeString($this->dbService, json_encode($notam["geometry"], JSON_NUMERIC_CHECK), 0, 999999999) . "'";
+                $geometryString = "'" . StringNumberHelper::checkEscapeString($this->dbService, json_encode($notam["geometry"], JSON_NUMERIC_CHECK), 0, 999999999) . "'";
                 // circle: one entry matches all zoom levels
                 $zoommin = 0;
                 $zoommax = 255;
@@ -339,7 +339,7 @@ class NotamGeometryParser
                     $geometry = $notam["geometry"];
                     $geometry["polygon"] = $polyZoomLevel["polygon"];
                     GeoHelper::reducePolygonAccuracy($geometry["polygon"]);
-                    $geometryString = "'" . StringNumberService::checkEscapeString($this->dbService, json_encode($geometry, JSON_NUMERIC_CHECK), 0, 999999999) . "'";
+                    $geometryString = "'" . StringNumberHelper::checkEscapeString($this->dbService, json_encode($geometry, JSON_NUMERIC_CHECK), 0, 999999999) . "'";
 
                     $queryParts[] = "('"
                         . checkNumeric($notam["id"]) . "',"
@@ -354,7 +354,7 @@ class NotamGeometryParser
                     $geometry = $notam["geometry"];
                     $geometry["multipolygon"] = $multiPolyZoomLevel["multipolygon"];
                     GeoHelper::reduceMultiPolygonAccuracy($geometry["multipolygon"]);
-                    $geometryString = "'" . StringNumberService::checkEscapeString($this->dbService, json_encode($geometry, JSON_NUMERIC_CHECK), 0, 999999999) . "'";
+                    $geometryString = "'" . StringNumberHelper::checkEscapeString($this->dbService, json_encode($geometry, JSON_NUMERIC_CHECK), 0, 999999999) . "'";
 
                     $queryParts[] = "('"
                         . checkNumeric($notam["id"]) . "',"
@@ -480,7 +480,7 @@ class NotamGeometryParser
     private function parseNotamGeometry($notam) {
         $geometry = array();
 
-        if ($notam["isICAO"]) {
+        if ($notam["isicao"]) {
             $this->logger->writelog("DEBUG", "notam format: icao");
 
             $bottomTop = $this->tryParseQlineAlt($notam["all"]);
@@ -608,7 +608,7 @@ class NotamGeometryParser
 
 
         // circle from qline
-        if ($notam["isICAO"]) {
+        if ($notam["isicao"]) {
             $geometry = $this->tryParseQlineCircle($notam["all"]);
             if ($geometry) {
                 $this->logger->writelog("DEBUG", "using q-line circle geometry as db extent");

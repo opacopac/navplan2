@@ -18,8 +18,8 @@ class SearchByExtentQuery {
         array $searchItems,
         Extent $extent,
         int $zoom,
-        int $minNotamTimestamp,
-        int $maxNotamTimestamp,
+        ?int $minNotamTimestamp,
+        ?int $maxNotamTimestamp,
         ?string $token
     ) {
         $this->searchItems = $searchItems;

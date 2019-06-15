@@ -3,37 +3,24 @@
 namespace NavplanTest\Notam\Rest;
 
 use Navplan\Notam\Rest\RestNotam;
-use Navplan\Notam\Rest\RestNotamGeometry;
 use NavplanTest\Notam\Mocks\DummyNotam1;
+use NavplanTest\Notam\Mocks\DummyNotam2;
+use NavplanTest\Notam\Mocks\DummyNotam3;
 use PHPUnit\Framework\TestCase;
 
 
 class RestNotamTest extends TestCase {
-    public function test_toArray() {
-        $notam = DummyNotam1::create();
-        $notamRest = RestNotam::toArray($notam);
+    public function test_toRest() {
+        $notam1 = DummyNotam1::create();
+        $notam2 = DummyNotam2::create();
+        $notam3 = DummyNotam3::create();
 
-        $this->assertEquals($notam->id, $notamRest["id"]);
-        $this->assertEquals($notam->stateCode, $notamRest["statecode"]);
-        $this->assertEquals($notam->stateName,$notamRest["statename"]);
-        $this->assertEquals($notam->notamId, $notamRest["notamid"]);
-        $this->assertEquals($notam->entity, $notamRest["entity"]);
-        $this->assertEquals($notam->status, $notamRest["status"]);
-        $this->assertEquals($notam->qcode, $notamRest["qcode"]);
-        $this->assertEquals($notam->area, $notamRest["area"]);
-        $this->assertEquals($notam->subarea, $notamRest["subarea"]);
-        $this->assertEquals($notam->condition, $notamRest["condition"]);
-        $this->assertEquals($notam->subject, $notamRest["subject"]);
-        $this->assertEquals($notam->modifier, $notamRest["modifier"]);
-        $this->assertEquals($notam->message, $notamRest["message"]);
-        $this->assertEquals($notam->startdate, $notamRest["startdate"]);
-        $this->assertEquals($notam->enddate, $notamRest["enddate"]);
-        $this->assertEquals($notam->all, $notamRest["all"]);
-        $this->assertEquals($notam->location, $notamRest["location"]);
-        $this->assertEquals($notam->isIcao, $notamRest["isicao"]);
-        $this->assertEquals($notam->created, $notamRest["created"]);
-        $this->assertEquals($notam->key, $notamRest["key"]);
-        $this->assertEquals($notam->type, $notamRest["type"]);
-        $this->assertEquals(RestNotamGeometry::toArray($notam->geometry), $notamRest["geometry"]);
+        $restNotam1 = RestNotam::toRest($notam1);
+        $restNotam2 = RestNotam::toRest($notam2);
+        $restNotam3 = RestNotam::toRest($notam3);
+
+        $this->assertEquals(DummyNotam1::createRest(), $restNotam1);
+        $this->assertEquals(DummyNotam2::createRest(), $restNotam2);
+        $this->assertEquals(DummyNotam3::createRest(), $restNotam3);
     }
 }

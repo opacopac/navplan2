@@ -3,11 +3,15 @@
 namespace Navplan\OpenAip\Rest;
 
 use Navplan\Geometry\Rest\RestAltitude;
+use Navplan\Geometry\Rest\RestRing2d;
 use Navplan\OpenAip\Domain\Airspace;
 
 
 class RestAirspace {
-    public static function toArray(Airspace $airspace): array {
+    public const ROUND_DIGITS_POS = 4;
+
+
+    public static function toRest(Airspace $airspace): array {
         return array(
             "id" => $airspace->id,
             "aip_id" => $airspace->aip_id,
@@ -16,7 +20,7 @@ class RestAirspace {
             "name" => $airspace->name,
             "alt_top" => RestAltitude::toRest($airspace->alt_top),
             "alt_bottom" => RestAltitude::toRest($airspace->alt_bottom),
-            "polygon" => $airspace->polygon->toArray()
+            "polygon" => RestRing2d::toRest($airspace->polygon, self::ROUND_DIGITS_POS)
         );
     }
 }

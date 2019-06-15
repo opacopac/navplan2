@@ -6,7 +6,7 @@ use Navplan\User\Domain\UserResponse;
 
 
 class RestUserResponse {
-    public static function toArray(UserResponse $response): array {
+    public static function toRest(UserResponse $response): array {
         $responseArray = array(
             "resultcode" => $response->code,
             "message" => $response->message ? $response->message : ''

@@ -21,4 +21,13 @@ class DummyNotamGeometry2 {
             "geometry" => '{"polygon":[[28.231586,-26.128897],[28.231642,-26.128453],[28.230906,-26.128975]]}'
         );
     }
+
+
+    public static function createRest(): array {
+        return array(
+            "polygon" => [[28.231586,-26.128897],[28.231642,-26.128453],[28.230906,-26.128975]],
+            "alt_bottom" => NULL,
+            "alt_top" => NULL
+        );
+    }
 }

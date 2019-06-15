@@ -3,7 +3,7 @@
 namespace Navplan\Flightroute\Rest;
 
 use Navplan\Flightroute\Domain\UpdateFlightrouteRequest;
-use Navplan\Shared\StringNumberService;
+use Navplan\Shared\StringNumberHelper;
 
 
 class RestUpdateFlightrouteRequest {
@@ -14,7 +14,7 @@ class RestUpdateFlightrouteRequest {
     public static function fromArgs(array $args): UpdateFlightrouteRequest {
         return new UpdateFlightrouteRequest(
             RestFlightroute::fromArgs($args[self::ARG_ROUTE]),
-            StringNumberService::parseStringOrError($args, self::ARG_TOKEN)
+            StringNumberHelper::parseStringOrError($args, self::ARG_TOKEN)
         );
     }
 }

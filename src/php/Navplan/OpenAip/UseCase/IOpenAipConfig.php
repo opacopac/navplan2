@@ -2,7 +2,12 @@
 
 namespace Navplan\OpenAip\UseCase;
 
+use Navplan\System\UseCase\ISystemConfig;
+use Navplan\System\UseCase\ISystemServiceFactory;
 
-interface IOpenAipConfig  {
+
+interface IOpenAipConfig extends ISystemConfig {
     function getOpenAipRepoFactory(): IOpenAipRepoFactory;
+
+    public function getSystemServiceFactory(): ISystemServiceFactory;
 }

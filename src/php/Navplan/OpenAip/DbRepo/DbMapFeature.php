@@ -4,7 +4,7 @@ namespace Navplan\OpenAip\DbRepo;
 
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\OpenAip\Domain\MapFeature;
-use Navplan\Shared\StringNumberService;
+use Navplan\Shared\StringNumberHelper;
 
 
 class DbMapFeature {
@@ -18,7 +18,7 @@ class DbMapFeature {
 
 
     private static function getPosition(array $rs): ?Position2d {
-        if (StringNumberService::isNullOrEmpty($rs, "latitude") || StringNumberService::isNullOrEmpty($rs, "longitude")) {
+        if (StringNumberHelper::isNullOrEmpty($rs, "latitude") || StringNumberHelper::isNullOrEmpty($rs, "longitude")) {
             return NULL;
         }
 

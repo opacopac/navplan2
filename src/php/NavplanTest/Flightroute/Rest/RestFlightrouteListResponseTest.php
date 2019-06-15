@@ -14,7 +14,7 @@ class RestFlightrouteListResponseTest extends TestCase {
         $route1 = DummyFlightroute1::create();
         $route2 = DummyFlightroute2::create();
         $response = new FlightrouteListResponse([$route1, $route2]);
-        $responseRest = RestFlightrouteListResponse::toArray($response);
+        $responseRest = RestFlightrouteListResponse::toRest($response);
 
         $this->assertNotNull($responseRest["navplanList"]);
         $this->assertEquals(2, count($responseRest["navplanList"]));
