@@ -6,7 +6,7 @@ import {environment} from '../../../environments/environment';
 import {LoggingService} from '../../shared/services/logging/logging.service';
 import {Extent2d} from '../../shared/model/geometry/extent2d';
 import {RestMapperTrafficOgn, TrafficOgnResponse} from '../rest-mapper/rest-mapper-traffic-ogn';
-import {Traffic} from '../model/traffic';
+import {Traffic} from '../domain/traffic';
 import {throwError} from 'rxjs';
 
 

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {BaseMapContext} from '../../../base-map/model/base-map-context';
+import {BaseMapContext} from '../../../base-map/domain/base-map-context';
 
 
 @Component({

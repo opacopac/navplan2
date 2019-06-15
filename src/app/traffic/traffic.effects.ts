@@ -20,7 +20,7 @@ import {TrafficOpenskyService} from './services/traffic-opensky.service';
 import {TrafficTimerService} from './services/traffic-timer.service';
 import {TrafficAdsbexchangeService2} from './services/traffic-adsbexchange2.service';
 import {TrafficDetailsService} from './services/traffic-details.service';
-import {Traffic} from './model/traffic';
+import {Traffic} from './domain/traffic';
 
 
 const TRAFFIC_MAX_AGE_SEC = 120;

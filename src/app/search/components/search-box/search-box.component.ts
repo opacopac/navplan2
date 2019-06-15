@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {SearchItem} from '../../model/search-item';
-import {SearchItemList} from '../../model/search-item-list';
+import {SearchItem} from '../../domain/search-item';
+import {SearchItemList} from '../../domain/search-item-list';
 
 
 @Component({

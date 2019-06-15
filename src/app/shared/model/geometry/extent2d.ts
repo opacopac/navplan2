@@ -1,8 +1,8 @@
-import * as ol from 'openlayers';
 import {Position2d} from './position2d';
 import {GeocalcService} from '../../services/geocalc/geocalc.service';
 import {Length} from '../quantities/length';
 import {Clonable} from '../clonable';
+import {transformExtent} from 'ol/proj';
 
 
 const MERCATOR_PROJECTION = 'EPSG:3857';
@@ -20,7 +20,7 @@ export class Extent2d implements Clonable<Extent2d> {
 
 
     public static createFromMercator(extent: [number, number, number, number]): Extent2d {
-        const ext = ol.proj.transformExtent(extent, MERCATOR_PROJECTION, LONLAT_PROJECTION);
+        const ext = transformExtent(extent, MERCATOR_PROJECTION, LONLAT_PROJECTION);
         return new Extent2d(ext[0], ext[1], ext[2], ext[3]);
     }
 
@@ -46,7 +46,9 @@ export class Extent2d implements Clonable<Extent2d> {
 
 
     public getAsMercator(): [number, number, number, number] {
-        return ol.proj.transformExtent(this.getExtent(), LONLAT_PROJECTION, MERCATOR_PROJECTION);
+        const arr = transformExtent(this.getExtent(), LONLAT_PROJECTION, MERCATOR_PROJECTION);
+
+        return [arr[0], arr[1], arr[2], arr[3]];
     }
 
 

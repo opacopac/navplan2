@@ -6,7 +6,7 @@ import {Observable} from 'rxjs/internal/Observable';
 import {environment} from '../../../environments/environment';
 import {LoggingService} from '../../shared/services/logging/logging.service';
 import {Extent2d} from '../../shared/model/geometry/extent2d';
-import {Traffic} from '../model/traffic';
+import {Traffic} from '../domain/traffic';
 import {RestMapperTrafficAdsbEx2, TrafficAdsbEx2Response} from '../rest-mapper/rest-mapper-traffic-adsb-ex2';
 
 

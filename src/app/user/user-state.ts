@@ -1,4 +1,4 @@
-import {User} from './model/user';
+import {User} from './domain/user';
 
 
 export interface UserState {

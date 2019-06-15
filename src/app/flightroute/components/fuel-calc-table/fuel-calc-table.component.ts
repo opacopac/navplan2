@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {RouteFuel} from '../../model/routefuel';
+import {RouteFuel} from '../../domain/routefuel';
 import {StringnumberService} from '../../../shared/services/stringnumber/stringnumber.service';
 import {Time} from '../../../shared/model/quantities/time';
 import {VolumeUnit} from '../../../shared/model/quantities/units';

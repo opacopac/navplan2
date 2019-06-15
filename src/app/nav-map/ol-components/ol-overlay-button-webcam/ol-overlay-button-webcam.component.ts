@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ButtonColor, ButtonSize } from '../../../shared/directives/button-base/button-base.directive';
-import {Webcam} from '../../../map-features/model/webcam';
+import {Webcam} from '../../../map-features/domain/webcam';
 
 
 @Component({

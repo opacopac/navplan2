@@ -6,8 +6,11 @@ use Navplan\OpenAip\OpenAipServiceProcessor;
 use Navplan\OpenAip\Rest\RestSearchAreaItemsRequest;
 use Navplan\OpenAip\Rest\RestSearchPointItemsRequest;
 use NavplanTest\MockNavplanConfig;
+use NavplanTest\OpenAip\Mocks\DummyAirport1;
 use NavplanTest\OpenAip\Mocks\DummyAirspace1;
 use NavplanTest\OpenAip\Mocks\DummyNavaid1;
+use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;
+use NavplanTest\OpenAip\Mocks\DummyWebcam2;
 use NavplanTest\OpenAip\Mocks\MockAirportRepo;
 use NavplanTest\OpenAip\Mocks\MockAirspaceRepo;
 use NavplanTest\OpenAip\Mocks\MockNavaidRepo;
@@ -69,27 +72,31 @@ class OpenAipServiceProcessorTest extends TestCase {
 
 
     public function test_processRequest_searchPointItems_gets_called() {
-        $navaidResult = DummyNavaid1::create();
-        $this->airportRepo->pushMockResult([]);
-        $this->airspaceRepo->pushMockResult([]);
-        $this->navaidRepo->pushMockResult([$navaidResult]);
-        $this->reportingPointRepo->pushMockResult([]);
-        $this->webcamRepo->pushMockResult([]);
+        $airport1 = DummyAirport1::create();
+        $navaid = DummyNavaid1::create();
+        $rp = DummyReportingPoint1::create();
+        $cam = DummyWebcam2::create();
+        $this->airportRepo->pushMockResult([$airport1]);
+        $this->navaidRepo->pushMockResult([$navaid]);
+        $this->reportingPointRepo->pushMockResult([$rp]);
+        $this->webcamRepo->pushMockResult([$cam]);
 
         OpenAipServiceProcessor::processRequest($this->getVarsSearchPointItems, $this->config);
 
+        $this->assertRegExp("/airports/", $this->httpService->body);
+        $this->assertRegExp("/" . $airport1->id . "/", $this->httpService->body);
         $this->assertRegExp("/navaids/", $this->httpService->body);
-        $this->assertRegExp("/" . $navaidResult->id . "/", $this->httpService->body);
+        $this->assertRegExp("/" . $navaid->id . "/", $this->httpService->body);
+        $this->assertRegExp("/reportingpoints/", $this->httpService->body);
+        $this->assertRegExp("/" . $rp->id . "/", $this->httpService->body);
+        $this->assertRegExp("/webcams/", $this->httpService->body);
+        $this->assertRegExp("/" . $cam->name . "/", $this->httpService->body);
     }
 
 
     public function test_processRequest_searchAreaItems_gets_called() {
         $airspaceResult = DummyAirspace1::create();
-        $this->airportRepo->pushMockResult([]);
         $this->airspaceRepo->pushMockResult([$airspaceResult]);
-        $this->navaidRepo->pushMockResult([]);
-        $this->reportingPointRepo->pushMockResult([]);
-        $this->webcamRepo->pushMockResult([]);
 
         OpenAipServiceProcessor::processRequest($this->getVarsSearchAreaItems, $this->config);
 

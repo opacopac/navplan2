@@ -122,12 +122,11 @@ class DbAirportRepo implements IAirportRepo {
         $query .= " FROM openaip_runways2";
         $query .= " WHERE operations = 'ACTIVE' AND airport_id IN (" . $apIdList . ")";
         $query .= " ORDER BY length DESC, surface ASC, id ASC";
-
         $result = $this->getDbService()->execMultiResultQuery($query, "error reading runways");
 
         while ($rs = $result->fetch_assoc()) {
             foreach ($airports as &$ap) {
-                if ($ap->id === $rs["airport_id"]) {
+                if ($ap->id === intval($rs["airport_id"])) {
                     $ap->runways[] = DbAirportRunway::fromDbResult($rs);
                     break;
                 }

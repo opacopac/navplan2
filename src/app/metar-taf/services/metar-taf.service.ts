@@ -6,8 +6,8 @@ import {of, throwError} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {LoggingService} from '../../shared/services/logging/logging.service';
 import {Extent2d} from '../../shared/model/geometry/extent2d';
-import {MetarTafList} from '../model/metar-taf';
-import {MetarTafResponse, RestMapperMetarTaf} from '../model/rest-mapper-metar-taf';
+import {MetarTafList} from '../domain/metar-taf';
+import {MetarTafResponse, RestMapperMetarTaf} from '../rest/rest-mapper-metar-taf';
 
 
 const MIN_ZOOM_LEVEL = 8;

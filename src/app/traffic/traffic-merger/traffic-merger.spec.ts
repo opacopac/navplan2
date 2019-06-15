@@ -1,5 +1,5 @@
-import {Traffic, TrafficAircraftType, TrafficDataSource} from '../model/traffic';
-import {TrafficPosition} from '../model/traffic-position';
+import {Traffic, TrafficAircraftType, TrafficDataSource} from '../domain/traffic';
+import {TrafficPosition} from '../domain/traffic-position';
 import {Timestamp} from '../../shared/model/quantities/timestamp';
 import {TrafficMerger} from './traffic-merger';
 import {TrafficMock} from '../test/traffic-mock';

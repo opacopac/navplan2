@@ -1,11 +1,11 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {Airport, AirportType} from '../../../map-features/model/airport';
+import {Airport, AirportType} from '../../../map-features/domain/airport';
 import {Position2d} from '../../../shared/model/geometry/position2d';
-import {AirportIcon} from '../../../map-features/model/airport-icon';
+import {AirportIcon} from '../../../map-features/domain/airport-icon';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
-import {WaypointFactory} from '../../../flightroute/model/waypoint-mapper/waypoint-factory';
+import {WaypointFactory} from '../../../flightroute/domain/waypoint-mapper/waypoint-factory';
 import {GeocalcService} from '../../../shared/services/geocalc/geocalc.service';
-import {OlHelper} from '../../../base-map/model/ol-helper';
+import {OlHelper} from '../../../base-map/domain/ol-helper';
 
 
 @Component({

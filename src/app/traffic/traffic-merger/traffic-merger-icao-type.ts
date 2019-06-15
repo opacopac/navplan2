@@ -1,4 +1,4 @@
-import {Traffic} from '../model/traffic';
+import {Traffic} from '../domain/traffic';
 
 
 export class TrafficMergerIcaoType {

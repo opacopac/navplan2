@@ -1,7 +1,7 @@
 import {Action} from '@ngrx/store';
-import {FlightrouteListEntry} from './model/flightroute-list-entry';
-import {Flightroute} from './model/flightroute';
-import {Waypoint} from './model/waypoint';
+import {FlightrouteListEntry} from './domain/flightroute-list-entry';
+import {Flightroute} from './domain/flightroute';
+import {Waypoint} from './domain/waypoint';
 import {Position2d} from '../shared/model/geometry/position2d';
 
 

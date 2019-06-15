@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {DatetimeService} from '../../../shared/services/datetime/datetime.service';
 import {StringnumberService} from '../../../shared/services/stringnumber/stringnumber.service';
-import {MetarTaf} from '../../model/metar-taf';
+import {MetarTaf} from '../../domain/metar-taf';
 import {Position2d} from '../../../shared/model/geometry/position2d';
 
 

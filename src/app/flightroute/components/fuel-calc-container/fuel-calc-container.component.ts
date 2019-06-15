@@ -2,10 +2,10 @@ import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/co
 import {select, Store} from '@ngrx/store';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {debounceTime, map} from 'rxjs/operators';
-import {Flightroute} from '../../model/flightroute';
+import {Flightroute} from '../../domain/flightroute';
 import {getFlightroute} from '../../flightroute.selectors';
 import {UpdateAircraftConsumptionAction, UpdateExtraTimeAction} from '../../flightroute.actions';
-import {RouteFuel} from '../../model/routefuel';
+import {RouteFuel} from '../../domain/routefuel';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Consumption} from '../../../shared/model/quantities/consumption';
 import {ConsumptionUnit, TimeUnit} from '../../../shared/model/quantities/units';

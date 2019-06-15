@@ -3,7 +3,7 @@ import {LocationButtonComponent} from './location-button.component';
 import {Directive, Input} from '@angular/core';
 import {ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
 import {ButtonStatus} from '../../../shared/directives/status-button/status-button.directive';
-import {MessageService} from '../../../message/services/message/message.service';
+import {MessageService} from '../../../message/services/message.service';
 import {BaseMapService} from '../../../base-map/services/base-map.service';
 import {LocationService} from '../../services/location.service';
 import {TimerService} from '../../../shared/services/timer/timer.service';

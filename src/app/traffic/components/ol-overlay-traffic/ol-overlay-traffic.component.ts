@@ -1,9 +1,9 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {Traffic, TrafficAddressType, TrafficAircraftType} from '../../model/traffic';
+import {Traffic, TrafficAddressType, TrafficAircraftType} from '../../domain/traffic';
 import { Position2d } from '../../../shared/model/geometry/position2d';
 import { OlOverlayBase } from '../../../base-map/components/ol-overlay-base';
-import {TrafficIcon} from '../../model/traffic-icon';
-import {OlHelper} from '../../../base-map/model/ol-helper';
+import {TrafficIcon} from '../../domain/traffic-icon';
+import {OlHelper} from '../../../base-map/domain/ol-helper';
 
 
 const TRAFFIC_TYPE_DESCRIPTION = {

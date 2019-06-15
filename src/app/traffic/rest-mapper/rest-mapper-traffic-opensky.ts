@@ -2,8 +2,8 @@ import {Length} from '../../shared/model/quantities/length';
 import {LengthUnit} from '../../shared/model/quantities/units';
 import {Position4d} from '../../shared/model/geometry/position4d';
 import {Timestamp} from '../../shared/model/quantities/timestamp';
-import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource} from '../model/traffic';
-import {TrafficPosition, TrafficPositionMethod} from '../model/traffic-position';
+import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource} from '../domain/traffic';
+import {TrafficPosition, TrafficPositionMethod} from '../domain/traffic-position';
 import {IcaoCallsignService} from '../services/icaocallsign.service';
 
 

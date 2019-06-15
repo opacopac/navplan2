@@ -31,7 +31,6 @@
               "src/summary_card_image.png"
             ],
             "styles": [
-              "node_modules/openlayers/css/ol.css",
               "src/navplan-app-theme.scss",
               "src/styles.css"
             ],
@@ -85,7 +84,6 @@
             "scripts": [
             ],
             "styles": [
-              "node_modules/openlayers/css/ol.css",
               "src/navplan-app-theme.scss",
               "src/styles.css"
             ],

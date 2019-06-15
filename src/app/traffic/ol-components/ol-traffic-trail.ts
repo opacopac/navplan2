@@ -1,13 +1,15 @@
-import * as ol from 'openlayers';
-import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
-import {Traffic} from '../model/traffic';
+import {Feature} from 'ol';
+import {Vector} from 'ol/source';
+import {Circle, Fill, Style} from 'ol/style';
+import {OlComponentBase} from '../../base-map/ol/ol-component-base';
+import {Traffic} from '../domain/traffic';
 
 
 const MAX_AGE_SEC_TRACK_DOT = 120;
-const DOT_STYLE = new ol.style.Style({
-    image: new ol.style.Circle({
+const DOT_STYLE = new Style({
+    image: new Circle({
         radius: 2,
-        fill: new ol.style.Fill({
+        fill: new Fill({
             color: '#FF0000'
         })
     })
@@ -15,12 +17,12 @@ const DOT_STYLE = new ol.style.Style({
 
 
 export class OlTrafficTrail extends OlComponentBase {
-    private readonly dotFeatures: ol.Feature[];
+    private readonly dotFeatures: Feature[];
 
 
     constructor(
         traffic: Traffic,
-        private readonly source: ol.source.Vector) {
+        private readonly source: Vector) {
 
         super();
 

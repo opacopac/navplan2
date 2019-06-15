@@ -1,6 +1,6 @@
 import {MessageState} from './message-state';
 import {MessageActions, MessageActionTypes} from './message.actions';
-import {Message} from './model/message';
+import {Message} from './domain/message';
 
 
 const initialState: MessageState = {

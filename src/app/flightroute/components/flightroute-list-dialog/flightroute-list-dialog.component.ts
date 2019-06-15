@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
-import {FlightrouteListEntry} from '../../model/flightroute-list-entry';
+import {FlightrouteListEntry} from '../../domain/flightroute-list-entry';
 import {getFlightrouteList} from '../../flightroute.selectors';
 import {
     FlightrouteDeleteAction,

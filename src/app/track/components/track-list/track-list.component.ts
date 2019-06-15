@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Track} from '../../model/track';
+import {Track} from '../../domain/track';
 import {DatetimeService} from '../../../shared/services/datetime/datetime.service';
 import {Timestamp} from '../../../shared/model/quantities/timestamp';
 

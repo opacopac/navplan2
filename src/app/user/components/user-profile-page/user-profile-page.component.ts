@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {getCurrentUser} from '../../user.selectors';
 import {ChangePwAction} from '../../user.actions';
-import {User} from '../../model/user';
+import {User} from '../../domain/user';
 
 
 @Component({

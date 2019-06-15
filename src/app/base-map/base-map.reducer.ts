@@ -3,7 +3,7 @@ import {BaseMapState} from './base-map-state';
 import {Angle} from '../shared/model/quantities/angle';
 import {BaseMapActions, BaseMapActionTypes} from './base-map.actions';
 import {AngleUnit} from '../shared/model/quantities/units';
-import {MapbaselayerType} from './model/mapbaselayer-factory';
+import {MapbaselayerType} from './domain/mapbaselayer-factory';
 
 
 const initialState: BaseMapState = {

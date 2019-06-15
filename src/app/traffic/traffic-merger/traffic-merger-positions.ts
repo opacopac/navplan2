@@ -1,6 +1,6 @@
-import {Traffic} from '../model/traffic';
-import {TrafficPosition} from '../model/traffic-position';
-import {TrafficPrio} from '../model/traffic-prio';
+import {Traffic} from '../domain/traffic';
+import {TrafficPosition} from '../domain/traffic-position';
+import {TrafficPrio} from '../domain/traffic-prio';
 import {Extent3d} from '../../shared/model/geometry/extent3d';
 
 

@@ -1,5 +1,5 @@
 import {RestMapperTrafficDetails, TrafficDetailsResponse} from './rest-mapper-traffic-details';
-import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource} from '../model/traffic';
+import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource} from '../domain/traffic';
 
 
 describe('RestMapperTrafficDetails', () => {

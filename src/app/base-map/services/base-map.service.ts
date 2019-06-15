@@ -1,13 +1,21 @@
-import * as ol from 'openlayers';
+import {Feature, Map, MapBrowserEvent, MapEvent, View} from 'ol';
 import {EventEmitter, Injectable} from '@angular/core';
-import {MapbaselayerFactory, MapbaselayerType} from '../model/mapbaselayer-factory';
+import {MapbaselayerFactory, MapbaselayerType} from '../domain/mapbaselayer-factory';
 import {Extent2d} from '../../shared/model/geometry/extent2d';
 import {Position2d} from '../../shared/model/geometry/position2d';
 import {Angle} from '../../shared/model/quantities/angle';
 import {AngleUnit} from '../../shared/model/quantities/units';
-import {DataItem, DataItemType} from '../../shared/model/data-item';
-import {OlComponentBase} from '../ol-component/ol-component-base';
-import {OlHelper} from '../model/ol-helper';
+import {DataItem} from '../../shared/model/data-item';
+import {OlComponentBase} from '../ol/ol-component-base';
+import {OlHelper} from '../domain/ol-helper';
+import TileLayer from 'ol/layer/Tile';
+import VectorLayer from 'ol/layer/Vector';
+import Overlay from 'ol/Overlay';
+import {Attribution, FullScreen, Rotate, ScaleLine} from 'ol/control';
+import {Tile, Vector} from 'ol/source';
+import {ObjectEvent} from 'ol/Object';
+import {Layer} from 'ol/layer';
+import {Pixel} from 'ol/pixel';
 
 
 const HIT_TOLERANCE_PIXELS = 10;
@@ -17,12 +25,12 @@ const HIT_TOLERANCE_PIXELS = 10;
     providedIn: 'root'
 })
 export class BaseMapService {
-    public map: ol.Map;
-    private mapLayer: ol.layer.Tile;
-    private customLayers: ol.layer.Vector[] = [];
+    public map: Map;
+    private mapLayer: TileLayer;
+    private customLayers: VectorLayer[] = [];
     public onMapMovedZoomedRotated = new EventEmitter<{ position: Position2d, zoom: number, rotation: Angle, extent: Extent2d }>();
     public onMapClicked = new EventEmitter<{ clickPos: Position2d, dataItem: DataItem }>();
-    private currentOverlay: ol.Overlay;
+    private currentOverlay: Overlay;
 
 
     constructor() {
@@ -38,18 +46,18 @@ export class BaseMapService {
 
         this.mapLayer = MapbaselayerFactory.create(baseMapType);
         this.customLayers = [];
-        this.map = new ol.Map({
+        this.map = new Map({
             target: 'map',
             controls: [
-                new ol.control.Attribution(),
-                new ol.control.FullScreen(),
-                new ol.control.ScaleLine(),
-                new ol.control.Rotate()
+                new Attribution(),
+                new FullScreen(),
+                new ScaleLine(),
+                new Rotate()
             ],
             layers: [
                 this.mapLayer,
             ],
-            view: new ol.View({
+            view: new View({
                 center: OlHelper.getMercator(position),
                 zoom: zoom,
                 rotation: mapRotation.rad,
@@ -79,7 +87,7 @@ export class BaseMapService {
     }
 
 
-    public addVectorLayer(imageRenderMode: boolean): ol.layer.Vector {
+    public addVectorLayer(imageRenderMode: boolean): VectorLayer {
         const layer = this.createEmptyVectorLayer(imageRenderMode);
         this.customLayers.push(layer);
 
@@ -89,9 +97,9 @@ export class BaseMapService {
     }
 
 
-    private createEmptyVectorLayer(imageRenderMode: boolean = false): ol.layer.Vector {
-        return new ol.layer.Vector({
-            source: new ol.source.Vector({}),
+    private createEmptyVectorLayer(imageRenderMode: boolean = false): VectorLayer {
+        return new VectorLayer({
+            source: new Vector({}),
             renderMode: imageRenderMode ? 'image' : undefined
         });
     }
@@ -109,8 +117,8 @@ export class BaseMapService {
 
 
     public setZoom(zoom: number) {
-        const minZoom = (this.mapLayer.getSource() as ol.source.Tile).getTileGrid().getMinZoom();
-        const maxZoom = (this.mapLayer.getSource() as ol.source.Tile).getTileGrid().getMaxZoom();
+        const minZoom = (this.mapLayer.getSource() as Tile).getTileGrid().getMinZoom();
+        const maxZoom = (this.mapLayer.getSource() as Tile).getTileGrid().getMaxZoom();
         if (zoom >= minZoom && zoom <= maxZoom) {
             return this.map.getView().setZoom(zoom);
         }
@@ -130,7 +138,8 @@ export class BaseMapService {
 
 
     public getMapPosition(): Position2d {
-        return OlHelper.getPosFromMercator(this.map.getView().getCenter());
+        const mercPos = this.map.getView().getCenter();
+        return OlHelper.getPosFromMercator([mercPos[0], mercPos[1]]);
     }
 
 
@@ -155,24 +164,27 @@ export class BaseMapService {
 
 
     public getExtent(): Extent2d {
-        return Extent2d.createFromMercator(this.map.getView().calculateExtent(this.map.getSize()));
+        const mercExt = this.map.getView().calculateExtent(this.map.getSize());
+
+        return Extent2d.createFromMercator([mercExt[0], mercExt[1], mercExt[2], mercExt[3]]);
     }
 
 
     public getRadiusDegByPixel(position: Position2d, radiusPixel: number): number {
         const coord1Pixel = this.map.getPixelFromCoordinate(OlHelper.getMercator(position));
-        const coord2Pixel: ol.Pixel = [coord1Pixel[0], coord1Pixel[1] - radiusPixel];
-        const coord2Deg = OlHelper.getPosFromMercator(this.map.getCoordinateFromPixel(coord2Pixel));
+        const coord2Pixel: Pixel = [coord1Pixel[0], coord1Pixel[1] - radiusPixel];
+        const mercPos = this.map.getCoordinateFromPixel(coord2Pixel);
+        const coord2Deg = OlHelper.getPosFromMercator([mercPos[0], mercPos[1]]);
 
         return Math.abs(coord2Deg.latitude - position.latitude);
 
         /*const clickPos = [event.pixel[0], event.pixel[1]];
         const coord1 = this.map.getCoordinateFromPixel(clickPos);
-        const lat1 = ol.proj.toLonLat(coord1)[1];
+        const lat1 = toLonLat(coord1)[1];
 
         clickPos[1] -= 50;
         const coord2 = map.getCoordinateFromPixel(clickPos);
-        const lat2 = ol.proj.toLonLat(coord2)[1];
+        const lat2 = toLonLat(coord2)[1];
 
         return Math.abs(lat2 - lat1);*/
     }
@@ -184,11 +196,11 @@ export class BaseMapService {
     // region overlays
 
 
-    public addOverlay(container: HTMLElement): ol.Overlay {
-        const overlay = new ol.Overlay({
+    public addOverlay(container: HTMLElement): Overlay {
+        const overlay = new Overlay({
             element: container,
             autoPan: true,
-            autoPanAnimation: { source: undefined, duration: 250 }
+            autoPanAnimation: { duration: 250 }
         });
 
         this.map.addOverlay(overlay);
@@ -206,10 +218,10 @@ export class BaseMapService {
             container.style.visibility = 'visible';
         }
 
-        this.currentOverlay = new ol.Overlay({
+        this.currentOverlay = new Overlay({
             element: container,
             autoPan: autoPan,
-            autoPanAnimation: { source: undefined, duration: 250 }
+            autoPanAnimation: { duration: 250 }
         });
 
         this.map.addOverlay(this.currentOverlay);
@@ -231,12 +243,12 @@ export class BaseMapService {
 
     // region map events
 
-    private onMoveEnd(event: ol.MapEvent) {
+    private onMoveEnd(event: MapEvent) {
         this.emitPosZoomRotEvent();
     }
 
 
-    private onMapRotation(event: ol.ObjectEvent) {
+    private onMapRotation(event: ObjectEvent) {
         this.emitPosZoomRotEvent();
     }
 
@@ -251,14 +263,15 @@ export class BaseMapService {
     }
 
 
-    private onSingleClick(event: ol.MapBrowserEvent) {
+    private onSingleClick(event: MapBrowserEvent) {
         const dataItem = this.getDataItemAtPixel(event.pixel, true);
-        const clickPos = OlHelper.getPosFromMercator(event.coordinate);
+        const eventPos = event.coordinate;
+        const clickPos = OlHelper.getPosFromMercator([eventPos[0], eventPos[1]]);
         this.onMapClicked.emit({ clickPos: clickPos, dataItem: dataItem });
     }
 
 
-    private onPointerMove(event: ol.MapBrowserEvent) {
+    private onPointerMove(event: MapBrowserEvent) {
         if (event.dragging) {
             return;
         }
@@ -275,7 +288,7 @@ export class BaseMapService {
     }
 
 
-    private getDataItemAtPixel(pixel: ol.Pixel, onlyClickable: boolean): DataItem {
+    private getDataItemAtPixel(pixel: Pixel, onlyClickable: boolean): DataItem {
         const olFeatures = this.map.getFeaturesAtPixel(pixel,
             { layerFilter: this.isClickableLayer.bind(this), hitTolerance: HIT_TOLERANCE_PIXELS });
         if (!olFeatures) {
@@ -284,8 +297,8 @@ export class BaseMapService {
 
         const dataItems: DataItem[] = [];
         for (const feature of olFeatures) {
-            const dataItem = OlComponentBase.getDataItem(feature as ol.Feature);
-            if (dataItem && (onlyClickable === false || OlComponentBase.isSelectable(feature as ol.Feature))) {
+            const dataItem = OlComponentBase.getDataItem(feature as Feature);
+            if (dataItem && (onlyClickable === false || OlComponentBase.isSelectable(feature as Feature))) {
                 dataItems.push(dataItem);
             }
         }
@@ -300,7 +313,7 @@ export class BaseMapService {
     }
 
 
-    private isClickableLayer(layer: ol.layer.Layer): boolean {
+    private isClickableLayer(layer: Layer): boolean {
         return layer !== this.mapLayer;
         /*return (layer === this.routeItemsLayer ||
             layer === this.nonrouteItemsLayer ||

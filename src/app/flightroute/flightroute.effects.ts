@@ -4,7 +4,7 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
 import {of} from 'rxjs';
 import {catchError, filter, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
-import {MessageService} from '../message/services/message/message.service';
+import {MessageService} from '../message/services/message.service';
 import {FlightrouteService} from './services/flightroute/flightroute.service';
 import {
     FlightrouteActionTypes,
@@ -29,13 +29,13 @@ import {
     ReplaceWaypointAction
 } from './flightroute.actions';
 import {getCurrentUser} from '../user/user.selectors';
-import {User} from '../user/model/user';
+import {User} from '../user/domain/user';
 import {getFlightroute} from './flightroute.selectors';
-import {Flightroute} from './model/flightroute';
+import {Flightroute} from './domain/flightroute';
 import {MapfeaturesService} from '../map-features/services/mapfeatures.service';
-import {WaypointFactory} from './model/waypoint-mapper/waypoint-factory';
+import {WaypointFactory} from './domain/waypoint-mapper/waypoint-factory';
 import {getMapFeatures} from '../map-features/map-features.selectors';
-import {Mapfeatures} from '../map-features/model/mapfeatures';
+import {OpenAipItems} from '../map-features/domain/open-aip-items';
 
 
 @Injectable()
@@ -51,7 +51,7 @@ export class FlightrouteEffects {
 
     private currentUser$: Observable<User> = this.appStore.pipe(select(getCurrentUser));
     private flightroute$: Observable<Flightroute> = this.appStore.pipe(select(getFlightroute));
-    private mapFeatures$: Observable<Mapfeatures> = this.appStore.pipe(select(getMapFeatures));
+    private mapFeatures$: Observable<OpenAipItems> = this.appStore.pipe(select(getMapFeatures));
 
 
     // region flightroute list

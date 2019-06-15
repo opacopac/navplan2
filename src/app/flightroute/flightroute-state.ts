@@ -1,6 +1,6 @@
-import {FlightrouteListEntry} from './model/flightroute-list-entry';
-import {Flightroute} from './model/flightroute';
-import {Waypoint} from './model/waypoint';
+import {FlightrouteListEntry} from './domain/flightroute-list-entry';
+import {Flightroute} from './domain/flightroute';
+import {Waypoint} from './domain/waypoint';
 import {ConsumptionUnit, LengthUnit, SpeedUnit, VolumeUnit} from '../shared/model/quantities/units';
 
 

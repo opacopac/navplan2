@@ -4,7 +4,7 @@ import {cold} from 'jasmine-marbles';
 import {TrafficEffects} from './traffic.effects';
 import {TrafficOgnService} from './services/traffic-ogn.service';
 import {TrafficAdsbexchangeService} from './services/traffic-adsbexchange.service';
-import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource} from './model/traffic';
+import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource} from './domain/traffic';
 import {TrafficOpenskyService} from './services/traffic-opensky.service';
 import {
     ReadTrafficErrorAction,

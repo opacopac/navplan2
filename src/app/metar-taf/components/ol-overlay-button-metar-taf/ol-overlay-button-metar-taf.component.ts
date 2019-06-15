@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ButtonColor, ButtonSize } from '../../../shared/directives/button-base/button-base.directive';
-import { MetarTaf } from '../../model/metar-taf';
+import { MetarTaf } from '../../domain/metar-taf';
 
 
 @Component({

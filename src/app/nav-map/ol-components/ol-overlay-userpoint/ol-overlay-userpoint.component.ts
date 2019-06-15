@@ -1,10 +1,10 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {Userpoint} from '../../../map-features/model/userpoint';
+import {Userpoint} from '../../../map-features/domain/userpoint';
 import {Position2d} from '../../../shared/model/geometry/position2d';
-import {UserpointIcon} from '../../../map-features/model/userpoint-icon';
+import {UserpointIcon} from '../../../map-features/domain/userpoint-icon';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
-import {WaypointFactory} from '../../../flightroute/model/waypoint-mapper/waypoint-factory';
-import {OlHelper} from '../../../base-map/model/ol-helper';
+import {WaypointFactory} from '../../../flightroute/domain/waypoint-mapper/waypoint-factory';
+import {OlHelper} from '../../../base-map/domain/ol-helper';
 
 
 @Component({

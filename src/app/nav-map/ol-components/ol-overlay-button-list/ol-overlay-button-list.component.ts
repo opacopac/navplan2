@@ -5,8 +5,8 @@ import {map} from 'rxjs/operators';
 import {BaseMapOverlayCloseAction} from '../../../base-map/base-map.actions';
 import {DeleteWaypointAction, InsertWaypointAction, SetAlternateAction} from '../../../flightroute/flightroute.actions';
 import {getFlightroute} from '../../../flightroute/flightroute.selectors';
-import {Flightroute} from '../../../flightroute/model/flightroute';
-import {Waypoint} from '../../../flightroute/model/waypoint';
+import {Flightroute} from '../../../flightroute/domain/flightroute';
+import {Waypoint} from '../../../flightroute/domain/waypoint';
 
 
 @Component({

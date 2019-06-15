@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {DatetimeService} from '../../../shared/services/datetime/datetime.service';
 import {StringnumberService} from '../../../shared/services/stringnumber/stringnumber.service';
-import {Airport} from '../../../map-features/model/airport';
+import {Airport} from '../../../map-features/domain/airport';
 import {OlOverlayWindyiframeComponent} from '../ol-overlay-windyiframe/ol-overlay-windyiframe.component';
 
 @Component({

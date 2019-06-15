@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Extent2d} from '../../shared/model/geometry/extent2d';
 import {Observable, throwError} from 'rxjs';
-import {Traffic} from '../model/traffic';
+import {Traffic} from '../domain/traffic';
 import {catchError, map} from 'rxjs/operators';
 import {LoggingService} from '../../shared/services/logging/logging.service';
 import {RestMapperTrafficOpensky, TrafficOpenskyResponse} from '../rest-mapper/rest-mapper-traffic-opensky';

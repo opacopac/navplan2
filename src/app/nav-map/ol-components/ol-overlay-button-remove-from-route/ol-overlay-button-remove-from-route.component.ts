@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Waypoint} from '../../../flightroute/model/waypoint';
+import {Waypoint} from '../../../flightroute/domain/waypoint';
 
 
 @Component({

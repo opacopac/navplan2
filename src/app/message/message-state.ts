@@ -1,4 +1,4 @@
-import {Message} from './model/message';
+import {Message} from './domain/message';
 
 
 export interface MessageState {

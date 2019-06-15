@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Waypoint} from '../../model/waypoint';
-import {Flightroute} from '../../model/flightroute';
+import {Waypoint} from '../../domain/waypoint';
+import {Flightroute} from '../../domain/flightroute';
 import {ButtonColor, ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
-import {WaypointType} from '../../model/waypoint-type';
+import {WaypointType} from '../../domain/waypoint-type';
 import {LengthUnit, TimeUnit} from '../../../shared/model/quantities/units';
 
 

@@ -1,7 +1,7 @@
 import {Position2d} from '../shared/model/geometry/position2d';
 import {Angle} from '../shared/model/quantities/angle';
 import {Extent2d} from '../shared/model/geometry/extent2d';
-import {MapbaselayerType} from './model/mapbaselayer-factory';
+import {MapbaselayerType} from './domain/mapbaselayer-factory';
 import {DataItem} from '../shared/model/data-item';
 
 

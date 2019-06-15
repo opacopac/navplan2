@@ -10,8 +10,8 @@ import {Extent2d} from '../../../shared/model/geometry/extent2d';
 import {BaseMapClickedAction, BaseMapMovedZoomedRotatedAction} from '../../base-map.actions';
 import {Angle} from '../../../shared/model/quantities/angle';
 import {getMapPosition, getMapRotation, getMapZoom} from '../../base-map.selectors';
-import {MapbaselayerType} from '../../model/mapbaselayer-factory';
-import {BaseMapContext} from '../../model/base-map-context';
+import {MapbaselayerType} from '../../domain/mapbaselayer-factory';
+import {BaseMapContext} from '../../domain/base-map-context';
 
 
 @Component({

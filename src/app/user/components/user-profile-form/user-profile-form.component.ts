@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
-import {User} from '../../model/user';
+import {User} from '../../domain/user';
 
 
 export const identicalPasswordsValidator: ValidatorFn = (form: FormGroup): ValidationErrors | null => {

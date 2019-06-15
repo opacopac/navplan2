@@ -1,5 +1,5 @@
-import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource} from '../model/traffic';
-import {TrafficPosition, TrafficPositionMethod} from '../model/traffic-position';
+import {Traffic, TrafficAddressType, TrafficAircraftType, TrafficDataSource} from '../domain/traffic';
+import {TrafficPosition, TrafficPositionMethod} from '../domain/traffic-position';
 import {Position4d} from '../../shared/model/geometry/position4d';
 import {Length} from '../../shared/model/quantities/length';
 import {LengthUnit} from '../../shared/model/quantities/units';
@@ -9,6 +9,7 @@ import {Extent2d} from '../../shared/model/geometry/extent2d';
 import {TrafficAdsbExResponse, TrafficAdsbExRestItem} from '../rest-mapper/rest-mapper-traffic-adexb-ex';
 import {TrafficOgnResponse, TrafficOgnRestItem} from '../rest-mapper/rest-mapper-traffic-ogn';
 import {Extent4d} from '../../shared/model/geometry/extent4d';
+import {TrafficAdsbEx2Response, TrafficAdsbEx2RestItem} from '../rest-mapper/rest-mapper-traffic-adsb-ex2';
 
 
 export class TrafficMock {
@@ -119,13 +120,13 @@ export class TrafficMock {
     };
 
 
-    public static readonly ADSBEX2_MOCK_RESPONSE_1_ITEM_1 = {
+    public static readonly ADSBEX2_MOCK_RESPONSE_1_ITEM_1: TrafficAdsbEx2RestItem = {
         'postime': '1549195031085',
         'icao': '39840F',
         'reg': 'F-HBAP',
         'type': 'A320',
         'spd': '343',
-        'alt': '18650',
+        'galt': '18650',
         'lat': '46.685658',
         'lon': '7.302544',
         'vsi': '-1408',
@@ -141,13 +142,13 @@ export class TrafficMock {
     };
 
 
-    public static readonly ADSBEX2_MOCK_RESPONSE_1_ITEM_2 = {
+    public static readonly ADSBEX2_MOCK_RESPONSE_1_ITEM_2: TrafficAdsbEx2RestItem = {
         'postime': '1549203306398',
         'icao': '407343',
         'reg': 'G-SGSG',
         'type': 'GL5T',
         'spd': '0',
-        'alt': '1550',
+        'galt': '1550',
         'lat': '46.912708',
         'lon': '7.50095',
         'vsi': '0',
@@ -163,7 +164,7 @@ export class TrafficMock {
     };
 
 
-    public static readonly ADSBEX2_MOCK_RESPONSE_1 = {
+    public static readonly ADSBEX2_MOCK_RESPONSE_1: TrafficAdsbEx2Response = {
         'ac': [
             TrafficMock.ADSBEX2_MOCK_RESPONSE_1_ITEM_1,
             TrafficMock.ADSBEX2_MOCK_RESPONSE_1_ITEM_2
@@ -174,7 +175,7 @@ export class TrafficMock {
     };
 
 
-    public static readonly ADSBEX2_MOCK_RESPONSE_2 = {
+    public static readonly ADSBEX2_MOCK_RESPONSE_2: TrafficAdsbEx2Response = {
         'ac': null,
         'total': 0,
         'ctime': 1549196379859,

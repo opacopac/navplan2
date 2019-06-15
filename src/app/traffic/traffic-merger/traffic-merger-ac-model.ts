@@ -1,4 +1,4 @@
-import {Traffic, TrafficDataSource} from '../model/traffic';
+import {Traffic, TrafficDataSource} from '../domain/traffic';
 import {StringnumberService} from '../../shared/services/stringnumber/stringnumber.service';
 
 

@@ -9,11 +9,11 @@
             </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-            <p *ngIf="this.reportingsector.min_ft || this.reportingsector.max_ft">
+            <p *ngIf="this.reportingsector.alt_min || this.reportingsector.alt_max">
                 Altitude:
-                {{ this.reportingsector.min_ft ? 'min. ' + this.reportingsector.min_ft + 'ft' : '' }}
-                <span *ngIf="this.reportingsector.min_ft && this.reportingsector.max_ft">/</span>
-                {{ this.reportingsector.max_ft ? 'max. ' + this.reportingsector.max_ft + 'ft' : '' }}
+                {{ this.reportingsector.alt_min ? 'min. ' + this.reportingsector.alt_min + 'ft' : '' }}
+                <span *ngIf="this.reportingsector.alt_min && this.reportingsector.alt_max">/</span>
+                {{ this.reportingsector.alt_max ? 'max. ' + this.reportingsector.alt_max + 'ft' : '' }}
             </p>
             <p *ngIf="this.reportingsector.inbd_comp || this.reportingsector.outbd_comp">
                 Compulsory: {{ this.reportingsector.inbd_comp ? 'INBD' : '' }}

@@ -5,10 +5,10 @@ import {of} from 'rxjs/internal/observable/of';
 import {catchError, map} from 'rxjs/operators';
 import {environment} from '../../../../environments/environment';
 import {LoggingService} from '../../../shared/services/logging/logging.service';
-import {FlightrouteListEntry} from '../../model/flightroute-list-entry';
-import {FlightrouteListResponse, FlightrouteResponse, RestMapperFlightroute} from '../../model/rest-mapper/rest-mapper-flightroute';
-import {User} from '../../../user/model/user';
-import {Flightroute} from '../../model/flightroute';
+import {FlightrouteListEntry} from '../../domain/flightroute-list-entry';
+import {FlightrouteListResponse, FlightrouteResponse, RestMapperFlightroute} from '../../rest/rest-mapper-flightroute';
+import {User} from '../../../user/domain/user';
+import {Flightroute} from '../../domain/flightroute';
 
 
 const flightrouteBaseUrl = environment.restApiBaseUrl + 'php/Navplan/Flightroute/FlightrouteService.php';

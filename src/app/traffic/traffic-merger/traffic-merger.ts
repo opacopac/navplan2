@@ -1,4 +1,4 @@
-import {Traffic, TrafficDataSource} from '../model/traffic';
+import {Traffic, TrafficDataSource} from '../domain/traffic';
 import {TrafficMergerAcType} from './traffic-merger-ac-type';
 import {TrafficMergerRegistration} from './traffic-merger-registration';
 import {TrafficMergerCallsign} from './traffic-merger-callsign';

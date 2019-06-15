@@ -9,7 +9,7 @@
             <p>Type: {{ this.getTypeString() }}</p>
             <p>{{ this.getPositionString(this.geoname.position) }}</p>
             <p>VAR: {{ this.getVariationString(this.geoname.position) }}</p>
-            <p>Elevation: {{ this.getElevationString(this.geoname.elevation_m) }}</p>
+            <p>Elevation [ft]: {{ this.getElevationString(this.geoname.elevation.ft) }}</p>
             <hr/>
             <app-ol-overlay-button-add-to-route></app-ol-overlay-button-add-to-route>
             <app-ol-overlay-button-edit-waypoint></app-ol-overlay-button-edit-waypoint>

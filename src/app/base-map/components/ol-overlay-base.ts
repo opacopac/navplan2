@@ -1,10 +1,10 @@
+import * as ol from 'ol';
 import {ChangeDetectorRef, EventEmitter, Output} from '@angular/core';
 import {UnitconversionService} from '../../shared/services/unitconversion/unitconversion.service';
 import {StringnumberService} from '../../shared/services/stringnumber/stringnumber.service';
 import {DataItem} from '../../shared/model/data-item';
 import {Position2d} from '../../shared/model/geometry/position2d';
 import {BaseMapService} from '../services/base-map.service';
-import {Angle} from '../../shared/model/quantities/angle';
 import {GeocalcService} from '../../shared/services/geocalc/geocalc.service';
 
 

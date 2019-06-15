@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {MessageType} from './model/message-type';
+import {MessageType} from './domain/message-type';
 
 
 export enum MessageActionTypes {

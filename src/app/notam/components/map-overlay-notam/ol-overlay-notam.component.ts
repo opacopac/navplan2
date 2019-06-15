@@ -1,9 +1,9 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { StringnumberService } from '../../../shared/services/stringnumber/stringnumber.service';
-import { Notam } from '../../model/notam';
+import { Notam } from '../../domain/notam';
 import { Position2d } from '../../../shared/model/geometry/position2d';
 import { OlOverlayBase } from '../../../base-map/components/ol-overlay-base';
-import {OlHelper} from '../../../base-map/model/ol-helper';
+import {OlHelper} from '../../../base-map/domain/ol-helper';
 
 
 @Component({

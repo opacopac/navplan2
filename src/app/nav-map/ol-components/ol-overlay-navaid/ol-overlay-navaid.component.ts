@@ -1,11 +1,11 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {StringnumberService} from '../../../shared/services/stringnumber/stringnumber.service';
-import {Navaid} from '../../../map-features/model/navaid';
+import {Navaid} from '../../../map-features/domain/navaid';
 import {Position2d} from '../../../shared/model/geometry/position2d';
-import {NavaidIcon} from '../../../map-features/model/navaid-icon';
-import {WaypointFactory} from '../../../flightroute/model/waypoint-mapper/waypoint-factory';
+import {NavaidIcon} from '../../../map-features/domain/navaid-icon';
+import {WaypointFactory} from '../../../flightroute/domain/waypoint-mapper/waypoint-factory';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
-import {OlHelper} from '../../../base-map/model/ol-helper';
+import {OlHelper} from '../../../base-map/domain/ol-helper';
 
 
 @Component({

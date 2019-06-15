@@ -1,6 +1,6 @@
 import {Action} from '@ngrx/store';
-import {SearchItemList} from './model/search-item-list';
-import {SearchItem} from './model/search-item';
+import {SearchItemList} from './domain/search-item-list';
+import {SearchItem} from './domain/search-item';
 
 
 export enum SearchActionTypes {

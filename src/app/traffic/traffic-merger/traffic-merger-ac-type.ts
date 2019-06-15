@@ -1,4 +1,4 @@
-import {Traffic, TrafficAircraftType, TrafficDataSource} from '../model/traffic';
+import {Traffic, TrafficAircraftType, TrafficDataSource} from '../domain/traffic';
 
 
 export class TrafficMergerAcType {

@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {getSearchIsActive, getSearchResults, getSelectedIndex} from '../../search.selectors';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs/index';
-import {SearchItemList} from '../../model/search-item-list';
-import {SearchItem} from '../../model/search-item';
+import {SearchItemList} from '../../domain/search-item-list';
+import {SearchItem} from '../../domain/search-item';
 import {
     HideSearchResultsAction,
     SearchHideAction,

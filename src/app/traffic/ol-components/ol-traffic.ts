@@ -1,20 +1,23 @@
-import * as ol from 'openlayers';
-import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
-import {Traffic, TrafficAircraftType} from '../model/traffic';
+import {Feature} from 'ol';
+import {Vector} from 'ol/source';
+import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
+import {OlComponentBase} from '../../base-map/ol/ol-component-base';
+import {Traffic, TrafficAircraftType} from '../domain/traffic';
 import {UnitconversionService} from '../../shared/services/unitconversion/unitconversion.service';
 import {OlTrafficTrail} from './ol-traffic-trail';
-import {TrafficIcon} from '../model/traffic-icon';
+import {TrafficIcon} from '../domain/traffic-icon';
+import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 
 
 export class OlTraffic extends OlComponentBase {
-    private readonly olTrafficFeature: ol.Feature;
-    private readonly olCallsignFeature: ol.Feature;
+    private readonly olTrafficFeature: Feature;
+    private readonly olCallsignFeature: Feature;
     private readonly olDotTrailFeature: OlTrafficTrail;
 
 
     constructor(
         traffic: Traffic,
-        private readonly source: ol.source.Vector) {
+        private readonly source: Vector) {
 
         super();
 
@@ -81,38 +84,38 @@ export class OlTraffic extends OlComponentBase {
                 break;
         }
 
-        return new ol.style.Style({
-            image: new ol.style.Icon({
+        return new Style({
+            image: new Icon({
                 anchor: [0.5, 0.5],
-                anchorXUnits: 'fraction',
-                anchorYUnits: 'fraction',
+                anchorXUnits: IconAnchorUnits.FRACTION,
+                anchorYUnits: IconAnchorUnits.FRACTION,
                 scale: 1,
                 opacity: 1.00,
                 rotation: UnitconversionService.deg2rad(rotation),
                 rotateWithView: rotWithView,
                 src: icon
             }),
-            text: new ol.style.Text({
+            text: new Text({
                 font: 'bold 14px Calibri,sans-serif',
                 text: heighttext + typetext,
-                fill: new ol.style.Fill({color: '#FF0000'}),
-                stroke: new ol.style.Stroke({color: '#FFFFFF', width: 2}),
+                fill: new Fill({color: '#FF0000'}),
+                stroke: new Stroke({color: '#FFFFFF', width: 2}),
                 offsetX: 0,
                 offsetY: 35
             })});
     }
 
 
-    private getCallsignStyle(traffic: Traffic): ol.style.Style {
+    private getCallsignStyle(traffic: Traffic): Style {
         const color = '#FF0000';
         const bgColor = '#FFFFFF';
 
-        return new ol.style.Style({
-            text: new ol.style.Text({
+        return new Style({
+            text: new Text({
                 font: 'bold 14px Calibri,sans-serif',
                 text: traffic.getCommonName(),
-                fill: new ol.style.Fill({color: color}),
-                stroke: new ol.style.Stroke({color: bgColor, width: 2}),
+                fill: new Fill({color: color}),
+                stroke: new Stroke({color: bgColor, width: 2}),
                 offsetX: 0,
                 offsetY: -35
             })

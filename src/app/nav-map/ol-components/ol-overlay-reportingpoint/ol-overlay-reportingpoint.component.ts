@@ -1,11 +1,11 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {Reportingpoint} from '../../../map-features/model/reportingpoint';
+import {Reportingpoint} from '../../../map-features/domain/reportingpoint';
 import {StringnumberService} from '../../../shared/services/stringnumber/stringnumber.service';
 import {Position2d} from '../../../shared/model/geometry/position2d';
-import {ReportingpointIcon} from '../../../map-features/model/reportingpoint-icon';
+import {ReportingpointIcon} from '../../../map-features/domain/reportingpoint-icon';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
-import {WaypointFactory} from '../../../flightroute/model/waypoint-mapper/waypoint-factory';
-import {OlHelper} from '../../../base-map/model/ol-helper';
+import {WaypointFactory} from '../../../flightroute/domain/waypoint-mapper/waypoint-factory';
+import {OlHelper} from '../../../base-map/domain/ol-helper';
 
 
 @Component({

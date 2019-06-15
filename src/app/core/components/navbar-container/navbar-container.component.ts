@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {User} from '../../../user/model/user';
+import {User} from '../../../user/domain/user';
 import {select, Store} from '@ngrx/store';
 import {getCurrentUser} from '../../../user/user.selectors';
 import {SearchShowAction} from '../../../search/search.actions';

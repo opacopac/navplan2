@@ -1,5 +1,5 @@
 import {Extent2d} from '../../model/geometry/extent2d';
-import {User} from '../../../user/model/user';
+import {User} from '../../../user/domain/user';
 
 
 const MAX_CACHE_ENTRIES = 10;

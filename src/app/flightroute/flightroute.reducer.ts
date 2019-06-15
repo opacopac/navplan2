@@ -1,8 +1,8 @@
 import {FlightrouteState} from './flightroute-state';
 import {FlightrouteActions, FlightrouteActionTypes} from './flightroute.actions';
 import {UserActions, UserActionTypes} from '../user/user.actions';
-import {Aircraft} from './model/aircraft';
-import {Flightroute} from './model/flightroute';
+import {Aircraft} from './domain/aircraft';
+import {Flightroute} from './domain/flightroute';
 import {Speed} from '../shared/model/quantities/speed';
 import {ConsumptionUnit, LengthUnit, SpeedUnit, TimeUnit, VolumeUnit} from '../shared/model/quantities/units';
 import {Consumption} from '../shared/model/quantities/consumption';

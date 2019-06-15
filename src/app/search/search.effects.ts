@@ -4,10 +4,10 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
 import {debounceTime, filter, map, switchMap, withLatestFrom, catchError} from 'rxjs/operators';
 import {throwError} from 'rxjs/index';
-import {SearchService} from './services/search/search.service';
+import {SearchService} from './services/search.service';
 import {SearchActionTypes, SearchQuerySubmittedAction, SearchResultsReceivedAction} from './search.actions';
 import {getCurrentUser} from '../user/user.selectors';
-import {User} from '../user/model/user';
+import {User} from '../user/domain/user';
 import {LoggingService} from '../shared/services/logging/logging.service';
 
 

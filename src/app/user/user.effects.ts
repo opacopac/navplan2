@@ -27,8 +27,8 @@ import {
     SendLostPwEmailAction,
     ResetPwErrorAction, ResetPwSuccessAction, ResetPwAction
 } from './user.actions';
-import {UserService} from './services/user/user.service';
-import {MessageService} from '../message/services/message/message.service';
+import {UserService} from './services/user.service';
+import {MessageService} from '../message/services/message.service';
 import {ClientstorageService} from '../shared/services/clientstorage/clientstorage.service';
 
 

@@ -1,12 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {OlOwnPlaneContainer} from '../../../location/ol-components/ol-own-plane-container';
-import {OlFlightrouteContainer} from '../../../flightroute/ol-components/ol-flightroute-container';
-import {OlMetarContainer} from '../../../metar-taf/ol-components/ol-metar-container';
+import {OlOwnPlaneContainer} from '../../../location/ol/ol-own-plane-container';
+import {OlFlightrouteContainer} from '../../../flightroute/ol/ol-flightroute-container';
+import {OlMetarContainer} from '../../../metar-taf/ol/ol-metar-container';
 import {OlTrafficContainer} from '../../../traffic/ol-components/ol-traffic-container';
-import {OlMapFeaturesContainer} from '../../../map-features/ol-components/ol-map-features-container';
-import {OlNotamContainer} from '../../../notam/ol-component/ol-notam-container';
-import {BaseMapContext} from '../../../base-map/model/base-map-context';
-import {OlTrackContainer} from '../../../track/ol-components/ol-track-container';
+import {OlMapFeaturesContainer} from '../../../map-features/ol/ol-map-features-container';
+import {OlNotamContainer} from '../../../notam/ol/ol-notam-container';
+import {BaseMapContext} from '../../../base-map/domain/base-map-context';
+import {OlTrackContainer} from '../../../track/ol/ol-track-container';
 
 
 @Component({

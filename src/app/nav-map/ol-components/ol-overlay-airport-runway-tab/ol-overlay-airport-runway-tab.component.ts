@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Airport} from '../../../map-features/model/airport';
-import {AirportRunway} from '../../../map-features/model/airport-runway';
+import {Airport} from '../../../map-features/domain/airport';
+import {AirportRunway} from '../../../map-features/domain/airport-runway';
 
 
 @Component({
@@ -26,6 +26,6 @@ export class OlOverlayAirportRunwayTabComponent implements OnInit {
 
 
     public getRwyDimensionsString(runway: AirportRunway): string {
-        return Math.round(runway.length) + ' x ' + Math.round(runway.width) + 'm';
+        return Math.round(runway.length.m) + ' x ' + Math.round(runway.width.m) + 'm';
     }
 }

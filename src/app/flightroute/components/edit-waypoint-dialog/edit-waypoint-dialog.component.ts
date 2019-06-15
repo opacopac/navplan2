@@ -1,6 +1,6 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {Waypoint} from '../../model/waypoint';
+import {Waypoint} from '../../domain/waypoint';
 import {EditWaypointFormComponent} from '../edit-waypoint-form/edit-waypoint-form.component';
 
 

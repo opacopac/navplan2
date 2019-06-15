@@ -1,7 +1,7 @@
 import {TrafficMock} from '../test/traffic-mock';
 import {RestMapperTrafficAdsbEx2} from './rest-mapper-traffic-adsb-ex2';
-import {TrafficAddressType, TrafficAircraftType, TrafficDataSource} from '../model/traffic';
-import {TrafficPositionMethod} from '../model/traffic-position';
+import {TrafficAddressType, TrafficAircraftType, TrafficDataSource} from '../domain/traffic';
+import {TrafficPositionMethod} from '../domain/traffic-position';
 
 
 describe('RestMapperTrafficAdsbEx2', () => {
@@ -49,7 +49,7 @@ describe('RestMapperTrafficAdsbEx2', () => {
         expect(trafficList[1].positions[0].position.latitude).toEqual(parseFloat(response.ac[1].lat));
         expect(trafficList[0].positions[0].position.longitude).toEqual(parseFloat(response.ac[0].lon));
         expect(trafficList[1].positions[0].position.longitude).toEqual(parseFloat(response.ac[1].lon));
-        expect(trafficList[0].positions[0].position.altitude.ft).toEqual(parseInt(response.ac[0].alt, 10));
+        expect(trafficList[0].positions[0].position.altitude.ft).toEqual(parseInt(response.ac[0].galt, 10));
         expect(trafficList[1].positions[0].position.altitude).toBeUndefined();
     });
 });

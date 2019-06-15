@@ -3,7 +3,7 @@ import {TrafficMerger} from './traffic-merger/traffic-merger';
 import {TrafficActions, TrafficActionTypes} from './traffic.actions';
 import {Length} from '../shared/model/quantities/length';
 import {LengthUnit} from '../shared/model/quantities/units';
-import {Traffic} from './model/traffic';
+import {Traffic} from './domain/traffic';
 import {BaseMapActions, BaseMapActionTypes} from '../base-map/base-map.actions';
 import {TrafficServiceStatus} from './services/traffic-service-status';
 import {Extent3d} from '../shared/model/geometry/extent3d';

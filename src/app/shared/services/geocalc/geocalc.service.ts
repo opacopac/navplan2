@@ -1,4 +1,3 @@
-import * as ol from 'openlayers';
 import {Position2d} from '../../model/geometry/position2d';
 import {Angle} from '../../model/quantities/angle';
 import {AngleUnit, LengthUnit} from '../../model/quantities/units';
@@ -7,9 +6,9 @@ import {BearingPos} from '../../model/geometry/bearing-pos';
 import {HyperCircleFitter} from '../circle-fitter/hyper-circle-fitter';
 import {WorldMagneticModel} from '../../model/world-magnetic-model/WorldMagneticModel';
 import {DatetimeService} from '../datetime/datetime.service';
+import {getDistance} from 'ol/sphere';
 
 
-const wgs84Sphere = new ol.Sphere(6378137);
 const toRad = (Math.PI / 180);
 const toDeg = (180 / Math.PI);
 
@@ -23,7 +22,7 @@ export class GeocalcService {
             return undefined;
         }
 
-        return new Length(wgs84Sphere.haversineDistance(pos1.toArray(), pos2.toArray()) * 0.000539957, LengthUnit.NM);
+        return new Length(getDistance(pos1.toArray(), pos2.toArray()) * 0.000539957, LengthUnit.NM);
     }
 
 

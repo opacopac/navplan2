@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
-import {UserService} from '../../services/user/user.service';
+import {UserService} from '../../services/user.service';
 import {DatetimeService} from '../../../shared/services/datetime/datetime.service';
 
 

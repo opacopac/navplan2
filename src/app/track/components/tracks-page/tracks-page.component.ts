@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
-import {Track} from '../../model/track';
+import {Track} from '../../domain/track';
 import {getShowTrack, getTrackList} from '../../track.selectors';
 import {
     DeleteTrackAction,

@@ -1,4 +1,4 @@
-import {Traffic} from './model/traffic';
+import {Traffic} from './domain/traffic';
 import {TrafficServiceStatus} from './services/traffic-service-status';
 import {Extent3d} from '../shared/model/geometry/extent3d';
 

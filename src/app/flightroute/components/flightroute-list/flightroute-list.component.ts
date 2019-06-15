@@ -9,7 +9,7 @@ import {
     ViewChild
 } from '@angular/core';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
-import {FlightrouteListEntry} from '../../model/flightroute-list-entry';
+import {FlightrouteListEntry} from '../../domain/flightroute-list-entry';
 
 
 export interface ListEntry {

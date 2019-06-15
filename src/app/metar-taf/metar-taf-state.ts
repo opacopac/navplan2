@@ -1,5 +1,5 @@
 import {Extent2d} from '../shared/model/geometry/extent2d';
-import {MetarTafList} from './model/metar-taf';
+import {MetarTafList} from './domain/metar-taf';
 
 
 export interface MetarTafState {

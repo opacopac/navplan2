@@ -12,11 +12,11 @@
         <mat-card-content>
             <p>{{ this.getPositionString(this.reportingpoint.position) }}</p>
             <!--<p>VAR: {{ this.getVariationString(this.reportingpoint.position) }}</p>-->
-            <p *ngIf="this.reportingpoint.min_ft || this.reportingpoint.max_ft">
+            <p *ngIf="this.reportingpoint.alt_min || this.reportingpoint.alt_max.ft">
                 Altitude:
-                {{ this.reportingpoint.min_ft ? 'min. ' + this.reportingpoint.min_ft + 'ft' : '' }}
-                <span *ngIf="this.reportingpoint.min_ft && this.reportingpoint.max_ft">/</span>
-                {{ this.reportingpoint.max_ft ? 'max. ' + this.reportingpoint.max_ft + 'ft' : '' }}
+                {{ this.reportingpoint.alt_min ? 'min. ' + this.reportingpoint.alt_min.ft + 'ft' : '' }}
+                <span *ngIf="this.reportingpoint.alt_min && this.reportingpoint.alt_max">/</span>
+                {{ this.reportingpoint.alt_max ? 'max. ' + this.reportingpoint.alt_max.ft + 'ft' : '' }}
             </p>
             <p *ngIf="this.reportingpoint.inbd_comp || this.reportingpoint.outbd_comp">
                 Compulsory: {{ this.reportingpoint.inbd_comp ? 'INBD' : '' }}

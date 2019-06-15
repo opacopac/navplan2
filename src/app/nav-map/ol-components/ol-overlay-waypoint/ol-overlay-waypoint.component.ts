@@ -1,8 +1,8 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Position2d} from '../../../shared/model/geometry/position2d';
-import {Waypoint} from '../../../flightroute/model/waypoint';
+import {Waypoint} from '../../../flightroute/domain/waypoint';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
-import {OlHelper} from '../../../base-map/model/ol-helper';
+import {OlHelper} from '../../../base-map/domain/ol-helper';
 
 
 @Component({

@@ -1,10 +1,11 @@
-import * as ol from 'openlayers';
-import {OlComponentBase} from '../../base-map/ol-component/ol-component-base';
-import {BaseMapContext} from '../../base-map/model/base-map-context';
+import {Vector} from 'ol/source';
+import VectorLayer from 'ol/layer/Vector';
+import {OlComponentBase} from '../../base-map/ol/ol-component-base';
+import {BaseMapContext} from '../../base-map/domain/base-map-context';
 import {interval, Observable, Subscription} from 'rxjs';
 import {OlTraffic} from './ol-traffic';
 import {getTrafficState} from '../traffic.selectors';
-import {Traffic} from '../model/traffic';
+import {Traffic} from '../domain/traffic';
 import {select} from '@ngrx/store';
 import {debounce, debounceTime, map, switchMap} from 'rxjs/operators';
 
@@ -13,7 +14,7 @@ const UPDATE_TRAFFIC_DISPLAY_DEBOUNCE_MS = 1000;
 
 export class OlTrafficContainer extends OlComponentBase {
     private readonly trafficSubscription: Subscription;
-    private readonly trafficLayer: ol.layer.Vector;
+    private readonly trafficLayer: VectorLayer;
     private olTrafficList: OlTraffic[] = [];
 
 
@@ -48,7 +49,7 @@ export class OlTrafficContainer extends OlComponentBase {
     }
 
 
-    private addFeatures(trafficList: Traffic[], source: ol.source.Vector) {
+    private addFeatures(trafficList: Traffic[], source: Vector) {
         if (trafficList) {
             trafficList.forEach(traffic => this.olTrafficList.push(new OlTraffic(traffic, source)));
         }

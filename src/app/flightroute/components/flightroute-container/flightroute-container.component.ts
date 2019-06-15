@@ -6,8 +6,8 @@ import {Observable, Subject, Subscription} from 'rxjs';
 import {debounceTime, map} from 'rxjs/operators';
 import {getFlightroute} from '../../flightroute.selectors';
 import {getCurrentUser} from '../../../user/user.selectors';
-import {Flightroute} from '../../model/flightroute';
-import {User} from '../../../user/model/user';
+import {Flightroute} from '../../domain/flightroute';
+import {User} from '../../../user/domain/user';
 import {
     FlightrouteCreateAction,
     FlightrouteDuplicateAction,
@@ -18,7 +18,7 @@ import {
     UpdateFlightrouteTitleAction,
     UpdateWaypointAction,
 } from '../../flightroute.actions';
-import {Waypoint} from '../../model/waypoint';
+import {Waypoint} from '../../domain/waypoint';
 import {DeleteWaypointAction, ReverseWaypointsAction} from '../../flightroute.actions';
 import {Speed} from '../../../shared/model/quantities/speed';
 import {Consumption} from '../../../shared/model/quantities/consumption';

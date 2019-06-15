@@ -1,7 +1,7 @@
 import {Action} from '@ngrx/store';
 import {Extent2d} from '../shared/model/geometry/extent2d';
-import {Mapfeatures} from './model/mapfeatures';
-import {User} from '../user/model/user';
+import {OpenAipItems} from './domain/open-aip-items';
+import {User} from '../user/domain/user';
 
 
 export enum MapFeaturesActionTypes {
@@ -21,7 +21,7 @@ export class LoadMapFeaturesAction implements Action {
 export class LoadMapFeaturesSuccessAction implements Action {
     readonly type = MapFeaturesActionTypes.MAPFEATURES_LOAD_SUCCESS;
 
-    constructor(public mapFeatures: Mapfeatures, public extent: Extent2d, public zoom: number, user: User) {}
+    constructor(public mapFeatures: OpenAipItems, public extent: Extent2d, public zoom: number, user: User) {}
 }
 
 

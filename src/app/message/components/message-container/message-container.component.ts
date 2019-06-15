@@ -3,8 +3,8 @@ import {MatSnackBar} from '@angular/material';
 import {select, Store} from '@ngrx/store';
 import {Subscription} from 'rxjs';
 import {getCurrentMessage} from '../../message.selectors';
-import {Message} from '../../model/message';
-import {MessageType} from '../../model/message-type';
+import {Message} from '../../domain/message';
+import {MessageType} from '../../domain/message-type';
 
 
 const AUTO_DISMISS_TIME_MS = 4000;

@@ -4,7 +4,7 @@ import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {getCurrentUser} from './user/user.selectors';
 import {AutoLoginUserAction} from './user/user.actions';
-import {User} from './user/model/user';
+import {User} from './user/domain/user';
 
 
 @Component({

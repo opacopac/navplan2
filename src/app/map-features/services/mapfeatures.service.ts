@@ -5,13 +5,14 @@ import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {Extent2d} from '../../shared/model/geometry/extent2d';
-import {Mapfeatures} from '../model/mapfeatures';
-import {MapFeaturesResponse, RestMapperMapfeatures} from '../model/rest-mapper/rest-mapper-mapfeatures';
-import {User} from '../../user/model/user';
+import {OpenAipItems} from '../domain/open-aip-items';
+import {User} from '../../user/domain/user';
 import {LoggingService} from '../../shared/services/logging/logging.service';
 import {Position2d} from '../../shared/model/geometry/position2d';
 import {DataItem} from '../../shared/model/data-item';
 import {getMapFeatures} from '../map-features.selectors';
+import {RestOpenAipItems} from '../rest/rest-open-aip-items';
+import {IRestOpenAipItems} from '../rest/i-rest-open-aip-items';
 
 
 const MAPFEATURES_BASE_URL = environment.restApiBaseUrl + 'php/Navplan/Search/SearchService.php';
@@ -21,7 +22,7 @@ const MAPFEATURES_BASE_URL = environment.restApiBaseUrl + 'php/Navplan/Search/Se
     providedIn: 'root'
 })
 export class MapfeaturesService  {
-    private loadedMapFeatures$: Observable<Mapfeatures>;
+    private loadedMapFeatures$: Observable<OpenAipItems>;
 
 
     constructor(
@@ -31,7 +32,7 @@ export class MapfeaturesService  {
     }
 
 
-    public static findLoadedMapFeatureByPosition(mapFeatures: Mapfeatures, position: Position2d, precisionDigits = 4): DataItem {
+    public static findLoadedMapFeatureByPosition(mapFeatures: OpenAipItems, position: Position2d, precisionDigits = 4): DataItem {
         // search airports
         for (const airport of mapFeatures.airports) {
             if (airport.position.equals(position, precisionDigits)) {
@@ -74,12 +75,12 @@ export class MapfeaturesService  {
     public load(
         extent: Extent2d,
         zoom: number,
-        user: User): Observable<Mapfeatures> {
+        user: User): Observable<OpenAipItems> {
 
         return this.http
-            .jsonp<MapFeaturesResponse>(this.buildRequestUrl(extent, zoom, user), 'callback')
+            .get<IRestOpenAipItems>(this.buildRequestUrl(extent, zoom, user))
             .pipe(
-                map(response => RestMapperMapfeatures.getMapFeaturesFromResponse(response)),
+                map(response => RestOpenAipItems.fromRest(response)),
                 catchError(error => {
                     LoggingService.logResponseError('ERROR reading map features', error);
                     return throwError(error);

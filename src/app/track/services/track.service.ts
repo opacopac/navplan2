@@ -3,9 +3,9 @@ import {HttpClient} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {LoggingService} from '../../shared/services/logging/logging.service';
-import {RestMapperTrack, SingleTrackResponse, TrackListResponse} from '../model/rest-mapper-track';
-import {Track} from '../model/track';
-import {User} from '../../user/model/user';
+import {RestMapperTrack, SingleTrackResponse, TrackListResponse} from '../rest/rest-mapper-track';
+import {Track} from '../domain/track';
+import {User} from '../../user/domain/user';
 import {catchError, map} from 'rxjs/operators';
 
 const userTrackBaseUrl =  environment.restApiBaseUrl + 'php/userTrack.php';

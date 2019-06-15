@@ -1,12 +1,12 @@
-import {Flightroute} from '../../model/flightroute';
+import {Flightroute} from '../../domain/flightroute';
 import {Speed} from '../../../shared/model/quantities/speed';
-import {Waypoint} from '../../model/waypoint';
+import {Waypoint} from '../../domain/waypoint';
 import {GeocalcService} from '../../../shared/services/geocalc/geocalc.service';
 import {StringnumberService} from '../../../shared/services/stringnumber/stringnumber.service';
 import {ConsumptionUnit, LengthUnit, SpeedUnit, TimeUnit, VolumeUnit} from '../../../shared/model/quantities/units';
-import {WaypointType} from '../../model/waypoint-type';
+import {WaypointType} from '../../domain/waypoint-type';
 import {Time} from '../../../shared/model/quantities/time';
-import {RouteFuel} from '../../model/routefuel';
+import {RouteFuel} from '../../domain/routefuel';
 import {Volume} from '../../../shared/model/quantities/volume';
 import {Consumption} from '../../../shared/model/quantities/consumption';
 import {Length} from '../../../shared/model/quantities/length';

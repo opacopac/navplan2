@@ -5,7 +5,7 @@ import {catchError, filter, map, switchMap, withLatestFrom} from 'rxjs/operators
 import {Observable} from 'rxjs';
 import {of} from 'rxjs/internal/observable/of';
 import {TrackService} from './services/track.service';
-import {User} from '../user/model/user';
+import {User} from '../user/domain/user';
 import {getCurrentUser} from '../user/user.selectors';
 import {
     ReadTrackAction, ReadTrackErrorAction,
