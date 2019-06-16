@@ -2,14 +2,14 @@
 
 namespace NavplanTest\Traffic\Mocks;
 
-use Navplan\Traffic\Domain\Traffic;
+use Navplan\Traffic\Domain\TrafficAdsbex;
 use Navplan\Traffic\Domain\TrafficAcType;
 use Navplan\Traffic\Domain\TrafficAddressType;
 
 
 class DummyAdsbexTraffic1 {
-    public static function create(): Traffic {
-        return new Traffic(
+    public static function create(): TrafficAdsbex {
+        return new TrafficAdsbex(
             "4B3145",
             TrafficAddressType::ICAO,
             TrafficAcType::UNKNOWN,
@@ -25,15 +25,15 @@ class DummyAdsbexTraffic1 {
 
     public static function createRest(): array {
         return array(
-            "acAddress" => "4B3145",
-            "addressType" => "ICAO",
-            "acType" => "UNKNOWN",
-            "icaoType" => "AAT3",
+            "acaddress" => "4B3145",
+            "addresstype" => "ICAO",
+            "actype" => "UNKNOWN",
+            "icaotype" => "AAT3",
             "registration" => "HB-SRD",
             "callsign" => "HBSRD",
-            "opIcao" => NULL,
-            "acModel" => NULL,
-            "positionList" => [ DummyAdsbexTrafficPosition1::createRest() ],
+            "opicao" => NULL,
+            "acmodel" => NULL,
+            "poslist" => [ DummyAdsbexTrafficPosition1::createRest() ],
         );
     }
 }

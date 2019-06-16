@@ -3,7 +3,7 @@
 namespace Navplan\Traffic\UseCase;
 
 use Navplan\Shared\GeoHelper;
-use Navplan\Traffic\Domain\ReadTrafficRequest;
+use Navplan\Traffic\Domain\TrafficAdsbexReadRequest;
 
 
 class ReadAdsbexTraffic {
@@ -15,7 +15,7 @@ class ReadAdsbexTraffic {
     }
 
 
-    public function read(ReadTrafficRequest $request): array {
+    public function read(TrafficAdsbexReadRequest $request): array {
         $midPos = $request->extent->calcMidPos();
         $dist = GeoHelper::calcHaversineDistance($request->extent->minPos, $midPos);
 

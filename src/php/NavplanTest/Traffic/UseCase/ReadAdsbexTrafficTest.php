@@ -6,7 +6,7 @@ use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\LengthUnit;
 use Navplan\Geometry\Domain\Time;
 use Navplan\Geometry\Domain\TimeUnit;
-use Navplan\Traffic\Domain\ReadTrafficRequest;
+use Navplan\Traffic\Domain\TrafficAdsbexReadRequest;
 use Navplan\Traffic\UseCase\ReadAdsbexTraffic;
 use NavplanTest\MockNavplanConfig;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTraffic1;
@@ -34,7 +34,7 @@ class ReadAdsbexTrafficTest extends TestCase {
         $extent = Extent::createFromCoords(6.0, 46.0, 8.5, 48.5);
         $maxAge = new Time(120, TimeUnit::S);
         $sesionId = 123;
-        $request = new ReadTrafficRequest($extent, $maxAge, $sesionId);
+        $request = new TrafficAdsbexReadRequest($extent, $maxAge, $sesionId);
         $traffic1 = DummyAdsbexTraffic1::create();
         $traffic2 = DummyAdsbexTraffic2::create();
         $traffic3 = DummyAdsbexTraffic3::create();

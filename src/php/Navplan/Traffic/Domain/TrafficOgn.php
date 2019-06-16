@@ -3,7 +3,7 @@
 namespace Navplan\Traffic\Domain;
 
 
-class Traffic {
+class TrafficOgn {
     public $acAddress;
     public $addressType;
     public $acType;

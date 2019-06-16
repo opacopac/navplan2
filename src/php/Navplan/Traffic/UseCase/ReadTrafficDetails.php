@@ -2,7 +2,7 @@
 
 namespace Navplan\Traffic\UseCase;
 
-use Navplan\Traffic\Domain\ReadTrafficDetailsRequest;
+use Navplan\Traffic\Domain\TrafficDetailsReadRequest;
 use Navplan\Traffic\Domain\TrafficDetail;
 
 
@@ -15,27 +15,45 @@ class ReadTrafficDetails {
     }
 
 
-    public function readDetails(ReadTrafficDetailsRequest $request): array {
+    public function readDetails(TrafficDetailsReadRequest $request): array {
         $trafficDetailList = $request->trafficDetailList;
+
+        $icao24List = $this->getIcao24List($trafficDetailList);
+
+        $lfrchDetailList = $this->trafficRepo->readDetailsFromLfrCh($icao24List);
+        $this->mergeLfrchDetails($trafficDetailList, $lfrchDetailList);
+
+        $basestationDetailList = $this->trafficRepo->readDetailsFromBasestation($icao24List);
+        $this->mergeBasestationDetails($trafficDetailList, $basestationDetailList);
+
+        $acTypeList = $this->getAcTypeList($trafficDetailList);
+
+        $icaoAcTypeDetailList = $this->trafficRepo->readDetailsFromIcaoAcTypes($acTypeList);
+        $this->mergeIcaoAcTypeDetails($trafficDetailList, $icaoAcTypeDetailList);
+
+        return $trafficDetailList;
+    }
+
+
+    private function getIcao24List(array $trafficDetailList): array {
         $icao24List = array_map(
             function (TrafficDetail $trafficDetail) { return $trafficDetail->icao24; },
             $trafficDetailList
         );
 
+        return array_filter($icao24List);
+    }
+
+
+    private function getAcTypeList(array $trafficDetailList): array {
         $acTypeList = array_map(
             function (TrafficDetail $trafficDetail) { return $trafficDetail->icaoAcType; },
             $trafficDetailList
         );
 
-        $lfrchDetailList = $this->trafficRepo->readDetailsFromLfrCh($icao24List);
-        $basestationDetailList = $this->trafficRepo->readDetailsFromBasestation($icao24List);
-        $icaoAcTypeDetailList = $this->trafficRepo->readDetailsFromIcaoAcTypes($acTypeList);
+        $acTypeList = array_filter($acTypeList);
 
-        $this->mergeLfrchDetails($trafficDetailList, $lfrchDetailList);
-        $this->mergeBasestationDetails($trafficDetailList, $basestationDetailList);
-        $this->mergeIcaoAcTypeDetails($trafficDetailList, $icaoAcTypeDetailList);
-
-        return $trafficDetailList;
+        return array_unique($acTypeList);
     }
 
 
@@ -78,6 +96,7 @@ class ReadTrafficDetails {
 
         }
     }
+
 
     private function mergeIcaoAcTypeDetails(array &$trafficDetailList, array $icaoAcTypeDetailList) {
         $icaoAcTypeMap = $this->getIcaoAcTypeMap($icaoAcTypeDetailList);

@@ -2,16 +2,16 @@
 
 namespace Navplan\Traffic\AdsbexGateway;
 
-use Navplan\Traffic\Domain\Traffic;
+use Navplan\Traffic\Domain\TrafficAdsbex;
 use Navplan\Traffic\Domain\TrafficAcType;
 use Navplan\Traffic\Domain\TrafficAddressType;
 
 
 class AdsbexTraffic  {
-    public static function fromResponse(array $response, int $acIndex): Traffic {
+    public static function fromResponse(array $response, int $acIndex): TrafficAdsbex {
         $acResponse = $response["ac"][$acIndex];
 
-        return new Traffic(
+        return new TrafficAdsbex(
             $acResponse["icao"],
             TrafficAddressType::ICAO,
             TrafficAcType::UNKNOWN,

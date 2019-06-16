@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Traffic\UseCase;
 
-use Navplan\Traffic\Domain\ReadTrafficDetailsRequest;
+use Navplan\Traffic\Domain\TrafficDetailsReadRequest;
 use Navplan\Traffic\Domain\TrafficDetail;
 use Navplan\Traffic\UseCase\ReadTrafficDetails;
 use NavplanTest\MockNavplanConfig;
@@ -43,7 +43,7 @@ class TrafficDetailsTest extends TestCase {
 
     public function test_getDetails_returns_details_from_lfc_ch() {
         $requestTraffic = new TrafficDetail('4B3142', NULL, NULL, NULL, NULL, NULL, NULL);
-        $request = new ReadTrafficDetailsRequest([$requestTraffic]);
+        $request = new TrafficDetailsReadRequest([$requestTraffic]);
         $resultTraffic = DummyLfrchTrafficDetail1::create();
         $this->trafficRepo->readDetailsFromLfrChResult = [$resultTraffic];
         $this->trafficRepo->readDetailsFromBasestationResult = [];
@@ -59,7 +59,7 @@ class TrafficDetailsTest extends TestCase {
 
     public function test_getDetails_returns_details_from_basestation() {
         $requestTraffic = new TrafficDetail('4B3142', NULL, NULL, NULL, NULL, NULL, NULL);
-        $request = new ReadTrafficDetailsRequest([$requestTraffic]);
+        $request = new TrafficDetailsReadRequest([$requestTraffic]);
         $resultTraffic = DummyBasestationTrafficDetail1::create();
         $this->trafficRepo->readDetailsFromLfrChResult = [];
         $this->trafficRepo->readDetailsFromBasestationResult = [$resultTraffic];
@@ -75,7 +75,7 @@ class TrafficDetailsTest extends TestCase {
 
     public function test_getDetails_returns_details_from_icao_ac_types() {
         $requestTraffic = new TrafficDetail('C0FFEE', NULL, NULL, NULL, "AAT3", NULL, NULL);
-        $request = new ReadTrafficDetailsRequest([$requestTraffic]);
+        $request = new TrafficDetailsReadRequest([$requestTraffic]);
         $resultTraffic = DummyIcaoAcTypeTrafficDetail1::create();
         $this->trafficRepo->readDetailsFromLfrChResult = [];
         $this->trafficRepo->readDetailsFromBasestationResult = [];
@@ -99,7 +99,7 @@ class TrafficDetailsTest extends TestCase {
 
     public function test_getDetails_combines_details_from_3_sources() {
         $requestTraffic = new TrafficDetail('4B3142', NULL, NULL, NULL, NULL, NULL, NULL);
-        $request = new ReadTrafficDetailsRequest([$requestTraffic]);
+        $request = new TrafficDetailsReadRequest([$requestTraffic]);
         $resultTraffic1 = DummyLfrchTrafficDetail1::create();
         $resultTraffic2 = DummyBasestationTrafficDetail1::create();
         $resultTraffic3 = DummyIcaoAcTypeTrafficDetail1::create();
@@ -125,7 +125,7 @@ class TrafficDetailsTest extends TestCase {
 
     public function test_getDetails_combines_details_from_2_sources() {
         $requestTraffic = new TrafficDetail('4b3142', NULL, NULL, NULL, NULL, NULL, NULL);
-        $request = new ReadTrafficDetailsRequest([$requestTraffic]);
+        $request = new TrafficDetailsReadRequest([$requestTraffic]);
         $resultTraffic2 = DummyBasestationTrafficDetail1::create();
         $resultTraffic3 = DummyIcaoAcTypeTrafficDetail1::create();
         $this->trafficRepo->readDetailsFromLfrChResult = [];
@@ -150,7 +150,7 @@ class TrafficDetailsTest extends TestCase {
 
     public function test_getDetails_multiple_entries_of_same_aircraft_type() {
         $requestTraffic = new TrafficDetail('C0FFEE', NULL, NULL, NULL, "A320", NULL, NULL);
-        $request = new ReadTrafficDetailsRequest([$requestTraffic]);
+        $request = new TrafficDetailsReadRequest([$requestTraffic]);
         $resultTraffic3a = DummyIcaoAcTypeTrafficDetail2::create();
         $resultTraffic3b = DummyIcaoAcTypeTrafficDetail3::create();
         $this->trafficRepo->readDetailsFromLfrChResult = [];
@@ -174,7 +174,7 @@ class TrafficDetailsTest extends TestCase {
 
     public function test_getDetails_multiple_entries_of_same_aircraft_type_different_manufacturers() {
         $requestTraffic = new TrafficDetail('C0FFEE', NULL, NULL, NULL, "a320", NULL, NULL);
-        $request = new ReadTrafficDetailsRequest([$requestTraffic]);
+        $request = new TrafficDetailsReadRequest([$requestTraffic]);
         $resultTraffic3a = DummyIcaoAcTypeTrafficDetail2::create();
         $resultTraffic3b = DummyIcaoAcTypeTrafficDetail3::create();
         $resultTraffic3c = DummyIcaoAcTypeTrafficDetail4::create();
@@ -200,7 +200,7 @@ class TrafficDetailsTest extends TestCase {
 
     public function test_getDetails_returns_empty_details_if_not_found() {
         $requestTraffic = new TrafficDetail('C0FFEE', NULL, NULL, NULL, NULL, NULL, NULL);
-        $request = new ReadTrafficDetailsRequest([$requestTraffic]);
+        $request = new TrafficDetailsReadRequest([$requestTraffic]);
         $this->trafficRepo->readDetailsFromLfrChResult = [];
         $this->trafficRepo->readDetailsFromBasestationResult = [];
         $this->trafficRepo->readDetailsFromIcaoAcTypesResult = [];
@@ -223,7 +223,7 @@ class TrafficDetailsTest extends TestCase {
 
     public function test_getDetails_returns_no_type_for_type_code_0000() {
         $requestTraffic = new TrafficDetail('111111', NULL, NULL, NULL, NULL, NULL, NULL);
-        $request = new ReadTrafficDetailsRequest([$requestTraffic]);
+        $request = new TrafficDetailsReadRequest([$requestTraffic]);
         $resultTraffic2 = DummyBasestationTrafficDetail2::create();
         $this->trafficRepo->readDetailsFromLfrChResult = [];
         $this->trafficRepo->readDetailsFromBasestationResult = [$resultTraffic2];
@@ -242,5 +242,53 @@ class TrafficDetailsTest extends TestCase {
         $this->assertEquals(NULL, $result->icaoAcType);
         $this->assertEquals(NULL, $result->acClass);
         $this->assertEquals(NULL, $result->engClass);
+    }
+
+
+    public function test_getDetails_no_requests_to_lfrch_and_basestation_for_empty_icao24() {
+        $requestTraffic1 = new TrafficDetail(NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        $request = new TrafficDetailsReadRequest([$requestTraffic1]);
+        $this->trafficRepo->readDetailsFromLfrChResult = [];
+        $this->trafficRepo->readDetailsFromBasestationResult = [];
+        $this->trafficRepo->readDetailsFromIcaoAcTypesResult = [];
+
+        $resultList = $this->readTrafficDetails->readDetails($request);
+
+        $this->assertNotNull($resultList);
+        $this->assertEquals(1, count($resultList));
+        $this->assertEquals([], $this->trafficRepo->readDetailsFromLfrChArgs[0]);
+        $this->assertEquals([], $this->trafficRepo->readDetailsFromBasestationArgs[0]);
+    }
+
+
+    public function test_getDetails_no_request_to_icaoactypes_for_empty_actypes() {
+        $requestTraffic1 = new TrafficDetail('111111', NULL, NULL, NULL, NULL, NULL, NULL);
+        $request = new TrafficDetailsReadRequest([$requestTraffic1]);
+        $this->trafficRepo->readDetailsFromLfrChResult = [];
+        $this->trafficRepo->readDetailsFromBasestationResult = [];
+        $this->trafficRepo->readDetailsFromIcaoAcTypesResult = [];
+
+        $resultList = $this->readTrafficDetails->readDetails($request);
+
+        $this->assertNotNull($resultList);
+        $this->assertEquals(1, count($resultList));
+        $this->assertEquals([], $this->trafficRepo->readDetailsFromIcaoAcTypesArgs[0]);
+    }
+
+
+    public function test_getDetails_group_request_by_icaoactypes() {
+        $requestTraffic1 = new TrafficDetail('111111', NULL, NULL, NULL, "A320", NULL, NULL);
+        $requestTraffic2 = new TrafficDetail('222222', NULL, NULL, NULL, "AAT3", NULL, NULL);
+        $requestTraffic3 = new TrafficDetail('333333', NULL, NULL, NULL, "A320", NULL, NULL);
+        $request = new TrafficDetailsReadRequest([$requestTraffic1, $requestTraffic2, $requestTraffic3]);
+        $this->trafficRepo->readDetailsFromLfrChResult = [];
+        $this->trafficRepo->readDetailsFromBasestationResult = [];
+        $this->trafficRepo->readDetailsFromIcaoAcTypesResult = [];
+
+        $resultList = $this->readTrafficDetails->readDetails($request);
+
+        $this->assertNotNull($resultList);
+        $this->assertEquals(3, count($resultList));
+        $this->assertEquals(["A320", "AAT3"], $this->trafficRepo->readDetailsFromIcaoAcTypesArgs[0]);
     }
 }

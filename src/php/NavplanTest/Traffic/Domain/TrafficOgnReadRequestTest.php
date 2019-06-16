@@ -6,16 +6,16 @@ use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Position2d;
 use Navplan\Geometry\Domain\Time;
 use Navplan\Geometry\Domain\TimeUnit;
-use Navplan\Traffic\Domain\ReadTrafficRequest;
+use Navplan\Traffic\Domain\TrafficOgnReadRequest;
 use PHPUnit\Framework\TestCase;
 
 
-class ReadTrafficRequestTest extends TestCase {
+class TrafficOgnReadRequestTest extends TestCase {
     public function test_create_instance() {
         $extent = new Extent(new Position2d(7.0, 47.0), new Position2d(7.9, 47.9));
         $maxAge = new Time(120, TimeUnit::S);
         $sessionId = 123;
-        $request = new ReadTrafficRequest($extent, $maxAge, $sessionId);
+        $request = new TrafficOgnReadRequest($extent, $maxAge, $sessionId);
 
         $this->assertNotNull($request);
         $this->assertEquals($extent, $request->extent);

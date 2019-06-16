@@ -8,7 +8,7 @@ use NavplanTest\Traffic\Mocks\DummyAdsbexTraffic3;
 use PHPUnit\Framework\TestCase;
 
 
-class TrafficTest extends TestCase {
+class TrafficAdsbexTest extends TestCase {
     public function test_create_instance() {
         $traffic1 = DummyAdsbexTraffic1::create();
         $traffic2 = DummyAdsbexTraffic2::create();

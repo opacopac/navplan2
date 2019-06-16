@@ -6,7 +6,7 @@ use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Time;
 
 
-class ReadTrafficRequest {
+class TrafficOgnReadRequest {
     public $extent;
     public $maxAge;
     public $sessionId;

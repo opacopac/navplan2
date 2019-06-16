@@ -2,15 +2,7 @@
 
 namespace NavplanTest\Traffic\Rest;
 
-use Navplan\Traffic\Domain\Traffic;
-use Navplan\Traffic\Domain\TrafficAcType;
-use Navplan\Traffic\Domain\TrafficAddressType;
-use Navplan\Traffic\Rest\RestTraffic;
-use Navplan\Traffic\Rest\RestTrafficDetail;
 use Navplan\Traffic\Rest\RestTrafficDetailListResponse;
-use NavplanTest\Traffic\Mocks\DummyAdsbexTraffic1;
-use NavplanTest\Traffic\Mocks\DummyAdsbexTraffic2;
-use NavplanTest\Traffic\Mocks\DummyAdsbexTraffic3;
 use NavplanTest\Traffic\Mocks\DummyTrafficDetailResult1;
 use PHPUnit\Framework\TestCase;
 

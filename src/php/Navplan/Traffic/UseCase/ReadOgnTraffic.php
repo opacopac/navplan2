@@ -2,8 +2,8 @@
 
 namespace Navplan\Traffic\UseCase;
 
-use Navplan\Traffic\Domain\ReadTrafficRequest;
-use Navplan\Traffic\Domain\Traffic;
+use Navplan\Traffic\Domain\TrafficOgnReadRequest;
+use Navplan\Traffic\Domain\TrafficOgn;
 use Navplan\Traffic\Domain\TrafficPosition;
 
 
@@ -16,7 +16,7 @@ class ReadOgnTraffic {
     }
 
 
-    public function read(ReadTrafficRequest $request): array {
+    public function read(TrafficOgnReadRequest $request): array {
         $this->ognGateway->setFilter($request->sessionId, $request->extent);
 
         if (!$this->ognGateway->isListenerRunning($request->sessionId)) {
@@ -34,7 +34,7 @@ class ReadOgnTraffic {
     private function groupByAcAddress(array $trafficList): array {
         usort(
             $trafficList,
-            function (Traffic $trafficA, Traffic $trafficB) {
+            function (TrafficOgn $trafficA, TrafficOgn $trafficB) {
                 if ($trafficA->acAddress === $trafficB->acAddress) {
                     return 0;
                 } elseif ($trafficA->acAddress > $trafficB->acAddress) {
@@ -45,10 +45,10 @@ class ReadOgnTraffic {
             }
         );
 
-        /* @var $currentTraffic Traffic */
+        /* @var $currentTraffic TrafficOgn */
         $currentTraffic = NULL;
         $groupedTrafficList = [];
-        /* @var $traffic Traffic */
+        /* @var $traffic TrafficOgn */
         foreach ($trafficList as $traffic) {
             if (!$currentTraffic || $currentTraffic->acAddress !== $traffic->acAddress) {
                 $groupedTrafficList[] = $traffic;
@@ -63,7 +63,7 @@ class ReadOgnTraffic {
 
 
     private function removeDuplicatePositions(array &$trafficList) {
-        /* @var $traffic Traffic */
+        /* @var $traffic TrafficOgn */
         foreach ($trafficList as &$traffic) {
             usort(
                 $traffic->positionList,

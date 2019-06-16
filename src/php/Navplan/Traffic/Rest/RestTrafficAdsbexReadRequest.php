@@ -7,10 +7,10 @@ use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Time;
 use Navplan\Geometry\Domain\TimeUnit;
 use Navplan\Shared\StringNumberHelper;
-use Navplan\Traffic\Domain\ReadTrafficRequest;
+use Navplan\Traffic\Domain\TrafficAdsbexReadRequest;
 
 
-class RestReadTrafficRequest {
+class RestTrafficAdsbexReadRequest {
     public const ARG_MIN_LAT = "minlat";
     public const ARG_MAX_LAT = "maxlat";
     public const ARG_MIN_LON = "minlon";
@@ -19,8 +19,8 @@ class RestReadTrafficRequest {
     public const ARG_SESSION_ID = "sessionid";
 
 
-    public static function fromArgs(array $args): ReadTrafficRequest {
-        $request = new ReadTrafficRequest(
+    public static function fromArgs(array $args): TrafficAdsbexReadRequest {
+        $request = new TrafficAdsbexReadRequest(
             Extent::createFromCoords(
                 StringNumberHelper::parseFloatOrError($args, self::ARG_MIN_LON),
                 StringNumberHelper::parseFloatOrError($args, self::ARG_MIN_LAT),

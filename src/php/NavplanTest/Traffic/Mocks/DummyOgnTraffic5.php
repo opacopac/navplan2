@@ -2,14 +2,14 @@
 
 namespace NavplanTest\Traffic\Mocks;
 
-use Navplan\Traffic\Domain\Traffic;
 use Navplan\Traffic\Domain\TrafficAcType;
 use Navplan\Traffic\Domain\TrafficAddressType;
+use Navplan\Traffic\Domain\TrafficOgn;
 
 
 class DummyOgnTraffic5 {
-    public static function create(): Traffic {
-        return new Traffic(
+    public static function create(): TrafficOgn {
+        return new TrafficOgn(
             "4B05D7",
             TrafficAddressType::ICAO,
             TrafficAcType::POWERED_AIRCRAFT,

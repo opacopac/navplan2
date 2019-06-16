@@ -5,7 +5,7 @@ namespace NavplanTest\Traffic\UseCase;
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Geometry\Domain\Time;
 use Navplan\Geometry\Domain\TimeUnit;
-use Navplan\Traffic\Domain\ReadTrafficRequest;
+use Navplan\Traffic\Domain\TrafficOgnReadRequest;
 use Navplan\Traffic\UseCase\ReadOgnTraffic;
 use NavplanTest\MockNavplanConfig;
 use NavplanTest\Traffic\Mocks\DummyOgnTraffic1;
@@ -37,7 +37,7 @@ class ReadOgnTrafficTest extends TestCase {
         $extent = Extent::createFromCoords(6.0, 46.0, 8.5, 48.5);
         $maxAge = new Time(120, TimeUnit::S);
         $sesionId = 123;
-        $request = new ReadTrafficRequest($extent, $maxAge, $sesionId);
+        $request = new TrafficOgnReadRequest($extent, $maxAge, $sesionId);
         $traffic1 = DummyOgnTraffic1::create();
         $traffic2 = DummyOgnTraffic2::create();
         $traffic3 = DummyOgnTraffic3::create();
@@ -63,7 +63,7 @@ class ReadOgnTrafficTest extends TestCase {
         $extent = Extent::createFromCoords(6.0, 46.0, 8.5, 48.5);
         $maxAge = new Time(120, TimeUnit::S);
         $sesionId = 123;
-        $request = new ReadTrafficRequest($extent, $maxAge, $sesionId);
+        $request = new TrafficOgnReadRequest($extent, $maxAge, $sesionId);
         $this->ognGateway->isListenerRunningResult = TRUE;
         $this->ognGateway->readTrafficResult = [];
 
@@ -83,7 +83,7 @@ class ReadOgnTrafficTest extends TestCase {
         $extent = Extent::createFromCoords(6.0, 46.0, 8.5, 48.5);
         $maxAge = new Time(120, TimeUnit::S);
         $sesionId = 123;
-        $request = new ReadTrafficRequest($extent, $maxAge, $sesionId);
+        $request = new TrafficOgnReadRequest($extent, $maxAge, $sesionId);
         $pos1 = DummyOgnTrafficPosition1::create();
         $pos2 = DummyOgnTrafficPosition5::create();
         $pos2->position->timestamp = $pos1->position->timestamp;
@@ -104,7 +104,7 @@ class ReadOgnTrafficTest extends TestCase {
         $extent = Extent::createFromCoords(6.0, 46.0, 8.5, 48.5);
         $maxAge = new Time(120, TimeUnit::S);
         $sesionId = 123;
-        $request = new ReadTrafficRequest($extent, $maxAge, $sesionId);
+        $request = new TrafficOgnReadRequest($extent, $maxAge, $sesionId);
         $pos1 = DummyOgnTrafficPosition1::create();
         $pos2 = DummyOgnTrafficPosition5::create();
         $pos2->position->latitude = $pos1->position->latitude;
@@ -126,7 +126,7 @@ class ReadOgnTrafficTest extends TestCase {
         $extent = Extent::createFromCoords(6.0, 46.0, 8.5, 48.5);
         $maxAge = new Time(120, TimeUnit::S);
         $sesionId = 123;
-        $request = new ReadTrafficRequest($extent, $maxAge, $sesionId);
+        $request = new TrafficOgnReadRequest($extent, $maxAge, $sesionId);
         $traffic1 = DummyOgnTraffic1::create();
         $traffic2 = DummyOgnTraffic2::create();
         $traffic3 = DummyOgnTraffic3::create();

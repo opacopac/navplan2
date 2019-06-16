@@ -3,11 +3,11 @@
 namespace Navplan\Traffic\Rest;
 
 
-class RestTrafficListResponse {
+class RestTrafficOgnListResponse {
     public static function toRest(array $trafficList): array  {
         return array(
             "aclist" => array_map(
-                function ($traffic) { return RestTraffic::toRest($traffic); },
+                function ($traffic) { return RestTrafficOgn::toRest($traffic); },
                 $trafficList
             )
         );

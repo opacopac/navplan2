@@ -3,7 +3,7 @@
 namespace Navplan\Traffic\Domain;
 
 
-class ReadTrafficDetailsRequest {
+class TrafficDetailsReadRequest {
     public $trafficDetailList;
 
 

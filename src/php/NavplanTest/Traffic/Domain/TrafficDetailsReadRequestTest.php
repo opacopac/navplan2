@@ -2,17 +2,17 @@
 
 namespace NavplanTest\Traffic\Domain;
 
-use Navplan\Traffic\Domain\ReadTrafficDetailsRequest;
+use Navplan\Traffic\Domain\TrafficDetailsReadRequest;
 use NavplanTest\Traffic\Mocks\DummyBasestationTrafficDetail1;
 use NavplanTest\Traffic\Mocks\DummyLfrchTrafficDetail1;
 use PHPUnit\Framework\TestCase;
 
 
-class ReadTrafficDetailsRequestTest extends TestCase {
+class TrafficDetailsReadRequestTest extends TestCase {
     public function test_create_instance() {
-        $trafficList = [ DummyLfrchTrafficDetail1::create(), DummyBasestationTrafficDetail1::create() ];
+        $trafficList = [DummyLfrchTrafficDetail1::create(), DummyBasestationTrafficDetail1::create()];
 
-        $request = new ReadTrafficDetailsRequest($trafficList);
+        $request = new TrafficDetailsReadRequest($trafficList);
 
         $this->assertNotNull($request);
         $this->assertEquals(2, count($request->trafficDetailList));
