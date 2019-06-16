@@ -16,13 +16,11 @@ class TrafficPosition {
 
     public function __construct(
         Position4d $position,
-        int $source,
         int $method,
         string $receiver,
         Timestamp $receivedTimestamp
     ) {
         $this->position = $position;
-        $this->source = $source;
         $this->method = $method;
         $this->receiver = $receiver;
         $this->receivedTimestamp = $receivedTimestamp;

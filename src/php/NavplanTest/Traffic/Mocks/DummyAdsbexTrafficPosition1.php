@@ -7,7 +7,6 @@ use Navplan\Geometry\Domain\AltitudeReference;
 use Navplan\Geometry\Domain\AltitudeUnit;
 use Navplan\Geometry\Domain\Position4d;
 use Navplan\Geometry\Domain\Timestamp;
-use Navplan\Traffic\Domain\TrafficDataSource;
 use Navplan\Traffic\Domain\TrafficPosition;
 use Navplan\Traffic\Domain\TrafficPositionMethod;
 
@@ -21,7 +20,6 @@ class DummyAdsbexTrafficPosition1 {
                 new Altitude(3375, AltitudeUnit::FT, AltitudeReference::MSL),
                 Timestamp::fromMs(1560000429704)
             ),
-            TrafficDataSource::ADSBX2,
             TrafficPositionMethod::MLAT,
             "ADSBExchange (MLAT)",
             Timestamp::fromMs(1560000523926)
@@ -36,7 +34,6 @@ class DummyAdsbexTrafficPosition1 {
                 "alt" => [3375, "FT", "MSL"],
                 "time" => 1560000429704
             ),
-            "source" => "ADSBX2",
             "method" => "MLAT",
             "receiver" => "ADSBExchange (MLAT)",
             "timestamp" => 1560000523926

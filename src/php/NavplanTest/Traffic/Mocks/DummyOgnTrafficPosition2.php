@@ -7,7 +7,6 @@ use Navplan\Geometry\Domain\AltitudeReference;
 use Navplan\Geometry\Domain\AltitudeUnit;
 use Navplan\Geometry\Domain\Position4d;
 use Navplan\Geometry\Domain\Timestamp;
-use Navplan\Traffic\Domain\TrafficDataSource;
 use Navplan\Traffic\Domain\TrafficPosition;
 use Navplan\Traffic\Domain\TrafficPositionMethod;
 
@@ -21,7 +20,6 @@ class DummyOgnTrafficPosition2 {
                 new Altitude(548.951475249939, AltitudeUnit::M, AltitudeReference::MSL),
                 Timestamp::fromMs(1560075378000)
             ),
-            TrafficDataSource::OGN,
             TrafficPositionMethod::FLARM,
             "LSPL",
             Timestamp::fromMs(1560075378000)
@@ -36,7 +34,6 @@ class DummyOgnTrafficPosition2 {
                 "alt" => [549.0, "M", "MSL"],
                 "time" => 1560075378000
             ),
-            "source" => "OGN",
             "method" => "FLARM",
             "receiver" => "LSPL",
             "timestamp" => 1560075378000

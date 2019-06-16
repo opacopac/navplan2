@@ -4,7 +4,6 @@ namespace Navplan\Traffic\Rest;
 
 use Navplan\Geometry\Rest\RestPosition4d;
 use Navplan\Geometry\Rest\RestTimestamp;
-use Navplan\Traffic\Domain\TrafficDataSource;
 use Navplan\Traffic\Domain\TrafficPosition;
 use Navplan\Traffic\Domain\TrafficPositionMethod;
 
@@ -17,7 +16,6 @@ class RestTrafficPosition {
     public static function toRest(TrafficPosition $trafficPos): array {
         return array(
             "position" => RestPosition4d::toRest($trafficPos->position, self::ROUND_POS_TO_DIGITS, self::ROUND_ALT_TO_DIGITS),
-            "source" => TrafficDataSource::toString($trafficPos->source),
             "method" => TrafficPositionMethod::toString($trafficPos->method),
             "receiver" => $trafficPos->receiver,
             "timestamp" => RestTimestamp::toRest($trafficPos->receivedTimestamp)

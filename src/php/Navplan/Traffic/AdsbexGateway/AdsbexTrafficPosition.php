@@ -7,7 +7,6 @@ use Navplan\Geometry\Domain\AltitudeReference;
 use Navplan\Geometry\Domain\AltitudeUnit;
 use Navplan\Geometry\Domain\Position4d;
 use Navplan\Geometry\Domain\Timestamp;
-use Navplan\Traffic\Domain\TrafficDataSource;
 use Navplan\Traffic\Domain\TrafficPosition;
 use Navplan\Traffic\Domain\TrafficPositionMethod;
 
@@ -22,7 +21,6 @@ class AdsbexTrafficPosition  {
                 new Altitude(intval($acResponse["galt"]), AltitudeUnit::FT, AltitudeReference::MSL),
                 Timestamp::fromMs(intval($acResponse["postime"]))
             ),
-            TrafficDataSource::ADSBX2,
             $acResponse["mlat"] === "1" ? TrafficPositionMethod::MLAT : TrafficPositionMethod::ADSB,
             $acResponse["mlat"] === "1" ? "ADSBExchange (MLAT)" : "ADSBExchange (ADS-B)",
             Timestamp::fromMs(intval($response["ctime"]))
