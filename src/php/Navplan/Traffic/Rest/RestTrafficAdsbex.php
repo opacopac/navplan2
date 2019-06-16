@@ -8,10 +8,10 @@ use Navplan\Traffic\Domain\TrafficAdsbex;
 class RestTrafficAdsbex {
     public static function toRest(TrafficAdsbex $traffic): array {
         return array(
-            "address" => RestTrafficAddress::toRest($traffic->address),
+            "addr" => RestTrafficAddress::toRest($traffic->address),
             "icaotype" => $traffic->icaoType,
-            "registration" => $traffic->registration,
-            "callsign" => $traffic->callsign,
+            "reg" => $traffic->registration,
+            "call" => $traffic->callsign,
             "opicao" => $traffic->opIcao,
             "poslist" => array_map(
                 function ($traffic) { return RestTrafficPosition::toRest($traffic); },

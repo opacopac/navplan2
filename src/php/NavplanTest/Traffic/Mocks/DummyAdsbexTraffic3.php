@@ -27,10 +27,10 @@ class DummyAdsbexTraffic3 {
 
     public static function createRest(): array {
         return array(
-            "address" => ["4BAA8F", "ICAO"],
+            "addr" => ["4BAA8F", "ICAO"],
             "icaotype" => "A321",
-            "registration" => "TC-JTO",
-            "callsign" => "THY4PF",
+            "reg" => "TC-JTO",
+            "call" => "THY4PF",
             "opicao" => "THY",
             "poslist" => [ DummyAdsbexTrafficPosition3::createRest() ],
         );

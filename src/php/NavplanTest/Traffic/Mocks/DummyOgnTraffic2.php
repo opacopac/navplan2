@@ -23,7 +23,7 @@ class DummyOgnTraffic2 {
 
     public static function createRest(): array {
         return array(
-            "address" => ["4B1A91", "ICAO"],
+            "addr" => ["4B1A91", "ICAO"],
             "actype" => "TOW_PLANE",
             "poslist" => [ DummyOgnTrafficPosition2::createRest() ],
         );

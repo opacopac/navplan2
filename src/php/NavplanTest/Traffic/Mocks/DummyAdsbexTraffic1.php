@@ -25,10 +25,10 @@ class DummyAdsbexTraffic1 {
 
     public static function createRest(): array {
         return array(
-            "address" => ["4B3145", "ICAO"],
+            "addr" => ["4B3145", "ICAO"],
             "icaotype" => "AAT3",
-            "registration" => "HB-SRD",
-            "callsign" => "HBSRD",
+            "reg" => "HB-SRD",
+            "call" => "HBSRD",
             "opicao" => NULL,
             "poslist" => [ DummyAdsbexTrafficPosition1::createRest() ],
         );
