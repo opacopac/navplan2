@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Traffic\OgnGateway;
+namespace Navplan\Traffic\OgnRepo;
 
 use Navplan\Geometry\Domain\Altitude;
 use Navplan\Geometry\Domain\AltitudeReference;
@@ -12,7 +12,7 @@ use Navplan\Traffic\Domain\TrafficPosition;
 use Navplan\Traffic\Domain\TrafficPositionMethod;
 
 
-class OgnTrafficPosition {
+class OgnRepoTrafficPosition {
     public static function fromDumpFileLine(string $line, ITimeService $timeService): TrafficPosition {
         $msg = json_decode($line, true);
         $time = $timeService->strtotime($msg["time"] . " UTC");

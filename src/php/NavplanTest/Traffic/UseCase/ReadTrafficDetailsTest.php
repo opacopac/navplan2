@@ -13,12 +13,12 @@ use NavplanTest\Traffic\Mocks\DummyIcaoAcTypeTrafficDetail2;
 use NavplanTest\Traffic\Mocks\DummyIcaoAcTypeTrafficDetail3;
 use NavplanTest\Traffic\Mocks\DummyIcaoAcTypeTrafficDetail4;
 use NavplanTest\Traffic\Mocks\DummyLfrchTrafficDetail1;
-use NavplanTest\Traffic\Mocks\MockTrafficRepo;
+use NavplanTest\Traffic\Mocks\MockTrafficDetailRepo;
 use PHPUnit\Framework\TestCase;
 
 
 class TrafficDetailsTest extends TestCase {
-    /* @var $trafficRepo MockTrafficRepo */
+    /* @var $trafficRepo MockTrafficDetailRepo */
     private $trafficRepo;
     /* @var $readTrafficDetails ReadTrafficDetails */
     private $readTrafficDetails;

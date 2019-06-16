@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Traffic\OgnGateway;
+namespace Navplan\Traffic\OgnRepo;
 
 use Navplan\Geometry\Domain\Extent;
 use Navplan\System\UseCase\ISystemServiceFactory;
-use Navplan\Traffic\UseCase\IOgnGateway;
+use Navplan\Traffic\UseCase\IOgnRepo;
 
 
-class OgnGateway implements IOgnGateway {
+class OgnRepo implements IOgnRepo {
     const TMP_FILE_BASE_PATH = __DIR__ . "/../../../../tmp/";
 
     private $fileService;
@@ -65,7 +65,7 @@ class OgnGateway implements IOgnGateway {
                     continue;
                 }
 
-                $acList[] = OgnTraffic::fromDumpFileLine($line, $this->timeService);
+                $acList[] = OgnRepoTraffic::fromDumpFileLine($line, $this->timeService);
             }
         }
 

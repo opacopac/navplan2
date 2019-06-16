@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Traffic\DbRepo;
+namespace Navplan\Traffic\TrafficDetailRepo;
 
 use Navplan\Db\UseCase\IDbService;
-use Navplan\Traffic\UseCase\ITrafficRepo;
+use Navplan\Traffic\UseCase\ITrafficDetailRepo;
 
 
-class DbTrafficRepo implements ITrafficRepo {
+class DbTrafficDetailRepo implements ITrafficDetailRepo {
     private $dbService;
 
 

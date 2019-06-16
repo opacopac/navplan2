@@ -4,10 +4,10 @@ namespace NavplanTest\Traffic\Mocks;
 
 use Navplan\Geometry\Domain\Length;
 use Navplan\Geometry\Domain\Position2d;
-use Navplan\Traffic\UseCase\IAdsbexGateway;
+use Navplan\Traffic\UseCase\IAdsbexRepo;
 
 
-class MockAdsbexGateway implements IAdsbexGateway {
+class MockAdsbexRepo implements IAdsbexRepo {
     /* @var $readTrafficResult array */
     public $readTrafficResult;
     /* @var $readTrafficArgs array */

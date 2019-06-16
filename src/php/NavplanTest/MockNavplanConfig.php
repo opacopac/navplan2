@@ -20,9 +20,9 @@ use Navplan\System\UseCase\ISystemServiceFactory;
 use Navplan\Terrain\UseCase\ITerrainConfig;
 use Navplan\Terrain\UseCase\ITerrainRepo;
 use Navplan\Traffic\UseCase\ITrafficConfig;
-use Navplan\Traffic\UseCase\IAdsbexGateway;
-use Navplan\Traffic\UseCase\IOgnGateway;
-use Navplan\Traffic\UseCase\ITrafficRepo;
+use Navplan\Traffic\UseCase\IAdsbexRepo;
+use Navplan\Traffic\UseCase\IOgnRepo;
+use Navplan\Traffic\UseCase\ITrafficDetailRepo;
 use Navplan\User\UseCase\IUserConfig;
 use Navplan\User\UseCase\IUserRepoFactory;
 use Navplan\User\UseCase\TokenService;
@@ -34,9 +34,9 @@ use NavplanTest\Notam\Mocks\MockNotamRepo;
 use NavplanTest\OpenAip\Mocks\MockOpenAipRepoFactory;
 use NavplanTest\System\Mock\MockSystemServiceFactory;
 use NavplanTest\Terrain\Mocks\MockTerrainRepo;
-use NavplanTest\Traffic\Mocks\MockAdsbexGateway;
-use NavplanTest\Traffic\Mocks\MockOgnGateway;
-use NavplanTest\Traffic\Mocks\MockTrafficRepo;
+use NavplanTest\Traffic\Mocks\MockAdsbexRepo;
+use NavplanTest\Traffic\Mocks\MockOgnRepo;
+use NavplanTest\Traffic\Mocks\MockTrafficDetailRepo;
 use NavplanTest\User\Mocks\MockUserRepoFactory;
 
 
@@ -70,9 +70,9 @@ class MockNavplanConfig implements ISystemConfig, IDbConfig, ITerrainConfig, IUs
         $this->geonameRepo = new MockGeonameRepo();
         $this->notamRepo = new MockNotamRepo();
         $this->terrainRepo = new MockTerrainRepo();
-        $this->adsbexGateway = new MockAdsbexGateway();
-        $this->ognGateway = new MockOgnGateway();
-        $this->trafficRepo = new MockTrafficRepo();
+        $this->adsbexGateway = new MockAdsbexRepo();
+        $this->ognGateway = new MockOgnRepo();
+        $this->trafficRepo = new MockTrafficDetailRepo();
         $this->meteoRepo = new MockMeteoRepo();
     }
 
@@ -122,17 +122,17 @@ class MockNavplanConfig implements ISystemConfig, IDbConfig, ITerrainConfig, IUs
     }
 
 
-    public function getAdsbexGateway(): IAdsbexGateway {
+    public function getAdsbexGateway(): IAdsbexRepo {
         return $this->adsbexGateway;
     }
 
 
-    public function getOgnGateway(): IOgnGateway {
+    public function getOgnGateway(): IOgnRepo {
         return $this->ognGateway;
     }
 
 
-    public function getTrafficRepo(): ITrafficRepo {
+    public function getTrafficRepo(): ITrafficDetailRepo {
         return $this->trafficRepo;
     }
 

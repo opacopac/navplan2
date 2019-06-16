@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Traffic\Domain;
 
-use Navplan\Traffic\AdsbexGateway\AdsbexTraffic;
+use Navplan\Traffic\AdsbexRepo\AdsbexRepoTraffic;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTraffic1;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTraffic2;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTraffic3;
@@ -12,9 +12,9 @@ use PHPUnit\Framework\TestCase;
 
 class AdsbexTrafficTest extends TestCase {
     public function test_fromResponse() {
-        $traffic1 = AdsbexTraffic::fromResponse(json_decode(DummyAdsbexResponse123::createAdsbexResponse(), true), 0);
-        $traffic2 = AdsbexTraffic::fromResponse(json_decode(DummyAdsbexResponse123::createAdsbexResponse(), true), 1);
-        $traffic3 = AdsbexTraffic::fromResponse(json_decode(DummyAdsbexResponse123::createAdsbexResponse(), true), 2);
+        $traffic1 = AdsbexRepoTraffic::fromResponse(json_decode(DummyAdsbexResponse123::createAdsbexResponse(), true), 0);
+        $traffic2 = AdsbexRepoTraffic::fromResponse(json_decode(DummyAdsbexResponse123::createAdsbexResponse(), true), 1);
+        $traffic3 = AdsbexRepoTraffic::fromResponse(json_decode(DummyAdsbexResponse123::createAdsbexResponse(), true), 2);
 
         $this->assertNotNull($traffic1);
         $this->assertEquals($traffic1, DummyAdsbexTraffic1::create());

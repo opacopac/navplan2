@@ -9,9 +9,9 @@ use Navplan\System\UseCase\ISystemServiceFactory;
 interface ITrafficConfig extends ISystemConfig {
     public function getSystemServiceFactory(): ISystemServiceFactory;
 
-    public function getAdsbexGateway(): IAdsbexGateway;
+    public function getAdsbexGateway(): IAdsbexRepo;
 
-    public function getOgnGateway(): IOgnGateway;
+    public function getOgnGateway(): IOgnRepo;
 
-    public function getTrafficRepo(): ITrafficRepo;
+    public function getTrafficRepo(): ITrafficDetailRepo;
 }

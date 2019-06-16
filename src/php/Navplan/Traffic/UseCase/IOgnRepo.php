@@ -5,7 +5,7 @@ namespace Navplan\Traffic\UseCase;
 use Navplan\Geometry\Domain\Extent;
 
 
-interface IOgnGateway {
+interface IOgnRepo {
     public function setFilter(int $sessionId, Extent $extent);
 
     public function isListenerRunning(int $sessionId): bool;

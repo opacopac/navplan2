@@ -3,6 +3,7 @@
 namespace NavplanTest\Traffic\Mocks;
 
 use Navplan\Traffic\Domain\TrafficAcType;
+use Navplan\Traffic\Domain\TrafficAddress;
 use Navplan\Traffic\Domain\TrafficAddressType;
 use Navplan\Traffic\Domain\TrafficOgn;
 
@@ -10,14 +11,11 @@ use Navplan\Traffic\Domain\TrafficOgn;
 class DummyOgnTraffic1 {
     public static function create(): TrafficOgn {
         return new TrafficOgn(
+            new TrafficAddress(
             "4B05D7",
-            TrafficAddressType::ICAO,
+            TrafficAddressType::ICAO
+            ),
             TrafficAcType::POWERED_AIRCRAFT,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
             [ DummyOgnTrafficPosition1::create() ]
         );
     }
@@ -25,14 +23,8 @@ class DummyOgnTraffic1 {
 
     public static function createRest(): array {
         return array(
-            "acaddress" => "4B05D7",
-            "addresstype" => "ICAO",
+            "address" => ["4B05D7", "ICAO"],
             "actype" => "POWERED_AIRCRAFT",
-            "icaotype" => NULL,
-            "registration" => NULL,
-            "callsign" => NULL,
-            "opicao" => NULL,
-            "acmodel" => NULL,
             "poslist" => [ DummyOgnTrafficPosition1::createRest() ],
         );
     }

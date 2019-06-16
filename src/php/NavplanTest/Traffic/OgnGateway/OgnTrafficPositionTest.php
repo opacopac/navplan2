@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Traffic\Domain;
 
-use Navplan\Traffic\OgnGateway\OgnTrafficPosition;
+use Navplan\Traffic\OgnRepo\OgnRepoTrafficPosition;
 use NavplanTest\System\Mock\MockSystemServiceFactory;
 use NavplanTest\System\Mock\MockTimeService;
 use NavplanTest\Traffic\Mocks\DummyOgnDumpFile12345;
@@ -32,11 +32,11 @@ class OgnTrafficPositionTest extends TestCase {
         $ognLine5 = DummyOgnDumpFile12345::createDumpFileLine5();
         $this->timeService->strtotimeRelativeDate = DummyOgnDumpFile12345::getDate();
 
-        $pos1 = OgnTrafficPosition::fromDumpFileLine($ognLine1, $this->timeService);
-        $pos2 = OgnTrafficPosition::fromDumpFileLine($ognLine2, $this->timeService);
-        $pos3 = OgnTrafficPosition::fromDumpFileLine($ognLine3, $this->timeService);
-        $pos4 = OgnTrafficPosition::fromDumpFileLine($ognLine4, $this->timeService);
-        $pos5 = OgnTrafficPosition::fromDumpFileLine($ognLine5, $this->timeService);
+        $pos1 = OgnRepoTrafficPosition::fromDumpFileLine($ognLine1, $this->timeService);
+        $pos2 = OgnRepoTrafficPosition::fromDumpFileLine($ognLine2, $this->timeService);
+        $pos3 = OgnRepoTrafficPosition::fromDumpFileLine($ognLine3, $this->timeService);
+        $pos4 = OgnRepoTrafficPosition::fromDumpFileLine($ognLine4, $this->timeService);
+        $pos5 = OgnRepoTrafficPosition::fromDumpFileLine($ognLine5, $this->timeService);
 
         $this->assertNotNull($pos1);
         $this->assertEquals(DummyOgnTrafficPosition1::create(), $pos1);

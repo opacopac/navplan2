@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Traffic\DbRepo;
+namespace Navplan\Traffic\TrafficDetailRepo;
 
 use Navplan\Traffic\Domain\TrafficDetail;
 

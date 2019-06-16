@@ -12,19 +12,19 @@ use NavplanTest\Traffic\Mocks\DummyIcaoAcTypeTrafficDetail1;
 use NavplanTest\Traffic\Mocks\DummyLfrchTrafficDetail1;
 use NavplanTest\Traffic\Mocks\DummyOgnTraffic1;
 use NavplanTest\Traffic\Mocks\DummyTrafficDetailResult1;
-use NavplanTest\Traffic\Mocks\MockAdsbexGateway;
-use NavplanTest\Traffic\Mocks\MockOgnGateway;
-use NavplanTest\Traffic\Mocks\MockTrafficRepo;
+use NavplanTest\Traffic\Mocks\MockAdsbexRepo;
+use NavplanTest\Traffic\Mocks\MockOgnRepo;
+use NavplanTest\Traffic\Mocks\MockTrafficDetailRepo;
 use PHPUnit\Framework\TestCase;
 
 
 class TrafficServiceProcessorTest extends TestCase {
     private $config;
-    /* @var $ognGateway MockOgnGateway */
+    /* @var $ognGateway MockOgnRepo */
     private $ognGateway;
-    /* @var $adsbexGateway MockAdsbexGateway */
+    /* @var $adsbexGateway MockAdsbexRepo */
     private $adsbexGateway;
-    /* @var $trafficRepo MockTrafficRepo */
+    /* @var $trafficRepo MockTrafficDetailRepo */
     private $trafficRepo;
     /* @var $httpService MockHttpService */
     private $httpService;
@@ -53,7 +53,7 @@ class TrafficServiceProcessorTest extends TestCase {
 
         $this->assertNotNull($this->httpService->body);
         $this->assertRegExp('/aclist/', $this->httpService->body);
-        $this->assertRegExp('/' . DummyOgnTraffic1::create()->acAddress . '/', $this->httpService->body);
+        $this->assertRegExp('/' . DummyOgnTraffic1::create()->address->value . '/', $this->httpService->body);
     }
 
 
@@ -70,7 +70,7 @@ class TrafficServiceProcessorTest extends TestCase {
 
         $this->assertNotNull($this->httpService->body);
         $this->assertRegExp('/aclist/', $this->httpService->body);
-        $this->assertRegExp('/' . DummyAdsbexTraffic1::create()->acAddress . '/', $this->httpService->body);
+        $this->assertRegExp('/' . DummyAdsbexTraffic1::create()->address->value . '/', $this->httpService->body);
     }
 
 

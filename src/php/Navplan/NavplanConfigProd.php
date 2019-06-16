@@ -32,13 +32,13 @@ use Navplan\System\UseCase\ISystemServiceFactory;
 use Navplan\Terrain\FileRepo\FileTerrainRepo;
 use Navplan\Terrain\UseCase\ITerrainConfig;
 use Navplan\Terrain\UseCase\ITerrainRepo;
-use Navplan\Traffic\AdsbexGateway\AdsbexGateway;
-use Navplan\Traffic\DbRepo\DbTrafficRepo;
-use Navplan\Traffic\OgnGateway\OgnGateway;
-use Navplan\Traffic\UseCase\IAdsbexGateway;
-use Navplan\Traffic\UseCase\IOgnGateway;
+use Navplan\Traffic\AdsbexRepo\AdsbexRepo;
+use Navplan\Traffic\TrafficDetailRepo\DbTrafficDetailRepo;
+use Navplan\Traffic\OgnRepo\OgnRepo;
+use Navplan\Traffic\UseCase\IAdsbexRepo;
+use Navplan\Traffic\UseCase\IOgnRepo;
 use Navplan\Traffic\UseCase\ITrafficConfig;
-use Navplan\Traffic\UseCase\ITrafficRepo;
+use Navplan\Traffic\UseCase\ITrafficDetailRepo;
 use Navplan\User\DbRepo\DbUserRepoFactory;
 use Navplan\User\UseCase\IUserConfig;
 use Navplan\User\UseCase\IUserRepoFactory;
@@ -77,9 +77,9 @@ class NavplanConfigProd implements ISystemConfig, IDbConfig, ITerrainConfig, IUs
         $this->geonameRepo = new DbGeonameRepo($this->dbService);
         $this->notamRepo = new DbNotamRepo($this->dbService);
         $this->terrainRepo = new FileTerrainRepo($this->systemServiceFactory->getFileService());
-        $this->adsbexGateway = new AdsbexGateway($this->systemServiceFactory->getFileService());
-        $this->ognGateway = new OgnGateway($this->systemServiceFactory);
-        $this->trafficRepo = new DbTrafficRepo($this->dbService);
+        $this->adsbexGateway = new AdsbexRepo($this->systemServiceFactory->getFileService());
+        $this->ognGateway = new OgnRepo($this->systemServiceFactory);
+        $this->trafficRepo = new DbTrafficDetailRepo($this->dbService);
         $this->meteoRepo = new DbMeteoRepo($this->dbService, $this->systemServiceFactory);
     }
 
@@ -136,17 +136,17 @@ class NavplanConfigProd implements ISystemConfig, IDbConfig, ITerrainConfig, IUs
     }
 
     
-    public function getAdsbexGateway(): IAdsbexGateway {
+    public function getAdsbexGateway(): IAdsbexRepo {
         return $this->adsbexGateway;
     }
 
     
-    public function getOgnGateway(): IOgnGateway {
+    public function getOgnGateway(): IOgnRepo {
         return $this->ognGateway;
     }
 
 
-    public function getTrafficRepo(): ITrafficRepo {
+    public function getTrafficRepo(): ITrafficDetailRepo {
         return $this->trafficRepo;
     }
 

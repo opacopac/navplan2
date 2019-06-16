@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Traffic\AdsbexGateway;
+namespace Navplan\Traffic\AdsbexRepo;
 
 use Navplan\Geometry\Domain\Altitude;
 use Navplan\Geometry\Domain\AltitudeReference;
@@ -11,7 +11,7 @@ use Navplan\Traffic\Domain\TrafficPosition;
 use Navplan\Traffic\Domain\TrafficPositionMethod;
 
 
-class AdsbexTrafficPosition  {
+class AdsbexRepoTrafficPosition  {
     public static function fromResponse(array $response, int $acIndex): TrafficPosition {
         $acResponse = $response["ac"][$acIndex];
         return new TrafficPosition(

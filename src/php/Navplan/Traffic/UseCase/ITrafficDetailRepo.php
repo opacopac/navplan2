@@ -3,7 +3,7 @@
 namespace Navplan\Traffic\UseCase;
 
 
-interface ITrafficRepo {
+interface ITrafficDetailRepo {
     public function readDetailsFromLfrCh(array $icao24List): array;
 
     public function readDetailsFromBasestation(array $icao24List): array;

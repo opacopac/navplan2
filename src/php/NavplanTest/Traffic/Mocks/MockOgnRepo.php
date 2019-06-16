@@ -3,10 +3,10 @@
 namespace NavplanTest\Traffic\Mocks;
 
 use Navplan\Geometry\Domain\Extent;
-use Navplan\Traffic\UseCase\IOgnGateway;
+use Navplan\Traffic\UseCase\IOgnRepo;
 
 
-class MockOgnGateway implements IOgnGateway {
+class MockOgnRepo implements IOgnRepo {
     /* @var $setFilterArgs array */
     public $setFilterArgs;
 

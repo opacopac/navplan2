@@ -3,7 +3,7 @@
 namespace NavplanTest\Traffic\Domain;
 
 use Navplan\Geometry\Domain\Extent;
-use Navplan\Traffic\OgnGateway\OgnGateway;
+use Navplan\Traffic\OgnRepo\OgnRepo;
 use NavplanTest\System\Mock\MockFile;
 use NavplanTest\System\Mock\MockFileService;
 use NavplanTest\System\Mock\MockProcService;
@@ -20,7 +20,7 @@ class OgnGatewayTest extends TestCase {
     private $procService;
     /* @var $timeService MockTimeService */
     private $timeService;
-    /* @var $ognGateway OgnGateway */
+    /* @var $ognGateway OgnRepo */
     private $ognGateway;
 
 
@@ -29,7 +29,7 @@ class OgnGatewayTest extends TestCase {
         $this->fileService = $systemServiceFactory->getFileService();
         $this->procService = $systemServiceFactory->getProcService();
         $this->timeService = $systemServiceFactory->getTimeService();
-        $this->ognGateway = new OgnGateway($systemServiceFactory);
+        $this->ognGateway = new OgnRepo($systemServiceFactory);
     }
 
     public function test_setFilter() {

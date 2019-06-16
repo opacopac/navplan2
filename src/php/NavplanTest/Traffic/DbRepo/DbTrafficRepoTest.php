@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Traffic\DbRepo;
 
-use Navplan\Traffic\DbRepo\DbTrafficRepo;
+use Navplan\Traffic\TrafficDetailRepo\DbTrafficDetailRepo;
 use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\Traffic\Mocks\DummyBasestationTrafficDetail1;
 use NavplanTest\Traffic\Mocks\DummyIcaoAcTypeTrafficDetail1;
@@ -16,13 +16,13 @@ use PHPUnit\Framework\TestCase;
 class DbTrafficRepoTest extends TestCase {
     /* @var $dbService MockDbService */
     private $dbService;
-    /* @var $trafficRepo DbTrafficRepo */
+    /* @var $trafficRepo DbTrafficDetailRepo */
     private $trafficRepo;
 
 
     protected function setUp(): void {
         $this->dbService = new MockDbService();
-        $this->trafficRepo = new DbTrafficRepo($this->dbService);
+        $this->trafficRepo = new DbTrafficDetailRepo($this->dbService);
     }
 
 

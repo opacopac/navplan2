@@ -35,9 +35,9 @@ class ReadOgnTraffic {
         usort(
             $trafficList,
             function (TrafficOgn $trafficA, TrafficOgn $trafficB) {
-                if ($trafficA->acAddress === $trafficB->acAddress) {
+                if ($trafficA->address->value === $trafficB->address->value) {
                     return 0;
-                } elseif ($trafficA->acAddress > $trafficB->acAddress) {
+                } elseif ($trafficA->address->value > $trafficB->address->value) {
                     return 1;
                 } else {
                     return 0;
@@ -50,7 +50,7 @@ class ReadOgnTraffic {
         $groupedTrafficList = [];
         /* @var $traffic TrafficOgn */
         foreach ($trafficList as $traffic) {
-            if (!$currentTraffic || $currentTraffic->acAddress !== $traffic->acAddress) {
+            if (!$currentTraffic || $currentTraffic->address->value !== $traffic->address->value) {
                 $groupedTrafficList[] = $traffic;
                 $currentTraffic = $traffic;
             } else {

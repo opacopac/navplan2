@@ -2,10 +2,10 @@
 
 namespace NavplanTest\Traffic\Mocks;
 
-use Navplan\Traffic\UseCase\ITrafficRepo;
+use Navplan\Traffic\UseCase\ITrafficDetailRepo;
 
 
-class MockTrafficRepo implements ITrafficRepo {
+class MockTrafficDetailRepo implements ITrafficDetailRepo {
     /* @var $readDetailsFromLfrChResult array */
     public $readDetailsFromLfrChResult;
     /* @var $readDetailsFromLfrChArgs array */
