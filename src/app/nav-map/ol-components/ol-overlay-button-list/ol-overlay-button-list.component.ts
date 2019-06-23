@@ -3,8 +3,8 @@ import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {OlMapOverlayCloseAction} from '../../../ol-map/ngrx/ol-map.actions';
-import {DeleteWaypointAction, InsertWaypointAction, SetAlternateAction} from '../../../flightroute/flightroute.actions';
-import {getFlightroute} from '../../../flightroute/flightroute.selectors';
+import {DeleteWaypointAction, InsertWaypointAction, SetAlternateAction} from '../../../flightroute/ngrx/flightroute.actions';
+import {getFlightroute} from '../../../flightroute/ngrx/flightroute.selectors';
 import {Flightroute} from '../../../flightroute/domain/flightroute';
 import {Waypoint} from '../../../flightroute/domain/waypoint';
 

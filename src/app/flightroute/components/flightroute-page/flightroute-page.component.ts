@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {ExportFlightrouteExcelAction, ExportFlightroutePdfAction} from '../../flightroute.actions';
+import {ExportFlightrouteExcelAction, ExportFlightroutePdfAction} from '../../ngrx/flightroute.actions';
 
 
 @Component({

@@ -1,5 +1,5 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {FlightrouteState} from './flightroute-state';
+import {FlightrouteState} from '../domain/flightroute-state';
 
 
 export const getFlightrouteState = createFeatureSelector<FlightrouteState>('flightrouteState');

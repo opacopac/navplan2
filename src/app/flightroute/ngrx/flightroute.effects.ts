@@ -4,8 +4,8 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
 import {of} from 'rxjs';
 import {catchError, filter, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
-import {MessageService} from '../message/services/message.service';
-import {FlightrouteService} from './services/flightroute/flightroute.service';
+import {MessageService} from '../../message/services/message.service';
+import {FlightrouteService} from '../rest/flightroute.service';
 import {
     FlightrouteActionTypes,
     FlightrouteReadListAction,
@@ -28,14 +28,14 @@ import {
     InsertWaypointAction,
     ReplaceWaypointAction
 } from './flightroute.actions';
-import {getCurrentUser} from '../user/user.selectors';
-import {User} from '../user/domain/user';
+import {getCurrentUser} from '../../user/user.selectors';
+import {User} from '../../user/domain/user';
 import {getFlightroute} from './flightroute.selectors';
-import {Flightroute} from './domain/flightroute';
-import {OpenAipService} from '../open-aip/services/open-aip.service';
-import {WaypointFactory} from './domain/waypoint-mapper/waypoint-factory';
-import {getOpenAipItems} from '../open-aip/ngrx/open-aip.selectors';
-import {OpenAipItems} from '../open-aip/domain/open-aip-items';
+import {Flightroute} from '../domain/flightroute';
+import {OpenAipService} from '../../open-aip/services/open-aip.service';
+import {WaypointFactory} from '../domain/waypoint-mapper/waypoint-factory';
+import {getOpenAipItems} from '../../open-aip/ngrx/open-aip.selectors';
+import {OpenAipItems} from '../../open-aip/domain/open-aip-items';
 
 
 @Injectable()

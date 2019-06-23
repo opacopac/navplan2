@@ -2,12 +2,12 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {FlightrouteListEntry} from '../../domain/flightroute-list-entry';
-import {getFlightrouteList} from '../../flightroute.selectors';
+import {getFlightrouteList} from '../../ngrx/flightroute.selectors';
 import {
     FlightrouteDeleteAction,
     FlightrouteDuplicateAction, FlightrouteReadAction,
     FlightrouteReadListAction
-} from '../../flightroute.actions';
+} from '../../ngrx/flightroute.actions';
 import {MatDialogRef} from '@angular/material';
 
 

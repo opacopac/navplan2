@@ -3,14 +3,14 @@ import VectorLayer from 'ol/layer/Vector';
 import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 import {OlMapContext} from '../../ol-map/domain/ol-map-context';
 import {Flightroute} from '../domain/flightroute';
-import {getFlightroute} from '../flightroute.selectors';
+import {getFlightroute} from '../ngrx/flightroute.selectors';
 import {Subscription} from 'rxjs';
 import {OlRouteLine, RouteLineModification} from './ol-route-line';
 import {OlWaypoint} from './ol-waypoint';
 import {OlAlternateLine} from './ol-alternate-line';
 import {Waypoint} from '../domain/waypoint';
 import {select} from '@ngrx/store';
-import {RouteLineModifiedAction} from '../flightroute.actions';
+import {RouteLineModifiedAction} from '../ngrx/flightroute.actions';
 
 
 export class OlFlightrouteContainer extends OlComponentBase {

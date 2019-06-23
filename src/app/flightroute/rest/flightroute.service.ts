@@ -3,12 +3,15 @@ import {HttpClient} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {of} from 'rxjs/internal/observable/of';
 import {catchError, map} from 'rxjs/operators';
-import {environment} from '../../../../environments/environment';
-import {LoggingService} from '../../../shared/services/logging/logging.service';
-import {FlightrouteListEntry} from '../../domain/flightroute-list-entry';
-import {FlightrouteListResponse, FlightrouteResponse, RestMapperFlightroute} from '../../rest/rest-mapper-flightroute';
-import {User} from '../../../user/domain/user';
-import {Flightroute} from '../../domain/flightroute';
+import {environment} from '../../../environments/environment';
+import {LoggingService} from '../../shared/services/logging/logging.service';
+import {FlightrouteListEntry} from '../domain/flightroute-list-entry';
+import {User} from '../../user/domain/user';
+import {Flightroute} from '../domain/flightroute';
+import {IRestFlightrouteListResponse} from './i-rest-flightroute-list-response';
+import {IRestFlightrouteResponse} from './i-rest-flightroute-response';
+import {RestFlightrouteResponse} from './rest-flightroute-response';
+import {RestFlightrouteListResponse} from './rest-flightroute-list-response';
 
 
 const flightrouteBaseUrl = environment.restApiBaseUrl + 'php/Navplan/Flightroute/FlightrouteService.php';
@@ -28,9 +31,9 @@ export class FlightrouteService {
     public readFlightrouteList(user: User): Observable<FlightrouteListEntry[]> {
         const url: string = flightrouteBaseUrl + '?token=' + user.token;
         return this.http
-            .get<FlightrouteListResponse>(url, {observe: 'response'})
+            .get<IRestFlightrouteListResponse>(url, {observe: 'response'})
             .pipe(
-                map((response) => RestMapperFlightroute.getFlightrouteListFromResponse(response.body)),
+                map((response) => RestFlightrouteListResponse.fromRest(response.body)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading flight route list', err);
                     return throwError(err);
@@ -48,9 +51,9 @@ export class FlightrouteService {
         // let message: string;
 
         return this.http
-            .get<FlightrouteResponse>(url, {observe: 'response'})
+            .get<IRestFlightrouteResponse>(url, {observe: 'response'})
             .pipe(
-                map((response) => RestMapperFlightroute.getFlightrouteFromResponse(response.body)),
+                map((response) => RestFlightrouteResponse.fromRest(response.body)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading flight route', err);
                     return throwError(err);
