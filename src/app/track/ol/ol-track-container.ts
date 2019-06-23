@@ -4,7 +4,7 @@ import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 import {OlMapContext} from '../../ol-map/domain/ol-map-context';
 import {Subscription} from 'rxjs';
 import {OlTrackLine} from './ol-track-line';
-import {getShowTrack} from '../track.selectors';
+import {getShowTrack} from '../ngrx/track.selectors';
 import {Track} from '../domain/track';
 import {select} from '@ngrx/store';
 

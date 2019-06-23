@@ -6,7 +6,7 @@ import {debounceTime, filter, map, switchMap, withLatestFrom, catchError} from '
 import {throwError} from 'rxjs/index';
 import {SearchService} from './services/search.service';
 import {SearchActionTypes, SearchQuerySubmittedAction, SearchResultsReceivedAction} from './search.actions';
-import {getCurrentUser} from '../user/user.selectors';
+import {getCurrentUser} from '../user/ngrx/user.selectors';
 import {User} from '../user/domain/user';
 import {LoggingService} from '../shared/services/logging/logging.service';
 

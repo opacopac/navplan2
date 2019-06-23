@@ -29,7 +29,7 @@ describe('RestOgnTraffic', () => {
     /*it('maps number-only icao addresses correctly', () => {
         const restAc: IRestOgnTraffic = { ...TrafficOgn1Mock.createRest(), acaddress: 445566 };
 
-        const ac = RestOgnTraffic.fromRest(restAc);
+        const ac = RestOgnTraffic.fromListEntryRest(restAc);
 
         expect(ac[0].acAddress).toEqual('445566');
     });*/

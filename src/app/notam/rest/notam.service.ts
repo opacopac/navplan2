@@ -7,7 +7,7 @@ import {Observable} from 'rxjs/internal/Observable';
 import {catchError, map} from 'rxjs/operators';
 import {throwError} from 'rxjs';
 import {INotamService} from '../use-case/i-notam-service';
-import {RestNotamResponse} from './rest-notam-response';
+import {RestNotamList} from './rest-notam-list';
 import {IRestNotamResponse} from './i-rest-notam-response';
 import {NotamList} from '../domain/notam-list';
 
@@ -36,7 +36,7 @@ export class NotamService implements INotamService {
         return this.http
             .get<IRestNotamResponse>(url)
             .pipe(
-                map(response => RestNotamResponse.fromRest(response)),
+                map(response => RestNotamList.fromRest(response)),
                 catchError(error => {
                     LoggingService.logResponseError('ERROR reading NOTAMs by extent!', error);
                     return throwError(error);
@@ -56,7 +56,7 @@ export class NotamService implements INotamService {
         return this.http
             .get<IRestNotamResponse>(url)
             .pipe(
-                map(response => RestNotamResponse.fromRest(response)),
+                map(response => RestNotamList.fromRest(response)),
                 catchError(error => {
                     LoggingService.logResponseError('ERROR reading NOTAMs by icao!', error);
                     return throwError(error);

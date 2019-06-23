@@ -1,4 +1,4 @@
-import {Track} from './domain/track';
+import {Track} from './track';
 
 
 export interface TrackState {

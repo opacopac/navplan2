@@ -1,6 +1,6 @@
 import {FlightrouteState} from '../domain/flightroute-state';
 import {FlightrouteActions, FlightrouteActionTypes} from './flightroute.actions';
-import {UserActions, UserActionTypes} from '../../user/user.actions';
+import {UserActions, UserActionTypes} from '../../user/ngrx/user.actions';
 import {Aircraft} from '../domain/aircraft';
 import {Flightroute} from '../domain/flightroute';
 import {Speed} from '../../shared/model/quantities/speed';

@@ -3,7 +3,7 @@ import {RestNotam} from './rest-notam';
 import {NotamList} from '../domain/notam-list';
 
 
-export class RestNotamResponse {
+export class RestNotamList {
     public static fromRest(response: IRestNotamResponse): NotamList {
         const notamList = new NotamList();
         notamList.items = response.notams

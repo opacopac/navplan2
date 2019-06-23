@@ -3,10 +3,13 @@ import {HttpClient} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {LoggingService} from '../../shared/services/logging/logging.service';
-import {RestMapperTrack, SingleTrackResponse, TrackListResponse} from '../rest/rest-mapper-track';
 import {Track} from '../domain/track';
 import {User} from '../../user/domain/user';
 import {catchError, map} from 'rxjs/operators';
+import {IRestTrackListResponse} from '../rest/i-rest-track-list-response';
+import {IRestTrackResponse} from '../rest/i-rest-track-response';
+import {RestTrackList} from '../rest/rest-track-list';
+import {RestTrackResponse} from '../rest/rest-track-response';
 
 const userTrackBaseUrl =  environment.restApiBaseUrl + 'php/userTrack.php';
 
@@ -23,9 +26,9 @@ export class TrackService {
 
         const url: string = userTrackBaseUrl + '?email=' + user.email + '&token=' + user.token;
         return this.http
-            .jsonp<TrackListResponse>(url, 'callback')
+            .jsonp<IRestTrackListResponse>(url, 'callback')
             .pipe(
-                map(response => RestMapperTrack.getTrackListFromResponse(response)),
+                map(response => RestTrackList.fromRest(response)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading tracks', err);
                     return throwError(err);
@@ -37,9 +40,9 @@ export class TrackService {
     readUserTrack(trackid, user: User): Observable<Track> {
         const url: string = userTrackBaseUrl + '?email=' + user.email + '&token=' + user.token + '&id=' + encodeURI(trackid);
         return this.http
-            .jsonp<SingleTrackResponse>(url, 'callback')
+            .jsonp<IRestTrackResponse>(url, 'callback')
             .pipe(
-                map(response => RestMapperTrack.getTrackFromResponse(response)),
+                map(response => RestTrackResponse.fromRest(response)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading track', err);
                     return throwError(err);

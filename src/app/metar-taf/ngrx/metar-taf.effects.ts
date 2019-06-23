@@ -4,8 +4,8 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
 import {catchError, debounceTime, map, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs/internal/observable/of';
-import {MetarTafService} from './services/metar-taf.service';
-import {OlMapActionTypes, OlMapMovedZoomedRotatedAction} from '../ol-map/ngrx/ol-map.actions';
+import {MetarTafService} from '../rest/metar-taf.service';
+import {OlMapActionTypes, OlMapMovedZoomedRotatedAction} from '../../ol-map/ngrx/ol-map.actions';
 import {LoadMetarTafErrorAction, LoadMetarTafSuccessAction} from './metar-taf.actions';
 
 

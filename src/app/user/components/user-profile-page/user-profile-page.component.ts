@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
-import {getCurrentUser} from '../../user.selectors';
-import {ChangePwAction} from '../../user.actions';
+import {getCurrentUser} from '../../ngrx/user.selectors';
+import {ChangePwAction} from '../../ngrx/user.actions';
 import {User} from '../../domain/user';
 
 

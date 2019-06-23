@@ -2,9 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {User} from '../../../user/domain/user';
 import {select, Store} from '@ngrx/store';
-import {getCurrentUser} from '../../../user/user.selectors';
+import {getCurrentUser} from '../../../user/ngrx/user.selectors';
 import {SearchShowAction} from '../../../search/search.actions';
-import {LogoutUserAction} from '../../../user/user.actions';
+import {LogoutUserAction} from '../../../user/ngrx/user.actions';
 
 
 @Component({

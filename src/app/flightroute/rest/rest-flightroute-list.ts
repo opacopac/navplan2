@@ -3,7 +3,7 @@ import {IRestFlightrouteListResponse} from './i-rest-flightroute-list-response';
 import {RestFlightrouteListEntry} from './rest-flightroute-list-entry';
 
 
-export class RestFlightrouteListResponse {
+export class RestFlightrouteList {
     public static fromRest(restResponse: IRestFlightrouteListResponse): FlightrouteListEntry[] {
         if (!restResponse.navplanList || restResponse.navplanList.length === 0) {
             return [];

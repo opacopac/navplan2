@@ -2,14 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {Track} from '../../domain/track';
-import {getShowTrack, getTrackList} from '../../track.selectors';
+import {getShowTrack, getTrackList} from '../../ngrx/track.selectors';
 import {
     DeleteTrackAction,
     EditTrackAction,
     ExportTrackKmlAction,
     ReadTrackAction,
     ReadTrackListAction
-} from '../../track.actions';
+} from '../../ngrx/track.actions';
 
 
 @Component({

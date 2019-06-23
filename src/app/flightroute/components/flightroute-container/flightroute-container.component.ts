@@ -5,7 +5,7 @@ import {select, Store} from '@ngrx/store';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {debounceTime, map} from 'rxjs/operators';
 import {getFlightroute} from '../../ngrx/flightroute.selectors';
-import {getCurrentUser} from '../../../user/user.selectors';
+import {getCurrentUser} from '../../../user/ngrx/user.selectors';
 import {Flightroute} from '../../domain/flightroute';
 import {User} from '../../../user/domain/user';
 import {

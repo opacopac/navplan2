@@ -1,4 +1,4 @@
-import {User} from './domain/user';
+import {User} from './user';
 
 
 export interface UserState {

@@ -7,7 +7,8 @@ import {environment} from '../../../environments/environment';
 import {LoggingService} from '../../shared/services/logging/logging.service';
 import {Extent2d} from '../../shared/model/geometry/extent2d';
 import {MetarTafList} from '../domain/metar-taf';
-import {MetarTafResponse, RestMapperMetarTaf} from '../rest/rest-mapper-metar-taf';
+import {RestMetarTafList} from './rest-metar-taf-list';
+import {IRestMetarTafResponse} from './i-rest-metar-taf-response';
 
 
 const MIN_ZOOM_LEVEL = 8;
@@ -41,9 +42,9 @@ export class MetarTafService {
 
         const url = METAR_TAF_BASE_URL + extent.minLon + ',' + extent.minLat + ',' + extent.maxLon + ',' + extent.maxLat;
         return this.http
-            .jsonp<MetarTafResponse>(url, 'jsonp')
+            .jsonp<IRestMetarTafResponse>(url, 'jsonp')
             .pipe(
-                map(response => RestMapperMetarTaf.getMetarTafListFromResponse(response)),
+                map(response => RestMetarTafList.fromRest(response)),
                 catchError(error => {
                     LoggingService.logResponseError('ERROR reading METAR/TAF!', error);
                     return throwError(error);

@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {Track} from './domain/track';
+import {Track} from '../domain/track';
 
 
 export enum TrackActionTypes {

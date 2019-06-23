@@ -2,8 +2,8 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ClientstorageService} from './shared/services/clientstorage/clientstorage.service';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
-import {getCurrentUser} from './user/user.selectors';
-import {AutoLoginUserAction} from './user/user.actions';
+import {getCurrentUser} from './user/ngrx/user.selectors';
+import {AutoLoginUserAction} from './user/ngrx/user.actions';
 import {User} from './user/domain/user';
 
 

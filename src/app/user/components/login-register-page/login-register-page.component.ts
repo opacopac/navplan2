@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {User} from '../../domain/user';
 import {select, Store} from '@ngrx/store';
-import {getCurrentUser, getRegisterEmailSentTo} from '../../user.selectors';
-import {LoginUserAction, SendRegisterEmailAction} from '../../user.actions';
+import {getCurrentUser, getRegisterEmailSentTo} from '../../ngrx/user.selectors';
+import {LoginUserAction, SendRegisterEmailAction} from '../../ngrx/user.actions';
 
 @Component({
     selector: 'app-login-register-page',

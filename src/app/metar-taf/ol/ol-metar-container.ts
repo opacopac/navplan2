@@ -4,7 +4,7 @@ import {combineLatest, Subscription} from 'rxjs';
 import {OlMapContext} from '../../ol-map/domain/ol-map-context';
 import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 import {OlMetar} from './ol-metar';
-import {getMetarTafList} from '../metar-taf.selectors';
+import {getMetarTafList} from '../ngrx/metar-taf.selectors';
 import {MetarTafList} from '../domain/metar-taf';
 import {getOpenAipAirports} from '../../open-aip/ngrx/open-aip.selectors';
 import {Airport} from '../../open-aip/domain/airport';

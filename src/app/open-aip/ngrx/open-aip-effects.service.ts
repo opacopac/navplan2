@@ -4,7 +4,7 @@ import {debounceTime, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {getMapZoom} from '../../ol-map/ngrx/ol-map.selectors';
-import {getCurrentUser} from '../../user/user.selectors';
+import {getCurrentUser} from '../../user/ngrx/user.selectors';
 import {OlMapActionTypes, OlMapMovedZoomedRotatedAction} from '../../ol-map/ngrx/ol-map.actions';
 import {LoadOpenAIpItemsSuccessAction} from './open-aip.actions';
 import {OpenAipService} from '../services/open-aip.service';

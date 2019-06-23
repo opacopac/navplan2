@@ -9,28 +9,12 @@ import {throwError} from 'rxjs/internal/observable/throwError';
 import {of} from 'rxjs/internal/observable/of';
 import {JwtService} from '../../shared/services/jwt/jwt.service';
 import {TextError} from '../../shared/model/text-error';
+import {UserToken} from '../domain/user-token';
+import {IRestTokenResponse} from './i-rest-token-response';
+import {IRestSimpleResponse} from './i-rest-simple-response';
 
 
 const userBaseUrl =  environment.restApiBaseUrl + 'php/Navplan/User/UserService.php';
-
-
-interface SimpleResponse {
-    resultcode: number;
-    message: string;
-}
-
-interface TokenResponse extends SimpleResponse {
-    email: string;
-    token: string;
-}
-
-interface UserToken {
-    tokenString: string;
-    email: string;
-    expireTimestamp: number;
-    issuer: string;
-}
-
 
 @Injectable({
     providedIn: 'root'
@@ -62,7 +46,7 @@ export class UserService {
             token: token
         };
         return this.http
-            .post<TokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+            .post<IRestTokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
                 switchMap((response) => {
                     switch (response.body.resultcode) {
                         case 0:
@@ -91,7 +75,7 @@ export class UserService {
             rememberme: rememberMe ? '1' : '0'
         };
         return this.http
-            .post<TokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+            .post<IRestTokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
                 switchMap((response) => {
                     switch (response.body.resultcode) {
                         case 0:
@@ -116,7 +100,7 @@ export class UserService {
             email: email
         };
         return this.http
-            .post<TokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+            .post<IRestTokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
                 switchMap(response => {
                     switch (response.body.resultcode) {
                         case 0:
@@ -147,7 +131,7 @@ export class UserService {
             rememberme: rememberMe,
         };
         return this.http
-            .post<TokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+            .post<IRestTokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
                 switchMap(response => {
                     switch (response.body.resultcode) {
                         case 0:
@@ -174,7 +158,7 @@ export class UserService {
             email: email
         };
         return this.http
-            .post<TokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+            .post<IRestTokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
                 switchMap(response => {
                     switch (response.body.resultcode) {
                         case 0:
@@ -205,7 +189,7 @@ export class UserService {
             rememberme: rememberMe
         };
         return this.http
-            .post<TokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+            .post<IRestTokenResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
                 switchMap(response => {
                     switch (response.body.resultcode) {
                         case 0:
@@ -238,7 +222,7 @@ export class UserService {
         newpassword: newPassword
     };
     return this.http
-        .post<SimpleResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+        .post<IRestSimpleResponse>(userBaseUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
             switchMap(response => {
                 switch (response.body.resultcode) {
                     case 0:

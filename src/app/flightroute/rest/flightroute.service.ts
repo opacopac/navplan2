@@ -11,7 +11,7 @@ import {Flightroute} from '../domain/flightroute';
 import {IRestFlightrouteListResponse} from './i-rest-flightroute-list-response';
 import {IRestFlightrouteResponse} from './i-rest-flightroute-response';
 import {RestFlightrouteResponse} from './rest-flightroute-response';
-import {RestFlightrouteListResponse} from './rest-flightroute-list-response';
+import {RestFlightrouteList} from './rest-flightroute-list';
 
 
 const flightrouteBaseUrl = environment.restApiBaseUrl + 'php/Navplan/Flightroute/FlightrouteService.php';
@@ -33,7 +33,7 @@ export class FlightrouteService {
         return this.http
             .get<IRestFlightrouteListResponse>(url, {observe: 'response'})
             .pipe(
-                map((response) => RestFlightrouteListResponse.fromRest(response.body)),
+                map((response) => RestFlightrouteList.fromRest(response.body)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading flight route list', err);
                     return throwError(err);

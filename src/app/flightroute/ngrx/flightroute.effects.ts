@@ -28,7 +28,7 @@ import {
     InsertWaypointAction,
     ReplaceWaypointAction
 } from './flightroute.actions';
-import {getCurrentUser} from '../../user/user.selectors';
+import {getCurrentUser} from '../../user/ngrx/user.selectors';
 import {User} from '../../user/domain/user';
 import {getFlightroute} from './flightroute.selectors';
 import {Flightroute} from '../domain/flightroute';
