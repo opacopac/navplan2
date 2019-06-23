@@ -1,7 +1,7 @@
 import {Feature} from 'ol';
 import {Vector} from 'ol/source';
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
-import {OlComponentBase} from '../../base-map/ol/ol-component-base';
+import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 import {environment} from '../../../environments/environment';
 import {UnitconversionService} from '../../shared/services/unitconversion/unitconversion.service';
 import {GeocalcService} from '../../shared/services/geocalc/geocalc.service';
@@ -42,8 +42,8 @@ export class OlOwnPlane extends OlComponentBase {
         const rotation = this.getRotation(lastPositions).rad;
 
         let heighttext = '';
-        if (position.hasAltitude() && position.altitude.ft > 0) {
-            heighttext = Math.round(position.altitude.ft).toString() + ' ft'; // TODO: einstellbar
+        if (position.hasAltitude() && position.altitude.value > 0) {
+            heighttext = Math.round(position.altitude.value).toString() + ' ft'; // TODO: einstellbar
         }
 
         const icon = environment.iconBaseUrl + 'own_plane.svg';

@@ -7,7 +7,7 @@ import {Polygon} from '../../shared/model/geometry/polygon';
 import {Multipolygon} from '../../shared/model/geometry/multipolygon';
 import {Circle} from '../../shared/model/geometry/circle';
 import {Geometry2dType} from '../../shared/model/geometry/geometry2d';
-import {OlComponentBase} from '../../base-map/ol/ol-component-base';
+import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 import {circular} from 'ol/geom/Polygon';
 
 

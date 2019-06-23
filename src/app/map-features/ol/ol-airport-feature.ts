@@ -3,7 +3,7 @@ import {Vector} from 'ol/source';
 import {Icon, Style} from 'ol/style';
 import {environment} from '../../../environments/environment';
 import {Airport, AirportFeature} from '../domain/airport';
-import {OlComponentBase} from '../../base-map/ol/ol-component-base';
+import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 
 

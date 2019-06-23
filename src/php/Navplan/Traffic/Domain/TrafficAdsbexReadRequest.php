@@ -3,22 +3,15 @@
 namespace Navplan\Traffic\Domain;
 
 use Navplan\Geometry\Domain\Extent;
-use Navplan\Geometry\Domain\Time;
 
 
 class TrafficAdsbexReadRequest {
     public $extent;
-    public $maxAge;
-    public $sessionId;
 
 
     public function __construct(
-        Extent $extent,
-        Time $maxAge,
-        int $sessionId
+        Extent $extent
     ) {
         $this->extent = $extent;
-        $this->maxAge = $maxAge;
-        $this->sessionId = $sessionId;
     }
 }

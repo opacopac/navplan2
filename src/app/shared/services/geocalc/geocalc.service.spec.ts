@@ -16,7 +16,7 @@ describe('GeocalcService', () => {
         const pos2 = new Position2d(7.1, 47.1);
         const dist = GeocalcService.calcDistance(pos1, pos2);
 
-        expect(dist.getValue(LengthUnit.M)).toBeCloseTo(13470.352, 0);
+        expect(dist.getValue(LengthUnit.M)).toBeCloseTo(13455.27849608188, 0);
     });
 
     // endregion

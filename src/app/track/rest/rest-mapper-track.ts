@@ -1,8 +1,9 @@
 import {Track} from '../domain/track';
 import {Timestamp} from '../../shared/model/quantities/timestamp';
 import {Position4d} from '../../shared/model/geometry/position4d';
-import {Length} from '../../shared/model/quantities/length';
-import {LengthUnit} from '../../shared/model/quantities/units';
+import {Altitude} from '../../shared/model/geometry/altitude';
+import {AltitudeUnit} from '../../shared/model/geometry/altitude-unit';
+import {AltitudeReference} from '../../shared/model/geometry/altitude-reference';
 
 
 export interface TrackListResponse {
@@ -76,7 +77,7 @@ export class RestMapperTrack {
         return new Position4d(
             posTuple[1],
             posTuple[0],
-            new Length(posTuple[2], LengthUnit.M),
+            new Altitude(posTuple[2], AltitudeUnit.M, AltitudeReference.MSL),
             Timestamp.createFromSec(posTuple[3])
         );
     }

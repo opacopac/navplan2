@@ -3,7 +3,7 @@ import {Vector} from 'ol/source';
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {environment} from '../../../environments/environment';
 import {MetarTaf} from '../domain/metar-taf';
-import {OlComponentBase} from '../../base-map/ol/ol-component-base';
+import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 import {Position2d} from '../../shared/model/geometry/position2d';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 

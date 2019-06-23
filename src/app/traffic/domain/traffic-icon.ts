@@ -1,5 +1,5 @@
 import {environment} from '../../../environments/environment';
-import {TrafficAircraftType} from './traffic';
+import {TrafficAircraftType} from './traffic-aircraft-type';
 
 
 export class TrafficIcon {

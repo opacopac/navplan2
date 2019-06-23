@@ -2,7 +2,7 @@ import {Feature} from 'ol';
 import {Vector} from 'ol/source';
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {Reportingpoint} from '../domain/reportingpoint';
-import {OlComponentBase} from '../../base-map/ol/ol-component-base';
+import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 import {ReportingpointIcon} from '../domain/reportingpoint-icon';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 

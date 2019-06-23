@@ -1,22 +1,21 @@
-import {Length} from '../quantities/length';
 import {Extent3d} from './extent3d';
 import {Timestamp} from '../quantities/timestamp';
 import {Clonable} from '../clonable';
-import {Position4d} from './position4d';
+import {Altitude} from './altitude';
 
 
 export class Extent4d extends Extent3d implements Clonable<Extent4d> {
     public constructor(
         minLon: number,
         minLat: number,
-        minHeight: Length,
+        minAlt: Altitude,
         public minTimestamp: Timestamp,
         maxLon: number,
         maxLat: number,
-        maxHeight: Length,
+        maxAlt: Altitude,
         public maxTimestamp: Timestamp,
     ) {
-        super(minLon, minLat, minHeight, maxLon, maxLat, maxHeight);
+        super(minLon, minLat, minAlt, maxLon, maxLat, maxAlt);
     }
 
 
@@ -24,20 +23,12 @@ export class Extent4d extends Extent3d implements Clonable<Extent4d> {
         return new Extent4d(
             this.minLon,
             this.minLat,
-            this.minHeight,
+            this.minAlt,
             this.minTimestamp,
             this.maxLon,
             this.maxLat,
-            this.maxHeight,
+            this.maxAlt,
             this.maxTimestamp
-        );
-    }
-
-
-    containsPoint(pos: Position4d): boolean {
-        return (super.containsPoint(pos)
-            && pos.timestamp.epochMs >= this.minTimestamp.epochMs
-            && pos.timestamp.epochMs <= this.maxTimestamp.epochMs
         );
     }
 }

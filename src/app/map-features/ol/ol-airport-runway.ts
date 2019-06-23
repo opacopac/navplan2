@@ -2,7 +2,7 @@ import {Feature} from 'ol';
 import {Vector} from 'ol/source';
 import {Icon, Style} from 'ol/style';
 import {Airport} from '../domain/airport';
-import {OlComponentBase} from '../../base-map/ol/ol-component-base';
+import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 import {AirportIcon} from '../domain/airport-icon';
 import {AirportRunway} from '../domain/airport-runway';
 import {GeocalcService} from '../../shared/services/geocalc/geocalc.service';

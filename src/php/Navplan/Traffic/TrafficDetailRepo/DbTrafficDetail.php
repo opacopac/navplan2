@@ -2,13 +2,15 @@
 
 namespace Navplan\Traffic\TrafficDetailRepo;
 
+use Navplan\Traffic\Domain\TrafficAddress;
+use Navplan\Traffic\Domain\TrafficAddressType;
 use Navplan\Traffic\Domain\TrafficDetail;
 
 
 class DbTrafficDetail {
     public static function fromLfrChResult(array $rs): TrafficDetail {
         return new TrafficDetail(
-            $rs["icaohex"],
+            new TrafficAddress($rs["icaohex"], TrafficAddressType::ICAO),
             $rs["registration"],
             $rs["aircraftModelType"],
             $rs["manufacturer"],
@@ -21,7 +23,7 @@ class DbTrafficDetail {
 
     public static function fromBasestationResult(array $rs): TrafficDetail {
         return new TrafficDetail(
-            $rs["mode_s"],
+            new TrafficAddress($rs["mode_s"], TrafficAddressType::ICAO),
             $rs["registration"],
             NULL,
             $rs["manufacturer"],

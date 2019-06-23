@@ -1,7 +1,7 @@
 import {Vector} from 'ol/source';
 import VectorLayer from 'ol/layer/Vector';
-import {OlComponentBase} from '../../base-map/ol/ol-component-base';
-import {BaseMapContext} from '../../base-map/domain/base-map-context';
+import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
+import {OlMapContext} from '../../ol-map/domain/ol-map-context';
 import {Subscription} from 'rxjs';
 import {OlTrackLine} from './ol-track-line';
 import {getShowTrack} from '../track.selectors';
@@ -15,7 +15,7 @@ export class OlTrackContainer extends OlComponentBase {
     private olTrackLine: OlTrackLine;
 
 
-    constructor(mapContext: BaseMapContext) {
+    constructor(mapContext: OlMapContext) {
         super();
 
         this.trackLayer = mapContext.mapService.addVectorLayer(false);

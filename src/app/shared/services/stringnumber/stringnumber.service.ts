@@ -6,6 +6,34 @@ export class StringnumberService {
     }
 
 
+    public static getNonNullOrDefault(value1: string, value2: string, defaultValue: string): string {
+        if (this.isNullOrEmpty(value1)) {
+            return value2;
+        } else if (this.isNullOrEmpty(value2)) {
+            return value1;
+        } else {
+            return defaultValue;
+        }
+    }
+
+
+    public static parseStringOrNull(value: string | undefined, trim: boolean = true, toUpperCase: boolean = false): string | undefined {
+        if (!value) {
+            return undefined;
+        }
+
+        if (trim) {
+            value = value.trim();
+        }
+
+        if (value === '') {
+            return undefined;
+        }
+
+        return value;
+    }
+
+
     public static zeroPad(number: number, digits: number = 2): string {
         let text = number.toString();
         while (text.length < digits) {

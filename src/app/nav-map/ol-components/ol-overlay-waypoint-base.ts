@@ -1,4 +1,4 @@
-import {OlOverlayBase} from '../../base-map/components/ol-overlay-base';
+import {OlOverlayBase} from '../../ol-map/components/ol-overlay-base';
 import {Waypoint} from '../../flightroute/domain/waypoint';
 
 

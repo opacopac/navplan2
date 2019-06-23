@@ -2,13 +2,15 @@
 
 namespace NavplanTest\Traffic\Mocks;
 
+use Navplan\Traffic\Domain\TrafficAddress;
+use Navplan\Traffic\Domain\TrafficAddressType;
 use Navplan\Traffic\Domain\TrafficDetail;
 
 
 class DummyBasestationTrafficDetail1 {
     public static function create(): TrafficDetail {
         return new TrafficDetail(
-            "4B3142",
+            new TrafficAddress("4B3142", TrafficAddressType::ICAO),
             "HB-SRA",
             NULL,
             "AERO 3",

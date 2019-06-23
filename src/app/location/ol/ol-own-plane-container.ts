@@ -1,6 +1,6 @@
 import VectorLayer from 'ol/layer/Vector';
-import {OlComponentBase} from '../../base-map/ol/ol-component-base';
-import {BaseMapContext} from '../../base-map/domain/base-map-context';
+import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
+import {OlMapContext} from '../../ol-map/domain/ol-map-context';
 import {Subscription} from 'rxjs';
 import {OlOwnPlane} from './ol-own-plane';
 import {getLocationState} from '../location.selectors';
@@ -14,7 +14,7 @@ export class OlOwnPlaneContainer extends OlComponentBase {
     private olOwnPlane: OlOwnPlane;
 
 
-    constructor(mapContext: BaseMapContext) {
+    constructor(mapContext: OlMapContext) {
         super();
 
         this.ownPlaneLayer = mapContext.mapService.addVectorLayer(false);

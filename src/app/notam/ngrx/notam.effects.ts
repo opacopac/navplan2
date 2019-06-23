@@ -5,9 +5,9 @@ import {Observable} from 'rxjs';
 import {catchError, debounceTime, map, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs/internal/observable/of';
 import {NotamService} from '../rest/notam.service';
-import {BaseMapActionTypes, BaseMapMovedZoomedRotatedAction} from '../../base-map/base-map.actions';
+import {OlMapActionTypes, OlMapMovedZoomedRotatedAction} from '../../ol-map/ngrx/ol-map.actions';
 import {LoadNotamErrorAction, LoadNotamSuccessAction} from './notam.actions';
-import {ReadNotams} from '../use-case/read-notams';
+import {NotamReader} from '../use-case/notam-reader';
 
 
 @Injectable()
@@ -22,10 +22,10 @@ export class NotamEffects {
     @Effect()
     notamLoadAction$: Observable<Action> = this.actions$
         .pipe(
-            ofType(BaseMapActionTypes.BASEMAP_MOVED_ZOOMED_ROTATED),
-            map(action => action as BaseMapMovedZoomedRotatedAction),
+            ofType(OlMapActionTypes.OL_MAP_MOVED_ZOOMED_ROTATED),
+            map(action => action as OlMapMovedZoomedRotatedAction),
             debounceTime(500),
-            switchMap(action => new ReadNotams(this.notamService).readByExtent(action.extent, action.zoom)
+            switchMap(action => new NotamReader(this.notamService).readByExtent(action.extent, action.zoom)
                 .pipe(
                     map(notamList => new LoadNotamSuccessAction(notamList, action.extent, action.zoom)),
                     catchError(error => of(new LoadNotamErrorAction(error)))

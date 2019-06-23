@@ -20,7 +20,7 @@ class TrafficServiceProcessor {
     public const REQUEST_METHOD_POST = "POST";
     public const ACTION_READ_OGN_TRAFFIC = "readogntraffic";
     public const ACTION_READ_ADSBEX_TRAFFIC = "readadsbextraffic";
-    public const ACTION_READ_AC_DETAILS = "readacdetails";
+    public const ACTION_READ_AC_DETAILS = "readtrafficdetails";
 
 
     public static function processRequest(string $requestMethod, ?array $getVars, ?array $postVars, ITrafficConfig $config) {

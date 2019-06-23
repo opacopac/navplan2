@@ -81,17 +81,17 @@ describe('Extent2d', () => {
         const extent1 = new Extent2d(minLon1, minLat1, maxLon1, maxLat1);
         const pointIn = extent1.getMidPos();
         const pointOut = new Position2d(minLon1 - 1, minLat1);
-        expect(extent1.containsPoint(pointIn)).toBe(true);
-        expect(extent1.containsPoint(pointOut)).toBe(false);
+        expect(extent1.containsPoint2d(pointIn)).toBe(true);
+        expect(extent1.containsPoint2d(pointOut)).toBe(false);
     });
 
 
     it('correctly determines a contained extent', () => {
         const extent1 = new Extent2d(minLon1, minLat1, maxLon1, maxLat1);
         const extent2 = new Extent2d(minLon2, minLat2, maxLon2, maxLat2);
-        expect(extent1.containsExtent(extent2)).toBe(true);
-        expect(extent2.containsExtent(extent1)).toBe(false);
-        expect(extent1.containsExtent(extent1)).toBe(true);
+        expect(extent1.containsExtent2d(extent2)).toBe(true);
+        expect(extent2.containsExtent2d(extent1)).toBe(false);
+        expect(extent1.containsExtent2d(extent1)).toBe(true);
     });
 
 

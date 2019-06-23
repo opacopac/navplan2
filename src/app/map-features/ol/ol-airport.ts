@@ -4,7 +4,7 @@ import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {OlAirportRunway} from './ol-airport-runway';
 import {OlAirportFeature} from './ol-airport-feature';
 import {Airport, AirportType} from '../domain/airport';
-import {OlComponentBase} from '../../base-map/ol/ol-component-base';
+import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 import {AirportIcon} from '../domain/airport-icon';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 

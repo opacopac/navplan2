@@ -12,7 +12,7 @@ class TrafficAddress {
         string $value,
         int $type
     ) {
-        $this->value = $value;
+        $this->value = strtoupper(trim($value));
         $this->type = $type;
     }
 }

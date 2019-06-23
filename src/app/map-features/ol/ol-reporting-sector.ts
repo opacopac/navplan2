@@ -2,7 +2,7 @@ import {Feature} from 'ol';
 import {Vector} from 'ol/source';
 import {Fill, Stroke, Style, Text} from 'ol/style';
 import {Reportingsector} from '../domain/reportingsector';
-import {OlComponentBase} from '../../base-map/ol/ol-component-base';
+import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 
 
 export class OlReportingSector extends OlComponentBase {

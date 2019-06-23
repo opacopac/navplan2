@@ -3,7 +3,7 @@ import {Vector} from 'ol/source';
 import {Circle, Fill, Stroke, Style, Text} from 'ol/style';
 import {UnitconversionService} from '../../shared/services/unitconversion/unitconversion.service';
 import {Angle} from '../../shared/model/quantities/angle';
-import {OlComponentBase} from '../../base-map/ol/ol-component-base';
+import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 import {OlWaypointBearingLabel} from './ol-waypoint-bearing-label';
 import {Waypoint} from '../domain/waypoint';
 

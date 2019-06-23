@@ -2,10 +2,10 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {OlOwnPlaneContainer} from '../../../location/ol/ol-own-plane-container';
 import {OlFlightrouteContainer} from '../../../flightroute/ol/ol-flightroute-container';
 import {OlMetarContainer} from '../../../metar-taf/ol/ol-metar-container';
-import {OlTrafficContainer} from '../../../traffic/ol-components/ol-traffic-container';
+import {OlTrafficContainer} from '../../../traffic/ol/ol-traffic-container';
 import {OlMapFeaturesContainer} from '../../../map-features/ol/ol-map-features-container';
 import {OlNotamContainer} from '../../../notam/ol/ol-notam-container';
-import {BaseMapContext} from '../../../base-map/domain/base-map-context';
+import {OlMapContext} from '../../../ol-map/domain/ol-map-context';
 import {OlTrackContainer} from '../../../track/ol/ol-track-container';
 
 
@@ -44,12 +44,12 @@ export class OlComponentsContainerComponent implements OnInit, OnDestroy {
     }
 
 
-    public onMapInitCompleted(mapContext: BaseMapContext) {
+    public onMapInitCompleted(mapContext: OlMapContext) {
         this.addOlComponents(mapContext);
     }
 
 
-    private addOlComponents(mapContext: BaseMapContext) {
+    private addOlComponents(mapContext: OlMapContext) {
         this.olMapFeatures = new OlMapFeaturesContainer(mapContext);
         this.olMetars = new OlMetarContainer(mapContext);
         this.olNotams = new OlNotamContainer(mapContext);

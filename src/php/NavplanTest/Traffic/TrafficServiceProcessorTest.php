@@ -79,7 +79,7 @@ class TrafficServiceProcessorTest extends TestCase {
         $postVars = array(
             "action" => TrafficServiceProcessor::ACTION_READ_AC_DETAILS,
             "aclist" => [
-                array("icao24" => "4B3142", "reg" => NULL, "model" => NULL, "manufacturer" => NULL,
+                array("addr" => ["4B3142", "ICAO"], "reg" => NULL, "model" => NULL, "manufacturer" => NULL,
                 "ac_type" => NULL, "ac_class" => NULL, "eng_class" => NULL)
             ]
         );
@@ -91,7 +91,7 @@ class TrafficServiceProcessorTest extends TestCase {
 
         $this->assertNotNull($this->httpService->body);
         $this->assertRegExp('/aclist/', $this->httpService->body);
-        $this->assertRegExp('/' . DummyTrafficDetailResult1::create()->icao24 . '/', $this->httpService->body);
+        $this->assertRegExp('/' . DummyTrafficDetailResult1::create()->address->value . '/', $this->httpService->body);
     }
 
 

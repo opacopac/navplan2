@@ -1,4 +1,6 @@
 import {AirportRunway} from './airport-runway';
+import {Length} from '../../shared/model/quantities/length';
+import {LengthUnit} from '../../shared/model/quantities/units';
 
 
 describe('AirportRunway', () => {
@@ -9,14 +11,14 @@ describe('AirportRunway', () => {
         rwy1 = new AirportRunway(
             '14/32',
             'ASPH',
-            1730,
-            30,
+            new Length(1730, LengthUnit.M),
+            new Length(30, LengthUnit.M),
             138,
             318,
-            1730,
-            1530,
-            1530,
-            1730,
+            new Length(1730, LengthUnit.M),
+            new Length(1530, LengthUnit.M),
+            new Length(1530, LengthUnit.M),
+            new Length(1730, LengthUnit.M),
             true,
             true
         );
@@ -24,8 +26,8 @@ describe('AirportRunway', () => {
         rwy2 = new AirportRunway(
             '10L/28R',
             'ASPH',
-            3618,
-            61,
+            new Length(3618, LengthUnit.M),
+            new Length(61, LengthUnit.M),
             100,
             280,
             undefined,

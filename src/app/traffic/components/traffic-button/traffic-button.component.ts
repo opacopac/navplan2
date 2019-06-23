@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {ToggleWatchTrafficAction} from '../../traffic.actions';
-import {getTrafficIsWatching, getTrafficStatus} from '../../traffic.selectors';
-import {TrafficServiceStatus} from '../../services/traffic-service-status';
+import {ToggleWatchTrafficAction} from '../../ngrx/traffic.actions';
+import {getTrafficIsWatching, getTrafficStatus} from '../../ngrx/traffic.selectors';
+import {TrafficServiceStatus} from '../../domain/traffic-service-status';
 
 
 @Component({

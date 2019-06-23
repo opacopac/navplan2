@@ -4,7 +4,7 @@ import {Position2d} from '../../../shared/model/geometry/position2d';
 import {UserpointIcon} from '../../../map-features/domain/userpoint-icon';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
 import {WaypointFactory} from '../../../flightroute/domain/waypoint-mapper/waypoint-factory';
-import {OlHelper} from '../../../base-map/domain/ol-helper';
+import {OlHelper} from '../../../ol-map/use-case/ol-helper';
 
 
 @Component({

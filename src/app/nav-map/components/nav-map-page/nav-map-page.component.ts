@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {BaseMapZoomInAction, BaseMapZoomOutAction} from '../../../base-map/base-map.actions';
-import {BaseMapContext} from '../../../base-map/domain/base-map-context';
+import {OlMapZoomInAction, OlMapZoomOutAction} from '../../../ol-map/ngrx/ol-map.actions';
+import {OlMapContext} from '../../../ol-map/domain/ol-map-context';
 import {OlComponentsContainerComponent} from '../ol-components-container/ol-components-container.component';
 import {OlOverlayContainerComponent} from '../ol-overlay-container/ol-overlay-container.component';
 
@@ -25,7 +25,7 @@ export class NavMapPageComponent implements OnInit {
 
 
 
-    public onMapInitCompleted(mapContext: BaseMapContext) {
+    public onMapInitCompleted(mapContext: OlMapContext) {
         this.mapOlComponentsContainer.onMapInitCompleted(mapContext);
         this.mapOverlayContainer.onMapInitCompleted(mapContext.mapService);
     }
@@ -33,14 +33,14 @@ export class NavMapPageComponent implements OnInit {
 
     public onZoomInClicked() {
         this.appStore.dispatch(
-            new BaseMapZoomInAction()
+            new OlMapZoomInAction()
         );
     }
 
 
     public onZoomOutClicked() {
         this.appStore.dispatch(
-            new BaseMapZoomOutAction()
+            new OlMapZoomOutAction()
         );
     }
 }

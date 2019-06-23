@@ -141,6 +141,6 @@ export class ExtentCacheItem<T> {
 
 
     public containsExtentZoom(extent: Extent2d, zoom: number, user: User): boolean {
-        return (this.zoom === zoom && this.extent.containsExtent(extent) && user === this.user);
+        return (this.zoom === zoom && this.extent.containsExtent2d(extent) && user === this.user);
     }
 }

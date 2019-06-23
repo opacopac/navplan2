@@ -5,7 +5,7 @@ import {Observable} from 'rxjs';
 import {catchError, debounceTime, map, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs/internal/observable/of';
 import {MetarTafService} from './services/metar-taf.service';
-import {BaseMapActionTypes, BaseMapMovedZoomedRotatedAction} from '../base-map/base-map.actions';
+import {OlMapActionTypes, OlMapMovedZoomedRotatedAction} from '../ol-map/ngrx/ol-map.actions';
 import {LoadMetarTafErrorAction, LoadMetarTafSuccessAction} from './metar-taf.actions';
 
 
@@ -21,8 +21,8 @@ export class MetarTafEffects {
     @Effect()
     metarTafLoad$: Observable<Action> = this.actions$
         .pipe(
-            ofType(BaseMapActionTypes.BASEMAP_MOVED_ZOOMED_ROTATED),
-            map(action => action as BaseMapMovedZoomedRotatedAction),
+            ofType(OlMapActionTypes.OL_MAP_MOVED_ZOOMED_ROTATED),
+            map(action => action as OlMapMovedZoomedRotatedAction),
             debounceTime(500),
             switchMap(action => this.metarTafService.load(action.extent, action.zoom)
                 .pipe(

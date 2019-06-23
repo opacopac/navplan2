@@ -10,10 +10,7 @@ use Navplan\Traffic\Domain\TrafficAddressType;
 class DummyAdsbexTraffic2 {
     public static function create(): TrafficAdsbex {
         return new TrafficAdsbex(
-            new TrafficAddress(
-                "4B2928",
-                TrafficAddressType::ICAO
-            ),
+            new TrafficAddress("4B2928", TrafficAddressType::ICAO),
             "P28A",
             "HB-PPG",
             "HBPPG",

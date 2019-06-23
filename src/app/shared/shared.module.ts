@@ -16,7 +16,7 @@ import {ButtonBaseDirective} from './directives/button-base/button-base.directiv
 import {IconButtonDirective} from './directives/icon-button/icon-button.directive';
 import {StatusButtonDirective} from './directives/status-button/status-button.directive';
 import {TextButtonDirective} from './directives/text-button/text-button.directive';
-import {OlOverlayButtonCloseComponent} from '../base-map/components/ol-overlay-button-close/ol-overlay-button-close.component';
+import {OlOverlayButtonCloseComponent} from '../ol-map/components/ol-overlay-button-close/ol-overlay-button-close.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 

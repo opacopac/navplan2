@@ -9,7 +9,7 @@ use Navplan\Traffic\Domain\TrafficDetail;
 class RestTrafficDetail {
     public static function fromRest(array $rest): TrafficDetail {
         return new TrafficDetail(
-            StringNumberHelper::parseStringOrError($rest, "icao24"),
+            isset($rest["addr"]) ? RestTrafficAddress::fromRest($rest["addr"]) : NULL,
             StringNumberHelper::parseStringOrNull($rest, "reg"),
             StringNumberHelper::parseStringOrNull($rest, "model"),
             StringNumberHelper::parseStringOrNull($rest, "manufacturer"),
@@ -22,7 +22,7 @@ class RestTrafficDetail {
 
     public static function toRest(TrafficDetail $traffic): array {
         return array(
-            "icao24" => $traffic->icao24,
+            "addr" => $traffic->address ? RestTrafficAddress::toRest($traffic->address) : NULL,
             "reg" => $traffic->registration,
             "model" => $traffic->model,
             "manufacturer" => $traffic->manufacturer,

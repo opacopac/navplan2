@@ -1,8 +1,8 @@
 import {Vector} from 'ol/source';
 import VectorLayer from 'ol/layer/Vector';
 import {combineLatest, Subscription} from 'rxjs';
-import {BaseMapContext} from '../../base-map/domain/base-map-context';
-import {OlComponentBase} from '../../base-map/ol/ol-component-base';
+import {OlMapContext} from '../../ol-map/domain/ol-map-context';
+import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 import {OlMetar} from './ol-metar';
 import {getMetarTafList} from '../metar-taf.selectors';
 import {MetarTafList} from '../domain/metar-taf';
@@ -18,7 +18,7 @@ export class OlMetarContainer extends OlComponentBase {
     private olMetars: OlMetar[] = [];
 
 
-    constructor(mapContext: BaseMapContext) {
+    constructor(mapContext: OlMapContext) {
         super();
 
         this.metarTafLayer = mapContext.mapService.addVectorLayer(false);

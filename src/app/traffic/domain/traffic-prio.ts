@@ -1,5 +1,6 @@
-import {TrafficDataSource} from './traffic';
-import {TrafficPosition, TrafficPositionMethod} from './traffic-position';
+import {TrafficDataSource} from './traffic-data-source';
+import {TrafficPositionMethod} from './traffic-position-method';
+import {TrafficPosition} from './traffic-position';
 
 
 export interface TrafficPrioItem {

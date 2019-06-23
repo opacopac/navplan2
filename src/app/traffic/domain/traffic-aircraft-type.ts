@@ -1,0 +1,17 @@
+export enum TrafficAircraftType {
+    'HELICOPTER_ROTORCRAFT',
+    'GLIDER',
+    'PARACHUTE',
+    'HANG_GLIDER',
+    'PARA_GLIDER',
+    'BALLOON',
+    'AIRSHIP',
+    'UNKNOWN',
+    'STATIC_OBJECT',
+    'DROP_PLANE',
+    'UFO',
+    'UAV',
+    'JET_AIRCRAFT',
+    'POWERED_AIRCRAFT',
+    'TOW_PLANE',
+}

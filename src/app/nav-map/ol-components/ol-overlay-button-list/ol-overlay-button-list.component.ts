@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {BaseMapOverlayCloseAction} from '../../../base-map/base-map.actions';
+import {OlMapOverlayCloseAction} from '../../../ol-map/ngrx/ol-map.actions';
 import {DeleteWaypointAction, InsertWaypointAction, SetAlternateAction} from '../../../flightroute/flightroute.actions';
 import {getFlightroute} from '../../../flightroute/flightroute.selectors';
 import {Flightroute} from '../../../flightroute/domain/flightroute';
@@ -42,31 +42,31 @@ export class OlOverlayButtonListComponent implements OnInit {
 
 
     public onInsertWaypointAt(wpIdx: [Waypoint, number]) {
-        this.appStore.dispatch(new BaseMapOverlayCloseAction());
+        this.appStore.dispatch(new OlMapOverlayCloseAction());
         this.appStore.dispatch(new InsertWaypointAction(wpIdx[0], wpIdx[1]));
     }
 
 
     public onDeleteWaypoint(waypoint: Waypoint) {
-        this.appStore.dispatch(new BaseMapOverlayCloseAction());
+        this.appStore.dispatch(new OlMapOverlayCloseAction());
         this.appStore.dispatch(new DeleteWaypointAction(waypoint));
     }
 
 
     public onSetAlternate(waypoint: Waypoint) {
-        this.appStore.dispatch(new BaseMapOverlayCloseAction());
+        this.appStore.dispatch(new OlMapOverlayCloseAction());
         this.appStore.dispatch(new SetAlternateAction(waypoint));
     }
 
 
     public onEditWaypoint(waypoint: Waypoint) {
-        /*this.appStore.dispatch(new BaseMapOverlayCloseAction());
+        /*this.appStore.dispatch(new OlMapOverlayCloseAction());
         this.appStore.dispatch(new DeleteWaypointAction(waypoint));*/
     }
 
 
     public onEditUserpoint(waypoint: Waypoint) {
-        /*this.appStore.dispatch(new BaseMapOverlayCloseAction());
+        /*this.appStore.dispatch(new OlMapOverlayCloseAction());
         this.appStore.dispatch(new DeleteWaypointAction(waypoint));*/
     }
 }

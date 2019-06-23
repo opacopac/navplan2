@@ -9,10 +9,10 @@ import {StoreModule} from '@ngrx/store';
 import {notamReducer} from './ngrx/notam.reducer';
 import {EffectsModule} from '@ngrx/effects';
 import {NotamEffects} from './ngrx/notam.effects';
-import {NotamState} from './ngrx/notam-state';
+import {NotamState} from './domain/notam-state';
 import {NotamActions} from './ngrx/notam.actions';
 import {MatCardModule} from '@angular/material';
-import {BaseMapModule} from '../base-map/base-map.module';
+import {OlMapModule} from '../ol-map/ol-map.module';
 
 
 @NgModule({
@@ -22,7 +22,7 @@ import {BaseMapModule} from '../base-map/base-map.module';
         EffectsModule.forFeature([NotamEffects]),
         MatCardModule,
         SharedModule,
-        BaseMapModule,
+        OlMapModule,
     ],
     declarations: [
         MapOverlayButtonNotamComponent,

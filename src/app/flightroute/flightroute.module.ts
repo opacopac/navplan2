@@ -14,7 +14,7 @@ import {WaypointListComponent} from './components/waypoint-list/waypoint-list.co
 import {FlightrouteExportButtonsComponent} from './components/flightroute-export-buttons/flightroute-export-buttons.component';
 import {flightrouteReducer} from './flightroute.reducer';
 import {FlightrouteEffects} from './flightroute.effects';
-import {BaseMapModule} from '../base-map/base-map.module';
+import {OlMapModule} from '../ol-map/ol-map.module';
 import {MapFeaturesModule} from '../map-features/map-features.module';
 import {FuelCalcContainerComponent} from './components/fuel-calc-container/fuel-calc-container.component';
 import {FlightroutePageComponent} from './components/flightroute-page/flightroute-page.component';
@@ -31,7 +31,7 @@ import {FlightrouteListComponent} from './components/flightroute-list/flightrout
         EffectsModule.forFeature([FlightrouteEffects]),
         DragDropModule,
         SharedModule,
-        BaseMapModule,
+        OlMapModule,
         MapFeaturesModule,
     ],
     declarations: [

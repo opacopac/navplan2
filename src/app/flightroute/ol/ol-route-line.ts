@@ -6,11 +6,11 @@ import {Modify, Snap} from 'ol/interaction';
 import {LineString} from 'ol/geom';
 import {Collection} from 'ol';
 import {Stroke, Style} from 'ol/style';
-import {OlComponentBase} from '../../base-map/ol/ol-component-base';
+import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 import {Flightroute} from '../domain/flightroute';
 import {EventEmitter} from '@angular/core';
 import {Position2d} from '../../shared/model/geometry/position2d';
-import {OlHelper} from '../../base-map/domain/ol-helper';
+import {OlHelper} from '../../ol-map/use-case/ol-helper';
 import {ModifyEvent} from 'ol/interaction/Modify';
 
 

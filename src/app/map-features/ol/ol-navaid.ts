@@ -2,7 +2,7 @@ import {Feature} from 'ol';
 import {Vector} from 'ol/source';
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {Navaid, NavaidType} from '../domain/navaid';
-import {OlComponentBase} from '../../base-map/ol/ol-component-base';
+import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 import {NavaidIcon} from '../domain/navaid-icon';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 

@@ -6,11 +6,6 @@ namespace Navplan\Traffic\Domain;
 class TrafficOgn {
     public $address;
     public $acType;
-    public $icaoType;
-    public $registration;
-    public $callsign;
-    public $opIcao;
-    public $acModel;
     public $positionList;
 
 

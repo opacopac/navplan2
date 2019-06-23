@@ -2,13 +2,15 @@
 
 namespace NavplanTest\Traffic\Mocks;
 
+use Navplan\Traffic\Domain\TrafficAddress;
+use Navplan\Traffic\Domain\TrafficAddressType;
 use Navplan\Traffic\Domain\TrafficDetail;
 
 
 class DummyTrafficDetailResult1 {
     public static function create(): TrafficDetail {
         return new TrafficDetail(
-            "4B3142",
+            new TrafficAddress("4B3142", TrafficAddressType::ICAO),
             "HB-SRA",
             "AT-3 R100",
             "AERO AT SP. Z O.O.",
@@ -21,7 +23,7 @@ class DummyTrafficDetailResult1 {
 
     public static function createRest(): array {
         return array(
-            "icao24" => "4B3142",
+            "addr" => ["4B3142", "ICAO"],
             "reg" => "HB-SRA",
             "model" => "AT-3 R100",
             "manufacturer" => "AERO AT SP. Z O.O.",

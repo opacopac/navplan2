@@ -1,15 +1,9 @@
 import {Position4d} from '../../shared/model/geometry/position4d';
 import {Clonable} from '../../shared/model/clonable';
 import {Position2d} from '../../shared/model/geometry/position2d';
-import {TrafficDataSource} from './traffic';
-
-
-export enum TrafficPositionMethod {
-    FLARM,
-    ADSB,
-    MLAT,
-    OWN
-}
+import {TrafficDataSource} from './traffic-data-source';
+import {TrafficPositionMethod} from './traffic-position-method';
+import {Timestamp} from '../../shared/model/quantities/timestamp';
 
 
 export class TrafficPosition implements Clonable<TrafficPosition> {
@@ -23,7 +17,7 @@ export class TrafficPosition implements Clonable<TrafficPosition> {
         public source: TrafficDataSource,
         public method: TrafficPositionMethod,
         public receiver: string,
-        public receivedTimeStampMs: number) {
+        public receivedTimestamp: Timestamp) {
     }
 
 
@@ -33,7 +27,7 @@ export class TrafficPosition implements Clonable<TrafficPosition> {
             this.source,
             this.method,
             this.receiver,
-            this.receivedTimeStampMs
+            this.receivedTimestamp
         );
     }
 }

@@ -11,10 +11,7 @@ use Navplan\Traffic\Domain\TrafficOgn;
 class DummyOgnTraffic3 {
     public static function create(): TrafficOgn {
         return new TrafficOgn(
-            new TrafficAddress(
-            "4B2928",
-            TrafficAddressType::ICAO
-            ),
+            new TrafficAddress("4B2928", TrafficAddressType::ICAO),
             TrafficAcType::POWERED_AIRCRAFT,
             [ DummyOgnTrafficPosition3::create() ]
         );

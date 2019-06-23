@@ -6,7 +6,11 @@ import {Clonable} from '../clonable';
 export class Position2d implements Geometry2d, Clonable<Position2d> {
     public constructor(
         public longitude: number,
-        public latitude: number) {
+        public latitude: number
+    ) {
+        if (isNaN(longitude) || isNaN(latitude)) {
+            throw new Error('parameter is not a number');
+        }
     }
 
 

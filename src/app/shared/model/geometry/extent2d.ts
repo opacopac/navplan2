@@ -65,7 +65,7 @@ export class Extent2d implements Clonable<Extent2d> {
     }
 
 
-    public containsPoint(point: Position2d): boolean {
+    public containsPoint2d(point: Position2d): boolean {
         return (this.minLon <= point.longitude
             && this.minLat <= point.latitude
             && this.maxLon >= point.longitude
@@ -73,7 +73,7 @@ export class Extent2d implements Clonable<Extent2d> {
     }
 
 
-    public containsExtent(extent: Extent2d): boolean {
+    public containsExtent2d(extent: Extent2d): boolean {
         return (this.minLon <= extent.minLon
             && this.minLat <= extent.minLat
             && this.maxLon >= extent.maxLon

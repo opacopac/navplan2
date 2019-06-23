@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Position2d} from '../../../shared/model/geometry/position2d';
 import {Waypoint} from '../../../flightroute/domain/waypoint';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
-import {OlHelper} from '../../../base-map/domain/ol-helper';
+import {OlHelper} from '../../../ol-map/use-case/ol-helper';
 
 
 @Component({

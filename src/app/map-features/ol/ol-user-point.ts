@@ -2,7 +2,7 @@ import {Feature} from 'ol';
 import {Vector} from 'ol/source';
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {Userpoint} from '../domain/userpoint';
-import {OlComponentBase} from '../../base-map/ol/ol-component-base';
+import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 import {UserpointIcon} from '../domain/userpoint-icon';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 

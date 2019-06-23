@@ -9,7 +9,7 @@ import {locationReducer} from './location.reducer';
 import {LocationEffects} from './location.effects';
 import {LocationActions} from './location.actions';
 import {LocationState} from './location-state';
-import {BaseMapModule} from '../base-map/base-map.module';
+import {OlMapModule} from '../ol-map/ol-map.module';
 
 
 @NgModule({
@@ -18,7 +18,7 @@ import {BaseMapModule} from '../base-map/base-map.module';
         StoreModule.forFeature<LocationState, LocationActions>('locationState', locationReducer),
         EffectsModule.forFeature([LocationEffects]),
         SharedModule,
-        BaseMapModule,
+        OlMapModule,
     ],
     declarations: [
         LocationButtonComponent,

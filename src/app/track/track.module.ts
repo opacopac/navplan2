@@ -10,7 +10,7 @@ import {TrackEffects} from './track.effects';
 import {TrackListComponent} from './components/track-list/track-list.component';
 import {TrackService} from './services/track.service';
 import {TracksPageComponent} from './components/tracks-page/tracks-page.component';
-import {BaseMapModule} from '../base-map/base-map.module';
+import {OlMapModule} from '../ol-map/ol-map.module';
 
 
 @NgModule({
@@ -19,7 +19,7 @@ import {BaseMapModule} from '../base-map/base-map.module';
         StoreModule.forFeature<TrackState, TrackActions>('trackState', trackReducer),
         EffectsModule.forFeature([TrackEffects]),
         SharedModule,
-        BaseMapModule,
+        OlMapModule,
     ],
     declarations: [
         TracksPageComponent,

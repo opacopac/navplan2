@@ -2,21 +2,17 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
-import {IcaoCallsignService} from './services/icaocallsign.service';
-import {TrafficMerger} from './traffic-merger/traffic-merger';
-import {TrafficAdsbexchangeService} from './services/traffic-adsbexchange.service';
-import {TrafficOgnService} from './services/traffic-ogn.service';
-import {OlOverlayTrafficComponent} from './components/ol-overlay-traffic/ol-overlay-traffic.component';
+import {TrafficOgnService} from './rest/ogn/traffic-ogn.service';
+import {OlOverlayTrafficComponent} from './ol/ol-overlay-traffic/ol-overlay-traffic.component';
 import {TrafficButtonComponent} from './components/traffic-button/traffic-button.component';
 import {SharedModule} from '../shared/shared.module';
-import {trafficReducer} from './traffic.reducer';
-import {TrafficEffects} from './traffic.effects';
-import {TrafficState} from './traffic-state';
-import {TrafficActions} from './traffic.actions';
-import {BaseMapModule} from '../base-map/base-map.module';
-import {TrafficTimerService} from './services/traffic-timer.service';
-import {TrafficAdsbexchangeService2} from './services/traffic-adsbexchange2.service';
-import {TrafficDetailsService} from './services/traffic-details.service';
+import {trafficReducer} from './ngrx/traffic.reducer';
+import {TrafficEffects} from './ngrx/traffic.effects';
+import {TrafficState} from './domain/traffic-state';
+import {TrafficActions} from './ngrx/traffic.actions';
+import {OlMapModule} from '../ol-map/ol-map.module';
+import {TrafficTimerService} from './use-case/traffic-timer.service';
+import {TrafficDetailsService} from './rest/traffic-details/traffic-details.service';
 
 
 @NgModule({
@@ -25,7 +21,7 @@ import {TrafficDetailsService} from './services/traffic-details.service';
         StoreModule.forFeature<TrafficState, TrafficActions>('trafficState', trafficReducer),
         EffectsModule.forFeature([TrafficEffects]),
         SharedModule,
-        BaseMapModule,
+        OlMapModule,
     ],
     declarations: [
         OlOverlayTrafficComponent,
@@ -36,10 +32,6 @@ import {TrafficDetailsService} from './services/traffic-details.service';
         TrafficButtonComponent
     ],
     providers: [
-        IcaoCallsignService,
-        TrafficMerger,
-        TrafficAdsbexchangeService,
-        TrafficAdsbexchangeService2,
         TrafficOgnService,
         TrafficDetailsService,
         TrafficTimerService

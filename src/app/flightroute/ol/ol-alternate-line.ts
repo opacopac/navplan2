@@ -2,7 +2,7 @@ import {Feature} from 'ol';
 import {Vector} from 'ol/source';
 import {Style, Stroke} from 'ol/style';
 import VectorLayer from 'ol/layer/Vector';
-import {OlComponentBase} from '../../base-map/ol/ol-component-base';
+import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 import {Flightroute} from '../domain/flightroute';
 
 

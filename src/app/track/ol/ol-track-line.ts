@@ -1,7 +1,7 @@
 import {Feature} from 'ol';
 import {Vector} from 'ol/source';
 import {Stroke, Style} from 'ol/style';
-import {OlComponentBase} from '../../base-map/ol/ol-component-base';
+import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 import {Track} from '../domain/track';
 
 

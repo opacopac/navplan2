@@ -1,5 +1,6 @@
-import {Position2d} from "./position2d";
-import {Geometry2dType} from "./geometry2d";
+import {Position2d} from './position2d';
+import {Geometry2dType} from './geometry2d';
+
 
 describe('Position2d', () => {
 
@@ -78,5 +79,12 @@ describe('Position2d', () => {
         expect(lonLat.length).toBe(2);
         expect(lonLat[0]).toEqual(pos.longitude);
         expect(lonLat[1]).toEqual(pos.latitude);
+    });
+
+
+    it('throws an error for undefined values', () => {
+        expect(() => { const pos = new Position2d(7.0, undefined); }).toThrow();
+        expect(() => { const pos = new Position2d(undefined, 47.0); }).toThrow();
+        expect(() => { const pos = new Position2d(undefined, undefined); }).toThrow();
     });
 });

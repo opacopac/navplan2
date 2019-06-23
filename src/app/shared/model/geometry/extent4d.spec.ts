@@ -1,18 +1,18 @@
-import {Length} from '../quantities/length';
-import {LengthUnit} from '../quantities/units';
 import {Timestamp} from '../quantities/timestamp';
 import {Extent4d} from './extent4d';
-import {Position4d} from './position4d';
+import {Altitude} from './altitude';
+import {AltitudeUnit} from './altitude-unit';
+import {AltitudeReference} from './altitude-reference';
 
 
 describe('Extent4d', () => {
     const minLon = 7.0;
     const minLat = 47.0;
-    const minHeight = new Length(0, LengthUnit.FT);
+    const minHeight = new Altitude(0, AltitudeUnit.FT, AltitudeReference.MSL);
     const minTimestamp = Timestamp.createFromRelSec(-120);
     const maxLon = 8.0;
     const maxLat = 48.0;
-    const maxHeight = new Length(15000, LengthUnit.FT);
+    const maxHeight = new Altitude(15000, AltitudeUnit.FT, AltitudeReference.MSL);
     const maxTimestamp = Timestamp.now();
     const extent = new Extent4d(minLon, minLat, minHeight, minTimestamp, maxLon, maxLat, maxHeight, maxTimestamp);
 
@@ -25,11 +25,11 @@ describe('Extent4d', () => {
         expect(extent).toBeDefined();
         expect(extent.minLon).toEqual(minLon);
         expect(extent.minLat).toEqual(minLat);
-        expect(extent.minHeight).toEqual(minHeight);
+        expect(extent.minAlt).toEqual(minHeight);
         expect(extent.minTimestamp).toEqual(minTimestamp);
         expect(extent.maxLon).toEqual(maxLon);
         expect(extent.maxLat).toEqual(maxLat);
-        expect(extent.maxHeight).toEqual(maxHeight);
+        expect(extent.maxAlt).toEqual(maxHeight);
         expect(extent.maxTimestamp).toEqual(maxTimestamp);
     });
 
@@ -39,22 +39,11 @@ describe('Extent4d', () => {
 
         expect(clone.minLon).toBe(minLon);
         expect(clone.minLat).toBe(minLat);
-        expect(clone.minHeight).toEqual(minHeight);
+        expect(clone.minAlt).toEqual(minHeight);
         expect(clone.minTimestamp).toEqual(minTimestamp);
         expect(clone.maxLon).toBe(maxLon);
         expect(clone.maxLat).toBe(maxLat);
-        expect(clone.maxHeight).toEqual(maxHeight);
+        expect(clone.maxAlt).toEqual(maxHeight);
         expect(clone.maxTimestamp).toEqual(maxTimestamp);
-    });
-
-
-    it('correctly determines a contained point', () => {
-        const pointIn = new Position4d(7.5, 47.5, new Length(5000, LengthUnit.FT), Timestamp.createFromRelSec(-10));
-        const pointOut = new Position4d(7.5, 47.5, new Length(5000, LengthUnit.FT), Timestamp.createFromRelSec(-130));
-        const pointOut2 = new Position4d(7.5, 47.5, new Length(55000, LengthUnit.FT), Timestamp.createFromRelSec(-10));
-
-        expect(extent.containsPoint(pointIn)).toBeTruthy();
-        expect(extent.containsPoint(pointOut)).toBeFalsy();
-        expect(extent.containsPoint(pointOut2)).toBeFalsy();
     });
 });

@@ -1,0 +1,20 @@
+// details: https://opensky-network.org/apidoc/rest.html
+export interface IRestOpenskyTraffic {
+    0: string; // 0: icao24 (Unique ICAO 24-bit address of the transponder in hex string representation.)
+    1: string; // 1: callsign (Callsign of the vehicle (8 chars). Can be null if no callsign has been received.)
+    2: string; // 2: origin_country (Country name inferred from the ICAO 24-bit address.)
+    3: number; // 3: time_position (Unix timestamp (seconds) for the last position update. Can be null if no position report was received by OpenSky within the past 15s.)
+    4: number; // 4: last_contact (Unix timestamp (seconds) for the last update in general. This field is updated for any new, valid message received from the transponder.)
+    5: number; // 5: longitude (WGS-84 longitude in decimal degrees. Can be null.)
+    6: number; // 6: latitude (WGS-84 latitude in decimal degrees. Can be null.)
+    7: number; // 7: baro_altitude (Barometric altitude in meters. Can be null.)
+    8: boolean; // 8: on_ground (Boolean value which indicates if the position was retrieved from a surface position report.)
+    9: number; // 9: velocity (Velocity over ground in m/s. Can be null.)
+    10: number; // 10: true_track (True track in decimal degrees clockwise from north (north=0°). Can be null.)
+    11: number; // 11: vertical_rate (Vertical rate in m/s. A positive value indicates that the airplane is climbing, a negative value indicates that it descends. Can be null)
+    12: number[]; // 12: sensors (IDs of the receivers which contributed to this state vector. Is null if no filtering for sensor was used in the request)
+    13: number; // 13: geo_altitude (Geometric altitude in meters. Can be null.)
+    14: string; // 14: squawk (The transponder code aka Squawk. Can be null.)
+    15: boolean; // 15: spi (Whether flight status indicates special purpose indicator)
+    16: number; // 16: position_source (0 = ADS-B, 1 = ASTERIX, 2 = MLAT)
+}

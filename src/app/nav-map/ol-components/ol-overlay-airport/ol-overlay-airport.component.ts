@@ -5,7 +5,7 @@ import {AirportIcon} from '../../../map-features/domain/airport-icon';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
 import {WaypointFactory} from '../../../flightroute/domain/waypoint-mapper/waypoint-factory';
 import {GeocalcService} from '../../../shared/services/geocalc/geocalc.service';
-import {OlHelper} from '../../../base-map/domain/ol-helper';
+import {OlHelper} from '../../../ol-map/use-case/ol-helper';
 
 
 @Component({

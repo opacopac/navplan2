@@ -4,7 +4,7 @@ import {Icon, Style} from 'ol/style';
 import {MetarTaf} from '../domain/metar-taf';
 import {UnitconversionService} from '../../shared/services/unitconversion/unitconversion.service';
 import {environment} from '../../../environments/environment';
-import {OlComponentBase} from '../../base-map/ol/ol-component-base';
+import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 import {Position2d} from '../../shared/model/geometry/position2d';
 import {Angle} from '../../shared/model/quantities/angle';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';

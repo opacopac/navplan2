@@ -3,68 +3,173 @@ import {TrafficPosition} from './traffic-position';
 import {Clonable} from '../../shared/model/clonable';
 import {GeocalcService} from '../../shared/services/geocalc/geocalc.service';
 import {Angle} from '../../shared/model/quantities/angle';
-
-
-const MAX_AGE_SEC_INACTIVE = 30;
-
-
-// region ENUMS
-
-export enum TrafficAircraftType {
-    'HELICOPTER_ROTORCRAFT',
-    'GLIDER',
-    'PARACHUTE',
-    'HANG_GLIDER',
-    'PARA_GLIDER',
-    'BALLOON',
-    'AIRSHIP',
-    'UNKNOWN',
-    'STATIC_OBJECT',
-    'DROP_PLANE',
-    'UFO',
-    'UAV',
-    'JET_AIRCRAFT',
-    'POWERED_AIRCRAFT',
-    'TOW_PLANE',
-}
-
-
-export enum TrafficAddressType {
-    RANDOM,
-    ICAO,
-    FLARM,
-    OGN
-}
-
-
-export enum TrafficDataSource {
-    OGN,
-    ADSBX,
-    ADSBX2,
-    OPENSKY,
-    DETAILS
-}
-
-
-// endregion
+import {TrafficAircraftType} from './traffic-aircraft-type';
+import {TrafficAddress} from './traffic-address';
+import {StringnumberService} from '../../shared/services/stringnumber/stringnumber.service';
 
 
 export class Traffic extends DataItem implements Clonable<Traffic> {
-    public isDetailsLoaded = false;
+    private _address: TrafficAddress;
+    private _acType: TrafficAircraftType;
+    private _acIcao: string;
+    private _registration: string;
+    private _callsign: string;
+    private _opIcao: string;
+    private _fullCallsign: string;
+    private _model: string;
+    private _positions: TrafficPosition[];
+    private _isDetailsLoaded = false;
+
+
+    public static createEmpty(address: TrafficAddress): Traffic {
+        return new Traffic(
+            address,
+            TrafficAircraftType.UNKNOWN,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            []
+        );
+    }
+
+
+    // region getters / setters
+
+    public set address(value: TrafficAddress) {
+        if (value === undefined) {
+            throw Error('aircraft address must be defined');
+        }
+
+        this._address = value;
+    }
+
+
+    public get address(): TrafficAddress {
+        return this._address;
+    }
+
+
+    public set acType(value: TrafficAircraftType) {
+        if (value === undefined) {
+            throw Error('aircraft type must be defined');
+        }
+
+        this._acType = value;
+    }
+
+
+    public get acType(): TrafficAircraftType {
+        return this._acType;
+    }
+
+
+    public set acIcao(value: string | undefined) {
+        this._acIcao = StringnumberService.parseStringOrNull(value, true, true);
+    }
+
+
+    public get acIcao(): string | undefined {
+        return this._acIcao;
+    }
+
+
+    public set registration(value: string | undefined) {
+        this._registration = StringnumberService.parseStringOrNull(value, true, true);
+    }
+
+
+    public get registration(): string | undefined {
+        return this._registration;
+    }
+
+
+    public set callsign(value: string | undefined) {
+        this._callsign = StringnumberService.parseStringOrNull(value, true, true);
+    }
+
+
+    public get callsign(): string | undefined {
+        return this._callsign;
+    }
+
+
+    public set opIcao(value: string | undefined) {
+        this._opIcao = StringnumberService.parseStringOrNull(value, true, true);
+    }
+
+
+    public get opIcao(): string | undefined {
+        return this._opIcao;
+    }
+
+
+    public set fullCallsign(value: string | undefined) {
+        this._fullCallsign = StringnumberService.parseStringOrNull(value, true, false);
+    }
+
+
+    public get fullCallsign(): string | undefined {
+        return this._fullCallsign;
+    }
+
+
+    public set model(value: string | undefined) {
+        this._model = StringnumberService.parseStringOrNull(value, true, true);
+    }
+
+
+    public get model(): string | undefined {
+        return this._model;
+    }
+
+
+    public set positions(value: TrafficPosition[]) {
+        this._positions = value;
+    }
+
+
+    public get positions(): TrafficPosition[] {
+        return this._positions;
+    }
+
+
+    public set isDetailsLoaded(value: boolean) {
+        this._isDetailsLoaded = value;
+    }
+
+
+    public get isDetailsLoaded(): boolean {
+        return this._isDetailsLoaded;
+    }
+
+    // endregion
+
 
     constructor(
-        public acAddress: string,
-        public addressType: TrafficAddressType,
-        public dataSource: TrafficDataSource,
-        public acType: TrafficAircraftType,
-        public icaoType: string,
-        public registration: string,
-        public callsign: string,
-        public opCallsign: string,
-        public acModel: string,
-        public positions: TrafficPosition[]) {
-
+        address: TrafficAddress,
+        acType: TrafficAircraftType,
+        acIcao: string,
+        registration: string,
+        callsign: string,
+        opIcao: string,
+        fullCallsign: string,
+        model: string,
+        positions: TrafficPosition[]
+    ) {
         super();
+
+        this.address = address;
+        this.acType = acType;
+        this.acIcao = acIcao;
+        this.registration = registration;
+        this.callsign = callsign;
+        this.opIcao = opIcao;
+        this.fullCallsign = fullCallsign;
+        this.model = model;
+        this.positions = positions;
     }
 
 
@@ -78,15 +183,14 @@ export class Traffic extends DataItem implements Clonable<Traffic> {
         this.positions.forEach((pos) => newPositions.push(pos.clone()));
 
         const cloneTraffic = new Traffic(
-            this.acAddress,
-            this.addressType,
-            this.dataSource,
+            this.address,
             this.acType,
-            this.icaoType,
+            this.acIcao,
             this.registration,
             this.callsign,
-            this.opCallsign,
-            this.acModel,
+            this.opIcao,
+            this.fullCallsign,
+            this.model,
             newPositions
         );
         cloneTraffic.isDetailsLoaded = this.isDetailsLoaded;
@@ -109,20 +213,9 @@ export class Traffic extends DataItem implements Clonable<Traffic> {
     }
 
 
-    public isInactive(): boolean {
-        const pos = this.getCurrentPosition();
-
-        if (!pos || Date.now() - pos.position.timestamp.epochMs > MAX_AGE_SEC_INACTIVE * 1000) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-
     public getCommonName(): string {
-        if (this.opCallsign) {
-            return this.opCallsign;
+        if (this.fullCallsign) {
+            return this.fullCallsign;
         } else if (this.callsign && !this.isCallsignEqualsRegistration()) {
             return this.callsign;
         } else if (this.registration) {
@@ -134,8 +227,8 @@ export class Traffic extends DataItem implements Clonable<Traffic> {
 
 
     public isCallsignEqualsRegistration(): boolean {
-        const regStripped = this.registration.toUpperCase().replace(/[^A-Z0-9]/g, '');
-        const callStripped = this.callsign.toUpperCase().replace(/[^A-Z0-9]/g, '');
+        const regStripped = this.registration ? this.registration.toUpperCase().replace(/[^A-Z0-9]/g, '') : undefined;
+        const callStripped = this.callsign ? this.callsign.toUpperCase().replace(/[^A-Z0-9]/g, '') : undefined;
 
         return regStripped === callStripped;
     }

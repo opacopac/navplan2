@@ -2,6 +2,7 @@
 
 namespace Navplan\Traffic\UseCase;
 
+use Navplan\Traffic\Domain\TrafficAddressType;
 use Navplan\Traffic\Domain\TrafficDetailsReadRequest;
 use Navplan\Traffic\Domain\TrafficDetail;
 
@@ -36,12 +37,16 @@ class ReadTrafficDetails {
 
 
     private function getIcao24List(array $trafficDetailList): array {
-        $icao24List = array_map(
-            function (TrafficDetail $trafficDetail) { return $trafficDetail->icao24; },
-            $trafficDetailList
-        );
+        $icaoOnlyList = array_filter(
+            $trafficDetailList,
+            function ($ac) {
+                return ($ac->address && $ac->address->type === TrafficAddressType::ICAO);
+            });
 
-        return array_filter($icao24List);
+        return array_map(
+            function (TrafficDetail $trafficDetail) { return $trafficDetail->address->value; },
+            $icaoOnlyList
+        );
     }
 
 
@@ -62,11 +67,11 @@ class ReadTrafficDetails {
 
         /* @var $trafficDetail TrafficDetail */
         foreach ($trafficDetailList as &$trafficDetail) {
-            if (!isset($icao24Map[$trafficDetail->icao24])) {
+            if (!isset($trafficDetail->address) || !isset($icao24Map[$trafficDetail->address->value])) {
                 continue;
             }
             /* @var $lfrchDetail TrafficDetail */
-            $lfrchDetail = $icao24Map[$trafficDetail->icao24];
+            $lfrchDetail = $icao24Map[$trafficDetail->address->value];
 
             $trafficDetail->registration = $lfrchDetail->registration;
             $trafficDetail->model = $lfrchDetail->model;
@@ -80,11 +85,11 @@ class ReadTrafficDetails {
 
         /* @var $trafficDetail TrafficDetail */
         foreach ($trafficDetailList as &$trafficDetail) {
-            if (!isset($icao24Map[$trafficDetail->icao24])) {
+            if (!isset($trafficDetail->address) || !isset($icao24Map[$trafficDetail->address->value])) {
                 continue;
             }
             /* @var $basestationDetail TrafficDetail */
-            $basestationDetail = $icao24Map[$trafficDetail->icao24];
+            $basestationDetail = $icao24Map[$trafficDetail->address->value];
 
             if (!$trafficDetail->registration) {
                 $trafficDetail->registration = $basestationDetail->registration;
@@ -126,7 +131,7 @@ class ReadTrafficDetails {
 
         /* @var $trafficDetail TrafficDetail */
         foreach ($trafficDetailList as $trafficDetail) {
-            $trafficMap[$trafficDetail->icao24] = $trafficDetail;
+            $trafficMap[$trafficDetail->address->value] = $trafficDetail;
         }
 
         return $trafficMap;

@@ -1,7 +1,7 @@
 import {TrafficPrio} from './traffic-prio';
-import {TrafficDataSource} from './traffic';
-import {TrafficPositionMethod} from './traffic-position';
-import {TrafficMock} from '../test/traffic-mock';
+import {TrafficDataSource} from './traffic-data-source';
+import {TrafficPositionMethod} from './traffic-position-method';
+import {TrafficOgn1Mock} from '../mocks/traffic-ogn1.mock';
 
 
 describe('TrafficPrio', () => {
@@ -21,7 +21,7 @@ describe('TrafficPrio', () => {
 
 
     it('correctly compares 2 prios', () => {
-        const pos1 = TrafficMock.MOCK_POSITION_1;
+        const pos1 = TrafficOgn1Mock.createPos();
         pos1.source = TrafficDataSource.OGN;
         pos1.method = TrafficPositionMethod.FLARM;
         const pos2 = pos1.clone();

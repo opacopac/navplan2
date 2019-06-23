@@ -8,7 +8,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {MapFeaturesEffects} from './map-features.effects';
 import {MapFeaturesActions} from './map-features.actions';
 import {MapFeaturesState} from './map-features-state';
-import {BaseMapModule} from '../base-map/base-map.module';
+import {OlMapModule} from '../ol-map/ol-map.module';
 
 
 @NgModule({
@@ -17,7 +17,7 @@ import {BaseMapModule} from '../base-map/base-map.module';
         StoreModule.forFeature<MapFeaturesState, MapFeaturesActions>('mapFeaturesState', mapFeaturesReducer),
         EffectsModule.forFeature([MapFeaturesEffects]),
         SharedModule,
-        BaseMapModule,
+        OlMapModule,
     ],
     declarations: [
 

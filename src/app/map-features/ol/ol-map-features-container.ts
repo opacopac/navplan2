@@ -1,6 +1,6 @@
 import VectorLayer from 'ol/layer/Vector';
-import {OlComponentBase} from '../../base-map/ol/ol-component-base';
-import {BaseMapContext} from '../../base-map/domain/base-map-context';
+import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
+import {OlMapContext} from '../../ol-map/domain/ol-map-context';
 import {OpenAipItems} from '../domain/open-aip-items';
 import {getMapFeatures} from '../map-features.selectors';
 import {Subscription} from 'rxjs';
@@ -32,7 +32,7 @@ export class OlMapFeaturesContainer extends OlComponentBase {
     private olAirspaces: OlAirspace[] = [];
 
 
-    constructor(mapContext: BaseMapContext) {
+    constructor(mapContext: OlMapContext) {
         super();
 
         this.airspaceLayer = mapContext.mapService.addVectorLayer(true);

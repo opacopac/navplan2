@@ -25,7 +25,7 @@ import {NotamModule} from '../notam/notam.module';
 import {NavMapPageComponent} from './components/nav-map-page/nav-map-page.component';
 import {OlComponentsContainerComponent} from './components/ol-components-container/ol-components-container.component';
 import {OlOverlayContainerComponent} from './components/ol-overlay-container/ol-overlay-container.component';
-import {BaseMapModule} from '../base-map/base-map.module';
+import {OlMapModule} from '../ol-map/ol-map.module';
 import {SearchModule} from '../search/search.module';
 import {LocationModule} from '../location/location.module';
 import {FlightTimerModule} from '../flight-timer/flight-timer.module';
@@ -83,7 +83,7 @@ import { OlOverlayButtonListComponent } from './ol-components/ol-overlay-button-
         MatFormFieldModule,
         MatSelectModule,
         SharedModule,
-        BaseMapModule,
+        OlMapModule,
         MapFeaturesModule,
         FlightrouteModule,
         SearchModule,

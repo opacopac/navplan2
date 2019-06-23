@@ -1,7 +1,7 @@
 import {Vector} from 'ol/source';
 import VectorLayer from 'ol/layer/Vector';
-import {OlComponentBase} from '../../base-map/ol/ol-component-base';
-import {BaseMapContext} from '../../base-map/domain/base-map-context';
+import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
+import {OlMapContext} from '../../ol-map/domain/ol-map-context';
 import {Flightroute} from '../domain/flightroute';
 import {getFlightroute} from '../flightroute.selectors';
 import {Subscription} from 'rxjs';
@@ -23,7 +23,7 @@ export class OlFlightrouteContainer extends OlComponentBase {
     private olAlternateLine: OlAlternateLine;
 
 
-    constructor(private mapContext: BaseMapContext, snapToLayers: VectorLayer[]) {
+    constructor(private mapContext: OlMapContext, snapToLayers: VectorLayer[]) {
         super();
 
         this.flightrouteLayer = this.mapContext.mapService.addVectorLayer(false);
@@ -50,7 +50,7 @@ export class OlFlightrouteContainer extends OlComponentBase {
     }
 
 
-    private addFeatures(flightroute: Flightroute, mapContext: BaseMapContext, source: Vector, snapToLayers: VectorLayer[]) {
+    private addFeatures(flightroute: Flightroute, mapContext: OlMapContext, source: Vector, snapToLayers: VectorLayer[]) {
         if (flightroute) {
             const mapRotation = mapContext.mapService.getRotation();
             this.olRouteLine = new OlRouteLine(flightroute, mapContext.map, source, snapToLayers);

@@ -4,7 +4,7 @@ namespace Navplan\Traffic\Domain;
 
 
 class TrafficDetail {
-    public $icao24;
+    public $address;
     public $registration;
     public $model;
     public $manufacturer;
@@ -14,7 +14,7 @@ class TrafficDetail {
 
 
     public function __construct(
-        ?string $icao24,
+        ?TrafficAddress $address,
         ?string $registration,
         ?string $model,
         ?string $manufacturer,
@@ -22,7 +22,7 @@ class TrafficDetail {
         ?string $acClass,
         ?string $engClass
     ) {
-        $this->icao24 = $icao24 ? strtoupper($icao24) : NULL;
+        $this->address = $address ? $address : NULL;
         $this->registration = $registration ? strtoupper($registration) : NULL;
         $this->model = $model;
         $this->manufacturer = $manufacturer;

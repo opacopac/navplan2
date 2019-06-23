@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {OlOverlayGeonameComponent} from '../../ol-components/ol-overlay-geoname/ol-overlay-geoname.component';
 import {OlOverlayWaypointComponent} from '../../ol-components/ol-overlay-waypoint/ol-overlay-waypoint.component';
 import {OlOverlayReportingsectorComponent} from '../../ol-components/ol-overlay-reportingsector/ol-overlay-reportingsector.component';
-import {OlOverlayTrafficComponent} from '../../../traffic/components/ol-overlay-traffic/ol-overlay-traffic.component';
+import {OlOverlayTrafficComponent} from '../../../traffic/ol/ol-overlay-traffic/ol-overlay-traffic.component';
 import {OlOverlayAirportComponent} from '../../ol-components/ol-overlay-airport/ol-overlay-airport.component';
 import {OlOverlayNavaidComponent} from '../../ol-components/ol-overlay-navaid/ol-overlay-navaid.component';
 import {OlOverlayNotamComponent} from '../../../notam/components/map-overlay-notam/ol-overlay-notam.component';
@@ -12,7 +12,7 @@ import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs/internal/Observable';
 import {DataItem, DataItemType} from '../../../shared/model/data-item';
 import {Subscription} from 'rxjs/internal/Subscription';
-import {getShowOverlay} from '../../../base-map/base-map.selectors';
+import {getShowOverlay} from '../../../ol-map/ngrx/ol-map.selectors';
 import {Airport} from '../../../map-features/domain/airport';
 import {Navaid} from '../../../map-features/domain/navaid';
 import {Reportingpoint} from '../../../map-features/domain/reportingpoint';
@@ -23,8 +23,8 @@ import {Geoname} from '../../../map-features/domain/geoname';
 import {Traffic} from '../../../traffic/domain/traffic';
 import {Notam} from '../../../notam/domain/notam';
 import {Waypoint} from '../../../flightroute/domain/waypoint';
-import {MapOverlayState} from '../../../base-map/base-map-state';
-import {BaseMapService} from '../../../base-map/services/base-map.service';
+import {MapOverlayState} from '../../../ol-map/domain/ol-map-state';
+import {OlMapService} from '../../../ol-map/use-case/ol-map.service';
 
 
 @Component({
@@ -64,7 +64,7 @@ export class OlOverlayContainerComponent implements OnInit, OnDestroy {
     }
 
 
-    public onMapInitCompleted(mapService: BaseMapService) {
+    public onMapInitCompleted(mapService: OlMapService) {
         this.addMapOverlays(mapService);
     }
 
@@ -74,7 +74,7 @@ export class OlOverlayContainerComponent implements OnInit, OnDestroy {
     }
 
 
-    private addMapOverlays(mapService: BaseMapService) {
+    private addMapOverlays(mapService: OlMapService) {
         this.mapOverlayAirportComponent.init(mapService);
         this.mapOverlayNavaidComponent.init(mapService);
         this.mapOverlayReportingpointComponent.init(mapService);

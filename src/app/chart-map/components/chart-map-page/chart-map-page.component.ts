@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {BaseMapContext} from '../../../base-map/domain/base-map-context';
+import {OlMapContext} from '../../../ol-map/domain/ol-map-context';
 
 
 @Component({
@@ -17,6 +17,6 @@ export class ChartMapPageComponent implements OnInit {
     }
 
 
-    public onMapInitCompleted(mapContext: BaseMapContext) {
+    public onMapInitCompleted(mapContext: OlMapContext) {
     }
 }

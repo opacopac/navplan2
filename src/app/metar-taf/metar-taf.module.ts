@@ -10,7 +10,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {MetarTafEffects} from './metar-taf.effects';
 import {MetarTafState} from './metar-taf-state';
 import {MetarTafActions} from './metar-taf.actions';
-import {BaseMapModule} from '../base-map/base-map.module';
+import {OlMapModule} from '../ol-map/ol-map.module';
 
 
 @NgModule({
@@ -19,7 +19,7 @@ import {BaseMapModule} from '../base-map/base-map.module';
         StoreModule.forFeature<MetarTafState, MetarTafActions>('metarTafState', metarTafReducer),
         EffectsModule.forFeature([MetarTafEffects]),
         SharedModule,
-        BaseMapModule,
+        OlMapModule,
     ],
     declarations: [
         OlOverlayButtonMetarTafComponent,

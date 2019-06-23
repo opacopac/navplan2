@@ -1,5 +1,5 @@
-import {OlComponentBase} from '../../base-map/ol/ol-component-base';
-import {BaseMapContext} from '../../base-map/domain/base-map-context';
+import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
+import {OlMapContext} from '../../ol-map/domain/ol-map-context';
 import {Subscription} from 'rxjs';
 import {OlNotam} from './ol-notam';
 import {getNotamList} from '../ngrx/notam.selectors';
@@ -15,7 +15,7 @@ export class OlNotamContainer extends OlComponentBase {
     private olNotams: OlNotam[] = [];
 
 
-    constructor(mapContext: BaseMapContext) {
+    constructor(mapContext: OlMapContext) {
         super();
 
         this.notamLayer = mapContext.mapService.addVectorLayer(true);
