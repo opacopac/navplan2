@@ -8,12 +8,12 @@ import { WaypointUserpoint } from './waypoint-userpoint';
 import { WaypointGeoname } from './waypoint-geoname';
 import { Position2d } from '../../../shared/model/geometry/position2d';
 import {WaypointCoordinate} from './waypoint-coordinate';
-import {Airport} from '../../../map-features/domain/airport';
-import {Navaid} from '../../../map-features/domain/navaid';
-import {Reportingpoint} from '../../../map-features/domain/reportingpoint';
-import {Reportingsector} from '../../../map-features/domain/reportingsector';
-import {Userpoint} from '../../../map-features/domain/userpoint';
-import {Geoname} from '../../../map-features/domain/geoname';
+import {Airport} from '../../../open-aip/domain/airport';
+import {Navaid} from '../../../open-aip/domain/navaid';
+import {Reportingpoint} from '../../../open-aip/domain/reportingpoint';
+import {Reportingsector} from '../../../open-aip/domain/reportingsector';
+import {Userpoint} from '../../../open-aip/domain/userpoint';
+import {Geoname} from '../../../open-aip/domain/geoname';
 import {Waypoint} from '../waypoint';
 
 

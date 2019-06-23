@@ -33,6 +33,6 @@ export class OpenAipItems extends DataItem {
 
 
     public get dataItemType(): DataItemType {
-        return DataItemType.mapFeatures;
+        return DataItemType.openAipItems;
     }
 }

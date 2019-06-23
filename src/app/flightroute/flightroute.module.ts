@@ -15,7 +15,7 @@ import {FlightrouteExportButtonsComponent} from './components/flightroute-export
 import {flightrouteReducer} from './flightroute.reducer';
 import {FlightrouteEffects} from './flightroute.effects';
 import {OlMapModule} from '../ol-map/ol-map.module';
-import {MapFeaturesModule} from '../map-features/map-features.module';
+import {OpenAipModule} from '../open-aip/open-aip.module';
 import {FuelCalcContainerComponent} from './components/fuel-calc-container/fuel-calc-container.component';
 import {FlightroutePageComponent} from './components/flightroute-page/flightroute-page.component';
 import {FlightrouteListDialogComponent} from './components/flightroute-list-dialog/flightroute-list-dialog.component';
@@ -32,7 +32,7 @@ import {FlightrouteListComponent} from './components/flightroute-list/flightrout
         DragDropModule,
         SharedModule,
         OlMapModule,
-        MapFeaturesModule,
+        OpenAipModule,
     ],
     declarations: [
         EditWaypointDialogComponent,

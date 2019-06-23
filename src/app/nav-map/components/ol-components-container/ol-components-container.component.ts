@@ -3,7 +3,7 @@ import {OlOwnPlaneContainer} from '../../../location/ol/ol-own-plane-container';
 import {OlFlightrouteContainer} from '../../../flightroute/ol/ol-flightroute-container';
 import {OlMetarContainer} from '../../../metar-taf/ol/ol-metar-container';
 import {OlTrafficContainer} from '../../../traffic/ol/ol-traffic-container';
-import {OlMapFeaturesContainer} from '../../../map-features/ol/ol-map-features-container';
+import {OlOpenAipItemsContainer} from '../../../open-aip/ol/ol-open-aip-items-container';
 import {OlNotamContainer} from '../../../notam/ol/ol-notam-container';
 import {OlMapContext} from '../../../ol-map/domain/ol-map-context';
 import {OlTrackContainer} from '../../../track/ol/ol-track-container';
@@ -15,7 +15,7 @@ import {OlTrackContainer} from '../../../track/ol/ol-track-container';
     styleUrls: ['./ol-components-container.component.css']
 })
 export class OlComponentsContainerComponent implements OnInit, OnDestroy {
-    private olMapFeatures: OlMapFeaturesContainer;
+    private olOpenAipItems: OlOpenAipItemsContainer;
     private olFlightroute: OlFlightrouteContainer;
     private olTrack: OlTrackContainer;
     private olNotams: OlNotamContainer;
@@ -33,7 +33,7 @@ export class OlComponentsContainerComponent implements OnInit, OnDestroy {
 
 
     ngOnDestroy() {
-        this.olMapFeatures.destroy();
+        this.olOpenAipItems.destroy();
         this.olMetars.destroy();
         this.olNotams.destroy();
         this.olTrack.destroy();
@@ -50,11 +50,11 @@ export class OlComponentsContainerComponent implements OnInit, OnDestroy {
 
 
     private addOlComponents(mapContext: OlMapContext) {
-        this.olMapFeatures = new OlMapFeaturesContainer(mapContext);
+        this.olOpenAipItems = new OlOpenAipItemsContainer(mapContext);
         this.olMetars = new OlMetarContainer(mapContext);
         this.olNotams = new OlNotamContainer(mapContext);
         this.olTrack = new OlTrackContainer(mapContext);
-        this.olFlightroute = new OlFlightrouteContainer(mapContext, this.olMapFeatures.getSnapToLayers());
+        this.olFlightroute = new OlFlightrouteContainer(mapContext, this.olOpenAipItems.getSnapToLayers());
         // TODO: search results
         this.olTraffic = new OlTrafficContainer(mapContext);
         this.olOwnPlane = new OlOwnPlaneContainer(mapContext);

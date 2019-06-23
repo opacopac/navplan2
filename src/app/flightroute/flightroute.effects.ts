@@ -32,10 +32,10 @@ import {getCurrentUser} from '../user/user.selectors';
 import {User} from '../user/domain/user';
 import {getFlightroute} from './flightroute.selectors';
 import {Flightroute} from './domain/flightroute';
-import {MapfeaturesService} from '../map-features/services/mapfeatures.service';
+import {OpenAipService} from '../open-aip/services/open-aip.service';
 import {WaypointFactory} from './domain/waypoint-mapper/waypoint-factory';
-import {getMapFeatures} from '../map-features/map-features.selectors';
-import {OpenAipItems} from '../map-features/domain/open-aip-items';
+import {getOpenAipItems} from '../open-aip/ngrx/open-aip.selectors';
+import {OpenAipItems} from '../open-aip/domain/open-aip-items';
 
 
 @Injectable()
@@ -44,14 +44,14 @@ export class FlightrouteEffects {
         private actions$: Actions,
         private appStore: Store<any>,
         private flightrouteService: FlightrouteService,
-        private mapFeaturesService: MapfeaturesService,
+        private openAipService: OpenAipService,
         private messageService: MessageService) {
     }
 
 
     private currentUser$: Observable<User> = this.appStore.pipe(select(getCurrentUser));
     private flightroute$: Observable<Flightroute> = this.appStore.pipe(select(getFlightroute));
-    private mapFeatures$: Observable<OpenAipItems> = this.appStore.pipe(select(getMapFeatures));
+    private openAipItems$: Observable<OpenAipItems> = this.appStore.pipe(select(getOpenAipItems));
 
 
     // region flightroute list
@@ -227,9 +227,9 @@ export class FlightrouteEffects {
     modifyRouteLine$: Observable<Action> = this.actions$.pipe(
         ofType(FlightrouteActionTypes.WAYPOINT_ROUTELINE_MODIFIED),
         map((action: RouteLineModifiedAction) => action),
-        withLatestFrom(this.mapFeatures$),
-        map(([action, mapFeatures]) => {
-            const dataItem = MapfeaturesService.findLoadedMapFeatureByPosition(mapFeatures, action.newPosition);
+        withLatestFrom(this.openAipItems$),
+        map(([action, openAipItems]) => {
+            const dataItem = OpenAipService.findLoadedMapFeatureByPosition(openAipItems, action.newPosition);
             const wp = WaypointFactory.createNewWaypointFromDataItem(dataItem, action.newPosition);
 
             if (action.isNewWaypoint) {

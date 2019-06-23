@@ -1,6 +1,6 @@
 import {WaypointBase} from './waypoint-base';
 import {Position2d} from '../../../shared/model/geometry/position2d';
-import {Airport, AirportRadio} from '../../../map-features/domain/airport';
+import {Airport, AirportRadio} from '../../../open-aip/domain/airport';
 import {WaypointType} from '../waypoint-type';
 import {UnitconversionService} from '../../../shared/services/unitconversion/unitconversion.service';
 

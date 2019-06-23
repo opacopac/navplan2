@@ -6,8 +6,8 @@ import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 import {OlMetar} from './ol-metar';
 import {getMetarTafList} from '../metar-taf.selectors';
 import {MetarTafList} from '../domain/metar-taf';
-import {getMapFeaturesAirports} from '../../map-features/map-features.selectors';
-import {Airport} from '../../map-features/domain/airport';
+import {getOpenAipAirports} from '../../open-aip/ngrx/open-aip.selectors';
+import {Airport} from '../../open-aip/domain/airport';
 import {Angle} from '../../shared/model/quantities/angle';
 import {select} from '@ngrx/store';
 
@@ -23,7 +23,7 @@ export class OlMetarContainer extends OlComponentBase {
 
         this.metarTafLayer = mapContext.mapService.addVectorLayer(false);
         const metarTafList$ = mapContext.appStore.pipe(select(getMetarTafList));
-        const airportList$ = mapContext.appStore.pipe(select(getMapFeaturesAirports));
+        const airportList$ = mapContext.appStore.pipe(select(getOpenAipAirports));
         this.metarTafSubscription = combineLatest(
             metarTafList$,
             airportList$

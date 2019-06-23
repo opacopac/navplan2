@@ -1,29 +1,29 @@
 import {TestBed, inject} from '@angular/core/testing';
-import {MapfeaturesService} from './mapfeatures.service';
+import {OpenAipService} from './open-aip.service';
 import {HttpClient, HttpHandler} from '@angular/common/http';
 import {ReducerManager, ReducerManagerDispatcher, StoreModule} from '@ngrx/store';
-import {MapFeaturesState} from '../map-features-state';
-import {MapFeaturesActions} from '../map-features.actions';
-import {mapFeaturesReducer} from '../map-features.reducer';
+import {OpenAipState} from '../domain/open-aip-state';
+import {OpenAipActions} from '../ngrx/open-aip.actions';
+import {openAipReducer} from '../ngrx/open-aip.reducer';
 
 
-xdescribe('MapfeaturesService', () => {
+xdescribe('OpenAipService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
-                MapfeaturesService,
+                OpenAipService,
                 HttpClient,
                 HttpHandler,
                 ReducerManager,
                 ReducerManagerDispatcher
             ],
             imports: [
-                StoreModule.forFeature<MapFeaturesState, MapFeaturesActions>('mapFeaturesState', mapFeaturesReducer),
+                StoreModule.forFeature<OpenAipState, OpenAipActions>('openAipState', openAipReducer),
             ]
         });
     });
 
-    it('should be created', inject([MapfeaturesService], (service: MapfeaturesService) => {
+    it('should be created', inject([OpenAipService], (service: OpenAipService) => {
         expect(service).toBeTruthy();
     }));
 });

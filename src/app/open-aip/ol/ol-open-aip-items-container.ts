@@ -2,7 +2,7 @@ import VectorLayer from 'ol/layer/Vector';
 import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 import {OlMapContext} from '../../ol-map/domain/ol-map-context';
 import {OpenAipItems} from '../domain/open-aip-items';
-import {getMapFeatures} from '../map-features.selectors';
+import {getOpenAipItems} from '../ngrx/open-aip.selectors';
 import {Subscription} from 'rxjs';
 import {OlNavaid} from './ol-navaid';
 import {OlAirport} from './ol-airport';
@@ -14,8 +14,8 @@ import {OlAirspace} from './ol-airspace';
 import {select} from '@ngrx/store';
 
 
-export class OlMapFeaturesContainer extends OlComponentBase {
-    private readonly mapFeaturesSubscription: Subscription;
+export class OlOpenAipItemsContainer extends OlComponentBase {
+    private readonly openAipItemsSubscription: Subscription;
     private readonly airspaceLayer: VectorLayer;
     private readonly reportingSectorLayer: VectorLayer;
     private readonly webcamLayer: VectorLayer;
@@ -42,10 +42,10 @@ export class OlMapFeaturesContainer extends OlComponentBase {
         this.reportingPointLayer = mapContext.mapService.addVectorLayer(false);
         this.navaidLayer = mapContext.mapService.addVectorLayer(false);
         this.airportLayer = mapContext.mapService.addVectorLayer(false);
-        const mapFeatures$ = mapContext.appStore.pipe(select(getMapFeatures));
-        this.mapFeaturesSubscription = mapFeatures$.subscribe((mapFeatures) => {
+        const openAipItems$ = mapContext.appStore.pipe(select(getOpenAipItems));
+        this.openAipItemsSubscription = openAipItems$.subscribe((openAipItems) => {
             this.destroyFeatures();
-            this.addFeatures(mapFeatures);
+            this.addFeatures(openAipItems);
         });
     }
 
@@ -56,7 +56,7 @@ export class OlMapFeaturesContainer extends OlComponentBase {
 
 
     public destroy() {
-        this.mapFeaturesSubscription.unsubscribe();
+        this.openAipItemsSubscription.unsubscribe();
         this.destroyFeatures();
     }
 
@@ -71,28 +71,28 @@ export class OlMapFeaturesContainer extends OlComponentBase {
     }
 
 
-    private addFeatures(mapFeatures: OpenAipItems) {
-        if (mapFeatures) {
-            if (mapFeatures.airspaces) {
-                mapFeatures.airspaces.forEach(airspace => this.olAirspaces.push(new OlAirspace(airspace, this.airspaceLayer.getSource())));
+    private addFeatures(openAipItems: OpenAipItems) {
+        if (openAipItems) {
+            if (openAipItems.airspaces) {
+                openAipItems.airspaces.forEach(airspace => this.olAirspaces.push(new OlAirspace(airspace, this.airspaceLayer.getSource())));
             }
-            if (mapFeatures.reportingsectors) {
-                mapFeatures.reportingsectors.forEach(repSec => this.olReportingSectors.push(new OlReportingSector(repSec, this.reportingSectorLayer.getSource())));
+            if (openAipItems.reportingsectors) {
+                openAipItems.reportingsectors.forEach(repSec => this.olReportingSectors.push(new OlReportingSector(repSec, this.reportingSectorLayer.getSource())));
             }
-            if (mapFeatures.webcams) {
-                mapFeatures.webcams.forEach(webcam => this.olWebCams.push(new OlWebcam(webcam, this.webcamLayer.getSource())));
+            if (openAipItems.webcams) {
+                openAipItems.webcams.forEach(webcam => this.olWebCams.push(new OlWebcam(webcam, this.webcamLayer.getSource())));
             }
-            if (mapFeatures.userpoints) {
-                mapFeatures.userpoints.forEach(userpoint => this.olUserPoints.push(new OlUserPoint(userpoint, this.userPointLayer.getSource())));
+            if (openAipItems.userpoints) {
+                openAipItems.userpoints.forEach(userpoint => this.olUserPoints.push(new OlUserPoint(userpoint, this.userPointLayer.getSource())));
             }
-            if (mapFeatures.reportingpoints) {
-                mapFeatures.reportingpoints.forEach(repPoint => this.olReportingPoints.push(new OlReportingPoint(repPoint, this.reportingPointLayer.getSource())));
+            if (openAipItems.reportingpoints) {
+                openAipItems.reportingpoints.forEach(repPoint => this.olReportingPoints.push(new OlReportingPoint(repPoint, this.reportingPointLayer.getSource())));
             }
-            if (mapFeatures.navaids) {
-                mapFeatures.navaids.forEach(navaid => this.olNavaids.push(new OlNavaid(navaid, this.navaidLayer.getSource())));
+            if (openAipItems.navaids) {
+                openAipItems.navaids.forEach(navaid => this.olNavaids.push(new OlNavaid(navaid, this.navaidLayer.getSource())));
             }
-            if (mapFeatures.airports) {
-                mapFeatures.airports.forEach(airport => this.olAirports.push(new OlAirport(airport, this.airportLayer.getSource())));
+            if (openAipItems.airports) {
+                openAipItems.airports.forEach(airport => this.olAirports.push(new OlAirport(airport, this.airportLayer.getSource())));
             }
         }
     }

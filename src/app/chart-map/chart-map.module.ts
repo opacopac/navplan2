@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {SharedModule} from '../shared/shared.module';
 import {OlMapModule} from '../ol-map/ol-map.module';
-import {MapFeaturesModule} from '../map-features/map-features.module';
+import {OpenAipModule} from '../open-aip/open-aip.module';
 import {ChartMapPageComponent} from './components/chart-map-page/chart-map-page.component';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
@@ -20,7 +20,7 @@ import {chartMapReducer} from './chart-map.reducer';
         EffectsModule.forFeature([ChartMapEffects]),
         SharedModule,
         OlMapModule,
-        MapFeaturesModule
+        OpenAipModule
     ]
 })
 export class ChartMapModule {

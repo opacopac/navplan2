@@ -1,9 +1,9 @@
-import { Userpoint } from '../../map-features/domain/userpoint';
-import { Navaid } from '../../map-features/domain/navaid';
-import { Airport } from '../../map-features/domain/airport';
-import { Reportingpoint } from '../../map-features/domain/reportingpoint';
-import { Reportingsector } from '../../map-features/domain/reportingsector';
-import { Geoname } from '../../map-features/domain/geoname';
+import { Userpoint } from '../../open-aip/domain/userpoint';
+import { Navaid } from '../../open-aip/domain/navaid';
+import { Airport } from '../../open-aip/domain/airport';
+import { Reportingpoint } from '../../open-aip/domain/reportingpoint';
+import { Reportingsector } from '../../open-aip/domain/reportingsector';
+import { Geoname } from '../../open-aip/domain/geoname';
 import { DataItem } from '../../shared/model/data-item';
 import { Position2d } from '../../shared/model/geometry/position2d';
 

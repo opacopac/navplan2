@@ -19,7 +19,7 @@ import {OlOverlayReportingsectorComponent} from './ol-components/ol-overlay-repo
 import {OlOverlayUserpointComponent} from './ol-components/ol-overlay-userpoint/ol-overlay-userpoint.component';
 import {OlOverlayWindyiframeComponent} from './ol-components/ol-overlay-windyiframe/ol-overlay-windyiframe.component';
 import {SharedModule} from '../shared/shared.module';
-import {MapFeaturesModule} from '../map-features/map-features.module';
+import {OpenAipModule} from '../open-aip/open-aip.module';
 import {FlightrouteModule} from '../flightroute/flightroute.module';
 import {NotamModule} from '../notam/notam.module';
 import {NavMapPageComponent} from './components/nav-map-page/nav-map-page.component';
@@ -84,7 +84,7 @@ import { OlOverlayButtonListComponent } from './ol-components/ol-overlay-button-
         MatSelectModule,
         SharedModule,
         OlMapModule,
-        MapFeaturesModule,
+        OpenAipModule,
         FlightrouteModule,
         SearchModule,
         LocationModule,

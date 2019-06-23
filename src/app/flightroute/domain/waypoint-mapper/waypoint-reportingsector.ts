@@ -1,6 +1,6 @@
 import {Position2d} from '../../../shared/model/geometry/position2d';
 import {WaypointBase} from './waypoint-base';
-import {Reportingsector} from '../../../map-features/domain/reportingsector';
+import {Reportingsector} from '../../../open-aip/domain/reportingsector';
 import {WaypointType} from '../waypoint-type';
 import {WaypointAltitude} from '../waypoint-altitude';
 

@@ -11,19 +11,19 @@ import {RestReportingsector} from './rest-reportingsector';
 
 export class RestOpenAipItems {
     public static fromRest(restResponse: IRestOpenAipItems): OpenAipItems {
-        const mapFeatures = new OpenAipItems();
-        mapFeatures.navaids = restResponse.navaids.map(restNavaid => RestNavaid.fromRest(restNavaid));
-        mapFeatures.airports = restResponse.airports.map(restAd => RestAirport.fromRest(restAd));
-        mapFeatures.airspaces = restResponse.airspaces.map(restAs => RestAirspace.fromRest(restAs));
-        mapFeatures.userpoints = restResponse.userpoints.map(restUp => RestUserpoint.fromRest(restUp));
-        mapFeatures.webcams = restResponse.webcams.map(restCam => RestWebcam.fromRest(restCam));
-        mapFeatures.reportingpoints = restResponse.reportingpoints
+        const openAipItems = new OpenAipItems();
+        openAipItems.navaids = restResponse.navaids.map(restNavaid => RestNavaid.fromRest(restNavaid));
+        openAipItems.airports = restResponse.airports.map(restAd => RestAirport.fromRest(restAd));
+        openAipItems.airspaces = restResponse.airspaces.map(restAs => RestAirspace.fromRest(restAs));
+        openAipItems.userpoints = restResponse.userpoints.map(restUp => RestUserpoint.fromRest(restUp));
+        openAipItems.webcams = restResponse.webcams.map(restCam => RestWebcam.fromRest(restCam));
+        openAipItems.reportingpoints = restResponse.reportingpoints
             .filter(restRp => restRp.type === 'POINT')
             .map(restRp => RestReportingpoint.fromRest(restRp));
-        mapFeatures.reportingsectors = restResponse.reportingpoints
+        openAipItems.reportingsectors = restResponse.reportingpoints
             .filter(restRp => restRp.type === 'SECTOR')
             .map(restRp => RestReportingsector.fromRest(restRp));
 
-        return mapFeatures;
+        return openAipItems;
     }
 }
