@@ -15,7 +15,8 @@ export class NotamEffects {
     constructor(
         private actions$: Actions,
         private appStore: Store<any>,
-        private notamService: NotamService) {
+        private notamService: NotamService
+    ) {
     }
 
 

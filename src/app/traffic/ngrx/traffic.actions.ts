@@ -6,7 +6,7 @@ export enum TrafficActionTypes {
     TRAFFIC_WATCH_TOGGLE = '[Traffic button] toggle watch',
     TRAFFIC_WATCH_START = '[TrafficEffects] start watch',
     TRAFFIC_WATCH_STOP = '[TrafficEffects] stop watch',
-    TRAFFIC_READ_TIMER = '[TrafficEffects] read timer',
+    TRAFFIC_TIMER_TICK = '[TrafficEffects] timer tick',
     TRAFFIC_READ_SUCCESS = '[TrafficEffects] read traffic success',
     TRAFFIC_READ_ERROR = '[TrafficEffects] read traffic error',
 }
@@ -34,7 +34,7 @@ export class StopWatchTrafficAction implements Action {
 
 
 export class ReadTrafficTimerAction implements Action {
-    readonly type = TrafficActionTypes.TRAFFIC_READ_TIMER;
+    readonly type = TrafficActionTypes.TRAFFIC_TIMER_TICK;
 
     constructor(public count: number) {}
 }
