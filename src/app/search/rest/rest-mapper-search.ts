@@ -7,12 +7,12 @@ import {IRestUserpoint} from '../../open-aip/rest/i-rest-userpoint';
 import {IRestWebcam} from '../../open-aip/rest/i-rest-webcam';
 import {IRestGeoname} from '../../open-aip/rest/i-rest-geoname';
 import {IRestNotam} from '../../notam/rest/i-rest-notam';
-import {RestAirport} from '../../open-aip/rest/rest-airport';
-import {RestNavaid} from '../../open-aip/rest/rest-navaid';
-import {RestReportingpoint} from '../../open-aip/rest/rest-reportingpoint';
-import {RestReportingsector} from '../../open-aip/rest/rest-reportingsector';
-import {RestUserpoint} from '../../open-aip/rest/rest-userpoint';
-import {RestGeoname} from '../../open-aip/rest/rest-geoname';
+import {RestMapperAirport} from '../../open-aip/rest/rest-mapper-airport';
+import {RestMapperNavaid} from '../../open-aip/rest/rest-mapper-navaid';
+import {RestMapperReportingpoint} from '../../open-aip/rest/rest-mapper-reportingpoint';
+import {RestMapperReportingsector} from '../../open-aip/rest/rest-mapper-reportingsector';
+import {RestMapperUserpoint} from '../../open-aip/rest/rest-mapper-userpoint';
+import {RestMapperGeoname} from '../../open-aip/rest/rest-mapper-geoname';
 
 
 export interface SearchResponse {
@@ -32,30 +32,30 @@ export class RestMapperSearch {
         const searchItemList = new SearchItemList();
 
         for (const restItem of response.airports) {
-            searchItemList.appendSearchItem(RestAirport.fromRest(restItem));
+            searchItemList.appendSearchItem(RestMapperAirport.fromRest(restItem));
         }
 
         for (const restItem of response.navaids) {
-            searchItemList.appendSearchItem(RestNavaid.fromRest(restItem));
+            searchItemList.appendSearchItem(RestMapperNavaid.fromRest(restItem));
         }
 
         for (const restItem of response.reportingpoints) {
             switch (restItem.type) {
                 case 'POINT':
-                    searchItemList.appendSearchItem(RestReportingpoint.fromRest(restItem));
+                    searchItemList.appendSearchItem(RestMapperReportingpoint.fromRest(restItem));
                     break;
                 case 'SECTOR':
-                    searchItemList.appendSearchItem(RestReportingsector.fromRest(restItem));
+                    searchItemList.appendSearchItem(RestMapperReportingsector.fromRest(restItem));
                     break;
             }
         }
 
         for (const restItem of response.userpoints) {
-            searchItemList.appendSearchItem(RestUserpoint.fromRest(restItem));
+            searchItemList.appendSearchItem(RestMapperUserpoint.fromRest(restItem));
         }
 
         for (const restItem of response.geonames) {
-            searchItemList.appendSearchItem(RestGeoname.fromRest(restItem));
+            searchItemList.appendSearchItem(RestMapperGeoname.fromRest(restItem));
         }
 
         return searchItemList;

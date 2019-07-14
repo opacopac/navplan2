@@ -3,10 +3,11 @@ import {Vector} from 'ol/source';
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {OlAirportRunway} from './ol-airport-runway';
 import {OlAirportFeature} from './ol-airport-feature';
-import {Airport, AirportType} from '../domain/airport';
+import {Airport} from '../domain/airport';
 import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
-import {AirportIcon} from '../domain/airport-icon';
+import {OlAirportIcon} from './ol-airport-icon';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
+import {AirportType} from '../domain/airport-type';
 
 
 export class OlAirport extends OlComponentBase {
@@ -46,7 +47,7 @@ export class OlAirport extends OlComponentBase {
 
 
     private createPointStyle(airport: Airport): Style {
-        const src = AirportIcon.getUrl(airport.type);
+        const src = OlAirportIcon.getUrl(airport.type);
         let textColor = '#451A57';
         let name = airport.icao ? airport.icao : '';
 

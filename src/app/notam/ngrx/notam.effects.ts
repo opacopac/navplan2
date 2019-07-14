@@ -2,35 +2,40 @@ import {Injectable} from '@angular/core';
 import {Action, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
-import {catchError, debounceTime, map, switchMap} from 'rxjs/operators';
+import {catchError, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {of} from 'rxjs/internal/observable/of';
 import {NotamService} from '../rest/notam.service';
-import {OlMapActionTypes, OlMapMovedZoomedRotatedAction} from '../../ol-map/ngrx/ol-map.actions';
-import {LoadNotamErrorAction, LoadNotamSuccessAction} from './notam.actions';
-import {NotamReader} from '../use-case/notam-reader';
+import {ReadNotamAction, ReadNotamErrorAction, ReadNotamSuccessAction, NotamActionTypes} from './notam.actions';
+import {NotamRepo} from '../use-case/notam-repo';
+import {SystemConfig} from '../../system/system-config';
+import {NotamState} from '../domain/notam-state';
+import {getNotamState} from './notam.selectors';
 
 
 @Injectable()
 export class NotamEffects {
+    private readonly notamState$: Observable<NotamState> = this.appStore.select(getNotamState);
+    private readonly notamRepo: NotamRepo;
+
+
     constructor(
-        private actions$: Actions,
-        private appStore: Store<any>,
-        private notamService: NotamService
+        private readonly actions$: Actions,
+        private readonly appStore: Store<any>,
+        notamService: NotamService,
+        config: SystemConfig
     ) {
+        this.notamRepo = new NotamRepo(notamService, config);
     }
 
 
     @Effect()
-    notamLoadAction$: Observable<Action> = this.actions$
-        .pipe(
-            ofType(OlMapActionTypes.OL_MAP_MOVED_ZOOMED_ROTATED),
-            map(action => action as OlMapMovedZoomedRotatedAction),
-            debounceTime(500),
-            switchMap(action => new NotamReader(this.notamService).readByExtent(action.extent, action.zoom)
-                .pipe(
-                    map(notamList => new LoadNotamSuccessAction(notamList, action.extent, action.zoom)),
-                    catchError(error => of(new LoadNotamErrorAction(error)))
-                )
-            )
-        );
+    readNotamAction$: Observable<Action> = this.actions$.pipe(
+        ofType(NotamActionTypes.NOTAM_READ),
+        map(action => action as ReadNotamAction),
+        withLatestFrom(this.notamState$),
+        switchMap(([action, state]) => this.notamRepo.readByExtent(action.extent, action.zoom, state).pipe(
+            map(result => new ReadNotamSuccessAction(result)),
+            catchError(error => of(new ReadNotamErrorAction(error)))
+        ))
+    );
 }

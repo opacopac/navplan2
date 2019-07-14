@@ -1,8 +1,8 @@
 import {Traffic} from '../../domain/traffic';
 import {TrafficPositionMerger} from '../traffic-position-merger';
 import {TrafficAdsbex} from '../../domain/traffic-adsbex';
-import {StringnumberService} from '../../../shared/services/stringnumber/stringnumber.service';
-import {IDate} from '../../../shared/services/date/i-date';
+import {StringnumberHelper} from '../../../system/use-case/stringnumber/stringnumber-helper';
+import {IDate} from '../../../system/use-case/date/i-date';
 import {TrafficMap} from '../../domain/traffic-map';
 import {TrafficState} from '../../domain/traffic-state';
 
@@ -28,10 +28,10 @@ export class AdsbexTrafficMerger {
                 newTrafficMap.set(trafficKey, ac);
             }
 
-            ac.acIcao = StringnumberService.getNonNullOrDefault(ac.acIcao, acNew.icaoType, acNew.icaoType);
-            ac.registration = StringnumberService.getNonNullOrDefault(ac.registration, acNew.registration, acNew.registration);
-            ac.callsign = StringnumberService.getNonNullOrDefault(ac.callsign, acNew.callsign, acNew.callsign);
-            ac.opIcao = StringnumberService.getNonNullOrDefault(ac.opIcao, acNew.opIcao, acNew.opIcao);
+            ac.acIcao = StringnumberHelper.getNonNullOrDefault(ac.acIcao, acNew.icaoType, acNew.icaoType);
+            ac.registration = StringnumberHelper.getNonNullOrDefault(ac.registration, acNew.registration, acNew.registration);
+            ac.callsign = StringnumberHelper.getNonNullOrDefault(ac.callsign, acNew.callsign, acNew.callsign);
+            ac.opIcao = StringnumberHelper.getNonNullOrDefault(ac.opIcao, acNew.opIcao, acNew.opIcao);
             ac.positions = this.trafficPositionMerger.merge(ac.positions, acNew.positions, state.extent);
         }
 

@@ -1,5 +1,5 @@
 import {TrafficAddressType} from './traffic-address-type';
-import {Clonable} from '../../shared/model/clonable';
+import {Clonable} from '../../system/domain/clonable';
 
 
 export class TrafficAddress implements Clonable<TrafficAddress> {

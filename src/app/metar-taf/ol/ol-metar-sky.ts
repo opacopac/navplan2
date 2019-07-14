@@ -4,7 +4,7 @@ import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {environment} from '../../../environments/environment';
 import {MetarTaf} from '../domain/metar-taf';
 import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
-import {Position2d} from '../../shared/model/geometry/position2d';
+import {Position2d} from '../../geo-math/domain/geometry/position2d';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 
 

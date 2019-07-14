@@ -9,8 +9,6 @@ import {FlightrouteService} from '../rest/flightroute.service';
 import {
     FlightrouteActionTypes,
     FlightrouteReadListAction,
-    FlightrouteReadListErrorAction,
-    FlightrouteReadListSuccessAction,
     FlightrouteSaveSuccessAction,
     FlightrouteSaveErrorAction,
     FlightrouteDeleteAction,
@@ -19,23 +17,11 @@ import {
     FlightrouteReadAction,
     FlightrouteReadSuccessAction,
     FlightrouteReadErrorAction,
-    SharedFlightrouteReadAction,
-    SharedFlightrouteReadSuccessAction,
-    SharedFlightrouteReadErrorAction,
-    SharedFlightrouteCreateSuccessAction,
-    SharedFlightrouteCreateErrorAction,
-    RouteLineModifiedAction,
-    InsertWaypointAction,
-    ReplaceWaypointAction
 } from './flightroute.actions';
 import {getCurrentUser} from '../../user/ngrx/user.selectors';
 import {User} from '../../user/domain/user';
 import {getFlightroute} from './flightroute.selectors';
 import {Flightroute} from '../domain/flightroute';
-import {OpenAipService} from '../../open-aip/services/open-aip.service';
-import {WaypointFactory} from '../domain/waypoint-mapper/waypoint-factory';
-import {getOpenAipItems} from '../../open-aip/ngrx/open-aip.selectors';
-import {OpenAipItems} from '../../open-aip/domain/open-aip-items';
 
 
 @Injectable()
@@ -44,42 +30,12 @@ export class FlightrouteEffects {
         private actions$: Actions,
         private appStore: Store<any>,
         private flightrouteService: FlightrouteService,
-        private openAipService: OpenAipService,
         private messageService: MessageService) {
     }
 
 
     private currentUser$: Observable<User> = this.appStore.pipe(select(getCurrentUser));
     private flightroute$: Observable<Flightroute> = this.appStore.pipe(select(getFlightroute));
-    private openAipItems$: Observable<OpenAipItems> = this.appStore.pipe(select(getOpenAipItems));
-
-
-    // region flightroute list
-
-    @Effect()
-    readFlightrouteList$: Observable<Action> = this.actions$.pipe(
-        ofType(FlightrouteActionTypes.FLIGHTROUTE_LIST_READ),
-        switchMap(action => this.currentUser$),
-        filter(currentUser => currentUser !== undefined),
-        switchMap(currentUser => this.flightrouteService.readFlightrouteList(currentUser).pipe(
-            map(routeList => new FlightrouteReadListSuccessAction(routeList)),
-            catchError(error => of(new FlightrouteReadListErrorAction(error)))
-        ))
-    );
-
-
-    @Effect({ dispatch: false})
-    readFlightrouteListError$: Observable<Action> = this.actions$.pipe(
-        ofType(FlightrouteActionTypes.FLIGHTROUTE_LIST_READ_ERROR),
-        tap((action: FlightrouteReadListErrorAction) => {
-            this.messageService.writeErrorMessage(action.error);
-        })
-    );
-
-    // endregion
-
-
-    // region flightroute CRUD
 
 
     @Effect()
@@ -99,7 +55,7 @@ export class FlightrouteEffects {
     readFlightrouteError$: Observable<Action> = this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_READ_ERROR),
         tap((action: FlightrouteReadErrorAction) => {
-            this.messageService.writeErrorMessage(action.error);
+            this.messageService.showErrorMessage('Error reading flight route', action.error);
         })
     );
 
@@ -120,7 +76,7 @@ export class FlightrouteEffects {
     @Effect()
     updateFlightroute$: Observable<Action> = this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_UPDATE),
-        switchMap(action => this.flightroute$),
+        switchMap(() => this.flightroute$),
         withLatestFrom(this.currentUser$),
         filter(([flightroute, currentUser]) => flightroute !== undefined && currentUser !== undefined),
         switchMap(([flightroute, currentUser]) => this.flightrouteService.updateFlightroute(flightroute, currentUser).pipe(
@@ -147,7 +103,7 @@ export class FlightrouteEffects {
     saveFlightrouteSuccess$: Observable<Action> = this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_SAVE_SUCCESS),
         map((action: FlightrouteSaveSuccessAction) => new FlightrouteReadListAction()),
-        tap(() => this.messageService.writeSuccessMessage('TODO'))
+        tap(() => this.messageService.showSuccessMessage('Flight route saved successfully.'))
     );
 
 
@@ -155,7 +111,7 @@ export class FlightrouteEffects {
     saveFlightrouteError$: Observable<Action> = this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_SAVE_ERROR),
         tap((action: FlightrouteSaveErrorAction) => {
-            this.messageService.writeErrorMessage(action.error);
+            this.messageService.showErrorMessage('Error while saving flight route.', action.error);
         })
     );
 
@@ -176,8 +132,8 @@ export class FlightrouteEffects {
     @Effect()
     deleteFlightrouteSuccess$: Observable<Action> = this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_DELETE_SUCCESS),
-        map((action: FlightrouteDeleteSuccessAction) => new FlightrouteReadListAction()),
-        tap(() => this.messageService.writeSuccessMessage('TODO'))
+        map(() => new FlightrouteReadListAction()),
+        tap(() => this.messageService.showSuccessMessage('Flight route deleted successfully.'))
     );
 
 
@@ -185,60 +141,7 @@ export class FlightrouteEffects {
     deleteFlightrouteError$: Observable<Action> = this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_DELETE_ERROR),
         tap((action: FlightrouteDeleteErrorAction) => {
-            this.messageService.writeErrorMessage(action.error);
+            this.messageService.showErrorMessage('Error deleting flight route', action.error);
         })
     );
-
-    // endregion
-
-
-    // region shared flightroute
-
-    @Effect()
-    readSharedFlightroute$: Observable<Action> = this.actions$.pipe(
-        ofType(FlightrouteActionTypes.SHARED_FLIGHTROUTE_READ),
-        map((action: SharedFlightrouteReadAction) => action),
-        filter(action => action.shareId !== undefined),
-        switchMap(action => this.flightrouteService.readSharedFlightroute(action.shareId).pipe(
-            map(route => new SharedFlightrouteReadSuccessAction(route)),
-            catchError(error => of(new SharedFlightrouteReadErrorAction(error)))
-        ))
-    );
-
-
-    @Effect()
-    createSharedFlightroute$: Observable<Action> = this.actions$.pipe(
-        ofType(FlightrouteActionTypes.SHARED_FLIGHTROUTE_CREATE),
-        switchMap(action => this.flightroute$),
-        filter(flightroute => flightroute !== undefined),
-        switchMap(flightroute => this.flightrouteService.createSharedFlightroute(flightroute).pipe(
-            map(shareId => new SharedFlightrouteCreateSuccessAction(shareId)),
-            catchError(error => of(new SharedFlightrouteCreateErrorAction(error)))
-        ))
-    );
-
-
-    // endregion
-
-
-    // region waypoint
-
-    @Effect()
-    modifyRouteLine$: Observable<Action> = this.actions$.pipe(
-        ofType(FlightrouteActionTypes.WAYPOINT_ROUTELINE_MODIFIED),
-        map((action: RouteLineModifiedAction) => action),
-        withLatestFrom(this.openAipItems$),
-        map(([action, openAipItems]) => {
-            const dataItem = OpenAipService.findLoadedMapFeatureByPosition(openAipItems, action.newPosition);
-            const wp = WaypointFactory.createNewWaypointFromDataItem(dataItem, action.newPosition);
-
-            if (action.isNewWaypoint) {
-                return new InsertWaypointAction(wp, action.index);
-            } else {
-                return new ReplaceWaypointAction(wp, action.index);
-            }
-        })
-    );
-
-    // endregion
 }

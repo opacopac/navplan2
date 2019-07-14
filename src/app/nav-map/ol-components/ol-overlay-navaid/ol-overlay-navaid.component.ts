@@ -1,8 +1,8 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {StringnumberService} from '../../../shared/services/stringnumber/stringnumber.service';
+import {StringnumberHelper} from '../../../system/use-case/stringnumber/stringnumber-helper';
 import {Navaid} from '../../../open-aip/domain/navaid';
-import {Position2d} from '../../../shared/model/geometry/position2d';
-import {NavaidIcon} from '../../../open-aip/domain/navaid-icon';
+import {Position2d} from '../../../geo-math/domain/geometry/position2d';
+import {OlNavaidIcon} from '../../../open-aip/ol/ol-navaid-icon';
 import {WaypointFactory} from '../../../flightroute/domain/waypoint-mapper/waypoint-factory';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
 import {OlHelper} from '../../../ol-map/use-case/ol-helper';
@@ -35,7 +35,7 @@ export class OlOverlayNavaidComponent extends OlOverlayWaypointBase implements O
 
 
     public getAvatarUrl(): string {
-        return NavaidIcon.getUrl(this.navaid.type);
+        return OlNavaidIcon.getUrl(this.navaid.type);
     }
 
 
@@ -51,7 +51,7 @@ export class OlOverlayNavaidComponent extends OlOverlayWaypointBase implements O
 
         for (let i = 0; i < this.navaid.kuerzel.length; i++) {
             const letter = this.navaid.kuerzel.substring(i, i + 1).toUpperCase();
-            let code = StringnumberService.getMorseString(letter);
+            let code = StringnumberHelper.getMorseString(letter);
             code = code.replace(/\./g, dotHtml);
             code = code.replace(/\-/g, dashHtml);
 

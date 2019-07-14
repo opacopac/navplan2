@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Userpoint} from '../../../open-aip/domain/userpoint';
-import {Position2d} from '../../../shared/model/geometry/position2d';
-import {UserpointIcon} from '../../../open-aip/domain/userpoint-icon';
+import {Position2d} from '../../../geo-math/domain/geometry/position2d';
+import {OlUserpointIcon} from '../../../open-aip/ol/ol-userpoint-icon';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
 import {WaypointFactory} from '../../../flightroute/domain/waypoint-mapper/waypoint-factory';
 import {OlHelper} from '../../../ol-map/use-case/ol-helper';
@@ -34,6 +34,6 @@ export class OlOverlayUserpointComponent extends OlOverlayWaypointBase implement
 
 
     public getAvatarUrl(): string {
-        return UserpointIcon.getUrl();
+        return OlUserpointIcon.getUrl();
     }
 }

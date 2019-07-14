@@ -3,7 +3,7 @@ import {Vector} from 'ol/source';
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {Reportingpoint} from '../domain/reportingpoint';
 import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
-import {ReportingpointIcon} from '../domain/reportingpoint-icon';
+import {OlReportingpointIcon} from './ol-reportingpoint-icon';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 
 
@@ -30,7 +30,7 @@ export class OlReportingPoint extends OlComponentBase {
 
 
     private createPointStyle(rp: Reportingpoint): Style {
-        const src = ReportingpointIcon.getUrl(rp);
+        const src = OlReportingpointIcon.getUrl(rp);
 
         return new Style({
             image: new Icon(({

@@ -1,6 +1,6 @@
 import {DataItem, DataItemType} from '../../shared/model/data-item';
-import {Polygon} from '../../shared/model/geometry/polygon';
-import {Length} from '../../shared/model/quantities/length';
+import {Polygon} from '../../geo-math/domain/geometry/polygon';
+import {Length} from '../../geo-math/domain/quantities/length';
 
 
 export class Reportingsector extends DataItem {

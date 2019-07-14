@@ -1,10 +1,10 @@
 import {Feature, Map, MapBrowserEvent, MapEvent, View} from 'ol';
 import {EventEmitter, Injectable} from '@angular/core';
 import {OlBaselayerFactory, MapbaselayerType} from '../domain/ol-baselayer-factory';
-import {Extent2d} from '../../shared/model/geometry/extent2d';
-import {Position2d} from '../../shared/model/geometry/position2d';
-import {Angle} from '../../shared/model/quantities/angle';
-import {AngleUnit} from '../../shared/model/quantities/units';
+import {Extent2d} from '../../geo-math/domain/geometry/extent2d';
+import {Position2d} from '../../geo-math/domain/geometry/position2d';
+import {Angle} from '../../geo-math/domain/quantities/angle';
+import {AngleUnit} from '../../geo-math/domain/quantities/units';
 import {DataItem} from '../../shared/model/data-item';
 import {OlComponentBase} from '../ol/ol-component-base';
 import {OlHelper} from './ol-helper';

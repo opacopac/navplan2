@@ -3,10 +3,9 @@ import {Vector} from 'ol/source';
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 import {environment} from '../../../environments/environment';
-import {UnitconversionService} from '../../shared/services/unitconversion/unitconversion.service';
-import {GeocalcService} from '../../shared/services/geocalc/geocalc.service';
-import {Position4d} from '../../shared/model/geometry/position4d';
-import {Angle} from '../../shared/model/quantities/angle';
+import {GeocalcHelper} from '../../geo-math/use-case/geocalc-helper';
+import {Position4d} from '../../geo-math/domain/geometry/position4d';
+import {Angle} from '../../geo-math/domain/quantities/angle';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 
 
@@ -55,7 +54,7 @@ export class OlOwnPlane extends OlComponentBase {
                 anchorYUnits: IconAnchorUnits.FRACTION,
                 scale: 1,
                 opacity: 1.00,
-                rotation: UnitconversionService.deg2rad(rotation),
+                rotation: Angle.deg2rad(rotation),
                 rotateWithView: true,
                 src: icon
             }),
@@ -76,7 +75,7 @@ export class OlOwnPlane extends OlComponentBase {
         }
 
         const maxIdx = lastPositions.length - 1;
-        return GeocalcService.calcBearing(
+        return GeocalcHelper.calcBearing(
             lastPositions[maxIdx - 1],
             lastPositions[maxIdx]);
     }

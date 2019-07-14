@@ -4,12 +4,13 @@ import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {environment} from '../../../environments/environment';
-import {LoggingService} from '../../shared/services/logging/logging.service';
-import {GeocalcService} from '../../shared/services/geocalc/geocalc.service';
-import {Position2d} from '../../shared/model/geometry/position2d';
+import {LoggingService} from '../../system/use-case/logging/logging.service';
+import {GeocalcHelper} from '../../geo-math/use-case/geocalc-helper';
+import {Position2d} from '../../geo-math/domain/geometry/position2d';
 import {RestMapperSearch, SearchResponse} from '../rest/rest-mapper-search';
 import {User} from '../../user/domain/user';
 import {SearchItemList} from '../domain/search-item-list';
+import {CoordinateHelper} from '../../geo-math/use-case/coordinate-helper';
 
 const SEARCH_BASE_URL = environment.restApiBaseUrl + 'php/Navplan/Search/SearchService.php';
 
@@ -38,7 +39,7 @@ export class SearchService {
 
     public searchByText(queryString: string, user: User): Observable<SearchItemList> {
         // try to find coordinates in text
-        const pos = GeocalcService.tryParseCoordinates(queryString);
+        const pos = CoordinateHelper.tryParseCoordinates(queryString);
         if (pos) {
             // TODO: create single object search result with coordinates
             return of(undefined);

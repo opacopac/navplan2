@@ -1,6 +1,6 @@
-import {Volume} from '../../shared/model/quantities/volume';
-import {Time} from '../../shared/model/quantities/time';
-import {TimeUnit} from '../../shared/model/quantities/units';
+import {Volume} from '../../geo-math/domain/quantities/volume';
+import {Time} from '../../geo-math/domain/quantities/time';
+import {TimeUnit} from '../../geo-math/domain/quantities/units';
 
 
 export class RouteFuel {

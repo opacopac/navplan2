@@ -4,27 +4,27 @@ import {User} from '../domain/user';
 
 export enum UserActionTypes {
     USER_AUTOLOGIN = '[Startup] Auto login',
-    USER_AUTOLOGIN_SUCCESS = '[UserService] Auto login successful',
-    USER_AUTOLOGIN_ERROR = '[UserService] Auto login error',
+    USER_AUTOLOGIN_SUCCESS = '[UserEffects] Auto login successful',
+    USER_AUTOLOGIN_ERROR = '[UserEffects] Auto login error',
     USER_LOGIN = '[Login/Register Page] Login',
-    USER_LOGIN_SUCCESS = '[UserService] Login successful',
-    USER_LOGIN_ERROR = '[UserService] Login error',
-    USER_SEND_REGISTER_EMAIL = '[Login/Register Page] Send register email',
-    USER_SEND_REGISTER_EMAIL_SUCCESS = '[UserService] Register email successfully sent',
-    USER_SEND_REGISTER_EMAIL_ERROR = '[UserService] Error sending register email',
-    USER_REGISTER = '[Register Page] Register',
-    USER_REGISTER_SUCCESS = '[UserService] Register successful',
-    USER_REGISTER_ERROR = '[UserService] Register error',
-    USER_SEND_LOST_PW_EMAIL = '[Lost pw page 1] Send lost pw email',
-    USER_SEND_LOST_PW_EMAIL_SUCCESS = '[UserService] Lost pw email successfully sent',
-    USER_SEND_LOST_PW_EMAIL_ERROR = '[UserService] Error sending lost pw email',
-    USER_RESET_PW = '[Lost pw page 2] Reset password',
-    USER_RESET_PW_SUCCESS = '[UserService] Reset password successful',
-    USER_RESET_PW_ERROR = '[UserService] Reset password error',
-    USER_CHANGE_PW = '[User Profile] Change password',
-    USER_CHANGE_PW_SUCCESS = '[UserService] Change password successful',
-    USER_CHANGE_PW_ERROR = '[UserService] Change password error',
+    USER_LOGIN_SUCCESS = '[UserEffects] Login successful',
+    USER_LOGIN_ERROR = '[UserEffects] Login error',
     USER_LOGOUT = '[Navbar] Logout',
+    USER_SEND_REGISTER_EMAIL = '[Login/Register Page] Send register email',
+    USER_SEND_REGISTER_EMAIL_SUCCESS = '[UserEffects] Register email successfully sent',
+    USER_SEND_REGISTER_EMAIL_ERROR = '[UserEffects] Error sending register email',
+    USER_REGISTER = '[Register Page] Register',
+    USER_REGISTER_SUCCESS = '[UserEffects] Register successful',
+    USER_REGISTER_ERROR = '[UserEffects] Register error',
+    USER_SEND_LOST_PW_EMAIL = '[Lost pw page 1] Send lost pw email',
+    USER_SEND_LOST_PW_EMAIL_SUCCESS = '[UserEffects] Lost pw email successfully sent',
+    USER_SEND_LOST_PW_EMAIL_ERROR = '[UserEffects] Error sending lost pw email',
+    USER_RESET_PW = '[Lost pw page 2] Reset password',
+    USER_RESET_PW_SUCCESS = '[UserEffects] Reset password successful',
+    USER_RESET_PW_ERROR = '[UserEffects] Reset password error',
+    USER_CHANGE_PW = '[User Profile] Change password',
+    USER_CHANGE_PW_SUCCESS = '[UserEffects] Change password successful',
+    USER_CHANGE_PW_ERROR = '[UserEffects] Change password error',
 }
 
 
@@ -196,9 +196,7 @@ export class ChangePwErrorAction implements Action {
 export class LogoutUserAction implements Action {
     readonly type = UserActionTypes.USER_LOGOUT;
 
-    constructor(
-        public email: string,
-        public token: string) {}
+    constructor() {}
 }
 
 

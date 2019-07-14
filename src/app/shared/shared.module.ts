@@ -18,6 +18,7 @@ import {StatusButtonDirective} from './directives/status-button/status-button.di
 import {TextButtonDirective} from './directives/text-button/text-button.directive';
 import {OlOverlayButtonCloseComponent} from '../ol-map/components/ol-overlay-button-close/ol-overlay-button-close.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {SystemConfig} from '../system/system-config';
 
 
 @NgModule({
@@ -81,6 +82,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
         TextButtonDirective,
     ],
     providers: [
+        SystemConfig
     ]
 })
 export class SharedModule {

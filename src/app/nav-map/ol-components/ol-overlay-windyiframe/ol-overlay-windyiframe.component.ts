@@ -1,5 +1,5 @@
 import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
-import {Position2d} from '../../../shared/model/geometry/position2d';
+import {Position2d} from '../../../geo-math/domain/geometry/position2d';
 
 
 @Component({

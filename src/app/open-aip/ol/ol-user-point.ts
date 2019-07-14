@@ -3,7 +3,7 @@ import {Vector} from 'ol/source';
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {Userpoint} from '../domain/userpoint';
 import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
-import {UserpointIcon} from '../domain/userpoint-icon';
+import {OlUserpointIcon} from './ol-userpoint-icon';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 
 
@@ -30,7 +30,7 @@ export class OlUserPoint extends OlComponentBase {
 
 
     protected createPointStyle(userPoint: Userpoint): Style {
-        const src = UserpointIcon.getUrl();
+        const src = OlUserpointIcon.getUrl();
 
         return new Style({
             image: new Icon(({

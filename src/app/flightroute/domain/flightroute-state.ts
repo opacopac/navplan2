@@ -1,6 +1,6 @@
 import {FlightrouteListEntry} from './flightroute-list-entry';
 import {Flightroute} from './flightroute';
-import {ConsumptionUnit, LengthUnit, SpeedUnit, VolumeUnit} from '../../shared/model/quantities/units';
+import {ConsumptionUnit, LengthUnit, SpeedUnit, VolumeUnit} from '../../geo-math/domain/quantities/units';
 
 
 export interface FlightrouteState {

@@ -32,7 +32,7 @@ export class NavbarContainerComponent implements OnInit {
     }
 
 
-    public onLogoffClick(currentUser: User) {
-        this.appStore.dispatch(new LogoutUserAction(currentUser.email, currentUser.token));
+    public onLogoffClick() {
+        this.appStore.dispatch(new LogoutUserAction());
     }
 }

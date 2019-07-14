@@ -1,7 +1,7 @@
 import {Action} from '@ngrx/store';
-import {Position2d} from '../../shared/model/geometry/position2d';
-import {Extent2d} from '../../shared/model/geometry/extent2d';
-import {Angle} from '../../shared/model/quantities/angle';
+import {Position2d} from '../../geo-math/domain/geometry/position2d';
+import {Extent2d} from '../../geo-math/domain/geometry/extent2d';
+import {Angle} from '../../geo-math/domain/quantities/angle';
 import {DataItem} from '../../shared/model/data-item';
 
 
@@ -35,7 +35,8 @@ export class OlMapMovedZoomedRotatedAction implements Action {
         public position: Position2d,
         public zoom: number,
         public rotation: Angle,
-        public extent: Extent2d) {}
+        public extent: Extent2d
+    ) {}
 }
 
 
@@ -44,7 +45,8 @@ export class OlMapClickedAction implements Action {
 
     constructor(
         public clickPos: Position2d,
-        public dataItem: DataItem) {}
+        public dataItem: DataItem
+    ) {}
 }
 
 

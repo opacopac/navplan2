@@ -1,6 +1,6 @@
 /*
 import ol from 'ol';
-import { UnitconversionService } from '../../shared/services/unitconversion/unitconversion.service';
+import { UnitConverter } from '../../shared/services/unitconversion/unitconversion.service';
 import { OlFeaturePoint } from '../../shared/model/ol-feature';
 import { Position2d} from '../../shared/model/geometry/position2d';
 import { SearchItem } from '../../search/model/search-item';
@@ -41,8 +41,8 @@ export class OlSearchItem extends OlFeaturePoint {
 
 
     protected createPointStyle(): ol.style.Style {
-        const offsetX = Math.sin(UnitconversionService.deg2rad(this.labelRotAngle_deg)) * LABEL_DIST_PIXEL;
-        const offsetY = -Math.cos(UnitconversionService.deg2rad(this.labelRotAngle_deg)) * LABEL_DIST_PIXEL;
+        const offsetX = Math.sin(UnitConverter.deg2rad(this.labelRotAngle_deg)) * LABEL_DIST_PIXEL;
+        const offsetY = -Math.cos(UnitConverter.deg2rad(this.labelRotAngle_deg)) * LABEL_DIST_PIXEL;
 
         return new ol.style.Style({
             image: new ol.style.Circle({
@@ -78,7 +78,7 @@ export class OlSearchItem extends OlFeaturePoint {
                     points: 1,
                     radius1: LABEL_DIST_PIXEL,
                     radius2: -POINT_RADIUS_PIXEL,
-                    angle: UnitconversionService.deg2rad(this.labelRotAngle_deg),
+                    angle: UnitConverter.deg2rad(this.labelRotAngle_deg),
                     stroke : new ol.style.Stroke({
                         color: '#000000',
                         width: 3

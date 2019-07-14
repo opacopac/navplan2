@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 import {select, Store} from '@ngrx/store';
 import {Subscription} from 'rxjs';
-import {getCurrentMessage} from '../../message.selectors';
+import {getCurrentMessage} from '../../ngrx/message.selectors';
 import {Message} from '../../domain/message';
 import {MessageType} from '../../domain/message-type';
 
@@ -43,12 +43,12 @@ export class MessageContainerComponent implements OnInit, OnDestroy {
     private showSnackBar(message: Message) {
         if (message.type === MessageType.SUCCESS) {
             this.snackBar.open(
-                message.message,
+                message.messageText,
                 undefined,
                 { duration: AUTO_DISMISS_TIME_MS, panelClass: 'success-snack-bar' });
         } else {
             this.snackBar.open(
-                message.message,
+                message.messageText,
                 'Close',
                 { panelClass: 'error-snack-bar' });
         }

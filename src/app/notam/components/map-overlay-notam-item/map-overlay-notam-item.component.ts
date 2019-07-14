@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { StringnumberService } from '../../../shared/services/stringnumber/stringnumber.service';
+import { StringnumberHelper } from '../../../system/use-case/stringnumber/stringnumber-helper';
 import { Notam } from '../../domain/notam';
 
 
@@ -87,7 +87,7 @@ export class MapOverlayNotamItemComponent implements OnInit {
 
     private getLtString(date): string {
         const datePart = date.toLocaleDateString();
-        const timePart = StringnumberService.zeroPad(date.getHours()) + ':' + StringnumberService.zeroPad(date.getMinutes());
+        const timePart = StringnumberHelper.zeroPad(date.getHours()) + ':' + StringnumberHelper.zeroPad(date.getMinutes());
         return datePart + ' ' + timePart + ' LT'; // + Math.round(date.getTimezoneOffset() / -60);
     }
 }

@@ -2,7 +2,7 @@ import {Action} from '@ngrx/store';
 import {FlightrouteListEntry} from '../domain/flightroute-list-entry';
 import {Flightroute} from '../domain/flightroute';
 import {Waypoint} from '../domain/waypoint';
-import {Position2d} from '../../shared/model/geometry/position2d';
+import {Position2d} from '../../geo-math/domain/geometry/position2d';
 
 
 export enum FlightrouteActionTypes {
@@ -41,6 +41,7 @@ export enum FlightrouteActionTypes {
     WAYPOINT_REVERSE = '[Waypoint List] Reverse waypoints',
     WAYPOINT_ROUTELINE_MODIFIED = '[NavMap] Route line modified',
     WAYPOINT_SET_ALTERNATE = '[MapFeature Overlay] Set alternate',
+    FLIGHTROUTE_UPDATE_RECALC = '[FlightrouteEffects] Flightroute recalculated'
 }
 
 
@@ -319,6 +320,14 @@ export class SetAlternateAction implements Action {
     constructor(public alternate: Waypoint) {}
 }
 
+
+export class FlightrouteRecalcSuccessAction implements Action {
+    readonly type = FlightrouteActionTypes.FLIGHTROUTE_UPDATE_RECALC;
+
+    constructor(public newFlightroute: Flightroute) {}
+}
+
+
 // endregion
 
 
@@ -356,4 +365,5 @@ export type FlightrouteActions =
     | InsertWaypointAction
     | ReplaceWaypointAction
     | ReverseWaypointsAction
-    | SetAlternateAction;
+    | SetAlternateAction
+    | FlightrouteRecalcSuccessAction;

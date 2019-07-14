@@ -1,12 +1,11 @@
 import {Feature} from 'ol';
 import {Vector} from 'ol/source';
 import {Fill, Stroke, Style, Text} from 'ol/style';
-import {UnitconversionService} from '../../shared/services/unitconversion/unitconversion.service';
 import {Notam} from '../domain/notam';
-import {Polygon} from '../../shared/model/geometry/polygon';
-import {Multipolygon} from '../../shared/model/geometry/multipolygon';
-import {Circle} from '../../shared/model/geometry/circle';
-import {Geometry2dType} from '../../shared/model/geometry/geometry2d';
+import {Polygon} from '../../geo-math/domain/geometry/polygon';
+import {Multipolygon} from '../../geo-math/domain/geometry/multipolygon';
+import {Circle} from '../../geo-math/domain/geometry/circle';
+import {Geometry2dType} from '../../geo-math/domain/geometry/geometry2d';
 import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 import {circular} from 'ol/geom/Polygon';
 
@@ -50,7 +49,7 @@ export class OlNotam extends OlComponentBase {
                 const circle = notam.geometry.geometry2d as Circle;
 
                 // TODO: skip circles > 50nm
-                if (circle.radius.m > UnitconversionService.nautmile2m(50)) {
+                if (circle.radius.nm > 50) {
                     return;
                 }
 

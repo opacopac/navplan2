@@ -1,10 +1,10 @@
 import {Aircraft} from './aircraft';
 import {Waypoint} from './waypoint';
 import {RouteFuel} from './routefuel';
-import {Clonable} from '../../shared/model/clonable';
-import {Time} from '../../shared/model/quantities/time';
-import {Length} from '../../shared/model/quantities/length';
-import {LengthUnit} from '../../shared/model/quantities/units';
+import {Clonable} from '../../system/domain/clonable';
+import {Time} from '../../geo-math/domain/quantities/time';
+import {Length} from '../../geo-math/domain/quantities/length';
+import {LengthUnit} from '../../geo-math/domain/quantities/units';
 import {WaypointType} from './waypoint-type';
 
 

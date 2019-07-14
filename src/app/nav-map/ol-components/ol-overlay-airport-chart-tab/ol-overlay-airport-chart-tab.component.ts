@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Airport, AirportChart} from '../../../open-aip/domain/airport';
+import {Airport} from '../../../open-aip/domain/airport';
+import {AirportChart} from '../../../open-aip/domain/airport-chart';
 
 @Component({
     selector: 'app-ol-overlay-airport-chart-tab',

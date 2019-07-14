@@ -1,14 +1,14 @@
-import {Extent3d} from '../../../shared/model/geometry/extent3d';
+import {Extent3d} from '../../../geo-math/domain/geometry/extent3d';
 import {AdsbexTrafficMerger} from './adsbex-traffic-merger';
 import {Traffic} from '../../domain/traffic';
-import {AltitudeUnit} from '../../../shared/model/geometry/altitude-unit';
-import {Altitude} from '../../../shared/model/geometry/altitude';
-import {AltitudeReference} from '../../../shared/model/geometry/altitude-reference';
+import {AltitudeUnit} from '../../../geo-math/domain/geometry/altitude-unit';
+import {Altitude} from '../../../geo-math/domain/geometry/altitude';
+import {AltitudeReference} from '../../../geo-math/domain/geometry/altitude-reference';
 import {TrafficAdsbex1Mock} from '../../mocks/traffic-adsbex1.mock';
-import {MockDate} from '../../../shared/services/date/mock-date';
+import {MockDate} from '../../../system/use-case/date/mock-date';
 import {TrafficMap} from '../../domain/traffic-map';
 import {TrafficAdsbex} from '../../domain/traffic-adsbex';
-import {Timestamp} from '../../../shared/model/quantities/timestamp';
+import {Timestamp} from '../../../geo-math/domain/quantities/timestamp';
 import {initialTrafficState} from '../../ngrx/traffic.reducer';
 import {TrafficState} from '../../domain/traffic-state';
 
@@ -35,7 +35,7 @@ describe('AdsbexTrafficMerger', () => {
             100.0, 100.0, new Altitude(150000, AltitudeUnit.FT, AltitudeReference.MSL));
         state = { ...initialTrafficState, trafficMap: trafficMap, extent: extent3d };
         adsbexTrafficMerger = new AdsbexTrafficMerger(mockDate);
-        mockDate.nowResultMs = acNew.positions[0].position.timestamp.epochMs;
+        mockDate.nowMsResult = acNew.positions[0].position.timestamp.epochMs;
     });
 
 
@@ -166,7 +166,7 @@ describe('AdsbexTrafficMerger', () => {
         acNew.positions[0].receivedTimestamp = Timestamp.createFromSec(acNew.positions[0].receivedTimestamp.epochSec + 1);
         acNew.positions[0].position.timestamp = Timestamp.createFromSec(acNew.positions[0].position.timestamp.epochSec + 1);
         acNew.positions[0].position.latitude = acNew.positions[0].position.latitude + 0.01;
-        mockDate.nowResultMs = TrafficAdsbex1Mock.createRestPos().timestamp;
+        mockDate.nowMsResult = TrafficAdsbex1Mock.createRestPos().timestamp;
 
         const newTrafficMap = adsbexTrafficMerger.merge(state, [acNew]);
 

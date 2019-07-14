@@ -3,42 +3,17 @@ import {BehaviorSubject, Observable, of} from 'rxjs';
 import {Injectable} from '@angular/core';
 
 
-@Injectable({
-    providedIn: 'root'
-})
-export class MockStoreConfig {
-    public initialState: any;
-}
-
-
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class MockStore extends Store<any> {
     private state: BehaviorSubject<any>;
-    private _dispatchCallCount: number;
-    private _dispatchedActions: Action[];
+    private _dispatchedActions: Action[] = [];
 
 
-    public constructor(config: MockStoreConfig) {
+    public constructor(rootStateName: string, initialState: any) {
         super(undefined, undefined, undefined);
-        this.state = new BehaviorSubject(config.initialState);
-        this.resetStats();
-    }
-
-
-    get dispatchCallCount(): number {
-        return this._dispatchCallCount;
-    }
-
-
-    get dispatchedActions(): Action[] {
-        return this._dispatchedActions;
-    }
-
-
-    public setState(state: any) {
-        this.state.next(state);
+        const rootState = {};
+        rootState[rootStateName] = initialState;
+        this.state = new BehaviorSubject<any>(rootState);
     }
 
 
@@ -48,13 +23,18 @@ export class MockStore extends Store<any> {
 
 
     public dispatch(action: Action) {
-        this._dispatchCallCount++;
         this._dispatchedActions.push(action);
     }
 
 
-    public resetStats() {
-        this._dispatchCallCount = 0;
-        this._dispatchedActions = [];
+    public getDispatchedActions(): Action[] {
+        return this._dispatchedActions;
+    }
+
+
+    public setState(rootStateName: string, newState: any) {
+        const rootState = this.state.getValue();
+        rootState[rootStateName] = newState;
+        this.state.next(rootState);
     }
 }

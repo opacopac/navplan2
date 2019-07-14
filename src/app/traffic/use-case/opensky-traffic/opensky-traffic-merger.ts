@@ -1,8 +1,8 @@
 import {Traffic} from '../../domain/traffic';
 import {TrafficPositionMerger} from '../traffic-position-merger';
 import {TrafficOpensky} from '../../domain/traffic-opensky';
-import {StringnumberService} from '../../../shared/services/stringnumber/stringnumber.service';
-import {IDate} from '../../../shared/services/date/i-date';
+import {StringnumberHelper} from '../../../system/use-case/stringnumber/stringnumber-helper';
+import {IDate} from '../../../system/use-case/date/i-date';
 import {TrafficMap} from '../../domain/traffic-map';
 import {TrafficState} from '../../domain/traffic-state';
 
@@ -28,7 +28,7 @@ export class OpenskyTrafficMerger {
                 newTrafficMap.set(trafficKey, ac);
             }
 
-            ac.callsign = StringnumberService.getNonNullOrDefault(ac.callsign, acNew.callsign, acNew.callsign);
+            ac.callsign = StringnumberHelper.getNonNullOrDefault(ac.callsign, acNew.callsign, acNew.callsign);
             ac.positions = this.trafficPositionMerger.merge(ac.positions, acNew.positions, state.extent);
         }
 

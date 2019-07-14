@@ -1,4 +1,4 @@
-import {StringnumberService} from '../../../shared/services/stringnumber/stringnumber.service';
+import {StringnumberHelper} from '../../../system/use-case/stringnumber/stringnumber-helper';
 import {TrafficAircraftType} from '../../domain/traffic-aircraft-type';
 import {TrafficDetails} from '../../domain/traffic-details';
 import {TrafficMap} from '../../domain/traffic-map';
@@ -20,9 +20,9 @@ export class TrafficDetailsMerger {
             }
 
             ac.acType = this.mergeAcType(ac.acType, acNew);
-            ac.acIcao = StringnumberService.getNonNullOrDefault(ac.acIcao, acNew.icaoType, acNew.icaoType);
-            ac.registration = StringnumberService.getNonNullOrDefault(ac.registration, acNew.registration, acNew.registration);
-            ac.model = StringnumberService.getNonNullOrDefault(ac.model, acNew.model, acNew.model);
+            ac.acIcao = StringnumberHelper.getNonNullOrDefault(ac.acIcao, acNew.icaoType, acNew.icaoType);
+            ac.registration = StringnumberHelper.getNonNullOrDefault(ac.registration, acNew.registration, acNew.registration);
+            ac.model = StringnumberHelper.getNonNullOrDefault(ac.model, acNew.model, acNew.model);
             ac.isDetailsLoaded = true;
         }
 

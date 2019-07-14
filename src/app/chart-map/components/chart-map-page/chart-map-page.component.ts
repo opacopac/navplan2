@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {OlMapContext} from '../../../ol-map/domain/ol-map-context';
+import {OlChartPathContainer} from '../../ol/ol-chart-path-container';
 
 
 @Component({
@@ -18,5 +19,6 @@ export class ChartMapPageComponent implements OnInit {
 
 
     public onMapInitCompleted(mapContext: OlMapContext) {
+        const chartPathContainer = new OlChartPathContainer(mapContext);
     }
 }

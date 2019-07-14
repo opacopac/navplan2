@@ -6,12 +6,12 @@ import {
     StopWatchTrafficAction
 } from './traffic.actions';
 import {OlMapMovedZoomedRotatedAction} from '../../ol-map/ngrx/ol-map.actions';
-import {Position2d} from '../../shared/model/geometry/position2d';
-import {Extent2d} from '../../shared/model/geometry/extent2d';
-import {Angle} from '../../shared/model/quantities/angle';
-import {AngleUnit} from '../../shared/model/quantities/units';
+import {Position2d} from '../../geo-math/domain/geometry/position2d';
+import {Extent2d} from '../../geo-math/domain/geometry/extent2d';
+import {Angle} from '../../geo-math/domain/quantities/angle';
+import {AngleUnit} from '../../geo-math/domain/quantities/units';
 import {TrafficServiceStatus} from '../domain/traffic-service-status';
-import {MockDate} from '../../shared/services/date/mock-date';
+import {MockDate} from '../../system/use-case/date/mock-date';
 import {TrafficMap} from '../domain/traffic-map';
 import {Traffic} from '../domain/traffic';
 import {TrafficAdsbex1Mock} from '../mocks/traffic-adsbex1.mock';

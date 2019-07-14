@@ -8,7 +8,7 @@ import {SearchService} from './services/search.service';
 import {SearchActionTypes, SearchQuerySubmittedAction, SearchResultsReceivedAction} from './search.actions';
 import {getCurrentUser} from '../user/ngrx/user.selectors';
 import {User} from '../user/domain/user';
-import {LoggingService} from '../shared/services/logging/logging.service';
+import {LoggingService} from '../system/use-case/logging/logging.service';
 
 
 const MIN_QUERY_LENGTH = 3;

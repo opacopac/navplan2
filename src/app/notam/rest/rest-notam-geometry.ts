@@ -1,10 +1,10 @@
 import {IRestNotam} from './i-rest-notam';
 import {NotamGeometry} from '../domain/notam-geometry';
-import {RestAltitude} from '../../shared/model/rest/rest-altitude';
-import {RestCircle} from '../../shared/model/rest/rest-circle';
-import {RestPolygon} from '../../shared/model/rest/rest-polygon';
-import {RestMultipolygon} from '../../shared/model/rest/rest-multipolygon';
-import {Geometry2d} from '../../shared/model/geometry/geometry2d';
+import {RestAltitude} from '../../geo-math/rest/rest-altitude';
+import {RestCircle} from '../../geo-math/rest/rest-circle';
+import {RestPolygon} from '../../geo-math/rest/rest-polygon';
+import {RestMultipolygon} from '../../geo-math/rest/rest-multipolygon';
+import {Geometry2d} from '../../geo-math/domain/geometry/geometry2d';
 
 
 export class RestNotamGeometry {

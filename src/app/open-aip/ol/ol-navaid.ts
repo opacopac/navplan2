@@ -1,10 +1,11 @@
 import {Feature} from 'ol';
 import {Vector} from 'ol/source';
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
-import {Navaid, NavaidType} from '../domain/navaid';
+import {Navaid} from '../domain/navaid';
 import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
-import {NavaidIcon} from '../domain/navaid-icon';
+import {OlNavaidIcon} from './ol-navaid-icon';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
+import {NavaidType} from '../domain/navaid-type';
 
 
 export class OlNavaid extends OlComponentBase {
@@ -30,7 +31,7 @@ export class OlNavaid extends OlComponentBase {
 
 
     private createPointStyle(navaid: Navaid): Style {
-        const src = NavaidIcon.getUrl(navaid.type);
+        const src = OlNavaidIcon.getUrl(navaid.type);
         if (!src) { return undefined; }
 
         let textOffsetY;

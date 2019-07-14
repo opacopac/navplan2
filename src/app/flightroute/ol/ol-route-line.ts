@@ -9,7 +9,7 @@ import {Stroke, Style} from 'ol/style';
 import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 import {Flightroute} from '../domain/flightroute';
 import {EventEmitter} from '@angular/core';
-import {Position2d} from '../../shared/model/geometry/position2d';
+import {Position2d} from '../../geo-math/domain/geometry/position2d';
 import {OlHelper} from '../../ol-map/use-case/ol-helper';
 import {ModifyEvent} from 'ol/interaction/Modify';
 

@@ -42,5 +42,5 @@
 
 <mat-menu #userMenu="matMenu">
     <button mat-menu-item routerLink="./userprofile">User Profile</button>
-    <button mat-menu-item (click)="this.onLogoffClick.emit(this.currentUser)">Log Out</button>
+    <button mat-menu-item (click)="this.onLogoffClick.emit()">Log Out</button>
 </mat-menu>

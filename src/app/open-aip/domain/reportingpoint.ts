@@ -1,6 +1,6 @@
-import {Position2d} from '../../shared/model/geometry/position2d';
+import {Position2d} from '../../geo-math/domain/geometry/position2d';
 import {DataItem, DataItemType} from '../../shared/model/data-item';
-import {Length} from '../../shared/model/quantities/length';
+import {Length} from '../../geo-math/domain/quantities/length';
 
 
 export class Reportingpoint extends DataItem {

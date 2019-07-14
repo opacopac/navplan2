@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Track} from '../../domain/track';
-import {DatetimeService} from '../../../shared/services/datetime/datetime.service';
-import {Timestamp} from '../../../shared/model/quantities/timestamp';
+import {DatetimeHelper} from '../../../system/use-case/datetime/datetime-helper';
+import {Timestamp} from '../../../geo-math/domain/quantities/timestamp';
 
 
 @Component({
@@ -33,6 +33,6 @@ export class TrackListComponent implements OnInit {
 
     public getDateString(timestamp: Timestamp): string {
         const d: Date = new Date(timestamp.epochSec * 1000);
-        return DatetimeService.getYearMonthDayString(d) + ' ' + DatetimeService.getHourMinStringFromDate(d);
+        return DatetimeHelper.getYearMonthDayString(d) + ' ' + DatetimeHelper.getHourMinStringFromDate(d);
     }
 }

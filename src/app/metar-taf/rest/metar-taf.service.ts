@@ -2,17 +2,14 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/internal/Observable';
 import {catchError, map} from 'rxjs/operators';
-import {of, throwError} from 'rxjs';
-import {environment} from '../../../environments/environment';
-import {LoggingService} from '../../shared/services/logging/logging.service';
-import {Extent2d} from '../../shared/model/geometry/extent2d';
+import {throwError} from 'rxjs';
+import {LoggingService} from '../../system/use-case/logging/logging.service';
+import {Extent2d} from '../../geo-math/domain/geometry/extent2d';
 import {MetarTafList} from '../domain/metar-taf';
 import {RestMetarTafList} from './rest-metar-taf-list';
 import {IRestMetarTafResponse} from './i-rest-metar-taf-response';
 
 
-const MIN_ZOOM_LEVEL = 8;
-const MAXAGESEC = 5 * 60 * 1000; // 5 min
 const METAR_TAF_BASE_URL = 'https://www.aviationweather.gov/gis/scripts/MetarJSON.php?taf=true&density=all&bbox='; // 6.0,44.0,10.0,48.0';
 
 
@@ -24,22 +21,7 @@ export class MetarTafService {
     }
 
 
-    public getOversizeFactor(): number {
-        return environment.mapOversizeFactor;
-    }
-
-
-    public isTimedOut(ageSec: number): boolean {
-        return (ageSec > MAXAGESEC);
-    }
-
-
-    public load(extent: Extent2d, zoom: number): Observable<MetarTafList> {
-        // TODO
-        if (zoom <= MIN_ZOOM_LEVEL) {
-            return of(new MetarTafList());
-        }
-
+    public load(extent: Extent2d): Observable<MetarTafList> {
         const url = METAR_TAF_BASE_URL + extent.minLon + ',' + extent.minLat + ',' + extent.maxLon + ',' + extent.maxLat;
         return this.http
             .jsonp<IRestMetarTafResponse>(url, 'jsonp')

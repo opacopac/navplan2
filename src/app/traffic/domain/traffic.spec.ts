@@ -4,10 +4,10 @@ import {TrafficAddressType} from './traffic-address-type';
 import {TrafficDataSource} from './traffic-data-source';
 import {TrafficPosition} from './traffic-position';
 import {TrafficPositionMethod} from './traffic-position-method';
-import {Position4d} from '../../shared/model/geometry/position4d';
-import {Length} from '../../shared/model/quantities/length';
-import {LengthUnit} from '../../shared/model/quantities/units';
-import {Timestamp} from '../../shared/model/quantities/timestamp';
+import {Position4d} from '../../geo-math/domain/geometry/position4d';
+import {Length} from '../../geo-math/domain/quantities/length';
+import {LengthUnit} from '../../geo-math/domain/quantities/units';
+import {Timestamp} from '../../geo-math/domain/quantities/timestamp';
 import {TrafficAddress} from './traffic-address';
 
 

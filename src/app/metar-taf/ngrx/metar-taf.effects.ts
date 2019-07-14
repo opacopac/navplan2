@@ -2,33 +2,44 @@ import {Injectable} from '@angular/core';
 import {Action, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
-import {catchError, debounceTime, map, switchMap} from 'rxjs/operators';
+import {catchError, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {of} from 'rxjs/internal/observable/of';
 import {MetarTafService} from '../rest/metar-taf.service';
-import {OlMapActionTypes, OlMapMovedZoomedRotatedAction} from '../../ol-map/ngrx/ol-map.actions';
-import {LoadMetarTafErrorAction, LoadMetarTafSuccessAction} from './metar-taf.actions';
+import {
+    MetarTafActionTypes, ReadMetarTafAction,
+    ReadMetarTafErrorAction,
+    ReadMetarTafSuccessAction
+} from './metar-taf.actions';
+import {MetarTafState} from '../domain/metar-taf-state';
+import {getMetarTafState} from './metar-taf.selectors';
+import {SystemConfig} from '../../system/system-config';
+import {MetarTafRepo} from '../use-case/metar-taf-repo';
 
 
 @Injectable()
 export class MetarTafEffects {
+    private readonly metarTafState$: Observable<MetarTafState> = this.appStore.select(getMetarTafState);
+    private readonly metarTafRepo: MetarTafRepo;
+
+
     constructor(
-        private actions$: Actions,
-        private appStore: Store<any>,
-        private metarTafService: MetarTafService) {
+        private readonly actions$: Actions,
+        private readonly appStore: Store<any>,
+        metarTafService: MetarTafService,
+        config: SystemConfig
+    ) {
+        this.metarTafRepo = new MetarTafRepo(metarTafService, config);
     }
 
 
     @Effect()
-    metarTafLoad$: Observable<Action> = this.actions$
-        .pipe(
-            ofType(OlMapActionTypes.OL_MAP_MOVED_ZOOMED_ROTATED),
-            map(action => action as OlMapMovedZoomedRotatedAction),
-            debounceTime(500),
-            switchMap(action => this.metarTafService.load(action.extent, action.zoom)
-                .pipe(
-                    map(metarTafList => new LoadMetarTafSuccessAction(metarTafList, action.extent, action.zoom)),
-                    catchError(error => of(new LoadMetarTafErrorAction(error)))
-                )
-            )
-        );
+    readMetarTafAction$: Observable<Action> = this.actions$.pipe(
+        ofType(MetarTafActionTypes.METARTAF_READ),
+        map(action => action as ReadMetarTafAction),
+        withLatestFrom(this.metarTafState$),
+        switchMap(([action, state]) => this.metarTafRepo.readByExtent(action.extent, action.zoom, state).pipe(
+            map(result => new ReadMetarTafSuccessAction(result)),
+            catchError(error => of(new ReadMetarTafErrorAction(error)))
+        ))
+    );
 }

@@ -3,8 +3,8 @@ import {OlMetarSky} from './ol-metar-sky';
 import {OlMetarWind} from './ol-metar-wind';
 import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 import {MetarTaf} from '../domain/metar-taf';
-import {Position2d} from '../../shared/model/geometry/position2d';
-import {Angle} from '../../shared/model/quantities/angle';
+import {Position2d} from '../../geo-math/domain/geometry/position2d';
+import {Angle} from '../../geo-math/domain/quantities/angle';
 
 
 export class OlMetar extends OlComponentBase {

@@ -1,6 +1,6 @@
-import {Position2d} from '../../shared/model/geometry/position2d';
-import {Angle} from '../../shared/model/quantities/angle';
-import {Extent2d} from '../../shared/model/geometry/extent2d';
+import {Position2d} from '../../geo-math/domain/geometry/position2d';
+import {Angle} from '../../geo-math/domain/quantities/angle';
+import {Extent2d} from '../../geo-math/domain/geometry/extent2d';
 import {MapbaselayerType} from './ol-baselayer-factory';
 import {DataItem} from '../../shared/model/data-item';
 

@@ -1,17 +1,25 @@
 import {MetarTafState} from '../domain/metar-taf-state';
 import {MetarTafActions, MetarTafActionTypes} from './metar-taf.actions';
 
+
 const initialState: MetarTafState = {
     extent: undefined,
     zoom: undefined,
-    metarTafList: undefined
+    metarTafList: undefined,
+    timestampMs: 0
 };
 
 
 export function metarTafReducer(state: MetarTafState = initialState, action: MetarTafActions) {
     switch (action.type) {
-        case MetarTafActionTypes.METARTAF_LOAD_SUCCESS:
-            return { ...state, extent: action.extent, zoom: action.zoom, metarTafList: action.metarTafList };
+        case MetarTafActionTypes.METARTAF_READ_SUCCESS:
+            return {
+                ...state,
+                extent: action.result.extent,
+                zoom: action.result.zoom,
+                metarTafList: action.result.metarTafList,
+                timestampMs: action.result.timestampMs
+            };
 
         default:
             return state;

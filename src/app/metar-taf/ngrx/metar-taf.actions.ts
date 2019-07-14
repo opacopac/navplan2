@@ -1,31 +1,40 @@
 import {Action} from '@ngrx/store';
-import {Extent2d} from '../../shared/model/geometry/extent2d';
-import {MetarTafList} from '../domain/metar-taf';
+import {Extent2d} from '../../geo-math/domain/geometry/extent2d';
+import {ReadMetarTafByExtentResult} from '../domain/read-metar-taf-by-extent-result';
 
 
 export enum MetarTafActionTypes {
-    METARTAF_LOAD_SUCCESS = '[MetarTafService] Load METAR/TAF success',
-    METARTAF_LOAD_ERROR = '[MetarTafService] Load METAR/TAF error',
+    METARTAF_READ = '[NavMapEffects] Read METAR/TAF success',
+    METARTAF_READ_SUCCESS = '[MetarTafEffects] Read METAR/TAF success',
+    METARTAF_READ_ERROR = '[MetarTafEffects] Read METAR/TAF error',
 }
 
 
-export class LoadMetarTafSuccessAction implements Action {
-    readonly type = MetarTafActionTypes.METARTAF_LOAD_SUCCESS;
+export class ReadMetarTafAction implements Action {
+    readonly type = MetarTafActionTypes.METARTAF_READ;
 
     constructor(
-        public metarTafList: MetarTafList,
         public extent: Extent2d,
-        public zoom: number) {}
+        public zoom: number
+    ) {}
 }
 
 
-export class LoadMetarTafErrorAction implements Action {
-    readonly type = MetarTafActionTypes.METARTAF_LOAD_ERROR;
+export class ReadMetarTafSuccessAction implements Action {
+    readonly type = MetarTafActionTypes.METARTAF_READ_SUCCESS;
+
+    constructor(public result: ReadMetarTafByExtentResult) {}
+}
+
+
+export class ReadMetarTafErrorAction implements Action {
+    readonly type = MetarTafActionTypes.METARTAF_READ_ERROR;
 
     constructor(public error: Error) {}
 }
 
 
 export type MetarTafActions =
-    LoadMetarTafSuccessAction |
-    LoadMetarTafErrorAction;
+    ReadMetarTafAction |
+    ReadMetarTafSuccessAction |
+    ReadMetarTafErrorAction;

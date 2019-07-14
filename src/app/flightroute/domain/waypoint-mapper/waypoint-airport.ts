@@ -1,8 +1,8 @@
 import {WaypointBase} from './waypoint-base';
-import {Position2d} from '../../../shared/model/geometry/position2d';
-import {Airport, AirportRadio} from '../../../open-aip/domain/airport';
+import {Position2d} from '../../../geo-math/domain/geometry/position2d';
+import {Airport} from '../../../open-aip/domain/airport';
 import {WaypointType} from '../waypoint-type';
-import {UnitconversionService} from '../../../shared/services/unitconversion/unitconversion.service';
+import {AirportRadio} from '../../../open-aip/domain/airport-radio';
 
 
 export class WaypointAirport extends WaypointBase {

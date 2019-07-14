@@ -4,7 +4,7 @@ import {TrafficAircraftType} from '../../domain/traffic-aircraft-type';
 import {TrafficDetails1Mock} from '../../mocks/traffic-details1.mock';
 import {TrafficDetails} from '../../domain/traffic-details';
 import {TrafficDetailsMerger} from './traffic-details-merger';
-import {MockDate} from '../../../shared/services/date/mock-date';
+import {MockDate} from '../../../system/use-case/date/mock-date';
 import {TrafficState} from '../../domain/traffic-state';
 import {initialTrafficState} from '../../ngrx/traffic.reducer';
 import {TrafficOgn1Mock} from '../../mocks/traffic-ogn1.mock';
@@ -28,7 +28,7 @@ describe('TrafficDetailsMerger', () => {
         trafficMap = new TrafficMap(mockDate);
         trafficMap.set(key, acOld);
         state = { ...initialTrafficState, trafficMap: trafficMap };
-        mockDate.nowResultMs = acOld.positions[0].position.timestamp.epochMs;
+        mockDate.nowMsResult = acOld.positions[0].position.timestamp.epochMs;
     });
 
 

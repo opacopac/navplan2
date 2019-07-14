@@ -10,7 +10,7 @@ import {User} from '../../../user/domain/user';
 export class NavbarComponent implements OnInit {
     @Input() currentUser: User;
     @Output() onShowSearchClick: EventEmitter<null> = new EventEmitter<null>();
-    @Output() onLogoffClick: EventEmitter<User> = new EventEmitter<User>();
+    @Output() onLogoffClick: EventEmitter<null> = new EventEmitter<null>();
 
 
     constructor() {

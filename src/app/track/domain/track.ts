@@ -1,5 +1,5 @@
-import {Position4d} from '../../shared/model/geometry/position4d';
-import {Timestamp} from '../../shared/model/quantities/timestamp';
+import {Position4d} from '../../geo-math/domain/geometry/position4d';
+import {Timestamp} from '../../geo-math/domain/quantities/timestamp';
 
 
 export class Track {

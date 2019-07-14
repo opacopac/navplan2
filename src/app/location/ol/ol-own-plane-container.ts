@@ -4,7 +4,7 @@ import {OlMapContext} from '../../ol-map/domain/ol-map-context';
 import {Subscription} from 'rxjs';
 import {OlOwnPlane} from './ol-own-plane';
 import {getLocationState} from '../location.selectors';
-import {Position4d} from '../../shared/model/geometry/position4d';
+import {Position4d} from '../../geo-math/domain/geometry/position4d';
 import {select} from '@ngrx/store';
 
 

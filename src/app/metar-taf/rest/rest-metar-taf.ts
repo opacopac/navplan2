@@ -1,5 +1,5 @@
 import {MetarTaf} from '../domain/metar-taf';
-import {StringnumberService} from '../../shared/services/stringnumber/stringnumber.service';
+import {StringnumberHelper} from '../../system/use-case/stringnumber/stringnumber-helper';
 import {IRestMetarTafFeature} from './i-rest-metar-taf-feature';
 
 
@@ -32,7 +32,7 @@ export class RestMetarTaf {
 
         const d = new Date();
         const datestring = d.getFullYear() + '-'
-            + StringnumberService.zeroPad(d.getMonth() + 1) + '-'
+            + StringnumberHelper.zeroPad(d.getMonth() + 1) + '-'
             + matches[2] + 'T' + matches[3] + ':' + matches[4] + ':00Z';
 
         return Date.parse(datestring);

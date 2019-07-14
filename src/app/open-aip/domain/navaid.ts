@@ -1,19 +1,7 @@
-import { Position2d } from '../../shared/model/geometry/position2d';
+import { Position2d } from '../../geo-math/domain/geometry/position2d';
 import {DataItem, DataItemType} from '../../shared/model/data-item';
-import {Length} from '../../shared/model/quantities/length';
-
-
-export enum NavaidType {
-    NDB,
-    VOR_DME,
-    DVOR_DME,
-    VOR,
-    DVOR,
-    DME,
-    TACAN,
-    VORTAC,
-    DVORTAC
-}
+import {Length} from '../../geo-math/domain/quantities/length';
+import {NavaidType} from './navaid-type';
 
 
 export class Navaid extends DataItem {

@@ -1,10 +1,11 @@
 import {TrafficPosition} from '../domain/traffic-position';
 import {TrafficPrio} from '../domain/traffic-prio';
-import {Extent3d} from '../../shared/model/geometry/extent3d';
-import {IDate} from '../../shared/services/date/i-date';
+import {Extent3d} from '../../geo-math/domain/geometry/extent3d';
+import {IDate} from '../../system/use-case/date/i-date';
 
 
 export class TrafficPositionMerger {
+    // TODO => config
     public static readonly TRAFFIC_MAX_AGE_SEC = 120;
     public static readonly INFERIOR_TRAFFIC_DELAY_SEC = 30;
 
@@ -25,7 +26,7 @@ export class TrafficPositionMerger {
 
     private addPositions(oldPosList: TrafficPosition[], newPosList: TrafficPosition[], extent: Extent3d) {
         // TODO: compare to server time
-        const oldestTimestampMs = this.date.now() - TrafficPositionMerger.TRAFFIC_MAX_AGE_SEC * 1000;
+        const oldestTimestampMs = this.date.nowMs() - TrafficPositionMerger.TRAFFIC_MAX_AGE_SEC * 1000;
 
         oldPosList.forEach(pos => {
             if (extent.containsPoint2d(pos.position) && pos.position.timestamp.epochMs >= oldestTimestampMs) {

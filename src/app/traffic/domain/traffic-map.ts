@@ -1,7 +1,7 @@
-import {Clonable} from '../../shared/model/clonable';
+import {Clonable} from '../../system/domain/clonable';
 import {Traffic} from './traffic';
 import {TrafficAddress} from './traffic-address';
-import {IDate} from '../../shared/services/date/i-date';
+import {IDate} from '../../system/use-case/date/i-date';
 
 
 export class TrafficMap implements Clonable<TrafficMap> {
@@ -69,7 +69,7 @@ export class TrafficMap implements Clonable<TrafficMap> {
     public removeOutdatedTraffic(maxAgeSec: number): void {
         for (const trafficKey of Array.from(this.map.keys())) {
             const traffic = this.map.get(trafficKey);
-            const oldestTimestampMs = this.date.now() - maxAgeSec * 1000;
+            const oldestTimestampMs = this.date.nowMs() - maxAgeSec * 1000;
 
             traffic.positions = traffic.positions.filter(pos => pos.position.timestamp.epochMs >= oldestTimestampMs);
 

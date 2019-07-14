@@ -1,8 +1,8 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Reportingpoint} from '../../../open-aip/domain/reportingpoint';
-import {StringnumberService} from '../../../shared/services/stringnumber/stringnumber.service';
-import {Position2d} from '../../../shared/model/geometry/position2d';
-import {ReportingpointIcon} from '../../../open-aip/domain/reportingpoint-icon';
+import {StringnumberHelper} from '../../../system/use-case/stringnumber/stringnumber-helper';
+import {Position2d} from '../../../geo-math/domain/geometry/position2d';
+import {OlReportingpointIcon} from '../../../open-aip/ol/ol-reportingpoint-icon';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
 import {WaypointFactory} from '../../../flightroute/domain/waypoint-mapper/waypoint-factory';
 import {OlHelper} from '../../../ol-map/use-case/ol-helper';
@@ -35,11 +35,11 @@ export class OlOverlayReportingpointComponent extends OlOverlayWaypointBase impl
 
 
     public getPositionString(): string {
-        return StringnumberService.getDmsString(this.reportingpoint.position.toArray());
+        return StringnumberHelper.getDmsString(this.reportingpoint.position.toArray());
     }
 
 
     public getAvatarUrl(): string {
-        return ReportingpointIcon.getUrl(this.reportingpoint);
+        return OlReportingpointIcon.getUrl(this.reportingpoint);
     }
 }

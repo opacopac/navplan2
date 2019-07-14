@@ -15,16 +15,15 @@ import {
     StopWatchTrafficAction,
     ToggleWatchTrafficAction
 } from './traffic.actions';
-import {LengthUnit} from '../../shared/model/quantities/units';
-import {Length} from '../../shared/model/quantities/length';
+import {LengthUnit} from '../../geo-math/domain/quantities/units';
+import {Length} from '../../geo-math/domain/quantities/length';
 import {TrafficServiceStatus} from '../domain/traffic-service-status';
 import {TrafficState} from '../domain/traffic-state';
 import {MockStore} from '../../shared/test/mock-store';
-import {TrafficTimerService} from '../use-case/traffic-timer.service';
 import {TrafficDetailsService} from '../rest/traffic-details/traffic-details.service';
 import createSpyObj = jasmine.createSpyObj;
 import SpyObj = jasmine.SpyObj;
-import {Extent3d} from '../../shared/model/geometry/extent3d';
+import {Extent3d} from '../../geo-math/domain/geometry/extent3d';
 import {TrafficAddress} from '../domain/traffic-address';
 
 

@@ -11,15 +11,26 @@ import {TrafficEffects} from './ngrx/traffic.effects';
 import {TrafficState} from './domain/traffic-state';
 import {TrafficActions} from './ngrx/traffic.actions';
 import {OlMapModule} from '../ol-map/ol-map.module';
-import {TrafficTimerService} from './use-case/traffic-timer.service';
 import {TrafficDetailsService} from './rest/traffic-details/traffic-details.service';
+import {TrafficAdsbexService} from './rest/adsbex/traffic-adsbex.service';
+import {TrafficOpenskyService} from './rest/opensky/traffic-opensky.service';
+import {OgnTrafficEffects} from './ngrx/ogn-traffic.effects';
+import {AdsbexTrafficEffects} from './ngrx/adsbex-traffic.effects';
+import {OpenskyTrafficEffects} from './ngrx/opensky-traffic.effects';
+import {TrafficDetailsEffects} from './ngrx/traffic-details.effects';
 
 
 @NgModule({
     imports: [
         CommonModule,
         StoreModule.forFeature<TrafficState, TrafficActions>('trafficState', trafficReducer),
-        EffectsModule.forFeature([TrafficEffects]),
+        EffectsModule.forFeature([
+            TrafficEffects,
+            OgnTrafficEffects,
+            AdsbexTrafficEffects,
+            OpenskyTrafficEffects,
+            TrafficDetailsEffects
+        ]),
         SharedModule,
         OlMapModule,
     ],
@@ -33,8 +44,9 @@ import {TrafficDetailsService} from './rest/traffic-details/traffic-details.serv
     ],
     providers: [
         TrafficOgnService,
+        TrafficAdsbexService,
+        TrafficOpenskyService,
         TrafficDetailsService,
-        TrafficTimerService
     ]
 })
 export class TrafficModule {}

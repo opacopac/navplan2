@@ -1,11 +1,11 @@
 import {WaypointAltitude} from './waypoint-altitude';
-import {Clonable} from '../../shared/model/clonable';
-import {Position2d} from '../../shared/model/geometry/position2d';
+import {Clonable} from '../../system/domain/clonable';
+import {Position2d} from '../../geo-math/domain/geometry/position2d';
 import {WaypointType} from './waypoint-type';
-import {Angle} from '../../shared/model/quantities/angle';
-import {Length} from '../../shared/model/quantities/length';
-import {AngleUnit, TimeUnit} from '../../shared/model/quantities/units';
-import {Time} from '../../shared/model/quantities/time';
+import {Angle} from '../../geo-math/domain/quantities/angle';
+import {Length} from '../../geo-math/domain/quantities/length';
+import {AngleUnit, TimeUnit} from '../../geo-math/domain/quantities/units';
+import {Time} from '../../geo-math/domain/quantities/time';
 import {DataItem, DataItemType} from '../../shared/model/data-item';
 
 

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import {UserService} from '../../rest/user.service';
-import {DatetimeService} from '../../../shared/services/datetime/datetime.service';
+import {DatetimeHelper} from '../../../system/use-case/datetime/datetime-helper';
 
 
 export const identicalPasswordsValidator: ValidatorFn = (form: FormGroup): ValidationErrors | null => {
@@ -35,7 +35,7 @@ export class ForgotPwStep2FormComponent implements OnInit, OnChanges {
 
     ngOnChanges() {
         const userToken = UserService.parseUserToken(this.tokenString);
-        if (userToken && !DatetimeService.isTimestampSecondsExpired(userToken.expireTimestamp)) {
+        if (userToken && !DatetimeHelper.isTimestampSecondsExpired(userToken.expireTimestamp)) {
             this.email = userToken.email;
             this.isInvalidToken = false;
         } else {

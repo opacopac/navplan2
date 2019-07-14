@@ -20,9 +20,9 @@ import {
 } from '../../ngrx/flightroute.actions';
 import {Waypoint} from '../../domain/waypoint';
 import {DeleteWaypointAction, ReverseWaypointsAction} from '../../ngrx/flightroute.actions';
-import {Speed} from '../../../shared/model/quantities/speed';
-import {Consumption} from '../../../shared/model/quantities/consumption';
-import {ConsumptionUnit, SpeedUnit} from '../../../shared/model/quantities/units';
+import {Speed} from '../../../geo-math/domain/quantities/speed';
+import {Consumption} from '../../../geo-math/domain/quantities/consumption';
+import {ConsumptionUnit, SpeedUnit} from '../../../geo-math/domain/quantities/units';
 import {FlightrouteListDialogComponent} from '../flightroute-list-dialog/flightroute-list-dialog.component';
 import {EditWaypointDialogComponent} from '../edit-waypoint-dialog/edit-waypoint-dialog.component';
 

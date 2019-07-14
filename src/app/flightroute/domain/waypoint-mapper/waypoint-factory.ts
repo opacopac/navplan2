@@ -6,7 +6,7 @@ import { WaypointReportingpoint } from './waypoint-reportingpoint';
 import { WaypointReportingsector } from './waypoint-reportingsector';
 import { WaypointUserpoint } from './waypoint-userpoint';
 import { WaypointGeoname } from './waypoint-geoname';
-import { Position2d } from '../../../shared/model/geometry/position2d';
+import { Position2d } from '../../../geo-math/domain/geometry/position2d';
 import {WaypointCoordinate} from './waypoint-coordinate';
 import {Airport} from '../../../open-aip/domain/airport';
 import {Navaid} from '../../../open-aip/domain/navaid';

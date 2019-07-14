@@ -17,7 +17,7 @@ import {Airport} from '../../../open-aip/domain/airport';
 import {Navaid} from '../../../open-aip/domain/navaid';
 import {Reportingpoint} from '../../../open-aip/domain/reportingpoint';
 import {Reportingsector} from '../../../open-aip/domain/reportingsector';
-import {Position2d} from '../../../shared/model/geometry/position2d';
+import {Position2d} from '../../../geo-math/domain/geometry/position2d';
 import {Userpoint} from '../../../open-aip/domain/userpoint';
 import {Geoname} from '../../../open-aip/domain/geoname';
 import {Traffic} from '../../../traffic/domain/traffic';

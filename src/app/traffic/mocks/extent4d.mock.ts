@@ -1,8 +1,8 @@
-import {Extent4d} from '../../shared/model/geometry/extent4d';
-import {Altitude} from '../../shared/model/geometry/altitude';
-import {AltitudeUnit} from '../../shared/model/geometry/altitude-unit';
-import {AltitudeReference} from '../../shared/model/geometry/altitude-reference';
-import {Timestamp} from '../../shared/model/quantities/timestamp';
+import {Extent4d} from '../../geo-math/domain/geometry/extent4d';
+import {Altitude} from '../../geo-math/domain/geometry/altitude';
+import {AltitudeUnit} from '../../geo-math/domain/geometry/altitude-unit';
+import {AltitudeReference} from '../../geo-math/domain/geometry/altitude-reference';
+import {Timestamp} from '../../geo-math/domain/quantities/timestamp';
 
 
 export class Extent4dMock {

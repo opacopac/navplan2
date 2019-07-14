@@ -3,12 +3,11 @@ import {FlightrouteActions, FlightrouteActionTypes} from './flightroute.actions'
 import {UserActions, UserActionTypes} from '../../user/ngrx/user.actions';
 import {Aircraft} from '../domain/aircraft';
 import {Flightroute} from '../domain/flightroute';
-import {Speed} from '../../shared/model/quantities/speed';
-import {ConsumptionUnit, LengthUnit, SpeedUnit, TimeUnit, VolumeUnit} from '../../shared/model/quantities/units';
-import {Consumption} from '../../shared/model/quantities/consumption';
-import {Time} from '../../shared/model/quantities/time';
+import {Speed} from '../../geo-math/domain/quantities/speed';
+import {ConsumptionUnit, LengthUnit, SpeedUnit, TimeUnit, VolumeUnit} from '../../geo-math/domain/quantities/units';
+import {Consumption} from '../../geo-math/domain/quantities/consumption';
+import {Time} from '../../geo-math/domain/quantities/time';
 import {FlightrouteCalcHelper} from '../use-case/flightroute-calc.helper';
-import {ArrayService} from '../../shared/services/array/array.service';
 
 
 const initialState: FlightrouteState = {
@@ -97,43 +96,8 @@ export function flightrouteReducer(
             FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
             return { ...state, flightroute: newFlightroute };
 
-        case FlightrouteActionTypes.WAYPOINT_UPDATE:
-            const wpIndex = state.flightroute.waypoints.indexOf(action.oldWp);
-            newFlightroute = state.flightroute.clone();
-            newFlightroute.waypoints[wpIndex] = action.newWp;
-            FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
-            return { ...state, flightroute: newFlightroute };
-
-        case FlightrouteActionTypes.WAYPOINT_INSERT:
-            newFlightroute = state.flightroute.clone();
-            ArrayService.insertAt(newFlightroute.waypoints, action.index, action.newWaypoint);
-            FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
-            return { ...state, flightroute: newFlightroute };
-
-        case FlightrouteActionTypes.WAYPOINT_REPLACE:
-            newFlightroute = state.flightroute.clone();
-            newFlightroute.waypoints[action.index] = action.newWaypoint;
-            FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
-            return { ...state, flightroute: newFlightroute };
-
-        case FlightrouteActionTypes.WAYPOINT_DELETE:
-            newFlightroute = state.flightroute.clone();
-            const idx = state.flightroute.getWaypointIndex(action.waypoint);
-            ArrayService.removeAt(newFlightroute.waypoints, idx);
-            FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
-            return { ...state, flightroute: newFlightroute };
-
-        case FlightrouteActionTypes.WAYPOINT_REVERSE:
-            newFlightroute = state.flightroute.clone();
-            newFlightroute.waypoints.reverse();
-            FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
-            return { ...state, flightroute: newFlightroute };
-
-        case FlightrouteActionTypes.WAYPOINT_SET_ALTERNATE:
-            newFlightroute = state.flightroute.clone();
-            newFlightroute.alternate = action.alternate;
-            FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
-            return { ...state, flightroute: newFlightroute };
+        case FlightrouteActionTypes.FLIGHTROUTE_UPDATE_RECALC:
+            return { ...state, flightroute: action.newFlightroute };
 
         default:
             return state;

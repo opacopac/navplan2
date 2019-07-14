@@ -20,6 +20,9 @@ import {FuelCalcContainerComponent} from './components/fuel-calc-container/fuel-
 import {FlightroutePageComponent} from './components/flightroute-page/flightroute-page.component';
 import {FlightrouteListDialogComponent} from './components/flightroute-list-dialog/flightroute-list-dialog.component';
 import {FlightrouteListComponent} from './components/flightroute-list/flightroute-list.component';
+import {SharedFlightrouteEffects} from './ngrx/shared-flightroute.effects';
+import {FlightrouteListEffects} from './ngrx/flightroute-list.effects';
+import {WaypointEffects} from './ngrx/waypoint.effects';
 
 
 @NgModule({
@@ -28,7 +31,12 @@ import {FlightrouteListComponent} from './components/flightroute-list/flightrout
         FormsModule,
         ReactiveFormsModule,
         StoreModule.forFeature('flightrouteState', flightrouteReducer),
-        EffectsModule.forFeature([FlightrouteEffects]),
+        EffectsModule.forFeature([
+            FlightrouteListEffects,
+            FlightrouteEffects,
+            SharedFlightrouteEffects,
+            WaypointEffects
+        ]),
         DragDropModule,
         SharedModule,
         OlMapModule,

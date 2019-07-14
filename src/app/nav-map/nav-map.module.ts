@@ -44,6 +44,12 @@ import { OlOverlayAirportMeteoTabComponent } from './ol-components/ol-overlay-ai
 import { OlOverlayAirportNotamTabComponent } from './ol-components/ol-overlay-airport-notam-tab/ol-overlay-airport-notam-tab.component';
 import { OlOverlayAirportChartTabComponent } from './ol-components/ol-overlay-airport-chart-tab/ol-overlay-airport-chart-tab.component';
 import { OlOverlayButtonListComponent } from './ol-components/ol-overlay-button-list/ol-overlay-button-list.component';
+import {StoreModule} from '@ngrx/store';
+import {EffectsModule} from '@ngrx/effects';
+import {NavMapState} from './domain/nav-map-state';
+import {NavMapActions} from './ngrx/nav-map.actions';
+import {navMapReducer} from './ngrx/nav-map.reducer';
+import {NavMapEffects} from './ngrx/nav-map.effects';
 
 @NgModule({
     declarations: [
@@ -75,6 +81,8 @@ import { OlOverlayButtonListComponent } from './ol-components/ol-overlay-button-
     ],
     imports: [
         CommonModule,
+        StoreModule.forFeature<NavMapState, NavMapActions>('navMapState', navMapReducer),
+        EffectsModule.forFeature([NavMapEffects]),
         FormsModule,
         MatCardModule,
         MatTabsModule,

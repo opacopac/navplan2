@@ -6,7 +6,7 @@ import {ButtonStatus} from '../../../shared/directives/status-button/status-butt
 import {MessageService} from '../../../message/services/message.service';
 import {OlMapService} from '../../../ol-map/use-case/ol-map.service';
 import {LocationService} from '../../services/location.service';
-import {TimerService} from '../../../shared/services/timer/timer.service';
+import {TimerService} from '../../../system/use-case/timer/timer.service';
 
 
 @Directive({selector: '[appStatusButton]'})

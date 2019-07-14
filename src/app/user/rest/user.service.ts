@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {LoggingService} from '../../shared/services/logging/logging.service';
+import {LoggingService} from '../../system/use-case/logging/logging.service';
 import {User} from '../domain/user';
 import {Observable} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {throwError} from 'rxjs/internal/observable/throwError';
 import {of} from 'rxjs/internal/observable/of';
-import {JwtService} from '../../shared/services/jwt/jwt.service';
-import {TextError} from '../../shared/model/text-error';
+import {JwtHelper} from '../../system/use-case/jwt/jwt-helper';
+import {TextError} from '../../system/domain/text-error';
 import {UserToken} from '../domain/user-token';
 import {IRestTokenResponse} from './i-rest-token-response';
 import {IRestSimpleResponse} from './i-rest-simple-response';
@@ -27,7 +27,7 @@ export class UserService {
 
     public static parseUserToken(tokenString: string): UserToken {
         try {
-            const token = JwtService.decodeToken(tokenString);
+            const token = JwtHelper.decodeToken(tokenString);
             return {
                 'tokenString': tokenString,
                 'email': token['user_id'],

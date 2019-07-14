@@ -7,7 +7,6 @@ import {UserProfilePageComponent} from './components/user-profile-page/user-prof
 import {LoginFormComponent} from './components/login-form/login-form.component';
 import {SharedModule} from '../shared/shared.module';
 import {userReducer} from './ngrx/user.reducer';
-import {UserEffects} from './ngrx/user.effects';
 import {UserState} from './domain/user-state';
 import {UserActions} from './ngrx/user.actions';
 import {LoginRegisterPageComponent} from './components/login-register-page/login-register-page.component';
@@ -19,13 +18,26 @@ import {ForgotPwStep1PageComponent} from './components/forgot-pw-step1-page/forg
 import {ForgotPwStep2PageComponent} from './components/forgot-pw-step2-page/forgot-pw-step2-page.component';
 import {ForgotPwStep1FormComponent} from './components/forgot-pw-step1-form/forgot-pw-step1-form.component';
 import {ForgotPwStep2FormComponent} from './components/forgot-pw-step2-form/forgot-pw-step2-form.component';
+import {LoginEffects} from './ngrx/login.effects';
+import {RegisterEffects} from './ngrx/register.effects';
+import {LostPwEffects} from './ngrx/lost-pw.effects';
+import {ChangePwEffects} from './ngrx/change-pw.effects';
+import {AutoLoginEffects} from './ngrx/auto-login.effects';
+import {LogoutEffects} from './ngrx/logout.effects';
 
 
 @NgModule({
     imports: [
         CommonModule,
         StoreModule.forFeature<UserState, UserActions>('userState', userReducer),
-        EffectsModule.forFeature([UserEffects]),
+        EffectsModule.forFeature([
+            AutoLoginEffects,
+            LoginEffects,
+            LogoutEffects,
+            RegisterEffects,
+            LostPwEffects,
+            ChangePwEffects
+        ]),
         SharedModule,
     ],
     declarations: [

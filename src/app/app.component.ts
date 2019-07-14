@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {ClientstorageService} from './shared/services/clientstorage/clientstorage.service';
+import {ClientstorageHelper} from './system/use-case/clientstorage/clientstorage-helper';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {getCurrentUser} from './user/ngrx/user.selectors';
@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
 
     constructor(
         private appStore: Store<any>,
-        private clientstorageService: ClientstorageService) {
+        private clientstorageService: ClientstorageHelper) {
 
         this.currentUser$ = this.appStore.pipe(select(getCurrentUser));
     }

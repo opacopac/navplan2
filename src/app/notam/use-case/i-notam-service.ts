@@ -1,4 +1,4 @@
-import {Extent2d} from '../../shared/model/geometry/extent2d';
+import {Extent2d} from '../../geo-math/domain/geometry/extent2d';
 import {Observable} from 'rxjs';
 import {NotamList} from '../domain/notam-list';
 

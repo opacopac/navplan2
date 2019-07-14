@@ -1,5 +1,4 @@
-import {AdsbexTrafficReader} from './adsbex-traffic-reader';
-import {AdsbexTrafficTerviceMock} from '../../mocks/adsbex-traffic-tervice.mock';
+/*import {AdsbexTrafficTerviceMock} from '../../mocks/adsbex-traffic-tervice.mock';
 import {Extent4dMock} from '../../mocks/extent4d.mock';
 
 
@@ -29,3 +28,4 @@ describe('AdsbexTrafficReader', () => {
         expect(service.readTrafficArgs.extent).toEqual(extent);
     });
 });
+*/

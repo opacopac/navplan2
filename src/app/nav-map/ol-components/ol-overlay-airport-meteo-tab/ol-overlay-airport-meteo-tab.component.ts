@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {DatetimeService} from '../../../shared/services/datetime/datetime.service';
-import {StringnumberService} from '../../../shared/services/stringnumber/stringnumber.service';
+import {DatetimeHelper} from '../../../system/use-case/datetime/datetime-helper';
+import {StringnumberHelper} from '../../../system/use-case/stringnumber/stringnumber-helper';
 import {Airport} from '../../../open-aip/domain/airport';
 import {OlOverlayWindyiframeComponent} from '../ol-overlay-windyiframe/ol-overlay-windyiframe.component';
 
@@ -28,7 +28,7 @@ export class OlOverlayAirportMeteoTabComponent implements OnInit {
             return;
         }
 
-        return DatetimeService.getHourMinAgeStringFromMs(this.airport.metarTaf.metar_obs_timestamp);
+        return DatetimeHelper.getHourMinAgeStringFromMs(this.airport.metarTaf.metar_obs_timestamp);
     }
 
 
@@ -44,11 +44,11 @@ export class OlOverlayAirportMeteoTabComponent implements OnInit {
         }
 
         const now = new Date();
-        const datestring = now.getFullYear() + '-' + StringnumberService.zeroPad(now.getMonth() + 1) +
+        const datestring = now.getFullYear() + '-' + StringnumberHelper.zeroPad(now.getMonth() + 1) +
             '-' + matches[2] + 'T' + matches[3] + ':' + matches[4] + ':00Z';
         const tafFimestamp = Date.parse(datestring);
 
-        return DatetimeService.getHourMinAgeStringFromMs(tafFimestamp);
+        return DatetimeHelper.getHourMinAgeStringFromMs(tafFimestamp);
     }
 
 

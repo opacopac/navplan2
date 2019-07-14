@@ -1,10 +1,10 @@
 import {Track} from '../domain/track';
-import {Timestamp} from '../../shared/model/quantities/timestamp';
+import {Timestamp} from '../../geo-math/domain/quantities/timestamp';
 import {IRestTrackListEntry} from './i-rest-track-list-entry';
-import {Position4d} from '../../shared/model/geometry/position4d';
-import {Altitude} from '../../shared/model/geometry/altitude';
-import {AltitudeUnit} from '../../shared/model/geometry/altitude-unit';
-import {AltitudeReference} from '../../shared/model/geometry/altitude-reference';
+import {Position4d} from '../../geo-math/domain/geometry/position4d';
+import {Altitude} from '../../geo-math/domain/geometry/altitude';
+import {AltitudeUnit} from '../../geo-math/domain/geometry/altitude-unit';
+import {AltitudeReference} from '../../geo-math/domain/geometry/altitude-reference';
 import {IRestTrack} from './i-rest-track';
 
 

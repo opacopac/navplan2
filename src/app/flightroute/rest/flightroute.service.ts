@@ -4,7 +4,7 @@ import {Observable, throwError} from 'rxjs';
 import {of} from 'rxjs/internal/observable/of';
 import {catchError, map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
-import {LoggingService} from '../../shared/services/logging/logging.service';
+import {LoggingService} from '../../system/use-case/logging/logging.service';
 import {FlightrouteListEntry} from '../domain/flightroute-list-entry';
 import {User} from '../../user/domain/user';
 import {Flightroute} from '../domain/flightroute';

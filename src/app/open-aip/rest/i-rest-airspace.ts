@@ -1,5 +1,5 @@
-import {IRestAltitude} from '../../shared/model/rest/i-rest-altitude';
-import {IRestPolygon} from '../../shared/model/rest/i-rest-polygon';
+import {IRestAltitude} from '../../geo-math/rest/i-rest-altitude';
+import {IRestPolygon} from '../../geo-math/rest/i-rest-polygon';
 
 
 export interface IRestAirspace {

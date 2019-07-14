@@ -1,6 +1,6 @@
 import {WaypointBase} from './waypoint-base';
 import {Userpoint} from '../../../open-aip/domain/userpoint';
-import {Position2d} from '../../../shared/model/geometry/position2d';
+import {Position2d} from '../../../geo-math/domain/geometry/position2d';
 import {WaypointType} from '../waypoint-type';
 
 

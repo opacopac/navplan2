@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Extent2d} from '../../../shared/model/geometry/extent2d';
+import {Extent2d} from '../../../geo-math/domain/geometry/extent2d';
 import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
-import {LoggingService} from '../../../shared/services/logging/logging.service';
-import {RestOpenskyTrafficResponse} from './rest-opensky-traffic-response';
+import {LoggingService} from '../../../system/use-case/logging/logging.service';
+import {RestMapperOpenskyTrafficResponse} from './rest-mapper-opensky-traffic-response';
 import {IRestOpenskyTrafficResponse} from './i-rest-opensky-traffic-response';
 import {TrafficOpensky} from '../../domain/traffic-opensky';
 import {IOpenskyTrafficService} from '../../use-case/opensky-traffic/i-opensky-traffic-service';
@@ -28,7 +28,7 @@ export class TrafficOpenskyService implements IOpenskyTrafficService {
         return this.http
             .get<IRestOpenskyTrafficResponse>(url)
             .pipe(
-                map((response) => RestOpenskyTrafficResponse.fromRest(response)),
+                map((response) => RestMapperOpenskyTrafficResponse.fromRest(response)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading ac traffic from opensky network', err);
                     return throwError(err);

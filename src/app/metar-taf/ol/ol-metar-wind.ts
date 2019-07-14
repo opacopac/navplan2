@@ -2,11 +2,10 @@ import {Feature} from 'ol';
 import {Vector} from 'ol/source';
 import {Icon, Style} from 'ol/style';
 import {MetarTaf} from '../domain/metar-taf';
-import {UnitconversionService} from '../../shared/services/unitconversion/unitconversion.service';
 import {environment} from '../../../environments/environment';
 import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
-import {Position2d} from '../../shared/model/geometry/position2d';
-import {Angle} from '../../shared/model/quantities/angle';
+import {Position2d} from '../../geo-math/domain/geometry/position2d';
+import {Angle} from '../../geo-math/domain/quantities/angle';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 
 
@@ -37,7 +36,7 @@ export class OlMetarWind extends OlComponentBase {
     private createPointStyle(metarTaf: MetarTaf, mapRotation: Angle): Style {
         let src = environment.iconBaseUrl;
         let rot = metarTaf.wind_dir_deg ?
-            UnitconversionService.deg2rad(metarTaf.wind_dir_deg + 90) + mapRotation.rad : undefined;
+            Angle.deg2rad(metarTaf.wind_dir_deg + 90) + mapRotation.rad : undefined;
         const windrange = [[0, '0'], [2, '1-2'], [7, '5'], [12, '10'], [17, '15'], [22, '20'], [27, '25'], [32, '30'],
             [37, '35'], [42, '40'], [47, '45'], [55, '50'], [65, '60'], [75, '70'], [85, '80'], [95, '90'], [105, '100']];
 

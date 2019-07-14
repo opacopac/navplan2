@@ -1,11 +1,12 @@
 import {DataItem, DataItemType} from '../../shared/model/data-item';
 import {TrafficPosition} from './traffic-position';
-import {Clonable} from '../../shared/model/clonable';
-import {GeocalcService} from '../../shared/services/geocalc/geocalc.service';
-import {Angle} from '../../shared/model/quantities/angle';
+import {Clonable} from '../../system/domain/clonable';
+import {GeocalcHelper} from '../../geo-math/use-case/geocalc-helper';
+import {Angle} from '../../geo-math/domain/quantities/angle';
 import {TrafficAircraftType} from './traffic-aircraft-type';
 import {TrafficAddress} from './traffic-address';
-import {StringnumberService} from '../../shared/services/stringnumber/stringnumber.service';
+import {StringnumberHelper} from '../../system/use-case/stringnumber/stringnumber-helper';
+import {TrackFitter} from '../../geo-math/use-case/track-fitter';
 
 
 export class Traffic extends DataItem implements Clonable<Traffic> {
@@ -67,7 +68,7 @@ export class Traffic extends DataItem implements Clonable<Traffic> {
 
 
     public set acIcao(value: string | undefined) {
-        this._acIcao = StringnumberService.parseStringOrNull(value, true, true);
+        this._acIcao = StringnumberHelper.parseStringOrNull(value, true, true);
     }
 
 
@@ -77,7 +78,7 @@ export class Traffic extends DataItem implements Clonable<Traffic> {
 
 
     public set registration(value: string | undefined) {
-        this._registration = StringnumberService.parseStringOrNull(value, true, true);
+        this._registration = StringnumberHelper.parseStringOrNull(value, true, true);
     }
 
 
@@ -87,7 +88,7 @@ export class Traffic extends DataItem implements Clonable<Traffic> {
 
 
     public set callsign(value: string | undefined) {
-        this._callsign = StringnumberService.parseStringOrNull(value, true, true);
+        this._callsign = StringnumberHelper.parseStringOrNull(value, true, true);
     }
 
 
@@ -97,7 +98,7 @@ export class Traffic extends DataItem implements Clonable<Traffic> {
 
 
     public set opIcao(value: string | undefined) {
-        this._opIcao = StringnumberService.parseStringOrNull(value, true, true);
+        this._opIcao = StringnumberHelper.parseStringOrNull(value, true, true);
     }
 
 
@@ -107,7 +108,7 @@ export class Traffic extends DataItem implements Clonable<Traffic> {
 
 
     public set fullCallsign(value: string | undefined) {
-        this._fullCallsign = StringnumberService.parseStringOrNull(value, true, false);
+        this._fullCallsign = StringnumberHelper.parseStringOrNull(value, true, false);
     }
 
 
@@ -117,7 +118,7 @@ export class Traffic extends DataItem implements Clonable<Traffic> {
 
 
     public set model(value: string | undefined) {
-        this._model = StringnumberService.parseStringOrNull(value, true, true);
+        this._model = StringnumberHelper.parseStringOrNull(value, true, true);
     }
 
 
@@ -240,7 +241,7 @@ export class Traffic extends DataItem implements Clonable<Traffic> {
         }
 
         const posList = TrafficPosition.get2dPositionsFromList(this.positions);
-        const bearPos = GeocalcService.calcApproxBearingPos(posList.slice(-5));
+        const bearPos = TrackFitter.calcApproxBearingPos(posList.slice(-5));
 
         return bearPos.bearing;
     }

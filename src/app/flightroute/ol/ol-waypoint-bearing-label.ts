@@ -1,11 +1,10 @@
 import {Feature} from 'ol';
 import {Vector} from 'ol/source';
 import {Fill, Stroke, Style, Text} from 'ol/style';
-import {UnitconversionService} from '../../shared/services/unitconversion/unitconversion.service';
-import {Angle} from '../../shared/model/quantities/angle';
+import {Angle} from '../../geo-math/domain/quantities/angle';
 import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 import {Waypoint} from '../domain/waypoint';
-import {LengthUnit} from '../../shared/model/quantities/units';
+import {LengthUnit} from '../../geo-math/domain/quantities/units';
 
 
 export class OlWaypointBearingLabel extends OlComponentBase {
@@ -49,12 +48,12 @@ export class OlWaypointBearingLabel extends OlComponentBase {
             text = '';
             offsetX = 5;
         } else if ((mt.deg + mapRotation.deg + 360) % 360 < 180) {
-            rotRad = UnitconversionService.deg2rad(mt.deg - 90);
+            rotRad = Angle.deg2rad(mt.deg - 90);
             align = 'end';
             text = '   ' + Math.round(mt.deg) + '° ' + Math.ceil(dist.getValue(LengthUnit.NM)) + 'NM >';
             offsetX = 5;
         } else {
-            rotRad = UnitconversionService.deg2rad(mt.deg - 270);
+            rotRad = Angle.deg2rad(mt.deg - 270);
             align = 'start';
             text = '< ' + Math.round(mt.deg) + '° ' + Math.ceil(dist.getValue(LengthUnit.NM)) + 'NM   ';
             offsetX = -5;

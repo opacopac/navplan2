@@ -4,11 +4,11 @@ import {OlMapActions, OlMapActionTypes} from '../../ol-map/ngrx/ol-map.actions';
 import {TrafficServiceStatus} from '../domain/traffic-service-status';
 import {TrafficPositionMerger} from '../use-case/traffic-position-merger';
 import {TrafficMap} from '../domain/traffic-map';
-import {Extent3d} from '../../shared/model/geometry/extent3d';
-import {Altitude} from '../../shared/model/geometry/altitude';
-import {AltitudeUnit} from '../../shared/model/geometry/altitude-unit';
-import {AltitudeReference} from '../../shared/model/geometry/altitude-reference';
-import {JsDate} from '../../shared/services/date/js-date';
+import {Extent3d} from '../../geo-math/domain/geometry/extent3d';
+import {Altitude} from '../../geo-math/domain/geometry/altitude';
+import {AltitudeUnit} from '../../geo-math/domain/geometry/altitude-unit';
+import {AltitudeReference} from '../../geo-math/domain/geometry/altitude-reference';
+import {JsDate} from '../../system/use-case/date/js-date';
 
 
 export const initialTrafficState: TrafficState = {

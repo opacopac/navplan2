@@ -1,5 +1,5 @@
-import {IRestPosition2d} from '../../shared/model/rest/i-rest-position2d';
-import {IRestLength} from '../../shared/model/rest/i-rest-length';
+import {IRestPosition2d} from '../../geo-math/rest/i-rest-position2d';
+import {IRestLength} from '../../geo-math/rest/i-rest-length';
 
 export interface IRestGeoname {
     id: string;

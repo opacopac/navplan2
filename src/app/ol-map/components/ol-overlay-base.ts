@@ -1,16 +1,17 @@
-import * as ol from 'ol';
 import {ChangeDetectorRef, EventEmitter, Output} from '@angular/core';
-import {UnitconversionService} from '../../shared/services/unitconversion/unitconversion.service';
-import {StringnumberService} from '../../shared/services/stringnumber/stringnumber.service';
+import {StringnumberHelper} from '../../system/use-case/stringnumber/stringnumber-helper';
 import {DataItem} from '../../shared/model/data-item';
-import {Position2d} from '../../shared/model/geometry/position2d';
+import {Position2d} from '../../geo-math/domain/geometry/position2d';
 import {OlMapService} from '../use-case/ol-map.service';
-import {GeocalcService} from '../../shared/services/geocalc/geocalc.service';
+import {WmmHelper} from '../../geo-math/use-case/wmm-helper';
+import {Length} from '../../geo-math/domain/quantities/length';
+import {LengthUnit} from '../../geo-math/domain/quantities/units';
+import Overlay from 'ol/Overlay';
 
 
 export abstract class OlOverlayBase {
     @Output() close = new EventEmitter();
-    public olOverlay: ol.Overlay;
+    public olOverlay: Overlay;
 
 
     public constructor(private cdRef: ChangeDetectorRef) {
@@ -47,17 +48,17 @@ export abstract class OlOverlayBase {
 
 
     public getPositionString(pos: Position2d): string {
-        return StringnumberService.getDmsString(pos.toArray());
+        return StringnumberHelper.getDmsString(pos.toArray());
     }
 
 
     public getElevationString(elevation_m: number): string {
-        return Math.round(UnitconversionService.m2ft(elevation_m)) + 'ft'; // TODO
+        return Math.round(Length.convert(elevation_m, LengthUnit.M, LengthUnit.FT)) + 'ft'; // TODO
     }
 
 
     public getVariationString(pos: Position2d): string {
-        const magVar = GeocalcService.calcMagneticVariation(pos);
-        return StringnumberService.getEWString(magVar, 1);
+        const magVar = WmmHelper.calcMagneticVariation(pos);
+        return StringnumberHelper.getEWString(magVar, 1);
     }
 }

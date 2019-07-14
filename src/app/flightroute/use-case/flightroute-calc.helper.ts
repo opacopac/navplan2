@@ -1,25 +1,29 @@
 import {Flightroute} from '../domain/flightroute';
-import {Speed} from '../../shared/model/quantities/speed';
+import {Speed} from '../../geo-math/domain/quantities/speed';
 import {Waypoint} from '../domain/waypoint';
-import {GeocalcService} from '../../shared/services/geocalc/geocalc.service';
-import {StringnumberService} from '../../shared/services/stringnumber/stringnumber.service';
-import {ConsumptionUnit, LengthUnit, SpeedUnit, TimeUnit, VolumeUnit} from '../../shared/model/quantities/units';
+import {GeocalcHelper} from '../../geo-math/use-case/geocalc-helper';
+import {StringnumberHelper} from '../../system/use-case/stringnumber/stringnumber-helper';
+import {ConsumptionUnit, LengthUnit, SpeedUnit, TimeUnit, VolumeUnit} from '../../geo-math/domain/quantities/units';
 import {WaypointType} from '../domain/waypoint-type';
-import {Time} from '../../shared/model/quantities/time';
+import {Time} from '../../geo-math/domain/quantities/time';
 import {RouteFuel} from '../domain/routefuel';
-import {Volume} from '../../shared/model/quantities/volume';
-import {Consumption} from '../../shared/model/quantities/consumption';
-import {Length} from '../../shared/model/quantities/length';
+import {Volume} from '../../geo-math/domain/quantities/volume';
+import {Consumption} from '../../geo-math/domain/quantities/consumption';
+import {Length} from '../../geo-math/domain/quantities/length';
 
 
 export class FlightrouteCalcHelper {
-    public static calcFlightRoute(flightroute: Flightroute, lengthUnit: LengthUnit = LengthUnit.NM) {
-        if (!flightroute) { return; }
+    public static calcFlightRoute(flightroute: Flightroute, lengthUnit: LengthUnit = LengthUnit.NM): Flightroute {
+        if (!flightroute) {
+            return;
+        }
 
         this.calcWaypointList(flightroute, lengthUnit);
         this.calcAlternate(flightroute, lengthUnit);
         this.calcTripDist(flightroute, lengthUnit);
         this.calcTimesAndFuel(flightroute);
+
+        return flightroute;
     }
 
 
@@ -66,8 +70,8 @@ export class FlightrouteCalcHelper {
 
         // calc distance & bearing
         if (prevWp) {
-            wp.dist = GeocalcService.calcDistance(wp.position, prevWp.position);
-            wp.mt = GeocalcService.calcBearing(prevWp.position, wp.position, wp.variation);
+            wp.dist = GeocalcHelper.calcDistance(wp.position, prevWp.position);
+            wp.mt = GeocalcHelper.calcBearing(prevWp.position, wp.position, wp.variation);
         } else {
             wp.dist = undefined;
             wp.mt = undefined;
@@ -107,7 +111,7 @@ export class FlightrouteCalcHelper {
             return 'VAC';
         }
 
-        return StringnumberService.zeroPad(Math.round(wp.mt.deg), 3);
+        return StringnumberHelper.zeroPad(Math.round(wp.mt.deg), 3);
     }
 
 

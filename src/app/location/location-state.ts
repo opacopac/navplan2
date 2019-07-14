@@ -1,5 +1,5 @@
 import {LocationServiceStatus} from './services/location.service';
-import {Position4d} from '../shared/model/geometry/position4d';
+import {Position4d} from '../geo-math/domain/geometry/position4d';
 import {Track} from '../track/domain/track';
 
 

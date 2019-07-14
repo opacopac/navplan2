@@ -1,5 +1,5 @@
-import {Geometry2d} from '../../shared/model/geometry/geometry2d';
-import {Altitude} from '../../shared/model/geometry/altitude';
+import {Geometry2d} from '../../geo-math/domain/geometry/geometry2d';
+import {Altitude} from '../../geo-math/domain/geometry/altitude';
 
 
 export class NotamGeometry {

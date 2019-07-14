@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {LoggingService} from '../../shared/services/logging/logging.service';
-import {Extent2d} from '../../shared/model/geometry/extent2d';
+import {LoggingService} from '../../system/use-case/logging/logging.service';
+import {Extent2d} from '../../geo-math/domain/geometry/extent2d';
 import {Observable} from 'rxjs/internal/Observable';
 import {catchError, map} from 'rxjs/operators';
 import {throwError} from 'rxjs';

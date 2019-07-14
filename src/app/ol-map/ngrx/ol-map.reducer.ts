@@ -1,8 +1,8 @@
-import {Position2d} from '../../shared/model/geometry/position2d';
+import {Position2d} from '../../geo-math/domain/geometry/position2d';
 import {OlMapState} from '../domain/ol-map-state';
-import {Angle} from '../../shared/model/quantities/angle';
+import {Angle} from '../../geo-math/domain/quantities/angle';
 import {OlMapActions, OlMapActionTypes} from './ol-map.actions';
-import {AngleUnit} from '../../shared/model/quantities/units';
+import {AngleUnit} from '../../geo-math/domain/quantities/units';
 import {MapbaselayerType} from '../domain/ol-baselayer-factory';
 
 

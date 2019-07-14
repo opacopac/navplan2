@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {ToggleWatchTrafficAction} from '../../ngrx/traffic.actions';
-import {getTrafficIsWatching, getTrafficStatus} from '../../ngrx/traffic.selectors';
+import {getTrafficStatus} from '../../ngrx/traffic.selectors';
 import {TrafficServiceStatus} from '../../domain/traffic-service-status';
 
 
@@ -12,7 +12,6 @@ import {TrafficServiceStatus} from '../../domain/traffic-service-status';
 })
 export class TrafficButtonComponent implements OnInit {
     public trafficStatus$ = this.appStore.pipe(select(getTrafficStatus));
-    public trafficIsWatching$ = this.appStore.pipe(select(getTrafficIsWatching));
 
 
     constructor(private appStore: Store<any>) {

@@ -1,6 +1,6 @@
 import {DataItem, DataItemType} from '../../shared/model/data-item';
-import { Position2d } from '../../shared/model/geometry/position2d';
-import {Length} from '../../shared/model/quantities/length';
+import { Position2d } from '../../geo-math/domain/geometry/position2d';
+import {Length} from '../../geo-math/domain/quantities/length';
 
 
 export class Geoname extends DataItem {

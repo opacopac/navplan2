@@ -3,10 +3,11 @@ import {Vector} from 'ol/source';
 import {Icon, Style} from 'ol/style';
 import {Airport} from '../domain/airport';
 import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
-import {AirportIcon} from '../domain/airport-icon';
+import {OlAirportIcon} from './ol-airport-icon';
 import {AirportRunway} from '../domain/airport-runway';
-import {GeocalcService} from '../../shared/services/geocalc/geocalc.service';
+import {GeocalcHelper} from '../../geo-math/use-case/geocalc-helper';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
+import {WmmHelper} from '../../geo-math/use-case/wmm-helper';
 
 
 export class OlAirportRunway extends OlComponentBase {
@@ -32,14 +33,14 @@ export class OlAirportRunway extends OlComponentBase {
 
 
     private createPointStyle(airport: Airport, runway: AirportRunway): Style {
-        const src = AirportIcon.getRwyUrl(airport, runway);
+        const src = OlAirportIcon.getRwyUrl(airport, runway);
         let rwy_direction = runway.direction1 ? runway.direction1 : undefined;
         if (!src || ! rwy_direction) {
             return undefined;
         }
 
         if (!runway.directionContainsMagneticVariation()) {
-            rwy_direction += GeocalcService.calcMagneticVariation(airport.position).deg;
+            rwy_direction += WmmHelper.calcMagneticVariation(airport.position).deg;
         }
 
         return new Style({

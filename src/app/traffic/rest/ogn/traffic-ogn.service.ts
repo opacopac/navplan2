@@ -4,10 +4,10 @@ import {throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {Observable} from 'rxjs/internal/Observable';
 import {environment} from '../../../../environments/environment';
-import {LoggingService} from '../../../shared/services/logging/logging.service';
-import {Extent2d} from '../../../shared/model/geometry/extent2d';
+import {LoggingService} from '../../../system/use-case/logging/logging.service';
+import {Extent2d} from '../../../geo-math/domain/geometry/extent2d';
 import {IRestOgnTrafficResponse} from './i-rest-ogn-traffic-response';
-import {RestOgnTrafficResponse} from './rest-ogn-traffic-response';
+import {RestMapperOgnTrafficResponse} from './rest-mapper-ogn-traffic-response';
 import {TrafficOgn} from '../../domain/traffic-ogn';
 import {IOgnTrafficService} from '../../use-case/ogn-traffic/i-ogn-traffic-service';
 
@@ -32,7 +32,7 @@ export class TrafficOgnService implements IOgnTrafficService {
         return this.http
             .get<IRestOgnTrafficResponse>(url)
             .pipe(
-                map((response) => RestOgnTrafficResponse.fromRest(response)),
+                map((response) => RestMapperOgnTrafficResponse.fromRest(response)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading ogn traffic', err);
                     return throwError(err);

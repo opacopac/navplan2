@@ -6,10 +6,10 @@ import {OpenAipModule} from '../open-aip/open-aip.module';
 import {ChartMapPageComponent} from './components/chart-map-page/chart-map-page.component';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
-import {ChartMapState} from './chart-map-state';
-import {ChartMapActions} from './chart-map.actions';
-import {ChartMapEffects} from './chart-map.effects';
-import {chartMapReducer} from './chart-map.reducer';
+import {ChartMapState} from './domain/chart-map-state';
+import {ChartMapActions} from './ngrx/chart-map.actions';
+import {ChartMapEffects} from './ngrx/chart-map.effects';
+import {chartMapReducer} from './ngrx/chart-map.reducer';
 
 
 @NgModule({

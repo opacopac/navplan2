@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MessageService} from '../../../message/services/message.service';
 import {MapbaselayerType} from '../../../ol-map/domain/ol-baselayer-factory';
-import {Angle} from '../../../shared/model/quantities/angle';
-import {Length} from '../../../shared/model/quantities/length';
+import {Angle} from '../../../geo-math/domain/quantities/angle';
+import {Length} from '../../../geo-math/domain/quantities/length';
 
 
 @Component({
@@ -27,7 +27,7 @@ export class SettingsPageComponent implements OnInit {
     onSubmit() {
         if (this.settingsForm.valid) {
             this.updateSettings();
-            this.messageService.writeSuccessMessage('Settings successfully saved!');
+            this.messageService.showSuccessMessage('Settings successfully saved!');
         }
     }
 

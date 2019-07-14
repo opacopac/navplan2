@@ -1,30 +1,20 @@
-import {Position2d} from '../../shared/model/geometry/position2d';
+import {Position2d} from '../../geo-math/domain/geometry/position2d';
 import {DataItem, DataItemType} from '../../shared/model/data-item';
 import {MetarTaf} from '../../metar-taf/domain/metar-taf';
 import {Notam} from '../../notam/domain/notam';
 import {AirportRunway} from './airport-runway';
-import {Length} from '../../shared/model/quantities/length';
-
-
-export enum AirportType {
-    AD_CLOSED,
-    AD_MIL,
-    AF_CIVIL,
-    AF_MIL_CIVIL,
-    AF_WATER,
-    APT,
-    GLIDING,
-    HELI_CIVIL,
-    HELI_MIL,
-    INTL_APT,
-    LIGHT_AIRCRAFT
-}
+import {Length} from '../../geo-math/domain/quantities/length';
+import {AirportRadio} from './airport-radio';
+import {Webcam} from './webcam';
+import {AirportChart} from './airport-chart';
+import {AirportFeature} from './airport-feature';
+import {AirportType} from './airport-type';
 
 
 export class Airport extends DataItem  {
     public runways: AirportRunway[];
     public radios: AirportRadio[];
-    public webcams: AirportWebcam[];
+    public webcams: Webcam[];
     public charts: AirportChart[];
     public features: AirportFeature[];
     public notams: Notam[];
@@ -84,45 +74,4 @@ export class Airport extends DataItem  {
         return (this.type === AirportType.AD_CLOSED);
     }
 
-}
-
-
-export class AirportRadio {
-    constructor(
-        public category: string,
-        public frequency: string,
-        public type: string,
-        public typespec: string,
-        public description: string) {
-    }
-}
-
-
-export class AirportWebcam {
-    constructor(
-        public name: string,
-        public url: string) {
-    }
-}
-
-
-export class AirportChart {
-    constructor(
-        public id: number,
-        public source: string,
-        public type: string,
-        public filename: string,
-        public mercator_n: string, // TODO: => extent
-        public mercator_s: string,
-        public mercator_e: string,
-        public mercator_w: string) {
-    }
-}
-
-
-export class AirportFeature {
-    constructor(
-        public type: string,
-        public name: string) {
-    }
 }

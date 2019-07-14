@@ -1,11 +1,13 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {Airport, AirportType} from '../../../open-aip/domain/airport';
-import {Position2d} from '../../../shared/model/geometry/position2d';
-import {AirportIcon} from '../../../open-aip/domain/airport-icon';
+import {Airport} from '../../../open-aip/domain/airport';
+import {Position2d} from '../../../geo-math/domain/geometry/position2d';
+import {OlAirportIcon} from '../../../open-aip/ol/ol-airport-icon';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
 import {WaypointFactory} from '../../../flightroute/domain/waypoint-mapper/waypoint-factory';
-import {GeocalcService} from '../../../shared/services/geocalc/geocalc.service';
+import {GeocalcHelper} from '../../../geo-math/use-case/geocalc-helper';
 import {OlHelper} from '../../../ol-map/use-case/ol-helper';
+import {AirportType} from '../../../open-aip/domain/airport-type';
+import {WmmHelper} from '../../../geo-math/use-case/wmm-helper';
 
 
 @Component({
@@ -62,7 +64,7 @@ export class OlOverlayAirportComponent extends OlOverlayWaypointBase implements 
 
 
     public getAvatarUrl(): string {
-        return AirportIcon.getUrl(this.airport.type);
+        return OlAirportIcon.getUrl(this.airport.type);
     }
 
 
@@ -71,7 +73,7 @@ export class OlOverlayAirportComponent extends OlOverlayWaypointBase implements 
             return '';
         }
 
-        return AirportIcon.getRwyUrl(this.airport, this.airport.runways[0]);
+        return OlAirportIcon.getRwyUrl(this.airport, this.airport.runways[0]);
     }
 
 
@@ -84,7 +86,7 @@ export class OlOverlayAirportComponent extends OlOverlayWaypointBase implements 
         if (rwy.directionContainsMagneticVariation()) {
             return rwy.direction1;
         }
-        const magVar = GeocalcService.calcMagneticVariation(this.airport.position);
+        const magVar = WmmHelper.calcMagneticVariation(this.airport.position);
 
         return rwy.direction1 + magVar.deg;
     }

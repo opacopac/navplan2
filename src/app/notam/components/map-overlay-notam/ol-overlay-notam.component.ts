@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import { StringnumberService } from '../../../shared/services/stringnumber/stringnumber.service';
+import { StringnumberHelper } from '../../../system/use-case/stringnumber/stringnumber-helper';
 import { Notam } from '../../domain/notam';
-import { Position2d } from '../../../shared/model/geometry/position2d';
+import { Position2d } from '../../../geo-math/domain/geometry/position2d';
 import { OlOverlayBase } from '../../../ol-map/components/ol-overlay-base';
 import {OlHelper} from '../../../ol-map/use-case/ol-helper';
 
@@ -102,7 +102,7 @@ export class OlOverlayNotamComponent extends OlOverlayBase implements OnInit {
 
     private getLtString(date): string {
         const datePart = date.toLocaleDateString();
-        const timePart = StringnumberService.zeroPad(date.getHours()) + ':' + StringnumberService.zeroPad(date.getMinutes());
+        const timePart = StringnumberHelper.zeroPad(date.getHours()) + ':' + StringnumberHelper.zeroPad(date.getMinutes());
         return datePart + ' ' + timePart + ' LT'; // + Math.round(date.getTimezoneOffset() / -60);
     }
 }

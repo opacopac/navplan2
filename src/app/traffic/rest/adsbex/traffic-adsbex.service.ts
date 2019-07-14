@@ -4,10 +4,10 @@ import {throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {Observable} from 'rxjs/internal/Observable';
 import {environment} from '../../../../environments/environment';
-import {LoggingService} from '../../../shared/services/logging/logging.service';
-import {Extent2d} from '../../../shared/model/geometry/extent2d';
+import {LoggingService} from '../../../system/use-case/logging/logging.service';
+import {Extent2d} from '../../../geo-math/domain/geometry/extent2d';
 import {IRestAdsbexTrafficResponse} from './i-rest-adsbex-traffic-response';
-import {RestAdsbexTrafficResponse} from './rest-adsbex-traffic-response';
+import {RestMapperAdsbexTrafficResponse} from './rest-mapper-adsbex-traffic-response';
 import {TrafficAdsbex} from '../../domain/traffic-adsbex';
 import {IAdsbexTrafficService} from '../../use-case/adsbex-traffic/i-adsbex-traffic-service';
 
@@ -32,7 +32,7 @@ export class TrafficAdsbexService implements IAdsbexTrafficService {
         return this.http
             .get<IRestAdsbexTrafficResponse>(url)
             .pipe(
-                map((response) => RestAdsbexTrafficResponse.fromRest(response)),
+                map((response) => RestMapperAdsbexTrafficResponse.fromRest(response)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading ogn traffic', err);
                     return throwError(err);

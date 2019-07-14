@@ -3,11 +3,11 @@ import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 import {Traffic} from '../domain/traffic';
 import {TrafficAircraftType} from '../domain/traffic-aircraft-type';
-import {UnitconversionService} from '../../shared/services/unitconversion/unitconversion.service';
 import {OlTrafficTrail} from './ol-traffic-trail';
 import {TrafficIcon} from '../domain/traffic-icon';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
-import {AltitudeUnit} from '../../shared/model/geometry/altitude-unit';
+import {AltitudeUnit} from '../../geo-math/domain/geometry/altitude-unit';
+import {Angle} from '../../geo-math/domain/quantities/angle';
 
 
 const MAX_AGE_SEC_INACTIVE = 30; // TODO
@@ -97,7 +97,7 @@ export class OlTraffic extends OlComponentBase {
                 anchorYUnits: IconAnchorUnits.FRACTION,
                 scale: 1,
                 opacity: 1.00,
-                rotation: UnitconversionService.deg2rad(rotation),
+                rotation: Angle.deg2rad(rotation),
                 rotateWithView: rotWithView,
                 src: icon
             }),

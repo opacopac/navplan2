@@ -3,7 +3,7 @@ import {Waypoint} from '../../domain/waypoint';
 import {Flightroute} from '../../domain/flightroute';
 import {ButtonColor, ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
 import {WaypointType} from '../../domain/waypoint-type';
-import {LengthUnit, TimeUnit} from '../../../shared/model/quantities/units';
+import {LengthUnit, TimeUnit} from '../../../geo-math/domain/quantities/units';
 
 
 interface WaypointListDataSourceRow {

@@ -1,5 +1,5 @@
 import {Observable} from 'rxjs';
-import {Extent2d} from '../../shared/model/geometry/extent2d';
+import {Extent2d} from '../../geo-math/domain/geometry/extent2d';
 import {IOgnTrafficService} from '../use-case/ogn-traffic/i-ogn-traffic-service';
 import {TrafficOgn} from '../domain/traffic-ogn';
 

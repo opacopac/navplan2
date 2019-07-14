@@ -1,11 +1,11 @@
-import {Extent3d} from '../../../shared/model/geometry/extent3d';
+import {Extent3d} from '../../../geo-math/domain/geometry/extent3d';
 import {Traffic} from '../../domain/traffic';
-import {AltitudeUnit} from '../../../shared/model/geometry/altitude-unit';
-import {Altitude} from '../../../shared/model/geometry/altitude';
-import {AltitudeReference} from '../../../shared/model/geometry/altitude-reference';
-import {MockDate} from '../../../shared/services/date/mock-date';
+import {AltitudeUnit} from '../../../geo-math/domain/geometry/altitude-unit';
+import {Altitude} from '../../../geo-math/domain/geometry/altitude';
+import {AltitudeReference} from '../../../geo-math/domain/geometry/altitude-reference';
+import {MockDate} from '../../../system/use-case/date/mock-date';
 import {TrafficMap} from '../../domain/traffic-map';
-import {Timestamp} from '../../../shared/model/quantities/timestamp';
+import {Timestamp} from '../../../geo-math/domain/quantities/timestamp';
 import {TrafficOpensky} from '../../domain/traffic-opensky';
 import {TrafficOpensky1Mock} from '../../mocks/traffic-opensky1.mock';
 import {OpenskyTrafficMerger} from './opensky-traffic-merger';
@@ -35,7 +35,7 @@ describe('OpenskyTrafficMerger', () => {
             100.0, 100.0, new Altitude(150000, AltitudeUnit.FT, AltitudeReference.MSL));
         state = { ...initialTrafficState, trafficMap: trafficMap, extent: extent3d };
         openskyTrafficMerger = new OpenskyTrafficMerger(mockDate);
-        mockDate.nowResultMs = acNew.positions[0].position.timestamp.epochMs;
+        mockDate.nowMsResult = acNew.positions[0].position.timestamp.epochMs;
     });
 
 
@@ -92,7 +92,7 @@ describe('OpenskyTrafficMerger', () => {
         acNew.positions[0].receivedTimestamp = Timestamp.createFromSec(acNew.positions[0].receivedTimestamp.epochSec + 1);
         acNew.positions[0].position.timestamp = Timestamp.createFromSec(acNew.positions[0].position.timestamp.epochSec + 1);
         acNew.positions[0].position.latitude = acNew.positions[0].position.latitude + 0.01;
-        mockDate.nowResultMs = TrafficOpensky1Mock.createPos().position.timestamp.epochMs;
+        mockDate.nowMsResult = TrafficOpensky1Mock.createPos().position.timestamp.epochMs;
 
         const newTrafficMap = openskyTrafficMerger.merge(state, [acNew]);
 

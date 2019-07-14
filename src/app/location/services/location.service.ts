@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {map} from 'rxjs/operators';
-import {Position4d} from '../../shared/model/geometry/position4d';
-import {Timestamp} from '../../shared/model/quantities/timestamp';
+import {Position4d} from '../../geo-math/domain/geometry/position4d';
+import {Timestamp} from '../../geo-math/domain/quantities/timestamp';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {Altitude} from '../../shared/model/geometry/altitude';
-import {AltitudeUnit} from '../../shared/model/geometry/altitude-unit';
-import {AltitudeReference} from '../../shared/model/geometry/altitude-reference';
+import {Altitude} from '../../geo-math/domain/geometry/altitude';
+import {AltitudeUnit} from '../../geo-math/domain/geometry/altitude-unit';
+import {AltitudeReference} from '../../geo-math/domain/geometry/altitude-reference';
 
 
 export enum LocationServiceStatus {

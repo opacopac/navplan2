@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {environment} from '../../../environments/environment';
-import {LoggingService} from '../../shared/services/logging/logging.service';
+import {LoggingService} from '../../system/use-case/logging/logging.service';
 import {Track} from '../domain/track';
 import {User} from '../../user/domain/user';
 import {catchError, map} from 'rxjs/operators';

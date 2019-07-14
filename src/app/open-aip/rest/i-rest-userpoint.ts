@@ -1,4 +1,4 @@
-import {IRestPosition2d} from '../../shared/model/rest/i-rest-position2d';
+import {IRestPosition2d} from '../../geo-math/rest/i-rest-position2d';
 
 
 export interface IRestUserpoint {

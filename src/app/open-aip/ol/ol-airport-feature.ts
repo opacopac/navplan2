@@ -2,9 +2,10 @@ import {Feature} from 'ol';
 import {Vector} from 'ol/source';
 import {Icon, Style} from 'ol/style';
 import {environment} from '../../../environments/environment';
-import {Airport, AirportFeature} from '../domain/airport';
+import {Airport} from '../domain/airport';
 import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
+import {AirportFeature} from '../domain/airport-feature';
 
 
 export class OlAirportFeature extends OlComponentBase {

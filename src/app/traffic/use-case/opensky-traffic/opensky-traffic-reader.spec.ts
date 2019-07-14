@@ -1,6 +1,5 @@
-import {Extent4dMock} from '../../mocks/extent4d.mock';
+/*import {Extent4dMock} from '../../mocks/extent4d.mock';
 import {OpenskyTrafficTerviceMock} from '../../mocks/opensky-traffic-tervice.mock';
-import {OpenskyTrafficReader} from './opensky-traffic-reader';
 
 
 describe('OpenskyTrafficReader', () => {
@@ -29,3 +28,4 @@ describe('OpenskyTrafficReader', () => {
         expect(service.readTrafficArgs.extent).toEqual(extent);
     });
 });
+*/

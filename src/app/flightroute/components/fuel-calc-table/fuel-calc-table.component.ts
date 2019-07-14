@@ -1,9 +1,9 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {RouteFuel} from '../../domain/routefuel';
-import {StringnumberService} from '../../../shared/services/stringnumber/stringnumber.service';
-import {Time} from '../../../shared/model/quantities/time';
-import {VolumeUnit} from '../../../shared/model/quantities/units';
-import {Volume} from '../../../shared/model/quantities/volume';
+import {StringnumberHelper} from '../../../system/use-case/stringnumber/stringnumber-helper';
+import {Time} from '../../../geo-math/domain/quantities/time';
+import {VolumeUnit} from '../../../geo-math/domain/quantities/units';
+import {Volume} from '../../../geo-math/domain/quantities/volume';
 
 
 interface FuelDataSourceRow {
@@ -79,7 +79,7 @@ export class FuelCalcTableComponent implements OnInit, OnChanges {
     public formatTime(time: Time): string {
         if (time && time.min > 0) {
             const hm = time.getHourMinutes();
-            return StringnumberService.zeroPad(hm[0], 2) + ':' + StringnumberService.zeroPad(hm[1], 2);
+            return StringnumberHelper.zeroPad(hm[0], 2) + ':' + StringnumberHelper.zeroPad(hm[1], 2);
         } else {
             return '';
         }

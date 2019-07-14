@@ -1,38 +1,40 @@
 import {Action} from '@ngrx/store';
-import {Extent2d} from '../../shared/model/geometry/extent2d';
-import {OpenAipItems} from '../domain/open-aip-items';
-import {User} from '../../user/domain/user';
+import {ReadOpenAipItemsByExtentResult} from '../domain/read-open-aip-items-by-extent-result';
+import {Extent2d} from '../../geo-math/domain/geometry/extent2d';
 
 
-export enum OpenAIpActionTypes {
-    OPEN_AIP_LOAD_ITEMS = '[Map zoomed/moved/rotated Action] load openAIP items',
-    OPEN_AIP_LOAD_ITEMS_SUCCESS = '[openAIP service] load openAIP items success',
-    OPEN_AIP_LOAD_ITEMS_ERROR = '[openAIP service] load openAIP items error',
+export enum OpenAipActionTypes {
+    OPEN_AIP_READ_ITEMS = '[navMapEffects] read openAIP items',
+    OPEN_AIP_READ_ITEMS_SUCCESS = '[openAipEffects] read openAIP items success',
+    OPEN_AIP_READ_ITEMS_ERROR = '[openAipEffects] read openAIP items error',
 }
 
 
-export class LoadOpenAipItemsAction implements Action {
-    readonly type = OpenAIpActionTypes.OPEN_AIP_LOAD_ITEMS;
+export class ReadOpenAipItemsAction implements Action {
+    readonly type = OpenAipActionTypes.OPEN_AIP_READ_ITEMS;
 
-    constructor(public extent: Extent2d, public zoom: number) {}
+    constructor(
+        public extent: Extent2d,
+        public zoom: number
+    ) {}
 }
 
 
-export class LoadOpenAIpItemsSuccessAction implements Action {
-    readonly type = OpenAIpActionTypes.OPEN_AIP_LOAD_ITEMS_SUCCESS;
+export class ReadOpenAipItemsSuccessAction implements Action {
+    readonly type = OpenAipActionTypes.OPEN_AIP_READ_ITEMS_SUCCESS;
 
-    constructor(public openAipItems: OpenAipItems, public extent: Extent2d, public zoom: number, user: User) {}
+    constructor(public result: ReadOpenAipItemsByExtentResult) {}
 }
 
 
-export class LoadOpenAipItemsErrorAction implements Action {
-    readonly type = OpenAIpActionTypes.OPEN_AIP_LOAD_ITEMS_ERROR;
+export class ReadOpenAipItemsErrorAction implements Action {
+    readonly type = OpenAipActionTypes.OPEN_AIP_READ_ITEMS_ERROR;
 
     constructor(public error: Error) {}
 }
 
 
 export type OpenAipActions =
-    LoadOpenAipItemsAction |
-    LoadOpenAIpItemsSuccessAction |
-    LoadOpenAipItemsErrorAction;
+    ReadOpenAipItemsAction |
+    ReadOpenAipItemsSuccessAction |
+    ReadOpenAipItemsErrorAction;

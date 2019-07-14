@@ -1,5 +1,5 @@
 /*import ol from 'ol';
-import { UnitconversionService } from '../../shared/services/unitconversion/unitconversion.service';
+import { UnitConverter } from '../../shared/services/unitconversion/unitconversion.service';
 import { StringnumberService } from '../../shared/services/stringnumber/stringnumber.service';
 import { OlFeature } from '../../shared/model/ol-feature';
 import { SearchItem } from '../../search/model/search-item';
@@ -113,7 +113,7 @@ export class OlSearchItemSelection extends OlFeature {
         const rotInc = Math.PI / 2 / (searchItems.length + 1);
         const labelAnglesDeg: number[] = [];
         for (let i = 0; i < searchItems.length; i++) {
-            const lableAngle_deg = UnitconversionService.rad2deg(rotationRad + (i + 1) * rotInc + rotOffset);
+            const lableAngle_deg = UnitConverter.rad2deg(rotationRad + (i + 1) * rotInc + rotOffset);
             labelAnglesDeg.push(lableAngle_deg);
         }
 

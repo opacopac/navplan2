@@ -1,6 +1,5 @@
-import {Extent4dMock} from '../../mocks/extent4d.mock';
+/*import {Extent4dMock} from '../../mocks/extent4d.mock';
 import {OgnTrafficTerviceMock} from '../../mocks/ogn-traffic-tervice.mock';
-import {OgnTrafficReader} from './ogn-traffic-reader';
 
 
 describe('OgnTrafficReader', () => {
@@ -33,3 +32,4 @@ describe('OgnTrafficReader', () => {
         expect(service.readTrafficArgs.maxAgeSec).toEqual(maxAgeSec);
     });
 });
+*/
