@@ -34,7 +34,7 @@ export class OlChartPath extends OlComponentBase {
         return new Style({
             stroke: new Stroke({
                 color: '#FF00FF',
-                width: 5
+                width: 3
             })
         });
     }

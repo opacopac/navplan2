@@ -1,5 +1,5 @@
 import {Position2d} from './position2d';
-import {GeocalcHelper} from '../../use-case/geocalc-helper';
+import {GeodesyHelper} from '../../use-case/geodesy-helper';
 import {Length} from '../quantities/length';
 import {Clonable} from '../../../system/domain/clonable';
 import {transformExtent} from 'ol/proj';
@@ -61,7 +61,7 @@ export class Extent2d implements Clonable<Extent2d> {
 
 
     public getRadius(): Length {
-        return GeocalcHelper.calcDistance(this.minPos, this.getMidPos());
+        return GeodesyHelper.calcDistance(this.minPos, this.getMidPos());
     }
 
 

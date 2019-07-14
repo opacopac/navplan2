@@ -1,80 +1,11 @@
 import {Position2d} from '../domain/geometry/position2d';
-import {AngleUnit} from '../domain/quantities/units';
-import {Angle} from '../domain/quantities/angle';
 import {TrackFitter} from './track-fitter';
-import {GeocalcHelper} from './geocalc-helper';
+import {GeodesyHelper} from './geodesy-helper';
 
 
 describe('TrackFitter', () => {
     beforeEach(() => {
     });
-
-
-    // region calcTurnDirection
-
-    it('gets the turn direction for identical angles', () => {
-        const angle1 = new Angle(10, AngleUnit.DEG);
-        const angle2 = new Angle(10, AngleUnit.DEG);
-        const dir = TrackFitter.calcTurnDirection(angle1, angle2);
-
-        expect(dir.deg).toBe(0);
-    });
-
-
-    it('gets the turn direction for increasing small angles', () => {
-        const angle1 = new Angle(10, AngleUnit.DEG);
-        const angle2 = new Angle(12, AngleUnit.DEG);
-        const dir = TrackFitter.calcTurnDirection(angle1, angle2);
-
-        expect(dir.deg).toBe(2);
-    });
-
-
-    it('gets the turn direction for decreasing small angles', () => {
-        const angle1 = new Angle(10, AngleUnit.DEG);
-        const angle2 = new Angle(8, AngleUnit.DEG);
-        const dir = TrackFitter.calcTurnDirection(angle1, angle2);
-
-        expect(dir.deg).toBe(-2);
-    });
-
-
-    it('gets the turn direction for increasing angles near 0/360', () => {
-        const angle1 = new Angle(358, AngleUnit.DEG);
-        const angle2 = new Angle(5, AngleUnit.DEG);
-        const dir = TrackFitter.calcTurnDirection(angle1, angle2);
-
-        expect(dir.deg).toBe(7);
-    });
-
-
-    it('gets the turn direction for decreasing angles near 0/360', () => {
-        const angle1 = new Angle(2, AngleUnit.DEG);
-        const angle2 = new Angle(355, AngleUnit.DEG);
-        const dir = TrackFitter.calcTurnDirection(angle1, angle2);
-
-        expect(dir.deg).toBe(-7);
-    });
-
-
-    it('gets the turn direction for increasing large angles', () => {
-        const angle1 = new Angle(90, AngleUnit.DEG);
-        const angle2 = new Angle(270, AngleUnit.DEG);
-        const dir = TrackFitter.calcTurnDirection(angle1, angle2);
-
-        expect(dir.deg).toBe(180);
-    });
-
-
-    it('gets the turn direction for decreasing large angles', () => {
-        const angle1 = new Angle(90, AngleUnit.DEG);
-        const angle2 = new Angle(271, AngleUnit.DEG);
-        const dir = TrackFitter.calcTurnDirection(angle1, angle2);
-
-        expect(dir.deg).toBe(-179);
-    });
-
-    // endregion
 
 
     // region calcApproxBearingPos
@@ -97,7 +28,7 @@ describe('TrackFitter', () => {
         const pos1 = new Position2d(7.0, 47.0);
         const pos2 = new Position2d(7.1, 47.1);
         const bearPos = TrackFitter.calcApproxBearingPos([pos1, pos2]);
-        const bearing2 = GeocalcHelper.calcBearing(pos1, pos2);
+        const bearing2 = GeodesyHelper.calcBearing(pos1, pos2);
 
         expect(bearPos.bearing.deg).toBe(bearing2.deg);
         expect(bearPos.position).toEqual(pos2);
@@ -133,7 +64,7 @@ describe('TrackFitter', () => {
         const pos4 = new Position2d(7.0653, 46.6892);
         const pos5 = new Position2d(7.0864, 46.7001);
         const bearPos = TrackFitter.calcApproxBearingPos([pos1, pos2, pos3, pos4, pos5]);
-        const directBear = GeocalcHelper.calcBearing(pos1, pos5);
+        const directBear = GeodesyHelper.calcBearing(pos1, pos5);
 
         expect(bearPos.bearing.deg).toBe(directBear.deg);
         expect(bearPos.position.latitude).toBeCloseTo(pos5.latitude, 3);

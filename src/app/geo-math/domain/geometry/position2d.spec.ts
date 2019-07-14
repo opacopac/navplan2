@@ -1,4 +1,7 @@
 import {Position2d} from './position2d';
+import {Geometry2dType} from './geometry2d';
+
+
 describe('Position2d', () => {
 
     beforeEach(() => {
@@ -84,77 +87,4 @@ describe('Position2d', () => {
         expect(() => { const pos = new Position2d(undefined, 47.0); }).toThrow();
         expect(() => { const pos = new Position2d(undefined, undefined); }).toThrow();
     });
-
-
-    it('adds a point', () => {
-        const pos1 = new Position2d(7.0, 47.0);
-        const pos2 = new Position2d(0.9, 0.8);
-
-        expect(pos1.add(pos2)).toEqual(new Position2d(7.9, 47.8));
-        expect(pos1.add(pos2)).toEqual(pos2.add(pos1));
-    });
-
-
-    it('subtracts a point', () => {
-        const pos1 = new Position2d(7.9, 47.8);
-        const pos2 = new Position2d(0.9, 0.8);
-
-        expect(pos1.subtract(pos2)).toEqual(new Position2d(7.0, 47.0));
-    });
-
-
-    it('multiplies a point with a factor', () => {
-        const pos1 = new Position2d(1.0, -1.0);
-
-        expect(pos1.multiply(2)).toEqual(new Position2d(2.0, -2.0));
-    });
-
-
-    it('calculates distance from the origin', () => {
-        const pos1 = new Position2d(1.0, 0.0);
-        const pos2 = new Position2d(1.0, 1.0);
-
-        expect(pos1.distFromOrig()).toEqual(1);
-        expect(pos2.distFromOrig()).toEqual(Math.sqrt(2));
-    });
-
-
-    it('normalizes the point', () => {
-        const pos1 = new Position2d(1.0, 1.0);
-
-        const normPos1 = pos1.normalize();
-
-        expect(normPos1.longitude).toBeCloseTo(1 / Math.sqrt(2), 10);
-        expect(normPos1.latitude).toBeCloseTo(1 / Math.sqrt(2), 10);
-        expect(normPos1.distFromOrig()).toBeCloseTo(1, 10);
-    });
-
-
-    it('rotates a point', () => {
-        const pos1 = new Position2d(7.0, 48.0);
-        const center = new Position2d(7.0, 47.0);
-        const angle = new Angle(90, AngleUnit.DEG);
-
-        const rotPos = pos1.rotate(center, angle);
-
-        expect(rotPos).toEqual(new Position2d(8.0, 47.0));
-    });
-
-
-    it('rotates a point #2', () => {
-        const pos1 = new Position2d(1.0, 0.0);
-        const center = new Position2d(0.0, 0.0);
-        const angle = new Angle(-90, AngleUnit.DEG);
-
-        const rotPos = pos1.rotate(center, angle);
-
-        expect(rotPos.longitude).toBeCloseTo(0.0, 10);
-        expect(rotPos.latitude).toBeCloseTo(1.0, 10);
-    });
-
 });
-
-
-import {Geometry2dType} from './geometry2d';
-import {Angle} from '../quantities/angle';
-import {AngleUnit} from '../quantities/units';

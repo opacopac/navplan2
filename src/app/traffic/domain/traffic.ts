@@ -1,7 +1,7 @@
 import {DataItem, DataItemType} from '../../shared/model/data-item';
 import {TrafficPosition} from './traffic-position';
 import {Clonable} from '../../system/domain/clonable';
-import {GeocalcHelper} from '../../geo-math/use-case/geocalc-helper';
+import {GeodesyHelper} from '../../geo-math/use-case/geodesy-helper';
 import {Angle} from '../../geo-math/domain/quantities/angle';
 import {TrafficAircraftType} from './traffic-aircraft-type';
 import {TrafficAddress} from './traffic-address';
@@ -237,7 +237,7 @@ export class Traffic extends DataItem implements Clonable<Traffic> {
 
     public getRotation(): Angle {
         if (!this.positions || this.positions.length < 2) {
-            return Angle.getZero();
+            return Angle.createZero();
         }
 
         const posList = TrafficPosition.get2dPositionsFromList(this.positions);

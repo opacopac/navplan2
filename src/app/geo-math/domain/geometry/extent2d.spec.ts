@@ -1,6 +1,6 @@
 import {Extent2d} from './extent2d';
 import {Position2d} from './position2d';
-import {GeocalcHelper} from '../../use-case/geocalc-helper';
+import {GeodesyHelper} from '../../use-case/geodesy-helper';
 
 
 describe('Extent2d', () => {
@@ -72,7 +72,7 @@ describe('Extent2d', () => {
             (minLon1 + maxLon1) / 2,
             (minLat1 + maxLat1) / 2);
         const minPos = new Position2d(minLon1, minLat1);
-        const radExpected = GeocalcHelper.calcDistance(minPos, midPos);
+        const radExpected = GeodesyHelper.calcDistance(minPos, midPos);
         expect(extent.getRadius().nm).toEqual(radExpected.nm);
     });
 

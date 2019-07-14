@@ -29,16 +29,4 @@ describe('Line', () => {
         expect(line.pos1).toEqual(line_clone.pos1);
         expect(line.pos2).toEqual(line_clone.pos2);
     });
-
-
-    it('calculates the intersection point', () => {
-        const line1 = new Line(new Position2d(10, 9), new Position2d(10, 11));
-        const line2 = new Line(new Position2d(9, 10), new Position2d(11, 10));
-
-        const isect = line1.intersect(line2);
-
-        expect(isect.longitude).toEqual(10);
-        expect(isect.latitude).toEqual(10);
-    });
-
 });

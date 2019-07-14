@@ -5,7 +5,7 @@ import {catchError, map} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {LoggingService} from '../../system/use-case/logging/logging.service';
-import {GeocalcHelper} from '../../geo-math/use-case/geocalc-helper';
+import {GeodesyHelper} from '../../geo-math/use-case/geodesy-helper';
 import {Position2d} from '../../geo-math/domain/geometry/position2d';
 import {RestMapperSearch, SearchResponse} from '../rest/rest-mapper-search';
 import {User} from '../../user/domain/user';

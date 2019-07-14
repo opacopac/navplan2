@@ -1,7 +1,7 @@
 import {Flightroute} from '../domain/flightroute';
 import {Speed} from '../../geo-math/domain/quantities/speed';
 import {Waypoint} from '../domain/waypoint';
-import {GeocalcHelper} from '../../geo-math/use-case/geocalc-helper';
+import {GeodesyHelper} from '../../geo-math/use-case/geodesy-helper';
 import {StringnumberHelper} from '../../system/use-case/stringnumber/stringnumber-helper';
 import {ConsumptionUnit, LengthUnit, SpeedUnit, TimeUnit, VolumeUnit} from '../../geo-math/domain/quantities/units';
 import {WaypointType} from '../domain/waypoint-type';
@@ -70,8 +70,8 @@ export class FlightrouteCalcHelper {
 
         // calc distance & bearing
         if (prevWp) {
-            wp.dist = GeocalcHelper.calcDistance(wp.position, prevWp.position);
-            wp.mt = GeocalcHelper.calcBearing(prevWp.position, wp.position, wp.variation);
+            wp.dist = GeodesyHelper.calcDistance(wp.position, prevWp.position);
+            wp.mt = GeodesyHelper.calcBearing(prevWp.position, wp.position, wp.variation);
         } else {
             wp.dist = undefined;
             wp.mt = undefined;

@@ -14,7 +14,7 @@ describe('Angle', () => {
 
 
     it('can create 0 angle instance', () => {
-        const ang = Angle.getZero();
+        const ang = Angle.createZero();
         expect(ang).toBeDefined();
         expect(ang.isZero).toBeTruthy();
     });
@@ -48,4 +48,71 @@ describe('Angle', () => {
         expect(ang1.getValue(AngleUnit.RAD)).toBeCloseTo(3.1415, 3);
         expect(ang2.getValue(AngleUnit.DEG)).toBeCloseTo(180, 0);
     });
+
+
+    // region calcSmallDiffAngle
+
+    it('gets the smallest turn angle for identical angles', () => {
+        const angle1 = new Angle(10, AngleUnit.DEG);
+        const angle2 = new Angle(10, AngleUnit.DEG);
+        const dir = Angle.calcSmallDiffAngle(angle1, angle2);
+
+        expect(dir.deg).toBe(0);
+    });
+
+
+    it('gets the smallest turn angle for increasing small angles', () => {
+        const angle1 = new Angle(10, AngleUnit.DEG);
+        const angle2 = new Angle(12, AngleUnit.DEG);
+        const dir = Angle.calcSmallDiffAngle(angle1, angle2);
+
+        expect(dir.deg).toBe(2);
+    });
+
+
+    it('gets the smallest turn angle for decreasing small angles', () => {
+        const angle1 = new Angle(10, AngleUnit.DEG);
+        const angle2 = new Angle(8, AngleUnit.DEG);
+        const dir = Angle.calcSmallDiffAngle(angle1, angle2);
+
+        expect(dir.deg).toBe(-2);
+    });
+
+
+    it('gets the smallest turn angle for increasing angles near 0/360', () => {
+        const angle1 = new Angle(358, AngleUnit.DEG);
+        const angle2 = new Angle(5, AngleUnit.DEG);
+        const dir = Angle.calcSmallDiffAngle(angle1, angle2);
+
+        expect(dir.deg).toBe(7);
+    });
+
+
+    it('gets the smallest turn angle for decreasing angles near 0/360', () => {
+        const angle1 = new Angle(2, AngleUnit.DEG);
+        const angle2 = new Angle(355, AngleUnit.DEG);
+        const dir = Angle.calcSmallDiffAngle(angle1, angle2);
+
+        expect(dir.deg).toBe(-7);
+    });
+
+
+    it('gets the smallest turn angle for increasing large angles', () => {
+        const angle1 = new Angle(90, AngleUnit.DEG);
+        const angle2 = new Angle(270, AngleUnit.DEG);
+        const dir = Angle.calcSmallDiffAngle(angle1, angle2);
+
+        expect(dir.deg).toBe(180);
+    });
+
+
+    it('gets the smallest turn angle for decreasing large angles', () => {
+        const angle1 = new Angle(90, AngleUnit.DEG);
+        const angle2 = new Angle(271, AngleUnit.DEG);
+        const dir = Angle.calcSmallDiffAngle(angle1, angle2);
+
+        expect(dir.deg).toBe(-179);
+    });
+
+    // endregion
 });

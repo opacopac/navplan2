@@ -3,7 +3,7 @@ import {AbstractQuantity} from './abstract-quantity';
 
 
 export class Angle extends AbstractQuantity<Angle, AngleUnit> {
-    public static getZero(): Angle {
+    public static createZero(): Angle {
         return new Angle(0, AngleUnit.DEG);
     }
 
@@ -11,7 +11,8 @@ export class Angle extends AbstractQuantity<Angle, AngleUnit> {
     public static convert(
         value: number,
         unit: AngleUnit,
-        convertToUnit: AngleUnit): number {
+        convertToUnit: AngleUnit
+    ): number {
         if (unit === convertToUnit) { return value; }
         if (value === undefined) { return undefined; }
 
@@ -32,8 +33,32 @@ export class Angle extends AbstractQuantity<Angle, AngleUnit> {
     }
 
 
-    public static deg2rad(deg: number): number {
-        return Angle.convert(deg, AngleUnit.DEG, AngleUnit.RAD);
+    public static deg2rad(value: number): number {
+        return Angle.convert(value, AngleUnit.DEG, AngleUnit.RAD);
+    }
+
+
+    public static rad2deg(value: number): number {
+        return Angle.convert(value, AngleUnit.RAD, AngleUnit.DEG);
+    }
+
+
+    public static calcSmallDiffAngle(angle1: Angle, angle2: Angle): Angle {
+        const deg1 = angle1.deg % 360;
+        const deg2 = angle2.deg % 360;
+        const diff = (deg2 - deg1 + 360) % 360;
+        const deg = diff > 180 ? diff - 360 : diff;
+
+        return new Angle(deg, AngleUnit.DEG);
+    }
+
+
+    public static calcBigDiffAngle(angle1: Angle, angle2: Angle): Angle {
+        const smallAngle = this.calcSmallDiffAngle(angle1, angle2);
+        const bigAngleDeg = 360 - Math.abs(smallAngle.deg);
+        const bigAngleSign = smallAngle.deg < 0 ? 1 : -1;
+
+        return new Angle(bigAngleDeg * bigAngleSign, AngleUnit.DEG);
     }
 
 
@@ -49,6 +74,11 @@ export class Angle extends AbstractQuantity<Angle, AngleUnit> {
 
     public getValue(asUnit: AngleUnit): number {
         return Angle.convert(this.value, this.unit, asUnit);
+    }
+
+
+    public flip(): Angle {
+        return new Angle(this.deg + 180 % 360, AngleUnit.DEG);
     }
 
 

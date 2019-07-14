@@ -3,7 +3,7 @@ import {Vector} from 'ol/source';
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {OlComponentBase} from '../../ol-map/ol/ol-component-base';
 import {environment} from '../../../environments/environment';
-import {GeocalcHelper} from '../../geo-math/use-case/geocalc-helper';
+import {GeodesyHelper} from '../../geo-math/use-case/geodesy-helper';
 import {Position4d} from '../../geo-math/domain/geometry/position4d';
 import {Angle} from '../../geo-math/domain/quantities/angle';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
@@ -71,11 +71,11 @@ export class OlOwnPlane extends OlComponentBase {
 
     private getRotation(lastPositions: Position4d[]): Angle {
         if (!lastPositions || lastPositions.length < 2) {
-            return Angle.getZero();
+            return Angle.createZero();
         }
 
         const maxIdx = lastPositions.length - 1;
-        return GeocalcHelper.calcBearing(
+        return GeodesyHelper.calcBearing(
             lastPositions[maxIdx - 1],
             lastPositions[maxIdx]);
     }

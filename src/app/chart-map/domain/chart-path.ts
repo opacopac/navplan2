@@ -18,7 +18,7 @@ export class ChartPath implements Clonable<ChartPath> {
     public addLine(line: Line): void {
         this.lines.push(line);
 
-        if (this.lines.length > 1 && this.lines.length % 2 === 0) {
+        if (this.lines.length > 1) {
             const lineN = this.lines[this.lines.length - 1];
             const lineN_1 = this.lines[this.lines.length - 2];
             const junct = new LineJunction(lineN_1, lineN);
@@ -33,7 +33,7 @@ export class ChartPath implements Clonable<ChartPath> {
         const posList: Position2d[] = [];
 
         for (let i = 0; i < this.lines.length; i++) {
-            if (i % 2 === 1) {
+            if (i > 0) {
                 this.junctions[i - 1].junctionArc.forEach(pos => posList.push(pos));
             }
 
@@ -47,7 +47,8 @@ export class ChartPath implements Clonable<ChartPath> {
 
     public clone(): ChartPath {
         const newChartPath = new ChartPath();
-        this.lines.forEach((line) => newChartPath.lines.push(line.clone()));
+        this.lines.forEach(line => newChartPath.lines.push(line.clone()));
+        this.junctions.forEach(junct => newChartPath.junctions.push(junct.clone()));
 
         return newChartPath;
     }

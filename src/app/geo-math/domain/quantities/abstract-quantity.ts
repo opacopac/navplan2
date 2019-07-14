@@ -33,6 +33,20 @@ export abstract class AbstractQuantity<Q, U> {
     }
 
 
+    public subtract(quantity: AbstractQuantity<Q, U>): Q {
+        if (!quantity) {
+            return undefined;
+        } else if (this.unit === quantity.unit) {
+            return this.createInstance(this.value - quantity.value, this.unit);
+        } else {
+            return this.createInstance(
+                this.getValue(this.getDefaultUnit()) - quantity.getValue(this.getDefaultUnit()),
+                this.getDefaultUnit()
+            );
+        }
+    }
+
+
     protected abstract createInstance(value: number, unit: U): Q;
 
 

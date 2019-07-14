@@ -4,7 +4,7 @@ import {Position2d} from '../../../geo-math/domain/geometry/position2d';
 import {OlAirportIcon} from '../../../open-aip/ol/ol-airport-icon';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
 import {WaypointFactory} from '../../../flightroute/domain/waypoint-mapper/waypoint-factory';
-import {GeocalcHelper} from '../../../geo-math/use-case/geocalc-helper';
+import {GeodesyHelper} from '../../../geo-math/use-case/geodesy-helper';
 import {OlHelper} from '../../../ol-map/use-case/ol-helper';
 import {AirportType} from '../../../open-aip/domain/airport-type';
 import {WmmHelper} from '../../../geo-math/use-case/wmm-helper';
