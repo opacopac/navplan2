@@ -44,7 +44,7 @@ class FlightrouteServiceProcessorTest extends TestCase {
         $requestMethod = "dummy";
         $getVars = array("dummy" => "dummy");
         $postVars = array("dummy2" => "dummy2");
-        $this->expectException("InvalidArgumentException");
+        $this->expectException(InvalidArgumentException::class);
 
         FlightrouteServiceProcessor::processRequest($requestMethod, $getVars, $postVars, $this->config);
     }

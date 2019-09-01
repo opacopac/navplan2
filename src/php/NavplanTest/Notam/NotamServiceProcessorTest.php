@@ -26,7 +26,7 @@ class NotamServiceProcessorTest extends TestCase {
 
     public function test_no_action_throws_error() {
         $getVars = array("dummy" => "dummy");
-        $this->expectException("InvalidArgumentException");
+        $this->expectException(InvalidArgumentException::class);
 
         NotamServiceProcessor::processRequest($getVars, $this->config);
     }

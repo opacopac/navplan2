@@ -63,7 +63,7 @@ class SearchServiceProcessorTest extends TestCase {
         $getVars = array(
             "dummy" => "dummy"
         );
-        $this->expectException("InvalidArgumentException");
+        $this->expectException(InvalidArgumentException::class);
         SearchServiceProcessor::processRequest($getVars, $this->getConfig());
     }
 
