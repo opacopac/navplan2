@@ -2,6 +2,7 @@
 
 namespace NavplanTest\Notam;
 
+use InvalidArgumentException;
 use Navplan\Notam\NotamServiceProcessor;
 use Navplan\Notam\Rest\RestReadNotamRequest;
 use NavplanTest\MockNavplanConfig;

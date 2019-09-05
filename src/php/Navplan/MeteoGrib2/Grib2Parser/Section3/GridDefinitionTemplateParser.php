@@ -3,23 +3,20 @@
 namespace Navplan\MeteoGrib2\Grib2Parser\Section3;
 
 use InvalidArgumentException;
-use Navplan\MeteoGrib2\Domain\Section3\GridDefinitionTemplateType;
 use Navplan\MeteoGrib2\Domain\Section3\IGridDefinitionTemplate;
 
 
 class GridDefinitionTemplateParser {
-    public static function parse(int $typeValue, string $templateData): IGridDefinitionTemplate {
-        $type = GridDefinitionTemplateTypeParser::parse($typeValue);
-
-        switch ($type) {
-            case GridDefinitionTemplateType::LAT_LON:
-                return GridDefinitionTemplateLatLonParser::parse($templateData);
+    public static function parse(int $templateNumber, string $templateData): IGridDefinitionTemplate {
+        switch ($templateNumber) {
+            case 0:
+                return GridDefinitionTemplate0Parser::parse($templateData);
                 break;
-            case GridDefinitionTemplateType::POLAR_STEREOGRAPHIC:
-                return GridDefinitionTemplatePolarStereographicParser::parse($templateData);
+            case 20:
+                return GridDefinitionTemplate20Parser::parse($templateData);
                 break;
             default:
-                throw new InvalidArgumentException('grid definition template of type ' . (int) $type . ' is not supported');
+                throw new InvalidArgumentException('grid definition template with number ' . $templateNumber . ' is not supported');
         }
     }
 }

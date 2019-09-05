@@ -3,7 +3,9 @@
 namespace Navplan\MeteoGrib2\Grib2Parser\Section1;
 
 use InvalidArgumentException;
+use Navplan\MeteoGrib2\Domain\Section1\Origin;
 use Navplan\MeteoGrib2\Domain\Section1\Section1;
+use Navplan\MeteoGrib2\Domain\Section1\TableVersion;
 use Navplan\MeteoGrib2\Grib2Parser\Grib2ParserHelper;
 
 
@@ -15,12 +17,10 @@ class Section1Parser {
         $byteArray = self::readByteArray($fileHandle);
 
         return new Section1(
-            $byteArray["b"],
-            $byteArray["c"],
-            $byteArray["d"],
-            $byteArray["e"],
-            ReferenceTimeSignificanceParser::parse($byteArray["f"]),
+            new Origin($byteArray["b"], $byteArray["c"]),
+            new TableVersion($byteArray["d"], $byteArray["e"]),
             ReferenceTimeParser::parse(
+                $byteArray["f"],
                 $byteArray["g"],
                 $byteArray["h"],
                 $byteArray["i"],

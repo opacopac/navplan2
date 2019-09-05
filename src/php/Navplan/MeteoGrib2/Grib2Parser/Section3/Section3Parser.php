@@ -3,6 +3,7 @@
 namespace Navplan\MeteoGrib2\Grib2Parser\Section3;
 
 use InvalidArgumentException;
+use Navplan\MeteoGrib2\Domain\Section3\NumberOfPoints;
 use Navplan\MeteoGrib2\Domain\Section3\Section3;
 use Navplan\MeteoGrib2\Grib2Parser\Grib2ParserHelper;
 
@@ -17,8 +18,11 @@ class Section3Parser {
         return new Section3(
             GridDefinitionSourceParser::parse($byteArray["b"]),
             $byteArray["c"],
-            $byteArray["d"],
-            NumberOfPointsInterpretationParser::parse($byteArray["e"]),
+            new NumberOfPoints(
+                $byteArray["d"],
+                NumberOfPointsInterpretationParser::parse($byteArray["e"]),
+                []
+            ),
             GridDefinitionTemplateParser::parse($byteArray["f"], $byteArray["g"])
         );
     }

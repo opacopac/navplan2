@@ -2,6 +2,7 @@
 
 namespace NavplanTest\Search;
 
+use InvalidArgumentException;
 use Navplan\Search\SearchServiceProcessor;
 use Navplan\Search\UseCase\ISearchConfig;
 use Navplan\Search\Rest\RestSearchByExtentQuery;

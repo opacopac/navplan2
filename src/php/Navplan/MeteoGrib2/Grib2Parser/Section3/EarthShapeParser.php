@@ -3,6 +3,7 @@
 namespace Navplan\MeteoGrib2\Grib2Parser\Section3;
 
 use Navplan\MeteoGrib2\Domain\Section3\EarthShape;
+use Navplan\MeteoGrib2\Grib2Parser\ScaledValue;
 
 
 class EarthShapeParser {
@@ -14,12 +15,9 @@ class EarthShapeParser {
 
         return new EarthShape(
             EarthShapeTypeParser::parse($byteArray["a"]),
-            $byteArray["b"],
-            $byteArray["c"],
-            $byteArray["d"],
-            $byteArray["e"],
-            $byteArray["f"],
-            $byteArray["g"]
+            ScaledValue::unscale($byteArray["b"], $byteArray["c"]),
+            ScaledValue::unscale($byteArray["d"], $byteArray["e"]),
+            ScaledValue::unscale($byteArray["f"], $byteArray["g"])
         );
     }
 }

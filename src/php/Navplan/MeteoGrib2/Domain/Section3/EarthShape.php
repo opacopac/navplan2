@@ -4,30 +4,45 @@ namespace Navplan\MeteoGrib2\Domain\Section3;
 
 
 class EarthShape {
-    public $shapeType;
-    public $sphericalRadiusScaleFactor;
-    public $sphericalRadiusScaleValue;
-    public $oblateSpheroidMajorAxisScaleFactor;
-    public $oblateSpheroidMajorAxisScaleValue;
-    public $oblateSpheroidMinorAxisScaleFactor;
-    public $oblateSpheroidMinorAxisScaleValue;
+    private $shapeType;
+    private $sphericalRadius;
+    private $oblateSpheroidMajorAxis;
+    private $oblateSpheroidMinorAxis;
+
+
+    // region GETTER
+
+    public function getShapeType(): EarthShapeType {
+        return $this->shapeType;
+    }
+
+
+    public function getSphericalRadius(): float {
+        return $this->sphericalRadius;
+    }
+
+
+    public function getOblateSpheroidMajorAxis(): float {
+        return $this->oblateSpheroidMajorAxis;
+    }
+
+
+    public function getOblateSpheroidMinorAxis(): float {
+        return $this->oblateSpheroidMinorAxis;
+    }
+
+    // endregion
 
 
     public function __construct(
         EarthShapeType $shapeType,
-        int $sphericalRadiusScaleFactor,
-        int $sphericalRadiusScaleValue,
-        int $oblateSpheroidMajorAxisScaleFactor,
-        int $oblateSpheroidMajorAxisScaleValue,
-        int $oblateSpheroidMinorAxisScaleFactor,
-        int $oblateSpheroidMinorAxisScaleValue
+        float $sphericalRadius,
+        float $oblateSpheroidMajorAxis,
+        float $oblateSpheroidMinorAxis
     ) {
         $this->shapeType = $shapeType;
-        $this->sphericalRadiusScaleFactor = $sphericalRadiusScaleFactor;
-        $this->sphericalRadiusScaleValue = $sphericalRadiusScaleValue;
-        $this->oblateSpheroidMajorAxisScaleFactor = $oblateSpheroidMajorAxisScaleFactor;
-        $this->oblateSpheroidMajorAxisScaleValue = $oblateSpheroidMajorAxisScaleValue;
-        $this->oblateSpheroidMinorAxisScaleFactor = $oblateSpheroidMinorAxisScaleFactor;
-        $this->oblateSpheroidMinorAxisScaleValue = $oblateSpheroidMinorAxisScaleValue;
+        $this->sphericalRadius = $sphericalRadius;
+        $this->oblateSpheroidMajorAxis = $oblateSpheroidMajorAxis;
+        $this->oblateSpheroidMinorAxis = $oblateSpheroidMinorAxis;
     }
 }

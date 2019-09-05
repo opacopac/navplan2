@@ -6,9 +6,8 @@ namespace Navplan\MeteoGrib2\Domain\Section3;
 // https://www.nco.ncep.noaa.gov/pmb/docs/grib2/grib2_doc/grib2_sect3.shtml
 class Section3 {
     private $source;
-    private $numDataPoints;
-    private $numBytesNumberPointsList;
-    private $numberPointsListInterpretation;
+    private $dataPointCount;
+    private $numberOfPoints;
     private $gridDefTemplate;
 
 
@@ -19,18 +18,13 @@ class Section3 {
     }
 
 
-    public function getNumDataPoints(): int {
-        return $this->numDataPoints;
+    public function getDataPointCount(): int {
+        return $this->dataPointCount;
     }
 
 
-    public function getNumBytesNumberPointsList(): int {
-        return $this->numBytesNumberPointsList;
-    }
-
-
-    public function getNumberPointsListInterpretation(): NumberOfPointsInterpretation {
-        return $this->numberPointsListInterpretation;
+    public function getNumberOfPoints(): NumberOfPoints {
+        return $this->numberOfPoints;
     }
 
 
@@ -43,15 +37,13 @@ class Section3 {
 
     public function __construct(
         GridDefinitionSource $source,
-        int $numDataPoints,
-        int $numBytesNumberPointsList,
-        NumberOfPointsInterpretation $numberPointsListInterpretation,
+        int $dataPointCount,
+        NumberOfPoints $numberOfPoints,
         IGridDefinitionTemplate $gridDefTemplate
     ) {
         $this->source = $source;
-        $this->numDataPoints = $numDataPoints;
-        $this->numBytesNumberPointsList = $numBytesNumberPointsList;
-        $this->numberPointsListInterpretation = $numberPointsListInterpretation;
+        $this->dataPointCount = $dataPointCount;
+        $this->numberOfPoints = $numberOfPoints;
         $this->gridDefTemplate = $gridDefTemplate;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace NavplanTest\Flightroute;
 
+use InvalidArgumentException;
 use Navplan\Flightroute\FlightrouteServiceProcessor;
 use Navplan\Flightroute\Rest\RestCreateFlightrouteRequest;
 use Navplan\Flightroute\Rest\RestCreateSharedFlightrouteRequest;

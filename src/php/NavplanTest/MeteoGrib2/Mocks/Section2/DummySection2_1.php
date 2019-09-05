@@ -9,4 +9,9 @@ class DummySection2_1 {
     public static function create(): Section2 {
         return new Section2();
     }
+
+
+    public static function createData(): string {
+        return '';
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace NavplanTest\OpenAip;
 
+use InvalidArgumentException;
 use Navplan\OpenAip\OpenAipServiceProcessor;
 use Navplan\OpenAip\Rest\RestSearchAreaItemsRequest;
 use Navplan\OpenAip\Rest\RestSearchPointItemsRequest;
