@@ -2,8 +2,8 @@
 
 namespace Navplan\MeteoGrib2\Grib2Parser\Section1;
 
-use DateTime;
 use Navplan\MeteoGrib2\Domain\Section1\ReferenceTime;
+use Navplan\MeteoGrib2\Grib2Parser\DateTimeParser;
 
 
 class ReferenceTimeParser {
@@ -18,14 +18,7 @@ class ReferenceTimeParser {
     ): ReferenceTime {
         return new ReferenceTime(
             ReferenceTimeSignificanceParser::parse($significanceValue),
-            new DateTime('@' . mktime(
-                $hourValue,
-                $minValue,
-                $secValue,
-                $monthValue,
-                $dayValue,
-                $yearValue
-            ))
+            DateTimeParser::parse($yearValue, $monthValue, $dayValue, $hourValue, $minValue, $secValue)
         );
     }
 }

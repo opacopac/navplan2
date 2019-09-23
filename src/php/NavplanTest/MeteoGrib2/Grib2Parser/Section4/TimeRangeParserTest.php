@@ -3,17 +3,17 @@
 namespace NavplanTest\MeteoGrib2\Grib2Parser\Section4;
 
 use DateInterval;
-use Navplan\MeteoGrib2\Grib2Parser\Section4\ForecastTimeParser;
+use Navplan\MeteoGrib2\Grib2Parser\Section4\TimeRangeParser;
 use PHPUnit\Framework\TestCase;
 
 
-class ForecastTimeParserTest extends TestCase {
+class TimeRangeParserTest extends TestCase {
     public function test_parse_12h() {
         $unit = 1;
         $value = 12;
         $expected = new DateInterval("PT12H");
 
-        $intervall = ForecastTimeParser::parse($unit, $value);
+        $intervall = TimeRangeParser::parse($unit, $value);
 
         $this->assertEquals($expected, $intervall);
     }
@@ -24,7 +24,7 @@ class ForecastTimeParserTest extends TestCase {
         $value = 1;
         $expected = new DateInterval("PT3H");
 
-        $intervall = ForecastTimeParser::parse($unit, $value);
+        $intervall = TimeRangeParser::parse($unit, $value);
 
         $this->assertEquals($expected, $intervall);
     }
@@ -35,7 +35,7 @@ class ForecastTimeParserTest extends TestCase {
         $value = 2;
         $expected = new DateInterval("P200Y");
 
-        $intervall = ForecastTimeParser::parse($unit, $value);
+        $intervall = TimeRangeParser::parse($unit, $value);
 
         $this->assertEquals($expected, $intervall);
     }
@@ -46,7 +46,7 @@ class ForecastTimeParserTest extends TestCase {
         $value = 0;
         $expected = NULL;
 
-        $intervall = ForecastTimeParser::parse($unit, $value);
+        $intervall = TimeRangeParser::parse($unit, $value);
 
         $this->assertEquals($expected, $intervall);
     }
@@ -58,6 +58,6 @@ class ForecastTimeParserTest extends TestCase {
         $expected = NULL;
 
         $this->expectException(\InvalidArgumentException::class);
-        ForecastTimeParser::parse($unit, $value);
+        TimeRangeParser::parse($unit, $value);
     }
 }

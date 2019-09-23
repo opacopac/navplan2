@@ -15,6 +15,6 @@ class DummySection6_1 {
 
 
     public static function createData(): string {
-        return pack("NCC",6,6, 255);
+        return pack("C",255);
     }
 }

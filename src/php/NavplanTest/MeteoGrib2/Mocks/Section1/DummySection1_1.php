@@ -20,7 +20,7 @@ class DummySection1_1 {
 
 
     public static function createData(): string {
-        return pack("NCnnCC", 21, 1, 215, 4, 2, 0)
+        return pack("nnCC", 215, 4, 2, 0)
             . DummyReferenceTime1::createData()
             . pack("CC",
                 DummyProductionStatus1::createValue(),

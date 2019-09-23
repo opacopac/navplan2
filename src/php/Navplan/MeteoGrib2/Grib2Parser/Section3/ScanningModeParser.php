@@ -9,7 +9,7 @@ class ScanningModeParser {
     public static function parse(int $value): ScanningMode {
         return new ScanningMode(
             ($value & 0b10000000) === 0,
-            ($value & 0b01000000) !== 0,
+            ($value & 0b01000000) === 0,
             ($value & 0b00100000) === 0,
             ($value & 0b00010000) === 0,
             ($value & 0b00001000) !== 0,

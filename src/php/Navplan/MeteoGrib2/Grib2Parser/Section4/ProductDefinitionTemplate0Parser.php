@@ -2,10 +2,10 @@
 
 namespace Navplan\MeteoGrib2\Grib2Parser\Section4;
 
-use DateInterval;
 use Navplan\MeteoGrib2\Domain\Section4\GeneratingProcess;
 use Navplan\MeteoGrib2\Domain\Section4\Parameter;
 use Navplan\MeteoGrib2\Domain\Section4\ProductDefinitionTemplate0;
+use Navplan\MeteoGrib2\Grib2Parser\HoursMinutesParser;
 
 
 class ProductDefinitionTemplate0Parser {
@@ -15,8 +15,8 @@ class ProductDefinitionTemplate0Parser {
         return new ProductDefinitionTemplate0(
             new Parameter($byteArray["a"], $byteArray["b"]),
             new GeneratingProcess($byteArray["c"], $byteArray["d"], $byteArray["e"]),
-            new DateInterval("PT" . $byteArray["f"] . "H" . $byteArray["g"] . "M"),
-            ForecastTimeParser::parse($byteArray["h"], $byteArray["i"]),
+            HoursMinutesParser::parse($byteArray["f"], $byteArray["g"]),
+            TimeRangeParser::parse($byteArray["h"], $byteArray["i"]),
             FixedSurfaceParser::parse($byteArray["j"], $byteArray["k"], $byteArray["l"]),
             FixedSurfaceParser::parse($byteArray["m"], $byteArray["n"], $byteArray["o"])
         );

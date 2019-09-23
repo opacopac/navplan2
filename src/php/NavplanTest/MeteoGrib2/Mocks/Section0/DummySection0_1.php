@@ -15,6 +15,6 @@ class DummySection0_1 {
 
 
     public static function createData(): string {
-        return pack("a4nCCJ","GRIB",0, DummyDiscipline1::createValue(), 2, 16);
+        return pack("nCCJ",0, DummyDiscipline1::createValue(), 2, 16);
     }
 }

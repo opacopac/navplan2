@@ -2,7 +2,7 @@
 
 namespace Navplan\MeteoGrib2\Domain\Section3;
 
-https://www.nco.ncep.noaa.gov/pmb/docs/grib2/grib2_doc/grib2_table3-4.shtml
+// https://www.nco.ncep.noaa.gov/pmb/docs/grib2/grib2_doc/grib2_table3-4.shtml
 class ScanningMode {
     private $iScanDirectionWtoE;
     private $jScanDirectionNtoS;

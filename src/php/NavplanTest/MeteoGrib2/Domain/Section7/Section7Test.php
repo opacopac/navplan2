@@ -10,6 +10,6 @@ class Section7Test extends TestCase {
     public function test_create_instance() {
         $section = DummySection7_1::create();
 
-        $this->assertEquals(["A", "B", "C", "D", "E"], $section->getValues());
+        $this->assertEquals([(53400.0 + 0b10110100101) / 10, (53400 + 0b10110100101) / 10], $section->getValues());
     }
 }

@@ -15,7 +15,7 @@ class DummySection4_1 {
 
 
     public static function createData(): string {
-        return pack("NCnn",34,4, 0, 0)
+        return pack("nn",0, 0)
             . DummyProductDefinitionTemplate0_1::createData();
     }
 }

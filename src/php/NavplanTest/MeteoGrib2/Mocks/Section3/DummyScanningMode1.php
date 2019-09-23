@@ -7,7 +7,7 @@ use Navplan\MeteoGrib2\Domain\Section3\ScanningMode;
 
 class DummyScanningMode1 {
     public static function create(): ScanningMode {
-        return new ScanningMode(true, true, true, true, false, false, false, true);
+        return new ScanningMode(true, false, true, true, false, false, false, true);
     }
 
 

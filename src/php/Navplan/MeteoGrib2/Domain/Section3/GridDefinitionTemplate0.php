@@ -18,9 +18,68 @@ class GridDefinitionTemplate0 implements IGridDefinitionTemplate {
     private $scanningMode;
 
 
+    // region GETTER
+
     public function getTemplateNumber(): int {
         return 0;
     }
+
+
+    public function getShapeOfEarth(): EarthShape {
+        return $this->shapeOfEarth;
+    }
+
+
+    public function getNumPointsParallel(): int {
+        return $this->numPointsParallel;
+    }
+
+
+    public function getNumPointsMeridian(): int {
+        return $this->numPointsMeridian;
+    }
+
+
+    public function getBasicAngle(): int {
+        return $this->basicAngle;
+    }
+
+
+    public function getBasicAngleSubdivisions(): int {
+        return $this->basicAngleSubdivisions;
+    }
+
+
+    public function getFirstGridPoint(): LatLon {
+        return $this->firstGridPoint;
+    }
+
+
+    public function getResolutionComponentsFlags(): ResolutionAndComponentFlags {
+        return $this->resolutionComponentsFlags;
+    }
+
+
+    public function getLastGridPoint(): LatLon {
+        return $this->lastGridPoint;
+    }
+
+
+    public function getIDirectionInc(): float {
+        return $this->iDirectionInc;
+    }
+
+
+    public function getJDirectionInc(): float {
+        return $this->jDirectionInc;
+    }
+
+
+    public function getScanningMode(): ScanningMode {
+        return $this->scanningMode;
+    }
+
+    // endregion
 
 
     public function __construct(
@@ -32,8 +91,8 @@ class GridDefinitionTemplate0 implements IGridDefinitionTemplate {
         LatLon $firstGridPoint,
         ResolutionAndComponentFlags $resolutionComponentsFlags,
         LatLon $lastGridPoint,
-        int $iDirectionInc,
-        int $jDirectionInc,
+        float $iDirectionInc,
+        float $jDirectionInc,
         ScanningMode $scanningMode
     ) {
         $this->shapeOfEarth = $shapeOfEarth;
@@ -44,8 +103,8 @@ class GridDefinitionTemplate0 implements IGridDefinitionTemplate {
         $this->firstGridPoint = $firstGridPoint;
         $this->resolutionComponentsFlags = $resolutionComponentsFlags;
         $this->lastGridPoint = $lastGridPoint;
-        $this->iDirectionInc = $iDirectionInc;
-        $this->jDirectionInc = $jDirectionInc;
+        $this->iDirectionInc = $iDirectionInc / 1000000;
+        $this->jDirectionInc = $jDirectionInc / 1000000;
         $this->scanningMode = $scanningMode;
     }
 }

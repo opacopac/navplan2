@@ -3,28 +3,30 @@
 namespace Navplan\MeteoGrib2\Grib2Parser\Section7;
 
 use Navplan\MeteoGrib2\Domain\Section5\DataRepresentationTemplate0;
-use Navplan\MeteoGrib2\Grib2Parser\PackedValue;
+use Navplan\MeteoGrib2\Grib2Parser\ValueUnpacker;
 
 
 class SimplePackingParser {
     public static function parse(DataRepresentationTemplate0 $template, string $data): array {
-        $bp = new BitwiseParser($data);
-        $bitSize = $template->getBitsUsed();
-        $valueList = [];
+        if ($data === "") {
+            return [];
+        }
 
-        do {
-            $packedValue = $bp->readValue($bitSize);
-            if ($packedValue !== NULL) {
-                $valueList[] = PackedValue::unpack(
-                    $template->getReferenceValue(),
-                    $packedValue,
-                    $template->getBinaryScaleFactor(),
-                    $template->getDecimalScaleFactor(),
-                    $template->getFieldType()
-                );
-            }
-        } while ($packedValue !== NULL);
+        $bitCount = $template->getBitsUsed();
+        $values = BinaryParser::parse($bitCount, $data);
 
-        return $valueList;
+        $valueUnpacker = new ValueUnpacker(
+            $template->getReferenceValue(),
+            $template->getBinaryScaleFactor(),
+            $template->getDecimalScaleFactor(),
+            $template->getFieldType()
+        );
+
+        return array_map(
+            function($packedValue) use ($valueUnpacker) {
+                return $valueUnpacker->unpack($packedValue);
+            },
+            $values
+        );
     }
 }

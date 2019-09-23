@@ -6,7 +6,7 @@ use DateInterval;
 use InvalidArgumentException;
 
 // https://www.nco.ncep.noaa.gov/pmb/docs/grib2/grib2_doc/grib2_table4-4.shtml
-class ForecastTimeParser {
+class TimeRangeParser {
     public static function parse(int $unit, int $value): ?DateInterval {
         $dateTimeSpec = self::getSpec($unit, $value);
         if ($dateTimeSpec != NULL) {

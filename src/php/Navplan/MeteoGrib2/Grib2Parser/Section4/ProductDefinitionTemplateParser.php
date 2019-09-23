@@ -12,6 +12,9 @@ class ProductDefinitionTemplateParser {
             case 0:
                 return ProductDefinitionTemplate0Parser::parse($templateData);
                 break;
+            case 8:
+                return ProductDefinitionTemplate8Parser::parse($templateData);
+                break;
             case 65535:
                 return NULL;
             default:

@@ -7,7 +7,7 @@ use Navplan\MeteoGrib2\Domain\Section2\Section2;
 
 class DummySection2_1 {
     public static function create(): Section2 {
-        return new Section2();
+        return new Section2('');
     }
 
 

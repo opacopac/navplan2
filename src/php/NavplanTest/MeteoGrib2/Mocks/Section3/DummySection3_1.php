@@ -17,7 +17,7 @@ class DummySection3_1 {
 
 
     public static function createData(): string {
-        return pack("NCCNCCn",65,3,
+        return pack("CNCCn",
                 DummyGridDefinitionSource1::createValue(),
                 25,
                 0, DummyNumberOfPointsInterpretation1::createValue(),

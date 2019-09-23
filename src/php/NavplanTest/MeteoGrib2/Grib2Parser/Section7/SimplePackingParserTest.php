@@ -43,6 +43,23 @@ class SimplePackingParserTest extends TestCase {
     }
 
 
+    public function test_parse_3x1_byte() {
+        $template = new DataRepresentationTemplate0(
+            0.0,
+            0,
+            0,
+            8,
+            new FieldType(FieldType::FLOAT)
+        );
+        $data = pack("CCC", 1, 2, 3);
+        $expected = [1.0, 2.0, 3.0];
+
+        $values = SimplePackingParser::parse($template, $data);
+
+        $this->assertEquals($expected, $values);
+    }
+
+
     public function test_parse_3x5_bit() {
         $template = new DataRepresentationTemplate0(
             0.0,
@@ -53,6 +70,23 @@ class SimplePackingParserTest extends TestCase {
         );
         $data = pack("n", 0b1011010011100000);
         $expected = [22.0, 19.0, 16.0];
+
+        $values = SimplePackingParser::parse($template, $data);
+
+        $this->assertEquals($expected, $values);
+    }
+
+
+    public function test_parse_empty_data() {
+        $template = new DataRepresentationTemplate0(
+            0.0,
+            0,
+            0,
+            8,
+            new FieldType(FieldType::FLOAT)
+        );
+        $data = "";
+        $expected = [];
 
         $values = SimplePackingParser::parse($template, $data);
 

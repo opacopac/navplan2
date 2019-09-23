@@ -31,14 +31,14 @@ class ScanningModeParserTest extends TestCase {
 
 
     public function test_jScanDirection() {
-        $valTrue = 0b01000000;
-        $valFalse = 0b00000000;
+        $valFalse = 0b01000000;
+        $valTrue = 0b00000000;
 
-        $resultTrue = ScanningModeParser::parse($valTrue);
-        $resultFale = ScanningModeParser::parse($valFalse);
+        $resultTrue = ScanningModeParser::parse($valFalse);
+        $resultFale = ScanningModeParser::parse($valTrue);
 
-        $this->assertEquals(true, $resultTrue->isJScanDirectionNtoS());
-        $this->assertEquals(false, $resultFale->isJScanDirectionNtoS());
+        $this->assertEquals(false, $resultTrue->isJScanDirectionNtoS());
+        $this->assertEquals(true, $resultFale->isJScanDirectionNtoS());
     }
 
 
