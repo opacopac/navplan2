@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\Traffic\Domain;
+namespace NavplanTest\Traffic\OgnRepo;
 
 use Navplan\Geometry\Domain\Extent;
 use Navplan\Traffic\OgnRepo\OgnRepo;
@@ -13,7 +13,7 @@ use NavplanTest\Traffic\Mocks\DummyOgnDumpFile12345;
 use PHPUnit\Framework\TestCase;
 
 
-class OgnGatewayTest extends TestCase {
+class OgnRepoTest extends TestCase {
     /* @var $fileService MockFileService */
     private $fileService;
     /* @var $procService MockProcService */

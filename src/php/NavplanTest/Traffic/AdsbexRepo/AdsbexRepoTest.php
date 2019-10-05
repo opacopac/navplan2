@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\Traffic\Domain;
+namespace NavplanTest\Traffic\AdsbexRepo;
 
 use Navplan\Geometry\Domain\Length;
 use Navplan\Geometry\Domain\LengthUnit;
@@ -14,7 +14,7 @@ use NavplanTest\Traffic\Mocks\DummyAdsbexResponse123;
 use PHPUnit\Framework\TestCase;
 
 
-class AdsbexGatewayTest extends TestCase {
+class AdsbexRepoTest extends TestCase {
     /* @var $fileService MockFileService */
     private $fileService;
     /* @var $adsbGateway AdsbexRepo */

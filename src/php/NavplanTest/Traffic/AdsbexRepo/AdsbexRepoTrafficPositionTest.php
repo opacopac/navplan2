@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\Traffic\Domain;
+namespace NavplanTest\Traffic\AdsbexRepo;
 
 use Navplan\Traffic\AdsbexRepo\AdsbexRepoTrafficPosition;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTrafficPosition1;
@@ -10,7 +10,7 @@ use NavplanTest\Traffic\Mocks\DummyAdsbexResponse123;
 use PHPUnit\Framework\TestCase;
 
 
-class AdsbexTrafficPositionTest extends TestCase {
+class AdsbexRepoTrafficPositionTest extends TestCase {
     public function test_fromResponse() {
         $pos1 = AdsbexRepoTrafficPosition::fromResponse(json_decode(DummyAdsbexResponse123::createAdsbexResponse(), true), 0);
         $pos2 = AdsbexRepoTrafficPosition::fromResponse(json_decode(DummyAdsbexResponse123::createAdsbexResponse(), true), 1);

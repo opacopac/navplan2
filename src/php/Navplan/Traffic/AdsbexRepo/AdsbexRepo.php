@@ -50,8 +50,10 @@ class AdsbexRepo implements IAdsbexRepo {
 
         $trafficList = [];
 
-        for ($i = 0 ; $i < count($responseJson["ac"]); $i++) {
-            $trafficList[] = AdsbexRepoTraffic::fromResponse($responseJson, $i);
+        if (isset($responseJson["ac"])) {
+            for ($i = 0; $i < count($responseJson["ac"]); $i++) {
+                $trafficList[] = AdsbexRepoTraffic::fromResponse($responseJson, $i);
+            }
         }
 
         return $trafficList;

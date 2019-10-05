@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\Traffic\Domain;
+namespace NavplanTest\Traffic\OgnRepo;
 
 use Navplan\Traffic\OgnRepo\OgnRepoTrafficPosition;
 use NavplanTest\System\Mock\MockSystemServiceFactory;
@@ -14,7 +14,7 @@ use NavplanTest\Traffic\Mocks\DummyOgnTrafficPosition5;
 use PHPUnit\Framework\TestCase;
 
 
-class OgnTrafficPositionTest extends TestCase {
+class OgnRepoTrafficPositionTest extends TestCase {
     /* @var $timeService MockTimeService */
     private $timeService;
 

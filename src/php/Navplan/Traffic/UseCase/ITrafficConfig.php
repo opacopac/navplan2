@@ -13,5 +13,5 @@ interface ITrafficConfig extends ISystemConfig {
 
     public function getOgnGateway(): IOgnRepo;
 
-    public function getTrafficRepo(): ITrafficDetailRepo;
+    public function getTrafficDetailRepo(): ITrafficDetailRepo;
 }

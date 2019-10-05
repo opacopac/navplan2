@@ -7,6 +7,7 @@ use Navplan\Traffic\TrafficServiceProcessor;
 use NavplanTest\MockNavplanConfig;
 use NavplanTest\System\Mock\MockHttpService;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTraffic1;
+use NavplanTest\Traffic\Mocks\DummyAdsbexTrafficWithDetails1;
 use NavplanTest\Traffic\Mocks\DummyBasestationTrafficDetail1;
 use NavplanTest\Traffic\Mocks\DummyIcaoAcTypeTrafficDetail1;
 use NavplanTest\Traffic\Mocks\DummyLfrchTrafficDetail1;
@@ -34,7 +35,7 @@ class TrafficServiceProcessorTest extends TestCase {
         $this->config = new MockNavplanConfig();
         $this->ognGateway = $this->config->getOgnGateway();
         $this->adsbexGateway = $this->config->getAdsbexGateway();
-        $this->trafficRepo = $this->config->getTrafficRepo();
+        $this->trafficRepo = $this->config->getTrafficDetailRepo();
         $this->httpService = $this->config->getSystemServiceFactory()->getHttpService();
     }
 
@@ -71,6 +72,26 @@ class TrafficServiceProcessorTest extends TestCase {
         $this->assertNotNull($this->httpService->body);
         $this->assertRegExp('/aclist/', $this->httpService->body);
         $this->assertRegExp('/' . DummyAdsbexTraffic1::create()->address->value . '/', $this->httpService->body);
+    }
+
+
+    public function test_processRequest_read_adsbex_traffic_with_detail() {
+        $reqMeth = TrafficServiceProcessor::REQUEST_METHOD_GET;
+        $getVars = array(
+            "action" => TrafficServiceProcessor::ACTION_READ_ADSBEX_TRAFFIC_WITH_DETAILS,
+            "minlon" => 7.0, "minlat" => 47.0, "maxlon" => 7.9, "maxlat" => 47.9,
+            "maxagesec" => 120, "sessionid" => 123
+        );
+        $this->adsbexGateway->readTrafficResult = [ DummyAdsbexTraffic1::create() ];
+        $this->trafficRepo->readDetailsFromLfrChResult = [];
+        $this->trafficRepo->readDetailsFromBasestationResult = [];
+        $this->trafficRepo->readDetailsFromIcaoAcTypesResult = [ DummyIcaoAcTypeTrafficDetail1::create() ];
+
+        TrafficServiceProcessor::processRequest($reqMeth, $getVars, NULL, $this->config);
+
+        $this->assertNotNull($this->httpService->body);
+        $this->assertRegExp('/aclist/', $this->httpService->body);
+        $this->assertRegExp('/' . DummyAdsbexTrafficWithDetails1::create()->adsbTraffic->address->value . '/', $this->httpService->body);
     }
 
 

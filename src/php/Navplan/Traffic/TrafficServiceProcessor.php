@@ -3,6 +3,7 @@
 namespace Navplan\Traffic;
 
 use InvalidArgumentException;
+use Navplan\Traffic\Rest\RestTrafficAdsbexWithDetailsListResponse;
 use Navplan\Traffic\Rest\RestTrafficDetailReadRequest;
 use Navplan\Traffic\Rest\RestTrafficOgnReadRequest;
 use Navplan\Traffic\Rest\RestTrafficAdsbexReadRequest;
@@ -11,6 +12,7 @@ use Navplan\Traffic\Rest\RestTrafficAdsbexListResponse;
 use Navplan\Traffic\Rest\RestTrafficOgnListResponse;
 use Navplan\Traffic\UseCase\ITrafficConfig;
 use Navplan\Traffic\UseCase\ReadAdsbexTraffic;
+use Navplan\Traffic\UseCase\ReadAdsbexTrafficWithDetails;
 use Navplan\Traffic\UseCase\ReadOgnTraffic;
 use Navplan\Traffic\UseCase\ReadTrafficDetails;
 
@@ -20,6 +22,7 @@ class TrafficServiceProcessor {
     public const REQUEST_METHOD_POST = "POST";
     public const ACTION_READ_OGN_TRAFFIC = "readogntraffic";
     public const ACTION_READ_ADSBEX_TRAFFIC = "readadsbextraffic";
+    public const ACTION_READ_ADSBEX_TRAFFIC_WITH_DETAILS = "readadsbextrafficwithdetails";
     public const ACTION_READ_AC_DETAILS = "readtrafficdetails";
 
 
@@ -38,6 +41,11 @@ class TrafficServiceProcessor {
                         $request = RestTrafficAdsbexReadRequest::fromArgs($getVars);
                         $response = (new ReadAdsbexTraffic($config))->read($request);
                         $httpService->sendArrayResponse(RestTrafficAdsbexListResponse::toRest($response));
+                        break;
+                    case self::ACTION_READ_ADSBEX_TRAFFIC_WITH_DETAILS:
+                        $request = RestTrafficAdsbexReadRequest::fromArgs($getVars);
+                        $response = (new ReadAdsbexTrafficWithDetails($config))->read($request);
+                        $httpService->sendArrayResponse(RestTrafficAdsbexWithDetailsListResponse::toRest($response));
                         break;
                     default:
                         throw new InvalidArgumentException("no or invalid get-action defined!");

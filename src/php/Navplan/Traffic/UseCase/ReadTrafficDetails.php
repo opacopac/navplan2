@@ -12,7 +12,7 @@ class ReadTrafficDetails {
 
 
     public function __construct(ITrafficConfig $config) {
-        $this->trafficRepo = $config->getTrafficRepo();
+        $this->trafficRepo = $config->getTrafficDetailRepo();
     }
 
 

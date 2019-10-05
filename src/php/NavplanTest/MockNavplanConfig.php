@@ -132,7 +132,7 @@ class MockNavplanConfig implements ISystemConfig, IDbConfig, ITerrainConfig, IUs
     }
 
 
-    public function getTrafficRepo(): ITrafficDetailRepo {
+    public function getTrafficDetailRepo(): ITrafficDetailRepo {
         return $this->trafficRepo;
     }
 

@@ -28,7 +28,7 @@ class TrafficDetailsTest extends TestCase {
 
     protected function setUp(): void {
         $config = new MockNavplanConfig();
-        $this->trafficRepo = $config->getTrafficRepo();
+        $this->trafficRepo = $config->getTrafficDetailRepo();
         $this->readTrafficDetails = new ReadTrafficDetails($config);
     }
 

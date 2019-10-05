@@ -47,4 +47,16 @@ class ReadAdsbexTrafficTest extends TestCase {
         $this->assertEquals(47.25, $this->adsbexGateway->readTrafficArgs[0]->latitude);
         $this->assertEquals(round(168610.37301284972), round($this->adsbexGateway->readTrafficArgs[1]->getValue(LengthUnit::M)));
     }
+
+
+    public function test_read_empty_list() {
+        $extent = Extent::createFromCoords(6.0, 46.0, 8.5, 48.5);
+        $request = new TrafficAdsbexReadRequest($extent);
+        $this->adsbexGateway->readTrafficResult = [];
+
+        $trafficList = $this->readAdsbexTraffic->read($request);
+
+        $this->assertNotNull($trafficList);
+        $this->assertEquals(0, count($trafficList));
+    }
 }

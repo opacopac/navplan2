@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\Traffic\DbRepo;
+namespace NavplanTest\Traffic\TrafficDetailRepo;
 
 use Navplan\Traffic\TrafficDetailRepo\DbTrafficDetailRepo;
 use NavplanTest\Db\Mock\MockDbService;
