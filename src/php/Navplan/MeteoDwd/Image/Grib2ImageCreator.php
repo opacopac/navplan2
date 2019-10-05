@@ -15,7 +15,15 @@ class Grib2ImageCreator {
         if ($gridDefinitionTemplate instanceof GridDefinitionTemplate0) {
             $numColumns = $gridDefinitionTemplate->getNumPointsParallel();
             $numRows = $gridDefinitionTemplate->getNumPointsMeridian();
-            $im = RectangularPngCreator::create($numColumns, $numRows, 0, 100, $values);
+            // TODO
+            $minValue = 0;
+            // $maxValue = 100;
+            $maxValue = array_reduce(
+                $values,
+                function ($max, $value) { return max($max, $value); },
+                0
+            );
+            $im = RectangularPngCreator::create($numColumns, $numRows, $minValue, $maxValue, $values);
 
             $scanningMode = $gridDefinitionTemplate->getScanningMode();
 

@@ -4,7 +4,7 @@ namespace Navplan\MeteoGrib2\Domain\Section6;
 
 
 // https://www.nco.ncep.noaa.gov/pmb/docs/grib2/grib2_doc/grib2_sect6.shtml
-class Section6 {
+class BitmapSection {
     private $bitMapIndicator;
     private $bitMap;
 
@@ -15,7 +15,7 @@ class Section6 {
         return $this->bitMapIndicator;
     }
 
-    public function getBitMap(): ?string {
+    public function getBitMap(): ?array {
         return $this->bitMap;
     }
 
@@ -24,7 +24,7 @@ class Section6 {
 
     public function __construct(
         int $bitMapIndicator,
-        ?string $bitMap
+        ?array $bitMap
     ) {
         $this->bitMapIndicator = $bitMapIndicator;
         $this->bitMap = $bitMap;

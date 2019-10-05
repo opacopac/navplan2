@@ -2,12 +2,12 @@
 
 namespace NavplanTest\MeteoGrib2\Mocks\Section4;
 
-use Navplan\MeteoGrib2\Domain\Section4\Section4;
+use Navplan\MeteoGrib2\Domain\Section4\ProductDefinitionSection;
 
 
 class DummySection4_1 {
-    public static function create(): Section4 {
-        return new Section4(
+    public static function create(): ProductDefinitionSection {
+        return new ProductDefinitionSection(
             DummyProductDefinitionTemplate0_1::create(),
             []
         );

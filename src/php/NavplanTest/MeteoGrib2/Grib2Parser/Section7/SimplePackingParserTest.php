@@ -20,7 +20,7 @@ class SimplePackingParserTest extends TestCase {
         $data = pack("n", 0b1011010011100000);
         $expected = [(53400 + 0b10110100111) / 10];
 
-        $values = SimplePackingParser::parse($template, $data);
+        $values = SimplePackingParser::parse($template, $data, 1, NULL);
 
         $this->assertEquals($expected, $values);
     }
@@ -37,7 +37,7 @@ class SimplePackingParserTest extends TestCase {
         $data = pack("C", 0b10110100);
         $expected = [1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0];
 
-        $values = SimplePackingParser::parse($template, $data);
+        $values = SimplePackingParser::parse($template, $data, 8, NULL);
 
         $this->assertEquals($expected, $values);
     }
@@ -54,7 +54,7 @@ class SimplePackingParserTest extends TestCase {
         $data = pack("CCC", 1, 2, 3);
         $expected = [1.0, 2.0, 3.0];
 
-        $values = SimplePackingParser::parse($template, $data);
+        $values = SimplePackingParser::parse($template, $data, 3, NULL);
 
         $this->assertEquals($expected, $values);
     }
@@ -71,7 +71,7 @@ class SimplePackingParserTest extends TestCase {
         $data = pack("n", 0b1011010011100000);
         $expected = [22.0, 19.0, 16.0];
 
-        $values = SimplePackingParser::parse($template, $data);
+        $values = SimplePackingParser::parse($template, $data, 3, NULL);
 
         $this->assertEquals($expected, $values);
     }
@@ -88,7 +88,7 @@ class SimplePackingParserTest extends TestCase {
         $data = "";
         $expected = [];
 
-        $values = SimplePackingParser::parse($template, $data);
+        $values = SimplePackingParser::parse($template, $data, 0, NULL);
 
         $this->assertEquals($expected, $values);
     }

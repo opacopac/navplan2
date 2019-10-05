@@ -4,7 +4,7 @@ namespace Navplan\MeteoGrib2\Domain\Section0;
 
 
 // https://www.nco.ncep.noaa.gov/pmb/docs/grib2/grib2_doc/grib2_sect0.shtml
-class Section0 {
+class IndicatorSection {
     private $discipline;
     private $gribEdition;
 

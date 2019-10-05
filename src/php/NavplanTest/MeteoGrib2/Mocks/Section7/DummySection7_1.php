@@ -2,12 +2,12 @@
 
 namespace NavplanTest\MeteoGrib2\Mocks\Section7;
 
-use Navplan\MeteoGrib2\Domain\Section7\Section7;
+use Navplan\MeteoGrib2\Domain\Section7\DataSection;
 
 
 class DummySection7_1 {
-    public static function create(): Section7 {
-        return new Section7(
+    public static function create(): DataSection {
+        return new DataSection(
             [(53400.0 + 0b10110100101) / 10, (53400 + 0b10110100101) / 10]
         );
     }

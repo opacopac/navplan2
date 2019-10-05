@@ -4,7 +4,7 @@ namespace Navplan\MeteoGrib2\Domain\Section5;
 
 
 // https://www.nco.ncep.noaa.gov/pmb/docs/grib2/grib2_doc/grib2_sect5.shtml
-class Section5 {
+class DataRepresentationSection {
     private $dataPointCount;
     private $dataRepresentationTemplate;
 

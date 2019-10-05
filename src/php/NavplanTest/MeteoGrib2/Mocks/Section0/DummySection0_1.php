@@ -2,12 +2,12 @@
 
 namespace NavplanTest\MeteoGrib2\Mocks\Section0;
 
-use Navplan\MeteoGrib2\Domain\Section0\Section0;
+use Navplan\MeteoGrib2\Domain\Section0\IndicatorSection;
 
 
 class DummySection0_1 {
-    public static function create(): Section0 {
-        return new Section0(
+    public static function create(): IndicatorSection {
+        return new IndicatorSection(
             DummyDiscipline1::create(),
             2
         );

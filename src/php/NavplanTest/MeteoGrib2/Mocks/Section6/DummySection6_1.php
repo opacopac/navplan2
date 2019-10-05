@@ -2,12 +2,12 @@
 
 namespace NavplanTest\MeteoGrib2\Mocks\Section6;
 
-use Navplan\MeteoGrib2\Domain\Section6\Section6;
+use Navplan\MeteoGrib2\Domain\Section6\BitmapSection;
 
 
 class DummySection6_1 {
-    public static function create(): Section6 {
-        return new Section6(
+    public static function create(): BitmapSection {
+        return new BitmapSection(
             255,
             NULL
         );

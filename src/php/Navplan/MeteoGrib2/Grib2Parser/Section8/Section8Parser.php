@@ -2,7 +2,7 @@
 
 namespace Navplan\MeteoGrib2\Grib2Parser\Section8;
 
-use Navplan\MeteoGrib2\Domain\Section8\Section8;
+use Navplan\MeteoGrib2\Domain\Section8\EndSection;
 
 
 class Section8Parser {
@@ -10,7 +10,7 @@ class Section8Parser {
     public const LENGTH_BYTES = 4;
 
 
-    public static function parse(): Section8 {
-        return new Section8();
+    public static function parse(): EndSection {
+        return new EndSection();
     }
 }

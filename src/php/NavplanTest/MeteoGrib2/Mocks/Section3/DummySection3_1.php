@@ -2,12 +2,12 @@
 
 namespace NavplanTest\MeteoGrib2\Mocks\Section3;
 
-use Navplan\MeteoGrib2\Domain\Section3\Section3;
+use Navplan\MeteoGrib2\Domain\Section3\GridDefinitionSection;
 
 
 class DummySection3_1 {
-    public static function create(): Section3 {
-        return new Section3(
+    public static function create(): GridDefinitionSection {
+        return new GridDefinitionSection(
             DummyGridDefinitionSource1::create(),
             25,
             DummyNumberOfPoints1::create(),

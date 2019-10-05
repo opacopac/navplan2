@@ -20,15 +20,15 @@ use NavplanTest\MeteoGrib2\Mocks\Section8\DummySection8_1;
 class DummyGrib2Message1 {
     public static function create(): Grib2Message {
         $message = new Grib2Message();
-        $message->addSection0(DummySection0_1::create());
-        $message->addSection1(DummySection1_1::create());
-        $message->addSection2(DummySection2_1::create());
-        $message->addSection3(DummySection3_1::create());
-        $message->addSection4(DummySection4_1::create());
-        $message->addSection5(DummySection5_1::create());
-        $message->addSection6(DummySection6_1::create());
-        $message->addSection7(DummySection7_1::create());
-        $message->addSection8(DummySection8_1::create());
+        $message->addIndicatorSection(DummySection0_1::create());
+        $message->addIdentificationSection(DummySection1_1::create());
+        $message->addLocalUseSection(DummySection2_1::create());
+        $message->addGridDefinitionSection(DummySection3_1::create());
+        $message->addProductDefinitionSection(DummySection4_1::create());
+        $message->addDataRepresentationSection(DummySection5_1::create());
+        $message->addBitmapSection(DummySection6_1::create());
+        $message->addDataSection(DummySection7_1::create());
+        $message->addEndSection(DummySection8_1::create());
 
         return $message;
     }

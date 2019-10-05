@@ -14,7 +14,7 @@ class Section7ParserTest extends TestCase {
         $expected = DummySection7_1::create();
         $template = DummyDataRepresentationTemplate0_1::create();
 
-        $template = Section7Parser::parse($data, $template);
+        $template = Section7Parser::parse($template, $data, 2,NULL);
 
         $this->assertEquals($expected, $template);
     }

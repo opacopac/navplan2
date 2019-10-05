@@ -2,16 +2,17 @@
 
 namespace Navplan\MeteoGrib2\Grib2Parser\Section6;
 
-use Navplan\MeteoGrib2\Domain\Section6\Section6;
+use Navplan\MeteoGrib2\Domain\Section6\BitmapSection;
 
 
 class Section6Parser {
-    public static function parse(string $data): Section6 {
-        $byteArray = unpack("C1b/a*c", $data);
+    public static function parse(string $data): BitmapSection {
+        $byteArray = unpack("C1b", $data);
+        $bitMapValues = array_values(unpack("C*c", $data, 1));
 
-        return new Section6(
+        return new BitmapSection(
             $byteArray["b"],
-            $byteArray["c"]
+            ($bitMapValues && count($bitMapValues) > 0) ? $bitMapValues : NULL
         );
     }
 }

@@ -22,7 +22,7 @@ class RectangularPngCreator {
 
     private static function createImage(int $numColumns, int $numRows): Imagick {
         $im = new Imagick();
-        $im->newImage($numColumns, $numRows, new ImagickPixel('transparent'));
+        $im->newImage($numColumns, $numRows, new ImagickPixel('black'));
         $im->setImageFormat("png");
 
         return $im;
@@ -30,24 +30,13 @@ class RectangularPngCreator {
 
 
     private static function drawPixels(Imagick $im, float $minValue, float $maxValue, array $values): void {
-        $imIterator = $im->getPixelIterator();
+        $pixelValues = array_map(
+            function ($value) use ($minValue, $maxValue) {
+                return ($value - $minValue) / ($maxValue - $minValue) * 255;
+            },
+            $values
+        );
 
-        $i = 0;
-        while ($pixelRow = $imIterator->getNextIteratorRow()) {
-            foreach ($pixelRow as $colNum => $pixel) {
-                $color = self::getPixelValue($values[$i], $minValue, $maxValue);
-                $pixel->setColor("rgba(" . $color . "," . $color . "," . $color . ", 1.0)");
-                // $alpha = round($values[$i] / 100.0, 1);
-                //$pixel->setColor("rgba(255, 0, 0, " . $alpha . ")");
-                $i++;
-            }
-
-            $imIterator->syncIterator();
-        }
-    }
-
-
-    private static function getPixelValue(float $value, float $minValue, float $maxValue): int {
-        return intval(($value - $minValue) / ($maxValue - $minValue) * 255);
+        $im->importImagePixels(0, 0, $im->getImageWidth(), $im->getImageHeight(), "I", Imagick::PIXEL_CHAR, $pixelValues);
     }
 }

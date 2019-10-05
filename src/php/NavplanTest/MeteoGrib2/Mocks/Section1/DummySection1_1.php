@@ -3,13 +3,13 @@
 namespace NavplanTest\MeteoGrib2\Mocks\Section1;
 
 use Navplan\MeteoGrib2\Domain\Section1\Origin;
-use Navplan\MeteoGrib2\Domain\Section1\Section1;
+use Navplan\MeteoGrib2\Domain\Section1\IdentificationSection;
 use Navplan\MeteoGrib2\Domain\Section1\TableVersion;
 
 
 class DummySection1_1 {
-    public static function create(): Section1 {
-        return new Section1(
+    public static function create(): IdentificationSection {
+        return new IdentificationSection(
             new Origin(215, 4),
             new TableVersion(2, 0),
             DummyReferenceTime1::create(),
