@@ -7,15 +7,22 @@ use Navplan\MeteoSma\UseCase\IMeteoRepo;
 
 
 class MockMeteoRepo implements IMeteoRepo {
-    /* @var $readSmaMeasurementsResult array */
-    public $readSmaMeasurementsResult;
     /* @var $readSmaMeasurementsArgs array */
     public $readSmaMeasurementsArgs;
+    /* @var $readSmaMeasurementsResult array */
+    public $readSmaMeasurementsResult;
+    /* @var $replaceSmaStationsArgs array */
+    public $replaceSmaStationsArgs;
 
 
     public function readSmaMeasurements(Extent $extent): array {
         $this->readSmaMeasurementsArgs = [$extent];
 
         return $this->readSmaMeasurementsResult;
+    }
+
+
+    public function replaceSmaStations(array $smaStationList): void {
+        $this->replaceSmaStationsArgs = $smaStationList;
     }
 }

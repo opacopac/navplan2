@@ -25,12 +25,13 @@ class DummySmaMeasurement2
 
 
     public static function createDbResult(): array {
+        $station = DummySmaStation2::create();
         return array(
-            "station_id" => "BEZ",
-            "station_name" => "Beznau",
-            "station_lat" => 47.5572,
-            "station_lon" => 8.23325,
-            "station_alt_m" => 325,
+            "station_id" => $station->id,
+            "station_name" => $station->name,
+            "station_lat" => $station->position->latitude,
+            "station_lon" => $station->position->longitude,
+            "station_alt_m" => $station->altitude->value,
             "measurement_time" => "2019-06-10 20:50:00",
             "temp_c" => NULL,
             "sun_min" => NULL,

@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\Meteo;
+namespace NavplanTest\Meteo\Rest;
 
-use Navplan\MeteoSma\MeteoServiceProcessor;
+use Navplan\MeteoSma\Rest\MeteoServiceProcessor;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement1;
 use NavplanTest\MeteoSma\Mocks\MockMeteoRepo;
 use NavplanTest\MockNavplanConfig;
@@ -16,12 +16,15 @@ class MeteoServiceProcessorTest extends TestCase {
     private $meteoRepo;
     /* @var $httpService MockHttpService */
     private $httpService;
+    /* @var $meteoService MeteoServiceProcessor */
+    private $meteoService;
 
 
     protected function setUp(): void {
         $this->config = new MockNavplanConfig();
         $this->meteoRepo = $this->config->getMeteoRepo();
         $this->httpService = $this->config->getSystemServiceFactory()->getHttpService();
+        $this->meteoService = new MeteoServiceProcessor($this->config);
     }
 
 
@@ -30,7 +33,7 @@ class MeteoServiceProcessorTest extends TestCase {
         $measurement1 = DummySmaMeasurement1::create();
         $this->meteoRepo->readSmaMeasurementsResult = [$measurement1];
 
-        MeteoServiceProcessor::processRequest($args, $this->config);
+        $this->meteoService->processRequest($args);
 
         $this->assertRegExp("/" . $measurement1->station->id . "/", $this->httpService->body);
     }

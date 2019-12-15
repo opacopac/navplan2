@@ -42,6 +42,39 @@ export class TrafficDetailsMerger {
 
 
     private static getAircraftType(ac: TrafficDetails): TrafficAircraftType {
+        // TODO
+        /* ICAO Special Designators:
+        ZZZZ
+        Airship 	SHIP
+        Balloon 	BALL
+        Glider 	GLID
+        Microlight aircraft 	ULAC
+        Microlight autogyro 	GYRO
+        Microlight helicopter 	UHEL
+        Sailplane 	GLID
+        Ultralight aircraft 	ULAC
+        Ultralight autogyro 	GYRO
+        Ultralight helicopter 	UHEL
+        */
+
+        /* switch (ac.icaotype)
+        {
+            case 'SHIP':
+            case 'BALL':
+                return "BALLOON";
+                break;
+            case 'GLID':
+                return "GLIDER";
+                break;
+            case 'ULAC':
+                return "POWERED_AIRCRAFT";
+                break;
+            case 'UHEL':
+            case 'GYRO':
+                return "HELICOPTER_ROTORCRAFT";
+                break;
+        } */
+
         if (!ac.acClass) {
             return TrafficAircraftType.UNKNOWN;
         }

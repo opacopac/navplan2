@@ -7,6 +7,7 @@ use Navplan\MeteoSma\DbRepo\DbMeteoRepo;
 use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement1;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement2;
+use NavplanTest\MeteoSma\Mocks\DummySmaStationList1;
 use NavplanTest\MockNavplanConfig;
 use NavplanTest\System\Mock\MockTimeService;
 use PHPUnit\Framework\TestCase;
@@ -29,7 +30,7 @@ class DbMeteoRepoTest extends TestCase {
     }
 
 
-    public function test__readSmaMeasurements() {
+    public function test_readSmaMeasurements() {
         $extent = Extent::createFromCoords(7.0, 47.0, 7.9, 47.9);
         $dbResult1 = DummySmaMeasurement1::createDbResult();
         $dbResult2 = DummySmaMeasurement2::createDbResult();
@@ -42,5 +43,18 @@ class DbMeteoRepoTest extends TestCase {
         $this->assertEquals(2, count($result));
         $this->assertEquals(DummySmaMeasurement1::create(), $result[0]);
         $this->assertEquals(DummySmaMeasurement2::create(), $result[1]);
+    }
+
+
+    public function test_replaceSmaStations()
+    {
+        $smaStationList = DummySmaStationList1::create();
+
+        $this->dbMeteoRepo->replaceSmaStations($smaStationList);
+
+        $this->assertEquals(3, count($this->dbService->queryList));
+        $this->assertStringContainsString("TRUNCATE", $this->dbService->queryList[0]);
+        $this->assertStringContainsString("INSERT", $this->dbService->queryList[1]);
+        $this->assertStringContainsString("INSERT", $this->dbService->queryList[2]);
     }
 }

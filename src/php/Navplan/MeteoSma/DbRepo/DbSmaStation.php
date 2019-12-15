@@ -2,6 +2,8 @@
 
 namespace Navplan\MeteoSma\DbRepo;
 
+use InvalidArgumentException;
+use Navplan\Db\UseCase\IDbService;
 use Navplan\Geometry\Domain\Altitude;
 use Navplan\Geometry\Domain\AltitudeReference;
 use Navplan\Geometry\Domain\AltitudeUnit;
@@ -17,6 +19,25 @@ class DbSmaStation {
             self::getPosition($rs),
             self::getAltitude($rs)
         );
+    }
+
+
+    public static function toInsertQuery(IDbService $dbService, SmaStation $smaStation): string {
+        if ($smaStation->altitude->unit !== AltitudeUnit::M || $smaStation->altitude->reference !== AltitudeReference::MSL) {
+            throw new InvalidArgumentException("invalid unit or reference for altitude of sma station!");
+        }
+
+        $query = "INSERT INTO meteo_sma_stations";
+        $query .= " (station_id, name, latitude, longitude, altitude_m)";
+        $query .= " VALUES (";
+        $query .= " '" . $dbService->escapeString($smaStation->id) . "',";
+        $query .= " '" . $dbService->escapeString($smaStation->name) . "',";
+        $query .= " " . $smaStation->position->latitude . ",";
+        $query .= " " . $smaStation->position->longitude . ",";
+        $query .= " " . $smaStation->altitude->value;
+        $query .= ")";
+
+        return $query;
     }
 
 

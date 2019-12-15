@@ -48,4 +48,15 @@ class DbMeteoRepo implements IMeteoRepo {
 
         return $measurementList;
     }
+
+
+    public function replaceSmaStations(array $smaStationList): void {
+        $query = "TRUNCATE TABLE meteo_sma_stations";
+        $this->dbService->execCUDQuery($query, "Error deleting SMA stations");
+
+        foreach ($smaStationList as $smaStation) {
+            $query = DbSmaStation::toInsertQuery($this->dbService, $smaStation);
+            $this->dbService->execCUDQuery($query, "Error inserting SMA station");
+        }
+    }
 }

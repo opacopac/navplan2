@@ -27,12 +27,13 @@ class DummySmaMeasurement1
 
 
     public static function createDbResult(): array {
+        $station = DummySmaStation1::create();
         return array(
-            "station_id" => "BER",
-            "station_name" => "Bern / Zollikofen",
-            "station_lat" => 46.9907,
-            "station_lon" => 7.464,
-            "station_alt_m" => 552,
+            "station_id" => $station->id,
+            "station_name" => $station->name,
+            "station_lat" => $station->position->latitude,
+            "station_lon" => $station->position->longitude,
+            "station_alt_m" => $station->altitude->value,
             "measurement_time" => "2019-06-10 20:50:00",
             "temp_c" => 13.2,
             "sun_min" => 0,
