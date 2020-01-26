@@ -54,14 +54,16 @@ Thumbs.db
 /src/data_import/lfr_ch/*
 /src/data_import/basestation/*
 /src/meteoretriever/data/*
-/src/php/vendor/*
 /src/php/meteoretriever/data/*
-/src/php/meteoretriever/tmp/*
-devsbb/
-navplan2.iml
+/src/php/meteoretriever/tmp
 *.grib2
 
 # 3rd party php
 /vendor
 /src/php/vendor
 composer.lock
+
+# misc
+devsbb/
+navplan2.iml
+/src/php/Navplan/MeteoDwd/asdf.php
