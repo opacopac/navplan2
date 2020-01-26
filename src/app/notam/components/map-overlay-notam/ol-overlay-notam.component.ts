@@ -13,7 +13,7 @@ import {OlHelper} from '../../../ol-map/use-case/ol-helper';
 })
 export class OlOverlayNotamComponent extends OlOverlayBase implements OnInit {
     public notam: Notam;
-    @ViewChild('container') container: ElementRef;
+    @ViewChild('container', {static: false}) container: ElementRef;
 
 
     ngOnInit() {

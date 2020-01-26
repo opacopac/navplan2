@@ -15,7 +15,7 @@ import {OlHelper} from '../../../ol-map/use-case/ol-helper';
 })
 export class OlOverlayNavaidComponent extends OlOverlayWaypointBase implements OnInit {
     public navaid: Navaid;
-    @ViewChild('container') container: ElementRef;
+    @ViewChild('container', {static: false}) container: ElementRef;
 
 
     ngOnInit() {

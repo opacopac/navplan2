@@ -8,7 +8,7 @@ import {Position2d} from '../../../geo-math/domain/geometry/position2d';
     styleUrls: ['./ol-overlay-windyiframe.component.css']
 })
 export class OlOverlayWindyiframeComponent implements OnInit {
-    @ViewChild('container') container: ElementRef;
+    @ViewChild('container', {static: false}) container: ElementRef;
     @Output() onDataNeeded: EventEmitter<void>;
 
 

@@ -11,7 +11,7 @@ import {OlHelper} from '../../../ol-map/use-case/ol-helper';
     styleUrls: ['./ol-overlay-waypoint.component.css']
 })
 export class OlOverlayWaypointComponent extends OlOverlayWaypointBase implements OnInit {
-    @ViewChild('container') container: ElementRef;
+    @ViewChild('container', {static: false}) container: ElementRef;
 
 
     ngOnInit() {

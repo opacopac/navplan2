@@ -55,6 +55,8 @@ Thumbs.db
 /src/data_import/basestation/*
 /src/meteoretriever/data/*
 /src/php/vendor/*
+/src/php/meteoretriever/data/*
+/src/php/meteoretriever/tmp/*
 devsbb/
 navplan2.iml
 *.grib2

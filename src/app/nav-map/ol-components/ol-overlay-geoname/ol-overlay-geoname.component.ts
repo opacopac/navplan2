@@ -712,7 +712,7 @@ const GEONAME_CLASS_DESCRIPTION_SHORT = {
 })
 export class OlOverlayGeonameComponent extends OlOverlayWaypointBase implements OnInit {
     public geoname: Geoname;
-    @ViewChild('container') container: ElementRef;
+    @ViewChild('container', {static: false}) container: ElementRef;
 
 
     ngOnInit() {
