@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {MatSnackBar} from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {select, Store} from '@ngrx/store';
 import {Subscription} from 'rxjs';
 import {getCurrentMessage} from '../../ngrx/message.selectors';

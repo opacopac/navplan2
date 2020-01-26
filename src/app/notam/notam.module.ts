@@ -11,7 +11,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {NotamEffects} from './ngrx/notam.effects';
 import {NotamState} from './domain/notam-state';
 import {NotamActions} from './ngrx/notam.actions';
-import {MatCardModule} from '@angular/material';
+import { MatCardModule } from '@angular/material/card';
 import {OlMapModule} from '../ol-map/ol-map.module';
 
 

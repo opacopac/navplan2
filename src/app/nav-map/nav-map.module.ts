@@ -1,14 +1,12 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {
-    MatCardModule,
-    MatFormFieldModule,
-    MatListModule,
-    MatSelectModule,
-    MatTableModule,
-    MatTabsModule
-} from '@angular/material';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatListModule } from '@angular/material/list';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
 import {OlOverlayAirportComponent} from './ol-components/ol-overlay-airport/ol-overlay-airport.component';
 import {OlOverlayButtonWebcamComponent} from './ol-components/ol-overlay-button-webcam/ol-overlay-button-webcam.component';
 import {OlOverlayGeonameComponent} from './ol-components/ol-overlay-geoname/ol-overlay-geoname.component';

@@ -8,7 +8,7 @@ import {
     FlightrouteDuplicateAction, FlightrouteReadAction,
     FlightrouteReadListAction
 } from '../../ngrx/flightroute.actions';
-import {MatDialogRef} from '@angular/material';
+import { MatDialogRef } from '@angular/material/dialog';
 
 
 @Component({
