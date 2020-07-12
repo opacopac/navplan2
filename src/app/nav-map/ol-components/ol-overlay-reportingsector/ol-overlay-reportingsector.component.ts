@@ -13,7 +13,7 @@ import {OlHelper} from '../../../ol-map/use-case/ol-helper';
 })
 export class OlOverlayReportingsectorComponent extends OlOverlayWaypointBase implements OnInit {
     public reportingsector: Reportingsector;
-    @ViewChild('container', {static: false}) container: ElementRef;
+    @ViewChild('container') container: ElementRef;
 
 
     ngOnInit() {

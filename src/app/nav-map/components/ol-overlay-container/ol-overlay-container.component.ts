@@ -33,15 +33,15 @@ import {OlMapService} from '../../../ol-map/use-case/ol-map.service';
     styleUrls: ['./ol-overlay-container.component.css']
 })
 export class OlOverlayContainerComponent implements OnInit, OnDestroy {
-    @ViewChild(OlOverlayAirportComponent, {static: false}) mapOverlayAirportComponent: OlOverlayAirportComponent;
-    @ViewChild(OlOverlayNavaidComponent, {static: false}) mapOverlayNavaidComponent: OlOverlayNavaidComponent;
-    @ViewChild(OlOverlayReportingpointComponent, {static: false}) mapOverlayReportingpointComponent: OlOverlayReportingpointComponent;
-    @ViewChild(OlOverlayReportingsectorComponent, {static: false}) mapOverlayReportingsectorComponent: OlOverlayReportingsectorComponent;
-    @ViewChild(OlOverlayUserpointComponent, {static: false}) mapOverlayUserpointComponent: OlOverlayUserpointComponent;
-    @ViewChild(OlOverlayGeonameComponent, {static: false}) mapOverlayGeonameComponent: OlOverlayGeonameComponent;
-    @ViewChild(OlOverlayTrafficComponent, {static: false}) mapOverlayTrafficComponent: OlOverlayTrafficComponent;
-    @ViewChild(OlOverlayNotamComponent, {static: false}) mapOverlayNotamComponent: OlOverlayNotamComponent;
-    @ViewChild(OlOverlayWaypointComponent, {static: false}) mapOverlayWaypointComponent: OlOverlayWaypointComponent;
+    @ViewChild(OlOverlayAirportComponent) mapOverlayAirportComponent: OlOverlayAirportComponent;
+    @ViewChild(OlOverlayNavaidComponent) mapOverlayNavaidComponent: OlOverlayNavaidComponent;
+    @ViewChild(OlOverlayReportingpointComponent) mapOverlayReportingpointComponent: OlOverlayReportingpointComponent;
+    @ViewChild(OlOverlayReportingsectorComponent) mapOverlayReportingsectorComponent: OlOverlayReportingsectorComponent;
+    @ViewChild(OlOverlayUserpointComponent) mapOverlayUserpointComponent: OlOverlayUserpointComponent;
+    @ViewChild(OlOverlayGeonameComponent) mapOverlayGeonameComponent: OlOverlayGeonameComponent;
+    @ViewChild(OlOverlayTrafficComponent) mapOverlayTrafficComponent: OlOverlayTrafficComponent;
+    @ViewChild(OlOverlayNotamComponent) mapOverlayNotamComponent: OlOverlayNotamComponent;
+    @ViewChild(OlOverlayWaypointComponent) mapOverlayWaypointComponent: OlOverlayWaypointComponent;
     private showOverlay$: Observable<MapOverlayState>;
     private selectedDateItemSubscription: Subscription;
 

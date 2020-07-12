@@ -34,7 +34,7 @@ const TRAFFIC_TYPE_DESCRIPTION = {
 })
 export class OlOverlayTrafficComponent extends OlOverlayBase implements OnInit {
     public traffic: Traffic;
-    @ViewChild('container', {static: false}) container: ElementRef;
+    @ViewChild('container') container: ElementRef;
 
 
     ngOnInit() {

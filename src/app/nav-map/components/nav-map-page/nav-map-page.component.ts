@@ -12,8 +12,8 @@ import {OlOverlayContainerComponent} from '../ol-overlay-container/ol-overlay-co
     styleUrls: ['./nav-map-page.component.css']
 })
 export class NavMapPageComponent implements OnInit {
-    @ViewChild(OlComponentsContainerComponent, {static: false}) mapOlComponentsContainer: OlComponentsContainerComponent;
-    @ViewChild(OlOverlayContainerComponent, {static: false}) mapOverlayContainer: OlOverlayContainerComponent;
+    @ViewChild(OlComponentsContainerComponent) mapOlComponentsContainer: OlComponentsContainerComponent;
+    @ViewChild(OlOverlayContainerComponent) mapOverlayContainer: OlOverlayContainerComponent;
 
 
     constructor(private appStore: Store<any>) {

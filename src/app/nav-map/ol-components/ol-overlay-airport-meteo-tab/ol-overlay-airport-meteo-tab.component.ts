@@ -12,7 +12,7 @@ import {OlOverlayWindyiframeComponent} from '../ol-overlay-windyiframe/ol-overla
 export class OlOverlayAirportMeteoTabComponent implements OnInit {
     public isMeteoGramOpenClicked: boolean;
     @Input() airport: Airport;
-    @ViewChild(OlOverlayWindyiframeComponent, {static: false}) windyComponent: OlOverlayWindyiframeComponent;
+    @ViewChild(OlOverlayWindyiframeComponent) windyComponent: OlOverlayWindyiframeComponent;
 
 
     constructor() {

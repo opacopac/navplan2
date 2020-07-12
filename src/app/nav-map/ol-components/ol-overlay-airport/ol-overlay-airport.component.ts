@@ -17,7 +17,7 @@ import {WmmHelper} from '../../../geo-math/use-case/wmm-helper';
 })
 export class OlOverlayAirportComponent extends OlOverlayWaypointBase implements OnInit {
     public airport: Airport;
-    @ViewChild('container', {static: false}) container: ElementRef;
+    @ViewChild('container') container: ElementRef;
 
 
     ngOnInit() {

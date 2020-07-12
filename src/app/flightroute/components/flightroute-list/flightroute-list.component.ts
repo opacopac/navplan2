@@ -29,7 +29,7 @@ export class FlightrouteListComponent implements OnInit, OnChanges {
     @Output() onLoadRouteClick = new EventEmitter<number>();
     @Output() onDeleteRouteClick = new EventEmitter<number>();
     @Output() onDuplicateRouteClick = new EventEmitter<number>();
-    @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+    @ViewChild(MatPaginator) paginator: MatPaginator;
     public dataSource: MatTableDataSource<ListEntry>;
     public visibleColumns = ['name', 'icons'];
 

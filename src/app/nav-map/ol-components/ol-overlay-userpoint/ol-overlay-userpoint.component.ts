@@ -14,7 +14,7 @@ import {OlHelper} from '../../../ol-map/use-case/ol-helper';
 })
 export class OlOverlayUserpointComponent extends OlOverlayWaypointBase implements OnInit {
     public userpoint: Userpoint;
-    @ViewChild('container', {static: false}) container: ElementRef;
+    @ViewChild('container') container: ElementRef;
 
 
     ngOnInit() {

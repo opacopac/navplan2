@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, EventEmitter, Output} from '@angular/core';
+import { ChangeDetectorRef, EventEmitter, Output, Directive } from '@angular/core';
 import {StringnumberHelper} from '../../system/use-case/stringnumber/stringnumber-helper';
 import {DataItem} from '../../shared/model/data-item';
 import {Position2d} from '../../geo-math/domain/geometry/position2d';
@@ -9,6 +9,7 @@ import {LengthUnit} from '../../geo-math/domain/quantities/units';
 import Overlay from 'ol/Overlay';
 
 
+@Directive()
 export abstract class OlOverlayBase {
     @Output() close = new EventEmitter();
     public olOverlay: Overlay;
