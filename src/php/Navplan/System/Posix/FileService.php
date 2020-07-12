@@ -30,7 +30,8 @@ class FileService implements IFileService {
 
     public function fileGetContents(string $filename, bool $use_include_path = FALSE, $context = NULL): string {
         try {
-            $result = file_get_contents($filename, $use_include_path, $context);
+            // TODO: handle warnings (currently suppressed with @ operator)
+            $result = @file_get_contents($filename, $use_include_path, $context);
         } catch (Exception $ex) {
             throw new FileServiceException('error reading file or stream', 0, $ex);
         }
