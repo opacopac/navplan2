@@ -4,7 +4,7 @@ namespace NavplanTest\Search\UseCase;
 
 use Navplan\Search\DomainModel\SearchByIcaoQuery;
 use Navplan\Search\DomainModel\SearchItemType;
-use Navplan\Search\UseCase\SearchByIcaoUc;
+use Navplan\Search\UseCase\SearchByIcao\SearchByIcaoUc;
 use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\OpenAip\Mocks\DummyAirport1;
 use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;

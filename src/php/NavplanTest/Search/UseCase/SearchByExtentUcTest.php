@@ -5,7 +5,7 @@ namespace NavplanTest\Search\UseCase;
 use Navplan\Geometry\DomainModel\Extent;
 use Navplan\Search\DomainModel\SearchByExtentQuery;
 use Navplan\Search\DomainModel\SearchItemType;
-use Navplan\Search\UseCase\SearchByExtentUc;
+use Navplan\Search\UseCase\SearchByExtent\SearchByExtentUc;
 use Navplan\User\DomainService\TokenService;
 use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\OpenAip\Mocks\DummyAirport1;

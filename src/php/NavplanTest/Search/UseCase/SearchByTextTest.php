@@ -7,7 +7,7 @@ use Navplan\Geometry\DomainModel\AltitudeReference;
 use Navplan\Geometry\DomainModel\AltitudeUnit;
 use Navplan\Search\DomainModel\SearchByTextQuery;
 use Navplan\Search\DomainModel\SearchItemType;
-use Navplan\Search\UseCase\SearchByTextUc;
+use Navplan\Search\UseCase\SearchByText\SearchByTextUc;
 use Navplan\User\DomainService\TokenService;
 use NavplanTest\Geoname\Mocks\DummyGeoname1;
 use NavplanTest\Geoname\Mocks\DummyGeoname2;

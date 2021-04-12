@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Search\UseCase;
+namespace Navplan\Search\UseCase\SearchByPosition;
 
 use Navplan\Geoname\UseCase\SearchGeoname\ISearchGeonameUc;
 use Navplan\Notam\UseCase\SearchNotam\ISearchNotamUc;
@@ -10,7 +10,6 @@ use Navplan\OpenAip\UseCase\SearchReportingPoint\ISearchReportingPointUc;
 use Navplan\Search\DomainModel\SearchByPositionQuery;
 use Navplan\Search\DomainModel\SearchItemType;
 use Navplan\Search\DomainModel\SearchResult;
-use Navplan\Search\UseCase\SearchByPosition\ISearchByPositionUc;
 use Navplan\User\UseCase\SearchUserPoint\ISearchUserPointUc;
 
 

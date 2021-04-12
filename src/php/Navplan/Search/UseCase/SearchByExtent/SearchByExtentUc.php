@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Search\UseCase;
+namespace Navplan\Search\UseCase\SearchByExtent;
 
 use Navplan\Notam\Domain\ReadNotamByExtentRequest;
 use Navplan\Notam\UseCase\SearchNotam\ISearchNotamUc;
@@ -12,7 +12,6 @@ use Navplan\OpenAip\UseCase\SearchWebcam\ISearchWebcamUc;
 use Navplan\Search\DomainModel\SearchByExtentQuery;
 use Navplan\Search\DomainModel\SearchItemType;
 use Navplan\Search\DomainModel\SearchResult;
-use Navplan\Search\UseCase\SearchByExtent\ISearchByExtentUc;
 use Navplan\User\UseCase\SearchUserPoint\ISearchUserPointUc;
 
 
