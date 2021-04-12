@@ -4,7 +4,7 @@ namespace Navplan\MeteoSma\DataImport;
 
 require_once __DIR__ . "/../../ImporterBootstrap.php";
 
-use NavplanTest\ProdNavplanDiContainer;
+use Navplan\ProdNavplanDiContainer;
 
 
 $diContainer = new ProdNavplanDiContainer();

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest;
+namespace Navplan;
 
 require_once __DIR__ . "/../config.php";
 
@@ -842,8 +842,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
         if (!isset($this->updatePwUc)) {
             $this->updatePwUc = new UpdatePwUc(
                 $this->getUserRepo(),
-                $this->getTokenService(),
-                $this->getHttpService()
+                $this->getTokenService()
             );
         }
 

@@ -14,7 +14,7 @@ class NotamServiceProcessor {
 
     public static function processRequest(array $getArgs, INotamServiceDiContainer $diContainer) {
         $httpService = $diContainer->getHttpService();
-        $action = isset($getArgs[self::ARG_ACTION]) ? $getArgs[self::ARG_ACTION] : NULL;
+        $action = $getArgs[self::ARG_ACTION] ?? NULL;
         switch ($action) {
             case self::ACTION_SEARCH_BY_EXTENT:
                 $request = ReadNotamRequestConverter::fromArgs($getArgs);

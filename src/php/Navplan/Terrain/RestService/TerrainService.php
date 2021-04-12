@@ -2,7 +2,7 @@
 
 namespace Navplan\Terrain\RestService;
 
-use NavplanTest\ProdNavplanDiContainer;
+use Navplan\ProdNavplanDiContainer;
 
 require_once __DIR__ . "/../../RestServiceBootstrap.php";
 
