@@ -2,30 +2,20 @@
 
 namespace Navplan\User\DbRepo;
 
-use Navplan\Geometry\Domain\Extent;
-use Navplan\Geometry\Domain\Position2d;
-use Navplan\Db\UseCase\IDbResult;
-use Navplan\Db\UseCase\IDbService;
-use Navplan\User\UseCase\IUserPointRepo;
-
+use Navplan\Db\DomainModel\IDbResult;
+use Navplan\Db\DomainService\IDbService;
+use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\User\DomainService\IUserPointRepo;
 
 
 class DbUserPointRepo implements IUserPointRepo {
-    private $dbService;
-
-
-    private function getDbService(): IDbService {
-        return $this->dbService;
-    }
-
-
-    public function __construct(IDbService $dbService) {
-        $this->dbService = $dbService;
+    public function __construct(private IDbService $dbService) {
     }
 
 
     public function searchByExtent(Extent $extent, string $email): array {
-        $email = $this->getDbService()->escapeString($email);
+        $email = $this->dbService->escapeString($email);
 
         $query = "SELECT uwp.*";
         $query .= " FROM user_waypoints AS uwp";
@@ -35,14 +25,14 @@ class DbUserPointRepo implements IUserPointRepo {
         $query .= "  AND (uwp.longitude >= " . $extent->minPos->longitude . " AND uwp.longitude <= " . $extent->maxPos->longitude .
             " AND uwp.latitude >= " . $extent->minPos->latitude . " AND uwp.latitude <= " . $extent->maxPos->latitude . ")";
 
-        $result = $this->getDbService()->execMultiResultQuery($query, "error searching user points by extent");
+        $result = $this->dbService->execMultiResultQuery($query, "error searching user points by extent");
 
         return self::readUserPointFromResultList($result);
     }
 
 
     public function searchByPosition(Position2d $position, float $maxRadius_deg, int $maxResults, string $email): array {
-        $email = $this->getDbService()->escapeString($email);
+        $email = $this->dbService->escapeString($email);
 
         $query = "SELECT uwp.*";
         $query .= " FROM user_waypoints AS uwp";
@@ -58,15 +48,15 @@ class DbUserPointRepo implements IUserPointRepo {
             ") + (longitude - " . $position->longitude . ") * (longitude - " . $position->longitude . ")) ASC";
         $query .= " LIMIT " . $maxResults;
 
-        $result = $this->getDbService()->execMultiResultQuery($query, "error searching user points by position");
+        $result = $this->dbService->execMultiResultQuery($query, "error searching user points by position");
 
         return self::readUserPointFromResultList($result);
     }
 
 
     public function searchByText(string $searchText, int $maxResults, string $email): array {
-        $searchText = $this->getDbService()->escapeString($searchText);
-        $email = $this->getDbService()->escapeString($email);
+        $searchText = $this->dbService->escapeString($searchText);
+        $email = $this->dbService->escapeString($email);
 
         $query = "SELECT uwp.*";
         $query .= " FROM user_waypoints AS uwp";
@@ -77,7 +67,7 @@ class DbUserPointRepo implements IUserPointRepo {
         $query .= " ORDER BY name ASC";
         $query .= " LIMIT " . $maxResults;
 
-        $result = $this->getDbService()->execMultiResultQuery($query, "error searching user points by text");
+        $result = $this->dbService->execMultiResultQuery($query, "error searching user points by text");
 
         return self::readUserPointFromResultList($result);
     }
@@ -86,7 +76,7 @@ class DbUserPointRepo implements IUserPointRepo {
     private static function readUserPointFromResultList(IDbResult $result): array {
         $userPoint = [];
         while ($rs = $result->fetch_assoc()) {
-            $userPoint[] = DbUserPoint::fromDbResult($rs);
+            $userPoint[] = UserPointConverter::fromDbResult($rs);
         }
 
         return $userPoint;

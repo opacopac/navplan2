@@ -3,37 +3,24 @@
 namespace NavplanTest\Flightroute\Mocks;
 
 use Navplan\Flightroute\Domain\Flightroute;
-use Navplan\Flightroute\UseCase\IFlightrouteRepo;
-use Navplan\User\Domain\User;
+use Navplan\Flightroute\DomainService\IFlightrouteRepo;
+use Navplan\User\DomainModel\User;
 
 
 class MockFlightrouteRepo implements IFlightrouteRepo {
-    /* @var $addArgs array */
-    public $addArgs;
-    /* @var $addResult Flightroute */
-    public $addResult;
-    /* @var $addArgs array */
-    public $deleteArgs;
-    /* @var $readArgs array */
-    public $readArgs;
-    /* @var $readResult Flightroute */
-    public $readResult;
-    /* @var $readByHashArgs array */
-    public $readByHashArgs;
-    /* @var $readByHashResult Flightroute */
-    public $readByHashResult;
-    /* @var $readListArgs array */
-    public $readListArgs;
-    /* @var $readListResult array */
-    public $readListResult;
-    /* @var $readSharedArgs array */
-    public $readSharedArgs;
-    /* @var $readSharedResult Flightroute */
-    public $readSharedResult;
-    /* @var $updateArgs array */
-    public $updateArgs;
-    /* @var $updateResult Flightroute */
-    public $updateResult;
+    public array $addArgs;
+    public Flightroute $addResult;
+    public array $deleteArgs;
+    public array $readArgs;
+    public ?Flightroute $readResult;
+    public array $readByHashArgs;
+    public ?Flightroute $readByHashResult;
+    public array $readListArgs;
+    public array $readListResult;
+    public array $readSharedArgs;
+    public ?Flightroute $readSharedResult;
+    public array $updateArgs;
+    public Flightroute $updateResult;
 
 
     function add(Flightroute $flightroute, ?User $user): Flightroute {

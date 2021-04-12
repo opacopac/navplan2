@@ -2,19 +2,15 @@
 
 namespace NavplanTest\System\Mock;
 
-use Navplan\System\UseCase\IProcService;
+use Navplan\System\DomainService\IProcService;
 
 
 class MockProcService implements IProcService {
-    /* @var $sleepResult ?IFile */
-    public $sleepResult;
-    /* @var $sleepArgs array */
-    public $sleepArgs;
+    public ?int $sleepResult;
+    public array $sleepArgs;
 
-    /* @var $shellExecResult string */
-    public $shellExecResult;
-    /* @var $shellExecArgs array */
-    public $shellExecArgs;
+    public string $shellExecResult;
+    public array $shellExecArgs;
 
 
     public function sleep(int $seconds): ?int {

@@ -2,9 +2,9 @@
 
 namespace Navplan\Traffic\TrafficDetailRepo;
 
-use Navplan\Traffic\Domain\TrafficAddress;
-use Navplan\Traffic\Domain\TrafficAddressType;
-use Navplan\Traffic\Domain\TrafficDetail;
+use Navplan\Traffic\DomainModel\TrafficAddress;
+use Navplan\Traffic\DomainModel\TrafficAddressType;
+use Navplan\Traffic\DomainModel\TrafficDetail;
 
 
 class DbTrafficDetail {

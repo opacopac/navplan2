@@ -2,17 +2,12 @@
 
 namespace Navplan\System\Posix;
 
-use Navplan\System\Posix\FileService;
-use Navplan\System\Posix\HttpService;
-use Navplan\System\Posix\MailService;
-use Navplan\System\Posix\ProcService;
-use Navplan\System\Posix\TimeService;
-use Navplan\System\UseCase\IMailService;
-use Navplan\System\UseCase\IProcService;
-use Navplan\System\UseCase\IFileService;
-use Navplan\System\UseCase\IHttpService;
-use Navplan\System\UseCase\ISystemServiceFactory;
-use Navplan\System\UseCase\ITimeService;
+use Navplan\System\DomainService\IFileService;
+use Navplan\System\DomainService\IHttpService;
+use Navplan\System\DomainService\IMailService;
+use Navplan\System\DomainService\IProcService;
+use Navplan\System\DomainService\ISystemServiceFactory;
+use Navplan\System\DomainService\ITimeService;
 
 
 class SystemServiceFactory implements ISystemServiceFactory {

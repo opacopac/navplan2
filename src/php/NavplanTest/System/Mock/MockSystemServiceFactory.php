@@ -2,25 +2,15 @@
 
 namespace NavplanTest\System\Mock;
 
-use Navplan\System\UseCase\IFileService;
-use Navplan\System\UseCase\IHttpService;
-use Navplan\System\UseCase\IMailService;
-use Navplan\System\UseCase\IProcService;
-use Navplan\System\UseCase\ISystemServiceFactory;
-use Navplan\System\UseCase\ITimeService;
-use NavplanTest\System\Mock\MockFileService;
-use NavplanTest\System\Mock\MockHttpService;
-use NavplanTest\System\Mock\MockMailService;
-use NavplanTest\System\Mock\MockProcService;
-use NavplanTest\System\Mock\MockTimeService;
+use Navplan\System\DomainService\ISystemServiceFactory;
 
 
 class MockSystemServiceFactory implements ISystemServiceFactory {
-    private $fileService;
-    private $procService;
-    private $timeService;
-    private $mailService;
-    private $httpService;
+    private MockFileService $fileService;
+    private MockProcService $procService;
+    private MockTimeService $timeService;
+    private MockMailService $mailService;
+    private MockHttpService $httpService;
 
 
     public function __construct() {
@@ -32,25 +22,27 @@ class MockSystemServiceFactory implements ISystemServiceFactory {
     }
 
 
-    public function getFileService(): IFileService {
+    public function getFileService(): MockFileService {
         return $this->fileService;
     }
 
-    public function getProcService(): IProcService {
+
+    public function getProcService(): MockProcService {
         return $this->procService;
     }
 
-    public function getTimeService(): ITimeService {
+
+    public function getTimeService(): MockTimeService {
         return $this->timeService;
     }
 
 
-    public function getMailService(): IMailService {
+    public function getMailService(): MockMailService {
         return $this->mailService;
     }
 
 
-    public function getHttpService(): IHttpService {
+    public function getHttpService(): MockHttpService {
         return $this->httpService;
     }
 }

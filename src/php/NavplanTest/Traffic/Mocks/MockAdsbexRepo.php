@@ -2,16 +2,14 @@
 
 namespace NavplanTest\Traffic\Mocks;
 
-use Navplan\Geometry\Domain\Length;
-use Navplan\Geometry\Domain\Position2d;
-use Navplan\Traffic\UseCase\IAdsbexRepo;
+use Navplan\Geometry\DomainModel\Length;
+use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Traffic\DomainService\IAdsbexRepo;
 
 
 class MockAdsbexRepo implements IAdsbexRepo {
-    /* @var $readTrafficResult array */
-    public $readTrafficResult;
-    /* @var $readTrafficArgs array */
-    public $readTrafficArgs;
+    public array $readTrafficResult;
+    public array $readTrafficArgs;
 
 
     public function __construct() {

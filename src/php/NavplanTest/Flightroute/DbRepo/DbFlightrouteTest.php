@@ -2,19 +2,21 @@
 
 namespace NavplanTest\Flightroute\DbRepo;
 
-use Navplan\Flightroute\DbRepo\DbFlightroute;
+use Navplan\Flightroute\DbRepo\FlightrouteConverter;
 use Navplan\Flightroute\Domain\Flightroute;
+use Navplan\User\DomainService\ITokenService;
+use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute2;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute3;
-use NavplanTest\MockNavplanConfig;
+use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\User\Mocks\DummyUser1;
 use PHPUnit\Framework\TestCase;
 
 
 class DbFlightrouteTest extends TestCase {
-    private $dbService;
-    private $tokenService;
+    private MockDbService $dbService;
+    private ITokenService $tokenService;
 
 
     private function assertEqualDbResult(array $dbResult, Flightroute $flightroute) {
@@ -29,8 +31,8 @@ class DbFlightrouteTest extends TestCase {
 
 
     protected function setUp(): void {
-        $config = new MockNavplanConfig();
-        $this->dbService = $config->getDbService();
+        $config = new MockNavplanDiContainer();
+        $this->dbService = $config->dbService;
         $this->tokenService = $config->getTokenService();
 
     }
@@ -41,9 +43,9 @@ class DbFlightrouteTest extends TestCase {
         $dbResult2 = DummyFlightroute2::createDbResult();
         $dbResult3 = DummyFlightroute3::createDbResult();
 
-        $flightroute1 = DbFlightroute::fromDbResult($dbResult1);
-        $flightroute2 = DbFlightroute::fromDbResult($dbResult2);
-        $flightroute3 = DbFlightroute::fromDbResult($dbResult3);
+        $flightroute1 = FlightrouteConverter::fromDbResult($dbResult1);
+        $flightroute2 = FlightrouteConverter::fromDbResult($dbResult2);
+        $flightroute3 = FlightrouteConverter::fromDbResult($dbResult3);
 
         $this->assertEqualDbResult($dbResult1, $flightroute1);
         $this->assertEqualDbResult($dbResult2, $flightroute2);
@@ -54,7 +56,7 @@ class DbFlightrouteTest extends TestCase {
     public function test_toDeleteSql() {
         $flightrouteId = 11235813;
 
-        $sql = DbFlightroute::toDeleteSql($flightrouteId);
+        $sql = FlightrouteConverter::toDeleteSql($flightrouteId);
 
         $this->assertRegExp("/DELETE FROM/", $sql);
         $this->assertRegExp("/" . $flightrouteId . "/", $sql);
@@ -67,9 +69,9 @@ class DbFlightrouteTest extends TestCase {
         $flightroute3 = DummyFlightroute3::create();
         $user = DummyUser1::create($this->tokenService);
 
-        $sql1 = DbFlightroute::toInsertSql($this->dbService, $flightroute1, $user->id);
-        $sql2 = DbFlightroute::toInsertSql($this->dbService, $flightroute2, $user->id);
-        $sql3 = DbFlightroute::toInsertSql($this->dbService, $flightroute3, $user->id);
+        $sql1 = FlightrouteConverter::toInsertSql($this->dbService, $flightroute1, $user->id);
+        $sql2 = FlightrouteConverter::toInsertSql($this->dbService, $flightroute2, $user->id);
+        $sql3 = FlightrouteConverter::toInsertSql($this->dbService, $flightroute3, $user->id);
 
         $this->assertRegExp("/INSERT INTO/", $sql1);
         $this->assertRegExp("/" . $user->id . "/", $sql1);
@@ -88,7 +90,7 @@ class DbFlightrouteTest extends TestCase {
         $flightroute1->hash = "xxx'hash'xxx";
         $user = DummyUser1::create($this->tokenService);
 
-        $sql = DbFlightroute::toInsertSql($this->dbService, $flightroute1, $user->id);
+        $sql = FlightrouteConverter::toInsertSql($this->dbService, $flightroute1, $user->id);
 
         $this->assertRegExp("/xxx\\\\'title\\\\'xxx/", $sql);
         $this->assertRegExp("/xxx\\\\'comments\\\\'xxx/", $sql);
@@ -102,9 +104,9 @@ class DbFlightrouteTest extends TestCase {
         $flightroute2 = DummyFlightroute2::create();
         $flightroute3 = DummyFlightroute3::create();
 
-        $sql1 = DbFlightroute::toUpdateSql($this->dbService, $flightroute1);
-        $sql2 = DbFlightroute::toUpdateSql($this->dbService, $flightroute2);
-        $sql3 = DbFlightroute::toUpdateSql($this->dbService, $flightroute3);
+        $sql1 = FlightrouteConverter::toUpdateSql($this->dbService, $flightroute1);
+        $sql2 = FlightrouteConverter::toUpdateSql($this->dbService, $flightroute2);
+        $sql3 = FlightrouteConverter::toUpdateSql($this->dbService, $flightroute3);
 
         $this->assertRegExp("/UPDATE/", $sql1);
         $this->assertRegExp("/" . $flightroute1->id . "/", $sql1);
@@ -122,7 +124,7 @@ class DbFlightrouteTest extends TestCase {
         $flightroute->shareId = "xxx'shareid'xxx";
         $flightroute->hash = "xxx'hash'xxx";
 
-        $sql = DbFlightroute::toUpdateSql($this->dbService, $flightroute);
+        $sql = FlightrouteConverter::toUpdateSql($this->dbService, $flightroute);
 
         $this->assertRegExp("/xxx\\\\'title\\\\'xxx/", $sql);
         $this->assertRegExp("/xxx\\\\'comments\\\\'xxx/", $sql);

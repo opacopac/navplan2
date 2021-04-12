@@ -11,7 +11,7 @@ require_once __DIR__ . "/../../../config_test.php";
 
 
 class MySqlDbResultTest extends TestCase {
-    private $connection;
+    private mysqli $connection;
 
     private function getConnection(): mysqli {
         return $this->connection;

@@ -2,32 +2,23 @@
 
 namespace Navplan\User\DbRepo;
 
-use Navplan\Db\UseCase\IDbService;
-use Navplan\User\UseCase\IUserPointRepo;
-use Navplan\User\UseCase\IUserRepo;
-use Navplan\User\UseCase\IUserRepoFactory;
+use Navplan\Db\DomainService\IDbService;
+use Navplan\User\DomainService\IUserPointRepo;
+use Navplan\User\DomainService\IUserRepo;
+use Navplan\User\DomainService\IUserRepoFactory;
 
 
 class DbUserRepoFactory implements IUserRepoFactory {
-    private $dbService;
-
-
-    private function getDbService(): IDbService {
-        return $this->dbService;
-    }
-
-
-    public function __construct(IDbService $dbService) {
-        $this->dbService = $dbService;
+    public function __construct(private IDbService $dbService) {
     }
 
 
     public function createUserRepo(): IUserRepo {
-        return new DbUserRepo($this->getDbService());
+        return new DbUserRepo($this->dbService);
     }
 
 
     public function createUserPointRepo(): IUserPointRepo {
-        return new DbUserPointRepo($this->getDbService());
+        return new DbUserPointRepo($this->dbService);
     }
 }

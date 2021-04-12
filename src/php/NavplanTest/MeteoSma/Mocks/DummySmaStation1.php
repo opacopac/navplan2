@@ -2,11 +2,11 @@
 
 namespace NavplanTest\MeteoSma\Mocks;
 
-use Navplan\Geometry\Domain\Altitude;
-use Navplan\Geometry\Domain\AltitudeReference;
-use Navplan\Geometry\Domain\AltitudeUnit;
-use Navplan\Geometry\Domain\Position2d;
-use Navplan\MeteoSma\Domain\SmaStation;
+use Navplan\Geometry\DomainModel\Altitude;
+use Navplan\Geometry\DomainModel\AltitudeReference;
+use Navplan\Geometry\DomainModel\AltitudeUnit;
+use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\MeteoSma\DomainModel\SmaStation;
 
 
 class DummySmaStation1 {

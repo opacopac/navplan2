@@ -2,7 +2,7 @@
 
 namespace Navplan\System\Posix;
 
-use Navplan\System\UseCase\IProcService;
+use Navplan\System\DomainService\IProcService;
 
 
 class ProcService implements IProcService {

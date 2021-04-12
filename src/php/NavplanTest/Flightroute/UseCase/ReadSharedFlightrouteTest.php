@@ -5,24 +5,21 @@ namespace NavplanTest\Flightroute\UseCase;
 // TODO => config
 require_once __DIR__ . "/../../../config_test.php";
 
-use Navplan\Flightroute\Domain\ReadSharedFlightrouteRequest;
-use Navplan\Flightroute\UseCase\ReadSharedFlightroute;
+use Navplan\Flightroute\UseCase\ReadSharedFlightroute\ReadSharedFlightrouteRequest;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\MockFlightrouteRepo;
-use NavplanTest\MockNavplanConfig;
+use NavplanTest\MockNavplanDiContainer;
 use PHPUnit\Framework\TestCase;
 
 
 class ReadSharedFlightrouteTest extends TestCase {
-    /* @var $config MockNavplanConfig */
-    private $config;
-    /* @var $flightrouteRepo MockFlightrouteRepo */
-    private $flightrouteRepo;
+    private MockNavplanDiContainer $config;
+    private MockFlightrouteRepo $flightrouteRepo;
 
 
     protected function setUp(): void {
-        $this->config = new MockNavplanConfig();
-        $this->flightrouteRepo = $this->config->getFlightrouteRepo();
+        $this->config = new MockNavplanDiContainer();
+        $this->flightrouteRepo = $this->config->flightrouteRepo;
     }
 
 
@@ -32,7 +29,7 @@ class ReadSharedFlightrouteTest extends TestCase {
         $this->flightrouteRepo->readSharedResult = $flightroute;
 
         $request = new ReadSharedFlightrouteRequest($shareId);
-        $response = (new ReadSharedFlightroute($this->config))->read($request);
+        $response = $this->config->getReadSharedFlightrouteUc()->read($request);
 
         $this->assertEquals($flightroute, $response->flightroute);
         $this->assertEquals($shareId, $this->flightrouteRepo->readSharedArgs[0]);
@@ -45,7 +42,7 @@ class ReadSharedFlightrouteTest extends TestCase {
         $this->flightrouteRepo->readSharedResult = $flightroute;
 
         $request = new ReadSharedFlightrouteRequest($shareId);
-        $response = (new ReadSharedFlightroute($this->config))->read($request);
+        $response = $this->config->getReadSharedFlightrouteUc()->read($request);
 
         $this->assertEquals($flightroute, $response->flightroute);
         $this->assertEquals($shareId, $this->flightrouteRepo->readSharedArgs[0]);

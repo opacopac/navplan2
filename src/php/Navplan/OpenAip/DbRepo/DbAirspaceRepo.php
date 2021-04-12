@@ -2,17 +2,17 @@
 
 namespace Navplan\OpenAip\DbRepo;
 
-use Navplan\Geometry\Domain\Altitude;
-use Navplan\Geometry\Domain\AltitudeReference;
-use Navplan\Geometry\Domain\AltitudeUnit;
-use Navplan\Geometry\Domain\Extent;
-use Navplan\OpenAip\Domain\Airspace;
-use Navplan\OpenAip\UseCase\IAirspaceRepo;
+use Navplan\Db\DomainModel\IDbResult;
+use Navplan\Db\DomainService\IDbService;
 use Navplan\Db\MySqlDb\DbHelper;
-use Navplan\Geometry\Domain\Ring2d;
+use Navplan\Geometry\DomainModel\Altitude;
+use Navplan\Geometry\DomainModel\AltitudeReference;
+use Navplan\Geometry\DomainModel\AltitudeUnit;
+use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Geometry\DomainModel\Ring2d;
+use Navplan\OpenAip\DomainModel\Airspace;
+use Navplan\OpenAip\DomainService\IAirspaceRepo;
 use Navplan\Shared\GeoHelper;
-use Navplan\Db\UseCase\IDbResult;
-use Navplan\Db\UseCase\IDbService;
 
 
 class DbAirspaceRepo implements IAirspaceRepo {

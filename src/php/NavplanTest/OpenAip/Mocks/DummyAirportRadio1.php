@@ -2,7 +2,7 @@
 
 namespace NavplanTest\OpenAip\Mocks;
 
-use Navplan\OpenAip\Domain\AirportRadio;
+use Navplan\OpenAip\DomainModel\AirportRadio;
 
 
 class DummyAirportRadio1 {

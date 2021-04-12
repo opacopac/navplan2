@@ -2,14 +2,13 @@
 
 namespace NavplanTest\Terrain\Mocks;
 
-use Navplan\Geometry\Domain\Altitude;
-use Navplan\Geometry\Domain\Position3d;
-use Navplan\Terrain\UseCase\ITerrainRepo;
+use Navplan\Geometry\DomainModel\Altitude;
+use Navplan\Geometry\DomainModel\Position3d;
+use Navplan\Terrain\DomainService\ITerrainRepo;
 
 
 class MockTerrainRepo implements ITerrainRepo {
-    /* @var $altitudeResult Altitude */
-    public $altitudeResult;
+    public Altitude $altitudeResult;
 
 
     public function readElevation(array $position2dList): array {

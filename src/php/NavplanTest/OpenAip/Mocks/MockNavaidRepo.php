@@ -3,9 +3,9 @@
 namespace NavplanTest\OpenAip\Mocks;
 
 use InvalidArgumentException;
-use Navplan\Geometry\Domain\Extent;
-use Navplan\Geometry\Domain\Position2d;
-use Navplan\OpenAip\UseCase\INavaidRepo;
+use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\OpenAip\DomainService\INavaidRepo;
 
 
 class MockNavaidRepo implements INavaidRepo {

@@ -7,27 +7,23 @@ use NavplanTest\MeteoSma\Mocks\DummySmaStation1;
 use NavplanTest\MeteoSma\Mocks\DummySmaStation2;
 use NavplanTest\MeteoSma\Mocks\DummySmaStationList1;
 use NavplanTest\MeteoSma\Mocks\MockMeteoRepo;
-use NavplanTest\MockNavplanConfig;
+use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\System\Mock\MockFileService;
 use PHPUnit\Framework\TestCase;
 
 
 class SmaStationImportProcessorTest extends TestCase {
-    /* @var $config MockNavplanConfig */
-    private $config;
-    /* @var $importer SmaStationImportProcessor */
-    private $importer;
-    /* @var $mockFileService MockFileService */
-    private $mockFileService;
-    /* @var $mockMeteoRepo MockMeteoRepo */
-    private $mockMeteoRepo;
+    private MockNavplanDiContainer $config;
+    private SmaStationImportProcessor $importer;
+    private MockFileService $mockFileService;
+    private MockMeteoRepo $mockMeteoRepo;
 
 
     function setUp(): void {
-        $this->config = new MockNavplanConfig();
-        $this->mockFileService = $this->config->getSystemServiceFactory()->getFileService();
-        $this->mockMeteoRepo = $this->config->getMeteoRepo();
-        $this->importer = new SmaStationImportProcessor($this->config);
+        $this->config = new MockNavplanDiContainer();
+        $this->mockFileService = $this->config->fileService;
+        $this->mockMeteoRepo = $this->config->meteoRepo;
+        $this->importer = new SmaStationImportProcessor($this->mockFileService, $this->mockMeteoRepo);
     }
 
 

@@ -2,17 +2,18 @@
 
 namespace Navplan\MeteoSma\DataImport;
 
-use Navplan\MeteoSma\UseCase\IMeteoConfig;
+use Navplan\MeteoSma\DomainService\IMeteoRepo;
+use Navplan\System\DomainService\IFileService;
 
 
 class SmaStationImportProcessor {
     public const SMA_STATION_URL = "https://data.geo.admin.ch/ch.meteoschweiz.messnetz-automatisch/ch.meteoschweiz.messnetz-automatisch_de.json";
-    /* @var $config IMeteoConfig */
-    private $config;
 
 
-    public function __construct(IMeteoConfig $config) {
-        $this->config = $config;
+    public function __construct(
+        private IFileService $fileService,
+        private IMeteoRepo $meteoRepo
+    ) {
     }
 
 
@@ -24,7 +25,7 @@ class SmaStationImportProcessor {
 
 
     private function loadFileFromSma(): string {
-        return $this->config->getSystemServiceFactory()->getFileService()->fileGetContents(self::SMA_STATION_URL);
+        return $this->fileService->fileGetContents(self::SMA_STATION_URL);
     }
 
 
@@ -42,6 +43,6 @@ class SmaStationImportProcessor {
             return;
         }
 
-        $this->config->getMeteoRepo()->replaceSmaStations($smaStations);
+        $this->meteoRepo->replaceSmaStations($smaStations);
     }
 }

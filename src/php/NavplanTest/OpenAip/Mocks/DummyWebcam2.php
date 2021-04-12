@@ -2,8 +2,8 @@
 
 namespace NavplanTest\OpenAip\Mocks;
 
-use Navplan\Geometry\Domain\Position2d;
-use Navplan\OpenAip\Domain\Webcam;
+use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\OpenAip\DomainModel\Webcam;
 
 
 class DummyWebcam2 {

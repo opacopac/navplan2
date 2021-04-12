@@ -2,37 +2,29 @@
 
 namespace Navplan\Db\MySqlDb;
 
+use Exception;
 use mysqli;
 use mysqli_result;
-use Exception;
-use Navplan\Db\Domain\DbException;
+use Navplan\Db\DomainModel\DbException;
 
 
 class DbConnection
 {
-    private $conn;
-
-
-    public function __construct(mysqli $conn)
-    {
-        $this->conn = $conn;
+    public function __construct(private mysqli $conn) {
     }
 
 
-    public function getMySqli(): mysqli
-    {
+    public function getMySqli(): mysqli {
         return $this->conn;
     }
 
 
-    public function real_escape_string(string $escapeString): string
-    {
+    public function real_escape_string(string $escapeString): string {
         return $this->conn->real_escape_string($escapeString);
     }
 
 
-    public function query(string $query)
-    {
+    public function query(string $query) {
         $result = $this->conn->query($query);
         if ($result instanceof mysqli_result)
             return new MySqlDbResult($result);
@@ -41,14 +33,12 @@ class DbConnection
     }
 
 
-    public function getInsertId()
-    {
+    public function getInsertId() {
         return $this->conn->insert_id;
     }
 
 
-    public function getError(): string
-    {
+    public function getError(): string {
         return $this->conn->error;
     }
 

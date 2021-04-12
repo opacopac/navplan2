@@ -2,13 +2,13 @@
 
 namespace NavplanTest\Traffic\Mocks;
 
-use Navplan\Geometry\Domain\Altitude;
-use Navplan\Geometry\Domain\AltitudeReference;
-use Navplan\Geometry\Domain\AltitudeUnit;
-use Navplan\Geometry\Domain\Position4d;
-use Navplan\Geometry\Domain\Timestamp;
-use Navplan\Traffic\Domain\TrafficPosition;
-use Navplan\Traffic\Domain\TrafficPositionMethod;
+use Navplan\Geometry\DomainModel\Altitude;
+use Navplan\Geometry\DomainModel\AltitudeReference;
+use Navplan\Geometry\DomainModel\AltitudeUnit;
+use Navplan\Geometry\DomainModel\Position4d;
+use Navplan\Geometry\DomainModel\Timestamp;
+use Navplan\Traffic\DomainModel\TrafficPosition;
+use Navplan\Traffic\DomainModel\TrafficPositionMethod;
 
 
 class DummyOgnTrafficPosition3 {

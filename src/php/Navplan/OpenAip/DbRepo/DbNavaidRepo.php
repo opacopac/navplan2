@@ -2,12 +2,13 @@
 
 namespace Navplan\OpenAip\DbRepo;
 
-use Navplan\Geometry\Domain\Extent;
-use Navplan\Geometry\Domain\Position2d;
-use Navplan\OpenAip\UseCase\INavaidRepo;
+use Navplan\Db\DomainModel\IDbResult;
+use Navplan\Db\DomainService\IDbService;
 use Navplan\Db\MySqlDb\DbHelper;
-use Navplan\Db\UseCase\IDbResult;
-use Navplan\Db\UseCase\IDbService;
+use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\OpenAip\DbModel\DbNavaidConverter;
+use Navplan\OpenAip\DomainService\INavaidRepo;
 
 
 class DbNavaidRepo implements INavaidRepo {
@@ -77,7 +78,7 @@ class DbNavaidRepo implements INavaidRepo {
     private function readNavaidFromResultList(IDbResult $result): array {
         $navaids = [];
         while ($rs = $result->fetch_assoc()) {
-            $navaids[] = DbNavaid::fromDbResult($rs);
+            $navaids[] = DbNavaidConverter::fromDbResult($rs);
         }
 
         return $navaids;

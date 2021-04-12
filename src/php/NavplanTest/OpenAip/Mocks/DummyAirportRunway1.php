@@ -3,9 +3,9 @@
 namespace NavplanTest\OpenAip\Mocks;
 
 
-use Navplan\Geometry\Domain\Length;
-use Navplan\Geometry\Domain\LengthUnit;
-use Navplan\OpenAip\Domain\AirportRunway;
+use Navplan\Geometry\DomainModel\Length;
+use Navplan\Geometry\DomainModel\LengthUnit;
+use Navplan\OpenAip\DomainModel\AirportRunway;
 
 
 class DummyAirportRunway1 {

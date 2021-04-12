@@ -3,8 +3,8 @@
 namespace NavplanTest\Geoname\Mocks;
 
 use InvalidArgumentException;
-use Navplan\Geometry\Domain\Position2d;
-use Navplan\Geoname\UseCase\IGeonameRepo;
+use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Geoname\DomainService\IGeonameRepo;
 
 
 class MockGeonameRepo implements IGeonameRepo {

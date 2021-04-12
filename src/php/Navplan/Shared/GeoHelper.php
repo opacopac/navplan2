@@ -1,12 +1,10 @@
 <?php namespace Navplan\Shared;
 
-use Navplan\Geometry\Domain\Angle;
-use Navplan\Geometry\Domain\AngleUnit;
-use Navplan\Geometry\Domain\Length;
-use Navplan\Geometry\Domain\LengthUnit;
-use Navplan\Geometry\Domain\Position2d;
-
-require_once __DIR__ . "/../NavplanHelper.php";
+use Navplan\Geometry\DomainModel\Angle;
+use Navplan\Geometry\DomainModel\AngleUnit;
+use Navplan\Geometry\DomainModel\Length;
+use Navplan\Geometry\DomainModel\LengthUnit;
+use Navplan\Geometry\DomainModel\Position2d;
 
 
 class GeoHelper {

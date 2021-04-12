@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Search\Mocks;
 
-use Navplan\Geometry\Domain\Extent;
-use Navplan\Search\Domain\SearchByExtentQuery;
+use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Search\DomainModel\SearchByExtentQuery;
 
 
 class DummySearchByExtentQuery1 {

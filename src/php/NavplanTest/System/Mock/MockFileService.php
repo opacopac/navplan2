@@ -2,30 +2,22 @@
 
 namespace NavplanTest\System\Mock;
 
-use Navplan\System\UseCase\IFile;
-use Navplan\System\UseCase\IFileService;
+use Navplan\System\DomainModel\IFile;
+use Navplan\System\DomainService\IFileService;
 
 
 class MockFileService implements IFileService {
-    /* @var $fileGetContentsResult string */
-    public $fileGetContentsResult;
-    /* @var $fileGetContentsArgs array */
-    public $fileGetContentsArgs;
+    public string $fileGetContentsResult;
+    public array $fileGetContentsArgs;
 
-    /* @var $filePutContentsResult int */
-    public $filePutContentsResult;
-    /* @var $filePutContentsArgs array */
-    public $filePutContentsArgs;
+    public int $filePutContentsResult;
+    public array $filePutContentsArgs;
 
-    /* @var $fileExistsResult bool */
-    public $fileExistsResult;
-    /* @var $fileExistsArgs array */
-    public $fileExistsArgs;
+    public bool $fileExistsResult;
+    public array $fileExistsArgs;
 
-    /* @var $fopenResult ?IFile */
-    public $fopenResult;
-    /* @var $fopenArgs array */
-    public $fopenArgs;
+    public ?IFile $fopenResult;
+    public array $fopenArgs;
 
 
     public function fileGetContents(string $filename, bool $use_include_path = FALSE, $context = NULL): string {

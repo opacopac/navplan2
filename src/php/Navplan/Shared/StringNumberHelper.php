@@ -3,11 +3,10 @@
 namespace Navplan\Shared;
 
 use InvalidArgumentException;
-use Navplan\Db\UseCase\IDbService;
+use Navplan\Db\DomainService\IDbService;
 
 
-class StringNumberHelper
-{
+class StringNumberHelper {
     public static function isNullOrEmpty(array $keyValues, string $key): bool {
         if (!isset($keyValues[$key]) || $keyValues[$key] === '') {
             return true;
@@ -152,8 +151,7 @@ class StringNumberHelper
      * @return mixed
      * @throws InvalidFormatException
      */
-    public static function checkNumeric($num)
-    {
+    public static function checkNumeric($num) {
         if (!is_numeric($num))
             throw new InvalidFormatException("format error: '" . $num . "' is not numeric");
 
@@ -168,8 +166,7 @@ class StringNumberHelper
      * @return string
      * @throws InvalidFormatException
      */
-    public static function checkString(string $string, int $minlen, int $maxlen): string
-    {
+    public static function checkString(string $string, int $minlen, int $maxlen): string {
         if (isset($maxlen) && strlen($string) > $maxlen)
             throw new InvalidFormatException("format error: string '" . $string . "' too long");
 
@@ -187,8 +184,7 @@ class StringNumberHelper
      * @return string
      * @throws InvalidFormatException
      */
-    public static function checkAlphaNumeric(string $string, int $minlen, int $maxlen): string
-    {
+    public static function checkAlphaNumeric(string $string, int $minlen, int $maxlen): string {
         $pattern = "/[a-zA-Z0-9]/";
 
         if (!$string)
@@ -206,8 +202,7 @@ class StringNumberHelper
      * @return string
      * @throws InvalidFormatException
      */
-    public static function checkFilename(string $filename): string
-    {
+    public static function checkFilename(string $filename): string {
         $pattern = '/^[a-zA-Z0-9]+[a-zA-Z0-9_\-]*\.[a-zA-Z0-9]+$/';
 
         if (!$filename)
@@ -225,8 +220,7 @@ class StringNumberHelper
      * @return string
      * @throws InvalidFormatException
      */
-    public static function checkEmail(string $email): string
-    {
+    public static function checkEmail(string $email): string {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
             throw new InvalidFormatException("format error: not an email");
 
@@ -239,8 +233,7 @@ class StringNumberHelper
      * @return string
      * @throws InvalidFormatException
      */
-    public static function checkToken(string $token): string
-    {
+    public static function checkToken(string $token): string {
         if (!$token)
             throw new InvalidFormatException("token is null");
 
@@ -253,8 +246,7 @@ class StringNumberHelper
      * @return int
      * @throws InvalidFormatException
      */
-    public static function checkId(int $id): int
-    {
+    public static function checkId(int $id): int {
         if (!is_numeric($id))
             throw new InvalidFormatException("format error");
 
@@ -273,8 +265,7 @@ class StringNumberHelper
      * @return string
      * @throws InvalidFormatException
      */
-    public static function checkEscapeAlphaNumeric(IDbService $dbService, string $string, int $minlen, int $maxlen): string
-    {
+    public static function checkEscapeAlphaNumeric(IDbService $dbService, string $string, int $minlen, int $maxlen): string {
         return $dbService->escapeString((self::checkAlphaNumeric($string, $minlen, $maxlen)));
     }
 
@@ -288,8 +279,7 @@ class StringNumberHelper
      * @return string
      * @throws InvalidFormatException
      */
-    public static function checkEscapeString(IDbService $dbService, string $string, int $minlen, int $maxlen): string
-    {
+    public static function checkEscapeString(IDbService $dbService, string $string, int $minlen, int $maxlen): string {
         return $dbService->escapeString(self::checkString($string, $minlen, $maxlen));
     }
 
@@ -300,8 +290,7 @@ class StringNumberHelper
      * @return string
      * @throws InvalidFormatException
      */
-    public static function checkEscapeEmail(IDbService $dbService, string $email): string
-    {
+    public static function checkEscapeEmail(IDbService $dbService, string $email): string {
         return $dbService->escapeString(self::checkEmail($email));
     }
 
@@ -310,8 +299,7 @@ class StringNumberHelper
      * @param int $len
      * @return string
      */
-    public static function createRandomString(int $len): string
-    {
+    public static function createRandomString(int $len): string {
         $result = "";
         $chars = "abcdefghijklmnopqrstuvwxyz0123456789";
         $charArray = str_split($chars);
@@ -329,8 +317,7 @@ class StringNumberHelper
      * @param int $digits
      * @return string
      */
-    public static function zeroPad(int $number, int $digits): string
-    {
+    public static function zeroPad(int $number, int $digits): string {
         $numstr = '' . $number;
 
         while(strlen($numstr) < $digits)
@@ -347,8 +334,7 @@ class StringNumberHelper
      * @return string
      * @throws InvalidArgumentException
      */
-    public static function array_implode(string $glue, string $separator, array $array): string
-    {
+    public static function array_implode(string $glue, string $separator, array $array): string {
         if (!is_array($array))
             throw new InvalidArgumentException('ERROR: input is not an array');
 

@@ -2,32 +2,30 @@
 
 namespace NavplanTest\Terrain\UseCase;
 
-use Navplan\Geometry\Domain\Altitude;
-use Navplan\Geometry\Domain\AltitudeReference;
-use Navplan\Geometry\Domain\AltitudeUnit;
-use Navplan\Geometry\Domain\Position2d;
-use Navplan\Terrain\UseCase\ReadElevation;
-use NavplanTest\MockNavplanConfig;
+use Navplan\Geometry\DomainModel\Altitude;
+use Navplan\Geometry\DomainModel\AltitudeReference;
+use Navplan\Geometry\DomainModel\AltitudeUnit;
+use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Terrain\UseCase\ReadElevation\ReadElevationUc;
+use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\Terrain\Mocks\MockTerrainRepo;
 use PHPUnit\Framework\TestCase;
 
 
 class ReadElevationTest extends TestCase {
-    /* @var $repoMock MockTerrainRepo */
-    private $repoMock;
-    /* @var $getElevation ReadElevation */
-    private $getElevation;
+    private MockTerrainRepo $repoMock;
+    private ReadElevationUc $readElevationUc;
 
 
     protected function setUp(): void {
-        $config = new MockNavplanConfig();
-        $this->repoMock = $config->getTerrainRepo();
-        $this->getElevation = new ReadElevation($config);
+        $config = new MockNavplanDiContainer();
+        $this->repoMock = $config->terrainRepo;
+        $this->readElevationUc = $config->getReadElevationUc();
     }
 
 
     public function test_create_instance() {
-        $this->assertNotNull($this->getElevation);
+        $this->assertNotNull($this->readElevationUc);
     }
 
 
@@ -36,7 +34,7 @@ class ReadElevationTest extends TestCase {
         $alt = new Altitude(500, AltitudeUnit::M, AltitudeReference::MSL);
         $this->repoMock->altitudeResult = $alt;
 
-        $elevation = $this->getElevation->read($pos);
+        $elevation = $this->readElevationUc->read($pos);
 
         $this->assertNotNull($elevation);
         $this->assertEquals($elevation->longitude, $pos->longitude);

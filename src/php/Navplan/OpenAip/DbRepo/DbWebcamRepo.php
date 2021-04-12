@@ -2,11 +2,11 @@
 
 namespace Navplan\OpenAip\DbRepo;
 
-use Navplan\Geometry\Domain\Extent;
-use Navplan\Geometry\Domain\Position2d;
-use Navplan\OpenAip\Domain\Webcam;
-use Navplan\OpenAip\UseCase\IWebcamRepo;
-use Navplan\Db\UseCase\IDbService;
+use Navplan\Db\DomainService\IDbService;
+use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\OpenAip\DomainModel\Webcam;
+use Navplan\OpenAip\DomainService\IWebcamRepo;
 use Navplan\Shared\StringNumberHelper;
 
 

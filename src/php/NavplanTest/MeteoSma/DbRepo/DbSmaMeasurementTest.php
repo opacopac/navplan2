@@ -2,22 +2,21 @@
 
 namespace NavplanTest\MeteoSma\DbRepo;
 
-use Navplan\MeteoSma\DbRepo\DbSmaMeasurement;
+use Navplan\MeteoSma\DbRepo\SmaMeasurementConverter;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement1;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement2;
-use NavplanTest\MockNavplanConfig;
+use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\System\Mock\MockTimeService;
 use PHPUnit\Framework\TestCase;
 
 
 class DbSmaMeasurementTest extends TestCase {
-    /* @var $timeService MockTimeService */
-    private $timeService;
+    private MockTimeService $timeService;
 
 
     protected function setUp(): void {
-        $config = new MockNavplanConfig();
-        $this->timeService = $config->getSystemServiceFactory()->getTimeService();
+        $config = new MockNavplanDiContainer();
+        $this->timeService = $config->timeService;
     }
 
 
@@ -26,8 +25,8 @@ class DbSmaMeasurementTest extends TestCase {
         $dbSmaMeasurement2 = DummySmaMeasurement2::createDbResult();
         $this->timeService->strtotimeRelativeDate = 1;
 
-        $measurement1 = DbSmaMeasurement::fromDbResult($dbSmaMeasurement1, $this->timeService);
-        $measurement2 = DbSmaMeasurement::fromDbResult($dbSmaMeasurement2, $this->timeService);
+        $measurement1 = SmaMeasurementConverter::fromDbResult($dbSmaMeasurement1, $this->timeService);
+        $measurement2 = SmaMeasurementConverter::fromDbResult($dbSmaMeasurement2, $this->timeService);
 
         $this->assertEquals(DummySmaMeasurement1::create(), $measurement1);
         $this->assertEquals(DummySmaMeasurement2::create(), $measurement2);

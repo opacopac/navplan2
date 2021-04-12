@@ -2,11 +2,11 @@
 
 namespace NavplanTest\Notam\UseCase;
 
-use Navplan\Geometry\Domain\Extent;
-use Navplan\Geometry\Domain\Position2d;
+use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Geometry\DomainModel\Position2d;
 use Navplan\Notam\Domain\ReadNotamByExtentRequest;
-use Navplan\Notam\UseCase\SearchNotam;
-use NavplanTest\MockNavplanConfig;
+use Navplan\Notam\UseCase\SearchNotam\SearchNotamUc;
+use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\Notam\Mocks\DummyNotam1;
 use NavplanTest\Notam\Mocks\DummyNotam2;
 use NavplanTest\Notam\Mocks\DummyNotam3;
@@ -15,20 +15,17 @@ use PHPUnit\Framework\TestCase;
 
 
 class NotamRepoTest extends TestCase {
-    /* @var $notamRepo MockNotamRepo */
-    private $notamRepo;
-    /* @var $searchNotam SearchNotam */
-    private $searchNotam;
-    /* @var $expectedResult array */
-    private $expectedResult;
+    private MockNotamRepo $notamRepo;
+    private SearchNotamUc $searchNotam;
+    private array $expectedResult;
 
 
     protected function setUp(): void {
         $this->expectedResult = [ DummyNotam1::create(), DummyNotam2::create(), DummyNotam3::create() ];
-        $config = new MockNavplanConfig();
-        $this->notamRepo = $config->getNotamRepo();
+        $config = new MockNavplanDiContainer();
+        $this->notamRepo = $config->notamRepo;
         $this->notamRepo->pushMockResult($this->expectedResult);
-        $this->searchNotam = new SearchNotam($config);
+        $this->searchNotam = $config->getSearchNotamUc();
     }
 
 

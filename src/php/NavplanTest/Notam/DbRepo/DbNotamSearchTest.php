@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Notam\DbRepo;
 
-use Navplan\Geometry\Domain\Extent;
-use Navplan\Geometry\Domain\Position2d;
+use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Geometry\DomainModel\Position2d;
 use Navplan\Notam\DbRepo\DbNotamRepo;
 use Navplan\Notam\Domain\Notam;
 use NavplanTest\Db\Mock\MockDbService;
@@ -14,8 +14,8 @@ use PHPUnit\Framework\TestCase;
 
 
 class DbNotamSearchTest extends TestCase {
-    private $dbService;
-    private $dbRepo;
+    private MockDbService $dbService;
+    private DbNotamRepo $dbRepo;
 
 
     private function getDbService(): MockDbService {

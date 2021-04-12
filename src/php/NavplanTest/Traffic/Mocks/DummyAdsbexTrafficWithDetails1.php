@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Traffic\Mocks;
 
-use Navplan\Traffic\Domain\TrafficAdsbexWithDetail;
+use Navplan\Traffic\DomainModel\TrafficAdsbexWithDetail;
 
 
 class DummyAdsbexTrafficWithDetails1 {

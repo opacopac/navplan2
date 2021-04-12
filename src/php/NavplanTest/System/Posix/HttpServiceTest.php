@@ -3,16 +3,15 @@
 namespace NavplanTest\System\Posix;
 
 use InvalidArgumentException;
+use Navplan\System\DomainService\IHttpService;
 use Navplan\System\Posix\HttpService;
 use NavplanTest\System\Mock\MockHttpService;
 use PHPUnit\Framework\TestCase;
 
 
 class HttpServiceTest extends TestCase {
-    /* @var $httpServiceMock MockHttpService */
-    private $httpServiceMock;
-    /* @var $httpService HttpService */
-    private $httpService;
+    private MockHttpService $httpServiceMock;
+    private IHttpService $httpService;
 
 
     protected function setUp(): void {
@@ -37,9 +36,9 @@ class HttpServiceTest extends TestCase {
 
     public function test_sendRestResponse_assoc_array() {
         $data = array("a" => "abc", "b" => "efg");
-        
+
         $this->httpServiceMock->sendArrayResponse($data);
-            
+
         $this->assertRegExp('/^\{"a":"abc","b":"efg"\}$/', $this->httpServiceMock->body);
     }
 

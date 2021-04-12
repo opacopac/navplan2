@@ -2,17 +2,17 @@
 
 namespace NavplanTest\Search\UseCase;
 
-use Navplan\Geometry\Domain\Altitude;
-use Navplan\Geometry\Domain\AltitudeReference;
-use Navplan\Geometry\Domain\AltitudeUnit;
-use Navplan\Search\Domain\SearchByTextQuery;
-use Navplan\Search\Domain\SearchItemType;
-use Navplan\Search\UseCase\SearchByText;
-use Navplan\User\UseCase\TokenService;
+use Navplan\Geometry\DomainModel\Altitude;
+use Navplan\Geometry\DomainModel\AltitudeReference;
+use Navplan\Geometry\DomainModel\AltitudeUnit;
+use Navplan\Search\DomainModel\SearchByTextQuery;
+use Navplan\Search\DomainModel\SearchItemType;
+use Navplan\Search\UseCase\SearchByTextUc;
+use Navplan\User\DomainService\TokenService;
 use NavplanTest\Geoname\Mocks\DummyGeoname1;
 use NavplanTest\Geoname\Mocks\DummyGeoname2;
 use NavplanTest\Geoname\Mocks\MockGeonameRepo;
-use NavplanTest\MockNavplanConfig;
+use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\Terrain\Mocks\MockTerrainRepo;
 use NavplanTest\User\Mocks\DummyUserPoint1;
 use NavplanTest\User\Mocks\DummyUserPoint2;
@@ -21,24 +21,20 @@ use PHPUnit\Framework\TestCase;
 
 
 class SearchByTextTest extends TestCase {
-    /* @var $config MockNavplanConfig */
-    private $config;
-    /* @var $userPointRepo MockUserPointRepo */
-    private $userPointRepo;
-    /* @var $tokenService TokenService */
-    private $tokenService;
-    /* @var $terrainRepo MockTerrainRepo */
-    private $terrainRepo;
-    /* @var $geonameRepo MockGeonameRepo */
-    private $geonameRepo;
+    private MockUserPointRepo $userPointRepo;
+    private TokenService $tokenService;
+    private MockTerrainRepo $terrainRepo;
+    private MockGeonameRepo $geonameRepo;
+    private SearchByTextUc $searchByTextUc;
 
 
     protected function setUp(): void {
-        $this->config = new MockNavplanConfig();
-        $this->userPointRepo = $this->config->getUserRepoFactory()->createUserPointRepo();
-        $this->tokenService = $this->config->getTokenService();
-        $this->geonameRepo = $this->config->getGeonameRepo();
-        $this->terrainRepo = $this->config->getTerrainRepo();
+        $config = new MockNavplanDiContainer();
+        $this->userPointRepo = $config->userPointRepo;
+        $this->tokenService = $config->getTokenService();
+        $this->geonameRepo = $config->geonameRepo;
+        $this->terrainRepo = $config->terrainRepo;
+        $this->searchByTextUc = $config->getSearchByTextUc();
     }
 
 
@@ -48,16 +44,17 @@ class SearchByTextTest extends TestCase {
             "LSZB",
             $this->tokenService->createToken("asdf@asef.com", FALSE)
         );
-        $result = SearchByText::search($query, $this->config);
+        $result = $this->searchByTextUc->search($query);
+
         $this->assertNotNull($result);
-        $this->assertEquals(0, count($result->airports));
-        $this->assertEquals(0, count($result->navaids));
-        $this->assertEquals(0, count($result->airspaces));
-        $this->assertEquals(0, count($result->reportingPoints));
-        $this->assertEquals(0, count($result->userPoints));
-        $this->assertEquals(0, count($result->webcams));
-        $this->assertEquals(0, count($result->geonames));
-        $this->assertEquals(0, count($result->notams));
+        $this->assertCount(0, $result->airports);
+        $this->assertCount(0, $result->navaids);
+        $this->assertCount(0, $result->airspaces);
+        $this->assertCount(0, $result->reportingPoints);
+        $this->assertCount(0, $result->userPoints);
+        $this->assertCount(0, $result->webcams);
+        $this->assertCount(0, $result->geonames);
+        $this->assertCount(0, $result->notams);
     }
 
 
@@ -71,10 +68,11 @@ class SearchByTextTest extends TestCase {
         $this->userPointRepo->pushMockResult($upResults);
         // TODO: geoname
 
-        $result = SearchByText::search($query, $this->config);
+        $result = $this->searchByTextUc->search($query);
+
         $this->assertNotNull($result);
-        $this->assertEquals(count($upResults), count($result->userPoints));
-        $this->assertEquals(0, count($result->geonames));
+        $this->assertSameSize($upResults, $result->userPoints);
+        $this->assertCount(0, $result->geonames);
     }
 
 
@@ -91,11 +89,11 @@ class SearchByTextTest extends TestCase {
         $zeroAltReplacement = new Altitude(1234, AltitudeUnit::M, AltitudeReference::MSL);
         $this->terrainRepo->altitudeResult = $zeroAltReplacement;
 
-        $result = SearchByText::search($query, $this->config);
+        $result = $this->searchByTextUc->search($query);
 
         $this->assertNotNull($result);
-        $this->assertEquals(count($upResults), count($result->userPoints));
-        $this->assertEquals(count($gnResults), count($result->geonames));
+        $this->assertSameSize($upResults, $result->userPoints);
+        $this->assertSameSize($gnResults, $result->geonames);
     }
 
 
@@ -108,8 +106,9 @@ class SearchByTextTest extends TestCase {
         $upResults = [ DummyUserPoint1::create(), DummyUserPoint2::create() ];
         $this->userPointRepo->pushMockResult($upResults);
 
-        $result = SearchByText::search($query, $this->config);
+        $result = $this->searchByTextUc->search($query);
+
         $this->assertNotNull($result);
-        $this->assertEquals(0, count($result->userPoints));
+        $this->assertCount(0, $result->userPoints);
     }
 }

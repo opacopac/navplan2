@@ -2,8 +2,8 @@
 
 namespace NavplanTest\OpenAip\Mocks;
 
-use Navplan\OpenAip\Domain\ReportingPoint;
-use Navplan\Geometry\Domain\Ring2d;
+use Navplan\Geometry\DomainModel\Ring2d;
+use Navplan\OpenAip\DomainModel\ReportingPoint;
 
 
 class DummyReportingSector1 {

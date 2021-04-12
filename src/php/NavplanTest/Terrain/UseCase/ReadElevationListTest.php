@@ -2,28 +2,25 @@
 
 namespace NavplanTest\Terrain\UseCase;
 
-use Navplan\Geometry\Domain\Altitude;
-use Navplan\Geometry\Domain\AltitudeReference;
-use Navplan\Geometry\Domain\AltitudeUnit;
-use Navplan\Geometry\Domain\Position2d;
-use Navplan\Terrain\UseCase\ReadElevationList;
-use NavplanTest\MockNavplanConfig;
+use Navplan\Geometry\DomainModel\Altitude;
+use Navplan\Geometry\DomainModel\AltitudeReference;
+use Navplan\Geometry\DomainModel\AltitudeUnit;
+use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Terrain\UseCase\ReadElevationList\ReadElevationListUc;
+use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\Terrain\Mocks\MockTerrainRepo;
 use PHPUnit\Framework\TestCase;
 
 
 class ReadElevationListTest extends TestCase {
-    /* @var $repoMock MockTerrainRepo */
-    private $repoMock;
-
-    /* @var $getElevationList ReadElevationList */
-    private $getElevationList;
+    private MockTerrainRepo $repoMock;
+    private ReadElevationListUc $getElevationList;
 
 
     protected function setUp(): void {
-        $config = new MockNavplanConfig();
-        $this->repoMock = $config->getTerrainRepo();
-        $this->getElevationList = new ReadElevationList($config);
+        $config = new MockNavplanDiContainer();
+        $this->repoMock = $config->terrainRepo;
+        $this->getElevationList = $config->getReadElevationListUc();
     }
 
 
@@ -68,7 +65,7 @@ class ReadElevationListTest extends TestCase {
         $pos3dList = $this->getElevationList->read($posList);
 
         $this->assertNotNull($pos3dList);
-        $this->assertEquals(2, count($pos3dList));
+        $this->assertCount(2, $pos3dList);
         $this->assertEquals($posList[0]->longitude, $pos3dList[0]->longitude);
         $this->assertEquals($posList[0]->latitude, $pos3dList[0]->latitude);
         $this->assertEquals($alt, $pos3dList[0]->altitude);
@@ -90,7 +87,7 @@ class ReadElevationListTest extends TestCase {
         $pos3dList = $this->getElevationList->read($posList);
 
         $this->assertNotNull($pos3dList);
-        $this->assertEquals(3, count($pos3dList));
+        $this->assertCount(3, $pos3dList);
         $this->assertEquals($posList[0]->longitude, $pos3dList[0]->longitude);
         $this->assertEquals($posList[0]->latitude, $pos3dList[0]->latitude);
         $this->assertEquals($alt, $pos3dList[0]->altitude);
@@ -116,7 +113,7 @@ class ReadElevationListTest extends TestCase {
         $pos3dList = $this->getElevationList->read($posList);
 
         $this->assertNotNull($pos3dList);
-        $this->assertEquals(4, count($pos3dList));
+        $this->assertCount(4, $pos3dList);
         $this->assertEquals($posList[0]->longitude, $pos3dList[0]->longitude);
         $this->assertEquals($posList[0]->latitude, $pos3dList[0]->latitude);
         $this->assertEquals($alt, $pos3dList[0]->altitude);
@@ -143,7 +140,7 @@ class ReadElevationListTest extends TestCase {
         $pos3dList = $this->getElevationList->read($posList);
 
         $this->assertNotNull($pos3dList);
-        $this->assertEquals(3, count($pos3dList));
+        $this->assertCount(3, $pos3dList);
         $this->assertEquals($posList[0]->longitude, $pos3dList[0]->longitude);
         $this->assertEquals($posList[0]->latitude, $pos3dList[0]->latitude);
         $this->assertEquals($alt, $pos3dList[0]->altitude);
@@ -172,6 +169,6 @@ class ReadElevationListTest extends TestCase {
 
         $this->assertNotNull($pos3dList);
         $this->assertGreaterThanOrEqual(count($posList), count($pos3dList));
-        $this->assertLessThanOrEqual(ReadElevationList::MAX_STEPS + count($posList), count($pos3dList));
+        $this->assertLessThanOrEqual(ReadElevationListUc::MAX_STEPS + count($posList), count($pos3dList));
     }
 }

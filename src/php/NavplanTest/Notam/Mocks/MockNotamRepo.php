@@ -3,13 +3,13 @@
 namespace NavplanTest\Notam\Mocks;
 
 use InvalidArgumentException;
-use Navplan\Geometry\Domain\Extent;
-use Navplan\Geometry\Domain\Position2d;
-use Navplan\Notam\UseCase\INotamRepo;
+use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Notam\DomainService\INotamRepo;
 
 
 class MockNotamRepo implements INotamRepo {
-    private $mockResultList = [];
+    private array $mockResultList = [];
 
 
     public function searchByExtent(Extent $extent, int $zoom, int $minNotamTimestamp, int $maxNotamTimestamp): array {

@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\System;
+namespace NavplanTest\Shared;
 
-use Navplan\Geometry\Domain\LengthUnit;
-use Navplan\Geometry\Domain\Position2d;
+use Navplan\Geometry\DomainModel\LengthUnit;
+use Navplan\Geometry\DomainModel\Position2d;
 use Navplan\Shared\GeoHelper;
 use PHPUnit\Framework\TestCase;
 

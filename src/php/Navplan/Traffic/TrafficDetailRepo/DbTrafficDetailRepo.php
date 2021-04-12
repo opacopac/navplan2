@@ -2,8 +2,8 @@
 
 namespace Navplan\Traffic\TrafficDetailRepo;
 
-use Navplan\Db\UseCase\IDbService;
-use Navplan\Traffic\UseCase\ITrafficDetailRepo;
+use Navplan\Db\DomainService\IDbService;
+use Navplan\Traffic\DomainService\ITrafficDetailRepo;
 
 
 class DbTrafficDetailRepo implements ITrafficDetailRepo {

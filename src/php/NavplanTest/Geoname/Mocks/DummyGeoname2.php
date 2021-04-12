@@ -2,11 +2,11 @@
 
 namespace NavplanTest\Geoname\Mocks;
 
-use Navplan\Geometry\Domain\Altitude;
-use Navplan\Geometry\Domain\AltitudeReference;
-use Navplan\Geometry\Domain\AltitudeUnit;
-use Navplan\Geometry\Domain\Position2d;
-use Navplan\Geoname\Domain\Geoname;
+use Navplan\Geometry\DomainModel\Altitude;
+use Navplan\Geometry\DomainModel\AltitudeReference;
+use Navplan\Geometry\DomainModel\AltitudeUnit;
+use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Geoname\DomainModel\Geoname;
 
 
 class DummyGeoname2 {

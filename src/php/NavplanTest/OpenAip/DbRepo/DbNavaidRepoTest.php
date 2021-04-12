@@ -2,8 +2,8 @@
 
 namespace NavplanTest\OpenAip\DbRepo;
 
-use Navplan\Geometry\Domain\Extent;
-use Navplan\Geometry\Domain\Position2d;
+use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Geometry\DomainModel\Position2d;
 use Navplan\OpenAip\DbRepo\DbNavaidRepo;
 use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\OpenAip\Mocks\DummyNavaid1;
@@ -11,8 +11,8 @@ use PHPUnit\Framework\TestCase;
 
 
 class DbNavaidRepoTest extends TestCase {
-    private $dbService;
-    private $dbRepo;
+    private MockDbService $dbService;
+    private DbNavaidRepo $dbRepo;
 
 
     private function getDbService(): MockDbService {

@@ -2,24 +2,23 @@
 
 namespace NavplanTest\MeteoSma\DbRepo;
 
-use Navplan\MeteoSma\DbRepo\DbSmaStation;
+use Navplan\MeteoSma\DbRepo\SmaStationConverter;
 use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement1;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement2;
 use NavplanTest\MeteoSma\Mocks\DummySmaStation1;
 use NavplanTest\MeteoSma\Mocks\DummySmaStation2;
-use NavplanTest\MockNavplanConfig;
+use NavplanTest\MockNavplanDiContainer;
 use PHPUnit\Framework\TestCase;
 
 
 class DbSmaStationTest extends TestCase {
-    /* @var $mockDbService MockDbService */
-    private $mockDbService;
+    private MockDbService $mockDbService;
 
 
     protected function setUp(): void {
-        $config = new MockNavplanConfig();
-        $this->mockDbService = $config->getDbService();
+        $config = new MockNavplanDiContainer();
+        $this->mockDbService = $config->dbService;
     }
 
 
@@ -27,8 +26,8 @@ class DbSmaStationTest extends TestCase {
         $dbSmaMeasurement1 = DummySmaMeasurement1::createDbResult();
         $dbSmaMeasurement2 = DummySmaMeasurement2::createDbResult();
 
-        $station1 = DbSmaStation::fromDbResult($dbSmaMeasurement1);
-        $station2 = DbSmaStation::fromDbResult($dbSmaMeasurement2);
+        $station1 = SmaStationConverter::fromDbResult($dbSmaMeasurement1);
+        $station2 = SmaStationConverter::fromDbResult($dbSmaMeasurement2);
 
         $this->assertEquals(DummySmaStation1::create(), $station1);
         $this->assertEquals(DummySmaStation2::create(), $station2);
@@ -38,7 +37,7 @@ class DbSmaStationTest extends TestCase {
     public function test_fromDbResult_1() {
         $dbResult = DummySmaStation1::createDbResult();
 
-        $station = DbSmaStation::fromDbResult($dbResult);
+        $station = SmaStationConverter::fromDbResult($dbResult);
 
         $this->assertEquals(DummySmaStation1::create(), $station);
     }
@@ -47,7 +46,7 @@ class DbSmaStationTest extends TestCase {
     public function test_fromDbResult_2() {
         $dbResult = DummySmaStation2::createDbResult();
 
-        $station = DbSmaStation::fromDbResult($dbResult);
+        $station = SmaStationConverter::fromDbResult($dbResult);
 
         $this->assertEquals(DummySmaStation2::create(), $station);
     }
@@ -56,7 +55,7 @@ class DbSmaStationTest extends TestCase {
     public function test_toInsertQuery_1() {
         $station = DummySmaStation1::create();
 
-        $query = DbSmaStation::toInsertQuery($this->mockDbService, $station);
+        $query = SmaStationConverter::toInsertQuery($this->mockDbService, $station);
 
         $this->assertStringContainsString("INSERT", $query);
         $this->assertStringContainsString($station->id, $query);
@@ -70,7 +69,7 @@ class DbSmaStationTest extends TestCase {
     public function test_toInsertQuery_2() {
         $station = DummySmaStation2::create();
 
-        $query = DbSmaStation::toInsertQuery($this->mockDbService, $station);
+        $query = SmaStationConverter::toInsertQuery($this->mockDbService, $station);
 
         $this->assertStringContainsString("INSERT", $query);
         $this->assertStringContainsString($station->id, $query);

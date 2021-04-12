@@ -8,7 +8,7 @@ use NavplanTest\Db\Mock\MockDbService;
 
 
 class DbHelperTest extends DbTestCase {
-    private $dbService;
+    private MockDbService $dbService;
 
 
     protected function setUp(): void {

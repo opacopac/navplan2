@@ -3,20 +3,16 @@
 namespace Navplan\Db\MySqlDb;
 
 use mysqli_result;
-use Navplan\Db\UseCase\IDbResult;
+use Navplan\Db\DomainModel\IDbResult;
 
 
 class MySqlDbResult implements IDbResult {
-    private $result;
+    public function __construct(private mysqli_result $result) {
+    }
 
 
     private function getResult(): mysqli_result {
         return $this->result;
-    }
-
-
-    public function __construct(mysqli_result $result) {
-        $this->result = $result;
     }
 
 

@@ -2,10 +2,10 @@
 
 namespace NavplanTest\Notam\Mocks;
 
-use Navplan\Geometry\Domain\Altitude;
-use Navplan\Geometry\Domain\AltitudeReference;
-use Navplan\Geometry\Domain\AltitudeUnit;
-use Navplan\Geometry\Domain\Ring2d;
+use Navplan\Geometry\DomainModel\Altitude;
+use Navplan\Geometry\DomainModel\AltitudeReference;
+use Navplan\Geometry\DomainModel\AltitudeUnit;
+use Navplan\Geometry\DomainModel\Ring2d;
 use Navplan\Notam\Domain\Notam;
 use Navplan\Notam\Domain\NotamGeometry;
 

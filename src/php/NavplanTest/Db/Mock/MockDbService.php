@@ -3,14 +3,14 @@
 namespace NavplanTest\Db\Mock;
 
 use InvalidArgumentException;
-use Navplan\Db\UseCase\IDbResult;
-use Navplan\Db\UseCase\IDbService;
+use Navplan\Db\DomainModel\IDbResult;
+use Navplan\Db\DomainService\IDbService;
 
 
 class MockDbService implements IDbService {
-    private $mockResultList = [];
-    public $queryList = [];
-    public $insertId = 12345;
+    private array $mockResultList = [];
+    public array $queryList = [];
+    public int $insertId = 12345;
 
 
     public function getAllQueriesString(string $separator = ' '): string {

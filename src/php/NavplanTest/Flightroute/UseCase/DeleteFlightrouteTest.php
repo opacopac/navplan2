@@ -3,11 +3,10 @@
 namespace NavplanTest\Flightroute\UseCase;
 
 use InvalidArgumentException;
-use Navplan\Flightroute\Domain\DeleteFlightrouteRequest;
-use Navplan\Flightroute\UseCase\DeleteFlightroute;
-use Navplan\User\UseCase\TokenService;
+use Navplan\Flightroute\UseCase\DeleteFlightroute\DeleteFlightrouteRequest;
+use Navplan\User\DomainService\TokenService;
 use NavplanTest\Flightroute\Mocks\MockFlightrouteRepo;
-use NavplanTest\MockNavplanConfig;
+use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\User\Mocks\DummyUser1;
 use NavplanTest\User\Mocks\MockUserRepo;
 use PHPUnit\Framework\TestCase;
@@ -15,19 +14,15 @@ use Throwable;
 
 
 class DeleteFlightrouteTest extends TestCase {
-    /* @var $config MockNavplanConfig */
-    private $config;
-    /* @var $userRepo MockUserRepo */
-    private $userRepo;
-    /* @var $flightrouteRepo MockFlightrouteRepo */
-    private $flightrouteRepo;
-    /* @var $tokenService TokenService */
-    private $tokenService;
+    private MockNavplanDiContainer $config;
+    private MockUserRepo $userRepo;
+    private MockFlightrouteRepo $flightrouteRepo;
+    private TokenService $tokenService;
 
     protected function setUp(): void {
-        $this->config = new MockNavplanConfig();
-        $this->flightrouteRepo = $this->config->getFlightrouteRepo();
-        $this->userRepo = $this->config->getUserRepoFactory()->createUserRepo();
+        $this->config = new MockNavplanDiContainer();
+        $this->flightrouteRepo = $this->config->flightrouteRepo;
+        $this->userRepo = $this->config->userRepo;
         $this->tokenService = $this->config->getTokenService();
     }
 
@@ -40,7 +35,7 @@ class DeleteFlightrouteTest extends TestCase {
         $this->userRepo->readUserResult = $user;
 
         $request = new DeleteFlightrouteRequest($flightrouteId, $token);
-        (new DeleteFlightroute($this->config))->delete($request);
+        $this->config->getDeleteFlightrouteUc()->delete($request);
 
         $this->assertEquals($email, $this->userRepo->readUserArgs[0]);
         $this->assertEquals($flightrouteId, $this->flightrouteRepo->deleteArgs[0]);
@@ -53,7 +48,7 @@ class DeleteFlightrouteTest extends TestCase {
         $flightrouteId = 123;
         $request = new DeleteFlightrouteRequest($flightrouteId, $token);
         try {
-            (new DeleteFlightroute($this->config))->delete($request);
+            $this->config->getDeleteFlightrouteUc()->delete($request);
             $this->fail("InvalidArgumentException not thrown");
         } catch (Throwable $exception) {
             $this->assertInstanceOf(InvalidArgumentException::class, $exception);
@@ -70,7 +65,7 @@ class DeleteFlightrouteTest extends TestCase {
         $this->userRepo->readUserResult = NULL;
         $request = new DeleteFlightrouteRequest($flightrouteId, $token);
         try {
-            (new DeleteFlightroute($this->config))->delete($request);
+            $this->config->getDeleteFlightrouteUc()->delete($request);
             $this->fail("InvalidArgumentException not thrown");
         } catch (Throwable $exception) {
             $this->assertInstanceOf(InvalidArgumentException::class, $exception);

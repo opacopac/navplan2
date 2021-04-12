@@ -8,12 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 
 class DbUserRepoFactoryTest extends TestCase {
-    private $dbService;
-
-
-    private function getDbService(): MockDbService {
-        return $this->dbService;
-    }
+    private MockDbService $dbService;
 
 
     protected function setUp(): void {
@@ -22,7 +17,7 @@ class DbUserRepoFactoryTest extends TestCase {
 
 
     public function test_create_instance() {
-        $factory = new DbUserRepoFactory($this->getDbService());
+        $factory = new DbUserRepoFactory($this->dbService);
         $this->assertNotNull($factory);
         $this->assertNotNull($factory->createUserPointRepo());
     }

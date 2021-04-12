@@ -2,7 +2,7 @@
 include_once __DIR__ . "/ZoomLevelSortItemType.php";
 include_once __DIR__ . "/../../php/Navplan/Db\MySqlDb/DbService.php";
 
-use Navplan\Db\Domain\DbException;
+use Navplan\Db\DomainModel\DbException;
 use Navplan\Db\MySqlDb\DbConnection;
 use Navplan\Db\MySqlDb\DbService;
 use Navplan\Db\MySqlDb\MySqlDbResult;

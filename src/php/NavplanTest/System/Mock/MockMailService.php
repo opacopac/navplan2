@@ -2,11 +2,11 @@
 
 namespace NavplanTest\System\Mock;
 
-use Navplan\System\UseCase\IMailService;
+use Navplan\System\DomainService\IMailService;
 
 
 class MockMailService implements IMailService {
-    private $emailRecipient;
+    private ?string $emailRecipient;
 
 
     public function getEmailRecipient(): ?string {

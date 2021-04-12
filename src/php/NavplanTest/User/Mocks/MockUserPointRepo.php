@@ -3,13 +3,13 @@
 namespace NavplanTest\User\Mocks;
 
 use InvalidArgumentException;
-use Navplan\Geometry\Domain\Extent;
-use Navplan\Geometry\Domain\Position2d;
-use Navplan\User\UseCase\IUserPointRepo;
+use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\User\DomainService\IUserPointRepo;
 
 
 class MockUserPointRepo implements IUserPointRepo {
-    private $mockResultList = [];
+    private array $mockResultList = [];
 
 
     public function searchByExtent(Extent $extent, string $email): array {

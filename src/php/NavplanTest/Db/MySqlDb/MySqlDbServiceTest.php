@@ -2,16 +2,16 @@
 
 namespace NavplanTest\Db\MySqlDb;
 
-use PHPUnit\Framework\TestCase;
-use Navplan\Db\Domain\DbException;
+use Navplan\Db\DomainModel\DbException;
 use Navplan\Db\MySqlDb\MySqlDbService;
+use PHPUnit\Framework\TestCase;
 
 // TODO => config
 require_once __DIR__ . "/../../../config_test.php";
 
 
 class MySqlDbServiceTest extends TestCase {
-    private $dbService;
+    private MySqlDbService $dbService;
 
 
     private function getDbService(): MySqlDbService {

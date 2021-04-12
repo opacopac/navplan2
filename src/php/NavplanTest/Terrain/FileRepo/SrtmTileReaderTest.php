@@ -2,17 +2,15 @@
 
 namespace NavplanTest\Terrain\FileRepo;
 
-use Navplan\Geometry\Domain\Position2d;
+use Navplan\Geometry\DomainModel\Position2d;
 use Navplan\Terrain\FileRepo\SrtmTileReader;
 use NavplanTest\System\Mock\MockFile;
 use PHPUnit\Framework\TestCase;
 
 
 class SrtmTileReaderTest extends TestCase {
-    /* @var $file MockFile */
-    private $file;
-    /* @var $reader SrtmTileReader */
-    private $reader;
+    private MockFile $file;
+    private SrtmTileReader $reader;
 
 
     protected function setUp(): void {

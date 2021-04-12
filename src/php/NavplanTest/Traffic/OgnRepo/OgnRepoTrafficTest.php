@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Traffic\OgnRepo;
 
-use Navplan\Traffic\OgnRepo\OgnRepoTraffic;
+use Navplan\Traffic\OgnRepo\OgnRepoTrafficConverter;
 use NavplanTest\System\Mock\MockSystemServiceFactory;
 use NavplanTest\System\Mock\MockTimeService;
 use NavplanTest\Traffic\Mocks\DummyOgnDumpFile12345;
@@ -15,8 +15,7 @@ use PHPUnit\Framework\TestCase;
 
 
 class OgnRepoTrafficTest extends TestCase {
-    /* @var $timeService MockTimeService */
-    private $timeService;
+    private MockTimeService $timeService;
 
 
     protected function setUp(): void {
@@ -32,11 +31,11 @@ class OgnRepoTrafficTest extends TestCase {
         $ognLine5 = DummyOgnDumpFile12345::createDumpFileLine5();
         $this->timeService->strtotimeRelativeDate = DummyOgnDumpFile12345::getDate();
 
-        $ac1 = OgnRepoTraffic::fromDumpFileLine($ognLine1, $this->timeService);
-        $ac2 = OgnRepoTraffic::fromDumpFileLine($ognLine2, $this->timeService);
-        $ac3 = OgnRepoTraffic::fromDumpFileLine($ognLine3, $this->timeService);
-        $ac4 = OgnRepoTraffic::fromDumpFileLine($ognLine4, $this->timeService);
-        $ac5 = OgnRepoTraffic::fromDumpFileLine($ognLine5, $this->timeService);
+        $ac1 = OgnRepoTrafficConverter::fromDumpFileLine($ognLine1, $this->timeService);
+        $ac2 = OgnRepoTrafficConverter::fromDumpFileLine($ognLine2, $this->timeService);
+        $ac3 = OgnRepoTrafficConverter::fromDumpFileLine($ognLine3, $this->timeService);
+        $ac4 = OgnRepoTrafficConverter::fromDumpFileLine($ognLine4, $this->timeService);
+        $ac5 = OgnRepoTrafficConverter::fromDumpFileLine($ognLine5, $this->timeService);
 
         $this->assertNotNull($ac1);
         $this->assertEquals(DummyOgnTraffic1::create(), $ac1);

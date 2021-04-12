@@ -2,33 +2,24 @@
 
 namespace Navplan\Notam\DbRepo;
 
-use Navplan\Geometry\Domain\Extent;
-use Navplan\Geometry\Domain\Position2d;
-use Navplan\Notam\Domain\Notam;
-use Navplan\Notam\UseCase\INotamRepo;
+use Navplan\Db\DomainModel\IDbResult;
+use Navplan\Db\DomainService\IDbService;
 use Navplan\Db\MySqlDb\DbHelper;
+use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Notam\Domain\Notam;
+use Navplan\Notam\DomainService\INotamRepo;
 use Navplan\Shared\GeoHelper;
-use Navplan\Db\UseCase\IDbResult;
-use Navplan\Db\UseCase\IDbService;
 
 
 class DbNotamRepo implements INotamRepo {
-    private $dbService;
-
-
-    private function getDbService(): IDbService {
-        return $this->dbService;
-    }
-
-
-    public function __construct(IDbService $dbService) {
-        $this->dbService = $dbService;
-    }
-
-
     const NOTAM_MAX_BOTTOM_FL = 195;
     const MIN_PIXEL_NOTAMAREA_DIAMETER = 30;  // TODO
     const MIN_PIXEL_COORDINATE_RESOLUTION = 2;  // TODO
+
+
+    public function __construct(public IDbService $dbService) {
+    }
 
 
     public function searchByExtent(Extent $extent, int $zoom, int $minNotamTimestamp, int $maxNotamTimestamp): array {
@@ -49,7 +40,7 @@ class DbNotamRepo implements INotamRepo {
             . "    AND geo.diameter > " . $minDiameterDeg
             . "    AND (" . $zoom . " >= geo.zoommin AND " . $zoom . "<= geo.zoommax)";
 
-        $result = $this->getDbService()->execMultiResultQuery($query, "error reading notams");
+        $result = $this->dbService->execMultiResultQuery($query, "error reading notams");
         $areaNotamList = self::readNotamFromResultList($result);
         $areaNotamList = self::removeNonAreaNotams($areaNotamList);
 
@@ -70,7 +61,7 @@ class DbNotamRepo implements INotamRepo {
             . "   ORDER BY ntm.startdate DESC"
             . "   LIMIT " . $maxResults;
 
-        $result = $this->getDbService()->execMultiResultQuery($query, "error searching notams");
+        $result = $this->dbService->execMultiResultQuery($query, "error searching notams");
 
         return $this->readNotamFromResultList($result);
     }
@@ -86,7 +77,7 @@ class DbNotamRepo implements INotamRepo {
             . "    AND ntm.enddate >= '" . DbHelper::getDbUtcTimeString($minNotamTimestamp) . "'"
             . "   ORDER BY ntm.startdate DESC";
 
-        $result = $this->getDbService()->execMultiResultQuery($query, "error searching notams");
+        $result = $this->dbService->execMultiResultQuery($query, "error searching notams");
 
         return $this->readNotamFromResultList($result);
     }
@@ -98,7 +89,7 @@ class DbNotamRepo implements INotamRepo {
         $query .= " UNION ";
         $query .= "SELECT DISTINCT icao FROM openaip_airports WHERE ST_INTERSECTS(lonlat, " . $extentSql . ") AND icao <> ''";
 
-        $result = $this->getDbService()->execMultiResultQuery($query, "error reading fir/ad icao list");
+        $result = $this->dbService->execMultiResultQuery($query, "error reading fir/ad icao list");
 
         $icaoList = [];
         while ($rs = $result->fetch_assoc())
@@ -124,7 +115,7 @@ class DbNotamRepo implements INotamRepo {
     private function readNotamFromResultList(IDbResult $result): array {
         $notams = [];
         while ($rs = $result->fetch_assoc()) {
-            $notam = DbNotam::fromDbResult($rs);
+            $notam = NotamConverter::fromDbResult($rs);
 
             // filter by max FL195
             /*if ($notam->geometry && $notam->geometry["bottom"] >= NOTAM_MAX_BOTTOM_FL)

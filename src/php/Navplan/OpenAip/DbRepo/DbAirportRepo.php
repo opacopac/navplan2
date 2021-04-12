@@ -3,12 +3,17 @@
 namespace Navplan\OpenAip\DbRepo;
 
 use BadMethodCallException;
+use Navplan\Db\DomainModel\IDbResult;
+use Navplan\Db\DomainService\IDbService;
 use Navplan\Db\MySqlDb\DbHelper;
-use Navplan\Geometry\Domain\Extent;
-use Navplan\Geometry\Domain\Position2d;
-use Navplan\OpenAip\UseCase\IAirportRepo;
-use Navplan\Db\UseCase\IDbResult;
-use Navplan\Db\UseCase\IDbService;
+use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\OpenAip\DbModel\DbAirportConverter;
+use Navplan\OpenAip\DbModel\DbAirportRadioConverter;
+use Navplan\OpenAip\DbModel\DbAirportRunwayConverter;
+use Navplan\OpenAip\DbModel\DbMapFeatureConverter;
+use Navplan\OpenAip\DbModel\DbWebcamConverter;
+use Navplan\OpenAip\DomainService\IAirportRepo;
 
 
 class DbAirportRepo implements IAirportRepo {
@@ -127,7 +132,7 @@ class DbAirportRepo implements IAirportRepo {
         while ($rs = $result->fetch_assoc()) {
             foreach ($airports as &$ap) {
                 if ($ap->id === intval($rs["airport_id"])) {
-                    $ap->runways[] = DbAirportRunway::fromDbResult($rs);
+                    $ap->runways[] = DbAirportRunwayConverter::fromDbResult($rs);
                     break;
                 }
             }
@@ -152,7 +157,7 @@ class DbAirportRepo implements IAirportRepo {
         while ($rs = $result->fetch_assoc()) {
             foreach ($airports as &$ap) {
                 if ($ap->id === $rs["airport_id"]) {
-                    $ap->radios[] = DbAirportRadio::fromDbResult($rs);
+                    $ap->radios[] = DbAirportRadioConverter::fromDbResult($rs);
                     break;
                 }
             }
@@ -201,7 +206,7 @@ class DbAirportRepo implements IAirportRepo {
         while ($rs = $result->fetch_assoc()) {
             foreach ($airports as &$ap) {
                 if ($ap->icao === $rs["airport_icao"]) {
-                    $ap->webcams[] = DbWebcam::fromDbResult($rs);
+                    $ap->webcams[] = DbWebcamConverter::fromDbResult($rs);
                     break;
                 }
             }
@@ -223,7 +228,7 @@ class DbAirportRepo implements IAirportRepo {
         while ($rs = $result->fetch_assoc()) {
             foreach ($airports as &$ap) {
                 if ($ap->icao === $rs["airport_icao"]) {
-                    $ap->mapfeatures[] = DbMapFeature::fromDbResult($rs);
+                    $ap->mapfeatures[] = DbMapFeatureConverter::fromDbResult($rs);
                     break;
                 }
             }
@@ -235,7 +240,7 @@ class DbAirportRepo implements IAirportRepo {
         $airports = [];
 
         while ($rs = $result->fetch_assoc()) {
-            $airports[] = DbAirport::fromDbResult($rs);
+            $airports[] = DbAirportConverter::fromDbResult($rs);
         }
 
         return $airports;

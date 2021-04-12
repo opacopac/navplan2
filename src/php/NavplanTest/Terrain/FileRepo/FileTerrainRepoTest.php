@@ -2,10 +2,10 @@
 
 namespace NavplanTest\Terrain\FileRepo;
 
-use Navplan\Geometry\Domain\AltitudeReference;
-use Navplan\Geometry\Domain\AltitudeUnit;
-use Navplan\Geometry\Domain\Position2d;
-use Navplan\Geometry\Domain\Position3d;
+use Navplan\Geometry\DomainModel\AltitudeReference;
+use Navplan\Geometry\DomainModel\AltitudeUnit;
+use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Geometry\DomainModel\Position3d;
 use Navplan\Terrain\FileRepo\FileTerrainRepo;
 use NavplanTest\System\Mock\MockFile;
 use NavplanTest\System\Mock\MockFileService;
@@ -13,16 +13,11 @@ use PHPUnit\Framework\TestCase;
 
 
 class FileTerrainRepoTest extends TestCase {
-    /* @var $repo FileTerrainRepo */
-    private $repo;
-    /* @var $fileService MockFileService */
-    private $fileService;
-    /* @var $file MockFile */
-    private $file;
+    private FileTerrainRepo $repo;
 
 
     private function assertEqualPosList(array $pos2dList, array $pos3dList, float $alt) {
-        $this->assertEquals(count($pos2dList), count($pos3dList));
+        $this->assertSameSize($pos2dList, $pos3dList);
         for ($i = 0; $i < count($pos2dList); $i++) {
             $this->assertEqualPos($pos2dList[$i], $pos3dList[$i], $alt);
         }
@@ -39,14 +34,14 @@ class FileTerrainRepoTest extends TestCase {
 
 
     protected function setUp(): void {
-        $this->file = new MockFile();
-        $this->file->fseekResult = 0;
-        $this->file->freadResult = pack("n", 123);
-        $this->file->fcloseResult = TRUE;
-        $this->fileService = new MockFileService();
-        $this->fileService->fileExistsResult = true;
-        $this->fileService->fopenResult = $this->file;
-        $this->repo = new FileTerrainRepo($this->fileService);
+        $file = new MockFile();
+        $file->fseekResult = 0;
+        $file->freadResult = pack("n", 123);
+        $file->fcloseResult = TRUE;
+        $fileService = new MockFileService();
+        $fileService->fileExistsResult = true;
+        $fileService->fopenResult = $file;
+        $this->repo = new FileTerrainRepo($fileService);
     }
 
 

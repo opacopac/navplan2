@@ -2,10 +2,10 @@
 
 namespace NavplanTest\OpenAip\Mocks;
 
-use Navplan\Geometry\Domain\Length;
-use Navplan\Geometry\Domain\LengthUnit;
-use Navplan\Geometry\Domain\Position2d;
-use Navplan\OpenAip\Domain\Airport;
+use Navplan\Geometry\DomainModel\Length;
+use Navplan\Geometry\DomainModel\LengthUnit;
+use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\OpenAip\DomainModel\Airport;
 
 
 class DummyAirport1 {

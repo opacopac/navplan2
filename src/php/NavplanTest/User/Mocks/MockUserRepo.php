@@ -2,27 +2,19 @@
 
 namespace NavplanTest\User\Mocks;
 
-use Navplan\User\Domain\User;
-use Navplan\User\UseCase\IUserRepo;
+use Navplan\User\DomainModel\User;
+use Navplan\User\DomainService\IUserRepo;
 
 
 class MockUserRepo implements IUserRepo {
-    /* @var $checkEmailExistArgs array */
-    public $checkEmailExistArgs;
-    /* @var $checkEmailExistsResult bool */
-    public $checkEmailExistsResult;
-    /* @var $verifyPwHashArgs array */
-    public $verifyPwHashArgs;
-    /* @var $verifyPwHashResult bool */
-    public $verifyPwHashResult;
-    /* @var $readUserArgs array */
-    public $readUserArgs;
-    /* @var $readUserResult?User */
-    public $readUserResult;
-    /* @var $updatePasswordArgs array */
-    public $updatePasswordArgs;
-    /* @var $createUserArgs bool */
-    public $createUserArgs;
+    public array $checkEmailExistArgs;
+    public bool $checkEmailExistsResult;
+    public array $verifyPwHashArgs;
+    public bool $verifyPwHashResult;
+    public array $readUserArgs;
+    public ?User $readUserResult;
+    public array $updatePasswordArgs;
+    public array $createUserArgs;
 
 
     public function checkEmailExists(string $email): bool {

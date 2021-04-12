@@ -2,14 +2,14 @@
 
 namespace NavplanTest\System\Posix;
 
-use PHPUnit\Framework\TestCase;
-use Navplan\System\UseCase\IMailService;
+use Navplan\System\DomainService\IMailService;
 use Navplan\System\Posix\MailService;
+use PHPUnit\Framework\TestCase;
 
 
 class MailServiceTest extends TestCase
 {
-    private $mailService;
+    private MailService $mailService;
 
 
     protected function setUp(): void {

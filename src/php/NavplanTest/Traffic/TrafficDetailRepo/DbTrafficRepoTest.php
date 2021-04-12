@@ -5,7 +5,6 @@ namespace NavplanTest\Traffic\TrafficDetailRepo;
 use Navplan\Traffic\TrafficDetailRepo\DbTrafficDetailRepo;
 use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\Traffic\Mocks\DummyBasestationTrafficDetail1;
-use NavplanTest\Traffic\Mocks\DummyIcaoAcTypeTrafficDetail1;
 use NavplanTest\Traffic\Mocks\DummyIcaoAcTypeTrafficDetail2;
 use NavplanTest\Traffic\Mocks\DummyIcaoAcTypeTrafficDetail3;
 use NavplanTest\Traffic\Mocks\DummyIcaoAcTypeTrafficDetail4;
@@ -14,10 +13,8 @@ use PHPUnit\Framework\TestCase;
 
 
 class DbTrafficRepoTest extends TestCase {
-    /* @var $dbService MockDbService */
-    private $dbService;
-    /* @var $trafficRepo DbTrafficDetailRepo */
-    private $trafficRepo;
+    private MockDbService $dbService;
+    private DbTrafficDetailRepo $trafficRepo;
 
 
     protected function setUp(): void {
@@ -34,7 +31,7 @@ class DbTrafficRepoTest extends TestCase {
         $result = $this->trafficRepo->readDetailsFromLfrCh($icao24List);
 
         $this->assertNotNull($result);
-        $this->assertEquals(1, count($result));
+        $this->assertCount(1, $result);
         $this->assertEquals(DummyLfrchTrafficDetail1::create(), $result[0]);
         $this->assertRegExp('/' . $icao24List[0] . '/', $this->dbService->getAllQueriesString());
     }
@@ -47,7 +44,7 @@ class DbTrafficRepoTest extends TestCase {
         $result = $this->trafficRepo->readDetailsFromLfrCh($icao24List);
 
         $this->assertNotNull($result);
-        $this->assertEquals(0, count($result));
+        $this->assertCount(0, $result);
         $this->assertRegExp("/C0F\\\\'EE/", $this->dbService->getAllQueriesString());
     }
 
@@ -60,7 +57,7 @@ class DbTrafficRepoTest extends TestCase {
         $result = $this->trafficRepo->readDetailsFromBasestation($icao24List);
 
         $this->assertNotNull($result);
-        $this->assertEquals(1, count($result));
+        $this->assertCount(1, $result);
         $this->assertEquals(DummyBasestationTrafficDetail1::create(), $result[0]);
         $this->assertRegExp('/' . $icao24List[0] . '/', $this->dbService->getAllQueriesString());
     }
@@ -73,7 +70,7 @@ class DbTrafficRepoTest extends TestCase {
         $result = $this->trafficRepo->readDetailsFromBasestation($icao24List);
 
         $this->assertNotNull($result);
-        $this->assertEquals(0, count($result));
+        $this->assertCount(0, $result);
         $this->assertRegExp("/C0F\\\\'EE/", $this->dbService->getAllQueriesString());
     }
 
@@ -90,7 +87,7 @@ class DbTrafficRepoTest extends TestCase {
         $result = $this->trafficRepo->readDetailsFromIcaoAcTypes($acIcaoTypeList);
 
         $this->assertNotNull($result);
-        $this->assertEquals(3, count($result));
+        $this->assertCount(3, $result);
         $this->assertEquals(DummyIcaoAcTypeTrafficDetail2::create(), $result[0]);
         $this->assertEquals(DummyIcaoAcTypeTrafficDetail3::create(), $result[1]);
         $this->assertEquals(DummyIcaoAcTypeTrafficDetail4::create(), $result[2]);
@@ -105,7 +102,7 @@ class DbTrafficRepoTest extends TestCase {
         $result = $this->trafficRepo->readDetailsFromIcaoAcTypes($acIcaoTypeList);
 
         $this->assertNotNull($result);
-        $this->assertEquals(0, count($result));
+        $this->assertCount(0, $result);
         $this->assertRegExp("/A3\\\\'0/", $this->dbService->getAllQueriesString());
     }
 }

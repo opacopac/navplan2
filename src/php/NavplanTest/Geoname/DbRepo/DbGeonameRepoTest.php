@@ -2,17 +2,17 @@
 
 namespace NavplanTest\Geoname\DbRepo;
 
-use Navplan\Geometry\Domain\Position2d;
+use Navplan\Geometry\DomainModel\Position2d;
 use Navplan\Geoname\DbRepo\DbGeonameRepo;
-use Navplan\Geoname\Domain\Geoname;
+use Navplan\Geoname\DomainModel\Geoname;
 use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\Geoname\Mocks\DummyGeoname1;
 use PHPUnit\Framework\TestCase;
 
 
 class DbGeonameRepoTest extends TestCase {
-    private $dbService;
-    private $dbRepo;
+    private MockDbService $dbService;
+    private DbGeonameRepo $dbRepo;
 
 
     private function getDbService(): MockDbService {

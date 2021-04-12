@@ -4,12 +4,6 @@ namespace Navplan\Notam\Domain;
 
 
 class ReadNotamResponse {
-    public $notams;
-
-
-    public function __construct(
-        array $notams
-    ) {
-        $this->notams = $notams;
+    public function __construct(public array $notams) {
     }
 }

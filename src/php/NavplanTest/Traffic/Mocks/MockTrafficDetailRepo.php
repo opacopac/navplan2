@@ -2,24 +2,16 @@
 
 namespace NavplanTest\Traffic\Mocks;
 
-use Navplan\Traffic\UseCase\ITrafficDetailRepo;
+use Navplan\Traffic\DomainService\ITrafficDetailRepo;
 
 
 class MockTrafficDetailRepo implements ITrafficDetailRepo {
-    /* @var $readDetailsFromLfrChResult array */
-    public $readDetailsFromLfrChResult;
-    /* @var $readDetailsFromLfrChArgs array */
-    public $readDetailsFromLfrChArgs;
-
-    /* @var $readDetailsFromBasestationResult array */
-    public $readDetailsFromBasestationResult;
-    /* @var $readDetailsFromBasestationArgs array */
-    public $readDetailsFromBasestationArgs;
-
-    /* @var $readDetailsFromIcaoAcTypesResult array */
-    public $readDetailsFromIcaoAcTypesResult;
-    /* @var $readDetailsFromIcaoAcTypesArgs array */
-    public $readDetailsFromIcaoAcTypesArgs;
+    public array $readDetailsFromLfrChResult;
+    public array $readDetailsFromLfrChArgs;
+    public array $readDetailsFromBasestationResult;
+    public array $readDetailsFromBasestationArgs;
+    public array $readDetailsFromIcaoAcTypesResult;
+    public array $readDetailsFromIcaoAcTypesArgs;
 
 
     public function __construct() {

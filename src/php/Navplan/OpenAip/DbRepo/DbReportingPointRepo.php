@@ -3,15 +3,13 @@
 namespace Navplan\OpenAip\DbRepo;
 
 use BadMethodCallException;
-use Navplan\Geometry\Domain\Extent;
-use Navplan\Geometry\Domain\Position2d;
-use Navplan\OpenAip\Domain\ReportingPoint;
-use Navplan\OpenAip\UseCase\IReportingPointRepo;
+use Navplan\Db\DomainModel\IDbResult;
+use Navplan\Db\DomainService\IDbService;
 use Navplan\Db\MySqlDb\DbHelper;
-use Navplan\Geometry\Domain\Ring2d;
-use Navplan\Db\UseCase\IDbResult;
-use Navplan\Db\UseCase\IDbService;
-use Navplan\Shared\StringNumberHelper;
+use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\OpenAip\DbModel\DbReportingPointConverter;
+use Navplan\OpenAip\DomainService\IReportingPointRepo;
 
 
 class DbReportingPointRepo implements IReportingPointRepo {
@@ -79,7 +77,7 @@ class DbReportingPointRepo implements IReportingPointRepo {
     private function readReportingPointFromResultList(IDbResult $result): array {
         $reportingPoint = [];
         while ($rs = $result->fetch_assoc()) {
-            $reportingPoint[] = DbReportingPoint::fromDbResult($rs);
+            $reportingPoint[] = DbReportingPointConverter::fromDbResult($rs);
         }
 
         return $reportingPoint;

@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 
 class DbOpenAipRepoFactoryTest extends TestCase {
-    private $dbService;
+    private MockDbService $dbService;
 
 
     private function getDbService(): MockDbService {

@@ -2,28 +2,21 @@
 
 namespace NavplanTest\System\Mock;
 
-use Navplan\System\UseCase\IFile;
+use Navplan\System\DomainModel\IFile;
 
 
 class MockFile implements IFile {
-    /* @var $fcloseResult bool */
-    public $fcloseResult;
+    public bool $fcloseResult;
 
-    /* @var $fseekResult int */
-    public $fseekResult;
-    /* @var $fseekArgs array */
-    public $fseekArgs;
+    public int $fseekResult;
+    public array $fseekArgs;
 
-    /* @var $freadResult ?string */
-    public $freadResult;
-    /* @var $freadArgs array */
-    public $freadArgs;
+    public ?string $freadResult;
+    public array $freadArgs;
 
-    /* @var $fgetsResult ?string */
-    public $fgetsResult;
+    public ?string $fgetsResult;
 
-    /* @var $feofCountUntilResultTrue int */
-    public $feofCountUntilResultTrue;
+    public int $feofCountUntilResultTrue;
 
 
     public function __construct() {

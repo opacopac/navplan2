@@ -2,23 +2,22 @@
 
 namespace Navplan\Traffic\OgnRepo;
 
-use Navplan\Geometry\Domain\Extent;
-use Navplan\System\UseCase\ISystemServiceFactory;
-use Navplan\Traffic\UseCase\IOgnRepo;
+use Navplan\Geometry\DomainModel\Extent;
+use Navplan\System\DomainService\IFileService;
+use Navplan\System\DomainService\IProcService;
+use Navplan\System\DomainService\ITimeService;
+use Navplan\Traffic\DomainService\IOgnRepo;
 
 
 class OgnRepo implements IOgnRepo {
     const TMP_FILE_BASE_PATH = __DIR__ . "/../../../../tmp/";
 
-    private $fileService;
-    private $procService;
-    private $timeService;
 
-
-    public function __construct(ISystemServiceFactory $systemServiceFactory) {
-        $this->fileService = $systemServiceFactory->getFileService();
-        $this->procService = $systemServiceFactory->getProcService();
-        $this->timeService = $systemServiceFactory->getTimeService();
+    public function __construct(
+        private IFileService $fileService,
+        private IProcService $procService,
+        private ITimeService $timeService
+    ) {
     }
 
 
@@ -65,7 +64,7 @@ class OgnRepo implements IOgnRepo {
                     continue;
                 }
 
-                $acList[] = OgnRepoTraffic::fromDumpFileLine($line, $this->timeService);
+                $acList[] = OgnRepoTrafficConverter::fromDumpFileLine($line, $this->timeService);
             }
         }
 

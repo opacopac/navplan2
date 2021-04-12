@@ -2,26 +2,17 @@
 
 namespace NavplanTest\Traffic\Mocks;
 
-use Navplan\Geometry\Domain\Extent;
-use Navplan\Traffic\UseCase\IOgnRepo;
+use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Traffic\DomainService\IOgnRepo;
 
 
 class MockOgnRepo implements IOgnRepo {
-    /* @var $setFilterArgs array */
-    public $setFilterArgs;
-
-    /* @var $isListenerRunningResult bool */
-    public $isListenerRunningResult;
-    /* @var $isListenerRunningArgs array */
-    public $isListenerRunningArgs;
-
-    /* @var $startListenerArgs array */
-    public $startListenerArgs;
-
-    /* @var $readTrafficResult array */
-    public $readTrafficResult;
-    /* @var $readTrafficArgs array */
-    public $readTrafficArgs;
+    public array $setFilterArgs;
+    public bool $isListenerRunningResult;
+    public array $isListenerRunningArgs;
+    public array $startListenerArgs;
+    public array $readTrafficResult;
+    public array $readTrafficArgs;
 
 
     public function __construct() {

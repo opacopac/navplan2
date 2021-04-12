@@ -2,8 +2,8 @@
 
 namespace NavplanTest\User\Mocks;
 
-use Navplan\Geometry\Domain\Position2d;
-use Navplan\User\Domain\UserPoint;
+use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\User\DomainModel\UserPoint;
 
 
 class DummyUserPoint2 {

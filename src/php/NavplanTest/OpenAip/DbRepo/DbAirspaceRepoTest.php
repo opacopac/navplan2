@@ -2,7 +2,7 @@
 
 namespace NavplanTest\OpenAip\DbRepo;
 
-use Navplan\Geometry\Domain\Extent;
+use Navplan\Geometry\DomainModel\Extent;
 use Navplan\OpenAip\DbRepo\DbAirspaceRepo;
 use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\OpenAip\Mocks\DummyAirspace1;
@@ -10,8 +10,8 @@ use PHPUnit\Framework\TestCase;
 
 
 class DbAirspaceRepoTest extends TestCase {
-    private $dbService;
-    private $dbRepo;
+    private MockDbService $dbService;
+    private DbAirspaceRepo $dbRepo;
 
 
     private function getDbService(): MockDbService {

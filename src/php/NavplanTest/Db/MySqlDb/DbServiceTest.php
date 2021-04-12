@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Db\MySqlDb;
 
-use Navplan\Db\Domain\DbException;
+use Navplan\Db\DomainModel\DbException;
 use Navplan\Db\MySqlDb\DbService;
 
 

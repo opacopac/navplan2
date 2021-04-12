@@ -2,12 +2,12 @@
 
 namespace Navplan\Flightroute\DbRepo;
 
-use Navplan\Db\UseCase\IDbResult;
-use Navplan\Db\UseCase\IDbService;
+use Navplan\Db\DomainModel\IDbResult;
+use Navplan\Db\DomainService\IDbService;
 use Navplan\Db\MySqlDb\DbHelper;
 use Navplan\Flightroute\Domain\Flightroute;
-use Navplan\Flightroute\UseCase\IFlightrouteRepo;
-use Navplan\User\Domain\User;
+use Navplan\Flightroute\DomainService\IFlightrouteRepo;
+use Navplan\User\DomainModel\User;
 
 
 class DbFlightrouteRepo implements IFlightrouteRepo {
@@ -21,7 +21,7 @@ class DbFlightrouteRepo implements IFlightrouteRepo {
 
     public function add(Flightroute $flightroute, ?User $user): Flightroute {
         // create route
-        $query = DbFlightroute::toInsertSql($this->dbService, $flightroute, $user ? $user->id : NULL);
+        $query = FlightrouteConverter::toInsertSql($this->dbService, $flightroute, $user ? $user->id : NULL);
         $this->dbService->execCUDQuery($query, "error creating flightroute");
         $flightroute->id = $this->dbService->getInsertId();
 
@@ -45,7 +45,7 @@ class DbFlightrouteRepo implements IFlightrouteRepo {
 
     public function update(Flightroute $flightroute, User $user): Flightroute {
         // update route
-        $query = DbFlightroute::toUpdateSql($this->dbService, $flightroute);
+        $query = FlightrouteConverter::toUpdateSql($this->dbService, $flightroute);
         $this->dbService->execCUDQuery($query, "error updating flightroute");
 
         // update waypoints
@@ -91,7 +91,7 @@ class DbFlightrouteRepo implements IFlightrouteRepo {
 
         $routes = [];
         while ($row = $result->fetch_assoc()) {
-            $routes[] = DbFlightroute::fromDbResult($row);
+            $routes[] = FlightrouteConverter::fromDbResult($row);
         }
 
         return $routes;
@@ -100,7 +100,7 @@ class DbFlightrouteRepo implements IFlightrouteRepo {
 
     private function getFlightrouteOrNull(IDbResult $result): ?Flightroute {
         if ($result->getNumRows() === 1) {
-            $flightroute = DbFlightroute::fromDbResult($result->fetch_assoc());
+            $flightroute = FlightrouteConverter::fromDbResult($result->fetch_assoc());
             $this->readWaypoints($flightroute);
             return $flightroute;
         } else {
@@ -117,7 +117,7 @@ class DbFlightrouteRepo implements IFlightrouteRepo {
 
         // create result array
         while ($row = $result->fetch_assoc()) {
-            $wp = DbWaypoint::fromDbResult($row);
+            $wp = WaypointConverter::fromDbResult($row);
 
             if ($wp->isAlternate) {
                 $flightroute->alternate = $wp;
@@ -139,13 +139,13 @@ class DbFlightrouteRepo implements IFlightrouteRepo {
         // waypoints
         for ($i = 0; $i < count($flightroute->waypoinList); $i++) {
             $wp = $flightroute->waypoinList[$i];
-            $query = DbWaypoint::toInsertSql($this->dbService, $wp, $flightroute->id, $i);
+            $query = WaypointConverter::toInsertSql($this->dbService, $wp, $flightroute->id, $i);
             $this->dbService->execCUDQuery($query, "error inserting waypoint");
         }
 
         // alternate
         if ($flightroute->alternate) {
-            $query = DbWaypoint::toInsertSql($this->dbService, $flightroute->alternate, $flightroute->id, count($flightroute->waypoinList));
+            $query = WaypointConverter::toInsertSql($this->dbService, $flightroute->alternate, $flightroute->id, count($flightroute->waypoinList));
             $this->dbService->execCUDQuery($query, "error inserting alternate");
         }
     }

@@ -2,20 +2,16 @@
 
 namespace NavplanTest\System\Posix;
 
+use Navplan\System\DomainModel\FileServiceException;
+use Navplan\System\DomainService\IFileService;
 use Navplan\System\Posix\FileService;
-use Navplan\System\Domain\FileServiceException;
 use PHPUnit\Framework\TestCase;
 
 
 class FileServiceTest extends TestCase {
     private $tmpFile;
-    private $tmpFileName;
-    private $fileService;
-
-
-    private function getFileService(): FileService {
-        return $this->fileService;
-    }
+    private FileService $tmpFileName;
+    private IFileService $fileService;
 
 
     protected function setUp(): void {
@@ -38,7 +34,7 @@ class FileServiceTest extends TestCase {
         $dummyText = "dummy text";
         fwrite($this->tmpFile, $dummyText);
         fseek($this->tmpFile, 0);
-        $result = $this->getFileService()->fileGetContents($this->tmpFileName);
+        $result = $this->fileService->fileGetContents($this->tmpFileName);
 
         $this->assertEquals($dummyText, $result);
     }
@@ -50,7 +46,7 @@ class FileServiceTest extends TestCase {
 
         $this->assertFalse($fileExists);
         $this->expectException(FileServiceException::class);
-        $this->getFileService()->fileGetContents($this->tmpFileName);
+        $this->fileService->fileGetContents($this->tmpFileName);
     }
 
     // endregion
@@ -60,7 +56,7 @@ class FileServiceTest extends TestCase {
 
     public function test_filePutContents_writes_file_successfully() {
         $dummyText = "dummy text";
-        $result = $this->getFileService()->filePutContents($this->tmpFileName, $dummyText);
+        $result = $this->fileService->filePutContents($this->tmpFileName, $dummyText);
 
         $this->assertEquals(strlen($dummyText), $result);
     }
@@ -68,7 +64,7 @@ class FileServiceTest extends TestCase {
 
     public function test_filePutContents_throws_an_exception_on_error() {
         $this->expectException(FileServiceException::class);
-        $this->getFileService()->filePutContents('', 'dummy text');
+        $this->fileService->filePutContents('', 'dummy text');
     }
 
     // endregion

@@ -2,26 +2,17 @@
 
 namespace Navplan\Terrain\FileRepo;
 
-use Navplan\Geometry\Domain\Position2d;
+use Navplan\Geometry\DomainModel\Position2d;
 
 
 class TerrainPos {
-    /* @var $index int */
-    public $index;
-
-    /* @var $filePath string */
-    public $filePath;
-
-    /* @var $position2d Position2d */
-    public $position2d;
-
-    /* @var $elevationM float */
-    public $elevationM;
+    public float $elevationM;
 
 
-    public function __construct(int $index, Position2d $position2d, string $filePath) {
-        $this->index = $index;
-        $this->position2d = $position2d;
-        $this->filePath = $filePath;
+    public function __construct(
+        public int $index,
+        public Position2d $position2d,
+        public string $filePath
+    ) {
     }
 }

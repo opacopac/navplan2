@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\System;
+namespace NavplanTest\Shared;
 
 use InvalidArgumentException;
 use Navplan\Shared\StringNumberHelper;
@@ -16,8 +16,8 @@ class StringNumberServiceTest extends TestCase {
         $val0 = StringNumberHelper::isNullOrEmpty($args, "key0");
         $this->assertEquals(true, $val0);
     }
-    
-    
+
+
     // region parseStringOrNull
 
     public function test_parseStringOrNull_success() {
@@ -32,7 +32,7 @@ class StringNumberServiceTest extends TestCase {
         $val0 = StringNumberHelper::parseStringOrNull($args, "key0");
         $this->assertEquals(NULL, $val0);
     }
-    
+
     // endregion
 
 
@@ -50,7 +50,7 @@ class StringNumberServiceTest extends TestCase {
         $this->expectException(InvalidArgumentException::class);
         StringNumberHelper::parseStringOrError($args, "key0");
     }
-    
+
     // endregion
 
 
@@ -146,7 +146,7 @@ class StringNumberServiceTest extends TestCase {
         $this->expectException(InvalidArgumentException::class);
         StringNumberHelper::parseIntOrError($args, "key1");
     }
-    
+
     // endregion
 
 

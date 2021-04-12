@@ -7,7 +7,7 @@ use Navplan\Db\MySqlDb\DbConnection;
 
 class MockDbConnection extends DbConnection
 {
-    private $mockResultList = [];
+    private array $mockResultList = [];
 
 
     public function __construct($mockResult) {

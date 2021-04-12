@@ -2,8 +2,8 @@
 
 namespace NavplanTest\OpenAip\DbRepo;
 
-use Navplan\Geometry\Domain\Extent;
-use Navplan\Geometry\Domain\Position2d;
+use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Geometry\DomainModel\Position2d;
 use Navplan\OpenAip\DbRepo\DbAirportRepo;
 use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\OpenAip\Mocks\DummyAirport1;
@@ -17,8 +17,8 @@ use PHPUnit\Framework\TestCase;
 
 
 class DbAirportRepoTest extends TestCase {
-    private $dbService;
-    private $dbRepo;
+    private MockDbService $dbService;
+    private DbAirportRepo $dbRepo;
 
 
     private function getDbService(): MockDbService {

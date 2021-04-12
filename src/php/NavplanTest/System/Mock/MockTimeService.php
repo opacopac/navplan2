@@ -2,16 +2,13 @@
 
 namespace NavplanTest\System\Mock;
 
-use Navplan\System\UseCase\ITimeService;
+use Navplan\System\DomainService\ITimeService;
 
 
 class MockTimeService implements ITimeService {
-    /* @var $strtotimeRelativeDate int */
-    public $strtotimeRelativeDate;
-    /* @var $strtotimeResult ?int */
-    public $strtotimeResult;
-    /* @var $strtotimeArgs array */
-    public $strtotimeArgs;
+    public int $strtotimeRelativeDate;
+    public ?int $strtotimeResult;
+    public array $strtotimeArgs;
 
 
     public function strtotime(string $time): ?int {

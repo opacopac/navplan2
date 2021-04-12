@@ -3,8 +3,8 @@
 namespace NavplanTest\OpenAip\Mocks;
 
 use InvalidArgumentException;
-use Navplan\Geometry\Domain\Extent;
-use Navplan\OpenAip\UseCase\IWebcamRepo;
+use Navplan\Geometry\DomainModel\Extent;
+use Navplan\OpenAip\DomainService\IWebcamRepo;
 
 
 class MockWebcamRepo implements IWebcamRepo {

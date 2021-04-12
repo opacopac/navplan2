@@ -2,9 +2,9 @@
 
 namespace Navplan\System\Posix;
 
-
 use InvalidArgumentException;
-use Navplan\System\UseCase\IHttpService;
+use Navplan\System\DomainService\IHttpService;
+
 
 class HttpService implements IHttpService {
     private static $instance = NULL;

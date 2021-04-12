@@ -2,9 +2,9 @@
 
 namespace Navplan\Terrain\FileRepo;
 
-use Navplan\Geometry\Domain\Position2d;
+use Navplan\Geometry\DomainModel\Position2d;
 use Navplan\Shared\StringNumberHelper;
-use Navplan\System\UseCase\IFile;
+use Navplan\System\DomainModel\IFile;
 
 
 class SrtmTileReader {
@@ -14,12 +14,7 @@ class SrtmTileReader {
     const MAX_LINES = 1201;
 
 
-    /* @var $file IFile */
-    private $file;
-
-
-    public function __construct(?IFile $file) {
-        $this->file = $file;
+    public function __construct(private ?IFile $file) {
     }
 
 

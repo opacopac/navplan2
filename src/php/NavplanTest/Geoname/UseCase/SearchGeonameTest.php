@@ -2,36 +2,33 @@
 
 namespace NavplanTest\Geoname\UseCase;
 
-use Navplan\Geometry\Domain\Altitude;
-use Navplan\Geometry\Domain\AltitudeReference;
-use Navplan\Geometry\Domain\AltitudeUnit;
-use Navplan\Geometry\Domain\Position2d;
-use Navplan\Geoname\UseCase\SearchGeoname;
+use Navplan\Geometry\DomainModel\Altitude;
+use Navplan\Geometry\DomainModel\AltitudeReference;
+use Navplan\Geometry\DomainModel\AltitudeUnit;
+use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Geoname\UseCase\SearchGeoname\SearchGeonameUc;
 use NavplanTest\Geoname\Mocks\DummyGeoname1;
 use NavplanTest\Geoname\Mocks\DummyGeoname2;
 use NavplanTest\Geoname\Mocks\MockGeonameRepo;
-use NavplanTest\MockNavplanConfig;
+use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\Terrain\Mocks\MockTerrainRepo;
 use PHPUnit\Framework\TestCase;
 
 
 class SearchGeonameTest extends TestCase {
-    private $expectedResult;
-    /* @var $geonameRepo MockGeonameRepo */
-    private $geonameRepo;
-    /* @var $terrainRepo MockTerrainRepo */
-    private $terrainRepo;
-    /* @var $searchGeoname SearchGeoname */
-    private $searchGeoname;
+    private array $expectedResult;
+    private MockGeonameRepo $geonameRepo;
+    private MockTerrainRepo $terrainRepo;
+    private SearchGeonameUc $searchGeoname;
 
 
     protected function setUp(): void {
         $this->expectedResult = [ DummyGeoname1::create(), DummyGeoname2::create() ];
-        $geonameConfig = new MockNavplanConfig();
-        $this->geonameRepo = $geonameConfig->getGeonameRepo();
+        $geonameConfig = new MockNavplanDiContainer();
+        $this->geonameRepo = $geonameConfig->geonameRepo;
         $this->geonameRepo->pushMockResult($this->expectedResult);
-        $this->terrainRepo = $geonameConfig->getTerrainRepo();
-        $this->searchGeoname = new SearchGeoname($geonameConfig);
+        $this->terrainRepo = $geonameConfig->terrainRepo;
+        $this->searchGeoname = $geonameConfig->getSearchGeonameUc();
     }
 
 

@@ -2,22 +2,17 @@
 
 namespace Navplan\Terrain\FileRepo;
 
-use Navplan\Geometry\Domain\Altitude;
-use Navplan\Geometry\Domain\AltitudeUnit;
-use Navplan\Geometry\Domain\AltitudeReference;
-use Navplan\Geometry\Domain\Position3d;
-use Navplan\System\UseCase\IFile;
-use Navplan\System\UseCase\IFileService;
-use Navplan\Terrain\UseCase\ITerrainRepo;
+use Navplan\Geometry\DomainModel\Altitude;
+use Navplan\Geometry\DomainModel\AltitudeReference;
+use Navplan\Geometry\DomainModel\AltitudeUnit;
+use Navplan\Geometry\DomainModel\Position3d;
+use Navplan\System\DomainModel\IFile;
+use Navplan\System\DomainService\IFileService;
+use Navplan\Terrain\DomainService\ITerrainRepo;
 
 
 class FileTerrainRepo implements ITerrainRepo {
-    /* @var $fileService IFileService */
-    private $fileService;
-
-
-    public function __construct(IFileService $fileService) {
-        $this->fileService = $fileService;
+    public function __construct(private IFileService $fileService) {
     }
 
 
@@ -62,9 +57,7 @@ class FileTerrainRepo implements ITerrainRepo {
         if (!$this->fileService->file_exists($filepath))
             return null;
 
-        $file = $this->fileService->fopen($filepath, "r");
-
-        return $file;
+        return $this->fileService->fopen($filepath, "r");
     }
 
 

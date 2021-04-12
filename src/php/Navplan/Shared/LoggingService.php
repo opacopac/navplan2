@@ -1,11 +1,7 @@
 <?php namespace Navplan\Shared;
-require_once __DIR__ . "/../NavplanHelper.php";
 
 
-class LoggingService
-{
-    static private $lastMicrotime = 0;
-
+class LoggingService {
     static public function printLine(string $text) {
         if ($text)
             print $text;

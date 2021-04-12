@@ -2,9 +2,7 @@
 
 namespace Navplan\System\Posix;
 
-use Navplan\System\UseCase\IMailService;
-
-require_once __DIR__ . "/../../NavplanHelper.php";
+use Navplan\System\DomainService\IMailService;
 
 
 class MailService implements IMailService {

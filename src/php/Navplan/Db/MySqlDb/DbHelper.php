@@ -3,8 +3,8 @@
 namespace Navplan\Db\MySqlDb;
 
 use InvalidArgumentException;
-use Navplan\Db\UseCase\IDbService;
-use Navplan\Geometry\Domain\Extent;
+use Navplan\Db\DomainService\IDbService;
+use Navplan\Geometry\DomainModel\Extent;
 
 
 class DbHelper {
@@ -109,7 +109,7 @@ class DbHelper {
 
 
     // retrieve lon lat from the format: POINT(-76.867 38.8108)
-    public static function parseLonLatFromDbPoint(string $dbPointString): array
+    public static function parseLonLatFromDbPoint(string $dbPointString): ?array
     {
         $decimalRegExpPart = '([\-\+]?\d+\.?\d*)';
         $dbPointRegexp = '/POINT\(\s*' . $decimalRegExpPart . '\s+' . $decimalRegExpPart . '\s*\)/im';

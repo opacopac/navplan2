@@ -2,13 +2,13 @@
 
 namespace NavplanTest\System\Mock;
 
+use Navplan\System\DomainService\IHttpService;
 use Navplan\System\Posix\HttpService;
-use Navplan\System\UseCase\IHttpService;
 
 
 class MockHttpService extends HttpService implements IHttpService {
-    public $headerList = [];
-    public $body = "";
+    public array $headerList = [];
+    public string $body = "";
 
 
     public function __construct() {

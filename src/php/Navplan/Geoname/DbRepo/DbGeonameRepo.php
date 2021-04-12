@@ -2,10 +2,10 @@
 
 namespace Navplan\Geoname\DbRepo;
 
-use Navplan\Geometry\Domain\Position2d;
-use Navplan\Geoname\UseCase\IGeonameRepo;
-use Navplan\Db\UseCase\IDbResult;
-use Navplan\Db\UseCase\IDbService;
+use Navplan\Db\DomainModel\IDbResult;
+use Navplan\Db\DomainService\IDbService;
+use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Geoname\DomainService\IGeonameRepo;
 
 
 class DbGeonameRepo implements IGeonameRepo {
@@ -90,7 +90,7 @@ class DbGeonameRepo implements IGeonameRepo {
         $geonames = [];
 
         while ($rs = $result->fetch_assoc()) {
-            $geonames[] = DbGeoname::fromDbResult($rs);
+            $geonames[] = GeonameConverter::fromDbResult($rs);
         }
 
         if ($renameDuplicates) {

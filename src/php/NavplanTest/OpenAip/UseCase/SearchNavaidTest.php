@@ -2,30 +2,24 @@
 
 namespace NavplanTest\OpenAip\UseCase;
 
-use Navplan\Geometry\Domain\Extent;
-use Navplan\Geometry\Domain\Position2d;
-use Navplan\OpenAip\UseCase\SearchNavaid;
-use NavplanTest\MockNavplanConfig;
+use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\OpenAip\UseCase\SearchNavaid\SearchNavaidUc;
+use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\OpenAip\Mocks\DummyNavaid1;
-use NavplanTest\OpenAip\Mocks\MockNavaidRepo;
 use PHPUnit\Framework\TestCase;
 
 
 class SearchNavaidTest extends TestCase {
-    /* @var $navaidRepo MockNavaidRepo */
-    private $navaidRepo;
-    /* @var $searchNavaid SearchNavaid */
-    private $searchNavaid;
-    /* @var $expectedResult array */
-    private $expectedResult;
+    private SearchNavaidUc $searchNavaid;
+    private array $expectedResult;
 
 
     protected function setUp(): void {
         $this->expectedResult = [ DummyNavaid1::create(), DummyNavaid1::create() ];
-        $config = new MockNavplanConfig();
-        $this->navaidRepo = $config->getOpenAipRepoFactory()->createNavaidRepo();
-        $this->navaidRepo->pushMockResult($this->expectedResult);
-        $this->searchNavaid = new SearchNavaid($config);
+        $config = new MockNavplanDiContainer();
+        $config->navaidRepo->pushMockResult($this->expectedResult);
+        $this->searchNavaid = $config->getSearchNavaidUc();
     }
 
 

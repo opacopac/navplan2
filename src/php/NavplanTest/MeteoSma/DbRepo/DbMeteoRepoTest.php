@@ -2,31 +2,28 @@
 
 namespace NavplanTest\MeteoSma\DbRepo;
 
-use Navplan\Geometry\Domain\Extent;
+use Navplan\Geometry\DomainModel\Extent;
 use Navplan\MeteoSma\DbRepo\DbMeteoRepo;
 use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement1;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement2;
 use NavplanTest\MeteoSma\Mocks\DummySmaStationList1;
-use NavplanTest\MockNavplanConfig;
+use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\System\Mock\MockTimeService;
 use PHPUnit\Framework\TestCase;
 
 
 class DbMeteoRepoTest extends TestCase {
-    /* @var $dbService MockDbService */
-    private $dbService;
-    /* @var $timeService MockTimeService */
-    private $timeService;
-    /* @var $dbMeteoRepo DbMeteoRepo */
-    private $dbMeteoRepo;
+    private MockDbService $dbService;
+    private MockTimeService $timeService;
+    private DbMeteoRepo $dbMeteoRepo;
 
 
     protected function setUp(): void {
-        $config = new MockNavplanConfig();
-        $this->dbService = $config->getDbService();
-        $this->timeService = $config->getSystemServiceFactory()->getTimeService();
-        $this->dbMeteoRepo = new DbMeteoRepo($config->getDbService(), $config->getSystemServiceFactory());
+        $config = new MockNavplanDiContainer();
+        $this->dbService = $config->dbService;
+        $this->timeService = $config->timeService;
+        $this->dbMeteoRepo = new DbMeteoRepo($config->dbService, $config->timeService);
     }
 
 

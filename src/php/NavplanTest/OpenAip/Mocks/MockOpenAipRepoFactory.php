@@ -2,20 +2,15 @@
 
 namespace NavplanTest\OpenAip\Mocks;
 
-use Navplan\OpenAip\UseCase\IAirportRepo;
-use Navplan\OpenAip\UseCase\IAirspaceRepo;
-use Navplan\OpenAip\UseCase\INavaidRepo;
-use Navplan\OpenAip\UseCase\IOpenAipRepoFactory;
-use Navplan\OpenAip\UseCase\IReportingPointRepo;
-use Navplan\OpenAip\UseCase\IWebcamRepo;
+use Navplan\OpenAip\DomainService\IOpenAipRepoFactory;
 
 
 class MockOpenAipRepoFactory implements IOpenAipRepoFactory {
-    private $airportRepoMock;
-    private $airspaceRepoMock;
-    private $navaidRepoMock;
-    private $reportingPointRepoMock;
-    private $webcamRepoMock;
+    private MockAirportRepo $airportRepoMock;
+    private MockAirspaceRepo $airspaceRepoMock;
+    private MockNavaidRepo $navaidRepoMock;
+    private MockReportingPointRepo $reportingPointRepoMock;
+    private MockWebcamRepo $webcamRepoMock;
 
 
     public function __construct() {
@@ -27,27 +22,27 @@ class MockOpenAipRepoFactory implements IOpenAipRepoFactory {
     }
 
 
-    public function createAirportRepo(): IAirportRepo {
+    public function createAirportRepo(): MockAirportRepo {
         return $this->airportRepoMock;
     }
 
 
-    public function createAirspaceRepo(): IAirspaceRepo {
+    public function createAirspaceRepo(): MockAirspaceRepo {
         return $this->airspaceRepoMock;
     }
 
 
-    public function createNavaidRepo(): INavaidRepo {
+    public function createNavaidRepo(): MockNavaidRepo {
         return $this->navaidRepoMock;
     }
 
 
-    public function createReportingPointRepo(): IReportingPointRepo {
+    public function createReportingPointRepo(): MockReportingPointRepo {
         return $this->reportingPointRepoMock;
     }
 
 
-    public function createWebcamRepo(): IWebcamRepo {
+    public function createWebcamRepo(): MockWebcamRepo {
         return $this->webcamRepoMock;
     }
 }

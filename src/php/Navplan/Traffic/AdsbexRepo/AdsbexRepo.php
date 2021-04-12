@@ -2,11 +2,11 @@
 
 namespace Navplan\Traffic\AdsbexRepo;
 
-use Navplan\Geometry\Domain\Length;
-use Navplan\Geometry\Domain\LengthUnit;
-use Navplan\Geometry\Domain\Position2d;
-use Navplan\System\UseCase\IFileService;
-use Navplan\Traffic\UseCase\IAdsbexRepo;
+use Navplan\Geometry\DomainModel\Length;
+use Navplan\Geometry\DomainModel\LengthUnit;
+use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\System\DomainService\IFileService;
+use Navplan\Traffic\DomainService\IAdsbexRepo;
 
 
 class AdsbexRepo implements IAdsbexRepo {
@@ -52,7 +52,7 @@ class AdsbexRepo implements IAdsbexRepo {
 
         if (isset($responseJson["ac"])) {
             for ($i = 0; $i < count($responseJson["ac"]); $i++) {
-                $trafficList[] = AdsbexRepoTraffic::fromResponse($responseJson, $i);
+                $trafficList[] = AdsbexRepoTrafficConverter::fromResponse($responseJson, $i);
             }
         }
 

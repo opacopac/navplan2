@@ -2,20 +2,17 @@
 
 namespace Navplan\MeteoSma\DbRepo;
 
-use Navplan\Geometry\Domain\Extent;
-use Navplan\Db\UseCase\IDbService;
-use Navplan\MeteoSma\UseCase\IMeteoRepo;
-use Navplan\System\UseCase\ISystemServiceFactory;
+use Navplan\Db\DomainService\IDbService;
+use Navplan\Geometry\DomainModel\Extent;
+use Navplan\MeteoSma\DomainService\IMeteoRepo;
+use Navplan\System\DomainService\ITimeService;
 
 
 class DbMeteoRepo implements IMeteoRepo {
-    private $dbService;
-    private $timeService;
-
-
-    public function __construct(IDbService $dbService, ISystemServiceFactory $systemServiceFactory) {
-        $this->dbService = $dbService;
-        $this->timeService = $systemServiceFactory->getTimeService();
+    public function __construct(
+        private IDbService $dbService,
+        private ITimeService $timeService
+    ) {
     }
 
 
@@ -43,7 +40,7 @@ class DbMeteoRepo implements IMeteoRepo {
 
         $measurementList = [];
         while ($rs = $result->fetch_assoc()) {
-            $measurementList[] = DbSmaMeasurement::fromDbResult($rs, $this->timeService);
+            $measurementList[] = SmaMeasurementConverter::fromDbResult($rs, $this->timeService);
         }
 
         return $measurementList;
@@ -55,7 +52,7 @@ class DbMeteoRepo implements IMeteoRepo {
         $this->dbService->execCUDQuery($query, "Error deleting SMA stations");
 
         foreach ($smaStationList as $smaStation) {
-            $query = DbSmaStation::toInsertQuery($this->dbService, $smaStation);
+            $query = SmaStationConverter::toInsertQuery($this->dbService, $smaStation);
             $this->dbService->execCUDQuery($query, "Error inserting SMA station");
         }
     }

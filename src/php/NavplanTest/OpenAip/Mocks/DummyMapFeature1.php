@@ -2,7 +2,7 @@
 
 namespace NavplanTest\OpenAip\Mocks;
 
-use Navplan\OpenAip\Domain\MapFeature;
+use Navplan\OpenAip\DomainModel\MapFeature;
 
 
 class DummyMapFeature1 {

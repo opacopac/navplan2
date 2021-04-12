@@ -2,7 +2,7 @@
 
 namespace NavplanTest\OpenAip\DbRepo;
 
-use Navplan\Geometry\Domain\Extent;
+use Navplan\Geometry\DomainModel\Extent;
 use Navplan\OpenAip\DbRepo\DbWebcamRepo;
 use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\OpenAip\Mocks\DummyWebcam1;
@@ -11,8 +11,8 @@ use PHPUnit\Framework\TestCase;
 
 
 class DbWebcamRepoTest extends TestCase {
-    private $dbService;
-    private $dbRepo;
+    private MockDbService $dbService;
+    private DbWebcamRepo $dbRepo;
 
 
     private function getDbService(): MockDbService {

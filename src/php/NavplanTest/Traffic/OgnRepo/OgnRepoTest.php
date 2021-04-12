@@ -2,34 +2,34 @@
 
 namespace NavplanTest\Traffic\OgnRepo;
 
-use Navplan\Geometry\Domain\Extent;
+use Navplan\Geometry\DomainModel\Extent;
 use Navplan\Traffic\OgnRepo\OgnRepo;
+use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\System\Mock\MockFile;
 use NavplanTest\System\Mock\MockFileService;
 use NavplanTest\System\Mock\MockProcService;
-use NavplanTest\System\Mock\MockSystemServiceFactory;
 use NavplanTest\System\Mock\MockTimeService;
 use NavplanTest\Traffic\Mocks\DummyOgnDumpFile12345;
 use PHPUnit\Framework\TestCase;
 
 
 class OgnRepoTest extends TestCase {
-    /* @var $fileService MockFileService */
-    private $fileService;
-    /* @var $procService MockProcService */
-    private $procService;
-    /* @var $timeService MockTimeService */
-    private $timeService;
-    /* @var $ognGateway OgnRepo */
-    private $ognGateway;
+    private MockFileService $fileService;
+    private MockProcService $procService;
+    private MockTimeService $timeService;
+    private OgnRepo $ognGateway;
 
 
     protected function setUp(): void {
-        $systemServiceFactory = new MockSystemServiceFactory();
-        $this->fileService = $systemServiceFactory->getFileService();
-        $this->procService = $systemServiceFactory->getProcService();
-        $this->timeService = $systemServiceFactory->getTimeService();
-        $this->ognGateway = new OgnRepo($systemServiceFactory);
+        $config = new MockNavplanDiContainer();
+        $this->fileService = $config->fileService;
+        $this->procService = $config->procService;
+        $this->timeService = $config->timeService;
+        $this->ognGateway = new OgnRepo(
+            $this->fileService,
+            $this->procService,
+            $this->timeService
+        );
     }
 
     public function test_setFilter() {

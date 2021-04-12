@@ -5,24 +5,21 @@ namespace NavplanTest\Flightroute\UseCase;
 // TODO => config
 require_once __DIR__ . "/../../../config_test.php";
 
-use Navplan\Flightroute\Domain\CreateSharedFlightrouteRequest;
-use Navplan\Flightroute\UseCase\CreateSharedFlightroute;
+use Navplan\Flightroute\UseCase\CreateSharedFlightroute\CreateSharedFlightrouteRequest;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\MockFlightrouteRepo;
-use NavplanTest\MockNavplanConfig;
+use NavplanTest\MockNavplanDiContainer;
 use PHPUnit\Framework\TestCase;
 
 
 class CreateSharedFlightrouteTest extends TestCase {
-    /* @var $config MockNavplanConfig */
-    private $config;
-    /* @var $flightrouteRepo MockFlightrouteRepo */
-    private $flightrouteRepo;
+    private MockNavplanDiContainer $config;
+    private MockFlightrouteRepo $flightrouteRepo;
 
 
     protected function setUp(): void {
-        $this->config = new MockNavplanConfig();
-        $this->flightrouteRepo = $this->config->getFlightrouteRepo();
+        $this->config = new MockNavplanDiContainer();
+        $this->flightrouteRepo = $this->config->flightrouteRepo;
     }
 
 
@@ -32,7 +29,7 @@ class CreateSharedFlightrouteTest extends TestCase {
         $this->flightrouteRepo->addResult = $flightroute;
 
         $request = new CreateSharedFlightrouteRequest($flightroute);
-        $response = (new CreateSharedFlightroute($this->config))->create($request);
+        $response = $this->config->getCreateSharedFlightrouteUc()->create($request);
 
         $this->assertEquals($flightroute, $response->flightroute);
         $this->assertNotNull($response->flightroute->shareId);
@@ -48,7 +45,7 @@ class CreateSharedFlightrouteTest extends TestCase {
         $this->flightrouteRepo->readByHashResult = $flightroute;
 
         $request = new CreateSharedFlightrouteRequest($flightroute);
-        $response = (new CreateSharedFlightroute($this->config))->create($request);
+        $response = $this->config->getCreateSharedFlightrouteUc()->create($request);
 
         $this->assertEquals($flightroute, $response->flightroute);
         $this->assertNotNull($this->flightrouteRepo->readByHashArgs[0]);

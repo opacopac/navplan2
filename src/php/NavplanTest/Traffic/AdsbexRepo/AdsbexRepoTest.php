@@ -2,23 +2,21 @@
 
 namespace NavplanTest\Traffic\AdsbexRepo;
 
-use Navplan\Geometry\Domain\Length;
-use Navplan\Geometry\Domain\LengthUnit;
-use Navplan\Geometry\Domain\Position2d;
+use Navplan\Geometry\DomainModel\Length;
+use Navplan\Geometry\DomainModel\LengthUnit;
+use Navplan\Geometry\DomainModel\Position2d;
 use Navplan\Traffic\AdsbexRepo\AdsbexRepo;
 use NavplanTest\System\Mock\MockFileService;
+use NavplanTest\Traffic\Mocks\DummyAdsbexResponse123;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTraffic1;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTraffic2;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTraffic3;
-use NavplanTest\Traffic\Mocks\DummyAdsbexResponse123;
 use PHPUnit\Framework\TestCase;
 
 
 class AdsbexRepoTest extends TestCase {
-    /* @var $fileService MockFileService */
-    private $fileService;
-    /* @var $adsbGateway AdsbexRepo */
-    private $adsbGateway;
+    private MockFileService $fileService;
+    private AdsbexRepo $adsbGateway;
 
 
     protected function setUp(): void {
@@ -39,7 +37,7 @@ class AdsbexRepoTest extends TestCase {
 
         $trafficList = $this->adsbGateway->readTraffic($pos, $dist);
 
-        $this->assertEquals(3, count($trafficList));
+        $this->assertCount(3, $trafficList);
         $this->assertEquals(DummyAdsbexTraffic1::create(), $trafficList[0]);
         $this->assertEquals(DummyAdsbexTraffic2::create(), $trafficList[1]);
         $this->assertEquals(DummyAdsbexTraffic3::create(), $trafficList[2]);

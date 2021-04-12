@@ -3,13 +3,12 @@
 namespace NavplanTest\Flightroute\UseCase;
 
 use InvalidArgumentException;
-use Navplan\Flightroute\Domain\ReadFlightrouteListRequest;
-use Navplan\Flightroute\UseCase\ReadFlightrouteList;
-use Navplan\User\UseCase\TokenService;
+use Navplan\Flightroute\UseCase\ReadFlightrouteList\ReadFlightrouteListRequest;
+use Navplan\User\DomainService\TokenService;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute2;
 use NavplanTest\Flightroute\Mocks\MockFlightrouteRepo;
-use NavplanTest\MockNavplanConfig;
+use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\User\Mocks\DummyUser1;
 use NavplanTest\User\Mocks\MockUserRepo;
 use PHPUnit\Framework\TestCase;
@@ -17,20 +16,16 @@ use Throwable;
 
 
 class ReadFlightrouteListTest extends TestCase {
-    /* @var $config MockNavplanConfig */
-    private $config;
-    /* @var $userRepo MockUserRepo */
-    private $userRepo;
-    /* @var $flightrouteRepo MockFlightrouteRepo */
-    private $flightrouteRepo;
-    /* @var $tokenService TokenService */
-    private $tokenService;
+    private MockNavplanDiContainer $config;
+    private MockUserRepo $userRepo;
+    private MockFlightrouteRepo $flightrouteRepo;
+    private TokenService $tokenService;
 
 
     protected function setUp(): void {
-        $this->config = new MockNavplanConfig();
-        $this->flightrouteRepo = $this->config->getFlightrouteRepo();
-        $this->userRepo = $this->config->getUserRepoFactory()->createUserRepo();
+        $this->config = new MockNavplanDiContainer();
+        $this->flightrouteRepo = $this->config->flightrouteRepo;
+        $this->userRepo = $this->config->userRepo;
         $this->tokenService = $this->config->getTokenService();
     }
 
@@ -45,7 +40,7 @@ class ReadFlightrouteListTest extends TestCase {
         $this->flightrouteRepo->readListResult = [$flightroute1, $flightroute2];
 
         $request = new ReadFlightrouteListRequest($token);
-        $response = (new ReadFlightrouteList($this->config))->read($request);
+        $response = $this->config->getReadFlightrouteListUc()->read($request);
 
         $this->assertEquals(2, count($response->flightrouteList));
         $this->assertEquals($flightroute1, $response->flightrouteList[0]);
@@ -63,7 +58,7 @@ class ReadFlightrouteListTest extends TestCase {
         $this->flightrouteRepo->readListResult = [];
 
         $request = new ReadFlightrouteListRequest($token);
-        $response = (new ReadFlightrouteList($this->config))->read($request);
+        $response = $this->config->getReadFlightrouteListUc()->read($request);
 
         $this->assertEquals(0, count($response->flightrouteList));
         $this->assertEquals($email, $this->userRepo->readUserArgs[0]);
@@ -75,7 +70,7 @@ class ReadFlightrouteListTest extends TestCase {
         $token = "dummy.token.123";
         $request = new ReadFlightrouteListRequest($token);
         try {
-            (new ReadFlightrouteList($this->config))->read($request);
+            $this->config->getReadFlightrouteListUc()->read($request);
             $this->fail("InvalidArgumentException not thrown");
         } catch (Throwable $exception) {
             $this->assertInstanceOf(InvalidArgumentException::class, $exception);
@@ -91,7 +86,7 @@ class ReadFlightrouteListTest extends TestCase {
         $this->userRepo->readUserResult = NULL;
         $request = new ReadFlightrouteListRequest($token);
         try {
-            (new ReadFlightrouteList($this->config))->read($request);
+            $this->config->getReadFlightrouteListUc()->read($request);
             $this->fail("InvalidArgumentException not thrown");
         } catch (Throwable $exception) {
             $this->assertInstanceOf(InvalidArgumentException::class, $exception);

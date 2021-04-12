@@ -2,25 +2,15 @@
 
 namespace Navplan\Notam\Domain;
 
-use Navplan\Geometry\Domain\Extent;
+use Navplan\Geometry\DomainModel\Extent;
 
 
 class ReadNotamByExtentRequest {
-    public $extent;
-    public $zoom;
-    public $minNotamTimestamp;
-    public $maxNotamTimestamp;
-
-
     public function __construct(
-        Extent $extent,
-        int $zoom,
-        ?int $minNotamTimestamp,
-        ?int $maxNotamTimestamp
+        public Extent $extent,
+        public int $zoom,
+        public ?int $minNotamTimestamp,
+        public ?int $maxNotamTimestamp
     ) {
-        $this->extent = $extent;
-        $this->zoom = $zoom;
-        $this->minNotamTimestamp = $minNotamTimestamp;
-        $this->maxNotamTimestamp = $maxNotamTimestamp;
     }
 }

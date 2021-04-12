@@ -3,28 +3,27 @@
 namespace NavplanTest\Flightroute\DbRepo;
 
 use Navplan\Flightroute\DbRepo\DbFlightrouteRepo;
-use Navplan\User\UseCase\TokenService;
+use Navplan\User\DomainService\TokenService;
 use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\DummyWaypoint1;
-use NavplanTest\MockNavplanConfig;
+use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\User\Mocks\DummyUser1;
 use PHPUnit\Framework\TestCase;
 
 
 class DbFlightrouteRepoTest extends TestCase {
-    /* @var $dbService MockDbService */
-    private $dbService;
-    /* @var $dbFlightrouteRepo DbFlightrouteRepo */
-    private $dbFlightrouteRepo;
-    /* @var $tokenService TokenService */
-    private $tokenService;
+    private MockDbService $dbService;
+    private DbFlightrouteRepo $dbFlightrouteRepo;
+    private TokenService $tokenService;
+
 
     protected function setUp(): void {
-        $config = new MockNavplanConfig();
-        $this->dbService = $config->getDbService();
+        $config = new MockNavplanDiContainer();
+        $this->dbService = new MockDbService();
         $this->dbFlightrouteRepo = new DbFlightrouteRepo($this->dbService);
         $this->tokenService = $config->getTokenService();
+
     }
 
 
