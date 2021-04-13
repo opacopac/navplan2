@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Action, Store} from '@ngrx/store';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, filter, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {
     FlightrouteActionTypes,
-    FlightrouteReadListAction, FlightrouteReadListErrorAction,
+    FlightrouteReadListAction,
+    FlightrouteReadListErrorAction,
     FlightrouteReadListSuccessAction
 } from './flightroute.actions';
 import {UserState} from '../../user/domain/user-state';
@@ -28,8 +29,8 @@ export class FlightrouteListEffects {
     }
 
 
-    @Effect()
-    readFlightrouteListAction$: Observable<Action> = this.actions$.pipe(
+
+    readFlightrouteListAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_LIST_READ),
         map(action => action as FlightrouteReadListAction),
         withLatestFrom(this.userState$),
@@ -40,15 +41,15 @@ export class FlightrouteListEffects {
             map(routeList => new FlightrouteReadListSuccessAction(routeList)),
             catchError(error => of(new FlightrouteReadListErrorAction(error)))
         ))
-    );
+    ));
 
 
-    @Effect({ dispatch: false })
-    readFlightrouteListErrorAction$: Observable<Action> = this.actions$.pipe(
+
+    readFlightrouteListErrorAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_LIST_READ_ERROR),
         map(action => action as FlightrouteReadListErrorAction),
         tap((action: FlightrouteReadListErrorAction) => {
             this.messageService.showErrorMessage('Error reading flight route list.', action.error);
         }),
-    );
+    ), { dispatch: false });
 }

@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
 import {Action, select, Store} from '@ngrx/store';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
-import {Observable} from 'rxjs';
-import {of} from 'rxjs/internal/observable/of';
+import {Observable, of} from 'rxjs';
 import {TrackService} from '../services/track.service';
 import {User} from '../../user/domain/user';
 import {getCurrentUser} from '../../user/ngrx/user.selectors';
 import {
-    ReadTrackAction, ReadTrackErrorAction,
+    ReadTrackAction,
+    ReadTrackErrorAction,
     ReadTrackListErrorAction,
     ReadTrackListSuccessAction,
     ReadTrackSuccessAction,
@@ -29,8 +29,8 @@ export class TrackEffects {
     }
 
 
-    @Effect()
-    readTrackList$: Observable<Action> = this.actions$
+    
+    readTrackList$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(TrackActionTypes.TRACK_READ_LIST),
             switchMap(action => this.currentUser$),
@@ -39,11 +39,11 @@ export class TrackEffects {
                 map(trackList => new ReadTrackListSuccessAction(trackList)),
                 catchError(error => of(new ReadTrackListErrorAction(error)))
             ))
-        );
+        ));
 
 
-    @Effect()
-    readTrack$: Observable<Action> = this.actions$
+    
+    readTrack$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(TrackActionTypes.TRACK_READ),
             map(action => action as ReadTrackAction),
@@ -53,5 +53,5 @@ export class TrackEffects {
                 map(track => new ReadTrackSuccessAction(track)),
                 catchError(error => of(new ReadTrackErrorAction(error)))
             ))
-        );
+        ));
 }

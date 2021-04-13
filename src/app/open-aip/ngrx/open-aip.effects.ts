@@ -1,4 +1,4 @@
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Action, Store} from '@ngrx/store';
 import {catchError, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
@@ -29,8 +29,8 @@ export class OpenAipEffects {
     }
 
 
-    @Effect()
-    readOpenAipItemsAction$: Observable<Action> = this.actions$.pipe(
+    
+    readOpenAipItemsAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(OpenAipActionTypes.OPEN_AIP_READ_ITEMS),
         map(action => action as ReadOpenAipItemsAction),
         withLatestFrom(this.openAipState$),
@@ -42,14 +42,14 @@ export class OpenAipEffects {
             map(openAipItems => new ReadOpenAipItemsSuccessAction(openAipItems)),
             catchError(error => of(new ReadOpenAipItemsErrorAction(error)))
         ))
-    );
+    ));
 
 
-    @Effect({ dispatch: false })
-    readOpenAipItemsErrorAction$: Observable<Action> = this.actions$.pipe(
+    
+    readOpenAipItemsErrorAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(OpenAipActionTypes.OPEN_AIP_READ_ITEMS_ERROR),
         tap((action: ReadOpenAipItemsErrorAction) => {
             this.messageService.showErrorMessage('error reading open aip items.', action.error);
         })
-    );
+    ), { dispatch: false });
 }

@@ -1,12 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Action, Store} from '@ngrx/store';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
 import {catchError, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {of} from 'rxjs/internal/observable/of';
 import {MetarTafService} from '../rest/metar-taf.service';
 import {
-    MetarTafActionTypes, ReadMetarTafAction,
+    MetarTafActionTypes,
+    ReadMetarTafAction,
     ReadMetarTafErrorAction,
     ReadMetarTafSuccessAction
 } from './metar-taf.actions';
@@ -32,8 +33,8 @@ export class MetarTafEffects {
     }
 
 
-    @Effect()
-    readMetarTafAction$: Observable<Action> = this.actions$.pipe(
+
+    readMetarTafAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(MetarTafActionTypes.METARTAF_READ),
         map(action => action as ReadMetarTafAction),
         withLatestFrom(this.metarTafState$),
@@ -41,5 +42,5 @@ export class MetarTafEffects {
             map(result => new ReadMetarTafSuccessAction(result)),
             catchError(error => of(new ReadMetarTafErrorAction(error)))
         ))
-    );
+    ));
 }

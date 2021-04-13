@@ -1,22 +1,21 @@
 import {Injectable} from '@angular/core';
 import {Action, select, Store} from '@ngrx/store';
-import {Actions, Effect, ofType} from '@ngrx/effects';
-import {Observable} from 'rxjs';
-import {of} from 'rxjs';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {Observable, of} from 'rxjs';
 import {catchError, filter, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {MessageService} from '../../message/services/message.service';
 import {FlightrouteService} from '../rest/flightroute.service';
 import {
     FlightrouteActionTypes,
-    FlightrouteReadListAction,
-    FlightrouteSaveSuccessAction,
-    FlightrouteSaveErrorAction,
     FlightrouteDeleteAction,
-    FlightrouteDeleteSuccessAction,
     FlightrouteDeleteErrorAction,
+    FlightrouteDeleteSuccessAction,
     FlightrouteReadAction,
-    FlightrouteReadSuccessAction,
     FlightrouteReadErrorAction,
+    FlightrouteReadListAction,
+    FlightrouteReadSuccessAction,
+    FlightrouteSaveErrorAction,
+    FlightrouteSaveSuccessAction,
 } from './flightroute.actions';
 import {getCurrentUser} from '../../user/ngrx/user.selectors';
 import {User} from '../../user/domain/user';
@@ -38,8 +37,8 @@ export class FlightrouteEffects {
     private flightroute$: Observable<Flightroute> = this.appStore.pipe(select(getFlightroute));
 
 
-    @Effect()
-    readFlightroute$: Observable<Action> = this.actions$.pipe(
+
+    readFlightroute$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_READ),
         map((action: FlightrouteReadAction) => action.flightrouteId),
         withLatestFrom(this.currentUser$),
@@ -48,20 +47,20 @@ export class FlightrouteEffects {
             map(route => new FlightrouteReadSuccessAction(route)),
             catchError(error => of(new FlightrouteReadErrorAction(error)))
         ))
-);
+));
 
 
-    @Effect({ dispatch: false})
-    readFlightrouteError$: Observable<Action> = this.actions$.pipe(
+
+    readFlightrouteError$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_READ_ERROR),
         tap((action: FlightrouteReadErrorAction) => {
             this.messageService.showErrorMessage('Error reading flight route', action.error);
         })
-    );
+    ), { dispatch: false});
 
 
-    @Effect()
-    createFlightroute$: Observable<Action> = this.actions$.pipe(
+
+    createFlightroute$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_CREATE),
         switchMap(action => this.flightroute$),
         withLatestFrom(this.currentUser$),
@@ -70,11 +69,11 @@ export class FlightrouteEffects {
             map(route => new FlightrouteSaveSuccessAction(route)),
             catchError(error => of(new FlightrouteSaveErrorAction(error)))
         ))
-    );
+    ));
 
 
-    @Effect()
-    updateFlightroute$: Observable<Action> = this.actions$.pipe(
+
+    updateFlightroute$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_UPDATE),
         switchMap(() => this.flightroute$),
         withLatestFrom(this.currentUser$),
@@ -83,11 +82,11 @@ export class FlightrouteEffects {
             map(route => new FlightrouteSaveSuccessAction(route)),
             catchError(error => of(new FlightrouteSaveErrorAction(error)))
         ))
-    );
+    ));
 
 
-    @Effect()
-    duplicateFlightroute$: Observable<Action> = this.actions$.pipe(
+
+    duplicateFlightroute$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_DUPLICATE),
         switchMap(action => this.flightroute$),
         withLatestFrom(this.currentUser$),
@@ -96,28 +95,28 @@ export class FlightrouteEffects {
             map(route => new FlightrouteSaveSuccessAction(route)),
             catchError(error => of(new FlightrouteSaveErrorAction(error)))
         ))
-    );
+    ));
 
 
-    @Effect()
-    saveFlightrouteSuccess$: Observable<Action> = this.actions$.pipe(
+
+    saveFlightrouteSuccess$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_SAVE_SUCCESS),
         map((action: FlightrouteSaveSuccessAction) => new FlightrouteReadListAction()),
         tap(() => this.messageService.showSuccessMessage('Flight route saved successfully.'))
-    );
+    ));
 
 
-    @Effect({ dispatch: false})
-    saveFlightrouteError$: Observable<Action> = this.actions$.pipe(
+
+    saveFlightrouteError$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_SAVE_ERROR),
         tap((action: FlightrouteSaveErrorAction) => {
             this.messageService.showErrorMessage('Error while saving flight route.', action.error);
         })
-    );
+    ), { dispatch: false});
 
 
-    @Effect()
-    deleteFlightroute$: Observable<Action> = this.actions$.pipe(
+
+    deleteFlightroute$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_DELETE),
         map((action: FlightrouteDeleteAction) => action.flightrouteId),
         withLatestFrom(this.currentUser$),
@@ -126,22 +125,22 @@ export class FlightrouteEffects {
             map(() => new FlightrouteDeleteSuccessAction()),
             catchError(error => of(new FlightrouteDeleteErrorAction(error)))
         ))
-    );
+    ));
 
 
-    @Effect()
-    deleteFlightrouteSuccess$: Observable<Action> = this.actions$.pipe(
+
+    deleteFlightrouteSuccess$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_DELETE_SUCCESS),
         map(() => new FlightrouteReadListAction()),
         tap(() => this.messageService.showSuccessMessage('Flight route deleted successfully.'))
-    );
+    ));
 
 
-    @Effect({ dispatch: false})
-    deleteFlightrouteError$: Observable<Action> = this.actions$.pipe(
+
+    deleteFlightrouteError$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_DELETE_ERROR),
         tap((action: FlightrouteDeleteErrorAction) => {
             this.messageService.showErrorMessage('Error deleting flight route', action.error);
         })
-    );
+    ), { dispatch: false});
 }

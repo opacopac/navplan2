@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Action, select, Store} from '@ngrx/store';
-import {Actions, Effect, ofType} from '@ngrx/effects';
-import {Observable} from 'rxjs';
-import {debounceTime, filter, map, switchMap, withLatestFrom, catchError} from 'rxjs/operators';
-import {throwError} from 'rxjs/index';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {Observable, throwError} from 'rxjs';
+import {catchError, debounceTime, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {SearchService} from './services/search.service';
 import {SearchActionTypes, SearchQuerySubmittedAction, SearchResultsReceivedAction} from './search.actions';
 import {getCurrentUser} from '../user/ngrx/user.selectors';
@@ -25,8 +24,8 @@ export class SearchEffects {
 
     private currentUser$: Observable<User> = this.appStore.pipe(select(getCurrentUser));
 
-    @Effect()
-    executeQuery$: Observable<Action> = this.actions$.pipe(
+    
+    executeQuery$: Observable<Action> = createEffect(() => this.actions$.pipe(
             ofType(SearchActionTypes.SEARCH_QUERY_SUBMITTED),
             map((action: SearchQuerySubmittedAction) => action.query),
             filter(query => query !== undefined && query.trim().length >= MIN_QUERY_LENGTH),
@@ -39,5 +38,5 @@ export class SearchEffects {
                     return throwError(error);
                 })
             ))
-        );
+        ));
 }

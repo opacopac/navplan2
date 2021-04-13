@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Action, Store} from '@ngrx/store';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
 import {of} from 'rxjs/internal/observable/of';
 import {catchError, map, mergeMap, withLatestFrom} from 'rxjs/operators';
-import {TrafficActionTypes, ReadTrafficErrorAction, ReadTrafficSuccessAction} from './traffic.actions';
+import {ReadTrafficErrorAction, ReadTrafficSuccessAction, TrafficActionTypes} from './traffic.actions';
 import {getTrafficState} from './traffic.selectors';
 import {TrafficState} from '../domain/traffic-state';
 import {TrafficAdsbexService} from '../rest/adsbex/traffic-adsbex.service';
@@ -28,8 +28,8 @@ export class AdsbexTrafficEffects {
     }
 
 
-    @Effect()
-    readAdsbexTrafficAction$: Observable<Action> = this.actions$.pipe(
+
+    readAdsbexTrafficAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(TrafficActionTypes.TRAFFIC_TIMER_TICK),
         withLatestFrom(this.trafficState$),
         mergeMap(([action, state]) => this.adsbexTrafficService.readTraffic(
@@ -40,5 +40,5 @@ export class AdsbexTrafficEffects {
             map(newTrafficMap => new ReadTrafficSuccessAction(newTrafficMap)),
             catchError(error => of(new ReadTrafficErrorAction(error)))
         ))
-    );
+    ));
 }

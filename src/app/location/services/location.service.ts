@@ -113,7 +113,7 @@ export class LocationService {
     }
 
 
-    private get4dPosition(position: Position): Position4d {
+    private get4dPosition(position: GeolocationPosition): Position4d {
         return new Position4d(
             position.coords.longitude,
             position.coords.latitude,
@@ -122,7 +122,7 @@ export class LocationService {
     }
 
 
-    private getPositionError(error: PositionError): string {
+    private getPositionError(error: GeolocationPositionError): string {
         return 'ERROR: no position, error code=' + error.code;
     }
 }

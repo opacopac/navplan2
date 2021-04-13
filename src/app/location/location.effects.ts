@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Action, select, Store} from '@ngrx/store';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {LocationService} from './services/location.service';
 import {getLocationIsWatching} from './location.selectors';
 import {
@@ -12,7 +12,6 @@ import {
     StartWatchLocationAction,
     StopWatchLocationAction
 } from './location.actions';
-import {of} from 'rxjs/internal/observable/of';
 
 
 @Injectable()
@@ -27,8 +26,8 @@ export class LocationEffects {
     }
 
 
-    @Effect()
-    toggleLocationWatch$: Observable<Action> = this.actions$
+    
+    toggleLocationWatch$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(LocationActionTypes.LOCATION_WATCH_TOGGLE),
             withLatestFrom(this.locationIsWatching$),
@@ -39,11 +38,11 @@ export class LocationEffects {
                     return new StopWatchLocationAction();
                 }
             })
-        );
+        ));
 
 
-    @Effect()
-    startLocationWatch$: Observable<Action> = this.actions$
+    
+    startLocationWatch$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(LocationActionTypes.LOCATION_WATCH_START),
             tap(() => this.locationService.startWatching()),
@@ -54,11 +53,11 @@ export class LocationEffects {
                         catchError(error => of(new ReadLocationErrorAction(error)))
                     );
             })
-        );
+        ));
 
-    @Effect({ dispatch: false })
-    stopLocationWatch$: Observable<Action> = this.actions$
+    
+    stopLocationWatch$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(LocationActionTypes.LOCATION_WATCH_STOP),
-        );
+        ), { dispatch: false });
 }

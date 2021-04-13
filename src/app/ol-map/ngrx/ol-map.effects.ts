@@ -1,4 +1,4 @@
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Action, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
@@ -16,21 +16,21 @@ export class OlMapEffects {
     }
 
 
-    @Effect({ dispatch: false })
-    zoomIn$: Observable<Action> = this.actions$.pipe(
+    
+    zoomIn$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(OlMapActionTypes.OL_MAP_ZOOM_IN),
         tap((action) => {
             this.mapService.zoomIn();
         })
-    );
+    ), { dispatch: false });
 
 
 
-    @Effect({ dispatch: false })
-    zoomOut$: Observable<Action> = this.actions$.pipe(
+    
+    zoomOut$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(OlMapActionTypes.OL_MAP_ZOOM_OUT),
         tap((action) => {
             this.mapService.zoomOut();
         })
-    );
+    ), { dispatch: false });
 }

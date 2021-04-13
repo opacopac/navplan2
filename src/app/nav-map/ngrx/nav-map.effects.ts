@@ -1,4 +1,4 @@
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Action, Store} from '@ngrx/store';
 import {debounceTime, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {Observable} from 'rxjs';
@@ -23,8 +23,8 @@ export class NavMapEffects {
     }
 
 
-    @Effect()
-    mapMovedZoomedRotatedAction$: Observable<Action> = this.actions$.pipe(
+    
+    mapMovedZoomedRotatedAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(OlMapActionTypes.OL_MAP_MOVED_ZOOMED_ROTATED),
         map(action => action as OlMapMovedZoomedRotatedAction),
         debounceTime(500),
@@ -36,5 +36,5 @@ export class NavMapEffects {
             new ReadMetarTafAction(action.extent, action.zoom)
             // TODO: trigger read for other modules (traffic, userpoint)
         ])
-    );
+    ));
 }

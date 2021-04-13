@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Action, Store} from '@ngrx/store';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
 import {filter, map, withLatestFrom} from 'rxjs/operators';
 import {OlMapActionTypes, OlMapClickedAction} from '../../ol-map/ngrx/ol-map.actions';
@@ -20,12 +20,12 @@ export class ChartMapEffects {
     }
 
 
-    @Effect()
-    mapClicked$: Observable<Action> = this.actions$.pipe(
+    
+    mapClicked$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(OlMapActionTypes.OL_MAP_CLICKED),
         withLatestFrom(this.chartMapState$),
         filter(([action, state]) => state.isActive),
         map(([action, state]) => action as OlMapClickedAction),
         map(action => new ChartMapClickedAction(action.clickPos))
-    );
+    ));
 }

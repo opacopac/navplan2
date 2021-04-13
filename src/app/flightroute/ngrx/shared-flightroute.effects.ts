@@ -1,16 +1,15 @@
 import {Injectable} from '@angular/core';
 import {Action, Store} from '@ngrx/store';
-import {Actions, Effect, ofType} from '@ngrx/effects';
-import {Observable} from 'rxjs';
-import {of} from 'rxjs';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {Observable, of} from 'rxjs';
 import {catchError, filter, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {
     FlightrouteActionTypes,
-    SharedFlightrouteReadAction,
-    SharedFlightrouteReadSuccessAction,
-    SharedFlightrouteCreateSuccessAction,
-    SharedFlightrouteReadErrorAction,
     SharedFlightrouteCreateErrorAction,
+    SharedFlightrouteCreateSuccessAction,
+    SharedFlightrouteReadAction,
+    SharedFlightrouteReadErrorAction,
+    SharedFlightrouteReadSuccessAction,
 } from './flightroute.actions';
 import {FlightrouteService} from '../rest/flightroute.service';
 import {FlightrouteState} from '../domain/flightroute-state';
@@ -32,8 +31,8 @@ export class SharedFlightrouteEffects {
     }
 
 
-    @Effect()
-    readSharedFlightrouteAction$: Observable<Action> = this.actions$.pipe(
+
+    readSharedFlightrouteAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteActionTypes.SHARED_FLIGHTROUTE_READ),
         filter((action: SharedFlightrouteReadAction) => action.shareId !== undefined),
         switchMap(action => this.flightrouteService.readSharedFlightroute(
@@ -42,20 +41,20 @@ export class SharedFlightrouteEffects {
             map(route => new SharedFlightrouteReadSuccessAction(route)),
             catchError(error => of(new SharedFlightrouteReadErrorAction(error)))
         ))
-    );
+    ));
 
 
-    @Effect({ dispatch: false })
-    readSharedFlightrouteErrorAction$: Observable<Action> = this.actions$.pipe(
+
+    readSharedFlightrouteErrorAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteActionTypes.SHARED_FLIGHTROUTE_READ_ERROR),
         tap((action: SharedFlightrouteReadErrorAction) => {
             this.messageService.showErrorMessage('Error reading shared flight route.', action.error);
         })
-    );
+    ), { dispatch: false });
 
 
-    @Effect()
-    createSharedFlightrouteAction$: Observable<Action> = this.actions$.pipe(
+
+    createSharedFlightrouteAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteActionTypes.SHARED_FLIGHTROUTE_CREATE),
         withLatestFrom(this.flightrouteState$),
         filter(([action, flightrouteState]) => flightrouteState.flightroute !== undefined),
@@ -65,14 +64,14 @@ export class SharedFlightrouteEffects {
             map(shareId => new SharedFlightrouteCreateSuccessAction(shareId)),
             catchError(error => of(new SharedFlightrouteCreateErrorAction(error)))
         ))
-    );
+    ));
 
 
-    @Effect()
-    createSharedFlightrouteErrorAction$: Observable<Action> = this.actions$.pipe(
+
+    createSharedFlightrouteErrorAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteActionTypes.SHARED_FLIGHTROUTE_CREATE_ERROR),
         tap((action: SharedFlightrouteCreateErrorAction) => {
             this.messageService.showErrorMessage('Error creating shared flight route.', action.error);
         })
-    );
+    ));
 }

@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Action, Store} from '@ngrx/store';
-import {Actions, Effect, ofType} from '@ngrx/effects';
-import {Observable} from 'rxjs';
-import {of} from 'rxjs/internal/observable/of';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {Observable, of} from 'rxjs';
 import {catchError, map, mergeMap, withLatestFrom} from 'rxjs/operators';
-import {TrafficActionTypes, ReadTrafficErrorAction, ReadTrafficSuccessAction} from './traffic.actions';
+import {ReadTrafficErrorAction, ReadTrafficSuccessAction, TrafficActionTypes} from './traffic.actions';
 import {getTrafficState} from './traffic.selectors';
 import {TrafficState} from '../domain/traffic-state';
 import {TrafficOpenskyService} from '../rest/opensky/traffic-opensky.service';
@@ -28,8 +27,8 @@ export class OpenskyTrafficEffects {
     }
 
 
-    @Effect()
-    readOpenSkyTrafficAction$: Observable<Action> = this.actions$.pipe(
+    
+    readOpenSkyTrafficAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(TrafficActionTypes.TRAFFIC_TIMER_TICK),
         withLatestFrom(this.trafficState$),
         mergeMap(([action, state]) => this.openskyTrafficService.readTraffic(
@@ -40,5 +39,5 @@ export class OpenskyTrafficEffects {
             map(newTrafficMap => new ReadTrafficSuccessAction(newTrafficMap)),
             catchError(error => of(new ReadTrafficErrorAction(error)))
         ))
-    );
+    ));
 }
