@@ -13,7 +13,7 @@ import {RestFlightrouteResponse} from './rest-flightroute-response';
 import {RestFlightrouteList} from './rest-flightroute-list';
 
 
-const flightrouteBaseUrl = environment.restApiBaseUrl + 'php/Navplan/Flightroute/FlightrouteService.php';
+const flightrouteBaseUrl = environment.restApiBaseUrl + 'php/Navplan/Flightroute/RestService/FlightrouteService.php';
 
 
 @Injectable({

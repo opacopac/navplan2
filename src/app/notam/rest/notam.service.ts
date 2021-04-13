@@ -12,7 +12,7 @@ import {IRestNotamResponse} from './i-rest-notam-response';
 import {NotamList} from '../domain/notam-list';
 
 
-const NOTAM_BASE_URL = environment.restApiBaseUrl + 'php/Navplan/Notam/NotamService.php';
+const NOTAM_BASE_URL = environment.restApiBaseUrl + 'php/Navplan/Notam/RestService/NotamService.php';
 
 
 @Injectable({

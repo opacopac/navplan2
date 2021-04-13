@@ -1,18 +1,16 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
+import {Observable, of, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
-import {of} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {LoggingService} from '../../system/use-case/logging/logging.service';
-import {GeodesyHelper} from '../../geo-math/use-case/geodesy-helper';
 import {Position2d} from '../../geo-math/domain/geometry/position2d';
 import {RestMapperSearch, SearchResponse} from '../rest/rest-mapper-search';
 import {User} from '../../user/domain/user';
 import {SearchItemList} from '../domain/search-item-list';
 import {CoordinateHelper} from '../../geo-math/use-case/coordinate-helper';
 
-const SEARCH_BASE_URL = environment.restApiBaseUrl + 'php/Navplan/Search/SearchService.php';
+const SEARCH_BASE_URL = environment.restApiBaseUrl + 'php/Navplan/Search/RestService/SearchService.php';
 
 
 @Injectable({

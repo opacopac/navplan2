@@ -10,7 +10,7 @@ import {RestMapperOpenAipItems} from './rest-mapper-open-aip-items';
 import {IRestOpenAipItems} from './i-rest-open-aip-items';
 
 
-const OPEN_AIP_BASE_URL = environment.restApiBaseUrl + 'php/Navplan/Search/SearchService.php';
+const OPEN_AIP_BASE_URL = environment.restApiBaseUrl + 'php/Navplan/Search/RestService/SearchService.php';
 
 
 @Injectable({

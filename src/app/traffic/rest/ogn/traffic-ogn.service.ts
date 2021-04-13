@@ -16,7 +16,7 @@ import {IOgnTrafficService} from '../../use-case/ogn-traffic/i-ogn-traffic-servi
     providedIn: 'root'
 })
 export class TrafficOgnService implements IOgnTrafficService {
-    public static readonly BASE_URL = environment.restApiBaseUrl + 'php/Navplan/Traffic/TrafficService.php?action=readogntraffic';
+    public static readonly BASE_URL = environment.restApiBaseUrl + 'php/Navplan/Traffic/RestService/TrafficService.php?action=readogntraffic';
 
 
     constructor(private http: HttpClient) {

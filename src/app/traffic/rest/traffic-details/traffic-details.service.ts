@@ -16,7 +16,7 @@ import {ITrafficDetailsService} from '../../use-case/traffic-details/i-traffic-d
     providedIn: 'root'
 })
 export class TrafficDetailsService implements ITrafficDetailsService {
-    public static readonly BASE_URL = environment.restApiBaseUrl + 'php/Navplan/Traffic/TrafficService.php';
+    public static readonly BASE_URL = environment.restApiBaseUrl + 'php/Navplan/Traffic/RestService/TrafficService.php';
 
 
     constructor(private http: HttpClient) {

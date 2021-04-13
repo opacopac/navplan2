@@ -17,7 +17,7 @@ import {IAdsbexTrafficService} from '../../use-case/adsbex-traffic/i-adsbex-traf
 })
 export class TrafficAdsbexService implements IAdsbexTrafficService {
     public static readonly BASE_URL = environment.restApiBaseUrl
-        + 'php/Navplan/Traffic/TrafficService.php?action=readadsbextraffic';
+        + 'php/Navplan/Traffic/RestService/TrafficService.php?action=readadsbextraffic';
 
 
     constructor(private http: HttpClient) {

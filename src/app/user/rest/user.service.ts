@@ -12,7 +12,7 @@ import {IRestTokenResponse} from './i-rest-token-response';
 import {IRestSimpleResponse} from './i-rest-simple-response';
 
 
-const userBaseUrl =  environment.restApiBaseUrl + 'php/Navplan/User/UserService.php';
+const userBaseUrl =  environment.restApiBaseUrl + 'php/Navplan/User/RestService/UserService.php';
 
 @Injectable({
     providedIn: 'root'
