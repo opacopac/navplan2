@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, EventEmitter, Output, Directive } from '@angular/core';
+import {ChangeDetectorRef, Directive, EventEmitter, Output} from '@angular/core';
 import {StringnumberHelper} from '../../system/use-case/stringnumber/stringnumber-helper';
 import {DataItem} from '../../shared/model/data-item';
 import {Position2d} from '../../geo-math/domain/geometry/position2d';

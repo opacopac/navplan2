@@ -10,10 +10,10 @@ class Notam {
         public string $stateName, // Name of the State
         public string $notamId, // ID of the NOTAM
         public ?string $entity, // First 2 letters of the Q-code, if available
-        public public ?string $status, // Last 2 letters of the Q-code, if available
-        public public ?string $qcode, // Q-code of the NOTAM, if available
+        public ?string $status, // Last 2 letters of the Q-code, if available
+        public ?string $qcode, // Q-code of the NOTAM, if available
         public ?string $area, // Decoded category first 2 letters of the Q-code
-        public public ?string $subarea, // Decoded area of first 2 letters of the Q-code
+        public ?string $subarea, // Decoded area of first 2 letters of the Q-code
         public ?string $condition, // Decoded sub-area of first 2 letters of the Q-code
         public ?string $subject, // Decoded area of last 2 letters of the Q-code
         public ?string $modifier, // Decoded sub-area of last 2 letters of the Q-code

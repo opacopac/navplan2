@@ -14,7 +14,7 @@ const BASE_URL_LOCAL = '//www.navplan.ch/maptiles/';
 export class Opentopobaselayer {
 
     public static createBaseLayer(attributions: string[]): TileLayer {
-        const layer = new TileLayer({
+        return new TileLayer({
             source: new XYZ({
                 tileUrlFunction: Opentopobaselayer.getTileUrl,
                 minZoom: MIN_ZOOM,
@@ -23,14 +23,12 @@ export class Opentopobaselayer {
                 attributions: attributions
             })
         });
-
-        return layer;
     }
 
     private static getTileUrl(coordinate): string {
         const z = coordinate[0];
         const y = coordinate[1];
-        const x = (-coordinate[2] - 1);
+        const x = coordinate[2];
 
         if (Opentopobaselayer.isLocalTile(z, y, x)) {
             return BASE_URL_LOCAL + z + '/' + y + '/' + x + '.png';

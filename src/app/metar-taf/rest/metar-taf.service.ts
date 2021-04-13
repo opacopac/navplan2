@@ -10,7 +10,7 @@ import {RestMetarTafList} from './rest-metar-taf-list';
 import {IRestMetarTafResponse} from './i-rest-metar-taf-response';
 
 
-const METAR_TAF_BASE_URL = 'https://www.aviationweather.gov/gis/scripts/MetarJSON.php?taf=true&density=all&bbox='; // 6.0,44.0,10.0,48.0';
+const METAR_TAF_BASE_URL = 'https://www.aviationweather.gov/cgi-bin/json/MetarJSON.php?taf=true&density=all&bbox='; // 6.0,44.0,10.0,48.0';
 
 
 @Injectable({

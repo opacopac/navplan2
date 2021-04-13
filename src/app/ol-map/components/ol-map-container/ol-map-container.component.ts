@@ -1,8 +1,7 @@
 import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {take} from 'rxjs/operators';
-import {combineLatest} from 'rxjs';
-import {Observable, Subscription} from 'rxjs';
+import {combineLatest, Observable, Subscription} from 'rxjs';
 import {OlMapService} from '../../use-case/ol-map.service';
 import {Position2d} from '../../../geo-math/domain/geometry/position2d';
 import {DataItem} from '../../../shared/model/data-item';
@@ -61,11 +60,11 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
 
 
     private initMapAndFeaturesAsync() {
-        combineLatest(
+        combineLatest([
             this.mapPosition$,
             this.mapZoom$,
             this.mapRotation$
-        ).pipe(
+        ]).pipe(
             take(1)
         ).subscribe(([pos, zoom, rot]) => {
             this.mapService.initMap(
