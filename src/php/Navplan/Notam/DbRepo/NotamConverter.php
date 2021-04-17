@@ -2,7 +2,7 @@
 
 namespace Navplan\Notam\DbRepo;
 
-use Navplan\Notam\Domain\Notam;
+use Navplan\Notam\DomainModel\Notam;
 use Navplan\Shared\StringNumberHelper;
 
 

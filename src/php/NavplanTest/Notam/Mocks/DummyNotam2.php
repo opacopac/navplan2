@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Notam\Mocks;
 
-use Navplan\Notam\Domain\Notam;
+use Navplan\Notam\DomainModel\Notam;
 
 class DummyNotam2 {
     public static function create(): Notam {

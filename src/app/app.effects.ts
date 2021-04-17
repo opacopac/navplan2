@@ -6,8 +6,7 @@ import {filter, map} from 'rxjs/operators';
 import {AppActionTypes, SelectActiveMapAction} from './app.actions';
 import {ActiveMapType} from './app-state';
 import {Observable} from 'rxjs';
-import {NavMapActivateAction} from './nav-map/ngrx/nav-map.actions';
-import {ChartMapActivateAction} from './chart-map/ngrx/chart-map.actions';
+import {FlightMapActivateAction} from './flight-map/ngrx/flight-map.actions';
 
 
 @Injectable()
@@ -19,7 +18,7 @@ export class AppEffects {
     }
 
 
-    
+
     selectActiveMapAction$: Observable<Action> = createEffect(() => this.router.events.pipe(
         filter(event => event instanceof ActivationEnd),
         map((event: ActivationEnd) => {
@@ -28,28 +27,19 @@ export class AppEffects {
     ));
 
 
-    
+
     navMapActivateAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(AppActionTypes.APP_SELECT_ACTIVE_MAP),
         map((action: SelectActiveMapAction) => {
-            return new NavMapActivateAction(action.activeMap === ActiveMapType.NAV_MAP);
+            return new FlightMapActivateAction(action.activeMap === ActiveMapType.NAV_MAP);
         })
     ));
 
-
-    
-    chartMapActivateAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(AppActionTypes.APP_SELECT_ACTIVE_MAP),
-        map((action: SelectActiveMapAction) => {
-            return new ChartMapActivateAction(action.activeMap === ActiveMapType.CHART_MAP);
-        })
-    ));
 
 
     private getMapByRouterPath(path: string): ActiveMapType {
         switch (path) {
             case 'map': return ActiveMapType.NAV_MAP;
-            case 'chartmap': return ActiveMapType.CHART_MAP;
             default: return ActiveMapType.NONE;
         }
     }

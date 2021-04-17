@@ -12,7 +12,7 @@ use Navplan\Geometry\DomainModel\LengthUnit;
 use Navplan\Geometry\DomainModel\MultiRing2d;
 use Navplan\Geometry\DomainModel\Position2d;
 use Navplan\Geometry\DomainModel\Ring2d;
-use Navplan\Notam\Domain\NotamGeometry;
+use Navplan\Notam\DomainModel\NotamGeometry;
 
 
 class NotamGeometryConverter {

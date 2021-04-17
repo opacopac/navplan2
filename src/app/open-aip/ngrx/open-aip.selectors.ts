@@ -1,5 +1,5 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {OpenAipState} from '../domain/open-aip-state';
+import {OpenAipState} from '../domain-model/open-aip-state';
 
 
 export const getOpenAipState = createFeatureSelector<OpenAipState>('openAipState');

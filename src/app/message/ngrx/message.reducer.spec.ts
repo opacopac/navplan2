@@ -1,7 +1,7 @@
-import {MessageState} from '../domain/message-state';
+import {MessageState} from '../domain-model/message-state';
 import {messageReducer} from './message.reducer';
 import {ShowMessageAction} from './message.actions';
-import {Message} from '../domain/message';
+import {Message} from '../domain-model/message';
 
 
 describe('messageReducer', () => {

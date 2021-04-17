@@ -5,9 +5,9 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import {LoginUserAction, LoginUserErrorAction, LoginUserSuccessAction, UserActionTypes,} from './user.actions';
-import {ClientstorageHelper} from '../../system/use-case/clientstorage/clientstorage-helper';
-import {UserService} from '../rest/user.service';
-import {MessageService} from '../../message/services/message.service';
+import {ClientstorageHelper} from '../../system/domain-service/clientstorage/clientstorage-helper';
+import {MessageService} from '../../message/domain-service/message.service';
+import {UserService} from '../domain-service/user.service';
 
 
 @Injectable()

@@ -1,4 +1,4 @@
-import {NotamState} from '../domain/notam-state';
+import {NotamState} from '../domain-model/notam-state';
 import {NotamActions, NotamActionTypes} from './notam.actions';
 
 

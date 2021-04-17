@@ -3,7 +3,7 @@
 namespace NavplanTest\Notam\Mocks;
 
 use Navplan\Geometry\DomainModel\Ring2d;
-use Navplan\Notam\Domain\NotamGeometry;
+use Navplan\Notam\DomainModel\NotamGeometry;
 
 
 class DummyNotamGeometry2 {

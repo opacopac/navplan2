@@ -1,12 +1,12 @@
 import {Actions} from '@ngrx/effects';
 import {of} from 'rxjs';
 import {LoginEffects} from './login.effects';
-import createSpyObj = jasmine.createSpyObj;
-import {ClientstorageHelper} from '../../system/use-case/clientstorage/clientstorage-helper';
+import {ClientstorageHelper} from '../../system/domain-service/clientstorage/clientstorage-helper';
 import {Router} from '@angular/router';
 import {LogoutEffects} from './logout.effects';
 import {LogoutUserAction} from './user.actions';
-import {MessageService} from '../../message/services/message.service';
+import {MessageService} from '../../message/domain-service/message.service';
+import createSpyObj = jasmine.createSpyObj;
 
 
 describe('LogoutEffects', () => {

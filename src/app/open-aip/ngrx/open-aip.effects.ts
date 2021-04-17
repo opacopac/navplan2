@@ -3,7 +3,7 @@ import {Action, Store} from '@ngrx/store';
 import {catchError, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {Injectable} from '@angular/core';
-import {OpenAipState} from '../domain/open-aip-state';
+import {OpenAipState} from '../domain-model/open-aip-state';
 import {
     OpenAipActionTypes,
     ReadOpenAipItemsAction,
@@ -11,8 +11,8 @@ import {
     ReadOpenAipItemsSuccessAction
 } from './open-aip.actions';
 import {getOpenAipState} from './open-aip.selectors';
-import {OpenAipRepo} from '../use-case/open-aip-repo';
-import {MessageService} from '../../message/services/message.service';
+import {OpenAipService} from '../domain-service/open-aip-service2.service';
+import {MessageService} from '../../message/domain-service/message.service';
 
 
 @Injectable()
@@ -23,13 +23,13 @@ export class OpenAipEffects {
     constructor(
         private readonly actions$: Actions,
         private readonly appStore: Store<any>,
-        private readonly openAipRepo: OpenAipRepo,
+        private readonly openAipRepo: OpenAipService,
         private readonly messageService: MessageService
     ) {
     }
 
 
-    
+
     readOpenAipItemsAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(OpenAipActionTypes.OPEN_AIP_READ_ITEMS),
         map(action => action as ReadOpenAipItemsAction),
@@ -45,7 +45,7 @@ export class OpenAipEffects {
     ));
 
 
-    
+
     readOpenAipItemsErrorAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(OpenAipActionTypes.OPEN_AIP_READ_ITEMS_ERROR),
         tap((action: ReadOpenAipItemsErrorAction) => {

@@ -1,21 +1,19 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {SettingsPageComponent} from './core/components/settings-page/settings-page.component';
-import {AboutPageComponent} from './core/components/about-page/about-page.component';
-import {UserProfilePageComponent} from './user/components/user-profile-page/user-profile-page.component';
-import {NavMapPageComponent} from './nav-map/components/nav-map-page/nav-map-page.component';
-import {TracksPageComponent} from './track/components/tracks-page/tracks-page.component';
-import {ChartMapPageComponent} from './chart-map/components/chart-map-page/chart-map-page.component';
-import {FlightroutePageComponent} from './flightroute/components/flightroute-page/flightroute-page.component';
-import {LoginRegisterPageComponent} from './user/components/login-register-page/login-register-page.component';
-import {RegisterStep2PageComponent} from './user/components/register-step2-page/register-step2-page.component';
-import {ForgotPwStep1PageComponent} from './user/components/forgot-pw-step1-page/forgot-pw-step1-page.component';
-import {ForgotPwStep2PageComponent} from './user/components/forgot-pw-step2-page/forgot-pw-step2-page.component';
+import {SettingsPageComponent} from './settings/ng-components/settings-page/settings-page.component';
+import {AboutPageComponent} from './about/ng-components/about-page/about-page.component';
+import {UserProfilePageComponent} from './user/ng-components/user-profile-page/user-profile-page.component';
+import {FlightMapPageComponent} from './flight-map/ng-components/flight-map-page/flight-map-page.component';
+import {TracksPageComponent} from './track/ng-components/tracks-page/tracks-page.component';
+import {FlightroutePageComponent} from './flightroute/ng-components/flightroute-page/flightroute-page.component';
+import {LoginRegisterPageComponent} from './user/ng-components/login-register-page/login-register-page.component';
+import {RegisterStep2PageComponent} from './user/ng-components/register-step2-page/register-step2-page.component';
+import {ForgotPwStep1PageComponent} from './user/ng-components/forgot-pw-step1-page/forgot-pw-step1-page.component';
+import {ForgotPwStep2PageComponent} from './user/ng-components/forgot-pw-step2-page/forgot-pw-step2-page.component';
 
 const routes: Routes = [
     { path: '', redirectTo: 'map', pathMatch: 'full' },
-    { path: 'map', component: NavMapPageComponent },
-    { path: 'chartmap', component: ChartMapPageComponent },
+    { path: 'map', component: FlightMapPageComponent },
     { path: 'route', component: FlightroutePageComponent },
     { path: 'tracks', component: TracksPageComponent },
     { path: 'login', component: LoginRegisterPageComponent },

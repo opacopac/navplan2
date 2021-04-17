@@ -1,6 +1,6 @@
 import {IRestOpenskyTrafficResponse} from './i-rest-opensky-traffic-response';
 import {RestMapperOpenskyTraffic} from './rest-mapper-opensky-traffic';
-import {TrafficOpensky} from '../../domain/traffic-opensky';
+import {TrafficOpensky} from '../../domain-model/traffic-opensky';
 
 
 export class RestMapperOpenskyTrafficResponse {

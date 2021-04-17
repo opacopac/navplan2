@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {TrafficMap} from '../domain/traffic-map';
+import {TrafficMap} from '../domain-model/traffic-map';
 
 
 export enum TrafficActionTypes {

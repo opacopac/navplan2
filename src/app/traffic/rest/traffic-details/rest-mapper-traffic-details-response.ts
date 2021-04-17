@@ -1,6 +1,6 @@
 import {IRestTrafficDetailsResponse} from './i-rest-traffic-details-response';
 import {RestMapperTrafficDetails} from './rest-mapper-traffic-details';
-import {TrafficDetails} from '../../domain/traffic-details';
+import {TrafficDetails} from '../../domain-model/traffic-details';
 
 
 export class RestMapperTrafficDetailsResponse {

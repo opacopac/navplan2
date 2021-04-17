@@ -1,14 +1,14 @@
 import {Actions} from '@ngrx/effects';
 import {of, throwError} from 'rxjs';
-import createSpyObj = jasmine.createSpyObj;
-import {MessageService} from '../../message/services/message.service';
+import {MessageService} from '../../message/domain-service/message.service';
 import {OpenAipEffects} from './open-aip.effects';
-import {OpenAipRepo} from '../use-case/open-aip-repo';
-import {Extent2d} from '../../geo-math/domain/geometry/extent2d';
+import {OpenAipService} from '../domain-service/open-aip-service2.service';
+import {Extent2d} from '../../geo-math/domain-model/geometry/extent2d';
 import {ReadOpenAipItemsAction, ReadOpenAipItemsErrorAction, ReadOpenAipItemsSuccessAction} from './open-aip.actions';
-import {ReadOpenAipItemsByExtentResult} from '../domain/read-open-aip-items-by-extent-result';
+import {ReadOpenAipItemsByExtentResult} from '../domain-model/read-open-aip-items-by-extent-result';
 import {MockStore} from '../../shared/test/mock-store';
-import {OpenAipState} from '../domain/open-aip-state';
+import {OpenAipState} from '../domain-model/open-aip-state';
+import createSpyObj = jasmine.createSpyObj;
 
 
 describe('OpenAipEffects', () => {
@@ -19,7 +19,7 @@ describe('OpenAipEffects', () => {
     let error: Error;
     let initialState: OpenAipState;
     let store: MockStore;
-    let openAipRepo: jasmine.SpyObj<OpenAipRepo>;
+    let openAipRepo: jasmine.SpyObj<OpenAipService>;
     let messageService: jasmine.SpyObj<MessageService>;
 
 
@@ -36,7 +36,7 @@ describe('OpenAipEffects', () => {
         error = new Error(errorText);
         initialState = { extent: undefined, zoom: undefined, openAipItems: undefined, timestampMs: 0 };
         store = new MockStore('openAipState', initialState);
-        openAipRepo = createSpyObj<OpenAipRepo>('openAipRepo', ['readByExtent']);
+        openAipRepo = createSpyObj<OpenAipService>('openAipRepo', ['readByExtent']);
         messageService = createSpyObj<MessageService>('messageService', ['showSuccessMessage', 'showErrorMessage']);
     });
 

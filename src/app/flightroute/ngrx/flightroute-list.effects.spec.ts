@@ -1,17 +1,17 @@
 import {Actions} from '@ngrx/effects';
 import {of, throwError} from 'rxjs';
-import createSpyObj = jasmine.createSpyObj;
-import {MessageService} from '../../message/services/message.service';
+import {MessageService} from '../../message/domain-service/message.service';
 import {MockStore} from '../../shared/test/mock-store';
 import {FlightrouteListEffects} from './flightroute-list.effects';
-import {FlightrouteService} from '../rest/flightroute.service';
+import {FlightrouteService} from '../rest-service/flightroute.service';
 import {
     FlightrouteReadListAction,
     FlightrouteReadListErrorAction,
     FlightrouteReadListSuccessAction
 } from './flightroute.actions';
-import {UserState} from '../../user/domain/user-state';
-import {User} from '../../user/domain/user';
+import {UserState} from '../../user/domain-model/user-state';
+import {User} from '../../user/domain-model/user';
+import createSpyObj = jasmine.createSpyObj;
 
 
 describe('FlightrouteListEffects', () => {

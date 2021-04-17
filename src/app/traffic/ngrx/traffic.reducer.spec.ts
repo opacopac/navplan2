@@ -1,19 +1,20 @@
 import {initialTrafficState, trafficReducer} from './traffic.reducer';
 import {
-    ReadTrafficErrorAction, ReadTrafficSuccessAction,
+    ReadTrafficErrorAction,
+    ReadTrafficSuccessAction,
     ReadTrafficTimerAction,
     StartWatchTrafficAction,
     StopWatchTrafficAction
 } from './traffic.actions';
-import {OlMapMovedZoomedRotatedAction} from '../../ol-map/ngrx/ol-map.actions';
-import {Position2d} from '../../geo-math/domain/geometry/position2d';
-import {Extent2d} from '../../geo-math/domain/geometry/extent2d';
-import {Angle} from '../../geo-math/domain/quantities/angle';
-import {AngleUnit} from '../../geo-math/domain/quantities/units';
-import {TrafficServiceStatus} from '../domain/traffic-service-status';
-import {MockDate} from '../../system/use-case/date/mock-date';
-import {TrafficMap} from '../domain/traffic-map';
-import {Traffic} from '../domain/traffic';
+import {BaseMapMovedZoomedRotatedAction} from '../../base-map/ngrx/base-map.actions';
+import {Position2d} from '../../geo-math/domain-model/geometry/position2d';
+import {Extent2d} from '../../geo-math/domain-model/geometry/extent2d';
+import {Angle} from '../../geo-math/domain-model/quantities/angle';
+import {AngleUnit} from '../../geo-math/domain-model/quantities/units';
+import {TrafficServiceStatus} from '../domain-model/traffic-service-status';
+import {MockDate} from '../../system/domain-service/date/mock-date';
+import {TrafficMap} from '../domain-model/traffic-map';
+import {Traffic} from '../domain-model/traffic';
 import {TrafficAdsbex1Mock} from '../mocks/traffic-adsbex1.mock';
 
 
@@ -40,12 +41,12 @@ xdescribe('trafficReducer', () => {
     });
 
 
-    // region OL_MAP_MOVED_ZOOMED_ROTATED
+    // region BASE_MAP_MOVED_ZOOMED_ROTATED
 
-    it('updates the extent on OL_MAP_MOVED_ZOOMED_ROTATED', () => {
+    it('updates the extent on BASE_MAP_MOVED_ZOOMED_ROTATED', () => {
         const pos = new Position2d(7, 47);
         const extent = new Extent2d(6, 46, 8, 48);
-        const action = new OlMapMovedZoomedRotatedAction(pos, 11, new Angle(0, AngleUnit.DEG), extent);
+        const action = new BaseMapMovedZoomedRotatedAction(pos, 11, new Angle(0, AngleUnit.DEG), extent);
         const state = trafficReducer(undefined, action);
 
         expect(state.extent.minLon).toEqual(extent.minLon);

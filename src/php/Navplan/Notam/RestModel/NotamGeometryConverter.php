@@ -9,7 +9,7 @@ use Navplan\Geometry\DomainModel\MultiRing2d;
 use Navplan\Geometry\DomainModel\Ring2d;
 use Navplan\Geometry\RestModel\AltitudeConverter;
 use Navplan\Geometry\RestModel\Circle2dConverter;
-use Navplan\Notam\Domain\NotamGeometry;
+use Navplan\Notam\DomainModel\NotamGeometry;
 
 
 class NotamGeometryConverter {

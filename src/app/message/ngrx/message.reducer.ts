@@ -1,4 +1,4 @@
-import {MessageState} from '../domain/message-state';
+import {MessageState} from '../domain-model/message-state';
 import {MessageActions, MessageActionTypes} from './message.actions';
 
 

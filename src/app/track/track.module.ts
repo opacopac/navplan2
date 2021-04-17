@@ -3,14 +3,14 @@ import {CommonModule} from '@angular/common';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {SharedModule} from '../shared/shared.module';
-import {TrackState} from './domain/track-state';
+import {TrackState} from './domain-model/track-state';
 import {TrackActions} from './ngrx/track.actions';
 import {trackReducer} from './ngrx/track.reducer';
 import {TrackEffects} from './ngrx/track.effects';
-import {TrackListComponent} from './components/track-list/track-list.component';
-import {TrackService} from './services/track.service';
-import {TracksPageComponent} from './components/tracks-page/tracks-page.component';
-import {OlMapModule} from '../ol-map/ol-map.module';
+import {TrackListComponent} from './ng-components/track-list/track-list.component';
+import {TrackService} from './rest-service/track.service';
+import {TracksPageComponent} from './ng-components/tracks-page/tracks-page.component';
+import {BaseMapModule} from '../base-map/base-map.module';
 
 
 @NgModule({
@@ -19,7 +19,7 @@ import {OlMapModule} from '../ol-map/ol-map.module';
         StoreModule.forFeature<TrackState, TrackActions>('trackState', trackReducer),
         EffectsModule.forFeature([TrackEffects]),
         SharedModule,
-        OlMapModule,
+        BaseMapModule,
     ],
     declarations: [
         TracksPageComponent,

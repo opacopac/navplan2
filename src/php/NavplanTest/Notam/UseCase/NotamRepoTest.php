@@ -4,7 +4,7 @@ namespace NavplanTest\Notam\UseCase;
 
 use Navplan\Geometry\DomainModel\Extent;
 use Navplan\Geometry\DomainModel\Position2d;
-use Navplan\Notam\Domain\ReadNotamByExtentRequest;
+use Navplan\Notam\DomainModel\ReadNotamByExtentRequest;
 use Navplan\Notam\UseCase\SearchNotam\SearchNotamUc;
 use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\Notam\Mocks\DummyNotam1;

@@ -13,7 +13,7 @@ use Navplan\Geometry\DomainModel\Position2d;
 use Navplan\Geometry\DomainModel\Ring2d;
 use Navplan\Geometry\RestModel\AltitudeConverter;
 use Navplan\Geometry\RestModel\Circle2dConverter;
-use Navplan\Notam\Domain\NotamGeometry;
+use Navplan\Notam\DomainModel\NotamGeometry;
 use Navplan\Notam\RestModel\NotamGeometryConverter;
 use NavplanTest\Notam\Mocks\DummyNotamGeometry1;
 use NavplanTest\Notam\Mocks\DummyNotamGeometry2;

@@ -1,5 +1,5 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {TrafficState} from '../domain/traffic-state';
+import {TrafficState} from '../domain-model/traffic-state';
 
 
 export const getTrafficState = createFeatureSelector<TrafficState>('trafficState');

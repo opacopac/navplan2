@@ -1,4 +1,4 @@
-import {TestBed, async} from '@angular/core/testing';
+import {async, TestBed} from '@angular/core/testing';
 import {Component} from '@angular/core';
 import {StoreModule} from '@ngrx/store';
 import {AppComponent} from './app.component';
@@ -15,7 +15,7 @@ class MockMessageContainerComponent {}
 
 
 describe('AppComponent', () => {
-/*    let userServiceStub: Partial<UserService>;
+/*    let userServiceStub: Partial<RestUserService>;
     let messageServiceStub: Partial<MessageService>;*/
 
 
@@ -35,7 +35,7 @@ describe('AppComponent', () => {
                 MockMessageContainerComponent
             ],
             providers: [
-                /*{ provide: UserService, useValue: userServiceStub },
+                /*{ provide: RestUserService, useValue: userServiceStub },
                 { provide: MessageService, useValue: messageServiceStub },*/
             ],
             imports: [

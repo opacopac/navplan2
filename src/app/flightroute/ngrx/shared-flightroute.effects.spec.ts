@@ -1,23 +1,31 @@
 import {Actions} from '@ngrx/effects';
 import {of, throwError} from 'rxjs';
-import createSpyObj = jasmine.createSpyObj;
-import {MessageService} from '../../message/services/message.service';
-import {FlightrouteService} from '../rest/flightroute.service';
+import {MessageService} from '../../message/domain-service/message.service';
+import {FlightrouteService} from '../rest-service/flightroute.service';
 import {
-    SharedFlightrouteCreateAction, SharedFlightrouteCreateErrorAction, SharedFlightrouteCreateSuccessAction,
+    SharedFlightrouteCreateAction,
+    SharedFlightrouteCreateErrorAction,
+    SharedFlightrouteCreateSuccessAction,
     SharedFlightrouteReadAction,
     SharedFlightrouteReadErrorAction,
     SharedFlightrouteReadSuccessAction
 } from './flightroute.actions';
 import {SharedFlightrouteEffects} from './shared-flightroute.effects';
-import {Flightroute} from '../domain/flightroute';
+import {Flightroute} from '../domain-model/flightroute';
 import {MockStore} from '../../shared/test/mock-store';
-import {FlightrouteState} from '../domain/flightroute-state';
-import {Aircraft} from '../domain/aircraft';
-import {Speed} from '../../geo-math/domain/quantities/speed';
-import {ConsumptionUnit, LengthUnit, SpeedUnit, TimeUnit, VolumeUnit} from '../../geo-math/domain/quantities/units';
-import {Consumption} from '../../geo-math/domain/quantities/consumption';
-import {Time} from '../../geo-math/domain/quantities/time';
+import {FlightrouteState} from '../domain-model/flightroute-state';
+import {Aircraft} from '../domain-model/aircraft';
+import {Speed} from '../../geo-math/domain-model/quantities/speed';
+import {
+    ConsumptionUnit,
+    LengthUnit,
+    SpeedUnit,
+    TimeUnit,
+    VolumeUnit
+} from '../../geo-math/domain-model/quantities/units';
+import {Consumption} from '../../geo-math/domain-model/quantities/consumption';
+import {Time} from '../../geo-math/domain-model/quantities/time';
+import createSpyObj = jasmine.createSpyObj;
 
 
 describe('SharedFlightrouteEffects', () => {

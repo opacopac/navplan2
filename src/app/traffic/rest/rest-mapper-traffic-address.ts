@@ -1,6 +1,6 @@
-import {TrafficAddressType} from '../domain/traffic-address-type';
+import {TrafficAddressType} from '../domain-model/traffic-address-type';
 import {IRestTrafficAddress} from './i-rest-traffic-address';
-import {TrafficAddress} from '../domain/traffic-address';
+import {TrafficAddress} from '../domain-model/traffic-address';
 
 
 export class RestMapperTrafficAddress {

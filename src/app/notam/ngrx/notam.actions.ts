@@ -1,6 +1,6 @@
 import {Action} from '@ngrx/store';
-import {Extent2d} from '../../geo-math/domain/geometry/extent2d';
-import {ReadNotamByExtentResult} from '../domain/read-notam-by-extent-result';
+import {Extent2d} from '../../geo-math/domain-model/geometry/extent2d';
+import {ReadNotamByExtentResult} from '../domain-model/read-notam-by-extent-result';
 
 
 export enum NotamActionTypes {

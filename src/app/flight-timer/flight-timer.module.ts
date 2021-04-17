@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FlighttimerComponent} from './components/flighttimer/flighttimer.component';
+import {FlighttimerComponent} from './ng-components/flighttimer/flighttimer.component';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {LocationEffects} from '../location/location.effects';

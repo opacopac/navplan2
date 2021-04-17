@@ -1,6 +1,6 @@
 import {Action} from '@ngrx/store';
-import {Extent2d} from '../../geo-math/domain/geometry/extent2d';
-import {ReadMetarTafByExtentResult} from '../domain/read-metar-taf-by-extent-result';
+import {Extent2d} from '../../geo-math/domain-model/geometry/extent2d';
+import {ReadMetarTafByExtentResult} from '../domain-model/read-metar-taf-by-extent-result';
 
 
 export enum MetarTafActionTypes {

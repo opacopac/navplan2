@@ -1,5 +1,4 @@
-import {User} from '../domain/user';
-import {UserState} from '../domain/user-state';
+import {UserState} from '../domain-model/user-state';
 import {userReducer} from './user.reducer';
 
 

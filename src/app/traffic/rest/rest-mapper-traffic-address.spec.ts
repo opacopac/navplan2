@@ -1,7 +1,7 @@
 import {RestMapperTrafficAddress} from './rest-mapper-traffic-address';
 import {IRestTrafficAddress} from './i-rest-traffic-address';
-import {TrafficAddressType} from '../domain/traffic-address-type';
-import {TrafficAddress} from '../domain/traffic-address';
+import {TrafficAddressType} from '../domain-model/traffic-address-type';
+import {TrafficAddress} from '../domain-model/traffic-address';
 
 
 describe('RestMapperTrafficAddress', () => {

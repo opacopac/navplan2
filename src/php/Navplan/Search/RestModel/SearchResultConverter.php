@@ -2,7 +2,7 @@
 
 namespace Navplan\Search\RestModel;
 
-use Navplan\Notam\Domain\Notam;
+use Navplan\Notam\DomainModel\Notam;
 use Navplan\Notam\RestModel\NotamConverter;
 use Navplan\OpenAip\DomainModel\Airport;
 use Navplan\OpenAip\DomainModel\Airspace;

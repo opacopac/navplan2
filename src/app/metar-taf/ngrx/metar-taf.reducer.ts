@@ -1,4 +1,4 @@
-import {MetarTafState} from '../domain/metar-taf-state';
+import {MetarTafState} from '../domain-model/metar-taf-state';
 import {MetarTafActions, MetarTafActionTypes} from './metar-taf.actions';
 
 

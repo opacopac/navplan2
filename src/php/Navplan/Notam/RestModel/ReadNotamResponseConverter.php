@@ -2,8 +2,8 @@
 
 namespace Navplan\Notam\RestModel;
 
-use Navplan\Notam\Domain\Notam;
-use Navplan\Notam\Domain\ReadNotamResponse;
+use Navplan\Notam\DomainModel\Notam;
+use Navplan\Notam\DomainModel\ReadNotamResponse;
 
 
 class ReadNotamResponseConverter {

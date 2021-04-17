@@ -1,5 +1,5 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {TrackState} from '../domain/track-state';
+import {TrackState} from '../domain-model/track-state';
 
 
 export const getTrackState = createFeatureSelector<TrackState>('trackState');

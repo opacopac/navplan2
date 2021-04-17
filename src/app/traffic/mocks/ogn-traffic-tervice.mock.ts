@@ -1,7 +1,7 @@
 import {Observable} from 'rxjs';
-import {Extent2d} from '../../geo-math/domain/geometry/extent2d';
-import {IOgnTrafficService} from '../use-case/ogn-traffic/i-ogn-traffic-service';
-import {TrafficOgn} from '../domain/traffic-ogn';
+import {Extent2d} from '../../geo-math/domain-model/geometry/extent2d';
+import {IOgnTrafficService} from '../domain-service/ogn-traffic/i-ogn-traffic-service';
+import {TrafficOgn} from '../domain-model/traffic-ogn';
 
 
 export class OgnTrafficTerviceMock implements IOgnTrafficService {

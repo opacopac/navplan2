@@ -5,10 +5,10 @@ import {Observable, of} from 'rxjs';
 import {catchError, map, mergeMap, withLatestFrom} from 'rxjs/operators';
 import {ReadTrafficErrorAction, ReadTrafficSuccessAction, TrafficActionTypes} from './traffic.actions';
 import {getTrafficState} from './traffic.selectors';
-import {TrafficState} from '../domain/traffic-state';
+import {TrafficState} from '../domain-model/traffic-state';
 import {TrafficOpenskyService} from '../rest/opensky/traffic-opensky.service';
-import {OpenskyTrafficMerger} from '../use-case/opensky-traffic/opensky-traffic-merger';
-import {SystemConfig} from '../../system/system-config';
+import {OpenskyTrafficMerger} from '../domain-service/opensky-traffic/opensky-traffic-merger';
+import {SystemConfig} from '../../system/domain-service/system-config';
 
 
 @Injectable()
@@ -27,7 +27,7 @@ export class OpenskyTrafficEffects {
     }
 
 
-    
+
     readOpenSkyTrafficAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(TrafficActionTypes.TRAFFIC_TIMER_TICK),
         withLatestFrom(this.trafficState$),

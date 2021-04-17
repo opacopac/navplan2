@@ -3,6 +3,7 @@ import {HttpClientTestingModule, HttpTestingController} from '@angular/common/ht
 import {TrafficOgnService} from './traffic-ogn.service';
 import {Extent4dMock} from '../../mocks/extent4d.mock';
 import {TrafficOgn1Mock} from '../../mocks/traffic-ogn1.mock';
+import {environment} from '../../../../environments/environment';
 
 
 xdescribe('TrafficOgnService', () => {
@@ -42,7 +43,7 @@ xdescribe('TrafficOgnService', () => {
             waitForDataSec,
             sessionId).subscribe(() => {});
 
-        const request = httpMock.expectOne(req => req.url.startsWith(TrafficOgnService.BASE_URL));
+        const request = httpMock.expectOne(req => req.url.startsWith(environment.trafficOgnServiceUrl));
         expect(request.request.method).toBe('GET');
 
         request.flush(TrafficOgn1Mock.createRestResponse());

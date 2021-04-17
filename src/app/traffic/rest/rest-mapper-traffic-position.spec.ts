@@ -2,7 +2,7 @@ import {RestMapperTrafficPosition} from './rest-mapper-traffic-position';
 import {IRestTrafficPosition} from './i-rest-traffic-position';
 import {TrafficOgn1Mock} from '../mocks/traffic-ogn1.mock';
 import {TrafficAdsbex1Mock} from '../mocks/traffic-adsbex1.mock';
-import {TrafficDataSource} from '../domain/traffic-data-source';
+import {TrafficDataSource} from '../domain-model/traffic-data-source';
 
 
 describe('RestMapperTrafficPosition', () => {

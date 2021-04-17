@@ -1,6 +1,6 @@
 import {LocationState} from './location-state';
 import {LocationActions, LocationActionTypes} from './location.actions';
-import {LocationServiceStatus} from './services/location.service';
+import {LocationServiceStatus} from './domain-service/location.service';
 
 
 const initialState: LocationState = {

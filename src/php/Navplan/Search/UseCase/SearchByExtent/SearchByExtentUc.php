@@ -2,7 +2,7 @@
 
 namespace Navplan\Search\UseCase\SearchByExtent;
 
-use Navplan\Notam\Domain\ReadNotamByExtentRequest;
+use Navplan\Notam\DomainModel\ReadNotamByExtentRequest;
 use Navplan\Notam\UseCase\SearchNotam\ISearchNotamUc;
 use Navplan\OpenAip\UseCase\SearchAirport\ISearchAirportUc;
 use Navplan\OpenAip\UseCase\SearchAirspace\ISearchAirspaceUc;

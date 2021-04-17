@@ -3,7 +3,7 @@
 namespace Navplan\Notam\RestModel;
 
 
-use Navplan\Notam\Domain\Notam;
+use Navplan\Notam\DomainModel\Notam;
 
 class NotamConverter {
     public static function toRest(Notam $notam): array {

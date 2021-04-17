@@ -1,15 +1,15 @@
-import {Position4d} from '../../../geo-math/domain/geometry/position4d';
-import {Timestamp} from '../../../geo-math/domain/quantities/timestamp';
-import {TrafficAddressType} from '../../domain/traffic-address-type';
-import {TrafficDataSource} from '../../domain/traffic-data-source';
-import {TrafficPosition} from '../../domain/traffic-position';
-import {TrafficPositionMethod} from '../../domain/traffic-position-method';
-import {Altitude} from '../../../geo-math/domain/geometry/altitude';
-import {AltitudeUnit} from '../../../geo-math/domain/geometry/altitude-unit';
-import {AltitudeReference} from '../../../geo-math/domain/geometry/altitude-reference';
-import {TrafficAddress} from '../../domain/traffic-address';
+import {Position4d} from '../../../geo-math/domain-model/geometry/position4d';
+import {Timestamp} from '../../../geo-math/domain-model/quantities/timestamp';
+import {TrafficAddressType} from '../../domain-model/traffic-address-type';
+import {TrafficDataSource} from '../../domain-model/traffic-data-source';
+import {TrafficPosition} from '../../domain-model/traffic-position';
+import {TrafficPositionMethod} from '../../domain-model/traffic-position-method';
+import {Altitude} from '../../../geo-math/domain-model/geometry/altitude';
+import {AltitudeUnit} from '../../../geo-math/domain-model/geometry/altitude-unit';
+import {AltitudeReference} from '../../../geo-math/domain-model/geometry/altitude-reference';
+import {TrafficAddress} from '../../domain-model/traffic-address';
 import {IRestOpenskyTraffic} from './i-rest-opensky-traffic';
-import {TrafficOpensky} from '../../domain/traffic-opensky';
+import {TrafficOpensky} from '../../domain-model/traffic-opensky';
 
 
 export class RestMapperOpenskyTraffic {

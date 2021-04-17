@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {ClientstorageHelper} from './system/use-case/clientstorage/clientstorage-helper';
+import {ClientstorageHelper} from './system/domain-service/clientstorage/clientstorage-helper';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {getCurrentUser} from './user/ngrx/user.selectors';
 import {AutoLoginUserAction} from './user/ngrx/user.actions';
-import {User} from './user/domain/user';
+import {User} from './user/domain-model/user';
 
 
 @Component({

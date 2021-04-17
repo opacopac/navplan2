@@ -1,19 +1,21 @@
 import {Actions} from '@ngrx/effects';
 import {of, throwError} from 'rxjs';
-import {UserService} from '../rest/user.service';
 import {
-    ChangePwAction, ResetPwAction,
-    ResetPwErrorAction, ResetPwSuccessAction,
-    SendLostPwEmailAction, SendLostPwEmailErrorAction,
+    ResetPwAction,
+    ResetPwErrorAction,
+    ResetPwSuccessAction,
+    SendLostPwEmailAction,
+    SendLostPwEmailErrorAction,
     SendLostPwEmailSuccessAction,
 } from './user.actions';
-import {User} from '../domain/user';
-import {ClientstorageHelper} from '../../system/use-case/clientstorage/clientstorage-helper';
+import {User} from '../domain-model/user';
+import {ClientstorageHelper} from '../../system/domain-service/clientstorage/clientstorage-helper';
 import {Router} from '@angular/router';
-import createSpyObj = jasmine.createSpyObj;
-import {MessageService} from '../../message/services/message.service';
+import {MessageService} from '../../message/domain-service/message.service';
 import {LoginEffects} from './login.effects';
 import {LostPwEffects} from './lost-pw.effects';
+import {UserService} from '../domain-service/user.service';
+import createSpyObj = jasmine.createSpyObj;
 
 
 describe('LostPwEffects', () => {

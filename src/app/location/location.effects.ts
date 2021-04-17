@@ -3,7 +3,7 @@ import {Action, select, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
-import {LocationService} from './services/location.service';
+import {LocationService} from './domain-service/location.service';
 import {getLocationIsWatching} from './location.selectors';
 import {
     LocationActionTypes,
@@ -26,7 +26,7 @@ export class LocationEffects {
     }
 
 
-    
+
     toggleLocationWatch$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(LocationActionTypes.LOCATION_WATCH_TOGGLE),
@@ -41,7 +41,7 @@ export class LocationEffects {
         ));
 
 
-    
+
     startLocationWatch$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(LocationActionTypes.LOCATION_WATCH_START),
@@ -55,7 +55,7 @@ export class LocationEffects {
             })
         ));
 
-    
+
     stopLocationWatch$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(LocationActionTypes.LOCATION_WATCH_STOP),

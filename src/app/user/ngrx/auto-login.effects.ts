@@ -10,10 +10,10 @@ import {
     AutoLoginUserSuccessAction,
     UserActionTypes
 } from './user.actions';
-import {ClientstorageHelper} from '../../system/use-case/clientstorage/clientstorage-helper';
-import {UserService} from '../rest/user.service';
-import {MessageService} from '../../message/services/message.service';
+import {ClientstorageHelper} from '../../system/domain-service/clientstorage/clientstorage-helper';
+import {MessageService} from '../../message/domain-service/message.service';
 import {LoginEffects} from './login.effects';
+import {UserService} from '../domain-service/user.service';
 
 
 @Injectable()

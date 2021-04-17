@@ -1,7 +1,7 @@
 import {IRestTrafficDetails} from './i-rest-traffic-details';
-import {TrafficDetails} from '../../domain/traffic-details';
+import {TrafficDetails} from '../../domain-model/traffic-details';
 import {IRestTrafficDetailsRequestItem} from './i-rest-traffic-details-request-item';
-import {Traffic} from '../../domain/traffic';
+import {Traffic} from '../../domain-model/traffic';
 import {RestMapperTrafficAddress} from '../rest-mapper-traffic-address';
 
 

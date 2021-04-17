@@ -11,9 +11,9 @@ import {
     SharedFlightrouteReadErrorAction,
     SharedFlightrouteReadSuccessAction,
 } from './flightroute.actions';
-import {FlightrouteService} from '../rest/flightroute.service';
-import {FlightrouteState} from '../domain/flightroute-state';
-import {MessageService} from '../../message/services/message.service';
+import {FlightrouteService} from '../rest-service/flightroute.service';
+import {FlightrouteState} from '../domain-model/flightroute-state';
+import {MessageService} from '../../message/domain-service/message.service';
 import {getFlightrouteState} from './flightroute.selectors';
 
 

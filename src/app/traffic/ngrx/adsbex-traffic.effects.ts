@@ -6,10 +6,10 @@ import {of} from 'rxjs/internal/observable/of';
 import {catchError, map, mergeMap, withLatestFrom} from 'rxjs/operators';
 import {ReadTrafficErrorAction, ReadTrafficSuccessAction, TrafficActionTypes} from './traffic.actions';
 import {getTrafficState} from './traffic.selectors';
-import {TrafficState} from '../domain/traffic-state';
+import {TrafficState} from '../domain-model/traffic-state';
 import {TrafficAdsbexService} from '../rest/adsbex/traffic-adsbex.service';
-import {AdsbexTrafficMerger} from '../use-case/adsbex-traffic/adsbex-traffic-merger';
-import {SystemConfig} from '../../system/system-config';
+import {AdsbexTrafficMerger} from '../domain-service/adsbex-traffic/adsbex-traffic-merger';
+import {SystemConfig} from '../../system/domain-service/system-config';
 
 
 @Injectable()

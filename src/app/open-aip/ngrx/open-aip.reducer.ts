@@ -1,6 +1,6 @@
-import {OpenAipState} from '../domain/open-aip-state';
+import {OpenAipState} from '../domain-model/open-aip-state';
 import {OpenAipActions, OpenAipActionTypes} from './open-aip.actions';
-import {OlMapActions} from '../../ol-map/ngrx/ol-map.actions';
+import {BaseMapActions} from '../../base-map/ngrx/base-map.actions';
 
 
 const initialState: OpenAipState = {
@@ -11,7 +11,7 @@ const initialState: OpenAipState = {
 };
 
 
-export function openAipReducer(state: OpenAipState = initialState, action: OpenAipActions | OlMapActions) {
+export function openAipReducer(state: OpenAipState = initialState, action: OpenAipActions | BaseMapActions) {
     switch (action.type) {
         case OpenAipActionTypes.OPEN_AIP_READ_ITEMS_SUCCESS:
             return {

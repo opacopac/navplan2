@@ -3,14 +3,14 @@ import {CommonModule} from '@angular/common';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {TrafficOgnService} from './rest/ogn/traffic-ogn.service';
-import {OlOverlayTrafficComponent} from './ol/ol-overlay-traffic/ol-overlay-traffic.component';
-import {TrafficButtonComponent} from './components/traffic-button/traffic-button.component';
+import {OlOverlayTrafficComponent} from './ol-components/ol-overlay-traffic/ol-overlay-traffic.component';
+import {TrafficButtonComponent} from './ng-components/traffic-button/traffic-button.component';
 import {SharedModule} from '../shared/shared.module';
 import {trafficReducer} from './ngrx/traffic.reducer';
 import {TrafficEffects} from './ngrx/traffic.effects';
-import {TrafficState} from './domain/traffic-state';
+import {TrafficState} from './domain-model/traffic-state';
 import {TrafficActions} from './ngrx/traffic.actions';
-import {OlMapModule} from '../ol-map/ol-map.module';
+import {BaseMapModule} from '../base-map/base-map.module';
 import {TrafficDetailsService} from './rest/traffic-details/traffic-details.service';
 import {TrafficAdsbexService} from './rest/adsbex/traffic-adsbex.service';
 import {TrafficOpenskyService} from './rest/opensky/traffic-opensky.service';
@@ -32,7 +32,7 @@ import {TrafficDetailsEffects} from './ngrx/traffic-details.effects';
             TrafficDetailsEffects
         ]),
         SharedModule,
-        OlMapModule,
+        BaseMapModule,
     ],
     declarations: [
         OlOverlayTrafficComponent,

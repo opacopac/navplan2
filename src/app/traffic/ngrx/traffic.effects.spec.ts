@@ -1,32 +1,3 @@
-import {Actions} from '@ngrx/effects';
-import {of, throwError} from 'rxjs';
-import {cold} from 'jasmine-marbles';
-import {TrafficEffects} from './traffic.effects';
-import {TrafficOgnService} from '../rest/ogn/traffic-ogn.service';
-import {Traffic} from '../domain/traffic';
-import {TrafficAircraftType} from '../domain/traffic-aircraft-type';
-import {TrafficAddressType} from '../domain/traffic-address-type';
-import {TrafficDataSource} from '../domain/traffic-data-source';
-import {TrafficOpenskyService} from '../rest/opensky/traffic-opensky.service';
-import {
-    ReadTrafficErrorAction,
-    ReadTrafficTimerAction,
-    StartWatchTrafficAction,
-    StopWatchTrafficAction,
-    ToggleWatchTrafficAction
-} from './traffic.actions';
-import {LengthUnit} from '../../geo-math/domain/quantities/units';
-import {Length} from '../../geo-math/domain/quantities/length';
-import {TrafficServiceStatus} from '../domain/traffic-service-status';
-import {TrafficState} from '../domain/traffic-state';
-import {MockStore} from '../../shared/test/mock-store';
-import {TrafficDetailsService} from '../rest/traffic-details/traffic-details.service';
-import createSpyObj = jasmine.createSpyObj;
-import SpyObj = jasmine.SpyObj;
-import {Extent3d} from '../../geo-math/domain/geometry/extent3d';
-import {TrafficAddress} from '../domain/traffic-address';
-
-
 /*xdescribe('TrafficEffects', () => {
     let store: MockStore;
     let trafficOgnService: TrafficOgnService;

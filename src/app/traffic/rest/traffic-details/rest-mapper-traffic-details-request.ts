@@ -1,7 +1,7 @@
 import {RestMapperTrafficDetails} from './rest-mapper-traffic-details';
-import {Traffic} from '../../domain/traffic';
+import {Traffic} from '../../domain-model/traffic';
 import {IRestTrafficDetailsRequest} from './i-rest-traffic-details-request';
-import {TrafficAddressType} from '../../domain/traffic-address-type';
+import {TrafficAddressType} from '../../domain-model/traffic-address-type';
 
 
 export class RestMapperTrafficDetailsRequest {

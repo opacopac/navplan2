@@ -7,7 +7,7 @@ use Navplan\Db\DomainService\IDbService;
 use Navplan\Db\MySqlDb\DbHelper;
 use Navplan\Geometry\DomainModel\Extent;
 use Navplan\Geometry\DomainModel\Position2d;
-use Navplan\Notam\Domain\Notam;
+use Navplan\Notam\DomainModel\Notam;
 use Navplan\Notam\DomainService\INotamRepo;
 use Navplan\Shared\GeoHelper;
 

@@ -1,9 +1,9 @@
-import {TrafficAircraftType} from '../../domain/traffic-aircraft-type';
+import {TrafficAircraftType} from '../../domain-model/traffic-aircraft-type';
 import {IRestOgnTraffic} from './i-rest-ogn-traffic';
 import {RestMapperTrafficPosition} from '../rest-mapper-traffic-position';
 import {RestMapperTrafficAddress} from '../rest-mapper-traffic-address';
-import {TrafficOgn} from '../../domain/traffic-ogn';
-import {TrafficDataSource} from '../../domain/traffic-data-source';
+import {TrafficOgn} from '../../domain-model/traffic-ogn';
+import {TrafficDataSource} from '../../domain-model/traffic-data-source';
 
 
 export class RestMapperOgnTraffic {

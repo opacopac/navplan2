@@ -1,19 +1,19 @@
-import {TrafficDataSource} from '../domain/traffic-data-source';
-import {TrafficPosition} from '../domain/traffic-position';
-import {TrafficPositionMethod} from '../domain/traffic-position-method';
+import {TrafficDataSource} from '../domain-model/traffic-data-source';
+import {TrafficPosition} from '../domain-model/traffic-position';
+import {TrafficPositionMethod} from '../domain-model/traffic-position-method';
 import {IRestTrafficPosition} from './i-rest-traffic-position';
-import {RestPosition4d} from '../../geo-math/rest/rest-position4d';
-import {RestTimestamp} from '../../geo-math/rest/rest-timestamp';
+import {Position4dConverter} from '../../geo-math/rest-model/position4d-converter';
+import {TimestampConverter} from '../../geo-math/rest-model/timestamp-converter';
 
 
 export class RestMapperTrafficPosition {
     public static fromRest(trafficPos: IRestTrafficPosition, source: TrafficDataSource): TrafficPosition {
         return new TrafficPosition(
-            RestPosition4d.fromRest(trafficPos.position),
+            Position4dConverter.fromRest(trafficPos.position),
             source,
             TrafficPositionMethod[trafficPos.method],
             trafficPos.receiver,
-            RestTimestamp.fromRest(trafficPos.timestamp)
+            TimestampConverter.fromRest(trafficPos.timestamp)
         );
     }
 }

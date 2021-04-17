@@ -1,7 +1,7 @@
 import {TrafficDetails1Mock} from '../../mocks/traffic-details1.mock';
 import {IRestTrafficDetails} from './i-rest-traffic-details';
 import {RestMapperTrafficDetails} from './rest-mapper-traffic-details';
-import {Traffic} from '../../domain/traffic';
+import {Traffic} from '../../domain-model/traffic';
 
 
 describe('RestMapperTrafficDetails', () => {

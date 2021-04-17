@@ -3,7 +3,7 @@
 namespace Navplan\Notam\RestModel;
 
 use Navplan\Geometry\DomainModel\Extent;
-use Navplan\Notam\Domain\ReadNotamByExtentRequest;
+use Navplan\Notam\DomainModel\ReadNotamByExtentRequest;
 use Navplan\Shared\StringNumberHelper;
 
 

@@ -6,8 +6,8 @@ use Navplan\Geometry\DomainModel\Altitude;
 use Navplan\Geometry\DomainModel\AltitudeReference;
 use Navplan\Geometry\DomainModel\AltitudeUnit;
 use Navplan\Geometry\DomainModel\Ring2d;
-use Navplan\Notam\Domain\Notam;
-use Navplan\Notam\Domain\NotamGeometry;
+use Navplan\Notam\DomainModel\Notam;
+use Navplan\Notam\DomainModel\NotamGeometry;
 
 class DummyNotam3
 {

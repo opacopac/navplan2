@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Extent2d} from '../../../geo-math/domain/geometry/extent2d';
+import {Extent2d} from '../../../geo-math/domain-model/geometry/extent2d';
 import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
-import {LoggingService} from '../../../system/use-case/logging/logging.service';
+import {LoggingService} from '../../../system/domain-service/logging/logging.service';
 import {RestMapperOpenskyTrafficResponse} from './rest-mapper-opensky-traffic-response';
 import {IRestOpenskyTrafficResponse} from './i-rest-opensky-traffic-response';
-import {TrafficOpensky} from '../../domain/traffic-opensky';
-import {IOpenskyTrafficService} from '../../use-case/opensky-traffic/i-opensky-traffic-service';
+import {TrafficOpensky} from '../../domain-model/traffic-opensky';
+import {IOpenskyTrafficService} from '../../domain-service/opensky-traffic/i-opensky-traffic-service';
 
 
 @Injectable({

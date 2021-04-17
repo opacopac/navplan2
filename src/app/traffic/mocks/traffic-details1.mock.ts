@@ -1,12 +1,12 @@
-import {TrafficAddressType} from '../domain/traffic-address-type';
-import {TrafficAddress} from '../domain/traffic-address';
-import {TrafficDetails} from '../domain/traffic-details';
+import {TrafficAddressType} from '../domain-model/traffic-address-type';
+import {TrafficAddress} from '../domain-model/traffic-address';
+import {TrafficDetails} from '../domain-model/traffic-details';
 import {IRestTrafficDetails} from '../rest/traffic-details/i-rest-traffic-details';
 import {IRestTrafficDetailsResponse} from '../rest/traffic-details/i-rest-traffic-details-response';
 import {IRestTrafficDetailsRequestItem} from '../rest/traffic-details/i-rest-traffic-details-request-item';
 import {IRestTrafficDetailsRequest} from '../rest/traffic-details/i-rest-traffic-details-request';
-import {Traffic} from '../domain/traffic';
-import {TrafficAircraftType} from '../domain/traffic-aircraft-type';
+import {Traffic} from '../domain-model/traffic';
+import {TrafficAircraftType} from '../domain-model/traffic-aircraft-type';
 
 
 export class TrafficDetails1Mock {

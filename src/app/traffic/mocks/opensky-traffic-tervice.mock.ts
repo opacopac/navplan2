@@ -1,7 +1,7 @@
 import {Observable} from 'rxjs';
-import {Extent2d} from '../../geo-math/domain/geometry/extent2d';
-import {IOpenskyTrafficService} from '../use-case/opensky-traffic/i-opensky-traffic-service';
-import {TrafficOpensky} from '../domain/traffic-opensky';
+import {Extent2d} from '../../geo-math/domain-model/geometry/extent2d';
+import {IOpenskyTrafficService} from '../domain-service/opensky-traffic/i-opensky-traffic-service';
+import {TrafficOpensky} from '../domain-model/traffic-opensky';
 
 
 export class OpenskyTrafficTerviceMock implements IOpenskyTrafficService {

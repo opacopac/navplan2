@@ -4,8 +4,8 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import {ChangePwAction, ChangePwErrorAction, ChangePwSuccessAction, UserActionTypes} from './user.actions';
-import {UserService} from '../rest/user.service';
-import {MessageService} from '../../message/services/message.service';
+import {MessageService} from '../../message/domain-service/message.service';
+import {UserService} from '../domain-service/user.service';
 
 
 @Injectable()

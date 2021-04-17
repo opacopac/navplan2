@@ -1,8 +1,8 @@
 import {RestMapperTrafficPosition} from '../rest-mapper-traffic-position';
 import {RestMapperTrafficAddress} from '../rest-mapper-traffic-address';
-import {TrafficAdsbex} from '../../domain/traffic-adsbex';
+import {TrafficAdsbex} from '../../domain-model/traffic-adsbex';
 import {IRestAdsbexTraffic} from './i-rest-adsbex-traffic';
-import {TrafficDataSource} from '../../domain/traffic-data-source';
+import {TrafficDataSource} from '../../domain-model/traffic-data-source';
 
 
 export class RestMapperAdsbexTraffic {

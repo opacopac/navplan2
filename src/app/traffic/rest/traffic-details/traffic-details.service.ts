@@ -3,22 +3,19 @@ import {HttpClient} from '@angular/common/http';
 import {Observable, of, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {environment} from '../../../../environments/environment';
-import {Traffic} from '../../domain/traffic';
-import {LoggingService} from '../../../system/use-case/logging/logging.service';
+import {Traffic} from '../../domain-model/traffic';
+import {LoggingService} from '../../../system/domain-service/logging/logging.service';
 import {IRestTrafficDetailsResponse} from './i-rest-traffic-details-response';
-import {TrafficDetails} from '../../domain/traffic-details';
+import {TrafficDetails} from '../../domain-model/traffic-details';
 import {RestMapperTrafficDetailsResponse} from './rest-mapper-traffic-details-response';
 import {RestMapperTrafficDetailsRequest} from './rest-mapper-traffic-details-request';
-import {ITrafficDetailsService} from '../../use-case/traffic-details/i-traffic-details-service';
+import {ITrafficDetailsService} from '../../domain-service/traffic-details/i-traffic-details-service';
 
 
 @Injectable({
     providedIn: 'root'
 })
 export class TrafficDetailsService implements ITrafficDetailsService {
-    public static readonly BASE_URL = environment.restApiBaseUrl + 'php/Navplan/Traffic/RestService/TrafficService.php';
-
-
     constructor(private http: HttpClient) {
     }
 
@@ -31,7 +28,7 @@ export class TrafficDetailsService implements ITrafficDetailsService {
 
         return this.http
             .post<IRestTrafficDetailsResponse>(
-                TrafficDetailsService.BASE_URL,
+                environment.trafficDetailServiceUrl,
                 JSON.stringify(requestBody),
                 {observe: 'response'})
             .pipe(

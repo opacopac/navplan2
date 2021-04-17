@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {Position4d} from '../geo-math/domain/geometry/position4d';
+import {Position4d} from '../geo-math/domain-model/geometry/position4d';
 
 
 export enum LocationActionTypes {

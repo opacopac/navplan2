@@ -1,14 +1,14 @@
-import {TrafficState} from '../domain/traffic-state';
+import {TrafficState} from '../domain-model/traffic-state';
 import {TrafficActions, TrafficActionTypes} from './traffic.actions';
-import {OlMapActions, OlMapActionTypes} from '../../ol-map/ngrx/ol-map.actions';
-import {TrafficServiceStatus} from '../domain/traffic-service-status';
-import {TrafficPositionMerger} from '../use-case/traffic-position-merger';
-import {TrafficMap} from '../domain/traffic-map';
-import {Extent3d} from '../../geo-math/domain/geometry/extent3d';
-import {Altitude} from '../../geo-math/domain/geometry/altitude';
-import {AltitudeUnit} from '../../geo-math/domain/geometry/altitude-unit';
-import {AltitudeReference} from '../../geo-math/domain/geometry/altitude-reference';
-import {JsDate} from '../../system/use-case/date/js-date';
+import {BaseMapActions, BaseMapActionTypes} from '../../base-map/ngrx/base-map.actions';
+import {TrafficServiceStatus} from '../domain-model/traffic-service-status';
+import {TrafficPositionMerger} from '../domain-service/traffic-position-merger';
+import {TrafficMap} from '../domain-model/traffic-map';
+import {Extent3d} from '../../geo-math/domain-model/geometry/extent3d';
+import {Altitude} from '../../geo-math/domain-model/geometry/altitude';
+import {AltitudeUnit} from '../../geo-math/domain-model/geometry/altitude-unit';
+import {AltitudeReference} from '../../geo-math/domain-model/geometry/altitude-reference';
+import {JsDate} from '../../system/domain-service/date/js-date';
 
 
 export const initialTrafficState: TrafficState = {
@@ -21,9 +21,9 @@ export const initialTrafficState: TrafficState = {
 };
 
 
-export function trafficReducer(state: TrafficState = initialTrafficState, action: TrafficActions | OlMapActions): TrafficState {
+export function trafficReducer(state: TrafficState = initialTrafficState, action: TrafficActions | BaseMapActions): TrafficState {
     switch (action.type) {
-        case OlMapActionTypes.OL_MAP_MOVED_ZOOMED_ROTATED:
+        case BaseMapActionTypes.BASE_MAP_MOVED_ZOOMED_ROTATED:
             return {
                 ...state,
                 extent: new Extent3d(

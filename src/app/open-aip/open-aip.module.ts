@@ -1,15 +1,15 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {OpenAipService} from './rest/open-aip.service';
+import {OpenAipRepo} from './rest-service/open-aip-repo.service';
 import {SharedModule} from '../shared/shared.module';
 import {StoreModule} from '@ngrx/store';
 import {openAipReducer} from './ngrx/open-aip.reducer';
 import {EffectsModule} from '@ngrx/effects';
 import {OpenAipEffects} from './ngrx/open-aip.effects';
 import {OpenAipActions} from './ngrx/open-aip.actions';
-import {OpenAipState} from './domain/open-aip-state';
-import {OlMapModule} from '../ol-map/ol-map.module';
-import {OpenAipRepo} from './use-case/open-aip-repo';
+import {OpenAipState} from './domain-model/open-aip-state';
+import {BaseMapModule} from '../base-map/base-map.module';
+import {OpenAipService} from './domain-service/open-aip-service2.service';
 
 
 @NgModule({
@@ -18,14 +18,14 @@ import {OpenAipRepo} from './use-case/open-aip-repo';
         StoreModule.forFeature<OpenAipState, OpenAipActions>('openAipState', openAipReducer),
         EffectsModule.forFeature([OpenAipEffects]),
         SharedModule,
-        OlMapModule,
+        BaseMapModule,
     ],
     declarations: [
 
     ],
     providers: [
-        OpenAipService,
-        OpenAipRepo
+        OpenAipRepo,
+        OpenAipService
     ]
 })
 export class OpenAipModule {}

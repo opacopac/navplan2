@@ -3,6 +3,7 @@ import {HttpClientTestingModule, HttpTestingController} from '@angular/common/ht
 import {TrafficAdsbexService} from './traffic-adsbex.service';
 import {Extent4dMock} from '../../mocks/extent4d.mock';
 import {TrafficAdsbex1Mock} from '../../mocks/traffic-adsbex1.mock';
+import {environment} from '../../../../environments/environment';
 
 
 describe('TrafficAdsbexService', () => {
@@ -34,7 +35,7 @@ describe('TrafficAdsbexService', () => {
     it('readTraffic makes a get call to the server', () => {
         trafficAdsbexService.readTraffic(Extent4dMock.create()).subscribe(() => {});
 
-        const request = httpMock.expectOne(req => req.url.startsWith(TrafficAdsbexService.BASE_URL));
+        const request = httpMock.expectOne(req => req.url.startsWith(environment.trafficAdsbexServiceUrl));
         expect(request.request.method).toBe('GET');
 
         request.flush(TrafficAdsbex1Mock.createRestResponse());

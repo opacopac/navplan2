@@ -15,11 +15,11 @@ import {
     UpdateWaypointAction,
 } from './flightroute.actions';
 import {getFlightroute} from './flightroute.selectors';
-import {Flightroute} from '../domain/flightroute';
-import {FlightrouteCalcHelper} from '../use-case/flightroute-calc.helper';
-import {ArrayHelper} from '../../system/use-case/array/array-helper';
-import {WaypointFactory} from '../domain/waypoint-mapper/waypoint-factory';
-import {OpenAipItems} from '../../open-aip/domain/open-aip-items';
+import {Flightroute} from '../domain-model/flightroute';
+import {FlightrouteCalcHelper} from '../domain-service/flightroute-calc.helper';
+import {ArrayHelper} from '../../system/domain-service/array/array-helper';
+import {WaypointFactory} from '../domain-model/waypoint-mapper/waypoint-factory';
+import {OpenAipItems} from '../../open-aip/domain-model/open-aip-items';
 import {getOpenAipItems} from '../../open-aip/ngrx/open-aip.selectors';
 
 

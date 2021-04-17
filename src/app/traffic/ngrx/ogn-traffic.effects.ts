@@ -5,10 +5,10 @@ import {Observable, of} from 'rxjs';
 import {catchError, map, mergeMap, withLatestFrom} from 'rxjs/operators';
 import {ReadTrafficErrorAction, ReadTrafficSuccessAction, TrafficActionTypes} from './traffic.actions';
 import {getTrafficState} from './traffic.selectors';
-import {TrafficState} from '../domain/traffic-state';
+import {TrafficState} from '../domain-model/traffic-state';
 import {TrafficOgnService} from '../rest/ogn/traffic-ogn.service';
-import {OgnTrafficMerger} from '../use-case/ogn-traffic/ogn-traffic-merger';
-import {SystemConfig} from '../../system/system-config';
+import {OgnTrafficMerger} from '../domain-service/ogn-traffic/ogn-traffic-merger';
+import {SystemConfig} from '../../system/domain-service/system-config';
 
 
 @Injectable()
@@ -27,7 +27,7 @@ export class OgnTrafficEffects {
     }
 
 
-    
+
     readOgnTrafficAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(TrafficActionTypes.TRAFFIC_TIMER_TICK),
         withLatestFrom(this.trafficState$),

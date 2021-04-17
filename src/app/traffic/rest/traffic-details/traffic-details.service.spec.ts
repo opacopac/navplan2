@@ -2,6 +2,7 @@ import {TestBed} from '@angular/core/testing';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {TrafficDetailsService} from './traffic-details.service';
 import {TrafficDetails1Mock} from '../../mocks/traffic-details1.mock';
+import {environment} from '../../../../environments/environment';
 
 
 describe('TrafficDetailsService', () => {
@@ -34,7 +35,7 @@ describe('TrafficDetailsService', () => {
     it('readDetails triggers a POST call to the traffic details server', () => {
         trafficDetailsService.readDetails([TrafficDetails1Mock.createTraffic()]).subscribe(() => {});
 
-        const request = httpMock.expectOne(req => req.url.startsWith(TrafficDetailsService.BASE_URL));
+        const request = httpMock.expectOne(req => req.url.startsWith(environment.trafficDetailServiceUrl));
         expect(request.request.method).toBe('POST');
 
         request.flush(TrafficDetails1Mock.createRestResponse());
@@ -46,6 +47,6 @@ describe('TrafficDetailsService', () => {
             expect(trafficList.length).toBe(0);
         });
 
-        httpMock.expectNone(req => req.url.startsWith(TrafficDetailsService.BASE_URL));
+        httpMock.expectNone(req => req.url.startsWith(environment.trafficDetailServiceUrl));
     });
 });

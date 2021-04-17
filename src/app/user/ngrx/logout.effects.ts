@@ -5,8 +5,8 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {UserActionTypes} from './user.actions';
-import {ClientstorageHelper} from '../../system/use-case/clientstorage/clientstorage-helper';
-import {MessageService} from '../../message/services/message.service';
+import {ClientstorageHelper} from '../../system/domain-service/clientstorage/clientstorage-helper';
+import {MessageService} from '../../message/domain-service/message.service';
 
 
 @Injectable()
@@ -20,7 +20,7 @@ export class LogoutEffects {
     }
 
 
-    
+
     logoutUser$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(UserActionTypes.USER_LOGOUT),
         tap(() => {

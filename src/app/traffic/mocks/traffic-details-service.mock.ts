@@ -1,7 +1,7 @@
 import {Observable} from 'rxjs';
-import {ITrafficDetailsService} from '../use-case/traffic-details/i-traffic-details-service';
-import {TrafficDetails} from '../domain/traffic-details';
-import {Traffic} from '../domain/traffic';
+import {ITrafficDetailsService} from '../domain-service/traffic-details/i-traffic-details-service';
+import {TrafficDetails} from '../domain-model/traffic-details';
+import {Traffic} from '../domain-model/traffic';
 
 
 export class TrafficDetailsServiceMock implements ITrafficDetailsService {

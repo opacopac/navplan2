@@ -3,8 +3,8 @@ import {Action, select, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, filter, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
-import {MessageService} from '../../message/services/message.service';
-import {FlightrouteService} from '../rest/flightroute.service';
+import {MessageService} from '../../message/domain-service/message.service';
+import {FlightrouteService} from '../rest-service/flightroute.service';
 import {
     FlightrouteActionTypes,
     FlightrouteDeleteAction,
@@ -18,9 +18,9 @@ import {
     FlightrouteSaveSuccessAction,
 } from './flightroute.actions';
 import {getCurrentUser} from '../../user/ngrx/user.selectors';
-import {User} from '../../user/domain/user';
+import {User} from '../../user/domain-model/user';
 import {getFlightroute} from './flightroute.selectors';
-import {Flightroute} from '../domain/flightroute';
+import {Flightroute} from '../domain-model/flightroute';
 
 
 @Injectable()
@@ -37,7 +37,6 @@ export class FlightrouteEffects {
     private flightroute$: Observable<Flightroute> = this.appStore.pipe(select(getFlightroute));
 
 
-
     readFlightroute$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_READ),
         map((action: FlightrouteReadAction) => action.flightrouteId),
@@ -47,8 +46,7 @@ export class FlightrouteEffects {
             map(route => new FlightrouteReadSuccessAction(route)),
             catchError(error => of(new FlightrouteReadErrorAction(error)))
         ))
-));
-
+    ));
 
 
     readFlightrouteError$: Observable<Action> = createEffect(() => this.actions$.pipe(
@@ -56,8 +54,7 @@ export class FlightrouteEffects {
         tap((action: FlightrouteReadErrorAction) => {
             this.messageService.showErrorMessage('Error reading flight route', action.error);
         })
-    ), { dispatch: false});
-
+    ), {dispatch: false});
 
 
     createFlightroute$: Observable<Action> = createEffect(() => this.actions$.pipe(
@@ -72,7 +69,6 @@ export class FlightrouteEffects {
     ));
 
 
-
     updateFlightroute$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_UPDATE),
         switchMap(() => this.flightroute$),
@@ -83,7 +79,6 @@ export class FlightrouteEffects {
             catchError(error => of(new FlightrouteSaveErrorAction(error)))
         ))
     ));
-
 
 
     duplicateFlightroute$: Observable<Action> = createEffect(() => this.actions$.pipe(
@@ -98,7 +93,6 @@ export class FlightrouteEffects {
     ));
 
 
-
     saveFlightrouteSuccess$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_SAVE_SUCCESS),
         map((action: FlightrouteSaveSuccessAction) => new FlightrouteReadListAction()),
@@ -106,14 +100,12 @@ export class FlightrouteEffects {
     ));
 
 
-
     saveFlightrouteError$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_SAVE_ERROR),
         tap((action: FlightrouteSaveErrorAction) => {
             this.messageService.showErrorMessage('Error while saving flight route.', action.error);
         })
-    ), { dispatch: false});
-
+    ), {dispatch: false});
 
 
     deleteFlightroute$: Observable<Action> = createEffect(() => this.actions$.pipe(
@@ -128,7 +120,6 @@ export class FlightrouteEffects {
     ));
 
 
-
     deleteFlightrouteSuccess$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_DELETE_SUCCESS),
         map(() => new FlightrouteReadListAction()),
@@ -136,11 +127,10 @@ export class FlightrouteEffects {
     ));
 
 
-
     deleteFlightrouteError$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteActionTypes.FLIGHTROUTE_DELETE_ERROR),
         tap((action: FlightrouteDeleteErrorAction) => {
             this.messageService.showErrorMessage('Error deleting flight route', action.error);
         })
-    ), { dispatch: false});
+    ), {dispatch: false});
 }

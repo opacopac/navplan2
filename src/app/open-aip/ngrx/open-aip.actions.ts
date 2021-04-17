@@ -1,6 +1,6 @@
 import {Action} from '@ngrx/store';
-import {ReadOpenAipItemsByExtentResult} from '../domain/read-open-aip-items-by-extent-result';
-import {Extent2d} from '../../geo-math/domain/geometry/extent2d';
+import {ReadOpenAipItemsByExtentResult} from '../domain-model/read-open-aip-items-by-extent-result';
+import {Extent2d} from '../../geo-math/domain-model/geometry/extent2d';
 
 
 export enum OpenAipActionTypes {

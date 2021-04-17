@@ -1,14 +1,14 @@
 import {Actions} from '@ngrx/effects';
 import {of, throwError} from 'rxjs';
-import {UserService} from '../rest/user.service';
 import {LoginEffects} from './login.effects';
 import {AutoLoginUserAction, AutoLoginUserErrorAction, AutoLoginUserSuccessAction} from './user.actions';
-import {User} from '../domain/user';
-import {ClientstorageHelper} from '../../system/use-case/clientstorage/clientstorage-helper';
+import {User} from '../domain-model/user';
+import {ClientstorageHelper} from '../../system/domain-service/clientstorage/clientstorage-helper';
 import {Router} from '@angular/router';
 import {AutoLoginEffects} from './auto-login.effects';
+import {MessageService} from '../../message/domain-service/message.service';
+import {UserService} from '../domain-service/user.service';
 import createSpyObj = jasmine.createSpyObj;
-import {MessageService} from '../../message/services/message.service';
 
 
 describe('AutoLoginEffects', () => {
