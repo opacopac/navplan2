@@ -1,5 +1,5 @@
-import {IRestPosition2d} from '../../geo-math/rest-model/i-rest-position2d';
-import {IRestLength} from '../../geo-math/rest-model/i-rest-length';
+import {IRestPosition2d} from '../../common/geo-math/rest-model/i-rest-position2d';
+import {IRestLength} from '../../common/geo-math/rest-model/i-rest-length';
 import {IRestAirportChart} from './i-rest-airport-chart';
 import {IRestAirportRunway} from './i-rest-airport-runway';
 import {IRestAirportRadio} from './i-rest-airport-radio';

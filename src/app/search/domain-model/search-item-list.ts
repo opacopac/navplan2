@@ -1,5 +1,5 @@
 import {SearchItem} from './search-item';
-import {DataItem} from '../../shared/model/data-item';
+import {DataItem} from '../../common/model/data-item';
 
 
 export class SearchItemList {

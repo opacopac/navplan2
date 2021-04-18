@@ -8,7 +8,7 @@ import {OlAlternateLine} from './ol-alternate-line';
 import {Waypoint} from '../domain-model/waypoint';
 import {RouteLineModifiedAction} from '../ngrx/flightroute.actions';
 import {Store} from '@ngrx/store';
-import {Angle} from '../../geo-math/domain-model/quantities/angle';
+import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
 
 
 export class OlFlightrouteContainer extends OlComponentBase {

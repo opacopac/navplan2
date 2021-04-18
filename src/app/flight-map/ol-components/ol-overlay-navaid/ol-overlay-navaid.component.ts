@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {StringnumberHelper} from '../../../system/domain-service/stringnumber/stringnumber-helper';
 import {Navaid} from '../../../open-aip/domain-model/navaid';
-import {Position2d} from '../../../geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import {OlNavaidIcon} from '../../../open-aip/ol-components/ol-navaid-icon';
 import {WaypointFactory} from '../../../flightroute/domain-model/waypoint-mapper/waypoint-factory';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';

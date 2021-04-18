@@ -1,7 +1,7 @@
 import {Position2d} from './position2d';
 import {GeodesyHelper} from '../../domain-service/geodesy-helper';
 import {Length} from '../quantities/length';
-import {Clonable} from '../../../system/domain-model/clonable';
+import {Clonable} from '../../../../system/domain-model/clonable';
 import {transformExtent} from 'ol/proj';
 
 

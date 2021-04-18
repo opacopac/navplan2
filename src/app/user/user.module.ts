@@ -6,7 +6,7 @@ import {UserService} from './domain-service/user.service';
 import {RestUserService} from './rest-service/rest-user.service';
 import {UserProfilePageComponent} from './ng-components/user-profile-page/user-profile-page.component';
 import {LoginFormComponent} from './ng-components/login-form/login-form.component';
-import {SharedModule} from '../shared/shared.module';
+import {SharedModule} from '../common/shared.module';
 import {userReducer} from './ngrx/user.reducer';
 import {UserState} from './domain-model/user-state';
 import {UserActions} from './ngrx/user.actions';

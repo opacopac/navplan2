@@ -1,6 +1,6 @@
 import {Timestamp} from '../quantities/timestamp';
 import {Position3d} from './position3d';
-import {Clonable} from '../../../system/domain-model/clonable';
+import {Clonable} from '../../../../system/domain-model/clonable';
 import {Altitude} from './altitude';
 
 

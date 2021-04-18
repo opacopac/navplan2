@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Waypoint} from '../../domain-model/waypoint';
 import {Flightroute} from '../../domain-model/flightroute';
-import {ButtonColor, ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
+import {ButtonColor, ButtonSize} from '../../../common/directives/button-base/button-base.directive';
 import {WaypointType} from '../../domain-model/waypoint-type';
-import {LengthUnit, TimeUnit} from '../../../geo-math/domain-model/quantities/units';
+import {LengthUnit, TimeUnit} from '../../../common/geo-math/domain-model/quantities/units';
 
 
 interface WaypointListDataSourceRow {

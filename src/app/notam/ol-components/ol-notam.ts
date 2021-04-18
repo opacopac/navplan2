@@ -1,10 +1,10 @@
 import {Feature} from 'ol';
 import {Fill, Stroke, Style, Text} from 'ol/style';
 import {Notam} from '../domain-model/notam';
-import {Polygon} from '../../geo-math/domain-model/geometry/polygon';
-import {Multipolygon} from '../../geo-math/domain-model/geometry/multipolygon';
-import {Circle} from '../../geo-math/domain-model/geometry/circle';
-import {Geometry2dType} from '../../geo-math/domain-model/geometry/geometry2d';
+import {Polygon} from '../../common/geo-math/domain-model/geometry/polygon';
+import {Multipolygon} from '../../common/geo-math/domain-model/geometry/multipolygon';
+import {Circle} from '../../common/geo-math/domain-model/geometry/circle';
+import {Geometry2dType} from '../../common/geo-math/domain-model/geometry/geometry2d';
 import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {circular} from 'ol/geom/Polygon';
 import VectorLayer from 'ol/layer/Vector';

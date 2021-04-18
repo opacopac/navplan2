@@ -4,8 +4,8 @@ import {Airport} from '../../open-aip/domain-model/airport';
 import {Reportingpoint} from '../../open-aip/domain-model/reportingpoint';
 import {Reportingsector} from '../../open-aip/domain-model/reportingsector';
 import {Geoname} from '../../open-aip/domain-model/geoname';
-import {DataItem} from '../../shared/model/data-item';
-import {Position2d} from '../../geo-math/domain-model/geometry/position2d';
+import {DataItem} from '../../common/model/data-item';
+import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 
 
 export class SearchItem {

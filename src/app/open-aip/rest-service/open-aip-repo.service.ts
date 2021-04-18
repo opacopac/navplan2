@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
-import {Extent2d} from '../../geo-math/domain-model/geometry/extent2d';
+import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 import {OpenAipItems} from '../domain-model/open-aip-items';
 import {LoggingService} from '../../system/domain-service/logging/logging.service';
 import {OpenAipItemsConverter} from '../rest-model/open-aip-items-converter';

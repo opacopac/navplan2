@@ -1,11 +1,11 @@
 import {AfterViewInit, ChangeDetectorRef, Directive, EventEmitter, Output} from '@angular/core';
 import {StringnumberHelper} from '../../system/domain-service/stringnumber/stringnumber-helper';
-import {DataItem} from '../../shared/model/data-item';
-import {Position2d} from '../../geo-math/domain-model/geometry/position2d';
+import {DataItem} from '../../common/model/data-item';
+import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 import {OlBaseMapService} from '../ol-service/ol-base-map.service';
-import {WmmHelper} from '../../geo-math/domain-service/wmm-helper';
-import {Length} from '../../geo-math/domain-model/quantities/length';
-import {LengthUnit} from '../../geo-math/domain-model/quantities/units';
+import {WmmHelper} from '../../common/geo-math/domain-service/wmm-helper';
+import {Length} from '../../common/geo-math/domain-model/quantities/length';
+import {LengthUnit} from '../../common/geo-math/domain-model/quantities/units';
 import Overlay from 'ol/Overlay';
 
 

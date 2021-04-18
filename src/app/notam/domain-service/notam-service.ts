@@ -1,5 +1,5 @@
 import {INotamRepo} from './i-notam-repo';
-import {Extent2d} from '../../geo-math/domain-model/geometry/extent2d';
+import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 import {Observable, of} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {SystemConfig} from '../../system/domain-service/system-config';

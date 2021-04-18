@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Extent2d} from '../../../geo-math/domain-model/geometry/extent2d';
+import {Extent2d} from '../../../common/geo-math/domain-model/geometry/extent2d';
 import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {LoggingService} from '../../../system/domain-service/logging/logging.service';

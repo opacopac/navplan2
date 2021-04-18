@@ -1,6 +1,6 @@
 import {Clonable} from '../../system/domain-model/clonable';
-import {Speed} from '../../geo-math/domain-model/quantities/speed';
-import {Consumption} from '../../geo-math/domain-model/quantities/consumption';
+import {Speed} from '../../common/geo-math/domain-model/quantities/speed';
+import {Consumption} from '../../common/geo-math/domain-model/quantities/consumption';
 
 
 export class Aircraft implements Clonable<Aircraft> {

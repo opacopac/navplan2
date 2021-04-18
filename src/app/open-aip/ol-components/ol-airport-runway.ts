@@ -5,7 +5,7 @@ import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {OlAirportIcon} from './ol-airport-icon';
 import {AirportRunway} from '../domain-model/airport-runway';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
-import {WmmHelper} from '../../geo-math/domain-service/wmm-helper';
+import {WmmHelper} from '../../common/geo-math/domain-service/wmm-helper';
 import VectorLayer from 'ol/layer/Vector';
 
 

@@ -1,6 +1,6 @@
 import {Position2d} from './position2d';
 import {Geometry2d, Geometry2dType} from './geometry2d';
-import {Clonable} from '../../../system/domain-model/clonable';
+import {Clonable} from '../../../../system/domain-model/clonable';
 
 
 export class Line implements Geometry2d, Clonable<Line> {

@@ -1,7 +1,7 @@
 import {Navaid} from '../domain-model/navaid';
 import {IRestNavaid} from './i-rest-navaid';
-import {Position2dConverter} from '../../geo-math/rest-model/position2d-converter';
-import {LengthConverter} from '../../geo-math/rest-model/length-converter';
+import {Position2dConverter} from '../../common/geo-math/rest-model/position2d-converter';
+import {LengthConverter} from '../../common/geo-math/rest-model/length-converter';
 import {NavaidType} from '../domain-model/navaid-type';
 
 

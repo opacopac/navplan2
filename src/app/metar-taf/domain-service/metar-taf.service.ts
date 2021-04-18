@@ -1,6 +1,6 @@
 import {environment} from '../../../environments/environment';
 import {IDate} from '../../system/domain-service/date/i-date';
-import {Extent2d} from '../../geo-math/domain-model/geometry/extent2d';
+import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 import {Observable, of} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {SystemConfig} from '../../system/domain-service/system-config';

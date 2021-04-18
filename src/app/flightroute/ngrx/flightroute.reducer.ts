@@ -3,16 +3,16 @@ import {FlightrouteActions, FlightrouteActionTypes} from './flightroute.actions'
 import {UserActions, UserActionTypes} from '../../user/ngrx/user.actions';
 import {Aircraft} from '../domain-model/aircraft';
 import {Flightroute} from '../domain-model/flightroute';
-import {Speed} from '../../geo-math/domain-model/quantities/speed';
+import {Speed} from '../../common/geo-math/domain-model/quantities/speed';
 import {
     ConsumptionUnit,
     LengthUnit,
     SpeedUnit,
     TimeUnit,
     VolumeUnit
-} from '../../geo-math/domain-model/quantities/units';
-import {Consumption} from '../../geo-math/domain-model/quantities/consumption';
-import {Time} from '../../geo-math/domain-model/quantities/time';
+} from '../../common/geo-math/domain-model/quantities/units';
+import {Consumption} from '../../common/geo-math/domain-model/quantities/consumption';
+import {Time} from '../../common/geo-math/domain-model/quantities/time';
 import {FlightrouteCalcHelper} from '../domain-service/flightroute-calc.helper';
 
 

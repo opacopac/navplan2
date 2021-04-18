@@ -7,10 +7,10 @@ import {
     StopWatchTrafficAction
 } from './traffic.actions';
 import {BaseMapMovedZoomedRotatedAction} from '../../base-map/ngrx/base-map.actions';
-import {Position2d} from '../../geo-math/domain-model/geometry/position2d';
-import {Extent2d} from '../../geo-math/domain-model/geometry/extent2d';
-import {Angle} from '../../geo-math/domain-model/quantities/angle';
-import {AngleUnit} from '../../geo-math/domain-model/quantities/units';
+import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
+import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
+import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
+import {AngleUnit} from '../../common/geo-math/domain-model/quantities/units';
 import {TrafficServiceStatus} from '../domain-model/traffic-service-status';
 import {MockDate} from '../../system/domain-service/date/mock-date';
 import {TrafficMap} from '../domain-model/traffic-map';

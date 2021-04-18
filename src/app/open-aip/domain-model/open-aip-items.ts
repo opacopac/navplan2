@@ -5,8 +5,8 @@ import {Reportingpoint} from './reportingpoint';
 import {Reportingsector} from './reportingsector';
 import {Userpoint} from './userpoint';
 import {Webcam} from './webcam';
-import {DataItem, DataItemType} from '../../shared/model/data-item';
-import {Position2d} from '../../geo-math/domain-model/geometry/position2d';
+import {DataItem, DataItemType} from '../../common/model/data-item';
+import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 
 
 const SEARCH_BY_POS_PRECISION_DIGITS = 4;

@@ -1,8 +1,8 @@
 import {Action} from '@ngrx/store';
-import {Position2d} from '../../geo-math/domain-model/geometry/position2d';
-import {Extent2d} from '../../geo-math/domain-model/geometry/extent2d';
-import {Angle} from '../../geo-math/domain-model/quantities/angle';
-import {DataItem} from '../../shared/model/data-item';
+import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
+import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
+import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
+import {DataItem} from '../../common/model/data-item';
 
 
 export enum BaseMapActionTypes {

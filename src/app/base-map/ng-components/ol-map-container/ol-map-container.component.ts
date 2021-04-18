@@ -2,11 +2,11 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {Subscription} from 'rxjs';
 import {OlBaseMapService} from '../../ol-service/ol-base-map.service';
-import {Position2d} from '../../../geo-math/domain-model/geometry/position2d';
-import {DataItem} from '../../../shared/model/data-item';
-import {Extent2d} from '../../../geo-math/domain-model/geometry/extent2d';
+import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
+import {DataItem} from '../../../common/model/data-item';
+import {Extent2d} from '../../../common/geo-math/domain-model/geometry/extent2d';
 import {BaseMapClickedAction, BaseMapMovedZoomedRotatedAction} from '../../ngrx/base-map.actions';
-import {Angle} from '../../../geo-math/domain-model/quantities/angle';
+import {Angle} from '../../../common/geo-math/domain-model/quantities/angle';
 
 
 @Component({

@@ -1,5 +1,5 @@
 import {WaypointBase} from './waypoint-base';
-import {Position2d} from '../../../geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import {WaypointType} from '../waypoint-type';
 import {Navaid} from '../../../open-aip/domain-model/navaid';
 

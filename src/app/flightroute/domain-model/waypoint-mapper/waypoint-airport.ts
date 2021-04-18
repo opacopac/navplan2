@@ -1,5 +1,5 @@
 import {WaypointBase} from './waypoint-base';
-import {Position2d} from '../../../geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import {Airport} from '../../../open-aip/domain-model/airport';
 import {WaypointType} from '../waypoint-type';
 import {AirportRadio} from '../../../open-aip/domain-model/airport-radio';

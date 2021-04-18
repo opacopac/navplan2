@@ -1,6 +1,6 @@
 import {AirportRunway} from '../domain-model/airport-runway';
 import {IRestAirportRunway} from './i-rest-airport-runway';
-import {LengthConverter} from '../../geo-math/rest-model/length-converter';
+import {LengthConverter} from '../../common/geo-math/rest-model/length-converter';
 
 
 export class AirportRunwayConverter {

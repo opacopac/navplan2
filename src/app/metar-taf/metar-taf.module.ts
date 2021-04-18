@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {MetarTafRepo} from './rest-service/metar-taf-repo.service';
 import {OlOverlayButtonMetarTafComponent} from './ng-components/ol-overlay-button-metar-taf/ol-overlay-button-metar-taf.component';
 import {OlOverlayMetarTafComponent} from './ng-components/ol-overlay-metar-taf/ol-overlay-metar-taf.component';
-import {SharedModule} from '../shared/shared.module';
+import {SharedModule} from '../common/shared.module';
 import {StoreModule} from '@ngrx/store';
 import {metarTafReducer} from './ngrx/metar-taf.reducer';
 import {EffectsModule} from '@ngrx/effects';

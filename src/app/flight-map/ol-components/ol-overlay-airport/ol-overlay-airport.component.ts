@@ -1,11 +1,11 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {Airport} from '../../../open-aip/domain-model/airport';
-import {Position2d} from '../../../geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import {OlAirportIcon} from '../../../open-aip/ol-components/ol-airport-icon';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
 import {WaypointFactory} from '../../../flightroute/domain-model/waypoint-mapper/waypoint-factory';
 import {AirportType} from '../../../open-aip/domain-model/airport-type';
-import {WmmHelper} from '../../../geo-math/domain-service/wmm-helper';
+import {WmmHelper} from '../../../common/geo-math/domain-service/wmm-helper';
 import {OlBaseMapService} from '../../../base-map/ol-service/ol-base-map.service';
 
 

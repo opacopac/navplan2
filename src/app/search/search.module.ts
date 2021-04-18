@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {SearchService} from './rest-service/search.service';
 import {SearchBoxComponent} from './ng-components/search-box/search-box.component';
-import {SharedModule} from '../shared/shared.module';
+import {SharedModule} from '../common/shared.module';
 import {StoreModule} from '@ngrx/store';
 import {searchReducer} from './ngrx/search.reducer';
 import {EffectsModule} from '@ngrx/effects';

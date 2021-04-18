@@ -1,8 +1,8 @@
-import {Position2d} from '../../geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 import {BaseMapState} from '../domain-model/base-map-state';
-import {Angle} from '../../geo-math/domain-model/quantities/angle';
+import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
 import {BaseMapActions, BaseMapActionTypes} from './base-map.actions';
-import {AngleUnit} from '../../geo-math/domain-model/quantities/units';
+import {AngleUnit} from '../../common/geo-math/domain-model/quantities/units';
 import {MapbaselayerType} from '../ol-model/ol-baselayer-factory';
 
 

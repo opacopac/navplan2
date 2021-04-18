@@ -1,10 +1,10 @@
-import {Speed} from '../../geo-math/domain-model/quantities/speed';
-import {Consumption} from '../../geo-math/domain-model/quantities/consumption';
-import {Time} from '../../geo-math/domain-model/quantities/time';
+import {Speed} from '../../common/geo-math/domain-model/quantities/speed';
+import {Consumption} from '../../common/geo-math/domain-model/quantities/consumption';
+import {Time} from '../../common/geo-math/domain-model/quantities/time';
 import {Flightroute} from '../domain-model/flightroute';
 import {Aircraft} from '../domain-model/aircraft';
 import {Waypoint} from '../domain-model/waypoint';
-import {ConsumptionUnit, SpeedUnit, TimeUnit} from '../../geo-math/domain-model/quantities/units';
+import {ConsumptionUnit, SpeedUnit, TimeUnit} from '../../common/geo-math/domain-model/quantities/units';
 import {IRestFlightroute} from './i-rest-flightroute';
 import {FlightrouteWaypointConverter} from './flightroute-waypoint-converter';
 

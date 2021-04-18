@@ -1,6 +1,6 @@
-import {Polygon} from '../../geo-math/domain-model/geometry/polygon';
-import {DataItem, DataItemType} from '../../shared/model/data-item';
-import {Altitude} from '../../geo-math/domain-model/geometry/altitude';
+import {Polygon} from '../../common/geo-math/domain-model/geometry/polygon';
+import {DataItem, DataItemType} from '../../common/model/data-item';
+import {Altitude} from '../../common/geo-math/domain-model/geometry/altitude';
 
 
 export class Airspace extends DataItem {

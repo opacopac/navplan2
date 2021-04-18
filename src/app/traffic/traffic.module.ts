@@ -5,7 +5,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {TrafficOgnService} from './rest/ogn/traffic-ogn.service';
 import {OlOverlayTrafficComponent} from './ol-components/ol-overlay-traffic/ol-overlay-traffic.component';
 import {TrafficButtonComponent} from './ng-components/traffic-button/traffic-button.component';
-import {SharedModule} from '../shared/shared.module';
+import {SharedModule} from '../common/shared.module';
 import {trafficReducer} from './ngrx/traffic.reducer';
 import {TrafficEffects} from './ngrx/traffic.effects';
 import {TrafficState} from './domain-model/traffic-state';

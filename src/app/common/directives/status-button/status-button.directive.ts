@@ -1,6 +1,6 @@
-import { Directive, ElementRef, Input, OnChanges, OnInit } from '@angular/core';
-import { ButtonColor } from '../button-base/button-base.directive';
-import { IconButtonDirective } from '../icon-button/icon-button.directive';
+import {Directive, ElementRef, Input, OnChanges, OnInit} from '@angular/core';
+import {ButtonColor} from '../button-base/button-base.directive';
+import {IconButtonDirective} from '../icon-button/icon-button.directive';
 
 
 export enum ButtonStatus {

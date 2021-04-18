@@ -1,5 +1,5 @@
 import {VolumeUnit} from './units';
-import {Clonable} from '../../../system/domain-model/clonable';
+import {Clonable} from '../../../../system/domain-model/clonable';
 import {AbstractQuantity} from './abstract-quantity';
 
 

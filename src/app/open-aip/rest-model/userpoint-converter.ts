@@ -1,6 +1,6 @@
 import {Userpoint} from '../domain-model/userpoint';
 import {IRestUserpoint} from './i-rest-userpoint';
-import {Position2dConverter} from '../../geo-math/rest-model/position2d-converter';
+import {Position2dConverter} from '../../common/geo-math/rest-model/position2d-converter';
 
 
 export class UserpointConverter {

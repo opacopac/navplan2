@@ -2,7 +2,7 @@ import {Action} from '@ngrx/store';
 import {FlightrouteListEntry} from '../domain-model/flightroute-list-entry';
 import {Flightroute} from '../domain-model/flightroute';
 import {Waypoint} from '../domain-model/waypoint';
-import {Position2d} from '../../geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 
 
 export enum FlightrouteActionTypes {

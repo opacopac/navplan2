@@ -1,4 +1,4 @@
-import {IRestLength} from '../../geo-math/rest-model/i-rest-length';
+import {IRestLength} from '../../common/geo-math/rest-model/i-rest-length';
 
 
 export interface IRestAirportRunway {

@@ -2,9 +2,9 @@ import {Aircraft} from './aircraft';
 import {Waypoint} from './waypoint';
 import {RouteFuel} from './routefuel';
 import {Clonable} from '../../system/domain-model/clonable';
-import {Time} from '../../geo-math/domain-model/quantities/time';
-import {Length} from '../../geo-math/domain-model/quantities/length';
-import {LengthUnit} from '../../geo-math/domain-model/quantities/units';
+import {Time} from '../../common/geo-math/domain-model/quantities/time';
+import {Length} from '../../common/geo-math/domain-model/quantities/length';
+import {LengthUnit} from '../../common/geo-math/domain-model/quantities/units';
 import {WaypointType} from './waypoint-type';
 
 

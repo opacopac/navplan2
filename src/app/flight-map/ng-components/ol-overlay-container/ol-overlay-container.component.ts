@@ -10,14 +10,14 @@ import {OlOverlayReportingpointComponent} from '../../ol-components/ol-overlay-r
 import {OlOverlayUserpointComponent} from '../../ol-components/ol-overlay-userpoint/ol-overlay-userpoint.component';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs/internal/Observable';
-import {DataItem, DataItemType} from '../../../shared/model/data-item';
+import {DataItem, DataItemType} from '../../../common/model/data-item';
 import {Subscription} from 'rxjs/internal/Subscription';
 import {getShowOverlay} from '../../../base-map/ngrx/base-map.selectors';
 import {Airport} from '../../../open-aip/domain-model/airport';
 import {Navaid} from '../../../open-aip/domain-model/navaid';
 import {Reportingpoint} from '../../../open-aip/domain-model/reportingpoint';
 import {Reportingsector} from '../../../open-aip/domain-model/reportingsector';
-import {Position2d} from '../../../geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import {Userpoint} from '../../../open-aip/domain-model/userpoint';
 import {Geoname} from '../../../open-aip/domain-model/geoname';
 import {Traffic} from '../../../traffic/domain-model/traffic';

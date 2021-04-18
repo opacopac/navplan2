@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Track} from '../../domain-model/track';
 import {DatetimeHelper} from '../../../system/domain-service/datetime/datetime-helper';
-import {Timestamp} from '../../../geo-math/domain-model/quantities/timestamp';
+import {Timestamp} from '../../../common/geo-math/domain-model/quantities/timestamp';
 
 
 @Component({

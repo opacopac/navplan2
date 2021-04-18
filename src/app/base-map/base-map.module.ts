@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
-import {SharedModule} from '../shared/shared.module';
+import {SharedModule} from '../common/shared.module';
 import {OlBaseMapService} from './ol-service/ol-base-map.service';
 import {OlMapContainerComponent} from './ng-components/ol-map-container/ol-map-container.component';
 import {ZoomButtonsComponent} from './ng-components/zoom-buttons/zoom-buttons.component';

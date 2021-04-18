@@ -1,6 +1,6 @@
 import {Feature} from 'ol';
 import {Circle, Fill, Stroke, Style, Text} from 'ol/style';
-import {Angle} from '../../geo-math/domain-model/quantities/angle';
+import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
 import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {OlWaypointBearingLabel} from './ol-waypoint-bearing-label';
 import {Waypoint} from '../domain-model/waypoint';

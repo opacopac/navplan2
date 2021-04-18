@@ -3,8 +3,8 @@ import {Icon, Style} from 'ol/style';
 import {MetarTaf} from '../domain-model/metar-taf';
 import {environment} from '../../../environments/environment';
 import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
-import {Position2d} from '../../geo-math/domain-model/geometry/position2d';
-import {Angle} from '../../geo-math/domain-model/quantities/angle';
+import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
+import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import VectorLayer from 'ol/layer/Vector';
 

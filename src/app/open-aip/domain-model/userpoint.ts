@@ -1,5 +1,5 @@
-import {DataItem, DataItemType} from '../../shared/model/data-item';
-import {Position2d} from '../../geo-math/domain-model/geometry/position2d';
+import {DataItem, DataItemType} from '../../common/model/data-item';
+import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 
 
 export class Userpoint extends DataItem {

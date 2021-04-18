@@ -1,10 +1,10 @@
 import {Feature} from 'ol';
 import {Vector} from 'ol/source';
 import {LineString, Point as OlPoint, Polygon as OlPoly} from 'ol/geom';
-import {Position2d} from '../../geo-math/domain-model/geometry/position2d';
-import {DataItem} from '../../shared/model/data-item';
-import {Polygon} from '../../geo-math/domain-model/geometry/polygon';
-import {Multipolygon} from '../../geo-math/domain-model/geometry/multipolygon';
+import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
+import {DataItem} from '../../common/model/data-item';
+import {Polygon} from '../../common/geo-math/domain-model/geometry/polygon';
+import {Multipolygon} from '../../common/geo-math/domain-model/geometry/multipolygon';
 import {OlBaseMapService} from '../ol-service/ol-base-map.service';
 
 

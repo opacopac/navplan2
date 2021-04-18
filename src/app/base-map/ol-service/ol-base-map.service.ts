@@ -1,11 +1,11 @@
 import {Feature, Map, MapBrowserEvent, MapEvent, View} from 'ol';
 import {EventEmitter, Injectable} from '@angular/core';
 import {MapbaselayerType, OlBaselayerFactory} from '../ol-model/ol-baselayer-factory';
-import {Extent2d} from '../../geo-math/domain-model/geometry/extent2d';
-import {Position2d} from '../../geo-math/domain-model/geometry/position2d';
-import {Angle} from '../../geo-math/domain-model/quantities/angle';
-import {AngleUnit} from '../../geo-math/domain-model/quantities/units';
-import {DataItem} from '../../shared/model/data-item';
+import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
+import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
+import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
+import {AngleUnit} from '../../common/geo-math/domain-model/quantities/units';
+import {DataItem} from '../../common/model/data-item';
 import {OlComponentBase} from '../ol-model/ol-component-base';
 import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';

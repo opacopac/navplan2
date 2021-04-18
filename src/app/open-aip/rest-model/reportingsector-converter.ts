@@ -1,7 +1,7 @@
 import {IRestReportingpoint} from './i-rest-reportingpoint';
 import {Reportingsector} from '../domain-model/reportingsector';
-import {PolygonConverter} from '../../geo-math/rest-model/polygon-converter';
-import {LengthConverter} from '../../geo-math/rest-model/length-converter';
+import {PolygonConverter} from '../../common/geo-math/rest-model/polygon-converter';
+import {LengthConverter} from '../../common/geo-math/rest-model/length-converter';
 
 
 export class ReportingsectorConverter {

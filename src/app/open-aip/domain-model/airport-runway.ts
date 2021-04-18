@@ -1,4 +1,4 @@
-import {Length} from '../../geo-math/domain-model/quantities/length';
+import {Length} from '../../common/geo-math/domain-model/quantities/length';
 
 
 export class AirportRunway {

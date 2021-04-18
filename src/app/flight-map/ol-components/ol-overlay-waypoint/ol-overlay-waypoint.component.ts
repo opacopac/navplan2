@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {Position2d} from '../../../geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import {Waypoint} from '../../../flightroute/domain-model/waypoint';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
 import {OlBaseMapService} from '../../../base-map/ol-service/ol-base-map.service';

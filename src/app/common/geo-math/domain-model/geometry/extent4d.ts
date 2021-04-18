@@ -1,6 +1,6 @@
 import {Extent3d} from './extent3d';
 import {Timestamp} from '../quantities/timestamp';
-import {Clonable} from '../../../system/domain-model/clonable';
+import {Clonable} from '../../../../system/domain-model/clonable';
 import {Altitude} from './altitude';
 
 

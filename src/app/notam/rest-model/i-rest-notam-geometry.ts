@@ -1,5 +1,5 @@
-import {IRestAltitude} from '../../geo-math/rest-model/i-rest-altitude';
-import {IRestCircle} from '../../geo-math/rest-model/i-rest-circle';
+import {IRestAltitude} from '../../common/geo-math/rest-model/i-rest-altitude';
+import {IRestCircle} from '../../common/geo-math/rest-model/i-rest-circle';
 
 
 export interface IRestNotamGeometry {

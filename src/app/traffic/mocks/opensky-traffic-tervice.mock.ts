@@ -1,5 +1,5 @@
 import {Observable} from 'rxjs';
-import {Extent2d} from '../../geo-math/domain-model/geometry/extent2d';
+import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 import {IOpenskyTrafficService} from '../domain-service/opensky-traffic/i-opensky-traffic-service';
 import {TrafficOpensky} from '../domain-model/traffic-opensky';
 

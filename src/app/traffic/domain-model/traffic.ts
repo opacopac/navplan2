@@ -1,11 +1,11 @@
-import {DataItem, DataItemType} from '../../shared/model/data-item';
+import {DataItem, DataItemType} from '../../common/model/data-item';
 import {TrafficPosition} from './traffic-position';
 import {Clonable} from '../../system/domain-model/clonable';
-import {Angle} from '../../geo-math/domain-model/quantities/angle';
+import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
 import {TrafficAircraftType} from './traffic-aircraft-type';
 import {TrafficAddress} from './traffic-address';
 import {StringnumberHelper} from '../../system/domain-service/stringnumber/stringnumber-helper';
-import {TrackFitter} from '../../geo-math/domain-service/track-fitter';
+import {TrackFitter} from '../../common/geo-math/domain-service/track-fitter';
 
 
 export class Traffic extends DataItem implements Clonable<Traffic> {

@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {Extent2d} from '../../geo-math/domain-model/geometry/extent2d';
+import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 import {ReadNotamByExtentResult} from '../domain-model/read-notam-by-extent-result';
 
 

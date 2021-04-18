@@ -1,6 +1,6 @@
 import {AltitudeUnit} from './altitude-unit';
 import {AltitudeReference} from './altitude-reference';
-import {Clonable} from '../../../system/domain-model/clonable';
+import {Clonable} from '../../../../system/domain-model/clonable';
 
 
 export class Altitude implements Clonable<Altitude> {

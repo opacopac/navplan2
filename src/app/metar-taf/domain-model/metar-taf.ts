@@ -1,4 +1,4 @@
-import {DataItem, DataItemType} from '../../shared/model/data-item';
+import {DataItem, DataItemType} from '../../common/model/data-item';
 
 
 export class MetarTafList {

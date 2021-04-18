@@ -3,10 +3,10 @@ import {of, throwError} from 'rxjs';
 import {MessageService} from '../../message/domain-service/message.service';
 import {OpenAipEffects} from './open-aip.effects';
 import {OpenAipService} from '../domain-service/open-aip-service2.service';
-import {Extent2d} from '../../geo-math/domain-model/geometry/extent2d';
+import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 import {ReadOpenAipItemsAction, ReadOpenAipItemsErrorAction, ReadOpenAipItemsSuccessAction} from './open-aip.actions';
 import {ReadOpenAipItemsByExtentResult} from '../domain-model/read-open-aip-items-by-extent-result';
-import {MockStore} from '../../shared/test/mock-store';
+import {MockStore} from '../../common/test/mock-store';
 import {OpenAipState} from '../domain-model/open-aip-state';
 import createSpyObj = jasmine.createSpyObj;
 

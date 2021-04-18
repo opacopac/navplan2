@@ -1,4 +1,4 @@
-import {Angle} from '../../../geo-math/domain-model/quantities/angle';
+import {Angle} from '../../../common/geo-math/domain-model/quantities/angle';
 
 export class StringnumberHelper {
     public static isNullOrEmpty(text: string) {

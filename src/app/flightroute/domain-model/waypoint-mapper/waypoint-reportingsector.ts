@@ -1,4 +1,4 @@
-import {Position2d} from '../../../geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import {WaypointBase} from './waypoint-base';
 import {Reportingsector} from '../../../open-aip/domain-model/reportingsector';
 import {WaypointType} from '../waypoint-type';

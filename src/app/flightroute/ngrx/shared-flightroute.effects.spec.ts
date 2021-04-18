@@ -12,19 +12,19 @@ import {
 } from './flightroute.actions';
 import {SharedFlightrouteEffects} from './shared-flightroute.effects';
 import {Flightroute} from '../domain-model/flightroute';
-import {MockStore} from '../../shared/test/mock-store';
+import {MockStore} from '../../common/test/mock-store';
 import {FlightrouteState} from '../domain-model/flightroute-state';
 import {Aircraft} from '../domain-model/aircraft';
-import {Speed} from '../../geo-math/domain-model/quantities/speed';
+import {Speed} from '../../common/geo-math/domain-model/quantities/speed';
 import {
     ConsumptionUnit,
     LengthUnit,
     SpeedUnit,
     TimeUnit,
     VolumeUnit
-} from '../../geo-math/domain-model/quantities/units';
-import {Consumption} from '../../geo-math/domain-model/quantities/consumption';
-import {Time} from '../../geo-math/domain-model/quantities/time';
+} from '../../common/geo-math/domain-model/quantities/units';
+import {Consumption} from '../../common/geo-math/domain-model/quantities/consumption';
+import {Time} from '../../common/geo-math/domain-model/quantities/time';
 import createSpyObj = jasmine.createSpyObj;
 
 

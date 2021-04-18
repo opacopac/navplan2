@@ -4,7 +4,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {DragDropModule} from '@angular/cdk/drag-drop';
-import {SharedModule} from '../shared/shared.module';
+import {SharedModule} from '../common/shared.module';
 import {FlightrouteService} from './rest-service/flightroute.service';
 import {EditWaypointDialogComponent} from './ng-components/edit-waypoint-dialog/edit-waypoint-dialog.component';
 import {EditWaypointFormComponent} from './ng-components/edit-waypoint-form/edit-waypoint-form.component';

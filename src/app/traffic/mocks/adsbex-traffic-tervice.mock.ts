@@ -1,7 +1,7 @@
 import {IAdsbexTrafficService} from '../domain-service/adsbex-traffic/i-adsbex-traffic-service';
 import {TrafficAdsbex} from '../domain-model/traffic-adsbex';
 import {Observable} from 'rxjs';
-import {Extent2d} from '../../geo-math/domain-model/geometry/extent2d';
+import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 
 
 export class AdsbexTrafficTerviceMock implements IAdsbexTrafficService {

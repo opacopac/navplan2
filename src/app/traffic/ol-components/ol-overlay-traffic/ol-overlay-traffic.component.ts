@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Traffic} from '../../domain-model/traffic';
 import {TrafficAircraftType} from '../../domain-model/traffic-aircraft-type';
 import {TrafficAddressType} from '../../domain-model/traffic-address-type';
-import {Position2d} from '../../../geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import {OlOverlayBase} from '../../../base-map/ng-components/ol-overlay-base';
 import {TrafficIcon} from '../../domain-model/traffic-icon';
 import {OlBaseMapService} from '../../../base-map/ol-service/ol-base-map.service';

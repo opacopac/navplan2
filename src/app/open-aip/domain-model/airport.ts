@@ -1,9 +1,9 @@
-import {Position2d} from '../../geo-math/domain-model/geometry/position2d';
-import {DataItem, DataItemType} from '../../shared/model/data-item';
+import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
+import {DataItem, DataItemType} from '../../common/model/data-item';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
 import {Notam} from '../../notam/domain-model/notam';
 import {AirportRunway} from './airport-runway';
-import {Length} from '../../geo-math/domain-model/quantities/length';
+import {Length} from '../../common/geo-math/domain-model/quantities/length';
 import {AirportRadio} from './airport-radio';
 import {Webcam} from './webcam';
 import {AirportChart} from './airport-chart';

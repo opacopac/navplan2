@@ -1,12 +1,12 @@
 import {WaypointAltitude} from './waypoint-altitude';
 import {Clonable} from '../../system/domain-model/clonable';
-import {Position2d} from '../../geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 import {WaypointType} from './waypoint-type';
-import {Angle} from '../../geo-math/domain-model/quantities/angle';
-import {Length} from '../../geo-math/domain-model/quantities/length';
-import {AngleUnit, TimeUnit} from '../../geo-math/domain-model/quantities/units';
-import {Time} from '../../geo-math/domain-model/quantities/time';
-import {DataItem, DataItemType} from '../../shared/model/data-item';
+import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
+import {Length} from '../../common/geo-math/domain-model/quantities/length';
+import {AngleUnit, TimeUnit} from '../../common/geo-math/domain-model/quantities/units';
+import {Time} from '../../common/geo-math/domain-model/quantities/time';
+import {DataItem, DataItemType} from '../../common/model/data-item';
 
 
 export class Waypoint extends DataItem implements Clonable<Waypoint> {

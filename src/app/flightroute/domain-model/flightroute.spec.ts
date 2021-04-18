@@ -1,12 +1,12 @@
 import {Flightroute} from './flightroute';
 import {Aircraft} from './aircraft';
-import {Speed} from '../../geo-math/domain-model/quantities/speed';
-import {ConsumptionUnit, SpeedUnit, TimeUnit} from '../../geo-math/domain-model/quantities/units';
-import {Consumption} from '../../geo-math/domain-model/quantities/consumption';
+import {Speed} from '../../common/geo-math/domain-model/quantities/speed';
+import {ConsumptionUnit, SpeedUnit, TimeUnit} from '../../common/geo-math/domain-model/quantities/units';
+import {Consumption} from '../../common/geo-math/domain-model/quantities/consumption';
 import {WaypointType} from './waypoint-type';
 import {Waypoint} from './waypoint';
-import {Position2d} from '../../geo-math/domain-model/geometry/position2d';
-import {Time} from '../../geo-math/domain-model/quantities/time';
+import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
+import {Time} from '../../common/geo-math/domain-model/quantities/time';
 
 
 describe('Flightroute', () => {

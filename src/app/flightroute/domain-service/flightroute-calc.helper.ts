@@ -1,7 +1,7 @@
 import {Flightroute} from '../domain-model/flightroute';
-import {Speed} from '../../geo-math/domain-model/quantities/speed';
+import {Speed} from '../../common/geo-math/domain-model/quantities/speed';
 import {Waypoint} from '../domain-model/waypoint';
-import {GeodesyHelper} from '../../geo-math/domain-service/geodesy-helper';
+import {GeodesyHelper} from '../../common/geo-math/domain-service/geodesy-helper';
 import {StringnumberHelper} from '../../system/domain-service/stringnumber/stringnumber-helper';
 import {
     ConsumptionUnit,
@@ -9,13 +9,13 @@ import {
     SpeedUnit,
     TimeUnit,
     VolumeUnit
-} from '../../geo-math/domain-model/quantities/units';
+} from '../../common/geo-math/domain-model/quantities/units';
 import {WaypointType} from '../domain-model/waypoint-type';
-import {Time} from '../../geo-math/domain-model/quantities/time';
+import {Time} from '../../common/geo-math/domain-model/quantities/time';
 import {RouteFuel} from '../domain-model/routefuel';
-import {Volume} from '../../geo-math/domain-model/quantities/volume';
-import {Consumption} from '../../geo-math/domain-model/quantities/consumption';
-import {Length} from '../../geo-math/domain-model/quantities/length';
+import {Volume} from '../../common/geo-math/domain-model/quantities/volume';
+import {Consumption} from '../../common/geo-math/domain-model/quantities/consumption';
+import {Length} from '../../common/geo-math/domain-model/quantities/length';
 
 
 export class FlightrouteCalcHelper {

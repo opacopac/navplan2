@@ -1,6 +1,6 @@
 import {inject, TestBed} from '@angular/core/testing';
 import {OlBaseMapService} from './ol-base-map.service';
-import {Position2d} from '../../geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 
 
 describe('OlMapService', () => {

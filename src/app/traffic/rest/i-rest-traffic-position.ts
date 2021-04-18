@@ -1,4 +1,4 @@
-import {IRestPosition4d} from '../../geo-math/rest-model/i-rest-position4d';
+import {IRestPosition4d} from '../../common/geo-math/rest-model/i-rest-position4d';
 
 
 export interface IRestTrafficPosition {

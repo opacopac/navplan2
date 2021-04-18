@@ -1,4 +1,4 @@
-import {DataItem} from 'app/shared/model/data-item';
+import {DataItem} from 'app/common/model/data-item';
 import {WaypointBase} from './waypoint-base';
 import {WaypointAirport} from './waypoint-airport';
 import {WaypointNavaid} from './waypoint-navaid';
@@ -6,7 +6,7 @@ import {WaypointReportingpoint} from './waypoint-reportingpoint';
 import {WaypointReportingsector} from './waypoint-reportingsector';
 import {WaypointUserpoint} from './waypoint-userpoint';
 import {WaypointGeoname} from './waypoint-geoname';
-import {Position2d} from '../../../geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import {WaypointCoordinate} from './waypoint-coordinate';
 import {Airport} from '../../../open-aip/domain-model/airport';
 import {Navaid} from '../../../open-aip/domain-model/navaid';

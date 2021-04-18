@@ -1,6 +1,6 @@
 import {OlOverlayBase} from './ol-overlay-base';
-import {Position2d} from '../../geo-math/domain-model/geometry/position2d';
-import {DataItem} from '../../shared/model/data-item';
+import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
+import {DataItem} from '../../common/model/data-item';
 import {Directive} from '@angular/core';
 
 

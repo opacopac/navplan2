@@ -4,11 +4,11 @@ import {Observable, of, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {LoggingService} from '../../system/domain-service/logging/logging.service';
-import {Position2d} from '../../geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 import {RestMapperSearch, SearchResponse} from '../rest-model/rest-mapper-search';
 import {User} from '../../user/domain-model/user';
 import {SearchItemList} from '../domain-model/search-item-list';
-import {CoordinateHelper} from '../../geo-math/domain-service/coordinate-helper';
+import {CoordinateHelper} from '../../common/geo-math/domain-service/coordinate-helper';
 
 
 @Injectable({

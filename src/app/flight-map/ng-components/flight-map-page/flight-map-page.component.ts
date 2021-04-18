@@ -4,8 +4,8 @@ import {BaseMapZoomInAction, BaseMapZoomOutAction} from '../../../base-map/ngrx/
 import {OlOverlayContainerComponent} from '../ol-overlay-container/ol-overlay-container.component';
 import {OlBaseMapService} from '../../../base-map/ol-service/ol-base-map.service';
 import {MapbaselayerType} from '../../../base-map/ol-model/ol-baselayer-factory';
-import {Position2d} from '../../../geo-math/domain-model/geometry/position2d';
-import {Angle} from '../../../geo-math/domain-model/quantities/angle';
+import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
+import {Angle} from '../../../common/geo-math/domain-model/quantities/angle';
 import {combineLatest} from 'rxjs';
 import {take} from 'rxjs/operators';
 import {getMapPosition, getMapRotation, getMapZoom} from '../../../base-map/ngrx/base-map.selectors';

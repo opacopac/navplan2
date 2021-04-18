@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Waypoint} from '../../domain-model/waypoint';
-import {ButtonColor, ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
+import {ButtonColor, ButtonSize} from '../../../common/directives/button-base/button-base.directive';
 
 
 @Component({

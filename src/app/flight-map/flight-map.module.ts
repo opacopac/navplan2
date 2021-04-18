@@ -16,7 +16,7 @@ import {OlOverlayReportingpointComponent} from './ol-components/ol-overlay-repor
 import {OlOverlayReportingsectorComponent} from './ol-components/ol-overlay-reportingsector/ol-overlay-reportingsector.component';
 import {OlOverlayUserpointComponent} from './ol-components/ol-overlay-userpoint/ol-overlay-userpoint.component';
 import {OlOverlayWindyiframeComponent} from './ol-components/ol-overlay-windyiframe/ol-overlay-windyiframe.component';
-import {SharedModule} from '../shared/shared.module';
+import {SharedModule} from '../common/shared.module';
 import {OpenAipModule} from '../open-aip/open-aip.module';
 import {FlightrouteModule} from '../flightroute/flightroute.module';
 import {NotamModule} from '../notam/notam.module';

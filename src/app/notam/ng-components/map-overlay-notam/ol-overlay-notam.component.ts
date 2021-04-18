@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {StringnumberHelper} from '../../../system/domain-service/stringnumber/stringnumber-helper';
 import {Notam} from '../../domain-model/notam';
-import {Position2d} from '../../../geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import {OlOverlayBase} from '../../../base-map/ng-components/ol-overlay-base';
 import {OlBaseMapService} from '../../../base-map/ol-service/ol-base-map.service';
 

@@ -3,7 +3,7 @@ import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {OlMetar} from './ol-metar';
 import {MetarTafList} from '../domain-model/metar-taf';
 import {Airport} from '../../open-aip/domain-model/airport';
-import {Angle} from '../../geo-math/domain-model/quantities/angle';
+import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
 import VectorLayer from 'ol/layer/Vector';
 
 

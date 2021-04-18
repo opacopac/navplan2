@@ -6,7 +6,7 @@ import {Stroke, Style} from 'ol/style';
 import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {Flightroute} from '../domain-model/flightroute';
 import {EventEmitter} from '@angular/core';
-import {Position2d} from '../../geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 import {ModifyEvent} from 'ol/interaction/Modify';
 import {OlBaseMapService} from '../../base-map/ol-service/ol-base-map.service';
 

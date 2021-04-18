@@ -4,7 +4,7 @@ import {RestNotamRepo} from './rest-service/rest-notam-repo.service';
 import {MapOverlayButtonNotamComponent} from './ng-components/map-overlay-button-notam/map-overlay-button-notam.component';
 import {OlOverlayNotamComponent} from './ng-components/map-overlay-notam/ol-overlay-notam.component';
 import {MapOverlayNotamItemComponent} from './ng-components/map-overlay-notam-item/map-overlay-notam-item.component';
-import {SharedModule} from '../shared/shared.module';
+import {SharedModule} from '../common/shared.module';
 import {StoreModule} from '@ngrx/store';
 import {notamReducer} from './ngrx/notam.reducer';
 import {EffectsModule} from '@ngrx/effects';

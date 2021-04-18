@@ -2,7 +2,7 @@ import {Position2d} from '../domain-model/geometry/position2d';
 import {Angle} from '../domain-model/quantities/angle';
 import {AngleUnit} from '../domain-model/quantities/units';
 import {WorldMagneticModel} from '../domain-model/world-magnetic-model/WorldMagneticModel';
-import {DatetimeHelper} from '../../system/domain-service/datetime/datetime-helper';
+import {DatetimeHelper} from '../../../system/domain-service/datetime/datetime-helper';
 
 export class WmmHelper {
     private static wmm = new WorldMagneticModel();

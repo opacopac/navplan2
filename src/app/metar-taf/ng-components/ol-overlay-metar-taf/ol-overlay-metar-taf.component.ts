@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {DatetimeHelper} from '../../../system/domain-service/datetime/datetime-helper';
 import {StringnumberHelper} from '../../../system/domain-service/stringnumber/stringnumber-helper';
 import {MetarTaf} from '../../domain-model/metar-taf';
-import {Position2d} from '../../../geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 
 
 @Component({

@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
-import {SharedModule} from '../shared/shared.module';
+import {SharedModule} from '../common/shared.module';
 import {TrackState} from './domain-model/track-state';
 import {TrackActions} from './ngrx/track.actions';
 import {trackReducer} from './ngrx/track.reducer';

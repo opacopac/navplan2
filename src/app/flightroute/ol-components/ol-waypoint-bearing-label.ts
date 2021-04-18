@@ -1,9 +1,9 @@
 import {Feature} from 'ol';
 import {Fill, Stroke, Style, Text} from 'ol/style';
-import {Angle} from '../../geo-math/domain-model/quantities/angle';
+import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
 import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {Waypoint} from '../domain-model/waypoint';
-import {LengthUnit} from '../../geo-math/domain-model/quantities/units';
+import {LengthUnit} from '../../common/geo-math/domain-model/quantities/units';
 import VectorLayer from 'ol/layer/Vector';
 
 

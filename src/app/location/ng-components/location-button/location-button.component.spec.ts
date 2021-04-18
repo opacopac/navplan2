@@ -1,8 +1,8 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {LocationButtonComponent} from './location-button.component';
 import {Directive, Input} from '@angular/core';
-import {ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
-import {ButtonStatus} from '../../../shared/directives/status-button/status-button.directive';
+import {ButtonSize} from '../../../common/directives/button-base/button-base.directive';
+import {ButtonStatus} from '../../../common/directives/status-button/status-button.directive';
 import {MessageService} from '../../../message/domain-service/message.service';
 import {OlBaseMapService} from '../../../base-map/ol-service/ol-base-map.service';
 import {LocationService} from '../../domain-service/location.service';

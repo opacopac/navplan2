@@ -1,7 +1,7 @@
 import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {Observable, Subscription} from 'rxjs';
 import {OlOwnPlane} from './ol-own-plane';
-import {Position4d} from '../../geo-math/domain-model/geometry/position4d';
+import {Position4d} from '../../common/geo-math/domain-model/geometry/position4d';
 import {LocationState} from '../location-state';
 import VectorLayer from 'ol/layer/Vector';
 

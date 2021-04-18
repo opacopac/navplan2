@@ -1,5 +1,5 @@
 import {Position2d} from './position2d';
-import {Clonable} from '../../../system/domain-model/clonable';
+import {Clonable} from '../../../../system/domain-model/clonable';
 import {Altitude} from './altitude';
 
 

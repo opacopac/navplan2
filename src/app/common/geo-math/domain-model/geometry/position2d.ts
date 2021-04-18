@@ -1,6 +1,6 @@
 import {Geometry2d, Geometry2dType} from './geometry2d';
-import {StringnumberHelper} from '../../../system/domain-service/stringnumber/stringnumber-helper';
-import {Clonable} from '../../../system/domain-model/clonable';
+import {StringnumberHelper} from '../../../../system/domain-service/stringnumber/stringnumber-helper';
+import {Clonable} from '../../../../system/domain-model/clonable';
 
 
 export class Position2d implements Geometry2d, Clonable<Position2d> {

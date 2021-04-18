@@ -1,4 +1,4 @@
-import {Position2d} from '../../geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 import {Waypoint} from '../domain-model/waypoint';
 import {WaypointAltitude} from '../domain-model/waypoint-altitude';
 import {WaypointType} from '../domain-model/waypoint-type';

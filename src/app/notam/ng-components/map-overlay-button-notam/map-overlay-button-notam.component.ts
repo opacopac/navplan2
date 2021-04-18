@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Notam} from '../../domain-model/notam';
-import {ButtonColor, ButtonSize} from '../../../shared/directives/button-base/button-base.directive';
+import {ButtonColor, ButtonSize} from '../../../common/directives/button-base/button-base.directive';
 
 
 @Component({

@@ -1,7 +1,7 @@
 import {Actions} from '@ngrx/effects';
 import {of, throwError} from 'rxjs';
 import {MessageService} from '../../message/domain-service/message.service';
-import {MockStore} from '../../shared/test/mock-store';
+import {MockStore} from '../../common/test/mock-store';
 import {FlightrouteListEffects} from './flightroute-list.effects';
 import {FlightrouteService} from '../rest-service/flightroute.service';
 import {

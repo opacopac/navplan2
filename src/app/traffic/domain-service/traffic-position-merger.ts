@@ -1,6 +1,6 @@
 import {TrafficPosition} from '../domain-model/traffic-position';
 import {TrafficPrio} from '../domain-model/traffic-prio';
-import {Extent3d} from '../../geo-math/domain-model/geometry/extent3d';
+import {Extent3d} from '../../common/geo-math/domain-model/geometry/extent3d';
 import {IDate} from '../../system/domain-service/date/i-date';
 
 
