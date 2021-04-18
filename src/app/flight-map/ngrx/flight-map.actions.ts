@@ -2,16 +2,16 @@ import {Action} from '@ngrx/store';
 
 
 export enum FlightMapActionTypes {
-    FLIGHT_MAP_ACTIVATE = '[Flight Map] activate flight map',
+    FLIGHT_MAP_DUMMY = '[Flight Map] Dummy Action',
 }
 
 
-export class FlightMapActivateAction implements Action {
-    readonly type = FlightMapActionTypes.FLIGHT_MAP_ACTIVATE;
+export class FlightMapDummyAction implements Action {
+    readonly type = FlightMapActionTypes.FLIGHT_MAP_DUMMY;
 
-    constructor(public isActive: boolean) {}
+    constructor() {}
 }
 
 
 export type FlightMapActions =
-    FlightMapActivateAction;
+    FlightMapDummyAction;

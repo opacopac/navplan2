@@ -1,3 +1,3 @@
 export interface FlightMapState {
-    isActive: boolean;
+    dummy: boolean;
 }

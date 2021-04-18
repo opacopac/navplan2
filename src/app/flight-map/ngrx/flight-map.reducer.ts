@@ -3,14 +3,14 @@ import {FlightMapActions, FlightMapActionTypes} from './flight-map.actions';
 
 
 const initialState: FlightMapState = {
-    isActive: false,
+    dummy: false,
 };
 
 
 export function flightMapReducer(state: FlightMapState = initialState, action: FlightMapActions) {
     switch (action.type) {
-        case FlightMapActionTypes.FLIGHT_MAP_ACTIVATE:
-            return { ...state, isActive: action.isActive };
+        case FlightMapActionTypes.FLIGHT_MAP_DUMMY:
+            return { ...state, dummy: true };
 
         default:
             return state;

@@ -1,6 +1,6 @@
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Action, Store} from '@ngrx/store';
-import {debounceTime, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
+import {debounceTime, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {BaseMapActionTypes, BaseMapMovedZoomedRotatedAction} from '../../base-map/ngrx/base-map.actions';
@@ -28,7 +28,6 @@ export class FlightMapEffects {
         map(action => action as BaseMapMovedZoomedRotatedAction),
         debounceTime(500),
         withLatestFrom(this.flightMapState$),
-        filter(([action, state]) => state.isActive),
         switchMap(([action, state]) => [
             new ReadOpenAipItemsAction(action.extent, action.zoom),
             new ReadNotamAction(action.extent, action.zoom),
