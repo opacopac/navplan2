@@ -1,5 +1,4 @@
 import {Feature} from 'ol';
-import {Vector} from 'ol/source';
 import {Icon, Style} from 'ol/style';
 import {Airport} from '../domain-model/airport';
 import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
@@ -7,22 +6,24 @@ import {OlAirportIcon} from './ol-airport-icon';
 import {AirportRunway} from '../domain-model/airport-runway';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import {WmmHelper} from '../../geo-math/domain-service/wmm-helper';
+import VectorLayer from 'ol/layer/Vector';
 
 
 export class OlAirportRunway extends OlComponentBase {
     private readonly olFeature: Feature;
 
+
     public constructor(
         airport: Airport,
         runway: AirportRunway,
-        private readonly source: Vector) {
-
+        layer: VectorLayer
+    ) {
         super();
 
         this.olFeature = this.createFeature(airport);
         this.olFeature.setStyle(this.createPointStyle(airport, runway));
         this.setPointGeometry(this.olFeature, airport.position);
-        this.source.addFeature(this.olFeature);
+        layer.getSource().addFeature(this.olFeature);
     }
 
 
@@ -34,7 +35,7 @@ export class OlAirportRunway extends OlComponentBase {
     private createPointStyle(airport: Airport, runway: AirportRunway): Style {
         const src = OlAirportIcon.getRwyUrl(airport, runway);
         let rwy_direction = runway.direction1 ? runway.direction1 : undefined;
-        if (!src || ! rwy_direction) {
+        if (!src || !rwy_direction) {
             return undefined;
         }
 

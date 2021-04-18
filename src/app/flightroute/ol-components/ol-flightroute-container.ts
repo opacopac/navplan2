@@ -1,36 +1,34 @@
-import {Vector} from 'ol/source';
 import VectorLayer from 'ol/layer/Vector';
 import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
-import {BaseMapContext} from '../../base-map/domain-model/base-map-context';
 import {Flightroute} from '../domain-model/flightroute';
-import {getFlightroute} from '../ngrx/flightroute.selectors';
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {OlRouteLine, RouteLineModification} from './ol-route-line';
 import {OlWaypoint} from './ol-waypoint';
 import {OlAlternateLine} from './ol-alternate-line';
 import {Waypoint} from '../domain-model/waypoint';
-import {select} from '@ngrx/store';
 import {RouteLineModifiedAction} from '../ngrx/flightroute.actions';
+import {Store} from '@ngrx/store';
+import {Angle} from '../../geo-math/domain-model/quantities/angle';
 
 
 export class OlFlightrouteContainer extends OlComponentBase {
     private readonly flightrouteSubscription: Subscription;
     private routeLineModifiedSubscription: Subscription;
-    private readonly flightrouteLayer: VectorLayer;
-    private olRoutepoints: OlWaypoint[];
-    private olAlternate: OlWaypoint;
     private olRouteLine: OlRouteLine;
-    private olAlternateLine: OlAlternateLine;
 
 
-    constructor(private mapContext: BaseMapContext, snapToLayers: VectorLayer[]) {
+    constructor(
+        private readonly flightrouteLayer: VectorLayer,
+        flightroute$: Observable<Flightroute>,
+        snapToLayers: VectorLayer[],
+        private readonly store: Store<any>,
+        mapRotation: Angle
+    ) {
         super();
 
-        this.flightrouteLayer = this.mapContext.mapService.addVectorLayer(false);
-        const flightroute$ = this.mapContext.appStore.pipe(select(getFlightroute));
-        this.flightrouteSubscription = flightroute$.subscribe((flightroute) => {
+        this.flightrouteSubscription = flightroute$.subscribe(flightroute => {
             this.destroyFeatures();
-            this.addFeatures(flightroute, this.mapContext, this.flightrouteLayer.getSource(), snapToLayers);
+            this.addFeatures(flightroute, snapToLayers, mapRotation);
             // re-subscribe to route line events
             this.routeLineModifiedSubscription = this.olRouteLine.onRouteLineModifiedEnd
                 .subscribe(routeLineMod => this.emitRouteLineModifiedAction(routeLineMod));
@@ -50,20 +48,17 @@ export class OlFlightrouteContainer extends OlComponentBase {
     }
 
 
-    private addFeatures(flightroute: Flightroute, mapContext: BaseMapContext, source: Vector, snapToLayers: VectorLayer[]) {
+    private addFeatures(flightroute: Flightroute, snapToLayers: VectorLayer[], mapRotation: Angle) {
         if (flightroute) {
-            const mapRotation = mapContext.mapService.getRotation();
-            this.olRouteLine = new OlRouteLine(flightroute, mapContext.map, source, snapToLayers);
-            this.olAlternateLine = new OlAlternateLine(flightroute, source, snapToLayers);
-            this.olRoutepoints = [];
+            this.olRouteLine = new OlRouteLine(flightroute, null, this.flightrouteLayer, snapToLayers); // TODO
+            const olAlternateLine = new OlAlternateLine(flightroute, this.flightrouteLayer);
             flightroute.waypoints.forEach((wp, index) => {
                 const nextWp = this.getNextWp(flightroute.waypoints, flightroute.alternate, index);
-                const olWp = new OlWaypoint(wp, nextWp, mapRotation, source);
-                this.olRoutepoints.push(olWp);
+                const olWp = new OlWaypoint(wp, nextWp, mapRotation, this.flightrouteLayer);
             });
 
             if (flightroute.alternate) {
-                this.olAlternate = new OlWaypoint(flightroute.alternate, undefined, mapRotation, source);
+                const olAlternate = new OlWaypoint(flightroute.alternate, undefined, mapRotation, this.flightrouteLayer);
             }
         }
     }
@@ -82,15 +77,12 @@ export class OlFlightrouteContainer extends OlComponentBase {
 
     private destroyFeatures() {
         this.olRouteLine = undefined;
-        this.olAlternateLine = undefined;
-        this.olRoutepoints = [];
-        this.olAlternate = undefined;
         this.flightrouteLayer.getSource().clear(true);
     }
 
 
     private emitRouteLineModifiedAction(routeLineMod: RouteLineModification) {
-        this.mapContext.appStore.dispatch(new RouteLineModifiedAction(
+        this.store.dispatch(new RouteLineModifiedAction(
             routeLineMod.index,
             routeLineMod.isNewWp,
             routeLineMod.newPos

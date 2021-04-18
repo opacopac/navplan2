@@ -4,7 +4,7 @@ import {Extent2d} from '../../geo-math/domain-model/geometry/extent2d';
 
 
 export enum OpenAipActionTypes {
-    OPEN_AIP_READ_ITEMS = '[navMapEffects] read openAIP items',
+    OPEN_AIP_READ_ITEMS = '[openAipEffects] read openAIP items',
     OPEN_AIP_READ_ITEMS_SUCCESS = '[openAipEffects] read openAIP items success',
     OPEN_AIP_READ_ITEMS_ERROR = '[openAipEffects] read openAIP items error',
 }

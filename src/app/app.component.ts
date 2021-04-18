@@ -19,8 +19,8 @@ export class AppComponent implements OnInit {
 
     constructor(
         private appStore: Store<any>,
-        private clientstorageService: ClientstorageHelper) {
-
+        private clientstorageService: ClientstorageHelper
+    ) {
         this.currentUser$ = this.appStore.pipe(select(getCurrentUser));
     }
 

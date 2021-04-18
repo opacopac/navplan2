@@ -1,5 +1,4 @@
 import {Feature} from 'ol';
-import {Vector} from 'ol/source';
 import {Fill, Stroke, Style, Text} from 'ol/style';
 import {Notam} from '../domain-model/notam';
 import {Polygon} from '../../geo-math/domain-model/geometry/polygon';
@@ -8,6 +7,7 @@ import {Circle} from '../../geo-math/domain-model/geometry/circle';
 import {Geometry2dType} from '../../geo-math/domain-model/geometry/geometry2d';
 import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {circular} from 'ol/geom/Polygon';
+import VectorLayer from 'ol/layer/Vector';
 
 
 export class OlNotam extends OlComponentBase {
@@ -16,15 +16,14 @@ export class OlNotam extends OlComponentBase {
 
     public constructor(
         notam: Notam,
-        private readonly source: Vector
+        layer: VectorLayer
     ) {
         super();
-
 
         this.olFeature = this.createFeature(notam);
         this.olFeature.setStyle(this.createStyle(notam));
         this.setGeometry(this.olFeature, notam);
-        this.source.addFeature(this.olFeature);
+        layer.getSource().addFeature(this.olFeature);
     }
 
 

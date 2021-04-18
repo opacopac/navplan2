@@ -14,7 +14,6 @@
         <button mat-button *ngIf="this.currentUser" routerLink="./tracks" title="Recorded Tracks">Tracks</button>
         <button mat-button routerLink="./map" title="Clear current Route and Track"><i class="fas fa-eraser"></i></button>
         <button mat-button title="Search" (click)="this.onShowSearchClick.emit()"><i class="fas fa-search"></i></button>
-        <button mat-button routerLink="./chartmap" title="Chart Map">Chart Map</button>
     </div>
     <!-- right part of menu -->
     <div fxLayout="row" fxFlexAlign="end none" fxShow="true" fxHide.lt-md="true">

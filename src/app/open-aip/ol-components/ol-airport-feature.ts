@@ -1,11 +1,11 @@
 import {Feature} from 'ol';
-import {Vector} from 'ol/source';
 import {Icon, Style} from 'ol/style';
 import {environment} from '../../../environments/environment';
 import {Airport} from '../domain-model/airport';
 import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import {AirportFeature} from '../domain-model/airport-feature';
+import VectorLayer from 'ol/layer/Vector';
 
 
 export class OlAirportFeature extends OlComponentBase {
@@ -15,14 +15,14 @@ export class OlAirportFeature extends OlComponentBase {
     public constructor(
         airport: Airport,
         airportFeature: AirportFeature,
-        private readonly source: Vector) {
-
+        layer: VectorLayer
+    ) {
         super();
 
         this.olFeature = this.createFeature(airport);
         this.olFeature.setStyle(this.createPointStyle(airportFeature));
         this.setPointGeometry(this.olFeature, airport.position);
-        this.source.addFeature(this.olFeature);
+        layer.getSource().addFeature(this.olFeature);
     }
 
 

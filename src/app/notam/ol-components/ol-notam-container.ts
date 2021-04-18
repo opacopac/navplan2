@@ -1,28 +1,23 @@
 import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
-import {BaseMapContext} from '../../base-map/domain-model/base-map-context';
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {OlNotam} from './ol-notam';
-import {getNotamList} from '../ngrx/notam.selectors';
 import {NotamList} from '../domain-model/notam-list';
-import {select} from '@ngrx/store';
 import VectorLayer from 'ol/layer/Vector';
-import {Vector} from 'ol/source';
 
 
 export class OlNotamContainer extends OlComponentBase {
     private readonly notamListSubscription: Subscription;
-    private readonly notamLayer: VectorLayer;
-    private olNotams: OlNotam[] = [];
 
 
-    constructor(mapContext: BaseMapContext) {
+    constructor(
+        private readonly notamLayer: VectorLayer,
+        notamList$: Observable<NotamList>
+    ) {
         super();
 
-        this.notamLayer = mapContext.mapService.addVectorLayer(true);
-        const notamList$ = mapContext.appStore.pipe(select(getNotamList));
-        this.notamListSubscription = notamList$.subscribe((notamList) => {
-            this.destroyFeatures();
-            this.addFeatures(notamList, this.notamLayer.getSource());
+        this.notamListSubscription = notamList$.subscribe(notamList => {
+            this.clearFeatures();
+            this.addFeatures(notamList);
         });
     }
 
@@ -34,21 +29,18 @@ export class OlNotamContainer extends OlComponentBase {
 
     public destroy() {
         this.notamListSubscription.unsubscribe();
-        this.destroyFeatures();
+        this.clearFeatures();
     }
 
 
-    private addFeatures(notamList: NotamList, source: Vector) {
+    private addFeatures(notamList: NotamList) {
         if (notamList) {
-            if (notamList.items) {
-                notamList.items.forEach(notam => this.olNotams.push(new OlNotam(notam, source)));
-            }
+            notamList.items.forEach(notam => new OlNotam(notam, this.notamLayer));
         }
     }
 
 
-    private destroyFeatures() {
-        this.olNotams = [];
+    private clearFeatures() {
         this.notamLayer.getSource().clear(true);
     }
 }

@@ -1,4 +1,3 @@
-import {Vector} from 'ol/source';
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {Traffic} from '../domain-model/traffic';
@@ -8,40 +7,38 @@ import {TrafficIcon} from '../domain-model/traffic-icon';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import {AltitudeUnit} from '../../geo-math/domain-model/geometry/altitude-unit';
 import {Angle} from '../../geo-math/domain-model/quantities/angle';
+import VectorLayer from 'ol/layer/Vector';
 
 
 const MAX_AGE_SEC_INACTIVE = 30; // TODO
 
 
 export class OlTraffic extends OlComponentBase {
-    private olDotTrailFeature: OlTrafficTrail;
+    public olDotTrailFeature: OlTrafficTrail;
 
 
-    constructor(
-        private readonly traffic: Traffic,
-        private readonly source: Vector
-    ) {
+    constructor(private readonly traffic: Traffic) {
         super();
 
-        this.olDotTrailFeature = new OlTrafficTrail(this.traffic, this.source);
+        this.olDotTrailFeature = new OlTrafficTrail(this.traffic);
     }
 
 
-    public draw(): void {
+    public draw(trafficLayer: VectorLayer): void {
         // dot trail feature
-        this.olDotTrailFeature.draw();
+        this.olDotTrailFeature.draw(trafficLayer);
 
         // traffic feature
         const olTrafficFeature = this.createFeature(this.traffic);
         olTrafficFeature.setStyle(this.getTrafficStyle(this.traffic));
         this.setPointGeometry(olTrafficFeature, this.traffic.getCurrentPosition().position);
-        this.source.addFeature(olTrafficFeature);
+        trafficLayer.getSource().addFeature(olTrafficFeature);
 
         // call sign feature
         const olCallsignFeature = this.createFeature(this.traffic);
         olCallsignFeature.setStyle(this.getCallsignStyle());
         this.setPointGeometry(olCallsignFeature, this.traffic.getCurrentPosition().position);
-        this.source.addFeature(olCallsignFeature);
+        trafficLayer.getSource().addFeature(olCallsignFeature);
     }
 
 
@@ -66,7 +63,8 @@ export class OlTraffic extends OlComponentBase {
         }
 
         if (position.hasAltitude() && position.altitude.value > 0) {
-            heighttext = Math.round(position.altitude.value).toString() + ' ' + AltitudeUnit[position.altitude.unit].toLowerCase(); // ' ft'; // TODO: einstellbar
+            heighttext = Math.round(position.altitude.value).toString() + ' '
+                + AltitudeUnit[position.altitude.unit].toLowerCase(); // ' ft'; // TODO: einstellbar
         }
 
         let rotWithView = true;

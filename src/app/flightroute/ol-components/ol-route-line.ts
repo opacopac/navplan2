@@ -1,5 +1,4 @@
 import {Collection, Feature, Map} from 'ol';
-import {Vector} from 'ol/source';
 import VectorLayer from 'ol/layer/Vector';
 import {Modify, Snap} from 'ol/interaction';
 import {LineString} from 'ol/geom';
@@ -31,18 +30,18 @@ export class OlRouteLine extends OlComponentBase {
     public constructor(
         private readonly flightroute: Flightroute,
         private readonly map: Map,
-        private readonly source: Vector,
-        private readonly snapToLayers: VectorLayer[]) {
-
+        layer: VectorLayer,
+        snapToLayers: VectorLayer[]
+    ) {
         super();
 
         this.lineFeature = new Feature();
         this.lineFeature.setStyle(this.getStyle());
         this.setLineGeometry(this.lineFeature, flightroute.waypoints.map(waypoint => waypoint.position));
-        this.source.addFeature(this.lineFeature);
+        layer.getSource().addFeature(this.lineFeature);
 
-        this.addModifyInteraction();
-        this.addSnapInteractions(snapToLayers);
+        // this.addModifyInteraction();
+        // this.addSnapInteractions(snapToLayers);
     }
 
 
@@ -56,14 +55,16 @@ export class OlRouteLine extends OlComponentBase {
         this.lineFeature.getGeometry().un('change', this.onModifyChange.bind(this));
         this.lineFeature.getGeometry().un('modifyend', this.onModifyEnd.bind(this));
 
-        this.map.removeInteraction(this.modifyInteraction);
+        // this.map.removeInteraction(this.modifyInteraction);
         this.removeSnapInteractions();
     }
 
 
     private addModifyInteraction() {
         this.modifyInteraction = new Modify({
-            deleteCondition : function() { return false; }, // no delete condition
+            deleteCondition: function () {
+                return false;
+            }, // no delete condition
             features: new Collection([this.lineFeature])
         });
         this.map.addInteraction(this.modifyInteraction);
@@ -138,7 +139,10 @@ export class OlRouteLine extends OlComponentBase {
 
         // find index of changed wp
         for (let i = 0; i < newCoordinates.length; i++) {
-            if (i >= this.flightroute.waypoints.length || !this.flightroute.waypoints[i].position.equals(OlBaseMapService.getPosFromMercator(newCoordinates[i]), 4)) {
+            if (
+                i >= this.flightroute.waypoints.length
+                || !this.flightroute.waypoints[i].position.equals(OlBaseMapService.getPosFromMercator(newCoordinates[i]), 4)
+            ) {
                 return new RouteLineModification(
                     i,
                     (this.flightroute.waypoints.length !== newCoordinates.length),

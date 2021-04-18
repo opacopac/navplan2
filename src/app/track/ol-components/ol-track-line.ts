@@ -1,8 +1,8 @@
 import {Feature} from 'ol';
-import {Vector} from 'ol/source';
 import {Stroke, Style} from 'ol/style';
 import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {Track} from '../domain-model/track';
+import VectorLayer from 'ol/layer/Vector';
 
 
 export class OlTrackLine extends OlComponentBase {
@@ -11,15 +11,14 @@ export class OlTrackLine extends OlComponentBase {
 
     public constructor(
         private readonly track: Track,
-        private readonly source: Vector) {
-
+        layer: VectorLayer
+    ) {
         super();
-
 
         this.lineFeature = new Feature();
         this.lineFeature.setStyle(this.getStyle());
         this.setLineGeometry(this.lineFeature, track.positionList);
-        this.source.addFeature(this.lineFeature);
+        layer.getSource().addFeature(this.lineFeature);
     }
 
 

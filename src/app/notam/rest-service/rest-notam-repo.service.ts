@@ -15,7 +15,7 @@ import {ReadNotamByIcaoRequestConverter} from '../rest-model/read-notam-by-icao-
 
 
 @Injectable()
-export class NotamRepoService implements INotamRepo {
+export class RestNotamRepo implements INotamRepo {
     constructor(private http: HttpClient) {
     }
 

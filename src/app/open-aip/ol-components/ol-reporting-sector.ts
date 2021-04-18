@@ -1,5 +1,4 @@
 import {Feature} from 'ol';
-import {Vector} from 'ol/source';
 import {Fill, Stroke, Style, Text} from 'ol/style';
 import {Reportingsector} from '../domain-model/reportingsector';
 import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
@@ -9,16 +8,12 @@ export class OlReportingSector extends OlComponentBase {
     private readonly olFeature: Feature;
 
 
-    public constructor(
-        reportingSector: Reportingsector,
-        private readonly source: Vector) {
-
+    public constructor(reportingSector: Reportingsector) {
         super();
 
         this.olFeature = this.createFeature(reportingSector);
         this.olFeature.setStyle(this.createPolygonStyle(reportingSector));
         this.setPolygonGeometry(this.olFeature, reportingSector.polygon);
-        this.source.addFeature(this.olFeature);
     }
 
 

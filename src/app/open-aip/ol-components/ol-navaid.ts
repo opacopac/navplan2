@@ -1,11 +1,11 @@
 import {Feature} from 'ol';
-import {Vector} from 'ol/source';
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {Navaid} from '../domain-model/navaid';
 import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {OlNavaidIcon} from './ol-navaid-icon';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import {NavaidType} from '../domain-model/navaid-type';
+import VectorLayer from 'ol/layer/Vector';
 
 
 export class OlNavaid extends OlComponentBase {
@@ -14,14 +14,14 @@ export class OlNavaid extends OlComponentBase {
 
     public constructor(
         navaid: Navaid,
-        private readonly source: Vector) {
-
+        layer: VectorLayer
+    ) {
         super();
 
         this.olFeature = this.createFeature(navaid);
         this.olFeature.setStyle(this.createPointStyle(navaid));
         this.setPointGeometry(this.olFeature, navaid.position);
-        this.source.addFeature(this.olFeature);
+        layer.getSource().addFeature(this.olFeature);
     }
 
 

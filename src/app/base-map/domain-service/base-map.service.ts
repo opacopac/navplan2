@@ -1,24 +1,26 @@
 import {Extent2d} from '../../geo-math/domain-model/geometry/extent2d';
 import {Position2d} from '../../geo-math/domain-model/geometry/position2d';
 import {Angle} from '../../geo-math/domain-model/quantities/angle';
+import {Injectable} from '@angular/core';
 
 
-export interface BaseMapService {
-    getZoom(): number;
+@Injectable()
+export abstract class BaseMapService {
+    public abstract getZoom(): number;
 
-    setZoom(zoom: number);
+    public abstract setZoom(zoom: number);
 
-    zoomIn();
+    public abstract zoomIn();
 
-    zoomOut();
+    public abstract zoomOut();
 
-    getMapPosition(): Position2d;
+    public abstract getMapPosition(): Position2d;
 
-    setPosition(position: Position2d, zoom?: number);
+    public abstract setPosition(position: Position2d, zoom?: number);
 
-    getRotation(): Angle;
+    public abstract getRotation(): Angle;
 
-    getExtent(): Extent2d;
+    public abstract getExtent(): Extent2d;
 
-    getRadiusDegByPixel(position: Position2d, radiusPixel: number): number;
+    public abstract getRadiusDegByPixel(position: Position2d, radiusPixel: number): number;
 }

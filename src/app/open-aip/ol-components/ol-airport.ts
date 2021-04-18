@@ -1,5 +1,4 @@
 import {Feature} from 'ol';
-import {Vector} from 'ol/source';
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {OlAirportRunway} from './ol-airport-runway';
 import {OlAirportFeature} from './ol-airport-feature';
@@ -8,35 +7,36 @@ import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {OlAirportIcon} from './ol-airport-icon';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import {AirportType} from '../domain-model/airport-type';
+import VectorLayer from 'ol/layer/Vector';
 
 
 export class OlAirport extends OlComponentBase {
     private readonly olFeature: Feature;
-    private readonly olRunway: OlAirportRunway;
-    private readonly olAdFeatures: OlAirportFeature[];
+    public readonly olRunway: OlAirportRunway;
+    public readonly olAdFeatures: OlAirportFeature[];
 
 
     public constructor(
         airport: Airport,
-        private readonly source: Vector) {
-
+        layer: VectorLayer
+    ) {
         super();
 
         // airport
         this.olFeature = this.createFeature(airport);
         this.olFeature.setStyle(this.createPointStyle(airport));
         this.setPointGeometry(this.olFeature, airport.position);
-        this.source.addFeature(this.olFeature);
+        layer.getSource().addFeature(this.olFeature);
 
         // runway
         if (airport.hasRunways && !airport.isClosed && !airport.isHeliport) {
-            this.olRunway = new OlAirportRunway(airport, airport.runways[0], source);
+            this.olRunway = new OlAirportRunway(airport, airport.runways[0], layer);
         }
 
         // airport-features
         this.olAdFeatures = [];
         for (const adFeature of airport.features) {
-            this.olAdFeatures.push(new OlAirportFeature(airport, adFeature, source));
+            this.olAdFeatures.push(new OlAirportFeature(airport, adFeature, layer));
         }
     }
 

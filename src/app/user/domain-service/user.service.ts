@@ -1,7 +1,9 @@
 import {Observable} from 'rxjs';
 import {User} from '../domain-model/user';
+import {Injectable} from '@angular/core';
 
 
+@Injectable()
 export abstract class UserService {
     abstract autoLogin(token: string): Observable<User>;
 

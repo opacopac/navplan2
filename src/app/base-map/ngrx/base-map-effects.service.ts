@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {BaseMapActionTypes} from './base-map.actions';
 import {tap} from 'rxjs/operators';
-import {BaseMapService} from '../domain-service/base-map.service';
+import {OlBaseMapService} from '../ol-service/ol-base-map.service';
 
 
 @Injectable()
@@ -12,7 +12,7 @@ export class BaseMapEffects {
     constructor(
         private actions$: Actions,
         private appStore: Store<any>,
-        private mapService: BaseMapService) {
+        private mapService: OlBaseMapService) {
     }
 
 

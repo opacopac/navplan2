@@ -33,7 +33,7 @@ describe('FlightMapEffects', () => {
         rotation = new Angle(0, AngleUnit.DEG);
         extent = new Extent2d(7.0, 47.0, 8.0, 48.0);
         initialState = { isActive: false };
-        store = new MockStore('navMapState', initialState);
+        store = new MockStore('flightMapState', initialState);
     });
 
 
@@ -45,7 +45,7 @@ describe('FlightMapEffects', () => {
 
 
     it('sends a openaip, notam, metartaf read actions upon BaseMapMovedZoomedRotatedAction while active', async () => {
-        store.setState('navMapState', { ...initialState, isActive: true });
+        store.setState('flightMapState', { ...initialState, isActive: true });
         const actions$ = new Actions(of(new BaseMapMovedZoomedRotatedAction(position, zoom, rotation, extent)));
 
         const effects = createEffects(actions$);
@@ -62,7 +62,7 @@ describe('FlightMapEffects', () => {
 
 
     it('does NOT send read actions upon BaseMapMovedZoomedRotatedAction while inactive', async () => {
-        store.setState('navMapState', { ...initialState, isActive: false });
+        store.setState('flightMapState', { ...initialState, isActive: false });
         const actions$ = new Actions(of(new BaseMapMovedZoomedRotatedAction(position, zoom, rotation, extent)));
 
         const effects = createEffects(actions$);

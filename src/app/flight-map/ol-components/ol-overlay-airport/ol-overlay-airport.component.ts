@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import {Airport} from '../../../open-aip/domain-model/airport';
 import {Position2d} from '../../../geo-math/domain-model/geometry/position2d';
 import {OlAirportIcon} from '../../../open-aip/ol-components/ol-airport-icon';
@@ -14,13 +14,9 @@ import {OlBaseMapService} from '../../../base-map/ol-service/ol-base-map.service
     templateUrl: './ol-overlay-airport.component.html',
     styleUrls: ['./ol-overlay-airport.component.css']
 })
-export class OlOverlayAirportComponent extends OlOverlayWaypointBase implements OnInit {
+export class OlOverlayAirportComponent extends OlOverlayWaypointBase {
     public airport: Airport;
     @ViewChild('container') container: ElementRef;
-
-
-    ngOnInit() {
-    }
 
 
     public get containerHtmlElement(): HTMLElement {

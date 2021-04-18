@@ -1,10 +1,10 @@
 import {Feature} from 'ol';
-import {Vector} from 'ol/source';
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {Reportingpoint} from '../domain-model/reportingpoint';
 import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {OlReportingpointIcon} from './ol-reportingpoint-icon';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
+import VectorLayer from 'ol/layer/Vector';
 
 
 export class OlReportingPoint extends OlComponentBase {
@@ -13,14 +13,14 @@ export class OlReportingPoint extends OlComponentBase {
 
     public constructor(
         reportingpoint: Reportingpoint,
-        private readonly source: Vector) {
-
+        layer: VectorLayer
+    ) {
         super();
 
         this.olFeature = this.createFeature(reportingpoint);
         this.olFeature.setStyle(this.createPointStyle(reportingpoint));
         this.setPointGeometry(this.olFeature, reportingpoint.position);
-        this.source.addFeature(this.olFeature);
+        layer.getSource().addFeature(this.olFeature);
     }
 
 

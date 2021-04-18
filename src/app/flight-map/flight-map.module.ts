@@ -21,7 +21,6 @@ import {OpenAipModule} from '../open-aip/open-aip.module';
 import {FlightrouteModule} from '../flightroute/flightroute.module';
 import {NotamModule} from '../notam/notam.module';
 import {FlightMapPageComponent} from './ng-components/flight-map-page/flight-map-page.component';
-import {OlComponentsContainerComponent} from './ng-components/ol-components-container/ol-components-container.component';
 import {OlOverlayContainerComponent} from './ng-components/ol-overlay-container/ol-overlay-container.component';
 import {BaseMapModule} from '../base-map/base-map.module';
 import {SearchModule} from '../search/search.module';
@@ -52,7 +51,6 @@ import {FlightMapEffects} from './ngrx/flight-map.effects';
 @NgModule({
     declarations: [
         FlightMapPageComponent,
-        OlComponentsContainerComponent,
         OlOverlayContainerComponent,
         OlOverlayAirportComponent,
         OlOverlayButtonWebcamComponent,
@@ -79,7 +77,7 @@ import {FlightMapEffects} from './ngrx/flight-map.effects';
     ],
     imports: [
         CommonModule,
-        StoreModule.forFeature<FlightMapState, FlightMapActions>('navMapState', flightMapReducer),
+        StoreModule.forFeature<FlightMapState, FlightMapActions>('flightMapState', flightMapReducer),
         EffectsModule.forFeature([FlightMapEffects]),
         FormsModule,
         MatCardModule,

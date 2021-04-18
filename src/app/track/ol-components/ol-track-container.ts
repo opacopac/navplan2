@@ -1,28 +1,23 @@
-import {Vector} from 'ol/source';
-import VectorLayer from 'ol/layer/Vector';
 import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
-import {BaseMapContext} from '../../base-map/domain-model/base-map-context';
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {OlTrackLine} from './ol-track-line';
-import {getShowTrack} from '../ngrx/track.selectors';
 import {Track} from '../domain-model/track';
-import {select} from '@ngrx/store';
+import VectorLayer from 'ol/layer/Vector';
 
 
 export class OlTrackContainer extends OlComponentBase {
     private readonly trackSubscription: Subscription;
-    private readonly trackLayer: VectorLayer;
-    private olTrackLine: OlTrackLine;
 
 
-    constructor(mapContext: BaseMapContext) {
+    public constructor(
+        private readonly trackLayer: VectorLayer,
+        showTrack$: Observable<Track>
+    ) {
         super();
 
-        this.trackLayer = mapContext.mapService.addVectorLayer(false);
-        const showTrack$ = mapContext.appStore.pipe(select(getShowTrack));
         this.trackSubscription = showTrack$.subscribe((track) => {
-            this.destroyFeatures();
-            this.addFeatures(track, this.trackLayer.getSource());
+            this.clearFeatures();
+            this.addFeatures(track);
         });
     }
 
@@ -34,19 +29,18 @@ export class OlTrackContainer extends OlComponentBase {
 
     public destroy() {
         this.trackSubscription.unsubscribe();
-        this.destroyFeatures();
+        this.clearFeatures();
     }
 
 
-    private addFeatures(track: Track, source: Vector) {
+    private addFeatures(track: Track) {
         if (track) {
-            this.olTrackLine = new OlTrackLine(track, source);
+            const olTrackLine = new OlTrackLine(track, this.trackLayer);
         }
     }
 
 
-    private destroyFeatures() {
-        this.olTrackLine = undefined;
+    private clearFeatures() {
         this.trackLayer.getSource().clear(true);
     }
 }

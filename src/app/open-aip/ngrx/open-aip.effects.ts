@@ -29,7 +29,6 @@ export class OpenAipEffects {
     }
 
 
-
     readOpenAipItemsAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(OpenAipActionTypes.OPEN_AIP_READ_ITEMS),
         map(action => action as ReadOpenAipItemsAction),
@@ -45,11 +44,10 @@ export class OpenAipEffects {
     ));
 
 
-
     readOpenAipItemsErrorAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(OpenAipActionTypes.OPEN_AIP_READ_ITEMS_ERROR),
         tap((action: ReadOpenAipItemsErrorAction) => {
             this.messageService.showErrorMessage('error reading open aip items.', action.error);
         })
-    ), { dispatch: false });
+    ), {dispatch: false});
 }

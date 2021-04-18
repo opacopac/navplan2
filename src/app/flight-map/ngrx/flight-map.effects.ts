@@ -13,7 +13,7 @@ import {ReadMetarTafAction} from '../../metar-taf/ngrx/metar-taf.actions';
 
 @Injectable()
 export class FlightMapEffects {
-    private readonly navMapState$: Observable<FlightMapState> = this.appStore.select(getFlightMapState);
+    private readonly flightMapState$: Observable<FlightMapState> = this.appStore.select(getFlightMapState);
 
 
     constructor(
@@ -23,12 +23,11 @@ export class FlightMapEffects {
     }
 
 
-
     mapMovedZoomedRotatedAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(BaseMapActionTypes.BASE_MAP_MOVED_ZOOMED_ROTATED),
         map(action => action as BaseMapMovedZoomedRotatedAction),
         debounceTime(500),
-        withLatestFrom(this.navMapState$),
+        withLatestFrom(this.flightMapState$),
         filter(([action, state]) => state.isActive),
         switchMap(([action, state]) => [
             new ReadOpenAipItemsAction(action.extent, action.zoom),

@@ -1,27 +1,24 @@
-import {Vector} from 'ol/source';
-import VectorLayer from 'ol/layer/Vector';
 import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
-import {BaseMapContext} from '../../base-map/domain-model/base-map-context';
 import {interval, Observable, Subscription} from 'rxjs';
 import {OlTraffic} from './ol-traffic';
-import {getTrafficState} from '../ngrx/traffic.selectors';
 import {Traffic} from '../domain-model/traffic';
-import {select} from '@ngrx/store';
 import {debounce, switchMap} from 'rxjs/operators';
+import {TrafficState} from '../domain-model/traffic-state';
+import VectorLayer from 'ol/layer/Vector';
 
 
 const UPDATE_TRAFFIC_DISPLAY_DEBOUNCE_MS = 1000;
 
 export class OlTrafficContainer extends OlComponentBase {
     private readonly trafficSubscription: Subscription;
-    private readonly trafficLayer: VectorLayer;
 
 
-    constructor(mapContext: BaseMapContext) {
+    constructor(
+        private readonly trafficLayer: VectorLayer,
+        trafficState$: Observable<TrafficState>
+    ) {
         super();
 
-        this.trafficLayer = mapContext.mapService.addVectorLayer(false);
-        const trafficState$ = mapContext.appStore.pipe(select(getTrafficState));
         const debounceTime$: Observable<number> = trafficState$.pipe(
             switchMap(trafficState => interval(
                 trafficState.isWatching
@@ -35,7 +32,7 @@ export class OlTrafficContainer extends OlComponentBase {
         this.trafficSubscription = debouncedTrafficState$.subscribe((trafficState) => {
             this.destroyFeatures();
             if (trafficState.isWatching) {
-                this.addFeatures(Array.from(trafficState.trafficMap.values()), this.trafficLayer.getSource());
+                this.addFeatures(Array.from(trafficState.trafficMap.values()));
             }
         });
     }
@@ -52,11 +49,11 @@ export class OlTrafficContainer extends OlComponentBase {
     }
 
 
-    private addFeatures(trafficList: Traffic[], source: Vector) {
+    private addFeatures(trafficList: Traffic[]) {
         if (trafficList) {
             trafficList.forEach(traffic => {
-                const olTraffic = new OlTraffic(traffic, source);
-                olTraffic.draw();
+                const olTraffic = new OlTraffic(traffic);
+                olTraffic.draw(this.trafficLayer);
             });
         }
     }

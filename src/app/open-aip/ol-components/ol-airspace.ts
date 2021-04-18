@@ -1,8 +1,8 @@
 import {Feature} from 'ol';
-import {Vector} from 'ol/source';
 import {Fill, Stroke, Style} from 'ol/style';
 import {Airspace} from '../domain-model/airspace';
 import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
+import VectorLayer from 'ol/layer/Vector';
 
 
 export class OlAirspace extends OlComponentBase {
@@ -11,14 +11,14 @@ export class OlAirspace extends OlComponentBase {
 
     public constructor(
         airspace: Airspace,
-        private readonly source: Vector) {
-
+        layer: VectorLayer
+    ) {
         super();
 
         this.olFeature = this.createFeature(airspace);
         this.olFeature.setStyle(this.createPolygonStyle(airspace));
         this.setPolygonGeometry(this.olFeature, airspace.polygon);
-        this.source.addFeature(this.olFeature);
+        layer.getSource().addFeature(this.olFeature);
     }
 
 

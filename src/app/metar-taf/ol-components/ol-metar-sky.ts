@@ -1,11 +1,11 @@
 import {Feature} from 'ol';
-import {Vector} from 'ol/source';
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {environment} from '../../../environments/environment';
 import {MetarTaf} from '../domain-model/metar-taf';
 import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {Position2d} from '../../geo-math/domain-model/geometry/position2d';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
+import VectorLayer from 'ol/layer/Vector';
 
 
 export class OlMetarSky extends OlComponentBase {
@@ -15,14 +15,14 @@ export class OlMetarSky extends OlComponentBase {
     public constructor(
         metarTaf: MetarTaf,
         position: Position2d,
-        private readonly source: Vector) {
-
+        layer: VectorLayer
+    ) {
         super();
 
         this.olFeature = this.createFeature(metarTaf);
         this.olFeature.setStyle(this.createPointStyle(metarTaf));
         this.setPointGeometry(this.olFeature, position);
-        this.source.addFeature(this.olFeature);
+        layer.getSource().addFeature(this.olFeature);
     }
 
 

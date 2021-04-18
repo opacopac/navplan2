@@ -1,10 +1,10 @@
 import {Feature} from 'ol';
-import {Vector} from 'ol/source';
 import {Fill, Stroke, Style, Text} from 'ol/style';
 import {Angle} from '../../geo-math/domain-model/quantities/angle';
 import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {Waypoint} from '../domain-model/waypoint';
 import {LengthUnit} from '../../geo-math/domain-model/quantities/units';
+import VectorLayer from 'ol/layer/Vector';
 
 
 export class OlWaypointBearingLabel extends OlComponentBase {
@@ -15,14 +15,14 @@ export class OlWaypointBearingLabel extends OlComponentBase {
         prevWaypoint: Waypoint,
         waypoint: Waypoint,
         mapRotation: Angle,
-        private readonly source: Vector) {
-
+        layer: VectorLayer
+    ) {
         super();
 
         this.dirBearFeature = new Feature();
         this.dirBearFeature.setStyle(this.createStyle(waypoint, mapRotation));
         this.setPointGeometry(this.dirBearFeature, prevWaypoint.position);
-        this.source.addFeature(this.dirBearFeature);
+        layer.getSource().addFeature(this.dirBearFeature);
     }
 
 

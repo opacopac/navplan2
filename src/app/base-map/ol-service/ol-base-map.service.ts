@@ -22,9 +22,7 @@ import {fromLonLat, toLonLat} from 'ol/proj';
 const HIT_TOLERANCE_PIXELS = 10;
 
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class OlBaseMapService implements BaseMapService {
     public map: Map;
     private mapLayer: TileLayer;
@@ -53,18 +51,31 @@ export class OlBaseMapService implements BaseMapService {
         return new Position2d(lonLat[0], lonLat[1]);
     }
 
+
+    public static createEmptyVectorLayer(imageRenderMode: boolean = false): VectorLayer {
+        return new VectorLayer({
+            source: new Vector({}),
+            renderMode: imageRenderMode ? 'image' : undefined
+        });
+    }
+
     //endregion
 
 
     // region init / uninit
 
-    public initMap(baseMapType: MapbaselayerType,
-                   position: Position2d,
-                   zoom: number,
-                   mapRotation: Angle) {
-
+    public initMap(
+        baseMapType: MapbaselayerType,
+        customLayers: VectorLayer[],
+        position: Position2d,
+        zoom: number,
+        mapRotation: Angle
+    ) {
         this.mapLayer = OlBaselayerFactory.create(baseMapType);
-        this.customLayers = [];
+        this.customLayers = customLayers;
+        const allLayers = [];
+        allLayers.push(this.mapLayer);
+        allLayers.push(...this.customLayers);
         this.map = new Map({
             target: 'map',
             controls: [
@@ -73,9 +84,7 @@ export class OlBaseMapService implements BaseMapService {
                 new ScaleLine(),
                 new Rotate()
             ],
-            layers: [
-                this.mapLayer,
-            ],
+            layers: allLayers,
             view: new View({
                 center: OlBaseMapService.getMercator(position),
                 zoom: zoom,
@@ -104,25 +113,6 @@ export class OlBaseMapService implements BaseMapService {
         this.map.setTarget(undefined);
         this.map = undefined;
     }
-
-
-    public addVectorLayer(imageRenderMode: boolean): VectorLayer {
-        const layer = this.createEmptyVectorLayer(imageRenderMode);
-        this.customLayers.push(layer);
-
-        this.map.addLayer(layer);
-
-        return layer;
-    }
-
-
-    private createEmptyVectorLayer(imageRenderMode: boolean = false): VectorLayer {
-        return new VectorLayer({
-            source: new Vector({}),
-            renderMode: imageRenderMode ? 'image' : undefined
-        });
-    }
-
 
     // endregion
 
@@ -208,18 +198,16 @@ export class OlBaseMapService implements BaseMapService {
         return Math.abs(lat2 - lat1);*/
     }
 
-
     // endregion
 
 
     // region overlays
 
-
     public addOverlay(container: HTMLElement): Overlay {
         const overlay = new Overlay({
             element: container,
             autoPan: true,
-            autoPanAnimation: { duration: 250 }
+            autoPanAnimation: {duration: 250}
         });
 
         this.map.addOverlay(overlay);
@@ -240,7 +228,7 @@ export class OlBaseMapService implements BaseMapService {
         this.currentOverlay = new Overlay({
             element: container,
             autoPan: autoPan,
-            autoPanAnimation: { duration: 250 }
+            autoPanAnimation: {duration: 250}
         });
 
         this.map.addOverlay(this.currentOverlay);
@@ -286,7 +274,7 @@ export class OlBaseMapService implements BaseMapService {
         const dataItem = this.getDataItemAtPixel(event.pixel, true);
         const eventPos = event.coordinate;
         const clickPos = OlBaseMapService.getPosFromMercator([eventPos[0], eventPos[1]]);
-        this.onMapClicked.emit({ clickPos: clickPos, dataItem: dataItem });
+        this.onMapClicked.emit({clickPos: clickPos, dataItem: dataItem});
     }
 
 
@@ -309,7 +297,7 @@ export class OlBaseMapService implements BaseMapService {
 
     private getDataItemAtPixel(pixel: Pixel, onlyClickable: boolean): DataItem {
         const olFeatures = this.map.getFeaturesAtPixel(pixel,
-            { layerFilter: this.isClickableLayer.bind(this), hitTolerance: HIT_TOLERANCE_PIXELS });
+            {layerFilter: this.isClickableLayer.bind(this), hitTolerance: HIT_TOLERANCE_PIXELS});
         if (!olFeatures) {
             return undefined;
         }

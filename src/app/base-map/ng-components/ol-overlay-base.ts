@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Directive, EventEmitter, Output} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Directive, EventEmitter, Output} from '@angular/core';
 import {StringnumberHelper} from '../../system/domain-service/stringnumber/stringnumber-helper';
 import {DataItem} from '../../shared/model/data-item';
 import {Position2d} from '../../geo-math/domain-model/geometry/position2d';
@@ -10,12 +10,20 @@ import Overlay from 'ol/Overlay';
 
 
 @Directive()
-export abstract class OlOverlayBase {
+export abstract class OlOverlayBase implements AfterViewInit {
     @Output() close = new EventEmitter();
     public olOverlay: Overlay;
 
 
-    public constructor(private cdRef: ChangeDetectorRef) {
+    public constructor(
+        private readonly cdRef: ChangeDetectorRef,
+        private readonly mapService: OlBaseMapService
+    ) {
+    }
+
+
+    ngAfterViewInit() {
+        this.olOverlay = this.mapService.addOverlay(this.containerHtmlElement);
     }
 
 

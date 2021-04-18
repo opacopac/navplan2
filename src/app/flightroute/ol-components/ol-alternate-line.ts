@@ -1,5 +1,4 @@
 import {Feature} from 'ol';
-import {Vector} from 'ol/source';
 import {Stroke, Style} from 'ol/style';
 import VectorLayer from 'ol/layer/Vector';
 import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
@@ -12,15 +11,15 @@ export class OlAlternateLine extends OlComponentBase {
 
     public constructor(
         private readonly flightroute: Flightroute,
-        private readonly source: Vector,
-        private readonly snapToLayers: VectorLayer[]) {
+        layer: VectorLayer
+    ) {
 
         super();
 
         this.lineFeature = new Feature();
         this.lineFeature.setStyle(this.getStyle());
         this.setGeometry(this.lineFeature, flightroute);
-        this.source.addFeature(this.lineFeature);
+        layer.getSource().addFeature(this.lineFeature);
     }
 
 

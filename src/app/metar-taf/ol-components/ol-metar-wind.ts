@@ -1,5 +1,4 @@
 import {Feature} from 'ol';
-import {Vector} from 'ol/source';
 import {Icon, Style} from 'ol/style';
 import {MetarTaf} from '../domain-model/metar-taf';
 import {environment} from '../../../environments/environment';
@@ -7,6 +6,7 @@ import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {Position2d} from '../../geo-math/domain-model/geometry/position2d';
 import {Angle} from '../../geo-math/domain-model/quantities/angle';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
+import VectorLayer from 'ol/layer/Vector';
 
 
 export class OlMetarWind extends OlComponentBase {
@@ -17,14 +17,14 @@ export class OlMetarWind extends OlComponentBase {
         metarTaf: MetarTaf,
         position: Position2d,
         mapRotation: Angle,
-        private readonly source: Vector) {
-
+        layer: VectorLayer
+    ) {
         super();
 
         this.olFeature = this.createFeature(metarTaf);
         this.olFeature.setStyle(this.createPointStyle(metarTaf, mapRotation));
         this.setPointGeometry(this.olFeature, position);
-        this.source.addFeature(this.olFeature);
+        layer.getSource().addFeature(this.olFeature);
     }
 
 

@@ -1,10 +1,10 @@
 import {Feature} from 'ol';
-import {Vector} from 'ol/source';
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {Userpoint} from '../domain-model/userpoint';
 import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {OlUserpointIcon} from './ol-userpoint-icon';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
+import VectorLayer from 'ol/layer/Vector';
 
 
 export class OlUserPoint extends OlComponentBase {
@@ -13,14 +13,14 @@ export class OlUserPoint extends OlComponentBase {
 
     public constructor(
         userPoint: Userpoint,
-        private readonly source: Vector) {
-
+        layer: VectorLayer
+    ) {
         super();
 
         this.olFeature = this.createFeature(userPoint);
         this.olFeature.setStyle(this.createPointStyle(userPoint));
         this.setPointGeometry(this.olFeature, userPoint.position);
-        this.source.addFeature(this.olFeature);
+        layer.getSource().addFeature(this.olFeature);
     }
 
 

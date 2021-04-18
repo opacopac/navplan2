@@ -23,8 +23,8 @@ import {Geoname} from '../../../open-aip/domain-model/geoname';
 import {Traffic} from '../../../traffic/domain-model/traffic';
 import {Notam} from '../../../notam/domain-model/notam';
 import {Waypoint} from '../../../flightroute/domain-model/waypoint';
-import {MapOverlayState} from '../../../base-map/domain-model/base-map-state';
 import {OlBaseMapService} from '../../../base-map/ol-service/ol-base-map.service';
+import {MapOverlayState} from '../../../base-map/domain-model/map-overlay-state';
 
 
 @Component({
@@ -46,7 +46,10 @@ export class OlOverlayContainerComponent implements OnInit, OnDestroy {
     private selectedDateItemSubscription: Subscription;
 
 
-    constructor(private appStore: Store<any>) {
+    constructor(
+        private readonly appStore: Store<any>,
+        private readonly mapService: OlBaseMapService
+    ) {
         this.showOverlay$ = this.appStore.pipe(select(getShowOverlay));
     }
 
@@ -64,26 +67,8 @@ export class OlOverlayContainerComponent implements OnInit, OnDestroy {
     }
 
 
-    public onMapInitCompleted(mapService: OlBaseMapService) {
-        this.addMapOverlays(mapService);
-    }
-
-
     public onOverlayClosed() {
         // TODO: action
-    }
-
-
-    private addMapOverlays(mapService: OlBaseMapService) {
-        this.mapOverlayAirportComponent.init(mapService);
-        this.mapOverlayNavaidComponent.init(mapService);
-        this.mapOverlayReportingpointComponent.init(mapService);
-        this.mapOverlayReportingsectorComponent.init(mapService);
-        this.mapOverlayUserpointComponent.init(mapService);
-        this.mapOverlayGeonameComponent.init(mapService);
-        this.mapOverlayTrafficComponent.init(mapService);
-        this.mapOverlayNotamComponent.init(mapService);
-        this.mapOverlayWaypointComponent.init(mapService);
     }
 
 
@@ -127,14 +112,14 @@ export class OlOverlayContainerComponent implements OnInit, OnDestroy {
 
 
     private closeAllOverlays() {
-        this.mapOverlayAirportComponent.closeOverlay();
-        this.mapOverlayNavaidComponent.closeOverlay();
-        this.mapOverlayReportingpointComponent.closeOverlay();
-        this.mapOverlayReportingsectorComponent.closeOverlay();
-        this.mapOverlayUserpointComponent.closeOverlay();
-        this.mapOverlayGeonameComponent.closeOverlay();
-        this.mapOverlayTrafficComponent.closeOverlay();
-        this.mapOverlayNotamComponent.closeOverlay();
-        this.mapOverlayWaypointComponent.closeOverlay();
+        this.mapOverlayAirportComponent?.closeOverlay();
+        this.mapOverlayNavaidComponent?.closeOverlay();
+        this.mapOverlayReportingpointComponent?.closeOverlay();
+        this.mapOverlayReportingsectorComponent?.closeOverlay();
+        this.mapOverlayUserpointComponent?.closeOverlay();
+        this.mapOverlayGeonameComponent?.closeOverlay();
+        this.mapOverlayTrafficComponent?.closeOverlay();
+        this.mapOverlayNotamComponent?.closeOverlay();
+        this.mapOverlayWaypointComponent?.closeOverlay();
     }
 }
