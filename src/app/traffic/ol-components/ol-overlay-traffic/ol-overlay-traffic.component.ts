@@ -5,7 +5,7 @@ import {TrafficAddressType} from '../../domain-model/traffic-address-type';
 import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import {OlOverlayBase} from '../../../base-map/ng-components/ol-overlay-base';
 import {TrafficIcon} from '../../domain-model/traffic-icon';
-import {OlBaseMapService} from '../../../base-map/ol-service/ol-base-map.service';
+import {OlHelper} from '../../../base-map/ol-service/ol-helper';
 
 
 const TRAFFIC_TYPE_DESCRIPTION = {
@@ -49,7 +49,7 @@ export class OlOverlayTrafficComponent extends OlOverlayBase implements OnInit {
     public bindDataItem(traffic: Traffic, clickPos: Position2d) {
         this.traffic = traffic;
         this.olOverlay.setPosition(traffic && traffic.hasPositions()
-            ? OlBaseMapService.getMercator(traffic.getCurrentPosition().position)
+            ? OlHelper.getMercator(traffic.getCurrentPosition().position)
             : undefined
         );
     }

@@ -6,7 +6,7 @@ import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
 import {WaypointFactory} from '../../../flightroute/domain-model/waypoint-mapper/waypoint-factory';
 import {AirportType} from '../../../open-aip/domain-model/airport-type';
 import {WmmHelper} from '../../../common/geo-math/domain-service/wmm-helper';
-import {OlBaseMapService} from '../../../base-map/ol-service/ol-base-map.service';
+import {OlHelper} from '../../../base-map/ol-service/ol-helper';
 
 
 @Component({
@@ -27,7 +27,7 @@ export class OlOverlayAirportComponent extends OlOverlayWaypointBase {
     public bindDataItem(airport: Airport, clickPos: Position2d) {
         this.airport = airport;
         this.waypoint = airport ? WaypointFactory.createNewWaypointFromDataItem(airport, clickPos) : undefined;
-        this.olOverlay.setPosition(airport ? OlBaseMapService.getMercator(airport.position) : undefined);
+        this.olOverlay.setPosition(airport ? OlHelper.getMercator(airport.position) : undefined);
     }
 
 

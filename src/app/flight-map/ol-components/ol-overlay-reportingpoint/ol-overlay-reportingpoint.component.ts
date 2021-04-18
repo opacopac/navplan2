@@ -5,7 +5,7 @@ import {Position2d} from '../../../common/geo-math/domain-model/geometry/positio
 import {OlReportingpointIcon} from '../../../open-aip/ol-components/ol-reportingpoint-icon';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
 import {WaypointFactory} from '../../../flightroute/domain-model/waypoint-mapper/waypoint-factory';
-import {OlBaseMapService} from '../../../base-map/ol-service/ol-base-map.service';
+import {OlHelper} from '../../../base-map/ol-service/ol-helper';
 
 
 @Component({
@@ -30,7 +30,7 @@ export class OlOverlayReportingpointComponent extends OlOverlayWaypointBase impl
     public bindDataItem(reportingPoint: Reportingpoint, clickPos: Position2d) {
         this.reportingpoint = reportingPoint;
         this.waypoint = reportingPoint ? WaypointFactory.createNewWaypointFromDataItem(reportingPoint, clickPos) : undefined;
-        this.olOverlay.setPosition(reportingPoint ? OlBaseMapService.getMercator(reportingPoint.position) : undefined);
+        this.olOverlay.setPosition(reportingPoint ? OlHelper.getMercator(reportingPoint.position) : undefined);
     }
 
 

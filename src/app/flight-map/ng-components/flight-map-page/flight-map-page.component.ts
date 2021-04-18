@@ -23,6 +23,7 @@ import {getTrafficState} from '../../../traffic/ngrx/traffic.selectors';
 import {OlOwnPlaneContainer} from '../../../location/ol-components/ol-own-plane-container';
 import {getLocationState} from '../../../location/location.selectors';
 import {MapBaseLayerType} from '../../../base-map/domain-model/map-base-layer-type';
+import {OlHelper} from '../../../base-map/ol-service/ol-helper';
 
 
 @Component({
@@ -77,19 +78,19 @@ export class FlightMapPageComponent implements OnInit, OnDestroy {
         zoom: number,
         rotation: Angle
     ) {
-        const flightrouteLayer = OlBaseMapService.createEmptyVectorLayer(false);
-        const ownPlaneLayer = OlBaseMapService.createEmptyVectorLayer(false);
-        const metarTafLayer = OlBaseMapService.createEmptyVectorLayer(false);
-        const notamLayer = OlBaseMapService.createEmptyVectorLayer(true);
-        const airspaceLayer = OlBaseMapService.createEmptyVectorLayer(true);
-        const reportingSectorLayer = OlBaseMapService.createEmptyVectorLayer(true);
-        const webcamLayer = OlBaseMapService.createEmptyVectorLayer(false);
-        const userPointLayer = OlBaseMapService.createEmptyVectorLayer(false);
-        const reportingPointLayer = OlBaseMapService.createEmptyVectorLayer(false);
-        const navaidLayer = OlBaseMapService.createEmptyVectorLayer(false);
-        const airportLayer = OlBaseMapService.createEmptyVectorLayer(false);
-        const trackLayer = OlBaseMapService.createEmptyVectorLayer(false);
-        const trafficLayer = OlBaseMapService.createEmptyVectorLayer(false);
+        const flightrouteLayer = OlHelper.createEmptyVectorLayer(false);
+        const ownPlaneLayer = OlHelper.createEmptyVectorLayer(false);
+        const metarTafLayer = OlHelper.createEmptyVectorLayer(false);
+        const notamLayer = OlHelper.createEmptyVectorLayer(true);
+        const airspaceLayer = OlHelper.createEmptyVectorLayer(true);
+        const reportingSectorLayer = OlHelper.createEmptyVectorLayer(true);
+        const webcamLayer = OlHelper.createEmptyVectorLayer(false);
+        const userPointLayer = OlHelper.createEmptyVectorLayer(false);
+        const reportingPointLayer = OlHelper.createEmptyVectorLayer(false);
+        const navaidLayer = OlHelper.createEmptyVectorLayer(false);
+        const airportLayer = OlHelper.createEmptyVectorLayer(false);
+        const trackLayer = OlHelper.createEmptyVectorLayer(false);
+        const trafficLayer = OlHelper.createEmptyVectorLayer(false);
 
         this.mapService.initMap(
             MapBaseLayerType.OPENTOPOMAP,

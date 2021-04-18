@@ -3,7 +3,7 @@ import {StringnumberHelper} from '../../../system/domain-service/stringnumber/st
 import {Notam} from '../../domain-model/notam';
 import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import {OlOverlayBase} from '../../../base-map/ng-components/ol-overlay-base';
-import {OlBaseMapService} from '../../../base-map/ol-service/ol-base-map.service';
+import {OlHelper} from '../../../base-map/ol-service/ol-helper';
 
 
 @Component({
@@ -27,7 +27,7 @@ export class OlOverlayNotamComponent extends OlOverlayBase implements OnInit {
 
     public bindDataItem(notam: Notam, clickPos: Position2d) {
         this.notam = notam;
-        this.olOverlay.setPosition(notam ? OlBaseMapService.getMercator(clickPos) : undefined);
+        this.olOverlay.setPosition(notam ? OlHelper.getMercator(clickPos) : undefined);
     }
 
 

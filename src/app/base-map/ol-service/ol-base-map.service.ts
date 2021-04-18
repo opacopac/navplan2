@@ -11,13 +11,13 @@ import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
 import Overlay from 'ol/Overlay';
 import {Attribution, FullScreen, Rotate, ScaleLine} from 'ol/control';
-import {Tile, Vector} from 'ol/source';
+import {Tile} from 'ol/source';
 import {ObjectEvent} from 'ol/Object';
 import {Layer} from 'ol/layer';
 import {Pixel} from 'ol/pixel';
 import {BaseMapService} from '../domain-service/base-map.service';
-import {fromLonLat, toLonLat} from 'ol/proj';
 import {MapBaseLayerType} from '../domain-model/map-base-layer-type';
+import {OlHelper} from './ol-helper';
 
 
 const HIT_TOLERANCE_PIXELS = 10;
@@ -35,32 +35,6 @@ export class OlBaseMapService implements BaseMapService {
 
     constructor() {
     }
-
-
-    //region helper
-
-    public static getMercator(pos: Position2d): [number, number] {
-        const arr = fromLonLat(pos.toArray());
-
-        return [arr[0], arr[1]];
-    }
-
-
-    public static getPosFromMercator(mercator: [number, number]): Position2d {
-        const lonLat = toLonLat(mercator);
-
-        return new Position2d(lonLat[0], lonLat[1]);
-    }
-
-
-    public static createEmptyVectorLayer(imageRenderMode: boolean = false): VectorLayer {
-        return new VectorLayer({
-            source: new Vector({}),
-            renderMode: imageRenderMode ? 'image' : undefined
-        });
-    }
-
-    //endregion
 
 
     // region init / uninit
@@ -87,7 +61,7 @@ export class OlBaseMapService implements BaseMapService {
             ],
             layers: allLayers,
             view: new View({
-                center: OlBaseMapService.getMercator(position),
+                center: OlHelper.getMercator(position),
                 zoom: zoom,
                 rotation: mapRotation.rad,
             })
@@ -149,7 +123,7 @@ export class OlBaseMapService implements BaseMapService {
 
     public getMapPosition(): Position2d {
         const mercPos = this.map.getView().getCenter();
-        return OlBaseMapService.getPosFromMercator([mercPos[0], mercPos[1]]);
+        return OlHelper.getPosFromMercator([mercPos[0], mercPos[1]]);
     }
 
 
@@ -159,7 +133,7 @@ export class OlBaseMapService implements BaseMapService {
         }
 
         if (position) {
-            this.map.getView().setCenter(OlBaseMapService.getMercator(position));
+            this.map.getView().setCenter(OlHelper.getMercator(position));
         }
 
         if (zoom != null) {
@@ -181,10 +155,10 @@ export class OlBaseMapService implements BaseMapService {
 
 
     public getRadiusDegByPixel(position: Position2d, radiusPixel: number): number {
-        const coord1Pixel = this.map.getPixelFromCoordinate(OlBaseMapService.getMercator(position));
+        const coord1Pixel = this.map.getPixelFromCoordinate(OlHelper.getMercator(position));
         const coord2Pixel: Pixel = [coord1Pixel[0], coord1Pixel[1] - radiusPixel];
         const mercPos = this.map.getCoordinateFromPixel(coord2Pixel);
-        const coord2Deg = OlBaseMapService.getPosFromMercator([mercPos[0], mercPos[1]]);
+        const coord2Deg = OlHelper.getPosFromMercator([mercPos[0], mercPos[1]]);
 
         return Math.abs(coord2Deg.latitude - position.latitude);
 
@@ -233,7 +207,7 @@ export class OlBaseMapService implements BaseMapService {
         });
 
         this.map.addOverlay(this.currentOverlay);
-        this.currentOverlay.setPosition(OlBaseMapService.getMercator(coordinates)); // force auto panning
+        this.currentOverlay.setPosition(OlHelper.getMercator(coordinates)); // force auto panning
     }
 
 
@@ -274,7 +248,7 @@ export class OlBaseMapService implements BaseMapService {
     private onSingleClick(event: MapBrowserEvent) {
         const dataItem = this.getDataItemAtPixel(event.pixel, true);
         const eventPos = event.coordinate;
-        const clickPos = OlBaseMapService.getPosFromMercator([eventPos[0], eventPos[1]]);
+        const clickPos = OlHelper.getPosFromMercator([eventPos[0], eventPos[1]]);
         this.onMapClicked.emit({clickPos: clickPos, dataItem: dataItem});
     }
 

@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import {Waypoint} from '../../../flightroute/domain-model/waypoint';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
-import {OlBaseMapService} from '../../../base-map/ol-service/ol-base-map.service';
+import {OlHelper} from '../../../base-map/ol-service/ol-helper';
 
 
 @Component({
@@ -25,6 +25,6 @@ export class OlOverlayWaypointComponent extends OlOverlayWaypointBase implements
 
     public bindDataItem(waypoint: Waypoint, clickPos: Position2d) {
         this.waypoint = waypoint;
-        this.olOverlay.setPosition(waypoint ? OlBaseMapService.getMercator(waypoint.position) : undefined);
+        this.olOverlay.setPosition(waypoint ? OlHelper.getMercator(waypoint.position) : undefined);
     }
 }

@@ -3,7 +3,7 @@ import {Position2d} from '../../../common/geo-math/domain-model/geometry/positio
 import {Geoname} from '../../../open-aip/domain-model/geoname';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
 import {WaypointFactory} from '../../../flightroute/domain-model/waypoint-mapper/waypoint-factory';
-import {OlBaseMapService} from '../../../base-map/ol-service/ol-base-map.service';
+import {OlHelper} from '../../../base-map/ol-service/ol-helper';
 
 
 // region type strings
@@ -727,7 +727,7 @@ export class OlOverlayGeonameComponent extends OlOverlayWaypointBase implements 
     public bindDataItem(geoname: Geoname, clickPos: Position2d) {
         this.geoname = geoname;
         this.waypoint = geoname ? WaypointFactory.createNewWaypointFromDataItem(geoname, clickPos) : undefined;
-        this.olOverlay.setPosition(geoname ? OlBaseMapService.getMercator(geoname.position) : undefined);
+        this.olOverlay.setPosition(geoname ? OlHelper.getMercator(geoname.position) : undefined);
     }
 
 

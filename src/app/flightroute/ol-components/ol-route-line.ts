@@ -8,7 +8,7 @@ import {Flightroute} from '../domain-model/flightroute';
 import {EventEmitter} from '@angular/core';
 import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 import {ModifyEvent} from 'ol/interaction/Modify';
-import {OlBaseMapService} from '../../base-map/ol-service/ol-base-map.service';
+import {OlHelper} from '../../base-map/ol-service/ol-helper';
 
 
 export class RouteLineModification {
@@ -141,12 +141,12 @@ export class OlRouteLine extends OlComponentBase {
         for (let i = 0; i < newCoordinates.length; i++) {
             if (
                 i >= this.flightroute.waypoints.length
-                || !this.flightroute.waypoints[i].position.equals(OlBaseMapService.getPosFromMercator(newCoordinates[i]), 4)
+                || !this.flightroute.waypoints[i].position.equals(OlHelper.getPosFromMercator(newCoordinates[i]), 4)
             ) {
                 return new RouteLineModification(
                     i,
                     (this.flightroute.waypoints.length !== newCoordinates.length),
-                    OlBaseMapService.getPosFromMercator(newCoordinates[i])
+                    OlHelper.getPosFromMercator(newCoordinates[i])
                 );
             }
         }

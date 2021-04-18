@@ -5,7 +5,7 @@ import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d
 import {DataItem} from '../../common/model/data-item';
 import {Polygon} from '../../common/geo-math/domain-model/geometry/polygon';
 import {Multipolygon} from '../../common/geo-math/domain-model/geometry/multipolygon';
-import {OlBaseMapService} from '../ol-service/ol-base-map.service';
+import {OlHelper} from '../ol-service/ol-helper';
 
 
 export abstract class OlComponentBase {
@@ -68,7 +68,7 @@ export abstract class OlComponentBase {
         if (!position) {
             this.hideFeature(feature);
         } else {
-            const newPos = OlBaseMapService.getMercator(position);
+            const newPos = OlHelper.getMercator(position);
             const olPoint = (feature.getGeometry() as OlPoint);
             if (!olPoint) {
                 feature.setGeometry(new OlPoint(newPos));
@@ -83,7 +83,7 @@ export abstract class OlComponentBase {
         if (!positionList) {
             this.hideFeature(feature);
         }
-        const newPosList = positionList ? positionList.map((pos) => OlBaseMapService.getMercator(pos)) : undefined;
+        const newPosList = positionList ? positionList.map((pos) => OlHelper.getMercator(pos)) : undefined;
         const olLine = (feature.getGeometry() as LineString);
         if (!olLine) {
             feature.setGeometry(new LineString(newPosList));
@@ -97,7 +97,7 @@ export abstract class OlComponentBase {
         if (!polygon) {
             this.hideFeature(feature);
         }
-        const newPolygon = polygon ? polygon.positions.map(pos => OlBaseMapService.getMercator(pos)) : undefined;
+        const newPolygon = polygon ? polygon.positions.map(pos => OlHelper.getMercator(pos)) : undefined;
         const olPolygon = (feature.getGeometry() as OlPoly);
         if (!olPolygon) {
             feature.setGeometry(new OlPoly([newPolygon]));
@@ -112,7 +112,7 @@ export abstract class OlComponentBase {
             this.hideFeature(feature);
         }
         const newPolygon = multiPolygon ? multiPolygon.polygons.map(poly => {
-            return poly.positions.map(pos => OlBaseMapService.getMercator(pos));
+            return poly.positions.map(pos => OlHelper.getMercator(pos));
         }) : undefined;
         const olPolygon = (feature.getGeometry() as OlPoly);
         if (!olPolygon) {
