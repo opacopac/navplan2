@@ -1,6 +1,6 @@
 import {Feature, Map, MapBrowserEvent, MapEvent, View} from 'ol';
 import {EventEmitter, Injectable} from '@angular/core';
-import {MapbaselayerType, OlBaselayerFactory} from '../ol-model/ol-baselayer-factory';
+import {OlBaselayerFactory} from '../ol-model/ol-baselayer-factory';
 import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
@@ -17,6 +17,7 @@ import {Layer} from 'ol/layer';
 import {Pixel} from 'ol/pixel';
 import {BaseMapService} from '../domain-service/base-map.service';
 import {fromLonLat, toLonLat} from 'ol/proj';
+import {MapBaseLayerType} from '../domain-model/map-base-layer-type';
 
 
 const HIT_TOLERANCE_PIXELS = 10;
@@ -65,7 +66,7 @@ export class OlBaseMapService implements BaseMapService {
     // region init / uninit
 
     public initMap(
-        baseMapType: MapbaselayerType,
+        baseMapType: MapBaseLayerType,
         customLayers: VectorLayer[],
         position: Position2d,
         zoom: number,

@@ -1,8 +1,8 @@
 import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
 import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
-import {MapbaselayerType} from '../ol-model/ol-baselayer-factory';
 import {MapOverlayState} from './map-overlay-state';
+import {MapBaseLayerType} from './map-base-layer-type';
 
 
 export interface BaseMapState {
@@ -10,6 +10,6 @@ export interface BaseMapState {
     zoom: number;
     rotation: Angle;
     extent: Extent2d;
-    baseMapType: MapbaselayerType;
+    baseMapType: MapBaseLayerType;
     showOverlay: MapOverlayState;
 }

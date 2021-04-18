@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {MessageService} from '../../../message/domain-service/message.service';
-import {MapbaselayerType} from '../../../base-map/ol-model/ol-baselayer-factory';
+import {MapBaseLayerType} from '../../../base-map/domain-model/map-base-layer-type';
 
 
 @Component({
@@ -11,7 +11,7 @@ import {MapbaselayerType} from '../../../base-map/ol-model/ol-baselayer-factory'
 })
 export class SettingsPageComponent implements OnInit {
     settingsForm: FormGroup;
-    MapbaselayerType: typeof MapbaselayerType = MapbaselayerType;
+    MapbaselayerType: typeof MapBaseLayerType = MapBaseLayerType;
 
     constructor(private messageService: MessageService) {
     }

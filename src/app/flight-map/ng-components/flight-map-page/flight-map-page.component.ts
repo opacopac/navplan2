@@ -3,7 +3,6 @@ import {select, Store} from '@ngrx/store';
 import {BaseMapZoomInAction, BaseMapZoomOutAction} from '../../../base-map/ngrx/base-map.actions';
 import {OlOverlayContainerComponent} from '../ol-overlay-container/ol-overlay-container.component';
 import {OlBaseMapService} from '../../../base-map/ol-service/ol-base-map.service';
-import {MapbaselayerType} from '../../../base-map/ol-model/ol-baselayer-factory';
 import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import {Angle} from '../../../common/geo-math/domain-model/quantities/angle';
 import {combineLatest} from 'rxjs';
@@ -23,6 +22,7 @@ import {OlTrafficContainer} from '../../../traffic/ol-components/ol-traffic-cont
 import {getTrafficState} from '../../../traffic/ngrx/traffic.selectors';
 import {OlOwnPlaneContainer} from '../../../location/ol-components/ol-own-plane-container';
 import {getLocationState} from '../../../location/location.selectors';
+import {MapBaseLayerType} from '../../../base-map/domain-model/map-base-layer-type';
 
 
 @Component({
@@ -92,7 +92,7 @@ export class FlightMapPageComponent implements OnInit, OnDestroy {
         const trafficLayer = OlBaseMapService.createEmptyVectorLayer(false);
 
         this.mapService.initMap(
-            MapbaselayerType.OPENTOPOMAP,
+            MapBaseLayerType.OPENTOPOMAP,
             [
                 flightrouteLayer,
                 ownPlaneLayer,

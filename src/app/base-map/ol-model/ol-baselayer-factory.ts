@@ -3,28 +3,21 @@ import {Opentopobaselayer} from './opentopobaselayer';
 import {Mapboxbaselayer} from './mapboxbaselayer';
 import {Mapzenbaselayer} from './mapzenbaselayer';
 import TileLayer from 'ol/layer/Tile';
-
-
-export enum MapbaselayerType {
-    OPENTOPOMAP,
-    MAPZEN,
-    MAPBOX,
-    OSM
-}
+import {MapBaseLayerType} from '../domain-model/map-base-layer-type';
 
 
 export class OlBaselayerFactory {
-    public static create(layer: MapbaselayerType): TileLayer {
+    public static create(layer: MapBaseLayerType): TileLayer {
         const attributions = OlBaselayerFactory.getAttributions();
 
         switch (layer) {
-            case MapbaselayerType.OSM:
+            case MapBaseLayerType.OSM:
                 return Osmbaselayer.createBaseLayer(attributions);
-            case MapbaselayerType.MAPBOX:
+            case MapBaseLayerType.MAPBOX:
                 return Mapboxbaselayer.createBaseLayer(attributions);
-            case MapbaselayerType.MAPZEN:
+            case MapBaseLayerType.MAPZEN:
                 return Mapzenbaselayer.createBaseLayer(attributions);
-            case MapbaselayerType.OPENTOPOMAP:
+            case MapBaseLayerType.OPENTOPOMAP:
             default:
                 return Opentopobaselayer.createBaseLayer(attributions);
         }

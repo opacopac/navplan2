@@ -3,7 +3,7 @@ import {BaseMapState} from '../domain-model/base-map-state';
 import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
 import {BaseMapActions, BaseMapActionTypes} from './base-map.actions';
 import {AngleUnit} from '../../common/geo-math/domain-model/quantities/units';
-import {MapbaselayerType} from '../ol-model/ol-baselayer-factory';
+import {MapBaseLayerType} from '../domain-model/map-base-layer-type';
 
 
 const initialState: BaseMapState = {
@@ -11,7 +11,7 @@ const initialState: BaseMapState = {
     zoom: 11,
     rotation: new Angle(0, AngleUnit.RAD),
     extent: undefined,
-    baseMapType: MapbaselayerType.OPENTOPOMAP,
+    baseMapType: MapBaseLayerType.OPENTOPOMAP,
     showOverlay: { dataItem: undefined, clickPos: undefined },
 };
 

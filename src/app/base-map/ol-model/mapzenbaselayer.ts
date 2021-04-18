@@ -1,6 +1,7 @@
 import TileLayer from 'ol/layer/Tile';
 import XYZ from 'ol/source/XYZ';
 
+
 const MIN_ZOOM = 0;
 const MAX_ZOOM = 17;
 const BASE_URL = 'https://tile.mapzen.com/mapzen/terrain/v1/normal/';
@@ -10,7 +11,7 @@ const API_KEY = 'mapzen-ECzH36f';
 export class Mapzenbaselayer {
 
     public static createBaseLayer(attributions: string[]): TileLayer {
-        const layer = new TileLayer({
+        return new TileLayer({
             source: new XYZ({
                 tileUrlFunction: Mapzenbaselayer.getTileUrl,
                 minZoom: MIN_ZOOM,
@@ -19,8 +20,6 @@ export class Mapzenbaselayer {
                 attributions: attributions
             })
         });
-
-        return layer;
     }
 
 
