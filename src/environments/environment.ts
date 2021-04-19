@@ -16,7 +16,7 @@ export const environment = {
     trafficAdsbexServiceUrl: REST_SERVICE_BASE_URL + 'php/Navplan/Traffic/RestService/TrafficService.php?action=readadsbextraffic',
     trafficOgnServiceUrl: REST_SERVICE_BASE_URL + 'php/Navplan/Traffic/RestService/TrafficService.php?action=readogntraffic',
     trafficDetailServiceUrl: REST_SERVICE_BASE_URL + 'php/Navplan/Traffic/RestService/TrafficService.php',
-    userServiceUrl: REST_SERVICE_BASE_URL + 'php/Navplan/User/RestService/RestUserService.php',
+    userServiceUrl: REST_SERVICE_BASE_URL + 'php/Navplan/User/RestService/UserService.php',
     iconBaseUrl: './assets/icon/',
     mapOversizeFactor: 1.3
 };

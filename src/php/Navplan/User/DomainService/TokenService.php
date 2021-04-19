@@ -29,7 +29,7 @@ class TokenService implements ITokenService {
         $validDays = $rememberMe ? self::JWT_LONG_EXP_TIME_DAYS : self::JWT_SHORT_EXP_TIME_DAYS;
         $expiration = time() + $validDays * 24 * 3600;
 
-        return Token::getToken($email, $this->jwt_secret, $expiration . "", $this->jwt_issuer);
+        return Token::create($email, $this->jwt_secret, $expiration, $this->jwt_issuer);
     }
 
 
@@ -47,7 +47,7 @@ class TokenService implements ITokenService {
             return NULL;
         }
 
-        $payload = json_decode(Token::getPayload($token));
+        $payload = Token::getPayload($token, $this->jwt_secret);
         return $payload->user_id;
     }
 }
