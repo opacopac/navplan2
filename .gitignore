@@ -69,3 +69,4 @@ navplan2.iml
 /src/php/Navplan/MeteoDwd/asdf.php
 /.phpunit.result.cache
 /.browserslistrc
+/src/tmp/

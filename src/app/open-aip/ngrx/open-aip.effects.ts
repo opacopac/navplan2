@@ -11,7 +11,7 @@ import {
     ReadOpenAipItemsSuccessAction
 } from './open-aip.actions';
 import {getOpenAipState} from './open-aip.selectors';
-import {OpenAipService} from '../domain-service/open-aip-service2.service';
+import {OpenAipService} from '../domain-service/open-aip-service';
 import {MessageService} from '../../message/domain-service/message.service';
 
 

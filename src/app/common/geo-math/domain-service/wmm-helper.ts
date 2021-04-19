@@ -4,6 +4,7 @@ import {AngleUnit} from '../domain-model/quantities/units';
 import {WorldMagneticModel} from '../domain-model/world-magnetic-model/WorldMagneticModel';
 import {DatetimeHelper} from '../../../system/domain-service/datetime/datetime-helper';
 
+
 export class WmmHelper {
     private static wmm = new WorldMagneticModel();
 

@@ -9,7 +9,7 @@ import {OpenAipEffects} from './ngrx/open-aip.effects';
 import {OpenAipActions} from './ngrx/open-aip.actions';
 import {OpenAipState} from './domain-model/open-aip-state';
 import {BaseMapModule} from '../base-map/base-map.module';
-import {OpenAipService} from './domain-service/open-aip-service2.service';
+import {OpenAipService} from './domain-service/open-aip-service';
 
 
 @NgModule({

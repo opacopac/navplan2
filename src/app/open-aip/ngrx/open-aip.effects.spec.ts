@@ -2,7 +2,7 @@ import {Actions} from '@ngrx/effects';
 import {of, throwError} from 'rxjs';
 import {MessageService} from '../../message/domain-service/message.service';
 import {OpenAipEffects} from './open-aip.effects';
-import {OpenAipService} from '../domain-service/open-aip-service2.service';
+import {OpenAipService} from '../domain-service/open-aip-service';
 import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 import {ReadOpenAipItemsAction, ReadOpenAipItemsErrorAction, ReadOpenAipItemsSuccessAction} from './open-aip.actions';
 import {ReadOpenAipItemsByExtentResult} from '../domain-model/read-open-aip-items-by-extent-result';
