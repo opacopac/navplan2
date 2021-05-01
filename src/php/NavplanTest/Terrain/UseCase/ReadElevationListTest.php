@@ -3,8 +3,6 @@
 namespace NavplanTest\Terrain\UseCase;
 
 use Navplan\Geometry\DomainModel\Altitude;
-use Navplan\Geometry\DomainModel\AltitudeReference;
-use Navplan\Geometry\DomainModel\AltitudeUnit;
 use Navplan\Geometry\DomainModel\Position2d;
 use Navplan\Terrain\UseCase\ReadElevationList\ReadElevationListUc;
 use NavplanTest\MockNavplanDiContainer;
@@ -41,7 +39,7 @@ class ReadElevationListTest extends TestCase {
 
     public function test_get_single_point() {
         $posList = [ new Position2d(7.0, 47.0) ];
-        $alt = new Altitude(500, AltitudeUnit::M, AltitudeReference::MSL);
+        $alt = Altitude::fromMtAmsl(500);
         $this->repoMock->altitudeResult = $alt;
 
         $pos3dList = $this->getElevationList->read($posList);
@@ -59,7 +57,7 @@ class ReadElevationListTest extends TestCase {
             new Position2d(7.0000, 47.0000),
             new Position2d(7.0001, 47.0001),
         ];
-        $alt = new Altitude(500, AltitudeUnit::M, AltitudeReference::MSL);
+        $alt = Altitude::fromMtAmsl(500);
         $this->repoMock->altitudeResult = $alt;
 
         $pos3dList = $this->getElevationList->read($posList);
@@ -81,7 +79,7 @@ class ReadElevationListTest extends TestCase {
             new Position2d(7.0001, 47.0001),
             new Position2d(7.0001, 47.0000),
         ];
-        $alt = new Altitude(500, AltitudeUnit::M, AltitudeReference::MSL);
+        $alt = Altitude::fromMtAmsl(500);
         $this->repoMock->altitudeResult = $alt;
 
         $pos3dList = $this->getElevationList->read($posList);
@@ -107,7 +105,7 @@ class ReadElevationListTest extends TestCase {
             new Position2d(7.0001, 47.0000),
             new Position2d(7.0000, 47.0001),
         ];
-        $alt = new Altitude(500, AltitudeUnit::M, AltitudeReference::MSL);
+        $alt = Altitude::fromMtAmsl(500);
         $this->repoMock->altitudeResult = $alt;
 
         $pos3dList = $this->getElevationList->read($posList);
@@ -134,7 +132,7 @@ class ReadElevationListTest extends TestCase {
             new Position2d(7.0000, 47.0000),
             new Position2d(7.0000, 47.0010),
         ]; // about 111.2m
-        $alt = new Altitude(500, AltitudeUnit::M, AltitudeReference::MSL);
+        $alt = Altitude::fromMtAmsl(500);
         $this->repoMock->altitudeResult = $alt;
 
         $pos3dList = $this->getElevationList->read($posList);
@@ -162,7 +160,7 @@ class ReadElevationListTest extends TestCase {
             new Position2d(37.0, 77.0),
             new Position2d(47.0, 87.0)
         ];
-        $alt = new Altitude(500, AltitudeUnit::M, AltitudeReference::MSL);
+        $alt = Altitude::fromMtAmsl(500);
         $this->repoMock->altitudeResult = $alt;
 
         $pos3dList = $this->getElevationList->read($posList);

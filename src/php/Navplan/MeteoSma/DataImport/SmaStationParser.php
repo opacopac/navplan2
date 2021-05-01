@@ -3,8 +3,6 @@
 namespace Navplan\MeteoSma\DataImport;
 
 use Navplan\Geometry\DomainModel\Altitude;
-use Navplan\Geometry\DomainModel\AltitudeReference;
-use Navplan\Geometry\DomainModel\AltitudeUnit;
 use Navplan\Geometry\DomainModel\Position2d;
 use Navplan\MeteoSma\DomainModel\SmaStation;
 use SwissTopo\SwissTopoWrapper;
@@ -34,6 +32,6 @@ class SmaStationParser {
     private static function parseAltitude(string $alt_m): Altitude {
         $altValue = round(floatval($alt_m), 1);
 
-        return new Altitude($altValue, AltitudeUnit::M, AltitudeReference::MSL);
+        return Altitude::fromMtAmsl($altValue);
     }
 }

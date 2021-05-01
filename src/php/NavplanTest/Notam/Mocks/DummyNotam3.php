@@ -3,8 +3,6 @@
 namespace NavplanTest\Notam\Mocks;
 
 use Navplan\Geometry\DomainModel\Altitude;
-use Navplan\Geometry\DomainModel\AltitudeReference;
-use Navplan\Geometry\DomainModel\AltitudeUnit;
 use Navplan\Geometry\DomainModel\Ring2d;
 use Navplan\Notam\DomainModel\Notam;
 use Navplan\Notam\DomainModel\NotamGeometry;
@@ -37,8 +35,8 @@ class DummyNotam3
             "airspace",
             new NotamGeometry(
                 Ring2d::createFromArray([[28.231586,-26.128897],[28.231642,-26.128453],[28.230906,-26.128975]]),
-                new Altitude(0, AltitudeUnit::FL, AltitudeReference::STD),
-                new Altitude(130, AltitudeUnit::FL, AltitudeReference::STD)
+                Altitude::fromFl(0),
+                Altitude::fromFl(130)
             )
         );
     }

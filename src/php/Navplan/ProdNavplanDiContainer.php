@@ -71,13 +71,16 @@ use Navplan\Search\UseCase\SearchByPosition\ISearchByPositionUc;
 use Navplan\Search\UseCase\SearchByPosition\SearchByPositionUc;
 use Navplan\Search\UseCase\SearchByText\ISearchByTextUc;
 use Navplan\Search\UseCase\SearchByText\SearchByTextUc;
+use Navplan\System\DomainModel\LogLevel;
 use Navplan\System\DomainService\IFileService;
 use Navplan\System\DomainService\IHttpService;
+use Navplan\System\DomainService\ILoggingService;
 use Navplan\System\DomainService\IMailService;
 use Navplan\System\DomainService\IProcService;
 use Navplan\System\DomainService\ISystemServiceFactory;
 use Navplan\System\DomainService\ITimeService;
 use Navplan\System\Posix\ISystemDiContainer;
+use Navplan\System\Posix\LoggingService;
 use Navplan\System\Posix\SystemServiceFactory;
 use Navplan\Terrain\DomainService\ITerrainRepo;
 use Navplan\Terrain\FileRepo\FileTerrainRepo;
@@ -86,11 +89,13 @@ use Navplan\Terrain\UseCase\ReadElevation\IReadElevationUc;
 use Navplan\Terrain\UseCase\ReadElevation\ReadElevationUc;
 use Navplan\Terrain\UseCase\ReadElevationList\IReadElevationListUc;
 use Navplan\Terrain\UseCase\ReadElevationList\ReadElevationListUc;
-use Navplan\Traffic\AdsbexRepo\AdsbexRepo;
-use Navplan\Traffic\DomainService\IAdsbexRepo;
-use Navplan\Traffic\DomainService\IOgnRepo;
+use Navplan\Traffic\AdsbexService\AdsbexService;
+use Navplan\Traffic\DomainService\IAdsbexService;
+use Navplan\Traffic\DomainService\IOgnService;
 use Navplan\Traffic\DomainService\ITrafficDetailRepo;
-use Navplan\Traffic\OgnRepo\OgnRepo;
+use Navplan\Traffic\OgnListenerService\IOgnListenerRepo;
+use Navplan\Traffic\OgnListenerService\OgnListenerRepo;
+use Navplan\Traffic\OgnService\OgnService;
 use Navplan\Traffic\RestService\ITrafficServiceDiContainer;
 use Navplan\Traffic\TrafficDetailRepo\DbTrafficDetailRepo;
 use Navplan\Traffic\UseCase\ReadAdsbexTraffic\IReadAdsbexTrafficUc;
@@ -129,6 +134,11 @@ use Navplan\User\UseCase\UpdatePw\UpdatePwUc;
 class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFlightrouteServiceDiContainer, IGeonameServiceDiContainer,
     IMeteoServiceDiContainer, INotamServiceDiContainer, IOpenAipServiceDiContainer, ISearchServiceDiContainer, ITerrainDiContainer,
     ITrafficServiceDiContainer, IUserServiceDiContainer {
+    // const
+    private const LOG_LEVEL = LogLevel::DEBUG;
+    private const LOG_DIR = __DIR__ . "/../../logs/";
+    private const LOG_FILE = self::LOG_DIR . "navplan.log";
+    private const LOG_FILE_OGN_LISTENER = self::LOG_DIR . "ogn_listener.log";
     // system
     private ISystemServiceFactory $systemServiceFactory;
     private IHttpService $httpService;
@@ -136,6 +146,8 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     private IMailService $mailService;
     private ITimeService $timeService;
     private IProcService $procService;
+    private ILoggingService $screenLogger;
+    private ILoggingService $fileLogger;
     // db
     private IDbService $dbService;
     // flightroute
@@ -178,8 +190,9 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     private IReadElevationUc $readElevationUc;
     private IReadElevationListUc $readElevationListUc;
     // traffic
-    private IAdsbexRepo $adsbexRepo;
-    private IOgnRepo $ognRepo;
+    private IAdsbexService $adsbexRepo;
+    private IOgnService $ognRepo;
+    private IOgnListenerRepo $ognListenerRepo;
     private ITrafficDetailRepo $trafficDetailsRepo;
     private IReadAdsbexTrafficUc $readAdsbexTrafficUc;
     private IReadAdsbexTrafficWithDetailsUc $readAdsbexTrafficWithDetailsUc;
@@ -263,6 +276,32 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
         }
 
         return $this->procService;
+    }
+
+
+    public function getScreenLogger(): ILoggingService {
+        if (!isset($this->screenLogger)) {
+            $this->screenLogger = new LoggingService(
+                $this->getTimeService(),
+                self::LOG_LEVEL,
+                null
+            );
+        }
+
+        return $this->screenLogger;
+    }
+
+
+    public function getFileLogger(): ILoggingService {
+        if (!isset($this->fileLogger)) {
+            $this->fileLogger = new LoggingService(
+                $this->getTimeService(),
+                self::LOG_LEVEL,
+                self::LOG_FILE
+            );
+        }
+
+        return $this->fileLogger;
     }
 
     // endregion
@@ -663,25 +702,42 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
 
     // region traffic
 
-    public function getAdsbexRepo(): IAdsbexRepo {
+    public function getAdsbexRepo(): IAdsbexService {
         if (!isset($this->adsbexRepo)) {
-            $this->adsbexRepo = new AdsbexRepo($this->getFileService());
+            $this->adsbexRepo = new AdsbexService($this->getFileService());
         }
 
         return $this->adsbexRepo;
     }
 
 
-    public function getOgnRepo(): IOgnRepo {
+    public function getOgnRepo(): IOgnService {
         if (!isset($this->ognRepo)) {
-            $this->ognRepo = new OgnRepo(
+            /*$this->ognRepo = new OgnRepo(
                 $this->getFileService(),
                 $this->getProcService(),
                 $this->getTimeService()
+            );*/
+            $this->ognRepo = new OgnService(
+                $this->getOgnListenerRepo(),
+                $this->getProcService(),
+                $this->getFileLogger()
             );
         }
 
         return $this->ognRepo;
+    }
+
+
+    public function getOgnListenerRepo(): IOgnListenerRepo {
+        if (!isset($this->ognListenerRepo)) {
+            $this->ognListenerRepo = new OgnListenerRepo(
+                $this->getDbService(),
+                $this->getTimeService()
+            );
+        }
+
+        return $this->ognListenerRepo;
     }
 
 

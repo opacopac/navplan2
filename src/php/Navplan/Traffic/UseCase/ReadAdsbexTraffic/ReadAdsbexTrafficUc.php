@@ -4,11 +4,11 @@ namespace Navplan\Traffic\UseCase\ReadAdsbexTraffic;
 
 use Navplan\Shared\GeoHelper;
 use Navplan\Traffic\DomainModel\TrafficAdsbexReadRequest;
-use Navplan\Traffic\DomainService\IAdsbexRepo;
+use Navplan\Traffic\DomainService\IAdsbexService;
 
 
 class ReadAdsbexTrafficUc implements IReadAdsbexTrafficUc {
-    public function __construct(private IAdsbexRepo $adsbexRepo) {
+    public function __construct(private IAdsbexService $adsbexRepo) {
     }
 
 

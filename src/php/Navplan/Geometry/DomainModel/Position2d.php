@@ -40,4 +40,9 @@ class Position2d implements IGeometry2d {
     public function toArray(): array {
         return [$this->longitude, $this->latitude];
     }
+
+
+    public function equals(Position2d $position): bool {
+        return $this->longitude === $position->longitude && $this->latitude === $position->latitude;
+    }
 }

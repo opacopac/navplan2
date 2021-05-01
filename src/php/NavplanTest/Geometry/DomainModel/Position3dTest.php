@@ -3,15 +3,13 @@
 namespace NavplanTest\Geometry\DomainModel;
 
 use Navplan\Geometry\DomainModel\Altitude;
-use Navplan\Geometry\DomainModel\AltitudeReference;
-use Navplan\Geometry\DomainModel\AltitudeUnit;
 use Navplan\Geometry\DomainModel\Position3d;
 use PHPUnit\Framework\TestCase;
 
 
 class Position3dTest extends TestCase {
     public function test__construct() {
-        $alt = new Altitude(1500, AltitudeUnit::FT, AltitudeReference::MSL);
+        $alt = Altitude::fromFtAmsl(1500);
 
         $pos = new Position3d(7.0, 47.0, $alt);
 

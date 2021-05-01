@@ -5,7 +5,7 @@ namespace NavplanTest\Traffic\AdsbexRepo;
 use Navplan\Geometry\DomainModel\Length;
 use Navplan\Geometry\DomainModel\LengthUnit;
 use Navplan\Geometry\DomainModel\Position2d;
-use Navplan\Traffic\AdsbexRepo\AdsbexRepo;
+use Navplan\Traffic\AdsbexService\AdsbexService;
 use NavplanTest\System\Mock\MockFileService;
 use NavplanTest\Traffic\Mocks\DummyAdsbexResponse123;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTraffic1;
@@ -16,12 +16,12 @@ use PHPUnit\Framework\TestCase;
 
 class AdsbexRepoTest extends TestCase {
     private MockFileService $fileService;
-    private AdsbexRepo $adsbGateway;
+    private AdsbexService $adsbGateway;
 
 
     protected function setUp(): void {
         $this->fileService = new MockFileService();
-        $this->adsbGateway = new AdsbexRepo($this->fileService);
+        $this->adsbGateway = new AdsbexService($this->fileService);
     }
 
 

@@ -3,8 +3,6 @@
 namespace NavplanTest\Traffic\Mocks;
 
 use Navplan\Geometry\DomainModel\Altitude;
-use Navplan\Geometry\DomainModel\AltitudeReference;
-use Navplan\Geometry\DomainModel\AltitudeUnit;
 use Navplan\Geometry\DomainModel\Position4d;
 use Navplan\Geometry\DomainModel\Timestamp;
 use Navplan\Traffic\DomainModel\TrafficPosition;
@@ -17,7 +15,7 @@ class DummyOgnTrafficPosition1 {
             new Position4d(
                 8.303566666666667,
                 47.06271666666667,
-                new Altitude(792.794440380395, AltitudeUnit::M, AltitudeReference::MSL),
+                Altitude::fromMtAmsl(792.794440380395),
                 Timestamp::fromMs(1560075378000)
             ),
             TrafficPositionMethod::FLARM,

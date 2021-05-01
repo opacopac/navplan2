@@ -3,8 +3,6 @@
 namespace Navplan\Terrain\FileRepo;
 
 use Navplan\Geometry\DomainModel\Altitude;
-use Navplan\Geometry\DomainModel\AltitudeReference;
-use Navplan\Geometry\DomainModel\AltitudeUnit;
 use Navplan\Geometry\DomainModel\Position3d;
 use Navplan\System\DomainModel\IFile;
 use Navplan\System\DomainService\IFileService;
@@ -79,7 +77,7 @@ class FileTerrainRepo implements ITerrainRepo {
                 return new Position3d(
                     $terrainPos->position2d->longitude,
                     $terrainPos->position2d->latitude,
-                    new Altitude($terrainPos->elevationM, AltitudeUnit::M, AltitudeReference::MSL)
+                    Altitude::fromMtAmsl($terrainPos->elevationM)
                 );
             },
             $terrainPosFullList

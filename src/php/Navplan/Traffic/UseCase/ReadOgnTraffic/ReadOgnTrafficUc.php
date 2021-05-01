@@ -5,20 +5,20 @@ namespace Navplan\Traffic\UseCase\ReadOgnTraffic;
 use Navplan\Traffic\DomainModel\TrafficOgn;
 use Navplan\Traffic\DomainModel\TrafficOgnReadRequest;
 use Navplan\Traffic\DomainModel\TrafficPosition;
-use Navplan\Traffic\DomainService\IOgnRepo;
+use Navplan\Traffic\DomainService\IOgnService;
 
 
 class ReadOgnTrafficUc implements IReadOgnTrafficUc {
-    public function __construct(private IOgnRepo $ognRepo) {
+    public function __construct(private IOgnService $ognRepo) {
     }
 
 
     public function read(TrafficOgnReadRequest $request): array {
-        $this->ognRepo->setFilter($request->sessionId, $request->extent);
-
-        if (!$this->ognRepo->isListenerRunning($request->sessionId)) {
-            $this->ognRepo->startListener($request->sessionId);
-        }
+        $this->ognRepo->setFilter(
+            $request->sessionId,
+            $request->extent,
+            $request->maxAge
+        );
 
         $trafficList = $this->ognRepo->readTraffic($request->sessionId);
         $trafficList = $this->groupByAcAddress($trafficList);

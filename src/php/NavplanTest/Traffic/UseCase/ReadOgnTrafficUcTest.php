@@ -15,12 +15,12 @@ use NavplanTest\Traffic\Mocks\DummyOgnTraffic4;
 use NavplanTest\Traffic\Mocks\DummyOgnTraffic5;
 use NavplanTest\Traffic\Mocks\DummyOgnTrafficPosition1;
 use NavplanTest\Traffic\Mocks\DummyOgnTrafficPosition5;
-use NavplanTest\Traffic\Mocks\MockOgnRepo;
+use NavplanTest\Traffic\Mocks\MockOgnService;
 use PHPUnit\Framework\TestCase;
 
 
 class ReadOgnTrafficUcTest extends TestCase {
-    private MockOgnRepo $ognGateway;
+    private MockOgnService $ognGateway;
     private ReadOgnTrafficUc $readOgnTraffic;
 
 

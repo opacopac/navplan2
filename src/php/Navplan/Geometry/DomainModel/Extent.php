@@ -42,4 +42,9 @@ class Extent {
 
         return true;
     }
+
+
+    public function equals(Extent $extent): bool {
+        return $this->minPos->equals($extent->minPos) && $this->maxPos->equals($extent->maxPos);
+    }
 }

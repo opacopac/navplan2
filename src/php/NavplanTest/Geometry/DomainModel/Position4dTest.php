@@ -3,8 +3,6 @@
 namespace NavplanTest\Geometry\DomainModel;
 
 use Navplan\Geometry\DomainModel\Altitude;
-use Navplan\Geometry\DomainModel\AltitudeReference;
-use Navplan\Geometry\DomainModel\AltitudeUnit;
 use Navplan\Geometry\DomainModel\Position4d;
 use Navplan\Geometry\DomainModel\Timestamp;
 use PHPUnit\Framework\TestCase;
@@ -12,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class Position4dTest extends TestCase {
     public function test__construct() {
-        $alt = new Altitude(1500, AltitudeUnit::FT, AltitudeReference::MSL);
+        $alt = Altitude::fromFtAmsl(1500);
         $timestamp = Timestamp::fromMs(1560000429704);
 
         $pos = new Position4d(7.0, 47.0, $alt, $timestamp);

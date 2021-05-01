@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Traffic\AdsbexRepo;
 
-use Navplan\Traffic\AdsbexRepo\AdsbexRepoTrafficPositionConverter;
+use Navplan\Traffic\AdsbexModel\AdsbexTrafficPositionConverter;
 use NavplanTest\Traffic\Mocks\DummyAdsbexResponse123;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTrafficPosition1;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTrafficPosition2;
@@ -12,9 +12,9 @@ use PHPUnit\Framework\TestCase;
 
 class AdsbexRepoTrafficPositionTest extends TestCase {
     public function test_fromResponse() {
-        $pos1 = AdsbexRepoTrafficPositionConverter::fromResponse(json_decode(DummyAdsbexResponse123::createAdsbexResponse(), true), 0);
-        $pos2 = AdsbexRepoTrafficPositionConverter::fromResponse(json_decode(DummyAdsbexResponse123::createAdsbexResponse(), true), 1);
-        $pos3 = AdsbexRepoTrafficPositionConverter::fromResponse(json_decode(DummyAdsbexResponse123::createAdsbexResponse(), true), 2);
+        $pos1 = AdsbexTrafficPositionConverter::fromResponse(json_decode(DummyAdsbexResponse123::createAdsbexResponse(), true), 0);
+        $pos2 = AdsbexTrafficPositionConverter::fromResponse(json_decode(DummyAdsbexResponse123::createAdsbexResponse(), true), 1);
+        $pos3 = AdsbexTrafficPositionConverter::fromResponse(json_decode(DummyAdsbexResponse123::createAdsbexResponse(), true), 2);
 
         $this->assertNotNull($pos1);
         $this->assertEquals($pos1, DummyAdsbexTrafficPosition1::create());

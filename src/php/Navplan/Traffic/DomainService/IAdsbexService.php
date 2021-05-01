@@ -6,6 +6,6 @@ use Navplan\Geometry\DomainModel\Length;
 use Navplan\Geometry\DomainModel\Position2d;
 
 
-interface IAdsbexRepo {
+interface IAdsbexService {
     public function readTraffic(Position2d $position, Length $radius): array;
 }

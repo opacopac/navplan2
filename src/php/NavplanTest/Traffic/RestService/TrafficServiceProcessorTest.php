@@ -13,16 +13,16 @@ use NavplanTest\Traffic\Mocks\DummyIcaoAcTypeTrafficDetail1;
 use NavplanTest\Traffic\Mocks\DummyLfrchTrafficDetail1;
 use NavplanTest\Traffic\Mocks\DummyOgnTraffic1;
 use NavplanTest\Traffic\Mocks\DummyTrafficDetailResult1;
-use NavplanTest\Traffic\Mocks\MockAdsbexRepo;
-use NavplanTest\Traffic\Mocks\MockOgnRepo;
+use NavplanTest\Traffic\Mocks\MockAdsbexService;
+use NavplanTest\Traffic\Mocks\MockOgnService;
 use NavplanTest\Traffic\Mocks\MockTrafficDetailRepo;
 use PHPUnit\Framework\TestCase;
 
 
 class TrafficServiceProcessorTest extends TestCase {
     private MockNavplanDiContainer $config;
-    private MockOgnRepo $ognGateway;
-    private MockAdsbexRepo $adsbexGateway;
+    private MockOgnService $ognGateway;
+    private MockAdsbexService $adsbexGateway;
     private MockTrafficDetailRepo $trafficRepo;
     private MockHttpService $httpService;
 

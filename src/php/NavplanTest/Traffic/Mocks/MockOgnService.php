@@ -3,10 +3,11 @@
 namespace NavplanTest\Traffic\Mocks;
 
 use Navplan\Geometry\DomainModel\Extent;
-use Navplan\Traffic\DomainService\IOgnRepo;
+use Navplan\Geometry\DomainModel\Time;
+use Navplan\Traffic\DomainService\IOgnService;
 
 
-class MockOgnRepo implements IOgnRepo {
+class MockOgnService implements IOgnService {
     public array $setFilterArgs;
     public bool $isListenerRunningResult;
     public array $isListenerRunningArgs;
@@ -19,8 +20,8 @@ class MockOgnRepo implements IOgnRepo {
     }
 
 
-    public function setFilter(int $sessionId, Extent $extent) {
-        $this->setFilterArgs = [$sessionId, $extent];
+    public function setFilter(int $sessionId, Extent $extent, Time $maxAge) {
+        $this->setFilterArgs = [$sessionId, $extent, $maxAge];
     }
 
 

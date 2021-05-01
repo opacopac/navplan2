@@ -3,8 +3,6 @@
 namespace NavplanTest\Terrain\UseCase;
 
 use Navplan\Geometry\DomainModel\Altitude;
-use Navplan\Geometry\DomainModel\AltitudeReference;
-use Navplan\Geometry\DomainModel\AltitudeUnit;
 use Navplan\Geometry\DomainModel\Position2d;
 use Navplan\Terrain\UseCase\ReadElevation\ReadElevationUc;
 use NavplanTest\MockNavplanDiContainer;
@@ -31,7 +29,7 @@ class ReadElevationTest extends TestCase {
 
     public function test_get() {
         $pos = new Position2d(7.0, 47.0);
-        $alt = new Altitude(500, AltitudeUnit::M, AltitudeReference::MSL);
+        $alt = Altitude::fromMtAmsl(500);
         $this->repoMock->altitudeResult = $alt;
 
         $elevation = $this->readElevationUc->read($pos);

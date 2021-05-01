@@ -3,8 +3,6 @@
 namespace NavplanTest\OpenAip\Mocks;
 
 use Navplan\Geometry\DomainModel\Altitude;
-use Navplan\Geometry\DomainModel\AltitudeReference;
-use Navplan\Geometry\DomainModel\AltitudeUnit;
 use Navplan\Geometry\DomainModel\Ring2d;
 use Navplan\OpenAip\DomainModel\Airspace;
 
@@ -17,8 +15,8 @@ class DummyAirspace1 {
             "CTR",
             "CH",
             "CTR Payerne (HX): 128.67",
-            new Altitude(0, AltitudeUnit::FT, AltitudeReference::GND),
-            new Altitude(100, AltitudeUnit::FL, AltitudeReference::STD),
+            Altitude::fromFtAgl(0),
+            Altitude::fromFl(100),
             Ring2d::createFromArray([
                 [6.9919444444444, 46.939444444444],
                 [7.0763888888889, 46.875833333333],

@@ -1,15 +1,16 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Traffic\AdsbexRepo;
+namespace Navplan\Traffic\AdsbexService;
 
 use Navplan\Geometry\DomainModel\Length;
 use Navplan\Geometry\DomainModel\LengthUnit;
 use Navplan\Geometry\DomainModel\Position2d;
 use Navplan\System\DomainService\IFileService;
-use Navplan\Traffic\DomainService\IAdsbexRepo;
+use Navplan\Traffic\AdsbexModel\AdsbexTrafficConverter;
+use Navplan\Traffic\DomainService\IAdsbexService;
 
 
-class AdsbexRepo implements IAdsbexRepo {
+class AdsbexService implements IAdsbexService {
     private const API_KEY = '5768a18d-4eaf-4fa5-8e7d-bf07db9307b1';
     private const ADSBEXCHANGE_BASE_URL = 'https://adsbexchange.com/api/aircraft/json/'; // lat/37.16611/lon/-119.44944/dist/10/';
 
@@ -52,7 +53,7 @@ class AdsbexRepo implements IAdsbexRepo {
 
         if (isset($responseJson["ac"])) {
             for ($i = 0; $i < count($responseJson["ac"]); $i++) {
-                $trafficList[] = AdsbexRepoTrafficConverter::fromResponse($responseJson, $i);
+                $trafficList[] = AdsbexTrafficConverter::fromResponse($responseJson, $i);
             }
         }
 

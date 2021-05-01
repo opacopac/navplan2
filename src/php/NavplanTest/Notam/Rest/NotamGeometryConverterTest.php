@@ -3,8 +3,6 @@
 namespace NavplanTest\Notam\RestModel;
 
 use Navplan\Geometry\DomainModel\Altitude;
-use Navplan\Geometry\DomainModel\AltitudeReference;
-use Navplan\Geometry\DomainModel\AltitudeUnit;
 use Navplan\Geometry\DomainModel\Circle2d;
 use Navplan\Geometry\DomainModel\Length;
 use Navplan\Geometry\DomainModel\LengthUnit;
@@ -35,8 +33,8 @@ class NotamGeometryConverterTest extends TestCase {
 
     public function test_toRest_circle() {
         $circle = new Circle2d(new Position2d(-22.883333,16.133333), new Length(9260, LengthUnit::NM));
-        $alt_bottom = new Altitude(0, AltitudeUnit::FT, AltitudeReference::GND);
-        $alt_top = new Altitude(4500, AltitudeUnit::FT, AltitudeReference::MSL);
+        $alt_bottom = Altitude::fromFtAgl(0);
+        $alt_top = Altitude::fromFtAmsl(4500);
         $notamGeometry = new NotamGeometry($circle, $alt_bottom, $alt_top);
         $rest = NotamGeometryConverter::toRest($notamGeometry);
 
@@ -59,7 +57,7 @@ class NotamGeometryConverterTest extends TestCase {
         $multipoly = new MultiRing2d([
             Ring2d::createFromString("7.1 47.1,7.9 47.9,8.1 48.1,7.1 47.1"),
             Ring2d::createFromString("4.1 44.1,4.9 44.9,5.1 45.1,4.1 44.1")]);
-        $alt_bottom = new Altitude(100, AltitudeUnit::FL, AltitudeReference::STD);
+        $alt_bottom = Altitude::fromFl(100);
         $notamGeometry = new NotamGeometry($multipoly, $alt_bottom, NULL);
         $rest = NotamGeometryConverter::toRest($notamGeometry);
 

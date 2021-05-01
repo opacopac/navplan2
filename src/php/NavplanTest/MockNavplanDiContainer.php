@@ -21,8 +21,8 @@ use Navplan\System\DomainService\IProcService;
 use Navplan\System\DomainService\ISystemServiceFactory;
 use Navplan\System\DomainService\ITimeService;
 use Navplan\Terrain\DomainService\ITerrainRepo;
-use Navplan\Traffic\DomainService\IAdsbexRepo;
-use Navplan\Traffic\DomainService\IOgnRepo;
+use Navplan\Traffic\DomainService\IAdsbexService;
+use Navplan\Traffic\DomainService\IOgnService;
 use Navplan\Traffic\DomainService\ITrafficDetailRepo;
 use Navplan\User\DomainService\IUserPointRepo;
 use Navplan\User\DomainService\IUserRepo;
@@ -44,8 +44,8 @@ use NavplanTest\System\Mock\MockProcService;
 use NavplanTest\System\Mock\MockSystemServiceFactory;
 use NavplanTest\System\Mock\MockTimeService;
 use NavplanTest\Terrain\Mocks\MockTerrainRepo;
-use NavplanTest\Traffic\Mocks\MockAdsbexRepo;
-use NavplanTest\Traffic\Mocks\MockOgnRepo;
+use NavplanTest\Traffic\Mocks\MockAdsbexService;
+use NavplanTest\Traffic\Mocks\MockOgnService;
 use NavplanTest\Traffic\Mocks\MockTrafficDetailRepo;
 use NavplanTest\User\Mocks\MockUserPointRepo;
 use NavplanTest\User\Mocks\MockUserRepo;
@@ -80,8 +80,8 @@ class MockNavplanDiContainer extends ProdNavplanDiContainer {
     // terrain
     public MockTerrainRepo $terrainRepo;
     // traffic
-    public MockAdsbexRepo $adsbexRepo;
-    public MockOgnRepo $ognRepo;
+    public MockAdsbexService $adsbexRepo;
+    public MockOgnService $ognRepo;
     public MockTrafficDetailRepo $trafficDetailRepo;
     // user
     public MockUserRepoFactory $userRepoFactory;
@@ -110,8 +110,8 @@ class MockNavplanDiContainer extends ProdNavplanDiContainer {
         $this->reportingPointRepo = $this->openAipRepoFactory->createReportingPointRepo();
         $this->webcamRepo = $this->openAipRepoFactory->createWebcamRepo();
         $this->terrainRepo = new MockTerrainRepo();
-        $this->adsbexRepo = new MockAdsbexRepo();
-        $this->ognRepo = new MockOgnRepo();
+        $this->adsbexRepo = new MockAdsbexService();
+        $this->ognRepo = new MockOgnService();
         $this->trafficDetailRepo = new MockTrafficDetailRepo();
         $this->userRepoFactory = new MockUserRepoFactory();
         $this->userRepo = $this->userRepoFactory->createUserRepo();
@@ -238,12 +238,12 @@ class MockNavplanDiContainer extends ProdNavplanDiContainer {
 
     // region traffic
 
-    public function getAdsbexRepo(): IAdsbexRepo {
+    public function getAdsbexRepo(): IAdsbexService {
         return $this->adsbexRepo;
     }
 
 
-    public function getOgnRepo(): IOgnRepo {
+    public function getOgnRepo(): IOgnService {
         return $this->ognRepo;
     }
 

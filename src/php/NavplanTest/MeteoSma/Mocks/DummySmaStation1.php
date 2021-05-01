@@ -3,8 +3,6 @@
 namespace NavplanTest\MeteoSma\Mocks;
 
 use Navplan\Geometry\DomainModel\Altitude;
-use Navplan\Geometry\DomainModel\AltitudeReference;
-use Navplan\Geometry\DomainModel\AltitudeUnit;
 use Navplan\Geometry\DomainModel\Position2d;
 use Navplan\MeteoSma\DomainModel\SmaStation;
 
@@ -15,7 +13,7 @@ class DummySmaStation1 {
             "BER",
             "Bern / Zollikofen",
             new Position2d(7.46406, 46.99075),
-            new Altitude(553, AltitudeUnit::M, AltitudeReference::MSL)
+            Altitude::fromMtAmsl(553)
         );
     }
 

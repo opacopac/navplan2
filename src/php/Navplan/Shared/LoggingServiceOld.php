@@ -1,7 +1,7 @@
 <?php namespace Navplan\Shared;
 
 
-class LoggingService {
+class LoggingServiceOld {
     static public function printLine(string $text) {
         if ($text)
             print $text;

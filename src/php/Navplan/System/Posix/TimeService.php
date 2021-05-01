@@ -27,4 +27,14 @@ class TimeService implements ITimeService {
 
         return $result === FALSE ? NULL : $result;
     }
+
+
+    function currentTimestampSec(): int {
+        return time();
+    }
+
+
+    function dateFormat(string $format, null|int $timestamp = null): string {
+        return date($format, $timestamp);
+    }
 }

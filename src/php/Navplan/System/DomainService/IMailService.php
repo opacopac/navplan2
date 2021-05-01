@@ -3,7 +3,6 @@
 namespace Navplan\System\DomainService;
 
 
-interface IMailService
-{
-    public function sendEmail(string $emailTo, string $subject, string $message): bool;
+interface IMailService {
+    function sendEmail(string $emailTo, string $subject, string $message): bool;
 }

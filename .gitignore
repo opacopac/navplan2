@@ -70,3 +70,4 @@ navplan2.iml
 /.phpunit.result.cache
 /.browserslistrc
 /src/tmp/
+/src/logs/

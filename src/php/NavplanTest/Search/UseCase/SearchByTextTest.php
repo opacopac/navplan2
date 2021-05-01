@@ -3,8 +3,6 @@
 namespace NavplanTest\Search\UseCase;
 
 use Navplan\Geometry\DomainModel\Altitude;
-use Navplan\Geometry\DomainModel\AltitudeReference;
-use Navplan\Geometry\DomainModel\AltitudeUnit;
 use Navplan\Search\DomainModel\SearchByTextQuery;
 use Navplan\Search\DomainModel\SearchItemType;
 use Navplan\Search\UseCase\SearchByText\SearchByTextUc;
@@ -86,7 +84,7 @@ class SearchByTextTest extends TestCase {
         $this->userPointRepo->pushMockResult($upResults);
         $gnResults = [DummyGeoname1::create(), DummyGeoname2::create()];
         $this->geonameRepo->pushMockResult($gnResults);
-        $zeroAltReplacement = new Altitude(1234, AltitudeUnit::M, AltitudeReference::MSL);
+        $zeroAltReplacement = Altitude::fromMtAmsl(1234);
         $this->terrainRepo->altitudeResult = $zeroAltReplacement;
 
         $result = $this->searchByTextUc->search($query);

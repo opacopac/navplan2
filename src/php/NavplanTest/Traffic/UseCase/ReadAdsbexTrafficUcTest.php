@@ -10,12 +10,12 @@ use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTraffic1;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTraffic2;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTraffic3;
-use NavplanTest\Traffic\Mocks\MockAdsbexRepo;
+use NavplanTest\Traffic\Mocks\MockAdsbexService;
 use PHPUnit\Framework\TestCase;
 
 
 class ReadAdsbexTrafficUcTest extends TestCase {
-    private MockAdsbexRepo $adsbexGateway;
+    private MockAdsbexService $adsbexGateway;
     private ReadAdsbexTrafficUc $readAdsbexTraffic;
 
 

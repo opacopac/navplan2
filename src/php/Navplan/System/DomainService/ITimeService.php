@@ -4,5 +4,9 @@ namespace Navplan\System\DomainService;
 
 
 interface ITimeService {
-    public function strtotime(string $time): ?int;
+    function strtotime(string $time): ?int;
+
+    function currentTimestampSec(): int;
+
+    function dateFormat(string $format, null|int $timestamp = null): string;
 }

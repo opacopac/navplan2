@@ -19,4 +19,40 @@ class Altitude {
             throw new InvalidArgumentException('reference STD requires unit FL');
         }
     }
+
+
+    public static function fromFtAmsl(float $ftAmsl) : Altitude {
+        return new Altitude(
+            $ftAmsl,
+            AltitudeUnit::FT,
+            AltitudeReference::MSL
+        );
+    }
+
+
+    public static function fromFtAgl(float $ftAgl) : Altitude {
+        return new Altitude(
+            $ftAgl,
+            AltitudeUnit::FT,
+            AltitudeReference::GND
+        );
+    }
+
+
+    public static function fromMtAmsl(float $mtAmsl) : Altitude {
+        return new Altitude(
+            $mtAmsl,
+            AltitudeUnit::M,
+            AltitudeReference::MSL
+        );
+    }
+
+
+    public static function fromFl(float $flightLevel) : Altitude {
+        return new Altitude(
+            $flightLevel,
+            AltitudeUnit::FL,
+            AltitudeReference::STD
+        );
+    }
 }

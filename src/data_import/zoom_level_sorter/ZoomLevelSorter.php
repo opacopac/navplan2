@@ -1,10 +1,9 @@
 <?php
 include_once __DIR__ . "/../../php/Navplan/Shared/GeoHelper.php";
-include_once __DIR__ . "/../../php/Navplan/Shared/LoggingService.php";
+include_once __DIR__ . "/../../php/Navplan/Shared/LoggingServiceOld.php";
 include_once __DIR__ . "/ZoomLevelSortItemType.php";
 
-use Navplan\Shared\GeoHelper;
-use Navplan\Shared\LoggingService;
+use Navplan\Shared\LoggingServiceOld;
 
 
 const MAX_ZOOM = 14;
@@ -30,7 +29,7 @@ class ZoomLevelSorter {
 
             // read batch from DB
             $result = $sortItemType->getNextBatch($lastGeoHash, MAX_COUNT_DB_RECORDS);
-            LoggingService::echoLineToBrowser("loading " . $result->num_rows . " items" . ($lastGeoHash !== NULL ? " starting from " . $lastGeoHash : ""));
+            LoggingServiceOld::echoLineToBrowser("loading " . $result->num_rows . " items" . ($lastGeoHash !== NULL ? " starting from " . $lastGeoHash : ""));
 
             $itemBuffer = [];
             while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
@@ -74,7 +73,7 @@ class ZoomLevelSorter {
 
         } while (count($itemBuffer) > 0);
 
-        LoggingService::echoLineToBrowser("done.");
+        LoggingServiceOld::echoLineToBrowser("done.");
     }
 
 

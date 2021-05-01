@@ -3,8 +3,6 @@
 namespace NavplanTest\Geoname\UseCase;
 
 use Navplan\Geometry\DomainModel\Altitude;
-use Navplan\Geometry\DomainModel\AltitudeReference;
-use Navplan\Geometry\DomainModel\AltitudeUnit;
 use Navplan\Geometry\DomainModel\Position2d;
 use Navplan\Geoname\UseCase\SearchGeoname\SearchGeonameUc;
 use NavplanTest\Geoname\Mocks\DummyGeoname1;
@@ -38,7 +36,7 @@ class SearchGeonameTest extends TestCase {
 
 
     public function test_searchByText() {
-        $zeroAltReplacement = new Altitude(123, AltitudeUnit::M, AltitudeReference::MSL);
+        $zeroAltReplacement = Altitude::fromMtAmsl(123);
         $this->terrainRepo->altitudeResult = $zeroAltReplacement;
 
         $result = $this->searchGeoname->searchByText("Bern", 10);
@@ -52,7 +50,7 @@ class SearchGeonameTest extends TestCase {
 
     public function test_searchByPosition() {
         $pos = new Position2d(7.0, 47.0);
-        $zeroAltReplacement = new Altitude(123, AltitudeUnit::M, AltitudeReference::MSL);
+        $zeroAltReplacement = Altitude::fromMtAmsl(123);
         $this->terrainRepo->altitudeResult = $zeroAltReplacement;
 
         $result = $this->searchGeoname->searchByPosition($pos, 0.5, 10);

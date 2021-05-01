@@ -3,8 +3,6 @@
 namespace Navplan\Geoname\DbRepo;
 
 use Navplan\Geometry\DomainModel\Altitude;
-use Navplan\Geometry\DomainModel\AltitudeReference;
-use Navplan\Geometry\DomainModel\AltitudeUnit;
 use Navplan\Geometry\DomainModel\Position2d;
 use Navplan\Geoname\DomainModel\Geoname;
 
@@ -22,16 +20,7 @@ class GeonameConverter {
             $rs["admin2"],
             intval($rs["population"]),
             new Position2d(floatval($rs["longitude"]), floatval($rs["latitude"])),
-            self::getAltitude($rs)
-        );
-    }
-
-
-    private static function getAltitude(array $rs): Altitude {
-        return new Altitude(
-            intval($rs["elevation"]),
-            AltitudeUnit::M,
-            AltitudeReference::MSL
+            Altitude::fromMtAmsl($rs["elevation"])
         );
     }
 }

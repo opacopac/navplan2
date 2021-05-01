@@ -3,13 +3,12 @@
 namespace Navplan\System\DomainService;
 
 
-interface IHttpService
-{
-    public function sendHeader(string $header);
+interface IHttpService {
+    function sendHeader(string $header);
 
-    public function sendPayload(string $data);
+    function sendPayload(string $data);
 
-    public function sendArrayResponse(array $data, ?string $callback = NULL, ?bool $jsonNumericCheck = FALSE);
+    function sendArrayResponse(array $data, ?string $callback = NULL, ?bool $jsonNumericCheck = FALSE);
 
-    public function sendStringResponse(string $data, ?string $callback = NULL);
+    function sendStringResponse(string $data, ?string $callback = NULL);
 }

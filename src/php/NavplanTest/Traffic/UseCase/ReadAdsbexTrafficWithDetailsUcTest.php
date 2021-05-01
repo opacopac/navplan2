@@ -9,14 +9,14 @@ use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTraffic1;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTrafficWithDetails1;
 use NavplanTest\Traffic\Mocks\DummyIcaoAcTypeTrafficDetail1;
-use NavplanTest\Traffic\Mocks\MockAdsbexRepo;
+use NavplanTest\Traffic\Mocks\MockAdsbexService;
 use NavplanTest\Traffic\Mocks\MockTrafficDetailRepo;
 use PHPUnit\Framework\TestCase;
 
 
 class ReadAdsbexTrafficWithDetailsUcTest extends TestCase {
     private ReadAdsbexTrafficWithDetailsUc $readAdsbexTrafficWithDetails;
-    private MockAdsbexRepo $adsbexGateway;
+    private MockAdsbexService $adsbexGateway;
     private MockTrafficDetailRepo $trafficDetailRepo;
 
 

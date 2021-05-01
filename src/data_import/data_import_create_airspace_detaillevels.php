@@ -3,11 +3,11 @@ ini_set('max_execution_time', 600);
 
 include_once __DIR__ . "/../php/Navplan/Shared/GeoHelper.php";
 include_once __DIR__ . "/../php/Navplan/Db/MySqlDb/DbService.php";
-include_once __DIR__ . "/../php/Navplan/Shared/LoggingService.php";
+include_once __DIR__ . "/../php/Navplan/Shared/LoggingServiceOld.php";
 
 use Navplan\Db\MySqlDb\DbService;
 use Navplan\Shared\GeoHelper;
-use Navplan\Shared\LoggingService;
+use Navplan\Shared\LoggingServiceOld;
 
 
 const MIN_PIXEL_COORDINATE_RESOLUTION = 1.0;
@@ -32,7 +32,7 @@ $result = DbService::execMultiResultQuery($conn, $query, "error reading airspace
 $numAsProcessed = 0;
 while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
     if ($numAsProcessed % 500 == 0) {
-        LoggingService::echoLineToBrowser("processing " . $numAsProcessed . " airspaces...");
+        LoggingServiceOld::echoLineToBrowser("processing " . $numAsProcessed . " airspaces...");
     }
     $numAsProcessed++;
 
@@ -75,7 +75,7 @@ while ($rs = $result->fetch_array(MYSQLI_ASSOC)) {
     }
 }
 
-LoggingService::echoLineToBrowser("processing " . $numAsProcessed . " airspaces... done!");
+LoggingServiceOld::echoLineToBrowser("processing " . $numAsProcessed . " airspaces... done!");
 
 
 $conn->close();

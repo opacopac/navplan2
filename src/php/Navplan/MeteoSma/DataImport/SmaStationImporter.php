@@ -2,7 +2,7 @@
 
 namespace Navplan\MeteoSma\DataImport;
 
-require_once __DIR__ . "/../../ImporterBootstrap.php";
+require_once __DIR__ . "/../../ConsoleBootstrap.php";
 
 use Navplan\ProdNavplanDiContainer;
 

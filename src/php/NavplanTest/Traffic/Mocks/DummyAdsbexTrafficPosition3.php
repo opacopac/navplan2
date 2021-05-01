@@ -3,8 +3,6 @@
 namespace NavplanTest\Traffic\Mocks;
 
 use Navplan\Geometry\DomainModel\Altitude;
-use Navplan\Geometry\DomainModel\AltitudeReference;
-use Navplan\Geometry\DomainModel\AltitudeUnit;
 use Navplan\Geometry\DomainModel\Position4d;
 use Navplan\Geometry\DomainModel\Timestamp;
 use Navplan\Traffic\DomainModel\TrafficPosition;
@@ -17,7 +15,7 @@ class DummyAdsbexTrafficPosition3 {
             new Position4d(
                 7.100327,
                 46.645947,
-                new Altitude(24263, AltitudeUnit::FT, AltitudeReference::MSL),
+                Altitude::fromFtAmsl(24263),
                 Timestamp::fromMs(1560000518739)
             ),
             TrafficPositionMethod::ADSB,

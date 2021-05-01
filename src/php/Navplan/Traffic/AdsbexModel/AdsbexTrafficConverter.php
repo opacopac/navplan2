@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Traffic\AdsbexRepo;
+namespace Navplan\Traffic\AdsbexModel;
 
 use Navplan\Traffic\DomainModel\TrafficAddress;
 use Navplan\Traffic\DomainModel\TrafficAddressType;
 use Navplan\Traffic\DomainModel\TrafficAdsbex;
 
 
-class AdsbexRepoTrafficConverter  {
+class AdsbexTrafficConverter  {
     public static function fromResponse(array $response, int $acIndex): TrafficAdsbex {
         $acResponse = $response["ac"][$acIndex];
 
@@ -20,7 +20,7 @@ class AdsbexRepoTrafficConverter  {
             $acResponse["reg"] ?: NULL,
             $acResponse["call"] ?: NULL,
             $acResponse["opicao"] ?: NULL,
-            [ AdsbexRepoTrafficPositionConverter::fromResponse($response, $acIndex) ]
+            [ AdsbexTrafficPositionConverter::fromResponse($response, $acIndex) ]
         );
     }
 }

@@ -2,12 +2,12 @@
 ini_set('max_execution_time', 600);
 
 include_once __DIR__ . "/../php/Navplan/Db/MySqlDb/DbService.php";
-include_once __DIR__ . "/../php/Navplan/Shared/LoggingService.php";
+include_once __DIR__ . "/../php/Navplan/Shared/LoggingServiceOld.php";
 include_once __DIR__ . "/../php/Navplan/Shared/GeoHelper.php";
 
 use Navplan\Db\MySqlDb\DbService;
-use Navplan\Shared\LoggingService;
 use Navplan\Shared\GeoHelper;
+use Navplan\Shared\LoggingServiceOld;
 
 
 const MAX_ZOOM = 14;
@@ -31,14 +31,14 @@ foreach ($dir_entries as $filename) {
     if (is_dir($abs_filename))
         continue;
 
-    LoggingService::echoLineToBrowser("processing file '" . $abs_filename . "'...");
+    LoggingServiceOld::echoLineToBrowser("processing file '" . $abs_filename . "'...");
     $navaid_file = simplexml_load_file($abs_filename);
     $navaidCount = 0;
     foreach ($navaid_file->NAVAIDS->NAVAID as $navaid)
     {
         $navaidCount++;
         if ($navaidCount % 1000 == 0) {
-            LoggingService::echoLineToBrowser($navaidCount . " navaids...");
+            LoggingServiceOld::echoLineToBrowser($navaidCount . " navaids...");
         }
 
         $longitude = $navaid->GEOLOCATION->LON->__toString();
@@ -64,7 +64,7 @@ foreach ($dir_entries as $filename) {
         DbService::execCUDQuery($conn, $query);
     }
 
-    LoggingService::echoLineToBrowser($navaidCount . " navaids.");
+    LoggingServiceOld::echoLineToBrowser($navaidCount . " navaids.");
 }
 
-LoggingService::echoLineToBrowser("done.");
+LoggingServiceOld::echoLineToBrowser("done.");

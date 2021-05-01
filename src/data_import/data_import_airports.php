@@ -2,12 +2,12 @@
 ini_set('max_execution_time', 600);
 
 include_once __DIR__ . "/../php/Navplan/Db/MySqlDb/DbService.php";
-include_once __DIR__ . "/../php/Navplan/Shared/LoggingService.php";
+include_once __DIR__ . "/../php/Navplan/Shared/LoggingServiceOld.php";
 include_once __DIR__ . "/../php/Navplan/Shared/GeoHelper.php";
 
 use Navplan\Db\MySqlDb\DbService;
-use Navplan\Shared\LoggingService;
 use Navplan\Shared\GeoHelper;
+use Navplan\Shared\LoggingServiceOld;
 
 
 const MAX_ZOOM = 14;
@@ -38,14 +38,14 @@ foreach ($dir_entries as $filename) {
 	if (is_dir($abs_filename))
 		continue;
 
-	LoggingService::echoLineToBrowser("processing file '" . $abs_filename . "'...");
+	LoggingServiceOld::echoLineToBrowser("processing file '" . $abs_filename . "'...");
 	$airport_file = simplexml_load_file($abs_filename);
 
 	$airportCount = 0;
 	foreach ($airport_file->WAYPOINTS->AIRPORT as $airport) {
         $airportCount++;
 	    if ($airportCount % 1000 == 0) {
-	        LoggingService::echoLineToBrowser($airportCount . " airports...");
+	        LoggingServiceOld::echoLineToBrowser($airportCount . " airports...");
         }
 
 		/*if ($airport->COUNTRY != 'CH' && $airport->ICAO != 'LFSB')
@@ -141,7 +141,7 @@ foreach ($dir_entries as $filename) {
 		}
 	}
 
-    LoggingService::echoLineToBrowser($airportCount . " airports.");
+    LoggingServiceOld::echoLineToBrowser($airportCount . " airports.");
 }
 
-LoggingService::echoLineToBrowser("done.");
+LoggingServiceOld::echoLineToBrowser("done.");

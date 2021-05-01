@@ -3,8 +3,6 @@
 namespace NavplanTest\MeteoSma\Mocks;
 
 use Navplan\Geometry\DomainModel\Altitude;
-use Navplan\Geometry\DomainModel\AltitudeReference;
-use Navplan\Geometry\DomainModel\AltitudeUnit;
 use Navplan\Geometry\DomainModel\Position2d;
 use Navplan\MeteoSma\DomainModel\SmaStation;
 
@@ -15,7 +13,7 @@ class DummySmaStation2 {
             "BEZ",
             "Beznau",
             new Position2d(8.23331, 47.55725),
-            new Altitude(326, AltitudeUnit::M, AltitudeReference::MSL)
+            Altitude::fromMtAmsl(326)
         );
     }
 

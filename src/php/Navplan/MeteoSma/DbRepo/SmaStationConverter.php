@@ -16,8 +16,11 @@ class SmaStationConverter {
         return new SmaStation(
             $rs["station_id"],
             $rs["station_name"],
-            self::getPosition($rs),
-            self::getAltitude($rs)
+            new Position2d(
+                floatval($rs["station_lon"]),
+                floatval($rs["station_lat"])
+            ),
+            Altitude::fromMtAmsl(intval($rs["station_alt_m"]))
         );
     }
 
@@ -38,22 +41,5 @@ class SmaStationConverter {
         $query .= ")";
 
         return $query;
-    }
-
-
-    private static function getPosition(array $rs): Position2d {
-        return new Position2d(
-            floatval($rs["station_lon"]),
-            floatval($rs["station_lat"])
-        );
-    }
-
-
-    private static function getAltitude(array $rs): Altitude {
-        return new Altitude(
-            intval($rs["station_alt_m"]),
-            AltitudeUnit::M,
-            AltitudeReference::MSL
-        );
     }
 }

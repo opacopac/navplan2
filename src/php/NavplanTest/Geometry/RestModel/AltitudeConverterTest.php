@@ -3,15 +3,13 @@
 namespace NavplanTest\Geometry\RestModel;
 
 use Navplan\Geometry\DomainModel\Altitude;
-use Navplan\Geometry\DomainModel\AltitudeReference;
-use Navplan\Geometry\DomainModel\AltitudeUnit;
 use Navplan\Geometry\RestModel\AltitudeConverter;
 use PHPUnit\Framework\TestCase;
 
 
 class AltitudeConverterTest extends TestCase {
     public function test_toArray() {
-        $alt = new Altitude(10, AltitudeUnit::FL, AltitudeReference::STD);
+        $alt = Altitude::fromFtAmsl(10);
         $rest = AltitudeConverter::toRest($alt);
 
         $this->assertNotNull($rest);
