@@ -24,5 +24,5 @@ interface IOgnListenerRepo {
 
     function writeTrafficMessage(int $sessionId, OgnTrafficMessage $trafficMessage);
 
-    function cleanupTrafficMessages(int $sessionId, int $maxAgeSec);
+    function cleanupTrafficMessages(int $maxAgeSec);
 }

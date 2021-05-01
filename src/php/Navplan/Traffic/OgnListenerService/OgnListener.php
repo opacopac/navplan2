@@ -18,7 +18,7 @@ class OgnListener implements IOgnListener {
     private const OGN_SW_VERSION = '2.0';
     private const OGN_FILTER_TIMEOUT_SEC = 30;
     private const OGN_FILTER_UPDATE_INTERVAL_SEC = 1;
-    private const OGN_TRAFFIC_CLEANUP_SEC = 10;
+    private const OGN_TRAFFIC_CLEANUP_SEC = 15;
 
 
     public function __construct(
@@ -114,8 +114,8 @@ class OgnListener implements IOgnListener {
 
             // cleanup old traffic
             if ($this->timeService->currentTimestampSec() > $lastTrafficCleanup + self::OGN_TRAFFIC_CLEANUP_SEC) {
-                $this->logger->debug("cleaning up expired ogn traffic for session " . $sessionId);
-                $this->ognListenerRepo->cleanupTrafficMessages($sessionId, $maxAgeSec);
+                $this->logger->debug("cleaning up expired ogn traffic");
+                $this->ognListenerRepo->cleanupTrafficMessages($maxAgeSec);
                 $lastTrafficCleanup = $this->timeService->currentTimestampSec();
             }
 

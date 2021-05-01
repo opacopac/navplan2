@@ -111,9 +111,9 @@ class OgnListenerRepo implements IOgnListenerRepo {
     }
 
 
-    function cleanupTrafficMessages(int $sessionId, int $maxAgeSec) {
+    function cleanupTrafficMessages(int $maxAgeSec) {
         $maxAgeTimestamp = $this->timeService->currentTimestampSec() - $maxAgeSec;
-        $query = "DELETE FROM ogn_traffic WHERE sessionId=" . $sessionId . " AND timestampSec<" . $maxAgeTimestamp;
+        $query = "DELETE FROM ogn_traffic WHERE timestampSec<" . $maxAgeTimestamp;
 
         $this->dbService->execCUDQuery($query, "error deleting ogn traffic");
     }
