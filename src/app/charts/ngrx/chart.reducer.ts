@@ -3,9 +3,7 @@ import {ChartActions} from './chart.actions';
 
 
 const initialState: ChartState = {
-    chartId: undefined,
-    chartUrl: undefined,
-    extent: undefined
+    dummy: undefined
 };
 
 

@@ -3,7 +3,6 @@ import {Action} from '@ngrx/store';
 
 export enum ChartActionTypes {
     AD_CHART_LOAD = '[Charts] Load AD Chart Action',
-    AD_CHART_SHOW = '[Charts] Show AD Chart Action',
 }
 
 
