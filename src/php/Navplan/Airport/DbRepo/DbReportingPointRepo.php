@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\OpenAip\DbRepo;
+namespace Navplan\Airport\DbRepo;
 
 use BadMethodCallException;
+use Navplan\Airport\DbModel\DbReportingPointConverter;
+use Navplan\Airport\DomainService\IReportingPointRepo;
 use Navplan\Geometry\DomainModel\Extent;
 use Navplan\Geometry\DomainModel\Position2d;
-use Navplan\OpenAip\DbModel\DbReportingPointConverter;
-use Navplan\OpenAip\DomainService\IReportingPointRepo;
 use Navplan\System\DomainModel\IDbResult;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\MySqlDb\DbHelper;

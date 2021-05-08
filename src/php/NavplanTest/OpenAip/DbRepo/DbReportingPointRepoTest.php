@@ -2,9 +2,9 @@
 
 namespace NavplanTest\OpenAip\DbRepo;
 
+use Navplan\Airport\DbRepo\DbReportingPointRepo;
 use Navplan\Geometry\DomainModel\Extent;
 use Navplan\Geometry\DomainModel\Position2d;
-use Navplan\OpenAip\DbRepo\DbReportingPointRepo;
 use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;
 use NavplanTest\OpenAip\Mocks\DummyReportingSector1;
 use NavplanTest\System\Mock\MockDbService;

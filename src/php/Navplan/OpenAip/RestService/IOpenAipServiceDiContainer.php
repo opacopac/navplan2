@@ -3,10 +3,10 @@
 namespace Navplan\OpenAip\RestService;
 
 use Navplan\Airport\DomainService\IAirportRepo;
+use Navplan\Airport\DomainService\IReportingPointRepo;
 use Navplan\OpenAip\UseCase\SearchAirspace\ISearchAirspaceUc;
 use Navplan\OpenAip\UseCase\SearchNavaid\ISearchNavaidUc;
 use Navplan\OpenAip\UseCase\SearchOpenAipItem\ISearchOpenAipItemsUc;
-use Navplan\OpenAip\UseCase\SearchReportingPoint\ISearchReportingPointUc;
 use Navplan\OpenAip\UseCase\SearchWebcam\ISearchWebcamUc;
 use Navplan\System\DomainService\IHttpService;
 
@@ -18,11 +18,11 @@ interface IOpenAipServiceDiContainer {
 
     function getSearchNavaidUc(): ISearchNavaidUc;
 
-    function getSearchReportingPointUc(): ISearchReportingPointUc;
-
     function getSearchWebcamUc(): ISearchWebcamUc;
 
     function getSearchOpenAipItemUc(): ISearchOpenAipItemsUc;
 
     function getAirportRepo(): IAirportRepo;
+
+    function getReportingPointRepo(): IReportingPointRepo;
 }

@@ -3,6 +3,7 @@
 namespace Navplan\OpenAip\DomainService;
 
 use Navplan\Airport\DomainService\IAirportRepo;
+use Navplan\Airport\DomainService\IReportingPointRepo;
 
 
 interface IOpenAipRepoFactory {

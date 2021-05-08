@@ -3,8 +3,8 @@
 namespace Navplan\Search\UseCase\SearchByIcao;
 
 use Navplan\Airport\DomainService\IAirportRepo;
+use Navplan\Airport\DomainService\IReportingPointRepo;
 use Navplan\Notam\UseCase\SearchNotam\ISearchNotamUc;
-use Navplan\OpenAip\UseCase\SearchReportingPoint\ISearchReportingPointUc;
 use Navplan\Search\DomainModel\SearchByIcaoQuery;
 use Navplan\Search\DomainModel\SearchItemType;
 use Navplan\Search\DomainModel\SearchResult;
@@ -15,9 +15,9 @@ class SearchByIcaoUc implements ISearchByIcaoUc {
     const MAX_EXTENT_SEARCH_RESULTS_PER_ENTITY = 100;
 
     public function __construct(
-        private ISearchReportingPointUc $searchReportingPointUc,
         private ISearchNotamUc $searchNotamUc,
-        private IAirportRepo $airportRepo
+        private IAirportRepo $airportRepo,
+        private IReportingPointRepo $reportingPointRepo
     ) {
     }
 
@@ -33,7 +33,7 @@ class SearchByIcaoUc implements ISearchByIcaoUc {
                     $airports = $this->airportRepo->searchByIcao($query->icaoList);
                     break;
                 case SearchItemType::REPORTINGPOINTS:
-                    $reportingPoints = $this->searchReportingPointUc->searchByIcao($query->icaoList);
+                    $reportingPoints = $this->reportingPointRepo->searchByIcao($query->icaoList);
                     break;
                 case SearchItemType::NOTAMS:
                     $notams = $this->searchNotamUc->searchByIcao($query->icaoList, $query->minNotamTimestamp, $query->maxNotamTimestamp);

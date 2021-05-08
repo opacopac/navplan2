@@ -3,23 +3,23 @@
 namespace Navplan\OpenAip\UseCase\SearchOpenAipItem;
 
 use Navplan\Airport\DomainService\IAirportRepo;
+use Navplan\Airport\DomainService\IReportingPointRepo;
 use Navplan\OpenAip\DomainModel\SearchAreaItemsRequest;
 use Navplan\OpenAip\DomainModel\SearchAreaItemsResponse;
 use Navplan\OpenAip\DomainModel\SearchPointItemsRequest;
 use Navplan\OpenAip\DomainModel\SearchPointItemsResponse;
 use Navplan\OpenAip\UseCase\SearchAirspace\ISearchAirspaceUc;
 use Navplan\OpenAip\UseCase\SearchNavaid\ISearchNavaidUc;
-use Navplan\OpenAip\UseCase\SearchReportingPoint\ISearchReportingPointUc;
 use Navplan\OpenAip\UseCase\SearchWebcam\ISearchWebcamUc;
 
 
 class SearchOpenAipItemsUc implements ISearchOpenAipItemsUc {
     public function __construct(
         private ISearchNavaidUc $searchNavaidUc,
-        private ISearchReportingPointUc $searchReportingPointUc,
         private ISearchWebcamUc $searchWebcamUc,
         private ISearchAirspaceUc $searchAirspaceUc,
-        private IAirportRepo $airportRepo
+        private IAirportRepo $airportRepo,
+        private IReportingPointRepo $reportingPointRepo
     ) {
     }
 
@@ -28,7 +28,7 @@ class SearchOpenAipItemsUc implements ISearchOpenAipItemsUc {
         return new SearchPointItemsResponse(
             $this->airportRepo->searchByExtent($request->extent, $request->zoom),
             $this->searchNavaidUc->searchByExtent($request->extent, $request->zoom),
-            $this->searchReportingPointUc->searchByExtent($request->extent),
+            $this->reportingPointRepo->searchByExtent($request->extent),
             $this->searchWebcamUc->searchByExtent($request->extent)
         );
     }

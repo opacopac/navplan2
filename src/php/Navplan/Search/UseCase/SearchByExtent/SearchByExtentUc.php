@@ -4,11 +4,11 @@ namespace Navplan\Search\UseCase\SearchByExtent;
 
 use Navplan\Airport\DomainService\IAirportCircuitRepo;
 use Navplan\Airport\DomainService\IAirportRepo;
+use Navplan\Airport\DomainService\IReportingPointRepo;
 use Navplan\Notam\DomainModel\ReadNotamByExtentRequest;
 use Navplan\Notam\UseCase\SearchNotam\ISearchNotamUc;
 use Navplan\OpenAip\UseCase\SearchAirspace\ISearchAirspaceUc;
 use Navplan\OpenAip\UseCase\SearchNavaid\ISearchNavaidUc;
-use Navplan\OpenAip\UseCase\SearchReportingPoint\ISearchReportingPointUc;
 use Navplan\OpenAip\UseCase\SearchWebcam\ISearchWebcamUc;
 use Navplan\Search\DomainModel\SearchByExtentQuery;
 use Navplan\Search\DomainModel\SearchItemType;
@@ -24,12 +24,12 @@ class SearchByExtentUc implements ISearchByExtentUc {
     public function __construct(
         private ISearchNavaidUc $searchNavaidUc,
         private ISearchAirspaceUc $searchAirspaceUc,
-        private ISearchReportingPointUc $searchReportingPointUc,
         private ISearchUserPointUc $searchUserPointUc,
         private ISearchNotamUc $searchNotamUc,
         private ISearchWebcamUc $searchWebcamUc,
         private IAirportRepo $airportRepo,
-        private IAirportCircuitRepo $airportCircuitRepo
+        private IAirportCircuitRepo $airportCircuitRepo,
+        private IReportingPointRepo $reportingPointRepo
     ) {
     }
 
@@ -63,7 +63,7 @@ class SearchByExtentUc implements ISearchByExtentUc {
                     $resultNum += count($airspaces);
                     break;
                 case SearchItemType::REPORTINGPOINTS:
-                    $reportingPoints = $this->searchReportingPointUc->searchByExtent($query->extent);
+                    $reportingPoints = $this->reportingPointRepo->searchByExtent($query->extent);
                     $resultNum += count($reportingPoints);
                     break;
                 case SearchItemType::USERPOINTS:

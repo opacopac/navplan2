@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\OpenAip\DomainService;
+namespace Navplan\Airport\DomainService;
 
 use Navplan\Geometry\DomainModel\Extent;
 use Navplan\Geometry\DomainModel\Position2d;

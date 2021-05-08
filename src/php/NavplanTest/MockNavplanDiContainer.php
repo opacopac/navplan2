@@ -5,13 +5,13 @@ namespace NavplanTest;
 require_once __DIR__ . "/../config_test.php";
 
 use Navplan\Airport\DomainService\IAirportRepo;
+use Navplan\Airport\DomainService\IReportingPointRepo;
 use Navplan\Flightroute\DomainService\IFlightrouteRepo;
 use Navplan\Geoname\DomainService\IGeonameRepo;
 use Navplan\MeteoSma\DomainService\IMeteoRepo;
 use Navplan\Notam\DomainService\INotamRepo;
 use Navplan\OpenAip\DomainService\IAirspaceRepo;
 use Navplan\OpenAip\DomainService\INavaidRepo;
-use Navplan\OpenAip\DomainService\IReportingPointRepo;
 use Navplan\OpenAip\DomainService\IWebcamRepo;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\DomainService\IFileService;

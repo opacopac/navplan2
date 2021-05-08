@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\OpenAip\DbModel;
+namespace Navplan\Airport\DbModel;
 
+use Navplan\Airport\DomainModel\ReportingPoint;
 use Navplan\Geometry\DomainModel\Length;
 use Navplan\Geometry\DomainModel\LengthUnit;
 use Navplan\Geometry\DomainModel\Position2d;
 use Navplan\Geometry\DomainModel\Ring2d;
-use Navplan\OpenAip\DomainModel\ReportingPoint;
 use Navplan\Shared\StringNumberHelper;
 
 

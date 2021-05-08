@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\OpenAip\RestModel;
+namespace Navplan\Airport\RestModel;
 
+use Navplan\Airport\DomainModel\ReportingPoint;
 use Navplan\Geometry\RestModel\LengthConverter;
 use Navplan\Geometry\RestModel\Position2dConverter;
 use Navplan\Geometry\RestModel\Ring2dConverter;
-use Navplan\OpenAip\DomainModel\ReportingPoint;
 
 
-class ReportingPointConverter {
+class RestReportingPointConverter {
     public const ROUND_DIGITS_POS = 6;
     public const ROUND_DIGITS_POLY = 6;
 

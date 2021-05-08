@@ -3,10 +3,10 @@
 namespace Navplan\Search\UseCase\SearchByPosition;
 
 use Navplan\Airport\DomainService\IAirportRepo;
+use Navplan\Airport\DomainService\IReportingPointRepo;
 use Navplan\Geoname\UseCase\SearchGeoname\ISearchGeonameUc;
 use Navplan\Notam\UseCase\SearchNotam\ISearchNotamUc;
 use Navplan\OpenAip\UseCase\SearchNavaid\ISearchNavaidUc;
-use Navplan\OpenAip\UseCase\SearchReportingPoint\ISearchReportingPointUc;
 use Navplan\Search\DomainModel\SearchByPositionQuery;
 use Navplan\Search\DomainModel\SearchItemType;
 use Navplan\Search\DomainModel\SearchResult;
@@ -20,11 +20,11 @@ class SearchByPositionUc implements ISearchByPositionUc {
 
     public function __construct(
         private ISearchNavaidUc $searchNavaidUc,
-        private ISearchReportingPointUc $searchReportingPointUc,
         private ISearchUserPointUc $searchUserPointUc,
         private ISearchNotamUc $searchNotamUc,
         private ISearchGeonameUc $searchGeonameUc,
-        private IAirportRepo $airportRepo
+        private IAirportRepo $airportRepo,
+        private IReportingPointRepo $reportingPointRepo
     ) {
     }
 
@@ -52,7 +52,7 @@ class SearchByPositionUc implements ISearchByPositionUc {
                     $resultNum += count($navaids);
                     break;
                 case SearchItemType::REPORTINGPOINTS:
-                    $reportingPoints = $this->searchReportingPointUc->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum));
+                    $reportingPoints = $this->reportingPointRepo->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum));
                     $resultNum += count($reportingPoints);
                     break;
                 case SearchItemType::USERPOINTS:

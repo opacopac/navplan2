@@ -2,10 +2,10 @@
 
 namespace NavplanTest\OpenAip\Mocks;
 
+use Navplan\Airport\DomainModel\ReportingPoint;
 use Navplan\Geometry\DomainModel\Length;
 use Navplan\Geometry\DomainModel\LengthUnit;
 use Navplan\Geometry\DomainModel\Position2d;
-use Navplan\OpenAip\DomainModel\ReportingPoint;
 
 
 class DummyReportingPoint1 {

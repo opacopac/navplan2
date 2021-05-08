@@ -7,9 +7,11 @@ require_once __DIR__ . "/../config.php";
 use Navplan\Airport\DbRepo\DbAirportChartRepo;
 use Navplan\Airport\DbRepo\DBAirportCircuitRepo;
 use Navplan\Airport\DbRepo\DbAirportRepo;
+use Navplan\Airport\DbRepo\DbReportingPointRepo;
 use Navplan\Airport\DomainService\IAirportChartRepo;
 use Navplan\Airport\DomainService\IAirportCircuitRepo;
 use Navplan\Airport\DomainService\IAirportRepo;
+use Navplan\Airport\DomainService\IReportingPointRepo;
 use Navplan\Airport\RestService\IAirportChartServiceDiContainer;
 use Navplan\Flightroute\DbRepo\DbFlightrouteRepo;
 use Navplan\Flightroute\DomainService\IFlightrouteRepo;
@@ -45,11 +47,9 @@ use Navplan\Notam\UseCase\SearchNotam\ISearchNotamUc;
 use Navplan\Notam\UseCase\SearchNotam\SearchNotamUc;
 use Navplan\OpenAip\DbRepo\DbAirspaceRepo;
 use Navplan\OpenAip\DbRepo\DbNavaidRepo;
-use Navplan\OpenAip\DbRepo\DbReportingPointRepo;
 use Navplan\OpenAip\DbRepo\DbWebcamRepo;
 use Navplan\OpenAip\DomainService\IAirspaceRepo;
 use Navplan\OpenAip\DomainService\INavaidRepo;
-use Navplan\OpenAip\DomainService\IReportingPointRepo;
 use Navplan\OpenAip\DomainService\IWebcamRepo;
 use Navplan\OpenAip\RestService\IOpenAipServiceDiContainer;
 use Navplan\OpenAip\UseCase\SearchAirspace\ISearchAirspaceUc;
@@ -58,8 +58,6 @@ use Navplan\OpenAip\UseCase\SearchNavaid\ISearchNavaidUc;
 use Navplan\OpenAip\UseCase\SearchNavaid\SearchNavaidUc;
 use Navplan\OpenAip\UseCase\SearchOpenAipItem\ISearchOpenAipItemsUc;
 use Navplan\OpenAip\UseCase\SearchOpenAipItem\SearchOpenAipItemsUc;
-use Navplan\OpenAip\UseCase\SearchReportingPoint\ISearchReportingPointUc;
-use Navplan\OpenAip\UseCase\SearchReportingPoint\SearchReportingPointUc;
 use Navplan\OpenAip\UseCase\SearchWebcam\ISearchWebcamUc;
 use Navplan\OpenAip\UseCase\SearchWebcam\SearchWebcamUc;
 use Navplan\Search\RestService\ISearchServiceDiContainer;
@@ -182,7 +180,6 @@ class ProdNavplanDiContainerAirport implements ISystemDiContainer, IDbDiContaine
     private ISearchAirspaceUc $searchAirspaceUc;
     private ISearchNavaidUc $searchNavaidUc;
     private ISearchOpenAipItemsUc $searchOpenAipItemsUc;
-    private ISearchReportingPointUc $searchReportingPointUc;
     private ISearchWebcamUc $searchWebcamUc;
     // search
     private ISearchByExtentUc $searchByExtentUc;
@@ -579,15 +576,6 @@ class ProdNavplanDiContainerAirport implements ISystemDiContainer, IDbDiContaine
     }
 
 
-    public function getSearchReportingPointUc(): ISearchReportingPointUc {
-        if (!isset($this->searchReportingPointUc)) {
-            $this->searchReportingPointUc = new SearchReportingPointUc($this->getReportingPointRepo());
-        }
-
-        return $this->searchReportingPointUc;
-    }
-
-
     public function getSearchWebcamUc(): ISearchWebcamUc {
         if (!isset($this->searchWebcamUc)) {
             $this->searchWebcamUc = new SearchWebcamUc($this->getWebcamRepo());
@@ -601,10 +589,10 @@ class ProdNavplanDiContainerAirport implements ISystemDiContainer, IDbDiContaine
         if (!isset($this->searchOpenAipItemsUc)) {
             $this->searchOpenAipItemsUc = new SearchOpenAipItemsUc(
                 $this->getSearchNavaidUc(),
-                $this->getSearchReportingPointUc(),
                 $this->getSearchWebcamUc(),
                 $this->getSearchAirspaceUc(),
-                $this->getAirportRepo()
+                $this->getAirportRepo(),
+                $this->getReportingPointRepo()
             );
         }
 
@@ -621,12 +609,12 @@ class ProdNavplanDiContainerAirport implements ISystemDiContainer, IDbDiContaine
             $this->searchByExtentUc = new SearchByExtentUc(
                 $this->getSearchNavaidUc(),
                 $this->getSearchAirspaceUc(),
-                $this->getSearchReportingPointUc(),
                 $this->getSearchUserPointUc(),
                 $this->getSearchNotamUc(),
                 $this->getSearchWebcamUc(),
                 $this->getAirportRepo(),
-                $this->getAirportCircuitRepo()
+                $this->getAirportCircuitRepo(),
+                $this->getReportingPointRepo()
             );
         }
 
@@ -637,9 +625,9 @@ class ProdNavplanDiContainerAirport implements ISystemDiContainer, IDbDiContaine
     function getSearchByIcaoUc(): ISearchByIcaoUc {
         if (!isset($this->searchByIcaoUc)) {
             $this->searchByIcaoUc = new SearchByIcaoUc(
-                $this->getSearchReportingPointUc(),
                 $this->getSearchNotamUc(),
-                $this->getAirportRepo()
+                $this->getAirportRepo(),
+                $this->getReportingPointRepo()
             );
         }
 
@@ -651,11 +639,11 @@ class ProdNavplanDiContainerAirport implements ISystemDiContainer, IDbDiContaine
         if (!isset($this->searchByPositionUc)) {
             $this->searchByPositionUc = new SearchByPositionUc(
                 $this->getSearchNavaidUc(),
-                $this->getSearchReportingPointUc(),
                 $this->getSearchUserPointUc(),
                 $this->getSearchNotamUc(),
                 $this->getSearchGeonameUc(),
-                $this->getAirportRepo()
+                $this->getAirportRepo(),
+                $this->getReportingPointRepo()
             );
         }
 
@@ -667,10 +655,10 @@ class ProdNavplanDiContainerAirport implements ISystemDiContainer, IDbDiContaine
         if (!isset($this->searchByTextUc)) {
             $this->searchByTextUc = new SearchByTextUc(
                 $this->getSearchNavaidUc(),
-                $this->getSearchReportingPointUc(),
                 $this->getSearchUserPointUc(),
                 $this->getSearchGeonameUc(),
-                $this->getAirportRepo()
+                $this->getAirportRepo(),
+                $this->getReportingPointRepo()
             );
         }
 
