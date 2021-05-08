@@ -2,8 +2,8 @@
 
 namespace Navplan\Search\UseCase\SearchByText;
 
+use Navplan\Airport\DomainService\IAirportRepo;
 use Navplan\Geoname\UseCase\SearchGeoname\ISearchGeonameUc;
-use Navplan\OpenAip\UseCase\SearchAirport\ISearchAirportUc;
 use Navplan\OpenAip\UseCase\SearchNavaid\ISearchNavaidUc;
 use Navplan\OpenAip\UseCase\SearchReportingPoint\ISearchReportingPointUc;
 use Navplan\Search\DomainModel\SearchByTextQuery;
@@ -18,11 +18,11 @@ class SearchByTextUc implements ISearchByTextUc {
 
 
     public function __construct(
-        private ISearchAirportUc $searchAirportUc,
         private ISearchNavaidUc $searchNavaidUc,
         private ISearchReportingPointUc $searchReportingPointUc,
         private ISearchUserPointUc $searchUserPointUc,
-        private ISearchGeonameUc $searchGeonameUc
+        private ISearchGeonameUc $searchGeonameUc,
+        private IAirportRepo $airportRepo
     ) {
     }
 
@@ -41,7 +41,7 @@ class SearchByTextUc implements ISearchByTextUc {
 
             switch ($searchItem) {
                 case SearchItemType::AIRPORTS:
-                    $airports = $this->searchAirportUc->searchByText($query->searchText, $this->getMaxTextResults($resultNum));
+                    $airports = $this->airportRepo->searchByText($query->searchText, $this->getMaxTextResults($resultNum));
                     $resultNum += count($airports);
                     break;
                 case SearchItemType::NAVAIDS:

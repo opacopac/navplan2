@@ -3,12 +3,12 @@
 namespace NavplanTest\MeteoSma\DbRepo;
 
 use Navplan\MeteoSma\DbRepo\SmaStationConverter;
-use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement1;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement2;
 use NavplanTest\MeteoSma\Mocks\DummySmaStation1;
 use NavplanTest\MeteoSma\Mocks\DummySmaStation2;
 use NavplanTest\MockNavplanDiContainer;
+use NavplanTest\System\Mock\MockDbService;
 use PHPUnit\Framework\TestCase;
 
 

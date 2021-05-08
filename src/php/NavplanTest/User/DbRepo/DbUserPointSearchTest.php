@@ -4,7 +4,7 @@ use Navplan\Geometry\DomainModel\Extent;
 use Navplan\Geometry\DomainModel\Position2d;
 use Navplan\User\DbRepo\DbUserPointRepo;
 use Navplan\User\DomainModel\UserPoint;
-use NavplanTest\Db\Mock\MockDbService;
+use NavplanTest\System\Mock\MockDbService;
 use NavplanTest\User\Mocks\DummyUserPoint1;
 use NavplanTest\User\Mocks\DummyUserPoint2;
 use PHPUnit\Framework\TestCase;

@@ -2,13 +2,13 @@
 
 namespace Navplan\OpenAip\DbRepo;
 
-use Navplan\Db\DomainService\IDbService;
-use Navplan\OpenAip\DomainService\IAirportRepo;
+use Navplan\Airport\DomainService\IAirportRepo;
 use Navplan\OpenAip\DomainService\IAirspaceRepo;
 use Navplan\OpenAip\DomainService\INavaidRepo;
 use Navplan\OpenAip\DomainService\IOpenAipRepoFactory;
 use Navplan\OpenAip\DomainService\IReportingPointRepo;
 use Navplan\OpenAip\DomainService\IWebcamRepo;
+use Navplan\System\DomainService\IDbService;
 
 
 class DbOpenAipRepoFactory implements IOpenAipRepoFactory {

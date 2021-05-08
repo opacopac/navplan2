@@ -5,9 +5,9 @@ include_once __DIR__ . "/../php/Navplan/Db/MySqlDb/DbService.php";
 include_once __DIR__ . "/../php/Navplan/Shared/LoggingServiceOld.php";
 include_once __DIR__ . "/../php/Navplan/Shared/GeoHelper.php";
 
-use Navplan\Db\MySqlDb\DbService;
 use Navplan\Shared\GeoHelper;
 use Navplan\Shared\LoggingServiceOld;
+use Navplan\System\MySqlDb\DbService;
 
 
 const MAX_ZOOM = 14;

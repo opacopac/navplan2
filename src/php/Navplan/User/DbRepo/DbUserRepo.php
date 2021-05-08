@@ -2,7 +2,7 @@
 
 namespace Navplan\User\DbRepo;
 
-use Navplan\Db\DomainService\IDbService;
+use Navplan\System\DomainService\IDbService;
 use Navplan\User\DomainModel\User;
 use Navplan\User\DomainService\IUserRepo;
 

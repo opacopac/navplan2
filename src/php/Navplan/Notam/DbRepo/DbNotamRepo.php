@@ -2,14 +2,14 @@
 
 namespace Navplan\Notam\DbRepo;
 
-use Navplan\Db\DomainModel\IDbResult;
-use Navplan\Db\DomainService\IDbService;
-use Navplan\Db\MySqlDb\DbHelper;
 use Navplan\Geometry\DomainModel\Extent;
 use Navplan\Geometry\DomainModel\Position2d;
 use Navplan\Notam\DomainModel\Notam;
 use Navplan\Notam\DomainService\INotamRepo;
 use Navplan\Shared\GeoHelper;
+use Navplan\System\DomainModel\IDbResult;
+use Navplan\System\DomainService\IDbService;
+use Navplan\System\MySqlDb\DbHelper;
 
 
 class DbNotamRepo implements INotamRepo {

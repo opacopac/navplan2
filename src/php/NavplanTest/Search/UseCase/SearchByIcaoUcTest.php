@@ -5,11 +5,11 @@ namespace NavplanTest\Search\UseCase;
 use Navplan\Search\DomainModel\SearchByIcaoQuery;
 use Navplan\Search\DomainModel\SearchItemType;
 use Navplan\Search\UseCase\SearchByIcao\SearchByIcaoUc;
+use NavplanTest\Airport\Mocks\DummyAirport1;
+use NavplanTest\Airport\Mocks\MockAirportRepo;
 use NavplanTest\MockNavplanDiContainer;
-use NavplanTest\OpenAip\Mocks\DummyAirport1;
 use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;
 use NavplanTest\OpenAip\Mocks\DummyReportingSector1;
-use NavplanTest\OpenAip\Mocks\MockAirportRepo;
 use NavplanTest\OpenAip\Mocks\MockReportingPointRepo;
 use PHPUnit\Framework\TestCase;
 

@@ -4,11 +4,11 @@ namespace NavplanTest\MeteoSma\DbRepo;
 
 use Navplan\Geometry\DomainModel\Extent;
 use Navplan\MeteoSma\DbRepo\DbMeteoRepo;
-use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement1;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement2;
 use NavplanTest\MeteoSma\Mocks\DummySmaStationList1;
 use NavplanTest\MockNavplanDiContainer;
+use NavplanTest\System\Mock\MockDbService;
 use NavplanTest\System\Mock\MockTimeService;
 use PHPUnit\Framework\TestCase;
 

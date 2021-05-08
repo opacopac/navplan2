@@ -3,12 +3,12 @@
 namespace Navplan\MeteoSma\DbRepo;
 
 use InvalidArgumentException;
-use Navplan\Db\DomainService\IDbService;
 use Navplan\Geometry\DomainModel\Altitude;
 use Navplan\Geometry\DomainModel\AltitudeReference;
 use Navplan\Geometry\DomainModel\AltitudeUnit;
 use Navplan\Geometry\DomainModel\Position2d;
 use Navplan\MeteoSma\DomainModel\SmaStation;
+use Navplan\System\DomainService\IDbService;
 
 
 class SmaStationConverter {

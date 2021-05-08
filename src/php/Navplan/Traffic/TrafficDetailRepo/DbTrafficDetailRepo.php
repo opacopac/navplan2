@@ -2,7 +2,7 @@
 
 namespace Navplan\Traffic\TrafficDetailRepo;
 
-use Navplan\Db\DomainService\IDbService;
+use Navplan\System\DomainService\IDbService;
 use Navplan\Traffic\DomainService\ITrafficDetailRepo;
 
 

@@ -2,12 +2,12 @@
 
 namespace Navplan\Terrain\RestService;
 
-use Navplan\ProdNavplanDiContainer;
+use Navplan\ProdNavplanDiContainerAirport;
 
 require_once __DIR__ . "/../../RestServiceBootstrap.php";
 
 
-$diContainer = new ProdNavplanDiContainer();
+$diContainer = new ProdNavplanDiContainerAirport();
 $reqMethod = $_SERVER['REQUEST_METHOD'];
 $getArgs = $_GET;
 $postArgs = json_decode(file_get_contents('php://input'), TRUE);

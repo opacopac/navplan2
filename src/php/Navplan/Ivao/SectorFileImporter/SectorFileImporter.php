@@ -2,10 +2,10 @@
 
 namespace Navplan\Ivao\SectorFileImporter;
 
+use Navplan\Airport\DomainModel\AirportCircuit;
+use Navplan\Airport\DomainService\IAirportCircuitRepo;
 use Navplan\Geometry\DomainModel\Line2d;
 use Navplan\Geometry\DomainModel\Position2d;
-use Navplan\Ivao\DomainModel\Circuit;
-use Navplan\Ivao\DomainService\ICircuitRepo;
 use Navplan\Shared\GeoHelper;
 use Navplan\System\DomainService\ILoggingService;
 
@@ -33,7 +33,7 @@ class SectorFileImporter {
 
 
     public function __construct(
-        private ICircuitRepo $circuitRepo,
+        private IAirportCircuitRepo $circuitRepo,
         private ILoggingService $logger
     ) {
     }
@@ -164,7 +164,7 @@ class SectorFileImporter {
         }
 
         if ($this->isInAllowedSection() && $this->isInAllowedSubSection() && count($this->currentLine2dList) > 0) {
-            $circuit = new Circuit(
+            $circuit = new AirportCircuit(
                 $this->currentAirport,
                 $this->currentSection,
                 $this->currentAppendix,
@@ -184,7 +184,7 @@ class SectorFileImporter {
     }
 
 
-    private function shouldBeSaved(Circuit $circuit): bool {
+    private function shouldBeSaved(AirportCircuit $circuit): bool {
         foreach (self::FILTER_COMMENT_WORDS as $filterWord) {
             if (str_contains(strtolower($circuit->comment), $filterWord)) {
                 return false;

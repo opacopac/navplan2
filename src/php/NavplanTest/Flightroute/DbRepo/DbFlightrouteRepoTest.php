@@ -4,10 +4,10 @@ namespace NavplanTest\Flightroute\DbRepo;
 
 use Navplan\Flightroute\DbRepo\DbFlightrouteRepo;
 use Navplan\User\DomainService\TokenService;
-use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\DummyWaypoint1;
 use NavplanTest\MockNavplanDiContainer;
+use NavplanTest\System\Mock\MockDbService;
 use NavplanTest\User\Mocks\DummyUser1;
 use PHPUnit\Framework\TestCase;
 

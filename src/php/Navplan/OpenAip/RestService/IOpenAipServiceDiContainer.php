@@ -2,7 +2,7 @@
 
 namespace Navplan\OpenAip\RestService;
 
-use Navplan\OpenAip\UseCase\SearchAirport\ISearchAirportUc;
+use Navplan\Airport\DomainService\IAirportRepo;
 use Navplan\OpenAip\UseCase\SearchAirspace\ISearchAirspaceUc;
 use Navplan\OpenAip\UseCase\SearchNavaid\ISearchNavaidUc;
 use Navplan\OpenAip\UseCase\SearchOpenAipItem\ISearchOpenAipItemsUc;
@@ -14,8 +14,6 @@ use Navplan\System\DomainService\IHttpService;
 interface IOpenAipServiceDiContainer {
     function getHttpService(): IHttpService;
 
-    function getSearchAirportUc(): ISearchAirportUc;
-
     function getSearchAirspaceUc(): ISearchAirspaceUc;
 
     function getSearchNavaidUc(): ISearchNavaidUc;
@@ -25,4 +23,6 @@ interface IOpenAipServiceDiContainer {
     function getSearchWebcamUc(): ISearchWebcamUc;
 
     function getSearchOpenAipItemUc(): ISearchOpenAipItemsUc;
+
+    function getAirportRepo(): IAirportRepo;
 }

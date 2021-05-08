@@ -2,11 +2,11 @@
 
 namespace Navplan\Flightroute\DbRepo;
 
-use Navplan\Db\DomainService\IDbService;
-use Navplan\Db\MySqlDb\DbHelper;
 use Navplan\Flightroute\Domain\Waypoint;
 use Navplan\Geometry\DomainModel\Position2d;
 use Navplan\Shared\StringNumberHelper;
+use Navplan\System\DomainService\IDbService;
+use Navplan\System\MySqlDb\DbHelper;
 
 
 class WaypointConverter {

@@ -2,13 +2,13 @@
 
 namespace Navplan\OpenAip\DbRepo;
 
-use Navplan\Db\DomainModel\IDbResult;
-use Navplan\Db\DomainService\IDbService;
-use Navplan\Db\MySqlDb\DbHelper;
 use Navplan\Geometry\DomainModel\Extent;
 use Navplan\Geometry\DomainModel\Position2d;
 use Navplan\OpenAip\DbModel\DbNavaidConverter;
 use Navplan\OpenAip\DomainService\INavaidRepo;
+use Navplan\System\DomainModel\IDbResult;
+use Navplan\System\DomainService\IDbService;
+use Navplan\System\MySqlDb\DbHelper;
 
 
 class DbNavaidRepo implements INavaidRepo {

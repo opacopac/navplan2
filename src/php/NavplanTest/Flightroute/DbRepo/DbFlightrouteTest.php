@@ -5,11 +5,11 @@ namespace NavplanTest\Flightroute\DbRepo;
 use Navplan\Flightroute\DbRepo\FlightrouteConverter;
 use Navplan\Flightroute\Domain\Flightroute;
 use Navplan\User\DomainService\ITokenService;
-use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute2;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute3;
 use NavplanTest\MockNavplanDiContainer;
+use NavplanTest\System\Mock\MockDbService;
 use NavplanTest\User\Mocks\DummyUser1;
 use PHPUnit\Framework\TestCase;
 

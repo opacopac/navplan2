@@ -2,10 +2,10 @@
 
 namespace Navplan\Search\UseCase\SearchByExtent;
 
-use Navplan\Ivao\UseCase\SearchCircuit\ISearchCircuitUc;
+use Navplan\Airport\DomainService\IAirportCircuitRepo;
+use Navplan\Airport\DomainService\IAirportRepo;
 use Navplan\Notam\DomainModel\ReadNotamByExtentRequest;
 use Navplan\Notam\UseCase\SearchNotam\ISearchNotamUc;
-use Navplan\OpenAip\UseCase\SearchAirport\ISearchAirportUc;
 use Navplan\OpenAip\UseCase\SearchAirspace\ISearchAirspaceUc;
 use Navplan\OpenAip\UseCase\SearchNavaid\ISearchNavaidUc;
 use Navplan\OpenAip\UseCase\SearchReportingPoint\ISearchReportingPointUc;
@@ -22,14 +22,14 @@ class SearchByExtentUc implements ISearchByExtentUc {
 
 
     public function __construct(
-        private ISearchAirportUc $searchAirportUc,
         private ISearchNavaidUc $searchNavaidUc,
         private ISearchAirspaceUc $searchAirspaceUc,
         private ISearchReportingPointUc $searchReportingPointUc,
         private ISearchUserPointUc $searchUserPointUc,
         private ISearchNotamUc $searchNotamUc,
         private ISearchWebcamUc $searchWebcamUc,
-        private ISearchCircuitUc $searchCircuitUc
+        private IAirportRepo $airportRepo,
+        private IAirportCircuitRepo $airportCircuitRepo
     ) {
     }
 
@@ -51,7 +51,7 @@ class SearchByExtentUc implements ISearchByExtentUc {
 
             switch ($searchItem) {
                 case SearchItemType::AIRPORTS:
-                    $airports = $this->searchAirportUc->searchByExtent($query->extent, $query->zoom);
+                    $airports = $this->airportRepo->searchByExtent($query->extent, $query->zoom);
                     $resultNum += count($airports);
                     break;
                 case SearchItemType::NAVAIDS:
@@ -82,7 +82,7 @@ class SearchByExtentUc implements ISearchByExtentUc {
                     $resultNum += count($notams);
                     break;
                 case SearchItemType::CIRCUITS:
-                    $circuits = $this->searchCircuitUc->searchByExtent($query->extent);
+                    $circuits = $this->airportCircuitRepo->getCircuitsByExtent($query->extent);
                     $resultNum += count($circuits);
             }
         }

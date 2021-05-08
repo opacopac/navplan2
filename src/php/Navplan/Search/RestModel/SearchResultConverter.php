@@ -2,16 +2,16 @@
 
 namespace Navplan\Search\RestModel;
 
-use Navplan\Ivao\DomainModel\Circuit;
-use Navplan\Ivao\RestModel\CircuitConverter;
+use Navplan\Airport\DomainModel\Airport;
+use Navplan\Airport\DomainModel\AirportCircuit;
+use Navplan\Airport\RestModel\RestAirportCircuitConverter;
+use Navplan\Airport\RestModel\RestAirportConverter;
 use Navplan\Notam\DomainModel\Notam;
 use Navplan\Notam\RestModel\NotamConverter;
-use Navplan\OpenAip\DomainModel\Airport;
 use Navplan\OpenAip\DomainModel\Airspace;
 use Navplan\OpenAip\DomainModel\Navaid;
 use Navplan\OpenAip\DomainModel\ReportingPoint;
 use Navplan\OpenAip\DomainModel\Webcam;
-use Navplan\OpenAip\RestModel\AirportConverter;
 use Navplan\OpenAip\RestModel\AirspaceConverter;
 use Navplan\OpenAip\RestModel\NavaidConverter;
 use Navplan\OpenAip\RestModel\ReportingPointConverter;
@@ -26,7 +26,7 @@ class SearchResultConverter {
         SearchResult $result
     ): array {
         return array(
-            'airports' => array_map(function (Airport $airport) { return AirportConverter::toRest($airport); }, $result->airports),
+            'airports' => array_map(function (Airport $airport) { return RestAirportConverter::toRest($airport); }, $result->airports),
             'navaids' => array_map(function (Navaid $navaid) { return NavaidConverter::toRest($navaid); }, $result->navaids),
             'airspaces' => array_map(function (Airspace $as) { return AirspaceConverter::toRest($as); }, $result->airspaces),
             'reportingpoints' => array_map(function (ReportingPoint $rp) { return ReportingPointConverter::toRest($rp); }, $result->reportingPoints),
@@ -34,7 +34,7 @@ class SearchResultConverter {
             'webcams' => array_map(function (Webcam $cam) { return WebcamConverter::toRest($cam); }, $result->webcams),
             'geonames' => [],
             'notams' => array_map(function (Notam $notam) { return NotamConverter::toRest($notam); }, $result->notams),
-            'circuits' => array_map(function (Circuit $circuit) { return CircuitConverter::toRest($circuit); }, $result->circuits )
+            'circuits' => array_map(function (AirportCircuit $circuit) { return RestAirportCircuitConverter::toRest($circuit); }, $result->circuits )
         );
     }
 }

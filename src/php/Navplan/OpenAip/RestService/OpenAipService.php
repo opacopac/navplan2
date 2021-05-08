@@ -2,12 +2,12 @@
 
 namespace Navplan\OpenAip\RestService;
 
-use Navplan\ProdNavplanDiContainer;
+use Navplan\ProdNavplanDiContainerAirport;
 
 require_once __DIR__ . "/../../RestServiceBootstrap.php";
 
 
-$config = new ProdNavplanDiContainer();
+$config = new ProdNavplanDiContainerAirport();
 $getArgs = $_GET;
 
 OpenAipServiceProcessor::processRequest($getArgs, $config);

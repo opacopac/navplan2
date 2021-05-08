@@ -5,8 +5,8 @@ namespace NavplanTest\Geoname\DbRepo;
 use Navplan\Geometry\DomainModel\Position2d;
 use Navplan\Geoname\DbRepo\DbGeonameRepo;
 use Navplan\Geoname\DomainModel\Geoname;
-use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\Geoname\Mocks\DummyGeoname1;
+use NavplanTest\System\Mock\MockDbService;
 use PHPUnit\Framework\TestCase;
 
 

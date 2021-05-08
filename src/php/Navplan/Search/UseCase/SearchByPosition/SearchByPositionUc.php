@@ -2,9 +2,9 @@
 
 namespace Navplan\Search\UseCase\SearchByPosition;
 
+use Navplan\Airport\DomainService\IAirportRepo;
 use Navplan\Geoname\UseCase\SearchGeoname\ISearchGeonameUc;
 use Navplan\Notam\UseCase\SearchNotam\ISearchNotamUc;
-use Navplan\OpenAip\UseCase\SearchAirport\ISearchAirportUc;
 use Navplan\OpenAip\UseCase\SearchNavaid\ISearchNavaidUc;
 use Navplan\OpenAip\UseCase\SearchReportingPoint\ISearchReportingPointUc;
 use Navplan\Search\DomainModel\SearchByPositionQuery;
@@ -19,12 +19,12 @@ class SearchByPositionUc implements ISearchByPositionUc {
 
 
     public function __construct(
-        private ISearchAirportUc $searchAirportUc,
         private ISearchNavaidUc $searchNavaidUc,
         private ISearchReportingPointUc $searchReportingPointUc,
         private ISearchUserPointUc $searchUserPointUc,
         private ISearchNotamUc $searchNotamUc,
-        private ISearchGeonameUc $searchGeonameUc
+        private ISearchGeonameUc $searchGeonameUc,
+        private IAirportRepo $airportRepo
     ) {
     }
 
@@ -44,7 +44,7 @@ class SearchByPositionUc implements ISearchByPositionUc {
 
             switch ($searchItem) {
                 case SearchItemType::AIRPORTS:
-                    $airports = $this->searchAirportUc->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum));
+                    $airports = $this->airportRepo->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum));
                     $resultNum += count($airports);
                     break;
                 case SearchItemType::NAVAIDS:

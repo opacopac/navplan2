@@ -2,11 +2,11 @@
 
 namespace NavplanTest;
 
+use Navplan\NavplanBootstrap;
+use Navplan\System\MySqlDb\MySqlDbService;
 use Navplan\System\Posix\FileService;
 use Navplan\System\Posix\MailService;
-use Navplan\Db\MySqlDb\MySqlDbService;
 use PHPUnit\Framework\TestCase;
-use Navplan\NavplanBootstrap;
 
 
 class NavplanBootstrapTest extends TestCase {

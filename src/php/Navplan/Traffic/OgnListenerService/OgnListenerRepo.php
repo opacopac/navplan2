@@ -2,8 +2,8 @@
 
 namespace Navplan\Traffic\OgnListenerService;
 
-use Navplan\Db\DomainService\IDbService;
 use Navplan\Geometry\DomainModel\Extent;
+use Navplan\System\DomainService\IDbService;
 use Navplan\System\DomainService\ITimeService;
 use Navplan\Traffic\OgnListenerModel\OgnTrafficConverter;
 use Navplan\Traffic\OgnListenerModel\OgnTrafficFilter;

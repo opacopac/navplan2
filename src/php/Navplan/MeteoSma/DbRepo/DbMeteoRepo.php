@@ -2,9 +2,9 @@
 
 namespace Navplan\MeteoSma\DbRepo;
 
-use Navplan\Db\DomainService\IDbService;
 use Navplan\Geometry\DomainModel\Extent;
 use Navplan\MeteoSma\DomainService\IMeteoRepo;
+use Navplan\System\DomainService\IDbService;
 use Navplan\System\DomainService\ITimeService;
 
 

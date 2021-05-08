@@ -1,8 +1,8 @@
 <?php
 require_once __DIR__ . "/Navplan/Db/MySqlDb/DbService.php";
 
-use Navplan\Db\MySqlDb\DbService;
-use Navplan\Db\MySqlDb\DbHelper;
+use Navplan\System\MySqlDb\DbHelper;
+use Navplan\System\MySqlDb\DbService;
 
 
 // TODO: show errors on web page

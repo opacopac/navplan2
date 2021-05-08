@@ -2,7 +2,7 @@
 
 namespace Navplan\OpenAip\RestModel;
 
-use Navplan\OpenAip\DomainModel\Airport;
+use Navplan\Airport\DomainModel\Airport;
 use Navplan\OpenAip\DomainModel\Navaid;
 use Navplan\OpenAip\DomainModel\ReportingPoint;
 use Navplan\OpenAip\DomainModel\SearchPointItemsResponse;

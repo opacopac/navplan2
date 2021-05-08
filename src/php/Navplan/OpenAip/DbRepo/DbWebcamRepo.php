@@ -2,12 +2,12 @@
 
 namespace Navplan\OpenAip\DbRepo;
 
-use Navplan\Db\DomainService\IDbService;
 use Navplan\Geometry\DomainModel\Extent;
 use Navplan\Geometry\DomainModel\Position2d;
 use Navplan\OpenAip\DomainModel\Webcam;
 use Navplan\OpenAip\DomainService\IWebcamRepo;
 use Navplan\Shared\StringNumberHelper;
+use Navplan\System\DomainService\IDbService;
 
 
 class DbWebcamRepo implements IWebcamRepo {

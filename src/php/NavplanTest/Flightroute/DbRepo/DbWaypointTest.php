@@ -7,10 +7,10 @@ require_once __DIR__ . "/../../../config_test.php";
 
 use Navplan\Flightroute\DbRepo\WaypointConverter;
 use Navplan\Flightroute\Domain\Waypoint;
-use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\Flightroute\Mocks\DummyWaypoint1;
 use NavplanTest\Flightroute\Mocks\DummyWaypoint2;
 use NavplanTest\Flightroute\Mocks\DummyWaypoint3;
+use NavplanTest\System\Mock\MockDbService;
 use PHPUnit\Framework\TestCase;
 
 

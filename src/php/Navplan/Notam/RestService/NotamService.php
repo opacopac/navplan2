@@ -5,10 +5,10 @@ namespace Navplan\Notem\RestService;
 require_once __DIR__ . "/../../RestServiceBootstrap.php";
 
 use Navplan\Notam\RestService\NotamServiceProcessor;
-use Navplan\ProdNavplanDiContainer;
+use Navplan\ProdNavplanDiContainerAirport;
 
 
-$diContainer = new ProdNavplanDiContainer();
+$diContainer = new ProdNavplanDiContainerAirport();
 $getArgs = $_GET;
 
 NotamServiceProcessor::processRequest($getArgs, $diContainer);

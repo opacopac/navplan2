@@ -3,13 +3,13 @@
 namespace Navplan\OpenAip\DbRepo;
 
 use BadMethodCallException;
-use Navplan\Db\DomainModel\IDbResult;
-use Navplan\Db\DomainService\IDbService;
-use Navplan\Db\MySqlDb\DbHelper;
 use Navplan\Geometry\DomainModel\Extent;
 use Navplan\Geometry\DomainModel\Position2d;
 use Navplan\OpenAip\DbModel\DbReportingPointConverter;
 use Navplan\OpenAip\DomainService\IReportingPointRepo;
+use Navplan\System\DomainModel\IDbResult;
+use Navplan\System\DomainService\IDbService;
+use Navplan\System\MySqlDb\DbHelper;
 
 
 class DbReportingPointRepo implements IReportingPointRepo {

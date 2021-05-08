@@ -2,10 +2,10 @@
 include_once __DIR__ . "/ZoomLevelSortItemType.php";
 include_once __DIR__ . "/../../php/Navplan/Db\MySqlDb/DbService.php";
 
-use Navplan\Db\DomainModel\DbException;
-use Navplan\Db\MySqlDb\DbConnection;
-use Navplan\Db\MySqlDb\DbService;
-use Navplan\Db\MySqlDb\MySqlDbResult;
+use Navplan\System\DomainModel\DbException;
+use Navplan\System\MySqlDb\DbConnection;
+use Navplan\System\MySqlDb\DbService;
+use Navplan\System\MySqlDb\MySqlDbResult;
 
 
 class ZoomLevelSortItemTypeNavaid implements ZoomLevelSortItemType {

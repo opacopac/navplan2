@@ -4,8 +4,8 @@ namespace NavplanTest\OpenAip\DbRepo;
 
 use Navplan\Geometry\DomainModel\Extent;
 use Navplan\OpenAip\DbRepo\DbAirspaceRepo;
-use NavplanTest\Db\Mock\MockDbService;
 use NavplanTest\OpenAip\Mocks\DummyAirspace1;
+use NavplanTest\System\Mock\MockDbService;
 use PHPUnit\Framework\TestCase;
 
 

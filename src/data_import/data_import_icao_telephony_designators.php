@@ -3,7 +3,7 @@ ini_set('max_execution_time', 600);
 
 include_once __DIR__ . "/../php/Navplan/Db/MySqlDb/DbService.php";
 
-use Navplan\Db\MySqlDb\DbService;
+use Navplan\System\MySqlDb\DbService;
 
 $conn = DbService::openDb();
 

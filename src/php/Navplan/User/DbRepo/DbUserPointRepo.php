@@ -2,10 +2,10 @@
 
 namespace Navplan\User\DbRepo;
 
-use Navplan\Db\DomainModel\IDbResult;
-use Navplan\Db\DomainService\IDbService;
 use Navplan\Geometry\DomainModel\Extent;
 use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\System\DomainModel\IDbResult;
+use Navplan\System\DomainService\IDbService;
 use Navplan\User\DomainService\IUserPointRepo;
 
 

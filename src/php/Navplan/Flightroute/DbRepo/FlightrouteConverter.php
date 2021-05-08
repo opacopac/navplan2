@@ -2,10 +2,10 @@
 
 namespace Navplan\Flightroute\DbRepo;
 
-use Navplan\Db\DomainService\IDbService;
-use Navplan\Db\MySqlDb\DbHelper;
 use Navplan\Flightroute\Domain\Flightroute;
 use Navplan\Shared\StringNumberHelper;
+use Navplan\System\DomainService\IDbService;
+use Navplan\System\MySqlDb\DbHelper;
 
 
 class FlightrouteConverter {

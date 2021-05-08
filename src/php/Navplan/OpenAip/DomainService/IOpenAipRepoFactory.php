@@ -2,6 +2,8 @@
 
 namespace Navplan\OpenAip\DomainService;
 
+use Navplan\Airport\DomainService\IAirportRepo;
+
 
 interface IOpenAipRepoFactory {
     function createAirportRepo(): IAirportRepo;

@@ -2,12 +2,12 @@
 
 namespace Navplan\Traffic\OgnListenerService;
 
-use Navplan\ProdNavplanDiContainer;
+use Navplan\ProdNavplanDiContainerAirport;
 
 require_once __DIR__ . "/../../ConsoleBootstrap.php";
 
 
-$diContainer = new ProdNavplanDiContainer();
+$diContainer = new ProdNavplanDiContainerAirport();
 $sessionId = intval($argv[1]);
 $maxAgeSec = intval($argv[2]);
 $ognListenerService = new OgnListener(

@@ -6,7 +6,7 @@ use Navplan\Search\DomainModel\SearchItemType;
 use Navplan\Search\DomainModel\SearchResult;
 use Navplan\Search\RestModel\SearchItemTypeConverter;
 use Navplan\Search\RestModel\SearchResultConverter;
-use NavplanTest\OpenAip\Mocks\DummyAirport1;
+use NavplanTest\Airport\Mocks\DummyAirport1;
 use NavplanTest\OpenAip\Mocks\DummyAirspace1;
 use NavplanTest\OpenAip\Mocks\DummyNavaid1;
 use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;

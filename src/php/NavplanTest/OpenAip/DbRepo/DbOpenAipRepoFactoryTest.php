@@ -3,7 +3,7 @@
 namespace NavplanTest\OpenAip\DbRepo;
 
 use Navplan\OpenAip\DbRepo\DbOpenAipRepoFactory;
-use NavplanTest\Db\Mock\MockDbService;
+use NavplanTest\System\Mock\MockDbService;
 use PHPUnit\Framework\TestCase;
 
 

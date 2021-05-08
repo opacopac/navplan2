@@ -2,11 +2,11 @@
 
 namespace Navplan\Flightroute\DbRepo;
 
-use Navplan\Db\DomainModel\IDbResult;
-use Navplan\Db\DomainService\IDbService;
-use Navplan\Db\MySqlDb\DbHelper;
 use Navplan\Flightroute\Domain\Flightroute;
 use Navplan\Flightroute\DomainService\IFlightrouteRepo;
+use Navplan\System\DomainModel\IDbResult;
+use Navplan\System\DomainService\IDbService;
+use Navplan\System\MySqlDb\DbHelper;
 use Navplan\User\DomainModel\User;
 
 
