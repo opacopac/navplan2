@@ -90,7 +90,7 @@ class DbGeonameRepo implements IGeonameRepo {
         $geonames = [];
 
         while ($rs = $result->fetch_assoc()) {
-            $geonames[] = GeonameConverter::fromDbResult($rs);
+            $geonames[] = DbGeonameConverter::fromDbResult($rs);
         }
 
         if ($renameDuplicates) {

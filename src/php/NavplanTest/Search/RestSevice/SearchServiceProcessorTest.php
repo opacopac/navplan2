@@ -11,8 +11,8 @@ use Navplan\Search\RestService\SearchServiceProcessor;
 use NavplanTest\Airport\Mocks\DummyReportingPoint1;
 use NavplanTest\Airport\Mocks\MockReportingPointRepo;
 use NavplanTest\MockNavplanDiContainer;
-use NavplanTest\OpenAip\Mocks\DummyNavaid1;
-use NavplanTest\OpenAip\Mocks\MockNavaidRepo;
+use NavplanTest\Navaid\Mocks\DummyNavaid1;
+use NavplanTest\Navaid\Mocks\MockNavaidRepo;
 use NavplanTest\System\Mock\MockHttpService;
 use PHPUnit\Framework\TestCase;
 

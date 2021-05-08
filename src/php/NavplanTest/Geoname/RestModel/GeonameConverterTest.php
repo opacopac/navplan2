@@ -4,7 +4,7 @@ namespace NavplanTest\Geoname\RestModel;
 
 use Navplan\Geometry\DomainModel\AltitudeReference;
 use Navplan\Geometry\DomainModel\AltitudeUnit;
-use Navplan\Geoname\RestModel\GeonameConverter;
+use Navplan\Geoname\RestModel\RestGeonameConverter;
 use NavplanTest\Geoname\Mocks\DummyGeoname1;
 use PHPUnit\Framework\TestCase;
 
@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 class GeonameConverterTest extends TestCase {
     public function test_toArray() {
         $geo = DummyGeoname1::create();
-        $geoRest = GeonameConverter::toRest($geo);
+        $geoRest = RestGeonameConverter::toRest($geo);
 
         $this->assertEquals($geo->id, $geoRest["id"]);
         $this->assertEquals($geo->name, $geoRest["name"]);

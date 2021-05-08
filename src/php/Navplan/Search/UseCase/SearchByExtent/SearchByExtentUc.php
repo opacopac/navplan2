@@ -5,10 +5,10 @@ namespace Navplan\Search\UseCase\SearchByExtent;
 use Navplan\Airport\DomainService\IAirportCircuitRepo;
 use Navplan\Airport\DomainService\IAirportRepo;
 use Navplan\Airport\DomainService\IReportingPointRepo;
+use Navplan\Airspace\DomainService\IAirspaceRepo;
+use Navplan\Navaid\DomainService\INavaidRepo;
 use Navplan\Notam\DomainModel\ReadNotamByExtentRequest;
 use Navplan\Notam\UseCase\SearchNotam\ISearchNotamUc;
-use Navplan\OpenAip\UseCase\SearchAirspace\ISearchAirspaceUc;
-use Navplan\OpenAip\UseCase\SearchNavaid\ISearchNavaidUc;
 use Navplan\OpenAip\UseCase\SearchWebcam\ISearchWebcamUc;
 use Navplan\Search\DomainModel\SearchByExtentQuery;
 use Navplan\Search\DomainModel\SearchItemType;
@@ -22,14 +22,14 @@ class SearchByExtentUc implements ISearchByExtentUc {
 
 
     public function __construct(
-        private ISearchNavaidUc $searchNavaidUc,
-        private ISearchAirspaceUc $searchAirspaceUc,
         private ISearchUserPointUc $searchUserPointUc,
         private ISearchNotamUc $searchNotamUc,
         private ISearchWebcamUc $searchWebcamUc,
         private IAirportRepo $airportRepo,
         private IAirportCircuitRepo $airportCircuitRepo,
-        private IReportingPointRepo $reportingPointRepo
+        private IReportingPointRepo $reportingPointRepo,
+        private INavaidRepo $navaidRepo,
+        private IAirspaceRepo $airspaceRepo
     ) {
     }
 
@@ -55,11 +55,11 @@ class SearchByExtentUc implements ISearchByExtentUc {
                     $resultNum += count($airports);
                     break;
                 case SearchItemType::NAVAIDS:
-                    $navaids = $this->searchNavaidUc->searchByExtent($query->extent, $query->zoom);
+                    $navaids = $this->navaidRepo->searchByExtent($query->extent, $query->zoom);
                     $resultNum += count($navaids);
                     break;
                 case SearchItemType::AIRSPACES:
-                    $airspaces = $this->searchAirspaceUc->searchByExtent($query->extent, $query->zoom);
+                    $airspaces = $this->airspaceRepo->searchByExtent($query->extent, $query->zoom);
                     $resultNum += count($airspaces);
                     break;
                 case SearchItemType::REPORTINGPOINTS:

@@ -6,7 +6,7 @@ use Navplan\Airport\DomainModel\Airport;
 use Navplan\Airport\DomainModel\ReportingPoint;
 use Navplan\Airport\RestModel\RestAirportConverter;
 use Navplan\Airport\RestModel\RestReportingPointConverter;
-use Navplan\OpenAip\DomainModel\Navaid;
+use Navplan\Navaid\DomainModel\Navaid;
 use Navplan\OpenAip\DomainModel\SearchPointItemsResponse;
 use Navplan\OpenAip\DomainModel\Webcam;
 
