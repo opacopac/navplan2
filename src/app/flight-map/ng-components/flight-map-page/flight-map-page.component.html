@@ -3,7 +3,18 @@
     <app-ol-map-container></app-ol-map-container>
 </div>
 <!-- map overlays -->
-<app-ol-overlay-container></app-ol-overlay-container>
+<div style="display: none">
+    <app-ol-overlay-airport (close)="this.onOverlayClosed()"></app-ol-overlay-airport>
+    <app-ol-overlay-navaid (close)="this.onOverlayClosed()"></app-ol-overlay-navaid>
+    <app-ol-overlay-reportingpoint (close)="this.onOverlayClosed()"></app-ol-overlay-reportingpoint>
+    <app-ol-overlay-reportingsector (close)="this.onOverlayClosed()"></app-ol-overlay-reportingsector>
+    <app-ol-overlay-userpoint (close)="this.onOverlayClosed()"></app-ol-overlay-userpoint>
+    <app-ol-overlay-geoname (close)="this.onOverlayClosed()"></app-ol-overlay-geoname>
+    <app-ol-overlay-traffic (close)="this.onOverlayClosed()"></app-ol-overlay-traffic>
+    <app-ol-overlay-notam (close)="this.onOverlayClosed()"></app-ol-overlay-notam>
+    <app-ol-overlay-waypoint (close)="this.onOverlayClosed()"></app-ol-overlay-waypoint>
+    <app-ol-overlay-traffic></app-ol-overlay-traffic>
+</div>
 <!-- search box -->
 <app-search-container></app-search-container>
 <!-- buttons -->

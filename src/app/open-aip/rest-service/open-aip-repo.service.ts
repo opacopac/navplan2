@@ -46,6 +46,10 @@ export class OpenAipRepo {
             url += ',reportingpoints';
         }
 
+        if (zoom >= 12) {
+            url += ',circuits';
+        }
+
         return url;
     }
 }

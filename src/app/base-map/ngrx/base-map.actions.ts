@@ -10,7 +10,9 @@ export enum BaseMapActionTypes {
     BASE_MAP_ZOOM_OUT = '[Base Map Buttons] zoom out',
     BASE_MAP_MOVED_ZOOMED_ROTATED = '[Base Map] map moved / zoomed / rotated',
     BASE_MAP_CLICKED = '[Base Map] map clicked',
-    BASE_MAP_OVERLAY_CLOSE = '[Base Map] close overlay'
+    BASE_MAP_OVERLAY_CLOSE = '[Base Map] close overlay',
+    BASE_MAP_IMAGE_SHOW = '[Base Map] show image',
+    BASE_MAP_IMAGE_CLOSE = '[Base Map] close image'
 }
 
 
@@ -57,9 +59,30 @@ export class BaseMapOverlayCloseAction implements Action {
 }
 
 
+export class BaseMapImageShowAction implements Action {
+    readonly type = BaseMapActionTypes.BASE_MAP_IMAGE_SHOW;
+
+    constructor(
+        public id: number,
+        public imageUrl: string,
+        public extent: Extent2d,
+        public opacity: number
+    ) {}
+}
+
+
+export class BaseMapImageCloseAction implements Action {
+    readonly type = BaseMapActionTypes.BASE_MAP_IMAGE_CLOSE;
+
+    constructor(public id: number) {}
+}
+
+
 export type BaseMapActions =
     BaseMapZoomInAction |
     BaseMapZoomOutAction |
     BaseMapMovedZoomedRotatedAction |
     BaseMapClickedAction |
-    BaseMapOverlayCloseAction;
+    BaseMapOverlayCloseAction |
+    BaseMapImageShowAction |
+    BaseMapImageCloseAction;

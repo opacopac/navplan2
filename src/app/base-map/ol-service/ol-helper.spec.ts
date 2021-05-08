@@ -1,20 +1,10 @@
-import {inject, TestBed} from '@angular/core/testing';
-import {OlBaseMapService} from './ol-base-map.service';
 import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 import {OlHelper} from './ol-helper';
 
 
 describe('OlHelper', () => {
     beforeEach(() => {
-        TestBed.configureTestingModule({
-            providers: [OlBaseMapService]
-        });
     });
-
-
-    it('should be created', inject([OlBaseMapService], (service: OlBaseMapService) => {
-        expect(service).toBeTruthy();
-    }));
 
 
     it('converts lon/lat to mercator coordinates', () => {
@@ -32,5 +22,15 @@ describe('OlHelper', () => {
         expect(lonLat).toBeDefined();
         expect(lonLat.longitude).toBeCloseTo(7.0, 1);
         expect(lonLat.latitude).toBeCloseTo(47.0, 1);
+    });
+
+
+    it('gets the correct mercator pos array', () => {
+        const extent = OlHelper.getExtentFromMercator([1, 2, 3, 4]);
+        const extOut = OlHelper.getExtentAsMercator(extent);
+        expect(extOut[0]).toBeCloseTo(1, 8);
+        expect(extOut[1]).toBeCloseTo(2, 8);
+        expect(extOut[2]).toBeCloseTo(3, 8);
+        expect(extOut[3]).toBeCloseTo(4, 8);
     });
 });

@@ -6,19 +6,23 @@ use Navplan\Db\DomainModel\IDbResult;
 
 
 interface IDbService {
-    public function init(string $db_host, string $db_user, string $db_pw, string $db_name);
+    function init(string $db_host, string $db_user, string $db_pw, string $db_name);
 
-    public function openDb();
+    function openDb();
 
-    public function closeDb();
+    function closeDb();
 
-    public function escapeString(string $escapeString): string;
+    function escapeString(string $escapeString): string;
 
-    public function execSingleResultQuery(string $query, bool $allowZeroResults, string $errorMessage): IDbResult;
+    function escapeAndQuoteString(string $escapeString): string;
 
-    public function execMultiResultQuery(string $query, string $errorMessage): IDbResult;
+    function escapeAndQuoteStringOrNull(?string $escapeString): string;
 
-    public function execCUDQuery(string $query, string $errorMessage): bool;
+    function execSingleResultQuery(string $query, bool $allowZeroResults, string $errorMessage): IDbResult;
 
-    public function getInsertId(): int;
+    function execMultiResultQuery(string $query, string $errorMessage): IDbResult;
+
+    function execCUDQuery(string $query, string $errorMessage): bool;
+
+    function getInsertId(): int;
 }

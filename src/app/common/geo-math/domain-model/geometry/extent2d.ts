@@ -2,11 +2,6 @@ import {Position2d} from './position2d';
 import {GeodesyHelper} from '../../domain-service/geodesy-helper';
 import {Length} from '../quantities/length';
 import {Clonable} from '../../../../system/domain-model/clonable';
-import {transformExtent} from 'ol/proj';
-
-
-const MERCATOR_PROJECTION = 'EPSG:3857';
-const LONLAT_PROJECTION = 'EPSG:4326';
 
 
 export class Extent2d implements Clonable<Extent2d> {
@@ -16,12 +11,6 @@ export class Extent2d implements Clonable<Extent2d> {
         public maxLon: number,
         public maxLat: number
     ) {
-    }
-
-
-    public static createFromMercator(extent: [number, number, number, number]): Extent2d {
-        const ext = transformExtent(extent, MERCATOR_PROJECTION, LONLAT_PROJECTION);
-        return new Extent2d(ext[0], ext[1], ext[2], ext[3]);
     }
 
 
@@ -42,13 +31,6 @@ export class Extent2d implements Clonable<Extent2d> {
 
     public getAsLatLon(): [number, number, number, number] {
         return this.getExtent();
-    }
-
-
-    public getAsMercator(): [number, number, number, number] {
-        const arr = transformExtent(this.getExtent(), LONLAT_PROJECTION, MERCATOR_PROJECTION);
-
-        return [arr[0], arr[1], arr[2], arr[3]];
     }
 
 

@@ -26,6 +26,17 @@ class Extent {
     }
 
 
+    public function toRing2d(): Ring2d {
+        return new Ring2d([
+            new Position2d($this->minPos->longitude, $this->minPos->latitude),
+            new Position2d($this->maxPos->longitude, $this->minPos->latitude),
+            new Position2d($this->maxPos->longitude, $this->maxPos->latitude),
+            new Position2d($this->minPos->longitude, $this->maxPos->latitude),
+            new Position2d($this->minPos->longitude, $this->minPos->latitude)
+        ]);
+    }
+
+
     public function calcMidPos(): Position2d {
         return new Position2d(
             ($this->minPos->longitude + $this->maxPos->longitude) / 2,

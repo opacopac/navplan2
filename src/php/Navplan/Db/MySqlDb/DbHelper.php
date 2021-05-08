@@ -55,14 +55,13 @@ class DbHelper {
     }
 
 
-    public static function getDbExtentPolygon(float $minLon, float $minLat, float $maxLon, float $maxLat): string
-    {
-        return "ST_GeomFromText('POLYGON((" . $minLon . " " . $minLat . "," . $maxLon . " " . $minLat . "," . $maxLon . " " . $maxLat . "," . $minLon . " " . $maxLat . "," . $minLon . " " . $minLat . "))')";
+    public static function getDbExtentPolygon(float $minLon, float $minLat, float $maxLon, float $maxLat): string {
+        return "ST_GeomFromText('POLYGON((" . $minLon . " " . $minLat . "," . $maxLon . " " . $minLat . ","
+            . $maxLon . " " . $maxLat . "," . $minLon . " " . $maxLat . "," . $minLon . " " . $minLat . "))')";
     }
 
 
-    public static function getDbExtentPolygon2(Extent $extent): string
-    {
+    public static function getDbExtentPolygon2(Extent $extent): string {
         return "ST_GeomFromText('POLYGON((" .
             $extent->minPos->longitude . " " . $extent->minPos->latitude . "," .
             $extent->maxPos->longitude . " " . $extent->minPos->latitude . "," .
@@ -72,8 +71,7 @@ class DbHelper {
     }
 
 
-    public static function getDbPolygonString(array $lonLatList): string
-    {
+    public static function getDbPolygonString(array $lonLatList): string {
         $lonLatStrings = [];
 
         foreach ($lonLatList as $lonLat)
@@ -88,8 +86,7 @@ class DbHelper {
     }
 
 
-    public static function getDbMultiPolygonString(array $polygonList): string
-    {
+    public static function getDbMultiPolygonString(array $polygonList): string {
         $polyStrings = [];
         foreach ($polygonList as $polygon) {
             $lonLatStrings = [];
@@ -109,8 +106,7 @@ class DbHelper {
 
 
     // retrieve lon lat from the format: POINT(-76.867 38.8108)
-    public static function parseLonLatFromDbPoint(string $dbPointString): ?array
-    {
+    public static function parseLonLatFromDbPoint(string $dbPointString): ?array {
         $decimalRegExpPart = '([\-\+]?\d+\.?\d*)';
         $dbPointRegexp = '/POINT\(\s*' . $decimalRegExpPart . '\s+' . $decimalRegExpPart . '\s*\)/im';
 
@@ -125,8 +121,7 @@ class DbHelper {
     }
 
 
-    public static function getDbPointStringFromLonLat(array $lonLat): string
-    {
+    public static function getDbPointStringFromLonLat(array $lonLat): string {
         return "ST_GeomFromText('POINT(" . $lonLat[0] . " " . $lonLat[1] . ")')";
     }
 }

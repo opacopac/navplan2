@@ -12,7 +12,8 @@ class SearchResult {
         public array $userPoints,
         public array $webcams,
         public array $geonames,
-        public array $notams
+        public array $notams,
+        public array $circuits
     ) {
     }
 }

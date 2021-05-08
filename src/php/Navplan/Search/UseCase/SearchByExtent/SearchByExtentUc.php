@@ -2,6 +2,7 @@
 
 namespace Navplan\Search\UseCase\SearchByExtent;
 
+use Navplan\Ivao\UseCase\SearchCircuit\ISearchCircuitUc;
 use Navplan\Notam\DomainModel\ReadNotamByExtentRequest;
 use Navplan\Notam\UseCase\SearchNotam\ISearchNotamUc;
 use Navplan\OpenAip\UseCase\SearchAirport\ISearchAirportUc;
@@ -27,7 +28,8 @@ class SearchByExtentUc implements ISearchByExtentUc {
         private ISearchReportingPointUc $searchReportingPointUc,
         private ISearchUserPointUc $searchUserPointUc,
         private ISearchNotamUc $searchNotamUc,
-        private ISearchWebcamUc $searchWebcamUc
+        private ISearchWebcamUc $searchWebcamUc,
+        private ISearchCircuitUc $searchCircuitUc
     ) {
     }
 
@@ -41,6 +43,7 @@ class SearchByExtentUc implements ISearchByExtentUc {
         $userPoints = [];
         $webcams = [];
         $notams = [];
+        $circuits = [];
 
         foreach ($query->searchItems as $searchItem) {
             if ($resultNum >= self::MAX_EXTENT_SEARCH_RESULTS)
@@ -78,6 +81,9 @@ class SearchByExtentUc implements ISearchByExtentUc {
                     $notams = $this->searchNotamUc->searchByExtent($request)->notams;
                     $resultNum += count($notams);
                     break;
+                case SearchItemType::CIRCUITS:
+                    $circuits = $this->searchCircuitUc->searchByExtent($query->extent);
+                    $resultNum += count($circuits);
             }
         }
 
@@ -89,7 +95,8 @@ class SearchByExtentUc implements ISearchByExtentUc {
             $userPoints,
             $webcams,
             [],
-            $notams
+            $notams,
+            $circuits
         );
     }
 }

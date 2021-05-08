@@ -8,6 +8,13 @@ use Navplan\Geometry\DomainModel\Position2d;
 
 
 class GeoHelper {
+    public static function getDecFromDms(string $nsew, int $deg, int $min, float $sec): float {
+        $sign = (strtoupper($nsew) === "N" || strtoupper($nsew) === "E") ? 1 : -1;
+
+        return $sign * ($deg + $min / 60 + $sec / 3600);
+    }
+
+
     public static function calcHaversineDistance(Position2d $pos1, Position2d $pos2): Length {
         $radE = 6371000;
         $phi1 = Angle::convert($pos1->latitude, AngleUnit::DEG, AngleUnit::RAD);

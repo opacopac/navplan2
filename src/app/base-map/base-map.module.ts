@@ -3,11 +3,10 @@ import {CommonModule} from '@angular/common';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {SharedModule} from '../common/shared.module';
-import {OlBaseMapService} from './ol-service/ol-base-map.service';
 import {OlMapContainerComponent} from './ng-components/ol-map-container/ol-map-container.component';
 import {ZoomButtonsComponent} from './ng-components/zoom-buttons/zoom-buttons.component';
 import {baseMapReducer} from './ngrx/base-map.reducer';
-import {BaseMapEffects} from './ngrx/base-map-effects.service';
+import {BaseMapEffects} from './ngrx/base-map.effects';
 import {BaseMapActions} from './ngrx/base-map.actions';
 import {BaseMapState} from './domain-model/base-map-state';
 
@@ -27,7 +26,6 @@ import {BaseMapState} from './domain-model/base-map-state';
         ZoomButtonsComponent,
     ],
     providers: [
-        OlBaseMapService
     ]
 })
 export class BaseMapModule {}

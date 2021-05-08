@@ -1,6 +1,6 @@
 import {Feature} from 'ol';
 import {Vector} from 'ol/source';
-import {LineString, Point as OlPoint, Polygon as OlPoly} from 'ol/geom';
+import {LineString, MultiLineString, Point as OlPoint, Polygon as OlPoly} from 'ol/geom';
 import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 import {DataItem} from '../../common/model/data-item';
 import {Polygon} from '../../common/geo-math/domain-model/geometry/polygon';
@@ -87,6 +87,20 @@ export abstract class OlComponentBase {
         const olLine = (feature.getGeometry() as LineString);
         if (!olLine) {
             feature.setGeometry(new LineString(newPosList));
+        } else {
+            olLine.setCoordinates(newPosList);
+        }
+    }
+
+
+    protected setMultiLineGeometry(feature: Feature, positionList: Position2d[][]) {
+        if (!positionList) {
+            this.hideFeature(feature);
+        }
+        const newPosList = positionList ? positionList.map(posList => posList.map(pos => OlHelper.getMercator(pos))) : undefined;
+        const olLine = (feature.getGeometry() as MultiLineString);
+        if (!olLine) {
+            feature.setGeometry(new MultiLineString(newPosList));
         } else {
             olLine.setCoordinates(newPosList);
         }

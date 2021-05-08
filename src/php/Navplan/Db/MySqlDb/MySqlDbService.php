@@ -82,9 +82,23 @@ class MySqlDbService implements IDbService {
      * @throws DbException
      */
     public function escapeString(string $escapeString): string {
-        $this->autoOpen();
+        $this->autoOpen(); // TODO
 
         return $this->connection->real_escape_string($escapeString);
+    }
+
+
+    public function escapeAndQuoteString(string $escapeString): string {
+        return "'" . $this->escapeString($escapeString) . "'";
+    }
+
+
+    public function escapeAndQuoteStringOrNull(?string $escapeString): string {
+        if ($escapeString !== NULL) {
+            return $this->escapeAndQuoteString($escapeString);
+        } else {
+            return "NULL";
+        }
     }
 
 

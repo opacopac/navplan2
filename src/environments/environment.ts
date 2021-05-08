@@ -8,6 +8,7 @@ const REST_SERVICE_BASE_URL = 'http://localhost/navplan2/';
 
 export const environment = {
     production: false,
+    chartServiceUrl: REST_SERVICE_BASE_URL + 'php/Navplan/Charts/RestService/ChartService.php',
     flightrouteServiceUrl: REST_SERVICE_BASE_URL + 'php/Navplan/Flightroute/RestService/FlightrouteService.php',
     notamRestServiceUrl: REST_SERVICE_BASE_URL + 'php/Navplan/Notam/RestService/NotamService.php',
     openAipServiceUrl: REST_SERVICE_BASE_URL + 'php/Navplan/Search/RestService/SearchService.php',
@@ -18,5 +19,6 @@ export const environment = {
     trafficDetailServiceUrl: REST_SERVICE_BASE_URL + 'php/Navplan/Traffic/RestService/TrafficService.php',
     userServiceUrl: REST_SERVICE_BASE_URL + 'php/Navplan/User/RestService/UserService.php',
     iconBaseUrl: './assets/icon/',
+    chartBaseUrl: REST_SERVICE_BASE_URL + 'charts/',
     mapOversizeFactor: 1.3
 };

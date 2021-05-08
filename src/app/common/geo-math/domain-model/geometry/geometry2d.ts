@@ -8,5 +8,7 @@ export enum Geometry2dType {
     LINE,
     POLYGON,
     MULTIPOLYGON,
-    CIRCLE
+    CIRCLE,
+    LINESTRING,
+    MULTILINESTRING
 }

@@ -24,6 +24,7 @@ class DummySearchResult1 {
         $camList = [ DummyWebcam1::create(), DummyWebcam2::create() ];
         $geoList = [];
         $notamList = [];
+        $circuitList = [];
 
         return new SearchResult(
             $apList,
@@ -33,7 +34,8 @@ class DummySearchResult1 {
             $upList,
             $camList,
             $geoList,
-            $notamList
+            $notamList,
+            $circuitList
         );
     }
 }

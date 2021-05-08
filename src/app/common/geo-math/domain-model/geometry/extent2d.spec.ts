@@ -33,16 +33,6 @@ describe('Extent2d', () => {
     });
 
 
-    it('gets the correct mercator pos array', () => {
-        const extent = Extent2d.createFromMercator([1, 2, 3, 4]);
-        const extOut = extent.getAsMercator();
-        expect(extOut[0]).toBeCloseTo(1, 8);
-        expect(extOut[1]).toBeCloseTo(2, 8);
-        expect(extOut[2]).toBeCloseTo(3, 8);
-        expect(extOut[3]).toBeCloseTo(4, 8);
-    });
-
-
     it('gets the correct min position', () => {
         const extent = new Extent2d(minLon1, minLat1, maxLon1, maxLat1);
         const minPosExpected = new Position2d(minLon1, minLat1);

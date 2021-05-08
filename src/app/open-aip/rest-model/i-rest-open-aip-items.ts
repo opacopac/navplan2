@@ -4,6 +4,7 @@ import {IRestReportingpoint} from './i-rest-reportingpoint';
 import {IRestUserpoint} from './i-rest-userpoint';
 import {IRestWebcam} from './i-rest-webcam';
 import {IRestAirport} from './i-rest-airport';
+import {IRestCircuit} from '../../circuits/rest-model/i-rest-circuit';
 
 
 export interface IRestOpenAipItems {
@@ -13,4 +14,5 @@ export interface IRestOpenAipItems {
     reportingpoints: IRestReportingpoint[];
     userpoints: IRestUserpoint[];
     webcams: IRestWebcam[];
+    circuits: IRestCircuit[];
 }

@@ -7,6 +7,7 @@ import {Userpoint} from './userpoint';
 import {Webcam} from './webcam';
 import {DataItem, DataItemType} from '../../common/model/data-item';
 import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
+import {Circuit} from '../../circuits/domain-model/circuit';
 
 
 const SEARCH_BY_POS_PRECISION_DIGITS = 4;
@@ -20,7 +21,7 @@ export class OpenAipItems extends DataItem {
     public reportingsectors: Reportingsector[];
     public userpoints: Userpoint[];
     public webcams: Webcam[];
-    private airportIcaoLookup: Airport[];
+    public circuits: Circuit[];
 
 
     constructor() {
@@ -33,6 +34,7 @@ export class OpenAipItems extends DataItem {
         this.reportingsectors = [];
         this.userpoints = [];
         this.webcams = [];
+        this.circuits = [];
     }
 
 

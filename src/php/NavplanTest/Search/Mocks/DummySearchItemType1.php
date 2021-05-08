@@ -16,6 +16,7 @@ class DummySearchItemType1 {
             SearchItemType::WEBCAMS,
             SearchItemType::GEONAMES,
             SearchItemType::NOTAMS,
+            SearchItemType::CIRCUITS
         ];
     }
 }

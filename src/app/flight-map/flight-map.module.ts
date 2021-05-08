@@ -21,7 +21,6 @@ import {OpenAipModule} from '../open-aip/open-aip.module';
 import {FlightrouteModule} from '../flightroute/flightroute.module';
 import {NotamModule} from '../notam/notam.module';
 import {FlightMapPageComponent} from './ng-components/flight-map-page/flight-map-page.component';
-import {OlOverlayContainerComponent} from './ng-components/ol-overlay-container/ol-overlay-container.component';
 import {BaseMapModule} from '../base-map/base-map.module';
 import {SearchModule} from '../search/search.module';
 import {LocationModule} from '../location/location.module';
@@ -51,7 +50,6 @@ import {FlightMapEffects} from './ngrx/flight-map.effects';
 @NgModule({
     declarations: [
         FlightMapPageComponent,
-        OlOverlayContainerComponent,
         OlOverlayAirportComponent,
         OlOverlayButtonWebcamComponent,
         OlOverlayGeonameComponent,

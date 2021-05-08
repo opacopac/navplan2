@@ -4,6 +4,13 @@ namespace Navplan;
 
 require_once __DIR__ . "/../config.php";
 
+use Navplan\Charts\DbRepo\ChartDbRepo;
+use Navplan\Charts\DomainService\IChartRepo;
+use Navplan\Charts\RestService\IChartServiceDiContainer;
+use Navplan\Charts\UseCase\SearchByIcao\ISearchChartByIcaoUc;
+use Navplan\Charts\UseCase\SearchByIcao\SearchChartByIcaoUc;
+use Navplan\Charts\UseCase\SearchById\ISearchChartByIdUc;
+use Navplan\Charts\UseCase\SearchById\SearchChartByIdUc;
 use Navplan\Db\DomainService\IDbService;
 use Navplan\Db\MySqlDb\IDbDiContainer;
 use Navplan\Db\MySqlDb\MySqlDbService;
@@ -29,6 +36,10 @@ use Navplan\Geoname\DomainService\IGeonameRepo;
 use Navplan\Geoname\RestService\IGeonameServiceDiContainer;
 use Navplan\Geoname\UseCase\SearchGeoname\ISearchGeonameUc;
 use Navplan\Geoname\UseCase\SearchGeoname\SearchGeonameUc;
+use Navplan\Ivao\DbRepo\CircuitDbRepo;
+use Navplan\Ivao\DomainService\ICircuitRepo;
+use Navplan\Ivao\UseCase\SearchCircuit\ISearchCircuitUc;
+use Navplan\Ivao\UseCase\SearchCircuit\SearchCircuitUc;
 use Navplan\MeteoSma\DbRepo\DbMeteoRepo;
 use Navplan\MeteoSma\DomainService\IMeteoRepo;
 use Navplan\MeteoSma\RestService\IMeteoServiceDiContainer;
@@ -133,7 +144,7 @@ use Navplan\User\UseCase\UpdatePw\UpdatePwUc;
 
 class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFlightrouteServiceDiContainer, IGeonameServiceDiContainer,
     IMeteoServiceDiContainer, INotamServiceDiContainer, IOpenAipServiceDiContainer, ISearchServiceDiContainer, ITerrainDiContainer,
-    ITrafficServiceDiContainer, IUserServiceDiContainer {
+    ITrafficServiceDiContainer, IUserServiceDiContainer, IChartServiceDiContainer {
     // const
     private const LOG_LEVEL = LogLevel::DEBUG;
     private const LOG_DIR = __DIR__ . "/../../logs/";
@@ -162,6 +173,9 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     // geoname
     private IGeonameRepo $geonameRepo;
     private ISearchGeonameUc $searchGeonameUc;
+    // ivao
+    private ICircuitRepo $circuitRepo;
+    private ISearchCircuitUc $searchCircuitUc;
     // meteo sma
     private IMeteoRepo $meteoRepo;
     private IReadSmaMeasurementsUc $readSmaMeasurementsUc;
@@ -210,6 +224,10 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     private IResetPwUc $resetPwUc;
     private IUpdatePwUc $updatePwUc;
     private ISearchUserPointUc $searchUserPointUc;
+    // charts
+    private IChartRepo $chartRepo;
+    private ISearchChartByIcaoUc $searchChartByIcaoUc;
+    private ISearchChartByIdUc $searchChartByIdUc;
 
 
     public function __construct() {
@@ -448,6 +466,28 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     // endregion
 
 
+    // region ivao
+
+    function getCircuitRepo(): ICircuitRepo {
+        if (!isset($this->circuitRepo)) {
+            $this->circuitRepo = new CircuitDbRepo($this->getDbService());
+        }
+
+        return $this->circuitRepo;
+    }
+
+
+    function getSearchCircuitUc(): ISearchCircuitUc {
+        if (!isset($this->searchCircuitUc)) {
+            $this->searchCircuitUc = new SearchCircuitUc($this->getCircuitRepo());
+        }
+
+        return $this->searchCircuitUc;
+    }
+
+    // endregion
+
+
     // region meteo sma
 
     public function getMeteoRepo(): IMeteoRepo {
@@ -615,7 +655,8 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
                 $this->getSearchReportingPointUc(),
                 $this->getSearchUserPointUc(),
                 $this->getSearchNotamUc(),
-                $this->getSearchWebcamUc()
+                $this->getSearchWebcamUc(),
+                $this->getSearchCircuitUc()
             );
         }
 
@@ -915,6 +956,37 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
         }
 
         return $this->searchUserPointUc;
+    }
+
+    // endregion
+
+
+    // region charts
+
+    function getChartRepo(): IChartRepo {
+        if (!isset($this->chartRepo)) {
+            $this->chartRepo = new ChartDbRepo($this->getDbService());
+        }
+
+        return $this->chartRepo;
+    }
+
+
+    function getSearchChartByIcaoUc(): ISearchChartByIcaoUc {
+        if (!isset($this->searchChartByIcaoUc)) {
+            $this->searchChartByIcaoUc = new SearchChartByIcaoUc($this->getChartRepo());
+        }
+
+        return $this->searchChartByIcaoUc;
+    }
+
+
+    function getSearchChartByIdUc(): ISearchChartByIdUc {
+        if (!isset($this->searchChartByIdUc)) {
+            $this->searchChartByIdUc = new SearchChartByIdUc($this->getChartRepo());
+        }
+
+        return $this->searchChartByIdUc;
     }
 
     // endregion

@@ -49,7 +49,8 @@ class SearchByIcaoUc implements ISearchByIcaoUc {
             [],
             [],
             [],
-            $notams
+            $notams,
+            []
         );
     }
 }

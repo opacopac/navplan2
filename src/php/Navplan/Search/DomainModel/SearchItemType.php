@@ -12,4 +12,5 @@ class SearchItemType {
     const WEBCAMS = 32;
     const GEONAMES = 64;
     const NOTAMS = 128;
+    const CIRCUITS = 256;
 }

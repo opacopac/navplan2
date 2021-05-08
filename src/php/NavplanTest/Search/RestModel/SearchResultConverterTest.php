@@ -31,6 +31,7 @@ class SearchResultConverterTest extends TestCase {
             [ DummyUserPoint1::create(), DummyUserPoint2::create() ],
             [ DummyWebcam1::create(), DummyWebcam2::create() ],
             [],
+            [],
             []
         );
     }
@@ -39,13 +40,13 @@ class SearchResultConverterTest extends TestCase {
     public function test_toRest() {
         $resArray = SearchResultConverter::toRest($this->result);
         $this->assertNotNull($resArray);
-        $this->assertEquals(count($this->result->airports), count($resArray[SearchItemTypeConverter::getRestKeyFromType(SearchItemType::AIRPORTS)]));
-        $this->assertEquals(count($this->result->navaids), count($resArray[SearchItemTypeConverter::getRestKeyFromType(SearchItemType::NAVAIDS)]));
-        $this->assertEquals(count($this->result->airspaces), count($resArray[SearchItemTypeConverter::getRestKeyFromType(SearchItemType::AIRSPACES)]));
-        $this->assertEquals(count($this->result->reportingPoints), count($resArray[SearchItemTypeConverter::getRestKeyFromType(SearchItemType::REPORTINGPOINTS)]));
-        $this->assertEquals(count($this->result->userPoints), count($resArray[SearchItemTypeConverter::getRestKeyFromType(SearchItemType::USERPOINTS)]));
-        $this->assertEquals(count($this->result->webcams), count($resArray[SearchItemTypeConverter::getRestKeyFromType(SearchItemType::WEBCAMS)]));
-        $this->assertEquals(count($this->result->geonames), count($resArray[SearchItemTypeConverter::getRestKeyFromType(SearchItemType::GEONAMES)]));
-        $this->assertEquals(count($this->result->notams), count($resArray[SearchItemTypeConverter::getRestKeyFromType(SearchItemType::NOTAMS)]));
+        $this->assertSameSize($this->result->airports, $resArray[SearchItemTypeConverter::getRestKeyFromType(SearchItemType::AIRPORTS)]);
+        $this->assertSameSize($this->result->navaids, $resArray[SearchItemTypeConverter::getRestKeyFromType(SearchItemType::NAVAIDS)]);
+        $this->assertSameSize($this->result->airspaces, $resArray[SearchItemTypeConverter::getRestKeyFromType(SearchItemType::AIRSPACES)]);
+        $this->assertSameSize($this->result->reportingPoints, $resArray[SearchItemTypeConverter::getRestKeyFromType(SearchItemType::REPORTINGPOINTS)]);
+        $this->assertSameSize($this->result->userPoints, $resArray[SearchItemTypeConverter::getRestKeyFromType(SearchItemType::USERPOINTS)]);
+        $this->assertSameSize($this->result->webcams, $resArray[SearchItemTypeConverter::getRestKeyFromType(SearchItemType::WEBCAMS)]);
+        $this->assertSameSize($this->result->geonames, $resArray[SearchItemTypeConverter::getRestKeyFromType(SearchItemType::GEONAMES)]);
+        $this->assertSameSize($this->result->notams, $resArray[SearchItemTypeConverter::getRestKeyFromType(SearchItemType::NOTAMS)]);
     }
 }

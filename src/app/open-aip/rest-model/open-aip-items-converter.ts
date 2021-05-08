@@ -7,6 +7,7 @@ import {AirspaceConverter} from './airspace-converter';
 import {AirportConverter} from './airport-converter';
 import {ReportingpointConverter} from './reportingpoint-converter';
 import {ReportingsectorConverter} from './reportingsector-converter';
+import {CircuitConverter} from '../../circuits/rest-model/circuit-converter';
 
 
 export class OpenAipItemsConverter {
@@ -23,6 +24,7 @@ export class OpenAipItemsConverter {
         openAipItems.reportingsectors = restResponse.reportingpoints
             .filter(restRp => restRp.type === 'SECTOR')
             .map(restRp => ReportingsectorConverter.fromRest(restRp));
+        openAipItems.circuits = restResponse.circuits.map(restCircuit => CircuitConverter.fromRest(restCircuit));
 
         return openAipItems;
     }

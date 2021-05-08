@@ -13,6 +13,7 @@ const initialState: BaseMapState = {
     extent: undefined,
     baseMapType: MapBaseLayerType.OPENTOPOMAP,
     showOverlay: { dataItem: undefined, clickPos: undefined },
+    showImage: { imageId: undefined, imageUrl: undefined, extent: undefined, opacity: undefined }
 };
 
 
@@ -27,6 +28,18 @@ export function baseMapReducer(state: BaseMapState = initialState, action: BaseM
                 extent: action.extent
             };
 
+        case BaseMapActionTypes.BASE_MAP_ZOOM_IN:
+            return  {
+                ...state,
+                zoom: state.zoom + 1 // TODO: limit
+            };
+
+        case BaseMapActionTypes.BASE_MAP_ZOOM_OUT:
+            return  {
+                ...state,
+                zoom: state.zoom > 0 ? state.zoom - 1 : state.zoom
+            };
+
         case BaseMapActionTypes.BASE_MAP_CLICKED:
             return {
                 ...state,
@@ -35,6 +48,18 @@ export function baseMapReducer(state: BaseMapState = initialState, action: BaseM
 
         case BaseMapActionTypes.BASE_MAP_OVERLAY_CLOSE:
             return {...state, showOverlay: { dataItem: undefined, clickPos: undefined }};
+
+        case BaseMapActionTypes.BASE_MAP_IMAGE_SHOW:
+            return {
+                ...state,
+                showImage: { imageId: action.id, imageUrl: action.imageUrl, extent: action.extent, opacity: action.opacity }
+            };
+
+        case BaseMapActionTypes.BASE_MAP_IMAGE_CLOSE:
+            return {
+                ...state,
+                showImage: { imageId: action.id, imageUrl: undefined, extent: undefined, opacity: undefined }
+            };
 
         default:
             return state;

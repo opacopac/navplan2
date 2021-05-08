@@ -19,6 +19,7 @@ import {appReducer} from './app.reducer';
 import {AppEffects} from './app.effects';
 import {NavbarModule} from './navbar/navbar.module';
 import {SettingsModule} from './settings/settings.module';
+import {ChartModule} from './charts/chart.module';
 
 
 @NgModule({
@@ -46,6 +47,7 @@ import {SettingsModule} from './settings/settings.module';
         FlightrouteModule,
         TrackModule,
         MessageModule,
+        ChartModule
     ],
     providers: [],
     bootstrap: [AppComponent]

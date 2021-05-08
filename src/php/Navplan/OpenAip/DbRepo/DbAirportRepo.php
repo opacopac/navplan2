@@ -3,6 +3,7 @@
 namespace Navplan\OpenAip\DbRepo;
 
 use BadMethodCallException;
+use Navplan\Charts\DbModel\DbAdChartConverter;
 use Navplan\Db\DomainModel\IDbResult;
 use Navplan\Db\DomainService\IDbService;
 use Navplan\Db\MySqlDb\DbHelper;
@@ -115,7 +116,7 @@ class DbAirportRepo implements IAirportRepo {
 
         $this->loadAirportRunways($airports, $apIdList);
         $this->loadAirportRadios($airports, $apIdList);
-        // $this->loadAirportChars($airports, $apIcaoList, $email);
+        $this->loadAirportChars($airports, $apIcaoList);
         $this->loadAirportWebcams($airports, $apIcaoList);
         $this->loadAirportFeatures($airports, $apIcaoList);
     }
@@ -129,10 +130,10 @@ class DbAirportRepo implements IAirportRepo {
         $query .= " ORDER BY length DESC, surface ASC, id ASC";
         $result = $this->getDbService()->execMultiResultQuery($query, "error reading runways");
 
-        while ($rs = $result->fetch_assoc()) {
+        while ($row = $result->fetch_assoc()) {
             foreach ($airports as &$ap) {
-                if ($ap->id === intval($rs["airport_id"])) {
-                    $ap->runways[] = DbAirportRunwayConverter::fromDbResult($rs);
+                if ($ap->id === intval($row["airport_id"])) {
+                    $ap->runways[] = DbAirportRunwayConverter::fromDbResult($row);
                     break;
                 }
             }
@@ -154,10 +155,10 @@ class DbAirportRepo implements IAirportRepo {
 
         $result = $this->getDbService()->execMultiResultQuery($query, "error reading radios");
 
-        while ($rs = $result->fetch_assoc()) {
+        while ($row = $result->fetch_assoc()) {
             foreach ($airports as &$ap) {
-                if ($ap->id === $rs["airport_id"]) {
-                    $ap->radios[] = DbAirportRadioConverter::fromDbResult($rs);
+                if ($ap->id === $row["airport_id"]) {
+                    $ap->radios[] = DbAirportRadioConverter::fromDbResult($row);
                     break;
                 }
             }
@@ -165,16 +166,12 @@ class DbAirportRepo implements IAirportRepo {
     }
 
 
-    /*private function loadAirportChars(array &$airports, string $apIcaoList, ?string $email) {
+    // TODO => charts
+    private function loadAirportChars(array &$airports, string $apIcaoList) {
         $query = "SELECT *,";
         $query .= "  (CASE WHEN type LIKE 'AREA%' THEN 1 WHEN type LIKE 'VAC%' THEN 2 WHEN type LIKE 'AD INFO%' THEN 3 ELSE 4 END) AS sortorder1";
         $query .= " FROM ad_charts ";
         $query .= " WHERE airport_icao IN (" .  $apIcaoList . ")";
-
-        // hack: show VFRM charts only in branch
-        if (!$email && !NavplanHelper::isBranch())
-            $query .= " AND source != 'VFRM' ";
-
         $query .= " ORDER BY";
         $query .= "   source ASC,";
         $query .= "   sortorder1 ASC,";
@@ -182,15 +179,15 @@ class DbAirportRepo implements IAirportRepo {
 
         $result = $this->getDbService()->execMultiResultQuery($query, "error reading charts");
 
-        while ($rs = $result->fetch_assoc()) {
+        while ($row = $result->fetch_assoc()) {
             foreach ($airports as &$ap) {
-                if ($ap["icao"] === $rs["airport_icao"]) {
-                    $ap["charts"][] = self::readAirportChartFromResult($rs);
+                if ($ap->icao === $row["airport_icao"]) {
+                    $ap->charts[] = DbAdChartConverter::fromDbRow($row);
                     break;
                 }
             }
         }
-    }*/
+    }
 
 
     private function loadAirportWebcams(array &$airports, string $apIcaoList) {
@@ -203,10 +200,10 @@ class DbAirportRepo implements IAirportRepo {
 
         $result = $this->getDbService()->execMultiResultQuery($query, "error reading webcams");
 
-        while ($rs = $result->fetch_assoc()) {
+        while ($row = $result->fetch_assoc()) {
             foreach ($airports as &$ap) {
-                if ($ap->icao === $rs["airport_icao"]) {
-                    $ap->webcams[] = DbWebcamConverter::fromDbResult($rs);
+                if ($ap->icao === $row["airport_icao"]) {
+                    $ap->webcams[] = DbWebcamConverter::fromDbResult($row);
                     break;
                 }
             }
@@ -225,10 +222,10 @@ class DbAirportRepo implements IAirportRepo {
 
         $result = $this->getDbService()->execMultiResultQuery($query, "error reading map features");
 
-        while ($rs = $result->fetch_assoc()) {
+        while ($row = $result->fetch_assoc()) {
             foreach ($airports as &$ap) {
-                if ($ap->icao === $rs["airport_icao"]) {
-                    $ap->mapfeatures[] = DbMapFeatureConverter::fromDbResult($rs);
+                if ($ap->icao === $row["airport_icao"]) {
+                    $ap->mapfeatures[] = DbMapFeatureConverter::fromDbResult($row);
                     break;
                 }
             }
@@ -239,8 +236,8 @@ class DbAirportRepo implements IAirportRepo {
     private function readAirportFromResultList(IDbResult $result): array {
         $airports = [];
 
-        while ($rs = $result->fetch_assoc()) {
-            $airports[] = DbAirportConverter::fromDbResult($rs);
+        while ($row = $result->fetch_assoc()) {
+            $airports[] = DbAirportConverter::fromDbResult($row);
         }
 
         return $airports;

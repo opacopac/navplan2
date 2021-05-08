@@ -2,6 +2,7 @@
 
 namespace Navplan\OpenAip\RestModel;
 
+use Navplan\Charts\RestModel\AdChartConverter;
 use Navplan\Geometry\RestModel\LengthConverter;
 use Navplan\Geometry\RestModel\Position2dConverter;
 use Navplan\OpenAip\DomainModel\Airport;
@@ -24,7 +25,7 @@ class AirportConverter {
             "runways" => array_map(function($rwy) { return AirportRunwayConverter::toRest($rwy); }, $airport->runways),
             "radios" => array_map(function($radio) { return AirportRadioConverter::toRest($radio); }, $airport->radios),
             "webcams" => array_map(function($cam) { return WebcamConverter::toRest($cam); }, $airport->webcams),
-            "charts" => [],
+            "charts" => array_map(function($chart) { return AdChartConverter::toRest($chart); }, $airport->charts),
             "mapfeatures" => array_map(function($feat) { return AirportFeatureConverter::toRest($feat); }, $airport->mapfeatures)
         );
     }

@@ -13,6 +13,8 @@ import {ReportingpointConverter} from '../../open-aip/rest-model/reportingpoint-
 import {ReportingsectorConverter} from '../../open-aip/rest-model/reportingsector-converter';
 import {UserpointConverter} from '../../open-aip/rest-model/userpoint-converter';
 import {GeonameConverter} from '../../open-aip/rest-model/geoname-converter';
+import {IRestCircuit} from '../../circuits/rest-model/i-rest-circuit';
+import {CircuitConverter} from '../../circuits/rest-model/circuit-converter';
 
 
 export interface SearchResponse {
@@ -24,6 +26,7 @@ export interface SearchResponse {
     webcams: IRestWebcam[];
     geonames: IRestGeoname[];
     notams: IRestNotam[];
+    circuits: IRestCircuit[];
 }
 
 
@@ -56,6 +59,10 @@ export class RestMapperSearch {
 
         for (const restItem of response.geonames) {
             searchItemList.appendSearchItem(GeonameConverter.fromRest(restItem));
+        }
+
+        for (const restItem of response.circuits) {
+            searchItemList.appendSearchItem(CircuitConverter.fromRest(restItem));
         }
 
         return searchItemList;

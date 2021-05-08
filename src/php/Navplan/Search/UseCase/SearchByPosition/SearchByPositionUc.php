@@ -80,7 +80,8 @@ class SearchByPositionUc implements ISearchByPositionUc {
             $userPoints,
             [],
             $geonames,
-            $notams
+            $notams,
+            []
         );
     }
 

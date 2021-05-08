@@ -16,7 +16,8 @@ class SearchItemTypeConverter{
         SearchItemType::USERPOINTS => 'userpoints',
         SearchItemType::WEBCAMS => 'webcams',
         SearchItemType::GEONAMES => 'geonames',
-        SearchItemType::NOTAMS => 'notams'
+        SearchItemType::NOTAMS => 'notams',
+        SearchItemType::CIRCUITS => 'circuits'
     );
 
 

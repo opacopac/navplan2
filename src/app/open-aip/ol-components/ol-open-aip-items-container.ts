@@ -9,6 +9,7 @@ import {OlWebcam} from './ol-webcam';
 import {OlReportingSector} from './ol-reporting-sector';
 import {OlAirspace} from './ol-airspace';
 import VectorLayer from 'ol/layer/Vector';
+import {OlCircuit} from '../../circuits/ol-components/ol-circuit';
 
 
 export class OlOpenAipItemsContainer extends OlComponentBase {
@@ -23,6 +24,7 @@ export class OlOpenAipItemsContainer extends OlComponentBase {
         private readonly reportingPointLayer: VectorLayer,
         private readonly navaidLayer: VectorLayer,
         private readonly airportLayer: VectorLayer,
+        private readonly circuitLayer: VectorLayer,
         openAipItems$: Observable<OpenAipItems>
     ) {
         super();
@@ -64,6 +66,7 @@ export class OlOpenAipItemsContainer extends OlComponentBase {
             openAipItems.reportingpoints.forEach(repPoint => new OlReportingPoint(repPoint, this.reportingPointLayer));
             openAipItems.navaids.forEach(navaid => new OlNavaid(navaid, this.navaidLayer));
             openAipItems.airports.forEach(airport => new OlAirport(airport, this.airportLayer));
+            openAipItems.circuits.forEach(circuit => new OlCircuit(circuit, this.circuitLayer));
         }
     }
 
@@ -75,5 +78,6 @@ export class OlOpenAipItemsContainer extends OlComponentBase {
         this.reportingPointLayer.getSource().clear(true);
         this.navaidLayer.getSource().clear(true);
         this.airportLayer.getSource().clear(true);
+        this.circuitLayer.getSource().clear(true);
     }
 }

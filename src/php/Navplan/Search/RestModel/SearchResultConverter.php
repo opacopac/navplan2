@@ -2,6 +2,8 @@
 
 namespace Navplan\Search\RestModel;
 
+use Navplan\Ivao\DomainModel\Circuit;
+use Navplan\Ivao\RestModel\CircuitConverter;
 use Navplan\Notam\DomainModel\Notam;
 use Navplan\Notam\RestModel\NotamConverter;
 use Navplan\OpenAip\DomainModel\Airport;
@@ -31,7 +33,8 @@ class SearchResultConverter {
             'userpoints' => array_map(function (UserPoint $up) { return UserPointConverter::toRest($up); }, $result->userPoints),
             'webcams' => array_map(function (Webcam $cam) { return WebcamConverter::toRest($cam); }, $result->webcams),
             'geonames' => [],
-            'notams' => array_map(function (Notam $notam) { return NotamConverter::toRest($notam); }, $result->notams)
+            'notams' => array_map(function (Notam $notam) { return NotamConverter::toRest($notam); }, $result->notams),
+            'circuits' => array_map(function (Circuit $circuit) { return CircuitConverter::toRest($circuit); }, $result->circuits )
         );
     }
 }
