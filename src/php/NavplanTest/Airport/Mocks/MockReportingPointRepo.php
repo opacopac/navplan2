@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\OpenAip\Mocks;
+namespace NavplanTest\Airport\Mocks;
 
 use InvalidArgumentException;
 use Navplan\Airport\DomainService\IReportingPointRepo;

@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\OpenAip\RestService;
+namespace NavplanTest\Airport\RestService;
 
 use Navplan\Airport\RestModel\RestReportingPointConverter;
-use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;
+use NavplanTest\Airport\Mocks\DummyReportingPoint1;
 use PHPUnit\Framework\TestCase;
 
 

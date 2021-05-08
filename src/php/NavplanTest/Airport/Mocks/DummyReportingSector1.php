@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\OpenAip\Mocks;
+namespace NavplanTest\Airport\Mocks;
 
 use Navplan\Airport\DomainModel\ReportingPoint;
 use Navplan\Geometry\DomainModel\Ring2d;

@@ -4,10 +4,10 @@ namespace NavplanTest\Search\Mocks;
 
 use Navplan\Search\DomainModel\SearchResult;
 use NavplanTest\Airport\Mocks\DummyAirport1;
+use NavplanTest\Airport\Mocks\DummyReportingPoint1;
+use NavplanTest\Airport\Mocks\DummyReportingSector1;
 use NavplanTest\OpenAip\Mocks\DummyAirspace1;
 use NavplanTest\OpenAip\Mocks\DummyNavaid1;
-use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;
-use NavplanTest\OpenAip\Mocks\DummyReportingSector1;
 use NavplanTest\OpenAip\Mocks\DummyWebcam1;
 use NavplanTest\OpenAip\Mocks\DummyWebcam2;
 use NavplanTest\User\Mocks\DummyUserPoint1;

@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\OpenAip\DomainModel;
+namespace NavplanTest\Airport\DomainModel;
 
-use NavplanTest\OpenAip\Mocks\DummyReportingPoint1;
-use NavplanTest\OpenAip\Mocks\DummyReportingSector1;
+use NavplanTest\Airport\Mocks\DummyReportingPoint1;
+use NavplanTest\Airport\Mocks\DummyReportingSector1;
 use PHPUnit\Framework\TestCase;
 
 
