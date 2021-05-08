@@ -8,10 +8,10 @@ use NavplanTest\Airport\Mocks\DummyReportingPoint1;
 use NavplanTest\Airport\Mocks\DummyReportingSector1;
 use NavplanTest\Airspace\Mocks\DummyAirspace1;
 use NavplanTest\Navaid\Mocks\DummyNavaid1;
-use NavplanTest\OpenAip\Mocks\DummyWebcam1;
-use NavplanTest\OpenAip\Mocks\DummyWebcam2;
 use NavplanTest\User\Mocks\DummyUserPoint1;
 use NavplanTest\User\Mocks\DummyUserPoint2;
+use NavplanTest\Webcam\Mocks\DummyWebcam1;
+use NavplanTest\Webcam\Mocks\DummyWebcam2;
 
 
 class DummySearchResult1 {

@@ -6,7 +6,7 @@ use Navplan\Airport\DomainModel\Airport;
 use Navplan\Geometry\DomainModel\Length;
 use Navplan\Geometry\DomainModel\LengthUnit;
 use Navplan\Geometry\DomainModel\Position2d;
-use NavplanTest\OpenAip\Mocks\DummyWebcam1;
+use NavplanTest\Webcam\Mocks\DummyWebcam1;
 
 
 class DummyAirport1 {

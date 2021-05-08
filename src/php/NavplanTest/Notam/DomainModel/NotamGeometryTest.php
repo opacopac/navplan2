@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\OpenAip\DomainModel;
+namespace NavplanTest\Notam\DomainModel;
 
 use NavplanTest\Notam\Mocks\DummyNotamGeometry1;
 use NavplanTest\Notam\Mocks\DummyNotamGeometry2;

@@ -11,8 +11,8 @@ use NavplanTest\Airport\Mocks\DummyAirportRadio1;
 use NavplanTest\Airport\Mocks\DummyAirportRadio2;
 use NavplanTest\Airport\Mocks\DummyAirportRunway1;
 use NavplanTest\Airport\Mocks\DummyAirportRunway2;
-use NavplanTest\OpenAip\Mocks\DummyWebcam1;
 use NavplanTest\System\Mock\MockDbService;
+use NavplanTest\Webcam\Mocks\DummyWebcam1;
 use PHPUnit\Framework\TestCase;
 
 

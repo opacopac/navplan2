@@ -5,7 +5,7 @@ namespace Navplan\Airport\RestModel;
 use Navplan\Airport\DomainModel\Airport;
 use Navplan\Geometry\RestModel\LengthConverter;
 use Navplan\Geometry\RestModel\Position2dConverter;
-use Navplan\OpenAip\RestModel\WebcamConverter;
+use Navplan\Webcam\RestModel\RestWebcamConverter;
 
 
 class RestAirportConverter {
@@ -24,7 +24,7 @@ class RestAirportConverter {
             "elevation" => LengthConverter::toRest($airport->elevation, self::ROUND_DIGITS_ELEV),
             "runways" => array_map(function($rwy) { return RestAirportRunwayConverter::toRest($rwy); }, $airport->runways),
             "radios" => array_map(function($radio) { return RestAirportRadioConverter::toRest($radio); }, $airport->radios),
-            "webcams" => array_map(function($cam) { return WebcamConverter::toRest($cam); }, $airport->webcams),
+            "webcams" => array_map(function($cam) { return RestWebcamConverter::toRest($cam); }, $airport->webcams),
             "charts" => array_map(function($chart) { return RestAirportChartConverter::toRest($chart); }, $airport->charts),
             "mapfeatures" => array_map(function($feat) { return RestAirportFeatureConverter::toRest($feat); }, $airport->mapfeatures)
         );

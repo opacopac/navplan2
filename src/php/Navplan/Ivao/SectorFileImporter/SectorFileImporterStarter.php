@@ -2,12 +2,12 @@
 
 namespace Navplan\Ivao\SectorFileImporter;
 
-use Navplan\ProdNavplanDiContainerAirport;
+use Navplan\ProdNavplanDiContainer;
 
 require_once __DIR__ . "/../../ConsoleBootstrap.php";
 
 
-$diContainer = new ProdNavplanDiContainerAirport();
+$diContainer = new ProdNavplanDiContainer();
 $circuitImporter = new SectorFileImporter(
     $diContainer->getAirportCircuitRepo(),
     $diContainer->getScreenLogger()

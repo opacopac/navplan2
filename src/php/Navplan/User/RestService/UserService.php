@@ -2,12 +2,12 @@
 
 namespace Navplan\User\RestService;
 
-use Navplan\ProdNavplanDiContainerAirport;
+use Navplan\ProdNavplanDiContainer;
 
 include_once __DIR__ . "/../../RestServiceBootstrap.php";
 
 
-$config = new ProdNavplanDiContainerAirport();
+$config = new ProdNavplanDiContainer();
 $postArgs = json_decode(file_get_contents('php://input'), TRUE);
 
 UserServiceProcessor::processRequest($postArgs, $config);

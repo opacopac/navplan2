@@ -6,13 +6,13 @@ require_once __DIR__ . "/../config_test.php";
 
 use Navplan\Airport\DomainService\IAirportRepo;
 use Navplan\Airport\DomainService\IReportingPointRepo;
+use Navplan\Airspace\DomainService\IAirspaceRepo;
 use Navplan\Flightroute\DomainService\IFlightrouteRepo;
 use Navplan\Geoname\DomainService\IGeonameRepo;
 use Navplan\MeteoSma\DomainService\IMeteoRepo;
 use Navplan\Navaid\DomainService\INavaidRepo;
 use Navplan\Notam\DomainService\INotamRepo;
-use Navplan\OpenAip\DomainService\IAirspaceRepo;
-use Navplan\OpenAip\DomainService\IWebcamRepo;
+use Navplan\ProdNavplanDiContainer;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\DomainService\IFileService;
 use Navplan\System\DomainService\IHttpService;
@@ -26,6 +26,7 @@ use Navplan\Traffic\DomainService\IOgnService;
 use Navplan\Traffic\DomainService\ITrafficDetailRepo;
 use Navplan\User\DomainService\IUserPointRepo;
 use Navplan\User\DomainService\IUserRepo;
+use Navplan\Webcam\DomainService\IWebcamRepo;
 use NavplanTest\Airport\Mocks\MockAirportRepo;
 use NavplanTest\Airport\Mocks\MockReportingPointRepo;
 use NavplanTest\Airspace\Mocks\MockAirspaceRepo;
@@ -34,8 +35,6 @@ use NavplanTest\Geoname\Mocks\MockGeonameRepo;
 use NavplanTest\MeteoSma\Mocks\MockMeteoRepo;
 use NavplanTest\Navaid\Mocks\MockNavaidRepo;
 use NavplanTest\Notam\Mocks\MockNotamRepo;
-use NavplanTest\OpenAip\Mocks\MockOpenAipRepoFactory;
-use NavplanTest\OpenAip\Mocks\MockWebcamRepo;
 use NavplanTest\System\Mock\MockDbService;
 use NavplanTest\System\Mock\MockFileService;
 use NavplanTest\System\Mock\MockHttpService;
@@ -50,6 +49,7 @@ use NavplanTest\Traffic\Mocks\MockTrafficDetailRepo;
 use NavplanTest\User\Mocks\MockUserPointRepo;
 use NavplanTest\User\Mocks\MockUserRepo;
 use NavplanTest\User\Mocks\MockUserRepoFactory;
+use NavplanTest\Webcam\Mocks\MockWebcamRepo;
 
 
 class MockNavplanDiContainer extends ProdNavplanDiContainer {
@@ -71,7 +71,6 @@ class MockNavplanDiContainer extends ProdNavplanDiContainer {
     // notam
     public MockNotamRepo $notamRepo;
     // open aip
-    public MockOpenAipRepoFactory $openAipRepoFactory;
     public MockAirportRepo $airportRepo;
     public MockAirspaceRepo $airspaceRepo;
     public MockNavaidRepo $navaidRepo;
@@ -103,12 +102,11 @@ class MockNavplanDiContainer extends ProdNavplanDiContainer {
         $this->geonameRepo = new MockGeonameRepo();
         $this->meteoRepo = new MockMeteoRepo();
         $this->notamRepo = new MockNotamRepo();
-        $this->openAipRepoFactory = new MockOpenAipRepoFactory();
-        $this->airportRepo = $this->openAipRepoFactory->createAirportRepo();
-        $this->airspaceRepo = $this->openAipRepoFactory->createAirspaceRepo();
-        $this->navaidRepo = $this->openAipRepoFactory->createNavaidRepo();
-        $this->reportingPointRepo = $this->openAipRepoFactory->createReportingPointRepo();
-        $this->webcamRepo = $this->openAipRepoFactory->createWebcamRepo();
+        $this->airportRepo = new MockAirportRepo();
+        $this->airspaceRepo = new MockAirspaceRepo();
+        $this->navaidRepo = new MockNavaidRepo();
+        $this->reportingPointRepo = new MockReportingPointRepo();
+        $this->webcamRepo = new MockWebcamRepo();
         $this->terrainRepo = new MockTerrainRepo();
         $this->adsbexRepo = new MockAdsbexService();
         $this->ognRepo = new MockOgnService();

@@ -14,11 +14,11 @@ use Navplan\Navaid\DomainModel\Navaid;
 use Navplan\Navaid\RestModel\RestNavaidConverter;
 use Navplan\Notam\DomainModel\Notam;
 use Navplan\Notam\RestModel\NotamConverter;
-use Navplan\OpenAip\DomainModel\Webcam;
-use Navplan\OpenAip\RestModel\WebcamConverter;
 use Navplan\Search\DomainModel\SearchResult;
 use Navplan\User\DomainModel\UserPoint;
 use Navplan\User\RestModel\UserPointConverter;
+use Navplan\Webcam\DomainModel\Webcam;
+use Navplan\Webcam\RestModel\RestWebcamConverter;
 
 
 class SearchResultConverter {
@@ -31,7 +31,7 @@ class SearchResultConverter {
             'airspaces' => array_map(function (Airspace $as) { return RestAirspaceConverter::toRest($as); }, $result->airspaces),
             'reportingpoints' => array_map(function (ReportingPoint $rp) { return RestReportingPointConverter::toRest($rp); }, $result->reportingPoints),
             'userpoints' => array_map(function (UserPoint $up) { return UserPointConverter::toRest($up); }, $result->userPoints),
-            'webcams' => array_map(function (Webcam $cam) { return WebcamConverter::toRest($cam); }, $result->webcams),
+            'webcams' => array_map(function (Webcam $cam) { return RestWebcamConverter::toRest($cam); }, $result->webcams),
             'geonames' => [],
             'notams' => array_map(function (Notam $notam) { return NotamConverter::toRest($notam); }, $result->notams),
             'circuits' => array_map(function (AirportCircuit $circuit) { return RestAirportCircuitConverter::toRest($circuit); }, $result->circuits )

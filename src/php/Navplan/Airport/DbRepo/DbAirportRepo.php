@@ -11,10 +11,10 @@ use Navplan\Airport\DbModel\DbAirportRunwayConverter;
 use Navplan\Airport\DomainService\IAirportRepo;
 use Navplan\Geometry\DomainModel\Extent;
 use Navplan\Geometry\DomainModel\Position2d;
-use Navplan\OpenAip\DbModel\DbWebcamConverter;
 use Navplan\System\DomainModel\IDbResult;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
+use Navplan\Webcam\DbModel\DbWebcamConverter;
 
 
 class DbAirportRepo implements IAirportRepo {

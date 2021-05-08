@@ -19,8 +19,8 @@ class RestGeonameConverter {
             "admin1" => $geo->admin1,
             "admin2" => $geo->admin2,
             "population" => $geo->population,
-            "latitude" => RestHelper::reduceDegAccuracy($geo->position->latitude, "GEONAME"),
-            "longitude" => RestHelper::reduceDegAccuracy($geo->position->longitude, "GEONAME"),
+            "latitude" => $geo->position->latitude,
+            "longitude" => $geo->position->longitude,
             "elevation" => AltitudeConverter::toRest($geo->elevation),
         );
     }

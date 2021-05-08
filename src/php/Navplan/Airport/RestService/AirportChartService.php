@@ -2,12 +2,12 @@
 
 namespace Navplan\Airport\RestService;
 
-use Navplan\ProdNavplanDiContainerAirport;
+use Navplan\ProdNavplanDiContainer;
 
 require_once __DIR__ . "/../../RestServiceBootstrap.php";
 
 
-$diContainer = new ProdNavplanDiContainerAirport();
+$diContainer = new ProdNavplanDiContainer();
 $getArgs = $_GET;
 
 AirportChartServiceProcessor::processRequest($getArgs, $diContainer);
