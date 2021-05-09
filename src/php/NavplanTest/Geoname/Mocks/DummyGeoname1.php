@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Geoname\Mocks;
 
-use Navplan\Geometry\DomainModel\Altitude;
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Altitude;
+use Navplan\Common\DomainModel\Position2d;
 use Navplan\Geoname\DomainModel\Geoname;
 
 

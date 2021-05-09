@@ -4,8 +4,8 @@ namespace Navplan\Airspace\DbRepo;
 
 use Navplan\Airspace\DbModel\DbAirspaceConverter;
 use Navplan\Airspace\DomainService\IAirspaceRepo;
-use Navplan\Geometry\DomainModel\Extent;
-use Navplan\Shared\GeoHelper;
+use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\GeoHelper;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
 
@@ -19,7 +19,7 @@ class DbAirspaceRepo implements IAirspaceRepo {
     }
 
 
-    public function searchByExtent(Extent $extent, int $zoom): array {
+    public function searchByExtent(Extent2d $extent, int $zoom): array {
         $extent = DbHelper::getDbExtentPolygon2($extent);
         $pixelResolutionDeg = GeoHelper::calcDegPerPixelByZoom($zoom);
         $minDiameterDeg = $pixelResolutionDeg * self::MIN_PIXEL_AIRSPACE_DIAMETER;
@@ -49,6 +49,6 @@ class DbAirspaceRepo implements IAirspaceRepo {
         //$query .= "  ST_Distance(ST_PointN(ST_ExteriorRing(ST_Envelope(extent)), 1), ST_PointN(ST_ExteriorRing(ST_Envelope(extent)), 3)) > " . $minDiameterDeg;
         $result = $this->dbService->execMultiResultQuery($query, "error reading airspaces");
 
-        return DbAirspaceConverter::fromResultList($result, $pixelResolutionDeg);
+        return DbAirspaceConverter::fromDbResult($result, $pixelResolutionDeg);
     }
 }

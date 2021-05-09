@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\Shared;
+namespace NavplanTest\Common;
 
 use Navplan\User\DomainService\TokenService;
 use Navplan\User\UseCase\AutoLogin\AutoLoginRequest;

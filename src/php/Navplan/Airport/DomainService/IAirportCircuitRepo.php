@@ -3,13 +3,13 @@
 namespace Navplan\Airport\DomainService;
 
 use Navplan\Airport\DomainModel\AirportCircuit;
-use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Common\DomainModel\Extent2d;
 
 
 interface IAirportCircuitRepo {
     function getCircuitsByIcao(string $adIcao): array;
 
-    function getCircuitsByExtent(Extent $extent): array;
+    function getCircuitsByExtent(Extent2d $extent): array;
 
     function writeCircuit(AirportCircuit $circuit);
 }

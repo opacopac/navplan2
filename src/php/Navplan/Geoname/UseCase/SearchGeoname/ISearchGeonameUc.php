@@ -2,7 +2,7 @@
 
 namespace Navplan\Geoname\UseCase\SearchGeoname;
 
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Position2d;
 
 
 interface ISearchGeonameUc {

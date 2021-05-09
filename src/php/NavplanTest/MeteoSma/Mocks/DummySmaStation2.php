@@ -2,8 +2,8 @@
 
 namespace NavplanTest\MeteoSma\Mocks;
 
-use Navplan\Geometry\DomainModel\Altitude;
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Altitude;
+use Navplan\Common\DomainModel\Position2d;
 use Navplan\MeteoSma\DomainModel\SmaStation;
 
 

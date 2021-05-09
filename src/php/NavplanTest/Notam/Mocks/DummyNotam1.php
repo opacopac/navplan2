@@ -2,10 +2,10 @@
 
 namespace NavplanTest\Notam\Mocks;
 
-use Navplan\Geometry\DomainModel\Circle2d;
-use Navplan\Geometry\DomainModel\Length;
-use Navplan\Geometry\DomainModel\LengthUnit;
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Circle2d;
+use Navplan\Common\DomainModel\Length;
+use Navplan\Common\DomainModel\LengthUnit;
+use Navplan\Common\DomainModel\Position2d;
 use Navplan\Notam\DomainModel\Notam;
 use Navplan\Notam\DomainModel\NotamGeometry;
 

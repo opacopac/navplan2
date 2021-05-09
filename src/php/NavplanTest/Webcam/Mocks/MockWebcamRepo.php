@@ -3,7 +3,7 @@
 namespace NavplanTest\Webcam\Mocks;
 
 use InvalidArgumentException;
-use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Webcam\DomainService\IWebcamRepo;
 
 
@@ -11,7 +11,7 @@ class MockWebcamRepo implements IWebcamRepo {
     private $mockResultList = [];
 
 
-    public function searchByExtent(Extent $extent): array {
+    public function searchByExtent(Extent2d $extent): array {
         return $this->shiftMockResult();
     }
 

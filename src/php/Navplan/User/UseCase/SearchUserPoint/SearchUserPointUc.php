@@ -2,8 +2,8 @@
 
 namespace Navplan\User\UseCase\SearchUserPoint;
 
-use Navplan\Geometry\DomainModel\Extent;
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\DomainModel\Position2d;
 use Navplan\User\DomainService\ITokenService;
 use Navplan\User\DomainService\IUserPointRepo;
 
@@ -16,7 +16,7 @@ class SearchUserPointUc implements ISearchUserPointUc {
     }
 
 
-    public function searchByExtent(Extent $extent, string $token): array {
+    public function searchByExtent(Extent2d $extent, string $token): array {
         $email = $this->tokenService->getEmailFromToken($token);
         if (!$email) {
             return [];

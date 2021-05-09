@@ -30,8 +30,8 @@ class DbTrafficDetailRepo implements ITrafficDetailRepo {
         $result = $this->dbService->execMultiResultQuery($query, "error searching for icao24s in lfr_ch");
 
         $acDetails = [];
-        while ($rs = $result->fetch_assoc()) {
-            $acDetails[] = DbTrafficDetail::fromLfrChResult($rs);
+        while ($row = $result->fetch_assoc()) {
+            $acDetails[] = DbTrafficDetailConverter::fromLfrChRow($row);
         }
 
         return $acDetails;
@@ -53,8 +53,8 @@ class DbTrafficDetailRepo implements ITrafficDetailRepo {
         $result = $this->dbService->execMultiResultQuery($query, "error searching for icao24s in basestation_aircrafts");
 
         $acDetails = [];
-        while ($rs = $result->fetch_assoc()) {
-            $acDetails[] = DbTrafficDetail::fromBasestationResult($rs);
+        while ($row = $result->fetch_assoc()) {
+            $acDetails[] = DbTrafficDetailConverter::fromBasestationRow($row);
         }
 
         return $acDetails;
@@ -76,8 +76,8 @@ class DbTrafficDetailRepo implements ITrafficDetailRepo {
         $result = $this->dbService->execMultiResultQuery($query, "error searching for ac types in icao_aircraft_types");
 
         $acDetails = [];
-        while ($rs = $result->fetch_assoc()) {
-            $acDetails[] = DbTrafficDetail::fromIcaoAcTypeResult($rs);
+        while ($row = $result->fetch_assoc()) {
+            $acDetails[] = DbTrafficDetailConverter::fromIcaoAcTypeRow($row);
         }
 
         return $acDetails;

@@ -3,28 +3,15 @@
 namespace Navplan\Airport\DbModel;
 
 use Navplan\Airport\DomainModel\AirportFeature;
-use Navplan\Geometry\DomainModel\Position2d;
-use Navplan\Shared\StringNumberHelper;
+use Navplan\Common\DbModel\DbPosition2dConverter;
 
 
 class DbAirportFeatureConverter {
-    public static function fromDbResult(array $rs): AirportFeature {
+    public static function fromDbRow(array $row): AirportFeature {
         return new AirportFeature(
-            $rs["type"],
-            $rs["name"],
-            self::getPosition($rs)
-        );
-    }
-
-
-    private static function getPosition(array $rs): ?Position2d {
-        if (StringNumberHelper::isNullOrEmpty($rs, "latitude") || StringNumberHelper::isNullOrEmpty($rs, "longitude")) {
-            return NULL;
-        }
-
-        return new Position2d(
-            floatval($rs["longitude"]),
-            floatval($rs["latitude"])
+            $row["type"],
+            $row["name"],
+            DbPosition2dConverter::fromDbRow($row)
         );
     }
 }

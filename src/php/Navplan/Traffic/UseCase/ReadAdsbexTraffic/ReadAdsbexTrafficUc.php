@@ -2,7 +2,7 @@
 
 namespace Navplan\Traffic\UseCase\ReadAdsbexTraffic;
 
-use Navplan\Shared\GeoHelper;
+use Navplan\Common\GeoHelper;
 use Navplan\Traffic\DomainModel\TrafficAdsbexReadRequest;
 use Navplan\Traffic\DomainService\IAdsbexService;
 

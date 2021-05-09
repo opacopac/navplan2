@@ -17,10 +17,10 @@ class DbHelperTest extends DbTestCase {
 
 
     public function test_getStringValue() {
-        $result1 = DbHelper::getStringValue($this->dbService,'abc');
-        $result2 = DbHelper::getStringValue($this->dbService,'');
-        $result3 = DbHelper::getStringValue($this->dbService,NULL);
-        $result4 = DbHelper::getStringValue($this->dbService,NULL, "''");
+        $result1 = DbHelper::getDbStringValue($this->dbService,'abc');
+        $result2 = DbHelper::getDbStringValue($this->dbService,'');
+        $result3 = DbHelper::getDbStringValue($this->dbService,NULL);
+        $result4 = DbHelper::getDbStringValue($this->dbService,NULL, "''");
 
         $this->assertEquals("'abc'", $result1);
         $this->assertEquals("''", $result2);
@@ -30,11 +30,11 @@ class DbHelperTest extends DbTestCase {
 
 
     public function test_getIntValue() {
-        $result1 = DbHelper::getIntValue(123);
-        $result2 = DbHelper::getIntValue(-123);
-        $result3 = DbHelper::getIntValue(0);
-        $result4 = DbHelper::getIntValue(NULL);
-        $result5 = DbHelper::getIntValue(NULL, "'0'");
+        $result1 = DbHelper::getDbIntValue(123);
+        $result2 = DbHelper::getDbIntValue(-123);
+        $result3 = DbHelper::getDbIntValue(0);
+        $result4 = DbHelper::getDbIntValue(NULL);
+        $result5 = DbHelper::getDbIntValue(NULL, "'0'");
 
         $this->assertEquals("'123'", $result1);
         $this->assertEquals("'-123'", $result2);
@@ -45,11 +45,11 @@ class DbHelperTest extends DbTestCase {
 
 
     public function test_getFloatValue() {
-        $result1 = DbHelper::getFloatValue(123.456);
-        $result2 = DbHelper::getFloatValue(0 - 123.456);
-        $result3 = DbHelper::getFloatValue(0.0);
-        $result4 = DbHelper::getFloatValue(NULL);
-        $result5 = DbHelper::getFloatValue(NULL, "'0'");
+        $result1 = DbHelper::getDbFloatValue(123.456);
+        $result2 = DbHelper::getDbFloatValue(0 - 123.456);
+        $result3 = DbHelper::getDbFloatValue(0.0);
+        $result4 = DbHelper::getDbFloatValue(NULL);
+        $result5 = DbHelper::getDbFloatValue(NULL, "'0'");
 
         $this->assertEquals("'123.456'", $result1);
         $this->assertEquals("'-123.456'", $result2);
@@ -60,10 +60,10 @@ class DbHelperTest extends DbTestCase {
 
 
     public function test_getBoolValue() {
-        $result1 = DbHelper::getBoolValue(TRUE);
-        $result2 = DbHelper::getBoolValue(FALSE);
-        $result3 = DbHelper::getBoolValue(NULL);
-        $result4 = DbHelper::getBoolValue(NULL, "'0'");
+        $result1 = DbHelper::getDbBoolValue(TRUE);
+        $result2 = DbHelper::getDbBoolValue(FALSE);
+        $result3 = DbHelper::getDbBoolValue(NULL);
+        $result4 = DbHelper::getDbBoolValue(NULL, "'0'");
 
         $this->assertEquals("'1'", $result1);
         $this->assertEquals("'0'", $result2);

@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Notam\DbRepo;
 
-use Navplan\Geometry\DomainModel\Extent;
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\DomainModel\Position2d;
 use Navplan\Notam\DbRepo\DbNotamRepo;
 use Navplan\Notam\DomainModel\Notam;
 use NavplanTest\Notam\Mocks\DummyNotam1;
@@ -57,7 +57,7 @@ class DbNotamSearchTest extends TestCase {
         $dbResult3 = DummyNotam3::createDbResult();
         $this->getDbService()->pushMockResult([array("icao" => "LSZB"), array("icao" => "LSZG")]);
         $this->getDbService()->pushMockResult([$dbResult1, $dbResult2, $dbResult3]);
-        $extent = Extent::createFromCoords(7.0, 47.0, 7.9, 47.9);
+        $extent = Extent2d::createFromCoords(7.0, 47.0, 7.9, 47.9);
         $resultList = $this->getDbRepo()->searchByExtent($extent, 11, 1558888535, 1559888535);
 
         $this->assertEquals(1, count($resultList)); // reason: non-area notams are filtered

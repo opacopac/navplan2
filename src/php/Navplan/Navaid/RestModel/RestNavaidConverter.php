@@ -2,8 +2,8 @@
 
 namespace Navplan\Navaid\RestModel;
 
-use Navplan\Geometry\RestModel\LengthConverter;
-use Navplan\Geometry\RestModel\Position2dConverter;
+use Navplan\Common\RestModel\RestLengthConverter;
+use Navplan\Common\RestModel\RestPosition2dConverter;
 use Navplan\Navaid\DomainModel\Navaid;
 
 
@@ -17,8 +17,8 @@ class RestNavaidConverter {
             "type" => $navaid->type,
             "kuerzel" => $navaid->kuerzel,
             "name" => $navaid->name,
-            "pos" => Position2dConverter::toRest($navaid->position),
-            "elevation" => LengthConverter::toRest($navaid->elevation),
+            "pos" => RestPosition2dConverter::toRest($navaid->position),
+            "elevation" => RestLengthConverter::toRest($navaid->elevation),
             "frequency" => $navaid->frequency,
             "unit" => $navaid->unit,
             "declination" => $navaid->declination,

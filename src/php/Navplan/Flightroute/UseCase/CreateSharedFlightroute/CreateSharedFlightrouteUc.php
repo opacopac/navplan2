@@ -2,9 +2,9 @@
 
 namespace Navplan\Flightroute\UseCase\CreateSharedFlightroute;
 
+use Navplan\Common\StringNumberHelper;
 use Navplan\Flightroute\DomainService\IFlightrouteRepo;
 use Navplan\Flightroute\UseCase\FlightrouteResponse;
-use Navplan\Shared\StringNumberHelper;
 use Navplan\User\DomainService\IUserRepo;
 
 

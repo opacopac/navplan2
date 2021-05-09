@@ -3,12 +3,12 @@
 namespace Navplan\System\MySqlDb;
 
 use InvalidArgumentException;
-use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Common\DomainModel\Extent2d;
 use Navplan\System\DomainService\IDbService;
 
 
 class DbHelper {
-    public static function getStringValue(IDbService $dbService, ?string $value, string $nullValue = 'NULL'): string {
+    public static function getDbStringValue(IDbService $dbService, ?string $value, string $nullValue = 'NULL'): string {
         if ($value === NULL) {
             return $nullValue;
         } else {
@@ -17,7 +17,7 @@ class DbHelper {
     }
 
 
-    public static function getIntValue(?int $value, string $nullValue = 'NULL'): string {
+    public static function getDbIntValue(?int $value, string $nullValue = 'NULL'): string {
         if ($value === NULL) {
             return $nullValue;
         } else {
@@ -26,7 +26,7 @@ class DbHelper {
     }
 
 
-    public static function getFloatValue(?float $value, string $nullValue = 'NULL'): string {
+    public static function getDbFloatValue(?float $value, string $nullValue = 'NULL'): string {
         if ($value === NULL) {
             return $nullValue;
         } else {
@@ -35,7 +35,7 @@ class DbHelper {
     }
 
 
-    public static function getBoolValue(?bool $value, string $nullValue = 'NULL'): string {
+    public static function getDbBoolValue(?bool $value, string $nullValue = 'NULL'): string {
         if ($value === NULL) {
             return $nullValue;
         } else if ($value === TRUE) {
@@ -61,7 +61,7 @@ class DbHelper {
     }
 
 
-    public static function getDbExtentPolygon2(Extent $extent): string {
+    public static function getDbExtentPolygon2(Extent2d $extent): string {
         return "ST_GeomFromText('POLYGON((" .
             $extent->minPos->longitude . " " . $extent->minPos->latitude . "," .
             $extent->maxPos->longitude . " " . $extent->minPos->latitude . "," .

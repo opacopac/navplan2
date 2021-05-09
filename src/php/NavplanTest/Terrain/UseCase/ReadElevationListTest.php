@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Terrain\UseCase;
 
-use Navplan\Geometry\DomainModel\Altitude;
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Altitude;
+use Navplan\Common\DomainModel\Position2d;
 use Navplan\Terrain\UseCase\ReadElevationList\ReadElevationListUc;
 use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\Terrain\Mocks\MockTerrainRepo;

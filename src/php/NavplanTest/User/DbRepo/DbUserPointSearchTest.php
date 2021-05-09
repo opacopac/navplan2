@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
-use Navplan\Geometry\DomainModel\Extent;
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\DomainModel\Position2d;
 use Navplan\User\DbRepo\DbUserPointRepo;
 use Navplan\User\DomainModel\UserPoint;
 use NavplanTest\System\Mock\MockDbService;
@@ -41,7 +41,7 @@ class DbUserPointSearchTest extends TestCase {
         $upDbResult1 = DummyUserPoint1::createDbResult();
         $upDbResult2 = DummyUserPoint2::createDbResult();
         $this->dbService->pushMockResult([$upDbResult1, $upDbResult2]);
-        $extent = Extent::createFromCoords(7.0, 47.0, 7.9, 47.9);
+        $extent = Extent2d::createFromCoords(7.0, 47.0, 7.9, 47.9);
 
         $upResultList = $this->dbRepo->searchByExtent($extent, "asdf@asdf.com");
 
@@ -54,7 +54,7 @@ class DbUserPointSearchTest extends TestCase {
     public function test_searchByExtent_escape_character() {
         $upDbResult1 = DummyUserPoint1::createDbResult();
         $this->dbService->pushMockResult([$upDbResult1]);
-        $extent = Extent::createFromCoords(7.0, 47.0, 7.9, 47.9);
+        $extent = Extent2d::createFromCoords(7.0, 47.0, 7.9, 47.9);
 
         $this->dbRepo->searchByExtent($extent, "asdf@asdf.c'om");
 

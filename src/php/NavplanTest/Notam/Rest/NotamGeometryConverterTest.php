@@ -2,15 +2,15 @@
 
 namespace NavplanTest\Notam\RestModel;
 
-use Navplan\Geometry\DomainModel\Altitude;
-use Navplan\Geometry\DomainModel\Circle2d;
-use Navplan\Geometry\DomainModel\Length;
-use Navplan\Geometry\DomainModel\LengthUnit;
-use Navplan\Geometry\DomainModel\MultiRing2d;
-use Navplan\Geometry\DomainModel\Position2d;
-use Navplan\Geometry\DomainModel\Ring2d;
-use Navplan\Geometry\RestModel\AltitudeConverter;
-use Navplan\Geometry\RestModel\Circle2dConverter;
+use Navplan\Common\DomainModel\Altitude;
+use Navplan\Common\DomainModel\Circle2d;
+use Navplan\Common\DomainModel\Length;
+use Navplan\Common\DomainModel\LengthUnit;
+use Navplan\Common\DomainModel\MultiRing2d;
+use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Ring2d;
+use Navplan\Common\RestModel\RestAltitudeConverter;
+use Navplan\Common\RestModel\RestCircle2dConverter;
 use Navplan\Notam\DomainModel\NotamGeometry;
 use Navplan\Notam\RestModel\NotamGeometryConverter;
 use NavplanTest\Notam\Mocks\DummyNotamGeometry1;
@@ -38,9 +38,9 @@ class NotamGeometryConverterTest extends TestCase {
         $notamGeometry = new NotamGeometry($circle, $alt_bottom, $alt_top);
         $rest = NotamGeometryConverter::toRest($notamGeometry);
 
-        $this->assertEquals(Circle2dConverter::toRest($circle), $rest["circle"]);
-        $this->assertEquals(AltitudeConverter::toRest($alt_bottom), $rest["alt_bottom"]);
-        $this->assertEquals(AltitudeConverter::toRest($alt_top), $rest["alt_top"]);
+        $this->assertEquals(RestCircle2dConverter::toRest($circle), $rest["circle"]);
+        $this->assertEquals(RestAltitudeConverter::toRest($alt_bottom), $rest["alt_bottom"]);
+        $this->assertEquals(RestAltitudeConverter::toRest($alt_top), $rest["alt_top"]);
     }
 
 
@@ -62,6 +62,6 @@ class NotamGeometryConverterTest extends TestCase {
         $rest = NotamGeometryConverter::toRest($notamGeometry);
 
         $this->assertEquals($multipoly->toArray(), $rest["multipolygon"]);
-        $this->assertEquals(AltitudeConverter::toRest($alt_bottom), $rest["alt_bottom"]);
+        $this->assertEquals(RestAltitudeConverter::toRest($alt_bottom), $rest["alt_bottom"]);
     }
 }

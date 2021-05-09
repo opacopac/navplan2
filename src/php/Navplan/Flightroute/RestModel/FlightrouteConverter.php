@@ -2,8 +2,8 @@
 
 namespace Navplan\Flightroute\RestModel;
 
+use Navplan\Common\StringNumberHelper;
 use Navplan\Flightroute\Domain\Flightroute;
-use Navplan\Shared\StringNumberHelper;
 
 
 class FlightrouteConverter {

@@ -2,7 +2,7 @@
 
 namespace Navplan\Traffic\OgnListenerService;
 
-use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Common\DomainModel\Extent2d;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\DomainService\ITimeService;
 use Navplan\Traffic\OgnListenerModel\OgnTrafficConverter;
@@ -52,12 +52,12 @@ class OgnListenerRepo implements IOgnListenerRepo {
             return NULL;
         } else {
             $row = $result->fetch_assoc();
-            return OgnTrafficFilterConverter::fromDbResult($row);
+            return OgnTrafficFilterConverter::fromDbRow($row);
         }
     }
 
 
-    public function setFilter(int $sessionId, Extent $extent) {
+    public function setFilter(int $sessionId, Extent2d $extent) {
         $query  = "INSERT INTO ogn_filter (sessionId, minLon, minLat, maxLon, maxLat) ";
         $query .= "VALUES (" . $sessionId . ",";
         $query .= $extent->minPos->longitude . ",";
@@ -87,8 +87,8 @@ class OgnListenerRepo implements IOgnListenerRepo {
         $result = $this->dbService->execMultiResultQuery($query, "error reading ogn traffic");
 
         $aclist = [];
-        while ($rs = $result->fetch_assoc()) {
-            $aclist[] = OgnTrafficConverter::fromDbResult($rs);
+        while ($row = $result->fetch_assoc()) {
+            $aclist[] = OgnTrafficConverter::fromDbRow($row);
         }
 
         return $aclist;

@@ -2,8 +2,8 @@
 
 namespace Navplan\Traffic\RestModel;
 
-use Navplan\Geometry\DomainModel\Extent;
-use Navplan\Shared\StringNumberHelper;
+use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\StringNumberHelper;
 use Navplan\Traffic\DomainModel\TrafficAdsbexReadRequest;
 
 
@@ -16,7 +16,7 @@ class TrafficAdsbexReadRequestConverter {
 
     public static function fromArgs(array $args): TrafficAdsbexReadRequest {
         $request = new TrafficAdsbexReadRequest(
-            Extent::createFromCoords(
+            Extent2d::createFromCoords(
                 StringNumberHelper::parseFloatOrError($args, self::ARG_MIN_LON),
                 StringNumberHelper::parseFloatOrError($args, self::ARG_MIN_LAT),
                 StringNumberHelper::parseFloatOrError($args, self::ARG_MAX_LON),

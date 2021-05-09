@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Terrain\Mocks;
 
-use Navplan\Geometry\DomainModel\Altitude;
-use Navplan\Geometry\DomainModel\Position3d;
+use Navplan\Common\DomainModel\Altitude;
+use Navplan\Common\DomainModel\Position3d;
 use Navplan\Terrain\DomainService\ITerrainRepo;
 
 

@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Traffic\UseCase;
 
-use Navplan\Geometry\DomainModel\Extent;
-use Navplan\Geometry\DomainModel\LengthUnit;
+use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\DomainModel\LengthUnit;
 use Navplan\Traffic\DomainModel\TrafficAdsbexReadRequest;
 use Navplan\Traffic\UseCase\ReadAdsbexTraffic\ReadAdsbexTrafficUc;
 use NavplanTest\MockNavplanDiContainer;
@@ -27,7 +27,7 @@ class ReadAdsbexTrafficUcTest extends TestCase {
 
 
     public function test_read() {
-        $extent = Extent::createFromCoords(6.0, 46.0, 8.5, 48.5);
+        $extent = Extent2d::createFromCoords(6.0, 46.0, 8.5, 48.5);
         $request = new TrafficAdsbexReadRequest($extent);
         $traffic1 = DummyAdsbexTraffic1::create();
         $traffic2 = DummyAdsbexTraffic2::create();
@@ -48,7 +48,7 @@ class ReadAdsbexTrafficUcTest extends TestCase {
 
 
     public function test_read_empty_list() {
-        $extent = Extent::createFromCoords(6.0, 46.0, 8.5, 48.5);
+        $extent = Extent2d::createFromCoords(6.0, 46.0, 8.5, 48.5);
         $request = new TrafficAdsbexReadRequest($extent);
         $this->adsbexGateway->readTrafficResult = [];
 

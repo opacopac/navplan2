@@ -2,29 +2,29 @@
 
 namespace Navplan\Navaid\DbModel;
 
-use Navplan\Geometry\DomainModel\Length;
-use Navplan\Geometry\DomainModel\LengthUnit;
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DbModel\DbPosition2dConverter;
+use Navplan\Common\DomainModel\Length;
+use Navplan\Common\DomainModel\LengthUnit;
 use Navplan\Navaid\DomainModel\Navaid;
 
 
 class DbNavaidConverter {
-    public static function fromDbResult(array $rs): Navaid {
+    public static function fromDbRow(array $row): Navaid {
         $unit = "MHz";
-        if ($rs["type"] == "NDB")
+        if ($row["type"] == "NDB")
             $unit = "kHz";
 
         return new Navaid(
-            intval($rs["id"]),
-            $rs["type"],
-            $rs["kuerzel"],
-            $rs["name"],
-            new Position2d(floatval($rs["longitude"]), floatval($rs["latitude"])),
-            new Length(floatval($rs["elevation"]), LengthUnit::M),
-            $rs["frequency"],
+            intval($row["id"]),
+            $row["type"],
+            $row["kuerzel"],
+            $row["name"],
+            DbPosition2dConverter::fromDbRow($row),
+            new Length(floatval($row["elevation"]), LengthUnit::M),
+            $row["frequency"],
             $unit,
-            floatval($rs["declination"]),
-            boolval($rs["truenorth"])
+            floatval($row["declination"]),
+            boolval($row["truenorth"])
         );
     }
 }

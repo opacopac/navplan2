@@ -2,7 +2,7 @@
 
 namespace Navplan\Geoname\UseCase\SearchGeoname;
 
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Position2d;
 use Navplan\Geoname\DomainModel\Geoname;
 use Navplan\Geoname\DomainService\IGeonameRepo;
 use Navplan\Terrain\DomainService\ITerrainRepo;

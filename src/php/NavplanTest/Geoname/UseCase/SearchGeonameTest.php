@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Geoname\UseCase;
 
-use Navplan\Geometry\DomainModel\Altitude;
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Altitude;
+use Navplan\Common\DomainModel\Position2d;
 use Navplan\Geoname\UseCase\SearchGeoname\SearchGeonameUc;
 use NavplanTest\Geoname\Mocks\DummyGeoname1;
 use NavplanTest\Geoname\Mocks\DummyGeoname2;

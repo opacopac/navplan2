@@ -2,16 +2,16 @@
 
 namespace Navplan\Notam\DbRepo;
 
+use Navplan\Common\StringNumberHelper;
 use Navplan\Notam\DomainModel\Notam;
-use Navplan\Shared\StringNumberHelper;
 
 
 class NotamConverter {
-    public static function fromDbResult(array $rs): Notam {
-        $notam = json_decode($rs["notam"], true);
+    public static function fromDbRow(array $row): Notam {
+        $notam = json_decode($row["notam"], true);
 
         return new Notam(
-            intval($rs["id"]),
+            intval($row["id"]),
             $notam["StateCode"],
             $notam["StateName"],
             $notam["id"],
@@ -32,7 +32,7 @@ class NotamConverter {
             $notam["Created"],
             $notam["key"],
             $notam["type"],
-            NotamGeometryConverter::fromDbResult($rs)
+            NotamGeometryConverter::fromDbRow($row)
         );
     }
 }

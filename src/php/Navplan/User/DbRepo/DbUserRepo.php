@@ -39,7 +39,7 @@ class DbUserRepo implements IUserRepo {
             return NULL;
         } else {
             $row = $result->fetch_assoc();
-            return UserConverter::fromDbResult($row);
+            return UserConverter::fromDbRow($row);
         }
     }
 

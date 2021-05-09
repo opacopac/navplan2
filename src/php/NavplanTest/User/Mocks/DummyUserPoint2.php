@@ -2,7 +2,7 @@
 
 namespace NavplanTest\User\Mocks;
 
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Position2d;
 use Navplan\User\DomainModel\UserPoint;
 
 

@@ -2,41 +2,29 @@
 
 namespace Navplan\Flightroute\DbRepo;
 
+use Navplan\Common\DbModel\DbPosition2dConverter;
+use Navplan\Common\StringNumberHelper;
 use Navplan\Flightroute\Domain\Waypoint;
-use Navplan\Geometry\DomainModel\Position2d;
-use Navplan\Shared\StringNumberHelper;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
 
 
 class WaypointConverter {
-    public static function fromDbResult(array $rs): Waypoint {
+    public static function fromDbRow(array $row): Waypoint {
         return new Waypoint(
-            $rs["type"],
-            $rs["freq"],
-            $rs["callsign"],
-            $rs["checkpoint"],
-            $rs["alt"],
-            $rs["isminalt"] === 1,
-            $rs["ismaxalt"] === 1,
-            $rs["isaltatlegstart"] === 1,
-            $rs["remark"],
-            StringNumberHelper::parseStringOrNull($rs, "supp_info"),
-            self::getPositionFromDbResult($rs),
-            StringNumberHelper::parseStringOrNull($rs, "airport_icao"),
-        $rs["is_alternate"] === 1
-        );
-    }
-
-
-    private static function getPositionFromDbResult(array $rs): ?Position2d {
-        if (StringNumberHelper::isNullOrEmpty($rs, "latitude") || StringNumberHelper::isNullOrEmpty($rs, "longitude")) {
-            return NULL;
-        }
-
-        return new Position2d(
-            floatval($rs["longitude"]),
-            floatval($rs["latitude"])
+            $row["type"],
+            $row["freq"],
+            $row["callsign"],
+            $row["checkpoint"],
+            $row["alt"],
+            $row["isminalt"] === 1,
+            $row["ismaxalt"] === 1,
+            $row["isaltatlegstart"] === 1,
+            $row["remark"],
+            StringNumberHelper::parseStringOrNull($row, "supp_info"),
+            DbPosition2dConverter::fromDbRow($row),
+            StringNumberHelper::parseStringOrNull($row, "airport_icao"),
+        $row["is_alternate"] === 1
         );
     }
 
@@ -44,22 +32,22 @@ class WaypointConverter {
     public static function toInsertSql(IDbService $dbService, Waypoint $waypoint, int $flightrouteId, int $sortOrder): string {
         $query = "INSERT INTO navplan_waypoints (navplan_id, sortorder, type, freq, callsign, checkpoint, airport_icao, latitude, longitude, alt, isminalt, ismaxalt, isaltatlegstart, remark, supp_info, is_alternate) VALUES (";
         $query .= join(",", array(
-            DbHelper::getIntValue($flightrouteId),
-            DbHelper::getIntValue($sortOrder),
-            DbHelper::getStringValue($dbService, $waypoint->type),
-            DbHelper::getStringValue($dbService, $waypoint->frequency),
-            DbHelper::getStringValue($dbService, $waypoint->callsign),
-            DbHelper::getStringValue($dbService, $waypoint->checkpoint),
-            DbHelper::getStringValue($dbService, $waypoint->airportIcao),
-            DbHelper::getFloatValue($waypoint->position->latitude),
-            DbHelper::getFloatValue($waypoint->position->longitude),
-            DbHelper::getStringValue($dbService, $waypoint->altitude),
-            DbHelper::getBoolValue($waypoint->isMinAlt),
-            DbHelper::getBoolValue($waypoint->isMaxAlt),
-            DbHelper::getBoolValue($waypoint->isAltAtLegStart),
-            DbHelper::getStringValue($dbService, $waypoint->remark),
-            DbHelper::getStringValue($dbService, $waypoint->suppInfo),
-            DbHelper::getBoolValue($waypoint->isAlternate)
+            DbHelper::getDbIntValue($flightrouteId),
+            DbHelper::getDbIntValue($sortOrder),
+            DbHelper::getDbStringValue($dbService, $waypoint->type),
+            DbHelper::getDbStringValue($dbService, $waypoint->frequency),
+            DbHelper::getDbStringValue($dbService, $waypoint->callsign),
+            DbHelper::getDbStringValue($dbService, $waypoint->checkpoint),
+            DbHelper::getDbStringValue($dbService, $waypoint->airportIcao),
+            DbHelper::getDbFloatValue($waypoint->position->latitude),
+            DbHelper::getDbFloatValue($waypoint->position->longitude),
+            DbHelper::getDbStringValue($dbService, $waypoint->altitude),
+            DbHelper::getDbBoolValue($waypoint->isMinAlt),
+            DbHelper::getDbBoolValue($waypoint->isMaxAlt),
+            DbHelper::getDbBoolValue($waypoint->isAltAtLegStart),
+            DbHelper::getDbStringValue($dbService, $waypoint->remark),
+            DbHelper::getDbStringValue($dbService, $waypoint->suppInfo),
+            DbHelper::getDbBoolValue($waypoint->isAlternate)
         ));
 
         return $query;

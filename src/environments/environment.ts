@@ -8,7 +8,7 @@ const REST_SERVICE_BASE_URL = 'http://localhost/navplan2/';
 
 export const environment = {
     production: false,
-    chartServiceUrl: REST_SERVICE_BASE_URL + 'php/Navplan/Airport/RestService/AirportChartService.php',
+    airportServiceUrl: REST_SERVICE_BASE_URL + 'php/Navplan/Airport/RestService/AirportService.php',
     flightrouteServiceUrl: REST_SERVICE_BASE_URL + 'php/Navplan/Flightroute/RestService/FlightrouteService.php',
     notamRestServiceUrl: REST_SERVICE_BASE_URL + 'php/Navplan/Notam/RestService/NotamService.php',
     openAipServiceUrl: REST_SERVICE_BASE_URL + 'php/Navplan/Search/RestService/SearchService.php',

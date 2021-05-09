@@ -2,8 +2,8 @@
 
 namespace Navplan\MeteoSma\RestModel;
 
-use Navplan\Geometry\RestModel\AltitudeConverter;
-use Navplan\Geometry\RestModel\Position2dConverter;
+use Navplan\Common\RestModel\RestAltitudeConverter;
+use Navplan\Common\RestModel\RestPosition2dConverter;
 use Navplan\MeteoSma\DomainModel\SmaStation;
 
 
@@ -12,8 +12,8 @@ class SmaStationConverter {
         return array(
             "id" => $station->id,
             "name" => $station->name,
-            "pos" => Position2dConverter::toRest($station->position),
-            "alt" => AltitudeConverter::toRest($station->altitude),
+            "pos" => RestPosition2dConverter::toRest($station->position),
+            "alt" => RestAltitudeConverter::toRest($station->altitude),
         );
     }
 }

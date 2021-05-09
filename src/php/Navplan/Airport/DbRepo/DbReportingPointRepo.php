@@ -5,8 +5,8 @@ namespace Navplan\Airport\DbRepo;
 use BadMethodCallException;
 use Navplan\Airport\DbModel\DbReportingPointConverter;
 use Navplan\Airport\DomainService\IReportingPointRepo;
-use Navplan\Geometry\DomainModel\Extent;
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\DomainModel\Position2d;
 use Navplan\System\DomainModel\IDbResult;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
@@ -26,7 +26,7 @@ class DbReportingPointRepo implements IReportingPointRepo {
     }
 
 
-    public function searchByExtent(Extent $extent): array {
+    public function searchByExtent(Extent2d $extent): array {
         $extentPoly = DbHelper::getDbExtentPolygon2($extent);
         $query = "SELECT * FROM reporting_points WHERE MBRIntersects(extent, " . $extentPoly . ")";
 
@@ -76,8 +76,8 @@ class DbReportingPointRepo implements IReportingPointRepo {
 
     private function readReportingPointFromResultList(IDbResult $result): array {
         $reportingPoint = [];
-        while ($rs = $result->fetch_assoc()) {
-            $reportingPoint[] = DbReportingPointConverter::fromDbResult($rs);
+        while ($row = $result->fetch_assoc()) {
+            $reportingPoint[] = DbReportingPointConverter::fromDbRow($row);
         }
 
         return $reportingPoint;

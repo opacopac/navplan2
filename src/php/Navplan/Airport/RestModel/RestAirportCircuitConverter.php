@@ -3,7 +3,7 @@
 namespace Navplan\Airport\RestModel;
 
 use Navplan\Airport\DomainModel\AirportCircuit;
-use Navplan\Geometry\RestModel\Line2dConverter;
+use Navplan\Common\RestModel\RestLine2dConverter;
 
 
 class RestAirportCircuitConverter {
@@ -13,7 +13,7 @@ class RestAirportCircuitConverter {
     public static function toRest(AirportCircuit $circuit): array {
         return array(
             "name" => $circuit->airportIcao,
-            "line2dlist" => Line2dConverter::multiLinetoRest($circuit->line2dList, self::ROUND_DIGITS_POS)
+            "line2dlist" => RestLine2dConverter::multiLinetoRest($circuit->line2dList, self::ROUND_DIGITS_POS)
         );
     }
 }

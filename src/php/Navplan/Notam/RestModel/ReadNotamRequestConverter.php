@@ -2,9 +2,9 @@
 
 namespace Navplan\Notam\RestModel;
 
-use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\StringNumberHelper;
 use Navplan\Notam\DomainModel\ReadNotamByExtentRequest;
-use Navplan\Shared\StringNumberHelper;
 
 
 class ReadNotamRequestConverter {
@@ -22,7 +22,7 @@ class ReadNotamRequestConverter {
         $minLat = StringNumberHelper::parseFloatOrError($args, self::ARG_MIN_LAT);
         $maxLon = StringNumberHelper::parseFloatOrError($args, self::ARG_MAX_LON);
         $maxLat = StringNumberHelper::parseFloatOrError($args, self::ARG_MAX_LAT);
-        $extent = Extent::createFromCoords($minLon, $minLat, $maxLon, $maxLat);
+        $extent = Extent2d::createFromCoords($minLon, $minLat, $maxLon, $maxLat);
         $zoom = StringNumberHelper::parseIntOrError($args, self::ARG_ZOOM);
         $minNotamTimestamp = StringNumberHelper::parseIntOrError($args, self::ARG_MIN_NOTAM_TIME);
         $maxNotamTimestamp = StringNumberHelper::parseIntOrError($args, self::ARG_MAX_NOTAM_TIME);

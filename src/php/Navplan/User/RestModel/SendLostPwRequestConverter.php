@@ -2,7 +2,7 @@
 
 namespace Navplan\User\RestModel;
 
-use Navplan\Shared\StringNumberHelper;
+use Navplan\Common\StringNumberHelper;
 use Navplan\User\UseCase\SendLostPw\SendLostPwRequest;
 
 

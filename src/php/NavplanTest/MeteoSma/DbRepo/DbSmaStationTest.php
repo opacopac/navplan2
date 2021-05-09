@@ -26,8 +26,8 @@ class DbSmaStationTest extends TestCase {
         $dbSmaMeasurement1 = DummySmaMeasurement1::createDbResult();
         $dbSmaMeasurement2 = DummySmaMeasurement2::createDbResult();
 
-        $station1 = SmaStationConverter::fromDbResult($dbSmaMeasurement1);
-        $station2 = SmaStationConverter::fromDbResult($dbSmaMeasurement2);
+        $station1 = SmaStationConverter::fromDbRow($dbSmaMeasurement1);
+        $station2 = SmaStationConverter::fromDbRow($dbSmaMeasurement2);
 
         $this->assertEquals(DummySmaStation1::create(), $station1);
         $this->assertEquals(DummySmaStation2::create(), $station2);
@@ -37,7 +37,7 @@ class DbSmaStationTest extends TestCase {
     public function test_fromDbResult_1() {
         $dbResult = DummySmaStation1::createDbResult();
 
-        $station = SmaStationConverter::fromDbResult($dbResult);
+        $station = SmaStationConverter::fromDbRow($dbResult);
 
         $this->assertEquals(DummySmaStation1::create(), $station);
     }
@@ -46,7 +46,7 @@ class DbSmaStationTest extends TestCase {
     public function test_fromDbResult_2() {
         $dbResult = DummySmaStation2::createDbResult();
 
-        $station = SmaStationConverter::fromDbResult($dbResult);
+        $station = SmaStationConverter::fromDbRow($dbResult);
 
         $this->assertEquals(DummySmaStation2::create(), $station);
     }

@@ -2,26 +2,26 @@
 
 namespace Navplan\Notam\DbRepo;
 
-use Navplan\Geometry\DomainModel\Altitude;
-use Navplan\Geometry\DomainModel\AltitudeReference;
-use Navplan\Geometry\DomainModel\AltitudeUnit;
-use Navplan\Geometry\DomainModel\Circle2d;
-use Navplan\Geometry\DomainModel\IGeometry2d;
-use Navplan\Geometry\DomainModel\Length;
-use Navplan\Geometry\DomainModel\LengthUnit;
-use Navplan\Geometry\DomainModel\MultiRing2d;
-use Navplan\Geometry\DomainModel\Position2d;
-use Navplan\Geometry\DomainModel\Ring2d;
+use Navplan\Common\DomainModel\Altitude;
+use Navplan\Common\DomainModel\AltitudeReference;
+use Navplan\Common\DomainModel\AltitudeUnit;
+use Navplan\Common\DomainModel\Circle2d;
+use Navplan\Common\DomainModel\IGeometry2d;
+use Navplan\Common\DomainModel\Length;
+use Navplan\Common\DomainModel\LengthUnit;
+use Navplan\Common\DomainModel\MultiRing2d;
+use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Ring2d;
 use Navplan\Notam\DomainModel\NotamGeometry;
 
 
 class NotamGeometryConverter {
-    public static function fromDbResult(array $rs): ?NotamGeometry {
-        if (!isset($rs["geometry"])) {
+    public static function fromDbRow(array $row): ?NotamGeometry {
+        if (!isset($row["geometry"])) {
             return NULL;
         }
 
-        $geometry = json_decode($rs["geometry"], true);
+        $geometry = json_decode($row["geometry"], true);
         $altBottom = self::readAltBottomFromGeometry($geometry);
         $altTop = self::readAltTopFromResult($geometry);
         $shape = self::readShapeFromResult($geometry);

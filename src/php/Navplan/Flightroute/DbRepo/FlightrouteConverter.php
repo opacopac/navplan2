@@ -2,27 +2,27 @@
 
 namespace Navplan\Flightroute\DbRepo;
 
+use Navplan\Common\StringNumberHelper;
 use Navplan\Flightroute\Domain\Flightroute;
-use Navplan\Shared\StringNumberHelper;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
 
 
 class FlightrouteConverter {
-    public static function fromDbResult(array $rs): Flightroute {
-        $acSpeed = StringNumberHelper::isNullOrEmpty($rs, "aircraft_speed") ? NULL : StringNumberHelper::parseFloatOrZero($rs, "aircraft_speed");
-        $acConsumption = StringNumberHelper::isNullOrEmpty($rs, "aircraft_consumption") ? NULL : StringNumberHelper::parseFloatOrZero($rs, "aircraft_consumption");
-        $extraFuel = StringNumberHelper::isNullOrEmpty($rs, "extra_fuel") ? NULL : StringNumberHelper::parseFloatOrZero($rs, "extra_fuel");
+    public static function fromDbRow(array $row): Flightroute {
+        $acSpeed = StringNumberHelper::isNullOrEmpty($row, "aircraft_speed") ? NULL : StringNumberHelper::parseFloatOrZero($row, "aircraft_speed");
+        $acConsumption = StringNumberHelper::isNullOrEmpty($row, "aircraft_consumption") ? NULL : StringNumberHelper::parseFloatOrZero($row, "aircraft_consumption");
+        $extraFuel = StringNumberHelper::isNullOrEmpty($row, "extra_fuel") ? NULL : StringNumberHelper::parseFloatOrZero($row, "extra_fuel");
 
         return new Flightroute(
-            intval($rs["id"]),
-            $rs["title"],
+            intval($row["id"]),
+            $row["title"],
             $acSpeed,
             $acConsumption,
             $extraFuel,
-            $rs["comments"],
-            StringNumberHelper::parseStringOrNull($rs, "shareId"),
-            StringNumberHelper::parseStringOrNull($rs, "md5_hash"),
+            $row["comments"],
+            StringNumberHelper::parseStringOrNull($row, "shareId"),
+            StringNumberHelper::parseStringOrNull($row, "md5_hash"),
             [],
             NULL
         );
@@ -32,14 +32,14 @@ class FlightrouteConverter {
     public static function toInsertSql(IDbService $dbService, Flightroute $flightroute, ?int $userId): string {
         $query = "INSERT INTO navplan (user_id, title, aircraft_speed, aircraft_consumption, extra_fuel, comments, share_id, md5_hash) VALUES (";
         $query .= join(", ", array(
-            DbHelper::getIntValue($userId),
-            DbHelper::getStringValue($dbService, $flightroute->title),
-            DbHelper::getFloatValue($flightroute->aircraftSpeedKt, "''"),
-            DbHelper::getFloatValue($flightroute->aircraftConsumptionLpH, "''"),
-            DbHelper::getFloatValue($flightroute->extraFuelL, "''"),
-            DbHelper::getStringValue($dbService, $flightroute->comments),
-            DbHelper::getStringValue($dbService, $flightroute->shareId),
-            DbHelper::getStringValue($dbService, $flightroute->hash)
+            DbHelper::getDbIntValue($userId),
+            DbHelper::getDbStringValue($dbService, $flightroute->title),
+            DbHelper::getDbFloatValue($flightroute->aircraftSpeedKt, "''"),
+            DbHelper::getDbFloatValue($flightroute->aircraftConsumptionLpH, "''"),
+            DbHelper::getDbFloatValue($flightroute->extraFuelL, "''"),
+            DbHelper::getDbStringValue($dbService, $flightroute->comments),
+            DbHelper::getDbStringValue($dbService, $flightroute->shareId),
+            DbHelper::getDbStringValue($dbService, $flightroute->hash)
         ));
         $query .= ")";
 
@@ -50,21 +50,21 @@ class FlightrouteConverter {
     public static function toUpdateSql(IDbService $dbService, Flightroute $flightroute): string {
         $query = "UPDATE navplan SET ";
         $query .= join(", ", array(
-            "title=" . DbHelper::getStringValue($dbService, $flightroute->title),
-            "aircraft_speed=" . DbHelper::getFloatValue($flightroute->aircraftSpeedKt, "''"),
-            "aircraft_consumption=" . DbHelper::getFloatValue($flightroute->aircraftConsumptionLpH, "''"),
-            "extra_fuel=" . DbHelper::getFloatValue($flightroute->extraFuelL),
-            "comments=" . DbHelper::getStringValue($dbService, $flightroute->comments),
-            "share_id=" . DbHelper::getStringValue($dbService, $flightroute->shareId),
-            "md5_hash=" . DbHelper::getStringValue($dbService, $flightroute->hash)
+            "title=" . DbHelper::getDbStringValue($dbService, $flightroute->title),
+            "aircraft_speed=" . DbHelper::getDbFloatValue($flightroute->aircraftSpeedKt, "''"),
+            "aircraft_consumption=" . DbHelper::getDbFloatValue($flightroute->aircraftConsumptionLpH, "''"),
+            "extra_fuel=" . DbHelper::getDbFloatValue($flightroute->extraFuelL),
+            "comments=" . DbHelper::getDbStringValue($dbService, $flightroute->comments),
+            "share_id=" . DbHelper::getDbStringValue($dbService, $flightroute->shareId),
+            "md5_hash=" . DbHelper::getDbStringValue($dbService, $flightroute->hash)
         ));
-        $query .= " WHERE id=" . DbHelper::getIntValue($flightroute->id);
+        $query .= " WHERE id=" . DbHelper::getDbIntValue($flightroute->id);
 
         return $query;
     }
 
 
     public static function toDeleteSql(int $flightrouteId): string {
-        return "DELETE FROM navplan WHERE id=" . DbHelper::getIntValue($flightrouteId);
+        return "DELETE FROM navplan WHERE id=" . DbHelper::getDbIntValue($flightrouteId);
     }
 }

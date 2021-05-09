@@ -2,7 +2,7 @@
 
 namespace Navplan\Notam\UseCase\SearchNotam;
 
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Position2d;
 use Navplan\Notam\DomainModel\ReadNotamByExtentRequest;
 use Navplan\Notam\DomainModel\ReadNotamResponse;
 use Navplan\Notam\DomainService\INotamRepo;

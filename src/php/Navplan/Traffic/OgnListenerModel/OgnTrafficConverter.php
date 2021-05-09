@@ -9,14 +9,14 @@ use Navplan\Traffic\DomainModel\TrafficOgn;
 
 
 class OgnTrafficConverter {
-    public static function fromDbResult(array $rs): TrafficOgn {
+    public static function fromDbRow(array $row): TrafficOgn {
         return new TrafficOgn(
             new TrafficAddress(
-                $rs["address"],
-                TrafficAddressType::fromString($rs["addressType"])
+                $row["address"],
+                TrafficAddressType::fromString($row["addressType"])
             ),
-            TrafficAcType::fromString($rs["acType"]),
-            [OgnTrafficPositionConverter::fromDbResult($rs)]
+            TrafficAcType::fromString($row["acType"]),
+            [OgnTrafficPositionConverter::fromDbRow($row)]
         );
     }
 }

@@ -4,9 +4,9 @@ namespace Navplan\Ivao\SectorFileImporter;
 
 use Navplan\Airport\DomainModel\AirportCircuit;
 use Navplan\Airport\DomainService\IAirportCircuitRepo;
-use Navplan\Geometry\DomainModel\Line2d;
-use Navplan\Geometry\DomainModel\Position2d;
-use Navplan\Shared\GeoHelper;
+use Navplan\Common\DomainModel\Line2d;
+use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\GeoHelper;
 use Navplan\System\DomainService\ILoggingService;
 
 

@@ -5,8 +5,8 @@ include_once __DIR__ . "/../php/Navplan/Db/MySqlDb/DbService.php";
 include_once __DIR__ . "/../php/Navplan/Shared/LoggingServiceOld.php";
 include_once __DIR__ . "/../php/Navplan/Shared/GeoHelper.php";
 
-use Navplan\Shared\GeoHelper;
-use Navplan\Shared\LoggingServiceOld;
+use Navplan\Common\GeoHelper;
+use Navplan\Common\LoggingServiceOld;
 use Navplan\System\MySqlDb\DbService;
 
 

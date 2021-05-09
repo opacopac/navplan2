@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Terrain\FileRepo;
 
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Position2d;
 use Navplan\Terrain\FileRepo\SrtmTileReader;
 use NavplanTest\System\Mock\MockFile;
 use PHPUnit\Framework\TestCase;

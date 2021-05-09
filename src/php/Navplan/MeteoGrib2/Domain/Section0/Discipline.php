@@ -2,7 +2,7 @@
 
 namespace Navplan\MeteoGrib2\Domain\Section0;
 
-use Navplan\Shared\Enum;
+use Navplan\Common\Enum;
 
 
 // https://www.nco.ncep.noaa.gov/pmb/docs/grib2/grib2_doc/grib2_table0-0.shtml

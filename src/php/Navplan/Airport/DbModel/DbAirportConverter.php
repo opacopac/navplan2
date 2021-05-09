@@ -3,21 +3,21 @@
 namespace Navplan\Airport\DbModel;
 
 use Navplan\Airport\DomainModel\Airport;
-use Navplan\Geometry\DomainModel\Length;
-use Navplan\Geometry\DomainModel\LengthUnit;
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DbModel\DbPosition2dConverter;
+use Navplan\Common\DomainModel\Length;
+use Navplan\Common\DomainModel\LengthUnit;
 
 
 class DbAirportConverter {
-    public static function fromDbResult(array $rs): Airport {
+    public static function fromDbRow(array $row): Airport {
         return new Airport(
-            intval($rs["id"]),
-            $rs["type"],
-            $rs["name"],
-            $rs["icao"] !== "" ? $rs["icao"] : NULL,
-            $rs["country"],
-            new Position2d(floatval($rs["longitude"]), floatval($rs["latitude"])),
-            new Length(floatval($rs["elevation"]), LengthUnit::M),
+            intval($row["id"]),
+            $row["type"],
+            $row["name"],
+            $row["icao"] !== "" ? $row["icao"] : NULL,
+            $row["country"],
+            DbPosition2dConverter::fromDbRow($row),
+            new Length(floatval($row["elevation"]), LengthUnit::M),
             [],
             [],
             [],

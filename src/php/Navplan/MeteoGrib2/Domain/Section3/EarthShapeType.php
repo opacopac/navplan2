@@ -2,7 +2,7 @@
 
 namespace Navplan\MeteoGrib2\Domain\Section3;
 
-use Navplan\Shared\Enum;
+use Navplan\Common\Enum;
 
 // https://www.nco.ncep.noaa.gov/pmb/docs/grib2/grib2_doc/grib2_table3-2.shtml
 class EarthShapeType extends Enum {

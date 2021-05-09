@@ -2,9 +2,9 @@
 
 namespace Navplan\Airport\DomainModel;
 
-use Navplan\Geometry\DomainModel\Length;
-use Navplan\Geometry\DomainModel\Position2d;
-use Navplan\Geometry\DomainModel\Ring2d;
+use Navplan\Common\DomainModel\Length;
+use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Ring2d;
 
 
 // TODO: split into ReportingPoint & ReportingSector

@@ -2,9 +2,9 @@
 
 namespace Navplan\Traffic\OgnService;
 
-use Navplan\Geometry\DomainModel\Extent;
-use Navplan\Geometry\DomainModel\Time;
-use Navplan\Geometry\DomainModel\TimeUnit;
+use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\DomainModel\Time;
+use Navplan\Common\DomainModel\TimeUnit;
 use Navplan\System\DomainService\ILoggingService;
 use Navplan\System\DomainService\IProcService;
 use Navplan\Traffic\DomainService\IOgnService;
@@ -25,7 +25,7 @@ class OgnService implements IOgnService {
     }
 
 
-    public function setFilter(int $sessionId, Extent $extent, Time $maxAge) {
+    public function setFilter(int $sessionId, Extent2d $extent, Time $maxAge) {
         $this->ognListenerRepo->setFilter($sessionId, $extent);
 
         if (!$this->ognListenerRepo->isListenerRunning($sessionId)) {

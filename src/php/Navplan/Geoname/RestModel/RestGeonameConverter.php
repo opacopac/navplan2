@@ -2,7 +2,7 @@
 
 namespace Navplan\Geoname\RestModel;
 
-use Navplan\Geometry\RestModel\AltitudeConverter;
+use Navplan\Common\RestModel\RestAltitudeConverter;
 use Navplan\Geoname\DomainModel\Geoname;
 use Navplan\OpenAip\RestModel\RestHelper;
 
@@ -21,7 +21,7 @@ class RestGeonameConverter {
             "population" => $geo->population,
             "latitude" => $geo->position->latitude,
             "longitude" => $geo->position->longitude,
-            "elevation" => AltitudeConverter::toRest($geo->elevation),
+            "elevation" => RestAltitudeConverter::toRest($geo->elevation),
         );
     }
 }

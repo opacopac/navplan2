@@ -2,8 +2,8 @@
 
 namespace Navplan\MeteoSma\RestModel;
 
-use Navplan\Geometry\RestModel\TimeConverter;
-use Navplan\Geometry\RestModel\TimestampConverter;
+use Navplan\Common\RestModel\RestTimeConverter;
+use Navplan\Common\RestModel\RestTimestampConverter;
 use Navplan\MeteoSma\DomainModel\SmaMeasurement;
 
 
@@ -11,9 +11,9 @@ class SmaMeasurementConverter {
     public static function toRest(SmaMeasurement $measurement): array {
         return array(
             "station" => SmaStationConverter::toRest($measurement->station),
-            "measurement_time" => TimestampConverter::toRest($measurement->timestamp),
+            "measurement_time" => RestTimestampConverter::toRest($measurement->timestamp),
 			"temp_c" => $measurement->temperatureC,
-			"sun_min" => $measurement->sunTime ? TimeConverter::toRest($measurement->sunTime) : NULL,
+			"sun_min" => $measurement->sunTime ? RestTimeConverter::toRest($measurement->sunTime) : NULL,
 			"precip_mm" => $measurement->precipMm,
 			"wind_dir" => $measurement->windDir,
 			"wind_speed_kmh" => $measurement->windSpeedKmh, // TODO

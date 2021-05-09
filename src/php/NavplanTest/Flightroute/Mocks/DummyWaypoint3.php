@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Flightroute\Mocks;
 
+use Navplan\Common\DomainModel\Position2d;
 use Navplan\Flightroute\Domain\Waypoint;
-use Navplan\Geometry\DomainModel\Position2d;
 
 
 class DummyWaypoint3 {

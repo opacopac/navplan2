@@ -2,10 +2,10 @@
 
 namespace Navplan\MeteoSma\UseCase\ReadSmaMeasurements;
 
-use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Common\DomainModel\Extent2d;
 
 
 class ReadSmaMeasurementsRequest {
-    public function __construct(public Extent $extent) {
+    public function __construct(public Extent2d $extent) {
     }
 }

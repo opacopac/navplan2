@@ -3,8 +3,8 @@
 namespace NavplanTest\Airport\DbRepo;
 
 use Navplan\Airport\DbRepo\DbReportingPointRepo;
-use Navplan\Geometry\DomainModel\Extent;
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\DomainModel\Position2d;
 use NavplanTest\Airport\Mocks\DummyReportingPoint1;
 use NavplanTest\Airport\Mocks\DummyReportingSector1;
 use NavplanTest\System\Mock\MockDbService;
@@ -41,7 +41,7 @@ class DbReportingPointRepoTest extends TestCase {
         $repPointDbResult1 = DummyReportingPoint1::createDbResult();
         $repPointDbResult2 = DummyReportingSector1::createDbResult();
         $this->getDbService()->pushMockResult([$repPointDbResult1, $repPointDbResult2]);
-        $extent = Extent::createFromCoords(7.0, 47.0, 7.9, 47.9);
+        $extent = Extent2d::createFromCoords(7.0, 47.0, 7.9, 47.9);
 
         $repPointResultList = $this->getDbRepo()->searchByExtent($extent);
 

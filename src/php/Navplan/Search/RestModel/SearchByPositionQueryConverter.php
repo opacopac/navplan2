@@ -2,9 +2,9 @@
 
 namespace Navplan\Search\RestModel;
 
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\StringNumberHelper;
 use Navplan\Search\DomainModel\SearchByPositionQuery;
-use Navplan\Shared\StringNumberHelper;
 
 
 class SearchByPositionQueryConverter {

@@ -2,7 +2,7 @@
 
 namespace Navplan\MeteoGrib2\Domain\Section1;
 
-use Navplan\Shared\Enum;
+use Navplan\Common\Enum;
 
 
 class ProductionStatus extends Enum {

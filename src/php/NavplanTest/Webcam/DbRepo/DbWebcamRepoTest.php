@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Webcam\DbRepo;
 
-use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Webcam\DbRepo\DbWebcamRepo;
 use NavplanTest\System\Mock\MockDbService;
 use NavplanTest\Webcam\Mocks\DummyWebcam1;
@@ -40,7 +40,7 @@ class DbWebcamRepoTest extends TestCase {
         $camDbResult1 = DummyWebcam1::createDbResult();
         $camDbResult2 = DummyWebcam2::createDbResult();
         $this->getDbService()->pushMockResult([$camDbResult1, $camDbResult2]);
-        $extent = Extent::createFromCoords(7.0, 47.0, 7.9, 47.9);
+        $extent = Extent2d::createFromCoords(7.0, 47.0, 7.9, 47.9);
 
         $navaidResultList = $this->getDbRepo()->searchByExtent($extent);
 

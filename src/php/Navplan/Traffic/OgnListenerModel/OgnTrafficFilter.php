@@ -2,12 +2,12 @@
 
 namespace Navplan\Traffic\OgnListenerModel;
 
-use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Common\DomainModel\Extent2d;
 
 
 class OgnTrafficFilter {
     public function __construct(
-        public Extent $extent,
+        public Extent2d $extent,
         public int $timestamp,
     ) {
     }

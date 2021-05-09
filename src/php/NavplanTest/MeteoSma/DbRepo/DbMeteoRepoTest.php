@@ -2,7 +2,7 @@
 
 namespace NavplanTest\MeteoSma\DbRepo;
 
-use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Common\DomainModel\Extent2d;
 use Navplan\MeteoSma\DbRepo\DbMeteoRepo;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement1;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement2;
@@ -28,7 +28,7 @@ class DbMeteoRepoTest extends TestCase {
 
 
     public function test_readSmaMeasurements() {
-        $extent = Extent::createFromCoords(7.0, 47.0, 7.9, 47.9);
+        $extent = Extent2d::createFromCoords(7.0, 47.0, 7.9, 47.9);
         $dbResult1 = DummySmaMeasurement1::createDbResult();
         $dbResult2 = DummySmaMeasurement2::createDbResult();
         $this->dbService->pushMockResult([$dbResult1, $dbResult2]);

@@ -2,10 +2,10 @@
 
 namespace NavplanTest\Terrain\FileRepo;
 
-use Navplan\Geometry\DomainModel\AltitudeReference;
-use Navplan\Geometry\DomainModel\AltitudeUnit;
-use Navplan\Geometry\DomainModel\Position2d;
-use Navplan\Geometry\DomainModel\Position3d;
+use Navplan\Common\DomainModel\AltitudeReference;
+use Navplan\Common\DomainModel\AltitudeUnit;
+use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Position3d;
 use Navplan\Terrain\FileRepo\FileTerrainRepo;
 use NavplanTest\System\Mock\MockFile;
 use NavplanTest\System\Mock\MockFileService;

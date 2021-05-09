@@ -3,8 +3,8 @@
 namespace Navplan\Search\RestModel;
 
 use InvalidArgumentException;
+use Navplan\Common\StringNumberHelper;
 use Navplan\Search\DomainModel\SearchByIcaoQuery;
-use Navplan\Shared\StringNumberHelper;
 
 
 class SearchByIcaoQueryConverter {

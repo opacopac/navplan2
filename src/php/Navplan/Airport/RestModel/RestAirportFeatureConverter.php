@@ -3,7 +3,7 @@
 namespace Navplan\Airport\RestModel;
 
 use Navplan\Airport\DomainModel\AirportFeature;
-use Navplan\Geometry\RestModel\Position2dConverter;
+use Navplan\Common\RestModel\RestPosition2dConverter;
 
 
 class RestAirportFeatureConverter {
@@ -11,7 +11,7 @@ class RestAirportFeatureConverter {
         return array(
             "type" => $mapFeature->type,
             "name" => $mapFeature->name,
-            "pos" => $mapFeature->position ? Position2dConverter::toRest($mapFeature->position) : NULL
+            "pos" => $mapFeature->position ? RestPosition2dConverter::toRest($mapFeature->position) : NULL
         );
     }
 }

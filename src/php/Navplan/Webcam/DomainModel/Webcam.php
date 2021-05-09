@@ -2,7 +2,7 @@
 
 namespace Navplan\Webcam\DomainModel;
 
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Position2d;
 
 
 class Webcam {

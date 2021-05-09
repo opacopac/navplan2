@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Webcam\Mocks;
 
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Position2d;
 use Navplan\Webcam\DomainModel\Webcam;
 
 

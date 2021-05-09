@@ -2,15 +2,15 @@
 
 namespace Navplan\MeteoSma\RestModel;
 
-use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\StringNumberHelper;
 use Navplan\MeteoSma\UseCase\ReadSmaMeasurements\ReadSmaMeasurementsRequest;
-use Navplan\Shared\StringNumberHelper;
 
 
 class ReadSmaMeasurementsRequestConverter {
     public static function fromArgs(array $args): ReadSmaMeasurementsRequest {
         return new ReadSmaMeasurementsRequest(
-            Extent::createFromCoords(
+            Extent2d::createFromCoords(
                 StringNumberHelper::parseFloatOrError($args, "minlon"),
                 StringNumberHelper::parseFloatOrError($args, "minlat"),
                 StringNumberHelper::parseFloatOrError($args, "maxlon"),

@@ -2,9 +2,9 @@
 
 namespace Navplan\Flightroute\RestModel;
 
+use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\StringNumberHelper;
 use Navplan\Flightroute\Domain\Waypoint;
-use Navplan\Geometry\DomainModel\Position2d;
-use Navplan\Shared\StringNumberHelper;
 
 
 class WaypointConverter {

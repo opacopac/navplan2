@@ -5,8 +5,8 @@ include_once __DIR__ . "/../Navplan/Shared/GeoHelper.php";
 include_once __DIR__ . "/../Navplan/Shared/StringNumberHelper.php";
 include_once __DIR__ . "/../Navplan/NavplanBootstrap.php";
 
-use Navplan\Shared\GeoHelper;
-use Navplan\Shared\StringNumberHelper;
+use Navplan\Common\GeoHelper;
+use Navplan\Common\StringNumberHelper;
 use Navplan\NavplanBootstrap;
 
 

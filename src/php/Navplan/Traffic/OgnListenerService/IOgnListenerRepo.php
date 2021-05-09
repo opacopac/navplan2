@@ -2,7 +2,7 @@
 
 namespace Navplan\Traffic\OgnListenerService;
 
-use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Traffic\OgnListenerModel\OgnTrafficFilter;
 use Navplan\Traffic\OgnListenerModel\OgnTrafficMessage;
 
@@ -16,7 +16,7 @@ interface IOgnListenerRepo {
 
     function getFilter(int $sessionId): ?OgnTrafficFilter;
 
-    function setFilter(int $sessionId, Extent $extent);
+    function setFilter(int $sessionId, Extent2d $extent);
 
     function deleteFilter(int $sessionId);
 

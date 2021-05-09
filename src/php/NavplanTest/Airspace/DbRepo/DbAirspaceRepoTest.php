@@ -3,7 +3,7 @@
 namespace NavplanTest\Airspace\DbRepo;
 
 use Navplan\Airspace\DbRepo\DbAirspaceRepo;
-use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Common\DomainModel\Extent2d;
 use NavplanTest\Airspace\Mocks\DummyAirspace1;
 use NavplanTest\System\Mock\MockDbService;
 use PHPUnit\Framework\TestCase;
@@ -38,7 +38,7 @@ class DbAirspaceRepoTest extends TestCase {
     public function test_searchByExtent() {
         $asDb = DummyAirspace1::createDbResult();
         $this->getDbService()->pushMockResult([$asDb]);
-        $extent = Extent::createFromCoords(7.0, 47.0, 7.9, 47.9);
+        $extent = Extent2d::createFromCoords(7.0, 47.0, 7.9, 47.9);
 
         $asList = $this->getDbRepo()->searchByExtent($extent, 11);
 

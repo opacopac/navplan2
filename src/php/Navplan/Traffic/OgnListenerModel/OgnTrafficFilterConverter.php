@@ -2,18 +2,14 @@
 
 namespace Navplan\Traffic\OgnListenerModel;
 
-use Navplan\Geometry\DomainModel\Extent;
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DbModel\DbExtent2dConverter;
 
 
 class OgnTrafficFilterConverter {
-    public static function fromDbResult(array $rs): OgnTrafficFilter {
+    public static function fromDbRow(array $row): OgnTrafficFilter {
         return new OgnTrafficFilter(
-            new Extent(
-                new Position2d(floatval($rs["minLon"]), floatval($rs["minLat"])),
-                new Position2d(floatval($rs["maxLon"]), floatval($rs["maxLat"]))
-            ),
-            strtotime($rs["lastModified"])
+            DbExtent2dConverter::fromDbRow($row),
+            strtotime($row["lastModified"])
         );
     }
 }

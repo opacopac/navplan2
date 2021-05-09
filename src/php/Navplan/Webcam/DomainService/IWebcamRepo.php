@@ -2,9 +2,9 @@
 
 namespace Navplan\Webcam\DomainService;
 
-use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Common\DomainModel\Extent2d;
 
 
 interface IWebcamRepo {
-    function searchByExtent(Extent $extent): array;
+    function searchByExtent(Extent2d $extent): array;
 }

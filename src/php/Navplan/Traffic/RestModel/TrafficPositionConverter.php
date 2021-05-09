@@ -2,8 +2,8 @@
 
 namespace Navplan\Traffic\RestModel;
 
-use Navplan\Geometry\RestModel\Position4dConverter;
-use Navplan\Geometry\RestModel\TimestampConverter;
+use Navplan\Common\RestModel\RestPosition4dConverter;
+use Navplan\Common\RestModel\RestTimestampConverter;
 use Navplan\Traffic\DomainModel\TrafficPosition;
 use Navplan\Traffic\DomainModel\TrafficPositionMethod;
 
@@ -15,10 +15,10 @@ class TrafficPositionConverter {
 
     public static function toRest(TrafficPosition $trafficPos): array {
         return array(
-            "position" => Position4dConverter::toRest($trafficPos->position, self::ROUND_POS_TO_DIGITS, self::ROUND_ALT_TO_DIGITS),
+            "position" => RestPosition4dConverter::toRest($trafficPos->position, self::ROUND_POS_TO_DIGITS, self::ROUND_ALT_TO_DIGITS),
             "method" => TrafficPositionMethod::toString($trafficPos->method),
             "receiver" => $trafficPos->receiver,
-            "timestamp" => TimestampConverter::toRest($trafficPos->receivedTimestamp)
+            "timestamp" => RestTimestampConverter::toRest($trafficPos->receivedTimestamp)
         );
     }
 }

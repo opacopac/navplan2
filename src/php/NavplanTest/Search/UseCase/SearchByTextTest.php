@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Search\UseCase;
 
-use Navplan\Geometry\DomainModel\Altitude;
+use Navplan\Common\DomainModel\Altitude;
 use Navplan\Search\DomainModel\SearchByTextQuery;
 use Navplan\Search\DomainModel\SearchItemType;
 use Navplan\Search\UseCase\SearchByText\SearchByTextUc;

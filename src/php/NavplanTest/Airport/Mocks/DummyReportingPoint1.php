@@ -3,9 +3,9 @@
 namespace NavplanTest\Airport\Mocks;
 
 use Navplan\Airport\DomainModel\ReportingPoint;
-use Navplan\Geometry\DomainModel\Length;
-use Navplan\Geometry\DomainModel\LengthUnit;
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Length;
+use Navplan\Common\DomainModel\LengthUnit;
+use Navplan\Common\DomainModel\Position2d;
 
 
 class DummyReportingPoint1 {

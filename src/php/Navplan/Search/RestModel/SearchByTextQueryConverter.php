@@ -2,8 +2,8 @@
 
 namespace Navplan\Search\RestModel;
 
+use Navplan\Common\StringNumberHelper;
 use Navplan\Search\DomainModel\SearchByTextQuery;
-use Navplan\Shared\StringNumberHelper;
 
 
 class SearchByTextQueryConverter {

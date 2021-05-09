@@ -4,15 +4,15 @@ namespace NavplanTest\Airport\Mocks;
 
 use InvalidArgumentException;
 use Navplan\Airport\DomainService\IReportingPointRepo;
-use Navplan\Geometry\DomainModel\Extent;
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\DomainModel\Position2d;
 
 
 class MockReportingPointRepo implements IReportingPointRepo {
     private $mockResultList = [];
 
 
-    public function searchByExtent(Extent $extent): array {
+    public function searchByExtent(Extent2d $extent): array {
         return $this->shiftMockResult();
     }
 

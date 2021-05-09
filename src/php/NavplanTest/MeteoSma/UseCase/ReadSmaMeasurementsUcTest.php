@@ -2,7 +2,7 @@
 
 namespace NavplanTest\MeteoSma\UseCase;
 
-use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Common\DomainModel\Extent2d;
 use Navplan\MeteoSma\UseCase\ReadSmaMeasurements\ReadSmaMeasurementsRequest;
 use Navplan\MeteoSma\UseCase\ReadSmaMeasurements\ReadSmaMeasurementsUc;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement1;
@@ -30,7 +30,7 @@ class ReadSmaMeasurementsUcTest extends TestCase {
 
 
     public function test_read() {
-        $extent = Extent::createFromCoords(7.0, 47.0, 7.9, 47.9);
+        $extent = Extent2d::createFromCoords(7.0, 47.0, 7.9, 47.9);
         $request = new ReadSmaMeasurementsRequest($extent);
         $measurement1 = DummySmaMeasurement1::create();
         $measurement2 = DummySmaMeasurement2::create();

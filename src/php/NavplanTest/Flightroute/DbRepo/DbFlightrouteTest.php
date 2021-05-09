@@ -43,9 +43,9 @@ class DbFlightrouteTest extends TestCase {
         $dbResult2 = DummyFlightroute2::createDbResult();
         $dbResult3 = DummyFlightroute3::createDbResult();
 
-        $flightroute1 = FlightrouteConverter::fromDbResult($dbResult1);
-        $flightroute2 = FlightrouteConverter::fromDbResult($dbResult2);
-        $flightroute3 = FlightrouteConverter::fromDbResult($dbResult3);
+        $flightroute1 = FlightrouteConverter::fromDbRow($dbResult1);
+        $flightroute2 = FlightrouteConverter::fromDbRow($dbResult2);
+        $flightroute3 = FlightrouteConverter::fromDbRow($dbResult3);
 
         $this->assertEqualDbResult($dbResult1, $flightroute1);
         $this->assertEqualDbResult($dbResult2, $flightroute2);

@@ -3,8 +3,8 @@
 namespace NavplanTest\Navaid\Mocks;
 
 use InvalidArgumentException;
-use Navplan\Geometry\DomainModel\Extent;
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\DomainModel\Position2d;
 use Navplan\Navaid\DomainService\INavaidRepo;
 
 
@@ -12,7 +12,7 @@ class MockNavaidRepo implements INavaidRepo {
     private $mockResultList = [];
 
 
-    public function searchByExtent(Extent $extent, int $zoom): array {
+    public function searchByExtent(Extent2d $extent, int $zoom): array {
         return $this->shiftMockResult();
     }
 

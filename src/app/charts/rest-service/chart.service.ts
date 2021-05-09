@@ -16,14 +16,14 @@ export class ChartService {
 
 
     public readAdChartList(airportIcao: string): Observable<AdChart[]> {
-        const url: string = environment.chartServiceUrl + '?action=searchByIcao&airport_icao=' + airportIcao;
+        const url: string = environment.airportServiceUrl + '?action=getChartsByIcao&icao=' + airportIcao;
 
         return this.http
             .get<IRestAdChart[]>(url, {observe: 'response'})
             .pipe(
                 map((response) => AdChartConverter.fromRestList(response.body)),
                 catchError(err => {
-                    LoggingService.logResponseError('ERROR reading ad chart list', err);
+                    LoggingService.logResponseError('ERROR reading ad charts by icao', err);
                     return throwError(err);
                 })
             );
@@ -31,14 +31,14 @@ export class ChartService {
 
 
     public readAdChart(chartId: number): Observable<AdChart> {
-        const url: string = environment.chartServiceUrl + '?action=searchById&id=' + chartId;
+        const url: string = environment.airportServiceUrl + '?action=getChartById&id=' + chartId;
 
         return this.http
             .get<IRestAdChart>(url, {observe: 'response'})
             .pipe(
                 map((response) => AdChartConverter.fromRest(response.body)),
                 catchError(err => {
-                    LoggingService.logResponseError('ERROR reading ad chart', err);
+                    LoggingService.logResponseError('ERROR reading ad chart by id', err);
                     return throwError(err);
                 })
             );

@@ -6,12 +6,12 @@ use Navplan\User\DomainModel\User;
 
 
 class UserConverter {
-    public static function fromDbResult(array $rs): User {
+    public static function fromDbRow(array $row): User {
         return new User(
-            intval($rs["id"]),
-            $rs["token"],
-            $rs["email"],
-            $rs["pw_hash"]
+            intval($row["id"]),
+            $row["token"],
+            $row["email"],
+            $row["pw_hash"]
         );
     }
 }

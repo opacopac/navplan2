@@ -2,11 +2,11 @@
 
 namespace Navplan\MeteoSma\DomainService;
 
-use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Common\DomainModel\Extent2d;
 
 
 interface IMeteoRepo {
-    function readSmaMeasurements(Extent $extent): array;
+    function readSmaMeasurements(Extent2d $extent): array;
 
     function replaceSmaStations(array $smaStationList): void;
 }

@@ -2,11 +2,11 @@
 
 namespace Navplan\Notam\DbRepo;
 
-use Navplan\Geometry\DomainModel\Extent;
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\GeoHelper;
 use Navplan\Notam\DomainModel\Notam;
 use Navplan\Notam\DomainService\INotamRepo;
-use Navplan\Shared\GeoHelper;
 use Navplan\System\DomainModel\IDbResult;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
@@ -22,7 +22,7 @@ class DbNotamRepo implements INotamRepo {
     }
 
 
-    public function searchByExtent(Extent $extent, int $zoom, int $minNotamTimestamp, int $maxNotamTimestamp): array {
+    public function searchByExtent(Extent2d $extent, int $zoom, int $minNotamTimestamp, int $maxNotamTimestamp): array {
         $dbExtent = DbHelper::getDbExtentPolygon2($extent);
         $pixelResolutionDeg = GeoHelper::calcDegPerPixelByZoom($zoom); // TODO
         $minDiameterDeg = $pixelResolutionDeg * self::MIN_PIXEL_NOTAMAREA_DIAMETER;
@@ -83,7 +83,7 @@ class DbNotamRepo implements INotamRepo {
     }
 
 
-    private function loadIcaoListByExtent(Extent $extent): array {
+    private function loadIcaoListByExtent(Extent2d $extent): array {
         $extentSql = DbHelper::getDbExtentPolygon2($extent);
         $query = "SELECT DISTINCT icao FROM icao_fir WHERE ST_INTERSECTS(polygon, " . $extentSql . ") AND icao <> ''";
         $query .= " UNION ";
@@ -92,8 +92,8 @@ class DbNotamRepo implements INotamRepo {
         $result = $this->dbService->execMultiResultQuery($query, "error reading fir/ad icao list");
 
         $icaoList = [];
-        while ($rs = $result->fetch_assoc())
-            $icaoList[] = $rs["icao"];
+        while ($row = $result->fetch_assoc())
+            $icaoList[] = $row["icao"];
 
         return $icaoList;
     }
@@ -114,8 +114,8 @@ class DbNotamRepo implements INotamRepo {
 
     private function readNotamFromResultList(IDbResult $result): array {
         $notams = [];
-        while ($rs = $result->fetch_assoc()) {
-            $notam = NotamConverter::fromDbResult($rs);
+        while ($row = $result->fetch_assoc()) {
+            $notam = NotamConverter::fromDbRow($row);
 
             // filter by max FL195
             /*if ($notam->geometry && $notam->geometry["bottom"] >= NOTAM_MAX_BOTTOM_FL)

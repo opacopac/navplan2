@@ -2,9 +2,9 @@
 
 namespace NavplanTest\Traffic\UseCase;
 
-use Navplan\Geometry\DomainModel\Extent;
-use Navplan\Geometry\DomainModel\Time;
-use Navplan\Geometry\DomainModel\TimeUnit;
+use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\DomainModel\Time;
+use Navplan\Common\DomainModel\TimeUnit;
 use Navplan\Traffic\DomainModel\TrafficOgnReadRequest;
 use Navplan\Traffic\UseCase\ReadOgnTraffic\ReadOgnTrafficUc;
 use NavplanTest\MockNavplanDiContainer;
@@ -32,7 +32,7 @@ class ReadOgnTrafficUcTest extends TestCase {
 
 
     public function test_read() {
-        $extent = Extent::createFromCoords(6.0, 46.0, 8.5, 48.5);
+        $extent = Extent2d::createFromCoords(6.0, 46.0, 8.5, 48.5);
         $maxAge = new Time(120, TimeUnit::S);
         $sesionId = 123;
         $request = new TrafficOgnReadRequest($extent, $maxAge, $sesionId);
@@ -58,7 +58,7 @@ class ReadOgnTrafficUcTest extends TestCase {
 
 
     public function test_read_listener_already_running() {
-        $extent = Extent::createFromCoords(6.0, 46.0, 8.5, 48.5);
+        $extent = Extent2d::createFromCoords(6.0, 46.0, 8.5, 48.5);
         $maxAge = new Time(120, TimeUnit::S);
         $sesionId = 123;
         $request = new TrafficOgnReadRequest($extent, $maxAge, $sesionId);
@@ -78,7 +78,7 @@ class ReadOgnTrafficUcTest extends TestCase {
 
 
     public function test_read_filter_identical_timestamps() {
-        $extent = Extent::createFromCoords(6.0, 46.0, 8.5, 48.5);
+        $extent = Extent2d::createFromCoords(6.0, 46.0, 8.5, 48.5);
         $maxAge = new Time(120, TimeUnit::S);
         $sesionId = 123;
         $request = new TrafficOgnReadRequest($extent, $maxAge, $sesionId);
@@ -99,7 +99,7 @@ class ReadOgnTrafficUcTest extends TestCase {
 
 
     public function test_read_filter_identical_positions() {
-        $extent = Extent::createFromCoords(6.0, 46.0, 8.5, 48.5);
+        $extent = Extent2d::createFromCoords(6.0, 46.0, 8.5, 48.5);
         $maxAge = new Time(120, TimeUnit::S);
         $sesionId = 123;
         $request = new TrafficOgnReadRequest($extent, $maxAge, $sesionId);
@@ -121,7 +121,7 @@ class ReadOgnTrafficUcTest extends TestCase {
 
 
     public function test_read_grouping_filtering() {
-        $extent = Extent::createFromCoords(6.0, 46.0, 8.5, 48.5);
+        $extent = Extent2d::createFromCoords(6.0, 46.0, 8.5, 48.5);
         $maxAge = new Time(120, TimeUnit::S);
         $sesionId = 123;
         $request = new TrafficOgnReadRequest($extent, $maxAge, $sesionId);

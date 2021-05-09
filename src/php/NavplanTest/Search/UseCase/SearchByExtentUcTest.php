@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Search\UseCase;
 
-use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Search\DomainModel\SearchByExtentQuery;
 use Navplan\Search\DomainModel\SearchItemType;
 use Navplan\Search\UseCase\SearchByExtent\SearchByExtentUc;
@@ -39,7 +39,7 @@ class SearchByExtentUcTest extends TestCase {
     public function test_no_search_items_gives_emtpy_result() {
         $query = new SearchByExtentQuery(
             [],
-            Extent::createFromCoords(7.0, 47.0, 7.9, 47.9),
+            Extent2d::createFromCoords(7.0, 47.0, 7.9, 47.9),
             11,
             1558977934,
             1559977934,
@@ -61,7 +61,7 @@ class SearchByExtentUcTest extends TestCase {
     public function test_search_only_in_airports() {
         $query = new SearchByExtentQuery(
             [SearchItemType::AIRPORTS],
-            Extent::createFromCoords(7.0, 47.0, 7.9, 47.9),
+            Extent2d::createFromCoords(7.0, 47.0, 7.9, 47.9),
             11,
             1558977934,
             1559977934,
@@ -82,7 +82,7 @@ class SearchByExtentUcTest extends TestCase {
     public function test_search_no_token_no_userpoints() {
         $query = new SearchByExtentQuery(
             [SearchItemType::USERPOINTS],
-            Extent::createFromCoords(7.0, 47.0, 7.9, 47.9),
+            Extent2d::createFromCoords(7.0, 47.0, 7.9, 47.9),
             11,
             1558977934,
             1559977934,

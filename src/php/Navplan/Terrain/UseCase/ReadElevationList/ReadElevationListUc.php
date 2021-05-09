@@ -2,9 +2,9 @@
 
 namespace Navplan\Terrain\UseCase\ReadElevationList;
 
-use Navplan\Geometry\DomainModel\LengthUnit;
-use Navplan\Geometry\DomainModel\Position2d;
-use Navplan\Shared\GeoHelper;
+use Navplan\Common\DomainModel\LengthUnit;
+use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\GeoHelper;
 use Navplan\Terrain\DomainService\ITerrainRepo;
 
 

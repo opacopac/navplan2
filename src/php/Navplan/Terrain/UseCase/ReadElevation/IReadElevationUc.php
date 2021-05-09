@@ -2,8 +2,8 @@
 
 namespace Navplan\Terrain\UseCase\ReadElevation;
 
-use Navplan\Geometry\DomainModel\Position2d;
-use Navplan\Geometry\DomainModel\Position3d;
+use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Position3d;
 
 
 interface IReadElevationUc {

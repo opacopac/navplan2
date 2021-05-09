@@ -25,8 +25,8 @@ class DbSmaMeasurementTest extends TestCase {
         $dbSmaMeasurement2 = DummySmaMeasurement2::createDbResult();
         $this->timeService->strtotimeRelativeDate = 1;
 
-        $measurement1 = SmaMeasurementConverter::fromDbResult($dbSmaMeasurement1, $this->timeService);
-        $measurement2 = SmaMeasurementConverter::fromDbResult($dbSmaMeasurement2, $this->timeService);
+        $measurement1 = SmaMeasurementConverter::fromDbRow($dbSmaMeasurement1, $this->timeService);
+        $measurement2 = SmaMeasurementConverter::fromDbRow($dbSmaMeasurement2, $this->timeService);
 
         $this->assertEquals(DummySmaMeasurement1::create(), $measurement1);
         $this->assertEquals(DummySmaMeasurement2::create(), $measurement2);

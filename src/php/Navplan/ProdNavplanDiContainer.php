@@ -12,7 +12,7 @@ use Navplan\Airport\DomainService\IAirportChartRepo;
 use Navplan\Airport\DomainService\IAirportCircuitRepo;
 use Navplan\Airport\DomainService\IAirportRepo;
 use Navplan\Airport\DomainService\IReportingPointRepo;
-use Navplan\Airport\RestService\IAirportChartServiceDiContainer;
+use Navplan\Airport\RestService\IAirportServiceDiContainer;
 use Navplan\Airspace\DbRepo\DbAirspaceRepo;
 use Navplan\Airspace\DomainService\IAirspaceRepo;
 use Navplan\Flightroute\DbRepo\DbFlightrouteRepo;
@@ -125,7 +125,7 @@ use Navplan\Webcam\DomainService\IWebcamRepo;
 
 class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFlightrouteServiceDiContainer, IGeonameServiceDiContainer,
     IMeteoServiceDiContainer, INotamServiceDiContainer, ISearchServiceDiContainer, ITerrainDiContainer,
-    ITrafficServiceDiContainer, IUserServiceDiContainer, IAirportChartServiceDiContainer {
+    ITrafficServiceDiContainer, IUserServiceDiContainer, IAirportServiceDiContainer {
     // const
     private const LOG_LEVEL = LogLevel::DEBUG;
     private const LOG_DIR = __DIR__ . "/../../logs/";

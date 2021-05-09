@@ -6,13 +6,13 @@ use Navplan\Airport\DomainModel\AirportRadio;
 
 
 class DbAirportRadioConverter {
-    public static function fromDbResult(array $rs): AirportRadio {
+    public static function fromDbRow(array $row): AirportRadio {
         return new AirportRadio(
-            $rs["category"],
-            $rs["frequency"],
-            $rs["type"],
-            $rs["typespec"],
-            $rs["description"]
+            $row["category"],
+            $row["frequency"],
+            $row["type"],
+            $row["typespec"],
+            $row["description"]
         );
     }
 }

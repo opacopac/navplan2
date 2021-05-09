@@ -2,8 +2,8 @@
 
 namespace Navplan\Terrain\FileRepo;
 
-use Navplan\Geometry\DomainModel\Position2d;
-use Navplan\Shared\StringNumberHelper;
+use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\StringNumberHelper;
 use Navplan\System\DomainModel\IFile;
 
 

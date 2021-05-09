@@ -2,9 +2,9 @@
 
 namespace Navplan\Airspace\DomainService;
 
-use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Common\DomainModel\Extent2d;
 
 
 interface IAirspaceRepo {
-    function searchByExtent(Extent $extent, int $zoom): array;
+    function searchByExtent(Extent2d $extent, int $zoom): array;
 }

@@ -2,7 +2,7 @@
 
 namespace Navplan\Webcam\RestModel;
 
-use Navplan\Geometry\RestModel\Position2dConverter;
+use Navplan\Common\RestModel\RestPosition2dConverter;
 use Navplan\Webcam\DomainModel\Webcam;
 
 
@@ -11,7 +11,7 @@ class RestWebcamConverter {
         return array(
             "name" => $cam->name,
             "url" => $cam->url,
-            "pos" => $cam->position ? Position2dConverter::toRest($cam->position) : NULL
+            "pos" => $cam->position ? RestPosition2dConverter::toRest($cam->position) : NULL
         );
     }
 }

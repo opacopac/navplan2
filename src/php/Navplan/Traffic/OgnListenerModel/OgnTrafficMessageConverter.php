@@ -2,8 +2,8 @@
 
 namespace Navplan\Traffic\OgnListenerModel;
 
-use Navplan\Geometry\DomainModel\Altitude;
-use Navplan\Geometry\DomainModel\Position3d;
+use Navplan\Common\DomainModel\Altitude;
+use Navplan\Common\DomainModel\Position3d;
 
 
 class OgnTrafficMessageConverter {

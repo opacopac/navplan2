@@ -2,7 +2,7 @@
 
 namespace Navplan\Geoname\DbRepo;
 
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Position2d;
 use Navplan\Geoname\DomainService\IGeonameRepo;
 use Navplan\System\DomainModel\IDbResult;
 use Navplan\System\DomainService\IDbService;
@@ -89,8 +89,8 @@ class DbGeonameRepo implements IGeonameRepo {
     private function readGeonamesFromResultList(IDbResult $result, bool $renameDuplicates): array {
         $geonames = [];
 
-        while ($rs = $result->fetch_assoc()) {
-            $geonames[] = DbGeonameConverter::fromDbResult($rs);
+        while ($row = $result->fetch_assoc()) {
+            $geonames[] = DbGeonameConverter::fromDbRow($row);
         }
 
         if ($renameDuplicates) {

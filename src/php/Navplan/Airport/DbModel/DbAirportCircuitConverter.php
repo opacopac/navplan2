@@ -3,7 +3,7 @@
 namespace Navplan\Airport\DbModel;
 
 use Navplan\Airport\DomainModel\AirportCircuit;
-use Navplan\Geometry\DbModel\Line2dConverter;
+use Navplan\Common\DbModel\DbLine2dConverter;
 
 
 class DbAirportCircuitConverter {
@@ -13,7 +13,7 @@ class DbAirportCircuitConverter {
             $row["section"],
             $row["appendix"],
             $row["comment"],
-            Line2dConverter::fromWktMultiLineString($row["lines2d"])
+            DbLine2dConverter::fromWktMultiLineString($row["lines2d"])
         );
     }
 }

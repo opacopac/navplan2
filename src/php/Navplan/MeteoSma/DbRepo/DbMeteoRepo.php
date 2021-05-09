@@ -2,7 +2,7 @@
 
 namespace Navplan\MeteoSma\DbRepo;
 
-use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Common\DomainModel\Extent2d;
 use Navplan\MeteoSma\DomainService\IMeteoRepo;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\DomainService\ITimeService;
@@ -16,7 +16,7 @@ class DbMeteoRepo implements IMeteoRepo {
     }
 
 
-    public function readSmaMeasurements(Extent $extent): array {
+    public function readSmaMeasurements(Extent2d $extent): array {
         $query = "SELECT DISTINCT";
         $query .= " sta.station_id AS station_id,";
         $query .= " sta.name AS station_name,";
@@ -39,8 +39,8 @@ class DbMeteoRepo implements IMeteoRepo {
         $result = $this->dbService->execMultiResultQuery($query, "error reading sma measurements");
 
         $measurementList = [];
-        while ($rs = $result->fetch_assoc()) {
-            $measurementList[] = SmaMeasurementConverter::fromDbResult($rs, $this->timeService);
+        while ($row = $result->fetch_assoc()) {
+            $measurementList[] = SmaMeasurementConverter::fromDbRow($row, $this->timeService);
         }
 
         return $measurementList;

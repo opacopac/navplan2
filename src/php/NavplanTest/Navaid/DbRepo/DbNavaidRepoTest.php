@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Navaid\DbRepo;
 
-use Navplan\Geometry\DomainModel\Extent;
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\DomainModel\Position2d;
 use Navplan\Navaid\DbRepo\DbNavaidRepo;
 use NavplanTest\Navaid\Mocks\DummyNavaid1;
 use NavplanTest\System\Mock\MockDbService;
@@ -39,7 +39,7 @@ class DbNavaidRepoTest extends TestCase {
     public function test_searchByExtent() {
         $navaidDbResult = DummyNavaid1::createDbResult();
         $this->getDbService()->pushMockResult([$navaidDbResult]);
-        $extent = Extent::createFromCoords(7.0, 47.0, 7.9, 47.9);
+        $extent = Extent2d::createFromCoords(7.0, 47.0, 7.9, 47.9);
 
         $navaidResultList = $this->getDbRepo()->searchByExtent($extent, 11);
 

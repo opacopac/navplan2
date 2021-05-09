@@ -2,7 +2,7 @@
 
 namespace Navplan\Airport\DomainModel;
 
-use Navplan\Geometry\DomainModel\Length;
+use Navplan\Common\DomainModel\Length;
 
 
 class AirportRunway {

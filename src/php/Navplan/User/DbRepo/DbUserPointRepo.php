@@ -2,8 +2,8 @@
 
 namespace Navplan\User\DbRepo;
 
-use Navplan\Geometry\DomainModel\Extent;
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\DomainModel\Position2d;
 use Navplan\System\DomainModel\IDbResult;
 use Navplan\System\DomainService\IDbService;
 use Navplan\User\DomainService\IUserPointRepo;
@@ -14,7 +14,7 @@ class DbUserPointRepo implements IUserPointRepo {
     }
 
 
-    public function searchByExtent(Extent $extent, string $email): array {
+    public function searchByExtent(Extent2d $extent, string $email): array {
         $email = $this->dbService->escapeString($email);
 
         $query = "SELECT uwp.*";
@@ -75,8 +75,8 @@ class DbUserPointRepo implements IUserPointRepo {
 
     private static function readUserPointFromResultList(IDbResult $result): array {
         $userPoint = [];
-        while ($rs = $result->fetch_assoc()) {
-            $userPoint[] = UserPointConverter::fromDbResult($rs);
+        while ($row = $result->fetch_assoc()) {
+            $userPoint[] = UserPointConverter::fromDbRow($row);
         }
 
         return $userPoint;

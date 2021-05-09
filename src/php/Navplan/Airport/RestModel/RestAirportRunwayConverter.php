@@ -3,7 +3,7 @@
 namespace Navplan\Airport\RestModel;
 
 use Navplan\Airport\DomainModel\AirportRunway;
-use Navplan\Geometry\RestModel\LengthConverter;
+use Navplan\Common\RestModel\RestLengthConverter;
 
 
 class RestAirportRunwayConverter {
@@ -11,14 +11,14 @@ class RestAirportRunwayConverter {
         return array(
             "name" => $rwy->name,
             "surface" => $rwy->surface,
-            "length" => $rwy->length ? LengthConverter::toRest($rwy->length) : NULL,
-            "width" => $rwy->width ? LengthConverter::toRest($rwy->width) : NULL,
+            "length" => $rwy->length ? RestLengthConverter::toRest($rwy->length) : NULL,
+            "width" => $rwy->width ? RestLengthConverter::toRest($rwy->width) : NULL,
             "direction1" => $rwy->direction1,
             "direction2" => $rwy->direction2,
-            "tora1" => $rwy->tora1 ? LengthConverter::toRest($rwy->tora1) : NULL,
-            "tora2" => $rwy->tora2 ? LengthConverter::toRest($rwy->tora2) : NULL,
-            "lda1" => $rwy->lda1 ? LengthConverter::toRest($rwy->lda1) : NULL,
-            "lda2" => $rwy->lda2 ? LengthConverter::toRest($rwy->lda2) : NULL,
+            "tora1" => $rwy->tora1 ? RestLengthConverter::toRest($rwy->tora1) : NULL,
+            "tora2" => $rwy->tora2 ? RestLengthConverter::toRest($rwy->tora2) : NULL,
+            "lda1" => $rwy->lda1 ? RestLengthConverter::toRest($rwy->lda1) : NULL,
+            "lda2" => $rwy->lda2 ? RestLengthConverter::toRest($rwy->lda2) : NULL,
             "papi1" => $rwy->papi1,
             "papi2" => $rwy->papi2,
         );

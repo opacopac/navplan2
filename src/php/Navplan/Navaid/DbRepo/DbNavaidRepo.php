@@ -2,8 +2,8 @@
 
 namespace Navplan\Navaid\DbRepo;
 
-use Navplan\Geometry\DomainModel\Extent;
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\DomainModel\Position2d;
 use Navplan\Navaid\DbModel\DbNavaidConverter;
 use Navplan\Navaid\DomainService\INavaidRepo;
 use Navplan\System\DomainModel\IDbResult;
@@ -25,7 +25,7 @@ class DbNavaidRepo implements INavaidRepo {
     }
 
 
-    public function searchByExtent(Extent $extent, int $zoom): array {
+    public function searchByExtent(Extent2d $extent, int $zoom): array {
         $extent = DbHelper::getDbExtentPolygon2($extent);
         $query = "SELECT *";
         $query .= " FROM openaip_navaids2";
@@ -77,8 +77,8 @@ class DbNavaidRepo implements INavaidRepo {
 
     private function readNavaidFromResultList(IDbResult $result): array {
         $navaids = [];
-        while ($rs = $result->fetch_assoc()) {
-            $navaids[] = DbNavaidConverter::fromDbResult($rs);
+        while ($row = $result->fetch_assoc()) {
+            $navaids[] = DbNavaidConverter::fromDbRow($row);
         }
 
         return $navaids;

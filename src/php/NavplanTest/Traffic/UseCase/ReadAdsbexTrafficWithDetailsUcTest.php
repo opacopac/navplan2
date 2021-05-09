@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Traffic\UseCase;
 
-use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Traffic\DomainModel\TrafficAdsbexReadRequest;
 use Navplan\Traffic\UseCase\ReadAdsbexTrafficWithDetails\ReadAdsbexTrafficWithDetailsUc;
 use NavplanTest\MockNavplanDiContainer;
@@ -29,7 +29,7 @@ class ReadAdsbexTrafficWithDetailsUcTest extends TestCase {
 
 
     public function test_read() {
-        $extent = Extent::createFromCoords(6.0, 46.0, 8.5, 48.5);
+        $extent = Extent2d::createFromCoords(6.0, 46.0, 8.5, 48.5);
         $request = new TrafficAdsbexReadRequest($extent);
         $adsbTraffic1 = DummyAdsbexTraffic1::create();
         $trafficDetail1 = DummyIcaoAcTypeTrafficDetail1::create();
@@ -50,7 +50,7 @@ class ReadAdsbexTrafficWithDetailsUcTest extends TestCase {
 
 
     public function test_read_no_details() {
-        $extent = Extent::createFromCoords(6.0, 46.0, 8.5, 48.5);
+        $extent = Extent2d::createFromCoords(6.0, 46.0, 8.5, 48.5);
         $request = new TrafficAdsbexReadRequest($extent);
         $adsbTraffic1 = DummyAdsbexTraffic1::create();
         $expected = DummyAdsbexTrafficWithDetails1::create();

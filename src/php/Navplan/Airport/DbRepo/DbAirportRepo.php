@@ -8,9 +8,10 @@ use Navplan\Airport\DbModel\DbAirportConverter;
 use Navplan\Airport\DbModel\DbAirportFeatureConverter;
 use Navplan\Airport\DbModel\DbAirportRadioConverter;
 use Navplan\Airport\DbModel\DbAirportRunwayConverter;
+use Navplan\Airport\DbModel\DbShortAirportConverter;
 use Navplan\Airport\DomainService\IAirportRepo;
-use Navplan\Geometry\DomainModel\Extent;
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\DomainModel\Position2d;
 use Navplan\System\DomainModel\IDbResult;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
@@ -31,7 +32,7 @@ class DbAirportRepo implements IAirportRepo {
     }
 
 
-    public function searchByExtent(Extent $extent, int $zoom): array {
+    public function searchByExtent(Extent2d $extent, int $zoom): array {
         $extentPoly = DbHelper::getDbExtentPolygon2($extent);
         $query  = "SELECT *";
         $query .= " FROM openaip_airports2";
@@ -43,6 +44,39 @@ class DbAirportRepo implements IAirportRepo {
         $result = $this->getDbService()->execMultiResultQuery($query, "error searching airports by extent");
         $airports = self::readAirportFromResultList($result);
         self::loadAirportSubItems($airports);
+
+        return $airports;
+    }
+
+
+    public function searchShortByExtent(Extent2d $extent, int $zoom): array {
+        $extentPoly = DbHelper::getDbExtentPolygon2($extent);
+        $query  = "SELECT ad.id, ad.type, ad.icao, ad.latitude, ad.longitude, rwy.direction1, rwy.surface, GROUP_CONCAT(fea.type) as features";
+        $query .= " FROM openaip_airports2 ad";
+        $query .= " LEFT JOIN openaip_runways2 rwy ON rwy.airport_id = ad.id";
+        $query .= " LEFT JOIN map_features fea ON fea.airport_icao = ad.icao";
+        $query .= " WHERE";
+        $query .= "  ST_INTERSECTS(ad.lonlat, " . $extentPoly . ")";
+        $query .= "    AND";
+        $query .= "  ad.zoommin <= " . $zoom;
+        $query .= "    AND";
+        $query .= "  (";
+        $query .= "    rwy.id IS NULL";
+        $query .= "      OR";
+        $query .= "    (";
+        $query .= "      rwy.operations = 'ACTIVE'";
+        $query .= "        AND";
+        $query .= "      rwy.length = (SELECT MAX(length) FROM openaip_runways2 WHERE airport_id = ad.id)";
+        $query .= "    )";
+        $query .= "  )";
+        $query .= "  GROUP BY ad.id";
+
+        $result = $this->getDbService()->execMultiResultQuery($query, "error searching airports by extent");
+
+        $airports = [];
+        while ($row = $result->fetch_assoc()) {
+            $airports[] = DbShortAirportConverter::fromDbRow($row);
+        }
 
         return $airports;
     }
@@ -133,7 +167,7 @@ class DbAirportRepo implements IAirportRepo {
         while ($row = $result->fetch_assoc()) {
             foreach ($airports as &$ap) {
                 if ($ap->id === intval($row["airport_id"])) {
-                    $ap->runways[] = DbAirportRunwayConverter::fromDbResult($row);
+                    $ap->runways[] = DbAirportRunwayConverter::fromDbRow($row);
                     break;
                 }
             }
@@ -158,7 +192,7 @@ class DbAirportRepo implements IAirportRepo {
         while ($row = $result->fetch_assoc()) {
             foreach ($airports as &$ap) {
                 if ($ap->id === $row["airport_id"]) {
-                    $ap->radios[] = DbAirportRadioConverter::fromDbResult($row);
+                    $ap->radios[] = DbAirportRadioConverter::fromDbRow($row);
                     break;
                 }
             }
@@ -203,7 +237,7 @@ class DbAirportRepo implements IAirportRepo {
         while ($row = $result->fetch_assoc()) {
             foreach ($airports as &$ap) {
                 if ($ap->icao === $row["airport_icao"]) {
-                    $ap->webcams[] = DbWebcamConverter::fromDbResult($row);
+                    $ap->webcams[] = DbWebcamConverter::fromDbRow($row);
                     break;
                 }
             }
@@ -225,7 +259,7 @@ class DbAirportRepo implements IAirportRepo {
         while ($row = $result->fetch_assoc()) {
             foreach ($airports as &$ap) {
                 if ($ap->icao === $row["airport_icao"]) {
-                    $ap->mapfeatures[] = DbAirportFeatureConverter::fromDbResult($row);
+                    $ap->mapfeatures[] = DbAirportFeatureConverter::fromDbRow($row);
                     break;
                 }
             }
@@ -237,7 +271,7 @@ class DbAirportRepo implements IAirportRepo {
         $airports = [];
 
         while ($row = $result->fetch_assoc()) {
-            $airports[] = DbAirportConverter::fromDbResult($row);
+            $airports[] = DbAirportConverter::fromDbRow($row);
         }
 
         return $airports;

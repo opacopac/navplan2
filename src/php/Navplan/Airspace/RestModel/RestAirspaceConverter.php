@@ -3,8 +3,8 @@
 namespace Navplan\Airspace\RestModel;
 
 use Navplan\Airspace\DomainModel\Airspace;
-use Navplan\Geometry\RestModel\AltitudeConverter;
-use Navplan\Geometry\RestModel\Ring2dConverter;
+use Navplan\Common\RestModel\RestAltitudeConverter;
+use Navplan\Common\RestModel\RestRing2dConverter;
 
 
 class RestAirspaceConverter {
@@ -18,9 +18,9 @@ class RestAirspaceConverter {
             "category" => $airspace->category,
             "country" => $airspace->country,
             "name" => $airspace->name,
-            "alt_top" => AltitudeConverter::toRest($airspace->alt_top),
-            "alt_bottom" => AltitudeConverter::toRest($airspace->alt_bottom),
-            "polygon" => Ring2dConverter::toRest($airspace->polygon, self::ROUND_DIGITS_POS)
+            "alt_top" => RestAltitudeConverter::toRest($airspace->alt_top),
+            "alt_bottom" => RestAltitudeConverter::toRest($airspace->alt_bottom),
+            "polygon" => RestRing2dConverter::toRest($airspace->polygon, self::ROUND_DIGITS_POS)
         );
     }
 }

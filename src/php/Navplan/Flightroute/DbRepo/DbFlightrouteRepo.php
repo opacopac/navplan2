@@ -38,7 +38,7 @@ class DbFlightrouteRepo implements IFlightrouteRepo {
 
         // delete route
         $query = "DELETE FROM navplan";
-        $query .= " WHERE id=" . DbHelper::getIntValue($flightrouteId) . " AND user_id=" . DbHelper::getIntValue($user->id);
+        $query .= " WHERE id=" . DbHelper::getDbIntValue($flightrouteId) . " AND user_id=" . DbHelper::getDbIntValue($user->id);
         $this->dbService->execCUDQuery($query, "error deleting flightroute");
     }
 
@@ -58,7 +58,7 @@ class DbFlightrouteRepo implements IFlightrouteRepo {
 
     public function read(int $flightrouteId, User $user): ?Flightroute {
         $query = "SELECT * FROM navplan";
-        $query .= " WHERE id=" . DbHelper::getIntValue($flightrouteId) . " AND user_id=" . DbHelper::getIntValue($user->id);
+        $query .= " WHERE id=" . DbHelper::getDbIntValue($flightrouteId) . " AND user_id=" . DbHelper::getDbIntValue($user->id);
         $result = $this->dbService->execSingleResultQuery($query, true, "error reading flightroute");
 
         return $this->getFlightrouteOrNull($result);
@@ -67,7 +67,7 @@ class DbFlightrouteRepo implements IFlightrouteRepo {
 
     public function readByShareId(string $shareId): ?Flightroute {
         $query = "SELECT * FROM navplan";
-        $query .= " WHERE share_id=" . DbHelper::getStringValue($this->dbService, $shareId);
+        $query .= " WHERE share_id=" . DbHelper::getDbStringValue($this->dbService, $shareId);
         $result = $this->dbService->execSingleResultQuery($query, true, "error reading shared flightroute");
 
         return $this->getFlightrouteOrNull($result);
@@ -76,7 +76,7 @@ class DbFlightrouteRepo implements IFlightrouteRepo {
 
     public function readByHash(string $flightrouteHash): ?Flightroute {
         $query = "SELECT * FROM navplan";
-        $query .= " WHERE md5_hash=" . DbHelper::getStringValue($this->dbService, $flightrouteHash);
+        $query .= " WHERE md5_hash=" . DbHelper::getDbStringValue($this->dbService, $flightrouteHash);
         $result = $this->dbService->execSingleResultQuery($query, true, "error reading flightroute by hash");
 
         return $this->getFlightrouteOrNull($result);
@@ -85,13 +85,13 @@ class DbFlightrouteRepo implements IFlightrouteRepo {
 
     public function readList(User $user): array {
         $query = "SELECT * FROM navplan";
-        $query .= " WHERE user_id=" . DbHelper::getIntValue($user->id);
+        $query .= " WHERE user_id=" . DbHelper::getDbIntValue($user->id);
         $query .= " ORDER BY nav.title ASC";
         $result = $this->dbService->execMultiResultQuery($query, "error reading flightroute list");
 
         $routes = [];
         while ($row = $result->fetch_assoc()) {
-            $routes[] = FlightrouteConverter::fromDbResult($row);
+            $routes[] = FlightrouteConverter::fromDbRow($row);
         }
 
         return $routes;
@@ -100,7 +100,7 @@ class DbFlightrouteRepo implements IFlightrouteRepo {
 
     private function getFlightrouteOrNull(IDbResult $result): ?Flightroute {
         if ($result->getNumRows() === 1) {
-            $flightroute = FlightrouteConverter::fromDbResult($result->fetch_assoc());
+            $flightroute = FlightrouteConverter::fromDbRow($result->fetch_assoc());
             $this->readWaypoints($flightroute);
             return $flightroute;
         } else {
@@ -111,13 +111,13 @@ class DbFlightrouteRepo implements IFlightrouteRepo {
 
     private function readWaypoints(Flightroute $flightroute) {
         $query = "SELECT * FROM navplan_waypoints";
-        $query .= " WHERE navplan_id=" . DbHelper::getIntValue($flightroute->id) ;
+        $query .= " WHERE navplan_id=" . DbHelper::getDbIntValue($flightroute->id) ;
         $query .= " ORDER BY sortorder ASC";
         $result = $this->dbService->execMultiResultQuery($query, "error reading flightroute waypoints");
 
         // create result array
         while ($row = $result->fetch_assoc()) {
-            $wp = WaypointConverter::fromDbResult($row);
+            $wp = WaypointConverter::fromDbRow($row);
 
             if ($wp->isAlternate) {
                 $flightroute->alternate = $wp;
@@ -130,7 +130,7 @@ class DbFlightrouteRepo implements IFlightrouteRepo {
 
     private function deleteWaypoints(int $flightrouteId) {
         $query = "DELETE FROM navplan_waypoints";
-        $query .= " WHERE navplan_id=" . DbHelper::getIntValue($flightrouteId);
+        $query .= " WHERE navplan_id=" . DbHelper::getDbIntValue($flightrouteId);
         $this->dbService->execCUDQuery($query, "error deleting waypoints from flightroute");
     }
 

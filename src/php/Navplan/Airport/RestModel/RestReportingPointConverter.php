@@ -3,9 +3,9 @@
 namespace Navplan\Airport\RestModel;
 
 use Navplan\Airport\DomainModel\ReportingPoint;
-use Navplan\Geometry\RestModel\LengthConverter;
-use Navplan\Geometry\RestModel\Position2dConverter;
-use Navplan\Geometry\RestModel\Ring2dConverter;
+use Navplan\Common\RestModel\RestLengthConverter;
+use Navplan\Common\RestModel\RestPosition2dConverter;
+use Navplan\Common\RestModel\RestRing2dConverter;
 
 
 class RestReportingPointConverter {
@@ -22,10 +22,10 @@ class RestReportingPointConverter {
             "heli" => $rp->heli,
             "inbd_comp" => $rp->inbd_comp,
             "outbd_comp" => $rp->outbd_comp,
-            "alt_min" => $rp->alt_min ? LengthConverter::toRest($rp->alt_min) : NULL,
-            "alt_max" => $rp->alt_max ? LengthConverter::toRest($rp->alt_max) : NULL,
-            "pos" => $rp->position ? Position2dConverter::toRest($rp->position, self::ROUND_DIGITS_POS) : NULL, // only for reporting points
-            "polygon" => $rp->polygon ? Ring2dConverter::toRest($rp->polygon, self::ROUND_DIGITS_POLY) : NULL // only for reporting sectors
+            "alt_min" => $rp->alt_min ? RestLengthConverter::toRest($rp->alt_min) : NULL,
+            "alt_max" => $rp->alt_max ? RestLengthConverter::toRest($rp->alt_max) : NULL,
+            "pos" => $rp->position ? RestPosition2dConverter::toRest($rp->position, self::ROUND_DIGITS_POS) : NULL, // only for reporting points
+            "polygon" => $rp->polygon ? RestRing2dConverter::toRest($rp->polygon, self::ROUND_DIGITS_POLY) : NULL // only for reporting sectors
         );
     }
 }

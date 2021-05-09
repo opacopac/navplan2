@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\Shared;
+namespace NavplanTest\Common;
 
 use Navplan\User\UseCase\Login\LoginRequest;
 use Navplan\User\UseCase\Login\LoginUc;

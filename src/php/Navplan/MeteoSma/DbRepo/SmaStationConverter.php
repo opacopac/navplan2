@@ -3,24 +3,24 @@
 namespace Navplan\MeteoSma\DbRepo;
 
 use InvalidArgumentException;
-use Navplan\Geometry\DomainModel\Altitude;
-use Navplan\Geometry\DomainModel\AltitudeReference;
-use Navplan\Geometry\DomainModel\AltitudeUnit;
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Altitude;
+use Navplan\Common\DomainModel\AltitudeReference;
+use Navplan\Common\DomainModel\AltitudeUnit;
+use Navplan\Common\DomainModel\Position2d;
 use Navplan\MeteoSma\DomainModel\SmaStation;
 use Navplan\System\DomainService\IDbService;
 
 
 class SmaStationConverter {
-    public static function fromDbResult(array $rs): SmaStation {
+    public static function fromDbRow(array $row): SmaStation {
         return new SmaStation(
-            $rs["station_id"],
-            $rs["station_name"],
+            $row["station_id"],
+            $row["station_name"],
             new Position2d(
-                floatval($rs["station_lon"]),
-                floatval($rs["station_lat"])
+                floatval($row["station_lon"]),
+                floatval($row["station_lat"])
             ),
-            Altitude::fromMtAmsl(intval($rs["station_alt_m"]))
+            Altitude::fromMtAmsl(intval($row["station_alt_m"]))
         );
     }
 

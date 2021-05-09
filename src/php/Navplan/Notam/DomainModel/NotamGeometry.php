@@ -2,8 +2,8 @@
 
 namespace Navplan\Notam\DomainModel;
 
-use Navplan\Geometry\DomainModel\Altitude;
-use Navplan\Geometry\DomainModel\IGeometry2d;
+use Navplan\Common\DomainModel\Altitude;
+use Navplan\Common\DomainModel\IGeometry2d;
 
 
 class NotamGeometry {

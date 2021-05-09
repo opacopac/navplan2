@@ -2,10 +2,10 @@
 
 namespace Navplan\Traffic\DomainModel;
 
-use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Common\DomainModel\Extent2d;
 
 
 class TrafficAdsbexReadRequest {
-    public function __construct(public Extent $extent) {
+    public function __construct(public Extent2d $extent) {
     }
 }

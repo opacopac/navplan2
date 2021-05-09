@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Notam\UseCase;
 
-use Navplan\Geometry\DomainModel\Extent;
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\DomainModel\Position2d;
 use Navplan\Notam\DomainModel\ReadNotamByExtentRequest;
 use Navplan\Notam\UseCase\SearchNotam\SearchNotamUc;
 use NavplanTest\MockNavplanDiContainer;
@@ -35,7 +35,7 @@ class NotamRepoTest extends TestCase {
 
 
     public function test_searchByExtent() {
-        $extent = Extent::createFromCoords(7.0, 47.0, 7.9, 47.9);
+        $extent = Extent2d::createFromCoords(7.0, 47.0, 7.9, 47.9);
         $request = new ReadNotamByExtentRequest($extent, 11, 1558819678, 1559819678);
         $result = $this->searchNotam->searchByExtent($request);
         $this->assertEquals(count($this->expectedResult), count($result->notams));

@@ -2,26 +2,26 @@
 
 namespace Navplan\Traffic\OgnListenerModel;
 
-use Navplan\Geometry\DomainModel\Altitude;
-use Navplan\Geometry\DomainModel\Position4d;
-use Navplan\Geometry\DomainModel\Timestamp;
+use Navplan\Common\DomainModel\Altitude;
+use Navplan\Common\DomainModel\Position4d;
+use Navplan\Common\DomainModel\Timestamp;
 use Navplan\Traffic\DomainModel\TrafficPosition;
 use Navplan\Traffic\DomainModel\TrafficPositionMethod;
 
 
 class OgnTrafficPositionConverter {
-    public static function fromDbResult(array $rs): TrafficPosition {
-        $timestamp = Timestamp::fromS(intval($rs["timestampSec"]));
+    public static function fromDbRow(array $row): TrafficPosition {
+        $timestamp = Timestamp::fromS(intval($row["timestampSec"]));
 
         return new TrafficPosition(
             new Position4d(
-                floatval($rs["longitude"]),
-                floatval($rs["latitude"]),
-                Altitude::fromMtAmsl(floatval($rs["altitudeMeter"])),
+                floatval($row["longitude"]),
+                floatval($row["latitude"]),
+                Altitude::fromMtAmsl(floatval($row["altitudeMeter"])),
                 $timestamp
             ),
             TrafficPositionMethod::FLARM,
-            $rs["receiver"],
+            $row["receiver"],
             $timestamp
         );
     }

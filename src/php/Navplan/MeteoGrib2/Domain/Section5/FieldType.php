@@ -2,7 +2,7 @@
 
 namespace Navplan\MeteoGrib2\Domain\Section5;
 
-use Navplan\Shared\Enum;
+use Navplan\Common\Enum;
 
 
 class FieldType extends Enum {

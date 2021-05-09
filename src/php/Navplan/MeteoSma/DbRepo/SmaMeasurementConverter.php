@@ -2,27 +2,27 @@
 
 namespace Navplan\MeteoSma\DbRepo;
 
-use Navplan\Geometry\DomainModel\Time;
-use Navplan\Geometry\DomainModel\Timestamp;
-use Navplan\Geometry\DomainModel\TimeUnit;
+use Navplan\Common\DomainModel\Time;
+use Navplan\Common\DomainModel\Timestamp;
+use Navplan\Common\DomainModel\TimeUnit;
+use Navplan\Common\StringNumberHelper;
 use Navplan\MeteoSma\DomainModel\SmaMeasurement;
-use Navplan\Shared\StringNumberHelper;
 use Navplan\System\DomainService\ITimeService;
 
 
 class SmaMeasurementConverter {
-    public static function fromDbResult(array $rs, ITimeService $timeService): SmaMeasurement {
+    public static function fromDbRow(array $row, ITimeService $timeService): SmaMeasurement {
         return new SmaMeasurement(
-            SmaStationConverter::fromDbResult($rs),
-            self::getTimestamp($rs, $timeService),
-            StringNumberHelper::parseFloatOrNull($rs, "temp_c"),
-            self::getSunTime($rs),
-            StringNumberHelper::parseFloatOrNull($rs, "precip_mm"),
-            StringNumberHelper::parseIntOrNull($rs, "wind_dir"),
-            StringNumberHelper::parseFloatOrNull($rs, "wind_speed_kmh"),
-            StringNumberHelper::parseFloatOrNull($rs, "wind_gusts_kmh"),
-            StringNumberHelper::parseFloatOrNull($rs, "qnh_hpa"),
-            StringNumberHelper::parseIntOrNull($rs, "humidity_pc")
+            SmaStationConverter::fromDbRow($row),
+            self::getTimestamp($row, $timeService),
+            StringNumberHelper::parseFloatOrNull($row, "temp_c"),
+            self::getSunTime($row),
+            StringNumberHelper::parseFloatOrNull($row, "precip_mm"),
+            StringNumberHelper::parseIntOrNull($row, "wind_dir"),
+            StringNumberHelper::parseFloatOrNull($row, "wind_speed_kmh"),
+            StringNumberHelper::parseFloatOrNull($row, "wind_gusts_kmh"),
+            StringNumberHelper::parseFloatOrNull($row, "qnh_hpa"),
+            StringNumberHelper::parseIntOrNull($row, "humidity_pc")
         );
     }
 

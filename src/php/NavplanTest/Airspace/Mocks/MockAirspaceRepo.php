@@ -4,14 +4,14 @@ namespace NavplanTest\Airspace\Mocks;
 
 use InvalidArgumentException;
 use Navplan\Airspace\DomainService\IAirspaceRepo;
-use Navplan\Geometry\DomainModel\Extent;
+use Navplan\Common\DomainModel\Extent2d;
 
 
 class MockAirspaceRepo implements IAirspaceRepo {
     private $mockResultList = [];
 
 
-    public function searchByExtent(Extent $extent, int $zoom): array {
+    public function searchByExtent(Extent2d $extent, int $zoom): array {
         return $this->shiftMockResult();
     }
 

@@ -2,8 +2,8 @@
 
 namespace NavplanTest\User\UseCase;
 
-use Navplan\Geometry\DomainModel\Extent;
-use Navplan\Geometry\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\DomainModel\Position2d;
 use Navplan\User\UseCase\SearchUserPoint\SearchUserPointUc;
 use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\User\Mocks\DummyUserPoint1;
@@ -32,7 +32,7 @@ class SearchUserPointUcTest extends TestCase {
 
 
     public function test_searchByExtent() {
-        $extent = Extent::createFromCoords(7.0, 47.0, 7.9, 47.9);
+        $extent = Extent2d::createFromCoords(7.0, 47.0, 7.9, 47.9);
         $result = $this->searchUserPointUc->searchByExtent($extent, $this->validToken);
         $this->assertSameSize($this->expectedResult, $result);
         $this->assertEquals($this->expectedResult[0], $result[0]);
@@ -41,7 +41,7 @@ class SearchUserPointUcTest extends TestCase {
 
 
     public function test_searchByExtent_invalid_token() {
-        $extent = Extent::createFromCoords(7.0, 47.0, 7.9, 47.9);
+        $extent = Extent2d::createFromCoords(7.0, 47.0, 7.9, 47.9);
         $result = $this->searchUserPointUc->searchByExtent($extent, "XXXX");
         $this->assertCount(0, $result);
     }

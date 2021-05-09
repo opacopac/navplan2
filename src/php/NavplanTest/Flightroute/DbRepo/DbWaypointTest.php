@@ -46,9 +46,9 @@ class DbWaypointTest extends TestCase {
         $dbResult2 = DummyWaypoint2::createDbResult();
         $dbResult3 = DummyWaypoint3::createDbResult();
 
-        $wp1 = WaypointConverter::fromDbResult($dbResult1);
-        $wp2 = WaypointConverter::fromDbResult($dbResult2);
-        $wp3 = WaypointConverter::fromDbResult($dbResult3);
+        $wp1 = WaypointConverter::fromDbRow($dbResult1);
+        $wp2 = WaypointConverter::fromDbRow($dbResult2);
+        $wp3 = WaypointConverter::fromDbRow($dbResult3);
 
         $this->assertEqualDbResult($dbResult1, $wp1);
         $this->assertEqualDbResult($dbResult2, $wp2);

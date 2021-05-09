@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Traffic\Mocks;
 
-use Navplan\Geometry\DomainModel\Extent;
-use Navplan\Geometry\DomainModel\Time;
+use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\DomainModel\Time;
 use Navplan\Traffic\DomainService\IOgnService;
 
 
@@ -20,7 +20,7 @@ class MockOgnService implements IOgnService {
     }
 
 
-    public function setFilter(int $sessionId, Extent $extent, Time $maxAge) {
+    public function setFilter(int $sessionId, Extent2d $extent, Time $maxAge) {
         $this->setFilterArgs = [$sessionId, $extent, $maxAge];
     }
 

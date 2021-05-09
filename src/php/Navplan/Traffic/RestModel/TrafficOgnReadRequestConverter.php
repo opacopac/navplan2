@@ -3,10 +3,10 @@
 namespace Navplan\Traffic\RestModel;
 
 use InvalidArgumentException;
-use Navplan\Geometry\DomainModel\Extent;
-use Navplan\Geometry\DomainModel\Time;
-use Navplan\Geometry\DomainModel\TimeUnit;
-use Navplan\Shared\StringNumberHelper;
+use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\DomainModel\Time;
+use Navplan\Common\DomainModel\TimeUnit;
+use Navplan\Common\StringNumberHelper;
 use Navplan\Traffic\DomainModel\TrafficOgnReadRequest;
 
 
@@ -21,7 +21,7 @@ class TrafficOgnReadRequestConverter {
 
     public static function fromArgs(array $args): TrafficOgnReadRequest {
         $request = new TrafficOgnReadRequest(
-            Extent::createFromCoords(
+            Extent2d::createFromCoords(
                 StringNumberHelper::parseFloatOrError($args, self::ARG_MIN_LON),
                 StringNumberHelper::parseFloatOrError($args, self::ARG_MIN_LAT),
                 StringNumberHelper::parseFloatOrError($args, self::ARG_MAX_LON),

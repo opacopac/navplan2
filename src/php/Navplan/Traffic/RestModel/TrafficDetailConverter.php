@@ -2,7 +2,7 @@
 
 namespace Navplan\Traffic\RestModel;
 
-use Navplan\Shared\StringNumberHelper;
+use Navplan\Common\StringNumberHelper;
 use Navplan\Traffic\DomainModel\TrafficDetail;
 
 
