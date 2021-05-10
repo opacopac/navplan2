@@ -6,8 +6,6 @@ import {Angle} from '../../../common/geo-math/domain-model/quantities/angle';
 import {combineLatest} from 'rxjs';
 import {take} from 'rxjs/operators';
 import {getMapPosition, getMapRotation, getMapZoom, getShowOverlay} from '../../../base-map/ngrx/base-map.selectors';
-import {OlOpenAipItemsContainer} from '../../../open-aip/ol-components/ol-open-aip-items-container';
-import {getOpenAipAirports, getOpenAipItems} from '../../../open-aip/ngrx/open-aip.selectors';
 import {OlMetarContainer} from '../../../metar-taf/ol-components/ol-metar-container';
 import {getMetarTafList} from '../../../metar-taf/ngrx/metar-taf.selectors';
 import {OlNotamContainer} from '../../../notam/ol-components/ol-notam-container';
@@ -36,15 +34,34 @@ import {Observable} from 'rxjs/internal/Observable';
 import {MapOverlayState} from '../../../base-map/domain-model/map-overlay-state';
 import {Subscription} from 'rxjs/internal/Subscription';
 import {DataItem, DataItemType} from '../../../common/model/data-item';
-import {Airport} from '../../../open-aip/domain-model/airport';
-import {Navaid} from '../../../open-aip/domain-model/navaid';
-import {Reportingpoint} from '../../../open-aip/domain-model/reportingpoint';
-import {Reportingsector} from '../../../open-aip/domain-model/reportingsector';
-import {Userpoint} from '../../../open-aip/domain-model/userpoint';
-import {Geoname} from '../../../open-aip/domain-model/geoname';
+import {Airport} from '../../../airport/domain-model/airport';
+import {Navaid} from '../../../navaid/domain-model/navaid';
+import {UserPoint} from '../../../user/domain-model/user-point';
+import {Geoname} from '../../../geoname/domain-model/geoname';
 import {Traffic} from '../../../traffic/domain-model/traffic';
 import {Notam} from '../../../notam/domain-model/notam';
 import {Waypoint} from '../../../flightroute/domain-model/waypoint';
+import {
+    getFlightMapAirportCircuits,
+    getFlightMapAirportOverlay,
+    getFlightMapAirports,
+    getFlightMapAirspaces,
+    getFlightMapNavaids,
+    getFlightMapReportingPointOverlay,
+    getFlightMapReportingPoints,
+    getFlightMapReportingSectorOverlay,
+    getFlightMapReportingSectors,
+    getFlightMapWebcams
+} from '../../ngrx/flight-map.selectors';
+import {OlAirportContainer} from '../../../airport/ol-components/ol-airport-container';
+import {OlAirportCircuitContainer} from '../../../airport/ol-components/ol-airport-circuit-container';
+import {OlReportingPointContainer} from '../../../airport/ol-components/ol-reporting-point-container';
+import {OlReportingSectorContainer} from '../../../airport/ol-components/ol-reporting-sector-container';
+import {ReportingPoint} from '../../../airport/domain-model/reporting-point';
+import {ReportingSector} from '../../../airport/domain-model/reporting-sector';
+import {OlAirspaceContainer} from '../../../airspace/ol-components/ol-airspace-container';
+import {OlNavaidContainer} from '../../../navaid/ol-components/ol-navaid-container';
+import {OlWebcamContainer} from '../../../webcam/ol-components/ol-webcam-container';
 
 
 @Component({
@@ -63,9 +80,21 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
     @ViewChild(OlOverlayTrafficComponent) mapOverlayTrafficComponent: OlOverlayTrafficComponent;
     @ViewChild(OlOverlayNotamComponent) mapOverlayNotamComponent: OlOverlayNotamComponent;
     @ViewChild(OlOverlayWaypointComponent) mapOverlayWaypointComponent: OlOverlayWaypointComponent;
-    private showOverlay$: Observable<MapOverlayState>;
+    private readonly showOverlay$: Observable<MapOverlayState>;
+    private readonly showAirportOverlay$: Observable<Airport>;
+    private readonly showReportingPointOverlay$: Observable<ReportingPoint>;
+    private readonly showReportingSectorOverlay$: Observable<ReportingSector>;
     private selectedDateItemSubscription: Subscription;
-    private olOpenAipItems: OlOpenAipItemsContainer;
+    private showAirportOverlaySubscription: Subscription;
+    private showReportingPointOverlaySubscription: Subscription;
+    private showReportingSectorOverlaySubscription: Subscription;
+    private olAirportContainer: OlAirportContainer;
+    private olAirportCircuitContainer: OlAirportCircuitContainer;
+    private olReportingPointContainer: OlReportingPointContainer;
+    private olReportingSectorContainer: OlReportingSectorContainer;
+    private olAirpsaceContainer: OlAirspaceContainer;
+    private olNavaidContainer: OlNavaidContainer;
+    private olWebcamContainer: OlWebcamContainer;
     private olFlightroute: OlFlightrouteContainer;
     private olTrack: OlTrackContainer;
     private olNotams: OlNotamContainer;
@@ -75,6 +104,9 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
 
     constructor(private readonly appStore: Store<any>) {
         this.showOverlay$ = this.appStore.pipe(select(getShowOverlay));
+        this.showAirportOverlay$ = this.appStore.pipe(select(getFlightMapAirportOverlay));
+        this.showReportingPointOverlay$ = this.appStore.pipe(select(getFlightMapReportingPointOverlay));
+        this.showReportingSectorOverlay$ = this.appStore.pipe(select(getFlightMapReportingSectorOverlay));
     }
 
 
@@ -99,11 +131,26 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         this.selectedDateItemSubscription = this.showOverlay$.subscribe((overlayState) => {
             this.showMapOverlay(overlayState.dataItem, overlayState.clickPos);
         });
+        this.showAirportOverlaySubscription = this.showAirportOverlay$.subscribe(airport => {
+            this.mapOverlayAirportComponent.setDataItem(airport, undefined);
+        });
+        this.showReportingPointOverlaySubscription = this.showReportingPointOverlay$.subscribe(reportingPoint => {
+            this.mapOverlayReportingpointComponent.setDataItem(reportingPoint, undefined);
+        });
+        this.showReportingSectorOverlaySubscription = this.showReportingSectorOverlay$.subscribe(reportingSector => {
+            this.mapOverlayReportingsectorComponent.setDataItem(reportingSector, undefined); // TODO
+        });
     }
 
 
     ngOnDestroy() {
-        this.olOpenAipItems.destroy();
+        this.olAirportContainer.destroy();
+        this.olAirportCircuitContainer.destroy();
+        this.olReportingPointContainer.destroy();
+        this.olReportingSectorContainer.destroy();
+        this.olAirpsaceContainer.destroy();
+        this.olNavaidContainer.destroy();
+        this.olWebcamContainer.destroy();
         this.olMetars.destroy();
         this.olNotams.destroy();
         this.olTrack.destroy();
@@ -113,6 +160,9 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         this.olOwnPlane.destroy();
 
         this.selectedDateItemSubscription.unsubscribe();
+        this.showAirportOverlaySubscription.unsubscribe();
+        this.showReportingPointOverlaySubscription.unsubscribe();
+        this.showReportingSectorOverlaySubscription.unsubscribe();
     }
 
     // endregion
@@ -192,23 +242,39 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
             rotation
         );
 
-        this.olOpenAipItems = new OlOpenAipItemsContainer(
-            airspaceLayer,
-            reportingSectorLayer,
-            webcamLayer,
-            userPointLayer,
-            reportingPointLayer,
-            navaidLayer,
+        this.olAirportContainer = new OlAirportContainer(
             airportLayer,
+            this.appStore.pipe(select(getFlightMapAirports))
+        );
+        this.olReportingPointContainer = new OlReportingPointContainer(
+            reportingPointLayer,
+            this.appStore.pipe(select(getFlightMapReportingPoints))
+        );
+        this.olReportingSectorContainer = new OlReportingSectorContainer(
+            reportingSectorLayer,
+            this.appStore.pipe(select(getFlightMapReportingSectors))
+        );
+        this.olAirportCircuitContainer = new OlAirportCircuitContainer(
             circuitLayer,
-            this.appStore.pipe(select(getOpenAipItems))
+            this.appStore.pipe(select(getFlightMapAirportCircuits))
+        );
+        this.olAirpsaceContainer = new OlAirspaceContainer(
+            airspaceLayer,
+            this.appStore.pipe(select(getFlightMapAirspaces))
+        );
+        this.olNavaidContainer = new OlNavaidContainer(
+            navaidLayer,
+            this.appStore.pipe(select(getFlightMapNavaids))
+        );
+        this.olWebcamContainer = new OlWebcamContainer(
+            webcamLayer,
+            this.appStore.pipe(select(getFlightMapWebcams))
         );
         this.olMetars = new OlMetarContainer(
             metarTafLayer,
             this.appStore.pipe(select(getMetarTafList)),
-            this.appStore.pipe(select(getOpenAipAirports)),
-            Angle.createZero()
-            // this.mapService.getRotation()
+            this.appStore.pipe(select(getFlightMapAirports)),
+            rotation
         );
         this.olNotams = new OlNotamContainer(
             notamLayer,
@@ -221,7 +287,12 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         this.olFlightroute = new OlFlightrouteContainer(
             flightrouteLayer,
             this.appStore.pipe(select(getFlightroute)),
-            this.olOpenAipItems.getSnapToLayers(),
+            [
+                userPointLayer,
+                reportingPointLayer,
+                navaidLayer,
+                airportLayer
+            ],
             this.appStore,
             rotation
         );
@@ -260,19 +331,19 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
 
         switch (dataItem.dataItemType) {
             case DataItemType.airport:
-                this.mapOverlayAirportComponent.setDataItem(dataItem as Airport, clickPos);
+                // this.mapOverlayAirportComponent.setDataItem(dataItem as Airport, clickPos);
                 break;
             case DataItemType.navaid:
                 this.mapOverlayNavaidComponent.setDataItem(dataItem as Navaid, clickPos);
                 break;
             case DataItemType.reportingPoint:
-                this.mapOverlayReportingpointComponent.setDataItem(dataItem as Reportingpoint, clickPos);
+                // this.mapOverlayReportingpointComponent.setDataItem(dataItem as ReportingPoint, clickPos);
                 break;
             case DataItemType.reportingSector:
-                this.mapOverlayReportingsectorComponent.setDataItem(dataItem as Reportingsector, clickPos);
+                // this.mapOverlayReportingsectorComponent.setDataItem(dataItem as ReportingSector, clickPos);
                 break;
             case DataItemType.userPoint:
-                this.mapOverlayUserpointComponent.setDataItem(dataItem as Userpoint, clickPos);
+                this.mapOverlayUserpointComponent.setDataItem(dataItem as UserPoint, clickPos);
                 break;
             case DataItemType.geoname:
                 this.mapOverlayGeonameComponent.setDataItem(dataItem as Geoname, clickPos);
@@ -291,10 +362,10 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
 
 
     private closeAllOverlays() {
-        this.mapOverlayAirportComponent?.closeOverlay();
+        // this.mapOverlayAirportComponent?.closeOverlay();
         this.mapOverlayNavaidComponent?.closeOverlay();
-        this.mapOverlayReportingpointComponent?.closeOverlay();
-        this.mapOverlayReportingsectorComponent?.closeOverlay();
+        // this.mapOverlayReportingpointComponent?.closeOverlay();
+        // this.mapOverlayReportingsectorComponent?.closeOverlay();
         this.mapOverlayUserpointComponent?.closeOverlay();
         this.mapOverlayGeonameComponent?.closeOverlay();
         this.mapOverlayTrafficComponent?.closeOverlay();

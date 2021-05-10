@@ -9,6 +9,8 @@ use Navplan\Airport\DbModel\DbAirportFeatureConverter;
 use Navplan\Airport\DbModel\DbAirportRadioConverter;
 use Navplan\Airport\DbModel\DbAirportRunwayConverter;
 use Navplan\Airport\DbModel\DbShortAirportConverter;
+use Navplan\Airport\DomainModel\Airport;
+use Navplan\Airport\DomainService\IAirportChartRepo;
 use Navplan\Airport\DomainService\IAirportRepo;
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
@@ -19,16 +21,23 @@ use Navplan\Webcam\DbModel\DbWebcamConverter;
 
 
 class DbAirportRepo implements IAirportRepo {
-    private $dbService;
-
-
-    private function getDbService(): IDbService {
-        return $this->dbService;
+    public function __construct(
+        private IDbService $dbService,
+        private IAirportChartRepo $airportChartRepo
+    ) {
     }
 
 
-    public function __construct(IDbService $dbService) {
-        $this->dbService = $dbService;
+    function readById(int $id): Airport {
+        $query  = "SELECT * FROM openaip_airports2 WHERE id = " . $id;
+
+        $result = $this->dbService->execSingleResultQuery($query, false,"error loading airport by id");
+        $row = $result->fetch_assoc();
+        $airport = DbAirportConverter::fromDbRow($row);
+        $airports = [$airport];
+        self::loadAirportSubItems($airports);
+
+        return $airport;
     }
 
 
@@ -41,7 +50,7 @@ class DbAirportRepo implements IAirportRepo {
         $query .= "    AND";
         $query .= "  zoommin <= " . $zoom;
 
-        $result = $this->getDbService()->execMultiResultQuery($query, "error searching airports by extent");
+        $result = $this->dbService->execMultiResultQuery($query, "error searching airports by extent");
         $airports = self::readAirportFromResultList($result);
         self::loadAirportSubItems($airports);
 
@@ -71,7 +80,7 @@ class DbAirportRepo implements IAirportRepo {
         $query .= "  )";
         $query .= "  GROUP BY ad.id";
 
-        $result = $this->getDbService()->execMultiResultQuery($query, "error searching airports by extent");
+        $result = $this->dbService->execMultiResultQuery($query, "error searching airports by extent");
 
         $airports = [];
         while ($row = $result->fetch_assoc()) {
@@ -95,7 +104,7 @@ class DbAirportRepo implements IAirportRepo {
             ") + (longitude - " . $position->longitude . ") * (longitude - " . $position->longitude . ")) ASC";
         $query .= " LIMIT " . $maxResults;
 
-        $result = $this->getDbService()->execMultiResultQuery($query, "error searching airports by position");
+        $result = $this->dbService->execMultiResultQuery($query, "error searching airports by position");
         $airports = self::readAirportFromResultList($result);
         self::loadAirportSubItems($airports);
 
@@ -104,7 +113,7 @@ class DbAirportRepo implements IAirportRepo {
 
 
     public function searchByText(string $searchText, int $maxResults): array {
-        $searchText = $this->getDbService()->escapeString($searchText);
+        $searchText = $this->dbService->escapeString($searchText);
         $query = "SELECT *";
         $query .= " FROM openaip_airports2";
         $query .= " WHERE";
@@ -121,7 +130,7 @@ class DbAirportRepo implements IAirportRepo {
         $query .= "   icao ASC";
         $query .= " LIMIT " . $maxResults;
 
-        $result = $this->getDbService()->execMultiResultQuery($query, "error searching airports by text");
+        $result = $this->dbService->execMultiResultQuery($query, "error searching airports by text");
         $airports = self::readAirportFromResultList($result);
         self::loadAirportSubItems($airports);
 
@@ -157,12 +166,12 @@ class DbAirportRepo implements IAirportRepo {
 
 
     private function loadAirportRunways(array &$airports, string $apIdList) {
-        $this->getDbService()->escapeString($apIdList);
+        $this->dbService->escapeString($apIdList);
         $query  = "SELECT *";
         $query .= " FROM openaip_runways2";
         $query .= " WHERE operations = 'ACTIVE' AND airport_id IN (" . $apIdList . ")";
         $query .= " ORDER BY length DESC, surface ASC, id ASC";
-        $result = $this->getDbService()->execMultiResultQuery($query, "error reading runways");
+        $result = $this->dbService->execMultiResultQuery($query, "error reading runways");
 
         while ($row = $result->fetch_assoc()) {
             foreach ($airports as &$ap) {
@@ -176,7 +185,7 @@ class DbAirportRepo implements IAirportRepo {
 
 
     private function loadAirportRadios(array &$airports, string $apIdList) {
-        $this->getDbService()->escapeString($apIdList);
+        $this->dbService->escapeString($apIdList);
         $query  = "SELECT *,";
         $query .= "  (CASE WHEN category = 'COMMUNICATION' THEN 1 WHEN category = 'OTHER' THEN 2 WHEN category = 'INFORMATION' THEN 3 ELSE 4 END) AS sortorder1,";
         $query .= "  (CASE WHEN type = 'TOWER' THEN 1 WHEN type = 'CTAF' THEN 2 WHEN type = 'OTHER' THEN 3 ELSE 4 END) AS sortorder2";
@@ -187,7 +196,7 @@ class DbAirportRepo implements IAirportRepo {
         $query .= "   sortorder2 ASC,";
         $query .= "   frequency ASC";
 
-        $result = $this->getDbService()->execMultiResultQuery($query, "error reading radios");
+        $result = $this->dbService->execMultiResultQuery($query, "error reading radios");
 
         while ($row = $result->fetch_assoc()) {
             foreach ($airports as &$ap) {
@@ -200,8 +209,8 @@ class DbAirportRepo implements IAirportRepo {
     }
 
 
-    // TODO => charts
     private function loadAirportChars(array &$airports, string $apIcaoList) {
+        // TODO => use chart repo
         $query = "SELECT *,";
         $query .= "  (CASE WHEN type LIKE 'AREA%' THEN 1 WHEN type LIKE 'VAC%' THEN 2 WHEN type LIKE 'AD INFO%' THEN 3 ELSE 4 END) AS sortorder1";
         $query .= " FROM ad_charts ";
@@ -211,7 +220,7 @@ class DbAirportRepo implements IAirportRepo {
         $query .= "   sortorder1 ASC,";
         $query .= "   type ASC";
 
-        $result = $this->getDbService()->execMultiResultQuery($query, "error reading charts");
+        $result = $this->dbService->execMultiResultQuery($query, "error reading charts");
 
         while ($row = $result->fetch_assoc()) {
             foreach ($airports as &$ap) {
@@ -225,14 +234,14 @@ class DbAirportRepo implements IAirportRepo {
 
 
     private function loadAirportWebcams(array &$airports, string $apIcaoList) {
-        $this->getDbService()->escapeString($apIcaoList);
+        $this->dbService->escapeString($apIcaoList);
         $query  = "SELECT *";
         $query .= " FROM webcams";
         $query .= " WHERE airport_icao IN (" .  $apIcaoList . ")";
         $query .= " ORDER BY";
         $query .= "   name ASC";
 
-        $result = $this->getDbService()->execMultiResultQuery($query, "error reading webcams");
+        $result = $this->dbService->execMultiResultQuery($query, "error reading webcams");
 
         while ($row = $result->fetch_assoc()) {
             foreach ($airports as &$ap) {
@@ -246,7 +255,7 @@ class DbAirportRepo implements IAirportRepo {
 
 
     private function loadAirportFeatures(array &$airports, string $apIcaoList) {
-        $this->getDbService()->escapeString($apIcaoList);
+        $this->dbService->escapeString($apIcaoList);
         $query  = "SELECT *";
         $query .= " FROM map_features";
         $query .= " WHERE airport_icao IN (" .  $apIcaoList . ")";
@@ -254,7 +263,7 @@ class DbAirportRepo implements IAirportRepo {
         $query .= "   type ASC,";
         $query .= "   name ASC";
 
-        $result = $this->getDbService()->execMultiResultQuery($query, "error reading map features");
+        $result = $this->dbService->execMultiResultQuery($query, "error reading map features");
 
         while ($row = $result->fetch_assoc()) {
             foreach ($airports as &$ap) {

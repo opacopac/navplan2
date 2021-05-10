@@ -8,7 +8,7 @@ import {UserProfilePageComponent} from './ng-components/user-profile-page/user-p
 import {LoginFormComponent} from './ng-components/login-form/login-form.component';
 import {SharedModule} from '../common/shared.module';
 import {userReducer} from './ngrx/user.reducer';
-import {UserState} from './domain-model/user-state';
+import {UserState} from './ngrx/user-state';
 import {UserActions} from './ngrx/user.actions';
 import {LoginRegisterPageComponent} from './ng-components/login-register-page/login-register-page.component';
 import {RegisterStep1FormComponent} from './ng-components/register-step1-form/register-step1-form.component';

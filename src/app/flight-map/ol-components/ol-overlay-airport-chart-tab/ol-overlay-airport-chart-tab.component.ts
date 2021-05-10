@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Airport} from '../../../open-aip/domain-model/airport';
-import {AirportChart} from '../../../open-aip/domain-model/airport-chart';
+import {Airport} from '../../../airport/domain-model/airport';
+import {AirportChart} from '../../../airport/domain-model/airport-chart';
 import {Store} from '@ngrx/store';
-import {LoadAdChartAction} from '../../../charts/ngrx/chart.actions';
+import {ReadAirportChartAction} from '../../../airport/ngrx/airport-actions';
 
 @Component({
     selector: 'app-ol-overlay-airport-chart-tab',
@@ -38,6 +38,6 @@ export class OlOverlayAirportChartTabComponent implements OnInit {
 
 
     public onChartClicked(id: number) {
-        this.appStore.dispatch(new LoadAdChartAction(id));
+        this.appStore.dispatch(new ReadAirportChartAction(id));
     }
 }

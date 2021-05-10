@@ -16,4 +16,9 @@ class RestAirportCircuitConverter {
             "line2dlist" => RestLine2dConverter::multiLinetoRest($circuit->line2dList, self::ROUND_DIGITS_POS)
         );
     }
+
+
+    public static function listToRest(array $airportCircuitList): array {
+        return array_map(function ($airportCircuit) { return self::toRest($airportCircuit); }, $airportCircuitList);
+    }
 }

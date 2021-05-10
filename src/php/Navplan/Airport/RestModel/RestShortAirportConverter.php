@@ -18,7 +18,7 @@ class RestShortAirportConverter {
             "pos" => RestPosition2dConverter::toRest($airport->position, self::ROUND_DIGITS_POS),
             "rwy1dir" => $airport->rwy1dir,
             "rwy1sfc" => $airport->rwy1sfc,
-            "feat" => $airport->featureTypes
+            "features" => $airport->featureTypes
         );
     }
 

@@ -2,11 +2,14 @@
 
 namespace Navplan\Airport\DomainService;
 
+use Navplan\Airport\DomainModel\Airport;
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
 
 
 interface IAirportRepo {
+    function readById(int $id): Airport;
+
     function searchByExtent(Extent2d $extent, int $zoom): array;
 
     function searchShortByExtent(Extent2d $extent, int $zoom): array;

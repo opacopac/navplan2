@@ -14,7 +14,14 @@ class DbAirportChartRepo implements IAirportChartRepo {
 
 
     public function getAdChartsByIcao(string $adIcao): array {
-        $query = "SELECT * FROM ad_charts WHERE airport_icao=" . $this->dbService->escapeAndQuoteString($adIcao);
+        $query = "SELECT *,";
+        $query .= "  (CASE WHEN type LIKE 'AREA%' THEN 1 WHEN type LIKE 'VAC%' THEN 2 WHEN type LIKE 'AD INFO%' THEN 3 ELSE 4 END) AS sortorder1";
+        $query .= " FROM ad_charts ";
+        $query .= " WHERE airport_icao = " .  $this->dbService->escapeAndQuoteString($adIcao) . ")";
+        $query .= " ORDER BY";
+        $query .= "   source ASC,";
+        $query .= "   sortorder1 ASC,";
+        $query .= "   type ASC";
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading AD charts by icao");
 

@@ -2,16 +2,16 @@ import {Action} from '@ngrx/store';
 
 
 export enum FlightMapActionTypes {
-    FLIGHT_MAP_DUMMY = '[Flight Map] Dummy Action',
+    FLIGHT_MAP_CLOSE_ALL_OVERLAYS = '[Flight Map] Close all overlays action',
 }
 
 
-export class FlightMapDummyAction implements Action {
-    readonly type = FlightMapActionTypes.FLIGHT_MAP_DUMMY;
+export class FlightMapCloseAllOverlaysAction implements Action {
+    readonly type = FlightMapActionTypes.FLIGHT_MAP_CLOSE_ALL_OVERLAYS;
 
     constructor() {}
 }
 
 
 export type FlightMapActions =
-    FlightMapDummyAction;
+    FlightMapCloseAllOverlaysAction;

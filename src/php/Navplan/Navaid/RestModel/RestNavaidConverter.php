@@ -25,4 +25,9 @@ class RestNavaidConverter {
             "truenorth" => $navaid->truenorth,
         );
     }
+
+
+    public static function listToRest(array $navaidList): array {
+        return array_map(function ($navaid) { return self::toRest($navaid); }, $navaidList);
+    }
 }

@@ -28,4 +28,9 @@ class RestReportingPointConverter {
             "polygon" => $rp->polygon ? RestRing2dConverter::toRest($rp->polygon, self::ROUND_DIGITS_POLY) : NULL // only for reporting sectors
         );
     }
+
+
+    public static function listToRest(array $rpList): array {
+        return array_map(function ($rp) { return self::toRest($rp); }, $rpList);
+    }
 }

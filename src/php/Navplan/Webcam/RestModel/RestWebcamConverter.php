@@ -14,4 +14,9 @@ class RestWebcamConverter {
             "pos" => $cam->position ? RestPosition2dConverter::toRest($cam->position) : NULL
         );
     }
+
+
+    public static function listToRest(array $webcamList): array {
+        return array_map(function ($webcam) { return self::toRest($webcam); }, $webcamList);
+    }
 }

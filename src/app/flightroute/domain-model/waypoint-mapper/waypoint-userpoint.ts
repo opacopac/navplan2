@@ -1,11 +1,11 @@
 import {WaypointBase} from './waypoint-base';
-import {Userpoint} from '../../../open-aip/domain-model/userpoint';
+import {UserPoint} from '../../../user/domain-model/user-point';
 import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import {WaypointType} from '../waypoint-type';
 
 
 export class WaypointUserpoint extends WaypointBase {
-    constructor(public userpoint: Userpoint) {
+    constructor(public userpoint: UserPoint) {
         super();
     }
 

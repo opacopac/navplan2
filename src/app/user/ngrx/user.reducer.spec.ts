@@ -1,4 +1,4 @@
-import {UserState} from '../domain-model/user-state';
+import {UserState} from './user-state';
 import {userReducer} from './user.reducer';
 
 

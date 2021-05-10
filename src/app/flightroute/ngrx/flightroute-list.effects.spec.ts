@@ -9,7 +9,7 @@ import {
     FlightrouteReadListErrorAction,
     FlightrouteReadListSuccessAction
 } from './flightroute.actions';
-import {UserState} from '../../user/domain-model/user-state';
+import {UserState} from '../../user/ngrx/user-state';
 import {User} from '../../user/domain-model/user';
 import createSpyObj = jasmine.createSpyObj;
 

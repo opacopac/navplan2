@@ -8,12 +8,12 @@ import {WaypointUserpoint} from './waypoint-userpoint';
 import {WaypointGeoname} from './waypoint-geoname';
 import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import {WaypointCoordinate} from './waypoint-coordinate';
-import {Airport} from '../../../open-aip/domain-model/airport';
-import {Navaid} from '../../../open-aip/domain-model/navaid';
-import {Reportingpoint} from '../../../open-aip/domain-model/reportingpoint';
-import {Reportingsector} from '../../../open-aip/domain-model/reportingsector';
-import {Userpoint} from '../../../open-aip/domain-model/userpoint';
-import {Geoname} from '../../../open-aip/domain-model/geoname';
+import {Airport} from '../../../airport/domain-model/airport';
+import {Navaid} from '../../../navaid/domain-model/navaid';
+import {ReportingPoint} from '../../../airport/domain-model/reporting-point';
+import {ReportingSector} from '../../../airport/domain-model/reporting-sector';
+import {UserPoint} from '../../../user/domain-model/user-point';
+import {Geoname} from '../../../geoname/domain-model/geoname';
 import {Waypoint} from '../waypoint';
 
 
@@ -23,11 +23,11 @@ export class WaypointFactory {
             return this.createWaypoint(new WaypointAirport(dataItem));
         } else if (dataItem instanceof Navaid) {
             return this.createWaypoint(new WaypointNavaid(dataItem));
-        } else if (dataItem instanceof Reportingpoint) {
+        } else if (dataItem instanceof ReportingPoint) {
             return this.createWaypoint(new WaypointReportingpoint(dataItem));
-        } else if (dataItem instanceof Reportingsector) {
+        } else if (dataItem instanceof ReportingSector) {
             return this.createWaypoint(new WaypointReportingsector(dataItem, clickPos));
-        } else if (dataItem instanceof Userpoint) {
+        } else if (dataItem instanceof UserPoint) {
             return this.createWaypoint(new WaypointUserpoint(dataItem));
         } else if (dataItem instanceof Geoname) {
             return this.createWaypoint(new WaypointGeoname(dataItem));

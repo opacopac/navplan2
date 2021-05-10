@@ -13,16 +13,7 @@ use Navplan\System\MySqlDb\DbHelper;
 
 
 class DbReportingPointRepo implements IReportingPointRepo {
-    private $dbService;
-
-
-    private function getDbService(): IDbService {
-        return $this->dbService;
-    }
-
-
-    public function __construct(IDbService $dbService) {
-        $this->dbService = $dbService;
+    public function __construct(private IDbService $dbService) {
     }
 
 
@@ -30,7 +21,7 @@ class DbReportingPointRepo implements IReportingPointRepo {
         $extentPoly = DbHelper::getDbExtentPolygon2($extent);
         $query = "SELECT * FROM reporting_points WHERE MBRIntersects(extent, " . $extentPoly . ")";
 
-        $result = $this->getDbService()->execMultiResultQuery($query, "error reading reporting points by extent");
+        $result = $this->dbService->execMultiResultQuery($query, "error reading reporting points by extent");
 
         return self::readReportingPointFromResultList($result);
     }
@@ -49,21 +40,21 @@ class DbReportingPointRepo implements IReportingPointRepo {
             ") + (longitude - " . $position->longitude . ") * (longitude - " . $position->longitude . ")) ASC";
         $query .= " LIMIT " . $maxResults;
 
-        $result = $this->getDbService()->execMultiResultQuery($query,"error searching reporting points by position");
+        $result = $this->dbService->execMultiResultQuery($query,"error searching reporting points by position");
 
         return self::readReportingPointFromResultList($result);
     }
 
 
     public function searchByText(string $searchText, int $maxResults): array {
-        $searchText = $this->getDbService()->escapeString($searchText);
+        $searchText = $this->dbService->escapeString($searchText);
         $query = "SELECT * FROM reporting_points";
         $query .= " WHERE";
         $query .= "   airport_icao LIKE '" . $searchText . "%'";
         $query .= " ORDER BY airport_icao ASC, name ASC";
         $query .= " LIMIT " . $maxResults;
 
-        $result = $this->getDbService()->execMultiResultQuery($query, "error searching reporting points by text");
+        $result = $this->dbService->execMultiResultQuery($query, "error searching reporting points by text");
 
         return self::readReportingPointFromResultList($result);
     }

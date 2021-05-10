@@ -9,7 +9,7 @@ import {
     FlightrouteReadListErrorAction,
     FlightrouteReadListSuccessAction
 } from './flightroute.actions';
-import {UserState} from '../../user/domain-model/user-state';
+import {UserState} from '../../user/ngrx/user-state';
 import {FlightrouteService} from '../rest-service/flightroute.service';
 import {getUserState} from '../../user/ngrx/user.selectors';
 import {MessageService} from '../../message/domain-service/message.service';

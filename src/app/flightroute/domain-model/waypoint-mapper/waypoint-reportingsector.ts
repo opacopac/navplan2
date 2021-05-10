@@ -1,12 +1,12 @@
 import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import {WaypointBase} from './waypoint-base';
-import {Reportingsector} from '../../../open-aip/domain-model/reportingsector';
+import {ReportingSector} from '../../../airport/domain-model/reporting-sector';
 import {WaypointType} from '../waypoint-type';
 import {WaypointAltitude} from '../waypoint-altitude';
 
 
 export class WaypointReportingsector extends WaypointBase {
-    constructor(public reportingsector: Reportingsector, public clickPosition: Position2d) {
+    constructor(public reportingsector: ReportingSector, public clickPosition: Position2d) {
         super();
     }
 

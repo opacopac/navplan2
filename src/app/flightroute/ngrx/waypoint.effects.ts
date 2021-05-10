@@ -19,14 +19,14 @@ import {Flightroute} from '../domain-model/flightroute';
 import {FlightrouteCalcHelper} from '../domain-service/flightroute-calc.helper';
 import {ArrayHelper} from '../../system/domain-service/array/array-helper';
 import {WaypointFactory} from '../domain-model/waypoint-mapper/waypoint-factory';
-import {OpenAipItems} from '../../open-aip/domain-model/open-aip-items';
-import {getOpenAipItems} from '../../open-aip/ngrx/open-aip.selectors';
+import {getFlightMapState} from '../../flight-map/ngrx/flight-map.selectors';
+import {FlightMapState} from '../../flight-map/ngrx/flight-map-state';
 
 
 @Injectable()
 export class WaypointEffects {
     private readonly flightroute$: Observable<Flightroute> = this.appStore.select(getFlightroute);
-    private readonly openAipItems$: Observable<OpenAipItems> = this.appStore.select(getOpenAipItems);
+    private readonly flightMapState$: Observable<FlightMapState> = this.appStore.select(getFlightMapState);
 
 
     constructor(
@@ -132,10 +132,10 @@ export class WaypointEffects {
     modifyRouteLineAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteActionTypes.WAYPOINT_ROUTELINE_MODIFIED),
         map(action => action as RouteLineModifiedAction),
-        withLatestFrom(this.openAipItems$),
+        withLatestFrom(this.flightMapState$),
         map(([action, items]) => ({
             action: action,
-            dataItem: items.findDataItemByPos(action.newPosition)
+            dataItem: undefined // items.findDataItemByPos(action.newPosition)
         })),
         withLatestFrom(this.flightroute$),
         map(([acDa, route]) => {

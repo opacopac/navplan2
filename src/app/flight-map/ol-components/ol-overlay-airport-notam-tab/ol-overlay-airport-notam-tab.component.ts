@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Airport} from '../../../open-aip/domain-model/airport';
+import {Airport} from '../../../airport/domain-model/airport';
 
 @Component({
     selector: 'app-ol-overlay-airport-notam-tab',

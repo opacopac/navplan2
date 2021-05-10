@@ -15,7 +15,6 @@ import {FlightrouteExportButtonsComponent} from './ng-components/flightroute-exp
 import {flightrouteReducer} from './ngrx/flightroute.reducer';
 import {FlightrouteEffects} from './ngrx/flightroute.effects';
 import {BaseMapModule} from '../base-map/base-map.module';
-import {OpenAipModule} from '../open-aip/open-aip.module';
 import {FuelCalcContainerComponent} from './ng-components/fuel-calc-container/fuel-calc-container.component';
 import {FlightroutePageComponent} from './ng-components/flightroute-page/flightroute-page.component';
 import {FlightrouteListDialogComponent} from './ng-components/flightroute-list-dialog/flightroute-list-dialog.component';
@@ -40,7 +39,6 @@ import {WaypointEffects} from './ngrx/waypoint.effects';
         DragDropModule,
         SharedModule,
         BaseMapModule,
-        OpenAipModule,
     ],
     declarations: [
         EditWaypointDialogComponent,

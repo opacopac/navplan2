@@ -1,20 +1,20 @@
 import {SearchItemList} from '../domain-model/search-item-list';
-import {IRestAirport} from '../../open-aip/rest-model/i-rest-airport';
-import {IRestNavaid} from '../../open-aip/rest-model/i-rest-navaid';
-import {IRestAirspace} from '../../open-aip/rest-model/i-rest-airspace';
-import {IRestReportingpoint} from '../../open-aip/rest-model/i-rest-reportingpoint';
-import {IRestUserpoint} from '../../open-aip/rest-model/i-rest-userpoint';
-import {IRestWebcam} from '../../open-aip/rest-model/i-rest-webcam';
-import {IRestGeoname} from '../../open-aip/rest-model/i-rest-geoname';
+import {IRestAirport} from '../../airport/rest-model/i-rest-airport';
+import {IRestNavaid} from '../../navaid/rest-model/i-rest-navaid';
+import {IRestAirspace} from '../../airspace/rest-model/i-rest-airspace';
+import {IRestReportingpoint} from '../../airport/rest-model/i-rest-reportingpoint';
+import {IRestUserpoint} from '../../user/rest-model/i-rest-userpoint';
+import {IRestWebcam} from '../../webcam/rest-model/i-rest-webcam';
+import {IRestGeoname} from '../../geoname/rest-model/i-rest-geoname';
 import {IRestNotam} from '../../notam/rest-model/i-rest-notam';
-import {AirportConverter} from '../../open-aip/rest-model/airport-converter';
-import {NavaidConverter} from '../../open-aip/rest-model/navaid-converter';
-import {ReportingpointConverter} from '../../open-aip/rest-model/reportingpoint-converter';
-import {ReportingsectorConverter} from '../../open-aip/rest-model/reportingsector-converter';
-import {UserpointConverter} from '../../open-aip/rest-model/userpoint-converter';
-import {GeonameConverter} from '../../open-aip/rest-model/geoname-converter';
-import {IRestCircuit} from '../../circuits/rest-model/i-rest-circuit';
-import {CircuitConverter} from '../../circuits/rest-model/circuit-converter';
+import {RestAirportConverter} from '../../airport/rest-model/rest-airport-converter';
+import {RestNavaidConverter} from '../../navaid/rest-model/rest-navaid-converter';
+import {RestReportingpointConverter} from '../../airport/rest-model/rest-reportingpoint-converter';
+import {RestReportingsectorConverter} from '../../airport/rest-model/rest-reportingsector-converter';
+import {RestUserpointConverter} from '../../user/rest-model/rest-userpoint-converter';
+import {RestGeonameConverter} from '../../geoname/rest-model/rest-geoname-converter';
+import {IRestAirportCircuit} from '../../airport/rest-model/i-rest-airport-circuit';
+import {RestAirportCircuitConverter} from '../../airport/rest-model/rest-airport-circuit-converter';
 
 
 export interface SearchResponse {
@@ -26,7 +26,7 @@ export interface SearchResponse {
     webcams: IRestWebcam[];
     geonames: IRestGeoname[];
     notams: IRestNotam[];
-    circuits: IRestCircuit[];
+    circuits: IRestAirportCircuit[];
 }
 
 
@@ -35,34 +35,34 @@ export class RestMapperSearch {
         const searchItemList = new SearchItemList();
 
         for (const restItem of response.airports) {
-            searchItemList.appendSearchItem(AirportConverter.fromRest(restItem));
+            searchItemList.appendSearchItem(RestAirportConverter.fromRest(restItem));
         }
 
         for (const restItem of response.navaids) {
-            searchItemList.appendSearchItem(NavaidConverter.fromRest(restItem));
+            searchItemList.appendSearchItem(RestNavaidConverter.fromRest(restItem));
         }
 
         for (const restItem of response.reportingpoints) {
             switch (restItem.type) {
                 case 'POINT':
-                    searchItemList.appendSearchItem(ReportingpointConverter.fromRest(restItem));
+                    searchItemList.appendSearchItem(RestReportingpointConverter.fromRest(restItem));
                     break;
                 case 'SECTOR':
-                    searchItemList.appendSearchItem(ReportingsectorConverter.fromRest(restItem));
+                    searchItemList.appendSearchItem(RestReportingsectorConverter.fromRest(restItem));
                     break;
             }
         }
 
         for (const restItem of response.userpoints) {
-            searchItemList.appendSearchItem(UserpointConverter.fromRest(restItem));
+            searchItemList.appendSearchItem(RestUserpointConverter.fromRest(restItem));
         }
 
         for (const restItem of response.geonames) {
-            searchItemList.appendSearchItem(GeonameConverter.fromRest(restItem));
+            searchItemList.appendSearchItem(RestGeonameConverter.fromRest(restItem));
         }
 
         for (const restItem of response.circuits) {
-            searchItemList.appendSearchItem(CircuitConverter.fromRest(restItem));
+            searchItemList.appendSearchItem(RestAirportCircuitConverter.fromRest(restItem));
         }
 
         return searchItemList;

@@ -15,6 +15,7 @@ use Navplan\Airport\DomainService\IReportingPointRepo;
 use Navplan\Airport\RestService\IAirportServiceDiContainer;
 use Navplan\Airspace\DbRepo\DbAirspaceRepo;
 use Navplan\Airspace\DomainService\IAirspaceRepo;
+use Navplan\Airspace\RestService\IAirspaceServiceDiContainer;
 use Navplan\Flightroute\DbRepo\DbFlightrouteRepo;
 use Navplan\Flightroute\DomainService\IFlightrouteRepo;
 use Navplan\Flightroute\RestService\IFlightrouteServiceDiContainer;
@@ -44,6 +45,7 @@ use Navplan\MeteoSma\UseCase\ReadSmaMeasurements\IReadSmaMeasurementsUc;
 use Navplan\MeteoSma\UseCase\ReadSmaMeasurements\ReadSmaMeasurementsUc;
 use Navplan\Navaid\DbRepo\DbNavaidRepo;
 use Navplan\Navaid\DomainService\INavaidRepo;
+use Navplan\Navaid\RestService\INavaidServiceDiContainer;
 use Navplan\Notam\DbRepo\DbNotamRepo;
 use Navplan\Notam\DomainService\INotamRepo;
 use Navplan\Notam\RestService\INotamServiceDiContainer;
@@ -121,11 +123,13 @@ use Navplan\User\UseCase\UpdatePw\IUpdatePwUc;
 use Navplan\User\UseCase\UpdatePw\UpdatePwUc;
 use Navplan\Webcam\DbRepo\DbWebcamRepo;
 use Navplan\Webcam\DomainService\IWebcamRepo;
+use Navplan\Webcam\RestService\IWebcamServiceDiContainer;
 
 
-class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFlightrouteServiceDiContainer, IGeonameServiceDiContainer,
-    IMeteoServiceDiContainer, INotamServiceDiContainer, ISearchServiceDiContainer, ITerrainDiContainer,
-    ITrafficServiceDiContainer, IUserServiceDiContainer, IAirportServiceDiContainer {
+class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFlightrouteServiceDiContainer,
+    IGeonameServiceDiContainer, IMeteoServiceDiContainer, INotamServiceDiContainer, ISearchServiceDiContainer,
+    ITerrainDiContainer, ITrafficServiceDiContainer, IUserServiceDiContainer, IAirportServiceDiContainer,
+    IAirspaceServiceDiContainer, INavaidServiceDiContainer, IWebcamServiceDiContainer {
     // const
     private const LOG_LEVEL = LogLevel::DEBUG;
     private const LOG_DIR = __DIR__ . "/../../logs/";
@@ -217,7 +221,10 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
 
     public function getAirportRepo(): IAirportRepo {
         if (!isset($this->airportRepo)) {
-            $this->airportRepo = new DbAirportRepo($this->getDbService());
+            $this->airportRepo = new DbAirportRepo(
+                $this->getDbService(),
+                $this->getAirportChartRepo()
+            );
         }
 
         return $this->airportRepo;

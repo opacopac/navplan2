@@ -17,7 +17,6 @@ import {OlOverlayReportingsectorComponent} from './ol-components/ol-overlay-repo
 import {OlOverlayUserpointComponent} from './ol-components/ol-overlay-userpoint/ol-overlay-userpoint.component';
 import {OlOverlayWindyiframeComponent} from './ol-components/ol-overlay-windyiframe/ol-overlay-windyiframe.component';
 import {SharedModule} from '../common/shared.module';
-import {OpenAipModule} from '../open-aip/open-aip.module';
 import {FlightrouteModule} from '../flightroute/flightroute.module';
 import {NotamModule} from '../notam/notam.module';
 import {FlightMapPageComponent} from './ng-components/flight-map-page/flight-map-page.component';
@@ -42,10 +41,14 @@ import {OlOverlayAirportChartTabComponent} from './ol-components/ol-overlay-airp
 import {OlOverlayButtonListComponent} from './ol-components/ol-overlay-button-list/ol-overlay-button-list.component';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
-import {FlightMapState} from './domain-model/flight-map-state';
+import {FlightMapState} from './ngrx/flight-map-state';
 import {FlightMapActions} from './ngrx/flight-map.actions';
 import {flightMapReducer} from './ngrx/flight-map.reducer';
 import {FlightMapEffects} from './ngrx/flight-map.effects';
+import {AirportModule} from '../airport/airport.module';
+import {AirspaceModule} from '../airspace/airspace.module';
+import {NavaidModule} from '../navaid/navaid.module';
+import {WebcamModule} from '../webcam/webcam.module';
 
 @NgModule({
     declarations: [
@@ -86,7 +89,6 @@ import {FlightMapEffects} from './ngrx/flight-map.effects';
         MatSelectModule,
         SharedModule,
         BaseMapModule,
-        OpenAipModule,
         FlightrouteModule,
         SearchModule,
         LocationModule,
@@ -94,6 +96,10 @@ import {FlightMapEffects} from './ngrx/flight-map.effects';
         TrafficModule,
         NotamModule,
         MetarTafModule,
+        AirportModule,
+        AirspaceModule,
+        NavaidModule,
+        WebcamModule
     ]
 })
 export class FlightMapModule {

@@ -2,9 +2,9 @@ import {combineLatest, Observable, Subscription} from 'rxjs';
 import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {OlMetar} from './ol-metar';
 import {MetarTafList} from '../domain-model/metar-taf';
-import {Airport} from '../../open-aip/domain-model/airport';
 import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
 import VectorLayer from 'ol/layer/Vector';
+import {ShortAirport} from '../../airport/domain-model/short-airport';
 
 
 export class OlMetarContainer extends OlComponentBase {
@@ -14,7 +14,7 @@ export class OlMetarContainer extends OlComponentBase {
     constructor(
         private readonly metarTafLayer: VectorLayer,
         metarTafList$: Observable<MetarTafList>,
-        airportList$: Observable<Airport[]>,
+        airportList$: Observable<ShortAirport[]>,
         mapRotation: Angle
     ) {
         super();
@@ -41,7 +41,7 @@ export class OlMetarContainer extends OlComponentBase {
     }
 
 
-    private addFeatures(metarTafList: MetarTafList, airports: Airport[], mapRotation: Angle) {
+    private addFeatures(metarTafList: MetarTafList, airports: ShortAirport[], mapRotation: Angle) {
         if (metarTafList) {
             const adPosMao = this.createAdPosTable(airports);
 
@@ -52,7 +52,7 @@ export class OlMetarContainer extends OlComponentBase {
     }
 
 
-    private createAdPosTable(airports: Airport[]): object {
+    private createAdPosTable(airports: ShortAirport[]): object {
         const adPosTable = {};
 
         if (airports) {

@@ -23,4 +23,9 @@ class RestAirspaceConverter {
             "polygon" => RestRing2dConverter::toRest($airspace->polygon, self::ROUND_DIGITS_POS)
         );
     }
+
+
+    public static function listToRest(array $airspaceList): array {
+        return array_map(function ($airspace) { return self::toRest($airspace); }, $airspaceList);
+    }
 }

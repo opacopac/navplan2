@@ -1,5 +1,5 @@
 import {UserActions, UserActionTypes} from './user.actions';
-import {UserState} from '../domain-model/user-state';
+import {UserState} from './user-state';
 
 
 export const initialState: UserState = {
