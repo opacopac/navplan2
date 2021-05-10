@@ -6,7 +6,7 @@ import {of} from 'rxjs/internal/observable/of';
 import {catchError, filter, map, mergeMap, withLatestFrom} from 'rxjs/operators';
 import {ReadTrafficErrorAction, ReadTrafficSuccessAction, TrafficActionTypes} from './traffic.actions';
 import {getTrafficState} from './traffic.selectors';
-import {TrafficState} from '../domain-model/traffic-state';
+import {TrafficState} from './traffic-state';
 import {TrafficDetailsMerger} from '../domain-service/traffic-details/traffic-details-merger';
 import {TrafficDetailsService} from '../rest/traffic-details/traffic-details.service';
 import {TrafficMap} from '../domain-model/traffic-map';

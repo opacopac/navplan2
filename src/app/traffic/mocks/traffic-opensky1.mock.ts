@@ -12,7 +12,7 @@ import {Timestamp} from '../../common/geo-math/domain-model/quantities/timestamp
 import {TrafficPositionMethod} from '../domain-model/traffic-position-method';
 import {IRestOpenskyTraffic} from '../rest/opensky/i-rest-opensky-traffic';
 import {TrafficAddress} from '../domain-model/traffic-address';
-import {TrafficOpensky} from '../domain-model/traffic-opensky';
+import {OpenskyTraffic} from '../domain-model/opensky-traffic';
 
 
 export class TrafficOpensky1Mock {
@@ -24,8 +24,8 @@ export class TrafficOpensky1Mock {
     }
 
 
-    public static create(): TrafficOpensky {
-        return new TrafficOpensky(
+    public static create(): OpenskyTraffic {
+        return new OpenskyTraffic(
             new TrafficAddress('71BE18', TrafficAddressType.ICAO),
             'AAR790  ',
             [this.createPos()]

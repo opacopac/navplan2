@@ -5,10 +5,10 @@ import {LocationButtonComponent} from './ng-components/location-button/location-
 import {LocationService} from './domain-service/location.service';
 import {SharedModule} from '../common/shared.module';
 import {StoreModule} from '@ngrx/store';
-import {locationReducer} from './location.reducer';
-import {LocationEffects} from './location.effects';
-import {LocationActions} from './location.actions';
-import {LocationState} from './location-state';
+import {locationReducer} from './ngrx/location.reducer';
+import {LocationEffects} from './ngrx/location.effects';
+import {LocationActions} from './ngrx/location.actions';
+import {LocationState} from './ngrx/location-state';
 import {BaseMapModule} from '../base-map/base-map.module';
 
 

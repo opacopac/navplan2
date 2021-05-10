@@ -1,4 +1,4 @@
-import {MessageState} from '../domain-model/message-state';
+import {MessageState} from './message-state';
 import {messageReducer} from './message.reducer';
 import {ShowMessageAction} from './message.actions';
 import {Message} from '../domain-model/message';

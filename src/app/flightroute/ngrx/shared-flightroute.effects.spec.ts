@@ -13,7 +13,7 @@ import {
 import {SharedFlightrouteEffects} from './shared-flightroute.effects';
 import {Flightroute} from '../domain-model/flightroute';
 import {MockStore} from '../../common/test/mock-store';
-import {FlightrouteState} from '../domain-model/flightroute-state';
+import {FlightrouteState} from './flightroute-state';
 import {Aircraft} from '../domain-model/aircraft';
 import {Speed} from '../../common/geo-math/domain-model/quantities/speed';
 import {

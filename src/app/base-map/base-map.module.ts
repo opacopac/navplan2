@@ -8,7 +8,7 @@ import {ZoomButtonsComponent} from './ng-components/zoom-buttons/zoom-buttons.co
 import {baseMapReducer} from './ngrx/base-map.reducer';
 import {BaseMapEffects} from './ngrx/base-map.effects';
 import {BaseMapActions} from './ngrx/base-map.actions';
-import {BaseMapState} from './domain-model/base-map-state';
+import {BaseMapState} from './ngrx/base-map-state';
 
 @NgModule({
     imports: [

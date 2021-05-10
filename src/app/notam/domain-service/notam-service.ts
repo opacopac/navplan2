@@ -4,7 +4,7 @@ import {Observable, of} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {SystemConfig} from '../../system/domain-service/system-config';
 import {IDate} from '../../system/domain-service/date/i-date';
-import {NotamState} from '../domain-model/notam-state';
+import {NotamState} from '../ngrx/notam-state';
 import {ReadNotamByExtentResult} from '../domain-model/read-notam-by-extent-result';
 import {map} from 'rxjs/operators';
 import {Injectable} from '@angular/core';

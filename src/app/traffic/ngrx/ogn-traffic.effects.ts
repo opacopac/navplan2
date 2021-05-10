@@ -5,8 +5,8 @@ import {Observable, of} from 'rxjs';
 import {catchError, map, mergeMap, withLatestFrom} from 'rxjs/operators';
 import {ReadTrafficErrorAction, ReadTrafficSuccessAction, TrafficActionTypes} from './traffic.actions';
 import {getTrafficState} from './traffic.selectors';
-import {TrafficState} from '../domain-model/traffic-state';
-import {TrafficOgnService} from '../rest/ogn/traffic-ogn.service';
+import {TrafficState} from './traffic-state';
+import {OgnTrafficService} from '../rest/ogn/ogn-traffic.service';
 import {OgnTrafficMerger} from '../domain-service/ogn-traffic/ogn-traffic-merger';
 import {SystemConfig} from '../../system/domain-service/system-config';
 
@@ -20,7 +20,7 @@ export class OgnTrafficEffects {
     constructor(
         private readonly actions$: Actions,
         private readonly appStore: Store<any>,
-        private readonly ognTrafficService: TrafficOgnService,
+        private readonly ognTrafficService: OgnTrafficService,
         config: SystemConfig,
     ) {
         this.ognTrafficMerger = new OgnTrafficMerger(config.getDate());

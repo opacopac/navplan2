@@ -9,8 +9,8 @@ import {User} from '../../user/domain-model/user';
 import {Flightroute} from '../domain-model/flightroute';
 import {IRestFlightrouteListResponse} from '../rest-model/i-rest-flightroute-list-response';
 import {IRestFlightrouteResponse} from '../rest-model/i-rest-flightroute-response';
-import {FlightrouteResponseConverter} from '../rest-model/flightroute-response-converter';
-import {FlightrouteListConverter} from '../rest-model/flightroute-list-converter';
+import {RestFlightrouteResponseConverter} from '../rest-model/rest-flightroute-response-converter';
+import {RestFlightrouteListConverter} from '../rest-model/rest-flightroute-list-converter';
 
 
 @Injectable({
@@ -29,7 +29,7 @@ export class FlightrouteService {
         return this.http
             .get<IRestFlightrouteListResponse>(url, {observe: 'response'})
             .pipe(
-                map((response) => FlightrouteListConverter.fromRest(response.body)),
+                map((response) => RestFlightrouteListConverter.fromRest(response.body)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading flight route list', err);
                     return throwError(err);
@@ -49,7 +49,7 @@ export class FlightrouteService {
         return this.http
             .get<IRestFlightrouteResponse>(url, {observe: 'response'})
             .pipe(
-                map((response) => FlightrouteResponseConverter.fromRest(response.body)),
+                map((response) => RestFlightrouteResponseConverter.fromRest(response.body)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading flight route', err);
                     return throwError(err);

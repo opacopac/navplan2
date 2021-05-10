@@ -21,7 +21,7 @@ import {getMapZoom, getShowImage} from '../../ngrx/base-map.selectors';
 import {Observable} from 'rxjs';
 import {Subscription} from 'rxjs/internal/Subscription';
 import ImageLayer from 'ol/layer/Image';
-import {ShowImageState} from '../../domain-model/show-image-state';
+import {ShowImageState} from '../../ngrx/show-image-state';
 import Projection from 'ol/proj/Projection';
 import {ImageStatic} from 'ol/source';
 import {ArrayHelper} from '../../../system/domain-service/array/array-helper';

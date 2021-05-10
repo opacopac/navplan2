@@ -3,7 +3,7 @@ import {TrafficAddressType} from '../domain-model/traffic-address-type';
 import {TrafficAddress} from '../domain-model/traffic-address';
 import {IRestOgnTrafficResponse} from '../rest/ogn/i-rest-ogn-traffic-response';
 import {IRestOgnTraffic} from '../rest/ogn/i-rest-ogn-traffic';
-import {TrafficOgn} from '../domain-model/traffic-ogn';
+import {OgnTraffic} from '../domain-model/ogn-traffic';
 import {TrafficPosition} from '../domain-model/traffic-position';
 import {Position4d} from '../../common/geo-math/domain-model/geometry/position4d';
 import {Altitude} from '../../common/geo-math/domain-model/geometry/altitude';
@@ -24,8 +24,8 @@ export class TrafficOgn1Mock {
     }
 
 
-    public static create(): TrafficOgn {
-        return new TrafficOgn(
+    public static create(): OgnTraffic {
+        return new OgnTraffic(
             new TrafficAddress('4B05D7', TrafficAddressType.ICAO),
             TrafficAircraftType.POWERED_AIRCRAFT,
             [this.createPos()]

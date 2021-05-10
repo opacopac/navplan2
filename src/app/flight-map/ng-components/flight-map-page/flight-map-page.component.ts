@@ -17,7 +17,7 @@ import {getFlightroute} from '../../../flightroute/ngrx/flightroute.selectors';
 import {OlTrafficContainer} from '../../../traffic/ol-components/ol-traffic-container';
 import {getTrafficState} from '../../../traffic/ngrx/traffic.selectors';
 import {OlOwnPlaneContainer} from '../../../location/ol-components/ol-own-plane-container';
-import {getLocationState} from '../../../location/location.selectors';
+import {getLocationState} from '../../../location/ngrx/location.selectors';
 import {MapBaseLayerType} from '../../../base-map/domain-model/map-base-layer-type';
 import {OlHelper} from '../../../base-map/ol-service/ol-helper';
 import {OlMapContainerComponent} from '../../../base-map/ng-components/ol-map-container/ol-map-container.component';
@@ -31,7 +31,7 @@ import {OlOverlayTrafficComponent} from '../../../traffic/ol-components/ol-overl
 import {OlOverlayNotamComponent} from '../../../notam/ng-components/map-overlay-notam/ol-overlay-notam.component';
 import {OlOverlayWaypointComponent} from '../../ol-components/ol-overlay-waypoint/ol-overlay-waypoint.component';
 import {Observable} from 'rxjs/internal/Observable';
-import {MapOverlayState} from '../../../base-map/domain-model/map-overlay-state';
+import {MapOverlayState} from '../../../base-map/ngrx/map-overlay-state';
 import {Subscription} from 'rxjs/internal/Subscription';
 import {DataItem, DataItemType} from '../../../common/model/data-item';
 import {Airport} from '../../../airport/domain-model/airport';

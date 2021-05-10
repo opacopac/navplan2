@@ -3,10 +3,10 @@ import {CommonModule} from '@angular/common';
 import {FlighttimerComponent} from './ng-components/flighttimer/flighttimer.component';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
-import {LocationEffects} from '../location/location.effects';
-import {FlightTimerState} from './flight-timer-state';
-import {FlightTimerActions} from './flight-timer.actions';
-import {flightTimerReducer} from './flight-timer.reducer';
+import {LocationEffects} from '../location/ngrx/location.effects';
+import {FlightTimerState} from './ngrx/flight-timer-state';
+import {FlightTimerActions} from './ngrx/flight-timer.actions';
+import {flightTimerReducer} from './ngrx/flight-timer.reducer';
 
 
 @NgModule({

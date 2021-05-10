@@ -10,7 +10,7 @@ import {
     TrafficActionTypes
 } from './traffic.actions';
 import {getTrafficState} from './traffic.selectors';
-import {TrafficState} from '../domain-model/traffic-state';
+import {TrafficState} from './traffic-state';
 
 
 @Injectable()

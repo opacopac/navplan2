@@ -1,4 +1,4 @@
-import {TrafficState} from '../domain-model/traffic-state';
+import {TrafficState} from './traffic-state';
 import {TrafficActions, TrafficActionTypes} from './traffic.actions';
 import {BaseMapActions, BaseMapActionTypes} from '../../base-map/ngrx/base-map.actions';
 import {TrafficServiceStatus} from '../domain-model/traffic-service-status';

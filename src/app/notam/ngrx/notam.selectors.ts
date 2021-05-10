@@ -1,5 +1,5 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {NotamState} from '../domain-model/notam-state';
+import {NotamState} from './notam-state';
 
 
 export const getNotamState = createFeatureSelector<NotamState>('notamState');

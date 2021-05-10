@@ -7,8 +7,8 @@ import {Traffic} from '../../domain-model/traffic';
 import {LoggingService} from '../../../system/domain-service/logging/logging.service';
 import {IRestTrafficDetailsResponse} from './i-rest-traffic-details-response';
 import {TrafficDetails} from '../../domain-model/traffic-details';
-import {RestMapperTrafficDetailsResponse} from './rest-mapper-traffic-details-response';
-import {RestMapperTrafficDetailsRequest} from './rest-mapper-traffic-details-request';
+import {RestTrafficDetailsResponseConverter} from './rest-traffic-details-response-converter';
+import {RestTrafficDetailsRequestConverter} from './rest-traffic-details-request-converter';
 import {ITrafficDetailsService} from '../../domain-service/traffic-details/i-traffic-details-service';
 
 
@@ -21,7 +21,7 @@ export class TrafficDetailsService implements ITrafficDetailsService {
 
 
     public readDetails(trafficList: Traffic[]): Observable<TrafficDetails[]> {
-        const requestBody = RestMapperTrafficDetailsRequest.toRest(trafficList);
+        const requestBody = RestTrafficDetailsRequestConverter.toRest(trafficList);
         if (requestBody.aclist.length <= 0) {
             return of([]);
         }
@@ -32,7 +32,7 @@ export class TrafficDetailsService implements ITrafficDetailsService {
                 JSON.stringify(requestBody),
                 {observe: 'response'})
             .pipe(
-                map(response => RestMapperTrafficDetailsResponse.fromRest(response.body)),
+                map(response => RestTrafficDetailsResponseConverter.fromRest(response.body)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading traffic details', err);
                     return throwError(err);

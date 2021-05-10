@@ -8,8 +8,8 @@ import {User} from '../../user/domain-model/user';
 import {catchError, map} from 'rxjs/operators';
 import {IRestTrackListResponse} from '../rest-model/i-rest-track-list-response';
 import {IRestTrackResponse} from '../rest-model/i-rest-track-response';
-import {RestTrackList} from '../rest-model/rest-track-list';
-import {RestTrackResponse} from '../rest-model/rest-track-response';
+import {RestTrackListConverter} from '../rest-model/rest-track-list-converter';
+import {RestTrackResponseConverter} from '../rest-model/rest-track-response-converter';
 
 
 @Injectable({
@@ -26,7 +26,7 @@ export class TrackService {
         return this.http
             .jsonp<IRestTrackListResponse>(url, 'callback')
             .pipe(
-                map(response => RestTrackList.fromRest(response)),
+                map(response => RestTrackListConverter.fromRest(response)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading tracks', err);
                     return throwError(err);
@@ -40,7 +40,7 @@ export class TrackService {
         return this.http
             .jsonp<IRestTrackResponse>(url, 'callback')
             .pipe(
-                map(response => RestTrackResponse.fromRest(response)),
+                map(response => RestTrackResponseConverter.fromRest(response)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading track', err);
                     return throwError(err);

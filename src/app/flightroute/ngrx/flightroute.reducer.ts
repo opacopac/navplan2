@@ -1,4 +1,4 @@
-import {FlightrouteState} from '../domain-model/flightroute-state';
+import {FlightrouteState} from './flightroute-state';
 import {FlightrouteActions, FlightrouteActionTypes} from './flightroute.actions';
 import {UserActions, UserActionTypes} from '../../user/ngrx/user.actions';
 import {Aircraft} from '../domain-model/aircraft';

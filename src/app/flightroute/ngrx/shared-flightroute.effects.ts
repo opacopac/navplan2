@@ -12,7 +12,7 @@ import {
     SharedFlightrouteReadSuccessAction,
 } from './flightroute.actions';
 import {FlightrouteService} from '../rest-service/flightroute.service';
-import {FlightrouteState} from '../domain-model/flightroute-state';
+import {FlightrouteState} from './flightroute-state';
 import {MessageService} from '../../message/domain-service/message.service';
 import {getFlightrouteState} from './flightroute.selectors';
 

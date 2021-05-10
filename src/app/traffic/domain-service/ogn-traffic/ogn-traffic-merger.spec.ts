@@ -6,11 +6,11 @@ import {AltitudeReference} from '../../../common/geo-math/domain-model/geometry/
 import {MockDate} from '../../../system/domain-service/date/mock-date';
 import {TrafficMap} from '../../domain-model/traffic-map';
 import {Timestamp} from '../../../common/geo-math/domain-model/quantities/timestamp';
-import {TrafficOgn} from '../../domain-model/traffic-ogn';
+import {OgnTraffic} from '../../domain-model/ogn-traffic';
 import {TrafficOgn1Mock} from '../../mocks/traffic-ogn1.mock';
 import {OgnTrafficMerger} from './ogn-traffic-merger';
 import {TrafficAircraftType} from '../../domain-model/traffic-aircraft-type';
-import {TrafficState} from '../../domain-model/traffic-state';
+import {TrafficState} from '../../ngrx/traffic-state';
 import {initialTrafficState} from '../../ngrx/traffic.reducer';
 
 
@@ -18,7 +18,7 @@ describe('OgnTrafficMerger', () => {
     let mockDate: MockDate;
     let trafficMap: TrafficMap;
     let acOld: Traffic;
-    let acNew: TrafficOgn;
+    let acNew: OgnTraffic;
     let key: string;
     let extent3d: Extent3d;
     let state: TrafficState;

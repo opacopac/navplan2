@@ -6,18 +6,18 @@ import {AltitudeReference} from '../../../common/geo-math/domain-model/geometry/
 import {MockDate} from '../../../system/domain-service/date/mock-date';
 import {TrafficMap} from '../../domain-model/traffic-map';
 import {Timestamp} from '../../../common/geo-math/domain-model/quantities/timestamp';
-import {TrafficOpensky} from '../../domain-model/traffic-opensky';
+import {OpenskyTraffic} from '../../domain-model/opensky-traffic';
 import {TrafficOpensky1Mock} from '../../mocks/traffic-opensky1.mock';
 import {OpenskyTrafficMerger} from './opensky-traffic-merger';
 import {initialTrafficState} from '../../ngrx/traffic.reducer';
-import {TrafficState} from '../../domain-model/traffic-state';
+import {TrafficState} from '../../ngrx/traffic-state';
 
 
 describe('OpenskyTrafficMerger', () => {
     let mockDate: MockDate;
     let trafficMap: TrafficMap;
     let acOld: Traffic;
-    let acNew: TrafficOpensky;
+    let acNew: OpenskyTraffic;
     let key: string;
     let extent3d: Extent3d;
     let state: TrafficState;

@@ -1,7 +1,7 @@
 /*xdescribe('TrafficEffects', () => {
     let store: MockStore;
-    let trafficOgnService: TrafficOgnService;
-    let trafficOpenskyService: TrafficOpenskyService;
+    let trafficOgnService: OgnTrafficService;
+    let trafficOpenskyService: OpenskyTrafficService;
     let trafficAdsbexchangeService: TrafficAdsbexchangeService;
     let trafficAdsbexchangeService2: TrafficAdsbexchangeService2;
     let trafficDetailsService: TrafficDetailsService;
@@ -40,8 +40,8 @@
     };
 
 
-    function createOgnServiceMock(response: Traffic[] | Error): SpyObj<TrafficOgnService> {
-        const service = createSpyObj<TrafficOgnService>('trafficOgnService', ['readTraffic']);
+    function createOgnServiceMock(response: Traffic[] | Error): SpyObj<OgnTrafficService> {
+        const service = createSpyObj<OgnTrafficService>('trafficOgnService', ['readTraffic']);
         const isError = response instanceof Error;
         const serviceResponse = isError ? throwError(response as Error) : of<Traffic[]>(response as Traffic[]);
         service.readTraffic.and.returnValue(serviceResponse);
@@ -50,8 +50,8 @@
     }
 
 
-    function createOpenSkyServiceMock(response: Traffic[] | Error): SpyObj<TrafficOpenskyService> {
-        const service = createSpyObj<TrafficOpenskyService>('trafficOpenSkyService', ['readTraffic']);
+    function createOpenSkyServiceMock(response: Traffic[] | Error): SpyObj<OpenskyTrafficService> {
+        const service = createSpyObj<OpenskyTrafficService>('trafficOpenSkyService', ['readTraffic']);
         const isError = response instanceof Error;
         const serviceResponse = isError ? throwError(response as Error) : of<Traffic[]>(response as Traffic[]);
         service.readTraffic.and.returnValue(serviceResponse);
@@ -189,7 +189,7 @@
 
     // region readOgnTraffic$
 
-    it('calls TrafficOgnService.readTraffic on ReadTrafficTimerAction', () => {
+    it('calls OgnTrafficService.readTraffic on ReadTrafficTimerAction', () => {
         const action = new ReadTrafficTimerAction(1);
         const action$ = new Actions(of(action));
         const effects = createTrafficEffects(action$);
@@ -199,7 +199,7 @@
     });
 
 
-    it('dispatches a ReadTrafficSuccessAction after success response from TrafficOgnService.readTraffic', () => {
+    it('dispatches a ReadTrafficSuccessAction after success response from OgnTrafficService.readTraffic', () => {
         const action = new ReadTrafficTimerAction(1);
         const action$ = new Actions(of(action));
         const effects = createTrafficEffects(action$);
@@ -209,7 +209,7 @@
     });
 
 
-    it('dispatches a ReadTrafficErrorAction after error response from TrafficOgnService.readTraffic', () => {
+    it('dispatches a ReadTrafficErrorAction after error response from OgnTrafficService.readTraffic', () => {
         const action = new ReadTrafficTimerAction(1);
         const action$ = new Actions(of(action));
         trafficOgnService = createOgnServiceMock(new Error('MEEP'));
@@ -220,7 +220,7 @@
     });
 
 
-    it('does NOT terminate the stream after an error response from TrafficOgnService.readTraffic', () => {
+    it('does NOT terminate the stream after an error response from OgnTrafficService.readTraffic', () => {
         const action$ = cold('a-b-c', {
             a: new ReadTrafficTimerAction(1),
             b: new ReadTrafficTimerAction(2),
@@ -243,7 +243,7 @@
 
     // region readOpenSkyTraffic$
 
-    it('calls TrafficOpenskyService.readTraffic on ReadTrafficTimerAction', () => {
+    it('calls OpenskyTrafficService.readTraffic on ReadTrafficTimerAction', () => {
         const action = new ReadTrafficTimerAction(2);
         const action$ = new Actions(of(action));
         const effects = createTrafficEffects(action$);
@@ -253,7 +253,7 @@
     });
 
 
-    it('dispatches a ReadTrafficSuccessAction after success response from TrafficOpenskyService.readTraffic', () => {
+    it('dispatches a ReadTrafficSuccessAction after success response from OpenskyTrafficService.readTraffic', () => {
         const action = new ReadTrafficTimerAction(1);
         const action$ = new Actions(of(action));
         const effects = createTrafficEffects(action$);
@@ -263,7 +263,7 @@
     });
 
 
-    it('dispatches a ReadTrafficErrorAction after error response from TrafficOpenskyService.readTraffic', () => {
+    it('dispatches a ReadTrafficErrorAction after error response from OpenskyTrafficService.readTraffic', () => {
         const action = new ReadTrafficTimerAction(1);
         const action$ = new Actions(of(action));
         trafficOpenskyService = createOpenSkyServiceMock(new Error('MEEP'));
@@ -274,7 +274,7 @@
     });
 
 
-    it('does NOT terminate the stream after an error response from TrafficOpenskyService.readTraffic', () => {
+    it('does NOT terminate the stream after an error response from OpenskyTrafficService.readTraffic', () => {
         const action$ = cold('a-b-c', {
             a: new ReadTrafficTimerAction(1),
             b: new ReadTrafficTimerAction(2),

@@ -1,10 +1,10 @@
 import {TrafficPositionMerger} from '../traffic-position-merger';
-import {TrafficOgn} from '../../domain-model/traffic-ogn';
+import {OgnTraffic} from '../../domain-model/ogn-traffic';
 import {TrafficAircraftType} from '../../domain-model/traffic-aircraft-type';
 import {IDate} from '../../../system/domain-service/date/i-date';
 import {TrafficMap} from '../../domain-model/traffic-map';
 import {Traffic} from '../../domain-model/traffic';
-import {TrafficState} from '../../domain-model/traffic-state';
+import {TrafficState} from '../../ngrx/traffic-state';
 
 
 export class OgnTrafficMerger {
@@ -16,7 +16,7 @@ export class OgnTrafficMerger {
     }
 
 
-    public merge(state: TrafficState, ognTrafficList: TrafficOgn[]): TrafficMap {
+    public merge(state: TrafficState, ognTrafficList: OgnTraffic[]): TrafficMap {
         const newTrafficMap = state.trafficMap.clone();
 
         for (const acNew of ognTrafficList) {
@@ -38,7 +38,7 @@ export class OgnTrafficMerger {
     }
 
 
-    private mergeAcType(oldAcType: TrafficAircraftType, acNew: TrafficOgn): TrafficAircraftType {
+    private mergeAcType(oldAcType: TrafficAircraftType, acNew: OgnTraffic): TrafficAircraftType {
         if (!acNew.acType || acNew.acType === TrafficAircraftType.UNKNOWN) {
             return oldAcType;
         } else {

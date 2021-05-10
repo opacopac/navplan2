@@ -10,7 +10,7 @@ import {
     ReadMetarTafErrorAction,
     ReadMetarTafSuccessAction
 } from './metar-taf.actions';
-import {MetarTafState} from '../domain-model/metar-taf-state';
+import {MetarTafState} from './metar-taf-state';
 import {getMetarTafState} from './metar-taf.selectors';
 import {SystemConfig} from '../../system/domain-service/system-config';
 import {MetarTafService} from '../domain-service/metar-taf.service';

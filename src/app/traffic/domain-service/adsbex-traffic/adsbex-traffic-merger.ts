@@ -1,10 +1,10 @@
 import {Traffic} from '../../domain-model/traffic';
 import {TrafficPositionMerger} from '../traffic-position-merger';
-import {TrafficAdsbex} from '../../domain-model/traffic-adsbex';
+import {AdsbexTraffic} from '../../domain-model/adsbex-traffic';
 import {StringnumberHelper} from '../../../system/domain-service/stringnumber/stringnumber-helper';
 import {IDate} from '../../../system/domain-service/date/i-date';
 import {TrafficMap} from '../../domain-model/traffic-map';
-import {TrafficState} from '../../domain-model/traffic-state';
+import {TrafficState} from '../../ngrx/traffic-state';
 
 
 export class AdsbexTrafficMerger {
@@ -16,7 +16,7 @@ export class AdsbexTrafficMerger {
     }
 
 
-    public merge(state: TrafficState, adsbexTrafficList: TrafficAdsbex[]) {
+    public merge(state: TrafficState, adsbexTrafficList: AdsbexTraffic[]) {
         const newTrafficMap = state.trafficMap.clone();
 
         for (const acNew of adsbexTrafficList) {

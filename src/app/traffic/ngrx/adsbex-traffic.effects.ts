@@ -6,8 +6,8 @@ import {of} from 'rxjs/internal/observable/of';
 import {catchError, map, mergeMap, withLatestFrom} from 'rxjs/operators';
 import {ReadTrafficErrorAction, ReadTrafficSuccessAction, TrafficActionTypes} from './traffic.actions';
 import {getTrafficState} from './traffic.selectors';
-import {TrafficState} from '../domain-model/traffic-state';
-import {TrafficAdsbexService} from '../rest/adsbex/traffic-adsbex.service';
+import {TrafficState} from './traffic-state';
+import {AdsbexTrafficService} from '../rest/adsbex/adsbex-traffic.service';
 import {AdsbexTrafficMerger} from '../domain-service/adsbex-traffic/adsbex-traffic-merger';
 import {SystemConfig} from '../../system/domain-service/system-config';
 
@@ -21,7 +21,7 @@ export class AdsbexTrafficEffects {
     constructor(
         private actions$: Actions,
         private appStore: Store<any>,
-        private readonly adsbexTrafficService: TrafficAdsbexService,
+        private readonly adsbexTrafficService: AdsbexTrafficService,
         config: SystemConfig
     ) {
         this.adsbexTrafficMerger = new AdsbexTrafficMerger(config.getDate());

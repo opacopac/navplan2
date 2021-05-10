@@ -9,7 +9,7 @@ import {StoreModule} from '@ngrx/store';
 import {notamReducer} from './ngrx/notam.reducer';
 import {EffectsModule} from '@ngrx/effects';
 import {NotamEffects} from './ngrx/notam.effects';
-import {NotamState} from './domain-model/notam-state';
+import {NotamState} from './ngrx/notam-state';
 import {NotamActions} from './ngrx/notam.actions';
 import {MatCardModule} from '@angular/material/card';
 import {BaseMapModule} from '../base-map/base-map.module';

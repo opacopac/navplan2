@@ -6,7 +6,7 @@ import {Injectable} from '@angular/core';
 import {SystemConfig} from '../../system/domain-service/system-config';
 import {map} from 'rxjs/operators';
 import {MetarTafRepo} from '../rest-service/metar-taf-repo.service';
-import {MetarTafState} from '../domain-model/metar-taf-state';
+import {MetarTafState} from '../ngrx/metar-taf-state';
 import {ReadMetarTafByExtentResult} from '../domain-model/read-metar-taf-by-extent-result';
 import {MetarTafList} from '../domain-model/metar-taf';
 

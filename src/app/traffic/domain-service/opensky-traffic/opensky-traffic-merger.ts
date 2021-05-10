@@ -1,10 +1,10 @@
 import {Traffic} from '../../domain-model/traffic';
 import {TrafficPositionMerger} from '../traffic-position-merger';
-import {TrafficOpensky} from '../../domain-model/traffic-opensky';
+import {OpenskyTraffic} from '../../domain-model/opensky-traffic';
 import {StringnumberHelper} from '../../../system/domain-service/stringnumber/stringnumber-helper';
 import {IDate} from '../../../system/domain-service/date/i-date';
 import {TrafficMap} from '../../domain-model/traffic-map';
-import {TrafficState} from '../../domain-model/traffic-state';
+import {TrafficState} from '../../ngrx/traffic-state';
 
 
 export class OpenskyTrafficMerger {
@@ -16,7 +16,7 @@ export class OpenskyTrafficMerger {
     }
 
 
-    public merge(state: TrafficState, openskyTrafficList: TrafficOpensky[]) {
+    public merge(state: TrafficState, openskyTrafficList: OpenskyTraffic[]) {
         const newTrafficMap = state.trafficMap.clone();
 
         for (const acNew of openskyTrafficList) {

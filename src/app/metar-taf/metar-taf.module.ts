@@ -8,7 +8,7 @@ import {StoreModule} from '@ngrx/store';
 import {metarTafReducer} from './ngrx/metar-taf.reducer';
 import {EffectsModule} from '@ngrx/effects';
 import {MetarTafEffects} from './ngrx/metar-taf.effects';
-import {MetarTafState} from './domain-model/metar-taf-state';
+import {MetarTafState} from './ngrx/metar-taf-state';
 import {MetarTafActions} from './ngrx/metar-taf.actions';
 import {BaseMapModule} from '../base-map/base-map.module';
 

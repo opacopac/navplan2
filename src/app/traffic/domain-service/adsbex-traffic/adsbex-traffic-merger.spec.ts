@@ -7,17 +7,17 @@ import {AltitudeReference} from '../../../common/geo-math/domain-model/geometry/
 import {TrafficAdsbex1Mock} from '../../mocks/traffic-adsbex1.mock';
 import {MockDate} from '../../../system/domain-service/date/mock-date';
 import {TrafficMap} from '../../domain-model/traffic-map';
-import {TrafficAdsbex} from '../../domain-model/traffic-adsbex';
+import {AdsbexTraffic} from '../../domain-model/adsbex-traffic';
 import {Timestamp} from '../../../common/geo-math/domain-model/quantities/timestamp';
 import {initialTrafficState} from '../../ngrx/traffic.reducer';
-import {TrafficState} from '../../domain-model/traffic-state';
+import {TrafficState} from '../../ngrx/traffic-state';
 
 
 describe('AdsbexTrafficMerger', () => {
     let mockDate: MockDate;
     let trafficMap: TrafficMap;
     let acOld: Traffic;
-    let acNew: TrafficAdsbex;
+    let acNew: AdsbexTraffic;
     let key: string;
     let extent3d: Extent3d;
     let state: TrafficState;

@@ -3,7 +3,7 @@ import {interval, Observable, Subscription} from 'rxjs';
 import {OlTraffic} from './ol-traffic';
 import {Traffic} from '../domain-model/traffic';
 import {debounce, switchMap} from 'rxjs/operators';
-import {TrafficState} from '../domain-model/traffic-state';
+import {TrafficState} from '../ngrx/traffic-state';
 import VectorLayer from 'ol/layer/Vector';
 
 

@@ -5,7 +5,7 @@ import {TrafficDetails1Mock} from '../../mocks/traffic-details1.mock';
 import {TrafficDetails} from '../../domain-model/traffic-details';
 import {TrafficDetailsMerger} from './traffic-details-merger';
 import {MockDate} from '../../../system/domain-service/date/mock-date';
-import {TrafficState} from '../../domain-model/traffic-state';
+import {TrafficState} from '../../ngrx/traffic-state';
 import {initialTrafficState} from '../../ngrx/traffic.reducer';
 import {TrafficOgn1Mock} from '../../mocks/traffic-ogn1.mock';
 

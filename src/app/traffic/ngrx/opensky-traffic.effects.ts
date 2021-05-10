@@ -5,8 +5,8 @@ import {Observable, of} from 'rxjs';
 import {catchError, map, mergeMap, withLatestFrom} from 'rxjs/operators';
 import {ReadTrafficErrorAction, ReadTrafficSuccessAction, TrafficActionTypes} from './traffic.actions';
 import {getTrafficState} from './traffic.selectors';
-import {TrafficState} from '../domain-model/traffic-state';
-import {TrafficOpenskyService} from '../rest/opensky/traffic-opensky.service';
+import {TrafficState} from './traffic-state';
+import {OpenskyTrafficService} from '../rest/opensky/opensky-traffic.service';
 import {OpenskyTrafficMerger} from '../domain-service/opensky-traffic/opensky-traffic-merger';
 import {SystemConfig} from '../../system/domain-service/system-config';
 
@@ -20,7 +20,7 @@ export class OpenskyTrafficEffects {
     constructor(
         private readonly actions$: Actions,
         private readonly appStore: Store<any>,
-        private readonly openskyTrafficService: TrafficOpenskyService,
+        private readonly openskyTrafficService: OpenskyTrafficService,
         config: SystemConfig
     ) {
         this.openskyTrafficMerger = new OpenskyTrafficMerger(config.getDate());

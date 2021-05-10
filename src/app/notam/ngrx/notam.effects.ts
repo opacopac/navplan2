@@ -6,7 +6,7 @@ import {catchError, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {of} from 'rxjs/internal/observable/of';
 import {NotamActionTypes, ReadNotamAction, ReadNotamErrorAction, ReadNotamSuccessAction} from './notam.actions';
 import {NotamService} from '../domain-service/notam-service';
-import {NotamState} from '../domain-model/notam-state';
+import {NotamState} from './notam-state';
 import {getNotamState} from './notam.selectors';
 
 

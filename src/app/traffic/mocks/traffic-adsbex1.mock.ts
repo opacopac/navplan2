@@ -1,7 +1,7 @@
 import {TrafficAddressType} from '../domain-model/traffic-address-type';
 import {TrafficAddress} from '../domain-model/traffic-address';
 import {IRestAdsbexTraffic} from '../rest/adsbex/i-rest-adsbex-traffic';
-import {TrafficAdsbex} from '../domain-model/traffic-adsbex';
+import {AdsbexTraffic} from '../domain-model/adsbex-traffic';
 import {IRestAdsbexTrafficResponse} from '../rest/adsbex/i-rest-adsbex-traffic-response';
 import {TrafficPosition} from '../domain-model/traffic-position';
 import {Position4d} from '../../common/geo-math/domain-model/geometry/position4d';
@@ -24,8 +24,8 @@ export class TrafficAdsbex1Mock {
     }
 
 
-    public static create(): TrafficAdsbex {
-        return new TrafficAdsbex(
+    public static create(): AdsbexTraffic {
+        return new AdsbexTraffic(
             new TrafficAddress('4BAA8F', TrafficAddressType.ICAO),
             'A321',
             'TC-JTO',
