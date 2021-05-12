@@ -1,9 +1,5 @@
 import {FlightMapState} from './flight-map-state';
 import {FlightMapActions, FlightMapActionTypes} from './flight-map.actions';
-import {AirportActions, AirportActionTypes} from '../../airport/ngrx/airport-actions';
-import {AirspaceActions, AirspaceActionTypes} from '../../airspace/ngrx/airspace-actions';
-import {NavaidActions, NavaidActionTypes} from '../../navaid/ngrx/navaid-actions';
-import {WebcamActions, WebcamActionTypes} from '../../webcam/ngrx/webcam-actions';
 
 
 const initialState: FlightMapState = {
@@ -20,30 +16,27 @@ const initialState: FlightMapState = {
 };
 
 
-export function flightMapReducer(
-    state: FlightMapState = initialState,
-    action: FlightMapActions | AirportActions | AirspaceActions | NavaidActions | WebcamActions
-) {
+export function flightMapReducer(state: FlightMapState = initialState, action: FlightMapActions) {
     switch (action.type) {
-        case AirportActionTypes.READ_ADS_BY_EXTENT_SUCCESS:
+        case FlightMapActionTypes.SHOW_AIRPORTS_ON_MAP:
             return { ...state, airports: action.airports };
-        case AirportActionTypes.READ_REPORTING_POINTS_BY_EXTENT_SUCCESS:
+        case FlightMapActionTypes.SHOW_REPORTING_POINTS_ON_MAP:
             return { ...state, reportingPoints: action.reportingPoints, reportingSector: action.reportingSectors };
-        case AirportActionTypes.READ_AD_CIRCUITS_BY_EXTENT_SUCCESS:
+        case FlightMapActionTypes.SHOW_CIRCUITS_ON_MAP:
             return { ...state, airportCircuits: action.airportCircuits };
-        case AirportActionTypes.READ_AD_BY_ID_SUCCESS:
+        case FlightMapActionTypes.SHOW_AIRPORT_MAP_OVERLAY:
             return { ...state, showAirportOverlay: action.airport };
-        case AirportActionTypes.READ_REPORTING_POINT_SUCCESS:
+        case FlightMapActionTypes.SHOW_REPORTING_POINT_MAP_OVERLAY:
             return { ...state, showReportingPointOverlay: action.reportingPoint };
-        case AirportActionTypes.READ_REPORTING_SECTOR_SUCCESS:
+        case FlightMapActionTypes.SHOW_REPORTING_SECTOR_MAP_OVERLAY:
             return { ...state, showReportingSectorOverlay: action.reportingSector };
-        case AirspaceActionTypes.READ_AIRSPACE_BY_EXTENT_SUCCESS:
+        case FlightMapActionTypes.SHOW_AIRSPACES_ON_MAP:
             return { ...state, airspaces: action.airspaces };
-        case NavaidActionTypes.READ_NAVAID_BY_EXTENT_SUCCESS:
+        case FlightMapActionTypes.SHOW_NAVAIDS_ON_MAP:
             return { ...state, navaids: action.navaids };
-        case WebcamActionTypes.READ_WEBCAMS_BY_EXTENT_SUCCESS:
+        case FlightMapActionTypes.SHOW_WEBCAMS_ON_MAP:
             return { ...state, webcams: action.webcams };
-        case FlightMapActionTypes.FLIGHT_MAP_CLOSE_ALL_OVERLAYS:
+        case FlightMapActionTypes.CLOSE_ALL_OVERLAYS:
             return { ...state,
                 showAirportOverlay: undefined,
                 showReportingPointOverlay: undefined,

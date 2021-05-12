@@ -1,7 +1,7 @@
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Action, Store} from '@ngrx/store';
-import {debounceTime, map, switchMap} from 'rxjs/operators';
-import {Observable} from 'rxjs';
+import {catchError, debounceTime, map, switchMap, tap} from 'rxjs/operators';
+import {Observable, throwError} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {
     BaseMapActionTypes,
@@ -9,39 +9,46 @@ import {
     BaseMapImageShowAction,
     BaseMapMovedZoomedRotatedAction
 } from '../../base-map/ngrx/base-map.actions';
-import {FlightMapState} from './flight-map-state';
-import {getFlightMapState} from './flight-map.selectors';
-import {ReadNotamAction} from '../../notam/ngrx/notam.actions';
-import {ReadMetarTafAction} from '../../metar-taf/ngrx/metar-taf.actions';
-import {
-    AirportActionTypes,
-    ReadAirportByIdAction,
-    ReadAirportChartSuccessAction,
-    ReadAirportCircuitsByExtentAction,
-    ReadAirportsByExtentAction,
-    ReadReportingPointsByExtentAction,
-    ReadReportingPointSuccessAction,
-    ReadReportingSectorSuccessAction
-} from '../../airport/ngrx/airport-actions';
 import {environment} from '../../../environments/environment';
 import {DataItemType} from '../../common/model/data-item';
 import {ShortAirport} from '../../airport/domain-model/short-airport';
-import {FlightMapCloseAllOverlaysAction} from './flight-map.actions';
+import {
+    CloseAllMapOverlaysAction,
+    FlightMapActionTypes,
+    ShowAirportChartOnMapAction,
+    ShowAirportCircuitsOnMapAction,
+    ShowAirportMapOverlayAction,
+    ShowAirportsOnMapAction,
+    ShowAirspacesOnMapAction,
+    ShowNavaidsOnMapAction,
+    ShowReportingPointMapOverlayAction,
+    ShowReportingPointsOnMapAction,
+    ShowReportingSectorMapOverlayAction,
+    ShowWebcamsOnMapAction
+} from './flight-map.actions';
 import {ReportingPoint} from '../../airport/domain-model/reporting-point';
 import {ReportingSector} from '../../airport/domain-model/reporting-sector';
-import {ReadAirspacesByExtentAction} from '../../airspace/ngrx/airspace-actions';
-import {ReadNavaidsByExtentAction} from '../../navaid/ngrx/navaid-actions';
-import {ReadWebcamsByExtentAction} from '../../webcam/ngrx/webcam-actions';
+import {AirportService} from '../../airport/rest-service/airport.service';
+import {of} from 'rxjs/internal/observable/of';
+import {AirspaceService} from '../../airspace/rest-service/airspace.service';
+import {NavaidService} from '../../navaid/rest-service/navaid.service';
+import {WebcamService} from '../../webcam/rest-service/webcam.service';
+import {NotamService} from '../../notam/domain-service/notam-service';
+import {MetarTafService} from '../../metar-taf/domain-service/metar-taf.service';
+import {LoggingService} from '../../system/domain-service/logging/logging.service';
 
 
 @Injectable()
 export class FlightMapEffects {
-    private readonly flightMapState$: Observable<FlightMapState> = this.appStore.select(getFlightMapState);
-
-
     constructor(
         private readonly actions$: Actions,
-        private readonly appStore: Store<any>
+        private readonly appStore: Store<any>,
+        private readonly airportService: AirportService,
+        private readonly airspaceService: AirspaceService,
+        private readonly navaidService: NavaidService,
+        private readonly notamService: NotamService,
+        private readonly metarTafService: MetarTafService,
+        private readonly webcamService: WebcamService
     ) {
     }
 
@@ -49,46 +56,78 @@ export class FlightMapEffects {
     mapMovedZoomedRotatedAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(BaseMapActionTypes.BASE_MAP_MOVED_ZOOMED_ROTATED),
         map(action => action as BaseMapMovedZoomedRotatedAction),
-        debounceTime(500),
-        switchMap(action => [
-            new ReadAirportsByExtentAction(action.extent, action.zoom),
-            new ReadAirportCircuitsByExtentAction(action.extent, action.zoom),
-            new ReadReportingPointsByExtentAction(action.extent, action.zoom),
-            new ReadAirspacesByExtentAction(action.extent, action.zoom),
-            new ReadNavaidsByExtentAction(action.extent, action.zoom),
-            new ReadWebcamsByExtentAction(action.extent, action.zoom),
-            new ReadNotamAction(action.extent, action.zoom),
-            new ReadMetarTafAction(action.extent, action.zoom)
-        ])
-    ));
+        debounceTime(250),
+        tap(action => {
+            this.airportService.readAirportsByExtent(action.extent, action.zoom).pipe(
+                map(airports => new ShowAirportsOnMapAction(airports)),
+                tap(displayAction => this.appStore.dispatch(displayAction))
+            ).subscribe();
+            this.airportService.readAirportCircuitsByExtent(action.extent, action.zoom).pipe(
+                map(circuits => new ShowAirportCircuitsOnMapAction(circuits)),
+                tap(displayAction => this.appStore.dispatch(displayAction))
+            ).subscribe();
+            this.airportService.readReportingPointsByExtent(action.extent, action.zoom).pipe(
+                map(response => new ShowReportingPointsOnMapAction(response.reportingPoints, response.reportingSectors)),
+                tap(displayAction => this.appStore.dispatch(displayAction))
+            ).subscribe();
+            this.airspaceService.readAirspacesByExtent(action.extent, action.zoom).pipe(
+                map(airspaces => new ShowAirspacesOnMapAction(airspaces)),
+                tap(displayAction => this.appStore.dispatch(displayAction))
+            ).subscribe();
+            this.navaidService.readNavaidsByExtent(action.extent, action.zoom).pipe(
+                map(navaids => new ShowNavaidsOnMapAction(navaids)),
+                tap(displayAction => this.appStore.dispatch(displayAction))
+            ).subscribe();
+            /*this.notamService.readByExtent(action.extent, action.zoom).pipe(
+                map(notams => new ReadNotamSuccessAction(notams)),
+                tap(displayAction => this.appStore.dispatch(displayAction))
+            ).subscribe();
+            this.metarTafService.readByExtent(action.extent, action.zoom).pipe(
+                map(metarTafs => new ReadMetarTafSuccessAction(metarTafs)),
+                tap(displayAction => this.appStore.dispatch(displayAction))
+            ).subscribe();*/
+            this.webcamService.readWebcamsByExtent(action.extent, action.zoom).pipe(
+                map(webcams => new ShowWebcamsOnMapAction(webcams)),
+                tap(displayAction => this.appStore.dispatch(displayAction))
+            ).subscribe();
+        })
+    ), { dispatch: false });
 
 
     mapClickedAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(BaseMapActionTypes.BASE_MAP_CLICKED),
         map(action => action as BaseMapClickedAction),
-        map(action => {
+        switchMap(action => {
             switch (action.dataItem?.dataItemType) {
                 case DataItemType.airport:
-                    return new ReadAirportByIdAction((action.dataItem as ShortAirport).id);
+                    return this.airportService.readAirportById((action.dataItem as ShortAirport).id).pipe(
+                        map(airport => new ShowAirportMapOverlayAction(airport))
+                    );
                 case DataItemType.reportingPoint:
-                    return new ReadReportingPointSuccessAction(action.dataItem as ReportingPoint);
+                    return of(new ShowReportingPointMapOverlayAction(action.dataItem as ReportingPoint));
                 case DataItemType.reportingSector:
-                    return new ReadReportingSectorSuccessAction(action.dataItem as ReportingSector);
+                    return of(new ShowReportingSectorMapOverlayAction(action.dataItem as ReportingSector));
                 default:
-                    return new FlightMapCloseAllOverlaysAction();
+                    return of(new CloseAllMapOverlaysAction());
             }
         })
     ));
 
 
-    displayAirportChartAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(AirportActionTypes.READ_AD_CHART_BY_ID_SUCCESS),
-        map(action => action as ReadAirportChartSuccessAction),
-        map(result => new BaseMapImageShowAction(
-            result.chart.id,
-            environment.chartBaseUrl + result.chart.fileName,
-            result.chart.extent,
-            0.9
+    showAirportChartOnMap$: Observable<Action> = createEffect(() => this.actions$.pipe(
+        ofType(FlightMapActionTypes.SHOW_AIRPORT_CHART_ON_MAP),
+        map(action => action as ShowAirportChartOnMapAction),
+        switchMap(action => this.airportService.readAdChartById(action.chartId).pipe(
+            map(chart => new BaseMapImageShowAction(
+                chart.id,
+                environment.chartBaseUrl + chart.fileName,
+                chart.extent,
+                0.9
+            )),
+            catchError(error => {
+                LoggingService.logResponseError('ERROR reading airport chart by id', error);
+                return throwError(error);
+            })
         ))
     ));
 }
