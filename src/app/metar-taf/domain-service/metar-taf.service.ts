@@ -11,9 +11,7 @@ import {ReadMetarTafByExtentResult} from '../domain-model/read-metar-taf-by-exte
 import {MetarTafList} from '../domain-model/metar-taf';
 
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class MetarTafService {
     private readonly METAR_TAF_TIMEOUT_SEC = 60 * 5;
     private readonly METAR_TAF_MIN_ZOOM_LEVEL = 8;
@@ -41,7 +39,7 @@ export class MetarTafService {
             return of(new ReadMetarTafByExtentResult(extent, zoom, new MetarTafList(), this.date.nowMs()));
         }
 
-        const oversizeExtent = extent.getOversizeExtent(this.getOversizeFactor());
+        const oversizeExtent = extent.getOversizeExtent(environment.mapOversizeFactor);
         return this.metarTafRepo.load(oversizeExtent).pipe(
             map(items => new ReadMetarTafByExtentResult(
                 oversizeExtent,
@@ -50,11 +48,6 @@ export class MetarTafService {
                 this.date.nowMs()
             ))
         );
-    }
-
-
-    private getOversizeFactor(): number {
-        return environment.mapOversizeFactor;
     }
 
 
