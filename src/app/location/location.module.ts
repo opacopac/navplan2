@@ -7,15 +7,13 @@ import {SharedModule} from '../common/shared.module';
 import {StoreModule} from '@ngrx/store';
 import {locationReducer} from './ngrx/location.reducer';
 import {LocationEffects} from './ngrx/location.effects';
-import {LocationActions} from './ngrx/location.actions';
-import {LocationState} from './ngrx/location-state';
 import {BaseMapModule} from '../base-map/base-map.module';
 
 
 @NgModule({
     imports: [
         CommonModule,
-        StoreModule.forFeature<LocationState, LocationActions>('locationState', locationReducer),
+        StoreModule.forFeature('locationState', locationReducer),
         EffectsModule.forFeature([LocationEffects]),
         SharedModule,
         BaseMapModule,

@@ -11,10 +11,7 @@ const initialState: FlightMapState = {
     airspaces: [],
     navaids: [],
     webcams: [],
-    showAirportOverlay: undefined,
-    showReportingPointOverlay: undefined,
-    showReportingSectorOverlay: undefined,
-    showNavaidOverlay: undefined,
+    showOverlay: { dataItem: undefined, clickPos: undefined },
 };
 
 
@@ -45,39 +42,12 @@ export const flightMapReducer = createReducer(
         ...state,
         webcams: action.webcams
     })),
-    on(FlightMapActions.showAirportOverlay, (state, action) => ({
+    on(FlightMapActions.showOverlay, (state, action) => ({
         ...state,
-        showAirportOverlay: action.airport,
-        showReportingPointOverlay: undefined,
-        showReportingSectorOverlay: undefined,
-        showNavaidOverlay: undefined
-    })),
-    on(FlightMapActions.showReportingPointOverlay, (state, action) => ({
-        ...state,
-        showReportingPointOverlay: action.reportingPoint,
-        showAirportOverlay: undefined,
-        showReportingSectorOverlay: undefined,
-        showNavaidOverlay: undefined
-    })),
-    on(FlightMapActions.showReportingSectorOverlay, (state, action) => ({
-        ...state,
-        showReportingSectorOverlay: action.reportingSector,
-        showAirportOverlay: undefined,
-        showReportingPointOverlay: undefined,
-        showNavaidOverlay: undefined
-    })),
-    on(FlightMapActions.showNavaidOverlay, (state, action) => ({
-        ...state,
-        showNavaidOverlay: action.navaid,
-        showAirportOverlay: undefined,
-        showReportingPointOverlay: undefined,
-        showReportingSectorOverlay: undefined,
+        showOverlay: action
     })),
     on(FlightMapActions.closeAllOverlays, (state) => ({
         ...state,
-        showAirportOverlay: undefined,
-        showReportingPointOverlay: undefined,
-        showReportingSectorOverlay: undefined,
-        showNavaidOverlay: undefined
+        showOverlay: { dataItem: undefined, clickPos: undefined }
     })),
 );

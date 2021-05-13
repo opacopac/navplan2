@@ -24,9 +24,7 @@ const POSITION_OPTIONS: PositionOptions = {
 };
 
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class LocationService {
     public lastPositions: Position4d[] = []; // TODO
     private readonly positionSource: BehaviorSubject<Position4d>;

@@ -11,8 +11,7 @@ export enum DataItemType {
     notam = 10,
     webcam = 11,
     airspace = 12,
-    openAipItems = 13,
-    circuit = 14
+    circuit = 13
 }
 
 

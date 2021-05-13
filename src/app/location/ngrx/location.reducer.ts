@@ -1,6 +1,7 @@
 import {LocationState} from './location-state';
-import {LocationActions, LocationActionTypes} from './location.actions';
+import {LocationActions} from './location.actions';
 import {LocationServiceStatus} from '../domain-service/location.service';
+import {createReducer, on} from '@ngrx/store';
 
 
 const initialState: LocationState = {
@@ -12,48 +13,43 @@ const initialState: LocationState = {
 };
 
 
-export function locationReducer(state: LocationState = initialState, action: LocationActions) {
-    switch (action.type) {
-        case LocationActionTypes.LOCATION_WATCH_START:
-            return { ...state,
-                isWatching: true,
-                lastPositions: [],
-                status: LocationServiceStatus.WAITING
-            };
-
-        case LocationActionTypes.LOCATION_WATCH_STOP:
-            return { ...state,
-                isWatching: false,
-                status: LocationServiceStatus.OFF
-            };
-
-        case LocationActionTypes.LOCATION_READ_TIMER_SUCCESS:
-            if (state.isWatching) {
-                const newLastPositions = state.lastPositions.slice();
-                if (action.position) {
-                    newLastPositions.push(action.position);
-                }
-                return {
-                    ...state,
-                    lastPositions: newLastPositions,
-                    status: LocationServiceStatus.CURRENT
-                };
-            } else {
-                return state;
+export const locationReducer = createReducer(
+    initialState,
+    on(LocationActions.startWatching, (state) => ({
+        ...state,
+        isWatching: true,
+        lastPositions: [],
+        status: LocationServiceStatus.WAITING
+    })),
+    on(LocationActions.stopWatching, (state) => ({
+        ...state,
+        isWatching: false,
+        status: LocationServiceStatus.OFF
+    })),
+    on(LocationActions.readTimerSuccess, (state, action) => {
+        if (state.isWatching) {
+            const newLastPositions = state.lastPositions.slice();
+            if (action.position) {
+                newLastPositions.push(action.position);
             }
-
-        case LocationActionTypes.LOCATION_READ_TIMER_ERROR:
-            if (state.isWatching) {
-                return {
-                    ...state,
-                    isWatching: false,
-                    status: LocationServiceStatus.ERROR
-                };
-            } else {
-                return state;
-            }
-
-        default:
+            return {
+                ...state,
+                lastPositions: newLastPositions,
+                status: LocationServiceStatus.CURRENT
+            };
+        } else {
             return state;
-    }
-}
+        }
+    }),
+    on(LocationActions.readTimerError, (state) => {
+        if (state.isWatching) {
+            return {
+                ...state,
+                isWatching: false,
+                status: LocationServiceStatus.ERROR
+            };
+        } else {
+            return state;
+        }
+    }),
+);

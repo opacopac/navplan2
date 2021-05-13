@@ -8,8 +8,6 @@ import {environment} from '../../../environments/environment';
 import {DataItemType} from '../../common/model/data-item';
 import {ShortAirport} from '../../airport/domain-model/short-airport';
 import {FlightMapActions} from './flight-map.actions';
-import {ReportingPoint} from '../../airport/domain-model/reporting-point';
-import {ReportingSector} from '../../airport/domain-model/reporting-sector';
 import {AirportService} from '../../airport/rest-service/airport.service';
 import {AirspaceService} from '../../airspace/rest-service/airspace.service';
 import {NavaidService} from '../../navaid/rest-service/navaid.service';
@@ -18,7 +16,6 @@ import {NotamService} from '../../notam/domain-service/notam-service';
 import {MetarTafService} from '../../metar-taf/domain-service/metar-taf.service';
 import {LoggingService} from '../../system/domain-service/logging/logging.service';
 import {of} from 'rxjs/internal/observable/of';
-import {Navaid} from '../../navaid/domain-model/navaid';
 
 
 @Injectable()
@@ -85,14 +82,12 @@ export class FlightMapEffects {
             switch (action.dataItem?.dataItemType) {
                 case DataItemType.airport:
                     return this.airportService.readAirportById((action.dataItem as ShortAirport).id).pipe(
-                        map(airport => FlightMapActions.showAirportOverlay({ airport: airport }))
+                        map(airport => FlightMapActions.showOverlay({ dataItem: airport, clickPos: action.clickPos }))
                     );
                 case DataItemType.reportingPoint:
-                    return of(FlightMapActions.showReportingPointOverlay({ reportingPoint: action.dataItem as ReportingPoint }));
                 case DataItemType.reportingSector:
-                    return of(FlightMapActions.showReportingSectorOverlay({ reportingSector: action.dataItem as ReportingSector }));
                 case DataItemType.navaid:
-                    return of(FlightMapActions.showNavaidOverlay({ navaid: action.dataItem as Navaid }));
+                    return of(FlightMapActions.showOverlay(action));
                 default:
                     return of(FlightMapActions.closeAllOverlays());
             }

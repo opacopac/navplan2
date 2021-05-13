@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {LocationServiceStatus} from '../../domain-service/location.service';
-import {ToggleWatchLocationAction} from '../../ngrx/location.actions';
+import {LocationActions} from '../../ngrx/location.actions';
 import {getLocationIsWatching, getLocationStatus} from '../../ngrx/location.selectors';
 
 
@@ -24,9 +24,7 @@ export class LocationButtonComponent implements OnInit {
 
 
     public onLocationClicked() {
-        this.appStore.dispatch(
-            new ToggleWatchLocationAction()
-        );
+        this.appStore.dispatch(LocationActions.toggleWatching());
     }
 
 
