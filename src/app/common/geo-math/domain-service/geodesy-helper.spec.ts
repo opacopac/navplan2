@@ -74,7 +74,6 @@ describe('GeodesyHelper', () => {
         const posB1 = new Position2d(10, 0);
         const posB2 = new Position2d(20, 0);
 
-        debugger;
         const isect = GeodesyHelper.calcIntersection(posA1, posA2, posB1, posB2);
 
         expect(isect.longitude).toBeCloseTo(0.0, 10);

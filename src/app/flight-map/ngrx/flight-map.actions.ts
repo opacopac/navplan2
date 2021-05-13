@@ -9,6 +9,9 @@ import {ReportingSector} from '../../airport/domain-model/reporting-sector';
 import {DataItem} from '../../common/model/data-item';
 import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
+import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
+import {Notam} from '../../notam/domain-model/notam';
+import {Airport} from '../../airport/domain-model/airport';
 
 
 export class FlightMapActions {
@@ -29,6 +32,10 @@ export class FlightMapActions {
         '[Flight Map] Show airspaces on map',
         props<{ extent: Extent2d, zoom: number, airspaces: Airspace[] }>()
     );
+    public static readonly showMetarTafs = createAction(
+        '[Flight Map] Show metars/tafs on map',
+        props<{ extent: Extent2d, zoom: number, timestamp: number, metarTafs: MetarTaf[] }>()
+    );
     public static readonly showNavaids = createAction(
         '[Flight Map] Show navaids on map',
         props<{ extent: Extent2d, zoom: number, navaids: Navaid[] }>()
@@ -39,8 +46,12 @@ export class FlightMapActions {
     );
 
     // map overlays
+    public static readonly showAirportOverlay = createAction(
+        '[Flight Map] Show airport map overlay',
+        props<{ airport: Airport, metarTaf?: MetarTaf, notams: Notam[], tabIndex: number }>()
+    );
     public static readonly showOverlay = createAction(
-        '[Flight Map] Show map overlay',
+        '[Flight Map] Show generic map overlay',
         props<{ dataItem: DataItem, clickPos: Position2d }>()
     );
     public static readonly closeAllOverlays = createAction(

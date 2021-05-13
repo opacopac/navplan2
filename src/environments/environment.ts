@@ -23,5 +23,6 @@ export const environment = {
     userServiceUrl: REST_SERVICE_BASE_URL + 'php/Navplan/User/RestService/UserService.php',
     iconBaseUrl: './assets/icon/',
     chartBaseUrl: REST_SERVICE_BASE_URL + 'charts/',
+    metarTafBaseUrl: 'https://www.aviationweather.gov/cgi-bin/json/MetarJSON.php?taf=true&density=all&bbox=',
     mapOversizeFactor: 1.3
 };

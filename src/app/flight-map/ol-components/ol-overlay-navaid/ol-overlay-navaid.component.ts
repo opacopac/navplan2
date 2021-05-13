@@ -39,7 +39,7 @@ export class OlOverlayNavaidComponent extends OlOverlayWaypointBase implements O
     }
 
 
-    public getMorseString() {
+    public getMorseString(): string {
         if (!this.navaid.kuerzel) {
             return;
         }

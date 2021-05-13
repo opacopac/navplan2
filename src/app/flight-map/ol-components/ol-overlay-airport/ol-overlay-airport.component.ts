@@ -7,6 +7,7 @@ import {WaypointFactory} from '../../../flightroute/domain-model/waypoint-mapper
 import {AirportType} from '../../../airport/domain-model/airport-type';
 import {WmmHelper} from '../../../common/geo-math/domain-service/wmm-helper';
 import {OlHelper} from '../../../base-map/ol-service/ol-helper';
+import {MetarTaf} from '../../../metar-taf/domain-model/metar-taf';
 
 
 @Component({
@@ -16,6 +17,8 @@ import {OlHelper} from '../../../base-map/ol-service/ol-helper';
 })
 export class OlOverlayAirportComponent extends OlOverlayWaypointBase {
     public airport: Airport;
+    public metarTaf?: MetarTaf;
+    public selectedTabIndex = 0;
     @ViewChild('container') container: ElementRef;
 
 
@@ -28,6 +31,13 @@ export class OlOverlayAirportComponent extends OlOverlayWaypointBase {
         this.airport = airport;
         this.waypoint = airport ? WaypointFactory.createNewWaypointFromDataItem(airport, clickPos) : undefined;
         this.olOverlay.setPosition(airport ? OlHelper.getMercator(airport.position) : undefined);
+    }
+
+
+    public openTab(tabIndex: number) {
+        if (tabIndex !== undefined && tabIndex >= 0) {
+            this.selectedTabIndex = tabIndex;
+        }
     }
 
 

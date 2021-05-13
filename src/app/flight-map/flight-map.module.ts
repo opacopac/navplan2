@@ -47,6 +47,7 @@ import {AirportModule} from '../airport/airport.module';
 import {AirspaceModule} from '../airspace/airspace.module';
 import {NavaidModule} from '../navaid/navaid.module';
 import {WebcamModule} from '../webcam/webcam.module';
+import {OlOverlayAirportMetarTafTabComponent} from './ol-components/ol-overlay-airport-metar-taf-tab/ol-overlay-airport-metar-taf-tab.component';
 
 @NgModule({
     declarations: [
@@ -73,6 +74,7 @@ import {WebcamModule} from '../webcam/webcam.module';
         OlOverlayAirportNotamTabComponent,
         OlOverlayAirportChartTabComponent,
         OlOverlayButtonListComponent,
+        OlOverlayAirportMetarTafTabComponent,
     ],
     imports: [
         CommonModule,

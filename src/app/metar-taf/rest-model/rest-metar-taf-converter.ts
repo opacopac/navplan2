@@ -3,7 +3,12 @@ import {StringnumberHelper} from '../../system/domain-service/stringnumber/strin
 import {IRestMetarTafFeature} from './i-rest-metar-taf-feature';
 
 
-export class MetarTafConverter {
+export class RestMetarTafConverter {
+    public static listFromRest(restMetarTafFeatureList: IRestMetarTafFeature[]): MetarTaf[] {
+        return restMetarTafFeatureList.map(restMetarTaf => RestMetarTafConverter.fromRest(restMetarTaf));
+    }
+
+
     public static fromRest(restMetarTafFeature: IRestMetarTafFeature): MetarTaf {
         return new MetarTaf(
             restMetarTafFeature.properties.id,

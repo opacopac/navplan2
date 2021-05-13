@@ -8,6 +8,9 @@ import {DataItem} from '../../common/model/data-item';
 import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 import {ReportingPoint} from '../../airport/domain-model/reporting-point';
+import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
+import {Airport} from '../../airport/domain-model/airport';
+import {Notam} from '../../notam/domain-model/notam';
 
 
 export interface FlightMapState {
@@ -32,6 +35,12 @@ export interface FlightMapState {
         zoom: number;
         airspaces: Airspace[];
     };
+    metarTafState: {
+        extent: Extent2d;
+        zoom: number;
+        timestamp: number;
+        metarTafs: MetarTaf[]
+    };
     navaidState: {
         extent: Extent2d;
         zoom: number;
@@ -42,5 +51,14 @@ export interface FlightMapState {
         zoom: number;
         webcams: Webcam[];
     };
-    showOverlay: { dataItem: DataItem, clickPos: Position2d };
+    showAirportOverlay: {
+        airport: Airport,
+        metarTaf?: MetarTaf,
+        notams: Notam[],
+        tabIndex: number
+    };
+    showOverlay: {
+        dataItem: DataItem,
+        clickPos: Position2d
+    };
 }

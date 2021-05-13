@@ -1,40 +1,27 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {MetarTaf} from '../../../metar-taf/domain-model/metar-taf';
 import {DatetimeHelper} from '../../../system/domain-service/datetime/datetime-helper';
 import {StringnumberHelper} from '../../../system/domain-service/stringnumber/stringnumber-helper';
-import {MetarTaf} from '../../domain-model/metar-taf';
-import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 
 
 @Component({
-  selector: 'app-ol-overlay-metar-taf',
-  templateUrl: './ol-overlay-metar-taf.component.html',
-  styleUrls: ['./ol-overlay-metar-taf.component.css']
+    selector: 'app-ol-overlay-airport-metar-taf-tab',
+    templateUrl: './ol-overlay-airport-metar-taf-tab.component.html',
+    styleUrls: ['./ol-overlay-airport-metar-taf-tab.component.css']
 })
-export class OlOverlayMetarTafComponent implements OnInit {
+export class OlOverlayAirportMetarTafTabComponent implements OnInit {
     @Input() metarTaf: MetarTaf;
 
 
-    ngOnInit() {
+    constructor() {
     }
 
 
-    public bindFeatureData(metarTaf: MetarTaf) {
-        this.metarTaf = metarTaf;
+    ngOnInit(): void {
     }
 
 
-    public getTitle(): string {
-        return 'METAR / TAF for ' + this.metarTaf.ad_icao;
-    }
-
-
-    public getPosition(clickPos: Position2d): Position2d {
-        return undefined;
-        //return this.metarTaf.position;
-    }
-
-
-    public getMetarAgeString(): string { // TODO => import
+    public getMetarAgeString(): string {
         if (!this.metarTaf.metar_obs_timestamp) {
             return;
         }
@@ -43,7 +30,7 @@ export class OlOverlayMetarTafComponent implements OnInit {
     }
 
 
-    public getTafAgeString(): string { // TODO => import
+    public getTafAgeString(): string {
         if (!this.metarTaf.raw_taf) {
             return undefined;
         }

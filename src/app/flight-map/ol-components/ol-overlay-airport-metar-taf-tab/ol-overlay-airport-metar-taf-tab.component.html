@@ -1,4 +1,4 @@
-<div *ngIf="this.metarTaf" class="ol-popup-metartaf">
+<div *ngIf="this.metarTaf">
     <p *ngIf="this.metarTaf.raw_metar">
         METAR {{ this.metarTaf.raw_metar }}
         <br />
@@ -9,4 +9,7 @@
         <br />
         <small><i>({{ this.getTafAgeString() }} old)</i></small>
     </p>
+</div>
+<div *ngIf="!this.metarTaf">
+    <em>No METAR/TAF available</em>
 </div>

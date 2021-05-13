@@ -1,11 +1,6 @@
 import {DataItem, DataItemType} from '../../common/model/data-item';
 
 
-export class MetarTafList {
-    public items: MetarTaf[] = [];
-}
-
-
 export class MetarTaf extends DataItem {
     constructor(
         public ad_icao: string,

@@ -8,6 +8,8 @@ export const getFlightMapAirportCircuits = createSelector(getFlightMapState, sta
 export const getFlightMapReportingPoints = createSelector(getFlightMapState, state => state.reportingPointSectorState.reportingPoints);
 export const getFlightMapReportingSectors = createSelector(getFlightMapState, state => state.reportingPointSectorState.reportingSectors);
 export const getFlightMapAirspaces = createSelector(getFlightMapState, state => state.airspaceState.airspaces);
+export const getFlightMapMetarTafs = createSelector(getFlightMapState, state => state.metarTafState.metarTafs);
 export const getFlightMapNavaids = createSelector(getFlightMapState, state => state.navaidState.navaids);
 export const getFlightMapWebcams = createSelector(getFlightMapState, state => state.webcamState.webcams);
 export const getFlightMapOverlay = createSelector(getFlightMapState, state => state.showOverlay);
+export const getFlightMapAirportOverlay = createSelector(getFlightMapState, state => state.showAirportOverlay);

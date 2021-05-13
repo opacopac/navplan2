@@ -18,7 +18,7 @@
         </mat-card-header>
 
         <mat-card-content>
-            <mat-tab-group headerPosition="below">
+            <mat-tab-group headerPosition="below" [selectedIndex]="this.selectedTabIndex">
                 <!-- info tab -->
                 <mat-tab>
                     <ng-template mat-tab-label>
@@ -51,6 +51,8 @@
                     <ng-template mat-tab-label>
                         <i class="fas fa-cloud"></i>
                     </ng-template>
+                    <app-ol-overlay-airport-metar-taf-tab [metarTaf]="this.metarTaf"></app-ol-overlay-airport-metar-taf-tab>
+                    <p>&nbsp;</p>
                     <app-ol-overlay-airport-meteo-tab [airport]="this.airport"></app-ol-overlay-airport-meteo-tab>
                 </mat-tab>
 

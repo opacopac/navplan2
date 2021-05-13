@@ -19,6 +19,7 @@ import {getFlightMapState} from './flight-map.selectors';
 import {FlightMapState} from './flight-map-state';
 import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 import {NavaidService} from '../../navaid/domain-service/navaid.service';
+import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
 
 
 @Injectable()
@@ -30,9 +31,9 @@ export class FlightMapEffects {
         private readonly appStore: Store<any>,
         private readonly airportService: AirportService,
         private readonly airspaceService: AirspaceService,
+        private readonly metarTafService: MetarTafService,
         private readonly navaidService: NavaidService,
         private readonly notamService: NotamService,
-        private readonly metarTafService: MetarTafService,
         private readonly webcamService: WebcamService
     ) {
     }
@@ -111,10 +112,19 @@ export class FlightMapEffects {
                 tap(displayAction => this.appStore.dispatch(displayAction))
             ).subscribe();*/
 
-            /*this.metarTafService.readByExtent(action.extent, action.zoom).pipe(
-                map(metarTafs => new ReadMetarTafSuccessAction(metarTafs)),
-                tap(displayAction => this.appStore.dispatch(displayAction))
-            ).subscribe();*/
+            // metar / taf
+            if (!this.isCached(action, flightMapState.metarTafState)
+                || this.metarTafService.hasTimedOut(flightMapState.metarTafState.timestamp)) {
+                this.metarTafService.readByExtent(action.extent, action.zoom).pipe(
+                    map(metarTafs => FlightMapActions.showMetarTafs({
+                        extent: oversizeExtent,
+                        zoom: action.zoom,
+                        timestamp: Date.now(),
+                        metarTafs: metarTafs
+                    })),
+                    tap(displayAction => this.appStore.dispatch(displayAction))
+                ).subscribe();
+            }
 
             // webcams
             if (!this.isCached(action, flightMapState.webcamState)) {
@@ -133,13 +143,27 @@ export class FlightMapEffects {
 
     mapClickedAction$ = createEffect(() => this.actions$.pipe(
         ofType(BaseMapActions.mapClicked),
-        switchMap(action => {
+        withLatestFrom(this.flightMapState$),
+        switchMap(([action, flightMapState]) => {
             switch (action.dataItem?.dataItemType) {
                 case DataItemType.airport:
                     return this.airportService.readAirportById((action.dataItem as ShortAirport).id).pipe(
-                        map(airport => FlightMapActions.showOverlay({
-                            dataItem: airport,
-                            clickPos: action.clickPos
+                        map(airport => FlightMapActions.showAirportOverlay({
+                            airport: airport,
+                            metarTaf: this.findMetarTaf(airport.icao, flightMapState),
+                            notams: [], // TODO
+                            tabIndex: 0
+                        }))
+                    );
+                case DataItemType.metarTaf:
+                    const metarTaf = action.dataItem as MetarTaf;
+                    const shortAirport = this.findAirport(metarTaf.ad_icao, flightMapState);
+                    return this.airportService.readAirportById(shortAirport.id).pipe(
+                        map(airport => FlightMapActions.showAirportOverlay({
+                            airport: airport,
+                            metarTaf: metarTaf,
+                            notams: [], // TODO
+                            tabIndex: 3
                         }))
                     );
                 case DataItemType.reportingPoint:
@@ -176,5 +200,31 @@ export class FlightMapEffects {
         } else {
             return false;
         }
+    }
+
+
+    // TODO
+    private findMetarTaf(icao: string, flightMapState: FlightMapState): MetarTaf {
+        if (!icao) {
+            return undefined;
+        }
+
+        const results = flightMapState.metarTafState.metarTafs
+            .filter(metarTaf => metarTaf.ad_icao === icao);
+
+        return results.length > 0 ? results[0] : undefined;
+    }
+
+
+    // TODO
+    private findAirport(icao: string, flightMapState: FlightMapState): ShortAirport {
+        if (!icao) {
+            return undefined;
+        }
+
+        const results = flightMapState.airportState.airports
+            .filter(airport => airport.icao === icao);
+
+        return results.length > 0 ? results[0] : undefined;
     }
 }

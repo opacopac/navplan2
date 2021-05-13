@@ -7,7 +7,6 @@ import {combineLatest} from 'rxjs';
 import {take} from 'rxjs/operators';
 import {getMapPosition, getMapRotation, getMapZoom} from '../../../base-map/ngrx/base-map.selectors';
 import {OlMetarContainer} from '../../../metar-taf/ol-components/ol-metar-container';
-import {getMetarTafList} from '../../../metar-taf/ngrx/metar-taf.selectors';
 import {OlNotamContainer} from '../../../notam/ol-components/ol-notam-container';
 import {getNotamList} from '../../../notam/ngrx/notam.selectors';
 import {OlTrackContainer} from '../../../track/ol-components/ol-track-container';
@@ -35,8 +34,10 @@ import {Subscription} from 'rxjs/internal/Subscription';
 import {Airport} from '../../../airport/domain-model/airport';
 import {
     getFlightMapAirportCircuits,
+    getFlightMapAirportOverlay,
     getFlightMapAirports,
     getFlightMapAirspaces,
+    getFlightMapMetarTafs,
     getFlightMapNavaids,
     getFlightMapOverlay,
     getFlightMapReportingPoints,
@@ -55,6 +56,8 @@ import {OlWebcamContainer} from '../../../webcam/ol-components/ol-webcam-contain
 import {Navaid} from '../../../navaid/domain-model/navaid';
 import {DataItem, DataItemType} from '../../../common/model/data-item';
 import {FlightMapActions} from '../../ngrx/flight-map.actions';
+import {MetarTaf} from '../../../metar-taf/domain-model/metar-taf';
+import {Notam} from '../../../notam/domain-model/notam';
 
 
 @Component({
@@ -73,7 +76,9 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
     @ViewChild(OlOverlayTrafficComponent) mapOverlayTrafficComponent: OlOverlayTrafficComponent;
     @ViewChild(OlOverlayNotamComponent) mapOverlayNotamComponent: OlOverlayNotamComponent;
     @ViewChild(OlOverlayWaypointComponent) mapOverlayWaypointComponent: OlOverlayWaypointComponent;
+    private readonly showAirportOverlay$: Observable<{ airport: Airport, metarTaf?: MetarTaf, notams: Notam[], tabIndex: number }>;
     private readonly showOverlay$: Observable<{ dataItem: DataItem, clickPos: Position2d}>;
+    private showAirportOverlaySubscription: Subscription;
     private showOverlaySubscription: Subscription;
     private olAirportContainer: OlAirportContainer;
     private olAirportCircuitContainer: OlAirportCircuitContainer;
@@ -91,6 +96,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
 
 
     constructor(private readonly appStore: Store<any>) {
+        this.showAirportOverlay$ = this.appStore.pipe(select(getFlightMapAirportOverlay));
         this.showOverlay$ = this.appStore.pipe(select(getFlightMapOverlay));
     }
 
@@ -113,8 +119,11 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
             this.initMap(pos, zoom, rot);
         });
 
-        this.showOverlaySubscription = this.showOverlay$.subscribe(showOverlay => {
-            this.showOverlay(showOverlay.dataItem, showOverlay.clickPos);
+        this.showAirportOverlaySubscription = this.showAirportOverlay$.subscribe(overlay => {
+            this.showAirportOverlay(overlay.airport, overlay.metarTaf, overlay.notams, overlay.tabIndex);
+        });
+        this.showOverlaySubscription = this.showOverlay$.subscribe(overlay => {
+            this.showOverlay(overlay.dataItem, overlay.clickPos);
         });
     }
 
@@ -204,7 +213,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
                 this.mapOverlayGeonameComponent.olOverlay,
                 this.mapOverlayTrafficComponent.olOverlay,
                 this.mapOverlayNotamComponent.olOverlay,
-                this.mapOverlayWaypointComponent.olOverlay
+                this.mapOverlayWaypointComponent.olOverlay,
             ],
             position,
             zoom,
@@ -241,7 +250,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         );
         this.olMetars = new OlMetarContainer(
             metarTafLayer,
-            this.appStore.pipe(select(getMetarTafList)),
+            this.appStore.pipe(select(getFlightMapMetarTafs)),
             this.appStore.pipe(select(getFlightMapAirports)),
             rotation
         );
@@ -286,13 +295,19 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
     }
 
 
+    private showAirportOverlay(airport: Airport, metarTaf: MetarTaf, notams: Notam[], tabIndex: number) {
+        this.closeAllOverlays();
+
+        this.mapOverlayAirportComponent.setDataItem(airport as Airport, undefined);
+        this.mapOverlayAirportComponent.metarTaf = metarTaf;
+        this.mapOverlayAirportComponent.openTab(tabIndex);
+    }
+
+
     private showOverlay(dataItem: DataItem, clickPos: Position2d) {
         this.closeAllOverlays();
 
         switch (dataItem?.dataItemType) {
-            case DataItemType.airport:
-                this.mapOverlayAirportComponent.setDataItem(dataItem as Airport, clickPos);
-                break;
             case DataItemType.reportingPoint:
                 this.mapOverlayReportingpointComponent.setDataItem(dataItem as ReportingPoint, clickPos);
                 break;
