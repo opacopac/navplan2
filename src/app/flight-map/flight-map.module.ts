@@ -41,8 +41,6 @@ import {OlOverlayAirportChartTabComponent} from './ol-components/ol-overlay-airp
 import {OlOverlayButtonListComponent} from './ol-components/ol-overlay-button-list/ol-overlay-button-list.component';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
-import {FlightMapState} from './ngrx/flight-map-state';
-import {FlightMapActions} from './ngrx/flight-map.actions';
 import {flightMapReducer} from './ngrx/flight-map.reducer';
 import {FlightMapEffects} from './ngrx/flight-map.effects';
 import {AirportModule} from '../airport/airport.module';
@@ -78,7 +76,7 @@ import {WebcamModule} from '../webcam/webcam.module';
     ],
     imports: [
         CommonModule,
-        StoreModule.forFeature<FlightMapState, FlightMapActions>('flightMapState', flightMapReducer),
+        StoreModule.forFeature('flightMapState', flightMapReducer),
         EffectsModule.forFeature([FlightMapEffects]),
         FormsModule,
         MatCardModule,

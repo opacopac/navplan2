@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import {DataItem} from '../../../common/model/data-item';
 import {Extent2d} from '../../../common/geo-math/domain-model/geometry/extent2d';
-import {BaseMapClickedAction, BaseMapMovedZoomedRotatedAction} from '../../ngrx/base-map.actions';
+import {BaseMapActions} from '../../ngrx/base-map.actions';
 import {Angle} from '../../../common/geo-math/domain-model/quantities/angle';
 import {Feature, Map, MapBrowserEvent, MapEvent, View} from 'ol';
 import TileLayer from 'ol/layer/Tile';
@@ -129,24 +129,24 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
 
     private onMoveEnd(event: MapEvent) {
         this.appStore.dispatch(
-            new BaseMapMovedZoomedRotatedAction(
-                this.getMapPosition(),
-                this.getZoom(),
-                this.getRotation(),
-                this.getExtent()
-            )
+            BaseMapActions.mapMoved({
+                position: this.getMapPosition(),
+                zoom: this.getZoom(),
+                rotation:  this.getRotation(),
+                extent: this.getExtent()
+            })
         );
     }
 
 
     private onMapRotation(event: ObjectEvent) {
         this.appStore.dispatch(
-            new BaseMapMovedZoomedRotatedAction(
-                this.getMapPosition(),
-                this.getZoom(),
-                this.getRotation(),
-                this.getExtent()
-            )
+            BaseMapActions.mapMoved({
+                position: this.getMapPosition(),
+                zoom: this.getZoom(),
+                rotation:  this.getRotation(),
+                extent: this.getExtent()
+            })
         );
     }
 
@@ -157,10 +157,10 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
         const clickPos = OlHelper.getPosFromMercator([eventPos[0], eventPos[1]]);
 
         this.appStore.dispatch(
-            new BaseMapClickedAction(
-                clickPos,
-                dataItem
-            )
+            BaseMapActions.mapClicked({
+                clickPos: clickPos,
+                dataItem: dataItem
+            })
         );
     }
 

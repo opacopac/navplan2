@@ -3,12 +3,7 @@ import {Action, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, timer} from 'rxjs';
 import {filter, map, withLatestFrom} from 'rxjs/operators';
-import {
-    ReadTrafficTimerAction,
-    StartWatchTrafficAction,
-    StopWatchTrafficAction,
-    TrafficActionTypes
-} from './traffic.actions';
+import {TrafficActions} from './traffic.actions';
 import {getTrafficState} from './traffic.selectors';
 import {TrafficState} from './traffic-state';
 
@@ -29,13 +24,13 @@ export class TrafficEffects {
 
     toggleTrafficWatchAction$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
-            ofType(TrafficActionTypes.TRAFFIC_WATCH_TOGGLE),
+            ofType(TrafficActions.toggleWatch),
             withLatestFrom(this.trafficState$),
             map(([action, trafficState]) => {
                 if (!trafficState.isWatching) {
-                    return new StartWatchTrafficAction();
+                    return TrafficActions.startWatch();
                 } else {
-                    return new StopWatchTrafficAction();
+                    return TrafficActions.stopWatch();
                 }
             })
         ));
@@ -48,6 +43,6 @@ export class TrafficEffects {
     ).pipe(
         withLatestFrom(this.trafficState$),
         filter(([count, state]) => state.isWatching === true),
-        map(([count, state]) => new ReadTrafficTimerAction(count))
+        map(([count, state]) => TrafficActions.timerTicked({ count: count }))
     ));
 }

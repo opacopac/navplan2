@@ -3,7 +3,7 @@ import {Action, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, map, mergeMap, withLatestFrom} from 'rxjs/operators';
-import {ReadTrafficErrorAction, ReadTrafficSuccessAction, TrafficActionTypes} from './traffic.actions';
+import {TrafficActions} from './traffic.actions';
 import {getTrafficState} from './traffic.selectors';
 import {TrafficState} from './traffic-state';
 import {OgnTrafficService} from '../rest/ogn/ogn-traffic.service';
@@ -29,7 +29,7 @@ export class OgnTrafficEffects {
 
 
     readOgnTrafficAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(TrafficActionTypes.TRAFFIC_TIMER_TICK),
+        ofType(TrafficActions.timerTicked),
         withLatestFrom(this.trafficState$),
         mergeMap(([action, state]) => this.ognTrafficService.readTraffic(
             state.extent,
@@ -39,8 +39,8 @@ export class OgnTrafficEffects {
         ).pipe(
             withLatestFrom(this.trafficState$),
             map(([ognTraffic, state2]) => this.ognTrafficMerger.merge(state2, ognTraffic)),
-            map(newTrafficMap => new ReadTrafficSuccessAction(newTrafficMap)),
-            catchError(error => of(new ReadTrafficErrorAction(error)))
+            map(newTrafficMap => TrafficActions.readSuccess({ newTrafficMap: newTrafficMap })),
+            catchError(error => of(TrafficActions.readError({ error: error })))
         ))
     ));
 }

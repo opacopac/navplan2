@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Airport} from '../../../airport/domain-model/airport';
 import {AirportChart} from '../../../airport/domain-model/airport-chart';
 import {Store} from '@ngrx/store';
-import {ShowAirportChartOnMapAction} from '../../ngrx/flight-map.actions';
+import {FlightMapActions} from '../../ngrx/flight-map.actions';
 
 
 @Component({
@@ -39,6 +39,6 @@ export class OlOverlayAirportChartTabComponent implements OnInit {
 
 
     public onChartClicked(id: number) {
-        this.appStore.dispatch(new ShowAirportChartOnMapAction(id));
+        this.appStore.dispatch(FlightMapActions.showAirportChart({ chartId: id }));
     }
 }

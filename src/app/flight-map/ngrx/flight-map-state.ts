@@ -19,4 +19,5 @@ export interface FlightMapState {
     showAirportOverlay: Airport;
     showReportingPointOverlay: ReportingPoint;
     showReportingSectorOverlay: ReportingSector;
+    showNavaidOverlay: Navaid;
 }

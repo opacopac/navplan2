@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {ToggleWatchTrafficAction} from '../../ngrx/traffic.actions';
+import {TrafficActions} from '../../ngrx/traffic.actions';
 import {getTrafficStatus} from '../../ngrx/traffic.selectors';
 import {TrafficServiceStatus} from '../../domain-model/traffic-service-status';
 
@@ -23,9 +23,7 @@ export class TrafficButtonComponent implements OnInit {
 
 
     public onToggleTrafficClicked() {
-        this.appStore.dispatch(
-            new ToggleWatchTrafficAction()
-        );
+        this.appStore.dispatch(TrafficActions.toggleWatch());
     }
 
 

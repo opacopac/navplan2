@@ -6,10 +6,8 @@ import {OgnTrafficService} from './rest/ogn/ogn-traffic.service';
 import {OlOverlayTrafficComponent} from './ol-components/ol-overlay-traffic/ol-overlay-traffic.component';
 import {TrafficButtonComponent} from './ng-components/traffic-button/traffic-button.component';
 import {SharedModule} from '../common/shared.module';
-import {trafficReducer} from './ngrx/traffic.reducer';
+import {trafficReducer2} from './ngrx/traffic.reducer';
 import {TrafficEffects} from './ngrx/traffic.effects';
-import {TrafficState} from './ngrx/traffic-state';
-import {TrafficActions} from './ngrx/traffic.actions';
 import {BaseMapModule} from '../base-map/base-map.module';
 import {TrafficDetailsService} from './rest/traffic-details/traffic-details.service';
 import {AdsbexTrafficService} from './rest/adsbex/adsbex-traffic.service';
@@ -23,7 +21,7 @@ import {TrafficDetailsEffects} from './ngrx/traffic-details.effects';
 @NgModule({
     imports: [
         CommonModule,
-        StoreModule.forFeature<TrafficState, TrafficActions>('trafficState', trafficReducer),
+        StoreModule.forFeature('trafficState', trafficReducer2),
         EffectsModule.forFeature([
             TrafficEffects,
             OgnTrafficEffects,

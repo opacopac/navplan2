@@ -11,11 +11,11 @@ export class OlReportingSectorContainer extends OlComponentBase {
 
     constructor(
         private readonly reportingSectorLayer: VectorLayer,
-        reportingSector$: Observable<ReportingSector[]>
+        reportingSectors$: Observable<ReportingSector[]>
     ) {
         super();
 
-        this.reportingSectorSubscription = reportingSector$.subscribe((reportingSectors) => {
+        this.reportingSectorSubscription = reportingSectors$.subscribe((reportingSectors) => {
             this.clearFeatures();
             this.addFeatures(reportingSectors);
         });

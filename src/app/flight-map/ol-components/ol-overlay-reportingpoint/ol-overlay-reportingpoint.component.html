@@ -10,9 +10,9 @@
             </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-            <p>{{ this.getPositionString(this.reportingpoint.position) }}</p>
+            <p>{{ this.getPositionString() }}</p>
             <!--<p>VAR: {{ this.getVariationString(this.reportingpoint.position) }}</p>-->
-            <p *ngIf="this.reportingpoint.alt_min || this.reportingpoint.alt_max.ft">
+            <p *ngIf="this.reportingpoint.alt_min || this.reportingpoint.alt_max">
                 Altitude:
                 {{ this.reportingpoint.alt_min ? 'min. ' + this.reportingpoint.alt_min.ft + 'ft' : '' }}
                 <span *ngIf="this.reportingpoint.alt_min && this.reportingpoint.alt_max">/</span>

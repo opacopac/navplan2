@@ -1,11 +1,11 @@
 import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {BaseMapZoomInAction, BaseMapZoomOutAction} from '../../../base-map/ngrx/base-map.actions';
+import {BaseMapActions} from '../../../base-map/ngrx/base-map.actions';
 import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import {Angle} from '../../../common/geo-math/domain-model/quantities/angle';
 import {combineLatest} from 'rxjs';
 import {take} from 'rxjs/operators';
-import {getMapPosition, getMapRotation, getMapZoom, getShowOverlay} from '../../../base-map/ngrx/base-map.selectors';
+import {getMapPosition, getMapRotation, getMapZoom} from '../../../base-map/ngrx/base-map.selectors';
 import {OlMetarContainer} from '../../../metar-taf/ol-components/ol-metar-container';
 import {getMetarTafList} from '../../../metar-taf/ngrx/metar-taf.selectors';
 import {OlNotamContainer} from '../../../notam/ol-components/ol-notam-container';
@@ -31,21 +31,14 @@ import {OlOverlayTrafficComponent} from '../../../traffic/ol-components/ol-overl
 import {OlOverlayNotamComponent} from '../../../notam/ng-components/map-overlay-notam/ol-overlay-notam.component';
 import {OlOverlayWaypointComponent} from '../../ol-components/ol-overlay-waypoint/ol-overlay-waypoint.component';
 import {Observable} from 'rxjs/internal/Observable';
-import {MapOverlayState} from '../../../base-map/ngrx/map-overlay-state';
 import {Subscription} from 'rxjs/internal/Subscription';
-import {DataItem, DataItemType} from '../../../common/model/data-item';
 import {Airport} from '../../../airport/domain-model/airport';
-import {Navaid} from '../../../navaid/domain-model/navaid';
-import {UserPoint} from '../../../user/domain-model/user-point';
-import {Geoname} from '../../../geoname/domain-model/geoname';
-import {Traffic} from '../../../traffic/domain-model/traffic';
-import {Notam} from '../../../notam/domain-model/notam';
-import {Waypoint} from '../../../flightroute/domain-model/waypoint';
 import {
     getFlightMapAirportCircuits,
     getFlightMapAirportOverlay,
     getFlightMapAirports,
     getFlightMapAirspaces,
+    getFlightMapNavaidOverlay,
     getFlightMapNavaids,
     getFlightMapReportingPointOverlay,
     getFlightMapReportingPoints,
@@ -62,6 +55,7 @@ import {ReportingSector} from '../../../airport/domain-model/reporting-sector';
 import {OlAirspaceContainer} from '../../../airspace/ol-components/ol-airspace-container';
 import {OlNavaidContainer} from '../../../navaid/ol-components/ol-navaid-container';
 import {OlWebcamContainer} from '../../../webcam/ol-components/ol-webcam-container';
+import {Navaid} from '../../../navaid/domain-model/navaid';
 
 
 @Component({
@@ -80,14 +74,15 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
     @ViewChild(OlOverlayTrafficComponent) mapOverlayTrafficComponent: OlOverlayTrafficComponent;
     @ViewChild(OlOverlayNotamComponent) mapOverlayNotamComponent: OlOverlayNotamComponent;
     @ViewChild(OlOverlayWaypointComponent) mapOverlayWaypointComponent: OlOverlayWaypointComponent;
-    private readonly showOverlay$: Observable<MapOverlayState>;
     private readonly showAirportOverlay$: Observable<Airport>;
     private readonly showReportingPointOverlay$: Observable<ReportingPoint>;
     private readonly showReportingSectorOverlay$: Observable<ReportingSector>;
+    private readonly showNavaidOverlay$: Observable<Navaid>;
     private selectedDateItemSubscription: Subscription;
     private showAirportOverlaySubscription: Subscription;
     private showReportingPointOverlaySubscription: Subscription;
     private showReportingSectorOverlaySubscription: Subscription;
+    private showNavaidOverlaySubscription: Subscription;
     private olAirportContainer: OlAirportContainer;
     private olAirportCircuitContainer: OlAirportCircuitContainer;
     private olReportingPointContainer: OlReportingPointContainer;
@@ -103,10 +98,10 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
     private olOwnPlane: OlOwnPlaneContainer;
 
     constructor(private readonly appStore: Store<any>) {
-        this.showOverlay$ = this.appStore.pipe(select(getShowOverlay));
         this.showAirportOverlay$ = this.appStore.pipe(select(getFlightMapAirportOverlay));
         this.showReportingPointOverlay$ = this.appStore.pipe(select(getFlightMapReportingPointOverlay));
         this.showReportingSectorOverlay$ = this.appStore.pipe(select(getFlightMapReportingSectorOverlay));
+        this.showNavaidOverlay$ = this.appStore.pipe(select(getFlightMapNavaidOverlay));
     }
 
 
@@ -128,9 +123,6 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
             this.initMap(pos, zoom, rot);
         });
 
-        this.selectedDateItemSubscription = this.showOverlay$.subscribe((overlayState) => {
-            this.showMapOverlay(overlayState.dataItem, overlayState.clickPos);
-        });
         this.showAirportOverlaySubscription = this.showAirportOverlay$.subscribe(airport => {
             this.mapOverlayAirportComponent.setDataItem(airport, undefined);
         });
@@ -139,6 +131,9 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         });
         this.showReportingSectorOverlaySubscription = this.showReportingSectorOverlay$.subscribe(reportingSector => {
             this.mapOverlayReportingsectorComponent.setDataItem(reportingSector, undefined); // TODO
+        });
+        this.showNavaidOverlaySubscription = this.showNavaidOverlay$.subscribe(navaid => {
+            this.mapOverlayNavaidComponent.setDataItem(navaid, undefined);
         });
     }
 
@@ -171,16 +166,12 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
     // region events
 
     public onZoomInClicked() {
-        this.appStore.dispatch(
-            new BaseMapZoomInAction()
-        );
+        this.appStore.dispatch(BaseMapActions.zoomIn());
     }
 
 
     public onZoomOutClicked() {
-        this.appStore.dispatch(
-            new BaseMapZoomOutAction()
-        );
+        this.appStore.dispatch(BaseMapActions.zoomOut());
     }
 
     // endregion
@@ -318,46 +309,6 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
     public onOverlayClosed() {
         // TODO
         this.closeAllOverlays();
-    }
-
-
-    // TODO => effects / state?
-    private showMapOverlay(dataItem: DataItem, clickPos: Position2d) {
-        this.closeAllOverlays();
-
-        if (!dataItem) {
-            return;
-        }
-
-        switch (dataItem.dataItemType) {
-            case DataItemType.airport:
-                // this.mapOverlayAirportComponent.setDataItem(dataItem as Airport, clickPos);
-                break;
-            case DataItemType.navaid:
-                this.mapOverlayNavaidComponent.setDataItem(dataItem as Navaid, clickPos);
-                break;
-            case DataItemType.reportingPoint:
-                // this.mapOverlayReportingpointComponent.setDataItem(dataItem as ReportingPoint, clickPos);
-                break;
-            case DataItemType.reportingSector:
-                // this.mapOverlayReportingsectorComponent.setDataItem(dataItem as ReportingSector, clickPos);
-                break;
-            case DataItemType.userPoint:
-                this.mapOverlayUserpointComponent.setDataItem(dataItem as UserPoint, clickPos);
-                break;
-            case DataItemType.geoname:
-                this.mapOverlayGeonameComponent.setDataItem(dataItem as Geoname, clickPos);
-                break;
-            case DataItemType.traffic:
-                this.mapOverlayTrafficComponent.setDataItem(dataItem as Traffic, clickPos);
-                break;
-            case DataItemType.notam:
-                this.mapOverlayNotamComponent.setDataItem(dataItem as Notam, clickPos);
-                break;
-            case DataItemType.waypoint:
-                this.mapOverlayWaypointComponent.setDataItem(dataItem as Waypoint, clickPos);
-                break;
-        }
     }
 
 
