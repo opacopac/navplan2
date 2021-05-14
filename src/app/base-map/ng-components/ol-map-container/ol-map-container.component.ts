@@ -158,7 +158,8 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
         this.appStore.dispatch(
             BaseMapActions.mapClicked({
                 clickPos: clickPos,
-                dataItem: dataItem
+                dataItem: dataItem,
+                zoom: this.getZoom()
             })
         );
     }

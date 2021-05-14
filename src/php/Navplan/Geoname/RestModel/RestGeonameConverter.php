@@ -3,25 +3,29 @@
 namespace Navplan\Geoname\RestModel;
 
 use Navplan\Common\RestModel\RestAltitudeConverter;
+use Navplan\Common\RestModel\RestPosition2dConverter;
 use Navplan\Geoname\DomainModel\Geoname;
-use Navplan\OpenAip\RestModel\RestHelper;
 
 
 class RestGeonameConverter {
-    public static function toRest(Geoname $geo): array {
+    public static function toRest(Geoname $geoname): array {
         return array(
-            "id" => $geo->id,
-            "name" => $geo->name,
-            "searchresultname" => $geo->searchresultname,
-            "feature_class" => $geo->feature_class,
-            "feature_code" => $geo->feature_code,
-            "country" => $geo->country,
-            "admin1" => $geo->admin1,
-            "admin2" => $geo->admin2,
-            "population" => $geo->population,
-            "latitude" => $geo->position->latitude,
-            "longitude" => $geo->position->longitude,
-            "elevation" => RestAltitudeConverter::toRest($geo->elevation),
+            "id" => $geoname->id,
+            "name" => $geoname->name,
+            "searchresultname" => $geoname->searchresultname,
+            "feature_class" => $geoname->feature_class,
+            "feature_code" => $geoname->feature_code,
+            "country" => $geoname->country,
+            "admin1" => $geoname->admin1,
+            "admin2" => $geoname->admin2,
+            "population" => $geoname->population,
+            "position" => RestPosition2dConverter::toRest($geoname->position),
+            "elevation" => RestAltitudeConverter::toRest($geoname->elevation),
         );
+    }
+
+
+    public static function listToRest(array $geonames): array {
+        return array_map(function (Geoname $geoname) { return RestGeonameConverter::toRest($geoname); }, $geonames);
     }
 }

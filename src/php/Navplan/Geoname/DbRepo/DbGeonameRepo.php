@@ -3,22 +3,14 @@
 namespace Navplan\Geoname\DbRepo;
 
 use Navplan\Common\DomainModel\Position2d;
+use Navplan\Geoname\DbModel\DbGeonameConverter;
 use Navplan\Geoname\DomainService\IGeonameRepo;
 use Navplan\System\DomainModel\IDbResult;
 use Navplan\System\DomainService\IDbService;
 
 
 class DbGeonameRepo implements IGeonameRepo {
-    private $dbService;
-
-
-    private function getDbService(): IDbService {
-        return $this->dbService;
-    }
-
-
-    public function __construct(IDbService $dbService) {
-        $this->dbService = $dbService;
+    public function __construct(private IDbService $dbService) {
     }
 
     public function searchByPosition(Position2d $position, float $maxRadius_deg, int $maxResults): array {
@@ -40,14 +32,14 @@ class DbGeonameRepo implements IGeonameRepo {
         $query .= "  ((latitude - " . $position->latitude . ") * (latitude - " . $position->latitude . ") + (longitude - " . $position->longitude . ") * (longitude - " . $position->longitude . ")) ASC";
         $query .= " LIMIT " . $maxResults;
 
-        $result = $this->getDbService()->execMultiResultQuery($query, "error searching geonames by position");
+        $result = $this->dbService->execMultiResultQuery($query, "error searching geonames by position");
 
         return $this->readGeonamesFromResultList($result, true);
     }
 
 
     public function searchByText(string $searchText, int $maxResults): array {
-        $searchText = $this->getDbService()->escapeString($searchText);
+        $searchText = $this->dbService->escapeString($searchText);
         $query = "SELECT geo.*,";
         $query .= "  cod1.name AS admin1_name,";
         $query .= "  cod2.name AS admin2_name";
@@ -62,7 +54,7 @@ class DbGeonameRepo implements IGeonameRepo {
         $query .= " ORDER BY CASE WHEN geo.country_code = 'CH' THEN 1 ELSE 2 END ASC, geo.population DESC";
         $query .= " LIMIT " . $maxResults;
 
-        $result = $this->getDbService()->execMultiResultQuery($query, "error searching geonames by text");
+        $result = $this->dbService->execMultiResultQuery($query, "error searching geonames by text");
 
         return self::readGeonamesFromResultList($result, true);
     }

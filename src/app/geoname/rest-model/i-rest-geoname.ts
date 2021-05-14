@@ -12,6 +12,6 @@ export interface IRestGeoname {
     admin1: string;
     admin2: string;
     population: number;
-    pos: IRestPosition2d;
+    position: IRestPosition2d;
     elevation: IRestLength;
 }

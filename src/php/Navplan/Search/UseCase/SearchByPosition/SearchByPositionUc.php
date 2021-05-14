@@ -4,7 +4,7 @@ namespace Navplan\Search\UseCase\SearchByPosition;
 
 use Navplan\Airport\DomainService\IAirportRepo;
 use Navplan\Airport\DomainService\IReportingPointRepo;
-use Navplan\Geoname\UseCase\SearchGeoname\ISearchGeonameUc;
+use Navplan\Geoname\DomainService\IGeonameRepo;
 use Navplan\Navaid\DomainService\INavaidRepo;
 use Navplan\Notam\UseCase\SearchNotam\ISearchNotamUc;
 use Navplan\Search\DomainModel\SearchByPositionQuery;
@@ -21,10 +21,10 @@ class SearchByPositionUc implements ISearchByPositionUc {
     public function __construct(
         private ISearchUserPointUc $searchUserPointUc,
         private ISearchNotamUc $searchNotamUc,
-        private ISearchGeonameUc $searchGeonameUc,
         private IAirportRepo $airportRepo,
         private IReportingPointRepo $reportingPointRepo,
-        private INavaidRepo $navaidRepo
+        private INavaidRepo $navaidRepo,
+        private IGeonameRepo $geonameRepo
     ) {
     }
 
@@ -62,7 +62,7 @@ class SearchByPositionUc implements ISearchByPositionUc {
                     }
                     break;
                 case SearchItemType::GEONAMES:
-                    $geonames = $this->searchGeonameUc->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum));
+                    $geonames = $this->geonameRepo->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum));
                     $resultNum += count($geonames);
                     break;
                 case SearchItemType::NOTAMS:

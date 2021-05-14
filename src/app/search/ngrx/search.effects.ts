@@ -4,7 +4,7 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, throwError} from 'rxjs';
 import {catchError, debounceTime, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {SearchService} from '../rest-service/search.service';
-import {SearchActionTypes, SearchQuerySubmittedAction, SearchResultsReceivedAction} from './search.actions';
+import {SearchActions2} from './search.actions';
 import {getCurrentUser} from '../../user/ngrx/user.selectors';
 import {User} from '../../user/domain-model/user';
 import {LoggingService} from '../../system/domain-service/logging/logging.service';
@@ -16,23 +16,24 @@ const QUERY_DELAY_MS = 250;
 
 @Injectable()
 export class SearchEffects {
-    constructor(
-        private actions$: Actions,
-        private appStore: Store<any>,
-        private searchService: SearchService) {
-    }
-
     private currentUser$: Observable<User> = this.appStore.pipe(select(getCurrentUser));
 
 
+    constructor(
+        private actions$: Actions,
+        private appStore: Store<any>,
+        private searchService: SearchService
+    ) {
+    }
+
+
     executeQuery$: Observable<Action> = createEffect(() => this.actions$.pipe(
-            ofType(SearchActionTypes.SEARCH_QUERY_SUBMITTED),
-            map((action: SearchQuerySubmittedAction) => action.query),
-            filter(query => query !== undefined && query.trim().length >= MIN_QUERY_LENGTH),
+            ofType(SearchActions2.searchText),
+            filter(action => action.query !== undefined && action.query.trim().length >= MIN_QUERY_LENGTH),
             debounceTime(QUERY_DELAY_MS),
             withLatestFrom(this.currentUser$),
-            switchMap(([query, currentUser]) => this.searchService.searchByText(query, currentUser).pipe(
-                map(result => new SearchResultsReceivedAction(result)),
+            switchMap(([action, currentUser]) => this.searchService.searchByText(action.query, currentUser).pipe(
+                map(result => SearchActions2.showTextSearchResults({ searchResults: result })),
                 catchError(error => {
                     LoggingService.logResponseError('ERROR search by text', error);
                     return throwError(error);

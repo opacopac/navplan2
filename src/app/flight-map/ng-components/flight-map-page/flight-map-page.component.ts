@@ -41,6 +41,7 @@ import {
     getFlightMapMetarTafs,
     getFlightMapNavaids,
     getFlightMapOverlay,
+    getFlightMapPositionSearchResults,
     getFlightMapReportingPoints,
     getFlightMapReportingSectors,
     getFlightMapWebcams
@@ -60,6 +61,7 @@ import {FlightMapActions} from '../../ngrx/flight-map.actions';
 import {MetarTaf} from '../../../metar-taf/domain-model/metar-taf';
 import {Notam} from '../../../notam/domain-model/notam';
 import {OlAirportChartContainer} from '../../../airport/ol-components/ol-airport-chart-container';
+import {OlPositionSearchContainer} from '../../../search/ol-components/ol-position-search-container';
 
 
 @Component({
@@ -94,6 +96,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
     private olTrack: OlTrackContainer;
     private olNotams: OlNotamContainer;
     private olMetars: OlMetarContainer;
+    private olPositionSearchContainer: OlPositionSearchContainer;
     private olTraffic: OlTrafficContainer;
     private olOwnPlane: OlOwnPlaneContainer;
 
@@ -144,10 +147,11 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         this.olNotams.destroy();
         this.olTrack.destroy();
         this.olFlightroute.destroy();
-        // TODO: destroy search result layer
+        this.olPositionSearchContainer.destroy();
         this.olTraffic.destroy();
         this.olOwnPlane.destroy();
 
+        this.showAirportOverlaySubscription.unsubscribe();
         this.showOverlaySubscription.unsubscribe();
     }
 
@@ -190,6 +194,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         const trafficLayer = OlHelper.createEmptyVectorLayer(false);
         const circuitLayer = OlHelper.createEmptyVectorLayer(false);
         const chartCloserLayer = OlHelper.createEmptyVectorLayer(false);
+        const pointSearchLayer = OlHelper.createEmptyVectorLayer(false);
 
         this.mapContainer.init(
             MapBaseLayerType.OPENTOPOMAP,
@@ -207,6 +212,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
                 metarTafLayer,
                 airportLayer,
                 trackLayer,
+                pointSearchLayer,
                 trafficLayer,
                 ownPlaneLayer
             ],
@@ -284,7 +290,10 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
             this.appStore,
             rotation
         );
-        // TODO: search results
+        this.olPositionSearchContainer = new OlPositionSearchContainer(
+            pointSearchLayer,
+            this.appStore.pipe(select(getFlightMapPositionSearchResults))
+        );
         this.olTraffic = new OlTrafficContainer(
             trafficLayer,
             this.appStore.pipe(select(getTrafficState))

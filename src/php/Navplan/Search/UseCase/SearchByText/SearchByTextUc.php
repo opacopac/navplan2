@@ -4,7 +4,7 @@ namespace Navplan\Search\UseCase\SearchByText;
 
 use Navplan\Airport\DomainService\IAirportRepo;
 use Navplan\Airport\DomainService\IReportingPointRepo;
-use Navplan\Geoname\UseCase\SearchGeoname\ISearchGeonameUc;
+use Navplan\Geoname\DomainService\IGeonameRepo;
 use Navplan\Navaid\DomainService\INavaidRepo;
 use Navplan\Search\DomainModel\SearchByTextQuery;
 use Navplan\Search\DomainModel\SearchItemType;
@@ -19,10 +19,10 @@ class SearchByTextUc implements ISearchByTextUc {
 
     public function __construct(
         private ISearchUserPointUc $searchUserPointUc,
-        private ISearchGeonameUc $searchGeonameUc,
         private IAirportRepo $airportRepo,
         private IReportingPointRepo $reportingPointRepo,
-        private INavaidRepo $navaidRepo
+        private INavaidRepo $navaidRepo,
+        private IGeonameRepo $geonameRepo
     ) {
     }
 
@@ -59,7 +59,7 @@ class SearchByTextUc implements ISearchByTextUc {
                     }
                     break;
                 case SearchItemType::GEONAMES:
-                    $geonames = $this->searchGeonameUc->searchByText($query->searchText, $this->getMaxTextResults($resultNum));
+                    $geonames = $this->geonameRepo->searchByText($query->searchText, $this->getMaxTextResults($resultNum));
                     $resultNum += count($geonames);
                     break;
             }

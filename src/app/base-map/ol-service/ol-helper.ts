@@ -40,6 +40,11 @@ export class OlHelper {
     }
 
 
+    public static calcDegPerPixelByZoom(zoom: number, tileWidthPixel = 256): number {
+        return 360.0 / (Math.pow(2, zoom) * tileWidthPixel);
+    }
+
+
     public static createEmptyVectorLayer(imageRenderMode: boolean = false): VectorLayer {
         return new VectorLayer({
             source: new Vector({}),

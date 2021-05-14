@@ -14,6 +14,7 @@ export const initialFlightMapState: FlightMapState = {
     webcamState: { extent: undefined, zoom: undefined, webcams: [] },
     showAirportOverlay: { airport: undefined, metarTaf: undefined, notams: [], tabIndex: 0 },
     showOverlay: { dataItem: undefined, clickPos: undefined },
+    showPositionSearchResults: { searchItems: [], clickPos: undefined }
 };
 
 
@@ -70,5 +71,13 @@ export const flightMapReducer = createReducer(
     on(FlightMapActions.closeAllOverlays, (state) => ({
         ...state,
         showOverlay: { dataItem: undefined, clickPos: undefined }
+    })),
+    on(FlightMapActions.showPositionSearchResults, (state, action) => ({
+        ...state,
+        showPositionSearchResults: { searchItems: action.searchResults.items, clickPos: action.clickPos }
+    })),
+    on(FlightMapActions.closePositionSearchResults, (state) => ({
+        ...state,
+        showPositionSearchResults: { searchItems: [], clickPos: undefined }
     })),
 );

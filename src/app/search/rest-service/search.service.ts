@@ -5,10 +5,11 @@ import {catchError, map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {LoggingService} from '../../system/domain-service/logging/logging.service';
 import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
-import {RestMapperSearch, SearchResponse} from '../rest-model/rest-mapper-search';
+import {RestSearchResponseConverter} from '../rest-model/rest-search-response-converter';
 import {User} from '../../user/domain-model/user';
 import {SearchItemList} from '../domain-model/search-item-list';
 import {CoordinateHelper} from '../../common/geo-math/domain-service/coordinate-helper';
+import {IRestSearchResponse} from '../rest-model/i-rest-search-response';
 
 
 @Injectable({
@@ -22,18 +23,29 @@ export class SearchService {
         position: Position2d,
         maxRadius_deg: number,
         minNotamTimestamp: number,
-        maxNotamTimestamp: number): Observable<SearchItemList> {
+        maxNotamTimestamp: number
+    ): Observable<SearchItemList> {
+        const url = environment.searchServiceUrl + '?action=searchByPosition&lat=' + position.latitude + '&lon=' + position.longitude
+            + '&rad=' + maxRadius_deg + '&minnotamtime=' + minNotamTimestamp + '&maxnotamtime=' + maxNotamTimestamp
+            + '&searchItems=airports,navaids,reportingpoints,userpoints,geonames';
 
-        return this.executePositionSearch(
-            position,
-            maxRadius_deg,
-            minNotamTimestamp,
-            maxNotamTimestamp,
-        );
+        return this.http
+            // .jsonp<SearchResponse>(url, 'callback')
+            .get<IRestSearchResponse>(url)
+            .pipe(
+                map(response => RestSearchResponseConverter.getSearchItemListFromResponse(response)),
+                catchError(error => {
+                    LoggingService.logResponseError('ERROR performing position search', error);
+                    return throwError(error);
+                })
+            );
     }
 
 
-    public searchByText(queryString: string, user: User): Observable<SearchItemList> {
+    public searchByText(
+        queryString: string,
+        user: User
+    ): Observable<SearchItemList> {
         // try to find coordinates in text
         const pos = CoordinateHelper.tryParseCoordinates(queryString);
         if (pos) {
@@ -48,37 +60,14 @@ export class SearchService {
 
             return this.http
                 // .jsonp<SearchResponse>(url, 'callback')
-                .get<SearchResponse>(url)
+                .get<IRestSearchResponse>(url)
                 .pipe(
-                    map(response => RestMapperSearch.getSearchItemListFromResponse(response)),
+                    map(response => RestSearchResponseConverter.getSearchItemListFromResponse(response)),
                     catchError(error => {
                         LoggingService.logResponseError('ERROR performing text search', error);
                         return throwError(error);
                     })
                 );
         }
-    }
-
-
-    private executePositionSearch(
-        position: Position2d,
-        maxRadius_deg: number,
-        minNotamTimestamp: number,
-        maxNotamTimestamp: number): Observable<SearchItemList> {
-
-        const url = environment.searchServiceUrl + '?action=searchByPosition&lat=' + position.latitude + '&lon=' + position.longitude
-            + '&rad=' + maxRadius_deg + '&minnotamtime=' + minNotamTimestamp + '&maxnotamtime=' + maxNotamTimestamp
-            + '&searchItems=airports,navaids,reportingpoints,userpoints,geonames';
-
-        return this.http
-            // .jsonp<SearchResponse>(url, 'callback')
-            .get<SearchResponse>(url)
-            .pipe(
-                map(response => RestMapperSearch.getSearchItemListFromResponse(response)),
-                catchError(error => {
-                    LoggingService.logResponseError('ERROR performing position search', error);
-                    return throwError(error);
-                })
-            );
     }
 }

@@ -14,8 +14,8 @@ class Geoname {
         public string $feature_class,
         public string $feature_code,
         public string $country,
-        public string $admin1,
-        public string $admin2,
+        public ?string $admin1,
+        public ?string $admin2,
         public int $population,
         public Position2d $position,
         public Altitude $elevation

@@ -1,4 +1,4 @@
-import {SearchItemList} from '../domain-model/search-item-list';
+import {SearchItemList} from './search-item-list';
 
 
 export interface SearchState {

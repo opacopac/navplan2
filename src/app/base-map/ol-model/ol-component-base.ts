@@ -1,5 +1,4 @@
 import {Feature} from 'ol';
-import {Vector} from 'ol/source';
 import {LineString, MultiLineString, Point as OlPoint, Polygon as OlPoly} from 'ol/geom';
 import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 import {DataItem} from '../../common/model/data-item';
@@ -43,19 +42,6 @@ export abstract class OlComponentBase {
         feature.set(OlComponentBase.PROPERTYNAME_DATAITEM, dataItem, true);
         feature.set(OlComponentBase.PROPERTYNAME_ISSELECTABLE, this.isSelectable, true);
         return feature;
-    }
-
-
-    protected removeFeature(feature: Feature, source: Vector) {
-        this.removeFeatures([feature], source);
-    }
-
-
-    protected removeFeatures(featureList: Feature[], source: Vector) {
-        for (const feature of featureList) {
-            feature.unset(OlComponentBase.PROPERTYNAME_DATAITEM, true);
-            source.removeFeature(feature);
-        }
     }
 
 

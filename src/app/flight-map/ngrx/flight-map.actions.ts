@@ -13,6 +13,7 @@ import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
 import {Notam} from '../../notam/domain-model/notam';
 import {Airport} from '../../airport/domain-model/airport';
 import {AirportChart} from '../../airport/domain-model/airport-chart';
+import {SearchItemList} from '../../search/domain-model/search-item-list';
 
 
 export class FlightMapActions {
@@ -71,5 +72,20 @@ export class FlightMapActions {
     public static readonly closeAirportChart = createAction(
         '[Flight Map] Close airport chart',
         props<{ chartId: number }>()
+    );
+
+    // webcams
+    public static readonly openWebcam = createAction(
+        '[Flight Map] Open webcam',
+        props<{ webcam: Webcam }>()
+    );
+
+    // search by position
+    public static readonly showPositionSearchResults = createAction(
+        '[Flight Map] Show position search results on map',
+        props<{ searchResults: SearchItemList, clickPos: Position2d }>()
+    );
+    public static readonly closePositionSearchResults = createAction(
+        '[Flight Map] Close position search results on map',
     );
 }

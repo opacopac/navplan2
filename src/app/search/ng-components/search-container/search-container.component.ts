@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {getSearchIsActive, getSearchResults, getSelectedIndex} from '../../ngrx/search.selectors';
 import {select, Store} from '@ngrx/store';
-import {Observable} from 'rxjs/index';
+import {Observable} from 'rxjs';
 import {SearchItemList} from '../../domain-model/search-item-list';
 import {SearchItem} from '../../domain-model/search-item';
-import {HideSearchResultsAction, SearchItemSelectedAction, SearchQuerySubmittedAction} from '../../ngrx/search.actions';
+import {SearchActions2} from '../../ngrx/search.actions';
 
 
 @Component({
@@ -31,30 +31,21 @@ export class SearchContainerComponent implements OnInit {
 
 
     public onSearchInputChange(query: string) {
-        this.appStore.dispatch(
-            new SearchQuerySubmittedAction(query)
-        );
+        this.appStore.dispatch(SearchActions2.searchText({ query: query }));
     }
 
 
     public onSearchButtonClick(query: string) {
-        this.appStore.dispatch(
-            new SearchQuerySubmittedAction(query)
-        );
+        this.appStore.dispatch(SearchActions2.searchText({ query: query }));
     }
 
 
     public onSearchInputBlur() {
-        this.appStore.dispatch(
-            //new SearchHideAction()
-            new HideSearchResultsAction()
-        );
+        this.appStore.dispatch(SearchActions2.hideSearchResults());
     }
 
 
     public onResultSelected(result: SearchItem) {
-        this.appStore.dispatch(
-            new SearchItemSelectedAction(result)
-        );
+        this.appStore.dispatch(SearchActions2.selectSearchItem({ searchItem: result }));
     }
 }

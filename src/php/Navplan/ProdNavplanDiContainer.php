@@ -36,8 +36,6 @@ use Navplan\Flightroute\UseCase\UpdateFlightroute\UpdateFlightrouteUc;
 use Navplan\Geoname\DbRepo\DbGeonameRepo;
 use Navplan\Geoname\DomainService\IGeonameRepo;
 use Navplan\Geoname\RestService\IGeonameServiceDiContainer;
-use Navplan\Geoname\UseCase\SearchGeoname\ISearchGeonameUc;
-use Navplan\Geoname\UseCase\SearchGeoname\SearchGeonameUc;
 use Navplan\MeteoSma\DbRepo\DbMeteoRepo;
 use Navplan\MeteoSma\DomainService\IMeteoRepo;
 use Navplan\MeteoSma\RestService\IMeteoServiceDiContainer;
@@ -153,7 +151,6 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     private IUpdateFlightrouteUc $updateFlightrouteUc;
     // geoname
     private IGeonameRepo $geonameRepo;
-    private ISearchGeonameUc $searchGeonameUc;
     // meteo sma
     private IMeteoRepo $meteoRepo;
     private IReadSmaMeasurementsUc $readSmaMeasurementsUc;
@@ -382,18 +379,6 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
         return $this->geonameRepo;
     }
 
-
-    function getSearchGeonameUc(): ISearchGeonameUc{
-        if (!isset($this->searchGeonameUc)) {
-            $this->searchGeonameUc = new SearchGeonameUc(
-                $this->getGeonameRepo(),
-                $this->getTerrainRepo()
-            );
-        }
-
-        return $this->searchGeonameUc;
-    }
-
     // endregion
 
 
@@ -495,10 +480,10 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
             $this->searchByPositionUc = new SearchByPositionUc(
                 $this->getSearchUserPointUc(),
                 $this->getSearchNotamUc(),
-                $this->getSearchGeonameUc(),
                 $this->getAirportRepo(),
                 $this->getReportingPointRepo(),
-                $this->getNavaidRepo()
+                $this->getNavaidRepo(),
+                $this->getGeonameRepo()
             );
         }
 
@@ -510,10 +495,10 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
         if (!isset($this->searchByTextUc)) {
             $this->searchByTextUc = new SearchByTextUc(
                 $this->getSearchUserPointUc(),
-                $this->getSearchGeonameUc(),
                 $this->getAirportRepo(),
                 $this->getReportingPointRepo(),
-                $this->getNavaidRepo()
+                $this->getNavaidRepo(),
+                $this->getGeonameRepo()
             );
         }
 

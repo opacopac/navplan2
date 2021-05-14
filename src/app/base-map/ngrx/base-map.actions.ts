@@ -18,7 +18,7 @@ export class BaseMapActions {
     );
     public static readonly mapClicked = createAction(
         '[Base Map] map clicked',
-        props<{ clickPos: Position2d, dataItem: DataItem }>()
+        props<{ clickPos: Position2d, dataItem: DataItem, zoom: number }>()
     );
     public static readonly closeOverlay = createAction(
         '[Base Map] close overlay'

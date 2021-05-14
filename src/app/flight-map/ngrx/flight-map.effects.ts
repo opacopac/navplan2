@@ -21,6 +21,8 @@ import {NavaidService} from '../../navaid/domain-service/navaid.service';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
 import {AirportService} from '../../airport/domain-service/airport.service';
 import {AirportChart} from '../../airport/domain-model/airport-chart';
+import {SearchService} from '../../search/rest-service/search.service';
+import {OlHelper} from '../../base-map/ol-service/ol-helper';
 
 
 @Injectable()
@@ -35,7 +37,8 @@ export class FlightMapEffects {
         private readonly metarTafService: MetarTafService,
         private readonly navaidService: NavaidService,
         private readonly notamService: NotamService,
-        private readonly webcamService: WebcamService
+        private readonly webcamService: WebcamService,
+        private readonly searchService: SearchService
     ) {
     }
 
@@ -146,6 +149,8 @@ export class FlightMapEffects {
         ofType(BaseMapActions.mapClicked),
         withLatestFrom(this.flightMapState$),
         switchMap(([action, flightMapState]) => {
+            this.appStore.dispatch(FlightMapActions.closeAllOverlays());
+
             switch (action.dataItem?.dataItemType) {
                 case DataItemType.airport:
                     return this.airportService.readAirportById((action.dataItem as ShortAirport).id).pipe(
@@ -176,7 +181,21 @@ export class FlightMapEffects {
                     this.appStore.dispatch(BaseMapActions.closeImage({ id: chart.id }));
                     return of(FlightMapActions.closeAirportChart({ chartId: chart.id }));
                 default:
-                    return of(FlightMapActions.closeAllOverlays());
+                    if (!flightMapState.showPositionSearchResults.clickPos) {
+                        const maxRadiusDeg = OlHelper.calcDegPerPixelByZoom(action.zoom) * 50;
+                        return this.searchService.searchByPosition(action.clickPos, maxRadiusDeg, 0, 999).pipe(
+                            map(result => FlightMapActions.showPositionSearchResults({
+                                searchResults: result,
+                                clickPos: action.clickPos
+                            })),
+                            catchError(error => {
+                                LoggingService.logResponseError('ERROR search by position', error);
+                                return throwError(error);
+                            })
+                        );
+                    } else {
+                        return of(FlightMapActions.closePositionSearchResults());
+                    }
             }
         })
     ));

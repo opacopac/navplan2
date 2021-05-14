@@ -16,8 +16,13 @@ export class RestGeonameConverter {
             restItem.admin1,
             restItem.admin2,
             restItem.population,
-            Position2dConverter.fromRest(restItem.pos),
+            Position2dConverter.fromRest(restItem.position),
             LengthConverter.fromRest(restItem.elevation)
         );
+    }
+
+
+    public static fromRestList(restGeonameList: IRestGeoname[]): Geoname[] {
+        return restGeonameList.map(restGeoname => RestGeonameConverter.fromRest(restGeoname));
     }
 }
