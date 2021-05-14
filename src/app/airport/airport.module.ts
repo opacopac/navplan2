@@ -1,7 +1,8 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {SharedModule} from '../common/shared.module';
-import {AirportService} from './rest-service/airport.service';
+import {AirportRestService} from './rest-service/airport-rest.service';
+import {AirportService} from './domain-service/airport.service';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import {AirportService} from './rest-service/airport.service';
     exports: [
     ],
     providers: [
-        AirportService
+        AirportService,
+        AirportRestService
     ]
 })
 export class AirportModule {}

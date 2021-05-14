@@ -5,6 +5,7 @@ import {Injectable} from '@angular/core';
 import {SystemConfig} from '../../system/domain-service/system-config';
 import {RestMetarTafService} from '../rest-service/rest-metar-taf.service';
 import {MetarTaf} from '../domain-model/metar-taf';
+import {MetarTafState} from '../domain-model/metar-taf-state';
 
 
 @Injectable()
@@ -33,5 +34,17 @@ export class MetarTafService {
 
     public hasTimedOut(timestampMs: number): boolean {
         return timestampMs + this.METAR_TAF_TIMEOUT_SEC * 1000 < this.date.nowMs();
+    }
+
+
+    public findMetarTafInState(icao: string, metarTafState: MetarTafState): MetarTaf {
+        if (!icao) {
+            return undefined;
+        }
+
+        const results = metarTafState.metarTafs
+            .filter(metarTaf => metarTaf.ad_icao === icao);
+
+        return results.length > 0 ? results[0] : undefined;
     }
 }

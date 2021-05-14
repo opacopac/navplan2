@@ -18,18 +18,13 @@ import {IRestReportingpoint} from '../rest-model/i-rest-reportingpoint';
 import {RestReportingpointConverter} from '../rest-model/rest-reportingpoint-converter';
 import {RestReportingsectorConverter} from '../rest-model/rest-reportingsector-converter';
 import {ReportingPointsAndSectors} from '../domain-model/reporting-points-and-sectors';
-import {of} from 'rxjs/internal/observable/of';
 import {AirportCircuit} from '../domain-model/airport-circuit';
 import {RestAirportCircuitConverter} from '../rest-model/rest-airport-circuit-converter';
 import {IRestAirportCircuit} from '../rest-model/i-rest-airport-circuit';
 
 
 @Injectable()
-export class AirportService {
-    private readonly REPORTING_POINT_MIN_ZOOM = 11;
-    private readonly AD_CIRCUIT_MIN_ZOOM = 12;
-
-
+export class AirportRestService {
     constructor(private http: HttpClient) {
     }
 
@@ -55,10 +50,6 @@ export class AirportService {
 
 
     public readAirportCircuitsByExtent(extent: Extent2d, zoom: number): Observable<AirportCircuit[]> {
-        if (zoom < this.AD_CIRCUIT_MIN_ZOOM) {
-            return of([]);
-        }
-
         const url: string = environment.airportServiceUrl + '?action=getAdCircuitsByExtent'
             + '&minlon=' + extent.minLon
             + '&minlat=' + extent.minLat
@@ -79,10 +70,6 @@ export class AirportService {
 
 
     public readReportingPointsByExtent(extent: Extent2d, zoom: number): Observable<ReportingPointsAndSectors> {
-        if (zoom < this.REPORTING_POINT_MIN_ZOOM) {
-            return of(new ReportingPointsAndSectors([], []));
-        }
-
         const url: string = environment.airportServiceUrl + '?action=getRpByExtent'
             + '&minlon=' + extent.minLon
             + '&minlat=' + extent.minLat

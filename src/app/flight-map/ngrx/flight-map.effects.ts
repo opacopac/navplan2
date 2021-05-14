@@ -8,7 +8,6 @@ import {environment} from '../../../environments/environment';
 import {DataItemType} from '../../common/model/data-item';
 import {ShortAirport} from '../../airport/domain-model/short-airport';
 import {FlightMapActions} from './flight-map.actions';
-import {AirportService} from '../../airport/rest-service/airport.service';
 import {AirspaceService} from '../../airspace/rest-service/airspace.service';
 import {WebcamService} from '../../webcam/rest-service/webcam.service';
 import {NotamService} from '../../notam/domain-service/notam-service';
@@ -20,6 +19,7 @@ import {FlightMapState} from './flight-map-state';
 import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 import {NavaidService} from '../../navaid/domain-service/navaid.service';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
+import {AirportService} from '../../airport/domain-service/airport.service';
 
 
 @Injectable()
@@ -150,14 +150,14 @@ export class FlightMapEffects {
                     return this.airportService.readAirportById((action.dataItem as ShortAirport).id).pipe(
                         map(airport => FlightMapActions.showAirportOverlay({
                             airport: airport,
-                            metarTaf: this.findMetarTaf(airport.icao, flightMapState),
+                            metarTaf: this.metarTafService.findMetarTafInState(airport.icao, flightMapState.metarTafState),
                             notams: [], // TODO
                             tabIndex: 0
                         }))
                     );
                 case DataItemType.metarTaf:
                     const metarTaf = action.dataItem as MetarTaf;
-                    const shortAirport = this.findAirport(metarTaf.ad_icao, flightMapState);
+                    const shortAirport = this.airportService.findAirportInState(metarTaf.ad_icao, flightMapState.airportState);
                     return this.airportService.readAirportById(shortAirport.id).pipe(
                         map(airport => FlightMapActions.showAirportOverlay({
                             airport: airport,
@@ -200,31 +200,5 @@ export class FlightMapEffects {
         } else {
             return false;
         }
-    }
-
-
-    // TODO
-    private findMetarTaf(icao: string, flightMapState: FlightMapState): MetarTaf {
-        if (!icao) {
-            return undefined;
-        }
-
-        const results = flightMapState.metarTafState.metarTafs
-            .filter(metarTaf => metarTaf.ad_icao === icao);
-
-        return results.length > 0 ? results[0] : undefined;
-    }
-
-
-    // TODO
-    private findAirport(icao: string, flightMapState: FlightMapState): ShortAirport {
-        if (!icao) {
-            return undefined;
-        }
-
-        const results = flightMapState.airportState.airports
-            .filter(airport => airport.icao === icao);
-
-        return results.length > 0 ? results[0] : undefined;
     }
 }
