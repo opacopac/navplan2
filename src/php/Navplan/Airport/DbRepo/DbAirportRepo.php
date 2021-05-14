@@ -200,7 +200,7 @@ class DbAirportRepo implements IAirportRepo {
 
         while ($row = $result->fetch_assoc()) {
             foreach ($airports as &$ap) {
-                if ($ap->id === $row["airport_id"]) {
+                if ($ap->id === intval($row["airport_id"])) {
                     $ap->radios[] = DbAirportRadioConverter::fromDbRow($row);
                     break;
                 }

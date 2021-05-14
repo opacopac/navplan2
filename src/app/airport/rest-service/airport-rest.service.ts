@@ -4,9 +4,9 @@ import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {LoggingService} from '../../system/domain-service/logging/logging.service';
-import {AirportChart2} from '../domain-model/airport-chart2';
-import {IRestAirportChart2} from '../rest-model/i-rest-airport-chart2';
-import {RestAirportChartConverter2} from '../rest-model/rest-airport-chart-converter2';
+import {AirportChart} from '../domain-model/airport-chart';
+import {IRestAirportChart} from '../rest-model/i-rest-airport-chart';
+import {RestAirportChartConverter} from '../rest-model/rest-airport-chart-converter';
 import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 import {ShortAirport} from '../domain-model/short-airport';
 import {IRestShortAirport} from '../rest-model/i-rest-short-airport';
@@ -112,13 +112,13 @@ export class AirportRestService {
     }
 
 
-    public readAdChartById(chartId: number): Observable<AirportChart2> {
+    public readAdChartById(chartId: number): Observable<AirportChart> {
         const url: string = environment.airportServiceUrl + '?action=getChartById&id=' + chartId;
 
         return this.http
-            .get<IRestAirportChart2>(url, {observe: 'response'})
+            .get<IRestAirportChart>(url, {observe: 'response'})
             .pipe(
-                map((response) => RestAirportChartConverter2.fromRest(response.body)),
+                map((response) => RestAirportChartConverter.fromRest(response.body)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading airport chart by id', err);
                     return throwError(err);

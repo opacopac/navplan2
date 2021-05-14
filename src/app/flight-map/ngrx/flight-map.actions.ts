@@ -12,6 +12,7 @@ import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
 import {Notam} from '../../notam/domain-model/notam';
 import {Airport} from '../../airport/domain-model/airport';
+import {AirportChart} from '../../airport/domain-model/airport-chart';
 
 
 export class FlightMapActions {
@@ -59,8 +60,16 @@ export class FlightMapActions {
     );
 
     // charts
+    public static readonly openAirportChart = createAction(
+        '[Flight Map] Open airport chart',
+        props<{ chartId: number }>()
+    );
     public static readonly showAirportChart = createAction(
         '[Flight Map] Show airport chart',
+        props<{ chart: AirportChart }>()
+    );
+    public static readonly closeAirportChart = createAction(
+        '[Flight Map] Close airport chart',
         props<{ chartId: number }>()
     );
 }

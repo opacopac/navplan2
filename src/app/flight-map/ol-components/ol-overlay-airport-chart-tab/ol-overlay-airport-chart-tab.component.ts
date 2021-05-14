@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Airport} from '../../../airport/domain-model/airport';
-import {AirportChart} from '../../../airport/domain-model/airport-chart';
 import {Store} from '@ngrx/store';
 import {FlightMapActions} from '../../ngrx/flight-map.actions';
+import {AirportChart} from '../../../airport/domain-model/airport-chart';
 
 
 @Component({
@@ -19,6 +19,11 @@ export class OlOverlayAirportChartTabComponent implements OnInit {
 
 
     ngOnInit() {
+    }
+
+
+    public getChartColumns(): string[] {
+        return ['filename', 'type', 'source'];
     }
 
 
@@ -39,6 +44,6 @@ export class OlOverlayAirportChartTabComponent implements OnInit {
 
 
     public onChartClicked(id: number) {
-        this.appStore.dispatch(FlightMapActions.showAirportChart({ chartId: id }));
+        this.appStore.dispatch(FlightMapActions.openAirportChart({ chartId: id }));
     }
 }

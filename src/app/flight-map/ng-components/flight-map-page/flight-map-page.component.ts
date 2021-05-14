@@ -33,6 +33,7 @@ import {Observable} from 'rxjs/internal/Observable';
 import {Subscription} from 'rxjs/internal/Subscription';
 import {Airport} from '../../../airport/domain-model/airport';
 import {
+    getFlightMapAirportCharts,
     getFlightMapAirportCircuits,
     getFlightMapAirportOverlay,
     getFlightMapAirports,
@@ -58,6 +59,7 @@ import {DataItem, DataItemType} from '../../../common/model/data-item';
 import {FlightMapActions} from '../../ngrx/flight-map.actions';
 import {MetarTaf} from '../../../metar-taf/domain-model/metar-taf';
 import {Notam} from '../../../notam/domain-model/notam';
+import {OlAirportChartContainer} from '../../../airport/ol-components/ol-airport-chart-container';
 
 
 @Component({
@@ -81,6 +83,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
     private showAirportOverlaySubscription: Subscription;
     private showOverlaySubscription: Subscription;
     private olAirportContainer: OlAirportContainer;
+    private olAirportChartContainer: OlAirportChartContainer;
     private olAirportCircuitContainer: OlAirportCircuitContainer;
     private olReportingPointContainer: OlReportingPointContainer;
     private olReportingSectorContainer: OlReportingSectorContainer;
@@ -130,6 +133,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
 
     ngOnDestroy() {
         this.olAirportContainer.destroy();
+        this.olAirportChartContainer.destroy();
         this.olAirportCircuitContainer.destroy();
         this.olReportingPointContainer.destroy();
         this.olReportingSectorContainer.destroy();
@@ -185,24 +189,26 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         const trackLayer = OlHelper.createEmptyVectorLayer(false);
         const trafficLayer = OlHelper.createEmptyVectorLayer(false);
         const circuitLayer = OlHelper.createEmptyVectorLayer(false);
+        const chartCloserLayer = OlHelper.createEmptyVectorLayer(false);
 
         this.mapContainer.init(
             MapBaseLayerType.OPENTOPOMAP,
             [
+                chartCloserLayer,
+                circuitLayer,
                 flightrouteLayer,
-                ownPlaneLayer,
-                metarTafLayer,
-                notamLayer,
                 airspaceLayer,
+                notamLayer,
                 reportingSectorLayer,
                 webcamLayer,
                 userPointLayer,
                 reportingPointLayer,
                 navaidLayer,
+                metarTafLayer,
                 airportLayer,
                 trackLayer,
                 trafficLayer,
-                circuitLayer
+                ownPlaneLayer
             ],
             [
                 this.mapOverlayAirportComponent.olOverlay,
@@ -223,6 +229,10 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         this.olAirportContainer = new OlAirportContainer(
             airportLayer,
             this.appStore.pipe(select(getFlightMapAirports))
+        );
+        this.olAirportChartContainer = new OlAirportChartContainer(
+            chartCloserLayer,
+            this.appStore.pipe(select(getFlightMapAirportCharts))
         );
         this.olReportingPointContainer = new OlReportingPointContainer(
             reportingPointLayer,

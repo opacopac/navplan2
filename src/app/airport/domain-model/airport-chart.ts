@@ -1,12 +1,21 @@
-export class AirportChart {
+import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
+import {DataItem, DataItemType} from '../../common/model/data-item';
+
+
+export class AirportChart extends DataItem {
     constructor(
         public id: number,
+        public airportIcao: string,
         public source: string,
         public type: string,
-        public filename: string,
-        public mercator_n: string, // TODO: => extent
-        public mercator_s: string,
-        public mercator_e: string,
-        public mercator_w: string) {
+        public fileName: string,
+        public extent: Extent2d
+    ) {
+        super();
+    }
+
+
+    public get dataItemType(): DataItemType {
+        return DataItemType.airportChart;
     }
 }

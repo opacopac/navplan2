@@ -5,9 +5,9 @@ import {LengthConverter} from '../../common/geo-math/rest-model/length-converter
 import {RestAirportRadioConverter} from './rest-airport-radio-converter';
 import {RestAirportRunwayConverter} from './rest-airport-runway-converter';
 import {RestWebcamConverter} from '../../webcam/rest-model/rest-webcam-converter';
-import {RestAirportChartConverter} from './rest-airport-chart-converter';
 import {RestAirportFeatureConverter} from './rest-airport-feature-converter';
 import {AirportType} from '../domain-model/airport-type';
+import {RestAirportChartConverter} from './rest-airport-chart-converter';
 
 
 export class RestAirportConverter {

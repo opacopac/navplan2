@@ -26,6 +26,6 @@ export class OlOverlayAirportRunwayTabComponent implements OnInit {
 
 
     public getRwyDimensionsString(runway: AirportRunway): string {
-        return Math.round(runway.length.m) + ' x ' + Math.round(runway.width.m) + 'm';
+        return Math.round(runway.length.m) + ' x ' + Math.round(runway.width.m);
     }
 }

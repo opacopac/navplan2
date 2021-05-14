@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {AirportChart2} from '../domain-model/airport-chart2';
+import {AirportChart} from '../domain-model/airport-chart';
 import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 import {ShortAirport} from '../domain-model/short-airport';
 import {Airport} from '../domain-model/airport';
@@ -49,7 +49,7 @@ export class AirportService {
     }
 
 
-    public readAdChartById(chartId: number): Observable<AirportChart2> {
+    public readAdChartById(chartId: number): Observable<AirportChart> {
         return this.airportRestService.readAdChartById(chartId);
     }
 

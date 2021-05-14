@@ -6,4 +6,5 @@ export interface ShowImageState {
     imageUrl: string;
     extent: Extent2d;
     opacity: number;
+    fitInView: boolean;
 }

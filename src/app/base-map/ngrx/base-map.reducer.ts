@@ -13,7 +13,7 @@ const initialState: BaseMapState = {
     rotation: new Angle(0, AngleUnit.RAD),
     extent: undefined,
     baseMapType: MapBaseLayerType.OPENTOPOMAP,
-    showImage: { imageId: undefined, imageUrl: undefined, extent: undefined, opacity: undefined }
+    showImage: { imageId: undefined, imageUrl: undefined, extent: undefined, opacity: undefined, fitInView: true }
 };
 
 
@@ -40,7 +40,8 @@ export const baseMapReducer = createReducer(
             imageId: action.id,
             imageUrl: action.imageUrl,
             extent: action.extent,
-            opacity: action.opacity
+            opacity: action.opacity,
+            fitInView: true
         }
     })),
     on(BaseMapActions.closeImage, (state, action) => ({
@@ -49,7 +50,8 @@ export const baseMapReducer = createReducer(
             imageId: action.id,
             imageUrl: undefined,
             extent: undefined,
-            opacity: undefined
+            opacity: undefined,
+            fitInView: true
         }
     })),
 );

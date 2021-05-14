@@ -10,10 +10,12 @@ import {ReportingPointSectorState} from '../../airport/domain-model/reporting-po
 import {NavaidState} from '../../navaid/domain-model/navaid-state';
 import {WebcamState} from '../../webcam/domain-model/webcam-state';
 import {AirspaceState} from '../../airspace/domain-model/airspace-state';
+import {AirportChartState} from '../../airport/domain-model/airport-chart-state';
 
 
 export interface FlightMapState {
     airportState: AirportState;
+    airportChartState: AirportChartState;
     airportCircuitState: AirportCircuitState;
     reportingPointSectorState: ReportingPointSectorState;
     airspaceState: AirspaceState;

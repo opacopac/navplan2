@@ -6,9 +6,9 @@ import {AirportRunway} from './airport-runway';
 import {Length} from '../../common/geo-math/domain-model/quantities/length';
 import {AirportRadio} from './airport-radio';
 import {Webcam} from '../../webcam/domain-model/webcam';
-import {AirportChart} from './airport-chart';
 import {AirportFeature} from './airport-feature';
 import {AirportType} from './airport-type';
+import {AirportChart} from './airport-chart';
 
 
 export class Airport extends DataItem  {
@@ -52,6 +52,11 @@ export class Airport extends DataItem  {
 
     public get hasRadios(): boolean {
         return (this.radios != null && this.radios.length > 0);
+    }
+
+
+    public get hasCharts(): boolean {
+        return (this.charts != null && this.charts.length > 0);
     }
 
 

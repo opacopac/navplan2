@@ -4,7 +4,6 @@ import {DataItem} from '../../common/model/data-item';
 import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 import {WmmHelper} from '../../common/geo-math/domain-service/wmm-helper';
 import {Length} from '../../common/geo-math/domain-model/quantities/length';
-import {LengthUnit} from '../../common/geo-math/domain-model/quantities/units';
 import Overlay from 'ol/Overlay';
 
 
@@ -59,8 +58,8 @@ export abstract class OlOverlayBase implements AfterViewInit {
     }
 
 
-    public getElevationString(elevation_m: number): string {
-        return Math.round(Length.convert(elevation_m, LengthUnit.M, LengthUnit.FT)) + 'ft'; // TODO
+    public getElevationString(elevation: Length): string {
+        return Math.round(elevation.ft) + ' ft'; // TODO
     }
 
 

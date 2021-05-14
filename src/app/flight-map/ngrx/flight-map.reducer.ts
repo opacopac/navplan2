@@ -5,6 +5,7 @@ import {createReducer, on} from '@ngrx/store';
 
 export const initialFlightMapState: FlightMapState = {
     airportState: { extent: undefined, zoom: undefined, airports: [] },
+    airportChartState: { airportCharts: [] },
     airportCircuitState: { extent: undefined, zoom: undefined, airportCircuits: [] },
     reportingPointSectorState: { extent: undefined, zoom: undefined, reportingPoints: [], reportingSectors: [] },
     airspaceState: { extent: undefined, zoom: undefined, airspaces: [] },
@@ -54,6 +55,17 @@ export const flightMapReducer = createReducer(
     on(FlightMapActions.showOverlay, (state, action) => ({
         ...state,
         showOverlay: { dataItem: action.dataItem, clickPos: action.clickPos }
+    })),
+    on(FlightMapActions.showAirportChart, (state, action) => ({
+        ...state,
+        airportChartState: { airportCharts: [...state.airportChartState.airportCharts, action.chart ] },
+        showOverlay: { dataItem: undefined, clickPos: undefined }
+    })),
+    on(FlightMapActions.closeAirportChart, (state, action) => ({
+        ...state,
+        airportChartState: {
+            airportCharts: [ ...state.airportChartState.airportCharts.filter(chart => chart.id !== action.chartId) ]
+        },
     })),
     on(FlightMapActions.closeAllOverlays, (state) => ({
         ...state,

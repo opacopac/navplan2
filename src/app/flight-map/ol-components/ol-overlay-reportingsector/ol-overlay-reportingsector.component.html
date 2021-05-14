@@ -11,9 +11,9 @@
         <mat-card-content>
             <p *ngIf="this.reportingsector.alt_min || this.reportingsector.alt_max">
                 Altitude:
-                {{ this.reportingsector.alt_min ? 'min. ' + this.reportingsector.alt_min + 'ft' : '' }}
+                {{ this.reportingsector.alt_min ? 'min. ' + this.getElevationString(this.reportingsector.alt_min) : '' }}
                 <span *ngIf="this.reportingsector.alt_min && this.reportingsector.alt_max">/</span>
-                {{ this.reportingsector.alt_max ? 'max. ' + this.reportingsector.alt_max + 'ft' : '' }}
+                {{ this.reportingsector.alt_max ? 'max. ' + this.getElevationString(this.reportingsector.alt_max) : '' }}
             </p>
             <p *ngIf="this.reportingsector.inbd_comp || this.reportingsector.outbd_comp">
                 Compulsory: {{ this.reportingsector.inbd_comp ? 'INBD' : '' }}

@@ -4,6 +4,7 @@ import {FlightMapState} from './flight-map-state';
 
 export const getFlightMapState = createFeatureSelector<FlightMapState>('flightMapState');
 export const getFlightMapAirports = createSelector(getFlightMapState, state => state.airportState.airports);
+export const getFlightMapAirportCharts = createSelector(getFlightMapState, state => state.airportChartState.airportCharts);
 export const getFlightMapAirportCircuits = createSelector(getFlightMapState, state => state.airportCircuitState.airportCircuits);
 export const getFlightMapReportingPoints = createSelector(getFlightMapState, state => state.reportingPointSectorState.reportingPoints);
 export const getFlightMapReportingSectors = createSelector(getFlightMapState, state => state.reportingPointSectorState.reportingSectors);

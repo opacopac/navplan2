@@ -20,6 +20,7 @@ import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 import {NavaidService} from '../../navaid/domain-service/navaid.service';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
 import {AirportService} from '../../airport/domain-service/airport.service';
+import {AirportChart} from '../../airport/domain-model/airport-chart';
 
 
 @Injectable()
@@ -170,6 +171,10 @@ export class FlightMapEffects {
                 case DataItemType.reportingSector:
                 case DataItemType.navaid:
                     return of(FlightMapActions.showOverlay(action));
+                case DataItemType.airportChart:
+                    const chart = action.dataItem as AirportChart;
+                    this.appStore.dispatch(BaseMapActions.closeImage({ id: chart.id }));
+                    return of(FlightMapActions.closeAirportChart({ chartId: chart.id }));
                 default:
                     return of(FlightMapActions.closeAllOverlays());
             }
@@ -178,14 +183,15 @@ export class FlightMapEffects {
 
 
     showAirportChartOnMap$ = createEffect(() => this.actions$.pipe(
-        ofType(FlightMapActions.showAirportChart),
+        ofType(FlightMapActions.openAirportChart),
         switchMap(action => this.airportService.readAdChartById(action.chartId).pipe(
-            map(chart => BaseMapActions.showImage({
+            tap(chart => this.appStore.dispatch(BaseMapActions.showImage({
                 id: chart.id,
                 imageUrl: environment.chartBaseUrl + chart.fileName,
                 extent: chart.extent,
                 opacity: 0.9
-            })),
+            }))),
+            map(chart => FlightMapActions.showAirportChart({ chart: chart })),
             catchError(error => {
                 LoggingService.logResponseError('ERROR reading airport chart by id', error);
                 return throwError(error);

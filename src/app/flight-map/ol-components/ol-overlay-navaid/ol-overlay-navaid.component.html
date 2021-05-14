@@ -11,15 +11,10 @@
         </mat-card-header>
         <mat-card-content>
             <p>{{ this.getPositionString(this.navaid.position) }}</p>
-            <p>VAR: {{ this.getVariationString(this.navaid.position) }}</p>
-            <p>Elevation [ft]: {{ this.getElevationString(this.navaid.elevation.ft) }}</p>
+            <p>Variation: {{ this.getVariationString(this.navaid.position) }}</p>
+            <p>Elevation: {{ this.getElevationString(this.navaid.elevation) }}</p>
             <p>Frequency: {{ this.navaid.frequency }} {{ this.navaid.unit }}</p>
             <p>Morse: <span [innerHtml]="this.getMorseString()"></span></p>
-            <div class="text-right small">
-                <em><a href="http://www.openaip.net/navaids?field_openaip_navaid_type_value_many_to_one=All&field_openaip_navaid_id_value=&field_openaip_navaid_country_value_many_to_one=All&title={{ this.navaid.name }}"
-                       target="_blank">add / correct data</a>
-                    <i class="fas fa-info-circle" title="openAIP login is required for editing"></i></em>
-            </div>
         </mat-card-content>
         <app-ol-overlay-button-list [waypoint]="this.waypoint"></app-ol-overlay-button-list>
     </mat-card>

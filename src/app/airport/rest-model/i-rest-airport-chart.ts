@@ -1,5 +1,6 @@
 export interface IRestAirportChart {
     id: number;
+    airport_icao: string;
     source: string;
     type: string;
     filename: string;

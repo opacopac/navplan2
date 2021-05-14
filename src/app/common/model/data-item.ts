@@ -11,7 +11,8 @@ export enum DataItemType {
     notam = 10,
     webcam = 11,
     airspace = 12,
-    circuit = 13
+    circuit = 13,
+    airportChart = 14
 }
 
 

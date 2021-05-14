@@ -39,7 +39,6 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
     private map: Map;
     private mapLayer: TileLayer;
     private customLayers: Layer[] = [];
-    private currentOverlay: Overlay;
     private readonly imageLayers: ImageLayer[] = [];
     private readonly $zoom: Observable<number>;
     private readonly $showImage: Observable<ShowImageState>;
@@ -256,33 +255,6 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
     // endregion
 
 
-    // region overlays
-
-    public addOverlay(container: HTMLElement): Overlay {
-        const overlay = new Overlay({
-            element: container,
-            autoPan: true,
-            autoPanAnimation: {duration: 250}
-        });
-
-        this.map.addOverlay(overlay);
-
-        return overlay;
-    }
-
-
-    public closeOverlay() {
-        if (!this.currentOverlay) {
-            return;
-        }
-
-        this.map.removeOverlay(this.currentOverlay);
-        this.currentOverlay = undefined;
-    }
-
-    // endregion
-
-
     // region image
 
     private showImage(showImageState: ShowImageState) {
@@ -302,7 +274,9 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
             const layerIndex = this.IMAGE_LAYER_FIRST_INDEX + this.imageLayers.length - 1;
             this.map.getLayers().insertAt(layerIndex, imageLayer);
 
-            // fitViewMercator(extent);
+            if (showImageState.fitInView) {
+                this.fitInView(showImageState.extent);
+            }
         } else {
             // close image
             const closeLayer = this.imageLayers.find(layer => layer.get(this.IMAGE_ID_KEY) === showImageState.imageId);
@@ -331,6 +305,12 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
         imageLayer.set(this.IMAGE_ID_KEY, imageId);
 
         return imageLayer;
+    }
+
+
+    private fitInView(extent: Extent2d) {
+        const oversizeExtent = extent.getOversizeExtent(1.1);
+        this.map.getView().fit(OlHelper.getExtentAsMercator(oversizeExtent));
     }
 
     // endregion
