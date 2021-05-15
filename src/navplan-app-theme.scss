@@ -1,10 +1,11 @@
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
-@include mat-core();
+@include mat.core();
 
 $mat-custom1-text: #ffffff;
 $mat-custom1: (
@@ -147,18 +148,18 @@ $mat-custom4: (
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-//$candy-app-primary: mat-palette($mat-indigo);
-//$candy-app-accent: mat-palette($mat-blue-gray);
-$navplan-app-primary: mat-palette($mat-custom1, 500, 100, 900);
-$navplan-app-accent: mat-palette($mat-custom2, A200, A100, A700);
+//$candy-app-primary: mat.define-palette(mat.$indigo-palette);
+//$candy-app-accent: mat.define-palette(mat.$blue-gray-palette);
+$navplan-app-primary: mat.define-palette($mat-custom1, 500, 100, 900);
+$navplan-app-accent: mat.define-palette($mat-custom2, A200, A100, A700);
 
 // The warn palette is optional (defaults to red).
-$navplan-app-warn: mat-palette($mat-red);
+$navplan-app-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$navplan-app-theme: mat-light-theme($navplan-app-primary, $navplan-app-accent, $navplan-app-warn);
+$navplan-app-theme: mat.define-light-theme($navplan-app-primary, $navplan-app-accent, $navplan-app-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($navplan-app-theme);
+@include mat.all-component-themes($navplan-app-theme);
