@@ -22,12 +22,13 @@ export class RestSearchService {
     public searchByPosition(
         position: Position2d,
         maxRadius_deg: number,
+        maxResults: number,
         minNotamTimestamp: number,
         maxNotamTimestamp: number
     ): Observable<SearchItemList> {
         const url = environment.searchServiceUrl + '?action=searchByPosition&lat=' + position.latitude + '&lon=' + position.longitude
-            + '&rad=' + maxRadius_deg + '&minnotamtime=' + minNotamTimestamp + '&maxnotamtime=' + maxNotamTimestamp
-            + '&searchItems=airports,navaids,reportingpoints,userpoints,geonames';
+            + '&rad=' + maxRadius_deg + '&maxresults=' + maxResults + '&minnotamtime=' + minNotamTimestamp
+            + '&maxnotamtime=' + maxNotamTimestamp + '&searchItems=airports,navaids,reportingpoints,userpoints,geonames';
 
         return this.http
             .get<IRestSearchResponse>(url)

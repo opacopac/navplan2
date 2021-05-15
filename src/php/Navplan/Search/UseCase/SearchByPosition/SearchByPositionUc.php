@@ -14,8 +14,7 @@ use Navplan\User\UseCase\SearchUserPoint\ISearchUserPointUc;
 
 
 class SearchByPositionUc implements ISearchByPositionUc {
-    const MAX_POSITION_SEARCH_RESULTS = 80;
-    const MAX_POSITION_SEARCH_RESULTS_PER_ENTITY = 80;
+    const SEARCH_RESULTS_HARDLIMIT = 100;
 
 
     public function __construct(
@@ -31,6 +30,7 @@ class SearchByPositionUc implements ISearchByPositionUc {
 
     public function search(SearchByPositionQuery $query): SearchResult {
         $resultNum = 0;
+        $maxResults = min($query->maxResults, self::SEARCH_RESULTS_HARDLIMIT);
         $airports = [];
         $navaids = [];
         $reportingPoints = [];
@@ -39,34 +39,34 @@ class SearchByPositionUc implements ISearchByPositionUc {
         $notams = [];
 
         foreach ($query->searchItems as $searchItem) {
-            if ($resultNum >= self::MAX_POSITION_SEARCH_RESULTS)
+            if ($resultNum >= $maxResults)
                 break;
 
             switch ($searchItem) {
                 case SearchItemType::AIRPORTS:
-                    $airports = $this->airportRepo->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum));
+                    $airports = $this->airportRepo->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum, $maxResults));
                     $resultNum += count($airports);
                     break;
                 case SearchItemType::NAVAIDS:
-                    $navaids = $this->navaidRepo->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum));
+                    $navaids = $this->navaidRepo->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum, $maxResults));
                     $resultNum += count($navaids);
                     break;
                 case SearchItemType::REPORTINGPOINTS:
-                    $reportingPoints = $this->reportingPointRepo->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum));
+                    $reportingPoints = $this->reportingPointRepo->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum, $maxResults));
                     $resultNum += count($reportingPoints);
                     break;
                 case SearchItemType::USERPOINTS:
                     if ($query->token) {
-                        $userPoints = $this->searchUserPointUc->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum), $query->token);
+                        $userPoints = $this->searchUserPointUc->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum, $maxResults), $query->token);
                         $resultNum += count($userPoints);
                     }
                     break;
                 case SearchItemType::GEONAMES:
-                    $geonames = $this->geonameRepo->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum));
+                    $geonames = $this->geonameRepo->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum, $maxResults));
                     $resultNum += count($geonames);
                     break;
                 case SearchItemType::NOTAMS:
-                    $geonames = $this->searchNotamUc->searchByPosition($query->position, $query->minNotamTimestamp, $query->maxNotamTimestamp, self::getMaxPositionResults($resultNum));
+                    $geonames = $this->searchNotamUc->searchByPosition($query->position, $query->minNotamTimestamp, $query->maxNotamTimestamp, self::getMaxPositionResults($resultNum, $maxResults));
                     $resultNum += count($geonames);
                     break;
             }
@@ -86,7 +86,7 @@ class SearchByPositionUc implements ISearchByPositionUc {
     }
 
 
-    private static function getMaxPositionResults($resultNum) {
-        return max(min( self::MAX_POSITION_SEARCH_RESULTS - $resultNum, self::MAX_POSITION_SEARCH_RESULTS_PER_ENTITY), 0);
+    private static function getMaxPositionResults($resultNum, $maxResults) {
+        return max($maxResults - $resultNum, 0);
     }
 }

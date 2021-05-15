@@ -24,7 +24,13 @@ export class SearchService {
         minNotamTimestamp: number,
         maxNotamTimestamp: number
     ): Observable<SearchItemList> {
-        return this.restSearchService.searchByPosition(position, maxRadius_deg, minNotamTimestamp, maxNotamTimestamp).pipe(
+        return this.restSearchService.searchByPosition(
+            position,
+            maxRadius_deg,
+            this.MAX_POINT_RESULTS,
+            minNotamTimestamp,
+            maxNotamTimestamp
+        ).pipe(
             map(result => {
                 if (result.items.length < this.MAX_POINT_RESULTS) {
                     const posItem = Geoname.createFromPosition(position);

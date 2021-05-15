@@ -1,6 +1,6 @@
 <div #container class="ol-popup">
     <mat-card *ngIf="this.geoname">
-        <mat-card-header>
+        <mat-card-header class="no-left-margin">
             <mat-card-title>
                 {{ this.geoname.name }}
                 <span *ngIf="this.getAdminString().length > 0">({{ this.getAdminString() }})</span>
