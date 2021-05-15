@@ -17,7 +17,6 @@ import {NavaidService} from '../../enroute/domain-service/navaid.service';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
 import {AirportService} from '../../aerodrome/domain-service/airport.service';
 import {AirportChart} from '../../aerodrome/domain-model/airport-chart';
-import {RestSearchService} from '../../search/rest-service/rest-search.service';
 import {OlHelper} from '../../base-map/ol-service/ol-helper';
 import {AirspaceService} from '../../enroute/domain-service/airspace.service';
 import {WebcamService} from '../../webcam/domain-service/webcam.service';
@@ -46,8 +45,7 @@ export class FlightMapEffects {
         private readonly metarTafService: MetarTafService,
         private readonly navaidService: NavaidService,
         private readonly notamService: NotamService,
-        private readonly webcamService: WebcamService,
-        private readonly searchService: RestSearchService
+        private readonly webcamService: WebcamService
     ) {
     }
 
@@ -127,6 +125,9 @@ export class FlightMapEffects {
         ofType(BaseMapActions.mapClicked),
         withLatestFrom(this.flightMapState$, this.searchState$),
         switchMap(([action, flightMapState, searchState]) => {
+            this.appStore.dispatch(FlightMapActions.closeAllOverlays());
+            this.appStore.dispatch(SearchActions2.closePositionSearchResults());
+
             switch (action.dataItem?.dataItemType) {
                 case DataItemType.airport:
                     return this.airportService.readAirportById((action.dataItem as ShortAirport).id).pipe(
@@ -158,15 +159,18 @@ export class FlightMapEffects {
                     this.appStore.dispatch(BaseMapActions.closeImage({ id: chart.id }));
                     return of(FlightMapActions.closeAirportChart({ chartId: chart.id }));
                 default:
-                    if (!searchState.positionSearchState.clickPos) {
+                    if (searchState.positionSearchState.clickPos
+                        || flightMapState.showAirportOverlay.airport
+                        || flightMapState.showOverlay.clickPos
+                    ) {
+                        return of(SearchActions2.closePositionSearchResults());
+                    } else {
                         return of(SearchActions2.searchByPosition({
                             clickPos: action.clickPos,
                             maxDegRadius: OlHelper.calcDegPerPixelByZoom(action.zoom) * 50,
                             minNotamTimestamp: 0,
                             maxNotamTimestamp: 999 // TODO
                         }));
-                    } else {
-                        return of(SearchActions2.closePositionSearchResults());
                     }
             }
         })

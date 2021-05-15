@@ -1,7 +1,6 @@
 import {FlightMapState} from '../domain-model/flight-map-state';
 import {FlightMapActions} from './flight-map.actions';
 import {createReducer, on} from '@ngrx/store';
-import {BaseMapActions} from '../../base-map/ngrx/base-map.actions';
 
 
 export const initialFlightMapState: FlightMapState = {
@@ -68,12 +67,9 @@ export const flightMapReducer = createReducer(
             airportCharts: [ ...state.airportChartState.airportCharts.filter(chart => chart.id !== action.chartId) ]
         },
     })),
-    on(BaseMapActions.mapClicked, (state) => ({
-        ...state,
-        showOverlay: { dataItem: undefined, clickPos: undefined }
-    })),
     on(FlightMapActions.closeAllOverlays, (state) => ({
         ...state,
-        showOverlay: { dataItem: undefined, clickPos: undefined }
+        showOverlay: { dataItem: undefined, clickPos: undefined },
+        showAirportOverlay: { airport: undefined, metarTaf: undefined, notams: [], tabIndex: 0 },
     })),
 );
