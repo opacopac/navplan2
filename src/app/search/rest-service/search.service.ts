@@ -30,7 +30,6 @@ export class SearchService {
             + '&searchItems=airports,navaids,reportingpoints,userpoints,geonames';
 
         return this.http
-            // .jsonp<SearchResponse>(url, 'callback')
             .get<IRestSearchResponse>(url)
             .pipe(
                 map(response => RestSearchResponseConverter.getSearchItemListFromResponse(response)),

@@ -2,7 +2,7 @@
 include_once "../config.php";
 include_once "../helper.php";
 include_once "../logger.php";
-include_once "../wgs84_ch1903.php";
+include_once "../vendor/SwissTopo/wgs84_ch1903.php";
 
 
 $smaMeasurementsUrl = "http://data.geo.admin.ch/ch.meteoschweiz.swissmetnet/info/VQHA69_DE.txt";
