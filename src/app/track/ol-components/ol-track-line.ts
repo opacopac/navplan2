@@ -1,11 +1,11 @@
 import {Feature} from 'ol';
 import {Stroke, Style} from 'ol/style';
-import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {Track} from '../domain-model/track';
 import VectorLayer from 'ol/layer/Vector';
+import {OlHelper} from '../../base-map/ol-service/ol-helper';
 
 
-export class OlTrackLine extends OlComponentBase {
+export class OlTrackLine {
     private readonly lineFeature: Feature;
 
 
@@ -13,17 +13,10 @@ export class OlTrackLine extends OlComponentBase {
         private readonly track: Track,
         layer: VectorLayer
     ) {
-        super();
-
         this.lineFeature = new Feature();
         this.lineFeature.setStyle(this.getStyle());
-        this.setLineGeometry(this.lineFeature, track.positionList);
+        this.lineFeature.setGeometry(OlHelper.getLineGeometry(track.positionList));
         layer.getSource().addFeature(this.lineFeature);
-    }
-
-
-    public get isSelectable(): boolean {
-        return false;
     }
 
 

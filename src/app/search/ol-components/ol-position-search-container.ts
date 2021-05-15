@@ -1,4 +1,3 @@
-import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {Observable, Subscription} from 'rxjs';
 import VectorLayer from 'ol/layer/Vector';
 import {OlPositionSearchItem} from './ol-position-search-item';
@@ -12,7 +11,7 @@ import {AngleUnit} from '../../common/geo-math/domain-model/quantities/units';
 const MAX_POINTS = 6;
 
 
-export class OlPositionSearchContainer extends OlComponentBase {
+export class OlPositionSearchContainer {
     private readonly positionSearchSubscription: Subscription;
 
 
@@ -20,17 +19,10 @@ export class OlPositionSearchContainer extends OlComponentBase {
         private readonly positionSearchLayer: VectorLayer,
         searchItems$: Observable<PositionSearchState>
     ) {
-        super();
-
         this.positionSearchSubscription = searchItems$.subscribe((posSearchState) => {
             this.clearFeatures();
             this.addFeatures(posSearchState);
         });
-    }
-
-
-    public get isSelectable(): boolean {
-        return false;
     }
 
 

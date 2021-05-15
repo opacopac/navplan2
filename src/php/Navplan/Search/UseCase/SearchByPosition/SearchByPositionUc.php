@@ -2,10 +2,10 @@
 
 namespace Navplan\Search\UseCase\SearchByPosition;
 
-use Navplan\Airport\DomainService\IAirportRepo;
-use Navplan\Airport\DomainService\IReportingPointRepo;
+use Navplan\Aerodrome\DomainService\IAirportRepo;
+use Navplan\Aerodrome\DomainService\IReportingPointRepo;
+use Navplan\Enroute\DomainService\INavaidRepo;
 use Navplan\Geoname\DomainService\IGeonameRepo;
-use Navplan\Navaid\DomainService\INavaidRepo;
 use Navplan\Notam\UseCase\SearchNotam\ISearchNotamUc;
 use Navplan\Search\DomainModel\SearchByPositionQuery;
 use Navplan\Search\DomainModel\SearchItemType;

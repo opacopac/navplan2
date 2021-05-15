@@ -2,14 +2,14 @@ import {Feature} from 'ol';
 import {Icon, Style} from 'ol/style';
 import {MetarTaf} from '../domain-model/metar-taf';
 import {environment} from '../../../environments/environment';
-import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import VectorLayer from 'ol/layer/Vector';
+import {OlHelper} from '../../base-map/ol-service/ol-helper';
 
 
-export class OlMetarWind extends OlComponentBase {
+export class OlMetarWind {
     private readonly olFeature: Feature;
 
 
@@ -19,17 +19,10 @@ export class OlMetarWind extends OlComponentBase {
         mapRotation: Angle,
         layer: VectorLayer
     ) {
-        super();
-
-        this.olFeature = this.createFeature(metarTaf);
+        this.olFeature = OlHelper.createFeature(metarTaf, true);
         this.olFeature.setStyle(this.createPointStyle(metarTaf, mapRotation));
-        this.setPointGeometry(this.olFeature, position);
+        this.olFeature.setGeometry(OlHelper.getPointGeometry(position));
         layer.getSource().addFeature(this.olFeature);
-    }
-
-
-    public get isSelectable(): boolean {
-        return true;
     }
 
 

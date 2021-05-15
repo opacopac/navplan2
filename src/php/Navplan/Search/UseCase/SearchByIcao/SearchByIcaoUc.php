@@ -2,8 +2,8 @@
 
 namespace Navplan\Search\UseCase\SearchByIcao;
 
-use Navplan\Airport\DomainService\IAirportRepo;
-use Navplan\Airport\DomainService\IReportingPointRepo;
+use Navplan\Aerodrome\DomainService\IAirportRepo;
+use Navplan\Aerodrome\DomainService\IReportingPointRepo;
 use Navplan\Notam\UseCase\SearchNotam\ISearchNotamUc;
 use Navplan\Search\DomainModel\SearchByIcaoQuery;
 use Navplan\Search\DomainModel\SearchItemType;

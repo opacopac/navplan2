@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {DatetimeHelper} from '../../../system/domain-service/datetime/datetime-helper';
 import {StringnumberHelper} from '../../../system/domain-service/stringnumber/stringnumber-helper';
-import {Airport} from '../../../airport/domain-model/airport';
+import {Airport} from '../../../aerodrome/domain-model/airport';
 import {OlOverlayWindyiframeComponent} from '../ol-overlay-windyiframe/ol-overlay-windyiframe.component';
 
 @Component({

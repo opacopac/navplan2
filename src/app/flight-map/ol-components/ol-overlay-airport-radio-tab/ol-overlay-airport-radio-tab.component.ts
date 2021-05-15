@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Airport} from '../../../airport/domain-model/airport';
+import {Airport} from '../../../aerodrome/domain-model/airport';
 
 
 @Component({

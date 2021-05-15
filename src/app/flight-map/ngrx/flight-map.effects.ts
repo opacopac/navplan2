@@ -6,33 +6,39 @@ import {Injectable} from '@angular/core';
 import {BaseMapActions} from '../../base-map/ngrx/base-map.actions';
 import {environment} from '../../../environments/environment';
 import {DataItemType} from '../../common/model/data-item';
-import {ShortAirport} from '../../airport/domain-model/short-airport';
+import {ShortAirport} from '../../aerodrome/domain-model/short-airport';
 import {FlightMapActions} from './flight-map.actions';
-import {AirspaceService} from '../../airspace/rest-service/airspace.service';
-import {WebcamService} from '../../webcam/rest-service/webcam.service';
 import {NotamService} from '../../notam/domain-service/notam-service';
 import {MetarTafService} from '../../metar-taf/domain-service/metar-taf.service';
 import {LoggingService} from '../../system/domain-service/logging/logging.service';
 import {of} from 'rxjs/internal/observable/of';
 import {getFlightMapState} from './flight-map.selectors';
 import {FlightMapState} from './flight-map-state';
-import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
-import {NavaidService} from '../../navaid/domain-service/navaid.service';
+import {NavaidService} from '../../enroute/domain-service/navaid.service';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
-import {AirportService} from '../../airport/domain-service/airport.service';
-import {AirportChart} from '../../airport/domain-model/airport-chart';
+import {AirportService} from '../../aerodrome/domain-service/airport.service';
+import {AirportChart} from '../../aerodrome/domain-model/airport-chart';
 import {SearchService} from '../../search/rest-service/search.service';
 import {OlHelper} from '../../base-map/ol-service/ol-helper';
+import {AirspaceService} from '../../enroute/domain-service/airspace.service';
+import {WebcamService} from '../../webcam/domain-service/webcam.service';
+import {AirportCircuitService} from '../../aerodrome/domain-service/airport-circuit.service';
+import {AirportChartService} from '../../aerodrome/domain-service/airport-chart.service';
+import {ReportingPointService} from '../../aerodrome/domain-service/reporting-point.service';
 
 
 @Injectable()
 export class FlightMapEffects {
     private readonly flightMapState$: Observable<FlightMapState> = this.appStore.select(pipe(getFlightMapState));
 
+
     constructor(
         private readonly actions$: Actions,
         private readonly appStore: Store<any>,
         private readonly airportService: AirportService,
+        private readonly airportCircuitService: AirportCircuitService,
+        private readonly airportChartService: AirportChartService,
+        private readonly reportingPointService: ReportingPointService,
         private readonly airspaceService: AirspaceService,
         private readonly metarTafService: MetarTafService,
         private readonly navaidService: NavaidService,
@@ -51,62 +57,41 @@ export class FlightMapEffects {
             const oversizeExtent = action.extent.getOversizeExtent(environment.mapOversizeFactor);
 
             // airports
-            if (!this.isCached(action, flightMapState.airportState)) {
+            if (this.airportService.isAirportReloadRequired(action, flightMapState.airportState)) {
                 this.airportService.readAirportsByExtent(oversizeExtent, action.zoom).pipe(
-                    map(airports => FlightMapActions.showAirports({
-                        extent: oversizeExtent,
-                        zoom: action.zoom,
-                        airports: airports
-                    })),
+                    map(newAirportState => FlightMapActions.showAirports(newAirportState)),
                     tap(displayAction => this.appStore.dispatch(displayAction))
                 ).subscribe();
             }
 
             // airport circuits
-            if (!this.isCached(action, flightMapState.airportCircuitState)) {
-                this.airportService.readAirportCircuitsByExtent(oversizeExtent, action.zoom).pipe(
-                    map(circuits => FlightMapActions.showCircuits({
-                        extent: oversizeExtent,
-                        zoom: action.zoom,
-                        airportCircuits: circuits
-                    })),
+            if (this.airportCircuitService.isAirportCircuitReloadRequired(action, flightMapState.airportCircuitState)) {
+                this.airportCircuitService.readAirportCircuitsByExtent(oversizeExtent, action.zoom).pipe(
+                    map(newCircuitState => FlightMapActions.showCircuits(newCircuitState)),
                     tap(displayAction => this.appStore.dispatch(displayAction))
                 ).subscribe();
             }
 
             // reporting points/sectors
-            if (!this.isCached(action, flightMapState.reportingPointSectorState)) {
-                this.airportService.readReportingPointsByExtent(oversizeExtent, action.zoom).pipe(
-                    map(response => FlightMapActions.showReportingPointsSectors({
-                        extent: oversizeExtent,
-                        zoom: action.zoom,
-                        reportingPoints: response.reportingPoints,
-                        reportingSectors: response.reportingSectors
-                    })),
+            if (this.reportingPointService.isReportingPointReloadRequired(action, flightMapState.reportingPointSectorState)) {
+                this.reportingPointService.readReportingPointsByExtent(oversizeExtent, action.zoom).pipe(
+                    map(newRepPointSectorState => FlightMapActions.showReportingPointsSectors(newRepPointSectorState)),
                     tap(displayAction => this.appStore.dispatch(displayAction))
                 ).subscribe();
             }
 
             // airspaces
-            if (!this.isCached(action, flightMapState.airspaceState)) {
+            if (this.airspaceService.isAirspaceReloadRequired(action, flightMapState.airspaceState)) {
                 this.airspaceService.readAirspacesByExtent(oversizeExtent, action.zoom).pipe(
-                    map(airspaces => FlightMapActions.showAirspaces({
-                        extent: oversizeExtent,
-                        zoom: action.zoom,
-                        airspaces: airspaces
-                    })),
+                    map(newAirspaceState => FlightMapActions.showAirspaces(newAirspaceState)),
                     tap(displayAction => this.appStore.dispatch(displayAction))
                 ).subscribe();
             }
 
             // navaids
-            if (!this.isCached(action, flightMapState.navaidState)) {
+            if (this.navaidService.isNavaidReloadRequired(action, flightMapState.navaidState)) {
                 this.navaidService.readNavaidsByExtent(oversizeExtent, action.zoom).pipe(
-                    map(navaids => FlightMapActions.showNavaids({
-                        extent: oversizeExtent,
-                        zoom: action.zoom,
-                        navaids: navaids
-                    })),
+                    map(newNavaidState => FlightMapActions.showNavaids(newNavaidState)),
                     tap(displayAction => this.appStore.dispatch(displayAction))
                 ).subscribe();
             }
@@ -117,27 +102,17 @@ export class FlightMapEffects {
             ).subscribe();*/
 
             // metar / taf
-            if (!this.isCached(action, flightMapState.metarTafState)
-                || this.metarTafService.hasTimedOut(flightMapState.metarTafState.timestamp)) {
-                this.metarTafService.readByExtent(action.extent, action.zoom).pipe(
-                    map(metarTafs => FlightMapActions.showMetarTafs({
-                        extent: oversizeExtent,
-                        zoom: action.zoom,
-                        timestamp: Date.now(),
-                        metarTafs: metarTafs
-                    })),
+            if (this.metarTafService.isMetarTafReloadRequired(action, flightMapState.metarTafState)) {
+                this.metarTafService.readByExtent(oversizeExtent, action.zoom).pipe(
+                    map(newMetarTafState => FlightMapActions.showMetarTafs(newMetarTafState)),
                     tap(displayAction => this.appStore.dispatch(displayAction))
                 ).subscribe();
             }
 
             // webcams
-            if (!this.isCached(action, flightMapState.webcamState)) {
-                this.webcamService.readWebcamsByExtent(action.extent, action.zoom).pipe(
-                    map(webcams => FlightMapActions.showWebcams({
-                        extent: oversizeExtent,
-                        zoom: action.zoom,
-                        webcams: webcams
-                    })),
+            if (this.webcamService.isWebcamReloadRequired(action, flightMapState.webcamState)) {
+                this.webcamService.readWebcamsByExtent(oversizeExtent, action.zoom).pipe(
+                    map(newWebcamState => FlightMapActions.showWebcams(newWebcamState)),
                     tap(displayAction => this.appStore.dispatch(displayAction))
                 ).subscribe();
             }
@@ -149,8 +124,6 @@ export class FlightMapEffects {
         ofType(BaseMapActions.mapClicked),
         withLatestFrom(this.flightMapState$),
         switchMap(([action, flightMapState]) => {
-            this.appStore.dispatch(FlightMapActions.closeAllOverlays());
-
             switch (action.dataItem?.dataItemType) {
                 case DataItemType.airport:
                     return this.airportService.readAirportById((action.dataItem as ShortAirport).id).pipe(
@@ -203,7 +176,7 @@ export class FlightMapEffects {
 
     showAirportChartOnMap$ = createEffect(() => this.actions$.pipe(
         ofType(FlightMapActions.openAirportChart),
-        switchMap(action => this.airportService.readAdChartById(action.chartId).pipe(
+        switchMap(action => this.airportChartService.readAdChartById(action.chartId).pipe(
             tap(chart => this.appStore.dispatch(BaseMapActions.showImage({
                 id: chart.id,
                 imageUrl: environment.chartBaseUrl + chart.fileName,
@@ -217,13 +190,4 @@ export class FlightMapEffects {
             })
         ))
     ));
-
-
-    private isCached(action: { extent: Extent2d, zoom: number }, currentState: { extent: Extent2d, zoom: number }): boolean {
-        if (currentState.extent && action.extent) {
-            return (currentState.extent.containsExtent2d(action.extent) && currentState.zoom === action.zoom);
-        } else {
-            return false;
-        }
-    }
 }

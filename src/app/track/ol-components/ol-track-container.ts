@@ -1,11 +1,10 @@
-import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {Observable, Subscription} from 'rxjs';
 import {OlTrackLine} from './ol-track-line';
 import {Track} from '../domain-model/track';
 import VectorLayer from 'ol/layer/Vector';
 
 
-export class OlTrackContainer extends OlComponentBase {
+export class OlTrackContainer {
     private readonly trackSubscription: Subscription;
 
 
@@ -13,17 +12,10 @@ export class OlTrackContainer extends OlComponentBase {
         private readonly trackLayer: VectorLayer,
         showTrack$: Observable<Track>
     ) {
-        super();
-
         this.trackSubscription = showTrack$.subscribe((track) => {
             this.clearFeatures();
             this.addFeatures(track);
         });
-    }
-
-
-    public get isSelectable(): boolean {
-        return false;
     }
 
 

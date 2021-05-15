@@ -5,12 +5,12 @@ import {Polygon} from '../../common/geo-math/domain-model/geometry/polygon';
 import {Multipolygon} from '../../common/geo-math/domain-model/geometry/multipolygon';
 import {Circle} from '../../common/geo-math/domain-model/geometry/circle';
 import {Geometry2dType} from '../../common/geo-math/domain-model/geometry/geometry2d';
-import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {circular} from 'ol/geom/Polygon';
 import VectorLayer from 'ol/layer/Vector';
+import {OlHelper} from '../../base-map/ol-service/ol-helper';
 
 
-export class OlNotam extends OlComponentBase {
+export class OlNotam {
     private readonly olFeature: Feature;
 
 
@@ -18,17 +18,10 @@ export class OlNotam extends OlComponentBase {
         notam: Notam,
         layer: VectorLayer
     ) {
-        super();
-
-        this.olFeature = this.createFeature(notam);
+        this.olFeature = OlHelper.createFeature(notam, true);
         this.olFeature.setStyle(this.createStyle(notam));
         this.setGeometry(this.olFeature, notam);
         layer.getSource().addFeature(this.olFeature);
-    }
-
-
-    public get isSelectable(): boolean {
-        return true;
     }
 
 
@@ -39,10 +32,10 @@ export class OlNotam extends OlComponentBase {
 
         switch (notam.geometry.geometry2d.getGeometryType()) {
             case Geometry2dType.POLYGON:
-                this.setPolygonGeometry(feature, notam.geometry.geometry2d as Polygon);
+                feature.setGeometry(OlHelper.getPolygonGeometry(notam.geometry.geometry2d as Polygon));
                 break;
             case Geometry2dType.MULTIPOLYGON:
-                this.setMultiPolygonGeometry(feature, notam.geometry.geometry2d as Multipolygon);
+                feature.setGeometry(OlHelper.getMultiPolygonGeometry(notam.geometry.geometry2d as Multipolygon));
                 break;
             case Geometry2dType.CIRCLE:
                 const circle = notam.geometry.geometry2d as Circle;
@@ -57,7 +50,7 @@ export class OlNotam extends OlComponentBase {
                     circle.center.toArray(),
                     circle.radius.m
                 );
-                this.setPolygonGeometry(feature, Polygon.createFromArray(polycirc.getCoordinates()[0]));
+                feature.setGeometry(OlHelper.getPolygonGeometry(Polygon.createFromArray(polycirc.getCoordinates()[0])));
                 break;
             default:
                 return;

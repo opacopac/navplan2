@@ -1,13 +1,13 @@
 import {Feature} from 'ol';
 import {Circle, Fill, Stroke, Style, Text} from 'ol/style';
 import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
-import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {OlWaypointBearingLabel} from './ol-waypoint-bearing-label';
 import {Waypoint} from '../domain-model/waypoint';
 import VectorLayer from 'ol/layer/Vector';
+import {OlHelper} from '../../base-map/ol-service/ol-helper';
 
 
-export class OlWaypoint extends OlComponentBase {
+export class OlWaypoint {
     private readonly pointFeature: Feature;
     private readonly bearingLabel: OlWaypointBearingLabel;
 
@@ -18,19 +18,12 @@ export class OlWaypoint extends OlComponentBase {
         mapRotation: Angle,
         layer: VectorLayer
     ) {
-        super();
-
-        this.pointFeature = this.createFeature(waypoint);
+        this.pointFeature = OlHelper.createFeature(waypoint, true);
         this.pointFeature.setStyle(this.createStyle(waypoint, nextWaypoint, mapRotation));
-        this.setPointGeometry(this.pointFeature, waypoint.position);
+        this.pointFeature.setGeometry(OlHelper.getPointGeometry(waypoint.position));
         layer.getSource().addFeature(this.pointFeature);
 
         this.bearingLabel = new OlWaypointBearingLabel(waypoint, nextWaypoint, mapRotation, layer);
-    }
-
-
-    public get isSelectable(): boolean {
-        return true;
     }
 
 

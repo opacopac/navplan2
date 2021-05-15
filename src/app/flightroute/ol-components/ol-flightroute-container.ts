@@ -1,5 +1,4 @@
 import VectorLayer from 'ol/layer/Vector';
-import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {Flightroute} from '../domain-model/flightroute';
 import {Observable, Subscription} from 'rxjs';
 import {OlRouteLine, RouteLineModification} from './ol-route-line';
@@ -11,7 +10,7 @@ import {Store} from '@ngrx/store';
 import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
 
 
-export class OlFlightrouteContainer extends OlComponentBase {
+export class OlFlightrouteContainer {
     private readonly flightrouteSubscription: Subscription;
     private routeLineModifiedSubscription: Subscription;
     private olRouteLine: OlRouteLine;
@@ -24,8 +23,6 @@ export class OlFlightrouteContainer extends OlComponentBase {
         private readonly store: Store<any>,
         mapRotation: Angle
     ) {
-        super();
-
         this.flightrouteSubscription = flightroute$.subscribe(flightroute => {
             this.destroyFeatures();
             this.addFeatures(flightroute, snapToLayers, mapRotation);
@@ -33,11 +30,6 @@ export class OlFlightrouteContainer extends OlComponentBase {
             this.routeLineModifiedSubscription = this.olRouteLine.onRouteLineModifiedEnd
                 .subscribe(routeLineMod => this.emitRouteLineModifiedAction(routeLineMod));
         });
-    }
-
-
-    public get isSelectable(): boolean {
-        return false;
     }
 
 

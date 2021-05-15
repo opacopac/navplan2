@@ -6,6 +6,7 @@ import {SystemConfig} from '../../system/domain-service/system-config';
 import {RestMetarTafService} from '../rest-service/rest-metar-taf.service';
 import {MetarTaf} from '../domain-model/metar-taf';
 import {MetarTafState} from '../domain-model/metar-taf-state';
+import {map} from 'rxjs/operators';
 
 
 @Injectable()
@@ -23,17 +24,30 @@ export class MetarTafService {
     }
 
 
-    public readByExtent(extent: Extent2d, zoom: number): Observable<MetarTaf[]> {
+    public readByExtent(extent: Extent2d, zoom: number): Observable<MetarTafState> {
         if (zoom <= this.METAR_TAF_MIN_ZOOM_LEVEL) {
-            return of([]);
+            return of({extent: extent, zoom: zoom, metarTafs: [], timestamp: this.date.nowMs()});
         }
 
-        return this.metarTafRepo.load(extent);
+        return this.metarTafRepo.load(extent).pipe(
+            map(metarTafs => ({
+                extent: extent,
+                zoom: zoom,
+                metarTafs: metarTafs,
+                timestamp: this.date.nowMs()
+            }))
+        );
     }
 
 
-    public hasTimedOut(timestampMs: number): boolean {
-        return timestampMs + this.METAR_TAF_TIMEOUT_SEC * 1000 < this.date.nowMs();
+    public isMetarTafReloadRequired(
+        requestedState: { extent: Extent2d, zoom: number },
+        currentState: { extent: Extent2d, zoom: number, timestamp: number }
+    ): boolean {
+        return !currentState.extent || !requestedState.extent ||
+            currentState.zoom !== requestedState.zoom ||
+            !currentState.extent.containsExtent2d(requestedState.extent) ||
+            currentState.timestamp + this.METAR_TAF_TIMEOUT_SEC * 1000 < this.date.nowMs();
     }
 
 

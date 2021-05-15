@@ -1,15 +1,15 @@
 import {Feature} from 'ol';
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
-import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {environment} from '../../../environments/environment';
 import {GeodesyHelper} from '../../common/geo-math/domain-service/geodesy-helper';
 import {Position4d} from '../../common/geo-math/domain-model/geometry/position4d';
 import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import VectorLayer from 'ol/layer/Vector';
+import {OlHelper} from '../../base-map/ol-service/ol-helper';
 
 
-export class OlOwnPlane extends OlComponentBase {
+export class OlOwnPlane {
     private readonly olOwnPlane: Feature;
 
 
@@ -17,18 +17,10 @@ export class OlOwnPlane extends OlComponentBase {
         lastPositions: Position4d[],
         layer: VectorLayer
     ) {
-        super();
-
-
         this.olOwnPlane = new Feature();
         this.olOwnPlane.setStyle(this.getStyle(lastPositions));
-        this.setPointGeometry(this.olOwnPlane, this.getCurrentPosition(lastPositions));
+        this.olOwnPlane.setGeometry(OlHelper.getPointGeometry(this.getCurrentPosition(lastPositions)));
         layer.getSource().addFeature(this.olOwnPlane);
-    }
-
-
-    public get isSelectable(): boolean {
-        return false;
     }
 
 

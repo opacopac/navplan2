@@ -1,11 +1,10 @@
-import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {Observable, Subscription} from 'rxjs';
 import VectorLayer from 'ol/layer/Vector';
 import {Webcam} from '../domain-model/webcam';
 import {OlWebcam} from './ol-webcam';
 
 
-export class OlWebcamContainer extends OlComponentBase {
+export class OlWebcamContainer {
     private readonly webcamSubscription: Subscription;
 
 
@@ -13,17 +12,10 @@ export class OlWebcamContainer extends OlComponentBase {
         private readonly webcamLayer: VectorLayer,
         webcams$: Observable<Webcam[]>
     ) {
-        super();
-
         this.webcamSubscription = webcams$.subscribe((webcams) => {
             this.clearFeatures();
             this.addFeatures(webcams);
         });
-    }
-
-
-    public get isSelectable(): boolean {
-        return false;
     }
 
 

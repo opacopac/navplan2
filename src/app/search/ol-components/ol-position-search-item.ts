@@ -1,4 +1,3 @@
-import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {Feature} from 'ol';
 import VectorLayer from 'ol/layer/Vector';
 import {Circle, Fill, RegularShape, Stroke, Style, Text} from 'ol/style';
@@ -13,7 +12,7 @@ const LABEL_DIST_PIXEL = 100;
 const POINT_RADIUS_PIXEL = 5;
 
 
-export class OlPositionSearchItem extends OlComponentBase {
+export class OlPositionSearchItem {
     private readonly olFeature: Feature;
 
 
@@ -22,21 +21,14 @@ export class OlPositionSearchItem extends OlComponentBase {
         labelRotAngle: Angle,
         layer: VectorLayer
     ) {
-        super();
-
-        this.olFeature = this.createFeature(searchItem.dataItem);
+        this.olFeature = OlHelper.createFeature(searchItem.dataItem, true);
         this.olFeature.setStyle(this.createPointStyle(searchItem.getGeoselectionName(), labelRotAngle));
-        this.setPointGeometry(this.olFeature, searchItem.getPosition());
+        this.olFeature.setGeometry(OlHelper.getPointGeometry(searchItem.getPosition()));
 
         const olLineFeature = this.createLineFeature(searchItem.getPosition(), labelRotAngle);
 
         layer.getSource().addFeature(olLineFeature);
         layer.getSource().addFeature(this.olFeature);
-    }
-
-
-    public get isSelectable(): boolean {
-        return true;
     }
 
 

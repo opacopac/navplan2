@@ -1,13 +1,13 @@
 import {Feature} from 'ol';
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {UserPoint} from '../domain-model/user-point';
-import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {OlUserpointIcon} from './ol-userpoint-icon';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import VectorLayer from 'ol/layer/Vector';
+import {OlHelper} from '../../base-map/ol-service/ol-helper';
 
 
-export class OlUserPoint extends OlComponentBase {
+export class OlUserPoint {
     private readonly olFeature: Feature;
 
 
@@ -15,17 +15,10 @@ export class OlUserPoint extends OlComponentBase {
         userPoint: UserPoint,
         layer: VectorLayer
     ) {
-        super();
-
-        this.olFeature = this.createFeature(userPoint);
+        this.olFeature = OlHelper.createFeature(userPoint, true);
         this.olFeature.setStyle(this.createPointStyle(userPoint));
-        this.setPointGeometry(this.olFeature, userPoint.position);
+        this.olFeature.setGeometry(OlHelper.getPointGeometry(userPoint.position));
         layer.getSource().addFeature(this.olFeature);
-    }
-
-
-    public get isSelectable(): boolean {
-        return true;
     }
 
 

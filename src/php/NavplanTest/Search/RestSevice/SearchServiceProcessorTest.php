@@ -8,11 +8,11 @@ use Navplan\Search\RestModel\SearchByIcaoQueryConverter;
 use Navplan\Search\RestModel\SearchByPositionQueryConverter;
 use Navplan\Search\RestModel\SearchByTextQueryConverter;
 use Navplan\Search\RestService\SearchServiceProcessor;
-use NavplanTest\Airport\Mocks\DummyReportingPoint1;
-use NavplanTest\Airport\Mocks\MockReportingPointRepo;
+use NavplanTest\Aerodrome\Mocks\DummyReportingPoint1;
+use NavplanTest\Aerodrome\Mocks\MockReportingPointRepo;
+use NavplanTest\Enroute\Mocks\DummyNavaid1;
+use NavplanTest\Enroute\Mocks\MockNavaidRepo;
 use NavplanTest\MockNavplanDiContainer;
-use NavplanTest\Navaid\Mocks\DummyNavaid1;
-use NavplanTest\Navaid\Mocks\MockNavaidRepo;
 use NavplanTest\System\Mock\MockHttpService;
 use PHPUnit\Framework\TestCase;
 

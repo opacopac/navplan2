@@ -43,9 +43,8 @@ import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {flightMapReducer} from './ngrx/flight-map.reducer';
 import {FlightMapEffects} from './ngrx/flight-map.effects';
-import {AirportModule} from '../airport/airport.module';
-import {AirspaceModule} from '../airspace/airspace.module';
-import {NavaidModule} from '../navaid/navaid.module';
+import {AerodromeModule} from '../aerodrome/aerodrome.module';
+import {EnrouteModule} from '../enroute/enroute.module';
 import {WebcamModule} from '../webcam/webcam.module';
 import {OlOverlayAirportMetarTafTabComponent} from './ol-components/ol-overlay-airport-metar-taf-tab/ol-overlay-airport-metar-taf-tab.component';
 
@@ -96,9 +95,8 @@ import {OlOverlayAirportMetarTafTabComponent} from './ol-components/ol-overlay-a
         TrafficModule,
         NotamModule,
         MetarTafModule,
-        AirportModule,
-        AirspaceModule,
-        NavaidModule,
+        AerodromeModule,
+        EnrouteModule,
         WebcamModule
     ]
 })

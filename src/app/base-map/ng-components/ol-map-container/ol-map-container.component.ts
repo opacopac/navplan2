@@ -16,7 +16,6 @@ import {OlHelper} from '../../ol-service/ol-helper';
 import {AngleUnit} from '../../../common/geo-math/domain-model/quantities/units';
 import {Pixel} from 'ol/pixel';
 import {ObjectEvent} from 'ol/Object';
-import {OlComponentBase} from '../../ol-model/ol-component-base';
 import {getMapZoom, getShowImage} from '../../ngrx/base-map.selectors';
 import {Observable} from 'rxjs';
 import {Subscription} from 'rxjs/internal/Subscription';
@@ -193,8 +192,8 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
 
         const dataItems: DataItem[] = [];
         for (const feature of olFeatures) {
-            const dataItem = OlComponentBase.getDataItem(feature as Feature);
-            if (dataItem && (onlyClickable === false || OlComponentBase.isSelectable(feature as Feature))) {
+            const dataItem = OlHelper.getDataItem(feature as Feature);
+            if (dataItem && (onlyClickable === false || OlHelper.isSelectable(feature as Feature))) {
                 dataItems.push(dataItem);
             }
         }

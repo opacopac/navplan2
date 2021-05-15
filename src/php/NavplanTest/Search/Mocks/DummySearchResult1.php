@@ -3,11 +3,11 @@
 namespace NavplanTest\Search\Mocks;
 
 use Navplan\Search\DomainModel\SearchResult;
-use NavplanTest\Airport\Mocks\DummyAirport1;
-use NavplanTest\Airport\Mocks\DummyReportingPoint1;
-use NavplanTest\Airport\Mocks\DummyReportingSector1;
-use NavplanTest\Airspace\Mocks\DummyAirspace1;
-use NavplanTest\Navaid\Mocks\DummyNavaid1;
+use NavplanTest\Aerodrome\Mocks\DummyAirport1;
+use NavplanTest\Aerodrome\Mocks\DummyReportingPoint1;
+use NavplanTest\Aerodrome\Mocks\DummyReportingSector1;
+use NavplanTest\Enroute\Mocks\DummyAirspace1;
+use NavplanTest\Enroute\Mocks\DummyNavaid1;
 use NavplanTest\User\Mocks\DummyUserPoint1;
 use NavplanTest\User\Mocks\DummyUserPoint2;
 use NavplanTest\Webcam\Mocks\DummyWebcam1;

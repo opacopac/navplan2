@@ -1,4 +1,3 @@
-import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {interval, Observable, Subscription} from 'rxjs';
 import {OlTraffic} from './ol-traffic';
 import {Traffic} from '../domain-model/traffic';
@@ -9,7 +8,7 @@ import VectorLayer from 'ol/layer/Vector';
 
 const UPDATE_TRAFFIC_DISPLAY_DEBOUNCE_MS = 1000;
 
-export class OlTrafficContainer extends OlComponentBase {
+export class OlTrafficContainer {
     private readonly trafficSubscription: Subscription;
 
 
@@ -17,8 +16,6 @@ export class OlTrafficContainer extends OlComponentBase {
         private readonly trafficLayer: VectorLayer,
         trafficState$: Observable<TrafficState>
     ) {
-        super();
-
         const debounceTime$: Observable<number> = trafficState$.pipe(
             switchMap(trafficState => interval(
                 trafficState.isWatching
@@ -35,11 +32,6 @@ export class OlTrafficContainer extends OlComponentBase {
                 this.addFeatures(Array.from(trafficState.trafficMap.values()));
             }
         });
-    }
-
-
-    public get isSelectable(): boolean {
-        return false;
     }
 
 

@@ -1,7 +1,7 @@
 import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import {WaypointBase} from './waypoint-base';
 import {WaypointType} from '../waypoint-type';
-import {ReportingPoint} from '../../../airport/domain-model/reporting-point';
+import {ReportingPoint} from '../../../aerodrome/domain-model/reporting-point';
 import {WaypointAltitude} from '../waypoint-altitude';
 
 

@@ -2,12 +2,12 @@
 
 namespace Navplan\Search\RestModel;
 
-use Navplan\Airport\RestModel\RestAirportCircuitConverter;
-use Navplan\Airport\RestModel\RestAirportConverter;
-use Navplan\Airport\RestModel\RestReportingPointConverter;
-use Navplan\Airspace\RestModel\RestAirspaceConverter;
+use Navplan\Aerodrome\RestModel\RestAirportCircuitConverter;
+use Navplan\Aerodrome\RestModel\RestAirportConverter;
+use Navplan\Aerodrome\RestModel\RestReportingPointConverter;
+use Navplan\Enroute\RestModel\RestAirspaceConverter;
+use Navplan\Enroute\RestModel\RestNavaidConverter;
 use Navplan\Geoname\RestModel\RestGeonameConverter;
-use Navplan\Navaid\RestModel\RestNavaidConverter;
 use Navplan\Notam\DomainModel\Notam;
 use Navplan\Notam\RestModel\NotamConverter;
 use Navplan\Search\DomainModel\SearchResult;

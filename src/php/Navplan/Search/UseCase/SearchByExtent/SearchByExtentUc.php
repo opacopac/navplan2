@@ -2,11 +2,11 @@
 
 namespace Navplan\Search\UseCase\SearchByExtent;
 
-use Navplan\Airport\DomainService\IAirportCircuitRepo;
-use Navplan\Airport\DomainService\IAirportRepo;
-use Navplan\Airport\DomainService\IReportingPointRepo;
-use Navplan\Airspace\DomainService\IAirspaceRepo;
-use Navplan\Navaid\DomainService\INavaidRepo;
+use Navplan\Aerodrome\DomainService\IAirportCircuitRepo;
+use Navplan\Aerodrome\DomainService\IAirportRepo;
+use Navplan\Aerodrome\DomainService\IReportingPointRepo;
+use Navplan\Enroute\DomainService\IAirspaceRepo;
+use Navplan\Enroute\DomainService\INavaidRepo;
 use Navplan\Notam\DomainModel\ReadNotamByExtentRequest;
 use Navplan\Notam\UseCase\SearchNotam\ISearchNotamUc;
 use Navplan\Search\DomainModel\SearchByExtentQuery;

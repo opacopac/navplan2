@@ -3,7 +3,6 @@ import VectorLayer from 'ol/layer/Vector';
 import {Modify, Snap} from 'ol/interaction';
 import {LineString} from 'ol/geom';
 import {Stroke, Style} from 'ol/style';
-import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {Flightroute} from '../domain-model/flightroute';
 import {EventEmitter} from '@angular/core';
 import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
@@ -20,7 +19,7 @@ export class RouteLineModification {
 }
 
 
-export class OlRouteLine extends OlComponentBase {
+export class OlRouteLine {
     public onRouteLineModifiedEnd: EventEmitter<RouteLineModification> = new EventEmitter<RouteLineModification>();
     private readonly lineFeature: Feature;
     private modifyInteraction: Modify;
@@ -33,20 +32,13 @@ export class OlRouteLine extends OlComponentBase {
         layer: VectorLayer,
         snapToLayers: VectorLayer[]
     ) {
-        super();
-
         this.lineFeature = new Feature();
         this.lineFeature.setStyle(this.getStyle());
-        this.setLineGeometry(this.lineFeature, flightroute.waypoints.map(waypoint => waypoint.position));
+        this.lineFeature.setGeometry(OlHelper.getLineGeometry(flightroute.waypoints.map(waypoint => waypoint.position)));
         layer.getSource().addFeature(this.lineFeature);
 
         // this.addModifyInteraction();
         // this.addSnapInteractions(snapToLayers);
-    }
-
-
-    public get isSelectable(): boolean {
-        return false;
     }
 
 

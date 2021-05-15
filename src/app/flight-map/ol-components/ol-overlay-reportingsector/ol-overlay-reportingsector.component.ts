@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ReportingSector} from '../../../airport/domain-model/reporting-sector';
+import {ReportingSector} from '../../../aerodrome/domain-model/reporting-sector';
 import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
 import {WaypointFactory} from '../../../flightroute/domain-model/waypoint-mapper/waypoint-factory';

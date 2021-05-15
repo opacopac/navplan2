@@ -2,10 +2,10 @@
 
 namespace Navplan\Search\UseCase\SearchByText;
 
-use Navplan\Airport\DomainService\IAirportRepo;
-use Navplan\Airport\DomainService\IReportingPointRepo;
+use Navplan\Aerodrome\DomainService\IAirportRepo;
+use Navplan\Aerodrome\DomainService\IReportingPointRepo;
+use Navplan\Enroute\DomainService\INavaidRepo;
 use Navplan\Geoname\DomainService\IGeonameRepo;
-use Navplan\Navaid\DomainService\INavaidRepo;
 use Navplan\Search\DomainModel\SearchByTextQuery;
 use Navplan\Search\DomainModel\SearchItemType;
 use Navplan\Search\DomainModel\SearchResult;

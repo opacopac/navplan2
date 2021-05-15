@@ -1,13 +1,13 @@
 import {Feature} from 'ol';
 import {Fill, Stroke, Style, Text} from 'ol/style';
 import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
-import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {Waypoint} from '../domain-model/waypoint';
 import {LengthUnit} from '../../common/geo-math/domain-model/quantities/units';
 import VectorLayer from 'ol/layer/Vector';
+import {OlHelper} from '../../base-map/ol-service/ol-helper';
 
 
-export class OlWaypointBearingLabel extends OlComponentBase {
+export class OlWaypointBearingLabel {
     private readonly dirBearFeature: Feature;
 
 
@@ -17,17 +17,10 @@ export class OlWaypointBearingLabel extends OlComponentBase {
         mapRotation: Angle,
         layer: VectorLayer
     ) {
-        super();
-
         this.dirBearFeature = new Feature();
         this.dirBearFeature.setStyle(this.createStyle(waypoint, mapRotation));
-        this.setPointGeometry(this.dirBearFeature, prevWaypoint.position);
+        this.dirBearFeature.setGeometry(OlHelper.getPointGeometry(prevWaypoint.position));
         layer.getSource().addFeature(this.dirBearFeature);
-    }
-
-
-    public get isSelectable(): boolean {
-        return false;
     }
 
 

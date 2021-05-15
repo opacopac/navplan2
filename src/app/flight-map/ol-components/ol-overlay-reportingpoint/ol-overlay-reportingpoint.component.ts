@@ -1,8 +1,8 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ReportingPoint} from '../../../airport/domain-model/reporting-point';
+import {ReportingPoint} from '../../../aerodrome/domain-model/reporting-point';
 import {StringnumberHelper} from '../../../system/domain-service/stringnumber/stringnumber-helper';
 import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
-import {OlReportingpointIcon} from '../../../airport/ol-components/ol-reportingpoint-icon';
+import {OlReportingpointIcon} from '../../../aerodrome/ol-components/ol-reportingpoint-icon';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
 import {WaypointFactory} from '../../../flightroute/domain-model/waypoint-mapper/waypoint-factory';
 import {OlHelper} from '../../../base-map/ol-service/ol-helper';

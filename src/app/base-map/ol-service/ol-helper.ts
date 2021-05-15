@@ -3,12 +3,22 @@ import {fromLonLat, toLonLat, transformExtent} from 'ol/proj';
 import VectorLayer from 'ol/layer/Vector';
 import {Vector} from 'ol/source';
 import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
+import {Feature} from 'ol';
+import {LineString, MultiLineString, Point as OlPoint, Polygon as OlPoly} from 'ol/geom';
+import {Polygon} from '../../common/geo-math/domain-model/geometry/polygon';
+import {Multipolygon} from '../../common/geo-math/domain-model/geometry/multipolygon';
+import Geometry from 'ol/geom/Geometry';
+import {DataItem} from '../../common/model/data-item';
 
 const MERCATOR_PROJECTION = 'EPSG:3857';
 const LONLAT_PROJECTION = 'EPSG:4326';
 
 
 export class OlHelper {
+    public static readonly PROPERTYNAME_DATAITEM = 'navplanDataItem';
+    public static readonly PROPERTYNAME_ISSELECTABLE = 'navplanIsSelectable';
+
+
     public static getMercator(pos: Position2d): [number, number] {
         const arr = fromLonLat(pos.toArray());
 
@@ -50,5 +60,83 @@ export class OlHelper {
             source: new Vector({}),
             renderMode: imageRenderMode ? 'image' : undefined
         });
+    }
+
+
+    public static createFeature(dataItem: DataItem, isSelectable: boolean): Feature {
+        const feature = new Feature();
+        feature.set(OlHelper.PROPERTYNAME_DATAITEM, dataItem, true);
+        feature.set(OlHelper.PROPERTYNAME_ISSELECTABLE, isSelectable, true);
+        return feature;
+    }
+
+
+    public static isSelectable(olFeature: Feature): boolean {
+        if (!olFeature) {
+            return false;
+        } else {
+            return (olFeature.get(this.PROPERTYNAME_ISSELECTABLE) === true);
+        }
+    }
+
+
+    public static getDataItem(olFeature: Feature): DataItem {
+        if (!olFeature) {
+            return undefined;
+        } else {
+            return olFeature.get(this.PROPERTYNAME_DATAITEM) as DataItem;
+        }
+    }
+
+
+    public static getPointGeometry(position: Position2d): Geometry {
+        if (!position) {
+            return undefined;
+        } else {
+            const newPos = OlHelper.getMercator(position);
+            return new OlPoint(newPos);
+        }
+    }
+
+
+    public static getLineGeometry(positionList: Position2d[]): Geometry {
+        if (!positionList) {
+            return undefined;
+        } else {
+            const newPosList = positionList ? positionList.map((pos) => OlHelper.getMercator(pos)) : undefined;
+            return new LineString(newPosList);
+        }
+    }
+
+
+    public static getMultiLineGeometry(positionList: Position2d[][]): Geometry {
+        if (!positionList) {
+            return undefined;
+        } else {
+            const newPosList = positionList ? positionList.map(posList => posList.map(pos => OlHelper.getMercator(pos))) : undefined;
+            return new MultiLineString(newPosList);
+        }
+    }
+
+
+    public static getPolygonGeometry(polygon: Polygon): Geometry {
+        if (!polygon) {
+            return undefined;
+        } else {
+            const newPolygon = polygon ? polygon.positions.map(pos => OlHelper.getMercator(pos)) : undefined;
+            return new OlPoly([newPolygon]);
+        }
+    }
+
+
+    public static getMultiPolygonGeometry(multiPolygon: Multipolygon): Geometry {
+        if (!multiPolygon) {
+            return undefined;
+        } else {
+            const newPolygon = multiPolygon ? multiPolygon.polygons.map(poly => {
+                return poly.positions.map(pos => OlHelper.getMercator(pos));
+            }) : undefined;
+            return new OlPoly(newPolygon);
+        }
     }
 }

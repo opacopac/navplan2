@@ -1,18 +1,18 @@
 import {createAction, props} from '@ngrx/store';
 import {Webcam} from '../../webcam/domain-model/webcam';
-import {Navaid} from '../../navaid/domain-model/navaid';
-import {Airspace} from '../../airspace/domain-model/airspace';
-import {ShortAirport} from '../../airport/domain-model/short-airport';
-import {AirportCircuit} from '../../airport/domain-model/airport-circuit';
-import {ReportingPoint} from '../../airport/domain-model/reporting-point';
-import {ReportingSector} from '../../airport/domain-model/reporting-sector';
+import {Navaid} from '../../enroute/domain-model/navaid';
+import {Airspace} from '../../enroute/domain-model/airspace';
+import {ShortAirport} from '../../aerodrome/domain-model/short-airport';
+import {AirportCircuit} from '../../aerodrome/domain-model/airport-circuit';
+import {ReportingPoint} from '../../aerodrome/domain-model/reporting-point';
+import {ReportingSector} from '../../aerodrome/domain-model/reporting-sector';
 import {DataItem} from '../../common/model/data-item';
 import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
 import {Notam} from '../../notam/domain-model/notam';
-import {Airport} from '../../airport/domain-model/airport';
-import {AirportChart} from '../../airport/domain-model/airport-chart';
+import {Airport} from '../../aerodrome/domain-model/airport';
+import {AirportChart} from '../../aerodrome/domain-model/airport-chart';
 import {SearchItemList} from '../../search/domain-model/search-item-list';
 
 

@@ -1,5 +1,4 @@
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
-import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import {Traffic} from '../domain-model/traffic';
 import {TrafficAircraftType} from '../domain-model/traffic-aircraft-type';
 import {OlTrafficTrail} from './ol-traffic-trail';
@@ -8,18 +7,17 @@ import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import {AltitudeUnit} from '../../common/geo-math/domain-model/geometry/altitude-unit';
 import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
 import VectorLayer from 'ol/layer/Vector';
+import {OlHelper} from '../../base-map/ol-service/ol-helper';
 
 
 const MAX_AGE_SEC_INACTIVE = 30; // TODO
 
 
-export class OlTraffic extends OlComponentBase {
+export class OlTraffic {
     public olDotTrailFeature: OlTrafficTrail;
 
 
     constructor(private readonly traffic: Traffic) {
-        super();
-
         this.olDotTrailFeature = new OlTrafficTrail(this.traffic);
     }
 
@@ -29,21 +27,16 @@ export class OlTraffic extends OlComponentBase {
         this.olDotTrailFeature.draw(trafficLayer);
 
         // traffic feature
-        const olTrafficFeature = this.createFeature(this.traffic);
+        const olTrafficFeature = OlHelper.createFeature(this.traffic, true);
         olTrafficFeature.setStyle(this.getTrafficStyle(this.traffic));
-        this.setPointGeometry(olTrafficFeature, this.traffic.getCurrentPosition().position);
+        olTrafficFeature.setGeometry(OlHelper.getPointGeometry(this.traffic.getCurrentPosition().position));
         trafficLayer.getSource().addFeature(olTrafficFeature);
 
         // call sign feature
-        const olCallsignFeature = this.createFeature(this.traffic);
+        const olCallsignFeature = OlHelper.createFeature(this.traffic, true);
         olCallsignFeature.setStyle(this.getCallsignStyle());
-        this.setPointGeometry(olCallsignFeature, this.traffic.getCurrentPosition().position);
+        olCallsignFeature.setGeometry(OlHelper.getPointGeometry(this.traffic.getCurrentPosition().position));
         trafficLayer.getSource().addFeature(olCallsignFeature);
-    }
-
-
-    public get isSelectable(): boolean {
-        return true;
     }
 
 

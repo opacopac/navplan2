@@ -2,12 +2,12 @@ import {Feature} from 'ol';
 import {Icon, Style} from 'ol/style';
 import {environment} from '../../../environments/environment';
 import {Webcam} from '../domain-model/webcam';
-import {OlComponentBase} from '../../base-map/ol-model/ol-component-base';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import VectorLayer from 'ol/layer/Vector';
+import {OlHelper} from '../../base-map/ol-service/ol-helper';
 
 
-export class OlWebcam extends OlComponentBase {
+export class OlWebcam {
     private readonly olFeature: Feature;
 
 
@@ -15,17 +15,10 @@ export class OlWebcam extends OlComponentBase {
         public webcam: Webcam,
         layer: VectorLayer
     ) {
-        super();
-
-        this.olFeature = this.createFeature(webcam);
+        this.olFeature = OlHelper.createFeature(webcam, true);
         this.olFeature.setStyle(this.createPointStyle());
-        this.setPointGeometry(this.olFeature, webcam.position);
+        this.olFeature.setGeometry(OlHelper.getPointGeometry(webcam.position));
         layer.getSource().addFeature(this.olFeature);
-    }
-
-
-    public get isSelectable(): boolean {
-        return true;
     }
 
 

@@ -1,7 +1,7 @@
 import {WaypointBase} from './waypoint-base';
 import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import {WaypointType} from '../waypoint-type';
-import {Navaid} from '../../../navaid/domain-model/navaid';
+import {Navaid} from '../../../enroute/domain-model/navaid';
 
 
 export class WaypointNavaid extends WaypointBase {

@@ -1,6 +1,6 @@
 import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import {WaypointBase} from './waypoint-base';
-import {ReportingSector} from '../../../airport/domain-model/reporting-sector';
+import {ReportingSector} from '../../../aerodrome/domain-model/reporting-sector';
 import {WaypointType} from '../waypoint-type';
 import {WaypointAltitude} from '../waypoint-altitude';
 

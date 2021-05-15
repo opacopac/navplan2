@@ -1,7 +1,8 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {SharedModule} from '../common/shared.module';
-import {WebcamService} from './rest-service/webcam.service';
+import {RestWebcamService} from './rest-service/rest-webcam.service';
+import {WebcamService} from './domain-service/webcam.service';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import {WebcamService} from './rest-service/webcam.service';
     exports: [
     ],
     providers: [
-        WebcamService
+        WebcamService,
+        RestWebcamService
     ]
 })
 export class WebcamModule {}

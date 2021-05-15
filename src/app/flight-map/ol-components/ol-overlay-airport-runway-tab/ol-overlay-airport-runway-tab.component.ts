@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Airport} from '../../../airport/domain-model/airport';
-import {AirportRunway} from '../../../airport/domain-model/airport-runway';
+import {Airport} from '../../../aerodrome/domain-model/airport';
+import {AirportRunway} from '../../../aerodrome/domain-model/airport-runway';
 
 
 @Component({
