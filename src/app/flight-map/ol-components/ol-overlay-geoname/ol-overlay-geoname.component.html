@@ -2,7 +2,8 @@
     <mat-card *ngIf="this.geoname">
         <mat-card-header>
             <mat-card-title>
-                {{ this.geoname.name }} ({{ this.getAdminString() }})
+                {{ this.geoname.name }}
+                <span *ngIf="this.getAdminString().length > 0">({{ this.getAdminString() }})</span>
             </mat-card-title>
             <mat-card-subtitle>
                 {{ this.getTypeString() }}

@@ -3,11 +3,11 @@ import {Action, select, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, throwError} from 'rxjs';
 import {catchError, debounceTime, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
-import {SearchService} from '../rest-service/search.service';
 import {SearchActions2} from './search.actions';
 import {getCurrentUser} from '../../user/ngrx/user.selectors';
 import {User} from '../../user/domain-model/user';
 import {LoggingService} from '../../system/domain-service/logging/logging.service';
+import {SearchService} from '../domain-service/search.service';
 
 
 const MIN_QUERY_LENGTH = 3;

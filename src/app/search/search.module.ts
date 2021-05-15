@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {SearchService} from './rest-service/search.service';
+import {RestSearchService} from './rest-service/rest-search.service';
 import {SearchBoxComponent} from './ng-components/search-box/search-box.component';
 import {SharedModule} from '../common/shared.module';
 import {StoreModule} from '@ngrx/store';
@@ -13,6 +13,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SearchContainerComponent} from './ng-components/search-container/search-container.component';
+import {SearchService} from './domain-service/search.service';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import {SearchContainerComponent} from './ng-components/search-container/search-
         SearchContainerComponent
     ],
     providers: [
-        SearchService
+        SearchService,
+        RestSearchService
     ]
 })
 export class SearchModule {}

@@ -674,6 +674,7 @@ const GEONAME_FEATURE_DESCRIPTION = {
     'V.TUND': 'tundra',
     'V.VIN': 'vineyard',
     'V.VINS': 'vineyards',
+    'X.POS': 'position'
 };
 
 const GEONAME_CLASS_DESCRIPTION = {
@@ -697,7 +698,8 @@ const GEONAME_CLASS_DESCRIPTION_SHORT = {
     'S': 'Spot',
     'T': 'Terrain',
     'U': 'Undersea',
-    'V': 'Vegetation'
+    'V': 'Vegetation',
+    'X': 'Position'
 };
 
 // endregion
@@ -705,7 +707,7 @@ const GEONAME_CLASS_DESCRIPTION_SHORT = {
 
 export class Geoname extends DataItem {
     constructor(
-        public id: string,
+        public id: number,
         public name: string,
         public searchresultname: string,
         public feature_class: string,
@@ -718,6 +720,24 @@ export class Geoname extends DataItem {
         public elevation: Length
     ) {
         super();
+    }
+
+
+    public static createFromPosition(position: Position2d): Geoname {
+        const name = StringnumberHelper.getDecString(position, 4);
+        return new Geoname(
+            -1,
+            name,
+            name,
+            'X',
+            'POS',
+            '',
+            '',
+            '',
+            0,
+            position,
+            Length.createZero()
+        );
     }
 
 

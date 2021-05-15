@@ -54,7 +54,7 @@ export abstract class OlOverlayBase implements AfterViewInit {
 
 
     public getPositionString(pos: Position2d): string {
-        return StringnumberHelper.getDmsString(pos.toArray());
+        return StringnumberHelper.getDmsString(pos);
     }
 
 

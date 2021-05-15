@@ -35,7 +35,7 @@ export class OlOverlayReportingpointComponent extends OlOverlayWaypointBase impl
 
 
     public getPositionString(): string {
-        return StringnumberHelper.getDmsString(this.reportingpoint.position.toArray());
+        return StringnumberHelper.getDmsString(this.reportingpoint.position);
     }
 
 

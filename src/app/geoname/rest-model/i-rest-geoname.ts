@@ -3,7 +3,7 @@ import {IRestLength} from '../../common/geo-math/rest-model/i-rest-length';
 
 
 export interface IRestGeoname {
-    id: string;
+    id: number;
     name: string;
     searchresultname: string;
     feature_class: string;

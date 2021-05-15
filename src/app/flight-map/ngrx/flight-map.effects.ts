@@ -17,7 +17,7 @@ import {NavaidService} from '../../enroute/domain-service/navaid.service';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
 import {AirportService} from '../../aerodrome/domain-service/airport.service';
 import {AirportChart} from '../../aerodrome/domain-model/airport-chart';
-import {SearchService} from '../../search/rest-service/search.service';
+import {RestSearchService} from '../../search/rest-service/rest-search.service';
 import {OlHelper} from '../../base-map/ol-service/ol-helper';
 import {AirspaceService} from '../../enroute/domain-service/airspace.service';
 import {WebcamService} from '../../webcam/domain-service/webcam.service';
@@ -47,7 +47,7 @@ export class FlightMapEffects {
         private readonly navaidService: NavaidService,
         private readonly notamService: NotamService,
         private readonly webcamService: WebcamService,
-        private readonly searchService: SearchService
+        private readonly searchService: RestSearchService
     ) {
     }
 

@@ -15,7 +15,7 @@ import {IRestSearchResponse} from '../rest-model/i-rest-search-response';
 @Injectable({
     providedIn: 'root'
 })
-export class SearchService {
+export class RestSearchService {
     constructor(private http: HttpClient) {}
 
 

@@ -9,6 +9,11 @@ export class Length extends AbstractQuantity<Length, LengthUnit> implements Clon
     public static readonly FT_PER_NM = Length.FT_PER_M * Length.M_PER_NM;
 
 
+    public static createZero(): Length {
+        return new Length(0, LengthUnit.M);
+    }
+
+
     public static convert(
         value: number,
         unit: LengthUnit,

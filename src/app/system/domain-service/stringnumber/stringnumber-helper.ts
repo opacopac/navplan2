@@ -1,4 +1,5 @@
 import {Angle} from '../../../common/geo-math/domain-model/quantities/angle';
+import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 
 export class StringnumberHelper {
     public static isNullOrEmpty(text: string) {
@@ -75,16 +76,24 @@ export class StringnumberHelper {
     }
 
 
-    public static getDmsString(lonLat: [number, number]): string {
-        let latString = StringnumberHelper.getCoordString(lonLat[1]);
-        if (lonLat[1] >= 0) {
+    public static getDecString(position: Position2d, digits: number): string {
+        const latString = StringnumberHelper.roundToDigits(position.latitude, digits);
+        const lonString = StringnumberHelper.roundToDigits(position.longitude, digits);
+
+        return latString + ' ' + lonString;
+    }
+
+
+    public static getDmsString(position: Position2d): string {
+        let latString = StringnumberHelper.getCoordString(position.latitude);
+        if (position.latitude >= 0) {
             latString += ' N';
         } else {
             latString += ' S';
         }
 
-        let lonString = StringnumberHelper.getCoordString(lonLat[0]);
-        if (lonLat[0] >= 0) {
+        let lonString = StringnumberHelper.getCoordString(position.longitude);
+        if (position.longitude >= 0) {
             lonString += ' E';
         } else {
             lonString += ' W';
