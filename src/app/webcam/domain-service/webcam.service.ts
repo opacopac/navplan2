@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
-import {of} from 'rxjs/internal/observable/of';
 import {RestWebcamService} from '../rest-service/rest-webcam.service';
 import {map} from 'rxjs/operators';
 import {WebcamState} from '../domain-model/webcam-state';

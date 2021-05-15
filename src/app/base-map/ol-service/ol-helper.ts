@@ -9,6 +9,7 @@ import {Polygon} from '../../common/geo-math/domain-model/geometry/polygon';
 import {Multipolygon} from '../../common/geo-math/domain-model/geometry/multipolygon';
 import Geometry from 'ol/geom/Geometry';
 import {DataItem} from '../../common/model/data-item';
+import {Coordinate} from 'ol/coordinate';
 
 const MERCATOR_PROJECTION = 'EPSG:3857';
 const LONLAT_PROJECTION = 'EPSG:4326';
@@ -28,6 +29,13 @@ export class OlHelper {
 
     public static getPosFromMercator(mercator: [number, number]): Position2d {
         const lonLat = toLonLat(mercator);
+
+        return new Position2d(lonLat[0], lonLat[1]);
+    }
+
+
+    public static getPosFromMercatorCoords(mercatorCoords: Coordinate): Position2d {
+        const lonLat = toLonLat(mercatorCoords);
 
         return new Position2d(lonLat[0], lonLat[1]);
     }
@@ -58,7 +66,7 @@ export class OlHelper {
     public static createEmptyVectorLayer(imageRenderMode: boolean = false): VectorLayer {
         return new VectorLayer({
             source: new Vector({}),
-            renderMode: imageRenderMode ? 'image' : undefined
+            // renderMode: imageRenderMode ? 'image' : undefined
         });
     }
 

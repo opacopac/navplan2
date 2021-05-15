@@ -133,12 +133,12 @@ export class OlRouteLine {
         for (let i = 0; i < newCoordinates.length; i++) {
             if (
                 i >= this.flightroute.waypoints.length
-                || !this.flightroute.waypoints[i].position.equals(OlHelper.getPosFromMercator(newCoordinates[i]), 4)
+                || !this.flightroute.waypoints[i].position.equals(OlHelper.getPosFromMercatorCoords(newCoordinates[i]), 4)
             ) {
                 return new RouteLineModification(
                     i,
                     (this.flightroute.waypoints.length !== newCoordinates.length),
-                    OlHelper.getPosFromMercator(newCoordinates[i])
+                    OlHelper.getPosFromMercatorCoords(newCoordinates[i])
                 );
             }
         }

@@ -50,7 +50,8 @@ export class OlNotam {
                     circle.center.toArray(),
                     circle.radius.m
                 );
-                feature.setGeometry(OlHelper.getPolygonGeometry(Polygon.createFromArray(polycirc.getCoordinates()[0])));
+                const polyCircCoords = polycirc.getCoordinates()[0];
+                feature.setGeometry(OlHelper.getPolygonGeometry(Polygon.createFromCoordList(polyCircCoords)));
                 break;
             default:
                 return;

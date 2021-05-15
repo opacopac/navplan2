@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
-import {of} from 'rxjs/internal/observable/of';
 import {map} from 'rxjs/operators';
 import {AirportCircuitState} from '../domain-model/airport-circuit-state';
 import {AirportCircuitRestService} from '../rest-service/airport-circuit-rest.service';

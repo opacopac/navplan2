@@ -1,11 +1,21 @@
 import {Position2d} from './position2d';
 import {Geometry2d, Geometry2dType} from './geometry2d';
+import {Coordinate} from 'ol/coordinate';
 
 
 export class Polygon implements Geometry2d {
     public constructor(
         public positions: Position2d[]
     ) {
+    }
+
+
+    public static createFromCoordList(coordList: Coordinate[]): Polygon {
+        if (!coordList) {
+            return undefined;
+        }
+
+        return new Polygon(coordList.map(lonLat => new Position2d(lonLat[0], lonLat[1])));
     }
 
 

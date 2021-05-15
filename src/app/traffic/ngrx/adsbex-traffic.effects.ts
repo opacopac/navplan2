@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Action, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {Observable} from 'rxjs';
-import {of} from 'rxjs/internal/observable/of';
+import {Observable, of} from 'rxjs';
 import {catchError, map, mergeMap, withLatestFrom} from 'rxjs/operators';
 import {TrafficActions} from './traffic.actions';
 import {getTrafficState} from './traffic.selectors';

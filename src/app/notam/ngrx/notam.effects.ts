@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Action, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, map, switchMap, withLatestFrom} from 'rxjs/operators';
-import {of} from 'rxjs/internal/observable/of';
 import {NotamActionTypes, ReadNotamAction, ReadNotamErrorAction, ReadNotamSuccessAction} from './notam.actions';
 import {NotamService} from '../domain-service/notam-service';
 import {NotamState} from './notam-state';

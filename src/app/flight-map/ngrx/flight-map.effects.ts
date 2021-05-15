@@ -1,7 +1,7 @@
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Store} from '@ngrx/store';
 import {catchError, debounceTime, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
-import {Observable, pipe, throwError} from 'rxjs';
+import {Observable, of, pipe, throwError} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {BaseMapActions} from '../../base-map/ngrx/base-map.actions';
 import {environment} from '../../../environments/environment';
@@ -11,7 +11,6 @@ import {FlightMapActions} from './flight-map.actions';
 import {NotamService} from '../../notam/domain-service/notam-service';
 import {MetarTafService} from '../../metar-taf/domain-service/metar-taf.service';
 import {LoggingService} from '../../system/domain-service/logging/logging.service';
-import {of} from 'rxjs/internal/observable/of';
 import {getFlightMapState} from './flight-map.selectors';
 import {FlightMapState} from './flight-map-state';
 import {NavaidService} from '../../enroute/domain-service/navaid.service';
