@@ -12,7 +12,7 @@ import {NotamService} from '../../notam/domain-service/notam-service';
 import {MetarTafService} from '../../metar-taf/domain-service/metar-taf.service';
 import {LoggingService} from '../../system/domain-service/logging/logging.service';
 import {getFlightMapState} from './flight-map.selectors';
-import {FlightMapState} from './flight-map-state';
+import {FlightMapState} from '../domain-model/flight-map-state';
 import {NavaidService} from '../../enroute/domain-service/navaid.service';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
 import {AirportService} from '../../aerodrome/domain-service/airport.service';
@@ -24,11 +24,15 @@ import {WebcamService} from '../../webcam/domain-service/webcam.service';
 import {AirportCircuitService} from '../../aerodrome/domain-service/airport-circuit.service';
 import {AirportChartService} from '../../aerodrome/domain-service/airport-chart.service';
 import {ReportingPointService} from '../../aerodrome/domain-service/reporting-point.service';
+import {SearchActions2} from '../../search/ngrx/search.actions';
+import {SearchState} from '../../search/domain-model/search-state';
+import {getSearchState} from '../../search/ngrx/search.selectors';
 
 
 @Injectable()
 export class FlightMapEffects {
     private readonly flightMapState$: Observable<FlightMapState> = this.appStore.select(pipe(getFlightMapState));
+    private readonly searchState$: Observable<SearchState> = this.appStore.select(pipe(getSearchState));
 
 
     constructor(
@@ -121,8 +125,8 @@ export class FlightMapEffects {
 
     mapClickedAction$ = createEffect(() => this.actions$.pipe(
         ofType(BaseMapActions.mapClicked),
-        withLatestFrom(this.flightMapState$),
-        switchMap(([action, flightMapState]) => {
+        withLatestFrom(this.flightMapState$, this.searchState$),
+        switchMap(([action, flightMapState, searchState]) => {
             switch (action.dataItem?.dataItemType) {
                 case DataItemType.airport:
                     return this.airportService.readAirportById((action.dataItem as ShortAirport).id).pipe(
@@ -147,26 +151,22 @@ export class FlightMapEffects {
                 case DataItemType.reportingPoint:
                 case DataItemType.reportingSector:
                 case DataItemType.navaid:
+                case DataItemType.geoname:
                     return of(FlightMapActions.showOverlay(action));
                 case DataItemType.airportChart:
                     const chart = action.dataItem as AirportChart;
                     this.appStore.dispatch(BaseMapActions.closeImage({ id: chart.id }));
                     return of(FlightMapActions.closeAirportChart({ chartId: chart.id }));
                 default:
-                    if (!flightMapState.showPositionSearchResults.clickPos) {
-                        const maxRadiusDeg = OlHelper.calcDegPerPixelByZoom(action.zoom) * 50;
-                        return this.searchService.searchByPosition(action.clickPos, maxRadiusDeg, 0, 999).pipe(
-                            map(result => FlightMapActions.showPositionSearchResults({
-                                searchResults: result,
-                                clickPos: action.clickPos
-                            })),
-                            catchError(error => {
-                                LoggingService.logResponseError('ERROR search by position', error);
-                                return throwError(error);
-                            })
-                        );
+                    if (!searchState.positionSearchState.clickPos) {
+                        return of(SearchActions2.searchByPosition({
+                            clickPos: action.clickPos,
+                            maxDegRadius: OlHelper.calcDegPerPixelByZoom(action.zoom) * 50,
+                            minNotamTimestamp: 0,
+                            maxNotamTimestamp: 999 // TODO
+                        }));
                     } else {
-                        return of(FlightMapActions.closePositionSearchResults());
+                        return of(SearchActions2.closePositionSearchResults());
                     }
             }
         })

@@ -49,13 +49,18 @@ export class StringnumberHelper {
     }
 
 
-    public static equals(num1: number, num2: number, precisionDigits?: number){
+    public static equals(num1: number, num2: number, precisionDigits?: number): boolean {
         if (precisionDigits === undefined) {
             return num1 === num2;
         } else {
             return Math.round(num1 * Math.pow(10, precisionDigits))
                 === Math.round(num2 * Math.pow(10, precisionDigits));
         }
+    }
+
+
+    public static capitalize(word: string): string {
+        return word.charAt(0).toUpperCase() + word.slice(1);
     }
 
 

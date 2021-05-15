@@ -27,17 +27,39 @@ export class SearchEffects {
     }
 
 
-    executeQuery$: Observable<Action> = createEffect(() => this.actions$.pipe(
-            ofType(SearchActions2.searchText),
-            filter(action => action.query !== undefined && action.query.trim().length >= MIN_QUERY_LENGTH),
-            debounceTime(QUERY_DELAY_MS),
+    searchByPosition$: Observable<Action> = createEffect(() => this.actions$.pipe(
+            ofType(SearchActions2.searchByPosition),
             withLatestFrom(this.currentUser$),
-            switchMap(([action, currentUser]) => this.searchService.searchByText(action.query, currentUser).pipe(
-                map(result => SearchActions2.showTextSearchResults({ searchResults: result })),
+            switchMap(([action, currentUser]) => this.searchService.searchByPosition(
+                action.clickPos,
+                action.maxDegRadius,
+                action.minNotamTimestamp,
+                action.maxNotamTimestamp
+            ).pipe(
+                map(result => SearchActions2.showPositionSearchResults({
+                    searchResults: result,
+                    clickPos: action.clickPos
+                })),
                 catchError(error => {
-                    LoggingService.logResponseError('ERROR search by text', error);
+                    LoggingService.logResponseError('ERROR search by position', error);
                     return throwError(error);
                 })
             ))
         ));
+
+
+    searchByText$: Observable<Action> = createEffect(() => this.actions$.pipe(
+        ofType(SearchActions2.searchByText),
+        filter(action => action.query !== undefined && action.query.trim().length >= MIN_QUERY_LENGTH),
+        debounceTime(QUERY_DELAY_MS),
+        withLatestFrom(this.currentUser$),
+        switchMap(([action, currentUser]) => this.searchService.searchByText(action.query, currentUser).pipe(
+            map(result => SearchActions2.showTextSearchResults({ searchResults: result })),
+            catchError(error => {
+                LoggingService.logResponseError('ERROR search by text', error);
+                return throwError(error);
+            })
+        ))
+    ));
+
 }

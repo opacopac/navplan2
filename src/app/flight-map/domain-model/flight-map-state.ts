@@ -11,7 +11,6 @@ import {NavaidState} from '../../enroute/domain-model/navaid-state';
 import {WebcamState} from '../../webcam/domain-model/webcam-state';
 import {AirspaceState} from '../../enroute/domain-model/airspace-state';
 import {AirportChartState} from '../../aerodrome/domain-model/airport-chart-state';
-import {PositionSearchState} from '../../search/domain-model/position-search-state';
 
 
 export interface FlightMapState {
@@ -33,5 +32,4 @@ export interface FlightMapState {
         dataItem: DataItem,
         clickPos: Position2d
     };
-    showPositionSearchResults: PositionSearchState;
 }

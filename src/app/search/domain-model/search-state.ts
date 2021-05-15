@@ -1,8 +1,8 @@
-import {SearchItemList} from './search-item-list';
+import {TextSearchState} from './text-search-state';
+import {PositionSearchState} from './position-search-state';
 
 
 export interface SearchState {
-    searchIsActive: boolean;
-    searchResults: SearchItemList;
-    selectedIndex: number;
+    textSearchState: TextSearchState;
+    positionSearchState: PositionSearchState;
 }

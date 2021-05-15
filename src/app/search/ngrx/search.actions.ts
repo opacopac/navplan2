@@ -1,34 +1,46 @@
 import {createAction, props} from '@ngrx/store';
 import {SearchItemList} from '../domain-model/search-item-list';
 import {SearchItem} from '../domain-model/search-item';
+import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 
 
 export class SearchActions2 {
-    public static readonly showSearchField = createAction(
-        '[Navbar] Search button clicked',
+    public static readonly showTextSearchField = createAction(
+        '[Navbar] Show text search field',
     );
-    public static readonly hideSearchField = createAction(
-        '[Search box] Blur',
+    public static readonly hideTextSearchField = createAction(
+        '[Search box] Hide text search field',
     );
-    public static readonly searchText = createAction(
-        '[Search box] Text query submitted',
+    public static readonly searchByText = createAction(
+        '[Search box] Search by text',
         props<{ query: string }>()
     );
     public static readonly showTextSearchResults = createAction(
-        '[SearchService] Search results received',
+        '[SearchService] Display text search results',
         props<{ searchResults: SearchItemList }>()
     );
-    public static readonly nextSearchItem = createAction(
-        '[Search box] Go to next search item',
+    public static readonly nextTextSearchResult = createAction(
+        '[Search box] Next text search result',
     );
-    public static readonly previousSearchItem = createAction(
-        '[Search box] Go to previous search item',
+    public static readonly previousTextSearchResult = createAction(
+        '[Search box] Previous text search result',
     );
-    public static readonly selectSearchItem = createAction(
-        '[Search box] Select item',
+    public static readonly selectTextSearchResult = createAction(
+        '[Search box] Select text search result',
         props<{ searchItem: SearchItem }>()
     );
-    public static readonly hideSearchResults = createAction(
-        '[Search box] Hide results',
+    public static readonly hideTextSearchResults = createAction(
+        '[Search box] Hide text search results',
+    );
+    public static readonly searchByPosition = createAction(
+        '[Flight Map] Search by position',
+        props<{ clickPos: Position2d, maxDegRadius: number, minNotamTimestamp: number, maxNotamTimestamp: number }>()
+    );
+    public static readonly showPositionSearchResults = createAction(
+        '[Flight Map] Show position search results on map',
+        props<{ searchResults: SearchItemList, clickPos: Position2d }>()
+    );
+    public static readonly closePositionSearchResults = createAction(
+        '[Flight Map] Close position search results on map',
     );
 }

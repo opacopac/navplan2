@@ -28,7 +28,7 @@ export class NavbarContainerComponent implements OnInit {
 
 
     public onShowSearchClick() {
-        this.appStore.dispatch(SearchActions2.showSearchField());
+        this.appStore.dispatch(SearchActions2.showTextSearchField());
     }
 
 

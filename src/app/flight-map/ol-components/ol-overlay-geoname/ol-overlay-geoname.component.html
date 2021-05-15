@@ -1,19 +1,18 @@
-<div #container class="ol-popup card text-white bg-primary mb-3">
-    <div *ngIf="this.geoname">
-        <div class="card-header">
-            {{ this.geoname.name }}
-            <app-ol-overlay-button-close (click)="this.onCloseOverlay()"></app-ol-overlay-button-close>
-        </div>
-        <div class="card-body">
-            <p>{{ this.geoname.name }} ({{ this.getAdminString() }})</p>
-            <p>Type: {{ this.getTypeString() }}</p>
-            <p>{{ this.getPositionString(this.geoname.position) }}</p>
-            <p>VAR: {{ this.getVariationString(this.geoname.position) }}</p>
-            <p>Elevation [ft]: {{ this.getElevationString(this.geoname.elevation.ft) }}</p>
-            <hr/>
-            <app-ol-overlay-button-add-to-route></app-ol-overlay-button-add-to-route>
-            <app-ol-overlay-button-edit-waypoint></app-ol-overlay-button-edit-waypoint>
-            <app-ol-overlay-button-remove-from-route></app-ol-overlay-button-remove-from-route>
-        </div>
-    </div>
+<div #container class="ol-popup">
+    <mat-card *ngIf="this.geoname">
+        <mat-card-header>
+            <mat-card-title>
+                {{ this.geoname.name }} ({{ this.getAdminString() }})
+            </mat-card-title>
+            <mat-card-subtitle>
+                {{ this.getTypeString() }}
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <p>Position: {{ this.getPositionString(this.geoname.position) }}</p>
+            <p>Variation: {{ this.getVariationString(this.geoname.position) }}</p>
+            <p *ngIf="!this.geoname.elevation.isZero()">Elevation: {{ this.getElevationString(this.geoname.elevation) }}</p>
+        </mat-card-content>
+        <app-ol-overlay-button-list [waypoint]="this.waypoint"></app-ol-overlay-button-list>
+    </mat-card>
 </div>

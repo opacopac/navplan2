@@ -4,60 +4,95 @@ import {createReducer, on} from '@ngrx/store';
 
 
 const initialSearchState: SearchState = {
-    searchIsActive: false,
-    searchResults: undefined,
-    selectedIndex: undefined
+    textSearchState: { searchIsActive: false, searchResults: undefined, selectedResultIndex: undefined },
+    positionSearchState: { searchItems: [], clickPos: undefined }
 };
 
 
 export const searchReducer = createReducer(
     initialSearchState,
-    on(SearchActions2.showSearchField, (state) => ({
+    on(SearchActions2.showTextSearchField, (state) => ({
         ...state,
-        searchIsActive: true
+        textSearchState: {
+            searchIsActive: true,
+            searchResults: state.textSearchState.searchResults,
+            selectedResultIndex: state.textSearchState.selectedResultIndex
+        }
     })),
-    on(SearchActions2.hideSearchField, (state) => ({
+    on(SearchActions2.hideTextSearchField, (state) => ({
         ...state,
-        searchIsActive: true
+        textSearchState: {
+            searchIsActive: false,
+            searchResults: undefined,
+            selectedResultIndex: undefined
+        }
     })),
     on(SearchActions2.showTextSearchResults, (state, action) => ({
         ...state,
-        searchResults: action.searchResults,
-        selectedIndex: undefined
+        textSearchState: {
+            searchIsActive: true,
+            searchResults: action.searchResults,
+            selectedResultIndex: undefined
+        }
     })),
-    on(SearchActions2.previousSearchItem, (state) => {
+    on(SearchActions2.previousTextSearchResult, (state) => {
         let prevIndex: number;
-        if (!state.searchResults || state.searchResults.items.length === 0) {
+        if (!state.textSearchState.searchResults || state.textSearchState.searchResults.items.length === 0) {
             prevIndex = undefined;
-        } else if (state.selectedIndex >= state.searchResults.items.length) {
-            prevIndex = state.searchResults.items.length - 1;
-        } else if (state.selectedIndex < 0) {
+        } else if (state.textSearchState.selectedResultIndex >= state.textSearchState.searchResults.items.length) {
+            prevIndex = state.textSearchState.searchResults.items.length - 1;
+        } else if (state.textSearchState.selectedResultIndex < 0) {
             prevIndex = 0;
-        } else if (state.selectedIndex > 0) {
-            prevIndex = state.selectedIndex - 1;
+        } else if (state.textSearchState.selectedResultIndex > 0) {
+            prevIndex = state.textSearchState.selectedResultIndex - 1;
         } else {
-            prevIndex = state.selectedIndex;
+            prevIndex = state.textSearchState.selectedResultIndex;
         }
-        return { ...state, selectedIndex: prevIndex };
+        return {
+            ...state,
+            textSearchState: {
+                searchIsActive: true,
+                searchResults: state.textSearchState.searchResults,
+                selectedResultIndex: prevIndex
+            }
+        };
     }),
-    on(SearchActions2.nextSearchItem, (state) => {
+    on(SearchActions2.nextTextSearchResult, (state) => {
         let nextIndex: number;
-        if (!state.searchResults || state.searchResults.items.length === 0) {
+        if (!state.textSearchState.searchResults || state.textSearchState.searchResults.items.length === 0) {
             nextIndex = undefined;
-        } else if (state.selectedIndex >= state.searchResults.items.length) {
-            nextIndex = state.searchResults.items.length - 1;
-        } else if (state.selectedIndex < 0) {
+        } else if (state.textSearchState.selectedResultIndex >= state.textSearchState.searchResults.items.length) {
+            nextIndex = state.textSearchState.searchResults.items.length - 1;
+        } else if (state.textSearchState.selectedResultIndex < 0) {
             nextIndex = 0;
-        } else if (state.selectedIndex < state.searchResults.items.length - 1) {
-            nextIndex = state.selectedIndex + 1;
+        } else if (state.textSearchState.selectedResultIndex < state.textSearchState.searchResults.items.length - 1) {
+            nextIndex = state.textSearchState.selectedResultIndex + 1;
         } else {
-            nextIndex = state.selectedIndex;
+            nextIndex = state.textSearchState.selectedResultIndex;
         }
-        return { ...state, selectedIndex: nextIndex };
+        return {
+            ...state,
+            textSearchState: {
+                searchIsActive: true,
+                searchResults: state.textSearchState.searchResults,
+                selectedResultIndex: nextIndex
+            }
+        };
     }),
-    on(SearchActions2.hideSearchResults, (state) => ({
+    on(SearchActions2.hideTextSearchResults, (state) => ({
         ...state,
-        searchResults: undefined,
-        selectedIndex: undefined
+        textSearchState: {
+            searchIsActive: true,
+            searchResults: undefined,
+            selectedResultIndex: undefined
+        }
+    })),
+    on(SearchActions2.showPositionSearchResults, (state, action) => ({
+        ...state,
+        positionSearchState: { searchItems: action.searchResults.items, clickPos: action.clickPos }
+    })),
+    on(SearchActions2.closePositionSearchResults, (state) => ({
+        ...state,
+        positionSearchState: { searchItems: [], clickPos: undefined }
     })),
 );

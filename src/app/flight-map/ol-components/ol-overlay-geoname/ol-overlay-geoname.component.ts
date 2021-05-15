@@ -4,6 +4,7 @@ import {Geoname} from '../../../geoname/domain-model/geoname';
 import {OlOverlayWaypointBase} from '../ol-overlay-waypoint-base';
 import {WaypointFactory} from '../../../flightroute/domain-model/waypoint-mapper/waypoint-factory';
 import {OlHelper} from '../../../base-map/ol-service/ol-helper';
+import {StringnumberHelper} from '../../../system/domain-service/stringnumber/stringnumber-helper';
 
 
 // region type strings
@@ -735,7 +736,8 @@ export class OlOverlayGeonameComponent extends OlOverlayWaypointBase implements 
         if (this.geoname.feature_class === 'P') {
             return GEONAME_CLASS_DESCRIPTION_SHORT[this.geoname.feature_class];
         } else {
-            return GEONAME_FEATURE_DESCRIPTION[this.geoname.feature_class + '.' + this.geoname.feature_code];
+            const desc = GEONAME_FEATURE_DESCRIPTION[this.geoname.feature_class + '.' + this.geoname.feature_code];
+            return StringnumberHelper.capitalize(desc);
         }
     }
 

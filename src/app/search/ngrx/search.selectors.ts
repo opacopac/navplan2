@@ -1,7 +1,10 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
 import {SearchState} from '../domain-model/search-state';
 
+
 export const getSearchState = createFeatureSelector<SearchState>('searchState');
-export const getSearchIsActive = createSelector(getSearchState, state => state.searchIsActive);
-export const getSearchResults = createSelector(getSearchState, state => state.searchResults);
-export const getSelectedIndex = createSelector(getSearchState, state => state.selectedIndex);
+export const getTextSearchState = createSelector(getSearchState, state => state.textSearchState);
+export const getTextSearchIsActive = createSelector(getSearchState, state => state.textSearchState.searchIsActive);
+export const getTextSearchResults = createSelector(getSearchState, state => state.textSearchState.searchResults);
+export const getTextSearchSelectedResultIndex = createSelector(getSearchState, state => state.textSearchState.selectedResultIndex);
+export const getPositionSearchState = createSelector(getSearchState, state => state.positionSearchState);

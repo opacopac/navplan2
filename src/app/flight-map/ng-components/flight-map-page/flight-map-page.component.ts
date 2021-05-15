@@ -41,7 +41,6 @@ import {
     getFlightMapMetarTafs,
     getFlightMapNavaids,
     getFlightMapOverlay,
-    getFlightMapPositionSearchResults,
     getFlightMapReportingPoints,
     getFlightMapReportingSectors,
     getFlightMapWebcams
@@ -62,6 +61,8 @@ import {MetarTaf} from '../../../metar-taf/domain-model/metar-taf';
 import {Notam} from '../../../notam/domain-model/notam';
 import {OlAirportChartContainer} from '../../../aerodrome/ol-components/ol-airport-chart-container';
 import {OlPositionSearchContainer} from '../../../search/ol-components/ol-position-search-container';
+import {getPositionSearchState} from '../../../search/ngrx/search.selectors';
+import {Geoname} from '../../../geoname/domain-model/geoname';
 
 
 @Component({
@@ -292,7 +293,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         );
         this.olPositionSearchContainer = new OlPositionSearchContainer(
             pointSearchLayer,
-            this.appStore.pipe(select(getFlightMapPositionSearchResults))
+            this.appStore.pipe(select(getPositionSearchState))
         );
         this.olTraffic = new OlTrafficContainer(
             trafficLayer,
@@ -336,6 +337,8 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
             case DataItemType.navaid:
                 this.mapOverlayNavaidComponent.setDataItem(dataItem as Navaid, clickPos);
                 break;
+            case DataItemType.geoname:
+                this.mapOverlayGeonameComponent.setDataItem(dataItem as Geoname, clickPos);
         }
     }
 

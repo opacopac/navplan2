@@ -20,7 +20,7 @@ import {FlightrouteCalcHelper} from '../domain-service/flightroute-calc.helper';
 import {ArrayHelper} from '../../system/domain-service/array/array-helper';
 import {WaypointFactory} from '../domain-model/waypoint-mapper/waypoint-factory';
 import {getFlightMapState} from '../../flight-map/ngrx/flight-map.selectors';
-import {FlightMapState} from '../../flight-map/ngrx/flight-map-state';
+import {FlightMapState} from '../../flight-map/domain-model/flight-map-state';
 
 
 @Injectable()

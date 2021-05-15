@@ -1,5 +1,5 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {FlightMapState} from './flight-map-state';
+import {FlightMapState} from '../domain-model/flight-map-state';
 
 
 export const getFlightMapState = createFeatureSelector<FlightMapState>('flightMapState');
@@ -14,4 +14,3 @@ export const getFlightMapNavaids = createSelector(getFlightMapState, state => st
 export const getFlightMapWebcams = createSelector(getFlightMapState, state => state.webcamState.webcams);
 export const getFlightMapOverlay = createSelector(getFlightMapState, state => state.showOverlay);
 export const getFlightMapAirportOverlay = createSelector(getFlightMapState, state => state.showAirportOverlay);
-export const getFlightMapPositionSearchResults = createSelector(getFlightMapState, state => state.showPositionSearchResults);
