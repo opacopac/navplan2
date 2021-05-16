@@ -4,7 +4,7 @@ import {AirportChartState} from '../domain-model/airport-chart-state';
 
 
 const initialState: AirportChartState = {
-    airportCharts: [],
+    airportCharts: []
 };
 
 
@@ -12,13 +12,10 @@ export const airportChartReducer = createReducer(
     initialState,
     on(AirportChartActions.showAirportChart, (state, action) => ({
         ...state,
-        airportChartState: { airportCharts: [...state.airportCharts, action.chart ] },
-        showOverlay: { dataItem: undefined, clickPos: undefined }
+        airportCharts: [...state.airportCharts, action.chart ]
     })),
     on(AirportChartActions.closeAirportChart, (state, action) => ({
         ...state,
-        airportChartState: {
-            airportCharts: [ ...state.airportCharts.filter(chart => chart.id !== action.chartId) ]
-        },
+        airportCharts: [ ...state.airportCharts.filter(chart => chart.id !== action.chartId) ]
     })),
 );
