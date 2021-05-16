@@ -1,3 +1,6 @@
 table.mat-table {
     width: 100%;
 }
+div.metarTaf {
+    max-width: 650px;
+}
