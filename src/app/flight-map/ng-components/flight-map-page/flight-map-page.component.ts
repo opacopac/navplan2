@@ -32,11 +32,7 @@ import {OlOverlayWaypointComponent} from '../../ol-components/ol-overlay-waypoin
 import {Observable} from 'rxjs/internal/Observable';
 import {Subscription} from 'rxjs/internal/Subscription';
 import {Airport} from '../../../aerodrome/domain-model/airport';
-import {
-    getFlightMapAirportCharts,
-    getFlightMapAirportOverlay,
-    getFlightMapOverlay
-} from '../../ngrx/flight-map.selectors';
+import {getFlightMapAirportOverlay, getFlightMapOverlay} from '../../ngrx/flight-map.selectors';
 import {OlAirportContainer} from '../../../aerodrome/ol-components/ol-airport-container';
 import {OlAirportCircuitContainer} from '../../../aerodrome/ol-components/ol-airport-circuit-container';
 import {OlReportingPointContainer} from '../../../aerodrome/ol-components/ol-reporting-point-container';
@@ -62,6 +58,7 @@ import {getNavaids} from '../../../enroute/ngrx/navaid.selectors';
 import {getAirports} from '../../../aerodrome/ngrx/airport.selectors';
 import {getReportingPoints, getReportingSectors} from '../../../aerodrome/ngrx/reporting-point-sector.selectors';
 import {getAirportCircuits} from '../../../aerodrome/ngrx/airport-circuit.selectors';
+import {getAirportCharts} from '../../../aerodrome/ngrx/airport-chart.selectors';
 
 
 @Component({
@@ -238,7 +235,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         );
         this.olAirportChartContainer = new OlAirportChartContainer(
             chartCloserLayer,
-            this.appStore.pipe(select(getFlightMapAirportCharts))
+            this.appStore.pipe(select(getAirportCharts))
         );
         this.olReportingPointContainer = new OlReportingPointContainer(
             reportingPointLayer,

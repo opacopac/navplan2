@@ -4,7 +4,6 @@ import {createReducer, on} from '@ngrx/store';
 
 
 const initialState: FlightMapState = {
-    airportChartState: { airportCharts: [] },
     showAirportOverlay: { airport: undefined, metarTaf: undefined, notams: [], tabIndex: 0 },
     showOverlay: { dataItem: undefined, clickPos: undefined },
 };
@@ -19,17 +18,6 @@ export const flightMapReducer = createReducer(
     on(FlightMapActions.showOverlay, (state, action) => ({
         ...state,
         showOverlay: { dataItem: action.dataItem, clickPos: action.clickPos }
-    })),
-    on(FlightMapActions.showAirportChart, (state, action) => ({
-        ...state,
-        airportChartState: { airportCharts: [...state.airportChartState.airportCharts, action.chart ] },
-        showOverlay: { dataItem: undefined, clickPos: undefined }
-    })),
-    on(FlightMapActions.closeAirportChart, (state, action) => ({
-        ...state,
-        airportChartState: {
-            airportCharts: [ ...state.airportChartState.airportCharts.filter(chart => chart.id !== action.chartId) ]
-        },
     })),
     on(FlightMapActions.closeAllOverlays, (state) => ({
         ...state,

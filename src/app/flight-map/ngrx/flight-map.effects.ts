@@ -1,15 +1,13 @@
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Store} from '@ngrx/store';
-import {catchError, debounceTime, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
-import {Observable, of, pipe, throwError} from 'rxjs';
+import {debounceTime, map, switchMap, withLatestFrom} from 'rxjs/operators';
+import {Observable, of, pipe} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {BaseMapActions} from '../../base-map/ngrx/base-map.actions';
-import {environment} from '../../../environments/environment';
 import {DataItemType} from '../../common/model/data-item';
 import {ShortAirport} from '../../aerodrome/domain-model/short-airport';
 import {FlightMapActions} from './flight-map.actions';
 import {MetarTafService} from '../../metar-taf/domain-service/metar-taf.service';
-import {LoggingService} from '../../system/domain-service/logging/logging.service';
 import {getFlightMapState} from './flight-map.selectors';
 import {FlightMapState} from '../domain-model/flight-map-state';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
@@ -35,6 +33,7 @@ import {AirportActions} from '../../aerodrome/ngrx/airport.actions';
 import {ReportingPointSectorActions} from '../../aerodrome/ngrx/reporting-point-sector.actions';
 import {AirportState} from '../../aerodrome/domain-model/airport-state';
 import {getAirportState} from '../../aerodrome/ngrx/airport.selectors';
+import {AirportChartActions} from '../../aerodrome/ngrx/airport-chart.actions';
 
 
 @Injectable()
@@ -112,7 +111,7 @@ export class FlightMapEffects {
                 case DataItemType.airportChart:
                     const chart = action.dataItem as AirportChart;
                     this.appStore.dispatch(BaseMapActions.closeImage({ id: chart.id }));
-                    return of(FlightMapActions.closeAirportChart({ chartId: chart.id }));
+                    return of(AirportChartActions.closeAirportChart({ chartId: chart.id }));
                 default:
                     if (searchState.positionSearchState.clickPos
                         || flightMapState.showAirportOverlay.airport
@@ -132,20 +131,8 @@ export class FlightMapEffects {
     ));
 
 
-    showAirportChartOnMap$ = createEffect(() => this.actions$.pipe(
-        ofType(FlightMapActions.openAirportChart),
-        switchMap(action => this.airportChartService.readAdChartById(action.chartId).pipe(
-            tap(chart => this.appStore.dispatch(BaseMapActions.showImage({
-                id: chart.id,
-                imageUrl: environment.chartBaseUrl + chart.fileName,
-                extent: chart.extent,
-                opacity: 0.9
-            }))),
-            map(chart => FlightMapActions.showAirportChart({ chart: chart })),
-            catchError(error => {
-                LoggingService.logResponseError('ERROR reading airport chart by id', error);
-                return throwError(error);
-            })
-        ))
+    showAirportChart$ = createEffect(() => this.actions$.pipe(
+        ofType(AirportChartActions.openAirportChart),
+        map(action => FlightMapActions.closeAllOverlays())
     ));
 }

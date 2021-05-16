@@ -17,15 +17,23 @@ import {ReportingPointSectorEffects} from './ngrx/reporting-point-sector.effects
 import {reportingPointSectorReducer} from './ngrx/reporting-point-sector.reducer';
 import {AirportCircuitEffects} from './ngrx/airport-circuit.effects';
 import {airportCircuitReducer} from './ngrx/airport-circuit.reducer';
+import {airportChartReducer} from './ngrx/airport-chart.reducer';
+import {AirportChartEffects} from './ngrx/airport-chart.effects';
 
 
 @NgModule({
     imports: [
         CommonModule,
         StoreModule.forFeature('airportState', airportReducer),
+        StoreModule.forFeature('airportChartState', airportChartReducer),
         StoreModule.forFeature('airportCircuitState', airportCircuitReducer),
         StoreModule.forFeature('reportingPointSectorState', reportingPointSectorReducer),
-        EffectsModule.forFeature([AirportEffects, AirportCircuitEffects, ReportingPointSectorEffects]),
+        EffectsModule.forFeature([
+            AirportEffects,
+            AirportChartEffects,
+            AirportCircuitEffects,
+            ReportingPointSectorEffects
+        ]),
         SharedModule,
     ],
     declarations: [
