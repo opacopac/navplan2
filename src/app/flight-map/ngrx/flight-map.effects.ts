@@ -65,6 +65,7 @@ export class FlightMapEffects {
     ));
 
 
+    // TODO: ugly...
     mapClickedAction$ = createEffect(() => this.actions$.pipe(
         ofType(BaseMapActions.mapClicked),
         withLatestFrom(this.flightMapState$, this.searchState$, this.metarTafState$, this.airportState$),

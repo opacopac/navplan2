@@ -15,7 +15,7 @@ class DbShortAirportConverter {
             DbPosition2dConverter::fromDbRow($row),
             is_null(intval($row["direction1"])) ? null : intval($row["direction1"]),
             $row["surface"],
-            explode(",", $row["features"] ?: "")
+            $row["features"] ? explode(",", $row["features"]) : []
         );
     }
 }
