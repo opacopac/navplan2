@@ -1,5 +1,7 @@
-import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
+import {ReplaySubject} from 'rxjs';
+import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 
 
 @Component({
@@ -8,33 +10,45 @@ import {Position2d} from '../../../common/geo-math/domain-model/geometry/positio
     styleUrls: ['./ol-overlay-windyiframe.component.css']
 })
 export class OlOverlayWindyiframeComponent implements OnInit {
-    @ViewChild('container') container: ElementRef;
-    @Output() onDataNeeded: EventEmitter<void>;
+    public readonly windyUrl$: ReplaySubject<SafeResourceUrl> = new ReplaySubject();
+    @Input() set position(value: Position2d) {
+        const newUrl = this.getWindyUrl(value);
+        this.windyUrl$.next(newUrl);
+    }
 
 
-    constructor() {
-        this.onDataNeeded = new EventEmitter<void>();
+    constructor(private sanitizer: DomSanitizer) {
     }
 
 
     ngOnInit() {
-        this.onDataNeeded.emit();
     }
 
 
-    public updateWeather(position: Position2d, maxWidthPx: number) {
-        while (this.container.nativeElement.firstChild) {
-            this.container.nativeElement.removeChild(this.container.nativeElement.firstChild);
-        }
+    private getWindyUrl(position: Position2d): SafeResourceUrl {
+        const url = 'https://embed.windy.com/embed2.html' +
+            '?lat=' + position.latitude +
+            '&lon=' + position.longitude +
+            '&detailLat=' + position.latitude +
+            '&detailLon=' + position.longitude +
+            '&width=650' +
+            '&height=450' +
+            '&zoom=9' +
+            '&level=surface' +
+            '&overlay=wind' +
+            '&product=ecmwf' +
+            '&menu=' +
+            '&message=' +
+            '&marker=' +
+            '&calendar=now' +
+            '&pressure=' +
+            '&type=map' +
+            '&location=coordinates' +
+            '&detail=true' +
+            '&metricWind=kt' +
+            '&metricTemp=%C2%B0C' +
+            '&radarRange=-1';
 
-        // <iframe width="800" height="220" src="https://embed.windytv.com/embed2.html?lat=46.9458&lon=7.4713&type=forecast&metricWind=kt&metricTemp=%C2%B0C" frameborder="0"></iframe>
-        const iframe = document.createElement('iframe');
-        iframe.src = 'https://embed.windytv.com/embed2.html?lat=' + position.latitude + '&lon=' + position.longitude
-            + '&type=forecast&metricWind=kt&metricTemp=%C2%B0C';
-        iframe.width = (maxWidthPx - 2 * 16).toString();
-        iframe.height = '190px';
-        iframe.frameBorder = '0';
-
-        this.container.nativeElement.appendChild(iframe);
+        return this.sanitizer.bypassSecurityTrustResourceUrl(url);
     }
 }

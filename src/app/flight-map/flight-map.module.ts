@@ -35,7 +35,6 @@ import {OlOverlayButtonSetAlternateComponent} from './ol-components/ol-overlay-b
 import {OlOverlayWaypointComponent} from './ol-components/ol-overlay-waypoint/ol-overlay-waypoint.component';
 import {OlOverlayAirportRunwayTabComponent} from './ol-components/ol-overlay-airport-runway-tab/ol-overlay-airport-runway-tab.component';
 import {OlOverlayAirportRadioTabComponent} from './ol-components/ol-overlay-airport-radio-tab/ol-overlay-airport-radio-tab.component';
-import {OlOverlayAirportMeteoTabComponent} from './ol-components/ol-overlay-airport-meteo-tab/ol-overlay-airport-meteo-tab.component';
 import {OlOverlayAirportNotamTabComponent} from './ol-components/ol-overlay-airport-notam-tab/ol-overlay-airport-notam-tab.component';
 import {OlOverlayAirportChartTabComponent} from './ol-components/ol-overlay-airport-chart-tab/ol-overlay-airport-chart-tab.component';
 import {OlOverlayButtonListComponent} from './ol-components/ol-overlay-button-list/ol-overlay-button-list.component';
@@ -70,7 +69,6 @@ import {MatIconModule} from '@angular/material/icon';
         OlOverlayWaypointComponent,
         OlOverlayAirportRunwayTabComponent,
         OlOverlayAirportRadioTabComponent,
-        OlOverlayAirportMeteoTabComponent,
         OlOverlayAirportNotamTabComponent,
         OlOverlayAirportChartTabComponent,
         OlOverlayButtonListComponent,
