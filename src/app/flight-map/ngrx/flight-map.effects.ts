@@ -14,10 +14,6 @@ import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
 import {AirportService} from '../../aerodrome/domain-service/airport.service';
 import {AirportChart} from '../../aerodrome/domain-model/airport-chart';
 import {OlHelper} from '../../base-map/ol-service/ol-helper';
-import {AirspaceService} from '../../enroute/domain-service/airspace.service';
-import {AirportCircuitService} from '../../aerodrome/domain-service/airport-circuit.service';
-import {AirportChartService} from '../../aerodrome/domain-service/airport-chart.service';
-import {ReportingPointService} from '../../aerodrome/domain-service/reporting-point.service';
 import {SearchActions2} from '../../search/ngrx/search.actions';
 import {SearchState} from '../../search/domain-model/search-state';
 import {getSearchState} from '../../search/ngrx/search.selectors';
@@ -48,10 +44,6 @@ export class FlightMapEffects {
         private readonly actions$: Actions,
         private readonly appStore: Store<any>,
         private readonly airportService: AirportService,
-        private readonly airportCircuitService: AirportCircuitService,
-        private readonly airportChartService: AirportChartService,
-        private readonly reportingPointService: ReportingPointService,
-        private readonly airspaceService: AirspaceService,
         private readonly metarTafService: MetarTafService,
     ) {
     }
