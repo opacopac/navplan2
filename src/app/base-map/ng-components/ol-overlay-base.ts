@@ -24,8 +24,10 @@ export abstract class OlOverlayBase implements AfterViewInit {
     public ngAfterViewInit(): void {
         this.olOverlay = new Overlay({
             element: this.containerHtmlElement,
-            autoPan: true,
-            autoPanAnimation: {duration: 250}
+            /*autoPan: {
+                margin: 20,
+                animation: { duration: 250 }
+            },*/
         });
     }
 

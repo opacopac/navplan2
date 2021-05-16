@@ -317,6 +317,8 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         this.mapOverlayAirportComponent.setDataItem(airport as Airport, undefined);
         this.mapOverlayAirportComponent.metarTaf = metarTaf;
         this.mapOverlayAirportComponent.openTab(tabIndex);
+
+        OlHelper.panIntoView(this.mapOverlayAirportComponent.olOverlay);
     }
 
 
@@ -326,15 +328,19 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         switch (dataItem?.dataItemType) {
             case DataItemType.reportingPoint:
                 this.mapOverlayReportingpointComponent.setDataItem(dataItem as ReportingPoint, clickPos);
+                OlHelper.panIntoView(this.mapOverlayReportingpointComponent.olOverlay);
                 break;
             case DataItemType.reportingSector:
                 this.mapOverlayReportingsectorComponent.setDataItem(dataItem as ReportingSector, clickPos);
+                OlHelper.panIntoView(this.mapOverlayReportingsectorComponent.olOverlay);
                 break;
             case DataItemType.navaid:
                 this.mapOverlayNavaidComponent.setDataItem(dataItem as Navaid, clickPos);
+                OlHelper.panIntoView(this.mapOverlayNavaidComponent.olOverlay);
                 break;
             case DataItemType.geoname:
                 this.mapOverlayGeonameComponent.setDataItem(dataItem as Geoname, clickPos);
+                OlHelper.panIntoView(this.mapOverlayGeonameComponent.olOverlay);
         }
     }
 

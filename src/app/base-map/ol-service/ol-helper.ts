@@ -3,13 +3,15 @@ import {fromLonLat, toLonLat, transformExtent} from 'ol/proj';
 import VectorLayer from 'ol/layer/Vector';
 import {Vector} from 'ol/source';
 import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
-import {Feature} from 'ol';
+import {Feature, Overlay} from 'ol';
 import {LineString, MultiLineString, Point as OlPoint, Polygon as OlPoly} from 'ol/geom';
 import {Polygon} from '../../common/geo-math/domain-model/geometry/polygon';
 import {Multipolygon} from '../../common/geo-math/domain-model/geometry/multipolygon';
 import Geometry from 'ol/geom/Geometry';
 import {DataItem} from '../../common/model/data-item';
 import {Coordinate} from 'ol/coordinate';
+import {timer} from 'rxjs';
+import {tap} from 'rxjs/operators';
 
 const MERCATOR_PROJECTION = 'EPSG:3857';
 const LONLAT_PROJECTION = 'EPSG:4326';
@@ -146,5 +148,15 @@ export class OlHelper {
             }) : undefined;
             return new OlPoly(newPolygon);
         }
+    }
+
+
+    public static panIntoView(overlay: Overlay) {
+        timer(0).pipe(
+            tap(x => overlay.panIntoView({
+                margin: 20,
+                animation: { duration: 250 }
+            }))
+        ).subscribe();
     }
 }
