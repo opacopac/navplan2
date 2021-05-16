@@ -1,6 +1,7 @@
 import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 import {DataItem, DataItemType} from '../../common/model/data-item';
 import {AirportType} from './airport-type';
+import {AirportFeatureType} from './airport-feature-type';
 
 
 export class ShortAirport extends DataItem  {
@@ -11,7 +12,7 @@ export class ShortAirport extends DataItem  {
         public position: Position2d,
         public rwy1Direction: number,
         public rwy1Surface: string,
-        public featureTypes: string[]
+        public featureTypes: AirportFeatureType[]
     ) {
         super();
     }

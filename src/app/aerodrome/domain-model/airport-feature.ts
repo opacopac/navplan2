@@ -1,6 +1,10 @@
+import {AirportFeatureType} from './airport-feature-type';
+
+
 export class AirportFeature {
     constructor(
-        public type: string,
-        public name: string) {
+        public type: AirportFeatureType,
+        public name: string
+    ) {
     }
 }

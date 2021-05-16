@@ -5,6 +5,7 @@ import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import VectorLayer from 'ol/layer/Vector';
 import {ShortAirport} from '../domain-model/short-airport';
 import {OlHelper} from '../../base-map/ol-service/ol-helper';
+import {AirportFeatureType} from '../domain-model/airport-feature-type';
 
 
 export class OlAirportFeature {
@@ -13,7 +14,7 @@ export class OlAirportFeature {
 
     public constructor(
         airport: ShortAirport,
-        featureType: string,
+        featureType: AirportFeatureType,
         layer: VectorLayer
     ) {
         this.olFeature = OlHelper.createFeature(airport, false);
@@ -23,10 +24,10 @@ export class OlAirportFeature {
     }
 
 
-    protected createPointStyle(featureType: string): Style {
+    protected createPointStyle(featureType: AirportFeatureType): Style {
         const src = environment.iconBaseUrl;
 
-        if (featureType !== 'PARACHUTE') {
+        if (featureType !== AirportFeatureType.PARACHUTE) {
             return undefined;
         }
 
