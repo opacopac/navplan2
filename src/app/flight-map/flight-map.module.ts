@@ -47,6 +47,7 @@ import {AerodromeModule} from '../aerodrome/aerodrome.module';
 import {EnrouteModule} from '../enroute/enroute.module';
 import {WebcamModule} from '../webcam/webcam.module';
 import {OlOverlayAirportMetarTafTabComponent} from './ol-components/ol-overlay-airport-metar-taf-tab/ol-overlay-airport-metar-taf-tab.component';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
     declarations: [
@@ -86,6 +87,7 @@ import {OlOverlayAirportMetarTafTabComponent} from './ol-components/ol-overlay-a
         MatTableModule,
         MatFormFieldModule,
         MatSelectModule,
+        MatIconModule,
         SharedModule,
         BaseMapModule,
         FlightrouteModule,

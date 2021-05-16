@@ -27,7 +27,12 @@
                     <p>{{ this.getPositionString(this.airport.position) }}</p>
                     <p>Variation: {{ this.getVariationString(this.airport.position) }}</p>
                     <p>Elevation: {{ this.getElevationString(this.airport.elevation) }}</p>
-                    <!-- TODO: webcams -->
+                    <p *ngFor="let webcam of this.airport.webcams">
+                        {{ webcam.name }}:
+                        <a href="{{ webcam.url }}" target="_blank">
+                            <mat-icon class="webcam-icon">videocam</mat-icon>
+                        </a>
+                    </p>
                 </mat-tab>
 
                 <!-- runway tab -->

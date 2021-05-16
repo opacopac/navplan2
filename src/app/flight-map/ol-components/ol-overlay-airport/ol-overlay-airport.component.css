@@ -23,3 +23,10 @@
     position: absolute;
     z-index: 3;
 }
+
+.webcam-icon {
+    color: rgb(122, 122, 122);
+    height: 14px;
+    margin-top: -12px;
+    vertical-align: middle;
+}
