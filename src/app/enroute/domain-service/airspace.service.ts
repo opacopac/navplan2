@@ -12,7 +12,7 @@ export class AirspaceService {
     }
 
 
-    public readAirspacesByExtent(extent: Extent2d, zoom: number): Observable<AirspaceState> {
+    public readByExtent(extent: Extent2d, zoom: number): Observable<AirspaceState> {
         return this.restAirspaceService.readAirspacesByExtent(extent, zoom).pipe(
             map(airspaces => ({
                 extent: extent,
@@ -24,7 +24,7 @@ export class AirspaceService {
 
 
 
-    public isAirspaceReloadRequired(
+    public isReloadRequired(
         requestedState: { extent: Extent2d, zoom: number },
         currentState: { extent: Extent2d, zoom: number }
     ): boolean {

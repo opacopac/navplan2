@@ -15,7 +15,7 @@ export class AirportCircuitService {
     }
 
 
-    public readAirportCircuitsByExtent(extent: Extent2d, zoom: number): Observable<AirportCircuitState> {
+    public readByExtent(extent: Extent2d, zoom: number): Observable<AirportCircuitState> {
         if (zoom < this.AD_CIRCUIT_MIN_ZOOM) {
             return of({ extent: extent, zoom: zoom, airportCircuits: [] });
         }
@@ -30,7 +30,7 @@ export class AirportCircuitService {
     }
 
 
-    public isAirportCircuitReloadRequired(
+    public isReloadRequired(
         requestedState: { extent: Extent2d, zoom: number },
         currentState: { extent: Extent2d, zoom: number }
     ): boolean {

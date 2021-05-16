@@ -15,7 +15,7 @@ export class WebcamService {
     }
 
 
-    public readWebcamsByExtent(extent: Extent2d, zoom: number): Observable<WebcamState> {
+    public readByExtent(extent: Extent2d, zoom: number): Observable<WebcamState> {
         if (zoom < this.WEBCAM_MIN_ZOOM) {
             return of({ extent: extent, zoom: zoom, webcams: [] });
         }
@@ -31,7 +31,7 @@ export class WebcamService {
     }
 
 
-    public isWebcamReloadRequired(
+    public isReloadRequired(
         requestedState: { extent: Extent2d, zoom: number },
         currentState: { extent: Extent2d, zoom: number }
     ): boolean {

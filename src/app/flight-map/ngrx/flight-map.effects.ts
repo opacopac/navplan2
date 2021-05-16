@@ -8,29 +8,40 @@ import {environment} from '../../../environments/environment';
 import {DataItemType} from '../../common/model/data-item';
 import {ShortAirport} from '../../aerodrome/domain-model/short-airport';
 import {FlightMapActions} from './flight-map.actions';
-import {NotamService} from '../../notam/domain-service/notam-service';
 import {MetarTafService} from '../../metar-taf/domain-service/metar-taf.service';
 import {LoggingService} from '../../system/domain-service/logging/logging.service';
 import {getFlightMapState} from './flight-map.selectors';
 import {FlightMapState} from '../domain-model/flight-map-state';
-import {NavaidService} from '../../enroute/domain-service/navaid.service';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
 import {AirportService} from '../../aerodrome/domain-service/airport.service';
 import {AirportChart} from '../../aerodrome/domain-model/airport-chart';
 import {OlHelper} from '../../base-map/ol-service/ol-helper';
 import {AirspaceService} from '../../enroute/domain-service/airspace.service';
-import {WebcamService} from '../../webcam/domain-service/webcam.service';
 import {AirportCircuitService} from '../../aerodrome/domain-service/airport-circuit.service';
 import {AirportChartService} from '../../aerodrome/domain-service/airport-chart.service';
 import {ReportingPointService} from '../../aerodrome/domain-service/reporting-point.service';
 import {SearchActions2} from '../../search/ngrx/search.actions';
 import {SearchState} from '../../search/domain-model/search-state';
 import {getSearchState} from '../../search/ngrx/search.selectors';
+import {Webcam} from '../../webcam/domain-model/webcam';
+import {WebcamActions} from '../../webcam/ngrx/webcam.actions';
+import {MetarTafActions} from '../../metar-taf/ngrx/metar-taf.actions';
+import {MetarTafState} from '../../metar-taf/domain-model/metar-taf-state';
+import {getMetarTafState} from '../../metar-taf/ngrx/metar-taf.selectors';
+import {AirspaceActions} from '../../enroute/ngrx/airspace.actions';
+import {NavaidActions} from '../../enroute/ngrx/navaid.actions';
+import {AirportCircuitActions} from '../../aerodrome/ngrx/airport-circuit.actions';
+import {AirportActions} from '../../aerodrome/ngrx/airport.actions';
+import {ReportingPointSectorActions} from '../../aerodrome/ngrx/reporting-point-sector.actions';
+import {AirportState} from '../../aerodrome/domain-model/airport-state';
+import {getAirportState} from '../../aerodrome/ngrx/airport.selectors';
 
 
 @Injectable()
 export class FlightMapEffects {
     private readonly flightMapState$: Observable<FlightMapState> = this.appStore.select(pipe(getFlightMapState));
+    private readonly airportState$: Observable<AirportState> = this.appStore.select(pipe(getAirportState));
+    private readonly metarTafState$: Observable<MetarTafState> = this.appStore.select(pipe(getMetarTafState));
     private readonly searchState$: Observable<SearchState> = this.appStore.select(pipe(getSearchState));
 
 
@@ -43,9 +54,6 @@ export class FlightMapEffects {
         private readonly reportingPointService: ReportingPointService,
         private readonly airspaceService: AirspaceService,
         private readonly metarTafService: MetarTafService,
-        private readonly navaidService: NavaidService,
-        private readonly notamService: NotamService,
-        private readonly webcamService: WebcamService
     ) {
     }
 
@@ -57,74 +65,22 @@ export class FlightMapEffects {
         tap(([action, flightMapState]) => {
             const oversizeExtent = action.extent.getOversizeExtent(environment.mapOversizeFactor);
 
-            // airports
-            if (this.airportService.isAirportReloadRequired(action, flightMapState.airportState)) {
-                this.airportService.readAirportsByExtent(oversizeExtent, action.zoom).pipe(
-                    map(newAirportState => FlightMapActions.showAirports(newAirportState)),
-                    tap(displayAction => this.appStore.dispatch(displayAction))
-                ).subscribe();
-            }
-
-            // airport circuits
-            if (this.airportCircuitService.isAirportCircuitReloadRequired(action, flightMapState.airportCircuitState)) {
-                this.airportCircuitService.readAirportCircuitsByExtent(oversizeExtent, action.zoom).pipe(
-                    map(newCircuitState => FlightMapActions.showCircuits(newCircuitState)),
-                    tap(displayAction => this.appStore.dispatch(displayAction))
-                ).subscribe();
-            }
-
-            // reporting points/sectors
-            if (this.reportingPointService.isReportingPointReloadRequired(action, flightMapState.reportingPointSectorState)) {
-                this.reportingPointService.readReportingPointsByExtent(oversizeExtent, action.zoom).pipe(
-                    map(newRepPointSectorState => FlightMapActions.showReportingPointsSectors(newRepPointSectorState)),
-                    tap(displayAction => this.appStore.dispatch(displayAction))
-                ).subscribe();
-            }
-
-            // airspaces
-            if (this.airspaceService.isAirspaceReloadRequired(action, flightMapState.airspaceState)) {
-                this.airspaceService.readAirspacesByExtent(oversizeExtent, action.zoom).pipe(
-                    map(newAirspaceState => FlightMapActions.showAirspaces(newAirspaceState)),
-                    tap(displayAction => this.appStore.dispatch(displayAction))
-                ).subscribe();
-            }
-
-            // navaids
-            if (this.navaidService.isNavaidReloadRequired(action, flightMapState.navaidState)) {
-                this.navaidService.readNavaidsByExtent(oversizeExtent, action.zoom).pipe(
-                    map(newNavaidState => FlightMapActions.showNavaids(newNavaidState)),
-                    tap(displayAction => this.appStore.dispatch(displayAction))
-                ).subscribe();
-            }
-
-            /*this.notamService.readByExtent(action.extent, action.zoom).pipe(
-                map(notams => new ReadNotamSuccessAction(notams)),
-                tap(displayAction => this.appStore.dispatch(displayAction))
-            ).subscribe();*/
-
-            // metar / taf
-            if (this.metarTafService.isMetarTafReloadRequired(action, flightMapState.metarTafState)) {
-                this.metarTafService.readByExtent(oversizeExtent, action.zoom).pipe(
-                    map(newMetarTafState => FlightMapActions.showMetarTafs(newMetarTafState)),
-                    tap(displayAction => this.appStore.dispatch(displayAction))
-                ).subscribe();
-            }
-
-            // webcams
-            if (this.webcamService.isWebcamReloadRequired(action, flightMapState.webcamState)) {
-                this.webcamService.readWebcamsByExtent(oversizeExtent, action.zoom).pipe(
-                    map(newWebcamState => FlightMapActions.showWebcams(newWebcamState)),
-                    tap(displayAction => this.appStore.dispatch(displayAction))
-                ).subscribe();
-            }
+            this.appStore.dispatch(AirportActions.readAirports(action));
+            this.appStore.dispatch(AirportCircuitActions.readAirportCircuits(action));
+            this.appStore.dispatch(ReportingPointSectorActions.readReportingPointsSectors(action));
+            this.appStore.dispatch(AirspaceActions.readAirspaces(action));
+            this.appStore.dispatch(NavaidActions.readNavaids(action));
+            // TODO: notams
+            this.appStore.dispatch(MetarTafActions.readMetarTafs(action));
+            this.appStore.dispatch(WebcamActions.readWebcams(action));
         })
     ), { dispatch: false });
 
 
     mapClickedAction$ = createEffect(() => this.actions$.pipe(
         ofType(BaseMapActions.mapClicked),
-        withLatestFrom(this.flightMapState$, this.searchState$),
-        switchMap(([action, flightMapState, searchState]) => {
+        withLatestFrom(this.flightMapState$, this.searchState$, this.metarTafState$, this.airportState$),
+        switchMap(([action, flightMapState, searchState, metarTafState, airportState]) => {
             this.appStore.dispatch(FlightMapActions.closeAllOverlays());
             this.appStore.dispatch(SearchActions2.closePositionSearchResults());
 
@@ -133,14 +89,14 @@ export class FlightMapEffects {
                     return this.airportService.readAirportById((action.dataItem as ShortAirport).id).pipe(
                         map(airport => FlightMapActions.showAirportOverlay({
                             airport: airport,
-                            metarTaf: this.metarTafService.findMetarTafInState(airport.icao, flightMapState.metarTafState),
+                            metarTaf: this.metarTafService.findMetarTafInState(airport.icao, metarTafState),
                             notams: [], // TODO
                             tabIndex: 0
                         }))
                     );
                 case DataItemType.metarTaf:
                     const metarTaf = action.dataItem as MetarTaf;
-                    const shortAirport = this.airportService.findAirportInState(metarTaf.ad_icao, flightMapState.airportState);
+                    const shortAirport = this.airportService.findAirportInState(metarTaf.ad_icao, airportState);
                     return this.airportService.readAirportById(shortAirport.id).pipe(
                         map(airport => FlightMapActions.showAirportOverlay({
                             airport: airport,
@@ -149,6 +105,8 @@ export class FlightMapEffects {
                             tabIndex: 3
                         }))
                     );
+                case DataItemType.webcam:
+                    return of(WebcamActions.openWebcam({ webcam: (action.dataItem as Webcam) }));
                 case DataItemType.reportingPoint:
                 case DataItemType.reportingSector:
                 case DataItemType.navaid:

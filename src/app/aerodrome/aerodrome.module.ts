@@ -9,11 +9,23 @@ import {ReportingPointRestService} from './rest-service/reporting-point-rest.ser
 import {AirportCircuitService} from './domain-service/airport-circuit.service';
 import {AirportChartService} from './domain-service/airport-chart.service';
 import {ReportingPointService} from './domain-service/reporting-point.service';
+import {StoreModule} from '@ngrx/store';
+import {EffectsModule} from '@ngrx/effects';
+import {airportReducer} from './ngrx/airport.reducer';
+import {AirportEffects} from './ngrx/airport.effects';
+import {ReportingPointSectorEffects} from './ngrx/reporting-point-sector.effects';
+import {reportingPointSectorReducer} from './ngrx/reporting-point-sector.reducer';
+import {AirportCircuitEffects} from './ngrx/airport-circuit.effects';
+import {airportCircuitReducer} from './ngrx/airport-circuit.reducer';
 
 
 @NgModule({
     imports: [
         CommonModule,
+        StoreModule.forFeature('airportState', airportReducer),
+        StoreModule.forFeature('airportCircuitState', airportCircuitReducer),
+        StoreModule.forFeature('reportingPointSectorState', reportingPointSectorReducer),
+        EffectsModule.forFeature([AirportEffects, AirportCircuitEffects, ReportingPointSectorEffects]),
         SharedModule,
     ],
     declarations: [

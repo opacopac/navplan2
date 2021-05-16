@@ -14,7 +14,7 @@ export class AirportService {
     }
 
 
-    public readAirportsByExtent(extent: Extent2d, zoom: number): Observable<AirportState> {
+    public readByExtent(extent: Extent2d, zoom: number): Observable<AirportState> {
         return this.airportRestService.readAirportsByExtent(extent, zoom).pipe(
             map(shortAirports => ({
                 extent: extent,
@@ -30,7 +30,7 @@ export class AirportService {
     }
 
 
-    public isAirportReloadRequired(
+    public isReloadRequired(
         requestedState: { extent: Extent2d, zoom: number },
         currentState: { extent: Extent2d, zoom: number }
     ): boolean {

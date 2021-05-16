@@ -15,7 +15,7 @@ export class ReportingPointService {
     }
 
 
-    public readReportingPointsByExtent(extent: Extent2d, zoom: number): Observable<ReportingPointSectorState> {
+    public readByExtent(extent: Extent2d, zoom: number): Observable<ReportingPointSectorState> {
         if (zoom < this.REPORTING_POINT_MIN_ZOOM) {
             return of({ extent: extent, zoom: zoom, reportingPoints: [], reportingSectors: [] });
         }
@@ -31,7 +31,7 @@ export class ReportingPointService {
     }
 
 
-    public isReportingPointReloadRequired(
+    public isReloadRequired(
         requestedState: { extent: Extent2d, zoom: number },
         currentState: { extent: Extent2d, zoom: number }
     ): boolean {

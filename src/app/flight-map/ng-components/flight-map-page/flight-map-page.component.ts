@@ -34,16 +34,8 @@ import {Subscription} from 'rxjs/internal/Subscription';
 import {Airport} from '../../../aerodrome/domain-model/airport';
 import {
     getFlightMapAirportCharts,
-    getFlightMapAirportCircuits,
     getFlightMapAirportOverlay,
-    getFlightMapAirports,
-    getFlightMapAirspaces,
-    getFlightMapMetarTafs,
-    getFlightMapNavaids,
-    getFlightMapOverlay,
-    getFlightMapReportingPoints,
-    getFlightMapReportingSectors,
-    getFlightMapWebcams
+    getFlightMapOverlay
 } from '../../ngrx/flight-map.selectors';
 import {OlAirportContainer} from '../../../aerodrome/ol-components/ol-airport-container';
 import {OlAirportCircuitContainer} from '../../../aerodrome/ol-components/ol-airport-circuit-container';
@@ -63,6 +55,13 @@ import {OlAirportChartContainer} from '../../../aerodrome/ol-components/ol-airpo
 import {OlPositionSearchContainer} from '../../../search/ol-components/ol-position-search-container';
 import {getPositionSearchState} from '../../../search/ngrx/search.selectors';
 import {Geoname} from '../../../geoname/domain-model/geoname';
+import {getWebcams} from '../../../webcam/ngrx/webcam.selectors';
+import {getMetarTafs} from '../../../metar-taf/ngrx/metar-taf.selectors';
+import {getAirspaces} from '../../../enroute/ngrx/airspace.selectors';
+import {getNavaids} from '../../../enroute/ngrx/navaid.selectors';
+import {getAirports} from '../../../aerodrome/ngrx/airport.selectors';
+import {getReportingPoints, getReportingSectors} from '../../../aerodrome/ngrx/reporting-point-sector.selectors';
+import {getAirportCircuits} from '../../../aerodrome/ngrx/airport-circuit.selectors';
 
 
 @Component({
@@ -235,7 +234,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
 
         this.olAirportContainer = new OlAirportContainer(
             airportLayer,
-            this.appStore.pipe(select(getFlightMapAirports))
+            this.appStore.pipe(select(getAirports))
         );
         this.olAirportChartContainer = new OlAirportChartContainer(
             chartCloserLayer,
@@ -243,32 +242,32 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         );
         this.olReportingPointContainer = new OlReportingPointContainer(
             reportingPointLayer,
-            this.appStore.pipe(select(getFlightMapReportingPoints))
+            this.appStore.pipe(select(getReportingPoints))
         );
         this.olReportingSectorContainer = new OlReportingSectorContainer(
             reportingSectorLayer,
-            this.appStore.pipe(select(getFlightMapReportingSectors))
+            this.appStore.pipe(select(getReportingSectors))
         );
         this.olAirportCircuitContainer = new OlAirportCircuitContainer(
             circuitLayer,
-            this.appStore.pipe(select(getFlightMapAirportCircuits))
+            this.appStore.pipe(select(getAirportCircuits))
         );
         this.olAirpsaceContainer = new OlAirspaceContainer(
             airspaceLayer,
-            this.appStore.pipe(select(getFlightMapAirspaces))
+            this.appStore.pipe(select(getAirspaces))
         );
         this.olNavaidContainer = new OlNavaidContainer(
             navaidLayer,
-            this.appStore.pipe(select(getFlightMapNavaids))
+            this.appStore.pipe(select(getNavaids))
         );
         this.olWebcamContainer = new OlWebcamContainer(
             webcamLayer,
-            this.appStore.pipe(select(getFlightMapWebcams))
+            this.appStore.pipe(select(getWebcams))
         );
         this.olMetars = new OlMetarContainer(
             metarTafLayer,
-            this.appStore.pipe(select(getFlightMapMetarTafs)),
-            this.appStore.pipe(select(getFlightMapAirports)),
+            this.appStore.pipe(select(getMetarTafs)),
+            this.appStore.pipe(select(getAirports)),
             rotation
         );
         this.olNotams = new OlNotamContainer(

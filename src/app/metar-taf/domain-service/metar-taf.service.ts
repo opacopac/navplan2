@@ -40,7 +40,7 @@ export class MetarTafService {
     }
 
 
-    public isMetarTafReloadRequired(
+    public isReloadRequired(
         requestedState: { extent: Extent2d, zoom: number },
         currentState: { extent: Extent2d, zoom: number, timestamp: number }
     ): boolean {

@@ -12,7 +12,7 @@ export class NavaidService {
     }
 
 
-    public readNavaidsByExtent(extent: Extent2d, zoom: number): Observable<NavaidState> {
+    public readByExtent(extent: Extent2d, zoom: number): Observable<NavaidState> {
         return this.restNavaidService.readNavaidsByExtent(extent, zoom).pipe(
             map(navaids => ({
                 extent: extent,
@@ -23,7 +23,7 @@ export class NavaidService {
     }
 
 
-    public isNavaidReloadRequired(
+    public isReloadRequired(
         requestedState: { extent: Extent2d, zoom: number },
         currentState: { extent: Extent2d, zoom: number }
     ): boolean {
