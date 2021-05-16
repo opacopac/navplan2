@@ -7,6 +7,7 @@ import {Store} from '@ngrx/store';
 import {getReportingPointSectorState} from './reporting-point-sector.selectors';
 import {ReportingPointService} from '../domain-service/reporting-point.service';
 import {ReportingPointSectorState} from '../domain-model/reporting-point-sector-state';
+import {environment} from '../../../environments/environment';
 
 
 @Injectable()
@@ -28,7 +29,10 @@ export class ReportingPointSectorEffects {
         withLatestFrom(this.reportingPointSectorState$),
         filter(([action, currentState]) => this.reportingPointService.isReloadRequired(action, currentState)),
         switchMap(([action, currentState]) => {
-            return this.reportingPointService.readByExtent(action.extent, action.zoom).pipe(
+            return this.reportingPointService.readByExtent(
+                action.extent.getOversizeExtent(environment.mapOversizeFactor),
+                action.zoom
+            ).pipe(
                 map(newState => ReportingPointSectorActions.showReportingPointsSectors(newState))
             );
         })

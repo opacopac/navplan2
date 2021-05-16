@@ -7,6 +7,7 @@ import {Store} from '@ngrx/store';
 import {getNavaidState} from './navaid.selectors';
 import {NavaidService} from '../domain-service/navaid.service';
 import {NavaidState} from '../domain-model/navaid-state';
+import {environment} from '../../../environments/environment';
 
 
 @Injectable()
@@ -21,13 +22,15 @@ export class NavaidEffects {
     ) {
     }
 
-
     readNavaids$ = createEffect(() => this.actions$.pipe(
         ofType(NavaidActions.readNavaids),
         withLatestFrom(this.navaidState$),
         filter(([action, currentState]) => this.navaidService.isReloadRequired(action, currentState)),
         switchMap(([action, currentState]) => {
-            return this.navaidService.readByExtent(action.extent, action.zoom).pipe(
+            return this.navaidService.readByExtent(
+                action.extent.getOversizeExtent(environment.mapOversizeFactor),
+                action.zoom
+            ).pipe(
                 map(newState => NavaidActions.showNavaids(newState))
             );
         })

@@ -7,6 +7,7 @@ import {Store} from '@ngrx/store';
 import {MetarTafState} from '../domain-model/metar-taf-state';
 import {MetarTafService} from '../domain-service/metar-taf.service';
 import {getMetarTafState} from './metar-taf.selectors';
+import {environment} from '../../../environments/environment';
 
 
 @Injectable()
@@ -27,7 +28,10 @@ export class MetarTafEffects {
         withLatestFrom(this.metarTafState$),
         filter(([action, currentState]) => this.metarTafService.isReloadRequired(action, currentState)),
         switchMap(([action, currentState]) => {
-            return this.metarTafService.readByExtent(action.extent, action.zoom).pipe(
+            return this.metarTafService.readByExtent(
+                action.extent.getOversizeExtent(environment.mapOversizeFactor),
+                action.zoom
+            ).pipe(
                 map(newState => MetarTafActions.showMetarTafs(newState))
             );
         })

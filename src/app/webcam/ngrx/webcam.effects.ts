@@ -7,6 +7,7 @@ import {Observable, pipe} from 'rxjs';
 import {WebcamState} from '../domain-model/webcam-state';
 import {Store} from '@ngrx/store';
 import {getWebcamState} from './webcam.selectors';
+import {environment} from '../../../environments/environment';
 
 
 @Injectable()
@@ -27,7 +28,10 @@ export class WebcamEffects {
         withLatestFrom(this.webcamState$),
         filter(([action, currentState]) => this.webcamService.isReloadRequired(action, currentState)),
         switchMap(([action, currentState]) => {
-            return this.webcamService.readByExtent(action.extent, action.zoom).pipe(
+            return this.webcamService.readByExtent(
+                action.extent.getOversizeExtent(environment.mapOversizeFactor),
+                action.zoom
+            ).pipe(
                 map(newState => WebcamActions.showWebcams(newState))
             );
         })

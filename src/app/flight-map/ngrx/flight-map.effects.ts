@@ -61,20 +61,17 @@ export class FlightMapEffects {
     mapMovedZoomedRotatedAction$ = createEffect(() => this.actions$.pipe(
         ofType(BaseMapActions.mapMoved),
         debounceTime(250),
-        withLatestFrom(this.flightMapState$),
-        tap(([action, flightMapState]) => {
-            const oversizeExtent = action.extent.getOversizeExtent(environment.mapOversizeFactor);
-
-            this.appStore.dispatch(AirportActions.readAirports(action));
-            this.appStore.dispatch(AirportCircuitActions.readAirportCircuits(action));
-            this.appStore.dispatch(ReportingPointSectorActions.readReportingPointsSectors(action));
-            this.appStore.dispatch(AirspaceActions.readAirspaces(action));
-            this.appStore.dispatch(NavaidActions.readNavaids(action));
+        switchMap(action => [
+            AirportActions.readAirports(action),
+            AirportCircuitActions.readAirportCircuits(action),
+            ReportingPointSectorActions.readReportingPointsSectors(action),
+            AirspaceActions.readAirspaces(action),
+            NavaidActions.readNavaids(action),
             // TODO: notams
-            this.appStore.dispatch(MetarTafActions.readMetarTafs(action));
-            this.appStore.dispatch(WebcamActions.readWebcams(action));
-        })
-    ), { dispatch: false });
+            MetarTafActions.readMetarTafs(action),
+            WebcamActions.readWebcams(action),
+        ])
+    ));
 
 
     mapClickedAction$ = createEffect(() => this.actions$.pipe(

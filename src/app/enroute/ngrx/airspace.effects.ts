@@ -7,6 +7,7 @@ import {Store} from '@ngrx/store';
 import {getAirspaceState} from './airspace.selectors';
 import {AirspaceService} from '../domain-service/airspace.service';
 import {AirspaceState} from '../domain-model/airspace-state';
+import {environment} from '../../../environments/environment';
 
 
 @Injectable()
@@ -27,7 +28,10 @@ export class AirspaceEffects {
         withLatestFrom(this.airspaceState$),
         filter(([action, currentState]) => this.airspaceService.isReloadRequired(action, currentState)),
         switchMap(([action, currentState]) => {
-            return this.airspaceService.readByExtent(action.extent, action.zoom).pipe(
+            return this.airspaceService.readByExtent(
+                action.extent.getOversizeExtent(environment.mapOversizeFactor),
+                action.zoom
+            ).pipe(
                 map(newState => AirspaceActions.showAirspaces(newState))
             );
         })

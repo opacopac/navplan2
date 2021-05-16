@@ -7,6 +7,7 @@ import {Store} from '@ngrx/store';
 import {getAirportCircuitState} from './airport-circuit.selectors';
 import {AirportCircuitService} from '../domain-service/airport-circuit.service';
 import {AirportCircuitState} from '../domain-model/airport-circuit-state';
+import {environment} from '../../../environments/environment';
 
 
 @Injectable()
@@ -27,7 +28,10 @@ export class AirportCircuitEffects {
         withLatestFrom(this.airportCircuitState$),
         filter(([action, currentState]) => this.airportCircuitService.isReloadRequired(action, currentState)),
         switchMap(([action, currentState]) => {
-            return this.airportCircuitService.readByExtent(action.extent, action.zoom).pipe(
+            return this.airportCircuitService.readByExtent(
+                action.extent.getOversizeExtent(environment.mapOversizeFactor),
+                action.zoom
+            ).pipe(
                 map(newState => AirportCircuitActions.showAirportCircuits(newState))
             );
         })
