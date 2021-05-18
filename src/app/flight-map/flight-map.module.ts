@@ -8,7 +8,6 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatTableModule} from '@angular/material/table';
 import {MatTabsModule} from '@angular/material/tabs';
 import {OlOverlayAirportComponent} from './ol-components/ol-overlay-airport/ol-overlay-airport.component';
-import {OlOverlayButtonWebcamComponent} from './ol-components/ol-overlay-button-webcam/ol-overlay-button-webcam.component';
 import {OlOverlayGeonameComponent} from './ol-components/ol-overlay-geoname/ol-overlay-geoname.component';
 import {OlOverlayMeteogramComponent} from './ol-components/ol-overlay-meteogram/ol-overlay-meteogram.component';
 import {OlOverlayNavaidComponent} from './ol-components/ol-overlay-navaid/ol-overlay-navaid.component';
@@ -52,7 +51,6 @@ import {MatIconModule} from '@angular/material/icon';
     declarations: [
         FlightMapPageComponent,
         OlOverlayAirportComponent,
-        OlOverlayButtonWebcamComponent,
         OlOverlayGeonameComponent,
         OlOverlayMeteogramComponent,
         OlOverlayNavaidComponent,

@@ -4,9 +4,6 @@ import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d
 import {User} from '../../user/domain-model/user';
 import {SearchItemList} from '../domain-model/search-item-list';
 import {RestSearchService} from '../rest-service/rest-search.service';
-import {map} from 'rxjs/operators';
-import {Geoname} from '../../geoname/domain-model/geoname';
-import {SearchItem} from '../domain-model/search-item';
 
 
 @Injectable()
@@ -30,16 +27,6 @@ export class SearchService {
             this.MAX_POINT_RESULTS,
             minNotamTimestamp,
             maxNotamTimestamp
-        ).pipe(
-            map(result => {
-                if (result.items.length < this.MAX_POINT_RESULTS) {
-                    const posItem = Geoname.createFromPosition(position);
-                    result.items.push(new SearchItem(posItem));
-                    return result;
-                } else {
-                    return result;
-                }
-            })
         );
     }
 

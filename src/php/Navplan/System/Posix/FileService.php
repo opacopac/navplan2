@@ -64,7 +64,7 @@ class FileService implements IFileService {
     public function fopen(string $filename, string $mode): ?IFile {
         $file = fopen($filename, $mode);
 
-        return $file === FALSE ? NULL : $file;
+        return $file === FALSE ? NULL : new File($file);
     }
 
 

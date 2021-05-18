@@ -10,7 +10,10 @@ use Navplan\Terrain\DomainService\ITerrainRepo;
 
 
 class FileTerrainRepo implements ITerrainRepo {
-    public function __construct(private IFileService $fileService) {
+    public function __construct(
+        private IFileService $fileService,
+        private string $terrainTileBaseDir
+    ) {
     }
 
 
@@ -26,7 +29,7 @@ class FileTerrainRepo implements ITerrainRepo {
         $filePosMap = array();
         for ($i = 0; $i < count($position2dList); $i++) {
             $pos = $position2dList[$i];
-            $filePath = SrtmTileReader::getTerrainFilePath($pos);
+            $filePath = SrtmTileReader::getTerrainFilePath($pos, $this->terrainTileBaseDir);
             $terrainPos = new TerrainPos($i, $pos, $filePath);
             if (array_key_exists($filePath, $filePosMap)) {
                 $filePosMap[$filePath][] = $terrainPos;
@@ -46,7 +49,9 @@ class FileTerrainRepo implements ITerrainRepo {
             foreach ($terrainPosList as &$terrainPos) {
                 $terrainPos->elevationM = $reader->readElevationFromFile($terrainPos->position2d);
             }
-            $file->fclose();
+            if ($file) {
+                $file->fclose();
+            }
         }
     }
 

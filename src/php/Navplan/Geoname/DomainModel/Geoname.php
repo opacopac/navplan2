@@ -21,4 +21,22 @@ class Geoname {
         public Altitude $elevation
     ) {
     }
+
+
+    public static function createFromPosition(Position2d $position, Altitude $elevation): Geoname {
+        $name = round($position->latitude, 4) . " " . round($position->longitude, 4);
+        return new Geoname(
+            -1,
+            $name,
+            $name,
+            'X',
+            'POS',
+            '',
+            '',
+            '',
+            0,
+            $position,
+            $elevation
+        );
+    }
 }

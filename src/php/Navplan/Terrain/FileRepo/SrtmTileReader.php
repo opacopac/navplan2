@@ -8,7 +8,6 @@ use Navplan\System\DomainModel\IFile;
 
 
 class SrtmTileReader {
-    const TERRAIN_TILE_BASE_DIR = __DIR__ . '/../terraintiles/';
     const TERRAIN_TILE_SUFFIX = '.hgt';
     const LINE_SIZE = 1201;
     const MAX_LINES = 1201;
@@ -18,13 +17,13 @@ class SrtmTileReader {
     }
 
 
-    public static function getTerrainFilePath(Position2d $position): string {
+    public static function getTerrainFilePath(Position2d $position, string $terrainTileBaseDir): string {
         $filename = $position->latitude >= 0 ? "N" : "S";
         $filename .= StringNumberHelper::zeroPad(intval(abs(floor($position->latitude))), 2);
         $filename .= $position->longitude >= 0 ? "E" : "W";
         $filename .= StringNumberHelper::zeroPad(intval(abs(floor($position->longitude))), 3);
 
-        return self::TERRAIN_TILE_BASE_DIR . $filename . self::TERRAIN_TILE_SUFFIX;
+        return $terrainTileBaseDir . $filename . self::TERRAIN_TILE_SUFFIX;
     }
 
 

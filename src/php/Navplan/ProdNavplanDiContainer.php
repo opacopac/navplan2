@@ -37,7 +37,9 @@ use Navplan\Flightroute\UseCase\ReadSharedFlightroute\ReadSharedFlightrouteUc;
 use Navplan\Flightroute\UseCase\UpdateFlightroute\IUpdateFlightrouteUc;
 use Navplan\Flightroute\UseCase\UpdateFlightroute\UpdateFlightrouteUc;
 use Navplan\Geoname\DbRepo\DbGeonameRepo;
+use Navplan\Geoname\DomainService\GeonameService;
 use Navplan\Geoname\DomainService\IGeonameRepo;
+use Navplan\Geoname\DomainService\IGeonameService;
 use Navplan\Geoname\RestService\IGeonameServiceDiContainer;
 use Navplan\MeteoSma\DbRepo\DbMeteoRepo;
 use Navplan\MeteoSma\DomainService\IMeteoRepo;
@@ -133,6 +135,8 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     private const LOG_DIR = __DIR__ . "/../../logs/";
     private const LOG_FILE = self::LOG_DIR . "navplan.log";
     private const LOG_FILE_OGN_LISTENER = self::LOG_DIR . "ogn_listener.log";
+    private const TERRAIN_TILE_BASE_DIR = __DIR__ . '/../../../../navplan/terraintiles/';
+
     // airport
     private IAirportRepo $airportRepo;
     private IAirportChartRepo $airportChartRepo;
@@ -151,6 +155,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     private IUpdateFlightrouteUc $updateFlightrouteUc;
     // geoname
     private IGeonameRepo $geonameRepo;
+    private IGeonameService $geonameService;
     // meteo sma
     private IMeteoRepo $meteoRepo;
     private IReadSmaMeasurementsUc $readSmaMeasurementsUc;
@@ -371,12 +376,24 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
 
     // region geoname
 
-    function getGeonameRepo(): IGeonameRepo{
+    function getGeonameRepo(): IGeonameRepo {
         if (!isset($this->geonameRepo)) {
             $this->geonameRepo = new DbGeonameRepo($this->getDbService());
         }
 
         return $this->geonameRepo;
+    }
+
+
+    function getGeonameService(): IGeonameService {
+        if (!isset($this->geonameService)) {
+            $this->geonameService = new GeonameService(
+                $this->getGeonameRepo(),
+                $this->getTerrainRepo()
+            );
+        }
+
+        return $this->geonameService;
     }
 
     // endregion
@@ -483,7 +500,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
                 $this->getAirportRepo(),
                 $this->getReportingPointRepo(),
                 $this->getNavaidRepo(),
-                $this->getGeonameRepo()
+                $this->getGeonameService()
             );
         }
 
@@ -498,7 +515,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
                 $this->getAirportRepo(),
                 $this->getReportingPointRepo(),
                 $this->getNavaidRepo(),
-                $this->getGeonameRepo()
+                $this->getGeonameService()
             );
         }
 
@@ -608,7 +625,10 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
 
     function getTerrainRepo(): ITerrainRepo {
         if (!isset($this->terrainRepo)) {
-            $this->terrainRepo = new FileTerrainRepo($this->getFileService());
+            $this->terrainRepo = new FileTerrainRepo(
+                $this->getFileService(),
+                self::TERRAIN_TILE_BASE_DIR
+            );
         }
 
         return $this->terrainRepo;

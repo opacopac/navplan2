@@ -13,6 +13,7 @@ class DbGeonameRepo implements IGeonameRepo {
     public function __construct(private IDbService $dbService) {
     }
 
+
     public function searchByPosition(Position2d $position, float $maxRadius_deg, int $maxResults): array {
         $query = "SELECT geo.*,";
         $query .= "  cod1.name AS admin1_name,";
@@ -34,7 +35,7 @@ class DbGeonameRepo implements IGeonameRepo {
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching geonames by position");
 
-        return $this->readGeonamesFromResultList($result, true);
+        return $this->readGeonamesFromResultList($result);
     }
 
 
@@ -56,7 +57,7 @@ class DbGeonameRepo implements IGeonameRepo {
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching geonames by text");
 
-        return self::readGeonamesFromResultList($result, true);
+        return $this->readGeonamesFromResultList($result);
     }
 
 
@@ -77,58 +78,13 @@ class DbGeonameRepo implements IGeonameRepo {
     }
 
 
-    // TODO: move to business layer
-    private function readGeonamesFromResultList(IDbResult $result, bool $renameDuplicates): array {
+    private function readGeonamesFromResultList(IDbResult $result): array {
         $geonames = [];
 
         while ($row = $result->fetch_assoc()) {
             $geonames[] = DbGeonameConverter::fromDbRow($row);
         }
 
-        if ($renameDuplicates) {
-            $duplicateIdx = self::findDuplicates($geonames);
-
-            for ($i = 0; $i < count($geonames); $i++) {
-                if (in_array($i, $duplicateIdx["admin1idx"]) && $geonames[$i]->admin2)
-                    $geonames[$i]->searchresultname = $geonames[$i]->name . " (" . $geonames[$i]->country . ", " . $geonames[$i]->admin1 . ", " . $geonames[$i]->admin2 . ")";
-                elseif (in_array($i, $duplicateIdx["nameidx"]) && $geonames[$i]->admin1)
-                    $geonames[$i]->searchresultname = $geonames[$i]->name . " (" . $geonames[$i]->country . ", " . $geonames[$i]->admin1 . ")";
-                else
-                    $geonames[$i]->searchresultname = $geonames[$i]->name . " (" . $geonames[$i]->country . ")";
-            }
-        } else {
-            for ($i = 0; $i < count($geonames); $i++) {
-                $geonames[$i]->searchresultname = $geonames[$i]->name;
-            }
-        }
-
         return $geonames;
-    }
-
-
-    private function findDuplicates(array $geonames): array {
-        $duplicateNameIdx = array();
-        $duplicateAdmin1Idx = array();
-
-        // check for duplicate names
-        for ($i = 0; $i < count($geonames) - 1; $i++) {
-            for ($j = $i + 1; $j < count($geonames); $j++) {
-                if ($i == $j) {
-                    continue;
-                }
-
-                if ($geonames[$i]->name == $geonames[$j]->name) {
-                    if ($geonames[$i]->admin1 == $geonames[$j]->admin1) {
-                        array_push($duplicateAdmin1Idx, $i);
-                        array_push($duplicateAdmin1Idx, $j);
-                    } else {
-                        array_push($duplicateNameIdx, $i);
-                        array_push($duplicateNameIdx, $j);
-                    }
-                }
-            }
-        }
-
-        return array("nameidx" => $duplicateNameIdx, "admin1idx" => $duplicateAdmin1Idx);
     }
 }

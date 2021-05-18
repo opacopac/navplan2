@@ -723,24 +723,6 @@ export class Geoname extends DataItem {
     }
 
 
-    public static createFromPosition(position: Position2d): Geoname {
-        const name = StringnumberHelper.getDecString(position, 4);
-        return new Geoname(
-            -1,
-            name,
-            name,
-            'X',
-            'POS',
-            '',
-            '',
-            '',
-            0,
-            position,
-            Length.createZero()
-        );
-    }
-
-
     public get dataItemType(): DataItemType {
         return DataItemType.geoname;
     }
