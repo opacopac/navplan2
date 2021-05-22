@@ -20,22 +20,22 @@ export class OlNotam {
     ) {
         this.olFeature = OlHelper.createFeature(notam, true);
         this.olFeature.setStyle(this.createStyle(notam));
-        this.setGeometry(this.olFeature, notam);
+        this.setGeometry(notam);
         layer.getSource().addFeature(this.olFeature);
     }
 
 
-    private setGeometry(feature: Feature, notam: Notam) {
+    private setGeometry(notam: Notam) {
         if (!notam || ! notam.geometry || ! notam.geometry.geometry2d) {
             return;
         }
 
         switch (notam.geometry.geometry2d.getGeometryType()) {
             case Geometry2dType.POLYGON:
-                feature.setGeometry(OlHelper.getPolygonGeometry(notam.geometry.geometry2d as Polygon));
+                this.olFeature.setGeometry(OlHelper.getPolygonGeometry(notam.geometry.geometry2d as Polygon));
                 break;
             case Geometry2dType.MULTIPOLYGON:
-                feature.setGeometry(OlHelper.getMultiPolygonGeometry(notam.geometry.geometry2d as Multipolygon));
+                this.olFeature.setGeometry(OlHelper.getMultiPolygonGeometry(notam.geometry.geometry2d as Multipolygon));
                 break;
             case Geometry2dType.CIRCLE:
                 const circle = notam.geometry.geometry2d as Circle;
@@ -51,7 +51,7 @@ export class OlNotam {
                     circle.radius.m
                 );
                 const polyCircCoords = polycirc.getCoordinates()[0];
-                feature.setGeometry(OlHelper.getPolygonGeometry(Polygon.createFromCoordList(polyCircCoords)));
+                this.olFeature.setGeometry(OlHelper.getPolygonGeometry(Polygon.createFromCoordList(polyCircCoords)));
                 break;
             default:
                 return;

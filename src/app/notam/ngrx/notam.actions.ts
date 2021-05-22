@@ -1,40 +1,15 @@
-import {Action} from '@ngrx/store';
+import {createAction, props} from '@ngrx/store';
 import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
-import {ReadNotamByExtentResult} from '../domain-model/read-notam-by-extent-result';
+import {NotamList} from '../domain-model/notam-list';
 
 
-export enum NotamActionTypes {
-    NOTAM_READ = '[NavMapEffects] Read NOTAMs',
-    NOTAM_READ_SUCCESS = '[NotamEffects] Read NOTAMs success',
-    NOTAM_READ_ERROR = '[NotamEffects] Read NOTAMs error',
+export class NotamActions {
+    public static readonly readNotams = createAction(
+        '[Flight Map] Read NOTAMS by extent',
+        props<{ extent: Extent2d, zoom: number }>()
+    );
+    public static readonly showNotams = createAction(
+        '[NotamEffects] Show NOTAMS on map',
+        props<{ extent: Extent2d, zoom: number, notamList: NotamList, timestampMs: number }>()
+    );
 }
-
-
-export class ReadNotamAction implements Action {
-    readonly type = NotamActionTypes.NOTAM_READ;
-
-    constructor(
-        public extent: Extent2d,
-        public zoom: number
-    ) {}
-}
-
-
-export class ReadNotamSuccessAction implements Action {
-    readonly type = NotamActionTypes.NOTAM_READ_SUCCESS;
-
-    constructor(public result: ReadNotamByExtentResult) {}
-}
-
-
-export class ReadNotamErrorAction implements Action {
-    readonly type = NotamActionTypes.NOTAM_READ_ERROR;
-
-    constructor(public error: Error) {}
-}
-
-
-export type NotamActions =
-    ReadNotamAction |
-    ReadNotamSuccessAction |
-    ReadNotamErrorAction;

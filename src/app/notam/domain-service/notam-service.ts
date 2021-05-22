@@ -4,7 +4,7 @@ import {Observable, of} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {SystemConfig} from '../../system/domain-service/system-config';
 import {IDate} from '../../system/domain-service/date/i-date';
-import {NotamState} from '../ngrx/notam-state';
+import {NotamState} from '../domain-model/notam-state';
 import {ReadNotamByExtentResult} from '../domain-model/read-notam-by-extent-result';
 import {map} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
@@ -29,7 +29,7 @@ export class NotamService {
         extent: Extent2d,
         zoom: number,
         state: NotamState
-    ): Observable<ReadNotamByExtentResult> {
+    ): Observable<NotamState> {
         if (state.zoom === zoom && state.extent.containsExtent2d(extent) && !this.hasTimedOut(state.timestampMs)) {
             return of(new ReadNotamByExtentResult(
                 state.extent,
@@ -47,12 +47,12 @@ export class NotamService {
         );
 
         return this.notamRepo.readByExtent(request).pipe(
-            map(notamList => new ReadNotamByExtentResult(
-                request.extent,
-                request.zoom,
-                notamList,
-                this.date.nowMs()
-            ))
+            map(notamList => ({
+                extent: request.extent,
+                zoom: request.zoom,
+                notamList: notamList,
+                timestampMs: this.date.nowMs()
+            }))
         );
     }
 

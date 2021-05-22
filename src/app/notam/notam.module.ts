@@ -9,8 +9,6 @@ import {StoreModule} from '@ngrx/store';
 import {notamReducer} from './ngrx/notam.reducer';
 import {EffectsModule} from '@ngrx/effects';
 import {NotamEffects} from './ngrx/notam.effects';
-import {NotamState} from './ngrx/notam-state';
-import {NotamActions} from './ngrx/notam.actions';
 import {MatCardModule} from '@angular/material/card';
 import {BaseMapModule} from '../base-map/base-map.module';
 import {INotamRepo} from './domain-service/i-notam-repo';
@@ -20,7 +18,7 @@ import {NotamService} from './domain-service/notam-service';
 @NgModule({
     imports: [
         CommonModule,
-        StoreModule.forFeature<NotamState, NotamActions>('notamState', notamReducer),
+        StoreModule.forFeature('notamState', notamReducer),
         EffectsModule.forFeature([NotamEffects]),
         MatCardModule,
         SharedModule,

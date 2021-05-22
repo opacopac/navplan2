@@ -30,6 +30,7 @@ import {ReportingPointSectorActions} from '../../aerodrome/ngrx/reporting-point-
 import {AirportState} from '../../aerodrome/domain-model/airport-state';
 import {getAirportState} from '../../aerodrome/ngrx/airport.selectors';
 import {AirportChartActions} from '../../aerodrome/ngrx/airport-chart.actions';
+import {NotamActions} from '../../notam/ngrx/notam.actions';
 
 
 @Injectable()
@@ -58,7 +59,7 @@ export class FlightMapEffects {
             ReportingPointSectorActions.readReportingPointsSectors(action),
             AirspaceActions.readAirspaces(action),
             NavaidActions.readNavaids(action),
-            // TODO: notams
+            NotamActions.readNotams(action),
             MetarTafActions.readMetarTafs(action),
             WebcamActions.readWebcams(action),
         ])

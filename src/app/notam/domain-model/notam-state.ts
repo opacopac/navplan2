@@ -1,5 +1,5 @@
 import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
-import {NotamList} from '../domain-model/notam-list';
+import {NotamList} from './notam-list';
 
 
 export interface NotamState {

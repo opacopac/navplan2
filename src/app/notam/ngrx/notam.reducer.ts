@@ -1,5 +1,6 @@
-import {NotamState} from './notam-state';
-import {NotamActions, NotamActionTypes} from './notam.actions';
+import {NotamState} from '../domain-model/notam-state';
+import {NotamActions} from './notam.actions';
+import {createReducer, on} from '@ngrx/store';
 
 
 const initialState: NotamState = {
@@ -10,18 +11,13 @@ const initialState: NotamState = {
 };
 
 
-export function notamReducer(state: NotamState = initialState, action: NotamActions) {
-    switch (action.type) {
-        case NotamActionTypes.NOTAM_READ_SUCCESS:
-            return {
-                ...state,
-                extent: action.result.extent,
-                zoom: action.result.zoom,
-                notamList: action.result.notamList,
-                timestampMs: action.result.timestampMs
-            };
-
-        default:
-            return state;
-    }
-}
+export const notamReducer = createReducer(
+    initialState,
+    on(NotamActions.showNotams, (state, action) => ({
+        ...state,
+        extent: action.extent,
+        zoom: action.zoom,
+        notamList: action.notamList,
+        timestampMs: action.timestampMs
+    })),
+);

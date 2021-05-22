@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
-import {Action, Store} from '@ngrx/store';
+import {Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {Observable, of} from 'rxjs';
-import {catchError, map, switchMap, withLatestFrom} from 'rxjs/operators';
-import {NotamActionTypes, ReadNotamAction, ReadNotamErrorAction, ReadNotamSuccessAction} from './notam.actions';
+import {Observable} from 'rxjs';
+import {map, switchMap, withLatestFrom} from 'rxjs/operators';
+import {NotamActions} from './notam.actions';
 import {NotamService} from '../domain-service/notam-service';
-import {NotamState} from './notam-state';
+import {NotamState} from '../domain-model/notam-state';
 import {getNotamState} from './notam.selectors';
 
 
@@ -22,13 +22,11 @@ export class NotamEffects {
     }
 
 
-    readNotamAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(NotamActionTypes.NOTAM_READ),
-        map(action => action as ReadNotamAction),
+    readNotamAction$ = createEffect(() => this.actions$.pipe(
+        ofType(NotamActions.readNotams),
         withLatestFrom(this.notamState$),
         switchMap(([action, state]) => this.notamService.readByExtent(action.extent, action.zoom, state).pipe(
-            map(result => new ReadNotamSuccessAction(result)),
-            catchError(error => of(new ReadNotamErrorAction(error)))
+            map(newState => NotamActions.showNotams(newState))
         ))
     ));
 }
