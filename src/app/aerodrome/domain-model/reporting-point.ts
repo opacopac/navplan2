@@ -22,4 +22,9 @@ export class ReportingPoint extends DataItem {
     public get dataItemType(): DataItemType {
         return DataItemType.reportingPoint;
     }
+
+
+    public getPosition(): Position2d {
+        return this.position;
+    }
 }

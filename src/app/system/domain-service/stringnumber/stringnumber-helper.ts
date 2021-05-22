@@ -1,5 +1,7 @@
 import {Angle} from '../../../common/geo-math/domain-model/quantities/angle';
 import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
+import {Length} from '../../../common/geo-math/domain-model/quantities/length';
+import {LengthUnit} from '../../../common/geo-math/domain-model/quantities/units';
 
 export class StringnumberHelper {
     public static isNullOrEmpty(text: string) {
@@ -113,6 +115,16 @@ export class StringnumberHelper {
         const s = Math.floor((coord - d - m / 60) * 3600);
 
         return d + '° ' + StringnumberHelper.zeroPad(m) + '\' ' + StringnumberHelper.zeroPad(s) + '\"';
+    }
+
+
+    public static getLengthString(elevation: Length, unit: LengthUnit): string {
+        switch (unit) {
+            case LengthUnit.M: return Math.round(elevation.m) + ' m';
+            case LengthUnit.FT: return Math.round(elevation.ft) + ' ft';
+            case LengthUnit.NM: return Math.round(elevation.nm) + ' NM';
+            default: throw new Error('unknown length unit ' + unit);
+        }
     }
 
 

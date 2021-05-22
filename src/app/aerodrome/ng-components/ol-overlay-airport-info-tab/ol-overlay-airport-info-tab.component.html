@@ -1,0 +1,9 @@
+<p>{{ this.getPositionString() }}</p>
+<p>Variation: {{ this.getVariationString() }}</p>
+<p>Elevation: {{ this.getElevationString() }}</p>
+<p *ngFor="let webcam of this.airport.webcams">
+    {{ webcam.name }}:
+    <a href="{{ webcam.url }}" target="_blank">
+        <mat-icon class="webcam-icon">videocam</mat-icon>
+    </a>
+</p>

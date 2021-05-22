@@ -19,6 +19,12 @@ import {AirportCircuitEffects} from './ngrx/airport-circuit.effects';
 import {airportCircuitReducer} from './ngrx/airport-circuit.reducer';
 import {airportChartReducer} from './ngrx/airport-chart.reducer';
 import {AirportChartEffects} from './ngrx/airport-chart.effects';
+import {OlOverlayAirportHeaderComponent} from './ng-components/ol-overlay-airport-header/ol-overlay-airport-header.component';
+import {OlOverlayAirportInfoTabComponent} from './ng-components/ol-overlay-airport-info-tab/ol-overlay-airport-info-tab.component';
+import {OlOverlayReportingpointHeaderComponent} from './ng-components/ol-overlay-reportingpoint-header/ol-overlay-reportingpoint-header.component';
+import {OlOverlayReportingpointInfoTabComponent} from './ng-components/ol-overlay-reportingpoint-info-tab/ol-overlay-reportingpoint-info-tab.component';
+import {OlOverlayReportingsectorHeaderComponent} from './ng-components/ol-overlay-reportingsector-header/ol-overlay-reportingsector-header.component';
+import {OlOverlayReportingsectorInfoTabComponent} from './ng-components/ol-overlay-reportingsector-info-tab/ol-overlay-reportingsector-info-tab.component';
 
 
 @NgModule({
@@ -37,8 +43,20 @@ import {AirportChartEffects} from './ngrx/airport-chart.effects';
         SharedModule,
     ],
     declarations: [
+        OlOverlayAirportHeaderComponent,
+        OlOverlayAirportInfoTabComponent,
+        OlOverlayReportingpointHeaderComponent,
+        OlOverlayReportingpointInfoTabComponent,
+        OlOverlayReportingsectorHeaderComponent,
+        OlOverlayReportingsectorInfoTabComponent
     ],
     exports: [
+        OlOverlayAirportHeaderComponent,
+        OlOverlayAirportInfoTabComponent,
+        OlOverlayReportingpointHeaderComponent,
+        OlOverlayReportingpointInfoTabComponent,
+        OlOverlayReportingsectorHeaderComponent,
+        OlOverlayReportingsectorInfoTabComponent
     ],
     providers: [
         AirportService,

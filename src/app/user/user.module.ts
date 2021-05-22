@@ -25,6 +25,8 @@ import {LostPwEffects} from './ngrx/lost-pw.effects';
 import {ChangePwEffects} from './ngrx/change-pw.effects';
 import {AutoLoginEffects} from './ngrx/auto-login.effects';
 import {LogoutEffects} from './ngrx/logout.effects';
+import {OlOverlayUserpointInfoTabComponent} from './ng-components/ol-overlay-userpoint-info-tab/ol-overlay-userpoint-info-tab.component';
+import {OlOverlayUserpointHeaderComponent} from './ng-components/ol-overlay-userpoint-header/ol-overlay-userpoint-header.component';
 
 
 @NgModule({
@@ -54,6 +56,12 @@ import {LogoutEffects} from './ngrx/logout.effects';
         ForgotPwStep2PageComponent,
         ForgotPwStep1FormComponent,
         ForgotPwStep2FormComponent,
+        OlOverlayUserpointHeaderComponent,
+        OlOverlayUserpointInfoTabComponent
+    ],
+    exports: [
+        OlOverlayUserpointHeaderComponent,
+        OlOverlayUserpointInfoTabComponent
     ],
     providers: [
         { provide: UserService, useClass: RestUserService },

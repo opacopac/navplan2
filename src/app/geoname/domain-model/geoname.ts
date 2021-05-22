@@ -728,6 +728,11 @@ export class Geoname extends DataItem {
     }
 
 
+    public getPosition(): Position2d {
+        return this.position;
+    }
+
+
     public getClassDescription(): string {
         return GEONAME_CLASS_DESCRIPTION_SHORT[this.feature_class];
     }

@@ -1,0 +1,16 @@
+<mat-card-header>
+    <div mat-card-avatar>
+        <img mat-card-avatar class="imgA" src="{{ this.getAvatarUrl() }}"/>
+        <img mat-card-avatar
+             *ngIf="this.airport.hasRunways"
+             class="imgB"
+             src="{{ this.getRwyUrl() }}"
+             [ngStyle]="{'transform' : 'rotate(' + this.getRwyRotDeg() + 'deg)'}"/>
+    </div>
+    <mat-card-title>
+        {{ this.getTitle() }}
+    </mat-card-title>
+    <mat-card-subtitle>
+        {{ this.getAirportTypeString() }}
+    </mat-card-subtitle>
+</mat-card-header>

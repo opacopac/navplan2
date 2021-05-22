@@ -76,8 +76,9 @@ export class FlightMapEffects {
             switch (action.dataItem?.dataItemType) {
                 case DataItemType.airport:
                     return this.airportService.readAirportById((action.dataItem as ShortAirport).id).pipe(
-                        map(airport => FlightMapActions.showAirportOverlay({
-                            airport: airport,
+                        map(airport => FlightMapActions.showOverlay({
+                            dataItem: airport,
+                            clickPos: undefined,
                             metarTaf: this.metarTafService.findMetarTafInState(airport.icao, metarTafState),
                             notams: [], // TODO
                             tabIndex: 0
@@ -87,8 +88,9 @@ export class FlightMapEffects {
                     const metarTaf = action.dataItem as MetarTaf;
                     const shortAirport = this.airportService.findAirportInState(metarTaf.ad_icao, airportState);
                     return this.airportService.readAirportById(shortAirport.id).pipe(
-                        map(airport => FlightMapActions.showAirportOverlay({
-                            airport: airport,
+                        map(airport => FlightMapActions.showOverlay({
+                            dataItem: airport,
+                            clickPos: undefined,
                             metarTaf: metarTaf,
                             notams: [], // TODO
                             tabIndex: 3
@@ -100,14 +102,20 @@ export class FlightMapEffects {
                 case DataItemType.reportingSector:
                 case DataItemType.navaid:
                 case DataItemType.geoname:
-                    return of(FlightMapActions.showOverlay(action));
+                case DataItemType.userPoint:
+                    return of(FlightMapActions.showOverlay({
+                        dataItem: action.dataItem,
+                        clickPos: action.clickPos,
+                        metarTaf: undefined,
+                        notams: [],
+                        tabIndex: 0
+                    }));
                 case DataItemType.airportChart:
                     const chart = action.dataItem as AirportChart;
                     this.appStore.dispatch(BaseMapActions.closeImage({ id: chart.id }));
                     return of(AirportChartActions.closeAirportChart({ chartId: chart.id }));
                 default:
                     if (searchState.positionSearchState.clickPos
-                        || flightMapState.showAirportOverlay.airport
                         || flightMapState.showOverlay.clickPos
                     ) {
                         return of(SearchActions2.closePositionSearchResults());

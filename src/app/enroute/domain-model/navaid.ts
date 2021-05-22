@@ -26,6 +26,11 @@ export class Navaid extends DataItem {
     }
 
 
+    public getPosition(): Position2d {
+        return this.position;
+    }
+
+
     public getTypeString(): string {
         switch (this.type) {
             case NavaidType.NDB: return 'NDB';

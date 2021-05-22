@@ -11,6 +11,8 @@ import {navaidReducer} from './ngrx/navaid.reducer';
 import {NavaidEffects} from './ngrx/navaid.effects';
 import {AirspaceEffects} from './ngrx/airspace.effects';
 import {airspaceReducer} from './ngrx/airspace.reducer';
+import {OlOverlayNavaidHeaderComponent} from './ng-components/ol-overlay-navaid-header/ol-overlay-navaid-header.component';
+import {OlOverlayNavaidInfoTabComponent} from './ng-components/ol-overlay-navaid-info-tab/ol-overlay-navaid-info-tab.component';
 
 
 @NgModule({
@@ -22,8 +24,12 @@ import {airspaceReducer} from './ngrx/airspace.reducer';
         SharedModule,
     ],
     declarations: [
+        OlOverlayNavaidHeaderComponent,
+        OlOverlayNavaidInfoTabComponent
     ],
     exports: [
+        OlOverlayNavaidHeaderComponent,
+        OlOverlayNavaidInfoTabComponent
     ],
     providers: [
         AirspaceService,

@@ -45,6 +45,11 @@ export class Airport extends DataItem  {
     }
 
 
+    public getPosition(): Position2d {
+        return this.position;
+    }
+
+
     public get hasRunways(): boolean {
         return (this.runways != null && this.runways.length > 0);
     }

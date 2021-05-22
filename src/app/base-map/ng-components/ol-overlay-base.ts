@@ -3,7 +3,6 @@ import {StringnumberHelper} from '../../system/domain-service/stringnumber/strin
 import {DataItem} from '../../common/model/data-item';
 import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 import {WmmHelper} from '../../common/geo-math/domain-service/wmm-helper';
-import {Length} from '../../common/geo-math/domain-model/quantities/length';
 import Overlay from 'ol/Overlay';
 
 
@@ -57,11 +56,6 @@ export abstract class OlOverlayBase implements AfterViewInit {
 
     public getPositionString(pos: Position2d): string {
         return StringnumberHelper.getDmsString(pos);
-    }
-
-
-    public getElevationString(elevation: Length): string {
-        return Math.round(elevation.ft) + ' ft'; // TODO
     }
 
 

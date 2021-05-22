@@ -18,4 +18,9 @@ export class UserPoint extends DataItem {
     public get dataItemType(): DataItemType {
         return DataItemType.userPoint;
     }
+
+
+    public getPosition(): Position2d {
+        return this.position;
+    }
 }

@@ -1,3 +1,5 @@
+import {Position2d} from '../geo-math/domain-model/geometry/position2d';
+
 export enum DataItemType {
     traffic = 1,
     airport = 2,
@@ -19,6 +21,11 @@ export enum DataItemType {
 
 export abstract class DataItem {
     public abstract get dataItemType(): DataItemType;
+
+
+    public getPosition(): Position2d {
+        return undefined;
+    }
 
 
     public getClickPrio(): number {

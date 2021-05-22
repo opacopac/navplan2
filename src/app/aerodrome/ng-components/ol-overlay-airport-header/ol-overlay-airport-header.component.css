@@ -1,0 +1,13 @@
+.mat-card-avatar {
+    border-radius: initial;
+}
+
+.imgA {
+    position: absolute;
+    z-index: 1;
+}
+
+.imgB {
+    position: absolute;
+    z-index: 3;
+}

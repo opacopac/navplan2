@@ -1,0 +1,3 @@
+<p>Position: {{ this.getPositionString() }}</p>
+<p>Variation: {{ this.getVariationString() }}</p>
+<p *ngIf="!this.geoname.elevation.isZero()">Elevation: {{ this.getElevationString() }}</p>

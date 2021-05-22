@@ -16,7 +16,7 @@
                 Altitude:
                 {{ (this.waypoint.alt.isminalt ? 'min. ' : 'max. ') + this.waypoint.alt.alt_ft + 'ft' }}
             </p>
-            <p *ngIf="this.userpoint.remark">Remark: {{ this.userpoint.remark }}</p>
+            <!--<p *ngIf="this.userpoint.remark">Remark: {{ this.userpoint.remark }}</p>-->
         </mat-card-content>
         <app-ol-overlay-button-list [waypoint]="this.waypoint"></app-ol-overlay-button-list>
     </mat-card>

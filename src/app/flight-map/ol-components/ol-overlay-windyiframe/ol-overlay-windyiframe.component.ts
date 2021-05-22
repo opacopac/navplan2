@@ -12,8 +12,10 @@ import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 export class OlOverlayWindyiframeComponent implements OnInit {
     public readonly windyUrl$: ReplaySubject<SafeResourceUrl> = new ReplaySubject();
     @Input() set position(value: Position2d) {
-        const newUrl = this.getWindyUrl(value);
-        this.windyUrl$.next(newUrl);
+        if (value) {
+            const newUrl = this.getWindyUrl(value);
+            this.windyUrl$.next(newUrl);
+        }
     }
 
 

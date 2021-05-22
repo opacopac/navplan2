@@ -7,13 +7,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatSelectModule} from '@angular/material/select';
 import {MatTableModule} from '@angular/material/table';
 import {MatTabsModule} from '@angular/material/tabs';
-import {OlOverlayAirportComponent} from './ol-components/ol-overlay-airport/ol-overlay-airport.component';
-import {OlOverlayGeonameComponent} from './ol-components/ol-overlay-geoname/ol-overlay-geoname.component';
 import {OlOverlayMeteogramComponent} from './ol-components/ol-overlay-meteogram/ol-overlay-meteogram.component';
-import {OlOverlayNavaidComponent} from './ol-components/ol-overlay-navaid/ol-overlay-navaid.component';
-import {OlOverlayReportingpointComponent} from './ol-components/ol-overlay-reportingpoint/ol-overlay-reportingpoint.component';
-import {OlOverlayReportingsectorComponent} from './ol-components/ol-overlay-reportingsector/ol-overlay-reportingsector.component';
-import {OlOverlayUserpointComponent} from './ol-components/ol-overlay-userpoint/ol-overlay-userpoint.component';
 import {OlOverlayWindyiframeComponent} from './ol-components/ol-overlay-windyiframe/ol-overlay-windyiframe.component';
 import {SharedModule} from '../common/shared.module';
 import {FlightrouteModule} from '../flightroute/flightroute.module';
@@ -32,10 +26,10 @@ import {OlOverlayButtonRemoveAlternateComponent} from './ol-components/ol-overla
 import {OlOverlayButtonRemoveFromRouteComponent} from './ol-components/ol-overlay-button-remove-from-route/ol-overlay-button-remove-from-route.component';
 import {OlOverlayButtonSetAlternateComponent} from './ol-components/ol-overlay-button-set-alternate/ol-overlay-button-set-alternate.component';
 import {OlOverlayWaypointComponent} from './ol-components/ol-overlay-waypoint/ol-overlay-waypoint.component';
-import {OlOverlayAirportRunwayTabComponent} from './ol-components/ol-overlay-airport-runway-tab/ol-overlay-airport-runway-tab.component';
-import {OlOverlayAirportRadioTabComponent} from './ol-components/ol-overlay-airport-radio-tab/ol-overlay-airport-radio-tab.component';
+import {OlOverlayAirportRunwayTabComponent} from '../aerodrome/ng-components/ol-overlay-airport-runway-tab/ol-overlay-airport-runway-tab.component';
+import {OlOverlayAirportRadioTabComponent} from '../aerodrome/ng-components/ol-overlay-airport-radio-tab/ol-overlay-airport-radio-tab.component';
 import {OlOverlayAirportNotamTabComponent} from './ol-components/ol-overlay-airport-notam-tab/ol-overlay-airport-notam-tab.component';
-import {OlOverlayAirportChartTabComponent} from './ol-components/ol-overlay-airport-chart-tab/ol-overlay-airport-chart-tab.component';
+import {OlOverlayAirportChartTabComponent} from '../aerodrome/ng-components/ol-overlay-airport-chart-tab/ol-overlay-airport-chart-tab.component';
 import {OlOverlayButtonListComponent} from './ol-components/ol-overlay-button-list/ol-overlay-button-list.component';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
@@ -44,19 +38,17 @@ import {FlightMapEffects} from './ngrx/flight-map.effects';
 import {AerodromeModule} from '../aerodrome/aerodrome.module';
 import {EnrouteModule} from '../enroute/enroute.module';
 import {WebcamModule} from '../webcam/webcam.module';
-import {OlOverlayAirportMetarTafTabComponent} from './ol-components/ol-overlay-airport-metar-taf-tab/ol-overlay-airport-metar-taf-tab.component';
+import {OlOverlayAirportMetarTafTabComponent} from '../aerodrome/ng-components/ol-overlay-airport-metar-taf-tab/ol-overlay-airport-metar-taf-tab.component';
 import {MatIconModule} from '@angular/material/icon';
+import {OlMapOverlayComponent} from './ng-components/ol-map-overlay/ol-map-overlay.component';
+import {GeonameModule} from '../geoname/geoname.module';
+import {UserModule} from '../user/user.module';
 
 @NgModule({
     declarations: [
         FlightMapPageComponent,
-        OlOverlayAirportComponent,
-        OlOverlayGeonameComponent,
+        OlMapOverlayComponent,
         OlOverlayMeteogramComponent,
-        OlOverlayNavaidComponent,
-        OlOverlayReportingpointComponent,
-        OlOverlayReportingsectorComponent,
-        OlOverlayUserpointComponent,
         OlOverlayWindyiframeComponent,
         OlOverlayButtonAddToRouteComponent,
         OlOverlayButtonEditUserpointComponent,
@@ -95,7 +87,9 @@ import {MatIconModule} from '@angular/material/icon';
         MetarTafModule,
         AerodromeModule,
         EnrouteModule,
-        WebcamModule
+        GeonameModule,
+        WebcamModule,
+        UserModule
     ]
 })
 export class FlightMapModule {

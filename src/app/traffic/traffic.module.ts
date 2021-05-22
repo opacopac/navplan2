@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {OgnTrafficService} from './rest/ogn/ogn-traffic.service';
-import {OlOverlayTrafficComponent} from './ol-components/ol-overlay-traffic/ol-overlay-traffic.component';
+import {OlOverlayTrafficComponent} from './ng-components/ol-overlay-traffic/ol-overlay-traffic.component';
 import {TrafficButtonComponent} from './ng-components/traffic-button/traffic-button.component';
 import {SharedModule} from '../common/shared.module';
 import {trafficReducer2} from './ngrx/traffic.reducer';
