@@ -1,19 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Action, Store} from '@ngrx/store';
+import {Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
 import {map, withLatestFrom} from 'rxjs/operators';
-import {
-    DeleteWaypointAction,
-    FlightrouteActionTypes,
-    FlightrouteRecalcSuccessAction,
-    InsertWaypointAction,
-    ReplaceWaypointAction,
-    ReverseWaypointsAction,
-    RouteLineModifiedAction,
-    SetAlternateAction,
-    UpdateWaypointAction,
-} from './flightroute.actions';
 import {getFlightroute} from './flightroute.selectors';
 import {Flightroute} from '../domain-model/flightroute';
 import {FlightrouteCalcHelper} from '../domain-service/flightroute-calc.helper';
@@ -21,6 +10,8 @@ import {ArrayHelper} from '../../system/domain-service/array/array-helper';
 import {WaypointFactory} from '../domain-model/waypoint-mapper/waypoint-factory';
 import {getFlightMapState} from '../../flight-map/ngrx/flight-map.selectors';
 import {FlightMapState} from '../../flight-map/domain-model/flight-map-state';
+import {WaypointActions} from './waypoints.actions';
+import {FlightRouteActions} from './flight-route.actions';
 
 
 @Injectable()
@@ -37,9 +28,8 @@ export class WaypointEffects {
 
 
 
-    updateWaypointAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(FlightrouteActionTypes.WAYPOINT_UPDATE),
-        map(action => action as UpdateWaypointAction),
+    updateWaypointAction$ = createEffect(() => this.actions$.pipe(
+        ofType(WaypointActions.update),
         withLatestFrom(this.flightroute$),
         map(([action, route]) => {
             const wpIndex = route.waypoints.indexOf(action.oldWp);
@@ -48,14 +38,13 @@ export class WaypointEffects {
 
             return FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
         }),
-        map(route => new FlightrouteRecalcSuccessAction(route)),
+        map(route => FlightRouteActions.recalculated({ newFlightroute: route })),
     ));
 
 
 
-    insertWaypointAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(FlightrouteActionTypes.WAYPOINT_INSERT),
-        map(action => action as InsertWaypointAction),
+    insertWaypointAction$ = createEffect(() => this.actions$.pipe(
+        ofType(WaypointActions.insert),
         withLatestFrom(this.flightroute$),
         map(([action, route]) => {
             const newFlightroute = route.clone();
@@ -63,14 +52,13 @@ export class WaypointEffects {
 
             return FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
         }),
-        map(route => new FlightrouteRecalcSuccessAction(route))
+        map(route => FlightRouteActions.recalculated({ newFlightroute: route })),
     ));
 
 
 
-    replaceWaypointAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(FlightrouteActionTypes.WAYPOINT_REPLACE),
-        map(action => action as ReplaceWaypointAction),
+    replaceWaypointAction$ = createEffect(() => this.actions$.pipe(
+        ofType(WaypointActions.replace),
         withLatestFrom(this.flightroute$),
         map(([action, route]) => {
             const newFlightroute = route.clone();
@@ -78,14 +66,13 @@ export class WaypointEffects {
 
             return FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
         }),
-        map(route => new FlightrouteRecalcSuccessAction(route))
+        map(route => FlightRouteActions.recalculated({ newFlightroute: route })),
     ));
 
 
 
-    deleteWaypointAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(FlightrouteActionTypes.WAYPOINT_DELETE),
-        map(action => action as DeleteWaypointAction),
+    deleteWaypointAction$ = createEffect(() => this.actions$.pipe(
+        ofType(WaypointActions.delete),
         withLatestFrom(this.flightroute$),
         map(([action, route]) => {
             const idx = route.getWaypointIndex(action.waypoint);
@@ -94,14 +81,13 @@ export class WaypointEffects {
 
             return FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
         }),
-        map(route => new FlightrouteRecalcSuccessAction(route))
+        map(route => FlightRouteActions.recalculated({ newFlightroute: route })),
     ));
 
 
 
-    reverseWaypointsAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(FlightrouteActionTypes.WAYPOINT_REVERSE),
-        map(action => action as ReverseWaypointsAction),
+    reverseWaypointsAction$ = createEffect(() => this.actions$.pipe(
+        ofType(WaypointActions.reverse),
         withLatestFrom(this.flightroute$),
         map(([action, route]) => {
             const newFlightroute = route.clone();
@@ -109,14 +95,13 @@ export class WaypointEffects {
 
             return FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
         }),
-        map(route => new FlightrouteRecalcSuccessAction(route)),
+        map(route => FlightRouteActions.recalculated({ newFlightroute: route })),
     ));
 
 
 
-    setAlternateAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(FlightrouteActionTypes.WAYPOINT_SET_ALTERNATE),
-        map(action => action as SetAlternateAction),
+    setAlternateAction$ = createEffect(() => this.actions$.pipe(
+        ofType(WaypointActions.setAlternate),
         withLatestFrom(this.flightroute$),
         map(([action, route]) => {
             const newFlightroute = route.clone();
@@ -124,14 +109,13 @@ export class WaypointEffects {
 
             return FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
         }),
-        map(route => new FlightrouteRecalcSuccessAction(route)),
+        map(route => FlightRouteActions.recalculated({ newFlightroute: route })),
     ));
 
 
 
-    modifyRouteLineAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(FlightrouteActionTypes.WAYPOINT_ROUTELINE_MODIFIED),
-        map(action => action as RouteLineModifiedAction),
+    modifyRouteLineAction$ = createEffect(() => this.actions$.pipe(
+        ofType(WaypointActions.modifyRoute),
         withLatestFrom(this.flightMapState$),
         map(([action, items]) => ({
             action: action,
@@ -149,6 +133,6 @@ export class WaypointEffects {
 
             return FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
         }),
-        map(route => new FlightrouteRecalcSuccessAction(route)),
+        map(route => FlightRouteActions.recalculated({ newFlightroute: route })),
     ));
 }

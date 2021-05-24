@@ -4,12 +4,12 @@ import {Observable, Subject, Subscription} from 'rxjs';
 import {debounceTime, map} from 'rxjs/operators';
 import {Flightroute} from '../../domain-model/flightroute';
 import {getFlightroute} from '../../ngrx/flightroute.selectors';
-import {UpdateAircraftConsumptionAction, UpdateExtraTimeAction} from '../../ngrx/flightroute.actions';
 import {RouteFuel} from '../../domain-model/routefuel';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Consumption} from '../../../common/geo-math/domain-model/quantities/consumption';
 import {ConsumptionUnit, TimeUnit} from '../../../common/geo-math/domain-model/quantities/units';
 import {Time} from '../../../common/geo-math/domain-model/quantities/time';
+import {FlightRouteParameterActions} from '../../ngrx/flight-route-parameter.actions';
 
 @Component({
     selector: 'app-fuel-calc-container',
@@ -82,13 +82,17 @@ export class FuelCalcContainerComponent implements OnInit, OnDestroy {
         this.aircraftConsumption$ = new Subject<number>();
         this.aircraftConsumptionSubscription = this.aircraftConsumption$
             .pipe(debounceTime(500))
-            .subscribe(consumption => this.appStore.dispatch(new UpdateAircraftConsumptionAction(consumption)));
+            .subscribe(consumption => this.appStore.dispatch(
+                FlightRouteParameterActions.updateAircraftConsumption({ aircraftConsumptionValue: consumption })
+            ));
 
         // extra time
         this.extraTime$ = new Subject<number>();
         this.extraTimeSubscription = this.extraTime$
             .pipe(debounceTime(500))
-            .subscribe(extraTime => this.appStore.dispatch(new UpdateExtraTimeAction(extraTime)));
+            .subscribe(extraTime => this.appStore.dispatch(
+                FlightRouteParameterActions.updateExtraTime({ extraTimeMinutesValue: extraTime })
+            ));
     }
 
 

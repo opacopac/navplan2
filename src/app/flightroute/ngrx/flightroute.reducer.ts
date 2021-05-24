@@ -1,6 +1,4 @@
-import {FlightrouteState} from './flightroute-state';
-import {FlightrouteActions, FlightrouteActionTypes} from './flightroute.actions';
-import {UserActions, UserActionTypes} from '../../user/ngrx/user.actions';
+import {FlightrouteState} from '../domain-model/flightroute-state';
 import {Aircraft} from '../domain-model/aircraft';
 import {Flightroute} from '../domain-model/flightroute';
 import {Speed} from '../../common/geo-math/domain-model/quantities/speed';
@@ -14,6 +12,11 @@ import {
 import {Consumption} from '../../common/geo-math/domain-model/quantities/consumption';
 import {Time} from '../../common/geo-math/domain-model/quantities/time';
 import {FlightrouteCalcHelper} from '../domain-service/flightroute-calc.helper';
+import {createReducer, on} from '@ngrx/store';
+import {FlightRouteListActions} from './flight-route-list.actions';
+import {FlightRouteActions} from './flight-route.actions';
+import {SharedFlightRouteActions} from './shared-flight-route.actions';
+import {FlightRouteParameterActions} from './flight-route-parameter.actions';
 
 
 const initialState: FlightrouteState = {
@@ -39,73 +42,78 @@ const initialState: FlightrouteState = {
 };
 
 
-export type FlightrouteWaypointUserActions = FlightrouteActions
-    | UserActions;
 
-
-export function flightrouteReducer(
-    state: FlightrouteState = initialState,
-    action: FlightrouteWaypointUserActions) {
-
-    let newAircraft: Aircraft;
-    let newFlightroute: Flightroute;
-
-    switch (action.type) {
-        case FlightrouteActionTypes.FLIGHTROUTE_LIST_READ_SUCCESS:
-            return { ...state, flightrouteList: action.flightrouteList };
-
-        case UserActionTypes.USER_LOGOUT:
-            return { ...state, flightrouteList: undefined };
-
-        case FlightrouteActionTypes.FLIGHTROUTE_READ_SUCCESS:
-            newFlightroute = action.flightroute.clone();
-            FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
-            return { ...state, flightroute: newFlightroute };
-
-        case FlightrouteActionTypes.FLIGHTROUTE_SAVE_SUCCESS:
-            return { ...state, flightroute: action.flightroute };
-
-        case FlightrouteActionTypes.SHARED_FLIGHTROUTE_READ_SUCCESS:
-            return { ...state, flightroute: action.flightroute };
-
-        case FlightrouteActionTypes.SHARED_FLIGHTROUTE_CREATE_SUCCESS:
-            return { ...state, showShareId: action.shareId };
-
-        case FlightrouteActionTypes.SHARED_FLIGHTROUTE_HIDE_URL:
-            return { ...state, showShareId: false };
-
-        case FlightrouteActionTypes.FLIGHTROUTE_UPDATE_COMMENTS:
-            newFlightroute = state.flightroute.clone();
-            newFlightroute.comments = action.comments;
-            return { ...state, flightroute: newFlightroute };
-
-        case FlightrouteActionTypes.FLIGHTROUTE_UPDATE_EXTRA_TIME:
-            newFlightroute = state.flightroute.clone();
-            newFlightroute.extraTime = new Time(action.extraTimeMinutesValue, TimeUnit.M);
-            FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
-
-            return { ...state, flightroute: newFlightroute };
-
-        case FlightrouteActionTypes.FLIGHTROUTE_UPDATE_AIRCRAFT_SPEED:
-            newAircraft = state.flightroute.aircraft.clone();
-            newAircraft.speed = new Speed(action.aircraftSpeedValue, state.speedUnit);
-            newFlightroute = state.flightroute.clone();
-            newFlightroute.aircraft = newAircraft;
-            FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
-            return { ...state, flightroute: newFlightroute };
-
-        case FlightrouteActionTypes.FLIGHTROUTE_UPDATE_AIRCRAFT_CONSUMPTION:
-            newAircraft = state.flightroute.aircraft.clone();
-            newAircraft.consumption = new Consumption(action.aircraftConsumptionValue, state.consumptionUnit);
-            newFlightroute = state.flightroute.clone();
-            newFlightroute.aircraft = newAircraft;
-            FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
-            return { ...state, flightroute: newFlightroute };
-
-        case FlightrouteActionTypes.FLIGHTROUTE_UPDATE_RECALC:
-            return { ...state, flightroute: action.newFlightroute };
-
-        default:
-            return state;
-    }
-}
+export const flightRouteReducer = createReducer(
+    initialState,
+    on(FlightRouteListActions.readListSuccess, (state, action) => ({
+        ...state,
+        flightrouteList: action.flightrouteList
+    })),
+    on(FlightRouteActions.readSuccess, (state, action) => {
+        const newFlightroute = action.flightroute.clone();
+        FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
+        return {
+            ...state,
+            flightroute: newFlightroute
+        };
+    }),
+    on(FlightRouteActions.saveSuccess, (state, action) => ({
+        ...state,
+        flightroute: action.flightroute
+    })),
+    on(SharedFlightRouteActions.readSuccess, (state, action) => ({
+        ...state,
+        flightroute: action.flightroute
+    })),
+    on(SharedFlightRouteActions.saveSuccess, (state, action) => ({
+        ...state,
+        showShareId: action.shareId
+    })),
+    on(SharedFlightRouteActions.hideUrl, (state) => ({
+        ...state,
+        showShareId: undefined
+    })),
+    on(FlightRouteParameterActions.updateComments, (state, action) => {
+        const newFlightroute = state.flightroute.clone();
+        newFlightroute.comments = action.comments;
+        return {
+            ...state,
+            flightroute: newFlightroute
+        };
+    }),
+    on(FlightRouteParameterActions.updateExtraTime, (state, action) => {
+        const newFlightroute = state.flightroute.clone();
+        newFlightroute.extraTime = new Time(action.extraTimeMinutesValue, TimeUnit.M);
+        FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
+        return {
+            ...state,
+            flightroute: newFlightroute
+        };
+    }),
+    on(FlightRouteParameterActions.updateAircraftSpeed, (state, action) => {
+        const newAircraft = state.flightroute.aircraft.clone();
+        newAircraft.speed = new Speed(action.aircraftSpeedValue, state.speedUnit);
+        const newFlightroute = state.flightroute.clone();
+        newFlightroute.aircraft = newAircraft;
+        return {
+            ...state,
+            flightroute: newFlightroute
+        };
+    }),
+    on(FlightRouteParameterActions.updateAircraftConsumption, (state, action) => {
+        const newAircraft = state.flightroute.aircraft.clone();
+        newAircraft.consumption = new Consumption(action.aircraftConsumptionValue, state.consumptionUnit);
+        const newFlightroute = state.flightroute.clone();
+        newFlightroute.aircraft = newAircraft;
+        FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
+        return {
+            ...state,
+            flightroute: newFlightroute
+        };
+    }),
+    on(FlightRouteActions.recalculated, (state, action) => ({
+        ...state,
+        flightroute: action.newFlightroute
+    })),
+    // TODO: user logout => route list = []
+);

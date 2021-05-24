@@ -5,9 +5,9 @@ import {OlRouteLine, RouteLineModification} from './ol-route-line';
 import {OlWaypoint} from './ol-waypoint';
 import {OlAlternateLine} from './ol-alternate-line';
 import {Waypoint} from '../domain-model/waypoint';
-import {RouteLineModifiedAction} from '../ngrx/flightroute.actions';
 import {Store} from '@ngrx/store';
 import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
+import {WaypointActions} from '../ngrx/waypoints.actions';
 
 
 export class OlFlightrouteContainer {
@@ -74,10 +74,12 @@ export class OlFlightrouteContainer {
 
 
     private emitRouteLineModifiedAction(routeLineMod: RouteLineModification) {
-        this.store.dispatch(new RouteLineModifiedAction(
-            routeLineMod.index,
-            routeLineMod.isNewWp,
-            routeLineMod.newPos
-        ));
+        this.store.dispatch(
+            WaypointActions.modifyRoute({
+                index: routeLineMod.index,
+                isNewWaypoint: routeLineMod.isNewWp,
+                newPosition: routeLineMod.newPos
+            })
+        );
     }
 }

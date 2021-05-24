@@ -1,18 +1,10 @@
-import {Action} from '@ngrx/store';
+import {createAction, props} from '@ngrx/store';
 import {Message} from '../domain-model/message';
 
 
-export enum MessageActionTypes {
-    MESSAGE_SHOW = '[MessageService] Show message',
+export class MessageActions {
+    public static readonly showMessage = createAction(
+        '[Misc] Show message',
+        props<{ message: Message }>()
+    );
 }
-
-
-export class ShowMessageAction implements Action {
-    readonly type = MessageActionTypes.MESSAGE_SHOW;
-
-    constructor(public message: Message) {}
-}
-
-
-export type MessageActions =
-    ShowMessageAction;

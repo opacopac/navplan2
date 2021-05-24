@@ -8,24 +8,16 @@ import {getFlightroute} from '../../ngrx/flightroute.selectors';
 import {getCurrentUser} from '../../../user/ngrx/user.selectors';
 import {Flightroute} from '../../domain-model/flightroute';
 import {User} from '../../../user/domain-model/user';
-import {
-    DeleteWaypointAction,
-    FlightrouteCreateAction,
-    FlightrouteDuplicateAction,
-    FlightrouteReadListAction,
-    FlightrouteUpdateAction,
-    ReverseWaypointsAction,
-    UpdateAircraftSpeedAction,
-    UpdateFlightrouteCommentsAction,
-    UpdateFlightrouteTitleAction,
-    UpdateWaypointAction,
-} from '../../ngrx/flightroute.actions';
 import {Waypoint} from '../../domain-model/waypoint';
 import {Speed} from '../../../common/geo-math/domain-model/quantities/speed';
 import {Consumption} from '../../../common/geo-math/domain-model/quantities/consumption';
 import {ConsumptionUnit, SpeedUnit} from '../../../common/geo-math/domain-model/quantities/units';
 import {FlightrouteListDialogComponent} from '../flightroute-list-dialog/flightroute-list-dialog.component';
 import {EditWaypointDialogComponent} from '../edit-waypoint-dialog/edit-waypoint-dialog.component';
+import {FlightRouteListActions} from '../../ngrx/flight-route-list.actions';
+import {FlightRouteActions} from '../../ngrx/flight-route.actions';
+import {FlightRouteParameterActions} from '../../ngrx/flight-route-parameter.actions';
+import {WaypointActions} from '../../ngrx/waypoints.actions';
 
 
 @Component({
@@ -70,7 +62,7 @@ export class FlightrouteContainerComponent implements OnInit, OnDestroy {
 
 
     ngOnInit() {
-        this.appStore.dispatch(new FlightrouteReadListAction());
+        this.appStore.dispatch(FlightRouteListActions.readList());
 
         this.initSubscriptions();
     }
@@ -87,20 +79,12 @@ export class FlightrouteContainerComponent implements OnInit, OnDestroy {
 
 
     public onSaveFlightrouteClick() {
-        if (this.loadedFlightrouteId > 0) {
-            this.appStore.dispatch(
-                new FlightrouteUpdateAction()
-            );
-        } else {
-            this.appStore.dispatch(
-                new FlightrouteCreateAction()
-            );
-        }
+        this.appStore.dispatch(FlightRouteActions.save());
     }
 
 
     public onSaveFlightrouteCopyClick() {
-        this.appStore.dispatch(new FlightrouteDuplicateAction(this.loadedFlightrouteId));
+        this.appStore.dispatch(FlightRouteActions.saveDuplicate());
     }
 
 
@@ -113,19 +97,24 @@ export class FlightrouteContainerComponent implements OnInit, OnDestroy {
 
         dialogRef.afterClosed().subscribe((oldNewWp) => {
             if (oldNewWp) {
-                this.appStore.dispatch(new UpdateWaypointAction(oldNewWp[0], oldNewWp[1]));
+                this.appStore.dispatch(WaypointActions.update({
+                    oldWp: oldNewWp[0],
+                    newWp: oldNewWp[1]
+                }));
             }
         });
     }
 
 
     public onRemoveWaypointClick(waypoint: Waypoint) {
-        this.appStore.dispatch(new DeleteWaypointAction(waypoint));
+        this.appStore.dispatch(WaypointActions.delete({
+            waypoint: waypoint
+        }));
     }
 
 
     public onReverseWaypointsClick() {
-        this.appStore.dispatch(new ReverseWaypointsAction());
+        this.appStore.dispatch(WaypointActions.reverse());
     }
 
 
@@ -182,19 +171,25 @@ export class FlightrouteContainerComponent implements OnInit, OnDestroy {
         this.routeName$ = new Subject<string>();
         this.routeNameSubscription = this.routeName$
             .pipe(debounceTime(500))
-            .subscribe(name => this.appStore.dispatch(new UpdateFlightrouteTitleAction(name)));
+            .subscribe(name => this.appStore.dispatch(
+                FlightRouteParameterActions.updateTitle({ title:  name })
+            ));
 
         // handle route comment inputs
         this.routeComments$ = new Subject<string>();
         this.routeCommentsSubscription = this.routeComments$
             .pipe(debounceTime(500))
-            .subscribe(comments => this.appStore.dispatch(new UpdateFlightrouteCommentsAction(comments)));
+            .subscribe(comments => this.appStore.dispatch(
+                FlightRouteParameterActions.updateComments({ comments: comments })
+            ));
 
         // handle aircraft speed inputs
         this.aircraftSpeed$ = new Subject<number>();
         this.aircraftSpeedSubscription = this.aircraftSpeed$
             .pipe(debounceTime(500))
-            .subscribe(speed => this.appStore.dispatch(new UpdateAircraftSpeedAction(speed)));
+            .subscribe(speed => this.appStore.dispatch(
+                FlightRouteParameterActions.updateAircraftSpeed({ aircraftSpeedValue: speed })
+            ));
     }
 
 

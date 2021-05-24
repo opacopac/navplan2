@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {MessageType} from '../domain-model/message-type';
-import {ShowMessageAction} from '../ngrx/message.actions';
+import {MessageActions} from '../ngrx/message.actions';
 import {Message} from '../domain-model/message';
 
 
@@ -27,6 +27,6 @@ export class MessageService {
 
 
     private showMessage(type: MessageType, message: string): void {
-        this.appStore.dispatch(new ShowMessageAction(new Message(type, message)));
+        this.appStore.dispatch(MessageActions.showMessage({ message: new Message(type, message) }));
     }
 }

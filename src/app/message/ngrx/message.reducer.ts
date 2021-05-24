@@ -1,18 +1,17 @@
-import {MessageState} from './message-state';
-import {MessageActions, MessageActionTypes} from './message.actions';
+import {MessageState} from '../domain-model/message-state';
+import {MessageActions} from './message.actions';
+import {createReducer, on} from '@ngrx/store';
 
 
-const initialMessageState: MessageState = {
+const initialState: MessageState = {
     currentMessage: undefined
 };
 
 
-export function messageReducer(state: MessageState = initialMessageState, action: MessageActions) {
-    switch (action.type) {
-        case MessageActionTypes.MESSAGE_SHOW:
-            return { ...state, currentMessage: action.message };
-
-        default:
-            return state;
-    }
-}
+export const messageReducer = createReducer(
+    initialState,
+    on(MessageActions.showMessage, (state, action) => ({
+        ...state,
+        currentMessage: action.message
+    })),
+);

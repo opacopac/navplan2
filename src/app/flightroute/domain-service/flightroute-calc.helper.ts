@@ -20,6 +20,7 @@ import {Length} from '../../common/geo-math/domain-model/quantities/length';
 
 export class FlightrouteCalcHelper {
     public static calcFlightRoute(flightroute: Flightroute, lengthUnit: LengthUnit = LengthUnit.NM): Flightroute {
+        debugger;
         if (!flightroute) {
             return;
         }

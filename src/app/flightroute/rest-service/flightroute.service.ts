@@ -58,20 +58,13 @@ export class FlightrouteService {
     }
 
 
-    public createFlightroute(flightroute: Flightroute, user: User): Observable<Flightroute> {
-        // return $http.post(navplanBaseUrl, obj2json({ globalData: globalData }));
+    public saveFlightroute(flightroute: Flightroute, user: User): Observable<Flightroute> {
         return of(undefined);
     }
 
 
     public duplicateFlightroute(flightroute: Flightroute, user: User): Observable<Flightroute> {
         // return $http.post(navplanBaseUrl, obj2json({ globalData: globalData }));
-        return of(undefined);
-    }
-
-
-    public updateFlightroute(flightroute: Flightroute, user: User): Observable<Flightroute> {
-        // return $http.put(navplanBaseUrl, obj2json({ globalData: globalData }));
         return of(undefined);
     }
 

@@ -12,16 +12,16 @@ import {FlightrouteContainerComponent} from './ng-components/flightroute-contain
 import {FuelCalcTableComponent} from './ng-components/fuel-calc-table/fuel-calc-table.component';
 import {WaypointListComponent} from './ng-components/waypoint-list/waypoint-list.component';
 import {FlightrouteExportButtonsComponent} from './ng-components/flightroute-export-buttons/flightroute-export-buttons.component';
-import {flightrouteReducer} from './ngrx/flightroute.reducer';
-import {FlightrouteEffects} from './ngrx/flightroute.effects';
+import {FlightRouteEffects} from './ngrx/flight-route.effects';
 import {BaseMapModule} from '../base-map/base-map.module';
 import {FuelCalcContainerComponent} from './ng-components/fuel-calc-container/fuel-calc-container.component';
 import {FlightroutePageComponent} from './ng-components/flightroute-page/flightroute-page.component';
 import {FlightrouteListDialogComponent} from './ng-components/flightroute-list-dialog/flightroute-list-dialog.component';
 import {FlightrouteListComponent} from './ng-components/flightroute-list/flightroute-list.component';
 import {SharedFlightrouteEffects} from './ngrx/shared-flightroute.effects';
-import {FlightrouteListEffects} from './ngrx/flightroute-list.effects';
+import {FlightRouteListEffects} from './ngrx/flight-route-list-effects.service';
 import {WaypointEffects} from './ngrx/waypoint.effects';
+import {flightRouteReducer} from './ngrx/flightroute.reducer';
 
 
 @NgModule({
@@ -29,10 +29,10 @@ import {WaypointEffects} from './ngrx/waypoint.effects';
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        StoreModule.forFeature('flightrouteState', flightrouteReducer),
+        StoreModule.forFeature('flightrouteState', flightRouteReducer),
         EffectsModule.forFeature([
-            FlightrouteListEffects,
-            FlightrouteEffects,
+            FlightRouteListEffects,
+            FlightRouteEffects,
             SharedFlightrouteEffects,
             WaypointEffects
         ]),

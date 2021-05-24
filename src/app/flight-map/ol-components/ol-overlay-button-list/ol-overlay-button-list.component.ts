@@ -2,15 +2,11 @@ import {Component, Input, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {
-    DeleteWaypointAction,
-    InsertWaypointAction,
-    SetAlternateAction
-} from '../../../flightroute/ngrx/flightroute.actions';
 import {getFlightroute} from '../../../flightroute/ngrx/flightroute.selectors';
 import {Flightroute} from '../../../flightroute/domain-model/flightroute';
 import {Waypoint} from '../../../flightroute/domain-model/waypoint';
 import {FlightMapActions} from '../../ngrx/flight-map.actions';
+import {WaypointActions} from '../../../flightroute/ngrx/waypoints.actions';
 
 
 @Component({
@@ -47,19 +43,26 @@ export class OlOverlayButtonListComponent implements OnInit {
 
     public onInsertWaypointAt(wpIdx: [Waypoint, number]) {
         this.appStore.dispatch(FlightMapActions.closeAllOverlays());
-        this.appStore.dispatch(new InsertWaypointAction(wpIdx[0], wpIdx[1]));
+        this.appStore.dispatch(WaypointActions.insert({
+            newWaypoint: wpIdx[0],
+            index: wpIdx[1]
+        }));
     }
 
 
     public onDeleteWaypoint(waypoint: Waypoint) {
         this.appStore.dispatch(FlightMapActions.closeAllOverlays());
-        this.appStore.dispatch(new DeleteWaypointAction(waypoint));
+        this.appStore.dispatch(WaypointActions.delete({
+            waypoint: waypoint
+        }));
     }
 
 
     public onSetAlternate(waypoint: Waypoint) {
         this.appStore.dispatch(FlightMapActions.closeAllOverlays());
-        this.appStore.dispatch(new SetAlternateAction(waypoint));
+        this.appStore.dispatch(WaypointActions.setAlternate({
+            alternate: waypoint
+        }));
     }
 
 

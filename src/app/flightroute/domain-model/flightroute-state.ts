@@ -1,5 +1,5 @@
-import {FlightrouteListEntry} from '../domain-model/flightroute-list-entry';
-import {Flightroute} from '../domain-model/flightroute';
+import {FlightrouteListEntry} from './flightroute-list-entry';
+import {Flightroute} from './flightroute';
 import {ConsumptionUnit, LengthUnit, SpeedUnit, VolumeUnit} from '../../common/geo-math/domain-model/quantities/units';
 
 
