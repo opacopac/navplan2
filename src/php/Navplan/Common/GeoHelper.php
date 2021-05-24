@@ -30,8 +30,7 @@ class GeoHelper {
     }
 
 
-    public static function simplifyPolygon(array $polygonPoints, float $epsilon): array
-    {
+    public static function simplifyPolygon(array $polygonPoints, float $epsilon): array {
         $numPoints = count($polygonPoints);
         if ($numPoints <= 3) {
             return $polygonPoints;
@@ -56,8 +55,7 @@ class GeoHelper {
     }
 
 
-    public static function simplifyMultipolygon(array $polygonList, float $epsilon): array
-    {
+    public static function simplifyMultipolygon(array $polygonList, float $epsilon): array {
         $simplePolygonList = [];
         foreach ($polygonList as $polygon) {
             $simplePolygonList[] = self::simplifyPolygon($polygon, $epsilon);
@@ -66,8 +64,7 @@ class GeoHelper {
     }
 
 
-    public static function simplifyLine(array $linePoints, float $epsilon): array
-    {
+    public static function simplifyLine(array $linePoints, float $epsilon): array {
         $numPoints = count($linePoints);
         if ($numPoints <= 2) {
             return $linePoints;
@@ -93,8 +90,7 @@ class GeoHelper {
     }
 
 
-    public static function calcPseudoDistance(array $pointA, array $pointB): float
-    {
+    public static function calcPseudoDistance(array $pointA, array $pointB): float {
         return sqrt(pow($pointB[0] - $pointA[0], 2) + pow($pointB[1] - $pointA[1], 2));
     }
 
@@ -118,14 +114,12 @@ class GeoHelper {
     }
 
 
-    public static function calcDegPerPixelByZoom(int $zoom, int $tileWidthPixel = 256): float
-    {
+    public static function calcDegPerPixelByZoom(int $zoom, int $tileWidthPixel = 256): float {
         return 360.0 / (pow(2, $zoom) * $tileWidthPixel);
     }
 
 
-    public static function calcGeoHash(float $longitude, float $latitude, int $maxZoomLevel): string
-    {
+    public static function calcGeoHash(float $longitude, float $latitude, int $maxZoomLevel): string {
         $minLon = -180.0;
         $minLat = -90.0;
         $maxLon = 180.0;
@@ -161,8 +155,7 @@ class GeoHelper {
     }
 
 
-    public static function parsePolygonFromString(string $polygonString, int $roundToDigits = 6, string $pointDelimiter = ",", string $xyDelimiter = " "): array
-    {
+    public static function parsePolygonFromString(string $polygonString, int $roundToDigits = 6, string $pointDelimiter = ",", string $xyDelimiter = " "): array {
         $polygon = [];
         $coord_pairs = explode($pointDelimiter, $polygonString);
 
@@ -177,8 +170,7 @@ class GeoHelper {
     }
 
 
-    public static function joinPolygonToString(array $polygon, string $pointDelimiter = ",", string $xyDelimiter = " "): string
-    {
+    public static function joinPolygonToString(array $polygon, string $pointDelimiter = ",", string $xyDelimiter = " "): string {
         $coordPairStrings = [];
         foreach ($polygon as $coordPair) {
             $coordPairStrings[] = join($xyDelimiter, $coordPair);
@@ -188,27 +180,53 @@ class GeoHelper {
     }
 
 
-    public static function reduceCoordinateAccuracy(&$coordPair, int $roundToDigits = 6)
-    {
+    public static function reduceCoordinateAccuracy(&$coordPair, int $roundToDigits = 6) {
         $coordPair[0] = round($coordPair[0], $roundToDigits);
         $coordPair[1] = round($coordPair[1], $roundToDigits);
     }
 
 
-    public static function reducePolygonAccuracy(&$polygon, int $roundToDigits = 6)
-    {
+    public static function reducePolygonAccuracy(&$polygon, int $roundToDigits = 6) {
         foreach ($polygon as &$coordPair) {
             self::reduceCoordinateAccuracy($coordPair, $roundToDigits);
         }
     }
 
 
-    public static function reduceMultiPolygonAccuracy(&$multiPolygon, int $roundToDigits = 6)
-    {
+    public static function reduceMultiPolygonAccuracy(&$multiPolygon, int $roundToDigits = 6) {
         foreach ($multiPolygon as &$polygon) {
             foreach ($polygon as &$coordPair) {
                 self::reduceCoordinateAccuracy($coordPair, $roundToDigits);
             }
         }
+    }
+
+
+    public static function moveBearDist($lat, $lon, $brngDeg, $distM) {
+        $lat1 = deg2rad($lat);
+        $lon1 = deg2rad($lon);
+        $distNm = $distM / 1000.0 / 1.852;
+        $angDist = ($distNm * 1.852) / 6378.1;
+
+        $lat2 = asin(sin($lat1) * cos($angDist) + cos($lat1) * sin($angDist) * cos(deg2rad($brngDeg)));
+        $lon2 = $lon1 + atan2(sin(deg2rad($brngDeg)) * sin($angDist) * cos($lat1), cos($angDist) - sin($lat1) * sin($lat2));
+
+        return array(rad2deg($lon2), rad2deg($lat2));
+    }
+
+
+    public static function getCircleExtent($lat, $lon, $radiusM) {
+        $dlat = (self::moveBearDist($lat, $lon, 0, $radiusM)[1] - $lat);
+        $dlon = (self::moveBearDist($lat, $lon, 90, $radiusM)[0] - $lon);
+
+        $extent = [
+            [$lon - $dlon, $lat - $dlat],
+            [$lon - $dlon, $lat + $dlat],
+            [$lon + $dlon, $lat + $dlat],
+            [$lon + $dlon, $lat - $dlat],
+            [$lon - $dlon, $lat - $dlat]
+        ];
+
+        return $extent;
     }
 }

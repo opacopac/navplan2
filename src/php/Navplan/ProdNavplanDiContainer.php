@@ -131,7 +131,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     ITerrainDiContainer, ITrafficServiceDiContainer, IUserServiceDiContainer, IAirportServiceDiContainer,
     IAirspaceServiceDiContainer, INavaidServiceDiContainer, IWebcamServiceDiContainer {
     // const
-    private const LOG_LEVEL = LogLevel::DEBUG;
+    private const LOG_LEVEL = LogLevel::INFO;
     private const LOG_DIR = __DIR__ . "/../../logs/";
     private const LOG_FILE = self::LOG_DIR . "navplan.log";
     private const LOG_FILE_OGN_LISTENER = self::LOG_DIR . "ogn_listener.log";
@@ -209,13 +209,6 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
 
 
     public function __construct() {
-    }
-
-
-    public function __destruct() {
-        if (isset($this->dbService) && $this->dbService->isOpen()) {
-            $this->dbService->closeDb();
-        }
     }
 
 

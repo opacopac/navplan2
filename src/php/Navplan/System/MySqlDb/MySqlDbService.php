@@ -12,12 +12,11 @@ use Navplan\System\DomainService\IDbService;
 class MySqlDbService implements IDbService {
     private static $instance = NULL;
 
-    private $db_host;
-    private $db_user;
-    private $db_pw;
-    private $db_name;
-    /* @var $connection mysqli */
-    private $connection;
+    private string $db_host;
+    private string $db_user;
+    private string $db_pw;
+    private string $db_name;
+    private ?mysqli $connection = NULL;
 
 
     public static function getInstance(): MySqlDbService {
@@ -30,6 +29,13 @@ class MySqlDbService implements IDbService {
 
 
     private function __construct() {
+    }
+
+
+    public function __destruct() {
+        if ($this->isOpen()) {
+            $this->closeDb();
+        }
     }
 
 

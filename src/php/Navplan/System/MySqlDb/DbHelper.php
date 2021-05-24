@@ -2,7 +2,6 @@
 
 namespace Navplan\System\MySqlDb;
 
-use InvalidArgumentException;
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\System\DomainService\IDbService;
 
@@ -47,9 +46,9 @@ class DbHelper {
 
 
     public static function getDbUtcTimeString(int $timestampSec): string {
-        if ($timestampSec < -2147483648 || $timestampSec > 2147483647) {
+        /*if ($timestampSec < -2147483648 || $timestampSec > 2147483647) {
             throw new InvalidArgumentException('unix timestamp [s] is not in correct range');
-        }
+        }*/
 
         return gmdate("Y-m-d H:i:s", $timestampSec);
     }
