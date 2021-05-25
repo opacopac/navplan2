@@ -9,8 +9,9 @@ import {Geoname} from '../../../geoname/domain-model/geoname';
 import {ReportingPoint} from '../../../aerodrome/domain-model/reporting-point';
 import {ReportingSector} from '../../../aerodrome/domain-model/reporting-sector';
 import {UserPoint} from '../../../user/domain-model/user-point';
-import {OlOverlayWaypointBase} from '../../ol-components/ol-overlay-waypoint-base';
 import {Notam} from '../../../notam/domain-model/notam';
+import {Waypoint} from '../../../flightroute/domain-model/waypoint';
+import {OlOverlayBase} from '../../../base-map/ng-components/ol-overlay-base';
 
 
 @Component({
@@ -18,10 +19,11 @@ import {Notam} from '../../../notam/domain-model/notam';
     templateUrl: './ol-map-overlay.component.html',
     styleUrls: ['./ol-map-overlay.component.css']
 })
-export class OlMapOverlayComponent extends OlOverlayWaypointBase {
+export class OlMapOverlayComponent extends OlOverlayBase {
     @ViewChild('container') container: ElementRef;
     public position: Position2d;
     public dataItem: DataItem;
+    public waypoint: Waypoint;
     public metarTaf: MetarTaf;
     public notams: Notam[];
     public selectedTabIndex = 0;

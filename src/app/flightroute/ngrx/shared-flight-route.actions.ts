@@ -7,8 +7,8 @@ export class SharedFlightRouteActions {
         '[Flightroute Page] Read shared flightroute',
         props<{ shareId: string }>()
     );
-    public static readonly readSuccess = createAction(
-        '[FlightrouteEffects] Read shared flightroute success',
+    public static readonly show = createAction(
+        '[FlightrouteEffects] Show shared flightroute',
         props<{ flightroute: Flightroute }>()
     );
     public static readonly save = createAction(

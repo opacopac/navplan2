@@ -28,7 +28,7 @@ export class SharedFlightrouteEffects {
         ofType(SharedFlightRouteActions.read),
         filter(action => action.shareId !== undefined),
         switchMap(action => this.flightrouteService.readSharedFlightroute(action.shareId).pipe(
-            map(route => SharedFlightRouteActions.readSuccess({ flightroute: route })),
+            map(route => SharedFlightRouteActions.show({ flightroute: route })),
             catchError(error => of(MessageActions.showMessage({
                 message: Message.error('Error reading shared flight route:', error)
             })))

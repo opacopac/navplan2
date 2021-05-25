@@ -170,7 +170,6 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
             [
                 chartCloserLayer,
                 circuitLayer,
-                flightrouteLayer,
                 airspaceLayer,
                 notamLayer,
                 reportingSectorLayer,
@@ -178,8 +177,9 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
                 userPointLayer,
                 reportingPointLayer,
                 navaidLayer,
-                metarTafLayer,
                 airportLayer,
+                metarTafLayer,
+                flightrouteLayer,
                 trackLayer,
                 pointSearchLayer,
                 trafficLayer,
@@ -280,6 +280,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         this.closeAllOverlays();
 
         this.mapOverlayComponent.setDataItem(overlayState.dataItem, overlayState.clickPos);
+        this.mapOverlayComponent.waypoint = overlayState.waypoint;
         this.mapOverlayComponent.metarTaf = overlayState.metarTaf;
         this.mapOverlayComponent.notams = overlayState.notams;
         this.mapOverlayComponent.openTab(overlayState.tabIndex);

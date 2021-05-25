@@ -17,6 +17,9 @@ import {FlightRouteListActions} from './flight-route-list.actions';
 import {FlightRouteActions} from './flight-route.actions';
 import {SharedFlightRouteActions} from './shared-flight-route.actions';
 import {FlightRouteParameterActions} from './flight-route-parameter.actions';
+import {WaypointActions} from './waypoints.actions';
+import {ArrayHelper} from '../../system/domain-service/array/array-helper';
+import {WaypointConverter} from '../domain-model/converter/waypoint-converter';
 
 
 const initialState: FlightrouteState = {
@@ -42,14 +45,15 @@ const initialState: FlightrouteState = {
 };
 
 
-
 export const flightRouteReducer = createReducer(
     initialState,
-    on(FlightRouteListActions.readListSuccess, (state, action) => ({
+
+    // FlightRouteListActions
+    on(FlightRouteListActions.showList, (state, action) => ({
         ...state,
         flightrouteList: action.flightrouteList
     })),
-    on(FlightRouteActions.readSuccess, (state, action) => {
+    on(FlightRouteActions.show, (state, action) => {
         const newFlightroute = action.flightroute.clone();
         FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
         return {
@@ -57,14 +61,8 @@ export const flightRouteReducer = createReducer(
             flightroute: newFlightroute
         };
     }),
-    on(FlightRouteActions.saveSuccess, (state, action) => ({
-        ...state,
-        flightroute: action.flightroute
-    })),
-    on(SharedFlightRouteActions.readSuccess, (state, action) => ({
-        ...state,
-        flightroute: action.flightroute
-    })),
+
+    // SharedFlightRouteActions
     on(SharedFlightRouteActions.saveSuccess, (state, action) => ({
         ...state,
         showShareId: action.shareId
@@ -73,6 +71,8 @@ export const flightRouteReducer = createReducer(
         ...state,
         showShareId: undefined
     })),
+
+    // FlightRouteParameterActions
     on(FlightRouteParameterActions.updateComments, (state, action) => {
         const newFlightroute = state.flightroute.clone();
         newFlightroute.comments = action.comments;
@@ -95,6 +95,7 @@ export const flightRouteReducer = createReducer(
         newAircraft.speed = new Speed(action.aircraftSpeedValue, state.speedUnit);
         const newFlightroute = state.flightroute.clone();
         newFlightroute.aircraft = newAircraft;
+        FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
         return {
             ...state,
             flightroute: newFlightroute
@@ -111,9 +112,78 @@ export const flightRouteReducer = createReducer(
             flightroute: newFlightroute
         };
     }),
-    on(FlightRouteActions.recalculated, (state, action) => ({
-        ...state,
-        flightroute: action.newFlightroute
-    })),
+
+    // WaypointActions
+    on(WaypointActions.insert, (state, action) => {
+        const newFlightroute = state.flightroute.clone();
+        ArrayHelper.insertAt(newFlightroute.waypoints, action.index, action.newWaypoint.clone());
+        FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
+        return {
+            ...state,
+            flightroute: newFlightroute
+        };
+    }),
+    on(WaypointActions.update, (state, action) => {
+        const newFlightroute = state.flightroute.clone();
+        const wpIndex = newFlightroute.waypoints.indexOf(action.oldWp);
+        newFlightroute.waypoints[wpIndex] = action.newWp.clone();
+        FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
+        return {
+            ...state,
+            flightroute: newFlightroute
+        };
+    }),
+    on(WaypointActions.replace, (state, action) => {
+        const newFlightroute = state.flightroute.clone();
+        newFlightroute.waypoints[action.index] = action.newWaypoint.clone();
+        FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
+        return {
+            ...state,
+            flightroute: newFlightroute
+        };
+    }),
+    on(WaypointActions.delete, (state, action) => {
+        const newFlightroute = state.flightroute.clone();
+        const idx = newFlightroute.getWaypointIndex(action.waypoint);
+        ArrayHelper.removeAt(newFlightroute.waypoints, idx);
+        FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
+        return {
+            ...state,
+            flightroute: newFlightroute
+        };
+    }),
+    on(WaypointActions.reverse, (state, action) => {
+        const newFlightroute = state.flightroute.clone();
+        newFlightroute.waypoints.reverse();
+        FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
+        return {
+            ...state,
+            flightroute: newFlightroute
+        };
+    }),
+    on(WaypointActions.setAlternate, (state, action) => {
+        const newFlightroute = state.flightroute.clone();
+        newFlightroute.alternate = action.alternate.clone();
+        FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
+        return {
+            ...state,
+            flightroute: newFlightroute
+        };
+    }),
+    on(WaypointActions.modifyRoute, (state, action) => {
+        const newFlightroute = state.flightroute.clone();
+        const dataItem = undefined; // TODO: items.findDataItemByPos(action.newPosition)
+        const wp = WaypointConverter.createWaypointFromDataItem(dataItem, action.newPosition.clone());
+        if (action.isNewWaypoint) {
+            ArrayHelper.insertAt(newFlightroute.waypoints, action.index, wp);
+        } else {
+            newFlightroute.waypoints[action.index] = wp;
+        }
+        FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
+        return {
+            ...state,
+            flightroute: newFlightroute
+        };
+    }),
     // TODO: user logout => route list = []
 );

@@ -4,10 +4,10 @@ import {FlightrouteListEntry} from '../domain-model/flightroute-list-entry';
 
 export class FlightRouteListActions {
     public static readonly readList = createAction(
-        '[Flightroute] Read flightroute list'
+        '[FlightRoutePage] Read flight route list'
     );
-    public static readonly readListSuccess = createAction(
-        '[FlightrouteService] Read flightroute list success',
+    public static readonly showList = createAction(
+        '[FlightRouteListEffects] Show flight route list',
         props<{ flightrouteList: FlightrouteListEntry[] }>()
     );
 }

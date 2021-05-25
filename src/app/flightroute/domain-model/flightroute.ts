@@ -20,20 +20,18 @@ export class Flightroute implements Clonable<Flightroute> {
         public aircraft: Aircraft,
         public waypoints: Waypoint[],
         public alternate: Waypoint,
-        public extraTime: Time) {
+        public extraTime: Time
+    ) {
     }
 
 
     public clone(): Flightroute {
-        const newWaypoints: Waypoint[] = [];
-        this.waypoints.forEach(wp => newWaypoints.push(wp.clone()));
-
         return new Flightroute(
             this.id,
             this.title,
             this.comments,
             this.aircraft ? this.aircraft.clone() : undefined,
-            newWaypoints,
+            this.waypoints.map(wp => wp.clone()),
             this.alternate ? this.alternate.clone() : undefined,
             this.extraTime ? this.extraTime.clone() : undefined
         );

@@ -1,71 +1,69 @@
-import {WaypointBase} from './waypoint-base';
-import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import {Airport} from '../../../aerodrome/domain-model/airport';
 import {WaypointType} from '../waypoint-type';
 import {AirportRadio} from '../../../aerodrome/domain-model/airport-radio';
+import {Waypoint} from '../waypoint';
+import {WaypointAltitude} from '../waypoint-altitude';
 
 
-export class WaypointAirport extends WaypointBase {
-    constructor(public airport: Airport) {
-        super();
+export class AirportWaypointConverter {
+    public static convert(airport: Airport): Waypoint {
+        return new Waypoint(
+            WaypointType.airport,
+            AirportWaypointConverter.getFrequency(airport),
+            AirportWaypointConverter.getCallsign(airport),
+            AirportWaypointConverter.getCheckpoint(airport),
+            '',
+            AirportWaypointConverter.getSuppInfo(airport),
+            airport.position,
+            new WaypointAltitude()
+        );
     }
 
-
-    public getType(): WaypointType {
-        return WaypointType.airport;
-    }
-
-
-    public getPosition(): Position2d {
-        return this.airport.position;
-    }
-
-
-    public getFrequency(): string {
-        if (this.airport.radios.length > 0) {
-            return this.airport.radios[0].frequency; // TODO: format?
+    private static getFrequency(airport: Airport): string {
+        if (airport.radios.length > 0) {
+            return airport.radios[0].frequency; // TODO: format?
         } else {
             return '';
         }
     }
 
 
-    public getCallsign(): string {
-        if (this.airport.radios.length === 0) {
+    private static getCallsign(airport: Airport): string {
+        if (airport.radios.length === 0) {
             return '';
         } else {
-            return this.getRadioCallsign(this.airport.radios[0]);
+            return AirportWaypointConverter.getRadioCallsign(airport, airport.radios[0]);
         }
 
     }
 
 
-    public getCheckpoint(): string {
-        if (this.airport.icao) {
-            return this.airport.icao;
+    private static getCheckpoint(airport: Airport): string {
+        if (airport.icao) {
+            return airport.icao;
         } else {
-            return this.airport.name;
+            return airport.name;
         }
     }
 
 
-    public getSuppInfo(): string {
+    private static getSuppInfo(airport: Airport): string {
         let i: number;
         const suppInfoPart: string[] = [];
 
         // altitude
-        if (this.airport.elevation) {
-            const elevString = Math.round(this.airport.elevation.ft) + 'ft';
+        if (airport.elevation) {
+            const elevString = Math.round(airport.elevation.ft) + 'ft';
             suppInfoPart.push('ELEV:' + elevString);
         }
 
         // runways
-        if (this.airport.runways && this.airport.runways.length > 0) {
+        if (airport.runways && airport.runways.length > 0) {
             const runwayStringList: string[] = [];
-            for (i = 0; i < this.airport.runways.length; i++) {
-                const rwy = this.airport.runways[i];
+            for (i = 0; i < airport.runways.length; i++) {
+                const rwy = airport.runways[i];
                 // skip GLD strip unless it's the only rwy
-                if (rwy.name.toString().indexOf('GLD') === -1 || this.airport.runways.length === 1) {
+                if (rwy.name.toString().indexOf('GLD') === -1 || airport.runways.length === 1) {
                     runwayStringList.push(rwy.name);
                 }
             }
@@ -73,14 +71,14 @@ export class WaypointAirport extends WaypointBase {
         }
 
         // frequencies
-        if (this.airport.radios && this.airport.radios.length > 0) {
+        if (airport.radios && airport.radios.length > 0) {
             const radioStringList: string[] = [];
-            for (i = 0; i < this.airport.radios.length; i++) {
-                const radio = this.airport.radios[i];
-                const callsign = this.getRadioCallsign(radio);
+            for (i = 0; i < airport.radios.length; i++) {
+                const radio = airport.radios[i];
+                const callsign = AirportWaypointConverter.getRadioCallsign(airport, radio);
                 // skip GLD, FIS, VDF freq unless it's the only frequency
                 if ((radio.type !== 'GLIDING' && radio.type !== 'INFO' && radio.type !== 'FIS' && callsign !== 'VDF')
-                    || this.airport.radios.length === 1) {
+                    || airport.radios.length === 1) {
                     radioStringList.push(callsign + ':' + radio.frequency);
                 }
             }
@@ -92,8 +90,7 @@ export class WaypointAirport extends WaypointBase {
     }
 
 
-
-    private getRadioCallsign(radio: AirportRadio): string {
+    private static getRadioCallsign(airport: Airport, radio: AirportRadio): string {
         switch (radio.type) {
             case 'TOWER' : return 'TWR';
             case 'APPROACH' : return 'APP';
@@ -103,7 +100,7 @@ export class WaypointAirport extends WaypointBase {
             case 'GROUND' : return 'GND';
             case 'CTAF' :
                 // spezialregel nur für country = CH
-                if (this.airport.country === 'CH') {
+                if (airport.country === 'CH') {
                     return 'AD';
                 } else {
                     return 'CTAF';

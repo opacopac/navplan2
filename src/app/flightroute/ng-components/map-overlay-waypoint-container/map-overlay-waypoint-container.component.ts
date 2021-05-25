@@ -2,19 +2,18 @@ import {Component, Input, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {getFlightroute} from '../../../flightroute/ngrx/flightroute.selectors';
-import {Flightroute} from '../../../flightroute/domain-model/flightroute';
-import {Waypoint} from '../../../flightroute/domain-model/waypoint';
-import {FlightMapActions} from '../../ngrx/flight-map.actions';
-import {WaypointActions} from '../../../flightroute/ngrx/waypoints.actions';
+import {getFlightroute} from '../../ngrx/flightroute.selectors';
+import {Flightroute} from '../../domain-model/flightroute';
+import {Waypoint} from '../../domain-model/waypoint';
+import {WaypointActions} from '../../ngrx/waypoints.actions';
 
 
 @Component({
-    selector: 'app-ol-overlay-button-list',
-    templateUrl: './ol-overlay-button-list.component.html',
-    styleUrls: ['./ol-overlay-button-list.component.css']
+    selector: 'app-map-overlay-waypoint-container',
+    templateUrl: './map-overlay-waypoint-container.component.html',
+    styleUrls: ['./map-overlay-waypoint-container.component.css']
 })
-export class OlOverlayButtonListComponent implements OnInit {
+export class MapOverlayWaypointContainerComponent implements OnInit {
     public readonly flightroute$: Observable<Flightroute>;
     public readonly isWaypointInFlightroute$: Observable<boolean>;
     public readonly isAlternateWaypoint$: Observable<boolean>;
@@ -23,7 +22,8 @@ export class OlOverlayButtonListComponent implements OnInit {
 
 
     public constructor(
-        private appStore: Store<any>) {
+        private appStore: Store<any>
+    ) {
         this.flightroute$ = this.appStore.pipe(select(getFlightroute));
         this.isWaypointInFlightroute$ = this.flightroute$.pipe(
             map(route => route.containsWaypoint(this.waypoint))
@@ -42,7 +42,6 @@ export class OlOverlayButtonListComponent implements OnInit {
 
 
     public onInsertWaypointAt(wpIdx: [Waypoint, number]) {
-        this.appStore.dispatch(FlightMapActions.closeAllOverlays());
         this.appStore.dispatch(WaypointActions.insert({
             newWaypoint: wpIdx[0],
             index: wpIdx[1]
@@ -51,7 +50,6 @@ export class OlOverlayButtonListComponent implements OnInit {
 
 
     public onDeleteWaypoint(waypoint: Waypoint) {
-        this.appStore.dispatch(FlightMapActions.closeAllOverlays());
         this.appStore.dispatch(WaypointActions.delete({
             waypoint: waypoint
         }));
@@ -59,7 +57,6 @@ export class OlOverlayButtonListComponent implements OnInit {
 
 
     public onSetAlternate(waypoint: Waypoint) {
-        this.appStore.dispatch(FlightMapActions.closeAllOverlays());
         this.appStore.dispatch(WaypointActions.setAlternate({
             alternate: waypoint
         }));

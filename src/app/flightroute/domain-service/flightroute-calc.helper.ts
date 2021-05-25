@@ -20,7 +20,6 @@ import {Length} from '../../common/geo-math/domain-model/quantities/length';
 
 export class FlightrouteCalcHelper {
     public static calcFlightRoute(flightroute: Flightroute, lengthUnit: LengthUnit = LengthUnit.NM): Flightroute {
-        debugger;
         if (!flightroute) {
             return;
         }
@@ -42,11 +41,11 @@ export class FlightrouteCalcHelper {
         // waypoints
         const wps = flightroute.waypoints;
         for (let i = 0; i < wps.length; i++) {
-            // vac time for start/end +5
+            // vac time for start/end airport +5
             if ((i === 1 && wps[0].type === WaypointType.airport) || (i === wps.length - 1 && wps[i].type === WaypointType.airport)) {
-                wps[i].vacTime = new Time(5, TimeUnit.M);
+                // wps[i].vacTime = new Time(5, TimeUnit.M);
             } else {
-                wps[i].vacTime = new Time(0, TimeUnit.M);
+                // wps[i].vacTime = new Time(0, TimeUnit.M);
             }
 
             // recalc distance & bearing

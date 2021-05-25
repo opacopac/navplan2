@@ -57,9 +57,9 @@ export class OlWaypoint {
         }
 
         if (!rotateWithView || (rot_deg + mapRotation.deg) % 360 < 180) {
-            align = 'end';
-        } else {
             align = 'start';
+        } else {
+            align = 'end';
         }
 
         if (rotateWithView) {

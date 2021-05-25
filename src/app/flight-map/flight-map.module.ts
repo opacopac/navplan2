@@ -19,18 +19,18 @@ import {LocationModule} from '../location/location.module';
 import {FlightTimerModule} from '../flight-timer/flight-timer.module';
 import {TrafficModule} from '../traffic/traffic.module';
 import {MetarTafModule} from '../metar-taf/metar-taf.module';
-import {OlOverlayButtonAddToRouteComponent} from './ol-components/ol-overlay-button-add-to-route/ol-overlay-button-add-to-route.component';
+import {OlOverlayButtonAddToRouteComponent} from '../flightroute/ng-components/ol-overlay-button-add-to-route/ol-overlay-button-add-to-route.component';
 import {OlOverlayButtonEditUserpointComponent} from './ol-components/ol-overlay-button-edit-userpoint/ol-overlay-button-edit-userpoint.component';
-import {OlOverlayButtonEditWaypointComponent} from './ol-components/ol-overlay-button-edit-waypoint/ol-overlay-button-edit-waypoint.component';
-import {OlOverlayButtonRemoveAlternateComponent} from './ol-components/ol-overlay-button-remove-alternate/ol-overlay-button-remove-alternate.component';
-import {OlOverlayButtonRemoveFromRouteComponent} from './ol-components/ol-overlay-button-remove-from-route/ol-overlay-button-remove-from-route.component';
-import {OlOverlayButtonSetAlternateComponent} from './ol-components/ol-overlay-button-set-alternate/ol-overlay-button-set-alternate.component';
+import {OlOverlayButtonEditWaypointComponent} from '../flightroute/ng-components/ol-overlay-button-edit-waypoint/ol-overlay-button-edit-waypoint.component';
+import {OlOverlayButtonRemoveAlternateComponent} from '../flightroute/ng-components/ol-overlay-button-remove-alternate/ol-overlay-button-remove-alternate.component';
+import {OlOverlayButtonRemoveFromRouteComponent} from '../flightroute/ng-components/ol-overlay-button-remove-from-route/ol-overlay-button-remove-from-route.component';
+import {OlOverlayButtonSetAlternateComponent} from '../flightroute/ng-components/ol-overlay-button-set-alternate/ol-overlay-button-set-alternate.component';
 import {OlOverlayWaypointComponent} from './ol-components/ol-overlay-waypoint/ol-overlay-waypoint.component';
 import {OlOverlayAirportRunwayTabComponent} from '../aerodrome/ng-components/ol-overlay-airport-runway-tab/ol-overlay-airport-runway-tab.component';
 import {OlOverlayAirportRadioTabComponent} from '../aerodrome/ng-components/ol-overlay-airport-radio-tab/ol-overlay-airport-radio-tab.component';
 import {OlOverlayAirportNotamTabComponent} from './ol-components/ol-overlay-airport-notam-tab/ol-overlay-airport-notam-tab.component';
 import {OlOverlayAirportChartTabComponent} from '../aerodrome/ng-components/ol-overlay-airport-chart-tab/ol-overlay-airport-chart-tab.component';
-import {OlOverlayButtonListComponent} from './ol-components/ol-overlay-button-list/ol-overlay-button-list.component';
+import {MapOverlayWaypointContainerComponent} from '../flightroute/ng-components/map-overlay-waypoint-container/map-overlay-waypoint-container.component';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {flightMapReducer} from './ngrx/flight-map.reducer';
@@ -61,7 +61,7 @@ import {UserModule} from '../user/user.module';
         OlOverlayAirportRadioTabComponent,
         OlOverlayAirportNotamTabComponent,
         OlOverlayAirportChartTabComponent,
-        OlOverlayButtonListComponent,
+        MapOverlayWaypointContainerComponent,
         OlOverlayAirportMetarTafTabComponent,
     ],
     imports: [

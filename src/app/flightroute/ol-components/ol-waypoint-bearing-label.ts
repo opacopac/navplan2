@@ -37,17 +37,17 @@ export class OlWaypointBearingLabel {
 
         if (!mt) {
             rotRad = 0;
-            align = 'end';
+            align = 'start';
             text = '';
             offsetX = 5;
         } else if ((mt.deg + mapRotation.deg + 360) % 360 < 180) {
             rotRad = Angle.deg2rad(mt.deg - 90);
-            align = 'end';
+            align = 'start';
             text = '   ' + Math.round(mt.deg) + '° ' + Math.ceil(dist.getValue(LengthUnit.NM)) + 'NM >';
             offsetX = 5;
         } else {
             rotRad = Angle.deg2rad(mt.deg - 270);
-            align = 'start';
+            align = 'end';
             text = '< ' + Math.round(mt.deg) + '° ' + Math.ceil(dist.getValue(LengthUnit.NM)) + 'NM   ';
             offsetX = -5;
         }
