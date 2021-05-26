@@ -163,7 +163,7 @@ export const flightRouteReducer = createReducer(
     }),
     on(WaypointActions.setAlternate, (state, action) => {
         const newFlightroute = state.flightroute.clone();
-        newFlightroute.alternate = action.alternate.clone();
+        newFlightroute.alternate = action.alternate?.clone();
         FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
         return {
             ...state,

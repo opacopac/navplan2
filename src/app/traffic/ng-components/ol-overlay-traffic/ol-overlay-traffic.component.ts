@@ -3,7 +3,7 @@ import {Traffic} from '../../domain-model/traffic';
 import {TrafficAircraftType} from '../../domain-model/traffic-aircraft-type';
 import {TrafficAddressType} from '../../domain-model/traffic-address-type';
 import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
-import {OlOverlayBase} from '../../../base-map/ng-components/ol-overlay-base';
+import {OlOverlayBaseComponent} from '../../../base-map/ng-components/ol-overlay-base.component';
 import {TrafficIcon} from '../../domain-model/traffic-icon';
 import {OlHelper} from '../../../base-map/ol-service/ol-helper';
 
@@ -32,7 +32,7 @@ const TRAFFIC_TYPE_DESCRIPTION = {
     templateUrl: './ol-overlay-traffic.component.html',
     styleUrls: ['./ol-overlay-traffic.component.css']
 })
-export class OlOverlayTrafficComponent extends OlOverlayBase implements OnInit {
+export class OlOverlayTrafficComponent extends OlOverlayBaseComponent implements OnInit {
     public traffic: Traffic;
     @ViewChild('container') container: ElementRef;
 

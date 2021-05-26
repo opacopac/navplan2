@@ -1,11 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
+import {combineLatest, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {getFlightroute} from '../../ngrx/flightroute.selectors';
 import {Flightroute} from '../../domain-model/flightroute';
 import {Waypoint} from '../../domain-model/waypoint';
 import {WaypointActions} from '../../ngrx/waypoints.actions';
+import {getFlightMapOverlay} from '../../../flight-map/ngrx/flight-map.selectors';
 
 
 @Component({
@@ -15,24 +16,35 @@ import {WaypointActions} from '../../ngrx/waypoints.actions';
 })
 export class MapOverlayWaypointContainerComponent implements OnInit {
     public readonly flightroute$: Observable<Flightroute>;
+    public readonly waypoint$: Observable<Waypoint>;
     public readonly isWaypointInFlightroute$: Observable<boolean>;
     public readonly isAlternateWaypoint$: Observable<boolean>;
     public readonly isAlternateEligible$: Observable<boolean>;
-    @Input() waypoint: Waypoint;
 
 
-    public constructor(
-        private appStore: Store<any>
-    ) {
+    public constructor(private appStore: Store<any>) {
         this.flightroute$ = this.appStore.pipe(select(getFlightroute));
-        this.isWaypointInFlightroute$ = this.flightroute$.pipe(
-            map(route => route.containsWaypoint(this.waypoint))
+        this.waypoint$ = this.appStore.pipe(
+            select(getFlightMapOverlay),
+            map(overlay => overlay.waypoint)
         );
-        this.isAlternateWaypoint$ = this.flightroute$.pipe(
-            map(route => route.isAlternateWaypoint(this.waypoint))
+        this.isWaypointInFlightroute$ = combineLatest([
+            this.flightroute$,
+            this.waypoint$
+        ]).pipe(
+            map(([route, wp]) => route.containsWaypoint(wp))
         );
-        this.isAlternateEligible$ = this.flightroute$.pipe(
-            map(route => route.isALternateEligible(this.waypoint))
+        this.isAlternateWaypoint$ = combineLatest([
+            this.flightroute$,
+            this.waypoint$
+        ]).pipe(
+            map(([route, wp]) => route.isAlternateWaypoint(wp))
+        );
+        this.isAlternateEligible$ = combineLatest([
+            this.flightroute$,
+            this.waypoint$
+        ]).pipe(
+            map(([route, wp]) => route.isALternateEligible(wp))
         );
     }
 

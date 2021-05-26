@@ -1,32 +1,3 @@
-.ol-popup-airport {
-    /*max-width: 75vw;*/
-}
-
-.airport-card {
-    /*padding-bottom: 0;*/
-}
-
 /deep/ .mat-tab-label {
     min-width: 0!important;
-}
-
-.mat-card-avatar {
-    border-radius: initial;
-}
-
-
-.imgA {
-    position: absolute;
-    z-index: 1;
-}
-.imgB {
-    position: absolute;
-    z-index: 3;
-}
-
-.webcam-icon {
-    color: rgb(122, 122, 122);
-    height: 14px;
-    margin-top: -12px;
-    vertical-align: middle;
 }

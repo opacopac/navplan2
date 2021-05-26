@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {StringnumberHelper} from '../../../system/domain-service/stringnumber/stringnumber-helper';
 import {Notam} from '../../domain-model/notam';
 import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
-import {OlOverlayBase} from '../../../base-map/ng-components/ol-overlay-base';
+import {OlOverlayBaseComponent} from '../../../base-map/ng-components/ol-overlay-base.component';
 import {OlHelper} from '../../../base-map/ol-service/ol-helper';
 
 
@@ -11,7 +11,7 @@ import {OlHelper} from '../../../base-map/ol-service/ol-helper';
     templateUrl: './ol-overlay-notam.component.html',
     styleUrls: ['./ol-overlay-notam.component.css']
 })
-export class OlOverlayNotamComponent extends OlOverlayBase implements OnInit {
+export class OlOverlayNotamComponent extends OlOverlayBaseComponent implements OnInit {
     public notam: Notam;
     @ViewChild('container') container: ElementRef;
 

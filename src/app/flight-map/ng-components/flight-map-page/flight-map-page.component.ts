@@ -31,7 +31,6 @@ import {OlReportingSectorContainer} from '../../../aerodrome/ol-components/ol-re
 import {OlAirspaceContainer} from '../../../enroute/ol-components/ol-airspace-container';
 import {OlNavaidContainer} from '../../../enroute/ol-components/ol-navaid-container';
 import {OlWebcamContainer} from '../../../webcam/ol-components/ol-webcam-container';
-import {FlightMapActions} from '../../ngrx/flight-map.actions';
 import {OlAirportChartContainer} from '../../../aerodrome/ol-components/ol-airport-chart-container';
 import {OlPositionSearchContainer} from '../../../search/ol-components/ol-position-search-container';
 import {getPositionSearchState} from '../../../search/ngrx/search.selectors';
@@ -99,7 +98,9 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         });
 
         this.showOverlaySubscription = this.showOverlay$.subscribe(overlayState => {
-            this.showOverlay(overlayState);
+            this.mapOverlayComponent?.closeOverlay();
+            this.mapOverlayTrafficComponent?.closeOverlay();
+            this.mapOverlayComponent?.showOverlay(overlayState);
         });
     }
 
@@ -264,33 +265,6 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
             ownPlaneLayer,
             this.appStore.pipe(select(getLocationState))
         );
-    }
-
-    // endregion
-
-
-    // region overlay
-
-    public onOverlayClosed() {
-        this.appStore.dispatch(FlightMapActions.closeAllOverlays());
-    }
-
-
-    private showOverlay(overlayState: OverlayState) {
-        this.closeAllOverlays();
-
-        this.mapOverlayComponent.setDataItem(overlayState.dataItem, overlayState.clickPos);
-        this.mapOverlayComponent.waypoint = overlayState.waypoint;
-        this.mapOverlayComponent.metarTaf = overlayState.metarTaf;
-        this.mapOverlayComponent.notams = overlayState.notams;
-        this.mapOverlayComponent.openTab(overlayState.tabIndex);
-        OlHelper.panIntoView(this.mapOverlayComponent.olOverlay);
-    }
-
-
-    private closeAllOverlays() {
-        this.mapOverlayComponent?.closeOverlay();
-        this.mapOverlayTrafficComponent?.closeOverlay();
     }
 
     // endregion

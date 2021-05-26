@@ -48,7 +48,7 @@ export class Flightroute implements Clonable<Flightroute> {
             return -1;
         }
 
-        for (let i = 0; i < this.waypoints.length; i++) {
+        for (let i = this.waypoints.length - 1; i >= 0; i--) {
             if (this.waypoints[i].position.equals(waypoint.position)) {
                 return i;
             }

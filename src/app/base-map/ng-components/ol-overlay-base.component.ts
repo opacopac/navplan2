@@ -1,13 +1,11 @@
-import {AfterViewInit, ChangeDetectorRef, Directive, EventEmitter, Output} from '@angular/core';
-import {StringnumberHelper} from '../../system/domain-service/stringnumber/stringnumber-helper';
+import {AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Output} from '@angular/core';
 import {DataItem} from '../../common/model/data-item';
 import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
-import {WmmHelper} from '../../common/geo-math/domain-service/wmm-helper';
 import Overlay from 'ol/Overlay';
 
 
-@Directive()
-export abstract class OlOverlayBase implements AfterViewInit {
+@Component({ template: '' })
+export abstract class OlOverlayBaseComponent implements AfterViewInit {
     @Output() close = new EventEmitter();
     public olOverlay: Overlay;
 
@@ -23,10 +21,6 @@ export abstract class OlOverlayBase implements AfterViewInit {
     public ngAfterViewInit(): void {
         this.olOverlay = new Overlay({
             element: this.containerHtmlElement,
-            /*autoPan: {
-                margin: 20,
-                animation: { duration: 250 }
-            },*/
         });
     }
 
@@ -51,16 +45,5 @@ export abstract class OlOverlayBase implements AfterViewInit {
     public onCloseOverlay() {
         this.closeOverlay();
         this.close.emit();
-    }
-
-
-    public getPositionString(pos: Position2d): string {
-        return StringnumberHelper.getDmsString(pos);
-    }
-
-
-    public getVariationString(pos: Position2d): string {
-        const magVar = WmmHelper.calcMagneticVariation(pos);
-        return StringnumberHelper.getEWString(magVar, 1);
     }
 }

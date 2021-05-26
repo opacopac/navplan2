@@ -1,4 +1,4 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild} from '@angular/core';
 import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import {OlHelper} from '../../../base-map/ol-service/ol-helper';
 import {MetarTaf} from '../../../metar-taf/domain-model/metar-taf';
@@ -11,7 +11,9 @@ import {ReportingSector} from '../../../aerodrome/domain-model/reporting-sector'
 import {UserPoint} from '../../../user/domain-model/user-point';
 import {Notam} from '../../../notam/domain-model/notam';
 import {Waypoint} from '../../../flightroute/domain-model/waypoint';
-import {OlOverlayBase} from '../../../base-map/ng-components/ol-overlay-base';
+import Overlay from 'ol/Overlay';
+import {OverlayState} from '../../domain-model/overlay-state';
+import {MatTabGroup} from '@angular/material/tabs';
 
 
 @Component({
@@ -19,18 +21,18 @@ import {OlOverlayBase} from '../../../base-map/ng-components/ol-overlay-base';
     templateUrl: './ol-map-overlay.component.html',
     styleUrls: ['./ol-map-overlay.component.css']
 })
-export class OlMapOverlayComponent extends OlOverlayBase {
+export class OlMapOverlayComponent implements AfterViewInit {
     @ViewChild('container') container: ElementRef;
+    @ViewChild('tabGroup') tabGroup: MatTabGroup;
+    public olOverlay: Overlay;
     public position: Position2d;
     public dataItem: DataItem;
     public waypoint: Waypoint;
     public metarTaf: MetarTaf;
     public notams: Notam[];
-    public selectedTabIndex = 0;
 
 
-    public get containerHtmlElement(): HTMLElement {
-        return this.container.nativeElement;
+    public constructor(private readonly cdRef: ChangeDetectorRef) {
     }
 
 
@@ -64,22 +66,43 @@ export class OlMapOverlayComponent extends OlOverlayBase {
     }
 
 
-    public bindDataItem(dataItem: DataItem, clickPos: Position2d) {
-        this.dataItem = dataItem;
+    public ngAfterViewInit(): void {
+        this.olOverlay = new Overlay({
+            element: this.container.nativeElement,
+        });
+    }
 
-        if (dataItem) {
-            this.position = dataItem.getPosition() ? dataItem.getPosition() : clickPos;
+
+    public showOverlay(state: OverlayState) {
+        this.dataItem = state.dataItem;
+        this.metarTaf = state.metarTaf;
+        this.notams = state.notams;
+        this.tabGroup.selectedIndex = state.tabIndex;
+
+        if (state.dataItem) {
+            this.position = state.dataItem.getPosition() ? state.dataItem.getPosition() : state.clickPos;
             this.olOverlay.setPosition(OlHelper.getMercator(this.position));
         } else {
             this.position = undefined;
             this.olOverlay.setPosition(undefined);
         }
+
+        this.cdRef.markForCheck();
+
+        if (this.position) {
+            OlHelper.panIntoView(this.olOverlay);
+        }
     }
 
 
-    public openTab(tabIndex: number) {
-        if (tabIndex !== undefined && tabIndex >= 0) {
-            this.selectedTabIndex = tabIndex;
-        }
+    public closeOverlay() {
+        this.showOverlay({
+            clickPos: undefined,
+            dataItem: undefined,
+            waypoint: undefined,
+            metarTaf: undefined,
+            notams: [],
+            tabIndex: 0
+        });
     }
 }
