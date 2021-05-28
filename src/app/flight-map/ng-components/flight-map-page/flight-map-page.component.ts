@@ -166,7 +166,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         const chartCloserLayer = OlHelper.createEmptyVectorLayer(false);
         const pointSearchLayer = OlHelper.createEmptyVectorLayer(false);
 
-        this.mapContainer.init(
+        const map = this.mapContainer.init(
             MapBaseLayerType.OPENTOPOMAP,
             [
                 chartCloserLayer,
@@ -244,6 +244,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         this.olFlightroute = new OlFlightrouteContainer(
             flightrouteLayer,
             this.appStore.pipe(select(getFlightroute)),
+            map,
             [
                 userPointLayer,
                 reportingPointLayer,

@@ -19,7 +19,6 @@ import {SharedFlightRouteActions} from './shared-flight-route.actions';
 import {FlightRouteParameterActions} from './flight-route-parameter.actions';
 import {WaypointActions} from './waypoints.actions';
 import {ArrayHelper} from '../../system/domain-service/array/array-helper';
-import {WaypointConverter} from '../domain-model/converter/waypoint-converter';
 
 
 const initialState: FlightrouteState = {
@@ -170,7 +169,7 @@ export const flightRouteReducer = createReducer(
             flightroute: newFlightroute
         };
     }),
-    on(WaypointActions.modifyRoute, (state, action) => {
+    /*on(WaypointActions.modifyRoute, (state, action) => {
         const newFlightroute = state.flightroute.clone();
         const dataItem = undefined; // TODO: items.findDataItemByPos(action.newPosition)
         const wp = WaypointConverter.createWaypointFromDataItem(dataItem, action.newPosition.clone());
@@ -184,6 +183,6 @@ export const flightRouteReducer = createReducer(
             ...state,
             flightroute: newFlightroute
         };
-    }),
+    }),*/
     // TODO: user logout => route list = []
 );

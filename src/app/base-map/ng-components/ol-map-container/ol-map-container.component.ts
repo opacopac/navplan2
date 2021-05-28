@@ -37,7 +37,7 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
     private readonly HIT_TOLERANCE_PIXELS = 10;
     private map: Map;
     private mapLayer: TileLayer;
-    private customLayers: Layer[] = [];
+    private mapLayers: Layer[] = [];
     private readonly imageLayers: ImageLayer[] = [];
     private readonly $zoom: Observable<number>;
     private readonly $showImage: Observable<ShowImageState>;
@@ -57,17 +57,17 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
 
     public init(
         baseMapType: MapBaseLayerType,
-        customLayers: Layer[],
-        customOverlays: Overlay[],
+        mapLayers: Layer[],
+        mapOverlays: Overlay[],
         position: Position2d,
         zoom: number,
         mapRotation: Angle
-    ) {
+    ): Map {
         this.mapLayer = OlBaselayerFactory.create(baseMapType);
-        this.customLayers = customLayers;
+        this.mapLayers = mapLayers;
         const allLayers = [];
         allLayers.push(this.mapLayer);
-        allLayers.push(...this.customLayers);
+        allLayers.push(...this.mapLayers);
         this.map = new Map({
             target: 'map',
             controls: [
@@ -77,7 +77,7 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
                 new Rotate()
             ],
             layers: allLayers,
-            overlays: customOverlays,
+            overlays: mapOverlays,
             view: new View({
                 center: OlHelper.getMercator(position),
                 zoom: zoom,
@@ -92,8 +92,7 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
         this.map.on('moveend', this.onMoveEnd.bind(this));
         this.map.getView().on('change:rotation', this.onMapRotation.bind(this));
 
-        // add snap interaction (must be added last, see: https://openlayers.org/en/latest/examples/snap.html)
-        // this.addSnapInteractions(this.routeItemsLayer.getSource());
+        return this.map;
     }
 
 

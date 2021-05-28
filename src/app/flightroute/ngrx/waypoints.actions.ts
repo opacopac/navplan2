@@ -8,6 +8,10 @@ export class WaypointActions {
         '[Map Overlay] Insert waypoint',
         props<{ newWaypoint: Waypoint, index: number }>()
     );
+    public static readonly insertByPos = createAction(
+        '[Route Line Interaction] Insert object at position',
+        props<{ newPosition: Position2d, index: number, zoom: number }>()
+    );
     public static readonly update = createAction(
         '[Edit Waypoint Dialog] Update waypoint',
         props<{ oldWp: Waypoint, newWp: Waypoint }>()
@@ -16,16 +20,16 @@ export class WaypointActions {
         '[Waypoint Page] Replace waypoint',
         props<{ newWaypoint: Waypoint, index: number }>()
     );
+    public static readonly replaceByPos = createAction(
+        '[Route Line Interaction] Replace waypoint by object at position',
+        props<{ newPosition: Position2d, index: number, zoom: number }>()
+    );
     public static readonly delete = createAction(
         '[Waypoint Page / MapFeature Overlay] Delete waypoint',
         props<{ waypoint: Waypoint }>()
     );
     public static readonly reverse = createAction(
         '[Waypoint List] Reverse waypoints'
-    );
-    public static readonly modifyRoute = createAction(
-        '[Flight Map] Route line modified',
-        props<{ index: number, isNewWaypoint: boolean, newPosition: Position2d }>()
     );
     public static readonly setAlternate = createAction(
         '[Map Overlay] Set alternate',

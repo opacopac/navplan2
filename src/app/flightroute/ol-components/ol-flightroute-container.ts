@@ -8,6 +8,7 @@ import {Waypoint} from '../domain-model/waypoint';
 import {Store} from '@ngrx/store';
 import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
 import {WaypointActions} from '../ngrx/waypoints.actions';
+import {Map} from 'ol';
 
 
 export class OlFlightrouteContainer {
@@ -19,13 +20,14 @@ export class OlFlightrouteContainer {
     constructor(
         private readonly flightrouteLayer: VectorLayer,
         flightroute$: Observable<Flightroute>,
+        private map: Map,
         snapToLayers: VectorLayer[],
         private readonly store: Store<any>,
         mapRotation: Angle
     ) {
         this.flightrouteSubscription = flightroute$.subscribe(flightroute => {
             this.destroyFeatures();
-            this.addFeatures(flightroute, snapToLayers, mapRotation);
+            this.addFeatures(flightroute, map, snapToLayers, mapRotation);
             // re-subscribe to route line events
             this.routeLineModifiedSubscription = this.olRouteLine.onRouteLineModifiedEnd
                 .subscribe(routeLineMod => this.emitRouteLineModifiedAction(routeLineMod));
@@ -40,9 +42,9 @@ export class OlFlightrouteContainer {
     }
 
 
-    private addFeatures(flightroute: Flightroute, snapToLayers: VectorLayer[], mapRotation: Angle) {
+    private addFeatures(flightroute: Flightroute, map: Map, snapToLayers: VectorLayer[], mapRotation: Angle) {
         if (flightroute) {
-            this.olRouteLine = new OlRouteLine(flightroute, null, this.flightrouteLayer, snapToLayers); // TODO
+            this.olRouteLine = new OlRouteLine(flightroute, map, this.flightrouteLayer, snapToLayers); // TODO
             const olAlternateLine = new OlAlternateLine(flightroute, this.flightrouteLayer);
             flightroute.waypoints.forEach((wp, index) => {
                 const nextWp = this.getNextWp(flightroute.waypoints, flightroute.alternate, index);
@@ -68,18 +70,25 @@ export class OlFlightrouteContainer {
 
 
     private destroyFeatures() {
+        this.olRouteLine?.destroy();
         this.olRouteLine = undefined;
         this.flightrouteLayer.getSource().clear(true);
     }
 
 
     private emitRouteLineModifiedAction(routeLineMod: RouteLineModification) {
-        this.store.dispatch(
-            WaypointActions.modifyRoute({
+        if (routeLineMod.isNewWp) {
+            this.store.dispatch(WaypointActions.insertByPos({
+                newPosition: routeLineMod.newPos,
                 index: routeLineMod.index,
-                isNewWaypoint: routeLineMod.isNewWp,
-                newPosition: routeLineMod.newPos
-            })
-        );
+                zoom: this.map.getView().getZoom()
+            }));
+        } else {
+            this.store.dispatch(WaypointActions.replaceByPos({
+                newPosition: routeLineMod.newPos,
+                index: routeLineMod.index,
+                zoom: this.map.getView().getZoom()
+            }));
+        }
     }
 }

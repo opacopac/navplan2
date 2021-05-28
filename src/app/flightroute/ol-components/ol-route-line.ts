@@ -14,7 +14,8 @@ export class RouteLineModification {
     constructor(
         public index: number,
         public isNewWp: boolean,
-        public newPos: Position2d) {
+        public newPos: Position2d
+    ) {
     }
 }
 
@@ -37,8 +38,9 @@ export class OlRouteLine {
         this.lineFeature.setGeometry(OlHelper.getLineGeometry(flightroute.waypoints.map(waypoint => waypoint.position)));
         layer.getSource().addFeature(this.lineFeature);
 
-        // this.addModifyInteraction();
-        // this.addSnapInteractions(snapToLayers);
+        this.addModifyInteraction();
+        this.addSnapInteractions([...snapToLayers, layer]);
+        // TODO: adding snap also to flightroute layer: https://github.com/openlayers/openlayers/issues/11976
     }
 
 
@@ -47,7 +49,7 @@ export class OlRouteLine {
         this.lineFeature.getGeometry().un('change', this.onModifyChange.bind(this));
         this.lineFeature.getGeometry().un('modifyend', this.onModifyEnd.bind(this));
 
-        // this.map.removeInteraction(this.modifyInteraction);
+        this.map.removeInteraction(this.modifyInteraction);
         this.removeSnapInteractions();
     }
 
@@ -81,7 +83,8 @@ export class OlRouteLine {
         snapToLayers.forEach((layer) => {
             const snapInt = new Snap({
                 source: layer.getSource(),
-                edge: false
+                vertex: true,
+                edge: true,
             });
             this.snapInteractions.push(snapInt);
             this.map.addInteraction(snapInt);

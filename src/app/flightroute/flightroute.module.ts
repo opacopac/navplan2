@@ -21,6 +21,7 @@ import {FlightrouteListComponent} from './ng-components/flightroute-list/flightr
 import {SharedFlightrouteEffects} from './ngrx/shared-flightroute.effects';
 import {FlightRouteListEffects} from './ngrx/flight-route-list-effects.service';
 import {flightRouteReducer} from './ngrx/flightroute.reducer';
+import {WaypointEffects} from './ngrx/waypoint.effects';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import {flightRouteReducer} from './ngrx/flightroute.reducer';
             FlightRouteListEffects,
             FlightRouteEffects,
             SharedFlightrouteEffects,
+            WaypointEffects
         ]),
         DragDropModule,
         SharedModule,
