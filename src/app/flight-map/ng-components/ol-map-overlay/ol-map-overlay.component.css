@@ -1,5 +1,6 @@
-.mat-card {
-    /* max-height: 90vh; */
+.overlay-tab-content {
+    max-height: 30vh;
+    overflow-y: auto;
 }
 /deep/ .mat-tab-label {
     min-width: 0!important;

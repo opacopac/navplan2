@@ -1,6 +1,6 @@
 .notam-table {
     width: 100%;
-    max-height: calc(80vh - 200px);
+    max-height: calc(50vh);
     overflow-y: auto;
 }
 .mat-row:nth-child(even), .mat-header-cell {
