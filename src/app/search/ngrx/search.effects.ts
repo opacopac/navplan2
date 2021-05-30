@@ -3,7 +3,7 @@ import {Action, select, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, throwError} from 'rxjs';
 import {catchError, debounceTime, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
-import {SearchActions2} from './search.actions';
+import {SearchActions} from './search.actions';
 import {getCurrentUser} from '../../user/ngrx/user.selectors';
 import {User} from '../../user/domain-model/user';
 import {LoggingService} from '../../system/domain-service/logging/logging.service';
@@ -28,7 +28,7 @@ export class SearchEffects {
 
 
     searchByPosition$: Observable<Action> = createEffect(() => this.actions$.pipe(
-            ofType(SearchActions2.searchByPosition),
+            ofType(SearchActions.searchByPosition),
             withLatestFrom(this.currentUser$),
             switchMap(([action, currentUser]) => this.searchService.searchByPosition(
                 action.clickPos,
@@ -36,7 +36,7 @@ export class SearchEffects {
                 action.minNotamTimestamp,
                 action.maxNotamTimestamp
             ).pipe(
-                map(result => SearchActions2.showPositionSearchResults({
+                map(result => SearchActions.showPositionSearchResults({
                     searchResults: result,
                     clickPos: action.clickPos
                 })),
@@ -49,12 +49,12 @@ export class SearchEffects {
 
 
     searchByText$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(SearchActions2.searchByText),
+        ofType(SearchActions.searchByText),
         filter(action => action.query !== undefined && action.query.trim().length >= MIN_QUERY_LENGTH),
         debounceTime(QUERY_DELAY_MS),
         withLatestFrom(this.currentUser$),
         switchMap(([action, currentUser]) => this.searchService.searchByText(action.query, currentUser).pipe(
-            map(result => SearchActions2.showTextSearchResults({ searchResults: result })),
+            map(result => SearchActions.showTextSearchResults({ searchResults: result })),
             catchError(error => {
                 LoggingService.logResponseError('ERROR search by text', error);
                 return throwError(error);

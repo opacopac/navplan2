@@ -6,12 +6,11 @@ import {Notam} from '../../notam/domain-model/notam';
 
 
 export class FlightMapActions {
-    // map overlays
     public static readonly showOverlay = createAction(
         '[Flight Map] Show generic map overlay',
         props<{ dataItem: DataItem, clickPos: Position2d, metarTaf?: MetarTaf, notams: Notam[], tabIndex: number }>()
     );
-    public static readonly closeAllOverlays = createAction(
-        '[Flight Map] Close all map overlays action'
+    public static readonly hideOverlay = createAction(
+        '[Flight Map] Hide generic map overlay',
     );
 }

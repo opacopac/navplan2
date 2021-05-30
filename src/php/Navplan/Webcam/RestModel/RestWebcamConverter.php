@@ -11,7 +11,8 @@ class RestWebcamConverter {
         return array(
             "name" => $cam->name,
             "url" => $cam->url,
-            "pos" => $cam->position ? RestPosition2dConverter::toRest($cam->position) : NULL
+            "pos" => $cam->position ? RestPosition2dConverter::toRest($cam->position) : NULL,
+            "airport_icao" => $cam->airportIcao
         );
     }
 

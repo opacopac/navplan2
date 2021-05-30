@@ -9,10 +9,15 @@ import {ReadNotamByExtentResult} from '../domain-model/read-notam-by-extent-resu
 import {map} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {ReadNotamByExtentRequest} from '../domain-model/read-notam-by-extent-request';
+import {NotamList} from '../domain-model/notam-list';
+import {ReadNotamByIcaoRequest} from '../domain-model/read-notam-by-icao-request';
+import {INotamService} from './i-notam-service';
+import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
+import {ReadNotamByPositionRequest} from '../domain-model/read-notam-by-position-request';
 
 
 @Injectable()
-export class NotamService {
+export class NotamService implements INotamService {
     private readonly NOTAMS_TIMEOUT_SEC = 60 * 60 * 3;
     private readonly date: IDate;
 
@@ -55,6 +60,27 @@ export class NotamService {
             }))
         );
     }
+
+
+    public readByPosition(position: Position2d): Observable<NotamList> {
+        const request = new ReadNotamByPositionRequest(
+            position,
+            this.getNotamStartTimestamp(),
+            this.getNotamEndTimestamp()
+        );
+        return this.notamRepo.readByPosition(request);
+    }
+
+
+    public readByIcao(airportIcao: string): Observable<NotamList> {
+        const request = new ReadNotamByIcaoRequest(
+            airportIcao,
+            this.getNotamStartTimestamp(),
+            this.getNotamEndTimestamp()
+        );
+        return this.notamRepo.readByIcao(request);
+    }
+
 
     private getNotamStartTimestamp(): number {
         const now = this.date.nowDate();

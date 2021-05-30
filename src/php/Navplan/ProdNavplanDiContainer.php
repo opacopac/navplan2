@@ -52,10 +52,6 @@ use Navplan\Notam\RestService\INotamServiceDiContainer;
 use Navplan\Notam\UseCase\SearchNotam\ISearchNotamUc;
 use Navplan\Notam\UseCase\SearchNotam\SearchNotamUc;
 use Navplan\Search\RestService\ISearchServiceDiContainer;
-use Navplan\Search\UseCase\SearchByExtent\ISearchByExtentUc;
-use Navplan\Search\UseCase\SearchByExtent\SearchByExtentUc;
-use Navplan\Search\UseCase\SearchByIcao\ISearchByIcaoUc;
-use Navplan\Search\UseCase\SearchByIcao\SearchByIcaoUc;
 use Navplan\Search\UseCase\SearchByPosition\ISearchByPositionUc;
 use Navplan\Search\UseCase\SearchByPosition\SearchByPositionUc;
 use Navplan\Search\UseCase\SearchByText\ISearchByTextUc;
@@ -165,9 +161,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     private INotamRepo $notamRepo;
     private ISearchNotamUc $searchNotamUc;
     // search
-    private ISearchByExtentUc $searchByExtentUc;
     private ISearchByPositionUc $searchByPositionUc;
-    private ISearchByIcaoUc $searchByIcaoUc;
     private ISearchByTextUc $searchByTextUc;
     // system & db
     private ISystemServiceFactory $systemServiceFactory;
@@ -218,7 +212,8 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
         if (!isset($this->airportRepo)) {
             $this->airportRepo = new DbAirportRepo(
                 $this->getDbService(),
-                $this->getAirportChartRepo()
+                $this->getAirportChartRepo(),
+                $this->getWebcamRepo()
             );
         }
 
@@ -453,37 +448,6 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
 
 
     // region search
-
-    function getSearchByExtentUc(): ISearchByExtentUc {
-        if (!isset($this->searchByExtentUc)) {
-            $this->searchByExtentUc = new SearchByExtentUc(
-                $this->getSearchUserPointUc(),
-                $this->getSearchNotamUc(),
-                $this->getAirportRepo(),
-                $this->getAirportCircuitRepo(),
-                $this->getReportingPointRepo(),
-                $this->getNavaidRepo(),
-                $this->getAirspaceRepo(),
-                $this->getWebcamRepo()
-            );
-        }
-
-        return $this->searchByExtentUc;
-    }
-
-
-    function getSearchByIcaoUc(): ISearchByIcaoUc {
-        if (!isset($this->searchByIcaoUc)) {
-            $this->searchByIcaoUc = new SearchByIcaoUc(
-                $this->getSearchNotamUc(),
-                $this->getAirportRepo(),
-                $this->getReportingPointRepo()
-            );
-        }
-
-        return $this->searchByIcaoUc;
-    }
-
 
     function getSearchByPositionUc(): ISearchByPositionUc {
         if (!isset($this->searchByPositionUc)) {

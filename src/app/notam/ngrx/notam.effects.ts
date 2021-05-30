@@ -4,9 +4,9 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
 import {map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {NotamActions} from './notam.actions';
-import {NotamService} from '../domain-service/notam-service';
 import {NotamState} from '../domain-model/notam-state';
 import {getNotamState} from './notam.selectors';
+import {INotamService} from '../domain-service/i-notam-service';
 
 
 @Injectable()
@@ -17,7 +17,7 @@ export class NotamEffects {
     constructor(
         private readonly actions$: Actions,
         private readonly appStore: Store<any>,
-        private readonly notamService: NotamService
+        private readonly notamService: INotamService
     ) {
     }
 

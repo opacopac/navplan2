@@ -28,7 +28,6 @@ import {OlOverlayButtonSetAlternateComponent} from '../flightroute/ng-components
 import {OlOverlayWaypointComponent} from './ol-components/ol-overlay-waypoint/ol-overlay-waypoint.component';
 import {OlOverlayAirportRunwayTabComponent} from '../aerodrome/ng-components/ol-overlay-airport-runway-tab/ol-overlay-airport-runway-tab.component';
 import {OlOverlayAirportRadioTabComponent} from '../aerodrome/ng-components/ol-overlay-airport-radio-tab/ol-overlay-airport-radio-tab.component';
-import {OlOverlayAirportNotamTabComponent} from './ol-components/ol-overlay-airport-notam-tab/ol-overlay-airport-notam-tab.component';
 import {OlOverlayAirportChartTabComponent} from '../aerodrome/ng-components/ol-overlay-airport-chart-tab/ol-overlay-airport-chart-tab.component';
 import {MapOverlayWaypointContainerComponent} from '../flightroute/ng-components/map-overlay-waypoint-container/map-overlay-waypoint-container.component';
 import {StoreModule} from '@ngrx/store';
@@ -59,7 +58,6 @@ import {UserModule} from '../user/user.module';
         OlOverlayWaypointComponent,
         OlOverlayAirportRunwayTabComponent,
         OlOverlayAirportRadioTabComponent,
-        OlOverlayAirportNotamTabComponent,
         OlOverlayAirportChartTabComponent,
         MapOverlayWaypointContainerComponent,
         OlOverlayAirportMetarTafTabComponent,

@@ -9,7 +9,8 @@ class Webcam {
     public function __construct(
         public string $name,
         public string $url,
-        public ?Position2d $position
+        public ?Position2d $position,
+        public ?string $airportIcao
     ) {
     }
 }

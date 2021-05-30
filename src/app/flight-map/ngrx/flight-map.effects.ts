@@ -1,7 +1,7 @@
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Store} from '@ngrx/store';
-import {debounceTime, map, switchMap, withLatestFrom} from 'rxjs/operators';
-import {Observable, of, pipe} from 'rxjs';
+import {debounceTime, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
+import {combineLatest, Observable, of, pipe} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {BaseMapActions} from '../../base-map/ngrx/base-map.actions';
 import {DataItemType} from '../../common/model/data-item';
@@ -14,7 +14,7 @@ import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
 import {AirportService} from '../../aerodrome/domain-service/airport.service';
 import {AirportChart} from '../../aerodrome/domain-model/airport-chart';
 import {OlHelper} from '../../base-map/ol-service/ol-helper';
-import {SearchActions2} from '../../search/ngrx/search.actions';
+import {SearchActions} from '../../search/ngrx/search.actions';
 import {SearchState} from '../../search/domain-model/search-state';
 import {getSearchState} from '../../search/ngrx/search.selectors';
 import {Webcam} from '../../webcam/domain-model/webcam';
@@ -31,6 +31,7 @@ import {AirportState} from '../../aerodrome/domain-model/airport-state';
 import {getAirportState} from '../../aerodrome/ngrx/airport.selectors';
 import {AirportChartActions} from '../../aerodrome/ngrx/airport-chart.actions';
 import {NotamActions} from '../../notam/ngrx/notam.actions';
+import {INotamService} from '../../notam/domain-service/i-notam-service';
 
 
 @Injectable()
@@ -46,11 +47,12 @@ export class FlightMapEffects {
         private readonly appStore: Store<any>,
         private readonly airportService: AirportService,
         private readonly metarTafService: MetarTafService,
+        private readonly notamService: INotamService
     ) {
     }
 
 
-    mapMovedZoomedRotatedAction$ = createEffect(() => this.actions$.pipe(
+    readMapItemsActions$ = createEffect(() => this.actions$.pipe(
         ofType(BaseMapActions.mapMoved),
         debounceTime(250),
         switchMap(action => [
@@ -66,75 +68,123 @@ export class FlightMapEffects {
     ));
 
 
-    // TODO: ugly...
-    mapClickedAction$ = createEffect(() => this.actions$.pipe(
+    hideOverlayAction$ = createEffect(() => this.actions$.pipe(
         ofType(BaseMapActions.mapClicked),
-        withLatestFrom(this.flightMapState$, this.searchState$, this.metarTafState$, this.airportState$),
-        switchMap(([action, flightMapState, searchState, metarTafState, airportState]) => {
-            this.appStore.dispatch(FlightMapActions.closeAllOverlays());
-            this.appStore.dispatch(SearchActions2.closePositionSearchResults());
-
-            switch (action.dataItem?.dataItemType) {
-                case DataItemType.airport:
-                    return this.airportService.readAirportById((action.dataItem as ShortAirport).id).pipe(
-                        map(airport => FlightMapActions.showOverlay({
-                            dataItem: airport,
-                            clickPos: undefined,
-                            metarTaf: this.metarTafService.findMetarTafInState(airport.icao, metarTafState),
-                            notams: [], // TODO
-                            tabIndex: 0
-                        }))
-                    );
-                case DataItemType.metarTaf:
-                    const metarTaf = action.dataItem as MetarTaf;
-                    const shortAirport = this.airportService.findAirportInState(metarTaf.ad_icao, airportState);
-                    return this.airportService.readAirportById(shortAirport.id).pipe(
-                        map(airport => FlightMapActions.showOverlay({
-                            dataItem: airport,
-                            clickPos: undefined,
-                            metarTaf: metarTaf,
-                            notams: [], // TODO
-                            tabIndex: 3
-                        }))
-                    );
-                case DataItemType.webcam:
-                    return of(WebcamActions.openWebcam({ webcam: (action.dataItem as Webcam) }));
-                case DataItemType.reportingPoint:
-                case DataItemType.reportingSector:
-                case DataItemType.navaid:
-                case DataItemType.geoname:
-                case DataItemType.userPoint:
-                    return of(FlightMapActions.showOverlay({
-                        dataItem: action.dataItem,
-                        clickPos: action.clickPos,
-                        metarTaf: undefined,
-                        notams: [],
-                        tabIndex: 0
-                    }));
-                case DataItemType.airportChart:
-                    const chart = action.dataItem as AirportChart;
-                    this.appStore.dispatch(BaseMapActions.closeImage({ id: chart.id }));
-                    return of(AirportChartActions.closeAirportChart({ chartId: chart.id }));
-                default:
-                    if (searchState.positionSearchState.clickPos
-                        || flightMapState.showOverlay.clickPos
-                    ) {
-                        return of(SearchActions2.closePositionSearchResults());
-                    } else {
-                        return of(SearchActions2.searchByPosition({
-                            clickPos: action.clickPos,
-                            maxDegRadius: OlHelper.calcDegPerPixelByZoom(action.zoom) * 50,
-                            minNotamTimestamp: 0,
-                            maxNotamTimestamp: 999 // TODO
-                        }));
-                    }
-            }
-        })
+        withLatestFrom(this.flightMapState$),
+        filter(([action, flightMapState]) => flightMapState.showOverlay.dataItem !== undefined),
+        map(() => FlightMapActions.hideOverlay())
     ));
 
 
-    showAirportChart$ = createEffect(() => this.actions$.pipe(
-        ofType(AirportChartActions.openAirportChart),
-        map(action => FlightMapActions.closeAllOverlays())
+    showAirportOverlayAction$ = createEffect(() => this.actions$.pipe(
+        ofType(BaseMapActions.mapClicked),
+        filter(action => action.dataItem?.dataItemType === DataItemType.airport),
+        map(action => action.dataItem as ShortAirport),
+        switchMap(shortAirport => combineLatest([
+            this.airportService.readAirportById(shortAirport.id),
+            this.notamService.readByIcao(shortAirport.icao),
+            this.metarTafState$
+        ])),
+        map(([airport, notamList, metarTafState]) => FlightMapActions.showOverlay({
+            dataItem: airport,
+            clickPos: undefined,
+            metarTaf: this.metarTafService.findMetarTafInState(airport.icao, metarTafState), // TODO
+            notams: notamList.items,
+            tabIndex: 0
+        }))
+    ));
+
+
+    showMetarTafInAirportOverlayAction$ = createEffect(() => this.actions$.pipe(
+        ofType(BaseMapActions.mapClicked),
+        filter(action => action.dataItem?.dataItemType === DataItemType.metarTaf),
+        map(action => action.dataItem as MetarTaf),
+        withLatestFrom(this.airportState$),
+        map(([metarTaf, airportState]) => ({
+                metarTaf: metarTaf,
+                shortAirport: this.airportService.findAirportInState(metarTaf.ad_icao, airportState) // TODO
+        })),
+        filter(metarTafShortAirport => metarTafShortAirport.shortAirport !== undefined),
+        switchMap(metarTafShortAirport => combineLatest([
+            of(metarTafShortAirport.metarTaf),
+            this.airportService.readAirportById(metarTafShortAirport.shortAirport.id),
+            this.notamService.readByIcao(metarTafShortAirport.shortAirport.icao),
+        ])),
+        map(([metarTaf, airport, notamList]) => FlightMapActions.showOverlay({
+            dataItem: airport,
+            clickPos: undefined,
+            metarTaf: metarTaf,
+            notams: notamList.items,
+            tabIndex: 3
+        }))
+    ));
+
+
+    showRepNavGeoUsrOverlayAction$ = createEffect(() => this.actions$.pipe(
+        ofType(BaseMapActions.mapClicked),
+        filter(action => [
+            DataItemType.reportingPoint,
+            DataItemType.reportingSector,
+            DataItemType.navaid,
+            DataItemType.geoname,
+            DataItemType.userPoint].includes(action.dataItem?.dataItemType)
+        ),
+        switchMap(action => combineLatest([
+            of(action),
+            this.notamService.readByPosition(action.clickPos)
+        ])),
+        map(([action, notamList]) => FlightMapActions.showOverlay({
+            dataItem: action.dataItem,
+            clickPos: action.clickPos,
+            metarTaf: undefined,
+            notams: notamList.items,
+            tabIndex: 0
+        }))
+    ));
+
+
+    openWebcamAction$ = createEffect(() => this.actions$.pipe(
+        ofType(BaseMapActions.mapClicked),
+        filter(action => action.dataItem?.dataItemType === DataItemType.webcam),
+        map(action => WebcamActions.openWebcam({
+            webcam: action.dataItem as Webcam
+        }))
+    ));
+
+
+    closeAirportChartAction$ = createEffect(() => this.actions$.pipe(
+        ofType(BaseMapActions.mapClicked),
+        filter(action => action.dataItem?.dataItemType === DataItemType.airportChart),
+        map(action => action.dataItem as AirportChart),
+        switchMap(chart => [
+            BaseMapActions.closeImage({ id: chart.id }), // TODO
+            AirportChartActions.closeAirportChart({ chartId: chart.id })
+        ])
+    ));
+
+
+    hidePositionSearchResultsAction$ = createEffect(() => this.actions$.pipe(
+        ofType(BaseMapActions.mapClicked),
+        withLatestFrom(this.searchState$),
+        filter(([action, searchState]) => searchState.positionSearchState.clickPos !== undefined),
+        map(() => SearchActions.hidePositionSearchResults())
+    ));
+
+
+    searchByPositionAction$ = createEffect(() => this.actions$.pipe(
+        ofType(BaseMapActions.mapClicked),
+        filter(action => action.dataItem === undefined),
+        withLatestFrom(this.flightMapState$, this.searchState$),
+        filter(([action, flightMapState, searchState]) => {
+            return !flightMapState.showOverlay.dataItem && !searchState.positionSearchState.clickPos;
+        }),
+        map(([action, flightMapState, searchState]) => {
+            return SearchActions.searchByPosition({
+                clickPos: action.clickPos,
+                maxDegRadius: OlHelper.calcDegPerPixelByZoom(action.zoom) * 50,
+                minNotamTimestamp: 0,
+                maxNotamTimestamp: 999 // TODO
+            });
+        })
     ));
 }

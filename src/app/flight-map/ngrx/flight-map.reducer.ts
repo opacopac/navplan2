@@ -29,7 +29,7 @@ export const flightMapReducer = createReducer(
             tabIndex: action.tabIndex
         }
     })),
-    on(FlightMapActions.closeAllOverlays, (state) => ({
+    on(FlightMapActions.hideOverlay, (state) => ({
         ...state,
         showOverlay: initialState.showOverlay
     })),

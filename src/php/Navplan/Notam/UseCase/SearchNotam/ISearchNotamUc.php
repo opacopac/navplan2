@@ -2,17 +2,16 @@
 
 namespace Navplan\Notam\UseCase\SearchNotam;
 
-use Navplan\Common\DomainModel\Position2d;
 use Navplan\Notam\DomainModel\ReadNotamByExtentRequest;
+use Navplan\Notam\DomainModel\ReadNotamByIcaoRequest;
+use Navplan\Notam\DomainModel\ReadNotamByPositionRequest;
 use Navplan\Notam\DomainModel\ReadNotamResponse;
 
 
 interface ISearchNotamUc {
     function searchByExtent(ReadNotamByExtentRequest $request): ReadNotamResponse;
 
+    function searchByPosition(ReadNotamByPositionRequest $request): ReadNotamResponse;
 
-    function searchByPosition(Position2d $position, int $minNotamTimestamp, int $maxNotamTimestamp, int $maxResults): array;
-
-
-    function searchByIcao(array $icaoList, int $minNotamTimestamp, int $maxNotamTimestamp): array;
+    function searchByIcao(ReadNotamByIcaoRequest $request): ReadNotamResponse;
 }

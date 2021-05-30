@@ -4,7 +4,7 @@ import {SearchItem} from '../domain-model/search-item';
 import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 
 
-export class SearchActions2 {
+export class SearchActions {
     public static readonly showTextSearchField = createAction(
         '[Navbar] Show text search field',
     );
@@ -40,7 +40,7 @@ export class SearchActions2 {
         '[Flight Map] Show position search results on map',
         props<{ searchResults: SearchItemList, clickPos: Position2d }>()
     );
-    public static readonly closePositionSearchResults = createAction(
-        '[Flight Map] Close position search results on map',
+    public static readonly hidePositionSearchResults = createAction(
+        '[Flight Map] Hide position search results on map',
     );
 }

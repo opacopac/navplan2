@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {OlOverlayNotamComponent} from './ol-overlay-notam.component';
+import {MapOverlayNotamTabComponent} from './map-overlay-notam-tab.component';
 
 
-xdescribe('OlOverlayNotamComponent', () => {
-    let component: OlOverlayNotamComponent;
-    let fixture: ComponentFixture<OlOverlayNotamComponent>;
+xdescribe('MapOverlayNotamTabComponent', () => {
+    let component: MapOverlayNotamTabComponent;
+    let fixture: ComponentFixture<MapOverlayNotamTabComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [OlOverlayNotamComponent]
+            declarations: [MapOverlayNotamTabComponent]
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(OlOverlayNotamComponent);
+        fixture = TestBed.createComponent(MapOverlayNotamTabComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {User} from '../../../user/domain-model/user';
 import {select, Store} from '@ngrx/store';
 import {getCurrentUser} from '../../../user/ngrx/user.selectors';
-import {SearchActions2} from '../../../search/ngrx/search.actions';
+import {SearchActions} from '../../../search/ngrx/search.actions';
 import {LogoutUserAction} from '../../../user/ngrx/user.actions';
 
 
@@ -28,7 +28,7 @@ export class NavbarContainerComponent implements OnInit {
 
 
     public onShowSearchClick() {
-        this.appStore.dispatch(SearchActions2.showTextSearchField());
+        this.appStore.dispatch(SearchActions.showTextSearchField());
     }
 
 

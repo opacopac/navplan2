@@ -3,7 +3,7 @@
 namespace NavplanTest\Notam\RestService;
 
 use InvalidArgumentException;
-use Navplan\Notam\RestModel\ReadNotamRequestConverter;
+use Navplan\Notam\RestModel\ReadNotamByExtentRequestConverter;
 use Navplan\Notam\RestService\NotamServiceProcessor;
 use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\Notam\Mocks\DummyNotam1;
@@ -36,13 +36,13 @@ class NotamServiceProcessorTest extends TestCase {
     public function test_processRequest_searchByExtent_gets_called() {
         $getVars = array(
             NotamServiceProcessor::ARG_ACTION => NotamServiceProcessor::ACTION_SEARCH_BY_EXTENT,
-            ReadNotamRequestConverter::ARG_MIN_LON => "7.0",
-            ReadNotamRequestConverter::ARG_MIN_LAT => "47.0",
-            ReadNotamRequestConverter::ARG_MAX_LON => "7.9",
-            ReadNotamRequestConverter::ARG_MAX_LAT => "47.9",
-            ReadNotamRequestConverter::ARG_ZOOM => "11",
-            ReadNotamRequestConverter::ARG_MIN_NOTAM_TIME => "1560603981",
-            ReadNotamRequestConverter::ARG_MAX_NOTAM_TIME => "1560703981",
+            ReadNotamByExtentRequestConverter::ARG_MIN_LON => "7.0",
+            ReadNotamByExtentRequestConverter::ARG_MIN_LAT => "47.0",
+            ReadNotamByExtentRequestConverter::ARG_MAX_LON => "7.9",
+            ReadNotamByExtentRequestConverter::ARG_MAX_LAT => "47.9",
+            ReadNotamByExtentRequestConverter::ARG_ZOOM => "11",
+            ReadNotamByExtentRequestConverter::ARG_MIN_NOTAM_TIME => "1560603981",
+            ReadNotamByExtentRequestConverter::ARG_MAX_NOTAM_TIME => "1560703981",
         );
         $notamResult = DummyNotam1::create();
         $this->notamRepo->pushMockResult([$notamResult]);

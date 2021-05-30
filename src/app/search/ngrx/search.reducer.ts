@@ -1,4 +1,4 @@
-import {SearchActions2} from './search.actions';
+import {SearchActions} from './search.actions';
 import {SearchState} from '../domain-model/search-state';
 import {createReducer, on} from '@ngrx/store';
 
@@ -11,7 +11,7 @@ const initialSearchState: SearchState = {
 
 export const searchReducer = createReducer(
     initialSearchState,
-    on(SearchActions2.showTextSearchField, (state) => ({
+    on(SearchActions.showTextSearchField, (state) => ({
         ...state,
         textSearchState: {
             searchIsActive: true,
@@ -19,7 +19,7 @@ export const searchReducer = createReducer(
             selectedResultIndex: state.textSearchState.selectedResultIndex
         }
     })),
-    on(SearchActions2.hideTextSearchField, (state) => ({
+    on(SearchActions.hideTextSearchField, (state) => ({
         ...state,
         textSearchState: {
             searchIsActive: false,
@@ -27,7 +27,7 @@ export const searchReducer = createReducer(
             selectedResultIndex: undefined
         }
     })),
-    on(SearchActions2.showTextSearchResults, (state, action) => ({
+    on(SearchActions.showTextSearchResults, (state, action) => ({
         ...state,
         textSearchState: {
             searchIsActive: true,
@@ -35,7 +35,7 @@ export const searchReducer = createReducer(
             selectedResultIndex: undefined
         }
     })),
-    on(SearchActions2.previousTextSearchResult, (state) => {
+    on(SearchActions.previousTextSearchResult, (state) => {
         let prevIndex: number;
         if (!state.textSearchState.searchResults || state.textSearchState.searchResults.items.length === 0) {
             prevIndex = undefined;
@@ -57,7 +57,7 @@ export const searchReducer = createReducer(
             }
         };
     }),
-    on(SearchActions2.nextTextSearchResult, (state) => {
+    on(SearchActions.nextTextSearchResult, (state) => {
         let nextIndex: number;
         if (!state.textSearchState.searchResults || state.textSearchState.searchResults.items.length === 0) {
             nextIndex = undefined;
@@ -79,7 +79,7 @@ export const searchReducer = createReducer(
             }
         };
     }),
-    on(SearchActions2.hideTextSearchResults, (state) => ({
+    on(SearchActions.hideTextSearchResults, (state) => ({
         ...state,
         textSearchState: {
             searchIsActive: true,
@@ -87,11 +87,11 @@ export const searchReducer = createReducer(
             selectedResultIndex: undefined
         }
     })),
-    on(SearchActions2.showPositionSearchResults, (state, action) => ({
+    on(SearchActions.showPositionSearchResults, (state, action) => ({
         ...state,
         positionSearchState: { searchItems: action.searchResults.items, clickPos: action.clickPos }
     })),
-    on(SearchActions2.closePositionSearchResults, (state) => ({
+    on(SearchActions.hidePositionSearchResults, (state) => ({
         ...state,
         positionSearchState: { searchItems: [], clickPos: undefined }
     })),

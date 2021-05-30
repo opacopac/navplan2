@@ -12,6 +12,8 @@ import {ReadNotamByExtentRequest} from '../domain-model/read-notam-by-extent-req
 import {ReadNotamByIcaoRequest} from '../domain-model/read-notam-by-icao-request';
 import {RestReadNotamByExtentRequestConverter} from '../rest-model/rest-read-notam-by-extent-request-converter';
 import {RestReadNotamByIcaoRequestConverter} from '../rest-model/rest-read-notam-by-icao-request-converter';
+import {ReadNotamByPositionRequest} from '../domain-model/read-notam-by-position-request';
+import {RestReadNotamByPositionRequestConverter} from '../rest-model/rest-read-notam-by-position-request-converter';
 
 
 @Injectable()
@@ -28,6 +30,20 @@ export class RestNotamRepo implements INotamRepo {
                 map(response => RestNotamListConverter.fromRest(response)),
                 catchError(error => {
                     LoggingService.logResponseError('ERROR reading NOTAMs by extent!', error);
+                    return throwError(error);
+                })
+            );
+    }
+
+
+    public readByPosition(request: ReadNotamByPositionRequest): Observable<NotamList> {
+        const url = RestReadNotamByPositionRequestConverter.toUrl(request);
+        return this.http
+            .get<IRestNotamResponse>(url)
+            .pipe(
+                map(response => RestNotamListConverter.fromRest(response)),
+                catchError(error => {
+                    LoggingService.logResponseError('ERROR reading NOTAMs by position!', error);
                     return throwError(error);
                 })
             );

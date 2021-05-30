@@ -3,7 +3,6 @@
 namespace NavplanTest\Aerodrome\DbRepo;
 
 use Navplan\Aerodrome\DbRepo\DbAirportRepo;
-use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
 use NavplanTest\Aerodrome\Mocks\DummyAirport1;
 use NavplanTest\Aerodrome\Mocks\DummyAirportFeature1;
@@ -48,17 +47,6 @@ class DbAirportRepoTest extends TestCase {
 
     public function test_create_instance() {
         $this->assertNotNull($this->getDbRepo());
-    }
-
-
-    public function test_searchByExtent() {
-        $this->prepareAirport1DbResult();
-        $extent = Extent2d::createFromCoords(7.0, 47.0, 7.9, 47.9);
-
-        $adList = $this->getDbRepo()->searchByExtent($extent, 11);
-
-        $this->assertEquals(1, count($adList));
-        $this->assertEquals(DummyAirport1::create(), $adList[0]);
     }
 
 

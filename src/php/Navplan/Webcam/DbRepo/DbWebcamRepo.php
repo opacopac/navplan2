@@ -29,4 +29,29 @@ class DbWebcamRepo implements IWebcamRepo {
 
         return $webcams;
     }
+
+
+    function searchByIcao(array $airportIcaoList): array {
+        $airportIcaoStr = join(
+            ",",
+            array_map(
+                function ($airportIcao) { return $this->dbService->escapeAndQuoteString($airportIcao); },
+                $airportIcaoList
+            )
+        );
+        $query  = "SELECT *";
+        $query .= " FROM webcams";
+        $query .= " WHERE airport_icao IN (" .  $airportIcaoStr . ")";
+        $query .= " ORDER BY";
+        $query .= "   name ASC";
+
+        $result = $this->dbService->execMultiResultQuery($query, "error reading webcams");
+
+        $webcams = [];
+        while ($row = $result->fetch_assoc()) {
+            $webcams[] = DbWebcamConverter::fromDbRow($row);
+        }
+
+        return $webcams;
+    }
 }

@@ -2,13 +2,12 @@
 
 namespace Navplan\Notam\DomainModel;
 
-use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\DomainModel\Position2d;
 
 
-class ReadNotamByExtentRequest {
+class ReadNotamByPositionRequest {
     public function __construct(
-        public Extent2d $extent,
-        public int $zoom,
+        public Position2d $position,
         public int $minNotamTimestamp,
         public int $maxNotamTimestamp
     ) {

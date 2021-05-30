@@ -2,7 +2,6 @@
 
 namespace Navplan\Aerodrome\DbRepo;
 
-use BadMethodCallException;
 use Navplan\Aerodrome\DbModel\DbAirportChartConverter;
 use Navplan\Aerodrome\DbModel\DbAirportConverter;
 use Navplan\Aerodrome\DbModel\DbAirportFeatureConverter;
@@ -17,7 +16,6 @@ use Navplan\Common\DomainModel\Position2d;
 use Navplan\System\DomainModel\IDbResult;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
-use Navplan\Webcam\DbModel\DbWebcamConverter;
 
 
 class DbAirportRepo implements IAirportRepo {
@@ -38,23 +36,6 @@ class DbAirportRepo implements IAirportRepo {
         self::loadAirportSubItems($airports);
 
         return $airport;
-    }
-
-
-    public function searchByExtent(Extent2d $extent, int $zoom): array {
-        $extentPoly = DbHelper::getDbExtentPolygon2($extent);
-        $query  = "SELECT *";
-        $query .= " FROM openaip_airports2";
-        $query .= " WHERE";
-        $query .= "  ST_INTERSECTS(lonlat, " . $extentPoly . ")";
-        $query .= "    AND";
-        $query .= "  zoommin <= " . $zoom;
-
-        $result = $this->dbService->execMultiResultQuery($query, "error searching airports by extent");
-        $airports = self::readAirportFromResultList($result);
-        self::loadAirportSubItems($airports);
-
-        return $airports;
     }
 
 
@@ -138,11 +119,6 @@ class DbAirportRepo implements IAirportRepo {
     }
 
 
-    public function searchByIcao($icaoList): array {
-        throw new BadMethodCallException("not implemented!");
-    }
-
-
     private function loadAirportSubItems(array &$airports) {
         if (count($airports) == 0)
             return;
@@ -160,7 +136,6 @@ class DbAirportRepo implements IAirportRepo {
         $this->loadAirportRunways($airports, $apIdList);
         $this->loadAirportRadios($airports, $apIdList);
         $this->loadAirportChars($airports, $apIcaoList);
-        $this->loadAirportWebcams($airports, $apIcaoList);
         $this->loadAirportFeatures($airports, $apIcaoList);
     }
 
@@ -226,27 +201,6 @@ class DbAirportRepo implements IAirportRepo {
             foreach ($airports as &$ap) {
                 if ($ap->icao === $row["airport_icao"]) {
                     $ap->charts[] = DbAirportChartConverter::fromDbRow($row);
-                    break;
-                }
-            }
-        }
-    }
-
-
-    private function loadAirportWebcams(array &$airports, string $apIcaoList) {
-        $this->dbService->escapeString($apIcaoList);
-        $query  = "SELECT *";
-        $query .= " FROM webcams";
-        $query .= " WHERE airport_icao IN (" .  $apIcaoList . ")";
-        $query .= " ORDER BY";
-        $query .= "   name ASC";
-
-        $result = $this->dbService->execMultiResultQuery($query, "error reading webcams");
-
-        while ($row = $result->fetch_assoc()) {
-            foreach ($airports as &$ap) {
-                if ($ap->icao === $row["airport_icao"]) {
-                    $ap->webcams[] = DbWebcamConverter::fromDbRow($row);
                     break;
                 }
             }

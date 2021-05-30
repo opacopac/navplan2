@@ -7,7 +7,7 @@ use Navplan\Common\StringNumberHelper;
 use Navplan\Notam\DomainModel\ReadNotamByExtentRequest;
 
 
-class ReadNotamRequestConverter {
+class ReadNotamByExtentRequestConverter {
     const ARG_MIN_LON = "minlon";
     const ARG_MIN_LAT = "minlat";
     const ARG_MAX_LON = "maxlon";
@@ -18,11 +18,12 @@ class ReadNotamRequestConverter {
 
 
     public static function fromArgs(array $args): ReadNotamByExtentRequest {
-        $minLon = StringNumberHelper::parseFloatOrError($args, self::ARG_MIN_LON);
-        $minLat = StringNumberHelper::parseFloatOrError($args, self::ARG_MIN_LAT);
-        $maxLon = StringNumberHelper::parseFloatOrError($args, self::ARG_MAX_LON);
-        $maxLat = StringNumberHelper::parseFloatOrError($args, self::ARG_MAX_LAT);
-        $extent = Extent2d::createFromCoords($minLon, $minLat, $maxLon, $maxLat);
+        $extent = Extent2d::createFromCoords(
+            StringNumberHelper::parseFloatOrError($args, self::ARG_MIN_LON),
+            StringNumberHelper::parseFloatOrError($args, self::ARG_MIN_LAT),
+            StringNumberHelper::parseFloatOrError($args, self::ARG_MAX_LON),
+            StringNumberHelper::parseFloatOrError($args, self::ARG_MAX_LAT)
+        );
         $zoom = StringNumberHelper::parseIntOrError($args, self::ARG_ZOOM);
         $minNotamTimestamp = StringNumberHelper::parseIntOrError($args, self::ARG_MIN_NOTAM_TIME);
         $maxNotamTimestamp = StringNumberHelper::parseIntOrError($args, self::ARG_MAX_NOTAM_TIME);

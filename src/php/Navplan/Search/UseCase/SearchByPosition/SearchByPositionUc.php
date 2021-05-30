@@ -66,8 +66,9 @@ class SearchByPositionUc implements ISearchByPositionUc {
                     $resultNum += count($geonames);
                     break;
                 case SearchItemType::NOTAMS:
-                    $geonames = $this->searchNotamUc->searchByPosition($query->position, $query->minNotamTimestamp, $query->maxNotamTimestamp, self::getMaxPositionResults($resultNum, $maxResults));
-                    $resultNum += count($geonames);
+                    $response = $this->searchNotamUc->searchByPosition($query->position, $query->minNotamTimestamp, $query->maxNotamTimestamp, self::getMaxPositionResults($resultNum, $maxResults));
+                    $notams = $response->notams;
+                    $resultNum += count($notams);
                     break;
             }
         }

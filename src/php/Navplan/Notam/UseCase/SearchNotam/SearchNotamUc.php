@@ -2,8 +2,9 @@
 
 namespace Navplan\Notam\UseCase\SearchNotam;
 
-use Navplan\Common\DomainModel\Position2d;
 use Navplan\Notam\DomainModel\ReadNotamByExtentRequest;
+use Navplan\Notam\DomainModel\ReadNotamByIcaoRequest;
+use Navplan\Notam\DomainModel\ReadNotamByPositionRequest;
 use Navplan\Notam\DomainModel\ReadNotamResponse;
 use Navplan\Notam\DomainService\INotamRepo;
 
@@ -25,12 +26,24 @@ class SearchNotamUc implements ISearchNotamUc {
     }
 
 
-    public function searchByPosition(Position2d $position, int $minNotamTimestamp, int $maxNotamTimestamp, int $maxResults): array {
-        return $this->notamRepo->searchByPosition($position, $minNotamTimestamp, $maxNotamTimestamp, $maxResults);
+    public function searchByPosition(ReadNotamByPositionRequest $request): ReadNotamResponse {
+        $notamList = $this->notamRepo->searchByPosition(
+            $request->position,
+            $request->minNotamTimestamp,
+            $request->maxNotamTimestamp
+        );
+
+        return new ReadNotamResponse($notamList);
     }
 
 
-    public function searchByIcao(array $icaoList, int $minNotamTimestamp, int $maxNotamTimestamp): array {
-        return $this->notamRepo->searchByIcao($icaoList, $minNotamTimestamp, $maxNotamTimestamp);
+    public function searchByIcao(ReadNotamByIcaoRequest $request): ReadNotamResponse {
+        $notamList = $this->notamRepo->searchByIcao(
+            $request->airportIcao,
+            $request->minNotamTimestamp,
+            $request->maxNotamTimestamp
+        );
+
+        return new ReadNotamResponse($notamList);
     }
 }

@@ -27,7 +27,7 @@ class DbNotamRepo implements INotamRepo {
         $pixelResolutionDeg = GeoHelper::calcDegPerPixelByZoom($zoom); // TODO
         $minDiameterDeg = $pixelResolutionDeg * self::MIN_PIXEL_NOTAMAREA_DIAMETER;
         // get firs & ads within extent
-        $icaoList = $this->loadIcaoListByExtent($extent);
+        $icaoList = $this->loadIcaoListByExtent($extent); // TODO: why?
 
         // load notams by icao
         $query = "SELECT ntm.id, ntm.notam AS notam, geo.geometry AS geometry, ST_AsText(geo.extent) AS extent"
@@ -48,7 +48,7 @@ class DbNotamRepo implements INotamRepo {
     }
 
 
-    public function searchByPosition(Position2d $position, int $minNotamTimestamp, int $maxNotamTimestamp, int $maxResults): array {
+    public function searchByPosition(Position2d $position, int $minNotamTimestamp, int $maxNotamTimestamp): array {
         $query = "SELECT ntm.id, ntm.notam AS notam"
             . "   FROM icao_notam AS ntm"
             . "    INNER JOIN icao_notam_geometry geo ON geo.icao_notam_id = ntm.id "
@@ -58,8 +58,7 @@ class DbNotamRepo implements INotamRepo {
             . "    AND ntm.startdate <= '" . DbHelper::getDbUtcTimeString($maxNotamTimestamp) . "'"
             . "    AND ntm.enddate >= '" . DbHelper::getDbUtcTimeString($minNotamTimestamp) . "'"
             . "    AND (ST_INTERSECTS(fir.polygon,". DbHelper::getDbPointStringFromLonLat([$position->longitude, $position->latitude]) . "))" //" OR (fir2.icao IS NULL AND geo.geometry IS NOT NULL))"
-            . "   ORDER BY ntm.startdate DESC"
-            . "   LIMIT " . $maxResults;
+            . "   ORDER BY ntm.startdate DESC";
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching notams");
 
@@ -67,12 +66,12 @@ class DbNotamRepo implements INotamRepo {
     }
 
 
-    public function searchByIcao(array $icaoList, int $minNotamTimestamp, int $maxNotamTimestamp): array {
+    public function searchByIcao(string $airportIcao, int $minNotamTimestamp, int $maxNotamTimestamp): array {
         $query = "SELECT ntm.id, ntm.notam AS notam"
             . "   FROM icao_notam AS ntm"
             . "    INNER JOIN icao_notam_geometry2 geo ON geo.icao_notam_id = ntm.id"
             . "   WHERE"
-            . "    ntm.icao IN ('" . join("','", $icaoList) . "')"
+            . "    ntm.icao IN (" . $this->dbService->escapeAndQuoteString($airportIcao) . ")"
             . "    AND ntm.startdate <= '" . DbHelper::getDbUtcTimeString($maxNotamTimestamp) . "'"
             . "    AND ntm.enddate >= '" . DbHelper::getDbUtcTimeString($minNotamTimestamp) . "'"
             . "   ORDER BY ntm.startdate DESC";

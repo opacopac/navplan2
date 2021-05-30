@@ -1,6 +1,6 @@
 export class ReadNotamByIcaoRequest {
     constructor(
-        public icaoList: string[],
+        public airportIcao: string,
         public starttimestamp: number,
         public endtimestamp: number
     ) {

@@ -10,7 +10,8 @@ class DummyWebcam1 {
         return new Webcam(
             "Webcam",
             "http://www.flughafenbern.ch/de/erlebnis-flughafen/live/webcam",
-            NULL
+            NULL,
+            "LSZB"
         );
     }
 

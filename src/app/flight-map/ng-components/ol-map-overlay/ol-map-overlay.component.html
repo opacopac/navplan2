@@ -48,12 +48,11 @@
                 </mat-tab>
 
                 <!-- notam tab -->
-                <mat-tab>
+                <mat-tab *ngIf="this.notams && this.notams.length > 0">
                     <ng-template mat-tab-label>
                         <i class="fas fa-exclamation-triangle"></i>
                     </ng-template>
-                    TODO: NOTAM
-                    <!--<app-ol-overlay-airport-notam-tab [airport]="this.airport"></app-ol-overlay-airport-notam-tab>-->
+                    <app-map-overlay-notam-tab [notams]="this.notams"></app-map-overlay-notam-tab>
                 </mat-tab>
 
                 <!-- charts tab -->

@@ -11,7 +11,8 @@ class DummyWebcam2 {
         return new Webcam(
             "Roggenberg",
             "http://roggenberg.roundshot.com/",
-            new Position2d(7.7186, 47.305)
+            new Position2d(7.7186, 47.305),
+            NULL
         );
     }
 

@@ -8,7 +8,7 @@ import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {SearchItemList} from '../../domain-model/search-item-list';
 import {SearchItem} from '../../domain-model/search-item';
-import {SearchActions2} from '../../ngrx/search.actions';
+import {SearchActions} from '../../ngrx/search.actions';
 
 
 @Component({
@@ -35,21 +35,21 @@ export class SearchContainerComponent implements OnInit {
 
 
     public onSearchInputChange(query: string) {
-        this.appStore.dispatch(SearchActions2.searchByText({ query: query }));
+        this.appStore.dispatch(SearchActions.searchByText({ query: query }));
     }
 
 
     public onSearchButtonClick(query: string) {
-        this.appStore.dispatch(SearchActions2.searchByText({ query: query }));
+        this.appStore.dispatch(SearchActions.searchByText({ query: query }));
     }
 
 
     public onSearchInputBlur() {
-        this.appStore.dispatch(SearchActions2.hideTextSearchResults());
+        this.appStore.dispatch(SearchActions.hideTextSearchResults());
     }
 
 
     public onResultSelected(result: SearchItem) {
-        this.appStore.dispatch(SearchActions2.selectTextSearchResult({ searchItem: result }));
+        this.appStore.dispatch(SearchActions.selectTextSearchResult({ searchItem: result }));
     }
 }

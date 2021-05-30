@@ -9,7 +9,7 @@ use Navplan\Common\DomainModel\Position2d;
 interface INotamRepo {
     function searchByExtent(Extent2d $extent, int $zoom, int $minNotamTimestamp, int $maxNotamTimestamp): array;
 
-    function searchByPosition(Position2d $position, int $minNotamTimestamp, int $maxNotamTimestamp, int $maxResults): array;
+    function searchByPosition(Position2d $position, int $minNotamTimestamp, int $maxNotamTimestamp): array;
 
-    function searchByIcao(array $icaoList, int $minNotamTimestamp, int $maxNotamTimestamp): array;
+    function searchByIcao(string $airportIcao, int $minNotamTimestamp, int $maxNotamTimestamp): array;
 }

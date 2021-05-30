@@ -3,8 +3,6 @@
 namespace NavplanTest\Search\RestService;
 
 use InvalidArgumentException;
-use Navplan\Search\RestModel\SearchByExtentQueryConverter;
-use Navplan\Search\RestModel\SearchByIcaoQueryConverter;
 use Navplan\Search\RestModel\SearchByPositionQueryConverter;
 use Navplan\Search\RestModel\SearchByTextQueryConverter;
 use Navplan\Search\RestService\SearchServiceProcessor;
@@ -63,21 +61,6 @@ class SearchServiceProcessorTest extends TestCase {
     }
 
 
-    public function test_processRequest_searchByExtent_gets_called() {
-        $getVars = array(
-            SearchServiceProcessor::ARG_ACTION => SearchServiceProcessor::ACTION_SEARCH_BY_EXTENT,
-            SearchByExtentQueryConverter::ARG_SEARCH_ITEMS => "navaids",
-            SearchByExtentQueryConverter::ARG_MIN_LON => "7.0",
-            SearchByExtentQueryConverter::ARG_MIN_LAT => "47.0",
-            SearchByExtentQueryConverter::ARG_MAX_LON => "7.9",
-            SearchByExtentQueryConverter::ARG_MAX_LAT => "47.9",
-            SearchByExtentQueryConverter::ARG_ZOOM => "11"
-        );
-        SearchServiceProcessor::processRequest($getVars, $this->config);
-        $this->assertRegExp($this->expectedNavaidRegexp, $this->getHttpService()->body);
-    }
-
-
     public function test_processRequest_searchByPosition_gets_called() {
         $getVars = array(
             SearchServiceProcessor::ARG_ACTION => SearchServiceProcessor::ACTION_SEARCH_BY_POSITION,
@@ -99,16 +82,5 @@ class SearchServiceProcessorTest extends TestCase {
         );
         SearchServiceProcessor::processRequest($getVars, $this->config);
         $this->assertRegExp($this->expectedNavaidRegexp, $this->getHttpService()->body);
-    }
-
-
-    public function test_processRequest_searchByIcao_gets_called() {
-        $getVars = array(
-            SearchServiceProcessor::ARG_ACTION => SearchServiceProcessor::ACTION_SEARCH_BY_ICAO,
-            SearchByIcaoQueryConverter::ARG_SEARCH_ITEMS => "reportingpoints",
-            SearchByIcaoQueryConverter::ARG_ICAO => "LSZB"
-        );
-        SearchServiceProcessor::processRequest($getVars, $this->config);
-        $this->assertRegExp($this->expectedRpRegexp, $this->getHttpService()->body);
     }
 }

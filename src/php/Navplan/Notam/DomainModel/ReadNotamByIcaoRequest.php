@@ -2,13 +2,10 @@
 
 namespace Navplan\Notam\DomainModel;
 
-use Navplan\Common\DomainModel\Extent2d;
 
-
-class ReadNotamByExtentRequest {
+class ReadNotamByIcaoRequest {
     public function __construct(
-        public Extent2d $extent,
-        public int $zoom,
+        public string $airportIcao,
         public int $minNotamTimestamp,
         public int $maxNotamTimestamp
     ) {

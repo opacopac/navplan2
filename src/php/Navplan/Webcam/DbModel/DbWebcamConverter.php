@@ -11,7 +11,8 @@ class DbWebcamConverter {
         return new Webcam(
             $row["name"],
             $row["url"],
-            DbPosition2dConverter::fromDbRow($row)
+            DbPosition2dConverter::fromDbRow($row),
+            $row["airport_icao"]
         );
     }
 }
