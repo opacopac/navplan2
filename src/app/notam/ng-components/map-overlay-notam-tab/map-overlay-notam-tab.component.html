@@ -1,13 +1,21 @@
-<div class="table-notam">
-    <p>NOTAMs (Today &amp; Tomorrow)</p>
-    <table class="table table-striped table-condensed">
-        <tr *ngFor="let notam of this.notams">
-            <td>
-                <app-map-overlay-notam-item [notam]="notam"></app-map-overlay-notam-item>
+<div class="notam-table">
+    <table mat-table [dataSource]="this.notams">
+        <ng-container matColumnDef="fullNotam">
+            <th mat-header-cell *matHeaderCellDef>NOTAM</th>
+            <td mat-cell *matCellDef="let notam">
+                <div class="notam-validity">
+                    {{ this.getNotamValidity(notam) }}
+                    <mat-icon class="info-icon" title="LT = Browser Time">info_outlined</mat-icon>
+                </div>
+                <div class="notam-title">
+                    {{ this.getNotamTitle(notam) }}
+                    <!--<mat-icon class="info-icon" title="LT = Browser Time">info_outlined</mat-icon>-->
+                </div>
+                <div class="notam-text" [innerHtml]="this.getNotamText(notam)"></div>
             </td>
-        </tr>
-        <tr *ngIf="!this.notams || this.notams.length == 0">
-            <td><em>No NOTAMs available</em></td>
-        </tr>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="this.getNotamColumns()"></tr>
+        <tr mat-row *matRowDef="let row; columns: this.getNotamColumns();"></tr>
     </table>
 </div>

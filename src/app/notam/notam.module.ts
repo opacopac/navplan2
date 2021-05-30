@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RestNotamRepo} from './rest-service/rest-notam-repo.service';
-import {MapOverlayNotamItemComponent} from './ng-components/map-overlay-notam-item/map-overlay-notam-item.component';
 import {SharedModule} from '../common/shared.module';
 import {StoreModule} from '@ngrx/store';
 import {notamReducer} from './ngrx/notam.reducer';
@@ -26,11 +25,9 @@ import {MapOverlayNotamTabComponent} from './ng-components/map-overlay-notam-tab
     ],
     declarations: [
         MapOverlayNotamTabComponent,
-        MapOverlayNotamItemComponent
     ],
     exports: [
         MapOverlayNotamTabComponent,
-        MapOverlayNotamItemComponent
     ],
     providers: [
         { provide: INotamRepo, useClass: RestNotamRepo },

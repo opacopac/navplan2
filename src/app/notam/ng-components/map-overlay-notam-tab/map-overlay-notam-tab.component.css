@@ -1,10 +1,29 @@
-table.mat-table {
+.notam-table {
     width: 100%;
+    max-height: calc(80vh - 200px);
+    overflow-y: auto;
 }
-
-
-.table-notam {
-    /* max-height: 50%; */
-    overflow: auto;
-    margin-bottom: 10px;
+.mat-row:nth-child(even), .mat-header-cell {
+    background-color: rgb(249, 249, 249);
+}
+.mat-row:nth-child(odd) {
+    background-color: white;
+}
+.notam-title {
+    color: rgb(63, 63, 63);
+    font-weight: bold;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.notam-validity {
+    float: right;
+    font-style: italic;
+    margin-top: 4px;
+}
+.notam-text {
+}
+.info-icon {
+    color: rgb(122, 122, 122);
+    font-size: inherit;
+    height: inherit;
 }
