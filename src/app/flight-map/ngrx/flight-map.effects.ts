@@ -1,6 +1,6 @@
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Store} from '@ngrx/store';
-import {debounceTime, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
+import {debounceTime, filter, map, switchMap, take, withLatestFrom} from 'rxjs/operators';
 import {combineLatest, Observable, of, pipe} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {BaseMapActions} from '../../base-map/ngrx/base-map.actions';
@@ -84,7 +84,7 @@ export class FlightMapEffects {
             this.airportService.readAirportById(shortAirport.id),
             this.notamService.readByIcao(shortAirport.icao),
             this.metarTafState$
-        ])),
+        ]).pipe(take(1))),
         map(([airport, notamList, metarTafState]) => FlightMapActions.showOverlay({
             dataItem: airport,
             clickPos: undefined,
@@ -109,7 +109,7 @@ export class FlightMapEffects {
             of(metarTafShortAirport.metarTaf),
             this.airportService.readAirportById(metarTafShortAirport.shortAirport.id),
             this.notamService.readByIcao(metarTafShortAirport.shortAirport.icao),
-        ])),
+        ]).pipe(take(1))),
         map(([metarTaf, airport, notamList]) => FlightMapActions.showOverlay({
             dataItem: airport,
             clickPos: undefined,
@@ -132,7 +132,7 @@ export class FlightMapEffects {
         switchMap(action => combineLatest([
             of(action),
             this.notamService.readByPosition(action.clickPos)
-        ])),
+        ]).pipe(take(1))),
         map(([action, notamList]) => FlightMapActions.showOverlay({
             dataItem: action.dataItem,
             clickPos: action.clickPos,
