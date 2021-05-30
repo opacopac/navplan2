@@ -51,13 +51,12 @@ class DbNotamRepo implements INotamRepo {
     public function searchByPosition(Position2d $position, int $minNotamTimestamp, int $maxNotamTimestamp): array {
         $query = "SELECT ntm.id, ntm.notam AS notam"
             . "   FROM icao_notam AS ntm"
-            . "    INNER JOIN icao_notam_geometry geo ON geo.icao_notam_id = ntm.id "
-            . "    INNER JOIN icao_fir fir ON fir.statecode = ntm.country"
-            . "    LEFT JOIN icao_fir fir2 ON fir2.icao = ntm.icao"
-            . "   WHERE ST_INTERSECTS(geo.extent,". DbHelper::getDbPointStringFromLonLat([$position->longitude, $position->latitude]) . ")"
-            . "    AND ntm.startdate <= '" . DbHelper::getDbUtcTimeString($maxNotamTimestamp) . "'"
+            . "    INNER JOIN icao_notam_geometry2 geo ON geo.icao_notam_id = ntm.id "
+            . "   WHERE"
+            . "    ntm.startdate <= '" . DbHelper::getDbUtcTimeString($maxNotamTimestamp) . "'"
             . "    AND ntm.enddate >= '" . DbHelper::getDbUtcTimeString($minNotamTimestamp) . "'"
-            . "    AND (ST_INTERSECTS(fir.polygon,". DbHelper::getDbPointStringFromLonLat([$position->longitude, $position->latitude]) . "))" //" OR (fir2.icao IS NULL AND geo.geometry IS NOT NULL))"
+            . "    AND (geo.zoommax = 255 OR geo.zoommax IS NULL)"
+            . "    AND ST_INTERSECTS(geo.extent,". DbHelper::getDbPointStringFromLonLat([$position->longitude, $position->latitude]) . ")"
             . "   ORDER BY ntm.startdate DESC";
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching notams");
@@ -69,7 +68,6 @@ class DbNotamRepo implements INotamRepo {
     public function searchByIcao(string $airportIcao, int $minNotamTimestamp, int $maxNotamTimestamp): array {
         $query = "SELECT ntm.id, ntm.notam AS notam"
             . "   FROM icao_notam AS ntm"
-            . "    INNER JOIN icao_notam_geometry2 geo ON geo.icao_notam_id = ntm.id"
             . "   WHERE"
             . "    ntm.icao IN (" . $this->dbService->escapeAndQuoteString($airportIcao) . ")"
             . "    AND ntm.startdate <= '" . DbHelper::getDbUtcTimeString($maxNotamTimestamp) . "'"
