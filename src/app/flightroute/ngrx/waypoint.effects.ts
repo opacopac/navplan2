@@ -3,8 +3,8 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {map, switchMap} from 'rxjs/operators';
 import {WaypointActions} from './waypoints.actions';
 import {WaypointConverter} from '../domain-model/converter/waypoint-converter';
-import {SearchService} from '../../search/domain-service/search.service';
 import {OlHelper} from '../../base-map/ol-service/ol-helper';
+import {ISearchService} from '../../search/domain-service/i-search.service';
 
 
 @Injectable()
@@ -14,7 +14,7 @@ export class WaypointEffects {
 
     constructor(
         private actions$: Actions,
-        private searchService: SearchService
+        private searchService: ISearchService
     ) {
     }
 

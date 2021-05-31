@@ -3,15 +3,16 @@ import {Observable, of} from 'rxjs';
 import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 import {map} from 'rxjs/operators';
 import {ReportingPointSectorState} from '../domain-model/reporting-point-sector-state';
-import {ReportingPointRestService} from '../rest-service/reporting-point-rest.service';
+import {IReportingPointService} from './i-reporting-point.service';
+import {IReportingPointRepo} from './i-reporting-point-repo';
 
 
 @Injectable()
-export class ReportingPointService {
+export class ReportingPointService implements IReportingPointService {
     private readonly REPORTING_POINT_MIN_ZOOM = 11;
 
 
-    constructor(private reportingPointRestService: ReportingPointRestService) {
+    constructor(private reportingPointRepo: IReportingPointRepo) {
     }
 
 
@@ -20,7 +21,7 @@ export class ReportingPointService {
             return of({ extent: extent, zoom: zoom, reportingPoints: [], reportingSectors: [] });
         }
 
-        return this.reportingPointRestService.readReportingPointsByExtent(extent).pipe(
+        return this.reportingPointRepo.readReportingPointsByExtent(extent).pipe(
             map(repPointsSectors => ({
                 extent: extent,
                 zoom: zoom,

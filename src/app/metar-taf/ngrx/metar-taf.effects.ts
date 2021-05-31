@@ -5,9 +5,9 @@ import {MetarTafActions} from './metar-taf.actions';
 import {Observable, pipe} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {MetarTafState} from '../domain-model/metar-taf-state';
-import {MetarTafService} from '../domain-service/metar-taf.service';
 import {getMetarTafState} from './metar-taf.selectors';
 import {environment} from '../../../environments/environment';
+import {IMetarTafService} from '../domain-service/i-metar-taf.service';
 
 
 @Injectable()
@@ -18,7 +18,7 @@ export class MetarTafEffects {
     constructor(
         private readonly actions$: Actions,
         private readonly appStore: Store<any>,
-        private readonly metarTafService: MetarTafService,
+        private readonly metarTafService: IMetarTafService,
     ) {
     }
 

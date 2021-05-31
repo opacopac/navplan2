@@ -9,10 +9,11 @@ import {MetarTaf} from '../domain-model/metar-taf';
 import {IRestMetarTafResponse} from '../rest-model/i-rest-metar-taf-response';
 import {RestMetarTafConverter} from '../rest-model/rest-metar-taf-converter';
 import {environment} from '../../../environments/environment';
+import {IMetarTafRepo} from '../domain-service/i-metar-taf-repo.service';
 
 
 @Injectable()
-export class RestMetarTafService {
+export class RestMetarTafService implements IMetarTafRepo {
     constructor(private http: HttpClient) {
     }
 

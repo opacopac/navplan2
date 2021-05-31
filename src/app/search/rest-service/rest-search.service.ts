@@ -10,12 +10,11 @@ import {User} from '../../user/domain-model/user';
 import {SearchItemList} from '../domain-model/search-item-list';
 import {CoordinateHelper} from '../../common/geo-math/domain-service/coordinate-helper';
 import {IRestSearchResponse} from '../rest-model/i-rest-search-response';
+import {ISearchRepo} from '../domain-service/i-search-repo';
 
 
-@Injectable({
-    providedIn: 'root'
-})
-export class RestSearchService {
+@Injectable()
+export class RestSearchService implements ISearchRepo {
     constructor(private http: HttpClient) {}
 
 

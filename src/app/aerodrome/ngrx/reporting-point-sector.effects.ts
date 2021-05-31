@@ -5,9 +5,9 @@ import {ReportingPointSectorActions} from './reporting-point-sector.actions';
 import {Observable, pipe} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {getReportingPointSectorState} from './reporting-point-sector.selectors';
-import {ReportingPointService} from '../domain-service/reporting-point.service';
 import {ReportingPointSectorState} from '../domain-model/reporting-point-sector-state';
 import {environment} from '../../../environments/environment';
+import {IReportingPointService} from '../domain-service/i-reporting-point.service';
 
 
 @Injectable()
@@ -19,7 +19,7 @@ export class ReportingPointSectorEffects {
     constructor(
         private readonly actions$: Actions,
         private readonly appStore: Store<any>,
-        private readonly reportingPointService: ReportingPointService,
+        private readonly reportingPointService: IReportingPointService,
     ) {
     }
 

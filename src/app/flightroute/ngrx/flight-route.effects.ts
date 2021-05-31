@@ -3,7 +3,6 @@ import {select, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
-import {FlightrouteService} from '../rest-service/flightroute.service';
 import {getCurrentUser} from '../../user/ngrx/user.selectors';
 import {User} from '../../user/domain-model/user';
 import {getFlightroute} from './flightroute.selectors';
@@ -11,6 +10,7 @@ import {Flightroute} from '../domain-model/flightroute';
 import {FlightRouteActions} from './flight-route.actions';
 import {MessageActions} from '../../message/ngrx/message.actions';
 import {Message} from '../../message/domain-model/message';
+import {IFlightrouteService} from '../domain-service/i-flightroute-service';
 
 
 @Injectable()
@@ -22,7 +22,7 @@ export class FlightRouteEffects {
     constructor(
         private actions$: Actions,
         private appStore: Store<any>,
-        private flightrouteService: FlightrouteService
+        private flightrouteService: IFlightrouteService
     ) {
     }
 

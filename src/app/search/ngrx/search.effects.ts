@@ -7,7 +7,7 @@ import {SearchActions} from './search.actions';
 import {getCurrentUser} from '../../user/ngrx/user.selectors';
 import {User} from '../../user/domain-model/user';
 import {LoggingService} from '../../system/domain-service/logging/logging.service';
-import {SearchService} from '../domain-service/search.service';
+import {ISearchService} from '../domain-service/i-search.service';
 
 
 const MIN_QUERY_LENGTH = 3;
@@ -22,7 +22,7 @@ export class SearchEffects {
     constructor(
         private actions$: Actions,
         private appStore: Store<any>,
-        private searchService: SearchService
+        private searchService: ISearchService
     ) {
     }
 

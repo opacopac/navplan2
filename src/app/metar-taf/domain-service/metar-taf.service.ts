@@ -3,21 +3,22 @@ import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 import {Observable, of} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {SystemConfig} from '../../system/domain-service/system-config';
-import {RestMetarTafService} from '../rest-service/rest-metar-taf.service';
 import {MetarTaf} from '../domain-model/metar-taf';
 import {MetarTafState} from '../domain-model/metar-taf-state';
 import {map} from 'rxjs/operators';
+import {IMetarTafService} from './i-metar-taf.service';
+import {IMetarTafRepo} from './i-metar-taf-repo.service';
 
 
 @Injectable()
-export class MetarTafService {
+export class MetarTafService implements IMetarTafService {
     private readonly METAR_TAF_TIMEOUT_SEC = 60 * 5;
     private readonly METAR_TAF_MIN_ZOOM_LEVEL = 8;
     private readonly date: IDate;
 
 
     public constructor(
-        private readonly metarTafRepo: RestMetarTafService,
+        private readonly metarTafRepo: IMetarTafRepo,
         config: SystemConfig
     ) {
         this.date = config.getDate();

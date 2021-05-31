@@ -7,11 +7,9 @@ import {BaseMapActions} from '../../base-map/ngrx/base-map.actions';
 import {DataItemType} from '../../common/model/data-item';
 import {ShortAirport} from '../../aerodrome/domain-model/short-airport';
 import {FlightMapActions} from './flight-map.actions';
-import {MetarTafService} from '../../metar-taf/domain-service/metar-taf.service';
 import {getFlightMapState} from './flight-map.selectors';
 import {FlightMapState} from '../domain-model/flight-map-state';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
-import {AirportService} from '../../aerodrome/domain-service/airport.service';
 import {AirportChart} from '../../aerodrome/domain-model/airport-chart';
 import {OlHelper} from '../../base-map/ol-service/ol-helper';
 import {SearchActions} from '../../search/ngrx/search.actions';
@@ -32,6 +30,8 @@ import {getAirportState} from '../../aerodrome/ngrx/airport.selectors';
 import {AirportChartActions} from '../../aerodrome/ngrx/airport-chart.actions';
 import {NotamActions} from '../../notam/ngrx/notam.actions';
 import {INotamService} from '../../notam/domain-service/i-notam-service';
+import {IMetarTafService} from '../../metar-taf/domain-service/i-metar-taf.service';
+import {IAirportService} from '../../aerodrome/domain-service/i-airport.service';
 
 
 @Injectable()
@@ -45,8 +45,8 @@ export class FlightMapEffects {
     constructor(
         private readonly actions$: Actions,
         private readonly appStore: Store<any>,
-        private readonly airportService: AirportService,
-        private readonly metarTafService: MetarTafService,
+        private readonly airportService: IAirportService,
+        private readonly metarTafService: IMetarTafService,
         private readonly notamService: INotamService
     ) {
     }

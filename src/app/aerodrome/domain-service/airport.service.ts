@@ -3,19 +3,20 @@ import {Observable} from 'rxjs';
 import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 import {ShortAirport} from '../domain-model/short-airport';
 import {Airport} from '../domain-model/airport';
-import {AirportRestService} from '../rest-service/airport-rest.service';
 import {AirportState} from '../domain-model/airport-state';
 import {map} from 'rxjs/operators';
+import {IAirportService} from './i-airport.service';
+import {IAirportRepo} from './i-airport-repo';
 
 
 @Injectable()
-export class AirportService {
-    constructor(private airportRestService: AirportRestService) {
+export class AirportService implements IAirportService {
+    constructor(private airportRepo: IAirportRepo) {
     }
 
 
     public readByExtent(extent: Extent2d, zoom: number): Observable<AirportState> {
-        return this.airportRestService.readAirportsByExtent(extent, zoom).pipe(
+        return this.airportRepo.readAirportsByExtent(extent, zoom).pipe(
             map(shortAirports => ({
                 extent: extent,
                 zoom: zoom,
@@ -26,7 +27,7 @@ export class AirportService {
 
 
     public readAirportById(id: number): Observable<Airport> {
-        return this.airportRestService.readAirportById(id);
+        return this.airportRepo.readAirportById(id);
     }
 
 

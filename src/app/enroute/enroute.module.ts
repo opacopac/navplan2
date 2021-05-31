@@ -13,6 +13,14 @@ import {AirspaceEffects} from './ngrx/airspace.effects';
 import {airspaceReducer} from './ngrx/airspace.reducer';
 import {OlOverlayNavaidHeaderComponent} from './ng-components/ol-overlay-navaid-header/ol-overlay-navaid-header.component';
 import {OlOverlayNavaidInfoTabComponent} from './ng-components/ol-overlay-navaid-info-tab/ol-overlay-navaid-info-tab.component';
+import {INavaidService} from './domain-service/i-navaid.service';
+import {INavaidStateProvider} from './domain-service/i-navaid-state-provider';
+import {NgrxNavaidStateProvider} from './ngrx/ngrx-navaid-state-provider';
+import {INavaidRepo} from './domain-service/i-navaid-repo';
+import {IAirspaceRepo} from './domain-service/i-airspace-repo';
+import {IAirspaceService} from './domain-service/i-airspace.service';
+import {IAirspaceStateProvider} from './domain-service/i-airspace-state-provider';
+import {NgrxAirspaceStateProvider} from './ngrx/ngrx-airspace-state-provider';
 
 
 @NgModule({
@@ -32,10 +40,12 @@ import {OlOverlayNavaidInfoTabComponent} from './ng-components/ol-overlay-navaid
         OlOverlayNavaidInfoTabComponent
     ],
     providers: [
-        AirspaceService,
-        RestAirspaceService,
-        NavaidService,
-        RestNavaidService
+        { provide: IAirspaceStateProvider, useClass: NgrxAirspaceStateProvider },
+        { provide: IAirspaceService, useClass: AirspaceService },
+        { provide: IAirspaceRepo, useClass: RestAirspaceService },
+        { provide: INavaidStateProvider, useClass: NgrxNavaidStateProvider },
+        { provide: INavaidService, useClass: NavaidService },
+        { provide: INavaidRepo, useClass: RestNavaidService },
     ]
 })
 export class EnrouteModule {}

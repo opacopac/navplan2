@@ -11,10 +11,11 @@ import {RestShortAirportConverter} from '../rest-model/rest-short-airport-conver
 import {Airport} from '../domain-model/airport';
 import {IRestAirport} from '../rest-model/i-rest-airport';
 import {RestAirportConverter} from '../rest-model/rest-airport-converter';
+import {IAirportRepo} from '../domain-service/i-airport-repo';
 
 
 @Injectable()
-export class AirportRestService {
+export class AirportRestService implements IAirportRepo {
     constructor(private http: HttpClient) {
     }
 

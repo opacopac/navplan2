@@ -8,10 +8,11 @@ import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 import {Airspace} from '../domain-model/airspace';
 import {IRestAirspace} from '../rest-model/i-rest-airspace';
 import {RestAirspaceConverter} from '../rest-model/rest-airspace-converter';
+import {IAirspaceRepo} from '../domain-service/i-airspace-repo';
 
 
 @Injectable()
-export class RestAirspaceService {
+export class RestAirspaceService implements IAirspaceRepo {
     constructor(private http: HttpClient) {
     }
 

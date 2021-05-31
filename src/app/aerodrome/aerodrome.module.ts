@@ -25,6 +25,14 @@ import {OlOverlayReportingpointHeaderComponent} from './ng-components/ol-overlay
 import {OlOverlayReportingpointInfoTabComponent} from './ng-components/ol-overlay-reportingpoint-info-tab/ol-overlay-reportingpoint-info-tab.component';
 import {OlOverlayReportingsectorHeaderComponent} from './ng-components/ol-overlay-reportingsector-header/ol-overlay-reportingsector-header.component';
 import {OlOverlayReportingsectorInfoTabComponent} from './ng-components/ol-overlay-reportingsector-info-tab/ol-overlay-reportingsector-info-tab.component';
+import {IAirportService} from './domain-service/i-airport.service';
+import {IAirportRepo} from './domain-service/i-airport-repo';
+import {IReportingPointService} from './domain-service/i-reporting-point.service';
+import {IReportingPointRepo} from './domain-service/i-reporting-point-repo';
+import {IAirportCircuitService} from './domain-service/i-airport-circuit.service';
+import {IAirportChartService} from './domain-service/i-airport-chart.service';
+import {IAirportCircuitRepo} from './domain-service/i-airport-circuit-repo';
+import {IAirportChartRepo} from './domain-service/i-airport-chart-repo';
 
 
 @NgModule({
@@ -59,14 +67,14 @@ import {OlOverlayReportingsectorInfoTabComponent} from './ng-components/ol-overl
         OlOverlayReportingsectorInfoTabComponent
     ],
     providers: [
-        AirportService,
-        AirportRestService,
-        AirportCircuitService,
-        AirportCircuitRestService,
-        AirportChartService,
-        AirportChartRestService,
-        ReportingPointService,
-        ReportingPointRestService
+        { provide: IAirportService, useClass: AirportService },
+        { provide: IAirportRepo, useClass: AirportRestService },
+        { provide: IAirportCircuitService, useClass: AirportCircuitService },
+        { provide: IAirportCircuitRepo, useClass: AirportCircuitRestService },
+        { provide: IAirportChartService, useClass: AirportChartService },
+        { provide: IAirportChartRepo, useClass: AirportChartRestService },
+        { provide: IReportingPointService, useClass: ReportingPointService },
+        { provide: IReportingPointRepo, useClass: ReportingPointRestService },
     ]
 })
 export class AerodromeModule {}

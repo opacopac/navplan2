@@ -1,21 +1,33 @@
 import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {Injectable} from '@angular/core';
-import {map} from 'rxjs/operators';
+import {filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {NavaidState} from '../domain-model/navaid-state';
-import {RestNavaidService} from '../rest-service/rest-navaid.service';
+import {INavaidService} from './i-navaid.service';
+import {INavaidStateProvider} from './i-navaid-state-provider';
+import {INavaidRepo} from './i-navaid-repo';
+import {environment} from '../../../environments/environment';
 
 
 @Injectable()
-export class NavaidService {
-    constructor(private restNavaidService: RestNavaidService) {
+export class NavaidService implements INavaidService {
+    private readonly navaidState$: Observable<NavaidState> = this.navaidStateProvider.getStateObservable();
+
+
+    constructor(
+        private navaidRepo: INavaidRepo,
+        private navaidStateProvider: INavaidStateProvider
+    ) {
     }
 
 
     public readByExtent(extent: Extent2d, zoom: number): Observable<NavaidState> {
-        return this.restNavaidService.readNavaidsByExtent(extent, zoom).pipe(
+        return of({ extent: extent, zoom: zoom }).pipe(
+            withLatestFrom(this.navaidState$),
+            filter(([reqState, oldState]) => this.isReloadRequired(reqState, oldState)),
+            switchMap(() => this.navaidRepo.readNavaidsByExtent(extent, zoom)),
             map(navaids => ({
-                extent: extent,
+                extent: extent.getOversizeExtent(environment.mapOversizeFactor),
                 zoom: zoom,
                 navaids: navaids,
             }))
@@ -23,7 +35,7 @@ export class NavaidService {
     }
 
 
-    public isReloadRequired(
+    private isReloadRequired(
         requestedState: { extent: Extent2d, zoom: number },
         currentState: { extent: Extent2d, zoom: number }
     ): boolean {

@@ -1,13 +1,12 @@
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {AirspaceActions} from './airspace.actions';
 import {Observable, pipe} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {getAirspaceState} from './airspace.selectors';
-import {AirspaceService} from '../domain-service/airspace.service';
 import {AirspaceState} from '../domain-model/airspace-state';
-import {environment} from '../../../environments/environment';
+import {IAirspaceService} from '../domain-service/i-airspace.service';
 
 
 @Injectable()
@@ -18,22 +17,17 @@ export class AirspaceEffects {
     constructor(
         private readonly actions$: Actions,
         private readonly appStore: Store<any>,
-        private readonly airspaceService: AirspaceService,
+        private readonly airspaceService: IAirspaceService,
     ) {
     }
 
 
     readAirspaces$ = createEffect(() => this.actions$.pipe(
         ofType(AirspaceActions.readAirspaces),
-        withLatestFrom(this.airspaceState$),
-        filter(([action, currentState]) => this.airspaceService.isReloadRequired(action, currentState)),
-        switchMap(([action, currentState]) => {
-            return this.airspaceService.readByExtent(
-                action.extent.getOversizeExtent(environment.mapOversizeFactor),
-                action.zoom
-            ).pipe(
-                map(newState => AirspaceActions.showAirspaces(newState))
-            );
-        })
+        switchMap(action => this.airspaceService.readByExtent(
+            action.extent,
+            action.zoom
+        )),
+        map(newState => AirspaceActions.showAirspaces(newState))
     ));
 }

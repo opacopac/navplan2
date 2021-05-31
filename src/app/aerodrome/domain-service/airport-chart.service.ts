@@ -1,16 +1,17 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {AirportChart} from '../domain-model/airport-chart';
-import {AirportChartRestService} from '../rest-service/airport-chart-rest.service';
+import {IAirportChartService} from './i-airport-chart.service';
+import {IAirportChartRepo} from './i-airport-chart-repo';
 
 
 @Injectable()
-export class AirportChartService {
-    constructor(private airportChartRestService: AirportChartRestService) {
+export class AirportChartService implements IAirportChartService {
+    constructor(private airportChartRepo: IAirportChartRepo) {
     }
 
 
     public readAdChartById(chartId: number): Observable<AirportChart> {
-        return this.airportChartRestService.readAdChartById(chartId);
+        return this.airportChartRepo.readAdChartById(chartId);
     }
 }

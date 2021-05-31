@@ -9,10 +9,11 @@ import {IRestReportingpoint} from '../rest-model/i-rest-reportingpoint';
 import {RestReportingpointConverter} from '../rest-model/rest-reportingpoint-converter';
 import {RestReportingsectorConverter} from '../rest-model/rest-reportingsector-converter';
 import {ReportingPointsAndSectors} from '../domain-model/reporting-points-and-sectors';
+import {IReportingPointRepo} from '../domain-service/i-reporting-point-repo';
 
 
 @Injectable()
-export class ReportingPointRestService {
+export class ReportingPointRestService implements IReportingPointRepo {
     constructor(private http: HttpClient) {
     }
 

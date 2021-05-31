@@ -5,9 +5,9 @@ import {AirportActions} from './airport.actions';
 import {Observable, pipe} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {getAirportState} from './airport.selectors';
-import {AirportService} from '../domain-service/airport.service';
 import {AirportState} from '../domain-model/airport-state';
 import {environment} from '../../../environments/environment';
+import {IAirportService} from '../domain-service/i-airport.service';
 
 
 @Injectable()
@@ -18,7 +18,7 @@ export class AirportEffects {
     constructor(
         private readonly actions$: Actions,
         private readonly appStore: Store<any>,
-        private readonly airportService: AirportService,
+        private readonly airportService: IAirportService,
     ) {
     }
 

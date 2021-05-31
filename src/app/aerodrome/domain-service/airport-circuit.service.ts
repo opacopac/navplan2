@@ -3,15 +3,16 @@ import {Observable, of} from 'rxjs';
 import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 import {map} from 'rxjs/operators';
 import {AirportCircuitState} from '../domain-model/airport-circuit-state';
-import {AirportCircuitRestService} from '../rest-service/airport-circuit-rest.service';
+import {IAirportCircuitService} from './i-airport-circuit.service';
+import {IAirportCircuitRepo} from './i-airport-circuit-repo';
 
 
 @Injectable()
-export class AirportCircuitService {
+export class AirportCircuitService implements IAirportCircuitService {
     private readonly AD_CIRCUIT_MIN_ZOOM = 12;
 
 
-    constructor(private airportCircuitRestService: AirportCircuitRestService) {
+    constructor(private airportCircuitRepo: IAirportCircuitRepo) {
     }
 
 
@@ -20,7 +21,7 @@ export class AirportCircuitService {
             return of({ extent: extent, zoom: zoom, airportCircuits: [] });
         }
 
-        return this.airportCircuitRestService.readAirportCircuitsByExtent(extent, zoom).pipe(
+        return this.airportCircuitRepo.readAirportCircuitsByExtent(extent, zoom).pipe(
             map(circuits => ({
                 extent: extent,
                 zoom: zoom,

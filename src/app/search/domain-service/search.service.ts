@@ -3,15 +3,16 @@ import {Observable} from 'rxjs';
 import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 import {User} from '../../user/domain-model/user';
 import {SearchItemList} from '../domain-model/search-item-list';
-import {RestSearchService} from '../rest-service/rest-search.service';
+import {ISearchService} from './i-search.service';
+import {ISearchRepo} from './i-search-repo';
 
 
 @Injectable()
-export class SearchService {
+export class SearchService implements ISearchService {
     private readonly MAX_POINT_RESULTS = 6;
 
 
-    constructor(private restSearchService: RestSearchService) {
+    constructor(private searchRepo: ISearchRepo) {
     }
 
 
@@ -21,7 +22,7 @@ export class SearchService {
         minNotamTimestamp: number,
         maxNotamTimestamp: number
     ): Observable<SearchItemList> {
-        return this.restSearchService.searchByPosition(
+        return this.searchRepo.searchByPosition(
             position,
             maxRadius_deg,
             this.MAX_POINT_RESULTS,
@@ -35,6 +36,6 @@ export class SearchService {
         queryString: string,
         user: User
     ): Observable<SearchItemList> {
-        return this.restSearchService.searchByText(queryString, user);
+        return this.searchRepo.searchByText(queryString, user);
     }
 }

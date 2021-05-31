@@ -8,10 +8,11 @@ import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 import {Navaid} from '../domain-model/navaid';
 import {IRestNavaid} from '../rest-model/i-rest-navaid';
 import {RestNavaidConverter} from '../rest-model/rest-navaid-converter';
+import {INavaidRepo} from '../domain-service/i-navaid-repo';
 
 
 @Injectable()
-export class RestNavaidService {
+export class RestNavaidService implements INavaidRepo {
     constructor(private http: HttpClient) {
     }
 

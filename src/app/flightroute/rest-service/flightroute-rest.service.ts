@@ -11,12 +11,11 @@ import {IRestFlightrouteListResponse} from '../rest-model/i-rest-flightroute-lis
 import {IRestFlightrouteResponse} from '../rest-model/i-rest-flightroute-response';
 import {RestFlightrouteResponseConverter} from '../rest-model/rest-flightroute-response-converter';
 import {RestFlightrouteListConverter} from '../rest-model/rest-flightroute-list-converter';
+import {IFlightrouteService} from '../domain-service/i-flightroute-service';
 
 
-@Injectable({
-    providedIn: 'root'
-})
-export class FlightrouteService {
+@Injectable()
+export class FlightrouteRestService implements IFlightrouteService {
     constructor(
         private http: HttpClient) {
     }

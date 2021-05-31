@@ -8,10 +8,11 @@ import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 import {AirportCircuit} from '../domain-model/airport-circuit';
 import {RestAirportCircuitConverter} from '../rest-model/rest-airport-circuit-converter';
 import {IRestAirportCircuit} from '../rest-model/i-rest-airport-circuit';
+import {IAirportCircuitRepo} from '../domain-service/i-airport-circuit-repo';
 
 
 @Injectable()
-export class AirportCircuitRestService {
+export class AirportCircuitRestService implements IAirportCircuitRepo {
     constructor(private http: HttpClient) {
     }
 

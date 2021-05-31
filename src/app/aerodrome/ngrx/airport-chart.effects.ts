@@ -7,7 +7,7 @@ import {Store} from '@ngrx/store';
 import {environment} from '../../../environments/environment';
 import {BaseMapActions} from '../../base-map/ngrx/base-map.actions';
 import {LoggingService} from '../../system/domain-service/logging/logging.service';
-import {AirportChartService} from '../domain-service/airport-chart.service';
+import {IAirportChartService} from '../domain-service/i-airport-chart.service';
 
 
 @Injectable()
@@ -15,7 +15,7 @@ export class AirportChartEffects {
     constructor(
         private readonly actions$: Actions,
         private readonly appStore: Store<any>,
-        private readonly airportChartService: AirportChartService,
+        private readonly airportChartService: IAirportChartService,
     ) {
     }
 

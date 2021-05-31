@@ -14,6 +14,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SearchContainerComponent} from './ng-components/search-container/search-container.component';
 import {SearchService} from './domain-service/search.service';
+import {ISearchService} from './domain-service/i-search.service';
+import {ISearchRepo} from './domain-service/i-search-repo';
 
 
 @NgModule({
@@ -36,8 +38,8 @@ import {SearchService} from './domain-service/search.service';
         SearchContainerComponent
     ],
     providers: [
-        SearchService,
-        RestSearchService
+        { provide: ISearchService, useClass: SearchService },
+        { provide: ISearchRepo, useClass: RestSearchService }
     ]
 })
 export class SearchModule {}

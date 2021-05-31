@@ -3,12 +3,12 @@ import {Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
-import {FlightrouteService} from '../rest-service/flightroute.service';
 import {FlightrouteState} from '../domain-model/flightroute-state';
 import {getFlightrouteState} from './flightroute.selectors';
 import {SharedFlightRouteActions} from './shared-flight-route.actions';
 import {MessageActions} from '../../message/ngrx/message.actions';
 import {Message} from '../../message/domain-model/message';
+import {IFlightrouteService} from '../domain-service/i-flightroute-service';
 
 
 @Injectable()
@@ -19,7 +19,7 @@ export class SharedFlightrouteEffects {
     constructor(
         private readonly actions$: Actions,
         private readonly appStore: Store<any>,
-        private readonly flightrouteService: FlightrouteService
+        private readonly flightrouteService: IFlightrouteService
     ) {
     }
 

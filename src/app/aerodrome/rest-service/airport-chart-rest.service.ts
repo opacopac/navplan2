@@ -7,10 +7,11 @@ import {LoggingService} from '../../system/domain-service/logging/logging.servic
 import {AirportChart} from '../domain-model/airport-chart';
 import {IRestAirportChart} from '../rest-model/i-rest-airport-chart';
 import {RestAirportChartConverter} from '../rest-model/rest-airport-chart-converter';
+import {IAirportChartRepo} from '../domain-service/i-airport-chart-repo';
 
 
 @Injectable()
-export class AirportChartRestService {
+export class AirportChartRestService implements IAirportChartRepo {
     constructor(private http: HttpClient) {
     }
 
