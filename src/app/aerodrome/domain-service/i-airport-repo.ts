@@ -8,4 +8,6 @@ export abstract class IAirportRepo {
     public abstract readAirportsByExtent(extent: Extent2d, zoom: number): Observable<ShortAirport[]>;
 
     public abstract readAirportById(id: number): Observable<Airport>;
+
+    public abstract readAirportByIcao(icao: string): Observable<Airport>;
 }

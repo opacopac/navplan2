@@ -33,6 +33,8 @@ import {IAirportCircuitService} from './domain-service/i-airport-circuit.service
 import {IAirportChartService} from './domain-service/i-airport-chart.service';
 import {IAirportCircuitRepo} from './domain-service/i-airport-circuit-repo';
 import {IAirportChartRepo} from './domain-service/i-airport-chart-repo';
+import {IAirportStateProvider} from './domain-service/i-airport-state-provider';
+import {NgrxAirportStateProvider} from './ngrx/ngrx-airport-state-provider';
 
 
 @NgModule({
@@ -67,6 +69,7 @@ import {IAirportChartRepo} from './domain-service/i-airport-chart-repo';
         OlOverlayReportingsectorInfoTabComponent
     ],
     providers: [
+        { provide: IAirportStateProvider, useClass: NgrxAirportStateProvider },
         { provide: IAirportService, useClass: AirportService },
         { provide: IAirportRepo, useClass: AirportRestService },
         { provide: IAirportCircuitService, useClass: AirportCircuitService },

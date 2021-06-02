@@ -20,25 +20,29 @@ export class AirportChartEffects {
     }
 
 
-    openAirportChart$ = createEffect(() => this.actions$.pipe(
+    showAirportChartAndShowImageAction$ = createEffect(() => this.actions$.pipe(
         ofType(AirportChartActions.openAirportChart),
-        switchMap(action => this.airportChartService.readAdChartById(action.chartId).pipe(
-            map(chart => AirportChartActions.showAirportChart({ chart: chart })),
-            catchError(error => {
-                LoggingService.logResponseError('ERROR reading airport chart by id', error);
-                return throwError(error);
+        switchMap(action => this.airportChartService.readAdChartById(action.chartId)),
+        catchError(error => {
+            LoggingService.logResponseError('ERROR reading airport chart by id', error);
+            return throwError(error);
+        }),
+        switchMap(chart => [
+            AirportChartActions.showAirportChart({
+                chart: chart
+            }),
+            BaseMapActions.showImage({
+                id: chart.id,
+                imageUrl: environment.chartBaseUrl + chart.fileName,
+                extent: chart.extent,
+                opacity: 0.9
             })
-        ))
+        ])
     ));
 
 
-    showAirportChart$ = createEffect(() => this.actions$.pipe(
-        ofType(AirportChartActions.showAirportChart),
-        map(action => BaseMapActions.showImage({
-            id: action.chart.id,
-            imageUrl: environment.chartBaseUrl + action.chart.fileName,
-            extent: action.chart.extent,
-            opacity: 0.9
-        })),
+    hideImageAction$ = createEffect(() => this.actions$.pipe(
+        ofType(AirportChartActions.closeAirportChart),
+        map(action => BaseMapActions.closeImage({ id: action.chartId }))
     ));
 }

@@ -53,4 +53,19 @@ export class AirportRestService implements IAirportRepo {
                 })
             );
     }
+
+
+    public readAirportByIcao(icao: string): Observable<Airport> {
+        const url: string = environment.airportServiceUrl + '?action=getAdByIcao&icao=' + icao;
+
+        return this.http
+            .get<IRestAirport>(url, {observe: 'response'})
+            .pipe(
+                map((response) => RestAirportConverter.fromRest(response.body)),
+                catchError(err => {
+                    LoggingService.logResponseError('ERROR reading airport by icao', err);
+                    return throwError(err);
+                })
+            );
+    }
 }

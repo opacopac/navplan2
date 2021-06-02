@@ -73,6 +73,10 @@ export class NotamService implements INotamService {
 
 
     public readByIcao(airportIcao: string): Observable<NotamList> {
+        if (!airportIcao) {
+            return of(new NotamList());
+        }
+
         const request = new ReadNotamByIcaoRequest(
             airportIcao,
             this.getNotamStartTimestamp(),

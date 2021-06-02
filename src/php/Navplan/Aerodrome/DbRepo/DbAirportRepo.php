@@ -26,10 +26,23 @@ class DbAirportRepo implements IAirportRepo {
     }
 
 
-    function readById(int $id): Airport {
+    public function readById(int $id): Airport {
         $query  = "SELECT * FROM openaip_airports2 WHERE id = " . $id;
 
         $result = $this->dbService->execSingleResultQuery($query, false,"error loading airport by id");
+        $row = $result->fetch_assoc();
+        $airport = DbAirportConverter::fromDbRow($row);
+        $airports = [$airport];
+        self::loadAirportSubItems($airports);
+
+        return $airport;
+    }
+
+
+    public function readByIcao(string $icao): Airport {
+        $query  = "SELECT * FROM openaip_airports2 WHERE icao = " . $this->dbService->escapeAndQuoteString($icao);
+
+        $result = $this->dbService->execSingleResultQuery($query, false,"error loading airport by icao");
         $row = $result->fetch_assoc();
         $airport = DbAirportConverter::fromDbRow($row);
         $airports = [$airport];

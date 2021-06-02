@@ -10,6 +10,8 @@ import {metarTafReducer} from './ngrx/metar-taf.reducer';
 import {MetarTafEffects} from './ngrx/metar-taf.effects';
 import {IMetarTafService} from './domain-service/i-metar-taf.service';
 import {IMetarTafRepo} from './domain-service/i-metar-taf-repo.service';
+import {IMetarTafStateProvider} from './domain-service/i-metar-taf-state-provider';
+import {NgrxMetarTafStateProvider} from './ngrx/ngrx-metar-taf-state-provider';
 
 
 @NgModule({
@@ -25,6 +27,7 @@ import {IMetarTafRepo} from './domain-service/i-metar-taf-repo.service';
     exports: [
     ],
     providers: [
+        { provide: IMetarTafStateProvider, useClass: NgrxMetarTafStateProvider },
         { provide: IMetarTafService, useClass: MetarTafService },
         { provide: IMetarTafRepo, useClass: RestMetarTafService },
     ]

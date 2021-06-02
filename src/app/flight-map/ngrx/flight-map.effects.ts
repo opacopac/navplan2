@@ -18,15 +18,11 @@ import {getSearchState} from '../../search/ngrx/search.selectors';
 import {Webcam} from '../../webcam/domain-model/webcam';
 import {WebcamActions} from '../../webcam/ngrx/webcam.actions';
 import {MetarTafActions} from '../../metar-taf/ngrx/metar-taf.actions';
-import {MetarTafState} from '../../metar-taf/domain-model/metar-taf-state';
-import {getMetarTafState} from '../../metar-taf/ngrx/metar-taf.selectors';
 import {AirspaceActions} from '../../enroute/ngrx/airspace.actions';
 import {NavaidActions} from '../../enroute/ngrx/navaid.actions';
 import {AirportCircuitActions} from '../../aerodrome/ngrx/airport-circuit.actions';
 import {AirportActions} from '../../aerodrome/ngrx/airport.actions';
 import {ReportingPointSectorActions} from '../../aerodrome/ngrx/reporting-point-sector.actions';
-import {AirportState} from '../../aerodrome/domain-model/airport-state';
-import {getAirportState} from '../../aerodrome/ngrx/airport.selectors';
 import {AirportChartActions} from '../../aerodrome/ngrx/airport-chart.actions';
 import {NotamActions} from '../../notam/ngrx/notam.actions';
 import {INotamService} from '../../notam/domain-service/i-notam-service';
@@ -37,8 +33,6 @@ import {IAirportService} from '../../aerodrome/domain-service/i-airport.service'
 @Injectable()
 export class FlightMapEffects {
     private readonly flightMapState$: Observable<FlightMapState> = this.appStore.select(pipe(getFlightMapState));
-    private readonly airportState$: Observable<AirportState> = this.appStore.select(pipe(getAirportState));
-    private readonly metarTafState$: Observable<MetarTafState> = this.appStore.select(pipe(getMetarTafState));
     private readonly searchState$: Observable<SearchState> = this.appStore.select(pipe(getSearchState));
 
 
@@ -81,14 +75,14 @@ export class FlightMapEffects {
         filter(action => action.dataItem?.dataItemType === DataItemType.airport),
         map(action => action.dataItem as ShortAirport),
         switchMap(shortAirport => combineLatest([
-            this.airportService.readAirportById(shortAirport.id),
+            this.airportService.readById(shortAirport.id),
             this.notamService.readByIcao(shortAirport.icao),
-            this.metarTafState$
+            this.metarTafService.readByIcao(shortAirport.icao)
         ]).pipe(take(1))),
-        map(([airport, notamList, metarTafState]) => FlightMapActions.showOverlay({
+        map(([airport, notamList, metarTaf]) => FlightMapActions.showOverlay({
             dataItem: airport,
             clickPos: undefined,
-            metarTaf: this.metarTafService.findMetarTafInState(airport.icao, metarTafState), // TODO
+            metarTaf: metarTaf,
             notams: notamList.items,
             tabIndex: 0
         }))
@@ -99,18 +93,12 @@ export class FlightMapEffects {
         ofType(BaseMapActions.mapClicked),
         filter(action => action.dataItem?.dataItemType === DataItemType.metarTaf),
         map(action => action.dataItem as MetarTaf),
-        withLatestFrom(this.airportState$),
-        map(([metarTaf, airportState]) => ({
-                metarTaf: metarTaf,
-                shortAirport: this.airportService.findAirportInState(metarTaf.ad_icao, airportState) // TODO
-        })),
-        filter(metarTafShortAirport => metarTafShortAirport.shortAirport !== undefined),
-        switchMap(metarTafShortAirport => combineLatest([
-            of(metarTafShortAirport.metarTaf),
-            this.airportService.readAirportById(metarTafShortAirport.shortAirport.id),
-            this.notamService.readByIcao(metarTafShortAirport.shortAirport.icao),
+        switchMap(metarTaf => combineLatest([
+            this.airportService.readByIcao(metarTaf.ad_icao),
+            this.notamService.readByIcao(metarTaf.ad_icao),
+            of(metarTaf),
         ]).pipe(take(1))),
-        map(([metarTaf, airport, notamList]) => FlightMapActions.showOverlay({
+        map(([airport, notamList, metarTaf]) => FlightMapActions.showOverlay({
             dataItem: airport,
             clickPos: undefined,
             metarTaf: metarTaf,
@@ -127,8 +115,8 @@ export class FlightMapEffects {
             DataItemType.reportingSector,
             DataItemType.navaid,
             DataItemType.geoname,
-            DataItemType.userPoint].includes(action.dataItem?.dataItemType)
-        ),
+            DataItemType.userPoint
+        ].includes(action.dataItem?.dataItemType)),
         switchMap(action => combineLatest([
             of(action),
             this.notamService.readByPosition(action.clickPos)
@@ -152,14 +140,18 @@ export class FlightMapEffects {
     ));
 
 
+    hideOverlayWhenOpeningChartAction$ = createEffect(() => this.actions$.pipe(
+        ofType(AirportChartActions.openAirportChart),
+        map(action => FlightMapActions.hideOverlay())
+    ));
+
+
     closeAirportChartAction$ = createEffect(() => this.actions$.pipe(
         ofType(BaseMapActions.mapClicked),
         filter(action => action.dataItem?.dataItemType === DataItemType.airportChart),
-        map(action => action.dataItem as AirportChart),
-        switchMap(chart => [
-            BaseMapActions.closeImage({ id: chart.id }), // TODO
-            AirportChartActions.closeAirportChart({ chartId: chart.id })
-        ])
+        map(action => AirportChartActions.closeAirportChart({
+            chartId: (action.dataItem as AirportChart).id
+        }))
     ));
 
 

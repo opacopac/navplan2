@@ -7,11 +7,5 @@ import {MetarTaf} from '../domain-model/metar-taf';
 export abstract class IMetarTafService {
     public abstract readByExtent(extent: Extent2d, zoom: number): Observable<MetarTafState>;
 
-    public abstract isReloadRequired(
-        requestedState: { extent: Extent2d, zoom: number },
-        currentState: { extent: Extent2d, zoom: number, timestamp: number }
-    ): boolean;
-
-
-    public abstract findMetarTafInState(icao: string, metarTafState: MetarTafState): MetarTaf;
+    public abstract readByIcao(icao: string): Observable<MetarTaf>;
 }

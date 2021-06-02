@@ -14,7 +14,7 @@ export class NavaidEffects {
     }
 
 
-    readNavaids$ = createEffect(() => this.actions$.pipe(
+    showNavaidsAction$ = createEffect(() => this.actions$.pipe(
         ofType(NavaidActions.readNavaids),
         switchMap(action => this.navaidService.readByExtent(
             action.extent,
