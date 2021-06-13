@@ -1,19 +1,13 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {SharedModule} from '../common/shared.module';
-import {RestWebcamService} from './rest-service/rest-webcam.service';
-import {WebcamService} from './domain-service/webcam.service';
-import {EffectsModule} from '@ngrx/effects';
-import {WebcamEffects} from './ngrx/webcam.effects';
-import {StoreModule} from '@ngrx/store';
-import {webcamReducer} from './ngrx/webcam.reducer';
+import {WebcamRestService} from './rest-service/webcam-rest.service';
+import {IWebcamRepo} from './domain-service/i-webcam-repo';
 
 
 @NgModule({
     imports: [
         CommonModule,
-        StoreModule.forFeature('webcamState', webcamReducer),
-        EffectsModule.forFeature([WebcamEffects]),
         SharedModule,
     ],
     declarations: [
@@ -21,8 +15,7 @@ import {webcamReducer} from './ngrx/webcam.reducer';
     exports: [
     ],
     providers: [
-        WebcamService,
-        RestWebcamService
+        { provide: IWebcamRepo, useClass: WebcamRestService }
     ]
 })
 export class WebcamModule {}

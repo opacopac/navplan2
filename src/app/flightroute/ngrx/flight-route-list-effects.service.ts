@@ -8,7 +8,7 @@ import {getUserState} from '../../user/ngrx/user.selectors';
 import {FlightRouteListActions} from './flight-route-list.actions';
 import {MessageActions} from '../../message/ngrx/message.actions';
 import {Message} from '../../message/domain-model/message';
-import {IFlightrouteService} from '../domain-service/i-flightroute-service';
+import {IFlightrouteRepo} from '../domain-service/i-flightroute-repo';
 
 
 @Injectable()
@@ -19,7 +19,7 @@ export class FlightRouteListEffects {
     constructor(
         private readonly actions$: Actions,
         private readonly appStore: Store<any>,
-        private readonly flightrouteService: IFlightrouteService
+        private readonly flightrouteRepo: IFlightrouteRepo
     ) {
     }
 
@@ -29,7 +29,7 @@ export class FlightRouteListEffects {
         ofType(FlightRouteListActions.readList),
         withLatestFrom(this.userState$),
         filter(([action, userState]) => userState.currentUser !== undefined),
-        switchMap(([action, userState]) => this.flightrouteService.readFlightrouteList(
+        switchMap(([action, userState]) => this.flightrouteRepo.readFlightrouteList(
             userState.currentUser
         ).pipe(
             map(routeList => FlightRouteListActions.showList({ flightrouteList: routeList })),

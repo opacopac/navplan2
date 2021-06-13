@@ -1,14 +1,13 @@
 import {Observable} from 'rxjs';
-import {NotamList} from '../domain-model/notam-list';
-import {ReadNotamByExtentRequest} from '../domain-model/read-notam-by-extent-request';
-import {ReadNotamByIcaoRequest} from '../domain-model/read-notam-by-icao-request';
-import {ReadNotamByPositionRequest} from '../domain-model/read-notam-by-position-request';
+import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
+import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
+import {Notam} from '../domain-model/notam';
 
 
 export abstract class INotamRepo {
-    public abstract readByExtent(request: ReadNotamByExtentRequest): Observable<NotamList>;
+    public abstract readByExtent(extent: Extent2d, zoom: number, starttimestamp: number, endtimestamp: number): Observable<Notam[]>;
 
-    public abstract readByPosition(request: ReadNotamByPositionRequest): Observable<NotamList>;
+    public abstract readByPosition(position: Position2d, starttimestamp: number, endtimestamp: number): Observable<Notam[]>;
 
-    public abstract readByIcao(request: ReadNotamByIcaoRequest): Observable<NotamList>;
+    public abstract readByIcao(airportIcao: string, starttimestamp: number, endtimestamp: number): Observable<Notam[]>;
 }

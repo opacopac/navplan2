@@ -2,17 +2,20 @@
 
 namespace Navplan\Terrain\RestModel;
 
+use InvalidArgumentException;
+use Navplan\Common\DomainModel\Position2d;
 
-use http\Exception\InvalidArgumentException;
 
 class ReadElevationRequestConverter {
     public static function fromArgs(array $args): array {
-        if (!$args["lon"] || !$args["lat"])
+        if (!isset($args["lon"]) || !isset($args["lat"])) {
             throw new InvalidArgumentException("ERROR: parameters 'lat' and/or 'lon' missing!");
+        }
 
-        $positions[] = [ floatval($args["lon"]), floatval($args["lat"]) ];
-        if ($args["lon2"] && $args["lat2"])
-            $positions[] = [ floatval($args["lon2"]), floatval($args["lat2"]) ];
+        $positions[] = new Position2d(floatval($args["lon"]), floatval($args["lat"]));
+        if (isset($args["lon2"]) && isset($args["lat2"])) {
+            $positions[] = new Position2d(floatval($args["lon2"]), floatval($args["lat2"]));
+        }
 
         return $positions;
     }

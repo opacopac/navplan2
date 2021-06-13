@@ -10,7 +10,7 @@ import {Flightroute} from '../domain-model/flightroute';
 import {FlightRouteActions} from './flight-route.actions';
 import {MessageActions} from '../../message/ngrx/message.actions';
 import {Message} from '../../message/domain-model/message';
-import {IFlightrouteService} from '../domain-service/i-flightroute-service';
+import {IFlightrouteRepo} from '../domain-service/i-flightroute-repo';
 
 
 @Injectable()
@@ -22,7 +22,7 @@ export class FlightRouteEffects {
     constructor(
         private actions$: Actions,
         private appStore: Store<any>,
-        private flightrouteService: IFlightrouteService
+        private flightrouteRepo: IFlightrouteRepo
     ) {
     }
 
@@ -31,7 +31,7 @@ export class FlightRouteEffects {
         ofType(FlightRouteActions.read),
         withLatestFrom(this.currentUser$),
         filter(([action, currentUser]) => action.flightrouteId > 0 && currentUser !== undefined),
-        switchMap(([action, currentUser]) => this.flightrouteService.readFlightroute(action.flightrouteId, currentUser).pipe(
+        switchMap(([action, currentUser]) => this.flightrouteRepo.readFlightroute(action.flightrouteId, currentUser).pipe(
             map(route => FlightRouteActions.show({ flightroute: route })),
             catchError(error => of(MessageActions.showMessage({
                 message: Message.error('Error reading flight route', error)
@@ -45,7 +45,7 @@ export class FlightRouteEffects {
         switchMap(() => this.flightroute$),
         withLatestFrom(this.currentUser$),
         filter(([flightroute, currentUser]) => flightroute !== undefined && currentUser !== undefined),
-        switchMap(([flightroute, currentUser]) => this.flightrouteService.saveFlightroute(flightroute, currentUser).pipe(
+        switchMap(([flightroute, currentUser]) => this.flightrouteRepo.saveFlightroute(flightroute, currentUser).pipe(
             map(route => [
                 FlightRouteActions.show({ flightroute: route }),
                 MessageActions.showMessage({
@@ -67,7 +67,7 @@ export class FlightRouteEffects {
         switchMap(() => this.flightroute$),
         withLatestFrom(this.currentUser$),
         filter(([flightroute, currentUser]) => flightroute !== undefined && currentUser !== undefined),
-        switchMap(([flightroute, currentUser]) => this.flightrouteService.duplicateFlightroute(flightroute, currentUser).pipe(
+        switchMap(([flightroute, currentUser]) => this.flightrouteRepo.duplicateFlightroute(flightroute, currentUser).pipe(
             map(route => [
                 FlightRouteActions.show({ flightroute: route }),
                 MessageActions.showMessage({
@@ -88,7 +88,7 @@ export class FlightRouteEffects {
         ofType(FlightRouteActions.delete),
         withLatestFrom(this.currentUser$),
         filter(([action, currentUser]) => action.flightrouteId > 0 && currentUser !== undefined),
-        switchMap(([action, currentUser]) => this.flightrouteService.deleteFlightroute(action.flightrouteId, currentUser).pipe(
+        switchMap(([action, currentUser]) => this.flightrouteRepo.deleteFlightroute(action.flightrouteId, currentUser).pipe(
             map(() => MessageActions.showMessage({
                 message: Message.success('Flight route deleted successfully.')
             })),

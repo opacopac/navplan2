@@ -1,5 +1,5 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {BaseMapState} from './base-map-state';
+import {BaseMapState} from '../domain-model/base-map-state';
 
 
 export const getMapState = createFeatureSelector<BaseMapState>('baseMapState');

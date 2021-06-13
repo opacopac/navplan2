@@ -31,4 +31,14 @@ export class MockDate implements IDate {
 
         return this.createResult;
     }
+
+
+    getDayEndTimestamp(deltaDaysFromToday: number): number {
+        return 0; // TODO
+    }
+
+
+    getDayStartTimestamp(deltaDaysFromToday: number): number {
+        return 0; // TODO
+    }
 }

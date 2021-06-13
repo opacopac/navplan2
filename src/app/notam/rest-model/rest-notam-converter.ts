@@ -31,4 +31,9 @@ export class RestNotamConverter {
             RestNotamGeometryConverter.fromRest(restNotam)
         );
     }
+
+
+    public static fromRestList(restNotamList: IRestNotam[]): Notam[] {
+        return restNotamList.map(restNotam => RestNotamConverter.fromRest(restNotam));
+    }
 }

@@ -3,6 +3,7 @@
 namespace Navplan\Terrain\RestService;
 
 use InvalidArgumentException;
+use Navplan\Common\RestModel\RestPosition3dConverter;
 use Navplan\Terrain\RestModel\ReadElevationListRequestConverter;
 use Navplan\Terrain\RestModel\ReadElevationRequestConverter;
 
@@ -13,15 +14,17 @@ class TerrainServiceProcessor {
 
 
     public static function processRequest(string $requestMethod, ?array $getArgs, ?array $postArgs, ITerrainDiContainer $diContainer) {
+        $httpService = $diContainer->getHttpService();
         switch ($requestMethod) {
             case self::REQ_METHOD_GET:
                 $positions = ReadElevationRequestConverter::fromArgs($getArgs);
-                // TODO: call UC & http response
+                $pos3dList = $diContainer->getReadElevationListUc()->read($positions);
+                $httpService->sendArrayResponse(RestPosition3dConverter::listToRest($pos3dList));
                 break;
             case self::REQ_METHOD_POST:
                 $positions = ReadElevationListRequestConverter::fromArgs($postArgs);
-                $elevationPosList = $diContainer->getReadElevationListUc()->read($positions);
-                // TODO: http response
+                $pos3dList = $diContainer->getReadElevationListUc()->read($positions);
+                $httpService->sendArrayResponse(RestPosition3dConverter::listToRest($pos3dList));
                 break;
             default:
                 throw new InvalidArgumentException('unknown request method');

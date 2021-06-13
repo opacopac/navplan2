@@ -6,7 +6,7 @@ import {getFlightroute} from '../../ngrx/flightroute.selectors';
 import {Flightroute} from '../../domain-model/flightroute';
 import {Waypoint} from '../../domain-model/waypoint';
 import {WaypointActions} from '../../ngrx/waypoints.actions';
-import {getFlightMapOverlay} from '../../../flight-map/ngrx/flight-map.selectors';
+import {getFlightMapOverlay} from '../../../flight-map/ngrx/flight-map/flight-map.selectors';
 
 
 @Component({

@@ -1,5 +1,5 @@
 import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
-import {BaseMapState} from './base-map-state';
+import {BaseMapState} from '../domain-model/base-map-state';
 import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
 import {BaseMapActions} from './base-map.actions';
 import {AngleUnit} from '../../common/geo-math/domain-model/quantities/units';

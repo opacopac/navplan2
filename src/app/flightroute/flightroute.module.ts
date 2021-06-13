@@ -22,7 +22,7 @@ import {SharedFlightrouteEffects} from './ngrx/shared-flightroute.effects';
 import {FlightRouteListEffects} from './ngrx/flight-route-list-effects.service';
 import {flightRouteReducer} from './ngrx/flightroute.reducer';
 import {WaypointEffects} from './ngrx/waypoint.effects';
-import {IFlightrouteService} from './domain-service/i-flightroute-service';
+import {IFlightrouteRepo} from './domain-service/i-flightroute-repo';
 
 
 @NgModule({
@@ -58,7 +58,7 @@ import {IFlightrouteService} from './domain-service/i-flightroute-service';
         EditWaypointDialogComponent,
     ],
     providers: [
-        { provide: IFlightrouteService, useClass: FlightrouteRestService }
+        { provide: IFlightrouteRepo, useClass: FlightrouteRestService }
     ],
     entryComponents: [
         EditWaypointDialogComponent,
