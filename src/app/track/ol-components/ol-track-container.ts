@@ -1,7 +1,7 @@
 import {Observable, Subscription} from 'rxjs';
 import {OlTrackLine} from './ol-track-line';
 import {Track} from '../domain-model/track';
-import VectorLayer from 'ol/layer/Vector';
+import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
 
 
 export class OlTrackContainer {
@@ -9,12 +9,12 @@ export class OlTrackContainer {
 
 
     public constructor(
-        private readonly trackLayer: VectorLayer,
+        private readonly trackLayer: OlVectorLayer,
         showTrack$: Observable<Track>
     ) {
         this.trackSubscription = showTrack$.subscribe((track) => {
             this.clearFeatures();
-            this.addFeatures(track);
+            this.drawFeatures(track);
         });
     }
 
@@ -25,14 +25,14 @@ export class OlTrackContainer {
     }
 
 
-    private addFeatures(track: Track) {
+    private drawFeatures(track: Track) {
         if (track) {
-            const olTrackLine = new OlTrackLine(track, this.trackLayer);
+            OlTrackLine.draw(track, this.trackLayer);
         }
     }
 
 
     private clearFeatures() {
-        this.trackLayer.getSource().clear(true);
+        this.trackLayer.clear();
     }
 }

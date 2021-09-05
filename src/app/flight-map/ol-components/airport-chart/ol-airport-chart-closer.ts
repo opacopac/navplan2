@@ -1,27 +1,24 @@
-import {Feature} from 'ol';
 import {Icon, Style} from 'ol/style';
 import {environment} from '../../../../environments/environment';
-import VectorLayer from 'ol/layer/Vector';
 import {AirportChart} from '../../../aerodrome/domain-model/airport-chart';
-import {OlHelper} from '../../../base-map/ol-service/ol-helper';
+import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
+import {OlFeature} from '../../../base-map/ol-model/ol-feature';
+import {OlGeometry} from '../../../base-map/ol-model/ol-geometry';
 
 
 export class OlAirportChartCloser {
-    private readonly olFeature: Feature;
-
-
-    public constructor(
+    public static draw(
         airportChart: AirportChart,
-        layer: VectorLayer
+        layer: OlVectorLayer
     ) {
-        this.olFeature = OlHelper.createFeature(airportChart, true);
-        this.olFeature.setStyle(this.createPointStyle());
-        this.olFeature.setGeometry(OlHelper.getPointGeometry(airportChart.extent.maxPos));
-        layer.getSource().addFeature(this.olFeature);
+        const olFeature = new OlFeature(airportChart, true);
+        olFeature.setStyle(this.createPointStyle());
+        olFeature.setGeometry(OlGeometry.fromPoint(airportChart.extent.maxPos));
+        layer.addFeature(olFeature);
     }
 
 
-    protected createPointStyle(): Style {
+    private static createPointStyle(): Style {
         const src = environment.iconBaseUrl;
 
         return new Style({

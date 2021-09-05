@@ -1,30 +1,27 @@
-import {Feature} from 'ol';
 import {Fill, Stroke, Style, Text} from 'ol/style';
 import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
 import {Waypoint} from '../domain-model/waypoint';
 import {LengthUnit} from '../../common/geo-math/domain-model/quantities/units';
-import VectorLayer from 'ol/layer/Vector';
-import {OlHelper} from '../../base-map/ol-service/ol-helper';
+import {OlFeature} from '../../base-map/ol-model/ol-feature';
+import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
+import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
 
 
 export class OlWaypointBearingLabel {
-    private readonly dirBearFeature: Feature;
-
-
-    constructor(
+    public static draw(
         prevWaypoint: Waypoint,
         waypoint: Waypoint,
         mapRotation: Angle,
-        layer: VectorLayer
+        layer: OlVectorLayer
     ) {
-        this.dirBearFeature = new Feature();
-        this.dirBearFeature.setStyle(this.createStyle(waypoint, mapRotation));
-        this.dirBearFeature.setGeometry(OlHelper.getPointGeometry(prevWaypoint.position));
-        layer.getSource().addFeature(this.dirBearFeature);
+        const dirBearFeature = new OlFeature(undefined, false);
+        dirBearFeature.setStyle(this.createStyle(waypoint, mapRotation));
+        dirBearFeature.setGeometry(OlGeometry.fromPoint(prevWaypoint.position));
+        layer.addFeature(dirBearFeature);
     }
 
 
-    private createStyle(wp: Waypoint, mapRotation: Angle): Style {
+    private static createStyle(wp: Waypoint, mapRotation: Angle): Style {
         if (!wp) { return undefined; }
 
         const mt = wp.mt;

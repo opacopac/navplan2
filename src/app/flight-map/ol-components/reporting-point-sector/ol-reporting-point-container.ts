@@ -1,7 +1,7 @@
 import {Observable, Subscription} from 'rxjs';
-import VectorLayer from 'ol/layer/Vector';
 import {ReportingPoint} from '../../../aerodrome/domain-model/reporting-point';
 import {OlReportingPoint} from './ol-reporting-point';
+import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
 
 
 export class OlReportingPointContainer {
@@ -9,12 +9,12 @@ export class OlReportingPointContainer {
 
 
     constructor(
-        private readonly reportingPointLayer: VectorLayer,
+        private readonly reportingPointLayer: OlVectorLayer,
         reportingPoints$: Observable<ReportingPoint[]>
     ) {
         this.reportingPointSubscription = reportingPoints$.subscribe((reportingPoints) => {
             this.clearFeatures();
-            this.addFeatures(reportingPoints);
+            this.drawFeatures(reportingPoints);
         });
     }
 
@@ -25,14 +25,14 @@ export class OlReportingPointContainer {
     }
 
 
-    private addFeatures(reportingPoints: ReportingPoint[]) {
+    private drawFeatures(reportingPoints: ReportingPoint[]) {
         if (reportingPoints) {
-            reportingPoints.forEach(repPoint => new OlReportingPoint(repPoint, this.reportingPointLayer));
+            reportingPoints.forEach(repPoint => OlReportingPoint.draw(repPoint, this.reportingPointLayer));
         }
     }
 
 
     private clearFeatures() {
-        this.reportingPointLayer.getSource().clear(true);
+        this.reportingPointLayer.clear();
     }
 }

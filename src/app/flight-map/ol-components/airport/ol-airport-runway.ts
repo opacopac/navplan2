@@ -1,28 +1,25 @@
-import {Feature} from 'ol';
 import {Icon, Style} from 'ol/style';
 import {OlAirportIcon} from './ol-airport-icon';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
-import VectorLayer from 'ol/layer/Vector';
 import {ShortAirport} from '../../../aerodrome/domain-model/short-airport';
-import {OlHelper} from '../../../base-map/ol-service/ol-helper';
+import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
+import {OlGeometry} from '../../../base-map/ol-model/ol-geometry';
+import {OlFeature} from '../../../base-map/ol-model/ol-feature';
 
 
 export class OlAirportRunway {
-    private readonly olFeature: Feature;
-
-
-    public constructor(
+    public static draw(
         airport: ShortAirport,
-        layer: VectorLayer
+        layer: OlVectorLayer
     ) {
-        this.olFeature = OlHelper.createFeature(airport, true);
-        this.olFeature.setStyle(this.createPointStyle(airport));
-        this.olFeature.setGeometry(OlHelper.getPointGeometry(airport.position));
-        layer.getSource().addFeature(this.olFeature);
+        const olFeature = new OlFeature(airport, true);
+        olFeature.setStyle(this.createPointStyle(airport));
+        olFeature.setGeometry(OlGeometry.fromPoint(airport.position));
+        layer.addFeature(olFeature);
     }
 
 
-    private createPointStyle(airport: ShortAirport): Style {
+    private static createPointStyle(airport: ShortAirport): Style {
         const src = OlAirportIcon.getRwyUrl(airport.rwy1Surface, airport.isMilitary);
         const rwy_direction = airport.rwy1Direction ? airport.rwy1Direction : undefined;
         if (!src || !rwy_direction) {

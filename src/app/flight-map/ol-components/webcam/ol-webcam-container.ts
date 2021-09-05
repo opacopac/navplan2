@@ -1,7 +1,7 @@
 import {Observable, Subscription} from 'rxjs';
-import VectorLayer from 'ol/layer/Vector';
 import {Webcam} from '../../../webcam/domain-model/webcam';
 import {OlWebcam} from './ol-webcam';
+import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
 
 
 export class OlWebcamContainer {
@@ -9,12 +9,12 @@ export class OlWebcamContainer {
 
 
     constructor(
-        private readonly webcamLayer: VectorLayer,
+        private readonly webcamLayer: OlVectorLayer,
         webcams$: Observable<Webcam[]>
     ) {
         this.webcamSubscription = webcams$.subscribe((webcams) => {
             this.clearFeatures();
-            this.addFeatures(webcams);
+            this.drawFeatures(webcams);
         });
     }
 
@@ -25,14 +25,14 @@ export class OlWebcamContainer {
     }
 
 
-    private addFeatures(webcams: Webcam[]) {
+    private drawFeatures(webcams: Webcam[]) {
         if (webcams) {
-            webcams.forEach(webcam => new OlWebcam(webcam, this.webcamLayer));
+            webcams.forEach(webcam => OlWebcam.draw(webcam, this.webcamLayer));
         }
     }
 
 
     private clearFeatures() {
-        this.webcamLayer.getSource().clear(true);
+        this.webcamLayer.clear();
     }
 }

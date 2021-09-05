@@ -1,26 +1,23 @@
-import {Feature} from 'ol';
 import {Fill, Stroke, Style, Text} from 'ol/style';
 import {ReportingSector} from '../../../aerodrome/domain-model/reporting-sector';
-import VectorLayer from 'ol/layer/Vector';
-import {OlHelper} from '../../../base-map/ol-service/ol-helper';
+import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
+import {OlGeometry} from '../../../base-map/ol-model/ol-geometry';
+import {OlFeature} from '../../../base-map/ol-model/ol-feature';
 
 
 export class OlReportingSector {
-    private readonly olFeature: Feature;
-
-
-    public constructor(
+    public static draw(
         reportingSector: ReportingSector,
-        layer: VectorLayer
+        layer: OlVectorLayer
     ) {
-        this.olFeature = OlHelper.createFeature(reportingSector, true);
-        this.olFeature.setStyle(this.createPolygonStyle(reportingSector));
-        this.olFeature.setGeometry(OlHelper.getPolygonGeometry(reportingSector.polygon));
-        layer.getSource().addFeature(this.olFeature);
+        const olFeature = new OlFeature(reportingSector, true);
+        olFeature.setStyle(this.createPolygonStyle(reportingSector));
+        olFeature.setGeometry(OlGeometry.fromPolygon(reportingSector.polygon));
+        layer.addFeature(olFeature);
     }
 
 
-    private createPolygonStyle(reportingSector: ReportingSector): Style {
+    private static createPolygonStyle(reportingSector: ReportingSector): Style {
         return new Style({
             fill: new Fill({
                 color: 'rgba(124, 47, 215, 0.3)'}),

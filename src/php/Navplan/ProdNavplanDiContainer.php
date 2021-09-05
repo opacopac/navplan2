@@ -73,8 +73,6 @@ use Navplan\System\Posix\SystemServiceFactory;
 use Navplan\Terrain\DomainService\ITerrainRepo;
 use Navplan\Terrain\FileRepo\FileTerrainRepo;
 use Navplan\Terrain\RestService\ITerrainDiContainer;
-use Navplan\Terrain\UseCase\ReadElevation\IReadElevationUc;
-use Navplan\Terrain\UseCase\ReadElevation\ReadElevationUc;
 use Navplan\Terrain\UseCase\ReadElevationList\IReadElevationListUc;
 use Navplan\Terrain\UseCase\ReadElevationList\ReadElevationListUc;
 use Navplan\Traffic\AdsbexService\AdsbexService;
@@ -175,7 +173,6 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     private IDbService $dbService;
     // terrain
     private ITerrainRepo $terrainRepo;
-    private IReadElevationUc $readElevationUc;
     private IReadElevationListUc $readElevationListUc;
     // traffic
     private IAdsbexService $adsbexRepo;
@@ -589,15 +586,6 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
         }
 
         return $this->terrainRepo;
-    }
-
-
-    function getReadElevationUc(): IReadElevationUc {
-        if (!isset($this->readElevationUc)) {
-            $this->readElevationUc = new ReadElevationUc($this->getTerrainRepo());
-        }
-
-        return $this->readElevationUc;
     }
 
 

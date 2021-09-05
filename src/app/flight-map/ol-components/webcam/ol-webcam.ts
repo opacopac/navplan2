@@ -1,28 +1,25 @@
-import {Feature} from 'ol';
 import {Icon, Style} from 'ol/style';
 import {environment} from '../../../../environments/environment';
 import {Webcam} from '../../../webcam/domain-model/webcam';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
-import VectorLayer from 'ol/layer/Vector';
-import {OlHelper} from '../../../base-map/ol-service/ol-helper';
+import {OlFeature} from '../../../base-map/ol-model/ol-feature';
+import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
+import {OlGeometry} from '../../../base-map/ol-model/ol-geometry';
 
 
 export class OlWebcam {
-    private readonly olFeature: Feature;
-
-
-    public constructor(
-        public webcam: Webcam,
-        layer: VectorLayer
+    public static draw(
+        webcam: Webcam,
+        layer: OlVectorLayer
     ) {
-        this.olFeature = OlHelper.createFeature(webcam, true);
-        this.olFeature.setStyle(this.createPointStyle());
-        this.olFeature.setGeometry(OlHelper.getPointGeometry(webcam.position));
-        layer.getSource().addFeature(this.olFeature);
+        const olFeature = new OlFeature(webcam, true);
+        olFeature.setStyle(this.createPointStyle());
+        olFeature.setGeometry(OlGeometry.fromPoint(webcam.position));
+        layer.addFeature(olFeature);
     }
 
 
-    protected createPointStyle(): Style {
+    private static createPointStyle(): Style {
         const src = environment.iconBaseUrl;
 
         return new Style({

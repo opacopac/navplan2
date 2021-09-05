@@ -1,45 +1,39 @@
-import {Feature} from 'ol';
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {OlAirportRunway} from './ol-airport-runway';
 import {OlAirportFeature} from './ol-airport-feature';
 import {OlAirportIcon} from './ol-airport-icon';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import {AirportType} from '../../../aerodrome/domain-model/airport-type';
-import VectorLayer from 'ol/layer/Vector';
 import {ShortAirport} from '../../../aerodrome/domain-model/short-airport';
-import {OlHelper} from '../../../base-map/ol-service/ol-helper';
+import {OlFeature} from '../../../base-map/ol-model/ol-feature';
+import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
+import {OlGeometry} from '../../../base-map/ol-model/ol-geometry';
 
 
 export class OlAirport {
-    private readonly olFeature: Feature;
-    public readonly olRunway: OlAirportRunway;
-    public readonly olAdFeatures: OlAirportFeature[];
-
-
-    public constructor(
+    public static draw(
         airport: ShortAirport,
-        layer: VectorLayer
+        layer: OlVectorLayer
     ) {
         // airport
-        this.olFeature = OlHelper.createFeature(airport, true);
-        this.olFeature.setStyle(this.createPointStyle(airport));
-        this.olFeature.setGeometry(OlHelper.getPointGeometry(airport.position));
-        layer.getSource().addFeature(this.olFeature);
+        const olFeature = new OlFeature(airport, true);
+        olFeature.setStyle(this.createPointStyle(airport));
+        olFeature.setGeometry(OlGeometry.fromPoint(airport.position));
+        layer.addFeature(olFeature);
 
         // runway
         if (airport.hasRunways && !airport.isClosed && !airport.isHeliport) {
-            this.olRunway = new OlAirportRunway(airport, layer);
+            OlAirportRunway.draw(airport, layer);
         }
 
         // airport-features
-        this.olAdFeatures = [];
         for (const adFeature of airport.featureTypes) {
-            this.olAdFeatures.push(new OlAirportFeature(airport, adFeature, layer));
+            OlAirportFeature.draw(airport, adFeature, layer);
         }
     }
 
 
-    private createPointStyle(airport: ShortAirport): Style {
+    private static createPointStyle(airport: ShortAirport): Style {
         const src = OlAirportIcon.getUrl(airport.type);
         let textColor = '#451A57';
         let name = airport.icao ? airport.icao : '';

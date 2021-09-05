@@ -1,30 +1,27 @@
-import {Feature} from 'ol';
 import {Icon, Style} from 'ol/style';
 import {environment} from '../../../../environments/environment';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
-import VectorLayer from 'ol/layer/Vector';
 import {ShortAirport} from '../../../aerodrome/domain-model/short-airport';
-import {OlHelper} from '../../../base-map/ol-service/ol-helper';
 import {AirportFeatureType} from '../../../aerodrome/domain-model/airport-feature-type';
+import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
+import {OlFeature} from '../../../base-map/ol-model/ol-feature';
+import {OlGeometry} from '../../../base-map/ol-model/ol-geometry';
 
 
 export class OlAirportFeature {
-    private readonly olFeature: Feature;
-
-
-    public constructor(
+    public static draw(
         airport: ShortAirport,
         featureType: AirportFeatureType,
-        layer: VectorLayer
+        layer: OlVectorLayer
     ) {
-        this.olFeature = OlHelper.createFeature(airport, false);
-        this.olFeature.setStyle(this.createPointStyle(featureType));
-        this.olFeature.setGeometry(OlHelper.getPointGeometry(airport.position));
-        layer.getSource().addFeature(this.olFeature);
+        const olFeature = new OlFeature(airport, false);
+        olFeature.setStyle(this.createPointStyle(featureType));
+        olFeature.setGeometry(OlGeometry.fromPoint(airport.position));
+        layer.addFeature(olFeature);
     }
 
 
-    protected createPointStyle(featureType: AirportFeatureType): Style {
+    private static createPointStyle(featureType: AirportFeatureType): Style {
         const src = environment.iconBaseUrl;
 
         if (featureType !== AirportFeatureType.PARACHUTE) {

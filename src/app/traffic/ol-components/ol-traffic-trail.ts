@@ -1,7 +1,8 @@
 import {Circle, Fill, Style} from 'ol/style';
 import {Traffic} from '../domain-model/traffic';
-import VectorLayer from 'ol/layer/Vector';
-import {OlHelper} from '../../base-map/ol-service/ol-helper';
+import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
+import {OlFeature} from '../../base-map/ol-model/ol-feature';
+import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
 
 
 const MAX_AGE_SEC_TRACK_DOT = 120;
@@ -19,14 +20,14 @@ export class OlTrafficTrail {
     public constructor(private readonly traffic: Traffic) {
     }
 
-    public draw(trafficLayer: VectorLayer): void {
+    public draw(trafficLayer: OlVectorLayer): void {
         for (let i = this.traffic.positions.length - 1; i >= 0; i--) {
             const pos4d = this.traffic.positions[i].position;
             if (Date.now() - pos4d.timestamp.epochMs < MAX_AGE_SEC_TRACK_DOT * 1000) {
-                const dotFeature = OlHelper.createFeature(this.traffic, false);
+                const dotFeature = new OlFeature(this.traffic, false);
                 dotFeature.setStyle(DOT_STYLE);
-                dotFeature.setGeometry(OlHelper.getPointGeometry(pos4d));
-                trafficLayer.getSource().addFeature(dotFeature);
+                dotFeature.setGeometry(OlGeometry.fromPoint(pos4d));
+                trafficLayer.addFeature(dotFeature);
             } else {
                 break;
             }

@@ -1,7 +1,7 @@
 import {Observable, Subscription} from 'rxjs';
 import {OlNotam} from './ol-notam';
-import VectorLayer from 'ol/layer/Vector';
 import {Notam} from '../../../notam/domain-model/notam';
+import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
 
 
 export class OlNotamContainer {
@@ -9,12 +9,12 @@ export class OlNotamContainer {
 
 
     constructor(
-        private readonly notamLayer: VectorLayer,
+        private readonly notamLayer: OlVectorLayer,
         notamList$: Observable<Notam[]>
     ) {
         this.notamListSubscription = notamList$.subscribe(notamList => {
             this.clearFeatures();
-            this.addFeatures(notamList);
+            this.drawFeatures(notamList);
         });
     }
 
@@ -25,14 +25,14 @@ export class OlNotamContainer {
     }
 
 
-    private addFeatures(notamList: Notam[]) {
+    private drawFeatures(notamList: Notam[]) {
         if (notamList) {
-            notamList.forEach(notam => new OlNotam(notam, this.notamLayer));
+            notamList.forEach(notam => OlNotam.draw(notam, this.notamLayer));
         }
     }
 
 
     private clearFeatures() {
-        this.notamLayer.getSource().clear(true);
+        this.notamLayer.clear();
     }
 }

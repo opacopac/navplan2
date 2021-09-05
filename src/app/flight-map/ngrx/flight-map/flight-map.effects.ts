@@ -8,13 +8,13 @@ import {DataItemType} from '../../../common/model/data-item';
 import {FlightMapActions} from './flight-map.actions';
 import {getFlightMapState} from './flight-map.selectors';
 import {FlightMapState} from '../../domain-model/flight-map-state';
-import {OlHelper} from '../../../base-map/ol-service/ol-helper';
 import {SearchActions} from '../../../search/ngrx/search.actions';
 import {SearchState} from '../../../search/domain-model/search-state';
 import {getSearchState} from '../../../search/ngrx/search.selectors';
 import {INotamRepo} from '../../../notam/domain-service/i-notam-repo';
 import {IDate} from '../../../system/domain-service/date/i-date';
 import {SystemConfig} from '../../../system/domain-service/system-config';
+import {OlGeometry} from '../../../base-map/ol-model/ol-geometry';
 
 
 @Injectable()
@@ -87,7 +87,7 @@ export class FlightMapEffects {
         map(([action, flightMapState, searchState]) => {
             return SearchActions.searchByPosition({
                 clickPos: action.clickPos,
-                maxDegRadius: OlHelper.calcDegPerPixelByZoom(action.zoom) * 50,
+                maxDegRadius: OlGeometry.calcDegPerPixelByZoom(action.zoom) * 50,
                 minNotamTimestamp: 0,
                 maxNotamTimestamp: 999 // TODO
             });

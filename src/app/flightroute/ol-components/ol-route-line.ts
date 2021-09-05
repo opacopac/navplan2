@@ -1,5 +1,4 @@
-import {Collection, Feature, Map} from 'ol';
-import VectorLayer from 'ol/layer/Vector';
+import {Collection, Map} from 'ol';
 import {Modify, Snap} from 'ol/interaction';
 import {LineString} from 'ol/geom';
 import {Stroke, Style} from 'ol/style';
@@ -7,7 +6,9 @@ import {Flightroute} from '../domain-model/flightroute';
 import {EventEmitter} from '@angular/core';
 import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 import {ModifyEvent} from 'ol/interaction/Modify';
-import {OlHelper} from '../../base-map/ol-service/ol-helper';
+import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
+import {OlFeature} from '../../base-map/ol-model/ol-feature';
+import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
 
 
 export class RouteLineModification {
@@ -22,7 +23,7 @@ export class RouteLineModification {
 
 export class OlRouteLine {
     public onRouteLineModifiedEnd: EventEmitter<RouteLineModification> = new EventEmitter<RouteLineModification>();
-    private readonly lineFeature: Feature;
+    private readonly lineFeature: OlFeature;
     private modifyInteraction: Modify;
     private snapInteractions: Snap[];
 
@@ -30,13 +31,13 @@ export class OlRouteLine {
     public constructor(
         private readonly flightroute: Flightroute,
         private readonly map: Map,
-        layer: VectorLayer,
-        snapToLayers: VectorLayer[]
+        layer: OlVectorLayer,
+        snapToLayers: OlVectorLayer[]
     ) {
-        this.lineFeature = new Feature();
+        this.lineFeature = new OlFeature(undefined, false);
         this.lineFeature.setStyle(this.getStyle());
-        this.lineFeature.setGeometry(OlHelper.getLineGeometry(flightroute.waypoints.map(waypoint => waypoint.position)));
-        layer.getSource().addFeature(this.lineFeature);
+        this.lineFeature.setGeometry(OlGeometry.fromLine(flightroute.waypoints.map(waypoint => waypoint.position)));
+        layer.addFeature(this.lineFeature);
 
         this.addModifyInteraction();
         this.addSnapInteractions([...snapToLayers, layer]);
@@ -45,9 +46,9 @@ export class OlRouteLine {
 
 
     public destroy() {
-        this.lineFeature.getGeometry().un('modifystart', this.onModifyStart.bind(this));
-        this.lineFeature.getGeometry().un('change', this.onModifyChange.bind(this));
-        this.lineFeature.getGeometry().un('modifyend', this.onModifyEnd.bind(this));
+        /*this.lineFeature.feature.getGeometry().un('modifystart', this.onModifyStart.bind(this));
+        this.lineFeature.feature.getGeometry().un('change', this.onModifyChange.bind(this));
+        this.lineFeature.feature.getGeometry().un('modifyend', this.onModifyEnd.bind(this));*/
 
         this.map.removeInteraction(this.modifyInteraction);
         this.removeSnapInteractions();
@@ -59,7 +60,7 @@ export class OlRouteLine {
             deleteCondition: function () {
                 return false;
             }, // no delete condition
-            features: new Collection([this.lineFeature])
+            features: new Collection([this.lineFeature.feature])
         });
         this.map.addInteraction(this.modifyInteraction);
 
@@ -69,7 +70,7 @@ export class OlRouteLine {
         });
 
         this.modifyInteraction.on('change', (event) => {
-            this.onModifyChange(event as Event);
+            this.onModifyChange(event as ModifyEvent);
         });
 
         this.modifyInteraction.on('modifyend', (event) => {
@@ -78,11 +79,11 @@ export class OlRouteLine {
     }
 
 
-    private addSnapInteractions(snapToLayers: VectorLayer[]) {
+    private addSnapInteractions(snapToLayers: OlVectorLayer[]) {
         this.snapInteractions = [];
         snapToLayers.forEach((layer) => {
             const snapInt = new Snap({
-                source: layer.getSource(),
+                source: layer.vectorLayer.getSource(),
                 vertex: true,
                 edge: true,
             });
@@ -123,7 +124,7 @@ export class OlRouteLine {
     }
 
 
-    private onModifyChange(event: Event) {
+    private onModifyChange(event: ModifyEvent) {
         // TODO: action
     }
 
@@ -136,12 +137,12 @@ export class OlRouteLine {
         for (let i = 0; i < newCoordinates.length; i++) {
             if (
                 i >= this.flightroute.waypoints.length
-                || !this.flightroute.waypoints[i].position.equals(OlHelper.getPosFromMercatorCoords(newCoordinates[i]), 4)
+                || !this.flightroute.waypoints[i].position.equals(OlGeometry.getPosFromMercatorCoords(newCoordinates[i]), 4)
             ) {
                 return new RouteLineModification(
                     i,
                     (this.flightroute.waypoints.length !== newCoordinates.length),
-                    OlHelper.getPosFromMercatorCoords(newCoordinates[i])
+                    OlGeometry.getPosFromMercatorCoords(newCoordinates[i])
                 );
             }
         }

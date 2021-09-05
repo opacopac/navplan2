@@ -1,11 +1,11 @@
 import {Observable, Subscription} from 'rxjs';
-import VectorLayer from 'ol/layer/Vector';
 import {OlPositionSearchItem} from './ol-position-search-item';
 import {PositionSearchState} from '../domain-model/position-search-state';
 import {SearchItem} from '../domain-model/search-item';
 import {StringnumberHelper} from '../../system/domain-service/stringnumber/stringnumber-helper';
 import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
 import {AngleUnit} from '../../common/geo-math/domain-model/quantities/units';
+import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
 
 
 const MAX_POINTS = 6;
@@ -16,12 +16,12 @@ export class OlPositionSearchContainer {
 
 
     constructor(
-        private readonly positionSearchLayer: VectorLayer,
+        private readonly positionSearchLayer: OlVectorLayer,
         searchItems$: Observable<PositionSearchState>
     ) {
         this.positionSearchSubscription = searchItems$.subscribe((posSearchState) => {
             this.clearFeatures();
-            this.addFeatures(posSearchState);
+            this.drawFeatures(posSearchState);
         });
     }
 
@@ -32,23 +32,21 @@ export class OlPositionSearchContainer {
     }
 
 
-    private addFeatures(posSearchState: PositionSearchState) {
-        this.clearFeatures();
-
+    private drawFeatures(posSearchState: PositionSearchState) {
         if (posSearchState) {
             const sortedItemsAngles = this.calcLabelPositions(posSearchState.searchItems);
             const sortedItems = sortedItemsAngles[0];
             const labelAngles = sortedItemsAngles[1];
 
             for (let i = 0; i < sortedItems.length; i++) {
-                const olSearchItem = new OlPositionSearchItem(sortedItems[i], labelAngles[i], this.positionSearchLayer);
+                OlPositionSearchItem.draw(sortedItems[i], labelAngles[i], this.positionSearchLayer);
             }
         }
     }
 
 
     private clearFeatures() {
-        this.positionSearchLayer.getSource().clear(true);
+        this.positionSearchLayer.clear();
     }
 
 

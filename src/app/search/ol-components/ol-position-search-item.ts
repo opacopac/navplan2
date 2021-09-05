@@ -1,11 +1,9 @@
-import {Feature} from 'ol';
-import VectorLayer from 'ol/layer/Vector';
 import {Circle, Fill, RegularShape, Stroke, Style, Text} from 'ol/style';
 import {SearchItem} from '../domain-model/search-item';
-import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
-import {Point} from 'ol/geom';
 import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
-import {OlHelper} from '../../base-map/ol-service/ol-helper';
+import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
+import {OlFeature} from '../../base-map/ol-model/ol-feature';
+import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
 
 
 const LABEL_DIST_PIXEL = 100;
@@ -13,26 +11,25 @@ const POINT_RADIUS_PIXEL = 5;
 
 
 export class OlPositionSearchItem {
-    private readonly olFeature: Feature;
-
-
-    public constructor(
+    public static draw(
         searchItem: SearchItem,
         labelRotAngle: Angle,
-        layer: VectorLayer
+        layer: OlVectorLayer
     ) {
-        this.olFeature = OlHelper.createFeature(searchItem.dataItem, true);
-        this.olFeature.setStyle(this.createPointStyle(searchItem.getGeoselectionName(), labelRotAngle));
-        this.olFeature.setGeometry(OlHelper.getPointGeometry(searchItem.getPosition()));
+        const olFeature = new OlFeature(searchItem.dataItem, true);
+        olFeature.setStyle(this.createPointStyle(searchItem.getGeoselectionName(), labelRotAngle));
+        olFeature.setGeometry(OlGeometry.fromPoint(searchItem.getPosition()));
 
-        const olLineFeature = this.createLineFeature(searchItem.getPosition(), labelRotAngle);
+        const olLineFeature = new OlFeature(undefined, false);
+        olLineFeature.setStyle(this.createLineStyle(labelRotAngle));
+        olLineFeature.setGeometry(OlGeometry.fromPoint(searchItem.getPosition()));
 
-        layer.getSource().addFeature(olLineFeature);
-        layer.getSource().addFeature(this.olFeature);
+        layer.addFeature(olLineFeature);
+        layer.addFeature(olFeature);
     }
 
 
-    protected createPointStyle(name: string, labelRotAngle: Angle): Style {
+    private static createPointStyle(name: string, labelRotAngle: Angle): Style {
         const offsetX = Math.sin(labelRotAngle.rad) * LABEL_DIST_PIXEL;
         const offsetY = -Math.cos(labelRotAngle.rad) * LABEL_DIST_PIXEL;
 
@@ -59,26 +56,18 @@ export class OlPositionSearchItem {
     }
 
 
-    private createLineFeature(position: Position2d, labelRotAngle: Angle): Feature {
-        const lineFeature = new Feature({
-            geometry: new Point(OlHelper.getMercator(position))
-        });
-
-        lineFeature.setStyle(
-            new Style({
-                image: new RegularShape({
-                    points: 1,
-                    radius1: LABEL_DIST_PIXEL,
-                    radius2: -POINT_RADIUS_PIXEL,
-                    angle: labelRotAngle.rad,
-                    stroke : new Stroke({
-                        color: '#000000',
-                        width: 3
-                    })
+    private static createLineStyle(labelRotAngle: Angle): Style {
+        return new Style({
+            image: new RegularShape({
+                points: 1,
+                radius1: LABEL_DIST_PIXEL,
+                radius2: -POINT_RADIUS_PIXEL,
+                angle: labelRotAngle.rad,
+                stroke : new Stroke({
+                    color: '#000000',
+                    width: 3
                 })
             })
-        );
-
-        return lineFeature;
+        });
     }
 }

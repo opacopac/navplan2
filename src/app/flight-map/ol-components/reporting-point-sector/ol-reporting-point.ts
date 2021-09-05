@@ -1,28 +1,25 @@
-import {Feature} from 'ol';
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {ReportingPoint} from '../../../aerodrome/domain-model/reporting-point';
 import {OlReportingpointIcon} from './ol-reportingpoint-icon';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
-import VectorLayer from 'ol/layer/Vector';
-import {OlHelper} from '../../../base-map/ol-service/ol-helper';
+import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
+import {OlFeature} from '../../../base-map/ol-model/ol-feature';
+import {OlGeometry} from '../../../base-map/ol-model/ol-geometry';
 
 
 export class OlReportingPoint {
-    private readonly olFeature: Feature;
-
-
-    public constructor(
+    public static draw(
         reportingPoint: ReportingPoint,
-        layer: VectorLayer
+        layer: OlVectorLayer
     ) {
-        this.olFeature = OlHelper.createFeature(reportingPoint, true);
-        this.olFeature.setStyle(this.createPointStyle(reportingPoint));
-        this.olFeature.setGeometry(OlHelper.getPointGeometry(reportingPoint.position));
-        layer.getSource().addFeature(this.olFeature);
+        const olFeature = new OlFeature(reportingPoint, true);
+        olFeature.setStyle(this.createPointStyle(reportingPoint));
+        olFeature.setGeometry(OlGeometry.fromPoint(reportingPoint.position));
+        layer.addFeature(olFeature);
     }
 
 
-    private createPointStyle(rp: ReportingPoint): Style {
+    private static createPointStyle(rp: ReportingPoint): Style {
         const src = OlReportingpointIcon.getUrl(rp);
 
         return new Style({

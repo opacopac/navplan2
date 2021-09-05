@@ -1,26 +1,23 @@
-import {Feature} from 'ol';
 import {Stroke, Style} from 'ol/style';
 import {Track} from '../domain-model/track';
-import VectorLayer from 'ol/layer/Vector';
-import {OlHelper} from '../../base-map/ol-service/ol-helper';
+import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
+import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
+import {OlFeature} from '../../base-map/ol-model/ol-feature';
 
 
 export class OlTrackLine {
-    private readonly lineFeature: Feature;
-
-
-    public constructor(
-        private readonly track: Track,
-        layer: VectorLayer
+    public static draw(
+        track: Track,
+        layer: OlVectorLayer
     ) {
-        this.lineFeature = new Feature();
-        this.lineFeature.setStyle(this.getStyle());
-        this.lineFeature.setGeometry(OlHelper.getLineGeometry(track.positionList));
-        layer.getSource().addFeature(this.lineFeature);
+        const lineFeature = new OlFeature(undefined, false);
+        lineFeature.setStyle(this.getStyle());
+        lineFeature.setGeometry(OlGeometry.fromLine(track.positionList));
+        layer.addFeature(lineFeature);
     }
 
 
-    private getStyle(): Style {
+    private static getStyle(): Style {
         return new Style({
             stroke: new Stroke({
                 color: '#0000FF',

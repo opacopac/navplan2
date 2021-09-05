@@ -1,7 +1,7 @@
 import {Observable, Subscription} from 'rxjs';
-import VectorLayer from 'ol/layer/Vector';
 import {Airspace} from '../../../enroute/domain-model/airspace';
 import {OlAirspace} from './ol-airspace';
+import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
 
 
 export class OlAirspaceContainer {
@@ -9,12 +9,12 @@ export class OlAirspaceContainer {
 
 
     constructor(
-        private readonly airspaceLayer: VectorLayer,
+        private readonly airspaceLayer: OlVectorLayer,
         airspace$: Observable<Airspace[]>
     ) {
         this.airspaceSubscription = airspace$.subscribe((airspace) => {
             this.clearFeatures();
-            this.addFeatures(airspace);
+            this.drawFeatures(airspace);
         });
     }
 
@@ -25,14 +25,14 @@ export class OlAirspaceContainer {
     }
 
 
-    private addFeatures(airspaces: Airspace[]) {
+    private drawFeatures(airspaces: Airspace[]) {
         if (airspaces) {
-            airspaces.forEach(airspace => new OlAirspace(airspace, this.airspaceLayer));
+            airspaces.forEach(airspace => OlAirspace.draw(airspace, this.airspaceLayer));
         }
     }
 
 
     private clearFeatures() {
-        this.airspaceLayer.getSource().clear(true);
+        this.airspaceLayer.clear();
     }
 }

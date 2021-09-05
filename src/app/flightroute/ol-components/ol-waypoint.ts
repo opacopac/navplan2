@@ -1,33 +1,29 @@
-import {Feature} from 'ol';
 import {Circle, Fill, Stroke, Style, Text} from 'ol/style';
 import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
 import {OlWaypointBearingLabel} from './ol-waypoint-bearing-label';
 import {Waypoint} from '../domain-model/waypoint';
-import VectorLayer from 'ol/layer/Vector';
-import {OlHelper} from '../../base-map/ol-service/ol-helper';
+import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
+import {OlFeature} from '../../base-map/ol-model/ol-feature';
+import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
 
 
 export class OlWaypoint {
-    private readonly pointFeature: Feature;
-    private readonly bearingLabel: OlWaypointBearingLabel;
-
-
-    constructor(
+    public static draw(
         waypoint: Waypoint,
         nextWaypoint: Waypoint,
         mapRotation: Angle,
-        layer: VectorLayer
+        layer: OlVectorLayer
     ) {
-        this.pointFeature = OlHelper.createFeature(waypoint, true);
-        this.pointFeature.setStyle(this.createStyle(waypoint, nextWaypoint, mapRotation));
-        this.pointFeature.setGeometry(OlHelper.getPointGeometry(waypoint.position));
-        layer.getSource().addFeature(this.pointFeature);
+        const pointFeature = new OlFeature(waypoint, true);
+        pointFeature.setStyle(this.createStyle(waypoint, nextWaypoint, mapRotation));
+        pointFeature.setGeometry(OlGeometry.fromPoint(waypoint.position));
+        layer.addFeature(pointFeature);
 
-        this.bearingLabel = new OlWaypointBearingLabel(waypoint, nextWaypoint, mapRotation, layer);
+        OlWaypointBearingLabel.draw(waypoint, nextWaypoint, mapRotation, layer);
     }
 
 
-    private createStyle(wp: Waypoint, nextWp: Waypoint, mapRotation: Angle): Style {
+    private static createStyle(wp: Waypoint, nextWp: Waypoint, mapRotation: Angle): Style {
         const text = wp ? wp.checkpoint : undefined;
         const mt = wp ? wp.mt : undefined;
         const nextMt = nextWp ? nextWp.mt : undefined;

@@ -1,30 +1,27 @@
-import {Feature} from 'ol';
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {environment} from '../../../../environments/environment';
 import {MetarTaf} from '../../../metar-taf/domain-model/metar-taf';
 import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
-import VectorLayer from 'ol/layer/Vector';
-import {OlHelper} from '../../../base-map/ol-service/ol-helper';
+import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
+import {OlFeature} from '../../../base-map/ol-model/ol-feature';
+import {OlGeometry} from '../../../base-map/ol-model/ol-geometry';
 
 
 export class OlMetarSky {
-    private readonly olFeature: Feature;
-
-
-    public constructor(
+    public static draw(
         metarTaf: MetarTaf,
         position: Position2d,
-        layer: VectorLayer
+        layer: OlVectorLayer
     ) {
-        this.olFeature = OlHelper.createFeature(metarTaf, true);
-        this.olFeature.setStyle(this.createPointStyle(metarTaf));
-        this.olFeature.setGeometry(OlHelper.getPointGeometry(position));
-        layer.getSource().addFeature(this.olFeature);
+        const olFeature = new OlFeature(metarTaf, true);
+        olFeature.setStyle(this.createPointStyle(metarTaf));
+        olFeature.setGeometry(OlGeometry.fromPoint(position));
+        layer.addFeature(olFeature);
     }
 
 
-    private createPointStyle(metarTaf: MetarTaf): Style {
+    private static createPointStyle(metarTaf: MetarTaf): Style {
         let src = environment.iconBaseUrl;
         const wx_cond = metarTaf.wx_cond ? metarTaf.wx_cond : '';
 

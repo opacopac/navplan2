@@ -1,26 +1,23 @@
-import {Feature} from 'ol';
 import {Fill, Stroke, Style} from 'ol/style';
 import {Airspace} from '../../../enroute/domain-model/airspace';
-import VectorLayer from 'ol/layer/Vector';
-import {OlHelper} from '../../../base-map/ol-service/ol-helper';
+import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
+import {OlFeature} from '../../../base-map/ol-model/ol-feature';
+import {OlGeometry} from '../../../base-map/ol-model/ol-geometry';
 
 
 export class OlAirspace {
-    private readonly olFeature: Feature;
-
-
-    public constructor(
+    public static draw(
         airspace: Airspace,
-        layer: VectorLayer
+        layer: OlVectorLayer
     ) {
-        this.olFeature = OlHelper.createFeature(airspace, false);
-        this.olFeature.setStyle(this.createPolygonStyle(airspace));
-        this.olFeature.setGeometry(OlHelper.getPolygonGeometry(airspace.polygon));
-        layer.getSource().addFeature(this.olFeature);
+        const olFeature = new OlFeature(airspace, false);
+        olFeature.setStyle(this.createPolygonStyle(airspace));
+        olFeature.setGeometry(OlGeometry.fromPolygon(airspace.polygon));
+        layer.addFeature(olFeature);
     }
 
 
-    private createPolygonStyle(airspace: Airspace): Style {
+    private static createPolygonStyle(airspace: Airspace): Style {
         switch (airspace.category) {
             case 'CTR':
                 return new Style({

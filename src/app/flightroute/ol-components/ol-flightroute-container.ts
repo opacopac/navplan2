@@ -1,4 +1,3 @@
-import VectorLayer from 'ol/layer/Vector';
 import {Flightroute} from '../domain-model/flightroute';
 import {Observable, Subscription} from 'rxjs';
 import {OlRouteLine, RouteLineModification} from './ol-route-line';
@@ -9,6 +8,7 @@ import {Store} from '@ngrx/store';
 import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
 import {WaypointActions} from '../ngrx/waypoints.actions';
 import {Map} from 'ol';
+import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
 
 
 export class OlFlightrouteContainer {
@@ -18,16 +18,16 @@ export class OlFlightrouteContainer {
 
 
     constructor(
-        private readonly flightrouteLayer: VectorLayer,
+        private readonly flightrouteLayer: OlVectorLayer,
         flightroute$: Observable<Flightroute>,
         private map: Map,
-        snapToLayers: VectorLayer[],
+        snapToLayers: OlVectorLayer[],
         private readonly store: Store<any>,
         mapRotation: Angle
     ) {
         this.flightrouteSubscription = flightroute$.subscribe(flightroute => {
             this.destroyFeatures();
-            this.addFeatures(flightroute, map, snapToLayers, mapRotation);
+            this.drawFeatures(flightroute, map, snapToLayers, mapRotation);
             // re-subscribe to route line events
             this.routeLineModifiedSubscription = this.olRouteLine.onRouteLineModifiedEnd
                 .subscribe(routeLineMod => this.emitRouteLineModifiedAction(routeLineMod));
@@ -42,17 +42,23 @@ export class OlFlightrouteContainer {
     }
 
 
-    private addFeatures(flightroute: Flightroute, map: Map, snapToLayers: VectorLayer[], mapRotation: Angle) {
+    private drawFeatures(flightroute: Flightroute, map: Map, snapToLayers: OlVectorLayer[], mapRotation: Angle) {
         if (flightroute) {
+            // route
             this.olRouteLine = new OlRouteLine(flightroute, map, this.flightrouteLayer, snapToLayers); // TODO
-            const olAlternateLine = new OlAlternateLine(flightroute, this.flightrouteLayer);
+
+            // route to alternate
+            OlAlternateLine.draw(flightroute, this.flightrouteLayer);
+
+            // route waypoints
             flightroute.waypoints.forEach((wp, index) => {
                 const nextWp = this.getNextWp(flightroute.waypoints, flightroute.alternate, index);
-                const olWp = new OlWaypoint(wp, nextWp, mapRotation, this.flightrouteLayer);
+                OlWaypoint.draw(wp, nextWp, mapRotation, this.flightrouteLayer);
             });
 
+            // alternate waypoint
             if (flightroute.alternate) {
-                const olAlternate = new OlWaypoint(flightroute.alternate, undefined, mapRotation, this.flightrouteLayer);
+                OlWaypoint.draw(flightroute.alternate, undefined, mapRotation, this.flightrouteLayer);
             }
         }
     }
@@ -72,7 +78,7 @@ export class OlFlightrouteContainer {
     private destroyFeatures() {
         this.olRouteLine?.destroy();
         this.olRouteLine = undefined;
-        this.flightrouteLayer.getSource().clear(true);
+        this.flightrouteLayer.clear();
     }
 
 

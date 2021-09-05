@@ -18,7 +18,6 @@ import {getTrafficState} from '../../../traffic/ngrx/traffic.selectors';
 import {OlOwnPlaneContainer} from '../../../location/ol-components/ol-own-plane-container';
 import {getLocationState} from '../../../location/ngrx/location.selectors';
 import {MapBaseLayerType} from '../../../base-map/domain-model/map-base-layer-type';
-import {OlHelper} from '../../../base-map/ol-service/ol-helper';
 import {OlMapContainerComponent} from '../../../base-map/ng-components/ol-map-container/ol-map-container.component';
 import {OlOverlayTrafficComponent} from '../../../traffic/ng-components/ol-overlay-traffic/ol-overlay-traffic.component';
 import {Observable} from 'rxjs/internal/Observable';
@@ -47,6 +46,7 @@ import {getAirportCircuits} from '../../ngrx/airport-circuit/airport-circuit.sel
 import {getAirportCharts} from '../../ngrx/airport-chart/airport-chart.selectors';
 import {OlMapOverlayComponent} from '../ol-map-overlay/ol-map-overlay.component';
 import {OverlayState} from '../../domain-model/overlay-state';
+import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
 
 
 @Component({
@@ -152,22 +152,22 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         zoom: number,
         rotation: Angle
     ) {
-        const flightrouteLayer = OlHelper.createEmptyVectorLayer(false);
-        const ownPlaneLayer = OlHelper.createEmptyVectorLayer(false);
-        const metarTafLayer = OlHelper.createEmptyVectorLayer(false);
-        const notamLayer = OlHelper.createEmptyVectorLayer(true);
-        const airspaceLayer = OlHelper.createEmptyVectorLayer(true);
-        const reportingSectorLayer = OlHelper.createEmptyVectorLayer(true);
-        const webcamLayer = OlHelper.createEmptyVectorLayer(false);
-        const userPointLayer = OlHelper.createEmptyVectorLayer(false);
-        const reportingPointLayer = OlHelper.createEmptyVectorLayer(false);
-        const navaidLayer = OlHelper.createEmptyVectorLayer(false);
-        const airportLayer = OlHelper.createEmptyVectorLayer(false);
-        const trackLayer = OlHelper.createEmptyVectorLayer(false);
-        const trafficLayer = OlHelper.createEmptyVectorLayer(false);
-        const circuitLayer = OlHelper.createEmptyVectorLayer(false);
-        const chartCloserLayer = OlHelper.createEmptyVectorLayer(false);
-        const pointSearchLayer = OlHelper.createEmptyVectorLayer(false);
+        const flightrouteLayer = new OlVectorLayer();
+        const ownPlaneLayer = new OlVectorLayer();
+        const metarTafLayer = new OlVectorLayer();
+        const notamLayer = new OlVectorLayer();
+        const airspaceLayer = new OlVectorLayer();
+        const reportingSectorLayer = new OlVectorLayer();
+        const webcamLayer = new OlVectorLayer();
+        const userPointLayer = new OlVectorLayer();
+        const reportingPointLayer = new OlVectorLayer();
+        const navaidLayer = new OlVectorLayer();
+        const airportLayer = new OlVectorLayer();
+        const trackLayer = new OlVectorLayer();
+        const trafficLayer = new OlVectorLayer();
+        const circuitLayer = new OlVectorLayer();
+        const chartCloserLayer = new OlVectorLayer();
+        const pointSearchLayer = new OlVectorLayer();
 
         const map = this.mapContainer.init(
             MapBaseLayerType.OPENTOPOMAP,

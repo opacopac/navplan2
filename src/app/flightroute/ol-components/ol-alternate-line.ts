@@ -1,38 +1,28 @@
-import {Feature} from 'ol';
 import {Stroke, Style} from 'ol/style';
-import VectorLayer from 'ol/layer/Vector';
 import {Flightroute} from '../domain-model/flightroute';
-import {OlHelper} from '../../base-map/ol-service/ol-helper';
+import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
+import {OlFeature} from '../../base-map/ol-model/ol-feature';
+import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
 
 
 export class OlAlternateLine {
-    private readonly lineFeature: Feature;
-
-
-    public constructor(
-        private readonly flightroute: Flightroute,
-        layer: VectorLayer
+    public static draw(
+        flightroute: Flightroute,
+        layer: OlVectorLayer
     ) {
-        this.lineFeature = new Feature();
-        this.lineFeature.setStyle(this.getStyle());
-        this.setGeometry(this.lineFeature, flightroute);
-        layer.getSource().addFeature(this.lineFeature);
-    }
-
-
-    private setGeometry(lineFeature: Feature, flightroute: Flightroute) {
         if (flightroute.waypoints.length > 0 && flightroute.alternate) {
-            lineFeature.setGeometry(OlHelper.getLineGeometry([
+            const lineFeature = new OlFeature(undefined, false);
+            lineFeature.setStyle(this.getStyle());
+            lineFeature.setGeometry(OlGeometry.fromLine([
                 flightroute.waypoints[flightroute.waypoints.length - 1].position,
                 flightroute.alternate.position
             ]));
-        } else {
-            lineFeature.setGeometry(undefined);
+            layer.addFeature(lineFeature);
         }
     }
 
 
-    private getStyle(): Style {
+    private static getStyle(): Style {
         return new Style({
             stroke: new Stroke({
                 color: '#FF00FF',

@@ -1,7 +1,7 @@
 import {Observable, Subscription} from 'rxjs';
-import VectorLayer from 'ol/layer/Vector';
 import {Navaid} from '../../../enroute/domain-model/navaid';
 import {OlNavaid} from './ol-navaid';
+import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
 
 
 export class OlNavaidContainer {
@@ -9,12 +9,12 @@ export class OlNavaidContainer {
 
 
     constructor(
-        private readonly navaidLLayer: VectorLayer,
+        private readonly navaidLLayer: OlVectorLayer,
         navaids$: Observable<Navaid[]>
     ) {
         this.navaidSubscription = navaids$.subscribe((navaids) => {
             this.clearFeatures();
-            this.addFeatures(navaids);
+            this.drawFeatures(navaids);
         });
     }
 
@@ -25,14 +25,14 @@ export class OlNavaidContainer {
     }
 
 
-    private addFeatures(navaids: Navaid[]) {
+    private drawFeatures(navaids: Navaid[]) {
         if (navaids) {
-            navaids.forEach(navaid => new OlNavaid(navaid, this.navaidLLayer));
+            navaids.forEach(navaid => OlNavaid.draw(navaid, this.navaidLLayer));
         }
     }
 
 
     private clearFeatures() {
-        this.navaidLLayer.getSource().clear(true);
+        this.navaidLLayer.clear();
     }
 }

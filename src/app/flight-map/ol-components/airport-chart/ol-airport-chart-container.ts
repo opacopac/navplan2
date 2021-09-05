@@ -1,7 +1,7 @@
 import {Observable, Subscription} from 'rxjs';
-import VectorLayer from 'ol/layer/Vector';
 import {OlAirportChartCloser} from './ol-airport-chart-closer';
 import {AirportChart} from '../../../aerodrome/domain-model/airport-chart';
+import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
 
 
 export class OlAirportChartContainer {
@@ -9,12 +9,12 @@ export class OlAirportChartContainer {
 
 
     constructor(
-        private readonly chartCloserLayer: VectorLayer,
+        private readonly chartCloserLayer: OlVectorLayer,
         charts$: Observable<AirportChart[]>
     ) {
         this.chartSubscription = charts$.subscribe((charts) => {
             this.clearFeatures();
-            this.addFeatures(charts);
+            this.drawFeatures(charts);
         });
     }
 
@@ -25,14 +25,14 @@ export class OlAirportChartContainer {
     }
 
 
-    private addFeatures(airportCharts: AirportChart[]) {
+    private drawFeatures(airportCharts: AirportChart[]) {
         if (airportCharts) {
-            airportCharts.forEach(airportChart => new OlAirportChartCloser(airportChart, this.chartCloserLayer));
+            airportCharts.forEach(airportChart => OlAirportChartCloser.draw(airportChart, this.chartCloserLayer));
         }
     }
 
 
     private clearFeatures() {
-        this.chartCloserLayer.getSource().clear(true);
+        this.chartCloserLayer.clear();
     }
 }

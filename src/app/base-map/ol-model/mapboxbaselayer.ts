@@ -11,7 +11,7 @@ const ACCESS_TOKEN_NAVPLAN_BRANCH = 'pk.eyJ1Ijoib3BhY29wYWMiLCJhIjoiY2oxYjZ6aDQx
 
 export class Mapboxbaselayer {
 
-    public static createBaseLayer(attributions: string[]): TileLayer {
+    public static createBaseLayer(attributions: string[]): TileLayer<XYZ> {
         return new TileLayer({
             source: new XYZ({
                 tileUrlFunction: Mapboxbaselayer.getTileUrl,

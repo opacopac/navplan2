@@ -6,8 +6,9 @@ import {TrafficIcon} from '../domain-model/traffic-icon';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import {AltitudeUnit} from '../../common/geo-math/domain-model/geometry/altitude-unit';
 import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
-import VectorLayer from 'ol/layer/Vector';
-import {OlHelper} from '../../base-map/ol-service/ol-helper';
+import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
+import {OlFeature} from '../../base-map/ol-model/ol-feature';
+import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
 
 
 const MAX_AGE_SEC_INACTIVE = 30; // TODO
@@ -22,21 +23,21 @@ export class OlTraffic {
     }
 
 
-    public draw(trafficLayer: VectorLayer): void {
+    public draw(trafficLayer: OlVectorLayer): void {
         // dot trail feature
         this.olDotTrailFeature.draw(trafficLayer);
 
         // traffic feature
-        const olTrafficFeature = OlHelper.createFeature(this.traffic, true);
+        const olTrafficFeature = new OlFeature(this.traffic, true);
         olTrafficFeature.setStyle(this.getTrafficStyle(this.traffic));
-        olTrafficFeature.setGeometry(OlHelper.getPointGeometry(this.traffic.getCurrentPosition().position));
-        trafficLayer.getSource().addFeature(olTrafficFeature);
+        olTrafficFeature.setGeometry(OlGeometry.fromPoint(this.traffic.getCurrentPosition().position));
+        trafficLayer.addFeature(olTrafficFeature);
 
         // call sign feature
-        const olCallsignFeature = OlHelper.createFeature(this.traffic, true);
+        const olCallsignFeature = new OlFeature(this.traffic, true);
         olCallsignFeature.setStyle(this.getCallsignStyle());
-        olCallsignFeature.setGeometry(OlHelper.getPointGeometry(this.traffic.getCurrentPosition().position));
-        trafficLayer.getSource().addFeature(olCallsignFeature);
+        olCallsignFeature.setGeometry(OlGeometry.fromPoint(this.traffic.getCurrentPosition().position));
+        trafficLayer.addFeature(olCallsignFeature);
     }
 
 

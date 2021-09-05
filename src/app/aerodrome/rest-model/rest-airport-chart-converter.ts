@@ -1,6 +1,6 @@
 import {AirportChart} from '../domain-model/airport-chart';
 import {IRestAirportChart} from './i-rest-airport-chart';
-import {OlHelper} from '../../base-map/ol-service/ol-helper';
+import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
 
 
 export class RestAirportChartConverter {
@@ -11,7 +11,7 @@ export class RestAirportChartConverter {
             restAdChart.source,
             restAdChart.type,
             restAdChart.filename,
-            OlHelper.getExtentFromMercator([
+            OlGeometry.getExtentFromMercator([
                 parseInt(restAdChart.mercator_w, 10),
                 parseInt(restAdChart.mercator_s, 10),
                 parseInt(restAdChart.mercator_e, 10),

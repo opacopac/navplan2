@@ -1,32 +1,29 @@
-import {Feature} from 'ol';
 import {Icon, Style} from 'ol/style';
 import {MetarTaf} from '../../../metar-taf/domain-model/metar-taf';
 import {environment} from '../../../../environments/environment';
 import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import {Angle} from '../../../common/geo-math/domain-model/quantities/angle';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
-import VectorLayer from 'ol/layer/Vector';
-import {OlHelper} from '../../../base-map/ol-service/ol-helper';
+import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
+import {OlFeature} from '../../../base-map/ol-model/ol-feature';
+import {OlGeometry} from '../../../base-map/ol-model/ol-geometry';
 
 
 export class OlMetarWind {
-    private readonly olFeature: Feature;
-
-
-    public constructor(
+    public static draw(
         metarTaf: MetarTaf,
         position: Position2d,
         mapRotation: Angle,
-        layer: VectorLayer
+        layer: OlVectorLayer
     ) {
-        this.olFeature = OlHelper.createFeature(metarTaf, true);
-        this.olFeature.setStyle(this.createPointStyle(metarTaf, mapRotation));
-        this.olFeature.setGeometry(OlHelper.getPointGeometry(position));
-        layer.getSource().addFeature(this.olFeature);
+        const olFeature = new OlFeature(metarTaf, true);
+        olFeature.setStyle(this.createPointStyle(metarTaf, mapRotation));
+        olFeature.setGeometry(OlGeometry.fromPoint(position));
+        layer.addFeature(olFeature);
     }
 
 
-    private createPointStyle(metarTaf: MetarTaf, mapRotation: Angle): Style {
+    private static createPointStyle(metarTaf: MetarTaf, mapRotation: Angle): Style {
         let src = environment.iconBaseUrl;
         let rot = metarTaf.wind_dir_deg ?
             Angle.deg2rad(metarTaf.wind_dir_deg + 90) + mapRotation.rad : undefined;

@@ -3,8 +3,8 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {map, switchMap} from 'rxjs/operators';
 import {WaypointActions} from './waypoints.actions';
 import {WaypointConverter} from '../domain-model/converter/waypoint-converter';
-import {OlHelper} from '../../base-map/ol-service/ol-helper';
 import {ISearchService} from '../../search/domain-service/i-search.service';
+import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
 
 
 @Injectable()
@@ -23,7 +23,7 @@ export class WaypointEffects {
         ofType(WaypointActions.insertByPos),
         switchMap(action => this.searchService.searchByPosition(
             action.newPosition,
-            OlHelper.calcDegPerPixelByZoom(action.zoom) * this.HIT_TOLERANCE_PX,
+            OlGeometry.calcDegPerPixelByZoom(action.zoom) * this.HIT_TOLERANCE_PX,
             0,
             1
         ).pipe(
@@ -41,7 +41,7 @@ export class WaypointEffects {
         ofType(WaypointActions.replaceByPos),
         switchMap(action => this.searchService.searchByPosition(
             action.newPosition,
-            OlHelper.calcDegPerPixelByZoom(action.zoom) * this.HIT_TOLERANCE_PX,
+            OlGeometry.calcDegPerPixelByZoom(action.zoom) * this.HIT_TOLERANCE_PX,
             0,
             1
         ).pipe(

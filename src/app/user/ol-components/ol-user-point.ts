@@ -1,24 +1,21 @@
-import {Feature} from 'ol';
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {UserPoint} from '../domain-model/user-point';
 import {OlUserpointIcon} from './ol-userpoint-icon';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
-import VectorLayer from 'ol/layer/Vector';
-import {OlHelper} from '../../base-map/ol-service/ol-helper';
+import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
+import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
+import {OlFeature} from '../../base-map/ol-model/ol-feature';
 
 
 export class OlUserPoint {
-    private readonly olFeature: Feature;
-
-
     public constructor(
         userPoint: UserPoint,
-        layer: VectorLayer
+        layer: OlVectorLayer
     ) {
-        this.olFeature = OlHelper.createFeature(userPoint, true);
-        this.olFeature.setStyle(this.createPointStyle(userPoint));
-        this.olFeature.setGeometry(OlHelper.getPointGeometry(userPoint.position));
-        layer.getSource().addFeature(this.olFeature);
+        const olFeature = new OlFeature(userPoint, true);
+        olFeature.setStyle(this.createPointStyle(userPoint));
+        olFeature.setGeometry(OlGeometry.fromPoint(userPoint.position));
+        layer.addFeature(olFeature);
     }
 
 

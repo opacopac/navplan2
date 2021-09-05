@@ -7,12 +7,10 @@ import {BaseMapActions} from '../../ngrx/base-map.actions';
 import {Angle} from '../../../common/geo-math/domain-model/quantities/angle';
 import {Feature, Map, MapBrowserEvent, MapEvent, View} from 'ol';
 import TileLayer from 'ol/layer/Tile';
-import {Layer} from 'ol/layer';
 import Overlay from 'ol/Overlay';
 import {MapBaseLayerType} from '../../domain-model/map-base-layer-type';
-import {OlBaselayerFactory} from '../../ol-model/ol-baselayer-factory';
+import {OlBaselayerFactory} from '../../ol-service/ol-baselayer-factory';
 import {Attribution, FullScreen, Rotate, ScaleLine} from 'ol/control';
-import {OlHelper} from '../../ol-service/ol-helper';
 import {AngleUnit} from '../../../common/geo-math/domain-model/quantities/units';
 import {Pixel} from 'ol/pixel';
 import {ObjectEvent} from 'ol/Object';
@@ -22,8 +20,14 @@ import {Subscription} from 'rxjs/internal/Subscription';
 import ImageLayer from 'ol/layer/Image';
 import {ShowImageState} from '../../domain-model/show-image-state';
 import Projection from 'ol/proj/Projection';
-import {ImageStatic} from 'ol/source';
+import {ImageStatic, Vector} from 'ol/source';
 import {ArrayHelper} from '../../../system/domain-service/array/array-helper';
+import XYZ from 'ol/source/XYZ';
+import VectorLayer from 'ol/layer/Vector';
+import {Geometry} from 'ol/geom';
+import {OlVectorLayer} from '../../ol-model/ol-vector-layer';
+import {OlGeometry} from '../../ol-model/ol-geometry';
+import {OlFeature} from '../../ol-model/ol-feature';
 
 
 @Component({
@@ -36,9 +40,9 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
     private readonly IMAGE_ID_KEY = 'imageId';
     private readonly HIT_TOLERANCE_PIXELS = 10;
     private map: Map;
-    private mapLayer: TileLayer;
-    private mapLayers: Layer[] = [];
-    private readonly imageLayers: ImageLayer[] = [];
+    private mapLayer: TileLayer<XYZ>;
+    private mapLayers: OlVectorLayer[] = [];
+    private readonly imageLayers: ImageLayer<ImageStatic>[] = [];
     private readonly $zoom: Observable<number>;
     private readonly $showImage: Observable<ShowImageState>;
     private readonly zoomSubscription: Subscription;
@@ -57,7 +61,7 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
 
     public init(
         baseMapType: MapBaseLayerType,
-        mapLayers: Layer[],
+        mapLayers: OlVectorLayer[],
         mapOverlays: Overlay[],
         position: Position2d,
         zoom: number,
@@ -67,7 +71,7 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
         this.mapLayers = mapLayers;
         const allLayers = [];
         allLayers.push(this.mapLayer);
-        allLayers.push(...this.mapLayers);
+        allLayers.push(...this.mapLayers.map(layer => layer.vectorLayer));
         this.map = new Map({
             target: 'map',
             controls: [
@@ -79,7 +83,7 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
             layers: allLayers,
             overlays: mapOverlays,
             view: new View({
-                center: OlHelper.getMercator(position),
+                center: OlGeometry.getMercator(position),
                 zoom: zoom,
                 rotation: mapRotation.rad,
             })
@@ -129,7 +133,7 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
             BaseMapActions.mapMoved({
                 position: this.getMapPosition(),
                 zoom: this.getZoom(),
-                rotation:  this.getRotation(),
+                rotation: this.getRotation(),
                 extent: this.getExtent()
             })
         );
@@ -141,17 +145,17 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
             BaseMapActions.mapMoved({
                 position: this.getMapPosition(),
                 zoom: this.getZoom(),
-                rotation:  this.getRotation(),
+                rotation: this.getRotation(),
                 extent: this.getExtent()
             })
         );
     }
 
 
-    private onSingleClick(event: MapBrowserEvent) {
+    private onSingleClick(event: MapBrowserEvent<UIEvent>) {
         const dataItem = this.getDataItemAtPixel(event.pixel, true);
         const eventPos = event.coordinate;
-        const clickPos = OlHelper.getPosFromMercator([eventPos[0], eventPos[1]]);
+        const clickPos = OlGeometry.getPosFromMercator([eventPos[0], eventPos[1]]);
 
         this.appStore.dispatch(
             BaseMapActions.mapClicked({
@@ -163,7 +167,7 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
     }
 
 
-    private onPointerMove(event: MapBrowserEvent) {
+    private onPointerMove(event: MapBrowserEvent<UIEvent>) {
         if (event.dragging) {
             return;
         }
@@ -191,8 +195,8 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
 
         const dataItems: DataItem[] = [];
         for (const feature of olFeatures) {
-            const dataItem = OlHelper.getDataItem(feature as Feature);
-            if (dataItem && (onlyClickable === false || OlHelper.isSelectable(feature as Feature))) {
+            const dataItem = OlFeature.getDataItem(feature as Feature<Geometry>);
+            if (dataItem && (onlyClickable === false || OlFeature.isSelectable(feature as Feature<Geometry>))) {
                 dataItems.push(dataItem);
             }
         }
@@ -207,7 +211,7 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
     }
 
 
-    private isClickableLayer(layer: Layer): boolean {
+    private isClickableLayer(layer: VectorLayer<Vector<Geometry>> | TileLayer<XYZ>): boolean {
         return layer !== this.mapLayer;
         /*return (layer === this.routeItemsLayer ||
             layer === this.nonrouteItemsLayer ||
@@ -228,7 +232,7 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
 
 
     private setZoom(zoom: number): void {
-        if (this.map &&  this.getZoom() !== zoom) {
+        if (this.map && this.getZoom() !== zoom) {
             this.map.getView().setZoom(zoom);
         }
     }
@@ -236,7 +240,7 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
 
     private getMapPosition(): Position2d {
         const mercPos = this.map.getView().getCenter();
-        return OlHelper.getPosFromMercator([mercPos[0], mercPos[1]]);
+        return OlGeometry.getPosFromMercator([mercPos[0], mercPos[1]]);
     }
 
 
@@ -248,7 +252,7 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
     private getExtent(): Extent2d {
         const mercExt = this.map.getView().calculateExtent(this.map.getSize());
 
-        return OlHelper.getExtentFromMercator([mercExt[0], mercExt[1], mercExt[2], mercExt[3]]);
+        return OlGeometry.getExtentFromMercator([mercExt[0], mercExt[1], mercExt[2], mercExt[3]]);
     }
 
     // endregion
@@ -285,8 +289,8 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
     }
 
 
-    private getImageLayer(imageId: number, imageUrl: string, extent2d: Extent2d, opacity: number): ImageLayer {
-        const extent = OlHelper.getExtentAsMercator(extent2d);
+    private getImageLayer(imageId: number, imageUrl: string, extent2d: Extent2d, opacity: number): ImageLayer<ImageStatic> {
+        const extent = OlGeometry.getExtentAsMercator(extent2d);
         const projection = new Projection({
             code: 'chart',
             units: 'm',
@@ -309,7 +313,7 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
 
     private fitInView(extent: Extent2d) {
         const oversizeExtent = extent.getOversizeExtent(1.1);
-        this.map.getView().fit(OlHelper.getExtentAsMercator(oversizeExtent));
+        this.map.getView().fit(OlGeometry.getExtentAsMercator(oversizeExtent));
     }
 
     // endregion

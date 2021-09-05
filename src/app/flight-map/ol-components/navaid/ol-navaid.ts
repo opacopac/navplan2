@@ -1,29 +1,26 @@
-import {Feature} from 'ol';
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {Navaid} from '../../../enroute/domain-model/navaid';
 import {OlNavaidIcon} from './ol-navaid-icon';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import {NavaidType} from '../../../enroute/domain-model/navaid-type';
-import VectorLayer from 'ol/layer/Vector';
-import {OlHelper} from '../../../base-map/ol-service/ol-helper';
+import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
+import {OlFeature} from '../../../base-map/ol-model/ol-feature';
+import {OlGeometry} from '../../../base-map/ol-model/ol-geometry';
 
 
 export class OlNavaid {
-    private readonly olFeature: Feature;
-
-
-    public constructor(
+    public static draw(
         navaid: Navaid,
-        layer: VectorLayer
+        layer: OlVectorLayer
     ) {
-        this.olFeature = OlHelper.createFeature(navaid, true);
-        this.olFeature.setStyle(this.createPointStyle(navaid));
-        this.olFeature.setGeometry(OlHelper.getPointGeometry(navaid.position));
-        layer.getSource().addFeature(this.olFeature);
+        const olFeature = new OlFeature(navaid, true);
+        olFeature.setStyle(this.createPointStyle(navaid));
+        olFeature.setGeometry(OlGeometry.fromPoint(navaid.position));
+        layer.addFeature(olFeature);
     }
 
 
-    private createPointStyle(navaid: Navaid): Style {
+    private static createPointStyle(navaid: Navaid): Style {
         const src = OlNavaidIcon.getUrl(navaid.type);
         if (!src) { return undefined; }
 

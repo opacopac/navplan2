@@ -1,9 +1,10 @@
 import {combineLatest, Observable, Subscription} from 'rxjs';
-import {OlMetar} from './ol-metar';
 import {MetarTaf} from '../../../metar-taf/domain-model/metar-taf';
 import {Angle} from '../../../common/geo-math/domain-model/quantities/angle';
-import VectorLayer from 'ol/layer/Vector';
 import {ShortAirport} from '../../../aerodrome/domain-model/short-airport';
+import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
+import {OlMetarSky} from './ol-metar-sky';
+import {OlMetarWind} from './ol-metar-wind';
 
 
 export class OlMetarContainer {
@@ -11,7 +12,7 @@ export class OlMetarContainer {
 
 
     constructor(
-        private readonly metarTafLayer: VectorLayer,
+        private readonly metarTafLayer: OlVectorLayer,
         metarTafList$: Observable<MetarTaf[]>,
         airportList$: Observable<ShortAirport[]>,
         mapRotation: Angle
@@ -21,7 +22,7 @@ export class OlMetarContainer {
             airportList$
         ]).subscribe(([metarTafList, airportList]) => {
             this.clearFeatures();
-            this.addFeatures(metarTafList, airportList, mapRotation);
+            this.drawFeatures(metarTafList, airportList, mapRotation);
         });
     }
 
@@ -32,11 +33,17 @@ export class OlMetarContainer {
     }
 
 
-    private addFeatures(metarTafList: MetarTaf[], airports: ShortAirport[], mapRotation: Angle) {
+    private drawFeatures(metarTafList: MetarTaf[], airports: ShortAirport[], mapRotation: Angle) {
         if (metarTafList) {
             const adPosMao = this.createAdPosTable(airports);
 
-            metarTafList.forEach(metarTaf => new OlMetar(metarTaf, adPosMao[metarTaf.ad_icao], mapRotation, this.metarTafLayer));
+            metarTafList.forEach(metarTaf => {
+                const pos =  adPosMao[metarTaf.ad_icao];
+                if (pos) {
+                    OlMetarSky.draw(metarTaf, pos, this.metarTafLayer);
+                    OlMetarWind.draw(metarTaf, pos, mapRotation, this.metarTafLayer);
+                }
+            });
         }
     }
 
@@ -57,6 +64,6 @@ export class OlMetarContainer {
 
 
     private clearFeatures() {
-        this.metarTafLayer.getSource().clear(true);
+        this.metarTafLayer.clear();
     }
 }

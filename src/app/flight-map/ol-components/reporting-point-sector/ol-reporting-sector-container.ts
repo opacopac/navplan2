@@ -1,7 +1,7 @@
 import {Observable, Subscription} from 'rxjs';
-import VectorLayer from 'ol/layer/Vector';
 import {ReportingSector} from '../../../aerodrome/domain-model/reporting-sector';
 import {OlReportingSector} from './ol-reporting-sector';
+import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
 
 
 export class OlReportingSectorContainer {
@@ -9,12 +9,12 @@ export class OlReportingSectorContainer {
 
 
     constructor(
-        private readonly reportingSectorLayer: VectorLayer,
+        private readonly reportingSectorLayer: OlVectorLayer,
         reportingSectors$: Observable<ReportingSector[]>
     ) {
         this.reportingSectorSubscription = reportingSectors$.subscribe((reportingSectors) => {
             this.clearFeatures();
-            this.addFeatures(reportingSectors);
+            this.drawFeatures(reportingSectors);
         });
     }
 
@@ -25,14 +25,14 @@ export class OlReportingSectorContainer {
     }
 
 
-    private addFeatures(reportingSectors: ReportingSector[]) {
+    private drawFeatures(reportingSectors: ReportingSector[]) {
         if (reportingSectors) {
-            reportingSectors.forEach(repSec => new OlReportingSector(repSec, this.reportingSectorLayer));
+            reportingSectors.forEach(repSec => OlReportingSector.draw(repSec, this.reportingSectorLayer));
         }
     }
 
 
     private clearFeatures() {
-        this.reportingSectorLayer.getSource().clear(true);
+        this.reportingSectorLayer.clear();
     }
 }

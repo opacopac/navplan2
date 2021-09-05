@@ -1,7 +1,7 @@
 import {Observable, Subscription} from 'rxjs';
-import VectorLayer from 'ol/layer/Vector';
 import {AirportCircuit} from '../../../aerodrome/domain-model/airport-circuit';
 import {OlAirportCircuit} from './ol-airport-circuit';
+import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
 
 
 export class OlAirportCircuitContainer {
@@ -9,12 +9,12 @@ export class OlAirportCircuitContainer {
 
 
     constructor(
-        private readonly circuitLayer: VectorLayer,
+        private readonly circuitLayer: OlVectorLayer,
         circuits$: Observable<AirportCircuit[]>
     ) {
         this.circuitsSubscription = circuits$.subscribe((circuits) => {
             this.clearFeatures();
-            this.addFeatures(circuits);
+            this.drawFeatures(circuits);
         });
     }
 
@@ -25,14 +25,14 @@ export class OlAirportCircuitContainer {
     }
 
 
-    private addFeatures(circuits: AirportCircuit[]) {
+    private drawFeatures(circuits: AirportCircuit[]) {
         if (circuits) {
-            circuits.forEach(circuit => new OlAirportCircuit(circuit, this.circuitLayer));
+            circuits.forEach(circuit => OlAirportCircuit.draw(circuit, this.circuitLayer));
         }
     }
 
 
     private clearFeatures() {
-        this.circuitLayer.getSource().clear(true);
+        this.circuitLayer.clear();
     }
 }

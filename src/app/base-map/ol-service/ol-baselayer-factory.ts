@@ -1,13 +1,14 @@
-import {Osmbaselayer} from './osmbaselayer';
-import {Opentopobaselayer} from './opentopobaselayer';
-import {Mapboxbaselayer} from './mapboxbaselayer';
-import {Mapzenbaselayer} from './mapzenbaselayer';
+import {Osmbaselayer} from '../ol-model/osmbaselayer';
+import {Opentopobaselayer} from '../ol-model/opentopobaselayer';
+import {Mapboxbaselayer} from '../ol-model/mapboxbaselayer';
+import {Mapzenbaselayer} from '../ol-model/mapzenbaselayer';
 import TileLayer from 'ol/layer/Tile';
 import {MapBaseLayerType} from '../domain-model/map-base-layer-type';
+import XYZ from 'ol/source/XYZ';
 
 
 export class OlBaselayerFactory {
-    public static create(layer: MapBaseLayerType): TileLayer {
+    public static create(layer: MapBaseLayerType): TileLayer<XYZ> {
         const attributions = OlBaselayerFactory.getAttributions();
 
         switch (layer) {

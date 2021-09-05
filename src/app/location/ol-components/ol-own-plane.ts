@@ -1,30 +1,27 @@
-import {Feature} from 'ol';
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {environment} from '../../../environments/environment';
 import {GeodesyHelper} from '../../common/geo-math/domain-service/geodesy-helper';
 import {Position4d} from '../../common/geo-math/domain-model/geometry/position4d';
 import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
-import VectorLayer from 'ol/layer/Vector';
-import {OlHelper} from '../../base-map/ol-service/ol-helper';
+import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
+import {OlFeature} from '../../base-map/ol-model/ol-feature';
+import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
 
 
 export class OlOwnPlane {
-    private readonly olOwnPlane: Feature;
-
-
-    constructor(
+    public static draw(
         lastPositions: Position4d[],
-        layer: VectorLayer
+        layer: OlVectorLayer
     ) {
-        this.olOwnPlane = new Feature();
-        this.olOwnPlane.setStyle(this.getStyle(lastPositions));
-        this.olOwnPlane.setGeometry(OlHelper.getPointGeometry(this.getCurrentPosition(lastPositions)));
-        layer.getSource().addFeature(this.olOwnPlane);
+        const olOwnPlane = new OlFeature(undefined, false);
+        olOwnPlane.setStyle(this.getStyle(lastPositions));
+        olOwnPlane.setGeometry(OlGeometry.fromPoint(this.getCurrentPosition(lastPositions)));
+        layer.addFeature(olOwnPlane);
     }
 
 
-    protected getStyle(lastPositions: Position4d[]) {
+    private static getStyle(lastPositions: Position4d[]) {
         if (!lastPositions || lastPositions.length === 0) {
             return undefined;
         }
@@ -61,7 +58,7 @@ export class OlOwnPlane {
     }
 
 
-    private getRotation(lastPositions: Position4d[]): Angle {
+    private static getRotation(lastPositions: Position4d[]): Angle {
         if (!lastPositions || lastPositions.length < 2) {
             return Angle.createZero();
         }
@@ -73,7 +70,7 @@ export class OlOwnPlane {
     }
 
 
-    private getCurrentPosition(lastPositions: Position4d[]): Position4d {
+    private static getCurrentPosition(lastPositions: Position4d[]): Position4d {
         if (!lastPositions || lastPositions.length === 0) {
             return undefined;
         } else {

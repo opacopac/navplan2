@@ -1,6 +1,5 @@
 import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild} from '@angular/core';
 import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
-import {OlHelper} from '../../../base-map/ol-service/ol-helper';
 import {MetarTaf} from '../../../metar-taf/domain-model/metar-taf';
 import {DataItem} from '../../../common/model/data-item';
 import {Airport} from '../../../aerodrome/domain-model/airport';
@@ -14,6 +13,9 @@ import {Waypoint} from '../../../flightroute/domain-model/waypoint';
 import Overlay from 'ol/Overlay';
 import {OverlayState} from '../../domain-model/overlay-state';
 import {MatTabGroup} from '@angular/material/tabs';
+import {OlGeometry} from '../../../base-map/ol-model/ol-geometry';
+import {timer} from 'rxjs';
+import {tap} from 'rxjs/operators';
 
 
 @Component({
@@ -81,7 +83,7 @@ export class OlMapOverlayComponent implements AfterViewInit {
 
         if (state.dataItem) {
             this.position = state.dataItem.getPosition() ? state.dataItem.getPosition() : state.clickPos;
-            this.olOverlay.setPosition(OlHelper.getMercator(this.position));
+            this.olOverlay.setPosition(OlGeometry.getMercator(this.position));
         } else {
             this.position = undefined;
             this.olOverlay.setPosition(undefined);
@@ -90,7 +92,7 @@ export class OlMapOverlayComponent implements AfterViewInit {
         this.cdRef.markForCheck();
 
         if (this.position) {
-            OlHelper.panIntoView(this.olOverlay);
+            this.panIntoView(this.olOverlay);
         }
     }
 
@@ -104,5 +106,15 @@ export class OlMapOverlayComponent implements AfterViewInit {
             notams: [],
             tabIndex: 0
         });
+    }
+
+
+    private panIntoView(overlay: Overlay) {
+        timer(0).pipe(
+            tap(x => overlay.panIntoView({
+                margin: 20,
+                animation: { duration: 250 }
+            }))
+        ).subscribe();
     }
 }

@@ -3,7 +3,7 @@ import {OlTraffic} from './ol-traffic';
 import {Traffic} from '../domain-model/traffic';
 import {debounce, switchMap} from 'rxjs/operators';
 import {TrafficState} from '../ngrx/traffic-state';
-import VectorLayer from 'ol/layer/Vector';
+import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
 
 
 const UPDATE_TRAFFIC_DISPLAY_DEBOUNCE_MS = 1000;
@@ -13,7 +13,7 @@ export class OlTrafficContainer {
 
 
     constructor(
-        private readonly trafficLayer: VectorLayer,
+        private readonly trafficLayer: OlVectorLayer,
         trafficState$: Observable<TrafficState>
     ) {
         const debounceTime$: Observable<number> = trafficState$.pipe(
@@ -27,9 +27,9 @@ export class OlTrafficContainer {
             debounce(() => debounceTime$)
         );
         this.trafficSubscription = debouncedTrafficState$.subscribe((trafficState) => {
-            this.destroyFeatures();
+            this.clearFeatures();
             if (trafficState.isWatching) {
-                this.addFeatures(Array.from(trafficState.trafficMap.values()));
+                this.drawFeatures(Array.from(trafficState.trafficMap.values()));
             }
         });
     }
@@ -37,11 +37,11 @@ export class OlTrafficContainer {
 
     public destroy() {
         this.trafficSubscription.unsubscribe();
-        this.destroyFeatures();
+        this.clearFeatures();
     }
 
 
-    private addFeatures(trafficList: Traffic[]) {
+    private drawFeatures(trafficList: Traffic[]) {
         if (trafficList) {
             trafficList.forEach(traffic => {
                 const olTraffic = new OlTraffic(traffic);
@@ -51,7 +51,7 @@ export class OlTrafficContainer {
     }
 
 
-    private destroyFeatures() {
-        this.trafficLayer.getSource().clear(true);
+    private clearFeatures() {
+        this.trafficLayer.clear();
     }
 }
