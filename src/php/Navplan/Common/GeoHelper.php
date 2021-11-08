@@ -229,4 +229,29 @@ class GeoHelper {
 
         return $extent;
     }
+
+
+    public static function isPointInPolygon($point, $polygon): bool {
+        $c = 0;
+        $p1 = $polygon[0];
+        $n = count($polygon);
+
+        for ($i = 1; $i <= $n; $i++)
+        {
+            $p2 = $polygon[$i % $n];
+            if ($point[0] > min($p1[0], $p2[0])
+                && $point[0] <= max($p1[0], $p2[0])
+                && $point[1] <= max($p1[1], $p2[1])
+                && $p1[0] != $p2[0])
+            {
+                $xinters = ($point[0] - $p1[0]) * ($p2[1] - $p1[1]) / ($p2[0] - $p1[0]) + $p1[1];
+                if ($p1[1] == $p2[1] || $point[1] <= $xinters)
+                    $c++;
+            }
+            $p1 = $p2;
+        }
+
+        // if the number of edges we passed through is even, then it's not in the poly.
+        return $c % 2 != 0;
+    }
 }

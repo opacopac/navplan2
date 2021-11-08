@@ -11,6 +11,11 @@ class Length {
     const FT_PER_NM = self::FT_PER_M * self::M_PER_NM;
 
 
+    public static function createZero(): Length {
+        return new Length(0, LengthUnit::M);
+    }
+
+
     public static function convert(
         float $value,
         int $sourceUnit,

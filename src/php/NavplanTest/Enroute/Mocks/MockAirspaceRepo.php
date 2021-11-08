@@ -2,6 +2,7 @@
 
 namespace NavplanTest\Enroute\Mocks;
 
+use http\Exception\BadMethodCallException;
 use InvalidArgumentException;
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Enroute\DomainService\IAirspaceRepo;
@@ -27,5 +28,10 @@ class MockAirspaceRepo implements IAirspaceRepo {
         }
 
         return array_shift($this->mockResultList);
+    }
+
+
+    function searchByRouteIntersection(array $lonLatList): array {
+        throw new BadMethodCallException("not implemented");
     }
 }

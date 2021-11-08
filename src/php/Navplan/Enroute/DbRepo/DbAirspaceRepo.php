@@ -47,8 +47,34 @@ class DbAirspaceRepo implements IAirspaceRepo {
         $query .= "    AND";
         $query .= "  (" . $zoom . " >= det.zoommin AND " . $zoom . "<= det.zoommax)";
         //$query .= "  ST_Distance(ST_PointN(ST_ExteriorRing(ST_Envelope(extent)), 1), ST_PointN(ST_ExteriorRing(ST_Envelope(extent)), 3)) > " . $minDiameterDeg;
-        $result = $this->dbService->execMultiResultQuery($query, "error reading airspaces");
+        $result = $this->dbService->execMultiResultQuery($query, "error searching airspaces by extent");
 
-        return DbAirspaceConverter::fromDbResult($result, $pixelResolutionDeg);
+        return DbAirspaceConverter::fromDbResult($result);
+    }
+
+
+    public function searchByRouteIntersection(array $lonLatList): array {
+        $lineString = DbHelper::getDbLineString($lonLatList);
+        $query  = "SELECT";
+        $query .= "  air.id,";
+        $query .= "  air.aip_id,";
+        $query .= "  air.category,";
+        $query .= "  air.country,";
+        $query .= "  air.name,";
+        $query .= "  air.polygon,";
+        $query .= "  air.alt_top_reference,";
+        $query .= "  air.alt_top_height,";
+        $query .= "  air.alt_top_unit,";
+        $query .= "  air.alt_bottom_reference,";
+        $query .= "  air.alt_bottom_height,";
+        $query .= "  air.alt_bottom_unit";
+        $query .= " FROM openaip_airspace2 air";
+        $query .= " WHERE";
+        $query .= "  ST_INTERSECTS(air.extent, " . $lineString . ")";
+        $query .= "    AND";
+        $query .= "  (air.alt_bottom_height < " . self::MAX_BOTTOM_ALT_FL . " OR air.alt_bottom_unit <> 'FL')";
+        $result = $this->dbService->execMultiResultQuery($query, "error searching airspaces by line");
+
+        return DbAirspaceConverter::fromDbResult($result);
     }
 }

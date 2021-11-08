@@ -3,8 +3,21 @@
 namespace Navplan\Enroute\DomainService;
 
 use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\DomainModel\Position2d;
+use Navplan\Enroute\DomainModel\Airspace;
 
 
 interface IAirspaceRepo {
+    /**
+     * @param Extent2d $extent
+     * @param int $zoom
+     * @return Airspace[]
+     */
     function searchByExtent(Extent2d $extent, int $zoom): array;
+
+    /**
+     * @param Position2d[] $lonLatList
+     * @return Airspace[]
+     */
+    function searchByRouteIntersection(array $lonLatList): array;
 }

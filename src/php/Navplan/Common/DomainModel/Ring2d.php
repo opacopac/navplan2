@@ -3,6 +3,7 @@
 namespace Navplan\Common\DomainModel;
 
 use InvalidArgumentException;
+use Navplan\Common\GeoHelper;
 
 
 class Ring2d implements IGeometry2d {
@@ -61,5 +62,14 @@ class Ring2d implements IGeometry2d {
             function (Position2d $pos2d) { return $pos2d->toArray(); },
             $this->position2dList
         );
+    }
+
+
+    public function containsPoint(Position2d $point): bool {
+        $polygon = array_map(
+            function (Position2d $pos2d) { return $pos2d->toArray(); },
+            $this->position2dList
+        );
+        return GeoHelper::isPointInPolygon($point->toArray(), $polygon);
     }
 }

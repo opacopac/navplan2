@@ -115,6 +115,11 @@ use Navplan\User\UseCase\SendRegisterEmail\ISendRegisterEmailUc;
 use Navplan\User\UseCase\SendRegisterEmail\SendRegisterEmailUc;
 use Navplan\User\UseCase\UpdatePw\IUpdatePwUc;
 use Navplan\User\UseCase\UpdatePw\UpdatePwUc;
+use Navplan\VerticalMap\DomainService\IVerticalMapService;
+use Navplan\VerticalMap\DomainService\VerticalMapService;
+use Navplan\VerticalMap\RestService\IVerticalMapDiContainer;
+use Navplan\VerticalMap\UseCase\ReadVerticalMap\IReadVerticalMapUc;
+use Navplan\VerticalMap\UseCase\ReadVerticalMap\ReadVerticalMapUc;
 use Navplan\Webcam\DbRepo\DbWebcamRepo;
 use Navplan\Webcam\DomainService\IWebcamRepo;
 use Navplan\Webcam\RestService\IWebcamServiceDiContainer;
@@ -123,7 +128,8 @@ use Navplan\Webcam\RestService\IWebcamServiceDiContainer;
 class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFlightrouteServiceDiContainer,
     IGeonameServiceDiContainer, IMeteoServiceDiContainer, INotamServiceDiContainer, ISearchServiceDiContainer,
     ITerrainDiContainer, ITrafficServiceDiContainer, IUserServiceDiContainer, IAirportServiceDiContainer,
-    IAirspaceServiceDiContainer, INavaidServiceDiContainer, IWebcamServiceDiContainer {
+    IAirspaceServiceDiContainer, INavaidServiceDiContainer, IWebcamServiceDiContainer, IVerticalMapDiContainer
+{
     // const
     private const LOG_LEVEL = LogLevel::INFO;
     private const LOG_DIR = __DIR__ . "/../../logs/";
@@ -197,6 +203,9 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     private ISearchUserPointUc $searchUserPointUc;
     // webcam
     private IWebcamRepo $webcamRepo;
+    // vertical map
+    private IVerticalMapService $verticalMapService;
+    private IReadVerticalMapUc $readVerticalMapUc;
 
 
     public function __construct() {
@@ -828,6 +837,33 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
         }
 
         return $this->webcamRepo;
+    }
+
+    // endregion
+
+
+    // region vertical map
+
+    function getVerticalMapService(): IVerticalMapService {
+        if (!isset($this->verticalMapService)) {
+            $this->verticalMapService = new VerticalMapService(
+                $this->getTerrainRepo(),
+                $this->getAirspaceRepo()
+            );
+        }
+
+        return $this->verticalMapService;
+    }
+
+
+    function getReadVerticalMapUc(): IReadVerticalMapUc {
+        if (!isset($this->readVerticalMapUc)) {
+            $this->readVerticalMapUc = new ReadVerticalMapUc(
+                $this->getVerticalMapService()
+            );
+        }
+
+        return $this->readVerticalMapUc;
     }
 
     // endregion

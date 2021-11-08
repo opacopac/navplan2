@@ -3,6 +3,7 @@
 namespace Navplan\System\MySqlDb;
 
 use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\DomainModel\Position2d;
 use Navplan\System\DomainService\IDbService;
 
 
@@ -70,14 +71,34 @@ class DbHelper {
     }
 
 
+    /**
+     * @param Position2d[] $positionList
+     * @return string
+     */
+    public static function getDbLineString(array $positionList): string {
+        $lonLatStrings = [];
+
+        foreach ($positionList as $position) {
+            $lonLatStrings[] = $position->toString();
+        }
+
+        $lineString = "ST_GeomFromText('LINESTRING(" . join(",", $lonLatStrings) . ")')";
+
+        return $lineString;
+    }
+
+
     public static function getDbPolygonString(array $lonLatList): string {
         $lonLatStrings = [];
 
-        foreach ($lonLatList as $lonLat)
+        foreach ($lonLatList as $lonLat) {
             $lonLatStrings[] = join(" ", $lonLat);
+        }
 
-        if ($lonLatStrings[0] != $lonLatStrings[count($lonLatStrings) - 1]) // close polygon if necessary
+        // close polygon if necessary
+        if ($lonLatStrings[0] != $lonLatStrings[count($lonLatStrings) - 1]) {
             $lonLatStrings[] = $lonLatStrings[0];
+        }
 
         $polyString = "ST_GeomFromText('POLYGON((" . join(",", $lonLatStrings) . "))')";
 

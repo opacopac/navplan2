@@ -11,17 +11,16 @@ use Navplan\System\DomainModel\IDbResult;
 
 
 class DbAirspaceConverter {
-    public static function fromDbResult(IDbResult $result, float $pixelResolutionDeg): array
-    {
+    public static function fromDbResult(IDbResult $result): array {
         $airspaces = [];
         while ($row = $result->fetch_assoc()) {
-            $airspaces[] = self::fromDbRow($row, $pixelResolutionDeg);
+            $airspaces[] = self::fromDbRow($row);
         }
         return $airspaces;
     }
 
 
-    public static function fromDbRow(array $row, float $pixelResolutionDeg): Airspace {
+    public static function fromDbRow(array $row): Airspace {
         return new Airspace(
             intval($row["id"]),
             intval($row["aip_id"]),
