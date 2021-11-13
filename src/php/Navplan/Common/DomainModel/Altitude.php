@@ -66,7 +66,11 @@ class Altitude {
     }
 
 
-    public function getHeightAmsl(Length $elevation): Length {
+    public function getHeightAmsl(Length $terrainElevation = NULL): Length {
+        if ($terrainElevation === NULL) {
+            $terrainElevation = Length::createZero();
+        }
+
         $unit = match ($this->unit) {
             AltitudeUnit::M => LengthUnit::M,
             AltitudeUnit::FT, AltitudeUnit::FL => LengthUnit::FT,
@@ -75,7 +79,7 @@ class Altitude {
 
         return match ($this->reference) {
             AltitudeReference::MSL => new Length($this->value, $unit),
-            AltitudeReference::GND => new Length($this->value + $elevation->getValue($unit), $unit),
+            AltitudeReference::GND => new Length($this->value + $terrainElevation->getValue($unit), $unit),
             AltitudeReference::STD => new Length($this->value * self::FL_TO_FT_FACTOR, $unit),
             default => throw new InvalidArgumentException('AltitudeReference ' . $this->reference . ' not supported!'),
         };

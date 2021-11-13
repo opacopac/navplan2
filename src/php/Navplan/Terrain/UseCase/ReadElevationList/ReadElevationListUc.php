@@ -21,14 +21,14 @@ class ReadElevationListUc implements IReadElevationListUc {
         if (count($posList) === 0) {
             return [];
         } else if (count($posList) === 1) {
-            return $this->repo->readElevation($posList);
+            return $this->repo->readElevations($posList);
         }
 
         $totalDistM = $this->calcTotalDistM($posList);
         $minStepSizeM = max(self::RESOLUTION_M, $totalDistM / self::MAX_STEPS);
         $elevationPosList = $this->getElevationPosList($posList, $minStepSizeM);
 
-        return $this->repo->readElevation($elevationPosList);
+        return $this->repo->readElevations($elevationPosList);
     }
 
 

@@ -4,6 +4,7 @@ use Navplan\Common\DomainModel\Angle;
 use Navplan\Common\DomainModel\AngleUnit;
 use Navplan\Common\DomainModel\Length;
 use Navplan\Common\DomainModel\LengthUnit;
+use Navplan\Common\DomainModel\LineInterval2d;
 use Navplan\Common\DomainModel\Position2d;
 
 
@@ -253,5 +254,39 @@ class GeoHelper {
 
         // if the number of edges we passed through is even, then it's not in the poly.
         return $c % 2 != 0;
+    }
+
+
+    public static function calcLineIntersection(LineInterval2d $line1, LineInterval2d $line2): ?Position2d {
+        $a1 = $line1->end->latitude - $line1->start->latitude;
+        $b1 = $line1->start->longitude - $line1->end->longitude;
+        $c1 = $a1 * $line1->start->longitude + $b1 * $line1->start->latitude;
+
+        $a2 = $line2->end->latitude - $line2->start->latitude;
+        $b2 = $line2->start->longitude - $line2->end->longitude;
+        $c2 = $a2 * $line2->start->longitude + $b2 * $line2->start->latitude;
+
+        $delta = $a1 * $b2 - $a2 * $b1;
+
+        if ($delta == 0) {
+            return NULL;
+        }
+
+        $lon = ($b2 * $c1 - $b1 * $c2) / $delta;
+        $lat = ($a1 * $c2 - $a2 * $c1) / $delta;
+
+        if ($lon < min($line1->start->longitude, $line1->end->longitude) ||
+            $lon > max($line1->start->longitude, $line1->end->longitude) ||
+            $lat < min($line1->start->latitude, $line1->end->latitude) ||
+            $lat > max($line1->start->latitude, $line1->end->latitude) ||
+            $lon < min($line2->start->longitude, $line2->end->longitude) ||
+            $lon > max($line2->start->longitude, $line2->end->longitude) ||
+            $lat < min($line2->start->latitude, $line2->end->latitude) ||
+            $lat > max($line2->start->latitude, $line2->end->latitude)
+        ) {
+            return NULL;
+        }
+
+        return new Position2d($lon, $lat);
     }
 }

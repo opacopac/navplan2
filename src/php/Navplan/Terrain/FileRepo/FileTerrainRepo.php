@@ -17,7 +17,7 @@ class FileTerrainRepo implements ITerrainRepo {
     }
 
 
-    public function readElevation(array $position2dList): array {
+    public function readElevations(array $position2dList): array {
         $filePosMap = $this->groupPosByFile($position2dList);
         $this->readElevationInfos($filePosMap);
 

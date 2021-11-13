@@ -9,10 +9,15 @@ class VerticalMapAirspaceConverter {
     public static function toRest(VerticalMapAirspace $vmAirspace): array {
         return array(
             "airspaceId" => $vmAirspace->airspace->id,
-            "steps" => array_map(
-                function ($asStep) { return VerticalMapAirspaceStepConverter::toRest($asStep); },
-                $vmAirspace->airspaceSteps
-            )
+            "airspaceSteps" => VerticalMapAirspaceStepConverter::listToRest($vmAirspace->airspaceSteps)
+        );
+    }
+
+
+    public static function listToRest(array $vmAirspaces): array {
+        return array_map(
+            function ($vmAirspace) { return self::toRest($vmAirspace); },
+            $vmAirspaces
         );
     }
 }

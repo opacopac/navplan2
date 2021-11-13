@@ -6,6 +6,9 @@ use Navplan\Common\DomainModel\Length;
 
 
 class VerticalMapTerrainStep {
-    public function __construct(public Length $elevationAmsl) {
+    public function __construct(
+        public Length $elevationAmsl,
+        public Length $horDist
+    ) {
     }
 }

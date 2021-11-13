@@ -2,16 +2,27 @@
 
 namespace Navplan\VerticalMap\RestModel;
 
-use Navplan\Common\RestModel\RestLengthConverter;
 use Navplan\VerticalMap\DomainModel\VerticalMapAirspaceStep;
 
 
 class VerticalMapAirspaceStepConverter {
     public static function toRest(VerticalMapAirspaceStep $vmAirspaceStep): array {
-        return array(
-            "stepIdx" => $vmAirspaceStep->stepIdx,
-            "botAlt" => RestLengthConverter::toRest($vmAirspaceStep->botAlt),
-            "topAlt" => RestLengthConverter::toRest($vmAirspaceStep->topAlt),
+        return [
+            round($vmAirspaceStep->botAlt->getFt()),
+            round($vmAirspaceStep->topAlt->getFt()),
+            round($vmAirspaceStep->horDist->getM())
+        ];
+    }
+
+
+    /**
+     * @param VerticalMapAirspaceStep[] $vmAirspaceSteps
+     * @return array
+     */
+    public static function listToRest(array $vmAirspaceSteps): array {
+        return array_map(
+            function ($asStep) { return self::toRest($asStep); },
+            $vmAirspaceSteps
         );
     }
 }

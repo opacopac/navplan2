@@ -16,6 +16,21 @@ class Length {
     }
 
 
+    public static function fromM(float $value): Length {
+        return new Length($value, LengthUnit::M);
+    }
+
+
+    public static function fromFt(float $value): Length {
+        return new Length($value, LengthUnit::FT);
+    }
+
+
+    public static function fromNm(float $value): Length {
+        return new Length($value, LengthUnit::NM);
+    }
+
+
     public static function convert(
         float $value,
         int $sourceUnit,
@@ -58,5 +73,40 @@ class Length {
 
     public function getValue(int $unit): float {
         return self::convert($this->value, $this->unit, $unit);
+    }
+
+
+    public function getM(): float {
+        return self::getValue(LengthUnit::M);
+    }
+
+
+    public function getFt(): float {
+        return self::getValue(LengthUnit::FT);
+    }
+
+
+    public function getNm(): float {
+        return self::getValue(LengthUnit::NM);
+    }
+
+
+    public function add(Length $length): Length {
+        return new Length($length->getValue($this->unit) + $this->value, $this->unit);
+    }
+
+
+    public function mult(float $factor): Length {
+        return new Length($this->value * $factor, $this->unit);
+    }
+
+
+    public function isGtOrEqThan(Length $length): bool {
+        return $this->value >= $length->getValue($this->unit);
+    }
+
+
+    public function isGtThan(Length $length): bool {
+        return $this->value >= $length->getValue($this->unit);
     }
 }

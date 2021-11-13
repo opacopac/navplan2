@@ -11,5 +11,5 @@ interface ITerrainRepo {
      * @param Position2d[] $position2dList
      * @return Position3d[]
      */
-    function readElevation(array $position2dList): array;
+    function readElevations(array $position2dList): array;
 }

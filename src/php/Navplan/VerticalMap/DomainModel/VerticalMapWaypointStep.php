@@ -3,11 +3,13 @@
 namespace Navplan\VerticalMap\DomainModel;
 
 use Navplan\Common\DomainModel\Length;
+use Navplan\Common\DomainModel\Position2d;
 
 
 class VerticalMapWaypointStep {
     public function __construct(
-        public int    $stepIdx,
+        public Position2d $wpPosition,
+        public Length $horDist,
         public Length $altitudeAmsl,
     ) {
     }

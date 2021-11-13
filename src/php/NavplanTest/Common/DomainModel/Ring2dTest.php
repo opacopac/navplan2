@@ -3,6 +3,8 @@
 namespace NavplanTest\Common\DomainModel;
 
 use InvalidArgumentException;
+use Navplan\Common\DomainModel\LineInterval2d;
+use Navplan\Common\DomainModel\Position2d;
 use Navplan\Common\DomainModel\Ring2d;
 use PHPUnit\Framework\TestCase;
 
@@ -87,5 +89,35 @@ class Ring2dTest extends TestCase
         $poly = Ring2d::createFromArray([[7.1, 47.1], [7.9, 47.9], [8.1, 48.1], [7.1, 47.1]]);
         $polyString = $poly->toString();
         $this->assertEquals("7.1 47.1,7.9 47.9,8.1 48.1,7.1 47.1", $polyString);
+    }
+
+
+    public function test_calcIntersectionPoints() {
+        $poly = Ring2d::createFromArray([[0, 0], [2, 2], [4, 0]]);
+        $interval = new LineInterval2d(
+            new Position2d(0, 1),
+            new Position2d(4, 1)
+        );
+
+        $isect = $poly->calcIntersectionPoints($interval);
+
+        $this->assertCount(2, $isect);
+        $this->assertEquals(new Position2d(1, 1), $isect[0]);
+        $this->assertEquals(new Position2d(3, 1), $isect[1]);
+    }
+
+
+    public function test_calcIntersectionPoints_reverse() {
+        $poly = Ring2d::createFromArray([[0, 0], [2, 2], [4, 0]]);
+        $interval = new LineInterval2d(
+            new Position2d(4, 1),
+            new Position2d(1, 1)
+        );
+
+        $isect = $poly->calcIntersectionPoints($interval);
+
+        $this->assertCount(2, $isect);
+        $this->assertEquals(new Position2d(1, 1), $isect[1]);
+        $this->assertEquals(new Position2d(3, 1), $isect[0]);
     }
 }

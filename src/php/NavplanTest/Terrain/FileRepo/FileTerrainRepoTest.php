@@ -52,7 +52,7 @@ class FileTerrainRepoTest extends TestCase {
             new Position2d(8.0, 48.0),
         ];
 
-        $pos3dList = $this->repo->readElevation($pos2dList);
+        $pos3dList = $this->repo->readElevations($pos2dList);
 
         $this->assertEqualPosList($pos2dList, $pos3dList, 123);
     }
@@ -61,7 +61,7 @@ class FileTerrainRepoTest extends TestCase {
     public function test_getElevation_single_pos() {
         $pos2dList = [ new Position2d(7.0, 47.0) ];
 
-        $pos3dList = $this->repo->readElevation($pos2dList);
+        $pos3dList = $this->repo->readElevations($pos2dList);
 
         $this->assertEqualPosList($pos2dList, $pos3dList, 123);
     }
@@ -70,7 +70,7 @@ class FileTerrainRepoTest extends TestCase {
     public function test_getElevation_no_pos() {
         $pos2dList = [];
 
-        $pos3dList = $this->repo->readElevation($pos2dList);
+        $pos3dList = $this->repo->readElevations($pos2dList);
 
         $this->assertEqualPosList($pos2dList, $pos3dList, 123);
     }
@@ -82,7 +82,7 @@ class FileTerrainRepoTest extends TestCase {
             $pos2dList[] = new Position2d(rand(-179, 179), rand(-89, 89));
         }
 
-        $pos3dList = $this->repo->readElevation($pos2dList);
+        $pos3dList = $this->repo->readElevations($pos2dList);
 
         $this->assertEqualPosList($pos2dList, $pos3dList, 123);
     }

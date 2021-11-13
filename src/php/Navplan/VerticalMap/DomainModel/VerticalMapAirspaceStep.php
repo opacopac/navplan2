@@ -7,9 +7,9 @@ use Navplan\Common\DomainModel\Length;
 
 class VerticalMapAirspaceStep {
     public function __construct(
-        public int    $stepIdx,
         public Length $topAlt,
-        public Length $botAlt
+        public Length $botAlt,
+        public Length $horDist
     ) {
     }
 }

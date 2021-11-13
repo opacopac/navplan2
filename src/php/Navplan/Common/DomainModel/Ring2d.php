@@ -72,4 +72,38 @@ class Ring2d implements IGeometry2d {
         );
         return GeoHelper::isPointInPolygon($point->toArray(), $polygon);
     }
+
+
+    /**
+     * @param LineInterval2d $interval2d
+     * @return Position2d[]
+     */
+    public function calcIntersectionPoints(LineInterval2d $interval2d): array {
+        $points = [];
+
+        for ($i = 1; $i < count($this->position2dList); $i++) {
+            $ringInterval = new LineInterval2d($this->position2dList[$i - 1], $this->position2dList[$i]);
+            $isect = GeoHelper::calcLineIntersection($interval2d, $ringInterval);
+            if ($isect !== NULL) {
+                $points[] = $isect;
+            }
+        }
+
+        // sort
+        $isLatAsc = $interval2d->start->latitude <= $interval2d->end->latitude;
+        $isLonAsc = $interval2d->start->longitude <= $interval2d->end->longitude;
+        usort(
+            $points,
+            function (Position2d $a, Position2d $b) use ($isLatAsc, $isLonAsc) {
+                $latDiff = $a->latitude - $b->latitude * ($isLatAsc ? 1 : -1);
+                if ($latDiff != 0) {
+                    return $latDiff;
+                } else {
+                    return $a->longitude - $b->longitude * ($isLonAsc ? 1 : -1);
+                }
+            }
+        );
+
+        return $points;
+    }
 }

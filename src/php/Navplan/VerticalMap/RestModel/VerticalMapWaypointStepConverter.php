@@ -2,22 +2,26 @@
 
 namespace Navplan\VerticalMap\RestModel;
 
-use Navplan\Common\RestModel\RestLengthConverter;
 use Navplan\VerticalMap\DomainModel\VerticalMapWaypointStep;
 
 
 class VerticalMapWaypointStepConverter {
+    public static function toRest(VerticalMapWaypointStep $vmWaypointStep): array {
+        return [
+            round($vmWaypointStep->altitudeAmsl->getFt()),
+            round($vmWaypointStep->horDist->getM())
+        ];
+    }
+
+
     /**
      * @param VerticalMapWaypointStep[] $vmWaypointSteps
      * @return array
      */
-    public static function toRest(array $vmWaypointSteps): array {
+    public static function listToRest(array $vmWaypointSteps): array {
         return array_map(
             function ($wpStep) {
-                return array(
-                    "stepIdx" => $wpStep->stepIdx,
-                    "alt" => RestLengthConverter::toRest($wpStep->altitudeAmsl)
-                );
+                return self::toRest($wpStep);
             },
             $vmWaypointSteps
         );

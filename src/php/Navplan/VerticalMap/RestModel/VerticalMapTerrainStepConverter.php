@@ -2,21 +2,26 @@
 
 namespace Navplan\VerticalMap\RestModel;
 
-use Navplan\Common\RestModel\RestLengthConverter;
 use Navplan\VerticalMap\DomainModel\VerticalMapTerrainStep;
 
 
 class VerticalMapTerrainStepConverter {
+    public static function toRest(VerticalMapTerrainStep $vmTerrainStep): array {
+        return [
+            round($vmTerrainStep->elevationAmsl->getFt()),
+            round($vmTerrainStep->horDist->getM())
+        ];
+    }
+
+
     /**
      * @param VerticalMapTerrainStep[] $vmTerrainSteps
      * @return array
      */
-    public static function toRest(array $vmTerrainSteps): array {
+    public static function listToRest(array $vmTerrainSteps): array {
         return array_map(
             function ($terrainStep) {
-                return array(
-                    "elev" => RestLengthConverter::toRest($terrainStep->elevationAmsl)
-                );
+                return self::toRest($terrainStep);
             },
             $vmTerrainSteps
         );

@@ -101,7 +101,7 @@ class GeonameService implements IGeonameService {
         }
 
         if (count($zeroAltGeonames) > 0) {
-            $pos3dList = $this->terrainRepo->readElevation($posList);
+            $pos3dList = $this->terrainRepo->readElevations($posList);
 
             for ($i = 0; $i < count($pos3dList); $i++) {
                 $zeroAltGeonames[$i]->elevation = $pos3dList[$i]->altitude;
