@@ -238,15 +238,10 @@ class VerticalMapService implements IVerticalMapService {
     ): array {
         $vmAirspaceSteps = [];
         if ($airspace->alt_bottom->reference === AltitudeReference::GND || $airspace->alt_top->reference === AltitudeReference::GND) {
-            $isIn = false;
             foreach ($terrainSteps as $terrainStep) {
-                if ($terrainStep->horDist->isGtOrEqThan($horDistIn)) {
-                    $isIn = true;
-                }
                 if ($terrainStep->horDist->isGtThan($horDistOut)) {
                     break;
-                }
-                if ($isIn) {
+                } else if ($terrainStep->horDist->isGtOrEqThan($horDistIn)) {
                     $vmAirspaceSteps[] = new VerticalMapAirspaceStep(
                         $airspace->alt_top->getHeightAmsl($terrainStep->elevationAmsl),
                         $airspace->alt_bottom->getHeightAmsl($terrainStep->elevationAmsl),
