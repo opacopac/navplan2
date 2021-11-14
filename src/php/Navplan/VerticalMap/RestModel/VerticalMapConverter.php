@@ -10,8 +10,8 @@ use Navplan\VerticalMap\DomainModel\VerticalMap;
 class VerticalMapConverter {
     public static function toRest(VerticalMap $verticalMap): array {
         return array(
-            "mapHeight" => RestLengthConverter::toRest($verticalMap->mapHeight),
-            "mapWidth" => RestLengthConverter::toRest($verticalMap->mapWidth),
+            "mapHeight" => RestLengthConverter::toRest($verticalMap->mapHeight, 0),
+            "mapWidth" => RestLengthConverter::toRest($verticalMap->mapWidth, 0),
             "HeightUnit" => LengthUnit::toString(LengthUnit::FT),
             "WidthUnit" => LengthUnit::toString(LengthUnit::M),
             "terrainSteps" => VerticalMapTerrainStepConverter::listToRest($verticalMap->terrainSteps),

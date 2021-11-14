@@ -107,6 +107,6 @@ class Length {
 
 
     public function isGtThan(Length $length): bool {
-        return $this->value >= $length->getValue($this->unit);
+        return $this->value > $length->getValue($this->unit);
     }
 }

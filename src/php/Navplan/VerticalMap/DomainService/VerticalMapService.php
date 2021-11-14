@@ -156,8 +156,11 @@ class VerticalMapService implements IVerticalMapService {
 
         $altAmsl = $maxTerrainElevation->add(new Length(self::WAYPOINT_HEIGHT_ABOVE_MAX_ELEVATION_FT, LengthUnit::FT));
         $wpSteps = [];
+        $horDist = Length::createZero();
         for ($i = 0; $i < count($wpPositions); $i++) {
-            $horDist = $i === 0 ? Length::createZero() : GeoHelper::calcHaversineDistance($wpPositions[$i - 1], $wpPositions[$i]);
+            if ($i > 0) {
+                $horDist = $horDist->add(GeoHelper::calcHaversineDistance($wpPositions[$i - 1], $wpPositions[$i]));
+            }
             $wpSteps[] = new VerticalMapWaypointStep($wpPositions[$i], $horDist, $altAmsl);
         }
 
@@ -175,50 +178,44 @@ class VerticalMapService implements IVerticalMapService {
         $vmAirspaces = [];
 
         foreach ($airspaceCandidates as $airspace) {
-            $vmAirspace = new VerticalMapAirspace($airspace);
-            $vmAirspaces[] = $vmAirspace;
-
+            // if route starts within airspace, remember start pos
             $isPosInside = $airspace->polygon->containsPoint($wpSteps[0]->wpPosition);
-            if ($isPosInside) {
-                $inPos = [0, Length::createZero()];
-            }
+            $horDistIn = Length::createZero();
 
             for ($i = 1; $i < count($wpSteps); $i++) {
+                // find intersection points of route and airspace
                 $wpInterval = new LineInterval2d($wpSteps[$i - 1]->wpPosition, $wpSteps[$i]->wpPosition);
                 $intersections = $airspace->polygon->calcIntersectionPoints($wpInterval);
                 foreach ($intersections as $intersection) {
                     $horDist = $wpSteps[$i - 1]->horDist->add(GeoHelper::calcHaversineDistance($wpSteps[$i - 1]->wpPosition, $intersection));
                     $isPosInside = !$isPosInside;
                     if ($isPosInside) {
-                        $inPos = [$i, $horDist];
+                        // remember pos when entering airspace
+                        $horDistIn = $horDist;
                     } else {
-                        $this->createVmAirspaceStep(
-                            $vmAirspace,
+                        // create airspace & steps when exiting airspace
+                        $vmAirspace = new VerticalMapAirspace($airspace);
+                        $vmAirspace->airspaceSteps = $this->createVmAirspaceStep(
                             $airspace,
-                            $wpSteps[$inPos[0]],
-                            $inPos[1],
-                            $wpSteps[$i - 1],
+                            $horDistIn,
                             $horDist,
                             $terrainSteps
                         );
-
-                        $vmAirspace = new VerticalMapAirspace($airspace);
                         $vmAirspaces[] = $vmAirspace;
                     }
                 }
             }
 
+            // if route ends within airspace, create airspace & steps till final pos
             if ($isPosInside) {
-                $lastWpStep = $wpSteps[count($wpSteps) - 1];
-                $this->createVmAirspaceStep(
-                    $vmAirspace,
+                $vmAirspace = new VerticalMapAirspace($airspace);
+                $vmAirspace->airspaceSteps = $this->createVmAirspaceStep(
                     $airspace,
-                    $wpSteps[$inPos[0]],
-                    $inPos[1],
-                    $lastWpStep,
-                    Length::createZero(),
+                    $horDistIn,
+                    end($wpSteps)->horDist,
                     $terrainSteps
                 );
+                $vmAirspaces[] = $vmAirspace;
             }
         }
 
@@ -227,35 +224,30 @@ class VerticalMapService implements IVerticalMapService {
 
 
     /**
-     * @param VerticalMapAirspace $vmAirspace
      * @param Airspace $airspace
-     * @param VerticalMapWaypointStep $wpStepIn
      * @param Length $horDistIn
-     * @param VerticalMapWaypointStep $wpStepOut
      * @param Length $horDistOut
      * @param VerticalMapTerrainStep[] $terrainSteps
+     * @return VerticalMapAirspaceStep[]
      */
     private function createVmAirspaceStep(
-        VerticalMapAirspace &$vmAirspace,
         Airspace $airspace,
-        VerticalMapWaypointStep $wpStepIn,
         Length $horDistIn,
-        VerticalMapWaypointStep $wpStepOut,
         Length $horDistOut,
         array $terrainSteps
-    ): void {
-        $horDistInTot = $wpStepIn->horDist->add($horDistIn);
-        $horDistOutTot = $wpStepOut->horDist->add($horDistOut);
+    ): array {
+        $vmAirspaceSteps = [];
         if ($airspace->alt_bottom->reference === AltitudeReference::GND || $airspace->alt_top->reference === AltitudeReference::GND) {
             $isIn = false;
             foreach ($terrainSteps as $terrainStep) {
-                if ($terrainStep->horDist->isGtOrEqThan($horDistInTot)) {
+                if ($terrainStep->horDist->isGtOrEqThan($horDistIn)) {
                     $isIn = true;
-                } else if ($terrainStep->horDist->isGtThan($horDistOut)) {
+                }
+                if ($terrainStep->horDist->isGtThan($horDistOut)) {
                     break;
                 }
                 if ($isIn) {
-                    $vmAirspace->airspaceSteps[] = new VerticalMapAirspaceStep(
+                    $vmAirspaceSteps[] = new VerticalMapAirspaceStep(
                         $airspace->alt_top->getHeightAmsl($terrainStep->elevationAmsl),
                         $airspace->alt_bottom->getHeightAmsl($terrainStep->elevationAmsl),
                         $terrainStep->horDist
@@ -263,16 +255,18 @@ class VerticalMapService implements IVerticalMapService {
                 }
             }
         } else {
-            $vmAirspace->airspaceSteps[] = new VerticalMapAirspaceStep(
+            $vmAirspaceSteps[] = new VerticalMapAirspaceStep(
                 $airspace->alt_top->getHeightAmsl(),
                 $airspace->alt_bottom->getHeightAmsl(),
-                $horDistInTot
+                $horDistIn
             );
-            $vmAirspace->airspaceSteps[] = new VerticalMapAirspaceStep(
+            $vmAirspaceSteps[] = new VerticalMapAirspaceStep(
                 $airspace->alt_top->getHeightAmsl(),
                 $airspace->alt_bottom->getHeightAmsl(),
-                $horDistOutTot
+                $horDistOut
             );
         }
+
+        return $vmAirspaceSteps;
     }
 }
