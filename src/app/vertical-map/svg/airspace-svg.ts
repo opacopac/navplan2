@@ -1,40 +1,39 @@
 import {Length} from '../../common/geo-math/domain-model/quantities/length';
 import {SvgRectangleElement} from '../../common/svg/svg-rectangle-element';
 import {SvgTextElement} from '../../common/svg/svg-text-element';
-import {VerticalAirspace} from '../domain-model/vertical-airspace';
 import {SvgGroupElement} from '../../common/svg/svg-group-element';
 import {SvgPolygonElement} from '../../common/svg/svg-polygon-element';
 import {SvgTitleElement} from '../../common/svg/svg-title-element';
+import {VerticalMap} from '../domain-model/vertical-map';
 
 
 export class AirspaceSvg {
     public static create(
-        verticalAirspaces: VerticalAirspace[],
-        maxelevation: Length,
+        verticalMap: VerticalMap,
         imageWidthPx: number,
         imageHeightPx: number
     ): SVGElement {
         const airspaceSvg = SvgGroupElement.create();
 
         // sort airspaces top down (lower ones, e.g. CTR will be drawn "in front" of higher ones)
-        verticalAirspaces.sort(function(a, b) {
-            return b.distBotTops[0][1].m - a.distBotTops[0][1].m;
+        const sortedVmAirspaces = [...verticalMap.vmAirspaces].sort((a, b) => {
+            return b.airspaceSteps[0].botAltAmsl?.ft - a.airspaceSteps[0].botAltAmsl?.ft;
         });
 
 
         // add airspace polygons to svg
-        for (let i = 0; i < verticalAirspaces.length; i++) {
-            const airspace = verticalAirspaces[i];
+        for (let i = 0; i < sortedVmAirspaces.length; i++) {
+            const vmAirspace = sortedVmAirspaces[i];
             const points: [number, number][] = [];
 
             // upper heights
-            for (let j = 0; j < airspace.distBotTops.length; j++) {
+            for (let j = 0; j < vmAirspace.airspaceSteps.length; j++) {
                 points.push(
                     this.getPointArray(
-                        airspace.distBotTops[j][0],
-                        airspace.distBotTops[j][2],
-                        airspace.totalDistance,
-                        maxelevation,
+                        vmAirspace.airspaceSteps[j].horDist,
+                        vmAirspace.airspaceSteps[j].topAltAmsl,
+                        verticalMap.mapWidth,
+                        verticalMap.mapHeight,
                         imageWidthPx,
                         imageHeightPx
                     )
@@ -42,13 +41,13 @@ export class AirspaceSvg {
             }
 
             // lower heights
-            for (let j = airspace.distBotTops.length - 1; j >= 0; j--) {
+            for (let j = vmAirspace.airspaceSteps.length - 1; j >= 0; j--) {
                 points.push(
                     this.getPointArray(
-                        airspace.distBotTops[j][0],
-                        airspace.distBotTops[j][1],
-                        airspace.totalDistance,
-                        maxelevation,
+                        vmAirspace.airspaceSteps[j].horDist,
+                        vmAirspace.airspaceSteps[j].botAltAmsl,
+                        verticalMap.mapWidth,
+                        verticalMap.mapHeight,
                         imageWidthPx,
                         imageHeightPx
                     )
@@ -57,25 +56,25 @@ export class AirspaceSvg {
 
             // polygon
             const polygon = SvgPolygonElement.create(points);
-            this.setAirspacePolyLineStyle(polygon, airspace.airspace.category);
+            this.setAirspacePolyLineStyle(polygon, vmAirspace.airspaceCategory);
             airspaceSvg.appendChild(polygon);
 
             // tooltip
             polygon.appendChild(
-                SvgTitleElement.create(verticalAirspaces[i].airspace.name)
+                SvgTitleElement.create(vmAirspace.airspaceName)
             );
 
             // category label
             const ptBottomLeft = this.getPointArray(
-                airspace.distBotTops[0][0],
-                airspace.distBotTops[0][1],
-                airspace.totalDistance,
-                maxelevation,
+                vmAirspace.airspaceSteps[0].horDist,
+                vmAirspace.airspaceSteps[0].botAltAmsl,
+                verticalMap.mapWidth,
+                verticalMap.mapHeight,
                 imageWidthPx,
                 imageHeightPx
             );
             if (ptBottomLeft[1] > 0) {
-                this.addAirspaceCategory(airspaceSvg, ptBottomLeft, airspace.airspace.category);
+                this.addAirspaceCategory(airspaceSvg, ptBottomLeft, vmAirspace.airspaceCategory);
             }
         }
 

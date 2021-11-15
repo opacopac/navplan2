@@ -1,6 +1,6 @@
 import {IRestAirspace} from './i-rest-airspace';
 import {Airspace} from '../domain-model/airspace';
-import {AltitudeConverter} from '../../common/geo-math/rest-model/altitude-converter';
+import {RestAltitudeConverter} from '../../common/geo-math/rest-model/rest-altitude-converter';
 import {PolygonConverter} from '../../common/geo-math/rest-model/polygon-converter';
 
 
@@ -12,8 +12,8 @@ export class RestAirspaceConverter {
             restItem.category,
             restItem.country,
             restItem.name,
-            AltitudeConverter.fromRest(restItem.alt_bottom),
-            AltitudeConverter.fromRest(restItem.alt_top),
+            RestAltitudeConverter.fromRest(restItem.alt_bottom),
+            RestAltitudeConverter.fromRest(restItem.alt_top),
             PolygonConverter.fromRest(restItem.polygon)
         );
     }

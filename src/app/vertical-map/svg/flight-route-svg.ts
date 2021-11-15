@@ -2,27 +2,29 @@ import {SvgGroupElement} from '../../common/svg/svg-group-element';
 import {SvgLineElement} from '../../common/svg/svg-line-element';
 import {SvgCircleElement} from '../../common/svg/svg-circle-element';
 import {SvgTextElement} from '../../common/svg/svg-text-element';
-import {Flightroute} from '../../flightroute/domain-model/flightroute';
 import {Waypoint} from '../../flightroute/domain-model/waypoint';
+import {VerticalMap} from '../domain-model/vertical-map';
 
 
 export class FlightRouteSvg {
-    private static readonly IMAGE_HEIGHT_PX = 200;
-
-
-    public static create(flightRoute: Flightroute, wpClickCallback: (Waypoint) => void): SVGElement {
+    public static create(
+        verticalMap: VerticalMap,
+        imageWidthPx: number,
+        imageHeightPx: number,
+        wpClickCallback: (Waypoint) => void
+    ): SVGElement {
         const svg = SvgGroupElement.create();
         const yOffset = [40, 80];
 
-        let currentDist = 0;
-        for (let i = 0; i < flightRoute.waypoints.length; i++) {
-            const legDistPercent = flightRoute.waypoints[i].dist.m * 100 / flightRoute.tripDist.m;
+        for (let i = 0; i < verticalMap.waypointSteps.length - 1; i++) {
+            const horDistPercent = verticalMap.waypointSteps[i].horDist.m / verticalMap.mapWidth.m * 100;
+            const horDistNextPercent = verticalMap.waypointSteps[i + 1].horDist.m / verticalMap.mapWidth.m * 100;
 
             // line segment
             svg.appendChild(
                 SvgLineElement.create(
-                    currentDist.toString() + '%',
-                    (currentDist + legDistPercent).toString() + '%',
+                    horDistPercent.toString() + '%',
+                    horDistNextPercent.toString() + '%',
                     '40',
                     '40',
                     'stroke:rgba(255, 0, 255, 1.0); stroke-width:5px;',
@@ -31,19 +33,17 @@ export class FlightRouteSvg {
                 )
             );
 
-            this.addRouteDot(svg, currentDist, yOffset[0], flightRoute.waypoints[i], wpClickCallback);
-            this.addRouteDotPlumline(svg, currentDist, yOffset[0], FlightRouteSvg.IMAGE_HEIGHT_PX);
-            this.addWaypointLabel(svg, currentDist, yOffset[i % 2], flightRoute.waypoints[i],
+            this.addRouteDot(svg, horDistPercent, yOffset[0], verticalMap.waypointSteps[i].waypoint, wpClickCallback);
+            this.addRouteDotPlumline(svg, horDistPercent, yOffset[0], imageHeightPx);
+            this.addWaypointLabel(svg, horDistPercent, yOffset[i % 2], verticalMap.waypointSteps[i].waypoint,
                 (i === 0) ? 'start' : 'middle', wpClickCallback);
-
-            currentDist += legDistPercent;
         }
 
         // final dot
-        const lastWpIdx = flightRoute.waypoints.length - 1;
-        this.addRouteDot(svg, 100, yOffset[0], flightRoute.waypoints[lastWpIdx], wpClickCallback);
-        this.addRouteDotPlumline(svg, 100, yOffset[0], FlightRouteSvg.IMAGE_HEIGHT_PX);
-        this.addWaypointLabel(svg, currentDist, yOffset[lastWpIdx % 2], flightRoute.waypoints[lastWpIdx],
+        const lastWpIdx = verticalMap.waypointSteps.length - 1;
+        this.addRouteDot(svg, 100, yOffset[0], verticalMap.waypointSteps[lastWpIdx].waypoint, wpClickCallback);
+        this.addRouteDotPlumline(svg, 100, yOffset[0], imageHeightPx);
+        this.addWaypointLabel(svg, 100, yOffset[lastWpIdx % 2], verticalMap.waypointSteps[lastWpIdx].waypoint,
             'end', wpClickCallback);
 
         return svg;

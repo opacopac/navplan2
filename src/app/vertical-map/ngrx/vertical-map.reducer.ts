@@ -1,24 +1,33 @@
 import {VerticalMapActions} from './vertical-map.actions';
 import {createReducer, on} from '@ngrx/store';
 import {VerticalMapState} from '../domain-model/vertical-map-state';
+import {VerticalMapButtonStatus} from '../domain-model/vertical-map-button-status';
 
 
 const initialState: VerticalMapState = {
-    isVisible: false,
-    flightRoute: undefined,
-    terrainPos: [],
-    verticalAirspaces: []
+    buttonStatus: VerticalMapButtonStatus.OFF,
+    verticalMap: undefined,
 };
 
 
 export const verticalMapReducer = createReducer(
     initialState,
+    on(VerticalMapActions.open, (state, action) => ({
+        ...state,
+        buttonStatus: VerticalMapButtonStatus.WAITING,
+    })),
     on(VerticalMapActions.show, (state, action) => ({
         ...state,
-        isVisible: true
+        buttonStatus: VerticalMapButtonStatus.CURRENT,
+        verticalMap: action.verticalMap
     })),
-    on(VerticalMapActions.hide, (state) => ({
+    on(VerticalMapActions.error, (state) => ({
         ...state,
-        isVisible: false
+        buttonStatus: VerticalMapButtonStatus.ERROR,
+    })),
+    on(VerticalMapActions.close, (state) => ({
+        ...state,
+        buttonStatus: VerticalMapButtonStatus.OFF,
+        verticalMap: undefined
     })),
 );

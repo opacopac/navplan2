@@ -1,11 +1,8 @@
-import {Position3d} from '../../common/geo-math/domain-model/geometry/position3d';
-import {Flightroute} from '../../flightroute/domain-model/flightroute';
-import {VerticalAirspace} from './vertical-airspace';
+import {VerticalMap} from './vertical-map';
+import {VerticalMapButtonStatus} from './vertical-map-button-status';
 
 
 export interface VerticalMapState {
-    isVisible: boolean;
-    flightRoute: Flightroute;
-    terrainPos: Position3d[];
-    verticalAirspaces: VerticalAirspace[];
+    buttonStatus: VerticalMapButtonStatus;
+    verticalMap: VerticalMap;
 }

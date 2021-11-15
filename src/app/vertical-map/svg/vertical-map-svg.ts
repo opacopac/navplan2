@@ -2,14 +2,11 @@ import {SvgElement} from '../../common/svg/svg-element';
 import {SvgFilterElement} from '../../common/svg/svg-filter-element';
 import {SvgFeFloodElement} from '../../common/svg/svg-fe-flood-element';
 import {SvgFeCompositeElement} from '../../common/svg/svg-fe-composite-element';
-import {Flightroute} from '../../flightroute/domain-model/flightroute';
-import {VerticalAirspace} from '../domain-model/vertical-airspace';
-import {Length} from '../../common/geo-math/domain-model/quantities/length';
 import {GridSvg} from './grid-svg';
 import {TerrainSvg} from './terrain-svg';
-import {TerrainInfo} from '../domain-model/terrain-info';
 import {AirspaceSvg} from './airspace-svg';
 import {FlightRouteSvg} from './flight-route-svg';
+import {VerticalMap} from '../domain-model/vertical-map';
 
 
 export class VerticalMapSvg {
@@ -19,10 +16,7 @@ export class VerticalMapSvg {
 
 
     public static create(
-        flightRoute: Flightroute,
-        terrainInfo: TerrainInfo,
-        verticalAirspaces: VerticalAirspace[],
-        maxElevation: Length,
+        verticalMap: VerticalMap,
         imageWidthPx: number,
         imageHeightPx: number,
         wpClickCallback: (Waypoint) => void
@@ -35,10 +29,10 @@ export class VerticalMapSvg {
         );
 
         svg.appendChild(this.createFilterDefs());
-        svg.appendChild(TerrainSvg.create(terrainInfo, maxElevation, imageWidthPx, imageHeightPx));
-        svg.appendChild(AirspaceSvg.create(verticalAirspaces, maxElevation, imageWidthPx, imageHeightPx));
-        svg.appendChild(GridSvg.create(maxElevation));
-        svg.appendChild(FlightRouteSvg.create(flightRoute, wpClickCallback));
+        svg.appendChild(TerrainSvg.create(verticalMap, imageWidthPx, imageHeightPx));
+        svg.appendChild(AirspaceSvg.create(verticalMap, imageWidthPx, imageHeightPx));
+        svg.appendChild(GridSvg.create(verticalMap.mapHeight));
+        svg.appendChild(FlightRouteSvg.create(verticalMap, imageWidthPx, imageHeightPx, wpClickCallback));
 
         return svg;
     }

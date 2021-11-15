@@ -95,11 +95,14 @@ class Ring2d implements IGeometry2d {
         usort(
             $points,
             function (Position2d $a, Position2d $b) use ($isLatAsc, $isLonAsc) {
-                $latDiff = $a->latitude - $b->latitude * ($isLatAsc ? 1 : -1);
+                $latDiff = ($a->latitude - $b->latitude) > 0 ? 1 : -1;
+                $lonDiff = ($a->longitude - $b->longitude) > 0 ? 1 : -1;
                 if ($latDiff != 0) {
-                    return $latDiff;
+                    return $isLatAsc ? $latDiff : -$latDiff;
+                } else if ($lonDiff != 0) {
+                    return $isLonAsc ? $lonDiff : -$lonDiff;
                 } else {
-                    return $a->longitude - $b->longitude * ($isLonAsc ? 1 : -1);
+                    return 0;
                 }
             }
         );

@@ -7,12 +7,18 @@ import {EffectsModule} from '@ngrx/effects';
 import {verticalMapReducer} from './ngrx/vertical-map.reducer';
 import {VerticalMapEffects} from './ngrx/vertical-map.effects';
 import {VerticalMapComponent} from './ng-components/vertical-map/vertical-map.component';
+import {VerticalMapButtonComponent} from './ng-components/vertical-map-button/vertical-map-button.component';
 
 
 @NgModule({
     declarations: [
-    VerticalMapComponent
-  ],
+        VerticalMapComponent,
+        VerticalMapButtonComponent
+    ],
+    exports: [
+        VerticalMapComponent,
+        VerticalMapButtonComponent
+    ],
     imports: [
         CommonModule,
         SharedModule,

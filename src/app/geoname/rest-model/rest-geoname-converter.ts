@@ -1,7 +1,7 @@
 import {Geoname} from '../domain-model/geoname';
 import {IRestGeoname} from './i-rest-geoname';
 import {Position2dConverter} from '../../common/geo-math/rest-model/position2d-converter';
-import {LengthConverter} from '../../common/geo-math/rest-model/length-converter';
+import {RestLengthConverter} from '../../common/geo-math/rest-model/rest-length-converter';
 
 
 export class RestGeonameConverter {
@@ -17,7 +17,7 @@ export class RestGeonameConverter {
             restItem.admin2,
             restItem.population,
             Position2dConverter.fromRest(restItem.position),
-            LengthConverter.fromRest(restItem.elevation)
+            RestLengthConverter.fromRest(restItem.elevation)
         );
     }
 

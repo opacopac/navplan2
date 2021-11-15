@@ -21,6 +21,7 @@ export const environment = {
     trafficOgnServiceUrl: REST_SERVICE_BASE_URL + 'php/Navplan/Traffic/RestService/TrafficService.php?action=readogntraffic',
     trafficDetailServiceUrl: REST_SERVICE_BASE_URL + 'php/Navplan/Traffic/RestService/TrafficService.php',
     userServiceUrl: REST_SERVICE_BASE_URL + 'php/Navplan/User/RestService/UserService.php',
+    verticalMapServiceUrl: REST_SERVICE_BASE_URL + 'php/Navplan/VerticalMap/RestService/VerticalMapService.php',
     iconBaseUrl: './assets/icon/',
     chartBaseUrl: REST_SERVICE_BASE_URL + 'charts/',
     metarTafBaseUrl: 'https://www.aviationweather.gov/cgi-bin/json/MetarJSON.php?taf=true&density=all&bbox=',

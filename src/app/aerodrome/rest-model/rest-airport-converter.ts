@@ -1,7 +1,7 @@
 import {Airport} from '../domain-model/airport';
 import {IRestAirport} from './i-rest-airport';
 import {Position2dConverter} from '../../common/geo-math/rest-model/position2d-converter';
-import {LengthConverter} from '../../common/geo-math/rest-model/length-converter';
+import {RestLengthConverter} from '../../common/geo-math/rest-model/rest-length-converter';
 import {RestAirportRadioConverter} from './rest-airport-radio-converter';
 import {RestAirportRunwayConverter} from './rest-airport-runway-converter';
 import {RestWebcamConverter} from '../../webcam/rest-model/rest-webcam-converter';
@@ -19,7 +19,7 @@ export class RestAirportConverter {
             restItem.icao,
             restItem.country,
             Position2dConverter.fromRest(restItem.pos),
-            LengthConverter.fromRest(restItem.elevation)
+            RestLengthConverter.fromRest(restItem.elevation)
         );
         airport.runways = restItem.runways.map(restRwy => RestAirportRunwayConverter.fromRest(restRwy));
         airport.radios = restItem.radios.map(restRadio => RestAirportRadioConverter.fromRest(restRadio));

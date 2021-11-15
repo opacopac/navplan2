@@ -4,7 +4,7 @@ import {AltitudeReference} from '../domain-model/geometry/altitude-reference';
 import {IRestAltitude} from './i-rest-altitude';
 
 
-export class AltitudeConverter {
+export class RestAltitudeConverter {
     public static fromRest(restAlt: IRestAltitude): Altitude {
         return new Altitude(
             restAlt[0],

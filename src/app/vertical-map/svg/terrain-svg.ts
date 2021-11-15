@@ -1,10 +1,10 @@
 import {SvgPolygonElement} from '../../common/svg/svg-polygon-element';
 import {Length} from '../../common/geo-math/domain-model/quantities/length';
-import {TerrainInfo} from '../domain-model/terrain-info';
+import {VerticalMap} from '../domain-model/vertical-map';
 
 
 export class TerrainSvg {
-    public static create(terrain: TerrainInfo, maxElevation: Length, imageWidthPx: number, imageHeightPx: number): SVGPolygonElement {
+    public static create(verticalMap: VerticalMap, imageWidthPx: number, imageHeightPx: number): SVGPolygonElement {
         const points: [number, number][] = [];
 
         // point bottom left
@@ -12,21 +12,21 @@ export class TerrainSvg {
             TerrainSvg.getPoint(
                 Length.createZero(),
                 Length.createZero(),
-                terrain.totalDistance,
-                maxElevation,
+                verticalMap.mapWidth,
+                verticalMap.mapHeight,
                 imageWidthPx,
                 imageHeightPx
             )
         );
 
         // terrain altitude points
-        for (let i = 0; i < terrain.distanceElevations.length; i++) {
+        for (let i = 0; i < verticalMap.terrainSteps.length; i++) {
             points.push(
                 TerrainSvg.getPoint(
-                    terrain.distanceElevations[i].first,
-                    terrain.distanceElevations[i].second,
-                    terrain.totalDistance,
-                    maxElevation,
+                    verticalMap.terrainSteps[i].horDist,
+                    verticalMap.terrainSteps[i].elevationAmsl,
+                    verticalMap.mapWidth,
+                    verticalMap.mapHeight,
                     imageWidthPx,
                     imageHeightPx
                 )
@@ -36,10 +36,10 @@ export class TerrainSvg {
         // point top right
         points.push(
             TerrainSvg.getPoint(
-                terrain.totalDistance,
-                terrain.distanceElevations[terrain.distanceElevations.length - 1].second,
-                terrain.totalDistance,
-                maxElevation,
+                verticalMap.mapWidth,
+                verticalMap.terrainSteps[verticalMap.terrainSteps.length - 1].elevationAmsl,
+                verticalMap.mapWidth,
+                verticalMap.mapHeight,
                 imageWidthPx,
                 imageHeightPx
             )
@@ -48,10 +48,10 @@ export class TerrainSvg {
         // point bottom right
         points.push(
             TerrainSvg.getPoint(
-                terrain.totalDistance,
+                verticalMap.mapWidth,
                 Length.createZero(),
-                terrain.totalDistance,
-                maxElevation,
+                verticalMap.mapWidth,
+                verticalMap.mapHeight,
                 imageWidthPx,
                 imageHeightPx
             )
@@ -73,7 +73,7 @@ export class TerrainSvg {
         imageHeightPx: number
     ): [number, number] {
         const x = Math.round(dist.m / maxdistance.m * imageWidthPx);
-        const y = Math.round((maxelevation.m - height.m) / maxelevation.m * imageHeightPx);
+        const y = Math.round((maxelevation.ft - height.ft) / maxelevation.ft * imageHeightPx);
 
         return [x, y];
     }

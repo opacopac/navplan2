@@ -18,4 +18,6 @@
 </app-zoom-buttons>
 <app-location-button class="location-button"></app-location-button>
 <app-traffic-button class="traffic-button"></app-traffic-button>
+<app-vertical-map-button *ngIf="this.hasMin2Waypoints$ | async" class="vertical-map-button"></app-vertical-map-button>
+<app-vertical-map *ngIf="this.hasMin2Waypoints$ | async" class="vertical-map"></app-vertical-map>
 <app-flighttimer></app-flighttimer>

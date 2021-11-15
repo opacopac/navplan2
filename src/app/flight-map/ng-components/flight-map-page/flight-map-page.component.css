@@ -26,3 +26,17 @@
     z-index: 20;
     /*opacity: 0.60;*/
 }
+
+.vertical-map-button {
+    position: absolute;
+    bottom: 40px;
+    left: 10px;
+    z-index: 20;
+}
+
+.vertical-map {
+    position: absolute;
+    bottom: 40px;
+    left: 70px;
+    z-index: 20;
+}

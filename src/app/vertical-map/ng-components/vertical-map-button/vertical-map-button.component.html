@@ -1,0 +1,7 @@
+<button mat-fab
+        matTooltip="show/hide vertical map"
+        matTooltipPosition="right"
+        color="{{ this.getStatusCLass(this.vmState$ | async) }}"
+        (click)="this.onVerticalMapClicked()">
+    <i class="fas fa-chart-area"></i>
+</button>

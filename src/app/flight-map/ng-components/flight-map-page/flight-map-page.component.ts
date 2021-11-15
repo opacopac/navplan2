@@ -4,7 +4,7 @@ import {BaseMapActions} from '../../../base-map/ngrx/base-map.actions';
 import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import {Angle} from '../../../common/geo-math/domain-model/quantities/angle';
 import {combineLatest} from 'rxjs';
-import {take} from 'rxjs/operators';
+import {map, take} from 'rxjs/operators';
 import {getMapPosition, getMapRotation, getMapZoom} from '../../../base-map/ngrx/base-map.selectors';
 import {OlMetarContainer} from '../../ol-components/metar-taf/ol-metar-container';
 import {OlNotamContainer} from '../../ol-components/notam/ol-notam-container';
@@ -75,6 +75,8 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
     private olPositionSearchContainer: OlPositionSearchContainer;
     private olTraffic: OlTrafficContainer;
     private olOwnPlane: OlOwnPlaneContainer;
+    private flightroute$ = this.appStore.pipe(select(getFlightroute));
+    public hasMin2Waypoints$ = this.flightroute$.pipe(map(route => route.waypoints.length >= 2));
 
 
     constructor(private readonly appStore: Store<any>) {
