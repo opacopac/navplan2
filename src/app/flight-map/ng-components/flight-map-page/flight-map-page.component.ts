@@ -47,6 +47,8 @@ import {getAirportCharts} from '../../ngrx/airport-chart/airport-chart.selectors
 import {OlMapOverlayComponent} from '../ol-map-overlay/ol-map-overlay.component';
 import {OverlayState} from '../../domain-model/overlay-state';
 import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
+import {getVerticalMapState} from '../../../vertical-map/ngrx/vertical-map.selectors';
+import {VerticalMapButtonStatus} from '../../../vertical-map/domain-model/vertical-map-button-status';
 
 
 @Component({
@@ -58,7 +60,6 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
     @ViewChild(OlMapContainerComponent) mapContainer: OlMapContainerComponent;
     @ViewChild(OlMapOverlayComponent) mapOverlayComponent: OlMapOverlayComponent;
     @ViewChild(OlOverlayTrafficComponent) mapOverlayTrafficComponent: OlOverlayTrafficComponent;
-    private readonly showOverlay$: Observable<OverlayState>;
     private showOverlaySubscription: Subscription;
     private olAirportContainer: OlAirportContainer;
     private olAirportChartContainer: OlAirportChartContainer;
@@ -76,11 +77,13 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
     private olTraffic: OlTrafficContainer;
     private olOwnPlane: OlOwnPlaneContainer;
     private flightroute$ = this.appStore.pipe(select(getFlightroute));
-    public hasMin2Waypoints$ = this.flightroute$.pipe(map(route => route.waypoints.length >= 2));
+    private readonly showOverlay$: Observable<OverlayState> = this.appStore.pipe(select(getFlightMapOverlay));
+    private readonly verticalMapState$ = this.appStore.pipe(select(getVerticalMapState));
+    public readonly showVerticalMapButton$ = this.flightroute$.pipe(map(route => route.waypoints.length >= 2));
+    public readonly showVerticalMap$ = this.verticalMapState$.pipe(map(state => state.buttonStatus === VerticalMapButtonStatus.CURRENT));
 
 
     constructor(private readonly appStore: Store<any>) {
-        this.showOverlay$ = this.appStore.pipe(select(getFlightMapOverlay));
     }
 
 

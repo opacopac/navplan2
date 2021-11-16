@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable, Subscription} from 'rxjs';
 import {VerticalMapState} from '../../domain-model/vertical-map-state';
@@ -12,14 +12,15 @@ import {VerticalMapSvg} from '../../svg/vertical-map-svg';
     templateUrl: './vertical-map.component.html',
     styleUrls: ['./vertical-map.component.css']
 })
-export class VerticalMapComponent implements OnInit, OnDestroy {
+export class VerticalMapComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild('container') container: ElementRef;
     private readonly vmState$: Observable<VerticalMapState> = this.appStore.pipe(select(getVerticalMapState));
     private verticalMapSubscription: Subscription;
+    private currentVerticalMap: VerticalMap;
 
 
     constructor(private appStore: Store<any>) {
-        this.verticalMapSubscription = this.vmState$.subscribe(vm => this.redrawSvg(vm.verticalMap));
+        this.verticalMapSubscription = this.vmState$.subscribe(vm => this.updateVm(vm.verticalMap));
     }
 
 
@@ -27,18 +28,34 @@ export class VerticalMapComponent implements OnInit, OnDestroy {
     }
 
 
-    ngOnDestroy() {
+    ngAfterViewInit(): void {
+        this.redrawSvg();
+    }
+
+
+    ngOnDestroy(): void {
         this.verticalMapSubscription.unsubscribe();
     }
 
 
-    private redrawSvg(verticalMap: VerticalMap) {
-        if (!this.container) {
-            return;
-        }
+    private updateVm(verticalMap: VerticalMap) {
+        this.currentVerticalMap = verticalMap;
 
-        if (verticalMap !== undefined) {
-            const svg = VerticalMapSvg.create(verticalMap, 1000, 200, null);
+        if (this.container) {
+            this.redrawSvg();
+        }
+    }
+
+
+    private redrawSvg() {
+        if (this.currentVerticalMap) {
+            const svg = VerticalMapSvg.create(
+                this.currentVerticalMap,
+                this.container.nativeElement.clientWidth,
+                this.container.nativeElement.clientHeight,
+                null
+            );
+
             this.container.nativeElement.innerHTML = svg.outerHTML;
         } else {
             this.container.nativeElement.innerHTML = '';
