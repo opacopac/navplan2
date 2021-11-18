@@ -12,16 +12,16 @@ const initialState: VerticalMapState = {
 
 export const verticalMapReducer = createReducer(
     initialState,
-    on(VerticalMapActions.open, (state, action) => ({
+    on(VerticalMapActions.read, (state, action) => ({
         ...state,
         buttonStatus: VerticalMapButtonStatus.WAITING,
     })),
-    on(VerticalMapActions.show, (state, action) => ({
+    on(VerticalMapActions.readSuccess, (state, action) => ({
         ...state,
         buttonStatus: VerticalMapButtonStatus.CURRENT,
         verticalMap: action.verticalMap
     })),
-    on(VerticalMapActions.error, (state) => ({
+    on(VerticalMapActions.readError, (state) => ({
         ...state,
         buttonStatus: VerticalMapButtonStatus.ERROR,
     })),

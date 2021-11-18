@@ -52,7 +52,7 @@ export const flightRouteReducer = createReducer(
         ...state,
         flightrouteList: action.flightrouteList
     })),
-    on(FlightRouteActions.show, (state, action) => {
+    on(FlightRouteActions.readSuccess, (state, action) => {
         const newFlightroute = action.flightroute.clone();
         FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
         return {

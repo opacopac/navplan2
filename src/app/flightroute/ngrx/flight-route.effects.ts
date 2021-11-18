@@ -32,7 +32,7 @@ export class FlightRouteEffects {
         withLatestFrom(this.currentUser$),
         filter(([action, currentUser]) => action.flightrouteId > 0 && currentUser !== undefined),
         switchMap(([action, currentUser]) => this.flightrouteRepo.readFlightroute(action.flightrouteId, currentUser).pipe(
-            map(route => FlightRouteActions.show({ flightroute: route })),
+            map(route => FlightRouteActions.readSuccess({ flightroute: route })),
             catchError(error => of(MessageActions.showMessage({
                 message: Message.error('Error reading flight route', error)
             })))
@@ -47,7 +47,7 @@ export class FlightRouteEffects {
         filter(([flightroute, currentUser]) => flightroute !== undefined && currentUser !== undefined),
         switchMap(([flightroute, currentUser]) => this.flightrouteRepo.saveFlightroute(flightroute, currentUser).pipe(
             map(route => [
-                FlightRouteActions.show({ flightroute: route }),
+                FlightRouteActions.readSuccess({ flightroute: route }),
                 MessageActions.showMessage({
                     message: Message.success('Flight route saved successfully.')
                 })
@@ -69,7 +69,7 @@ export class FlightRouteEffects {
         filter(([flightroute, currentUser]) => flightroute !== undefined && currentUser !== undefined),
         switchMap(([flightroute, currentUser]) => this.flightrouteRepo.duplicateFlightroute(flightroute, currentUser).pipe(
             map(route => [
-                FlightRouteActions.show({ flightroute: route }),
+                FlightRouteActions.readSuccess({ flightroute: route }),
                 MessageActions.showMessage({
                     message: Message.success('Flight route duplicated successfully.')
                 })

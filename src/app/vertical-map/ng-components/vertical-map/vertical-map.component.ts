@@ -15,12 +15,12 @@ import {VerticalMapSvg} from '../../svg/vertical-map-svg';
 export class VerticalMapComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild('container') container: ElementRef;
     private readonly vmState$: Observable<VerticalMapState> = this.appStore.pipe(select(getVerticalMapState));
-    private verticalMapSubscription: Subscription;
+    private readonly vmSubscription: Subscription;
     private currentVerticalMap: VerticalMap;
 
 
     constructor(private appStore: Store<any>) {
-        this.verticalMapSubscription = this.vmState$.subscribe(vm => this.updateVm(vm.verticalMap));
+        this.vmSubscription = this.vmState$.subscribe(vm => this.updateVm(vm.verticalMap));
     }
 
 
@@ -34,7 +34,7 @@ export class VerticalMapComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
     ngOnDestroy(): void {
-        this.verticalMapSubscription.unsubscribe();
+        this.vmSubscription.unsubscribe();
     }
 
 
@@ -47,7 +47,7 @@ export class VerticalMapComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
 
-    private redrawSvg() {
+    public redrawSvg() {
         if (this.currentVerticalMap) {
             const svg = VerticalMapSvg.create(
                 this.currentVerticalMap,

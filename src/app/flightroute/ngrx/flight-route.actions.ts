@@ -7,6 +7,10 @@ export class FlightRouteActions {
         '[Flightroute Page] Read flightroute',
         props<{ flightrouteId: number }>()
     );
+    public static readonly readSuccess = createAction(
+        '[FlightrouteEffects] Success reading flight route',
+        props<{ flightroute: Flightroute }>()
+    );
     public static readonly save = createAction(
         '[Flightroute Page] Save flightroute',
     );
@@ -16,9 +20,5 @@ export class FlightRouteActions {
     public static readonly delete = createAction(
         '[Flightroute Page] Delete flightroute',
         props<{ flightrouteId: number }>()
-    );
-    public static readonly show = createAction(
-        '[FlightrouteEffects] Show flight route',
-        props<{ flightroute: Flightroute }>()
     );
 }

@@ -35,7 +35,7 @@ export class VerticalMapButtonComponent implements OnInit {
             case VerticalMapButtonStatus.WAITING:
                 return 'mapoverlay-status-warn';
             case VerticalMapButtonStatus.ERROR:
-                return 'mapoverlay-status-error';
+                return 'mapoverlay-status-readError';
             case VerticalMapButtonStatus.OFF:
             default:
                 return 'mapoverlay-primary';

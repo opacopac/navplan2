@@ -28,6 +28,7 @@ import {Geometry} from 'ol/geom';
 import {OlVectorLayer} from '../../ol-model/ol-vector-layer';
 import {OlGeometry} from '../../ol-model/ol-geometry';
 import {OlFeature} from '../../ol-model/ol-feature';
+import {MouseWheelZoom} from 'ol/interaction';
 
 
 @Component({
@@ -86,8 +87,11 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
                 center: OlGeometry.getMercator(position),
                 zoom: zoom,
                 rotation: mapRotation.rad,
-            })
+            }),
         });
+        this.map.addInteraction(
+            new MouseWheelZoom({ constrainResolution: true })
+        );
 
 
         // map events
