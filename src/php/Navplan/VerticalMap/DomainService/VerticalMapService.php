@@ -249,6 +249,15 @@ class VerticalMapService implements IVerticalMapService {
                     );
                 }
             }
+
+            // add first/last step with exact position
+            $first = $vmAirspaceSteps[0];
+            $first->horDist = $horDistIn;
+            array_unshift($vmAirspaceSteps, $first);
+
+            $last = end($vmAirspaceSteps);
+            $last->horDist = $horDistOut;
+            $vmAirspaceSteps[] = $last;
         } else {
             $vmAirspaceSteps[] = new VerticalMapAirspaceStep(
                 $airspace->alt_top->getHeightAmsl(),
