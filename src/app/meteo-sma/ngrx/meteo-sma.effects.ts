@@ -9,14 +9,14 @@ import {MeteoSmaState} from '../domain-model/meteo-sma-state';
 import {MeteoSmaButtonStatus} from '../domain-model/meteo-sma-button-status';
 import {IMeteoSmaService} from '../domain-service/i-meteo-sma.service';
 import {BaseMapActions} from '../../base-map/ngrx/base-map.actions';
-import {getMapExtent} from '../../base-map/ngrx/base-map.selectors';
-import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
+import {getMapState} from '../../base-map/ngrx/base-map.selectors';
+import {BaseMapState} from '../../base-map/domain-model/base-map-state';
 
 
 @Injectable()
 export class MeteoSmaEffects {
     private readonly meteoSmastate$: Observable<MeteoSmaState> = this.appStore.pipe(select(getMeteoSmaState));
-    private readonly mapExtent$: Observable<Extent2d> = this.appStore.pipe(select(getMapExtent));
+    private readonly mapState$: Observable<BaseMapState> = this.appStore.pipe(select(getMapState));
 
 
     constructor(
@@ -43,9 +43,9 @@ export class MeteoSmaEffects {
 
     readSmaMeasurementsAction$ = createEffect(() => this.actions$.pipe(
         ofType(MeteoSmaActions.read),
-        withLatestFrom(this.mapExtent$),
-        switchMap(([action, mapExtent]) => this.meteoSmaService.readSmaMeasurements(mapExtent).pipe(
-            map(smaMeasurements => MeteoSmaActions.readSuccess({ smaMeasurements: smaMeasurements })),
+        withLatestFrom(this.mapState$),
+        switchMap(([action, mapState]) => this.meteoSmaService.readSmaMeasurements(mapState.extent).pipe(
+            map(smaMeasurements => MeteoSmaActions.readSuccess({ smaMeasurements: smaMeasurements, zoom: mapState.zoom })),
             catchError(error => of(MeteoSmaActions.readError({
                 message: 'Error loading sma measurements', error: error
             })))
@@ -58,7 +58,7 @@ export class MeteoSmaEffects {
         withLatestFrom(this.meteoSmastate$),
         filter(([action, state]) => state.buttonStatus === MeteoSmaButtonStatus.CURRENT),
         switchMap(([action, state]) => this.meteoSmaService.readSmaMeasurements(action.extent).pipe(
-            map(smaMeasurements => MeteoSmaActions.readSuccess({ smaMeasurements: smaMeasurements })),
+            map(smaMeasurements => MeteoSmaActions.readSuccess({ smaMeasurements: smaMeasurements, zoom: action.zoom })),
             catchError(error => of(MeteoSmaActions.readError({
                 message: 'Error loading sma measurements', error: error
             })))

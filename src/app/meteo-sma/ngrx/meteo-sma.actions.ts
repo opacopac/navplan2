@@ -14,7 +14,7 @@ export class MeteoSmaActions {
     );
     public static readonly readSuccess = createAction(
         '[MeteoSmaEffects] Success reading SMA measurements',
-        props<{ smaMeasurements: SmaMeasurement[] }>()
+        props<{ smaMeasurements: SmaMeasurement[], zoom: number }>()
     );
     public static readonly readError = createAction(
         '[MeteoSmaEffects] Error reading SMA measurements',

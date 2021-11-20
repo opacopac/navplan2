@@ -6,6 +6,7 @@ import {MeteoSmaButtonStatus} from '../domain-model/meteo-sma-button-status';
 
 const initialState: MeteoSmaState = {
     buttonStatus: MeteoSmaButtonStatus.OFF,
+    zoom: undefined,
     smaMeasurements: [],
 };
 
@@ -19,7 +20,8 @@ export const meteoSmaReducer = createReducer(
     on(MeteoSmaActions.readSuccess, (state, action) => ({
         ...state,
         buttonStatus: MeteoSmaButtonStatus.CURRENT,
-        smaMeasurements: action.smaMeasurements
+        smaMeasurements: action.smaMeasurements,
+        zoom: action.zoom
     })),
     on(MeteoSmaActions.readError, (state) => ({
         ...state,
