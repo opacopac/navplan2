@@ -1,9 +1,10 @@
 import {GeodesyHelper} from './geodesy-helper';
 import {Position2d} from '../domain-model/geometry/position2d';
-import {AngleUnit, LengthUnit} from '../domain-model/quantities/units';
 import {Vector3d} from '../domain-model/geometry/vector3d';
 import {Angle} from '../domain-model/quantities/angle';
 import {Length} from '../domain-model/quantities/length';
+import {LengthUnit} from '../domain-model/quantities/length-unit';
+import {AngleUnit} from '../domain-model/quantities/angle-unit';
 
 
 describe('GeodesyHelper', () => {

@@ -1,10 +1,10 @@
 import {Fill, Stroke, Style, Text} from 'ol/style';
 import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
 import {Waypoint} from '../domain-model/waypoint';
-import {LengthUnit} from '../../common/geo-math/domain-model/quantities/units';
 import {OlFeature} from '../../base-map/ol-model/ol-feature';
 import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
 import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
+import {LengthUnit} from '../../common/geo-math/domain-model/quantities/length-unit';
 
 
 export class OlWaypointBearingLabel {

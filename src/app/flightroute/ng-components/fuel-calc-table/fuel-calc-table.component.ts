@@ -2,8 +2,8 @@ import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {RouteFuel} from '../../domain-model/routefuel';
 import {StringnumberHelper} from '../../../system/domain-service/stringnumber/stringnumber-helper';
 import {Time} from '../../../common/geo-math/domain-model/quantities/time';
-import {VolumeUnit} from '../../../common/geo-math/domain-model/quantities/units';
 import {Volume} from '../../../common/geo-math/domain-model/quantities/volume';
+import {VolumeUnit} from '../../../common/geo-math/domain-model/quantities/volume-unit';
 
 
 interface FuelDataSourceRow {

@@ -1,9 +1,9 @@
 import {Position2d} from '../domain-model/geometry/position2d';
 import {Angle} from '../domain-model/quantities/angle';
-import {AngleUnit} from '../domain-model/quantities/units';
 import {BearingPos} from '../domain-model/geometry/bearing-pos';
 import {HyperCircleFitter} from './hyper-circle-fitter';
 import {GeodesyHelper} from './geodesy-helper';
+import {AngleUnit} from '../domain-model/quantities/angle-unit';
 
 
 // TODO

@@ -1,6 +1,6 @@
 import {VerticalMapWaypointStep} from '../domain-model/vertical-map-waypoint-step';
 import {Length} from '../../common/geo-math/domain-model/quantities/length';
-import {LengthUnit} from '../../common/geo-math/domain-model/quantities/units';
+import {LengthUnit} from '../../common/geo-math/domain-model/quantities/length-unit';
 
 
 export class RestVerticalMapWaypointStepConverter {

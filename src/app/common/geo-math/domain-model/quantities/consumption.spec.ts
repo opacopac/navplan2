@@ -1,5 +1,5 @@
 import {Consumption} from './consumption';
-import {ConsumptionUnit} from './units';
+import {ConsumptionUnit} from './consumption-unit';
 
 
 describe('Consumption', () => {

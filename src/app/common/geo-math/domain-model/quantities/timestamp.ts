@@ -5,16 +5,6 @@ export class Timestamp implements Clonable<Timestamp> {
     private readonly _epochMs: number;
 
 
-    public get epochSec(): number {
-        return this.getSec();
-    }
-
-
-    public get epochMs(): number {
-        return this._epochMs;
-    }
-
-
     private constructor(epochMs: number) {
         this._epochMs = epochMs;
     }
@@ -40,12 +30,22 @@ export class Timestamp implements Clonable<Timestamp> {
     }
 
 
-    public clone(): Timestamp {
-        return new Timestamp(this.epochMs);
+    public get epochSec(): number {
+        return Math.round(this._epochMs / 1000);
     }
 
 
-    private getSec(): number {
-        return Math.round(this._epochMs / 1000);
+    public get epochMs(): number {
+        return this._epochMs;
+    }
+
+
+    public get date(): Date {
+        return new Date(this.epochSec);
+    }
+
+
+    public clone(): Timestamp {
+        return new Timestamp(this.epochMs);
     }
 }

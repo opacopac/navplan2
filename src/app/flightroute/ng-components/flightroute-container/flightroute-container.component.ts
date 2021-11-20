@@ -11,13 +11,14 @@ import {User} from '../../../user/domain-model/user';
 import {Waypoint} from '../../domain-model/waypoint';
 import {Speed} from '../../../common/geo-math/domain-model/quantities/speed';
 import {Consumption} from '../../../common/geo-math/domain-model/quantities/consumption';
-import {ConsumptionUnit, SpeedUnit} from '../../../common/geo-math/domain-model/quantities/units';
 import {FlightrouteListDialogComponent} from '../flightroute-list-dialog/flightroute-list-dialog.component';
 import {EditWaypointDialogComponent} from '../edit-waypoint-dialog/edit-waypoint-dialog.component';
 import {FlightRouteListActions} from '../../ngrx/flight-route-list.actions';
 import {FlightRouteActions} from '../../ngrx/flight-route.actions';
 import {FlightRouteParameterActions} from '../../ngrx/flight-route-parameter.actions';
 import {WaypointActions} from '../../ngrx/waypoints.actions';
+import {SpeedUnit} from '../../../common/geo-math/domain-model/quantities/speed-unit';
+import {ConsumptionUnit} from '../../../common/geo-math/domain-model/quantities/consumption-unit';
 
 
 @Component({

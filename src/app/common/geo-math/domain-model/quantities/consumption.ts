@@ -1,6 +1,6 @@
-import {ConsumptionUnit} from './units';
 import {AbstractQuantity} from './abstract-quantity';
 import {Volume} from './volume';
+import {ConsumptionUnit} from './consumption-unit';
 
 
 export class Consumption extends AbstractQuantity<Consumption, ConsumptionUnit> {

@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Airport} from '../../../aerodrome/domain-model/airport';
 import {StringnumberHelper} from '../../../system/domain-service/stringnumber/stringnumber-helper';
 import {WmmHelper} from '../../../common/geo-math/domain-service/wmm-helper';
-import {LengthUnit} from '../../../common/geo-math/domain-model/quantities/units';
+import {LengthUnit} from '../../../common/geo-math/domain-model/quantities/length-unit';
 
 
 @Component({

@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {StringnumberHelper} from '../../../system/domain-service/stringnumber/stringnumber-helper';
 import {Navaid} from '../../../enroute/domain-model/navaid';
 import {WmmHelper} from '../../../common/geo-math/domain-service/wmm-helper';
-import {LengthUnit} from '../../../common/geo-math/domain-model/quantities/units';
+import {LengthUnit} from '../../../common/geo-math/domain-model/quantities/length-unit';
 
 
 @Component({

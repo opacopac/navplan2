@@ -27,6 +27,13 @@
     /*opacity: 0.60;*/
 }
 
+.meteo-sma-button {
+    position: absolute;
+    bottom: 106px;
+    left: 10px;
+    z-index: 20;
+}
+
 .vertical-map-button {
     position: absolute;
     bottom: 40px;

@@ -11,7 +11,6 @@ import Overlay from 'ol/Overlay';
 import {MapBaseLayerType} from '../../domain-model/map-base-layer-type';
 import {OlBaselayerFactory} from '../../ol-service/ol-baselayer-factory';
 import {Attribution, FullScreen, Rotate, ScaleLine} from 'ol/control';
-import {AngleUnit} from '../../../common/geo-math/domain-model/quantities/units';
 import {Pixel} from 'ol/pixel';
 import {ObjectEvent} from 'ol/Object';
 import {getMapZoom, getShowImage} from '../../ngrx/base-map.selectors';
@@ -29,6 +28,7 @@ import {OlVectorLayer} from '../../ol-model/ol-vector-layer';
 import {OlGeometry} from '../../ol-model/ol-geometry';
 import {OlFeature} from '../../ol-model/ol-feature';
 import {MouseWheelZoom} from 'ol/interaction';
+import {AngleUnit} from '../../../common/geo-math/domain-model/quantities/angle-unit';
 
 
 @Component({

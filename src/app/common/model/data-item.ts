@@ -15,7 +15,8 @@ export enum DataItemType {
     airspace = 12,
     circuit = 13,
     airportChart = 14,
-    searchItem = 15
+    searchItem = 15,
+    smaMeasurement = 16
 }
 
 

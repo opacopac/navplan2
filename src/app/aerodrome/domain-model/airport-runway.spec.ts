@@ -1,6 +1,6 @@
 import {AirportRunway} from './airport-runway';
 import {Length} from '../../common/geo-math/domain-model/quantities/length';
-import {LengthUnit} from '../../common/geo-math/domain-model/quantities/units';
+import {LengthUnit} from '../../common/geo-math/domain-model/quantities/length-unit';
 
 
 describe('AirportRunway', () => {

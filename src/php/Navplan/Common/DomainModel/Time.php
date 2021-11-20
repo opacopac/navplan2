@@ -19,19 +19,29 @@ class Time {
             case TimeUnit::S:
                 switch ($targetUnit) {
                     case TimeUnit::MS: return $value * 1000;
-                    case TimeUnit::MIN: return $value / 60;
+                    case TimeUnit::M: return $value / 60;
+                    case TimeUnit::H: return $value / 60 / 60;
                     default: throw new InvalidArgumentException('unknown target unit "' . $targetUnit);
                 }
             case TimeUnit::MS:
                 switch ($targetUnit) {
                     case TimeUnit::S: return $value / 1000;
-                    case TimeUnit::MIN: return $value / 1000 / 60;
+                    case TimeUnit::M: return $value / 1000 / 60;
+                    case TimeUnit::H: return $value / 1000 / 60 / 60;
                     default: throw new InvalidArgumentException('unknown target unit "' . $targetUnit);
                 }
-            case TimeUnit::MIN:
+            case TimeUnit::M:
                 switch ($targetUnit) {
-                    case TimeUnit::S: return $value * 60;
                     case TimeUnit::MS: return $value * 60 * 1000;
+                    case TimeUnit::S: return $value * 60;
+                    case TimeUnit::H: return $value / 60;
+                    default: throw new InvalidArgumentException('unknown target unit "' . $targetUnit);
+                }
+            case TimeUnit::H:
+                switch ($targetUnit) {
+                    case TimeUnit::MS: return $value * 60 * 60 * 1000;
+                    case TimeUnit::S: return $value * 60 * 60;
+                    case TimeUnit::M: return $value * 60;
                     default: throw new InvalidArgumentException('unknown target unit "' . $targetUnit);
                 }
             default: throw new InvalidArgumentException('unknown source unit "' . $targetUnit);

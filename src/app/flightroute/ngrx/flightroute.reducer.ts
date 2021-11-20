@@ -2,13 +2,7 @@ import {FlightrouteState} from '../domain-model/flightroute-state';
 import {Aircraft} from '../domain-model/aircraft';
 import {Flightroute} from '../domain-model/flightroute';
 import {Speed} from '../../common/geo-math/domain-model/quantities/speed';
-import {
-    ConsumptionUnit,
-    LengthUnit,
-    SpeedUnit,
-    TimeUnit,
-    VolumeUnit
-} from '../../common/geo-math/domain-model/quantities/units';
+import {TimeUnit} from '../../common/geo-math/domain-model/quantities/time-unit';
 import {Consumption} from '../../common/geo-math/domain-model/quantities/consumption';
 import {Time} from '../../common/geo-math/domain-model/quantities/time';
 import {FlightrouteCalcHelper} from '../domain-service/flightroute-calc.helper';
@@ -19,6 +13,10 @@ import {SharedFlightRouteActions} from './shared-flight-route.actions';
 import {FlightRouteParameterActions} from './flight-route-parameter.actions';
 import {WaypointActions} from './waypoints.actions';
 import {ArrayHelper} from '../../system/domain-service/array/array-helper';
+import {LengthUnit} from '../../common/geo-math/domain-model/quantities/length-unit';
+import {SpeedUnit} from '../../common/geo-math/domain-model/quantities/speed-unit';
+import {VolumeUnit} from '../../common/geo-math/domain-model/quantities/volume-unit';
+import {ConsumptionUnit} from '../../common/geo-math/domain-model/quantities/consumption-unit';
 
 
 const initialState: FlightrouteState = {

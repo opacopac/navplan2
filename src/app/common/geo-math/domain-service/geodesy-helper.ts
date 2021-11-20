@@ -1,8 +1,9 @@
 import {Position2d} from '../domain-model/geometry/position2d';
 import {Angle} from '../domain-model/quantities/angle';
-import {AngleUnit, LengthUnit} from '../domain-model/quantities/units';
 import {Length} from '../domain-model/quantities/length';
 import {Vector3d} from '../domain-model/geometry/vector3d';
+import {LengthUnit} from '../domain-model/quantities/length-unit';
+import {AngleUnit} from '../domain-model/quantities/angle-unit';
 
 
 // source #1: https://www.movable-type.co.uk/scripts/latlong.html

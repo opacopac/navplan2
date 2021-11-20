@@ -1,5 +1,5 @@
 import {Time} from './time';
-import {TimeUnit} from './units';
+import {TimeUnit} from './time-unit';
 
 
 describe('Time', () => {

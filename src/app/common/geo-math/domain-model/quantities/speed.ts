@@ -1,6 +1,6 @@
-import {SpeedUnit} from './units';
 import {AbstractQuantity} from './abstract-quantity';
 import {Length} from './length';
+import {SpeedUnit} from './speed-unit';
 
 
 export class Speed extends AbstractQuantity<Speed, SpeedUnit> {
@@ -33,6 +33,21 @@ export class Speed extends AbstractQuantity<Speed, SpeedUnit> {
                 }
             default: return undefined;
         }
+    }
+
+
+    public get kt(): number {
+        return this.getValue(SpeedUnit.KT);
+    }
+
+
+    public get kmh(): number {
+        return this.getValue(SpeedUnit.KMH);
+    }
+
+
+    public get mps(): number {
+        return this.getValue(SpeedUnit.MPS);
     }
 
 

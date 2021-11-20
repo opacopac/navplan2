@@ -50,9 +50,9 @@ class TimeTest extends TestCase {
         $min = 1.5;
         $s = 90;
 
-        $mins_min_Result = Time::convert($min, TimeUnit::MIN, TimeUnit::MIN);
-        $min_s_Result = Time::convert($min, TimeUnit::MIN, TimeUnit::S);
-        $s_min_Result = Time::convert($s, TimeUnit::S, TimeUnit::MIN);
+        $mins_min_Result = Time::convert($min, TimeUnit::M, TimeUnit::M);
+        $min_s_Result = Time::convert($min, TimeUnit::M, TimeUnit::S);
+        $s_min_Result = Time::convert($s, TimeUnit::S, TimeUnit::M);
         $s_s_Result = Time::convert($s, TimeUnit::S, TimeUnit::S);
 
         $this->assertEquals($min, $mins_min_Result);
@@ -66,9 +66,9 @@ class TimeTest extends TestCase {
         $min = 1.5;
         $ms = 90000;
 
-        $mins_min_Result = Time::convert($min, TimeUnit::MIN, TimeUnit::MIN);
-        $min_ms_Result = Time::convert($min, TimeUnit::MIN, TimeUnit::MS);
-        $ms_min_Result = Time::convert($ms, TimeUnit::MS, TimeUnit::MIN);
+        $mins_min_Result = Time::convert($min, TimeUnit::M, TimeUnit::M);
+        $min_ms_Result = Time::convert($min, TimeUnit::M, TimeUnit::MS);
+        $ms_min_Result = Time::convert($ms, TimeUnit::MS, TimeUnit::M);
         $ms_ms_Result = Time::convert($ms, TimeUnit::MS, TimeUnit::MS);
 
         $this->assertEquals($min, $mins_min_Result);

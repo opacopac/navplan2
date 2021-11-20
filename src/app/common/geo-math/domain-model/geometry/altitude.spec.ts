@@ -1,8 +1,8 @@
 import {Altitude} from './altitude';
 import {AltitudeUnit} from './altitude-unit';
 import {AltitudeReference} from './altitude-reference';
-import {LengthUnit} from '../quantities/units';
 import {Length} from '../quantities/length';
+import {LengthUnit} from '../quantities/length-unit';
 
 
 describe('Altitude', () => {

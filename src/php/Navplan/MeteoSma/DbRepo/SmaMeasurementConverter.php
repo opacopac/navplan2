@@ -40,6 +40,6 @@ class SmaMeasurementConverter {
             return NULL;
         }
 
-        return new Time($valueMin, TimeUnit::MIN);
+        return new Time($valueMin, TimeUnit::M);
     }
 }

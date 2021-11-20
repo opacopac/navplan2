@@ -1,9 +1,14 @@
 import {AltitudeUnit} from './altitude-unit';
 import {AltitudeReference} from './altitude-reference';
 import {Clonable} from '../../../../system/domain-model/clonable';
+import {Length} from '../quantities/length';
+import {LengthUnit} from '../quantities/length-unit';
 
 
 export class Altitude implements Clonable<Altitude> {
+    private readonly FL_TO_FT_FACTOR = 100;
+
+
     public constructor(
         public value: number,
         public unit: AltitudeUnit,
@@ -49,5 +54,32 @@ export class Altitude implements Clonable<Altitude> {
         }
 
         return undefined;
+    }
+
+
+    public getHeightAmsl(terrainElevation: Length = Length.createZero()): Length {
+        let lenUnit: LengthUnit;
+
+        switch (this.unit) {
+            case AltitudeUnit.M:
+                lenUnit = LengthUnit.M;
+                break;
+            case AltitudeUnit.FT:
+            case AltitudeUnit.FL:
+                lenUnit = LengthUnit.FT;
+                break;
+            default:
+                return undefined;
+        }
+
+        switch (this.reference) {
+            case AltitudeReference.MSL:
+                return new Length(this.value, lenUnit);
+            case AltitudeReference.GND:
+                return new Length(this.value + terrainElevation.getValue(lenUnit), lenUnit);
+            case AltitudeReference.STD:
+                return new Length(this.value * this.FL_TO_FT_FACTOR, lenUnit);
+            default: return undefined;
+        }
     }
 }

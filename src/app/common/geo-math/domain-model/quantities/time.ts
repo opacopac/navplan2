@@ -1,4 +1,4 @@
-import {TimeUnit} from './units';
+import {TimeUnit} from './time-unit';
 import {Clonable} from '../../../../system/domain-model/clonable';
 import {AbstractQuantity} from './abstract-quantity';
 
@@ -12,15 +12,25 @@ export class Time extends AbstractQuantity<Time, TimeUnit> implements Clonable<T
         if (value === undefined) { return undefined; }
 
         switch (unit) {
+            case TimeUnit.MS:
+                switch (convertToUnit) {
+                    case TimeUnit.S: return value / 1000;
+                    case TimeUnit.M: return value / 1000 / 60;
+                    case TimeUnit.H: return value / 1000 / 60 / 60;
+                    default: return undefined;
+                }
+
             case TimeUnit.S:
                 switch (convertToUnit) {
+                    case TimeUnit.MS: return value * 1000;
                     case TimeUnit.M: return value / 60;
-                    case TimeUnit.H: return value / 3600;
+                    case TimeUnit.H: return value / 60 / 60;
                     default: return undefined;
                 }
 
             case TimeUnit.M:
                 switch (convertToUnit) {
+                    case TimeUnit.MS: return value * 60 * 1000;
                     case TimeUnit.S: return value * 60;
                     case TimeUnit.H: return value / 60;
                     default: return undefined;
@@ -28,7 +38,8 @@ export class Time extends AbstractQuantity<Time, TimeUnit> implements Clonable<T
 
             case TimeUnit.H:
                 switch (convertToUnit) {
-                    case TimeUnit.S: return value * 3600;
+                    case TimeUnit.MS: return value * 60 * 60 * 1000;
+                    case TimeUnit.S: return value * 60 * 60;
                     case TimeUnit.M: return value * 60;
                     default: return undefined;
                 }

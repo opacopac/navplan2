@@ -7,9 +7,10 @@ import {getFlightroute} from '../../ngrx/flightroute.selectors';
 import {RouteFuel} from '../../domain-model/routefuel';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Consumption} from '../../../common/geo-math/domain-model/quantities/consumption';
-import {ConsumptionUnit, TimeUnit} from '../../../common/geo-math/domain-model/quantities/units';
+import {TimeUnit} from '../../../common/geo-math/domain-model/quantities/time-unit';
 import {Time} from '../../../common/geo-math/domain-model/quantities/time';
 import {FlightRouteParameterActions} from '../../ngrx/flight-route-parameter.actions';
+import {ConsumptionUnit} from '../../../common/geo-math/domain-model/quantities/consumption-unit';
 
 @Component({
     selector: 'app-fuel-calc-container',

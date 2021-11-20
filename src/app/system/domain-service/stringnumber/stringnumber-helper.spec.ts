@@ -1,7 +1,7 @@
 import {inject, TestBed} from '@angular/core/testing';
 import {StringnumberHelper} from './stringnumber-helper';
 import {Angle} from '../../../common/geo-math/domain-model/quantities/angle';
-import {AngleUnit} from '../../../common/geo-math/domain-model/quantities/units';
+import {AngleUnit} from '../../../common/geo-math/domain-model/quantities/angle-unit';
 
 
 describe('StringnumberHelper', () => {

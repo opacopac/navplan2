@@ -1,6 +1,6 @@
 import {Length} from '../../common/geo-math/domain-model/quantities/length';
-import {LengthUnit} from '../../common/geo-math/domain-model/quantities/units';
 import {VerticalMapTerrainStep} from '../domain-model/vertical-map-terrain-step';
+import {LengthUnit} from '../../common/geo-math/domain-model/quantities/length-unit';
 
 
 export class RestVerticalMapTerrainStepConverter {

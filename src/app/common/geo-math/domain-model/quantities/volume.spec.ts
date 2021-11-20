@@ -1,5 +1,5 @@
 import {Volume} from './volume';
-import {VolumeUnit} from './units';
+import {VolumeUnit} from './volume-unit';
 
 
 describe('Volume', () => {

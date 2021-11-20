@@ -70,6 +70,7 @@ import {OlOverlayReportingsectorInfoTabComponent} from './ng-components/ol-overl
 import {OlOverlayNavaidHeaderComponent} from './ng-components/ol-overlay-navaid-header/ol-overlay-navaid-header.component';
 import {OlOverlayNavaidInfoTabComponent} from './ng-components/ol-overlay-navaid-info-tab/ol-overlay-navaid-info-tab.component';
 import {VerticalMapModule} from '../vertical-map/vertical-map.module';
+import {MeteoSmaModule} from '../meteo-sma/meteo-sma.module';
 
 @NgModule({
     declarations: [
@@ -139,7 +140,8 @@ import {VerticalMapModule} from '../vertical-map/vertical-map.module';
         GeonameModule,
         WebcamModule,
         UserModule,
-        VerticalMapModule
+        VerticalMapModule,
+        MeteoSmaModule
     ]
 })
 export class FlightMapModule {

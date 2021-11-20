@@ -19,6 +19,7 @@ import {appReducer} from './app.reducer';
 import {AppEffects} from './app.effects';
 import {NavbarModule} from './navbar/navbar.module';
 import {SettingsModule} from './settings/settings.module';
+import {MeteoSmaModule} from './meteo-sma/meteo-sma.module';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import {SettingsModule} from './settings/settings.module';
         FlightMapModule,
         FlightrouteModule,
         TrackModule,
+        MeteoSmaModule,
         MessageModule,
     ],
     providers: [],

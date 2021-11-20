@@ -1,6 +1,6 @@
 import {Length} from '../../common/geo-math/domain-model/quantities/length';
-import {LengthUnit} from '../../common/geo-math/domain-model/quantities/units';
 import {VerticalMapAirspaceStep} from '../domain-model/vertical-map-airspace-step';
+import {LengthUnit} from '../../common/geo-math/domain-model/quantities/length-unit';
 
 
 export class RestVerticalMapAirspaceStepConverter {

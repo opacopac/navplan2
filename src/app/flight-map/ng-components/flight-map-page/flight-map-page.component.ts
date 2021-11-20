@@ -49,6 +49,9 @@ import {OverlayState} from '../../domain-model/overlay-state';
 import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
 import {getVerticalMapState} from '../../../vertical-map/ngrx/vertical-map.selectors';
 import {VerticalMapButtonStatus} from '../../../vertical-map/domain-model/vertical-map-button-status';
+import {getMeteoSmaState} from '../../../meteo-sma/ngrx/meteo-sma.selectors';
+import {MeteoSmaButtonStatus} from '../../../meteo-sma/domain-model/meteo-sma-button-status';
+import {OlSmaMeasurementContainer} from '../../../meteo-sma/ol-components/ol-sma-measurement-container';
 
 
 @Component({
@@ -76,8 +79,11 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
     private olPositionSearchContainer: OlPositionSearchContainer;
     private olTraffic: OlTrafficContainer;
     private olOwnPlane: OlOwnPlaneContainer;
+    private olSmaMeasurementsContainer: OlSmaMeasurementContainer;
     private flightroute$ = this.appStore.pipe(select(getFlightroute));
     private readonly showOverlay$: Observable<OverlayState> = this.appStore.pipe(select(getFlightMapOverlay));
+    private readonly meteoSmaState$ = this.appStore.pipe(select(getMeteoSmaState));
+    public readonly showMeteoSmaMeasurements$ = this.meteoSmaState$.pipe(map(state => state.buttonStatus === MeteoSmaButtonStatus.CURRENT));
     private readonly verticalMapState$ = this.appStore.pipe(select(getVerticalMapState));
     public readonly showVerticalMapButton$ = this.flightroute$.pipe(map(route => route.waypoints.length >= 2));
     public readonly showVerticalMap$ = this.verticalMapState$.pipe(map(state => state.buttonStatus === VerticalMapButtonStatus.CURRENT));
@@ -129,6 +135,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         this.olPositionSearchContainer.destroy();
         this.olTraffic.destroy();
         this.olOwnPlane.destroy();
+        this.olSmaMeasurementsContainer.destroy();
 
         this.showOverlaySubscription.unsubscribe();
     }
@@ -173,6 +180,8 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         const circuitLayer = new OlVectorLayer();
         const chartCloserLayer = new OlVectorLayer();
         const pointSearchLayer = new OlVectorLayer();
+        const smaMeasurementsBgLayer = new OlVectorLayer();
+        const smaMeasurementsLayer = new OlVectorLayer();
 
         const map = this.mapContainer.init(
             MapBaseLayerType.OPENTOPOMAP,
@@ -192,7 +201,9 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
                 trackLayer,
                 pointSearchLayer,
                 trafficLayer,
-                ownPlaneLayer
+                ownPlaneLayer,
+                smaMeasurementsBgLayer,
+                smaMeasurementsLayer
             ],
             [
                 this.mapOverlayComponent.olOverlay,
@@ -273,6 +284,12 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         this.olOwnPlane = new OlOwnPlaneContainer(
             ownPlaneLayer,
             this.appStore.pipe(select(getLocationState))
+        );
+        this.olSmaMeasurementsContainer = new OlSmaMeasurementContainer(
+            smaMeasurementsBgLayer,
+            smaMeasurementsLayer,
+            this.appStore.pipe(select(getMeteoSmaState)),
+            rotation
         );
     }
 

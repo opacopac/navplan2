@@ -1,0 +1,7 @@
+<button mat-fab
+        matTooltip="show/hide meteo measurements"
+        matTooltipPosition="right"
+        color="{{ this.getStatusCLass(this.meteoSmaState$ | async) }}"
+        (click)="this.onSmaMeteoButtonClicked()">
+    <img src="{{ this.iconUrl }}" height="25" width="25" alt="show/hide meteo measurements">
+</button>

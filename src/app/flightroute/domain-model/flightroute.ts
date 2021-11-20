@@ -4,8 +4,8 @@ import {RouteFuel} from './routefuel';
 import {Clonable} from '../../system/domain-model/clonable';
 import {Time} from '../../common/geo-math/domain-model/quantities/time';
 import {Length} from '../../common/geo-math/domain-model/quantities/length';
-import {LengthUnit} from '../../common/geo-math/domain-model/quantities/units';
 import {WaypointType} from './waypoint-type';
+import {LengthUnit} from '../../common/geo-math/domain-model/quantities/length-unit';
 
 
 export class Flightroute implements Clonable<Flightroute> {

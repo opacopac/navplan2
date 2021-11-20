@@ -4,9 +4,10 @@ import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d
 import {WaypointType} from './waypoint-type';
 import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
 import {Length} from '../../common/geo-math/domain-model/quantities/length';
-import {AngleUnit, TimeUnit} from '../../common/geo-math/domain-model/quantities/units';
+import {TimeUnit} from '../../common/geo-math/domain-model/quantities/time-unit';
 import {Time} from '../../common/geo-math/domain-model/quantities/time';
 import {DataItem, DataItemType} from '../../common/model/data-item';
+import {AngleUnit} from '../../common/geo-math/domain-model/quantities/angle-unit';
 
 
 export class Waypoint extends DataItem implements Clonable<Waypoint> {
@@ -28,8 +29,8 @@ export class Waypoint extends DataItem implements Clonable<Waypoint> {
         public remark: string,
         public supp_info: string,
         public position: Position2d,
-        public alt: WaypointAltitude) {
-
+        public alt: WaypointAltitude
+    ) {
         super();
     }
 

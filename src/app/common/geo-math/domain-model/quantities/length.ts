@@ -1,6 +1,6 @@
-import {LengthUnit} from './units';
 import {Clonable} from '../../../../system/domain-model/clonable';
 import {AbstractQuantity} from './abstract-quantity';
+import {LengthUnit} from './length-unit';
 
 
 export class Length extends AbstractQuantity<Length, LengthUnit> implements Clonable<Length> {

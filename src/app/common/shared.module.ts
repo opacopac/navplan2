@@ -17,7 +17,6 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {ButtonBaseDirective} from './directives/button-base/button-base.directive';
 import {IconButtonDirective} from './directives/icon-button/icon-button.directive';
 import {StatusButtonDirective} from './directives/status-button/status-button.directive';
@@ -25,6 +24,7 @@ import {TextButtonDirective} from './directives/text-button/text-button.directiv
 import {OlOverlayButtonCloseComponent} from '../base-map/ng-components/ol-overlay-button-close/ol-overlay-button-close.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SystemConfig} from '../system/domain-service/system-config';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 
 @NgModule({

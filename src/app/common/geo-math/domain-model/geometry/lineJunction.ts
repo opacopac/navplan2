@@ -1,10 +1,10 @@
 import {Line} from './line';
-import {AngleUnit} from '../quantities/units';
 import {Angle} from '../quantities/angle';
 import {Position2d} from './position2d';
 import {GeodesyHelper} from '../../domain-service/geodesy-helper';
 import {Length} from '../quantities/length';
 import {Clonable} from '../../../../system/domain-model/clonable';
+import {AngleUnit} from '../quantities/angle-unit';
 
 
 export class LineJunction implements Clonable<LineJunction> {

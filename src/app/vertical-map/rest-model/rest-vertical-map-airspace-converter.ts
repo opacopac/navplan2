@@ -2,7 +2,7 @@ import {IRestVerticalMapAirspace} from './i-rest-vertical-map-airspace';
 import {VerticalMapAirspace} from '../domain-model/vertical-map-airspace';
 import {RestAltitudeConverter} from '../../common/geo-math/rest-model/rest-altitude-converter';
 import {RestVerticalMapAirspaceStepConverter} from './rest-vertical-map-airspace-step-converter';
-import {LengthUnit} from '../../common/geo-math/domain-model/quantities/units';
+import {LengthUnit} from '../../common/geo-math/domain-model/quantities/length-unit';
 
 
 export class RestVerticalMapAirspaceConverter {

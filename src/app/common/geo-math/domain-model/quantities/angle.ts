@@ -1,5 +1,5 @@
-import {AngleUnit} from './units';
 import {AbstractQuantity} from './abstract-quantity';
+import {AngleUnit} from './angle-unit';
 
 
 export class Angle extends AbstractQuantity<Angle, AngleUnit> {

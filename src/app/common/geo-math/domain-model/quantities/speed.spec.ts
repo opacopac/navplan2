@@ -1,5 +1,5 @@
 import {Speed} from './speed';
-import {SpeedUnit} from './units';
+import {SpeedUnit} from './speed-unit';
 
 
 describe('Speed', () => {

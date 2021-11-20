@@ -2,7 +2,7 @@ import {Circle} from './circle';
 import {Position2d} from './position2d';
 import {Geometry2dType} from './geometry2d';
 import {Length} from '../quantities/length';
-import {LengthUnit} from '../quantities/units';
+import {LengthUnit} from '../quantities/length-unit';
 
 describe('Circle', () => {
     let center1: Position2d;

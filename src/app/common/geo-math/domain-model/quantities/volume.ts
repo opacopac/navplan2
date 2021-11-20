@@ -1,6 +1,6 @@
-import {VolumeUnit} from './units';
 import {Clonable} from '../../../../system/domain-model/clonable';
 import {AbstractQuantity} from './abstract-quantity';
+import {VolumeUnit} from './volume-unit';
 
 
 export class Volume extends AbstractQuantity<Volume, VolumeUnit> implements Clonable<Volume> {

@@ -4,8 +4,8 @@ import {PositionSearchState} from '../domain-model/position-search-state';
 import {SearchItem} from '../domain-model/search-item';
 import {StringnumberHelper} from '../../system/domain-service/stringnumber/stringnumber-helper';
 import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
-import {AngleUnit} from '../../common/geo-math/domain-model/quantities/units';
 import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
+import {AngleUnit} from '../../common/geo-math/domain-model/quantities/angle-unit';
 
 
 const MAX_POINTS = 6;

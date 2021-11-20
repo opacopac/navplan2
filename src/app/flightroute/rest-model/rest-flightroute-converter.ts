@@ -4,9 +4,11 @@ import {Time} from '../../common/geo-math/domain-model/quantities/time';
 import {Flightroute} from '../domain-model/flightroute';
 import {Aircraft} from '../domain-model/aircraft';
 import {Waypoint} from '../domain-model/waypoint';
-import {ConsumptionUnit, SpeedUnit, TimeUnit} from '../../common/geo-math/domain-model/quantities/units';
+import {TimeUnit} from '../../common/geo-math/domain-model/quantities/time-unit';
 import {IRestFlightroute} from './i-rest-flightroute';
 import {RestFlightrouteWaypointConverter} from './rest-flightroute-waypoint-converter';
+import {SpeedUnit} from '../../common/geo-math/domain-model/quantities/speed-unit';
+import {ConsumptionUnit} from '../../common/geo-math/domain-model/quantities/consumption-unit';
 
 
 export class RestFlightrouteConverter {
