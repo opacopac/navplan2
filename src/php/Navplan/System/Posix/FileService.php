@@ -3,13 +3,19 @@
 namespace Navplan\System\Posix;
 
 use Exception;
+use Navplan\Common\InvalidFormatException;
+use Navplan\Common\StringNumberHelper;
 use Navplan\System\DomainModel\FileServiceException;
 use Navplan\System\DomainModel\IFile;
 use Navplan\System\DomainService\IFileService;
 
 
 class FileService implements IFileService {
-    private static $instance = NULL;
+    const TMP_DIR_BASE = '../../../../tmp/';
+    const TMP_DIR_PREFIX = 'tmpdl_';
+    const TMP_DIR_TIMEOUT_SEC = 300;
+
+    private static ?IFileService $instance = NULL;
 
 
     public static function getInstance(): IFileService {
@@ -25,6 +31,9 @@ class FileService implements IFileService {
     }
 
 
+    /**
+     * @throws FileServiceException
+     */
     public function fileGetContents(string $filename, bool $use_include_path = FALSE, $context = NULL): string {
         try {
             // TODO: handle warnings (currently suppressed with @ operator)
@@ -41,6 +50,9 @@ class FileService implements IFileService {
     }
 
 
+    /**
+     * @throws FileServiceException
+     */
     public function filePutContents(string $filename, $data, int $flags = 0, $context = null): int {
         try {
             $result = file_put_contents($filename, $data, $flags, $context);
@@ -70,5 +82,66 @@ class FileService implements IFileService {
 
     public function shell_exec(string $cmd): ?string {
         return shell_exec($cmd);
+    }
+
+
+    /**
+     * @throws InvalidFormatException
+     */
+    public function createFileInTempDir(string $filename): string {
+        $fileName = StringNumberHelper::checkFilename($filename);
+        $tmpDir = $this->createTempDir();
+
+        return $tmpDir . "/" . $fileName;
+    }
+
+
+
+    public function createTempDir(): string {
+        $this->cleanUpTempDirs();
+
+        $tmpDir = self::TMP_DIR_PREFIX . StringNumberHelper::createRandomString(20);
+        mkdir(self::TMP_DIR_BASE . $tmpDir);
+
+        return $tmpDir;
+    }
+
+
+    private function cleanUpTempDirs() {
+        $tmpDirEntries = scandir(self::TMP_DIR_BASE);
+
+        // iterate trough tmp dirs
+        foreach ($tmpDirEntries as $tmpDir) {
+            $tmpDirPath = self::TMP_DIR_BASE . $tmpDir;
+
+            if (!is_dir($tmpDirPath) || !str_starts_with($tmpDir, self::TMP_DIR_PREFIX)) {
+                continue;
+            }
+
+            // check if too old
+            if (filemtime($tmpDirPath) > time() - self::TMP_DIR_TIMEOUT_SEC) {
+                continue;
+            }
+
+            // iterate trough files of temp dir
+            $innerDirEntries = scandir($tmpDirPath);
+
+            foreach ($innerDirEntries as $tmpFile) {
+                if ($tmpFile == '.' || $tmpFile == '..') {
+                    continue;
+                }
+
+                $tmpFilePath = $tmpDirPath . "/" . $tmpFile;
+
+                if (!unlink($tmpFilePath)) {
+                    die("ERROR: while deleting temp file '" . $tmpFilePath . "'");
+                }
+            }
+
+            // remove tmp dir
+            if (!rmdir($tmpDirPath)) {
+                die("ERROR: while deleting temp dir '" . $tmpDirPath . "'");
+            }
+        }
     }
 }

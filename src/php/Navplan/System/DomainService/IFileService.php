@@ -13,4 +13,8 @@ interface IFileService {
     function file_exists(string $filename): bool;
 
     function fopen(string $filename, string $mode): ?IFile;
+
+    function createFileInTempDir(string $filename): string;
+
+    function createTempDir(): string;
 }

@@ -3,6 +3,7 @@
 namespace Navplan\Common\DomainModel;
 
 use InvalidArgumentException;
+use Navplan\Common\StringNumberHelper;
 
 
 class Time {
@@ -58,5 +59,29 @@ class Time {
 
     public function getValue(int $unit): float {
         return self::convert($this->value, $this->unit, $unit);
+    }
+
+
+    public function getH(): float {
+        return $this->getValue(TimeUnit::H);
+    }
+
+
+    public function getM(): float {
+        return $this->getValue(TimeUnit::M);
+    }
+
+
+    public function getS(): float {
+        return $this->getValue(TimeUnit::S);
+    }
+
+
+    public function getHourMinString(bool $roundUp = true, string $separator = ":"): string {
+        $hours = floor($this->getH());
+        $mins = $this->getM() - $hours * 60;
+        $minsInt = $roundUp ? (int) ceil($mins) : (int) round($mins);
+
+        return $hours . $separator . StringNumberHelper::zeroPad($minsInt, 2);
     }
 }
