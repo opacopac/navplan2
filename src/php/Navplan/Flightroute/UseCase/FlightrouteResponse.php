@@ -2,7 +2,7 @@
 
 namespace Navplan\Flightroute\UseCase;
 
-use Navplan\Flightroute\Domain\Flightroute;
+use Navplan\Flightroute\DomainModel\Flightroute;
 
 
 class FlightrouteResponse {

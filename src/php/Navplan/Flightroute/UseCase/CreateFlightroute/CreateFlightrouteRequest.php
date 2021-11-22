@@ -2,7 +2,7 @@
 
 namespace Navplan\Flightroute\UseCase\CreateFlightroute;
 
-use Navplan\Flightroute\Domain\Flightroute;
+use Navplan\Flightroute\DomainModel\Flightroute;
 
 
 class CreateFlightrouteRequest {

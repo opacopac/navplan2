@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Flightroute\Mocks;
 
-use Navplan\Flightroute\Domain\Flightroute;
+use Navplan\Flightroute\DomainModel\Flightroute;
 
 
 class DummyFlightroute2 {

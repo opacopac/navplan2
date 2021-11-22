@@ -3,7 +3,7 @@
 namespace Navplan\Flightroute\DbRepo;
 
 use Navplan\Common\StringNumberHelper;
-use Navplan\Flightroute\Domain\Flightroute;
+use Navplan\Flightroute\DomainModel\Flightroute;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
 

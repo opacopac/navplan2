@@ -3,12 +3,12 @@
 
 namespace Navplan\Exporter\Builder;
 
-require_once __DIR__ . "/../../../vendor/fpdf/fpdf.php";
+require_once __DIR__ . "/../../../vendor/FPDF/rpdf.php";
 
-use Navplan\Flightroute\Domain\Flightroute;
-use Navplan\Flightroute\Domain\FuelCalc;
-use Navplan\Flightroute\Domain\Waypoint;
-use PDF_Rotate;
+use Navplan\Flightroute\DomainModel\Flightroute;
+use Navplan\Flightroute\DomainModel\FuelCalc;
+use Navplan\Flightroute\DomainModel\Waypoint;
+use RPDF;
 
 
 class NavplanPdfBuilder {
@@ -30,7 +30,7 @@ class NavplanPdfBuilder {
     private const FUEL_COL_WIDTH = [ 18, 14.82, 14.82 ];
     private const FUEL_COL_TITLE = [ "l/h:", "Time", "Fuel" ];
     private const FUEL_ROW_TITLE = [ "Trip", "Alternate", "Reserve", "Minimum", "Extra fuel", "Block fuel" ];
-    private PDF_Rotate $pdf;
+    private RPDF $pdf;
 
 
     public function __construct() {
@@ -40,12 +40,12 @@ class NavplanPdfBuilder {
     /**
      * @param Flightroute $flightroute
      * @param FuelCalc $fuelCalc
-     * @return PDF_Rotate
+     * @return RPDF
      */
-    public function buildPdf(Flightroute $flightroute, FuelCalc $fuelCalc): PDF_Rotate {
+    public function buildPdf(Flightroute $flightroute, FuelCalc $fuelCalc): RPDF {
         self::createDoc();
         self::createTitle();
-        self::createGenericData();
+        self::createGenericData($flightroute);
         self::createCheckpointHeaders();
         self::createCheckpointRows($flightroute->waypoinList);
         self::createAlternateRow($flightroute->alternate);
@@ -62,7 +62,7 @@ class NavplanPdfBuilder {
 
 
     private function createDoc(): void {
-        $this->pdf = new PDF_Rotate('L', 'mm', 'A4');
+        $this->pdf = new RPDF('L', 'mm', 'A4');
         $this->pdf->SetTitle(self::PLAN_TITLE);
         $this->pdf->AddFont('Arial-Narrow', '', 'arial-narrow.php');
         $this->pdf->AddFont('ArialNarrow-Italic', 'I', 'ARIALNI.php');
@@ -80,7 +80,7 @@ class NavplanPdfBuilder {
     }
 
 
-    private function createGenericData(): void {
+    private function createGenericData(Flightroute $flightroute): void {
         $this->pdf->SetFont('Arial', 'B', 10);
 
         for ($i = 0; $i < count(self::GEN_COL_WIDTHS); $i++) {
@@ -91,8 +91,9 @@ class NavplanPdfBuilder {
 
         for ($i = 0; $i < count(self::GEN_COL_WIDTHS); $i++) {
             $text = self::GEN2_COL_TITLES[$i];
-            if ($i == 1) // speed
-                $text .= getSpeedString();
+            if ($i == 1) { // speed
+                $text .= $flightroute->aircraftSpeedKt ? " " . $flightroute->aircraftSpeedKt . "kt" : "";
+            }
 
             $this->pdf->Cell(self::GEN_COL_WIDTHS[$i], self::ROW_HEIGHT, $text, "LTRB", 0);
         }
@@ -147,7 +148,7 @@ class NavplanPdfBuilder {
             }
 
             // opt. line for supp info string
-            $suppInfoString = getSuppInfoString($j);
+            $suppInfoString = (isset($waypoints[$j]) && $waypoints[$j]->suppInfo) ? utf8_decode($waypoints[$j]->suppInfo) : "";
             if (strlen($suppInfoString) > 0) {
                 $identWidth = 4;
                 $this->pdf->SetFont('ArialNarrow-Italic', 'I', 10);
@@ -209,7 +210,7 @@ class NavplanPdfBuilder {
     }
 
 
-    private function createAlternateRow(Waypoint $alternate): void {
+    private function createAlternateRow(?Waypoint $alternate): void {
         // title row
         for ($i = 0; $i < count(self::CKP_COL_WIDTHS); $i++) {
             $this->pdf->SetFont('Arial-Narrow', 'U', 10);
@@ -261,7 +262,7 @@ class NavplanPdfBuilder {
         $this->pdf->SetXY(self::CMT_COL_WIDTH + self::MARGIN_X, $fuelTop);
         $this->pdf->Cell(self::FUEL_TITLE_COL_WIDTH, self::ROW_HEIGHT * self::CMT_NUM, "", 0, 0, "", true);
         $this->pdf->SetFont('Arial', 'B', 11);
-        $this->pdf->RotatedText(94, 185, self::FUEL_TITLE, 90);
+        $this->pdf->TextWithRotation(94, 185, self::FUEL_TITLE, 90);
     }
 
 

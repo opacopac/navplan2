@@ -2,8 +2,8 @@
 
 namespace Navplan\Exporter\DomainService;
 
-use Navplan\Flightroute\Domain\Flightroute;
-use Navplan\Flightroute\Domain\FuelCalc;
+use Navplan\Flightroute\DomainModel\Flightroute;
+use Navplan\Flightroute\DomainModel\FuelCalc;
 use Navplan\Track\DomainModel\Track;
 
 

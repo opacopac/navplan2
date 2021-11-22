@@ -13,7 +13,7 @@ class CreateFlightrouteRequestConverter {
 
     public static function fromArgs(array $args): CreateFlightrouteRequest {
         return new CreateFlightrouteRequest(
-            FlightrouteConverter::fromArgs($args[self::ARG_ROUTE]),
+            RestFlightrouteConverter::fromRest($args[self::ARG_ROUTE]),
             StringNumberHelper::parseStringOrError($args, self::ARG_TOKEN)
         );
     }

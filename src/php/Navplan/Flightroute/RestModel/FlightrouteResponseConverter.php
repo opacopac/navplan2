@@ -8,7 +8,7 @@ use Navplan\Flightroute\UseCase\FlightrouteResponse;
 class FlightrouteResponseConverter {
     public static function toRest(FlightrouteResponse $response): array  {
         return array(
-            "navplan" => $response->flightroute ? FlightrouteConverter::toArray($response->flightroute) : NULL
+            "navplan" => $response->flightroute ? RestFlightrouteConverter::toRest($response->flightroute) : NULL
         );
     }
 }

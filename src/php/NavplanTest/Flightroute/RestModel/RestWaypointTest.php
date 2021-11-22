@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Flightroute\RestModel;
 
-use Navplan\Flightroute\Domain\Waypoint;
+use Navplan\Flightroute\DomainModel\Waypoint;
 use Navplan\Flightroute\RestModel\WaypointConverter;
 use NavplanTest\Flightroute\Mocks\DummyWaypoint1;
 use PHPUnit\Framework\TestCase;
@@ -28,7 +28,7 @@ class RestWaypointTest extends TestCase {
 
     public function test_fromArgs() {
         $wpRest = DummyWaypoint1::createRestArgs();
-        $wp = WaypointConverter::fromArgs($wpRest);
+        $wp = WaypointConverter::fromRest($wpRest);
 
         $this->assertEqualRestValues($wpRest, $wp);
     }
@@ -36,7 +36,7 @@ class RestWaypointTest extends TestCase {
 
     public function test_toArray() {
         $wp = DummyWaypoint1::create();
-        $wpRest = WaypointConverter::toArray($wp);
+        $wpRest = WaypointConverter::toRest($wp);
 
         $this->assertEqualRestValues($wpRest, $wp);
     }

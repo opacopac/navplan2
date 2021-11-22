@@ -2,7 +2,7 @@
 
 namespace Navplan\Flightroute\DbRepo;
 
-use Navplan\Flightroute\Domain\Flightroute;
+use Navplan\Flightroute\DomainModel\Flightroute;
 use Navplan\Flightroute\DomainService\IFlightrouteRepo;
 use Navplan\System\DomainModel\IDbResult;
 use Navplan\System\DomainService\IDbService;

@@ -13,7 +13,7 @@ class UpdateFlightrouteRequestConverter {
 
     public static function fromArgs(array $args): UpdateFlightrouteRequest {
         return new UpdateFlightrouteRequest(
-            FlightrouteConverter::fromArgs($args[self::ARG_ROUTE]),
+            RestFlightrouteConverter::fromRest($args[self::ARG_ROUTE]),
             StringNumberHelper::parseStringOrError($args, self::ARG_TOKEN)
         );
     }

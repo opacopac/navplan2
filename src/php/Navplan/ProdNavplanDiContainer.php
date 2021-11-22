@@ -19,6 +19,13 @@ use Navplan\Enroute\DomainService\IAirspaceRepo;
 use Navplan\Enroute\DomainService\INavaidRepo;
 use Navplan\Enroute\RestService\IAirspaceServiceDiContainer;
 use Navplan\Enroute\RestService\INavaidServiceDiContainer;
+use Navplan\Exporter\Builder\NavplanKmlBuilder;
+use Navplan\Exporter\Builder\NavplanPdfBuilder;
+use Navplan\Exporter\DomainService\IExportService;
+use Navplan\Exporter\FileExportService\FileExportService;
+use Navplan\Exporter\RestService\IExporterServiceDiContainer;
+use Navplan\Exporter\UseCase\ExportPdf\ExportPdfUc;
+use Navplan\Exporter\UseCase\ExportPdf\IExportPdfUc;
 use Navplan\Flightroute\DbRepo\DbFlightrouteRepo;
 use Navplan\Flightroute\DomainService\IFlightrouteRepo;
 use Navplan\Flightroute\RestService\IFlightrouteServiceDiContainer;
@@ -128,7 +135,7 @@ use Navplan\Webcam\RestService\IWebcamServiceDiContainer;
 class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFlightrouteServiceDiContainer,
     IGeonameServiceDiContainer, IMeteoServiceDiContainer, INotamServiceDiContainer, ISearchServiceDiContainer,
     ITerrainDiContainer, ITrafficServiceDiContainer, IUserServiceDiContainer, IAirportServiceDiContainer,
-    IAirspaceServiceDiContainer, INavaidServiceDiContainer, IWebcamServiceDiContainer, IVerticalMapDiContainer
+    IAirspaceServiceDiContainer, INavaidServiceDiContainer, IWebcamServiceDiContainer, IVerticalMapDiContainer, IExporterServiceDiContainer
 {
     // const
     private const LOG_LEVEL = LogLevel::INFO;
@@ -206,6 +213,9 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     // vertical map
     private IVerticalMapService $verticalMapService;
     private IReadVerticalMapUc $readVerticalMapUc;
+    // export
+    private IExportService $exportService;
+    private IExportPdfUc $exportPdfUc;
 
 
     public function __construct() {
@@ -864,6 +874,34 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
         }
 
         return $this->readVerticalMapUc;
+    }
+
+    // endregion
+
+
+    // region export
+
+    function getExportService(): IExportService {
+        if (!isset($this->exportService)) {
+            $this->exportService = new FileExportService(
+                $this->getFileService(),
+                new NavplanPdfBuilder(),
+                new NavplanKmlBuilder()
+            );
+        }
+
+        return $this->exportService;
+    }
+
+
+    function getExportPdfUc(): IExportPdfUc {
+        if (!isset($this->exportPdfUc)) {
+            $this->exportPdfUc = new ExportPdfUc(
+                $this->getExportService()
+            );
+        }
+
+        return $this->exportPdfUc;
     }
 
     // endregion

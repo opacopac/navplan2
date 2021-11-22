@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Flightroute\Mocks;
 
-use Navplan\Flightroute\Domain\Flightroute;
+use Navplan\Flightroute\DomainModel\Flightroute;
 use Navplan\Flightroute\DomainService\IFlightrouteRepo;
 use Navplan\User\DomainModel\User;
 

@@ -55,7 +55,7 @@ class StringNumberHelper {
     }
 
 
-    public static function parseIntOrError(array $keyValues, string $key): int {
+    public static function parseIntOrError(array $keyValues, string|int $key): int {
         if (!isset($keyValues[$key])) {
             throw new InvalidArgumentException("argument '" . $key . "' is missing'");
         } else if (!is_numeric($keyValues[$key])) {
@@ -87,7 +87,7 @@ class StringNumberHelper {
     }
 
 
-    public static function parseFloatOrError(array $keyValues, string $key): float {
+    public static function parseFloatOrError(array $keyValues, string|int $key): float {
         if (!isset($keyValues[$key])) {
             throw new InvalidArgumentException("argument '" . $key . "' is missing'");
         } else if (!is_numeric($keyValues[$key])) {

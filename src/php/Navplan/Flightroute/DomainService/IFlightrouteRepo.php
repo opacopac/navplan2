@@ -2,7 +2,7 @@
 
 namespace Navplan\Flightroute\DomainService;
 
-use Navplan\Flightroute\Domain\Flightroute;
+use Navplan\Flightroute\DomainModel\Flightroute;
 use Navplan\User\DomainModel\User;
 
 

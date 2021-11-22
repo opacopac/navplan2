@@ -6,8 +6,8 @@ namespace Navplan\Exporter\FileExportService;
 use Navplan\Exporter\Builder\NavplanKmlBuilder;
 use Navplan\Exporter\Builder\NavplanPdfBuilder;
 use Navplan\Exporter\DomainService\IExportService;
-use Navplan\Flightroute\Domain\Flightroute;
-use Navplan\Flightroute\Domain\FuelCalc;
+use Navplan\Flightroute\DomainModel\Flightroute;
+use Navplan\Flightroute\DomainModel\FuelCalc;
 use Navplan\System\DomainService\IFileService;
 use Navplan\Track\DomainModel\Track;
 

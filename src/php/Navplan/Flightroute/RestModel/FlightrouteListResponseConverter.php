@@ -9,7 +9,7 @@ class FlightrouteListResponseConverter {
     public static function toRest(ReadFlightrouteListResponse $response): array  {
         return array(
             "navplanList" => array_map(
-                function ($flightroute) { return FlightrouteConverter::toListResultArray($flightroute); },
+                function ($flightroute) { return RestFlightrouteConverter::toRestShort($flightroute); },
                 $response->flightrouteList
             )
         );

@@ -4,8 +4,8 @@
 namespace Navplan\Exporter\Builder;
 
 use Navplan\Common\DateTimeHelper;
-use Navplan\Flightroute\Domain\Flightroute;
-use Navplan\Flightroute\Domain\Waypoint;
+use Navplan\Flightroute\DomainModel\Flightroute;
+use Navplan\Flightroute\DomainModel\Waypoint;
 use Navplan\Track\DomainModel\Track;
 
 

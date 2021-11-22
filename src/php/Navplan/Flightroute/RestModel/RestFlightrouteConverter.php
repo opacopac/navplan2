@@ -3,11 +3,11 @@
 namespace Navplan\Flightroute\RestModel;
 
 use Navplan\Common\StringNumberHelper;
-use Navplan\Flightroute\Domain\Flightroute;
+use Navplan\Flightroute\DomainModel\Flightroute;
 
 
-class FlightrouteConverter {
-    public static function fromArgs(array $args): Flightroute {
+class RestFlightrouteConverter {
+    public static function fromRest(array $args): Flightroute {
         return new Flightroute(
             StringNumberHelper::parseIntOrNull($args, "id"),
             StringNumberHelper::parseStringOrNull($args, "title"),
@@ -19,15 +19,15 @@ class FlightrouteConverter {
             NULL,
             isset($args["waypoints"]) ?
             array_map(
-                function ($wpArgs) { return WaypointConverter::fromArgs($wpArgs); },
+                function ($wpArgs) { return WaypointConverter::fromRest($wpArgs); },
                 $args["waypoints"]
             ) : [],
-            isset($args["alternate"]) ? WaypointConverter::fromArgs($args["alternate"]) : NULL
+            isset($args["alternate"]) ? WaypointConverter::fromRest($args["alternate"]) : NULL
         );
     }
 
 
-    public static function toArray(Flightroute $flightroute): array {
+    public static function toRest(Flightroute $flightroute): array {
         return array(
             "id" => $flightroute->id,
             "title" => $flightroute->title,
@@ -36,15 +36,15 @@ class FlightrouteConverter {
             "extra_fuel" => $flightroute->extraFuelL,
             "comments" => $flightroute->comments,
             "waypoints" => array_map(
-                function ($wp) { return WaypointConverter::toArray($wp); },
+                function ($wp) { return WaypointConverter::toRest($wp); },
                 $flightroute->waypoinList
             ),
-            "alternate" => $flightroute->alternate ? WaypointConverter::toArray($flightroute->alternate) : NULL
+            "alternate" => $flightroute->alternate ? WaypointConverter::toRest($flightroute->alternate) : NULL
         );
     }
 
 
-    public static function toListResultArray(Flightroute $flightroute): array {
+    public static function toRestShort(Flightroute $flightroute): array {
         return array(
             "id" => $flightroute->id,
             "title" => $flightroute->title

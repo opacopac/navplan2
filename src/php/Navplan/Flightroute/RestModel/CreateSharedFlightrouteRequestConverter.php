@@ -12,7 +12,7 @@ class CreateSharedFlightrouteRequestConverter {
 
     public static function fromArgs(array $args): CreateSharedFlightrouteRequest {
         return new CreateSharedFlightrouteRequest(
-            FlightrouteConverter::fromArgs($args[self::ARG_ROUTE])
+            RestFlightrouteConverter::fromRest($args[self::ARG_ROUTE])
         );
     }
 }

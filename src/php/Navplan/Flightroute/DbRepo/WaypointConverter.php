@@ -4,7 +4,7 @@ namespace Navplan\Flightroute\DbRepo;
 
 use Navplan\Common\DbModel\DbPosition2dConverter;
 use Navplan\Common\StringNumberHelper;
-use Navplan\Flightroute\Domain\Waypoint;
+use Navplan\Flightroute\DomainModel\Waypoint;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
 

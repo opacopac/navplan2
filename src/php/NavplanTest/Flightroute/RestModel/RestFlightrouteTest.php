@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Flightroute\RestModel;
 
-use Navplan\Flightroute\Domain\Flightroute;
-use Navplan\Flightroute\RestModel\FlightrouteConverter;
+use Navplan\Flightroute\DomainModel\Flightroute;
+use Navplan\Flightroute\RestModel\RestFlightrouteConverter;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use PHPUnit\Framework\TestCase;
 
@@ -24,7 +24,7 @@ class RestFlightrouteTest extends TestCase
 
     public function test_fromArgs() {
         $routeRest = DummyFlightroute1::createRestArgs();
-        $route = FlightrouteConverter::fromArgs($routeRest);
+        $route = RestFlightrouteConverter::fromRest($routeRest);
 
         $this->assertEqualRestValues($routeRest, $route);
     }
@@ -32,7 +32,7 @@ class RestFlightrouteTest extends TestCase
 
     public function test_toArray() {
         $route = DummyFlightroute1::create();
-        $routeRest = FlightrouteConverter::toArray($route);
+        $routeRest = RestFlightrouteConverter::toRest($route);
 
         $this->assertEqualRestValues($routeRest, $route);
     }

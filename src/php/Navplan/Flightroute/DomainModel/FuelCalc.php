@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Flightroute\Domain;
+namespace Navplan\Flightroute\DomainModel;
 
 use Navplan\Common\DomainModel\Consumption;
 use Navplan\Common\DomainModel\Time;

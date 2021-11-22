@@ -4,11 +4,11 @@ namespace Navplan\Flightroute\RestModel;
 
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\Common\StringNumberHelper;
-use Navplan\Flightroute\Domain\Waypoint;
+use Navplan\Flightroute\DomainModel\Waypoint;
 
 
 class WaypointConverter {
-    public static function fromArgs(array $args): Waypoint {
+    public static function fromRest(array $args): Waypoint {
         return new Waypoint(
             StringNumberHelper::parseStringOrError($args, "type"),
             StringNumberHelper::parseStringOrError($args, "freq"),
@@ -30,7 +30,7 @@ class WaypointConverter {
     }
 
 
-    public static function toArray(Waypoint $wp): array {
+    public static function toRest(Waypoint $wp): array {
         return array(
             "type" => $wp->type,
             "freq" => $wp->frequency,
