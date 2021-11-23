@@ -25,7 +25,7 @@ class StringNumberHelper {
     }
 
 
-    public static function parseStringOrError(array $keyValues, string $key): string {
+    public static function parseStringOrError(array $keyValues, string|int $key): string {
         if (!isset($keyValues[$key])) {
             throw new InvalidArgumentException("argument '" . $key . "' is missing'");
         }

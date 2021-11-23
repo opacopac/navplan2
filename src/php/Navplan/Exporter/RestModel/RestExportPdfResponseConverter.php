@@ -8,7 +8,7 @@ use Navplan\Exporter\UseCase\ExportPdf\ExportPdfResponse;
 class RestExportPdfResponseConverter {
     public static function toRest(ExportPdfResponse $response): array {
         return array(
-            'url' => $response->pdfUrl
+            'pdffile' => $response->pdfFile
         );
     }
 }

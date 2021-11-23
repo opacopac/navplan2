@@ -3,6 +3,7 @@
 namespace Navplan\Common\RestModel;
 
 use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\StringNumberHelper;
 
 
 class RestPosition2dConverter {
@@ -11,5 +12,13 @@ class RestPosition2dConverter {
             $roundToDigits === NULL ? $pos->longitude : round($pos->longitude, $roundToDigits),
             $roundToDigits === NULL ? $pos->latitude : round($pos->latitude, $roundToDigits)
         ];
+    }
+
+
+    public static function fromRest(array $args): Position2d {
+        return new Position2d(
+            StringNumberHelper::parseFloatOrError($args, 0),
+            StringNumberHelper::parseFloatOrError($args, 1),
+        );
     }
 }

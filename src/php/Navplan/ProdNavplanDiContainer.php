@@ -24,6 +24,8 @@ use Navplan\Exporter\Builder\NavplanPdfBuilder;
 use Navplan\Exporter\DomainService\IExportService;
 use Navplan\Exporter\FileExportService\FileExportService;
 use Navplan\Exporter\RestService\IExporterServiceDiContainer;
+use Navplan\Exporter\UseCase\ExportKml\ExportKmlUc;
+use Navplan\Exporter\UseCase\ExportKml\IExportKmlUc;
 use Navplan\Exporter\UseCase\ExportPdf\ExportPdfUc;
 use Navplan\Exporter\UseCase\ExportPdf\IExportPdfUc;
 use Navplan\Flightroute\DbRepo\DbFlightrouteRepo;
@@ -216,6 +218,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     // export
     private IExportService $exportService;
     private IExportPdfUc $exportPdfUc;
+    private IExportKmlUc $exportKmlUc;
 
 
     public function __construct() {
@@ -903,6 +906,18 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
 
         return $this->exportPdfUc;
     }
+
+
+    function getExportKmlUc(): IExportKmlUc {
+        if (!isset($this->exportKmlUc)) {
+            $this->exportKmlUc = new ExportKmlUc(
+                $this->getExportService()
+            );
+        }
+
+        return $this->exportKmlUc;
+    }
+
 
     // endregion
 }

@@ -5,6 +5,7 @@ namespace Navplan\Common\RestModel;
 use Navplan\Common\DomainModel\Altitude;
 use Navplan\Common\DomainModel\AltitudeReference;
 use Navplan\Common\DomainModel\AltitudeUnit;
+use Navplan\Common\StringNumberHelper;
 
 
 class RestAltitudeConverter {
@@ -14,5 +15,14 @@ class RestAltitudeConverter {
             AltitudeUnit::toString($alt->unit),
             AltitudeReference::toString($alt->reference)
         ];
+    }
+
+
+    public static function fromRest(array $args): Altitude {
+        return new Altitude(
+            StringNumberHelper::parseFloatOrError($args, 0),
+            AltitudeUnit::fromString(StringNumberHelper::parseStringOrError($args, 1)),
+            AltitudeReference::fromString(StringNumberHelper::parseStringOrError($args, 2)),
+        );
     }
 }

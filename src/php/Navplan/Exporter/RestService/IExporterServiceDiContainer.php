@@ -2,6 +2,7 @@
 
 namespace Navplan\Exporter\RestService;
 
+use Navplan\Exporter\UseCase\ExportKml\IExportKmlUc;
 use Navplan\Exporter\UseCase\ExportPdf\IExportPdfUc;
 use Navplan\System\DomainService\IHttpService;
 
@@ -10,4 +11,6 @@ interface IExporterServiceDiContainer {
     function getHttpService(): IHttpService;
 
     function getExportPdfUc(): IExportPdfUc;
+
+    function getExportKmlUc(): IExportKmlUc;
 }
