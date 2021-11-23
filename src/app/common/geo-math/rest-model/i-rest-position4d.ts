@@ -3,7 +3,7 @@ import {IRestAltitude} from './i-rest-altitude';
 
 
 export interface IRestPosition4d {
-    pos: IRestPosition2d;
-    alt: IRestAltitude;
-    time: number;
+    0: IRestPosition2d;
+    1: IRestAltitude;
+    2: number;
 }
