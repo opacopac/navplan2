@@ -14,7 +14,7 @@ interface IFileService {
 
     function fopen(string $filename, string $mode): ?IFile;
 
-    function createFileInTempDir(string $filename): string;
+    function getTempDirBase(): string;
 
     function createTempDir(): string;
 }

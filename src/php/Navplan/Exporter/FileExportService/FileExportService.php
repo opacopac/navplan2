@@ -3,6 +3,8 @@
 
 namespace Navplan\Exporter\FileExportService;
 
+use Navplan\Common\InvalidFormatException;
+use Navplan\Common\StringNumberHelper;
 use Navplan\Exporter\Builder\NavplanKmlBuilder;
 use Navplan\Exporter\Builder\NavplanPdfBuilder;
 use Navplan\Exporter\DomainService\IExportService;
@@ -21,19 +23,31 @@ class FileExportService implements IExportService {
     }
 
 
+    /**
+     * @throws InvalidFormatException
+     */
     public function createNavplanPdf(Flightroute $flightroute, FuelCalc $fuelCalc, string $fileName): string {
         $pdf = $this->pdfBuilder->buildPdf($flightroute, $fuelCalc);
-        $tmpFile = $this->fileService->createFileInTempDir($fileName);
-        $pdf->Output($tmpFile, "F"); // output pdf to temp file
+        $tmpDirBase = $this->fileService->getTempDirBase();
+        $tmpDir = $this->fileService->createTempDir();
+        $fileName = StringNumberHelper::checkFilename($fileName);
+        $tmpFile = $tmpDir . "/" . $fileName;
+        $pdf->Output($tmpDirBase . $tmpFile, "F"); // output pdf to temp file
 
         return $tmpFile;
     }
 
 
+    /**
+     * @throws InvalidFormatException
+     */
     function createNavplanKml(Flightroute $flightroute, Track $track, string $fileName): string {
         $xml = $this->kmlBuilder->buildKml($flightroute, $track, $fileName);
-        $tmpFile = $this->fileService->createFileInTempDir($fileName);
-        file_put_contents($tmpFile, $xml); // output pdf to temp file
+        $tmpDirBase = $this->fileService->getTempDirBase();
+        $tmpDir = $this->fileService->createTempDir();
+        $fileName = StringNumberHelper::checkFilename($fileName);
+        $tmpFile = $tmpDir . "/" . $fileName;
+        file_put_contents($tmpDirBase . $tmpFile, $xml); // output pdf to temp file
 
         return $tmpFile;
     }

@@ -55,7 +55,7 @@ class NavplanPdfBuilder {
         $fuelLeft = $this->pdf->GetX();
         self::createFuelHeaders($flightroute->aircraftConsumptionLpH);
         self::createFuelEntries($fuelLeft, $fuelCalc);
-        self::createFuelBorder($fuelLeft);
+        self::createFuelBorder($fuelTop);
 
         return $this->pdf;
     }

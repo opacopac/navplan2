@@ -3,7 +3,6 @@
 namespace Navplan\System\Posix;
 
 use Exception;
-use Navplan\Common\InvalidFormatException;
 use Navplan\Common\StringNumberHelper;
 use Navplan\System\DomainModel\FileServiceException;
 use Navplan\System\DomainModel\IFile;
@@ -85,14 +84,9 @@ class FileService implements IFileService {
     }
 
 
-    /**
-     * @throws InvalidFormatException
-     */
-    public function createFileInTempDir(string $filename): string {
-        $fileName = StringNumberHelper::checkFilename($filename);
-        $tmpDir = $this->createTempDir();
 
-        return $tmpDir . "/" . $fileName;
+    function getTempDirBase(): string {
+        return self::TMP_DIR_BASE;
     }
 
 
