@@ -4,7 +4,7 @@ namespace Navplan\Notam\RestModel;
 
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\Common\StringNumberHelper;
-use Navplan\Notam\DomainModel\ReadNotamByPositionRequest;
+use Navplan\Notam\UseCase\SearchNotam\ReadNotamByPositionRequest;
 
 
 class ReadNotamByPositionRequestConverter {

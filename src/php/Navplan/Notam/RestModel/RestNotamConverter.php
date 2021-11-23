@@ -5,7 +5,7 @@ namespace Navplan\Notam\RestModel;
 
 use Navplan\Notam\DomainModel\Notam;
 
-class NotamConverter {
+class RestNotamConverter {
     public static function toRest(Notam $notam): array {
         return array(
             "id" => $notam->id,
@@ -29,7 +29,7 @@ class NotamConverter {
             "created" => $notam->created,
             "key" => $notam->key,
             "type" => $notam->type,
-            "geometry" => $notam->geometry ? NotamGeometryConverter::toRest($notam->geometry) : NULL
+            "geometry" => $notam->geometry ? RestNotamGeometryConverter::toRest($notam->geometry) : NULL
         );
     }
 }

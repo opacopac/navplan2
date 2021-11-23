@@ -9,8 +9,8 @@ use Navplan\Enroute\RestModel\RestAirspaceConverter;
 use Navplan\Enroute\RestModel\RestNavaidConverter;
 use Navplan\Geoname\RestModel\RestGeonameConverter;
 use Navplan\Notam\DomainModel\Notam;
-use Navplan\Notam\RestModel\NotamConverter;
-use Navplan\Search\DomainModel\SearchResult;
+use Navplan\Notam\RestModel\RestNotamConverter;
+use Navplan\Search\UseCase\SearchResult;
 use Navplan\User\DomainModel\UserPoint;
 use Navplan\User\RestModel\UserPointConverter;
 use Navplan\Webcam\RestModel\RestWebcamConverter;
@@ -26,7 +26,7 @@ class SearchResultConverter {
             'userpoints' => array_map(function (UserPoint $up) { return UserPointConverter::toRest($up); }, $result->userPoints),
             'webcams' => RestWebcamConverter::listToRest($result->webcams),
             'geonames' => RestGeonameConverter::listToRest($result->geonames),
-            'notams' => array_map(function (Notam $notam) { return NotamConverter::toRest($notam); }, $result->notams),
+            'notams' => array_map(function (Notam $notam) { return RestNotamConverter::toRest($notam); }, $result->notams),
             'circuits' => RestAirportCircuitConverter::listToRest($result->circuits)
         );
     }

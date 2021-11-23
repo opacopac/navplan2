@@ -4,7 +4,6 @@ namespace Navplan\Traffic\UseCase\ReadTrafficDetails;
 
 use Navplan\Traffic\DomainModel\TrafficAddressType;
 use Navplan\Traffic\DomainModel\TrafficDetail;
-use Navplan\Traffic\DomainModel\TrafficDetailsReadRequest;
 use Navplan\Traffic\DomainService\ITrafficDetailRepo;
 
 

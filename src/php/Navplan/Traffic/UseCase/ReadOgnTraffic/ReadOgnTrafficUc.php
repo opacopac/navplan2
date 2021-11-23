@@ -3,7 +3,6 @@
 namespace Navplan\Traffic\UseCase\ReadOgnTraffic;
 
 use Navplan\Traffic\DomainModel\TrafficOgn;
-use Navplan\Traffic\DomainModel\TrafficOgnReadRequest;
 use Navplan\Traffic\DomainModel\TrafficPosition;
 use Navplan\Traffic\DomainService\IOgnService;
 

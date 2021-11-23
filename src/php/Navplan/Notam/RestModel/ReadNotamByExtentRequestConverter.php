@@ -4,7 +4,7 @@ namespace Navplan\Notam\RestModel;
 
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\StringNumberHelper;
-use Navplan\Notam\DomainModel\ReadNotamByExtentRequest;
+use Navplan\Notam\UseCase\SearchNotam\ReadNotamByExtentRequest;
 
 
 class ReadNotamByExtentRequestConverter {

@@ -6,13 +6,13 @@ use Navplan\Traffic\DomainModel\TrafficAcType;
 use Navplan\Traffic\DomainModel\TrafficOgn;
 
 
-class TrafficOgnConverter {
+class RestTrafficOgnConverter {
     public static function toRest(TrafficOgn $traffic): array {
         return array(
-            "addr" => TrafficAddressConverter::toRest($traffic->address),
+            "addr" => RestTrafficAddressConverter::toRest($traffic->address),
             "actype" => TrafficAcType::toString($traffic->acType),
             "poslist" => array_map(
-                function ($traffic) { return TrafficPositionConverter::toRest($traffic); },
+                function ($traffic) { return RestTrafficPositionConverter::toRest($traffic); },
                 $traffic->positionList
             )
         );

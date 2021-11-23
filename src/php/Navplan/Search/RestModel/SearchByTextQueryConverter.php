@@ -3,7 +3,7 @@
 namespace Navplan\Search\RestModel;
 
 use Navplan\Common\StringNumberHelper;
-use Navplan\Search\DomainModel\SearchByTextQuery;
+use Navplan\Search\UseCase\SearchByText\SearchByTextQuery;
 
 
 class SearchByTextQueryConverter {

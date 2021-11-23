@@ -4,7 +4,7 @@ namespace NavplanTest\Traffic\RestModel;
 
 use InvalidArgumentException;
 use Navplan\Common\DomainModel\TimeUnit;
-use Navplan\Traffic\RestModel\TrafficOgnReadRequestConverter;
+use Navplan\Traffic\RestModel\RestTrafficOgnReadRequestConverter;
 use PHPUnit\Framework\TestCase;
 
 
@@ -13,18 +13,18 @@ class TrafficOgnReadRequestConverterTest extends TestCase {
 
     protected function setUp(): void {
         $this->args = array(
-            TrafficOgnReadRequestConverter::ARG_MIN_LON => "7.0",
-            TrafficOgnReadRequestConverter::ARG_MIN_LAT => "47.0",
-            TrafficOgnReadRequestConverter::ARG_MAX_LON => "7.9",
-            TrafficOgnReadRequestConverter::ARG_MAX_LAT => "47.9",
-            TrafficOgnReadRequestConverter::ARG_MAX_AGE_SEC => "120",
-            TrafficOgnReadRequestConverter::ARG_SESSION_ID => "12345"
+            RestTrafficOgnReadRequestConverter::ARG_MIN_LON => "7.0",
+            RestTrafficOgnReadRequestConverter::ARG_MIN_LAT => "47.0",
+            RestTrafficOgnReadRequestConverter::ARG_MAX_LON => "7.9",
+            RestTrafficOgnReadRequestConverter::ARG_MAX_LAT => "47.9",
+            RestTrafficOgnReadRequestConverter::ARG_MAX_AGE_SEC => "120",
+            RestTrafficOgnReadRequestConverter::ARG_SESSION_ID => "12345"
         );
     }
 
 
     public function test_fromArgs() {
-        $request = TrafficOgnReadRequestConverter::fromArgs($this->args);
+        $request = RestTrafficOgnReadRequestConverter::fromArgs($this->args);
 
         $this->assertNotNull($request);
         $this->assertEquals(7.0, $request->extent->minPos->longitude);
@@ -38,113 +38,113 @@ class TrafficOgnReadRequestConverterTest extends TestCase {
 
 
     public function test_fromArgs_missing_minlon() {
-        unset($this->args[TrafficOgnReadRequestConverter::ARG_MIN_LON]);
+        unset($this->args[RestTrafficOgnReadRequestConverter::ARG_MIN_LON]);
         $this->expectException(InvalidArgumentException::class);
 
-        TrafficOgnReadRequestConverter::fromArgs($this->args);
+        RestTrafficOgnReadRequestConverter::fromArgs($this->args);
     }
 
 
     public function test_fromArgs_invalid_minlon() {
-        $this->args[TrafficOgnReadRequestConverter::ARG_MIN_LON] = "xxx";
+        $this->args[RestTrafficOgnReadRequestConverter::ARG_MIN_LON] = "xxx";
         $this->expectException(InvalidArgumentException::class);
 
-        TrafficOgnReadRequestConverter::fromArgs($this->args);
+        RestTrafficOgnReadRequestConverter::fromArgs($this->args);
     }
 
 
     public function test_fromArgs_missing_minlat() {
-        unset($this->args[TrafficOgnReadRequestConverter::ARG_MIN_LAT]);
+        unset($this->args[RestTrafficOgnReadRequestConverter::ARG_MIN_LAT]);
         $this->expectException(InvalidArgumentException::class);
 
-        TrafficOgnReadRequestConverter::fromArgs($this->args);
+        RestTrafficOgnReadRequestConverter::fromArgs($this->args);
     }
 
 
     public function test_fromArgs_invalid_minlat() {
-        $this->args[TrafficOgnReadRequestConverter::ARG_MIN_LAT] = "xxx";
+        $this->args[RestTrafficOgnReadRequestConverter::ARG_MIN_LAT] = "xxx";
         $this->expectException(InvalidArgumentException::class);
 
-        TrafficOgnReadRequestConverter::fromArgs($this->args);
+        RestTrafficOgnReadRequestConverter::fromArgs($this->args);
     }
 
 
     public function test_fromArgs_missing_maxlon() {
-        unset($this->args[TrafficOgnReadRequestConverter::ARG_MAX_LON]);
+        unset($this->args[RestTrafficOgnReadRequestConverter::ARG_MAX_LON]);
         $this->expectException(InvalidArgumentException::class);
 
-        TrafficOgnReadRequestConverter::fromArgs($this->args);
+        RestTrafficOgnReadRequestConverter::fromArgs($this->args);
     }
 
 
     public function test_fromArgs_invalid_maxlon() {
-        $this->args[TrafficOgnReadRequestConverter::ARG_MAX_LON] = "xxx";
+        $this->args[RestTrafficOgnReadRequestConverter::ARG_MAX_LON] = "xxx";
         $this->expectException(InvalidArgumentException::class);
 
-        TrafficOgnReadRequestConverter::fromArgs($this->args);
+        RestTrafficOgnReadRequestConverter::fromArgs($this->args);
     }
 
 
     public function test_fromArgs_missing_maxlat() {
-        unset($this->args[TrafficOgnReadRequestConverter::ARG_MAX_LAT]);
+        unset($this->args[RestTrafficOgnReadRequestConverter::ARG_MAX_LAT]);
         $this->expectException(InvalidArgumentException::class);
 
-        TrafficOgnReadRequestConverter::fromArgs($this->args);
+        RestTrafficOgnReadRequestConverter::fromArgs($this->args);
     }
 
 
     public function test_fromArgs_invalid_maxlat() {
-        $this->args[TrafficOgnReadRequestConverter::ARG_MAX_LAT] = "xxx";
+        $this->args[RestTrafficOgnReadRequestConverter::ARG_MAX_LAT] = "xxx";
         $this->expectException(InvalidArgumentException::class);
 
-        TrafficOgnReadRequestConverter::fromArgs($this->args);
+        RestTrafficOgnReadRequestConverter::fromArgs($this->args);
     }
 
 
     public function test_fromArgs_missing_maxagesec() {
-        unset($this->args[TrafficOgnReadRequestConverter::ARG_MAX_AGE_SEC]);
+        unset($this->args[RestTrafficOgnReadRequestConverter::ARG_MAX_AGE_SEC]);
         $this->expectException(InvalidArgumentException::class);
 
-        TrafficOgnReadRequestConverter::fromArgs($this->args);
+        RestTrafficOgnReadRequestConverter::fromArgs($this->args);
     }
 
 
     public function test_fromArgs_invalid_maxagesec() {
-        $this->args[TrafficOgnReadRequestConverter::ARG_MAX_AGE_SEC] = "xxx";
+        $this->args[RestTrafficOgnReadRequestConverter::ARG_MAX_AGE_SEC] = "xxx";
         $this->expectException(InvalidArgumentException::class);
 
-        TrafficOgnReadRequestConverter::fromArgs($this->args);
+        RestTrafficOgnReadRequestConverter::fromArgs($this->args);
     }
 
 
     public function test_fromArgs_negative_maxagesec() {
-        $this->args[TrafficOgnReadRequestConverter::ARG_MAX_AGE_SEC] = "-120";
+        $this->args[RestTrafficOgnReadRequestConverter::ARG_MAX_AGE_SEC] = "-120";
         $this->expectException(InvalidArgumentException::class);
 
-        TrafficOgnReadRequestConverter::fromArgs($this->args);
+        RestTrafficOgnReadRequestConverter::fromArgs($this->args);
     }
 
 
     public function test_fromArgs_missing_sessionid() {
-        unset($this->args[TrafficOgnReadRequestConverter::ARG_SESSION_ID]);
+        unset($this->args[RestTrafficOgnReadRequestConverter::ARG_SESSION_ID]);
         $this->expectException(InvalidArgumentException::class);
 
-        TrafficOgnReadRequestConverter::fromArgs($this->args);
+        RestTrafficOgnReadRequestConverter::fromArgs($this->args);
     }
 
 
     public function test_fromArgs_invalid_sessionid() {
-        $this->args[TrafficOgnReadRequestConverter::ARG_SESSION_ID] = "xxx";
+        $this->args[RestTrafficOgnReadRequestConverter::ARG_SESSION_ID] = "xxx";
         $this->expectException(InvalidArgumentException::class);
 
-        TrafficOgnReadRequestConverter::fromArgs($this->args);
+        RestTrafficOgnReadRequestConverter::fromArgs($this->args);
     }
 
 
     public function test_fromArgs_negative_sessionid() {
-        $this->args[TrafficOgnReadRequestConverter::ARG_SESSION_ID] = "-123";
+        $this->args[RestTrafficOgnReadRequestConverter::ARG_SESSION_ID] = "-123";
         $this->expectException(InvalidArgumentException::class);
 
-        TrafficOgnReadRequestConverter::fromArgs($this->args);
+        RestTrafficOgnReadRequestConverter::fromArgs($this->args);
     }
 }

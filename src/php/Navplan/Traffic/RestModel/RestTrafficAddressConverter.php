@@ -6,7 +6,7 @@ use Navplan\Traffic\DomainModel\TrafficAddress;
 use Navplan\Traffic\DomainModel\TrafficAddressType;
 
 
-class TrafficAddressConverter {
+class RestTrafficAddressConverter {
     public static function fromRest(array $restAddress): TrafficAddress {
         return new TrafficAddress(
             $restAddress[0],

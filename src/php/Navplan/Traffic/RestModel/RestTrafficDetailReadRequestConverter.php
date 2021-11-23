@@ -3,10 +3,10 @@
 namespace Navplan\Traffic\RestModel;
 
 use InvalidArgumentException;
-use Navplan\Traffic\DomainModel\TrafficDetailsReadRequest;
+use Navplan\Traffic\UseCase\ReadTrafficDetails\TrafficDetailsReadRequest;
 
 
-class TrafficDetailReadRequestConverter {
+class RestTrafficDetailReadRequestConverter {
     public static function fromRest(array $rest): TrafficDetailsReadRequest {
         if (!isset($rest["aclist"])) {
             throw new InvalidArgumentException('parameter aclist missing');
@@ -14,7 +14,7 @@ class TrafficDetailReadRequestConverter {
 
         return new TrafficDetailsReadRequest(
             array_map(
-                function (array $restTrafficDetail) { return TrafficDetailConverter::fromRest($restTrafficDetail); },
+                function (array $restTrafficDetail) { return RestTrafficDetailConverter::fromRest($restTrafficDetail); },
                 $rest["aclist"]
             )
         );

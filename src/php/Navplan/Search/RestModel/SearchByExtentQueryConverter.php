@@ -4,7 +4,7 @@ namespace Navplan\Search\RestModel;
 
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\StringNumberHelper;
-use Navplan\Search\DomainModel\SearchByExtentQuery;
+use Navplan\Search\UseCase\SearchByExtent\SearchByExtentQuery;
 
 
 class SearchByExtentQueryConverter {

@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Traffic\RestModel;
 
-use Navplan\Traffic\RestModel\TrafficAdsbexConverter;
+use Navplan\Traffic\RestModel\RestTrafficAdsbexConverter;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTraffic1;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTraffic2;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTraffic3;
@@ -15,9 +15,9 @@ class TrafficAdsbexConverterTest extends TestCase {
         $traffic2 = DummyAdsbexTraffic2::create();
         $traffic3 = DummyAdsbexTraffic3::create();
 
-        $restTraffic1 = TrafficAdsbexConverter::toRest($traffic1);
-        $restTraffic2 = TrafficAdsbexConverter::toRest($traffic2);
-        $restTraffic3 = TrafficAdsbexConverter::toRest($traffic3);
+        $restTraffic1 = RestTrafficAdsbexConverter::toRest($traffic1);
+        $restTraffic2 = RestTrafficAdsbexConverter::toRest($traffic2);
+        $restTraffic3 = RestTrafficAdsbexConverter::toRest($traffic3);
 
         $this->assertEquals(DummyAdsbexTraffic1::createRest(), $restTraffic1);
         $this->assertEquals(DummyAdsbexTraffic2::createRest(), $restTraffic2);

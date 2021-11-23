@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Traffic\RestModel;
 
-use Navplan\Traffic\RestModel\TrafficOgnListResponseConverter;
+use Navplan\Traffic\RestModel\RestTrafficOgnListResponseConverter;
 use NavplanTest\Traffic\Mocks\DummyOgnTraffic1;
 use NavplanTest\Traffic\Mocks\DummyOgnTraffic2;
 use PHPUnit\Framework\TestCase;
@@ -12,7 +12,7 @@ class TrafficOgnListResponseConverterTest extends TestCase {
     public function test_toRest_ogn() {
         $trafficList = [DummyOgnTraffic1::create(), DummyOgnTraffic2::create()];
 
-        $restTrafficListResponse = TrafficOgnListResponseConverter::toRest($trafficList);
+        $restTrafficListResponse = RestTrafficOgnListResponseConverter::toRest($trafficList);
 
         $this->assertNotNull($restTrafficListResponse);
         $this->assertNotNull($restTrafficListResponse["aclist"]);

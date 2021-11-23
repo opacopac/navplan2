@@ -2,7 +2,7 @@
 
 namespace Navplan\Traffic\UseCase\ReadAdsbexTrafficWithDetails;
 
-use Navplan\Traffic\DomainModel\TrafficAdsbexReadRequest;
+use Navplan\Traffic\UseCase\ReadAdsbexTraffic\TrafficAdsbexReadRequest;
 
 
 interface IReadAdsbexTrafficWithDetailsUc {

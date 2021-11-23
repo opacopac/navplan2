@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Traffic\RestModel;
 
-use Navplan\Traffic\RestModel\TrafficAdsbexWithDetailsListResponseConverter;
+use Navplan\Traffic\RestModel\RestTrafficAdsbexWithDetailsListResponseConverter;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTrafficWithDetails1;
 use PHPUnit\Framework\TestCase;
 
@@ -11,7 +11,7 @@ class TrafficAdsbexWithDetailsListResponseConverterTest extends TestCase {
     public function test_toRest() {
         $trafficList = [DummyAdsbexTrafficWithDetails1::create()];
 
-        $restTrafficListResponse = TrafficAdsbexWithDetailsListResponseConverter::toRest($trafficList);
+        $restTrafficListResponse = RestTrafficAdsbexWithDetailsListResponseConverter::toRest($trafficList);
 
         $this->assertNotNull($restTrafficListResponse);
         $this->assertNotNull($restTrafficListResponse["aclist"]);

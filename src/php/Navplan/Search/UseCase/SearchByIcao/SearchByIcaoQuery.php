@@ -1,11 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Notam\DomainModel;
+namespace Navplan\Search\UseCase\SearchByIcao;
 
 
-class ReadNotamByIcaoRequest {
+class SearchByIcaoQuery {
     public function __construct(
-        public string $airportIcao,
+        public array $searchItems,
+        public array $icaoList,
         public int $minNotamTimestamp,
         public int $maxNotamTimestamp
     ) {

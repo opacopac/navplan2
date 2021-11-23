@@ -5,10 +5,10 @@ namespace Navplan\Traffic\RestModel;
 use Navplan\Traffic\DomainModel\TrafficAdsbexWithDetail;
 
 
-class TrafficAdsbexWithDetailsConverter {
+class RestTrafficAdsbexWithDetailsConverter {
     public static function toRest(TrafficAdsbexWithDetail $traffic): array {
         return array(
-            "addr" => TrafficAddressConverter::toRest($traffic->adsbTraffic->address),
+            "addr" => RestTrafficAddressConverter::toRest($traffic->adsbTraffic->address),
             "icaotype" => $traffic->adsbTraffic->icaoType,
             "reg" => $traffic->adsbTraffic->registration,
             "call" => $traffic->adsbTraffic->callsign,
@@ -16,7 +16,7 @@ class TrafficAdsbexWithDetailsConverter {
             "acclass" => $traffic->acClass,
             "engclass" => $traffic->engClass,
             "poslist" => array_map(
-                function ($traffic) { return TrafficPositionConverter::toRest($traffic); },
+                function ($traffic) { return RestTrafficPositionConverter::toRest($traffic); },
                 $traffic->adsbTraffic->positionList
             )
         );

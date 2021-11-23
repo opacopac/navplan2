@@ -7,10 +7,10 @@ use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Time;
 use Navplan\Common\DomainModel\TimeUnit;
 use Navplan\Common\StringNumberHelper;
-use Navplan\Traffic\DomainModel\TrafficOgnReadRequest;
+use Navplan\Traffic\UseCase\ReadOgnTraffic\TrafficOgnReadRequest;
 
 
-class TrafficOgnReadRequestConverter {
+class RestTrafficOgnReadRequestConverter {
     public const ARG_MIN_LAT = "minlat";
     public const ARG_MAX_LAT = "maxlat";
     public const ARG_MIN_LON = "minlon";

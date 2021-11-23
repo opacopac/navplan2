@@ -3,7 +3,7 @@
 namespace Navplan\Notam\RestModel;
 
 use Navplan\Common\StringNumberHelper;
-use Navplan\Notam\DomainModel\ReadNotamByIcaoRequest;
+use Navplan\Notam\UseCase\SearchNotam\ReadNotamByIcaoRequest;
 
 
 class ReadNotamByIcaoRequestConverter {

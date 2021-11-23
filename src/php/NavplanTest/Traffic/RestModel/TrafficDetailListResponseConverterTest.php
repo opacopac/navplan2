@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Traffic\RestModel;
 
-use Navplan\Traffic\RestModel\TrafficDetailListResponseConverter;
+use Navplan\Traffic\RestModel\RestTrafficDetailListResponseConverter;
 use NavplanTest\Traffic\Mocks\DummyTrafficDetailResult1;
 use PHPUnit\Framework\TestCase;
 
@@ -11,7 +11,7 @@ class TrafficDetailListResponseConverterTest extends TestCase {
     public function test_toRest() {
         $trafficDetailList = [DummyTrafficDetailResult1::create(), DummyTrafficDetailResult1::create()];
 
-        $restTrafficDetailListResponse = TrafficDetailListResponseConverter::toRest($trafficDetailList);
+        $restTrafficDetailListResponse = RestTrafficDetailListResponseConverter::toRest($trafficDetailList);
 
         $this->assertNotNull($restTrafficDetailListResponse);
         $this->assertNotNull($restTrafficDetailListResponse["aclist"]);

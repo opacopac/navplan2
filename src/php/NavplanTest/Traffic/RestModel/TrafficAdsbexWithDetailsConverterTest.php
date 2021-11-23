@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Traffic\RestModel;
 
-use Navplan\Traffic\RestModel\TrafficAdsbexWithDetailsConverter;
+use Navplan\Traffic\RestModel\RestTrafficAdsbexWithDetailsConverter;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTrafficWithDetails1;
 use PHPUnit\Framework\TestCase;
 
@@ -11,7 +11,7 @@ class TrafficAdsbexWithDetailsConverterTest extends TestCase {
     public function test_toRest() {
         $traffic1 = DummyAdsbexTrafficWithDetails1::create();
 
-        $restTraffic1 = TrafficAdsbexWithDetailsConverter::toRest($traffic1);
+        $restTraffic1 = RestTrafficAdsbexWithDetailsConverter::toRest($traffic1);
 
         $this->assertEquals(DummyAdsbexTrafficWithDetails1::createRest(), $restTraffic1);
     }

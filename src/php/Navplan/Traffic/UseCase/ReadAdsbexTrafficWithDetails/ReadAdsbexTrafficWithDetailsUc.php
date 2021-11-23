@@ -3,11 +3,11 @@
 namespace Navplan\Traffic\UseCase\ReadAdsbexTrafficWithDetails;
 
 use Navplan\Traffic\DomainModel\TrafficAdsbex;
-use Navplan\Traffic\DomainModel\TrafficAdsbexReadRequest;
 use Navplan\Traffic\DomainModel\TrafficAdsbexWithDetail;
 use Navplan\Traffic\DomainModel\TrafficDetail;
 use Navplan\Traffic\DomainModel\TrafficDetailsReadRequest;
 use Navplan\Traffic\UseCase\ReadAdsbexTraffic\IReadAdsbexTrafficUc;
+use Navplan\Traffic\UseCase\ReadAdsbexTraffic\TrafficAdsbexReadRequest;
 use Navplan\Traffic\UseCase\ReadTrafficDetails\IReadTrafficDetailsUc;
 
 
@@ -19,6 +19,10 @@ class ReadAdsbexTrafficWithDetailsUc implements IReadAdsbexTrafficWithDetailsUc 
     }
 
 
+    /**
+     * @param TrafficAdsbexReadRequest $request
+     * @return TrafficAdsbexWithDetail[]
+     */
     public function read(TrafficAdsbexReadRequest $request): array {
         $adsbTrafficList = $this->readAdsbTrafficUc->read($request);
         $readTrafficDetailsRequest = $this->getTrafficDetailsReadRequest($adsbTrafficList);
@@ -28,6 +32,10 @@ class ReadAdsbexTrafficWithDetailsUc implements IReadAdsbexTrafficWithDetailsUc 
     }
 
 
+    /**
+     * @param array $adsbTrafficList
+     * @return TrafficDetailsReadRequest
+     */
     private function getTrafficDetailsReadRequest(array $adsbTrafficList): TrafficDetailsReadRequest {
         return new TrafficDetailsReadRequest(
             array_map(
@@ -48,6 +56,11 @@ class ReadAdsbexTrafficWithDetailsUc implements IReadAdsbexTrafficWithDetailsUc 
     }
 
 
+    /**
+     * @param array $adsbTraffic
+     * @param array $trafficDetails
+     * @return TrafficAdsbexWithDetail[]
+     */
     private function createResponse(array $adsbTraffic, array $trafficDetails): array {
         $detailsLut = [];
         array_walk(

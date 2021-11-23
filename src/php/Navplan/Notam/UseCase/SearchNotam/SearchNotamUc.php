@@ -2,10 +2,6 @@
 
 namespace Navplan\Notam\UseCase\SearchNotam;
 
-use Navplan\Notam\DomainModel\ReadNotamByExtentRequest;
-use Navplan\Notam\DomainModel\ReadNotamByIcaoRequest;
-use Navplan\Notam\DomainModel\ReadNotamByPositionRequest;
-use Navplan\Notam\DomainModel\ReadNotamResponse;
 use Navplan\Notam\DomainService\INotamRepo;
 
 

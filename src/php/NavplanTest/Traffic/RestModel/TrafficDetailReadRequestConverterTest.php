@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Traffic\RestModel;
 
-use Navplan\Traffic\RestModel\TrafficDetailReadRequestConverter;
+use Navplan\Traffic\RestModel\RestTrafficDetailReadRequestConverter;
 use NavplanTest\Traffic\Mocks\DummyTrafficDetailResult1;
 use PHPUnit\Framework\TestCase;
 
@@ -12,7 +12,7 @@ class TrafficDetailReadRequestConverterTest extends TestCase {
         $trafficDetailList = [DummyTrafficDetailResult1::createRest(), DummyTrafficDetailResult1::createRest()];
         $restRequest = array("aclist" => $trafficDetailList);
 
-        $readTrafficDetailRequest = TrafficDetailReadRequestConverter::fromRest($restRequest);
+        $readTrafficDetailRequest = RestTrafficDetailReadRequestConverter::fromRest($restRequest);
 
         $this->assertNotNull($readTrafficDetailRequest);
         $this->assertCount(2, $readTrafficDetailRequest->trafficDetailList);

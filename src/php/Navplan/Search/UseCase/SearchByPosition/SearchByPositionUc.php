@@ -9,7 +9,7 @@ use Navplan\Geoname\DomainService\IGeonameService;
 use Navplan\Notam\UseCase\SearchNotam\ISearchNotamUc;
 use Navplan\Search\DomainModel\SearchByPositionQuery;
 use Navplan\Search\DomainModel\SearchItemType;
-use Navplan\Search\DomainModel\SearchResult;
+use Navplan\Search\UseCase\SearchResult;
 use Navplan\User\UseCase\SearchUserPoint\ISearchUserPointUc;
 
 

@@ -12,7 +12,7 @@ use Navplan\Common\DomainModel\Ring2d;
 use Navplan\Common\RestModel\RestAltitudeConverter;
 use Navplan\Common\RestModel\RestCircle2dConverter;
 use Navplan\Notam\DomainModel\NotamGeometry;
-use Navplan\Notam\RestModel\NotamGeometryConverter;
+use Navplan\Notam\RestModel\RestNotamGeometryConverter;
 use NavplanTest\Notam\Mocks\DummyNotamGeometry1;
 use NavplanTest\Notam\Mocks\DummyNotamGeometry2;
 use PHPUnit\Framework\TestCase;
@@ -23,8 +23,8 @@ class NotamGeometryConverterTest extends TestCase {
         $ng1 = DummyNotamGeometry1::create();
         $ng2 = DummyNotamGeometry2::create();
 
-        $restNg1 = NotamGeometryConverter::toRest($ng1);
-        $restNg2 = NotamGeometryConverter::toRest($ng2);
+        $restNg1 = RestNotamGeometryConverter::toRest($ng1);
+        $restNg2 = RestNotamGeometryConverter::toRest($ng2);
 
         $this->assertEquals(DummyNotamGeometry1::createRest(), $restNg1);
         $this->assertEquals(DummyNotamGeometry2::createRest(), $restNg2);
@@ -36,7 +36,7 @@ class NotamGeometryConverterTest extends TestCase {
         $alt_bottom = Altitude::fromFtAgl(0);
         $alt_top = Altitude::fromFtAmsl(4500);
         $notamGeometry = new NotamGeometry($circle, $alt_bottom, $alt_top);
-        $rest = NotamGeometryConverter::toRest($notamGeometry);
+        $rest = RestNotamGeometryConverter::toRest($notamGeometry);
 
         $this->assertEquals(RestCircle2dConverter::toRest($circle), $rest["circle"]);
         $this->assertEquals(RestAltitudeConverter::toRest($alt_bottom), $rest["alt_bottom"]);
@@ -47,7 +47,7 @@ class NotamGeometryConverterTest extends TestCase {
     public function test_toRest_polygon() {
         $polygon = Ring2d::createFromString("7.1 47.1,7.9 47.9,8.1 48.1,7.1 47.1");
         $notamGeometry = new NotamGeometry($polygon, NULL, NULL);
-        $rest = NotamGeometryConverter::toRest($notamGeometry);
+        $rest = RestNotamGeometryConverter::toRest($notamGeometry);
 
         $this->assertEquals($polygon->toArray(), $rest["polygon"]);
     }
@@ -59,7 +59,7 @@ class NotamGeometryConverterTest extends TestCase {
             Ring2d::createFromString("4.1 44.1,4.9 44.9,5.1 45.1,4.1 44.1")]);
         $alt_bottom = Altitude::fromFl(100);
         $notamGeometry = new NotamGeometry($multipoly, $alt_bottom, NULL);
-        $rest = NotamGeometryConverter::toRest($notamGeometry);
+        $rest = RestNotamGeometryConverter::toRest($notamGeometry);
 
         $this->assertEquals($multipoly->toArray(), $rest["multipolygon"]);
         $this->assertEquals(RestAltitudeConverter::toRest($alt_bottom), $rest["alt_bottom"]);

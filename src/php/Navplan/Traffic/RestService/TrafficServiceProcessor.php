@@ -3,13 +3,13 @@
 namespace Navplan\Traffic\RestService;
 
 use InvalidArgumentException;
-use Navplan\Traffic\RestModel\TrafficAdsbexListResponseConverter;
-use Navplan\Traffic\RestModel\TrafficAdsbexReadRequestConverter;
-use Navplan\Traffic\RestModel\TrafficAdsbexWithDetailsListResponseConverter;
-use Navplan\Traffic\RestModel\TrafficDetailListResponseConverter;
-use Navplan\Traffic\RestModel\TrafficDetailReadRequestConverter;
-use Navplan\Traffic\RestModel\TrafficOgnListResponseConverter;
-use Navplan\Traffic\RestModel\TrafficOgnReadRequestConverter;
+use Navplan\Traffic\RestModel\RestTrafficAdsbexListResponseConverter;
+use Navplan\Traffic\RestModel\RestTrafficAdsbexReadRequestConverter;
+use Navplan\Traffic\RestModel\RestTrafficAdsbexWithDetailsListResponseConverter;
+use Navplan\Traffic\RestModel\RestTrafficDetailListResponseConverter;
+use Navplan\Traffic\RestModel\RestTrafficDetailReadRequestConverter;
+use Navplan\Traffic\RestModel\RestTrafficOgnListResponseConverter;
+use Navplan\Traffic\RestModel\RestTrafficOgnReadRequestConverter;
 
 
 class TrafficServiceProcessor {
@@ -28,19 +28,19 @@ class TrafficServiceProcessor {
                 $action = $getVars["action"] ?? NULL;
                 switch ($action) {
                     case self::ACTION_READ_OGN_TRAFFIC:
-                        $request = TrafficOgnReadRequestConverter::fromArgs($getVars);
+                        $request = RestTrafficOgnReadRequestConverter::fromArgs($getVars);
                         $response = $diContainer->getReadOgnTrafficUc()->read($request);
-                        $httpService->sendArrayResponse(TrafficOgnListResponseConverter::toRest($response));
+                        $httpService->sendArrayResponse(RestTrafficOgnListResponseConverter::toRest($response));
                         break;
                     case self::ACTION_READ_ADSBEX_TRAFFIC:
-                        $request = TrafficAdsbexReadRequestConverter::fromArgs($getVars);
+                        $request = RestTrafficAdsbexReadRequestConverter::fromArgs($getVars);
                         $response = $diContainer->getReadAdsbexTrafficUc()->read($request);
-                        $httpService->sendArrayResponse(TrafficAdsbexListResponseConverter::toRest($response));
+                        $httpService->sendArrayResponse(RestTrafficAdsbexListResponseConverter::toRest($response));
                         break;
                     case self::ACTION_READ_ADSBEX_TRAFFIC_WITH_DETAILS:
-                        $request = TrafficAdsbexReadRequestConverter::fromArgs($getVars);
+                        $request = RestTrafficAdsbexReadRequestConverter::fromArgs($getVars);
                         $response = $diContainer->getReadAdsbexTrafficWithDetailsUc()->read($request);
-                        $httpService->sendArrayResponse(TrafficAdsbexWithDetailsListResponseConverter::toRest($response));
+                        $httpService->sendArrayResponse(RestTrafficAdsbexWithDetailsListResponseConverter::toRest($response));
                         break;
                     default:
                         throw new InvalidArgumentException("no or invalid get-action defined!");
@@ -50,9 +50,9 @@ class TrafficServiceProcessor {
                 $action = $postVars["action"] ?? NULL;
                 switch ($action) {
                     case self::ACTION_READ_AC_DETAILS:
-                        $request = TrafficDetailReadRequestConverter::fromRest($postVars);
+                        $request = RestTrafficDetailReadRequestConverter::fromRest($postVars);
                         $response = $diContainer->getReadTrafficDetailsUc()->readDetails($request);
-                        $httpService->sendArrayResponse(TrafficDetailListResponseConverter::toRest($response));
+                        $httpService->sendArrayResponse(RestTrafficDetailListResponseConverter::toRest($response));
                         break;
                     default:
                         throw new InvalidArgumentException("no or invalid post-action defined!");

@@ -2,8 +2,7 @@
 
 namespace Navplan\Search\UseCase\SearchByText;
 
-use Navplan\Search\DomainModel\SearchByTextQuery;
-use Navplan\Search\DomainModel\SearchResult;
+use Navplan\Search\UseCase\SearchResult;
 
 
 interface ISearchByTextUc {

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Traffic\DomainModel;
+namespace Navplan\Traffic\UseCase\ReadTrafficDetails;
 
 
 class TrafficDetailsReadRequest {

@@ -4,10 +4,10 @@ namespace Navplan\Traffic\RestModel;
 
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\StringNumberHelper;
-use Navplan\Traffic\DomainModel\TrafficAdsbexReadRequest;
+use Navplan\Traffic\UseCase\ReadAdsbexTraffic\TrafficAdsbexReadRequest;
 
 
-class TrafficAdsbexReadRequestConverter {
+class RestTrafficAdsbexReadRequestConverter {
     public const ARG_MIN_LAT = "minlat";
     public const ARG_MAX_LAT = "maxlat";
     public const ARG_MIN_LON = "minlon";

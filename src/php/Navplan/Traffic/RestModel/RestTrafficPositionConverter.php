@@ -8,7 +8,7 @@ use Navplan\Traffic\DomainModel\TrafficPosition;
 use Navplan\Traffic\DomainModel\TrafficPositionMethod;
 
 
-class TrafficPositionConverter {
+class RestTrafficPositionConverter {
     public const ROUND_POS_TO_DIGITS = 6;
     public const ROUND_ALT_TO_DIGITS = 1;
 

@@ -12,7 +12,7 @@ use Navplan\Common\RestModel\RestCircle2dConverter;
 use Navplan\Notam\DomainModel\NotamGeometry;
 
 
-class NotamGeometryConverter {
+class RestNotamGeometryConverter {
     public static function toRest(NotamGeometry $notamGeometry): array {
         return array(
             self::getShapeType($notamGeometry->shape) => self::getShape($notamGeometry->shape),

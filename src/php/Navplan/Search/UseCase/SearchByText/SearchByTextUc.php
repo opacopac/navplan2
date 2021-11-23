@@ -6,9 +6,8 @@ use Navplan\Aerodrome\DomainService\IAirportRepo;
 use Navplan\Aerodrome\DomainService\IReportingPointRepo;
 use Navplan\Enroute\DomainService\INavaidRepo;
 use Navplan\Geoname\DomainService\IGeonameService;
-use Navplan\Search\DomainModel\SearchByTextQuery;
 use Navplan\Search\DomainModel\SearchItemType;
-use Navplan\Search\DomainModel\SearchResult;
+use Navplan\Search\UseCase\SearchResult;
 use Navplan\User\UseCase\SearchUserPoint\ISearchUserPointUc;
 
 

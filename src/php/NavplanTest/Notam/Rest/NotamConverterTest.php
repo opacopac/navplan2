@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Notam\RestModel;
 
-use Navplan\Notam\RestModel\NotamConverter;
+use Navplan\Notam\RestModel\RestNotamConverter;
 use NavplanTest\Notam\Mocks\DummyNotam1;
 use NavplanTest\Notam\Mocks\DummyNotam2;
 use NavplanTest\Notam\Mocks\DummyNotam3;
@@ -15,9 +15,9 @@ class NotamConverterTest extends TestCase {
         $notam2 = DummyNotam2::create();
         $notam3 = DummyNotam3::create();
 
-        $restNotam1 = NotamConverter::toRest($notam1);
-        $restNotam2 = NotamConverter::toRest($notam2);
-        $restNotam3 = NotamConverter::toRest($notam3);
+        $restNotam1 = RestNotamConverter::toRest($notam1);
+        $restNotam2 = RestNotamConverter::toRest($notam2);
+        $restNotam3 = RestNotamConverter::toRest($notam3);
 
         $this->assertEquals(DummyNotam1::createRest(), $restNotam1);
         $this->assertEquals(DummyNotam2::createRest(), $restNotam2);

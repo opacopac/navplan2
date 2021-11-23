@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Notam\DomainModel;
+namespace Navplan\Notam\UseCase\SearchNotam;
 
 use Navplan\Common\DomainModel\Extent2d;
 

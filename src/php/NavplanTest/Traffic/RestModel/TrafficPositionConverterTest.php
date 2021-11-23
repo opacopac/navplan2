@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Traffic\RestModel;
 
-use Navplan\Traffic\RestModel\TrafficPositionConverter;
+use Navplan\Traffic\RestModel\RestTrafficPositionConverter;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTrafficPosition1;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTrafficPosition2;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTrafficPosition3;
@@ -15,9 +15,9 @@ class TrafficPositionConverterTest extends TestCase {
         $pos2 = DummyAdsbexTrafficPosition2::create();
         $pos3 = DummyAdsbexTrafficPosition3::create();
 
-        $restPos1 = TrafficPositionConverter::toRest($pos1);
-        $restPos2 = TrafficPositionConverter::toRest($pos2);
-        $restPos3 = TrafficPositionConverter::toRest($pos3);
+        $restPos1 = RestTrafficPositionConverter::toRest($pos1);
+        $restPos2 = RestTrafficPositionConverter::toRest($pos2);
+        $restPos3 = RestTrafficPositionConverter::toRest($pos3);
 
         $this->assertEquals(DummyAdsbexTrafficPosition1::createRest(), $restPos1);
         $this->assertEquals(DummyAdsbexTrafficPosition2::createRest(), $restPos2);

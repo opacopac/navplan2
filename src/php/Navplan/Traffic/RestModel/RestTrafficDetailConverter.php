@@ -6,10 +6,10 @@ use Navplan\Common\StringNumberHelper;
 use Navplan\Traffic\DomainModel\TrafficDetail;
 
 
-class TrafficDetailConverter {
+class RestTrafficDetailConverter {
     public static function fromRest(array $rest): TrafficDetail {
         return new TrafficDetail(
-            isset($rest["addr"]) ? TrafficAddressConverter::fromRest($rest["addr"]) : NULL,
+            isset($rest["addr"]) ? RestTrafficAddressConverter::fromRest($rest["addr"]) : NULL,
             StringNumberHelper::parseStringOrNull($rest, "reg"),
             StringNumberHelper::parseStringOrNull($rest, "model"),
             StringNumberHelper::parseStringOrNull($rest, "manufacturer"),
@@ -22,7 +22,7 @@ class TrafficDetailConverter {
 
     public static function toRest(TrafficDetail $traffic): array {
         return array(
-            "addr" => $traffic->address ? TrafficAddressConverter::toRest($traffic->address) : NULL,
+            "addr" => $traffic->address ? RestTrafficAddressConverter::toRest($traffic->address) : NULL,
             "reg" => $traffic->registration,
             "model" => $traffic->model,
             "manufacturer" => $traffic->manufacturer,

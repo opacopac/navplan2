@@ -3,7 +3,7 @@
 namespace Navplan\Search\UseCase\SearchByPosition;
 
 use Navplan\Search\DomainModel\SearchByPositionQuery;
-use Navplan\Search\DomainModel\SearchResult;
+use Navplan\Search\UseCase\SearchResult;
 
 
 interface ISearchByPositionUc {
