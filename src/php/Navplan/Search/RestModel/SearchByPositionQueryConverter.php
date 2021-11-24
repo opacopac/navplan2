@@ -4,7 +4,7 @@ namespace Navplan\Search\RestModel;
 
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\Common\StringNumberHelper;
-use Navplan\Search\DomainModel\SearchByPositionQuery;
+use Navplan\Search\UseCase\SearchByPosition\SearchByPositionQuery;
 
 
 class SearchByPositionQueryConverter {

@@ -14,7 +14,7 @@ class RestFlightrouteTest extends TestCase
         $this->assertEquals($route->id, $routeRest["id"]);
         $this->assertEquals($route->title, $routeRest["title"]);
         $this->assertEquals($route->aircraftSpeedKt, $routeRest["aircraft_speed"]);
-        $this->assertEquals($route->aircraftConsumptionLpH, $routeRest["aircraft_consumption"]);
+        $this->assertEquals($route->aircraftConsumption, $routeRest["aircraft_consumption"]);
         $this->assertEquals($route->extraFuelL, $routeRest["extra_fuel"]);
         $this->assertEquals($route->comments, $routeRest["comments"]);
         $this->assertEquals(count($route->waypoinList), count($routeRest["waypoints"]));

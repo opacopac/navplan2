@@ -2,13 +2,16 @@
 
 namespace Navplan\Flightroute\DomainModel;
 
+use Navplan\Common\DomainModel\Consumption;
+use Navplan\Common\DomainModel\Speed;
+
 
 class Flightroute {
     public function __construct(
         public ?int $id,
         public string $title,
-        public ?float $aircraftSpeedKt,
-        public ?float $aircraftConsumptionLpH,
+        public ?Speed $aircraftSpeedKt,
+        public ?Consumption $aircraftConsumption,
         public ?float $extraFuelL,
         public ?string $comments,
         public ?string $shareId,

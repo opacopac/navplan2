@@ -21,7 +21,7 @@ class DbFlightrouteRepo implements IFlightrouteRepo {
 
     public function add(Flightroute $flightroute, ?User $user): Flightroute {
         // create route
-        $query = FlightrouteConverter::toInsertSql($this->dbService, $flightroute, $user ? $user->id : NULL);
+        $query = DbFlightrouteConverter::toInsertSql($this->dbService, $flightroute, $user ? $user->id : NULL);
         $this->dbService->execCUDQuery($query, "error creating flightroute");
         $flightroute->id = $this->dbService->getInsertId();
 
@@ -45,7 +45,7 @@ class DbFlightrouteRepo implements IFlightrouteRepo {
 
     public function update(Flightroute $flightroute, User $user): Flightroute {
         // update route
-        $query = FlightrouteConverter::toUpdateSql($this->dbService, $flightroute);
+        $query = DbFlightrouteConverter::toUpdateSql($this->dbService, $flightroute);
         $this->dbService->execCUDQuery($query, "error updating flightroute");
 
         // update waypoints
@@ -91,7 +91,7 @@ class DbFlightrouteRepo implements IFlightrouteRepo {
 
         $routes = [];
         while ($row = $result->fetch_assoc()) {
-            $routes[] = FlightrouteConverter::fromDbRow($row);
+            $routes[] = DbFlightrouteConverter::fromDbRow($row);
         }
 
         return $routes;
@@ -100,7 +100,7 @@ class DbFlightrouteRepo implements IFlightrouteRepo {
 
     private function getFlightrouteOrNull(IDbResult $result): ?Flightroute {
         if ($result->getNumRows() === 1) {
-            $flightroute = FlightrouteConverter::fromDbRow($result->fetch_assoc());
+            $flightroute = DbFlightrouteConverter::fromDbRow($result->fetch_assoc());
             $this->readWaypoints($flightroute);
             return $flightroute;
         } else {
@@ -117,7 +117,7 @@ class DbFlightrouteRepo implements IFlightrouteRepo {
 
         // create result array
         while ($row = $result->fetch_assoc()) {
-            $wp = WaypointConverter::fromDbRow($row);
+            $wp = DbWaypointConverter::fromDbRow($row);
 
             if ($wp->isAlternate) {
                 $flightroute->alternate = $wp;
@@ -139,13 +139,13 @@ class DbFlightrouteRepo implements IFlightrouteRepo {
         // waypoints
         for ($i = 0; $i < count($flightroute->waypoinList); $i++) {
             $wp = $flightroute->waypoinList[$i];
-            $query = WaypointConverter::toInsertSql($this->dbService, $wp, $flightroute->id, $i);
+            $query = DbWaypointConverter::toInsertSql($this->dbService, $wp, $flightroute->id, $i);
             $this->dbService->execCUDQuery($query, "error inserting waypoint");
         }
 
         // alternate
         if ($flightroute->alternate) {
-            $query = WaypointConverter::toInsertSql($this->dbService, $flightroute->alternate, $flightroute->id, count($flightroute->waypoinList));
+            $query = DbWaypointConverter::toInsertSql($this->dbService, $flightroute->alternate, $flightroute->id, count($flightroute->waypoinList));
             $this->dbService->execCUDQuery($query, "error inserting alternate");
         }
     }

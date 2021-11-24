@@ -1,7 +1,7 @@
 export abstract class AbstractQuantity<Q, U> {
     public constructor(
-        protected value: number,
-        protected unit: U,
+        public value: number,
+        public unit: U,
     ) {
     }
 

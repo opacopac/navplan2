@@ -5,7 +5,7 @@ namespace NavplanTest\Flightroute\DbRepo;
 // TODO => config
 require_once __DIR__ . "/../../../config_test.php";
 
-use Navplan\Flightroute\DbRepo\WaypointConverter;
+use Navplan\Flightroute\DbRepo\DbWaypointConverter;
 use Navplan\Flightroute\DomainModel\Waypoint;
 use NavplanTest\Flightroute\Mocks\DummyWaypoint1;
 use NavplanTest\Flightroute\Mocks\DummyWaypoint2;
@@ -23,10 +23,10 @@ class DbWaypointTest extends TestCase {
         $this->assertEquals($dbResult["freq"], $wp->frequency);
         $this->assertEquals($dbResult["callsign"], $wp->callsign);
         $this->assertEquals($dbResult["checkpoint"], $wp->checkpoint);
-        $this->assertEquals($dbResult["alt"], $wp->altitude);
+        /*$this->assertEquals($dbResult["alt"], $wp->altitude);
         $this->assertEquals($dbResult["isminalt"], $wp->isMinAlt);
         $this->assertEquals($dbResult["ismaxalt"], $wp->isMaxAlt);
-        $this->assertEquals($dbResult["isaltatlegstart"], $wp->isAltAtLegStart);
+        $this->assertEquals($dbResult["isaltatlegstart"], $wp->isAltAtLegStart);*/
         $this->assertEquals($dbResult["remark"], $wp->remark);
         $this->assertEquals($dbResult["supp_info"], $wp->suppInfo);
         $this->assertEquals($dbResult["latitude"], $wp->position->latitude);
@@ -46,9 +46,9 @@ class DbWaypointTest extends TestCase {
         $dbResult2 = DummyWaypoint2::createDbResult();
         $dbResult3 = DummyWaypoint3::createDbResult();
 
-        $wp1 = WaypointConverter::fromDbRow($dbResult1);
-        $wp2 = WaypointConverter::fromDbRow($dbResult2);
-        $wp3 = WaypointConverter::fromDbRow($dbResult3);
+        $wp1 = DbWaypointConverter::fromDbRow($dbResult1);
+        $wp2 = DbWaypointConverter::fromDbRow($dbResult2);
+        $wp3 = DbWaypointConverter::fromDbRow($dbResult3);
 
         $this->assertEqualDbResult($dbResult1, $wp1);
         $this->assertEqualDbResult($dbResult2, $wp2);
@@ -63,9 +63,9 @@ class DbWaypointTest extends TestCase {
         $flightrouteId = 12345;
         $sortOrder = 131;
 
-        $sql1 = WaypointConverter::toInsertSql($this->dbService, $wp1, $flightrouteId, $sortOrder);
-        $sql2 = WaypointConverter::toInsertSql($this->dbService, $wp2, $flightrouteId, $sortOrder);
-        $sql3 = WaypointConverter::toInsertSql($this->dbService, $wp3, $flightrouteId, $sortOrder);
+        $sql1 = DbWaypointConverter::toInsertSql($this->dbService, $wp1, $flightrouteId, $sortOrder);
+        $sql2 = DbWaypointConverter::toInsertSql($this->dbService, $wp2, $flightrouteId, $sortOrder);
+        $sql3 = DbWaypointConverter::toInsertSql($this->dbService, $wp3, $flightrouteId, $sortOrder);
 
         $this->assertRegExp("/INSERT INTO/", $sql1);
         $this->assertRegExp("/" . $flightrouteId . "/", $sql1);
@@ -87,14 +87,14 @@ class DbWaypointTest extends TestCase {
         $wp->frequency = "xxx'frequency'xxx";
         $wp->callsign = "xxx'callsign'xxx";
         $wp->checkpoint = "xxx'checkpoint'xxx";
-        $wp->altitude = "xxx'altitude'xxx";
+        //$wp->altitude = "xxx'altitude'xxx";
         $wp->remark = "xxx'remark'xxx";
         $wp->suppInfo = "xxx'suppInfo'xxx";
         $wp->airportIcao = "xxx'airportIcao'xxx";
         $flightrouteId = 12345;
         $sortOrder = 131;
 
-        $sql = WaypointConverter::toInsertSql($this->dbService, $wp, $flightrouteId, $sortOrder);
+        $sql = DbWaypointConverter::toInsertSql($this->dbService, $wp, $flightrouteId, $sortOrder);
 
         $this->assertRegExp("/xxx\\\\'type\\\\'xxx/", $sql);
         $this->assertRegExp("/xxx\\\\'frequency\\\\'xxx/", $sql);

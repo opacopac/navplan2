@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Flightroute\RestModel;
 
-use Navplan\Flightroute\RestModel\ReadSharedFlightrouteRequestConverter;
+use Navplan\Flightroute\RestModel\RestReadSharedFlightrouteRequestConverter;
 use PHPUnit\Framework\TestCase;
 
 
@@ -10,7 +10,7 @@ class RestReadSharedFlightrouteRequestTest extends TestCase {
     public function test_fromArgs() {
         $shareId = "7hkt0g8pyq";;
         $args = array("shareid" => $shareId);
-        $request = ReadSharedFlightrouteRequestConverter::fromArgs($args);
+        $request = RestReadSharedFlightrouteRequestConverter::fromArgs($args);
 
         $this->assertNotNull($request);
         $this->assertEquals($shareId, $request->shareId);

@@ -9,17 +9,17 @@ use Navplan\Common\StringNumberHelper;
 
 class RestTimeConverter {
     public static function toRest(Time $time): array {
-        return array(
+        return [
             $time->value,
             TimeUnit::toString($time->unit)
-        );
+        ];
     }
 
 
     public static function fromRest(array $args): Time {
         return new Time(
             StringNumberHelper::parseFloatOrError($args, 0),
-            StringNumberHelper::parseIntOrError($args, 1),
+            TimeUnit::fromString(StringNumberHelper::parseStringOrError($args, 1)),
         );
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Navplan\Flightroute\RestModel;
 
+use Navplan\Common\RestModel\RestConsumptionConverter;
+use Navplan\Common\RestModel\RestSpeedConverter;
 use Navplan\Common\StringNumberHelper;
 use Navplan\Flightroute\DomainModel\Flightroute;
 
@@ -11,18 +13,18 @@ class RestFlightrouteConverter {
         return new Flightroute(
             StringNumberHelper::parseIntOrNull($args, "id"),
             StringNumberHelper::parseStringOrNull($args, "title"),
-            StringNumberHelper::parseFloatOrNull($args, "aircraft_speed"),
-            StringNumberHelper::parseFloatOrNull($args, "aircraft_consumption"),
+            RestSpeedConverter::fromRest($args["aircraft_speed"]),
+            RestConsumptionConverter::fromRest($args["aircraft_consumption"]),
             StringNumberHelper::parseFloatOrNull($args, "extra_fuel"),
             StringNumberHelper::parseStringOrNull($args, "comments"),
             StringNumberHelper::parseIntOrNull($args, "shareid"),
             NULL,
             isset($args["waypoints"]) ?
             array_map(
-                function ($wpArgs) { return WaypointConverter::fromRest($wpArgs); },
+                function ($wpArgs) { return RestWaypointConverter::fromRest($wpArgs); },
                 $args["waypoints"]
             ) : [],
-            isset($args["alternate"]) ? WaypointConverter::fromRest($args["alternate"]) : NULL
+            isset($args["alternate"]) ? RestWaypointConverter::fromRest($args["alternate"]) : NULL
         );
     }
 
@@ -31,15 +33,15 @@ class RestFlightrouteConverter {
         return array(
             "id" => $flightroute->id,
             "title" => $flightroute->title,
-            "aircraft_speed" => $flightroute->aircraftSpeedKt,
-            "aircraft_consumption" => $flightroute->aircraftConsumptionLpH,
+            "aircraft_speed" => RestSpeedConverter::toRest($flightroute->aircraftSpeedKt),
+            "aircraft_consumption" => RestConsumptionConverter::toRest($flightroute->aircraftConsumption),
             "extra_fuel" => $flightroute->extraFuelL,
             "comments" => $flightroute->comments,
             "waypoints" => array_map(
-                function ($wp) { return WaypointConverter::toRest($wp); },
+                function ($wp) { return RestWaypointConverter::toRest($wp); },
                 $flightroute->waypoinList
             ),
-            "alternate" => $flightroute->alternate ? WaypointConverter::toRest($flightroute->alternate) : NULL
+            "alternate" => $flightroute->alternate ? RestWaypointConverter::toRest($flightroute->alternate) : NULL
         );
     }
 

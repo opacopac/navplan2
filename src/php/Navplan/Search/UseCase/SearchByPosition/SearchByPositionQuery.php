@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Search\DomainModel;
+namespace Navplan\Search\UseCase\SearchByPosition;
 
 use Navplan\Common\DomainModel\Position2d;
 

@@ -1,13 +1,16 @@
-import {IRestFlightrouteWaypoint} from './i-rest-flightroute-waypoint';
+import {IRestWaypoint} from './i-rest-waypoint';
+import {IRestSpeed} from '../../common/geo-math/rest-model/i-rest-speed';
+import {IRestConsumption} from '../../common/geo-math/rest-model/i-rest-consumption';
+import {IRestVolume} from '../../common/geo-math/rest-model/i-rest-volume';
 
 
 export interface IRestFlightroute {
     id: number;
     title: string;
-    aircraft_speed: number;
-    aircraft_consumption: number;
-    extra_fuel: number;
+    aircraft_speed: IRestSpeed;
+    aircraft_consumption: IRestConsumption;
+    extra_fuel: IRestVolume;
     comments: string;
-    waypoints: IRestFlightrouteWaypoint[];
-    alternate: IRestFlightrouteWaypoint;
+    waypoints: IRestWaypoint[];
+    alternate: IRestWaypoint;
 }

@@ -2,6 +2,9 @@ import {WaypointType} from '../waypoint-type';
 import {ReportingPoint} from '../../../aerodrome/domain-model/reporting-point';
 import {WaypointAltitude} from '../waypoint-altitude';
 import {Waypoint} from '../waypoint';
+import {AltitudeUnit} from '../../../common/geo-math/domain-model/geometry/altitude-unit';
+import {AltitudeReference} from '../../../common/geo-math/domain-model/geometry/altitude-reference';
+import {Altitude} from '../../../common/geo-math/domain-model/geometry/altitude';
 
 
 export class ReportingpointWaypointConverter {
@@ -21,9 +24,15 @@ export class ReportingpointWaypointConverter {
 
     private static getAltitude(reportingpoint: ReportingPoint): WaypointAltitude {
         if (reportingpoint.alt_max) {
-            return new WaypointAltitude(reportingpoint.alt_max.ft, false, true, false);
+            return new WaypointAltitude(
+                new Altitude(reportingpoint.alt_max.ft, AltitudeUnit.FT, AltitudeReference.MSL),
+                false, true, false
+            );
         } else if (reportingpoint.alt_min) {
-            return new WaypointAltitude(reportingpoint.alt_min.ft, true, false, false);
+            return new WaypointAltitude(
+                new Altitude(reportingpoint.alt_min.ft, AltitudeUnit.FT, AltitudeReference.MSL),
+                true, false, false
+            );
         } else {
             return new WaypointAltitude();
         }

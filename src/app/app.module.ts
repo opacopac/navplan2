@@ -20,6 +20,7 @@ import {AppEffects} from './app.effects';
 import {NavbarModule} from './navbar/navbar.module';
 import {SettingsModule} from './settings/settings.module';
 import {MeteoSmaModule} from './meteo-sma/meteo-sma.module';
+import {ExporterModule} from './exporter/exporter.module';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import {MeteoSmaModule} from './meteo-sma/meteo-sma.module';
         TrackModule,
         MeteoSmaModule,
         MessageModule,
+        ExporterModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

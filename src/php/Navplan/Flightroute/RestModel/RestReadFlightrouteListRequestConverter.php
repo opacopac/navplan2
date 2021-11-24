@@ -6,7 +6,7 @@ use Navplan\Common\StringNumberHelper;
 use Navplan\Flightroute\UseCase\ReadFlightrouteList\ReadFlightrouteListRequest;
 
 
-class ReadFlightrouteListRequestConverter {
+class RestReadFlightrouteListRequestConverter {
     public static function fromArgs(array $args): ReadFlightrouteListRequest {
         return new ReadFlightrouteListRequest(
             StringNumberHelper::parseStringOrError($args, "token")

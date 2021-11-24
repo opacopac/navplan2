@@ -1,9 +1,10 @@
 import {Clonable} from '../../system/domain-model/clonable';
+import {Altitude} from '../../common/geo-math/domain-model/geometry/altitude';
 
 
 export class WaypointAltitude implements Clonable<WaypointAltitude> {
     constructor(
-        public alt_ft?: number, // TODO: typed
+        public alt: Altitude = undefined,
         public isminalt = false,
         public ismaxalt = false,
         public isaltatlegstart = false) {
@@ -12,7 +13,7 @@ export class WaypointAltitude implements Clonable<WaypointAltitude> {
 
     clone(): WaypointAltitude {
         return new WaypointAltitude(
-            this.alt_ft,
+            this.alt,
             this.isminalt,
             this.ismaxalt,
             this.isaltatlegstart);

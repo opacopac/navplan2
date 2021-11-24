@@ -2,8 +2,8 @@
 
 namespace Navplan\Flightroute\DomainModel;
 
-use Navplan\Common\DomainModel\Consumption;
 use Navplan\Common\DomainModel\Time;
+use Navplan\Common\DomainModel\Volume;
 
 
 class FuelCalc {
@@ -14,12 +14,12 @@ class FuelCalc {
         public ?Time $minimumTime,
         public ?Time $extraTime,
         public ?Time $blockTime,
-        public ?Consumption $tripConsumption,
-        public ?Consumption $alternateConsumption,
-        public ?Consumption $reserveConsumption,
-        public ?Consumption $minimumConsumption,
-        public ?Consumption $extraConsumption,
-        public ?Consumption $blockConsumption,
+        public ?Volume $tripVolume,
+        public ?Volume $alternateVolume,
+        public ?Volume $reserveVolume,
+        public ?Volume $minimumVolume,
+        public ?Volume $extraVolume,
+        public ?Volume $blockVolume,
     ) {
     }
 }

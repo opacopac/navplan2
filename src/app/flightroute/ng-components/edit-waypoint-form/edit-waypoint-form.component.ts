@@ -2,6 +2,9 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angula
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Waypoint} from '../../domain-model/waypoint';
 import {ButtonColor, ButtonSize} from '../../../common/directives/button-base/button-base.directive';
+import {Altitude} from '../../../common/geo-math/domain-model/geometry/altitude';
+import {AltitudeUnit} from '../../../common/geo-math/domain-model/geometry/altitude-unit';
+import {AltitudeReference} from '../../../common/geo-math/domain-model/geometry/altitude-reference';
 
 
 @Component({
@@ -43,7 +46,7 @@ export class EditWaypointFormComponent implements OnInit, OnChanges {
         newWp.checkpoint = this.editWpForm.get('checkpoint').value;
         newWp.remark = this.editWpForm.get('remark').value;
         newWp.supp_info = this.editWpForm.get('supp_info').value;
-        newWp.alt.alt_ft = this.editWpForm.get('alt').value;
+        newWp.alt.alt = new Altitude(this.editWpForm.get('alt').value, AltitudeUnit.FT, AltitudeReference.MSL);
         newWp.alt.isminalt = this.editWpForm.get('isminmaxalt').value.includes('min');
         newWp.alt.ismaxalt = this.editWpForm.get('isminmaxalt').value.includes('max');
         newWp.alt.isaltatlegstart = this.editWpForm.get('isaltatlegstart').value === 'true';
@@ -69,7 +72,7 @@ export class EditWaypointFormComponent implements OnInit, OnChanges {
                 editWaypoint ? editWaypoint.callsign : '',
                 Validators.maxLength(10)],
             'alt': [
-                (editWaypoint && editWaypoint.alt.alt_ft) ? editWaypoint.alt.alt_ft : '',
+                (editWaypoint && editWaypoint.alt.alt) ? editWaypoint.alt.alt.getHeightAmsl().ft : '',
                 [Validators.maxLength(5), Validators.min(0), Validators.max(99999)]],
             'isminmaxalt': [
                 editWaypoint ? [editWaypoint.alt.isminalt ? 'min' : '', editWaypoint.alt.ismaxalt ? 'max' : ''] : []],

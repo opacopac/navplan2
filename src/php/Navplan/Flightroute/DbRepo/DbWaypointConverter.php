@@ -3,23 +3,40 @@
 namespace Navplan\Flightroute\DbRepo;
 
 use Navplan\Common\DbModel\DbPosition2dConverter;
+use Navplan\Common\DomainModel\Altitude;
+use Navplan\Common\DomainModel\AltitudeReference;
+use Navplan\Common\DomainModel\AltitudeUnit;
 use Navplan\Common\StringNumberHelper;
 use Navplan\Flightroute\DomainModel\Waypoint;
+use Navplan\Flightroute\DomainModel\WaypointAltitude;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
 
 
-class WaypointConverter {
+class DbWaypointConverter {
     public static function fromDbRow(array $row): Waypoint {
+        $alt = new Altitude(
+            $row["alt"],
+            AltitudeUnit::FT,
+            AltitudeReference::MSL
+        );
+
+        $wpAlt = new WaypointAltitude(
+            $alt,
+            $row["isminalt"] === 1,
+            $row["ismaxalt"] === 1,
+            $row["isaltatlegstart"] === 1,
+        );
+
         return new Waypoint(
             $row["type"],
             $row["freq"],
             $row["callsign"],
             $row["checkpoint"],
-            $row["alt"],
-            $row["isminalt"] === 1,
-            $row["ismaxalt"] === 1,
-            $row["isaltatlegstart"] === 1,
+            "",
+            "",
+            $wpAlt,
+            "",
             $row["remark"],
             StringNumberHelper::parseStringOrNull($row, "supp_info"),
             DbPosition2dConverter::fromDbRow($row),
@@ -41,10 +58,10 @@ class WaypointConverter {
             DbHelper::getDbStringValue($dbService, $waypoint->airportIcao),
             DbHelper::getDbFloatValue($waypoint->position->latitude),
             DbHelper::getDbFloatValue($waypoint->position->longitude),
-            DbHelper::getDbStringValue($dbService, $waypoint->altitude),
-            DbHelper::getDbBoolValue($waypoint->isMinAlt),
-            DbHelper::getDbBoolValue($waypoint->isMaxAlt),
-            DbHelper::getDbBoolValue($waypoint->isAltAtLegStart),
+            DbHelper::getDbIntValue((int) $waypoint->wpAltitude->altitude->getHeightAmsl()->getFt()),
+            DbHelper::getDbBoolValue($waypoint->wpAltitude->isMinAlt),
+            DbHelper::getDbBoolValue($waypoint->wpAltitude->isMaxAlt),
+            DbHelper::getDbBoolValue($waypoint->wpAltitude->isAltAtLegStart),
             DbHelper::getDbStringValue($dbService, $waypoint->remark),
             DbHelper::getDbStringValue($dbService, $waypoint->suppInfo),
             DbHelper::getDbBoolValue($waypoint->isAlternate)

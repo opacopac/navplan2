@@ -6,7 +6,7 @@ use Navplan\Common\StringNumberHelper;
 use Navplan\Flightroute\UseCase\ReadSharedFlightroute\ReadSharedFlightrouteRequest;
 
 
-class ReadSharedFlightrouteRequestConverter {
+class RestReadSharedFlightrouteRequestConverter {
     const ARG_SHARE_ID = "shareid";
 
 

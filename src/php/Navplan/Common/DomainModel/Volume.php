@@ -48,6 +48,16 @@ class Volume {
     }
 
 
+    public function getL(): float {
+        return $this->getValue(VolumeUnit::L);
+    }
+
+
+    public function getGal(): float {
+        return $this->getValue(VolumeUnit::GAL);
+    }
+
+
     public function getValue(
         /**
          * @var VolumeUnit

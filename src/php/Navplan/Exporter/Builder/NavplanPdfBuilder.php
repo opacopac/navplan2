@@ -5,6 +5,7 @@ namespace Navplan\Exporter\Builder;
 
 require_once __DIR__ . "/../../../vendor/FPDF/rpdf.php";
 
+use Navplan\Common\DomainModel\Consumption;
 use Navplan\Flightroute\DomainModel\Flightroute;
 use Navplan\Flightroute\DomainModel\FuelCalc;
 use Navplan\Flightroute\DomainModel\Waypoint;
@@ -53,7 +54,7 @@ class NavplanPdfBuilder {
         self::createCommentLines($fuelTop, $flightroute->comments);
         self::createFuelTitle($fuelTop);
         $fuelLeft = $this->pdf->GetX();
-        self::createFuelHeaders($flightroute->aircraftConsumptionLpH);
+        self::createFuelHeaders($flightroute->aircraftConsumption);
         self::createFuelEntries($fuelLeft, $fuelCalc);
         self::createFuelBorder($fuelTop);
 
@@ -92,7 +93,7 @@ class NavplanPdfBuilder {
         for ($i = 0; $i < count(self::GEN_COL_WIDTHS); $i++) {
             $text = self::GEN2_COL_TITLES[$i];
             if ($i == 1) { // speed
-                $text .= $flightroute->aircraftSpeedKt ? " " . $flightroute->aircraftSpeedKt . "kt" : "";
+                $text .= $flightroute->aircraftSpeedKt ? " " . $flightroute->aircraftSpeedKt->getKt() . "kt" : "";
             }
 
             $this->pdf->Cell(self::GEN_COL_WIDTHS[$i], self::ROW_HEIGHT, $text, "LTRB", 0);
@@ -178,10 +179,10 @@ class NavplanPdfBuilder {
             0 => $waypoint->frequency ?: "", // freq
             1 => $waypoint->callsign ?: "", // callsign
             2 => $waypoint->checkpoint ?: "", // checkpoint
-            3 => "TODO", // mt
-            4 => "TODO", // dist
-            5 => $waypoint->altitude ?: "", // alt
-            6 => "TODO", // eet
+            3 => $waypoint->mtText ?: "", // mt
+            4 => $waypoint->distText ?: "", // dist
+            5 => $waypoint->wpAltitude->altitude ? $waypoint->wpAltitude->altitude->getHeightAmsl()->getFt() . "" : "", // alt
+            6 => $waypoint->eetText ?: "", // eet
             7 => "", // eto
             8 => "", // ato
             9 => $waypoint->remark ?: "", // remark
@@ -196,15 +197,15 @@ class NavplanPdfBuilder {
             return;
         }
 
-        if ($waypoint->isMinAlt) {
+        if ($waypoint->wpAltitude->isMinAlt) {
             $this->pdf->Line($pos_x0 + 1, $pos_y0 + 4.9, $pos_x1 - 1, $pos_y1 + 4.9);
         }
 
-        if ($waypoint->isMaxAlt) {
+        if ($waypoint->wpAltitude->isMaxAlt) {
             $this->pdf->Line($pos_x0 + 1, $pos_y0 + 0.75, $pos_x1 - 1, $pos_y1 + 0.75);
         }
 
-        if ($waypoint->isAltAtLegStart) {
+        if ($waypoint->wpAltitude->isAltAtLegStart) {
             $this->pdf->Line($pos_x0 + 0.5, $pos_y0 + 0.75, $pos_x0 + 0.5, $pos_y0 + 4.9);
         }
     }
@@ -266,8 +267,8 @@ class NavplanPdfBuilder {
     }
 
 
-    private function createFuelHeaders(float|null $aircraftConsumptionLpH): void {
-        $fuelString = $aircraftConsumptionLpH ?: "";
+    private function createFuelHeaders(Consumption|null $aircraftConsumption): void {
+        $fuelString = $aircraftConsumption ? $aircraftConsumption->getLph() : "";
         $this->pdf->SetFont('Arial', 'B', 10);
         $this->pdf->Cell(self::FUEL_COL_WIDTH[0], self::ROW_HEIGHT, self::FUEL_COL_TITLE[0] . $fuelString, "LTRB", 0, "L"); // l/h
         $this->pdf->Cell(self::FUEL_COL_WIDTH[1], self::ROW_HEIGHT, self::FUEL_COL_TITLE[1], "LTRB", 0, "C", true); // time title
@@ -296,15 +297,15 @@ class NavplanPdfBuilder {
             $this->pdf->Cell(self::FUEL_COL_WIDTH[1], self::ROW_HEIGHT, $timeStr, "LTRB", 0, "C"); // time
 
             $consumption = match ($j) {
-                0 => $fuelCalc->tripConsumption,
-                1 => $fuelCalc->alternateConsumption,
-                2 => $fuelCalc->reserveConsumption,
-                3 => $fuelCalc->minimumConsumption,
-                4 => $fuelCalc->extraConsumption,
-                5 => $fuelCalc->blockConsumption,
+                0 => $fuelCalc->tripVolume,
+                1 => $fuelCalc->alternateVolume,
+                2 => $fuelCalc->reserveVolume,
+                3 => $fuelCalc->minimumVolume,
+                4 => $fuelCalc->extraVolume,
+                5 => $fuelCalc->blockVolume,
                 default => null,
             };
-            $consumptionStr = $consumption ? $consumption->getLph() : "";
+            $consumptionStr = $consumption ? $consumption->getL() : "";
             $this->pdf->Cell(self::FUEL_COL_WIDTH[2], self::ROW_HEIGHT, $consumptionStr, "LTRB", 0, "C"); // fuel
         }
     }

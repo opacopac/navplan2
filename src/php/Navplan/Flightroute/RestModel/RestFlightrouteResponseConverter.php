@@ -5,7 +5,7 @@ namespace Navplan\Flightroute\RestModel;
 use Navplan\Flightroute\UseCase\FlightrouteResponse;
 
 
-class FlightrouteResponseConverter {
+class RestFlightrouteResponseConverter {
     public static function toRest(FlightrouteResponse $response): array  {
         return array(
             "navplan" => $response->flightroute ? RestFlightrouteConverter::toRest($response->flightroute) : NULL

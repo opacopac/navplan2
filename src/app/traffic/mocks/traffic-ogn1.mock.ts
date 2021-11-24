@@ -75,11 +75,11 @@ export class TrafficOgn1Mock {
 
     public static createRestPos(): IRestTrafficPosition {
         return {
-            position: {
-                pos: [7.1, 47.1],
-                alt: [1600, 'FT', 'MSL'],
-                time: 1560075378000
-            },
+            position: [
+                [7.1, 47.1],
+                [1600, 'FT', 'MSL'],
+                1560075378000
+            ],
             method: 'FLARM',
             receiver: 'Rigi',
             timestamp: 1560075378000

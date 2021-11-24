@@ -5,7 +5,7 @@ namespace Navplan\Flightroute\RestModel;
 use Navplan\Flightroute\UseCase\CreateSharedFlightroute\CreateSharedFlightrouteRequest;
 
 
-class CreateSharedFlightrouteRequestConverter {
+class RestCreateSharedFlightrouteRequestConverter {
     const ARG_CREATE_SHARED = "createShared";
     const ARG_ROUTE = "navplan";
 

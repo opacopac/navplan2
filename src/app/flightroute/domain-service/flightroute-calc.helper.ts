@@ -189,7 +189,7 @@ export class FlightrouteCalcHelper {
 
 
     private static calcFuel(time: Time, consumption: Consumption): Volume {
-        const fuel_l = time.min / 60 * consumption.getValue(ConsumptionUnit.L_PER_H);
+        const fuel_l = Math.ceil(time.min / 60 * consumption.getValue(ConsumptionUnit.L_PER_H));
         return new Volume(fuel_l, VolumeUnit.L);
     }
 

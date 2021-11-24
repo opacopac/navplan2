@@ -2,17 +2,25 @@
 
 namespace Navplan\Flightroute\DbRepo;
 
+use Navplan\Common\DomainModel\Consumption;
+use Navplan\Common\DomainModel\ConsumptionUnit;
 use Navplan\Common\StringNumberHelper;
 use Navplan\Flightroute\DomainModel\Flightroute;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
 
 
-class FlightrouteConverter {
+class DbFlightrouteConverter {
     public static function fromDbRow(array $row): Flightroute {
-        $acSpeed = StringNumberHelper::isNullOrEmpty($row, "aircraft_speed") ? NULL : StringNumberHelper::parseFloatOrZero($row, "aircraft_speed");
-        $acConsumption = StringNumberHelper::isNullOrEmpty($row, "aircraft_consumption") ? NULL : StringNumberHelper::parseFloatOrZero($row, "aircraft_consumption");
-        $extraFuel = StringNumberHelper::isNullOrEmpty($row, "extra_fuel") ? NULL : StringNumberHelper::parseFloatOrZero($row, "extra_fuel");
+        $acSpeed = StringNumberHelper::isNullOrEmpty($row, "aircraft_speed")
+            ? NULL
+            : StringNumberHelper::parseFloatOrZero($row, "aircraft_speed");
+        $acConsumption = StringNumberHelper::isNullOrEmpty($row, "aircraft_consumption")
+            ? NULL
+            : new Consumption(StringNumberHelper::parseFloatOrZero($row, "aircraft_consumption"), ConsumptionUnit::L_PER_H);
+        $extraFuel = StringNumberHelper::isNullOrEmpty($row, "extra_fuel")
+            ? NULL
+            : StringNumberHelper::parseFloatOrZero($row, "extra_fuel");
 
         return new Flightroute(
             intval($row["id"]),
@@ -34,8 +42,8 @@ class FlightrouteConverter {
         $query .= join(", ", array(
             DbHelper::getDbIntValue($userId),
             DbHelper::getDbStringValue($dbService, $flightroute->title),
-            DbHelper::getDbFloatValue($flightroute->aircraftSpeedKt, "''"),
-            DbHelper::getDbFloatValue($flightroute->aircraftConsumptionLpH, "''"),
+            DbHelper::getDbFloatValue($flightroute->aircraftSpeedKt->getKt(), "''"),
+            DbHelper::getDbFloatValue($flightroute->aircraftConsumption->getLph(), "''"),
             DbHelper::getDbFloatValue($flightroute->extraFuelL, "''"),
             DbHelper::getDbStringValue($dbService, $flightroute->comments),
             DbHelper::getDbStringValue($dbService, $flightroute->shareId),
@@ -51,8 +59,8 @@ class FlightrouteConverter {
         $query = "UPDATE navplan SET ";
         $query .= join(", ", array(
             "title=" . DbHelper::getDbStringValue($dbService, $flightroute->title),
-            "aircraft_speed=" . DbHelper::getDbFloatValue($flightroute->aircraftSpeedKt, "''"),
-            "aircraft_consumption=" . DbHelper::getDbFloatValue($flightroute->aircraftConsumptionLpH, "''"),
+            "aircraft_speed=" . DbHelper::getDbFloatValue($flightroute->aircraftSpeedKt->getKt(), "''"),
+            "aircraft_consumption=" . DbHelper::getDbFloatValue($flightroute->aircraftConsumption->getLph(), "''"),
             "extra_fuel=" . DbHelper::getDbFloatValue($flightroute->extraFuelL),
             "comments=" . DbHelper::getDbStringValue($dbService, $flightroute->comments),
             "share_id=" . DbHelper::getDbStringValue($dbService, $flightroute->shareId),

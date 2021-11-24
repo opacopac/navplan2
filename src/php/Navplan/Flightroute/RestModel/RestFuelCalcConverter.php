@@ -2,8 +2,8 @@
 
 namespace Navplan\Flightroute\RestModel;
 
-use Navplan\Common\RestModel\RestConsumptionConverter;
 use Navplan\Common\RestModel\RestTimeConverter;
+use Navplan\Common\RestModel\RestVolumeConverter;
 use Navplan\Flightroute\DomainModel\FuelCalc;
 
 
@@ -16,12 +16,12 @@ class RestFuelCalcConverter {
             isset($args["mintime"]) ? RestTimeConverter::fromRest($args["mintime"]) : NULL,
             isset($args["extratime"]) ? RestTimeConverter::fromRest($args["extratime"]) : NULL,
             isset($args["blocktime"]) ? RestTimeConverter::fromRest($args["blocktime"]) : NULL,
-            isset($args["tripcons"]) ? RestConsumptionConverter::fromRest($args["tripcons"]) : NULL,
-            isset($args["altcons"]) ? RestConsumptionConverter::fromRest($args["altcons"]) : NULL,
-            isset($args["rescons"]) ? RestConsumptionConverter::fromRest($args["rescons"]) : NULL,
-            isset($args["mincons"]) ? RestConsumptionConverter::fromRest($args["mincons"]) : NULL,
-            isset($args["extracons"]) ? RestConsumptionConverter::fromRest($args["extracons"]) : NULL,
-            isset($args["blockcons"]) ? RestConsumptionConverter::fromRest($args["blockcons"]) : NULL,
+            isset($args["tripvol"]) ? RestVolumeConverter::fromRest($args["tripvol"]) : NULL,
+            isset($args["altvol"]) ? RestVolumeConverter::fromRest($args["altvol"]) : NULL,
+            isset($args["resvol"]) ? RestVolumeConverter::fromRest($args["resvol"]) : NULL,
+            isset($args["minvol"]) ? RestVolumeConverter::fromRest($args["minvol"]) : NULL,
+            isset($args["extravol"]) ? RestVolumeConverter::fromRest($args["extravol"]) : NULL,
+            isset($args["blockvol"]) ? RestVolumeConverter::fromRest($args["blockvol"]) : NULL,
         );
     }
 
@@ -34,12 +34,12 @@ class RestFuelCalcConverter {
             "mintime" => RestTimeConverter::toRest($fuelCalc->minimumTime),
             "extratime" => RestTimeConverter::toRest($fuelCalc->extraTime),
             "blocktime" => RestTimeConverter::toRest($fuelCalc->blockTime),
-            "tripcons" => RestConsumptionConverter::toRest($fuelCalc->tripConsumption),
-            "altcons" => RestConsumptionConverter::toRest($fuelCalc->alternateConsumption),
-            "rescons" => RestConsumptionConverter::toRest($fuelCalc->reserveConsumption),
-            "mincons" => RestConsumptionConverter::toRest($fuelCalc->minimumConsumption),
-            "extracons" => RestConsumptionConverter::toRest($fuelCalc->extraConsumption),
-            "blockcons" => RestConsumptionConverter::toRest($fuelCalc->blockConsumption),
+            "tripvol" => RestVolumeConverter::toRest($fuelCalc->tripVolume),
+            "altvol" => RestVolumeConverter::toRest($fuelCalc->alternateVolume),
+            "resvol" => RestVolumeConverter::toRest($fuelCalc->reserveVolume),
+            "minvol" => RestVolumeConverter::toRest($fuelCalc->minimumVolume),
+            "extravol" => RestVolumeConverter::toRest($fuelCalc->extraVolume),
+            "blockvol" => RestVolumeConverter::toRest($fuelCalc->blockVolume),
         );
     }
 }

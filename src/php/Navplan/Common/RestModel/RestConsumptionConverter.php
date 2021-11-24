@@ -8,7 +8,11 @@ use Navplan\Common\StringNumberHelper;
 
 
 class RestConsumptionConverter {
-    public static function toRest(Consumption $consumption): array {
+    public static function toRest(?Consumption $consumption): ?array {
+        if (!$consumption) {
+            return NULL;
+        }
+
         return array(
             $consumption->value,
             ConsumptionUnit::toString($consumption->unit)
@@ -16,10 +20,14 @@ class RestConsumptionConverter {
     }
 
 
-    public static function fromRest(array $args): Consumption {
+    public static function fromRest(?array $args): ?Consumption {
+        if (!$args) {
+            return NULL;
+        }
+
         return new Consumption(
             StringNumberHelper::parseFloatOrError($args, 0),
-            StringNumberHelper::parseIntOrError($args, 1),
+            ConsumptionUnit::fromString(StringNumberHelper::parseStringOrError($args, 1)),
         );
     }
 }

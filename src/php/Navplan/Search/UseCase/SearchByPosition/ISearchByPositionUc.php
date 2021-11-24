@@ -2,7 +2,6 @@
 
 namespace Navplan\Search\UseCase\SearchByPosition;
 
-use Navplan\Search\DomainModel\SearchByPositionQuery;
 use Navplan\Search\UseCase\SearchResult;
 
 

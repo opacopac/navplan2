@@ -23,6 +23,7 @@ import {FlightRouteListEffects} from './ngrx/flight-route-list-effects.service';
 import {flightRouteReducer} from './ngrx/flightroute.reducer';
 import {WaypointEffects} from './ngrx/waypoint.effects';
 import {IFlightrouteRepo} from './domain-service/i-flightroute-repo';
+import {ExporterEffects} from '../exporter/ngrx/exporter.effects.service';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import {IFlightrouteRepo} from './domain-service/i-flightroute-repo';
         EffectsModule.forFeature([
             FlightRouteListEffects,
             FlightRouteEffects,
+            ExporterEffects,
             SharedFlightrouteEffects,
             WaypointEffects
         ]),

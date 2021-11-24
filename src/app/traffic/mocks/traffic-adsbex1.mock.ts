@@ -81,11 +81,11 @@ export class TrafficAdsbex1Mock {
 
     public static createRestPos(): IRestTrafficPosition {
         return {
-            position: {
-                pos: [7.576501, 46.834000],
-                alt: [3375, 'FT', 'MSL'],
-                time: 1560000429704
-            },
+            position: [
+                [7.576501, 46.834000],
+                [3375, 'FT', 'MSL'],
+                1560000429704
+            ],
             method: 'MLAT',
             receiver: 'ADSBExchange (MLAT)',
             timestamp: 1560000523926

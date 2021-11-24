@@ -3,12 +3,12 @@
 namespace NavplanTest\Flightroute;
 
 use InvalidArgumentException;
-use Navplan\Flightroute\RestModel\CreateFlightrouteRequestConverter;
-use Navplan\Flightroute\RestModel\CreateSharedFlightrouteRequestConverter;
-use Navplan\Flightroute\RestModel\DeleteFlightrouteRequestConverter;
-use Navplan\Flightroute\RestModel\ReadFlightrouteRequestConverter;
-use Navplan\Flightroute\RestModel\ReadSharedFlightrouteRequestConverter;
-use Navplan\Flightroute\RestModel\UpdateFlightrouteRequestConverter;
+use Navplan\Flightroute\RestModel\RestCreateFlightrouteRequestConverter;
+use Navplan\Flightroute\RestModel\RestCreateSharedFlightrouteRequestConverter;
+use Navplan\Flightroute\RestModel\RestDeleteFlightrouteRequestConverter;
+use Navplan\Flightroute\RestModel\RestReadFlightrouteRequestConverter;
+use Navplan\Flightroute\RestModel\RestReadSharedFlightrouteRequestConverter;
+use Navplan\Flightroute\RestModel\RestUpdateFlightrouteRequestConverter;
 use Navplan\Flightroute\RestService\FlightrouteServiceProcessor;
 use Navplan\User\DomainService\TokenService;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
@@ -49,7 +49,7 @@ class FlightrouteServiceProcessorTest extends TestCase {
 
     public function test_ReadSharedFlightroute_gets_called() {
         $requestMethod = FlightrouteServiceProcessor::REQ_METHOD_GET;
-        $getVars = array(ReadSharedFlightrouteRequestConverter::ARG_SHARE_ID => "123xyz456");
+        $getVars = array(RestReadSharedFlightrouteRequestConverter::ARG_SHARE_ID => "123xyz456");
         $this->flightrouteRepo->readSharedResult = NULL;
 
         FlightrouteServiceProcessor::processRequest($requestMethod, $getVars, NULL, $this->config);
@@ -62,8 +62,8 @@ class FlightrouteServiceProcessorTest extends TestCase {
     public function test_ReadFlightroute_gets_called() {
         $requestMethod = FlightrouteServiceProcessor::REQ_METHOD_GET;
         $getVars = array(
-            ReadFlightrouteRequestConverter::ARG_ID => 123,
-            ReadFlightrouteRequestConverter::ARG_TOKEN => $this->tokenService->createToken('test@navplan.ch', FALSE)
+            RestReadFlightrouteRequestConverter::ARG_ID => 123,
+            RestReadFlightrouteRequestConverter::ARG_TOKEN => $this->tokenService->createToken('test@navplan.ch', FALSE)
         );
         $this->userRepo->readUserResult = DummyUser1::create($this->tokenService);
         $this->flightrouteRepo->readResult = NULL;
@@ -78,7 +78,7 @@ class FlightrouteServiceProcessorTest extends TestCase {
     public function test_ReadFlightrouteList_gets_called() {
         $requestMethod = FlightrouteServiceProcessor::REQ_METHOD_GET;
         $getVars = array(
-            ReadFlightrouteRequestConverter::ARG_TOKEN => $this->tokenService->createToken('test@navplan.ch', FALSE)
+            RestReadFlightrouteRequestConverter::ARG_TOKEN => $this->tokenService->createToken('test@navplan.ch', FALSE)
         );
         $this->userRepo->readUserResult = DummyUser1::create($this->tokenService);
         $this->flightrouteRepo->readListResult = [];
@@ -93,8 +93,8 @@ class FlightrouteServiceProcessorTest extends TestCase {
     public function test_CreateSharedFlightroute_gets_called() {
         $requestMethod = FlightrouteServiceProcessor::REQ_METHOD_POST;
         $postVars = array(
-            CreateSharedFlightrouteRequestConverter::ARG_CREATE_SHARED => true,
-            CreateSharedFlightrouteRequestConverter::ARG_ROUTE => DummyFlightroute1::createRestArgs()
+            RestCreateSharedFlightrouteRequestConverter::ARG_CREATE_SHARED => true,
+            RestCreateSharedFlightrouteRequestConverter::ARG_ROUTE => DummyFlightroute1::createRestArgs()
         );
         $this->flightrouteRepo->addResult = DummyFlightroute1::create();
 
@@ -108,8 +108,8 @@ class FlightrouteServiceProcessorTest extends TestCase {
     public function test_CreateFlightroute_gets_called() {
         $requestMethod = FlightrouteServiceProcessor::REQ_METHOD_POST;
         $postVars = array(
-            CreateFlightrouteRequestConverter::ARG_TOKEN => $this->tokenService->createToken('test@navplan.ch', FALSE),
-            CreateFlightrouteRequestConverter::ARG_ROUTE => DummyFlightroute1::createRestArgs()
+            RestCreateFlightrouteRequestConverter::ARG_TOKEN => $this->tokenService->createToken('test@navplan.ch', FALSE),
+            RestCreateFlightrouteRequestConverter::ARG_ROUTE => DummyFlightroute1::createRestArgs()
         );
         $this->userRepo->readUserResult = DummyUser1::create($this->tokenService);
         $this->flightrouteRepo->addResult = DummyFlightroute1::create();
@@ -125,8 +125,8 @@ class FlightrouteServiceProcessorTest extends TestCase {
     public function test_UpdateFlightroute_gets_called() {
         $requestMethod = FlightrouteServiceProcessor::REQ_METHOD_PUT;
         $postVars = array(
-            UpdateFlightrouteRequestConverter::ARG_TOKEN => $this->tokenService->createToken('test@navplan.ch', FALSE),
-            UpdateFlightrouteRequestConverter::ARG_ROUTE => DummyFlightroute1::createRestArgs()
+            RestUpdateFlightrouteRequestConverter::ARG_TOKEN => $this->tokenService->createToken('test@navplan.ch', FALSE),
+            RestUpdateFlightrouteRequestConverter::ARG_ROUTE => DummyFlightroute1::createRestArgs()
         );
         $this->userRepo->readUserResult = DummyUser1::create($this->tokenService);
         $this->flightrouteRepo->readResult = DummyFlightroute1::create();
@@ -142,8 +142,8 @@ class FlightrouteServiceProcessorTest extends TestCase {
     public function test_DeleteFlightroute_gets_called() {
         $requestMethod = FlightrouteServiceProcessor::REQ_METHOD_DELETE;
         $getVars = array(
-            DeleteFlightrouteRequestConverter::ARG_ID => 123,
-            DeleteFlightrouteRequestConverter::ARG_TOKEN => $this->tokenService->createToken('test@navplan.ch', FALSE)
+            RestDeleteFlightrouteRequestConverter::ARG_ID => 123,
+            RestDeleteFlightrouteRequestConverter::ARG_TOKEN => $this->tokenService->createToken('test@navplan.ch', FALSE)
         );
         $this->userRepo->readUserResult = DummyUser1::create($this->tokenService);
 

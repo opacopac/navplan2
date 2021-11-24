@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {FlightRouteExportActions} from '../../ngrx/flight-route-export.actions';
+import {ExporterActions} from '../../../exporter/ngrx/exporter.actions';
 
 
 @Component({
@@ -18,12 +18,12 @@ export class FlightroutePageComponent implements OnInit {
     }
 
 
-    public onExportFlightroutePdfClick(flightRouteId: number) {
-        this.appStore.dispatch(FlightRouteExportActions.exportPdf({ flightrouteId: flightRouteId }));
+    public onExportFlightroutePdfClick() {
+        this.appStore.dispatch(ExporterActions.exportPdf());
     }
 
 
-    public onExportFlightrouteExcelClick(flightRouteId: number) {
-        this.appStore.dispatch(FlightRouteExportActions.exportExcel({ flightrouteId: flightRouteId }));
+    public onExportFlightrouteExcelClick() {
+        this.appStore.dispatch(ExporterActions.exportExcel());
     }
 }
