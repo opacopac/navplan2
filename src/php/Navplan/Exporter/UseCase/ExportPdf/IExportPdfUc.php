@@ -3,6 +3,8 @@
 namespace Navplan\Exporter\UseCase\ExportPdf;
 
 
+use Navplan\Exporter\DomainModel\ExportFile;
+
 interface IExportPdfUc {
-    public function exportPdf(ExportPdfRequest $request): ExportPdfResponse;
+    public function exportPdf(ExportPdfRequest $request): ExportFile;
 }

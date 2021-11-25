@@ -3,7 +3,9 @@
 namespace Navplan\Exporter\UseCase\ExportPdf;
 
 
+use Navplan\Exporter\DomainModel\ExportFile;
+
 class ExportPdfResponse {
-    public function __construct(public string $pdfFile) {
+    public function __construct(public ExportFile $exportFile) {
     }
 }

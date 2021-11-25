@@ -28,9 +28,7 @@ export class ExporterEffects {
         ofType(ExporterActions.exportPdf),
         withLatestFrom(this.flightroute$),
         switchMap(([action, flightroute]) => this.exporter.exportPdf(flightroute).pipe(
-            map((pdffile) => MessageActions.showMessage({
-                message: Message.success('PDF created successfully: ' + pdffile)
-            })),
+            map(exportedFile => ExporterActions.exportPdfSuccess({ exportedFile: exportedFile })),
             catchError(error => of(MessageActions.showMessage({
                 message: Message.error('Error exporting PDF', error)
             })))

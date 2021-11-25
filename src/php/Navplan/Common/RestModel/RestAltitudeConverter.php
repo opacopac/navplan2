@@ -9,7 +9,11 @@ use Navplan\Common\StringNumberHelper;
 
 
 class RestAltitudeConverter {
-    public static function toRest(Altitude $alt, ?int $roundToDigits = NULL): array {
+    public static function toRest(?Altitude $alt, ?int $roundToDigits = NULL): ?array {
+        if (!$alt) {
+            return NULL;
+        }
+
         return [
             $roundToDigits === NULL ? $alt->value : round($alt->value, $roundToDigits),
             AltitudeUnit::toString($alt->unit),
@@ -18,7 +22,11 @@ class RestAltitudeConverter {
     }
 
 
-    public static function fromRest(array $args): Altitude {
+    public static function fromRest(?array $args): ?Altitude {
+        if (!$args) {
+            return NULL;
+        }
+
         return new Altitude(
             StringNumberHelper::parseFloatOrError($args, 0),
             AltitudeUnit::fromString(StringNumberHelper::parseStringOrError($args, 1)),

@@ -7,7 +7,7 @@ use Navplan\Common\DomainModel\Altitude;
 
 class WaypointAltitude {
     public function __construct(
-        public Altitude $altitude,
+        public ?Altitude $altitude,
         public bool $isMinAlt,
         public bool $isMaxAlt,
         public bool $isAltAtLegStart,

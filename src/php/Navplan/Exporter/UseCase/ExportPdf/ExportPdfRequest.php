@@ -10,7 +10,6 @@ class ExportPdfRequest {
     public function __construct(
         public Flightroute $flightroute,
         public FuelCalc $fuelCalc,
-        public string $fileName
     ) {
     }
 }

@@ -26,7 +26,7 @@ export const environment = {
     userServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/User/RestService/UserService.php',
     verticalMapServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/VerticalMap/RestService/VerticalMapService.php',
     exporterBaseUrl: WEBSITE_BASE_URL + 'php/Navplan/Exporter/RestService/ExporterService.php',
-    exportTmpDir: WEBSITE_BASE_URL + 'tmp/',
+    exportBaseUrl: WEBSITE_BASE_URL + 'tmp/',
     chartBaseUrl: WEBSITE_BASE_URL + 'charts/',
     metarTafBaseUrl: 'https://www.aviationweather.gov/cgi-bin/json/MetarJSON.php?taf=true&density=all&bbox=',
 };

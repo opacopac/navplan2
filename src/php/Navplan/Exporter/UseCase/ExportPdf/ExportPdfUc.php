@@ -2,6 +2,7 @@
 
 namespace Navplan\Exporter\UseCase\ExportPdf;
 
+use Navplan\Exporter\DomainModel\ExportFile;
 use Navplan\Exporter\DomainService\IExportService;
 
 
@@ -10,13 +11,10 @@ class ExportPdfUc implements IExportPdfUc {
     }
 
 
-    public function exportPdf(ExportPdfRequest $request): ExportPdfResponse {
-        $fileName = $this->exportService->createNavplanPdf(
+    public function exportPdf(ExportPdfRequest $request): ExportFile {
+        return $this->exportService->createNavplanPdf(
             $request->flightroute,
             $request->fuelCalc,
-            $request->fileName
         );
-
-        return new ExportPdfResponse($fileName);
     }
 }

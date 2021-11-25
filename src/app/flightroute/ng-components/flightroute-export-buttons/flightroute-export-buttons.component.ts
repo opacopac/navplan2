@@ -1,4 +1,6 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Store} from '@ngrx/store';
+import {ExporterActions} from '../../../exporter/ngrx/exporter.actions';
 
 
 @Component({
@@ -7,14 +9,20 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
     styleUrls: ['./flightroute-export-buttons.component.css']
 })
 export class FlightrouteExportButtonsComponent implements OnInit {
-    @Output() onExportFlightroutePdfClick = new EventEmitter<number>();
-    @Output() onExportFlightrouteExcelClick = new EventEmitter<number>();
-
-
-    constructor() {
+    constructor(private appStore: Store<any>) {
     }
 
 
     ngOnInit() {
+    }
+
+
+    public onExportFlightroutePdfClick() {
+        this.appStore.dispatch(ExporterActions.exportPdf());
+    }
+
+
+    public onExportFlightrouteExcelClick() {
+        this.appStore.dispatch(ExporterActions.exportExcel());
     }
 }

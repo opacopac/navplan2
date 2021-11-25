@@ -14,7 +14,7 @@ class RestWaypointAltitudeConverter {
         }
 
         return new WaypointAltitude(
-            RestAltitudeConverter::fromRest($args["alt"]),
+            RestAltitudeConverter::fromRest($args["alt"] ?? NULL),
             StringNumberHelper::parseBoolOrError($args, "isminalt"),
             StringNumberHelper::parseBoolOrError($args, "ismaxalt"),
             StringNumberHelper::parseBoolOrError($args, "isaltatlegstart"),

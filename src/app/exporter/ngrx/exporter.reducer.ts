@@ -4,15 +4,25 @@ import {ExporterActions} from './exporter.actions';
 
 
 const initialState: ExporterState = {
-    downloadUrl: undefined,
+    filename: undefined,
+    mimeType: undefined,
+    relUrl: undefined,
 };
 
 
 export const exporterReducer = createReducer(
     initialState,
-
-    // FlightRouteListActions
-    on(ExporterActions.exportExcel, (state, action) => ({
+    on(ExporterActions.exportPdfSuccess, (state, action) => ({
         ...state,
+        filename: action.exportedFile.filename,
+        relUrl: action.exportedFile.relUrl,
+        mimeType: 'application/pdf'
+
+    })),
+    on(ExporterActions.exportExcelSuccess, (state, action) => ({
+        ...state,
+        filename: action.exportedFile.filename,
+        relUrl: action.exportedFile.relUrl,
+        mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     })),
 );

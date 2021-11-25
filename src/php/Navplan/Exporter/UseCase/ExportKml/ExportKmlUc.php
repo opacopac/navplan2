@@ -2,6 +2,7 @@
 
 namespace Navplan\Exporter\UseCase\ExportKml;
 
+use Navplan\Exporter\DomainModel\ExportFile;
 use Navplan\Exporter\DomainService\IExportService;
 
 
@@ -10,13 +11,10 @@ class ExportKmlUc implements IExportKmlUc {
     }
 
 
-    public function exportKml(ExportKmlRequest $request): ExportKmlResponse {
-        $fileName = $this->exportService->createNavplanKml(
+    public function exportKml(ExportKmlRequest $request): ExportFile {
+        return $this->exportService->createNavplanKml(
             $request->flightroute,
             $request->track,
-            $request->fileName
         );
-
-        return new ExportKmlResponse($fileName);
     }
 }

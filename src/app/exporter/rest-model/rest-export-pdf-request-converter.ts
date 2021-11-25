@@ -10,7 +10,6 @@ export class RestExportPdfRequestConverter {
             action: 'exportpdf',
             flightroute: RestFlightrouteConverter.toRest(flightroute),
             fuelcalc: RestFuelCalcConverter.toRest(flightroute),
-            filename: 'TODO.pdf'
         };
     }
 }

@@ -1,3 +1,5 @@
 export interface ExporterState {
-    downloadUrl: string;
+    filename: string;
+    relUrl: string;
+    mimeType: string;
 }

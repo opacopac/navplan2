@@ -6,5 +6,4 @@ export interface IRestExportPdfRequest {
     action: string;
     flightroute: IRestFlightroute;
     fuelcalc: IRestFuelCalc;
-    filename: string;
 }

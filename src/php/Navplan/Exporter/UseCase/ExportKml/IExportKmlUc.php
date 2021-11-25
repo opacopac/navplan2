@@ -2,7 +2,9 @@
 
 namespace Navplan\Exporter\UseCase\ExportKml;
 
+use Navplan\Exporter\DomainModel\ExportFile;
+
 
 interface IExportKmlUc {
-    public function exportKml(ExportKmlRequest $request): ExportKmlResponse;
+    public function exportKml(ExportKmlRequest $request): ExportFile;
 }

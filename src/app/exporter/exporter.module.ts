@@ -8,6 +8,8 @@ import {IExporterService} from './domain-service/i-exporter-service';
 import {ExporterEffects} from './ngrx/exporter.effects.service';
 import {exporterReducer} from './ngrx/exporter.reducer';
 import {ExporterRestService} from './rest-service/exporter-rest.service';
+import {DownloadContainerComponent} from './ng-components/download-container/download-container.component';
+import {DownloadDialogComponent} from './ng-components/download-dialog/download-dialog.component';
 
 
 @NgModule({
@@ -20,8 +22,11 @@ import {ExporterRestService} from './rest-service/exporter-rest.service';
         SharedModule,
     ],
     declarations: [
+        DownloadContainerComponent,
+        DownloadDialogComponent
     ],
     exports: [
+        DownloadContainerComponent
     ],
     providers: [
         { provide: IExporterService, useClass: ExporterRestService }
