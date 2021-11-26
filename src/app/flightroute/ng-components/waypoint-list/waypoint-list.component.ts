@@ -62,12 +62,21 @@ export class WaypointListComponent implements OnInit {
     }
 
 
+    public getAltText(wp: Waypoint): string {
+        if (!wp || !wp.wpAlt || !wp.wpAlt.alt) {
+            return '';
+        } else {
+            return wp.wpAlt.alt.getHeightAmsl().ft.toString();
+        }
+    }
+
+
     public getAltStyle(wp: Waypoint): string {
         let deco = '';
-        if (wp.alt.isminalt) {
+        if (wp.wpAlt.isminalt) {
             deco += 'underline';
         }
-        if (wp.alt.ismaxalt) {
+        if (wp.wpAlt.ismaxalt) {
             deco += ' overline';
         }
         return deco;

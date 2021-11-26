@@ -46,10 +46,10 @@ export class EditWaypointFormComponent implements OnInit, OnChanges {
         newWp.checkpoint = this.editWpForm.get('checkpoint').value;
         newWp.remark = this.editWpForm.get('remark').value;
         newWp.supp_info = this.editWpForm.get('supp_info').value;
-        newWp.alt.alt = new Altitude(this.editWpForm.get('alt').value, AltitudeUnit.FT, AltitudeReference.MSL);
-        newWp.alt.isminalt = this.editWpForm.get('isminmaxalt').value.includes('min');
-        newWp.alt.ismaxalt = this.editWpForm.get('isminmaxalt').value.includes('max');
-        newWp.alt.isaltatlegstart = this.editWpForm.get('isaltatlegstart').value === 'true';
+        newWp.wpAlt.alt = new Altitude(parseInt(this.editWpForm.get('alt').value, 10), AltitudeUnit.FT, AltitudeReference.MSL);
+        newWp.wpAlt.isminalt = this.editWpForm.get('isminmaxalt').value.includes('min');
+        newWp.wpAlt.ismaxalt = this.editWpForm.get('isminmaxalt').value.includes('max');
+        newWp.wpAlt.isaltatlegstart = this.editWpForm.get('isaltatlegstart').value === 'true';
 
         this.onSaveClick.emit([this.editWaypoint, newWp]);
     }
@@ -72,12 +72,12 @@ export class EditWaypointFormComponent implements OnInit, OnChanges {
                 editWaypoint ? editWaypoint.callsign : '',
                 Validators.maxLength(10)],
             'alt': [
-                (editWaypoint && editWaypoint.alt.alt) ? editWaypoint.alt.alt.getHeightAmsl().ft : '',
+                (editWaypoint && editWaypoint.wpAlt.alt) ? editWaypoint.wpAlt.alt.getHeightAmsl().ft : '',
                 [Validators.maxLength(5), Validators.min(0), Validators.max(99999)]],
             'isminmaxalt': [
-                editWaypoint ? [editWaypoint.alt.isminalt ? 'min' : '', editWaypoint.alt.ismaxalt ? 'max' : ''] : []],
+                editWaypoint ? [editWaypoint.wpAlt.isminalt ? 'min' : '', editWaypoint.wpAlt.ismaxalt ? 'max' : ''] : []],
             'isaltatlegstart': [
-                (editWaypoint && editWaypoint.alt.isaltatlegstart) ? 'true' : 'false'],
+                (editWaypoint && editWaypoint.wpAlt.isaltatlegstart) ? 'true' : 'false'],
             'remark': [
                 editWaypoint ? editWaypoint.remark : '',
                 Validators.maxLength(50)],

@@ -235,7 +235,7 @@ class NavplanPdfBuilder {
                 $align = "L"; // align left
             }
 
-            if (isset($alternate) && isset($alternate[$ckpKeys[$i]])) {
+            if ($alternate) {
                 $value = self::getWaypointValue($alternate, $i);
                 $this->pdf->Cell(self::CKP_COL_WIDTHS[$i], self::ROW_HEIGHT, utf8_decode($value), "LTRB", 0, $align);
             } else {

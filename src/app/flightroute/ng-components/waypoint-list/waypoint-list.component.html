@@ -26,8 +26,8 @@
         <ng-container matColumnDef="alt">
             <th mat-header-cell *matHeaderCellDef>Alt</th>
             <td mat-cell *matCellDef="let entry">
-                <span *ngIf="entry.wp.alt.isaltatlegstart">&#8739;</span>
-                <span [style.text-decoration]="this.getAltStyle(entry.wp)">{{ entry.wp.alt.alt_ft }}</span>
+                <span *ngIf="entry.wp.wpAlt.isaltatlegstart">&#8739;</span>
+                <span [style.text-decoration]="this.getAltStyle(entry.wp)">{{ this.getAltText(entry.wp) }}</span>
             </td>
             <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
@@ -133,5 +133,4 @@
     <div *ngIf="!this.flightroute || this.flightroute.waypoints.length === 0">
         <i>Empty route, add waypoints using the map.</i>
     </div>
-
 </div>

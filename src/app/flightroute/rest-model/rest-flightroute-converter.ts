@@ -20,7 +20,7 @@ export class RestFlightrouteConverter {
             restFlightroute.comments,
             aircraft,
             RestWaypointConverter.fromRestList(restFlightroute.waypoints),
-            restFlightroute.alternate ? RestWaypointConverter.fromRest(restFlightroute.alternate) : undefined,
+            RestWaypointConverter.fromRest(restFlightroute.alternate),
             RestTimeConverter.fromRest(restFlightroute.extra_fuel)
         );
     }
@@ -34,7 +34,7 @@ export class RestFlightrouteConverter {
             aircraft_speed: RestSpeedConverter.toRest(flightroute.aircraft.speed),
             aircraft_consumption: RestConsumptionConverter.toRest(flightroute.aircraft.consumption),
             waypoints: RestWaypointConverter.toRestList(flightroute.waypoints),
-            alternate: undefined,
+            alternate: RestWaypointConverter.toRest(flightroute.alternate),
             extra_fuel: RestTimeConverter.toRest(flightroute.extraTime),
         };
     }

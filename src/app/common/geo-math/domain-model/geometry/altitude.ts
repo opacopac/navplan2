@@ -6,7 +6,7 @@ import {LengthUnit} from '../quantities/length-unit';
 
 
 export class Altitude implements Clonable<Altitude> {
-    private readonly FL_TO_FT_FACTOR = 100;
+    private static readonly FL_TO_FT_FACTOR = 100;
 
 
     public constructor(
@@ -78,7 +78,7 @@ export class Altitude implements Clonable<Altitude> {
             case AltitudeReference.GND:
                 return new Length(this.value + terrainElevation.getValue(lenUnit), lenUnit);
             case AltitudeReference.STD:
-                return new Length(this.value * this.FL_TO_FT_FACTOR, lenUnit);
+                return new Length(this.value * Altitude.FL_TO_FT_FACTOR, lenUnit);
             default: return undefined;
         }
     }

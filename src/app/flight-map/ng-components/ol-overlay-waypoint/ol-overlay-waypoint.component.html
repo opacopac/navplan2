@@ -12,9 +12,9 @@
         <mat-card-content class="card-body">
             <p>{{ this.getPositionString(this.waypoint.position) }}</p>
             <p>VAR: {{ this.getVariationString(this.waypoint.position) }}</p>
-            <p *ngIf="this.waypoint.alt.alt_ft">
+            <p *ngIf="this.waypoint.wpAlt.alt">
                 Altitude:
-                {{ (this.waypoint.alt.isminalt ? 'min. ' : 'max. ') + this.waypoint.alt.alt_ft + 'ft' }}
+                {{ (this.waypoint.wpAlt.isminalt ? 'min. ' : 'max. ') + this.waypoint.wpAlt.alt.getHeightAmsl().ft + 'ft' }}
             </p>
             <!--<p *ngIf="this.userpoint.remark">Remark: {{ this.userpoint.remark }}</p>-->
         </mat-card-content>

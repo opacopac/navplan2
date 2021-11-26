@@ -29,7 +29,7 @@ export class Waypoint extends DataItem implements Clonable<Waypoint> {
         public remark: string,
         public supp_info: string,
         public position: Position2d,
-        public alt: WaypointAltitude
+        public wpAlt: WaypointAltitude
     ) {
         super();
     }
@@ -49,7 +49,7 @@ export class Waypoint extends DataItem implements Clonable<Waypoint> {
             this.remark,
             this.supp_info,
             this.position ? this.position.clone() : undefined,
-            this.alt ? this.alt.clone() : undefined
+            this.wpAlt ? this.wpAlt.clone() : undefined
         );
     }
 }

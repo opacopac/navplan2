@@ -14,7 +14,8 @@ export class EditWaypointDialogComponent implements OnInit, OnDestroy {
 
     constructor(
         private dialogRef: MatDialogRef<EditWaypointFormComponent>,
-        @Inject(MAT_DIALOG_DATA) public editWaypoint: Waypoint) {
+        @Inject(MAT_DIALOG_DATA) public editWaypoint: Waypoint
+    ) {
     }
 
 

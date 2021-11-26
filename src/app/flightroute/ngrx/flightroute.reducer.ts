@@ -122,7 +122,7 @@ export const flightRouteReducer = createReducer(
     }),
     on(WaypointActions.update, (state, action) => {
         const newFlightroute = state.flightroute.clone();
-        const wpIndex = newFlightroute.waypoints.indexOf(action.oldWp);
+        const wpIndex = state.flightroute.waypoints.indexOf(action.oldWp);
         newFlightroute.waypoints[wpIndex] = action.newWp.clone();
         FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
         return {

@@ -7,7 +7,7 @@ import {RestWaypointAltitudeConverter} from './rest-waypoint-altitude-converter'
 
 export class RestWaypointConverter {
     public static fromRest(restWp: IRestWaypoint): Waypoint {
-        return new Waypoint(
+        return restWp ? new Waypoint(
             WaypointType[restWp.type],
             restWp.freq,
             restWp.callsign,
@@ -16,7 +16,7 @@ export class RestWaypointConverter {
             restWp.supp_info,
             Position2dConverter.fromRest(restWp.pos),
             RestWaypointAltitudeConverter.fromRest(restWp.wp_alt)
-        );
+        ) : undefined;
     }
 
 
@@ -26,19 +26,19 @@ export class RestWaypointConverter {
 
 
     public static toRest(wp: Waypoint): IRestWaypoint {
-        return {
+        return wp ? {
             type: WaypointType[wp.type],
             freq: wp.freq,
             callsign: wp.callsign,
             checkpoint: wp.checkpoint,
             mt_text: wp.mtText,
             dist_text: wp.distText,
-            wp_alt: RestWaypointAltitudeConverter.toRest(wp.alt),
+            wp_alt: RestWaypointAltitudeConverter.toRest(wp.wpAlt),
             eet_text: wp.eetText,
             remark: wp.remark,
             supp_info: wp.supp_info,
             pos: Position2dConverter.toRest(wp.position),
-        };
+        } : undefined;
     }
 
 
