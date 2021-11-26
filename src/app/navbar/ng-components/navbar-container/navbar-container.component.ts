@@ -5,6 +5,7 @@ import {select, Store} from '@ngrx/store';
 import {getCurrentUser} from '../../../user/ngrx/user.selectors';
 import {SearchActions} from '../../../search/ngrx/search.actions';
 import {LogoutUserAction} from '../../../user/ngrx/user.actions';
+import {ExporterActions} from '../../../exporter/ngrx/exporter.actions';
 
 
 @Component({
@@ -16,9 +17,7 @@ export class NavbarContainerComponent implements OnInit {
     public readonly currentUser$: Observable<User>;
 
 
-    constructor(
-        private appStore: Store<any>) {
-
+    constructor(private appStore: Store<any>) {
         this.currentUser$ = this.appStore.pipe(select(getCurrentUser));
     }
 
@@ -34,5 +33,10 @@ export class NavbarContainerComponent implements OnInit {
 
     public onLogoffClick() {
         this.appStore.dispatch(new LogoutUserAction());
+    }
+
+
+    public onExportPdfClick() {
+        this.appStore.dispatch(ExporterActions.exportPdf());
     }
 }
