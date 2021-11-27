@@ -8,7 +8,7 @@ use Navplan\Flightroute\RestModel\RestFlightrouteConverter;
 use Navplan\Flightroute\RestModel\RestFuelCalcConverter;
 
 
-class ExportPdfRequest {
+class RestExportPdfRequest {
     const ARG_FLIGHTROUTE = "flightroute";
     const ARG_FUELCALC = "fuelcalc";
 
@@ -20,11 +20,11 @@ class ExportPdfRequest {
     }
 
 
-    public static function fromRest(array $args): ExportPdfRequest {
+    public static function fromRest(array $args): RestExportPdfRequest {
         $flightRoute = RestFlightrouteConverter::fromRest($args[self::ARG_FLIGHTROUTE]);
         $fuelCalc = RestFuelCalcConverter::fromRest($args[self::ARG_FUELCALC]);
 
-        return new ExportPdfRequest(
+        return new RestExportPdfRequest(
             $flightRoute,
             $fuelCalc,
         );

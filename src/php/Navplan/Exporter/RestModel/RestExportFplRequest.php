@@ -6,7 +6,7 @@ use Navplan\Flightroute\DomainModel\Flightroute;
 use Navplan\Flightroute\RestModel\RestFlightrouteConverter;
 
 
-class ExportFplRequest {
+class RestExportFplRequest {
     const ARG_FLIGHTROUTE = "flightroute";
 
 
@@ -16,8 +16,8 @@ class ExportFplRequest {
     }
 
 
-    public static function fromRest(array $args): ExportFplRequest {
-        return new ExportFplRequest(
+    public static function fromRest(array $args): RestExportFplRequest {
+        return new RestExportFplRequest(
             RestFlightrouteConverter::fromRest($args[self::ARG_FLIGHTROUTE])
         );
     }

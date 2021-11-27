@@ -22,7 +22,7 @@ export class DownloadContainerComponent implements OnInit, OnDestroy {
         public dialog: MatDialog
     ) {
         this.filenameSubscription = this.exporterState$.subscribe(state => {
-            if (state.filename) {
+            if (state.exportedFile) {
                 this.openDialog(state);
             }
         });
@@ -41,9 +41,7 @@ export class DownloadContainerComponent implements OnInit, OnDestroy {
     private openDialog(state: ExporterState) {
         this.dialog.open(DownloadDialogComponent, {
             data: {
-                filename: state.filename,
-                mimeType: state.mimeType,
-                relUrl: state.relUrl
+                exportedFile: state.exportedFile
             }
         });
     }

@@ -16,9 +16,9 @@ export class DownloadDialogComponent implements OnInit, OnDestroy {
 
 
     constructor(@Inject(MAT_DIALOG_DATA) public data: ExporterState) {
-        this.filename = data.filename;
-        this.mimeType = data.mimeType;
-        this.downloadUrl = environment.exportBaseUrl + data.relUrl;
+        this.filename = data.exportedFile.filename;
+        this.mimeType = data.exportedFile.mimeType;
+        this.downloadUrl = environment.exportBaseUrl + data.exportedFile.relUrl;
     }
 
 

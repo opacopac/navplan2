@@ -12,6 +12,8 @@ import {catchError, map} from 'rxjs/operators';
 import {ExportedFile} from '../domain-model/exported-file';
 import {RestExportedFileConverter} from '../rest-model/rest-exported-file-converter';
 import {RestExportKmlRequestConverter} from '../rest-model/rest-export-kml-request-converter';
+import {RestExportGpxRequestConverter} from '../rest-model/rest-export-gpx-request-converter';
+import {RestExportFplRequestConverter} from '../rest-model/rest-export-fpl-request-converter';
 
 
 @Injectable()
@@ -45,6 +47,32 @@ export class ExporterRestService implements IExporterService {
                 map(response => RestExportedFileConverter.fromRest(response.body)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR exporting KML', err);
+                    return throwError(err);
+                })
+            );
+    }
+
+
+    exportGpx(flightroute: Flightroute, track: Track): Observable<ExportedFile> {
+        const requestBody = RestExportGpxRequestConverter.toRest(flightroute, track);
+        return this.http
+            .post<IRestExportedFile>(environment.exporterBaseUrl, JSON.stringify(requestBody), { observe: 'response' }).pipe(
+                map(response => RestExportedFileConverter.fromRest(response.body)),
+                catchError(err => {
+                    LoggingService.logResponseError('ERROR exporting GPX', err);
+                    return throwError(err);
+                })
+            );
+    }
+
+
+    exportFpl(flightroute: Flightroute): Observable<ExportedFile> {
+        const requestBody = RestExportFplRequestConverter.toRest(flightroute);
+        return this.http
+            .post<IRestExportedFile>(environment.exporterBaseUrl, JSON.stringify(requestBody), { observe: 'response' }).pipe(
+                map(response => RestExportedFileConverter.fromRest(response.body)),
+                catchError(err => {
+                    LoggingService.logResponseError('ERROR exporting FPL', err);
                     return throwError(err);
                 })
             );

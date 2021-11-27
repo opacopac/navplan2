@@ -31,10 +31,7 @@ export class ExporterEffects {
         ofType(ExporterActions.exportPdf),
         withLatestFrom(this.flightroute$),
         switchMap(([action, flightroute]) => this.exporter.exportPdf(flightroute).pipe(
-            map(exportedFile => ExporterActions.exportSuccess({
-                exportedFile: exportedFile,
-                mimeType: 'application/pdf'
-            })),
+            map(exportedFile => ExporterActions.exportSuccess({ exportedFile: exportedFile })),
             catchError(error => of(MessageActions.showMessage({
                 message: Message.error('Error exporting PDF', error)
             })))
@@ -46,10 +43,7 @@ export class ExporterEffects {
         ofType(ExporterActions.exportExcel),
         withLatestFrom(this.flightroute$),
         switchMap(([action, flightroute]) => this.exporter.exportPdf(flightroute).pipe( // TODO
-            map(exportedFile => ExporterActions.exportSuccess({
-                exportedFile: exportedFile,
-                mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            })),
+            map(exportedFile => ExporterActions.exportSuccess({ exportedFile: exportedFile })),
             catchError(error => of(MessageActions.showMessage({
                 message: Message.error('Error exporting Excel', error)
             })))
@@ -61,12 +55,33 @@ export class ExporterEffects {
         ofType(ExporterActions.exportKml),
         withLatestFrom(this.flightroute$, this.track$),
         switchMap(([action, flightroute, track]) => this.exporter.exportKml(flightroute, track).pipe(
-            map(exportedFile => ExporterActions.exportSuccess({
-                exportedFile: exportedFile,
-                mimeType: 'application/vnd.google-earth.kml+xml'
-            })),
+            map(exportedFile => ExporterActions.exportSuccess({ exportedFile: exportedFile })),
             catchError(error => of(MessageActions.showMessage({
-                message: Message.error('Error exporting Excel', error)
+                message: Message.error('Error exporting KML', error)
+            })))
+        )),
+    ));
+
+
+    exportGpxAction$ = createEffect(() => this.actions$.pipe(
+        ofType(ExporterActions.exportGpx),
+        withLatestFrom(this.flightroute$, this.track$),
+        switchMap(([action, flightroute, track]) => this.exporter.exportGpx(flightroute, track).pipe(
+            map(exportedFile => ExporterActions.exportSuccess({ exportedFile: exportedFile })),
+            catchError(error => of(MessageActions.showMessage({
+                message: Message.error('Error exporting GPX', error)
+            })))
+        )),
+    ));
+
+
+    exportFplAction$ = createEffect(() => this.actions$.pipe(
+        ofType(ExporterActions.exportFpl),
+        withLatestFrom(this.flightroute$),
+        switchMap(([action, flightroute]) => this.exporter.exportFpl(flightroute).pipe(
+            map(exportedFile => ExporterActions.exportSuccess({ exportedFile: exportedFile })),
+            catchError(error => of(MessageActions.showMessage({
+                message: Message.error('Error exporting FPL', error)
             })))
         )),
     ));

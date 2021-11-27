@@ -10,4 +10,8 @@ export abstract class IExporterService {
     public abstract exportExcel(flightroute: Flightroute): Observable<ExportedFile>;
 
     public abstract exportKml(flightroute: Flightroute, track: Track): Observable<ExportedFile>;
+
+    public abstract exportGpx(flightroute: Flightroute, track: Track): Observable<ExportedFile>;
+
+    public abstract exportFpl(flightroute: Flightroute): Observable<ExportedFile>;
 }

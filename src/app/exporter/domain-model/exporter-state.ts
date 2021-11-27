@@ -1,5 +1,5 @@
+import {ExportedFile} from './exported-file';
+
 export interface ExporterState {
-    filename: string;
-    relUrl: string;
-    mimeType: string;
+    exportedFile: ExportedFile;
 }

@@ -14,6 +14,8 @@ export class NavbarComponent implements OnInit {
     @Output() onExportPdfClick: EventEmitter<null> = new EventEmitter<null>();
     @Output() onExportExcelClick: EventEmitter<null> = new EventEmitter<null>();
     @Output() onExportKmlClick: EventEmitter<null> = new EventEmitter<null>();
+    @Output() onExportGpxClick: EventEmitter<null> = new EventEmitter<null>();
+    @Output() onExportFplClick: EventEmitter<null> = new EventEmitter<null>();
 
 
     constructor() {

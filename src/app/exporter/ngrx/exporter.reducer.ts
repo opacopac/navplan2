@@ -4,9 +4,7 @@ import {ExporterActions} from './exporter.actions';
 
 
 const initialState: ExporterState = {
-    filename: undefined,
-    mimeType: undefined,
-    relUrl: undefined,
+    exportedFile: undefined
 };
 
 
@@ -14,9 +12,6 @@ export const exporterReducer = createReducer(
     initialState,
     on(ExporterActions.exportSuccess, (state, action) => ({
         ...state,
-        filename: action.exportedFile.filename,
-        relUrl: action.exportedFile.relUrl,
-        mimeType: action.mimeType
-
+        exportedFile: action.exportedFile,
     })),
 );

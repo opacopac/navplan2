@@ -8,7 +8,7 @@ use Navplan\Track\DomainModel\Track;
 use Navplan\Track\RestModel\RestTrackConverter;
 
 
-class ExportGpxRequest {
+class RestExportKmlRequest {
     const ARG_FLIGHTROUTE = "flightroute";
     const ARG_TRACK = "track";
 
@@ -20,8 +20,8 @@ class ExportGpxRequest {
     }
 
 
-    public static function fromRest(array $args): ExportGpxRequest {
-        return new ExportGpxRequest(
+    public static function fromRest(array $args): RestExportKmlRequest {
+        return new RestExportKmlRequest(
             RestFlightrouteConverter::fromRest($args[self::ARG_FLIGHTROUTE]),
             RestTrackConverter::fromRest($args[self::ARG_TRACK])
         );

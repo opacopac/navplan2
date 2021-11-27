@@ -49,4 +49,14 @@ export class NavbarContainerComponent implements OnInit {
     public onExportKmlClick() {
         this.appStore.dispatch(ExporterActions.exportKml());
     }
+
+
+    public onExportGpxClick() {
+        this.appStore.dispatch(ExporterActions.exportGpx());
+    }
+
+
+    public onExportFplClick() {
+        this.appStore.dispatch(ExporterActions.exportFpl());
+    }
 }

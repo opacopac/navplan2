@@ -10,6 +10,7 @@ class RestExportFileConverter {
         return array(
             'filename' => $exportFile->filename,
             'relurl' => $exportFile->relUrl,
+            'mimetype' => $exportFile->mimeType
         );
     }
 }

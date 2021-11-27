@@ -3,7 +3,6 @@
 
 namespace Navplan\Exporter\FileExportService;
 
-use Navplan\Common\InvalidFormatException;
 use Navplan\Exporter\Builder\NavplanFplBuilder;
 use Navplan\Exporter\Builder\NavplanGpxBuilder;
 use Navplan\Exporter\Builder\NavplanKmlBuilder;
@@ -27,9 +26,6 @@ class FileExportService implements IExportService {
     }
 
 
-    /**
-     * @throws InvalidFormatException
-     */
     public function createNavplanPdf(Flightroute $flightroute, FuelCalc $fuelCalc): ExportFile {
         $pdf = $this->pdfBuilder->buildPdf($flightroute, $fuelCalc);
         $tmpDirBase = $this->fileService->getTempDirBase();
@@ -40,14 +36,29 @@ class FileExportService implements IExportService {
 
         return new ExportFile(
             $fileName,
-            $tmpFile
+            $tmpFile,
+            "application/pdf"
         );
     }
 
 
-    /**
-     * @throws InvalidFormatException
-     */
+    // TODO
+    public function createNavplanExcel(Flightroute $flightroute, FuelCalc $fuelCalc): ExportFile {
+        $pdf = $this->pdfBuilder->buildPdf($flightroute, $fuelCalc);
+        $tmpDirBase = $this->fileService->getTempDirBase();
+        $tmpDir = $this->fileService->createTempDir();
+        $fileName = "naplan.xlsx"; // TODO
+        $tmpFile = $tmpDir . "/" . $fileName;
+        $pdf->Output($tmpDirBase . $tmpFile, "F"); // output pdf to temp file
+
+        return new ExportFile(
+            $fileName,
+            $tmpFile,
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        );
+    }
+
+
     public function createNavplanKml(Flightroute $flightroute, Track $track): ExportFile {
         $xml = $this->kmlBuilder->buildKml($flightroute, $track);
         $tmpDirBase = $this->fileService->getTempDirBase();
@@ -58,32 +69,28 @@ class FileExportService implements IExportService {
 
         return new ExportFile(
             $fileName,
-            $tmpFile
+            $tmpFile,
+            "application/vnd.google-earth.kml+xml"
         );
     }
 
 
-    /**
-     * @throws InvalidFormatException
-     */
     public function createNavplanGpx(Flightroute $flightroute, Track $track): ExportFile {
         $xml = $this->gpxBuilder->buildGpx($flightroute, $track);
         $tmpDirBase = $this->fileService->getTempDirBase();
         $tmpDir = $this->fileService->createTempDir();
-        $fileName = "navplan.kml"; // TODO
+        $fileName = "navplan.gpx"; // TODO
         $tmpFile = $tmpDir . "/" . $fileName;
         file_put_contents($tmpDirBase . $tmpFile, $xml); // output pdf to temp file
 
         return new ExportFile(
             $fileName,
-            $tmpFile
+            $tmpFile,
+            "application/gpx+xml"
         );
     }
 
 
-    /**
-     * @throws InvalidFormatException
-     */
     public function createNavplanFpl(Flightroute $flightroute): ExportFile {
         $xml = $this->fplBuilder->buildFpl($flightroute);
         $tmpDirBase = $this->fileService->getTempDirBase();
@@ -94,7 +101,8 @@ class FileExportService implements IExportService {
 
         return new ExportFile(
             $fileName,
-            $tmpFile
+            $tmpFile,
+            "application/octet-stream"
         );
     }
 }

@@ -43,8 +43,8 @@ class NavplanGpxBuilder {
             // waypoints
             for ($i = 0; $i < count($waypoints); $i++) {
                 $this->xml .= '' .
-                    '  <wpt lat="' . $waypoints[$i]["latitude"] . '" lon="' . $waypoints[$i]["longitude"] . '">' . "\n" .
-                    '    <name>' . $waypoints[$i]["checkpoint"] . '</name>' . "\n" .
+                    '  <wpt lat="' . $waypoints[$i]->position->latitude . '" lon="' . $waypoints[$i]->position->longitude . '">' . "\n" .
+                    '    <name>' . $waypoints[$i]->checkpoint . '</name>' . "\n" .
                     '    <type>' . $this->getWpType($waypoints[$i]) . '</type>' . "\n" .
                     '  </wpt>' . "\n";
             }
@@ -55,8 +55,8 @@ class NavplanGpxBuilder {
                 '    <name>' . $flightroute->title . '</name>' . "\n";
 
             for ($i = 0; $i < count($waypoints); $i++) {
-                $this->xml .= '    <rtept lat="' . $waypoints[$i]["latitude"] . '" lon="' . $waypoints[$i]["longitude"] . '">' . "\n";
-                $this->xml .= '      <name>' . $waypoints[$i]["checkpoint"] . '</name>' . "\n";
+                $this->xml .= '    <rtept lat="' . $waypoints[$i]->position->latitude . '" lon="' . $waypoints[$i]->position->longitude . '">' . "\n";
+                $this->xml .= '      <name>' . $waypoints[$i]->checkpoint . '</name>' . "\n";
                 $this->xml .= '      <type>' . $this->getWpType($waypoints[$i]) . '</type>' . "\n";
                 $this->xml .= '    </rtept>' . "\n";
             }
@@ -76,10 +76,10 @@ class NavplanGpxBuilder {
                 '    <trkseg>' . "\n";
 
             for ($i = 0; $i < count($trackpoints); $i++) {
-                $unixTimeStamp = floor($trackpoints[$i]["timestamp"] / 1000); // convert from ms to s
+                $unixTimeStamp = floor($trackpoints[$i]->timestamp->toS());
                 $this->xml .= '' .
-                    '    <trkpt lat="' . $trackpoints[$i]["latitude"] . '" lon="' . $trackpoints[$i]["longitude"] . '">' .
-                    '<ele>' . $trackpoints[$i]["altitude"] . '</ele>' .
+                    '    <trkpt lat="' . $trackpoints[$i]->latitude . '" lon="' . $trackpoints[$i]->longitude . '">' .
+                    '<ele>' . $trackpoints[$i]->altitude->getHeightAmsl()->getM() . '</ele>' .
                     '<time>' . getIsoTimeString($unixTimeStamp) . '</time>' .
                     '</trkpt>' . "\n";
             }

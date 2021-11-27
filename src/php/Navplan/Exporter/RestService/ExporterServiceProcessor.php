@@ -3,11 +3,11 @@
 namespace Navplan\Exporter\RestService;
 
 use InvalidArgumentException;
-use Navplan\Exporter\RestModel\ExportFplRequest;
-use Navplan\Exporter\RestModel\ExportGpxRequest;
-use Navplan\Exporter\RestModel\ExportKmlRequest;
-use Navplan\Exporter\RestModel\ExportPdfRequest;
 use Navplan\Exporter\RestModel\RestExportFileConverter;
+use Navplan\Exporter\RestModel\RestExportFplRequest;
+use Navplan\Exporter\RestModel\RestExportGpxRequest;
+use Navplan\Exporter\RestModel\RestExportKmlRequest;
+use Navplan\Exporter\RestModel\RestExportPdfRequest;
 
 
 class ExporterServiceProcessor {
@@ -23,22 +23,22 @@ class ExporterServiceProcessor {
         $action = $postArgs[self::ARG_ACTION] ?? NULL;
         switch ($action) {
             case self::ACTION_EXPORT_PDF:
-                $request = ExportPdfRequest::fromRest($postArgs);
+                $request = RestExportPdfRequest::fromRest($postArgs);
                 $exportFile = $diContainer->getExportService()->createNavplanPdf($request->flightroute, $request->fuelCalc);
                 $httpService->sendArrayResponse(RestExportFileConverter::toRest($exportFile));
                 break;
             case self::ACTION_EXPORT_KML:
-                $request = ExportKmlRequest::fromRest($postArgs);
+                $request = RestExportKmlRequest::fromRest($postArgs);
                 $exportFile = $diContainer->getExportService()->createNavplanKml($request->flightroute, $request->track);
                 $httpService->sendArrayResponse(RestExportFileConverter::toRest($exportFile));
                 break;
             case self::ACTION_EXPORT_GPX:
-                $request = ExportGpxRequest::fromRest($postArgs);
+                $request = RestExportGpxRequest::fromRest($postArgs);
                 $exportFile = $diContainer->getExportService()->createNavplanGpx($request->flightroute, $request->track);
                 $httpService->sendArrayResponse(RestExportFileConverter::toRest($exportFile));
                 break;
             case self::ACTION_EXPORT_FPL:
-                $request = ExportFplRequest::fromRest($postArgs);
+                $request = RestExportFplRequest::fromRest($postArgs);
                 $exportFile = $diContainer->getExportService()->createNavplanFpl($request->flightroute);
                 $httpService->sendArrayResponse(RestExportFileConverter::toRest($exportFile));
                 break;

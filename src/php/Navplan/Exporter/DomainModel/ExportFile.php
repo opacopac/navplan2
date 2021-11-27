@@ -6,7 +6,8 @@ namespace Navplan\Exporter\DomainModel;
 class ExportFile {
     public function __construct(
         public string $filename,
-        public string $relUrl
+        public string $relUrl,
+        public string $mimeType,
     ) {
     }
 }
