@@ -2,14 +2,22 @@
 
 namespace Navplan\Exporter\RestModel;
 
-use Navplan\Exporter\UseCase\ExportPdf\ExportPdfRequest;
+use Navplan\Flightroute\DomainModel\Flightroute;
+use Navplan\Flightroute\DomainModel\FuelCalc;
 use Navplan\Flightroute\RestModel\RestFlightrouteConverter;
 use Navplan\Flightroute\RestModel\RestFuelCalcConverter;
 
 
-class RestExportPdfRequestConverter {
+class ExportPdfRequest {
     const ARG_FLIGHTROUTE = "flightroute";
     const ARG_FUELCALC = "fuelcalc";
+
+
+    public function __construct(
+        public Flightroute $flightroute,
+        public FuelCalc $fuelCalc,
+    ) {
+    }
 
 
     public static function fromRest(array $args): ExportPdfRequest {

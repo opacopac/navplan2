@@ -12,4 +12,8 @@ interface IExportService {
     function createNavplanPdf(Flightroute $flightroute, FuelCalc $fuelCalc): ExportFile;
 
     function createNavplanKml(Flightroute $flightroute, Track $track): ExportFile;
+
+    function createNavplanGpx(Flightroute $flightroute, Track $track): ExportFile;
+
+    function createNavplanFpl(Flightroute $flightroute): ExportFile;
 }

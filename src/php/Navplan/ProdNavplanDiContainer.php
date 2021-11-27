@@ -19,15 +19,13 @@ use Navplan\Enroute\DomainService\IAirspaceRepo;
 use Navplan\Enroute\DomainService\INavaidRepo;
 use Navplan\Enroute\RestService\IAirspaceServiceDiContainer;
 use Navplan\Enroute\RestService\INavaidServiceDiContainer;
+use Navplan\Exporter\Builder\NavplanFplBuilder;
+use Navplan\Exporter\Builder\NavplanGpxBuilder;
 use Navplan\Exporter\Builder\NavplanKmlBuilder;
 use Navplan\Exporter\Builder\NavplanPdfBuilder;
 use Navplan\Exporter\DomainService\IExportService;
 use Navplan\Exporter\FileExportService\FileExportService;
 use Navplan\Exporter\RestService\IExporterServiceDiContainer;
-use Navplan\Exporter\UseCase\ExportKml\ExportKmlUc;
-use Navplan\Exporter\UseCase\ExportKml\IExportKmlUc;
-use Navplan\Exporter\UseCase\ExportPdf\ExportPdfUc;
-use Navplan\Exporter\UseCase\ExportPdf\IExportPdfUc;
 use Navplan\Flightroute\DbRepo\DbFlightrouteRepo;
 use Navplan\Flightroute\DomainService\IFlightrouteRepo;
 use Navplan\Flightroute\RestService\IFlightrouteServiceDiContainer;
@@ -217,8 +215,6 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     private IReadVerticalMapUc $readVerticalMapUc;
     // export
     private IExportService $exportService;
-    private IExportPdfUc $exportPdfUc;
-    private IExportKmlUc $exportKmlUc;
 
 
     public function __construct() {
@@ -889,33 +885,13 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
             $this->exportService = new FileExportService(
                 $this->getFileService(),
                 new NavplanPdfBuilder(),
-                new NavplanKmlBuilder()
+                new NavplanKmlBuilder(),
+                new NavplanGpxBuilder(),
+                new NavplanFplBuilder()
             );
         }
 
         return $this->exportService;
-    }
-
-
-    function getExportPdfUc(): IExportPdfUc {
-        if (!isset($this->exportPdfUc)) {
-            $this->exportPdfUc = new ExportPdfUc(
-                $this->getExportService()
-            );
-        }
-
-        return $this->exportPdfUc;
-    }
-
-
-    function getExportKmlUc(): IExportKmlUc {
-        if (!isset($this->exportKmlUc)) {
-            $this->exportKmlUc = new ExportKmlUc(
-                $this->getExportService()
-            );
-        }
-
-        return $this->exportKmlUc;
     }
 
 

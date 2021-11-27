@@ -6,7 +6,6 @@ namespace Navplan\Exporter\Builder;
 use Navplan\Common\DateTimeHelper;
 use Navplan\Flightroute\DomainModel\Flightroute;
 use Navplan\Flightroute\DomainModel\Waypoint;
-use Navplan\Track\DomainModel\Track;
 
 
 class NavplanFplBuilder {
@@ -17,11 +16,10 @@ class NavplanFplBuilder {
     }
 
 
-    public function buildFpl(?Flightroute $flightroute, ?Track $track): string {
+    public function buildFpl(?Flightroute $flightroute): string {
         $this->xml = "";
         $this->createHeader();
         $this->createRoute($flightroute);
-        $this->createTrack($track);
         $this->createFooter();
 
         return $this->xml;
