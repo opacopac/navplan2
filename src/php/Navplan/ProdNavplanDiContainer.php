@@ -13,8 +13,8 @@ use Navplan\Aerodrome\DomainService\IAirportCircuitRepo;
 use Navplan\Aerodrome\DomainService\IAirportRepo;
 use Navplan\Aerodrome\DomainService\IReportingPointRepo;
 use Navplan\Aerodrome\RestService\IAirportServiceDiContainer;
-use Navplan\Enroute\DbService\DbAirspaceService;
-use Navplan\Enroute\DbService\DbNavaidService;
+use Navplan\Enroute\DbService\DbAirspaceRepo;
+use Navplan\Enroute\DbService\DbNavaidRepo;
 use Navplan\Enroute\DomainService\IAirspaceService;
 use Navplan\Enroute\DomainService\INavaidService;
 use Navplan\Enroute\RestService\IAirspaceServiceDiContainer;
@@ -83,6 +83,11 @@ use Navplan\Terrain\FileRepo\FileTerrainRepo;
 use Navplan\Terrain\RestService\ITerrainDiContainer;
 use Navplan\Terrain\UseCase\ReadElevationList\IReadElevationListUc;
 use Navplan\Terrain\UseCase\ReadElevationList\ReadElevationListUc;
+use Navplan\Track\DbService\DbTrackRepo;
+use Navplan\Track\DomainService\ITrackRepo;
+use Navplan\Track\DomainService\ITrackService;
+use Navplan\Track\DomainService\TrackService;
+use Navplan\Track\RestService\ITrackServiceDiContainer;
 use Navplan\Traffic\AdsbexService\AdsbexService;
 use Navplan\Traffic\DomainService\IAdsbexService;
 use Navplan\Traffic\DomainService\IOgnService;
@@ -136,7 +141,8 @@ use Navplan\Webcam\RestService\IWebcamServiceDiContainer;
 class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFlightrouteServiceDiContainer,
     IGeonameServiceDiContainer, IMeteoServiceDiContainer, INotamServiceDiContainer, ISearchServiceDiContainer,
     ITerrainDiContainer, ITrafficServiceDiContainer, IUserServiceDiContainer, IAirportServiceDiContainer,
-    IAirspaceServiceDiContainer, INavaidServiceDiContainer, IWebcamServiceDiContainer, IVerticalMapDiContainer, IExporterServiceDiContainer
+    IAirspaceServiceDiContainer, INavaidServiceDiContainer, IWebcamServiceDiContainer, IVerticalMapDiContainer,
+    IExporterServiceDiContainer, ITrackServiceDiContainer
 {
     // const
     private const LOG_LEVEL = LogLevel::INFO;
@@ -216,6 +222,9 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     private IReadVerticalMapUc $readVerticalMapUc;
     // export
     private IExportService $exportService;
+    // track
+    private ITrackService $trackService;
+    private ITrackRepo $trackRepo;
 
 
     public function __construct() {
@@ -270,7 +279,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
 
     public function getAirspaceService(): IAirspaceService {
         if (!isset($this->airspaceService)) {
-            $this->airspaceService = new DbAirspaceService($this->getDbService());
+            $this->airspaceService = new DbAirspaceRepo($this->getDbService());
         }
 
         return $this->airspaceService;
@@ -432,7 +441,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
 
     public function getNavaidService(): INavaidService {
         if (!isset($this->navaidService)) {
-            $this->navaidService = new DbNavaidService($this->getDbService());
+            $this->navaidService = new DbNavaidRepo($this->getDbService());
         }
 
         return $this->navaidService;
@@ -896,6 +905,32 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
         return $this->exportService;
     }
 
+    // endregion
+
+
+    // region track
+
+    function getTrackService(): ITrackService {
+        if (!isset($this->trackService)) {
+            $this->trackService = new TrackService(
+                $this->getTokenService(),
+                $this->getTrackRepo()
+            );
+        }
+
+        return $this->trackService;
+    }
+
+
+    function getTrackRepo(): ITrackRepo {
+        if (!isset($this->trackRepo)) {
+            $this->trackRepo = new DbTrackRepo(
+                $this->getDbService()
+            );
+        }
+
+        return $this->trackRepo;
+    }
 
     // endregion
 }

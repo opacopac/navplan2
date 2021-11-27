@@ -10,7 +10,7 @@ use Navplan\System\DomainService\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
 
 
-class DbAirspaceService implements IAirspaceService {
+class DbAirspaceRepo implements IAirspaceService {
     const MAX_BOTTOM_ALT_FL = 200;
     const MIN_PIXEL_AIRSPACE_DIAMETER = 50;  // TODO
     const MIN_PIXEL_COORDINATE_RESOLUTION = 2;  // TODO

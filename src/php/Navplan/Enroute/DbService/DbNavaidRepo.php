@@ -11,17 +11,8 @@ use Navplan\System\DomainService\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
 
 
-class DbNavaidService implements INavaidService {
-    private $dbService;
-
-
-    private function getDbService(): IDbService {
-        return $this->dbService;
-    }
-
-
-    public function __construct(IDbService $dbService) {
-        $this->dbService = $dbService;
+class DbNavaidRepo implements INavaidService {
+    public function __construct(private IDbService $dbService) {
     }
 
 
@@ -34,7 +25,7 @@ class DbNavaidService implements INavaidService {
         $query .= "    AND";
         $query .= "  zoommin <= " . $zoom;
 
-        $result = $this->getDbService()->execMultiResultQuery($query, "error searching navaids by extent");
+        $result = $this->dbService->execMultiResultQuery($query, "error searching navaids by extent");
 
         return $this->readNavaidFromResultList($result);
     }
@@ -53,14 +44,14 @@ class DbNavaidService implements INavaidService {
             ") + (longitude - " . $position->longitude . ") * (longitude - " . $position->longitude . ")) ASC";
         $query .= " LIMIT " . $maxResults;
 
-        $result = $this->getDbService()->execMultiResultQuery($query,"error searching navaids by position");
+        $result = $this->dbService->execMultiResultQuery($query,"error searching navaids by position");
 
         return $this->readNavaidFromResultList($result);
     }
 
 
     public function searchByText(string $searchText, int $maxResults): array {
-        $searchText = $this->getDbService()->escapeString($searchText);
+        $searchText = $this->dbService->escapeString($searchText);
         $query = "SELECT *";
         $query .= " FROM openaip_navaids";
         $query .= " WHERE";
@@ -69,7 +60,7 @@ class DbNavaidService implements INavaidService {
         $query .= " ORDER BY CASE WHEN country = 'CH' THEN 1 ELSE 2 END ASC, kuerzel ASC";
         $query .= " LIMIT " . $maxResults;
 
-        $result = $this->getDbService()->execMultiResultQuery($query, "error searching navaids by text");
+        $result = $this->dbService->execMultiResultQuery($query, "error searching navaids by text");
 
         return $this->readNavaidFromResultList($result);
     }

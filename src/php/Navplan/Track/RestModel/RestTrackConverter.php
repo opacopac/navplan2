@@ -27,4 +27,16 @@ class RestTrackConverter {
             "savetime" => RestTimestampConverter::toRest($track->saveTime),
         );
     }
+
+
+    /**
+     * @param Track[] $trackList
+     * @return array
+     */
+    public static function toRestList(array $trackList): array {
+        return array_map(
+            function ($track) { return self::toRest($track); },
+            $trackList
+        );
+    }
 }

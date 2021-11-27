@@ -2,6 +2,7 @@
 
 namespace Navplan\User\UseCase\SearchUserPoint;
 
+use InvalidArgumentException;
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\User\DomainService\ITokenService;
@@ -19,7 +20,7 @@ class SearchUserPointUc implements ISearchUserPointUc {
     public function searchByExtent(Extent2d $extent, string $token): array {
         $email = $this->tokenService->getEmailFromToken($token);
         if (!$email) {
-            return [];
+            throw new InvalidArgumentException('invalid user token');
         }
 
         return $this->userPointRepo->searchByExtent($extent, $email);
@@ -29,7 +30,7 @@ class SearchUserPointUc implements ISearchUserPointUc {
     public function searchByPosition(Position2d $position, float $maxRadius_deg, int $maxResults, string $token): array {
         $email = $this->tokenService->getEmailFromToken($token);
         if (!$email) {
-            return [];
+            throw new InvalidArgumentException('invalid user token');
         }
 
         return $this->userPointRepo->searchByPosition($position, $maxRadius_deg, $maxResults, $email);
@@ -39,7 +40,7 @@ class SearchUserPointUc implements ISearchUserPointUc {
     public function searchByText(string $searchText, int $maxResults, string $token): array {
         $email = $this->tokenService->getEmailFromToken($token);
         if (!$email) {
-            return [];
+            throw new InvalidArgumentException('invalid user token');
         }
 
         return $this->userPointRepo->searchByText($searchText, $maxResults, $email);

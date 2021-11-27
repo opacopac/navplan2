@@ -4,7 +4,7 @@ namespace NavplanTest\Enroute\DbRepo;
 
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
-use Navplan\Enroute\DbService\DbNavaidService;
+use Navplan\Enroute\DbService\DbNavaidRepo;
 use NavplanTest\Enroute\Mocks\DummyNavaid1;
 use NavplanTest\System\Mock\MockDbService;
 use PHPUnit\Framework\TestCase;
@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class DbNavaidRepoTest extends TestCase {
     private MockDbService $dbService;
-    private DbNavaidService $dbRepo;
+    private DbNavaidRepo $dbRepo;
 
 
     private function getDbService(): MockDbService {
@@ -20,14 +20,14 @@ class DbNavaidRepoTest extends TestCase {
     }
 
 
-    private function getDbRepo(): DbNavaidService {
+    private function getDbRepo(): DbNavaidRepo {
         return $this->dbRepo;
     }
 
 
     protected function setUp(): void {
         $this->dbService = new MockDbService();
-        $this->dbRepo = new DbNavaidService($this->getDbService());
+        $this->dbRepo = new DbNavaidRepo($this->getDbService());
     }
 
 
