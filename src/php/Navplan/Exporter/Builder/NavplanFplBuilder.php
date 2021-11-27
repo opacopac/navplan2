@@ -46,10 +46,10 @@ class NavplanFplBuilder {
             for ($i = 0; $i < count($waypoints); $i++) {
                 $this->xml .= '' .
                     '    <waypoint>' . "\n" .
-                    '      <identifier>' . $this->getNormalizedName($waypoints[$i]["checkpoint"]) . '</identifier>' . "\n" .
+                    '      <identifier>' . $this->getNormalizedName($waypoints[$i]->checkpoint) . '</identifier>' . "\n" .
                     '      <type>' . $this->getWpType($waypoints[$i]) . '</type>' . "\n" .
-                    '      <lat>' . $waypoints[$i]["latitude"] . '</lat>' . "\n" .
-                    '      <lon>' . $waypoints[$i]["longitude"] . '</lon>' . "\n" .
+                    '      <lat>' . $waypoints[$i]->position->latitude . '</lat>' . "\n" .
+                    '      <lon>' . $waypoints[$i]->position->longitude . '</lon>' . "\n" .
                     '    </waypoint>' . "\n";
             }
 
@@ -64,8 +64,8 @@ class NavplanFplBuilder {
             for ($i = 0; $i < count($waypoints); $i++)
             {
                 $this->xml .= '' .
-                    '    <route-point lat="' . $waypoints[$i]["latitude"] . '" lon="' . $waypoints[$i]["longitude"] . '">' . "\n" .
-                    '      <waypoint-identifier>' . $this->getNormalizedName($waypoints[$i]["checkpoint"]) . '</waypoint-identifier>' . "\n" .
+                    '    <route-point lat="' . $waypoints[$i]->position->latitude . '" lon="' . $waypoints[$i]->position->longitude . '">' . "\n" .
+                    '      <waypoint-identifier>' . $this->getNormalizedName($waypoints[$i]->checkpoint) . '</waypoint-identifier>' . "\n" .
                     '      <waypoint-type>' . $this->getWpType($waypoints[$i]) . '</waypoint-type>' . "\n" .
                     '    </route-point>' . "\n";
             }
@@ -84,11 +84,11 @@ class NavplanFplBuilder {
     private function getWpType(Waypoint $waypoint): string {
         return match ($waypoint->type) {
             'airport' => "AIRPORT",
-            'navaid' => match ($waypoint["navaid"]["type"]) { // TODO
+            'navaid' => "VOR", /*match ($waypoint["navaid"]["type"]) { // TODO
                 'VOR-DME', 'DVOR-DME', 'VOR', 'DVOR', 'TACAN', 'VORTAC', 'DVORTAC' => "VOR",
                 'NDB' => "NDB",
                 default => "",
-            },
+            },*/
             default => "",
         };
     }
