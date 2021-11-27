@@ -10,7 +10,7 @@ class Flightroute {
     public function __construct(
         public ?int $id,
         public string $title,
-        public ?Speed $aircraftSpeedKt,
+        public ?Speed $aircraftSpeed,
         public ?Consumption $aircraftConsumption,
         public ?float $extraFuelL,
         public ?string $comments,
@@ -19,8 +19,8 @@ class Flightroute {
         /**
          * @var Waypoint[]
          */
-        public array $waypoinList,
-        public ?Waypoint $alternate
+        public array        $waypoinList,
+        public ?Waypoint    $alternate
     ) {
     }
 

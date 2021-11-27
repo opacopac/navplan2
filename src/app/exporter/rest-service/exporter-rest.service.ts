@@ -14,6 +14,7 @@ import {RestExportedFileConverter} from '../rest-model/rest-exported-file-conver
 import {RestExportKmlRequestConverter} from '../rest-model/rest-export-kml-request-converter';
 import {RestExportGpxRequestConverter} from '../rest-model/rest-export-gpx-request-converter';
 import {RestExportFplRequestConverter} from '../rest-model/rest-export-fpl-request-converter';
+import {RestExportExcelRequestConverter} from '../rest-model/rest-export-excel-request-converter';
 
 
 @Injectable()
@@ -36,7 +37,15 @@ export class ExporterRestService implements IExporterService {
 
 
     exportExcel(flightroute: Flightroute): Observable<ExportedFile> {
-        return undefined;
+        const requestBody = RestExportExcelRequestConverter.toRest(flightroute);
+        return this.http
+            .post<IRestExportedFile>(environment.exporterBaseUrl, JSON.stringify(requestBody), { observe: 'response' }).pipe(
+                map(response => RestExportedFileConverter.fromRest(response.body)),
+                catchError(err => {
+                    LoggingService.logResponseError('ERROR exporting Excel', err);
+                    return throwError(err);
+                })
+            );
     }
 
 

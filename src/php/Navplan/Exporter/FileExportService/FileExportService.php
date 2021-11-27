@@ -3,6 +3,7 @@
 
 namespace Navplan\Exporter\FileExportService;
 
+use Navplan\Exporter\Builder\NavplanExcelBuilder;
 use Navplan\Exporter\Builder\NavplanFplBuilder;
 use Navplan\Exporter\Builder\NavplanGpxBuilder;
 use Navplan\Exporter\Builder\NavplanKmlBuilder;
@@ -13,6 +14,7 @@ use Navplan\Flightroute\DomainModel\Flightroute;
 use Navplan\Flightroute\DomainModel\FuelCalc;
 use Navplan\System\DomainService\IFileService;
 use Navplan\Track\DomainModel\Track;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 
 class FileExportService implements IExportService {
@@ -21,7 +23,8 @@ class FileExportService implements IExportService {
         public NavplanPdfBuilder $pdfBuilder,
         public NavplanKmlBuilder $kmlBuilder,
         public NavplanGpxBuilder $gpxBuilder,
-        public NavplanFplBuilder $fplBuilder
+        public NavplanFplBuilder $fplBuilder,
+        public NavplanExcelBuilder $excelBuilder,
     ) {
     }
 
@@ -42,14 +45,15 @@ class FileExportService implements IExportService {
     }
 
 
-    // TODO
     public function createNavplanExcel(Flightroute $flightroute, FuelCalc $fuelCalc): ExportFile {
-        $pdf = $this->pdfBuilder->buildPdf($flightroute, $fuelCalc);
+        $objPHPExcel = $this->excelBuilder->buildExcel($flightroute, $fuelCalc);
         $tmpDirBase = $this->fileService->getTempDirBase();
         $tmpDir = $this->fileService->createTempDir();
         $fileName = "naplan.xlsx"; // TODO
         $tmpFile = $tmpDir . "/" . $fileName;
-        $pdf->Output($tmpDirBase . $tmpFile, "F"); // output pdf to temp file
+        $objWriter = new Xlsx($objPHPExcel);
+        $objWriter->setPreCalculateFormulas(true);
+        $objWriter->save($tmpDirBase . $tmpFile);
 
         return new ExportFile(
             $fileName,

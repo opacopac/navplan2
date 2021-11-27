@@ -3,7 +3,7 @@
 namespace NavplanTest\Enroute\DbRepo;
 
 use Navplan\Common\DomainModel\Extent2d;
-use Navplan\Enroute\DbRepo\DbAirspaceRepo;
+use Navplan\Enroute\DbService\DbAirspaceService;
 use NavplanTest\Enroute\Mocks\DummyAirspace1;
 use NavplanTest\System\Mock\MockDbService;
 use PHPUnit\Framework\TestCase;
@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class DbAirspaceRepoTest extends TestCase {
     private MockDbService $dbService;
-    private DbAirspaceRepo $dbRepo;
+    private DbAirspaceService $dbRepo;
 
 
     private function getDbService(): MockDbService {
@@ -19,14 +19,14 @@ class DbAirspaceRepoTest extends TestCase {
     }
 
 
-    private function getDbRepo(): DbAirspaceRepo {
+    private function getDbRepo(): DbAirspaceService {
         return $this->dbRepo;
     }
 
 
     protected function setUp(): void {
         $this->dbService = new MockDbService();
-        $this->dbRepo = new DbAirspaceRepo($this->getDbService());
+        $this->dbRepo = new DbAirspaceService($this->getDbService());
     }
 
 

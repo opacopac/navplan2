@@ -19,7 +19,7 @@ class AirspaceServiceProcessor {
             case self::ACTION_GET_AIRSPACES_BY_EXTENT:
                 $extent = RestExtent2dConverter::fromArgs($args);
                 $zoom = intval($args["zoom"]);
-                $adList = $diContainer->getAirspaceRepo()->searchByExtent($extent, $zoom);
+                $adList = $diContainer->getAirspaceService()->searchByExtent($extent, $zoom);
                 $httpService->sendArrayResponse(RestAirspaceConverter::listToRest($adList));
                 break;
             default:

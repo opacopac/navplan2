@@ -2,27 +2,17 @@
 
 namespace NavplanTest\Enroute\Mocks;
 
+use http\Exception\BadMethodCallException;
 use InvalidArgumentException;
 use Navplan\Common\DomainModel\Extent2d;
-use Navplan\Common\DomainModel\Position2d;
-use Navplan\Enroute\DomainService\INavaidRepo;
+use Navplan\Enroute\DomainService\IAirspaceService;
 
 
-class MockNavaidRepo implements INavaidRepo {
+class MockAirspaceService implements IAirspaceService {
     private $mockResultList = [];
 
 
     public function searchByExtent(Extent2d $extent, int $zoom): array {
-        return $this->shiftMockResult();
-    }
-
-
-    public function searchByPosition(Position2d $position, float $maxRadius_deg, int $maxResults): array {
-        return $this->shiftMockResult();
-    }
-
-
-    public function searchByText(string $searchText, int $maxResults): array {
         return $this->shiftMockResult();
     }
 
@@ -38,5 +28,10 @@ class MockNavaidRepo implements INavaidRepo {
         }
 
         return array_shift($this->mockResultList);
+    }
+
+
+    function searchByRouteIntersection(array $lonLatList): array {
+        throw new BadMethodCallException("not implemented");
     }
 }

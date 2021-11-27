@@ -25,7 +25,7 @@ class RestGeonameConverter {
     }
 
 
-    public static function listToRest(array $geonames): array {
+    public static function toRestList(array $geonames): array {
         return array_map(function (Geoname $geoname) { return RestGeonameConverter::toRest($geoname); }, $geonames);
     }
 }

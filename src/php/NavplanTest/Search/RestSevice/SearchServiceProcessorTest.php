@@ -9,7 +9,7 @@ use Navplan\Search\RestService\SearchServiceProcessor;
 use NavplanTest\Aerodrome\Mocks\DummyReportingPoint1;
 use NavplanTest\Aerodrome\Mocks\MockReportingPointRepo;
 use NavplanTest\Enroute\Mocks\DummyNavaid1;
-use NavplanTest\Enroute\Mocks\MockNavaidRepo;
+use NavplanTest\Enroute\Mocks\MockNavaidService;
 use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\System\Mock\MockHttpService;
 use PHPUnit\Framework\TestCase;
@@ -27,9 +27,9 @@ class SearchServiceProcessorTest extends TestCase {
     }
 
 
-    private function getNavaidMockRepo(): ?MockNavaidRepo {
-        $mockRepo = $this->config->navaidRepo;
-        return $mockRepo instanceof MockNavaidRepo ? $mockRepo : NULL;
+    private function getNavaidMockRepo(): ?MockNavaidService {
+        $mockRepo = $this->config->navaidService;
+        return $mockRepo instanceof MockNavaidService ? $mockRepo : NULL;
     }
 
 

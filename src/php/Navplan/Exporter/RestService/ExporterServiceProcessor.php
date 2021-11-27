@@ -3,6 +3,7 @@
 namespace Navplan\Exporter\RestService;
 
 use InvalidArgumentException;
+use Navplan\Exporter\RestModel\RestExportExcelRequest;
 use Navplan\Exporter\RestModel\RestExportFileConverter;
 use Navplan\Exporter\RestModel\RestExportFplRequest;
 use Navplan\Exporter\RestModel\RestExportGpxRequest;
@@ -13,6 +14,7 @@ use Navplan\Exporter\RestModel\RestExportPdfRequest;
 class ExporterServiceProcessor {
     const ARG_ACTION = "action";
     const ACTION_EXPORT_PDF = "exportpdf";
+    const ACTION_EXPORT_EXCEL = "exportexcel";
     const ACTION_EXPORT_KML = "exportkml";
     const ACTION_EXPORT_GPX = "exportgpx";
     const ACTION_EXPORT_FPL = "exportfpl";
@@ -25,6 +27,11 @@ class ExporterServiceProcessor {
             case self::ACTION_EXPORT_PDF:
                 $request = RestExportPdfRequest::fromRest($postArgs);
                 $exportFile = $diContainer->getExportService()->createNavplanPdf($request->flightroute, $request->fuelCalc);
+                $httpService->sendArrayResponse(RestExportFileConverter::toRest($exportFile));
+                break;
+            case self::ACTION_EXPORT_EXCEL:
+                $request = RestExportExcelRequest::fromRest($postArgs);
+                $exportFile = $diContainer->getExportService()->createNavplanExcel($request->flightroute, $request->fuelCalc);
                 $httpService->sendArrayResponse(RestExportFileConverter::toRest($exportFile));
                 break;
             case self::ACTION_EXPORT_KML:

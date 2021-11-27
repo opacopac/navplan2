@@ -11,7 +11,7 @@ use NavplanTest\Aerodrome\Mocks\DummyReportingPoint1;
 use NavplanTest\Aerodrome\Mocks\DummyReportingSector1;
 use NavplanTest\Aerodrome\Mocks\MockReportingPointRepo;
 use NavplanTest\Enroute\Mocks\DummyAirspace1;
-use NavplanTest\Enroute\Mocks\MockAirspaceRepo;
+use NavplanTest\Enroute\Mocks\MockAirspaceService;
 use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\User\Mocks\DummyUserPoint1;
 use NavplanTest\User\Mocks\DummyUserPoint2;
@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 
 
 class SearchByPositionUcTest extends TestCase {
-    private MockAirspaceRepo $airspaceRepoMock;
+    private MockAirspaceService $airspaceRepoMock;
     private MockReportingPointRepo $reportingPointRepoMock;
     private MockUserPointRepo $userPointRepoMock;
     private TokenService $tokenService;
@@ -29,7 +29,7 @@ class SearchByPositionUcTest extends TestCase {
 
     protected function setUp(): void {
         $config = new MockNavplanDiContainer();
-        $this->airspaceRepoMock = $config->airspaceRepo;
+        $this->airspaceRepoMock = $config->airspaceService;
         $this->reportingPointRepoMock = $config->reportingPointRepo;
         $this->userPointRepoMock = $config->userPointRepo;
         $this->tokenService = $config->getTokenService();

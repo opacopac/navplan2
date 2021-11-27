@@ -11,7 +11,7 @@ use Navplan\Common\DomainModel\Position2d;
 use Navplan\Common\DomainModel\Position3d;
 use Navplan\Common\GeoHelper;
 use Navplan\Enroute\DomainModel\Airspace;
-use Navplan\Enroute\DomainService\IAirspaceRepo;
+use Navplan\Enroute\DomainService\IAirspaceService;
 use Navplan\Terrain\DomainService\ITerrainRepo;
 use Navplan\VerticalMap\DomainModel\VerticalMap;
 use Navplan\VerticalMap\DomainModel\VerticalMapAirspace;
@@ -29,7 +29,7 @@ class VerticalMapService implements IVerticalMapService {
 
     public function __construct(
         private ITerrainRepo $terrainRepo,
-        private IAirspaceRepo $airspaceRepo
+        private IAirspaceService $airspaceRepo
     ) {
     }
 

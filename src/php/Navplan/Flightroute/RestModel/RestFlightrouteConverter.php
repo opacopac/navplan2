@@ -33,7 +33,7 @@ class RestFlightrouteConverter {
         return array(
             "id" => $flightroute->id,
             "title" => $flightroute->title,
-            "aircraft_speed" => RestSpeedConverter::toRest($flightroute->aircraftSpeedKt),
+            "aircraft_speed" => RestSpeedConverter::toRest($flightroute->aircraftSpeed),
             "aircraft_consumption" => RestConsumptionConverter::toRest($flightroute->aircraftConsumption),
             "extra_fuel" => $flightroute->extraFuelL,
             "comments" => $flightroute->comments,

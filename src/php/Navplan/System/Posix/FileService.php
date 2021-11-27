@@ -128,13 +128,13 @@ class FileService implements IFileService {
                 $tmpFilePath = $tmpDirPath . "/" . $tmpFile;
 
                 if (!unlink($tmpFilePath)) {
-                    die("ERROR: while deleting temp file '" . $tmpFilePath . "'");
+                    // die("ERROR: while deleting temp file '" . $tmpFilePath . "'");
                 }
             }
 
             // remove tmp dir
             if (!rmdir($tmpDirPath)) {
-                die("ERROR: while deleting temp dir '" . $tmpDirPath . "'");
+                // die("ERROR: while deleting temp dir '" . $tmpDirPath . "'");
             }
         }
     }

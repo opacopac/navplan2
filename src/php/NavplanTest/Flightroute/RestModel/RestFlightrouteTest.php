@@ -13,7 +13,7 @@ class RestFlightrouteTest extends TestCase
     private function assertEqualRestValues(array $routeRest, Flightroute $route) {
         $this->assertEquals($route->id, $routeRest["id"]);
         $this->assertEquals($route->title, $routeRest["title"]);
-        $this->assertEquals($route->aircraftSpeedKt, $routeRest["aircraft_speed"]);
+        $this->assertEquals($route->aircraftSpeed, $routeRest["aircraft_speed"]);
         $this->assertEquals($route->aircraftConsumption, $routeRest["aircraft_consumption"]);
         $this->assertEquals($route->extraFuelL, $routeRest["extra_fuel"]);
         $this->assertEquals($route->comments, $routeRest["comments"]);

@@ -4,7 +4,7 @@ namespace Navplan\Search\UseCase\SearchByPosition;
 
 use Navplan\Aerodrome\DomainService\IAirportRepo;
 use Navplan\Aerodrome\DomainService\IReportingPointRepo;
-use Navplan\Enroute\DomainService\INavaidRepo;
+use Navplan\Enroute\DomainService\INavaidService;
 use Navplan\Geoname\DomainService\IGeonameService;
 use Navplan\Notam\UseCase\SearchNotam\ISearchNotamUc;
 use Navplan\Search\DomainModel\SearchItemType;
@@ -17,12 +17,12 @@ class SearchByPositionUc implements ISearchByPositionUc {
 
 
     public function __construct(
-        private ISearchUserPointUc $searchUserPointUc,
-        private ISearchNotamUc $searchNotamUc,
-        private IAirportRepo $airportRepo,
+        private ISearchUserPointUc  $searchUserPointUc,
+        private ISearchNotamUc      $searchNotamUc,
+        private IAirportRepo        $airportRepo,
         private IReportingPointRepo $reportingPointRepo,
-        private INavaidRepo $navaidRepo,
-        private IGeonameService $geonameService
+        private INavaidService      $navaidRepo,
+        private IGeonameService     $geonameService
     ) {
     }
 

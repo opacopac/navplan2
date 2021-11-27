@@ -2,12 +2,12 @@
 
 namespace Navplan\Enroute\RestService;
 
-use Navplan\Enroute\DomainService\IAirspaceRepo;
+use Navplan\Enroute\DomainService\IAirspaceService;
 use Navplan\System\DomainService\IHttpService;
 
 
 interface IAirspaceServiceDiContainer {
     function getHttpService(): IHttpService;
 
-    function getAirspaceRepo(): IAirspaceRepo;
+    function getAirspaceService(): IAirspaceService;
 }

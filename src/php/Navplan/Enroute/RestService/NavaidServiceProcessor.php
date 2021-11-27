@@ -19,7 +19,7 @@ class NavaidServiceProcessor {
             case self::ACTION_GET_NAVAIDS_BY_EXTENT:
                 $extent = RestExtent2dConverter::fromArgs($args);
                 $zoom = intval($args["zoom"]);
-                $adList = $diContainer->getNavaidRepo()->searchByExtent($extent, $zoom);
+                $adList = $diContainer->getNavaidService()->searchByExtent($extent, $zoom);
                 $httpService->sendArrayResponse(RestNavaidConverter::listToRest($adList));
                 break;
             default:

@@ -6,8 +6,8 @@ require_once __DIR__ . "/../config_test.php";
 
 use Navplan\Aerodrome\DomainService\IAirportRepo;
 use Navplan\Aerodrome\DomainService\IReportingPointRepo;
-use Navplan\Enroute\DomainService\IAirspaceRepo;
-use Navplan\Enroute\DomainService\INavaidRepo;
+use Navplan\Enroute\DomainService\IAirspaceService;
+use Navplan\Enroute\DomainService\INavaidService;
 use Navplan\Flightroute\DomainService\IFlightrouteRepo;
 use Navplan\Geoname\DomainService\IGeonameRepo;
 use Navplan\MeteoSma\DomainService\IMeteoRepo;
@@ -29,8 +29,8 @@ use Navplan\User\DomainService\IUserRepo;
 use Navplan\Webcam\DomainService\IWebcamRepo;
 use NavplanTest\Aerodrome\Mocks\MockAirportRepo;
 use NavplanTest\Aerodrome\Mocks\MockReportingPointRepo;
-use NavplanTest\Enroute\Mocks\MockAirspaceRepo;
-use NavplanTest\Enroute\Mocks\MockNavaidRepo;
+use NavplanTest\Enroute\Mocks\MockAirspaceService;
+use NavplanTest\Enroute\Mocks\MockNavaidService;
 use NavplanTest\Flightroute\Mocks\MockFlightrouteRepo;
 use NavplanTest\Geoname\Mocks\MockGeonameRepo;
 use NavplanTest\MeteoSma\Mocks\MockMeteoRepo;
@@ -72,8 +72,8 @@ class MockNavplanDiContainer extends ProdNavplanDiContainer {
     public MockNotamRepo $notamRepo;
     // open aip
     public MockAirportRepo $airportRepo;
-    public MockAirspaceRepo $airspaceRepo;
-    public MockNavaidRepo $navaidRepo;
+    public MockAirspaceService $airspaceService;
+    public MockNavaidService $navaidService;
     public MockReportingPointRepo $reportingPointRepo;
     public MockWebcamRepo $webcamRepo;
     // terrain
@@ -103,8 +103,8 @@ class MockNavplanDiContainer extends ProdNavplanDiContainer {
         $this->meteoRepo = new MockMeteoRepo();
         $this->notamRepo = new MockNotamRepo();
         $this->airportRepo = new MockAirportRepo();
-        $this->airspaceRepo = new MockAirspaceRepo();
-        $this->navaidRepo = new MockNavaidRepo();
+        $this->airspaceService = new MockAirspaceService();
+        $this->navaidService = new MockNavaidService();
         $this->reportingPointRepo = new MockReportingPointRepo();
         $this->webcamRepo = new MockWebcamRepo();
         $this->terrainRepo = new MockTerrainRepo();
@@ -203,13 +203,13 @@ class MockNavplanDiContainer extends ProdNavplanDiContainer {
     }
 
 
-    public function getAirspaceRepo(): IAirspaceRepo {
-        return $this->airspaceRepo;
+    public function getAirspaceService(): IAirspaceService {
+        return $this->airspaceService;
     }
 
 
-    public function getNavaidRepo(): INavaidRepo {
-        return $this->navaidRepo;
+    public function getNavaidService(): INavaidService {
+        return $this->navaidService;
     }
 
 

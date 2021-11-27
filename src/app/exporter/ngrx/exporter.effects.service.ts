@@ -42,7 +42,7 @@ export class ExporterEffects {
     exportExcelAction$ = createEffect(() => this.actions$.pipe(
         ofType(ExporterActions.exportExcel),
         withLatestFrom(this.flightroute$),
-        switchMap(([action, flightroute]) => this.exporter.exportPdf(flightroute).pipe( // TODO
+        switchMap(([action, flightroute]) => this.exporter.exportExcel(flightroute).pipe(
             map(exportedFile => ExporterActions.exportSuccess({ exportedFile: exportedFile })),
             catchError(error => of(MessageActions.showMessage({
                 message: Message.error('Error exporting Excel', error)

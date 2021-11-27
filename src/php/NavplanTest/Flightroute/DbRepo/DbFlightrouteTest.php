@@ -23,7 +23,7 @@ class DbFlightrouteTest extends TestCase {
         $this->assertEquals($dbResult["id"], $flightroute->id);
         $this->assertEquals($dbResult["md5_hash"], $flightroute->hash);
         $this->assertEquals($dbResult["title"], $flightroute->title);
-        $this->assertEquals($dbResult["aircraft_speed"], $flightroute->aircraftSpeedKt);
+        $this->assertEquals($dbResult["aircraft_speed"], $flightroute->aircraftSpeed);
         $this->assertEquals($dbResult["aircraft_consumption"], $flightroute->aircraftConsumption);
         $this->assertEquals($dbResult["extra_fuel"], $flightroute->extraFuelL);
         $this->assertEquals($dbResult["comments"], $flightroute->comments);

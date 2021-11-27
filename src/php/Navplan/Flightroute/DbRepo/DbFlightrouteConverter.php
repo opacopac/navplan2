@@ -42,7 +42,7 @@ class DbFlightrouteConverter {
         $query .= join(", ", array(
             DbHelper::getDbIntValue($userId),
             DbHelper::getDbStringValue($dbService, $flightroute->title),
-            DbHelper::getDbFloatValue($flightroute->aircraftSpeedKt->getKt(), "''"),
+            DbHelper::getDbFloatValue($flightroute->aircraftSpeed->getKt(), "''"),
             DbHelper::getDbFloatValue($flightroute->aircraftConsumption->getLph(), "''"),
             DbHelper::getDbFloatValue($flightroute->extraFuelL, "''"),
             DbHelper::getDbStringValue($dbService, $flightroute->comments),
@@ -59,7 +59,7 @@ class DbFlightrouteConverter {
         $query = "UPDATE navplan SET ";
         $query .= join(", ", array(
             "title=" . DbHelper::getDbStringValue($dbService, $flightroute->title),
-            "aircraft_speed=" . DbHelper::getDbFloatValue($flightroute->aircraftSpeedKt->getKt(), "''"),
+            "aircraft_speed=" . DbHelper::getDbFloatValue($flightroute->aircraftSpeed->getKt(), "''"),
             "aircraft_consumption=" . DbHelper::getDbFloatValue($flightroute->aircraftConsumption->getLph(), "''"),
             "extra_fuel=" . DbHelper::getDbFloatValue($flightroute->extraFuelL),
             "comments=" . DbHelper::getDbStringValue($dbService, $flightroute->comments),

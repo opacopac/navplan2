@@ -7,7 +7,7 @@ use Navplan\Common\DomainModel\Position2d;
 use Navplan\Enroute\DomainModel\Airspace;
 
 
-interface IAirspaceRepo {
+interface IAirspaceService {
     /**
      * @param Extent2d $extent
      * @param int $zoom

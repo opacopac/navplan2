@@ -13,12 +13,13 @@ use Navplan\Aerodrome\DomainService\IAirportCircuitRepo;
 use Navplan\Aerodrome\DomainService\IAirportRepo;
 use Navplan\Aerodrome\DomainService\IReportingPointRepo;
 use Navplan\Aerodrome\RestService\IAirportServiceDiContainer;
-use Navplan\Enroute\DbRepo\DbAirspaceRepo;
-use Navplan\Enroute\DbRepo\DbNavaidRepo;
-use Navplan\Enroute\DomainService\IAirspaceRepo;
-use Navplan\Enroute\DomainService\INavaidRepo;
+use Navplan\Enroute\DbService\DbAirspaceService;
+use Navplan\Enroute\DbService\DbNavaidService;
+use Navplan\Enroute\DomainService\IAirspaceService;
+use Navplan\Enroute\DomainService\INavaidService;
 use Navplan\Enroute\RestService\IAirspaceServiceDiContainer;
 use Navplan\Enroute\RestService\INavaidServiceDiContainer;
+use Navplan\Exporter\Builder\NavplanExcelBuilder;
 use Navplan\Exporter\Builder\NavplanFplBuilder;
 use Navplan\Exporter\Builder\NavplanGpxBuilder;
 use Navplan\Exporter\Builder\NavplanKmlBuilder;
@@ -150,7 +151,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     private IAirportCircuitRepo $airportCircuitRepo;
     private IReportingPointRepo $reportingPointRepo;
     // airspace
-    private IAirspaceRepo $airspaceRepo;
+    private IAirspaceService $airspaceService;
     // flightroute
     private IFlightrouteRepo $flightrouteRepo;
     private ICreateFlightrouteUc $createFlightrouteUc;
@@ -167,7 +168,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     private IMeteoRepo $meteoRepo;
     private IReadSmaMeasurementsUc $readSmaMeasurementsUc;
     // navaid
-    private INavaidRepo $navaidRepo;
+    private INavaidService $navaidService;
     // notam
     private INotamRepo $notamRepo;
     private ISearchNotamUc $searchNotamUc;
@@ -267,12 +268,12 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
 
     // region open aip
 
-    public function getAirspaceRepo(): IAirspaceRepo {
-        if (!isset($this->airspaceRepo)) {
-            $this->airspaceRepo = new DbAirspaceRepo($this->getDbService());
+    public function getAirspaceService(): IAirspaceService {
+        if (!isset($this->airspaceService)) {
+            $this->airspaceService = new DbAirspaceService($this->getDbService());
         }
 
-        return $this->airspaceRepo;
+        return $this->airspaceService;
     }
 
     // endregion
@@ -429,12 +430,12 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
 
     // region navaid
 
-    public function getNavaidRepo(): INavaidRepo {
-        if (!isset($this->navaidRepo)) {
-            $this->navaidRepo = new DbNavaidRepo($this->getDbService());
+    public function getNavaidService(): INavaidService {
+        if (!isset($this->navaidService)) {
+            $this->navaidService = new DbNavaidService($this->getDbService());
         }
 
-        return $this->navaidRepo;
+        return $this->navaidService;
     }
 
     // endregion
@@ -471,7 +472,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
                 $this->getSearchNotamUc(),
                 $this->getAirportRepo(),
                 $this->getReportingPointRepo(),
-                $this->getNavaidRepo(),
+                $this->getNavaidService(),
                 $this->getGeonameService()
             );
         }
@@ -486,7 +487,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
                 $this->getSearchUserPointUc(),
                 $this->getAirportRepo(),
                 $this->getReportingPointRepo(),
-                $this->getNavaidRepo(),
+                $this->getNavaidService(),
                 $this->getGeonameService()
             );
         }
@@ -857,7 +858,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
         if (!isset($this->verticalMapService)) {
             $this->verticalMapService = new VerticalMapService(
                 $this->getTerrainRepo(),
-                $this->getAirspaceRepo()
+                $this->getAirspaceService()
             );
         }
 
@@ -887,7 +888,8 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
                 new NavplanPdfBuilder(),
                 new NavplanKmlBuilder(),
                 new NavplanGpxBuilder(),
-                new NavplanFplBuilder()
+                new NavplanFplBuilder(),
+                new NavplanExcelBuilder()
             );
         }
 

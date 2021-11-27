@@ -4,7 +4,7 @@ namespace Navplan\Search\UseCase\SearchByText;
 
 use Navplan\Aerodrome\DomainService\IAirportRepo;
 use Navplan\Aerodrome\DomainService\IReportingPointRepo;
-use Navplan\Enroute\DomainService\INavaidRepo;
+use Navplan\Enroute\DomainService\INavaidService;
 use Navplan\Geoname\DomainService\IGeonameService;
 use Navplan\Search\DomainModel\SearchItemType;
 use Navplan\Search\UseCase\SearchResult;
@@ -17,11 +17,11 @@ class SearchByTextUc implements ISearchByTextUc {
 
 
     public function __construct(
-        private ISearchUserPointUc $searchUserPointUc,
-        private IAirportRepo $airportRepo,
+        private ISearchUserPointUc  $searchUserPointUc,
+        private IAirportRepo        $airportRepo,
         private IReportingPointRepo $reportingPointRepo,
-        private INavaidRepo $navaidRepo,
-        private IGeonameService $geonameService
+        private INavaidService      $navaidRepo,
+        private IGeonameService     $geonameService
     ) {
     }
 

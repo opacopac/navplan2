@@ -1,17 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Enroute\DbRepo;
+namespace Navplan\Enroute\DbService;
 
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\Enroute\DbModel\DbNavaidConverter;
-use Navplan\Enroute\DomainService\INavaidRepo;
+use Navplan\Enroute\DomainService\INavaidService;
 use Navplan\System\DomainModel\IDbResult;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
 
 
-class DbNavaidRepo implements INavaidRepo {
+class DbNavaidService implements INavaidService {
     private $dbService;
 
 

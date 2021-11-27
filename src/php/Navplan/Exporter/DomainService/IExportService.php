@@ -11,6 +11,8 @@ use Navplan\Track\DomainModel\Track;
 interface IExportService {
     function createNavplanPdf(Flightroute $flightroute, FuelCalc $fuelCalc): ExportFile;
 
+    function createNavplanExcel(Flightroute $flightroute, FuelCalc $fuelCalc): ExportFile;
+
     function createNavplanKml(Flightroute $flightroute, Track $track): ExportFile;
 
     function createNavplanGpx(Flightroute $flightroute, Track $track): ExportFile;

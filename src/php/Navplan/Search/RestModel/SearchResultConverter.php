@@ -25,7 +25,7 @@ class SearchResultConverter {
             'reportingpoints' => RestReportingPointConverter::listToRest($result->reportingPoints),
             'userpoints' => array_map(function (UserPoint $up) { return UserPointConverter::toRest($up); }, $result->userPoints),
             'webcams' => RestWebcamConverter::listToRest($result->webcams),
-            'geonames' => RestGeonameConverter::listToRest($result->geonames),
+            'geonames' => RestGeonameConverter::toRestList($result->geonames),
             'notams' => array_map(function (Notam $notam) { return RestNotamConverter::toRest($notam); }, $result->notams),
             'circuits' => RestAirportCircuitConverter::listToRest($result->circuits)
         );

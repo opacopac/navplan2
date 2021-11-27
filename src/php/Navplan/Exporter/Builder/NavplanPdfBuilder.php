@@ -93,7 +93,7 @@ class NavplanPdfBuilder {
         for ($i = 0; $i < count(self::GEN_COL_WIDTHS); $i++) {
             $text = self::GEN2_COL_TITLES[$i];
             if ($i == 1) { // speed
-                $text .= $flightroute->aircraftSpeedKt ? " " . $flightroute->aircraftSpeedKt->getKt() . "kt" : "";
+                $text .= $flightroute->aircraftSpeed ? " " . $flightroute->aircraftSpeed->getKt() . "kt" : "";
             }
 
             $this->pdf->Cell(self::GEN_COL_WIDTHS[$i], self::ROW_HEIGHT, $text, "LTRB", 0);
