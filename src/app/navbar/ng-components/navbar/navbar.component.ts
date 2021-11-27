@@ -13,6 +13,7 @@ export class NavbarComponent implements OnInit {
     @Output() onLogoffClick: EventEmitter<null> = new EventEmitter<null>();
     @Output() onExportPdfClick: EventEmitter<null> = new EventEmitter<null>();
     @Output() onExportExcelClick: EventEmitter<null> = new EventEmitter<null>();
+    @Output() onExportKmlClick: EventEmitter<null> = new EventEmitter<null>();
 
 
     constructor() {

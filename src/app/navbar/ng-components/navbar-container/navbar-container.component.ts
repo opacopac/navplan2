@@ -39,4 +39,14 @@ export class NavbarContainerComponent implements OnInit {
     public onExportPdfClick() {
         this.appStore.dispatch(ExporterActions.exportPdf());
     }
+
+
+    public onExportExcelClick() {
+        this.appStore.dispatch(ExporterActions.exportExcel());
+    }
+
+
+    public onExportKmlClick() {
+        this.appStore.dispatch(ExporterActions.exportKml());
+    }
 }

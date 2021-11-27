@@ -1,7 +1,7 @@
 import {Track} from '../domain-model/track';
 import {IRestTrackListResponse} from './i-rest-track-list-response';
 import {IRestTrackListEntry} from './i-rest-track-list-entry';
-import {RestTrackConverter} from './rest-track-converter';
+import {Timestamp} from '../../common/geo-math/domain-model/quantities/timestamp';
 
 
 export class RestTrackListConverter {
@@ -13,10 +13,20 @@ export class RestTrackListConverter {
         const trackList: Track[] = [];
         for (let i = 0; i < restTrackList.tracks.length; i++) {
             const entry: IRestTrackListEntry = restTrackList.tracks[i];
-            const track = RestTrackConverter.fromListEntryRest(entry);
+            const track = this.fromListEntryRest(entry);
             trackList.push(track);
         }
 
         return trackList;
+    }
+
+
+    private static fromListEntryRest(restListEntry: IRestTrackListEntry): Track {
+        return new Track(
+            restListEntry.id,
+            restListEntry.name,
+            undefined,
+            Timestamp.createFromSec(restListEntry.timestamp)
+        );
     }
 }

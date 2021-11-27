@@ -15,4 +15,23 @@ export class Position4dConverter {
             TimestampConverter.fromRest(restPos[2])
         );
     }
+
+
+    public static fromRestList(restPosList: IRestPosition4d[]): Position4d[] {
+        return restPosList.map(restPos => this.fromRest(restPos));
+    }
+
+
+    public static toRest(pos: Position4d): IRestPosition4d {
+        return [
+            Position2dConverter.toRest(pos),
+            RestAltitudeConverter.toRest(pos.altitude),
+            TimestampConverter.toRest(pos.timestamp)
+        ];
+    }
+
+
+    public static toRestList(posList: Position4d[]): IRestPosition4d[] {
+        return posList.map(pos => this.toRest(pos));
+    }
 }

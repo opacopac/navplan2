@@ -10,7 +10,6 @@ class ExportKmlRequest {
     public function __construct(
         public Flightroute $flightroute,
         public Track $track,
-        public string $fileName
     ) {
     }
 }

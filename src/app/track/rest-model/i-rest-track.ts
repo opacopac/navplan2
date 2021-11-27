@@ -1,6 +1,8 @@
+import {IRestPosition4d} from '../../common/geo-math/rest-model/i-rest-position4d';
+
 export interface IRestTrack {
     id: number;
-    timestamp: number;
+    savetime: number;
     name: string;
-    positions: number[][];
+    positions: IRestPosition4d[];
 }

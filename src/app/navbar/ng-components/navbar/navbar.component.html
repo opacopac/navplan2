@@ -16,7 +16,8 @@
         <mat-menu #navplanExport="matMenu">
             <div fxLayout="column" fxLayoutAlign="start start">
                 <button mat-button (click)="this.onExportPdfClick.emit()"><i class="far fa-file-pdf"></i>&nbsp;&nbsp;PDF</button>
-                <button mat-button><i class="far fa-file-excel"></i>&nbsp;&nbsp;Excel</button>
+                <button mat-button (click)="this.onExportExcelClick.emit()"><i class="far fa-file-excel"></i>&nbsp;&nbsp;Excel</button>
+                <button mat-button (click)="this.onExportKmlClick.emit()"><i class="fas fa-globe"></i>&nbsp;&nbsp;KML (Google Earth)</button>
             </div>
         </mat-menu>
         <button mat-button routerLink="./map" title="Clear current Route and Track"><i class="fas fa-eraser"></i></button>
@@ -43,7 +44,8 @@
     <mat-menu #navplanExportSm="matMenu">
         <div fxLayout="column" fxLayoutAlign="start start">
             <button mat-button (click)="this.onExportPdfClick.emit()"><i class="far fa-file-pdf"></i>&nbsp;&nbsp;PDF</button>
-            <button mat-button><i class="far fa-file-excel"></i>&nbsp;&nbsp;Excel</button>
+            <button mat-button (click)="this.onExportExcelClick.emit()"><i class="far fa-file-excel"></i>&nbsp;&nbsp;Excel</button>
+            <button mat-button (click)="this.onExportKmlClick.emit()"><i class="fas fa-globe"></i>&nbsp;&nbsp;KML (Google Earth)</button>
         </div>
     </mat-menu>
     <button mat-menu-item title="Search" (click)="this.onShowSearchClick.emit()"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</button>

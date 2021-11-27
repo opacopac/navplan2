@@ -7,5 +7,7 @@ import {ExportedFile} from '../domain-model/exported-file';
 export abstract class IExporterService {
     public abstract exportPdf(flightroute: Flightroute): Observable<ExportedFile>;
 
+    public abstract exportExcel(flightroute: Flightroute): Observable<ExportedFile>;
+
     public abstract exportKml(flightroute: Flightroute, track: Track): Observable<ExportedFile>;
 }

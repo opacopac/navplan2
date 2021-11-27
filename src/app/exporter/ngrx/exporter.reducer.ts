@@ -12,17 +12,11 @@ const initialState: ExporterState = {
 
 export const exporterReducer = createReducer(
     initialState,
-    on(ExporterActions.exportPdfSuccess, (state, action) => ({
+    on(ExporterActions.exportSuccess, (state, action) => ({
         ...state,
         filename: action.exportedFile.filename,
         relUrl: action.exportedFile.relUrl,
-        mimeType: 'application/pdf'
+        mimeType: action.mimeType
 
-    })),
-    on(ExporterActions.exportExcelSuccess, (state, action) => ({
-        ...state,
-        filename: action.exportedFile.filename,
-        relUrl: action.exportedFile.relUrl,
-        mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     })),
 );
