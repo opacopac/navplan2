@@ -3,7 +3,7 @@
 namespace NavplanTest\Flightroute\UseCase;
 
 use InvalidArgumentException;
-use Navplan\Flightroute\UseCase\ReadFlightroute\ReadFlightrouteRequest;
+use Navplan\Flightroute\UseCase\ReadFlightroute\RestReadFlightrouteRequest;
 use Navplan\User\DomainService\TokenService;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\MockFlightrouteRepo;
@@ -38,7 +38,7 @@ class ReadFlightrouteTest extends TestCase {
         $this->userRepo->readUserResult = $user;
         $this->flightrouteRepo->readResult = $flightroute;
 
-        $request = new ReadFlightrouteRequest($flightrouteId, $token);
+        $request = new RestReadFlightrouteRequest($flightrouteId, $token);
         $response = $this->config->getReadFlightrouteUc()->read($request);
 
         $this->assertEquals($flightroute, $response->flightroute);
@@ -57,7 +57,7 @@ class ReadFlightrouteTest extends TestCase {
         $this->userRepo->readUserResult = $user;
         $this->flightrouteRepo->readResult = $flightroute;
 
-        $request = new ReadFlightrouteRequest($flightrouteId, $token);
+        $request = new RestReadFlightrouteRequest($flightrouteId, $token);
         $response = $this->config->getReadFlightrouteUc()->read($request);
 
         $this->assertEquals($flightroute, $response->flightroute);
@@ -70,7 +70,7 @@ class ReadFlightrouteTest extends TestCase {
     public function test__read_invalid_token() {
         $token = "dummy.token.123";
         $flightrouteId = 123;
-        $request = new ReadFlightrouteRequest($flightrouteId, $token);
+        $request = new RestReadFlightrouteRequest($flightrouteId, $token);
         try {
             $this->config->getReadFlightrouteUc()->read($request);
             $this->fail("InvalidArgumentException not thrown");
@@ -87,7 +87,7 @@ class ReadFlightrouteTest extends TestCase {
         $token = $this->tokenService->createToken($email, FALSE);
         $flightrouteId = 123;
         $this->userRepo->readUserResult = NULL;
-        $request = new ReadFlightrouteRequest($flightrouteId, $token);
+        $request = new RestReadFlightrouteRequest($flightrouteId, $token);
         try {
             $this->config->getReadFlightrouteUc()->read($request);
             $this->fail("InvalidArgumentException not thrown");

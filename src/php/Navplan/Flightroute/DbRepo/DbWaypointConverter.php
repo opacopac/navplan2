@@ -15,11 +15,11 @@ use Navplan\System\MySqlDb\DbHelper;
 
 class DbWaypointConverter {
     public static function fromDbRow(array $row): Waypoint {
-        $alt = new Altitude(
-            $row["alt"],
+        $alt = $row["alt"] ? new Altitude(
+            intval($row["alt"]),
             AltitudeUnit::FT,
             AltitudeReference::MSL
-        );
+        ) : NULL;
 
         $wpAlt = new WaypointAltitude(
             $alt,

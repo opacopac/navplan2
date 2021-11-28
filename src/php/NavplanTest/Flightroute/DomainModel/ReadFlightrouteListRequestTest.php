@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Flightroute\DomainModel;
 
-use Navplan\Flightroute\UseCase\ReadFlightrouteList\ReadFlightrouteListRequest;
+use Navplan\Flightroute\UseCase\ReadFlightrouteList\RestReadFlightrouteListRequest;
 use Navplan\User\DomainService\TokenService;
 use NavplanTest\MockNavplanDiContainer;
 use PHPUnit\Framework\TestCase;
@@ -22,7 +22,7 @@ class ReadFlightrouteListRequestTest extends TestCase {
 
     public function test__construct() {
         $token = $this->tokenService->createToken("test@navplan.ch", FALSE);
-        $request = new ReadFlightrouteListRequest($token);
+        $request = new RestReadFlightrouteListRequest($token);
 
         $this->assertNotNull($request);
         $this->assertEquals($token, $request->token);

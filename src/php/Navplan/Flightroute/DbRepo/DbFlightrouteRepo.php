@@ -45,7 +45,7 @@ class DbFlightrouteRepo implements IFlightrouteRepo {
 
     public function update(Flightroute $flightroute, User $user): Flightroute {
         // update route
-        $query = DbFlightrouteConverter::toUpdateSql($this->dbService, $flightroute);
+        $query = DbFlightrouteConverter::toUpdateSql($this->dbService, $flightroute, $user->id);
         $this->dbService->execCUDQuery($query, "error updating flightroute");
 
         // update waypoints
@@ -86,7 +86,7 @@ class DbFlightrouteRepo implements IFlightrouteRepo {
     public function readList(User $user): array {
         $query = "SELECT * FROM navplan";
         $query .= " WHERE user_id=" . DbHelper::getDbIntValue($user->id);
-        $query .= " ORDER BY nav.title ASC";
+        $query .= " ORDER BY title ASC";
         $result = $this->dbService->execMultiResultQuery($query, "error reading flightroute list");
 
         $routes = [];

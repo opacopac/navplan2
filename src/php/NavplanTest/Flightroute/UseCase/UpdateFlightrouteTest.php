@@ -3,7 +3,7 @@
 namespace NavplanTest\Flightroute\UseCase;
 
 use InvalidArgumentException;
-use Navplan\Flightroute\UseCase\UpdateFlightroute\UpdateFlightrouteRequest;
+use Navplan\Flightroute\UseCase\UpdateFlightroute\RestUpdateFlightrouteRequest;
 use Navplan\User\DomainService\TokenService;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\MockFlightrouteRepo;
@@ -37,7 +37,7 @@ class UpdateFlightrouteTest extends TestCase {
         $this->flightrouteRepo->readResult = $flightroute;
         $this->flightrouteRepo->updateResult = $flightroute;
 
-        $request = new UpdateFlightrouteRequest($flightroute, $token);
+        $request = new RestUpdateFlightrouteRequest($flightroute, $token);
         $response = $this->config->getUpdateFlightrouteUc()->update($request);
 
         $this->assertEquals($flightroute, $response->flightroute);
@@ -52,7 +52,7 @@ class UpdateFlightrouteTest extends TestCase {
     public function test__update_invalid_token() {
         $token = "dummy.token.123";
         $flightroute = DummyFlightroute1::create();
-        $request = new UpdateFlightrouteRequest($flightroute, $token);
+        $request = new RestUpdateFlightrouteRequest($flightroute, $token);
         try {
             $this->config->getUpdateFlightrouteUc()->update($request);
             $this->fail("InvalidArgumentException not thrown");
@@ -70,7 +70,7 @@ class UpdateFlightrouteTest extends TestCase {
         $token = $this->tokenService->createToken($email, FALSE);
         $flightroute = DummyFlightroute1::create();
         $this->userRepo->readUserResult = NULL;
-        $request = new UpdateFlightrouteRequest($flightroute, $token);
+        $request = new RestUpdateFlightrouteRequest($flightroute, $token);
         try {
             $this->config->getUpdateFlightrouteUc()->update($request);
             $this->fail("InvalidArgumentException not thrown");
@@ -91,7 +91,7 @@ class UpdateFlightrouteTest extends TestCase {
         $this->userRepo->readUserResult = $user;
         $this->flightrouteRepo->readResult = NULL;
 
-        $request = new UpdateFlightrouteRequest($flightroute, $token);
+        $request = new RestUpdateFlightrouteRequest($flightroute, $token);
         try {
             $this->config->getUpdateFlightrouteUc()->update($request);
             $this->fail("InvalidArgumentException not thrown");

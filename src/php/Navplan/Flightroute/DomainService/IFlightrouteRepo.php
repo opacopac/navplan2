@@ -19,5 +19,9 @@ interface IFlightrouteRepo {
 
     function readByShareId(string $shareId): ?Flightroute;
 
+    /**
+     * @param User $user
+     * @return Flightroute[]
+     */
     function readList(User $user): array;
 }

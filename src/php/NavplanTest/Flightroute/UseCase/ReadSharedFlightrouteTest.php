@@ -5,7 +5,7 @@ namespace NavplanTest\Flightroute\UseCase;
 // TODO => config
 require_once __DIR__ . "/../../../config_test.php";
 
-use Navplan\Flightroute\UseCase\ReadSharedFlightroute\ReadSharedFlightrouteRequest;
+use Navplan\Flightroute\UseCase\ReadSharedFlightroute\RestReadSharedFlightrouteRequest;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\MockFlightrouteRepo;
 use NavplanTest\MockNavplanDiContainer;
@@ -28,7 +28,7 @@ class ReadSharedFlightrouteTest extends TestCase {
         $shareId = "12345";
         $this->flightrouteRepo->readSharedResult = $flightroute;
 
-        $request = new ReadSharedFlightrouteRequest($shareId);
+        $request = new RestReadSharedFlightrouteRequest($shareId);
         $response = $this->config->getReadSharedFlightrouteUc()->read($request);
 
         $this->assertEquals($flightroute, $response->flightroute);
@@ -41,7 +41,7 @@ class ReadSharedFlightrouteTest extends TestCase {
         $shareId = "12345";
         $this->flightrouteRepo->readSharedResult = $flightroute;
 
-        $request = new ReadSharedFlightrouteRequest($shareId);
+        $request = new RestReadSharedFlightrouteRequest($shareId);
         $response = $this->config->getReadSharedFlightrouteUc()->read($request);
 
         $this->assertEquals($flightroute, $response->flightroute);

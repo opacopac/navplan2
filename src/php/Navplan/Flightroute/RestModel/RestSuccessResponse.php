@@ -3,7 +3,7 @@
 namespace Navplan\Flightroute\RestModel;
 
 
-class RestSuccessResponseConverter {
+class RestSuccessResponse {
     public static function toRest(): array  {
         return array(
             "success" => 1

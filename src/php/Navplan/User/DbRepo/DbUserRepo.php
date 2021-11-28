@@ -32,7 +32,7 @@ class DbUserRepo implements IUserRepo {
 
     public function readUser(string $email): ?User {
         $email = $this->dbService->escapeString($email);
-        $query = "SELECT id FROM users WHERE email = '" . $email . "'";
+        $query = "SELECT * FROM users WHERE email = '" . $email . "'";
         $result = $this->dbService->execSingleResultQuery($query, TRUE, "error reading user");
 
         if ($result->getNumRows() !== 1) {

@@ -28,22 +28,10 @@ use Navplan\Exporter\DomainService\IExportService;
 use Navplan\Exporter\FileExportService\FileExportService;
 use Navplan\Exporter\RestService\IExporterServiceDiContainer;
 use Navplan\Flightroute\DbRepo\DbFlightrouteRepo;
+use Navplan\Flightroute\DomainService\FlightrouteService;
 use Navplan\Flightroute\DomainService\IFlightrouteRepo;
+use Navplan\Flightroute\DomainService\IFlightrouteService;
 use Navplan\Flightroute\RestService\IFlightrouteServiceDiContainer;
-use Navplan\Flightroute\UseCase\CreateFlightroute\CreateFlightrouteUc;
-use Navplan\Flightroute\UseCase\CreateFlightroute\ICreateFlightrouteUc;
-use Navplan\Flightroute\UseCase\CreateSharedFlightroute\CreateSharedFlightrouteUc;
-use Navplan\Flightroute\UseCase\CreateSharedFlightroute\ICreateSharedFlightrouteUc;
-use Navplan\Flightroute\UseCase\DeleteFlightroute\DeleteFlightrouteUc;
-use Navplan\Flightroute\UseCase\DeleteFlightroute\IDeleteFlightrouteUc;
-use Navplan\Flightroute\UseCase\ReadFlightroute\IReadFlightrouteUc;
-use Navplan\Flightroute\UseCase\ReadFlightroute\ReadFlightrouteUc;
-use Navplan\Flightroute\UseCase\ReadFlightrouteList\IReadFlightrouteListUc;
-use Navplan\Flightroute\UseCase\ReadFlightrouteList\ReadFlightrouteListUc;
-use Navplan\Flightroute\UseCase\ReadSharedFlightroute\IReadSharedFlightrouteUc;
-use Navplan\Flightroute\UseCase\ReadSharedFlightroute\ReadSharedFlightrouteUc;
-use Navplan\Flightroute\UseCase\UpdateFlightroute\IUpdateFlightrouteUc;
-use Navplan\Flightroute\UseCase\UpdateFlightroute\UpdateFlightrouteUc;
 use Navplan\Geoname\DbRepo\DbGeonameRepo;
 use Navplan\Geoname\DomainService\GeonameService;
 use Navplan\Geoname\DomainService\IGeonameRepo;
@@ -159,14 +147,8 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     // airspace
     private IAirspaceService $airspaceService;
     // flightroute
+    private IFlightrouteService $flightrouteService;
     private IFlightrouteRepo $flightrouteRepo;
-    private ICreateFlightrouteUc $createFlightrouteUc;
-    private ICreateSharedFlightrouteUc $createSharedFlightrouteUc;
-    private IDeleteFlightrouteUc $deleteFlightrouteUc;
-    private IReadFlightrouteUc $readFlightrouteUc;
-    private IReadFlightrouteListUc $readFlightrouteListUc;
-    private IReadSharedFlightrouteUc $readSharedFlightrouteUc;
-    private IUpdateFlightrouteUc $updateFlightrouteUc;
     // geoname
     private IGeonameRepo $geonameRepo;
     private IGeonameService $geonameService;
@@ -290,98 +272,26 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
 
     // region flightroute
 
+
+    public function getFLightrouteService(): IFlightrouteService {
+        if (!isset($this->flightrouteService)) {
+            $this->flightrouteService = new FlightrouteService(
+                $this->getTokenService(),
+                $this->getUserRepo(),
+                $this->getFlightrouteRepo()
+            );
+        }
+
+        return $this->flightrouteService;
+    }
+
+
     public function getFlightrouteRepo(): IFlightrouteRepo {
         if (!isset($this->flightrouteRepo)) {
             $this->flightrouteRepo = new DbFlightrouteRepo($this->getDbService());
         }
 
         return $this->flightrouteRepo;
-    }
-
-
-    public function getCreateFlightrouteUc(): ICreateFlightrouteUc {
-        if (!isset($this->createFlightrouteUc)) {
-            $this->createFlightrouteUc = new CreateFlightrouteUc(
-                $this->getFlightrouteRepo(),
-                $this->getTokenService(),
-                $this->getUserRepo()
-            );
-        }
-
-        return $this->createFlightrouteUc;
-    }
-
-
-    public function getCreateSharedFlightrouteUc(): ICreateSharedFlightrouteUc {
-        if (!isset($this->createSharedFlightrouteUc)) {
-            $this->createSharedFlightrouteUc = new CreateSharedFlightrouteUc(
-                $this->getFlightrouteRepo(),
-                $this->getUserRepo()
-            );
-        }
-
-        return $this->createSharedFlightrouteUc;
-    }
-
-
-    public function getDeleteFlightrouteUc(): IDeleteFlightrouteUc {
-        if (!isset($this->deleteFlightrouteUc)) {
-            $this->deleteFlightrouteUc = new DeleteFlightrouteUc(
-                $this->getFlightrouteRepo(),
-                $this->getTokenService(),
-                $this->getUserRepo()
-            );
-        }
-
-        return $this->deleteFlightrouteUc;
-    }
-
-
-    public function getReadFlightrouteUc(): IReadFlightrouteUc {
-        if (!isset($this->readFlightrouteUc)) {
-            $this->readFlightrouteUc = new ReadFlightrouteUc(
-                $this->getFlightrouteRepo(),
-                $this->getTokenService(),
-                $this->getUserRepo()
-            );
-        }
-
-        return $this->readFlightrouteUc;
-    }
-
-
-    public function getReadFlightrouteListUc(): IReadFlightrouteListUc {
-        if (!isset($this->readFlightrouteListUc)) {
-            $this->readFlightrouteListUc = new ReadFlightrouteListUc(
-                $this->getFlightrouteRepo(),
-                $this->getTokenService(),
-                $this->getUserRepo()
-            );
-        }
-
-        return $this->readFlightrouteListUc;
-    }
-
-
-    public function getReadSharedFlightrouteUc(): IReadSharedFlightrouteUc {
-        if (!isset($this->readSharedFlightrouteUc)) {
-            $this->readSharedFlightrouteUc = new ReadSharedFlightrouteUc($this->getFlightrouteRepo());
-        }
-
-        return $this->readSharedFlightrouteUc;
-    }
-
-
-    public function getUpdateFlightrouteUc(): IUpdateFlightrouteUc {
-        if (!isset($this->updateFlightrouteUc)) {
-            $this->updateFlightrouteUc = new UpdateFlightrouteUc(
-                $this->getFlightrouteRepo(),
-                $this->getTokenService(),
-                $this->getUserRepo()
-            );
-        }
-
-        return $this->updateFlightrouteUc;
     }
 
     // endregion

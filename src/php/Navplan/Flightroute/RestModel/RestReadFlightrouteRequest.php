@@ -3,16 +3,22 @@
 namespace Navplan\Flightroute\RestModel;
 
 use Navplan\Common\StringNumberHelper;
-use Navplan\Flightroute\UseCase\DeleteFlightroute\DeleteFlightrouteRequest;
 
 
-class RestDeleteFlightrouteRequestConverter {
+class RestReadFlightrouteRequest {
     const ARG_ID = "id";
     const ARG_TOKEN = "token";
 
 
-    public static function fromArgs(array $args): DeleteFlightrouteRequest {
-        return new DeleteFlightrouteRequest(
+    public function __construct(
+        public int $flightrouteId,
+        public string $token
+    ) {
+    }
+
+
+    public static function fromRest(array $args): RestReadFlightrouteRequest {
+        return new RestReadFlightrouteRequest(
             StringNumberHelper::parseIntOrError($args, self::ARG_ID),
             StringNumberHelper::parseStringOrError($args, self::ARG_TOKEN)
         );

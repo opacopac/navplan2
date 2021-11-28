@@ -28,7 +28,7 @@ class RestWaypointAltitudeConverter {
         }
 
         return array(
-            "wp_alt" => RestAltitudeConverter::toRest($wp->altitude),
+            "alt" => RestAltitudeConverter::toRest($wp->altitude),
             "isminalt" => $wp->isMinAlt,
             "ismaxalt" => $wp->isMaxAlt,
             "isaltatlegstart" => $wp->isAltAtLegStart,

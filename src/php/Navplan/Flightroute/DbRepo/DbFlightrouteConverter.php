@@ -4,6 +4,8 @@ namespace Navplan\Flightroute\DbRepo;
 
 use Navplan\Common\DomainModel\Consumption;
 use Navplan\Common\DomainModel\ConsumptionUnit;
+use Navplan\Common\DomainModel\Speed;
+use Navplan\Common\DomainModel\SpeedUnit;
 use Navplan\Common\StringNumberHelper;
 use Navplan\Flightroute\DomainModel\Flightroute;
 use Navplan\System\DomainService\IDbService;
@@ -14,7 +16,7 @@ class DbFlightrouteConverter {
     public static function fromDbRow(array $row): Flightroute {
         $acSpeed = StringNumberHelper::isNullOrEmpty($row, "aircraft_speed")
             ? NULL
-            : StringNumberHelper::parseFloatOrZero($row, "aircraft_speed");
+            : new Speed(StringNumberHelper::parseFloatOrZero($row, "aircraft_speed"), SpeedUnit::KT);
         $acConsumption = StringNumberHelper::isNullOrEmpty($row, "aircraft_consumption")
             ? NULL
             : new Consumption(StringNumberHelper::parseFloatOrZero($row, "aircraft_consumption"), ConsumptionUnit::L_PER_H);
@@ -55,7 +57,7 @@ class DbFlightrouteConverter {
     }
 
 
-    public static function toUpdateSql(IDbService $dbService, Flightroute $flightroute): string {
+    public static function toUpdateSql(IDbService $dbService, Flightroute $flightroute, int $userId): string {
         $query = "UPDATE navplan SET ";
         $query .= join(", ", array(
             "title=" . DbHelper::getDbStringValue($dbService, $flightroute->title),
@@ -67,6 +69,8 @@ class DbFlightrouteConverter {
             "md5_hash=" . DbHelper::getDbStringValue($dbService, $flightroute->hash)
         ));
         $query .= " WHERE id=" . DbHelper::getDbIntValue($flightroute->id);
+        $query .= "  AND";
+        $query .= " id_user=" . DbHelper::getDbIntValue($userId);
 
         return $query;
     }

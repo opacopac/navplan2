@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Flightroute\DomainModel;
 
-use Navplan\Flightroute\UseCase\FlightrouteResponse;
+use Navplan\Flightroute\UseCase\RestFlightrouteResponse;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use PHPUnit\Framework\TestCase;
 
@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 class FlightrouteResponseTest extends TestCase {
     public function test__construct() {
         $route = DummyFlightroute1::create();
-        $response = new FlightrouteResponse($route);
+        $response = new RestFlightrouteResponse($route);
 
         $this->assertNotNull($response);
         $this->assertEquals($route, $response->flightroute);
@@ -19,7 +19,7 @@ class FlightrouteResponseTest extends TestCase {
 
     public function test__construct_empty_result() {
         $route = NULL;
-        $response = new FlightrouteResponse($route);
+        $response = new RestFlightrouteResponse($route);
 
         $this->assertNotNull($response);
         $this->assertEquals($route, $response->flightroute);

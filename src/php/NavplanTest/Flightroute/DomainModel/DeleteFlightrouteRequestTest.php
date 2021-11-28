@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Flightroute\DomainModel;
 
-use Navplan\Flightroute\UseCase\DeleteFlightroute\DeleteFlightrouteRequest;
+use Navplan\Flightroute\UseCase\DeleteFlightroute\RestDeleteFlightrouteRequest;
 use Navplan\User\DomainService\TokenService;
 use NavplanTest\MockNavplanDiContainer;
 use PHPUnit\Framework\TestCase;
@@ -22,7 +22,7 @@ class DeleteFlightrouteRequestTest extends TestCase {
     public function test__construct() {
         $routeId = 123;
         $token = $this->tokenService->createToken("test@navplan.ch", FALSE);
-        $request = new DeleteFlightrouteRequest($routeId, $token);
+        $request = new RestDeleteFlightrouteRequest($routeId, $token);
 
         $this->assertNotNull($request);
         $this->assertEquals($routeId, $request->flightrouteId);

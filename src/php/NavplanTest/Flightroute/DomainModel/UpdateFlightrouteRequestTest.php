@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Flightroute\DomainModel;
 
-use Navplan\Flightroute\UseCase\UpdateFlightroute\UpdateFlightrouteRequest;
+use Navplan\Flightroute\UseCase\UpdateFlightroute\RestUpdateFlightrouteRequest;
 use Navplan\User\DomainService\TokenService;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\MockNavplanDiContainer;
@@ -23,7 +23,7 @@ class UpdateFlightrouteRequestTest extends TestCase {
     public function test__construct() {
         $route = DummyFlightroute1::create();
         $token = $this->tokenService->createToken("test@navplan.ch", FALSE);
-        $request = new UpdateFlightrouteRequest($route, $token);
+        $request = new RestUpdateFlightrouteRequest($route, $token);
 
         $this->assertNotNull($request);
         $this->assertEquals($route, $request->flightroute);

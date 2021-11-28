@@ -2,15 +2,17 @@
 
 namespace Navplan\Flightroute\RestModel;
 
-use Navplan\Flightroute\UseCase\ReadFlightrouteList\ReadFlightrouteListResponse;
+
+class RestReadFlightrouteListResponse {
+    public function __construct(public array $flightrouteList) {
+    }
 
 
-class RestFlightrouteListResponseConverter {
-    public static function toRest(ReadFlightrouteListResponse $response): array  {
+    public function toRest(): array  {
         return array(
             "navplanList" => array_map(
                 function ($flightroute) { return RestFlightrouteConverter::toRestShort($flightroute); },
-                $response->flightrouteList
+                $this->flightrouteList
             )
         );
     }

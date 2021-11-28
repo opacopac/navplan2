@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Flightroute\DomainModel;
 
-use Navplan\Flightroute\UseCase\ReadFlightrouteList\ReadFlightrouteListResponse;
+use Navplan\Flightroute\UseCase\ReadFlightrouteList\RestReadFlightrouteListResponse;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute2;
 use PHPUnit\Framework\TestCase;
@@ -12,7 +12,7 @@ class ReadFlightrouteListResponseTest extends TestCase {
     public function test__construct() {
         $route1 = DummyFlightroute1::create();
         $route2 = DummyFlightroute2::create();
-        $response = new ReadFlightrouteListResponse([$route1, $route2]);
+        $response = new RestReadFlightrouteListResponse([$route1, $route2]);
 
         $this->assertNotNull($response);
         $this->assertEquals($route1, $response->flightrouteList[0]);
@@ -21,7 +21,7 @@ class ReadFlightrouteListResponseTest extends TestCase {
 
 
     public function test__construct_empty_list() {
-        $response = new ReadFlightrouteListResponse([]);
+        $response = new RestReadFlightrouteListResponse([]);
 
         $this->assertNotNull($response);
         $this->assertEquals(0, count($response->flightrouteList));
