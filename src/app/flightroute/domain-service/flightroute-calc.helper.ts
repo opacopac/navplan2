@@ -165,7 +165,7 @@ export class FlightrouteCalcHelper {
         flightroute.fuel.alternateFuel = this.calcFuel(flightroute.fuel.alternateTime, flightroute.aircraft.consumption);
         flightroute.fuel.reserveFuel = this.calcFuel(flightroute.fuel.reserveTime, flightroute.aircraft.consumption);
         flightroute.fuel.minimumFuel = this.calcFuel(flightroute.fuel.minimumTime, flightroute.aircraft.consumption);
-        flightroute.fuel.extraFuel = this.calcFuel(flightroute.extraTime, flightroute.aircraft.consumption);
+        flightroute.fuel.extraFuel = this.calcFuel(flightroute.fuel.extraTime, flightroute.aircraft.consumption);
         flightroute.fuel.blockFuel = this.calcFuel(flightroute.fuel.blockTime, flightroute.aircraft.consumption);
     }
 
