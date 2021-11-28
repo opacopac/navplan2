@@ -44,17 +44,11 @@ export class Flightroute implements Clonable<Flightroute> {
 
 
     public getWaypointIndex(waypoint: Waypoint): number {
-        if (!waypoint || !waypoint.position || !this.waypoints || this.waypoints.length === 0) {
+        if (!waypoint || !this.waypoints || this.waypoints.length === 0) {
             return -1;
         }
 
-        for (let i = this.waypoints.length - 1; i >= 0; i--) {
-            if (this.waypoints[i].position.equals(waypoint.position)) {
-                return i;
-            }
-        }
-
-        return -1;
+        return this.waypoints.indexOf(waypoint);
     }
 
 

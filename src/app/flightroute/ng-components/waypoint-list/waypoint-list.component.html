@@ -1,6 +1,5 @@
 <div class="table-responsive" *ngIf="this.flightroute">
     <table mat-table
-           *ngIf="this.flightroute && this.flightroute.waypoints.length > 0"
            multiTemplateDataRows
            class="waypoints-table mat-elevation-z6"
            [dataSource]="this.wpDataSource">
@@ -117,6 +116,13 @@
             </td>
         </ng-container>
 
+        <!-- no entry -->
+        <ng-container matColumnDef="no_entry">
+            <td mat-footer-cell *matFooterCellDef [attr.colspan]="this.visibleColumns.length">
+                Route is empty: load route or add waypoints on the map
+            </td>
+        </ng-container>
+
         <tr mat-header-row *matHeaderRowDef="this.visibleColumns"></tr>
         <tr mat-row *matRowDef="let entry; columns: ['alt_indent', 'alt_title']" [hidden]="!entry.isAlternate"></tr>
         <tr mat-row
@@ -127,10 +133,7 @@
         </tr>
         <tr mat-row *matRowDef="let entry; columns: ['supp_info_icon', 'supp_info_text']" class="supp_info_row" [hidden]="!entry.wp.supp_info"></tr>
         <tr mat-row *matRowDef="let entry; columns: ['subtot_ident', 'subtot_eet']" [hidden]="!entry.isDestinationAirport"></tr>
+        <tr mat-footer-row *matFooterRowDef="['no_entry']" [hidden]="this.flightroute && this.flightroute.waypoints.length > 0"></tr>
         <tr mat-footer-row *matFooterRowDef="this.visibleColumns"></tr>
     </table>
-
-    <div *ngIf="!this.flightroute || this.flightroute.waypoints.length === 0">
-        <i>Empty route, add waypoints using the map.</i>
-    </div>
 </div>

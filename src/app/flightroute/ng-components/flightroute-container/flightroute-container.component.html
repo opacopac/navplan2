@@ -18,7 +18,7 @@
         <button mat-mini-fab
                 color="accent"
                 class="inline-button button-load"
-                matTooltipxxx="Load Route"
+                matTooltip="Load Route"
                 [disabled]="!(this.currentUser$ | async)"
                 (click)="this.onLoadFlightrouteClick()">
             <i class="fas fa-folder-open"></i>
@@ -26,7 +26,7 @@
         <button mat-mini-fab
                 color="accent"
                 class="inline-button button-save"
-                matTooltipxxx="Save Route"
+                matTooltip="Save Route"
                 [disabled]="!(this.currentUser$ | async) || !(routeName.value && routeName.value.length > 0)"
                 (click)="this.onSaveFlightrouteClick()">
             <i class="fas fa-download"></i>
@@ -34,7 +34,7 @@
         <button mat-mini-fab
                 color="accent"
                 class="inline-button button-copy"
-                matTooltipxxx="Save Copy of Route"
+                matTooltip="Save Copy of Route"
                 [disabled]="!(this.currentUser$ | async) || !(routeName.value && routeName.value.length > 0) || !((this.loadedFlightrouteId$ | async) > 0)"
                 (click)="this.onSaveFlightrouteCopyClick()">
             <i class="fas fa-copy"></i>
@@ -42,7 +42,7 @@
     </div>
 
     <!-- aircraft speed -->
-    <div class="flex-row">
+    <div>
         <!-- aircraft speed -->
         <mat-form-field appearance="fill">
             <mat-label>Ground Speed</mat-label>

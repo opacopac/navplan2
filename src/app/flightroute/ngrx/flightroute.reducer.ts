@@ -141,9 +141,14 @@ export const flightRouteReducer = createReducer(
     }),
     on(WaypointActions.delete, (state, action) => {
         const newFlightroute = state.flightroute.clone();
-        const idx = newFlightroute.getWaypointIndex(action.waypoint);
-        ArrayHelper.removeAt(newFlightroute.waypoints, idx);
+        if (state.flightroute.isAlternateWaypoint(action.waypoint)) {
+            newFlightroute.alternate = undefined;
+        } else {
+            const idx = state.flightroute.getWaypointIndex(action.waypoint);
+            ArrayHelper.removeAt(newFlightroute.waypoints, idx);
+        }
         FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
+
         return {
             ...state,
             flightroute: newFlightroute
