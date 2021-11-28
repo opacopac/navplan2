@@ -41,7 +41,7 @@ export class Timestamp implements Clonable<Timestamp> {
 
 
     public get date(): Date {
-        return new Date(this.epochSec);
+        return new Date(this.epochMs);
     }
 
 

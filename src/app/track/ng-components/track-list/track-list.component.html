@@ -9,7 +9,7 @@
             *matCellDef="let track"
             class="clickable"
             (click)="this.onTrackSelected.emit(track)">
-            {{ getDateString(track.saveTime) }}
+            {{ this.getDateString(track) }}
         </td>
     </ng-container>
 

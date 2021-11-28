@@ -10,6 +10,7 @@ use ReallySimpleJWT\Token;
 class TokenService implements ITokenService {
     const JWT_SHORT_EXP_TIME_DAYS = 1;
     const JWT_LONG_EXP_TIME_DAYS = 90;
+    const JWT_USER_ID_KEY = "user_id";
 
     private $jwt_secret;
     private $jwt_issuer;
@@ -43,11 +44,12 @@ class TokenService implements ITokenService {
 
 
     public function getEmailFromToken(string $token): ?string {
-        if (!$token || $token === "" || !self::validateToken($token)) {
+        if (!$token || !self::validateToken($token)) {
             return NULL;
         }
 
         $payload = Token::getPayload($token, $this->jwt_secret);
-        return $payload->user_id;
+
+        return $payload[self::JWT_USER_ID_KEY];
     }
 }

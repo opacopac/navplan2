@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Track} from '../../domain-model/track';
 import {DatetimeHelper} from '../../../system/domain-service/datetime/datetime-helper';
-import {Timestamp} from '../../../common/geo-math/domain-model/quantities/timestamp';
 
 
 @Component({
@@ -31,8 +30,9 @@ export class TrackListComponent implements OnInit {
     }
 
 
-    public getDateString(timestamp: Timestamp): string {
-        const d: Date = new Date(timestamp.epochSec * 1000);
+    public getDateString(track: Track): string {
+        const d: Date = track.saveTime.date;
+
         return DatetimeHelper.getYearMonthDayString(d) + ' ' + DatetimeHelper.getHourMinStringFromDate(d);
     }
 }

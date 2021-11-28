@@ -4,11 +4,23 @@ namespace Navplan\System\DomainService;
 
 
 interface IHttpService {
+    function getRequestMethod(): string;
+
+    function getGetArgs(): array;
+
+    function getPostArgs(): array;
+
+    function getCallbackArg(string $key = "callback");
+
+    function hasGetArg(string $key): bool;
+
+    function hasPostArg(string $key): bool;
+
     function sendHeader(string $header);
 
     function sendPayload(string $data);
 
-    function sendArrayResponse(array $data, ?string $callback = NULL, ?bool $jsonNumericCheck = FALSE);
+    function sendArrayResponse(array $data, ?string $callbackKey = NULL, ?bool $jsonNumericCheck = FALSE);
 
-    function sendStringResponse(string $data, ?string $callback = NULL);
+    function sendStringResponse(string $data, ?string $callbackKey = NULL);
 }

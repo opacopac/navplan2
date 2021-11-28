@@ -1,6 +1,6 @@
-import {IRestTrackListEntry} from './i-rest-track-list-entry';
+import {IRestTrack} from './i-rest-track';
 
 
 export interface IRestTrackListResponse {
-    tracks: IRestTrackListEntry[];
+    tracks: IRestTrack[];
 }

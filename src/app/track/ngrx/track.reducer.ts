@@ -1,5 +1,6 @@
 import {TrackState} from './track-state';
-import {TrackActions, TrackActionTypes} from './track.actions';
+import {TrackActions} from './track.actions';
+import {createReducer, on} from '@ngrx/store';
 
 
 const initialState: TrackState = {
@@ -8,25 +9,22 @@ const initialState: TrackState = {
 };
 
 
-export function trackReducer(state: TrackState = initialState, action: TrackActions) {
-    switch (action.type) {
-        case TrackActionTypes.TRACK_READ_LIST_SUCCESS:
-            return { ...state,
-                trackList: action.trackList };
-
-        case TrackActionTypes.TRACK_READ_LIST_ERROR:
-            return { ...state,
-                trackList: [] };
-
-        case TrackActionTypes.TRACK_READ_SUCCESS:
-            return { ...state,
-                showTrack: action.track };
-
-        case TrackActionTypes.TRACK_READ_ERROR:
-            return { ...state,
-                showTrack: undefined };
-
-        default:
-            return state;
-    }
-}
+export const trackReducer = createReducer(
+    initialState,
+    on(TrackActions.readListSuccess, (state, action) => ({
+        ...state,
+        trackList: action.trackList
+    })),
+    on(TrackActions.readListError, (state, action) => ({
+        ...state,
+        trackList: []
+    })),
+    on(TrackActions.readSuccess, (state, action) => ({
+        ...state,
+        showTrack: action.track
+    })),
+    on(TrackActions.readListError, (state, action) => ({
+        ...state,
+        showTrack: undefined
+    })),
+);

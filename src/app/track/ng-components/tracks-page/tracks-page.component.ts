@@ -3,13 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {Track} from '../../domain-model/track';
 import {getShowTrack, getTrackList} from '../../ngrx/track.selectors';
-import {
-    DeleteTrackAction,
-    EditTrackAction,
-    ExportTrackKmlAction,
-    ReadTrackAction,
-    ReadTrackListAction
-} from '../../ngrx/track.actions';
+import {TrackActions} from '../../ngrx/track.actions';
 
 
 @Component({
@@ -29,40 +23,31 @@ export class TracksPageComponent implements OnInit {
 
 
     ngOnInit() {
-        this.appStore.dispatch(
-            new ReadTrackListAction()
-        );
+        this.appStore.dispatch(TrackActions.readList());
     }
 
 
     public onTrackSelected(track: Track) {
         if (track.id) {
-            this.appStore.dispatch(
-                new ReadTrackAction(track.id)
-            );
+            this.appStore.dispatch(TrackActions.toggleSelect({ trackId: track.id }));
+            // this.appStore.dispatch(TrackActions.read({ trackId: track.id }));
         }
     }
 
 
     public onKmlClicked(track: Track) {
-        this.appStore.dispatch(
-            new ExportTrackKmlAction(track)
-        );
+        this.appStore.dispatch(TrackActions.exportKml({ trackId: track.id }));
     }
 
 
     public onEditTrackClicket(track: Track) {
-        this.appStore.dispatch(
-            new EditTrackAction(track)
-        );
+        this.appStore.dispatch(TrackActions.edit({ trackId: track.id }));
     }
 
 
     public onRemoveTrackClicked(track: Track) {
         if (track.id) {
-            this.appStore.dispatch(
-                new DeleteTrackAction(track.id)
-            );
+            this.appStore.dispatch(TrackActions.delete({ trackId: track.id }));
         }
     }
 }

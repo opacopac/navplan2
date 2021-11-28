@@ -7,6 +7,7 @@ export class Track {
         public id: number,
         public name: string,
         public positionList: Position4d[],
-        public saveTime: Timestamp) {
+        public saveTime: Timestamp
+    ) {
     }
 }

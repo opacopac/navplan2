@@ -23,6 +23,36 @@ class HttpService implements IHttpService {
     }
 
 
+    public function getRequestMethod(): string {
+        return $_SERVER['REQUEST_METHOD'];
+    }
+
+
+    public function getGetArgs(): array {
+        return $_GET;
+    }
+
+
+    public function getPostArgs(): array {
+        return json_decode(file_get_contents('php://input'), TRUE);
+    }
+
+
+    function getCallbackArg(string $key = "callback"): ?string {
+        return $this->getGetArgs()[$key] ?? NULL;
+    }
+
+
+    public function hasGetArg(string $key): bool {
+        return isset($this->getGetArgs()[$key]);
+    }
+
+
+    public function hasPostArg(string $key): bool {
+        return isset($this->getPostArgs()[$key]);
+    }
+
+
     public function sendHeader(string $header) {
         header($header);
     }
@@ -33,26 +63,25 @@ class HttpService implements IHttpService {
     }
 
 
-    public function sendArrayResponse(array $data, ?string $callback = NULL, ?bool $jsonNumericCheck = FALSE) {
-        if ($callback !== NULL && strlen($callback) === 0) {
-            throw new InvalidArgumentException('callback must not be empty');
-        }
-
-        $jsonOptions = 0;
-        if ($jsonNumericCheck) {
-            $jsonOptions = JSON_NUMERIC_CHECK;
-        }
-
-        $json = json_encode($data, $jsonOptions);
-
-        $this->sendStringResponse($json, $callback);
+    public function sendArrayResponse(array $data, ?string $callbackKey = NULL, ?bool $jsonNumericCheck = FALSE) {
+        $this->sendStringResponse(
+            json_encode($data, $jsonNumericCheck ? JSON_NUMERIC_CHECK : 0),
+            $callbackKey
+        );
     }
 
 
-    public function sendStringResponse(string $data, ?string $callback = NULL) {
-        $outputData = $this->decorateWithCallback($data, $callback);
+    public function sendStringResponse(string $data, ?string $callbackKey = NULL) {
+        if ($callbackKey === NULL) {
+            $callbackKeyFromReq = $this->getCallbackArg();
+            if ($callbackKeyFromReq) {
+                $callbackKey = $callbackKeyFromReq;
+            }
+        }
 
-        if ($callback !== NULL) {
+        $outputData = $this->decorateWithCallback($data, $callbackKey);
+
+        if ($callbackKey !== NULL) {
             $this->sendJsonp($outputData);
         } else {
             $this->sendJson($outputData);
@@ -60,13 +89,13 @@ class HttpService implements IHttpService {
     }
 
 
-    private function decorateWithCallback(string $data, ?string $callback): string {
-        if ($callback !== NULL && strlen($callback) === 0) {
-            throw new InvalidArgumentException('callback must not be empty');
+    private function decorateWithCallback(string $data, ?string $callbackKey): string {
+        if ($callbackKey !== NULL && strlen($callbackKey) === 0) {
+            throw new InvalidArgumentException('callback must not be empty string');
         }
 
-        if ($callback !== NULL) {
-            return $callback . "(" . $data . ")";
+        if ($callbackKey !== NULL) {
+            return $callbackKey . "(" . $data . ")";
         } else {
             return $data;
         }

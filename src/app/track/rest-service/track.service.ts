@@ -8,7 +8,7 @@ import {User} from '../../user/domain-model/user';
 import {catchError, map} from 'rxjs/operators';
 import {IRestTrackListResponse} from '../rest-model/i-rest-track-list-response';
 import {IRestTrackResponse} from '../rest-model/i-rest-track-response';
-import {RestTrackListConverter} from '../rest-model/rest-track-list-converter';
+import {RestTrackListResponseConverter} from '../rest-model/rest-track-list-response-converter';
 import {RestTrackResponseConverter} from '../rest-model/rest-track-response-converter';
 
 
@@ -21,12 +21,11 @@ export class TrackService {
 
 
     readUserTrackList(user: User): Observable<Track[]> {
-
-        const url: string = environment.trackServiceUrl + '?email=' + user.email + '&token=' + user.token;
+        const url: string = environment.trackServiceUrl + '?action=readtracklist&token=' + user.token;
         return this.http
             .jsonp<IRestTrackListResponse>(url, 'callback')
             .pipe(
-                map(response => RestTrackListConverter.fromRest(response)),
+                map(response => RestTrackListResponseConverter.fromRest(response)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading tracks', err);
                     return throwError(err);
@@ -36,7 +35,7 @@ export class TrackService {
 
 
     readUserTrack(trackid, user: User): Observable<Track> {
-        const url: string = environment.trackServiceUrl + '?email=' + user.email + '&token=' + user.token + '&id=' + encodeURI(trackid);
+        const url: string = environment.trackServiceUrl + '?action=readtrack&trackid=' + encodeURI(trackid) + '&token=' + user.token;
         return this.http
             .jsonp<IRestTrackResponse>(url, 'callback')
             .pipe(

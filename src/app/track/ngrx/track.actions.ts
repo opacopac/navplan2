@@ -1,90 +1,54 @@
-import {Action} from '@ngrx/store';
+import {createAction, props} from '@ngrx/store';
 import {Track} from '../domain-model/track';
 
 
-export enum TrackActionTypes {
-    TRACK_READ_LIST = '[Tracks Page] read track list',
-    TRACK_READ_LIST_SUCCESS = '[Tracks Service] read track list success',
-    TRACK_READ_LIST_ERROR = '[Tracks Service] read track list error',
-    TRACK_READ = '[Tracks Page] read track',
-    TRACK_READ_SUCCESS = '[Tracks Service] read track success',
-    TRACK_READ_ERROR = '[Tracks Service] read track error',
-    TRACK_EXPORT_KML = '[Tracks Page] export track KML',
-    TRACK_EDIT = '[Tracks Page] edit track',
-    TRACK_DELETE = '[Tracks Page] delete track',
+export class TrackActions {
+    public static readonly readList = createAction(
+        '[Tracks Page] read track list'
+    );
+
+    public static readonly readListSuccess = createAction(
+        '[Tracks Effects] read track list success',
+        props<{ trackList: Track[] }>()
+    );
+
+    public static readonly readListError = createAction(
+        '[Tracks Effects] read track list error',
+        props<{ error: Error }>()
+    );
+
+    public static readonly toggleSelect = createAction(
+        '[Tracks Page] toggle select track',
+        props<{ trackId: number }>()
+    );
+
+    public static readonly read = createAction(
+        '[Tracks Effects] read track',
+        props<{ trackId: number }>()
+    );
+
+    public static readonly readSuccess = createAction(
+        '[Tracks Effects] read track success',
+        props<{ track: Track }>()
+    );
+
+    public static readonly readError = createAction(
+        '[Tracks Effects] read track error',
+        props<{ error: Error }>()
+    );
+
+    public static readonly edit = createAction(
+        '[Tracks Page] edit track',
+        props<{ trackId: number }>()
+    );
+
+    public static readonly delete = createAction(
+        '[Tracks Page] delete track',
+        props<{ trackId: number }>()
+    );
+
+    public static readonly exportKml = createAction(
+        '[Tracks Page] export track KML',
+        props<{ trackId: number }>()
+    );
 }
-
-
-export class ReadTrackListAction implements Action {
-    readonly type = TrackActionTypes.TRACK_READ_LIST;
-
-    constructor() {}
-}
-
-
-export class ReadTrackListSuccessAction implements Action {
-    readonly type = TrackActionTypes.TRACK_READ_LIST_SUCCESS;
-
-    constructor(public trackList: Track[]) {}
-}
-
-
-export class ReadTrackListErrorAction implements Action {
-    readonly type = TrackActionTypes.TRACK_READ_LIST_ERROR;
-
-    constructor(public error: Error) {}
-}
-
-
-export class ReadTrackAction implements Action {
-    readonly type = TrackActionTypes.TRACK_READ;
-
-    constructor(public id: number) {}
-}
-
-
-export class ReadTrackSuccessAction implements Action {
-    readonly type = TrackActionTypes.TRACK_READ_SUCCESS;
-
-    constructor(public track: Track) {}
-}
-
-
-export class ReadTrackErrorAction implements Action {
-    readonly type = TrackActionTypes.TRACK_READ_ERROR;
-
-    constructor(public error: Error) {}
-}
-
-
-export class ExportTrackKmlAction implements Action {
-    readonly type = TrackActionTypes.TRACK_EXPORT_KML;
-
-    constructor(public track: Track) {}
-}
-
-
-export class EditTrackAction implements Action {
-    readonly type = TrackActionTypes.TRACK_EDIT;
-
-    constructor(public track: Track) {}
-}
-
-
-export class DeleteTrackAction implements Action {
-    readonly type = TrackActionTypes.TRACK_DELETE;
-
-    constructor(public id: number) {}
-}
-
-
-export type TrackActions =
-    ReadTrackListAction |
-    ReadTrackListSuccessAction |
-    ReadTrackListErrorAction |
-    ReadTrackAction |
-    ReadTrackSuccessAction |
-    ReadTrackErrorAction |
-    ExportTrackKmlAction |
-    EditTrackAction |
-    DeleteTrackAction;

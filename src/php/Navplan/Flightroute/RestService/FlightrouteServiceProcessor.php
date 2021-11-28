@@ -22,47 +22,43 @@ class FlightrouteServiceProcessor {
     const REQ_METHOD_DELETE = "DELETE";
 
 
-    public static function processRequest(
-        string $requestMethod,
-        ?array $getVars,
-        ?array $postVars,
-        IFlightrouteServiceDiContainer $diContainer
-    ) {
+    public static function processRequest(IFlightrouteServiceDiContainer $diContainer) {
         $httpService = $diContainer->getHttpService();
-        switch ($requestMethod) {
+        switch ($httpService->getRequestMethod()) {
             case self::REQ_METHOD_GET:
-                if (isset($getVars[RestReadSharedFlightrouteRequestConverter::ARG_SHARE_ID])) {
-                    $request = RestReadSharedFlightrouteRequestConverter::fromArgs($getVars);
+                if ($httpService->hasGetArg(RestReadSharedFlightrouteRequestConverter::ARG_SHARE_ID)) {
+                    $request = RestReadSharedFlightrouteRequestConverter::fromArgs($httpService->getGetArgs());
                     $response = $diContainer->getReadSharedFlightrouteUc()->read($request);
                     $httpService->sendArrayResponse(RestFlightrouteResponseConverter::toRest($response));
-                } elseif (isset($getVars[RestReadFlightrouteRequestConverter::ARG_ID])) {
-                    $request = RestReadFlightrouteRequestConverter::fromArgs($getVars);
+                } elseif ($httpService->hasGetArg(RestReadFlightrouteRequestConverter::ARG_ID)) {
+                    $request = RestReadFlightrouteRequestConverter::fromArgs($httpService->getGetArgs());
                     $response = $diContainer->getReadFlightrouteUc()->read($request);
                     $httpService->sendArrayResponse(RestFlightrouteResponseConverter::toRest($response));
                 } else {
-                    $request = RestReadFlightrouteListRequestConverter::fromArgs($getVars);
+                    $request = RestReadFlightrouteListRequestConverter::fromArgs($httpService->getGetArgs());
                     $response = $diContainer->getReadFlightrouteListUc()->read($request);
                     $httpService->sendArrayResponse(RestFlightrouteListResponseConverter::toRest($response));
                 }
                 break;
             case self::REQ_METHOD_POST:
-                if (isset($postVars[RestCreateSharedFlightrouteRequestConverter::ARG_CREATE_SHARED]) && $postVars[RestCreateSharedFlightrouteRequestConverter::ARG_CREATE_SHARED] === TRUE) {
-                    $request = RestCreateSharedFlightrouteRequestConverter::fromArgs($postVars);
+                if ($httpService->hasPostArg(RestCreateSharedFlightrouteRequestConverter::ARG_CREATE_SHARED)
+                    && $httpService->getPostArgs()[RestCreateSharedFlightrouteRequestConverter::ARG_CREATE_SHARED] === TRUE) {
+                    $request = RestCreateSharedFlightrouteRequestConverter::fromArgs($httpService->getPostArgs());
                     $response = $diContainer->getCreateSharedFlightrouteUc()->create($request);
                     $httpService->sendArrayResponse(RestFlightrouteResponseConverter::toRest($response));
                 } else {
-                    $request = RestCreateFlightrouteRequestConverter::fromArgs($postVars);
+                    $request = RestCreateFlightrouteRequestConverter::fromArgs($httpService->getPostArgs());
                     $response = $diContainer->getCreateFlightrouteUc()->create($request);
                     $httpService->sendArrayResponse(RestFlightrouteResponseConverter::toRest($response));
                 }
                 break;
             case self::REQ_METHOD_PUT:
-                $request = RestUpdateFlightrouteRequestConverter::fromArgs($postVars);
+                $request = RestUpdateFlightrouteRequestConverter::fromArgs($httpService->getPostArgs());
                 $response = $diContainer->getUpdateFlightrouteUc()->update($request);
                 $httpService->sendArrayResponse(RestFlightrouteResponseConverter::toRest($response));
                 break;
             case self::REQ_METHOD_DELETE:
-                $request = RestDeleteFlightrouteRequestConverter::fromArgs($getVars);
+                $request = RestDeleteFlightrouteRequestConverter::fromArgs($httpService->getGetArgs());
                 $diContainer->getDeleteFlightrouteUc()->delete($request);
                 $httpService->sendArrayResponse(RestSuccessResponseConverter::toRest());
                 break;

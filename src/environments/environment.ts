@@ -19,7 +19,7 @@ export const environment = {
     notamRestServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Notam/RestService/NotamService.php',
     openAipServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Search/RestService/SearchService.php',
     searchServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Search/RestService/SearchService.php',
-    trackServiceUrl: WEBSITE_BASE_URL + 'php/userTrack.php',
+    trackServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Track/RestService/TrackService.php',
     trafficAdsbexServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Traffic/RestService/TrafficService.php?action=readadsbextraffic',
     trafficOgnServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Traffic/RestService/TrafficService.php?action=readogntraffic',
     trafficDetailServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Traffic/RestService/TrafficService.php',

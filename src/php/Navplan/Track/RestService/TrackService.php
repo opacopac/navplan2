@@ -8,6 +8,5 @@ require_once __DIR__ . "/../../RestServiceBootstrap.php";
 
 
 $diContainer = new ProdNavplanDiContainer();
-$postArgs = json_decode(file_get_contents('php://input'), TRUE);
 
-TrackServiceProcessor::processRequest($postArgs, $diContainer);
+TrackServiceProcessor::processRequest($diContainer);
