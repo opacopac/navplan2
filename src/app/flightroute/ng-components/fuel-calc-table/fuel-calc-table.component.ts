@@ -20,7 +20,9 @@ interface FuelDataSourceRow {
     styleUrls: ['./fuel-calc-table.component.css']
 })
 export class FuelCalcTableComponent implements OnInit, OnChanges {
-    @Input() routeFuel: RouteFuel;
+    @Input() set routeFuel(value: RouteFuel) {
+        this.fuelDataSource = this.calcFuelDataSource(value);
+    }
     public fuelDataSource: FuelDataSourceRow[] = [];
     public Number = Number;
 
@@ -34,45 +36,7 @@ export class FuelCalcTableComponent implements OnInit, OnChanges {
 
 
     ngOnChanges() {
-        this.fuelDataSource = this.createFuelDataSource(this.routeFuel);
-    }
-
-
-    private createFuelDataSource(routeFuel: RouteFuel): FuelDataSourceRow[] {
-        const fuelDataSource: FuelDataSourceRow[] = [];
-
-        fuelDataSource.push(this.createFuelDataSourceRow(
-                'Trip',
-                routeFuel ? routeFuel.tripTime : undefined,
-                routeFuel ? routeFuel.tripFuel : undefined));
-        fuelDataSource.push(this.createFuelDataSourceRow(
-                'Alternate',
-                routeFuel ? routeFuel.alternateTime : undefined,
-                routeFuel ? routeFuel.alternateFuel : undefined));
-        fuelDataSource.push(this.createFuelDataSourceRow(
-                'Reserve',
-                routeFuel ? routeFuel.reserveTime : undefined,
-                routeFuel ? routeFuel.reserveFuel : undefined));
-        fuelDataSource.push(this.createFuelDataSourceRow(
-                'Minimum',
-                routeFuel ? routeFuel.minimumTime : undefined,
-                routeFuel ? routeFuel.minimumFuel : undefined));
-        fuelDataSource.push(this.createFuelDataSourceRow(
-                'Extra fuel',
-                routeFuel ? routeFuel.extraTime : undefined,
-                routeFuel ? routeFuel.extraFuel : undefined));
-        fuelDataSource.push(this.createFuelDataSourceRow(
-                'Block fuel',
-                routeFuel ? routeFuel.blockTime : undefined,
-                routeFuel ? routeFuel.blockFuel : undefined,
-            true));
-
-        return fuelDataSource;
-    }
-
-
-    private createFuelDataSourceRow(title: string, time: Time, fuel: Volume, isBlock = false): FuelDataSourceRow {
-        return { title: title, time: time, fuel: fuel, isBlock: isBlock };
+        // this.fuelDataSource = this.calcFuelDataSource(this.routeFuel);
     }
 
 
@@ -92,5 +56,43 @@ export class FuelCalcTableComponent implements OnInit, OnChanges {
         } else {
             return '';
         }
+    }
+
+
+    private calcFuelDataSource(routeFuel: RouteFuel): FuelDataSourceRow[] {
+        const fuelDataSource: FuelDataSourceRow[] = [];
+
+        fuelDataSource.push(this.createFuelDataSourceRow(
+            'Trip',
+            routeFuel ? routeFuel.tripTime : undefined,
+            routeFuel ? routeFuel.tripFuel : undefined));
+        fuelDataSource.push(this.createFuelDataSourceRow(
+            'Alternate',
+            routeFuel ? routeFuel.alternateTime : undefined,
+            routeFuel ? routeFuel.alternateFuel : undefined));
+        fuelDataSource.push(this.createFuelDataSourceRow(
+            'Reserve',
+            routeFuel ? routeFuel.reserveTime : undefined,
+            routeFuel ? routeFuel.reserveFuel : undefined));
+        fuelDataSource.push(this.createFuelDataSourceRow(
+            'Minimum',
+            routeFuel ? routeFuel.minimumTime : undefined,
+            routeFuel ? routeFuel.minimumFuel : undefined));
+        fuelDataSource.push(this.createFuelDataSourceRow(
+            'Extra fuel',
+            routeFuel ? routeFuel.extraTime : undefined,
+            routeFuel ? routeFuel.extraFuel : undefined));
+        fuelDataSource.push(this.createFuelDataSourceRow(
+            'Block fuel',
+            routeFuel ? routeFuel.blockTime : undefined,
+            routeFuel ? routeFuel.blockFuel : undefined,
+            true));
+
+        return fuelDataSource;
+    }
+
+
+    private createFuelDataSourceRow(title: string, time: Time, fuel: Volume, isBlock = false): FuelDataSourceRow {
+        return { title: title, time: time, fuel: fuel, isBlock: isBlock };
     }
 }

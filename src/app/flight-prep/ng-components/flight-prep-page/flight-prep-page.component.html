@@ -1,14 +1,52 @@
 <div class="content-container">
     <mat-tab-group #tabGroup animationDuration="0ms">
         <!-- info tab -->
-        <mat-tab label="Route">
+        <mat-tab>
+            <ng-template matTabLabel>
+                <i class="fas fa-route"></i>&nbsp;&nbsp;Route
+            </ng-template>
             <ng-template matTabContent>
                 <app-flightroute-container></app-flightroute-container>
             </ng-template>
         </mat-tab>
-        <mat-tab label="Fuel">
+        <mat-tab>
+            <ng-template matTabLabel>
+                <i class="fas fa-tint"></i>&nbsp;&nbsp;Fuel
+            </ng-template>
             <ng-template matTabContent>
                 <app-fuel-calc-container></app-fuel-calc-container>
+            </ng-template>
+        </mat-tab>
+        <mat-tab>
+            <ng-template matTabLabel>
+                <i class="fas fa-balance-scale"></i>&nbsp;&nbsp;W&B
+            </ng-template>
+            <ng-template matTabContent>
+                TODO
+            </ng-template>
+        </mat-tab>
+        <mat-tab>
+            <ng-template matTabLabel>
+                <i class="fas fa-plane-departure"></i>&nbsp;&nbsp;Performance
+            </ng-template>
+            <ng-template matTabContent>
+                TODO
+            </ng-template>
+        </mat-tab>
+        <mat-tab>
+            <ng-template matTabLabel>
+                <i class="fas fa-cloud"></i>&nbsp;&nbsp;Meteo
+            </ng-template>
+            <ng-template matTabContent>
+                TODO
+            </ng-template>
+        </mat-tab>
+        <mat-tab>
+            <ng-template matTabLabel>
+                <i class="fas fa-exclamation-triangle"></i>&nbsp;&nbsp;Notams
+            </ng-template>
+            <ng-template matTabContent>
+                TODO
             </ng-template>
         </mat-tab>
     </mat-tab-group>
