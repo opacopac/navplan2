@@ -14,8 +14,9 @@ class SearchServiceProcessor {
     const ACTION_SEARCH_BY_POSITION = "searchByPosition";
 
 
-    public static function processRequest(array $args, ISearchServiceDiContainer $diContainer) {
+    public static function processRequest(ISearchServiceDiContainer $diContainer) {
         $httpService = $diContainer->getHttpService();
+        $args = $httpService->getGetArgs();
         $action = $args[self::ARG_ACTION] ?? NULL;
         switch ($action) {
             case self::ACTION_SEARCH_BY_TEXT:

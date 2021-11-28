@@ -12,8 +12,9 @@ class AirspaceServiceProcessor {
     const ACTION_GET_AIRSPACES_BY_EXTENT = "getAirspacesByExtent";
 
 
-    public static function processRequest(array $args, IAirspaceServiceDiContainer $diContainer) {
+    public static function processRequest(IAirspaceServiceDiContainer $diContainer) {
         $httpService = $diContainer->getHttpService();
+        $args = $httpService->getGetArgs();
         $action = $args[self::ARG_ACTION] ?? NULL;
         switch ($action) {
             case self::ACTION_GET_AIRSPACES_BY_EXTENT:

@@ -4,25 +4,22 @@ namespace Navplan\Terrain\RestService;
 
 use InvalidArgumentException;
 use Navplan\Common\RestModel\RestPosition3dConverter;
+use Navplan\System\DomainModel\HttpRequestMethod;
 use Navplan\Terrain\RestModel\ReadElevationListRequestConverter;
 use Navplan\Terrain\RestModel\ReadElevationRequestConverter;
 
 
 class TerrainServiceProcessor {
-    const REQ_METHOD_GET = "GET";
-    const REQ_METHOD_POST = "POST";
-
-
-    public static function processRequest(string $requestMethod, ?array $getArgs, ?array $postArgs, ITerrainDiContainer $diContainer) {
+    public static function processRequest(ITerrainDiContainer $diContainer) {
         $httpService = $diContainer->getHttpService();
-        switch ($requestMethod) {
-            case self::REQ_METHOD_GET:
-                $positions = ReadElevationRequestConverter::fromArgs($getArgs);
+        switch ($httpService->getRequestMethod()) {
+            case HttpRequestMethod::GET:
+                $positions = ReadElevationRequestConverter::fromArgs($httpService->getGetArgs());
                 $pos3dList = $diContainer->getReadElevationListUc()->read($positions);
                 $httpService->sendArrayResponse(RestPosition3dConverter::listToRest($pos3dList));
                 break;
-            case self::REQ_METHOD_POST:
-                $positions = ReadElevationListRequestConverter::fromArgs($postArgs);
+            case HttpRequestMethod::POST:
+                $positions = ReadElevationListRequestConverter::fromArgs($httpService->getPostArgs());
                 $pos3dList = $diContainer->getReadElevationListUc()->read($positions);
                 $httpService->sendArrayResponse(RestPosition3dConverter::listToRest($pos3dList));
                 break;

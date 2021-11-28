@@ -21,8 +21,9 @@ class AirportServiceProcessor {
     const ACTION_GET_CHART_BY_ID = "getChartById";
 
 
-    public static function processRequest(array $args, IAirportServiceDiContainer $diContainer) {
+    public static function processRequest(IAirportServiceDiContainer $diContainer) {
         $httpService = $diContainer->getHttpService();
+        $args = $httpService->getGetArgs();
         $action = $args[self::ARG_ACTION] ?? NULL;
         switch ($action) {
             case self::ACTION_GET_SHORT_AD_BY_EXTENT:

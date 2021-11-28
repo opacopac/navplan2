@@ -24,8 +24,9 @@ class UserServiceProcessor {
     const ACTION_UPDATE_PW = "updatepassword";
 
 
-    public static function processRequest(?array $postVars, IUserServiceDiContainer $diContainer) {
+    public static function processRequest(IUserServiceDiContainer $diContainer) {
         $httpService = $diContainer->getHttpService();
+        $postVars = $httpService->getPostArgs();
         $action = $postVars[self::ARG_ACTION] ?? NULL;
         switch ($action) {
             case self::ACTION_LOGIN:

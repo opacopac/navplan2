@@ -9,6 +9,5 @@ use Navplan\ProdNavplanDiContainer;
 
 
 $diContainer = new ProdNavplanDiContainer();
-$getArgs = $_GET;
 
-NotamServiceProcessor::processRequest($getArgs, $diContainer);
+NotamServiceProcessor::processRequest($diContainer);

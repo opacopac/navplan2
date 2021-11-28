@@ -3,6 +3,7 @@
 namespace Navplan\Traffic\RestService;
 
 use InvalidArgumentException;
+use Navplan\System\DomainModel\HttpRequestMethod;
 use Navplan\Traffic\RestModel\RestTrafficAdsbexListResponseConverter;
 use Navplan\Traffic\RestModel\RestTrafficAdsbexReadRequestConverter;
 use Navplan\Traffic\RestModel\RestTrafficAdsbexWithDetailsListResponseConverter;
@@ -13,18 +14,17 @@ use Navplan\Traffic\RestModel\RestTrafficOgnReadRequestConverter;
 
 
 class TrafficServiceProcessor {
-    public const REQUEST_METHOD_GET = "GET";
-    public const REQUEST_METHOD_POST = "POST";
     public const ACTION_READ_OGN_TRAFFIC = "readogntraffic";
     public const ACTION_READ_ADSBEX_TRAFFIC = "readadsbextraffic";
     public const ACTION_READ_ADSBEX_TRAFFIC_WITH_DETAILS = "readadsbextrafficwithdetails";
     public const ACTION_READ_AC_DETAILS = "readtrafficdetails";
 
 
-    public static function processRequest(string $requestMethod, ?array $getVars, ?array $postVars, ITrafficServiceDiContainer $diContainer) {
+    public static function processRequest(ITrafficServiceDiContainer $diContainer) {
         $httpService = $diContainer->getHttpService();
-        switch ($requestMethod) {
-            case self::REQUEST_METHOD_GET:
+        switch ($httpService->getRequestMethod()) {
+            case HttpRequestMethod::GET:
+                $getVars = $httpService->getGetArgs();
                 $action = $getVars["action"] ?? NULL;
                 switch ($action) {
                     case self::ACTION_READ_OGN_TRAFFIC:
@@ -46,7 +46,8 @@ class TrafficServiceProcessor {
                         throw new InvalidArgumentException("no or invalid get-action defined!");
                 }
                 break;
-            case self::REQUEST_METHOD_POST:
+            case HttpRequestMethod::POST:
+                $postVars = $httpService->getPostArgs();
                 $action = $postVars["action"] ?? NULL;
                 switch ($action) {
                     case self::ACTION_READ_AC_DETAILS:

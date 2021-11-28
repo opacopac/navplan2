@@ -13,19 +13,14 @@ use Navplan\Flightroute\RestModel\RestReadFlightrouteRequestConverter;
 use Navplan\Flightroute\RestModel\RestReadSharedFlightrouteRequestConverter;
 use Navplan\Flightroute\RestModel\RestSuccessResponseConverter;
 use Navplan\Flightroute\RestModel\RestUpdateFlightrouteRequestConverter;
+use Navplan\System\DomainModel\HttpRequestMethod;
 
 
 class FlightrouteServiceProcessor {
-    const REQ_METHOD_GET = "GET";
-    const REQ_METHOD_POST = "POST";
-    const REQ_METHOD_PUT = "PUT";
-    const REQ_METHOD_DELETE = "DELETE";
-
-
     public static function processRequest(IFlightrouteServiceDiContainer $diContainer) {
         $httpService = $diContainer->getHttpService();
         switch ($httpService->getRequestMethod()) {
-            case self::REQ_METHOD_GET:
+            case HttpRequestMethod::GET:
                 if ($httpService->hasGetArg(RestReadSharedFlightrouteRequestConverter::ARG_SHARE_ID)) {
                     $request = RestReadSharedFlightrouteRequestConverter::fromArgs($httpService->getGetArgs());
                     $response = $diContainer->getReadSharedFlightrouteUc()->read($request);
@@ -40,7 +35,7 @@ class FlightrouteServiceProcessor {
                     $httpService->sendArrayResponse(RestFlightrouteListResponseConverter::toRest($response));
                 }
                 break;
-            case self::REQ_METHOD_POST:
+            case HttpRequestMethod::POST:
                 if ($httpService->hasPostArg(RestCreateSharedFlightrouteRequestConverter::ARG_CREATE_SHARED)
                     && $httpService->getPostArgs()[RestCreateSharedFlightrouteRequestConverter::ARG_CREATE_SHARED] === TRUE) {
                     $request = RestCreateSharedFlightrouteRequestConverter::fromArgs($httpService->getPostArgs());
@@ -52,12 +47,12 @@ class FlightrouteServiceProcessor {
                     $httpService->sendArrayResponse(RestFlightrouteResponseConverter::toRest($response));
                 }
                 break;
-            case self::REQ_METHOD_PUT:
+            case HttpRequestMethod::PUT:
                 $request = RestUpdateFlightrouteRequestConverter::fromArgs($httpService->getPostArgs());
                 $response = $diContainer->getUpdateFlightrouteUc()->update($request);
                 $httpService->sendArrayResponse(RestFlightrouteResponseConverter::toRest($response));
                 break;
-            case self::REQ_METHOD_DELETE:
+            case HttpRequestMethod::DELETE:
                 $request = RestDeleteFlightrouteRequestConverter::fromArgs($httpService->getGetArgs());
                 $diContainer->getDeleteFlightrouteUc()->delete($request);
                 $httpService->sendArrayResponse(RestSuccessResponseConverter::toRest());

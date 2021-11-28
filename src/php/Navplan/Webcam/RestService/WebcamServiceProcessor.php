@@ -12,8 +12,9 @@ class WebcamServiceProcessor {
     const ACTION_GET_WEBCAMS_BY_EXTENT = "getWebcamsByExtent";
 
 
-    public static function processRequest(array $args, IWebcamServiceDiContainer $diContainer) {
+    public static function processRequest(IWebcamServiceDiContainer $diContainer) {
         $httpService = $diContainer->getHttpService();
+        $args = $httpService->getGetArgs();
         $action = $args[self::ARG_ACTION] ?? NULL;
         switch ($action) {
             case self::ACTION_GET_WEBCAMS_BY_EXTENT:

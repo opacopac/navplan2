@@ -20,8 +20,9 @@ class ExporterServiceProcessor {
     const ACTION_EXPORT_FPL = "exportfpl";
 
 
-    public static function processRequest(array $postArgs, IExporterServiceDiContainer $diContainer) {
+    public static function processRequest(IExporterServiceDiContainer $diContainer) {
         $httpService = $diContainer->getHttpService();
+        $postArgs = $httpService->getPostArgs();
         $action = $postArgs[self::ARG_ACTION] ?? NULL;
         switch ($action) {
             case self::ACTION_EXPORT_PDF:

@@ -6,5 +6,7 @@ use Navplan\ProdNavplanDiContainer;
 
 require_once __DIR__ . "/../../RestServiceBootstrap.php";
 
+
 $diContainer = new ProdNavplanDiContainer();
-MeteoServiceProcessor::processRequest($_GET, $diContainer);
+
+MeteoServiceProcessor::processRequest($diContainer);

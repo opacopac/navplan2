@@ -16,8 +16,9 @@ class NotamServiceProcessor {
     const ACTION_SEARCH_BY_ICAO = "searchByIcao";
 
 
-    public static function processRequest(array $getArgs, INotamServiceDiContainer $diContainer) {
+    public static function processRequest(INotamServiceDiContainer $diContainer) {
         $httpService = $diContainer->getHttpService();
+        $getArgs = $httpService->getGetArgs();
         $action = $getArgs[self::ARG_ACTION] ?? NULL;
         switch ($action) {
             case self::ACTION_SEARCH_BY_EXTENT:

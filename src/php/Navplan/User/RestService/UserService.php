@@ -7,7 +7,6 @@ use Navplan\ProdNavplanDiContainer;
 include_once __DIR__ . "/../../RestServiceBootstrap.php";
 
 
-$config = new ProdNavplanDiContainer();
-$postArgs = json_decode(file_get_contents('php://input'), TRUE);
+$diContainer = new ProdNavplanDiContainer();
 
-UserServiceProcessor::processRequest($postArgs, $config);
+UserServiceProcessor::processRequest($diContainer);

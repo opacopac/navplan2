@@ -3,6 +3,7 @@
 namespace Navplan\Track\RestService;
 
 use InvalidArgumentException;
+use Navplan\System\DomainModel\HttpRequestMethod;
 use Navplan\Track\RestModel\RestReadTrackListRequest;
 use Navplan\Track\RestModel\RestReadTrackListResponseConverter;
 use Navplan\Track\RestModel\RestReadTrackRequest;
@@ -10,8 +11,6 @@ use Navplan\Track\RestModel\RestReadTrackResponseConverter;
 
 
 class TrackServiceProcessor {
-    const REQ_METHOD_GET = "GET";
-    const REQ_METHOD_POST = "POST";
     const ARG_ACTION = "action";
     const ACTION_READ_TRACKLIST = "readtracklist";
     const ACTION_READ_TRACK = "readtrack";
@@ -21,7 +20,7 @@ class TrackServiceProcessor {
         $httpService = $diContainer->getHttpService();
 
         switch ($httpService->getRequestMethod()) {
-            case self::REQ_METHOD_GET:
+            case HttpRequestMethod::GET:
                 $action = $httpService->getGetArgs()[self::ARG_ACTION] ?? NULL;
                 switch ($action) {
                     case self::ACTION_READ_TRACKLIST:
@@ -40,7 +39,7 @@ class TrackServiceProcessor {
                         throw new InvalidArgumentException("no or unknown action '" . $action . "'");
                 }
                 break;
-            case self::REQ_METHOD_POST:
+            case HttpRequestMethod::POST:
                 // $action = $postArgs[self::ARG_ACTION] ?? NULL;
             default:
                 throw new InvalidArgumentException("unknown request method '" . $httpService->getRequestMethod() . "'");

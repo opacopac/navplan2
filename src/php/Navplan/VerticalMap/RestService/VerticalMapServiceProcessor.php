@@ -12,8 +12,9 @@ class VerticalMapServiceProcessor {
     const ACTION_READ_VMAP = "readvmap";
 
 
-    public static function processRequest(string $requestMethod, ?array $getArgs, ?array $postArgs, IVerticalMapDiContainer $diContainer) {
+    public static function processRequest(IVerticalMapDiContainer $diContainer) {
         $httpService = $diContainer->getHttpService();
+        $postArgs = $httpService->getPostArgs();
         $action = $postArgs[self::ARG_ACTION] ?? NULL;
         switch ($action) {
             case self::ACTION_READ_VMAP:

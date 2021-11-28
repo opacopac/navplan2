@@ -8,6 +8,5 @@ require_once __DIR__ . "/../../RestServiceBootstrap.php";
 
 
 $diContainer = new ProdNavplanDiContainer();
-$getArgs = $_GET;
 
-NavaidServiceProcessor::processRequest($getArgs, $diContainer);
+NavaidServiceProcessor::processRequest($diContainer);

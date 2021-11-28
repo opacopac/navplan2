@@ -12,8 +12,9 @@ class NavaidServiceProcessor {
     const ACTION_GET_NAVAIDS_BY_EXTENT = "getNavaidsByExtent";
 
 
-    public static function processRequest(array $args, INavaidServiceDiContainer $diContainer) {
+    public static function processRequest(INavaidServiceDiContainer $diContainer) {
         $httpService = $diContainer->getHttpService();
+        $args = $httpService->getGetArgs();
         $action = $args[self::ARG_ACTION] ?? NULL;
         switch ($action) {
             case self::ACTION_GET_NAVAIDS_BY_EXTENT:
