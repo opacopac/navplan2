@@ -73,7 +73,9 @@
         <textarea matInput
                   #routeComments
                   formControlName="flightrouteComments"
-                  rows="6"
+                  cdkTextareaAutosize
+                  cdkAutosizeMinRows="3"
+                  cdkAutosizeMaxRows="6"
                   maxlength="2048"
                   (input)="this.routeComments$.next(routeComments.value)">
         </textarea>

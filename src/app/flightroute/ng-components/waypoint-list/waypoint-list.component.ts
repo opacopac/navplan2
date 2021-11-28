@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Waypoint} from '../../domain-model/waypoint';
 import {Flightroute} from '../../domain-model/flightroute';
 import {ButtonColor, ButtonSize} from '../../../common/directives/button-base/button-base.directive';
@@ -20,8 +20,15 @@ interface WaypointListDataSourceRow {
     templateUrl: './waypoint-list.component.html',
     styleUrls: ['./waypoint-list.component.css']
 })
-export class WaypointListComponent implements OnInit {
-    @Input() flightroute: Flightroute;
+export class WaypointListComponent implements OnInit, OnDestroy {
+    @Input()
+    set flightroute(flightroute: Flightroute) {
+        this._flightroute = flightroute;
+        this.wpDataSource = this.calcWaypointDataSource(flightroute);
+    }
+    get flightroute(): Flightroute {
+        return this._flightroute;
+    }
     @Output() onEditWaypointClick = new EventEmitter<Waypoint>();
     @Output() onRemoveWaypointClick = new EventEmitter<Waypoint>();
     @Output() onReverseWaypointsClick = new EventEmitter<null>();
@@ -29,6 +36,8 @@ export class WaypointListComponent implements OnInit {
     public ButtonSize = ButtonSize;
     public ButtonColor = ButtonColor;
     public console = console;
+    public wpDataSource: WaypointListDataSourceRow[] = [];
+    private _flightroute: Flightroute;
 
 
     constructor() {
@@ -39,26 +48,7 @@ export class WaypointListComponent implements OnInit {
     }
 
 
-    public getWaypointList(): WaypointListDataSourceRow[] {
-        const wpList: WaypointListDataSourceRow[] = [];
-
-        this.flightroute.waypoints.forEach((wp, index) => wpList.push({
-            wp: wp,
-            isAlternate: false,
-            isOriginAirport: index === 0 && wp.type === WaypointType.airport,
-            isDestinationAirport: index === this.flightroute.waypoints.length - 1 && wp.type === WaypointType.airport
-        }));
-
-        if (this.flightroute.alternate) {
-            wpList.push({
-                wp: this.flightroute.alternate,
-                isAlternate: true,
-                isOriginAirport: false,
-                isDestinationAirport: false
-            });
-        }
-
-        return wpList;
+    ngOnDestroy(): void {
     }
 
 
@@ -90,5 +80,28 @@ export class WaypointListComponent implements OnInit {
 
     public getTotalEet(timeUnit: TimeUnit = TimeUnit.M): number {
         return Math.ceil(this.flightroute.fuel.tripTime.getValue(timeUnit));
+    }
+
+
+    private calcWaypointDataSource(flightroute: Flightroute): WaypointListDataSourceRow[] {
+        const wpList: WaypointListDataSourceRow[] = [];
+
+        flightroute.waypoints.forEach((wp, index) => wpList.push({
+            wp: wp,
+            isAlternate: false,
+            isOriginAirport: index === 0 && wp.type === WaypointType.airport,
+            isDestinationAirport: index === flightroute.waypoints.length - 1 && wp.type === WaypointType.airport
+        }));
+
+        if (flightroute.alternate) {
+            wpList.push({
+                wp: flightroute.alternate,
+                isAlternate: true,
+                isOriginAirport: false,
+                isDestinationAirport: false
+            });
+        }
+
+        return wpList;
     }
 }

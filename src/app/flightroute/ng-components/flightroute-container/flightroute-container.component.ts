@@ -55,8 +55,8 @@ export class FlightrouteContainerComponent implements OnInit, OnDestroy {
     constructor(
         private appStore: Store<any>,
         private formBuilder: FormBuilder,
-        private dialog: MatDialog) {
-
+        private dialog: MatDialog,
+    ) {
         this.initForm();
         this.initObservables();
     }

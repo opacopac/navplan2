@@ -1,0 +1,16 @@
+<div class="content-container">
+    <mat-tab-group #tabGroup animationDuration="0ms">
+        <!-- info tab -->
+        <mat-tab label="Route">
+            <ng-template matTabContent>
+                <app-flightroute-container></app-flightroute-container>
+            </ng-template>
+        </mat-tab>
+        <mat-tab label="Fuel">
+            <ng-template matTabContent>
+                <app-fuel-calc-container></app-fuel-calc-container>
+            </ng-template>
+        </mat-tab>
+    </mat-tab-group>
+    <app-flightroute-export-buttons></app-flightroute-export-buttons>
+</div>

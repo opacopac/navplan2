@@ -3,7 +3,7 @@
            *ngIf="this.flightroute && this.flightroute.waypoints.length > 0"
            multiTemplateDataRows
            class="waypoints-table mat-elevation-z6"
-           [dataSource]="this.getWaypointList()">
+           [dataSource]="this.wpDataSource">
 
         <ng-container matColumnDef="freq">
             <th mat-header-cell *matHeaderCellDef>Freq</th>

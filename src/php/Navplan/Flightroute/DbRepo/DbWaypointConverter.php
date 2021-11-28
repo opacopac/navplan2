@@ -15,19 +15,6 @@ use Navplan\System\MySqlDb\DbHelper;
 
 class DbWaypointConverter {
     public static function fromDbRow(array $row): Waypoint {
-        $alt = $row["alt"] ? new Altitude(
-            intval($row["alt"]),
-            AltitudeUnit::FT,
-            AltitudeReference::MSL
-        ) : NULL;
-
-        $wpAlt = new WaypointAltitude(
-            $alt,
-            $row["isminalt"] === 1,
-            $row["ismaxalt"] === 1,
-            $row["isaltatlegstart"] === 1,
-        );
-
         return new Waypoint(
             $row["type"],
             $row["freq"],
@@ -35,13 +22,22 @@ class DbWaypointConverter {
             $row["checkpoint"],
             "",
             "",
-            $wpAlt,
+            new WaypointAltitude(
+                $row["alt"] ? new Altitude(
+                    intval($row["alt"]),
+                    AltitudeUnit::FT,
+                    AltitudeReference::MSL
+                ) : NULL,
+                intval($row["isminalt"]) === 1,
+                intval($row["ismaxalt"]) === 1,
+                intval($row["isaltatlegstart"]) === 1,
+            ),
             "",
             $row["remark"],
             StringNumberHelper::parseStringOrNull($row, "supp_info"),
             DbPosition2dConverter::fromDbRow($row),
             StringNumberHelper::parseStringOrNull($row, "airport_icao"),
-        $row["is_alternate"] === 1
+        intval($row["is_alternate"]) === 1
         );
     }
 

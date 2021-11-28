@@ -58,6 +58,9 @@ import {ExporterEffects} from '../exporter/ngrx/exporter.effects.service';
     exports: [
         FlightroutePageComponent,
         EditWaypointDialogComponent,
+        FlightrouteContainerComponent,
+        FuelCalcContainerComponent,
+        FlightrouteExportButtonsComponent,
     ],
     providers: [
         { provide: IFlightrouteRepo, useClass: FlightrouteRestService }
