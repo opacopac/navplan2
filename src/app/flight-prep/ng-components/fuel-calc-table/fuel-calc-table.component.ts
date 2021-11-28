@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {RouteFuel} from '../../domain-model/routefuel';
+import {RouteFuel} from '../../../flightroute/domain-model/routefuel';
 import {StringnumberHelper} from '../../../system/domain-service/stringnumber/stringnumber-helper';
 import {Time} from '../../../common/geo-math/domain-model/quantities/time';
 import {Volume} from '../../../common/geo-math/domain-model/quantities/volume';
