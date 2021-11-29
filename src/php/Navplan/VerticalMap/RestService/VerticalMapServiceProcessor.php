@@ -3,8 +3,8 @@
 namespace Navplan\VerticalMap\RestService;
 
 use InvalidArgumentException;
-use Navplan\VerticalMap\RestModel\ReadVerticalMapRequestConverter;
-use Navplan\VerticalMap\RestModel\ReadVerticalMapResponseConverter;
+use Navplan\VerticalMap\RestModel\ReadVerticalMapRequest;
+use Navplan\VerticalMap\RestModel\ReadVerticalMapResponse;
 
 
 class VerticalMapServiceProcessor {
@@ -18,9 +18,10 @@ class VerticalMapServiceProcessor {
         $action = $postArgs[self::ARG_ACTION] ?? NULL;
         switch ($action) {
             case self::ACTION_READ_VMAP:
-                $request = ReadVerticalMapRequestConverter::fromArgs($postArgs);
-                $response = $diContainer->getReadVerticalMapUc()->read($request);
-                $httpService->sendArrayResponse(ReadVerticalMapResponseConverter::toRest($response));
+                $request = ReadVerticalMapRequest::fromArgs($postArgs);
+                $verticalMap = $diContainer->getVerticalMapService()->getRouteVerticalMap($request->wpPositions);
+                $response = new ReadVerticalMapResponse($verticalMap);
+                $httpService->sendArrayResponse($response->toRest());
                 break;
             default:
                 throw new InvalidArgumentException('unknown request method');

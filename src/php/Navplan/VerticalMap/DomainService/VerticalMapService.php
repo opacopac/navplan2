@@ -34,21 +34,21 @@ class VerticalMapService implements IVerticalMapService {
     }
 
 
-    public function buildFromWpList(array $wpPositions): VerticalMap {
-        $mapWidthM = $this->calcTotalDistM($wpPositions);
+    public function getRouteVerticalMap(array $waypointPositions): VerticalMap {
+        $mapWidthM = $this->calcTotalDistM($waypointPositions);
         $stepSizeM = max(self::TERRAIN_RESOLUTION_M, $mapWidthM / self::TERRAIN_MAX_STEPS);
 
         // terain
-        $terrainStepPosList = $this->calcTerainStepPosList($wpPositions, $stepSizeM);
+        $terrainStepPosList = $this->calcTerainStepPosList($waypointPositions, $stepSizeM);
         $terrainElevationList = $this->terrainService->readElevations($terrainStepPosList);
         $terrainSteps = $this->createVmTerrainSteps($terrainElevationList, Length::fromM($stepSizeM));
         $maxTerrainElevation = $this->getMaxTerrainHeight($terrainSteps);
 
         // waypoints
-        $wpSteps = $this->createWaypointSteps($wpPositions, $maxTerrainElevation);
+        $wpSteps = $this->createWaypointSteps($waypointPositions, $maxTerrainElevation);
 
         // airspaces
-        $airspaceCandidates = $this->airspaceService->searchByRouteIntersection($wpPositions);
+        $airspaceCandidates = $this->airspaceService->searchByRouteIntersection($waypointPositions);
         $vmAirspaces = $this->createVmAirspaces($airspaceCandidates, $wpSteps, $terrainSteps);
 
         //TODO: notam

@@ -112,8 +112,6 @@ use Navplan\User\UseCase\UpdatePw\UpdatePwUc;
 use Navplan\VerticalMap\DomainService\IVerticalMapService;
 use Navplan\VerticalMap\DomainService\VerticalMapService;
 use Navplan\VerticalMap\RestService\IVerticalMapDiContainer;
-use Navplan\VerticalMap\UseCase\ReadVerticalMap\IReadVerticalMapUc;
-use Navplan\VerticalMap\UseCase\ReadVerticalMap\ReadVerticalMapUc;
 use Navplan\Webcam\DbRepo\DbWebcamRepo;
 use Navplan\Webcam\DomainService\IWebcamRepo;
 use Navplan\Webcam\RestService\IWebcamServiceDiContainer;
@@ -189,7 +187,6 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     private IWebcamRepo $webcamRepo;
     // vertical map
     private IVerticalMapService $verticalMapService;
-    private IReadVerticalMapUc $readVerticalMapUc;
     // export
     private IExportService $exportService;
     // track
@@ -724,17 +721,6 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
         }
 
         return $this->verticalMapService;
-    }
-
-
-    function getReadVerticalMapUc(): IReadVerticalMapUc {
-        if (!isset($this->readVerticalMapUc)) {
-            $this->readVerticalMapUc = new ReadVerticalMapUc(
-                $this->getVerticalMapService()
-            );
-        }
-
-        return $this->readVerticalMapUc;
     }
 
     // endregion

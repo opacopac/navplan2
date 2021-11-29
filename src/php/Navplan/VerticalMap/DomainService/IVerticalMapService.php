@@ -8,8 +8,8 @@ use Navplan\VerticalMap\DomainModel\VerticalMap;
 
 interface IVerticalMapService {
     /**
-     * @param Position2d[] $wpPositions
+     * @param Position2d[] $waypointPositions
      * @return VerticalMap
      */
-    public function buildFromWpList(array $wpPositions): VerticalMap;
+    public function getRouteVerticalMap(array $waypointPositions): VerticalMap;
 }
