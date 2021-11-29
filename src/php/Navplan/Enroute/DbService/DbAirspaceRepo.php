@@ -5,12 +5,12 @@ namespace Navplan\Enroute\DbService;
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\GeoHelper;
 use Navplan\Enroute\DbModel\DbAirspaceConverter;
-use Navplan\Enroute\DomainService\IAirspaceService;
+use Navplan\Enroute\DomainService\IAirspaceRepo;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
 
 
-class DbAirspaceRepo implements IAirspaceService {
+class DbAirspaceRepo implements IAirspaceRepo {
     const MAX_BOTTOM_ALT_FL = 200;
     const MIN_PIXEL_AIRSPACE_DIAMETER = 50;  // TODO
     const MIN_PIXEL_COORDINATE_RESOLUTION = 2;  // TODO

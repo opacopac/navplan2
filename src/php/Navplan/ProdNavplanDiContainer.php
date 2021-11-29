@@ -34,7 +34,6 @@ use Navplan\Flightroute\DomainService\IFlightrouteService;
 use Navplan\Flightroute\RestService\IFlightrouteServiceDiContainer;
 use Navplan\Geoname\DbRepo\DbGeonameRepo;
 use Navplan\Geoname\DomainService\GeonameService;
-use Navplan\Geoname\DomainService\IGeonameRepo;
 use Navplan\Geoname\DomainService\IGeonameService;
 use Navplan\Geoname\RestService\IGeonameServiceDiContainer;
 use Navplan\MeteoSma\DbRepo\DbMeteoRepo;
@@ -147,7 +146,6 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     private IFlightrouteService $flightrouteService;
     private IFlightrouteRepo $flightrouteRepo;
     // geoname
-    private IGeonameRepo $geonameRepo;
     private IGeonameService $geonameService;
     // meteo sma
     private IMeteoRepo $meteoRepo;
@@ -290,19 +288,10 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
 
     // region geoname
 
-    function getGeonameRepo(): IGeonameRepo {
-        if (!isset($this->geonameRepo)) {
-            $this->geonameRepo = new DbGeonameRepo($this->getDbService());
-        }
-
-        return $this->geonameRepo;
-    }
-
-
     function getGeonameService(): IGeonameService {
         if (!isset($this->geonameService)) {
             $this->geonameService = new GeonameService(
-                $this->getGeonameRepo(),
+                new DbGeonameRepo($this->getDbService()),
                 $this->getTerrainRepo()
             );
         }
