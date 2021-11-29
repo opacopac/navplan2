@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\MeteoSma\DbRepo;
+namespace Navplan\MeteoSma\DbModel;
 
 use Navplan\Common\DomainModel\Time;
 use Navplan\Common\DomainModel\Timestamp;
@@ -10,10 +10,10 @@ use Navplan\MeteoSma\DomainModel\SmaMeasurement;
 use Navplan\System\DomainService\ITimeService;
 
 
-class SmaMeasurementConverter {
+class DbSmaMeasurementConverter {
     public static function fromDbRow(array $row, ITimeService $timeService): SmaMeasurement {
         return new SmaMeasurement(
-            SmaStationConverter::fromDbRow($row),
+            DbSmaStationConverter::fromDbRow($row),
             self::getTimestamp($row, $timeService),
             StringNumberHelper::parseFloatOrNull($row, "temp_c"),
             self::getSunTime($row),

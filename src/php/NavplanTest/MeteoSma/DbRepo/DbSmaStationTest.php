@@ -2,7 +2,7 @@
 
 namespace NavplanTest\MeteoSma\DbRepo;
 
-use Navplan\MeteoSma\DbRepo\SmaStationConverter;
+use Navplan\MeteoSma\DbService\SmaStationConverter;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement1;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement2;
 use NavplanTest\MeteoSma\Mocks\DummySmaStation1;

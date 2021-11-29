@@ -3,7 +3,7 @@
 namespace NavplanTest\MeteoSma\DbRepo;
 
 use Navplan\Common\DomainModel\Extent2d;
-use Navplan\MeteoSma\DbRepo\DbMeteoSmaRepo;
+use Navplan\MeteoSma\DbService\DbMeteoSmaRepo;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement1;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement2;
 use NavplanTest\MeteoSma\Mocks\DummySmaStationList1;

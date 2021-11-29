@@ -1,12 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Terrain\FileRepo;
+namespace Navplan\Terrain\FileService;
 
 use Navplan\Common\DomainModel\Altitude;
 use Navplan\Common\DomainModel\Position3d;
 use Navplan\System\DomainModel\IFile;
 use Navplan\System\DomainService\IFileService;
 use Navplan\Terrain\DomainService\ITerrainRepo;
+use Navplan\Terrain\FileModel\TerrainPos;
 
 
 class FileTerrainRepo implements ITerrainRepo {

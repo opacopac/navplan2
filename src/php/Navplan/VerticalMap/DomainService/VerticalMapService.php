@@ -12,7 +12,7 @@ use Navplan\Common\DomainModel\Position3d;
 use Navplan\Common\GeoHelper;
 use Navplan\Enroute\DomainModel\Airspace;
 use Navplan\Enroute\DomainService\IAirspaceService;
-use Navplan\Terrain\DomainService\ITerrainRepo;
+use Navplan\Terrain\DomainService\ITerrainService;
 use Navplan\VerticalMap\DomainModel\VerticalMap;
 use Navplan\VerticalMap\DomainModel\VerticalMapAirspace;
 use Navplan\VerticalMap\DomainModel\VerticalMapAirspaceStep;
@@ -28,8 +28,8 @@ class VerticalMapService implements IVerticalMapService {
 
 
     public function __construct(
-        private ITerrainRepo $terrainRepo,
-        private IAirspaceService $airspaceRepo
+        private ITerrainService  $terrainService,
+        private IAirspaceService $airspaceService
     ) {
     }
 
@@ -40,7 +40,7 @@ class VerticalMapService implements IVerticalMapService {
 
         // terain
         $terrainStepPosList = $this->calcTerainStepPosList($wpPositions, $stepSizeM);
-        $terrainElevationList = $this->terrainRepo->readElevations($terrainStepPosList);
+        $terrainElevationList = $this->terrainService->readElevations($terrainStepPosList);
         $terrainSteps = $this->createVmTerrainSteps($terrainElevationList, Length::fromM($stepSizeM));
         $maxTerrainElevation = $this->getMaxTerrainHeight($terrainSteps);
 
@@ -48,7 +48,7 @@ class VerticalMapService implements IVerticalMapService {
         $wpSteps = $this->createWaypointSteps($wpPositions, $maxTerrainElevation);
 
         // airspaces
-        $airspaceCandidates = $this->airspaceRepo->searchByRouteIntersection($wpPositions);
+        $airspaceCandidates = $this->airspaceService->searchByRouteIntersection($wpPositions);
         $vmAirspaces = $this->createVmAirspaces($airspaceCandidates, $wpSteps, $terrainSteps);
 
         //TODO: notam

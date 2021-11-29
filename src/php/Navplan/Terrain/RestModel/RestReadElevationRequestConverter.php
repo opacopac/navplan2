@@ -6,8 +6,15 @@ use InvalidArgumentException;
 use Navplan\Common\DomainModel\Position2d;
 
 
-class ReadElevationRequestConverter {
-    public static function fromArgs(array $args): array {
+class RestReadElevationRequest {
+    /**
+     * @param Position2d[] $positions
+     */
+    public function __construct(public array $positions) {
+    }
+
+
+    public static function fromRest(array $args): RestReadElevationRequest {
         if (!isset($args["lon"]) || !isset($args["lat"])) {
             throw new InvalidArgumentException("ERROR: parameters 'lat' and/or 'lon' missing!");
         }
@@ -17,6 +24,6 @@ class ReadElevationRequestConverter {
             $positions[] = new Position2d(floatval($args["lon2"]), floatval($args["lat2"]));
         }
 
-        return $positions;
+        return new RestReadElevationRequest($positions);
     }
 }

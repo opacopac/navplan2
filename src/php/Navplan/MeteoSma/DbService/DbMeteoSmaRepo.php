@@ -1,8 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\MeteoSma\DbRepo;
+namespace Navplan\MeteoSma\DbService;
 
 use Navplan\Common\DomainModel\Extent2d;
+use Navplan\MeteoSma\DbModel\DbSmaMeasurementConverter;
+use Navplan\MeteoSma\DbModel\DbSmaStationConverter;
 use Navplan\MeteoSma\DomainService\IMeteoSmaRepo;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\DomainService\ITimeService;
@@ -40,7 +42,7 @@ class DbMeteoSmaRepo implements IMeteoSmaRepo {
 
         $measurementList = [];
         while ($row = $result->fetch_assoc()) {
-            $measurementList[] = SmaMeasurementConverter::fromDbRow($row, $this->timeService);
+            $measurementList[] = DbSmaMeasurementConverter::fromDbRow($row, $this->timeService);
         }
 
         return $measurementList;
@@ -52,7 +54,7 @@ class DbMeteoSmaRepo implements IMeteoSmaRepo {
         $this->dbService->execCUDQuery($query, "Error deleting SMA stations");
 
         foreach ($smaStationList as $smaStation) {
-            $query = SmaStationConverter::toInsertQuery($this->dbService, $smaStation);
+            $query = DbSmaStationConverter::toInsertQuery($this->dbService, $smaStation);
             $this->dbService->execCUDQuery($query, "Error inserting SMA station");
         }
     }

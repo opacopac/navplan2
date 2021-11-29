@@ -36,7 +36,7 @@ use Navplan\Geoname\DbRepo\DbGeonameRepo;
 use Navplan\Geoname\DomainService\GeonameService;
 use Navplan\Geoname\DomainService\IGeonameService;
 use Navplan\Geoname\RestService\IGeonameServiceDiContainer;
-use Navplan\MeteoSma\DbRepo\DbMeteoSmaRepo;
+use Navplan\MeteoSma\DbService\DbMeteoSmaRepo;
 use Navplan\MeteoSma\DomainService\IMeteoSmaService;
 use Navplan\MeteoSma\RestService\IMeteoServiceDiContainer;
 use Navplan\Notam\DbService\DbNotamRepo;
@@ -60,11 +60,10 @@ use Navplan\System\MySqlDb\MySqlDbService;
 use Navplan\System\Posix\ISystemDiContainer;
 use Navplan\System\Posix\LoggingService;
 use Navplan\System\Posix\SystemServiceFactory;
-use Navplan\Terrain\DomainService\ITerrainRepo;
-use Navplan\Terrain\FileRepo\FileTerrainRepo;
+use Navplan\Terrain\DomainService\ITerrainService;
+use Navplan\Terrain\DomainService\TerrainService;
+use Navplan\Terrain\FileService\FileTerrainRepo;
 use Navplan\Terrain\RestService\ITerrainDiContainer;
-use Navplan\Terrain\UseCase\ReadElevationList\IReadElevationListUc;
-use Navplan\Terrain\UseCase\ReadElevationList\ReadElevationListUc;
 use Navplan\Track\DbService\DbTrackRepo;
 use Navplan\Track\DomainService\ITrackRepo;
 use Navplan\Track\DomainService\ITrackService;
@@ -164,8 +163,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     private ILoggingService $fileLogger;
     private IDbService $dbService;
     // terrain
-    private ITerrainRepo $terrainRepo;
-    private IReadElevationListUc $readElevationListUc;
+    private ITerrainService $terrainService;
     // traffic
     private IAdsbexService $adsbexRepo;
     private IOgnService $ognRepo;
@@ -289,7 +287,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
         if (!isset($this->geonameService)) {
             $this->geonameService = new GeonameService(
                 new DbGeonameRepo($this->getDbService()),
-                $this->getTerrainRepo()
+                $this->getTerrainService(),
             );
         }
 
@@ -466,24 +464,17 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
 
     // region terrain
 
-    function getTerrainRepo(): ITerrainRepo {
-        if (!isset($this->terrainRepo)) {
-            $this->terrainRepo = new FileTerrainRepo(
-                $this->getFileService(),
-                self::TERRAIN_TILE_BASE_DIR
+    function getTerrainService(): ITerrainService {
+        if (!isset($this->terrainService)) {
+            $this->terrainService = new TerrainService(
+                new FileTerrainRepo(
+                    $this->getFileService(),
+                    self::TERRAIN_TILE_BASE_DIR
+                )
             );
         }
 
-        return $this->terrainRepo;
-    }
-
-
-    function getReadElevationListUc(): IReadElevationListUc {
-        if (!isset($this->readElevationListUc)) {
-            $this->readElevationListUc = new ReadElevationListUc($this->getTerrainRepo());
-        }
-
-        return $this->readElevationListUc;
+        return $this->terrainService;
     }
 
     // endregion
@@ -727,7 +718,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     function getVerticalMapService(): IVerticalMapService {
         if (!isset($this->verticalMapService)) {
             $this->verticalMapService = new VerticalMapService(
-                $this->getTerrainRepo(),
+                $this->getTerrainService(),
                 $this->getAirspaceService()
             );
         }

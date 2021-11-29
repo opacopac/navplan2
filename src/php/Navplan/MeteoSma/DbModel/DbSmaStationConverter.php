@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\MeteoSma\DbRepo;
+namespace Navplan\MeteoSma\DbModel;
 
 use InvalidArgumentException;
 use Navplan\Common\DomainModel\Altitude;
@@ -11,7 +11,7 @@ use Navplan\MeteoSma\DomainModel\SmaStation;
 use Navplan\System\DomainService\IDbService;
 
 
-class SmaStationConverter {
+class DbSmaStationConverter {
     public static function fromDbRow(array $row): SmaStation {
         return new SmaStation(
             $row["station_id"],

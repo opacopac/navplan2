@@ -1,14 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Terrain\UseCase\ReadElevationList;
+namespace Navplan\Terrain\DomainService;
 
 use Navplan\Common\DomainModel\LengthUnit;
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\Common\GeoHelper;
-use Navplan\Terrain\DomainService\ITerrainRepo;
 
 
-class ReadElevationListUc implements IReadElevationListUc {
+class TerrainService implements ITerrainService {
     const RESOLUTION_M = 100;
     const MAX_STEPS = 500;
 
@@ -17,16 +16,23 @@ class ReadElevationListUc implements IReadElevationListUc {
     }
 
 
-    public function read(array $posList): array {
-        if (count($posList) === 0) {
+
+    function readElevations(array $positionList): array {
+        return $this->repo->readElevations($positionList);
+    }
+
+
+
+    public function readRouteElevations(array $waypointPosList): array {
+        if (count($waypointPosList) === 0) {
             return [];
-        } else if (count($posList) === 1) {
-            return $this->repo->readElevations($posList);
+        } else if (count($waypointPosList) === 1) {
+            return $this->repo->readElevations($waypointPosList);
         }
 
-        $totalDistM = $this->calcTotalDistM($posList);
+        $totalDistM = $this->calcTotalDistM($waypointPosList);
         $minStepSizeM = max(self::RESOLUTION_M, $totalDistM / self::MAX_STEPS);
-        $elevationPosList = $this->getElevationPosList($posList, $minStepSizeM);
+        $elevationPosList = $this->getElevationPosList($waypointPosList, $minStepSizeM);
 
         return $this->repo->readElevations($elevationPosList);
     }

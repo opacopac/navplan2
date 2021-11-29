@@ -3,11 +3,11 @@
 namespace Navplan\Terrain\RestService;
 
 use Navplan\System\DomainService\IHttpService;
-use Navplan\Terrain\UseCase\ReadElevationList\IReadElevationListUc;
+use Navplan\Terrain\DomainService\ITerrainService;
 
 
 interface ITerrainDiContainer {
     function getHttpService(): IHttpService;
 
-    function getReadElevationListUc(): IReadElevationListUc;
+    function getTerrainService(): ITerrainService;
 }

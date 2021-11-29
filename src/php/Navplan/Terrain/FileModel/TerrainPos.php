@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Terrain\FileRepo;
+namespace Navplan\Terrain\FileModel;
 
 use Navplan\Common\DomainModel\Position2d;
 

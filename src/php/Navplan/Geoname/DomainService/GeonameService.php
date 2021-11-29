@@ -5,13 +5,13 @@ namespace Navplan\Geoname\DomainService;
 use Navplan\Common\DomainModel\Altitude;
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\Geoname\DomainModel\Geoname;
-use Navplan\Terrain\DomainService\ITerrainRepo;
+use Navplan\Terrain\DomainService\ITerrainService;
 
 
 class GeonameService implements IGeonameService {
     public function __construct(
         private IGeonameRepo $geonameRepo,
-        private ITerrainRepo $terrainRepo
+        private ITerrainService $terrainService
     ) {
     }
 
@@ -101,7 +101,7 @@ class GeonameService implements IGeonameService {
         }
 
         if (count($zeroAltGeonames) > 0) {
-            $pos3dList = $this->terrainRepo->readElevations($posList);
+            $pos3dList = $this->terrainService->readElevations($posList);
 
             for ($i = 0; $i < count($pos3dList); $i++) {
                 $zeroAltGeonames[$i]->elevation = $pos3dList[$i]->altitude;
