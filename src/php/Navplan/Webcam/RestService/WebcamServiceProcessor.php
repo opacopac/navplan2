@@ -19,7 +19,7 @@ class WebcamServiceProcessor {
         switch ($action) {
             case self::ACTION_GET_WEBCAMS_BY_EXTENT:
                 $extent = RestExtent2dConverter::fromArgs($args);
-                $adList = $diContainer->getWebcamRepo()->searchByExtent($extent);
+                $adList = $diContainer->getWebcamService()->searchByExtent($extent);
                 $httpService->sendArrayResponse(RestWebcamConverter::listToRest($adList));
                 break;
             default:

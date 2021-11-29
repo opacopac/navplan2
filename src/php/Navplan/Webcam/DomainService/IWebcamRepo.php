@@ -2,11 +2,6 @@
 
 namespace Navplan\Webcam\DomainService;
 
-use Navplan\Common\DomainModel\Extent2d;
 
-
-interface IWebcamRepo {
-    function searchByExtent(Extent2d $extent): array;
-
-    function searchByIcao(array $airportIcaoList): array;
+interface IWebcamRepo extends IWebcamService {
 }

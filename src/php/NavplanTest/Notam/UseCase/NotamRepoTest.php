@@ -23,7 +23,7 @@ class NotamRepoTest extends TestCase {
     protected function setUp(): void {
         $this->expectedResult = [ DummyNotam1::create(), DummyNotam2::create(), DummyNotam3::create() ];
         $config = new MockNavplanDiContainer();
-        $this->notamRepo = $config->notamRepo;
+        $this->notamRepo = $config->notamService;
         $this->notamRepo->pushMockResult($this->expectedResult);
         $this->searchNotam = $config->getSearchNotamUc();
     }

@@ -21,7 +21,7 @@ class NotamServiceProcessorTest extends TestCase {
     protected function setUp(): void {
         $this->config = new MockNavplanDiContainer();
         $this->httpService = $this->config->httpService;
-        $this->notamRepo = $this->config->notamRepo;
+        $this->notamRepo = $this->config->notamService;
     }
 
 

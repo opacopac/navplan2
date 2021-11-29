@@ -29,7 +29,6 @@ use Navplan\Exporter\FileExportService\FileExportService;
 use Navplan\Exporter\RestService\IExporterServiceDiContainer;
 use Navplan\Flightroute\DbRepo\DbFlightrouteRepo;
 use Navplan\Flightroute\DomainService\FlightrouteService;
-use Navplan\Flightroute\DomainService\IFlightrouteRepo;
 use Navplan\Flightroute\DomainService\IFlightrouteService;
 use Navplan\Flightroute\RestService\IFlightrouteServiceDiContainer;
 use Navplan\Geoname\DbRepo\DbGeonameRepo;
@@ -65,7 +64,6 @@ use Navplan\Terrain\DomainService\TerrainService;
 use Navplan\Terrain\FileService\FileTerrainRepo;
 use Navplan\Terrain\RestService\ITerrainDiContainer;
 use Navplan\Track\DbService\DbTrackRepo;
-use Navplan\Track\DomainService\ITrackRepo;
 use Navplan\Track\DomainService\ITrackService;
 use Navplan\Track\DomainService\TrackService;
 use Navplan\Track\RestService\ITrackServiceDiContainer;
@@ -114,6 +112,7 @@ use Navplan\VerticalMap\DomainService\VerticalMapService;
 use Navplan\VerticalMap\RestService\IVerticalMapDiContainer;
 use Navplan\Webcam\DbRepo\DbWebcamRepo;
 use Navplan\Webcam\DomainService\IWebcamRepo;
+use Navplan\Webcam\DomainService\IWebcamService;
 use Navplan\Webcam\RestService\IWebcamServiceDiContainer;
 
 
@@ -139,7 +138,6 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     private IAirspaceService $airspaceService;
     // flightroute
     private IFlightrouteService $flightrouteService;
-    private IFlightrouteRepo $flightrouteRepo;
     // geoname
     private IGeonameService $geonameService;
     // meteo sma
@@ -147,7 +145,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     // navaid
     private INavaidService $navaidService;
     // notam
-    private INotamRepo $notamRepo;
+    private INotamRepo $notamService;
     // search
     private ISearchService $searchService;
     // system & db
@@ -184,14 +182,13 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     private IUpdatePwUc $updatePwUc;
     private ISearchUserPointUc $searchUserPointUc;
     // webcam
-    private IWebcamRepo $webcamRepo;
+    private IWebcamRepo $webcamService;
     // vertical map
     private IVerticalMapService $verticalMapService;
     // export
     private IExportService $exportService;
     // track
     private ITrackService $trackService;
-    private ITrackRepo $trackRepo;
 
 
     public function __construct() {
@@ -259,20 +256,11 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
             $this->flightrouteService = new FlightrouteService(
                 $this->getTokenService(),
                 $this->getUserRepo(),
-                $this->getFlightrouteRepo()
+                new DbFlightrouteRepo($this->getDbService())
             );
         }
 
         return $this->flightrouteService;
-    }
-
-
-    public function getFlightrouteRepo(): IFlightrouteRepo {
-        if (!isset($this->flightrouteRepo)) {
-            $this->flightrouteRepo = new DbFlightrouteRepo($this->getDbService());
-        }
-
-        return $this->flightrouteRepo;
     }
 
     // endregion
@@ -325,19 +313,12 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
 
     // region notam
 
-    public function getNotamRepo(): INotamRepo {
-        if (!isset($this->notamRepo)) {
-            $this->notamRepo = new DbNotamRepo(
-                $this->getDbService()
-            );
+    public function getNotamService(): INotamService {
+        if (!isset($this->notamService)) {
+            $this->notamService = new DbNotamRepo($this->getDbService());
         }
 
-        return $this->notamRepo;
-    }
-
-
-    public function getNotamService(): INotamService {
-        return $this->getNotamRepo();
+        return $this->notamService;
     }
 
     // endregion
@@ -699,12 +680,12 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
 
     // region webcam
 
-    public function getWebcamRepo(): IWebcamRepo {
-        if (!isset($this->webcamRepo)) {
-            $this->webcamRepo = new DbWebcamRepo($this->getDbService());
+    public function getWebcamService(): IWebcamService {
+        if (!isset($this->webcamService)) {
+            $this->webcamService = new DbWebcamRepo($this->getDbService());
         }
 
-        return $this->webcamRepo;
+        return $this->webcamService;
     }
 
     // endregion
@@ -752,22 +733,11 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
         if (!isset($this->trackService)) {
             $this->trackService = new TrackService(
                 $this->getTokenService(),
-                $this->getTrackRepo()
+                new DbTrackRepo($this->getDbService())
             );
         }
 
         return $this->trackService;
-    }
-
-
-    function getTrackRepo(): ITrackRepo {
-        if (!isset($this->trackRepo)) {
-            $this->trackRepo = new DbTrackRepo(
-                $this->getDbService()
-            );
-        }
-
-        return $this->trackRepo;
     }
 
     // endregion

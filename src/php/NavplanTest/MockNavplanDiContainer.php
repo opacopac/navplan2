@@ -69,13 +69,13 @@ class MockNavplanDiContainer extends ProdNavplanDiContainer {
     // meteo sma
     public MockMeteoSmaRepo $meteoService;
     // notam
-    public MockNotamRepo $notamRepo;
+    public MockNotamRepo $notamService;
     // open aip
     public MockAirportRepo $airportRepo;
     public MockAirspaceService $airspaceService;
     public MockNavaidService $navaidService;
     public MockReportingPointRepo $reportingPointRepo;
-    public MockWebcamRepo $webcamRepo;
+    public MockWebcamRepo $webcamService;
     // terrain
     public MockTerrainRepo $terrainRepo;
     // traffic
@@ -101,12 +101,12 @@ class MockNavplanDiContainer extends ProdNavplanDiContainer {
         $this->flightrouteRepo = new MockFlightrouteRepo();
         $this->geonameRepo = new MockGeonameRepo();
         $this->meteoService = new MockMeteoSmaRepo();
-        $this->notamRepo = new MockNotamRepo();
+        $this->notamService = new MockNotamRepo();
         $this->airportRepo = new MockAirportRepo();
         $this->airspaceService = new MockAirspaceService();
         $this->navaidService = new MockNavaidService();
         $this->reportingPointRepo = new MockReportingPointRepo();
-        $this->webcamRepo = new MockWebcamRepo();
+        $this->webcamService = new MockWebcamRepo();
         $this->terrainRepo = new MockTerrainRepo();
         $this->adsbexRepo = new MockAdsbexService();
         $this->ognRepo = new MockOgnService();
@@ -189,8 +189,8 @@ class MockNavplanDiContainer extends ProdNavplanDiContainer {
 
     // region notam
 
-    public function getNotamRepo(): INotamRepo {
-        return $this->notamRepo;
+    public function getNotamService(): INotamRepo {
+        return $this->notamService;
     }
 
     // endregion
@@ -218,8 +218,8 @@ class MockNavplanDiContainer extends ProdNavplanDiContainer {
     }
 
 
-    public function getWebcamRepo(): IWebcamRepo {
-        return $this->webcamRepo;
+    public function getWebcamService(): IWebcamRepo {
+        return $this->webcamService;
     }
 
     // endregion

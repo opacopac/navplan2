@@ -3,11 +3,11 @@
 namespace Navplan\Webcam\RestService;
 
 use Navplan\System\DomainService\IHttpService;
-use Navplan\Webcam\DomainService\IWebcamRepo;
+use Navplan\Webcam\DomainService\IWebcamService;
 
 
 interface IWebcamServiceDiContainer {
     function getHttpService(): IHttpService;
 
-    function getWebcamRepo(): IWebcamRepo;
+    function getWebcamService(): IWebcamService;
 }
