@@ -9,7 +9,6 @@ use Navplan\Aerodrome\DbModel\DbAirportRadioConverter;
 use Navplan\Aerodrome\DbModel\DbAirportRunwayConverter;
 use Navplan\Aerodrome\DbModel\DbShortAirportConverter;
 use Navplan\Aerodrome\DomainModel\Airport;
-use Navplan\Aerodrome\DomainService\IAirportChartRepo;
 use Navplan\Aerodrome\DomainService\IAirportRepo;
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
@@ -19,10 +18,7 @@ use Navplan\System\MySqlDb\DbHelper;
 
 
 class DbAirportRepo implements IAirportRepo {
-    public function __construct(
-        private IDbService $dbService,
-        private IAirportChartRepo $airportChartRepo
-    ) {
+    public function __construct(private IDbService $dbService) {
     }
 
 

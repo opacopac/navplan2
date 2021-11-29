@@ -9,7 +9,7 @@ require_once __DIR__ . "/../../ConsoleBootstrap.php";
 
 $diContainer = new ProdNavplanDiContainer();
 $circuitImporter = new SectorFileImporter(
-    $diContainer->getAirportCircuitRepo(),
+    $diContainer->getAirportCircuitService(),
     $diContainer->getScreenLogger()
 );
 

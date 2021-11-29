@@ -2,21 +2,21 @@
 
 namespace Navplan\Aerodrome\RestService;
 
-use Navplan\Aerodrome\DomainService\IAirportChartRepo;
-use Navplan\Aerodrome\DomainService\IAirportCircuitRepo;
-use Navplan\Aerodrome\DomainService\IAirportRepo;
-use Navplan\Aerodrome\DomainService\IReportingPointRepo;
+use Navplan\Aerodrome\DomainService\IAirportChartService;
+use Navplan\Aerodrome\DomainService\IAirportCircuitService;
+use Navplan\Aerodrome\DomainService\IAirportService;
+use Navplan\Aerodrome\DomainService\IReportingPointService;
 use Navplan\System\DomainService\IHttpService;
 
 
 interface IAirportServiceDiContainer {
     function getHttpService(): IHttpService;
 
-    function getAirportRepo(): IAirportRepo;
+    function getAirportService(): IAirportService;
 
-    function getAirportCircuitRepo(): IAirportCircuitRepo;
+    function getAirportCircuitService(): IAirportCircuitService;
 
-    function getReportingPointRepo(): IReportingPointRepo;
+    function getReportingPointService(): IReportingPointService;
 
-    function getAirportChartRepo(): IAirportChartRepo;
+    function getAirportChartService(): IAirportChartService;
 }

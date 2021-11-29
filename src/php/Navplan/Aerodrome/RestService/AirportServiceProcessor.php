@@ -29,34 +29,34 @@ class AirportServiceProcessor {
             case self::ACTION_GET_SHORT_AD_BY_EXTENT:
                 $extent = RestExtent2dConverter::fromArgs($args);
                 $zoom = intval($args["zoom"]);
-                $adList = $diContainer->getAirportRepo()->searchShortByExtent($extent, $zoom);
+                $adList = $diContainer->getAirportService()->searchShortByExtent($extent, $zoom);
                 $httpService->sendArrayResponse(RestShortAirportConverter::listToRest($adList));
                 break;
             case self::ACTION_GET_AD_BY_ID:
                 $airportId = intval($args["id"]);
-                $airport = $diContainer->getAirportRepo()->readById($airportId);
+                $airport = $diContainer->getAirportService()->readById($airportId);
                 $airportRest = RestAirportConverter::toRest($airport);
                 $httpService->sendArrayResponse($airportRest);
                 break;
             case self::ACTION_GET_AD_BY_ICAO:
                 $icao = $args["icao"];
-                $airport = $diContainer->getAirportRepo()->readByIcao($icao);
+                $airport = $diContainer->getAirportService()->readByIcao($icao);
                 $airportRest = RestAirportConverter::toRest($airport);
                 $httpService->sendArrayResponse($airportRest);
                 break;
             case self::ACTION_GET_AD_CIRCUIT_BY_EXTENT:
                 $extent = RestExtent2dConverter::fromArgs($args);
-                $adList = $diContainer->getAirportCircuitRepo()->getCircuitsByExtent($extent);
+                $adList = $diContainer->getAirportCircuitService()->getCircuitsByExtent($extent);
                 $httpService->sendArrayResponse(RestAirportCircuitConverter::listToRest($adList));
                 break;
             case self::ACTION_GET_RP_BY_EXTENT:
                 $extent = RestExtent2dConverter::fromArgs($args);
-                $rpList = $diContainer->getReportingPointRepo()->searchByExtent($extent);
+                $rpList = $diContainer->getReportingPointService()->searchByExtent($extent);
                 $httpService->sendArrayResponse(RestReportingPointConverter::listToRest($rpList));
                 break;
             case self::ACTION_GET_CHART_BY_ID:
                 $id = intval($args["id"]);
-                $adChart = $diContainer->getAirportChartRepo()->getAdChartById($id);
+                $adChart = $diContainer->getAirportChartService()->getAdChartById($id);
                 $httpService->sendArrayResponse(RestAirportChartConverter::toRest($adChart));
                 break;
             default:

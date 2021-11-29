@@ -8,10 +8,10 @@ use Navplan\Aerodrome\DbRepo\DbAirportChartRepo;
 use Navplan\Aerodrome\DbRepo\DbAirportCircuitRepo;
 use Navplan\Aerodrome\DbRepo\DbAirportRepo;
 use Navplan\Aerodrome\DbRepo\DbReportingPointRepo;
-use Navplan\Aerodrome\DomainService\IAirportChartRepo;
-use Navplan\Aerodrome\DomainService\IAirportCircuitRepo;
-use Navplan\Aerodrome\DomainService\IAirportRepo;
-use Navplan\Aerodrome\DomainService\IReportingPointRepo;
+use Navplan\Aerodrome\DomainService\IAirportChartService;
+use Navplan\Aerodrome\DomainService\IAirportCircuitService;
+use Navplan\Aerodrome\DomainService\IAirportService;
+use Navplan\Aerodrome\DomainService\IReportingPointService;
 use Navplan\Aerodrome\RestService\IAirportServiceDiContainer;
 use Navplan\Enroute\DbService\DbAirspaceRepo;
 use Navplan\Enroute\DbService\DbNavaidRepo;
@@ -137,10 +137,10 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     private const TERRAIN_TILE_BASE_DIR = __DIR__ . '/../../../../navplan/terraintiles/';
 
     // airport
-    private IAirportRepo $airportRepo;
-    private IAirportChartRepo $airportChartRepo;
-    private IAirportCircuitRepo $airportCircuitRepo;
-    private IReportingPointRepo $reportingPointRepo;
+    private IAirportService $airportService;
+    private IAirportChartService $airportChartService;
+    private IAirportCircuitService $airportCircuitService;
+    private IReportingPointService $reportingPointService;
     // airspace
     private IAirspaceService $airspaceService;
     // flightroute
@@ -156,7 +156,6 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     private INavaidService $navaidService;
     // notam
     private INotamRepo $notamRepo;
-    private INotamService $notamService;
     // search
     private ISearchService $searchService;
     // system & db
@@ -211,42 +210,39 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
 
     // region airport
 
-    public function getAirportRepo(): IAirportRepo {
-        if (!isset($this->airportRepo)) {
-            $this->airportRepo = new DbAirportRepo(
-                $this->getDbService(),
-                $this->getAirportChartRepo(),
-            );
+    public function getAirportService(): IAirportService {
+        if (!isset($this->airportService)) {
+            $this->airportService = new DbAirportRepo($this->getDbService());
         }
 
-        return $this->airportRepo;
+        return $this->airportService;
     }
 
 
-    function getAirportChartRepo(): IAirportChartRepo {
-        if (!isset($this->airportChartRepo)) {
-            $this->airportChartRepo = new DbAirportChartRepo($this->getDbService());
+    function getAirportChartService(): IAirportChartService {
+        if (!isset($this->airportChartService)) {
+            $this->airportChartService = new DbAirportChartRepo($this->getDbService());
         }
 
-        return $this->airportChartRepo;
+        return $this->airportChartService;
     }
 
 
-    function getAirportCircuitRepo(): IAirportCircuitRepo {
-        if (!isset($this->airportCircuitRepo)) {
-            $this->airportCircuitRepo = new DbAirportCircuitRepo($this->getDbService());
+    function getAirportCircuitService(): IAirportCircuitService {
+        if (!isset($this->airportCircuitService)) {
+            $this->airportCircuitService = new DbAirportCircuitRepo($this->getDbService());
         }
 
-        return $this->airportCircuitRepo;
+        return $this->airportCircuitService;
     }
 
 
-    public function getReportingPointRepo(): IReportingPointRepo {
-        if (!isset($this->reportingPointRepo)) {
-            $this->reportingPointRepo = new DbReportingPointRepo($this->getDbService());
+    public function getReportingPointService(): IReportingPointService {
+        if (!isset($this->reportingPointService)) {
+            $this->reportingPointService = new DbReportingPointRepo($this->getDbService());
         }
 
-        return $this->reportingPointRepo;
+        return $this->reportingPointService;
     }
 
     // endregion
@@ -382,8 +378,8 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
             $this->searchService = new SearchService(
                 $this->getSearchUserPointUc(),
                 $this->getNotamService(),
-                $this->getAirportRepo(),
-                $this->getReportingPointRepo(),
+                $this->getAirportService(),
+                $this->getReportingPointService(),
                 $this->getNavaidService(),
                 $this->getGeonameService(),
             );

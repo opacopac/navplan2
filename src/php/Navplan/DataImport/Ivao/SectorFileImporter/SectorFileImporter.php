@@ -3,7 +3,7 @@
 namespace Navplan\Ivao\SectorFileImporter;
 
 use Navplan\Aerodrome\DomainModel\AirportCircuit;
-use Navplan\Aerodrome\DomainService\IAirportCircuitRepo;
+use Navplan\Aerodrome\DomainService\IAirportCircuitService;
 use Navplan\Common\DomainModel\Line2d;
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\Common\GeoHelper;
@@ -33,8 +33,8 @@ class SectorFileImporter {
 
 
     public function __construct(
-        private IAirportCircuitRepo $circuitRepo,
-        private ILoggingService $logger
+        private IAirportCircuitService $circuitService,
+        private ILoggingService        $logger
     ) {
     }
 
@@ -174,7 +174,7 @@ class SectorFileImporter {
 
             if ($this->shouldBeSaved($circuit)) {
                 //$this->circuitRepo->writeCircuit($circuit);
-                $circ = $this->circuitRepo->getCircuitsByIcao("LSZB");
+                $circ = $this->circuitService->getCircuitsByIcao("LSZB");
                 var_dump($circ);
                 die;
             }
