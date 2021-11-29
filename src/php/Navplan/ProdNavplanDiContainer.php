@@ -47,11 +47,9 @@ use Navplan\Notam\DomainService\INotamRepo;
 use Navplan\Notam\RestService\INotamServiceDiContainer;
 use Navplan\Notam\UseCase\SearchNotam\ISearchNotamUc;
 use Navplan\Notam\UseCase\SearchNotam\SearchNotamUc;
+use Navplan\Search\DomainService\ISearchService;
+use Navplan\Search\DomainService\SearchService;
 use Navplan\Search\RestService\ISearchServiceDiContainer;
-use Navplan\Search\UseCase\SearchByPosition\ISearchByPositionUc;
-use Navplan\Search\UseCase\SearchByPosition\SearchByPositionUc;
-use Navplan\Search\UseCase\SearchByText\ISearchByTextUc;
-use Navplan\Search\UseCase\SearchByText\SearchByTextUc;
 use Navplan\System\DomainModel\LogLevel;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\DomainService\IFileService;
@@ -161,8 +159,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     private INotamRepo $notamRepo;
     private ISearchNotamUc $searchNotamUc;
     // search
-    private ISearchByPositionUc $searchByPositionUc;
-    private ISearchByTextUc $searchByTextUc;
+    private ISearchService $searchService;
     // system & db
     private ISystemServiceFactory $systemServiceFactory;
     private IHttpService $httpService;
@@ -384,34 +381,19 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
 
     // region search
 
-    function getSearchByPositionUc(): ISearchByPositionUc {
-        if (!isset($this->searchByPositionUc)) {
-            $this->searchByPositionUc = new SearchByPositionUc(
+    function getSearchService(): ISearchService {
+        if (!isset($this->searchService)) {
+            $this->searchService = new SearchService(
                 $this->getSearchUserPointUc(),
                 $this->getSearchNotamUc(),
                 $this->getAirportRepo(),
                 $this->getReportingPointRepo(),
                 $this->getNavaidService(),
-                $this->getGeonameService()
+                $this->getGeonameService(),
             );
         }
 
-        return $this->searchByPositionUc;
-    }
-
-
-    function getSearchByTextUc(): ISearchByTextUc {
-        if (!isset($this->searchByTextUc)) {
-            $this->searchByTextUc = new SearchByTextUc(
-                $this->getSearchUserPointUc(),
-                $this->getAirportRepo(),
-                $this->getReportingPointRepo(),
-                $this->getNavaidService(),
-                $this->getGeonameService()
-            );
-        }
-
-        return $this->searchByTextUc;
+        return $this->searchService;
     }
 
     // endregion

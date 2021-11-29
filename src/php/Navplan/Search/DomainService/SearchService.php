@@ -1,19 +1,24 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Search\UseCase\SearchByPosition;
+namespace Navplan\Search\DomainService;
 
 use Navplan\Aerodrome\DomainService\IAirportRepo;
 use Navplan\Aerodrome\DomainService\IReportingPointRepo;
 use Navplan\Enroute\DomainService\INavaidService;
 use Navplan\Geoname\DomainService\IGeonameService;
 use Navplan\Notam\UseCase\SearchNotam\ISearchNotamUc;
+use Navplan\Notam\UseCase\SearchNotam\ReadNotamByPositionRequest;
+use Navplan\Search\DomainModel\SearchByPositionQuery;
+use Navplan\Search\DomainModel\SearchByTextQuery;
 use Navplan\Search\DomainModel\SearchItemType;
-use Navplan\Search\UseCase\SearchResult;
+use Navplan\Search\DomainModel\SearchResult;
 use Navplan\User\UseCase\SearchUserPoint\ISearchUserPointUc;
 
 
-class SearchByPositionUc implements ISearchByPositionUc {
+class SearchService implements ISearchService {
     const SEARCH_RESULTS_HARDLIMIT = 100;
+    const MAX_TEXT_SEARCH_RESULTS = 25;
+    const MAX_TEXT_SEARCH_RESULTS_PER_ENTITY = 10;
 
 
     public function __construct(
@@ -27,7 +32,7 @@ class SearchByPositionUc implements ISearchByPositionUc {
     }
 
 
-    public function search(SearchByPositionQuery $query): SearchResult {
+    public function searchByPosition(SearchByPositionQuery $query): SearchResult {
         $resultNum = 0;
         $maxResults = min($query->maxResults, self::SEARCH_RESULTS_HARDLIMIT);
         $airports = [];
@@ -65,28 +70,66 @@ class SearchByPositionUc implements ISearchByPositionUc {
                     $resultNum += count($geonames);
                     break;
                 case SearchItemType::NOTAMS:
-                    $response = $this->searchNotamUc->searchByPosition($query->position, $query->minNotamTimestamp, $query->maxNotamTimestamp, self::getMaxPositionResults($resultNum, $maxResults));
+                    $readNotamrequest = new ReadNotamByPositionRequest($query->position, $query->minNotamTimestamp, $query->maxNotamTimestamp);
+                    $response = $this->searchNotamUc->searchByPosition($readNotamrequest);
                     $notams = $response->notams;
                     $resultNum += count($notams);
                     break;
             }
         }
 
-        return new SearchResult(
-            $airports,
-            $navaids,
-            [],
-            $reportingPoints,
-            $userPoints,
-            [],
-            $geonames,
-            $notams,
-            []
-        );
+        return new SearchResult($airports, $navaids, [], $reportingPoints, $userPoints, [], $geonames, $notams, []);
     }
 
 
     private static function getMaxPositionResults($resultNum, $maxResults) {
         return max($maxResults - $resultNum, 0);
+    }
+
+
+    public function searchbyText(SearchByTextQuery $query): SearchResult {
+        $resultNum = 0;
+        $airports = [];
+        $navaids = [];
+        $reportingPoints = [];
+        $userPoints = [];
+        $geonames = [];
+
+        foreach ($query->searchItems as $searchItem) {
+            if ($resultNum >= self::MAX_TEXT_SEARCH_RESULTS)
+                break;
+
+            switch ($searchItem) {
+                case SearchItemType::AIRPORTS:
+                    $airports = $this->airportRepo->searchByText($query->searchText, $this->getMaxTextResults($resultNum));
+                    $resultNum += count($airports);
+                    break;
+                case SearchItemType::NAVAIDS:
+                    $navaids = $this->navaidRepo->searchByText($query->searchText, $this->getMaxTextResults($resultNum));
+                    $resultNum += count($navaids);
+                    break;
+                case SearchItemType::REPORTINGPOINTS:
+                    $reportingPoints = $this->reportingPointRepo->searchByText($query->searchText, $this->getMaxTextResults($resultNum));
+                    $resultNum += count($reportingPoints);
+                    break;
+                case SearchItemType::USERPOINTS:
+                    if ($query->token) {
+                        $userPoints = $this->searchUserPointUc->searchByText($query->searchText, $this->getMaxTextResults($resultNum), $query->token);
+                        $resultNum += count($userPoints);
+                    }
+                    break;
+                case SearchItemType::GEONAMES:
+                    $geonames = $this->geonameService->searchByText($query->searchText, $this->getMaxTextResults($resultNum));
+                    $resultNum += count($geonames);
+                    break;
+            }
+        }
+
+        return new SearchResult($airports, $navaids, [], $reportingPoints, $userPoints, [], $geonames, [], []);
+    }
+
+
+    private function getMaxTextResults(int $resultNum): int {
+        return max(min(self::MAX_TEXT_SEARCH_RESULTS - $resultNum, self::MAX_TEXT_SEARCH_RESULTS_PER_ENTITY), 0);
     }
 }

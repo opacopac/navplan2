@@ -10,7 +10,7 @@ use Navplan\Enroute\RestModel\RestNavaidConverter;
 use Navplan\Geoname\RestModel\RestGeonameConverter;
 use Navplan\Notam\DomainModel\Notam;
 use Navplan\Notam\RestModel\RestNotamConverter;
-use Navplan\Search\UseCase\SearchResult;
+use Navplan\Search\DomainModel\SearchResult;
 use Navplan\User\DomainModel\UserPoint;
 use Navplan\User\RestModel\UserPointConverter;
 use Navplan\Webcam\RestModel\RestWebcamConverter;

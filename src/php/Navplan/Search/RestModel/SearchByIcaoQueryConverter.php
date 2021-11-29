@@ -4,7 +4,7 @@ namespace Navplan\Search\RestModel;
 
 use InvalidArgumentException;
 use Navplan\Common\StringNumberHelper;
-use Navplan\Search\UseCase\SearchByIcao\SearchByIcaoQuery;
+use Navplan\Search\DomainModel\SearchByIcaoQuery;
 
 
 class SearchByIcaoQueryConverter {

@@ -4,10 +4,10 @@ namespace Navplan\Search\RestModel;
 
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\StringNumberHelper;
-use Navplan\Search\UseCase\SearchByExtent\SearchByExtentQuery;
+use Navplan\Search\DomainModel\SearchByExtentQuery;
 
 
-class SearchByExtentQueryConverter {
+class RestSearchByExtentQueryConverter {
     const ARG_SEARCH_ITEMS = "searchItems";
     const ARG_MIN_LON = "minlon";
     const ARG_MIN_LAT = "minlat";
@@ -19,7 +19,7 @@ class SearchByExtentQueryConverter {
     const ARG_TOKEN = "token";
 
 
-    public static function fromArgs(array $args): SearchByExtentQuery {
+    public static function fromRest(array $args): SearchByExtentQuery {
         $searchItems = SearchItemTypeConverter::fromString(StringNumberHelper::parseStringOrError($args, self::ARG_SEARCH_ITEMS));
         $minLon = StringNumberHelper::parseFloatOrError($args, self::ARG_MIN_LON);
         $minLat = StringNumberHelper::parseFloatOrError($args, self::ARG_MIN_LAT);

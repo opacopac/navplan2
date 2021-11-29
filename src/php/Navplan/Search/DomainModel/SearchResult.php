@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Search\UseCase;
+namespace Navplan\Search\DomainModel;
 
 
 class SearchResult {

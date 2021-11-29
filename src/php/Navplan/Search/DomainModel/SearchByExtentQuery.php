@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Search\UseCase\SearchByExtent;
+namespace Navplan\Search\DomainModel;
 
 use Navplan\Common\DomainModel\Extent2d;
 

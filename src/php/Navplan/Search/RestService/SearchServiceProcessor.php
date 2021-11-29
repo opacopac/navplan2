@@ -16,17 +16,18 @@ class SearchServiceProcessor {
 
     public static function processRequest(ISearchServiceDiContainer $diContainer) {
         $httpService = $diContainer->getHttpService();
+        $searchService = $diContainer->getSearchService();
         $args = $httpService->getGetArgs();
         $action = $args[self::ARG_ACTION] ?? NULL;
         switch ($action) {
             case self::ACTION_SEARCH_BY_TEXT:
                 $query = SearchByTextQueryConverter::fromArgs($args);
-                $result = $diContainer->getSearchByTextUc()->search($query);
+                $result = $searchService->searchByText($query);
                 $httpService->sendArrayResponse(SearchResultConverter::toRest($result));
                 break;
             case self::ACTION_SEARCH_BY_POSITION:
                 $query = SearchByPositionQueryConverter::fromArgs($args);
-                $result = $diContainer->getSearchByPositionUc()->search($query);
+                $result = $searchService->searchByPosition($query);
                 $httpService->sendArrayResponse(SearchResultConverter::toRest($result));
                 break;
             default:
