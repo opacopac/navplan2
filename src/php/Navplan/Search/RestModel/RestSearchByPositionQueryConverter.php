@@ -7,7 +7,7 @@ use Navplan\Common\StringNumberHelper;
 use Navplan\Search\DomainModel\SearchByPositionQuery;
 
 
-class SearchByPositionQueryConverter {
+class RestSearchByPositionQueryConverter {
     const ARG_SEARCH_ITEMS = "searchItems";
     const ARG_LON = "lon";
     const ARG_LAT = "lat";
@@ -19,7 +19,7 @@ class SearchByPositionQueryConverter {
 
 
     public static function fromArgs(array $args): SearchByPositionQuery {
-        $searchItems = SearchItemTypeConverter::fromString(StringNumberHelper::parseStringOrError($args, self::ARG_SEARCH_ITEMS));
+        $searchItems = RestSearchItemTypeConverter::fromString(StringNumberHelper::parseStringOrError($args, self::ARG_SEARCH_ITEMS));
         $lon = StringNumberHelper::parseFloatOrError($args, self::ARG_LON);
         $lat = StringNumberHelper::parseFloatOrError($args, self::ARG_LAT);
         $position = new Position2d($lon, $lat);

@@ -20,7 +20,7 @@ class RestSearchByExtentQueryConverter {
 
 
     public static function fromRest(array $args): SearchByExtentQuery {
-        $searchItems = SearchItemTypeConverter::fromString(StringNumberHelper::parseStringOrError($args, self::ARG_SEARCH_ITEMS));
+        $searchItems = RestSearchItemTypeConverter::fromString(StringNumberHelper::parseStringOrError($args, self::ARG_SEARCH_ITEMS));
         $minLon = StringNumberHelper::parseFloatOrError($args, self::ARG_MIN_LON);
         $minLat = StringNumberHelper::parseFloatOrError($args, self::ARG_MIN_LAT);
         $maxLon = StringNumberHelper::parseFloatOrError($args, self::ARG_MAX_LON);

@@ -3,7 +3,7 @@
 namespace NavplanTest\Search\RestModel;
 
 use Navplan\Search\DomainModel\SearchItemType;
-use Navplan\Search\RestModel\SearchByTextQueryConverter;
+use Navplan\Search\RestModel\RestSearchByTextQueryConverter;
 use PHPUnit\Framework\TestCase;
 
 
@@ -13,15 +13,15 @@ class SearchByTextQueryConverterTest extends TestCase {
 
     protected function setUp(): void {
         $this->args = array(
-            SearchByTextQueryConverter::ARG_SEARCH_ITEMS => "airports,navaids",
-            SearchByTextQueryConverter::ARG_SEARCH_TEXT => "LSZB",
-            SearchByTextQueryConverter::ARG_TOKEN => NULL, // TODO
+            RestSearchByTextQueryConverter::ARG_SEARCH_ITEMS => "airports,navaids",
+            RestSearchByTextQueryConverter::ARG_SEARCH_TEXT => "LSZB",
+            RestSearchByTextQueryConverter::ARG_TOKEN => NULL, // TODO
         );
     }
 
 
     public function test_FromArray() {
-        $query = SearchByTextQueryConverter::fromArgs($this->args);
+        $query = RestSearchByTextQueryConverter::fromArgs($this->args);
         $this->assertNotNull($query);
         $this->assertEquals([SearchItemType::AIRPORTS, SearchItemType::NAVAIDS], $query->searchItems);
         $this->assertEquals("LSZB", $query->searchText);

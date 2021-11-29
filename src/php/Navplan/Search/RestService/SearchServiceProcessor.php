@@ -3,9 +3,9 @@
 namespace Navplan\Search\RestService;
 
 use InvalidArgumentException;
-use Navplan\Search\RestModel\SearchByPositionQueryConverter;
-use Navplan\Search\RestModel\SearchByTextQueryConverter;
-use Navplan\Search\RestModel\SearchResultConverter;
+use Navplan\Search\RestModel\RestSearchByPositionQueryConverter;
+use Navplan\Search\RestModel\RestSearchByTextQueryConverter;
+use Navplan\Search\RestModel\RestSearchResultConverter;
 
 
 class SearchServiceProcessor {
@@ -21,14 +21,14 @@ class SearchServiceProcessor {
         $action = $args[self::ARG_ACTION] ?? NULL;
         switch ($action) {
             case self::ACTION_SEARCH_BY_TEXT:
-                $query = SearchByTextQueryConverter::fromArgs($args);
+                $query = RestSearchByTextQueryConverter::fromArgs($args);
                 $result = $searchService->searchByText($query);
-                $httpService->sendArrayResponse(SearchResultConverter::toRest($result));
+                $httpService->sendArrayResponse(RestSearchResultConverter::toRest($result));
                 break;
             case self::ACTION_SEARCH_BY_POSITION:
-                $query = SearchByPositionQueryConverter::fromArgs($args);
+                $query = RestSearchByPositionQueryConverter::fromArgs($args);
                 $result = $searchService->searchByPosition($query);
-                $httpService->sendArrayResponse(SearchResultConverter::toRest($result));
+                $httpService->sendArrayResponse(RestSearchResultConverter::toRest($result));
                 break;
             default:
                 throw new InvalidArgumentException("no or unknown action defined: '" . $action . "'");

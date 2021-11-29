@@ -16,7 +16,7 @@ use Navplan\User\RestModel\UserPointConverter;
 use Navplan\Webcam\RestModel\RestWebcamConverter;
 
 
-class SearchResultConverter {
+class RestSearchResultConverter {
     public static function toRest(SearchResult $result): array {
         return array(
             'airports' => RestAirportConverter::listToRest($result->airports),

@@ -7,7 +7,7 @@ use Navplan\Common\StringNumberHelper;
 use Navplan\Search\DomainModel\SearchByIcaoQuery;
 
 
-class SearchByIcaoQueryConverter {
+class RestSearchByIcaoQueryConverter {
     const ARG_SEARCH_ITEMS = "searchItems";
     const ARG_ICAO = "icao";
     const ARG_MIN_NOTAM_TIME = "minnotamtime";
@@ -15,7 +15,7 @@ class SearchByIcaoQueryConverter {
 
 
     public static function fromArgs(array $args): SearchByIcaoQuery {
-        $searchItems = SearchItemTypeConverter::fromString(StringNumberHelper::parseStringOrError($args, self::ARG_SEARCH_ITEMS));
+        $searchItems = RestSearchItemTypeConverter::fromString(StringNumberHelper::parseStringOrError($args, self::ARG_SEARCH_ITEMS));
         $icaoList = self::checkEscapeIcaoList($args[self::ARG_ICAO]);
         $minNotamTimestamp = StringNumberHelper::parseIntOrZero($args, self::ARG_MIN_NOTAM_TIME);
         $maxNotamTimestamp = StringNumberHelper::parseIntOrZero($args, self::ARG_MAX_NOTAM_TIME);

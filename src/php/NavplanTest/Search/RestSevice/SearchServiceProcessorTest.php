@@ -3,8 +3,8 @@
 namespace NavplanTest\Search\RestService;
 
 use InvalidArgumentException;
-use Navplan\Search\RestModel\SearchByPositionQueryConverter;
-use Navplan\Search\RestModel\SearchByTextQueryConverter;
+use Navplan\Search\RestModel\RestSearchByPositionQueryConverter;
+use Navplan\Search\RestModel\RestSearchByTextQueryConverter;
 use Navplan\Search\RestService\SearchServiceProcessor;
 use NavplanTest\Aerodrome\Mocks\DummyReportingPoint1;
 use NavplanTest\Aerodrome\Mocks\MockReportingPointRepo;
@@ -64,10 +64,10 @@ class SearchServiceProcessorTest extends TestCase {
     public function test_processRequest_searchByPosition_gets_called() {
         $getVars = array(
             SearchServiceProcessor::ARG_ACTION => SearchServiceProcessor::ACTION_SEARCH_BY_POSITION,
-            SearchByPositionQueryConverter::ARG_SEARCH_ITEMS => "navaids",
-            SearchByPositionQueryConverter::ARG_LON => "7.0",
-            SearchByPositionQueryConverter::ARG_LAT => "47.0",
-            SearchByPositionQueryConverter::ARG_RADIUS => "10"
+            RestSearchByPositionQueryConverter::ARG_SEARCH_ITEMS => "navaids",
+            RestSearchByPositionQueryConverter::ARG_LON => "7.0",
+            RestSearchByPositionQueryConverter::ARG_LAT => "47.0",
+            RestSearchByPositionQueryConverter::ARG_RADIUS => "10"
         );
         SearchServiceProcessor::processRequest($getVars, $this->config);
         $this->assertRegExp($this->expectedNavaidRegexp, $this->getHttpService()->body);
@@ -77,8 +77,8 @@ class SearchServiceProcessorTest extends TestCase {
     public function test_processRequest_searchByText_gets_called() {
         $getVars = array(
             SearchServiceProcessor::ARG_ACTION => SearchServiceProcessor::ACTION_SEARCH_BY_TEXT,
-            SearchByTextQueryConverter::ARG_SEARCH_ITEMS => "navaids",
-            SearchByTextQueryConverter::ARG_SEARCH_TEXT => "FRI"
+            RestSearchByTextQueryConverter::ARG_SEARCH_ITEMS => "navaids",
+            RestSearchByTextQueryConverter::ARG_SEARCH_TEXT => "FRI"
         );
         SearchServiceProcessor::processRequest($getVars, $this->config);
         $this->assertRegExp($this->expectedNavaidRegexp, $this->getHttpService()->body);
