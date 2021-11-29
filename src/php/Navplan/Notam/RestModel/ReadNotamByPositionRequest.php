@@ -4,17 +4,24 @@ namespace Navplan\Notam\RestModel;
 
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\Common\StringNumberHelper;
-use Navplan\Notam\UseCase\SearchNotam\ReadNotamByPositionRequest;
 
 
-class ReadNotamByPositionRequestConverter {
+class ReadNotamByPositionRequest {
     const ARG_LON = "longitude";
     const ARG_LAT = "latitude";
     const ARG_MIN_NOTAM_TIME = "starttimestamp";
     const ARG_MAX_NOTAM_TIME = "endtimestamp";
 
 
-    public static function fromArgs(array $args): ReadNotamByPositionRequest {
+    public function __construct(
+        public Position2d $position,
+        public int $minNotamTimestamp,
+        public int $maxNotamTimestamp
+    ) {
+    }
+
+
+    public static function fromRest(array $args): ReadNotamByPositionRequest {
         $position = new Position2d(
             StringNumberHelper::parseFloatOrError($args, self::ARG_LON),
             StringNumberHelper::parseFloatOrError($args, self::ARG_LAT)

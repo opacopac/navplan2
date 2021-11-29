@@ -4,10 +4,9 @@ namespace Navplan\Notam\RestModel;
 
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\StringNumberHelper;
-use Navplan\Notam\UseCase\SearchNotam\ReadNotamByExtentRequest;
 
 
-class ReadNotamByExtentRequestConverter {
+class ReadNotamByExtentRequest {
     const ARG_MIN_LON = "minlon";
     const ARG_MIN_LAT = "minlat";
     const ARG_MAX_LON = "maxlon";
@@ -17,7 +16,16 @@ class ReadNotamByExtentRequestConverter {
     const ARG_MAX_NOTAM_TIME = "endtimestamp";
 
 
-    public static function fromArgs(array $args): ReadNotamByExtentRequest {
+    public function __construct(
+        public Extent2d $extent,
+        public int $zoom,
+        public int $minNotamTimestamp,
+        public int $maxNotamTimestamp
+    ) {
+    }
+
+
+    public static function fromRest(array $args): ReadNotamByExtentRequest {
         $extent = Extent2d::createFromCoords(
             StringNumberHelper::parseFloatOrError($args, self::ARG_MIN_LON),
             StringNumberHelper::parseFloatOrError($args, self::ARG_MIN_LAT),

@@ -32,4 +32,16 @@ class RestNotamConverter {
             "geometry" => $notam->geometry ? RestNotamGeometryConverter::toRest($notam->geometry) : NULL
         );
     }
+
+
+    /**
+     * @param Notam[] $notamList
+     * @return array
+     */
+    public static function toRestList(array $notamList): array {
+        return array_map(
+            function (Notam $notam) { return RestNotamConverter::toRest($notam); },
+            $notamList
+        );
+    }
 }

@@ -42,11 +42,10 @@ use Navplan\MeteoSma\DomainService\IMeteoRepo;
 use Navplan\MeteoSma\RestService\IMeteoServiceDiContainer;
 use Navplan\MeteoSma\UseCase\ReadSmaMeasurements\IReadSmaMeasurementsUc;
 use Navplan\MeteoSma\UseCase\ReadSmaMeasurements\ReadSmaMeasurementsUc;
-use Navplan\Notam\DbRepo\DbNotamRepo;
+use Navplan\Notam\DbService\DbNotamRepo;
 use Navplan\Notam\DomainService\INotamRepo;
+use Navplan\Notam\DomainService\INotamService;
 use Navplan\Notam\RestService\INotamServiceDiContainer;
-use Navplan\Notam\UseCase\SearchNotam\ISearchNotamUc;
-use Navplan\Notam\UseCase\SearchNotam\SearchNotamUc;
 use Navplan\Search\DomainService\ISearchService;
 use Navplan\Search\DomainService\SearchService;
 use Navplan\Search\RestService\ISearchServiceDiContainer;
@@ -157,7 +156,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     private INavaidService $navaidService;
     // notam
     private INotamRepo $notamRepo;
-    private ISearchNotamUc $searchNotamUc;
+    private INotamService $notamService;
     // search
     private ISearchService $searchService;
     // system & db
@@ -217,7 +216,6 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
             $this->airportRepo = new DbAirportRepo(
                 $this->getDbService(),
                 $this->getAirportChartRepo(),
-                $this->getWebcamRepo()
             );
         }
 
@@ -361,19 +359,17 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
 
     public function getNotamRepo(): INotamRepo {
         if (!isset($this->notamRepo)) {
-            $this->notamRepo = new DbNotamRepo($this->getDbService());
+            $this->notamRepo = new DbNotamRepo(
+                $this->getDbService()
+            );
         }
 
         return $this->notamRepo;
     }
 
 
-    public function getSearchNotamUc(): ISearchNotamUc {
-        if (!isset($this->searchNotamUc)) {
-            $this->searchNotamUc = new SearchNotamUc($this->getNotamRepo());
-        }
-
-        return $this->searchNotamUc;
+    public function getNotamService(): INotamService {
+        return $this->getNotamRepo();
     }
 
     // endregion
@@ -385,7 +381,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
         if (!isset($this->searchService)) {
             $this->searchService = new SearchService(
                 $this->getSearchUserPointUc(),
-                $this->getSearchNotamUc(),
+                $this->getNotamService(),
                 $this->getAirportRepo(),
                 $this->getReportingPointRepo(),
                 $this->getNavaidService(),

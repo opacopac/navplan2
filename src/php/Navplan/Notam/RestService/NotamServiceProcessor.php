@@ -3,10 +3,10 @@
 namespace Navplan\Notam\RestService;
 
 use InvalidArgumentException;
-use Navplan\Notam\RestModel\ReadNotamByExtentRequestConverter;
-use Navplan\Notam\RestModel\ReadNotamByIcaoRequestConverter;
-use Navplan\Notam\RestModel\ReadNotamByPositionRequestConverter;
-use Navplan\Notam\RestModel\ReadNotamResponseConverter;
+use Navplan\Notam\RestModel\ReadNotamByExtentRequest;
+use Navplan\Notam\RestModel\ReadNotamByIcaoRequest;
+use Navplan\Notam\RestModel\ReadNotamByPositionRequest;
+use Navplan\Notam\RestModel\ReadNotamResponse;
 
 
 class NotamServiceProcessor {
@@ -18,23 +18,27 @@ class NotamServiceProcessor {
 
     public static function processRequest(INotamServiceDiContainer $diContainer) {
         $httpService = $diContainer->getHttpService();
+        $notamService = $diContainer->getNotamService();
         $getArgs = $httpService->getGetArgs();
         $action = $getArgs[self::ARG_ACTION] ?? NULL;
         switch ($action) {
             case self::ACTION_SEARCH_BY_EXTENT:
-                $request = ReadNotamByExtentRequestConverter::fromArgs($getArgs);
-                $response = $diContainer->getSearchNotamUc()->searchByExtent($request);
-                $httpService->sendArrayResponse(ReadNotamResponseConverter::toRest($response));
+                $request = ReadNotamByExtentRequest::fromRest($getArgs);
+                $notamList = $notamService->searchByExtent($request->extent, $request->zoom, $request->minNotamTimestamp, $request->maxNotamTimestamp);
+                $response = new ReadNotamResponse($notamList);
+                $httpService->sendArrayResponse($response->toRest());
                 break;
             case self::ACTION_SEARCH_BY_POSITION:
-                $request = ReadNotamByPositionRequestConverter::fromArgs($getArgs);
-                $response = $diContainer->getSearchNotamUc()->searchByPosition($request);
-                $httpService->sendArrayResponse(ReadNotamResponseConverter::toRest($response));
+                $request = ReadNotamByPositionRequest::fromRest($getArgs);
+                $notamList = $notamService->searchByPosition($request->position, $request->minNotamTimestamp, $request->maxNotamTimestamp);
+                $response = new ReadNotamResponse($notamList);
+                $httpService->sendArrayResponse($response->toRest());
                 break;
             case self::ACTION_SEARCH_BY_ICAO:
-                $request = ReadNotamByIcaoRequestConverter::fromArgs($getArgs);
-                $response = $diContainer->getSearchNotamUc()->searchByIcao($request);
-                $httpService->sendArrayResponse(ReadNotamResponseConverter::toRest($response));
+                $request = ReadNotamByIcaoRequest::fromRest($getArgs);
+                $notamList = $notamService->searchByIcao($request->airportIcao, $request->minNotamTimestamp, $request->maxNotamTimestamp);
+                $response = new ReadNotamResponse($notamList);
+                $httpService->sendArrayResponse($response->toRest());
                 break;
             default:
                 throw new InvalidArgumentException("no or unknown action defined: '" . $action . "'");

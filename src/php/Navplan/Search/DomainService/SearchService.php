@@ -6,8 +6,7 @@ use Navplan\Aerodrome\DomainService\IAirportRepo;
 use Navplan\Aerodrome\DomainService\IReportingPointRepo;
 use Navplan\Enroute\DomainService\INavaidService;
 use Navplan\Geoname\DomainService\IGeonameService;
-use Navplan\Notam\UseCase\SearchNotam\ISearchNotamUc;
-use Navplan\Notam\UseCase\SearchNotam\ReadNotamByPositionRequest;
+use Navplan\Notam\DomainService\INotamService;
 use Navplan\Search\DomainModel\SearchByPositionQuery;
 use Navplan\Search\DomainModel\SearchByTextQuery;
 use Navplan\Search\DomainModel\SearchItemType;
@@ -23,10 +22,10 @@ class SearchService implements ISearchService {
 
     public function __construct(
         private ISearchUserPointUc  $searchUserPointUc,
-        private ISearchNotamUc      $searchNotamUc,
+        private INotamService       $notamService,
         private IAirportRepo        $airportRepo,
         private IReportingPointRepo $reportingPointRepo,
-        private INavaidService      $navaidRepo,
+        private INavaidService      $navaidService,
         private IGeonameService     $geonameService
     ) {
     }
@@ -52,7 +51,7 @@ class SearchService implements ISearchService {
                     $resultNum += count($airports);
                     break;
                 case SearchItemType::NAVAIDS:
-                    $navaids = $this->navaidRepo->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum, $maxResults));
+                    $navaids = $this->navaidService->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum, $maxResults));
                     $resultNum += count($navaids);
                     break;
                 case SearchItemType::REPORTINGPOINTS:
@@ -70,9 +69,7 @@ class SearchService implements ISearchService {
                     $resultNum += count($geonames);
                     break;
                 case SearchItemType::NOTAMS:
-                    $readNotamrequest = new ReadNotamByPositionRequest($query->position, $query->minNotamTimestamp, $query->maxNotamTimestamp);
-                    $response = $this->searchNotamUc->searchByPosition($readNotamrequest);
-                    $notams = $response->notams;
+                    $notams = $this->notamService->searchByPosition($query->position, $query->minNotamTimestamp, $query->maxNotamTimestamp);
                     $resultNum += count($notams);
                     break;
             }
@@ -105,7 +102,7 @@ class SearchService implements ISearchService {
                     $resultNum += count($airports);
                     break;
                 case SearchItemType::NAVAIDS:
-                    $navaids = $this->navaidRepo->searchByText($query->searchText, $this->getMaxTextResults($resultNum));
+                    $navaids = $this->navaidService->searchByText($query->searchText, $this->getMaxTextResults($resultNum));
                     $resultNum += count($navaids);
                     break;
                 case SearchItemType::REPORTINGPOINTS:

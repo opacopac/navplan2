@@ -2,12 +2,12 @@
 
 namespace Navplan\Notam\RestService;
 
-use Navplan\Notam\UseCase\SearchNotam\ISearchNotamUc;
+use Navplan\Notam\DomainService\INotamService;
 use Navplan\System\DomainService\IHttpService;
 
 
 interface INotamServiceDiContainer {
     function getHttpService(): IHttpService;
 
-    function getSearchNotamUc(): ISearchNotamUc;
+    function getNotamService(): INotamService;
 }

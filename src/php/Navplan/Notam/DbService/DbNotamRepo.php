@@ -1,10 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Notam\DbRepo;
+namespace Navplan\Notam\DbService;
 
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\Common\GeoHelper;
+use Navplan\Notam\DbModel\NotamConverter;
 use Navplan\Notam\DomainModel\Notam;
 use Navplan\Notam\DomainService\INotamRepo;
 use Navplan\System\DomainModel\IDbResult;

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Notam\DbRepo;
+namespace Navplan\Notam\DbModel;
 
 use Navplan\Common\StringNumberHelper;
 use Navplan\Notam\DomainModel\Notam;
