@@ -2,7 +2,7 @@
 
 namespace Navplan\MeteoSma\DataImport;
 
-use Navplan\MeteoSma\DomainService\IMeteoRepo;
+use Navplan\MeteoSma\DomainService\IMeteoSmaService;
 use Navplan\System\DomainService\IFileService;
 
 
@@ -12,7 +12,7 @@ class SmaStationImportProcessor {
 
     public function __construct(
         private IFileService $fileService,
-        private IMeteoRepo $meteoRepo
+        private IMeteoSmaService $meteoSmaService
     ) {
     }
 
@@ -43,6 +43,6 @@ class SmaStationImportProcessor {
             return;
         }
 
-        $this->meteoRepo->replaceSmaStations($smaStations);
+        $this->meteoSmaService->replaceSmaStations($smaStations);
     }
 }

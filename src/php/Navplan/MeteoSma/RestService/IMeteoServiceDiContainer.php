@@ -2,12 +2,12 @@
 
 namespace Navplan\MeteoSma\RestService;
 
-use Navplan\MeteoSma\UseCase\ReadSmaMeasurements\IReadSmaMeasurementsUc;
+use Navplan\MeteoSma\DomainService\IMeteoSmaService;
 use Navplan\System\DomainService\IHttpService;
 
 
 interface IMeteoServiceDiContainer {
     function getHttpService(): IHttpService;
 
-    function getReadSmaMeasurementsUc(): IReadSmaMeasurementsUc;
+    function getMeteoSmaService(): IMeteoSmaService;
 }

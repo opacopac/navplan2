@@ -6,7 +6,7 @@ use Navplan\MeteoSma\DataImport\SmaStationImportProcessor;
 use NavplanTest\MeteoSma\Mocks\DummySmaStation1;
 use NavplanTest\MeteoSma\Mocks\DummySmaStation2;
 use NavplanTest\MeteoSma\Mocks\DummySmaStationList1;
-use NavplanTest\MeteoSma\Mocks\MockMeteoRepo;
+use NavplanTest\MeteoSma\Mocks\MockMeteoSmaRepo;
 use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\System\Mock\MockFileService;
 use PHPUnit\Framework\TestCase;
@@ -16,13 +16,13 @@ class SmaStationImportProcessorTest extends TestCase {
     private MockNavplanDiContainer $config;
     private SmaStationImportProcessor $importer;
     private MockFileService $mockFileService;
-    private MockMeteoRepo $mockMeteoRepo;
+    private MockMeteoSmaRepo $mockMeteoRepo;
 
 
     function setUp(): void {
         $this->config = new MockNavplanDiContainer();
         $this->mockFileService = $this->config->fileService;
-        $this->mockMeteoRepo = $this->config->meteoRepo;
+        $this->mockMeteoRepo = $this->config->meteoService;
         $this->importer = new SmaStationImportProcessor($this->mockFileService, $this->mockMeteoRepo);
     }
 

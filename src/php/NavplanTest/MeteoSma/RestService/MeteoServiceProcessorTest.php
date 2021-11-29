@@ -4,7 +4,7 @@ namespace NavplanTest\Meteo\RestService;
 
 use Navplan\MeteoSma\RestService\MeteoServiceProcessor;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement1;
-use NavplanTest\MeteoSma\Mocks\MockMeteoRepo;
+use NavplanTest\MeteoSma\Mocks\MockMeteoSmaRepo;
 use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\System\Mock\MockHttpService;
 use PHPUnit\Framework\TestCase;
@@ -12,13 +12,13 @@ use PHPUnit\Framework\TestCase;
 
 class MeteoServiceProcessorTest extends TestCase {
     private MockNavplanDiContainer $config;
-    private MockMeteoRepo $meteoRepo;
+    private MockMeteoSmaRepo $meteoRepo;
     private MockHttpService $httpService;
 
 
     protected function setUp(): void {
         $this->config = new MockNavplanDiContainer();
-        $this->meteoRepo = $this->config->meteoRepo;
+        $this->meteoRepo = $this->config->meteoService;
         $this->httpService = $this->config->httpService;
     }
 

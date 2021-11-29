@@ -11,6 +11,6 @@ $diContainer = new ProdNavplanDiContainer();
 
 $importer = new SmaStationImportProcessor(
     $diContainer->getFileService(),
-    $diContainer->getMeteoRepo()
+    $diContainer->getMeteoSmaService()
 );
 $importer->import();

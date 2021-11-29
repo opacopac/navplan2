@@ -3,12 +3,12 @@
 namespace Navplan\MeteoSma\DbRepo;
 
 use Navplan\Common\DomainModel\Extent2d;
-use Navplan\MeteoSma\DomainService\IMeteoRepo;
+use Navplan\MeteoSma\DomainService\IMeteoSmaRepo;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\DomainService\ITimeService;
 
 
-class DbMeteoRepo implements IMeteoRepo {
+class DbMeteoSmaRepo implements IMeteoSmaRepo {
     public function __construct(
         private IDbService $dbService,
         private ITimeService $timeService

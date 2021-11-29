@@ -3,7 +3,7 @@
 namespace NavplanTest\MeteoSma\DbRepo;
 
 use Navplan\Common\DomainModel\Extent2d;
-use Navplan\MeteoSma\DbRepo\DbMeteoRepo;
+use Navplan\MeteoSma\DbRepo\DbMeteoSmaRepo;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement1;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement2;
 use NavplanTest\MeteoSma\Mocks\DummySmaStationList1;
@@ -16,14 +16,14 @@ use PHPUnit\Framework\TestCase;
 class DbMeteoRepoTest extends TestCase {
     private MockDbService $dbService;
     private MockTimeService $timeService;
-    private DbMeteoRepo $dbMeteoRepo;
+    private DbMeteoSmaRepo $dbMeteoRepo;
 
 
     protected function setUp(): void {
         $config = new MockNavplanDiContainer();
         $this->dbService = $config->dbService;
         $this->timeService = $config->timeService;
-        $this->dbMeteoRepo = new DbMeteoRepo($config->dbService, $config->timeService);
+        $this->dbMeteoRepo = new DbMeteoSmaRepo($config->dbService, $config->timeService);
     }
 
 

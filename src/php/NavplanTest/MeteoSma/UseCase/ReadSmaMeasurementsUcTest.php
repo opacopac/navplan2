@@ -7,19 +7,19 @@ use Navplan\MeteoSma\UseCase\ReadSmaMeasurements\ReadSmaMeasurementsRequest;
 use Navplan\MeteoSma\UseCase\ReadSmaMeasurements\ReadSmaMeasurementsUc;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement1;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement2;
-use NavplanTest\MeteoSma\Mocks\MockMeteoRepo;
+use NavplanTest\MeteoSma\Mocks\MockMeteoSmaRepo;
 use NavplanTest\MockNavplanDiContainer;
 use PHPUnit\Framework\TestCase;
 
 
 class ReadSmaMeasurementsUcTest extends TestCase {
-    private MockMeteoRepo $meteoRepo;
+    private MockMeteoSmaRepo $meteoRepo;
     private ReadSmaMeasurementsUc $readSmaMeasurements;
 
 
     protected function setUp(): void {
         $config = new MockNavplanDiContainer();
-        $this->meteoRepo = $config->meteoRepo;
+        $this->meteoRepo = $config->meteoService;
         $this->readSmaMeasurements = $config->getReadSmaMeasurementsUc();
     }
 

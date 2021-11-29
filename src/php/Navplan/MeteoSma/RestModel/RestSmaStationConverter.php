@@ -7,7 +7,7 @@ use Navplan\Common\RestModel\RestPosition2dConverter;
 use Navplan\MeteoSma\DomainModel\SmaStation;
 
 
-class SmaStationConverter {
+class RestSmaStationConverter {
     public static function toRest(SmaStation $station): array {
         return array(
             "id" => $station->id,

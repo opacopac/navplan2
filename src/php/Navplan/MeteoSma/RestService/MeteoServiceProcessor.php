@@ -2,15 +2,16 @@
 
 namespace Navplan\MeteoSma\RestService;
 
-use Navplan\MeteoSma\RestModel\ReadSmaMeasurementsRequestConverter;
-use Navplan\MeteoSma\RestModel\SmaMeasurementsResponseConverter;
+use Navplan\MeteoSma\RestModel\RestReadSmaMeasurementsRequest;
+use Navplan\MeteoSma\RestModel\RestReadSmaMeasurementsResponse;
 
 
 class MeteoServiceProcessor {
     public static function processRequest(IMeteoServiceDiContainer $diContainer) {
         $getArgs = $diContainer->getHttpService()->getGetArgs();
-        $request = ReadSmaMeasurementsRequestConverter::fromArgs($getArgs);
-        $response = $diContainer->getReadSmaMeasurementsUc()->read($request);
-        $diContainer->getHttpService()->sendArrayResponse(SmaMeasurementsResponseConverter::toRest($response), NULL, TRUE);
+        $request = RestReadSmaMeasurementsRequest::fromRest($getArgs);
+        $smaMeasurements = $diContainer->getMeteoSmaService()->readSmaMeasurements($request->extent);
+        $response = new RestReadSmaMeasurementsResponse($smaMeasurements);
+        $diContainer->getHttpService()->sendArrayResponse($response->toRest(), NULL, TRUE);
     }
 }

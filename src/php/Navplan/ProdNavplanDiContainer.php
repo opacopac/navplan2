@@ -36,11 +36,9 @@ use Navplan\Geoname\DbRepo\DbGeonameRepo;
 use Navplan\Geoname\DomainService\GeonameService;
 use Navplan\Geoname\DomainService\IGeonameService;
 use Navplan\Geoname\RestService\IGeonameServiceDiContainer;
-use Navplan\MeteoSma\DbRepo\DbMeteoRepo;
-use Navplan\MeteoSma\DomainService\IMeteoRepo;
+use Navplan\MeteoSma\DbRepo\DbMeteoSmaRepo;
+use Navplan\MeteoSma\DomainService\IMeteoSmaService;
 use Navplan\MeteoSma\RestService\IMeteoServiceDiContainer;
-use Navplan\MeteoSma\UseCase\ReadSmaMeasurements\IReadSmaMeasurementsUc;
-use Navplan\MeteoSma\UseCase\ReadSmaMeasurements\ReadSmaMeasurementsUc;
 use Navplan\Notam\DbService\DbNotamRepo;
 use Navplan\Notam\DomainService\INotamRepo;
 use Navplan\Notam\DomainService\INotamService;
@@ -148,8 +146,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     // geoname
     private IGeonameService $geonameService;
     // meteo sma
-    private IMeteoRepo $meteoRepo;
-    private IReadSmaMeasurementsUc $readSmaMeasurementsUc;
+    private IMeteoSmaService $meteoService;
     // navaid
     private INavaidService $navaidService;
     // notam
@@ -304,24 +301,15 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
 
     // region meteo sma
 
-    public function getMeteoRepo(): IMeteoRepo {
-        if (!isset($this->meteoRepo)) {
-            $this->meteoRepo = new DbMeteoRepo(
+    public function getMeteoSmaService(): IMeteoSmaService {
+        if (!isset($this->meteoService)) {
+            $this->meteoService = new DbMeteoSmaRepo(
                 $this->getDbService(),
                 $this->getTimeService()
             );
         }
 
-        return $this->meteoRepo;
-    }
-
-
-    public function getReadSmaMeasurementsUc(): IReadSmaMeasurementsUc {
-        if (!isset($this->readSmaMeasurementsUc)) {
-            $this->readSmaMeasurementsUc = new ReadSmaMeasurementsUc($this->getMeteoRepo());
-        }
-
-        return $this->readSmaMeasurementsUc;
+        return $this->meteoService;
     }
 
     // endregion

@@ -10,7 +10,7 @@ use Navplan\Enroute\DomainService\IAirspaceService;
 use Navplan\Enroute\DomainService\INavaidService;
 use Navplan\Flightroute\DomainService\IFlightrouteRepo;
 use Navplan\Geoname\DomainService\IGeonameRepo;
-use Navplan\MeteoSma\DomainService\IMeteoRepo;
+use Navplan\MeteoSma\DomainService\IMeteoSmaRepo;
 use Navplan\Notam\DomainService\INotamRepo;
 use Navplan\ProdNavplanDiContainer;
 use Navplan\System\DomainService\IDbService;
@@ -33,7 +33,7 @@ use NavplanTest\Enroute\Mocks\MockAirspaceService;
 use NavplanTest\Enroute\Mocks\MockNavaidService;
 use NavplanTest\Flightroute\Mocks\MockFlightrouteRepo;
 use NavplanTest\Geoname\Mocks\MockGeonameRepo;
-use NavplanTest\MeteoSma\Mocks\MockMeteoRepo;
+use NavplanTest\MeteoSma\Mocks\MockMeteoSmaRepo;
 use NavplanTest\Notam\Mocks\MockNotamRepo;
 use NavplanTest\System\Mock\MockDbService;
 use NavplanTest\System\Mock\MockFileService;
@@ -67,7 +67,7 @@ class MockNavplanDiContainer extends ProdNavplanDiContainer {
     // geoname
     public MockGeonameRepo $geonameRepo;
     // meteo sma
-    public MockMeteoRepo $meteoRepo;
+    public MockMeteoSmaRepo $meteoService;
     // notam
     public MockNotamRepo $notamRepo;
     // open aip
@@ -100,7 +100,7 @@ class MockNavplanDiContainer extends ProdNavplanDiContainer {
         $this->dbService = new MockDbService();
         $this->flightrouteRepo = new MockFlightrouteRepo();
         $this->geonameRepo = new MockGeonameRepo();
-        $this->meteoRepo = new MockMeteoRepo();
+        $this->meteoService = new MockMeteoSmaRepo();
         $this->notamRepo = new MockNotamRepo();
         $this->airportRepo = new MockAirportRepo();
         $this->airspaceService = new MockAirspaceService();
@@ -180,8 +180,8 @@ class MockNavplanDiContainer extends ProdNavplanDiContainer {
 
     // region meteo sma
 
-    public function getMeteoRepo(): IMeteoRepo {
-        return $this->meteoRepo;
+    public function getMeteoRepo(): IMeteoSmaRepo {
+        return $this->meteoService;
     }
 
     // endregion

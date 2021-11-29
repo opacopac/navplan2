@@ -2,7 +2,7 @@
 
 namespace NavplanTest\MeteoSma\RestModel;
 
-use Navplan\MeteoSma\RestModel\SmaStationConverter;
+use Navplan\MeteoSma\RestModel\RestSmaStationConverter;
 use NavplanTest\MeteoSma\Mocks\DummySmaStation1;
 use NavplanTest\MeteoSma\Mocks\DummySmaStation2;
 use PHPUnit\Framework\TestCase;
@@ -13,8 +13,8 @@ class RestSmaStationTest extends TestCase {
         $station1 = DummySmaStation1::create();
         $station2 = DummySmaStation2::create();
 
-        $result1 = SmaStationConverter::toRest($station1);
-        $result2 = SmaStationConverter::toRest($station2);
+        $result1 = RestSmaStationConverter::toRest($station1);
+        $result2 = RestSmaStationConverter::toRest($station2);
 
         $this->assertEquals(DummySmaStation1::createRest(), $result1);
         $this->assertEquals(DummySmaStation2::createRest(), $result2);

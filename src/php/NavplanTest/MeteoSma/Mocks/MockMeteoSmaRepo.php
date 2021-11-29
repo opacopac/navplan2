@@ -3,10 +3,10 @@
 namespace NavplanTest\MeteoSma\Mocks;
 
 use Navplan\Common\DomainModel\Extent2d;
-use Navplan\MeteoSma\DomainService\IMeteoRepo;
+use Navplan\MeteoSma\DomainService\IMeteoSmaRepo;
 
 
-class MockMeteoRepo implements IMeteoRepo {
+class MockMeteoSmaRepo implements IMeteoSmaRepo {
     public array $readSmaMeasurementsArgs;
     public array $readSmaMeasurementsResult;
     public array $replaceSmaStationsArgs;
