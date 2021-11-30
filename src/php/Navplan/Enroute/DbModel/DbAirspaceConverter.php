@@ -37,7 +37,7 @@ class DbAirspaceConverter {
                 AltitudeUnit::fromString($row["alt_top_unit"]),
                 AltitudeReference::fromString($row["alt_top_reference"])
             ),
-            Ring2d::createFromString($row["polygon"])
+            isset($row["polygon"]) ? Ring2d::createFromString($row["polygon"]) : NULL
         );
     }
 }

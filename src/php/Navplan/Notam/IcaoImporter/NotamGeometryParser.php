@@ -541,8 +541,8 @@ class NotamGeometryParser {
         if ($locationExtent !== null && $locationExtent["type"] == "ad") {
             $this->logger->debug("using ad coordinates + 5nm as db extent");
 
-            $lonLat = DbHelper::parseLonLatFromDbPoint($locationExtent["lonlat"]);
-            $polygon = GeoHelper::getCircleExtent($lonLat[1], $lonLat[0], 1852 * 5);
+            $pos = DbHelper::parseLonLatFromDbPoint($locationExtent["lonlat"]);
+            $polygon = GeoHelper::getCircleExtent($pos->latitude, $pos->longitude, 1852 * 5);
 
             return DbHelper::getDbPolygonString($polygon);
         }

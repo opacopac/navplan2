@@ -20,4 +20,10 @@ interface IAirspaceService {
      * @return Airspace[]
      */
     function searchByRouteIntersection(array $lonLatList): array;
+
+    /**
+     * @param Position2d $position2d
+     * @return Airspace[]
+     */
+    function searchByPosition(Position2d $position2d): array;
 }

@@ -126,7 +126,7 @@ class DbHelper {
 
 
     // retrieve lon lat from the format: POINT(-76.867 38.8108)
-    public static function parseLonLatFromDbPoint(string $dbPointString): ?array {
+    public static function parseLonLatFromDbPoint(string $dbPointString): ?Position2d {
         $decimalRegExpPart = '([\-\+]?\d+\.?\d*)';
         $dbPointRegexp = '/POINT\(\s*' . $decimalRegExpPart . '\s+' . $decimalRegExpPart . '\s*\)/im';
 
@@ -135,13 +135,11 @@ class DbHelper {
         if (!$result)
             return null;
 
-        $lonLat = [floatval($matches[1]), floatval($matches[2])];
-
-        return $lonLat;
+        return new Position2d(floatval($matches[1]), floatval($matches[2]));
     }
 
 
-    public static function getDbPointStringFromLonLat(array $lonLat): string {
-        return "ST_GeomFromText('POINT(" . $lonLat[0] . " " . $lonLat[1] . ")')";
+    public static function getDbPointStringFromPos(Position2d $position): string {
+        return "ST_GeomFromText('POINT(" . $position->longitude . " " . $position->latitude . ")')";
     }
 }

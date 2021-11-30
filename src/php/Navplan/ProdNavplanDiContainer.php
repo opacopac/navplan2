@@ -330,6 +330,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
         if (!isset($this->searchService)) {
             $this->searchService = new SearchService(
                 $this->getSearchUserPointUc(),
+                $this->getAirspaceService(),
                 $this->getNotamService(),
                 $this->getAirportService(),
                 $this->getReportingPointService(),

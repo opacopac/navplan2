@@ -15,7 +15,7 @@ class Airspace {
         public string $name,
         public Altitude $alt_bottom,
         public Altitude $alt_top,
-        public Ring2d $polygon
+        public ?Ring2d $polygon
     ) {
     }
 }

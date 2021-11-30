@@ -27,7 +27,7 @@ export class RestSearchService implements ISearchRepo {
     ): Observable<SearchItemList> {
         const url = environment.searchServiceUrl + '?action=searchByPosition&lat=' + position.latitude + '&lon=' + position.longitude
             + '&rad=' + maxRadius_deg + '&maxresults=' + maxResults + '&minnotamtime=' + minNotamTimestamp
-            + '&maxnotamtime=' + maxNotamTimestamp + '&searchItems=airports,navaids,reportingpoints,userpoints,geonames';
+            + '&maxnotamtime=' + maxNotamTimestamp + '&searchItems=airports,navaids,airspaces,reportingpoints,userpoints,geonames';
 
         return this.http
             .get<IRestSearchResponse>(url)

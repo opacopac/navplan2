@@ -4,6 +4,7 @@ namespace Navplan\Search\DomainService;
 
 use Navplan\Aerodrome\DomainService\IAirportService;
 use Navplan\Aerodrome\DomainService\IReportingPointService;
+use Navplan\Enroute\DomainService\IAirspaceService;
 use Navplan\Enroute\DomainService\INavaidService;
 use Navplan\Geoname\DomainService\IGeonameService;
 use Navplan\Notam\DomainService\INotamService;
@@ -22,6 +23,7 @@ class SearchService implements ISearchService {
 
     public function __construct(
         private ISearchUserPointUc  $searchUserPointUc,
+        private IAirspaceService    $airspaceService,
         private INotamService       $notamService,
         private IAirportService     $airportService,
         private IReportingPointService $reportingPointService,
@@ -36,6 +38,7 @@ class SearchService implements ISearchService {
         $maxResults = min($query->maxResults, self::SEARCH_RESULTS_HARDLIMIT);
         $airports = [];
         $navaids = [];
+        $airspaces = [];
         $reportingPoints = [];
         $userPoints = [];
         $geonames = [];
@@ -68,14 +71,18 @@ class SearchService implements ISearchService {
                     $geonames = $this->geonameService->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum, $maxResults));
                     $resultNum += count($geonames);
                     break;
-                case SearchItemType::NOTAMS:
-                    $notams = $this->notamService->searchByPosition($query->position, $query->minNotamTimestamp, $query->maxNotamTimestamp);
-                    $resultNum += count($notams);
-                    break;
             }
         }
 
-        return new SearchResult($airports, $navaids, [], $reportingPoints, $userPoints, [], $geonames, $notams, []);
+        if (in_array(SearchItemType::AIRSPACES, $query->searchItems)) {
+            $airspaces = $this->airspaceService->searchByPosition($query->position);
+        }
+
+        if (in_array(SearchItemType::NOTAMS, $query->searchItems)) {
+            $notams = $this->notamService->searchByPosition($query->position, $query->minNotamTimestamp, $query->maxNotamTimestamp);
+        }
+
+        return new SearchResult($airports, $navaids, $airspaces, $reportingPoints, $userPoints, [], $geonames, $notams, []);
     }
 
 
@@ -122,7 +129,7 @@ class SearchService implements ISearchService {
             }
         }
 
-        return new SearchResult($airports, $navaids, [], $reportingPoints, $userPoints, [], $geonames, [], []);
+        return new SearchResult($airports, $navaids, [], $reportingPoints, $userPoints, [], $geonames, [], [], []);
     }
 
 
