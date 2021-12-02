@@ -51,6 +51,9 @@ export class OlPositionSearchContainer {
 
 
     private calcLabelPositions(searchItems: SearchItem[]): [SearchItem[], Angle[]] {
+        // skip non-point results (e.g. airspaces)
+        searchItems = searchItems.filter(item => item.getPosition());
+
         // limit to 6 points
         if (searchItems.length > MAX_POINTS) {
             searchItems = searchItems.slice(0, MAX_POINTS);

@@ -7,6 +7,7 @@ import {RestUserpointConverter} from '../../user/rest-model/rest-userpoint-conve
 import {RestGeonameConverter} from '../../geoname/rest-model/rest-geoname-converter';
 import {RestAirportCircuitConverter} from '../../aerodrome/rest-model/rest-airport-circuit-converter';
 import {IRestSearchResponse} from './i-rest-search-response';
+import {RestAirspaceConverter} from '../../enroute/rest-model/rest-airspace-converter';
 
 
 export class RestSearchResponseConverter {
@@ -19,6 +20,10 @@ export class RestSearchResponseConverter {
 
         for (const restItem of response.navaids) {
             searchItemList.appendSearchItem(RestNavaidConverter.fromRest(restItem));
+        }
+
+        for (const restItem of response.airspaces) {
+            searchItemList.appendSearchItem(RestAirspaceConverter.fromRest(restItem));
         }
 
         for (const restItem of response.reportingpoints) {

@@ -1,0 +1,15 @@
+<div #container class="airspace-container">
+    <table id="{{ this.getId() }}" class="airspace-table">
+        <tr *ngFor="let airspace of this.airspaceList">
+            <td>
+                <div style="position:relative">
+                    <app-ol-overlay-airspace [airspace]="airspace"></app-ol-overlay-airspace>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><span class="airspace-toggle" (click)="this.airspaceListToggle()"><i class="{{ this.getToggleIcon() }}"></i>
+                {{ this.getToggleText() }}</span></td>
+        </tr>
+    </table>
+</div>

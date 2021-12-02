@@ -1,0 +1,94 @@
+.airspace-overlay {
+    height: 50px;
+    width: 75px;
+    border-style: solid;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.airspace-separator {
+    border-bottom: thin solid;
+}
+
+.airspace-overlay-blue {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-color: rgba(23, 128, 194, 0.9);
+    color: rgba(23, 128, 194, 1.0);
+}
+
+.airspace-overlay-red {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-color: rgba(174, 30, 34, 0.9);
+    color: rgba(174, 30, 34, 1.0);
+}
+
+.airspace-overlay-green {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-color: rgba(0, 150, 64, 0.9);
+    color: rgba(0, 150, 64, 1.0);
+}
+
+.airspace-overlay-heighttext-normal {
+    font-style: normal;
+}
+
+.airspace-overlay-heighttext-agl {
+    font-style: italic;
+}
+
+.airspace-class {
+    position: absolute;
+    right: 72px;
+    top: 15px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    padding-left: 4px;
+    padding-right: 4px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.airspace-class-red {
+    color: rgba(255, 255, 255, 1.0);
+    background-color: rgba(174, 30, 34, 1.0);
+}
+
+.airspace-class-blue {
+    color: rgba(255, 255, 255, 1.0);
+    background-color: rgba(23, 128, 194, 1.0);
+}
+
+.airspace-class-green {
+    color: rgba(255, 255, 255, 1.0);
+    background-color: rgba(0, 150, 64, 1.0);
+}
+
+.airspace-name {
+    position: absolute;
+    left: 80px;
+    top: 13px;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: bold;
+    font-size: 16px;
+    padding-left: 4px;
+    padding-right: 4px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.airspace-name-red {
+    color: rgba(174, 30, 34, 1.0);
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.airspace-name-blue {
+    color: rgba(23, 128, 194, 1.0);
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.airspace-name-green {
+    color: rgba(0, 150, 64, 1.0);
+    background-color: rgba(255, 255, 255, 1.0);
+}

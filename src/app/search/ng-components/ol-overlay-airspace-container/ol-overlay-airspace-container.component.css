@@ -1,0 +1,18 @@
+.airspace-container {
+    position: absolute;
+}
+
+.airspace-table {
+    position: absolute;
+    top: 30px;
+    left: 70px;
+    border-spacing: 3px;
+    border-collapse: separate;
+    display: block;
+}
+
+.airspace-toggle {
+    cursor: pointer;
+    color: rgba(23, 128, 194, 1.0);
+    background-color: rgba(255, 255, 255, 0.8);
+}

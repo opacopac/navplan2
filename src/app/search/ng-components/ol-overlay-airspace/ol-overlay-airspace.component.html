@@ -1,0 +1,12 @@
+<div style="position:relative" *ngIf="this.airspace">
+    <table class="airspace-overlay {{ this.getBoxClass() }}">
+        <tr>
+            <td class="airspace-separator"><span class="{{ this.getHeightClass(true) }}">{{ this.getHeightText(true) }}</span></td>
+        </tr>
+        <tr>
+            <td><span class="{{ this.getHeightClass(false) }}">{{ this.getHeightText(false) }}</span></td>
+        </tr>
+    </table>
+    <span class="airspace-class {{ this.getAirspaceCategoryClass() }}">{{ this.getAirspaceCategoryText() }}</span>
+    <span class="airspace-name {{ this.getAirspaceNameClass() }}">{{ this.getAirspaceNameText() }}</span>
+</div>
