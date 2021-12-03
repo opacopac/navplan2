@@ -37,7 +37,7 @@ export class SearchEffects {
                 action.maxNotamTimestamp
             ).pipe(
                 map(result => SearchActions.showPositionSearchResults({
-                    searchResults: result,
+                    positionSearchResults: result,
                     clickPos: action.clickPos
                 })),
                 catchError(error => {

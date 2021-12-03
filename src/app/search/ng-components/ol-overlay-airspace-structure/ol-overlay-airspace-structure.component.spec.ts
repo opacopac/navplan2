@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {OlOverlayAirspaceContainerComponent} from './ol-overlay-airspace-container.component';
+import {OlOverlayAirspaceStructureComponent} from './ol-overlay-airspace-structure.component';
 
 
 xdescribe('MapOverlayTrafficComponent', () => {
-    let component: OlOverlayAirspaceContainerComponent;
-    let fixture: ComponentFixture<OlOverlayAirspaceContainerComponent>;
+    let component: OlOverlayAirspaceStructureComponent;
+    let fixture: ComponentFixture<OlOverlayAirspaceStructureComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [OlOverlayAirspaceContainerComponent]
+            declarations: [OlOverlayAirspaceStructureComponent]
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(OlOverlayAirspaceContainerComponent);
+        fixture = TestBed.createComponent(OlOverlayAirspaceStructureComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

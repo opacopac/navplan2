@@ -5,6 +5,7 @@ import {User} from '../../user/domain-model/user';
 import {SearchItemList} from '../domain-model/search-item-list';
 import {ISearchService} from './i-search.service';
 import {ISearchRepo} from './i-search-repo';
+import {PositionSearchResultList} from '../domain-model/position-search-result-list';
 
 
 @Injectable()
@@ -21,7 +22,7 @@ export class SearchService implements ISearchService {
         maxRadius_deg: number,
         minNotamTimestamp: number,
         maxNotamTimestamp: number
-    ): Observable<SearchItemList> {
+    ): Observable<PositionSearchResultList> {
         return this.searchRepo.searchByPosition(
             position,
             maxRadius_deg,

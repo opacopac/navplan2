@@ -16,7 +16,7 @@ import {SearchContainerComponent} from './ng-components/search-container/search-
 import {SearchService} from './domain-service/search.service';
 import {ISearchService} from './domain-service/i-search.service';
 import {ISearchRepo} from './domain-service/i-search-repo';
-import {OlOverlayAirspaceContainerComponent} from './ng-components/ol-overlay-airspace-container/ol-overlay-airspace-container.component';
+import {OlOverlayAirspaceStructureComponent} from './ng-components/ol-overlay-airspace-structure/ol-overlay-airspace-structure.component';
 import {OlOverlayAirspaceComponent} from './ng-components/ol-overlay-airspace/ol-overlay-airspace.component';
 
 
@@ -35,12 +35,12 @@ import {OlOverlayAirspaceComponent} from './ng-components/ol-overlay-airspace/ol
     declarations: [
         SearchBoxComponent,
         SearchContainerComponent,
-        OlOverlayAirspaceContainerComponent,
+        OlOverlayAirspaceStructureComponent,
         OlOverlayAirspaceComponent,
     ],
     exports: [
         SearchContainerComponent,
-        OlOverlayAirspaceContainerComponent
+        OlOverlayAirspaceStructureComponent
     ],
     providers: [
         { provide: ISearchService, useClass: SearchService },

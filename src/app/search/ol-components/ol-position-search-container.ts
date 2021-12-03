@@ -1,11 +1,11 @@
 import {Observable, Subscription} from 'rxjs';
 import {OlPositionSearchItem} from './ol-position-search-item';
 import {PositionSearchState} from '../domain-model/position-search-state';
-import {SearchItem} from '../domain-model/search-item';
 import {StringnumberHelper} from '../../system/domain-service/stringnumber/stringnumber-helper';
 import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
 import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
 import {AngleUnit} from '../../common/geo-math/domain-model/quantities/angle-unit';
+import {IPointSearchResult} from '../domain-model/i-point-search-result';
 
 
 const MAX_POINTS = 6;
@@ -17,9 +17,9 @@ export class OlPositionSearchContainer {
 
     constructor(
         private readonly positionSearchLayer: OlVectorLayer,
-        searchItems$: Observable<PositionSearchState>
+        positionSearchState$: Observable<PositionSearchState>
     ) {
-        this.positionSearchSubscription = searchItems$.subscribe((posSearchState) => {
+        this.positionSearchSubscription = positionSearchState$.subscribe((posSearchState) => {
             this.clearFeatures();
             this.drawFeatures(posSearchState);
         });
@@ -33,8 +33,8 @@ export class OlPositionSearchContainer {
 
 
     private drawFeatures(posSearchState: PositionSearchState) {
-        if (posSearchState) {
-            const sortedItemsAngles = this.calcLabelPositions(posSearchState.searchItems);
+        if (posSearchState && posSearchState.positionSearchResults) {
+            const sortedItemsAngles = this.calcLabelPositions(posSearchState.positionSearchResults.getPointResults());
             const sortedItems = sortedItemsAngles[0];
             const labelAngles = sortedItemsAngles[1];
 
@@ -50,36 +50,36 @@ export class OlPositionSearchContainer {
     }
 
 
-    private calcLabelPositions(searchItems: SearchItem[]): [SearchItem[], Angle[]] {
+    private calcLabelPositions(pointSearchResult: IPointSearchResult[]): [IPointSearchResult[], Angle[]] {
         // skip non-point results (e.g. airspaces)
-        searchItems = searchItems.filter(item => item.getPosition());
+        pointSearchResult = pointSearchResult.filter(item => item.getPosition());
 
         // limit to 6 points
-        if (searchItems.length > MAX_POINTS) {
-            searchItems = searchItems.slice(0, MAX_POINTS);
+        if (pointSearchResult.length > MAX_POINTS) {
+            pointSearchResult = pointSearchResult.slice(0, MAX_POINTS);
         }
 
         // split up into partitions
-        const numPointsB = Math.floor(searchItems.length / 3);
-        const numPointsT = searchItems.length - numPointsB;
+        const numPointsB = Math.floor(pointSearchResult.length / 3);
+        const numPointsT = pointSearchResult.length - numPointsB;
         const numPointsTR = Math.floor(numPointsT / 2);
         const numPointsTL = numPointsT - numPointsTR;
 
         // create top/bottom partitions
-        const pointsT = searchItems.slice(0).sort(
-            function(a: SearchItem, b: SearchItem) { return b.getPosition().latitude - a.getPosition().latitude; });
+        const pointsT = pointSearchResult.slice(0).sort(
+            function(a: IPointSearchResult, b: IPointSearchResult) { return b.getPosition().latitude - a.getPosition().latitude; });
         const pointsB = pointsT.splice(numPointsT, numPointsB);
 
         // create top left/right partitions
         const pointsTL = pointsT.slice(0).sort(
-            function(a: SearchItem, b: SearchItem) { return a.getPosition().longitude - b.getPosition().longitude; });
+            function(a: IPointSearchResult, b: IPointSearchResult) { return a.getPosition().longitude - b.getPosition().longitude; });
         const pointsTR = pointsTL.splice(numPointsTL, numPointsTR);
 
         this.sortQuadrantClockwise(pointsTL, true, true);
         this.sortQuadrantClockwise(pointsTR, true, false);
         this.sortQuadrantClockwise(pointsB, false, true);
 
-        const sortedItems: SearchItem[] = [];
+        const sortedItems: IPointSearchResult[] = [];
         StringnumberHelper.multiPush(pointsTL, sortedItems);
         StringnumberHelper.multiPush(pointsTR, sortedItems);
         StringnumberHelper.multiPush(pointsB, sortedItems);
@@ -98,47 +98,47 @@ export class OlPositionSearchContainer {
     }
 
 
-    private sortQuadrantClockwise(searchItems: SearchItem[], isTopQuadrant: boolean, isLeftQuadrant: boolean) {
-        if (!searchItems || searchItems.length <= 0) {
+    private sortQuadrantClockwise(pointSearchResults: IPointSearchResult[], isTopQuadrant: boolean, isLeftQuadrant: boolean) {
+        if (!pointSearchResults || pointSearchResults.length <= 0) {
             return;
         }
 
         const center = { latitude: undefined, longitude: undefined };
 
-        searchItems.sort(function(a: SearchItem, b: SearchItem) {
+        pointSearchResults.sort(function(a: IPointSearchResult, b: IPointSearchResult) {
             return a.getPosition().latitude - b.getPosition().latitude; }); // bottom to top
 
         if (isTopQuadrant) {
-            center.latitude = searchItems[0].getPosition().latitude - 0.1;
+            center.latitude = pointSearchResults[0].getPosition().latitude - 0.1;
         } else {
-            center.latitude = searchItems[searchItems.length - 1].getPosition().latitude + 0.1;
+            center.latitude = pointSearchResults[pointSearchResults.length - 1].getPosition().latitude + 0.1;
         }
 
-        searchItems.sort(function(a: SearchItem, b: SearchItem) {
+        pointSearchResults.sort(function(a: IPointSearchResult, b: IPointSearchResult) {
             return a.getPosition().longitude - b.getPosition().longitude; }); // left to right
 
         if (isLeftQuadrant) {
-            center.longitude = searchItems[searchItems.length - 1].getPosition().longitude + 0.1;
+            center.longitude = pointSearchResults[pointSearchResults.length - 1].getPosition().longitude + 0.1;
         } else {
-            center.longitude = searchItems[0].getPosition().longitude - 0.1;
+            center.longitude = pointSearchResults[0].getPosition().longitude - 0.1;
         }
 
-        searchItems.sort(function(a: SearchItem, b: SearchItem) {
+        pointSearchResults.sort(function(a: IPointSearchResult, b: IPointSearchResult) {
             return Math.atan2(b.getPosition().latitude - center.latitude, b.getPosition().longitude - center.longitude)
                 - Math.atan2(a.getPosition().latitude - center.latitude, a.getPosition().longitude - center.longitude);
         });
     }
 
 
-    private calcLabelAngles(searchItems: SearchItem[], rotationRad: number): Angle[] {
-        if (searchItems.length === 0) {
+    private calcLabelAngles(pointSearchResults: IPointSearchResult[], rotationRad: number): Angle[] {
+        if (pointSearchResults.length === 0) {
             return;
         }
 
         const rotOffset = 0;
-        const rotInc = Math.PI / 2 / (searchItems.length + 1);
+        const rotInc = Math.PI / 2 / (pointSearchResults.length + 1);
         const labelAngles: Angle[] = [];
-        for (let i = 0; i < searchItems.length; i++) {
+        for (let i = 0; i < pointSearchResults.length; i++) {
             const lableAngle = new Angle(rotationRad + (i + 1) * rotInc + rotOffset, AngleUnit.RAD);
             labelAngles.push(lableAngle);
         }

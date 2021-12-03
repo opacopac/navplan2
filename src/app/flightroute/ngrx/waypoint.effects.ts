@@ -30,7 +30,7 @@ export class WaypointEffects {
             map(results => ({ action: action, results: results}))
         )),
         map((actionResults) => {
-            const dataItem = actionResults.results.items[0].dataItem;
+            const dataItem = actionResults.results.getPointResults()[0].getDataItem();
             const wp = WaypointConverter.createWaypointFromDataItem(dataItem, actionResults.action.newPosition);
             return WaypointActions.insert({ newWaypoint: wp, index: actionResults.action.index });
         })
@@ -48,7 +48,7 @@ export class WaypointEffects {
             map(results => ({ action: action, results: results}))
         )),
         map((actionResults) => {
-            const dataItem = actionResults.results.items[0].dataItem;
+            const dataItem = actionResults.results.getPointResults()[0].getDataItem();
             const wp = WaypointConverter.createWaypointFromDataItem(dataItem, actionResults.action.newPosition);
             return WaypointActions.replace({ newWaypoint: wp, index: actionResults.action.index });
         })

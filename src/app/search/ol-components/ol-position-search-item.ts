@@ -1,9 +1,9 @@
 import {Circle, Fill, RegularShape, Stroke, Style, Text} from 'ol/style';
-import {SearchItem} from '../domain-model/search-item';
 import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
 import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
 import {OlFeature} from '../../base-map/ol-model/ol-feature';
 import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
+import {IPointSearchResult} from '../domain-model/i-point-search-result';
 
 
 const LABEL_DIST_PIXEL = 100;
@@ -12,17 +12,17 @@ const POINT_RADIUS_PIXEL = 5;
 
 export class OlPositionSearchItem {
     public static draw(
-        searchItem: SearchItem,
+        pointSearchResult: IPointSearchResult,
         labelRotAngle: Angle,
         layer: OlVectorLayer
     ) {
-        const olFeature = new OlFeature(searchItem.dataItem, true);
-        olFeature.setStyle(this.createPointStyle(searchItem.getGeoselectionName(), labelRotAngle));
-        olFeature.setGeometry(OlGeometry.fromPoint(searchItem.getPosition()));
+        const olFeature = new OlFeature(pointSearchResult.getDataItem(), true);
+        olFeature.setStyle(this.createPointStyle(pointSearchResult.getGeoselectionName(), labelRotAngle));
+        olFeature.setGeometry(OlGeometry.fromPoint(pointSearchResult.getPosition()));
 
         const olLineFeature = new OlFeature(undefined, false);
         olLineFeature.setStyle(this.createLineStyle(labelRotAngle));
-        olLineFeature.setGeometry(OlGeometry.fromPoint(searchItem.getPosition()));
+        olLineFeature.setGeometry(OlGeometry.fromPoint(pointSearchResult.getPosition()));
 
         layer.addFeature(olLineFeature);
         layer.addFeature(olFeature);

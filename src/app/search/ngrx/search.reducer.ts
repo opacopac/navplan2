@@ -5,7 +5,7 @@ import {createReducer, on} from '@ngrx/store';
 
 const initialSearchState: SearchState = {
     textSearchState: { searchIsActive: false, searchResults: undefined, selectedResultIndex: undefined },
-    positionSearchState: { searchItems: [], clickPos: undefined }
+    positionSearchState: { positionSearchResults: undefined, clickPos: undefined },
 };
 
 
@@ -89,10 +89,10 @@ export const searchReducer = createReducer(
     })),
     on(SearchActions.showPositionSearchResults, (state, action) => ({
         ...state,
-        positionSearchState: { searchItems: action.searchResults.items, clickPos: action.clickPos }
+        positionSearchState: { positionSearchResults: action.positionSearchResults, clickPos: action.clickPos }
     })),
     on(SearchActions.hidePositionSearchResults, (state) => ({
         ...state,
-        positionSearchState: { searchItems: [], clickPos: undefined }
+        positionSearchState: { positionSearchResults: undefined, clickPos: undefined }
     })),
 );

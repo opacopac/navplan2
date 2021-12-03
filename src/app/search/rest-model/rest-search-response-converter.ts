@@ -11,7 +11,7 @@ import {RestAirspaceConverter} from '../../enroute/rest-model/rest-airspace-conv
 
 
 export class RestSearchResponseConverter {
-    public static getSearchItemListFromResponse(response: IRestSearchResponse): SearchItemList {
+    public static fromRest(response: IRestSearchResponse): SearchItemList {
         const searchItemList = new SearchItemList();
 
         for (const restItem of response.airports) {

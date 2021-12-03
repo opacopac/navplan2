@@ -5,23 +5,22 @@ import {OlOverlayBase2Component} from '../../../base-map/ng-components/ol-overla
 import {OlGeometry} from '../../../base-map/ol-model/ol-geometry';
 import {Store} from '@ngrx/store';
 import {Observable, Subscription} from 'rxjs';
-import {getSearchState} from '../../ngrx/search.selectors';
-import {SearchState} from '../../domain-model/search-state';
-import {DataItemType} from '../../../common/model/data-item';
+import {getPositionSearchState} from '../../ngrx/search.selectors';
+import {PositionSearchState} from '../../domain-model/position-search-state';
 
 
 @Component({
-    selector: 'app-ol-overlay-airspace-container',
-    templateUrl: './ol-overlay-airspace-container.component.html',
-    styleUrls: ['./ol-overlay-airspace-container.component.css']
+    selector: 'app-ol-overlay-airspace-structure',
+    templateUrl: './ol-overlay-airspace-structure.component.html',
+    styleUrls: ['./ol-overlay-airspace-structure.component.css']
 })
-export class OlOverlayAirspaceContainerComponent extends OlOverlayBase2Component<Airspace[]> implements OnInit, AfterViewInit, OnDestroy {
+export class OlOverlayAirspaceStructureComponent extends OlOverlayBase2Component<Airspace[]> implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('container') container: ElementRef;
     public airspaceList: Airspace[];
     public isSimplified: boolean;
     public showToggle: boolean;
     private searchStateSubscription: Subscription;
-    private readonly searchState$: Observable<SearchState> = this.appStore.select(getSearchState);
+    private readonly positionSearchState$: Observable<PositionSearchState> = this.appStore.select(getPositionSearchState);
 
 
     public constructor(
@@ -38,13 +37,11 @@ export class OlOverlayAirspaceContainerComponent extends OlOverlayBase2Component
 
     ngAfterViewInit() {
         super.ngAfterViewInit();
-        this.searchStateSubscription = this.searchState$.subscribe(searchState => {
-            const airspaces = searchState.positionSearchState
-                ? searchState.positionSearchState.searchItems
-                    .filter(item => item.dataItem.dataItemType === DataItemType.airspace)
-                    .map(item => (item.dataItem as Airspace))
+        this.searchStateSubscription = this.positionSearchState$.subscribe(searchState => {
+            const airspaces = searchState && searchState.positionSearchResults
+                ? searchState.positionSearchResults.getAirspaceResults()
                 : [];
-            this.bindData(airspaces, searchState.positionSearchState.clickPos);
+            this.bindData(airspaces, searchState.clickPos);
         });
     }
 

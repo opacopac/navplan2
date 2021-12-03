@@ -11,6 +11,8 @@ import {SearchItemList} from '../domain-model/search-item-list';
 import {CoordinateHelper} from '../../common/geo-math/domain-service/coordinate-helper';
 import {IRestSearchResponse} from '../rest-model/i-rest-search-response';
 import {ISearchRepo} from '../domain-service/i-search-repo';
+import {RestPositionSearchResponseConverter} from '../rest-model/rest-position-search-response-converter';
+import {PositionSearchResultList} from '../domain-model/position-search-result-list';
 
 
 @Injectable()
@@ -24,7 +26,7 @@ export class RestSearchService implements ISearchRepo {
         maxResults: number,
         minNotamTimestamp: number,
         maxNotamTimestamp: number
-    ): Observable<SearchItemList> {
+    ): Observable<PositionSearchResultList> {
         const url = environment.searchServiceUrl + '?action=searchByPosition&lat=' + position.latitude + '&lon=' + position.longitude
             + '&rad=' + maxRadius_deg + '&maxresults=' + maxResults + '&minnotamtime=' + minNotamTimestamp
             + '&maxnotamtime=' + maxNotamTimestamp + '&searchItems=airports,navaids,airspaces,reportingpoints,userpoints,geonames';
@@ -32,7 +34,7 @@ export class RestSearchService implements ISearchRepo {
         return this.http
             .get<IRestSearchResponse>(url)
             .pipe(
-                map(response => RestSearchResponseConverter.getSearchItemListFromResponse(response)),
+                map(response => RestPositionSearchResponseConverter.fromRest(response)),
                 catchError(error => {
                     LoggingService.logResponseError('ERROR performing position search', error);
                     return throwError(error);
@@ -61,7 +63,7 @@ export class RestSearchService implements ISearchRepo {
                 // .jsonp<SearchResponse>(url, 'callback')
                 .get<IRestSearchResponse>(url)
                 .pipe(
-                    map(response => RestSearchResponseConverter.getSearchItemListFromResponse(response)),
+                    map(response => RestSearchResponseConverter.fromRest(response)),
                     catchError(error => {
                         LoggingService.logResponseError('ERROR performing text search', error);
                         return throwError(error);
