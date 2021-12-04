@@ -39,4 +39,25 @@ export class PositionSearchResultList {
             })
             : [];
     }
+
+
+    public getGroupedAirspaceResults(): Airspace[] {
+        const allResults = this.getAirspaceResults();
+
+        const groupedResults = [];
+        let prevResult: Airspace;
+        for (const as of allResults) {
+            if (!prevResult || prevResult.category !== as.category) {
+                prevResult = as;
+                groupedResults.push(prevResult);
+            } else {
+                const replaceAs = groupedResults.pop().clone();
+                replaceAs.name = '';
+                replaceAs.alt_bottom = as.alt_bottom;
+                groupedResults.push(replaceAs);
+            }
+        }
+
+        return groupedResults;
+    }
 }
