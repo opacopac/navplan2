@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Airspace} from '../../../enroute/domain-model/airspace';
-import {OlOverlayBase2Component} from '../../../base-map/ng-components/ol-overlay-base.component2';
+import {OlOverlayBaseComponent} from '../../../base-map/ng-components/ol-overlay-base.component';
 import {Store} from '@ngrx/store';
 import {Observable, Subscription} from 'rxjs';
 import {getPositionSearchState} from '../../ngrx/search.selectors';
@@ -12,7 +12,7 @@ import {PositionSearchState} from '../../domain-model/position-search-state';
     templateUrl: './ol-overlay-airspace-structure.component.html',
     styleUrls: ['./ol-overlay-airspace-structure.component.css']
 })
-export class OlOverlayAirspaceStructureComponent extends OlOverlayBase2Component implements OnInit, AfterViewInit, OnDestroy {
+export class OlOverlayAirspaceStructureComponent extends OlOverlayBaseComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('container') container: ElementRef;
     public airspaceList: Airspace[];
     public groupedAirspaceList: Airspace[];

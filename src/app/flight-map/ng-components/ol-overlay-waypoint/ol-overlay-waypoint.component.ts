@@ -1,10 +1,9 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
 import {Waypoint} from '../../../flightroute/domain-model/waypoint';
-import {OlOverlayBaseComponent} from '../../../base-map/ng-components/ol-overlay-base.component';
 import {StringnumberHelper} from '../../../system/domain-service/stringnumber/stringnumber-helper';
 import {WmmHelper} from '../../../common/geo-math/domain-service/wmm-helper';
-import {OlGeometry} from '../../../base-map/ol-model/ol-geometry';
+import {OlOverlayBaseComponent} from '../../../base-map/ng-components/ol-overlay-base.component';
 
 
 @Component({
@@ -28,7 +27,8 @@ export class OlOverlayWaypointComponent extends OlOverlayBaseComponent implement
 
     public bindDataItem(waypoint: Waypoint, clickPos: Position2d) {
         this.waypoint = waypoint;
-        this.olOverlay.setPosition(waypoint ? OlGeometry.getMercator(waypoint.position) : undefined);
+        this.setPosition(waypoint ? waypoint.position : undefined);
+        this.markForCheck();
     }
 
 

@@ -1,12 +1,11 @@
-import {AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Output} from '@angular/core';
-import {DataItem} from '../../common/model/data-item';
-import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
+import {AfterViewInit, ChangeDetectorRef, Component} from '@angular/core';
 import Overlay from 'ol/Overlay';
+import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
+import {OlGeometry} from '../ol-model/ol-geometry';
 
 
 @Component({ template: '' })
 export abstract class OlOverlayBaseComponent implements AfterViewInit {
-    @Output() close = new EventEmitter();
     public olOverlay: Overlay;
 
 
@@ -17,7 +16,6 @@ export abstract class OlOverlayBaseComponent implements AfterViewInit {
     public abstract get containerHtmlElement(): HTMLElement;
 
 
-
     public ngAfterViewInit(): void {
         this.olOverlay = new Overlay({
             element: this.containerHtmlElement,
@@ -25,25 +23,19 @@ export abstract class OlOverlayBaseComponent implements AfterViewInit {
     }
 
 
-    public setDataItem(dataItem: DataItem, clickPos: Position2d) {
-        this.bindDataItem(dataItem, clickPos);
+    public setPosition(position: Position2d): void {
+        if (this.olOverlay) {
+            this.olOverlay.setPosition(position ? OlGeometry.getMercator(position) : undefined);
+        }
+    }
+
+
+    public markForCheck() {
         this.cdRef.markForCheck();
     }
 
 
-    protected abstract bindDataItem(dataItem: DataItem, clickPos: Position2d);
-
-
     public closeOverlay() {
-        if (this.olOverlay) {
-            this.olOverlay.setPosition(undefined);
-        }
-        this.setDataItem(undefined, undefined);
-    }
-
-
-    public onCloseOverlay() {
-        this.closeOverlay();
-        this.close.emit();
+        this.setPosition(undefined);
     }
 }

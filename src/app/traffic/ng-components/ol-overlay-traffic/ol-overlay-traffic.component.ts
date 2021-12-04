@@ -3,9 +3,8 @@ import {Traffic} from '../../domain-model/traffic';
 import {TrafficAircraftType} from '../../domain-model/traffic-aircraft-type';
 import {TrafficAddressType} from '../../domain-model/traffic-address-type';
 import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
-import {OlOverlayBaseComponent} from '../../../base-map/ng-components/ol-overlay-base.component';
 import {TrafficIcon} from '../../domain-model/traffic-icon';
-import {OlGeometry} from '../../../base-map/ol-model/ol-geometry';
+import {OlOverlayBaseComponent} from '../../../base-map/ng-components/ol-overlay-base.component';
 
 
 const TRAFFIC_TYPE_DESCRIPTION = {
@@ -48,10 +47,11 @@ export class OlOverlayTrafficComponent extends OlOverlayBaseComponent implements
 
     public bindDataItem(traffic: Traffic, clickPos: Position2d) {
         this.traffic = traffic;
-        this.olOverlay.setPosition(traffic && traffic.hasPositions()
-            ? OlGeometry.getMercator(traffic.getCurrentPosition().position)
+        this.setPosition(traffic && traffic.hasPositions()
+            ? traffic.getCurrentPosition().position
             : undefined
         );
+        this.markForCheck();
     }
 
 
