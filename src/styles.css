@@ -125,7 +125,8 @@ button.btn-lg {
 }
 
 .ol-attribution:not(.ol-collapsed) {
-    background: rgba(39, 43, 48, 0.9)
+    align-items: end;
+    background: rgba(255, 255, 255, 0.9)
 }
 
 .ol-attribution ul {
