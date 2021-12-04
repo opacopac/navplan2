@@ -4,8 +4,14 @@ import {Notam} from '../domain-model/notam';
 
 
 export class NotamActions {
-    public static readonly showNotams = createAction(
-        '[NotamEffects] Show NOTAMS on map',
+    public static readonly readNotams = createAction(
+        '[FlightMapEffects] Read NOTAMs',
+        props<{ extent: Extent2d, zoom: number }>()
+    );
+
+
+    public static readonly readNotamsSuccess = createAction(
+        '[NotamEffects] Read NOTAMs success',
         props<{ extent: Extent2d, zoom: number, notamList: Notam[], timestampMs: number }>()
     );
 }

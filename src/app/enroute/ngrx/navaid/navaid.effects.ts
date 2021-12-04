@@ -1,8 +1,7 @@
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {debounceTime, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
+import {filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {NavaidActions} from './navaid.actions';
-import {BaseMapActions} from '../../../base-map/ngrx/base-map.actions';
 import {Store} from '@ngrx/store';
 import {INavaidRepo} from '../../domain-service/i-navaid-repo';
 import {getNavaidState} from './navaid.selectors';
@@ -22,9 +21,8 @@ export class NavaidEffects {
     }
 
 
-    showNavaidsAction$ = createEffect(() => this.actions$.pipe(
-        ofType(BaseMapActions.mapMoved),
-        debounceTime(250),
+    readNavaidsAction$ = createEffect(() => this.actions$.pipe(
+        ofType(NavaidActions.readNavaids),
         withLatestFrom(this.navaidState$),
         filter(([action, currentState]) => !currentState.extent
             || !action.extent
@@ -34,7 +32,7 @@ export class NavaidEffects {
             action.extent.getOversizeExtent(environment.mapOversizeFactor),
             action.zoom
         ).pipe(
-            map(navaids => NavaidActions.showNavaids({
+            map(navaids => NavaidActions.readNavaidsSuccess({
                 navaids: navaids,
                 extent: action.extent.getOversizeExtent(environment.mapOversizeFactor),
                 zoom: action.zoom,

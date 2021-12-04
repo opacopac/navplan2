@@ -13,7 +13,7 @@ const initialState: ReportingPointSectorState = {
 
 export const reportingPointSectorReducer = createReducer(
     initialState,
-    on(ReportingPointSectorActions.showReportingPointsSectors, (state, action) => ({
+    on(ReportingPointSectorActions.readReportingPointsSectorsSuccess, (state, action) => ({
         ...state,
         extent: action.extent,
         zoom: action.zoom,

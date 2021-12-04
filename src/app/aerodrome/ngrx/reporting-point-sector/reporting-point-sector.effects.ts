@@ -1,5 +1,5 @@
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {debounceTime, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
+import {filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {ReportingPointSectorActions} from './reporting-point-sector.actions';
 import {Observable, of, pipe} from 'rxjs';
@@ -7,7 +7,6 @@ import {Store} from '@ngrx/store';
 import {getReportingPointSectorState} from './reporting-point-sector.selectors';
 import {ReportingPointSectorState} from '../../domain-model/reporting-point-sector-state';
 import {environment} from '../../../../environments/environment';
-import {BaseMapActions} from '../../../base-map/ngrx/base-map.actions';
 import {IReportingPointRepo} from '../../domain-service/i-reporting-point-repo';
 
 
@@ -27,8 +26,7 @@ export class ReportingPointSectorEffects {
 
 
     showReportingPointsSectorsAction$ = createEffect(() => this.actions$.pipe(
-        ofType(BaseMapActions.mapMoved),
-        debounceTime(250),
+        ofType(ReportingPointSectorActions.readReportingPointsSectors),
         withLatestFrom(this.reportingPointSectorState$),
         filter(([action, currentState]) => !currentState.extent
             || !action.extent
@@ -48,6 +46,6 @@ export class ReportingPointSectorEffects {
                 );
             }
         }),
-        map(newState => ReportingPointSectorActions.showReportingPointsSectors(newState))
+        map(newState => ReportingPointSectorActions.readReportingPointsSectorsSuccess(newState))
     ));
 }

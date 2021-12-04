@@ -1,12 +1,8 @@
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {debounceTime, filter, map, switchMap, take, withLatestFrom} from 'rxjs/operators';
+import {filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {MetarTafActions} from './metar-taf.actions';
-import {BaseMapActions} from '../../base-map/ngrx/base-map.actions';
-import {DataItemType} from '../../common/model/data-item';
-import {MetarTaf} from '../domain-model/metar-taf';
-import {combineLatest, of} from 'rxjs';
-import {FlightMapActions} from '../../flight-map/ngrx/flight-map.actions';
+import {of} from 'rxjs';
 import {IAirportRepo} from '../../aerodrome/domain-service/i-airport-repo';
 import {Store} from '@ngrx/store';
 import {getMetarTafState} from './metar-taf.selectors';
@@ -37,9 +33,8 @@ export class MetarTafEffects {
     }
 
 
-    showMetarTafsAction$ = createEffect(() => this.actions$.pipe(
-        ofType(BaseMapActions.mapMoved),
-        debounceTime(250),
+    readMetarTafsAction$ = createEffect(() => this.actions$.pipe(
+        ofType(MetarTafActions.readMetarTafs),
         withLatestFrom(this.metarTafState$),
         filter(([action, currentState]) => !currentState.extent
             || !action.extent
@@ -61,29 +56,6 @@ export class MetarTafEffects {
                 );
             }
         }),
-        map(newState => MetarTafActions.showMetarTafs(newState))
-    ));
-
-
-    showMetarTafInAirportOverlayAction$ = createEffect(() => this.actions$.pipe(
-        ofType(BaseMapActions.mapClicked),
-        filter(action => action.dataItem?.dataItemType === DataItemType.metarTaf),
-        map(action => action.dataItem as MetarTaf),
-        switchMap(metarTaf => combineLatest([
-            metarTaf.ad_icao ? this.airportRepo.readAirportByIcao(metarTaf.ad_icao) : of(undefined),
-            metarTaf.ad_icao ? this.notamRepo.readByIcao(
-                metarTaf.ad_icao,
-                this.date.getDayStartTimestamp(0),
-                this.date.getDayEndTimestamp(2)
-            ) : of(undefined),
-            of(metarTaf),
-        ]).pipe(take(1))),
-        map(([airport, notams, metarTaf]) => FlightMapActions.showOverlay({
-            dataItem: airport,
-            clickPos: undefined,
-            metarTaf: metarTaf,
-            notams: notams,
-            tabIndex: 3
-        }))
+        map(newState => MetarTafActions.readMetarTafsSuccess(newState))
     ));
 }

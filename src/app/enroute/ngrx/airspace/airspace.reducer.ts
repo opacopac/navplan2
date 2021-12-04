@@ -12,7 +12,7 @@ const initialState: AirspaceState = {
 
 export const airspaceReducer = createReducer(
     initialState,
-    on(AirspaceActions.showAirspaces, (state, action) => ({
+    on(AirspaceActions.readAirspacesSuccess, (state, action) => ({
         ...state,
         extent: action.extent,
         zoom: action.zoom,

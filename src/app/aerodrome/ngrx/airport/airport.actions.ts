@@ -4,8 +4,13 @@ import {ShortAirport} from '../../domain-model/short-airport';
 
 
 export class AirportActions {
-    public static readonly showAirports = createAction(
-        '[AirportEffects] Show airports on map',
+    public static readonly readAirports = createAction(
+        '[FlightMapEffects] Read airports',
+        props<{ extent: Extent2d, zoom: number }>()
+    );
+
+    public static readonly readAirportsSuccess = createAction(
+        '[AirportEffects] Read airports success',
         props<{ extent: Extent2d, zoom: number, airports: ShortAirport[] }>()
     );
 }

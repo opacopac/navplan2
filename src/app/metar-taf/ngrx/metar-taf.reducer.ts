@@ -13,7 +13,7 @@ const initialState: MetarTafState = {
 
 export const metarTafReducer = createReducer(
     initialState,
-    on(MetarTafActions.showMetarTafs, (state, action) => ({
+    on(MetarTafActions.readMetarTafsSuccess, (state, action) => ({
         ...state,
         extent: action.extent,
         zoom: action.zoom,

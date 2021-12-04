@@ -1,12 +1,11 @@
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {debounceTime, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
+import {filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {AirspaceActions} from './airspace.actions';
 import {Observable, pipe} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {getAirspaceState} from './airspace.selectors';
 import {AirspaceState} from '../../domain-model/airspace-state';
-import {BaseMapActions} from '../../../base-map/ngrx/base-map.actions';
 import {environment} from '../../../../environments/environment';
 import {IAirspaceRepo} from '../../domain-service/i-airspace-repo';
 
@@ -24,9 +23,8 @@ export class AirspaceEffects {
     }
 
 
-    showAirspacesAction$ = createEffect(() => this.actions$.pipe(
-        ofType(BaseMapActions.mapMoved),
-        debounceTime(250),
+    readAirspacesAction$ = createEffect(() => this.actions$.pipe(
+        ofType(AirspaceActions.readAirspaces),
         withLatestFrom(this.airspaceState$),
         filter(([action, currentState]) => !currentState.extent
             || !action.extent
@@ -36,7 +34,7 @@ export class AirspaceEffects {
             action.extent.getOversizeExtent(environment.mapOversizeFactor),
             action.zoom
         ).pipe(
-            map(airspaces => AirspaceActions.showAirspaces({
+            map(airspaces => AirspaceActions.readAirspacesSuccess({
                 extent: action.extent.getOversizeExtent(environment.mapOversizeFactor),
                 zoom: action.zoom,
                 airspaces: airspaces,

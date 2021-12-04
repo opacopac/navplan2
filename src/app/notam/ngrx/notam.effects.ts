@@ -2,11 +2,10 @@ import {Injectable} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
-import {debounceTime, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
+import {filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {NotamActions} from './notam.actions';
 import {NotamState} from '../domain-model/notam-state';
 import {getNotamState} from './notam.selectors';
-import {BaseMapActions} from '../../base-map/ngrx/base-map.actions';
 import {IDate} from '../../system/domain-service/date/i-date';
 import {SystemConfig} from '../../system/domain-service/system-config';
 import {INotamRepo} from '../domain-service/i-notam-repo';
@@ -30,9 +29,8 @@ export class NotamEffects {
     }
 
 
-    readNotamAction$ = createEffect(() => this.actions$.pipe(
-        ofType(BaseMapActions.mapMoved),
-        debounceTime(250),
+    readNotamsAction$ = createEffect(() => this.actions$.pipe(
+        ofType(NotamActions.readNotams),
         withLatestFrom(this.notamState$),
         filter(([action, notamState]) => !action.extent
             || !notamState.extent
@@ -45,7 +43,7 @@ export class NotamEffects {
             this.date.getDayStartTimestamp(0),
             this.date.getDayEndTimestamp(2)
         ).pipe(
-            map(notams => NotamActions.showNotams(
+            map(notams => NotamActions.readNotamsSuccess(
                 {
                     extent: action.extent.getOversizeExtent(environment.mapOversizeFactor),
                     zoom: action.zoom,

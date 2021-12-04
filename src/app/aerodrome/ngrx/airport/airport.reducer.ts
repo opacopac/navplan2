@@ -12,7 +12,7 @@ const initialState: AirportState = {
 
 export const airportReducer = createReducer(
     initialState,
-    on(AirportActions.showAirports, (state, action) => ({
+    on(AirportActions.readAirportsSuccess, (state, action) => ({
         ...state,
         extent: action.extent,
         zoom: action.zoom,

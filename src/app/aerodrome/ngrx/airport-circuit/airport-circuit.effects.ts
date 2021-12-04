@@ -1,5 +1,5 @@
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {debounceTime, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
+import {filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {AirportCircuitActions} from './airport-circuit.actions';
 import {Observable, of, pipe} from 'rxjs';
@@ -8,7 +8,6 @@ import {getAirportCircuitState} from './airport-circuit.selectors';
 import {AirportCircuitState} from '../../domain-model/airport-circuit-state';
 import {environment} from '../../../../environments/environment';
 import {IAirportCircuitRepo} from '../../domain-service/i-airport-circuit-repo';
-import {BaseMapActions} from '../../../base-map/ngrx/base-map.actions';
 
 
 @Injectable()
@@ -26,8 +25,7 @@ export class AirportCircuitEffects {
 
 
     readAirportCircuits$ = createEffect(() => this.actions$.pipe(
-        ofType(BaseMapActions.mapMoved),
-        debounceTime(250),
+        ofType(AirportCircuitActions.readAirportCircuits),
         withLatestFrom(this.airportCircuitState$),
         filter(([action, currentState]) => !currentState.extent
             || !action.extent
@@ -47,6 +45,6 @@ export class AirportCircuitEffects {
                 );
             }
         }),
-        map(newState => AirportCircuitActions.showAirportCircuits(newState))
+        map(newState => AirportCircuitActions.readAirportCircuitsSuccess(newState))
     ));
 }

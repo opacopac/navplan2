@@ -1,5 +1,5 @@
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {debounceTime, filter, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {filter, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {WebcamActions} from './webcam.actions';
 import {Observable, of, pipe} from 'rxjs';
@@ -28,8 +28,7 @@ export class WebcamEffects {
 
 
     readWebcams$ = createEffect(() => this.actions$.pipe(
-        ofType(BaseMapActions.mapMoved),
-        debounceTime(250),
+        ofType(WebcamActions.readWebcams),
         withLatestFrom(this.webcamState$),
         filter(([action, currentState]) => !currentState.extent || !action.extent ||
             !currentState.extent.containsExtent2d(action.extent) ||
@@ -49,7 +48,7 @@ export class WebcamEffects {
                 );
             }
         }),
-        map(newState => WebcamActions.showWebcams(newState))
+        map(newState => WebcamActions.readWebcamsSuccess(newState))
     ));
 
 
