@@ -18,7 +18,7 @@ const initialState: FlightMapState = {
 
 export const flightMapReducer = createReducer(
     initialState,
-    on(FlightMapActions.showOverlay, (state, action) => ({
+    on(FlightMapActions.showOverlaySuccess, (state, action) => ({
         ...state,
         showOverlay: {
             dataItem: action.dataItem,

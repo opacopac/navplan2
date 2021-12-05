@@ -7,10 +7,21 @@ import {Notam} from '../../notam/domain-model/notam';
 
 export class FlightMapActions {
     public static readonly showOverlay = createAction(
-        '[Flight Map] Show generic map overlay',
+        '[FlightMapEffects] Show map overlay',
+        props<{ dataItem: DataItem, clickPos: Position2d }>()
+    );
+
+    public static readonly showOverlaySuccess = createAction(
+        '[FlightMapEffects] Show map overlay success',
         props<{ dataItem: DataItem, clickPos: Position2d, metarTaf?: MetarTaf, notams: Notam[], tabIndex: number }>()
     );
+
     public static readonly hideOverlay = createAction(
-        '[Flight Map] Hide generic map overlay',
+        '[FlightMapEffects] Hide map overlay',
+    );
+
+    public static readonly searchByPosition = createAction(
+        '[FlightMapEffects] Search by position',
+        props<{ position: Position2d }>()
     );
 }

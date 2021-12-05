@@ -1,10 +1,10 @@
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {select, Store} from '@ngrx/store';
 import {debounceTime, filter, map, switchMap, take, withLatestFrom} from 'rxjs/operators';
-import {combineLatest, of, pipe} from 'rxjs';
+import {combineLatest, Observable, of, pipe} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {BaseMapActions} from '../../base-map/ngrx/base-map.actions';
-import {DataItemType} from '../../common/model/data-item';
+import {DataItem, DataItemType} from '../../common/model/data-item';
 import {FlightMapActions} from './flight-map.actions';
 import {getFlightMapState} from './flight-map.selectors';
 import {SearchActions} from '../../search/ngrx/search.actions';
@@ -14,7 +14,6 @@ import {IDate} from '../../system/domain-service/date/i-date';
 import {SystemConfig} from '../../system/domain-service/system-config';
 import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
-import {ShortAirport} from '../../aerodrome/domain-model/short-airport';
 import {MetarTafState} from '../../metar-taf/domain-model/metar-taf-state';
 import {getMetarTafState} from '../../metar-taf/ngrx/metar-taf.selectors';
 import {IAirportRepo} from '../../aerodrome/domain-service/i-airport-repo';
@@ -28,6 +27,9 @@ import {NotamActions} from '../../notam/ngrx/notam.actions';
 import {WebcamActions} from '../../webcam/ngrx/webcam.actions';
 import {MeteoSmaActions} from '../../meteo-sma/ngrx/meteo-sma.actions';
 import {TrafficActions} from '../../traffic/ngrx/traffic.actions';
+import {Notam} from '../../notam/domain-model/notam';
+import {ShortAirport} from '../../aerodrome/domain-model/short-airport';
+import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 
 
 @Injectable()
@@ -49,6 +51,8 @@ export class FlightMapEffects {
     }
 
 
+    // region map moved / clicked
+
     mapMovedAction$ = createEffect(() => this.actions$.pipe(
         ofType(BaseMapActions.mapMoved),
         debounceTime(100),
@@ -67,7 +71,75 @@ export class FlightMapEffects {
     ));
 
 
+    mapClickedAction$ = createEffect(() => this.actions$.pipe(
+        ofType(BaseMapActions.mapClicked),
+        withLatestFrom(this.flightMapState$, this.searchState$),
+        switchMap(([action, flightMapState, searchState]) => {
+            const returnActions = [];
+
+            // show map item overlay, if map item clicked
+            if (action.dataItem) {
+                switch (action.dataItem.dataItemType) {
+                    case DataItemType.airport:
+                    case DataItemType.reportingPoint:
+                    case DataItemType.reportingSector:
+                    case DataItemType.navaid:
+                    case DataItemType.geoname:
+                    case DataItemType.metarTaf:
+                    case DataItemType.userPoint:
+                        returnActions.push(FlightMapActions.showOverlay({
+                            dataItem: action.dataItem,
+                            clickPos: action.clickPos,
+                        }));
+                        break;
+                }
+            }
+
+            // close map item overlay, if previously open and no map item clicked
+            if (flightMapState.showOverlay.dataItem && !action.dataItem) {
+                returnActions.push(FlightMapActions.hideOverlay());
+            }
+
+            // close position search results, if previously open
+            if (searchState.positionSearchState.clickPos) {
+                returnActions.push(SearchActions.hidePositionSearchResults());
+            }
+
+            // perform position search, if no map item clicked or no position search results active
+            if (!action.dataItem && !searchState.positionSearchState.clickPos) {
+                returnActions.push(FlightMapActions.searchByPosition({ position: action.clickPos }));
+            }
+
+            return returnActions;
+        })
+    ));
+
+    // todo: webcam click => see webcam effects
+    // todo: chart close click => see chart effects
+
+    // endregion
+
+
     // region map overlay
+
+    showOverlayAction$ = createEffect(() => this.actions$.pipe(
+        ofType(FlightMapActions.showOverlay),
+        withLatestFrom(this.metarTafState$),
+        switchMap(([action, metarTafState]) => combineLatest([
+            of(action),
+            this.getOverlayDataItem$(action.dataItem),
+            this.getOverlayNotams$(action),
+            this.getOverlayMetarTafs$(action.dataItem, metarTafState),
+        ]).pipe(take(1))),
+        map(([action, overlayDataItem, notams, metarTaf]) => FlightMapActions.showOverlaySuccess({
+            dataItem: overlayDataItem,
+            clickPos: action.clickPos,
+            metarTaf: metarTaf,
+            notams: notams,
+            tabIndex: this.getOverlayTabIndex(action.dataItem),
+        }))
+    ));
+
 
     hideOverlayAction$ = createEffect(() => this.actions$.pipe(
         ofType(BaseMapActions.mapClicked),
@@ -77,91 +149,10 @@ export class FlightMapEffects {
     ));
 
 
-    showRepNavGeoUsrOverlayAction$ = createEffect(() => this.actions$.pipe(
-        ofType(BaseMapActions.mapClicked),
-        filter(action => [
-            DataItemType.reportingPoint,
-            DataItemType.reportingSector,
-            DataItemType.navaid,
-            DataItemType.geoname,
-            DataItemType.userPoint
-        ].includes(action.dataItem?.dataItemType)),
-        switchMap(action => combineLatest([
-            of(action),
-            this.notamRepo.readByPosition(
-                action.clickPos,
-                this.date.getDayStartTimestamp(0),
-                this.date.getDayEndTimestamp(2)
-            )
-        ]).pipe(take(1))),
-        map(([action, notams]) => FlightMapActions.showOverlay({
-            dataItem: action.dataItem,
-            clickPos: action.clickPos,
-            metarTaf: undefined,
-            notams: notams,
-            tabIndex: 0
-        }))
-    ));
-
-
-    showAirportOverlayAction$ = createEffect(() => this.actions$.pipe(
-        ofType(BaseMapActions.mapClicked),
-        filter(action => action.dataItem?.dataItemType === DataItemType.airport),
-        map(action => action.dataItem as ShortAirport),
-        withLatestFrom(this.metarTafState$),
-        switchMap(([shortAirport, metarTafState]) => combineLatest([
-            this.airportRepo.readAirportById(shortAirport.id),
-            shortAirport.icao ? this.notamRepo.readByIcao(
-                shortAirport.icao,
-                this.date.getDayStartTimestamp(0),
-                this.date.getDayEndTimestamp(2)
-            ) : of(undefined),
-            shortAirport.icao ? of(this.getMetarTafByIcao(metarTafState, shortAirport.icao)) : of(undefined)
-        ]).pipe(take(1))),
-        map(([airport, notams, metarTaf]) => FlightMapActions.showOverlay({
-            dataItem: airport,
-            clickPos: undefined,
-            metarTaf: metarTaf,
-            notams: notams,
-            tabIndex: 0
-        }))
-    ));
-
-
-    showMetarTafInAirportOverlayAction$ = createEffect(() => this.actions$.pipe(
-        ofType(BaseMapActions.mapClicked),
-        filter(action => action.dataItem?.dataItemType === DataItemType.metarTaf),
-        map(action => action.dataItem as MetarTaf),
-        switchMap(metarTaf => combineLatest([
-            metarTaf.ad_icao ? this.airportRepo.readAirportByIcao(metarTaf.ad_icao) : of(undefined),
-            metarTaf.ad_icao ? this.notamRepo.readByIcao(
-                metarTaf.ad_icao,
-                this.date.getDayStartTimestamp(0),
-                this.date.getDayEndTimestamp(2)
-            ) : of(undefined),
-            of(metarTaf),
-        ]).pipe(take(1))),
-        map(([airport, notams, metarTaf]) => FlightMapActions.showOverlay({
-            dataItem: airport,
-            clickPos: undefined,
-            metarTaf: metarTaf,
-            notams: notams,
-            tabIndex: 3
-        }))
-    ));
-
     // endregion
 
 
     // region position search
-
-    hidePositionSearchResultsAction$ = createEffect(() => this.actions$.pipe(
-        ofType(BaseMapActions.mapClicked),
-        withLatestFrom(this.searchState$),
-        filter(([action, searchState]) => searchState.positionSearchState.clickPos !== undefined),
-        map(() => SearchActions.hidePositionSearchResults())
-    ));
-
 
     searchByPositionAction$ = createEffect(() => this.actions$.pipe(
         ofType(BaseMapActions.mapClicked),
@@ -180,13 +171,69 @@ export class FlightMapEffects {
         })
     ));
 
-    // todo: webcam click => see webcam effects
+    hidePositionSearchResultsAction$ = createEffect(() => this.actions$.pipe(
+        ofType(BaseMapActions.mapClicked),
+        withLatestFrom(this.searchState$),
+        filter(([action, searchState]) => searchState.positionSearchState.clickPos !== undefined),
+        map(() => SearchActions.hidePositionSearchResults())
+    ));
 
     // endregion
 
 
-    private getMetarTafByIcao(metarTafState: MetarTafState, adIcao: string): MetarTaf {
-        const results = metarTafState.metarTafs.filter(metarTaf => metarTaf.ad_icao === adIcao);
-        return results.length > 0 ? results[0] : undefined;
+    private getOverlayDataItem$(dataItem: DataItem): Observable<DataItem> {
+        if (dataItem.dataItemType === DataItemType.airport) {
+            return this.airportRepo.readAirportById((dataItem as ShortAirport).id);
+        }
+
+        if (dataItem.dataItemType === DataItemType.metarTaf) {
+            return this.airportRepo.readAirportByIcao((dataItem as MetarTaf).ad_icao);
+        }
+
+        return of(dataItem);
+    }
+
+
+    private getOverlayNotams$(action: { dataItem: DataItem, clickPos: Position2d }): Observable<Notam[]> {
+        if (action.dataItem.dataItemType === DataItemType.airport) {
+            return this.notamRepo.readByIcao(
+                (action.dataItem as ShortAirport).icao,
+                this.date.getDayStartTimestamp(0),
+                this.date.getDayEndTimestamp(2)
+            );
+        }
+
+        if (action.clickPos) {
+            return this.notamRepo.readByPosition(
+                action.clickPos,
+                this.date.getDayStartTimestamp(0),
+                this.date.getDayEndTimestamp(2)
+            );
+        }
+
+        return of(undefined);
+    }
+
+
+    private getOverlayMetarTafs$(dataItem: DataItem, metarTafState: MetarTafState): Observable<MetarTaf> {
+        if (dataItem.dataItemType === DataItemType.airport && (dataItem as ShortAirport).icao) {
+            const results = metarTafState.metarTafs.filter(metarTaf => metarTaf.ad_icao === (dataItem as ShortAirport).icao);
+            return of(results.length > 0 ? results[0] : undefined);
+        }
+
+        if (dataItem.dataItemType === DataItemType.metarTaf) {
+            return of(dataItem as MetarTaf);
+        }
+
+        return of(undefined);
+    }
+
+
+    private getOverlayTabIndex(dataItem: DataItem): number {
+        if (dataItem.dataItemType === DataItemType.metarTaf) {
+            return 3;
+        }
+
+        return 0;
     }
 }
