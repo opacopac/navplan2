@@ -7,6 +7,8 @@ import {Flightroute} from '../../domain-model/flightroute';
 import {Waypoint} from '../../domain-model/waypoint';
 import {WaypointActions} from '../../ngrx/waypoints.actions';
 import {getFlightMapOverlay} from '../../../flight-map/ngrx/flight-map.selectors';
+import {EditWaypointDialogComponent} from '../edit-waypoint-dialog/edit-waypoint-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 
 @Component({
@@ -23,7 +25,10 @@ export class MapOverlayWaypointContainerComponent implements OnInit {
     public readonly isAlternateEligible$: Observable<boolean>;
 
 
-    public constructor(private appStore: Store<any>) {
+    public constructor(
+        private appStore: Store<any>,
+        private dialog: MatDialog,
+    ) {
         this.flightroute$ = this.appStore.pipe(select(getFlightroute));
         this.waypoint$ = this.appStore.pipe(
             select(getFlightMapOverlay),
@@ -87,8 +92,20 @@ export class MapOverlayWaypointContainerComponent implements OnInit {
 
 
     public onEditWaypoint(waypoint: Waypoint) {
-        /*this.appStore.dispatch(new BaseMapOverlayCloseAction());
-        this.appStore.dispatch(new DeleteWaypointAction(waypoint));*/
+        const dialogRef = this.dialog.open(EditWaypointDialogComponent, {
+            // height: '800px',
+            // width: '600px',
+            data: waypoint
+        });
+
+        dialogRef.afterClosed().subscribe((oldNewWp) => {
+            if (oldNewWp) {
+                this.appStore.dispatch(WaypointActions.update({
+                    oldWp: oldNewWp[0],
+                    newWp: oldNewWp[1]
+                }));
+            }
+        });
     }
 
 

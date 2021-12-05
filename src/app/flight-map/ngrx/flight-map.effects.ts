@@ -170,6 +170,7 @@ export class FlightMapEffects {
             AirportChartActions.openAirportChart,
             WaypointActions.insert,
             WaypointActions.delete,
+            WaypointActions.update,
             WaypointActions.setAlternate
         ),
         map(action => FlightMapActions.hideOverlay())
