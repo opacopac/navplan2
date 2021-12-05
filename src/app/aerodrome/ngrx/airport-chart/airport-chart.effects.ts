@@ -1,5 +1,5 @@
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {catchError, filter, map, switchMap} from 'rxjs/operators';
+import {catchError, map, switchMap} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {AirportChartActions} from './airport-chart.actions';
 import {throwError} from 'rxjs';
@@ -8,9 +8,6 @@ import {environment} from '../../../../environments/environment';
 import {BaseMapActions} from '../../../base-map/ngrx/base-map.actions';
 import {LoggingService} from '../../../system/domain-service/logging/logging.service';
 import {IAirportChartRepo} from '../../domain-service/i-airport-chart-repo';
-import {FlightMapActions} from '../../../flight-map/ngrx/flight-map.actions';
-import {DataItemType} from '../../../common/model/data-item';
-import {AirportChart} from '../../domain-model/airport-chart';
 
 
 @Injectable()
@@ -44,22 +41,7 @@ export class AirportChartEffects {
     ));
 
 
-    hideOverlayWhenOpeningChartAction$ = createEffect(() => this.actions$.pipe(
-        ofType(AirportChartActions.openAirportChart),
-        map(action => FlightMapActions.hideOverlay())
-    ));
-
-
     closeAirportChartAction$ = createEffect(() => this.actions$.pipe(
-        ofType(BaseMapActions.mapClicked),
-        filter(action => action.dataItem?.dataItemType === DataItemType.airportChart),
-        map(action => AirportChartActions.closeAirportChart({
-            chartId: (action.dataItem as AirportChart).id
-        }))
-    ));
-
-
-    hideImageAction$ = createEffect(() => this.actions$.pipe(
         ofType(AirportChartActions.closeAirportChart),
         map(action => BaseMapActions.closeImage({ id: action.chartId }))
     ));

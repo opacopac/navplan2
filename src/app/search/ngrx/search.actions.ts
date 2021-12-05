@@ -35,7 +35,7 @@ export class SearchActions {
     );
     public static readonly searchByPosition = createAction(
         '[Flight Map] Search by position',
-        props<{ clickPos: Position2d, maxDegRadius: number, minNotamTimestamp: number, maxNotamTimestamp: number }>()
+        props<{ clickPos: Position2d, zoom: number }>()
     );
     public static readonly showPositionSearchResults = createAction(
         '[Flight Map] Show position search results on map',

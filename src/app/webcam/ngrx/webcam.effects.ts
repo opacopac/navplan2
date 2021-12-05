@@ -8,9 +8,6 @@ import {Store} from '@ngrx/store';
 import {getWebcamState} from './webcam.selectors';
 import {environment} from '../../../environments/environment';
 import {IWebcamRepo} from '../domain-service/i-webcam-repo';
-import {BaseMapActions} from '../../base-map/ngrx/base-map.actions';
-import {DataItemType} from '../../common/model/data-item';
-import {Webcam} from '../domain-model/webcam';
 
 
 @Injectable()
@@ -53,11 +50,9 @@ export class WebcamEffects {
 
 
     openWebcamAction$ = createEffect(() => this.actions$.pipe(
-        ofType(BaseMapActions.mapClicked),
-        filter(action => action.dataItem?.dataItemType === DataItemType.webcam),
-        map(action => action.dataItem as Webcam),
-        tap(webcam => {
-            window.open(webcam.url);
+        ofType(WebcamActions.show),
+        tap(action => {
+            window.open(action.webcam.url);
         }),
     ), { dispatch: false });
 }

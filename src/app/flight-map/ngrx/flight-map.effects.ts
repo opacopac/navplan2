@@ -12,7 +12,6 @@ import {getSearchState} from '../../search/ngrx/search.selectors';
 import {INotamRepo} from '../../notam/domain-service/i-notam-repo';
 import {IDate} from '../../system/domain-service/date/i-date';
 import {SystemConfig} from '../../system/domain-service/system-config';
-import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
 import {MetarTafState} from '../../metar-taf/domain-model/metar-taf-state';
 import {getMetarTafState} from '../../metar-taf/ngrx/metar-taf.selectors';
@@ -30,6 +29,9 @@ import {TrafficActions} from '../../traffic/ngrx/traffic.actions';
 import {Notam} from '../../notam/domain-model/notam';
 import {ShortAirport} from '../../aerodrome/domain-model/short-airport';
 import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
+import {Webcam} from '../../webcam/domain-model/webcam';
+import {AirportChartActions} from '../../aerodrome/ngrx/airport-chart/airport-chart.actions';
+import {AirportChart} from '../../aerodrome/domain-model/airport-chart';
 
 
 @Injectable()
@@ -50,8 +52,6 @@ export class FlightMapEffects {
         this.date = config.getDate();
     }
 
-
-    // region map moved / clicked
 
     mapMovedAction$ = createEffect(() => this.actions$.pipe(
         ofType(BaseMapActions.mapMoved),
@@ -92,6 +92,15 @@ export class FlightMapEffects {
                             clickPos: action.clickPos,
                         }));
                         break;
+                    case DataItemType.webcam:
+                        returnActions.push(WebcamActions.show({
+                            webcam: action.dataItem as Webcam
+                        }));
+                        break;
+                    case DataItemType.airportChart:
+                        returnActions.push(AirportChartActions.closeAirportChart({
+                            chartId: (action.dataItem as AirportChart).id
+                        }));
                 }
             }
 
@@ -105,22 +114,18 @@ export class FlightMapEffects {
                 returnActions.push(SearchActions.hidePositionSearchResults());
             }
 
-            // perform position search, if no map item clicked or no position search results active
-            if (!action.dataItem && !searchState.positionSearchState.clickPos) {
-                returnActions.push(FlightMapActions.searchByPosition({ position: action.clickPos }));
+            // perform position search, if no map item clicked and no position search results active and no overlay active
+            if (!action.dataItem && !searchState.positionSearchState.clickPos && !flightMapState.showOverlay.dataItem) {
+                returnActions.push(SearchActions.searchByPosition({
+                    clickPos: action.clickPos,
+                    zoom: action.zoom
+                }));
             }
 
             return returnActions;
         })
     ));
 
-    // todo: webcam click => see webcam effects
-    // todo: chart close click => see chart effects
-
-    // endregion
-
-
-    // region map overlay
 
     showOverlayAction$ = createEffect(() => this.actions$.pipe(
         ofType(FlightMapActions.showOverlay),
@@ -149,36 +154,10 @@ export class FlightMapEffects {
     ));
 
 
-    // endregion
-
-
-    // region position search
-
-    searchByPositionAction$ = createEffect(() => this.actions$.pipe(
-        ofType(BaseMapActions.mapClicked),
-        filter(action => action.dataItem === undefined),
-        withLatestFrom(this.flightMapState$, this.searchState$),
-        filter(([action, flightMapState, searchState]) => {
-            return !flightMapState.showOverlay.dataItem && !searchState.positionSearchState.clickPos;
-        }),
-        map(([action, flightMapState, searchState]) => {
-            return SearchActions.searchByPosition({
-                clickPos: action.clickPos,
-                maxDegRadius: OlGeometry.calcDegPerPixelByZoom(action.zoom) * 50,
-                minNotamTimestamp: 0,
-                maxNotamTimestamp: 999 // TODO
-            });
-        })
+    openAirportChartAction$ = createEffect(() => this.actions$.pipe(
+        ofType(AirportChartActions.openAirportChart),
+        map(action => FlightMapActions.hideOverlay())
     ));
-
-    hidePositionSearchResultsAction$ = createEffect(() => this.actions$.pipe(
-        ofType(BaseMapActions.mapClicked),
-        withLatestFrom(this.searchState$),
-        filter(([action, searchState]) => searchState.positionSearchState.clickPos !== undefined),
-        map(() => SearchActions.hidePositionSearchResults())
-    ));
-
-    // endregion
 
 
     private getOverlayDataItem$(dataItem: DataItem): Observable<DataItem> {

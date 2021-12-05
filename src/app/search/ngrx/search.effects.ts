@@ -8,6 +8,7 @@ import {getCurrentUser} from '../../user/ngrx/user.selectors';
 import {User} from '../../user/domain-model/user';
 import {LoggingService} from '../../system/domain-service/logging/logging.service';
 import {ISearchService} from '../domain-service/i-search.service';
+import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
 
 
 const MIN_QUERY_LENGTH = 3;
@@ -32,9 +33,9 @@ export class SearchEffects {
             withLatestFrom(this.currentUser$),
             switchMap(([action, currentUser]) => this.searchService.searchByPosition(
                 action.clickPos,
-                action.maxDegRadius,
-                action.minNotamTimestamp,
-                action.maxNotamTimestamp
+                OlGeometry.calcDegPerPixelByZoom(action.zoom) * 50,
+                0,
+                999 // TODO
             ).pipe(
                 map(result => SearchActions.showPositionSearchResults({
                     positionSearchResults: result,

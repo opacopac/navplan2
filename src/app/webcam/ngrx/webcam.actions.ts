@@ -13,4 +13,9 @@ export class WebcamActions {
         '[Webcam Effects] Update webcams success',
         props<{ extent: Extent2d, zoom: number, webcams: Webcam[] }>()
     );
+
+    public static readonly show = createAction(
+        '[FlightMapEffects] Show webcam',
+        props<{ webcam: Webcam }>()
+    );
 }

@@ -19,9 +19,4 @@ export class FlightMapActions {
     public static readonly hideOverlay = createAction(
         '[FlightMapEffects] Hide map overlay',
     );
-
-    public static readonly searchByPosition = createAction(
-        '[FlightMapEffects] Search by position',
-        props<{ position: Position2d }>()
-    );
 }
