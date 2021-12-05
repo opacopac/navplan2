@@ -12,11 +12,11 @@ import {MatDialog} from '@angular/material/dialog';
 
 
 @Component({
-    selector: 'app-map-overlay-waypoint-container',
-    templateUrl: './map-overlay-waypoint-container.component.html',
-    styleUrls: ['./map-overlay-waypoint-container.component.css']
+    selector: 'app-map-overlay-waypoint-button-container',
+    templateUrl: './map-overlay-waypoint-button-container.component.html',
+    styleUrls: ['./map-overlay-waypoint-button-container.component.css']
 })
-export class MapOverlayWaypointContainerComponent implements OnInit {
+export class MapOverlayWaypointButtonContainerComponent implements OnInit {
     public readonly flightroute$: Observable<Flightroute>;
     public readonly waypoint$: Observable<Waypoint>;
     public readonly isAddable$: Observable<boolean>;

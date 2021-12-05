@@ -26,7 +26,7 @@ export class FlightMapStateService {
     }
 
 
-    public findDataItemByPos$(position: Position2d, defaultItem: DataItem): Observable<DataItem> {
+    public findDataItemByPos$(position: Position2d): Observable<DataItem> {
         if (!position) {
             return of(undefined);
         }
@@ -53,7 +53,7 @@ export class FlightMapStateService {
                     return navaids[0];
                 }
 
-                return defaultItem;
+                return undefined;
             })
         );
     }

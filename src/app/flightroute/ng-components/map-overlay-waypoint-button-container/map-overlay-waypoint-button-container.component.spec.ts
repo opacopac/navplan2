@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {MapOverlayWaypointContainerComponent} from './map-overlay-waypoint-container.component';
+import {MapOverlayWaypointButtonContainerComponent} from './map-overlay-waypoint-button-container.component';
 
 
 xdescribe('MapOverlayWaypointContainerComponent', () => {
-    let component: MapOverlayWaypointContainerComponent;
-    let fixture: ComponentFixture<MapOverlayWaypointContainerComponent>;
+    let component: MapOverlayWaypointButtonContainerComponent;
+    let fixture: ComponentFixture<MapOverlayWaypointButtonContainerComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [MapOverlayWaypointContainerComponent]
+            declarations: [MapOverlayWaypointButtonContainerComponent]
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(MapOverlayWaypointContainerComponent);
+        fixture = TestBed.createComponent(MapOverlayWaypointButtonContainerComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

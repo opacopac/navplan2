@@ -26,7 +26,7 @@ import {OlOverlayButtonRemoveAlternateComponent} from '../flightroute/ng-compone
 import {OlOverlayButtonRemoveFromRouteComponent} from '../flightroute/ng-components/ol-overlay-button-remove-from-route/ol-overlay-button-remove-from-route.component';
 import {OlOverlayButtonSetAlternateComponent} from '../flightroute/ng-components/ol-overlay-button-set-alternate/ol-overlay-button-set-alternate.component';
 import {OlOverlayWaypointComponent} from './ng-components/ol-overlay-waypoint/ol-overlay-waypoint.component';
-import {MapOverlayWaypointContainerComponent} from '../flightroute/ng-components/map-overlay-waypoint-container/map-overlay-waypoint-container.component';
+import {MapOverlayWaypointButtonContainerComponent} from '../flightroute/ng-components/map-overlay-waypoint-button-container/map-overlay-waypoint-button-container.component';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {flightMapReducer} from './ngrx/flight-map.reducer';
@@ -55,7 +55,7 @@ import {FlightMapStateService} from './ngrx/flight-map-state.service';
         OlOverlayButtonRemoveFromRouteComponent,
         OlOverlayButtonSetAlternateComponent,
         OlOverlayWaypointComponent,
-        MapOverlayWaypointContainerComponent,
+        MapOverlayWaypointButtonContainerComponent,
     ],
     imports: [
         CommonModule,

@@ -187,7 +187,17 @@ export class FlightMapEffects {
         }
 
         if (dataItem.dataItemType === DataItemType.waypoint) {
-            return this.flightMapStateService.findDataItemByPos$(dataItem.getPosition(), dataItem);
+            return this.flightMapStateService.findDataItemByPos$(dataItem.getPosition()).pipe(
+                switchMap(od => {
+                    if (!od) {
+                        return of(dataItem);
+                    } else if (od.dataItemType === DataItemType.airport) {
+                        return this.airportRepo.readAirportById((od as ShortAirport).id);
+                    } else {
+                        return of(od);
+                    }
+                })
+            );
         }
 
         return of(dataItem);
