@@ -12,7 +12,7 @@ const initialState: AirportCircuitState = {
 
 export const airportCircuitReducer = createReducer(
     initialState,
-    on(AirportCircuitActions.readAirportCircuitsSuccess, (state, action) => ({
+    on(AirportCircuitActions.updateSuccess, (state, action) => ({
         ...state,
         extent: action.extent,
         zoom: action.zoom,

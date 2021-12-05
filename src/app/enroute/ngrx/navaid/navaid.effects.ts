@@ -21,8 +21,8 @@ export class NavaidEffects {
     }
 
 
-    readNavaidsAction$ = createEffect(() => this.actions$.pipe(
-        ofType(NavaidActions.readNavaids),
+    updateNavaidsAction$ = createEffect(() => this.actions$.pipe(
+        ofType(NavaidActions.update),
         withLatestFrom(this.navaidState$),
         filter(([action, currentState]) => !currentState.extent
             || !action.extent
@@ -32,7 +32,7 @@ export class NavaidEffects {
             action.extent.getOversizeExtent(environment.mapOversizeFactor),
             action.zoom
         ).pipe(
-            map(navaids => NavaidActions.readNavaidsSuccess({
+            map(navaids => NavaidActions.updateSuccess({
                 navaids: navaids,
                 extent: action.extent.getOversizeExtent(environment.mapOversizeFactor),
                 zoom: action.zoom,

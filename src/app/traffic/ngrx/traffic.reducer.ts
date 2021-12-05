@@ -1,6 +1,5 @@
 import {TrafficState} from './traffic-state';
 import {TrafficActions} from './traffic.actions';
-import {BaseMapActions} from '../../base-map/ngrx/base-map.actions';
 import {TrafficServiceStatus} from '../domain-model/traffic-service-status';
 import {TrafficPositionMerger} from '../domain-service/traffic-position-merger';
 import {TrafficMap} from '../domain-model/traffic-map';
@@ -24,7 +23,7 @@ export const initialTrafficState: TrafficState = {
 
 export const trafficReducer2 = createReducer(
     initialTrafficState,
-    on(BaseMapActions.mapMoved, (state, action) => ({
+    on(TrafficActions.updateExtent, (state, action) => ({
         ...state,
         extent: new Extent3d(
             action.extent.minLon,

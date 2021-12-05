@@ -4,13 +4,13 @@ import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 
 
 export class WebcamActions {
-    public static readonly readWebcams = createAction(
-        '[FlightMapEffects] Read webcams',
+    public static readonly update = createAction(
+        '[FlightMapEffects] Update webcams',
         props<{ extent: Extent2d, zoom: number }>()
     );
 
-    public static readonly readWebcamsSuccess = createAction(
-        '[Webcam Effects] Read webcams success',
+    public static readonly updateSuccess = createAction(
+        '[Webcam Effects] Update webcams success',
         props<{ extent: Extent2d, zoom: number, webcams: Webcam[] }>()
     );
 }

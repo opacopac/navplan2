@@ -30,8 +30,8 @@ export class AirportEffects {
     }
 
 
-    readAirportsAction$ = createEffect(() => this.actions$.pipe(
-        ofType(AirportActions.readAirports),
+    updateExtentAction$ = createEffect(() => this.actions$.pipe(
+        ofType(AirportActions.update),
         withLatestFrom(this.airportState$),
         filter(([action, currentState]) => !currentState.extent
             || !action.extent
@@ -41,7 +41,7 @@ export class AirportEffects {
             action.extent.getOversizeExtent(environment.mapOversizeFactor),
             action.zoom
         ).pipe(
-            map(airports => AirportActions.readAirportsSuccess({
+            map(airports => AirportActions.updateSuccess({
                 extent: action.extent.getOversizeExtent(environment.mapOversizeFactor),
                 zoom: action.zoom,
                 airports: airports

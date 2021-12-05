@@ -20,9 +20,6 @@ export class BaseMapActions {
         '[Base Map] map clicked',
         props<{ clickPos: Position2d, dataItem: DataItem, zoom: number }>()
     );
-    public static readonly closeOverlay = createAction(
-        '[Base Map] close overlay'
-    );
     public static readonly showImage = createAction(
         '[Base Map] show image',
         props<{ id: number, imageUrl: string, extent: Extent2d, opacity: number }>()

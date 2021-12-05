@@ -8,7 +8,6 @@ import {getMeteoSmaState} from './meteo-sma.selectors';
 import {MeteoSmaState} from '../domain-model/meteo-sma-state';
 import {MeteoSmaButtonStatus} from '../domain-model/meteo-sma-button-status';
 import {IMeteoSmaService} from '../domain-service/i-meteo-sma.service';
-import {BaseMapActions} from '../../base-map/ngrx/base-map.actions';
 import {getMapState} from '../../base-map/ngrx/base-map.selectors';
 import {BaseMapState} from '../../base-map/domain-model/base-map-state';
 
@@ -54,13 +53,13 @@ export class MeteoSmaEffects {
 
 
     updateSmaMeasurementsAction$ = createEffect(() => this.actions$.pipe(
-        ofType(BaseMapActions.mapMoved),
+        ofType(MeteoSmaActions.update),
         withLatestFrom(this.meteoSmastate$),
         filter(([action, state]) => state.buttonStatus === MeteoSmaButtonStatus.CURRENT),
         switchMap(([action, state]) => this.meteoSmaService.readSmaMeasurements(action.extent).pipe(
             map(smaMeasurements => MeteoSmaActions.readSuccess({ smaMeasurements: smaMeasurements, zoom: action.zoom })),
             catchError(error => of(MeteoSmaActions.readError({
-                message: 'Error loading sma measurements', error: error
+                message: 'Error updating sma measurements', error: error
             })))
         ))
     ));

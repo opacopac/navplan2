@@ -33,8 +33,8 @@ export class MetarTafEffects {
     }
 
 
-    readMetarTafsAction$ = createEffect(() => this.actions$.pipe(
-        ofType(MetarTafActions.readMetarTafs),
+    updateMetarTafsAction$ = createEffect(() => this.actions$.pipe(
+        ofType(MetarTafActions.update),
         withLatestFrom(this.metarTafState$),
         filter(([action, currentState]) => !currentState.extent
             || !action.extent
@@ -56,6 +56,6 @@ export class MetarTafEffects {
                 );
             }
         }),
-        map(newState => MetarTafActions.readMetarTafsSuccess(newState))
+        map(newState => MetarTafActions.updateSuccess(newState))
     ));
 }

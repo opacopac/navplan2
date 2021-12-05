@@ -1,5 +1,6 @@
 import {createAction, props} from '@ngrx/store';
 import {SmaMeasurement} from '../domain-model/sma-measurement';
+import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 
 
 export class MeteoSmaActions {
@@ -9,16 +10,21 @@ export class MeteoSmaActions {
     public static readonly read = createAction(
         '[MeteoSmaEffects] Read SMA measurements',
     );
-    public static readonly update = createAction(
-        '[MeteoSmaEffects] Update SMA measurements',
-    );
     public static readonly readSuccess = createAction(
-        '[MeteoSmaEffects] Success reading SMA measurements',
+        '[MeteoSmaEffects] Read SMA measurements success',
         props<{ smaMeasurements: SmaMeasurement[], zoom: number }>()
     );
     public static readonly readError = createAction(
-        '[MeteoSmaEffects] Error reading SMA measurements',
+        '[MeteoSmaEffects] Read SMA measurements error',
         props<{ message: string, error: Error }>()
+    );
+    public static readonly update = createAction(
+        '[FlightPlanEffects] Update SMA measurements',
+        props<{ extent: Extent2d, zoom: number }>()
+    );
+    public static readonly updateSuccess = createAction(
+        '[MeteoSmaEffects] Update SMA measurements success',
+        props<{ smaMeasurements: SmaMeasurement[], zoom: number }>()
     );
     public static readonly close = createAction(
         '[MeteoSmaEffects] Close SMA measurements',

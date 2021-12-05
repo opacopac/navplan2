@@ -25,8 +25,8 @@ export class ReportingPointSectorEffects {
     }
 
 
-    showReportingPointsSectorsAction$ = createEffect(() => this.actions$.pipe(
-        ofType(ReportingPointSectorActions.readReportingPointsSectors),
+    updateReportingPointsSectorsAction$ = createEffect(() => this.actions$.pipe(
+        ofType(ReportingPointSectorActions.update),
         withLatestFrom(this.reportingPointSectorState$),
         filter(([action, currentState]) => !currentState.extent
             || !action.extent
@@ -46,6 +46,6 @@ export class ReportingPointSectorEffects {
                 );
             }
         }),
-        map(newState => ReportingPointSectorActions.readReportingPointsSectorsSuccess(newState))
+        map(newState => ReportingPointSectorActions.updateSuccess(newState))
     ));
 }

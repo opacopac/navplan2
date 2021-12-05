@@ -26,6 +26,8 @@ import {AirspaceActions} from '../../enroute/ngrx/airspace/airspace.actions';
 import {NavaidActions} from '../../enroute/ngrx/navaid/navaid.actions';
 import {NotamActions} from '../../notam/ngrx/notam.actions';
 import {WebcamActions} from '../../webcam/ngrx/webcam.actions';
+import {MeteoSmaActions} from '../../meteo-sma/ngrx/meteo-sma.actions';
+import {TrafficActions} from '../../traffic/ngrx/traffic.actions';
 
 
 @Injectable()
@@ -46,18 +48,21 @@ export class FlightMapEffects {
         this.date = config.getDate();
     }
 
+
     mapMovedAction$ = createEffect(() => this.actions$.pipe(
         ofType(BaseMapActions.mapMoved),
-        debounceTime(250),
+        debounceTime(100),
         switchMap(action => [
-            AirportActions.readAirports({ extent: action.extent, zoom: action.zoom }),
-            AirportCircuitActions.readAirportCircuits({ extent: action.extent, zoom: action.zoom }),
-            ReportingPointSectorActions.readReportingPointsSectors({ extent: action.extent, zoom: action.zoom }),
-            AirspaceActions.readAirspaces({ extent: action.extent, zoom: action.zoom }),
-            NavaidActions.readNavaids({ extent: action.extent, zoom: action.zoom }),
-            MetarTafActions.readMetarTafs({ extent: action.extent, zoom: action.zoom }),
-            NotamActions.readNotams({ extent: action.extent, zoom: action.zoom }),
-            WebcamActions.readWebcams({ extent: action.extent, zoom: action.zoom }),
+            AirportActions.update({ extent: action.extent, zoom: action.zoom }),
+            AirportCircuitActions.update({ extent: action.extent, zoom: action.zoom }),
+            ReportingPointSectorActions.update({ extent: action.extent, zoom: action.zoom }),
+            AirspaceActions.update({ extent: action.extent, zoom: action.zoom }),
+            NavaidActions.update({ extent: action.extent, zoom: action.zoom }),
+            MetarTafActions.update({ extent: action.extent, zoom: action.zoom }),
+            NotamActions.update({ extent: action.extent, zoom: action.zoom }),
+            WebcamActions.update({ extent: action.extent, zoom: action.zoom }),
+            MeteoSmaActions.update({ extent: action.extent, zoom: action.zoom }),
+            TrafficActions.updateExtent({ extent: action.extent, zoom: action.zoom }),
         ])
     ));
 
@@ -174,6 +179,8 @@ export class FlightMapEffects {
             });
         })
     ));
+
+    // todo: webcam click => see webcam effects
 
     // endregion
 

@@ -4,14 +4,14 @@ import {MetarTaf} from '../domain-model/metar-taf';
 
 
 export class MetarTafActions {
-    public static readonly readMetarTafs = createAction(
-        '[FlightMapEffects] Read METAR/TAF',
+    public static readonly update = createAction(
+        '[FlightMapEffects] Update METAR/TAF',
         props<{ extent: Extent2d, zoom: number }>()
     );
 
 
-    public static readonly readMetarTafsSuccess = createAction(
-        '[MetarTafEffects] Read METAR/TAF success',
+    public static readonly updateSuccess = createAction(
+        '[MetarTafEffects] Update METAR/TAF success',
         props<{ extent: Extent2d, zoom: number, timestamp: number, metarTafs: MetarTaf[] }>()
     );
 }

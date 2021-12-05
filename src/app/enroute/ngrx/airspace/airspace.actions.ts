@@ -4,13 +4,13 @@ import {Airspace} from '../../domain-model/airspace';
 
 
 export class AirspaceActions {
-    public static readonly readAirspaces = createAction(
-        '[FlightmapEffects] Read airspaces',
+    public static readonly update = createAction(
+        '[FlightmapEffects] Update airspaces',
         props<{ extent: Extent2d, zoom: number }>()
     );
 
-    public static readonly readAirspacesSuccess = createAction(
-        '[AirspaceEffects] Show airspaces on map',
+    public static readonly updateSuccess = createAction(
+        '[AirspaceEffects] Update airspaces success',
         props<{ extent: Extent2d, zoom: number, airspaces: Airspace[] }>()
     );
 }

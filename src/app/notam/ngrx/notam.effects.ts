@@ -29,8 +29,8 @@ export class NotamEffects {
     }
 
 
-    readNotamsAction$ = createEffect(() => this.actions$.pipe(
-        ofType(NotamActions.readNotams),
+    updateNotamsAction$ = createEffect(() => this.actions$.pipe(
+        ofType(NotamActions.update),
         withLatestFrom(this.notamState$),
         filter(([action, notamState]) => !action.extent
             || !notamState.extent
@@ -43,7 +43,7 @@ export class NotamEffects {
             this.date.getDayStartTimestamp(0),
             this.date.getDayEndTimestamp(2)
         ).pipe(
-            map(notams => NotamActions.readNotamsSuccess(
+            map(notams => NotamActions.updateSuccess(
                 {
                     extent: action.extent.getOversizeExtent(environment.mapOversizeFactor),
                     zoom: action.zoom,

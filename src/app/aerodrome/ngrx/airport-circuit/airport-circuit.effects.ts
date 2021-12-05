@@ -24,8 +24,8 @@ export class AirportCircuitEffects {
     }
 
 
-    readAirportCircuits$ = createEffect(() => this.actions$.pipe(
-        ofType(AirportCircuitActions.readAirportCircuits),
+    updateAirportCircuits$ = createEffect(() => this.actions$.pipe(
+        ofType(AirportCircuitActions.update),
         withLatestFrom(this.airportCircuitState$),
         filter(([action, currentState]) => !currentState.extent
             || !action.extent
@@ -45,6 +45,6 @@ export class AirportCircuitEffects {
                 );
             }
         }),
-        map(newState => AirportCircuitActions.readAirportCircuitsSuccess(newState))
+        map(newState => AirportCircuitActions.updateSuccess(newState))
     ));
 }

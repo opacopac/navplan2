@@ -27,8 +27,8 @@ export class WebcamEffects {
     }
 
 
-    readWebcams$ = createEffect(() => this.actions$.pipe(
-        ofType(WebcamActions.readWebcams),
+    updateWebcams$ = createEffect(() => this.actions$.pipe(
+        ofType(WebcamActions.update),
         withLatestFrom(this.webcamState$),
         filter(([action, currentState]) => !currentState.extent || !action.extent ||
             !currentState.extent.containsExtent2d(action.extent) ||
@@ -48,7 +48,7 @@ export class WebcamEffects {
                 );
             }
         }),
-        map(newState => WebcamActions.readWebcamsSuccess(newState))
+        map(newState => WebcamActions.updateSuccess(newState))
     ));
 
 

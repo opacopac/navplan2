@@ -23,8 +23,8 @@ export class AirspaceEffects {
     }
 
 
-    readAirspacesAction$ = createEffect(() => this.actions$.pipe(
-        ofType(AirspaceActions.readAirspaces),
+    updateAirspacesAction$ = createEffect(() => this.actions$.pipe(
+        ofType(AirspaceActions.update),
         withLatestFrom(this.airspaceState$),
         filter(([action, currentState]) => !currentState.extent
             || !action.extent
@@ -34,7 +34,7 @@ export class AirspaceEffects {
             action.extent.getOversizeExtent(environment.mapOversizeFactor),
             action.zoom
         ).pipe(
-            map(airspaces => AirspaceActions.readAirspacesSuccess({
+            map(airspaces => AirspaceActions.updateSuccess({
                 extent: action.extent.getOversizeExtent(environment.mapOversizeFactor),
                 zoom: action.zoom,
                 airspaces: airspaces,
