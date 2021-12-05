@@ -21,6 +21,8 @@ import {flightRouteReducer} from './ngrx/flightroute.reducer';
 import {WaypointEffects} from './ngrx/waypoint.effects';
 import {IFlightrouteRepo} from './domain-service/i-flightroute-repo';
 import {ExporterEffects} from '../exporter/ngrx/exporter.effects.service';
+import {OlOverlayWaypointInfoTabComponent} from './ng-components/ol-overlay-waypoint-info-tab/ol-overlay-waypoint-info-tab.component';
+import {OlOverlayWaypointHeaderComponent} from './ng-components/ol-overlay-waypoint-header/ol-overlay-waypoint-header.component';
 
 
 @NgModule({
@@ -48,11 +50,16 @@ import {ExporterEffects} from '../exporter/ngrx/exporter.effects.service';
         WaypointListComponent,
         FlightrouteListDialogComponent,
         FlightrouteListComponent,
+        OlOverlayWaypointInfoTabComponent,
+        OlOverlayWaypointHeaderComponent,
+        OlOverlayWaypointHeaderComponent
     ],
     exports: [
         EditWaypointDialogComponent,
         FlightrouteContainerComponent,
         FlightrouteExportButtonsComponent,
+        OlOverlayWaypointInfoTabComponent,
+        OlOverlayWaypointHeaderComponent,
     ],
     providers: [
         { provide: IFlightrouteRepo, useClass: FlightrouteRestService }

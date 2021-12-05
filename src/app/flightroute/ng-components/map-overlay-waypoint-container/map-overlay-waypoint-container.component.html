@@ -1,6 +1,6 @@
 <div fxLayout="column">
     <app-ol-overlay-button-add-to-route
-            *ngIf="true || !(this.isWaypointInFlightroute$ | async)"
+            *ngIf="this.isAddable$ | async"
             [waypoint]="this.waypoint$ | async"
             [flightroute]="this.flightroute$ | async"
             (insertWaypointClick)="this.onInsertWaypointAt($event)">

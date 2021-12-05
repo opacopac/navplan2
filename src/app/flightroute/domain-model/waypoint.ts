@@ -40,6 +40,11 @@ export class Waypoint extends DataItem implements Clonable<Waypoint> {
     }
 
 
+    public getPosition(): Position2d {
+        return this.position;
+    }
+
+
     clone(): Waypoint {
         return new Waypoint(
             this.type,

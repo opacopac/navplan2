@@ -1,5 +1,5 @@
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {select, Store} from '@ngrx/store';
+import {Store} from '@ngrx/store';
 import {debounceTime, filter, map, switchMap, take, withLatestFrom} from 'rxjs/operators';
 import {combineLatest, Observable, of, pipe} from 'rxjs';
 import {Injectable} from '@angular/core';
@@ -13,8 +13,6 @@ import {INotamRepo} from '../../notam/domain-service/i-notam-repo';
 import {IDate} from '../../system/domain-service/date/i-date';
 import {SystemConfig} from '../../system/domain-service/system-config';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
-import {MetarTafState} from '../../metar-taf/domain-model/metar-taf-state';
-import {getMetarTafState} from '../../metar-taf/ngrx/metar-taf.selectors';
 import {IAirportRepo} from '../../aerodrome/domain-service/i-airport-repo';
 import {MetarTafActions} from '../../metar-taf/ngrx/metar-taf.actions';
 import {AirportActions} from '../../aerodrome/ngrx/airport/airport.actions';
@@ -32,6 +30,9 @@ import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d
 import {Webcam} from '../../webcam/domain-model/webcam';
 import {AirportChartActions} from '../../aerodrome/ngrx/airport-chart/airport-chart.actions';
 import {AirportChart} from '../../aerodrome/domain-model/airport-chart';
+import {ISearchRepo} from '../../search/domain-service/i-search-repo';
+import {FlightMapStateService} from './flight-map-state.service';
+import {WaypointActions} from '../../flightroute/ngrx/waypoints.actions';
 
 
 @Injectable()
@@ -39,7 +40,6 @@ export class FlightMapEffects {
     private readonly date: IDate;
     private readonly flightMapState$ = this.appStore.select(pipe(getFlightMapState));
     private readonly searchState$ = this.appStore.select(pipe(getSearchState));
-    private readonly metarTafState$ = this.appStore.pipe(select(getMetarTafState));
 
 
     constructor(
@@ -47,11 +47,15 @@ export class FlightMapEffects {
         private readonly appStore: Store<any>,
         private readonly airportRepo: IAirportRepo,
         private readonly notamRepo: INotamRepo,
+        private readonly searchRepo: ISearchRepo,
+        private readonly flightMapStateService: FlightMapStateService,
         config: SystemConfig
     ) {
         this.date = config.getDate();
     }
 
+
+    // region map moved/clicked
 
     mapMovedAction$ = createEffect(() => this.actions$.pipe(
         ofType(BaseMapActions.mapMoved),
@@ -76,6 +80,7 @@ export class FlightMapEffects {
         withLatestFrom(this.flightMapState$, this.searchState$),
         switchMap(([action, flightMapState, searchState]) => {
             const returnActions = [];
+            console.log(action.dataItem);
 
             // show map item overlay, if map item clicked
             if (action.dataItem) {
@@ -87,6 +92,7 @@ export class FlightMapEffects {
                     case DataItemType.geoname:
                     case DataItemType.metarTaf:
                     case DataItemType.userPoint:
+                    case DataItemType.waypoint:
                         returnActions.push(FlightMapActions.showOverlay({
                             dataItem: action.dataItem,
                             clickPos: action.clickPos,
@@ -126,17 +132,22 @@ export class FlightMapEffects {
         })
     ));
 
+    // endregion
+
+
+    // region map overlay
 
     showOverlayAction$ = createEffect(() => this.actions$.pipe(
         ofType(FlightMapActions.showOverlay),
-        withLatestFrom(this.metarTafState$),
-        switchMap(([action, metarTafState]) => combineLatest([
+        switchMap(action => combineLatest([
             of(action),
             this.getOverlayDataItem$(action.dataItem),
+            this.flightMapStateService.findWaypointsByPos$(action.dataItem?.getPosition()),
             this.getOverlayNotams$(action),
-            this.getOverlayMetarTafs$(action.dataItem, metarTafState),
+            this.getOverlayMetarTafs$(action.dataItem),
         ]).pipe(take(1))),
-        map(([action, overlayDataItem, notams, metarTaf]) => FlightMapActions.showOverlaySuccess({
+        map(([action, overlayDataItem, waypoints, notams, metarTaf]) => FlightMapActions.showOverlaySuccess({
+            waypoints: waypoints,
             dataItem: overlayDataItem,
             clickPos: action.clickPos,
             metarTaf: metarTaf,
@@ -154,8 +165,13 @@ export class FlightMapEffects {
     ));
 
 
-    openAirportChartAction$ = createEffect(() => this.actions$.pipe(
-        ofType(AirportChartActions.openAirportChart),
+    hideOverlay2Action$ = createEffect(() => this.actions$.pipe(
+        ofType(
+            AirportChartActions.openAirportChart,
+            WaypointActions.insert,
+            WaypointActions.delete,
+            WaypointActions.setAlternate
+        ),
         map(action => FlightMapActions.hideOverlay())
     ));
 
@@ -167,6 +183,10 @@ export class FlightMapEffects {
 
         if (dataItem.dataItemType === DataItemType.metarTaf) {
             return this.airportRepo.readAirportByIcao((dataItem as MetarTaf).ad_icao);
+        }
+
+        if (dataItem.dataItemType === DataItemType.waypoint) {
+            return this.flightMapStateService.findDataItemByPos$(dataItem.getPosition(), dataItem);
         }
 
         return of(dataItem);
@@ -194,10 +214,9 @@ export class FlightMapEffects {
     }
 
 
-    private getOverlayMetarTafs$(dataItem: DataItem, metarTafState: MetarTafState): Observable<MetarTaf> {
+    private getOverlayMetarTafs$(dataItem: DataItem): Observable<MetarTaf> {
         if (dataItem.dataItemType === DataItemType.airport && (dataItem as ShortAirport).icao) {
-            const results = metarTafState.metarTafs.filter(metarTaf => metarTaf.ad_icao === (dataItem as ShortAirport).icao);
-            return of(results.length > 0 ? results[0] : undefined);
+            return this.flightMapStateService.findMetarTafByIcao$((dataItem as ShortAirport).icao);
         }
 
         if (dataItem.dataItemType === DataItemType.metarTaf) {
@@ -215,4 +234,6 @@ export class FlightMapEffects {
 
         return 0;
     }
+
+    // endregion
 }

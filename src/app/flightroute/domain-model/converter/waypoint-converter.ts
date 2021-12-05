@@ -17,7 +17,9 @@ import {GeonameWaypointConverter} from './geoname-waypoint-converter';
 
 export class WaypointConverter {
     public static createWaypointFromDataItem(dataItem: DataItem, clickPos: Position2d): Waypoint {
-        if (dataItem instanceof Airport) {
+        if (dataItem instanceof Waypoint) {
+            return dataItem;
+        } else if (dataItem instanceof Airport) {
             return AirportWaypointConverter.convert(dataItem);
         } else if (dataItem instanceof Navaid) {
             return NavaidWaypointConverter.convert(dataItem);

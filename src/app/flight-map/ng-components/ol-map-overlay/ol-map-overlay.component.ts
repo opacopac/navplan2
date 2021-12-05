@@ -68,6 +68,11 @@ export class OlMapOverlayComponent implements AfterViewInit {
     }
 
 
+    public get waypointItem(): Waypoint {
+        return this.dataItem instanceof Waypoint ? this.dataItem as Waypoint : undefined;
+    }
+
+
     public ngAfterViewInit(): void {
         this.olOverlay = new Overlay({
             element: this.container.nativeElement,

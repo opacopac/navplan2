@@ -6,6 +6,7 @@
         <app-ol-overlay-navaid-header *ngIf="this.navaid" [navaid]="this.navaid"></app-ol-overlay-navaid-header>
         <app-ol-overlay-geoname-header *ngIf="this.geoname" [geoname]="this.geoname"></app-ol-overlay-geoname-header>
         <app-ol-overlay-userpoint-header *ngIf="this.userPoint" [userpoint]="this.userPoint"></app-ol-overlay-userpoint-header>
+        <app-ol-overlay-waypoint-header *ngIf="this.waypointItem" [waypoint]="this.waypointItem"></app-ol-overlay-waypoint-header>
 
         <mat-card-content>
             <mat-tab-group #tabGroup headerPosition="below" animationDuration="0ms">
@@ -20,6 +21,7 @@
                     <app-ol-overlay-navaid-info-tab *ngIf="this.navaid" [navaid]="this.navaid"></app-ol-overlay-navaid-info-tab>
                     <app-ol-overlay-geoname-info-tab *ngIf="this.geoname" [geoname]="this.geoname"></app-ol-overlay-geoname-info-tab>
                     <app-ol-overlay-userpoint-info-tab *ngIf="this.userPoint" [userpoint]="this.userPoint"></app-ol-overlay-userpoint-info-tab>
+                    <app-ol-overlay-waypoint-info-tab *ngIf="this.waypointItem" [waypoint]="this.waypointItem"></app-ol-overlay-waypoint-info-tab>
                 </mat-tab>
 
                 <!-- airport runway tab -->

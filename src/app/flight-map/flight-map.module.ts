@@ -40,6 +40,7 @@ import {GeonameModule} from '../geoname/geoname.module';
 import {UserModule} from '../user/user.module';
 import {VerticalMapModule} from '../vertical-map/vertical-map.module';
 import {MeteoSmaModule} from '../meteo-sma/meteo-sma.module';
+import {FlightMapStateService} from './ngrx/flight-map-state.service';
 
 @NgModule({
     declarations: [
@@ -84,6 +85,9 @@ import {MeteoSmaModule} from '../meteo-sma/meteo-sma.module';
         UserModule,
         VerticalMapModule,
         MeteoSmaModule
+    ],
+    providers: [
+        FlightMapStateService,
     ]
 })
 export class FlightMapModule {

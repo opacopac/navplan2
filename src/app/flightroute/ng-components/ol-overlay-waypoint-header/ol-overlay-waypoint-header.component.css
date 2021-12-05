@@ -1,0 +1,3 @@
+::ng-deep .no-left-margin .mat-card-header-text {
+    margin: 0 !important;
+}

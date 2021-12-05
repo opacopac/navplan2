@@ -22,7 +22,9 @@ export const flightMapReducer = createReducer(
         ...state,
         showOverlay: {
             dataItem: action.dataItem,
-            waypoint: WaypointConverter.createWaypointFromDataItem(action.dataItem, action.clickPos),
+            waypoint: action.waypoints?.length > 0
+                ? action.waypoints[0] // TODO: handle multiple waypoints
+                : WaypointConverter.createWaypointFromDataItem(action.dataItem, action.clickPos),
             clickPos: action.clickPos,
             metarTaf: action.metarTaf,
             notams: action.notams,

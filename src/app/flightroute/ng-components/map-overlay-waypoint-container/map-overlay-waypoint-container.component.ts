@@ -17,6 +17,7 @@ import {getFlightMapOverlay} from '../../../flight-map/ngrx/flight-map.selectors
 export class MapOverlayWaypointContainerComponent implements OnInit {
     public readonly flightroute$: Observable<Flightroute>;
     public readonly waypoint$: Observable<Waypoint>;
+    public readonly isAddable$: Observable<boolean>;
     public readonly isWaypointInFlightroute$: Observable<boolean>;
     public readonly isAlternateWaypoint$: Observable<boolean>;
     public readonly isAlternateEligible$: Observable<boolean>;
@@ -28,18 +29,28 @@ export class MapOverlayWaypointContainerComponent implements OnInit {
             select(getFlightMapOverlay),
             map(overlay => overlay.waypoint)
         );
+
+        this.isAddable$ = combineLatest([
+            this.flightroute$,
+            this.waypoint$
+        ]).pipe(
+            map(([route, wp]) => !route.containsWaypoint(wp) || route.waypoints.length > 1)
+        );
+
         this.isWaypointInFlightroute$ = combineLatest([
             this.flightroute$,
             this.waypoint$
         ]).pipe(
             map(([route, wp]) => route.containsWaypoint(wp))
         );
+
         this.isAlternateWaypoint$ = combineLatest([
             this.flightroute$,
             this.waypoint$
         ]).pipe(
             map(([route, wp]) => route.isAlternateWaypoint(wp))
         );
+
         this.isAlternateEligible$ = combineLatest([
             this.flightroute$,
             this.waypoint$
