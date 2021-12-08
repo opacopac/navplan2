@@ -1,27 +1,24 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SharedModule} from '../common/shared.module';
 import {FlightPrepPageComponent} from './ng-components/flight-prep-page/flight-prep-page.component';
-import {FlightrouteModule} from '../flightroute/flightroute.module';
 import {MatTabsModule} from '@angular/material/tabs';
-import {FuelCalcContainerComponent} from './ng-components/fuel-calc-container/fuel-calc-container.component';
-import {FuelCalcTableComponent} from './ng-components/fuel-calc-table/fuel-calc-table.component';
+import {FlightPrepRouteMeteoModule} from '../flight-prep-route-meteo/flight-prep-route-meteo.module';
+import {FlightPrepFuelCalcModule} from '../flight-prep-fuel-calc/flight-prep-fuel-calc.module';
+import {FlightrouteModule} from '../flightroute/flightroute.module';
 
 
 @NgModule({
     imports: [
         CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
         SharedModule,
+        MatTabsModule,
+        FlightPrepFuelCalcModule,
+        FlightPrepRouteMeteoModule,
         FlightrouteModule,
-        MatTabsModule
     ],
     declarations: [
         FlightPrepPageComponent,
-        FuelCalcContainerComponent,
-        FuelCalcTableComponent
     ],
     exports: [
         FlightPrepPageComponent

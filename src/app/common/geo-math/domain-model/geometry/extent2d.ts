@@ -78,6 +78,11 @@ export class Extent2d implements Clonable<Extent2d> {
     }
 
 
+    public equals(extent: Extent2d): boolean {
+        return extent.minPos.equals(this.minPos) && extent.maxPos.equals(this.maxPos);
+    }
+
+
     private getExtent(): [number, number, number, number] {
         return [this.minLon, this.minLat, this.maxLon, this.maxLat];
     }

@@ -31,7 +31,8 @@ export class FuelCalcContainerComponent implements OnInit, OnDestroy {
 
     constructor(
         private appStore: Store<any>,
-        private formBuilder: FormBuilder) {
+        private formBuilder: FormBuilder
+    ) {
         this.flightroute$ = this.appStore.pipe(select(getFlightroute));
         this.routeFuel$ = this.flightroute$.pipe(map(flightroute => flightroute.fuel));
 

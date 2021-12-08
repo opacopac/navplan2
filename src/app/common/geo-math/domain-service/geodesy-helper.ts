@@ -4,6 +4,7 @@ import {Length} from '../domain-model/quantities/length';
 import {Vector3d} from '../domain-model/geometry/vector3d';
 import {LengthUnit} from '../domain-model/quantities/length-unit';
 import {AngleUnit} from '../domain-model/quantities/angle-unit';
+import {Extent2d} from '../domain-model/geometry/extent2d';
 
 
 // source #1: https://www.movable-type.co.uk/scripts/latlong.html
@@ -106,5 +107,15 @@ export class GeodesyHelper {
             Angle.rad2deg(Math.atan2(unitVector.y, unitVector.x)),
             Angle.rad2deg(Math.asin(unitVector.z))
         );
+    }
+
+
+    public static enlargeExtent(extent: Extent2d, length: Length): Extent2d {
+        const maxPosN = this.calcDestination(extent.maxPos, new Angle(0, AngleUnit.DEG), length);
+        const maxPosE = this.calcDestination(extent.maxPos, new Angle(90, AngleUnit.DEG), length);
+        const minPosS = this.calcDestination(extent.minPos, new Angle(180, AngleUnit.DEG), length);
+        const minPosW = this.calcDestination(extent.minPos, new Angle(270, AngleUnit.DEG), length);
+
+        return new Extent2d(minPosW.longitude, minPosS.latitude, maxPosE.longitude, maxPosN.latitude);
     }
 }

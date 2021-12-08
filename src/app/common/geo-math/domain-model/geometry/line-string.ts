@@ -1,5 +1,6 @@
 import {Position2d} from './position2d';
 import {Geometry2d, Geometry2dType} from './geometry2d';
+import {Extent2d} from './extent2d';
 
 
 export class LineString implements Geometry2d {
@@ -12,9 +13,7 @@ export class LineString implements Geometry2d {
     }
 
 
-    public constructor(
-        public positions: Position2d[]
-    ) {
+    public constructor(public positions: Position2d[]) {
     }
 
 
@@ -25,5 +24,27 @@ export class LineString implements Geometry2d {
 
     public toArray(): [number, number][] {
         return this.positions.map(pos => pos.toArray());
+    }
+
+
+    public getBoundingBox(): Extent2d {
+        let minLat, minLon, maxLat, maxLon: number;
+
+        this.positions.forEach(pos => {
+            if (!minLat || pos.latitude < minLat) {
+                minLat = pos.latitude;
+            }
+            if (!minLon || pos.longitude < minLon) {
+                minLon = pos.longitude;
+            }
+            if (!maxLat || pos.latitude > maxLat) {
+                maxLat = pos.latitude;
+            }
+            if (!maxLon || pos.longitude > maxLon) {
+                maxLon = pos.longitude;
+            }
+        });
+
+        return new Extent2d(minLon, minLat, maxLon, maxLat);
     }
 }

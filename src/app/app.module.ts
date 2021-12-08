@@ -21,6 +21,7 @@ import {NavbarModule} from './navbar/navbar.module';
 import {SettingsModule} from './settings/settings.module';
 import {MeteoSmaModule} from './meteo-sma/meteo-sma.module';
 import {ExporterModule} from './exporter/exporter.module';
+import {FlightPrepModule} from './flight-prep/flight-prep.module';
 
 
 @NgModule({
@@ -46,6 +47,7 @@ import {ExporterModule} from './exporter/exporter.module';
         UserModule,
         FlightMapModule,
         FlightrouteModule,
+        FlightPrepModule,
         TrackModule,
         MeteoSmaModule,
         MessageModule,
