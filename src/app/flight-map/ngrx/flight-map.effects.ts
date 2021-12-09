@@ -14,7 +14,7 @@ import {IDate} from '../../system/domain-service/date/i-date';
 import {SystemConfig} from '../../system/domain-service/system-config';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
 import {IAirportRepo} from '../../aerodrome/domain-service/i-airport-repo';
-import {MetarTafActions} from '../../metar-taf/ngrx/metar-taf.actions';
+import {MetarTafActions} from '../../flight-map-metar-taf/ngrx/metar-taf.actions';
 import {AirportActions} from '../../aerodrome/ngrx/airport/airport.actions';
 import {AirportCircuitActions} from '../../aerodrome/ngrx/airport-circuit/airport-circuit.actions';
 import {ReportingPointSectorActions} from '../../aerodrome/ngrx/reporting-point-sector/reporting-point-sector.actions';

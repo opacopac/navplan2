@@ -5,7 +5,7 @@ import {FlightPrepPageComponent} from './ng-components/flight-prep-page/flight-p
 import {MatTabsModule} from '@angular/material/tabs';
 import {FlightPrepRouteMeteoModule} from '../flight-prep-route-meteo/flight-prep-route-meteo.module';
 import {FlightPrepFuelCalcModule} from '../flight-prep-fuel-calc/flight-prep-fuel-calc.module';
-import {FlightrouteModule} from '../flightroute/flightroute.module';
+import {FlightPrepFlightrouteModule} from '../flight-prep-flightroute/flight-prep-flightroute.module';
 
 
 @NgModule({
@@ -13,9 +13,9 @@ import {FlightrouteModule} from '../flightroute/flightroute.module';
         CommonModule,
         SharedModule,
         MatTabsModule,
+        FlightPrepFlightrouteModule,
         FlightPrepFuelCalcModule,
         FlightPrepRouteMeteoModule,
-        FlightrouteModule,
     ],
     declarations: [
         FlightPrepPageComponent,

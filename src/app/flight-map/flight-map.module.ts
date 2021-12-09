@@ -10,7 +10,6 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {OlOverlayMeteogramComponent} from './ng-components/ol-overlay-meteogram/ol-overlay-meteogram.component';
 import {OlOverlayWindyiframeComponent} from './ng-components/ol-overlay-windyiframe/ol-overlay-windyiframe.component';
 import {SharedModule} from '../common/shared.module';
-import {FlightrouteModule} from '../flightroute/flightroute.module';
 import {NotamModule} from '../notam/notam.module';
 import {FlightMapPageComponent} from './ng-components/flight-map-page/flight-map-page.component';
 import {BaseMapModule} from '../base-map/base-map.module';
@@ -18,15 +17,7 @@ import {SearchModule} from '../search/search.module';
 import {LocationModule} from '../location/location.module';
 import {FlightTimerModule} from '../flight-timer/flight-timer.module';
 import {TrafficModule} from '../traffic/traffic.module';
-import {MetarTafModule} from '../metar-taf/metar-taf.module';
-import {OlOverlayButtonAddToRouteComponent} from '../flightroute/ng-components/ol-overlay-button-add-to-route/ol-overlay-button-add-to-route.component';
-import {OlOverlayButtonEditUserpointComponent} from './ng-components/ol-overlay-button-edit-userpoint/ol-overlay-button-edit-userpoint.component';
-import {OlOverlayButtonEditWaypointComponent} from '../flightroute/ng-components/ol-overlay-button-edit-waypoint/ol-overlay-button-edit-waypoint.component';
-import {OlOverlayButtonRemoveAlternateComponent} from '../flightroute/ng-components/ol-overlay-button-remove-alternate/ol-overlay-button-remove-alternate.component';
-import {OlOverlayButtonRemoveFromRouteComponent} from '../flightroute/ng-components/ol-overlay-button-remove-from-route/ol-overlay-button-remove-from-route.component';
-import {OlOverlayButtonSetAlternateComponent} from '../flightroute/ng-components/ol-overlay-button-set-alternate/ol-overlay-button-set-alternate.component';
 import {OlOverlayWaypointComponent} from './ng-components/ol-overlay-waypoint/ol-overlay-waypoint.component';
-import {MapOverlayWaypointButtonContainerComponent} from '../flightroute/ng-components/map-overlay-waypoint-button-container/map-overlay-waypoint-button-container.component';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {flightMapReducer} from './ngrx/flight-map.reducer';
@@ -41,6 +32,8 @@ import {UserModule} from '../user/user.module';
 import {VerticalMapModule} from '../vertical-map/vertical-map.module';
 import {MeteoSmaModule} from '../meteo-sma/meteo-sma.module';
 import {FlightMapStateService} from './ngrx/flight-map-state.service';
+import {FlightMapMetarTafModule} from '../flight-map-metar-taf/flight-map-metar-taf.module';
+import {FlightMapFlightrouteModule} from '../flight-map-flightroute/flight-map-flightroute.module';
 
 @NgModule({
     declarations: [
@@ -48,14 +41,7 @@ import {FlightMapStateService} from './ngrx/flight-map-state.service';
         OlMapOverlayComponent,
         OlOverlayMeteogramComponent,
         OlOverlayWindyiframeComponent,
-        OlOverlayButtonAddToRouteComponent,
-        OlOverlayButtonEditUserpointComponent,
-        OlOverlayButtonEditWaypointComponent,
-        OlOverlayButtonRemoveAlternateComponent,
-        OlOverlayButtonRemoveFromRouteComponent,
-        OlOverlayButtonSetAlternateComponent,
         OlOverlayWaypointComponent,
-        MapOverlayWaypointButtonContainerComponent,
     ],
     imports: [
         CommonModule,
@@ -71,20 +57,20 @@ import {FlightMapStateService} from './ngrx/flight-map-state.service';
         MatIconModule,
         SharedModule,
         BaseMapModule,
-        FlightrouteModule,
         SearchModule,
         LocationModule,
         FlightTimerModule,
         TrafficModule,
         NotamModule,
-        MetarTafModule,
         AerodromeModule,
         EnrouteModule,
         GeonameModule,
         WebcamModule,
         UserModule,
         VerticalMapModule,
-        MeteoSmaModule
+        MeteoSmaModule,
+        FlightMapMetarTafModule,
+        FlightMapFlightrouteModule,
     ],
     providers: [
         FlightMapStateService,
