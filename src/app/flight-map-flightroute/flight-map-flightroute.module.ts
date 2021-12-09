@@ -27,7 +27,9 @@ import {WaypointInfoTabComponent} from './ng-components/waypoint-info-tab/waypoi
         WaypointInfoTabComponent
     ],
     exports: [
-        WaypointButtonContainerComponent
+        WaypointButtonContainerComponent,
+        WaypointInfoTabComponent,
+        WaypointHeaderComponent
     ],
     providers: [
     ],

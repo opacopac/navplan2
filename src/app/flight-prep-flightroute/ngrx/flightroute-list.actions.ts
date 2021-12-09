@@ -1,8 +1,8 @@
 import {createAction, props} from '@ngrx/store';
-import {FlightrouteListEntry} from '../domain-model/flightroute-list-entry';
+import {FlightrouteListEntry} from '../../flightroute/domain-model/flightroute-list-entry';
 
 
-export class FlightRouteListActions {
+export class FlightrouteListActions {
     public static readonly readList = createAction(
         '[FlightRoutePage] Read flight route list'
     );

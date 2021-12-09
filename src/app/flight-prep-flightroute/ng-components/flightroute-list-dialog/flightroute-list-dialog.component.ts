@@ -2,10 +2,10 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {FlightrouteListEntry} from '../../../flightroute/domain-model/flightroute-list-entry';
-import {getFlightrouteList} from '../../../flightroute/ngrx/flightroute.selectors';
 import {MatDialogRef} from '@angular/material/dialog';
-import {FlightRouteListActions} from '../../../flightroute/ngrx/flight-route-list.actions';
-import {FlightRouteActions} from '../../../flightroute/ngrx/flight-route.actions';
+import {FlightrouteListActions} from '../../ngrx/flightroute-list.actions';
+import {FlightRouteCrudActions} from '../../ngrx/flight-route-crud.actions';
+import {getFlightrouteList} from '../../ngrx/flightroute-list.selectors';
 
 
 @Component({
@@ -25,7 +25,7 @@ export class FlightrouteListDialogComponent implements OnInit, OnDestroy {
 
 
     ngOnInit() {
-        this.appStore.dispatch(FlightRouteListActions.readList());
+        this.appStore.dispatch(FlightrouteListActions.readList());
     }
 
 
@@ -34,18 +34,18 @@ export class FlightrouteListDialogComponent implements OnInit, OnDestroy {
 
 
     public onLoadRouteClick(id: number) {
-        this.appStore.dispatch(FlightRouteActions.read({ flightrouteId: id }));
+        this.appStore.dispatch(FlightRouteCrudActions.read({ flightrouteId: id }));
         this.dialogRef.close();
     }
 
 
     public onDuplicateRouteClick(id: number) {
-        this.appStore.dispatch(FlightRouteActions.saveDuplicate());
+        this.appStore.dispatch(FlightRouteCrudActions.saveDuplicate());
     }
 
 
     public onDeleteRouteClick(id: number) {
-        this.appStore.dispatch(FlightRouteActions.delete({ flightrouteId: id }));
+        this.appStore.dispatch(FlightRouteCrudActions.delete({ flightrouteId: id }));
     }
 
 

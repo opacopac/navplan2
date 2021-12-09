@@ -1,4 +1,4 @@
-import {FlightrouteState} from '../domain-model/flightroute-state';
+import {FlightrouteState} from './flightroute-state';
 import {Aircraft} from '../domain-model/aircraft';
 import {Flightroute} from '../domain-model/flightroute';
 import {Speed} from '../../common/geo-math/domain-model/quantities/speed';
@@ -7,20 +7,17 @@ import {Consumption} from '../../common/geo-math/domain-model/quantities/consump
 import {Time} from '../../common/geo-math/domain-model/quantities/time';
 import {FlightrouteCalcHelper} from '../domain-service/flightroute-calc.helper';
 import {createReducer, on} from '@ngrx/store';
-import {FlightRouteListActions} from './flight-route-list.actions';
-import {FlightRouteActions} from './flight-route.actions';
 import {SharedFlightRouteActions} from './shared-flight-route.actions';
-import {FlightRouteParameterActions} from './flight-route-parameter.actions';
 import {WaypointActions} from './waypoints.actions';
 import {ArrayHelper} from '../../system/domain-service/array/array-helper';
 import {LengthUnit} from '../../common/geo-math/domain-model/quantities/length-unit';
 import {SpeedUnit} from '../../common/geo-math/domain-model/quantities/speed-unit';
 import {VolumeUnit} from '../../common/geo-math/domain-model/quantities/volume-unit';
 import {ConsumptionUnit} from '../../common/geo-math/domain-model/quantities/consumption-unit';
+import {FlightrouteActions} from './flightroute.actions';
 
 
 const initialState: FlightrouteState = {
-    flightrouteList: [],
     flightroute: new Flightroute(
         -1,
         '',
@@ -45,12 +42,7 @@ const initialState: FlightrouteState = {
 export const flightRouteReducer = createReducer(
     initialState,
 
-    // FlightRouteListActions
-    on(FlightRouteListActions.showList, (state, action) => ({
-        ...state,
-        flightrouteList: action.flightrouteList
-    })),
-    on(FlightRouteActions.readSuccess, (state, action) => {
+    on(FlightrouteActions.update, (state, action) => {
         const newFlightroute = action.flightroute.clone();
         FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
         return {
@@ -70,7 +62,7 @@ export const flightRouteReducer = createReducer(
     })),
 
     // FlightRouteParameterActions
-    on(FlightRouteParameterActions.updateComments, (state, action) => {
+    on(FlightrouteActions.updateComments, (state, action) => {
         const newFlightroute = state.flightroute.clone();
         newFlightroute.comments = action.comments;
         return {
@@ -78,7 +70,8 @@ export const flightRouteReducer = createReducer(
             flightroute: newFlightroute
         };
     }),
-    on(FlightRouteParameterActions.updateExtraTime, (state, action) => {
+
+    on(FlightrouteActions.updateExtraTime, (state, action) => {
         const newFlightroute = state.flightroute.clone();
         newFlightroute.extraTime = new Time(action.extraTimeMinutesValue, TimeUnit.M);
         FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
@@ -87,7 +80,8 @@ export const flightRouteReducer = createReducer(
             flightroute: newFlightroute
         };
     }),
-    on(FlightRouteParameterActions.updateAircraftSpeed, (state, action) => {
+
+    on(FlightrouteActions.updateAircraftSpeed, (state, action) => {
         const newAircraft = state.flightroute.aircraft.clone();
         newAircraft.speed = new Speed(action.aircraftSpeedValue, state.speedUnit);
         const newFlightroute = state.flightroute.clone();
@@ -98,7 +92,8 @@ export const flightRouteReducer = createReducer(
             flightroute: newFlightroute
         };
     }),
-    on(FlightRouteParameterActions.updateAircraftConsumption, (state, action) => {
+
+    on(FlightrouteActions.updateAircraftConsumption, (state, action) => {
         const newAircraft = state.flightroute.aircraft.clone();
         newAircraft.consumption = new Consumption(action.aircraftConsumptionValue, state.consumptionUnit);
         const newFlightroute = state.flightroute.clone();
@@ -120,6 +115,7 @@ export const flightRouteReducer = createReducer(
             flightroute: newFlightroute
         };
     }),
+
     on(WaypointActions.update, (state, action) => {
         const newFlightroute = state.flightroute.clone();
         const wpIndex = state.flightroute.getWaypointIndex(action.oldWp);
@@ -130,6 +126,7 @@ export const flightRouteReducer = createReducer(
             flightroute: newFlightroute
         };
     }),
+
     on(WaypointActions.replace, (state, action) => {
         const newFlightroute = state.flightroute.clone();
         newFlightroute.waypoints[action.index] = action.newWaypoint.clone();
@@ -139,6 +136,7 @@ export const flightRouteReducer = createReducer(
             flightroute: newFlightroute
         };
     }),
+
     on(WaypointActions.delete, (state, action) => {
         const newFlightroute = state.flightroute.clone();
         if (state.flightroute.isAlternateWaypoint(action.waypoint)) {
@@ -154,6 +152,7 @@ export const flightRouteReducer = createReducer(
             flightroute: newFlightroute
         };
     }),
+
     on(WaypointActions.reverse, (state, action) => {
         const newFlightroute = state.flightroute.clone();
         newFlightroute.waypoints.reverse();
@@ -163,6 +162,7 @@ export const flightRouteReducer = createReducer(
             flightroute: newFlightroute
         };
     }),
+
     on(WaypointActions.setAlternate, (state, action) => {
         const newFlightroute = state.flightroute.clone();
         newFlightroute.alternate = action.alternate?.clone();
@@ -172,6 +172,7 @@ export const flightRouteReducer = createReducer(
             flightroute: newFlightroute
         };
     }),
+
     /*on(WaypointActions.modifyRoute, (state, action) => {
         const newFlightroute = state.flightroute.clone();
         const dataItem = undefined; // TODO: items.findDataItemByPos(action.newPosition)

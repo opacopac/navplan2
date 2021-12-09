@@ -9,8 +9,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Consumption} from '../../../common/geo-math/domain-model/quantities/consumption';
 import {TimeUnit} from '../../../common/geo-math/domain-model/quantities/time-unit';
 import {Time} from '../../../common/geo-math/domain-model/quantities/time';
-import {FlightRouteParameterActions} from '../../../flightroute/ngrx/flight-route-parameter.actions';
 import {ConsumptionUnit} from '../../../common/geo-math/domain-model/quantities/consumption-unit';
+import {FlightrouteActions} from '../../../flightroute/ngrx/flightroute.actions';
 
 @Component({
     selector: 'app-fuel-calc-container',
@@ -85,7 +85,7 @@ export class FuelCalcContainerComponent implements OnInit, OnDestroy {
         this.aircraftConsumptionSubscription = this.aircraftConsumption$
             .pipe(debounceTime(500))
             .subscribe(consumption => this.appStore.dispatch(
-                FlightRouteParameterActions.updateAircraftConsumption({ aircraftConsumptionValue: consumption })
+                FlightrouteActions.updateAircraftConsumption({ aircraftConsumptionValue: consumption })
             ));
 
         // extra time
@@ -93,7 +93,7 @@ export class FuelCalcContainerComponent implements OnInit, OnDestroy {
         this.extraTimeSubscription = this.extraTime$
             .pipe(debounceTime(500))
             .subscribe(extraTime => this.appStore.dispatch(
-                FlightRouteParameterActions.updateExtraTime({ extraTimeMinutesValue: extraTime })
+                FlightrouteActions.updateExtraTime({ extraTimeMinutesValue: extraTime })
             ));
     }
 

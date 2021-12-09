@@ -5,16 +5,17 @@ import {Observable, of} from 'rxjs';
 import {catchError, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {getCurrentUser} from '../../user/ngrx/user.selectors';
 import {User} from '../../user/domain-model/user';
-import {getFlightroute} from './flightroute.selectors';
-import {Flightroute} from '../domain-model/flightroute';
-import {FlightRouteActions} from './flight-route.actions';
+import {getFlightroute} from '../../flightroute/ngrx/flightroute.selectors';
+import {Flightroute} from '../../flightroute/domain-model/flightroute';
+import {FlightRouteCrudActions} from './flight-route-crud.actions';
 import {MessageActions} from '../../message/ngrx/message.actions';
 import {Message} from '../../message/domain-model/message';
-import {IFlightrouteRepo} from '../domain-service/i-flightroute-repo';
+import {IFlightrouteRepo} from '../../flightroute/domain-service/i-flightroute-repo';
+import {FlightrouteActions} from '../../flightroute/ngrx/flightroute.actions';
 
 
 @Injectable()
-export class FlightRouteEffects {
+export class FlightRouteCrudEffects {
     private currentUser$: Observable<User> = this.appStore.pipe(select(getCurrentUser));
     private flightroute$: Observable<Flightroute> = this.appStore.pipe(select(getFlightroute));
 
@@ -28,11 +29,11 @@ export class FlightRouteEffects {
 
 
     readFlightrouteAction$ = createEffect(() => this.actions$.pipe(
-        ofType(FlightRouteActions.read),
+        ofType(FlightRouteCrudActions.read),
         withLatestFrom(this.currentUser$),
         filter(([action, currentUser]) => action.flightrouteId > 0 && currentUser !== undefined),
         switchMap(([action, currentUser]) => this.flightrouteRepo.readFlightroute(action.flightrouteId, currentUser).pipe(
-            map(route => FlightRouteActions.readSuccess({ flightroute: route })),
+            map(route => FlightrouteActions.update({ flightroute: route })),
             catchError(error => of(MessageActions.showMessage({
                 message: Message.error('Error reading flight route', error)
             })))
@@ -41,13 +42,13 @@ export class FlightRouteEffects {
 
 
     saveFlightrouteAction$ = createEffect(() => this.actions$.pipe(
-        ofType(FlightRouteActions.save),
+        ofType(FlightRouteCrudActions.save),
         switchMap(() => this.flightroute$),
         withLatestFrom(this.currentUser$),
         filter(([flightroute, currentUser]) => flightroute !== undefined && currentUser !== undefined),
         switchMap(([flightroute, currentUser]) => this.flightrouteRepo.saveFlightroute(flightroute, currentUser).pipe(
             map(route => [
-                FlightRouteActions.readSuccess({ flightroute: route }),
+                FlightrouteActions.update({ flightroute: route }),
                 MessageActions.showMessage({
                     message: Message.success('Flight route saved successfully.')
                 })
@@ -63,13 +64,13 @@ export class FlightRouteEffects {
 
 
     saveDuplicateFlightrouteAction$ = createEffect(() => this.actions$.pipe(
-        ofType(FlightRouteActions.saveDuplicate),
+        ofType(FlightRouteCrudActions.saveDuplicate),
         switchMap(() => this.flightroute$),
         withLatestFrom(this.currentUser$),
         filter(([flightroute, currentUser]) => flightroute !== undefined && currentUser !== undefined),
         switchMap(([flightroute, currentUser]) => this.flightrouteRepo.duplicateFlightroute(flightroute, currentUser).pipe(
             map(route => [
-                FlightRouteActions.readSuccess({ flightroute: route }),
+                FlightrouteActions.update({ flightroute: route }),
                 MessageActions.showMessage({
                     message: Message.success('Flight route duplicated successfully.')
                 })
@@ -85,7 +86,7 @@ export class FlightRouteEffects {
 
 
     deleteFlightrouteAction$ = createEffect(() => this.actions$.pipe(
-        ofType(FlightRouteActions.delete),
+        ofType(FlightRouteCrudActions.delete),
         withLatestFrom(this.currentUser$),
         filter(([action, currentUser]) => action.flightrouteId > 0 && currentUser !== undefined),
         switchMap(([action, currentUser]) => this.flightrouteRepo.deleteFlightroute(action.flightrouteId, currentUser).pipe(

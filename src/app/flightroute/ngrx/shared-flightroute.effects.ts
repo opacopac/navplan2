@@ -3,7 +3,7 @@ import {Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
-import {FlightrouteState} from '../domain-model/flightroute-state';
+import {FlightrouteState} from './flightroute-state';
 import {getFlightrouteState} from './flightroute.selectors';
 import {SharedFlightRouteActions} from './shared-flight-route.actions';
 import {MessageActions} from '../../message/ngrx/message.actions';

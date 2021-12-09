@@ -13,12 +13,12 @@ import {Speed} from '../../../common/geo-math/domain-model/quantities/speed';
 import {Consumption} from '../../../common/geo-math/domain-model/quantities/consumption';
 import {FlightrouteListDialogComponent} from '../flightroute-list-dialog/flightroute-list-dialog.component';
 import {EditWaypointDialogComponent} from '../edit-waypoint-dialog/edit-waypoint-dialog.component';
-import {FlightRouteListActions} from '../../../flightroute/ngrx/flight-route-list.actions';
-import {FlightRouteActions} from '../../../flightroute/ngrx/flight-route.actions';
-import {FlightRouteParameterActions} from '../../../flightroute/ngrx/flight-route-parameter.actions';
+import {FlightrouteListActions} from '../../ngrx/flightroute-list.actions';
+import {FlightRouteCrudActions} from '../../ngrx/flight-route-crud.actions';
 import {WaypointActions} from '../../../flightroute/ngrx/waypoints.actions';
 import {SpeedUnit} from '../../../common/geo-math/domain-model/quantities/speed-unit';
 import {ConsumptionUnit} from '../../../common/geo-math/domain-model/quantities/consumption-unit';
+import {FlightrouteActions} from '../../../flightroute/ngrx/flightroute.actions';
 
 
 @Component({
@@ -63,7 +63,7 @@ export class FlightrouteContainerComponent implements OnInit, OnDestroy {
 
 
     ngOnInit() {
-        this.appStore.dispatch(FlightRouteListActions.readList());
+        this.appStore.dispatch(FlightrouteListActions.readList());
 
         this.initSubscriptions();
     }
@@ -80,12 +80,12 @@ export class FlightrouteContainerComponent implements OnInit, OnDestroy {
 
 
     public onSaveFlightrouteClick() {
-        this.appStore.dispatch(FlightRouteActions.save());
+        this.appStore.dispatch(FlightRouteCrudActions.save());
     }
 
 
     public onSaveFlightrouteCopyClick() {
-        this.appStore.dispatch(FlightRouteActions.saveDuplicate());
+        this.appStore.dispatch(FlightRouteCrudActions.saveDuplicate());
     }
 
 
@@ -173,7 +173,7 @@ export class FlightrouteContainerComponent implements OnInit, OnDestroy {
         this.routeNameSubscription = this.routeName$
             .pipe(debounceTime(500))
             .subscribe(name => this.appStore.dispatch(
-                FlightRouteParameterActions.updateTitle({ title:  name })
+                FlightrouteActions.updateTitle({ title:  name })
             ));
 
         // handle route comment inputs
@@ -181,7 +181,7 @@ export class FlightrouteContainerComponent implements OnInit, OnDestroy {
         this.routeCommentsSubscription = this.routeComments$
             .pipe(debounceTime(500))
             .subscribe(comments => this.appStore.dispatch(
-                FlightRouteParameterActions.updateComments({ comments: comments })
+                FlightrouteActions.updateComments({ comments: comments })
             ));
 
         // handle aircraft speed inputs
@@ -189,7 +189,7 @@ export class FlightrouteContainerComponent implements OnInit, OnDestroy {
         this.aircraftSpeedSubscription = this.aircraftSpeed$
             .pipe(debounceTime(500))
             .subscribe(speed => this.appStore.dispatch(
-                FlightRouteParameterActions.updateAircraftSpeed({ aircraftSpeedValue: speed })
+                FlightrouteActions.updateAircraftSpeed({ aircraftSpeedValue: speed })
             ));
     }
 

@@ -8,12 +8,22 @@ import {FlightrouteContainerComponent} from './ng-components/flightroute-contain
 import {FlightrouteExportButtonsComponent} from './ng-components/flightroute-export-buttons/flightroute-export-buttons.component';
 import {FlightrouteListComponent} from './ng-components/flightroute-list/flightroute-list.component';
 import {WaypointListComponent} from './ng-components/waypoint-list/waypoint-list.component';
+import {StoreModule} from '@ngrx/store';
+import {EffectsModule} from '@ngrx/effects';
+import {FlightRouteListEffects} from './ngrx/flightroute-list-effects.service';
+import {flightRouteListReducer} from './ngrx/flightroute-list.reducer';
+import {FlightRouteCrudEffects} from './ngrx/flight-route-crud-effects.service';
 
 
 @NgModule({
     imports: [
         CommonModule,
         SharedModule,
+        StoreModule.forFeature('flightrouteListState', flightRouteListReducer),
+        EffectsModule.forFeature([
+            FlightRouteListEffects,
+            FlightRouteCrudEffects
+        ]),
     ],
     declarations: [
         EditWaypointDialogComponent,
