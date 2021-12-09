@@ -10,7 +10,6 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {OlOverlayMeteogramComponent} from './ng-components/ol-overlay-meteogram/ol-overlay-meteogram.component';
 import {OlOverlayWindyiframeComponent} from './ng-components/ol-overlay-windyiframe/ol-overlay-windyiframe.component';
 import {SharedModule} from '../common/shared.module';
-import {NotamModule} from '../notam/notam.module';
 import {FlightMapPageComponent} from './ng-components/flight-map-page/flight-map-page.component';
 import {BaseMapModule} from '../base-map/base-map.module';
 import {SearchModule} from '../search/search.module';
@@ -22,18 +21,19 @@ import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {flightMapReducer} from './ngrx/flight-map.reducer';
 import {FlightMapEffects} from './ngrx/flight-map.effects';
-import {AerodromeModule} from '../aerodrome/aerodrome.module';
-import {EnrouteModule} from '../enroute/enroute.module';
-import {WebcamModule} from '../webcam/webcam.module';
 import {MatIconModule} from '@angular/material/icon';
 import {OlMapOverlayComponent} from './ng-components/ol-map-overlay/ol-map-overlay.component';
-import {GeonameModule} from '../geoname/geoname.module';
 import {UserModule} from '../user/user.module';
 import {VerticalMapModule} from '../vertical-map/vertical-map.module';
-import {MeteoSmaModule} from '../meteo-sma/meteo-sma.module';
 import {FlightMapStateService} from './ngrx/flight-map-state.service';
 import {FlightMapMetarTafModule} from '../flight-map-metar-taf/flight-map-metar-taf.module';
 import {FlightMapFlightrouteModule} from '../flight-map-flightroute/flight-map-flightroute.module';
+import {FlightMapAerodromeModule} from '../flight-map-aerodrome/flight-map-aerodrome.module';
+import {FlightMapGeonameModule} from '../flight-map-geoname/flight-map-geoname.module';
+import {FlightMapMeteoSmaModule} from '../flight-map-meteo-sma/flight-map-meteo-sma.module';
+import {FlightMapNotamModule} from '../flight-map-notam/flight-map-notam.module';
+import {FlightMapEnrouteModule} from '../flight-map-enroute/flight-map-enroute.module';
+import {FlightMapWebcamModule} from '../flight-map-webcam/flight-map-webcam.module';
 
 @NgModule({
     declarations: [
@@ -61,16 +61,16 @@ import {FlightMapFlightrouteModule} from '../flight-map-flightroute/flight-map-f
         LocationModule,
         FlightTimerModule,
         TrafficModule,
-        NotamModule,
-        AerodromeModule,
-        EnrouteModule,
-        GeonameModule,
-        WebcamModule,
         UserModule,
         VerticalMapModule,
-        MeteoSmaModule,
         FlightMapMetarTafModule,
+        FlightMapAerodromeModule,
+        FlightMapEnrouteModule,
         FlightMapFlightrouteModule,
+        FlightMapGeonameModule,
+        FlightMapMeteoSmaModule,
+        FlightMapNotamModule,
+        FlightMapWebcamModule,
     ],
     providers: [
         FlightMapStateService,
