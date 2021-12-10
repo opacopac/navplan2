@@ -5,13 +5,13 @@ import {Observable, of} from 'rxjs';
 import {catchError, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {getCurrentUser} from '../../user/ngrx/user.selectors';
 import {User} from '../../user/domain-model/user';
-import {getFlightroute} from '../../flightroute/ngrx/flightroute.selectors';
+import {getFlightroute} from '../../flightroute-state/ngrx/flightroute.selectors';
 import {Flightroute} from '../../flightroute/domain-model/flightroute';
 import {FlightRouteCrudActions} from './flight-route-crud.actions';
 import {MessageActions} from '../../message/ngrx/message.actions';
 import {Message} from '../../message/domain-model/message';
 import {IFlightrouteRepo} from '../../flightroute/domain-service/i-flightroute-repo';
-import {FlightrouteActions} from '../../flightroute/ngrx/flightroute.actions';
+import {FlightrouteActions} from '../../flightroute-state/ngrx/flightroute.actions';
 
 
 @Injectable()

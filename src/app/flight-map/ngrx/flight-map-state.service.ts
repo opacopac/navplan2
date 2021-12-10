@@ -9,7 +9,7 @@ import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d
 import {DataItem} from '../../common/model/data-item';
 import {Waypoint} from '../../flightroute/domain-model/waypoint';
 import {map} from 'rxjs/operators';
-import {getFlightroute} from '../../flightroute/ngrx/flightroute.selectors';
+import {getFlightroute} from '../../flightroute-state/ngrx/flightroute.selectors';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
 
 

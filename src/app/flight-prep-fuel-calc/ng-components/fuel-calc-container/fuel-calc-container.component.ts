@@ -3,14 +3,14 @@ import {select, Store} from '@ngrx/store';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {debounceTime, map} from 'rxjs/operators';
 import {Flightroute} from '../../../flightroute/domain-model/flightroute';
-import {getFlightroute} from '../../../flightroute/ngrx/flightroute.selectors';
+import {getFlightroute} from '../../../flightroute-state/ngrx/flightroute.selectors';
 import {RouteFuel} from '../../../flightroute/domain-model/routefuel';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Consumption} from '../../../common/geo-math/domain-model/quantities/consumption';
 import {TimeUnit} from '../../../common/geo-math/domain-model/quantities/time-unit';
 import {Time} from '../../../common/geo-math/domain-model/quantities/time';
 import {ConsumptionUnit} from '../../../common/geo-math/domain-model/quantities/consumption-unit';
-import {FlightrouteActions} from '../../../flightroute/ngrx/flightroute.actions';
+import {FlightrouteActions} from '../../../flightroute-state/ngrx/flightroute.actions';
 
 @Component({
     selector: 'app-fuel-calc-container',

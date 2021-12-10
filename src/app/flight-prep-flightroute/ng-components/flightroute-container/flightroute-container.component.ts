@@ -4,7 +4,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {select, Store} from '@ngrx/store';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {debounceTime, map} from 'rxjs/operators';
-import {getFlightroute} from '../../../flightroute/ngrx/flightroute.selectors';
+import {getFlightroute} from '../../../flightroute-state/ngrx/flightroute.selectors';
 import {getCurrentUser} from '../../../user/ngrx/user.selectors';
 import {Flightroute} from '../../../flightroute/domain-model/flightroute';
 import {User} from '../../../user/domain-model/user';
@@ -15,10 +15,10 @@ import {FlightrouteListDialogComponent} from '../flightroute-list-dialog/flightr
 import {EditWaypointDialogComponent} from '../edit-waypoint-dialog/edit-waypoint-dialog.component';
 import {FlightrouteListActions} from '../../ngrx/flightroute-list.actions';
 import {FlightRouteCrudActions} from '../../ngrx/flight-route-crud.actions';
-import {WaypointActions} from '../../../flightroute/ngrx/waypoints.actions';
+import {WaypointActions} from '../../../flightroute-state/ngrx/waypoints.actions';
 import {SpeedUnit} from '../../../common/geo-math/domain-model/quantities/speed-unit';
 import {ConsumptionUnit} from '../../../common/geo-math/domain-model/quantities/consumption-unit';
-import {FlightrouteActions} from '../../../flightroute/ngrx/flightroute.actions';
+import {FlightrouteActions} from '../../../flightroute-state/ngrx/flightroute.actions';
 
 
 @Component({

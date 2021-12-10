@@ -32,7 +32,7 @@ import {AirportChartActions} from '../../flight-map-aerodrome/ngrx/airport-chart
 import {AirportChart} from '../../aerodrome/domain-model/airport-chart';
 import {ISearchRepo} from '../../search/domain-service/i-search-repo';
 import {FlightMapStateService} from './flight-map-state.service';
-import {WaypointActions} from '../../flightroute/ngrx/waypoints.actions';
+import {WaypointActions} from '../../flightroute-state/ngrx/waypoints.actions';
 
 
 @Injectable()

@@ -10,7 +10,7 @@ import {IMetarTafRepo} from '../../metar-taf/domain-service/i-metar-taf-repo.ser
 import {Length} from '../../common/geo-math/domain-model/quantities/length';
 import {LengthUnit} from '../../common/geo-math/domain-model/quantities/length-unit';
 import {Flightroute} from '../../flightroute/domain-model/flightroute';
-import {getFlightroute} from '../../flightroute/ngrx/flightroute.selectors';
+import {getFlightroute} from '../../flightroute-state/ngrx/flightroute.selectors';
 import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 import {LineString} from '../../common/geo-math/domain-model/geometry/line-string';
 import {GeodesyHelper} from '../../common/geo-math/domain-service/geodesy-helper';

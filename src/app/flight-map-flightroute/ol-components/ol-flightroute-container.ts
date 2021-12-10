@@ -6,7 +6,7 @@ import {OlAlternateLine} from './ol-alternate-line';
 import {Waypoint} from '../../flightroute/domain-model/waypoint';
 import {Store} from '@ngrx/store';
 import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
-import {WaypointActions} from '../../flightroute/ngrx/waypoints.actions';
+import {WaypointActions} from '../../flightroute-state/ngrx/waypoints.actions';
 import {Map} from 'ol';
 import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
 

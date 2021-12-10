@@ -1,5 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {Flightroute} from '../domain-model/flightroute';
+import {Flightroute} from '../../flightroute/domain-model/flightroute';
 
 
 export class SharedFlightRouteActions {

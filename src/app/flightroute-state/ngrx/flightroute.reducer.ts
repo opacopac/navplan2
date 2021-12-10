@@ -1,11 +1,11 @@
 import {FlightrouteState} from './flightroute-state';
-import {Aircraft} from '../domain-model/aircraft';
-import {Flightroute} from '../domain-model/flightroute';
+import {Aircraft} from '../../flightroute/domain-model/aircraft';
+import {Flightroute} from '../../flightroute/domain-model/flightroute';
 import {Speed} from '../../common/geo-math/domain-model/quantities/speed';
 import {TimeUnit} from '../../common/geo-math/domain-model/quantities/time-unit';
 import {Consumption} from '../../common/geo-math/domain-model/quantities/consumption';
 import {Time} from '../../common/geo-math/domain-model/quantities/time';
-import {FlightrouteCalcHelper} from '../domain-service/flightroute-calc.helper';
+import {FlightrouteCalcHelper} from '../../flightroute/domain-service/flightroute-calc.helper';
 import {createReducer, on} from '@ngrx/store';
 import {SharedFlightRouteActions} from './shared-flight-route.actions';
 import {WaypointActions} from './waypoints.actions';

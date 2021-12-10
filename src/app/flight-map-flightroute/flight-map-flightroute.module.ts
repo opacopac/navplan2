@@ -9,12 +9,14 @@ import {WaypointButtonRemoveFromRouteComponent} from './ng-components/waypoint-b
 import {WaypointButtonSetAlternateComponent} from './ng-components/waypoint-button-set-alternate/waypoint-button-set-alternate.component';
 import {WaypointHeaderComponent} from './ng-components/waypoint-header/waypoint-header.component';
 import {WaypointInfoTabComponent} from './ng-components/waypoint-info-tab/waypoint-info-tab.component';
+import {FlightrouteStateModule} from '../flightroute-state/flightroute-state.module';
 
 
 @NgModule({
     imports: [
         CommonModule,
         SharedModule,
+        FlightrouteStateModule,
     ],
     declarations: [
         WaypointButtonContainerComponent,

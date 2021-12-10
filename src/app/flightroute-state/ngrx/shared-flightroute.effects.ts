@@ -8,7 +8,7 @@ import {getFlightrouteState} from './flightroute.selectors';
 import {SharedFlightRouteActions} from './shared-flight-route.actions';
 import {MessageActions} from '../../message/ngrx/message.actions';
 import {Message} from '../../message/domain-model/message';
-import {IFlightrouteRepo} from '../domain-service/i-flightroute-repo';
+import {IFlightrouteRepo} from '../../flightroute/domain-service/i-flightroute-repo';
 
 
 @Injectable()

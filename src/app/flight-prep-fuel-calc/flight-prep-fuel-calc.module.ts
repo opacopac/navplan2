@@ -2,9 +2,9 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SharedModule} from '../common/shared.module';
-import {FlightrouteModule} from '../flightroute/flightroute.module';
 import {FuelCalcContainerComponent} from './ng-components/fuel-calc-container/fuel-calc-container.component';
 import {FuelCalcTableComponent} from './ng-components/fuel-calc-table/fuel-calc-table.component';
+import {FlightrouteStateModule} from '../flightroute-state/flightroute-state.module';
 
 
 @NgModule({
@@ -13,7 +13,7 @@ import {FuelCalcTableComponent} from './ng-components/fuel-calc-table/fuel-calc-
         SharedModule,
         FormsModule,
         ReactiveFormsModule,
-        FlightrouteModule,
+        FlightrouteStateModule,
     ],
     declarations: [
         FuelCalcContainerComponent,

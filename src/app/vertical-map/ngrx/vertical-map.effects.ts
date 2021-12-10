@@ -6,7 +6,7 @@ import {VerticalMapActions} from './vertical-map.actions';
 import {VerticalMapService} from '../domain-service/vertical-map.service';
 import {Observable, of, Subscription} from 'rxjs';
 import {Flightroute} from '../../flightroute/domain-model/flightroute';
-import {getFlightroute} from '../../flightroute/ngrx/flightroute.selectors';
+import {getFlightroute} from '../../flightroute-state/ngrx/flightroute.selectors';
 import {getVerticalMapState} from './vertical-map.selectors';
 import {VerticalMapState} from '../domain-model/vertical-map-state';
 import {VerticalMapButtonStatus} from '../domain-model/vertical-map-button-status';

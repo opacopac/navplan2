@@ -13,6 +13,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {FlightRouteListEffects} from './ngrx/flightroute-list-effects.service';
 import {flightRouteListReducer} from './ngrx/flightroute-list.reducer';
 import {FlightRouteCrudEffects} from './ngrx/flight-route-crud-effects.service';
+import {FlightrouteStateModule} from '../flightroute-state/flightroute-state.module';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import {FlightRouteCrudEffects} from './ngrx/flight-route-crud-effects.service';
             FlightRouteListEffects,
             FlightRouteCrudEffects
         ]),
+        FlightrouteStateModule,
     ],
     declarations: [
         EditWaypointDialogComponent,
