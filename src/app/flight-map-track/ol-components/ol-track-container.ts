@@ -1,6 +1,6 @@
 import {Observable, Subscription} from 'rxjs';
 import {OlTrackLine} from './ol-track-line';
-import {Track} from '../domain-model/track';
+import {Track} from '../../track/domain-model/track';
 import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
 
 

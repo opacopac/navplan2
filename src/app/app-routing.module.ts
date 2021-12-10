@@ -4,7 +4,7 @@ import {SettingsPageComponent} from './settings/ng-components/settings-page/sett
 import {AboutPageComponent} from './about/ng-components/about-page/about-page.component';
 import {UserProfilePageComponent} from './user/ng-components/user-profile-page/user-profile-page.component';
 import {FlightMapPageComponent} from './flight-map/ng-components/flight-map-page/flight-map-page.component';
-import {TracksPageComponent} from './track/ng-components/tracks-page/tracks-page.component';
+import {TracksPageComponent} from './track-page/ng-components/tracks-page/tracks-page.component';
 import {LoginRegisterPageComponent} from './user/ng-components/login-register-page/login-register-page.component';
 import {RegisterStep2PageComponent} from './user/ng-components/register-step2-page/register-step2-page.component';
 import {ForgotPwStep1PageComponent} from './user/ng-components/forgot-pw-step1-page/forgot-pw-step1-page.component';

@@ -10,7 +10,6 @@ import {AppRoutingModule} from './app-routing.module';
 import {UserModule} from './user/user.module';
 import {FlightrouteModule} from './flightroute/flightroute.module';
 import {SharedModule} from './common/shared.module';
-import {TrackModule} from './track/track.module';
 import {FlightMapModule} from './flight-map/flight-map.module';
 import {MessageModule} from './message/message.module';
 import {AboutModule} from './about/about.module';
@@ -22,6 +21,8 @@ import {SettingsModule} from './settings/settings.module';
 import {MeteoSmaModule} from './meteo-sma/meteo-sma.module';
 import {ExporterModule} from './exporter/exporter.module';
 import {FlightPrepModule} from './flight-prep/flight-prep.module';
+import {TrackPageModule} from './track-page/track-page.module';
+import {TrackStateModule} from './track-state/track-state.module';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import {FlightPrepModule} from './flight-prep/flight-prep.module';
         FlightMapModule,
         FlightrouteModule,
         FlightPrepModule,
-        TrackModule,
+        TrackPageModule,
+        TrackStateModule,
         MeteoSmaModule,
         MessageModule,
         ExporterModule,

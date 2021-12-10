@@ -1,5 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {Track} from '../domain-model/track';
+import {Track} from '../../track/domain-model/track';
 
 
 export class TrackActions {

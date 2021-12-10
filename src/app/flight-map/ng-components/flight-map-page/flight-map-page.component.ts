@@ -9,8 +9,8 @@ import {getMapPosition, getMapRotation, getMapZoom} from '../../../base-map/ngrx
 import {OlMetarContainer} from '../../../flight-map-metar-taf/ol-components/ol-metar-container';
 import {OlNotamContainer} from '../../../flight-map-notam/ol-components/ol-notam-container';
 import {getNotamList} from '../../../flight-map-notam/ngrx/notam.selectors';
-import {OlTrackContainer} from '../../../track/ol-components/ol-track-container';
-import {getShowTrack} from '../../../track/ngrx/track.selectors';
+import {OlTrackContainer} from '../../../flight-map-track/ol-components/ol-track-container';
+import {getShowTrack} from '../../../track-state/ngrx/track.selectors';
 import {OlFlightrouteContainer} from '../../../flight-map-flightroute/ol-components/ol-flightroute-container';
 import {getFlightroute} from '../../../flightroute/ngrx/flightroute.selectors';
 import {OlTrafficContainer} from '../../../traffic/ol-components/ol-traffic-container';
@@ -45,7 +45,7 @@ import {
 import {getAirportCircuits} from '../../../flight-map-aerodrome/ngrx/airport-circuit/airport-circuit.selectors';
 import {getAirportCharts} from '../../../flight-map-aerodrome/ngrx/airport-chart/airport-chart.selectors';
 import {OlMapOverlayComponent} from '../ol-map-overlay/ol-map-overlay.component';
-import {OverlayState} from '../../domain-model/overlay-state';
+import {OverlayState} from '../../ngrx/overlay-state';
 import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
 import {getVerticalMapState} from '../../../vertical-map/ngrx/vertical-map.selectors';
 import {VerticalMapButtonStatus} from '../../../vertical-map/domain-model/vertical-map-button-status';

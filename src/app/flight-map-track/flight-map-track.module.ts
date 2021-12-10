@@ -1,21 +1,21 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {SharedModule} from '../common/shared.module';
-import {TrackService} from './rest-service/track.service';
+import {BaseMapModule} from '../base-map/base-map.module';
 
 
 @NgModule({
     imports: [
         CommonModule,
         SharedModule,
+        BaseMapModule,
     ],
     declarations: [
     ],
     exports: [
     ],
     providers: [
-        TrackService
     ]
 })
-export class TrackModule {
+export class FlightMapTrackModule {
 }

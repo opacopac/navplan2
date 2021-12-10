@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
-import {TrackService} from '../rest-service/track.service';
+import {TrackService} from '../../track/rest-service/track.service';
 import {User} from '../../user/domain-model/user';
 import {getCurrentUser} from '../../user/ngrx/user.selectors';
 import {TrackActions} from './track.actions';

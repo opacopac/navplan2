@@ -1,4 +1,4 @@
-import {FlightMapState} from '../domain-model/flight-map-state';
+import {FlightMapState} from './flight-map-state';
 import {FlightMapActions} from './flight-map.actions';
 import {createReducer, on} from '@ngrx/store';
 import {WaypointConverter} from '../../flightroute/domain-model/converter/waypoint-converter';

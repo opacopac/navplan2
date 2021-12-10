@@ -1,5 +1,5 @@
 import {Stroke, Style} from 'ol/style';
-import {Track} from '../domain-model/track';
+import {Track} from '../../track/domain-model/track';
 import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
 import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
 import {OlFeature} from '../../base-map/ol-model/ol-feature';

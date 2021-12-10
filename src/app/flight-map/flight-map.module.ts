@@ -34,6 +34,7 @@ import {FlightMapMeteoSmaModule} from '../flight-map-meteo-sma/flight-map-meteo-
 import {FlightMapNotamModule} from '../flight-map-notam/flight-map-notam.module';
 import {FlightMapEnrouteModule} from '../flight-map-enroute/flight-map-enroute.module';
 import {FlightMapWebcamModule} from '../flight-map-webcam/flight-map-webcam.module';
+import {FlightMapTrackModule} from '../flight-map-track/flight-map-track.module';
 
 @NgModule({
     declarations: [
@@ -70,6 +71,7 @@ import {FlightMapWebcamModule} from '../flight-map-webcam/flight-map-webcam.modu
         FlightMapGeonameModule,
         FlightMapMeteoSmaModule,
         FlightMapNotamModule,
+        FlightMapTrackModule,
         FlightMapWebcamModule,
     ],
     providers: [

@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
-import {Track} from '../../domain-model/track';
-import {getShowTrack, getTrackList} from '../../ngrx/track.selectors';
-import {TrackActions} from '../../ngrx/track.actions';
+import {Track} from '../../../track/domain-model/track';
+import {getShowTrack, getTrackList} from '../../../track-state/ngrx/track.selectors';
+import {TrackActions} from '../../../track-state/ngrx/track.actions';
 
 
 @Component({
