@@ -11,9 +11,10 @@ import {
     UserActionTypes
 } from './user.actions';
 import {ClientstorageHelper} from '../../system/domain-service/clientstorage/clientstorage-helper';
-import {MessageService} from '../../message/domain-service/message.service';
 import {LoginEffects} from './login.effects';
 import {UserService} from '../domain-service/user.service';
+import {MessageActions} from '../../message/ngrx/message.actions';
+import {Message} from '../../message/domain-model/message';
 
 
 @Injectable()
@@ -23,7 +24,6 @@ export class AutoLoginEffects {
         private readonly router: Router,
         private readonly clientStorageService: ClientstorageHelper,
         private readonly userService: UserService,
-        private messageService: MessageService
     ) {
     }
 
@@ -43,10 +43,14 @@ export class AutoLoginEffects {
         ofType(UserActionTypes.USER_AUTOLOGIN_SUCCESS),
         map(action => action as AutoLoginUserSuccessAction),
         tap((action: AutoLoginUserSuccessAction) => {
-            this.messageService.showSuccessMessage('Welcome ' + action.user.email + '!');
             this.router.navigate([LoginEffects.ROUTE_URL_MAP]);
+        }),
+        map((action: AutoLoginUserSuccessAction) => {
+            return MessageActions.showMessage({
+                message: Message.success('Welcome ' + action.user.email + '!')
+            });
         })
-    ), { dispatch: false });
+    ));
 
 
 

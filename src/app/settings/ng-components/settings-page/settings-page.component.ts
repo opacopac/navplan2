@@ -1,7 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
-import {MessageService} from '../../../message/domain-service/message.service';
 import {MapBaseLayerType} from '../../../base-map/domain-model/map-base-layer-type';
+import {Store} from '@ngrx/store';
+import {MessageActions} from '../../../message/ngrx/message.actions';
+import {Message} from '../../../message/domain-model/message';
 
 
 @Component({
@@ -13,7 +15,7 @@ export class SettingsPageComponent implements OnInit {
     settingsForm: FormGroup;
     MapbaselayerType: typeof MapBaseLayerType = MapBaseLayerType;
 
-    constructor(private messageService: MessageService) {
+    constructor(private appStore: Store<any>) {
     }
 
 
@@ -25,7 +27,9 @@ export class SettingsPageComponent implements OnInit {
     onSubmit() {
         if (this.settingsForm.valid) {
             this.updateSettings();
-            this.messageService.showSuccessMessage('Settings successfully saved!');
+            this.appStore.dispatch(
+                MessageActions.showMessage({ message: Message.success('Settings successfully saved!') })
+            );
         }
     }
 
@@ -50,9 +54,6 @@ export class SettingsPageComponent implements OnInit {
     private initFormValues() {
         /*
         this.settingsForm = new FormGroup({
-            'variationDeg': new FormControl(
-                this.session.settings.variation.deg,
-                [ Validators.required, Validators.min(-180), Validators.max(180) ]),
             'maxTrafficAltitudeFt' : new FormControl(
                 this.session.settings.maxTrafficAltitude.ft,
                 [ Validators.required, Validators.min(0) ]),
@@ -65,7 +66,6 @@ export class SettingsPageComponent implements OnInit {
     private updateSettings() {
         /*
         const formValues = this.settingsForm.value;
-        this.session.settings.variation = new Angle(formValues.variationDeg as number, AngleUnit.DEG);
         this.session.settings.maxTrafficAltitude = new Length(formValues.maxTrafficAltitudeFt as number, LengthUnit.FT);
         this.session.map.baseMapType = MapbaselayerType[MapbaselayerType[formValues.baseMapType]];
         */

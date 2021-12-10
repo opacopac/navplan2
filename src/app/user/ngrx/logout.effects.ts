@@ -3,10 +3,11 @@ import {Injectable} from '@angular/core';
 import {Action} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
-import {tap} from 'rxjs/operators';
-import {UserActionTypes} from './user.actions';
+import {map, tap} from 'rxjs/operators';
+import {AutoLoginUserSuccessAction, UserActionTypes} from './user.actions';
 import {ClientstorageHelper} from '../../system/domain-service/clientstorage/clientstorage-helper';
-import {MessageService} from '../../message/domain-service/message.service';
+import {MessageActions} from '../../message/ngrx/message.actions';
+import {Message} from '../../message/domain-model/message';
 
 
 @Injectable()
@@ -15,7 +16,6 @@ export class LogoutEffects {
         private readonly actions$: Actions,
         private readonly router: Router,
         private readonly clientStorageService: ClientstorageHelper,
-        private readonly messageService: MessageService
     ) {
     }
 
@@ -25,8 +25,12 @@ export class LogoutEffects {
         ofType(UserActionTypes.USER_LOGOUT),
         tap(() => {
             this.clientStorageService.deletePersistedToken();
-            this.messageService.showSuccessMessage('User successfully logged out!');
             this.router.navigate(['/map']);
+        }),
+        map((action: AutoLoginUserSuccessAction) => {
+            return MessageActions.showMessage({
+                message: Message.success('User successfully logged out!')
+            });
         })
-    ), { dispatch: false });
+    ));
 }

@@ -14,26 +14,23 @@ import {
     UserActionTypes
 } from './user.actions';
 import {ClientstorageHelper} from '../../system/domain-service/clientstorage/clientstorage-helper';
-import {MessageService} from '../../message/domain-service/message.service';
 import {UserService} from '../domain-service/user.service';
+import {MessageActions} from '../../message/ngrx/message.actions';
+import {Message} from '../../message/domain-model/message';
 
 
 @Injectable()
 export class LostPwEffects {
-
-
     constructor(
         private readonly actions$: Actions,
         private readonly router: Router,
         private readonly clientStorageService: ClientstorageHelper,
         private readonly userService: UserService,
-        private readonly messageService: MessageService
     ) {
     }
 
 
     // region send lost pw email - step 1
-
 
     sendLostPwEmail$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(UserActionTypes.USER_SEND_LOST_PW_EMAIL),
@@ -47,25 +44,28 @@ export class LostPwEffects {
 
     sendLostPwEmailSuccess$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(UserActionTypes.USER_SEND_LOST_PW_EMAIL_SUCCESS),
-        tap((action: SendLostPwEmailSuccessAction) => {
-            this.messageService.showSuccessMessage('Password recovery email successfully sent to ' + action.email + '!');
+        map((action: SendLostPwEmailSuccessAction) => {
+            return MessageActions.showMessage({
+                message: Message.success('Password recovery email successfully sent to ' + action.email + '!')
+            });
         })
-    ), { dispatch: false });
+    ));
 
 
 
     sendLostPwEmailError$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(UserActionTypes.USER_SEND_LOST_PW_EMAIL_ERROR),
-        tap((action: SendLostPwEmailErrorAction) => {
-            this.messageService.showErrorMessage('Error while sending recovery email.', action.error);
+        map((action: SendLostPwEmailErrorAction) => {
+            return MessageActions.showMessage({
+                message: Message.error('Error while sending recovery email.', action.error)
+            });
         })
-    ), { dispatch: false });
+    ));
 
     // endregion
 
 
     // region reset pw - step 2
-
 
     resetPw$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(UserActionTypes.USER_RESET_PW),
@@ -80,20 +80,26 @@ export class LostPwEffects {
     resetPwSuccess$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(UserActionTypes.USER_RESET_PW_SUCCESS),
         tap((action: ResetPwSuccessAction) => {
-            this.messageService.showSuccessMessage('Password successfully changed!');
             this.clientStorageService.persistToken(action.user.token, action.rememberMe);
             this.router.navigate(['/map']);
+        }),
+        map((action: ResetPwSuccessAction) => {
+            return MessageActions.showMessage({
+                message: Message.success('Password successfully changed!')
+            });
         })
-    ), { dispatch: false });
+    ));
 
 
 
     resetPwError$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(UserActionTypes.USER_RESET_PW_ERROR),
-        tap((action: ResetPwErrorAction) => {
-            this.messageService.showErrorMessage('Error while changing password.', action.error);
+        map((action: ResetPwErrorAction) => {
+            return MessageActions.showMessage({
+                message: Message.error('Error while changing password.', action.error)
+            });
         })
-    ), { dispatch: false });
+    ));
 
     // endregion
 }
