@@ -24,7 +24,6 @@ import {FlightMapEffects} from './ngrx/flight-map.effects';
 import {MatIconModule} from '@angular/material/icon';
 import {OlMapOverlayComponent} from './ng-components/ol-map-overlay/ol-map-overlay.component';
 import {UserModule} from '../user/user.module';
-import {VerticalMapModule} from '../vertical-map/vertical-map.module';
 import {FlightMapStateService} from './ngrx/flight-map-state.service';
 import {FlightMapMetarTafModule} from '../flight-map-metar-taf/flight-map-metar-taf.module';
 import {FlightMapFlightrouteModule} from '../flight-map-flightroute/flight-map-flightroute.module';
@@ -33,8 +32,9 @@ import {FlightMapGeonameModule} from '../flight-map-geoname/flight-map-geoname.m
 import {FlightMapMeteoSmaModule} from '../flight-map-meteo-sma/flight-map-meteo-sma.module';
 import {FlightMapNotamModule} from '../flight-map-notam/flight-map-notam.module';
 import {FlightMapEnrouteModule} from '../flight-map-enroute/flight-map-enroute.module';
-import {FlightMapWebcamModule} from '../flight-map-webcam/flight-map-webcam.module';
+import {WebcamViewFlightMapModule} from '../webcam-view-flight-map/webcam-view-flight-map.module';
 import {FlightMapTrackModule} from '../flight-map-track/flight-map-track.module';
+import {VerticalMapViewFlightMapModule} from '../vertical-map-view-flight-map/vertical-map-view-flight-map.module';
 
 @NgModule({
     declarations: [
@@ -63,16 +63,16 @@ import {FlightMapTrackModule} from '../flight-map-track/flight-map-track.module'
         FlightTimerModule,
         TrafficModule,
         UserModule,
-        VerticalMapModule,
-        FlightMapMetarTafModule,
         FlightMapAerodromeModule,
         FlightMapEnrouteModule,
         FlightMapFlightrouteModule,
         FlightMapGeonameModule,
+        FlightMapMetarTafModule,
         FlightMapMeteoSmaModule,
         FlightMapNotamModule,
         FlightMapTrackModule,
-        FlightMapWebcamModule,
+        VerticalMapViewFlightMapModule,
+        WebcamViewFlightMapModule,
     ],
     providers: [
         FlightMapStateService,

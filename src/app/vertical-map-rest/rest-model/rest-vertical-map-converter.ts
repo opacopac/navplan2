@@ -1,0 +1,24 @@
+import {VerticalMap} from '../../vertical-map/domain-model/vertical-map';
+import {IRestVerticalMap} from './i-rest-vertical-map';
+import {RestVerticalMapWaypointStepConverter} from './rest-vertical-map-waypoint-step-converter';
+import {RestVerticalMapTerrainStepConverter} from './rest-vertical-map-terrain-step-converter';
+import {RestLengthConverter} from '../../common/geo-math/rest-model/rest-length-converter';
+import {RestVerticalMapAirspaceConverter} from './rest-vertical-map-airspace-converter';
+import {LengthUnit} from '../../common/geo-math/domain-model/quantities/length-unit';
+
+
+export class RestVerticalMapConverter {
+    public static fromRest(
+        verticalMap: IRestVerticalMap
+    ): VerticalMap {
+        const heightUnit = LengthUnit.FT; // TODO: read from response
+        const widthUnit = LengthUnit.M; // TODO: read from response
+        return new VerticalMap(
+            RestLengthConverter.fromRest(verticalMap.mapHeight),
+            RestLengthConverter.fromRest(verticalMap.mapWidth),
+            RestVerticalMapWaypointStepConverter.fromRestList(verticalMap.waypointSteps, heightUnit, widthUnit),
+            RestVerticalMapTerrainStepConverter.fromRestList(verticalMap.terrainSteps, heightUnit, widthUnit),
+            RestVerticalMapAirspaceConverter.fromRestList(verticalMap.vmAirspaces, heightUnit, widthUnit),
+        );
+    }
+}

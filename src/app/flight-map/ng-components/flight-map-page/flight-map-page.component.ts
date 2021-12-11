@@ -29,11 +29,11 @@ import {OlReportingPointContainer} from '../../../flight-map-aerodrome/ol-compon
 import {OlReportingSectorContainer} from '../../../flight-map-aerodrome/ol-components/reporting-point-sector/ol-reporting-sector-container';
 import {OlAirspaceContainer} from '../../../flight-map-enroute/ol-components/airspace/ol-airspace-container';
 import {OlNavaidContainer} from '../../../flight-map-enroute/ol-components/navaid/ol-navaid-container';
-import {OlWebcamContainer} from '../../../flight-map-webcam/ol-components/ol-webcam-container';
+import {OlWebcamContainer} from '../../../webcam-view-flight-map/ol-components/ol-webcam-container';
 import {OlAirportChartContainer} from '../../../flight-map-aerodrome/ol-components/airport-chart/ol-airport-chart-container';
 import {OlPositionSearchContainer} from '../../../search/ol-components/ol-position-search-container';
 import {getPositionSearchState} from '../../../search/ngrx/search.selectors';
-import {getWebcams} from '../../../flight-map-webcam/ngrx/webcam.selectors';
+import {getWebcams} from '../../../webcam-state-flight-map/ngrx/webcam.selectors';
 import {getMetarTafs} from '../../../flight-map-metar-taf/ngrx/metar-taf.selectors';
 import {getAirspaces} from '../../../flight-map-enroute/ngrx/airspace/airspace.selectors';
 import {getNavaids} from '../../../flight-map-enroute/ngrx/navaid/navaid.selectors';
@@ -47,7 +47,7 @@ import {getAirportCharts} from '../../../flight-map-aerodrome/ngrx/airport-chart
 import {OlMapOverlayComponent} from '../ol-map-overlay/ol-map-overlay.component';
 import {OverlayState} from '../../ngrx/overlay-state';
 import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
-import {getVerticalMapState} from '../../../vertical-map/ngrx/vertical-map.selectors';
+import {getVerticalMapState} from '../../../vertical-map-state-flight-map/ngrx/vertical-map.selectors';
 import {VerticalMapButtonStatus} from '../../../vertical-map/domain-model/vertical-map-button-status';
 import {getMeteoSmaState} from '../../../flight-map-meteo-sma/ngrx/meteo-sma.selectors';
 import {MeteoSmaButtonStatus} from '../../../meteo-sma/domain-model/meteo-sma-button-status';

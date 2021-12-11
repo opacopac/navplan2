@@ -1,19 +1,17 @@
 import {NgModule} from '@angular/core';
-import {WebcamModule} from '../webcam/webcam.module';
-import {IWebcamRepo} from '../webcam/domain-service/i-webcam-repo';
+import {IWebcamRepoService} from '../webcam/domain-service/i-webcam-repo.service';
 import {WebcamRestService} from './rest-service/webcam-rest.service';
 
 
 @NgModule({
     imports: [
-        WebcamModule
     ],
     declarations: [
     ],
     exports: [
     ],
     providers: [
-        { provide: IWebcamRepo, useClass: WebcamRestService }
+        { provide: IWebcamRepoService, useClass: WebcamRestService }
     ]
 })
 export class WebcamRestModule {}

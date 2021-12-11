@@ -8,11 +8,11 @@ import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 import {Webcam} from '../../webcam/domain-model/webcam';
 import {IRestWebcam} from '../rest-model/i-rest-webcam';
 import {RestWebcamConverter} from '../rest-model/rest-webcam-converter';
-import {IWebcamRepo} from '../../webcam/domain-service/i-webcam-repo';
+import {IWebcamRepoService} from '../../webcam/domain-service/i-webcam-repo.service';
 
 
 @Injectable()
-export class WebcamRestService implements IWebcamRepo {
+export class WebcamRestService implements IWebcamRepoService {
     constructor(private http: HttpClient) {
     }
 

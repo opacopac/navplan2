@@ -21,7 +21,7 @@ import {ReportingPointSectorActions} from '../../flight-map-aerodrome/ngrx/repor
 import {AirspaceActions} from '../../flight-map-enroute/ngrx/airspace/airspace.actions';
 import {NavaidActions} from '../../flight-map-enroute/ngrx/navaid/navaid.actions';
 import {NotamActions} from '../../flight-map-notam/ngrx/notam.actions';
-import {WebcamActions} from '../../flight-map-webcam/ngrx/webcam.actions';
+import {WebcamActions} from '../../webcam-state-flight-map/ngrx/webcam.actions';
 import {MeteoSmaActions} from '../../flight-map-meteo-sma/ngrx/meteo-sma.actions';
 import {TrafficActions} from '../../traffic/ngrx/traffic.actions';
 import {Notam} from '../../notam/domain-model/notam';
