@@ -11,7 +11,7 @@ import {OlOverlayReportingpointInfoTabComponent} from './ng-components/ol-overla
 import {OlOverlayReportingsectorHeaderComponent} from './ng-components/ol-overlay-reportingsector-header/ol-overlay-reportingsector-header.component';
 import {OlOverlayReportingsectorInfoTabComponent} from './ng-components/ol-overlay-reportingsector-info-tab/ol-overlay-reportingsector-info-tab.component';
 import {AerodromeModule} from '../aerodrome/aerodrome.module';
-import {AerodromeStateFlightMapModule} from '../aerodrome-state-flight-map/aerodrome-state-flight-map.module';
+import {AerodromeStateModule} from '../aerodrome-state/aerodrome-state.module';
 import {AerodromeRestModule} from '../aerodrome-rest/aerodrome-rest.module';
 import {MatCardModule} from '@angular/material/card';
 import {MatTableModule} from '@angular/material/table';
@@ -24,7 +24,7 @@ import {MatTableModule} from '@angular/material/table';
         MatTableModule,
         AerodromeModule,
         AerodromeRestModule,
-        AerodromeStateFlightMapModule,
+        AerodromeStateModule,
     ],
     declarations: [
         OlOverlayAirportHeaderComponent,
@@ -53,4 +53,4 @@ import {MatTableModule} from '@angular/material/table';
     providers: [
     ]
 })
-export class AerodromeViewFlightMapModule {}
+export class AerodromeViewModule {}

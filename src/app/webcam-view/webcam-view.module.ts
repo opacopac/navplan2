@@ -1,14 +1,14 @@
 import {NgModule} from '@angular/core';
 import {WebcamModule} from '../webcam/webcam.module';
 import {WebcamRestModule} from '../webcam-rest/webcam-rest.module';
-import {WebcamStateFlightMapModule} from '../webcam-state-flight-map/webcam-state-flight-map.module';
+import {WebcamStateModule} from '../webcam-state/webcam-state.module';
 
 
 @NgModule({
     imports: [
         WebcamModule,
         WebcamRestModule,
-        WebcamStateFlightMapModule
+        WebcamStateModule
     ],
     declarations: [
     ],
@@ -17,4 +17,4 @@ import {WebcamStateFlightMapModule} from '../webcam-state-flight-map/webcam-stat
     providers: [
     ]
 })
-export class WebcamViewFlightMapModule {}
+export class WebcamViewModule {}

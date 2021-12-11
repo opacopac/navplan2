@@ -20,4 +20,4 @@ import {NavaidEffects} from './ngrx/navaid/navaid.effects';
     providers: [
     ]
 })
-export class EnrouteStateFlightMapModule {}
+export class EnrouteStateModule {}

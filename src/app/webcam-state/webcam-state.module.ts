@@ -17,4 +17,4 @@ import {WebcamEffects} from './ngrx/webcam.effects';
     providers: [
     ]
 })
-export class WebcamStateFlightMapModule {}
+export class WebcamStateModule {}

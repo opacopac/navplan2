@@ -27,14 +27,14 @@ import {UserModule} from '../user/user.module';
 import {FlightMapStateService} from './ngrx/flight-map-state.service';
 import {FlightMapMetarTafModule} from '../flight-map-metar-taf/flight-map-metar-taf.module';
 import {FlightMapFlightrouteModule} from '../flight-map-flightroute/flight-map-flightroute.module';
-import {AerodromeViewFlightMapModule} from '../aerodrome-view-flight-map/aerodrome-view-flight-map.module';
+import {AerodromeViewModule} from '../aerodrome-view/aerodrome-view.module';
 import {FlightMapGeonameModule} from '../flight-map-geoname/flight-map-geoname.module';
 import {FlightMapMeteoSmaModule} from '../flight-map-meteo-sma/flight-map-meteo-sma.module';
 import {FlightMapNotamModule} from '../flight-map-notam/flight-map-notam.module';
-import {EnrouteViewFlightMapModule} from '../enroute-view-flight-map/enroute-view-flight-map.module';
-import {WebcamViewFlightMapModule} from '../webcam-view-flight-map/webcam-view-flight-map.module';
+import {EnrouteViewModule} from '../enroute-view/enroute-view.module';
+import {WebcamViewModule} from '../webcam-view/webcam-view.module';
 import {FlightMapTrackModule} from '../flight-map-track/flight-map-track.module';
-import {VerticalMapViewFlightMapModule} from '../vertical-map-view-flight-map/vertical-map-view-flight-map.module';
+import {VerticalMapViewModule} from '../vertical-map-view/vertical-map-view.module';
 
 @NgModule({
     declarations: [
@@ -63,16 +63,16 @@ import {VerticalMapViewFlightMapModule} from '../vertical-map-view-flight-map/ve
         FlightTimerModule,
         TrafficModule,
         UserModule,
-        AerodromeViewFlightMapModule,
-        EnrouteViewFlightMapModule,
+        AerodromeViewModule,
+        EnrouteViewModule,
         FlightMapFlightrouteModule,
         FlightMapGeonameModule,
         FlightMapMetarTafModule,
         FlightMapMeteoSmaModule,
         FlightMapNotamModule,
         FlightMapTrackModule,
-        VerticalMapViewFlightMapModule,
-        WebcamViewFlightMapModule,
+        VerticalMapViewModule,
+        WebcamViewModule,
     ],
     providers: [
         FlightMapStateService,

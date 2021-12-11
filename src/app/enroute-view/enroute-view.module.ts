@@ -4,7 +4,7 @@ import {EnrouteModule} from '../enroute/enroute.module';
 import {OlOverlayNavaidHeaderComponent} from './ng-components/ol-overlay-navaid-header/ol-overlay-navaid-header.component';
 import {OlOverlayNavaidInfoTabComponent} from './ng-components/ol-overlay-navaid-info-tab/ol-overlay-navaid-info-tab.component';
 import {EnrouteRestModule} from '../enroute-rest/enroute-rest.module';
-import {EnrouteStateFlightMapModule} from '../enroute-state-flight-map/enroute-state-flight-map.module';
+import {EnrouteStateModule} from '../enroute-state/enroute-state.module';
 import {MatCardModule} from '@angular/material/card';
 
 
@@ -14,7 +14,7 @@ import {MatCardModule} from '@angular/material/card';
         MatCardModule,
         EnrouteModule,
         EnrouteRestModule,
-        EnrouteStateFlightMapModule
+        EnrouteStateModule
     ],
     declarations: [
         OlOverlayNavaidHeaderComponent,
@@ -27,4 +27,4 @@ import {MatCardModule} from '@angular/material/card';
     providers: [
     ]
 })
-export class EnrouteViewFlightMapModule {}
+export class EnrouteViewModule {}

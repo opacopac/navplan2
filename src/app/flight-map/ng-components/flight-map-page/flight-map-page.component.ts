@@ -23,31 +23,31 @@ import {OlOverlayTrafficComponent} from '../../../traffic/ng-components/ol-overl
 import {Observable} from 'rxjs/internal/Observable';
 import {Subscription} from 'rxjs/internal/Subscription';
 import {getFlightMapOverlay} from '../../ngrx/flight-map.selectors';
-import {OlAirportContainer} from '../../../aerodrome-view-flight-map/ol-components/airport/ol-airport-container';
-import {OlAirportCircuitContainer} from '../../../aerodrome-view-flight-map/ol-components/airport-circuit/ol-airport-circuit-container';
-import {OlReportingPointContainer} from '../../../aerodrome-view-flight-map/ol-components/reporting-point-sector/ol-reporting-point-container';
-import {OlReportingSectorContainer} from '../../../aerodrome-view-flight-map/ol-components/reporting-point-sector/ol-reporting-sector-container';
-import {OlAirspaceContainer} from '../../../enroute-view-flight-map/ol-components/airspace/ol-airspace-container';
-import {OlNavaidContainer} from '../../../enroute-view-flight-map/ol-components/navaid/ol-navaid-container';
-import {OlWebcamContainer} from '../../../webcam-view-flight-map/ol-components/ol-webcam-container';
-import {OlAirportChartContainer} from '../../../aerodrome-view-flight-map/ol-components/airport-chart/ol-airport-chart-container';
+import {OlAirportContainer} from '../../../aerodrome-view/ol-components/airport/ol-airport-container';
+import {OlAirportCircuitContainer} from '../../../aerodrome-view/ol-components/airport-circuit/ol-airport-circuit-container';
+import {OlReportingPointContainer} from '../../../aerodrome-view/ol-components/reporting-point-sector/ol-reporting-point-container';
+import {OlReportingSectorContainer} from '../../../aerodrome-view/ol-components/reporting-point-sector/ol-reporting-sector-container';
+import {OlAirspaceContainer} from '../../../enroute-view/ol-components/airspace/ol-airspace-container';
+import {OlNavaidContainer} from '../../../enroute-view/ol-components/navaid/ol-navaid-container';
+import {OlWebcamContainer} from '../../../webcam-view/ol-components/ol-webcam-container';
+import {OlAirportChartContainer} from '../../../aerodrome-view/ol-components/airport-chart/ol-airport-chart-container';
 import {OlPositionSearchContainer} from '../../../search/ol-components/ol-position-search-container';
 import {getPositionSearchState} from '../../../search/ngrx/search.selectors';
-import {getWebcams} from '../../../webcam-state-flight-map/ngrx/webcam.selectors';
+import {getWebcams} from '../../../webcam-state/ngrx/webcam.selectors';
 import {getMetarTafs} from '../../../flight-map-metar-taf/ngrx/metar-taf.selectors';
-import {getAirspaces} from '../../../enroute-state-flight-map/ngrx/airspace/airspace.selectors';
-import {getNavaids} from '../../../enroute-state-flight-map/ngrx/navaid/navaid.selectors';
-import {getAirports} from '../../../aerodrome-state-flight-map/ngrx/airport/airport.selectors';
+import {getAirspaces} from '../../../enroute-state/ngrx/airspace/airspace.selectors';
+import {getNavaids} from '../../../enroute-state/ngrx/navaid/navaid.selectors';
+import {getAirports} from '../../../aerodrome-state/ngrx/airport/airport.selectors';
 import {
     getReportingPoints,
     getReportingSectors
-} from '../../../aerodrome-state-flight-map/ngrx/reporting-point-sector/reporting-point-sector.selectors';
-import {getAirportCircuits} from '../../../aerodrome-state-flight-map/ngrx/airport-circuit/airport-circuit.selectors';
-import {getAirportCharts} from '../../../aerodrome-state-flight-map/ngrx/airport-chart/airport-chart.selectors';
+} from '../../../aerodrome-state/ngrx/reporting-point-sector/reporting-point-sector.selectors';
+import {getAirportCircuits} from '../../../aerodrome-state/ngrx/airport-circuit/airport-circuit.selectors';
+import {getAirportCharts} from '../../../aerodrome-state/ngrx/airport-chart/airport-chart.selectors';
 import {OlMapOverlayComponent} from '../ol-map-overlay/ol-map-overlay.component';
 import {OverlayState} from '../../ngrx/overlay-state';
 import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
-import {getVerticalMapState} from '../../../vertical-map-state-flight-map/ngrx/vertical-map.selectors';
+import {getVerticalMapState} from '../../../vertical-map-state/ngrx/vertical-map.selectors';
 import {VerticalMapButtonStatus} from '../../../vertical-map/domain-model/vertical-map-button-status';
 import {getMeteoSmaState} from '../../../flight-map-meteo-sma/ngrx/meteo-sma.selectors';
 import {MeteoSmaButtonStatus} from '../../../meteo-sma/domain-model/meteo-sma-button-status';

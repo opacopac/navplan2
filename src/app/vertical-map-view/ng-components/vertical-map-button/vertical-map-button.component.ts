@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {VerticalMapActions} from '../../../vertical-map-state-flight-map/ngrx/vertical-map.actions';
+import {VerticalMapActions} from '../../../vertical-map-state/ngrx/vertical-map.actions';
 import {VerticalMapButtonStatus} from '../../../vertical-map/domain-model/vertical-map-button-status';
 import {select, Store} from '@ngrx/store';
-import {getVerticalMapState} from '../../../vertical-map-state-flight-map/ngrx/vertical-map.selectors';
-import {VerticalMapState} from '../../../vertical-map-state-flight-map/ngrx/vertical-map-state';
+import {getVerticalMapState} from '../../../vertical-map-state/ngrx/vertical-map.selectors';
+import {VerticalMapState} from '../../../vertical-map-state/ngrx/vertical-map-state';
 
 
 @Component({

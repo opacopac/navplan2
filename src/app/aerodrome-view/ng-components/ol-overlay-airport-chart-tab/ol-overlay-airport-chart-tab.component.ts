@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Airport} from '../../../aerodrome/domain-model/airport';
 import {Store} from '@ngrx/store';
 import {AirportChart} from '../../../aerodrome/domain-model/airport-chart';
-import {AirportChartActions} from '../../../aerodrome-state-flight-map/ngrx/airport-chart/airport-chart.actions';
+import {AirportChartActions} from '../../../aerodrome-state/ngrx/airport-chart/airport-chart.actions';
 
 
 @Component({

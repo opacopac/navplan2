@@ -31,4 +31,4 @@ import {ReportingPointSectorEffects} from './ngrx/reporting-point-sector/reporti
     providers: [
     ]
 })
-export class AerodromeStateFlightMapModule {}
+export class AerodromeStateModule {}

@@ -20,5 +20,5 @@ import {FlightrouteStateModule} from '../flightroute-state/flightroute-state.mod
     providers: [
     ]
 })
-export class VerticalMapStateFlightMapModule {
+export class VerticalMapStateModule {
 }
