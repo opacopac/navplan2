@@ -5,7 +5,7 @@ import {AirspaceActions} from './airspace.actions';
 import {Observable, pipe} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {getAirspaceState} from './airspace.selectors';
-import {AirspaceState} from '../../../enroute/domain-model/airspace-state';
+import {AirspaceState} from '../../state-model/airspace-state';
 import {environment} from '../../../../environments/environment';
 import {IAirspaceRepo} from '../../../enroute/domain-service/i-airspace-repo';
 

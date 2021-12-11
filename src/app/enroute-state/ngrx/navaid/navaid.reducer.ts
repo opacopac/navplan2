@@ -1,6 +1,6 @@
 import {createReducer, on} from '@ngrx/store';
 import {NavaidActions} from './navaid.actions';
-import {NavaidState} from '../../../enroute/domain-model/navaid-state';
+import {NavaidState} from '../../state-model/navaid-state';
 
 
 const initialState: NavaidState = {

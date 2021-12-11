@@ -1,9 +1,9 @@
 import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
-import {Navaid} from './navaid';
+import {Airspace} from '../../enroute/domain-model/airspace';
 
 
-export interface NavaidState {
+export interface AirspaceState {
     extent: Extent2d;
     zoom: number;
-    navaids: Navaid[];
+    airspaces: Airspace[];
 }
