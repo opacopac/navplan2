@@ -2,9 +2,9 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {select, Store} from '@ngrx/store';
 import {Subscription} from 'rxjs';
-import {getCurrentMessage} from '../../ngrx/message.selectors';
-import {Message} from '../../domain-model/message';
-import {MessageType} from '../../domain-model/message-type';
+import {getCurrentMessage} from '../../../message-state/ngrx/message.selectors';
+import {Message} from '../../../message/domain-model/message';
+import {MessageType} from '../../../message/domain-model/message-type';
 
 
 const AUTO_DISMISS_TIME_MS = 4000;

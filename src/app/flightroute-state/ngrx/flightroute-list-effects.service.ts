@@ -6,7 +6,7 @@ import {catchError, filter, map, switchMap, withLatestFrom} from 'rxjs/operators
 import {UserState} from '../../user-state/state-model/user-state';
 import {getUserState} from '../../user-state/ngrx/user.selectors';
 import {FlightrouteListActions} from './flightroute-list.actions';
-import {MessageActions} from '../../message/ngrx/message.actions';
+import {MessageActions} from '../../message-state/ngrx/message.actions';
 import {Message} from '../../message/domain-model/message';
 import {IFlightrouteService} from '../../flightroute/domain-service/i-flightroute.service';
 

@@ -1,5 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {Message} from '../domain-model/message';
+import {Message} from '../../message/domain-model/message';
 
 
 export class MessageActions {

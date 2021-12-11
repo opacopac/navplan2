@@ -1,4 +1,4 @@
-import {MessageState} from './message-state';
+import {MessageState} from '../state-model/message-state';
 import {MessageActions} from './message.actions';
 import {createReducer, on} from '@ngrx/store';
 

@@ -8,7 +8,6 @@ import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {FlightMapViewModule} from './flight-map-view/flight-map-view.module';
-import {MessageModule} from './message/message.module';
 import {AboutViewModule} from './about-view/about-view.module';
 import {RouterModule} from '@angular/router';
 import {appReducer} from './app.reducer';
@@ -20,6 +19,7 @@ import {ExporterViewModule} from './exporter-view/exporter-view.module';
 import {TrackViewModule} from './track-view/track-view.module';
 import {UserViewModule} from './user-view/user-view.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {MessageViewModule} from './message-view/message-view.module';
 
 
 @NgModule({
@@ -27,27 +27,27 @@ import {FlexLayoutModule} from '@angular/flex-layout';
         AppComponent,
     ],
     imports: [
+        AppRoutingModule,
+        RouterModule,
         BrowserModule,
         HttpClientModule,
         HttpClientJsonpModule,
-        RouterModule,
+        FlexLayoutModule,
         StoreModule.forRoot({'appState': appReducer}),
         EffectsModule.forRoot([AppEffects]),
         StoreDevtoolsModule.instrument({
             maxAge: 25, // Retains last 25 states
             logOnly: environment.production, // Restrict extension to log-only mode
         }),
-        AppRoutingModule,
-        NavbarViewModule,
         AboutViewModule,
-        SettingsPageViewModule,
-        UserViewModule,
+        ExporterViewModule,
         FlightMapViewModule,
         FlightPrepViewModule,
+        MessageViewModule,
+        NavbarViewModule,
+        SettingsPageViewModule,
         TrackViewModule,
-        MessageModule,
-        ExporterViewModule,
-        FlexLayoutModule,
+        UserViewModule,
     ],
     providers: [],
     bootstrap: [

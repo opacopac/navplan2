@@ -6,7 +6,7 @@ import {catchError, filter, map, switchMap, withLatestFrom} from 'rxjs/operators
 import {FlightrouteState} from '../state-model/flightroute-state';
 import {getFlightrouteState} from './flightroute.selectors';
 import {SharedFlightRouteActions} from './shared-flight-route.actions';
-import {MessageActions} from '../../message/ngrx/message.actions';
+import {MessageActions} from '../../message-state/ngrx/message.actions';
 import {Message} from '../../message/domain-model/message';
 import {IFlightrouteService} from '../../flightroute/domain-service/i-flightroute.service';
 

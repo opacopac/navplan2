@@ -6,7 +6,7 @@ import {Observable} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
 import {AutoLoginUserSuccessAction, UserActionTypes} from './user.actions';
 import {ClientstorageHelper} from '../../system/domain-service/clientstorage/clientstorage-helper';
-import {MessageActions} from '../../message/ngrx/message.actions';
+import {MessageActions} from '../../message-state/ngrx/message.actions';
 import {Message} from '../../message/domain-model/message';
 
 

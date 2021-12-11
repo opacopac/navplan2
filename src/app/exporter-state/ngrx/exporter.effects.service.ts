@@ -5,7 +5,7 @@ import {Observable, of} from 'rxjs';
 import {catchError, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {getFlightroute} from '../../flightroute-state/ngrx/flightroute.selectors';
 import {Flightroute} from '../../flightroute/domain-model/flightroute';
-import {MessageActions} from '../../message/ngrx/message.actions';
+import {MessageActions} from '../../message-state/ngrx/message.actions';
 import {Message} from '../../message/domain-model/message';
 import {ExporterActions} from './exporter.actions';
 import {IExporterService} from '../../exporter/domain-service/i-exporter.service';

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {MapBaseLayerType} from '../../../base-map/domain-model/map-base-layer-type';
 import {Store} from '@ngrx/store';
-import {MessageActions} from '../../../message/ngrx/message.actions';
+import {MessageActions} from '../../../message-state/ngrx/message.actions';
 import {Message} from '../../../message/domain-model/message';
 
 

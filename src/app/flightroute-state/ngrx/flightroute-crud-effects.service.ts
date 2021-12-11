@@ -8,7 +8,7 @@ import {User} from '../../user/domain-model/user';
 import {getFlightroute} from './flightroute.selectors';
 import {Flightroute} from '../../flightroute/domain-model/flightroute';
 import {FlightrouteCrudActions} from './flightroute-crud.actions';
-import {MessageActions} from '../../message/ngrx/message.actions';
+import {MessageActions} from '../../message-state/ngrx/message.actions';
 import {Message} from '../../message/domain-model/message';
 import {FlightrouteActions} from './flightroute.actions';
 import {IFlightrouteService} from '../../flightroute/domain-service/i-flightroute.service';

@@ -13,7 +13,7 @@ import {
 import {ClientstorageHelper} from '../../system/domain-service/clientstorage/clientstorage-helper';
 import {LoginEffects} from './login.effects';
 import {IUserService} from '../../user/domain-service/i-user.service';
-import {MessageActions} from '../../message/ngrx/message.actions';
+import {MessageActions} from '../../message-state/ngrx/message.actions';
 import {Message} from '../../message/domain-model/message';
 
 
