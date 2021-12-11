@@ -7,7 +7,7 @@ import {Observable, of, Subscription} from 'rxjs';
 import {Flightroute} from '../../flightroute/domain-model/flightroute';
 import {getFlightroute} from '../../flightroute-state/ngrx/flightroute.selectors';
 import {getVerticalMapState} from './vertical-map.selectors';
-import {VerticalMapState} from './vertical-map-state';
+import {VerticalMapState} from '../state-model/vertical-map-state';
 import {VerticalMapButtonStatus} from '../../vertical-map/domain-model/vertical-map-button-status';
 import {IVerticalMapService} from '../../vertical-map/domain-service/i-vertical-map.service';
 

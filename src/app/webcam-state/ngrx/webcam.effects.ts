@@ -3,7 +3,7 @@ import {filter, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {WebcamActions} from './webcam.actions';
 import {Observable, of, pipe} from 'rxjs';
-import {WebcamState} from './webcam-state';
+import {WebcamState} from '../state-model/webcam-state';
 import {Store} from '@ngrx/store';
 import {getWebcamState} from './webcam.selectors';
 import {environment} from '../../../environments/environment';

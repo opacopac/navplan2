@@ -1,6 +1,6 @@
 import {VerticalMapActions} from './vertical-map.actions';
 import {createReducer, on} from '@ngrx/store';
-import {VerticalMapState} from './vertical-map-state';
+import {VerticalMapState} from '../state-model/vertical-map-state';
 import {VerticalMapButtonStatus} from '../../vertical-map/domain-model/vertical-map-button-status';
 
 

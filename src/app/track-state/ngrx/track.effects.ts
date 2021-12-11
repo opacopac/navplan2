@@ -7,7 +7,7 @@ import {TrackService} from '../../track/rest-service/track.service';
 import {User} from '../../user/domain-model/user';
 import {getCurrentUser} from '../../user/ngrx/user.selectors';
 import {TrackActions} from './track.actions';
-import {TrackState} from './track-state';
+import {TrackState} from '../state-model/track-state';
 import {getTrackState} from './track.selectors';
 
 

@@ -1,4 +1,4 @@
-import {TrackState} from './track-state';
+import {TrackState} from '../state-model/track-state';
 import {TrackActions} from './track.actions';
 import {createReducer, on} from '@ngrx/store';
 

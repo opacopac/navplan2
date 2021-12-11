@@ -1,5 +1,5 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {WebcamState} from './webcam-state';
+import {WebcamState} from '../state-model/webcam-state';
 
 
 export const getWebcamState = createFeatureSelector<WebcamState>('webcamState');

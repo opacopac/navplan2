@@ -1,5 +1,5 @@
 import {createReducer, on} from '@ngrx/store';
-import {WebcamState} from './webcam-state';
+import {WebcamState} from '../state-model/webcam-state';
 import {WebcamActions} from './webcam.actions';
 
 
