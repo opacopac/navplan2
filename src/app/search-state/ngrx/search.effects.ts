@@ -7,7 +7,7 @@ import {SearchActions} from './search.actions';
 import {getCurrentUser} from '../../user-state/ngrx/user.selectors';
 import {User} from '../../user/domain-model/user';
 import {LoggingService} from '../../system/domain-service/logging/logging.service';
-import {ISearchService} from '../domain-service/i-search.service';
+import {ISearchService} from '../../search/domain-service/i-search.service';
 import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
 
 

@@ -5,7 +5,7 @@ import {SearchItemList} from '../domain-model/search-item-list';
 import {PositionSearchResultList} from '../domain-model/position-search-result-list';
 
 
-export abstract class ISearchRepo {
+export abstract class ISearchRepoService {
     public abstract searchByPosition(
         position: Position2d,
         maxRadius_deg: number,

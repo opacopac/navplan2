@@ -1,4 +1,4 @@
-import {SearchItemList} from '../domain-model/search-item-list';
+import {SearchItemList} from '../../search/domain-model/search-item-list';
 import {RestAirportConverter} from '../../aerodrome-rest/rest-model/rest-airport-converter';
 import {RestNavaidConverter} from '../../enroute-rest/rest-model/rest-navaid-converter';
 import {RestReportingpointConverter} from '../../aerodrome-rest/rest-model/rest-reportingpoint-converter';

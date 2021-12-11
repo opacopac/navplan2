@@ -3,12 +3,12 @@ import {
     getTextSearchIsActive,
     getTextSearchResults,
     getTextSearchSelectedResultIndex
-} from '../../ngrx/search.selectors';
+} from '../../../search-state/ngrx/search.selectors';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
-import {SearchItemList} from '../../domain-model/search-item-list';
-import {SearchItem} from '../../domain-model/search-item';
-import {SearchActions} from '../../ngrx/search.actions';
+import {SearchItemList} from '../../../search/domain-model/search-item-list';
+import {SearchItem} from '../../../search/domain-model/search-item';
+import {SearchActions} from '../../../search-state/ngrx/search.actions';
 
 
 @Component({

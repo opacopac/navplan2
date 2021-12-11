@@ -31,8 +31,8 @@ import {OlAirspaceContainer} from '../../../enroute-view/ol-components/airspace/
 import {OlNavaidContainer} from '../../../enroute-view/ol-components/navaid/ol-navaid-container';
 import {OlWebcamContainer} from '../../../webcam-view/ol-components/ol-webcam-container';
 import {OlAirportChartContainer} from '../../../aerodrome-view/ol-components/airport-chart/ol-airport-chart-container';
-import {OlPositionSearchContainer} from '../../../search/ol-components/ol-position-search-container';
-import {getPositionSearchState} from '../../../search/ngrx/search.selectors';
+import {OlPositionSearchContainer} from '../../../search-view/ol-components/ol-position-search-container';
+import {getPositionSearchState} from '../../../search-state/ngrx/search.selectors';
 import {getWebcams} from '../../../webcam-state/ngrx/webcam.selectors';
 import {getMetarTafs} from '../../../metar-taf-state/ngrx/metar-taf.selectors';
 import {getAirspaces} from '../../../enroute-state/ngrx/airspace/airspace.selectors';
@@ -52,7 +52,7 @@ import {VerticalMapButtonStatus} from '../../../vertical-map/domain-model/vertic
 import {getMeteoSmaState} from '../../../meteo-sma-state/ngrx/meteo-sma.selectors';
 import {MeteoSmaButtonStatus} from '../../../meteo-sma/domain-model/meteo-sma-button-status';
 import {OlSmaMeasurementContainer} from '../../../meteo-sma-view/ol-components/ol-sma-measurement-container';
-import {OlOverlayAirspaceStructureComponent} from '../../../search/ng-components/ol-overlay-airspace-structure/ol-overlay-airspace-structure.component';
+import {OlOverlayAirspaceStructureComponent} from '../../../search-view/ng-components/ol-overlay-airspace-structure/ol-overlay-airspace-structure.component';
 
 
 @Component({

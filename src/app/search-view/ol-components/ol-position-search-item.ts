@@ -3,7 +3,7 @@ import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
 import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
 import {OlFeature} from '../../base-map/ol-model/ol-feature';
 import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
-import {IPointSearchResult} from '../domain-model/i-point-search-result';
+import {IPointSearchResult} from '../../search/domain-model/i-point-search-result';
 
 
 const LABEL_DIST_PIXEL = 100;

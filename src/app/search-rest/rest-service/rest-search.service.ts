@@ -7,16 +7,16 @@ import {LoggingService} from '../../system/domain-service/logging/logging.servic
 import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 import {RestSearchResponseConverter} from '../rest-model/rest-search-response-converter';
 import {User} from '../../user/domain-model/user';
-import {SearchItemList} from '../domain-model/search-item-list';
+import {SearchItemList} from '../../search/domain-model/search-item-list';
 import {CoordinateHelper} from '../../common/geo-math/domain-service/coordinate-helper';
 import {IRestSearchResponse} from '../rest-model/i-rest-search-response';
-import {ISearchRepo} from '../domain-service/i-search-repo';
+import {ISearchRepoService} from '../../search/domain-service/i-search-repo.service';
 import {RestPositionSearchResponseConverter} from '../rest-model/rest-position-search-response-converter';
-import {PositionSearchResultList} from '../domain-model/position-search-result-list';
+import {PositionSearchResultList} from '../../search/domain-model/position-search-result-list';
 
 
 @Injectable()
-export class RestSearchService implements ISearchRepo {
+export class RestSearchService implements ISearchRepoService {
     constructor(private http: HttpClient) {}
 
 

@@ -1,8 +1,8 @@
 import {createAction, props} from '@ngrx/store';
-import {SearchItemList} from '../domain-model/search-item-list';
-import {SearchItem} from '../domain-model/search-item';
+import {SearchItemList} from '../../search/domain-model/search-item-list';
+import {SearchItem} from '../../search/domain-model/search-item';
 import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
-import {PositionSearchResultList} from '../domain-model/position-search-result-list';
+import {PositionSearchResultList} from '../../search/domain-model/position-search-result-list';
 
 
 export class SearchActions {

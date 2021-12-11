@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {User} from '../../../user/domain-model/user';
 import {select, Store} from '@ngrx/store';
 import {getCurrentUser} from '../../../user-state/ngrx/user.selectors';
-import {SearchActions} from '../../../search/ngrx/search.actions';
+import {SearchActions} from '../../../search-state/ngrx/search.actions';
 import {LogoutUserAction} from '../../../user-state/ngrx/user.actions';
 import {ExporterActions} from '../../../exporter-state/ngrx/exporter.actions';
 

@@ -1,11 +1,11 @@
 import {Observable, Subscription} from 'rxjs';
 import {OlPositionSearchItem} from './ol-position-search-item';
-import {PositionSearchState} from '../domain-model/position-search-state';
+import {PositionSearchState} from '../../search/domain-model/position-search-state';
 import {StringnumberHelper} from '../../system/domain-service/stringnumber/stringnumber-helper';
 import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
 import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
 import {AngleUnit} from '../../common/geo-math/domain-model/quantities/angle-unit';
-import {IPointSearchResult} from '../domain-model/i-point-search-result';
+import {IPointSearchResult} from '../../search/domain-model/i-point-search-result';
 
 
 const MAX_POINTS = 6;

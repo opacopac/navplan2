@@ -1,5 +1,5 @@
 import {SearchActions} from './search.actions';
-import {SearchState} from '../domain-model/search-state';
+import {SearchState} from '../state-model/search-state';
 import {createReducer, on} from '@ngrx/store';
 
 

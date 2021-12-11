@@ -4,7 +4,7 @@ import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d
 import {User} from '../../user/domain-model/user';
 import {SearchItemList} from '../domain-model/search-item-list';
 import {ISearchService} from './i-search.service';
-import {ISearchRepo} from './i-search-repo';
+import {ISearchRepoService} from './i-search-repo.service';
 import {PositionSearchResultList} from '../domain-model/position-search-result-list';
 
 
@@ -13,7 +13,7 @@ export class SearchService implements ISearchService {
     private readonly MAX_POINT_RESULTS = 6;
 
 
-    constructor(private searchRepo: ISearchRepo) {
+    constructor(private searchRepo: ISearchRepoService) {
     }
 
 

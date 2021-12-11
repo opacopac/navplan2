@@ -7,8 +7,8 @@ import {BaseMapActions} from '../../base-map/ngrx/base-map.actions';
 import {DataItem, DataItemType} from '../../common/model/data-item';
 import {FlightMapActions} from './flight-map.actions';
 import {getFlightMapState} from './flight-map.selectors';
-import {SearchActions} from '../../search/ngrx/search.actions';
-import {getSearchState} from '../../search/ngrx/search.selectors';
+import {SearchActions} from '../../search-state/ngrx/search.actions';
+import {getSearchState} from '../../search-state/ngrx/search.selectors';
 import {IDate} from '../../system/domain-service/date/i-date';
 import {SystemConfig} from '../../system/domain-service/system-config';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
@@ -28,7 +28,7 @@ import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d
 import {Webcam} from '../../webcam/domain-model/webcam';
 import {AirportChartActions} from '../../aerodrome-state/ngrx/airport-chart/airport-chart.actions';
 import {AirportChart} from '../../aerodrome/domain-model/airport-chart';
-import {ISearchRepo} from '../../search/domain-service/i-search-repo';
+import {ISearchRepoService} from '../../search/domain-service/i-search-repo.service';
 import {FlightMapStateService} from './flight-map-state.service';
 import {WaypointActions} from '../../flightroute-state/ngrx/waypoints.actions';
 import {IAirportService} from '../../aerodrome/domain-service/i-airport.service';
@@ -47,7 +47,7 @@ export class FlightMapEffects {
         private readonly appStore: Store<any>,
         private readonly airportService: IAirportService,
         private readonly notamService: INotamService,
-        private readonly searchRepo: ISearchRepo,
+        private readonly searchRepo: ISearchRepoService,
         private readonly flightMapStateService: FlightMapStateService,
         config: SystemConfig
     ) {

@@ -3,8 +3,8 @@ import {Airspace} from '../../../enroute/domain-model/airspace';
 import {OlOverlayBaseComponent} from '../../../base-map/ng-components/ol-overlay-base.component';
 import {Store} from '@ngrx/store';
 import {Observable, Subscription} from 'rxjs';
-import {getPositionSearchState} from '../../ngrx/search.selectors';
-import {PositionSearchState} from '../../domain-model/position-search-state';
+import {getPositionSearchState} from '../../../search-state/ngrx/search.selectors';
+import {PositionSearchState} from '../../../search/domain-model/position-search-state';
 
 
 @Component({

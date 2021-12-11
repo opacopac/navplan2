@@ -5,12 +5,12 @@ import {RestUserpointConverter} from '../../user-rest/rest-model/rest-userpoint-
 import {RestGeonameConverter} from '../../geoname-rest/rest-model/rest-geoname-converter';
 import {IRestSearchResponse} from './i-rest-search-response';
 import {RestAirspaceConverter} from '../../enroute-rest/rest-model/rest-airspace-converter';
-import {PositionSearchResultList} from '../domain-model/position-search-result-list';
-import {AirportSearchResult} from '../domain-model/airport-search-result';
-import {NavaidSearchResult} from '../domain-model/navaid-search-result';
-import {ReportingPointSearchResult} from '../domain-model/reporting-point-search-result';
-import {UserPointSearchResult} from '../domain-model/user-point-search-result';
-import {GeonameSearchResult} from '../domain-model/geoname-search-result';
+import {PositionSearchResultList} from '../../search/domain-model/position-search-result-list';
+import {AirportSearchResult} from '../../search/domain-model/airport-search-result';
+import {NavaidSearchResult} from '../../search/domain-model/navaid-search-result';
+import {ReportingPointSearchResult} from '../../search/domain-model/reporting-point-search-result';
+import {UserPointSearchResult} from '../../search/domain-model/user-point-search-result';
+import {GeonameSearchResult} from '../../search/domain-model/geoname-search-result';
 import {RestNotamConverter} from '../../notam-rest/rest-model/rest-notam-converter';
 
 
