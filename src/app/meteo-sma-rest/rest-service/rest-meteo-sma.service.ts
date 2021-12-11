@@ -6,10 +6,10 @@ import {throwError} from 'rxjs';
 import {LoggingService} from '../../system/domain-service/logging/logging.service';
 import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 import {environment} from '../../../environments/environment';
-import {SmaMeasurement} from '../domain-model/sma-measurement';
+import {SmaMeasurement} from '../../meteo-sma/domain-model/sma-measurement';
 import {IRestSmaMeasurementResponse} from '../rest-model/i-rest-sma-measurement-response';
 import {RestSmaMeasurementConverter} from '../rest-model/rest-sma-measurement-converter';
-import {IMeteoSmaRepoService} from '../domain-service/i-meteo-sma-repo.service';
+import {IMeteoSmaRepoService} from '../../meteo-sma/domain-service/i-meteo-sma-repo.service';
 
 
 @Injectable()

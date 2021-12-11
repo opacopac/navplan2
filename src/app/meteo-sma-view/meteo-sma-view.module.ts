@@ -1,22 +1,22 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {StoreModule} from '@ngrx/store';
-import {EffectsModule} from '@ngrx/effects';
-import {SharedModule} from '../common/shared.module';
-import {meteoSmaReducer} from './ngrx/meteo-sma.reducer';
-import {MeteoSmaEffects} from './ngrx/meteo-sma.effects';
 import {MeteoSmaContainerComponent} from './ng-components/meteo-sma-container/meteo-sma-container.component';
 import {MeteoSmaButtonComponent} from './ng-components/meteo-sma-button/meteo-sma-button.component';
 import {MeteoSmaModule} from '../meteo-sma/meteo-sma.module';
+import {MeteoSmaRestModule} from '../meteo-sma-rest/meteo-sma-rest.module';
+import {MeteoSmaStateModule} from '../meteo-sma-state/meteo-sma-state.module';
+import {MatButtonModule} from '@angular/material/button';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 @NgModule({
     imports: [
         CommonModule,
-        SharedModule,
-        StoreModule.forFeature('meteoSmaState', meteoSmaReducer),
-        EffectsModule.forFeature([MeteoSmaEffects]),
-        MeteoSmaModule
+        MatButtonModule,
+        MatTooltipModule,
+        MeteoSmaModule,
+        MeteoSmaRestModule,
+        MeteoSmaStateModule,
     ],
     declarations: [
         MeteoSmaButtonComponent,
@@ -29,5 +29,5 @@ import {MeteoSmaModule} from '../meteo-sma/meteo-sma.module';
     providers: [
     ]
 })
-export class FlightMapMeteoSmaModule {
+export class MeteoSmaViewModule {
 }

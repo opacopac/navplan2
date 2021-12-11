@@ -6,9 +6,7 @@ import {SmaMeasurement} from '../domain-model/sma-measurement';
 import {IMeteoSmaRepoService} from './i-meteo-sma-repo.service';
 
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class MeteoSmaService implements IMeteoSmaService {
     constructor(private restService: IMeteoSmaRepoService) {
     }

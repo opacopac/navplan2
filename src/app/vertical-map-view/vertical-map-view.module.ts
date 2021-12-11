@@ -6,6 +6,7 @@ import {VerticalMapButtonComponent} from './ng-components/vertical-map-button/ve
 import {VerticalMapComponent} from './ng-components/vertical-map/vertical-map.component';
 import {VerticalMapStateModule} from '../vertical-map-state/vertical-map-state.module';
 import {MatButtonModule} from '@angular/material/button';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import {MatButtonModule} from '@angular/material/button';
     imports: [
         CommonModule,
         MatButtonModule,
+        MatTooltipModule,
         VerticalMapModule,
         VerticalMapRestModule,
         VerticalMapStateModule

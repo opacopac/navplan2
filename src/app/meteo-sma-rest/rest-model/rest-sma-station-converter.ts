@@ -1,5 +1,5 @@
 import {IRestSmaStation} from './i-rest-sma-station';
-import {SmaStation} from '../domain-model/sma-station';
+import {SmaStation} from '../../meteo-sma/domain-model/sma-station';
 import {Position2dConverter} from '../../common/geo-math/rest-model/position2d-converter';
 import {RestAltitudeConverter} from '../../common/geo-math/rest-model/rest-altitude-converter';
 

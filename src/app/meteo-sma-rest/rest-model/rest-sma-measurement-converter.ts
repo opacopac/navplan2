@@ -1,5 +1,5 @@
 import {IRestSmaMeasurement} from './i-rest-sma-measurement';
-import {SmaMeasurement} from '../domain-model/sma-measurement';
+import {SmaMeasurement} from '../../meteo-sma/domain-model/sma-measurement';
 import {RestSmaStationConverter} from './rest-sma-station-converter';
 import {Timestamp} from '../../common/geo-math/domain-model/quantities/timestamp';
 import {Temperature} from '../../common/geo-math/domain-model/quantities/temperature';

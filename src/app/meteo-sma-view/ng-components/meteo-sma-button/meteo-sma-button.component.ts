@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {environment} from '../../../../environments/environment';
-import {getMeteoSmaState} from '../../ngrx/meteo-sma.selectors';
+import {getMeteoSmaState} from '../../../meteo-sma-state/ngrx/meteo-sma.selectors';
 import {MeteoSmaButtonStatus} from '../../../meteo-sma/domain-model/meteo-sma-button-status';
-import {MeteoSmaActions} from '../../ngrx/meteo-sma.actions';
+import {MeteoSmaActions} from '../../../meteo-sma-state/ngrx/meteo-sma.actions';
 import {MeteoSmaState} from '../../../meteo-sma/domain-model/meteo-sma-state';
 
 

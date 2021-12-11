@@ -49,9 +49,9 @@ import {OverlayState} from '../../ngrx/overlay-state';
 import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
 import {getVerticalMapState} from '../../../vertical-map-state/ngrx/vertical-map.selectors';
 import {VerticalMapButtonStatus} from '../../../vertical-map/domain-model/vertical-map-button-status';
-import {getMeteoSmaState} from '../../../flight-map-meteo-sma/ngrx/meteo-sma.selectors';
+import {getMeteoSmaState} from '../../../meteo-sma-state/ngrx/meteo-sma.selectors';
 import {MeteoSmaButtonStatus} from '../../../meteo-sma/domain-model/meteo-sma-button-status';
-import {OlSmaMeasurementContainer} from '../../../flight-map-meteo-sma/ol-components/ol-sma-measurement-container';
+import {OlSmaMeasurementContainer} from '../../../meteo-sma-view/ol-components/ol-sma-measurement-container';
 import {OlOverlayAirspaceStructureComponent} from '../../../search/ng-components/ol-overlay-airspace-structure/ol-overlay-airspace-structure.component';
 
 

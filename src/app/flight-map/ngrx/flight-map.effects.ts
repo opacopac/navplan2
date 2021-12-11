@@ -20,7 +20,7 @@ import {AirspaceActions} from '../../enroute-state/ngrx/airspace/airspace.action
 import {NavaidActions} from '../../enroute-state/ngrx/navaid/navaid.actions';
 import {NotamActions} from '../../notam-state/ngrx/notam.actions';
 import {WebcamActions} from '../../webcam-state/ngrx/webcam.actions';
-import {MeteoSmaActions} from '../../flight-map-meteo-sma/ngrx/meteo-sma.actions';
+import {MeteoSmaActions} from '../../meteo-sma-state/ngrx/meteo-sma.actions';
 import {TrafficActions} from '../../traffic/ngrx/traffic.actions';
 import {Notam} from '../../notam/domain-model/notam';
 import {ShortAirport} from '../../aerodrome/domain-model/short-airport';
