@@ -1,14 +1,16 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http';
-import {AboutPageComponent} from './ng-components/about-page/about-page.component';
 import {SharedModule} from '../common/shared.module';
+import {NavbarComponent} from './ng-components/navbar/navbar.component';
+import {NavbarContainerComponent} from './ng-components/navbar-container/navbar-container.component';
 import {RouterModule} from '@angular/router';
 
 
 @NgModule({
     declarations: [
-        AboutPageComponent
+        NavbarComponent,
+        NavbarContainerComponent,
     ],
     imports: [
         BrowserModule,
@@ -17,9 +19,9 @@ import {RouterModule} from '@angular/router';
         SharedModule,
     ],
     exports: [
-        AboutPageComponent,
+        NavbarContainerComponent,
     ],
     providers: []
 })
-export class AboutPageModule {
+export class NavbarViewModule {
 }

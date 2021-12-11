@@ -11,11 +11,11 @@ import {UserModule} from './user/user.module';
 import {SharedModule} from './common/shared.module';
 import {FlightMapModule} from './flight-map/flight-map.module';
 import {MessageModule} from './message/message.module';
-import {AboutPageViewModule} from './about-page-view/about-page-view.module';
+import {AboutViewModule} from './about-view/about-view.module';
 import {RouterModule} from '@angular/router';
 import {appReducer} from './app.reducer';
 import {AppEffects} from './app.effects';
-import {NavbarModule} from './navbar/navbar.module';
+import {NavbarViewModule} from './navbar-view/navbar-view.module';
 import {SettingsPageViewModule} from './settings-page-view/settings-page-view.module';
 import {FlightPrepModule} from './flight-prep/flight-prep.module';
 import {ExporterViewModule} from './exporter-view/exporter-view.module';
@@ -38,8 +38,8 @@ import {TrackViewModule} from './track-view/track-view.module';
             logOnly: environment.production, // Restrict extension to log-only mode
         }),
         AppRoutingModule,
-        NavbarModule,
-        AboutPageViewModule,
+        NavbarViewModule,
+        AboutViewModule,
         SettingsPageViewModule,
         SharedModule,
         UserModule,
