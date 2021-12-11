@@ -3,6 +3,6 @@ import {Observable} from 'rxjs';
 import {OgnTraffic} from '../../domain-model/ogn-traffic';
 
 
-export interface IOgnTrafficService {
-    readTraffic(extent: Extent2d, maxAgeSec: number, waitForDataSec: number, sessionId: string): Observable<OgnTraffic[]>;
+export abstract class IOgnTrafficService {
+    abstract readTraffic(extent: Extent2d, maxAgeSec: number, waitForDataSec: number, sessionId: string): Observable<OgnTraffic[]>;
 }

@@ -4,7 +4,7 @@ import {TrafficAircraftType} from '../../domain-model/traffic-aircraft-type';
 import {IDate} from '../../../system/domain-service/date/i-date';
 import {TrafficMap} from '../../domain-model/traffic-map';
 import {Traffic} from '../../domain-model/traffic';
-import {TrafficState} from '../../ngrx/traffic-state';
+import {TrafficState} from '../../../traffic-state/state-model/traffic-state';
 
 
 export class OgnTrafficMerger {

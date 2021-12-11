@@ -3,6 +3,6 @@ import {Traffic} from '../../domain-model/traffic';
 import {TrafficDetails} from '../../domain-model/traffic-details';
 
 
-export interface ITrafficDetailsService {
-    readDetails(trafficList: Traffic[]): Observable<TrafficDetails[]>;
+export abstract class ITrafficDetailsService {
+    abstract readDetails(trafficList: Traffic[]): Observable<TrafficDetails[]>;
 }

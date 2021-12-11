@@ -13,13 +13,13 @@ import {OlTrackContainer} from '../../../track-view/ol-components/ol-track-conta
 import {getShowTrack} from '../../../track-state/ngrx/track.selectors';
 import {OlFlightrouteContainer} from '../../../flightroute-view/ol-components/ol-flightroute-container';
 import {getFlightroute} from '../../../flightroute-state/ngrx/flightroute.selectors';
-import {OlTrafficContainer} from '../../../traffic/ol-components/ol-traffic-container';
-import {getTrafficState} from '../../../traffic/ngrx/traffic.selectors';
+import {OlTrafficContainer} from '../../../traffic-view/ol-components/ol-traffic-container';
+import {getTrafficState} from '../../../traffic-state/ngrx/traffic.selectors';
 import {OlOwnPlaneContainer} from '../../../location/ol-components/ol-own-plane-container';
 import {getLocationState} from '../../../location/ngrx/location.selectors';
 import {MapBaseLayerType} from '../../../base-map/domain-model/map-base-layer-type';
 import {OlMapContainerComponent} from '../../../base-map/ng-components/ol-map-container/ol-map-container.component';
-import {OlOverlayTrafficComponent} from '../../../traffic/ng-components/ol-overlay-traffic/ol-overlay-traffic.component';
+import {OlOverlayTrafficComponent} from '../../../traffic-view/ng-components/ol-overlay-traffic/ol-overlay-traffic.component';
 import {Observable} from 'rxjs/internal/Observable';
 import {Subscription} from 'rxjs/internal/Subscription';
 import {getFlightMapOverlay} from '../../../flight-map-state/ngrx/flight-map.selectors';

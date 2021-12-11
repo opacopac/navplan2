@@ -3,7 +3,7 @@ import {TrafficAircraftType} from '../../domain-model/traffic-aircraft-type';
 import {TrafficDetails} from '../../domain-model/traffic-details';
 import {TrafficMap} from '../../domain-model/traffic-map';
 import {Traffic} from '../../domain-model/traffic';
-import {TrafficState} from '../../ngrx/traffic-state';
+import {TrafficState} from '../../../traffic-state/state-model/traffic-state';
 
 
 export class TrafficDetailsMerger {

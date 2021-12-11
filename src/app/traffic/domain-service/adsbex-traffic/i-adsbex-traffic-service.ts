@@ -3,6 +3,6 @@ import {Observable} from 'rxjs';
 import {AdsbexTraffic} from '../../domain-model/adsbex-traffic';
 
 
-export interface IAdsbexTrafficService {
-    readTraffic(extent: Extent2d): Observable<AdsbexTraffic[]>;
+export abstract  class IAdsbexTrafficService {
+    abstract readTraffic(extent: Extent2d): Observable<AdsbexTraffic[]>;
 }

@@ -4,7 +4,7 @@ import {OpenskyTraffic} from '../../domain-model/opensky-traffic';
 import {StringnumberHelper} from '../../../system/domain-service/stringnumber/stringnumber-helper';
 import {IDate} from '../../../system/domain-service/date/i-date';
 import {TrafficMap} from '../../domain-model/traffic-map';
-import {TrafficState} from '../../ngrx/traffic-state';
+import {TrafficState} from '../../../traffic-state/state-model/traffic-state';
 
 
 export class OpenskyTrafficMerger {

@@ -21,7 +21,7 @@ import {NavaidActions} from '../../enroute-state/ngrx/navaid/navaid.actions';
 import {NotamActions} from '../../notam-state/ngrx/notam.actions';
 import {WebcamActions} from '../../webcam-state/ngrx/webcam.actions';
 import {MeteoSmaActions} from '../../meteo-sma-state/ngrx/meteo-sma.actions';
-import {TrafficActions} from '../../traffic/ngrx/traffic.actions';
+import {TrafficActions} from '../../traffic-state/ngrx/traffic.actions';
 import {Notam} from '../../notam/domain-model/notam';
 import {ShortAirport} from '../../aerodrome/domain-model/short-airport';
 import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';

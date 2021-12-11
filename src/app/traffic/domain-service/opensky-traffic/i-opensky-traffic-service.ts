@@ -3,6 +3,6 @@ import {Observable} from 'rxjs';
 import {OpenskyTraffic} from '../../domain-model/opensky-traffic';
 
 
-export interface IOpenskyTrafficService {
-    readTraffic(extent: Extent2d): Observable<OpenskyTraffic[]>;
+export abstract class IOpenskyTrafficService {
+    abstract readTraffic(extent: Extent2d): Observable<OpenskyTraffic[]>;
 }

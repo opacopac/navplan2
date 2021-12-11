@@ -7,7 +7,6 @@ import {BaseMapModule} from '../base-map/base-map.module';
 import {SearchModule} from '../search/search.module';
 import {LocationModule} from '../location/location.module';
 import {FlightTimerModule} from '../flight-timer/flight-timer.module';
-import {TrafficModule} from '../traffic/traffic.module';
 import {OlOverlayWaypointComponent} from './ng-components/ol-overlay-waypoint/ol-overlay-waypoint.component';
 import {OlMapOverlayComponent} from './ng-components/ol-map-overlay/ol-map-overlay.component';
 import {MetarTafViewModule} from '../metar-taf-view/metar-taf-view.module';
@@ -24,6 +23,7 @@ import {FlightMapStateModule} from '../flight-map-state/flight-map-state.module'
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatCardModule} from '@angular/material/card';
 import {UserViewModule} from '../user-view/user-view.module';
+import {TrafficViewModule} from '../traffic-view/traffic-view.module';
 
 @NgModule({
     declarations: [
@@ -41,7 +41,7 @@ import {UserViewModule} from '../user-view/user-view.module';
         SearchModule,
         LocationModule,
         FlightTimerModule,
-        TrafficModule,
+        TrafficViewModule,
         UserViewModule,
         AerodromeViewModule,
         EnrouteViewModule,
