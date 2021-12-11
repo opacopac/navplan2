@@ -1,4 +1,4 @@
-import {FlightrouteState} from './flightroute-state';
+import {FlightrouteState} from '../state-model/flightroute-state';
 import {Aircraft} from '../../flightroute/domain-model/aircraft';
 import {Flightroute} from '../../flightroute/domain-model/flightroute';
 import {Speed} from '../../common/geo-math/domain-model/quantities/speed';
@@ -15,9 +15,11 @@ import {SpeedUnit} from '../../common/geo-math/domain-model/quantities/speed-uni
 import {VolumeUnit} from '../../common/geo-math/domain-model/quantities/volume-unit';
 import {ConsumptionUnit} from '../../common/geo-math/domain-model/quantities/consumption-unit';
 import {FlightrouteActions} from './flightroute.actions';
+import {FlightrouteListActions} from './flightroute-list.actions';
 
 
 const initialState: FlightrouteState = {
+    flightrouteList: [],
     flightroute: new Flightroute(
         -1,
         '',
@@ -41,6 +43,11 @@ const initialState: FlightrouteState = {
 
 export const flightRouteReducer = createReducer(
     initialState,
+
+    on(FlightrouteListActions.showList, (state, action) => ({
+        ...state,
+        flightrouteList: action.flightrouteList
+    })),
 
     on(FlightrouteActions.update, (state, action) => {
         const newFlightroute = action.flightroute.clone();

@@ -1,4 +1,4 @@
-import {IRestFlightroute} from '../../flightroute/rest-model/i-rest-flightroute';
+import {IRestFlightroute} from '../../flightroute-rest/rest-model/i-rest-flightroute';
 
 
 export interface IRestExportFplRequest {

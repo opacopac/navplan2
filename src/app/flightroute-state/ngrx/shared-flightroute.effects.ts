@@ -3,12 +3,12 @@ import {Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
-import {FlightrouteState} from './flightroute-state';
+import {FlightrouteState} from '../state-model/flightroute-state';
 import {getFlightrouteState} from './flightroute.selectors';
 import {SharedFlightRouteActions} from './shared-flight-route.actions';
 import {MessageActions} from '../../message/ngrx/message.actions';
 import {Message} from '../../message/domain-model/message';
-import {IFlightrouteRepo} from '../../flightroute/domain-service/i-flightroute-repo';
+import {IFlightrouteService} from '../../flightroute/domain-service/i-flightroute.service';
 
 
 @Injectable()
@@ -19,7 +19,7 @@ export class SharedFlightrouteEffects {
     constructor(
         private readonly actions$: Actions,
         private readonly appStore: Store<any>,
-        private readonly flightrouteRepo: IFlightrouteRepo
+        private readonly flightrouteService: IFlightrouteService
     ) {
     }
 
@@ -27,7 +27,7 @@ export class SharedFlightrouteEffects {
     readSharedFlightrouteAction$ = createEffect(() => this.actions$.pipe(
         ofType(SharedFlightRouteActions.read),
         filter(action => action.shareId !== undefined),
-        switchMap(action => this.flightrouteRepo.readSharedFlightroute(action.shareId).pipe(
+        switchMap(action => this.flightrouteService.readSharedFlightroute(action.shareId).pipe(
             map(route => SharedFlightRouteActions.show({ flightroute: route })),
             catchError(error => of(MessageActions.showMessage({
                 message: Message.error('Error reading shared flight route:', error)
@@ -40,7 +40,7 @@ export class SharedFlightrouteEffects {
         ofType(SharedFlightRouteActions.save),
         withLatestFrom(this.flightrouteState$),
         filter(([action, flightrouteState]) => flightrouteState.flightroute !== undefined),
-        switchMap(([action, flightrouteState]) => this.flightrouteRepo.createSharedFlightroute(flightrouteState.flightroute).pipe(
+        switchMap(([action, flightrouteState]) => this.flightrouteService.createSharedFlightroute(flightrouteState.flightroute).pipe(
             map(shareId => SharedFlightRouteActions.saveSuccess({ shareId: shareId })),
             catchError(error => of(MessageActions.showMessage({
                 message: Message.error('Error creating shared flight route:', error)

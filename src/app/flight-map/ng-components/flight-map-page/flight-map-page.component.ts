@@ -11,7 +11,7 @@ import {OlNotamContainer} from '../../../notam-view/ol-components/ol-notam-conta
 import {getNotamList} from '../../../notam-state/ngrx/notam.selectors';
 import {OlTrackContainer} from '../../../track-view/ol-components/ol-track-container';
 import {getShowTrack} from '../../../track-state/ngrx/track.selectors';
-import {OlFlightrouteContainer} from '../../../flight-map-flightroute/ol-components/ol-flightroute-container';
+import {OlFlightrouteContainer} from '../../../flightroute-view/ol-components/ol-flightroute-container';
 import {getFlightroute} from '../../../flightroute-state/ngrx/flightroute.selectors';
 import {OlTrafficContainer} from '../../../traffic/ol-components/ol-traffic-container';
 import {getTrafficState} from '../../../traffic/ngrx/traffic.selectors';

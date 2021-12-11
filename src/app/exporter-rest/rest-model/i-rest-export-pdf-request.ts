@@ -1,5 +1,5 @@
-import {IRestFlightroute} from '../../flightroute/rest-model/i-rest-flightroute';
-import {IRestFuelCalc} from '../../flightroute/rest-model/i-rest-fuel-calc';
+import {IRestFlightroute} from '../../flightroute-rest/rest-model/i-rest-flightroute';
+import {IRestFuelCalc} from '../../flightroute-rest/rest-model/i-rest-fuel-calc';
 
 
 export interface IRestExportPdfRequest {

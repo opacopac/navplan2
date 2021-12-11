@@ -1,21 +1,17 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {SharedModule} from '../common/shared.module';
-import {FlightrouteRestService} from './rest-service/flightroute-rest.service';
-import {IFlightrouteRepo} from './domain-service/i-flightroute-repo';
+import {IFlightrouteService} from './domain-service/i-flightroute.service';
+import {FlightrouteService} from './domain-service/flightroute.service';
 
 
 @NgModule({
     imports: [
-        CommonModule,
-        SharedModule,
     ],
     declarations: [
     ],
     exports: [
     ],
     providers: [
-        { provide: IFlightrouteRepo, useClass: FlightrouteRestService }
+        { provide: IFlightrouteService, useClass: FlightrouteService }
     ],
 })
 export class FlightrouteModule {}

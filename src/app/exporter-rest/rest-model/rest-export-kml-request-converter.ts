@@ -1,5 +1,5 @@
 import {Flightroute} from '../../flightroute/domain-model/flightroute';
-import {RestFlightrouteConverter} from '../../flightroute/rest-model/rest-flightroute-converter';
+import {RestFlightrouteConverter} from '../../flightroute-rest/rest-model/rest-flightroute-converter';
 import {Track} from '../../track/domain-model/track';
 import {IRestExportKmlRequest} from './i-rest-export-kml-request';
 import {RestTrackConverter} from '../../track-rest/rest-model/rest-track-converter';

@@ -26,7 +26,7 @@ import {OlMapOverlayComponent} from './ng-components/ol-map-overlay/ol-map-overl
 import {UserModule} from '../user/user.module';
 import {FlightMapStateService} from './ngrx/flight-map-state.service';
 import {MetarTafViewModule} from '../metar-taf-view/metar-taf-view.module';
-import {FlightMapFlightrouteModule} from '../flight-map-flightroute/flight-map-flightroute.module';
+import {FlightrouteViewModule} from '../flightroute-view/flightroute-view.module';
 import {AerodromeViewModule} from '../aerodrome-view/aerodrome-view.module';
 import {GeonameViewModule} from '../geoname-view/geoname-view.module';
 import {MeteoSmaViewModule} from '../meteo-sma-view/meteo-sma-view.module';
@@ -65,7 +65,7 @@ import {VerticalMapViewModule} from '../vertical-map-view/vertical-map-view.modu
         UserModule,
         AerodromeViewModule,
         EnrouteViewModule,
-        FlightMapFlightrouteModule,
+        FlightrouteViewModule,
         GeonameViewModule,
         MetarTafViewModule,
         MeteoSmaViewModule,
