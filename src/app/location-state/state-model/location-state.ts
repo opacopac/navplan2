@@ -1,5 +1,5 @@
-import {LocationServiceStatus} from '../domain-service/location.service';
 import {Position4d} from '../../geo-physics/domain-model/geometry/position4d';
+import {LocationServiceStatus} from '../../location/domain-model/location-service-status';
 
 
 export interface LocationState {

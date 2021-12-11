@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TimerService} from '../../../system/domain-service/timer/timer.service';
-import {getLocationIsWatching} from '../../../location/ngrx/location.selectors';
+import {getLocationIsWatching} from '../../../location-state/ngrx/location.selectors';
 import {select, Store} from '@ngrx/store';
 
 

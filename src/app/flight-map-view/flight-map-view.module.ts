@@ -4,7 +4,6 @@ import {OlOverlayMeteogramComponent} from './ng-components/ol-overlay-meteogram/
 import {OlOverlayWindyiframeComponent} from './ng-components/ol-overlay-windyiframe/ol-overlay-windyiframe.component';
 import {FlightMapPageComponent} from './ng-components/flight-map-page/flight-map-page.component';
 import {BaseMapModule} from '../base-map/base-map.module';
-import {LocationModule} from '../location/location.module';
 import {FlightTimerModule} from '../flight-timer/flight-timer.module';
 import {OlOverlayWaypointComponent} from './ng-components/ol-overlay-waypoint/ol-overlay-waypoint.component';
 import {OlMapOverlayComponent} from './ng-components/ol-map-overlay/ol-map-overlay.component';
@@ -24,6 +23,7 @@ import {MatCardModule} from '@angular/material/card';
 import {UserViewModule} from '../user-view/user-view.module';
 import {TrafficViewModule} from '../traffic-view/traffic-view.module';
 import {SearchViewModule} from '../search-view/search-view.module';
+import {LocationViewModule} from '../location-view/location-view.module';
 
 @NgModule({
     declarations: [
@@ -38,20 +38,20 @@ import {SearchViewModule} from '../search-view/search-view.module';
         MatTabsModule,
         MatCardModule,
         BaseMapModule,
-        LocationModule,
-        FlightTimerModule,
-        TrafficViewModule,
-        UserViewModule,
         AerodromeViewModule,
         EnrouteViewModule,
         FlightMapStateModule,
+        FlightTimerModule,
         FlightrouteViewModule,
         GeonameViewModule,
+        LocationViewModule,
         MetarTafViewModule,
         MeteoSmaViewModule,
         NotamViewModule,
         SearchViewModule,
         TrackViewModule,
+        TrafficViewModule,
+        UserViewModule,
         VerticalMapViewModule,
         WebcamViewModule,
     ],

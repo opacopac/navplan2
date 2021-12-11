@@ -6,26 +6,18 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {Altitude} from '../../geo-physics/domain-model/geometry/altitude';
 import {AltitudeUnit} from '../../geo-physics/domain-model/geometry/altitude-unit';
 import {AltitudeReference} from '../../geo-physics/domain-model/geometry/altitude-reference';
-
-
-export enum LocationServiceStatus {
-    OFF,
-    WAITING,
-    CURRENT,
-    ERROR,
-}
-
-
-const ERROR_NOT_SUPPORTED_MSG = 'ERROR: geolocation is not supported by browser!';
-const POSITION_OPTIONS: PositionOptions = {
-    enableHighAccuracy: true,
-    timeout: 20000,
-    maximumAge: 0
-};
+import {ILocationService} from './i-location.service';
+import {LocationServiceStatus} from '../domain-model/location-service-status';
 
 
 @Injectable()
-export class LocationService {
+export class LocationService implements ILocationService {
+    private static readonly ERROR_NOT_SUPPORTED_MSG = 'ERROR: geolocation is not supported by browser!';
+    private static readonly POSITION_OPTIONS: PositionOptions = {
+        enableHighAccuracy: true,
+        timeout: 20000,
+        maximumAge: 0
+    };
     public lastPositions: Position4d[] = []; // TODO
     private readonly positionSource: BehaviorSubject<Position4d>;
     private readonly statusSource: BehaviorSubject<LocationServiceStatus>;
@@ -66,10 +58,10 @@ export class LocationService {
                         observer.complete();
                     },
                     error => observer.error(this.getPositionError(error)),
-                    POSITION_OPTIONS
+                    LocationService.POSITION_OPTIONS
                 );
             } else {
-                observer.error(ERROR_NOT_SUPPORTED_MSG);
+                observer.error(LocationService.ERROR_NOT_SUPPORTED_MSG);
             }
         });
     }
@@ -90,10 +82,10 @@ export class LocationService {
                     this.statusSource.next(LocationServiceStatus.ERROR);
                     this.positionSource.error(this.getPositionError(error));
                 },
-                POSITION_OPTIONS);
+                LocationService.POSITION_OPTIONS);
             this.watchIdSource.next(watchId);
         } else {
-            this.positionSource.error(ERROR_NOT_SUPPORTED_MSG);
+            this.positionSource.error(LocationService.ERROR_NOT_SUPPORTED_MSG);
             this.statusSource.next(LocationServiceStatus.ERROR);
         }
     }

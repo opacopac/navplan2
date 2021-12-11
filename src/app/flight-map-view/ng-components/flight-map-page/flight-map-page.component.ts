@@ -15,8 +15,8 @@ import {OlFlightrouteContainer} from '../../../flightroute-view/ol-components/ol
 import {getFlightroute} from '../../../flightroute-state/ngrx/flightroute.selectors';
 import {OlTrafficContainer} from '../../../traffic-view/ol-components/ol-traffic-container';
 import {getTrafficState} from '../../../traffic-state/ngrx/traffic.selectors';
-import {OlOwnPlaneContainer} from '../../../location/ol-components/ol-own-plane-container';
-import {getLocationState} from '../../../location/ngrx/location.selectors';
+import {OlOwnPlaneContainer} from '../../../location-view/ol-components/ol-own-plane-container';
+import {getLocationState} from '../../../location-state/ngrx/location.selectors';
 import {MapBaseLayerType} from '../../../base-map/domain-model/map-base-layer-type';
 import {OlMapContainerComponent} from '../../../base-map/ng-components/ol-map-container/ol-map-container.component';
 import {OlOverlayTrafficComponent} from '../../../traffic-view/ng-components/ol-overlay-traffic/ol-overlay-traffic.component';

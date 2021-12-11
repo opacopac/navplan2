@@ -3,9 +3,9 @@ import {Action, select, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
-import {LocationService} from '../domain-service/location.service';
 import {getLocationIsWatching} from './location.selectors';
 import {LocationActions} from './location.actions';
+import {ILocationService} from '../../location/domain-service/i-location.service';
 
 
 @Injectable()
@@ -16,7 +16,7 @@ export class LocationEffects {
     constructor(
         private actions$: Actions,
         private appStore: Store<any>,
-        private locationService: LocationService) {
+        private locationService: ILocationService) {
     }
 
 

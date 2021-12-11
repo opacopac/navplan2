@@ -1,7 +1,7 @@
-import {LocationState} from './location-state';
+import {LocationState} from '../state-model/location-state';
 import {LocationActions} from './location.actions';
-import {LocationServiceStatus} from '../domain-service/location.service';
 import {createReducer, on} from '@ngrx/store';
+import {LocationServiceStatus} from '../../location/domain-model/location-service-status';
 
 
 const initialState: LocationState = {

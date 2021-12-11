@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {LocationServiceStatus} from '../../domain-service/location.service';
-import {LocationActions} from '../../ngrx/location.actions';
-import {getLocationIsWatching, getLocationStatus} from '../../ngrx/location.selectors';
+import {LocationActions} from '../../../location-state/ngrx/location.actions';
+import {getLocationIsWatching, getLocationStatus} from '../../../location-state/ngrx/location.selectors';
+import {LocationServiceStatus} from '../../../location/domain-model/location-service-status';
 
 
 @Component({
