@@ -1,5 +1,5 @@
 import {SvgPolygonElement} from '../../common/svg/svg-polygon-element';
-import {Length} from '../../common/geo-math/domain-model/quantities/length';
+import {Length} from '../../geo-physics/domain-model/quantities/length';
 import {VerticalMap} from '../../vertical-map/domain-model/vertical-map';
 
 

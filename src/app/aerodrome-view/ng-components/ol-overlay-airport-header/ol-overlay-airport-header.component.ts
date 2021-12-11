@@ -1,8 +1,8 @@
 import {Component, Input} from '@angular/core';
-import {WmmHelper} from '../../../common/geo-math/domain-service/wmm-helper';
 import {Airport} from '../../../aerodrome/domain-model/airport';
 import {AirportType} from '../../../aerodrome/domain-model/airport-type';
 import {OlAirportIcon} from '../../ol-components/airport/ol-airport-icon';
+import {IWmmService} from '../../../geo-physics/domain-service/wmm/i-wmm.service';
 
 
 @Component({
@@ -12,6 +12,10 @@ import {OlAirportIcon} from '../../ol-components/airport/ol-airport-icon';
 })
 export class OlOverlayAirportHeaderComponent  {
     @Input() public airport: Airport;
+
+
+    public constructor(private wmmService: IWmmService) {
+    }
 
 
     public getTitle(): string {
@@ -64,7 +68,7 @@ export class OlOverlayAirportHeaderComponent  {
         if (rwy.directionContainsMagneticVariation()) {
             return rwy.direction1;
         }
-        const magVar = WmmHelper.calcMagneticVariation(this.airport.position);
+        const magVar = this.wmmService.calcMagneticVariation(this.airport.position);
 
         return rwy.direction1 + magVar.deg;
     }

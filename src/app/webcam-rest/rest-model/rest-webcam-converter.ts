@@ -1,6 +1,6 @@
 import {Webcam} from '../../webcam/domain-model/webcam';
 import {IRestWebcam} from './i-rest-webcam';
-import {Position2dConverter} from '../../common/geo-math/rest-model/position2d-converter';
+import {Position2dConverter} from '../../geo-physics-rest/rest-model/position2d-converter';
 
 
 export class RestWebcamConverter {

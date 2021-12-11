@@ -6,13 +6,13 @@ import {filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {RouteMeteoActions} from './route-meteo.actions';
 import {getRouteMeteoState} from './route-meteo.selectors';
 import {RouteMeteoState} from '../state-model/route-meteo-state';
-import {Length} from '../../common/geo-math/domain-model/quantities/length';
-import {LengthUnit} from '../../common/geo-math/domain-model/quantities/length-unit';
+import {Length} from '../../geo-physics/domain-model/quantities/length';
+import {LengthUnit} from '../../geo-physics/domain-model/quantities/length-unit';
 import {Flightroute} from '../../flightroute/domain-model/flightroute';
 import {getFlightroute} from '../../flightroute-state/ngrx/flightroute.selectors';
-import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
-import {LineString} from '../../common/geo-math/domain-model/geometry/line-string';
-import {GeodesyHelper} from '../../common/geo-math/domain-service/geodesy-helper';
+import {Extent2d} from '../../geo-physics/domain-model/geometry/extent2d';
+import {LineString} from '../../geo-physics/domain-model/geometry/line-string';
+import {GeodesyHelper} from '../../geo-physics/domain-service/geometry/geodesy-helper';
 import {IMetarTafService} from '../../metar-taf/domain-service/i-metar-taf.service';
 
 

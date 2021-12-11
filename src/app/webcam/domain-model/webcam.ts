@@ -1,5 +1,5 @@
 import {DataItem, DataItemType} from '../../common/model/data-item';
-import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../geo-physics/domain-model/geometry/position2d';
 
 
 export class Webcam extends DataItem {

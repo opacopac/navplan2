@@ -1,5 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {Position4d} from '../../common/geo-math/domain-model/geometry/position4d';
+import {Position4d} from '../../geo-physics/domain-model/geometry/position4d';
 
 
 export class LocationActions {

@@ -1,6 +1,6 @@
 import {createAction, props} from '@ngrx/store';
 import {TrafficMap} from '../../traffic/domain-model/traffic-map';
-import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
+import {Extent2d} from '../../geo-physics/domain-model/geometry/extent2d';
 
 
 export class TrafficActions {

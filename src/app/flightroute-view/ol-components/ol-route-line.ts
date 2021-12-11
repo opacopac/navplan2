@@ -4,7 +4,7 @@ import {LineString} from 'ol/geom';
 import {Stroke, Style} from 'ol/style';
 import {Flightroute} from '../../flightroute/domain-model/flightroute';
 import {EventEmitter} from '@angular/core';
-import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../geo-physics/domain-model/geometry/position2d';
 import {ModifyEvent} from 'ol/interaction/Modify';
 import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
 import {OlFeature} from '../../base-map/ol-model/ol-feature';

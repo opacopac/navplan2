@@ -2,10 +2,10 @@ import {Aircraft} from './aircraft';
 import {Waypoint} from './waypoint';
 import {RouteFuel} from './routefuel';
 import {Clonable} from '../../system/domain-model/clonable';
-import {Time} from '../../common/geo-math/domain-model/quantities/time';
-import {Length} from '../../common/geo-math/domain-model/quantities/length';
+import {Time} from '../../geo-physics/domain-model/quantities/time';
+import {Length} from '../../geo-physics/domain-model/quantities/length';
 import {WaypointType} from './waypoint-type';
-import {LengthUnit} from '../../common/geo-math/domain-model/quantities/length-unit';
+import {LengthUnit} from '../../geo-physics/domain-model/quantities/length-unit';
 
 
 export class Flightroute implements Clonable<Flightroute> {

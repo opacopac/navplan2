@@ -2,9 +2,9 @@ import {WaypointType} from '../waypoint-type';
 import {ReportingPoint} from '../../../aerodrome/domain-model/reporting-point';
 import {WaypointAltitude} from '../waypoint-altitude';
 import {Waypoint} from '../waypoint';
-import {AltitudeUnit} from '../../../common/geo-math/domain-model/geometry/altitude-unit';
-import {AltitudeReference} from '../../../common/geo-math/domain-model/geometry/altitude-reference';
-import {Altitude} from '../../../common/geo-math/domain-model/geometry/altitude';
+import {AltitudeUnit} from '../../../geo-physics/domain-model/geometry/altitude-unit';
+import {AltitudeReference} from '../../../geo-physics/domain-model/geometry/altitude-reference';
+import {Altitude} from '../../../geo-physics/domain-model/geometry/altitude';
 
 
 export class ReportingpointWaypointConverter {

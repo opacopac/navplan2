@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ReportingPoint} from '../../../aerodrome/domain-model/reporting-point';
 import {StringnumberHelper} from '../../../system/domain-service/stringnumber/stringnumber-helper';
-import {Length} from '../../../common/geo-math/domain-model/quantities/length';
-import {LengthUnit} from '../../../common/geo-math/domain-model/quantities/length-unit';
+import {Length} from '../../../geo-physics/domain-model/quantities/length';
+import {LengthUnit} from '../../../geo-physics/domain-model/quantities/length-unit';
 
 
 @Component({

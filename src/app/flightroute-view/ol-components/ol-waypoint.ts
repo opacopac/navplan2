@@ -1,5 +1,5 @@
 import {Circle, Fill, Stroke, Style, Text} from 'ol/style';
-import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
+import {Angle} from '../../geo-physics/domain-model/quantities/angle';
 import {OlWaypointBearingLabel} from './ol-waypoint-bearing-label';
 import {Waypoint} from '../../flightroute/domain-model/waypoint';
 import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';

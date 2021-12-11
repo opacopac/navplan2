@@ -24,7 +24,7 @@ import {MeteoSmaActions} from '../../meteo-sma-state/ngrx/meteo-sma.actions';
 import {TrafficActions} from '../../traffic-state/ngrx/traffic.actions';
 import {Notam} from '../../notam/domain-model/notam';
 import {ShortAirport} from '../../aerodrome/domain-model/short-airport';
-import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../geo-physics/domain-model/geometry/position2d';
 import {Webcam} from '../../webcam/domain-model/webcam';
 import {AirportChartActions} from '../../aerodrome-state/ngrx/airport-chart/airport-chart.actions';
 import {AirportChart} from '../../aerodrome/domain-model/airport-chart';

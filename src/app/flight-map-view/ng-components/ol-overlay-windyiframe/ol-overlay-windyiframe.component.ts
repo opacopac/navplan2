@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../../geo-physics/domain-model/geometry/position2d';
 import {ReplaySubject} from 'rxjs';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 

@@ -1,7 +1,7 @@
 import {Waypoint} from '../../flightroute/domain-model/waypoint';
 import {WaypointType} from '../../flightroute/domain-model/waypoint-type';
 import {IRestWaypoint} from './i-rest-waypoint';
-import {Position2dConverter} from '../../common/geo-math/rest-model/position2d-converter';
+import {Position2dConverter} from '../../geo-physics-rest/rest-model/position2d-converter';
 import {RestWaypointAltitudeConverter} from './rest-waypoint-altitude-converter';
 
 

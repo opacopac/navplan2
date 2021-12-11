@@ -1,10 +1,10 @@
-import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../geo-physics/domain-model/geometry/position2d';
 import {BaseMapState} from '../domain-model/base-map-state';
-import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
+import {Angle} from '../../geo-physics/domain-model/quantities/angle';
 import {BaseMapActions} from './base-map.actions';
 import {MapBaseLayerType} from '../domain-model/map-base-layer-type';
 import {createReducer, on} from '@ngrx/store';
-import {AngleUnit} from '../../common/geo-math/domain-model/quantities/angle-unit';
+import {AngleUnit} from '../../geo-physics/domain-model/quantities/angle-unit';
 
 
 const initialState: BaseMapState = {

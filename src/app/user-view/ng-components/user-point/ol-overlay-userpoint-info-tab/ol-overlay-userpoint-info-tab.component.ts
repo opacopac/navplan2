@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {UserPoint} from '../../../../user/domain-model/user-point';
 import {StringnumberHelper} from '../../../../system/domain-service/stringnumber/stringnumber-helper';
-import {WmmHelper} from '../../../../common/geo-math/domain-service/wmm-helper';
+import {IWmmService} from '../../../../geo-physics/domain-service/wmm/i-wmm.service';
 
 
 @Component({
@@ -13,6 +13,10 @@ export class OlOverlayUserpointInfoTabComponent implements OnInit {
     @Input() public userpoint: UserPoint;
 
 
+    public constructor(private wmmService: IWmmService) {
+    }
+
+
     ngOnInit() {
     }
 
@@ -22,7 +26,7 @@ export class OlOverlayUserpointInfoTabComponent implements OnInit {
 
 
     public getVariationString(): string {
-        const magVar = WmmHelper.calcMagneticVariation(this.userpoint.position);
+        const magVar = this.wmmService.calcMagneticVariation(this.userpoint.position);
         return StringnumberHelper.getEWString(magVar, 1);
     }
 }

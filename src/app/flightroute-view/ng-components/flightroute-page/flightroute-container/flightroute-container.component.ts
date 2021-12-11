@@ -9,15 +9,15 @@ import {getCurrentUser} from '../../../../user-state/ngrx/user.selectors';
 import {Flightroute} from '../../../../flightroute/domain-model/flightroute';
 import {User} from '../../../../user/domain-model/user';
 import {Waypoint} from '../../../../flightroute/domain-model/waypoint';
-import {Speed} from '../../../../common/geo-math/domain-model/quantities/speed';
-import {Consumption} from '../../../../common/geo-math/domain-model/quantities/consumption';
+import {Speed} from '../../../../geo-physics/domain-model/quantities/speed';
+import {Consumption} from '../../../../geo-physics/domain-model/quantities/consumption';
 import {FlightrouteListDialogComponent} from '../flightroute-list-dialog/flightroute-list-dialog.component';
 import {EditWaypointDialogComponent} from '../edit-waypoint-dialog/edit-waypoint-dialog.component';
 import {FlightrouteListActions} from '../../../../flightroute-state/ngrx/flightroute-list.actions';
 import {FlightrouteCrudActions} from '../../../../flightroute-state/ngrx/flightroute-crud.actions';
 import {WaypointActions} from '../../../../flightroute-state/ngrx/waypoints.actions';
-import {SpeedUnit} from '../../../../common/geo-math/domain-model/quantities/speed-unit';
-import {ConsumptionUnit} from '../../../../common/geo-math/domain-model/quantities/consumption-unit';
+import {SpeedUnit} from '../../../../geo-physics/domain-model/quantities/speed-unit';
+import {ConsumptionUnit} from '../../../../geo-physics/domain-model/quantities/consumption-unit';
 import {FlightrouteActions} from '../../../../flightroute-state/ngrx/flightroute.actions';
 
 

@@ -1,6 +1,6 @@
 import {createAction, props} from '@ngrx/store';
 import {SmaMeasurement} from '../../meteo-sma/domain-model/sma-measurement';
-import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
+import {Extent2d} from '../../geo-physics/domain-model/geometry/extent2d';
 
 
 export class MeteoSmaActions {

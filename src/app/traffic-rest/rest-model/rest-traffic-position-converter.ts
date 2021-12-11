@@ -2,8 +2,8 @@ import {TrafficDataSource} from '../../traffic/domain-model/traffic-data-source'
 import {TrafficPosition} from '../../traffic/domain-model/traffic-position';
 import {TrafficPositionMethod} from '../../traffic/domain-model/traffic-position-method';
 import {IRestTrafficPosition} from './i-rest-traffic-position';
-import {Position4dConverter} from '../../common/geo-math/rest-model/position4d-converter';
-import {TimestampConverter} from '../../common/geo-math/rest-model/timestamp-converter';
+import {Position4dConverter} from '../../geo-physics-rest/rest-model/position4d-converter';
+import {TimestampConverter} from '../../geo-physics-rest/rest-model/timestamp-converter';
 
 
 export class RestTrafficPositionConverter {

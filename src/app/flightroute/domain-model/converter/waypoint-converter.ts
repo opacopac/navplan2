@@ -1,5 +1,5 @@
 import {DataItem} from 'app/common/model/data-item';
-import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../../geo-physics/domain-model/geometry/position2d';
 import {Airport} from '../../../aerodrome/domain-model/airport';
 import {Navaid} from '../../../enroute/domain-model/navaid';
 import {ReportingPoint} from '../../../aerodrome/domain-model/reporting-point';

@@ -1,8 +1,8 @@
 import {Icon, Style} from 'ol/style';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
 import {environment} from '../../../environments/environment';
-import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
-import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
+import {Position2d} from '../../geo-physics/domain-model/geometry/position2d';
+import {Angle} from '../../geo-physics/domain-model/quantities/angle';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
 import {OlFeature} from '../../base-map/ol-model/ol-feature';

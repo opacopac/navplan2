@@ -1,5 +1,5 @@
 import {Clonable} from '../../system/domain-model/clonable';
-import {Altitude} from '../../common/geo-math/domain-model/geometry/altitude';
+import {Altitude} from '../../geo-physics/domain-model/geometry/altitude';
 
 
 export class WaypointAltitude implements Clonable<WaypointAltitude> {

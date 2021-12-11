@@ -1,5 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
+import {Extent2d} from '../../geo-physics/domain-model/geometry/extent2d';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
 
 

@@ -1,5 +1,5 @@
 import {VerticalMapAirspaceStep} from './vertical-map-airspace-step';
-import {Altitude} from '../../common/geo-math/domain-model/geometry/altitude';
+import {Altitude} from '../../geo-physics/domain-model/geometry/altitude';
 
 
 export class VerticalMapAirspace {

@@ -1,5 +1,5 @@
-import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
-import {Altitude} from '../../common/geo-math/domain-model/geometry/altitude';
+import {Position2d} from '../../geo-physics/domain-model/geometry/position2d';
+import {Altitude} from '../../geo-physics/domain-model/geometry/altitude';
 
 
 export class SmaStation {

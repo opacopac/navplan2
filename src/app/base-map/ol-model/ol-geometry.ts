@@ -1,10 +1,10 @@
 import {Geometry, LineString, MultiLineString, Point as OlPoint, Polygon as OlPoly} from 'ol/geom';
-import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
-import {Polygon} from '../../common/geo-math/domain-model/geometry/polygon';
-import {Multipolygon} from '../../common/geo-math/domain-model/geometry/multipolygon';
+import {Position2d} from '../../geo-physics/domain-model/geometry/position2d';
+import {Polygon} from '../../geo-physics/domain-model/geometry/polygon';
+import {Multipolygon} from '../../geo-physics/domain-model/geometry/multipolygon';
 import {fromLonLat, toLonLat, transformExtent} from 'ol/proj';
 import {Coordinate} from 'ol/coordinate';
-import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
+import {Extent2d} from '../../geo-physics/domain-model/geometry/extent2d';
 
 
 export class OlGeometry {

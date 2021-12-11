@@ -26,6 +26,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {RouterModule} from '@angular/router';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {GeoPhysicsModule} from '../geo-physics/geo-physics.module';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
         UserModule,
         UserRestModule,
         UserStateModule,
+        GeoPhysicsModule,
     ],
     declarations: [
         LoginRegisterPageComponent,

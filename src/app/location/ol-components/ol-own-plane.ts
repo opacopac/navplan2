@@ -1,8 +1,8 @@
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {environment} from '../../../environments/environment';
-import {GeodesyHelper} from '../../common/geo-math/domain-service/geodesy-helper';
-import {Position4d} from '../../common/geo-math/domain-model/geometry/position4d';
-import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
+import {GeodesyHelper} from '../../geo-physics/domain-service/geometry/geodesy-helper';
+import {Position4d} from '../../geo-physics/domain-model/geometry/position4d';
+import {Angle} from '../../geo-physics/domain-model/quantities/angle';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
 import {OlFeature} from '../../base-map/ol-model/ol-feature';

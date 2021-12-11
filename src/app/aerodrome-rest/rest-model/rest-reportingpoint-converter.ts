@@ -1,7 +1,7 @@
 import {ReportingPoint} from '../../aerodrome/domain-model/reporting-point';
 import {IRestReportingpoint} from './i-rest-reportingpoint';
-import {Position2dConverter} from '../../common/geo-math/rest-model/position2d-converter';
-import {RestLengthConverter} from '../../common/geo-math/rest-model/rest-length-converter';
+import {Position2dConverter} from '../../geo-physics-rest/rest-model/position2d-converter';
+import {RestLengthConverter} from '../../geo-physics-rest/rest-model/rest-length-converter';
 
 
 export class RestReportingpointConverter {

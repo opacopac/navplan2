@@ -5,7 +5,7 @@ import {getMetarTafState} from '../../metar-taf-state/ngrx/metar-taf.selectors';
 import {getAirportState} from '../../aerodrome-state/ngrx/airport/airport.selectors';
 import {getReportingPointSectorState} from '../../aerodrome-state/ngrx/reporting-point-sector/reporting-point-sector.selectors';
 import {getNavaidState} from '../../enroute-state/ngrx/navaid/navaid.selectors';
-import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../geo-physics/domain-model/geometry/position2d';
 import {DataItem} from '../../common/model/data-item';
 import {Waypoint} from '../../flightroute/domain-model/waypoint';
 import {map} from 'rxjs/operators';

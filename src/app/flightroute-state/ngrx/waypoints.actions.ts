@@ -1,6 +1,6 @@
 import {createAction, props} from '@ngrx/store';
 import {Waypoint} from '../../flightroute/domain-model/waypoint';
-import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../geo-physics/domain-model/geometry/position2d';
 
 
 export class WaypointActions {

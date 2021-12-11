@@ -15,6 +15,7 @@ import {AerodromeStateModule} from '../aerodrome-state/aerodrome-state.module';
 import {AerodromeRestModule} from '../aerodrome-rest/aerodrome-rest.module';
 import {MatCardModule} from '@angular/material/card';
 import {MatTableModule} from '@angular/material/table';
+import {GeoPhysicsModule} from '../geo-physics/geo-physics.module';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import {MatTableModule} from '@angular/material/table';
         AerodromeModule,
         AerodromeRestModule,
         AerodromeStateModule,
+        GeoPhysicsModule,
     ],
     declarations: [
         OlOverlayAirportHeaderComponent,

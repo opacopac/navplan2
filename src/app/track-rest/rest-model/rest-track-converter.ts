@@ -1,7 +1,7 @@
 import {Track} from '../../track/domain-model/track';
 import {IRestTrack} from './i-rest-track';
-import {Position4dConverter} from '../../common/geo-math/rest-model/position4d-converter';
-import {TimestampConverter} from '../../common/geo-math/rest-model/timestamp-converter';
+import {Position4dConverter} from '../../geo-physics-rest/rest-model/position4d-converter';
+import {TimestampConverter} from '../../geo-physics-rest/rest-model/timestamp-converter';
 
 
 export class RestTrackConverter {

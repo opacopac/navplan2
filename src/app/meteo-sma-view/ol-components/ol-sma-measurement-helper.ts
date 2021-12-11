@@ -1,4 +1,4 @@
-import {Time} from '../../common/geo-math/domain-model/quantities/time';
+import {Time} from '../../geo-physics/domain-model/quantities/time';
 
 
 export class OlSmaMeasurementHelper {

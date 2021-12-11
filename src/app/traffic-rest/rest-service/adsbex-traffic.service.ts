@@ -5,7 +5,7 @@ import {catchError, map} from 'rxjs/operators';
 import {Observable} from 'rxjs/internal/Observable';
 import {environment} from '../../../environments/environment';
 import {LoggingService} from '../../system/domain-service/logging/logging.service';
-import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
+import {Extent2d} from '../../geo-physics/domain-model/geometry/extent2d';
 import {IRestAdsbexTrafficResponse} from '../rest-model/adsbex/i-rest-adsbex-traffic-response';
 import {RestAdsbexTrafficResponseConverter} from '../rest-model/adsbex/rest-adsbex-traffic-response-converter';
 import {AdsbexTraffic} from '../../traffic/domain-model/adsbex-traffic';

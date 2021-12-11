@@ -1,5 +1,5 @@
 import {Observable} from 'rxjs';
-import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
+import {Extent2d} from '../../geo-physics/domain-model/geometry/extent2d';
 import {ReportingPointsAndSectors} from '../domain-model/reporting-points-and-sectors';
 import {IReportingPointService} from './i-reporting-point.service';
 import {IReportingPointRepoService} from './i-reporting-point-repo.service';

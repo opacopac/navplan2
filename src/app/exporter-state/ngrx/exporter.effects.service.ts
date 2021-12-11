@@ -10,7 +10,7 @@ import {Message} from '../../message/domain-model/message';
 import {ExporterActions} from './exporter.actions';
 import {IExporterService} from '../../exporter/domain-service/i-exporter.service';
 import {Track} from '../../track/domain-model/track';
-import {Timestamp} from '../../common/geo-math/domain-model/quantities/timestamp';
+import {Timestamp} from '../../geo-physics/domain-model/quantities/timestamp';
 
 
 @Injectable()

@@ -1,6 +1,6 @@
 import {IRestAirportCircuit} from './i-rest-airport-circuit';
 import {AirportCircuit} from '../../aerodrome/domain-model/airport-circuit';
-import {MultiLineString} from '../../common/geo-math/domain-model/geometry/multi-line-string';
+import {MultiLineString} from '../../geo-physics/domain-model/geometry/multi-line-string';
 
 
 export class RestAirportCircuitConverter {

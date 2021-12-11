@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Geoname} from '../../../geoname/domain-model/geoname';
 import {StringnumberHelper} from '../../../system/domain-service/stringnumber/stringnumber-helper';
-import {WmmHelper} from '../../../common/geo-math/domain-service/wmm-helper';
-import {LengthUnit} from '../../../common/geo-math/domain-model/quantities/length-unit';
+import {LengthUnit} from '../../../geo-physics/domain-model/quantities/length-unit';
+import {IWmmService} from '../../../geo-physics/domain-service/wmm/i-wmm.service';
 
 
 @Component({
@@ -12,6 +12,10 @@ import {LengthUnit} from '../../../common/geo-math/domain-model/quantities/lengt
 })
 export class OlOverlayGeonameInfoTabComponent implements OnInit {
     @Input() public geoname: Geoname;
+
+
+    public constructor(private wmmService: IWmmService) {
+    }
 
 
     ngOnInit() {
@@ -24,7 +28,7 @@ export class OlOverlayGeonameInfoTabComponent implements OnInit {
 
 
     public getVariationString(): string {
-        const magVar = WmmHelper.calcMagneticVariation(this.geoname.position);
+        const magVar = this.wmmService.calcMagneticVariation(this.geoname.position);
         return StringnumberHelper.getEWString(magVar, 1);;
     }
 

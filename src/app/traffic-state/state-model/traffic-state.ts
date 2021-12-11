@@ -1,5 +1,5 @@
 import {TrafficServiceStatus} from '../../traffic/domain-model/traffic-service-status';
-import {Extent3d} from '../../common/geo-math/domain-model/geometry/extent3d';
+import {Extent3d} from '../../geo-physics/domain-model/geometry/extent3d';
 import {TrafficMap} from '../../traffic/domain-model/traffic-map';
 
 

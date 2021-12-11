@@ -1,16 +1,16 @@
 import {IRestSmaMeasurement} from './i-rest-sma-measurement';
 import {SmaMeasurement} from '../../meteo-sma/domain-model/sma-measurement';
 import {RestSmaStationConverter} from './rest-sma-station-converter';
-import {Timestamp} from '../../common/geo-math/domain-model/quantities/timestamp';
-import {Temperature} from '../../common/geo-math/domain-model/quantities/temperature';
-import {TemperatureUnit} from '../../common/geo-math/domain-model/quantities/temperature-unit';
-import {AngleUnit} from '../../common/geo-math/domain-model/quantities/angle-unit';
-import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
-import {Speed} from '../../common/geo-math/domain-model/quantities/speed';
-import {SpeedUnit} from '../../common/geo-math/domain-model/quantities/speed-unit';
-import {Pressure} from '../../common/geo-math/domain-model/quantities/pressure';
-import {PressureUnit} from '../../common/geo-math/domain-model/quantities/pressure-unit';
-import {RestTimeConverter} from '../../common/geo-math/rest-model/rest-time-converter';
+import {Timestamp} from '../../geo-physics/domain-model/quantities/timestamp';
+import {Temperature} from '../../geo-physics/domain-model/quantities/temperature';
+import {TemperatureUnit} from '../../geo-physics/domain-model/quantities/temperature-unit';
+import {AngleUnit} from '../../geo-physics/domain-model/quantities/angle-unit';
+import {Angle} from '../../geo-physics/domain-model/quantities/angle';
+import {Speed} from '../../geo-physics/domain-model/quantities/speed';
+import {SpeedUnit} from '../../geo-physics/domain-model/quantities/speed-unit';
+import {Pressure} from '../../geo-physics/domain-model/quantities/pressure';
+import {PressureUnit} from '../../geo-physics/domain-model/quantities/pressure-unit';
+import {RestTimeConverter} from '../../geo-physics-rest/rest-model/rest-time-converter';
 
 
 export class RestSmaMeasurementConverter {

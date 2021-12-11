@@ -1,7 +1,7 @@
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {environment} from '../../../environments/environment';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
-import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../geo-physics/domain-model/geometry/position2d';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
 import {OlFeature} from '../../base-map/ol-model/ol-feature';

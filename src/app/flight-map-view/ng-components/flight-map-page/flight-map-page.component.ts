@@ -1,8 +1,8 @@
 import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {BaseMapActions} from '../../../base-map/ngrx/base-map.actions';
-import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
-import {Angle} from '../../../common/geo-math/domain-model/quantities/angle';
+import {Position2d} from '../../../geo-physics/domain-model/geometry/position2d';
+import {Angle} from '../../../geo-physics/domain-model/quantities/angle';
 import {combineLatest} from 'rxjs';
 import {map, take} from 'rxjs/operators';
 import {getMapPosition, getMapRotation, getMapZoom} from '../../../base-map/ngrx/base-map.selectors';

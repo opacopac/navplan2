@@ -1,9 +1,9 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {RouteFuel} from '../../../../flightroute/domain-model/routefuel';
 import {StringnumberHelper} from '../../../../system/domain-service/stringnumber/stringnumber-helper';
-import {Time} from '../../../../common/geo-math/domain-model/quantities/time';
-import {Volume} from '../../../../common/geo-math/domain-model/quantities/volume';
-import {VolumeUnit} from '../../../../common/geo-math/domain-model/quantities/volume-unit';
+import {Time} from '../../../../geo-physics/domain-model/quantities/time';
+import {Volume} from '../../../../geo-physics/domain-model/quantities/volume';
+import {VolumeUnit} from '../../../../geo-physics/domain-model/quantities/volume-unit';
 
 
 interface FuelDataSourceRow {

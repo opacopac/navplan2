@@ -4,7 +4,7 @@ import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {LoggingService} from '../../system/domain-service/logging/logging.service';
-import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
+import {Extent2d} from '../../geo-physics/domain-model/geometry/extent2d';
 import {Webcam} from '../../webcam/domain-model/webcam';
 import {IRestWebcam} from '../rest-model/i-rest-webcam';
 import {RestWebcamConverter} from '../rest-model/rest-webcam-converter';

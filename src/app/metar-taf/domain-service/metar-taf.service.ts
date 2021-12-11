@@ -1,5 +1,5 @@
 import {Observable} from 'rxjs/internal/Observable';
-import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
+import {Extent2d} from '../../geo-physics/domain-model/geometry/extent2d';
 import {MetarTaf} from '../domain-model/metar-taf';
 import {Injectable} from '@angular/core';
 import {IMetarTafRepoService} from './i-metar-taf-repo.service';

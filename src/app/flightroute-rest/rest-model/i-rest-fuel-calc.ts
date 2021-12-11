@@ -1,5 +1,5 @@
-import {IRestTime} from '../../common/geo-math/rest-model/i-rest-time';
-import {IRestVolume} from '../../common/geo-math/rest-model/i-rest-volume';
+import {IRestTime} from '../../geo-physics-rest/rest-model/i-rest-time';
+import {IRestVolume} from '../../geo-physics-rest/rest-model/i-rest-volume';
 
 
 export interface IRestFuelCalc {

@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../../geo-physics/domain-model/geometry/position2d';
 import {DataItem} from '../../../common/model/data-item';
-import {Extent2d} from '../../../common/geo-math/domain-model/geometry/extent2d';
+import {Extent2d} from '../../../geo-physics/domain-model/geometry/extent2d';
 import {BaseMapActions} from '../../ngrx/base-map.actions';
-import {Angle} from '../../../common/geo-math/domain-model/quantities/angle';
+import {Angle} from '../../../geo-physics/domain-model/quantities/angle';
 import {Feature, Map, MapBrowserEvent, MapEvent, View} from 'ol';
 import TileLayer from 'ol/layer/Tile';
 import Overlay from 'ol/Overlay';
@@ -28,7 +28,7 @@ import {OlVectorLayer} from '../../ol-model/ol-vector-layer';
 import {OlGeometry} from '../../ol-model/ol-geometry';
 import {OlFeature} from '../../ol-model/ol-feature';
 import {MouseWheelZoom} from 'ol/interaction';
-import {AngleUnit} from '../../../common/geo-math/domain-model/quantities/angle-unit';
+import {AngleUnit} from '../../../geo-physics/domain-model/quantities/angle-unit';
 
 
 @Component({

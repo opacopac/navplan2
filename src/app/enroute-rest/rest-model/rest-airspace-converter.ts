@@ -1,7 +1,7 @@
 import {IRestAirspace} from './i-rest-airspace';
 import {Airspace} from '../../enroute/domain-model/airspace';
-import {RestAltitudeConverter} from '../../common/geo-math/rest-model/rest-altitude-converter';
-import {PolygonConverter} from '../../common/geo-math/rest-model/polygon-converter';
+import {RestAltitudeConverter} from '../../geo-physics-rest/rest-model/rest-altitude-converter';
+import {PolygonConverter} from '../../geo-physics-rest/rest-model/polygon-converter';
 
 
 export class RestAirspaceConverter {

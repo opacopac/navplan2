@@ -1,6 +1,6 @@
-import {IRestPosition2d} from '../../common/geo-math/rest-model/i-rest-position2d';
-import {IRestPolygon} from '../../common/geo-math/rest-model/i-rest-polygon';
-import {IRestAltitude} from '../../common/geo-math/rest-model/i-rest-altitude';
+import {IRestPosition2d} from '../../geo-physics-rest/rest-model/i-rest-position2d';
+import {IRestPolygon} from '../../geo-physics-rest/rest-model/i-rest-polygon';
+import {IRestAltitude} from '../../geo-physics-rest/rest-model/i-rest-altitude';
 
 
 export interface IRestReportingpoint {

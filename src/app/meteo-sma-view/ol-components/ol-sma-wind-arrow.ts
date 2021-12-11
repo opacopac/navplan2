@@ -1,6 +1,6 @@
 import {Circle, Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {SmaMeasurement} from '../../meteo-sma/domain-model/sma-measurement';
-import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
+import {Angle} from '../../geo-physics/domain-model/quantities/angle';
 import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
 import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
 import {OlFeature} from '../../base-map/ol-model/ol-feature';

@@ -1,7 +1,7 @@
 import {IRestWaypoint} from './i-rest-waypoint';
-import {IRestSpeed} from '../../common/geo-math/rest-model/i-rest-speed';
-import {IRestConsumption} from '../../common/geo-math/rest-model/i-rest-consumption';
-import {IRestVolume} from '../../common/geo-math/rest-model/i-rest-volume';
+import {IRestSpeed} from '../../geo-physics-rest/rest-model/i-rest-speed';
+import {IRestConsumption} from '../../geo-physics-rest/rest-model/i-rest-consumption';
+import {IRestVolume} from '../../geo-physics-rest/rest-model/i-rest-volume';
 
 
 export interface IRestFlightroute {

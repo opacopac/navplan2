@@ -1,5 +1,5 @@
 import {IRestSmaStation} from './i-rest-sma-station';
-import {IRestTime} from '../../common/geo-math/rest-model/i-rest-time';
+import {IRestTime} from '../../geo-physics-rest/rest-model/i-rest-time';
 
 
 export interface IRestSmaMeasurement {

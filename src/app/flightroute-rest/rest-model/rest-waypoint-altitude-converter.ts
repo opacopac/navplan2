@@ -1,6 +1,6 @@
 import {WaypointAltitude} from '../../flightroute/domain-model/waypoint-altitude';
 import {IRestWaypointAltitude} from './i-rest-waypoint-altitude';
-import {RestAltitudeConverter} from '../../common/geo-math/rest-model/rest-altitude-converter';
+import {RestAltitudeConverter} from '../../geo-physics-rest/rest-model/rest-altitude-converter';
 
 
 export class RestWaypointAltitudeConverter {

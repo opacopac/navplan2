@@ -6,6 +6,7 @@ import {OlOverlayNavaidInfoTabComponent} from './ng-components/ol-overlay-navaid
 import {EnrouteRestModule} from '../enroute-rest/enroute-rest.module';
 import {EnrouteStateModule} from '../enroute-state/enroute-state.module';
 import {MatCardModule} from '@angular/material/card';
+import {GeoPhysicsModule} from '../geo-physics/geo-physics.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import {MatCardModule} from '@angular/material/card';
         MatCardModule,
         EnrouteModule,
         EnrouteRestModule,
-        EnrouteStateModule
+        EnrouteStateModule,
+        GeoPhysicsModule,
     ],
     declarations: [
         OlOverlayNavaidHeaderComponent,

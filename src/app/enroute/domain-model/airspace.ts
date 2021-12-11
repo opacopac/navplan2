@@ -1,6 +1,6 @@
-import {Polygon} from '../../common/geo-math/domain-model/geometry/polygon';
+import {Polygon} from '../../geo-physics/domain-model/geometry/polygon';
 import {DataItem, DataItemType} from '../../common/model/data-item';
-import {Altitude} from '../../common/geo-math/domain-model/geometry/altitude';
+import {Altitude} from '../../geo-physics/domain-model/geometry/altitude';
 import {Clonable} from '../../system/domain-model/clonable';
 
 

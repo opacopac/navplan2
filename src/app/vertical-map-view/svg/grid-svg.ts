@@ -1,5 +1,5 @@
 import {SvgLineElement} from '../../common/svg/svg-line-element';
-import {Length} from '../../common/geo-math/domain-model/quantities/length';
+import {Length} from '../../geo-physics/domain-model/quantities/length';
 import {SvgGroupElement} from '../../common/svg/svg-group-element';
 import {SvgTextElement} from '../../common/svg/svg-text-element';
 

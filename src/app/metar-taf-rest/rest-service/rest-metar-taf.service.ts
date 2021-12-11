@@ -4,7 +4,7 @@ import {Observable} from 'rxjs/internal/Observable';
 import {catchError, map} from 'rxjs/operators';
 import {throwError} from 'rxjs';
 import {LoggingService} from '../../system/domain-service/logging/logging.service';
-import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
+import {Extent2d} from '../../geo-physics/domain-model/geometry/extent2d';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
 import {IRestMetarTafResponse} from '../rest-model/i-rest-metar-taf-response';
 import {RestMetarTafConverter} from '../rest-model/rest-metar-taf-converter';

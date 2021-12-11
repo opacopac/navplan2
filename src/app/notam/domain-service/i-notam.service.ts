@@ -1,6 +1,6 @@
 import {Observable} from 'rxjs';
-import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
-import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
+import {Position2d} from '../../geo-physics/domain-model/geometry/position2d';
+import {Extent2d} from '../../geo-physics/domain-model/geometry/extent2d';
 import {Notam} from '../domain-model/notam';
 
 

@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {StringnumberHelper} from '../../../../system/domain-service/stringnumber/stringnumber-helper';
-import {WmmHelper} from '../../../../common/geo-math/domain-service/wmm-helper';
 import {Waypoint} from '../../../../flightroute/domain-model/waypoint';
+import {IWmmService} from '../../../../geo-physics/domain-service/wmm/i-wmm.service';
 
 
 @Component({
@@ -11,6 +11,10 @@ import {Waypoint} from '../../../../flightroute/domain-model/waypoint';
 })
 export class WaypointInfoTabComponent implements OnInit {
     @Input() public waypoint: Waypoint;
+
+
+    public constructor(private wmmService: IWmmService) {
+    }
 
 
     ngOnInit() {
@@ -23,7 +27,7 @@ export class WaypointInfoTabComponent implements OnInit {
 
 
     public getVariationString(): string {
-        const magVar = WmmHelper.calcMagneticVariation(this.waypoint.position);
+        const magVar = this.wmmService.calcMagneticVariation(this.waypoint.position);
         return StringnumberHelper.getEWString(magVar, 1);
     }
 }

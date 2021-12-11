@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectorRef, Component} from '@angular/core';
 import Overlay from 'ol/Overlay';
-import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../geo-physics/domain-model/geometry/position2d';
 import {OlGeometry} from '../ol-model/ol-geometry';
 
 

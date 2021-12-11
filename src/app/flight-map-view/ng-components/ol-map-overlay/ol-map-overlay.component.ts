@@ -1,5 +1,5 @@
 import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild} from '@angular/core';
-import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../../geo-physics/domain-model/geometry/position2d';
 import {MetarTaf} from '../../../metar-taf/domain-model/metar-taf';
 import {DataItem} from '../../../common/model/data-item';
 import {Airport} from '../../../aerodrome/domain-model/airport';

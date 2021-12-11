@@ -2,9 +2,9 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angula
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Waypoint} from '../../../../flightroute/domain-model/waypoint';
 import {ButtonColor, ButtonSize} from '../../../../common/directives/button-base/button-base.directive';
-import {Altitude} from '../../../../common/geo-math/domain-model/geometry/altitude';
-import {AltitudeUnit} from '../../../../common/geo-math/domain-model/geometry/altitude-unit';
-import {AltitudeReference} from '../../../../common/geo-math/domain-model/geometry/altitude-reference';
+import {Altitude} from '../../../../geo-physics/domain-model/geometry/altitude';
+import {AltitudeUnit} from '../../../../geo-physics/domain-model/geometry/altitude-unit';
+import {AltitudeReference} from '../../../../geo-physics/domain-model/geometry/altitude-reference';
 
 
 @Component({

@@ -1,5 +1,5 @@
 import {Observable} from 'rxjs';
-import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../geo-physics/domain-model/geometry/position2d';
 import {User} from '../../user/domain-model/user';
 import {SearchItemList} from '../domain-model/search-item-list';
 import {PositionSearchResultList} from '../domain-model/position-search-result-list';

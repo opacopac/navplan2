@@ -1,4 +1,4 @@
-import {IRestAltitude} from '../../common/geo-math/rest-model/i-rest-altitude';
+import {IRestAltitude} from '../../geo-physics-rest/rest-model/i-rest-altitude';
 
 
 export interface IRestVerticalMapAirspace {

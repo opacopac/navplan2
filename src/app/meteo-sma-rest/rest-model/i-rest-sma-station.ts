@@ -1,5 +1,5 @@
-import {IRestPosition2d} from '../../common/geo-math/rest-model/i-rest-position2d';
-import {IRestAltitude} from '../../common/geo-math/rest-model/i-rest-altitude';
+import {IRestPosition2d} from '../../geo-physics-rest/rest-model/i-rest-position2d';
+import {IRestAltitude} from '../../geo-physics-rest/rest-model/i-rest-altitude';
 
 
 export interface IRestSmaStation {

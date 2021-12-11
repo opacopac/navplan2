@@ -4,8 +4,8 @@ import {TrafficAircraftType} from '../../traffic/domain-model/traffic-aircraft-t
 import {OlTrafficTrail} from './ol-traffic-trail';
 import {TrafficIcon} from '../../traffic/domain-model/traffic-icon';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
-import {AltitudeUnit} from '../../common/geo-math/domain-model/geometry/altitude-unit';
-import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
+import {AltitudeUnit} from '../../geo-physics/domain-model/geometry/altitude-unit';
+import {Angle} from '../../geo-physics/domain-model/quantities/angle';
 import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
 import {OlFeature} from '../../base-map/ol-model/ol-feature';
 import {OlGeometry} from '../../base-map/ol-model/ol-geometry';

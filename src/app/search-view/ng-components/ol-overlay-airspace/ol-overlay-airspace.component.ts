@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Airspace} from '../../../enroute/domain-model/airspace';
-import {AltitudeReference} from '../../../common/geo-math/domain-model/geometry/altitude-reference';
+import {AltitudeReference} from '../../../geo-physics/domain-model/geometry/altitude-reference';
 
 
 @Component({

@@ -7,8 +7,8 @@ import {throwError} from 'rxjs';
 import {INotamRepoService} from '../../notam/domain-service/i-notam-repo.service';
 import {IRestNotamResponse} from '../rest-model/i-rest-notam-response';
 import {environment} from '../../../environments/environment';
-import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
-import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
+import {Position2d} from '../../geo-physics/domain-model/geometry/position2d';
+import {Extent2d} from '../../geo-physics/domain-model/geometry/extent2d';
 import {Notam} from '../../notam/domain-model/notam';
 import {RestNotamConverter} from '../rest-model/rest-notam-converter';
 

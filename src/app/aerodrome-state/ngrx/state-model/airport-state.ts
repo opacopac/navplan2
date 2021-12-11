@@ -1,4 +1,4 @@
-import {Extent2d} from '../../../common/geo-math/domain-model/geometry/extent2d';
+import {Extent2d} from '../../../geo-physics/domain-model/geometry/extent2d';
 import {ShortAirport} from '../../../aerodrome/domain-model/short-airport';
 
 

@@ -1,8 +1,8 @@
 import {Flightroute} from '../../flightroute/domain-model/flightroute';
-import {LengthUnit} from '../../common/geo-math/domain-model/quantities/length-unit';
-import {SpeedUnit} from '../../common/geo-math/domain-model/quantities/speed-unit';
-import {VolumeUnit} from '../../common/geo-math/domain-model/quantities/volume-unit';
-import {ConsumptionUnit} from '../../common/geo-math/domain-model/quantities/consumption-unit';
+import {LengthUnit} from '../../geo-physics/domain-model/quantities/length-unit';
+import {SpeedUnit} from '../../geo-physics/domain-model/quantities/speed-unit';
+import {VolumeUnit} from '../../geo-physics/domain-model/quantities/volume-unit';
+import {ConsumptionUnit} from '../../geo-physics/domain-model/quantities/consumption-unit';
 import {FlightrouteListEntry} from '../../flightroute/domain-model/flightroute-list-entry';
 
 

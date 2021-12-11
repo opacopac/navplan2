@@ -2,9 +2,9 @@ import {Flightroute} from '../../flightroute/domain-model/flightroute';
 import {Aircraft} from '../../flightroute/domain-model/aircraft';
 import {IRestFlightroute} from './i-rest-flightroute';
 import {RestWaypointConverter} from './rest-waypoint-converter';
-import {RestSpeedConverter} from '../../common/geo-math/rest-model/rest-speed-converter';
-import {RestConsumptionConverter} from '../../common/geo-math/rest-model/rest-consumption-converter';
-import {RestTimeConverter} from '../../common/geo-math/rest-model/rest-time-converter';
+import {RestSpeedConverter} from '../../geo-physics-rest/rest-model/rest-speed-converter';
+import {RestConsumptionConverter} from '../../geo-physics-rest/rest-model/rest-consumption-converter';
+import {RestTimeConverter} from '../../geo-physics-rest/rest-model/rest-time-converter';
 
 
 export class RestFlightrouteConverter {

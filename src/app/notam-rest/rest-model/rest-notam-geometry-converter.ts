@@ -1,10 +1,10 @@
 import {IRestNotam} from './i-rest-notam';
 import {NotamGeometry} from '../../notam/domain-model/notam-geometry';
-import {RestAltitudeConverter} from '../../common/geo-math/rest-model/rest-altitude-converter';
-import {RestCircleConverter} from '../../common/geo-math/rest-model/rest-circle-converter';
-import {PolygonConverter} from '../../common/geo-math/rest-model/polygon-converter';
-import {MultipolygonConverter} from '../../common/geo-math/rest-model/multipolygon-converter';
-import {Geometry2d} from '../../common/geo-math/domain-model/geometry/geometry2d';
+import {RestAltitudeConverter} from '../../geo-physics-rest/rest-model/rest-altitude-converter';
+import {RestCircleConverter} from '../../geo-physics-rest/rest-model/rest-circle-converter';
+import {PolygonConverter} from '../../geo-physics-rest/rest-model/polygon-converter';
+import {MultipolygonConverter} from '../../geo-physics-rest/rest-model/multipolygon-converter';
+import {Geometry2d} from '../../geo-physics/domain-model/geometry/geometry2d';
 
 
 export class RestNotamGeometryConverter {

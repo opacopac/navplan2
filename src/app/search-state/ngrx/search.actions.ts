@@ -1,7 +1,7 @@
 import {createAction, props} from '@ngrx/store';
 import {SearchItemList} from '../../search/domain-model/search-item-list';
 import {SearchItem} from '../../search/domain-model/search-item';
-import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../geo-physics/domain-model/geometry/position2d';
 import {PositionSearchResultList} from '../../search/domain-model/position-search-result-list';
 
 

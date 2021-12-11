@@ -1,4 +1,4 @@
-import {Position2dConverter} from '../../common/geo-math/rest-model/position2d-converter';
+import {Position2dConverter} from '../../geo-physics-rest/rest-model/position2d-converter';
 import {AirportType} from '../../aerodrome/domain-model/airport-type';
 import {IRestShortAirport} from './i-rest-short-airport';
 import {ShortAirport} from '../../aerodrome/domain-model/short-airport';

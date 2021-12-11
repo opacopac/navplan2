@@ -1,7 +1,7 @@
 import {Flightroute} from '../../flightroute/domain-model/flightroute';
 import {IRestFuelCalc} from './i-rest-fuel-calc';
-import {RestTimeConverter} from '../../common/geo-math/rest-model/rest-time-converter';
-import {RestVolumeConverter} from '../../common/geo-math/rest-model/rest-volume-converter';
+import {RestTimeConverter} from '../../geo-physics-rest/rest-model/rest-time-converter';
+import {RestVolumeConverter} from '../../geo-physics-rest/rest-model/rest-volume-converter';
 
 
 export class RestFuelCalcConverter {

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
+import {Extent2d} from '../../geo-physics/domain-model/geometry/extent2d';
 import {IWebcamService} from './i-webcam.service';
 import {IWebcamRepoService} from './i-webcam-repo.service';
 import {Webcam} from '../domain-model/webcam';

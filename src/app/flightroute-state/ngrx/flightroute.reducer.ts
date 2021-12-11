@@ -1,19 +1,19 @@
 import {FlightrouteState} from '../state-model/flightroute-state';
 import {Aircraft} from '../../flightroute/domain-model/aircraft';
 import {Flightroute} from '../../flightroute/domain-model/flightroute';
-import {Speed} from '../../common/geo-math/domain-model/quantities/speed';
-import {TimeUnit} from '../../common/geo-math/domain-model/quantities/time-unit';
-import {Consumption} from '../../common/geo-math/domain-model/quantities/consumption';
-import {Time} from '../../common/geo-math/domain-model/quantities/time';
+import {Speed} from '../../geo-physics/domain-model/quantities/speed';
+import {TimeUnit} from '../../geo-physics/domain-model/quantities/time-unit';
+import {Consumption} from '../../geo-physics/domain-model/quantities/consumption';
+import {Time} from '../../geo-physics/domain-model/quantities/time';
 import {FlightrouteCalcHelper} from '../../flightroute/domain-service/flightroute-calc.helper';
 import {createReducer, on} from '@ngrx/store';
 import {SharedFlightRouteActions} from './shared-flight-route.actions';
 import {WaypointActions} from './waypoints.actions';
 import {ArrayHelper} from '../../system/domain-service/array/array-helper';
-import {LengthUnit} from '../../common/geo-math/domain-model/quantities/length-unit';
-import {SpeedUnit} from '../../common/geo-math/domain-model/quantities/speed-unit';
-import {VolumeUnit} from '../../common/geo-math/domain-model/quantities/volume-unit';
-import {ConsumptionUnit} from '../../common/geo-math/domain-model/quantities/consumption-unit';
+import {LengthUnit} from '../../geo-physics/domain-model/quantities/length-unit';
+import {SpeedUnit} from '../../geo-physics/domain-model/quantities/speed-unit';
+import {VolumeUnit} from '../../geo-physics/domain-model/quantities/volume-unit';
+import {ConsumptionUnit} from '../../geo-physics/domain-model/quantities/consumption-unit';
 import {FlightrouteActions} from './flightroute.actions';
 import {FlightrouteListActions} from './flightroute-list.actions';
 

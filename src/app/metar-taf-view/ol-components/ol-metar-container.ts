@@ -1,6 +1,6 @@
 import {combineLatest, Observable, Subscription} from 'rxjs';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
-import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
+import {Angle} from '../../geo-physics/domain-model/quantities/angle';
 import {ShortAirport} from '../../aerodrome/domain-model/short-airport';
 import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
 import {OlMetarSky} from './ol-metar-sky';

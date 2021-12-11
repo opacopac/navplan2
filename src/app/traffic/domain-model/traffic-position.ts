@@ -1,9 +1,9 @@
-import {Position4d} from '../../common/geo-math/domain-model/geometry/position4d';
+import {Position4d} from '../../geo-physics/domain-model/geometry/position4d';
 import {Clonable} from '../../system/domain-model/clonable';
-import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../geo-physics/domain-model/geometry/position2d';
 import {TrafficDataSource} from './traffic-data-source';
 import {TrafficPositionMethod} from './traffic-position-method';
-import {Timestamp} from '../../common/geo-math/domain-model/quantities/timestamp';
+import {Timestamp} from '../../geo-physics/domain-model/quantities/timestamp';
 
 
 export class TrafficPosition implements Clonable<TrafficPosition> {

@@ -1,5 +1,5 @@
 import {DataItem, DataItemType} from '../../common/model/data-item';
-import {MultiLineString} from '../../common/geo-math/domain-model/geometry/multi-line-string';
+import {MultiLineString} from '../../geo-physics/domain-model/geometry/multi-line-string';
 
 
 export class AirportCircuit extends DataItem {

@@ -1,7 +1,7 @@
-import {Angle} from '../../../common/geo-math/domain-model/quantities/angle';
-import {Position2d} from '../../../common/geo-math/domain-model/geometry/position2d';
-import {Length} from '../../../common/geo-math/domain-model/quantities/length';
-import {LengthUnit} from '../../../common/geo-math/domain-model/quantities/length-unit';
+import {Angle} from '../../../geo-physics/domain-model/quantities/angle';
+import {Position2d} from '../../../geo-physics/domain-model/geometry/position2d';
+import {Length} from '../../../geo-physics/domain-model/quantities/length';
+import {LengthUnit} from '../../../geo-physics/domain-model/quantities/length-unit';
 
 export class StringnumberHelper {
     public static isNullOrEmpty(text: string) {

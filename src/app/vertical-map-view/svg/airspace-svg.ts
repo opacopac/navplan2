@@ -1,4 +1,4 @@
-import {Length} from '../../common/geo-math/domain-model/quantities/length';
+import {Length} from '../../geo-physics/domain-model/quantities/length';
 import {SvgRectangleElement} from '../../common/svg/svg-rectangle-element';
 import {SvgTextElement} from '../../common/svg/svg-text-element';
 import {SvgGroupElement} from '../../common/svg/svg-group-element';

@@ -5,7 +5,7 @@ import {ReportingPoint} from '../../aerodrome/domain-model/reporting-point';
 import {ReportingSector} from '../../aerodrome/domain-model/reporting-sector';
 import {Geoname} from '../../geoname/domain-model/geoname';
 import {DataItem} from '../../common/model/data-item';
-import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../geo-physics/domain-model/geometry/position2d';
 
 
 export class SearchItem {

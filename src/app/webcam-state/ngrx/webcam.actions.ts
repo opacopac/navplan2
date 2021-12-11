@@ -1,6 +1,6 @@
 import {createAction, props} from '@ngrx/store';
 import {Webcam} from '../../webcam/domain-model/webcam';
-import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
+import {Extent2d} from '../../geo-physics/domain-model/geometry/extent2d';
 
 
 export class WebcamActions {

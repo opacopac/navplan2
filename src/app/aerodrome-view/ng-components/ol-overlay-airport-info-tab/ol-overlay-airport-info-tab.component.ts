@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Airport} from '../../../aerodrome/domain-model/airport';
 import {StringnumberHelper} from '../../../system/domain-service/stringnumber/stringnumber-helper';
-import {WmmHelper} from '../../../common/geo-math/domain-service/wmm-helper';
-import {LengthUnit} from '../../../common/geo-math/domain-model/quantities/length-unit';
+import {LengthUnit} from '../../../geo-physics/domain-model/quantities/length-unit';
+import {IWmmService} from '../../../geo-physics/domain-service/wmm/i-wmm.service';
 
 
 @Component({
@@ -12,6 +12,10 @@ import {LengthUnit} from '../../../common/geo-math/domain-model/quantities/lengt
 })
 export class OlOverlayAirportInfoTabComponent implements OnInit {
     @Input() public airport: Airport;
+
+
+    public constructor(private wmmService: IWmmService) {
+    }
 
 
     ngOnInit() {
@@ -24,7 +28,7 @@ export class OlOverlayAirportInfoTabComponent implements OnInit {
 
 
     public getVariationString(): string {
-        const magVar = WmmHelper.calcMagneticVariation(this.airport.position);
+        const magVar = this.wmmService.calcMagneticVariation(this.airport.position);
         return StringnumberHelper.getEWString(magVar, 1);
     }
 

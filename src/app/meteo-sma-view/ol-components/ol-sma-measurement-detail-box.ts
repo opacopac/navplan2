@@ -6,7 +6,7 @@ import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
 import {OlSmaMeasurementHelper} from './ol-sma-measurement-helper';
 import {StringnumberHelper} from '../../system/domain-service/stringnumber/stringnumber-helper';
 import {DatetimeHelper} from '../../system/domain-service/datetime/datetime-helper';
-import {Angle} from '../../common/geo-math/domain-model/quantities/angle';
+import {Angle} from '../../geo-physics/domain-model/quantities/angle';
 
 
 export class OlSmaMeasurementDetailBox {

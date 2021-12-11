@@ -1,5 +1,5 @@
 import {Airport} from '../../aerodrome/domain-model/airport';
-import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
+import {Position2d} from '../../geo-physics/domain-model/geometry/position2d';
 import {IPointSearchResult} from './i-point-search-result';
 import {DataItem} from '../../common/model/data-item';
 

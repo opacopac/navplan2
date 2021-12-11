@@ -1,5 +1,5 @@
-import {IRestPosition2d} from '../../common/geo-math/rest-model/i-rest-position2d';
-import {IRestLength} from '../../common/geo-math/rest-model/i-rest-length';
+import {IRestPosition2d} from '../../geo-physics-rest/rest-model/i-rest-position2d';
+import {IRestLength} from '../../geo-physics-rest/rest-model/i-rest-length';
 
 
 export interface IRestNavaid {
