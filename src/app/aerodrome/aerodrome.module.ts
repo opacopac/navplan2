@@ -1,30 +1,26 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {SharedModule} from '../common/shared.module';
-import {AirportRestService} from './rest-service/airport-rest.service';
-import {AirportCircuitRestService} from './rest-service/airport-circuit-rest.service';
-import {AirportChartRestService} from './rest-service/airport-chart-rest.service';
-import {ReportingPointRestService} from './rest-service/reporting-point-rest.service';
-import {IAirportRepo} from './domain-service/i-airport-repo';
-import {IReportingPointRepo} from './domain-service/i-reporting-point-repo';
-import {IAirportCircuitRepo} from './domain-service/i-airport-circuit-repo';
-import {IAirportChartRepo} from './domain-service/i-airport-chart-repo';
+import {IAirportService} from './domain-service/i-airport.service';
+import {AirportService} from './domain-service/airport.service';
+import {IAirportChartService} from './domain-service/i-airport-chart.service';
+import {AirportChartService} from './domain-service/airport-chart.service';
+import {IAirportCircuitService} from './domain-service/i-airport-circuit.service';
+import {AirportCircuitService} from './domain-service/airport-circuit.service';
+import {IReportingPointService} from './domain-service/i-reporting-point.service';
+import {ReportingPointService} from './domain-service/reporting-point.service';
 
 
 @NgModule({
     imports: [
-        CommonModule,
-        SharedModule,
     ],
     declarations: [
     ],
     exports: [
     ],
     providers: [
-        { provide: IAirportRepo, useClass: AirportRestService },
-        { provide: IAirportCircuitRepo, useClass: AirportCircuitRestService },
-        { provide: IAirportChartRepo, useClass: AirportChartRestService },
-        { provide: IReportingPointRepo, useClass: ReportingPointRestService },
+        { provide: IAirportService, useClass: AirportService },
+        { provide: IAirportChartService, useClass: AirportChartService },
+        { provide: IAirportCircuitService, useClass: AirportCircuitService },
+        { provide: IReportingPointService, useClass: ReportingPointService },
     ]
 })
 export class AerodromeModule {}

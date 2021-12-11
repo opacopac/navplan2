@@ -3,7 +3,6 @@ import {filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {MetarTafActions} from './metar-taf.actions';
 import {of} from 'rxjs';
-import {IAirportRepo} from '../../aerodrome/domain-service/i-airport-repo';
 import {Store} from '@ngrx/store';
 import {getMetarTafState} from './metar-taf.selectors';
 import {SystemConfig} from '../../system/domain-service/system-config';
@@ -11,6 +10,7 @@ import {IDate} from '../../system/domain-service/date/i-date';
 import {IMetarTafRepo} from '../../metar-taf/domain-service/i-metar-taf-repo.service';
 import {environment} from '../../../environments/environment';
 import {INotamRepo} from '../../notam/domain-service/i-notam-repo';
+import {IAirportService} from '../../aerodrome/domain-service/i-airport.service';
 
 
 @Injectable()
@@ -25,7 +25,7 @@ export class MetarTafEffects {
         private readonly actions$: Actions,
         private readonly appStore: Store<any>,
         private readonly metarTafRepo: IMetarTafRepo,
-        private readonly airportRepo: IAirportRepo,
+        private readonly airportService: IAirportService,
         private readonly notamRepo: INotamRepo,
         config: SystemConfig
     ) {

@@ -27,7 +27,7 @@ import {UserModule} from '../user/user.module';
 import {FlightMapStateService} from './ngrx/flight-map-state.service';
 import {FlightMapMetarTafModule} from '../flight-map-metar-taf/flight-map-metar-taf.module';
 import {FlightMapFlightrouteModule} from '../flight-map-flightroute/flight-map-flightroute.module';
-import {FlightMapAerodromeModule} from '../flight-map-aerodrome/flight-map-aerodrome.module';
+import {AerodromeViewFlightMapModule} from '../aerodrome-view-flight-map/aerodrome-view-flight-map.module';
 import {FlightMapGeonameModule} from '../flight-map-geoname/flight-map-geoname.module';
 import {FlightMapMeteoSmaModule} from '../flight-map-meteo-sma/flight-map-meteo-sma.module';
 import {FlightMapNotamModule} from '../flight-map-notam/flight-map-notam.module';
@@ -63,7 +63,7 @@ import {VerticalMapViewFlightMapModule} from '../vertical-map-view-flight-map/ve
         FlightTimerModule,
         TrafficModule,
         UserModule,
-        FlightMapAerodromeModule,
+        AerodromeViewFlightMapModule,
         FlightMapEnrouteModule,
         FlightMapFlightrouteModule,
         FlightMapGeonameModule,

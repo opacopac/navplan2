@@ -13,11 +13,10 @@ import {INotamRepo} from '../../notam/domain-service/i-notam-repo';
 import {IDate} from '../../system/domain-service/date/i-date';
 import {SystemConfig} from '../../system/domain-service/system-config';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
-import {IAirportRepo} from '../../aerodrome/domain-service/i-airport-repo';
 import {MetarTafActions} from '../../flight-map-metar-taf/ngrx/metar-taf.actions';
-import {AirportActions} from '../../flight-map-aerodrome/ngrx/airport/airport.actions';
-import {AirportCircuitActions} from '../../flight-map-aerodrome/ngrx/airport-circuit/airport-circuit.actions';
-import {ReportingPointSectorActions} from '../../flight-map-aerodrome/ngrx/reporting-point-sector/reporting-point-sector.actions';
+import {AirportActions} from '../../aerodrome-state-flight-map/ngrx/airport/airport.actions';
+import {AirportCircuitActions} from '../../aerodrome-state-flight-map/ngrx/airport-circuit/airport-circuit.actions';
+import {ReportingPointSectorActions} from '../../aerodrome-state-flight-map/ngrx/reporting-point-sector/reporting-point-sector.actions';
 import {AirspaceActions} from '../../flight-map-enroute/ngrx/airspace/airspace.actions';
 import {NavaidActions} from '../../flight-map-enroute/ngrx/navaid/navaid.actions';
 import {NotamActions} from '../../flight-map-notam/ngrx/notam.actions';
@@ -28,11 +27,12 @@ import {Notam} from '../../notam/domain-model/notam';
 import {ShortAirport} from '../../aerodrome/domain-model/short-airport';
 import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 import {Webcam} from '../../webcam/domain-model/webcam';
-import {AirportChartActions} from '../../flight-map-aerodrome/ngrx/airport-chart/airport-chart.actions';
+import {AirportChartActions} from '../../aerodrome-state-flight-map/ngrx/airport-chart/airport-chart.actions';
 import {AirportChart} from '../../aerodrome/domain-model/airport-chart';
 import {ISearchRepo} from '../../search/domain-service/i-search-repo';
 import {FlightMapStateService} from './flight-map-state.service';
 import {WaypointActions} from '../../flightroute-state/ngrx/waypoints.actions';
+import {IAirportService} from '../../aerodrome/domain-service/i-airport.service';
 
 
 @Injectable()
@@ -45,7 +45,7 @@ export class FlightMapEffects {
     constructor(
         private readonly actions$: Actions,
         private readonly appStore: Store<any>,
-        private readonly airportRepo: IAirportRepo,
+        private readonly airportService: IAirportService,
         private readonly notamRepo: INotamRepo,
         private readonly searchRepo: ISearchRepo,
         private readonly flightMapStateService: FlightMapStateService,
@@ -179,11 +179,11 @@ export class FlightMapEffects {
 
     private getOverlayDataItem$(dataItem: DataItem): Observable<DataItem> {
         if (dataItem.dataItemType === DataItemType.airport) {
-            return this.airportRepo.readAirportById((dataItem as ShortAirport).id);
+            return this.airportService.readAirportById((dataItem as ShortAirport).id);
         }
 
         if (dataItem.dataItemType === DataItemType.metarTaf) {
-            return this.airportRepo.readAirportByIcao((dataItem as MetarTaf).ad_icao);
+            return this.airportService.readAirportByIcao((dataItem as MetarTaf).ad_icao);
         }
 
         if (dataItem.dataItemType === DataItemType.waypoint) {
@@ -192,7 +192,7 @@ export class FlightMapEffects {
                     if (!od) {
                         return of(dataItem);
                     } else if (od.dataItemType === DataItemType.airport) {
-                        return this.airportRepo.readAirportById((od as ShortAirport).id);
+                        return this.airportService.readAirportById((od as ShortAirport).id);
                     } else {
                         return of(od);
                     }
