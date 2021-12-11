@@ -27,6 +27,8 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatSelectModule} from '@angular/material/select';
 import {FlexModule} from '@angular/flex-layout';
 import {MatCardModule} from '@angular/material/card';
+import {FuelCalcContainerComponent} from './ng-components/fuel-calc/fuel-calc-container/fuel-calc-container.component';
+import {FuelCalcTableComponent} from './ng-components/fuel-calc/fuel-calc-table/fuel-calc-table.component';
 
 
 @NgModule({
@@ -60,13 +62,16 @@ import {MatCardModule} from '@angular/material/card';
         FlightrouteContainerComponent,
         FlightrouteListComponent,
         FlightrouteListDialogComponent,
-        WaypointListComponent
+        WaypointListComponent,
+        FuelCalcContainerComponent,
+        FuelCalcTableComponent,
     ],
     exports: [
         WaypointButtonContainerComponent,
         WaypointInfoTabComponent,
         WaypointHeaderComponent,
-        FlightrouteContainerComponent
+        FlightrouteContainerComponent,
+        FuelCalcContainerComponent
     ],
     providers: [
     ],

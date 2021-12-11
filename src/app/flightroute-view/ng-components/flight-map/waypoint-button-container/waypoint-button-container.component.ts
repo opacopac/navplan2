@@ -6,7 +6,7 @@ import {getFlightroute} from '../../../../flightroute-state/ngrx/flightroute.sel
 import {Flightroute} from '../../../../flightroute/domain-model/flightroute';
 import {Waypoint} from '../../../../flightroute/domain-model/waypoint';
 import {WaypointActions} from '../../../../flightroute-state/ngrx/waypoints.actions';
-import {getFlightMapOverlay} from '../../../../flight-map/ngrx/flight-map.selectors';
+import {getFlightMapOverlay} from '../../../../flight-map-state/ngrx/flight-map.selectors';
 import {EditWaypointDialogComponent} from '../../flightroute-page/edit-waypoint-dialog/edit-waypoint-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 

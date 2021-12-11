@@ -5,7 +5,7 @@ import {Observable} from 'rxjs';
 import {filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {RouteMeteoActions} from './route-meteo.actions';
 import {getRouteMeteoState} from './route-meteo.selectors';
-import {RouteMeteoState} from './route-meteo-state';
+import {RouteMeteoState} from '../state-model/route-meteo-state';
 import {Length} from '../../common/geo-math/domain-model/quantities/length';
 import {LengthUnit} from '../../common/geo-math/domain-model/quantities/length-unit';
 import {Flightroute} from '../../flightroute/domain-model/flightroute';

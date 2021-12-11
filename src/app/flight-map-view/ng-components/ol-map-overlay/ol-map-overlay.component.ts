@@ -11,7 +11,7 @@ import {UserPoint} from '../../../user/domain-model/user-point';
 import {Notam} from '../../../notam/domain-model/notam';
 import {Waypoint} from '../../../flightroute/domain-model/waypoint';
 import Overlay from 'ol/Overlay';
-import {OverlayState} from '../../ngrx/overlay-state';
+import {OverlayState} from '../../../flight-map-state/ngrx/overlay-state';
 import {MatTabGroup} from '@angular/material/tabs';
 import {OlGeometry} from '../../../base-map/ol-model/ol-geometry';
 import {timer} from 'rxjs';

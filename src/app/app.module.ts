@@ -9,7 +9,7 @@ import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {UserModule} from './user/user.module';
 import {SharedModule} from './common/shared.module';
-import {FlightMapModule} from './flight-map/flight-map.module';
+import {FlightMapViewModule} from './flight-map-view/flight-map-view.module';
 import {MessageModule} from './message/message.module';
 import {AboutViewModule} from './about-view/about-view.module';
 import {RouterModule} from '@angular/router';
@@ -17,7 +17,7 @@ import {appReducer} from './app.reducer';
 import {AppEffects} from './app.effects';
 import {NavbarViewModule} from './navbar-view/navbar-view.module';
 import {SettingsPageViewModule} from './settings-page-view/settings-page-view.module';
-import {FlightPrepModule} from './flight-prep/flight-prep.module';
+import {FlightPrepViewModule} from './flight-prep-view/flight-prep-view.module';
 import {ExporterViewModule} from './exporter-view/exporter-view.module';
 import {TrackViewModule} from './track-view/track-view.module';
 
@@ -43,8 +43,8 @@ import {TrackViewModule} from './track-view/track-view.module';
         SettingsPageViewModule,
         SharedModule,
         UserModule,
-        FlightMapModule,
-        FlightPrepModule,
+        FlightMapViewModule,
+        FlightPrepViewModule,
         TrackViewModule,
         MessageModule,
         ExporterViewModule,

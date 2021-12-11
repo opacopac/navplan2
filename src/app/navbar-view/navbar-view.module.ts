@@ -1,10 +1,12 @@
 import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
-import {HttpClientModule} from '@angular/common/http';
-import {SharedModule} from '../common/shared.module';
 import {NavbarComponent} from './ng-components/navbar/navbar.component';
 import {NavbarContainerComponent} from './ng-components/navbar-container/navbar-container.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatButtonModule} from '@angular/material/button';
 import {RouterModule} from '@angular/router';
+import {MatMenuModule} from '@angular/material/menu';
+import {CommonModule} from '@angular/common';
 
 
 @NgModule({
@@ -13,10 +15,12 @@ import {RouterModule} from '@angular/router';
         NavbarContainerComponent,
     ],
     imports: [
-        BrowserModule,
-        HttpClientModule,
+        CommonModule,
         RouterModule,
-        SharedModule,
+        FlexLayoutModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatMenuModule
     ],
     exports: [
         NavbarContainerComponent,

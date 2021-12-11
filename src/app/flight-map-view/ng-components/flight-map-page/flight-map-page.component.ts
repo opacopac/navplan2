@@ -22,7 +22,7 @@ import {OlMapContainerComponent} from '../../../base-map/ng-components/ol-map-co
 import {OlOverlayTrafficComponent} from '../../../traffic/ng-components/ol-overlay-traffic/ol-overlay-traffic.component';
 import {Observable} from 'rxjs/internal/Observable';
 import {Subscription} from 'rxjs/internal/Subscription';
-import {getFlightMapOverlay} from '../../ngrx/flight-map.selectors';
+import {getFlightMapOverlay} from '../../../flight-map-state/ngrx/flight-map.selectors';
 import {OlAirportContainer} from '../../../aerodrome-view/ol-components/airport/ol-airport-container';
 import {OlAirportCircuitContainer} from '../../../aerodrome-view/ol-components/airport-circuit/ol-airport-circuit-container';
 import {OlReportingPointContainer} from '../../../aerodrome-view/ol-components/reporting-point-sector/ol-reporting-point-container';
@@ -45,7 +45,7 @@ import {
 import {getAirportCircuits} from '../../../aerodrome-state/ngrx/airport-circuit/airport-circuit.selectors';
 import {getAirportCharts} from '../../../aerodrome-state/ngrx/airport-chart/airport-chart.selectors';
 import {OlMapOverlayComponent} from '../ol-map-overlay/ol-map-overlay.component';
-import {OverlayState} from '../../ngrx/overlay-state';
+import {OverlayState} from '../../../flight-map-state/ngrx/overlay-state';
 import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
 import {getVerticalMapState} from '../../../vertical-map-state/ngrx/vertical-map.selectors';
 import {VerticalMapButtonStatus} from '../../../vertical-map/domain-model/vertical-map-button-status';

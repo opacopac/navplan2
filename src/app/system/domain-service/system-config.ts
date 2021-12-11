@@ -7,7 +7,7 @@ import {JsDate} from './date/js-date';
     providedIn: 'root'
 })
 export class SystemConfig {
-    private date: IDate;
+    private readonly date: IDate;
 
 
     constructor() {

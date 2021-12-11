@@ -1,25 +1,22 @@
 import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
-import {HttpClientModule} from '@angular/common/http';
 import {SettingsPageComponent} from './ng-components/settings-page/settings-page.component';
-import {SharedModule} from '../common/shared.module';
-import {RouterModule} from '@angular/router';
+import {ReactiveFormsModule} from '@angular/forms';
+import {CommonModule} from '@angular/common';
 
 
 @NgModule({
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+    ],
     declarations: [
         SettingsPageComponent,
-    ],
-    imports: [
-        BrowserModule,
-        HttpClientModule,
-        RouterModule,
-        SharedModule,
     ],
     exports: [
         SettingsPageComponent
     ],
-    providers: []
+    providers: [
+    ]
 })
 export class SettingsPageViewModule {
 }

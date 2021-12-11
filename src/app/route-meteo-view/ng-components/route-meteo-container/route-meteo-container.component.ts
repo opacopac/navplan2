@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {RouteMeteoActions} from '../../ngrx/route-meteo.actions';
-import {getRouteMetarTafList} from '../../ngrx/route-meteo.selectors';
+import {RouteMeteoActions} from '../../../route-meteo-state/ngrx/route-meteo.actions';
+import {getRouteMetarTafList} from '../../../route-meteo-state/ngrx/route-meteo.selectors';
 
 
 @Component({

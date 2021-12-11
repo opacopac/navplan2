@@ -1,6 +1,6 @@
 import {RouteMeteoActions} from './route-meteo.actions';
 import {createReducer, on} from '@ngrx/store';
-import {RouteMeteoState} from './route-meteo-state';
+import {RouteMeteoState} from '../state-model/route-meteo-state';
 
 
 const initialState: RouteMeteoState = {
