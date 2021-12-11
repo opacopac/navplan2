@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {ExporterActions} from '../../../exporter/ngrx/exporter.actions';
+import {ExporterActions} from '../../../exporter-state/ngrx/exporter.actions';
 
 
 @Component({

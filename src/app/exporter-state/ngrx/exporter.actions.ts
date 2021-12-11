@@ -1,5 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {ExportedFile} from '../domain-model/exported-file';
+import {ExportedFile} from '../../exporter/domain-model/exported-file';
 
 
 export class ExporterActions {

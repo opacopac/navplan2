@@ -18,9 +18,9 @@ import {AppEffects} from './app.effects';
 import {NavbarModule} from './navbar/navbar.module';
 import {SettingsPageModule} from './settings-page/settings-page.module';
 import {MeteoSmaModule} from './meteo-sma/meteo-sma.module';
-import {ExporterModule} from './exporter/exporter.module';
 import {FlightPrepModule} from './flight-prep/flight-prep.module';
 import {TrackPageModule} from './track-page/track-page.module';
+import {ExporterViewModule} from './exporter-view/exporter-view.module';
 
 
 @NgModule({
@@ -49,7 +49,7 @@ import {TrackPageModule} from './track-page/track-page.module';
         TrackPageModule,
         MeteoSmaModule,
         MessageModule,
-        ExporterModule,
+        ExporterViewModule,
     ],
     providers: [],
     bootstrap: [

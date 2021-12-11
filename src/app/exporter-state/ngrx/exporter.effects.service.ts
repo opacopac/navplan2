@@ -8,7 +8,7 @@ import {Flightroute} from '../../flightroute/domain-model/flightroute';
 import {MessageActions} from '../../message/ngrx/message.actions';
 import {Message} from '../../message/domain-model/message';
 import {ExporterActions} from './exporter.actions';
-import {IExporterService} from '../domain-service/i-exporter-service';
+import {IExporterService} from '../../exporter/domain-service/i-exporter.service';
 import {Track} from '../../track/domain-model/track';
 import {Timestamp} from '../../common/geo-math/domain-model/quantities/timestamp';
 

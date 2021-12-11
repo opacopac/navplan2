@@ -5,7 +5,6 @@ import {EditWaypointDialogComponent} from './ng-components/edit-waypoint-dialog/
 import {FlightrouteListDialogComponent} from './ng-components/flightroute-list-dialog/flightroute-list-dialog.component';
 import {EditWaypointFormComponent} from './ng-components/edit-waypoint-form/edit-waypoint-form.component';
 import {FlightrouteContainerComponent} from './ng-components/flightroute-container/flightroute-container.component';
-import {FlightrouteExportButtonsComponent} from './ng-components/flightroute-export-buttons/flightroute-export-buttons.component';
 import {FlightrouteListComponent} from './ng-components/flightroute-list/flightroute-list.component';
 import {WaypointListComponent} from './ng-components/waypoint-list/waypoint-list.component';
 import {StoreModule} from '@ngrx/store';
@@ -31,14 +30,12 @@ import {FlightrouteStateModule} from '../flightroute-state/flightroute-state.mod
         EditWaypointDialogComponent,
         EditWaypointFormComponent,
         FlightrouteContainerComponent,
-        FlightrouteExportButtonsComponent,
         FlightrouteListComponent,
         FlightrouteListDialogComponent,
         WaypointListComponent
     ],
     exports: [
         FlightrouteContainerComponent,
-        FlightrouteExportButtonsComponent,
     ],
     providers: [
     ],

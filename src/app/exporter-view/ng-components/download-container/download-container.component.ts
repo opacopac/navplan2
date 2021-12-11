@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Subscription} from 'rxjs';
-import {getExporterState} from '../../ngrx/exporter.selectors';
+import {getExporterState} from '../../../exporter-state/ngrx/exporter.selectors';
 import {MatDialog} from '@angular/material/dialog';
 import {DownloadDialogComponent} from '../download-dialog/download-dialog.component';
-import {ExporterState} from '../../domain-model/exporter-state';
+import {ExporterState} from '../../../exporter/domain-model/exporter-state';
 
 
 @Component({

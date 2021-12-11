@@ -1,7 +1,7 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {environment} from '../../../../environments/environment';
-import {ExporterState} from '../../domain-model/exporter-state';
+import {ExporterState} from '../../../exporter/domain-model/exporter-state';
 
 
 @Component({

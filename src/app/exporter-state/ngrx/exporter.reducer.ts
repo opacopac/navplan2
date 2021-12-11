@@ -1,5 +1,5 @@
 import {createReducer, on} from '@ngrx/store';
-import {ExporterState} from '../domain-model/exporter-state';
+import {ExporterState} from '../../exporter/domain-model/exporter-state';
 import {ExporterActions} from './exporter.actions';
 
 

@@ -5,7 +5,7 @@ import {select, Store} from '@ngrx/store';
 import {getCurrentUser} from '../../../user/ngrx/user.selectors';
 import {SearchActions} from '../../../search/ngrx/search.actions';
 import {LogoutUserAction} from '../../../user/ngrx/user.actions';
-import {ExporterActions} from '../../../exporter/ngrx/exporter.actions';
+import {ExporterActions} from '../../../exporter-state/ngrx/exporter.actions';
 
 
 @Component({

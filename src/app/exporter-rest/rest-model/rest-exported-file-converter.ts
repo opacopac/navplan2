@@ -1,4 +1,4 @@
-import {ExportedFile} from '../domain-model/exported-file';
+import {ExportedFile} from '../../exporter/domain-model/exported-file';
 import {IRestExportedFile} from './i-rest-exported-file';
 
 
