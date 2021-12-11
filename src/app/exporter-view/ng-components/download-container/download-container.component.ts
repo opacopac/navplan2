@@ -4,7 +4,7 @@ import {Subscription} from 'rxjs';
 import {getExporterState} from '../../../exporter-state/ngrx/exporter.selectors';
 import {MatDialog} from '@angular/material/dialog';
 import {DownloadDialogComponent} from '../download-dialog/download-dialog.component';
-import {ExporterState} from '../../../exporter/domain-model/exporter-state';
+import {ExporterState} from '../../../exporter-state/state-model/exporter-state';
 
 
 @Component({
