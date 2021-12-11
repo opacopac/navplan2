@@ -28,7 +28,7 @@ import {FlightMapStateService} from './ngrx/flight-map-state.service';
 import {FlightMapMetarTafModule} from '../flight-map-metar-taf/flight-map-metar-taf.module';
 import {FlightMapFlightrouteModule} from '../flight-map-flightroute/flight-map-flightroute.module';
 import {AerodromeViewModule} from '../aerodrome-view/aerodrome-view.module';
-import {FlightMapGeonameModule} from '../flight-map-geoname/flight-map-geoname.module';
+import {GeonameViewModule} from '../geoname-view/geoname-view.module';
 import {FlightMapMeteoSmaModule} from '../flight-map-meteo-sma/flight-map-meteo-sma.module';
 import {FlightMapNotamModule} from '../flight-map-notam/flight-map-notam.module';
 import {EnrouteViewModule} from '../enroute-view/enroute-view.module';
@@ -66,7 +66,7 @@ import {VerticalMapViewModule} from '../vertical-map-view/vertical-map-view.modu
         AerodromeViewModule,
         EnrouteViewModule,
         FlightMapFlightrouteModule,
-        FlightMapGeonameModule,
+        GeonameViewModule,
         FlightMapMetarTafModule,
         FlightMapMeteoSmaModule,
         FlightMapNotamModule,

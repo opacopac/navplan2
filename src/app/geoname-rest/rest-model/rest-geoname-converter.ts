@@ -1,4 +1,4 @@
-import {Geoname} from '../domain-model/geoname';
+import {Geoname} from '../../geoname/domain-model/geoname';
 import {IRestGeoname} from './i-rest-geoname';
 import {Position2dConverter} from '../../common/geo-math/rest-model/position2d-converter';
 import {RestLengthConverter} from '../../common/geo-math/rest-model/rest-length-converter';

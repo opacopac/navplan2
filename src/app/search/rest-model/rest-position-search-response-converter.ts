@@ -2,7 +2,7 @@ import {RestAirportConverter} from '../../aerodrome-rest/rest-model/rest-airport
 import {RestNavaidConverter} from '../../enroute-rest/rest-model/rest-navaid-converter';
 import {RestReportingpointConverter} from '../../aerodrome-rest/rest-model/rest-reportingpoint-converter';
 import {RestUserpointConverter} from '../../user/rest-model/rest-userpoint-converter';
-import {RestGeonameConverter} from '../../geoname/rest-model/rest-geoname-converter';
+import {RestGeonameConverter} from '../../geoname-rest/rest-model/rest-geoname-converter';
 import {IRestSearchResponse} from './i-rest-search-response';
 import {RestAirspaceConverter} from '../../enroute-rest/rest-model/rest-airspace-converter';
 import {PositionSearchResultList} from '../domain-model/position-search-result-list';

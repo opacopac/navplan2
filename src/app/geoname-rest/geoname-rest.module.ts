@@ -9,5 +9,5 @@ import {NgModule} from '@angular/core';
     exports: [
     ],
 })
-export class GeonameModule {
+export class GeonameRestModule {
 }
