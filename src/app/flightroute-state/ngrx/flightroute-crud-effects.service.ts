@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
-import {getCurrentUser} from '../../user/ngrx/user.selectors';
+import {getCurrentUser} from '../../user-state/ngrx/user.selectors';
 import {User} from '../../user/domain-model/user';
 import {getFlightroute} from './flightroute.selectors';
 import {Flightroute} from '../../flightroute/domain-model/flightroute';

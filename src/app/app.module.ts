@@ -7,7 +7,6 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
-import {UserModule} from './user/user.module';
 import {SharedModule} from './common/shared.module';
 import {FlightMapViewModule} from './flight-map-view/flight-map-view.module';
 import {MessageModule} from './message/message.module';
@@ -20,6 +19,7 @@ import {SettingsPageViewModule} from './settings-page-view/settings-page-view.mo
 import {FlightPrepViewModule} from './flight-prep-view/flight-prep-view.module';
 import {ExporterViewModule} from './exporter-view/exporter-view.module';
 import {TrackViewModule} from './track-view/track-view.module';
+import {UserViewModule} from './user-view/user-view.module';
 
 
 @NgModule({
@@ -42,7 +42,7 @@ import {TrackViewModule} from './track-view/track-view.module';
         AboutViewModule,
         SettingsPageViewModule,
         SharedModule,
-        UserModule,
+        UserViewModule,
         FlightMapViewModule,
         FlightPrepViewModule,
         TrackViewModule,

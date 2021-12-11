@@ -4,7 +4,7 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {User} from '../../user/domain-model/user';
-import {getCurrentUser} from '../../user/ngrx/user.selectors';
+import {getCurrentUser} from '../../user-state/ngrx/user.selectors';
 import {TrackActions} from './track.actions';
 import {TrackState} from '../state-model/track-state';
 import {getTrackState} from './track.selectors';

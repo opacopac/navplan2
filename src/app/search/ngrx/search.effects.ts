@@ -4,7 +4,7 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, throwError} from 'rxjs';
 import {catchError, debounceTime, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {SearchActions} from './search.actions';
-import {getCurrentUser} from '../../user/ngrx/user.selectors';
+import {getCurrentUser} from '../../user-state/ngrx/user.selectors';
 import {User} from '../../user/domain-model/user';
 import {LoggingService} from '../../system/domain-service/logging/logging.service';
 import {ISearchService} from '../domain-service/i-search.service';

@@ -2,7 +2,7 @@ import {IRestAirport} from '../../aerodrome-rest/rest-model/i-rest-airport';
 import {IRestNavaid} from '../../enroute-rest/rest-model/i-rest-navaid';
 import {IRestAirspace} from '../../enroute-rest/rest-model/i-rest-airspace';
 import {IRestReportingpoint} from '../../aerodrome-rest/rest-model/i-rest-reportingpoint';
-import {IRestUserpoint} from '../../user/rest-model/i-rest-userpoint';
+import {IRestUserpoint} from '../../user-rest/rest-model/i-rest-userpoint';
 import {IRestWebcam} from '../../webcam-rest/rest-model/i-rest-webcam';
 import {IRestGeoname} from '../../geoname-rest/rest-model/i-rest-geoname';
 import {IRestNotam} from '../../notam-rest/rest-model/i-rest-notam';
