@@ -1,21 +1,17 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {RestNotamRepo} from './rest-service/rest-notam-repo.service';
-import {SharedModule} from '../common/shared.module';
-import {INotamRepo} from './domain-service/i-notam-repo';
+import {INotamService} from './domain-service/i-notam.service';
+import {NotamService} from './domain-service/notam.service';
 
 
 @NgModule({
     imports: [
-        CommonModule,
-        SharedModule,
     ],
     declarations: [
     ],
     exports: [
     ],
     providers: [
-        { provide: INotamRepo, useClass: RestNotamRepo },
+        { provide: INotamService, useClass: NotamService }
     ]
 })
 export class NotamModule {}

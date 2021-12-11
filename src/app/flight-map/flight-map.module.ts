@@ -30,7 +30,7 @@ import {FlightMapFlightrouteModule} from '../flight-map-flightroute/flight-map-f
 import {AerodromeViewModule} from '../aerodrome-view/aerodrome-view.module';
 import {GeonameViewModule} from '../geoname-view/geoname-view.module';
 import {FlightMapMeteoSmaModule} from '../flight-map-meteo-sma/flight-map-meteo-sma.module';
-import {FlightMapNotamModule} from '../flight-map-notam/flight-map-notam.module';
+import {NotamViewModule} from '../notam-view/notam-view.module';
 import {EnrouteViewModule} from '../enroute-view/enroute-view.module';
 import {WebcamViewModule} from '../webcam-view/webcam-view.module';
 import {FlightMapTrackModule} from '../flight-map-track/flight-map-track.module';
@@ -69,7 +69,7 @@ import {VerticalMapViewModule} from '../vertical-map-view/vertical-map-view.modu
         GeonameViewModule,
         FlightMapMetarTafModule,
         FlightMapMeteoSmaModule,
-        FlightMapNotamModule,
+        NotamViewModule,
         FlightMapTrackModule,
         VerticalMapViewModule,
         WebcamViewModule,

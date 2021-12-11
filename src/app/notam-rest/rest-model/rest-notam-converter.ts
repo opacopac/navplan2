@@ -1,7 +1,7 @@
-import {Notam} from '../domain-model/notam';
+import {Notam} from '../../notam/domain-model/notam';
 import {IRestNotam} from './i-rest-notam';
 import {RestNotamGeometryConverter} from './rest-notam-geometry-converter';
-import {NotamLocationType} from '../domain-model/notam-location-type';
+import {NotamLocationType} from '../../notam/domain-model/notam-location-type';
 
 
 export class RestNotamConverter {

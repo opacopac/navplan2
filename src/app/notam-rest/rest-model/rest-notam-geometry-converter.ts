@@ -1,5 +1,5 @@
 import {IRestNotam} from './i-rest-notam';
-import {NotamGeometry} from '../domain-model/notam-geometry';
+import {NotamGeometry} from '../../notam/domain-model/notam-geometry';
 import {RestAltitudeConverter} from '../../common/geo-math/rest-model/rest-altitude-converter';
 import {RestCircleConverter} from '../../common/geo-math/rest-model/rest-circle-converter';
 import {PolygonConverter} from '../../common/geo-math/rest-model/polygon-converter';

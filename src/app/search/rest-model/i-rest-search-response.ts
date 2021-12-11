@@ -5,7 +5,7 @@ import {IRestReportingpoint} from '../../aerodrome-rest/rest-model/i-rest-report
 import {IRestUserpoint} from '../../user/rest-model/i-rest-userpoint';
 import {IRestWebcam} from '../../webcam-rest/rest-model/i-rest-webcam';
 import {IRestGeoname} from '../../geoname-rest/rest-model/i-rest-geoname';
-import {IRestNotam} from '../../notam/rest-model/i-rest-notam';
+import {IRestNotam} from '../../notam-rest/rest-model/i-rest-notam';
 import {IRestAirportCircuit} from '../../aerodrome-rest/rest-model/i-rest-airport-circuit';
 
 

@@ -11,7 +11,7 @@ import {NavaidSearchResult} from '../domain-model/navaid-search-result';
 import {ReportingPointSearchResult} from '../domain-model/reporting-point-search-result';
 import {UserPointSearchResult} from '../domain-model/user-point-search-result';
 import {GeonameSearchResult} from '../domain-model/geoname-search-result';
-import {RestNotamConverter} from '../../notam/rest-model/rest-notam-converter';
+import {RestNotamConverter} from '../../notam-rest/rest-model/rest-notam-converter';
 
 
 export class RestPositionSearchResponseConverter {

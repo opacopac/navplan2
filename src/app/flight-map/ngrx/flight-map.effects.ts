@@ -9,7 +9,6 @@ import {FlightMapActions} from './flight-map.actions';
 import {getFlightMapState} from './flight-map.selectors';
 import {SearchActions} from '../../search/ngrx/search.actions';
 import {getSearchState} from '../../search/ngrx/search.selectors';
-import {INotamRepo} from '../../notam/domain-service/i-notam-repo';
 import {IDate} from '../../system/domain-service/date/i-date';
 import {SystemConfig} from '../../system/domain-service/system-config';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
@@ -19,7 +18,7 @@ import {AirportCircuitActions} from '../../aerodrome-state/ngrx/airport-circuit/
 import {ReportingPointSectorActions} from '../../aerodrome-state/ngrx/reporting-point-sector/reporting-point-sector.actions';
 import {AirspaceActions} from '../../enroute-state/ngrx/airspace/airspace.actions';
 import {NavaidActions} from '../../enroute-state/ngrx/navaid/navaid.actions';
-import {NotamActions} from '../../flight-map-notam/ngrx/notam.actions';
+import {NotamActions} from '../../notam-state/ngrx/notam.actions';
 import {WebcamActions} from '../../webcam-state/ngrx/webcam.actions';
 import {MeteoSmaActions} from '../../flight-map-meteo-sma/ngrx/meteo-sma.actions';
 import {TrafficActions} from '../../traffic/ngrx/traffic.actions';
@@ -33,6 +32,7 @@ import {ISearchRepo} from '../../search/domain-service/i-search-repo';
 import {FlightMapStateService} from './flight-map-state.service';
 import {WaypointActions} from '../../flightroute-state/ngrx/waypoints.actions';
 import {IAirportService} from '../../aerodrome/domain-service/i-airport.service';
+import {INotamService} from '../../notam/domain-service/i-notam.service';
 
 
 @Injectable()
@@ -46,7 +46,7 @@ export class FlightMapEffects {
         private readonly actions$: Actions,
         private readonly appStore: Store<any>,
         private readonly airportService: IAirportService,
-        private readonly notamRepo: INotamRepo,
+        private readonly notamService: INotamService,
         private readonly searchRepo: ISearchRepo,
         private readonly flightMapStateService: FlightMapStateService,
         config: SystemConfig
@@ -206,7 +206,7 @@ export class FlightMapEffects {
 
     private getOverlayNotams$(action: { dataItem: DataItem, clickPos: Position2d }): Observable<Notam[]> {
         if (action.dataItem.dataItemType === DataItemType.airport) {
-            return this.notamRepo.readByIcao(
+            return this.notamService.readByIcao(
                 (action.dataItem as ShortAirport).icao,
                 this.date.getDayStartTimestamp(0),
                 this.date.getDayEndTimestamp(2)
@@ -214,7 +214,7 @@ export class FlightMapEffects {
         }
 
         if (action.clickPos) {
-            return this.notamRepo.readByPosition(
+            return this.notamService.readByPosition(
                 action.clickPos,
                 this.date.getDayStartTimestamp(0),
                 this.date.getDayEndTimestamp(2)

@@ -4,12 +4,12 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
 import {filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {NotamActions} from './notam.actions';
-import {NotamState} from '../../notam/domain-model/notam-state';
+import {NotamState} from '../state-model/notam-state';
 import {getNotamState} from './notam.selectors';
 import {IDate} from '../../system/domain-service/date/i-date';
 import {SystemConfig} from '../../system/domain-service/system-config';
-import {INotamRepo} from '../../notam/domain-service/i-notam-repo';
 import {environment} from '../../../environments/environment';
+import {INotamService} from '../../notam/domain-service/i-notam.service';
 
 
 @Injectable()
@@ -22,7 +22,7 @@ export class NotamEffects {
     constructor(
         private readonly actions$: Actions,
         private readonly appStore: Store<any>,
-        private readonly notamRepo: INotamRepo,
+        private readonly notamService: INotamService,
         config: SystemConfig
     ) {
         this.date = config.getDate();
@@ -37,7 +37,7 @@ export class NotamEffects {
             || notamState.zoom !== action.zoom
             || !notamState.extent.containsExtent2d(action.extent)
             || notamState.timestampMs + this.NOTAMS_TIMEOUT_SEC * 1000 < this.date.nowMs()),
-        switchMap(([action, notamState]) => this.notamRepo.readByExtent(
+        switchMap(([action, notamState]) => this.notamService.readByExtent(
             action.extent.getOversizeExtent(environment.mapOversizeFactor),
             action.zoom,
             this.date.getDayStartTimestamp(0),

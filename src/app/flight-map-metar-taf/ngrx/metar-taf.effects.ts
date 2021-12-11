@@ -9,8 +9,8 @@ import {SystemConfig} from '../../system/domain-service/system-config';
 import {IDate} from '../../system/domain-service/date/i-date';
 import {IMetarTafRepo} from '../../metar-taf/domain-service/i-metar-taf-repo.service';
 import {environment} from '../../../environments/environment';
-import {INotamRepo} from '../../notam/domain-service/i-notam-repo';
 import {IAirportService} from '../../aerodrome/domain-service/i-airport.service';
+import {INotamService} from '../../notam/domain-service/i-notam.service';
 
 
 @Injectable()
@@ -26,7 +26,7 @@ export class MetarTafEffects {
         private readonly appStore: Store<any>,
         private readonly metarTafRepo: IMetarTafRepo,
         private readonly airportService: IAirportService,
-        private readonly notamRepo: INotamRepo,
+        private readonly notamService: INotamService,
         config: SystemConfig
     ) {
         this.date = config.getDate();

@@ -4,17 +4,17 @@ import {LoggingService} from '../../system/domain-service/logging/logging.servic
 import {Observable} from 'rxjs/internal/Observable';
 import {catchError, map} from 'rxjs/operators';
 import {throwError} from 'rxjs';
-import {INotamRepo} from '../domain-service/i-notam-repo';
+import {INotamRepoService} from '../../notam/domain-service/i-notam-repo.service';
 import {IRestNotamResponse} from '../rest-model/i-rest-notam-response';
 import {environment} from '../../../environments/environment';
 import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
-import {Notam} from '../domain-model/notam';
+import {Notam} from '../../notam/domain-model/notam';
 import {RestNotamConverter} from '../rest-model/rest-notam-converter';
 
 
 @Injectable()
-export class RestNotamRepo implements INotamRepo {
+export class RestNotamRepo implements INotamRepoService {
     constructor(private http: HttpClient) {
     }
 

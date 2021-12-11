@@ -1,4 +1,4 @@
-import {NotamState} from '../../notam/domain-model/notam-state';
+import {NotamState} from '../state-model/notam-state';
 import {NotamActions} from './notam.actions';
 import {createReducer, on} from '@ngrx/store';
 
