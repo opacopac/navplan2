@@ -17,8 +17,8 @@ import {MetarTafActions} from '../../flight-map-metar-taf/ngrx/metar-taf.actions
 import {AirportActions} from '../../aerodrome-state-flight-map/ngrx/airport/airport.actions';
 import {AirportCircuitActions} from '../../aerodrome-state-flight-map/ngrx/airport-circuit/airport-circuit.actions';
 import {ReportingPointSectorActions} from '../../aerodrome-state-flight-map/ngrx/reporting-point-sector/reporting-point-sector.actions';
-import {AirspaceActions} from '../../flight-map-enroute/ngrx/airspace/airspace.actions';
-import {NavaidActions} from '../../flight-map-enroute/ngrx/navaid/navaid.actions';
+import {AirspaceActions} from '../../enroute-state-flight-map/ngrx/airspace/airspace.actions';
+import {NavaidActions} from '../../enroute-state-flight-map/ngrx/navaid/navaid.actions';
 import {NotamActions} from '../../flight-map-notam/ngrx/notam.actions';
 import {WebcamActions} from '../../webcam-state-flight-map/ngrx/webcam.actions';
 import {MeteoSmaActions} from '../../flight-map-meteo-sma/ngrx/meteo-sma.actions';

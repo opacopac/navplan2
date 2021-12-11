@@ -4,7 +4,7 @@ import {combineLatest, Observable, of, pipe} from 'rxjs';
 import {getMetarTafState} from '../../flight-map-metar-taf/ngrx/metar-taf.selectors';
 import {getAirportState} from '../../aerodrome-state-flight-map/ngrx/airport/airport.selectors';
 import {getReportingPointSectorState} from '../../aerodrome-state-flight-map/ngrx/reporting-point-sector/reporting-point-sector.selectors';
-import {getNavaidState} from '../../flight-map-enroute/ngrx/navaid/navaid.selectors';
+import {getNavaidState} from '../../enroute-state-flight-map/ngrx/navaid/navaid.selectors';
 import {Position2d} from '../../common/geo-math/domain-model/geometry/position2d';
 import {DataItem} from '../../common/model/data-item';
 import {Waypoint} from '../../flightroute/domain-model/waypoint';

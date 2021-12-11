@@ -1,13 +1,13 @@
 import {SearchItemList} from '../domain-model/search-item-list';
 import {RestAirportConverter} from '../../aerodrome-rest/rest-model/rest-airport-converter';
-import {RestNavaidConverter} from '../../enroute/rest-model/rest-navaid-converter';
+import {RestNavaidConverter} from '../../enroute-rest/rest-model/rest-navaid-converter';
 import {RestReportingpointConverter} from '../../aerodrome-rest/rest-model/rest-reportingpoint-converter';
 import {RestReportingsectorConverter} from '../../aerodrome-rest/rest-model/rest-reportingsector-converter';
 import {RestUserpointConverter} from '../../user/rest-model/rest-userpoint-converter';
 import {RestGeonameConverter} from '../../geoname/rest-model/rest-geoname-converter';
 import {RestAirportCircuitConverter} from '../../aerodrome-rest/rest-model/rest-airport-circuit-converter';
 import {IRestSearchResponse} from './i-rest-search-response';
-import {RestAirspaceConverter} from '../../enroute/rest-model/rest-airspace-converter';
+import {RestAirspaceConverter} from '../../enroute-rest/rest-model/rest-airspace-converter';
 
 
 export class RestSearchResponseConverter {

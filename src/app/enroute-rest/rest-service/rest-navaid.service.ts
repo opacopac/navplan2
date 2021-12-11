@@ -5,10 +5,10 @@ import {catchError, map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {LoggingService} from '../../system/domain-service/logging/logging.service';
 import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
-import {Navaid} from '../domain-model/navaid';
+import {Navaid} from '../../enroute/domain-model/navaid';
 import {IRestNavaid} from '../rest-model/i-rest-navaid';
 import {RestNavaidConverter} from '../rest-model/rest-navaid-converter';
-import {INavaidRepo} from '../domain-service/i-navaid-repo';
+import {INavaidRepo} from '../../enroute/domain-service/i-navaid-repo';
 
 
 @Injectable()
