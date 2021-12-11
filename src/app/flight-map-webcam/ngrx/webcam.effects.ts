@@ -3,11 +3,11 @@ import {filter, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {WebcamActions} from './webcam.actions';
 import {Observable, of, pipe} from 'rxjs';
-import {WebcamState} from '../../webcam/domain-model/webcam-state';
+import {WebcamState} from './webcam-state';
 import {Store} from '@ngrx/store';
 import {getWebcamState} from './webcam.selectors';
 import {environment} from '../../../environments/environment';
-import {IWebcamRepo} from '../../webcam/domain-service/i-webcam-repo';
+import {IWebcamService} from '../../webcam/domain-service/i-webcam-service';
 
 
 @Injectable()
@@ -19,7 +19,7 @@ export class WebcamEffects {
     constructor(
         private readonly actions$: Actions,
         private readonly appStore: Store<any>,
-        private readonly webcamRepo: IWebcamRepo,
+        private readonly webcamService: IWebcamService,
     ) {
     }
 
@@ -34,7 +34,7 @@ export class WebcamEffects {
             if (action.zoom < this.WEBCAM_MIN_ZOOM) {
                 return of({ extent: action.extent, zoom: action.zoom, webcams: [] });
             } else {
-                return this.webcamRepo.readWebcamsByExtent(
+                return this.webcamService.readWebcamsByExtent(
                     action.extent.getOversizeExtent(environment.mapOversizeFactor)
                 ).pipe(
                     map(webcams => ({

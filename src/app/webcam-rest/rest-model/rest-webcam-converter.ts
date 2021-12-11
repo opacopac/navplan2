@@ -1,4 +1,4 @@
-import {Webcam} from '../domain-model/webcam';
+import {Webcam} from '../../webcam/domain-model/webcam';
 import {IRestWebcam} from './i-rest-webcam';
 import {Position2dConverter} from '../../common/geo-math/rest-model/position2d-converter';
 

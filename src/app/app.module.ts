@@ -11,12 +11,12 @@ import {UserModule} from './user/user.module';
 import {SharedModule} from './common/shared.module';
 import {FlightMapModule} from './flight-map/flight-map.module';
 import {MessageModule} from './message/message.module';
-import {AboutModule} from './about/about.module';
+import {AboutPageModule} from './about-page/about-page.module';
 import {RouterModule} from '@angular/router';
 import {appReducer} from './app.reducer';
 import {AppEffects} from './app.effects';
 import {NavbarModule} from './navbar/navbar.module';
-import {SettingsModule} from './settings/settings.module';
+import {SettingsPageModule} from './settings-page/settings-page.module';
 import {MeteoSmaModule} from './meteo-sma/meteo-sma.module';
 import {ExporterModule} from './exporter/exporter.module';
 import {FlightPrepModule} from './flight-prep/flight-prep.module';
@@ -40,8 +40,8 @@ import {TrackPageModule} from './track-page/track-page.module';
         }),
         AppRoutingModule,
         NavbarModule,
-        AboutModule,
-        SettingsModule,
+        AboutPageModule,
+        SettingsPageModule,
         SharedModule,
         UserModule,
         FlightMapModule,

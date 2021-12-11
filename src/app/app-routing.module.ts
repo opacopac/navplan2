@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {SettingsPageComponent} from './settings/ng-components/settings-page/settings-page.component';
-import {AboutPageComponent} from './about/ng-components/about-page/about-page.component';
+import {SettingsPageComponent} from './settings-page/ng-components/settings-page/settings-page.component';
+import {AboutPageComponent} from './about-page/ng-components/about-page/about-page.component';
 import {UserProfilePageComponent} from './user/ng-components/user-profile-page/user-profile-page.component';
 import {FlightMapPageComponent} from './flight-map/ng-components/flight-map-page/flight-map-page.component';
 import {TracksPageComponent} from './track-page/ng-components/tracks-page/tracks-page.component';

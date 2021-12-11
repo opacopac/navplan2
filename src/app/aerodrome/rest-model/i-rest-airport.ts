@@ -2,7 +2,7 @@ import {IRestPosition2d} from '../../common/geo-math/rest-model/i-rest-position2
 import {IRestLength} from '../../common/geo-math/rest-model/i-rest-length';
 import {IRestAirportRunway} from './i-rest-airport-runway';
 import {IRestAirportRadio} from './i-rest-airport-radio';
-import {IRestWebcam} from '../../webcam/rest-model/i-rest-webcam';
+import {IRestWebcam} from '../../webcam-rest/rest-model/i-rest-webcam';
 import {IRestAirportFeature} from './i-rest-airport-feature';
 import {IRestAirportChart} from './i-rest-airport-chart';
 

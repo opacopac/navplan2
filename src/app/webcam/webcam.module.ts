@@ -1,21 +1,17 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {SharedModule} from '../common/shared.module';
-import {WebcamRestService} from './rest-service/webcam-rest.service';
-import {IWebcamRepo} from './domain-service/i-webcam-repo';
+import {IWebcamService} from './domain-service/i-webcam-service';
+import {WebcamService} from './domain-service/webcam.service';
 
 
 @NgModule({
     imports: [
-        CommonModule,
-        SharedModule,
     ],
     declarations: [
     ],
     exports: [
     ],
     providers: [
-        { provide: IWebcamRepo, useClass: WebcamRestService }
+        { provide: IWebcamService, useClass: WebcamService }
     ]
 })
 export class WebcamModule {}

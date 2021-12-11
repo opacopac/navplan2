@@ -1,8 +1,5 @@
-import {Observable} from 'rxjs';
-import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
-import {Webcam} from '../domain-model/webcam';
+import {IWebcamService} from './i-webcam-service';
 
 
-export abstract class IWebcamRepo {
-    public abstract readWebcamsByExtent(extent: Extent2d): Observable<Webcam[]>;
+export abstract class IWebcamRepo extends IWebcamService {
 }

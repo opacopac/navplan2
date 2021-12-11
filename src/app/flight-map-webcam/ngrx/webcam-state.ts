@@ -1,4 +1,4 @@
-import {Webcam} from './webcam';
+import {Webcam} from '../../webcam/domain-model/webcam';
 import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 
 

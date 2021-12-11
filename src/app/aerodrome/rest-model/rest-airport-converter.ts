@@ -4,7 +4,7 @@ import {Position2dConverter} from '../../common/geo-math/rest-model/position2d-c
 import {RestLengthConverter} from '../../common/geo-math/rest-model/rest-length-converter';
 import {RestAirportRadioConverter} from './rest-airport-radio-converter';
 import {RestAirportRunwayConverter} from './rest-airport-runway-converter';
-import {RestWebcamConverter} from '../../webcam/rest-model/rest-webcam-converter';
+import {RestWebcamConverter} from '../../webcam-rest/rest-model/rest-webcam-converter';
 import {RestAirportFeatureConverter} from './rest-airport-feature-converter';
 import {AirportType} from '../domain-model/airport-type';
 import {RestAirportChartConverter} from './rest-airport-chart-converter';

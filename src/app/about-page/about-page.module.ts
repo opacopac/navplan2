@@ -1,14 +1,14 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http';
-import {SettingsPageComponent} from './ng-components/settings-page/settings-page.component';
+import {AboutPageComponent} from './ng-components/about-page/about-page.component';
 import {SharedModule} from '../common/shared.module';
 import {RouterModule} from '@angular/router';
 
 
 @NgModule({
     declarations: [
-        SettingsPageComponent,
+        AboutPageComponent
     ],
     imports: [
         BrowserModule,
@@ -17,9 +17,9 @@ import {RouterModule} from '@angular/router';
         SharedModule,
     ],
     exports: [
-        SettingsPageComponent
+        AboutPageComponent,
     ],
     providers: []
 })
-export class SettingsModule {
+export class AboutPageModule {
 }
