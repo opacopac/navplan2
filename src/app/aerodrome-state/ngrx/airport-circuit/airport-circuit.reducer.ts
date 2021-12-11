@@ -1,6 +1,6 @@
 import {createReducer, on} from '@ngrx/store';
 import {AirportCircuitActions} from './airport-circuit.actions';
-import {AirportCircuitState} from '../../../aerodrome/domain-model/airport-circuit-state';
+import {AirportCircuitState} from '../state-model/airport-circuit-state';
 
 
 const initialState: AirportCircuitState = {

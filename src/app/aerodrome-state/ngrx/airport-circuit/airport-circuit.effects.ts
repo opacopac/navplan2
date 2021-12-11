@@ -5,7 +5,7 @@ import {AirportCircuitActions} from './airport-circuit.actions';
 import {Observable, of, pipe} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {getAirportCircuitState} from './airport-circuit.selectors';
-import {AirportCircuitState} from '../../../aerodrome/domain-model/airport-circuit-state';
+import {AirportCircuitState} from '../state-model/airport-circuit-state';
 import {environment} from '../../../../environments/environment';
 import {IAirportCircuitService} from '../../../aerodrome/domain-service/i-airport-circuit.service';
 

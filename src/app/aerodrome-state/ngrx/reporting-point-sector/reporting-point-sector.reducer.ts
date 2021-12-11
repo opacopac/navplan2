@@ -1,6 +1,6 @@
 import {createReducer, on} from '@ngrx/store';
 import {ReportingPointSectorActions} from './reporting-point-sector.actions';
-import {ReportingPointSectorState} from '../../../aerodrome/domain-model/reporting-point-sector-state';
+import {ReportingPointSectorState} from '../state-model/reporting-point-sector-state';
 
 
 const initialState: ReportingPointSectorState = {

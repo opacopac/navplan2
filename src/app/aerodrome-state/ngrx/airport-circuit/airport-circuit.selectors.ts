@@ -1,5 +1,5 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {AirportCircuitState} from '../../../aerodrome/domain-model/airport-circuit-state';
+import {AirportCircuitState} from '../state-model/airport-circuit-state';
 
 
 export const getAirportCircuitState = createFeatureSelector<AirportCircuitState>('airportCircuitState');

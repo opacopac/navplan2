@@ -1,5 +1,5 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {ReportingPointSectorState} from '../../../aerodrome/domain-model/reporting-point-sector-state';
+import {ReportingPointSectorState} from '../state-model/reporting-point-sector-state';
 
 
 export const getReportingPointSectorState = createFeatureSelector<ReportingPointSectorState>('reportingPointSectorState');
