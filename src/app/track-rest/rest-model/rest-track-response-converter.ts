@@ -1,4 +1,4 @@
-import {Track} from '../domain-model/track';
+import {Track} from '../../track/domain-model/track';
 import {IRestTrackResponse} from './i-rest-track-response';
 import {RestTrackConverter} from './rest-track-converter';
 

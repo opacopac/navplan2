@@ -7,10 +7,10 @@ import {Store} from '@ngrx/store';
 import {getMetarTafState} from './metar-taf.selectors';
 import {SystemConfig} from '../../system/domain-service/system-config';
 import {IDate} from '../../system/domain-service/date/i-date';
-import {IMetarTafRepo} from '../../metar-taf/domain-service/i-metar-taf-repo.service';
 import {environment} from '../../../environments/environment';
 import {IAirportService} from '../../aerodrome/domain-service/i-airport.service';
 import {INotamService} from '../../notam/domain-service/i-notam.service';
+import {IMetarTafService} from '../../metar-taf/domain-service/i-metar-taf.service';
 
 
 @Injectable()
@@ -24,7 +24,7 @@ export class MetarTafEffects {
     constructor(
         private readonly actions$: Actions,
         private readonly appStore: Store<any>,
-        private readonly metarTafRepo: IMetarTafRepo,
+        private readonly metarTafService: IMetarTafService,
         private readonly airportService: IAirportService,
         private readonly notamService: INotamService,
         config: SystemConfig
@@ -46,7 +46,7 @@ export class MetarTafEffects {
             if (action.zoom <= this.METAR_TAF_MIN_ZOOM_LEVEL) {
                 return of({extent: action.extent, zoom: action.zoom, metarTafs: [], timestamp: this.date.nowMs()});
             } else {
-                return this.metarTafRepo.load(action.extent).pipe(
+                return this.metarTafService.load(action.extent).pipe(
                     map(metarTafs => ({
                         extent: action.extent.getOversizeExtent(environment.mapOversizeFactor),
                         zoom: action.zoom,

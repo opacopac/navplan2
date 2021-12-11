@@ -1,5 +1,5 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {MetarTafState} from './metar-taf-state';
+import {MetarTafState} from '../state-model/metar-taf-state';
 
 
 export const getMetarTafState = createFeatureSelector<MetarTafState>('metarTafState');

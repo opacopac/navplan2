@@ -12,7 +12,7 @@ import {getSearchState} from '../../search/ngrx/search.selectors';
 import {IDate} from '../../system/domain-service/date/i-date';
 import {SystemConfig} from '../../system/domain-service/system-config';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
-import {MetarTafActions} from '../../flight-map-metar-taf/ngrx/metar-taf.actions';
+import {MetarTafActions} from '../../metar-taf-state/ngrx/metar-taf.actions';
 import {AirportActions} from '../../aerodrome-state/ngrx/airport/airport.actions';
 import {AirportCircuitActions} from '../../aerodrome-state/ngrx/airport-circuit/airport-circuit.actions';
 import {ReportingPointSectorActions} from '../../aerodrome-state/ngrx/reporting-point-sector/reporting-point-sector.actions';

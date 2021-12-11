@@ -6,7 +6,6 @@ import {filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {RouteMeteoActions} from './route-meteo.actions';
 import {getRouteMeteoState} from './route-meteo.selectors';
 import {RouteMeteoState} from './route-meteo-state';
-import {IMetarTafRepo} from '../../metar-taf/domain-service/i-metar-taf-repo.service';
 import {Length} from '../../common/geo-math/domain-model/quantities/length';
 import {LengthUnit} from '../../common/geo-math/domain-model/quantities/length-unit';
 import {Flightroute} from '../../flightroute/domain-model/flightroute';
@@ -14,6 +13,7 @@ import {getFlightroute} from '../../flightroute-state/ngrx/flightroute.selectors
 import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
 import {LineString} from '../../common/geo-math/domain-model/geometry/line-string';
 import {GeodesyHelper} from '../../common/geo-math/domain-service/geodesy-helper';
+import {IMetarTafService} from '../../metar-taf/domain-service/i-metar-taf.service';
 
 
 @Injectable()
@@ -31,7 +31,7 @@ export class RouteMeteoEffects {
     constructor(
         private readonly actions$: Actions,
         private readonly appStore: Store<any>,
-        private readonly metarTafRepo: IMetarTafRepo,
+        private readonly metarTafService: IMetarTafService,
     ) {
     }
 
@@ -43,7 +43,7 @@ export class RouteMeteoEffects {
             this.routeMeteoState$,
         ),
         filter(([action, meteoBox, meteoState]) => meteoBox && !meteoState.extent?.equals(meteoBox)),
-        switchMap(([action, meteoBox, meteoState]) => this.metarTafRepo.load(meteoBox).pipe(
+        switchMap(([action, meteoBox, meteoState]) => this.metarTafService.load(meteoBox).pipe(
             map(metarTafs => RouteMeteoActions.updateSuccess(
                 {
                     extent: meteoBox,

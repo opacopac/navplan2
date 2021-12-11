@@ -1,8 +1,5 @@
-import {Observable} from 'rxjs/internal/Observable';
-import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
-import {MetarTaf} from '../domain-model/metar-taf';
+import {IMetarTafService} from './i-metar-taf.service';
 
 
-export abstract class IMetarTafRepo {
-    public abstract load(extent: Extent2d): Observable<MetarTaf[]>;
+export abstract class IMetarTafRepoService extends IMetarTafService {
 }

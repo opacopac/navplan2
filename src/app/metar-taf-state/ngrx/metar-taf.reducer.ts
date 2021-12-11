@@ -1,6 +1,6 @@
 import {createReducer, on} from '@ngrx/store';
 import {MetarTafActions} from './metar-taf.actions';
-import {MetarTafState} from './metar-taf-state';
+import {MetarTafState} from '../state-model/metar-taf-state';
 
 
 const initialState: MetarTafState = {

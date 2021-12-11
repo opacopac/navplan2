@@ -1,5 +1,5 @@
 import {IRestFlightroute} from '../../flightroute/rest-model/i-rest-flightroute';
-import {IRestTrack} from '../../track/rest-model/i-rest-track';
+import {IRestTrack} from '../../track-rest/rest-model/i-rest-track';
 
 
 export interface IRestExportKmlRequest {

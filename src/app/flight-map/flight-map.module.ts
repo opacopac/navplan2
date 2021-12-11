@@ -25,7 +25,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {OlMapOverlayComponent} from './ng-components/ol-map-overlay/ol-map-overlay.component';
 import {UserModule} from '../user/user.module';
 import {FlightMapStateService} from './ngrx/flight-map-state.service';
-import {FlightMapMetarTafModule} from '../flight-map-metar-taf/flight-map-metar-taf.module';
+import {MetarTafViewModule} from '../metar-taf-view/metar-taf-view.module';
 import {FlightMapFlightrouteModule} from '../flight-map-flightroute/flight-map-flightroute.module';
 import {AerodromeViewModule} from '../aerodrome-view/aerodrome-view.module';
 import {GeonameViewModule} from '../geoname-view/geoname-view.module';
@@ -33,7 +33,7 @@ import {MeteoSmaViewModule} from '../meteo-sma-view/meteo-sma-view.module';
 import {NotamViewModule} from '../notam-view/notam-view.module';
 import {EnrouteViewModule} from '../enroute-view/enroute-view.module';
 import {WebcamViewModule} from '../webcam-view/webcam-view.module';
-import {FlightMapTrackModule} from '../flight-map-track/flight-map-track.module';
+import {TrackViewModule} from '../track-view/track-view.module';
 import {VerticalMapViewModule} from '../vertical-map-view/vertical-map-view.module';
 
 @NgModule({
@@ -67,10 +67,10 @@ import {VerticalMapViewModule} from '../vertical-map-view/vertical-map-view.modu
         EnrouteViewModule,
         FlightMapFlightrouteModule,
         GeonameViewModule,
-        FlightMapMetarTafModule,
+        MetarTafViewModule,
         MeteoSmaViewModule,
         NotamViewModule,
-        FlightMapTrackModule,
+        TrackViewModule,
         VerticalMapViewModule,
         WebcamViewModule,
     ],

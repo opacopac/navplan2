@@ -8,4 +8,3 @@ export interface MetarTafState {
     timestamp: number;
     metarTafs: MetarTaf[];
 }
-

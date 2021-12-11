@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {combineLatest, Observable, of, pipe} from 'rxjs';
-import {getMetarTafState} from '../../flight-map-metar-taf/ngrx/metar-taf.selectors';
+import {getMetarTafState} from '../../metar-taf-state/ngrx/metar-taf.selectors';
 import {getAirportState} from '../../aerodrome-state/ngrx/airport/airport.selectors';
 import {getReportingPointSectorState} from '../../aerodrome-state/ngrx/reporting-point-sector/reporting-point-sector.selectors';
 import {getNavaidState} from '../../enroute-state/ngrx/navaid/navaid.selectors';

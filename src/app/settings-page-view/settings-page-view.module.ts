@@ -21,5 +21,5 @@ import {RouterModule} from '@angular/router';
     ],
     providers: []
 })
-export class SettingsPageModule {
+export class SettingsPageViewModule {
 }

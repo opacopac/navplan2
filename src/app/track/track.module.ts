@@ -1,20 +1,17 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {SharedModule} from '../common/shared.module';
-import {TrackService} from './rest-service/track.service';
+import {TrackService} from './domain-service/track.service';
+import {ITrackService} from './domain-service/i-track.service';
 
 
 @NgModule({
     imports: [
-        CommonModule,
-        SharedModule,
     ],
     declarations: [
     ],
     exports: [
     ],
     providers: [
-        TrackService
+        { provide: ITrackService, useClass: TrackService }
     ]
 })
 export class TrackModule {

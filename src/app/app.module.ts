@@ -11,15 +11,15 @@ import {UserModule} from './user/user.module';
 import {SharedModule} from './common/shared.module';
 import {FlightMapModule} from './flight-map/flight-map.module';
 import {MessageModule} from './message/message.module';
-import {AboutPageModule} from './about-page/about-page.module';
+import {AboutPageViewModule} from './about-page-view/about-page-view.module';
 import {RouterModule} from '@angular/router';
 import {appReducer} from './app.reducer';
 import {AppEffects} from './app.effects';
 import {NavbarModule} from './navbar/navbar.module';
-import {SettingsPageModule} from './settings-page/settings-page.module';
+import {SettingsPageViewModule} from './settings-page-view/settings-page-view.module';
 import {FlightPrepModule} from './flight-prep/flight-prep.module';
-import {TrackPageModule} from './track-page/track-page.module';
 import {ExporterViewModule} from './exporter-view/exporter-view.module';
+import {TrackViewModule} from './track-view/track-view.module';
 
 
 @NgModule({
@@ -39,13 +39,13 @@ import {ExporterViewModule} from './exporter-view/exporter-view.module';
         }),
         AppRoutingModule,
         NavbarModule,
-        AboutPageModule,
-        SettingsPageModule,
+        AboutPageViewModule,
+        SettingsPageViewModule,
         SharedModule,
         UserModule,
         FlightMapModule,
         FlightPrepModule,
-        TrackPageModule,
+        TrackViewModule,
         MessageModule,
         ExporterViewModule,
     ],

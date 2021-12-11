@@ -3,19 +3,18 @@ import {HttpClient} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {LoggingService} from '../../system/domain-service/logging/logging.service';
-import {Track} from '../domain-model/track';
+import {Track} from '../../track/domain-model/track';
 import {User} from '../../user/domain-model/user';
 import {catchError, map} from 'rxjs/operators';
 import {IRestTrackListResponse} from '../rest-model/i-rest-track-list-response';
 import {IRestTrackResponse} from '../rest-model/i-rest-track-response';
 import {RestTrackListResponseConverter} from '../rest-model/rest-track-list-response-converter';
 import {RestTrackResponseConverter} from '../rest-model/rest-track-response-converter';
+import {ITrackRepoService} from '../../track/domain-service/i-track-repo.service';
 
 
-@Injectable({
-    providedIn: 'root'
-})
-export class TrackService {
+@Injectable()
+export class RestTrackRepoService implements ITrackRepoService {
     constructor(private http: HttpClient) {
     }
 

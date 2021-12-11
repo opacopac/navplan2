@@ -1,4 +1,4 @@
-import {MetarTaf} from '../domain-model/metar-taf';
+import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
 import {StringnumberHelper} from '../../system/domain-service/stringnumber/stringnumber-helper';
 import {IRestMetarTafFeature} from './i-rest-metar-taf-feature';
 

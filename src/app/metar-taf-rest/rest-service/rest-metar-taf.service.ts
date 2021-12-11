@@ -5,15 +5,15 @@ import {catchError, map} from 'rxjs/operators';
 import {throwError} from 'rxjs';
 import {LoggingService} from '../../system/domain-service/logging/logging.service';
 import {Extent2d} from '../../common/geo-math/domain-model/geometry/extent2d';
-import {MetarTaf} from '../domain-model/metar-taf';
+import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
 import {IRestMetarTafResponse} from '../rest-model/i-rest-metar-taf-response';
 import {RestMetarTafConverter} from '../rest-model/rest-metar-taf-converter';
 import {environment} from '../../../environments/environment';
-import {IMetarTafRepo} from '../domain-service/i-metar-taf-repo.service';
+import {IMetarTafRepoService} from '../../metar-taf/domain-service/i-metar-taf-repo.service';
 
 
 @Injectable()
-export class RestMetarTafService implements IMetarTafRepo {
+export class RestMetarTafService implements IMetarTafRepoService {
     constructor(private http: HttpClient) {
     }
 

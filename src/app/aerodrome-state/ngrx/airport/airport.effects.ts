@@ -5,11 +5,11 @@ import {AirportActions} from './airport.actions';
 import {select, Store} from '@ngrx/store';
 import {getAirportState} from './airport.selectors';
 import {environment} from '../../../../environments/environment';
-import {IMetarTafRepo} from '../../../metar-taf/domain-service/i-metar-taf-repo.service';
 import {IDate} from '../../../system/domain-service/date/i-date';
 import {SystemConfig} from '../../../system/domain-service/system-config';
 import {IAirportService} from '../../../aerodrome/domain-service/i-airport.service';
 import {INotamService} from '../../../notam/domain-service/i-notam.service';
+import {IMetarTafService} from '../../../metar-taf/domain-service/i-metar-taf.service';
 
 
 @Injectable()
@@ -21,7 +21,7 @@ export class AirportEffects {
     constructor(
         private readonly actions$: Actions,
         private readonly airportService: IAirportService,
-        private readonly metarTafRepo: IMetarTafRepo,
+        private readonly metarTafService: IMetarTafService,
         private readonly notamService: INotamService,
         private appStore: Store<any>,
         config: SystemConfig

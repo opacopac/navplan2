@@ -1,16 +1,22 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {SharedModule} from '../common/shared.module';
+import {TrackStateModule} from '../track-state/track-state.module';
+import {TrackModule} from '../track/track.module';
+import {TrackRestModule} from '../track-rest/track-rest.module';
 import {TracksPageComponent} from './ng-components/tracks-page/tracks-page.component';
 import {TrackListComponent} from './ng-components/track-list/track-list.component';
-import {TrackStateModule} from '../track-state/track-state.module';
+import {MatTableModule} from '@angular/material/table';
+import {MatButtonModule} from '@angular/material/button';
 
 
 @NgModule({
     imports: [
         CommonModule,
-        SharedModule,
-        TrackStateModule
+        MatTableModule,
+        MatButtonModule,
+        TrackModule,
+        TrackRestModule,
+        TrackStateModule,
     ],
     declarations: [
         TracksPageComponent,
@@ -22,5 +28,5 @@ import {TrackStateModule} from '../track-state/track-state.module';
     providers: [
     ]
 })
-export class TrackPageModule {
+export class TrackViewModule {
 }
