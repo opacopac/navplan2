@@ -4,7 +4,7 @@ import {map, switchMap} from 'rxjs/operators';
 import {WaypointActions} from './waypoints.actions';
 import {WaypointConverter} from '../../flightroute/domain-model/converter/waypoint-converter';
 import {ISearchService} from '../../search/domain-service/i-search.service';
-import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
+import {OlGeometry} from '../../base-map-view/ol-model/ol-geometry';
 
 
 @Injectable()

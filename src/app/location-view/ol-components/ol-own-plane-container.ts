@@ -2,7 +2,7 @@ import {Observable, Subscription} from 'rxjs';
 import {OlOwnPlane} from './ol-own-plane';
 import {Position4d} from '../../geo-physics/domain-model/geometry/position4d';
 import {LocationState} from '../../location-state/state-model/location-state';
-import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
+import {OlVectorLayer} from '../../base-map-view/ol-model/ol-vector-layer';
 
 
 export class OlOwnPlaneContainer {

@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Airspace} from '../../../enroute/domain-model/airspace';
-import {OlOverlayBaseComponent} from '../../../base-map/ng-components/ol-overlay-base.component';
+import {OlOverlayBaseComponent} from '../../../base-map-view/ng-components/ol-overlay-base.component';
 import {Store} from '@ngrx/store';
 import {Observable, Subscription} from 'rxjs';
 import {getPositionSearchState} from '../../../search-state/ngrx/search.selectors';

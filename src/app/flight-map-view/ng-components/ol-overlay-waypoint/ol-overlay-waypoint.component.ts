@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angu
 import {Position2d} from '../../../geo-physics/domain-model/geometry/position2d';
 import {Waypoint} from '../../../flightroute/domain-model/waypoint';
 import {StringnumberHelper} from '../../../system/domain-service/stringnumber/stringnumber-helper';
-import {OlOverlayBaseComponent} from '../../../base-map/ng-components/ol-overlay-base.component';
+import {OlOverlayBaseComponent} from '../../../base-map-view/ng-components/ol-overlay-base.component';
 import {IWmmService} from '../../../geo-physics/domain-service/wmm/i-wmm.service';
 
 

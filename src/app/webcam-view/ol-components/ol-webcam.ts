@@ -2,9 +2,9 @@ import {Icon, Style} from 'ol/style';
 import {environment} from '../../../environments/environment';
 import {Webcam} from '../../webcam/domain-model/webcam';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
-import {OlFeature} from '../../base-map/ol-model/ol-feature';
-import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
-import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
+import {OlFeature} from '../../base-map-view/ol-model/ol-feature';
+import {OlVectorLayer} from '../../base-map-view/ol-model/ol-vector-layer';
+import {OlGeometry} from '../../base-map-view/ol-model/ol-geometry';
 
 
 export class OlWebcam {

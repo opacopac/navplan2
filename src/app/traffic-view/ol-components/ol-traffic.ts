@@ -6,9 +6,9 @@ import {TrafficIcon} from '../../traffic/domain-model/traffic-icon';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import {AltitudeUnit} from '../../geo-physics/domain-model/geometry/altitude-unit';
 import {Angle} from '../../geo-physics/domain-model/quantities/angle';
-import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
-import {OlFeature} from '../../base-map/ol-model/ol-feature';
-import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
+import {OlVectorLayer} from '../../base-map-view/ol-model/ol-vector-layer';
+import {OlFeature} from '../../base-map-view/ol-model/ol-feature';
+import {OlGeometry} from '../../base-map-view/ol-model/ol-geometry';
 
 
 const MAX_AGE_SEC_INACTIVE = 30; // TODO

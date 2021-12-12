@@ -1,6 +1,6 @@
 import {Observable, Subscription} from 'rxjs';
 import {OlSmaWindArrow} from './ol-sma-wind-arrow';
-import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
+import {OlVectorLayer} from '../../base-map-view/ol-model/ol-vector-layer';
 import {Angle} from '../../geo-physics/domain-model/quantities/angle';
 import {OlSmaMeasurementGreyBg} from './ol-sma-measurement-grey-bg';
 import {MeteoSmaState} from '../../meteo-sma/domain-model/meteo-sma-state';

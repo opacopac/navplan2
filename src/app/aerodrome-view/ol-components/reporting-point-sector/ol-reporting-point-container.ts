@@ -1,7 +1,7 @@
 import {Observable, Subscription} from 'rxjs';
 import {ReportingPoint} from '../../../aerodrome/domain-model/reporting-point';
 import {OlReportingPoint} from './ol-reporting-point';
-import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
+import {OlVectorLayer} from '../../../base-map-view/ol-model/ol-vector-layer';
 
 
 export class OlReportingPointContainer {

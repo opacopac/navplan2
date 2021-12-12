@@ -3,9 +3,9 @@ import {environment} from '../../../../environments/environment';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import {ShortAirport} from '../../../aerodrome/domain-model/short-airport';
 import {AirportFeatureType} from '../../../aerodrome/domain-model/airport-feature-type';
-import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
-import {OlFeature} from '../../../base-map/ol-model/ol-feature';
-import {OlGeometry} from '../../../base-map/ol-model/ol-geometry';
+import {OlVectorLayer} from '../../../base-map-view/ol-model/ol-vector-layer';
+import {OlFeature} from '../../../base-map-view/ol-model/ol-feature';
+import {OlGeometry} from '../../../base-map-view/ol-model/ol-geometry';
 
 
 export class OlAirportFeature {

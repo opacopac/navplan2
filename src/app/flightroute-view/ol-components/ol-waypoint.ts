@@ -2,9 +2,9 @@ import {Circle, Fill, Stroke, Style, Text} from 'ol/style';
 import {Angle} from '../../geo-physics/domain-model/quantities/angle';
 import {OlWaypointBearingLabel} from './ol-waypoint-bearing-label';
 import {Waypoint} from '../../flightroute/domain-model/waypoint';
-import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
-import {OlFeature} from '../../base-map/ol-model/ol-feature';
-import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
+import {OlVectorLayer} from '../../base-map-view/ol-model/ol-vector-layer';
+import {OlFeature} from '../../base-map-view/ol-model/ol-feature';
+import {OlGeometry} from '../../base-map-view/ol-model/ol-geometry';
 
 
 export class OlWaypoint {

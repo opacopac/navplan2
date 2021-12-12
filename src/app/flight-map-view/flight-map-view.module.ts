@@ -3,7 +3,6 @@ import {CommonModule} from '@angular/common';
 import {OlOverlayMeteogramComponent} from './ng-components/ol-overlay-meteogram/ol-overlay-meteogram.component';
 import {OlOverlayWindyiframeComponent} from './ng-components/ol-overlay-windyiframe/ol-overlay-windyiframe.component';
 import {FlightMapPageComponent} from './ng-components/flight-map-page/flight-map-page.component';
-import {BaseMapModule} from '../base-map/base-map.module';
 import {FlightTimerModule} from '../flight-timer/flight-timer.module';
 import {OlOverlayWaypointComponent} from './ng-components/ol-overlay-waypoint/ol-overlay-waypoint.component';
 import {OlMapOverlayComponent} from './ng-components/ol-map-overlay/ol-map-overlay.component';
@@ -24,6 +23,7 @@ import {UserViewModule} from '../user-view/user-view.module';
 import {TrafficViewModule} from '../traffic-view/traffic-view.module';
 import {SearchViewModule} from '../search-view/search-view.module';
 import {LocationViewModule} from '../location-view/location-view.module';
+import {BaseMapViewModule} from '../base-map-view/base-map-view.module';
 
 @NgModule({
     declarations: [
@@ -37,8 +37,8 @@ import {LocationViewModule} from '../location-view/location-view.module';
         CommonModule,
         MatTabsModule,
         MatCardModule,
-        BaseMapModule,
         AerodromeViewModule,
+        BaseMapViewModule,
         EnrouteViewModule,
         FlightMapStateModule,
         FlightTimerModule,

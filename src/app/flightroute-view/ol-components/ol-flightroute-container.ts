@@ -8,7 +8,7 @@ import {Store} from '@ngrx/store';
 import {Angle} from '../../geo-physics/domain-model/quantities/angle';
 import {WaypointActions} from '../../flightroute-state/ngrx/waypoints.actions';
 import {Map} from 'ol';
-import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
+import {OlVectorLayer} from '../../base-map-view/ol-model/ol-vector-layer';
 
 
 export class OlFlightrouteContainer {

@@ -6,9 +6,9 @@ import {Flightroute} from '../../flightroute/domain-model/flightroute';
 import {EventEmitter} from '@angular/core';
 import {Position2d} from '../../geo-physics/domain-model/geometry/position2d';
 import {ModifyEvent} from 'ol/interaction/Modify';
-import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
-import {OlFeature} from '../../base-map/ol-model/ol-feature';
-import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
+import {OlVectorLayer} from '../../base-map-view/ol-model/ol-vector-layer';
+import {OlFeature} from '../../base-map-view/ol-model/ol-feature';
+import {OlGeometry} from '../../base-map-view/ol-model/ol-geometry';
 
 
 export class RouteLineModification {

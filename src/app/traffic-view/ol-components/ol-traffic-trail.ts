@@ -1,8 +1,8 @@
 import {Circle, Fill, Style} from 'ol/style';
 import {Traffic} from '../../traffic/domain-model/traffic';
-import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
-import {OlFeature} from '../../base-map/ol-model/ol-feature';
-import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
+import {OlVectorLayer} from '../../base-map-view/ol-model/ol-vector-layer';
+import {OlFeature} from '../../base-map-view/ol-model/ol-feature';
+import {OlGeometry} from '../../base-map-view/ol-model/ol-geometry';
 
 
 const MAX_AGE_SEC_TRACK_DOT = 120;

@@ -1,7 +1,7 @@
 import {Fill, Style} from 'ol/style';
-import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
-import {OlFeature} from '../../base-map/ol-model/ol-feature';
-import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
+import {OlVectorLayer} from '../../base-map-view/ol-model/ol-vector-layer';
+import {OlFeature} from '../../base-map-view/ol-model/ol-feature';
+import {OlGeometry} from '../../base-map-view/ol-model/ol-geometry';
 import {Polygon} from '../../geo-physics/domain-model/geometry/polygon';
 import {Position2d} from '../../geo-physics/domain-model/geometry/position2d';
 

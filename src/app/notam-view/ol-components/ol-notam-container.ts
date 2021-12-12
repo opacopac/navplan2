@@ -1,7 +1,7 @@
 import {Observable, Subscription} from 'rxjs';
 import {OlNotam} from './ol-notam';
 import {Notam} from '../../notam/domain-model/notam';
-import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
+import {OlVectorLayer} from '../../base-map-view/ol-model/ol-vector-layer';
 
 
 export class OlNotamContainer {

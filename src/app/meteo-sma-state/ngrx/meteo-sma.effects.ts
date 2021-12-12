@@ -8,8 +8,8 @@ import {getMeteoSmaState} from './meteo-sma.selectors';
 import {MeteoSmaState} from '../../meteo-sma/domain-model/meteo-sma-state';
 import {MeteoSmaButtonStatus} from '../../meteo-sma/domain-model/meteo-sma-button-status';
 import {IMeteoSmaService} from '../../meteo-sma/domain-service/i-meteo-sma.service';
-import {getMapState} from '../../base-map/ngrx/base-map.selectors';
-import {BaseMapState} from '../../base-map/domain-model/base-map-state';
+import {getMapState} from '../../base-map-state/ngrx/base-map.selectors';
+import {BaseMapState} from '../../base-map-state/state-model/base-map-state';
 
 
 @Injectable()

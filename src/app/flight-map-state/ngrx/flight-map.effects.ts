@@ -3,7 +3,7 @@ import {Store} from '@ngrx/store';
 import {debounceTime, filter, map, switchMap, take, withLatestFrom} from 'rxjs/operators';
 import {combineLatest, Observable, of, pipe} from 'rxjs';
 import {Injectable} from '@angular/core';
-import {BaseMapActions} from '../../base-map/ngrx/base-map.actions';
+import {BaseMapActions} from '../../base-map-state/ngrx/base-map.actions';
 import {DataItem, DataItemType} from '../../common/model/data-item';
 import {FlightMapActions} from './flight-map.actions';
 import {getFlightMapState} from './flight-map.selectors';

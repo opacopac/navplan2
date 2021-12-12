@@ -5,9 +5,9 @@ import {OlAirportIcon} from './ol-airport-icon';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import {AirportType} from '../../../aerodrome/domain-model/airport-type';
 import {ShortAirport} from '../../../aerodrome/domain-model/short-airport';
-import {OlFeature} from '../../../base-map/ol-model/ol-feature';
-import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
-import {OlGeometry} from '../../../base-map/ol-model/ol-geometry';
+import {OlFeature} from '../../../base-map-view/ol-model/ol-feature';
+import {OlVectorLayer} from '../../../base-map-view/ol-model/ol-vector-layer';
+import {OlGeometry} from '../../../base-map-view/ol-model/ol-geometry';
 
 
 export class OlAirport {

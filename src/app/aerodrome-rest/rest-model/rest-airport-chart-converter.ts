@@ -1,6 +1,6 @@
 import {AirportChart} from '../../aerodrome/domain-model/airport-chart';
 import {IRestAirportChart} from './i-rest-airport-chart';
-import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
+import {OlGeometry} from '../../base-map-view/ol-model/ol-geometry';
 
 
 export class RestAirportChartConverter {

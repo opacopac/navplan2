@@ -1,8 +1,8 @@
 import {Icon, Style} from 'ol/style';
 import {SmaMeasurement} from '../../meteo-sma/domain-model/sma-measurement';
-import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
-import {OlFeature} from '../../base-map/ol-model/ol-feature';
-import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
+import {OlVectorLayer} from '../../base-map-view/ol-model/ol-vector-layer';
+import {OlFeature} from '../../base-map-view/ol-model/ol-feature';
+import {OlGeometry} from '../../base-map-view/ol-model/ol-geometry';
 import {OlSmaMeasurementHelper} from './ol-sma-measurement-helper';
 import {StringnumberHelper} from '../../system/domain-service/stringnumber/stringnumber-helper';
 import {DatetimeHelper} from '../../system/domain-service/datetime/datetime-helper';

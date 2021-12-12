@@ -1,8 +1,8 @@
 import {Fill, Stroke, Style} from 'ol/style';
 import {Airspace} from '../../../enroute/domain-model/airspace';
-import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
-import {OlFeature} from '../../../base-map/ol-model/ol-feature';
-import {OlGeometry} from '../../../base-map/ol-model/ol-geometry';
+import {OlVectorLayer} from '../../../base-map-view/ol-model/ol-vector-layer';
+import {OlFeature} from '../../../base-map-view/ol-model/ol-feature';
+import {OlGeometry} from '../../../base-map-view/ol-model/ol-geometry';
 
 
 export class OlAirspace {

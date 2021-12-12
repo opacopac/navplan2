@@ -4,7 +4,7 @@ import {TrafficAircraftType} from '../../../traffic/domain-model/traffic-aircraf
 import {TrafficAddressType} from '../../../traffic/domain-model/traffic-address-type';
 import {Position2d} from '../../../geo-physics/domain-model/geometry/position2d';
 import {TrafficIcon} from '../../../traffic/domain-model/traffic-icon';
-import {OlOverlayBaseComponent} from '../../../base-map/ng-components/ol-overlay-base.component';
+import {OlOverlayBaseComponent} from '../../../base-map-view/ng-components/ol-overlay-base.component';
 
 
 const TRAFFIC_TYPE_DESCRIPTION = {

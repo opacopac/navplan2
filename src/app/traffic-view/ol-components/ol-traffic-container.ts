@@ -3,7 +3,7 @@ import {OlTraffic} from './ol-traffic';
 import {Traffic} from '../../traffic/domain-model/traffic';
 import {debounce, switchMap} from 'rxjs/operators';
 import {TrafficState} from '../../traffic-state/state-model/traffic-state';
-import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
+import {OlVectorLayer} from '../../base-map-view/ol-model/ol-vector-layer';
 
 
 const UPDATE_TRAFFIC_DISPLAY_DEBOUNCE_MS = 1000;

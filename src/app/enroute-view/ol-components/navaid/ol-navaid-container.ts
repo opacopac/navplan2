@@ -1,7 +1,7 @@
 import {Observable, Subscription} from 'rxjs';
 import {Navaid} from '../../../enroute/domain-model/navaid';
 import {OlNavaid} from './ol-navaid';
-import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
+import {OlVectorLayer} from '../../../base-map-view/ol-model/ol-vector-layer';
 
 
 export class OlNavaidContainer {

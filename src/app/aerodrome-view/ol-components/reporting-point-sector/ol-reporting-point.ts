@@ -2,9 +2,9 @@ import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {ReportingPoint} from '../../../aerodrome/domain-model/reporting-point';
 import {OlReportingpointIcon} from './ol-reportingpoint-icon';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
-import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
-import {OlFeature} from '../../../base-map/ol-model/ol-feature';
-import {OlGeometry} from '../../../base-map/ol-model/ol-geometry';
+import {OlVectorLayer} from '../../../base-map-view/ol-model/ol-vector-layer';
+import {OlFeature} from '../../../base-map-view/ol-model/ol-feature';
+import {OlGeometry} from '../../../base-map-view/ol-model/ol-geometry';
 
 
 export class OlReportingPoint {

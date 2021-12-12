@@ -5,9 +5,9 @@ import {Multipolygon} from '../../geo-physics/domain-model/geometry/multipolygon
 import {Circle} from '../../geo-physics/domain-model/geometry/circle';
 import {Geometry2dType} from '../../geo-physics/domain-model/geometry/geometry2d';
 import {circular} from 'ol/geom/Polygon';
-import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
-import {OlFeature} from '../../base-map/ol-model/ol-feature';
-import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
+import {OlVectorLayer} from '../../base-map-view/ol-model/ol-vector-layer';
+import {OlFeature} from '../../base-map-view/ol-model/ol-feature';
+import {OlGeometry} from '../../base-map-view/ol-model/ol-geometry';
 
 
 export class OlNotam {

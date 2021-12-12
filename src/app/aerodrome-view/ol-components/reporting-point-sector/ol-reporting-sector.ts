@@ -1,8 +1,8 @@
 import {Fill, Stroke, Style, Text} from 'ol/style';
 import {ReportingSector} from '../../../aerodrome/domain-model/reporting-sector';
-import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
-import {OlGeometry} from '../../../base-map/ol-model/ol-geometry';
-import {OlFeature} from '../../../base-map/ol-model/ol-feature';
+import {OlVectorLayer} from '../../../base-map-view/ol-model/ol-vector-layer';
+import {OlGeometry} from '../../../base-map-view/ol-model/ol-geometry';
+import {OlFeature} from '../../../base-map-view/ol-model/ol-feature';
 
 
 export class OlReportingSector {

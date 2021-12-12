@@ -13,7 +13,7 @@ import {Waypoint} from '../../../flightroute/domain-model/waypoint';
 import Overlay from 'ol/Overlay';
 import {OverlayState} from '../../../flight-map-state/ngrx/overlay-state';
 import {MatTabGroup} from '@angular/material/tabs';
-import {OlGeometry} from '../../../base-map/ol-model/ol-geometry';
+import {OlGeometry} from '../../../base-map-view/ol-model/ol-geometry';
 import {timer} from 'rxjs';
 import {tap} from 'rxjs/operators';
 

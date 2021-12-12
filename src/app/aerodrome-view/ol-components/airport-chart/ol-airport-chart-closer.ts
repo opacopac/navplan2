@@ -1,9 +1,9 @@
 import {Icon, Style} from 'ol/style';
 import {environment} from '../../../../environments/environment';
 import {AirportChart} from '../../../aerodrome/domain-model/airport-chart';
-import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
-import {OlFeature} from '../../../base-map/ol-model/ol-feature';
-import {OlGeometry} from '../../../base-map/ol-model/ol-geometry';
+import {OlVectorLayer} from '../../../base-map-view/ol-model/ol-vector-layer';
+import {OlFeature} from '../../../base-map-view/ol-model/ol-feature';
+import {OlGeometry} from '../../../base-map-view/ol-model/ol-geometry';
 
 
 export class OlAirportChartCloser {

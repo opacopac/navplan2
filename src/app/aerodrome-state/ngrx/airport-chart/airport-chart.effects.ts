@@ -5,7 +5,7 @@ import {AirportChartActions} from './airport-chart.actions';
 import {throwError} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {environment} from '../../../../environments/environment';
-import {BaseMapActions} from '../../../base-map/ngrx/base-map.actions';
+import {BaseMapActions} from '../../../base-map-state/ngrx/base-map.actions';
 import {LoggingService} from '../../../system/domain-service/logging/logging.service';
 import {IAirportChartService} from '../../../aerodrome/domain-service/i-airport-chart.service';
 

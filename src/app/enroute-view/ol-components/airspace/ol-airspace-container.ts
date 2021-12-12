@@ -1,7 +1,7 @@
 import {Observable, Subscription} from 'rxjs';
 import {Airspace} from '../../../enroute/domain-model/airspace';
 import {OlAirspace} from './ol-airspace';
-import {OlVectorLayer} from '../../../base-map/ol-model/ol-vector-layer';
+import {OlVectorLayer} from '../../../base-map-view/ol-model/ol-vector-layer';
 
 
 export class OlAirspaceContainer {

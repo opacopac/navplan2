@@ -2,9 +2,9 @@ import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {UserPoint} from '../../user/domain-model/user-point';
 import {OlUserpointIcon} from './ol-userpoint-icon';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
-import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
-import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
-import {OlFeature} from '../../base-map/ol-model/ol-feature';
+import {OlVectorLayer} from '../../base-map-view/ol-model/ol-vector-layer';
+import {OlGeometry} from '../../base-map-view/ol-model/ol-geometry';
+import {OlFeature} from '../../base-map-view/ol-model/ol-feature';
 
 
 export class OlUserPoint {

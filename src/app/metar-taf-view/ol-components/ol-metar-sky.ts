@@ -3,9 +3,9 @@ import {environment} from '../../../environments/environment';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
 import {Position2d} from '../../geo-physics/domain-model/geometry/position2d';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
-import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
-import {OlFeature} from '../../base-map/ol-model/ol-feature';
-import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
+import {OlVectorLayer} from '../../base-map-view/ol-model/ol-vector-layer';
+import {OlFeature} from '../../base-map-view/ol-model/ol-feature';
+import {OlGeometry} from '../../base-map-view/ol-model/ol-geometry';
 
 
 export class OlMetarSky {

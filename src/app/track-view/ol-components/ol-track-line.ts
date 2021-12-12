@@ -1,8 +1,8 @@
 import {Stroke, Style} from 'ol/style';
 import {Track} from '../../track/domain-model/track';
-import {OlVectorLayer} from '../../base-map/ol-model/ol-vector-layer';
-import {OlGeometry} from '../../base-map/ol-model/ol-geometry';
-import {OlFeature} from '../../base-map/ol-model/ol-feature';
+import {OlVectorLayer} from '../../base-map-view/ol-model/ol-vector-layer';
+import {OlGeometry} from '../../base-map-view/ol-model/ol-geometry';
+import {OlFeature} from '../../base-map-view/ol-model/ol-feature';
 
 
 export class OlTrackLine {
