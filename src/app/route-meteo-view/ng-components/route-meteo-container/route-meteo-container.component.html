@@ -1,2 +1,7 @@
 <p>route-meteo-container works!</p>
-<p *ngFor="let metarTaf of this.routeMeteoTafs$ | async">MEEP: {{ metarTaf.raw_metar }}</p>
+<h3>Departure</h3>
+<p *ngFor="let metarTaf of (this.routeMeteoTafs$ | async).startMetarTafs">{{ metarTaf.raw_metar }}</p>
+<h3>Destination</h3>
+<p *ngFor="let metarTaf of (this.routeMeteoTafs$ | async).endMetarTafs">{{ metarTaf.raw_metar }}</p>
+<h3>En Route</h3>
+<p *ngFor="let metarTaf of (this.routeMeteoTafs$ | async).enRouteMetarTafs">{{ metarTaf.raw_metar }}</p>

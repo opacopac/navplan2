@@ -1,11 +1,14 @@
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
 import {StringnumberHelper} from '../../system/domain-service/stringnumber/stringnumber-helper';
 import {IRestMetarTafFeature} from './i-rest-metar-taf-feature';
+import {Position2d} from '../../geo-physics/domain-model/geometry/position2d';
 
 
 export class RestMetarTafConverter {
     public static listFromRest(restMetarTafFeatureList: IRestMetarTafFeature[]): MetarTaf[] {
-        return restMetarTafFeatureList.map(restMetarTaf => RestMetarTafConverter.fromRest(restMetarTaf));
+        return restMetarTafFeatureList
+            .filter(restMetarTaf => restMetarTaf.geometry?.coordinates)
+            .map(restMetarTaf => RestMetarTafConverter.fromRest(restMetarTaf));
     }
 
 
@@ -19,7 +22,8 @@ export class RestMetarTafConverter {
             restMetarTafFeature.properties.wdir,
             restMetarTafFeature.properties.wspd,
             restMetarTafFeature.properties.rawOb,
-            restMetarTafFeature.properties.rawTaf
+            restMetarTafFeature.properties.rawTaf,
+            Position2d.createFromArray(restMetarTafFeature.geometry.coordinates),
         );
     }
 

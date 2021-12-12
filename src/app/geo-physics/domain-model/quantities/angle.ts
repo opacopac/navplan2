@@ -77,6 +77,11 @@ export class Angle extends AbstractQuantity<Angle, AngleUnit> {
     }
 
 
+    public addDeg(angleDeg: number): Angle {
+        return new Angle(this.deg + angleDeg % 360, AngleUnit.DEG);
+    }
+
+
     public flip(): Angle {
         return new Angle(this.deg + 180 % 360, AngleUnit.DEG);
     }

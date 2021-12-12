@@ -1,6 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {Extent2d} from '../../geo-physics/domain-model/geometry/extent2d';
-import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
+import {RouteMetarTafs} from '../../route-meteo/domain-model/route-metar-tafs';
 
 
 export class RouteMeteoActions {
@@ -14,6 +13,6 @@ export class RouteMeteoActions {
 
     public static readonly updateSuccess = createAction(
         '[RouteMeteoEffects] Update Metar/Tafs success',
-        props<{ extent: Extent2d, metarTafList: MetarTaf[] }>()
+        props<{ routeMetarTafs: RouteMetarTafs }>()
     );
 }

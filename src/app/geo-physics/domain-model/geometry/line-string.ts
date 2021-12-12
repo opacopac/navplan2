@@ -1,6 +1,7 @@
 import {Position2d} from './position2d';
 import {Geometry2d, Geometry2dType} from './geometry2d';
 import {Extent2d} from './extent2d';
+import {Line} from './line';
 
 
 export class LineString implements Geometry2d {
@@ -24,6 +25,17 @@ export class LineString implements Geometry2d {
 
     public toArray(): [number, number][] {
         return this.positions.map(pos => pos.toArray());
+    }
+
+
+    public toLineList(): Line[] {
+        const lineList = [];
+
+        for (let i = 0; i < this.positions.length - 1; i++) {
+            lineList.push(new Line(this.positions[i], this.positions[i + 1]));
+        }
+
+        return lineList;
     }
 
 

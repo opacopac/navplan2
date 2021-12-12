@@ -1,4 +1,5 @@
 import {DataItem, DataItemType} from '../../common/model/data-item';
+import {Position2d} from '../../geo-physics/domain-model/geometry/position2d';
 
 
 export class MetarTaf extends DataItem {
@@ -11,13 +12,19 @@ export class MetarTaf extends DataItem {
         public wind_dir_deg: number,
         public wind_speed_kt: number,
         public raw_metar: string,
-        public raw_taf: string) {
-
+        public raw_taf: string,
+        public position: Position2d,
+    ) {
         super();
     }
 
 
     public get dataItemType(): DataItemType {
         return DataItemType.metarTaf;
+    }
+
+
+    getPosition(): Position2d {
+        return this.position;
     }
 }

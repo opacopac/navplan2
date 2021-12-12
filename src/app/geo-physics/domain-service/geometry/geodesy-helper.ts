@@ -5,6 +5,8 @@ import {Vector3d} from '../../domain-model/geometry/vector3d';
 import {LengthUnit} from '../../domain-model/quantities/length-unit';
 import {AngleUnit} from '../../domain-model/quantities/angle-unit';
 import {Extent2d} from '../../domain-model/geometry/extent2d';
+import {Line} from '../../domain-model/geometry/line';
+import {Polygon} from '../../domain-model/geometry/polygon';
 
 
 // source #1: https://www.movable-type.co.uk/scripts/latlong.html
@@ -110,12 +112,41 @@ export class GeodesyHelper {
     }
 
 
-    public static enlargeExtent(extent: Extent2d, length: Length): Extent2d {
-        const maxPosN = this.calcDestination(extent.maxPos, new Angle(0, AngleUnit.DEG), length);
-        const maxPosE = this.calcDestination(extent.maxPos, new Angle(90, AngleUnit.DEG), length);
-        const minPosS = this.calcDestination(extent.minPos, new Angle(180, AngleUnit.DEG), length);
-        const minPosW = this.calcDestination(extent.minPos, new Angle(270, AngleUnit.DEG), length);
+    public static enlargeExtent(extent: Extent2d, distance: Length): Extent2d {
+        const maxPosN = this.calcDestination(extent.maxPos, new Angle(0, AngleUnit.DEG), distance);
+        const maxPosE = this.calcDestination(extent.maxPos, new Angle(90, AngleUnit.DEG), distance);
+        const minPosS = this.calcDestination(extent.minPos, new Angle(180, AngleUnit.DEG), distance);
+        const minPosW = this.calcDestination(extent.minPos, new Angle(270, AngleUnit.DEG), distance);
 
         return new Extent2d(minPosW.longitude, minPosS.latitude, maxPosE.longitude, maxPosN.latitude);
+    }
+
+
+    public static getLineBox(line: Line, distance: Length): Polygon {
+        const angle = this.calcBearing(line.pos1, line.pos2);
+        const backAngle = angle.addDeg(180);
+
+        const pos1back = this.calcDestination(line.pos1, backAngle, distance);
+        const pos1left = this.calcDestination(pos1back, backAngle.addDeg(270), distance);
+        const pos1right = this.calcDestination(pos1back, backAngle.addDeg(90), distance);
+
+        const pos2fwd = this.calcDestination(line.pos2, angle, distance);
+        const pos2left = this.calcDestination(pos2fwd, angle.addDeg(270), distance);
+        const pos2right = this.calcDestination(pos2fwd, angle.addDeg(90), distance);
+
+        return new Polygon([pos1left, pos1right, pos2left, pos2right, pos1left]);
+    }
+
+
+    public static distanceComparer(refPos: Position2d, pos1: Position2d, pos2: Position2d): number {
+        const pos1LonDelta = refPos.longitude - pos1.longitude;
+        const pos1LatDelta = refPos.latitude - pos1.latitude;
+        const pos1DistSqr = pos1LonDelta * pos1LonDelta + pos1LatDelta * pos1LatDelta;
+
+        const pos2LonDelta = refPos.longitude - pos2.longitude;
+        const pos2LatDelta = refPos.latitude - pos2.latitude;
+        const pos2DistSqr = pos2LonDelta * pos2LonDelta + pos2LatDelta * pos2LatDelta;
+
+        return pos1DistSqr - pos2DistSqr;
     }
 }

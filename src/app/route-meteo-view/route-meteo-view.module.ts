@@ -3,11 +3,13 @@ import {CommonModule} from '@angular/common';
 import {RouteMeteoContainerComponent} from './ng-components/route-meteo-container/route-meteo-container.component';
 import {FlightrouteStateModule} from '../flightroute-state/flightroute-state.module';
 import {RouteMeteoStateModule} from '../route-meteo-state/route-meteo-state.module';
+import {RouteMeteoModule} from '../route-meteo/route-meteo.module';
 
 
 @NgModule({
     imports: [
         CommonModule,
+        RouteMeteoModule,
         RouteMeteoStateModule,
         FlightrouteStateModule,
     ],
