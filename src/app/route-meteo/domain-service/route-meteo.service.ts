@@ -5,11 +5,12 @@ import {GeodesyHelper} from '../../geo-physics/domain-service/geometry/geodesy-h
 import {Length} from '../../geo-physics/domain-model/quantities/length';
 import {Injectable} from '@angular/core';
 import {IMetarTafService} from '../../metar-taf/domain-service/i-metar-taf.service';
-import {RouteMetarTafs} from '../domain-model/route-metar-tafs';
+import {RouteMetarTafSet} from '../domain-model/route-metar-taf-set';
 import {Observable, of} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {MetarTaf} from '../../metar-taf/domain-model/metar-taf';
 import {Position2d} from '../../geo-physics/domain-model/geometry/position2d';
+import {RouteMetarTaf} from '../domain-model/route-metar-taf';
 
 
 @Injectable()
@@ -21,9 +22,9 @@ export class RouteMeteoService implements IRouteMeteoService {
     }
 
 
-    public getRouteMetarTafs(flightroute: Flightroute, maxRadius: Length): Observable<RouteMetarTafs> {
+    public getRouteMetarTafs(flightroute: Flightroute, maxRadius: Length): Observable<RouteMetarTafSet> {
         if (!flightroute || flightroute.waypoints.length === 0) {
-            return of(new RouteMetarTafs([], [], []));
+            return of(new RouteMetarTafSet([], [], []));
         }
 
         const lineString = new LineString(flightroute.waypoints.map(wp => wp.position));
@@ -36,7 +37,7 @@ export class RouteMeteoService implements IRouteMeteoService {
                 const endMetarTafs = this.getClosestMetarTafs(flightroute.waypoints[flightroute.waypoints.length - 1].getPosition(), maxRadius, metarTafs);
                 const enRouteMetarTafs = this.getRemainingMetarTafs(flightroute.waypoints[0].getPosition(), metarTafs);
 
-                return new RouteMetarTafs(
+                return new RouteMetarTafSet(
                     startMetarTafs,
                     endMetarTafs,
                     enRouteMetarTafs
@@ -66,20 +67,22 @@ export class RouteMeteoService implements IRouteMeteoService {
     }
 
 
-    private getClosestMetarTafs(startPos: Position2d, maxRadius: Length, metarTafs: MetarTaf[]): MetarTaf[] {
+    private getClosestMetarTafs(startPos: Position2d, maxRadius: Length, metarTafs: MetarTaf[]): RouteMetarTaf[] {
         return metarTafs
-            .filter(metarTaf => GeodesyHelper.calcDistance(startPos, metarTaf.position).m <= maxRadius.m)
-            .sort((mt1, mt2) => {
-                return GeodesyHelper.distanceComparer(startPos, mt1.getPosition(), mt2.getPosition());
+            .map(metarTaf => new RouteMetarTaf(metarTaf, GeodesyHelper.calcDistance(startPos, metarTaf.position)))
+            .filter(routeMetarTaf => routeMetarTaf.distance.m <= maxRadius.m)
+            .sort((rmt1, rmt2) => {
+                return GeodesyHelper.distanceComparer(startPos, rmt1.metarTaf.getPosition(), rmt2.metarTaf.getPosition());
             })
             .slice(0, RouteMeteoService.NUM_CLOSEST_METAR_TAFS);
     }
 
 
-    private getRemainingMetarTafs(startPos: Position2d, metarTafs: MetarTaf[]): MetarTaf[] {
+    private getRemainingMetarTafs(startPos: Position2d, metarTafs: MetarTaf[]): RouteMetarTaf[] {
         return metarTafs
-            .sort((mt1, mt2) => {
-                return GeodesyHelper.distanceComparer(startPos, mt1.getPosition(), mt2.getPosition());
+            .map(metarTaf => new RouteMetarTaf(metarTaf, GeodesyHelper.calcDistance(startPos, metarTaf.position)))
+            .sort((rmt1, rmt2) => {
+                return GeodesyHelper.distanceComparer(startPos, rmt1.metarTaf.getPosition(), rmt2.metarTaf.getPosition());
             });
     }
 }

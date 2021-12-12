@@ -4,6 +4,9 @@ import {RouteMeteoContainerComponent} from './ng-components/route-meteo-containe
 import {FlightrouteStateModule} from '../flightroute-state/flightroute-state.module';
 import {RouteMeteoStateModule} from '../route-meteo-state/route-meteo-state.module';
 import {RouteMeteoModule} from '../route-meteo/route-meteo.module';
+import {MatTableModule} from '@angular/material/table';
+import {MatButtonModule} from '@angular/material/button';
+import {RouteMeteoTableComponent} from './ng-components/route-meteo-table/route-meteo-table.component';
 
 
 @NgModule({
@@ -12,9 +15,12 @@ import {RouteMeteoModule} from '../route-meteo/route-meteo.module';
         RouteMeteoModule,
         RouteMeteoStateModule,
         FlightrouteStateModule,
+        MatTableModule,
+        MatButtonModule,
     ],
     declarations: [
-        RouteMeteoContainerComponent
+        RouteMeteoContainerComponent,
+        RouteMeteoTableComponent
     ],
     exports: [
         RouteMeteoContainerComponent

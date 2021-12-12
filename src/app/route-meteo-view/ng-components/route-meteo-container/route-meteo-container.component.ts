@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {RouteMeteoActions} from '../../../route-meteo-state/ngrx/route-meteo.actions';
 import {getRouteMetarTafs} from '../../../route-meteo-state/ngrx/route-meteo.selectors';
+import {MetarTaf} from '../../../metar-taf/domain-model/metar-taf';
 
 
 @Component({
@@ -19,5 +20,15 @@ export class RouteMeteoContainerComponent implements OnInit {
 
     ngOnInit(): void {
         this.appStore.dispatch(RouteMeteoActions.update());
+    }
+
+
+    public getColumnKeys(): string[] {
+        return ['site', 'dist', 'metartaf'];
+    }
+
+
+    public getDistanceText(metarTaf: MetarTaf): string {
+        return '0 Nm';
     }
 }

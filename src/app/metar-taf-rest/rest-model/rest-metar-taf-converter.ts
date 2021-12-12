@@ -15,6 +15,7 @@ export class RestMetarTafConverter {
     public static fromRest(restMetarTafFeature: IRestMetarTafFeature): MetarTaf {
         return new MetarTaf(
             restMetarTafFeature.properties.id,
+            restMetarTafFeature.properties.site,
             restMetarTafFeature.properties.obsTime ? Date.parse(restMetarTafFeature.properties.obsTime) : undefined,
             this.getTafObsTimestamp(restMetarTafFeature.properties.rawTaf),
             restMetarTafFeature.properties.cover,

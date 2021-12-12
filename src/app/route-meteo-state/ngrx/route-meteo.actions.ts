@@ -1,5 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {RouteMetarTafs} from '../../route-meteo/domain-model/route-metar-tafs';
+import {RouteMetarTafSet} from '../../route-meteo/domain-model/route-metar-taf-set';
 
 
 export class RouteMeteoActions {
@@ -13,6 +13,6 @@ export class RouteMeteoActions {
 
     public static readonly updateSuccess = createAction(
         '[RouteMeteoEffects] Update Metar/Tafs success',
-        props<{ routeMetarTafs: RouteMetarTafs }>()
+        props<{ routeMetarTafs: RouteMetarTafSet }>()
     );
 }

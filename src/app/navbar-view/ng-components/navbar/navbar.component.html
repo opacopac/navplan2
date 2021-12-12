@@ -11,7 +11,7 @@
     <div fxLayout="row" fxFlex="grow" fxShow="true" fxHide.lt-md="true">
         <button mat-button routerLink="./map" title="Map"><i class="fas fa-map"></i></button>
         <button mat-button routerLink="./prep" title="Route & Fuel Calc"><i class="fas fa-calculator"></i></button>
-        <button mat-button *ngIf="this.currentUser" routerLink="./tracks" title="Recorded Tracks"><i class="fas fa-shoe-prints"></i></button>
+        <button mat-button *ngIf="this.currentUser" routerLink="./tracks" title="Recorded Tracks"><i class="fas fa-paw"></i></button>
         <button mat-button [mat-menu-trigger-for]="navplanExport" title="Export / Share"><i class="fas fa-share"></i></button>
         <mat-menu #navplanExport="matMenu">
             <div fxLayout="column" fxLayoutAlign="start start">

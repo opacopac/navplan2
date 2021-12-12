@@ -1,0 +1,13 @@
+table.mat-table {
+    width: 100%;
+}
+.mat-row {
+    vertical-align: top;
+}
+.mat-row:nth-child(even), .mat-header-cell {
+    background-color: rgb(249, 249, 249);
+}
+
+.mat-row:nth-child(odd) {
+    background-color: white;
+}

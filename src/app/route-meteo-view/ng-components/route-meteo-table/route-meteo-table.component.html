@@ -1,0 +1,23 @@
+<table mat-table [dataSource]="this.routeMetarTafList">
+    <ng-container matColumnDef="site">
+        <th mat-header-cell *matHeaderCellDef>Site</th>
+        <td mat-cell *matCellDef="let routeMetarTaf">
+            <p>{{ routeMetarTaf.metarTaf.siteName }}</p>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="dist">
+        <th mat-header-cell *matHeaderCellDef>Distance</th>
+        <td mat-cell *matCellDef="let routeMetarTaf">
+            <p>{{ this.getDistanceText(routeMetarTaf) }}</p>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="metartaf">
+        <th mat-header-cell *matHeaderCellDef>METAR / TAF</th>
+        <td mat-cell *matCellDef="let routeMetarTaf">
+            <p *ngIf="routeMetarTaf.metarTaf.raw_metar">METAR {{ routeMetarTaf.metarTaf.raw_metar }}</p>
+            <p *ngIf="routeMetarTaf.metarTaf.raw_taf">{{ routeMetarTaf.metarTaf.raw_taf }}</p>
+        </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="this.getColumnKeys()"></tr>
+    <tr mat-row *matRowDef="let routeMetarTaf; columns: this.getColumnKeys()"></tr>
+</table>

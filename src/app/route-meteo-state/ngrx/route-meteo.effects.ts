@@ -30,7 +30,7 @@ export class RouteMeteoEffects {
     updateRouteMetarTafAction$ = createEffect(() => this.actions$.pipe(
         ofType(RouteMeteoActions.update),
         withLatestFrom(this.flightroute$, this.routeMeteoState$),
-        distinct(),
+        distinct(([action, route, meteoState]) => route), // TODO: timeout
         switchMap(([action, route, meteoState]) => this.routeMeteoService.getRouteMetarTafs(
             route,
             meteoState.maxMeteoRadius

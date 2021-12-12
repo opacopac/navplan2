@@ -1,7 +1,17 @@
-<p>route-meteo-container works!</p>
-<h3>Departure</h3>
-<p *ngFor="let metarTaf of (this.routeMeteoTafs$ | async).startMetarTafs">{{ metarTaf.raw_metar }}</p>
-<h3>Destination</h3>
-<p *ngFor="let metarTaf of (this.routeMeteoTafs$ | async).endMetarTafs">{{ metarTaf.raw_metar }}</p>
-<h3>En Route</h3>
-<p *ngFor="let metarTaf of (this.routeMeteoTafs$ | async).enRouteMetarTafs">{{ metarTaf.raw_metar }}</p>
+<h4>Departure</h4>
+<app-route-meteo-table
+    [routeMetarTafList]="(this.routeMeteoTafs$ | async).startMetarTafs"
+    [showDistance]="true">
+</app-route-meteo-table>
+
+<h4>Arrival</h4>
+<app-route-meteo-table
+    [routeMetarTafList]="(this.routeMeteoTafs$ | async).endMetarTafs"
+    [showDistance]="true">
+</app-route-meteo-table>
+
+<h4>En Route</h4>
+<app-route-meteo-table
+    [routeMetarTafList]="(this.routeMeteoTafs$ | async).enRouteMetarTafs"
+    [showDistance]="false">
+</app-route-meteo-table>
