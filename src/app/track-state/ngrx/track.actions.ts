@@ -51,4 +51,8 @@ export class TrackActions {
         '[Tracks Page] export track KML',
         props<{ trackId: number }>()
     );
+
+    public static readonly clear = createAction(
+        '[ClearDialog] clear track'
+    );
 }

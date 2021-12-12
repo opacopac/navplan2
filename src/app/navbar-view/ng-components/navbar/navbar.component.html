@@ -22,7 +22,7 @@
                 <button mat-button (click)="this.onExportFplClick.emit()"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;FPL (Garmin, Foreflight, etc.)</button>
             </div>
         </mat-menu>
-        <button mat-button routerLink="./map" title="Clear current Route and Track"><i class="fas fa-eraser"></i></button>
+        <button mat-button title="Clear current Route and Track" (click)="this.onClearClick.emit()"><i class="fas fa-eraser"></i></button>
         <button mat-button title="Search" (click)="this.onShowSearchClick.emit()"><i class="fas fa-search"></i></button>
     </div>
     <!-- right part of menu -->

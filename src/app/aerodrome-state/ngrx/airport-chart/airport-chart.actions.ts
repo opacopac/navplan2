@@ -7,12 +7,18 @@ export class AirportChartActions {
         '[Airport Overlay] Open airport chart',
         props<{ chartId: number }>()
     );
+
     public static readonly showAirportChart = createAction(
         '[AirportChartEffects] Show airport chart',
         props<{ chart: AirportChart }>()
     );
+
     public static readonly closeAirportChart = createAction(
         '[AirportChartCloser] Close airport chart',
         props<{ chartId: number }>()
+    );
+
+    public static readonly closeAllAirportCharts = createAction(
+        '[Clear Dialog] Close all airport charts'
     );
 }

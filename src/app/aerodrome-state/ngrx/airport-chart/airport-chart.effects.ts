@@ -45,4 +45,10 @@ export class AirportChartEffects {
         ofType(AirportChartActions.closeAirportChart),
         map(action => BaseMapActions.closeImage({ id: action.chartId }))
     ));
+
+
+    closeAllAirportChartsAction$ = createEffect(() => this.actions$.pipe(
+        ofType(AirportChartActions.closeAllAirportCharts),
+        map(action => BaseMapActions.closeAllImages())
+    ));
 }

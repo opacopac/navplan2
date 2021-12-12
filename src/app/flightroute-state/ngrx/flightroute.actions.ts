@@ -32,4 +32,8 @@ export class FlightrouteActions {
         '[Flightroute Page] Update flight route comments',
         props<{ comments: string }>()
     );
+
+    public static readonly clear = createAction(
+        '[ClearDialog] Clear flight route',
+    );
 }

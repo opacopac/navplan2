@@ -6,6 +6,8 @@ import {getCurrentUser} from '../../../user-state/ngrx/user.selectors';
 import {SearchActions} from '../../../search-state/ngrx/search.actions';
 import {LogoutUserAction} from '../../../user-state/ngrx/user.actions';
 import {ExporterActions} from '../../../exporter-state/ngrx/exporter.actions';
+import {ClearDialogComponent} from '../clear-dialog/clear-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 
 @Component({
@@ -17,7 +19,10 @@ export class NavbarContainerComponent implements OnInit {
     public readonly currentUser$: Observable<User>;
 
 
-    constructor(private appStore: Store<any>) {
+    constructor(
+        private appStore: Store<any>,
+        private dialog: MatDialog
+    ) {
         this.currentUser$ = this.appStore.pipe(select(getCurrentUser));
     }
 
@@ -58,5 +63,10 @@ export class NavbarContainerComponent implements OnInit {
 
     public onExportFplClick() {
         this.appStore.dispatch(ExporterActions.exportFpl());
+    }
+
+
+    public openClearDialog() {
+        this.dialog.open(ClearDialogComponent);
     }
 }

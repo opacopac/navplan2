@@ -265,7 +265,7 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
     // region image
 
     private showImage(showImageState: ShowImageState) {
-        if (!showImageState || !showImageState.imageId) {
+        if (!showImageState) {
             return;
         }
 
@@ -284,11 +284,17 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
             if (showImageState.fitInView) {
                 this.fitInView(showImageState.extent);
             }
-        } else {
-            // close image
+        } else if (showImageState.imageId) {
+            // close single image
             const closeLayer = this.imageLayers.find(layer => layer.get(this.IMAGE_ID_KEY) === showImageState.imageId);
             this.map.removeLayer(closeLayer);
             ArrayHelper.removeFromArray(this.imageLayers, closeLayer);
+        } else {
+            // close all images
+            while (this.imageLayers.length > 0) {
+                const layer = this.imageLayers.pop();
+                this.map.removeLayer(layer);
+            }
         }
     }
 

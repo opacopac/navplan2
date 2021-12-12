@@ -15,15 +15,18 @@ export const trackReducer = createReducer(
         ...state,
         trackList: action.trackList
     })),
+
     on(TrackActions.readListError, (state, action) => ({
         ...state,
         trackList: []
     })),
+
     on(TrackActions.readSuccess, (state, action) => ({
         ...state,
         showTrack: action.track
     })),
-    on(TrackActions.readListError, (state, action) => ({
+
+    on(TrackActions.readError, TrackActions.clear, (state, action) => ({
         ...state,
         showTrack: undefined
     })),

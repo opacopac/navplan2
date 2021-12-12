@@ -19,14 +19,17 @@ const initialState: BaseMapState = {
 
 export const baseMapReducer = createReducer(
     initialState,
+
     on(BaseMapActions.zoomIn, (state) => ({
         ...state,
         zoom: state.zoom + 1 // TODO: limit
     })),
+
     on(BaseMapActions.zoomOut, (state) => ({
         ...state,
         zoom: state.zoom > 0 ? state.zoom - 1 : state.zoom
     })),
+
     on(BaseMapActions.mapMoved, (state, action) => ({
         ...state,
         position: action.position,
@@ -34,6 +37,7 @@ export const baseMapReducer = createReducer(
         rotation: action.rotation,
         extent: action.extent
     })),
+
     on(BaseMapActions.showImage, (state, action) => ({
         ...state,
         showImage: {
@@ -44,10 +48,22 @@ export const baseMapReducer = createReducer(
             fitInView: true
         }
     })),
+
     on(BaseMapActions.closeImage, (state, action) => ({
         ...state,
         showImage: {
             imageId: action.id,
+            imageUrl: undefined,
+            extent: undefined,
+            opacity: undefined,
+            fitInView: true
+        }
+    })),
+
+    on(BaseMapActions.closeAllImages, (state, action) => ({
+        ...state,
+        showImage: {
+            imageId: undefined,
             imageUrl: undefined,
             extent: undefined,
             opacity: undefined,

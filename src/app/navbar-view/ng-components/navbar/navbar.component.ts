@@ -16,6 +16,7 @@ export class NavbarComponent implements OnInit {
     @Output() onExportKmlClick: EventEmitter<null> = new EventEmitter<null>();
     @Output() onExportGpxClick: EventEmitter<null> = new EventEmitter<null>();
     @Output() onExportFplClick: EventEmitter<null> = new EventEmitter<null>();
+    @Output() onClearClick: EventEmitter<null> = new EventEmitter<null>();
 
 
     constructor() {

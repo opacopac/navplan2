@@ -7,20 +7,24 @@ import {MatButtonModule} from '@angular/material/button';
 import {RouterModule} from '@angular/router';
 import {MatMenuModule} from '@angular/material/menu';
 import {CommonModule} from '@angular/common';
+import {ClearDialogComponent} from './ng-components/clear-dialog/clear-dialog.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule({
-    declarations: [
-        NavbarComponent,
-        NavbarContainerComponent,
-    ],
     imports: [
         CommonModule,
         RouterModule,
         FlexLayoutModule,
         MatToolbarModule,
         MatButtonModule,
-        MatMenuModule
+        MatMenuModule,
+        MatDialogModule
+    ],
+    declarations: [
+        NavbarComponent,
+        NavbarContainerComponent,
+        ClearDialogComponent,
     ],
     exports: [
         NavbarContainerComponent,

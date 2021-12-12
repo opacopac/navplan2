@@ -5,6 +5,7 @@ import {OlMapContainerComponent} from './ng-components/ol-map-container/ol-map-c
 import {ZoomButtonsComponent} from './ng-components/zoom-buttons/zoom-buttons.component';
 import {BaseMapModule} from '../base-map/base-map.module';
 import {BaseMapStateModule} from '../base-map-state/base-map-state.module';
+import {OlOverlayButtonCloseComponent} from './ng-components/ol-overlay-button-close/ol-overlay-button-close.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import {BaseMapStateModule} from '../base-map-state/base-map-state.module';
     declarations: [
         OlMapContainerComponent,
         ZoomButtonsComponent,
+        OlOverlayButtonCloseComponent,
     ],
     exports: [
         OlMapContainerComponent,

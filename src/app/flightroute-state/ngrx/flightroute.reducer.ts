@@ -44,11 +44,13 @@ const initialState: FlightrouteState = {
 export const flightRouteReducer = createReducer(
     initialState,
 
+    // FlightrouteListActions
     on(FlightrouteListActions.showList, (state, action) => ({
         ...state,
         flightrouteList: action.flightrouteList
     })),
 
+    // FlightrouteActions
     on(FlightrouteActions.update, (state, action) => {
         const newFlightroute = action.flightroute.clone();
         FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
@@ -58,11 +60,19 @@ export const flightRouteReducer = createReducer(
         };
     }),
 
+    on(FlightrouteActions.clear, (state, action) => {
+        return {
+            ...state,
+            flightroute: initialState.flightroute.clone()
+        };
+    }),
+
     // SharedFlightRouteActions
     on(SharedFlightRouteActions.saveSuccess, (state, action) => ({
         ...state,
         showShareId: action.shareId
     })),
+
     on(SharedFlightRouteActions.hideUrl, (state) => ({
         ...state,
         showShareId: undefined
