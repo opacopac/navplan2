@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {OlOverlayMeteogramComponent} from './ng-components/ol-overlay-meteogram/ol-overlay-meteogram.component';
 import {OlOverlayWindyiframeComponent} from './ng-components/ol-overlay-windyiframe/ol-overlay-windyiframe.component';
 import {FlightMapPageComponent} from './ng-components/flight-map-page/flight-map-page.component';
-import {FlightTimerModule} from '../flight-timer/flight-timer.module';
+import {FlightTimerViewModule} from '../flight-timer-view/flight-timer-view.module';
 import {OlOverlayWaypointComponent} from './ng-components/ol-overlay-waypoint/ol-overlay-waypoint.component';
 import {OlMapOverlayComponent} from './ng-components/ol-map-overlay/ol-map-overlay.component';
 import {MetarTafViewModule} from '../metar-taf-view/metar-taf-view.module';
@@ -41,7 +41,7 @@ import {BaseMapViewModule} from '../base-map-view/base-map-view.module';
         BaseMapViewModule,
         EnrouteViewModule,
         FlightMapStateModule,
-        FlightTimerModule,
+        FlightTimerViewModule,
         FlightrouteViewModule,
         GeonameViewModule,
         LocationViewModule,

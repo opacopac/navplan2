@@ -1,4 +1,4 @@
-import {FlightTimerState} from './flight-timer-state';
+import {FlightTimerState} from '../state-model/flight-timer-state';
 import {FlightTimerActions} from './flight-timer.actions';
 
 
