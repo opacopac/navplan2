@@ -139,14 +139,9 @@ export class GeodesyHelper {
 
 
     public static distanceComparer(refPos: Position2d, pos1: Position2d, pos2: Position2d): number {
-        const pos1LonDelta = refPos.longitude - pos1.longitude;
-        const pos1LatDelta = refPos.latitude - pos1.latitude;
-        const pos1DistSqr = pos1LonDelta * pos1LonDelta + pos1LatDelta * pos1LatDelta;
+        const dist1 = this.calcDistance(refPos, pos1);
+        const dist2 = this.calcDistance(refPos, pos2);
 
-        const pos2LonDelta = refPos.longitude - pos2.longitude;
-        const pos2LatDelta = refPos.latitude - pos2.latitude;
-        const pos2DistSqr = pos2LonDelta * pos2LonDelta + pos2LatDelta * pos2LatDelta;
-
-        return pos1DistSqr - pos2DistSqr;
+        return dist1.m - dist2.m;
     }
 }

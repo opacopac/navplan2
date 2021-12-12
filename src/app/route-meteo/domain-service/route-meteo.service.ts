@@ -68,13 +68,14 @@ export class RouteMeteoService implements IRouteMeteoService {
 
 
     private getClosestMetarTafs(startPos: Position2d, maxRadius: Length, metarTafs: MetarTaf[]): RouteMetarTaf[] {
-        return metarTafs
+        const sortedRtm = metarTafs
             .map(metarTaf => new RouteMetarTaf(metarTaf, GeodesyHelper.calcDistance(startPos, metarTaf.position)))
             .filter(routeMetarTaf => routeMetarTaf.distance.m <= maxRadius.m)
             .sort((rmt1, rmt2) => {
                 return GeodesyHelper.distanceComparer(startPos, rmt1.metarTaf.getPosition(), rmt2.metarTaf.getPosition());
-            })
-            .slice(0, RouteMeteoService.NUM_CLOSEST_METAR_TAFS);
+            });
+
+        return sortedRtm.slice(0, RouteMeteoService.NUM_CLOSEST_METAR_TAFS);
     }
 
 
