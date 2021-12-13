@@ -1,17 +1,41 @@
-<h4>Departure</h4>
-<app-route-meteo-table
-    [routeMetarTafList]="(this.routeMeteoTafs$ | async).startMetarTafs"
-    [showDistance]="true">
-</app-route-meteo-table>
+<div fxLayout="column">
+    <mat-form-field appearance="fill" fxFlexAlign="end" class="max-radius-field">
+        <mat-label>Max. radius around route</mat-label>
+        <input matInput
+               #maxRadius
+               type="number"
+               maxlength="3"
+               size="3"
+               [value]="String(this.maxRadiusValue$ | async)"
+               (change)="this.onMaxRadiusChanged(Number(maxRadius.value))">
+        <span matSuffix>{{ this.maxRadiusUnit$ | async }}</span>
+    </mat-form-field>
 
-<h4>Arrival</h4>
-<app-route-meteo-table
-    [routeMetarTafList]="(this.routeMeteoTafs$ | async).endMetarTafs"
-    [showDistance]="true">
-</app-route-meteo-table>
+    <h3>Departure {{ this.startWp$ | async }}</h3>
+    <app-route-meteo-table
+        [routeMetarTafList]="this.startMetarTafs$ | async"
+        [showDistance]="true"
+        [noDataText]="'(empty)'">
+    </app-route-meteo-table>
 
-<h4>En Route</h4>
-<app-route-meteo-table
-    [routeMetarTafList]="(this.routeMeteoTafs$ | async).enRouteMetarTafs"
-    [showDistance]="false">
-</app-route-meteo-table>
+    <h3>Destination {{ this.endWp$ | async }}</h3>
+    <app-route-meteo-table
+        [routeMetarTafList]="this.endMetarTafs$ | async"
+        [showDistance]="true"
+        [noDataText]="'(empty)'">
+    </app-route-meteo-table>
+
+    <h3>Alternate {{ this.altWp$ | async }}</h3>
+    <app-route-meteo-table
+        [routeMetarTafList]="this.alternateMetarTafs$ | async"
+        [showDistance]="true"
+        [noDataText]="'(empty)'">
+    </app-route-meteo-table>
+
+    <h3>Route</h3>
+    <app-route-meteo-table
+        [routeMetarTafList]="this.enRouteMetarTafs$ | async"
+        [showDistance]="false"
+        [noDataText]="'(empty)'">
+    </app-route-meteo-table>
+</div>

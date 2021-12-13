@@ -66,6 +66,15 @@ export class Length extends AbstractQuantity<Length, LengthUnit> implements Clon
     }
 
 
+    public getUnitString(): string {
+        switch (this.unit) {
+            case LengthUnit.FT: return 'ft';
+            case LengthUnit.M: return 'm';
+            case LengthUnit.NM: return 'NM';
+        }
+    }
+
+
     public clone(): Length {
         return new Length(
             this.value,

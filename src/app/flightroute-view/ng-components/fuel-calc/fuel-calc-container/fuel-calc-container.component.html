@@ -11,8 +11,7 @@
                formControlName="aircraftConsumption"
                maxlength="3"
                size="3"
-               (input)="this.aircraftConsumption$.next(Number(aircraftConsumption.value))"
-        />
+               (input)="this.aircraftConsumption$.next(Number(aircraftConsumption.value))">
         <span matSuffix>l/h</span>
     </mat-form-field>
 
@@ -25,8 +24,7 @@
                formControlName="extraTime"
                maxlength="3"
                size="3"
-               (input)="this.extraTime$.next(Number(extraTime.value))"
-        />
+               (input)="this.extraTime$.next(Number(extraTime.value))">
         <span matSuffix>min</span>
     </mat-form-field>
 </form>

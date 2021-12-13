@@ -1,7 +1,8 @@
 html, body {
     height: 100%;
     margin: 0;
-    font-family: Roboto,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+    font-family: Roboto,Helvetica,Arial,sans-serif;
+    font-size: 14px;
 }
 
 iframe {
@@ -60,7 +61,6 @@ td.mat-cell {
 
 /* region: BUTTONS */
 
-
 button.btn-lg {
     font-size: large;
 }
@@ -113,7 +113,6 @@ button.btn-lg {
 .mat-simple-snackbar-action {
     color: white !important;
 }
-
 
 /* endregion */
 

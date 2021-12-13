@@ -10,6 +10,7 @@ import {RouteMetarTaf} from '../../../route-meteo/domain-model/route-metar-taf';
 export class RouteMeteoTableComponent implements OnInit {
     @Input() public routeMetarTafList: RouteMetarTaf[];
     @Input() public showDistance: boolean;
+    @Input() public noDataText: string;
 
 
     constructor() {

@@ -8,14 +8,20 @@ import {RouteMetarTafSet} from '../../route-meteo/domain-model/route-metar-taf-s
 
 const initialState: RouteMeteoState = {
     maxMeteoRadius: new Length(30, LengthUnit.NM),
-    routeMetarTafs: new RouteMetarTafSet([], [], []),
+    routeMetarTafs: new RouteMetarTafSet([], [], [], []),
 };
 
 
 export const routeMeteoReducer = createReducer(
     initialState,
+
     on(RouteMeteoActions.updateSuccess, (state, action) => ({
         ...state,
         routeMetarTafs: action.routeMetarTafs
+    })),
+
+    on(RouteMeteoActions.maxRadiusChanged, (state, action) => ({
+        ...state,
+        maxMeteoRadius: action.maxRadius
     })),
 );
