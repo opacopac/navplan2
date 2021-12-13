@@ -73,3 +73,4 @@ navplan2.iml
 /src/logs/
 /src/charts/
 /src/data_import/ivao_sectorfile/
+/.angular/cache/
