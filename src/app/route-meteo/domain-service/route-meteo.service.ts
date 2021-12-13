@@ -27,7 +27,7 @@ export class RouteMeteoService implements IRouteMeteoService {
             return of(new RouteMetarTafSet([], [], [], []));
         }
 
-        const lineString = new LineString(flightroute.waypoints.map(wp => wp.position));
+        const lineString = new LineString(flightroute.getWaypointsInclAlternate().map(wp => wp.position));
         const meteoBox = GeodesyHelper.enlargeExtent(lineString.getBoundingBox(), maxRadius);
 
         return this.metarTafService.load(meteoBox).pipe(

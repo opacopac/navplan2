@@ -21,4 +21,4 @@
     <tr mat-header-row *matHeaderRowDef="this.getColumnKeys()"></tr>
     <tr mat-row *matRowDef="let routeMetarTaf; columns: this.getColumnKeys()"></tr>
 </table>
-<p *ngIf="!(this.routeMetarTafList?.length > 0)">{{ this.noDataText }}</p>
+<p *ngIf="!(this.routeMetarTafList?.length > 0)"><i>{{ this.noDataText }}</i></p>

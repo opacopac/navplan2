@@ -108,4 +108,13 @@ export class Flightroute implements Clonable<Flightroute> {
 
         return !this.isDestinationAirport(waypoint);
     }
+
+
+    public getWaypointsInclAlternate(): Waypoint[] {
+        if (this.alternate) {
+            return [...this.waypoints, this.alternate];
+        } else {
+            return this.waypoints;
+        }
+    }
 }
