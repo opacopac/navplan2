@@ -9,8 +9,8 @@
 
     <!-- menu for large screens -->
     <div fxLayout="row" fxFlex="grow" fxShow="true" fxHide.lt-md="true">
-        <button mat-button routerLink="./map" title="Map"><i class="fas fa-map"></i></button>
-        <button mat-button [mat-menu-trigger-for]="flightPrep" title="Flight Preparation"><i class="fas fa-calculator"></i></button>
+        <button mat-button routerLink="./map" title="Map"><i class="fas fa-map"></i>&nbsp;&nbsp;Map</button>
+        <button mat-button [mat-menu-trigger-for]="flightPrep" title="Flight Preparation"><i class="fas fa-calculator"></i>&nbsp;&nbsp;Flight Prep</button>
         <mat-menu #flightPrep="matMenu">
             <div fxLayout="column" fxLayoutAlign="start start">
                 <button mat-button routerLink="./prep/route"><i class="fas fa-route"></i>&nbsp;&nbsp;Route</button>
@@ -21,8 +21,8 @@
                 <button mat-button routerLink="./prep/notam"><i class="fas fa-exclamation-triangle"></i>&nbsp;&nbsp;Notams</button>
             </div>
         </mat-menu>
-        <button mat-button *ngIf="this.currentUser" routerLink="./tracks" title="Recorded Tracks"><i class="fas fa-paw"></i></button>
-        <button mat-button [mat-menu-trigger-for]="navplanExport" title="Export / Share"><i class="fas fa-share"></i></button>
+        <button mat-button *ngIf="this.currentUser" routerLink="./tracks" title="Recorded Tracks"><i class="fas fa-paw"></i>&nbsp;&nbsp;Tracks</button>
+        <button mat-button [mat-menu-trigger-for]="navplanExport" title="Export / Share"><i class="fas fa-share"></i>&nbsp;&nbsp;Export</button>
         <mat-menu #navplanExport="matMenu">
             <div fxLayout="column" fxLayoutAlign="start start">
                 <button mat-button (click)="this.onExportPdfClick.emit()"><i class="far fa-file-pdf"></i>&nbsp;&nbsp;PDF</button>
@@ -32,7 +32,7 @@
                 <button mat-button (click)="this.onExportFplClick.emit()"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;FPL (Garmin, Foreflight, etc.)</button>
             </div>
         </mat-menu>
-        <button mat-button title="Clear current Route and Track" (click)="this.onClearClick.emit()"><i class="fas fa-eraser"></i></button>
+        <button mat-button title="Clear current Route and Track" (click)="this.onClearClick.emit()"><i class="fas fa-eraser"></i>&nbsp;&nbsp;Clear</button>
         <button mat-button title="Search" (click)="this.onShowSearchClick.emit()"><i class="fas fa-search"></i></button>
     </div>
     <!-- right part of menu -->
@@ -49,7 +49,7 @@
 <!-- vertical menu for small screens -->
 <mat-menu #verticalMenu="matMenu">
     <button mat-menu-item routerLink="./map" title="Map"><i class="fas fa-map"></i>&nbsp;&nbsp;Map</button>
-    <button mat-menu-item [mat-menu-trigger-for]="flightPrepSm" title="Flight Preparation"><i class="fas fa-calculator"></i>&nbsp;&nbsp;Route / Fuel</button>
+    <button mat-menu-item [mat-menu-trigger-for]="flightPrepSm" title="Flight Preparation"><i class="fas fa-calculator"></i>&nbsp;&nbsp;Flight Prep</button>
     <mat-menu #flightPrepSm="matMenu">
         <div fxLayout="column" fxLayoutAlign="start start">
             <button mat-button routerLink="./prep/route"><i class="fas fa-route"></i>&nbsp;&nbsp;Route</button>
