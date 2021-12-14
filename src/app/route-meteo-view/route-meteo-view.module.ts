@@ -11,6 +11,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {ReactiveFormsModule} from '@angular/forms';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {MetarTafViewModule} from '../metar-taf-view/metar-taf-view.module';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
         MatInputModule,
         ReactiveFormsModule,
         FlexLayoutModule,
+        MetarTafViewModule,
     ],
     declarations: [
         RouteMeteoContainerComponent,

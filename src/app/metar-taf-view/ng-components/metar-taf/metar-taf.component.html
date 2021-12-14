@@ -1,12 +1,12 @@
 <div *ngIf="this.metarTaf" class="metarTaf">
     <p *ngIf="this.metarTaf.raw_metar">
         METAR {{ this.metarTaf.raw_metar }}
-        <br />
+        <br>
         <small><i>({{ this.getMetarAgeString() }} old)</i></small>
     </p>
     <p *ngIf="this.metarTaf.raw_taf" >
         {{ this.metarTaf.raw_taf }}
-        <br />
+        <br>
         <small><i>({{ this.getTafAgeString() }} old)</i></small>
     </p>
 </div>

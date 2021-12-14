@@ -5,11 +5,11 @@ import {StringnumberHelper} from '../../../system/domain-service/stringnumber/st
 
 
 @Component({
-    selector: 'app-ol-overlay-airport-metar-taf-tab',
-    templateUrl: './ol-overlay-airport-metar-taf-tab.component.html',
-    styleUrls: ['./ol-overlay-airport-metar-taf-tab.component.css']
+    selector: 'app-metar-taf',
+    templateUrl: './metar-taf.component.html',
+    styleUrls: ['./metar-taf.component.css']
 })
-export class OlOverlayAirportMetarTafTabComponent implements OnInit {
+export class MetarTafComponent implements OnInit {
     @Input() metarTaf: MetarTaf;
 
 

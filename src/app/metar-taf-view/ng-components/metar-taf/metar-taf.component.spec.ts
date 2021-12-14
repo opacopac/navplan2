@@ -1,20 +1,20 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {OlOverlayAirportMetarTafTabComponent} from './ol-overlay-airport-metar-taf-tab.component';
+import {MetarTafComponent} from './metar-taf.component';
 
 describe('OlOverlayAirportMetarTafTabComponent', () => {
-  let component: OlOverlayAirportMetarTafTabComponent;
-  let fixture: ComponentFixture<OlOverlayAirportMetarTafTabComponent>;
+  let component: MetarTafComponent;
+  let fixture: ComponentFixture<MetarTafComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ OlOverlayAirportMetarTafTabComponent ]
+      declarations: [ MetarTafComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OlOverlayAirportMetarTafTabComponent);
+    fixture = TestBed.createComponent(MetarTafComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
