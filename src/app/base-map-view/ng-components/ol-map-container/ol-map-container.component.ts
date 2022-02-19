@@ -31,6 +31,7 @@ import {MouseWheelZoom} from 'ol/interaction';
 import {AngleUnit} from '../../../geo-physics/domain-model/quantities/angle-unit';
 import {OlMap} from '../../ol-model/ol-map';
 import {OlBaseLayer} from '../../ol-model/ol-base-layer';
+import VectorTileLayer from 'ol/layer/VectorTile';
 
 
 @Component({
@@ -217,7 +218,7 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
     }
 
 
-    private isClickableLayer(layer: VectorLayer<Vector<Geometry>> | TileLayer<XYZ>): boolean {
+    private isClickableLayer(layer: VectorLayer<Vector<Geometry>> | TileLayer<XYZ> | VectorTileLayer): boolean {
         return layer !== this.baseLayer.layer; // TODO
         /*return (layer === this.routeItemsLayer ||
             layer === this.nonrouteItemsLayer ||

@@ -2,13 +2,14 @@ import VectorTileLayer from 'ol/layer/VectorTile';
 import {VectorTile} from 'ol/source';
 import {MVT} from 'ol/format';
 import {applyStyle} from 'ol-mapbox-style';
+import {OlBaseLayer} from './ol-base-layer';
 
 
 export class SwisstopoLightbaseBaselayer {
     public static readonly STYLE_URL = 'https://vectortiles.geo.admin.ch/styles/ch.swisstopo.leichte-basiskarte.vt/style.json';
 
 
-    public static createBaseLayer(attributions: string[]): VectorTileLayer {
+    public static createBaseLayer(attributions: string[]): OlBaseLayer {
         const layer = new VectorTileLayer({
             declutter: true,
             source: new VectorTile({
@@ -24,6 +25,6 @@ export class SwisstopoLightbaseBaselayer {
             });
         });
 
-        return layer;
+        return new OlBaseLayer(layer);
     }
 }

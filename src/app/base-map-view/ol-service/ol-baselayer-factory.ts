@@ -6,6 +6,7 @@ import {MapBaseLayerType} from '../../base-map/domain-model/map-base-layer-type'
 import {SwisstopoImageBaselayer} from '../ol-model/swisstopo-image-baselayer';
 import {SwisstopoPixcolBaselayer} from '../ol-model/swisstopo-pixcol-baselayer';
 import {OlBaseLayer} from '../ol-model/ol-base-layer';
+import {SwisstopoLightbaseBaselayer} from '../ol-model/swisstopo-lightbase-baselayer';
 
 
 export class OlBaselayerFactory {
@@ -19,8 +20,8 @@ export class OlBaselayerFactory {
                 return Mapboxbaselayer.createBaseLayer(attributions);
             case MapBaseLayerType.MAPZEN:
                 return Mapzenbaselayer.createBaseLayer(attributions);
-            /*case MapBaseLayerType.SWISSTOPO_LIGHTBASE:
-                return SwisstopoLightbaseBaselayer.createBaseLayer(attributions);*/
+            case MapBaseLayerType.SWISSTOPO_LIGHTBASE:
+                return SwisstopoLightbaseBaselayer.createBaseLayer(attributions);
             case MapBaseLayerType.SWISSTOPO_PIXCOL:
                 return SwisstopoPixcolBaselayer.createBaseLayer(attributions);
             case MapBaseLayerType.SWISSTOPO_IMAGE:
