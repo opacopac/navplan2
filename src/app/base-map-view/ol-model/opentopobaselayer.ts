@@ -1,5 +1,6 @@
 import TileLayer from 'ol/layer/Tile';
 import XYZ from 'ol/source/XYZ';
+import {OlBaseLayer} from './ol-base-layer';
 
 
 const MIN_ZOOM = 0;
@@ -13,8 +14,8 @@ const BASE_URL_LOCAL = '//www.navplan.ch/maptiles/';
 
 export class Opentopobaselayer {
 
-    public static createBaseLayer(attributions: string[]): TileLayer<XYZ> {
-        return new TileLayer({
+    public static createBaseLayer(attributions: string[]): OlBaseLayer {
+        const layer = new TileLayer({
             source: new XYZ({
                 tileUrlFunction: Opentopobaselayer.getTileUrl,
                 minZoom: MIN_ZOOM,
@@ -23,6 +24,8 @@ export class Opentopobaselayer {
                 attributions: attributions
             })
         });
+
+        return new OlBaseLayer(layer);
     }
 
     private static getTileUrl(coordinate): string {

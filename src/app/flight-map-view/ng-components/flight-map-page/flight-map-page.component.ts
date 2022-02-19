@@ -18,15 +18,25 @@ import {getTrafficState} from '../../../traffic-state/ngrx/traffic.selectors';
 import {OlOwnPlaneContainer} from '../../../location-view/ol-components/ol-own-plane-container';
 import {getLocationState} from '../../../location-state/ngrx/location.selectors';
 import {MapBaseLayerType} from '../../../base-map/domain-model/map-base-layer-type';
-import {OlMapContainerComponent} from '../../../base-map-view/ng-components/ol-map-container/ol-map-container.component';
-import {OlOverlayTrafficComponent} from '../../../traffic-view/ng-components/ol-overlay-traffic/ol-overlay-traffic.component';
+import {
+    OlMapContainerComponent
+} from '../../../base-map-view/ng-components/ol-map-container/ol-map-container.component';
+import {
+    OlOverlayTrafficComponent
+} from '../../../traffic-view/ng-components/ol-overlay-traffic/ol-overlay-traffic.component';
 import {Observable} from 'rxjs/internal/Observable';
 import {Subscription} from 'rxjs/internal/Subscription';
 import {getFlightMapOverlay} from '../../../flight-map-state/ngrx/flight-map.selectors';
 import {OlAirportContainer} from '../../../aerodrome-view/ol-components/airport/ol-airport-container';
-import {OlAirportCircuitContainer} from '../../../aerodrome-view/ol-components/airport-circuit/ol-airport-circuit-container';
-import {OlReportingPointContainer} from '../../../aerodrome-view/ol-components/reporting-point-sector/ol-reporting-point-container';
-import {OlReportingSectorContainer} from '../../../aerodrome-view/ol-components/reporting-point-sector/ol-reporting-sector-container';
+import {
+    OlAirportCircuitContainer
+} from '../../../aerodrome-view/ol-components/airport-circuit/ol-airport-circuit-container';
+import {
+    OlReportingPointContainer
+} from '../../../aerodrome-view/ol-components/reporting-point-sector/ol-reporting-point-container';
+import {
+    OlReportingSectorContainer
+} from '../../../aerodrome-view/ol-components/reporting-point-sector/ol-reporting-sector-container';
 import {OlAirspaceContainer} from '../../../enroute-view/ol-components/airspace/ol-airspace-container';
 import {OlNavaidContainer} from '../../../enroute-view/ol-components/navaid/ol-navaid-container';
 import {OlWebcamContainer} from '../../../webcam-view/ol-components/ol-webcam-container';
@@ -52,7 +62,9 @@ import {VerticalMapButtonStatus} from '../../../vertical-map/domain-model/vertic
 import {getMeteoSmaState} from '../../../meteo-sma-state/ngrx/meteo-sma.selectors';
 import {MeteoSmaButtonStatus} from '../../../meteo-sma/domain-model/meteo-sma-button-status';
 import {OlSmaMeasurementContainer} from '../../../meteo-sma-view/ol-components/ol-sma-measurement-container';
-import {OlOverlayAirspaceStructureComponent} from '../../../search-view/ng-components/ol-overlay-airspace-structure/ol-overlay-airspace-structure.component';
+import {
+    OlOverlayAirspaceStructureComponent
+} from '../../../search-view/ng-components/ol-overlay-airspace-structure/ol-overlay-airspace-structure.component';
 
 
 @Component({
@@ -186,7 +198,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         const smaMeasurementsBgLayer = new OlVectorLayer();
         const smaMeasurementsLayer = new OlVectorLayer();
 
-        const map = this.mapContainer.init(
+        const olMap = this.mapContainer.init(
             MapBaseLayerType.OPENTOPOMAP,
             [
                 chartCloserLayer,
@@ -267,7 +279,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         this.olFlightroute = new OlFlightrouteContainer(
             flightrouteLayer,
             this.appStore.pipe(select(getFlightroute)),
-            map,
+            olMap,
             [
                 userPointLayer,
                 reportingPointLayer,

@@ -2,15 +2,14 @@ import {Osmbaselayer} from '../ol-model/osmbaselayer';
 import {Opentopobaselayer} from '../ol-model/opentopobaselayer';
 import {Mapboxbaselayer} from '../ol-model/mapboxbaselayer';
 import {Mapzenbaselayer} from '../ol-model/mapzenbaselayer';
-import TileLayer from 'ol/layer/Tile';
 import {MapBaseLayerType} from '../../base-map/domain-model/map-base-layer-type';
-import XYZ from 'ol/source/XYZ';
 import {SwisstopoImageBaselayer} from '../ol-model/swisstopo-image-baselayer';
 import {SwisstopoPixcolBaselayer} from '../ol-model/swisstopo-pixcol-baselayer';
+import {OlBaseLayer} from '../ol-model/ol-base-layer';
 
 
 export class OlBaselayerFactory {
-    public static create(layer: MapBaseLayerType): TileLayer<XYZ> {
+    public static create(layer: MapBaseLayerType): OlBaseLayer {
         const attributions = OlBaselayerFactory.getAttributions();
 
         switch (layer) {

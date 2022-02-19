@@ -1,5 +1,6 @@
 import XYZ from 'ol/source/XYZ';
 import TileLayer from 'ol/layer/Tile';
+import {OlBaseLayer} from './ol-base-layer';
 
 
 const MIN_ZOOM = 0;
@@ -11,8 +12,8 @@ const ACCESS_TOKEN_NAVPLAN_BRANCH = 'pk.eyJ1Ijoib3BhY29wYWMiLCJhIjoiY2oxYjZ6aDQx
 
 export class Mapboxbaselayer {
 
-    public static createBaseLayer(attributions: string[]): TileLayer<XYZ> {
-        return new TileLayer({
+    public static createBaseLayer(attributions: string[]): OlBaseLayer {
+        const layer = new TileLayer({
             source: new XYZ({
                 tileUrlFunction: Mapboxbaselayer.getTileUrl,
                 minZoom: MIN_ZOOM,
@@ -21,6 +22,8 @@ export class Mapboxbaselayer {
                 attributions: attributions
             })
         });
+
+        return new OlBaseLayer(layer);
     }
 
 

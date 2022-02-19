@@ -1,5 +1,6 @@
 import TileLayer from 'ol/layer/Tile';
 import XYZ from 'ol/source/XYZ';
+import {OlBaseLayer} from './ol-base-layer';
 
 
 const MIN_ZOOM = 0;
@@ -10,8 +11,8 @@ const API_KEY = 'mapzen-ECzH36f';
 
 export class Mapzenbaselayer {
 
-    public static createBaseLayer(attributions: string[]): TileLayer<XYZ> {
-        return new TileLayer({
+    public static createBaseLayer(attributions: string[]): OlBaseLayer {
+        const layer = new TileLayer({
             source: new XYZ({
                 tileUrlFunction: Mapzenbaselayer.getTileUrl,
                 minZoom: MIN_ZOOM,
@@ -20,6 +21,8 @@ export class Mapzenbaselayer {
                 attributions: attributions
             })
         });
+
+        return new OlBaseLayer(layer);
     }
 
 

@@ -29,6 +29,8 @@ import {OlGeometry} from '../../ol-model/ol-geometry';
 import {OlFeature} from '../../ol-model/ol-feature';
 import {MouseWheelZoom} from 'ol/interaction';
 import {AngleUnit} from '../../../geo-physics/domain-model/quantities/angle-unit';
+import {OlMap} from '../../ol-model/ol-map';
+import {OlBaseLayer} from '../../ol-model/ol-base-layer';
 
 
 @Component({
@@ -41,8 +43,8 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
     private readonly IMAGE_ID_KEY = 'imageId';
     private readonly HIT_TOLERANCE_PIXELS = 10;
     private map: Map;
-    private mapLayer: TileLayer<XYZ>;
-    private mapLayers: OlVectorLayer[] = [];
+    private baseLayer: OlBaseLayer;
+    private featureLayers: OlVectorLayer[] = [];
     private readonly imageLayers: ImageLayer<ImageStatic>[] = [];
     private readonly $zoom: Observable<number>;
     private readonly $showImage: Observable<ShowImageState>;
@@ -61,18 +63,18 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
     // region init / uninit
 
     public init(
-        baseMapType: MapBaseLayerType,
-        mapLayers: OlVectorLayer[],
+        baseLayerType: MapBaseLayerType,
+        featureLayers: OlVectorLayer[],
         mapOverlays: Overlay[],
         position: Position2d,
         zoom: number,
         mapRotation: Angle
-    ): Map {
-        this.mapLayer = OlBaselayerFactory.create(baseMapType);
-        this.mapLayers = mapLayers;
+    ): OlMap {
+        this.baseLayer = OlBaselayerFactory.create(baseLayerType);
+        this.featureLayers = featureLayers;
         const allLayers = [];
-        allLayers.push(this.mapLayer);
-        allLayers.push(...this.mapLayers.map(layer => layer.vectorLayer));
+        allLayers.push(this.baseLayer.layer); // TODO
+        allLayers.push(...this.featureLayers.map(layer => layer.vectorLayer));
         this.map = new Map({
             target: 'map',
             controls: [
@@ -100,7 +102,7 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
         this.map.on('moveend', this.onMoveEnd.bind(this));
         this.map.getView().on('change:rotation', this.onMapRotation.bind(this));
 
-        return this.map;
+        return new OlMap(this.map);
     }
 
 
@@ -216,7 +218,7 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
 
 
     private isClickableLayer(layer: VectorLayer<Vector<Geometry>> | TileLayer<XYZ>): boolean {
-        return layer !== this.mapLayer;
+        return layer !== this.baseLayer.layer; // TODO
         /*return (layer === this.routeItemsLayer ||
             layer === this.nonrouteItemsLayer ||
             layer === this.notamLayer ||
