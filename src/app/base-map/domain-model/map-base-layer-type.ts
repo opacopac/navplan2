@@ -2,5 +2,8 @@ export enum MapBaseLayerType {
     OPENTOPOMAP,
     MAPZEN,
     MAPBOX,
-    OSM
+    OSM,
+    SWISSTOPO_LIGHTBASE,
+    SWISSTOPO_PIXCOL,
+    SWISSTOPO_IMAGE
 }
