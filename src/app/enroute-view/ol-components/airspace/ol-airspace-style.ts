@@ -1,7 +1,7 @@
 import {Fill, Stroke, Style} from 'ol/style';
 
 
-export class OlAirspaceStyles {
+export class OlAirspaceStyle {
     public static readonly CTR = new Style({
         fill: new Fill({
             color: 'rgba(152, 206, 235, 0.3)'
