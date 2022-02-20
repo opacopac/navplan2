@@ -6,6 +6,10 @@ import {ZoomButtonsComponent} from './ng-components/zoom-buttons/zoom-buttons.co
 import {BaseMapModule} from '../base-map/base-map.module';
 import {BaseMapStateModule} from '../base-map-state/base-map-state.module';
 import {OlOverlayButtonCloseComponent} from './ng-components/ol-overlay-button-close/ol-overlay-button-close.component';
+import {LayerButtonComponent} from './ng-components/layer-button/layer-button.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {LayerSelectionComponent} from './ng-components/layer-selection/layer-selection.component';
+import {MatRadioModule} from '@angular/material/radio';
 
 
 @NgModule({
@@ -14,15 +18,21 @@ import {OlOverlayButtonCloseComponent} from './ng-components/ol-overlay-button-c
         MatButtonModule,
         BaseMapModule,
         BaseMapStateModule,
+        MatTooltipModule,
+        MatRadioModule,
     ],
     declarations: [
         OlMapContainerComponent,
         ZoomButtonsComponent,
+        LayerButtonComponent,
+        LayerSelectionComponent,
         OlOverlayButtonCloseComponent,
     ],
     exports: [
         OlMapContainerComponent,
         ZoomButtonsComponent,
+        LayerButtonComponent,
+        LayerSelectionComponent,
     ],
     providers: [
     ]

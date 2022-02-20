@@ -5,7 +5,12 @@ import {Position2d} from '../../../geo-physics/domain-model/geometry/position2d'
 import {Angle} from '../../../geo-physics/domain-model/quantities/angle';
 import {combineLatest} from 'rxjs';
 import {map, take} from 'rxjs/operators';
-import {getMapPosition, getMapRotation, getMapZoom} from '../../../base-map-state/ngrx/base-map.selectors';
+import {
+    getMapPosition,
+    getMapRotation,
+    getMapZoom,
+    getShowBaseMapSelection
+} from '../../../base-map-state/ngrx/base-map.selectors';
 import {OlMetarContainer} from '../../../metar-taf-view/ol-components/ol-metar-container';
 import {OlNotamContainer} from '../../../notam-view/ol-components/ol-notam-container';
 import {getNotamList} from '../../../notam-state/ngrx/notam.selectors';
@@ -101,6 +106,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
     private readonly verticalMapState$ = this.appStore.pipe(select(getVerticalMapState));
     public readonly showVerticalMapButton$ = this.flightroute$.pipe(map(route => route.waypoints.length >= 2));
     public readonly showVerticalMap$ = this.verticalMapState$.pipe(map(state => state.buttonStatus === VerticalMapButtonStatus.CURRENT));
+    public readonly showLayerSelection$ = this.appStore.pipe(select(getShowBaseMapSelection));
 
 
     constructor(private readonly appStore: Store<any>) {

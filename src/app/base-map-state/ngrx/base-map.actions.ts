@@ -3,6 +3,7 @@ import {Position2d} from '../../geo-physics/domain-model/geometry/position2d';
 import {Extent2d} from '../../geo-physics/domain-model/geometry/extent2d';
 import {Angle} from '../../geo-physics/domain-model/quantities/angle';
 import {DataItem} from '../../common/model/data-item';
+import {MapBaseLayerType} from '../../base-map/domain-model/map-base-layer-type';
 
 
 export class BaseMapActions {
@@ -36,5 +37,14 @@ export class BaseMapActions {
 
     public static readonly closeAllImages = createAction(
         '[Base Map] close all images',
+    );
+
+    public static readonly toggleMapBaseLayerSelection = createAction(
+        '[Base Map] toggle map base layer selection',
+    );
+
+    public static readonly baseLayerSelected = createAction(
+        '[Base Map] base map layer selected',
+        props<{ mapBaseLayerType: MapBaseLayerType }>()
     );
 }

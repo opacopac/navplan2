@@ -27,6 +27,21 @@
     /*opacity: 0.60;*/
 }
 
+.layer-button {
+    position: absolute;
+    bottom: 172px;
+    left: 10px;
+    z-index: 20;
+}
+
+.layer-selection {
+    position: absolute;
+    bottom: 172px;
+    left: 70px;
+    right: 10px;
+    z-index: 20;
+}
+
 .meteo-sma-button {
     position: absolute;
     bottom: 106px;

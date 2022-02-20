@@ -13,7 +13,7 @@ import {OlBaselayerFactory} from '../../ol-service/ol-baselayer-factory';
 import {Attribution, FullScreen, Rotate, ScaleLine} from 'ol/control';
 import {Pixel} from 'ol/pixel';
 import {ObjectEvent} from 'ol/Object';
-import {getMapZoom, getShowImage} from '../../../base-map-state/ngrx/base-map.selectors';
+import {getMapZoom, getSelectedMapBaseLayerType, getShowImage} from '../../../base-map-state/ngrx/base-map.selectors';
 import {Observable} from 'rxjs';
 import {Subscription} from 'rxjs/internal/Subscription';
 import ImageLayer from 'ol/layer/Image';
@@ -47,17 +47,18 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
     private baseLayer: OlBaseLayer;
     private featureLayers: OlVectorLayer[] = [];
     private readonly imageLayers: ImageLayer<ImageStatic>[] = [];
-    private readonly $zoom: Observable<number>;
-    private readonly $showImage: Observable<ShowImageState>;
+    private readonly zoom$: Observable<number> = this.appStore.pipe(select(getMapZoom));
+    private readonly showImage$: Observable<ShowImageState> = this.appStore.pipe(select(getShowImage));
     private readonly zoomSubscription: Subscription;
     private readonly showImageSubscription: Subscription;
+    private readonly selectedBaseLayerType$: Observable<MapBaseLayerType> = this.appStore.pipe(select(getSelectedMapBaseLayerType));
+    private readonly selectedBaseLayerTypeSubscription: Subscription;
 
 
     public constructor(private appStore: Store<any>) {
-        this.$zoom = this.appStore.pipe(select(getMapZoom));
-        this.$showImage = this.appStore.pipe(select(getShowImage));
-        this.zoomSubscription = this.$zoom.subscribe(zoom => this.setZoom(zoom));
-        this.showImageSubscription = this.$showImage.subscribe(imageState => this.showImage(imageState));
+        this.zoomSubscription = this.zoom$.subscribe(zoom => this.setZoom(zoom));
+        this.showImageSubscription = this.showImage$.subscribe(imageState => this.showImage(imageState));
+        this.selectedBaseLayerTypeSubscription = this.selectedBaseLayerType$.subscribe(layerType => this.changeBaseLayer(layerType));
     }
 
 
@@ -327,6 +328,20 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
     private fitInView(extent: Extent2d) {
         const oversizeExtent = extent.getOversizeExtent(1.1);
         this.map.getView().fit(OlGeometry.getExtentAsMercator(oversizeExtent));
+    }
+
+    // endregion
+
+
+    // region base layer
+
+    private changeBaseLayer(baseLayerType: MapBaseLayerType) {
+        if (baseLayerType >= 0 && this.map.getLayers().getLength() > 0) {
+            this.baseLayer = OlBaselayerFactory.create(baseLayerType);
+
+            this.map.getLayers().removeAt(0);
+            this.map.getLayers().insertAt(0, this.baseLayer.layer);
+        }
     }
 
     // endregion

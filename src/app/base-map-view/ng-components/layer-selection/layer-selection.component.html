@@ -1,0 +1,13 @@
+<div class="layer-selection-container">
+    <label id="layer-selection-radio-group-label">Background Map:</label>
+    <mat-radio-group
+        (change)="this.onLayerSelected($event)"
+        aria-labelledby="layer-selection-radio-group-label"
+        class="layer-selection-radio-group">
+        <mat-radio-button class="layer-selection-radio-button" value="OPENTOPOMAP">OpenTopoMap</mat-radio-button>
+        <mat-radio-button class="layer-selection-radio-button" value="OSM">Open Street Map</mat-radio-button>
+        <mat-radio-button class="layer-selection-radio-button" value="SWISSTOPO_LIGHTBASE">swisstopo: Light Base Map</mat-radio-button>
+        <mat-radio-button class="layer-selection-radio-button" value="SWISSTOPO_PIXCOL">swisstopo: Landeskarte</mat-radio-button>
+        <mat-radio-button class="layer-selection-radio-button" value="SWISSTOPO_IMAGE">swisstopo: Imagery Base Map (Aerial Images)</mat-radio-button>
+    </mat-radio-group>
+</div>

@@ -12,4 +12,5 @@ export interface BaseMapState {
     extent: Extent2d;
     baseMapType: MapBaseLayerType;
     showImage: ShowImageState;
+    showBaseMapSelection: boolean;
 }

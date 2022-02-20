@@ -1,0 +1,15 @@
+.layer-selection-container {
+    background-color: white;
+    opacity: 90%;
+}
+
+.layer-selection-radio-group {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+    align-items: flex-start;
+}
+
+.layer-selection-radio-button {
+    margin: 5px;
+}
