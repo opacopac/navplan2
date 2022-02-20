@@ -22,7 +22,6 @@ import {OlTrafficContainer} from '../../../traffic-view/ol-components/ol-traffic
 import {getTrafficState} from '../../../traffic-state/ngrx/traffic.selectors';
 import {OlOwnPlaneContainer} from '../../../location-view/ol-components/ol-own-plane-container';
 import {getLocationState} from '../../../location-state/ngrx/location.selectors';
-import {MapBaseLayerType} from '../../../base-map/domain-model/map-base-layer-type';
 import {
     OlMapContainerComponent
 } from '../../../base-map-view/ng-components/ol-map-container/ol-map-container.component';
@@ -204,8 +203,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         const smaMeasurementsBgLayer = new OlVectorLayer();
         const smaMeasurementsLayer = new OlVectorLayer();
 
-        const olMap = this.mapContainer.init(
-            MapBaseLayerType.OPENTOPOMAP,
+        const olMap = this.mapContainer.createMap(
             [
                 chartCloserLayer,
                 circuitLayer,
