@@ -3,6 +3,7 @@ import {Airport} from '../../../aerodrome/domain-model/airport';
 import {AirportType} from '../../../aerodrome/domain-model/airport-type';
 import {OlAirportIcon} from '../../ol-components/airport/ol-airport-icon';
 import {IWmmService} from '../../../geo-physics/domain-service/wmm/i-wmm.service';
+import {OlAirportRunwayIcon} from '../../ol-components/airport/ol-airport-runway-icon';
 
 
 @Component({
@@ -55,7 +56,7 @@ export class OlOverlayAirportHeaderComponent  {
             return '';
         }
 
-        return OlAirportIcon.getRwyUrl(this.airport.runways[0].surface, this.airport.isMilitary);
+        return OlAirportRunwayIcon.getRwyUrl(this.airport.runways[0].surface, this.airport.isMilitary);
     }
 
 

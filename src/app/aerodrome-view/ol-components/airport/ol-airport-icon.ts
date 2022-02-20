@@ -1,8 +1,20 @@
 import {environment} from '../../../../environments/environment';
 import {AirportType} from '../../../aerodrome/domain-model/airport-type';
+import {Icon} from 'ol/style';
+import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 
 
 export class OlAirportIcon {
+    public static readonly APT = this.createIcon(AirportType.APT);
+    public static readonly AF_CIVIL = this.createIcon(AirportType.AF_CIVIL);
+    public static readonly AF_MIL_CIVIL = this.createIcon(AirportType.AF_MIL_CIVIL);
+    public static readonly HELI_CIVIL = this.createIcon(AirportType.HELI_CIVIL);
+    public static readonly HELI_MIL = this.createIcon(AirportType.HELI_MIL);
+    public static readonly AF_WATER = this.createIcon(AirportType.AF_WATER);
+    public static readonly AD_MIL = this.createIcon(AirportType.AD_MIL);
+    public static readonly AD_CLOSED = this.createIcon(AirportType.AD_CLOSED);
+
+
     public static getUrl(type: AirportType): string {
         const src = environment.iconBaseUrl;
 
@@ -32,17 +44,16 @@ export class OlAirportIcon {
     }
 
 
-    public static getRwyUrl(rwy_surface: string, isMilitary: boolean): string {
-        const src = environment.iconBaseUrl;
+    private static createIcon(type: AirportType): Icon {
+        const src = this.getUrl(type);
 
-        if (isMilitary) {
-            return src + 'rwy_mil.svg';
-        } else if (rwy_surface === 'ASPH' || rwy_surface === 'CONC') {
-            return src + 'rwy_concrete.svg';
-        } else if (rwy_surface !== 'WATE') {
-            return src + 'rwy_grass.svg';
-        } else {
-            return undefined;
-        }
+        return new Icon(({
+            anchor: [0.5, 0.5],
+            anchorXUnits: IconAnchorUnits.FRACTION,
+            anchorYUnits: IconAnchorUnits.FRACTION,
+            scale: 1,
+            opacity: 0.9,
+            src: src,
+        }));
     }
 }

@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ReportingPoint} from '../../../aerodrome/domain-model/reporting-point';
-import {OlReportingpointIcon} from '../../ol-components/reporting-point-sector/ol-reportingpoint-icon';
+import {OlReportingPointIcon} from '../../ol-components/reporting-point-sector/ol-reporting-point-icon';
 
 
 @Component({
@@ -17,6 +17,6 @@ export class OlOverlayReportingpointHeaderComponent implements OnInit {
 
 
     public getAvatarUrl(): string {
-        return OlReportingpointIcon.getUrl(this.reportingpoint);
+        return OlReportingPointIcon.getUrl(this.reportingpoint.inbd_comp, this.reportingpoint.outbd_comp);
     }
 }
