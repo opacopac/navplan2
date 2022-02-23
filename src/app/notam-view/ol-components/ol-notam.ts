@@ -1,4 +1,3 @@
-import {Fill, Stroke, Style, Text} from 'ol/style';
 import {Notam} from '../../notam/domain-model/notam';
 import {Polygon} from '../../geo-physics/domain-model/geometry/polygon';
 import {Multipolygon} from '../../geo-physics/domain-model/geometry/multipolygon';
@@ -8,6 +7,7 @@ import {circular} from 'ol/geom/Polygon';
 import {OlVectorLayer} from '../../base-map-view/ol-model/ol-vector-layer';
 import {OlFeature} from '../../base-map-view/ol-model/ol-feature';
 import {OlGeometry} from '../../base-map-view/ol-model/ol-geometry';
+import {OlNotamStyle} from './ol-notam-style';
 
 
 export class OlNotam {
@@ -16,7 +16,7 @@ export class OlNotam {
         layer: OlVectorLayer
     ) {
         const olFeature = new OlFeature(notam, false);
-        olFeature.setStyle(this.createStyle(notam));
+        olFeature.setStyle(OlNotamStyle.createStyle(notam.idnotam));
         this.setGeometry(notam, olFeature);
         layer.addFeature(olFeature);
     }
@@ -53,23 +53,5 @@ export class OlNotam {
             default:
                 return;
         }
-    }
-
-
-    private static createStyle(notam: Notam): Style {
-        return new Style({
-            fill: new Fill({
-                color: 'rgba(255, 0, 0, 0.15)'}),
-            stroke: new Stroke({
-                color: 'rgba(255, 0, 0, 0.8)',
-                width: 3
-            }),
-            text: new Text({
-                font: 'bold 14px Calibri,sans-serif',
-                text: notam.idnotam,
-                fill: new Fill({color: 'rgba(255, 0, 0, 1.0)'}),
-                stroke: new Stroke({color: '#FFFFFF', width: 2}),
-            })
-        });
     }
 }

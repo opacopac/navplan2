@@ -1,8 +1,27 @@
 import {environment} from '../../../environments/environment';
-import {TrafficAircraftType} from './traffic-aircraft-type';
+import {TrafficAircraftType} from '../../traffic/domain-model/traffic-aircraft-type';
+import {Icon} from 'ol/style';
+import IconAnchorUnits from 'ol/style/IconAnchorUnits';
+import {Angle} from '../../geo-physics/domain-model/quantities/angle';
 
 
-export class TrafficIcon {
+export class OlTrafficIcon {
+    public static getIcon(type: TrafficAircraftType, isInactive: boolean, rotation: number, rotWithView: boolean): Icon {
+        const iconUrl = this.getUrl(type, isInactive);
+
+        return new Icon({
+            anchor: [0.5, 0.5],
+            anchorXUnits: IconAnchorUnits.FRACTION,
+            anchorYUnits: IconAnchorUnits.FRACTION,
+            scale: 1,
+            opacity: 1.00,
+            rotation: Angle.deg2rad(rotation),
+            rotateWithView: rotWithView,
+            src: iconUrl
+        });
+    }
+
+
     public static getUrl(type: TrafficAircraftType, isInactive: boolean): string {
         const src = environment.iconBaseUrl;
         let iconSuffix = '';

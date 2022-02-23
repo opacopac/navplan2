@@ -3,7 +3,7 @@ import {Traffic} from '../../../traffic/domain-model/traffic';
 import {TrafficAircraftType} from '../../../traffic/domain-model/traffic-aircraft-type';
 import {TrafficAddressType} from '../../../traffic/domain-model/traffic-address-type';
 import {Position2d} from '../../../geo-physics/domain-model/geometry/position2d';
-import {TrafficIcon} from '../../../traffic/domain-model/traffic-icon';
+import {OlTrafficIcon} from '../../ol-components/ol-traffic-icon';
 import {OlOverlayBaseComponent} from '../../../base-map-view/ng-components/ol-overlay-base.component';
 
 
@@ -75,7 +75,7 @@ export class OlOverlayTrafficComponent extends OlOverlayBaseComponent implements
 
 
     public getAvatarUrl(): string {
-        return TrafficIcon.getUrl(this.traffic.acType, false);
+        return OlTrafficIcon.getUrl(this.traffic.acType, false);
     }
 
 
