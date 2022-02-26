@@ -27,16 +27,16 @@
     /*opacity: 0.60;*/
 }
 
-.layer-button {
+.vertical-map-button {
     position: absolute;
     bottom: 172px;
     left: 10px;
     z-index: 20;
 }
 
-.layer-selection {
+.vertical-map {
     position: absolute;
-    bottom: 172px;
+    bottom: 40px;
     left: 70px;
     right: 10px;
     z-index: 20;
@@ -49,17 +49,17 @@
     z-index: 20;
 }
 
-.vertical-map-button {
+.layer-button {
     position: absolute;
     bottom: 40px;
     left: 10px;
     z-index: 20;
 }
 
-.vertical-map {
+.layer-selection {
     position: absolute;
     bottom: 40px;
     left: 70px;
     right: 10px;
-    z-index: 20;
+    z-index: 30;
 }

@@ -1,6 +1,7 @@
 .layer-selection-container {
     background-color: white;
     opacity: 90%;
+    width: fit-content;
 }
 
 .layer-selection-radio-group {
