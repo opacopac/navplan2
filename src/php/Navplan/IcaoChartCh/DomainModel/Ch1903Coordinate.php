@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\IcaoChartCh;
+namespace Navplan\IcaoChartCh\DomainModel;
 
 use Navplan\Common\DomainModel\Position2d;
 

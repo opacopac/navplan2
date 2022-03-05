@@ -35,6 +35,7 @@ use Navplan\Geoname\DbRepo\DbGeonameRepo;
 use Navplan\Geoname\DomainService\GeonameService;
 use Navplan\Geoname\DomainService\IGeonameService;
 use Navplan\Geoname\RestService\IGeonameServiceDiContainer;
+use Navplan\IcaoChartCh\ConsoleService\IIcaoChartChServiceDiContainer;
 use Navplan\MeteoSma\DbService\DbMeteoSmaRepo;
 use Navplan\MeteoSma\DomainService\IMeteoSmaService;
 use Navplan\MeteoSma\RestService\IMeteoServiceDiContainer;
@@ -120,7 +121,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     IGeonameServiceDiContainer, IMeteoServiceDiContainer, INotamServiceDiContainer, ISearchServiceDiContainer,
     ITerrainDiContainer, ITrafficServiceDiContainer, IUserServiceDiContainer, IAirportServiceDiContainer,
     IAirspaceServiceDiContainer, INavaidServiceDiContainer, IWebcamServiceDiContainer, IVerticalMapDiContainer,
-    IExporterServiceDiContainer, ITrackServiceDiContainer
+    IExporterServiceDiContainer, ITrackServiceDiContainer, IIcaoChartChServiceDiContainer
 {
     // const
     private const LOG_LEVEL = LogLevel::INFO;

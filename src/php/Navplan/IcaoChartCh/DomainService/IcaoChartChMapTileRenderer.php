@@ -1,19 +1,24 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\IcaoChartCh;
+namespace Navplan\IcaoChartCh\DomainService;
 
 use Imagick;
 use ImagickPixel;
 use Navplan\Common\DomainModel\Position2d;
+use Navplan\IcaoChartCh\DomainModel\Ch1903Coordinate;
+use Navplan\IcaoChartCh\DomainModel\IcaoChartCh;
+use Navplan\IcaoChartCh\DomainModel\MapTileCoordinate;
+use Navplan\System\DomainService\ILoggingService;
 
 
-class IcaoChartChMapTileCreator {
+class IcaoChartChMapTileRenderer {
     private const TILE_SIZE_PX = 256;
 
 
     public function __construct(
         private IcaoChartCh $icaoChart,
-        private string $mapTilesOutputDir
+        private string $mapTilesOutputDir,
+        private ILoggingService $loggingService
     ) {
     }
 
@@ -27,7 +32,7 @@ class IcaoChartChMapTileCreator {
     ): void {
         for ($x = $minTileX; $x <= $maxTileX; $x++) {
             for ($y = $minTileY; $y <= $maxTileY; $y++) {
-                print "rendering tile $x, $y...\n";
+                $this->loggingService->info("rendering tile $x, $y...");
                 $im = $this->createSingleTile($zoom, $x, $y);
                 $this->writeFile($im, $x, $y, $zoom);
             }
@@ -50,7 +55,7 @@ class IcaoChartChMapTileCreator {
         $latInc = ($maxLat - $minLat) / self::TILE_SIZE_PX;
 
         $im = new Imagick();
-        $im->newImage(self::TILE_SIZE_PX, self::TILE_SIZE_PX, new ImagickPixel('white'));
+        $im->newImage(self::TILE_SIZE_PX, self::TILE_SIZE_PX, new ImagickPixel());
         $pxIterator = $im->getPixelIterator();
 
         foreach ($pxIterator as $y => $pxRow) {
