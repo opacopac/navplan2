@@ -25,11 +25,17 @@ class IcaoChartCh {
         $pxX = (int) round(($chCoord->east - $this->chCoordinate1->east) / $this->xCoordPerPixel) + $this->pixelPos1->x;
         $pxY = (int) round(($chCoord->north - $this->chCoordinate1->north) / $this->yCoordPerPixel) + $this->pixelPos1->y;
 
-        if ($pxX < 0 || $pxY < 0 || $pxX > $this->image->getWidth() || $pxY > $this->image->getHeight()) {
-            return null;
-        }
-
         return $this->image->getPixelColor($pxX, $pxY);
+    }
+
+
+    public function getTLCoord(): Ch1903Coordinate {
+        return $this->calcCoordByPixel(0, 0);
+    }
+
+
+    public function getBRCoord(): Ch1903Coordinate {
+        return $this->calcCoordByPixel($this->image->getWidth() - 1, $this->image->getHeight() - 1);
     }
 
 
@@ -40,5 +46,13 @@ class IcaoChartCh {
         $coordDiffN = $this->chCoordinate2->north - $this->chCoordinate1->north;
         $this->xCoordPerPixel = $coordDiffE / $pxDiffX;
         $this->yCoordPerPixel = $coordDiffN / $pxDiffY;
+    }
+
+
+    private function calcCoordByPixel(int $x, int $y): Ch1903Coordinate {
+        $chCoordE = (($x - $this->pixelPos1->x) * $this->xCoordPerPixel) + $this->chCoordinate1->east;
+        $chCoordN = (($y - $this->pixelPos1->y) * $this->yCoordPerPixel) + $this->chCoordinate1->north;
+
+        return new Ch1903Coordinate($chCoordE, $chCoordN);
     }
 }

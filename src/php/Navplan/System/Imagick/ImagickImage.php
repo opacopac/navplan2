@@ -15,7 +15,11 @@ class ImagickImage implements IImage {
     }
 
 
-    public function getPixelColor(int $x, int $y): string {
+    public function getPixelColor(int $x, int $y): ?string {
+        if ($x < 0 || $y < 0 || $x >= $this->im->getImageWidth() || $y > $this->im->getImageHeight()) {
+            return null;
+        }
+
         $imgPx = $this->im->getImagePixelColor($x, $y);
 
         return $imgPx?->getColorAsString();
@@ -28,6 +32,6 @@ class ImagickImage implements IImage {
 
 
     public function getHeight(): int {
-        return $this->im->getImageWidth();
+        return $this->im->getImageHeight();
     }
 }

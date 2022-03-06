@@ -4,7 +4,7 @@ namespace Navplan\System\DomainModel;
 
 
 interface IImage {
-    function getPixelColor(int $x, int $y): string;
+    function getPixelColor(int $x, int $y): ?string;
 
     function getWidth(): int;
 

@@ -25,6 +25,27 @@ class IcaoChartChMapTileRenderer {
     }
 
 
+    public function createZoomLevelTiles(int $zoom) {
+        $posTL = $this->icaoChart->getTLCoord()->toPos2d();
+        $posBR = $this->icaoChart->getBRCoord()->toPos2d();
+        $tileTL = MapTileCoordinate::fromPosition($posTL, $zoom);
+        $tileBR = MapTileCoordinate::fromPosition($posBR, $zoom);
+
+        print "$posTL->latitude $posTL->longitude\n";
+        print "$posBR->latitude $posBR->longitude\n";
+        print "$tileTL->xtile $tileTL->ytile\n";
+        print "$tileBR->xtile $tileBR->ytile\n";
+
+        $this->createTiles(
+            $zoom,
+            min($tileTL->xtile, $tileBR->xtile),
+            min($tileTL->ytile, $tileBR->ytile),
+            max($tileTL->xtile, $tileBR->xtile),
+            max($tileTL->ytile, $tileBR->ytile)
+        );
+    }
+
+
     public function createTiles(
         int $zoom,
         int $minTileX,
@@ -34,7 +55,7 @@ class IcaoChartChMapTileRenderer {
     ): void {
         for ($x = $minTileX; $x <= $maxTileX; $x++) {
             for ($y = $minTileY; $y <= $maxTileY; $y++) {
-                $this->loggingService->info("rendering tile $x, $y...");
+                $this->loggingService->info("rendering tile x: $x, y: $y z: $zoom");
                 $im = $this->createSingleTile($zoom, $x, $y);
                 $this->writeFile($im, $x, $y, $zoom);
             }
@@ -57,8 +78,8 @@ class IcaoChartChMapTileRenderer {
         $latInc = ($maxLat - $minLat) / self::TILE_SIZE_PX;
 
         $drawable = $this->imageService->createDrawable(self::TILE_SIZE_PX, self::TILE_SIZE_PX, self::BG_COLOR);
-        for ($y = 0; $y < self::TILE_SIZE_PX; $y++) {
-            for ($x = 0; $x < self::TILE_SIZE_PX; $x++) {
+        for ($y = 0; $y <= self::TILE_SIZE_PX; $y++) {
+            for ($x = 0; $x <= self::TILE_SIZE_PX; $x++) {
                 $pos = new Position2d(
                     $minLon + $x * $lonInc,
                     $minLat + $y * $latInc
