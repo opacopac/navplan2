@@ -24,8 +24,8 @@ $chartImage = $diContainer->getImageService()->loadImage($icaoChartChFile);
 $icaoChartCh = new IcaoChartCh($chartImage, $pixelPos1, $chCoord1, $pixelPos2, $chCoord2);
 $tileCreator = new IcaoChartChMapTileRenderer($icaoChartCh, $mapTileOutputDir, $diContainer->getImageService(), $diContainer->getScreenLogger());
 //$tileCreator->createTiles(10, 530, 355, 540, 365);
-$tileCreator->createZoomLevelTiles(6);
+//$tileCreator->createZoomLevelTiles(6);
 
-/*for ($i = 0; $i < 8; $i++) {
+for ($i = 0; $i <= 11; $i++) {
     $tileCreator->createZoomLevelTiles($i);
-}*/
+}

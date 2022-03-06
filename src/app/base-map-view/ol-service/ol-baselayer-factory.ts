@@ -7,6 +7,7 @@ import {SwisstopoImageBaselayer} from '../ol-model/swisstopo-image-baselayer';
 import {SwisstopoPixcolBaselayer} from '../ol-model/swisstopo-pixcol-baselayer';
 import {OlBaseLayer} from '../ol-model/ol-base-layer';
 import {SwisstopoLightbaseBaselayer} from '../ol-model/swisstopo-lightbase-baselayer';
+import {SwisstopoIcaoChAeroBaselayer} from '../ol-model/swisstopo-icao-ch-aero-baselayer';
 
 
 export class OlBaselayerFactory {
@@ -26,6 +27,8 @@ export class OlBaselayerFactory {
                 return SwisstopoPixcolBaselayer.createBaseLayer(attributions);
             case MapBaseLayerType.SWISSTOPO_IMAGE:
                 return SwisstopoImageBaselayer.createBaseLayer(attributions);
+            case MapBaseLayerType.SWISSTOPO_ICAO_CH_AERO:
+                return SwisstopoIcaoChAeroBaselayer.createBaseLayer(attributions);
             case MapBaseLayerType.OPENTOPOMAP:
             default:
                 return Opentopobaselayer.createBaseLayer(attributions);

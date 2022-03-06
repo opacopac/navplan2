@@ -57,6 +57,7 @@ Thumbs.db
 /src/php/meteoretriever/data/*
 /src/php/meteoretriever/tmp
 *.grib2
+/maptiles/
 
 # 3rd party php
 /vendor
