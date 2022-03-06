@@ -3,11 +3,11 @@ import XYZ from 'ol/source/XYZ';
 import {OlBaseLayer} from './ol-base-layer';
 
 
-export class SwisstopoIcaoChAeroBaselayer {
+export class SwisstopoGliderBaselayer {
     static createBaseLayer(attributions: string[]): OlBaseLayer {
         const layer = new TileLayer({
             source: new XYZ({
-                url: 'http://localhost/navplan2/maptiles/icao_ch_aero/{z}/{x}/{y}.png',
+                url: 'http://localhost/navplan2/maptiles/icao_ch_glider/{z}/{x}/{y}.png',
                 attributions: attributions
             })
         });
