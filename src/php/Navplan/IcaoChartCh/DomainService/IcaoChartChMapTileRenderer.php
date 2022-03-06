@@ -2,22 +2,24 @@
 
 namespace Navplan\IcaoChartCh\DomainService;
 
-use Imagick;
-use ImagickPixel;
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\IcaoChartCh\DomainModel\Ch1903Coordinate;
 use Navplan\IcaoChartCh\DomainModel\IcaoChartCh;
 use Navplan\IcaoChartCh\DomainModel\MapTileCoordinate;
+use Navplan\System\DomainModel\IDrawable;
+use Navplan\System\DomainService\IImageService;
 use Navplan\System\DomainService\ILoggingService;
 
 
 class IcaoChartChMapTileRenderer {
     private const TILE_SIZE_PX = 256;
+    private const BG_COLOR = 'white';
 
 
     public function __construct(
         private IcaoChartCh $icaoChart,
         private string $mapTilesOutputDir,
+        private IImageService $imageService,
         private ILoggingService $loggingService
     ) {
     }
@@ -44,7 +46,7 @@ class IcaoChartChMapTileRenderer {
         int $zoom,
         int $tileX,
         int $tileY
-    ): Imagick {
+    ): IDrawable {
         $tileCoordMin = new MapTileCoordinate($tileX, $tileY, $zoom);
         $tileCoordMax = new MapTileCoordinate($tileX + 1, $tileY + 1, $zoom);
         $minLon = $tileCoordMin->toPosition()->longitude;
@@ -54,35 +56,34 @@ class IcaoChartChMapTileRenderer {
         $lonInc = ($maxLon - $minLon) / self::TILE_SIZE_PX;
         $latInc = ($maxLat - $minLat) / self::TILE_SIZE_PX;
 
-        $im = new Imagick();
-        $im->newImage(self::TILE_SIZE_PX, self::TILE_SIZE_PX, new ImagickPixel());
-        $pxIterator = $im->getPixelIterator();
-
-        foreach ($pxIterator as $y => $pxRow) {
-            /** @var $pxCol ImagickPixel */
-            foreach ($pxRow as $x => $pxCol) {
+        $drawable = $this->imageService->createDrawable(self::TILE_SIZE_PX, self::TILE_SIZE_PX, self::BG_COLOR);
+        for ($y = 0; $y < self::TILE_SIZE_PX; $y++) {
+            for ($x = 0; $x < self::TILE_SIZE_PX; $x++) {
                 $pos = new Position2d(
                     $minLon + $x * $lonInc,
                     $minLat + $y * $latInc
                 );
                 $chCoord = Ch1903Coordinate::fromPos2d($pos);
                 $pixelColor = $this->icaoChart->getPixelColor($chCoord);
-                $pxCol->setColor($pixelColor);
+                if ($pixelColor != null) {
+                    $drawable->drawPoint($x, $y, $pixelColor);
+                } else {
+                    $drawable->drawPoint($x, $y, self::BG_COLOR);
+                }
             }
-            $pxIterator->syncIterator();
         }
 
-        return $im;
+        return $drawable;
     }
 
 
-    private function writeFile(Imagick $im, int $x, int $y, int $zoom): void {
+    private function writeFile(IDrawable $imDraw, int $x, int $y, int $zoom): void {
         $path = $this->mapTilesOutputDir . $zoom . "/" . $x;
         if (!file_exists($path)) {
             mkdir($path, 0777, true);
         }
 
         $fileName = $y . ".png";
-        $im->writeImage($path . "/" . $fileName);
+        $imDraw->saveImage($path . "/" . $fileName);
     }
 }

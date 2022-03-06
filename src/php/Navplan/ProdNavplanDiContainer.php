@@ -50,11 +50,13 @@ use Navplan\System\DomainModel\LogLevel;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\DomainService\IFileService;
 use Navplan\System\DomainService\IHttpService;
+use Navplan\System\DomainService\IImageService;
 use Navplan\System\DomainService\ILoggingService;
 use Navplan\System\DomainService\IMailService;
 use Navplan\System\DomainService\IProcService;
 use Navplan\System\DomainService\ISystemServiceFactory;
 use Navplan\System\DomainService\ITimeService;
+use Navplan\System\Imagick\ImagickService;
 use Navplan\System\MySqlDb\IDbDiContainer;
 use Navplan\System\MySqlDb\MySqlDbService;
 use Navplan\System\Posix\ISystemDiContainer;
@@ -159,6 +161,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     private ILoggingService $screenLogger;
     private ILoggingService $fileLogger;
     private IDbService $dbService;
+    private IImageService $imageService;
     // terrain
     private ITerrainService $terrainService;
     // traffic
@@ -437,6 +440,15 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
         }
 
         return $this->dbService;
+    }
+
+
+    public function getImageService(): IImageService {
+        if (!isset($this->imageService)) {
+            $this->imageService = new ImagickService();
+        }
+
+        return $this->imageService;
     }
 
     // endregion

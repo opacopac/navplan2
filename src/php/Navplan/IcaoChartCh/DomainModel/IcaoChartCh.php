@@ -2,23 +2,21 @@
 
 namespace Navplan\IcaoChartCh\DomainModel;
 
-use Imagick;
+use Navplan\System\DomainModel\IImage;
 
 
 class IcaoChartCh {
-    private Imagick $im;
     private float $xCoordPerPixel; // E
     private float $yCoordPerPixel; // N
 
 
     public function __construct(
-        public string $chartFileName,
+        public IImage $image,
         public XyPair $pixelPos1,
         public Ch1903Coordinate $chCoordinate1,
         public XyPair $pixelPos2,
         public Ch1903Coordinate $chCoordinate2
     ) {
-        $this->im = new Imagick($this->chartFileName);
         $this->calcResolution();
     }
 
@@ -26,9 +24,12 @@ class IcaoChartCh {
     public function getPixelColor(Ch1903Coordinate $chCoord): ?string {
         $pxX = (int) round(($chCoord->east - $this->chCoordinate1->east) / $this->xCoordPerPixel) + $this->pixelPos1->x;
         $pxY = (int) round(($chCoord->north - $this->chCoordinate1->north) / $this->yCoordPerPixel) + $this->pixelPos1->y;
-        $imgPixel = $this->im->getImagePixelColor($pxX, $pxY);
 
-        return $imgPixel?->getColorAsString();
+        if ($pxX < 0 || $pxY < 0 || $pxX > $this->image->getWidth() || $pxY > $this->image->getHeight()) {
+            return null;
+        }
+
+        return $this->image->getPixelColor($pxX, $pxY);
     }
 
 
