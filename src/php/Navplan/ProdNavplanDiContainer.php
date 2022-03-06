@@ -126,8 +126,12 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     IExporterServiceDiContainer, ITrackServiceDiContainer, IIcaoChartChServiceDiContainer
 {
     // const
+    public const MAP_TILES_DIR = __DIR__ . "/../../../maptiles/"; // TODO
+    public const DATA_IMPORT_DIR = __DIR__ . "/../../../data_import/"; // TODO
+    public const TMP_DIR = __DIR__ . "/../../../tmp/"; // TODO
+
     private const LOG_LEVEL = LogLevel::INFO;
-    private const LOG_DIR = __DIR__ . "/../../logs/";
+    private const LOG_DIR = __DIR__ . "/../../../logs/";
     private const LOG_FILE = self::LOG_DIR . "navplan.log";
     private const LOG_FILE_OGN_LISTENER = self::LOG_DIR . "ogn_listener.log";
     private const TERRAIN_TILE_BASE_DIR = __DIR__ . '/../../../../navplan/terraintiles/';

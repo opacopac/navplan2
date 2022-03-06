@@ -31,11 +31,6 @@ class IcaoChartChMapTileRenderer {
         $tileTL = MapTileCoordinate::fromPosition($posTL, $zoom);
         $tileBR = MapTileCoordinate::fromPosition($posBR, $zoom);
 
-        print "$posTL->latitude $posTL->longitude\n";
-        print "$posBR->latitude $posBR->longitude\n";
-        print "$tileTL->xtile $tileTL->ytile\n";
-        print "$tileBR->xtile $tileBR->ytile\n";
-
         $this->createTiles(
             $zoom,
             min($tileTL->xtile, $tileBR->xtile),
