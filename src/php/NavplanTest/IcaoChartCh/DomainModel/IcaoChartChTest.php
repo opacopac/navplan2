@@ -51,7 +51,7 @@ class IcaoChartChTest extends TestCase {
 
 
     public function test_luftfahrtkarteCh() {
-        $spyImg = new SpyImage(8250, 5200, null);
+        $spyImg = new SpyImage(8250, 5200);
         $pixelPos1 = new XyPair(135, 4246);
         $chCoord1 = Ch1903Coordinate::fromPos2d(new Position2d(5.5, 46.0));
         $pixelPos2 = new XyPair(7751, 858);

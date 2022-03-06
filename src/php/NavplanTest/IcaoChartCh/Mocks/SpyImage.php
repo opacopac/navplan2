@@ -9,17 +9,20 @@ class SpyImage implements IImage {
     public function __construct(
         public int $getWidthValue,
         public int $getHeightValue,
-        public ?string $getPixelColorValue
+        public ?array $getPixelColor2Value = null
     ) {
     }
 
-    function getPixelColor(int $x, int $y): ?string {
-        return $this->getPixelColorValue;
+
+    function getPixelColor(float $x, float $y): ?array {
+        return $this->getPixelColor2Value;
     }
+
 
     function getWidth(): int {
         return $this->getWidthValue;
     }
+
 
     function getHeight(): int {
         return $this->getHeightValue;

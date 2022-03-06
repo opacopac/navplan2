@@ -82,7 +82,7 @@ class IcaoChartChMapTileRenderer {
                 $chCoord = Ch1903Coordinate::fromPos2d($pos);
                 $pixelColor = $this->icaoChart->getPixelColor($chCoord);
                 if ($pixelColor != null) {
-                    $drawable->drawPoint($x, $y, $pixelColor);
+                    $drawable->drawPoint2($x, $y, $pixelColor);
                 } else {
                     $drawable->drawPoint($x, $y, self::BG_COLOR);
                 }

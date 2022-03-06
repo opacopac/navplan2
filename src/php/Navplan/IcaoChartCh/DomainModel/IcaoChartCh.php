@@ -21,9 +21,9 @@ class IcaoChartCh {
     }
 
 
-    public function getPixelColor(Ch1903Coordinate $chCoord): ?string {
-        $pxX = (int) round(($chCoord->east - $this->chCoordinate1->east) / $this->xCoordPerPixel) + $this->pixelPos1->x;
-        $pxY = (int) round(($chCoord->north - $this->chCoordinate1->north) / $this->yCoordPerPixel) + $this->pixelPos1->y;
+    public function getPixelColor(Ch1903Coordinate $chCoord): ?array {
+        $pxX = ($chCoord->east - $this->chCoordinate1->east) / $this->xCoordPerPixel + $this->pixelPos1->x;
+        $pxY = ($chCoord->north - $this->chCoordinate1->north) / $this->yCoordPerPixel + $this->pixelPos1->y;
 
         return $this->image->getPixelColor($pxX, $pxY);
     }

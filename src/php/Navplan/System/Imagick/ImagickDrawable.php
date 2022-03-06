@@ -25,15 +25,22 @@ class ImagickDrawable implements IDrawable {
     }
 
 
-    public function drawPoint(
-        int $x,
-        int $y,
-        string $color = null
-    ): void {
+    public function drawPoint(int $x, int $y, string $color = null): void {
         if ($color != null) {
             $imPx = new ImagickPixel($color);
             $this->imDraw->setFillColor($imPx);
         }
+
+        $this->imDraw->point($x, $y);
+    }
+
+
+    public function drawPoint2(int $x, int $y, array $color): void {
+        $imPx = new ImagickPixel();
+        $imPx->setColorValue(Imagick::COLOR_RED, $color['r'] / 256.0);
+        $imPx->setColorValue(Imagick::COLOR_GREEN, $color['g'] / 256.0);
+        $imPx->setColorValue(Imagick::COLOR_BLUE, $color['b'] / 256.0);
+        $this->imDraw->setFillColor($imPx);
 
         $this->imDraw->point($x, $y);
     }
