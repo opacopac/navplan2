@@ -34,7 +34,7 @@ $tileCreator = new IcaoChartChMapTileRenderer($icaoChartCh, $mapTileOutputDir, $
 //$tileCreator->createTiles(11, 1070, 716, 1070, 716);
 //$tileCreator->createZoomLevelTiles(6);
 
-for ($i = 0; $i <= 11; $i++) {
+for ($i = 12; $i <= 12; $i++) {
     $tileCreator->createZoomLevelTiles($i);
 }
 
