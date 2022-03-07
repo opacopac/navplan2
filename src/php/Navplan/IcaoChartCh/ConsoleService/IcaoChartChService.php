@@ -3,8 +3,8 @@
 namespace Navplan\IcaoChartCh\ConsoleService;
 
 use Navplan\Common\DomainModel\Position2d;
+use Navplan\IcaoChartCh\DomainModel\Ch1903Chart;
 use Navplan\IcaoChartCh\DomainModel\Ch1903Coordinate;
-use Navplan\IcaoChartCh\DomainModel\IcaoChartCh;
 use Navplan\IcaoChartCh\DomainModel\XyPair;
 use Navplan\IcaoChartCh\DomainService\IcaoChartChMapTileRenderer;
 use Navplan\ProdNavplanDiContainer;
@@ -29,13 +29,12 @@ $pixelPos2 = new XyPair(12000, 65);
 $chCoord2 = new Ch1903Coordinate(840000, 300000);*/
 
 $chartImage = $diContainer->getImageService()->loadImage($icaoChartChFile);
-$icaoChartCh = new IcaoChartCh($chartImage, $pixelPos1, $chCoord1, $pixelPos2, $chCoord2);
+$icaoChartCh = new Ch1903Chart($chartImage, $pixelPos1, $chCoord1, $pixelPos2, $chCoord2);
 $tileCreator = new IcaoChartChMapTileRenderer($icaoChartCh, $mapTileOutputDir, $diContainer->getImageService(), $diContainer->getScreenLogger());
 
 //$tileCreator->createTiles(11, 1070, 716, 1070, 716);
 //$tileCreator->createZoomLevelTiles(6);
 
-for ($i = 12; $i <= 12; $i++) {
+for ($i = 11; $i <= 11; $i++) {
     $tileCreator->createZoomLevelTiles($i);
 }
-

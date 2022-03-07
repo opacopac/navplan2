@@ -3,8 +3,8 @@
 namespace Navplan\IcaoChartCh\DomainService;
 
 use Navplan\Common\DomainModel\Position2d;
+use Navplan\IcaoChartCh\DomainModel\Ch1903Chart;
 use Navplan\IcaoChartCh\DomainModel\Ch1903Coordinate;
-use Navplan\IcaoChartCh\DomainModel\IcaoChartCh;
 use Navplan\IcaoChartCh\DomainModel\MapTileCoordinate;
 use Navplan\System\DomainModel\IDrawable;
 use Navplan\System\DomainService\IImageService;
@@ -13,21 +13,22 @@ use Navplan\System\DomainService\ILoggingService;
 
 class IcaoChartChMapTileRenderer {
     private const TILE_SIZE_PX = 256;
-    private const BG_COLOR = 'white';
+    private const BG_COLOR = 'rgba(0, 0, 0, 0)';
 
 
     public function __construct(
-        private IcaoChartCh $icaoChart,
-        private string $mapTilesOutputDir,
-        private IImageService $imageService,
+        private Ch1903Chart     $icaoChart,
+        private string          $mapTilesOutputDir,
+        private IImageService   $imageService,
         private ILoggingService $loggingService
     ) {
     }
 
 
     public function createZoomLevelTiles(int $zoom) {
-        $posTL = $this->icaoChart->getTLCoord()->toPos2d();
-        $posBR = $this->icaoChart->getBRCoord()->toPos2d();
+        $extent = $this->icaoChart->calcLatLonExtent();
+        $posTL = new Position2d($extent->minPos->longitude, $extent->maxPos->latitude);
+        $posBR = new Position2d($extent->maxPos->longitude, $extent->minPos->latitude);
         $tileTL = MapTileCoordinate::fromPosition($posTL, $zoom);
         $tileBR = MapTileCoordinate::fromPosition($posBR, $zoom);
 

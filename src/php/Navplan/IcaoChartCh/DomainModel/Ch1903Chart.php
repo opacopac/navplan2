@@ -2,10 +2,12 @@
 
 namespace Navplan\IcaoChartCh\DomainModel;
 
+use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\DomainModel\Position2d;
 use Navplan\System\DomainModel\IImage;
 
 
-class IcaoChartCh {
+class Ch1903Chart {
     private float $xCoordPerPixel; // E
     private float $yCoordPerPixel; // N
 
@@ -36,6 +38,38 @@ class IcaoChartCh {
 
     public function getBRCoord(): Ch1903Coordinate {
         return $this->calcCoordByPixel($this->image->getWidth() - 1, $this->image->getHeight() - 1);
+    }
+
+
+    public function calcLatLonExtent(): Extent2d {
+        $pos0 = $this->getTLCoord()->toPos2d();
+        $minLon = $pos0->longitude;
+        $minLat = $pos0->latitude;
+        $maxLon = $pos0->longitude;
+        $maxLat = $pos0->latitude;
+
+        for ($x = 0; $x < $this->image->getWidth(); $x++) {
+            $pos1 = $this->calcCoordByPixel($x, 0)->toPos2d();
+            $pos2 = $this->calcCoordByPixel($x, $this->image->getHeight() - 1)->toPos2d();
+            $minLon = min($pos1->longitude, $pos2->longitude, $minLon);
+            $minLat = min($pos1->latitude, $pos2->latitude, $minLat);
+            $maxLon = max($pos1->longitude, $pos2->longitude, $maxLon);
+            $maxLat = max($pos1->latitude, $pos2->latitude, $maxLat);
+        }
+
+        for ($y = 0; $y < $this->image->getHeight(); $y++) {
+            $pos1 = $this->calcCoordByPixel(0, $y)->toPos2d();
+            $pos2 = $this->calcCoordByPixel($this->image->getWidth() - 1, $y)->toPos2d();
+            $minLon = min($pos1->longitude, $pos2->longitude, $minLon);
+            $minLat = min($pos1->latitude, $pos2->latitude, $minLat);
+            $maxLon = max($pos1->longitude, $pos2->longitude, $maxLon);
+            $maxLat = max($pos1->latitude, $pos2->latitude, $maxLat);
+        }
+
+        return new Extent2d(
+            new Position2d($minLon, $minLat),
+            new Position2d($maxLon, $maxLat)
+        );
     }
 
 
