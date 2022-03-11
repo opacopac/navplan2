@@ -188,13 +188,13 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         const ownPlaneLayer = new OlVectorLayer();
         const metarTafLayer = new OlVectorLayer();
         const notamLayer = new OlVectorLayer();
-        const airspaceLayer = new OlVectorLayer();
+        const airspaceLayer = new OlVectorLayer(true);
         const reportingSectorLayer = new OlVectorLayer();
         const webcamLayer = new OlVectorLayer();
         const userPointLayer = new OlVectorLayer();
         const reportingPointLayer = new OlVectorLayer();
         const navaidLayer = new OlVectorLayer();
-        const airportLayer = new OlVectorLayer();
+        const airportLayer = new OlVectorLayer(true);
         const trackLayer = new OlVectorLayer();
         const trafficLayer = new OlVectorLayer();
         const circuitLayer = new OlVectorLayer();
