@@ -3,6 +3,7 @@
 namespace Navplan\IcaoChartCh\DomainModel;
 
 use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\DomainModel\Length;
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\System\DomainModel\IImage;
 
@@ -12,14 +13,47 @@ class Ch1903Chart {
     private float $yCoordPerPixel; // N
 
 
-    public function __construct(
+    private function __construct(
         public IImage $image,
         public XyPair $pixelPos1,
-        public Ch1903Coordinate $chCoordinate1,
-        public XyPair $pixelPos2,
-        public Ch1903Coordinate $chCoordinate2
+        public Ch1903Coordinate $chCoordinate1
     ) {
-        $this->calcResolution();
+    }
+
+
+    public static function fromPos1AndPos2(
+        IImage $image,
+        XyPair $pixelPos1,
+        Ch1903Coordinate $chCoordinate1,
+        XyPair $pixelPos2,
+        Ch1903Coordinate $chCoordinate2
+    ): Ch1903Chart {
+        $chart = new Ch1903Chart($image, $pixelPos1, $chCoordinate1);
+        $pxDiffX = $pixelPos2->x - $pixelPos1->x;
+        $pxDiffY = $pixelPos2->y - $pixelPos1->y;
+        $coordDiffE = $chCoordinate2->east - $chCoordinate1->east;
+        $coordDiffN = $chCoordinate2->north - $chCoordinate1->north;
+        $chart->xCoordPerPixel = $coordDiffE / $pxDiffX;
+        $chart->yCoordPerPixel = $coordDiffN / $pxDiffY;
+
+        return $chart;
+    }
+
+
+    public static function fromPosAndScale(
+        IImage $image,
+        XyPair $pixelPos1,
+        Ch1903Coordinate $chCoordinate1,
+        int $chartScale,
+        float $resolutionDpi
+    ): Ch1903Chart {
+        $chart = new Ch1903Chart($image, $pixelPos1, $chCoordinate1);
+        $width_mm = $image->getWidth() / $resolutionDpi * Length::MM_PER_INCH;
+        $height_mm = $image->getHeight() / $resolutionDpi * Length::MM_PER_INCH;
+        $chart->xCoordPerPixel = $width_mm / $image->getWidth() / 1000 * $chartScale;
+        $chart->yCoordPerPixel = $height_mm / $image->getHeight() / 1000 * $chartScale;
+
+        return $chart;
     }
 
 
@@ -70,16 +104,6 @@ class Ch1903Chart {
             new Position2d($minLon, $minLat),
             new Position2d($maxLon, $maxLat)
         );
-    }
-
-
-    private function calcResolution() {
-        $pxDiffX = $this->pixelPos2->x - $this->pixelPos1->x;
-        $pxDiffY = $this->pixelPos2->y - $this->pixelPos1->y;
-        $coordDiffE = $this->chCoordinate2->east - $this->chCoordinate1->east;
-        $coordDiffN = $this->chCoordinate2->north - $this->chCoordinate1->north;
-        $this->xCoordPerPixel = $coordDiffE / $pxDiffX;
-        $this->yCoordPerPixel = $coordDiffN / $pxDiffY;
     }
 
 

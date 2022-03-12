@@ -35,7 +35,12 @@ use Navplan\Geoname\DbRepo\DbGeonameRepo;
 use Navplan\Geoname\DomainService\GeonameService;
 use Navplan\Geoname\DomainService\IGeonameService;
 use Navplan\Geoname\RestService\IGeonameServiceDiContainer;
+use Navplan\IcaoChartCh\ConsoleService\IAdChartServiceDiContainer;
 use Navplan\IcaoChartCh\ConsoleService\IIcaoChartChServiceDiContainer;
+use Navplan\IcaoChartCh\DbService\DbAdChartConverterPersistence;
+use Navplan\IcaoChartCh\DomainService\AdChartConverterPersistence;
+use Navplan\IcaoChartCh\DomainService\AdChartConverterService;
+use Navplan\IcaoChartCh\DomainService\IAdChartConverterService;
 use Navplan\MeteoSma\DbService\DbMeteoSmaRepo;
 use Navplan\MeteoSma\DomainService\IMeteoSmaService;
 use Navplan\MeteoSma\RestService\IMeteoServiceDiContainer;
@@ -123,11 +128,12 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     IGeonameServiceDiContainer, IMeteoServiceDiContainer, INotamServiceDiContainer, ISearchServiceDiContainer,
     ITerrainDiContainer, ITrafficServiceDiContainer, IUserServiceDiContainer, IAirportServiceDiContainer,
     IAirspaceServiceDiContainer, INavaidServiceDiContainer, IWebcamServiceDiContainer, IVerticalMapDiContainer,
-    IExporterServiceDiContainer, ITrackServiceDiContainer, IIcaoChartChServiceDiContainer
+    IExporterServiceDiContainer, ITrackServiceDiContainer, IIcaoChartChServiceDiContainer, IAdChartServiceDiContainer
 {
     // const
-    public const MAP_TILES_DIR = __DIR__ . "/../../../maptiles/"; // TODO
     public const DATA_IMPORT_DIR = __DIR__ . "/../../../data_import/"; // TODO
+    public const MAP_TILES_DIR = __DIR__ . "/../../../maptiles/"; // TODO
+    public const AD_CHARTS_DIR = __DIR__ . "/../../../adcharts/"; // TODO
     public const TMP_DIR = __DIR__ . "/../../../tmp/"; // TODO
 
     private const LOG_LEVEL = LogLevel::INFO;
@@ -197,6 +203,9 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     private IExportService $exportService;
     // track
     private ITrackService $trackService;
+    // ad chart
+    private IAdChartConverterService $adPdfChartService;
+    private AdChartConverterPersistence $adPdfChartPersistence;
 
 
     public function __construct() {
@@ -756,6 +765,34 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
         }
 
         return $this->trackService;
+    }
+
+    // endregion
+
+
+    // region ad chart
+
+    function getAdPdfChartService(): AdChartConverterService {
+        if (!isset($this->adPdfChartService)) {
+            $this->adPdfChartService = new AdChartConverterService(
+                $this->getAdPdfChartPersistence(),
+                $this->getImageService(),
+                $this->getScreenLogger()
+            );
+        }
+
+        return $this->adPdfChartService;
+    }
+
+
+    function getAdPdfChartPersistence(): AdChartConverterPersistence {
+        if (!isset($this->adPdfChartPersistence)) {
+            $this->adPdfChartPersistence = new DbAdChartConverterPersistence(
+                $this->getDbService()
+            );
+        }
+
+        return $this->adPdfChartPersistence;
     }
 
     // endregion

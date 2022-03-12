@@ -60,6 +60,7 @@ Thumbs.db
 /maptiles/
 /logs/
 /data_import/
+/adcharts/
 
 # 3rd party php
 /vendor

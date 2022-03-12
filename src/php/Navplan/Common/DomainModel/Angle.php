@@ -41,4 +41,14 @@ class Angle {
     public function getValue(int $unit): float {
         return self::convert($this->value, $this->unit, $unit);
     }
+
+
+    public function deg(): float {
+        return $this->getValue(AngleUnit::DEG);
+    }
+
+
+    public function rad(): float {
+        return $this->getValue(AngleUnit::RAD);
+    }
 }

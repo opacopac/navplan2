@@ -25,7 +25,7 @@ class IcaoChartChTest extends TestCase {
         $this->pixelPos2 = new XyPair(100, 200);
         $this->chCoord1 = new Ch1903Coordinate(600000, 200000);
         $this->chCoord2 = new Ch1903Coordinate(600000 + 100, 200000 - 200);
-        $this->icaoChartCh = new Ch1903Chart($this->spyImage, $this->pixelPos1, $this->chCoord1, $this->pixelPos2, $this->chCoord2);
+        $this->icaoChartCh = Ch1903Chart::fromPos1AndPos2($this->spyImage, $this->pixelPos1, $this->chCoord1, $this->pixelPos2, $this->chCoord2);
     }
 
 
@@ -56,7 +56,7 @@ class IcaoChartChTest extends TestCase {
         $chCoord1 = Ch1903Coordinate::fromPos2d(new Position2d(5.5, 46.0));
         $pixelPos2 = new XyPair(7751, 858);
         $chCoord2 = Ch1903Coordinate::fromPos2d(new Position2d(10.5, 47.5));
-        $icaoChart = new Ch1903Chart($spyImg, $pixelPos1, $chCoord1, $pixelPos2, $chCoord2);
+        $icaoChart = Ch1903Chart::fromPos1AndPos2($spyImg, $pixelPos1, $chCoord1, $pixelPos2, $chCoord2);
 
         //$posTL = $icaoChart->getTLCoord()->toPos2d();
         $posBR = $icaoChart->getBRCoord()->toPos2d();

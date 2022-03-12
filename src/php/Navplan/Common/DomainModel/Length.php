@@ -6,9 +6,10 @@ use InvalidArgumentException;
 
 
 class Length {
-    const FT_PER_M = 3.2808;
+    const FT_PER_M = 3.28084;
     const M_PER_NM = 1852;
     const FT_PER_NM = self::FT_PER_M * self::M_PER_NM;
+    const MM_PER_INCH = 25.4;
 
 
     public static function createZero(): Length {
