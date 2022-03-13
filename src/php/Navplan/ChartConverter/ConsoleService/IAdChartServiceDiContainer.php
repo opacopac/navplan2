@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\IcaoChartCh\ConsoleService;
+namespace Navplan\ChartConverter\ConsoleService;
 
-use Navplan\IcaoChartCh\DomainService\IAdChartConverterService;
+use Navplan\ChartConverter\DomainService\IAdChartConverterService;
 
 
 interface IAdChartServiceDiContainer {

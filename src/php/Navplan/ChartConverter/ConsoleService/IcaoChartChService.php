@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\IcaoChartCh\ConsoleService;
+namespace Navplan\ChartConverter\ConsoleService;
 
-use Navplan\IcaoChartCh\DomainModel\Ch1903Chart;
-use Navplan\IcaoChartCh\DomainModel\Ch1903Coordinate;
-use Navplan\IcaoChartCh\DomainModel\XyPair;
-use Navplan\IcaoChartCh\DomainService\IcaoChartChMapTileRenderer;
+use Navplan\ChartConverter\DomainModel\Ch1903Chart;
+use Navplan\ChartConverter\DomainModel\Ch1903Coordinate;
+use Navplan\ChartConverter\DomainModel\XyPair;
+use Navplan\ChartConverter\DomainService\IcaoChartChMapTileRenderer;
 use Navplan\ProdNavplanDiContainer;
 
 require_once __DIR__ . "/../../ConsoleBootstrap.php";

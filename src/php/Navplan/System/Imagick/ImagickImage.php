@@ -3,15 +3,42 @@
 namespace Navplan\System\Imagick;
 
 use Imagick;
+use ImagickPixel;
+use Navplan\Common\DomainModel\Angle;
 use Navplan\System\DomainModel\IImage;
 
 
 class ImagickImage implements IImage {
-    private Imagick $im;
+    private function __construct(private Imagick $im) {
+    }
 
 
-    public function __construct(string $filename) {
-        $this->im = new Imagick($filename);
+    public static function loadImg(string $filename) {
+        $im = new Imagick($filename);
+
+        return new ImagickImage($im);
+    }
+
+
+    public static function loadPdf(
+        string $filename,
+        float $resolutionDpi,
+        int $page,
+        Angle $rotation
+    ): IImage {
+        $im = new Imagick();
+        $im->setResolution($resolutionDpi, $resolutionDpi);
+        $im->setColorspace(Imagick::COLORSPACE_RGB);
+        $im->setBackgroundColor(new ImagickPixel('white'));
+        $im->readImage($filename . "[" . $page . "]");
+        $im->setImageBackgroundColor("#ffffff");
+        $im = $im->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
+
+        if ($rotation->deg() != 0) {
+            $im->rotateImage(new ImagickPixel('#00000000'), $rotation->deg());
+        }
+
+        return new ImagickImage($im);
     }
 
 
@@ -39,6 +66,11 @@ class ImagickImage implements IImage {
         $col = $this->interpolateColor($colT, ceil($y) - $y, $colB, $y - floor($y));
 
         return $col;
+    }
+
+
+    public function saveImage(string $filename): void {
+        $this->im->writeImage($filename);
     }
 
 

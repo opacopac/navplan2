@@ -1,19 +1,18 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\IcaoChartCh\DomainService;
+namespace Navplan\ChartConverter\DomainService;
 
 use Navplan\Aerodrome\DomainService\IAirportService;
+use Navplan\ChartConverter\DomainModel\AdPngChartRegType;
+use Navplan\ChartConverter\DomainModel\Ch1903Chart;
+use Navplan\ChartConverter\DomainModel\Ch1903Coordinate;
 use Navplan\Common\DomainModel\Angle;
 use Navplan\Common\DomainModel\AngleUnit;
 use Navplan\Common\DomainModel\Position2d;
-use Navplan\IcaoChartCh\DomainModel\AdPngChartRegType;
-use Navplan\IcaoChartCh\DomainModel\Ch1903Chart;
-use Navplan\IcaoChartCh\DomainModel\Ch1903Coordinate;
 use Navplan\ProdNavplanDiContainer;
 use Navplan\System\DomainModel\IDrawable;
 use Navplan\System\DomainService\IImageService;
 use Navplan\System\DomainService\ILoggingService;
-use Navplan\System\DomainService\IPdfService;
 
 
 class AdChartConverterService implements IAdChartConverterService {
@@ -29,7 +28,6 @@ class AdChartConverterService implements IAdChartConverterService {
         private AdChartConverterPersistence $adChartConverterPersistence,
         private IAirportService $airportService,
         private IImageService $imageService,
-        private IPdfService $pdfService,
         private ILoggingService $loggingService
     ) {
     }
@@ -41,7 +39,7 @@ class AdChartConverterService implements IAdChartConverterService {
         foreach ($adPdfCharts as $adPdfChart) {
             $this->loggingService->info("converting pdf to png: " . $adPdfChart->pdfFilename . ", page " . $adPdfChart->pdfPage);
             $pdfFilePath = self::$adPdfChartDir . $adPdfChart->pdfFilename;
-            $im = $this->pdfService->loadPdf(
+            $im = $this->imageService->loadPdf(
                 $pdfFilePath,
                 self::$resolutionDpi,
                 $adPdfChart->pdfPage,
@@ -49,7 +47,7 @@ class AdChartConverterService implements IAdChartConverterService {
             );
 
             $pngFilePath = self::$adPngChartDir . $adPdfChart->outPngFilename;
-            $im->saveAsImage($pngFilePath);
+            $im->saveImage($pngFilePath);
         }
     }
 

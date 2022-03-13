@@ -9,4 +9,6 @@ interface IImage {
     function getHeight(): int;
 
     function getPixelColor(float $x, float $y): ?array;
+
+    function saveImage(string $filename): void;
 }

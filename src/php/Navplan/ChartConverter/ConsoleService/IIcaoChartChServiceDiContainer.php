@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\IcaoChartCh\ConsoleService;
+namespace Navplan\ChartConverter\ConsoleService;
 
 use Navplan\System\DomainService\IImageService;
 use Navplan\System\DomainService\ILoggingService;

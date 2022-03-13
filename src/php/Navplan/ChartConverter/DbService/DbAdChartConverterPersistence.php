@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\IcaoChartCh\DbService;
+namespace Navplan\ChartConverter\DbService;
 
-use Navplan\IcaoChartCh\DbModel\DbAdPdfChartConverter;
-use Navplan\IcaoChartCh\DbModel\DbAdPngCh1903ChartConverter;
-use Navplan\IcaoChartCh\DomainModel\AdPdfChart;
-use Navplan\IcaoChartCh\DomainModel\AdPngCh1903Chart;
-use Navplan\IcaoChartCh\DomainService\AdChartConverterPersistence;
+use Navplan\ChartConverter\DbModel\DbAdPdfChartConverter;
+use Navplan\ChartConverter\DbModel\DbAdPngCh1903ChartConverter;
+use Navplan\ChartConverter\DomainModel\AdPdfChart;
+use Navplan\ChartConverter\DomainModel\AdPngCh1903Chart;
+use Navplan\ChartConverter\DomainService\AdChartConverterPersistence;
 use Navplan\System\DomainService\IDbService;
 
 

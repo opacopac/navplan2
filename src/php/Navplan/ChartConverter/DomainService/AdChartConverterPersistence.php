@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\IcaoChartCh\DomainService;
+namespace Navplan\ChartConverter\DomainService;
 
-use Navplan\IcaoChartCh\DomainModel\AdPdfChart;
-use Navplan\IcaoChartCh\DomainModel\AdPngCh1903Chart;
+use Navplan\ChartConverter\DomainModel\AdPdfChart;
+use Navplan\ChartConverter\DomainModel\AdPngCh1903Chart;
 
 
 interface AdChartConverterPersistence {

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\IcaoChartCh\DomainModel;
+namespace Navplan\ChartConverter\DomainModel;
 
 use InvalidArgumentException;
 

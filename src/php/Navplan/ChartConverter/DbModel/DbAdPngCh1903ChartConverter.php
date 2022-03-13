@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\IcaoChartCh\DbModel;
+namespace Navplan\ChartConverter\DbModel;
 
-use Navplan\IcaoChartCh\DomainModel\AdPngCh1903Chart;
-use Navplan\IcaoChartCh\DomainModel\AdPngChartRegType;
-use Navplan\IcaoChartCh\DomainModel\Ch1903Coordinate;
-use Navplan\IcaoChartCh\DomainModel\XyPair;
+use Navplan\ChartConverter\DomainModel\AdPngCh1903Chart;
+use Navplan\ChartConverter\DomainModel\AdPngChartRegType;
+use Navplan\ChartConverter\DomainModel\Ch1903Coordinate;
+use Navplan\ChartConverter\DomainModel\XyPair;
 use Navplan\System\DomainModel\IDbResult;
 
 

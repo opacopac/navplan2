@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\IcaoChartCh\DbModel;
+namespace Navplan\ChartConverter\DbModel;
 
+use Navplan\ChartConverter\DomainModel\AdPdfChart;
 use Navplan\Common\DomainModel\Angle;
 use Navplan\Common\DomainModel\AngleUnit;
-use Navplan\IcaoChartCh\DomainModel\AdPdfChart;
 use Navplan\System\DomainModel\IDbResult;
 
 

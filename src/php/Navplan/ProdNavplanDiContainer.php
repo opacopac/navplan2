@@ -13,6 +13,12 @@ use Navplan\Aerodrome\DomainService\IAirportCircuitService;
 use Navplan\Aerodrome\DomainService\IAirportService;
 use Navplan\Aerodrome\DomainService\IReportingPointService;
 use Navplan\Aerodrome\RestService\IAirportServiceDiContainer;
+use Navplan\ChartConverter\ConsoleService\IAdChartServiceDiContainer;
+use Navplan\ChartConverter\ConsoleService\IIcaoChartChServiceDiContainer;
+use Navplan\ChartConverter\DbService\DbAdChartConverterPersistence;
+use Navplan\ChartConverter\DomainService\AdChartConverterPersistence;
+use Navplan\ChartConverter\DomainService\AdChartConverterService;
+use Navplan\ChartConverter\DomainService\IAdChartConverterService;
 use Navplan\Enroute\DbService\DbAirspaceRepo;
 use Navplan\Enroute\DbService\DbNavaidRepo;
 use Navplan\Enroute\DomainService\IAirspaceService;
@@ -35,12 +41,6 @@ use Navplan\Geoname\DbRepo\DbGeonameRepo;
 use Navplan\Geoname\DomainService\GeonameService;
 use Navplan\Geoname\DomainService\IGeonameService;
 use Navplan\Geoname\RestService\IGeonameServiceDiContainer;
-use Navplan\IcaoChartCh\ConsoleService\IAdChartServiceDiContainer;
-use Navplan\IcaoChartCh\ConsoleService\IIcaoChartChServiceDiContainer;
-use Navplan\IcaoChartCh\DbService\DbAdChartConverterPersistence;
-use Navplan\IcaoChartCh\DomainService\AdChartConverterPersistence;
-use Navplan\IcaoChartCh\DomainService\AdChartConverterService;
-use Navplan\IcaoChartCh\DomainService\IAdChartConverterService;
 use Navplan\MeteoSma\DbService\DbMeteoSmaRepo;
 use Navplan\MeteoSma\DomainService\IMeteoSmaService;
 use Navplan\MeteoSma\RestService\IMeteoServiceDiContainer;
@@ -58,7 +58,6 @@ use Navplan\System\DomainService\IHttpService;
 use Navplan\System\DomainService\IImageService;
 use Navplan\System\DomainService\ILoggingService;
 use Navplan\System\DomainService\IMailService;
-use Navplan\System\DomainService\IPdfService;
 use Navplan\System\DomainService\IProcService;
 use Navplan\System\DomainService\ISystemServiceFactory;
 use Navplan\System\DomainService\ITimeService;
@@ -173,7 +172,6 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     private ILoggingService $fileLogger;
     private IDbService $dbService;
     private IImageService $imageService;
-    private IPdfService $pdfService;
     // terrain
     private ITerrainService $terrainService;
     // traffic
@@ -464,15 +462,6 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
         }
 
         return $this->imageService;
-    }
-
-
-    public function getPdfService(): IPdfService {
-        if (!isset($this->pdfService)) {
-            $this->pdfService = new ImagickService();
-        }
-
-        return $this->pdfService;
     }
 
     // endregion
@@ -789,7 +778,6 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
                 $this->getAdPdfChartPersistence(),
                 $this->getAirportService(),
                 $this->getImageService(),
-                $this->getPdfService(),
                 $this->getScreenLogger()
             );
         }

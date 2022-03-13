@@ -2,6 +2,7 @@
 
 namespace Navplan\System\DomainService;
 
+use Navplan\Common\DomainModel\Angle;
 use Navplan\System\DomainModel\IDrawable;
 use Navplan\System\DomainModel\IImage;
 
@@ -10,4 +11,6 @@ interface IImageService {
     function createDrawable(int $width, int $height, string $bgColor = null): IDrawable;
 
     function loadImage(string $filename): IImage;
+
+    function loadPdf(string $abs_filename, float $resolutionDpi, int $page, Angle $rotation): IImage;
 }

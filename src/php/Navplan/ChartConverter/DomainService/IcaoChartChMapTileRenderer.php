@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\IcaoChartCh\DomainService;
+namespace Navplan\ChartConverter\DomainService;
 
+use Navplan\ChartConverter\DomainModel\Ch1903Chart;
+use Navplan\ChartConverter\DomainModel\Ch1903Coordinate;
+use Navplan\ChartConverter\DomainModel\MapTileCoordinate;
 use Navplan\Common\DomainModel\Position2d;
-use Navplan\IcaoChartCh\DomainModel\Ch1903Chart;
-use Navplan\IcaoChartCh\DomainModel\Ch1903Coordinate;
-use Navplan\IcaoChartCh\DomainModel\MapTileCoordinate;
 use Navplan\System\DomainModel\IDrawable;
 use Navplan\System\DomainService\IImageService;
 use Navplan\System\DomainService\ILoggingService;
