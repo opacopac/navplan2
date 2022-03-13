@@ -10,4 +10,5 @@ require_once __DIR__ . "/../../ConsoleBootstrap.php";
 $diContainer = new ProdNavplanDiContainer();
 $adPdfChartService = $diContainer->getAdPdfChartService();
 //$adPdfChartService->convertAllPdfToPng();
-$adPdfChartService->renderAllPngToLonLat();
+//$adPdfChartService->renderAllPngToLonLat();
+$adPdfChartService->convertAdChart(3);

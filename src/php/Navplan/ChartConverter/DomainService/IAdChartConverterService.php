@@ -4,7 +4,7 @@ namespace Navplan\ChartConverter\DomainService;
 
 
 interface IAdChartConverterService {
-    function convertAllPdfToPng(): void;
+    function convertAdChart(int $id): void;
 
-    function renderAllPngToLonLat(): void;
+    function convertAllAdCharts(): void;
 }

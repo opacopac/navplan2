@@ -3,18 +3,14 @@
 namespace Navplan\ChartConverter\DomainService;
 
 use Navplan\ChartConverter\DomainModel\AdPdfChart;
-use Navplan\ChartConverter\DomainModel\AdPngCh1903Chart;
 
 
 interface AdChartConverterPersistence {
+    function readAdPdfChart(int $id): AdPdfChart;
+
+
     /**
      * @return AdPdfChart[]
      */
     function readAllAdPdfCharts(): array;
-
-
-    /**
-     * @return AdPngCh1903Chart[]
-     */
-    function readAllAdPngCh1903Charts(): array;
 }
