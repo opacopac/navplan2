@@ -15,8 +15,8 @@ class Ch1903Chart {
 
     private function __construct(
         public IImage $image,
-        public XyPair $pixelPos1,
-        public Ch1903Coordinate $chCoordinate1
+        private XyPair $pixelPos1,
+        private Ch1903Coordinate $chCoordinate1
     ) {
     }
 
@@ -51,7 +51,7 @@ class Ch1903Chart {
         $width_mm = $image->getWidth() / $resolutionDpi * Length::MM_PER_INCH;
         $height_mm = $image->getHeight() / $resolutionDpi * Length::MM_PER_INCH;
         $chart->xCoordPerPixel = $width_mm / $image->getWidth() / 1000 * $chartScale;
-        $chart->yCoordPerPixel = $height_mm / $image->getHeight() / 1000 * $chartScale;
+        $chart->yCoordPerPixel = -$height_mm / $image->getHeight() / 1000 * $chartScale;
 
         return $chart;
     }

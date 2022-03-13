@@ -60,9 +60,13 @@ class AdChartConverterService implements IAdChartConverterService {
                 continue;
             }
 
-            if (!($adPngChart->adIcao == "LSGG" || $adPngChart->adIcao == "LSZR")) {
+            /*if (!($adPngChart->adIcao == "LSGG" || $adPngChart->adIcao == "LSZR")) {
                 continue;
-            }
+            }*/
+
+            /*if ($adPngChart->adIcao != "LSGG") {
+                continue;
+            }*/
 
 
             $this->loggingService->info("reprojecting: " . $adPngChart->pngFilename);
@@ -76,7 +80,7 @@ class AdChartConverterService implements IAdChartConverterService {
                 $adPngChart->chartScale,
                 self::$resolutionDpi
             );
-            $drawable = $this->createChart($chart);
+            $drawable = $this->calcChartProjection($chart);
             $outFilePath = self::$adChartDir . $adPngChart->outPngFilename;
             $drawable->saveImage($outFilePath);
         }
@@ -103,21 +107,22 @@ class AdChartConverterService implements IAdChartConverterService {
     }
 
 
-    private function createChart(Ch1903Chart $chart): IDrawable {
+    private function calcChartProjection(Ch1903Chart $chart): IDrawable {
         $extent = $chart->calcLatLonExtent();
         $midPos = $extent->calcMidPos();
-        $lonDiff = abs($extent->maxPos->longitude - $extent->minPos->longitude);
-        $latDiff = abs($extent->maxPos->latitude - $extent->minPos->latitude);
+        $lonDiff = $extent->maxPos->longitude - $extent->minPos->longitude;
+        $latDiff = $extent->maxPos->latitude - $extent->minPos->latitude;
         $pxPerDeg = $chart->image->getWidth() / $lonDiff;
-        $pxWidth = $chart->image->getWidth();
+        $pxWidth = (int) ($chart->image->getWidth());
         $latRad = Angle::convert($midPos->latitude, AngleUnit::DEG, AngleUnit::RAD);
         $pxHeight = (int) round($latDiff * $pxPerDeg / cos($latRad));
-        $lonInc = ($extent->maxPos->longitude - $extent->minPos->longitude) / $pxWidth;
-        $latInc = ($extent->maxPos->latitude - $extent->minPos->latitude) / $pxHeight;
+        $lonInc = $lonDiff / $pxWidth;
+        $latInc = $latDiff / $pxHeight;
+
 
         $drawable = $this->imageService->createDrawable($pxWidth, $pxHeight, self::BG_COLOR);
-        for ($y = 0; $y <= $pxHeight; $y++) {
-            for ($x = 0; $x <= $pxWidth; $x++) {
+        for ($y = 0; $y < $pxHeight; $y++) {
+            for ($x = 0; $x < $pxWidth; $x++) {
                 $pos = new Position2d(
                     $extent->minPos->longitude + $x * $lonInc,
                     $extent->minPos->latitude + $y * $latInc
@@ -125,9 +130,9 @@ class AdChartConverterService implements IAdChartConverterService {
                 $chCoord = Ch1903Coordinate::fromPos2d($pos);
                 $pixelColor = $chart->getPixelColor($chCoord);
                 if ($pixelColor != null) {
-                    $drawable->drawPoint2($x, $y, $pixelColor);
+                    $drawable->drawPoint2($x, $pxHeight - $y - 1, $pixelColor);
                 } else {
-                    $drawable->drawPoint($x, $y, self::BG_COLOR);
+                    $drawable->drawPoint($x, $pxHeight - $y - 1, self::BG_COLOR);
                 }
             }
         }
