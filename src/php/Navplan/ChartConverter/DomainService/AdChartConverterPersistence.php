@@ -3,6 +3,7 @@
 namespace Navplan\ChartConverter\DomainService;
 
 use Navplan\ChartConverter\DomainModel\AdPdfChart;
+use Navplan\Common\DomainModel\Extent2d;
 
 
 interface AdChartConverterPersistence {
@@ -13,4 +14,7 @@ interface AdChartConverterPersistence {
      * @return AdPdfChart[]
      */
     function readAllAdPdfCharts(): array;
+
+
+    function writeExtent(int $id, Extent2d $extent): void;
 }

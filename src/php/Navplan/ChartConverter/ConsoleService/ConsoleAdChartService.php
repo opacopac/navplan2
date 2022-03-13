@@ -11,4 +11,5 @@ $diContainer = new ProdNavplanDiContainer();
 $adPdfChartService = $diContainer->getAdPdfChartService();
 //$adPdfChartService->convertAllPdfToPng();
 //$adPdfChartService->renderAllPngToLonLat();
-$adPdfChartService->convertAdChart(3);
+//$adPdfChartService->convertAdChart(3);
+$adPdfChartService->convertAllAdCharts();

@@ -9,6 +9,7 @@ use Navplan\ChartConverter\DomainModel\Ch1903Chart;
 use Navplan\ChartConverter\DomainModel\Ch1903Coordinate;
 use Navplan\Common\DomainModel\Angle;
 use Navplan\Common\DomainModel\AngleUnit;
+use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\ProdNavplanDiContainer;
 use Navplan\System\DomainModel\IDrawable;
@@ -35,23 +36,27 @@ class AdChartConverterService implements IAdChartConverterService {
 
     public function convertAdChart(int $id): void {
         $adChart = $this->adChartConverterPersistence->readAdPdfChart($id);
-        $drawable = $this->transformAdChart($adChart);
-        $outFilePath = self::$adChartDir . $adChart->outPngFilename;
-        $drawable->saveImage($outFilePath);
+        $this->convertSingleChart($adChart);
     }
 
 
     public function convertAllAdCharts(): void {
         $adCharts = $this->adChartConverterPersistence->readAllAdPdfCharts();
         foreach ($adCharts as $adChart) {
-            $drawable = $this->transformAdChart($adChart);
-            $outFilePath = self::$adChartDir . $adChart->outPngFilename;
-            $drawable->saveImage($outFilePath);
+            $this->convertSingleChart($adChart);
         }
     }
 
 
-    private function transformAdChart(AdPdfChart $adChart): IDrawable {
+    private function convertSingleChart(AdPdfChart $adChart): void {
+        $drawableAndExtent = $this->transformAdChart($adChart);
+        $outFilePath = self::$adChartDir . $adChart->outPngFilename;
+        $drawableAndExtent[0]->saveImage($outFilePath);
+        $this->adChartConverterPersistence->writeExtent($adChart->id, $drawableAndExtent[1]);
+    }
+
+
+    private function transformAdChart(AdPdfChart $adChart): array {
         $this->loggingService->info("converting chart: " . $adChart->pdfFilename . ", page " . $adChart->pdfPage);
         $pdfFilePath = self::$adPdfChartDir . $adChart->pdfFilename;
         $im = $this->imageService->loadPdf(
@@ -76,12 +81,14 @@ class AdChartConverterService implements IAdChartConverterService {
             self::$resolutionDpi
         );
 
-        return $this->calcChartProjection($chart);
+        $extent = $chart->calcLatLonExtent();
+        $drawable = $this->calcChartProjection($chart, $extent);
+
+        return [$drawable, $extent];
     }
 
 
-    private function calcChartProjection(Ch1903Chart $chart): IDrawable {
-        $extent = $chart->calcLatLonExtent();
+    private function calcChartProjection(Ch1903Chart $chart, Extent2d $extent): IDrawable {
         $midPos = $extent->calcMidPos();
         $lonDiff = $extent->maxPos->longitude - $extent->minPos->longitude;
         $latDiff = $extent->maxPos->latitude - $extent->minPos->latitude;
