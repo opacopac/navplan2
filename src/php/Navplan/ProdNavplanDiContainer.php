@@ -58,6 +58,7 @@ use Navplan\System\DomainService\IHttpService;
 use Navplan\System\DomainService\IImageService;
 use Navplan\System\DomainService\ILoggingService;
 use Navplan\System\DomainService\IMailService;
+use Navplan\System\DomainService\IPdfService;
 use Navplan\System\DomainService\IProcService;
 use Navplan\System\DomainService\ISystemServiceFactory;
 use Navplan\System\DomainService\ITimeService;
@@ -172,6 +173,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     private ILoggingService $fileLogger;
     private IDbService $dbService;
     private IImageService $imageService;
+    private IPdfService $pdfService;
     // terrain
     private ITerrainService $terrainService;
     // traffic
@@ -462,6 +464,15 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
         }
 
         return $this->imageService;
+    }
+
+
+    public function getPdfService(): IPdfService {
+        if (!isset($this->pdfService)) {
+            $this->pdfService = new ImagickService();
+        }
+
+        return $this->pdfService;
     }
 
     // endregion
@@ -776,7 +787,9 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
         if (!isset($this->adPdfChartService)) {
             $this->adPdfChartService = new AdChartConverterService(
                 $this->getAdPdfChartPersistence(),
+                $this->getAirportService(),
                 $this->getImageService(),
+                $this->getPdfService(),
                 $this->getScreenLogger()
             );
         }

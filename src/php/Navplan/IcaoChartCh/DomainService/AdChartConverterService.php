@@ -2,8 +2,7 @@
 
 namespace Navplan\IcaoChartCh\DomainService;
 
-use Imagick;
-use ImagickPixel;
+use Navplan\Aerodrome\DomainService\IAirportService;
 use Navplan\Common\DomainModel\Angle;
 use Navplan\Common\DomainModel\AngleUnit;
 use Navplan\Common\DomainModel\Position2d;
@@ -14,6 +13,7 @@ use Navplan\ProdNavplanDiContainer;
 use Navplan\System\DomainModel\IDrawable;
 use Navplan\System\DomainService\IImageService;
 use Navplan\System\DomainService\ILoggingService;
+use Navplan\System\DomainService\IPdfService;
 
 
 class AdChartConverterService implements IAdChartConverterService {
@@ -27,7 +27,9 @@ class AdChartConverterService implements IAdChartConverterService {
 
     public function __construct(
         private AdChartConverterPersistence $adChartConverterPersistence,
+        private IAirportService $airportService,
         private IImageService $imageService,
+        private IPdfService $pdfService,
         private ILoggingService $loggingService
     ) {
     }
@@ -39,7 +41,7 @@ class AdChartConverterService implements IAdChartConverterService {
         foreach ($adPdfCharts as $adPdfChart) {
             $this->loggingService->info("converting pdf to png: " . $adPdfChart->pdfFilename . ", page " . $adPdfChart->pdfPage);
             $pdfFilePath = self::$adPdfChartDir . $adPdfChart->pdfFilename;
-            $im = $this->loadPdf(
+            $im = $this->pdfService->loadPdf(
                 $pdfFilePath,
                 self::$resolutionDpi,
                 $adPdfChart->pdfPage,
@@ -47,36 +49,30 @@ class AdChartConverterService implements IAdChartConverterService {
             );
 
             $pngFilePath = self::$adPngChartDir . $adPdfChart->outPngFilename;
-            $im->writeImage($pngFilePath);
+            $im->saveAsImage($pngFilePath);
         }
     }
 
 
-    public function renderPngToLonLat(): void {
+    public function renderAllPngToLonLat(): void {
         $adPngCharts = $this->adChartConverterPersistence->readAllAdPngCh1903Charts();
 
         foreach ($adPngCharts as $adPngChart) {
-            if ($adPngChart->regType != AdPngChartRegType::POS1) {
-                continue;
-            }
+            $this->loggingService->info("calculating projection: " . $adPngChart->pngFilename);
 
-            /*if (!($adPngChart->adIcao == "LSGG" || $adPngChart->adIcao == "LSZR")) {
-                continue;
-            }*/
-
-            /*if ($adPngChart->adIcao != "LSGG") {
-                continue;
-            }*/
-
-
-            $this->loggingService->info("reprojecting: " . $adPngChart->pngFilename);
+            $ad = $adPngChart->regType == AdPngChartRegType::ARP
+                ? $this->airportService->readByIcao($adPngChart->adIcao)
+                : null;
+            $pos = ($ad === null)
+                ? $adPngChart->pos1Ch1903Coord
+                : Ch1903Coordinate::fromPos2d($ad->position);
 
             $pngFilePath = self::$adPngChartDir . $adPngChart->pngFilename;
             $im = $this->imageService->loadImage($pngFilePath);
             $chart = Ch1903Chart::fromPosAndScale(
                 $im,
                 $adPngChart->pos1Pixel,
-                $adPngChart->pos1Ch1903Coord,
+                $pos,
                 $adPngChart->chartScale,
                 self::$resolutionDpi
             );
@@ -84,26 +80,6 @@ class AdChartConverterService implements IAdChartConverterService {
             $outFilePath = self::$adChartDir . $adPngChart->outPngFilename;
             $drawable->saveImage($outFilePath);
         }
-    }
-
-
-    // TODO: wrap
-    private function loadPdf(string $abs_filename, float $resolutionDpi, int $page, Angle $rotation): Imagick {
-        $im = new Imagick();
-        $im->setResolution($resolutionDpi, $resolutionDpi);
-        $im->setColorspace(Imagick::COLORSPACE_RGB);
-        $im->setBackgroundColor(new ImagickPixel('white'));
-        $im->readImage($abs_filename . "[" . $page . "]");
-        $im->setimagebackgroundcolor("#ffffff");
-        $im = $im->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
-        $im->setImageFormat("png");
-        //$im->trimImage(0);
-
-        if ($rotation->deg() != 0) {
-            $im->rotateImage(new ImagickPixel('#00000000'), $rotation->deg());
-        }
-
-        return $im;
     }
 
 
@@ -135,6 +111,7 @@ class AdChartConverterService implements IAdChartConverterService {
                     $drawable->drawPoint($x, $pxHeight - $y - 1, self::BG_COLOR);
                 }
             }
+            $this->loggingService->info("row " . $y);
         }
 
         return $drawable;
