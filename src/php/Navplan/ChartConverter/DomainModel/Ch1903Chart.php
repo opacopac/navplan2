@@ -3,7 +3,6 @@
 namespace Navplan\ChartConverter\DomainModel;
 
 use Navplan\Common\DomainModel\Angle;
-use Navplan\Common\DomainModel\AngleUnit;
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Length;
 use Navplan\Common\DomainModel\Position2d;
@@ -89,12 +88,6 @@ class Ch1903Chart {
         $chart->xCoordPerPixel = $coordPerPixel;
         $chart->yCoordPerPixel = -$coordPerPixel;
         $chart->rot = Angle::fromRad($rotRad);
-
-        print Angle::convert($pxRotRad, AngleUnit::RAD, AngleUnit::DEG) . "\n";
-        print Angle::convert($coordRotRad, AngleUnit::RAD, AngleUnit::DEG) . "\n";
-        print Angle::convert($rotRad, AngleUnit::RAD, AngleUnit::DEG) . "\n";
-        //die;
-
 
         return $chart;
     }
