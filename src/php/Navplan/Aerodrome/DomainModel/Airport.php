@@ -19,6 +19,7 @@ class Airport {
         public array $radios,
         public array $webcams,
         public array $charts,
+        public array $charts2,
         public array $mapfeatures
     ) {
     }

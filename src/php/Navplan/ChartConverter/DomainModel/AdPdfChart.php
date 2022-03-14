@@ -16,6 +16,8 @@ class AdPdfChart {
         public int $regType,
         public ?XyPair $pos1Pixel,
         public ?Ch1903Coordinate $pos1Ch1903Coord,
+        public ?XyPair $pos2Pixel,
+        public ?Ch1903Coordinate $pos2Ch1903Coord,
         public int $chartScale
     ) {
     }

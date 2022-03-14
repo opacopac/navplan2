@@ -2,6 +2,7 @@
 
 namespace Navplan\ChartConverter\DomainService;
 
+use InvalidArgumentException;
 use Navplan\Aerodrome\DomainService\IAirportService;
 use Navplan\ChartConverter\DomainModel\AdPdfChart;
 use Navplan\ChartConverter\DomainModel\AdPngChartRegType;
@@ -13,6 +14,7 @@ use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\ProdNavplanDiContainer;
 use Navplan\System\DomainModel\IDrawable;
+use Navplan\System\DomainModel\IImage;
 use Navplan\System\DomainService\IImageService;
 use Navplan\System\DomainService\ILoggingService;
 
@@ -20,7 +22,7 @@ use Navplan\System\DomainService\ILoggingService;
 class AdChartConverterService implements IAdChartConverterService {
     private const BG_COLOR = 'rgba(0, 0, 0, 0)';
 
-    private static string $adPdfChartDir = ProdNavplanDiContainer::DATA_IMPORT_DIR . "swisstopo_charts_ch/";
+    private static string $adPdfChartDir = ProdNavplanDiContainer::DATA_IMPORT_DIR . "swisstopo_charts_ch/vfrm/";
     private static string $adChartDir = ProdNavplanDiContainer::AD_CHARTS_DIR;
     private static float $resolutionDpi = 200.0;
 
@@ -49,37 +51,65 @@ class AdChartConverterService implements IAdChartConverterService {
 
 
     private function convertSingleChart(AdPdfChart $adChart): void {
-        $drawableAndExtent = $this->transformAdChart($adChart);
-        $outFilePath = self::$adChartDir . $adChart->outPngFilename;
-        $drawableAndExtent[0]->saveImage($outFilePath);
-        $this->adChartConverterPersistence->writeExtent($adChart->id, $drawableAndExtent[1]);
+        $this->loggingService->info("converting chart: " . $adChart->pdfFilename . ", page " . $adChart->pdfPage);
+        $im = $this->loadPdf($adChart);
+
+        if ($adChart->pos1Pixel == null) {
+            $outFilePath = self::$adChartDir . "TMP_" . $adChart->outPngFilename;
+            $im->saveImage($outFilePath);
+        } else {
+            $drawableAndExtent = $this->transformAdChart($adChart, $im);
+            $outFilePath = self::$adChartDir . $adChart->outPngFilename;
+            $drawableAndExtent[0]->saveImage($outFilePath);
+            $this->adChartConverterPersistence->writeExtent($adChart->id, $drawableAndExtent[1]);
+        }
     }
 
 
-    private function transformAdChart(AdPdfChart $adChart): array {
-        $this->loggingService->info("converting chart: " . $adChart->pdfFilename . ", page " . $adChart->pdfPage);
+    private function loadPdf(AdPdfChart $adChart): IImage  {
         $pdfFilePath = self::$adPdfChartDir . $adChart->pdfFilename;
-        $im = $this->imageService->loadPdf(
+        return $this->imageService->loadPdf(
             $pdfFilePath,
             self::$resolutionDpi,
             $adChart->pdfPage,
             $adChart->pdfRotation
         );
+    }
 
-        $ad = $adChart->regType == AdPngChartRegType::ARP
-            ? $this->airportService->readByIcao($adChart->adIcao)
-            : null;
-        $pos = ($ad === null)
-            ? $adChart->pos1Ch1903Coord
-            : Ch1903Coordinate::fromPos2d($ad->position);
 
-        $chart = Ch1903Chart::fromPosAndScale(
-            $im,
-            $adChart->pos1Pixel,
-            $pos,
-            $adChart->chartScale,
-            self::$resolutionDpi
-        );
+    private function transformAdChart(AdPdfChart $adChart, IImage $im): array {
+        switch ($adChart->regType) {
+            case AdPngChartRegType::ARP:
+                $ad = $this->airportService->readByIcao($adChart->adIcao);
+                $chart = Ch1903Chart::fromPosAndScale(
+                    $im,
+                    $adChart->pos1Pixel,
+                    Ch1903Coordinate::fromPos2d($ad->position),
+                    $adChart->chartScale,
+                    self::$resolutionDpi
+                );
+                break;
+            case AdPngChartRegType::POS1:
+                $chart = Ch1903Chart::fromPosAndScale(
+                    $im,
+                    $adChart->pos1Pixel,
+                    $adChart->pos1Ch1903Coord,
+                    $adChart->chartScale,
+                    self::$resolutionDpi
+                );
+                break;
+            case AdPngChartRegType::POS1POS2:
+                $chart = Ch1903Chart::fromPos1Pos2Rot(
+                    $im,
+                    $adChart->pos1Pixel,
+                    $adChart->pos1Ch1903Coord,
+                    $adChart->pos2Pixel,
+                    $adChart->pos2Ch1903Coord,
+                );
+                break;
+            default:
+                throw new InvalidArgumentException('unknown registration type ' . $adChart->regType);
+        }
 
         $extent = $chart->calcLatLonExtent();
         $drawable = $this->calcChartProjection($chart, $extent);

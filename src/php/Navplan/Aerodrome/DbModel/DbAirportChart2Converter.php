@@ -2,14 +2,15 @@
 
 namespace Navplan\Aerodrome\DbModel;
 
-use Navplan\Aerodrome\DomainModel\AirportChart;
+use Navplan\Aerodrome\DomainModel\AirportChart2;
+use Navplan\Common\DomainModel\Extent2d;
 use Navplan\System\DomainModel\IDbResult;
 
 
-class DbAirportChartConverter {
+class DbAirportChart2Converter {
     /**
      * @param IDbResult $result
-     * @return AirportChart[]
+     * @return AirportChart2[]
      */
     public static function fromDbResult(IDbResult $result): array {
         $charts = [];
@@ -21,17 +22,19 @@ class DbAirportChartConverter {
     }
 
 
-    public static function fromDbRow(array $row): AirportChart {
-        return new AirportChart(
+    public static function fromDbRow(array $row): AirportChart2 {
+        return new AirportChart2(
             intval($row["id"]),
-            $row["airport_icao"],
+            $row["ad_icao"],
             $row["source"],
             $row["type"],
             $row["filename"],
-            intval($row["mercator_n"]),
-            intval($row["mercator_s"]),
-            intval($row["mercator_e"]),
-            intval($row["mercator_w"])
+            Extent2d::createFromCoords(
+                floatval($row["minlon"]),
+                floatval($row["minlat"]),
+                floatval($row["maxlon"]),
+                floatval($row["maxlat"])
+            )
         );
     }
 }

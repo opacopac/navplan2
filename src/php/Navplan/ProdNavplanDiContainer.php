@@ -13,8 +13,8 @@ use Navplan\Aerodrome\DomainService\IAirportCircuitService;
 use Navplan\Aerodrome\DomainService\IAirportService;
 use Navplan\Aerodrome\DomainService\IReportingPointService;
 use Navplan\Aerodrome\RestService\IAirportServiceDiContainer;
-use Navplan\ChartConverter\ConsoleService\IAdChartServiceDiContainer;
-use Navplan\ChartConverter\ConsoleService\IIcaoChartChServiceDiContainer;
+use Navplan\ChartConverter\ConsoleService\IAdChartConverterDiContainer;
+use Navplan\ChartConverter\ConsoleService\IIcaoChartChConverterDiContainer;
 use Navplan\ChartConverter\DbService\DbAdChartConverterPersistence;
 use Navplan\ChartConverter\DomainService\AdChartConverterPersistence;
 use Navplan\ChartConverter\DomainService\AdChartConverterService;
@@ -128,7 +128,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     IGeonameServiceDiContainer, IMeteoServiceDiContainer, INotamServiceDiContainer, ISearchServiceDiContainer,
     ITerrainDiContainer, ITrafficServiceDiContainer, IUserServiceDiContainer, IAirportServiceDiContainer,
     IAirspaceServiceDiContainer, INavaidServiceDiContainer, IWebcamServiceDiContainer, IVerticalMapDiContainer,
-    IExporterServiceDiContainer, ITrackServiceDiContainer, IIcaoChartChServiceDiContainer, IAdChartServiceDiContainer
+    IExporterServiceDiContainer, ITrackServiceDiContainer, IIcaoChartChConverterDiContainer, IAdChartConverterDiContainer
 {
     // const
     public const DATA_IMPORT_DIR = __DIR__ . "/../../../data_import/"; // TODO
@@ -216,7 +216,10 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
 
     public function getAirportService(): IAirportService {
         if (!isset($this->airportService)) {
-            $this->airportService = new DbAirportRepo($this->getDbService());
+            $this->airportService = new DbAirportRepo(
+                $this->getDbService(),
+                $this->getAirportChartService(),
+            );
         }
 
         return $this->airportService;

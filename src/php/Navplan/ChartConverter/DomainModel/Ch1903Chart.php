@@ -2,66 +2,117 @@
 
 namespace Navplan\ChartConverter\DomainModel;
 
+use Navplan\Common\DomainModel\Angle;
+use Navplan\Common\DomainModel\AngleUnit;
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Length;
 use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Vector2d;
 use Navplan\System\DomainModel\IImage;
 
 
 class Ch1903Chart {
     private float $xCoordPerPixel; // E
     private float $yCoordPerPixel; // N
+    private Angle $rot;
 
 
     private function __construct(
-        public IImage $image,
-        private XyPair $pixelPos1,
+        public IImage            $image,
+        private XyPair           $pixelPos1,
         private Ch1903Coordinate $chCoordinate1
     ) {
     }
 
 
     public static function fromPos1AndPos2(
-        IImage $image,
-        XyPair $pixelPos1,
+        IImage           $image,
+        XyPair           $pixelPos1,
         Ch1903Coordinate $chCoordinate1,
-        XyPair $pixelPos2,
+        XyPair           $pixelPos2,
         Ch1903Coordinate $chCoordinate2
     ): Ch1903Chart {
-        $chart = new Ch1903Chart($image, $pixelPos1, $chCoordinate1);
         $pxDiffX = $pixelPos2->x - $pixelPos1->x;
         $pxDiffY = $pixelPos2->y - $pixelPos1->y;
         $coordDiffE = $chCoordinate2->east - $chCoordinate1->east;
         $coordDiffN = $chCoordinate2->north - $chCoordinate1->north;
+
+        $chart = new Ch1903Chart($image, $pixelPos1, $chCoordinate1);
         $chart->xCoordPerPixel = $coordDiffE / $pxDiffX;
         $chart->yCoordPerPixel = $coordDiffN / $pxDiffY;
+        $chart->rot = Angle::fromRad(0);
 
         return $chart;
     }
 
 
     public static function fromPosAndScale(
-        IImage $image,
-        XyPair $pixelPos1,
+        IImage           $image,
+        XyPair           $pixelPos1,
         Ch1903Coordinate $chCoordinate1,
-        int $chartScale,
-        float $resolutionDpi
+        int              $chartScale,
+        float            $resolutionDpi
     ): Ch1903Chart {
-        $chart = new Ch1903Chart($image, $pixelPos1, $chCoordinate1);
         $width_mm = $image->getWidth() / $resolutionDpi * Length::MM_PER_INCH;
         $height_mm = $image->getHeight() / $resolutionDpi * Length::MM_PER_INCH;
+
+        $chart = new Ch1903Chart($image, $pixelPos1, $chCoordinate1);
         $chart->xCoordPerPixel = $width_mm / $image->getWidth() / 1000 * $chartScale;
         $chart->yCoordPerPixel = -$height_mm / $image->getHeight() / 1000 * $chartScale;
+        $chart->rot = Angle::fromRad(0);
+
+        return $chart;
+    }
+
+
+    public static function fromPos1Pos2Rot(
+        IImage           $image,
+        XyPair           $pixelPos1,
+        Ch1903Coordinate $chCoordinate1,
+        XyPair           $pixelPos2,
+        Ch1903Coordinate $chCoordinate2
+    ): Ch1903Chart {
+        $pxDiffX = $pixelPos2->x - $pixelPos1->x;
+        $pxDiffY = $pixelPos2->y - $pixelPos1->y;
+        $pxDiff = sqrt(pow($pxDiffX, 2) + pow($pxDiffY, 2));
+        $pxRotRad = atan2($pxDiffY, $pxDiffX);
+
+        $coordDiffE = $chCoordinate2->east - $chCoordinate1->east;
+        $coordDiffN = $chCoordinate2->north - $chCoordinate1->north;
+        $coordDiff = sqrt(pow($coordDiffE, 2) + pow($coordDiffN, 2));
+        $coordRotRad = -atan2($coordDiffN, $coordDiffE);
+
+        $coordPerPixel = $coordDiff / $pxDiff;
+        $rotRad = $pxRotRad - $coordRotRad;
+
+        $chart = new Ch1903Chart($image, $pixelPos1, $chCoordinate1);
+        $chart->xCoordPerPixel = $coordPerPixel;
+        $chart->yCoordPerPixel = -$coordPerPixel;
+        $chart->rot = Angle::fromRad($rotRad);
+
+        print Angle::convert($pxRotRad, AngleUnit::RAD, AngleUnit::DEG) . "\n";
+        print Angle::convert($coordRotRad, AngleUnit::RAD, AngleUnit::DEG) . "\n";
+        print Angle::convert($rotRad, AngleUnit::RAD, AngleUnit::DEG) . "\n";
+        //die;
+
 
         return $chart;
     }
 
 
     public function getPixelColor(Ch1903Coordinate $chCoord): ?array {
-        $pxX = ($chCoord->east - $this->chCoordinate1->east) / $this->xCoordPerPixel + $this->pixelPos1->x;
-        $pxY = ($chCoord->north - $this->chCoordinate1->north) / $this->yCoordPerPixel + $this->pixelPos1->y;
+        $pxRel = new Vector2d(
+            ($chCoord->east - $this->chCoordinate1->east) / $this->xCoordPerPixel,
+            ($chCoord->north - $this->chCoordinate1->north) / $this->yCoordPerPixel
+        );
 
-        return $this->image->getPixelColor($pxX, $pxY);
+        if ($this->rot->value != 0) {
+            $pxRel->rotate($this->rot);
+        }
+
+        $pxRel->add($this->pixelPos1->x, $this->pixelPos1->y);
+
+        return $this->image->getPixelColor($pxRel);
     }
 
 
@@ -108,8 +159,17 @@ class Ch1903Chart {
 
 
     private function calcCoordByPixel(int $x, int $y): Ch1903Coordinate {
-        $chCoordE = (($x - $this->pixelPos1->x) * $this->xCoordPerPixel) + $this->chCoordinate1->east;
-        $chCoordN = (($y - $this->pixelPos1->y) * $this->yCoordPerPixel) + $this->chCoordinate1->north;
+        $pxRel = new Vector2d(
+            $x - $this->pixelPos1->x,
+            $y - $this->pixelPos1->y
+        );
+
+        if ($this->rot->value != 0) {
+            $pxRel->rotate($this->rot->getNegative());
+        }
+
+        $chCoordE = $pxRel->x * $this->xCoordPerPixel + $this->chCoordinate1->east;
+        $chCoordN = $pxRel->y * $this->yCoordPerPixel + $this->chCoordinate1->north;
 
         return new Ch1903Coordinate($chCoordE, $chCoordN);
     }

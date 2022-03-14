@@ -5,6 +5,6 @@ namespace Navplan\ChartConverter\ConsoleService;
 use Navplan\ChartConverter\DomainService\IAdChartConverterService;
 
 
-interface IAdChartServiceDiContainer {
+interface IAdChartConverterDiContainer {
     function getAdPdfChartService(): IAdChartConverterService;
 }

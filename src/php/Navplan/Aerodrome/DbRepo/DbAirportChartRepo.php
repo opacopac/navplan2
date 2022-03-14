@@ -2,8 +2,10 @@
 
 namespace Navplan\Aerodrome\DbRepo;
 
+use Navplan\Aerodrome\DbModel\DbAirportChart2Converter;
 use Navplan\Aerodrome\DbModel\DbAirportChartConverter;
 use Navplan\Aerodrome\DomainModel\AirportChart;
+use Navplan\Aerodrome\DomainModel\AirportChart2;
 use Navplan\Aerodrome\DomainService\IAirportChartRepo;
 use Navplan\System\DomainService\IDbService;
 
@@ -25,12 +27,7 @@ class DbAirportChartRepo implements IAirportChartRepo {
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading AD charts by icao");
 
-        $charts = [];
-        while ($row = $result->fetch_assoc()) {
-            $charts[] = DbAirportChartConverter::fromDbRow($row);
-        }
-
-        return $charts;
+        return DbAirportChartConverter::fromDbResult($result);
     }
 
 
@@ -41,5 +38,31 @@ class DbAirportChartRepo implements IAirportChartRepo {
 
         $row = $result->fetch_assoc();
         return DbAirportChartConverter::fromDbRow($row);
+    }
+
+
+    public function getAdCharts2ByIcao(string $adIcao): array {
+        $query = "SELECT *,";
+        $query .= "  (CASE WHEN type LIKE 'AREA%' THEN 1 WHEN type LIKE 'VAC%' THEN 2 WHEN type LIKE 'AD INFO%' THEN 3 ELSE 4 END) AS sortorder1";
+        $query .= " FROM ad_charts2 ";
+        $query .= " WHERE ad_icao = " .  $this->dbService->escapeAndQuoteString($adIcao) . ")";
+        $query .= " ORDER BY";
+        $query .= "   source ASC,";
+        $query .= "   sortorder1 ASC,";
+        $query .= "   type ASC";
+
+        $result = $this->dbService->execMultiResultQuery($query, "error reading AD charts by icao");
+
+        return DbAirportChart2Converter::fromDbResult($result);
+    }
+
+
+    public function getAdChart2ById(int $id): AirportChart2 {
+        $query = "SELECT * FROM ad_charts2 WHERE id=" . $id;
+
+        $result = $this->dbService->execSingleResultQuery($query, false, "error reading AD chart by id");
+
+        $row = $result->fetch_assoc();
+        return DbAirportChart2Converter::fromDbRow($row);
     }
 }

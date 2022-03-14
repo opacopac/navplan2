@@ -2,6 +2,7 @@
 
 namespace Navplan\Aerodrome\DbRepo;
 
+use Navplan\Aerodrome\DbModel\DbAirportChart2Converter;
 use Navplan\Aerodrome\DbModel\DbAirportChartConverter;
 use Navplan\Aerodrome\DbModel\DbAirportConverter;
 use Navplan\Aerodrome\DbModel\DbAirportFeatureConverter;
@@ -9,6 +10,7 @@ use Navplan\Aerodrome\DbModel\DbAirportRadioConverter;
 use Navplan\Aerodrome\DbModel\DbAirportRunwayConverter;
 use Navplan\Aerodrome\DbModel\DbShortAirportConverter;
 use Navplan\Aerodrome\DomainModel\Airport;
+use Navplan\Aerodrome\DomainService\IAirportChartService;
 use Navplan\Aerodrome\DomainService\IAirportRepo;
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
@@ -18,7 +20,10 @@ use Navplan\System\MySqlDb\DbHelper;
 
 
 class DbAirportRepo implements IAirportRepo {
-    public function __construct(private IDbService $dbService) {
+    public function __construct(
+        private IDbService $dbService,
+        private IAirportChartService $airportChartService,
+    ) {
     }
 
 
@@ -144,7 +149,8 @@ class DbAirportRepo implements IAirportRepo {
 
         $this->loadAirportRunways($airports, $apIdList);
         $this->loadAirportRadios($airports, $apIdList);
-        $this->loadAirportChars($airports, $apIcaoList);
+        $this->loadAirportCharts($airports, $apIcaoList);
+        $this->loadAirportCharts2($airports, $apIcaoList);
         $this->loadAirportFeatures($airports, $apIcaoList);
     }
 
@@ -193,7 +199,7 @@ class DbAirportRepo implements IAirportRepo {
     }
 
 
-    private function loadAirportChars(array &$airports, string $apIcaoList) {
+    private function loadAirportCharts(array &$airports, string $apIcaoList) {
         // TODO => use chart repo
         $query = "SELECT *,";
         $query .= "  (CASE WHEN type LIKE 'AREA%' THEN 1 WHEN type LIKE 'VAC%' THEN 2 WHEN type LIKE 'AD INFO%' THEN 3 ELSE 4 END) AS sortorder1";
@@ -210,6 +216,30 @@ class DbAirportRepo implements IAirportRepo {
             foreach ($airports as &$ap) {
                 if ($ap->icao === $row["airport_icao"]) {
                     $ap->charts[] = DbAirportChartConverter::fromDbRow($row);
+                    break;
+                }
+            }
+        }
+    }
+
+
+    private function loadAirportCharts2(array &$airports, string $apIcaoList) {
+        // TODO => use chart repo
+        $query = "SELECT *,";
+        $query .= "  (CASE WHEN type LIKE 'AREA%' THEN 1 WHEN type LIKE 'VAC%' THEN 2 WHEN type LIKE 'AD INFO%' THEN 3 ELSE 4 END) AS sortorder1";
+        $query .= " FROM ad_charts2 ";
+        $query .= " WHERE ad_icao IN (" .  $apIcaoList . ")";
+        $query .= " ORDER BY";
+        $query .= "   source ASC,";
+        $query .= "   sortorder1 ASC,";
+        $query .= "   type ASC";
+
+        $result = $this->dbService->execMultiResultQuery($query, "error reading charts");
+
+        while ($row = $result->fetch_assoc()) {
+            foreach ($airports as &$ap) {
+                if ($ap->icao === $row["ad_icao"]) {
+                    $ap->charts2[] = DbAirportChart2Converter::fromDbRow($row);
                     break;
                 }
             }

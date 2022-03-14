@@ -6,6 +6,16 @@ use InvalidArgumentException;
 
 
 class Angle {
+    public static function fromDeg(float $rotDeg): Angle {
+        return new Angle($rotDeg, AngleUnit::DEG);
+    }
+
+
+    public static function fromRad(float $rotRad): Angle {
+        return new Angle($rotRad, AngleUnit::RAD);
+    }
+
+
     public static function convert(
         float $value,
         int $sourceUnit,
@@ -43,12 +53,17 @@ class Angle {
     }
 
 
-    public function deg(): float {
+    public function toDeg(): float {
         return $this->getValue(AngleUnit::DEG);
     }
 
 
-    public function rad(): float {
+    public function toRad(): float {
         return $this->getValue(AngleUnit::RAD);
+    }
+
+
+    public function getNegative(): Angle {
+        return new Angle(-$this->value, $this->unit);
     }
 }

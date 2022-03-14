@@ -22,7 +22,7 @@ export class AirportChartEffects {
 
     showAirportChartAndShowImageAction$ = createEffect(() => this.actions$.pipe(
         ofType(AirportChartActions.openAirportChart),
-        switchMap(action => this.airportChartService.readAdChartById(action.chartId)),
+        switchMap(action => this.airportChartService.readAdChart2ById(action.chartId)),
         catchError(error => {
             LoggingService.logResponseError('ERROR reading airport chart by id', error);
             return throwError(error);
@@ -33,7 +33,7 @@ export class AirportChartEffects {
             }),
             BaseMapActions.showImage({
                 id: chart.id,
-                imageUrl: environment.chartBaseUrl + chart.fileName,
+                imageUrl: environment.chart2BaseUrl + chart.fileName,
                 extent: chart.extent,
                 opacity: 0.9
             })

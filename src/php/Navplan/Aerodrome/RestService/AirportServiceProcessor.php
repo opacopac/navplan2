@@ -3,6 +3,7 @@
 namespace Navplan\Aerodrome\RestService;
 
 use InvalidArgumentException;
+use Navplan\Aerodrome\RestModel\RestAirportChart2Converter;
 use Navplan\Aerodrome\RestModel\RestAirportChartConverter;
 use Navplan\Aerodrome\RestModel\RestAirportCircuitConverter;
 use Navplan\Aerodrome\RestModel\RestAirportConverter;
@@ -19,6 +20,7 @@ class AirportServiceProcessor {
     const ACTION_GET_AD_CIRCUIT_BY_EXTENT = "getAdCircuitsByExtent";
     const ACTION_GET_RP_BY_EXTENT = "getRpByExtent";
     const ACTION_GET_CHART_BY_ID = "getChartById";
+    const ACTION_GET_CHART2_BY_ID = "getChart2ById";
 
 
     public static function processRequest(IAirportServiceDiContainer $diContainer) {
@@ -58,6 +60,11 @@ class AirportServiceProcessor {
                 $id = intval($args["id"]);
                 $adChart = $diContainer->getAirportChartService()->getAdChartById($id);
                 $httpService->sendArrayResponse(RestAirportChartConverter::toRest($adChart));
+                break;
+            case self::ACTION_GET_CHART2_BY_ID:
+                $id = intval($args["id"]);
+                $adChart = $diContainer->getAirportChartService()->getAdChart2ById($id);
+                $httpService->sendArrayResponse(RestAirportChart2Converter::toRest($adChart));
                 break;
             default:
                 throw new InvalidArgumentException("no or unknown action '" . $action . "'");

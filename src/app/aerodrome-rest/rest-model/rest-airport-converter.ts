@@ -7,7 +7,7 @@ import {RestAirportRunwayConverter} from './rest-airport-runway-converter';
 import {RestWebcamConverter} from '../../webcam-rest/rest-model/rest-webcam-converter';
 import {RestAirportFeatureConverter} from './rest-airport-feature-converter';
 import {AirportType} from '../../aerodrome/domain-model/airport-type';
-import {RestAirportChartConverter} from './rest-airport-chart-converter';
+import {RestAirportChart2Converter} from './rest-airport-chart2-converter';
 
 
 export class RestAirportConverter {
@@ -24,7 +24,8 @@ export class RestAirportConverter {
         airport.runways = restItem.runways.map(restRwy => RestAirportRunwayConverter.fromRest(restRwy));
         airport.radios = restItem.radios.map(restRadio => RestAirportRadioConverter.fromRest(restRadio));
         airport.webcams = restItem.webcams.map(restCam => RestWebcamConverter.fromRest(restCam));
-        airport.charts = restItem.charts.map(restChart => RestAirportChartConverter.fromRest(restChart));
+        // airport.charts = restItem.charts.map(restChart => RestAirportChartConverter.fromRest(restChart));
+        airport.charts = restItem.charts2.map(restChart => RestAirportChart2Converter.fromRest(restChart));
         airport.features = restItem.mapfeatures.map(restFeat => RestAirportFeatureConverter.fromRest(restFeat));
 
         return airport;

@@ -28,5 +28,6 @@ export const environment = {
     exporterBaseUrl: WEBSITE_BASE_URL + 'php/Navplan/Exporter/RestService/ExporterService.php',
     exportBaseUrl: WEBSITE_BASE_URL + 'tmp/',
     chartBaseUrl: WEBSITE_BASE_URL + 'charts/',
+    chart2BaseUrl: WEBSITE_BASE_URL + 'charts2/',
     metarTafBaseUrl: 'https://www.aviationweather.gov/cgi-bin/json/MetarJSON.php?taf=true&density=all&bbox=',
 };

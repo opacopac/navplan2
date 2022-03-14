@@ -6,7 +6,7 @@ use Navplan\System\DomainService\IImageService;
 use Navplan\System\DomainService\ILoggingService;
 
 
-interface IIcaoChartChServiceDiContainer {
+interface IIcaoChartChConverterDiContainer {
     function getScreenLogger(): ILoggingService;
 
     function getImageService(): IImageService;

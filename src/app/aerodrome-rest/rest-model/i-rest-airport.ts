@@ -5,6 +5,7 @@ import {IRestAirportRadio} from './i-rest-airport-radio';
 import {IRestWebcam} from '../../webcam-rest/rest-model/i-rest-webcam';
 import {IRestAirportFeature} from './i-rest-airport-feature';
 import {IRestAirportChart} from './i-rest-airport-chart';
+import {IRestAirportChart2} from './i-rest-airport-chart2';
 
 
 export interface IRestAirport {
@@ -19,5 +20,6 @@ export interface IRestAirport {
     radios: IRestAirportRadio[];
     webcams: IRestWebcam[];
     charts: IRestAirportChart[];
+    charts2: IRestAirportChart2[];
     mapfeatures: IRestAirportFeature[];
 }
