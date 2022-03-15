@@ -6,12 +6,13 @@ use Navplan\ProdNavplanDiContainer;
 
 require_once __DIR__ . "/../../ConsoleBootstrap.php";
 
+ini_set('memory_limit', '5G');
+
 
 if (!isset($argv[1]) || (intval($argv[1]) <= 0 && $argv[1] != 'all')) {
-    print "argument for chartId is missing (positive id or 'all')!\n";
+    print "ERROR: invalid or missing argument for chart-ID (positive int or 'all')!\n";
     die;
 }
-
 
 $diContainer = new ProdNavplanDiContainer();
 $adPdfChartService = $diContainer->getAdPdfChartService();

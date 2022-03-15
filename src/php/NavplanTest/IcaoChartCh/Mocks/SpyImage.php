@@ -14,7 +14,7 @@ class SpyImage implements IImage {
     }
 
 
-    function getPixelColor(float $x, float $y): ?array {
+    function interpolatePixelColor(float $x, float $y): ?array {
         return $this->getPixelColorValue;
     }
 

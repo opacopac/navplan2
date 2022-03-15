@@ -3,51 +3,54 @@
 namespace Navplan\System\Imagick;
 
 use Imagick;
-use ImagickDraw;
 use ImagickPixel;
+use InvalidArgumentException;
+use Navplan\System\DomainModel\Color;
 use Navplan\System\DomainModel\IDrawable;
 
 
 class ImagickDrawable implements IDrawable {
     private Imagick $im;
-    private ImagickDraw $imDraw;
+    private array $colorValues;
 
 
     public function __construct(
         private int $width,
         private int $height,
-        string $bgColor = null
+        string $bgColor = null // TODO
     ) {
         $this->im = new Imagick();
         $imPx = $bgColor != null ? new ImagickPixel($bgColor) : new ImagickPixel();
         $this->im->newImage($this->width, $this->height, $imPx);
-        $this->imDraw = new ImagickDraw();
+        $this->colorValues = array_fill(0, $this->width * $this->height * Color::NUM_COLOR_VALUES, 0);
+        $this->countColorValues = count($this->colorValues);
     }
 
 
-    public function drawPoint(int $x, int $y, string $color = null): void {
-        if ($color != null) {
-            $imPx = new ImagickPixel($color);
-            $this->imDraw->setFillColor($imPx);
+    public function drawPoint(int $x, int $y, array $color): void {
+        if ($x < 0 || $y < 0 || $x >= $this->width || $y >= $this->height) {
+            throw new InvalidArgumentException('coordinates out of bound');
         }
 
-        $this->imDraw->point($x, $y);
-    }
+        $idx = ($y * $this->width + $x) * Color::NUM_COLOR_VALUES;
 
-
-    public function drawPoint2(int $x, int $y, array $color): void {
-        $imPx = new ImagickPixel();
-        $imPx->setColorValue(Imagick::COLOR_RED, $color['r'] / 256.0);
-        $imPx->setColorValue(Imagick::COLOR_GREEN, $color['g'] / 256.0);
-        $imPx->setColorValue(Imagick::COLOR_BLUE, $color['b'] / 256.0);
-        $this->imDraw->setFillColor($imPx);
-
-        $this->imDraw->point($x, $y);
+        $this->colorValues[$idx] = $color['r'];
+        $this->colorValues[$idx + 1] = $color['g'];
+        $this->colorValues[$idx + 2] = $color['b'];
     }
 
 
     public function saveImage(string $filename): void {
-        $this->im->drawImage($this->imDraw);
+        $this->im->importImagePixels(
+            0,
+            0,
+            $this->width,
+            $this->height,
+            "RGB",
+            Imagick::PIXEL_FLOAT,
+            $this->colorValues
+        );
+
         $this->im->writeImage($filename);
     }
 }

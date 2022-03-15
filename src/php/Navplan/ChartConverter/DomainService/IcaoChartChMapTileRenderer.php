@@ -6,6 +6,7 @@ use Navplan\ChartConverter\DomainModel\Ch1903Chart;
 use Navplan\ChartConverter\DomainModel\Ch1903Coordinate;
 use Navplan\ChartConverter\DomainModel\MapTileCoordinate;
 use Navplan\Common\DomainModel\Position2d;
+use Navplan\System\DomainModel\Color;
 use Navplan\System\DomainModel\IDrawable;
 use Navplan\System\DomainService\IImageService;
 use Navplan\System\DomainService\ILoggingService;
@@ -13,7 +14,6 @@ use Navplan\System\DomainService\ILoggingService;
 
 class IcaoChartChMapTileRenderer {
     private const TILE_SIZE_PX = 256;
-    private const BG_COLOR = 'rgba(0, 0, 0, 0)';
 
 
     public function __construct(
@@ -73,7 +73,7 @@ class IcaoChartChMapTileRenderer {
         $lonInc = ($maxLon - $minLon) / self::TILE_SIZE_PX;
         $latInc = ($maxLat - $minLat) / self::TILE_SIZE_PX;
 
-        $drawable = $this->imageService->createDrawable(self::TILE_SIZE_PX, self::TILE_SIZE_PX, self::BG_COLOR);
+        $drawable = $this->imageService->createDrawable(self::TILE_SIZE_PX, self::TILE_SIZE_PX, null);
         for ($y = 0; $y <= self::TILE_SIZE_PX; $y++) {
             for ($x = 0; $x <= self::TILE_SIZE_PX; $x++) {
                 $pos = new Position2d(
@@ -83,9 +83,9 @@ class IcaoChartChMapTileRenderer {
                 $chCoord = Ch1903Coordinate::fromPos2d($pos);
                 $pixelColor = $this->icaoChart->getPixelColor($chCoord);
                 if ($pixelColor != null) {
-                    $drawable->drawPoint2($x, $y, $pixelColor);
+                    $drawable->drawPoint($x, $y, $pixelColor);
                 } else {
-                    $drawable->drawPoint($x, $y, self::BG_COLOR);
+                    $drawable->drawPoint($x, $y, Color::BLACK); // TODO
                 }
             }
         }

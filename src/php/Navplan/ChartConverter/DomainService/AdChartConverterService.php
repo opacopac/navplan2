@@ -13,6 +13,7 @@ use Navplan\Common\DomainModel\AngleUnit;
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\ProdNavplanDiContainer;
+use Navplan\System\DomainModel\Color;
 use Navplan\System\DomainModel\IDrawable;
 use Navplan\System\DomainModel\IImage;
 use Navplan\System\DomainService\IImageService;
@@ -20,8 +21,6 @@ use Navplan\System\DomainService\ILoggingService;
 
 
 class AdChartConverterService implements IAdChartConverterService {
-    private const BG_COLOR = 'rgba(0, 0, 0, 0)';
-
     private static string $adPdfChartDir = ProdNavplanDiContainer::DATA_IMPORT_DIR . "swisstopo_charts_ch/vfrm/";
     private static string $adChartDir = ProdNavplanDiContainer::AD_CHARTS_DIR;
     private static float $resolutionDpi = 200.0;
@@ -130,22 +129,41 @@ class AdChartConverterService implements IAdChartConverterService {
         $latInc = $latDiff / $pxHeight;
 
 
-        $drawable = $this->imageService->createDrawable($pxWidth, $pxHeight, self::BG_COLOR);
+        $drawable = $this->imageService->createDrawable($pxWidth, $pxHeight, null); //self::BG_COLOR);
+        $tim1 = 0; $tim2 = 0; $tim3 = 0; $tim4 = 0;
         for ($y = 0; $y < $pxHeight; $y++) {
             for ($x = 0; $x < $pxWidth; $x++) {
+                $starttime = microtime(true);
                 $pos = new Position2d(
                     $extent->minPos->longitude + $x * $lonInc,
                     $extent->minPos->latitude + $y * $latInc
                 );
+                $tim1 += microtime(true) - $starttime;
+
+                $starttime = microtime(true);
                 $chCoord = Ch1903Coordinate::fromPos2d($pos);
+                $tim2 += microtime(true) - $starttime;
+
+                $starttime = microtime(true);
                 $pixelColor = $chart->getPixelColor($chCoord);
+                $tim3 += microtime(true) - $starttime;
+
+                $starttime = microtime(true);
                 if ($pixelColor != null) {
-                    $drawable->drawPoint2($x, $pxHeight - $y - 1, $pixelColor);
+                    $drawable->drawPoint($x, $pxHeight - $y - 1, $pixelColor);
                 } else {
-                    $drawable->drawPoint($x, $pxHeight - $y - 1, self::BG_COLOR);
+                    $drawable->drawPoint($x, $pxHeight - $y - 1, Color::BLACK);
                 }
+                $tim4 += microtime(true) - $starttime;
             }
-            $this->loggingService->info("row " . $y);
+
+            if ($y % 100 === 0) {
+                $this->loggingService->info("row " . $y);
+                $this->loggingService->info("t1 $tim1");
+                $this->loggingService->info("t2 $tim2");
+                $this->loggingService->info("t3 $tim3");
+                $this->loggingService->info("t4 $tim4");
+            }
         }
 
         return $drawable;
