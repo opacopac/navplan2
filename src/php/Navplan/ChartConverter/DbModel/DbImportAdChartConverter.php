@@ -2,18 +2,18 @@
 
 namespace Navplan\ChartConverter\DbModel;
 
-use Navplan\ChartConverter\DomainModel\AdPdfChart;
-use Navplan\ChartConverter\DomainModel\AdPngChartRegType;
 use Navplan\ChartConverter\DomainModel\Ch1903Coordinate;
+use Navplan\ChartConverter\DomainModel\ImportAdChart;
+use Navplan\ChartConverter\DomainModel\ImportAdChartRegType;
 use Navplan\ChartConverter\DomainModel\XyPair;
 use Navplan\Common\DomainModel\Angle;
 use Navplan\Common\DomainModel\AngleUnit;
 use Navplan\System\DomainModel\IDbResult;
 
 
-class DbAdPdfChartConverter {
+class DbImportAdChartConverter {
     /**
-     * @return AdPdfChart[]
+     * @return ImportAdChart[]
      */
     public static function fromDbResult(IDbResult $result): array {
         $charts = [];
@@ -25,7 +25,7 @@ class DbAdPdfChartConverter {
     }
 
 
-    public static function fromDbRow(array $row): AdPdfChart {
+    public static function fromDbRow(array $row): ImportAdChart {
         $pos1PixelX = $row["pos1_pixel_x"];
         $pos1PixelY = $row["pos1_pixel_y"];
         $hasPixelPos1 = !($pos1PixelX === null || $pos1PixelY === null);
@@ -44,14 +44,14 @@ class DbAdPdfChartConverter {
 
         $chartScale = $row["chart_scale"];
 
-        return new AdPdfChart(
+        return new ImportAdChart(
             intval($row["id"]),
             $row["ad_icao"],
-            $row["orig_pdf_filename"],
-            intval($row["orig_pdf_page"]),
-            new Angle(floatval($row["orig_pdf_rot_deg"]), AngleUnit::DEG),
+            $row["import_filename"],
+            intval($row["pdf_page"]),
+            new Angle(floatval($row["pdf_rot_deg"]), AngleUnit::DEG),
             $row["filename"],
-            AdPngChartRegType::fromString($row["registration_type"]),
+            ImportAdChartRegType::fromString($row["registration_type"]),
             $hasPixelPos1 ? new XyPair(intval($pos1PixelX), intval($pos1PixelY)) : null,
             $hasCoordPos1 ? new Ch1903Coordinate(floatval($pos1Lv03E), floatval($pos1Lv03N)) : null,
             $hasPixelPos2 ? new XyPair(intval($pos2PixelX), intval($pos2PixelY)) : null,

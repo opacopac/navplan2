@@ -12,7 +12,7 @@ use Navplan\Flightroute\DomainService\IFlightrouteRepo;
 use Navplan\Geoname\DomainService\IGeonameRepo;
 use Navplan\MeteoSma\DomainService\IMeteoSmaRepo;
 use Navplan\Notam\DomainService\INotamRepo;
-use Navplan\ProdNavplanDiContainer;
+use Navplan\ProdNavplanDiContainerImporter;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\DomainService\IFileService;
 use Navplan\System\DomainService\IHttpService;
@@ -52,7 +52,7 @@ use NavplanTest\User\Mocks\MockUserRepoFactory;
 use NavplanTest\Webcam\Mocks\MockWebcamRepo;
 
 
-class MockNavplanDiContainer extends ProdNavplanDiContainer {
+class MockNavplanDiContainer extends ProdNavplanDiContainerImporter {
     // system
     public MockSystemServiceFactory $systemServiceFactory;
     public MockHttpService $httpService;

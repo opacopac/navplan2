@@ -6,12 +6,12 @@ use Navplan\ChartConverter\DomainModel\Ch1903Chart;
 use Navplan\ChartConverter\DomainModel\Ch1903Coordinate;
 use Navplan\ChartConverter\DomainModel\XyPair;
 use Navplan\ChartConverter\DomainService\IcaoChartChMapTileRenderer;
-use Navplan\ProdNavplanDiContainer;
+use Navplan\ProdNavplanDiContainerImporter;
 
 require_once __DIR__ . "/../../ConsoleBootstrap.php";
 
 
-$diContainer = new ProdNavplanDiContainer();
+$diContainer = new ProdNavplanDiContainerImporter();
 
 /*$icaoChartChFile = ProdNavplanDiContainer::DATA_IMPORT_DIR . "swisstopo_charts_ch/luftfahrtkarten-icao_total_50_2056.png";
 $mapTileOutputDir = ProdNavplanDiContainer::MAP_TILES_DIR . "icao_ch_aero/";
@@ -20,8 +20,8 @@ $chCoord1 = Ch1903Coordinate::fromPos2d(new Position2d(5.5, 46.0));
 $pixelPos2 = new XyPair(7751, 858);
 $chCoord2 = Ch1903Coordinate::fromPos2d(new Position2d(10.5, 47.5));*/
 
-$icaoChartChFile = ProdNavplanDiContainer::DATA_IMPORT_DIR . "swisstopo_charts_ch/segelflugkarte_total_30_2056.png";
-$mapTileOutputDir = ProdNavplanDiContainer::MAP_TILES_DIR . "icao_ch_glider/";
+$icaoChartChFile = ProdNavplanDiContainerImporter::DATA_IMPORT_DIR . "swisstopo_charts_ch/segelflugkarte_total_30_2056.png";
+$mapTileOutputDir = ProdNavplanDiContainerImporter::MAP_TILES_DIR . "icao_ch_glider/";
 $pixelPos1 = new XyPair(333, 7399);
 $chCoord1 = new Ch1903Coordinate(490000, 80000);
 $pixelPos2 = new XyPair(12000, 65);

@@ -2,7 +2,7 @@
 
 namespace Navplan\ChartConverter\ConsoleService;
 
-use Navplan\ProdNavplanDiContainer;
+use Navplan\ProdNavplanDiContainerImporter;
 
 require_once __DIR__ . "/../../ConsoleBootstrap.php";
 
@@ -14,12 +14,12 @@ if (!isset($argv[1]) || (intval($argv[1]) <= 0 && $argv[1] != 'all')) {
     die;
 }
 
-$diContainer = new ProdNavplanDiContainer();
-$adPdfChartService = $diContainer->getAdPdfChartService();
+$diContainer = new ProdNavplanDiContainerImporter();
+$adPdfChartService = $diContainer->getImportAdChartService();
 
 $chartId = intval($argv[1]);
 if ($chartId > 0) {
-    $adPdfChartService->convertAdChart($chartId);
+    $adPdfChartService->importAdChart($chartId);
 } else {
-    $adPdfChartService->convertAllAdCharts();
+    $adPdfChartService->importAllAdCharts();
 }

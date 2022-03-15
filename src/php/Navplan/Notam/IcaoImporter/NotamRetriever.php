@@ -5,13 +5,13 @@ namespace Navplan\Notam\IcaoImporter;
 require_once __DIR__ . "/../../RestServiceBootstrap.php";
 
 use Exception;
-use Navplan\ProdNavplanDiContainer;
+use Navplan\ProdNavplanDiContainerImporter;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\DomainService\ILoggingService;
 use Navplan\System\MySqlDb\DbHelper;
 
 
-$diContainer = new ProdNavplanDiContainer();
+$diContainer = new ProdNavplanDiContainerImporter();
 $retriever = new NotamRetriever(
     $diContainer->getScreenLogger(),
     $diContainer->getDbService()

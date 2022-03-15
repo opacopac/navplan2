@@ -15,18 +15,18 @@ class Ch1903Chart {
 
 
     private function __construct(
-        public IImage            $image,
-        private XyPair           $pixelPos1,
+        public IImage $image,
+        private XyPair $pixelPos1,
         private Ch1903Coordinate $chCoordinate1
     ) {
     }
 
 
     public static function fromPos1AndPos2(
-        IImage           $image,
-        XyPair           $pixelPos1,
+        IImage $image,
+        XyPair $pixelPos1,
         Ch1903Coordinate $chCoordinate1,
-        XyPair           $pixelPos2,
+        XyPair $pixelPos2,
         Ch1903Coordinate $chCoordinate2
     ): Ch1903Chart {
         $pxDiffX = $pixelPos2->x - $pixelPos1->x;
@@ -44,11 +44,11 @@ class Ch1903Chart {
 
 
     public static function fromPosAndScale(
-        IImage           $image,
-        XyPair           $pixelPos1,
+        IImage $image,
+        XyPair $pixelPos1,
         Ch1903Coordinate $chCoordinate1,
-        int              $chartScale,
-        float            $resolutionDpi
+        int $chartScale,
+        float $resolutionDpi
     ): Ch1903Chart {
         $width_mm = $image->getWidth() / $resolutionDpi * Length::MM_PER_INCH;
         $height_mm = $image->getHeight() / $resolutionDpi * Length::MM_PER_INCH;
@@ -63,10 +63,10 @@ class Ch1903Chart {
 
 
     public static function fromPos1Pos2Rot(
-        IImage           $image,
-        XyPair           $pixelPos1,
+        IImage $image,
+        XyPair $pixelPos1,
         Ch1903Coordinate $chCoordinate1,
-        XyPair           $pixelPos2,
+        XyPair $pixelPos2,
         Ch1903Coordinate $chCoordinate2
     ): Ch1903Chart {
         $pxDiffX = $pixelPos2->x - $pixelPos1->x;

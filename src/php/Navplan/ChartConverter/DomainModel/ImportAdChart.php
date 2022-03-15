@@ -5,11 +5,11 @@ namespace Navplan\ChartConverter\DomainModel;
 use Navplan\Common\DomainModel\Angle;
 
 
-class AdPdfChart {
+class ImportAdChart {
     public function __construct(
         public int $id,
         public string $adIcao,
-        public string $pdfFilename,
+        public string $importFilename,
         public int $pdfPage,
         public Angle $pdfRotation,
         public string $outPngFilename,
@@ -20,5 +20,10 @@ class AdPdfChart {
         public ?Ch1903Coordinate $pos2Ch1903Coord,
         public int $chartScale
     ) {
+    }
+
+
+    public function isPdf(): bool {
+        return str_ends_with(strtolower($this->importFilename), ".pdf");
     }
 }

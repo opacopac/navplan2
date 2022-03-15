@@ -6,13 +6,13 @@ require_once __DIR__ . "/../../RestServiceBootstrap.php";
 
 use Navplan\Common\GeoHelper;
 use Navplan\Common\StringNumberHelper;
-use Navplan\ProdNavplanDiContainer;
+use Navplan\ProdNavplanDiContainerImporter;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\DomainService\ILoggingService;
 use Navplan\System\MySqlDb\DbHelper;
 
 
-$diContainer = new ProdNavplanDiContainer();
+$diContainer = new ProdNavplanDiContainerImporter();
 $parser = new NotamGeometryParser(
     $diContainer->getScreenLogger(),
     $diContainer->getDbService()

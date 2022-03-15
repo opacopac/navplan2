@@ -13,12 +13,12 @@ use Navplan\Aerodrome\DomainService\IAirportCircuitService;
 use Navplan\Aerodrome\DomainService\IAirportService;
 use Navplan\Aerodrome\DomainService\IReportingPointService;
 use Navplan\Aerodrome\RestService\IAirportServiceDiContainer;
-use Navplan\ChartConverter\ConsoleService\IAdChartConverterDiContainer;
+use Navplan\ChartConverter\ConsoleService\IAdChartImporterDiContainer;
 use Navplan\ChartConverter\ConsoleService\IIcaoChartChConverterDiContainer;
-use Navplan\ChartConverter\DbService\DbAdChartConverterPersistence;
-use Navplan\ChartConverter\DomainService\AdChartConverterPersistence;
-use Navplan\ChartConverter\DomainService\AdChartConverterService;
-use Navplan\ChartConverter\DomainService\IAdChartConverterService;
+use Navplan\ChartConverter\DbService\DbImportAdChartPersistence;
+use Navplan\ChartConverter\DomainService\IImportAdChartPersistence;
+use Navplan\ChartConverter\DomainService\IImportAdChartService;
+use Navplan\ChartConverter\DomainService\ImportAdChartService;
 use Navplan\Enroute\DbService\DbAirspaceRepo;
 use Navplan\Enroute\DbService\DbNavaidRepo;
 use Navplan\Enroute\DomainService\IAirspaceService;
@@ -124,11 +124,11 @@ use Navplan\Webcam\DomainService\IWebcamService;
 use Navplan\Webcam\RestService\IWebcamServiceDiContainer;
 
 
-class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFlightrouteServiceDiContainer,
+class ProdNavplanDiContainerImporter implements ISystemDiContainer, IDbDiContainer, IFlightrouteServiceDiContainer,
     IGeonameServiceDiContainer, IMeteoServiceDiContainer, INotamServiceDiContainer, ISearchServiceDiContainer,
     ITerrainDiContainer, ITrafficServiceDiContainer, IUserServiceDiContainer, IAirportServiceDiContainer,
     IAirspaceServiceDiContainer, INavaidServiceDiContainer, IWebcamServiceDiContainer, IVerticalMapDiContainer,
-    IExporterServiceDiContainer, ITrackServiceDiContainer, IIcaoChartChConverterDiContainer, IAdChartConverterDiContainer
+    IExporterServiceDiContainer, ITrackServiceDiContainer, IIcaoChartChConverterDiContainer, IAdChartImporterDiContainer
 {
     // const
     public const DATA_IMPORT_DIR = __DIR__ . "/../../../data_import/"; // TODO
@@ -204,8 +204,8 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     // track
     private ITrackService $trackService;
     // ad chart
-    private IAdChartConverterService $adPdfChartService;
-    private AdChartConverterPersistence $adPdfChartPersistence;
+    private IImportAdChartService $importAdChartService;
+    private IImportAdChartPersistence $importAdChartPersistence;
 
 
     public function __construct() {
@@ -775,28 +775,28 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
 
     // region ad chart
 
-    function getAdPdfChartService(): AdChartConverterService {
-        if (!isset($this->adPdfChartService)) {
-            $this->adPdfChartService = new AdChartConverterService(
-                $this->getAdPdfChartPersistence(),
+    function getImportAdChartService(): IImportAdChartService {
+        if (!isset($this->importAdChartService)) {
+            $this->importAdChartService = new ImportAdChartService(
+                $this->getImportAdChartPersistence(),
                 $this->getAirportService(),
                 $this->getImageService(),
                 $this->getScreenLogger()
             );
         }
 
-        return $this->adPdfChartService;
+        return $this->importAdChartService;
     }
 
 
-    function getAdPdfChartPersistence(): AdChartConverterPersistence {
-        if (!isset($this->adPdfChartPersistence)) {
-            $this->adPdfChartPersistence = new DbAdChartConverterPersistence(
+    function getImportAdChartPersistence(): IImportAdChartPersistence {
+        if (!isset($this->importAdChartPersistence)) {
+            $this->importAdChartPersistence = new DbImportAdChartPersistence(
                 $this->getDbService()
             );
         }
 
-        return $this->adPdfChartPersistence;
+        return $this->importAdChartPersistence;
     }
 
     // endregion

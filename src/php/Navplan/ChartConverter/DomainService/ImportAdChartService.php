@@ -4,14 +4,14 @@ namespace Navplan\ChartConverter\DomainService;
 
 use InvalidArgumentException;
 use Navplan\Aerodrome\DomainService\IAirportService;
-use Navplan\ChartConverter\DomainModel\AdPdfChart;
-use Navplan\ChartConverter\DomainModel\AdPngChartRegType;
 use Navplan\ChartConverter\DomainModel\Ch1903Chart;
 use Navplan\ChartConverter\DomainModel\Ch1903Coordinate;
+use Navplan\ChartConverter\DomainModel\ImportAdChart;
+use Navplan\ChartConverter\DomainModel\ImportAdChartRegType;
 use Navplan\Common\DomainModel\Angle;
 use Navplan\Common\DomainModel\AngleUnit;
 use Navplan\Common\DomainModel\Extent2d;
-use Navplan\ProdNavplanDiContainer;
+use Navplan\ProdNavplanDiContainerImporter;
 use Navplan\System\DomainModel\Color;
 use Navplan\System\DomainModel\IDrawable;
 use Navplan\System\DomainModel\IImage;
@@ -19,14 +19,14 @@ use Navplan\System\DomainService\IImageService;
 use Navplan\System\DomainService\ILoggingService;
 
 
-class AdChartConverterService implements IAdChartConverterService {
-    private const AD_PDF_CHART_DIR = ProdNavplanDiContainer::DATA_IMPORT_DIR . "swisstopo_charts_ch/vfrm/";
-    private const AD_CHART_DIR = ProdNavplanDiContainer::AD_CHARTS_DIR;
+class ImportAdChartService implements IImportAdChartService {
+    private const AD_PDF_CHART_DIR = ProdNavplanDiContainerImporter::DATA_IMPORT_DIR . "swisstopo_charts_ch/vfrm/";
+    private const AD_CHART_DIR = ProdNavplanDiContainerImporter::AD_CHARTS_DIR;
     private const RESOLUTION_DPI = 200.0;
 
 
     public function __construct(
-        private AdChartConverterPersistence $adChartConverterPersistence,
+        private IImportAdChartPersistence $adChartConverterPersistence,
         private IAirportService $airportService,
         private IImageService $imageService,
         private ILoggingService $loggingService
@@ -34,13 +34,13 @@ class AdChartConverterService implements IAdChartConverterService {
     }
 
 
-    public function convertAdChart(int $id): void {
+    public function importAdChart(int $id): void {
         $adChart = $this->adChartConverterPersistence->readAdPdfChart($id);
         $this->convertSingleChart($adChart);
     }
 
 
-    public function convertAllAdCharts(): void {
+    public function importAllAdCharts(): void {
         $adCharts = $this->adChartConverterPersistence->readAllAdPdfCharts();
         foreach ($adCharts as $adChart) {
             $this->convertSingleChart($adChart);
@@ -48,9 +48,9 @@ class AdChartConverterService implements IAdChartConverterService {
     }
 
 
-    private function convertSingleChart(AdPdfChart $adChart): void {
-        $this->loggingService->info("converting chart: " . $adChart->pdfFilename . ", page " . $adChart->pdfPage);
-        $im = $this->loadPdf($adChart);
+    private function convertSingleChart(ImportAdChart $adChart): void {
+        $this->loggingService->info("converting chart: " . $adChart->importFilename . ", page " . $adChart->pdfPage);
+        $im = $this->loadFile($adChart);
 
         if ($adChart->pos1Pixel == null) {
             $outFilePath = self::AD_CHART_DIR . "TMP_" . $adChart->outPngFilename;
@@ -66,20 +66,24 @@ class AdChartConverterService implements IAdChartConverterService {
     }
 
 
-    private function loadPdf(AdPdfChart $adChart): IImage  {
-        $pdfFilePath = self::AD_PDF_CHART_DIR . $adChart->pdfFilename;
-        return $this->imageService->loadPdf(
-            $pdfFilePath,
-            self::RESOLUTION_DPI,
-            $adChart->pdfPage,
-            $adChart->pdfRotation
-        );
+    private function loadFile(ImportAdChart $adChart): IImage  {
+        $filePath = self::AD_PDF_CHART_DIR . $adChart->importFilename;
+        if ($adChart->isPdf()) {
+            return $this->imageService->loadPdf(
+                $filePath,
+                self::RESOLUTION_DPI,
+                $adChart->pdfPage,
+                $adChart->pdfRotation
+            );
+        } else {
+            return $this->imageService->loadImage($filePath);
+        }
     }
 
 
-    private function transformAdChart(AdPdfChart $adChart, IImage $im): array {
+    private function transformAdChart(ImportAdChart $adChart, IImage $im): array {
         switch ($adChart->regType) {
-            case AdPngChartRegType::ARP:
+            case ImportAdChartRegType::ARP:
                 $ad = $this->airportService->readByIcao($adChart->adIcao);
                 $chart = Ch1903Chart::fromPosAndScale(
                     $im,
@@ -89,7 +93,7 @@ class AdChartConverterService implements IAdChartConverterService {
                     self::RESOLUTION_DPI
                 );
                 break;
-            case AdPngChartRegType::POS1:
+            case ImportAdChartRegType::POS1:
                 $chart = Ch1903Chart::fromPosAndScale(
                     $im,
                     $adChart->pos1Pixel,
@@ -98,7 +102,7 @@ class AdChartConverterService implements IAdChartConverterService {
                     self::RESOLUTION_DPI
                 );
                 break;
-            case AdPngChartRegType::POS1POS2:
+            case ImportAdChartRegType::POS1POS2:
                 $chart = Ch1903Chart::fromPos1Pos2Rot(
                     $im,
                     $adChart->pos1Pixel,

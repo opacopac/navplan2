@@ -2,11 +2,11 @@
 
 namespace Navplan\User\RestService;
 
-use Navplan\ProdNavplanDiContainer;
+use Navplan\ProdNavplanDiContainerImporter;
 
 include_once __DIR__ . "/../../RestServiceBootstrap.php";
 
 
-$diContainer = new ProdNavplanDiContainer();
+$diContainer = new ProdNavplanDiContainerImporter();
 
 UserServiceProcessor::processRequest($diContainer);
