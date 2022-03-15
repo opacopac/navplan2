@@ -147,7 +147,7 @@ class AdChartConverterService implements IAdChartConverterService {
                 if ($pixelColor != null) {
                     $drawable->drawPoint($x, $pxHeight - $y - 1, $pixelColor);
                 } else {
-                    $drawable->drawPoint($x, $pxHeight - $y - 1, Color::BLACK);
+                    $drawable->drawPoint($x, $pxHeight - $y - 1, Color::TRANSPARENT);
                 }
                 $tim4 += microtime(true) - $starttime;
             }

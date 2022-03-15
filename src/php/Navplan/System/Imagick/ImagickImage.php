@@ -23,7 +23,7 @@ class ImagickImage implements IImage {
             0,
             $this->width,
             $this->height,
-            "RGB",
+            "RGBA",
             Imagick::PIXEL_FLOAT
         );
     }
@@ -104,18 +104,20 @@ class ImagickImage implements IImage {
         $idx = ($y * $this->width + $x) * Color::NUM_COLOR_VALUES;
 
         return array(
-            'r' => $this->pixelValues[$idx],
-            'g' => $this->pixelValues[$idx + 1],
-            'b' => $this->pixelValues[$idx + 2],
+            Color::R => $this->pixelValues[$idx],
+            Color::G => $this->pixelValues[$idx + 1],
+            Color::B => $this->pixelValues[$idx + 2],
+            Color::A => $this->pixelValues[$idx + 3]
         );
     }
 
 
     private function interpolateColor(array $color1, float $weight1, array $color2, float $weight2): array {
         return array(
-            'r' => $color1['r'] * $weight1 + $color2['r'] * $weight2,
-            'g' => $color1['g'] * $weight1 + $color2['g'] * $weight2,
-            'b' => $color1['b'] * $weight1 + $color2['b'] * $weight2,
+            Color::R => $color1[Color::R] * $weight1 + $color2[Color::R] * $weight2,
+            Color::G => $color1[Color::G] * $weight1 + $color2[Color::G] * $weight2,
+            Color::B => $color1[Color::B] * $weight1 + $color2[Color::B] * $weight2,
+            Color::A => $color1[Color::A] * $weight1 + $color2[Color::A] * $weight2,
         );
     }
 }

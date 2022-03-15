@@ -34,9 +34,10 @@ class ImagickDrawable implements IDrawable {
 
         $idx = ($y * $this->width + $x) * Color::NUM_COLOR_VALUES;
 
-        $this->colorValues[$idx] = $color['r'];
-        $this->colorValues[$idx + 1] = $color['g'];
-        $this->colorValues[$idx + 2] = $color['b'];
+        $this->colorValues[$idx] = $color[Color::R];
+        $this->colorValues[$idx + 1] = $color[Color::G];
+        $this->colorValues[$idx + 2] = $color[Color::B];
+        $this->colorValues[$idx + 3] = $color[Color::A];
     }
 
 
@@ -46,7 +47,7 @@ class ImagickDrawable implements IDrawable {
             0,
             $this->width,
             $this->height,
-            "RGB",
+            "RGBA",
             Imagick::PIXEL_FLOAT,
             $this->colorValues
         );

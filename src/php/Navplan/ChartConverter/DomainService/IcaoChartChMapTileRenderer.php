@@ -84,7 +84,7 @@ class IcaoChartChMapTileRenderer {
                 if ($pixelColor != null) {
                     $drawable->drawPoint($x, $y, $pixelColor);
                 } else {
-                    $drawable->drawPoint($x, $y, Color::BLACK); // TODO
+                    $drawable->drawPoint($x, $y, Color::TRANSPARENT);
                 }
             }
         }
