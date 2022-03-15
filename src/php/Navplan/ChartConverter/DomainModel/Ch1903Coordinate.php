@@ -13,11 +13,16 @@ class Ch1903Coordinate {
     }
 
 
-    public static function fromPos2d(Position2d $position): Ch1903Coordinate {
+    public static function fromLonLat(float $longitude, float $latitude): Ch1903Coordinate {
         return new Ch1903Coordinate(
-            Ch1903CoordinateConverter::WGStoCHy($position->latitude, $position->longitude),
-            Ch1903CoordinateConverter::WGStoCHx($position->latitude, $position->longitude)
+            Ch1903CoordinateConverter::WGStoCHy($latitude, $longitude),
+            Ch1903CoordinateConverter::WGStoCHx($latitude, $longitude)
         );
+    }
+
+
+    public static function fromPos2d(Position2d $position): Ch1903Coordinate {
+        return self::fromLonLat($position->longitude, $position->latitude);
     }
 
 

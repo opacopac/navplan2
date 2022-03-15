@@ -11,7 +11,6 @@ use Navplan\ChartConverter\DomainModel\Ch1903Coordinate;
 use Navplan\Common\DomainModel\Angle;
 use Navplan\Common\DomainModel\AngleUnit;
 use Navplan\Common\DomainModel\Extent2d;
-use Navplan\Common\DomainModel\Position2d;
 use Navplan\ProdNavplanDiContainer;
 use Navplan\System\DomainModel\Color;
 use Navplan\System\DomainModel\IDrawable;
@@ -134,14 +133,10 @@ class AdChartConverterService implements IAdChartConverterService {
         for ($y = 0; $y < $pxHeight; $y++) {
             for ($x = 0; $x < $pxWidth; $x++) {
                 $starttime = microtime(true);
-                $pos = new Position2d(
+                $chCoord = Ch1903Coordinate::fromLonLat(
                     $extent->minPos->longitude + $x * $lonInc,
                     $extent->minPos->latitude + $y * $latInc
                 );
-                $tim1 += microtime(true) - $starttime;
-
-                $starttime = microtime(true);
-                $chCoord = Ch1903Coordinate::fromPos2d($pos);
                 $tim2 += microtime(true) - $starttime;
 
                 $starttime = microtime(true);
@@ -159,7 +154,6 @@ class AdChartConverterService implements IAdChartConverterService {
 
             if ($y % 100 === 0) {
                 $this->loggingService->info("row " . $y);
-                $this->loggingService->info("t1 $tim1");
                 $this->loggingService->info("t2 $tim2");
                 $this->loggingService->info("t3 $tim3");
                 $this->loggingService->info("t4 $tim4");

@@ -76,11 +76,10 @@ class IcaoChartChMapTileRenderer {
         $drawable = $this->imageService->createDrawable(self::TILE_SIZE_PX, self::TILE_SIZE_PX, null);
         for ($y = 0; $y <= self::TILE_SIZE_PX; $y++) {
             for ($x = 0; $x <= self::TILE_SIZE_PX; $x++) {
-                $pos = new Position2d(
+                $chCoord = Ch1903Coordinate::fromLonLat(
                     $minLon + $x * $lonInc,
                     $minLat + $y * $latInc
                 );
-                $chCoord = Ch1903Coordinate::fromPos2d($pos);
                 $pixelColor = $this->icaoChart->getPixelColor($chCoord);
                 if ($pixelColor != null) {
                     $drawable->drawPoint($x, $y, $pixelColor);

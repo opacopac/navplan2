@@ -11,12 +11,21 @@ use Navplan\System\DomainModel\IImage;
 
 class ImagickImage implements IImage {
     private array $pixelValues;
-    private int $pixelValueCount;
+    private int $width;
+    private int $height;
 
 
     private function __construct(private Imagick $im) {
-        $this->pixelValues = $im->exportImagePixels(0, 0, $im->getImageWidth(), $im->getImageHeight(), "RGB", Imagick::PIXEL_FLOAT);
-        $this->pixelValueCount = count($this->pixelValues);
+        $this->width = $im->getImageWidth();
+        $this->height = $im->getImageHeight();
+        $this->pixelValues = $im->exportImagePixels(
+            0,
+            0,
+            $this->width,
+            $this->height,
+            "RGB",
+            Imagick::PIXEL_FLOAT
+        );
     }
 
 
@@ -51,37 +60,38 @@ class ImagickImage implements IImage {
 
 
     public function getWidth(): int {
-        return $this->im->getImageWidth();
+        return $this->width;
     }
 
 
     public function getHeight(): int {
-        return $this->im->getImageHeight();
+        return $this->height;
     }
 
 
     public function interpolatePixelColor(float $x, float $y): ?array {
-        if ($x < 0 || $y < 0 || $x >= $this->im->getImageWidth() || $y >= $this->im->getImageHeight()) {
-            return null;
-        }
         $floorX = (int) floor($x);
         $floorY = (int) floor($y);
         $ceilX = (int) ceil($x);
         $ceilY = (int) ceil($y);
 
+        if ($floorX < 0 || $floorY < 0 || $ceilX >= $this->width || $ceilY >= $this->height) {
+            return null;
+        }
+
         if ($floorX === $ceilX || $floorY == $ceilY) {
             return $this->getPixelColor($floorX, $floorY);
         }
 
-        $col2TL = $this->getPixelColor($floorX, $floorY);
-        $col2TR = $this->getPixelColor($ceilX, $floorY);
-        $col2BL = $this->getPixelColor($floorX, $ceilY);
-        $col2BR = $this->getPixelColor($ceilX, $ceilY);
-        $col2T = $this->interpolateColor($col2TL, $ceilX - $x, $col2TR, $x - $floorX);
-        $col2B = $this->interpolateColor($col2BL, $ceilX - $x, $col2BR, $x - $floorX);
-        $col2 = $this->interpolateColor($col2T, $ceilY - $y, $col2B, $y - $floorY);
+        $colTL = $this->getPixelColor($floorX, $floorY);
+        $colTR = $this->getPixelColor($ceilX, $floorY);
+        $colBL = $this->getPixelColor($floorX, $ceilY);
+        $colBR = $this->getPixelColor($ceilX, $ceilY);
+        $colT = $this->interpolateColor($colTL, $ceilX - $x, $colTR, $x - $floorX);
+        $colB = $this->interpolateColor($colBL, $ceilX - $x, $colBR, $x - $floorX);
+        $col = $this->interpolateColor($colT, $ceilY - $y, $colB, $y - $floorY);
 
-        return $col2;
+        return $col;
     }
 
 
@@ -91,16 +101,13 @@ class ImagickImage implements IImage {
 
 
     private function getPixelColor(int $x, int $y): array {
-        $idx = ($y * $this->getWidth() + $x) * 3;
-        if ($idx < $this->pixelValueCount) {
-            return array(
-                'r' => $this->pixelValues[$idx],
-                'g' => $this->pixelValues[$idx + 1],
-                'b' => $this->pixelValues[$idx + 2],
-            );
-        } else {
-            return Color::BLACK; // TODO
-        }
+        $idx = ($y * $this->width + $x) * Color::NUM_COLOR_VALUES;
+
+        return array(
+            'r' => $this->pixelValues[$idx],
+            'g' => $this->pixelValues[$idx + 1],
+            'b' => $this->pixelValues[$idx + 2],
+        );
     }
 
 
