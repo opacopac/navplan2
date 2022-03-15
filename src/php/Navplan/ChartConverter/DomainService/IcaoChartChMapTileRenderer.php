@@ -6,7 +6,6 @@ use Navplan\ChartConverter\DomainModel\Ch1903Chart;
 use Navplan\ChartConverter\DomainModel\Ch1903Coordinate;
 use Navplan\ChartConverter\DomainModel\MapTileCoordinate;
 use Navplan\Common\DomainModel\Position2d;
-use Navplan\System\DomainModel\Color;
 use Navplan\System\DomainModel\IDrawable;
 use Navplan\System\DomainService\IImageService;
 use Navplan\System\DomainService\ILoggingService;
@@ -81,11 +80,7 @@ class IcaoChartChMapTileRenderer {
                     $minLat + $y * $latInc
                 );
                 $pixelColor = $this->icaoChart->getPixelColor($chCoord);
-                if ($pixelColor != null) {
-                    $drawable->drawPoint($x, $y, $pixelColor);
-                } else {
-                    $drawable->drawPoint($x, $y, Color::TRANSPARENT);
-                }
+                $drawable->drawPoint($x, $y, $pixelColor);
             }
         }
 

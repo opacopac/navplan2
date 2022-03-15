@@ -91,7 +91,7 @@ class Ch1903Chart {
     }
 
 
-    public function getPixelColor(Ch1903Coordinate $chCoord): ?array {
+    public function getPixelColor(Ch1903Coordinate $chCoord): array {
         $pxRelX = ($chCoord->east - $this->chCoordinate1->east) / $this->xCoordPerPixel;
         $pxRelY = ($chCoord->north - $this->chCoordinate1->north) / $this->yCoordPerPixel;
 
@@ -103,6 +103,7 @@ class Ch1903Chart {
 
         $pxRelX += $this->pixelPos1->x;
         $pxRelY += $this->pixelPos1->y;
+
 
         return $this->image->interpolatePixelColor($pxRelX, $pxRelY);
     }

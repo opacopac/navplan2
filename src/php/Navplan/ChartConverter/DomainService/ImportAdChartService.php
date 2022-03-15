@@ -12,7 +12,6 @@ use Navplan\Common\DomainModel\Angle;
 use Navplan\Common\DomainModel\AngleUnit;
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\ProdNavplanDiContainerImporter;
-use Navplan\System\DomainModel\Color;
 use Navplan\System\DomainModel\IDrawable;
 use Navplan\System\DomainModel\IImage;
 use Navplan\System\DomainService\IImageService;
@@ -115,7 +114,11 @@ class ImportAdChartService implements IImportAdChartService {
                 throw new InvalidArgumentException('unknown registration type ' . $adChart->regType);
         }
 
-        $extent = $chart->calcLatLonExtent();
+        //$extent = $chart->calcLatLonExtent();
+        $extent = new Extent2d(
+            (new Ch1903Coordinate(600000, 200000))->toPos2d(),
+            (new Ch1903Coordinate(609000, 209000))->toPos2d()
+        );
         $drawable = $this->calcChartProjection($chart, $extent);
 
         return [$drawable, $extent];
@@ -130,9 +133,8 @@ class ImportAdChartService implements IImportAdChartService {
         $pxWidth = $chart->image->getWidth();
         $latRad = Angle::convert($midPos->latitude, AngleUnit::DEG, AngleUnit::RAD);
         $pxHeight = (int) round($latDiff * $pxPerDeg / cos($latRad));
-        $lonInc = $lonDiff / $pxWidth;
-        $latInc = $latDiff / $pxHeight;
-
+        $lonInc = $lonDiff / ($pxWidth - 1);
+        $latInc = $latDiff / ($pxHeight - 1);
 
         $drawable = $this->imageService->createDrawable($pxWidth, $pxHeight);
         for ($y = 0; $y < $pxHeight; $y++) {
@@ -141,13 +143,8 @@ class ImportAdChartService implements IImportAdChartService {
                     $extent->minPos->longitude + $x * $lonInc,
                     $extent->minPos->latitude + $y * $latInc
                 );
-
                 $pixelColor = $chart->getPixelColor($chCoord);
-                if ($pixelColor != null) {
-                    $drawable->drawPoint($x, $pxHeight - $y - 1, $pixelColor);
-                } else {
-                    $drawable->drawPoint($x, $pxHeight - $y - 1, Color::TRANSPARENT);
-                }
+                $drawable->drawPoint($x, $pxHeight - $y - 1, $pixelColor);
             }
         }
 

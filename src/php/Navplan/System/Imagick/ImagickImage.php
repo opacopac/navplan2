@@ -69,14 +69,14 @@ class ImagickImage implements IImage {
     }
 
 
-    public function interpolatePixelColor(float $x, float $y): ?array {
+    public function interpolatePixelColor(float $x, float $y): array {
         $floorX = (int) floor($x);
         $floorY = (int) floor($y);
         $ceilX = (int) ceil($x);
         $ceilY = (int) ceil($y);
 
-        if ($floorX < 0 || $floorY < 0 || $ceilX >= $this->width || $ceilY >= $this->height) {
-            return null;
+        if ($ceilX < 0 || $ceilY < 0 || $floorX >= $this->width || $floorY >= $this->height) {
+            return Color::TRANSPARENT;
         }
 
         if ($floorX === $ceilX || $floorY == $ceilY) {
@@ -101,6 +101,10 @@ class ImagickImage implements IImage {
 
 
     private function getPixelColor(int $x, int $y): array {
+        if ($x < 0 || $y < 0 || $x >= $this->width || $y >= $this->height) {
+            return Color::TRANSPARENT;
+        }
+
         $idx = ($y * $this->width + $x) * Color::NUM_COLOR_VALUES;
 
         return array(
