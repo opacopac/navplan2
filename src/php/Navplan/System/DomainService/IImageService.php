@@ -8,7 +8,7 @@ use Navplan\System\DomainModel\IImage;
 
 
 interface IImageService {
-    function createDrawable(int $width, int $height, string $bgColor = null): IDrawable;
+    function createDrawable(int $width, int $height): IDrawable;
 
     function loadImage(string $filename): IImage;
 

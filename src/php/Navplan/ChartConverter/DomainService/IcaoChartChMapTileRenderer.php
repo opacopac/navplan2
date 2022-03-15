@@ -73,7 +73,7 @@ class IcaoChartChMapTileRenderer {
         $lonInc = ($maxLon - $minLon) / self::TILE_SIZE_PX;
         $latInc = ($maxLat - $minLat) / self::TILE_SIZE_PX;
 
-        $drawable = $this->imageService->createDrawable(self::TILE_SIZE_PX, self::TILE_SIZE_PX, null);
+        $drawable = $this->imageService->createDrawable(self::TILE_SIZE_PX, self::TILE_SIZE_PX);
         for ($y = 0; $y <= self::TILE_SIZE_PX; $y++) {
             for ($x = 0; $x <= self::TILE_SIZE_PX; $x++) {
                 $chCoord = Ch1903Coordinate::fromLonLat(

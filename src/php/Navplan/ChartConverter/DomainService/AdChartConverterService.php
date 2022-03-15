@@ -20,9 +20,9 @@ use Navplan\System\DomainService\ILoggingService;
 
 
 class AdChartConverterService implements IAdChartConverterService {
-    private static string $adPdfChartDir = ProdNavplanDiContainer::DATA_IMPORT_DIR . "swisstopo_charts_ch/vfrm/";
-    private static string $adChartDir = ProdNavplanDiContainer::AD_CHARTS_DIR;
-    private static float $resolutionDpi = 200.0;
+    private const AD_PDF_CHART_DIR = ProdNavplanDiContainer::DATA_IMPORT_DIR . "swisstopo_charts_ch/vfrm/";
+    private const AD_CHART_DIR = ProdNavplanDiContainer::AD_CHARTS_DIR;
+    private const RESOLUTION_DPI = 200.0;
 
 
     public function __construct(
@@ -53,22 +53,24 @@ class AdChartConverterService implements IAdChartConverterService {
         $im = $this->loadPdf($adChart);
 
         if ($adChart->pos1Pixel == null) {
-            $outFilePath = self::$adChartDir . "TMP_" . $adChart->outPngFilename;
+            $outFilePath = self::AD_CHART_DIR . "TMP_" . $adChart->outPngFilename;
             $im->saveImage($outFilePath);
+            $this->loggingService->info("saved temp file " . $adChart->outPngFilename);
         } else {
             $drawableAndExtent = $this->transformAdChart($adChart, $im);
-            $outFilePath = self::$adChartDir . $adChart->outPngFilename;
+            $outFilePath = self::AD_CHART_DIR . $adChart->outPngFilename;
             $drawableAndExtent[0]->saveImage($outFilePath);
             $this->adChartConverterPersistence->writeExtent($adChart->id, $drawableAndExtent[1]);
+            $this->loggingService->info("done");
         }
     }
 
 
     private function loadPdf(AdPdfChart $adChart): IImage  {
-        $pdfFilePath = self::$adPdfChartDir . $adChart->pdfFilename;
+        $pdfFilePath = self::AD_PDF_CHART_DIR . $adChart->pdfFilename;
         return $this->imageService->loadPdf(
             $pdfFilePath,
-            self::$resolutionDpi,
+            self::RESOLUTION_DPI,
             $adChart->pdfPage,
             $adChart->pdfRotation
         );
@@ -84,7 +86,7 @@ class AdChartConverterService implements IAdChartConverterService {
                     $adChart->pos1Pixel,
                     Ch1903Coordinate::fromPos2d($ad->position),
                     $adChart->chartScale,
-                    self::$resolutionDpi
+                    self::RESOLUTION_DPI
                 );
                 break;
             case AdPngChartRegType::POS1:
@@ -93,7 +95,7 @@ class AdChartConverterService implements IAdChartConverterService {
                     $adChart->pos1Pixel,
                     $adChart->pos1Ch1903Coord,
                     $adChart->chartScale,
-                    self::$resolutionDpi
+                    self::RESOLUTION_DPI
                 );
                 break;
             case AdPngChartRegType::POS1POS2:
@@ -128,35 +130,20 @@ class AdChartConverterService implements IAdChartConverterService {
         $latInc = $latDiff / $pxHeight;
 
 
-        $drawable = $this->imageService->createDrawable($pxWidth, $pxHeight, null); //self::BG_COLOR);
-        $tim1 = 0; $tim2 = 0; $tim3 = 0; $tim4 = 0;
+        $drawable = $this->imageService->createDrawable($pxWidth, $pxHeight);
         for ($y = 0; $y < $pxHeight; $y++) {
             for ($x = 0; $x < $pxWidth; $x++) {
-                $starttime = microtime(true);
                 $chCoord = Ch1903Coordinate::fromLonLat(
                     $extent->minPos->longitude + $x * $lonInc,
                     $extent->minPos->latitude + $y * $latInc
                 );
-                $tim2 += microtime(true) - $starttime;
 
-                $starttime = microtime(true);
                 $pixelColor = $chart->getPixelColor($chCoord);
-                $tim3 += microtime(true) - $starttime;
-
-                $starttime = microtime(true);
                 if ($pixelColor != null) {
                     $drawable->drawPoint($x, $pxHeight - $y - 1, $pixelColor);
                 } else {
                     $drawable->drawPoint($x, $pxHeight - $y - 1, Color::TRANSPARENT);
                 }
-                $tim4 += microtime(true) - $starttime;
-            }
-
-            if ($y % 100 === 0) {
-                $this->loggingService->info("row " . $y);
-                $this->loggingService->info("t2 $tim2");
-                $this->loggingService->info("t3 $tim3");
-                $this->loggingService->info("t4 $tim4");
             }
         }
 

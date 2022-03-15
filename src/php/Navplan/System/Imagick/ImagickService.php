@@ -12,7 +12,6 @@ class ImagickService implements IImageService {
     public function createDrawable(
         int $width,
         int $height,
-        string $bgColor = null
     ): IDrawable {
         return new ImagickDrawable($width, $height);
     }

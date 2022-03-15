@@ -17,10 +17,9 @@ class ImagickDrawable implements IDrawable {
     public function __construct(
         private int $width,
         private int $height,
-        string $bgColor = null // TODO
     ) {
         $this->im = new Imagick();
-        $imPx = $bgColor != null ? new ImagickPixel($bgColor) : new ImagickPixel();
+        $imPx = new ImagickPixel('transparent');
         $this->im->newImage($this->width, $this->height, $imPx);
         $this->colorValues = array_fill(0, $this->width * $this->height * Color::NUM_COLOR_VALUES, 0);
         $this->countColorValues = count($this->colorValues);
