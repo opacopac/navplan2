@@ -114,11 +114,7 @@ class ImportAdChartService implements IImportAdChartService {
                 throw new InvalidArgumentException('unknown registration type ' . $adChart->regType);
         }
 
-        //$extent = $chart->calcLatLonExtent();
-        $extent = new Extent2d(
-            (new Ch1903Coordinate(600000, 200000))->toPos2d(),
-            (new Ch1903Coordinate(609000, 209000))->toPos2d()
-        );
+        $extent = $chart->calcLatLonExtent();
         $drawable = $this->calcChartProjection($chart, $extent);
 
         return [$drawable, $extent];

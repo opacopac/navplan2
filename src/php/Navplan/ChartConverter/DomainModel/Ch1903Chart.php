@@ -156,8 +156,8 @@ class Ch1903Chart {
         $pxRelY = $y - $this->pixelPos1->y;
 
         if ($this->rotationRad != 0) {
-            $pxRelX2 = $pxRelX * cos($this->rotationRad) - $pxRelY * sin($this->rotationRad);
-            $pxRelY = $pxRelX * sin($this->rotationRad) + $pxRelY * cos($this->rotationRad);
+            $pxRelX2 = $pxRelX * cos(-$this->rotationRad) - $pxRelY * sin(-$this->rotationRad);
+            $pxRelY = $pxRelX * sin(-$this->rotationRad) + $pxRelY * cos(-$this->rotationRad);
             $pxRelX = $pxRelX2;
         }
 
