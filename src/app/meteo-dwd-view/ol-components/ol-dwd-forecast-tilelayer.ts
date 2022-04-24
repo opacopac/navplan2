@@ -8,7 +8,7 @@ export class OlDwdForecastTilelayer {
         const layer = new TileLayer({
             opacity: 0.8,
             source: new XYZ({
-                url: 'http://localhost/navplan2/maptiles/meteo_test/{z}/{x}/{y}.png',
+                url: 'http://localhost/navplan2/maptiles/meteo_test/000/{z}/{x}/{y}.png',
                 maxZoom: 7,
                 // attributions: attributions
             })
