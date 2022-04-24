@@ -1,4 +1,4 @@
-import {createAction} from '@ngrx/store';
+import {createAction, props} from '@ngrx/store';
 
 
 export class MeteoDwdActions {
@@ -7,6 +7,10 @@ export class MeteoDwdActions {
     );
     public static readonly open = createAction(
         '[MeteoDwdButton] Open Dwd Forecast',
+    );
+    public static readonly selectInterval = createAction(
+        '[MeteoDwdTimeline] Select Interval',
+        props<{ interval: number }>()
     );
     public static readonly close = createAction(
         '[MeteoDwdEffects] Close Dwd Forecast',

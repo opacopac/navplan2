@@ -6,6 +6,7 @@ import {MeteoDwdButtonStatus} from '../../meteo-dwd/domain-model/meteo-dwd-butto
 
 const initialState: MeteoDwdState = {
     buttonStatus: MeteoDwdButtonStatus.OFF,
+    selectedInterval: 0
 };
 
 
@@ -14,6 +15,10 @@ export const meteoDwdReducer = createReducer(
     on(MeteoDwdActions.open, (state, action) => ({
         ...state,
         buttonStatus: MeteoDwdButtonStatus.CURRENT,
+    })),
+    on(MeteoDwdActions.selectInterval, (state, action) => ({
+        ...state,
+        selectedInterval: action.interval,
     })),
     on(MeteoDwdActions.close, (state) => ({
         ...state,

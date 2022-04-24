@@ -1,29 +1,35 @@
 import {Observable, Subscription} from 'rxjs';
-import {MeteoDwdState} from '../../meteo-dwd/domain-model/meteo-dwd-state';
 import {MeteoDwdButtonStatus} from '../../meteo-dwd/domain-model/meteo-dwd-button-status';
-import {OlTileLayer} from '../../base-map-view/ol-model/ol-tile-layer';
+import {OlDwdForecastTilelayer} from './ol-dwd-forecast-tilelayer';
 
 
 export class OlDwdForecastContainer {
-    private readonly meteoDwdStateSubscription: Subscription;
+    private readonly meteoDwdButtonStatusSubscription: Subscription;
+    private readonly meteoDwdSelectedIntervalSubscription: Subscription;
 
 
     constructor(
-        private readonly dwdForecastLayer: OlTileLayer,
-        private readonly meteoDwdState$: Observable<MeteoDwdState>,
+        private readonly dwdForecastLayer: OlDwdForecastTilelayer,
+        private readonly meteoDwdButtonStatus$: Observable<MeteoDwdButtonStatus>,
+        private readonly meteoDwdSelectedInterval$: Observable<number>,
     ) {
-        this.meteoDwdStateSubscription = this.meteoDwdState$.subscribe(state => {
-            if (state.buttonStatus === MeteoDwdButtonStatus.CURRENT) {
+        this.meteoDwdButtonStatusSubscription = this.meteoDwdButtonStatus$.subscribe(buttonStatus => {
+            if (buttonStatus === MeteoDwdButtonStatus.CURRENT) {
                 this.showLayer();
             } else {
                 this.hideLayer();
             }
         });
+
+        this.meteoDwdSelectedIntervalSubscription = this.meteoDwdSelectedInterval$.subscribe(interval => {
+            this.dwdForecastLayer.setInterval(interval);
+        });
     }
 
 
     public destroy() {
-        this.meteoDwdStateSubscription.unsubscribe();
+        this.meteoDwdButtonStatusSubscription.unsubscribe();
+        this.meteoDwdSelectedIntervalSubscription.unsubscribe();
     }
 
 
