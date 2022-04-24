@@ -49,6 +49,13 @@
     z-index: 20;
 }
 
+.meteo-dwd-button {
+    position: absolute;
+    bottom: 172px;
+    left: 10px;
+    z-index: 20;
+}
+
 .layer-button {
     position: absolute;
     bottom: 40px;

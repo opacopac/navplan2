@@ -10,8 +10,8 @@ import {getMapZoom, getSelectedMapBaseLayerType, getShowImage} from '../../../ba
 import {Observable} from 'rxjs';
 import {Subscription} from 'rxjs/internal/Subscription';
 import {ShowImageState} from '../../../base-map-state/state-model/show-image-state';
-import {OlVectorLayer} from '../../ol-model/ol-vector-layer';
 import {OlMap} from '../../ol-model/ol-map';
+import {OlLayer} from '../../ol-model/ol-layer';
 
 
 @Component({
@@ -41,7 +41,7 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
 
 
     public createMap(
-        featureLayers: OlVectorLayer[],
+        featureLayers: OlLayer[],
         mapOverlays: Overlay[],
         position: Position2d,
         zoom: number,

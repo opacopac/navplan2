@@ -69,6 +69,10 @@ import {OlSmaMeasurementContainer} from '../../../meteo-sma-view/ol-components/o
 import {
     OlOverlayAirspaceStructureComponent
 } from '../../../search-view/ng-components/ol-overlay-airspace-structure/ol-overlay-airspace-structure.component';
+import {OlDwdForecastContainer} from '../../../meteo-dwd-view/ol-components/ol-dwd-forecast-container';
+import {getMeteoDwdState} from '../../../meteo-dwd-state/ngrx/meteo-dwd.selectors';
+import {MeteoDwdButtonStatus} from '../../../meteo-dwd/domain-model/meteo-dwd-button-status';
+import {OlDwdForecastTilelayer} from '../../../meteo-dwd-view/ol-components/ol-dwd-forecast-tilelayer';
 
 
 @Component({
@@ -98,14 +102,17 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
     private olTraffic: OlTrafficContainer;
     private olOwnPlane: OlOwnPlaneContainer;
     private olSmaMeasurementsContainer: OlSmaMeasurementContainer;
+    private olDwdForecastContainer: OlDwdForecastContainer;
     private flightroute$ = this.appStore.pipe(select(getFlightroute));
     private readonly showOverlay$: Observable<OverlayState> = this.appStore.pipe(select(getFlightMapOverlay));
     private readonly meteoSmaState$ = this.appStore.pipe(select(getMeteoSmaState));
     public readonly showMeteoSmaMeasurements$ = this.meteoSmaState$.pipe(map(state => state.buttonStatus === MeteoSmaButtonStatus.CURRENT));
+    private readonly meteoDwdState$ = this.appStore.pipe(select(getMeteoDwdState));
+    public readonly showMeteoDwdForecasts$ = this.meteoDwdState$.pipe(map(state => state.buttonStatus === MeteoDwdButtonStatus.CURRENT));
     private readonly verticalMapState$ = this.appStore.pipe(select(getVerticalMapState));
     public readonly showVerticalMapButton$ = this.flightroute$.pipe(map(route => route.waypoints.length >= 2));
     public readonly showVerticalMap$ = this.verticalMapState$.pipe(map(state => state.buttonStatus === VerticalMapButtonStatus.CURRENT));
-    public readonly showLayerSelection$ = this.appStore.pipe(select(getShowBaseMapSelection));
+    public readonly showBaseMapSelection$ = this.appStore.pipe(select(getShowBaseMapSelection));
 
 
     constructor(private readonly appStore: Store<any>) {
@@ -156,6 +163,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         this.olTraffic.destroy();
         this.olOwnPlane.destroy();
         this.olSmaMeasurementsContainer.destroy();
+        this.olDwdForecastContainer.destroy();
 
         this.showOverlaySubscription.unsubscribe();
     }
@@ -202,6 +210,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         const pointSearchLayer = new OlVectorLayer();
         const smaMeasurementsBgLayer = new OlVectorLayer();
         const smaMeasurementsLayer = new OlVectorLayer();
+        const dwdForecastLayer = OlDwdForecastTilelayer.create();
 
         const olMap = this.mapContainer.createMap(
             [
@@ -222,7 +231,8 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
                 trafficLayer,
                 ownPlaneLayer,
                 smaMeasurementsBgLayer,
-                smaMeasurementsLayer
+                smaMeasurementsLayer,
+                dwdForecastLayer
             ],
             [
                 this.mapOverlayComponent.olOverlay,
@@ -310,6 +320,10 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
             smaMeasurementsLayer,
             this.appStore.pipe(select(getMeteoSmaState)),
             rotation
+        );
+        this.olDwdForecastContainer = new OlDwdForecastContainer(
+            dwdForecastLayer,
+            this.appStore.pipe(select(getMeteoDwdState))
         );
     }
 

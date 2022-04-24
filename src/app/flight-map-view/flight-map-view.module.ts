@@ -24,6 +24,7 @@ import {TrafficViewModule} from '../traffic-view/traffic-view.module';
 import {SearchViewModule} from '../search-view/search-view.module';
 import {LocationViewModule} from '../location-view/location-view.module';
 import {BaseMapViewModule} from '../base-map-view/base-map-view.module';
+import {MeteoDwdViewModule} from '../meteo-dwd-view/meteo-dwd-view.module';
 
 @NgModule({
     declarations: [
@@ -47,6 +48,7 @@ import {BaseMapViewModule} from '../base-map-view/base-map-view.module';
         LocationViewModule,
         MetarTafViewModule,
         MeteoSmaViewModule,
+        MeteoDwdViewModule,
         NotamViewModule,
         SearchViewModule,
         TrackViewModule,

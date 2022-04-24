@@ -3,9 +3,11 @@ import {Vector} from 'ol/source';
 import {Geometry} from 'ol/geom';
 import {OlFeature} from './ol-feature';
 import VectorImageLayer from 'ol/layer/VectorImage';
+import {OlLayer} from './ol-layer';
+import BaseLayer from 'ol/layer/Base';
 
 
-export class OlVectorLayer {
+export class OlVectorLayer implements OlLayer {
     public readonly vectorLayer: VectorLayer<Vector<Geometry>> | VectorImageLayer<Vector<Geometry>>;
 
 
@@ -19,6 +21,16 @@ export class OlVectorLayer {
                 source: new Vector({}),
             });
         }
+    }
+
+
+    public getLayer(): BaseLayer {
+        return this.vectorLayer;
+    }
+
+
+    public setVisible(value: boolean) {
+        this.vectorLayer.setVisible(value);
     }
 
 

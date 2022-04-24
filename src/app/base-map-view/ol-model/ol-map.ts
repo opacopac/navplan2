@@ -17,7 +17,6 @@ import XYZ from 'ol/source/XYZ';
 import VectorTileLayer from 'ol/layer/VectorTile';
 import {MouseWheelZoom} from 'ol/interaction';
 import {MapBaseLayerType} from '../../base-map/domain-model/map-base-layer-type';
-import {OlVectorLayer} from './ol-vector-layer';
 import Overlay from 'ol/Overlay';
 import {OlBaselayerFactory} from '../ol-service/ol-baselayer-factory';
 import {Attribution, FullScreen, Rotate, ScaleLine} from 'ol/control';
@@ -26,6 +25,7 @@ import {ShowImageState} from '../../base-map-state/state-model/show-image-state'
 import {ArrayHelper} from '../../system/domain-service/array/array-helper';
 import ImageLayer from 'ol/layer/Image';
 import Projection from 'ol/proj/Projection';
+import {OlLayer} from './ol-layer';
 
 
 export class OlMap {
@@ -36,7 +36,6 @@ export class OlMap {
 
     public readonly map: Map;
     private baseLayer: OlBaseLayer;
-    private featureLayers: OlVectorLayer[];
     private readonly imageLayers: ImageLayer<ImageStatic>[] = [];
     private readonly _mapClick$ = new Subject<[Position2d, DataItem]>();
     private readonly _mapMove$ = new Subject<void>();
@@ -54,17 +53,16 @@ export class OlMap {
 
     public constructor(
         mapHtmlId: string,
-        featureLayers: OlVectorLayer[],
+        featureLayers: OlLayer[],
         mapOverlays: Overlay[],
         position: Position2d,
         zoom: number,
         mapRotation: Angle
     ) {
         this.baseLayer = OlBaselayerFactory.create(OlMap.DEFAULT_BASE_LAYER);
-        this.featureLayers = featureLayers;
         const allLayers = [];
         allLayers.push(this.baseLayer.layer); // TODO
-        allLayers.push(...this.featureLayers.map(layer => layer.vectorLayer));
+        allLayers.push(...featureLayers.map(layer => layer.getLayer()));
         this.map = new Map({
             target: mapHtmlId,
             controls: [

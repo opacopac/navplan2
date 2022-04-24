@@ -20,7 +20,8 @@
 <app-location-button class="location-button"></app-location-button>
 <app-traffic-button class="traffic-button"></app-traffic-button>
 <app-layer-button class="layer-button"></app-layer-button>
-<app-layer-selection class="layer-selection" *ngIf="this.showLayerSelection$ | async"></app-layer-selection>
+<app-layer-selection class="layer-selection" *ngIf="this.showBaseMapSelection$ | async"></app-layer-selection>
+<app-meteo-dwd-button class="meteo-dwd-button"></app-meteo-dwd-button>
 <app-meteo-sma-button class="meteo-sma-button"></app-meteo-sma-button>
 <app-meteo-sma-container *ngIf="this.showMeteoSmaMeasurements$ | async"></app-meteo-sma-container>
 <app-vertical-map-button  class="vertical-map-button" *ngIf="this.showVerticalMapButton$ | async"></app-vertical-map-button>
