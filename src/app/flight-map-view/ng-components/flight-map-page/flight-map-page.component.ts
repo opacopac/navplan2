@@ -218,6 +218,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
 
         const olMap = this.mapContainer.createMap(
             [
+                dwdForecastLayer,
                 chartCloserLayer,
                 circuitLayer,
                 airspaceLayer,
@@ -236,7 +237,6 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
                 ownPlaneLayer,
                 smaMeasurementsBgLayer,
                 smaMeasurementsLayer,
-                dwdForecastLayer
             ],
             [
                 this.mapOverlayComponent.olOverlay,

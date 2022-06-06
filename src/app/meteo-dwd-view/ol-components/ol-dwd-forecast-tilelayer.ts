@@ -34,10 +34,11 @@ export class OlDwdForecastTilelayer implements OlLayer {
 
     private createLayer(): TileLayer<XYZ> {
         return new TileLayer({
-            opacity: 0.8,
+            opacity: 0.75,
             source: new XYZ({
                 url: this.getUrl(),
                 maxZoom: 7,
+                // imageSmoothing: false
                 // attributions: attributions
             })
         });
@@ -45,8 +46,8 @@ export class OlDwdForecastTilelayer implements OlLayer {
 
 
     private getUrl(): string {
-        const intervalStr = StringnumberHelper.zeroPad(this.interval, 3);
+        const intervalStr = StringnumberHelper.zeroPad(this.interval + 20 - 20, 3);
 
-        return 'http://localhost/navplan2/maptiles/meteo_test/' + intervalStr + '/{z}/{x}/{y}.png';
+        return 'http://localhost/navplan2/maptiles/meteo_test/wind_d2/' + intervalStr + '/{z}/{x}/{y}.png';
     }
 }
