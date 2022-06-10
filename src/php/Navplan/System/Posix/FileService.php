@@ -4,14 +4,14 @@ namespace Navplan\System\Posix;
 
 use Exception;
 use Navplan\Common\StringNumberHelper;
-use Navplan\ProdNavplanDiContainerImporter;
+use Navplan\ProdNavplanDiContainer;
 use Navplan\System\DomainModel\FileServiceException;
 use Navplan\System\DomainModel\IFile;
 use Navplan\System\DomainService\IFileService;
 
 
 class FileService implements IFileService {
-    const TMP_DIR_BASE = ProdNavplanDiContainerImporter::TMP_DIR; // TODO //'../../../../../tmp/';
+    const TMP_DIR_BASE = ProdNavplanDiContainer::TMP_DIR; // TODO //'../../../../../tmp/';
     const TMP_DIR_PREFIX = 'tmpdl_';
     const TMP_DIR_TIMEOUT_SEC = 300;
 

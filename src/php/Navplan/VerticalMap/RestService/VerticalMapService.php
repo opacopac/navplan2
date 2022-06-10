@@ -2,11 +2,11 @@
 
 namespace Navplan\VerticalMap\RestService;
 
-use Navplan\ProdNavplanDiContainerImporter;
+use Navplan\ProdNavplanDiContainer;
 
 require_once __DIR__ . "/../../RestServiceBootstrap.php";
 
 
-$diContainer = new ProdNavplanDiContainerImporter();
+$diContainer = new ProdNavplanDiContainer();
 
 VerticalMapServiceProcessor::processRequest($diContainer);

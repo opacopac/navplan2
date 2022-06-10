@@ -11,7 +11,7 @@ use Navplan\ChartConverter\DomainModel\ImportAdChartRegType;
 use Navplan\Common\DomainModel\Angle;
 use Navplan\Common\DomainModel\AngleUnit;
 use Navplan\Common\DomainModel\Extent2d;
-use Navplan\ProdNavplanDiContainerImporter;
+use Navplan\ProdNavplanDiContainer;
 use Navplan\System\DomainModel\IDrawable;
 use Navplan\System\DomainModel\IImage;
 use Navplan\System\DomainService\IImageService;
@@ -19,8 +19,8 @@ use Navplan\System\DomainService\ILoggingService;
 
 
 class ImportAdChartService implements IImportAdChartService {
-    private const AD_PDF_CHART_DIR = ProdNavplanDiContainerImporter::DATA_IMPORT_DIR . "swisstopo_charts_ch/vfrm/";
-    private const AD_CHART_DIR = ProdNavplanDiContainerImporter::AD_CHARTS_DIR;
+    private const AD_PDF_CHART_DIR = ProdNavplanDiContainer::DATA_IMPORT_DIR . "swisstopo_charts_ch/vfrm/";
+    private const AD_CHART_DIR = ProdNavplanDiContainer::AD_CHARTS_DIR;
     private const RESOLUTION_DPI = 200.0;
 
 
