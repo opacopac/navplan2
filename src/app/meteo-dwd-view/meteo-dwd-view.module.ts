@@ -7,6 +7,7 @@ import {MeteoDwdButtonComponent} from './ng-components/meteo-dwd-button/meteo-dw
 import {MeteoDwdContainerComponent} from './ng-components/meteo-dwd-container/meteo-dwd-container.component';
 import {MeteoDwdStateModule} from '../meteo-dwd-state/meteo-dwd-state.module';
 import {MeteoDwdTimelineComponent} from './ng-components/meteo-dwd-timeline/meteo-dwd-timeline.component';
+import {MeteoDwdRestModule} from '../meteo-dwd-rest/meteo-dwd-rest.module';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import {MeteoDwdTimelineComponent} from './ng-components/meteo-dwd-timeline/mete
         MatButtonModule,
         MatTooltipModule,
         MeteoDwdModule,
+        MeteoDwdRestModule,
         MeteoDwdStateModule,
     ],
     declarations: [

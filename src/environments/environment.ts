@@ -16,6 +16,7 @@ export const environment = {
     webcamServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Webcam/RestService/WebcamService.php',
     flightrouteServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Flightroute/RestService/FlightrouteService.php',
     meteoSmaBaseUrl: WEBSITE_BASE_URL + 'php/Navplan/MeteoSma/RestService/MeteoService.php',
+    meteoDwdBaseUrl: WEBSITE_BASE_URL + 'php/Navplan/MeteoDwd/RestService/MeteoDwdService.php',
     notamRestServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Notam/RestService/NotamService.php',
     openAipServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Search/RestService/SearchService.php',
     searchServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Search/RestService/SearchService.php',

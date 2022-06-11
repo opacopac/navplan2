@@ -33,11 +33,11 @@ class RestGridDefinitionConverter {
         $minLon = StringNumberHelper::parseFloatOrError($args, self::ARG_MINLON);
         $minLat = StringNumberHelper::parseFloatOrError($args, self::ARG_MINLAT);
         return new GridDefinition(
-            StringNumberHelper::parseIntOrError($args, self::ARG_HEIGHT),
             StringNumberHelper::parseIntOrError($args, self::ARG_WIDTH),
+            StringNumberHelper::parseIntOrError($args, self::ARG_HEIGHT),
             new Position2d($minLon, $minLat),
-            StringNumberHelper::parseFloatOrError($args, self::ARG_STEP_LAT),
             StringNumberHelper::parseFloatOrError($args, self::ARG_STEP_LON),
+            StringNumberHelper::parseFloatOrError($args, self::ARG_STEP_LAT),
         );
     }
 }

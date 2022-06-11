@@ -1,44 +1,49 @@
 import {Observable, Subscription} from 'rxjs';
 import {MeteoDwdButtonStatus} from '../../meteo-dwd/domain-model/meteo-dwd-button-status';
 import {OlDwdForecastTilelayer} from './ol-dwd-forecast-tilelayer';
+import {ValueGrid} from '../../meteo-dwd/domain-model/value-grid';
+import {WindSpeedDir} from '../../meteo-dwd/domain-model/wind-speed-dir';
+import {OlVectorLayer} from '../../base-map-view/ol-model/ol-vector-layer';
+import {OlDwdForecastWindgrid} from './ol-dwd-forecast-windgrid';
 
 
 export class OlDwdForecastContainer {
     private readonly meteoDwdButtonStatusSubscription: Subscription;
     private readonly meteoDwdSelectedIntervalSubscription: Subscription;
+    private readonly windGrid: OlDwdForecastWindgrid;
 
 
     constructor(
         private readonly dwdForecastLayer: OlDwdForecastTilelayer,
+        private readonly dwdForecastWindLayer: OlVectorLayer,
         private readonly meteoDwdButtonStatus$: Observable<MeteoDwdButtonStatus>,
         private readonly meteoDwdSelectedInterval$: Observable<number>,
+        private readonly meteoDwdWindGrid$: Observable<ValueGrid<WindSpeedDir>>
     ) {
         this.meteoDwdButtonStatusSubscription = this.meteoDwdButtonStatus$.subscribe(buttonStatus => {
-            if (buttonStatus === MeteoDwdButtonStatus.CURRENT) {
-                this.showLayer();
-            } else {
-                this.hideLayer();
-            }
+            this.showLayers(buttonStatus === MeteoDwdButtonStatus.CURRENT);
         });
 
         this.meteoDwdSelectedIntervalSubscription = this.meteoDwdSelectedInterval$.subscribe(interval => {
             this.dwdForecastLayer.setInterval(interval);
         });
+
+        this.windGrid = new OlDwdForecastWindgrid(
+            this.dwdForecastWindLayer,
+            this.meteoDwdWindGrid$
+        );
     }
 
 
     public destroy() {
         this.meteoDwdButtonStatusSubscription.unsubscribe();
         this.meteoDwdSelectedIntervalSubscription.unsubscribe();
+        this.windGrid.destroy();
     }
 
 
-    private showLayer() {
-        this.dwdForecastLayer.setVisible(true);
-    }
-
-
-    private hideLayer() {
-        this.dwdForecastLayer.setVisible(false);
+    private showLayers(isVisible: boolean) {
+        this.dwdForecastLayer.setVisible(isVisible);
+        this.dwdForecastWindLayer.setVisible(isVisible);
     }
 }

@@ -73,7 +73,8 @@ import {OlDwdForecastContainer} from '../../../meteo-dwd-view/ol-components/ol-d
 import {
     getMeteoDwdButtonStatus,
     getMeteoDwdSelectedInterval,
-    getMeteoDwdState
+    getMeteoDwdState,
+    getMeteoDwdWindGrid
 } from '../../../meteo-dwd-state/ngrx/meteo-dwd.selectors';
 import {MeteoDwdButtonStatus} from '../../../meteo-dwd/domain-model/meteo-dwd-button-status';
 import {OlDwdForecastTilelayer} from '../../../meteo-dwd-view/ol-components/ol-dwd-forecast-tilelayer';
@@ -214,11 +215,13 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         const pointSearchLayer = new OlVectorLayer();
         const smaMeasurementsBgLayer = new OlVectorLayer();
         const smaMeasurementsLayer = new OlVectorLayer();
-        const dwdForecastLayer = new OlDwdForecastTilelayer();
+        const dwdForecastWindLayer = new OlVectorLayer();
+        const dwdForecastBaseLayer = new OlDwdForecastTilelayer();
 
         const olMap = this.mapContainer.createMap(
             [
-                dwdForecastLayer,
+                dwdForecastBaseLayer,
+                dwdForecastWindLayer,
                 chartCloserLayer,
                 circuitLayer,
                 airspaceLayer,
@@ -326,9 +329,11 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
             rotation
         );
         this.olDwdForecastContainer = new OlDwdForecastContainer(
-            dwdForecastLayer,
+            dwdForecastBaseLayer,
+            dwdForecastWindLayer,
             this.appStore.pipe(select(getMeteoDwdButtonStatus)),
-            this.appStore.pipe(select(getMeteoDwdSelectedInterval))
+            this.appStore.pipe(select(getMeteoDwdSelectedInterval)),
+            this.appStore.pipe(select(getMeteoDwdWindGrid))
         );
     }
 

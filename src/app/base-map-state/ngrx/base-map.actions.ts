@@ -17,7 +17,7 @@ export class BaseMapActions {
 
     public static readonly mapMoved = createAction(
         '[Base Map] map moved / zoomed / rotated',
-        props<{ position: Position2d, zoom: number, rotation: Angle, extent: Extent2d }>()
+        props<{ position: Position2d, zoom: number, rotation: Angle, extent: Extent2d, widthPx: number, heightPx: number }>()
     );
 
     public static readonly mapClicked = createAction(

@@ -12,6 +12,8 @@ const initialState: BaseMapState = {
     zoom: 11,
     rotation: new Angle(0, AngleUnit.RAD),
     extent: undefined,
+    widthPx: undefined,
+    heightPx: undefined,
     baseMapType: MapBaseLayerType.OPENTOPOMAP,
     showImage: { imageId: undefined, imageUrl: undefined, extent: undefined, opacity: undefined, fitInView: true },
     showBaseMapSelection: false
@@ -36,7 +38,9 @@ export const baseMapReducer = createReducer(
         position: action.position,
         zoom: action.zoom,
         rotation: action.rotation,
-        extent: action.extent
+        extent: action.extent,
+        widthPx: action.widthPx,
+        heightPx: action.heightPx
     })),
 
     on(BaseMapActions.showImage, (state, action) => ({

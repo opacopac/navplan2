@@ -20,7 +20,11 @@ class RestWindSpeedDirConverter {
     }
 
 
-    public static function toRest(WindSpeedDir $windSpeedDir): array {
+    public static function toRest(?WindSpeedDir $windSpeedDir): ?array {
+        if (!$windSpeedDir) {
+            return null;
+        }
+
         return [
             RestSpeedConverter::toRest($windSpeedDir->speed),
             RestAngleConverter::toRest($windSpeedDir->dir)

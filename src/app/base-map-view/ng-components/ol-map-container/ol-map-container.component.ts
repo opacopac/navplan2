@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Position2d} from '../../../geo-physics/domain-model/geometry/position2d';
 import {DataItem} from '../../../common/model/data-item';
@@ -21,6 +21,8 @@ import {OlLayer} from '../../ol-model/ol-layer';
 })
 export class OlMapContainerComponent implements OnInit, OnDestroy {
     public readonly MAP_HTML_ID = 'map';
+
+    @ViewChild('container') container: ElementRef;
 
     private olMap: OlMap;
     private readonly zoom$: Observable<number> = this.appStore.pipe(select(getMapZoom));
@@ -76,7 +78,9 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
                 position: this.olMap.getMapPosition(),
                 zoom: this.olMap.getZoom(),
                 rotation: this.olMap.getRotation(),
-                extent: this.olMap.getExtent()
+                extent: this.olMap.getExtent(),
+                widthPx: this.container.nativeElement.clientWidth,
+                heightPx: this.container.nativeElement.clientHeight
             })
         );
     }

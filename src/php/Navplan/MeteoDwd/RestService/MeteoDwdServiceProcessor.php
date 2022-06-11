@@ -10,7 +10,7 @@ use Navplan\MeteoDwd\RestModel\RestWindSpeedDirGridConverter;
 
 class MeteoDwdServiceProcessor {
     const ARG_ACTION = "action";
-    const ACTION_GET_WIND_BY_GRID = "getWindByGrid";
+    const ACTION_GET_WIND_BY_GRID = "readWindGrid";
 
 
     public static function processRequest(IMeteoDwdServiceDiContainer $diContainer) {

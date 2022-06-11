@@ -1,4 +1,6 @@
 import {createAction, props} from '@ngrx/store';
+import {ValueGrid} from '../../meteo-dwd/domain-model/value-grid';
+import {WindSpeedDir} from '../../meteo-dwd/domain-model/wind-speed-dir';
 
 
 export class MeteoDwdActions {
@@ -14,5 +16,10 @@ export class MeteoDwdActions {
     );
     public static readonly close = createAction(
         '[MeteoDwdEffects] Close Dwd Forecast',
+    );
+
+    public static readonly readWindGridSuccess = createAction(
+        '[MeteoDwdEffects] Read Wind Grid success',
+        props<{ windGrid: ValueGrid<WindSpeedDir> }>()
     );
 }

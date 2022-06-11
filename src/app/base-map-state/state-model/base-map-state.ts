@@ -10,6 +10,8 @@ export interface BaseMapState {
     zoom: number;
     rotation: Angle;
     extent: Extent2d;
+    widthPx: number;
+    heightPx: number;
     baseMapType: MapBaseLayerType;
     showImage: ShowImageState;
     showBaseMapSelection: boolean;

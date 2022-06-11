@@ -15,7 +15,11 @@ class WindSpeedDir {
     }
 
 
-    public static function fromSpeedEN(float $speedE, float $speedN, int $unit): WindSpeedDir {
+    public static function fromSpeedEN(float|null $speedE, float|null $speedN, int $unit): ?WindSpeedDir {
+        if ($speedE === null || $speedN === null) {
+            return null;
+        }
+
         $speed = round(sqrt($speedE * $speedE + $speedN * $speedN), 1);
         $dir = round(atan2($speedN, $speedE) / pi() * 180, 1);
 
