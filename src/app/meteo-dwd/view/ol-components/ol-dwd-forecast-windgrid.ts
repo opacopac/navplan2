@@ -1,10 +1,10 @@
 import {Observable, Subscription} from 'rxjs';
-import {OlVectorLayer} from '../../../base-map-view/ol-model/ol-vector-layer';
+import {OlVectorLayer} from '../../../base-map/view/ol-model/ol-vector-layer';
 import {ValueGrid} from '../../domain/model/value-grid';
 import {WindSpeedDir} from '../../domain/model/wind-speed-dir';
 import {ValueGridIterator} from '../../domain/model/value-grid-iterator';
 import {OlDwdForecastWind} from './ol-dwd-forecast-wind';
-import {Angle} from '../../../geo-physics/domain-model/quantities/angle';
+import {Angle} from '../../../geo-physics/domain/model/quantities/angle';
 
 
 export class OlDwdForecastWindgrid {

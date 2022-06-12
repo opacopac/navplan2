@@ -1,5 +1,5 @@
-import {Position2d} from '../../../geo-physics/domain-model/geometry/position2d';
-import {Extent2d} from '../../../geo-physics/domain-model/geometry/extent2d';
+import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
+import {Extent2d} from '../../../geo-physics/domain/model/geometry/extent2d';
 
 
 export class GridDefinition {

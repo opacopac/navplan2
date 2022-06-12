@@ -9,10 +9,10 @@ import {getMeteoDwdState} from './meteo-dwd.selectors';
 import {MeteoDwdButtonStatus} from '../../domain/model/meteo-dwd-button-status';
 import {IMeteoDwdService} from '../../domain/service/i-meteo-dwd.service';
 import {GridDefinition} from '../../domain/model/grid-definition';
-import {Position2d} from '../../../geo-physics/domain-model/geometry/position2d';
-import {BaseMapState} from '../../../base-map-state/state-model/base-map-state';
-import {getMapState} from '../../../base-map-state/ngrx/base-map.selectors';
-import {BaseMapActions} from '../../../base-map-state/ngrx/base-map.actions';
+import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
+import {BaseMapState} from '../../../base-map/state/state-model/base-map-state';
+import {getMapState} from '../../../base-map/state/ngrx/base-map.selectors';
+import {BaseMapActions} from '../../../base-map/state/ngrx/base-map.actions';
 
 
 @Injectable()

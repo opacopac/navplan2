@@ -1,5 +1,5 @@
 import {ValueGrid} from './value-grid';
-import {Position2d} from '../../../geo-physics/domain-model/geometry/position2d';
+import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
 
 
 export class ValueGridIterator<T> {

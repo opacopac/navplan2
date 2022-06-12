@@ -1,8 +1,8 @@
 import TileLayer from 'ol/layer/Tile';
 import XYZ from 'ol/source/XYZ';
 import BaseLayer from 'ol/layer/Base';
-import {OlLayer} from '../../../base-map-view/ol-model/ol-layer';
-import {StringnumberHelper} from '../../../system/domain-service/stringnumber/stringnumber-helper';
+import {OlLayer} from '../../../base-map/view/ol-model/ol-layer';
+import {StringnumberHelper} from '../../../system/domain/service/stringnumber/stringnumber-helper';
 
 
 export class OlDwdForecastTilelayer implements OlLayer {

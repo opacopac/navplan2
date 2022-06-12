@@ -8,7 +8,7 @@ import {Observable, throwError} from 'rxjs';
 import {IRestWindSpeedDirGrid} from '../model/i-rest-value-grid';
 import {RestWindSpeedDirGridConverter} from '../model/rest-wind-speed-dir-grid-converter';
 import {catchError, map} from 'rxjs/operators';
-import {LoggingService} from '../../../system/domain-service/logging/logging.service';
+import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {GridDefinition} from '../../domain/model/grid-definition';
 
 

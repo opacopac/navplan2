@@ -1,6 +1,6 @@
 import {IRestGridDefinition} from './i-rest-grid-definition';
 import {GridDefinition} from '../../domain/model/grid-definition';
-import {Position2dConverter} from '../../../geo-physics-rest/rest-model/position2d-converter';
+import {Position2dConverter} from '../../../geo-physics/rest/model/position2d-converter';
 
 
 export class RestGridDefinitionConverter {

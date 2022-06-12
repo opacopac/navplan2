@@ -7,19 +7,19 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
-import {FlightMapViewModule} from './flight-map-view/flight-map-view.module';
-import {AboutViewModule} from './about-view/about-view.module';
+import {FlightMapViewModule} from './flight-map/view/flight-map-view.module';
+import {AboutViewModule} from './about/view/about-view.module';
 import {RouterModule} from '@angular/router';
 import {appReducer} from './app.reducer';
 import {AppEffects} from './app.effects';
-import {NavbarViewModule} from './navbar-view/navbar-view.module';
-import {SettingsPageViewModule} from './settings-page-view/settings-page-view.module';
-import {FlightPrepViewModule} from './flight-prep-view/flight-prep-view.module';
-import {ExporterViewModule} from './exporter-view/exporter-view.module';
-import {TrackViewModule} from './track-view/track-view.module';
-import {UserViewModule} from './user-view/user-view.module';
+import {NavbarViewModule} from './navbar/view/navbar-view.module';
+import {SettingsViewModule} from './settings/view/settings-view.module';
+import {FlightPrepViewModule} from './flight-prep/view/flight-prep-view.module';
+import {ExporterViewModule} from './exporter/view/exporter-view.module';
+import {TrackViewModule} from './track/view/track-view.module';
+import {UserViewModule} from './user/view/user-view.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import {MessageViewModule} from './message-view/message-view.module';
+import {MessageViewModule} from './message/view/message-view.module';
 
 
 @NgModule({
@@ -45,7 +45,7 @@ import {MessageViewModule} from './message-view/message-view.module';
         FlightPrepViewModule,
         MessageViewModule,
         NavbarViewModule,
-        SettingsPageViewModule,
+        SettingsViewModule,
         TrackViewModule,
         UserViewModule,
     ],

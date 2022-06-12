@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {MeteoDwdModule} from '../domain/meteo-dwd.module';
+import {MeteoDwdDomainModule} from '../domain/meteo-dwd-domain.module';
 import {MeteoDwdButtonComponent} from './ng-components/meteo-dwd-button/meteo-dwd-button.component';
 import {MeteoDwdContainerComponent} from './ng-components/meteo-dwd-container/meteo-dwd-container.component';
 import {MeteoDwdStateModule} from '../state/meteo-dwd-state.module';
@@ -15,7 +15,7 @@ import {MeteoDwdRestModule} from '../rest/meteo-dwd-rest.module';
         CommonModule,
         MatButtonModule,
         MatTooltipModule,
-        MeteoDwdModule,
+        MeteoDwdDomainModule,
         MeteoDwdRestModule,
         MeteoDwdStateModule,
     ],

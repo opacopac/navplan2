@@ -1,5 +1,5 @@
-import {Speed} from '../../../geo-physics/domain-model/quantities/speed';
-import {Angle} from '../../../geo-physics/domain-model/quantities/angle';
+import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
+import {Angle} from '../../../geo-physics/domain/model/quantities/angle';
 import {DataItem, DataItemType} from '../../../common/model/data-item';
 
 

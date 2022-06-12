@@ -1,7 +1,7 @@
 import {IRestWindSpeedDir} from './i-rest-wind-speed-dir';
 import {WindSpeedDir} from '../../domain/model/wind-speed-dir';
-import {RestSpeedConverter} from '../../../geo-physics-rest/rest-model/rest-speed-converter';
-import {RestAngleConverter} from '../../../geo-physics-rest/rest-model/rest-angle-converter';
+import {RestSpeedConverter} from '../../../geo-physics/rest/model/rest-speed-converter';
+import {RestAngleConverter} from '../../../geo-physics/rest/model/rest-angle-converter';
 
 
 export class RestWindSpeedDirConverter {

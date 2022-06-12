@@ -1,6 +1,6 @@
 import {Icon, Style} from 'ol/style';
 import {environment} from '../../../../environments/environment';
-import {Angle} from '../../../geo-physics/domain-model/quantities/angle';
+import {Angle} from '../../../geo-physics/domain/model/quantities/angle';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import {WindSpeedDir} from '../../domain/model/wind-speed-dir';
 

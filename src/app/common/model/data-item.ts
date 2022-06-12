@@ -1,4 +1,4 @@
-import {Position2d} from '../../geo-physics/domain-model/geometry/position2d';
+import {Position2d} from '../../geo-physics/domain/model/geometry/position2d';
 
 export enum DataItemType {
     traffic = 1,

@@ -3,7 +3,7 @@ import {MeteoDwdButtonStatus} from '../../domain/model/meteo-dwd-button-status';
 import {OlDwdForecastTilelayer} from './ol-dwd-forecast-tilelayer';
 import {ValueGrid} from '../../domain/model/value-grid';
 import {WindSpeedDir} from '../../domain/model/wind-speed-dir';
-import {OlVectorLayer} from '../../../base-map-view/ol-model/ol-vector-layer';
+import {OlVectorLayer} from '../../../base-map/view/ol-model/ol-vector-layer';
 import {OlDwdForecastWindgrid} from './ol-dwd-forecast-windgrid';
 
 
