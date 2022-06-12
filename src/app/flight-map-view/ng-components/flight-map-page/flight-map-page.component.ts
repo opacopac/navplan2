@@ -69,15 +69,15 @@ import {OlSmaMeasurementContainer} from '../../../meteo-sma-view/ol-components/o
 import {
     OlOverlayAirspaceStructureComponent
 } from '../../../search-view/ng-components/ol-overlay-airspace-structure/ol-overlay-airspace-structure.component';
-import {OlDwdForecastContainer} from '../../../meteo-dwd-view/ol-components/ol-dwd-forecast-container';
+import {OlDwdForecastContainer} from '../../../meteo-dwd/view/ol-components/ol-dwd-forecast-container';
 import {
     getMeteoDwdButtonStatus,
     getMeteoDwdSelectedInterval,
     getMeteoDwdState,
     getMeteoDwdWindGrid
-} from '../../../meteo-dwd-state/ngrx/meteo-dwd.selectors';
-import {MeteoDwdButtonStatus} from '../../../meteo-dwd/domain-model/meteo-dwd-button-status';
-import {OlDwdForecastTilelayer} from '../../../meteo-dwd-view/ol-components/ol-dwd-forecast-tilelayer';
+} from '../../../meteo-dwd/state/ngrx/meteo-dwd.selectors';
+import {MeteoDwdButtonStatus} from '../../../meteo-dwd/domain/model/meteo-dwd-button-status';
+import {OlDwdForecastTilelayer} from '../../../meteo-dwd/view/ol-components/ol-dwd-forecast-tilelayer';
 
 
 @Component({
