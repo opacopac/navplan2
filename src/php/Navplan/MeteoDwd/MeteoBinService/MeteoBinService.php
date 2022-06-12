@@ -2,7 +2,6 @@
 
 namespace Navplan\MeteoDwd\MeteoBinService;
 
-
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\Common\DomainModel\SpeedUnit;
 use Navplan\MeteoDwd\DomainModel\ForecastTime;
@@ -48,30 +47,26 @@ class MeteoBinService implements IMeteoDwdService {
 
     function readWindSpeedENValuesFromFile(ForecastTime $forecastTime, GridDefinition $grid): array {
         $fileName = $this->meteoDwdBaseDir . "WIND_D2.meteobin"; // TODO
-        $file = $this->fileService->fopen($fileName, "rb");
+        $rawContent = $this->fileService->fileGetContents($fileName);
 
         $iconD2Grid = IconGridDefinition::getIconD2Grid();
         $e_values = [];
         $n_values = [];
         for ($y = 0; $y < $iconD2Grid->height; $y++) {
-            $rawValues = $file->fread($iconD2Grid->width * 2);
-            $byteValues = unpack("C*", $rawValues);
-            $windENValues = MeteoBinWindSpeedDirConverter::fromBinValueList($byteValues);
-
-            /*var_dump($windENValues);
-            die;*/
-
             for ($x = 0; $x < $iconD2Grid->width; $x++) {
-                $e_values[] = $windENValues[1 + $x * 2];
-                $n_values[] = $windENValues[1 + $x * 2 + 1];
+                $idx = ($x + $y * $iconD2Grid->width) * 2;
+                $e_values[] = $rawContent[$idx];
+                $n_values[] = $rawContent[$idx + 1];
             }
         }
 
-        $file->fclose();
+        $convertValueFn = function (string $binValue): float|null {
+            return MeteoBinWindSpeedDirConverter::fromBinValue($binValue);
+        };
 
         return [
-            new ValueGrid($iconD2Grid, $e_values),
-            new ValueGrid($iconD2Grid, $n_values)
+            new ValueGrid($iconD2Grid, $e_values, $convertValueFn),
+            new ValueGrid($iconD2Grid, $n_values, $convertValueFn)
         ];
     }
 }

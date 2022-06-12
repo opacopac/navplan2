@@ -10,6 +10,7 @@ class ValueGrid {
     public function __construct(
         public GridDefinition $gridDefinition,
         public array $values,
+        private $convertFromBinToValueFn = NULL
     ) {
         if (count($this->values) != $this->gridDefinition->width * $this->gridDefinition->height) {
             throw new InvalidArgumentException("number of values doesn't match grid definition");
@@ -23,8 +24,13 @@ class ValueGrid {
         }
 
         $idx = $x + $y * $this->gridDefinition->width;
+        $value = $this->values[$idx];
 
-        return $this->values[$idx];
+        if (is_callable($this->convertFromBinToValueFn)) {
+            $value = ($this->convertFromBinToValueFn)($value);
+        }
+
+        return $value;
     }
 
 
