@@ -3,6 +3,7 @@ import {environment} from '../../../../environments/environment';
 import {Angle} from '../../../geo-physics/domain/model/quantities/angle';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import {WwValue} from '../../domain/model/ww-value';
+import {StringnumberHelper} from '../../../system/domain/service/stringnumber/stringnumber-helper';
 
 
 export class OlDwdForecastWeatherIconStyle {
@@ -10,10 +11,11 @@ export class OlDwdForecastWeatherIconStyle {
         const url = environment.iconBaseUrl + this.getIconFileName(wwValue.value);
 
         const rot = mapRotation.rad;
-        const anchorX = -15 - 17;
-        const anchorY = 5 - 17;
-        const fakeX = anchorX * Math.cos(-rot) - anchorY * Math.sin(-rot) + 17;
-        const fakeY = anchorX * Math.sin(-rot) + anchorY * Math.cos(-rot) + 17;
+        const anchorX = 0;
+        const anchorY = 0;
+
+        const fakeX = anchorX * Math.cos(-rot) - anchorY * Math.sin(-rot) + 16;
+        const fakeY = anchorX * Math.sin(-rot) + anchorY * Math.cos(-rot) + 16;
 
         return new Style({
             image: new Icon(({
@@ -28,22 +30,16 @@ export class OlDwdForecastWeatherIconStyle {
             text: new Text({
                 font: 'bold 14px Calibri,sans-serif',
                 text: wwValue.getText(),
-                fill: new Fill({color: '#0077FF'}),
+                fill: new Fill({color: '#000000'}),
                 stroke: new Stroke({color: '#FFFFFF', width: 2}),
                 offsetX: 0,
-                offsetY: 20
+                offsetY: 24
             })
         });
     }
 
 
     private static getIconFileName(wwValue: number): string {
-        switch (wwValue) {
-            case 0: return 'sky_skc.svg';
-            case 1: return 'sky_few.svg';
-            case 2: return 'sky_bkn.svg';
-            case 3: return 'sky_ovc.svg';
-            default: return 'ww_' + wwValue + '.svg';
-        }
+        return 'ww_' + StringnumberHelper.zeroPad(wwValue, 2) + '.svg';
     }
 }
