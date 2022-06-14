@@ -1,4 +1,4 @@
-import {IRestWindSpeedDirGrid} from './i-rest-value-grid';
+import {IRestWindSpeedDirGrid} from './i-rest-wind-speed-dir-grid';
 import {ValueGrid} from '../../domain/model/value-grid';
 import {RestGridDefinitionConverter} from './rest-grid-definition-converter';
 import {WindSpeedDir} from '../../domain/model/wind-speed-dir';

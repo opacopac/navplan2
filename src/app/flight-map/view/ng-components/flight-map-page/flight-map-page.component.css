@@ -56,7 +56,7 @@
     z-index: 20;
 }
 
-.meteo-dwd-timeline {
+.meteo-dwd-container {
     position: absolute;
     bottom: 40px;
     left: 70px;

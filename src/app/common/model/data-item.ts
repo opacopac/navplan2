@@ -18,6 +18,7 @@ export enum DataItemType {
     searchItem = 15,
     smaMeasurement = 16,
     dwdWindForecast = 17,
+    dwdWwForecast = 18,
 }
 
 

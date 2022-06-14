@@ -73,13 +73,17 @@ import {
 } from '../../../../search/view/ng-components/ol-overlay-airspace-structure/ol-overlay-airspace-structure.component';
 import {OlDwdForecastContainer} from '../../../../meteo-dwd/view/ol-components/ol-dwd-forecast-container';
 import {
-    getMeteoDwdButtonStatus,
     getMeteoDwdSelectedInterval,
+    getMeteoDwdShowWeather,
+    getMeteoDwdShowWind,
     getMeteoDwdState,
+    getMeteoDwdWeatherGrid,
     getMeteoDwdWindGrid
 } from '../../../../meteo-dwd/state/ngrx/meteo-dwd.selectors';
-import {MeteoDwdButtonStatus} from '../../../../meteo-dwd/domain/model/meteo-dwd-button-status';
-import {OlDwdForecastTilelayer} from '../../../../meteo-dwd/view/ol-components/ol-dwd-forecast-tilelayer';
+import {OlDwdForecastWindTileLayer} from '../../../../meteo-dwd/view/ol-components/ol-dwd-forecast-wind-tile-layer';
+import {
+    OlDwdForecastWeatherTileLayer
+} from '../../../../meteo-dwd/view/ol-components/ol-dwd-forecast-weather-tile-layer';
 
 
 @Component({
@@ -115,7 +119,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
     private readonly meteoSmaState$ = this.appStore.pipe(select(getMeteoSmaState));
     public readonly showMeteoSmaMeasurements$ = this.meteoSmaState$.pipe(map(state => state.buttonStatus === MeteoSmaButtonStatus.CURRENT));
     private readonly meteoDwdState$ = this.appStore.pipe(select(getMeteoDwdState));
-    public readonly showMeteoDwdForecasts$ = this.meteoDwdState$.pipe(map(state => state.buttonStatus === MeteoDwdButtonStatus.CURRENT));
+    public readonly showMeteoDwdForecasts$ = this.meteoDwdState$.pipe(map(state => state.showWeatherForecast || state.showWindForecast));
     private readonly verticalMapState$ = this.appStore.pipe(select(getVerticalMapState));
     public readonly showVerticalMapButton$ = this.flightroute$.pipe(map(route => route.waypoints.length >= 2));
     public readonly showVerticalMap$ = this.verticalMapState$.pipe(map(state => state.buttonStatus === VerticalMapButtonStatus.CURRENT));
@@ -217,13 +221,17 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         const pointSearchLayer = new OlVectorLayer();
         const smaMeasurementsBgLayer = new OlVectorLayer();
         const smaMeasurementsLayer = new OlVectorLayer();
-        const dwdForecastWindLayer = new OlVectorLayer();
-        const dwdForecastBaseLayer = new OlDwdForecastTilelayer();
+        const dwdForecastWeatherBgLayer = new OlDwdForecastWeatherTileLayer();
+        const dwdForecastWeatherIconLayer = new OlVectorLayer();
+        const dwdForecastWindBgLayer = new OlDwdForecastWindTileLayer();
+        const dwdForecastWindIconLayer = new OlVectorLayer();
 
         const olMap = this.mapContainer.createMap(
             [
-                dwdForecastBaseLayer,
-                dwdForecastWindLayer,
+                dwdForecastWeatherBgLayer,
+                dwdForecastWeatherIconLayer,
+                dwdForecastWindBgLayer,
+                dwdForecastWindIconLayer,
                 chartCloserLayer,
                 circuitLayer,
                 airspaceLayer,
@@ -331,10 +339,14 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
             rotation
         );
         this.olDwdForecastContainer = new OlDwdForecastContainer(
-            dwdForecastBaseLayer,
-            dwdForecastWindLayer,
-            this.appStore.pipe(select(getMeteoDwdButtonStatus)),
+            dwdForecastWeatherBgLayer,
+            dwdForecastWeatherIconLayer,
+            dwdForecastWindBgLayer,
+            dwdForecastWindIconLayer,
+            this.appStore.pipe(select(getMeteoDwdShowWeather)),
+            this.appStore.pipe(select(getMeteoDwdShowWind)),
             this.appStore.pipe(select(getMeteoDwdSelectedInterval)),
+            this.appStore.pipe(select(getMeteoDwdWeatherGrid)),
             this.appStore.pipe(select(getMeteoDwdWindGrid))
         );
     }

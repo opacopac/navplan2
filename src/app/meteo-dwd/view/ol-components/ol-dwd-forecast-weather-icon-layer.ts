@@ -1,44 +1,44 @@
 import {Observable, Subscription} from 'rxjs';
 import {OlVectorLayer} from '../../../base-map/view/ol-model/ol-vector-layer';
 import {ValueGrid} from '../../domain/model/value-grid';
-import {WindSpeedDir} from '../../domain/model/wind-speed-dir';
 import {ValueGridIterator} from '../../domain/model/value-grid-iterator';
-import {OlDwdForecastWind} from './ol-dwd-forecast-wind';
 import {Angle} from '../../../geo-physics/domain/model/quantities/angle';
+import {WwValue} from '../../domain/model/ww-value';
+import {OlDwdForecastWeatherIcon} from './ol-dwd-forecast-weather-icon';
 
 
-export class OlDwdForecastWindgrid {
-    private readonly windGridSubscription: Subscription;
+export class OlDwdForecastWeatherIconLayer {
+    private readonly weatherGridSubscription: Subscription;
 
 
     constructor(
-        private readonly windLayer: OlVectorLayer,
-        windGrid$: Observable<ValueGrid<WindSpeedDir>>
+        private readonly weatherLayer: OlVectorLayer,
+        windGrid$: Observable<ValueGrid<WwValue>>
     ) {
-        this.windGridSubscription = windGrid$.subscribe((windGrid) => {
+        this.weatherGridSubscription = windGrid$.subscribe((wwGrid) => {
             this.clearFeatures();
-            this.drawFeatures(windGrid);
+            this.drawFeatures(wwGrid);
         });
     }
 
 
     public destroy() {
-        this.windGridSubscription.unsubscribe();
+        this.weatherGridSubscription.unsubscribe();
         this.clearFeatures();
     }
 
 
-    private drawFeatures(windGrid: ValueGrid<WindSpeedDir>) {
-        if (windGrid) {
-            const iterator = new ValueGridIterator(windGrid);
+    private drawFeatures(wwGrid: ValueGrid<WwValue>) {
+        if (wwGrid) {
+            const iterator = new ValueGridIterator(wwGrid);
 
             while (iterator.next()) {
                 if (iterator.value) {
-                    OlDwdForecastWind.draw(
+                    OlDwdForecastWeatherIcon.draw(
                         iterator.value,
                         iterator.pos,
                         Angle.createZero(), // TODO
-                        this.windLayer
+                        this.weatherLayer
                     );
                 }
             }
@@ -47,6 +47,6 @@ export class OlDwdForecastWindgrid {
 
 
     private clearFeatures() {
-        this.windLayer.clear();
+        this.weatherLayer.clear();
     }
 }

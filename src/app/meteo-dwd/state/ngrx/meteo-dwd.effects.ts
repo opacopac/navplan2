@@ -45,21 +45,41 @@ export class MeteoDwdEffects {
         ));
 
 
+    readWeatherGridAction$: Observable<Action> = createEffect(() => this.actions$
+        .pipe(
+            ofType(MeteoDwdActions.open, MeteoDwdActions.selectWeatherForecast, BaseMapActions.mapMoved),
+            withLatestFrom(this.meteoDwdstate$, this.mapState$),
+            filter(([action, meteoDwdState, mapState]) => meteoDwdState.showWeatherForecast),
+            switchMap(([action, meteoDwdState, mapState]) => {
+                const grid = this.getGridDefinition(mapState);
+
+                return this.meteoDwdService.readWeatherGrid(grid);
+            }),
+            map(weatherGrid => MeteoDwdActions.readWeatherGridSuccess({ weatherGrid: weatherGrid }))
+        ));
+
+
     readWindGridAction$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
-            ofType(MeteoDwdActions.open, BaseMapActions.mapMoved),
+            ofType(MeteoDwdActions.open, MeteoDwdActions.selectWindForecast, BaseMapActions.mapMoved),
             withLatestFrom(this.meteoDwdstate$, this.mapState$),
-            filter(([action, meteoDwdState, mapState]) => meteoDwdState.buttonStatus !== MeteoDwdButtonStatus.OFF), // TODO
+            filter(([action, meteoDwdState, mapState]) => meteoDwdState.showWindForecast),
             switchMap(([action, meteoDwdState, mapState]) => {
-                const gridWidth = Math.floor(mapState.widthPx / this.GRID_SPACING_PX);
-                const gridHeight = Math.floor(mapState.heightPx / this.GRID_SPACING_PX);
-                const stepLat = (mapState.extent.maxLon - mapState.extent.minLon) / gridWidth;
-                const stepLon = (mapState.extent.maxLat - mapState.extent.minLat) / gridHeight;
-                const minPos = new Position2d(mapState.extent.minLon + stepLon / 2, mapState.extent.minLat + stepLat / 2);
-                const grid = new GridDefinition(gridWidth, gridHeight, minPos, stepLon, stepLat);
+                const grid = this.getGridDefinition(mapState);
 
                 return this.meteoDwdService.readWindGrid(grid);
             }),
             map(windGrid => MeteoDwdActions.readWindGridSuccess({ windGrid: windGrid }))
         ));
+
+
+    private getGridDefinition(mapState: BaseMapState): GridDefinition {
+        const gridWidth = Math.floor(mapState.widthPx / this.GRID_SPACING_PX);
+        const gridHeight = Math.floor(mapState.heightPx / this.GRID_SPACING_PX);
+        const stepLat = (mapState.extent.maxLon - mapState.extent.minLon) / gridWidth;
+        const stepLon = (mapState.extent.maxLat - mapState.extent.minLat) / gridHeight;
+        const minPos = new Position2d(mapState.extent.minLon + stepLon / 2, mapState.extent.minLat + stepLat / 2);
+
+        return new GridDefinition(gridWidth, gridHeight, minPos, stepLon, stepLat);
+    }
 }

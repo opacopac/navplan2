@@ -1,5 +1,6 @@
 import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
+import {MeteoDwdActions} from '../../../state/ngrx/meteo-dwd.actions';
 
 
 @Component({
@@ -21,5 +22,15 @@ export class MeteoDwdContainerComponent implements OnInit, OnDestroy, AfterViewI
 
 
     ngOnDestroy(): void {
+    }
+
+
+    public onWeatherForecastSelected() {
+        this.appStore.dispatch(MeteoDwdActions.selectWeatherForecast());
+    }
+
+
+    public onWindForecastSelected() {
+        this.appStore.dispatch(MeteoDwdActions.selectWindForecast());
     }
 }

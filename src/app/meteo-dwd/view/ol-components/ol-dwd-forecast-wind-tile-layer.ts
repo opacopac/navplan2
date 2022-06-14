@@ -5,7 +5,7 @@ import {OlLayer} from '../../../base-map/view/ol-model/ol-layer';
 import {StringnumberHelper} from '../../../system/domain/service/stringnumber/stringnumber-helper';
 
 
-export class OlDwdForecastTilelayer implements OlLayer {
+export class OlDwdForecastWindTileLayer implements OlLayer {
     private readonly layer: TileLayer<XYZ>;
     private interval = 0;
 

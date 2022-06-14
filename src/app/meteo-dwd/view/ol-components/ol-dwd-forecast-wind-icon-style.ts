@@ -5,7 +5,7 @@ import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import {WindSpeedDir} from '../../domain/model/wind-speed-dir';
 
 
-export class OlDwdForecastWindStyle {
+export class OlDwdForecastWindIconStyle {
     public static createPointStyle(windSpeedDir: WindSpeedDir, mapRotation: Angle): Style {
         let src = environment.iconBaseUrl;
         let rot = windSpeedDir.dir ? windSpeedDir.dir.rad + 90 + mapRotation.rad : undefined;

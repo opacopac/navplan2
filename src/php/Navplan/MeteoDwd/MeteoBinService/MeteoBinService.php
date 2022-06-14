@@ -10,23 +10,28 @@ use Navplan\MeteoDwd\DomainModel\IconGridDefinition;
 use Navplan\MeteoDwd\DomainModel\ValueGrid;
 use Navplan\MeteoDwd\DomainModel\WindSpeedDir;
 use Navplan\MeteoDwd\DomainModel\WindSpeedDirGrid;
+use Navplan\MeteoDwd\DomainModel\WwGrid;
 use Navplan\MeteoDwd\DomainService\IMeteoDwdService;
 use Navplan\MeteoDwd\MeteoBinModel\MeteoBinWindSpeedDirConverter;
+use Navplan\MeteoDwd\MeteoBinModel\MeteoBinWwConverter;
 use Navplan\System\DomainService\IFileService;
 
 
-class MeteoBinService implements IMeteoDwdService {
+class MeteoBinService implements IMeteoDwdService
+{
     public function __construct(
         private IFileService $fileService,
         private string $meteoDwdBaseDir
-    ) {
+    )
+    {
     }
 
 
-    function readWindSpeedDirGrid(
+    public function readWindSpeedDirGrid(
         ForecastTime $forecastTime,
         GridDefinition $grid
-    ): WindSpeedDirGrid {
+    ): WindSpeedDirGrid
+    {
         list($windValuesE, $windValuesN) = $this->readWindSpeedENValuesFromFile($forecastTime, $grid);
 
         $windSpeedDirValues = [];
@@ -45,7 +50,8 @@ class MeteoBinService implements IMeteoDwdService {
     }
 
 
-    function readWindSpeedENValuesFromFile(ForecastTime $forecastTime, GridDefinition $grid): array {
+    private function readWindSpeedENValuesFromFile(ForecastTime $forecastTime, GridDefinition $grid): array
+    {
         $fileName = $this->meteoDwdBaseDir . "WIND_D2.meteobin"; // TODO
         $rawContent = $this->fileService->fileGetContents($fileName);
 
@@ -68,5 +74,26 @@ class MeteoBinService implements IMeteoDwdService {
             new ValueGrid($iconD2Grid, $e_values, $convertValueFn),
             new ValueGrid($iconD2Grid, $n_values, $convertValueFn)
         ];
+    }
+
+
+    public function readWwGrid(ForecastTime $forecastTime, GridDefinition $grid): WwGrid {
+        $fileName = $this->meteoDwdBaseDir . "WW_D2.meteobin"; // TODO
+        $rawContent = $this->fileService->fileGetContents($fileName);
+        $iconD2Grid = IconGridDefinition::getIconD2Grid();
+
+        $wwValues = [];
+        for ($y = 0; $y < $grid->height; $y++) {
+            $lat = $grid->getLatByY($y);
+            for ($x = 0; $x < $grid->width; $x++) {
+                $lon = $grid->getLonByX($x);
+                $icon_x = (int) $iconD2Grid->getXbyLon($lon);
+                $icon_y = (int) $iconD2Grid->getYbyLat($lat);
+                $icon_idx = $icon_x + $icon_y * $iconD2Grid->width;
+                $wwValues[] = MeteoBinWwConverter::fromBinValue($rawContent[$icon_idx]);
+            }
+        }
+
+        return new WwGrid($grid, $wwValues);
     }
 }
