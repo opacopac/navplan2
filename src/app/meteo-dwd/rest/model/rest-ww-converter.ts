@@ -8,7 +8,7 @@ export class RestWwConverter {
 
 
     public static fromRest(wwValue: number): WwValue {
-        if (!wwValue) {
+        if (wwValue == null) {
             return undefined;
         }
 

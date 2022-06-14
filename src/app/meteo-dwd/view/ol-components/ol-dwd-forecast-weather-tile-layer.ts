@@ -2,7 +2,6 @@ import TileLayer from 'ol/layer/Tile';
 import XYZ from 'ol/source/XYZ';
 import BaseLayer from 'ol/layer/Base';
 import {OlLayer} from '../../../base-map/view/ol-model/ol-layer';
-import {StringnumberHelper} from '../../../system/domain/service/stringnumber/stringnumber-helper';
 
 
 export class OlDwdForecastWeatherTileLayer implements OlLayer {
@@ -46,7 +45,8 @@ export class OlDwdForecastWeatherTileLayer implements OlLayer {
 
 
     private getUrl(): string {
-        const intervalStr = StringnumberHelper.zeroPad(this.interval + 21, 3);
+        // const intervalStr = StringnumberHelper.zeroPad(this.interval + 21, 3);
+        const intervalStr = '007';
 
         return 'http://localhost/navplan2/maptiles/meteo_test/clouds_d2/' + intervalStr + '/{z}/{x}/{y}.png';
     }

@@ -87,10 +87,16 @@ class MeteoBinService implements IMeteoDwdService
             $lat = $grid->getLatByY($y);
             for ($x = 0; $x < $grid->width; $x++) {
                 $lon = $grid->getLonByX($x);
-                $icon_x = (int) $iconD2Grid->getXbyLon($lon);
-                $icon_y = (int) $iconD2Grid->getYbyLat($lat);
-                $icon_idx = $icon_x + $icon_y * $iconD2Grid->width;
-                $wwValues[] = MeteoBinWwConverter::fromBinValue($rawContent[$icon_idx]);
+                $pos = new Position2d($lon, $lat);
+
+                if ($iconD2Grid->extent->containsPos($pos)) {
+                    $icon_x = (int) $iconD2Grid->getXbyLon($lon);
+                    $icon_y = (int) $iconD2Grid->getYbyLat($lat);
+                    $icon_idx = $icon_x + $icon_y * $iconD2Grid->width;
+                    $wwValues[] = MeteoBinWwConverter::fromBinValue($rawContent[$icon_idx]);
+                } else {
+                    $wwValues[] = null;
+                }
             }
         }
 
