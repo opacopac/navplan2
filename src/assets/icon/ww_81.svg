@@ -7,7 +7,7 @@
 	Description: Rain shower(s), moderate or heavy
 </desc>
 <g id="ww_81">
-	<circle r="8.0" cy="-15.5" fill="white" />
+	<circle r="7" cy="-15.5" fill="white" />
 	<path d="M 0,-5.5 h 8.5 l-8.5,20 l-8.5,-20 z" style="fill:none; stroke-width:6; stroke:#FFFFFF" />
 	<path d="M -6,0.5 h 12" style="fill:none; stroke-width:6; stroke:#FFFFFF" />
 

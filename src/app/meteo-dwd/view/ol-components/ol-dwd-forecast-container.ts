@@ -37,6 +37,7 @@ export class OlDwdForecastContainer {
         });
 
         this.meteoDwdSelectedIntervalSubscription = this.selectedInterval$.subscribe(interval => {
+            this.dwdWeatherBgLayer.setInterval(interval);
             this.dwdWindBgLayer.setInterval(interval);
         });
 

@@ -47,13 +47,13 @@ export class MeteoDwdEffects {
 
     readWeatherGridAction$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
-            ofType(MeteoDwdActions.open, MeteoDwdActions.selectWeatherForecast, BaseMapActions.mapMoved),
+            ofType(MeteoDwdActions.open, MeteoDwdActions.selectWeatherForecast, MeteoDwdActions.selectInterval, BaseMapActions.mapMoved),
             withLatestFrom(this.meteoDwdstate$, this.mapState$),
             filter(([action, meteoDwdState, mapState]) => meteoDwdState.showWeatherForecast),
             switchMap(([action, meteoDwdState, mapState]) => {
                 const grid = this.getGridDefinition(mapState);
 
-                return this.meteoDwdService.readWeatherGrid(grid);
+                return this.meteoDwdService.readWeatherGrid(grid, meteoDwdState.selectedInterval);
             }),
             map(weatherGrid => MeteoDwdActions.readWeatherGridSuccess({ weatherGrid: weatherGrid }))
         ));
@@ -61,13 +61,13 @@ export class MeteoDwdEffects {
 
     readWindGridAction$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
-            ofType(MeteoDwdActions.open, MeteoDwdActions.selectWindForecast, BaseMapActions.mapMoved),
+            ofType(MeteoDwdActions.open, MeteoDwdActions.selectWindForecast, MeteoDwdActions.selectInterval, BaseMapActions.mapMoved),
             withLatestFrom(this.meteoDwdstate$, this.mapState$),
             filter(([action, meteoDwdState, mapState]) => meteoDwdState.showWindForecast),
             switchMap(([action, meteoDwdState, mapState]) => {
                 const grid = this.getGridDefinition(mapState);
 
-                return this.meteoDwdService.readWindGrid(grid);
+                return this.meteoDwdService.readWindGrid(grid, meteoDwdState.selectedInterval);
             }),
             map(windGrid => MeteoDwdActions.readWindGridSuccess({ windGrid: windGrid }))
         ));

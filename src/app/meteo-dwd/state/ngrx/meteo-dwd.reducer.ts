@@ -8,7 +8,7 @@ const initialState: MeteoDwdState = {
     buttonStatus: MeteoDwdButtonStatus.OFF,
     showWeatherForecast: false,
     showWindForecast: false,
-    selectedInterval: 0,
+    selectedInterval: 1,
     weatherGrid: undefined,
     windGrid: undefined
 };

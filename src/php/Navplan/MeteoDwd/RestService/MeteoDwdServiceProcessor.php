@@ -3,7 +3,7 @@
 namespace Navplan\MeteoDwd\RestService;
 
 use InvalidArgumentException;
-use Navplan\MeteoDwd\DomainModel\ForecastTime;
+use Navplan\MeteoDwd\RestModel\RestForecastTimeConverter;
 use Navplan\MeteoDwd\RestModel\RestGridDefinitionConverter;
 use Navplan\MeteoDwd\RestModel\RestWindSpeedDirGridConverter;
 use Navplan\MeteoDwd\RestModel\RestWwGridConverter;
@@ -21,15 +21,15 @@ class MeteoDwdServiceProcessor {
         $action = $args[self::ARG_ACTION] ?? NULL;
         switch ($action) {
             case self::ACTION_GET_WIND_GRID:
-                $forecast = new ForecastTime(); // TODO
+                $forecastTime = RestForecastTimeConverter::fromRest($args);
                 $grid = RestGridDefinitionConverter::fromRest($args);
-                $windGrid = $diContainer->getMeteoDwdService()->readWindSpeedDirGrid($forecast, $grid);
+                $windGrid = $diContainer->getMeteoDwdService()->readWindSpeedDirGrid($forecastTime, $grid);
                 $httpService->sendArrayResponse(RestWindSpeedDirGridConverter::toRest($windGrid));
                 break;
             case self::ACTION_GET_WW_GRID:
-                $forecast = new ForecastTime(); // TODO
+                $forecastTime = RestForecastTimeConverter::fromRest($args);
                 $grid = RestGridDefinitionConverter::fromRest($args);
-                $wwGrid = $diContainer->getMeteoDwdService()->readWwGrid($forecast, $grid);
+                $wwGrid = $diContainer->getMeteoDwdService()->readWwGrid($forecastTime, $grid);
                 $httpService->sendArrayResponse(RestWwGridConverter::toRest($wwGrid));
                 break;
             default:

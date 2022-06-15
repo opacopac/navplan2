@@ -7,7 +7,7 @@
 	Description: Rain shower(s), slight
 </desc>
 <g id="ww_80">
-	<circle r="7.5" cy="-15.5" fill="white" />
+	<circle r="7" cy="-15.5" fill="white" />
 	<path d="M 0,-5.5 h 8.5 l-8.5,20 l-8.5,-20 z" style="fill:none; stroke-width:6; stroke:#FFFFFF" />
 
 	<circle r="5.5" cy="-15.5" fill="black" />

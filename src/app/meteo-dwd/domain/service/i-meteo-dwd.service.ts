@@ -6,7 +6,7 @@ import {WwValue} from '../model/ww-value';
 
 
 export abstract class IMeteoDwdService {
-    public abstract readWeatherGrid(grid: GridDefinition): Observable<ValueGrid<WwValue>>;
+    public abstract readWeatherGrid(grid: GridDefinition, interval: number): Observable<ValueGrid<WwValue>>;
 
-    public abstract readWindGrid(grid: GridDefinition): Observable<ValueGrid<WindSpeedDir>>;
+    public abstract readWindGrid(grid: GridDefinition, interval: number): Observable<ValueGrid<WindSpeedDir>>;
 }

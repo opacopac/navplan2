@@ -21,7 +21,7 @@ export class RestMeteoDwdService implements IMeteoDwdService {
     }
 
 
-    public readWeatherGrid(grid: GridDefinition): Observable<ValueGrid<WwValue>> {
+    public readWeatherGrid(grid: GridDefinition, interval: number): Observable<ValueGrid<WwValue>> {
         const url = environment.meteoDwdBaseUrl
             + '?action=readWwGrid'
             + '&width=' + grid.width
@@ -29,7 +29,8 @@ export class RestMeteoDwdService implements IMeteoDwdService {
             + '&minlon=' + grid.minPos.longitude
             + '&minlat=' + grid.minPos.latitude
             + '&steplon=' + grid.stepLon
-            + '&steplat=' + grid.stepLat;
+            + '&steplat=' + grid.stepLat
+            + '&interval=' + interval;
 
         return this.http.get<IRestWwGrid>(url)
             .pipe(
@@ -42,7 +43,7 @@ export class RestMeteoDwdService implements IMeteoDwdService {
     }
 
 
-    public readWindGrid(grid: GridDefinition): Observable<ValueGrid<WindSpeedDir>> {
+    public readWindGrid(grid: GridDefinition, interval: number): Observable<ValueGrid<WindSpeedDir>> {
         const url = environment.meteoDwdBaseUrl
             + '?action=readWindGrid'
             + '&width=' + grid.width
@@ -50,7 +51,8 @@ export class RestMeteoDwdService implements IMeteoDwdService {
             + '&minlon=' + grid.minPos.longitude
             + '&minlat=' + grid.minPos.latitude
             + '&steplon=' + grid.stepLon
-            + '&steplat=' + grid.stepLat;
+            + '&steplat=' + grid.stepLat
+            + '&interval=' + interval;
 
         return this.http.get<IRestWindSpeedDirGrid>(url)
             .pipe(

@@ -4,6 +4,7 @@ namespace Navplan\MeteoDwd\MeteoBinService;
 
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\Common\DomainModel\SpeedUnit;
+use Navplan\Common\StringNumberHelper;
 use Navplan\MeteoDwd\DomainModel\ForecastTime;
 use Navplan\MeteoDwd\DomainModel\GridDefinition;
 use Navplan\MeteoDwd\DomainModel\IconGridDefinition;
@@ -22,16 +23,14 @@ class MeteoBinService implements IMeteoDwdService
     public function __construct(
         private IFileService $fileService,
         private string $meteoDwdBaseDir
-    )
-    {
+    ) {
     }
 
 
     public function readWindSpeedDirGrid(
         ForecastTime $forecastTime,
         GridDefinition $grid
-    ): WindSpeedDirGrid
-    {
+    ): WindSpeedDirGrid {
         list($windValuesE, $windValuesN) = $this->readWindSpeedENValuesFromFile($forecastTime, $grid);
 
         $windSpeedDirValues = [];
@@ -50,9 +49,9 @@ class MeteoBinService implements IMeteoDwdService
     }
 
 
-    private function readWindSpeedENValuesFromFile(ForecastTime $forecastTime, GridDefinition $grid): array
-    {
-        $fileName = $this->meteoDwdBaseDir . "WIND_D2.meteobin"; // TODO
+    private function readWindSpeedENValuesFromFile(ForecastTime $forecastTime, GridDefinition $grid): array {
+        $interval = StringNumberHelper::zeroPad($forecastTime->interval, 3);
+        $fileName = $this->meteoDwdBaseDir . "wind/" . $interval .  "/WIND_D2.meteobin"; // TODO
         $rawContent = $this->fileService->fileGetContents($fileName);
 
         $iconD2Grid = IconGridDefinition::getIconD2Grid();
@@ -78,7 +77,8 @@ class MeteoBinService implements IMeteoDwdService
 
 
     public function readWwGrid(ForecastTime $forecastTime, GridDefinition $grid): WwGrid {
-        $fileName = $this->meteoDwdBaseDir . "WW_D2.meteobin"; // TODO
+        $interval = StringNumberHelper::zeroPad($forecastTime->interval, 3);
+        $fileName = $this->meteoDwdBaseDir . "clct_precip/" . $interval .  "/WW_D2.meteobin"; // TODO
         $rawContent = $this->fileService->fileGetContents($fileName);
         $iconD2Grid = IconGridDefinition::getIconD2Grid();
 

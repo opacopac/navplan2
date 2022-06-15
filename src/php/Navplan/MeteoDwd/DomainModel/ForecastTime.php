@@ -4,7 +4,6 @@ namespace Navplan\MeteoDwd\DomainModel;
 
 
 class ForecastTime {
-    public function __construct(
-    ) {
+    public function __construct(public int $interval) {
     }
 }
