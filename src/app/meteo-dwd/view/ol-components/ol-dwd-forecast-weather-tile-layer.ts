@@ -46,7 +46,7 @@ export class OlDwdForecastWeatherTileLayer implements OlLayer {
 
 
     private getUrl(): string {
-        const intervalStr = StringnumberHelper.zeroPad(this.interval - 1, 3);
+        const intervalStr = StringnumberHelper.zeroPad(this.interval, 3);
 
         return 'http://localhost/navplan2/maptiles/meteo_test/set01/clct_precip/' + intervalStr + '/{z}/{x}/{y}.png';
     }
