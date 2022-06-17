@@ -1,6 +1,6 @@
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Store} from '@ngrx/store';
-import {debounceTime, filter, map, switchMap, take, withLatestFrom} from 'rxjs/operators';
+import {filter, map, switchMap, take, withLatestFrom} from 'rxjs/operators';
 import {combineLatest, Observable, of, pipe} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {BaseMapActions} from '../../../base-map/state/ngrx/base-map.actions';
@@ -12,18 +12,7 @@ import {getSearchState} from '../../../search/state/ngrx/search.selectors';
 import {IDate} from '../../../system/domain/service/date/i-date';
 import {SystemConfig} from '../../../system/domain/service/system-config';
 import {MetarTaf} from '../../../metar-taf/domain/model/metar-taf';
-import {MetarTafActions} from '../../../metar-taf/state/ngrx/metar-taf.actions';
-import {AirportActions} from '../../../aerodrome/state/ngrx/airport/airport.actions';
-import {AirportCircuitActions} from '../../../aerodrome/state/ngrx/airport-circuit/airport-circuit.actions';
-import {
-    ReportingPointSectorActions
-} from '../../../aerodrome/state/ngrx/reporting-point-sector/reporting-point-sector.actions';
-import {AirspaceActions} from '../../../enroute/state/ngrx/airspace/airspace.actions';
-import {NavaidActions} from '../../../enroute/state/ngrx/navaid/navaid.actions';
-import {NotamActions} from '../../../notam/state/ngrx/notam.actions';
 import {WebcamActions} from '../../../webcam/state/ngrx/webcam.actions';
-import {MeteoSmaActions} from '../../../meteo-sma/state/ngrx/meteo-sma.actions';
-import {TrafficActions} from '../../../traffic/state/ngrx/traffic.actions';
 import {Notam} from '../../../notam/domain/model/notam';
 import {ShortAirport} from '../../../aerodrome/domain/model/short-airport';
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
@@ -58,24 +47,6 @@ export class FlightMapEffects {
 
 
     // region map moved/clicked
-
-    mapMovedAction$ = createEffect(() => this.actions$.pipe(
-        ofType(BaseMapActions.mapMoved),
-        debounceTime(100),
-        switchMap(action => [
-            AirportActions.update({ extent: action.extent, zoom: action.zoom }),
-            AirportCircuitActions.update({ extent: action.extent, zoom: action.zoom }),
-            ReportingPointSectorActions.update({ extent: action.extent, zoom: action.zoom }),
-            AirspaceActions.update({ extent: action.extent, zoom: action.zoom }),
-            NavaidActions.update({ extent: action.extent, zoom: action.zoom }),
-            MetarTafActions.update({ extent: action.extent, zoom: action.zoom }),
-            NotamActions.update({ extent: action.extent, zoom: action.zoom }),
-            WebcamActions.update({ extent: action.extent, zoom: action.zoom }),
-            MeteoSmaActions.update({ extent: action.extent, zoom: action.zoom }),
-            TrafficActions.updateExtent({ extent: action.extent, zoom: action.zoom }),
-        ])
-    ));
-
 
     mapClickedAction$ = createEffect(() => this.actions$.pipe(
         ofType(BaseMapActions.mapClicked),

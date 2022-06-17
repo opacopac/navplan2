@@ -12,7 +12,7 @@ const initialState: NavaidState = {
 
 export const navaidReducer = createReducer(
     initialState,
-    on(NavaidActions.updateSuccess, (state, action) => ({
+    on(NavaidActions.readSuccess, (state, action) => ({
         ...state,
         extent: action.extent,
         zoom: action.zoom,

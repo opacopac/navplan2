@@ -17,7 +17,7 @@ export const meteoSmaReducer = createReducer(
         ...state,
         buttonStatus: MeteoSmaButtonStatus.WAITING,
     })),
-    on(MeteoSmaActions.readSuccess, MeteoSmaActions.updateSuccess, (state, action) => ({
+    on(MeteoSmaActions.readSuccess, (state, action) => ({
         ...state,
         buttonStatus: MeteoSmaButtonStatus.CURRENT,
         smaMeasurements: action.smaMeasurements,

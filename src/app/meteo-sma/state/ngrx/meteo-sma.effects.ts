@@ -10,6 +10,7 @@ import {MeteoSmaButtonStatus} from '../../domain/model/meteo-sma-button-status';
 import {IMeteoSmaService} from '../../domain/service/i-meteo-sma.service';
 import {getMapState} from '../../../base-map/state/ngrx/base-map.selectors';
 import {BaseMapState} from '../../../base-map/state/state-model/base-map-state';
+import {BaseMapActions} from '../../../base-map/state/ngrx/base-map.actions';
 
 
 @Injectable()
@@ -53,7 +54,7 @@ export class MeteoSmaEffects {
 
 
     updateSmaMeasurementsAction$ = createEffect(() => this.actions$.pipe(
-        ofType(MeteoSmaActions.update),
+        ofType(BaseMapActions.mapMovedDebounced),
         withLatestFrom(this.meteoSmastate$),
         filter(([action, state]) => state.buttonStatus === MeteoSmaButtonStatus.CURRENT),
         switchMap(([action, state]) => this.meteoSmaService.readSmaMeasurements(action.extent).pipe(

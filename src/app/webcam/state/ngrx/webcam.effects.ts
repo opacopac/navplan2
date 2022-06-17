@@ -8,6 +8,7 @@ import {Store} from '@ngrx/store';
 import {getWebcamState} from './webcam.selectors';
 import {environment} from '../../../../environments/environment';
 import {IWebcamService} from '../../domain/service/i-webcam.service';
+import {BaseMapActions} from '../../../base-map/state/ngrx/base-map.actions';
 
 
 @Injectable()
@@ -25,7 +26,7 @@ export class WebcamEffects {
 
 
     updateWebcams$ = createEffect(() => this.actions$.pipe(
-        ofType(WebcamActions.update),
+        ofType(BaseMapActions.mapMovedDebounced),
         withLatestFrom(this.webcamState$),
         filter(([action, currentState]) => !currentState.extent || !action.extent ||
             !currentState.extent.containsExtent2d(action.extent) ||
@@ -45,7 +46,7 @@ export class WebcamEffects {
                 );
             }
         }),
-        map(newState => WebcamActions.updateSuccess(newState))
+        map(newState => WebcamActions.readSuccess(newState))
     ));
 
 

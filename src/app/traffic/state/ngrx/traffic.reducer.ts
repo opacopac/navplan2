@@ -9,6 +9,7 @@ import {AltitudeUnit} from '../../../geo-physics/domain/model/geometry/altitude-
 import {AltitudeReference} from '../../../geo-physics/domain/model/geometry/altitude-reference';
 import {JsDate} from '../../../system/domain/service/date/js-date';
 import {createReducer, on} from '@ngrx/store';
+import {BaseMapActions} from '../../../base-map/state/ngrx/base-map.actions';
 
 
 export const initialTrafficState: TrafficState = {
@@ -23,7 +24,7 @@ export const initialTrafficState: TrafficState = {
 
 export const trafficReducer = createReducer(
     initialTrafficState,
-    on(TrafficActions.updateExtent, (state, action) => ({
+    on(BaseMapActions.mapMovedDebounced, (state, action) => ({
         ...state,
         extent: new Extent3d(
             action.extent.minLon,

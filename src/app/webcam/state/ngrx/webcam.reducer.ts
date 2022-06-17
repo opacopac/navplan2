@@ -12,7 +12,7 @@ const initialState: WebcamState = {
 
 export const webcamReducer = createReducer(
     initialState,
-    on(WebcamActions.updateSuccess, (state, action) => ({
+    on(WebcamActions.readSuccess, (state, action) => ({
         ...state,
         extent: action.extent,
         zoom: action.zoom,

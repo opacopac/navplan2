@@ -10,6 +10,7 @@ import {SystemConfig} from '../../../../system/domain/service/system-config';
 import {IAirportService} from '../../../domain/service/i-airport.service';
 import {INotamService} from '../../../../notam/domain/service/i-notam.service';
 import {IMetarTafService} from '../../../../metar-taf/domain/service/i-metar-taf.service';
+import {BaseMapActions} from '../../../../base-map/state/ngrx/base-map.actions';
 
 
 @Injectable()
@@ -31,7 +32,8 @@ export class AirportEffects {
 
 
     updateExtentAction$ = createEffect(() => this.actions$.pipe(
-        ofType(AirportActions.update),
+        // ofType(AirportActions.update),
+        ofType(BaseMapActions.mapMovedDebounced),
         withLatestFrom(this.airportState$),
         filter(([action, currentState]) => !currentState.extent
             || !action.extent
@@ -41,7 +43,7 @@ export class AirportEffects {
             action.extent.getOversizeExtent(environment.mapOversizeFactor),
             action.zoom
         ).pipe(
-            map(airports => AirportActions.updateSuccess({
+            map(airports => AirportActions.readSuccess({
                 extent: action.extent.getOversizeExtent(environment.mapOversizeFactor),
                 zoom: action.zoom,
                 airports: airports

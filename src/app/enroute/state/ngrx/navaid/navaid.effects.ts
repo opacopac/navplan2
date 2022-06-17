@@ -6,6 +6,7 @@ import {Store} from '@ngrx/store';
 import {INavaidRepo} from '../../../domain/service/i-navaid-repo';
 import {getNavaidState} from './navaid.selectors';
 import {environment} from '../../../../../environments/environment';
+import {BaseMapActions} from '../../../../base-map/state/ngrx/base-map.actions';
 
 
 @Injectable()
@@ -22,7 +23,7 @@ export class NavaidEffects {
 
 
     updateNavaidsAction$ = createEffect(() => this.actions$.pipe(
-        ofType(NavaidActions.update),
+        ofType(BaseMapActions.mapMovedDebounced),
         withLatestFrom(this.navaidState$),
         filter(([action, currentState]) => !currentState.extent
             || !action.extent
@@ -32,7 +33,7 @@ export class NavaidEffects {
             action.extent.getOversizeExtent(environment.mapOversizeFactor),
             action.zoom
         ).pipe(
-            map(navaids => NavaidActions.updateSuccess({
+            map(navaids => NavaidActions.readSuccess({
                 navaids: navaids,
                 extent: action.extent.getOversizeExtent(environment.mapOversizeFactor),
                 zoom: action.zoom,

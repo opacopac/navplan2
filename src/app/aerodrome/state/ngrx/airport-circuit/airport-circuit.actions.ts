@@ -4,13 +4,8 @@ import {AirportCircuit} from '../../../domain/model/airport-circuit';
 
 
 export class AirportCircuitActions {
-    public static readonly update = createAction(
-        '[FlightMapEffects] Update airport circuits',
-        props<{ extent: Extent2d, zoom: number }>()
-    );
-
-    public static readonly updateSuccess = createAction(
-        '[AirportCircuitEffects] Update airport circuits success',
+    public static readonly readSuccess = createAction(
+        '[AirportCircuitEffects] Read airport circuits success',
         props<{ extent: Extent2d, zoom: number, airportCircuits: AirportCircuit[] }>()
     );
 }

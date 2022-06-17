@@ -8,6 +8,7 @@ import {getReportingPointSectorState} from './reporting-point-sector.selectors';
 import {ReportingPointSectorState} from '../state-model/reporting-point-sector-state';
 import {environment} from '../../../../../environments/environment';
 import {IReportingPointService} from '../../../domain/service/i-reporting-point.service';
+import {BaseMapActions} from '../../../../base-map/state/ngrx/base-map.actions';
 
 
 @Injectable()
@@ -26,7 +27,7 @@ export class ReportingPointSectorEffects {
 
 
     updateReportingPointsSectorsAction$ = createEffect(() => this.actions$.pipe(
-        ofType(ReportingPointSectorActions.update),
+        ofType(BaseMapActions.mapMovedDebounced),
         withLatestFrom(this.reportingPointSectorState$),
         filter(([action, currentState]) => !currentState.extent
             || !action.extent
@@ -46,6 +47,6 @@ export class ReportingPointSectorEffects {
                 );
             }
         }),
-        map(newState => ReportingPointSectorActions.updateSuccess(newState))
+        map(newState => ReportingPointSectorActions.readSuccess(newState))
     ));
 }

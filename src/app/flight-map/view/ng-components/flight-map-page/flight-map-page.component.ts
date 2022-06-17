@@ -206,13 +206,13 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         const flightrouteLayer = new OlVectorLayer();
         const ownPlaneLayer = new OlVectorLayer();
         const metarTafLayer = new OlVectorLayer();
-        const notamLayer = new OlVectorLayer();
+        const notamLayer = new OlVectorLayer(true);
         const airspaceLayer = new OlVectorLayer(true);
-        const reportingSectorLayer = new OlVectorLayer();
+        const reportingSectorLayer = new OlVectorLayer(true);
         const webcamLayer = new OlVectorLayer();
         const userPointLayer = new OlVectorLayer();
-        const reportingPointLayer = new OlVectorLayer();
-        const navaidLayer = new OlVectorLayer();
+        const reportingPointLayer = new OlVectorLayer(true);
+        const navaidLayer = new OlVectorLayer(true);
         const airportLayer = new OlVectorLayer(true);
         const trackLayer = new OlVectorLayer();
         const trafficLayer = new OlVectorLayer();
@@ -222,16 +222,12 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         const smaMeasurementsBgLayer = new OlVectorLayer();
         const smaMeasurementsLayer = new OlVectorLayer();
         const dwdForecastWeatherBgLayer = new OlDwdForecastWeatherTileLayer();
-        const dwdForecastWeatherIconLayer = new OlVectorLayer();
+        const dwdForecastWeatherIconLayer = new OlVectorLayer(true);
         const dwdForecastWindBgLayer = new OlDwdForecastWindTileLayer();
-        const dwdForecastWindIconLayer = new OlVectorLayer();
+        const dwdForecastWindIconLayer = new OlVectorLayer(true);
 
         const olMap = this.mapContainer.createMap(
             [
-                dwdForecastWeatherBgLayer,
-                dwdForecastWeatherIconLayer,
-                dwdForecastWindBgLayer,
-                dwdForecastWindIconLayer,
                 chartCloserLayer,
                 circuitLayer,
                 airspaceLayer,
@@ -248,6 +244,10 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
                 pointSearchLayer,
                 trafficLayer,
                 ownPlaneLayer,
+                dwdForecastWeatherBgLayer,
+                dwdForecastWeatherIconLayer,
+                dwdForecastWindBgLayer,
+                dwdForecastWindIconLayer,
                 smaMeasurementsBgLayer,
                 smaMeasurementsLayer,
             ],

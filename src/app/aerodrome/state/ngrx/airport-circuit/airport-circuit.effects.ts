@@ -8,6 +8,7 @@ import {getAirportCircuitState} from './airport-circuit.selectors';
 import {AirportCircuitState} from '../state-model/airport-circuit-state';
 import {environment} from '../../../../../environments/environment';
 import {IAirportCircuitService} from '../../../domain/service/i-airport-circuit.service';
+import {BaseMapActions} from '../../../../base-map/state/ngrx/base-map.actions';
 
 
 @Injectable()
@@ -25,7 +26,7 @@ export class AirportCircuitEffects {
 
 
     updateAirportCircuits$ = createEffect(() => this.actions$.pipe(
-        ofType(AirportCircuitActions.update),
+        ofType(BaseMapActions.mapMovedDebounced),
         withLatestFrom(this.airportCircuitState$),
         filter(([action, currentState]) => !currentState.extent
             || !action.extent
@@ -45,6 +46,6 @@ export class AirportCircuitEffects {
                 );
             }
         }),
-        map(newState => AirportCircuitActions.updateSuccess(newState))
+        map(newState => AirportCircuitActions.readSuccess(newState))
     ));
 }

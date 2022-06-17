@@ -1,6 +1,5 @@
 import {createAction, props} from '@ngrx/store';
 import {TrafficMap} from '../../domain/model/traffic-map';
-import {Extent2d} from '../../../geo-physics/domain/model/geometry/extent2d';
 
 
 export class TrafficActions {
@@ -24,9 +23,5 @@ export class TrafficActions {
     public static readonly readError = createAction(
         '[TrafficEffects] read traffic error',
         props<{ error: Error }>()
-    );
-    public static readonly updateExtent = createAction(
-        '[FlightMapEffects] update Extent',
-        props<{ extent: Extent2d, zoom: number }>()
     );
 }

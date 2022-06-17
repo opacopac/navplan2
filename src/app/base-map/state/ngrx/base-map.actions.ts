@@ -20,6 +20,11 @@ export class BaseMapActions {
         props<{ position: Position2d, zoom: number, rotation: Angle, extent: Extent2d, widthPx: number, heightPx: number }>()
     );
 
+    public static readonly mapMovedDebounced = createAction(
+        '[Base Map] debounced map moved / zoomed / rotated',
+        props<{ position: Position2d, zoom: number, rotation: Angle, extent: Extent2d, widthPx: number, heightPx: number }>()
+    );
+
     public static readonly mapClicked = createAction(
         '[Base Map] map clicked',
         props<{ clickPos: Position2d, dataItem: DataItem, zoom: number }>()

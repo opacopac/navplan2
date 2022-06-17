@@ -4,13 +4,8 @@ import {ShortAirport} from '../../../domain/model/short-airport';
 
 
 export class AirportActions {
-    public static readonly update = createAction(
-        '[FlightMapEffects] Update airports',
-        props<{ extent: Extent2d, zoom: number }>()
-    );
-
-    public static readonly updateSuccess = createAction(
-        '[AirportEffects] Update airports success',
+    public static readonly readSuccess = createAction(
+        '[AirportEffects] Read airports success',
         props<{ extent: Extent2d, zoom: number, airports: ShortAirport[] }>()
     );
 }

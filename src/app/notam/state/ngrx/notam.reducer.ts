@@ -13,7 +13,7 @@ const initialState: NotamState = {
 
 export const notamReducer = createReducer(
     initialState,
-    on(NotamActions.updateSuccess, (state, action) => ({
+    on(NotamActions.readSuccess, (state, action) => ({
         ...state,
         extent: action.extent,
         zoom: action.zoom,

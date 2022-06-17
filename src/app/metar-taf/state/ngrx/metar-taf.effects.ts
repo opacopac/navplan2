@@ -11,6 +11,7 @@ import {environment} from '../../../../environments/environment';
 import {IAirportService} from '../../../aerodrome/domain/service/i-airport.service';
 import {INotamService} from '../../../notam/domain/service/i-notam.service';
 import {IMetarTafService} from '../../domain/service/i-metar-taf.service';
+import {BaseMapActions} from '../../../base-map/state/ngrx/base-map.actions';
 
 
 @Injectable()
@@ -34,7 +35,7 @@ export class MetarTafEffects {
 
 
     updateMetarTafsAction$ = createEffect(() => this.actions$.pipe(
-        ofType(MetarTafActions.update),
+        ofType(BaseMapActions.mapMovedDebounced),
         withLatestFrom(this.metarTafState$),
         filter(([action, currentState]) => !currentState.extent
             || !action.extent
@@ -56,6 +57,6 @@ export class MetarTafEffects {
                 );
             }
         }),
-        map(newState => MetarTafActions.updateSuccess(newState))
+        map(newState => MetarTafActions.readSuccess(newState))
     ));
 }

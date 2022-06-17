@@ -4,13 +4,8 @@ import {Navaid} from '../../../domain/model/navaid';
 
 
 export class NavaidActions {
-    public static readonly update = createAction(
-        '[FlightmapEffects] Update navaids',
-        props<{ extent: Extent2d, zoom: number }>()
-    );
-
-    public static readonly updateSuccess = createAction(
-        '[NavaidEffects] Update navaids success',
+    public static readonly readSuccess = createAction(
+        '[NavaidEffects] Read navaids success',
         props<{ extent: Extent2d, zoom: number, navaids: Navaid[] }>()
     );
 }

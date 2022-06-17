@@ -10,6 +10,7 @@ import {IDate} from '../../../system/domain/service/date/i-date';
 import {SystemConfig} from '../../../system/domain/service/system-config';
 import {environment} from '../../../../environments/environment';
 import {INotamService} from '../../domain/service/i-notam.service';
+import {BaseMapActions} from '../../../base-map/state/ngrx/base-map.actions';
 
 
 @Injectable()
@@ -30,7 +31,7 @@ export class NotamEffects {
 
 
     updateNotamsAction$ = createEffect(() => this.actions$.pipe(
-        ofType(NotamActions.update),
+        ofType(BaseMapActions.mapMovedDebounced),
         withLatestFrom(this.notamState$),
         filter(([action, notamState]) => !action.extent
             || !notamState.extent
@@ -43,7 +44,7 @@ export class NotamEffects {
             this.date.getDayStartTimestamp(0),
             this.date.getDayEndTimestamp(2)
         ).pipe(
-            map(notams => NotamActions.updateSuccess(
+            map(notams => NotamActions.readSuccess(
                 {
                     extent: action.extent.getOversizeExtent(environment.mapOversizeFactor),
                     zoom: action.zoom,
