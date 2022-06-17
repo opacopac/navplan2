@@ -12,7 +12,8 @@ use Navplan\Traffic\DomainService\IAdsbexService;
 
 class AdsbexService implements IAdsbexService {
     private const API_KEY = '5768a18d-4eaf-4fa5-8e7d-bf07db9307b1';
-    private const ADSBEXCHANGE_BASE_URL = 'https://adsbexchange.com/api/aircraft/json/'; // lat/37.16611/lon/-119.44944/dist/10/';
+    //private const ADSBEXCHANGE_BASE_URL = 'https://adsbexchange.com/api/aircraft/json/'; // lat/37.16611/lon/-119.44944/dist/10/';
+    private const ADSBEXCHANGE_BASE_URL = 'https://adsbexchange-com1.p.rapidapi.com/v2/'; // lat/37.16611/lon/-119.44944/dist/10/';
 
     /* @var $fileService IFileService */
     private $fileService;
@@ -34,7 +35,11 @@ class AdsbexService implements IAdsbexService {
         $opts = array(
             "http" => array(
                 "method" => "GET",
-                "header" => "api-auth: " . self::API_KEY . "\r\n"
+                //"header" => "api-auth: " . self::API_KEY . "\r\n",
+                "header" => array(
+                    "X-RapidAPI-Key: " . self::API_KEY,
+                    "X-RapidAPI-Host: adsbexchange-com1.p.rapidapi.com"
+                )
             )
         );
         $context = stream_context_create($opts);
