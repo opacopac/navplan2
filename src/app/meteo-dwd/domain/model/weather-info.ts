@@ -16,11 +16,16 @@ export class WeatherInfo extends DataItem {
     }
 
 
+    public isCloudWithCeiling(): boolean {
+        return this.ceiling && (this.wwValue === 2 || this.wwValue === 3);
+    }
+
+
     public getWwText(): string {
         switch (this.wwValue) {
             case 0: return 'SKC';
             case 1: return 'FEW';
-            case 2: return 'BKN';
+            case 2: return this.ceiling ? 'BKN' : 'SCT';
             case 3: return 'OVC';
             case 45: return 'FG';
             case 48: return 'FZFG';

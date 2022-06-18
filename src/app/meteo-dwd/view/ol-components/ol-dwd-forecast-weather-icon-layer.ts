@@ -33,7 +33,7 @@ export class OlDwdForecastWeatherIconLayer {
             const iterator = new ValueGridIterator(weatherGrid);
 
             while (iterator.next()) {
-                if (iterator.value) {
+                if (iterator.value && iterator.value.wwValue != null) {
                     OlDwdForecastWeatherIcon.draw(
                         iterator.value,
                         iterator.pos,

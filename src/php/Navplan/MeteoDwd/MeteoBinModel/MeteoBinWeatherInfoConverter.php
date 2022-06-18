@@ -29,6 +29,6 @@ class MeteoBinWeatherInfoConverter {
             return null;
         }
 
-        return new Altitude($value * 100, AltitudeUnit::FT, AltitudeReference::MSL);
+        return new Altitude($value * 200, AltitudeUnit::FT, AltitudeReference::MSL);
     }
 }
