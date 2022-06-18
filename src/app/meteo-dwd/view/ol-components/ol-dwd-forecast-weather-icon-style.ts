@@ -17,6 +17,8 @@ export class OlDwdForecastWeatherIconStyle {
         const fakeX = anchorX * Math.cos(-rot) - anchorY * Math.sin(-rot) + 16;
         const fakeY = anchorX * Math.sin(-rot) + anchorY * Math.cos(-rot) + 16;
 
+        const ceilingText = weatherInfo.ceiling && weatherInfo.ceiling.value ? weatherInfo.ceiling.getHeightAmsl().ft + 'ft AMSL' : '';
+
         return new Style({
             image: new Icon(({
                 anchor: [fakeX, fakeY],
@@ -29,7 +31,7 @@ export class OlDwdForecastWeatherIconStyle {
             })),
             text: new Text({
                 font: 'bold 14px Calibri,sans-serif',
-                text: weatherInfo.getWwText(),
+                text: weatherInfo.getWwText() + '\n' + ceilingText,
                 fill: new Fill({color: '#000000'}),
                 stroke: new Stroke({color: '#FFFFFF', width: 2}),
                 offsetX: 0,
