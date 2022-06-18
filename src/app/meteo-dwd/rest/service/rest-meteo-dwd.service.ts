@@ -3,16 +3,16 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
 import {IMeteoDwdService} from '../../domain/service/i-meteo-dwd.service';
 import {ValueGrid} from '../../domain/model/value-grid';
-import {WindSpeedDir} from '../../domain/model/wind-speed-dir';
+import {WindInfo} from '../../domain/model/wind-info';
 import {Observable, throwError} from 'rxjs';
-import {IRestWindSpeedDirGrid} from '../model/i-rest-wind-speed-dir-grid';
-import {RestWindSpeedDirGridConverter} from '../model/rest-wind-speed-dir-grid-converter';
+import {IRestWindInfoGrid} from '../model/i-rest-wind-info-grid';
+import {RestWindInfoGridConverter} from '../model/rest-wind-info-grid-converter';
 import {catchError, map} from 'rxjs/operators';
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {GridDefinition} from '../../domain/model/grid-definition';
-import {IRestWwGrid} from '../model/i-rest-ww-grid';
-import {RestWwGridConverter} from '../model/rest-ww-grid-converter';
-import {WwValue} from '../../domain/model/ww-value';
+import {IRestWeatherInfoGrid} from '../model/i-rest-weather-info-grid';
+import {RestWeatherInfoGridConverter} from '../model/rest-weather-info-grid-converter';
+import {WeatherInfo} from '../../domain/model/weather-info';
 
 
 @Injectable()
@@ -21,7 +21,7 @@ export class RestMeteoDwdService implements IMeteoDwdService {
     }
 
 
-    public readWeatherGrid(grid: GridDefinition, interval: number): Observable<ValueGrid<WwValue>> {
+    public readWeatherGrid(grid: GridDefinition, interval: number): Observable<ValueGrid<WeatherInfo>> {
         const url = environment.meteoDwdBaseUrl
             + '?action=readWwGrid'
             + '&width=' + grid.width
@@ -30,11 +30,11 @@ export class RestMeteoDwdService implements IMeteoDwdService {
             + '&minlat=' + grid.minPos.latitude
             + '&steplon=' + grid.stepLon
             + '&steplat=' + grid.stepLat
-            + '&interval=' + interval;
+            + '&interval=' + (interval + 30);
 
-        return this.http.get<IRestWwGrid>(url)
+        return this.http.get<IRestWeatherInfoGrid>(url)
             .pipe(
-                map(response => RestWwGridConverter.fromRest(response)),
+                map(response => RestWeatherInfoGridConverter.fromRest(response)),
                 catchError(error => {
                     LoggingService.logResponseError('ERROR reading ww grid!', error);
                     return throwError(error);
@@ -43,7 +43,7 @@ export class RestMeteoDwdService implements IMeteoDwdService {
     }
 
 
-    public readWindGrid(grid: GridDefinition, interval: number): Observable<ValueGrid<WindSpeedDir>> {
+    public readWindGrid(grid: GridDefinition, interval: number): Observable<ValueGrid<WindInfo>> {
         const url = environment.meteoDwdBaseUrl
             + '?action=readWindGrid'
             + '&width=' + grid.width
@@ -52,11 +52,11 @@ export class RestMeteoDwdService implements IMeteoDwdService {
             + '&minlat=' + grid.minPos.latitude
             + '&steplon=' + grid.stepLon
             + '&steplat=' + grid.stepLat
-            + '&interval=' + interval;
+            + '&interval=' + (interval + 30);
 
-        return this.http.get<IRestWindSpeedDirGrid>(url)
+        return this.http.get<IRestWindInfoGrid>(url)
             .pipe(
-                map(response => RestWindSpeedDirGridConverter.fromRest(response)),
+                map(response => RestWindInfoGridConverter.fromRest(response)),
                 catchError(error => {
                     LoggingService.logResponseError('ERROR reading wind speed/dir grid!', error);
                     return throwError(error);

@@ -1,8 +1,12 @@
 import {DataItem, DataItemType} from '../../../common/model/data-item';
+import {Altitude} from '../../../geo-physics/domain/model/geometry/altitude';
 
 
-export class WwValue extends DataItem {
-    public constructor(public value: number) {
+export class WeatherInfo extends DataItem {
+    public constructor(
+        public wwValue: number,
+        public ceiling: Altitude
+    ) {
         super();
     }
 
@@ -12,8 +16,8 @@ export class WwValue extends DataItem {
     }
 
 
-    public getText(): string {
-        switch (this.value) {
+    public getWwText(): string {
+        switch (this.wwValue) {
             case 0: return 'SKC';
             case 1: return 'FEW';
             case 2: return 'BKN';

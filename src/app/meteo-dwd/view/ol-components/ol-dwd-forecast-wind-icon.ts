@@ -3,13 +3,13 @@ import {OlVectorLayer} from '../../../base-map/view/ol-model/ol-vector-layer';
 import {OlFeature} from '../../../base-map/view/ol-model/ol-feature';
 import {OlGeometry} from '../../../base-map/view/ol-model/ol-geometry';
 import {OlDwdForecastWindIconStyle} from './ol-dwd-forecast-wind-icon-style';
-import {WindSpeedDir} from '../../domain/model/wind-speed-dir';
+import {WindInfo} from '../../domain/model/wind-info';
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
 
 
 export class OlDwdForecastWindIcon {
     public static draw(
-        windSpeedDir: WindSpeedDir,
+        windSpeedDir: WindInfo,
         position: Position2d,
         mapRotation: Angle,
         layer: OlVectorLayer

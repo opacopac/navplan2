@@ -46,8 +46,8 @@ export class OlDwdForecastWindTileLayer implements OlLayer {
 
 
     private getUrl(): string {
-        const intervalStr = StringnumberHelper.zeroPad(this.interval, 3);
+        const intervalStr = StringnumberHelper.zeroPad(this.interval + 30, 3);
 
-        return 'http://localhost/navplan2/maptiles/meteo_test/set01/wind/' + intervalStr + '/{z}/{x}/{y}.png';
+        return 'http://localhost/navplan2/maptiles/meteo_test/set02/wind/' + intervalStr + '/{z}/{x}/{y}.png';
     }
 }

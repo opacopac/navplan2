@@ -3,14 +3,14 @@
 namespace Navplan\MeteoDwd\DomainModel;
 
 
-class WindSpeedDirGrid {
+class WindInfoGrid {
     /**
      * @param GridDefinition $grid
-     * @param WindSpeedDir[] $values
+     * @param WindInfo[] $windInfos
      */
     public function __construct(
         public GridDefinition $grid,
-        public array $values,
+        public array $windInfos,
     ) {
     }
 }

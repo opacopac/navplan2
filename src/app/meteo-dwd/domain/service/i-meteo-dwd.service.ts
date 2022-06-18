@@ -1,12 +1,12 @@
 import {Observable} from 'rxjs/internal/Observable';
 import {ValueGrid} from '../model/value-grid';
-import {WindSpeedDir} from '../model/wind-speed-dir';
+import {WindInfo} from '../model/wind-info';
 import {GridDefinition} from '../model/grid-definition';
-import {WwValue} from '../model/ww-value';
+import {WeatherInfo} from '../model/weather-info';
 
 
 export abstract class IMeteoDwdService {
-    public abstract readWeatherGrid(grid: GridDefinition, interval: number): Observable<ValueGrid<WwValue>>;
+    public abstract readWeatherGrid(grid: GridDefinition, interval: number): Observable<ValueGrid<WeatherInfo>>;
 
-    public abstract readWindGrid(grid: GridDefinition, interval: number): Observable<ValueGrid<WindSpeedDir>>;
+    public abstract readWindGrid(grid: GridDefinition, interval: number): Observable<ValueGrid<WindInfo>>;
 }

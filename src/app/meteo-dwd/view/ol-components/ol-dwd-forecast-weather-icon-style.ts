@@ -2,13 +2,13 @@ import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {environment} from '../../../../environments/environment';
 import {Angle} from '../../../geo-physics/domain/model/quantities/angle';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
-import {WwValue} from '../../domain/model/ww-value';
+import {WeatherInfo} from '../../domain/model/weather-info';
 import {StringnumberHelper} from '../../../system/domain/service/stringnumber/stringnumber-helper';
 
 
 export class OlDwdForecastWeatherIconStyle {
-    public static createPointStyle(wwValue: WwValue, mapRotation: Angle): Style {
-        const url = environment.iconBaseUrl + this.getIconFileName(wwValue.value);
+    public static createPointStyle(weatherInfo: WeatherInfo, mapRotation: Angle): Style {
+        const url = environment.iconBaseUrl + this.getIconFileName(weatherInfo.wwValue);
 
         const rot = mapRotation.rad;
         const anchorX = 0;
@@ -29,7 +29,7 @@ export class OlDwdForecastWeatherIconStyle {
             })),
             text: new Text({
                 font: 'bold 14px Calibri,sans-serif',
-                text: wwValue.getText(),
+                text: weatherInfo.getWwText(),
                 fill: new Fill({color: '#000000'}),
                 stroke: new Stroke({color: '#FFFFFF', width: 2}),
                 offsetX: 0,

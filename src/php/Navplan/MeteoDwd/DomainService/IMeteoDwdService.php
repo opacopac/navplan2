@@ -4,12 +4,12 @@ namespace Navplan\MeteoDwd\DomainService;
 
 use Navplan\MeteoDwd\DomainModel\ForecastTime;
 use Navplan\MeteoDwd\DomainModel\GridDefinition;
-use Navplan\MeteoDwd\DomainModel\WindSpeedDirGrid;
-use Navplan\MeteoDwd\DomainModel\WwGrid;
+use Navplan\MeteoDwd\DomainModel\WeatherGrid;
+use Navplan\MeteoDwd\DomainModel\WindInfoGrid;
 
 
 interface IMeteoDwdService {
-    function readWindSpeedDirGrid(ForecastTime $forecastTime, GridDefinition $grid): WindSpeedDirGrid;
+    function readWindSpeedDirGrid(ForecastTime $forecastTime, GridDefinition $grid): WindInfoGrid;
 
-    function readWwGrid(ForecastTime $forecastTime, GridDefinition $grid): WwGrid;
+    function readWeatherGrid(ForecastTime $forecastTime, GridDefinition $grid): WeatherGrid;
 }

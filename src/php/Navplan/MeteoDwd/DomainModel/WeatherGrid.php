@@ -3,14 +3,14 @@
 namespace Navplan\MeteoDwd\DomainModel;
 
 
-class WwGrid {
+class WeatherGrid {
     /**
      * @param GridDefinition $grid
-     * @param int[] $values
+     * @param WeatherInfo[] $weatherInfos
      */
     public function __construct(
         public GridDefinition $grid,
-        public array $values,
+        public array $weatherInfos,
     ) {
     }
 }

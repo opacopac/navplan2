@@ -2,18 +2,18 @@
 
 namespace Navplan\MeteoDwd\RestModel;
 
-use Navplan\MeteoDwd\DomainModel\WindSpeedDirGrid;
+use Navplan\MeteoDwd\DomainModel\WindInfoGrid;
 
 
-class RestWindSpeedDirGridConverter {
+class RestWindInfoGridConverter {
     const ARG_GRID = "grid";
     const ARG_VALUS = "values";
 
 
-    public static function toRest(WindSpeedDirGrid $windSpeedDirGrid): array {
+    public static function toRest(WindInfoGrid $windSpeedDirGrid): array {
         return array(
             self::ARG_GRID => RestGridDefinitionConverter::toRest($windSpeedDirGrid->grid),
-            self::ARG_VALUS => RestWindSpeedDirConverter::toRestList($windSpeedDirGrid->values)
+            self::ARG_VALUS => RestWindInfoConverter::toRestList($windSpeedDirGrid->windInfos)
         );
     }
 }

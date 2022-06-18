@@ -3,7 +3,7 @@ import {OlVectorLayer} from '../../../base-map/view/ol-model/ol-vector-layer';
 import {ValueGrid} from '../../domain/model/value-grid';
 import {ValueGridIterator} from '../../domain/model/value-grid-iterator';
 import {Angle} from '../../../geo-physics/domain/model/quantities/angle';
-import {WwValue} from '../../domain/model/ww-value';
+import {WeatherInfo} from '../../domain/model/weather-info';
 import {OlDwdForecastWeatherIcon} from './ol-dwd-forecast-weather-icon';
 
 
@@ -13,7 +13,7 @@ export class OlDwdForecastWeatherIconLayer {
 
     constructor(
         private readonly weatherLayer: OlVectorLayer,
-        windGrid$: Observable<ValueGrid<WwValue>>
+        windGrid$: Observable<ValueGrid<WeatherInfo>>
     ) {
         this.weatherGridSubscription = windGrid$.subscribe((wwGrid) => {
             this.clearFeatures();
@@ -28,9 +28,9 @@ export class OlDwdForecastWeatherIconLayer {
     }
 
 
-    private drawFeatures(wwGrid: ValueGrid<WwValue>) {
-        if (wwGrid) {
-            const iterator = new ValueGridIterator(wwGrid);
+    private drawFeatures(weatherGrid: ValueGrid<WeatherInfo>) {
+        if (weatherGrid) {
+            const iterator = new ValueGridIterator(weatherGrid);
 
             while (iterator.next()) {
                 if (iterator.value) {

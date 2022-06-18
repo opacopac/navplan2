@@ -1,7 +1,7 @@
 import {Observable, Subscription} from 'rxjs';
 import {OlVectorLayer} from '../../../base-map/view/ol-model/ol-vector-layer';
 import {ValueGrid} from '../../domain/model/value-grid';
-import {WindSpeedDir} from '../../domain/model/wind-speed-dir';
+import {WindInfo} from '../../domain/model/wind-info';
 import {ValueGridIterator} from '../../domain/model/value-grid-iterator';
 import {OlDwdForecastWindIcon} from './ol-dwd-forecast-wind-icon';
 import {Angle} from '../../../geo-physics/domain/model/quantities/angle';
@@ -13,7 +13,7 @@ export class OlDwdForecastWindIconLayer {
 
     constructor(
         private readonly windLayer: OlVectorLayer,
-        windGrid$: Observable<ValueGrid<WindSpeedDir>>
+        windGrid$: Observable<ValueGrid<WindInfo>>
     ) {
         this.windGridSubscription = windGrid$.subscribe((windGrid) => {
             this.clearFeatures();
@@ -28,7 +28,7 @@ export class OlDwdForecastWindIconLayer {
     }
 
 
-    private drawFeatures(windGrid: ValueGrid<WindSpeedDir>) {
+    private drawFeatures(windGrid: ValueGrid<WindInfo>) {
         if (windGrid) {
             const iterator = new ValueGridIterator(windGrid);
 

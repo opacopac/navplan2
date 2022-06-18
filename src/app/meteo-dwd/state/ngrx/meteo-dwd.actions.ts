@@ -1,7 +1,7 @@
 import {createAction, props} from '@ngrx/store';
 import {ValueGrid} from '../../domain/model/value-grid';
-import {WindSpeedDir} from '../../domain/model/wind-speed-dir';
-import {WwValue} from '../../domain/model/ww-value';
+import {WindInfo} from '../../domain/model/wind-info';
+import {WeatherInfo} from '../../domain/model/weather-info';
 
 
 export class MeteoDwdActions {
@@ -32,11 +32,11 @@ export class MeteoDwdActions {
 
     public static readonly readWeatherGridSuccess = createAction(
         '[MeteoDwdEffects] Read Weather Grid success',
-        props<{ weatherGrid: ValueGrid<WwValue> }>()
+        props<{ weatherGrid: ValueGrid<WeatherInfo> }>()
     );
 
     public static readonly readWindGridSuccess = createAction(
         '[MeteoDwdEffects] Read Wind Grid success',
-        props<{ windGrid: ValueGrid<WindSpeedDir> }>()
+        props<{ windGrid: ValueGrid<WindInfo> }>()
     );
 }

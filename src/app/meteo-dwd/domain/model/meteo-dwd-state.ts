@@ -1,7 +1,7 @@
 import {MeteoDwdButtonStatus} from './meteo-dwd-button-status';
 import {ValueGrid} from './value-grid';
-import {WindSpeedDir} from './wind-speed-dir';
-import {WwValue} from './ww-value';
+import {WindInfo} from './wind-info';
+import {WeatherInfo} from './weather-info';
 
 
 export interface MeteoDwdState {
@@ -9,6 +9,6 @@ export interface MeteoDwdState {
     showWeatherForecast: boolean;
     showWindForecast: boolean;
     selectedInterval: number;
-    weatherGrid: ValueGrid<WwValue>;
-    windGrid: ValueGrid<WindSpeedDir>;
+    weatherGrid: ValueGrid<WeatherInfo>;
+    windGrid: ValueGrid<WindInfo>;
 }

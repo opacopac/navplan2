@@ -1,12 +1,12 @@
 import {Observable, Subscription} from 'rxjs';
 import {OlDwdForecastWindTileLayer} from './ol-dwd-forecast-wind-tile-layer';
 import {ValueGrid} from '../../domain/model/value-grid';
-import {WindSpeedDir} from '../../domain/model/wind-speed-dir';
+import {WindInfo} from '../../domain/model/wind-info';
 import {OlVectorLayer} from '../../../base-map/view/ol-model/ol-vector-layer';
 import {OlDwdForecastWindIconLayer} from './ol-dwd-forecast-wind-icon-layer';
 import {OlDwdForecastWeatherTileLayer} from './ol-dwd-forecast-weather-tile-layer';
 import {OlDwdForecastWeatherIconLayer} from './ol-dwd-forecast-weather-icon-layer';
-import {WwValue} from '../../domain/model/ww-value';
+import {WeatherInfo} from '../../domain/model/weather-info';
 
 
 export class OlDwdForecastContainer {
@@ -25,8 +25,8 @@ export class OlDwdForecastContainer {
         private readonly showWeatherForecast$: Observable<boolean>,
         private readonly showWindForecast$: Observable<boolean>,
         private readonly selectedInterval$: Observable<number>,
-        private readonly meteoDwdWeatherGrid$: Observable<ValueGrid<WwValue>>,
-        private readonly meteoDwdWindGrid$: Observable<ValueGrid<WindSpeedDir>>
+        private readonly meteoDwdWeatherGrid$: Observable<ValueGrid<WeatherInfo>>,
+        private readonly meteoDwdWindGrid$: Observable<ValueGrid<WindInfo>>
     ) {
         this.showWeatherForecastSubscription = this.showWeatherForecast$.subscribe(showWeatherForecast => {
             this.showWeatherLayers(showWeatherForecast);
