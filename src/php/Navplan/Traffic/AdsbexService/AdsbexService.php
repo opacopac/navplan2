@@ -6,21 +6,20 @@ use Navplan\Common\DomainModel\Length;
 use Navplan\Common\DomainModel\LengthUnit;
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\System\DomainService\IFileService;
+use Navplan\System\DomainService\ITimeService;
 use Navplan\Traffic\AdsbexModel\AdsbexTrafficConverter;
 use Navplan\Traffic\DomainService\IAdsbexService;
 
 
 class AdsbexService implements IAdsbexService {
     private const API_KEY = '5768a18d-4eaf-4fa5-8e7d-bf07db9307b1';
-    //private const ADSBEXCHANGE_BASE_URL = 'https://adsbexchange.com/api/aircraft/json/'; // lat/37.16611/lon/-119.44944/dist/10/';
-    private const ADSBEXCHANGE_BASE_URL = 'https://adsbexchange-com1.p.rapidapi.com/v2/'; // lat/37.16611/lon/-119.44944/dist/10/';
-
-    /* @var $fileService IFileService */
-    private $fileService;
+    private const ADSBEXCHANGE_BASE_URL = 'https://adsbexchange.com/api/aircraft/v2/'; // lat/37.16611/lon/-119.44944/dist/10/';
 
 
-    public function __construct(IFileService $fileService) {
-        $this->fileService = $fileService;
+    public function __construct(
+        private IFileService $fileService,
+        private ITimeService $timeService
+    ) {
     }
 
 
@@ -35,11 +34,7 @@ class AdsbexService implements IAdsbexService {
         $opts = array(
             "http" => array(
                 "method" => "GET",
-                //"header" => "api-auth: " . self::API_KEY . "\r\n",
-                "header" => array(
-                    "X-RapidAPI-Key: " . self::API_KEY,
-                    "X-RapidAPI-Host: adsbexchange-com1.p.rapidapi.com"
-                )
+                "header" => "api-auth: " . self::API_KEY . "\r\n",
             )
         );
         $context = stream_context_create($opts);
@@ -58,7 +53,7 @@ class AdsbexService implements IAdsbexService {
 
         if (isset($responseJson["ac"])) {
             for ($i = 0; $i < count($responseJson["ac"]); $i++) {
-                $trafficList[] = AdsbexTrafficConverter::fromResponse($responseJson, $i);
+                $trafficList[] = AdsbexTrafficConverter::fromResponse($responseJson, $i, $this->timeService);
             }
         }
 

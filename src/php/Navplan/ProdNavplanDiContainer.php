@@ -499,7 +499,10 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
 
     public function getAdsbexRepo(): IAdsbexService {
         if (!isset($this->adsbexRepo)) {
-            $this->adsbexRepo = new AdsbexService($this->getFileService());
+            $this->adsbexRepo = new AdsbexService(
+                $this->getFileService(),
+                $this->getTimeService()
+            );
         }
 
         return $this->adsbexRepo;

@@ -2,25 +2,26 @@
 
 namespace Navplan\Traffic\AdsbexModel;
 
+use Navplan\System\DomainService\ITimeService;
 use Navplan\Traffic\DomainModel\TrafficAddress;
 use Navplan\Traffic\DomainModel\TrafficAddressType;
 use Navplan\Traffic\DomainModel\TrafficAdsbex;
 
 
 class AdsbexTrafficConverter  {
-    public static function fromResponse(array $response, int $acIndex): TrafficAdsbex {
+    public static function fromResponse(array $response, int $acIndex, ITimeService $timeService): TrafficAdsbex {
         $acResponse = $response["ac"][$acIndex];
 
         return new TrafficAdsbex(
             new TrafficAddress(
-                $acResponse["icao"],
+                $acResponse["hex"],
                 TrafficAddressType::ICAO
             ),
-            $acResponse["type"] ?: NULL,
-            $acResponse["reg"] ?: NULL,
-            $acResponse["call"] ?: NULL,
-            $acResponse["opicao"] ?: NULL,
-            [ AdsbexTrafficPositionConverter::fromResponse($response, $acIndex) ]
+            $acResponse["t"] ?: NULL,
+            $acResponse["r"] ?: NULL,
+            $acResponse["flight"] ?: NULL,
+            $acResponse["opicao"] ?: NULL, // TODO
+            [ AdsbexTrafficPositionConverter::fromResponse($response, $acIndex, $timeService) ]
         );
     }
 }

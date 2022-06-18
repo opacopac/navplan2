@@ -32,7 +32,6 @@ export class AirportEffects {
 
 
     updateExtentAction$ = createEffect(() => this.actions$.pipe(
-        // ofType(AirportActions.update),
         ofType(BaseMapActions.mapMovedDebounced),
         withLatestFrom(this.airportState$),
         filter(([action, currentState]) => !currentState.extent
