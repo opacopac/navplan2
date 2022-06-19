@@ -30,7 +30,7 @@ export class RestMeteoDwdService implements IMeteoDwdService {
             + '&minlat=' + grid.minPos.latitude
             + '&steplon=' + grid.stepLon
             + '&steplat=' + grid.stepLat
-            + '&interval=' + (interval + 30);
+            + '&interval=' + (interval + 2);
 
         return this.http.get<IRestWeatherInfoGrid>(url)
             .pipe(
@@ -52,7 +52,7 @@ export class RestMeteoDwdService implements IMeteoDwdService {
             + '&minlat=' + grid.minPos.latitude
             + '&steplon=' + grid.stepLon
             + '&steplat=' + grid.stepLat
-            + '&interval=' + (interval + 30);
+            + '&interval=' + (interval + 2);
 
         return this.http.get<IRestWindInfoGrid>(url)
             .pipe(

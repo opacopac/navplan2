@@ -53,7 +53,7 @@ class MeteoBinService implements IMeteoDwdService
 
     private function readWindSpeedENValuesFromFile(ForecastTime $forecastTime, GridDefinition $grid): array {
         $interval = StringNumberHelper::zeroPad($forecastTime->interval, 3);
-        $fileName = $this->meteoDwdBaseDir . "wind/" . $interval .  "/WIND_D2.meteobin"; // TODO
+        $fileName = $this->meteoDwdBaseDir . $interval . "/wind/WIND_D2.meteobin"; // TODO
         $rawContent = $this->fileService->fileGetContents($fileName);
 
         $iconD2Grid = IconGridDefinition::getIconD2Grid();
@@ -89,7 +89,7 @@ class MeteoBinService implements IMeteoDwdService
 
     public function readWeatherGrid(ForecastTime $forecastTime, GridDefinition $grid): WeatherGrid {
         $interval = StringNumberHelper::zeroPad($forecastTime->interval, 3);
-        $fileName = $this->meteoDwdBaseDir . "clct_precip/" . $interval .  "/WW_D2.meteobin"; // TODO
+        $fileName = $this->meteoDwdBaseDir . $interval . "/clct_precip/WW_D2.meteobin"; // TODO
         $rawContent = $this->fileService->fileGetContents($fileName);
         $iconD2Grid = IconGridDefinition::getIconD2Grid();
 
