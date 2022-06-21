@@ -4,6 +4,8 @@ import {Observable, Subscription} from 'rxjs';
 import {MeteoDwdState} from '../../../domain/model/meteo-dwd-state';
 import {getMeteoDwdState} from '../../../state/ngrx/meteo-dwd.selectors';
 import {MeteoDwdActions} from '../../../state/ngrx/meteo-dwd.actions';
+import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
+import {MatSliderChange} from '@angular/material/slider';
 
 
 @Component({
@@ -31,9 +33,33 @@ export class MeteoDwdTimelineComponent implements OnInit, OnDestroy {
     }
 
 
-    public onIntervalSelected(interval: number) {
+    public formatLabel(value: number) {
+        const startHour = 18 + 2;
+        const hour = startHour + value;
+
+        if (hour === startHour) {
+            return 'Now';
+        }
+
+        if (hour < 24) {
+            return 'Tue ' + StringnumberHelper.zeroPad(hour, 2) + ':00';
+        }
+
+        if (hour < 48) {
+            return 'Wed ' + StringnumberHelper.zeroPad(hour - 24, 2) + ':00';
+        }
+
+        if (hour < 72) {
+            return 'Thu ' + StringnumberHelper.zeroPad(hour - 48, 2) + ':00';
+        }
+
+        return StringnumberHelper.zeroPad(value, 3);
+    }
+
+
+    public onIntervalSelected(event: MatSliderChange) {
         this.appStore.dispatch(
-            MeteoDwdActions.selectInterval({ interval: interval })
+            MeteoDwdActions.selectInterval({ interval: event.value })
         );
     }
 

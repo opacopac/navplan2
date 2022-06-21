@@ -4,5 +4,42 @@
     border-style: solid;
     border-width: 1px;
     border-color: green;*/
-    background: lightblue;
+    background: rgba(0, 60, 109, 0.6);
+}
+
+.meteo-dwd-timeline-slider {
+    width: 1500px;
+    /*height: 200px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: green;*/
+}
+
+::ng-deep .mat-slider-thumb {
+    transform: scale(0) !important;
+}
+
+::ng-deep .mat-slider-thumb-label {
+    transform: rotate(0deg) !important;
+    border-radius: 5px !important;
+    width: 100px !important;
+    height: 35px !important;
+    right: -50px !important;
+    top: -50px !important;
+}
+
+::ng-deep .mat-slider-thumb-label::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #455a64;
+    position: absolute;
+    top: 35px;
+}
+
+::ng-deep .mat-slider-thumb-label-text {
+    transform: rotate(0deg) !important;
+    opacity: 1 !important;
 }

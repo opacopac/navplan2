@@ -1,10 +1,13 @@
 <div #container class="meteo-dwd-timeline">
-    <button mat-button (click)="onIntervalSelected(0)">000</button>
-    <button mat-button (click)="onIntervalSelected(1)">001</button>
-    <button mat-button (click)="onIntervalSelected(2)">002</button>
-    <button mat-button (click)="onIntervalSelected(3)">003</button>
-    <button mat-button (click)="onIntervalSelected(4)">004</button>
-    <button mat-button (click)="onIntervalSelected(5)">005</button>
-    <button mat-button (click)="onIntervalSelected(6)">006</button>
-    <button mat-button (click)="onIntervalSelected(7)">007</button>
+    <mat-slider
+        thumbLabel
+        [displayWith]="formatLabel"
+        tickInterval="1"
+        step="1"
+        min="2"
+        max="48"
+        aria-label="units"
+        class="meteo-dwd-timeline-slider"
+        (input)="onIntervalSelected($event)"
+    ></mat-slider>
 </div>

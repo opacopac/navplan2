@@ -9,6 +9,7 @@ import {MeteoDwdStateModule} from '../state/meteo-dwd-state.module';
 import {MeteoDwdTimelineComponent} from './ng-components/meteo-dwd-timeline/meteo-dwd-timeline.component';
 import {MeteoDwdRestModule} from '../rest/meteo-dwd-rest.module';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatSliderModule} from '@angular/material/slider';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
         MeteoDwdRestModule,
         MeteoDwdStateModule,
         MatButtonToggleModule,
+        MatSliderModule,
     ],
     declarations: [
         MeteoDwdButtonComponent,
