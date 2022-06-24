@@ -6,6 +6,7 @@ import {getMeteoDwdState} from '../../../state/ngrx/meteo-dwd.selectors';
 import {MeteoDwdActions} from '../../../state/ngrx/meteo-dwd.actions';
 import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 import {MatSliderChange} from '@angular/material/slider';
+import {DatetimeHelper} from '../../../../system/domain/service/datetime/datetime-helper';
 
 
 @Component({
@@ -33,27 +34,20 @@ export class MeteoDwdTimelineComponent implements OnInit, OnDestroy {
     }
 
 
-    public formatLabel(value: number) {
-        const startHour = 18 + 2;
-        const hour = startHour + value;
+    public formatLabel(step: number): string {
+        const startHour = 15 + 2;
+        const totHour = startHour + step;
 
-        if (hour === startHour) {
+        if (totHour === startHour) {
             return 'Now';
         }
 
-        if (hour < 24) {
-            return 'Tue ' + StringnumberHelper.zeroPad(hour, 2) + ':00';
-        }
+        const dayOffset = Math.floor(totHour / 24);
+        const dayDate = new Date(Date.now() + (3600 * 24 * dayOffset * 1000));
+        const dayHour = totHour - 24 * dayOffset;
+        const weekday = DatetimeHelper.getWeekdayShortFromDate(dayDate);
 
-        if (hour < 48) {
-            return 'Wed ' + StringnumberHelper.zeroPad(hour - 24, 2) + ':00';
-        }
-
-        if (hour < 72) {
-            return 'Thu ' + StringnumberHelper.zeroPad(hour - 48, 2) + ':00';
-        }
-
-        return StringnumberHelper.zeroPad(value, 3);
+        return weekday + ' ' + StringnumberHelper.zeroPad(dayHour, 2) + ':00';
     }
 
 

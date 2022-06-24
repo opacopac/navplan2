@@ -81,4 +81,9 @@ export class DatetimeHelper {
 
         return date.getFullYear() + dec;
     }
+
+
+    public static getWeekdayShortFromDate(date = new Date()): string {
+        return date.toLocaleString('en', { weekday: 'short' });
+    }
 }

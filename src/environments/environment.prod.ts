@@ -9,7 +9,7 @@ export const environment = {
     navaidServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Enroute/RestService/NavaidService.php',
     webcamServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Webcam/RestService/WebcamService.php',
     flightrouteServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Flightroute/RestService/FlightrouteService.php',
-    meteoSmaBaseUrl: WEBSITE_BASE_URL + 'php/Navplan/MeteoSma/RestService/MeteoService.php',
+    meteoSmaServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/MeteoSma/RestService/MeteoService.php',
     notamRestServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Notam/RestService/NotamService.php',
     openAipServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Search/RestService/SearchService.php',
     searchServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Search/RestService/SearchService.php',

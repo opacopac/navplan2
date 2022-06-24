@@ -28,7 +28,7 @@ class WindInfo {
         return new WindInfo(
             new Speed($speed, $unit),
             new Angle($dir, AngleUnit::DEG),
-            $gust ? new Speed($gust, $unit) : null
+            $gust ? new Speed(round($gust, 1), $unit) : null
         );
     }
 }

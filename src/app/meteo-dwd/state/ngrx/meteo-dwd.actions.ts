@@ -30,6 +30,11 @@ export class MeteoDwdActions {
         props<{ interval: number }>()
     );
 
+    public static readonly readMapTilesUrlSuccess = createAction(
+        '[MeteoDwdEffects] Read Map Tiles Url success',
+        props<{ mapTilesUrl: string }>()
+    );
+
     public static readonly readWeatherGridSuccess = createAction(
         '[MeteoDwdEffects] Read Weather Grid success',
         props<{ weatherGrid: ValueGrid<WeatherInfo> }>()

@@ -2,10 +2,12 @@
 
 namespace Navplan\MeteoDwd\MeteoBinService;
 
+use DateTime;
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\Common\DomainModel\SpeedUnit;
 use Navplan\Common\StringNumberHelper;
-use Navplan\MeteoDwd\DomainModel\ForecastTime;
+use Navplan\MeteoDwd\DomainModel\ForecastRun;
+use Navplan\MeteoDwd\DomainModel\ForecastStep;
 use Navplan\MeteoDwd\DomainModel\GridDefinition;
 use Navplan\MeteoDwd\DomainModel\IconGridDefinition;
 use Navplan\MeteoDwd\DomainModel\ValueGrid;
@@ -16,11 +18,15 @@ use Navplan\MeteoDwd\DomainModel\WindInfoGrid;
 use Navplan\MeteoDwd\DomainService\IMeteoDwdService;
 use Navplan\MeteoDwd\MeteoBinModel\MeteoBinWeatherInfoConverter;
 use Navplan\MeteoDwd\MeteoBinModel\MeteoBinWindInfoConverter;
+use Navplan\System\DomainModel\FileServiceException;
 use Navplan\System\DomainService\IFileService;
 
 
-class MeteoBinService implements IMeteoDwdService
-{
+class MeteoBinService implements IMeteoDwdService {
+    private const METEOBIN_WW_PATH = "/clct_precip/WW_D2.meteobin";
+    private const METEOBIN_WIND_PATH = "/wind/WIND_D2.meteobin";
+
+
     public function __construct(
         private IFileService $fileService,
         private string $meteoDwdBaseDir
@@ -28,8 +34,42 @@ class MeteoBinService implements IMeteoDwdService
     }
 
 
+    /**
+     * @return ForecastRun[]
+     * @throws FileServiceException
+     */
+    function readAvailableForecasts(): array {
+        $subDirs = $this->fileService->glob($this->meteoDwdBaseDir . '*' , GLOB_ONLYDIR);
+        if ($subDirs === false) {
+            throw new FileServiceException("error reading base directory '" . $this->meteoDwdBaseDir . "'");
+        }
+
+        $forecastRunsUnfilterd = array_map(
+            function ($dirEntry) {
+                if (!preg_match('/^.*(\d{8})(\d{2})$/', $dirEntry, $matches)) {
+                    return null;
+                }
+                $date = DateTime::createFromFormat("Ymd", $matches[1]);
+                $run = $matches[2];
+
+                return new ForecastRun($date, $run);
+            },
+            $subDirs
+        );
+
+        $forecastRuns = [];
+        foreach ($forecastRunsUnfilterd as $fcRun) {
+            if ($fcRun != null) {
+                $forecastRuns[] = $fcRun;
+            }
+        }
+
+        return $forecastRuns;
+    }
+
+
     public function readWindSpeedDirGrid(
-        ForecastTime $forecastTime,
+        ForecastStep $forecastTime,
         GridDefinition $grid
     ): WindInfoGrid {
         list($windValuesE, $windValuesN, $gustValues) = $this->readWindSpeedENValuesFromFile($forecastTime, $grid);
@@ -51,9 +91,9 @@ class MeteoBinService implements IMeteoDwdService
     }
 
 
-    private function readWindSpeedENValuesFromFile(ForecastTime $forecastTime, GridDefinition $grid): array {
-        $interval = StringNumberHelper::zeroPad($forecastTime->interval, 3);
-        $fileName = $this->meteoDwdBaseDir . $interval . "/wind/WIND_D2.meteobin"; // TODO
+    private function readWindSpeedENValuesFromFile(ForecastStep $forecastStep, GridDefinition $grid): array {
+        $step = StringNumberHelper::zeroPad($forecastStep->step, 3);
+        $fileName = $this->meteoDwdBaseDir . $forecastStep->run . "/" . $step . self::METEOBIN_WIND_PATH;
         $rawContent = $this->fileService->fileGetContents($fileName);
 
         $iconD2Grid = IconGridDefinition::getIconD2Grid();
@@ -87,9 +127,10 @@ class MeteoBinService implements IMeteoDwdService
     }
 
 
-    public function readWeatherGrid(ForecastTime $forecastTime, GridDefinition $grid): WeatherGrid {
-        $interval = StringNumberHelper::zeroPad($forecastTime->interval, 3);
-        $fileName = $this->meteoDwdBaseDir . $interval . "/clct_precip/WW_D2.meteobin"; // TODO
+    public function readWeatherGrid(ForecastStep $forecastStep, GridDefinition $grid): WeatherGrid {
+        $step = StringNumberHelper::zeroPad($forecastStep->step, 3);
+        $fileName = $this->meteoDwdBaseDir . $forecastStep->run . "/" . $step . self::METEOBIN_WW_PATH;
+
         $rawContent = $this->fileService->fileGetContents($fileName);
         $iconD2Grid = IconGridDefinition::getIconD2Grid();
 

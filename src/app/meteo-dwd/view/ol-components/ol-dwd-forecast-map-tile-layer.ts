@@ -2,12 +2,10 @@ import TileLayer from 'ol/layer/Tile';
 import XYZ from 'ol/source/XYZ';
 import BaseLayer from 'ol/layer/Base';
 import {OlLayer} from '../../../base-map/view/ol-model/ol-layer';
-import {StringnumberHelper} from '../../../system/domain/service/stringnumber/stringnumber-helper';
 
 
-export class OlDwdForecastWeatherTileLayer implements OlLayer {
+export class OlDwdForecastMapTileLayer implements OlLayer {
     private readonly layer: TileLayer<XYZ>;
-    private interval = 0;
 
 
     public constructor() {
@@ -25,10 +23,8 @@ export class OlDwdForecastWeatherTileLayer implements OlLayer {
     }
 
 
-    public setInterval(value: number) {
-        this.interval = value;
-        const newUrl = this.getUrl();
-        this.layer.getSource().setUrl(newUrl);
+    public setUrl(url: string) {
+        this.layer.getSource().setUrl(url);
     }
 
 
@@ -36,18 +32,11 @@ export class OlDwdForecastWeatherTileLayer implements OlLayer {
         return new TileLayer({
             opacity: 0.75,
             source: new XYZ({
-                url: this.getUrl(),
+                url: undefined,
                 maxZoom: 7,
                 // imageSmoothing: false
                 // attributions: attributions
             })
         });
-    }
-
-
-    private getUrl(): string {
-        const intervalStr = StringnumberHelper.zeroPad(this.interval + 2, 3);
-
-        return 'http://localhost/navplan2/maptiles/meteo_test/set03/' + intervalStr + '/clct_precip/{z}/{x}/{y}.png';
     }
 }

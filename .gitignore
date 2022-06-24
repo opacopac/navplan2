@@ -61,6 +61,7 @@ Thumbs.db
 /logs/
 /data_import/
 /adcharts/
+/meteo_dwd/
 
 # 3rd party php
 /vendor

@@ -86,10 +86,9 @@ class FileService implements IFileService {
 
 
 
-    function getTempDirBase(): string {
+    public function getTempDirBase(): string {
         return self::TMP_DIR_BASE;
     }
-
 
 
     public function createTempDir(): string {
@@ -99,6 +98,11 @@ class FileService implements IFileService {
         mkdir(self::TMP_DIR_BASE . $tmpDir);
 
         return $tmpDir;
+    }
+
+
+    public function glob(string $directory, int $flags): array|false {
+        return glob($directory, $flags);
     }
 
 

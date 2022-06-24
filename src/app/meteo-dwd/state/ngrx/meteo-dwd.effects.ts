@@ -13,6 +13,7 @@ import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d'
 import {BaseMapState} from '../../../base-map/state/state-model/base-map-state';
 import {getMapState} from '../../../base-map/state/ngrx/base-map.selectors';
 import {BaseMapActions} from '../../../base-map/state/ngrx/base-map.actions';
+import {MeteoDwdLayer} from '../../domain/model/meteo-dwd-layer';
 
 
 @Injectable()
@@ -45,11 +46,27 @@ export class MeteoDwdEffects {
         ));
 
 
+    readMapTilesUrlAction$: Observable<Action> = createEffect(() => this.actions$
+        .pipe(
+            ofType(MeteoDwdActions.open, MeteoDwdActions.selectWeatherForecast, MeteoDwdActions.selectWindForecast, MeteoDwdActions.selectInterval),
+            withLatestFrom(this.meteoDwdstate$),
+            switchMap(([action, meteoDwdState]) => {
+                switch (meteoDwdState.showLayer) {
+                    case MeteoDwdLayer.WeatherLayer:
+                        return this.meteoDwdService.getWeatherMapTilesUrl(meteoDwdState.selectedInterval);
+                    case MeteoDwdLayer.WindLayer:
+                        return this.meteoDwdService.getWindMapTilesUrl(meteoDwdState.selectedInterval);
+                }
+            }),
+            map(url => MeteoDwdActions.readMapTilesUrlSuccess({ mapTilesUrl: url }))
+        ));
+
+
     readWeatherGridAction$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(MeteoDwdActions.open, MeteoDwdActions.selectWeatherForecast, MeteoDwdActions.selectInterval, BaseMapActions.mapMoved),
             withLatestFrom(this.meteoDwdstate$, this.mapState$),
-            filter(([action, meteoDwdState, mapState]) => meteoDwdState.showWeatherForecast),
+            filter(([action, meteoDwdState, mapState]) => meteoDwdState.showLayer === MeteoDwdLayer.WeatherLayer),
             switchMap(([action, meteoDwdState, mapState]) => {
                 const grid = this.getGridDefinition(mapState);
 
@@ -63,7 +80,7 @@ export class MeteoDwdEffects {
         .pipe(
             ofType(MeteoDwdActions.open, MeteoDwdActions.selectWindForecast, MeteoDwdActions.selectInterval, BaseMapActions.mapMoved),
             withLatestFrom(this.meteoDwdstate$, this.mapState$),
-            filter(([action, meteoDwdState, mapState]) => meteoDwdState.showWindForecast),
+            filter(([action, meteoDwdState, mapState]) => meteoDwdState.showLayer === MeteoDwdLayer.WindLayer),
             switchMap(([action, meteoDwdState, mapState]) => {
                 const grid = this.getGridDefinition(mapState);
 

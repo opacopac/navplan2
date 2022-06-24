@@ -1,7 +1,12 @@
 <button mat-fab
         matTooltip="show/hide meteo forecast"
         matTooltipPosition="right"
+        [matMenuTriggerFor]="dwdMenu"
         color="{{ this.getStatusCLass(this.meteoDwdState$ | async) }}"
         (click)="this.onDwdMeteoButtonClicked()">
     <i class="fas fa-cloud"></i>
 </button>
+<mat-menu #dwdMenu="matMenu" xPosition="after">
+    <button mat-menu-item><span class="icon-width"><i class="fas fa-cloud"></i></span> Clouds</button>
+    <button mat-menu-item><span class="icon-width"><i class="fas fa-wind"></i></span> Wind</button>
+</mat-menu>

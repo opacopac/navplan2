@@ -1,44 +1,36 @@
 import {Observable, Subscription} from 'rxjs';
-import {OlDwdForecastWindTileLayer} from './ol-dwd-forecast-wind-tile-layer';
 import {ValueGrid} from '../../domain/model/value-grid';
 import {WindInfo} from '../../domain/model/wind-info';
 import {OlVectorLayer} from '../../../base-map/view/ol-model/ol-vector-layer';
 import {OlDwdForecastWindIconLayer} from './ol-dwd-forecast-wind-icon-layer';
-import {OlDwdForecastWeatherTileLayer} from './ol-dwd-forecast-weather-tile-layer';
 import {OlDwdForecastWeatherIconLayer} from './ol-dwd-forecast-weather-icon-layer';
 import {WeatherInfo} from '../../domain/model/weather-info';
+import {OlDwdForecastMapTileLayer} from './ol-dwd-forecast-map-tile-layer';
+import {MeteoDwdLayer} from '../../domain/model/meteo-dwd-layer';
 
 
 export class OlDwdForecastContainer {
-    private readonly showWeatherForecastSubscription: Subscription;
-    private readonly showWindForecastSubscription: Subscription;
-    private readonly meteoDwdSelectedIntervalSubscription: Subscription;
+    private readonly showLayerSubscription: Subscription;
+    private readonly mapTilesUrlSubscription: Subscription;
     private readonly weatherIconLayer: OlDwdForecastWeatherIconLayer;
     private readonly windIconLayer: OlDwdForecastWindIconLayer;
 
 
     constructor(
-        private readonly dwdWeatherBgLayer: OlDwdForecastWeatherTileLayer,
+        private readonly dwdBgLayer: OlDwdForecastMapTileLayer,
         private readonly dwdWeatherIconLayer: OlVectorLayer,
-        private readonly dwdWindBgLayer: OlDwdForecastWindTileLayer,
         private readonly dwdWindIconLayer: OlVectorLayer,
-        private readonly showWeatherForecast$: Observable<boolean>,
-        private readonly showWindForecast$: Observable<boolean>,
-        private readonly selectedInterval$: Observable<number>,
+        private readonly showLayer$: Observable<MeteoDwdLayer>,
         private readonly meteoDwdWeatherGrid$: Observable<ValueGrid<WeatherInfo>>,
-        private readonly meteoDwdWindGrid$: Observable<ValueGrid<WindInfo>>
+        private readonly meteoDwdWindGrid$: Observable<ValueGrid<WindInfo>>,
+        private readonly meteoDwdMapTilesUrl$: Observable<string>
     ) {
-        this.showWeatherForecastSubscription = this.showWeatherForecast$.subscribe(showWeatherForecast => {
-            this.showWeatherLayers(showWeatherForecast);
+        this.showLayerSubscription = this.showLayer$.subscribe(showLayer => {
+            this.showLayers(showLayer);
         });
 
-        this.showWindForecastSubscription = this.showWindForecast$.subscribe(showWindForecast => {
-            this.showWindLayers(showWindForecast);
-        });
-
-        this.meteoDwdSelectedIntervalSubscription = this.selectedInterval$.subscribe(interval => {
-            this.dwdWeatherBgLayer.setInterval(interval);
-            this.dwdWindBgLayer.setInterval(interval);
+        this.mapTilesUrlSubscription = this.meteoDwdMapTilesUrl$.subscribe(url => {
+            this.dwdBgLayer.setUrl(url);
         });
 
         this.weatherIconLayer = new OlDwdForecastWeatherIconLayer(
@@ -54,23 +46,36 @@ export class OlDwdForecastContainer {
 
 
     public destroy() {
-        this.showWeatherLayers(false);
-        this.showWindLayers(false);
-        this.showWindForecastSubscription.unsubscribe();
-        this.meteoDwdSelectedIntervalSubscription.unsubscribe();
+        this.showLayerSubscription.unsubscribe();
+        this.mapTilesUrlSubscription.unsubscribe();
+
+        this.showLayers(undefined);
+
         this.weatherIconLayer.destroy();
         this.windIconLayer.destroy();
     }
 
 
-    private showWeatherLayers(isVisible: boolean) {
-        this.dwdWeatherBgLayer.setVisible(isVisible);
-        this.dwdWeatherIconLayer.setVisible(isVisible);
-    }
-
-
-    private showWindLayers(isVisible: boolean) {
-        this.dwdWindBgLayer.setVisible(isVisible);
-        this.dwdWindIconLayer.setVisible(isVisible);
+    private showLayers(showLayer: MeteoDwdLayer) {
+        switch (showLayer) {
+            case MeteoDwdLayer.WeatherLayer: {
+                this.dwdWeatherIconLayer.setVisible(true);
+                this.dwdWindIconLayer.setVisible(false);
+                this.dwdBgLayer.setVisible(true);
+                break;
+            }
+            case MeteoDwdLayer.WindLayer: {
+                this.dwdWeatherIconLayer.setVisible(false);
+                this.dwdWindIconLayer.setVisible(true);
+                this.dwdBgLayer.setVisible(true);
+                break;
+            }
+            default: {
+                this.dwdWeatherIconLayer.setVisible(false);
+                this.dwdWindIconLayer.setVisible(false);
+                this.dwdBgLayer.setVisible(false);
+                break;
+            }
+        }
     }
 }

@@ -17,4 +17,6 @@ interface IFileService {
     function getTempDirBase(): string;
 
     function createTempDir(): string;
+
+    function glob(string $directory, int $flags): array|false;
 }

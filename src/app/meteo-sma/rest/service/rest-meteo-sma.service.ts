@@ -19,7 +19,7 @@ export class RestMeteoSmaService implements IMeteoSmaRepoService {
 
 
     public readSmaMeasurements(extent: Extent2d): Observable<SmaMeasurement[]> {
-        const url = environment.meteoSmaBaseUrl +
+        const url = environment.meteoSmaServiceUrl +
             '?minlon=' + extent.minLon +
             '&minlat=' + extent.minLat +
             '&maxlon=' + extent.maxLon +

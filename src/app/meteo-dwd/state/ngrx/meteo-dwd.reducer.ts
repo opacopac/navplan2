@@ -2,13 +2,14 @@ import {MeteoDwdActions} from './meteo-dwd.actions';
 import {createReducer, on} from '@ngrx/store';
 import {MeteoDwdState} from '../../domain/model/meteo-dwd-state';
 import {MeteoDwdButtonStatus} from '../../domain/model/meteo-dwd-button-status';
+import {MeteoDwdLayer} from '../../domain/model/meteo-dwd-layer';
 
 
 const initialState: MeteoDwdState = {
     buttonStatus: MeteoDwdButtonStatus.OFF,
-    showWeatherForecast: false,
-    showWindForecast: false,
+    showLayer: undefined,
     selectedInterval: 1,
+    mapTilesUrl: '',
     weatherGrid: undefined,
     windGrid: undefined
 };
@@ -20,32 +21,34 @@ export const meteoDwdReducer = createReducer(
     on(MeteoDwdActions.open, (state) => ({
         ...state,
         buttonStatus: MeteoDwdButtonStatus.CURRENT,
-        showWeatherForecast: true,
-        showWindForecast: false,
+        showLayer: MeteoDwdLayer.WeatherLayer,
     })),
 
     on(MeteoDwdActions.close, (state) => ({
         ...state,
         buttonStatus: MeteoDwdButtonStatus.OFF,
-        showWeatherForecast: false,
-        showWindForecast: false,
+        showLayer: undefined,
     })),
 
     on(MeteoDwdActions.selectWeatherForecast, (state) => ({
         ...state,
         showWeatherForecast: true,
-        showWindForecast: false,
+        showLayer: MeteoDwdLayer.WeatherLayer,
     })),
 
     on(MeteoDwdActions.selectWindForecast, (state) => ({
         ...state,
-        showWeatherForecast: false,
-        showWindForecast: true,
+        showLayer: MeteoDwdLayer.WindLayer,
     })),
 
     on(MeteoDwdActions.selectInterval, (state, action) => ({
         ...state,
         selectedInterval: action.interval,
+    })),
+
+    on(MeteoDwdActions.readMapTilesUrlSuccess, (state, action) => ({
+        ...state,
+        mapTilesUrl: action.mapTilesUrl,
     })),
 
     on(MeteoDwdActions.readWeatherGridSuccess, (state, action) => ({
