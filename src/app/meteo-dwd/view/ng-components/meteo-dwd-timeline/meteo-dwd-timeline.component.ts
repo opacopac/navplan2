@@ -63,8 +63,8 @@ export class MeteoDwdTimelineComponent implements OnInit, OnDestroy {
 
 
     private updateTimeline(forecastRun: ForecastRun) {
-        if (forecastRun && forecastRun.runName) {
-            this.fcRunstartHour = parseInt(forecastRun.runName, 10);
+        if (forecastRun && forecastRun.startTime) {
+            this.fcRunstartHour = forecastRun.startTime.getHours();
         }
     }
 }

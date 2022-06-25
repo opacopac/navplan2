@@ -1,4 +1,3 @@
 export interface IRestForecastRun {
-    date: number[];
-    run: string;
+    starttime: string;
 }

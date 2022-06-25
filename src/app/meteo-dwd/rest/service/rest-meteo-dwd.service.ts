@@ -118,10 +118,10 @@ export class RestMeteoDwdService implements IMeteoDwdService {
     private getLatestForecastStrPart(forecasts: ForecastRun[]): string {
         const fc = forecasts[forecasts.length - 1];
 
-        return fc.dateTime.getFullYear()
-            + StringnumberHelper.zeroPad(fc.dateTime.getMonth() + 1, 2)
-            + StringnumberHelper.zeroPad(fc.dateTime.getDate(), 2)
-            + fc.runName;
+        return fc.startTime.getFullYear()
+            + StringnumberHelper.zeroPad(fc.startTime.getMonth() + 1, 2)
+            + StringnumberHelper.zeroPad(fc.startTime.getDate(), 2)
+            + StringnumberHelper.zeroPad(fc.startTime.getHours(), 2);
     }
 
 

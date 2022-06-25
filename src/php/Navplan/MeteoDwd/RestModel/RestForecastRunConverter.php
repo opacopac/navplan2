@@ -7,8 +7,7 @@ use Navplan\MeteoDwd\DomainModel\ForecastRun;
 
 
 class RestForecastRunConverter {
-    const ARG_DATE = "date";
-    const ARG_RUNNAME = "run";
+    const ARG_START_TIME = "starttime";
 
 
     /**
@@ -25,8 +24,7 @@ class RestForecastRunConverter {
 
     public static function toRest(ForecastRun $forecastRun): array {
         return array(
-            self::ARG_DATE => RestDateConverter::toRest($forecastRun->dateTime),
-            self::ARG_RUNNAME => $forecastRun->runName
+            self::ARG_START_TIME => RestDateConverter::toRest($forecastRun->startTime)
         );
     }
 }

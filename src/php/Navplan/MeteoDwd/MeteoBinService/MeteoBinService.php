@@ -46,13 +46,12 @@ class MeteoBinService implements IMeteoDwdService {
 
         $forecastRunsUnfilterd = array_map(
             function ($dirEntry) {
-                if (!preg_match('/^.*(\d{8})(\d{2})$/', $dirEntry, $matches)) {
+                if (!preg_match('/^.*(\d{10})$/', $dirEntry, $matches)) {
                     return null;
                 }
-                $date = DateTime::createFromFormat("Ymd", $matches[1]);
-                $run = $matches[2];
+                $startTime = DateTime::createFromFormat("YmdH", $matches[1]);
 
-                return new ForecastRun($date, $run);
+                return new ForecastRun($startTime);
             },
             $subDirs
         );

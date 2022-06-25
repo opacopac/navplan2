@@ -7,8 +7,7 @@ use DateTime;
 
 class ForecastRun {
     public function __construct(
-        public DateTime $dateTime,
-        public string $runName
+        public DateTime $startTime
     ) {
     }
 }
