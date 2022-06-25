@@ -1,6 +1,6 @@
 import {MeteoDwdActions} from './meteo-dwd.actions';
 import {createReducer, on} from '@ngrx/store';
-import {MeteoDwdState} from '../../domain/model/meteo-dwd-state';
+import {MeteoDwdState} from '../model/meteo-dwd-state';
 import {MeteoDwdButtonStatus} from '../../domain/model/meteo-dwd-button-status';
 import {MeteoDwdLayer} from '../../domain/model/meteo-dwd-layer';
 
@@ -8,6 +8,7 @@ import {MeteoDwdLayer} from '../../domain/model/meteo-dwd-layer';
 const initialState: MeteoDwdState = {
     buttonStatus: MeteoDwdButtonStatus.OFF,
     showLayer: undefined,
+    forecastRun: undefined,
     selectedInterval: 1,
     mapTilesUrl: '',
     weatherGrid: undefined,
@@ -44,6 +45,13 @@ export const meteoDwdReducer = createReducer(
     on(MeteoDwdActions.selectInterval, (state, action) => ({
         ...state,
         selectedInterval: action.interval,
+    })),
+
+    on(MeteoDwdActions.readAvailableForecastRunsSuccess, (state, action) => ({
+        ...state,
+        forecastRun: action.forecastRuns && action.forecastRuns.length > 0
+            ? action.forecastRuns[action.forecastRuns.length - 1]
+            : undefined
     })),
 
     on(MeteoDwdActions.readMapTilesUrlSuccess, (state, action) => ({

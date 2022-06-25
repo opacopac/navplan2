@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {environment} from '../../../../../environments/environment';
-import {MeteoDwdState} from '../../../domain/model/meteo-dwd-state';
+import {MeteoDwdState} from '../../../state/model/meteo-dwd-state';
 import {MeteoDwdButtonStatus} from '../../../domain/model/meteo-dwd-button-status';
 import {getMeteoDwdState} from '../../../state/ngrx/meteo-dwd.selectors';
 import {MeteoDwdActions} from '../../../state/ngrx/meteo-dwd.actions';

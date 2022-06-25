@@ -2,6 +2,7 @@ import {createAction, props} from '@ngrx/store';
 import {ValueGrid} from '../../domain/model/value-grid';
 import {WindInfo} from '../../domain/model/wind-info';
 import {WeatherInfo} from '../../domain/model/weather-info';
+import {ForecastRun} from '../../domain/model/forecast-run';
 
 
 export class MeteoDwdActions {
@@ -28,6 +29,11 @@ export class MeteoDwdActions {
     public static readonly selectInterval = createAction(
         '[MeteoDwdTimeline] Select Interval',
         props<{ interval: number }>()
+    );
+
+    public static readonly readAvailableForecastRunsSuccess = createAction(
+        '[MeteoDwdEffects] Read Available Forecast Runs success',
+        props<{ forecastRuns: ForecastRun[] }>()
     );
 
     public static readonly readMapTilesUrlSuccess = createAction(

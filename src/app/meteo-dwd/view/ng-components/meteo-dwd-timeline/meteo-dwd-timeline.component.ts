@@ -1,12 +1,12 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable, Subscription} from 'rxjs';
-import {MeteoDwdState} from '../../../domain/model/meteo-dwd-state';
-import {getMeteoDwdState} from '../../../state/ngrx/meteo-dwd.selectors';
+import {getMeteoDwdForecastRun} from '../../../state/ngrx/meteo-dwd.selectors';
 import {MeteoDwdActions} from '../../../state/ngrx/meteo-dwd.actions';
 import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 import {MatSliderChange} from '@angular/material/slider';
 import {DatetimeHelper} from '../../../../system/domain/service/datetime/datetime-helper';
+import {ForecastRun} from '../../../domain/model/forecast-run';
 
 
 @Component({
@@ -16,12 +16,16 @@ import {DatetimeHelper} from '../../../../system/domain/service/datetime/datetim
 })
 export class MeteoDwdTimelineComponent implements OnInit, OnDestroy {
     @ViewChild('container') container: ElementRef;
-    private readonly meteoDwdState$: Observable<MeteoDwdState> = this.appStore.pipe(select(getMeteoDwdState));
-    private readonly meteoDwdSubscription: Subscription;
+    private readonly forecastRun$: Observable<ForecastRun> = this.appStore.pipe(select(getMeteoDwdForecastRun));
+    private readonly forecastRunSubscription: Subscription;
+    private fcRunstartHour = 0;
 
 
-    constructor(private appStore: Store<any>) {
-        this.meteoDwdSubscription = this.meteoDwdState$.subscribe(state => this.updateTimeline(state.selectedInterval));
+    constructor(
+        private appStore: Store<any>
+    ) {
+        this.forecastRunSubscription = this.forecastRun$.subscribe(forecastRun => this.updateTimeline(forecastRun));
+        this.formatLabel = this.formatLabel.bind(this);
     }
 
 
@@ -30,12 +34,12 @@ export class MeteoDwdTimelineComponent implements OnInit, OnDestroy {
 
 
     ngOnDestroy(): void {
-        this.meteoDwdSubscription.unsubscribe();
+        this.forecastRunSubscription.unsubscribe();
     }
 
 
     public formatLabel(step: number): string {
-        const startHour = 15 + 2;
+        const startHour = this.fcRunstartHour + 2;
         const totHour = startHour + step;
 
         if (totHour === startHour) {
@@ -58,9 +62,9 @@ export class MeteoDwdTimelineComponent implements OnInit, OnDestroy {
     }
 
 
-    private updateTimeline(interval: number) {
-        if (this.container) {
-            // TODO
+    private updateTimeline(forecastRun: ForecastRun) {
+        if (forecastRun && forecastRun.runName) {
+            this.fcRunstartHour = parseInt(forecastRun.runName, 10);
         }
     }
 }

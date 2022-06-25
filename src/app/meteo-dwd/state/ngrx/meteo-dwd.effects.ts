@@ -1,10 +1,10 @@
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Action, select, Store} from '@ngrx/store';
-import {filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
+import {filter, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {MeteoDwdActions} from './meteo-dwd.actions';
 import {Observable} from 'rxjs';
-import {MeteoDwdState} from '../../domain/model/meteo-dwd-state';
+import {MeteoDwdState} from '../model/meteo-dwd-state';
 import {getMeteoDwdState} from './meteo-dwd.selectors';
 import {MeteoDwdButtonStatus} from '../../domain/model/meteo-dwd-button-status';
 import {IMeteoDwdService} from '../../domain/service/i-meteo-dwd.service';
@@ -43,6 +43,15 @@ export class MeteoDwdEffects {
                     return MeteoDwdActions.close();
                 }
             })
+        ));
+
+
+    readForecastRunAction$: Observable<Action> = createEffect(() => this.actions$
+        .pipe(
+            ofType(MeteoDwdActions.open),
+            switchMap(action => this.meteoDwdService.readAvailableForecasts()),
+            tap(runs => console.log(runs)),
+            map(runs => MeteoDwdActions.readAvailableForecastRunsSuccess({ forecastRuns: runs }))
         ));
 
 
