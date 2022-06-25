@@ -9,11 +9,11 @@ import {ForecastRun} from '../model/forecast-run';
 export abstract class IMeteoDwdService {
     public abstract readAvailableForecasts(): Observable<ForecastRun[]>;
 
-    public abstract readWeatherGrid(grid: GridDefinition, step: number): Observable<ValueGrid<WeatherInfo>>;
+    public abstract readWeatherGrid(forecast: ForecastRun, step: number, grid: GridDefinition): Observable<ValueGrid<WeatherInfo>>;
 
-    public abstract readWindGrid(grid: GridDefinition, step: number): Observable<ValueGrid<WindInfo>>;
+    public abstract readWindGrid(forecast: ForecastRun, step: number, grid: GridDefinition): Observable<ValueGrid<WindInfo>>;
 
-    public abstract getWeatherMapTilesUrl(step: number): Observable<string>;
+    public abstract getWeatherMapTilesUrl(forecast: ForecastRun, step: number): string;
 
-    public abstract getWindMapTilesUrl(step: number): Observable<string>;
+    public abstract getWindMapTilesUrl(forecast: ForecastRun, step: number): string;
 }

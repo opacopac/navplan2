@@ -4,7 +4,7 @@ import {environment} from '../../../../environments/environment';
 import {IMeteoDwdService} from '../../domain/service/i-meteo-dwd.service';
 import {ValueGrid} from '../../domain/model/value-grid';
 import {WindInfo} from '../../domain/model/wind-info';
-import {Observable, shareReplay, switchMap, throwError} from 'rxjs';
+import {Observable, shareReplay, throwError} from 'rxjs';
 import {IRestWindInfoGrid} from '../model/i-rest-wind-info-grid';
 import {RestWindInfoGridConverter} from '../model/rest-wind-info-grid-converter';
 import {catchError, map} from 'rxjs/operators';
@@ -49,9 +49,10 @@ export class RestMeteoDwdService implements IMeteoDwdService {
     }
 
 
-    public readWeatherGrid(grid: GridDefinition, step: number): Observable<ValueGrid<WeatherInfo>> {
-        return this.getRestServiceUrl('readWwGrid', grid, step).pipe(
-            switchMap(url => this.http.get<IRestWeatherInfoGrid>(url)),
+    public readWeatherGrid(forecast: ForecastRun, step: number, grid: GridDefinition): Observable<ValueGrid<WeatherInfo>> {
+        const url = this.getRestServiceUrl('readWwGrid', forecast, grid, step);
+
+        return this.http.get<IRestWeatherInfoGrid>(url).pipe(
             map(response => RestWeatherInfoGridConverter.fromRest(response)),
             catchError(error => {
                 LoggingService.logResponseError('ERROR reading ww grid!', error);
@@ -61,9 +62,10 @@ export class RestMeteoDwdService implements IMeteoDwdService {
     }
 
 
-    public readWindGrid(grid: GridDefinition, step: number): Observable<ValueGrid<WindInfo>> {
-        return this.getRestServiceUrl('readWindGrid', grid, step).pipe(
-            switchMap(url => this.http.get<IRestWindInfoGrid>(url)),
+    public readWindGrid(forecast: ForecastRun, step: number, grid: GridDefinition): Observable<ValueGrid<WindInfo>> {
+        const url = this.getRestServiceUrl('readWindGrid', forecast, grid, step);
+
+        return this.http.get<IRestWindInfoGrid>(url).pipe(
             map(response => RestWindInfoGridConverter.fromRest(response)),
             catchError(error => {
                 LoggingService.logResponseError('ERROR reading wind speed/dir grid!', error);
@@ -73,55 +75,41 @@ export class RestMeteoDwdService implements IMeteoDwdService {
     }
 
 
-    public getWeatherMapTilesUrl(step: number): Observable<string> {
-        return this.readAvailableForecasts().pipe(
-            map(forecasts => {
-                const stepStr = this.getStepStrPart(step);
-                const fcStr = this.getLatestForecastStrPart(forecasts);
+    public getWeatherMapTilesUrl(forecast: ForecastRun, step: number): string {
+        const stepStr = this.getStepStrPart(step);
+        const fcStr = this.getLatestForecastStrPart(forecast);
 
-                return environment.meteoDwdMapTilesUrl + fcStr + '/' + stepStr + '/clct_precip/{z}/{x}/{y}.png';
-            })
-        );
+        return environment.meteoDwdMapTilesUrl + fcStr + '/' + stepStr + '/clct_precip/{z}/{x}/{y}.png';
     }
 
 
-    public getWindMapTilesUrl(step: number): Observable<string> {
-        return this.readAvailableForecasts().pipe(
-            map(forecasts => {
-                const stepStr = this.getStepStrPart(step);
-                const fcStr = this.getLatestForecastStrPart(forecasts);
+    public getWindMapTilesUrl(forecast: ForecastRun, step: number): string {
+        const stepStr = this.getStepStrPart(step);
+        const fcStr = this.getLatestForecastStrPart(forecast);
 
-                return environment.meteoDwdMapTilesUrl + fcStr + '/' + stepStr + '/wind/{z}/{x}/{y}.png';
-            })
-        );
+        return environment.meteoDwdMapTilesUrl + fcStr + '/' + stepStr + '/wind/{z}/{x}/{y}.png';
     }
 
 
-    private getRestServiceUrl(action: string, grid: GridDefinition, step: number): Observable<string> {
-        return this.readAvailableForecasts().pipe(
-            map(forecasts => {
-                return environment.meteoDwdServiceUrl
-                    + '?action=' + action
-                    + '&width=' + grid.width
-                    + '&height=' + grid.height
-                    + '&minlon=' + grid.minPos.longitude
-                    + '&minlat=' + grid.minPos.latitude
-                    + '&steplon=' + grid.stepLon
-                    + '&steplat=' + grid.stepLat
-                    + '&step=' + this.getStepStrPart(step)
-                    + '&run=' + this.getLatestForecastStrPart(forecasts);
-            })
-        );
+    private getRestServiceUrl(action: string, forecast: ForecastRun, grid: GridDefinition, step: number): string {
+        return environment.meteoDwdServiceUrl
+            + '?action=' + action
+            + '&width=' + grid.width
+            + '&height=' + grid.height
+            + '&minlon=' + grid.minPos.longitude
+            + '&minlat=' + grid.minPos.latitude
+            + '&steplon=' + grid.stepLon
+            + '&steplat=' + grid.stepLat
+            + '&step=' + this.getStepStrPart(step)
+            + '&run=' + this.getLatestForecastStrPart(forecast);
     }
 
 
-    private getLatestForecastStrPart(forecasts: ForecastRun[]): string {
-        const fc = forecasts[forecasts.length - 1];
-
-        return fc.startTime.getFullYear()
-            + StringnumberHelper.zeroPad(fc.startTime.getMonth() + 1, 2)
-            + StringnumberHelper.zeroPad(fc.startTime.getDate(), 2)
-            + StringnumberHelper.zeroPad(fc.startTime.getHours(), 2);
+    private getLatestForecastStrPart(forecast: ForecastRun): string {
+        return forecast.startTime.getFullYear()
+            + StringnumberHelper.zeroPad(forecast.startTime.getMonth() + 1, 2)
+            + StringnumberHelper.zeroPad(forecast.startTime.getDate(), 2)
+            + StringnumberHelper.zeroPad(forecast.startTime.getHours(), 2);
     }
 
 

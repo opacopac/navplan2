@@ -1,6 +1,6 @@
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Action, select, Store} from '@ngrx/store';
-import {filter, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {MeteoDwdActions} from './meteo-dwd.actions';
 import {Observable} from 'rxjs';
@@ -32,71 +32,71 @@ export class MeteoDwdEffects {
     }
 
 
-    toggleAction$: Observable<Action> = createEffect(() => this.actions$
-        .pipe(
-            ofType(MeteoDwdActions.toggle),
-            withLatestFrom(this.meteoDwdstate$),
-            map(([action, meteoDwdState]) => {
-                if (meteoDwdState.buttonStatus === MeteoDwdButtonStatus.OFF) {
-                    return MeteoDwdActions.open();
-                } else {
-                    return MeteoDwdActions.close();
-                }
-            })
-        ));
+    toggleAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
+        ofType(MeteoDwdActions.toggle),
+        withLatestFrom(this.meteoDwdstate$),
+        map(([action, meteoDwdState]) => {
+            if (meteoDwdState.buttonStatus === MeteoDwdButtonStatus.OFF) {
+                return MeteoDwdActions.open();
+            } else {
+                return MeteoDwdActions.close();
+            }
+        })
+    ));
 
 
-    readForecastRunAction$: Observable<Action> = createEffect(() => this.actions$
-        .pipe(
-            ofType(MeteoDwdActions.open),
-            switchMap(action => this.meteoDwdService.readAvailableForecasts()),
-            tap(runs => console.log(runs)),
-            map(runs => MeteoDwdActions.readAvailableForecastRunsSuccess({ forecastRuns: runs }))
-        ));
+    readForecastRunAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
+        ofType(MeteoDwdActions.open),
+        switchMap(action => this.meteoDwdService.readAvailableForecasts()),
+        map(runs => MeteoDwdActions.readAvailableForecastRunsSuccess({ forecastRuns: runs }))
+    ));
 
 
-    readMapTilesUrlAction$: Observable<Action> = createEffect(() => this.actions$
-        .pipe(
-            ofType(MeteoDwdActions.open, MeteoDwdActions.selectWeatherForecast, MeteoDwdActions.selectWindForecast, MeteoDwdActions.selectInterval),
-            withLatestFrom(this.meteoDwdstate$),
-            switchMap(([action, meteoDwdState]) => {
-                switch (meteoDwdState.showLayer) {
-                    case MeteoDwdLayer.WeatherLayer:
-                        return this.meteoDwdService.getWeatherMapTilesUrl(meteoDwdState.selectedInterval);
-                    case MeteoDwdLayer.WindLayer:
-                        return this.meteoDwdService.getWindMapTilesUrl(meteoDwdState.selectedInterval);
-                }
-            }),
-            map(url => MeteoDwdActions.readMapTilesUrlSuccess({ mapTilesUrl: url }))
-        ));
+    readMapTilesUrlAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
+        ofType(MeteoDwdActions.open, MeteoDwdActions.selectWeatherForecast, MeteoDwdActions.selectWindForecast,
+            MeteoDwdActions.selectInterval, MeteoDwdActions.readAvailableForecastRunsSuccess),
+        withLatestFrom(this.meteoDwdstate$),
+        filter(([action, meteoDwdState]) => meteoDwdState.forecastRun !== undefined),
+        map(([action, meteoDwdState]) => {
+            switch (meteoDwdState.showLayer) {
+                case MeteoDwdLayer.WeatherLayer:
+                    return this.meteoDwdService.getWeatherMapTilesUrl(meteoDwdState.forecastRun, meteoDwdState.selectedInterval);
+                case MeteoDwdLayer.WindLayer:
+                    return this.meteoDwdService.getWindMapTilesUrl(meteoDwdState.forecastRun, meteoDwdState.selectedInterval);
+            }
+        }),
+        map(url => MeteoDwdActions.readMapTilesUrlSuccess({ mapTilesUrl: url }))
+    ));
 
 
-    readWeatherGridAction$: Observable<Action> = createEffect(() => this.actions$
-        .pipe(
-            ofType(MeteoDwdActions.open, MeteoDwdActions.selectWeatherForecast, MeteoDwdActions.selectInterval, BaseMapActions.mapMoved),
-            withLatestFrom(this.meteoDwdstate$, this.mapState$),
-            filter(([action, meteoDwdState, mapState]) => meteoDwdState.showLayer === MeteoDwdLayer.WeatherLayer),
-            switchMap(([action, meteoDwdState, mapState]) => {
-                const grid = this.getGridDefinition(mapState);
+    readWeatherGridAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
+        ofType(MeteoDwdActions.open, MeteoDwdActions.selectWeatherForecast, MeteoDwdActions.selectInterval,
+            BaseMapActions.mapMoved, MeteoDwdActions.readAvailableForecastRunsSuccess),
+        withLatestFrom(this.meteoDwdstate$, this.mapState$),
+        filter(([action, meteoDwdState, mapState]) => meteoDwdState.showLayer === MeteoDwdLayer.WeatherLayer),
+        filter(([action, meteoDwdState]) => meteoDwdState.forecastRun !== undefined),
+        switchMap(([action, meteoDwdState, mapState]) => {
+            const grid = this.getGridDefinition(mapState);
 
-                return this.meteoDwdService.readWeatherGrid(grid, meteoDwdState.selectedInterval);
-            }),
-            map(weatherGrid => MeteoDwdActions.readWeatherGridSuccess({ weatherGrid: weatherGrid }))
-        ));
+            return this.meteoDwdService.readWeatherGrid(meteoDwdState.forecastRun, meteoDwdState.selectedInterval, grid);
+        }),
+        map(weatherGrid => MeteoDwdActions.readWeatherGridSuccess({ weatherGrid: weatherGrid }))
+    ));
 
 
-    readWindGridAction$: Observable<Action> = createEffect(() => this.actions$
-        .pipe(
-            ofType(MeteoDwdActions.open, MeteoDwdActions.selectWindForecast, MeteoDwdActions.selectInterval, BaseMapActions.mapMoved),
-            withLatestFrom(this.meteoDwdstate$, this.mapState$),
-            filter(([action, meteoDwdState, mapState]) => meteoDwdState.showLayer === MeteoDwdLayer.WindLayer),
-            switchMap(([action, meteoDwdState, mapState]) => {
-                const grid = this.getGridDefinition(mapState);
+    readWindGridAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
+        ofType(MeteoDwdActions.open, MeteoDwdActions.selectWindForecast, MeteoDwdActions.selectInterval,
+            BaseMapActions.mapMoved, MeteoDwdActions.readAvailableForecastRunsSuccess),
+        withLatestFrom(this.meteoDwdstate$, this.mapState$),
+        filter(([action, meteoDwdState, mapState]) => meteoDwdState.showLayer === MeteoDwdLayer.WindLayer),
+        filter(([action, meteoDwdState]) => meteoDwdState.forecastRun !== undefined),
+        switchMap(([action, meteoDwdState, mapState]) => {
+            const grid = this.getGridDefinition(mapState);
 
-                return this.meteoDwdService.readWindGrid(grid, meteoDwdState.selectedInterval);
-            }),
-            map(windGrid => MeteoDwdActions.readWindGridSuccess({ windGrid: windGrid }))
-        ));
+            return this.meteoDwdService.readWindGrid(meteoDwdState.forecastRun, meteoDwdState.selectedInterval, grid);
+        }),
+        map(windGrid => MeteoDwdActions.readWindGridSuccess({ windGrid: windGrid }))
+    ));
 
 
     private getGridDefinition(mapState: BaseMapState): GridDefinition {
