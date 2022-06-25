@@ -1,0 +1,28 @@
+.weather-layer-button-div {
+    width: 100px;
+}
+
+.weather-button {
+    margin-bottom: 10px;
+}
+
+/*.mapoverlay-primary {
+    background-color: rgba(0, 60, 109, 0.6);
+    color: white;
+}
+
+.mapoverlay-status-ok {
+    background-color: rgba(0, 128, 0, 0.6);
+    color: white;
+}*/
+
+
+.button-selected {
+    background-color: rgba(224, 224, 224, 0.8);
+    /*color: white;*/
+}
+
+.button-not-selected {
+    background-color: rgba(128, 128, 128, 0.8);
+    /*color: white;*/
+}

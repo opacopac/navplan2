@@ -73,11 +73,11 @@ import {
 } from '../../../../search/view/ng-components/ol-overlay-airspace-structure/ol-overlay-airspace-structure.component';
 import {OlDwdForecastContainer} from '../../../../meteo-dwd/view/ol-components/ol-dwd-forecast-container';
 import {
+    getMeteoDwdLayer,
     getMeteoDwdMapTilesUrl,
     getMeteoDwdState,
     getMeteoDwdWeatherGrid,
-    getMeteoDwdWindGrid,
-    getShowMeteoDwdLayer
+    getMeteoDwdWindGrid
 } from '../../../../meteo-dwd/state/ngrx/meteo-dwd.selectors';
 import {IMeteoDwdService} from '../../../../meteo-dwd/domain/service/i-meteo-dwd.service';
 import {OlDwdForecastMapTileLayer} from '../../../../meteo-dwd/view/ol-components/ol-dwd-forecast-map-tile-layer';
@@ -340,7 +340,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
             dwdForecastBgLayer,
             dwdForecastWeatherIconLayer,
             dwdForecastWindIconLayer,
-            this.appStore.pipe(select(getShowMeteoDwdLayer)),
+            this.appStore.pipe(select(getMeteoDwdLayer)),
             this.appStore.pipe(select(getMeteoDwdWeatherGrid)),
             this.appStore.pipe(select(getMeteoDwdWindGrid)),
             this.appStore.pipe(select(getMeteoDwdMapTilesUrl)),

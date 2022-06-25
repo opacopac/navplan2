@@ -105,7 +105,6 @@ export class MeteoDwdTimelineComponent implements OnInit, OnDestroy {
     private updateForecastRun(forecastRun: ForecastRun) {
         if (forecastRun && forecastRun.startTime) {
             this.fcRunstartHour = forecastRun.startTime.getHours();
-            this.slider.step = 0;
         }
     }
 

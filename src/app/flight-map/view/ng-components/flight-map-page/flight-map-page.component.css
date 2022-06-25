@@ -60,6 +60,7 @@
     position: absolute;
     bottom: 40px;
     left: 70px;
+    right: 10px;
     z-index: 20;
 }
 

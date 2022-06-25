@@ -1,7 +1,18 @@
 <div>
-    <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-        <mat-button-toggle (click)="onWeatherForecastSelected()"><i class="fas fa-cloud"></i> Clouds</mat-button-toggle>
+    <div class="flex-col weather-layer-button-div">
+        <button
+            mat-raised-button
+            class="{{ getWeatherButtonClass() | async }}"
+            (click)="onWeatherForecastSelected()"><i class="fas fa-cloud"></i> Clouds</button>
+        <button
+            mat-raised-button
+            class="{{ getWindButtonClass() | async }}"
+            (click)="onWindForecastSelected()"><i class="fas fa-wind"></i> Wind</button>
+    </div>
+    <!--<mat-button-toggle-group name="fontStyle" aria-label="Font Style" vertical="true">
+        <mat-button-toggle (click)="onWeatherForecastSelected()"><i class="fas fa-cloud"></i> Clouds
+        </mat-button-toggle>
         <mat-button-toggle (click)="onWindForecastSelected()"><i class="fas fa-wind"></i> Wind</mat-button-toggle>
-    </mat-button-toggle-group>
+    </mat-button-toggle-group>-->
     <app-meteo-dwd-timeline></app-meteo-dwd-timeline>
 </div>

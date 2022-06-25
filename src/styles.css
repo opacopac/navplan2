@@ -35,6 +35,11 @@ iframe {
     flex-direction: row;
 }
 
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
 .mat-form-field {
     flex: auto;
     margin-right: 20px;
