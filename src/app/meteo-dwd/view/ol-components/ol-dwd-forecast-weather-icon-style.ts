@@ -17,7 +17,7 @@ export class OlDwdForecastWeatherIconStyle {
         const fakeX = anchorX * Math.cos(-rot) - anchorY * Math.sin(-rot) + 16;
         const fakeY = anchorX * Math.sin(-rot) + anchorY * Math.cos(-rot) + 16;
 
-        const ceilingText = weatherInfo.isCloudWithCeiling()
+        const ceilingText = weatherInfo.hasCeiling()
             ? '\n' + weatherInfo.ceiling.getHeightAmsl().ft + 'ft AMSL' // TODO
             : '';
 
@@ -44,10 +44,14 @@ export class OlDwdForecastWeatherIconStyle {
 
 
     private static getIconFileName(weatherInfo: WeatherInfo): string {
-        if (weatherInfo.getWwText() === 'SCT') {
+        if (weatherInfo.wwValue === 2) {
             return 'ww_' + StringnumberHelper.zeroPad(weatherInfo.wwValue, 2) + 'b.svg';
-        } else {
-            return 'ww_' + StringnumberHelper.zeroPad(weatherInfo.wwValue, 2) + '.svg';
         }
+
+        if (weatherInfo.wwValue === 3 && weatherInfo.isHighCloud()) {
+            return 'ww_00.svg';
+        }
+
+        return 'ww_' + StringnumberHelper.zeroPad(weatherInfo.wwValue, 2) + '.svg';
     }
 }
