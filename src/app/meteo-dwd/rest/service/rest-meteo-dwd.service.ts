@@ -114,6 +114,6 @@ export class RestMeteoDwdService implements IMeteoDwdService {
 
 
     private getStepStrPart(step: number): string {
-        return StringnumberHelper.zeroPad(step + 2, 3);
+        return StringnumberHelper.zeroPad(step, 3);
     }
 }

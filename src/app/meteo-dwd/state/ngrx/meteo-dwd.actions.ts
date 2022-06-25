@@ -26,9 +26,9 @@ export class MeteoDwdActions {
         '[MeteoDwdContainer] Select Weather Forecast',
     );
 
-    public static readonly selectInterval = createAction(
+    public static readonly selectStep = createAction(
         '[MeteoDwdTimeline] Select Interval',
-        props<{ interval: number }>()
+        props<{ step: number }>()
     );
 
     public static readonly readAvailableForecastRunsSuccess = createAction(

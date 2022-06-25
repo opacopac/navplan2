@@ -7,6 +7,7 @@ import {StringnumberHelper} from '../../../../system/domain/service/stringnumber
 import {MatSliderChange} from '@angular/material/slider';
 import {DatetimeHelper} from '../../../../system/domain/service/datetime/datetime-helper';
 import {ForecastRun} from '../../../domain/model/forecast-run';
+import {filter, map} from 'rxjs/operators';
 
 
 @Component({
@@ -38,13 +39,33 @@ export class MeteoDwdTimelineComponent implements OnInit, OnDestroy {
     }
 
 
-    public formatLabel(step: number): string {
-        const startHour = this.fcRunstartHour + 2;
-        const totHour = startHour + step;
+    public getMinStep(): Observable<number> {
+        return this.forecastRun$.pipe(
+            filter(run => run !== undefined),
+            map(run => run.model.minStep)
+        );
+    }
 
-        if (totHour === startHour) {
-            return 'Now';
-        }
+
+    public getMaxStep(): Observable<number> {
+        return this.forecastRun$.pipe(
+            filter(run => run !== undefined),
+            map(run => run.model.maxStep)
+        );
+    }
+
+
+    public getStepInterval(): Observable<number> {
+        return this.forecastRun$.pipe(
+            filter(run => run !== undefined),
+            map(run => run.model.stepLength.hour)
+        );
+    }
+
+
+    public formatLabel(step: number): string {
+        const startHour = this.fcRunstartHour + 2; // TODO: utc
+        const totHour = startHour + step;
 
         const dayOffset = Math.floor(totHour / 24);
         const dayDate = new Date(Date.now() + (3600 * 24 * dayOffset * 1000));
@@ -57,7 +78,7 @@ export class MeteoDwdTimelineComponent implements OnInit, OnDestroy {
 
     public onIntervalSelected(event: MatSliderChange) {
         this.appStore.dispatch(
-            MeteoDwdActions.selectInterval({ interval: event.value })
+            MeteoDwdActions.selectStep({ step: event.value })
         );
     }
 

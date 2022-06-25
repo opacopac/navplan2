@@ -2,10 +2,10 @@
     <mat-slider
         thumbLabel
         [displayWith]="formatLabel"
-        tickInterval="1"
-        step="1"
-        min="2"
-        max="48"
+        tickInterval="{{ getStepInterval() | async }}"
+        step="{{ getStepInterval() | async }}"
+        min="{{ getMinStep() | async }}"
+        max="{{ getMaxStep() | async }}"
         aria-label="units"
         class="meteo-dwd-timeline-slider"
         (input)="onIntervalSelected($event)"

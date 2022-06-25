@@ -1,6 +1,7 @@
 import {IRestForecastRun} from './i-rest-forecast-run';
 import {ForecastRun} from '../../domain/model/forecast-run';
 import {RestDatetimeConverter} from '../../../geo-physics/rest/model/rest-datetime-converter';
+import {RestWeatherModelConfigConverter} from './rest-weather-model-config-converter';
 
 
 export class RestForecastRunConverter {
@@ -12,7 +13,8 @@ export class RestForecastRunConverter {
 
     public static fromRest(restForecastRun: IRestForecastRun): ForecastRun {
         return new ForecastRun(
-            RestDatetimeConverter.fromRest(restForecastRun.starttime)
+            RestDatetimeConverter.fromRest(restForecastRun.starttime),
+            RestWeatherModelConfigConverter.fromRest(restForecastRun.model)
         );
     }
 }

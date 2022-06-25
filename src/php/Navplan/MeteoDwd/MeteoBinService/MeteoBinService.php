@@ -5,6 +5,8 @@ namespace Navplan\MeteoDwd\MeteoBinService;
 use DateTime;
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\Common\DomainModel\SpeedUnit;
+use Navplan\Common\DomainModel\Time;
+use Navplan\Common\DomainModel\TimeUnit;
 use Navplan\Common\StringNumberHelper;
 use Navplan\MeteoDwd\DomainModel\ForecastRun;
 use Navplan\MeteoDwd\DomainModel\ForecastStep;
@@ -13,6 +15,8 @@ use Navplan\MeteoDwd\DomainModel\IconGridDefinition;
 use Navplan\MeteoDwd\DomainModel\ValueGrid;
 use Navplan\MeteoDwd\DomainModel\WeatherGrid;
 use Navplan\MeteoDwd\DomainModel\WeatherInfo;
+use Navplan\MeteoDwd\DomainModel\WeatherModelConfig;
+use Navplan\MeteoDwd\DomainModel\WeatherModelType;
 use Navplan\MeteoDwd\DomainModel\WindInfo;
 use Navplan\MeteoDwd\DomainModel\WindInfoGrid;
 use Navplan\MeteoDwd\DomainService\IMeteoDwdService;
@@ -50,8 +54,9 @@ class MeteoBinService implements IMeteoDwdService {
                     return null;
                 }
                 $startTime = DateTime::createFromFormat("YmdH", $matches[1]);
+                $modelConfig = $this->getIconD2ModelConfig(); // TODO
 
-                return new ForecastRun($startTime);
+                return new ForecastRun($startTime, $modelConfig);
             },
             $subDirs
         );
@@ -156,5 +161,11 @@ class MeteoBinService implements IMeteoDwdService {
         }
 
         return new WeatherGrid($grid, $wwValues);
+    }
+
+
+    // TODO => domain
+    public function getIconD2ModelConfig(): WeatherModelConfig {
+        return new WeatherModelConfig(WeatherModelType::ICON_D2, 2, 48, new Time(1, TimeUnit::H));
     }
 }

@@ -9,7 +9,7 @@ const initialState: MeteoDwdState = {
     buttonStatus: MeteoDwdButtonStatus.OFF,
     showLayer: undefined,
     forecastRun: undefined,
-    selectedInterval: 1,
+    selectedStep: 1,
     mapTilesUrl: '',
     weatherGrid: undefined,
     windGrid: undefined
@@ -42,17 +42,26 @@ export const meteoDwdReducer = createReducer(
         showLayer: MeteoDwdLayer.WindLayer,
     })),
 
-    on(MeteoDwdActions.selectInterval, (state, action) => ({
+    on(MeteoDwdActions.selectStep, (state, action) => ({
         ...state,
-        selectedInterval: action.interval,
+        selectedStep: action.step,
     })),
 
-    on(MeteoDwdActions.readAvailableForecastRunsSuccess, (state, action) => ({
-        ...state,
-        forecastRun: action.forecastRuns && action.forecastRuns.length > 0
+    on(MeteoDwdActions.readAvailableForecastRunsSuccess, (state, action) => {
+        const latestRun = action.forecastRuns && action.forecastRuns.length > 0
             ? action.forecastRuns[action.forecastRuns.length - 1]
-            : undefined
-    })),
+            : undefined;
+        const selectedStep = latestRun && (state.selectedStep === undefined
+            || state.selectedStep < latestRun.model.minStep || state.selectedStep > latestRun.model.maxStep)
+            ? latestRun.model.minStep
+            : state.selectedStep;
+
+        return {
+            ...state,
+            forecastRun: latestRun,
+            selectedStep: selectedStep
+        };
+    }),
 
     on(MeteoDwdActions.readMapTilesUrlSuccess, (state, action) => ({
         ...state,

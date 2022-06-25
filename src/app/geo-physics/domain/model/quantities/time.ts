@@ -49,8 +49,18 @@ export class Time extends AbstractQuantity<Time, TimeUnit> implements Clonable<T
     }
 
 
+    public get hour(): number {
+        return this.getValue(TimeUnit.H);
+    }
+
+
     public get min(): number {
         return this.getValue(TimeUnit.M);
+    }
+
+
+    public get sec(): number {
+        return this.getValue(TimeUnit.S);
     }
 
 

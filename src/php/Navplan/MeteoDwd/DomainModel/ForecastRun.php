@@ -7,7 +7,8 @@ use DateTime;
 
 class ForecastRun {
     public function __construct(
-        public DateTime $startTime
+        public DateTime $startTime,
+        public WeatherModelConfig $modelConfig
     ) {
     }
 }

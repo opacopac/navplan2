@@ -10,7 +10,7 @@ export interface MeteoDwdState {
     buttonStatus: MeteoDwdButtonStatus;
     showLayer: MeteoDwdLayer;
     forecastRun: ForecastRun;
-    selectedInterval: number;
+    selectedStep: number;
     mapTilesUrl: string;
     weatherGrid: ValueGrid<WeatherInfo>;
     windGrid: ValueGrid<WindInfo>;
