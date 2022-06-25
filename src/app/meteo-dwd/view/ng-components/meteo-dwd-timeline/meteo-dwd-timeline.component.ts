@@ -1,10 +1,10 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable, Subscription} from 'rxjs';
-import {getMeteoDwdForecastRun} from '../../../state/ngrx/meteo-dwd.selectors';
+import {getMeteoDwdForecastRun, getMeteoDwdSelectedStep} from '../../../state/ngrx/meteo-dwd.selectors';
 import {MeteoDwdActions} from '../../../state/ngrx/meteo-dwd.actions';
 import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
-import {MatSliderChange} from '@angular/material/slider';
+import {MatSlider, MatSliderChange} from '@angular/material/slider';
 import {DatetimeHelper} from '../../../../system/domain/service/datetime/datetime-helper';
 import {ForecastRun} from '../../../domain/model/forecast-run';
 import {filter, map} from 'rxjs/operators';
@@ -17,16 +17,21 @@ import {filter, map} from 'rxjs/operators';
 })
 export class MeteoDwdTimelineComponent implements OnInit, OnDestroy {
     @ViewChild('container') container: ElementRef;
+    @ViewChild('slider') slider: MatSlider;
     private readonly forecastRun$: Observable<ForecastRun> = this.appStore.pipe(select(getMeteoDwdForecastRun));
+    private readonly selectedStep$: Observable<number> = this.appStore.pipe(select(getMeteoDwdSelectedStep));
     private readonly forecastRunSubscription: Subscription;
+    private readonly selectedStepSubscription: Subscription;
     private fcRunstartHour = 0;
 
 
     constructor(
         private appStore: Store<any>
     ) {
-        this.forecastRunSubscription = this.forecastRun$.subscribe(forecastRun => this.updateTimeline(forecastRun));
         this.formatLabel = this.formatLabel.bind(this);
+
+        this.forecastRunSubscription = this.forecastRun$.subscribe(forecastRun => this.updateForecastRun(forecastRun));
+        this.selectedStepSubscription = this.selectedStep$.subscribe(selectedStep => this.updateSelectedStep(selectedStep));
     }
 
 
@@ -76,6 +81,20 @@ export class MeteoDwdTimelineComponent implements OnInit, OnDestroy {
     }
 
 
+    public onPreviousStepClicked() {
+        this.appStore.dispatch(
+            MeteoDwdActions.previousStep()
+        );
+    }
+
+
+    public onNextStepClicked() {
+        this.appStore.dispatch(
+            MeteoDwdActions.nextStep()
+        );
+    }
+
+
     public onIntervalSelected(event: MatSliderChange) {
         this.appStore.dispatch(
             MeteoDwdActions.selectStep({ step: event.value })
@@ -83,9 +102,17 @@ export class MeteoDwdTimelineComponent implements OnInit, OnDestroy {
     }
 
 
-    private updateTimeline(forecastRun: ForecastRun) {
+    private updateForecastRun(forecastRun: ForecastRun) {
         if (forecastRun && forecastRun.startTime) {
             this.fcRunstartHour = forecastRun.startTime.getHours();
+            this.slider.step = 0;
+        }
+    }
+
+
+    private updateSelectedStep(selectedStep: number) {
+        if (this.slider && this.slider.value !== selectedStep) {
+            this.slider.value = selectedStep;
         }
     }
 }

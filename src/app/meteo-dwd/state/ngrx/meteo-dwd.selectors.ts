@@ -8,3 +8,4 @@ export const getMeteoDwdWindGrid = createSelector(getMeteoDwdState, state => sta
 export const getMeteoDwdWeatherGrid = createSelector(getMeteoDwdState, state => state.weatherGrid);
 export const getMeteoDwdMapTilesUrl = createSelector(getMeteoDwdState, state => state.mapTilesUrl);
 export const getMeteoDwdForecastRun = createSelector(getMeteoDwdState, state => state.forecastRun);
+export const getMeteoDwdSelectedStep = createSelector(getMeteoDwdState, state => state.selectedStep);

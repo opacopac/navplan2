@@ -4,11 +4,12 @@
     border-style: solid;
     border-width: 1px;
     border-color: green;*/
-    background: rgba(0, 60, 109, 0.6);
+    /*background: rgba(0, 60, 109, 0.6);*/
+        background: rgba(224, 224, 224, 0.9);
 }
 
 .meteo-dwd-timeline-slider {
-    width: 1500px;
+    width: 1000px;
     /*height: 200px;
     border-style: solid;
     border-width: 1px;
@@ -42,4 +43,12 @@
 ::ng-deep .mat-slider-thumb-label-text {
     transform: rotate(0deg) !important;
     opacity: 1 !important;
+}
+
+
+::ng-deep .mat-slider-track-fill,
+::ng-deep .mat-slider-wrapper,
+::ng-deep .mat-slider-track-wrapper,
+::ng-deep .mat-slider-track-background {
+    height: 5px !important;
 }

@@ -26,8 +26,16 @@ export class MeteoDwdActions {
         '[MeteoDwdContainer] Select Weather Forecast',
     );
 
+    public static readonly previousStep = createAction(
+        '[MeteoDwdTimeline] Previous Step',
+    );
+
+    public static readonly nextStep = createAction(
+        '[MeteoDwdTimeline] Next Step',
+    );
+
     public static readonly selectStep = createAction(
-        '[MeteoDwdTimeline] Select Interval',
+        '[MeteoDwdTimeline] Select Step',
         props<{ step: number }>()
     );
 

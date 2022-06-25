@@ -54,7 +54,8 @@ export class MeteoDwdEffects {
 
     readMapTilesUrlAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(MeteoDwdActions.open, MeteoDwdActions.selectWeatherForecast, MeteoDwdActions.selectWindForecast,
-            MeteoDwdActions.selectStep, MeteoDwdActions.readAvailableForecastRunsSuccess),
+            MeteoDwdActions.selectStep, MeteoDwdActions.previousStep, MeteoDwdActions.nextStep,
+            MeteoDwdActions.readAvailableForecastRunsSuccess),
         withLatestFrom(this.meteoDwdstate$),
         filter(([action, meteoDwdState]) => meteoDwdState.forecastRun !== undefined && meteoDwdState.selectedStep !== undefined),
         map(([action, meteoDwdState]) => {
@@ -70,8 +71,8 @@ export class MeteoDwdEffects {
 
 
     readWeatherGridAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(MeteoDwdActions.open, MeteoDwdActions.selectWeatherForecast, MeteoDwdActions.selectStep,
-            BaseMapActions.mapMoved, MeteoDwdActions.readAvailableForecastRunsSuccess),
+        ofType(MeteoDwdActions.open, MeteoDwdActions.selectWeatherForecast, MeteoDwdActions.selectStep, MeteoDwdActions.previousStep,
+            MeteoDwdActions.nextStep, BaseMapActions.mapMoved, MeteoDwdActions.readAvailableForecastRunsSuccess),
         withLatestFrom(this.meteoDwdstate$, this.mapState$),
         filter(([action, meteoDwdState, mapState]) => meteoDwdState.showLayer === MeteoDwdLayer.WeatherLayer),
         filter(([action, meteoDwdState]) => meteoDwdState.forecastRun !== undefined && meteoDwdState.selectedStep !== undefined),
@@ -85,8 +86,8 @@ export class MeteoDwdEffects {
 
 
     readWindGridAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(MeteoDwdActions.open, MeteoDwdActions.selectWindForecast, MeteoDwdActions.selectStep,
-            BaseMapActions.mapMoved, MeteoDwdActions.readAvailableForecastRunsSuccess),
+        ofType(MeteoDwdActions.open, MeteoDwdActions.selectWindForecast, MeteoDwdActions.selectStep, MeteoDwdActions.previousStep,
+            MeteoDwdActions.nextStep, BaseMapActions.mapMoved, MeteoDwdActions.readAvailableForecastRunsSuccess),
         withLatestFrom(this.meteoDwdstate$, this.mapState$),
         filter(([action, meteoDwdState, mapState]) => meteoDwdState.showLayer === MeteoDwdLayer.WindLayer),
         filter(([action, meteoDwdState]) => meteoDwdState.forecastRun !== undefined && meteoDwdState.selectedStep !== undefined),

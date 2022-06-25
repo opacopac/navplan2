@@ -1,6 +1,9 @@
 <div #container class="meteo-dwd-timeline">
+    <button mat-button (click)="onPreviousStepClicked()"><i class="fas fa-angle-left"></i></button>
+    <button mat-button (click)="onNextStepClicked()"><i class="fas fa-angle-right"></i></button>
     <mat-slider
-        thumbLabel
+        #slider
+        thumbLabel="true"
         [displayWith]="formatLabel"
         tickInterval="{{ getStepInterval() | async }}"
         step="{{ getStepInterval() | async }}"

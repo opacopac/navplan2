@@ -42,6 +42,28 @@ export const meteoDwdReducer = createReducer(
         showLayer: MeteoDwdLayer.WindLayer,
     })),
 
+    on(MeteoDwdActions.previousStep, (state, action) => {
+        const selectedStep = state.selectedStep !== undefined && state.selectedStep > state.forecastRun.model.minStep
+            ? state.selectedStep - 1
+            : state.selectedStep;
+
+        return {
+            ...state,
+            selectedStep: selectedStep
+        };
+    }),
+
+    on(MeteoDwdActions.nextStep, (state, action) => {
+        const selectedStep = state.selectedStep !== undefined && state.selectedStep < state.forecastRun.model.maxStep
+            ? state.selectedStep + 1
+            : state.selectedStep;
+
+        return {
+            ...state,
+            selectedStep: selectedStep
+        };
+    }),
+
     on(MeteoDwdActions.selectStep, (state, action) => ({
         ...state,
         selectedStep: action.step,
