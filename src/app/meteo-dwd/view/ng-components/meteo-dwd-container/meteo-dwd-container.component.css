@@ -7,11 +7,11 @@
 }
 
 .button-selected {
-    background-color: rgba(224, 224, 224, 0.8);
+    background-color: rgba(224, 224, 224, 0.9);
     /*color: white;*/
 }
 
 .button-not-selected {
-    background-color: rgba(128, 128, 128, 0.8);
+    background-color: rgba(128, 128, 128, 0.9);
     /*color: white;*/
 }
