@@ -22,7 +22,7 @@ export class MeteoDwdTimelineComponent implements OnInit, OnDestroy {
     private readonly selectedStep$: Observable<number> = this.appStore.pipe(select(getMeteoDwdSelectedStep));
     private readonly forecastRunSubscription: Subscription;
     private readonly selectedStepSubscription: Subscription;
-    private fcRunstartHour = 0;
+    private currentForecastRun: ForecastRun = undefined;
 
 
     constructor(
@@ -69,15 +69,16 @@ export class MeteoDwdTimelineComponent implements OnInit, OnDestroy {
 
 
     public formatLabel(step: number): string {
-        const startHour = this.fcRunstartHour + 2; // TODO: utc
-        const totHour = startHour + step;
+        if (!this.currentForecastRun) {
+            return '';
+        }
 
-        const dayOffset = Math.floor(totHour / 24);
-        const dayDate = new Date(Date.now() + (3600 * 24 * dayOffset * 1000));
-        const dayHour = totHour - 24 * dayOffset;
-        const weekday = DatetimeHelper.getWeekdayShortFromDate(dayDate);
+        const stepOffsetMs = step * this.currentForecastRun.model.stepLength.ms;
+        const stepDate = new Date(this.currentForecastRun.startTime.valueOf() + stepOffsetMs);
+        const stepDateHour = stepDate.getHours();
+        const stepDateWeekday = DatetimeHelper.getWeekdayShortFromDate(stepDate);
 
-        return weekday + ' ' + StringnumberHelper.zeroPad(dayHour, 2) + ':00';
+        return stepDateWeekday + ' ' + StringnumberHelper.zeroPad(stepDateHour, 2) + ':00 LT';
     }
 
 
@@ -103,9 +104,7 @@ export class MeteoDwdTimelineComponent implements OnInit, OnDestroy {
 
 
     private updateForecastRun(forecastRun: ForecastRun) {
-        if (forecastRun && forecastRun.startTime) {
-            this.fcRunstartHour = forecastRun.startTime.getHours();
-        }
+        this.currentForecastRun = forecastRun;
     }
 
 

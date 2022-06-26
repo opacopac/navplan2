@@ -85,7 +85,7 @@ export class MapOverlayNotamTabComponent implements OnInit {
     }
 
 
-    public getLtString(date): string {
+    public getLtString(date: Date): string {
         const datePart = date.toLocaleDateString();
         const timePart = StringnumberHelper.zeroPad(date.getHours()) + ':' + StringnumberHelper.zeroPad(date.getMinutes());
         return datePart + ' ' + timePart + ' LT'; // + Math.round(date.getTimezoneOffset() / -60);

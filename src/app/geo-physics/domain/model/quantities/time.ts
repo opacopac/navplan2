@@ -64,6 +64,11 @@ export class Time extends AbstractQuantity<Time, TimeUnit> implements Clonable<T
     }
 
 
+    public get ms(): number {
+        return this.getValue(TimeUnit.MS);
+    }
+
+
     public clone(): Time {
         return new Time(this.value, this.unit);
     }

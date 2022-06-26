@@ -3,6 +3,7 @@
 namespace Navplan\MeteoDwd\MeteoBinService;
 
 use DateTime;
+use DateTimeZone;
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\Common\DomainModel\SpeedUnit;
 use Navplan\Common\DomainModel\Time;
@@ -53,7 +54,7 @@ class MeteoBinService implements IMeteoDwdService {
                 if (!preg_match('/^.*(\d{10})$/', $dirEntry, $matches)) {
                     return null;
                 }
-                $startTime = DateTime::createFromFormat("YmdH", $matches[1]);
+                $startTime = DateTime::createFromFormat("YmdH", $matches[1], new DateTimeZone('UTC'));
                 $modelConfig = $this->getIconD2ModelConfig(); // TODO
 
                 return new ForecastRun($startTime, $modelConfig);

@@ -24,9 +24,9 @@
 ::ng-deep .mat-slider-thumb-label {
     transform: rotate(0deg) !important;
     border-radius: 5px !important;
-    width: 80px !important;
+    width: 90px !important;
     height: 35px !important;
-    right: -40px !important;
+    right: -45px !important;
     top: -50px !important;
 }
 

@@ -106,10 +106,10 @@ export class RestMeteoDwdService implements IMeteoDwdService {
 
 
     private getLatestForecastStrPart(forecast: ForecastRun): string {
-        return forecast.startTime.getFullYear()
-            + StringnumberHelper.zeroPad(forecast.startTime.getMonth() + 1, 2)
-            + StringnumberHelper.zeroPad(forecast.startTime.getDate(), 2)
-            + StringnumberHelper.zeroPad(forecast.startTime.getHours(), 2);
+        return forecast.startTime.getUTCFullYear()
+            + StringnumberHelper.zeroPad(forecast.startTime.getUTCMonth() + 1, 2)
+            + StringnumberHelper.zeroPad(forecast.startTime.getUTCDate(), 2)
+            + StringnumberHelper.zeroPad(forecast.startTime.getUTCHours(), 2);
     }
 
 
