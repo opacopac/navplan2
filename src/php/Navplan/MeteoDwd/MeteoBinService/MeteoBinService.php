@@ -28,14 +28,18 @@ use Navplan\System\DomainService\IFileService;
 
 
 class MeteoBinService implements IMeteoDwdService {
+    private const ICON_D2_DIR = "icon-d2/";
     private const METEOBIN_WW_PATH = "/clct_precip/WW_D2.meteobin";
     private const METEOBIN_WIND_PATH = "/wind/WIND_D2.meteobin";
+
+    private string $iconD2BaseDir;
 
 
     public function __construct(
         private IFileService $fileService,
         private string $meteoDwdBaseDir
     ) {
+        $this->iconD2BaseDir = $this->meteoDwdBaseDir . self::ICON_D2_DIR;
     }
 
 
@@ -44,9 +48,9 @@ class MeteoBinService implements IMeteoDwdService {
      * @throws FileServiceException
      */
     function readAvailableForecasts(): array {
-        $subDirs = $this->fileService->glob($this->meteoDwdBaseDir . '*' , GLOB_ONLYDIR);
+        $subDirs = $this->fileService->glob($this->iconD2BaseDir . '*' , GLOB_ONLYDIR);
         if ($subDirs === false) {
-            throw new FileServiceException("error reading base directory '" . $this->meteoDwdBaseDir . "'");
+            throw new FileServiceException("error reading base directory '" . $this->iconD2BaseDir . "'");
         }
 
         $forecastRunsUnfilterd = array_map(
@@ -98,7 +102,7 @@ class MeteoBinService implements IMeteoDwdService {
 
     private function readWindSpeedENValuesFromFile(ForecastStep $forecastStep, GridDefinition $grid): array {
         $step = StringNumberHelper::zeroPad($forecastStep->step, 3);
-        $fileName = $this->meteoDwdBaseDir . $forecastStep->run . "/" . $step . self::METEOBIN_WIND_PATH;
+        $fileName = $this->iconD2BaseDir . $forecastStep->run . "/" . $step . self::METEOBIN_WIND_PATH;
         $rawContent = $this->fileService->fileGetContents($fileName);
 
         $iconD2Grid = IconGridDefinition::getIconD2Grid();
@@ -134,7 +138,7 @@ class MeteoBinService implements IMeteoDwdService {
 
     public function readWeatherGrid(ForecastStep $forecastStep, GridDefinition $grid): WeatherGrid {
         $step = StringNumberHelper::zeroPad($forecastStep->step, 3);
-        $fileName = $this->meteoDwdBaseDir . $forecastStep->run . "/" . $step . self::METEOBIN_WW_PATH;
+        $fileName = $this->iconD2BaseDir . $forecastStep->run . "/" . $step . self::METEOBIN_WW_PATH;
 
         $rawContent = $this->fileService->fileGetContents($fileName);
         $iconD2Grid = IconGridDefinition::getIconD2Grid();

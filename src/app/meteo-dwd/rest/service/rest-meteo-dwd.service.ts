@@ -17,6 +17,7 @@ import {ForecastRun} from '../../domain/model/forecast-run';
 import {IRestForecastRun} from '../model/i-rest-forecast-run';
 import {RestForecastRunConverter} from '../model/rest-forecast-run-converter';
 import {StringnumberHelper} from '../../../system/domain/service/stringnumber/stringnumber-helper';
+import {WeatherModelType} from '../../domain/model/weather-model-type';
 
 
 @Injectable()
@@ -76,18 +77,30 @@ export class RestMeteoDwdService implements IMeteoDwdService {
 
 
     public getWeatherMapTilesUrl(forecast: ForecastRun, step: number): string {
+        const modelStr = this.getUrlPartByModel(forecast.model.modelType);
         const stepStr = this.getStepStrPart(step);
         const fcStr = this.getLatestForecastStrPart(forecast);
 
-        return environment.meteoDwdMapTilesUrl + fcStr + '/' + stepStr + '/clct_precip/{z}/{x}/{y}.png';
+        return environment.meteoDwdMapTilesUrl + modelStr + '/' + fcStr + '/' + stepStr + '/clct_precip/{z}/{x}/{y}.png';
     }
 
 
     public getWindMapTilesUrl(forecast: ForecastRun, step: number): string {
+        const modelStr = this.getUrlPartByModel(forecast.model.modelType);
         const stepStr = this.getStepStrPart(step);
         const fcStr = this.getLatestForecastStrPart(forecast);
 
-        return environment.meteoDwdMapTilesUrl + fcStr + '/' + stepStr + '/wind/{z}/{x}/{y}.png';
+        return environment.meteoDwdMapTilesUrl + modelStr + '/' + fcStr + '/' + stepStr + '/wind/{z}/{x}/{y}.png';
+    }
+
+
+    private getUrlPartByModel(model: WeatherModelType): string {
+        switch (model) {
+            case WeatherModelType.ICON_D2: return 'icon-d2';
+            case WeatherModelType.ICON_EU: return 'icon-eu';
+            case WeatherModelType.ICON: return 'icon';
+            default: throw new Error('unknown model type');
+        }
     }
 
 
