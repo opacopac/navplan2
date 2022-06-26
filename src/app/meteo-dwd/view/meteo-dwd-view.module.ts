@@ -11,6 +11,8 @@ import {MeteoDwdRestModule} from '../rest/meteo-dwd-rest.module';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatSelectModule} from '@angular/material/select';
+import {MatInputModule} from '@angular/material/input';
 
 
 @NgModule({
@@ -24,6 +26,8 @@ import {MatMenuModule} from '@angular/material/menu';
         MatButtonToggleModule,
         MatSliderModule,
         MatMenuModule,
+        MatSelectModule,
+        MatInputModule,
     ],
     declarations: [
         MeteoDwdButtonComponent,

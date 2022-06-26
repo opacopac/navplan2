@@ -5,6 +5,7 @@ import {getMeteoDwdLayer} from '../../../state/ngrx/meteo-dwd.selectors';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {MeteoDwdLayer} from '../../../domain/model/meteo-dwd-layer';
+import {environment} from '../../../../../environments/environment';
 
 
 @Component({
@@ -14,6 +15,7 @@ import {MeteoDwdLayer} from '../../../domain/model/meteo-dwd-layer';
 })
 export class MeteoDwdContainerComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly meteoDwdLayer$ = this.appStore.pipe(select(getMeteoDwdLayer));
+    public readonly windSockIconUrl = environment.iconBaseUrl + 'windsock.svg';
 
 
     constructor(private readonly appStore: Store<any>) {
@@ -29,6 +31,13 @@ export class MeteoDwdContainerComponent implements OnInit, OnDestroy, AfterViewI
 
 
     ngOnDestroy(): void {
+    }
+
+
+    public getStationsButtonClass(): Observable<string> {
+        return this.meteoDwdLayer$.pipe(
+            map(layer => this.getButtonCLass(false))
+        );
     }
 
 

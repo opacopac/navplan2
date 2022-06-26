@@ -13,18 +13,18 @@
 <app-search-container></app-search-container>
 <!-- buttons -->
 <app-zoom-buttons
-        class="zoom-buttons"
+        class="zoom-buttons-pos"
         (zoomInClick)="this.onZoomInClicked()"
         (zoomOutClick)="this.onZoomOutClicked()">
 </app-zoom-buttons>
-<app-location-button class="location-button"></app-location-button>
-<app-traffic-button class="traffic-button"></app-traffic-button>
-<app-layer-button class="layer-button"></app-layer-button>
-<app-layer-selection class="layer-selection" *ngIf="this.showBaseMapSelection$ | async"></app-layer-selection>
-<app-meteo-dwd-button class="meteo-dwd-button"></app-meteo-dwd-button>
-<app-meteo-dwd-container class="meteo-dwd-container" *ngIf="this.showMeteoDwdForecasts$ | async"></app-meteo-dwd-container>
-<app-meteo-sma-button class="meteo-sma-button"></app-meteo-sma-button>
+<app-location-button class="location-button-pos"></app-location-button>
+<app-traffic-button class="traffic-button-pos"></app-traffic-button>
+<app-layer-button class="layer-button-pos"></app-layer-button>
+<app-layer-selection class="layer-selection-pos" *ngIf="this.showBaseMapSelection$ | async"></app-layer-selection>
+<app-meteo-dwd-button class="meteo-dwd-button-pos"></app-meteo-dwd-button>
+<app-meteo-dwd-container class="meteo-dwd-container-pos" *ngIf="this.showMeteoDwdForecasts$ | async"></app-meteo-dwd-container>
+<app-meteo-sma-button class="meteo-sma-button-pos"></app-meteo-sma-button>
 <app-meteo-sma-container *ngIf="this.showMeteoSmaMeasurements$ | async"></app-meteo-sma-container>
-<app-vertical-map-button  class="vertical-map-button" *ngIf="this.showVerticalMapButton$ | async"></app-vertical-map-button>
-<app-vertical-map class="vertical-map" *ngIf="(this.showVerticalMap$ | async)"></app-vertical-map>
+<app-vertical-map-button class="vertical-map-button-pos" *ngIf="this.showVerticalMapButton$ | async"></app-vertical-map-button>
+<app-vertical-map class="vertical-map-pos" *ngIf="(this.showVerticalMap$ | async)"></app-vertical-map>
 <app-flighttimer></app-flighttimer>

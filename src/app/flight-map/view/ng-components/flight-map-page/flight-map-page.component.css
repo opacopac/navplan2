@@ -3,60 +3,35 @@
     height: calc(100vh - 54px);
 }
 
-.zoom-buttons {
+.zoom-buttons-pos {
     position: absolute;
     top: 10px;
     left: 10px;
     z-index: 20;
-    /*opacity: 0.60;*/
 }
 
-.location-button {
+.location-button-pos {
     position: absolute;
     top: 132px;
     left: 10px;
     z-index: 20;
-    /*opacity: 0.60;*/
 }
 
-.traffic-button {
+.traffic-button-pos {
     position: absolute;
     top: 198px;
     left: 10px;
     z-index: 20;
-    /*opacity: 0.60;*/
 }
 
-.vertical-map-button {
-    position: absolute;
-    bottom: 172px;
-    left: 10px;
-    z-index: 20;
-}
-
-.vertical-map {
-    position: absolute;
-    bottom: 40px;
-    left: 70px;
-    right: 10px;
-    z-index: 20;
-}
-
-.meteo-sma-button {
-    position: absolute;
-    bottom: 106px;
-    left: 10px;
-    z-index: 20;
-}
-
-.meteo-dwd-button {
+.vertical-map-button-pos {
     position: absolute;
     bottom: 238px;
     left: 10px;
     z-index: 20;
 }
 
-.meteo-dwd-container {
+.vertical-map-pos {
     position: absolute;
     bottom: 40px;
     left: 70px;
@@ -64,14 +39,36 @@
     z-index: 20;
 }
 
-.layer-button {
+.meteo-sma-button-pos {
+    position: absolute;
+    bottom: 172px;
+    left: 10px;
+    z-index: 20;
+}
+
+.meteo-dwd-button-pos {
+    position: absolute;
+    bottom: 106px;
+    left: 10px;
+    z-index: 20;
+}
+
+.meteo-dwd-container-pos {
+    position: absolute;
+    bottom: 40px;
+    left: 70px;
+    right: 10px;
+    z-index: 25;
+}
+
+.layer-button-pos {
     position: absolute;
     bottom: 40px;
     left: 10px;
     z-index: 20;
 }
 
-.layer-selection {
+.layer-selection-pos {
     position: absolute;
     bottom: 40px;
     left: 70px;
