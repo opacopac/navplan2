@@ -31,5 +31,7 @@ export const environment = {
     exportBaseUrl: WEBSITE_BASE_URL + 'tmp/',
     chartBaseUrl: WEBSITE_BASE_URL + 'charts/',
     chart2BaseUrl: WEBSITE_BASE_URL + 'charts2/',
+    mapTilesIcaoChartUrl: WEBSITE_BASE_URL + 'maptiles/icao_ch_aero/',
+    mapTilesGliderChartUrl: WEBSITE_BASE_URL + 'maptiles/icao_ch_glider/',
     metarTafBaseUrl: 'https://www.aviationweather.gov/cgi-bin/json/MetarJSON.php?taf=true&density=all&bbox=',
 };

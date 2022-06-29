@@ -17,10 +17,10 @@ class AdsbexTrafficConverter  {
                 $acResponse["hex"],
                 TrafficAddressType::ICAO
             ),
-            $acResponse["t"] ?: NULL,
-            $acResponse["r"] ?: NULL,
-            $acResponse["flight"] ?: NULL,
-            $acResponse["opicao"] ?: NULL, // TODO
+            $acResponse["t"] ?? NULL,
+            $acResponse["r"] ?? NULL,
+            $acResponse["flight"] ?? NULL,
+            $acResponse["opicao"] ?? NULL, // TODO
             [ AdsbexTrafficPositionConverter::fromResponse($response, $acIndex, $timeService) ]
         );
     }

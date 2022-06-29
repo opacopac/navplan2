@@ -3,7 +3,7 @@
 namespace NavplanTest\Traffic\UseCase;
 
 use Navplan\Common\DomainModel\Extent2d;
-use Navplan\Traffic\DomainModel\TrafficAdsbexReadRequest;
+use Navplan\Traffic\UseCase\ReadAdsbexTraffic\TrafficAdsbexReadRequest;
 use Navplan\Traffic\UseCase\ReadAdsbexTrafficWithDetails\ReadAdsbexTrafficWithDetailsUc;
 use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTraffic1;

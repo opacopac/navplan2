@@ -10,6 +10,8 @@ export const environment = {
     webcamServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Webcam/RestService/WebcamService.php',
     flightrouteServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Flightroute/RestService/FlightrouteService.php',
     meteoSmaServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/MeteoSma/RestService/MeteoService.php',
+    meteoDwdServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/MeteoDwd/RestService/MeteoDwdService.php',
+    meteoDwdMapTilesUrl: WEBSITE_BASE_URL + 'meteo_dwd/',
     notamRestServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Notam/RestService/NotamService.php',
     openAipServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Search/RestService/SearchService.php',
     searchServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Search/RestService/SearchService.php',
@@ -22,5 +24,8 @@ export const environment = {
     exporterBaseUrl: WEBSITE_BASE_URL + 'php/Navplan/Exporter/RestService/ExporterService.php',
     exportBaseUrl: WEBSITE_BASE_URL + 'tmp/',
     chartBaseUrl: WEBSITE_BASE_URL + 'charts/',
+    chart2BaseUrl: WEBSITE_BASE_URL + 'charts2/',
+    mapTilesIcaoChartUrl: WEBSITE_BASE_URL + 'maptiles/icao_ch_aero/',
+    mapTilesGliderChartUrl: WEBSITE_BASE_URL + 'maptiles/icao_ch_glider/',
     metarTafBaseUrl: 'https://www.aviationweather.gov/cgi-bin/json/MetarJSON.php?taf=true&density=all&bbox=',
 };

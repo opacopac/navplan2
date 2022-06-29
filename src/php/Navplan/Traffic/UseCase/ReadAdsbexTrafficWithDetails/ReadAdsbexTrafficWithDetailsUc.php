@@ -5,10 +5,10 @@ namespace Navplan\Traffic\UseCase\ReadAdsbexTrafficWithDetails;
 use Navplan\Traffic\DomainModel\TrafficAdsbex;
 use Navplan\Traffic\DomainModel\TrafficAdsbexWithDetail;
 use Navplan\Traffic\DomainModel\TrafficDetail;
-use Navplan\Traffic\DomainModel\TrafficDetailsReadRequest;
 use Navplan\Traffic\UseCase\ReadAdsbexTraffic\IReadAdsbexTrafficUc;
 use Navplan\Traffic\UseCase\ReadAdsbexTraffic\TrafficAdsbexReadRequest;
 use Navplan\Traffic\UseCase\ReadTrafficDetails\IReadTrafficDetailsUc;
+use Navplan\Traffic\UseCase\ReadTrafficDetails\TrafficDetailsReadRequest;
 
 
 class ReadAdsbexTrafficWithDetailsUc implements IReadAdsbexTrafficWithDetailsUc {

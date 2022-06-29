@@ -144,8 +144,10 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     private const LOG_DIR = __DIR__ . "/../../../logs/";
     private const LOG_FILE = self::LOG_DIR . "navplan.log";
     private const LOG_FILE_OGN_LISTENER = self::LOG_DIR . "ogn_listener.log";
-    private const TERRAIN_TILE_BASE_DIR = __DIR__ . '/../../../../navplan/terraintiles/';
-    private const METEO_DWD_BASE_DIR = __DIR__ . "/../../../meteo_dwd/"; // TODO
+    //private const TERRAIN_TILE_BASE_DIR = __DIR__ . '/../../../../navplan/terraintiles/';
+    private const TERRAIN_TILE_BASE_DIR = __DIR__ . '/../../../terraintiles/';
+    //private const METEO_DWD_BASE_DIR = __DIR__ . "/../../../meteo_dwd/"; // TODO
+    private const METEO_DWD_BASE_DIR = __DIR__ . "/../../meteo_dwd/"; // TODO
 
     // airport
     private IAirportService $airportService;
