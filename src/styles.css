@@ -77,21 +77,22 @@ button.btn-lg {
 
 .mat-fab.mat-mapoverlay-primary {
     background-color: rgba(0, 60, 109, 0.6);
+    /*background-color: rgba(69, 90, 100, 0.8);*/
     color: white;
 }
 
 .mat-fab.mat-mapoverlay-status-ok {
-    background-color: rgba(0, 128, 0, 0.6);
+    background-color: rgba(0, 128, 0, 0.8);
     color: white;
 }
 
 .mat-fab.mat-mapoverlay-status-warn {
-    background-color: rgba(255, 165, 0, 0.6);;
+    background-color: rgba(255, 165, 0, 0.8);
     color: white;
 }
 
 .mat-fab.mat-mapoverlay-status-error {
-    background-color: rgba(255, 0, 0, 0.6);
+    background-color: rgba(255, 0, 0, 0.8);
     color: white;
 }
 
@@ -107,7 +108,7 @@ button.btn-lg {
 
 .success-snack-bar {
     color: white;
-    background-color: #455a64;
+    /*background-color: #455a64;*/
 }
 
 .error-snack-bar {

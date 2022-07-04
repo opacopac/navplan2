@@ -3,7 +3,7 @@
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
-// const WEBSITE_BASE_URL = 'https://www.navplan.ch/v2/';
+const PROD_WEBSITE_BASE_URL = 'https://www.navplan.ch/v2/';
 const WEBSITE_BASE_URL = 'http://localhost/navplan2/';
 
 export const environment = {
@@ -16,8 +16,8 @@ export const environment = {
     webcamServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Webcam/RestService/WebcamService.php',
     flightrouteServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Flightroute/RestService/FlightrouteService.php',
     meteoSmaServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/MeteoSma/RestService/MeteoService.php',
-    meteoDwdServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/MeteoDwd/RestService/MeteoDwdService.php',
-    meteoDwdMapTilesUrl: WEBSITE_BASE_URL + 'meteo_dwd/',
+    meteoDwdServiceUrl: PROD_WEBSITE_BASE_URL + 'php/Navplan/MeteoDwd/RestService/MeteoDwdService.php',
+    meteoDwdMapTilesUrl: PROD_WEBSITE_BASE_URL + 'meteo_dwd/',
     notamRestServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Notam/RestService/NotamService.php',
     openAipServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Search/RestService/SearchService.php',
     searchServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Search/RestService/SearchService.php',
