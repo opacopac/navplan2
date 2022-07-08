@@ -15,7 +15,7 @@ class RestSpeedConverter {
 
         return [
             $speed->value,
-            SpeedUnit::toString($speed->unit)
+            $speed->unit->value
         ];
     }
 
@@ -27,7 +27,7 @@ class RestSpeedConverter {
 
         return new Speed(
             StringNumberHelper::parseFloatOrError($args, 0),
-            SpeedUnit::fromString(StringNumberHelper::parseStringOrError($args, 1)),
+            SpeedUnit::from(StringNumberHelper::parseStringOrError($args, 1)),
         );
     }
 }

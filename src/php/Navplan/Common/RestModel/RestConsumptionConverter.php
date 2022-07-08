@@ -15,7 +15,7 @@ class RestConsumptionConverter {
 
         return array(
             $consumption->value,
-            ConsumptionUnit::toString($consumption->unit)
+            $consumption->unit->value
         );
     }
 
@@ -27,7 +27,7 @@ class RestConsumptionConverter {
 
         return new Consumption(
             StringNumberHelper::parseFloatOrError($args, 0),
-            ConsumptionUnit::fromString(StringNumberHelper::parseStringOrError($args, 1)),
+            ConsumptionUnit::from(StringNumberHelper::parseStringOrError($args, 1)),
         );
     }
 }

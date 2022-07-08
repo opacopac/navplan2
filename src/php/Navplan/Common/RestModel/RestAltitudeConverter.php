@@ -16,8 +16,8 @@ class RestAltitudeConverter {
 
         return [
             $roundToDigits === NULL ? $alt->value : round($alt->value, $roundToDigits),
-            AltitudeUnit::toString($alt->unit),
-            AltitudeReference::toString($alt->reference)
+            $alt->unit->value,
+            $alt->reference->value
         ];
     }
 
@@ -29,8 +29,8 @@ class RestAltitudeConverter {
 
         return new Altitude(
             StringNumberHelper::parseFloatOrError($args, 0),
-            AltitudeUnit::fromString(StringNumberHelper::parseStringOrError($args, 1)),
-            AltitudeReference::fromString(StringNumberHelper::parseStringOrError($args, 2)),
+            AltitudeUnit::from(StringNumberHelper::parseStringOrError($args, 1)),
+            AltitudeReference::from(StringNumberHelper::parseStringOrError($args, 2)),
         );
     }
 }

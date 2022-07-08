@@ -142,4 +142,11 @@ class DbHelper {
     public static function getDbPointStringFromPos(Position2d $position): string {
         return "ST_GeomFromText('POINT(" . $position->longitude . " " . $position->latitude . ")')";
     }
+
+
+    public static function getPreparedInsertStatementQuery(string $tableName, string ...$colNames): string{
+        $placeholders = array_fill(0, count($colNames), "?");
+
+        return "INSERT INTO " . $tableName . " (" . join(", ", $colNames) . ") VALUES (" . join(", ", $placeholders) . ")";
+    }
 }

@@ -3,28 +3,77 @@
 namespace Navplan\Enroute\DbModel;
 
 use Navplan\Common\DbModel\DbPosition2dConverter;
-use Navplan\Common\DomainModel\Length;
-use Navplan\Common\DomainModel\LengthUnit;
+use Navplan\Common\DomainModel\Altitude;
+use Navplan\Common\DomainModel\AltitudeReference;
+use Navplan\Common\DomainModel\AltitudeUnit;
+use Navplan\Common\DomainModel\Frequency;
+use Navplan\Common\DomainModel\FrequencyUnit;
 use Navplan\Enroute\DomainModel\Navaid;
+use Navplan\Enroute\DomainModel\NavaidType;
+use Navplan\System\DomainModel\IDbStatement;
+use Navplan\System\DomainService\IDbService;
+use Navplan\System\MySqlDb\DbHelper;
 
 
 class DbNavaidConverter {
-    public static function fromDbRow(array $row): Navaid {
-        $unit = "MHz";
-        if ($row["type"] == "NDB")
-            $unit = "kHz";
+    public const TABLE_NAME = "openaip_navaids2";
+    public const COL_ID = "id";
+    public const COL_TYPE = "type";
+    public const COL_KUERZEL = "kuerzel";
+    public const COL_NAME = "name";
+    public const COL_LONGITUDE = "longitude";
+    public const COL_LATITUDE = "latitude";
+    public const COL_ELEVATION = "elevation";
+    public const COL_FREQUENCY = "frequency";
+    public const COL_DECLINATION = "declination";
+    public const COL_TRUENORTH = "truenorth";
 
+
+    public static function fromDbRow(array $row): Navaid {
         return new Navaid(
-            intval($row["id"]),
-            $row["type"],
-            $row["kuerzel"],
-            $row["name"],
+            intval($row[self::COL_ID]),
+            NavaidType::from($row[self::COL_TYPE]),
+            $row[self::COL_KUERZEL],
+            $row[self::COL_NAME],
             DbPosition2dConverter::fromDbRow($row),
-            new Length(floatval($row["elevation"]), LengthUnit::M),
-            $row["frequency"],
-            $unit,
-            floatval($row["declination"]),
-            boolval($row["truenorth"])
+            new Altitude(floatval($row[self::COL_ELEVATION]), AltitudeUnit::M, AltitudeReference::MSL),
+            new Frequency(floatval($row[self::COL_FREQUENCY]), $row[self::COL_TYPE] === "NDB" ? FrequencyUnit::KHZ : FrequencyUnit::MHZ),
+            floatval($row[self::COL_DECLINATION]),
+            boolval($row[self::COL_TRUENORTH])
+        );
+    }
+
+
+    public static function prepareInsertStatement(IDbService $dbService): IDbStatement {
+        $query = DbHelper::getPreparedInsertStatementQuery(
+            self::TABLE_NAME,
+            self::COL_TYPE,
+            self::COL_KUERZEL,
+            self::COL_NAME,
+            self::COL_LONGITUDE,
+            self::COL_LATITUDE,
+            self::COL_ELEVATION,
+            self::COL_FREQUENCY,
+            self::COL_DECLINATION,
+            self::COL_TRUENORTH
+        );
+
+        return $dbService->prepareStatement($query);
+    }
+
+
+    public static function bindInsertStatement(Navaid $navaid, IDbStatement $insertStatement) {
+        $elevation = $navaid->elevation->getHeightAmsl()->getM();
+        $insertStatement->bind_param("sssdddsdi",
+            $navaid->type,
+            $navaid->kuerzel,
+            $navaid->name,
+            $navaid->position->longitude,
+            $navaid->position->latitude,
+            $elevation,
+            $navaid->frequency->value,
+            $navaid->declination,
+            $navaid->isTrueNorth
         );
     }
 }

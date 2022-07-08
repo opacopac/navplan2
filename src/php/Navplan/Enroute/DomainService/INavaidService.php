@@ -29,4 +29,17 @@ interface INavaidService {
      * @return Navaid[]
      */
     function searchByText(string $searchText, int $maxResults): array;
+
+
+    /**
+     * @param Navaid[] $navaids
+     * @return void
+     */
+    function insert(array $navaids): void;
+
+
+    /**
+     * @return bool
+     */
+    function deleteAll(): bool;
 }

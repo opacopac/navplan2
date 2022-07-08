@@ -1,5 +1,6 @@
 import {IRestPosition2d} from '../../../geo-physics/rest/model/i-rest-position2d';
-import {IRestLength} from '../../../geo-physics/rest/model/i-rest-length';
+import {IRestFrequency} from '../../../geo-physics/rest/model/i-rest-frequency';
+import {IRestAltitude} from '../../../geo-physics/rest/model/i-rest-altitude';
 
 
 export interface IRestNavaid {
@@ -8,9 +9,8 @@ export interface IRestNavaid {
     kuerzel: string;
     name: string;
     pos: IRestPosition2d;
-    elevation: IRestLength;
-    frequency: string;
-    unit: string;
+    elevation: IRestAltitude;
+    frequency: IRestFrequency;
     declination: number;
     truenorth: boolean;
 }

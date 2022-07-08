@@ -2,23 +2,26 @@
 
 namespace NavplanTest\Enroute\Mocks;
 
-use Navplan\Common\DomainModel\Length;
-use Navplan\Common\DomainModel\LengthUnit;
+use Navplan\Common\DomainModel\Altitude;
+use Navplan\Common\DomainModel\AltitudeReference;
+use Navplan\Common\DomainModel\AltitudeUnit;
+use Navplan\Common\DomainModel\Frequency;
+use Navplan\Common\DomainModel\FrequencyUnit;
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\Enroute\DomainModel\Navaid;
+use Navplan\Enroute\DomainModel\NavaidType;
 
 
 class DummyNavaid1 {
     public static function create(): Navaid {
         return new Navaid(
             1218,
-            "VOR-DME",
+            NavaidType::DVOR_DME,
             "FRI",
             "FRIBOURG",
             new Position2d(7.22361,46.7775),
-            new Length(799, LengthUnit::M),
-            "110.85",
-            "MHz",
+            new Altitude(799, AltitudeUnit::M, AltitudeReference::MSL),
+            new Frequency(110.85, FrequencyUnit::MHZ),
             1.34846,
             false
         );

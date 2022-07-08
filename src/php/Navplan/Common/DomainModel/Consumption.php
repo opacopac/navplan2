@@ -8,24 +8,15 @@ use InvalidArgumentException;
 class Consumption {
     public function __construct(
         public float $value,
-        /**
-         * @var ConsumptionUnit
-         */
-        public int $unit,
+        public ConsumptionUnit $unit,
     ) {
     }
 
 
     private static function convert(
         float $value,
-        /**
-         * @var ConsumptionUnit
-         */
-        int $unit,
-        /**
-         * @var ConsumptionUnit
-         */
-        int $convertToUnit
+        ConsumptionUnit $unit,
+        ConsumptionUnit $convertToUnit
     ): float {
         if ($unit === $convertToUnit) {
             return $value;
@@ -34,13 +25,13 @@ class Consumption {
         return match ($unit) {
             ConsumptionUnit::L_PER_H => match ($convertToUnit) {
                 ConsumptionUnit::GAL_PER_H => $value / Volume::L_PER_GAL,
-                default => throw new InvalidArgumentException("unknown consumption unit: " . $convertToUnit),
+                default => throw new InvalidArgumentException("unknown consumption unit: " . $convertToUnit->value),
             },
             ConsumptionUnit::GAL_PER_H => match ($convertToUnit) {
                 ConsumptionUnit::L_PER_H => $value * Volume::L_PER_GAL,
-                default => throw new InvalidArgumentException("unknown consumption unit: " . $convertToUnit),
+                default => throw new InvalidArgumentException("unknown consumption unit: " . $convertToUnit->value),
             },
-            default => throw new InvalidArgumentException("unknown consumption unit: " . $unit),
+            default => throw new InvalidArgumentException("unknown consumption unit: " . $unit->value),
         };
     }
 
@@ -55,12 +46,7 @@ class Consumption {
     }
 
 
-    public function getValue(
-        /**
-         * @var ConsumptionUnit
-         */
-        int $asUnit
-    ): float {
+    public function getValue(ConsumptionUnit $asUnit): float {
         return Consumption::convert($this->value, $this->unit, $asUnit);
     }
 }

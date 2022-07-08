@@ -8,7 +8,7 @@ export class NavaidWaypointConverter {
     public static convert(navaid: Navaid): Waypoint {
         return new Waypoint(
             WaypointType.navaid,
-            navaid.frequency,
+            navaid.frequency.getValueString(),
             navaid.kuerzel,
             navaid.kuerzel + ' ' + navaid.getTypeString(),
             '',

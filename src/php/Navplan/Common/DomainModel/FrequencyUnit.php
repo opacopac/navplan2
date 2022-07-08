@@ -3,7 +3,7 @@
 namespace Navplan\Common\DomainModel;
 
 
-enum AngleUnit: string {
-    case DEG = "DEG";
-    case RAD = "RAD";
+enum FrequencyUnit: string {
+    case KHZ = "KHZ";
+    case MHZ = "MHZ";
 }

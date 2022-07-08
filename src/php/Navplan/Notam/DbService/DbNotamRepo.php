@@ -5,7 +5,7 @@ namespace Navplan\Notam\DbService;
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\Common\GeoHelper;
-use Navplan\Notam\DbModel\NotamConverter;
+use Navplan\Notam\DbModel\DbNotamConverter;
 use Navplan\Notam\DomainModel\Notam;
 use Navplan\Notam\DomainService\INotamRepo;
 use Navplan\System\DomainModel\IDbResult;
@@ -113,7 +113,7 @@ class DbNotamRepo implements INotamRepo {
     private function readNotamFromResultList(IDbResult $result): array {
         $notams = [];
         while ($row = $result->fetch_assoc()) {
-            $notam = NotamConverter::fromDbRow($row);
+            $notam = DbNotamConverter::fromDbRow($row);
 
             // filter by max FL195
             /*if ($notam->geometry && $notam->geometry["bottom"] >= NOTAM_MAX_BOTTOM_FL)

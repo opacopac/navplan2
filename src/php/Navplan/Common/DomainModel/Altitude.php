@@ -11,14 +11,8 @@ class Altitude {
 
     public function __construct(
         public float $value,
-        /**
-         * @var AltitudeUnit
-         */
-        public int $unit,
-        /**
-         * @var AltitudeReference
-         */
-        public int $reference
+        public AltitudeUnit $unit,
+        public AltitudeReference $reference
     ) {
         if ($this->unit === AltitudeUnit::FL && $this->reference !== AltitudeReference::STD) {
             throw new InvalidArgumentException('unit FL requires reference STD');
@@ -74,14 +68,14 @@ class Altitude {
         $unit = match ($this->unit) {
             AltitudeUnit::M => LengthUnit::M,
             AltitudeUnit::FT, AltitudeUnit::FL => LengthUnit::FT,
-            default => throw new InvalidArgumentException('AltitudeUnit ' . $this->unit . ' not supported!'),
+            default => throw new InvalidArgumentException('AltitudeUnit ' . $this->unit->value . ' not supported!'),
         };
 
         return match ($this->reference) {
             AltitudeReference::MSL => new Length($this->value, $unit),
             AltitudeReference::GND => new Length($this->value + $terrainElevation->getValue($unit), $unit),
             AltitudeReference::STD => new Length($this->value * self::FL_TO_FT_FACTOR, $unit),
-            default => throw new InvalidArgumentException('AltitudeReference ' . $this->reference . ' not supported!'),
+            default => throw new InvalidArgumentException('AltitudeReference ' . $this->reference->value . ' not supported!'),
         };
     }
 }

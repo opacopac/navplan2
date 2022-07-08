@@ -29,13 +29,13 @@ class DbAirspaceConverter {
             $row["name"],
             new Altitude(
                 intval($row["alt_bottom_height"]),
-                AltitudeUnit::fromString($row["alt_bottom_unit"]),
-                AltitudeReference::fromString($row["alt_bottom_reference"])
+                AltitudeUnit::from($row["alt_bottom_unit"] === "F" ? "FT" : $row["alt_bottom_unit"]),
+                AltitudeReference::from($row["alt_bottom_reference"])
             ),
             new Altitude(
                 intval($row["alt_top_height"]),
-                AltitudeUnit::fromString($row["alt_top_unit"]),
-                AltitudeReference::fromString($row["alt_top_reference"])
+                AltitudeUnit::from($row["alt_top_unit"] === "F" ? "FT" : $row["alt_top_unit"]),
+                AltitudeReference::from($row["alt_top_reference"])
             ),
             isset($row["polygon"]) ? Ring2d::createFromString($row["polygon"]) : NULL
         );

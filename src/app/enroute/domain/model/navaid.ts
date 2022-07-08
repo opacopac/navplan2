@@ -1,7 +1,8 @@
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
 import {DataItem, DataItemType} from '../../../common/model/data-item';
-import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {NavaidType} from './navaid-type';
+import {Frequency} from '../../../geo-physics/domain/model/quantities/frequency';
+import {Altitude} from '../../../geo-physics/domain/model/geometry/altitude';
 
 
 export class Navaid extends DataItem {
@@ -11,12 +12,11 @@ export class Navaid extends DataItem {
         public kuerzel: string,
         public name: string,
         public position: Position2d,
-        public elevation: Length,
-        public frequency: string,
-        public unit: string,
+        public elevation: Altitude,
+        public frequency: Frequency,
         public declination: number,
-        public truenorth: boolean) {
-
+        public truenorth: boolean
+    ) {
         super();
     }
 

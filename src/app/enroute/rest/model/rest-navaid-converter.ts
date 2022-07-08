@@ -1,8 +1,9 @@
 import {Navaid} from '../../domain/model/navaid';
 import {IRestNavaid} from './i-rest-navaid';
 import {Position2dConverter} from '../../../geo-physics/rest/model/position2d-converter';
-import {RestLengthConverter} from '../../../geo-physics/rest/model/rest-length-converter';
 import {NavaidType} from '../../domain/model/navaid-type';
+import {RestAltitudeConverter} from '../../../geo-physics/rest/model/rest-altitude-converter';
+import {RestFrequencyConverter} from '../../../geo-physics/rest/model/rest-frequency-converter';
 
 
 export class RestNavaidConverter {
@@ -13,11 +14,11 @@ export class RestNavaidConverter {
             restItem.kuerzel,
             restItem.name,
             Position2dConverter.fromRest(restItem.pos),
-            RestLengthConverter.fromRest(restItem.elevation),
-            restItem.frequency,
-            restItem.unit,
+            RestAltitudeConverter.fromRest(restItem.elevation),
+            RestFrequencyConverter.fromRest(restItem.frequency),
             restItem.declination,
-            restItem.truenorth);
+            restItem.truenorth
+        );
     }
 
 

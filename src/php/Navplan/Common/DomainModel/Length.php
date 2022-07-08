@@ -34,8 +34,8 @@ class Length {
 
     public static function convert(
         float $value,
-        int $sourceUnit,
-        int $targetUnit
+        LengthUnit $sourceUnit,
+        LengthUnit $targetUnit
     ): float {
         if ($sourceUnit === $targetUnit) {
             return $value;
@@ -46,33 +46,33 @@ class Length {
                 switch ($targetUnit) {
                     case LengthUnit::FT: return $value * self::FT_PER_NM;
                     case LengthUnit::M: return $value * self::M_PER_NM;
-                    default: throw new InvalidArgumentException('unknown target unit "' . $targetUnit);
+                    default: throw new InvalidArgumentException('unknown target unit "' . $targetUnit->value);
                 }
             case LengthUnit::FT:
                 switch ($targetUnit) {
                     case LengthUnit::NM: return $value / self::FT_PER_NM;
                     case LengthUnit::M: return $value / self::FT_PER_M;
-                    default: throw new InvalidArgumentException('unknown target unit "' . $targetUnit);
+                    default: throw new InvalidArgumentException('unknown target unit "' . $targetUnit->value);
                 }
             case LengthUnit::M:
                 switch ($targetUnit) {
                     case LengthUnit::NM: return $value / self::M_PER_NM;
                     case LengthUnit::FT: return $value * self::FT_PER_M;
-                    default: throw new InvalidArgumentException('unknown target unit "' . $targetUnit);
+                    default: throw new InvalidArgumentException('unknown target unit "' . $targetUnit->value);
                 }
-            default: throw new InvalidArgumentException('unknown source unit "' . $targetUnit);
+            default: throw new InvalidArgumentException('unknown source unit "' . $targetUnit->value);
         }
     }
 
 
     public function __construct(
         public float $value,
-        public int $unit
+        public LengthUnit $unit
     ) {
     }
 
 
-    public function getValue(int $unit): float {
+    public function getValue(LengthUnit $unit): float {
         return self::convert($this->value, $this->unit, $unit);
     }
 

@@ -15,7 +15,7 @@ use Navplan\Common\DomainModel\Ring2d;
 use Navplan\Notam\DomainModel\NotamGeometry;
 
 
-class NotamGeometryConverter {
+class DbNotamGeometryConverter {
     public static function fromDbRow(array $row): ?NotamGeometry {
         if (!isset($row["geometry"])) {
             return NULL;

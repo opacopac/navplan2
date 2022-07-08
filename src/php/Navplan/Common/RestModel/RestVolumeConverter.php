@@ -11,7 +11,7 @@ class RestVolumeConverter {
     public static function toRest(Volume $volume): array {
         return [
             $volume->value,
-            VolumeUnit::toString($volume->unit)
+            $volume->unit->value
         ];
     }
 
@@ -19,7 +19,7 @@ class RestVolumeConverter {
     public static function fromRest(array $args): Volume {
         return new Volume(
             StringNumberHelper::parseFloatOrError($args, 0),
-            VolumeUnit::fromString(StringNumberHelper::parseStringOrError($args, 1)),
+            VolumeUnit::from(StringNumberHelper::parseStringOrError($args, 1)),
         );
     }
 }

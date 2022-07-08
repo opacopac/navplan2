@@ -18,8 +18,8 @@ class Angle {
 
     public static function convert(
         float $value,
-        int $sourceUnit,
-        int $targetUnit
+        AngleUnit $sourceUnit,
+        AngleUnit $targetUnit
     ): float {
         if ($sourceUnit === $targetUnit) {
             return $value;
@@ -29,26 +29,26 @@ class Angle {
             case AngleUnit::DEG:
                 switch ($targetUnit) {
                     case AngleUnit::RAD: return $value / 180 * pi();
-                    default: throw new InvalidArgumentException('unknown target unit ' . $targetUnit);
+                    default: throw new InvalidArgumentException('unknown target unit ' . $targetUnit->value);
                 }
             case AngleUnit::RAD:
                 switch ($targetUnit) {
                     case AngleUnit::DEG: return $value / pi() * 180;
-                    default: throw new InvalidArgumentException('unknown target unit ' . $targetUnit);
+                    default: throw new InvalidArgumentException('unknown target unit ' . $targetUnit->value);
                 }
-            default: throw new InvalidArgumentException('unknown source unit ' . $targetUnit);
+            default: throw new InvalidArgumentException('unknown source unit ' . $targetUnit->value);
         }
     }
 
 
     public function __construct(
         public float $value,
-        public int $unit
+        public AngleUnit $unit
     ) {
     }
 
 
-    public function getValue(int $unit): float {
+    public function getValue(AngleUnit $unit): float {
         return self::convert($this->value, $this->unit, $unit);
     }
 

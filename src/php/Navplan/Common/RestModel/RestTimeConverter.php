@@ -11,7 +11,7 @@ class RestTimeConverter {
     public static function toRest(Time $time): array {
         return [
             $time->value,
-            TimeUnit::toString($time->unit)
+            $time->unit->value
         ];
     }
 
@@ -19,7 +19,7 @@ class RestTimeConverter {
     public static function fromRest(array $args): Time {
         return new Time(
             StringNumberHelper::parseFloatOrError($args, 0),
-            TimeUnit::fromString(StringNumberHelper::parseStringOrError($args, 1)),
+            TimeUnit::from(StringNumberHelper::parseStringOrError($args, 1)),
         );
     }
 }

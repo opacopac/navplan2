@@ -6,6 +6,7 @@ use Exception;
 use mysqli;
 use Navplan\System\DomainModel\DbException;
 use Navplan\System\DomainModel\IDbResult;
+use Navplan\System\DomainModel\IDbStatement;
 use Navplan\System\DomainService\IDbService;
 
 
@@ -175,6 +176,40 @@ class MySqlDbService implements IDbService {
         }
 
         return intval($this->connection->insert_id);
+    }
+
+
+    /**
+     * @param string $query
+     * @return IDbStatement
+     * @throws DbException
+     */
+    public function prepareStatement(string $query): IDbStatement {
+        $this->autoOpen();
+
+        $stmt = $this->connection->prepare($query);
+        if ($stmt !== false) {
+            return new MySqlDbStatement($stmt);
+        } else {
+            throw new DbException("error: could not prepare statment", "", $query);
+        }
+    }
+
+
+    public function begin_transaction(): bool {
+        $this->autoOpen();
+
+        return $this->connection->begin_transaction();
+    }
+
+
+    public function commit(): bool {
+        return $this->connection->commit();
+    }
+
+
+    public function rollback(): bool {
+        return $this->connection->rollback();
     }
 
 

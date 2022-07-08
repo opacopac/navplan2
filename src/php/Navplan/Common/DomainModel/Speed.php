@@ -8,24 +8,15 @@ use InvalidArgumentException;
 class Speed {
     public function __construct(
         public float $value,
-        /**
-         * @var SpeedUnit
-         */
-        public int $unit,
+        public SpeedUnit $unit,
     ) {
     }
 
 
     private static function convertSpeed(
         float $value,
-        /**
-         * @var SpeedUnit
-         */
-        int $unit,
-        /**
-         * @var SpeedUnit
-         */
-        int $convertToUnit
+        SpeedUnit $unit,
+        SpeedUnit $convertToUnit
     ): float {
         if ($unit === $convertToUnit) {
             return $value;
@@ -35,19 +26,19 @@ class Speed {
             SpeedUnit::KT => match ($convertToUnit) {
                 SpeedUnit::KMH => $value * (Length::M_PER_NM / 1000),
                 SpeedUnit::MPS => $value / (3600 / Length::M_PER_NM),
-                default => throw new InvalidArgumentException("unknown speed unit: " . $convertToUnit),
+                default => throw new InvalidArgumentException("unknown speed unit: " . $convertToUnit->value),
             },
             SpeedUnit::KMH => match ($convertToUnit) {
                 SpeedUnit::KT => $value / (Length::M_PER_NM / 1000),
                 SpeedUnit::MPS => $value * 3.6,
-                default => throw new InvalidArgumentException("unknown speed unit: " . $convertToUnit),
+                default => throw new InvalidArgumentException("unknown speed unit: " . $convertToUnit->value),
             },
             SpeedUnit::MPS => match ($convertToUnit) {
                 SpeedUnit::KT => $value * (3600 / Length::M_PER_NM),
                 SpeedUnit::KMH => $value / 3.6,
-                default => throw new InvalidArgumentException("unknown speed unit: " . $convertToUnit),
+                default => throw new InvalidArgumentException("unknown speed unit: " . $convertToUnit->value),
             },
-            default => throw new InvalidArgumentException("unknown speed unit: " . $unit),
+            default => throw new InvalidArgumentException("unknown speed unit: " . $unit->value),
         };
     }
 
@@ -67,12 +58,7 @@ class Speed {
     }
 
 
-    public function getValue(
-        /**
-         * @var SpeedUnit
-         */
-        int $asUnit
-    ): float {
+    public function getValue(SpeedUnit $asUnit): float {
         return Speed::convertSpeed($this->value, $this->unit, $asUnit);
     }
 }

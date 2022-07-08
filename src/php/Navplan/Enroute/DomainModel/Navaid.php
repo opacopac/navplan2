@@ -2,22 +2,22 @@
 
 namespace Navplan\Enroute\DomainModel;
 
-use Navplan\Common\DomainModel\Length;
+use Navplan\Common\DomainModel\Altitude;
+use Navplan\Common\DomainModel\Frequency;
 use Navplan\Common\DomainModel\Position2d;
 
 
 class Navaid {
     public function __construct(
         public int $id,
-        public string $type,
+        public NavaidType $type,
         public string $kuerzel,
         public string $name,
         public Position2d $position,
-        public Length $elevation,
-        public string $frequency,
-        public string $unit,
+        public Altitude $elevation,
+        public Frequency $frequency,
         public float $declination,
-        public bool $truenorth
+        public bool $isTrueNorth
     ) {
     }
 }

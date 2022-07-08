@@ -2,15 +2,13 @@
 
 namespace Navplan\Enroute\RestModel;
 
-use Navplan\Common\RestModel\RestLengthConverter;
+use Navplan\Common\RestModel\RestAltitudeConverter;
+use Navplan\Common\RestModel\RestFrequencyConverter;
 use Navplan\Common\RestModel\RestPosition2dConverter;
 use Navplan\Enroute\DomainModel\Navaid;
 
 
 class RestNavaidConverter {
-    public const ROUND_DIGITS_POS = 6;
-
-
     public static function toRest(Navaid $navaid): array {
         return array(
             "id" => $navaid->id,
@@ -18,11 +16,10 @@ class RestNavaidConverter {
             "kuerzel" => $navaid->kuerzel,
             "name" => $navaid->name,
             "pos" => RestPosition2dConverter::toRest($navaid->position),
-            "elevation" => RestLengthConverter::toRest($navaid->elevation),
-            "frequency" => $navaid->frequency,
-            "unit" => $navaid->unit,
+            "elevation" => RestAltitudeConverter::toRest($navaid->elevation),
+            "frequency" => RestFrequencyConverter::toRest($navaid->frequency),
             "declination" => $navaid->declination,
-            "truenorth" => $navaid->truenorth,
+            "truenorth" => $navaid->isTrueNorth,
         );
     }
 

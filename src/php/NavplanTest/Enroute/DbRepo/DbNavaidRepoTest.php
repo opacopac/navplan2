@@ -76,7 +76,7 @@ class DbNavaidRepoTest extends TestCase {
         $this->getDbService()->pushMockResult([$navaidDbResult]);
         $this->getDbRepo()->searchByText("FR'I", 20);
 
-        $this->assertRegExp("/FR\\\\'I/", $this->getDbService()->getAllQueriesString());
-        $this->assertNotRegExp("/FR'I/", $this->getDbService()->getAllQueriesString());
+        $this->assertMatchesRegularExpression("/FR\\\\'I/", $this->getDbService()->getAllQueriesString());
+        $this->assertDoesNotMatchRegularExpression("/FR'I/", $this->getDbService()->getAllQueriesString());
     }
 }

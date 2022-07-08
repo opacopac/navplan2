@@ -1,5 +1,5 @@
 <p>{{ this.getPositionString() }}</p>
 <p>Variation: {{ this.getVariationString() }}</p>
 <p>Elevation: {{ this.getElevationString() }}</p>
-<p>Frequency: {{ this.navaid.frequency }} {{ this.navaid.unit }}</p>
+<p>Frequency: {{ this.navaid.frequency.getValueString() }} {{ this.navaid.frequency.getUnitString() }}</p>
 <p>Morse: <span [innerHtml]="this.getMorseString()"></span></p>

@@ -3,7 +3,6 @@
 namespace Navplan\Common\RestModel;
 
 use Navplan\Common\DomainModel\Angle;
-use Navplan\Common\DomainModel\AngleUnit;
 
 
 class RestAngleConverter {
@@ -14,7 +13,7 @@ class RestAngleConverter {
 
         return [
             $angle->value,
-            AngleUnit::toString($angle->unit)
+            $angle->unit->value
         ];
     }
 }

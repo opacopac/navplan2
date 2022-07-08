@@ -3,6 +3,7 @@
 namespace Navplan\System\DomainService;
 
 use Navplan\System\DomainModel\IDbResult;
+use Navplan\System\DomainModel\IDbStatement;
 
 
 interface IDbService {
@@ -25,4 +26,12 @@ interface IDbService {
     function execCUDQuery(string $query, string $errorMessage): bool;
 
     function getInsertId(): int;
+
+    function prepareStatement(string $query): IDbStatement;
+
+    function begin_transaction(): bool;
+
+    function commit(): bool;
+
+    function rollback(): bool;
 }

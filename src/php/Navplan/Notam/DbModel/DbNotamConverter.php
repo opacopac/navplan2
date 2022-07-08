@@ -6,7 +6,7 @@ use Navplan\Common\StringNumberHelper;
 use Navplan\Notam\DomainModel\Notam;
 
 
-class NotamConverter {
+class DbNotamConverter {
     public static function fromDbRow(array $row): Notam {
         $notam = json_decode($row["notam"], true);
 
@@ -32,7 +32,7 @@ class NotamConverter {
             $notam["Created"],
             $notam["key"],
             $notam["type"],
-            NotamGeometryConverter::fromDbRow($row)
+            DbNotamGeometryConverter::fromDbRow($row)
         );
     }
 }

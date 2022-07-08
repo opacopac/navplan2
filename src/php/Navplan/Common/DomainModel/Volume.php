@@ -11,24 +11,15 @@ class Volume {
 
     public function __construct(
         public float $value,
-        /**
-         * @var VolumeUnit
-         */
-        public int $unit,
+        public VolumeUnit $unit,
     ) {
     }
 
 
     private static function convertVolume(
         float $value,
-        /**
-         * @var VolumeUnit
-         */
-        int $unit,
-        /**
-         * @var VolumeUnit
-         */
-        int $convertToUnit
+        VolumeUnit $unit,
+        VolumeUnit $convertToUnit
     ): float {
         if ($unit === $convertToUnit) {
             return $value;
@@ -37,13 +28,13 @@ class Volume {
         return match ($unit) {
             VolumeUnit::L => match ($convertToUnit) {
                 VolumeUnit::GAL => $value / Volume::L_PER_GAL,
-                default => throw new InvalidArgumentException("unknown volume unit: " . $convertToUnit),
+                default => throw new InvalidArgumentException("unknown volume unit: " . $convertToUnit->value),
             },
             VolumeUnit::GAL => match ($convertToUnit) {
                 VolumeUnit::L => $value * Volume::L_PER_GAL,
-                default => throw new InvalidArgumentException("unknown volume unit: " . $convertToUnit),
+                default => throw new InvalidArgumentException("unknown volume unit: " . $convertToUnit->value),
             },
-            default => throw new InvalidArgumentException("unknown volume unit: " . $unit),
+            default => throw new InvalidArgumentException("unknown volume unit: " . $unit->value),
         };
     }
 
@@ -58,12 +49,7 @@ class Volume {
     }
 
 
-    public function getValue(
-        /**
-         * @var VolumeUnit
-         */
-        int $asUnit
-    ): float {
+    public function getValue(VolumeUnit $asUnit): float {
         return Volume::convertVolume($this->value, $this->unit, $asUnit);
     }
 }

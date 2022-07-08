@@ -66,6 +66,23 @@ class DbNavaidRepo implements INavaidRepo {
     }
 
 
+    public function insert(array $navaids): void {
+        $statement = DbNavaidConverter::prepareInsertStatement($this->dbService);
+
+        foreach ($navaids as $navaid) {
+            DbNavaidConverter::bindInsertStatement($navaid, $statement);
+            $statement->execute();
+        }
+    }
+
+
+    public function deleteAll(): bool {
+        $query = "TRUNCATE TABLE " . DbNavaidConverter::TABLE_NAME;
+
+        return $this->dbService->execCUDQuery($query);
+    }
+
+
     private function readNavaidFromResultList(IDbResult $result): array {
         $navaids = [];
         while ($row = $result->fetch_assoc()) {

@@ -34,7 +34,7 @@ export class OlOverlayNavaidInfoTabComponent implements OnInit {
 
 
     public getElevationString(): string {
-        return StringnumberHelper.getLengthString(this.navaid.elevation, LengthUnit.FT); // TODO
+        return StringnumberHelper.getLengthString(this.navaid.elevation.getHeightAmsl(), LengthUnit.FT); // TODO
     }
 
 
