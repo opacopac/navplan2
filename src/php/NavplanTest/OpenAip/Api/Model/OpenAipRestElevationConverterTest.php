@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\DataImport\OpenAip\RestModel;
+namespace NavplanTest\OpenAip\Api\Model;
 
 use Navplan\Common\DomainModel\AltitudeReference;
 use Navplan\Common\DomainModel\AltitudeUnit;
-use Navplan\DataImport\OpenAip\RestModel\OpenAipRestElevationConverter;
+use Navplan\OpenAip\Api\Model\OpenAipApiElevationConverter;
 use PHPUnit\Framework\TestCase;
 
 
@@ -17,7 +17,7 @@ class OpenAipRestElevationConverterTest extends TestCase {
         }', true, JSON_NUMERIC_CHECK);
 
 
-        $elevation = OpenAipRestElevationConverter::fromRest($restStr);
+        $elevation = OpenAipApiElevationConverter::fromRest($restStr);
 
         $this->assertEquals(3276, $elevation->value);
         $this->assertEquals(AltitudeUnit::M, $elevation->unit);

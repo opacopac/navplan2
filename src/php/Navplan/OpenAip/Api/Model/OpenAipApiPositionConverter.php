@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\DataImport\OpenAip\RestModel;
+namespace Navplan\OpenAip\Api\Model;
 
 use Navplan\Common\DomainModel\Position2d;
 
 
-class OpenAipRestPositionConverter {
+class OpenAipApiPositionConverter {
     public static function fromRestCoordinates(array $restCoordinates): Position2d {
         return new Position2d(
             $restCoordinates[0],

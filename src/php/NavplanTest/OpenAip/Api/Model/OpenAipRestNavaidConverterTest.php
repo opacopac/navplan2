@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\DataImport\OpenAip\RestModel;
+namespace NavplanTest\OpenAip\Api\Model;
 
 use Navplan\Common\DomainModel\AltitudeReference;
 use Navplan\Common\DomainModel\AltitudeUnit;
 use Navplan\Common\DomainModel\FrequencyUnit;
 use Navplan\Common\DomainModel\Position2d;
-use Navplan\DataImport\OpenAip\RestModel\OpenAipRestNavaidConverter;
 use Navplan\Enroute\DomainModel\NavaidType;
+use Navplan\OpenAip\Api\Model\OpenAipApiNavaidConverter;
 use PHPUnit\Framework\TestCase;
 
 
@@ -51,7 +51,7 @@ class OpenAipRestNavaidConverterTest extends TestCase {
         }', true, JSON_NUMERIC_CHECK);
 
 
-        $navaid = OpenAipRestNavaidConverter::fromRest($restStr);
+        $navaid = OpenAipApiNavaidConverter::fromRest($restStr);
 
         $this->assertEquals(-1, $navaid->id);
         $this->assertEquals(NavaidType::DME, $navaid->type);

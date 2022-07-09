@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\DataImport\OpenAip\RestModel;
+namespace Navplan\OpenAip\Api\Model;
 
 use Navplan\Common\DomainModel\Frequency;
 
 
-class OpenAipRestFrequencyConverter {
+class OpenAipApiFrequencyConverter {
     public static function fromRest(array $restFrequency): Frequency {
         return new Frequency(
             floatval($restFrequency["value"]),
-            OpenAipRestFrequencyUnitConverter::fromRest($restFrequency["unit"])
+            OpenAipApiFrequencyUnitConverter::fromRest($restFrequency["unit"])
         );
     }
 }

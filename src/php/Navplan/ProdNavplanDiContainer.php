@@ -4,6 +4,9 @@ namespace Navplan;
 
 require_once __DIR__ . "/../config.php";
 
+use Navplan\Admin\Domain\Service\AdminServiceImpl;
+use Navplan\Admin\Domain\Service\IAdminService;
+use Navplan\Admin\Domain\Service\IAdminServiceDiContainer;
 use Navplan\Aerodrome\DbRepo\DbAirportChartRepo;
 use Navplan\Aerodrome\DbRepo\DbAirportCircuitRepo;
 use Navplan\Aerodrome\DbRepo\DbAirportRepo;
@@ -19,6 +22,8 @@ use Navplan\ChartConverter\DbService\DbImportAdChartPersistence;
 use Navplan\ChartConverter\DomainService\IImportAdChartPersistence;
 use Navplan\ChartConverter\DomainService\IImportAdChartService;
 use Navplan\ChartConverter\DomainService\ImportAdChartService;
+use Navplan\Config\Domain\Service\IConfigService;
+use Navplan\Config\IniFile\Service\IniFileConfigService;
 use Navplan\Enroute\DbService\DbAirspaceRepo;
 use Navplan\Enroute\DbService\DbNavaidRepo;
 use Navplan\Enroute\DomainService\IAirspaceService;
@@ -51,6 +56,8 @@ use Navplan\Notam\DbService\DbNotamRepo;
 use Navplan\Notam\DomainService\INotamRepo;
 use Navplan\Notam\DomainService\INotamService;
 use Navplan\Notam\RestService\INotamServiceDiContainer;
+use Navplan\OpenAip\Api\Service\OpenAipApiImporter;
+use Navplan\OpenAip\Domain\Service\IOpenAipImporter;
 use Navplan\Search\DomainService\ISearchService;
 use Navplan\Search\DomainService\SearchService;
 use Navplan\Search\RestService\ISearchServiceDiContainer;
@@ -132,9 +139,10 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     ITerrainDiContainer, ITrafficServiceDiContainer, IUserServiceDiContainer, IAirportServiceDiContainer,
     IAirspaceServiceDiContainer, INavaidServiceDiContainer, IWebcamServiceDiContainer, IVerticalMapDiContainer,
     IExporterServiceDiContainer, ITrackServiceDiContainer, IIcaoChartChConverterDiContainer, IAdChartImporterDiContainer,
-    IMeteoDwdServiceDiContainer
+    IMeteoDwdServiceDiContainer, IAdminServiceDiContainer
 {
     // const
+    public const CONFIG_FILE = __DIR__ . "/../config/navplan_prod.ini";
     public const DATA_IMPORT_DIR = __DIR__ . "/../../../data_import/"; // TODO
     public const MAP_TILES_DIR = __DIR__ . "/../../../maptiles/"; // TODO
     public const AD_CHARTS_DIR = __DIR__ . "/../../../adcharts/"; // TODO
@@ -149,23 +157,28 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     //private const METEO_DWD_BASE_DIR = __DIR__ . "/../../../meteo_dwd/"; // TODO
     private const METEO_DWD_BASE_DIR = __DIR__ . "/../../meteo_dwd/"; // TODO
 
+    // config
+    private IConfigService $configService;
+    // admin
+    private IAdminService $adminService;
     // airport
     private IAirportService $airportService;
     private IAirportChartService $airportChartService;
     private IAirportCircuitService $airportCircuitService;
     private IReportingPointService $reportingPointService;
-    // airspace
+    // en route
     private IAirspaceService $airspaceService;
+    private INavaidService $navaidService;
     // flightroute
     private IFlightrouteService $flightrouteService;
     // geoname
     private IGeonameService $geonameService;
     // meteo sma
     private IMeteoSmaService $meteoService;
-    // navaid
-    private INavaidService $navaidService;
     // notam
     private INotamRepo $notamService;
+    // open aip
+    private IOpenAipImporter $openAipImporter;
     // search
     private ISearchService $searchService;
     // system & db
@@ -221,6 +234,34 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     }
 
 
+    // region config
+
+    public function getConfigService(): IConfigService {
+        if (!isset($this->configService)) {
+            $this->configService = new IniFileConfigService(self::CONFIG_FILE);
+        }
+
+        return $this->configService;
+    }
+
+    // endregion
+
+
+    // region admin
+
+    public function getAdminService(): IAdminService {
+        if (!isset($this->adminService)) {
+            $this->adminService = new AdminServiceImpl(
+                $this->getOpenAipImporter()
+            );
+        }
+
+        return $this->adminService;
+    }
+
+    // endregion
+
+
     // region airport
 
     public function getAirportService(): IAirportService {
@@ -264,7 +305,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     // endregion
 
 
-    // region open aip
+    // region en route
 
     public function getAirspaceService(): IAirspaceService {
         if (!isset($this->airspaceService)) {
@@ -274,11 +315,19 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
         return $this->airspaceService;
     }
 
+
+    public function getNavaidService(): INavaidService {
+        if (!isset($this->navaidService)) {
+            $this->navaidService = new DbNavaidRepo($this->getDbService());
+        }
+
+        return $this->navaidService;
+    }
+
     // endregion
 
 
     // region flightroute
-
 
     public function getFLightrouteService(): IFlightrouteService {
         if (!isset($this->flightrouteService)) {
@@ -327,19 +376,6 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     // endregion
 
 
-    // region navaid
-
-    public function getNavaidService(): INavaidService {
-        if (!isset($this->navaidService)) {
-            $this->navaidService = new DbNavaidRepo($this->getDbService());
-        }
-
-        return $this->navaidService;
-    }
-
-    // endregion
-
-
     // region notam
 
     public function getNotamService(): INotamService {
@@ -348,6 +384,19 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
         }
 
         return $this->notamService;
+    }
+
+    // endregion
+
+
+    // region open aip
+
+    public function getOpenAipImporter(): IOpenAipImporter {
+        if (!isset($this->openAipImporter)) {
+            $this->openAipImporter = new OpenAipApiImporter($this->getConfigService());
+        }
+
+        return $this->openAipImporter;
     }
 
     // endregion
