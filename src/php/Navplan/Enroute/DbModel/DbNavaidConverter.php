@@ -8,11 +8,11 @@ use Navplan\Common\DomainModel\AltitudeReference;
 use Navplan\Common\DomainModel\AltitudeUnit;
 use Navplan\Common\DomainModel\Frequency;
 use Navplan\Common\DomainModel\FrequencyUnit;
+use Navplan\Common\GeoHelper;
 use Navplan\Enroute\DomainModel\Navaid;
 use Navplan\Enroute\DomainModel\NavaidType;
 use Navplan\System\DomainModel\IDbStatement;
 use Navplan\System\DomainService\IDbService;
-use Navplan\System\MySqlDb\DbHelper;
 
 
 class DbNavaidConverter {
@@ -27,6 +27,8 @@ class DbNavaidConverter {
     public const COL_FREQUENCY = "frequency";
     public const COL_DECLINATION = "declination";
     public const COL_TRUENORTH = "truenorth";
+    public const COL_GEOHASH = "geohash";
+    public const COL_LONLAT = "lonlat";
 
 
     public static function fromDbRow(array $row): Navaid {
@@ -45,8 +47,7 @@ class DbNavaidConverter {
 
 
     public static function prepareInsertStatement(IDbService $dbService): IDbStatement {
-        $query = DbHelper::getPreparedInsertStatementQuery(
-            self::TABLE_NAME,
+        $query = "INSERT INTO " . self::TABLE_NAME . " (" . join(", ", [
             self::COL_TYPE,
             self::COL_KUERZEL,
             self::COL_NAME,
@@ -55,17 +56,22 @@ class DbNavaidConverter {
             self::COL_ELEVATION,
             self::COL_FREQUENCY,
             self::COL_DECLINATION,
-            self::COL_TRUENORTH
-        );
+            self::COL_TRUENORTH,
+            self::COL_GEOHASH,
+            self::COL_LONLAT
+        ]) . ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ST_GeomFromText(?))";
 
         return $dbService->prepareStatement($query);
     }
 
 
     public static function bindInsertStatement(Navaid $navaid, IDbStatement $insertStatement) {
+        $type = $navaid->type->value;
         $elevation = $navaid->elevation->getHeightAmsl()->getM();
-        $insertStatement->bind_param("sssdddsdi",
-            $navaid->type,
+        $geoHash = GeoHelper::calcGeoHash($navaid->position->longitude, $navaid->position->latitude, 14); // TODO
+        $lonlat = "POINT(" . $navaid->position->longitude . " " . $navaid->position->latitude . ")";
+        $insertStatement->bind_param("sssdddsdiss",
+            $type,
             $navaid->kuerzel,
             $navaid->name,
             $navaid->position->longitude,
@@ -73,7 +79,9 @@ class DbNavaidConverter {
             $elevation,
             $navaid->frequency->value,
             $navaid->declination,
-            $navaid->isTrueNorth
+            $navaid->isTrueNorth,
+            $geoHash,
+            $lonlat
         );
     }
 }

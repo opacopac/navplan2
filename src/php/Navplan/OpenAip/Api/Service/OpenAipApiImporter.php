@@ -2,22 +2,27 @@
 
 namespace Navplan\OpenAip\Api\Service;
 
+use Exception;
+use Navplan\Enroute\DomainService\INavaidService;
 use Navplan\OpenAip\Api\Model\OpenAipApiNavaidResponseConverter;
 use Navplan\OpenAip\Api\Model\OpenAipNavaidResponse;
 use Navplan\OpenAip\Domain\Model\NavaidImportResult;
 use Navplan\OpenAip\Domain\Service\IOpenAipConfigService;
 use Navplan\OpenAip\Domain\Service\IOpenAipImporter;
+use Navplan\System\DomainService\IDbService;
 
 
 class OpenAipApiImporter implements IOpenAipImporter {
     private const CLIENT_ID_HEADER = 'x-openaip-client-id';
     private const OPEN_AIP_BASE_URL = 'https://api.core.openaip.net/api/';
     private const NAVAIDS_URL_SUFFIX = 'navaids';
-    private const MAX_RESULTS_PER_PAGE = 10;
+    private const MAX_RESULTS_PER_PAGE = 1000;
 
 
     public function __construct(
-        private IOpenAipConfigService $openAipConfigService
+        private IOpenAipConfigService $openAipConfigService,
+        private IDbService $dbService,
+        private INavaidService $navaidService
     ) {
     }
 
@@ -25,17 +30,33 @@ class OpenAipApiImporter implements IOpenAipImporter {
     public function importNavaids(): NavaidImportResult {
         $context = $this->getHttpContext();
 
-        $page = 0;
-        do {
-            $url = $this->getNavaidUrl($page);
-            $response = $this->readNavaidResponse($url, $context);
-            // TODO save
-            var_dump($response->items);
-            $page = $response->nextPage;
-        } while ($page >= 0 && $page < 3); // TODO
+        $navaidCount = 0;
+        try {
+            $this->dbService->begin_transaction();
 
+            // delete existing navaids from db
+            $this->navaidService->deleteAll();
 
-        return new NavaidImportResult(); // TODO
+            $page = 1;
+            do {
+                // load navaids from open aip
+                $url = $this->getNavaidUrl($page);
+                $response = $this->readNavaidResponse($url, $context);
+                $navaidCount += count($response->items);
+
+                // save navaids to db
+                $this->navaidService->insert($response->items);
+                $page = $response->nextPage;
+            } while ($page >= 1);
+
+            $this->dbService->commit();
+        } catch (Exception $exception) {
+            $this->dbService->rollback();
+
+            throw $exception;
+        }
+
+        return new NavaidImportResult(true, $navaidCount);
     }
 
 

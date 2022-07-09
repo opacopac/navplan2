@@ -8,7 +8,8 @@ use Navplan\OpenAip\Domain\Model\NavaidImportResult;
 class RestNavaidImportResultConverter {
     public static function toRest(NavaidImportResult $navaidImportResult): array {
         return array(
-            "TODO" => "TODO"
+            "success" => $navaidImportResult->isSuccess,
+            "insertCount" => $navaidImportResult->insertCount
         );
     }
 }

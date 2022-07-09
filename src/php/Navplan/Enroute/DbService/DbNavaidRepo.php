@@ -33,7 +33,7 @@ class DbNavaidRepo implements INavaidRepo {
 
     public function searchByPosition(Position2d $position, float $maxRadius_deg, int $maxResults): array {
         $query = "SELECT *";
-        $query .= " FROM openaip_navaids";
+        $query .= " FROM openaip_navaids2";
         $query .= " WHERE";
         $query .= "  latitude > " . ($position->latitude - $maxRadius_deg);
         $query .= "  AND latitude < " . ($position->latitude + $maxRadius_deg);
@@ -53,7 +53,7 @@ class DbNavaidRepo implements INavaidRepo {
     public function searchByText(string $searchText, int $maxResults): array {
         $searchText = $this->dbService->escapeString($searchText);
         $query = "SELECT *";
-        $query .= " FROM openaip_navaids";
+        $query .= " FROM openaip_navaids2";
         $query .= " WHERE";
         $query .= "   kuerzel LIKE '" . $searchText . "%'";
         $query .= "   OR name LIKE '" . $searchText . "%'";

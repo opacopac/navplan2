@@ -4,6 +4,9 @@ namespace Navplan\OpenAip\Domain\Model;
 
 
 class NavaidImportResult {
-    public function __construct() {
+    public function __construct(
+        public bool $isSuccess,
+        public int $insertCount
+    ) {
     }
 }

@@ -393,7 +393,11 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
 
     public function getOpenAipImporter(): IOpenAipImporter {
         if (!isset($this->openAipImporter)) {
-            $this->openAipImporter = new OpenAipApiImporter($this->getConfigService());
+            $this->openAipImporter = new OpenAipApiImporter(
+                $this->getConfigService(),
+                $this->getDbService(),
+                $this->getNavaidService(),
+            );
         }
 
         return $this->openAipImporter;
