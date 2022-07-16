@@ -10,13 +10,10 @@ export class RestAirportRunwayConverter {
             restItem.surface,
             restItem.length ? RestLengthConverter.fromRest(restItem.length) : undefined,
             restItem.width ? RestLengthConverter.fromRest(restItem.width) : undefined,
-            restItem.direction1,
-            restItem.direction2,
-            restItem.tora1 ? RestLengthConverter.fromRest(restItem.tora1) : undefined,
-            restItem.tora2 ? RestLengthConverter.fromRest(restItem.tora2) : undefined,
-            restItem.lda1 ? RestLengthConverter.fromRest(restItem.lda1) : undefined,
-            restItem.lda2 ? RestLengthConverter.fromRest(restItem.lda2) : undefined,
-            restItem.papi1,
-            restItem.papi2);
+            restItem.direction,
+            restItem.tora ? RestLengthConverter.fromRest(restItem.tora) : undefined,
+            restItem.lda ? RestLengthConverter.fromRest(restItem.lda) : undefined,
+            restItem.papi,
+        );
     }
 }

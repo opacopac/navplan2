@@ -3,7 +3,6 @@
 namespace Navplan\OpenAip\ApiAdapter\Model;
 
 use Navplan\Aerodrome\DomainModel\AirportRadio;
-use Navplan\Enroute\DomainModel\Navaid;
 
 
 class OpenAipAirportRadioConverter {
@@ -23,10 +22,10 @@ class OpenAipAirportRadioConverter {
 
 
     /**
-     * @param array $restNavaids
-     * @return Navaid[]
+     * @param array $restRadios
+     * @return AirportRadio[]
      */
-    public static function fromRestList(array $restNavaids): array {
-        return array_map(function ($restNavaid) { return self::fromRest($restNavaid); }, $restNavaids);
+    public static function fromRestList(array $restRadios): array {
+        return array_map(function ($restRadio) { return self::fromRest($restRadio); }, $restRadios);
     }
 }

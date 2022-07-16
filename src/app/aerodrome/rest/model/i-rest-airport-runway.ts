@@ -6,12 +6,8 @@ export interface IRestAirportRunway {
     surface: string;
     length: IRestLength;
     width: IRestLength;
-    direction1: number;
-    direction2: number;
-    tora1: IRestLength;
-    tora2: IRestLength;
-    lda1: IRestLength;
-    lda2: IRestLength;
-    papi1: boolean;
-    papi2: boolean;
+    direction: number;
+    tora: IRestLength;
+    lda: IRestLength;
+    papi: boolean;
 }

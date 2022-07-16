@@ -62,4 +62,254 @@ class OpenAipAirportConverterTest extends TestCase {
         $this->assertEquals(AltitudeUnit::M, $airport->elevation->unit);
         $this->assertEquals(AltitudeReference::MSL, $airport->elevation->reference);
     }
+
+
+    public function test_fromRest() {
+        $restStr = json_decode('{
+      "_id": "62614a35cb27f42509443ccd",
+      "approved": true,
+      "name": "AALEN-HEIDENHEIM/ELCHINGEN",
+      "icaoCode": "EDPA",
+      "type": 2,
+      "trafficType": [
+        0
+      ],
+      "magneticDeclination": 3.585,
+      "country": "DE",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.2644,
+          48.7778
+        ]
+      },
+      "elevation": {
+        "value": 584,
+        "unit": 0,
+        "referenceDatum": 1
+      },
+      "ppr": false,
+      "private": false,
+      "skydiveActivity": false,
+      "winchOnly": false,
+      "frequencies": [
+        {
+          "value": "121.405",
+          "unit": 2,
+          "type": 10,
+          "name": "INFO",
+          "primary": true,
+          "publicUse": true,
+          "_id": "62614a35cb27f42509443cce"
+        },
+        {
+          "value": "123.155",
+          "unit": 2,
+          "type": 17,
+          "name": "Segelflug Start",
+          "primary": false,
+          "publicUse": true,
+          "_id": "62614a35cb27f42509443ccf"
+        }
+      ],
+      "runways": [
+        {
+          "designator": "09R",
+          "trueHeading": 85,
+          "alignedTrueNorth": false,
+          "operations": 0,
+          "mainRunway": false,
+          "turnDirection": 2,
+          "takeOffOnly": false,
+          "landingOnly": false,
+          "surface": {
+            "composition": [
+              2
+            ],
+            "mainComposite": 2,
+            "condition": 0,
+            "mtow": {
+              "value": 2.5,
+              "unit": 9
+            }
+          },
+          "dimension": {
+            "length": {
+              "value": 999,
+              "unit": 0
+            },
+            "width": {
+              "value": 30,
+              "unit": 0
+            }
+          },
+          "declaredDistance": {
+            "tora": {
+              "value": 950,
+              "unit": 0
+            },
+            "lda": {
+              "value": 950,
+              "unit": 0
+            }
+          },
+          "pilotCtrlLighting": false,
+          "_id": "62614a35cb27f42509443cd0"
+        },
+        {
+          "designator": "27L",
+          "trueHeading": 265,
+          "alignedTrueNorth": false,
+          "operations": 0,
+          "mainRunway": false,
+          "turnDirection": 2,
+          "takeOffOnly": false,
+          "landingOnly": false,
+          "surface": {
+            "composition": [
+              2
+            ],
+            "mainComposite": 2,
+            "condition": 0,
+            "mtow": {
+              "value": 2.5,
+              "unit": 9
+            }
+          },
+          "dimension": {
+            "length": {
+              "value": 999,
+              "unit": 0
+            },
+            "width": {
+              "value": 30,
+              "unit": 0
+            }
+          },
+          "declaredDistance": {
+            "tora": {
+              "value": 950,
+              "unit": 0
+            },
+            "lda": {
+              "value": 950,
+              "unit": 0
+            }
+          },
+          "pilotCtrlLighting": false,
+          "_id": "62614a35cb27f42509443cd1"
+        },
+        {
+          "designator": "09L",
+          "trueHeading": 85,
+          "alignedTrueNorth": false,
+          "operations": 0,
+          "mainRunway": true,
+          "turnDirection": 2,
+          "takeOffOnly": false,
+          "landingOnly": false,
+          "surface": {
+            "composition": [
+              0
+            ],
+            "mainComposite": 0,
+            "condition": 0,
+            "mtow": {
+              "value": 10,
+              "unit": 9
+            }
+          },
+          "dimension": {
+            "length": {
+              "value": 1000,
+              "unit": 0
+            },
+            "width": {
+              "value": 25,
+              "unit": 0
+            }
+          },
+          "declaredDistance": {
+            "tora": {
+              "value": 950,
+              "unit": 0
+            },
+            "lda": {
+              "value": 950,
+              "unit": 0
+            }
+          },
+          "pilotCtrlLighting": false,
+          "_id": "62614a35cb27f42509443cd2"
+        },
+        {
+          "designator": "27R",
+          "trueHeading": 265,
+          "alignedTrueNorth": false,
+          "operations": 0,
+          "mainRunway": true,
+          "turnDirection": 2,
+          "takeOffOnly": false,
+          "landingOnly": false,
+          "surface": {
+            "composition": [
+              0
+            ],
+            "mainComposite": 0,
+            "condition": 0,
+            "mtow": {
+              "value": 10,
+              "unit": 9
+            }
+          },
+          "dimension": {
+            "length": {
+              "value": 1000,
+              "unit": 0
+            },
+            "width": {
+              "value": 25,
+              "unit": 0
+            }
+          },
+          "declaredDistance": {
+            "tora": {
+              "value": 950,
+              "unit": 0
+            },
+            "lda": {
+              "value": 950,
+              "unit": 0
+            }
+          },
+          "pilotCtrlLighting": false,
+          "_id": "62614a35cb27f42509443cd3"
+        }
+      ],
+      "createdAt": "2022-04-21T12:12:37.234Z",
+      "updatedAt": "2022-04-21T12:12:37.282Z",
+      "createdBy": "AUTO-IMPORTER",
+      "updatedBy": "import-script",
+      "elevationGeoid": {
+        "geoidHeight": 47.98369186176001,
+        "hae": 631.98369186176
+      },
+      "__v": 0
+    }', true, JSON_NUMERIC_CHECK);
+
+
+        $airport = OpenAipAirportConverter::fromRest($restStr);
+
+        $this->assertEquals(-1, $airport->id);
+        $this->assertEquals(AirportType::AF_CIVIL, $airport->type);
+        $this->assertEquals("EDPA", $airport->icao);
+        $this->assertEquals("AALEN-HEIDENHEIM/ELCHINGEN", $airport->name);
+        $this->assertEquals("DE", $airport->country);
+        $this->assertEquals(Position2d::createFromArray([10.2644, 48.7778]), $airport->position);
+        $this->assertEquals(584, $airport->elevation->value);
+        $this->assertEquals(AltitudeUnit::M, $airport->elevation->unit);
+        $this->assertEquals(AltitudeReference::MSL, $airport->elevation->reference);
+        $this->assertCount(2, $airport->radios);
+        $this->assertCount(4, $airport->runways);
+    }
 }

@@ -11,12 +11,12 @@ class OpenAipAirportConverter {
             -1,
             OpenAipAirportTypeConverter::fromRest($restAirport["type"]),
             $restAirport["name"],
-            $restAirport["icao_code"] ?? NULL,
+            $restAirport["icaoCode"] ?? NULL,
             $restAirport["country"],
             OpenAipPositionConverter::fromRestPointGeometry($restAirport["geometry"]),
             OpenAipElevationConverter::fromRest($restAirport["elevation"]),
-            [],
-            [],
+            $restAirport["runways"] ? OpenAipAirportRunwayConverter::fromRestList($restAirport["runways"]) : null,
+            $restAirport["frequencies"] ? OpenAipAirportRadioConverter::fromRestList($restAirport["frequencies"]) : null,
             [],
             [],
             [],
@@ -26,10 +26,10 @@ class OpenAipAirportConverter {
 
 
     /**
-     * @param array $restAirport
+     * @param array $restAirports
      * @return Airport[]
      */
-    public static function fromRestList(array $restAirport): array {
-        return array_map(function ($restAirport) { return self::fromRest($restAirport); }, $restAirport);
+    public static function fromRestList(array $restAirports): array {
+        return array_map(function ($restAirport) { return self::fromRest($restAirport); }, $restAirports);
     }
 }

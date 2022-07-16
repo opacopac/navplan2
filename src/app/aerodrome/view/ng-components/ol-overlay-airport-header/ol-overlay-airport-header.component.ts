@@ -67,10 +67,10 @@ export class OlOverlayAirportHeaderComponent  {
 
         const rwy = this.airport.runways[0];
         if (rwy.directionContainsMagneticVariation()) {
-            return rwy.direction1;
+            return rwy.direction;
         }
         const magVar = this.wmmService.calcMagneticVariation(this.airport.position);
 
-        return rwy.direction1 + magVar.deg;
+        return rwy.direction + magVar.deg;
     }
 }
