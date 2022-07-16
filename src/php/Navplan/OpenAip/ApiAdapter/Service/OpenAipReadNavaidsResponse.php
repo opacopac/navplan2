@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\OpenAip\Api\Model;
+namespace Navplan\OpenAip\ApiAdapter\Service;
 
 use Navplan\Enroute\DomainModel\Navaid;
 
 
-class OpenAipNavaidResponse {
+class OpenAipReadNavaidsResponse {
     /**
      * @param int $page
      * @param int $nextPage

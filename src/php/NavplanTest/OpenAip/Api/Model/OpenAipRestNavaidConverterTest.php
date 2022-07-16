@@ -7,7 +7,7 @@ use Navplan\Common\DomainModel\AltitudeUnit;
 use Navplan\Common\DomainModel\FrequencyUnit;
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\Enroute\DomainModel\NavaidType;
-use Navplan\OpenAip\Api\Model\OpenAipApiNavaidConverter;
+use Navplan\OpenAip\ApiAdapter\Model\OpenAipNavaidConverter;
 use PHPUnit\Framework\TestCase;
 
 
@@ -51,7 +51,7 @@ class OpenAipRestNavaidConverterTest extends TestCase {
         }', true, JSON_NUMERIC_CHECK);
 
 
-        $navaid = OpenAipApiNavaidConverter::fromRest($restStr);
+        $navaid = OpenAipNavaidConverter::fromRest($restStr);
 
         $this->assertEquals(-1, $navaid->id);
         $this->assertEquals(NavaidType::DME, $navaid->type);

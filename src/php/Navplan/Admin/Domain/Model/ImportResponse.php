@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\OpenAip\Domain\Model;
+namespace Navplan\Admin\Domain\Model;
 
 
-class NavaidImportResult {
+class ImportResponse {
     public function __construct(
         public bool $isSuccess,
         public int $insertCount

@@ -4,7 +4,6 @@ import {IRestPolygon} from '../../../geo-physics/rest/model/i-rest-polygon';
 
 export interface IRestAirspace {
     id: number;
-    aip_id: number;
     category: string;
     country: string;
     name: string;

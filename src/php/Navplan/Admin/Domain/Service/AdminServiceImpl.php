@@ -2,8 +2,8 @@
 
 namespace Navplan\Admin\Domain\Service;
 
-use Navplan\OpenAip\Domain\Model\NavaidImportResult;
-use Navplan\OpenAip\Domain\Service\IOpenAipImporter;
+use Navplan\Admin\Domain\Model\ImportResponse;
+use Navplan\OpenAip\Importer\Service\IOpenAipImporter;
 
 
 class AdminServiceImpl implements IAdminService {
@@ -13,7 +13,16 @@ class AdminServiceImpl implements IAdminService {
     }
 
 
-    public function importNavaids(): NavaidImportResult {
-        return $this->openAipImporter->importNavaids();
+    public function importAirspaces(): ImportResponse {
+        $result = $this->openAipImporter->importAirspaces();
+
+        return new ImportResponse($result->isSuccess, $result->insertCount);
+    }
+
+
+    public function importNavaids(): ImportResponse {
+        $result = $this->openAipImporter->importNavaids();
+
+        return new ImportResponse($result->isSuccess, $result->insertCount);
     }
 }

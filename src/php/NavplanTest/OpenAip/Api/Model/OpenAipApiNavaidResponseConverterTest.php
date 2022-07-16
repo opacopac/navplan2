@@ -2,7 +2,7 @@
 
 namespace NavplanTest\OpenAip\Api\Model;
 
-use Navplan\OpenAip\Api\Model\OpenAipApiNavaidResponseConverter;
+use Navplan\OpenAip\ApiAdapter\Model\OpenAipNavaidResponseConverter;
 use PHPUnit\Framework\TestCase;
 
 
@@ -17,7 +17,7 @@ class OpenAipApiNavaidResponseConverterTest extends TestCase {
         }', true, JSON_NUMERIC_CHECK);
 
 
-        $response = OpenAipApiNavaidResponseConverter::fromRest($restStr);
+        $response = OpenAipNavaidResponseConverter::fromRest($restStr);
 
         $this->assertEquals(1, $response->page);
         $this->assertEquals(-1, $response->nextPage);

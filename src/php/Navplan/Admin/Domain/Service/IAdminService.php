@@ -2,8 +2,11 @@
 
 namespace Navplan\Admin\Domain\Service;
 
-use Navplan\OpenAip\Domain\Model\NavaidImportResult;
+use Navplan\Admin\Domain\Model\ImportResponse;
+
 
 interface IAdminService {
-    function importNavaids(): NavaidImportResult;
+    function importAirspaces(): ImportResponse;
+
+    function importNavaids(): ImportResponse;
 }

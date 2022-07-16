@@ -2,7 +2,7 @@
 
 namespace NavplanTest\OpenAip\Api\Model;
 
-use Navplan\OpenAip\Api\Model\OpenAipApiPositionConverter;
+use Navplan\OpenAip\ApiAdapter\Model\OpenAipPositionConverter;
 use PHPUnit\Framework\TestCase;
 
 
@@ -14,7 +14,7 @@ class OpenAipRestPositionConverterTest extends TestCase {
         ]', true, JSON_NUMERIC_CHECK);
 
 
-        $position2d = OpenAipApiPositionConverter::fromRestCoordinates($restStr);
+        $position2d = OpenAipPositionConverter::fromRestCoordinates($restStr);
 
         $this->assertEquals(-60.83352756210572, $position2d->longitude);
         $this->assertEquals(11.147421569596954, $position2d->latitude);
@@ -31,7 +31,7 @@ class OpenAipRestPositionConverterTest extends TestCase {
         }', true, JSON_NUMERIC_CHECK);
 
 
-        $position2d = OpenAipApiPositionConverter::fromRestGeometry($restStr);
+        $position2d = OpenAipPositionConverter::fromRestGeometry($restStr);
 
         $this->assertEquals(-60.83352756210572, $position2d->longitude);
         $this->assertEquals(11.147421569596954, $position2d->latitude);

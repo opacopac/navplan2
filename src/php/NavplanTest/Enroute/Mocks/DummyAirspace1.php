@@ -11,7 +11,6 @@ class DummyAirspace1 {
     public static function create(): Airspace {
         return new Airspace(
             12517,
-            94317,
             "CTR",
             "CH",
             "CTR Payerne (HX): 128.67",
@@ -31,7 +30,6 @@ class DummyAirspace1 {
     public static function createDbResult(): array {
         return array(
             "id" => 12517,
-            "aip_id" => 94317,
             "category" => "CTR",
             "country" => "CH",
             "name" => "CTR Payerne (HX): 128.67",
@@ -49,7 +47,6 @@ class DummyAirspace1 {
     public static function createRest(): array {
         return array(
             "id" => 12517,
-            "aip_id" => 94317,
             "category" => "CTR",
             "country" => "CH",
             "name" => "CTR Payerne (HX): 128.67",

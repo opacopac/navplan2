@@ -7,7 +7,6 @@ import {Clonable} from '../../../system/domain/model/clonable';
 export class Airspace extends DataItem implements Clonable<Airspace> {
     constructor(
         public id: number,
-        public aip_id: number,
         public category: string,
         public country: string,
         public name: string,
@@ -27,7 +26,6 @@ export class Airspace extends DataItem implements Clonable<Airspace> {
     clone(): Airspace {
         return new Airspace(
             this.id,
-            this.aip_id,
             this.category,
             this.country,
             this.name,

@@ -2,7 +2,7 @@
 
 namespace Navplan\Config\Domain\Service;
 
-use Navplan\OpenAip\Domain\Service\IOpenAipConfigService;
+use Navplan\OpenAip\Config\IOpenAipConfigService;
 
 
 interface IConfigService extends IOpenAipConfigService {

@@ -9,6 +9,7 @@ use Navplan\Enroute\DbModel\DbAirspaceConverter;
 use Navplan\Enroute\DomainService\IAirspaceRepo;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
+use Throwable;
 
 
 class DbAirspaceRepo implements IAirspaceRepo {
@@ -73,10 +74,32 @@ class DbAirspaceRepo implements IAirspaceRepo {
     }
 
 
+
+
+    public function insert(array $airspaces): void {
+        $statement = DbAirspaceConverter::prepareInsertStatement($this->dbService);
+            foreach ($airspaces as $airspace) {
+                try {
+                    DbAirspaceConverter::bindInsertStatement($airspace, $statement);
+                    $statement->execute();
+                } catch (Throwable $ex) {
+                    var_dump($airspace);
+                    throw $ex;
+                }
+            }
+    }
+
+
+    public function deleteAll(): bool {
+        $query = "TRUNCATE TABLE " . DbAirspaceConverter::TABLE_NAME;
+
+        return $this->dbService->execCUDQuery($query);
+    }
+
+
     private function getSelectClauseCommonPart(): string {
         $query  = "SELECT";
         $query .= "  air.id,";
-        $query .= "  air.aip_id,";
         $query .= "  air.category,";
         $query .= "  air.country,";
         $query .= "  air.name,";

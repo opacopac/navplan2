@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\OpenAip\Api\Model;
+namespace Navplan\OpenAip\ApiAdapter\Model;
 
 use Navplan\Common\DomainModel\Altitude;
 use Navplan\Common\DomainModel\AltitudeReference;
 use Navplan\Common\DomainModel\AltitudeUnit;
 
 
-class OpenAipApiElevationConverter {
+class OpenAipElevationConverter {
     public static function fromRest(array $restElevation): Altitude {
         return new Altitude(
             $restElevation["value"],

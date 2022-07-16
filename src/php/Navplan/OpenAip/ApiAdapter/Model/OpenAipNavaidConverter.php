@@ -1,20 +1,20 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\OpenAip\Api\Model;
+namespace Navplan\OpenAip\ApiAdapter\Model;
 
 use Navplan\Enroute\DomainModel\Navaid;
 
 
-class OpenAipApiNavaidConverter {
+class OpenAipNavaidConverter {
     public static function fromRest(array $restNavaid): Navaid {
         return new Navaid(
             -1,
-            OpenAipApiNavaidTypeConverter::fromRest($restNavaid["type"]),
+            OpenAipNavaidTypeConverter::fromRest($restNavaid["type"]),
             $restNavaid["identifier"],
             $restNavaid["name"],
-            OpenAipApiPositionConverter::fromRestGeometry($restNavaid["geometry"]),
-            OpenAipApiElevationConverter::fromRest($restNavaid["elevation"]),
-            OpenAipApiFrequencyConverter::fromRest($restNavaid["frequency"]),
+            OpenAipPositionConverter::fromRestGeometry($restNavaid["geometry"]),
+            OpenAipElevationConverter::fromRest($restNavaid["elevation"]),
+            OpenAipFrequencyConverter::fromRest($restNavaid["frequency"]),
             $restNavaid["magneticDeclination"],
             boolval($restNavaid["alignedTrueNorth"])
         );

@@ -17,10 +17,6 @@ class Altitude {
         if ($this->unit === AltitudeUnit::FL && $this->reference !== AltitudeReference::STD) {
             throw new InvalidArgumentException('unit FL requires reference STD');
         }
-
-        if ($this->reference === AltitudeReference::STD && $this->unit !== AltitudeUnit::FL) {
-            throw new InvalidArgumentException('reference STD requires unit FL');
-        }
     }
 
 

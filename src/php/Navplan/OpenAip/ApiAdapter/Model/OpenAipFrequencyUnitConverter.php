@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\OpenAip\Api\Model;
+namespace Navplan\OpenAip\ApiAdapter\Model;
 
 use InvalidArgumentException;
 use Navplan\Common\DomainModel\FrequencyUnit;
 
 
-class OpenAipApiFrequencyUnitConverter {
+class OpenAipFrequencyUnitConverter {
     public static function fromRest(int $restFrequencyUnit): FrequencyUnit {
         switch ($restFrequencyUnit) {
             case 1 : return FrequencyUnit::KHZ;

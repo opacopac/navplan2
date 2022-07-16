@@ -1,14 +1,12 @@
-<?php
-include_once __DIR__ . "/ZoomLevelSortItemType.php";
-include_once __DIR__ . "/../../php/Navplan/Db\MySqlDb/DbService.php";
+<?php declare(strict_types=1);
 
-use Navplan\System\DomainModel\DbException;
-use Navplan\System\MySqlDb\DbConnection;
-use Navplan\System\MySqlDb\DbService;
-use Navplan\System\MySqlDb\MySqlDbResult;
+namespace Navplan\OpenAip\ZoomLevelSorter;
+
+use Navplan\System\DomainModel\IDbResult;
+use Navplan\System\DomainService\IDbService;
 
 
-class ZoomLevelSortItemTypeNavaid implements ZoomLevelSortItemType {
+class NavaidZoomLevelSortItem implements IZoomLevelSortItem {
     const NAVAID_TYPE_PRIO = array(
         "DVOR-DME" => 9,
         "DVORTAC" => 8,
@@ -22,31 +20,19 @@ class ZoomLevelSortItemTypeNavaid implements ZoomLevelSortItemType {
     );
 
 
-    private $conn;
-
-
-    public function __construct(DbConnection $conn) {
-        $this->conn = $conn;
+    public function __construct(private IDbService $dbService) {
     }
 
 
-    /**
-     * @throws DbException
-     */
     public function cleanZoomLevels() {
         $query =  "UPDATE openaip_navaids2 SET zoommin = NULL";
-        DbService::execCUDQuery($this->conn, $query);
+
+        $this->dbService->execCUDQuery($query);
     }
 
 
-    /**
-     * @param string $lastGeoHash
-     * @param int $maxCount
-     * @return MySqlDbResult
-     * @throws DbException
-     */
-    public function getNextBatch(?string $lastGeoHash, int $maxCount) {
-    // read batch from DB
+    public function getNextBatch(?string $lastGeoHash, int $maxCount): IDbResult {
+        // read batch from DB
         $query = "SELECT ";
         $query .= "  id, type, latitude, longitude, geohash";
         $query .= " FROM openaip_navaids2";
@@ -55,24 +41,26 @@ class ZoomLevelSortItemTypeNavaid implements ZoomLevelSortItemType {
         $query .= $lastGeoHash !== NULL ? " AND geohash > '" . $lastGeoHash . "'" : "";
         $query .= " ORDER BY geohash ASC";
         $query .= " LIMIT " . $maxCount;
-        return DbService::execMultiResultQuery($this->conn, $query);
+
+        return $this->dbService->execMultiResultQuery($query);
     }
 
 
     /**
      * @param int $zoomMin
-     * @param array $idList
-     * @throws DbException
+     * @param int[] $idList
      */
     public function updateZoomLevels(int $zoomMin, array $idList) {
         $query = "UPDATE openaip_navaids2";
         $query .= " SET zoommin = " . $zoomMin;
         $query .= " WHERE id IN (" . join(",", $idList) . ")";
-        DbService::execCUDQuery($this->conn, $query);
+
+        $this->dbService->execCUDQuery($query);
     }
 
 
-    public function importanceComparer($b, $a) {
+    public function importanceComparer($b, $a): int
+    {
         $aTypePrio = self::NAVAID_TYPE_PRIO[$a["type"]];
         $bTypePrio = self::NAVAID_TYPE_PRIO[$b["type"]];
         return $aTypePrio - $bTypePrio;

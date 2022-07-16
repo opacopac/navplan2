@@ -1,17 +1,14 @@
-<?php
-include_once __DIR__ . "/../../php/Navplan/Shared/GeoHelper.php";
-include_once __DIR__ . "/../../php/Navplan/Shared/LoggingServiceOld.php";
-include_once __DIR__ . "/ZoomLevelSortItemType.php";
+<?php declare(strict_types=1);
 
-use Navplan\Common\LoggingServiceOld;
-
-
-const MAX_ZOOM = 14;
-const MAX_COUNT_DB_RECORDS = 1000;
+namespace Navplan\OpenAip\ZoomLevelSorter;
 
 
 class ZoomLevelSorter {
-    public static function sort(ZoomLevelSortItemType $sortItemType) {
+    const MAX_ZOOM = 14;
+    const MAX_COUNT_DB_RECORDS = 1000;
+
+
+    public static function sort(IZoomLevelSortItem $sortItemType) {
         // delete zoom levels from db
         $sortItemType->cleanZoomLevels();
 
@@ -28,15 +25,15 @@ class ZoomLevelSorter {
             }
 
             // read batch from DB
-            $result = $sortItemType->getNextBatch($lastGeoHash, MAX_COUNT_DB_RECORDS);
-            LoggingServiceOld::echoLineToBrowser("loading " . $result->num_rows . " items" . ($lastGeoHash !== NULL ? " starting from " . $lastGeoHash : ""));
+            $result = $sortItemType->getNextBatch($lastGeoHash, self::MAX_COUNT_DB_RECORDS);
+            //LoggingServiceOld::echoLineToBrowser("loading " . $result->num_rows . " items" . ($lastGeoHash !== NULL ? " starting from " . $lastGeoHash : ""));
 
             $itemBuffer = [];
             while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
                 $itemBuffer[] = $row;
             }
 
-            if ($result->num_rows < MAX_COUNT_DB_RECORDS) {
+            if ($result->num_rows < self::MAX_COUNT_DB_RECORDS) {
                 $loopCount++;
                 $lastGeoHash = NULL; // loop around
                 $isOpenEnd = false;
@@ -73,11 +70,11 @@ class ZoomLevelSorter {
 
         } while (count($itemBuffer) > 0);
 
-        LoggingServiceOld::echoLineToBrowser("done.");
+        //LoggingServiceOld::echoLineToBrowser("done.");
     }
 
 
-    private static function setBranchMinZoom(ZoomLevelSortItemType $sortItemType, &$branchItems, $startPos, $count, $isOpenStart, $isOpenEnd, $commonPrefix) {
+    private static function setBranchMinZoom(IZoomLevelSortItem $sortItemType, &$branchItems, $startPos, $count, $isOpenStart, $isOpenEnd, $commonPrefix) {
         list($startPos2, $count2) = self::getCommonPrefixPointers($branchItems, $startPos, $count, $commonPrefix);
 
         if ($count2 <= 1) {
@@ -100,25 +97,23 @@ class ZoomLevelSorter {
         self::setBranchMinZoom($sortItemType, $branchItems, $startPos2, $count2, $isOpenStart2, $isOpenEnd2, $commonPrefix . "d");
 
         if (!$isOpenStart2 && !$isOpenEnd2) {
-            if ($count2 > 1) {
-                $sortItems = [];
-                for ($i = 0; $i < $count2; $i++) {
-                    if (!array_key_exists("zoommin", $branchItems[$startPos2 + $i])) {
-                        $sortItems[] = &$branchItems[$startPos2 + $i];
-                    }
+            $sortItems = [];
+            for ($i = 0; $i < $count2; $i++) {
+                if (!array_key_exists("zoommin", $branchItems[$startPos2 + $i])) {
+                    $sortItems[] = &$branchItems[$startPos2 + $i];
                 }
-                usort($sortItems, array($sortItemType, 'importanceComparer'));
-                $zoomMin = strlen($commonPrefix);
+            }
+            usort($sortItems, array($sortItemType, 'importanceComparer'));
+            $zoomMin = strlen($commonPrefix);
 
-                for ($i = 1; $i < count($sortItems); $i++) {
-                    $sortItems[$i]["zoommin"] = $zoomMin;
-                }
+            for ($i = 1; $i < count($sortItems); $i++) {
+                $sortItems[$i]["zoommin"] = $zoomMin;
             }
         }
     }
 
 
-    private static function getCommonPrefixPointers($itemList, $startPos, $maxCount, $commonPrefix) {
+    private static function getCommonPrefixPointers($itemList, $startPos, $maxCount, $commonPrefix): array {
         $commonPrefixLen = strlen($commonPrefix);
         $pos = $startPos;
         $count = 0;

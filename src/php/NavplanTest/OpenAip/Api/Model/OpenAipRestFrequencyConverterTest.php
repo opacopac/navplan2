@@ -3,7 +3,7 @@
 namespace NavplanTest\OpenAip\Api\Model;
 
 use Navplan\Common\DomainModel\FrequencyUnit;
-use Navplan\OpenAip\Api\Model\OpenAipApiFrequencyConverter;
+use Navplan\OpenAip\ApiAdapter\Model\OpenAipFrequencyConverter;
 use PHPUnit\Framework\TestCase;
 
 
@@ -15,7 +15,7 @@ class OpenAipRestFrequencyConverterTest extends TestCase {
         }', true, JSON_NUMERIC_CHECK);
 
 
-        $frequency = OpenAipApiFrequencyConverter::fromRest($restStr);
+        $frequency = OpenAipFrequencyConverter::fromRest($restStr);
 
         $this->assertEquals(112.050, $frequency->value);
         $this->assertEquals(FrequencyUnit::MHZ, $frequency->unit);

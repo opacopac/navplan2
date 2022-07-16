@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\OpenAip\Api\Model;
+namespace Navplan\OpenAip\ApiAdapter\Model;
 
 use InvalidArgumentException;
 use Navplan\Enroute\DomainModel\NavaidType;
 
 
-class OpenAipApiNavaidTypeConverter {
+class OpenAipNavaidTypeConverter {
     public static function fromRest(int $restNavaidType): NavaidType {
         switch ($restNavaidType) {
             case 0 : return NavaidType::DME;

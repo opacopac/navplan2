@@ -70,6 +70,7 @@ class DbNavaidConverter {
         $elevation = $navaid->elevation->getHeightAmsl()->getM();
         $geoHash = GeoHelper::calcGeoHash($navaid->position->longitude, $navaid->position->latitude, 14); // TODO
         $lonlat = "POINT(" . $navaid->position->longitude . " " . $navaid->position->latitude . ")";
+
         $insertStatement->bind_param("sssdddsdiss",
             $type,
             $navaid->kuerzel,

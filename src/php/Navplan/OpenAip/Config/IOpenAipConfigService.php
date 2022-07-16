@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\OpenAip\Domain\Service;
+namespace Navplan\OpenAip\Config;
 
 
 interface IOpenAipConfigService {

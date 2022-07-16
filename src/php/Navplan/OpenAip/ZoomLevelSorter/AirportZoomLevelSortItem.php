@@ -1,14 +1,12 @@
-<?php
-include_once __DIR__ . "/ZoomLevelSortItemType.php";
-include_once __DIR__ . "/../../php/Navplan/Db\MySqlDb/DbService.php";
+<?php declare(strict_types=1);
 
-use Navplan\System\DomainModel\DbException;
-use Navplan\System\MySqlDb\DbConnection;
-use Navplan\System\MySqlDb\DbService;
-use Navplan\System\MySqlDb\MySqlDbResult;
+namespace Navplan\OpenAip\ZoomLevelSorter;
+
+use Navplan\System\DomainModel\IDbResult;
+use Navplan\System\DomainService\IDbService;
 
 
-class ZoomLevelSortItemTypeAirport implements ZoomLevelSortItemType {
+class AirportZoomLevelSortItem implements IZoomLevelSortItem {
     const AIRPORT_TYPE_PRIO = array(
         "INTL_APT" => 11,
         "AF_MIL_CIVIL" => 10,
@@ -24,30 +22,20 @@ class ZoomLevelSortItemTypeAirport implements ZoomLevelSortItemType {
     );
 
 
-    private $conn;
-
-
-    public function __construct(DbConnection $conn) {
-        $this->conn = $conn;
+    public function __construct(
+        private IDbService $dbService
+    ) {
     }
 
 
-    /**
-     * @throws DbException
-     */
     public function cleanZoomLevels() {
         $query =  "UPDATE openaip_airports2 SET zoommin = NULL";
-        DbService::execCUDQuery($this->conn, $query);
+
+        $this->dbService->execCUDQuery($query);
     }
 
 
-    /**
-     * @param string $lastGeoHash
-     * @param int $maxCount
-     * @return MySqlDbResult
-     * @throws DbException
-     */
-    public function getNextBatch(?string $lastGeoHash, int $maxCount) {
+    public function getNextBatch(?string $lastGeoHash, int $maxCount): IDbResult {
         $query = " SELECT apt.id, apt.type, apt.latitude, apt.longitude, apt.icao, apt.geohash,";
         $query .= " (SELECT COUNT(rwy.id) FROM openaip_runways2 rwy WHERE rwy.airport_id = apt.id) AS rwycount,";
         $query .= " (SELECT rwy.length FROM openaip_runways2 rwy WHERE rwy.airport_id = apt.id ORDER BY rwy.length DESC LIMIT 1) AS rwylen";
@@ -57,24 +45,26 @@ class ZoomLevelSortItemTypeAirport implements ZoomLevelSortItemType {
         $query .= $lastGeoHash !== NULL ? " AND apt.geohash > '" . $lastGeoHash . "'" : "";
         $query .= " ORDER BY apt.geohash ASC";
         $query .= " LIMIT " . $maxCount;
-        return DbService::execMultiResultQuery($this->conn, $query);
+
+        return $this->dbService->execMultiResultQuery($query);
     }
 
 
     /**
      * @param int $zoomMin
-     * @param array $idList
-     * @throws DbException
+     * @param int[] $idList
      */
     public function updateZoomLevels(int $zoomMin, array $idList) {
         $query =  "UPDATE openaip_airports2";
         $query .= " SET zoommin = " . $zoomMin;
         $query .= " WHERE id IN (" . join(",", $idList) . ")";
-        DbService::execCUDQuery($this->conn, $query);
+
+        $this->dbService->execCUDQuery($query);
     }
 
 
-    public function importanceComparer($b, $a) {
+    public function importanceComparer($b, $a): int
+    {
         // sort level 1: has icao
         $aIcao = $a["icao"];
         $bIcao = $b["icao"];

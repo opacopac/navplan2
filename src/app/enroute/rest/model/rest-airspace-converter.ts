@@ -8,7 +8,6 @@ export class RestAirspaceConverter {
     public static fromRest(restItem: IRestAirspace): Airspace {
         return new Airspace(
             restItem.id,
-            restItem.aip_id,
             restItem.category,
             restItem.country,
             restItem.name,

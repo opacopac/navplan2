@@ -4,12 +4,13 @@ namespace Navplan\Admin\Rest\Service;
 
 use InvalidArgumentException;
 use Navplan\Admin\Domain\Service\IAdminServiceDiContainer;
-use Navplan\Admin\Rest\Model\RestNavaidImportResultConverter;
+use Navplan\Admin\Rest\Model\RestImportResponseConverter;
 
 
 class AdminServiceController {
     const ARG_ACTION = "action";
-    const ACTION_GET_SHORT_AD_BY_EXTENT = "importNavaids";
+    const ACTION_IMPORT_AIRSPACES = "importAirspaces";
+    const ACTION_IMPORT_NAVAIDS = "importNavaids";
 
 
     public static function processRequest(IAdminServiceDiContainer $diContainer) {
@@ -17,9 +18,13 @@ class AdminServiceController {
         $args = $httpService->getGetArgs();
         $action = $args[self::ARG_ACTION] ?? NULL;
         switch ($action) {
-            case self::ACTION_GET_SHORT_AD_BY_EXTENT:
-                $result = $diContainer->getOpenAipImporter()->importNavaids();
-                $httpService->sendArrayResponse(RestNavaidImportResultConverter::toRest($result));
+            case self::ACTION_IMPORT_AIRSPACES:
+                $result = $diContainer->getAdminService()->importAirspaces();
+                $httpService->sendArrayResponse(RestImportResponseConverter::toRest($result));
+                break;
+            case self::ACTION_IMPORT_NAVAIDS:
+                $result = $diContainer->getAdminService()->importNavaids();
+                $httpService->sendArrayResponse(RestImportResponseConverter::toRest($result));
                 break;
             default:
                 throw new InvalidArgumentException("no or unknown action '" . $action . "'");

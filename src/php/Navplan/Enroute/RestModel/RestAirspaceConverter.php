@@ -14,7 +14,6 @@ class RestAirspaceConverter {
     public static function toRest(Airspace $airspace): array {
         return array(
             "id" => $airspace->id,
-            "aip_id" => $airspace->aip_id,
             "category" => $airspace->category,
             "country" => $airspace->country,
             "name" => $airspace->name,

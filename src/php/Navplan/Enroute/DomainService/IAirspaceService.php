@@ -26,4 +26,17 @@ interface IAirspaceService {
      * @return Airspace[]
      */
     function searchByPosition(Position2d $position2d): array;
+
+
+    /**
+     * @param Airspace[] $airspaces
+     * @return void
+     */
+    function insert(array $airspaces): void;
+
+
+    /**
+     * @return bool
+     */
+    function deleteAll(): bool;
 }

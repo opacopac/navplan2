@@ -56,8 +56,10 @@ use Navplan\Notam\DbService\DbNotamRepo;
 use Navplan\Notam\DomainService\INotamRepo;
 use Navplan\Notam\DomainService\INotamService;
 use Navplan\Notam\RestService\INotamServiceDiContainer;
-use Navplan\OpenAip\Api\Service\OpenAipApiImporter;
-use Navplan\OpenAip\Domain\Service\IOpenAipImporter;
+use Navplan\OpenAip\ApiAdapter\Service\IOpenAipService;
+use Navplan\OpenAip\ApiAdapter\Service\OpenAipService;
+use Navplan\OpenAip\Importer\Service\IOpenAipImporter;
+use Navplan\OpenAip\Importer\Service\OpenAipImporter;
 use Navplan\Search\DomainService\ISearchService;
 use Navplan\Search\DomainService\SearchService;
 use Navplan\Search\RestService\ISearchServiceDiContainer;
@@ -179,6 +181,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     private INotamRepo $notamService;
     // open aip
     private IOpenAipImporter $openAipImporter;
+    private IOpenAipService $openAipApiService;
     // search
     private ISearchService $searchService;
     // system & db
@@ -393,14 +396,25 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
 
     public function getOpenAipImporter(): IOpenAipImporter {
         if (!isset($this->openAipImporter)) {
-            $this->openAipImporter = new OpenAipApiImporter(
-                $this->getConfigService(),
-                $this->getDbService(),
+            $this->openAipImporter = new OpenAipImporter(
+                $this->getOpenAipApiService(),
+                $this->getAirspaceService(),
                 $this->getNavaidService(),
             );
         }
 
         return $this->openAipImporter;
+    }
+
+
+    public function getOpenAipApiService(): IOpenAipService {
+        if (!isset($this->openAipApiService)) {
+            $this->openAipApiService = new OpenAipService(
+                $this->getConfigService()
+            );
+        }
+
+        return $this->openAipApiService;
     }
 
     // endregion
