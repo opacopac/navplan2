@@ -6,7 +6,7 @@ use Navplan\OpenAip\ApiAdapter\Model\OpenAipNavaidResponseConverter;
 use PHPUnit\Framework\TestCase;
 
 
-class OpenAipApiNavaidResponseConverterTest extends TestCase {
+class OpenAipNavaidResponseConverterTest extends TestCase {
     public function test_fromRest() {
         $restStr = json_decode('{
             "limit": 50,

@@ -12,7 +12,7 @@ class OpenAipNavaidConverter {
             OpenAipNavaidTypeConverter::fromRest($restNavaid["type"]),
             $restNavaid["identifier"],
             $restNavaid["name"],
-            OpenAipPositionConverter::fromRestGeometry($restNavaid["geometry"]),
+            OpenAipPositionConverter::fromRestPointGeometry($restNavaid["geometry"]),
             OpenAipElevationConverter::fromRest($restNavaid["elevation"]),
             OpenAipFrequencyConverter::fromRest($restNavaid["frequency"]),
             $restNavaid["magneticDeclination"],

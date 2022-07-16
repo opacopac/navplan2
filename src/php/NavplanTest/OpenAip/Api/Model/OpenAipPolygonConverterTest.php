@@ -7,7 +7,7 @@ use Navplan\OpenAip\ApiAdapter\Model\OpenAipPolygonConverter;
 use PHPUnit\Framework\TestCase;
 
 
-class OpenAipRestPolygonConverterTest extends TestCase {
+class OpenAipPolygonConverterTest extends TestCase {
     public function test_fromRestCoordinatesList() {
         $restStr = json_decode('[
           [
@@ -45,7 +45,7 @@ class OpenAipRestPolygonConverterTest extends TestCase {
     }
 
 
-    public function test_fromRestGeometry() {
+    public function test_fromRestPolygonGeometry() {
         $restStr = json_decode('{
         "type": "Polygon",
         "coordinates": [
@@ -75,7 +75,7 @@ class OpenAipRestPolygonConverterTest extends TestCase {
       }', true, JSON_NUMERIC_CHECK);
 
 
-        $ring2d = OpenAipPolygonConverter::fromRestGeometry($restStr);
+        $ring2d = OpenAipPolygonConverter::fromRestPolygonGeometry($restStr);
 
         $this->assertCount(5, $ring2d->position2dList);
         $this->assertEquals(new Position2d(19.85, 39.833333333333), $ring2d->position2dList[0]);

@@ -3,12 +3,12 @@ import {DataItem, DataItemType} from '../../../common/model/data-item';
 import {MetarTaf} from '../../../metar-taf/domain/model/metar-taf';
 import {Notam} from '../../../notam/domain/model/notam';
 import {AirportRunway} from './airport-runway';
-import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {AirportRadio} from './airport-radio';
 import {Webcam} from '../../../webcam/domain/model/webcam';
 import {AirportFeature} from './airport-feature';
 import {AirportType} from './airport-type';
 import {AirportChart} from './airport-chart';
+import {Altitude} from '../../../geo-physics/domain/model/geometry/altitude';
 
 
 export class Airport extends DataItem  {
@@ -28,7 +28,7 @@ export class Airport extends DataItem  {
         public icao: string,
         public country: string,
         public position: Position2d,
-        public elevation: Length
+        public elevation: Altitude
     ) {
         super();
         this.runways = [];

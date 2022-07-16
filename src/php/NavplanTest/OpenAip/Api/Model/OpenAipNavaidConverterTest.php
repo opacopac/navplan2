@@ -11,8 +11,8 @@ use Navplan\OpenAip\ApiAdapter\Model\OpenAipNavaidConverter;
 use PHPUnit\Framework\TestCase;
 
 
-class OpenAipRestNavaidConverterTest extends TestCase {
-    public function test_fromRestCoordinates() {
+class OpenAipNavaidConverterTest extends TestCase {
+    public function test_fromRest() {
         $restStr = json_decode('{
             "_id": "62616c96abdcc7f0ccbbe519",
             "approved": true,

@@ -8,18 +8,17 @@ use Navplan\Enroute\DomainModel\NavaidType;
 
 class OpenAipNavaidTypeConverter {
     public static function fromRest(int $restNavaidType): NavaidType {
-        switch ($restNavaidType) {
-            case 0 : return NavaidType::DME;
-            case 1 : return NavaidType::TACAN;
-            case 2 : return NavaidType::NDB;
-            case 3 : return NavaidType::VOR;
-            case 4 : return NavaidType::VOR_DME;
-            case 5 : return NavaidType::VORTAC;
-            case 6 : return NavaidType::DVOR;
-            case 7 : return NavaidType::DVOR_DME;
-            case 8 : return NavaidType::DVORTAC;
-        }
-
-        throw new InvalidArgumentException("unknown navaid type '" . $restNavaidType . "'");
+        return match ($restNavaidType) {
+            0 => NavaidType::DME,
+            1 => NavaidType::TACAN,
+            2 => NavaidType::NDB,
+            3 => NavaidType::VOR,
+            4 => NavaidType::VOR_DME,
+            5 => NavaidType::VORTAC,
+            6 => NavaidType::DVOR,
+            7 => NavaidType::DVOR_DME,
+            8 => NavaidType::DVORTAC,
+            default => throw new InvalidArgumentException("unknown navaid type '" . $restNavaidType . "'"),
+        };
     }
 }

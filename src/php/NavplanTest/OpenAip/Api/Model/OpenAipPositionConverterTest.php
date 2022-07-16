@@ -6,7 +6,7 @@ use Navplan\OpenAip\ApiAdapter\Model\OpenAipPositionConverter;
 use PHPUnit\Framework\TestCase;
 
 
-class OpenAipRestPositionConverterTest extends TestCase {
+class OpenAipPositionConverterTest extends TestCase {
     public function test_fromRestCoordinates() {
         $restStr = json_decode('[
             -60.83352756210572,
@@ -21,7 +21,7 @@ class OpenAipRestPositionConverterTest extends TestCase {
     }
 
 
-    public function test_fromRestGeometry() {
+    public function test_fromRestPointGeometry() {
         $restStr = json_decode('{
             "type": "Point",
             "coordinates": [
@@ -31,7 +31,7 @@ class OpenAipRestPositionConverterTest extends TestCase {
         }', true, JSON_NUMERIC_CHECK);
 
 
-        $position2d = OpenAipPositionConverter::fromRestGeometry($restStr);
+        $position2d = OpenAipPositionConverter::fromRestPointGeometry($restStr);
 
         $this->assertEquals(-60.83352756210572, $position2d->longitude);
         $this->assertEquals(11.147421569596954, $position2d->latitude);

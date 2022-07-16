@@ -1,9 +1,11 @@
+import {Frequency} from '../../../geo-physics/domain/model/quantities/frequency';
+
 export class AirportRadio {
     constructor(
-        public category: string,
-        public frequency: string,
         public type: string,
-        public typespec: string,
-        public description: string) {
+        public category: string,
+        public name: string,
+        public frequency: Frequency
+    ) {
     }
 }

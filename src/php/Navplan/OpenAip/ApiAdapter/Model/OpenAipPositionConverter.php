@@ -14,7 +14,7 @@ class OpenAipPositionConverter {
     }
 
 
-    public static function fromRestGeometry(array $restGeometry): Position2d {
+    public static function fromRestPointGeometry(array $restGeometry): Position2d {
         $coordinates = $restGeometry["coordinates"];
 
         return self::fromRestCoordinates($coordinates);

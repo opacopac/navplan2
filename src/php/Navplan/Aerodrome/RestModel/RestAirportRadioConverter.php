@@ -3,16 +3,17 @@
 namespace Navplan\Aerodrome\RestModel;
 
 use Navplan\Aerodrome\DomainModel\AirportRadio;
+use Navplan\Common\RestModel\RestFrequencyConverter;
 
 
 class RestAirportRadioConverter {
     public static function toRest(AirportRadio $radio): array {
         return array(
+            "type" => $radio->type->value,
             "category" => $radio->category,
-            "frequency" => $radio->frequency,
-            "type" => $radio->type,
-            "typespec" => $radio->typespec,
-            "description" => $radio->description,
+            "name" => $radio->name,
+            "frequency" => RestFrequencyConverter::toRest($radio->frequency),
+            "is_primary" => $radio->isPrimary,
         );
     }
 }

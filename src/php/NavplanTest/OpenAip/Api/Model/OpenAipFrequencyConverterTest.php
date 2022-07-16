@@ -7,7 +7,7 @@ use Navplan\OpenAip\ApiAdapter\Model\OpenAipFrequencyConverter;
 use PHPUnit\Framework\TestCase;
 
 
-class OpenAipRestFrequencyConverterTest extends TestCase {
+class OpenAipFrequencyConverterTest extends TestCase {
     public function test_fromRest() {
         $restStr = json_decode('{
             "value": "112.050",

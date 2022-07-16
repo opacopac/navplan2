@@ -21,7 +21,7 @@ export class AirportWaypointConverter {
 
     private static getFrequency(airport: Airport): string {
         if (airport.radios.length > 0) {
-            return airport.radios[0].frequency; // TODO: format?
+            return airport.radios[0].frequency.getValueString();
         } else {
             return '';
         }
@@ -53,7 +53,7 @@ export class AirportWaypointConverter {
 
         // altitude
         if (airport.elevation) {
-            const elevString = Math.round(airport.elevation.ft) + 'ft';
+            const elevString = Math.round(airport.elevation.getHeightAmsl().ft) + 'ft';
             suppInfoPart.push('ELEV:' + elevString);
         }
 
@@ -79,7 +79,7 @@ export class AirportWaypointConverter {
                 // skip GLD, FIS, VDF freq unless it's the only frequency
                 if ((radio.type !== 'GLIDING' && radio.type !== 'INFO' && radio.type !== 'FIS' && callsign !== 'VDF')
                     || airport.radios.length === 1) {
-                    radioStringList.push(callsign + ':' + radio.frequency);
+                    radioStringList.push(callsign + ':' + radio.frequency.getValueString());
                 }
             }
 
@@ -108,10 +108,10 @@ export class AirportWaypointConverter {
             case 'AFIS' : return 'AFIS';
             case 'OTHER' : {
                 // starts with AD...
-                if (radio.description.toUpperCase().indexOf('AD') === 0) {
+                if (radio.name.toUpperCase().indexOf('AD') === 0) {
                     return 'AD';
                 } else {
-                    return radio.typespec;
+                    return 'OTHER';
                 }
             }
             default : return radio.type;

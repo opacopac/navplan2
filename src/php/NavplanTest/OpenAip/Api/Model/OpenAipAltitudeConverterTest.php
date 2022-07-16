@@ -8,7 +8,7 @@ use Navplan\OpenAip\ApiAdapter\Model\OpenAipAltitudeConverter;
 use PHPUnit\Framework\TestCase;
 
 
-class OpenAipRestAltitudeConverterTest extends TestCase {
+class OpenAipAltitudeConverterTest extends TestCase {
     public function test_fromRest() {
         $restStr = json_decode('{
             "value": 999,

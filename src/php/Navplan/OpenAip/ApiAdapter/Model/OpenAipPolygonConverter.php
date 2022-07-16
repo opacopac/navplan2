@@ -17,7 +17,7 @@ class OpenAipPolygonConverter {
     }
 
 
-    public static function fromRestGeometry(array $restGeometry): Ring2d {
+    public static function fromRestPolygonGeometry(array $restGeometry): Ring2d {
         $coordinates = $restGeometry["coordinates"];
 
         return self::fromRestCoordinatesList($coordinates);

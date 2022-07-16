@@ -12,8 +12,8 @@ use Navplan\OpenAip\ApiAdapter\Model\OpenAipAirspaceConverter;
 use PHPUnit\Framework\TestCase;
 
 
-class OpenAipRestAirspaceConverterTest extends TestCase {
-    public function test_fromRestCoordinates() {
+class OpenAipAirspaceConverterTest extends TestCase {
+    public function test_fromRest() {
         $restStr = json_decode('{
         "_id": "62614b355e9ded5710446b2f",
         "approved": true,

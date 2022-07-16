@@ -1,7 +1,8 @@
+import {IRestFrequency} from '../../../geo-physics/rest/model/i-rest-frequency';
+
 export interface IRestAirportRadio {
-    category: string;
-    frequency: string;
     type: string;
-    typespec: string;
-    description: string;
+    category: string;
+    name: string;
+    frequency: IRestFrequency;
 }

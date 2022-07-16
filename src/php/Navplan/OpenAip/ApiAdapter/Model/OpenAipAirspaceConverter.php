@@ -20,7 +20,7 @@ class OpenAipAirspaceConverter {
             $restItem["name"],
             OpenAipAltitudeConverter::fromRest($restItem["lowerLimit"]),
             OpenAipAltitudeConverter::fromRest($restItem["upperLimit"]),
-            OpenAipPolygonConverter::fromRestGeometry($restItem["geometry"])
+            OpenAipPolygonConverter::fromRestPolygonGeometry($restItem["geometry"])
         );
     }
 

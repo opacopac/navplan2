@@ -34,6 +34,6 @@ export class OlOverlayAirportInfoTabComponent implements OnInit {
 
 
     public getElevationString(): string {
-        return StringnumberHelper.getLengthString(this.airport.elevation, LengthUnit.FT); // TODO
+        return StringnumberHelper.getLengthString(this.airport.elevation.getHeightAmsl(), LengthUnit.FT); // TODO
     }
 }

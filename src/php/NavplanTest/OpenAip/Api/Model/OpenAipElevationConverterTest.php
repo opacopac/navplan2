@@ -8,7 +8,7 @@ use Navplan\OpenAip\ApiAdapter\Model\OpenAipElevationConverter;
 use PHPUnit\Framework\TestCase;
 
 
-class OpenAipRestElevationConverterTest extends TestCase {
+class OpenAipElevationConverterTest extends TestCase {
     public function test_fromRest() {
         $restStr = json_decode('{
             "value": 3276,

@@ -3,7 +3,7 @@
 namespace Navplan\Aerodrome\RestModel;
 
 use Navplan\Aerodrome\DomainModel\Airport;
-use Navplan\Common\RestModel\RestLengthConverter;
+use Navplan\Common\RestModel\RestAltitudeConverter;
 use Navplan\Common\RestModel\RestPosition2dConverter;
 use Navplan\Webcam\RestModel\RestWebcamConverter;
 
@@ -16,12 +16,12 @@ class RestAirportConverter {
     public static function toRest(Airport $airport): array {
         return array(
             "id" => $airport->id,
-            "type" => $airport->type,
+            "type" => $airport->type->value,
             "name" => $airport->name,
             "icao" => $airport->icao,
             "country" => $airport->country,
             "pos" => RestPosition2dConverter::toRest($airport->position, self::ROUND_DIGITS_POS),
-            "elevation" => RestLengthConverter::toRest($airport->elevation, self::ROUND_DIGITS_ELEV),
+            "elevation" => RestAltitudeConverter::toRest($airport->elevation, self::ROUND_DIGITS_ELEV),
             "runways" => array_map(function($rwy) { return RestAirportRunwayConverter::toRest($rwy); }, $airport->runways),
             "radios" => array_map(function($radio) { return RestAirportRadioConverter::toRest($radio); }, $airport->radios),
             "webcams" => array_map(function($cam) { return RestWebcamConverter::toRest($cam); }, $airport->webcams),
