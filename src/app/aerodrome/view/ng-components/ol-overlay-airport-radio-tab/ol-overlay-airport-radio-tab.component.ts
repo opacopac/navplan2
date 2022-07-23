@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Airport} from '../../../domain/model/airport';
+import {Frequency} from '../../../../geo-physics/domain/model/quantities/frequency';
 
 
 @Component({
@@ -21,5 +22,10 @@ export class OlOverlayAirportRadioTabComponent implements OnInit {
 
     public getRadioColumns(): string[] {
         return ['type', 'frequency'];
+    }
+
+
+    public getFrequencyString(frequency: Frequency): string {
+        return frequency.getValueString() + ' ' + frequency.getUnitString();
     }
 }

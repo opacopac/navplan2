@@ -13,36 +13,22 @@ use Navplan\System\DomainService\IDbService;
 
 
 class DbAirportRunwayConverter {
-    public const TABLE_NAME = "openaip_runways2";
-    public const COL_ID = "id";
-    public const COL_AIRPORT_ID = "airport_id";
-    public const COL_OPERATIONS = "operations";
-    public const COL_NAME = "name";
-    public const COL_SURFACE = "surface";
-    public const COL_LENGTH = "length";
-    public const COL_WIDTH = "width";
-    public const COL_DIRECTION = "direction";
-    public const COL_TORA = "tora";
-    public const COL_LDA = "lda";
-    public const COL_PAPI = "papi";
-
-
     public static function fromDbRow(array $row): AirportRunway {
-        $length = StringNumberHelper::parseFloatOrNull($row, self::COL_LENGTH, TRUE);
-        $width = StringNumberHelper::parseFloatOrNull($row, self::COL_WIDTH, TRUE);
-        $tora = StringNumberHelper::parseFloatOrNull($row, self::COL_TORA, TRUE);
-        $lda = StringNumberHelper::parseFloatOrNull($row, self::COL_LDA, TRUE);
+        $length = StringNumberHelper::parseFloatOrNull($row, DbTableAirportRunway::COL_LENGTH, TRUE);
+        $width = StringNumberHelper::parseFloatOrNull($row, DbTableAirportRunway::COL_WIDTH, TRUE);
+        $tora = StringNumberHelper::parseFloatOrNull($row, DbTableAirportRunway::COL_TORA, TRUE);
+        $lda = StringNumberHelper::parseFloatOrNull($row, DbTableAirportRunway::COL_LDA, TRUE);
 
         return new AirportRunway(
-            $row[self::COL_NAME],
-            AirportRunwayType::from($row[self::COL_SURFACE]),
+            $row[DbTableAirportRunway::COL_NAME],
+            AirportRunwayType::from($row[DbTableAirportRunway::COL_SURFACE]),
             $length ? new Length($length, LengthUnit::M) : NULL,
             $width ? new Length($width, LengthUnit::M) : NULL,
-            intval($row[self::COL_DIRECTION]),
+            intval($row[DbTableAirportRunway::COL_DIRECTION]),
             $tora ? new Length($tora, LengthUnit::M) : NULL,
             $lda ? new Length($lda, LengthUnit::M) : NULL,
-            StringNumberHelper::parseBoolOrNull($row, self::COL_PAPI),
-            AirportRunwayOperations::from($row[self::COL_OPERATIONS])
+            StringNumberHelper::parseBoolOrNull($row, DbTableAirportRunway::COL_PAPI),
+            AirportRunwayOperations::from($row[DbTableAirportRunway::COL_OPERATIONS])
         );
     }
 
@@ -50,17 +36,17 @@ class DbAirportRunwayConverter {
 
 
     public static function prepareInsertStatement(IDbService $dbService): IDbStatement {
-        $query = "INSERT INTO " . self::TABLE_NAME . " (" . join(", ", [
-                self::COL_AIRPORT_ID,
-                self::COL_NAME,
-                self::COL_SURFACE,
-                self::COL_LENGTH,
-                self::COL_WIDTH,
-                self::COL_DIRECTION,
-                self::COL_TORA,
-                self::COL_LDA,
-                self::COL_PAPI,
-                self::COL_OPERATIONS,
+        $query = "INSERT INTO " . DbTableAirportRunway::TABLE_NAME . " (" . join(", ", [
+                DbTableAirportRunway::COL_AIRPORT_ID,
+                DbTableAirportRunway::COL_NAME,
+                DbTableAirportRunway::COL_SURFACE,
+                DbTableAirportRunway::COL_LENGTH,
+                DbTableAirportRunway::COL_WIDTH,
+                DbTableAirportRunway::COL_DIRECTION,
+                DbTableAirportRunway::COL_TORA,
+                DbTableAirportRunway::COL_LDA,
+                DbTableAirportRunway::COL_PAPI,
+                DbTableAirportRunway::COL_OPERATIONS,
             ]) . ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         return $dbService->prepareStatement($query);

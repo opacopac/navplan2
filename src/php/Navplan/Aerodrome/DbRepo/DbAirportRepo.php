@@ -9,7 +9,11 @@ use Navplan\Aerodrome\DbModel\DbAirportFeatureConverter;
 use Navplan\Aerodrome\DbModel\DbAirportRadioConverter;
 use Navplan\Aerodrome\DbModel\DbAirportRunwayConverter;
 use Navplan\Aerodrome\DbModel\DbShortAirportConverter;
+use Navplan\Aerodrome\DbModel\DbTableAirport;
+use Navplan\Aerodrome\DbModel\DbTableAirportRadio;
+use Navplan\Aerodrome\DbModel\DbTableAirportRunway;
 use Navplan\Aerodrome\DomainModel\Airport;
+use Navplan\Aerodrome\DomainModel\AirportRunwayOperations;
 use Navplan\Aerodrome\DomainService\IAirportRepo;
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
@@ -29,7 +33,7 @@ class DbAirportRepo implements IAirportRepo {
 
 
     public function readById(int $id): Airport {
-        $query  = "SELECT * FROM openaip_airports2 WHERE id = " . $id;
+        $query  = "SELECT * FROM " . DbTableAirport::TABLE_NAME . " WHERE id = " . $id;
 
         $result = $this->dbService->execSingleResultQuery($query, false,"error loading airport by id");
         $row = $result->fetch_assoc();
@@ -42,7 +46,7 @@ class DbAirportRepo implements IAirportRepo {
 
 
     public function readByIcao(string $icao): Airport {
-        $query  = "SELECT * FROM openaip_airports2 WHERE icao = " . $this->dbService->escapeAndQuoteString($icao);
+        $query  = "SELECT * FROM " . DbTableAirport::TABLE_NAME . " WHERE icao = " . $this->dbService->escapeAndQuoteString($icao);
 
         $result = $this->dbService->execSingleResultQuery($query, false,"error loading airport by icao");
         $row = $result->fetch_assoc();
@@ -56,25 +60,34 @@ class DbAirportRepo implements IAirportRepo {
 
     public function searchShortByExtent(Extent2d $extent, int $zoom): array {
         $extentPoly = DbHelper::getDbExtentPolygon2($extent);
-        $query  = "SELECT ad.id, ad.type, ad.icao, ad.latitude, ad.longitude, rwy.direction1, rwy.surface, GROUP_CONCAT(fea.type) as features";
-        $query .= " FROM openaip_airports2 ad";
-        $query .= " LEFT JOIN openaip_runways2 rwy ON rwy.airport_id = ad.id";
-        $query .= " LEFT JOIN map_features fea ON fea.airport_icao = ad.icao";
+        //$query  = "SELECT ad.id, ad.type, ad.icao, ad.latitude, ad.longitude, rwy.direction, rwy.surface, GROUP_CONCAT(fea.type) as features";
+        $query  = "SELECT ";
+        $query .= "  ad." . DbTableAirport::COL_ID . ",";
+        $query .= "  ad." . DbTableAirport::COL_TYPE . ",";
+        $query .= "  ad." . DbTableAirport::COL_ICAO . ",";
+        $query .= "  ad." . DbTableAirport::COL_LATITUDE . ",";
+        $query .= "  ad." . DbTableAirport::COL_LONGITUDE . ",";
+        $query .= "  rwy." . DbTableAirportRunway::COL_DIRECTION . ",";
+        $query .= "  rwy." . DbTableAirportRunway::COL_SURFACE . ",";
+        $query .= "  GROUP_CONCAT(fea.type) as features";
+        $query .= " FROM " . DbTableAirport::TABLE_NAME . " ad";
+        $query .= " LEFT JOIN " . DbTableAirportRunway::TABLE_NAME . " rwy ON rwy." . DbTableAirportRunway::COL_AIRPORT_ID . " = ad." . DbTableAirport::COL_ID;
+        $query .= " LEFT JOIN map_features fea ON fea.airport_icao = ad." . DbTableAirport::COL_ICAO;
         $query .= " WHERE";
-        $query .= "  ST_INTERSECTS(ad.lonlat, " . $extentPoly . ")";
+        $query .= "  ST_INTERSECTS(ad." . DbTableAirport::COL_LONLAT . ", " . $extentPoly . ")";
         $query .= "    AND";
-        $query .= "  ad.zoommin <= " . $zoom;
-        $query .= "    AND";
+        /*$query .= "  ad.zoommin <= " . $zoom;
+        $query .= "    AND";*/
         $query .= "  (";
-        $query .= "    rwy.id IS NULL";
+        $query .= "    rwy." . DbTableAirportRunway::COL_ID . " IS NULL";
         $query .= "      OR";
         $query .= "    (";
-        $query .= "      rwy.operations = 'ACTIVE'";
+        $query .= "      rwy." . DbTableAirportRunway::COL_OPERATIONS . " = '" . AirportRunwayOperations::ACTIVE->value . "'";
         $query .= "        AND";
-        $query .= "      rwy.length = (SELECT MAX(length) FROM openaip_runways2 WHERE airport_id = ad.id)";
+        $query .= "      rwy.length = (SELECT MAX(" . DbTableAirportRunway::COL_LENGTH . ") FROM " . DbTableAirportRunway::TABLE_NAME . " WHERE airport_id = ad." . DbTableAirport::COL_ID . ")";
         $query .= "    )";
         $query .= "  )";
-        $query .= "  GROUP BY ad.id";
+        $query .= "  GROUP BY ad." . DbTableAirport::COL_ID;
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching airports by extent");
 
@@ -89,7 +102,7 @@ class DbAirportRepo implements IAirportRepo {
 
     public function searchByPosition(Position2d $position, float $maxRadius_deg, int $maxResults): array {
         $query  = "SELECT *";
-        $query .= " FROM openaip_airports2";
+        $query .= " FROM " . DbTableAirport::TABLE_NAME;
         $query .= " WHERE";
         $query .= "   latitude > " . ($position->latitude - $maxRadius_deg);
         $query .= "   AND latitude < " . ($position->latitude + $maxRadius_deg);
@@ -111,7 +124,7 @@ class DbAirportRepo implements IAirportRepo {
     public function searchByText(string $searchText, int $maxResults): array {
         $searchText = $this->dbService->escapeString($searchText);
         $query = "SELECT *";
-        $query .= " FROM openaip_airports2";
+        $query .= " FROM " . DbTableAirport::TABLE_NAME;
         $query .= " WHERE";
         $query .= "   icao LIKE '" . $searchText . "%'";
         $query .= "   OR name LIKE '" . $searchText . "%'";
@@ -172,13 +185,13 @@ class DbAirportRepo implements IAirportRepo {
 
 
     public function deleteAll(): bool {
-        $query = "TRUNCATE TABLE " . DbAirportRunwayConverter::TABLE_NAME;
+        $query = "TRUNCATE TABLE " . DbTableAirportRunway::TABLE_NAME;
         $result1 = $this->dbService->execCUDQuery($query);
 
-        $query = "TRUNCATE TABLE " . DbAirportRadioConverter::TABLE_NAME;
+        $query = "TRUNCATE TABLE " . DbTableAirportRadio::TABLE_NAME;
         $result2 = $this->dbService->execCUDQuery($query);
 
-        $query = "TRUNCATE TABLE " . DbAirportConverter::TABLE_NAME;
+        $query = "TRUNCATE TABLE " . DbTableAirport::TABLE_NAME;
         $result3 = $this->dbService->execCUDQuery($query);
 
         return $result1 && $result2 && $result3;

@@ -20,20 +20,20 @@
     <ng-container matColumnDef="tora">
         <th mat-header-cell *matHeaderCellDef>TORA [m]</th>
         <td mat-cell *matCellDef="let runway">
-            {{ runway.tora1 ? runway.tora1.m : '-' }} / {{ runway.tora2 ? runway.tora2.m : '-' }}
+            {{ runway.tora ? runway.tora.m : '-' }}
         </td>
     </ng-container>
 
     <ng-container matColumnDef="lda">
         <th mat-header-cell *matHeaderCellDef>LDA [m]</th>
         <td mat-cell *matCellDef="let runway">
-            {{ runway.lda1 ? runway.lda1.m : '-' }} / {{ runway.lda2 ? runway.lda2.m : '-' }}
+            {{ runway.lda ? runway.lda.m : '-' }}
         </td>
     </ng-container>
 
     <ng-container matColumnDef="papi">
         <th mat-header-cell *matHeaderCellDef>PAPI</th>
-        <td mat-cell *matCellDef="let runway">{{ runway.papi1 ? 'y' : '-' }} / {{ runway.papi2 ? 'y' : '-' }}</td>
+        <td mat-cell *matCellDef="let runway">{{ runway.papi ? 'y' : '-' }}</td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="this.getRwyColumns()"></tr>

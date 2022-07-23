@@ -2,6 +2,7 @@
 
 namespace Navplan\OpenAip\ZoomLevelSorter;
 
+use Navplan\Aerodrome\DbModel\DbTableAirport;
 use Navplan\System\DomainModel\IDbResult;
 use Navplan\System\DomainService\IDbService;
 
@@ -29,7 +30,7 @@ class AirportZoomLevelSortItem implements IZoomLevelSortItem {
 
 
     public function cleanZoomLevels() {
-        $query =  "UPDATE openaip_airports2 SET zoommin = NULL";
+        $query =  "UPDATE " . DbTableAirport::TABLE_NAME . " SET zoommin = NULL";
 
         $this->dbService->execCUDQuery($query);
     }
@@ -39,7 +40,7 @@ class AirportZoomLevelSortItem implements IZoomLevelSortItem {
         $query = " SELECT apt.id, apt.type, apt.latitude, apt.longitude, apt.icao, apt.geohash,";
         $query .= " (SELECT COUNT(rwy.id) FROM openaip_runways2 rwy WHERE rwy.airport_id = apt.id) AS rwycount,";
         $query .= " (SELECT rwy.length FROM openaip_runways2 rwy WHERE rwy.airport_id = apt.id ORDER BY rwy.length DESC LIMIT 1) AS rwylen";
-        $query .= " FROM openaip_airports2 apt";
+        $query .= " FROM " . DbTableAirport::TABLE_NAME . " apt";
         $query .= " WHERE";
         $query .= "  apt.zoommin IS NULL";
         $query .= $lastGeoHash !== NULL ? " AND apt.geohash > '" . $lastGeoHash . "'" : "";
@@ -55,7 +56,7 @@ class AirportZoomLevelSortItem implements IZoomLevelSortItem {
      * @param int[] $idList
      */
     public function updateZoomLevels(int $zoomMin, array $idList) {
-        $query =  "UPDATE openaip_airports2";
+        $query = "UPDATE " . DbTableAirport::TABLE_NAME;
         $query .= " SET zoommin = " . $zoomMin;
         $query .= " WHERE id IN (" . join(",", $idList) . ")";
 

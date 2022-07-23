@@ -14,28 +14,15 @@ use Navplan\System\DomainService\IDbService;
 
 
 class DbAirportConverter {
-    public const TABLE_NAME = "openaip_airports2";
-    public const COL_ID = "id";
-    public const COL_TYPE = "type";
-    public const COL_NAME = "name";
-    public const COL_ICAO = "icao";
-    public const COL_COUNTRY = "country";
-    public const COL_LONGITUDE = "longitude";
-    public const COL_LATITUDE = "latitude";
-    public const COL_ELEVATION = "elevation";
-    public const COL_GEOHASH = "geohash";
-    public const COL_LONLAT = "lonlat";
-
-
     public static function fromDbRow(array $row): Airport {
         return new Airport(
-            intval($row[self::COL_ID]),
-            AirportType::from($row[self::COL_TYPE]),
-            $row[self::COL_NAME],
-            $row[self::COL_ICAO] !== "" ? $row[self::COL_ICAO] : NULL,
-            $row[self::COL_COUNTRY],
-            DbPosition2dConverter::fromDbRow($row, self::COL_LONGITUDE, self::COL_LATITUDE),
-            new Altitude(floatval($row[self::COL_ELEVATION]), AltitudeUnit::M, AltitudeReference::MSL),
+            intval($row[DbTableAirport::COL_ID]),
+            AirportType::from($row[DbTableAirport::COL_TYPE]),
+            $row[DbTableAirport::COL_NAME],
+            $row[DbTableAirport::COL_ICAO] !== "" ? $row[DbTableAirport::COL_ICAO] : NULL,
+            $row[DbTableAirport::COL_COUNTRY],
+            DbPosition2dConverter::fromDbRow($row, DbTableAirport::COL_LONGITUDE, DbTableAirport::COL_LATITUDE),
+            new Altitude(floatval($row[DbTableAirport::COL_ELEVATION]), AltitudeUnit::M, AltitudeReference::MSL),
             [],
             [],
             [],
@@ -47,16 +34,16 @@ class DbAirportConverter {
 
 
     public static function prepareInsertStatement(IDbService $dbService): IDbStatement {
-        $query = "INSERT INTO " . self::TABLE_NAME . " (" . join(", ", [
-                self::COL_TYPE,
-                self::COL_NAME,
-                self::COL_ICAO,
-                self::COL_COUNTRY,
-                self::COL_LONGITUDE,
-                self::COL_LATITUDE,
-                self::COL_ELEVATION,
-                self::COL_GEOHASH,
-                self::COL_LONLAT
+        $query = "INSERT INTO " . DbTableAirport::TABLE_NAME . " (" . join(", ", [
+                DbTableAirport::COL_TYPE,
+                DbTableAirport::COL_NAME,
+                DbTableAirport::COL_ICAO,
+                DbTableAirport::COL_COUNTRY,
+                DbTableAirport::COL_LONGITUDE,
+                DbTableAirport::COL_LATITUDE,
+                DbTableAirport::COL_ELEVATION,
+                DbTableAirport::COL_GEOHASH,
+                DbTableAirport::COL_LONLAT
             ]) . ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ST_GeomFromText(?))";
 
         return $dbService->prepareStatement($query);
