@@ -8,11 +8,16 @@ use Navplan\Enroute\DbModel\DbNavaidConverter;
 use Navplan\Enroute\DomainService\INavaidRepo;
 use Navplan\System\DomainModel\IDbResult;
 use Navplan\System\DomainService\IDbService;
+use Navplan\System\DomainService\ILoggingService;
 use Navplan\System\MySqlDb\DbHelper;
+use Throwable;
 
 
 class DbNavaidRepo implements INavaidRepo {
-    public function __construct(private IDbService $dbService) {
+    public function __construct(
+        private IDbService $dbService,
+        private ILoggingService $loggingService
+    ) {
     }
 
 
@@ -70,8 +75,13 @@ class DbNavaidRepo implements INavaidRepo {
         $statement = DbNavaidConverter::prepareInsertStatement($this->dbService);
 
         foreach ($navaids as $navaid) {
-            DbNavaidConverter::bindInsertStatement($navaid, $statement);
-            $statement->execute();
+            try {
+                DbNavaidConverter::bindInsertStatement($navaid, $statement);
+                $statement->execute();
+            } catch (Throwable $ex) {
+                $this->loggingService->error("error inserting navaid '" . $navaid->name . "'");
+                throw $ex;
+            }
         }
     }
 

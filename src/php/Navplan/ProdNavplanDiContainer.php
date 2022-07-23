@@ -312,7 +312,10 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
 
     public function getAirspaceService(): IAirspaceService {
         if (!isset($this->airspaceService)) {
-            $this->airspaceService = new DbAirspaceRepo($this->getDbService());
+            $this->airspaceService = new DbAirspaceRepo(
+                $this->getDbService(),
+                $this->getScreenLogger()
+            );
         }
 
         return $this->airspaceService;
@@ -321,7 +324,10 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
 
     public function getNavaidService(): INavaidService {
         if (!isset($this->navaidService)) {
-            $this->navaidService = new DbNavaidRepo($this->getDbService());
+            $this->navaidService = new DbNavaidRepo(
+                $this->getDbService(),
+                $this->getScreenLogger()
+            );
         }
 
         return $this->navaidService;

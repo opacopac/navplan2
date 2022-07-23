@@ -8,6 +8,7 @@ use Navplan\Common\GeoHelper;
 use Navplan\Enroute\DbModel\DbAirspaceConverter;
 use Navplan\Enroute\DomainService\IAirspaceRepo;
 use Navplan\System\DomainService\IDbService;
+use Navplan\System\DomainService\ILoggingService;
 use Navplan\System\MySqlDb\DbHelper;
 use Throwable;
 
@@ -18,7 +19,10 @@ class DbAirspaceRepo implements IAirspaceRepo {
     const MIN_PIXEL_COORDINATE_RESOLUTION = 2;  // TODO
 
 
-    public function __construct(private IDbService $dbService) {
+    public function __construct(
+        private IDbService $dbService,
+        private ILoggingService $loggingService
+    ) {
     }
 
 
@@ -83,7 +87,7 @@ class DbAirspaceRepo implements IAirspaceRepo {
                     DbAirspaceConverter::bindInsertStatement($airspace, $statement);
                     $statement->execute();
                 } catch (Throwable $ex) {
-                    var_dump($airspace);
+                    $this->loggingService->error("error inserting airspace '" . $airspace->name . "'");
                     throw $ex;
                 }
             }

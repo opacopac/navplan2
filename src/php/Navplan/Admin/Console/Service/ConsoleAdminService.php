@@ -22,6 +22,7 @@ class ConsoleAdminService {
 
     public static function processRequest(IAdminServiceDiContainer $diContainer, array $args) {
         $action = $args[1] ?? NULL;
+
         switch ($action) {
             case self::ARG_IMPORT_AIRPORTS:
                 $diContainer->getAdminService()->importAirports();

@@ -17,6 +17,7 @@ use Navplan\System\DomainModel\IDbResult;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\DomainService\ILoggingService;
 use Navplan\System\MySqlDb\DbHelper;
+use Throwable;
 
 
 class DbAirportRepo implements IAirportRepo {
@@ -138,28 +139,33 @@ class DbAirportRepo implements IAirportRepo {
         $airport_statement = DbAirportConverter::prepareInsertStatement($this->dbService);
 
         foreach ($airports as $airport) {
-            DbAirportConverter::bindInsertStatement($airport, $airport_statement);
-            $airport_statement->execute();
-            $airport_id = $airport_statement->getInsertId();
+            try {
+                DbAirportConverter::bindInsertStatement($airport, $airport_statement);
+                $airport_statement->execute();
+                $airport_id = $airport_statement->getInsertId();
 
-            // radios
-            if ($airport->hasRadios()) {
-                $radio_statement = DbAirportRadioConverter::prepareInsertStatement($this->dbService);
+                // radios
+                if ($airport->hasRadios()) {
+                    $radio_statement = DbAirportRadioConverter::prepareInsertStatement($this->dbService);
 
-                foreach ($airport->radios as $radio) {
-                    DbAirportRadioConverter::bindInsertStatement($radio, $airport_id, $radio_statement);
-                    $radio_statement->execute();
+                    foreach ($airport->radios as $radio) {
+                        DbAirportRadioConverter::bindInsertStatement($radio, $airport_id, $radio_statement);
+                        $radio_statement->execute();
+                    }
                 }
-            }
 
-            // runways
-            if ($airport->hasRunways()) {
-                $rwy_statement = DbAirportRunwayConverter::prepareInsertStatement($this->dbService);
+                // runways
+                if ($airport->hasRunways()) {
+                    $rwy_statement = DbAirportRunwayConverter::prepareInsertStatement($this->dbService);
 
-                foreach ($airport->runways as $rwy) {
-                    DbAirportRunwayConverter::bindInsertStatement($rwy, $airport_id, $rwy_statement);
-                    $rwy_statement->execute();
+                    foreach ($airport->runways as $rwy) {
+                        DbAirportRunwayConverter::bindInsertStatement($rwy, $airport_id, $rwy_statement);
+                        $rwy_statement->execute();
+                    }
                 }
+            } catch (Throwable $ex) {
+                $this->loggingService->error("error inserting airport '" . $airport->name . "'");
+                throw $ex;
             }
         }
     }
