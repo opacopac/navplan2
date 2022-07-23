@@ -270,7 +270,8 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     public function getAirportService(): IAirportService {
         if (!isset($this->airportService)) {
             $this->airportService = new DbAirportRepo(
-                $this->getDbService()
+                $this->getDbService(),
+                $this->getScreenLogger()
             );
         }
 
@@ -400,6 +401,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
                 $this->getAirportService(),
                 $this->getAirspaceService(),
                 $this->getNavaidService(),
+                $this->getScreenLogger()
             );
         }
 
@@ -527,7 +529,9 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
         global $db_host, $db_user, $db_pw, $db_name;
 
         if (!isset($this->dbService)) {
-            $this->dbService = MySqlDbService::getInstance();
+            $this->dbService = new MySqlDbService(
+                $this->getScreenLogger()
+            );
             $this->dbService->init($db_host, $db_user, $db_pw, $db_name);
         }
 

@@ -6,11 +6,13 @@ use Navplan\OpenAip\ApiAdapter\Service\OpenAipReadAirportResponse;
 
 
 class OpenAipAirportResponseConverter {
-    public static function fromRest(array $restNavaidResponse): OpenAipReadAirportResponse {
+    public static function fromRest(array $restResponse): OpenAipReadAirportResponse {
         return new OpenAipReadAirportResponse(
-            intval($restNavaidResponse["page"]),
-            isset($restNavaidResponse["nextPage"]) ? intval($restNavaidResponse["nextPage"]) : -1,
-            OpenAipAirportConverter::fromRestList($restNavaidResponse["items"]),
+            intval($restResponse["page"]),
+            isset($restResponse["nextPage"]) ? intval($restResponse["nextPage"]) : -1,
+            intval($restResponse["totalPages"]),
+            intval($restResponse["totalCount"]),
+            OpenAipAirportConverter::fromRestList($restResponse["items"]),
         );
     }
 }

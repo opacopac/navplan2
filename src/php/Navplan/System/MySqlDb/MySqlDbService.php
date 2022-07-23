@@ -8,11 +8,10 @@ use Navplan\System\DomainModel\DbException;
 use Navplan\System\DomainModel\IDbResult;
 use Navplan\System\DomainModel\IDbStatement;
 use Navplan\System\DomainService\IDbService;
+use Navplan\System\DomainService\ILoggingService;
 
 
 class MySqlDbService implements IDbService {
-    private static $instance = NULL;
-
     private string $db_host;
     private string $db_user;
     private string $db_pw;
@@ -20,16 +19,9 @@ class MySqlDbService implements IDbService {
     private ?mysqli $connection = NULL;
 
 
-    public static function getInstance(): MySqlDbService {
-        if (!isset(static::$instance)) {
-            static::$instance = new static;
-        }
-
-        return static::$instance;
-    }
-
-
-    private function __construct() {
+    public function __construct(
+        private ILoggingService $loggingService
+    ) {
     }
 
 
@@ -189,27 +181,10 @@ class MySqlDbService implements IDbService {
 
         $stmt = $this->connection->prepare($query);
         if ($stmt !== false) {
-            return new MySqlDbStatement($stmt);
+            return new MySqlDbStatement($stmt, $this->loggingService);
         } else {
             throw new DbException("error: could not prepare statment", "", $query);
         }
-    }
-
-
-    public function begin_transaction(): bool {
-        $this->autoOpen();
-
-        return $this->connection->begin_transaction();
-    }
-
-
-    public function commit(): bool {
-        return $this->connection->commit();
-    }
-
-
-    public function rollback(): bool {
-        return $this->connection->rollback();
     }
 
 

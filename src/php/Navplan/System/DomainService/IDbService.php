@@ -28,10 +28,4 @@ interface IDbService {
     function getInsertId(): int;
 
     function prepareStatement(string $query): IDbStatement;
-
-    function begin_transaction(): bool;
-
-    function commit(): bool;
-
-    function rollback(): bool;
 }

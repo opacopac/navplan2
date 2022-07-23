@@ -6,11 +6,13 @@ use Navplan\OpenAip\ApiAdapter\Service\OpenAipReadAirspacesResponse;
 
 
 class OpenAipAirspaceResponseConverter {
-    public static function fromRest(array $restNavaidResponse): OpenAipReadAirspacesResponse {
+    public static function fromRest(array $restResponse): OpenAipReadAirspacesResponse {
         return new OpenAipReadAirspacesResponse(
-            intval($restNavaidResponse["page"]),
-            isset($restNavaidResponse["nextPage"]) ? intval($restNavaidResponse["nextPage"]) : -1,
-            OpenAipAirspaceConverter::fromRestList($restNavaidResponse["items"]),
+            intval($restResponse["page"]),
+            isset($restResponse["nextPage"]) ? intval($restResponse["nextPage"]) : -1,
+            intval($restResponse["totalPages"]),
+            intval($restResponse["totalCount"]),
+            OpenAipAirspaceConverter::fromRestList($restResponse["items"]),
         );
     }
 }

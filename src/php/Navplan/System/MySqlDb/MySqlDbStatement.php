@@ -4,24 +4,28 @@ namespace Navplan\System\MySqlDb;
 
 use mysqli_stmt;
 use Navplan\System\DomainModel\IDbStatement;
+use Navplan\System\DomainService\ILoggingService;
 
 
 class MySqlDbStatement implements IDbStatement {
-    public function __construct(private mysqli_stmt $stmt) {
+    public function __construct(
+        private mysqli_stmt $stmt,
+        private ILoggingService $loggingService
+    ) {
     }
 
 
-    function bind_param(string $types, mixed &...$vars): bool {
+    public function bind_param(string $types, mixed &...$vars): bool {
         return $this->stmt->bind_param($types, ...$vars);
     }
 
 
-    function execute(): bool {
+    public function execute(): bool {
         return $this->stmt->execute();
     }
 
 
-    function getInsertId(): int {
+    public function getInsertId(): int {
         return $this->stmt->insert_id;
     }
 }

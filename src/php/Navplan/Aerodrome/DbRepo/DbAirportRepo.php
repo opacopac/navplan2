@@ -15,12 +15,14 @@ use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\System\DomainModel\IDbResult;
 use Navplan\System\DomainService\IDbService;
+use Navplan\System\DomainService\ILoggingService;
 use Navplan\System\MySqlDb\DbHelper;
 
 
 class DbAirportRepo implements IAirportRepo {
     public function __construct(
-        private IDbService $dbService
+        private IDbService $dbService,
+        private ILoggingService $loggingService
     ) {
     }
 
