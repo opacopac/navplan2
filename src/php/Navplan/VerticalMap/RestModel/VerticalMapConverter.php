@@ -12,8 +12,8 @@ class VerticalMapConverter {
         return array(
             "mapHeight" => RestLengthConverter::toRest($verticalMap->mapHeight, 0),
             "mapWidth" => RestLengthConverter::toRest($verticalMap->mapWidth, 0),
-            "heightUnit" => LengthUnit::toString(LengthUnit::FT),
-            "widthUnit" => LengthUnit::toString(LengthUnit::M),
+            "heightUnit" => LengthUnit::FT->value,
+            "widthUnit" => LengthUnit::M->value,
             "terrainSteps" => VerticalMapTerrainStepConverter::listToRest($verticalMap->terrainSteps),
             "waypointSteps" => VerticalMapWaypointStepConverter::listToRest($verticalMap->waypointSteps),
             "vmAirspaces" => VerticalMapAirspaceConverter::listToRest($verticalMap->vmAirspaces)
