@@ -10,7 +10,7 @@ class AirportRadio {
         public string $category,
         public Frequency $frequency,
         public AirportRadioType $type,
-        public string $name,
+        public ?string $name,
         public bool $isPrimary
     ) {
     }

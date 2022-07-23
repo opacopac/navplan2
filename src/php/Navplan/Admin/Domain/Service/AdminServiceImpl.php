@@ -13,6 +13,13 @@ class AdminServiceImpl implements IAdminService {
     }
 
 
+    public function importAirports(): ImportResponse {
+        $result = $this->openAipImporter->importAirports();
+
+        return new ImportResponse($result->isSuccess, $result->insertCount);
+    }
+
+
     public function importAirspaces(): ImportResponse {
         $result = $this->openAipImporter->importAirspaces();
 

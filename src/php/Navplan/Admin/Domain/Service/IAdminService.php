@@ -6,6 +6,8 @@ use Navplan\Admin\Domain\Model\ImportResponse;
 
 
 interface IAdminService {
+    function importAirports(): ImportResponse;
+
     function importAirspaces(): ImportResponse;
 
     function importNavaids(): ImportResponse;

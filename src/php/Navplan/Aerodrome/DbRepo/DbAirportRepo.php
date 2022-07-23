@@ -10,7 +10,6 @@ use Navplan\Aerodrome\DbModel\DbAirportRadioConverter;
 use Navplan\Aerodrome\DbModel\DbAirportRunwayConverter;
 use Navplan\Aerodrome\DbModel\DbShortAirportConverter;
 use Navplan\Aerodrome\DomainModel\Airport;
-use Navplan\Aerodrome\DomainService\IAirportChartService;
 use Navplan\Aerodrome\DomainService\IAirportRepo;
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
@@ -21,8 +20,7 @@ use Navplan\System\MySqlDb\DbHelper;
 
 class DbAirportRepo implements IAirportRepo {
     public function __construct(
-        private IDbService $dbService,
-        private IAirportChartService $airportChartService,
+        private IDbService $dbService
     ) {
     }
 
@@ -131,6 +129,53 @@ class DbAirportRepo implements IAirportRepo {
 
         return $airports;
     }
+
+
+
+    public function insertAll(array $airports): void {
+        $airport_statement = DbAirportConverter::prepareInsertStatement($this->dbService);
+
+        foreach ($airports as $airport) {
+            DbAirportConverter::bindInsertStatement($airport, $airport_statement);
+            $airport_statement->execute();
+            $airport_id = $airport_statement->getInsertId();
+
+            // radios
+            if ($airport->hasRadios()) {
+                $radio_statement = DbAirportRadioConverter::prepareInsertStatement($this->dbService);
+
+                foreach ($airport->radios as $radio) {
+                    DbAirportRadioConverter::bindInsertStatement($radio, $airport_id, $radio_statement);
+                    $radio_statement->execute();
+                }
+            }
+
+            // runways
+            if ($airport->hasRunways()) {
+                $rwy_statement = DbAirportRunwayConverter::prepareInsertStatement($this->dbService);
+
+                foreach ($airport->runways as $rwy) {
+                    DbAirportRunwayConverter::bindInsertStatement($rwy, $airport_id, $rwy_statement);
+                    $rwy_statement->execute();
+                }
+            }
+        }
+    }
+
+
+    public function deleteAll(): bool {
+        $query = "TRUNCATE TABLE " . DbAirportRunwayConverter::TABLE_NAME;
+        $result1 = $this->dbService->execCUDQuery($query);
+
+        $query = "TRUNCATE TABLE " . DbAirportRadioConverter::TABLE_NAME;
+        $result2 = $this->dbService->execCUDQuery($query);
+
+        $query = "TRUNCATE TABLE " . DbAirportConverter::TABLE_NAME;
+        $result3 = $this->dbService->execCUDQuery($query);
+
+        return $result1 && $result2 && $result3;
+    }
+
 
 
     private function loadAirportSubItems(array &$airports) {

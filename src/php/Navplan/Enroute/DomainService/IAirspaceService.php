@@ -32,7 +32,7 @@ interface IAirspaceService {
      * @param Airspace[] $airspaces
      * @return void
      */
-    function insert(array $airspaces): void;
+    function insertAll(array $airspaces): void;
 
 
     /**

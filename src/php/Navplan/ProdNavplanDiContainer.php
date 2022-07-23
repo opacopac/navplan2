@@ -270,8 +270,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
     public function getAirportService(): IAirportService {
         if (!isset($this->airportService)) {
             $this->airportService = new DbAirportRepo(
-                $this->getDbService(),
-                $this->getAirportChartService(),
+                $this->getDbService()
             );
         }
 
@@ -398,6 +397,7 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
         if (!isset($this->openAipImporter)) {
             $this->openAipImporter = new OpenAipImporter(
                 $this->getOpenAipApiService(),
+                $this->getAirportService(),
                 $this->getAirspaceService(),
                 $this->getNavaidService(),
             );

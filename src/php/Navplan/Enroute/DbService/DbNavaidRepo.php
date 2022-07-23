@@ -66,7 +66,7 @@ class DbNavaidRepo implements INavaidRepo {
     }
 
 
-    public function insert(array $navaids): void {
+    public function insertAll(array $navaids): void {
         $statement = DbNavaidConverter::prepareInsertStatement($this->dbService);
 
         foreach ($navaids as $navaid) {

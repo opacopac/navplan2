@@ -15,7 +15,8 @@ class OpenAipAirportRunwayConverter {
             intval($restRunway["trueHeading"]),
             isset($restRunway["declaredDistance"]) && isset($restRunway["declaredDistance"]["tora"]) ? OpenAipLengthConverter::fromRest($restRunway["declaredDistance"]["tora"]) : null,
             isset($restRunway["declaredDistance"]) && isset($restRunway["declaredDistance"]["lda"]) ? OpenAipLengthConverter::fromRest($restRunway["declaredDistance"]["lda"]) : null,
-            isset($restRunway["visualApproachAids"]) ? intval($restRunway["visualApproachAids"]) === 1 : null
+            isset($restRunway["visualApproachAids"]) ? intval($restRunway["visualApproachAids"]) === 1 : null,
+            OpenAipAirportRundwayOperationsConverter::fromRest($restRunway["operations"])
         );
     }
 

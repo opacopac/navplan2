@@ -15,6 +15,7 @@ class AirportRunway {
         public ?Length $tora,
         public ?Length $lda,
         public ?bool $papi,
+        public AirportRunwayOperations $operations,
     ) {
     }
 }

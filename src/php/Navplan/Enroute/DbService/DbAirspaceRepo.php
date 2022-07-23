@@ -76,7 +76,7 @@ class DbAirspaceRepo implements IAirspaceRepo {
 
 
 
-    public function insert(array $airspaces): void {
+    public function insertAll(array $airspaces): void {
         $statement = DbAirspaceConverter::prepareInsertStatement($this->dbService);
             foreach ($airspaces as $airspace) {
                 try {

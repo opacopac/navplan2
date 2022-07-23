@@ -23,4 +23,14 @@ class Airport {
         public array $mapfeatures
     ) {
     }
+
+
+    public function hasRadios(): bool {
+        return count($this->radios) > 0;
+    }
+
+
+    public function hasRunways(): bool {
+        return count($this->runways) > 0;
+    }
 }

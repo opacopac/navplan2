@@ -35,7 +35,7 @@ interface INavaidService {
      * @param Navaid[] $navaids
      * @return void
      */
-    function insert(array $navaids): void;
+    function insertAll(array $navaids): void;
 
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Navplan\OpenAip\ApiAdapter\Service;
 
+use Navplan\OpenAip\ApiAdapter\Model\OpenAipAirportResponseConverter;
 use Navplan\OpenAip\ApiAdapter\Model\OpenAipAirspaceResponseConverter;
 use Navplan\OpenAip\ApiAdapter\Model\OpenAipNavaidResponseConverter;
 use Navplan\OpenAip\Config\IOpenAipConfigService;
@@ -10,6 +11,7 @@ use Navplan\OpenAip\Config\IOpenAipConfigService;
 class OpenAipService implements IOpenAipService {
     private const CLIENT_ID_HEADER = 'x-openaip-client-id';
     private const OPEN_AIP_BASE_URL = 'https://api.core.openaip.net/api/';
+    private const AIRPORTS_URL_SUFFIX = 'airports';
     private const AIRSPACES_URL_SUFFIX = 'airspaces';
     private const NAVAIDS_URL_SUFFIX = 'navaids';
     private const MAX_RESULTS_PER_PAGE = 1000;
@@ -18,6 +20,17 @@ class OpenAipService implements IOpenAipService {
     public function __construct(
         private IOpenAipConfigService $openAipConfigService,
     ) {
+    }
+
+
+
+    public function readAirports(int $page = 1): OpenAipReadAirportResponse {
+        $url = self::OPEN_AIP_BASE_URL . self::AIRPORTS_URL_SUFFIX . "?limit=" . self::MAX_RESULTS_PER_PAGE . "&page=" . $page;
+        $context = $this->getHttpContext();
+        $rawResponse = file_get_contents($url, false, $context);
+        $jsonResponse = json_decode($rawResponse, true, JSON_NUMERIC_CHECK);
+
+        return OpenAipAirportResponseConverter::fromRest($jsonResponse);
     }
 
 

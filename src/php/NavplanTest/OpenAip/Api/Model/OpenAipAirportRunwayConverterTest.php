@@ -2,6 +2,7 @@
 
 namespace NavplanTest\OpenAip\Api\Model;
 
+use Navplan\Aerodrome\DomainModel\AirportRunwayOperations;
 use Navplan\Common\DomainModel\Length;
 use Navplan\OpenAip\ApiAdapter\Model\OpenAipAirportRunwayConverter;
 use PHPUnit\Framework\TestCase;
@@ -66,5 +67,6 @@ class OpenAipAirportRunwayConverterTest extends TestCase {
         $this->assertEquals(Length::fromM(947), $rwy->tora);
         $this->assertEquals(Length::fromM(947), $rwy->lda);
         $this->assertEquals(true, $rwy->papi);
+        $this->assertEquals(AirportRunwayOperations::ACTIVE, $rwy->operations);
     }
 }

@@ -15,7 +15,7 @@ class OpenAipAirportRadioConverter {
             $category,
             $frequency,
             $type,
-            $restRadio["name"],
+            $restRadio["name"] ?? null,
             boolval($restRadio["primary"])
         );
     }

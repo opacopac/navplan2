@@ -33,4 +33,17 @@ interface IAirportService {
      * @return Airport[]
      */
     function searchByText(string $searchText, int $maxResults): array;
+
+
+    /**
+     * @param Airport[] $airports
+     * @return void
+     */
+    function insertAll(array $airports): void;
+
+
+    /**
+     * @return bool
+     */
+    function deleteAll(): bool;
 }

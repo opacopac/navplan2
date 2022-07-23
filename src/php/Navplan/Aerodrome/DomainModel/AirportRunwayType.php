@@ -6,12 +6,12 @@ namespace Navplan\Aerodrome\DomainModel;
 enum AirportRunwayType: string {
     case ASPH = "ASPH";
     case CONC = "CONC";
-    case GRASS = "GRASS";
+    case GRASS = "GRAS";
     case SAND = "SAND";
-    case WATER = "WATER";
-    case GRAVEL = "GRAVEL";
-    case EARTH = "EARTH";
+    case WATER = "WATE";
+    case GRAVEL = "GRVL";
+    case EARTH = "SOIL";
     case ICE = "ICE";
     case SNOW = "SNOW";
-    case UNKNOWN = "UNKNOWN";
+    case UNKNOWN = "UNKN";
 }
