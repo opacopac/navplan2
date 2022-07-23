@@ -32,17 +32,17 @@ class DbAirspaceRepo implements IAirspaceRepo {
         $minDiameterDeg = $pixelResolutionDeg * self::MIN_PIXEL_AIRSPACE_DIAMETER;
 
         $query  = $this->getSelectClauseCommonPart();
-        $query .= "  det.polygon";
+        $query .= "  air.polygon";
         $query .= " FROM openaip_airspace2 air";
-        $query .= "  INNER JOIN openaip_airspace_detaillevels det ON det.airspace_id = air.id";
+        //$query .= "  INNER JOIN openaip_airspace_detaillevels det ON det.airspace_id = air.id";
         $query .= " WHERE";
         $query .= "  ST_INTERSECTS(air.extent, " . $extent . ")";
         $query .= "    AND";
         $query .= "  (air.alt_bottom_height < " . self::MAX_BOTTOM_ALT_FL . " OR air.alt_bottom_unit <> 'FL')";
-        $query .= "    AND";
+        /*$query .= "    AND";
         $query .= "  air.diameter > " . $minDiameterDeg;
         $query .= "    AND";
-        $query .= "  (" . $zoom . " >= det.zoommin AND " . $zoom . "<= det.zoommax)";
+        $query .= "  (" . $zoom . " >= det.zoommin AND " . $zoom . "<= det.zoommax)";*/
         //$query .= "  ST_Distance(ST_PointN(ST_ExteriorRing(ST_Envelope(extent)), 1), ST_PointN(ST_ExteriorRing(ST_Envelope(extent)), 3)) > " . $minDiameterDeg;
         $result = $this->dbService->execMultiResultQuery($query, "error searching airspaces by extent");
 

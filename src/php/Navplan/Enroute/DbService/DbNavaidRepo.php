@@ -27,8 +27,8 @@ class DbNavaidRepo implements INavaidRepo {
         $query .= " FROM openaip_navaids2";
         $query .= " WHERE";
         $query .= "  ST_INTERSECTS(lonlat, " . $extent . ")";
-        $query .= "    AND";
-        $query .= "  zoommin <= " . $zoom;
+        /*$query .= "    AND";
+        $query .= "  zoommin <= " . $zoom;*/
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching navaids by extent");
 
