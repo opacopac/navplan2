@@ -1,0 +1,14 @@
+{
+    "name": "tschanz.com/navplan2",
+    "authors": [
+        {
+            "name": "opacopac",
+            "email": "armand@tschanz.com"
+        }
+    ],
+    "require": {
+        "phpoffice/phpspreadsheet": "^1.24",
+        "setasign/fpdf": "^1.8",
+        "rbdwllr/reallysimplejwt": "^5.0"
+    }
+}

@@ -1,15 +1,12 @@
 <?php declare(strict_types=1);
 
-
 namespace Navplan\Exporter\Builder;
 
-require_once __DIR__ . "/../../../vendor/FPDF/rpdf.php";
-
+use FPDF;
 use Navplan\Common\DomainModel\Consumption;
 use Navplan\Flightroute\DomainModel\Flightroute;
 use Navplan\Flightroute\DomainModel\FuelCalc;
 use Navplan\Flightroute\DomainModel\Waypoint;
-use RPDF;
 
 
 class NavplanPdfBuilder {
@@ -31,7 +28,7 @@ class NavplanPdfBuilder {
     private const FUEL_COL_WIDTH = [ 18, 14.82, 14.82 ];
     private const FUEL_COL_TITLE = [ "l/h:", "Time", "Fuel" ];
     private const FUEL_ROW_TITLE = [ "Trip", "Alternate", "Reserve", "Minimum", "Extra fuel", "Block fuel" ];
-    private RPDF $pdf;
+    private FPDF $pdf;
 
 
     public function __construct() {
@@ -41,9 +38,9 @@ class NavplanPdfBuilder {
     /**
      * @param Flightroute $flightroute
      * @param FuelCalc $fuelCalc
-     * @return RPDF
+     * @return FPDF
      */
-    public function buildPdf(Flightroute $flightroute, FuelCalc $fuelCalc): RPDF {
+    public function buildPdf(Flightroute $flightroute, FuelCalc $fuelCalc): FPDF {
         self::createDoc();
         self::createTitle();
         self::createGenericData($flightroute);
@@ -63,7 +60,7 @@ class NavplanPdfBuilder {
 
 
     private function createDoc(): void {
-        $this->pdf = new RPDF('L', 'mm', 'A4');
+        $this->pdf = new FPDF('L', 'mm', 'A4');
         $this->pdf->SetTitle(self::PLAN_TITLE);
         $this->pdf->AddFont('Arial-Narrow', '', 'arial-narrow.php');
         $this->pdf->AddFont('ArialNarrow-Italic', 'I', 'ARIALNI.php');
