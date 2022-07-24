@@ -2,11 +2,13 @@
 
 namespace Navplan\Exporter\Builder;
 
-use FPDF;
+require_once __DIR__ . "/../../../vendor/setasign/fpdf/rotation.php";
+
 use Navplan\Common\DomainModel\Consumption;
 use Navplan\Flightroute\DomainModel\Flightroute;
 use Navplan\Flightroute\DomainModel\FuelCalc;
 use Navplan\Flightroute\DomainModel\Waypoint;
+use PDF_Rotate;
 
 
 class NavplanPdfBuilder {
@@ -28,7 +30,7 @@ class NavplanPdfBuilder {
     private const FUEL_COL_WIDTH = [ 18, 14.82, 14.82 ];
     private const FUEL_COL_TITLE = [ "l/h:", "Time", "Fuel" ];
     private const FUEL_ROW_TITLE = [ "Trip", "Alternate", "Reserve", "Minimum", "Extra fuel", "Block fuel" ];
-    private FPDF $pdf;
+    private PDF_Rotate $pdf;
 
 
     public function __construct() {
@@ -38,9 +40,9 @@ class NavplanPdfBuilder {
     /**
      * @param Flightroute $flightroute
      * @param FuelCalc $fuelCalc
-     * @return FPDF
+     * @return PDF_Rotate
      */
-    public function buildPdf(Flightroute $flightroute, FuelCalc $fuelCalc): FPDF {
+    public function buildPdf(Flightroute $flightroute, FuelCalc $fuelCalc): PDF_Rotate {
         self::createDoc();
         self::createTitle();
         self::createGenericData($flightroute);
@@ -60,7 +62,7 @@ class NavplanPdfBuilder {
 
 
     private function createDoc(): void {
-        $this->pdf = new FPDF('L', 'mm', 'A4');
+        $this->pdf = new PDF_Rotate('L', 'mm', 'A4');
         $this->pdf->SetTitle(self::PLAN_TITLE);
         $this->pdf->AddFont('Arial-Narrow', '', 'arial-narrow.php');
         $this->pdf->AddFont('ArialNarrow-Italic', 'I', 'ARIALNI.php');
@@ -260,7 +262,7 @@ class NavplanPdfBuilder {
         $this->pdf->SetXY(self::CMT_COL_WIDTH + self::MARGIN_X, $fuelTop);
         $this->pdf->Cell(self::FUEL_TITLE_COL_WIDTH, self::ROW_HEIGHT * self::CMT_NUM, "", 0, 0, "", true);
         $this->pdf->SetFont('Arial', 'B', 11);
-        $this->pdf->TextWithRotation(94, 185, self::FUEL_TITLE, 90);
+        $this->pdf->RotatedText(94, 185, self::FUEL_TITLE, 90);
     }
 
 

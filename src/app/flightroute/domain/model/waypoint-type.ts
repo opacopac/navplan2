@@ -3,5 +3,7 @@ export enum WaypointType {
     navaid,
     report,
     user,
-    geoname
+    geoname,
+    global,
+    coordinates
 }
