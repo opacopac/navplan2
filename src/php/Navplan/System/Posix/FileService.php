@@ -11,7 +11,7 @@ use Navplan\System\DomainService\IFileService;
 
 
 class FileService implements IFileService {
-    const TMP_DIR_BASE = ProdNavplanDiContainer::TMP_DIR; // TODO //'../../../../../tmp/';
+    const TMP_DIR_BASE = ProdNavplanDiContainer::TMP_DIR;
     const TMP_DIR_PREFIX = 'tmpdl_';
     const TMP_DIR_TIMEOUT_SEC = 300;
 
@@ -133,13 +133,13 @@ class FileService implements IFileService {
                 $tmpFilePath = $tmpDirPath . "/" . $tmpFile;
 
                 if (!unlink($tmpFilePath)) {
-                    // die("ERROR: while deleting temp file '" . $tmpFilePath . "'");
+                    throw new FileServiceException("ERROR: while deleting temp file '" . $tmpFilePath . "'");
                 }
             }
 
             // remove tmp dir
             if (!rmdir($tmpDirPath)) {
-                // die("ERROR: while deleting temp dir '" . $tmpDirPath . "'");
+                throw new FileServiceException("ERROR: while deleting temp dir '" . $tmpDirPath . "'");
             }
         }
     }
