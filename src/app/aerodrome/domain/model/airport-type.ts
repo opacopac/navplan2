@@ -3,11 +3,17 @@ export enum AirportType {
     AD_MIL,
     AF_CIVIL,
     AF_MIL_CIVIL,
+    AF_MOUNTAIN,
     AF_WATER,
+    AGRI_STRIP,
+    ALTIPORT,
     APT,
     GLIDING,
     HELI_CIVIL,
+    HELI_HOSPITAL,
     HELI_MIL,
+    HELI_MOUNTAIN,
     INTL_APT,
-    LIGHT_AIRCRAFT
+    LDG_STRIP,
+    LIGHT_AIRCRAFT,
 }

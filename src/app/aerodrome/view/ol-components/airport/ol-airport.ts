@@ -19,7 +19,7 @@ export class OlAirport {
         layer.addFeature(olFeature);
 
         // runway
-        if (airport.hasRunways && !airport.isClosed && !airport.isHeliport) {
+        if (airport.showRunways) {
             OlAirportRunway.draw(airport, layer);
         }
 

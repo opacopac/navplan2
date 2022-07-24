@@ -34,4 +34,5 @@ enum AirspaceType: string {
     case ACC = "ACC";
     case SPORT_RECREATION = "SPORT_RECREATION";
     case LOW_ALT_RESTRICTION = "LOW_ALT_RESTRICTION";
+    case FIZ = "FIZ"; // own
 }

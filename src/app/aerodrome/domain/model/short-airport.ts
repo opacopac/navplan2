@@ -34,12 +34,22 @@ export class ShortAirport extends DataItem  {
 
 
     public get isHeliport(): boolean {
-        return (this.type === AirportType.HELI_CIVIL || this.type === AirportType.HELI_MIL);
+        return (this.type === AirportType.HELI_CIVIL || this.type === AirportType.HELI_MIL || this.type === AirportType.HELI_MOUNTAIN || this.type === AirportType.HELI_HOSPITAL);
     }
 
 
     public get isMilitary(): boolean {
-        return (this.type === AirportType.AD_MIL);
+        return (this.type === AirportType.AD_MIL || this.type === AirportType.HELI_MIL);
+    }
+
+
+    public get isMountainous(): boolean {
+        return (this.type === AirportType.HELI_MOUNTAIN || this.type === AirportType.AF_MOUNTAIN);
+    }
+
+
+    public get isWater(): boolean {
+        return (this.type === AirportType.AF_WATER);
     }
 
 
@@ -47,4 +57,8 @@ export class ShortAirport extends DataItem  {
         return (this.type === AirportType.AD_CLOSED);
     }
 
+
+    public get showRunways(): boolean {
+        return this.hasRunways && !this.isClosed && !this.isHeliport && !this.isMountainous && !this.isWater;
+    }
 }

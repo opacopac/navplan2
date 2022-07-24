@@ -25,10 +25,13 @@ export class OlAirportIcon {
             case AirportType.AF_CIVIL:
             case AirportType.GLIDING:
             case AirportType.LIGHT_AIRCRAFT:
+            case AirportType.AF_MOUNTAIN:
                 return src + 'ad_civ_nofac.svg';
             case AirportType.AF_MIL_CIVIL:
                 return src + 'ad_civmil.svg';
             case AirportType.HELI_CIVIL:
+            case AirportType.HELI_HOSPITAL:
+            case AirportType.HELI_MOUNTAIN:
                 return src + 'ad_heli.svg';
             case AirportType.HELI_MIL:
                 return src + 'ad_heli_mil.svg';

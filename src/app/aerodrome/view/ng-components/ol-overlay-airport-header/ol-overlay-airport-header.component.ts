@@ -33,12 +33,15 @@ export class OlOverlayAirportHeaderComponent  {
             case AirportType.AD_CLOSED : return 'Closed Aerodrome';
             case AirportType.AD_MIL : return 'Military Aerodrome';
             case AirportType.AF_CIVIL : return 'Civil Airfield';
+            case AirportType.AF_MOUNTAIN : return 'Mountain Landing Site';
             case AirportType.AF_MIL_CIVIL : return 'Airfield (civil/military)';
             case AirportType.AF_WATER : return 'Water Airfield';
             case AirportType.APT : return 'Airport resp. Airfield IFR';
             case AirportType.GLIDING : return 'Glider Site';
             case AirportType.HELI_CIVIL : return 'Civil Heliport';
+            case AirportType.HELI_HOSPITAL : return 'Hospital Landing Site';
             case AirportType.HELI_MIL : return 'Military Heliport';
+            case AirportType.HELI_MOUNTAIN : return 'Mountain Landing Site';
             case AirportType.INTL_APT : return 'International Airport';
             case AirportType.LIGHT_AIRCRAFT : return 'Ultra Light Flying Site';
             default : return 'Unknown';

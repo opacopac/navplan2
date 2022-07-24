@@ -20,15 +20,12 @@ export class OlAirportStyle {
             case AirportType.INTL_APT:
                 icon = OlAirportIcon.APT;
                 break;
-            case AirportType.AF_CIVIL:
-            case AirportType.GLIDING:
-            case AirportType.LIGHT_AIRCRAFT:
-                icon = OlAirportIcon.AF_CIVIL;
-                break;
             case AirportType.AF_MIL_CIVIL:
                 icon = OlAirportIcon.AF_MIL_CIVIL;
                 break;
             case AirportType.HELI_CIVIL:
+            case AirportType.HELI_HOSPITAL:
+            case AirportType.HELI_MOUNTAIN:
                 icon = OlAirportIcon.HELI_CIVIL;
                 break;
             case AirportType.HELI_MIL:
@@ -45,7 +42,8 @@ export class OlAirportStyle {
                 name = '';
                 break;
             default:
-                return undefined;
+                icon = OlAirportIcon.AF_CIVIL;
+                break;
         }
 
         return new Style({

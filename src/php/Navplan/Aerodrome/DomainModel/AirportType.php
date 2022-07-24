@@ -18,4 +18,7 @@ enum AirportType: string {
     case LDG_STRIP = "LDG_STRIP";
     case AGRI_STRIP = "AGRI_STRIP";
     case ALTIPORT = "ALTIPORT";
+    case HELI_HOSPITAL = "HELI_HOSPITAL"; // own
+    case HELI_MOUNTAIN = "HELI_MOUNTAIN"; // own
+    case AF_MOUNTAIN = "AF_MOUNTAIN"; // own
 }

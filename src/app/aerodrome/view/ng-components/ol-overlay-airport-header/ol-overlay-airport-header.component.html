@@ -2,7 +2,7 @@
     <div mat-card-avatar>
         <img mat-card-avatar class="imgA" src="{{ this.getAvatarUrl() }}"/>
         <img mat-card-avatar
-             *ngIf="this.airport.hasRunways"
+             *ngIf="this.airport.showRunways"
              class="imgB"
              src="{{ this.getRwyUrl() }}"
              [ngStyle]="{'transform' : 'rotate(' + this.getRwyRotDeg() + 'deg)'}"/>
