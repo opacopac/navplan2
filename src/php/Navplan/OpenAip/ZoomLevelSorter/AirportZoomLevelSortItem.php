@@ -9,16 +9,19 @@ use Navplan\System\DomainService\IDbService;
 
 class AirportZoomLevelSortItem implements IZoomLevelSortItem {
     const AIRPORT_TYPE_PRIO = array(
-        "INTL_APT" => 11,
-        "AF_MIL_CIVIL" => 10,
-        "APT" => 9,
-        "AD_MIL" => 8,
-        "AF_CIVIL" => 7,
-        "GLIDING" => 6,
-        "LIGHT_AIRCRAFT" => 5,
-        "HELI_CIVIL" => 4,
-        "HELI_MIL" => 3,
-        "AF_WATER" => 2,
+        "INTL_APT" => 14,
+        "AF_MIL_CIVIL" => 13,
+        "APT" => 12,
+        "AD_MIL" => 11,
+        "AF_CIVIL" => 10,
+        "GLIDING" => 9,
+        "LIGHT_AIRCRAFT" => 8,
+        "HELI_CIVIL" => 7,
+        "HELI_MIL" => 6,
+        "AF_WATER" => 5,
+        "HELI_HOSPITAL" => 4,
+        "AF_MOUNTAIN" => 3,
+        "HELI_MOUNTAIN" => 2,
         "AD_CLOSED" => 1,
     );
 

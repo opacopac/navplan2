@@ -60,7 +60,6 @@ class DbAirportRepo implements IAirportRepo {
 
     public function searchShortByExtent(Extent2d $extent, int $zoom): array {
         $extentPoly = DbHelper::getDbExtentPolygon2($extent);
-        //$query  = "SELECT ad.id, ad.type, ad.icao, ad.latitude, ad.longitude, rwy.direction, rwy.surface, GROUP_CONCAT(fea.type) as features";
         $query  = "SELECT ";
         $query .= "  ad." . DbTableAirport::COL_ID . ",";
         $query .= "  ad." . DbTableAirport::COL_TYPE . ",";
@@ -76,15 +75,15 @@ class DbAirportRepo implements IAirportRepo {
         $query .= " WHERE";
         $query .= "  ST_INTERSECTS(ad." . DbTableAirport::COL_LONLAT . ", " . $extentPoly . ")";
         $query .= "    AND";
-        /*$query .= "  ad.zoommin <= " . $zoom;
-        $query .= "    AND";*/
+        $query .= "  ad." . DbTableAirport::COL_ZOOMMIN . " <= " . $zoom;
+        $query .= "    AND";
         $query .= "  (";
         $query .= "    rwy." . DbTableAirportRunway::COL_ID . " IS NULL";
         $query .= "      OR";
         $query .= "    (";
         $query .= "      rwy." . DbTableAirportRunway::COL_OPERATIONS . " = '" . AirportRunwayOperations::ACTIVE->value . "'";
         $query .= "        AND";
-        $query .= "      rwy.length = (SELECT MAX(" . DbTableAirportRunway::COL_LENGTH . ") FROM " . DbTableAirportRunway::TABLE_NAME . " WHERE airport_id = ad." . DbTableAirport::COL_ID . ")";
+        $query .= "      rwy.length = (SELECT MAX(" . DbTableAirportRunway::COL_LENGTH . ") FROM " . DbTableAirportRunway::TABLE_NAME . " WHERE " . DbTableAirportRunway::COL_AIRPORT_ID . " = ad." . DbTableAirport::COL_ID . ")";
         $query .= "    )";
         $query .= "  )";
         $query .= "  GROUP BY ad." . DbTableAirport::COL_ID;
@@ -104,13 +103,13 @@ class DbAirportRepo implements IAirportRepo {
         $query  = "SELECT *";
         $query .= " FROM " . DbTableAirport::TABLE_NAME;
         $query .= " WHERE";
-        $query .= "   latitude > " . ($position->latitude - $maxRadius_deg);
-        $query .= "   AND latitude < " . ($position->latitude + $maxRadius_deg);
-        $query .= "   AND longitude > " . ($position->longitude - $maxRadius_deg);
-        $query .= "   AND longitude < " . ($position->longitude + $maxRadius_deg);
+        $query .= "   " . DbTableAirport::COL_LATITUDE . " > " . ($position->latitude - $maxRadius_deg);
+        $query .= "   AND " . DbTableAirport::COL_LATITUDE . " < " . ($position->latitude + $maxRadius_deg);
+        $query .= "   AND " . DbTableAirport::COL_LONGITUDE . " > " . ($position->longitude - $maxRadius_deg);
+        $query .= "   AND " . DbTableAirport::COL_LONGITUDE . " < " . ($position->longitude + $maxRadius_deg);
         $query .= " ORDER BY";
-        $query .= "  ((latitude - " . $position->latitude . ") * (latitude - " . $position->latitude .
-            ") + (longitude - " . $position->longitude . ") * (longitude - " . $position->longitude . ")) ASC";
+        $query .= "  ((" . DbTableAirport::COL_LATITUDE . " - " . $position->latitude . ") * (" . DbTableAirport::COL_LATITUDE . " - " . $position->latitude .
+            ") + (" . DbTableAirport::COL_LONGITUDE . " - " . $position->longitude . ") * (" . DbTableAirport::COL_LONGITUDE . " - " . $position->longitude . ")) ASC";
         $query .= " LIMIT " . $maxResults;
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching airports by position");
@@ -126,17 +125,17 @@ class DbAirportRepo implements IAirportRepo {
         $query = "SELECT *";
         $query .= " FROM " . DbTableAirport::TABLE_NAME;
         $query .= " WHERE";
-        $query .= "   icao LIKE '" . $searchText . "%'";
-        $query .= "   OR name LIKE '" . $searchText . "%'";
+        $query .= "   " . DbTableAirport::COL_ICAO . " LIKE '" . $searchText . "%'";
+        $query .= "   OR " . DbTableAirport::COL_NAME . " LIKE '" . $searchText . "%'";
         $query .= " ORDER BY";
-        $query .= "   CASE WHEN country = 'CH' THEN 1 ELSE 2 END ASC,";
-        $query .= "   CASE WHEN ISNULL(icao) OR icao = '' THEN 2 ELSE 1 END ASC,";
-        $query .= "   CASE WHEN type = 'INTL_APT' THEN 1";
-        $query .= "        WHEN type = 'APT' OR type = 'AF_CIVIL' OR type = 'AF_MIL_CIVIL' OR type = 'AF_WATER' OR type = 'AD_MIL' THEN 2";
-        $query .= "        WHEN type = 'GLIDING' OR type = 'LIGHT_AIRCRAFT' THEN 3";
-        $query .= "        WHEN type = 'HELI_CIVIL' OR type = 'HELI_MIL' THEN 4";
+        $query .= "   CASE WHEN " . DbTableAirport::COL_COUNTRY . " = 'CH' THEN 1 ELSE 2 END ASC,";
+        $query .= "   CASE WHEN ISNULL(" . DbTableAirport::COL_ICAO . ") OR " . DbTableAirport::COL_ICAO . " = '' THEN 2 ELSE 1 END ASC,";
+        $query .= "   CASE WHEN " . DbTableAirport::COL_TYPE . " = 'INTL_APT' THEN 1";
+        $query .= "        WHEN " . DbTableAirport::COL_TYPE . " = 'APT' OR " . DbTableAirport::COL_TYPE . " = 'AF_CIVIL' OR type = 'AF_MIL_CIVIL' OR type = 'AF_WATER' OR type = 'AD_MIL' THEN 2";
+        $query .= "        WHEN " . DbTableAirport::COL_TYPE . " = 'GLIDING' OR " . DbTableAirport::COL_TYPE . " = 'LIGHT_AIRCRAFT' THEN 3";
+        $query .= "        WHEN " . DbTableAirport::COL_TYPE . " = 'HELI_CIVIL' OR " . DbTableAirport::COL_TYPE . " = 'HELI_MIL' THEN 4";
         $query .= "        ELSE 5 END ASC,";
-        $query .= "   icao ASC";
+        $query .= "   " . DbTableAirport::COL_ICAO . " ASC";
         $query .= " LIMIT " . $maxResults;
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching airports by text");

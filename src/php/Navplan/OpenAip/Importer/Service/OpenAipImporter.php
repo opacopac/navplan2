@@ -7,6 +7,10 @@ use Navplan\Enroute\DomainService\IAirspaceService;
 use Navplan\Enroute\DomainService\INavaidService;
 use Navplan\OpenAip\ApiAdapter\Service\IOpenAipService;
 use Navplan\OpenAip\Importer\Model\ImportResult;
+use Navplan\OpenAip\ZoomLevelSorter\AirportZoomLevelSortItem;
+use Navplan\OpenAip\ZoomLevelSorter\NavaidZoomLevelSortItem;
+use Navplan\OpenAip\ZoomLevelSorter\ZoomLevelSorter;
+use Navplan\System\DomainService\IDbService;
 use Navplan\System\DomainService\ILoggingService;
 
 
@@ -16,7 +20,8 @@ class OpenAipImporter implements IOpenAipImporter {
         private IAirportService $airportService,
         private IAirspaceService $airspaceService,
         private INavaidService $navaidService,
-        private ILoggingService $loggingService
+        private ILoggingService $loggingService,
+        private IDbService $dbService
     ) {
     }
 
@@ -44,6 +49,11 @@ class OpenAipImporter implements IOpenAipImporter {
         } while ($page >= 1);
 
         $this->loggingService->info("successfully imported " . $airportCount . " airports");
+
+        // zoomlevel sorter
+        $zoomLevelSorter = new ZoomLevelSorter($this->loggingService);
+        $airportSorter = new AirportZoomLevelSortItem($this->dbService);
+        $zoomLevelSorter->sort($airportSorter);
 
         return new ImportResult(true, $airportCount);
     }
@@ -101,6 +111,11 @@ class OpenAipImporter implements IOpenAipImporter {
         } while ($page >= 1);
 
         $this->loggingService->info("successfully imported " . $navaidCount . " navaids");
+
+        // zoomlevel sorter
+        $zoomLevelSorter = new ZoomLevelSorter($this->loggingService);
+        $navaidSorter = new NavaidZoomLevelSortItem($this->dbService);
+        $zoomLevelSorter->sort($navaidSorter);
 
         return new ImportResult(true, $navaidCount);
     }

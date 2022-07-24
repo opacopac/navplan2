@@ -3,12 +3,18 @@
 namespace Navplan\OpenAip\ZoomLevelSorter;
 
 
+use Navplan\System\DomainService\ILoggingService;
+
 class ZoomLevelSorter {
     const MAX_ZOOM = 14;
     const MAX_COUNT_DB_RECORDS = 1000;
 
 
-    public static function sort(IZoomLevelSortItem $sortItemType) {
+    public function __construct(private ILoggingService $loggingService) {
+    }
+
+
+    public function sort(IZoomLevelSortItem $sortItemType) {
         // delete zoom levels from db
         $sortItemType->cleanZoomLevels();
 
@@ -16,8 +22,9 @@ class ZoomLevelSorter {
         $loopCount = 0;
         do {
             // circuit breaker
-            if ($loopCount > 50)
+            if ($loopCount > 50) {
                 die("abort by circuit breaker: max loop count exceeded!");
+            }
 
             $isOpenStart = true;
             if ($lastGeoHash === NULL) {
@@ -26,14 +33,14 @@ class ZoomLevelSorter {
 
             // read batch from DB
             $result = $sortItemType->getNextBatch($lastGeoHash, self::MAX_COUNT_DB_RECORDS);
-            //LoggingServiceOld::echoLineToBrowser("loading " . $result->num_rows . " items" . ($lastGeoHash !== NULL ? " starting from " . $lastGeoHash : ""));
+            $this->loggingService->info("loading " . $result->getNumRows() . " items" . ($lastGeoHash !== NULL ? " starting from " . $lastGeoHash : ""));
 
             $itemBuffer = [];
-            while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+            while ($row = $result->fetch_assoc()) {
                 $itemBuffer[] = $row;
             }
 
-            if ($result->num_rows < self::MAX_COUNT_DB_RECORDS) {
+            if ($result->getNumRows() < self::MAX_COUNT_DB_RECORDS) {
                 $loopCount++;
                 $lastGeoHash = NULL; // loop around
                 $isOpenEnd = false;
@@ -70,7 +77,7 @@ class ZoomLevelSorter {
 
         } while (count($itemBuffer) > 0);
 
-        //LoggingServiceOld::echoLineToBrowser("done.");
+        $this->loggingService->info("done.");
     }
 
 

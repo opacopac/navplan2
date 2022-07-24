@@ -407,7 +407,8 @@ class ProdNavplanDiContainer implements ISystemDiContainer, IDbDiContainer, IFli
                 $this->getAirportService(),
                 $this->getAirspaceService(),
                 $this->getNavaidService(),
-                $this->getScreenLogger()
+                $this->getScreenLogger(),
+                $this->getDbService()
             );
         }
 

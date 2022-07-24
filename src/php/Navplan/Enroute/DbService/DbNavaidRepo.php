@@ -2,6 +2,7 @@
 
 namespace Navplan\Enroute\DbService;
 
+use Navplan\Aerodrome\DbModel\DbTableNavaid;
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\Enroute\DbModel\DbNavaidConverter;
@@ -24,11 +25,11 @@ class DbNavaidRepo implements INavaidRepo {
     public function searchByExtent(Extent2d $extent, int $zoom): array {
         $extent = DbHelper::getDbExtentPolygon2($extent);
         $query = "SELECT *";
-        $query .= " FROM openaip_navaids2";
+        $query .= " FROM " . DbTableNavaid::TABLE_NAME;
         $query .= " WHERE";
-        $query .= "  ST_INTERSECTS(lonlat, " . $extent . ")";
-        /*$query .= "    AND";
-        $query .= "  zoommin <= " . $zoom;*/
+        $query .= "  ST_INTERSECTS(" . DbTableNavaid::COL_LONLAT . ", " . $extent . ")";
+        $query .= "    AND";
+        $query .= "  " . DbTableNavaid::COL_ZOOMMIN . " <= " . $zoom;
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching navaids by extent");
 
@@ -38,15 +39,15 @@ class DbNavaidRepo implements INavaidRepo {
 
     public function searchByPosition(Position2d $position, float $maxRadius_deg, int $maxResults): array {
         $query = "SELECT *";
-        $query .= " FROM openaip_navaids2";
+        $query .= " FROM " . DbTableNavaid::TABLE_NAME;
         $query .= " WHERE";
-        $query .= "  latitude > " . ($position->latitude - $maxRadius_deg);
-        $query .= "  AND latitude < " . ($position->latitude + $maxRadius_deg);
-        $query .= "  AND longitude > " . ($position->longitude - $maxRadius_deg);
-        $query .= "  AND longitude < " . ($position->longitude + $maxRadius_deg);
+        $query .= "  " . DbTableNavaid::COL_LATITUDE . " > " . ($position->latitude - $maxRadius_deg);
+        $query .= "  AND " . DbTableNavaid::COL_LATITUDE . " < " . ($position->latitude + $maxRadius_deg);
+        $query .= "  AND " . DbTableNavaid::COL_LONGITUDE . " > " . ($position->longitude - $maxRadius_deg);
+        $query .= "  AND " . DbTableNavaid::COL_LONGITUDE . " < " . ($position->longitude + $maxRadius_deg);
         $query .= " ORDER BY";
-        $query .= "  ((latitude - " . $position->latitude . ") * (latitude - " . $position->latitude .
-            ") + (longitude - " . $position->longitude . ") * (longitude - " . $position->longitude . ")) ASC";
+        $query .= "  ((" . DbTableNavaid::COL_LATITUDE . " - " . $position->latitude . ") * (" . DbTableNavaid::COL_LATITUDE . " - " . $position->latitude .
+            ") + (" . DbTableNavaid::COL_LONGITUDE . " - " . $position->longitude . ") * (" . DbTableNavaid::COL_LONGITUDE . " - " . $position->longitude . ")) ASC";
         $query .= " LIMIT " . $maxResults;
 
         $result = $this->dbService->execMultiResultQuery($query,"error searching navaids by position");
@@ -58,11 +59,11 @@ class DbNavaidRepo implements INavaidRepo {
     public function searchByText(string $searchText, int $maxResults): array {
         $searchText = $this->dbService->escapeString($searchText);
         $query = "SELECT *";
-        $query .= " FROM openaip_navaids2";
+        $query .= " FROM " . DbTableNavaid::TABLE_NAME;
         $query .= " WHERE";
-        $query .= "   kuerzel LIKE '" . $searchText . "%'";
-        $query .= "   OR name LIKE '" . $searchText . "%'";
-        $query .= " ORDER BY CASE WHEN country = 'CH' THEN 1 ELSE 2 END ASC, kuerzel ASC";
+        $query .= "   " . DbTableNavaid::COL_KUERZEL . " LIKE '" . $searchText . "%'";
+        $query .= "   OR " . DbTableNavaid::COL_NAME . " LIKE '" . $searchText . "%'";
+        $query .= " ORDER BY CASE WHEN " . DbTableNavaid::COL_COUNTRY . " = 'CH' THEN 1 ELSE 2 END ASC, kuerzel ASC";
         $query .= " LIMIT " . $maxResults;
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching navaids by text");
@@ -87,7 +88,7 @@ class DbNavaidRepo implements INavaidRepo {
 
 
     public function deleteAll(): bool {
-        $query = "TRUNCATE TABLE " . DbNavaidConverter::TABLE_NAME;
+        $query = "TRUNCATE TABLE " . DbTableNavaid::TABLE_NAME;
 
         return $this->dbService->execCUDQuery($query);
     }
