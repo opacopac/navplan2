@@ -2,10 +2,10 @@
 
 namespace Navplan\Enroute\DbService;
 
-use Navplan\Aerodrome\DbModel\DbTableNavaid;
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\Enroute\DbModel\DbNavaidConverter;
+use Navplan\Enroute\DbModel\DbTableNavaid;
 use Navplan\Enroute\DomainService\INavaidRepo;
 use Navplan\System\DomainModel\IDbResult;
 use Navplan\System\DomainService\IDbService;

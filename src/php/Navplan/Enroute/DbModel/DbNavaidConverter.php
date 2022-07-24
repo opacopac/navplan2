@@ -2,7 +2,6 @@
 
 namespace Navplan\Enroute\DbModel;
 
-use Navplan\Aerodrome\DbModel\DbTableNavaid;
 use Navplan\Common\DbModel\DbPosition2dConverter;
 use Navplan\Common\DomainModel\Altitude;
 use Navplan\Common\DomainModel\AltitudeReference;

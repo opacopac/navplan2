@@ -8,6 +8,7 @@ use Navplan\Enroute\DomainService\INavaidService;
 use Navplan\OpenAip\ApiAdapter\Service\IOpenAipService;
 use Navplan\OpenAip\Importer\Model\ImportResult;
 use Navplan\OpenAip\ZoomLevelSorter\AirportZoomLevelSortItem;
+use Navplan\OpenAip\ZoomLevelSorter\AirspaceDetaillevelCreator;
 use Navplan\OpenAip\ZoomLevelSorter\NavaidZoomLevelSortItem;
 use Navplan\OpenAip\ZoomLevelSorter\ZoomLevelSorter;
 use Navplan\System\DomainService\IDbService;
@@ -83,6 +84,9 @@ class OpenAipImporter implements IOpenAipImporter {
         } while ($page >= 1);
 
         $this->loggingService->info("successfully imported " . $airspaceCount . " airspaces");
+
+        $detailLevelCreator = new AirspaceDetaillevelCreator($this->dbService, $this->loggingService);
+        $detailLevelCreator->go();
 
         return new ImportResult(true, $airspaceCount);
     }

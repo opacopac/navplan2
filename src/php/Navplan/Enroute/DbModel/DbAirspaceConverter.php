@@ -13,23 +13,6 @@ use Navplan\System\DomainService\IDbService;
 
 
 class DbAirspaceConverter {
-    public const TABLE_NAME = "openaip_airspace2";
-    public const COL_ID = "id";
-    public const COL_CLASS = "class";
-    public const COL_TYPE = "type";
-    public const COL_CATEGORY = "category";
-    public const COL_COUNTRY = "country";
-    public const COL_NAME = "name";
-    public const COL_ALT_BOT_HEIGHT = "alt_bottom_height";
-    public const COL_ALT_BOT_UNIT = "alt_bottom_unit";
-    public const COL_ALT_BOT_REF = "alt_bottom_reference";
-    public const COL_ALT_TOP_HEIGHT = "alt_top_height";
-    public const COL_ALT_TOP_UNIT = "alt_top_unit";
-    public const COL_ALT_TOP_REF = "alt_top_reference";
-    public const COL_POLYGON = "polygon";
-    public const COL_EXTENT = "extent";
-
-
     public static function fromDbResult(IDbResult $result): array {
         $airspaces = [];
         while ($row = $result->fetch_assoc()) {
@@ -41,42 +24,42 @@ class DbAirspaceConverter {
 
     public static function fromDbRow(array $row): Airspace {
         return new Airspace(
-            intval($row[self::COL_ID]),
-            $row[self::COL_CLASS] ?? NULL, // TODO
-            $row[self::COL_TYPE] ?? NULL, // TODO
-            $row[self::COL_CATEGORY],
-            $row[self::COL_COUNTRY],
-            $row[self::COL_NAME],
+            intval($row[DbTableAirspace::COL_ID]),
+            $row[DbTableAirspace::COL_CLASS] ?? NULL, // TODO
+            $row[DbTableAirspace::COL_TYPE] ?? NULL, // TODO
+            $row[DbTableAirspace::COL_CATEGORY],
+            $row[DbTableAirspace::COL_COUNTRY],
+            $row[DbTableAirspace::COL_NAME],
             new Altitude(
-                intval($row[self::COL_ALT_BOT_HEIGHT]),
-                AltitudeUnit::from($row[self::COL_ALT_BOT_UNIT] === "F" ? "FT" : $row[self::COL_ALT_BOT_UNIT]),
-                AltitudeReference::from($row[self::COL_ALT_BOT_REF])
+                intval($row[DbTableAirspace::COL_ALT_BOT_HEIGHT]),
+                AltitudeUnit::from($row[DbTableAirspace::COL_ALT_BOT_UNIT] === "F" ? "FT" : $row[DbTableAirspace::COL_ALT_BOT_UNIT]),
+                AltitudeReference::from($row[DbTableAirspace::COL_ALT_BOT_REF])
             ),
             new Altitude(
-                intval($row[self::COL_ALT_TOP_HEIGHT]),
-                AltitudeUnit::from($row[self::COL_ALT_TOP_UNIT] === "F" ? "FT" : $row[self::COL_ALT_TOP_UNIT]),
-                AltitudeReference::from($row[self::COL_ALT_TOP_REF])
+                intval($row[DbTableAirspace::COL_ALT_TOP_HEIGHT]),
+                AltitudeUnit::from($row[DbTableAirspace::COL_ALT_TOP_UNIT] === "F" ? "FT" : $row[DbTableAirspace::COL_ALT_TOP_UNIT]),
+                AltitudeReference::from($row[DbTableAirspace::COL_ALT_TOP_REF])
             ),
-            isset($row[self::COL_POLYGON]) ? Ring2d::createFromString($row[self::COL_POLYGON]) : NULL
+            isset($row[DbTableAirspace::COL_POLYGON]) ? Ring2d::createFromString($row[DbTableAirspace::COL_POLYGON]) : NULL
         );
     }
 
 
     public static function prepareInsertStatement(IDbService $dbService): IDbStatement {
-        $query = "INSERT INTO " . self::TABLE_NAME . " (" . join(", ", [
-                self::COL_CLASS,
-                self::COL_TYPE,
-                self::COL_CATEGORY,
-                self::COL_COUNTRY,
-                self::COL_NAME,
-                self::COL_ALT_BOT_HEIGHT,
-                self::COL_ALT_BOT_UNIT,
-                self::COL_ALT_BOT_REF,
-                self::COL_ALT_TOP_HEIGHT,
-                self::COL_ALT_TOP_UNIT,
-                self::COL_ALT_TOP_REF,
-                self::COL_POLYGON,
-                self::COL_EXTENT,
+        $query = "INSERT INTO " . DbTableAirspace::TABLE_NAME . " (" . join(", ", [
+                DbTableAirspace::COL_CLASS,
+                DbTableAirspace::COL_TYPE,
+                DbTableAirspace::COL_CATEGORY,
+                DbTableAirspace::COL_COUNTRY,
+                DbTableAirspace::COL_NAME,
+                DbTableAirspace::COL_ALT_BOT_HEIGHT,
+                DbTableAirspace::COL_ALT_BOT_UNIT,
+                DbTableAirspace::COL_ALT_BOT_REF,
+                DbTableAirspace::COL_ALT_TOP_HEIGHT,
+                DbTableAirspace::COL_ALT_TOP_UNIT,
+                DbTableAirspace::COL_ALT_TOP_REF,
+                DbTableAirspace::COL_POLYGON,
+                DbTableAirspace::COL_EXTENT,
             ]) . ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ST_GeomFromText(?))";
 
         return $dbService->prepareStatement($query);

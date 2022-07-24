@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Aerodrome\DbModel;
+namespace Navplan\Enroute\DbModel;
 
 
 class DbTableNavaid {
