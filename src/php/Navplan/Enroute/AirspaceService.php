@@ -2,7 +2,7 @@
 
 namespace Navplan\Enroute;
 
-use Navplan\Enroute\Rest\Service\AirspaceServiceController;
+use Navplan\Enroute\Rest\Service\AirspaceController;
 use Navplan\ProdNavplanDiContainer;
 
 require_once __DIR__ . "/../RestServiceBootstrap.php";
@@ -10,7 +10,7 @@ require_once __DIR__ . "/../RestServiceBootstrap.php";
 
 $diContainer = new ProdNavplanDiContainer();
 
-AirspaceServiceController::processRequest(
+AirspaceController::processRequest(
     $diContainer->getEnrouteDiContainer()->getAirspaceService(),
     $diContainer->getSystemDiContainer()->getHttpService()
 );

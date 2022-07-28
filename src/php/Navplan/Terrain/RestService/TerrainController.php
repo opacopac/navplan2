@@ -11,7 +11,7 @@ use Navplan\Terrain\RestModel\RestReadElevationRequest;
 use Navplan\Terrain\RestModel\RestReadRouteElevationsRequest;
 
 
-class TerrainServiceController {
+class TerrainController {
     public static function processRequest(
         ITerrainService $terrainService,
         IHttpService $httpService

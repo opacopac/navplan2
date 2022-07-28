@@ -3,14 +3,14 @@
 namespace Navplan\Track;
 
 use Navplan\ProdNavplanDiContainer;
-use Navplan\Track\RestService\TrackServiceController;
+use Navplan\Track\RestService\TrackController;
 
 require_once __DIR__ . "/../RestServiceBootstrap.php";
 
 
 $diContainer = new ProdNavplanDiContainer();
 
-TrackServiceController::processRequest(
+TrackController::processRequest(
     $diContainer->getSystemDiContainer()->getHttpService(),
     $diContainer->getTrackDiContainer()->getTrackService()
 );

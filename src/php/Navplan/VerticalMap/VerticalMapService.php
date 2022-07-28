@@ -3,14 +3,14 @@
 namespace Navplan\VerticalMap;
 
 use Navplan\ProdNavplanDiContainer;
-use Navplan\VerticalMap\RestService\VerticalMapServiceController;
+use Navplan\VerticalMap\RestService\VerticalMapController;
 
 require_once __DIR__ . "/../RestServiceBootstrap.php";
 
 
 $diContainer = new ProdNavplanDiContainer();
 
-VerticalMapServiceController::processRequest(
+VerticalMapController::processRequest(
     $diContainer->getVerticalMapDiContainer()->getVerticalMapService(),
     $diContainer->getSystemDiContainer()->getHttpService()
 );

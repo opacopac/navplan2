@@ -3,14 +3,14 @@
 namespace Navplan\Webcam;
 
 use Navplan\ProdNavplanDiContainer;
-use Navplan\Webcam\Rest\Service\WebcamServiceController;
+use Navplan\Webcam\Rest\Service\WebcamController;
 
 require_once __DIR__ . "/../RestServiceBootstrap.php";
 
 
 $diContainer = new ProdNavplanDiContainer();
 
-WebcamServiceController::processRequest(
+WebcamController::processRequest(
     $diContainer->getWebcamDiContainer()->getWebcamService(),
     $diContainer->getSystemDiContainer()->getHttpService()
 );

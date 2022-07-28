@@ -3,14 +3,14 @@
 namespace Navplan\Traffic;
 
 use Navplan\ProdNavplanDiContainer;
-use Navplan\Traffic\RestService\TrafficServiceController;
+use Navplan\Traffic\RestService\TrafficController;
 
 require_once __DIR__ . "/../RestServiceBootstrap.php";
 
 
 $diContainer = new ProdNavplanDiContainer();
 
-TrafficServiceController::processRequest(
+TrafficController::processRequest(
     $diContainer->getSystemDiContainer()->getHttpService(),
     $diContainer->getTrafficDiContainer()->getReadOgnTrafficUc(),
     $diContainer->getTrafficDiContainer()->getReadAdsbexTrafficUc(),

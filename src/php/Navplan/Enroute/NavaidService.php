@@ -2,7 +2,7 @@
 
 namespace Navplan\Enroute;
 
-use Navplan\Enroute\Rest\Service\NavaidServiceController;
+use Navplan\Enroute\Rest\Service\NavaidController;
 use Navplan\ProdNavplanDiContainer;
 
 require_once __DIR__ . "/../RestServiceBootstrap.php";
@@ -10,7 +10,7 @@ require_once __DIR__ . "/../RestServiceBootstrap.php";
 
 $diContainer = new ProdNavplanDiContainer();
 
-NavaidServiceController::processRequest(
+NavaidController::processRequest(
     $diContainer->getEnrouteDiContainer()->getNavaidService(),
     $diContainer->getSystemDiContainer()->getHttpService()
 );

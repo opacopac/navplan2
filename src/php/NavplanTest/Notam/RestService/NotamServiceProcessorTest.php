@@ -4,7 +4,7 @@ namespace NavplanTest\Notam\RestService;
 
 use InvalidArgumentException;
 use Navplan\Notam\RestModel\ReadNotamByExtentRequestConverter;
-use Navplan\Notam\RestService\NotamServiceController;
+use Navplan\Notam\RestService\NotamController;
 use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\Notam\Mocks\DummyNotam1;
 use NavplanTest\Notam\Mocks\MockNotamRepo;
@@ -29,13 +29,13 @@ class NotamServiceProcessorTest extends TestCase {
         $getVars = array("dummy" => "dummy");
         $this->expectException(InvalidArgumentException::class);
 
-        NotamServiceController::processRequest($getVars, $this->config);
+        NotamController::processRequest($getVars, $this->config);
     }
 
 
     public function test_processRequest_searchByExtent_gets_called() {
         $getVars = array(
-            NotamServiceController::ARG_ACTION => NotamServiceController::ACTION_SEARCH_BY_EXTENT,
+            NotamController::ARG_ACTION => NotamController::ACTION_SEARCH_BY_EXTENT,
             ReadNotamByExtentRequestConverter::ARG_MIN_LON => "7.0",
             ReadNotamByExtentRequestConverter::ARG_MIN_LAT => "47.0",
             ReadNotamByExtentRequestConverter::ARG_MAX_LON => "7.9",
@@ -47,7 +47,7 @@ class NotamServiceProcessorTest extends TestCase {
         $notamResult = DummyNotam1::create();
         $this->notamRepo->pushMockResult([$notamResult]);
 
-        NotamServiceController::processRequest($getVars, $this->config);
+        NotamController::processRequest($getVars, $this->config);
 
         $this->assertRegExp("/notams/", $this->httpService->body);
         $this->assertRegExp("/" . $notamResult->id . "/", $this->httpService->body);

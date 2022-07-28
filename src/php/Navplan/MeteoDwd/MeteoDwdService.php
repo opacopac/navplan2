@@ -2,7 +2,7 @@
 
 namespace Navplan\MeteoDwd;
 
-use Navplan\MeteoDwd\RestService\MeteoDwdServiceController;
+use Navplan\MeteoDwd\RestService\MeteoDwdController;
 use Navplan\ProdNavplanDiContainer;
 
 require_once __DIR__ . "/../RestServiceBootstrap.php";
@@ -10,7 +10,7 @@ require_once __DIR__ . "/../RestServiceBootstrap.php";
 
 $diContainer = new ProdNavplanDiContainer();
 
-MeteoDwdServiceController::processRequest(
+MeteoDwdController::processRequest(
     $diContainer->getMeteoDwdDiContainer()->getMeteoDwdService(),
     $diContainer->getSystemDiContainer()->getHttpService()
 );

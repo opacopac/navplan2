@@ -19,7 +19,7 @@ use Navplan\System\DomainModel\HttpRequestMethod;
 use Navplan\System\DomainService\IHttpService;
 
 
-class FlightrouteServiceController {
+class FlightrouteController {
     public static function processRequest(
         IFlightrouteService $flightrouteService,
         IHttpService $httpService

@@ -12,7 +12,7 @@ use Navplan\Track\RestModel\RestReadTrackRequest;
 use Navplan\Track\RestModel\RestReadTrackResponseConverter;
 
 
-class TrackServiceController {
+class TrackController {
     const ARG_ACTION = "action";
     const ACTION_READ_TRACKLIST = "readtracklist";
     const ACTION_READ_TRACK = "readtrack";

@@ -4,13 +4,13 @@ namespace Navplan\Notam;
 
 require_once __DIR__ . "/../RestServiceBootstrap.php";
 
-use Navplan\Notam\RestService\NotamServiceController;
+use Navplan\Notam\RestService\NotamController;
 use Navplan\ProdNavplanDiContainer;
 
 
 $diContainer = new ProdNavplanDiContainer();
 
-NotamServiceController::processRequest(
+NotamController::processRequest(
     $diContainer->getNotamDiContainer()->getNotamService(),
     $diContainer->getSystemDiContainer()->getHttpService()
 );

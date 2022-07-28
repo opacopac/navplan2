@@ -9,7 +9,7 @@ use Navplan\VerticalMap\RestModel\ReadVerticalMapRequest;
 use Navplan\VerticalMap\RestModel\ReadVerticalMapResponse;
 
 
-class VerticalMapServiceController {
+class VerticalMapController {
     const ARG_ACTION = "action";
     const ACTION_READ_VMAP = "readvmap";
 

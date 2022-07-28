@@ -11,7 +11,7 @@ use Navplan\Notam\RestModel\ReadNotamResponse;
 use Navplan\System\DomainService\IHttpService;
 
 
-class NotamServiceController {
+class NotamController {
     const ARG_ACTION = "action";
     const ACTION_SEARCH_BY_EXTENT = "searchByExtent";
     const ACTION_SEARCH_BY_POSITION = "searchByPosition";

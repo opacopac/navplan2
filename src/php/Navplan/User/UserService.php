@@ -3,14 +3,14 @@
 namespace Navplan\User;
 
 use Navplan\ProdNavplanDiContainer;
-use Navplan\User\RestService\UserServiceController;
+use Navplan\User\RestService\UserController;
 
 include_once __DIR__ . "/../RestServiceBootstrap.php";
 
 
 $diContainer = new ProdNavplanDiContainer();
 
-UserServiceController::processRequest(
+UserController::processRequest(
     $diContainer->getUserDiContainer()->getLoginUc(),
     $diContainer->getUserDiContainer()->getAutoLoginUc(),
     $diContainer->getUserDiContainer()->getSendRegisterEmailUc(),

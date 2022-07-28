@@ -12,7 +12,7 @@ use Navplan\MeteoDwd\RestModel\RestWindInfoGridConverter;
 use Navplan\System\DomainService\IHttpService;
 
 
-class MeteoDwdServiceController {
+class MeteoDwdController {
     const ARG_ACTION = "action";
     const ACTION_GET_AVAILABLE_FORECASTS = "readAvailableForecasts";
     const ACTION_GET_WIND_GRID = "readWindGrid";

@@ -8,7 +8,7 @@ use Navplan\MeteoSma\RestModel\RestReadSmaMeasurementsResponse;
 use Navplan\System\DomainService\IHttpService;
 
 
-class MeteoServiceController {
+class MeteoSmaController {
     public static function processRequest(
         IMeteoSmaService $meteoSmaService,
         IHttpService $httpService

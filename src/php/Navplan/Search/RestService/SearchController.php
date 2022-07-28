@@ -10,7 +10,7 @@ use Navplan\Search\RestModel\RestSearchResultConverter;
 use Navplan\System\DomainService\IHttpService;
 
 
-class SearchServiceController {
+class SearchController {
     const ARG_ACTION = "action";
     const ACTION_SEARCH_BY_TEXT = "searchByText";
     const ACTION_SEARCH_BY_POSITION = "searchByPosition";

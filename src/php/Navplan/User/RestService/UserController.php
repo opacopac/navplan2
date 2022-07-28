@@ -21,7 +21,7 @@ use Navplan\User\UseCase\SendRegisterEmail\ISendRegisterEmailUc;
 use Navplan\User\UseCase\UpdatePw\IUpdatePwUc;
 
 
-class UserServiceController {
+class UserController {
     const ARG_ACTION = "action";
     const ACTION_LOGIN = "login";
     const ACTION_AUTOLOGIN = "autologin";

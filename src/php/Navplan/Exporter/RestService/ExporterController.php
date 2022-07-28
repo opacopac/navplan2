@@ -13,7 +13,7 @@ use Navplan\Exporter\RestModel\RestExportPdfRequest;
 use Navplan\System\DomainService\IHttpService;
 
 
-class ExporterServiceController {
+class ExporterController {
     const ARG_ACTION = "action";
     const ACTION_EXPORT_PDF = "exportpdf";
     const ACTION_EXPORT_EXCEL = "exportexcel";

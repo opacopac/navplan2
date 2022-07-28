@@ -17,7 +17,7 @@ use Navplan\Common\RestModel\RestExtent2dConverter;
 use Navplan\System\DomainService\IHttpService;
 
 
-class AirportServiceController {
+class AirportController {
     const ARG_ACTION = "action";
     const ACTION_GET_SHORT_AD_BY_EXTENT = "getShortAdByExtent";
     const ACTION_GET_AD_BY_ID = "getAdById";

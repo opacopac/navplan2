@@ -1,30 +1,31 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Webcam\Rest\Service;
+namespace Navplan\Enroute\Rest\Service;
 
 use InvalidArgumentException;
 use Navplan\Common\RestModel\RestExtent2dConverter;
+use Navplan\Enroute\Domain\Service\IAirspaceService;
+use Navplan\Enroute\Rest\Model\RestAirspaceConverter;
 use Navplan\System\DomainService\IHttpService;
-use Navplan\Webcam\Domain\Service\IWebcamService;
-use Navplan\Webcam\Rest\Model\RestWebcamConverter;
 
 
-class WebcamServiceController {
+class AirspaceController {
     const ARG_ACTION = "action";
-    const ACTION_GET_WEBCAMS_BY_EXTENT = "getWebcamsByExtent";
+    const ACTION_GET_AIRSPACES_BY_EXTENT = "getAirspacesByExtent";
 
 
     public static function processRequest(
-        IWebcamService $webcamService,
+        IAirspaceService $airspaceService,
         IHttpService $httpService
     ) {
         $args = $httpService->getGetArgs();
         $action = $args[self::ARG_ACTION] ?? NULL;
         switch ($action) {
-            case self::ACTION_GET_WEBCAMS_BY_EXTENT:
+            case self::ACTION_GET_AIRSPACES_BY_EXTENT:
                 $extent = RestExtent2dConverter::fromArgs($args);
-                $adList = $webcamService->searchByExtent($extent);
-                $httpService->sendArrayResponse(RestWebcamConverter::listToRest($adList));
+                $zoom = intval($args["zoom"]);
+                $adList = $airspaceService->searchByExtent($extent, $zoom);
+                $httpService->sendArrayResponse(RestAirspaceConverter::listToRest($adList));
                 break;
             default:
                 throw new InvalidArgumentException("no or unknown action '" . $action . "'");

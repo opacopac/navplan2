@@ -9,7 +9,7 @@ use Navplan\Enroute\Rest\Model\RestNavaidConverter;
 use Navplan\System\DomainService\IHttpService;
 
 
-class NavaidServiceController {
+class NavaidController {
     const ARG_ACTION = "action";
     const ACTION_GET_NAVAIDS_BY_EXTENT = "getNavaidsByExtent";
 

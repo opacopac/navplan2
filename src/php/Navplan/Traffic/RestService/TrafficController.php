@@ -18,7 +18,7 @@ use Navplan\Traffic\UseCase\ReadOgnTraffic\IReadOgnTrafficUc;
 use Navplan\Traffic\UseCase\ReadTrafficDetails\IReadTrafficDetailsUc;
 
 
-class TrafficServiceController {
+class TrafficController {
     public const ACTION_READ_OGN_TRAFFIC = "readogntraffic";
     public const ACTION_READ_ADSBEX_TRAFFIC = "readadsbextraffic";
     public const ACTION_READ_ADSBEX_TRAFFIC_WITH_DETAILS = "readadsbextrafficwithdetails";
