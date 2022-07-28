@@ -3,10 +3,11 @@
 namespace Navplan\Search;
 
 use InvalidArgumentException;
+use Navplan\Search\DomainService\ISearchService;
 use Navplan\Search\RestModel\RestSearchByPositionQueryConverter;
 use Navplan\Search\RestModel\RestSearchByTextQueryConverter;
 use Navplan\Search\RestModel\RestSearchResultConverter;
-use Navplan\System\ISystemDiContainer2;
+use Navplan\System\DomainService\IHttpService;
 
 
 class SearchServiceController {
@@ -16,11 +17,9 @@ class SearchServiceController {
 
 
     public static function processRequest(
-        ISearchDiContainer $searchDiContainer,
-        ISystemDiContainer2 $systemDiContainer
+        ISearchService $searchService,
+        IHttpService $httpService
     ) {
-        $httpService = $systemDiContainer->getHttpService();
-        $searchService = $searchDiContainer->getSearchService();
         $args = $httpService->getGetArgs();
         $action = $args[self::ARG_ACTION] ?? NULL;
         switch ($action) {

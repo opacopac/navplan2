@@ -3,12 +3,12 @@
 namespace Navplan\Notam\RestService;
 
 use InvalidArgumentException;
-use Navplan\Notam\INotamDiContainer;
+use Navplan\Notam\DomainService\INotamService;
 use Navplan\Notam\RestModel\ReadNotamByExtentRequest;
 use Navplan\Notam\RestModel\ReadNotamByIcaoRequest;
 use Navplan\Notam\RestModel\ReadNotamByPositionRequest;
 use Navplan\Notam\RestModel\ReadNotamResponse;
-use Navplan\System\ISystemDiContainer2;
+use Navplan\System\DomainService\IHttpService;
 
 
 class NotamServiceController {
@@ -19,11 +19,9 @@ class NotamServiceController {
 
 
     public static function processRequest(
-        INotamDiContainer $notamDiContainer,
-        ISystemDiContainer2 $systemDiContainer
+        INotamService $notamService,
+        IHttpService $httpService
     ) {
-        $httpService = $systemDiContainer->getHttpService();
-        $notamService = $notamDiContainer->getNotamService();
         $getArgs = $httpService->getGetArgs();
         $action = $getArgs[self::ARG_ACTION] ?? NULL;
         switch ($action) {

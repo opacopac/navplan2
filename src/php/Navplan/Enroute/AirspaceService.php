@@ -11,6 +11,6 @@ require_once __DIR__ . "/../RestServiceBootstrap.php";
 $diContainer = new ProdNavplanDiContainer();
 
 AirspaceServiceController::processRequest(
-    $diContainer->getEnrouteDiContainer(),
-    $diContainer->getSystemDiContainer()
+    $diContainer->getEnrouteDiContainer()->getAirspaceService(),
+    $diContainer->getSystemDiContainer()->getHttpService()
 );

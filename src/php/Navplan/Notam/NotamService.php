@@ -11,6 +11,6 @@ use Navplan\ProdNavplanDiContainer;
 $diContainer = new ProdNavplanDiContainer();
 
 NotamServiceController::processRequest(
-    $diContainer->getNotamDiContainer(),
-    $diContainer->getSystemDiContainer()
+    $diContainer->getNotamDiContainer()->getNotamService(),
+    $diContainer->getSystemDiContainer()->getHttpService()
 );

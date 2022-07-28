@@ -11,6 +11,6 @@ require_once __DIR__ . "/../RestServiceBootstrap.php";
 $diContainer = new ProdNavplanDiContainer();
 
 MeteoDwdServiceController::processRequest(
-    $diContainer->getMeteoDwdDiContainer(),
-    $diContainer->getSystemDiContainer()
+    $diContainer->getMeteoDwdDiContainer()->getMeteoDwdService(),
+    $diContainer->getSystemDiContainer()->getHttpService()
 );

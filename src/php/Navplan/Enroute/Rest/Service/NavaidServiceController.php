@@ -4,9 +4,9 @@ namespace Navplan\Enroute\Rest\Service;
 
 use InvalidArgumentException;
 use Navplan\Common\RestModel\RestExtent2dConverter;
-use Navplan\Enroute\IEnrouteDiContainer;
+use Navplan\Enroute\Domain\Service\INavaidService;
 use Navplan\Enroute\Rest\Model\RestNavaidConverter;
-use Navplan\System\ISystemDiContainer2;
+use Navplan\System\DomainService\IHttpService;
 
 
 class NavaidServiceController {
@@ -15,17 +15,16 @@ class NavaidServiceController {
 
 
     public static function processRequest(
-        IEnrouteDiContainer $enrouteDiContainer,
-        ISystemDiContainer2 $systemDiContainer
+        INavaidService $navaidService,
+        IHttpService $httpService
     ) {
-        $httpService = $systemDiContainer->getHttpService();
         $args = $httpService->getGetArgs();
         $action = $args[self::ARG_ACTION] ?? NULL;
         switch ($action) {
             case self::ACTION_GET_NAVAIDS_BY_EXTENT:
                 $extent = RestExtent2dConverter::fromArgs($args);
                 $zoom = intval($args["zoom"]);
-                $adList = $enrouteDiContainer->getNavaidService()->searchByExtent($extent, $zoom);
+                $adList = $navaidService->searchByExtent($extent, $zoom);
                 $httpService->sendArrayResponse(RestNavaidConverter::listToRest($adList));
                 break;
             default:

@@ -11,6 +11,6 @@ require_once __DIR__ . "/../RestServiceBootstrap.php";
 $diContainer = new ProdNavplanDiContainer();
 
 TerrainServiceController::processRequest(
-    $diContainer->getTerrainDiContainer(),
-    $diContainer->getSystemDiContainer()
+    $diContainer->getTerrainDiContainer()->getTerrainService(),
+    $diContainer->getSystemDiContainer()->getHttpService()
 );

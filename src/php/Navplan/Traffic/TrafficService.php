@@ -12,5 +12,8 @@ $diContainer = new ProdNavplanDiContainer();
 
 TrafficServiceController::processRequest(
     $diContainer->getSystemDiContainer()->getHttpService(),
-    $diContainer->getTrafficDiContainer()
+    $diContainer->getTrafficDiContainer()->getReadOgnTrafficUc(),
+    $diContainer->getTrafficDiContainer()->getReadAdsbexTrafficUc(),
+    $diContainer->getTrafficDiContainer()->getReadAdsbexTrafficWithDetailsUc(),
+    $diContainer->getTrafficDiContainer()->getReadTrafficDetailsUc()
 );

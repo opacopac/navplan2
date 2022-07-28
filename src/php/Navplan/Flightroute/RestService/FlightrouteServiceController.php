@@ -3,7 +3,7 @@
 namespace Navplan\Flightroute\RestService;
 
 use InvalidArgumentException;
-use Navplan\Flightroute\IFlightrouteDiContainer;
+use Navplan\Flightroute\DomainService\IFlightrouteService;
 use Navplan\Flightroute\RestModel\RestCreateFlightrouteRequest;
 use Navplan\Flightroute\RestModel\RestCreateSharedFlightrouteRequest;
 use Navplan\Flightroute\RestModel\RestCreateSharedFlightrouteRequestConverter;
@@ -16,16 +16,14 @@ use Navplan\Flightroute\RestModel\RestReadSharedFlightrouteRequest;
 use Navplan\Flightroute\RestModel\RestSuccessResponse;
 use Navplan\Flightroute\RestModel\RestUpdateFlightrouteRequest;
 use Navplan\System\DomainModel\HttpRequestMethod;
-use Navplan\System\ISystemDiContainer2;
+use Navplan\System\DomainService\IHttpService;
 
 
 class FlightrouteServiceController {
     public static function processRequest(
-        IFlightrouteDiContainer $flightrouteDiContainer,
-        ISystemDiContainer2 $systemDiContainer
+        IFlightrouteService $flightrouteService,
+        IHttpService $httpService
     ) {
-        $httpService = $systemDiContainer->getHttpService();
-        $flightrouteService = $flightrouteDiContainer->getFlightrouteService();
         switch ($httpService->getRequestMethod()) {
             case HttpRequestMethod::GET:
                 if ($httpService->hasGetArg(RestReadSharedFlightrouteRequest::ARG_SHARE_ID)) {

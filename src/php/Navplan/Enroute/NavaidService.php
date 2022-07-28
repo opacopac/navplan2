@@ -11,6 +11,6 @@ require_once __DIR__ . "/../RestServiceBootstrap.php";
 $diContainer = new ProdNavplanDiContainer();
 
 NavaidServiceController::processRequest(
-    $diContainer->getEnrouteDiContainer(),
-    $diContainer->getSystemDiContainer()
+    $diContainer->getEnrouteDiContainer()->getNavaidService(),
+    $diContainer->getSystemDiContainer()->getHttpService()
 );

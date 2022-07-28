@@ -10,6 +10,6 @@ require_once __DIR__ . "/../RestServiceBootstrap.php";
 $diContainer = new ProdNavplanDiContainer();
 
 SearchServiceController::processRequest(
-    $diContainer->getSearchDiContainer(),
-    $diContainer->getSystemDiContainer()
+    $diContainer->getSearchDiContainer()->getSearchService(),
+    $diContainer->getSystemDiContainer()->getHttpService()
 );

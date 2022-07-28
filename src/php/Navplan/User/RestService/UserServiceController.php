@@ -4,7 +4,6 @@ namespace Navplan\User\RestService;
 
 use InvalidArgumentException;
 use Navplan\System\DomainService\IHttpService;
-use Navplan\User\IUserDiContainer;
 use Navplan\User\RestModel\AutoLoginRequestConverter;
 use Navplan\User\RestModel\LoginRequestConverter;
 use Navplan\User\RestModel\RegisterRequestConverter;
@@ -13,6 +12,13 @@ use Navplan\User\RestModel\SendLostPwRequestConverter;
 use Navplan\User\RestModel\SendRegisterEmailRequestConverter;
 use Navplan\User\RestModel\UpdatePwRequestConverter;
 use Navplan\User\RestModel\UserResponseConverter;
+use Navplan\User\UseCase\AutoLogin\IAutoLoginUc;
+use Navplan\User\UseCase\Login\ILoginUc;
+use Navplan\User\UseCase\Register\IRegisterUc;
+use Navplan\User\UseCase\ResetPw\IResetPwUc;
+use Navplan\User\UseCase\SendLostPw\ISendLostPwUc;
+use Navplan\User\UseCase\SendRegisterEmail\ISendRegisterEmailUc;
+use Navplan\User\UseCase\UpdatePw\IUpdatePwUc;
 
 
 class UserServiceController {
@@ -27,7 +33,13 @@ class UserServiceController {
 
 
     public static function processRequest(
-        IUserDiContainer $diContainer,
+        ILoginUc $loginUc,
+        IAutoLoginUc $autoLoginUc,
+        ISendRegisterEmailUc $sendRegisterEmailUc,
+        IRegisterUc $registerUc,
+        ISendLostPwUc $sendLostPwUc,
+        IResetPwUc $resetPwUc,
+        IUpdatePwUc $updatePwUc,
         IHttpService $httpService
     ) {
         $postVars = $httpService->getPostArgs();
@@ -35,37 +47,37 @@ class UserServiceController {
         switch ($action) {
             case self::ACTION_LOGIN:
                 $request = LoginRequestConverter::fromArgs($postVars);
-                $response = $diContainer->getLoginUc()->login($request);
+                $response = $loginUc->login($request);
                 $httpService->sendArrayResponse(UserResponseConverter::toRest($response));
                 break;
             case self::ACTION_AUTOLOGIN:
                 $request = AutoLoginRequestConverter::fromArgs($postVars);
-                $response = $diContainer->getAutoLoginUc()->autologin($request);
+                $response = $autoLoginUc->autologin($request);
                 $httpService->sendArrayResponse(UserResponseConverter::toRest($response));
                 break;
             case self::ACTION_SEND_REGISTER_MAIL:
                 $request = SendRegisterEmailRequestConverter::fromArgs($postVars);
-                $response = $diContainer->getSendRegisterEmailUc()->sendRegisterEmail($request);
+                $response = $sendRegisterEmailUc->sendRegisterEmail($request);
                 $httpService->sendArrayResponse(UserResponseConverter::toRest($response));
                 break;
             case self::ACTION_REGISTER:
                 $request = RegisterRequestConverter::fromArgs($postVars);
-                $response = $diContainer->getRegisterUc()->register($request);
+                $response = $registerUc->register($request);
                 $httpService->sendArrayResponse(UserResponseConverter::toRest($response));
                 break;
             case self::ACTION_SEND_LOST_PW:
                 $request = SendLostPwRequestConverter::fromArgs($postVars);
-                $response = $diContainer->getSendLostPwUc()->sendLostPw($request);
+                $response = $sendLostPwUc->sendLostPw($request);
                 $httpService->sendArrayResponse(UserResponseConverter::toRest($response));
                 break;
             case self::ACTION_RESET_PW:
                 $request = ResetPwRequestConverter::fromArgs($postVars);
-                $response = $diContainer->getResetPwUc()->resetPassword($request);
+                $response = $resetPwUc->resetPassword($request);
                 $httpService->sendArrayResponse(UserResponseConverter::toRest($response));
                 break;
             case self::ACTION_UPDATE_PW:
                 $request = UpdatePwRequestConverter::fromArgs($postVars);
-                $response = $diContainer->getUpdatePwUc()->updatePassword($request);
+                $response = $updatePwUc->updatePassword($request);
                 $httpService->sendArrayResponse(UserResponseConverter::toRest($response));
                 break;
             default:

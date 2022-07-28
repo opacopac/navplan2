@@ -5,19 +5,17 @@ namespace Navplan\Terrain\RestService;
 use InvalidArgumentException;
 use Navplan\Common\RestModel\RestPosition3dConverter;
 use Navplan\System\DomainModel\HttpRequestMethod;
-use Navplan\System\ISystemDiContainer2;
-use Navplan\Terrain\ITerrainDiContainer;
+use Navplan\System\DomainService\IHttpService;
+use Navplan\Terrain\DomainService\ITerrainService;
 use Navplan\Terrain\RestModel\RestReadElevationRequest;
 use Navplan\Terrain\RestModel\RestReadRouteElevationsRequest;
 
 
 class TerrainServiceController {
     public static function processRequest(
-        ITerrainDiContainer $terrainDiContainer,
-        ISystemDiContainer2 $systemDiContainer
+        ITerrainService $terrainService,
+        IHttpService $httpService
     ) {
-        $httpService = $systemDiContainer->getHttpService();
-        $terrainService = $terrainDiContainer->getTerrainService();
         switch ($httpService->getRequestMethod()) {
             case HttpRequestMethod::GET:
                 $request = RestReadElevationRequest::fromRest($httpService->getGetArgs());

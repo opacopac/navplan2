@@ -14,7 +14,7 @@ export const environment = {
     airspaceServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Enroute/AirspaceService.php',
     navaidServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Enroute/NavaidService.php',
     flightrouteServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Flightroute/FlightrouteService.php',
-    meteoDwdServiceUrl: PROD_WEBSITE_BASE_URL + 'php/Navplan/MeteoDwd/MeteoDwdService.php',
+    meteoDwdServiceUrl: PROD_WEBSITE_BASE_URL + 'php/Navplan/MeteoDwd/RestService/MeteoDwdService.php',
     meteoDwdMapTilesUrl: PROD_WEBSITE_BASE_URL + 'meteo_dwd/',
     meteoSmaServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/MeteoSma/MeteoSmaService.php',
     notamRestServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Notam/NotamService.php',
