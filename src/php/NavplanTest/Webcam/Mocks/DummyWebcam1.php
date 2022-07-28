@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Webcam\Mocks;
 
-use Navplan\Webcam\DomainModel\Webcam;
+use Navplan\Webcam\Domain\Model\Webcam;
 
 
 class DummyWebcam1 {

@@ -12,10 +12,7 @@ use Navplan\System\DomainService\ILoggingService;
 
 
 class MySqlDbService implements IDbService {
-    private string $db_host;
-    private string $db_user;
-    private string $db_pw;
-    private string $db_name;
+    private DbCredentials $credentials;
     private ?mysqli $connection = NULL;
 
 
@@ -32,11 +29,14 @@ class MySqlDbService implements IDbService {
     }
 
 
+    public function init2(DbCredentials $credentials) {
+        $this->credentials = $credentials;
+    }
+
+
+    // TODO: remove
     public function init(string $db_host, string $db_user, string $db_pw, string $db_name) {
-        $this->db_host = $db_host;
-        $this->db_user = $db_user;
-        $this->db_pw = $db_pw;
-        $this->db_name = $db_name;
+        $this->credentials = new DbCredentials($db_host, $db_user, $db_pw, $db_name);
     }
 
 
@@ -45,7 +45,12 @@ class MySqlDbService implements IDbService {
      */
     public function openDb() {
         try {
-            $this->connection = new mysqli($this->db_host, $this->db_user, $this->db_pw, $this->db_name);
+            $this->connection = new mysqli(
+                $this->credentials->host,
+                $this->credentials->user,
+                $this->credentials->pw,
+                $this->credentials->database
+            );
             $this->connection->set_charset("utf8");
         } catch (Exception $ex) {
             throw new DbException('error opening DB', $ex->getMessage());

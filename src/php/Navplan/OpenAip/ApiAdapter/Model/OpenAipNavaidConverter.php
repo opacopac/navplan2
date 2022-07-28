@@ -2,7 +2,7 @@
 
 namespace Navplan\OpenAip\ApiAdapter\Model;
 
-use Navplan\Enroute\DomainModel\Navaid;
+use Navplan\Enroute\Domain\Model\Navaid;
 
 
 class OpenAipNavaidConverter {

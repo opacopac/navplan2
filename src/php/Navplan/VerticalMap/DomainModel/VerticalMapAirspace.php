@@ -2,7 +2,7 @@
 
 namespace Navplan\VerticalMap\DomainModel;
 
-use Navplan\Enroute\DomainModel\Airspace;
+use Navplan\Enroute\Domain\Model\Airspace;
 
 
 class VerticalMapAirspace {

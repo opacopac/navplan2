@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Meteo\RestService;
 
-use Navplan\MeteoSma\RestService\MeteoServiceProcessor;
+use Navplan\MeteoSma\RestService\MeteoServiceController;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement1;
 use NavplanTest\MeteoSma\Mocks\MockMeteoSmaRepo;
 use NavplanTest\MockNavplanDiContainer;
@@ -28,7 +28,7 @@ class MeteoServiceProcessorTest extends TestCase {
         $measurement1 = DummySmaMeasurement1::create();
         $this->meteoRepo->readSmaMeasurementsResult = [$measurement1];
 
-        MeteoServiceProcessor::processRequest($args, $this->config);
+        MeteoServiceController::processRequest($args, $this->config);
 
         $this->assertRegExp("/" . $measurement1->station->id . "/", $this->httpService->body);
     }

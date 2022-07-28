@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Webcam\RestService;
 
-use Navplan\Webcam\RestModel\RestWebcamConverter;
+use Navplan\Webcam\Rest\Model\RestWebcamConverter;
 use NavplanTest\Webcam\Mocks\DummyWebcam1;
 use NavplanTest\Webcam\Mocks\DummyWebcam2;
 use PHPUnit\Framework\TestCase;

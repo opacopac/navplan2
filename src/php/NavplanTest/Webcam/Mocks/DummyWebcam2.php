@@ -3,7 +3,7 @@
 namespace NavplanTest\Webcam\Mocks;
 
 use Navplan\Common\DomainModel\Position2d;
-use Navplan\Webcam\DomainModel\Webcam;
+use Navplan\Webcam\Domain\Model\Webcam;
 
 
 class DummyWebcam2 {

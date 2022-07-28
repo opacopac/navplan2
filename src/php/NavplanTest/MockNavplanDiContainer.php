@@ -6,8 +6,8 @@ require_once __DIR__ . "/../config_test.php";
 
 use Navplan\Aerodrome\DomainService\IAirportRepo;
 use Navplan\Aerodrome\DomainService\IReportingPointRepo;
-use Navplan\Enroute\DomainService\IAirspaceService;
-use Navplan\Enroute\DomainService\INavaidService;
+use Navplan\Enroute\Domain\Service\IAirspaceService;
+use Navplan\Enroute\Domain\Service\INavaidService;
 use Navplan\Flightroute\DomainService\IFlightrouteRepo;
 use Navplan\Geoname\DomainService\IGeonameRepo;
 use Navplan\MeteoSma\DomainService\IMeteoSmaRepo;
@@ -26,7 +26,7 @@ use Navplan\Traffic\DomainService\IOgnService;
 use Navplan\Traffic\DomainService\ITrafficDetailRepo;
 use Navplan\User\DomainService\IUserPointRepo;
 use Navplan\User\DomainService\IUserRepo;
-use Navplan\Webcam\DomainService\IWebcamRepo;
+use Navplan\Webcam\Domain\Service\IWebcamRepo;
 use NavplanTest\Aerodrome\Mocks\MockAirportRepo;
 use NavplanTest\Aerodrome\Mocks\MockReportingPointRepo;
 use NavplanTest\Enroute\Mocks\MockAirspaceService;
@@ -75,7 +75,7 @@ class MockNavplanDiContainer extends ProdNavplanDiContainer {
     public MockAirspaceService $airspaceService;
     public MockNavaidService $navaidService;
     public MockReportingPointRepo $reportingPointRepo;
-    public MockWebcamRepo $webcamService;
+    public MockWebcamRepo $webcamDiContainer;
     // terrain
     public MockTerrainRepo $terrainRepo;
     // traffic
@@ -106,7 +106,7 @@ class MockNavplanDiContainer extends ProdNavplanDiContainer {
         $this->airspaceService = new MockAirspaceService();
         $this->navaidService = new MockNavaidService();
         $this->reportingPointRepo = new MockReportingPointRepo();
-        $this->webcamService = new MockWebcamRepo();
+        $this->webcamDiContainer = new MockWebcamRepo();
         $this->terrainRepo = new MockTerrainRepo();
         $this->adsbexRepo = new MockAdsbexService();
         $this->ognRepo = new MockOgnService();
@@ -218,8 +218,8 @@ class MockNavplanDiContainer extends ProdNavplanDiContainer {
     }
 
 
-    public function getWebcamService(): IWebcamRepo {
-        return $this->webcamService;
+    public function getWebcamDiContainer(): IWebcamRepo {
+        return $this->webcamDiContainer;
     }
 
     // endregion

@@ -5,7 +5,7 @@ namespace Navplan\Aerodrome\RestModel;
 use Navplan\Aerodrome\DomainModel\Airport;
 use Navplan\Common\RestModel\RestAltitudeConverter;
 use Navplan\Common\RestModel\RestPosition2dConverter;
-use Navplan\Webcam\RestModel\RestWebcamConverter;
+use Navplan\Webcam\Rest\Model\RestWebcamConverter;
 
 
 class RestAirportConverter {

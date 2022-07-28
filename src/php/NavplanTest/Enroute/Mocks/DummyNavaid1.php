@@ -8,8 +8,8 @@ use Navplan\Common\DomainModel\AltitudeUnit;
 use Navplan\Common\DomainModel\Frequency;
 use Navplan\Common\DomainModel\FrequencyUnit;
 use Navplan\Common\DomainModel\Position2d;
-use Navplan\Enroute\DomainModel\Navaid;
-use Navplan\Enroute\DomainModel\NavaidType;
+use Navplan\Enroute\Domain\Model\Navaid;
+use Navplan\Enroute\Domain\Model\NavaidType;
 
 
 class DummyNavaid1 {

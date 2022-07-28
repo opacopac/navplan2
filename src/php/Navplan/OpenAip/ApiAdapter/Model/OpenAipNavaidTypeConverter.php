@@ -3,7 +3,7 @@
 namespace Navplan\OpenAip\ApiAdapter\Model;
 
 use InvalidArgumentException;
-use Navplan\Enroute\DomainModel\NavaidType;
+use Navplan\Enroute\Domain\Model\NavaidType;
 
 
 class OpenAipNavaidTypeConverter {

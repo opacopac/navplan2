@@ -4,7 +4,7 @@ namespace NavplanTest\Webcam\Mocks;
 
 use InvalidArgumentException;
 use Navplan\Common\DomainModel\Extent2d;
-use Navplan\Webcam\DomainService\IWebcamRepo;
+use Navplan\Webcam\Domain\Service\IWebcamRepo;
 
 
 class MockWebcamRepo implements IWebcamRepo {

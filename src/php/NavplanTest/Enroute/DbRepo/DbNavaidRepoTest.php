@@ -4,7 +4,7 @@ namespace NavplanTest\Enroute\DbRepo;
 
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
-use Navplan\Enroute\DbService\DbNavaidRepo;
+use Navplan\Enroute\Persistence\Service\DbNavaidRepo;
 use NavplanTest\Enroute\Mocks\DummyNavaid1;
 use NavplanTest\System\Mock\MockDbService;
 use PHPUnit\Framework\TestCase;

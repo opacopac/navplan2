@@ -5,13 +5,13 @@ namespace Navplan\Search\RestModel;
 use Navplan\Aerodrome\RestModel\RestAirportCircuitConverter;
 use Navplan\Aerodrome\RestModel\RestAirportConverter;
 use Navplan\Aerodrome\RestModel\RestReportingPointConverter;
-use Navplan\Enroute\RestModel\RestAirspaceConverter;
-use Navplan\Enroute\RestModel\RestNavaidConverter;
+use Navplan\Enroute\Rest\Model\RestAirspaceConverter;
+use Navplan\Enroute\Rest\Model\RestNavaidConverter;
 use Navplan\Geoname\RestModel\RestGeonameConverter;
 use Navplan\Notam\RestModel\RestNotamConverter;
 use Navplan\Search\DomainModel\SearchResult;
 use Navplan\User\RestModel\UserPointConverter;
-use Navplan\Webcam\RestModel\RestWebcamConverter;
+use Navplan\Webcam\Rest\Model\RestWebcamConverter;
 
 
 class RestSearchResultConverter {

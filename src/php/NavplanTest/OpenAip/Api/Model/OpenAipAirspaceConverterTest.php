@@ -6,8 +6,8 @@ use Navplan\Common\DomainModel\Altitude;
 use Navplan\Common\DomainModel\AltitudeReference;
 use Navplan\Common\DomainModel\AltitudeUnit;
 use Navplan\Common\DomainModel\Ring2d;
-use Navplan\Enroute\DomainModel\AirspaceClass;
-use Navplan\Enroute\DomainModel\AirspaceType;
+use Navplan\Enroute\Domain\Model\AirspaceClass;
+use Navplan\Enroute\Domain\Model\AirspaceType;
 use Navplan\OpenAip\ApiAdapter\Model\OpenAipAirspaceConverter;
 use PHPUnit\Framework\TestCase;
 

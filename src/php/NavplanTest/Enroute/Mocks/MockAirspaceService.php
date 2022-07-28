@@ -5,7 +5,7 @@ namespace NavplanTest\Enroute\Mocks;
 use BadMethodCallException;
 use InvalidArgumentException;
 use Navplan\Common\DomainModel\Extent2d;
-use Navplan\Enroute\DomainService\IAirspaceService;
+use Navplan\Enroute\Domain\Service\IAirspaceService;
 
 
 class MockAirspaceService implements IAirspaceService {

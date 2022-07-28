@@ -3,8 +3,8 @@
 namespace Navplan\OpenAip\Importer\Service;
 
 use Navplan\Aerodrome\DomainService\IAirportService;
-use Navplan\Enroute\DomainService\IAirspaceService;
-use Navplan\Enroute\DomainService\INavaidService;
+use Navplan\Enroute\Domain\Service\IAirspaceService;
+use Navplan\Enroute\Domain\Service\INavaidService;
 use Navplan\OpenAip\ApiAdapter\Service\IOpenAipService;
 use Navplan\OpenAip\Importer\Model\ImportResult;
 use Navplan\OpenAip\ZoomLevelSorter\AirportZoomLevelSortItem;

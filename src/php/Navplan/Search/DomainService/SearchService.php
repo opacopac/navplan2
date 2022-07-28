@@ -4,8 +4,8 @@ namespace Navplan\Search\DomainService;
 
 use Navplan\Aerodrome\DomainService\IAirportService;
 use Navplan\Aerodrome\DomainService\IReportingPointService;
-use Navplan\Enroute\DomainService\IAirspaceService;
-use Navplan\Enroute\DomainService\INavaidService;
+use Navplan\Enroute\Domain\Service\IAirspaceService;
+use Navplan\Enroute\Domain\Service\INavaidService;
 use Navplan\Geoname\DomainService\IGeonameService;
 use Navplan\Notam\DomainService\INotamService;
 use Navplan\Search\DomainModel\SearchByPositionQuery;

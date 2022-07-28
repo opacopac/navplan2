@@ -6,7 +6,7 @@ use Navplan\Common\DomainModel\AltitudeReference;
 use Navplan\Common\DomainModel\AltitudeUnit;
 use Navplan\Common\DomainModel\FrequencyUnit;
 use Navplan\Common\DomainModel\Position2d;
-use Navplan\Enroute\DomainModel\NavaidType;
+use Navplan\Enroute\Domain\Model\NavaidType;
 use Navplan\OpenAip\ApiAdapter\Model\OpenAipNavaidConverter;
 use PHPUnit\Framework\TestCase;
 

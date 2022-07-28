@@ -3,7 +3,7 @@
 namespace Navplan\Admin\Console\Service;
 
 use InvalidArgumentException;
-use Navplan\Admin\Domain\Service\IAdminServiceDiContainer;
+use Navplan\Admin\IAdminDiContainer;
 use Navplan\ProdNavplanDiContainer;
 
 require_once __DIR__ . "/../../../ConsoleBootstrap.php";
@@ -11,7 +11,7 @@ require_once __DIR__ . "/../../../ConsoleBootstrap.php";
 
 $diContainer = new ProdNavplanDiContainer();
 
-ConsoleAdminService::processRequest($diContainer, $argv);
+ConsoleAdminService::processRequest($diContainer->getAdminDiContainer(), $argv);
 
 
 class ConsoleAdminService {
@@ -20,7 +20,7 @@ class ConsoleAdminService {
     const ARG_IMPORT_NAVAIDS = "--importNavaids";
 
 
-    public static function processRequest(IAdminServiceDiContainer $diContainer, array $args) {
+    public static function processRequest(IAdminDiContainer $diContainer, array $args) {
         $action = $args[1] ?? NULL;
 
         switch ($action) {

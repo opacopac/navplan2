@@ -4,9 +4,13 @@ namespace Navplan\System\DomainService;
 
 use Navplan\System\DomainModel\IDbResult;
 use Navplan\System\DomainModel\IDbStatement;
+use Navplan\System\MySqlDb\DbCredentials;
 
 
 interface IDbService {
+    function init2(DbCredentials $credentials);
+
+    // TODO: remove
     function init(string $db_host, string $db_user, string $db_pw, string $db_name);
 
     function openDb();
