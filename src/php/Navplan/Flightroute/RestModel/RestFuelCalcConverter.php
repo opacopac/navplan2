@@ -2,8 +2,8 @@
 
 namespace Navplan\Flightroute\RestModel;
 
-use Navplan\Common\RestModel\RestTimeConverter;
-use Navplan\Common\RestModel\RestVolumeConverter;
+use Navplan\Common\Rest\Converter\RestTimeConverter;
+use Navplan\Common\Rest\Converter\RestVolumeConverter;
 use Navplan\Flightroute\DomainModel\FuelCalc;
 
 

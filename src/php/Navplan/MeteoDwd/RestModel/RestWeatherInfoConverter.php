@@ -2,7 +2,7 @@
 
 namespace Navplan\MeteoDwd\RestModel;
 
-use Navplan\Common\RestModel\RestAltitudeConverter;
+use Navplan\Common\Rest\Converter\RestAltitudeConverter;
 use Navplan\MeteoDwd\DomainModel\WeatherInfo;
 
 

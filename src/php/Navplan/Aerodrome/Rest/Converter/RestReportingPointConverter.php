@@ -3,9 +3,9 @@
 namespace Navplan\Aerodrome\Rest\Converter;
 
 use Navplan\Aerodrome\Domain\Model\ReportingPoint;
-use Navplan\Common\RestModel\RestLengthConverter;
-use Navplan\Common\RestModel\RestPosition2dConverter;
-use Navplan\Common\RestModel\RestRing2dConverter;
+use Navplan\Common\Rest\Converter\RestLengthConverter;
+use Navplan\Common\Rest\Converter\RestPosition2dConverter;
+use Navplan\Common\Rest\Converter\RestRing2dConverter;
 
 
 class RestReportingPointConverter {

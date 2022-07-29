@@ -2,9 +2,12 @@
 
 namespace Navplan\Exporter;
 
-use Navplan\Exporter\DomainService\IExportService;
+use Navplan\Common\Rest\Controller\IRestController;
+use Navplan\Exporter\Domain\Service\IExportService;
 
 
 interface IExporterDiContainer {
+    function getExportController(): IRestController;
+
     function getExportService(): IExportService;
 }

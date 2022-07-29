@@ -2,8 +2,8 @@
 
 namespace Navplan\MeteoSma\RestModel;
 
-use Navplan\Common\RestModel\RestTimeConverter;
-use Navplan\Common\RestModel\RestTimestampConverter;
+use Navplan\Common\Rest\Converter\RestTimeConverter;
+use Navplan\Common\Rest\Converter\RestTimestampConverter;
 use Navplan\MeteoSma\DomainModel\SmaMeasurement;
 
 

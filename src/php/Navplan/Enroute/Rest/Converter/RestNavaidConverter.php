@@ -2,9 +2,9 @@
 
 namespace Navplan\Enroute\Rest\Converter;
 
-use Navplan\Common\RestModel\RestAltitudeConverter;
-use Navplan\Common\RestModel\RestFrequencyConverter;
-use Navplan\Common\RestModel\RestPosition2dConverter;
+use Navplan\Common\Rest\Converter\RestAltitudeConverter;
+use Navplan\Common\Rest\Converter\RestFrequencyConverter;
+use Navplan\Common\Rest\Converter\RestPosition2dConverter;
 use Navplan\Enroute\Domain\Model\Navaid;
 
 

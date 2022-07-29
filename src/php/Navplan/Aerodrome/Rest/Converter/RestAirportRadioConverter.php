@@ -3,7 +3,7 @@
 namespace Navplan\Aerodrome\Rest\Converter;
 
 use Navplan\Aerodrome\Domain\Model\AirportRadio;
-use Navplan\Common\RestModel\RestFrequencyConverter;
+use Navplan\Common\Rest\Converter\RestFrequencyConverter;
 
 
 class RestAirportRadioConverter {

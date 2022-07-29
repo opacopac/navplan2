@@ -6,8 +6,8 @@ use Navplan\Common\DomainModel\Circle2d;
 use Navplan\Common\DomainModel\Length;
 use Navplan\Common\DomainModel\LengthUnit;
 use Navplan\Common\DomainModel\Position2d;
-use Navplan\Common\RestModel\RestCircle2dConverter;
-use Navplan\Common\RestModel\RestLengthConverter;
+use Navplan\Common\Rest\Converter\RestCircle2dConverter;
+use Navplan\Common\Rest\Converter\RestLengthConverter;
 use PHPUnit\Framework\TestCase;
 
 

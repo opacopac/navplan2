@@ -2,7 +2,7 @@
 
 namespace Navplan\Webcam\Rest\Model;
 
-use Navplan\Common\RestModel\RestPosition2dConverter;
+use Navplan\Common\Rest\Converter\RestPosition2dConverter;
 use Navplan\Webcam\Domain\Model\Webcam;
 
 

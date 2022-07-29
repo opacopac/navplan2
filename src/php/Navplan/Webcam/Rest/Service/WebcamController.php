@@ -3,7 +3,7 @@
 namespace Navplan\Webcam\Rest\Service;
 
 use InvalidArgumentException;
-use Navplan\Common\RestModel\RestExtent2dConverter;
+use Navplan\Common\Rest\Converter\RestExtent2dConverter;
 use Navplan\System\DomainService\IHttpService;
 use Navplan\Webcam\Domain\Service\IWebcamService;
 use Navplan\Webcam\Rest\Model\RestWebcamConverter;

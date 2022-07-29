@@ -2,7 +2,7 @@
 
 namespace Navplan\VerticalMap\RestModel;
 
-use Navplan\Common\RestModel\RestAltitudeConverter;
+use Navplan\Common\Rest\Converter\RestAltitudeConverter;
 use Navplan\VerticalMap\DomainModel\VerticalMapAirspace;
 
 

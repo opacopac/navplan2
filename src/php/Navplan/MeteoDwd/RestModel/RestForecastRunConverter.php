@@ -2,7 +2,7 @@
 
 namespace Navplan\MeteoDwd\RestModel;
 
-use Navplan\Common\RestModel\RestDateConverter;
+use Navplan\Common\Rest\Converter\RestDateConverter;
 use Navplan\MeteoDwd\DomainModel\ForecastRun;
 
 

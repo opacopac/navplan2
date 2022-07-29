@@ -3,7 +3,7 @@
 namespace Navplan\Terrain\RestService;
 
 use InvalidArgumentException;
-use Navplan\Common\RestModel\RestPosition3dConverter;
+use Navplan\Common\Rest\Converter\RestPosition3dConverter;
 use Navplan\System\DomainModel\HttpRequestMethod;
 use Navplan\System\DomainService\IHttpService;
 use Navplan\Terrain\DomainService\ITerrainService;

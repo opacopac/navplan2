@@ -118,6 +118,18 @@ class ProdNavplanDiContainer
     }
 
 
+    public function getExportDiContainer(): IExporterDiContainer {
+        if (!isset($this->exporterDiContainer)) {
+            $this->exporterDiContainer = new ProdExportDiContainer(
+                $this->getSystemDiContainer()->getFileService(),
+                $this->getSystemDiContainer()->getHttpService()
+            );
+        }
+
+        return $this->exporterDiContainer;
+    }
+
+
     public function getFlightrouteDiContainer(): IFlightrouteDiContainer {
         if (!isset($this->flightrouteDiContainer)) {
             $this->flightrouteDiContainer = new ProdFlightrouteDiContainer(
@@ -301,16 +313,5 @@ class ProdNavplanDiContainer
         }
 
         return $this->webcamDiContainer;
-    }
-
-
-    public function getExportDiContainer(): IExporterDiContainer {
-        if (!isset($this->exporterDiContainer)) {
-            $this->exporterDiContainer = new ProdExportDiContainer(
-                $this->getSystemDiContainer()->getFileService()
-            );
-        }
-
-        return $this->exporterDiContainer;
     }
 }

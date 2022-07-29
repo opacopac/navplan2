@@ -2,15 +2,12 @@
 
 namespace Navplan\Exporter;
 
-use Navplan\Exporter\RestService\ExporterController;
 use Navplan\ProdNavplanDiContainer;
 
 require_once __DIR__ . "/../RestServiceBootstrap.php";
 
 
 $diContainer = new ProdNavplanDiContainer();
+$controller = $diContainer->getExportDiContainer()->getExportController();
 
-ExporterController::processRequest(
-    $diContainer->getExportDiContainer()->getExportService(),
-    $diContainer->getSystemDiContainer()->getHttpService()
-);
+$controller->processRequest();

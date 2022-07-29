@@ -2,8 +2,8 @@
 
 namespace Navplan\Enroute\Rest\Converter;
 
-use Navplan\Common\RestModel\RestAltitudeConverter;
-use Navplan\Common\RestModel\RestRing2dConverter;
+use Navplan\Common\Rest\Converter\RestAltitudeConverter;
+use Navplan\Common\Rest\Converter\RestRing2dConverter;
 use Navplan\Enroute\Domain\Model\Airspace;
 
 

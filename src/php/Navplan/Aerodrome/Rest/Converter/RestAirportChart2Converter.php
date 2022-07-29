@@ -3,7 +3,7 @@
 namespace Navplan\Aerodrome\Rest\Converter;
 
 use Navplan\Aerodrome\Domain\Model\AirportChart2;
-use Navplan\Common\RestModel\RestExtent2dConverter;
+use Navplan\Common\Rest\Converter\RestExtent2dConverter;
 
 
 class RestAirportChart2Converter {

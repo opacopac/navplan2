@@ -2,8 +2,8 @@
 
 namespace Navplan\Traffic\RestModel;
 
-use Navplan\Common\RestModel\RestPosition4dConverter;
-use Navplan\Common\RestModel\RestTimestampConverter;
+use Navplan\Common\Rest\Converter\RestPosition4dConverter;
+use Navplan\Common\Rest\Converter\RestTimestampConverter;
 use Navplan\Traffic\DomainModel\TrafficPosition;
 use Navplan\Traffic\DomainModel\TrafficPositionMethod;
 

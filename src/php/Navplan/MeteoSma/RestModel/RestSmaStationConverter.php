@@ -2,8 +2,8 @@
 
 namespace Navplan\MeteoSma\RestModel;
 
-use Navplan\Common\RestModel\RestAltitudeConverter;
-use Navplan\Common\RestModel\RestPosition2dConverter;
+use Navplan\Common\Rest\Converter\RestAltitudeConverter;
+use Navplan\Common\Rest\Converter\RestPosition2dConverter;
 use Navplan\MeteoSma\DomainModel\SmaStation;
 
 

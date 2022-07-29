@@ -3,7 +3,7 @@
 namespace Navplan\VerticalMap\RestModel;
 
 use Navplan\Common\DomainModel\LengthUnit;
-use Navplan\Common\RestModel\RestLengthConverter;
+use Navplan\Common\Rest\Converter\RestLengthConverter;
 use Navplan\VerticalMap\DomainModel\VerticalMap;
 
 

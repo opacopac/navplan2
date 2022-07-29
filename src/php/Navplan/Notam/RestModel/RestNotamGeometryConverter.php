@@ -7,8 +7,8 @@ use Navplan\Common\DomainModel\Circle2d;
 use Navplan\Common\DomainModel\IGeometry2d;
 use Navplan\Common\DomainModel\MultiRing2d;
 use Navplan\Common\DomainModel\Ring2d;
-use Navplan\Common\RestModel\RestAltitudeConverter;
-use Navplan\Common\RestModel\RestCircle2dConverter;
+use Navplan\Common\Rest\Converter\RestAltitudeConverter;
+use Navplan\Common\Rest\Converter\RestCircle2dConverter;
 use Navplan\Notam\DomainModel\NotamGeometry;
 
 

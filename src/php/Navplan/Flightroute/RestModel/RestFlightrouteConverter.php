@@ -2,8 +2,8 @@
 
 namespace Navplan\Flightroute\RestModel;
 
-use Navplan\Common\RestModel\RestConsumptionConverter;
-use Navplan\Common\RestModel\RestSpeedConverter;
+use Navplan\Common\Rest\Converter\RestConsumptionConverter;
+use Navplan\Common\Rest\Converter\RestSpeedConverter;
 use Navplan\Common\StringNumberHelper;
 use Navplan\Flightroute\DomainModel\Flightroute;
 

@@ -3,7 +3,7 @@
 namespace Navplan\Aerodrome\Rest\Converter;
 
 use Navplan\Aerodrome\Domain\Model\AirportRunway;
-use Navplan\Common\RestModel\RestLengthConverter;
+use Navplan\Common\Rest\Converter\RestLengthConverter;
 
 
 class RestAirportRunwayConverter {

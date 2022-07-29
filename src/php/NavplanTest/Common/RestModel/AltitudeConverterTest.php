@@ -3,7 +3,7 @@
 namespace NavplanTest\Common\RestModel;
 
 use Navplan\Common\DomainModel\Altitude;
-use Navplan\Common\RestModel\RestAltitudeConverter;
+use Navplan\Common\Rest\Converter\RestAltitudeConverter;
 use PHPUnit\Framework\TestCase;
 
 

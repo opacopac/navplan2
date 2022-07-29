@@ -2,7 +2,7 @@
 
 namespace Navplan\Flightroute\RestModel;
 
-use Navplan\Common\RestModel\RestPosition2dConverter;
+use Navplan\Common\Rest\Converter\RestPosition2dConverter;
 use Navplan\Common\StringNumberHelper;
 use Navplan\Flightroute\DomainModel\Waypoint;
 

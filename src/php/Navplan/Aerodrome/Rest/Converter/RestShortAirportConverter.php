@@ -3,7 +3,7 @@
 namespace Navplan\Aerodrome\Rest\Converter;
 
 use Navplan\Aerodrome\Domain\Model\ShortAirport;
-use Navplan\Common\RestModel\RestPosition2dConverter;
+use Navplan\Common\Rest\Converter\RestPosition2dConverter;
 
 
 class RestShortAirportConverter {

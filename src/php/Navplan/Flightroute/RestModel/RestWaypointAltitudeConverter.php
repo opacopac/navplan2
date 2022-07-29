@@ -2,7 +2,7 @@
 
 namespace Navplan\Flightroute\RestModel;
 
-use Navplan\Common\RestModel\RestAltitudeConverter;
+use Navplan\Common\Rest\Converter\RestAltitudeConverter;
 use Navplan\Common\StringNumberHelper;
 use Navplan\Flightroute\DomainModel\WaypointAltitude;
 

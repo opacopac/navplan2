@@ -3,7 +3,7 @@
 namespace Navplan\Aerodrome\Rest\Converter;
 
 use Navplan\Aerodrome\Domain\Model\AirportCircuit;
-use Navplan\Common\RestModel\RestLine2dConverter;
+use Navplan\Common\Rest\Converter\RestLine2dConverter;
 
 
 class RestAirportCircuitConverter {

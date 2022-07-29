@@ -2,8 +2,8 @@
 
 namespace Navplan\MeteoDwd\RestModel;
 
-use Navplan\Common\RestModel\RestAngleConverter;
-use Navplan\Common\RestModel\RestSpeedConverter;
+use Navplan\Common\Rest\Converter\RestAngleConverter;
+use Navplan\Common\Rest\Converter\RestSpeedConverter;
 use Navplan\MeteoDwd\DomainModel\WindInfo;
 
 

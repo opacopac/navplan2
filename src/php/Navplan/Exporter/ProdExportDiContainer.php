@@ -2,27 +2,44 @@
 
 namespace Navplan\Exporter;
 
+use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Exporter\Builder\NavplanExcelBuilder;
 use Navplan\Exporter\Builder\NavplanFplBuilder;
 use Navplan\Exporter\Builder\NavplanGpxBuilder;
 use Navplan\Exporter\Builder\NavplanKmlBuilder;
 use Navplan\Exporter\Builder\NavplanPdfBuilder;
-use Navplan\Exporter\DomainService\IExportService;
+use Navplan\Exporter\Domain\Service\IExportService;
 use Navplan\Exporter\FileExportService\FileExportService;
+use Navplan\Exporter\Rest\Controller\ExporterController;
 use Navplan\System\DomainService\IFileService;
+use Navplan\System\DomainService\IHttpService;
 
 
 class ProdExportDiContainer implements IExporterDiContainer {
+    private IRestController $exportController;
     private IExportService $exportService;
 
 
     public function __construct(
-        private IFileService $fileService
+        private IFileService $fileService,
+        private IHttpService $httpService
     ) {
     }
 
 
-    function getExportService(): IExportService {
+    public function getExportController(): IRestController {
+        if (!isset($this->exportController)) {
+            $this->exportController = new ExporterController(
+                $this->getExportService(),
+                $this->httpService
+            );
+        }
+
+        return $this->exportController;
+    }
+
+
+    public function getExportService(): IExportService {
         if (!isset($this->exportService)) {
             $this->exportService = new FileExportService(
                 $this->fileService,

@@ -3,7 +3,7 @@
 namespace Navplan\MeteoDwd\RestModel;
 
 use Navplan\Common\DomainModel\Position2d;
-use Navplan\Common\RestModel\RestPosition2dConverter;
+use Navplan\Common\Rest\Converter\RestPosition2dConverter;
 use Navplan\Common\StringNumberHelper;
 use Navplan\MeteoDwd\DomainModel\GridDefinition;
 

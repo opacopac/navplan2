@@ -2,7 +2,7 @@
 
 namespace Navplan\MeteoDwd\RestModel;
 
-use Navplan\Common\RestModel\RestTimeConverter;
+use Navplan\Common\Rest\Converter\RestTimeConverter;
 use Navplan\MeteoDwd\DomainModel\WeatherModelConfig;
 use Navplan\MeteoDwd\DomainModel\WeatherModelType;
 
