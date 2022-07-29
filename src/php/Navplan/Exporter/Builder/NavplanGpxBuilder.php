@@ -3,8 +3,8 @@
 
 namespace Navplan\Exporter\Builder;
 
-use Navplan\Flightroute\DomainModel\Flightroute;
-use Navplan\Flightroute\DomainModel\Waypoint;
+use Navplan\Flightroute\Domain\Model\Flightroute;
+use Navplan\Flightroute\Domain\Model\Waypoint;
 use Navplan\Track\DomainModel\Track;
 
 

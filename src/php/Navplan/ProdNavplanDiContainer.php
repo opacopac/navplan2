@@ -135,7 +135,8 @@ class ProdNavplanDiContainer
             $this->flightrouteDiContainer = new ProdFlightrouteDiContainer(
                 $this->getUserDiContainer()->getTokenService(),
                 $this->getUserDiContainer()->getUserRepo(),
-                $this->getPersistenceDiContainer()->getDbService()
+                $this->getPersistenceDiContainer()->getDbService(),
+                $this->getSystemDiContainer()->getHttpService()
             );
         }
 

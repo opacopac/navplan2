@@ -2,10 +2,10 @@
 
 namespace Navplan\Exporter\Rest\Converter;
 
-use Navplan\Flightroute\DomainModel\Flightroute;
-use Navplan\Flightroute\DomainModel\FuelCalc;
-use Navplan\Flightroute\RestModel\RestFlightrouteConverter;
-use Navplan\Flightroute\RestModel\RestFuelCalcConverter;
+use Navplan\Flightroute\Domain\Model\Flightroute;
+use Navplan\Flightroute\Domain\Model\FuelCalc;
+use Navplan\Flightroute\Rest\Converter\RestFlightrouteConverter;
+use Navplan\Flightroute\Rest\Converter\RestFuelCalcConverter;
 
 
 class RestExportExcelRequest {

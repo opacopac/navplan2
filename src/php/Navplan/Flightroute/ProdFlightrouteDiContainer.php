@@ -2,23 +2,40 @@
 
 namespace Navplan\Flightroute;
 
-use Navplan\Flightroute\DbRepo\DbFlightrouteRepo;
-use Navplan\Flightroute\DomainService\FlightrouteService;
-use Navplan\Flightroute\DomainService\IFlightrouteService;
+use Navplan\Common\Rest\Controller\IRestController;
+use Navplan\Flightroute\Domain\Service\FlightrouteService;
+use Navplan\Flightroute\Domain\Service\IFlightrouteService;
+use Navplan\Flightroute\Persistence\Repo\DbFlightrouteRepo;
+use Navplan\Flightroute\Rest\Controller\FlightrouteController;
 use Navplan\System\DomainService\IDbService;
+use Navplan\System\DomainService\IHttpService;
 use Navplan\User\DomainService\ITokenService;
 use Navplan\User\DomainService\IUserRepo;
 
 
 class ProdFlightrouteDiContainer implements IFlightrouteDiContainer {
+    private IRestController $flightrouteController;
     private IFlightrouteService $flightrouteService;
 
 
     public function __construct(
         private ITokenService $tokenService,
         private IUserRepo $userRepo,
-        private IDbService $dbService
+        private IDbService $dbService,
+        private IHttpService $httpService
     ) {
+    }
+
+
+    public function getFlightrouteController(): IRestController {
+        if (!isset($this->flightrouteController)) {
+            $this->flightrouteController = new FlightrouteController(
+                $this->getFLightrouteService(),
+                $this->httpService
+            );
+        }
+
+        return $this->flightrouteController;
     }
 
 

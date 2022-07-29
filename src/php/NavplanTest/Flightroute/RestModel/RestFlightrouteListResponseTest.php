@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Flightroute\RestModel;
 
-use Navplan\Flightroute\RestModel\RestReadFlightrouteListResponseConverter;
+use Navplan\Flightroute\Rest\Converter\RestReadFlightrouteListResponseConverter;
 use Navplan\Flightroute\UseCase\ReadFlightrouteList\RestReadFlightrouteListResponse;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute2;

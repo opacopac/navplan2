@@ -4,9 +4,9 @@ namespace Navplan\Exporter\Builder;
 
 require_once __DIR__ . "/../../../vendor/autoload.php";
 
-use Navplan\Flightroute\DomainModel\Flightroute;
-use Navplan\Flightroute\DomainModel\FuelCalc;
-use Navplan\Flightroute\DomainModel\Waypoint;
+use Navplan\Flightroute\Domain\Model\Flightroute;
+use Navplan\Flightroute\Domain\Model\FuelCalc;
+use Navplan\Flightroute\Domain\Model\Waypoint;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\NamedRange;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;

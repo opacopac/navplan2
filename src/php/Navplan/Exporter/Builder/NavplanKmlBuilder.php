@@ -3,7 +3,7 @@
 
 namespace Navplan\Exporter\Builder;
 
-use Navplan\Flightroute\DomainModel\Flightroute;
+use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Track\DomainModel\Track;
 
 

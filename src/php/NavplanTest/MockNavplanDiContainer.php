@@ -8,7 +8,7 @@ use Navplan\Aerodrome\Domain\Service\IAirportRepo;
 use Navplan\Aerodrome\Domain\Service\IReportingPointRepo;
 use Navplan\Enroute\Domain\Service\IAirspaceService;
 use Navplan\Enroute\Domain\Service\INavaidService;
-use Navplan\Flightroute\DomainService\IFlightrouteRepo;
+use Navplan\Flightroute\Domain\Service\IFlightrouteRepo;
 use Navplan\Geoname\DomainService\IGeonameRepo;
 use Navplan\MeteoSma\DomainService\IMeteoSmaRepo;
 use Navplan\Notam\DomainService\INotamRepo;

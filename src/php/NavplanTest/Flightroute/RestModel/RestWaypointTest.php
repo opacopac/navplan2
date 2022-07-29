@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Flightroute\RestModel;
 
-use Navplan\Flightroute\DomainModel\Waypoint;
-use Navplan\Flightroute\RestModel\RestWaypointConverter;
+use Navplan\Flightroute\Domain\Model\Waypoint;
+use Navplan\Flightroute\Rest\Converter\RestWaypointConverter;
 use NavplanTest\Flightroute\Mocks\DummyWaypoint1;
 use PHPUnit\Framework\TestCase;
 

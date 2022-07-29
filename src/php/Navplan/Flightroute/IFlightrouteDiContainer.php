@@ -2,9 +2,12 @@
 
 namespace Navplan\Flightroute;
 
-use Navplan\Flightroute\DomainService\IFlightrouteService;
+use Navplan\Common\Rest\Controller\IRestController;
+use Navplan\Flightroute\Domain\Service\IFlightrouteService;
 
 
 interface IFlightrouteDiContainer {
+    function getFlightrouteController(): IRestController;
+
     function getFlightrouteService(): IFlightrouteService;
 }

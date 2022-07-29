@@ -2,8 +2,8 @@
 
 namespace Navplan\Exporter\Rest\Converter;
 
-use Navplan\Flightroute\DomainModel\Flightroute;
-use Navplan\Flightroute\RestModel\RestFlightrouteConverter;
+use Navplan\Flightroute\Domain\Model\Flightroute;
+use Navplan\Flightroute\Rest\Converter\RestFlightrouteConverter;
 use Navplan\Track\DomainModel\Track;
 use Navplan\Track\RestModel\RestTrackConverter;
 

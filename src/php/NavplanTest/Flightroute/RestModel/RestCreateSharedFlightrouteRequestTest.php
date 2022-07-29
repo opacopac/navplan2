@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Flightroute\RestModel;
 
-use Navplan\Flightroute\RestModel\RestCreateSharedFlightrouteRequestConverter;
+use Navplan\Flightroute\Rest\Converter\RestCreateSharedFlightrouteRequestConverter;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use PHPUnit\Framework\TestCase;
 

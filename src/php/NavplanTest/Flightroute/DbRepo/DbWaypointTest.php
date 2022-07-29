@@ -5,8 +5,8 @@ namespace NavplanTest\Flightroute\DbRepo;
 // TODO => config
 require_once __DIR__ . "/../../../config_test.php";
 
-use Navplan\Flightroute\DbRepo\DbWaypointConverter;
-use Navplan\Flightroute\DomainModel\Waypoint;
+use Navplan\Flightroute\Domain\Model\Waypoint;
+use Navplan\Flightroute\Persistence\Repo\DbWaypointConverter;
 use NavplanTest\Flightroute\Mocks\DummyWaypoint1;
 use NavplanTest\Flightroute\Mocks\DummyWaypoint2;
 use NavplanTest\Flightroute\Mocks\DummyWaypoint3;

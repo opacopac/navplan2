@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Flightroute\RestModel;
 
-use Navplan\Flightroute\RestModel\RestReadFlightrouteListRequestConverter;
+use Navplan\Flightroute\Rest\Converter\RestReadFlightrouteListRequestConverter;
 use PHPUnit\Framework\TestCase;
 
 

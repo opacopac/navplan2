@@ -3,7 +3,7 @@
 namespace NavplanTest\Flightroute\RestModel;
 
 use Navplan\Flightroute\Domain\FlightrouteResponse;
-use Navplan\Flightroute\RestModel\RestFlightrouteResponseConverter;
+use Navplan\Flightroute\Rest\Converter\RestFlightrouteResponseConverter;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use PHPUnit\Framework\TestCase;
 

@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Flightroute\RestModel;
 
-use Navplan\Flightroute\RestModel\RestReadSharedFlightrouteRequestConverter;
+use Navplan\Flightroute\Rest\Converter\RestReadSharedFlightrouteRequestConverter;
 use PHPUnit\Framework\TestCase;
 
 

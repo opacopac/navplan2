@@ -2,15 +2,12 @@
 
 namespace Navplan\Flightroute;
 
-use Navplan\Flightroute\RestService\FlightrouteController;
 use Navplan\ProdNavplanDiContainer;
 
 require_once __DIR__ . "/../RestServiceBootstrap.php";
 
 
 $diContainer = new ProdNavplanDiContainer();
+$controller = $diContainer->getFlightrouteDiContainer()->getFlightrouteController();
 
-FlightrouteController::processRequest(
-    $diContainer->getFlightrouteDiContainer()->getFlightrouteService(),
-    $diContainer->getSystemDiContainer()->getHttpService()
-);
+$controller->processRequest();

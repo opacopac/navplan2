@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Flightroute\DbRepo;
 
-use Navplan\Flightroute\DbRepo\DbFlightrouteRepo;
+use Navplan\Flightroute\Persistence\Repo\DbFlightrouteRepo;
 use Navplan\User\DomainService\TokenService;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\DummyWaypoint1;

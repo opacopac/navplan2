@@ -3,8 +3,8 @@
 namespace Navplan\Exporter\Domain\Service;
 
 use Navplan\Exporter\Domain\Model\ExportFile;
-use Navplan\Flightroute\DomainModel\Flightroute;
-use Navplan\Flightroute\DomainModel\FuelCalc;
+use Navplan\Flightroute\Domain\Model\Flightroute;
+use Navplan\Flightroute\Domain\Model\FuelCalc;
 use Navplan\Track\DomainModel\Track;
 
 

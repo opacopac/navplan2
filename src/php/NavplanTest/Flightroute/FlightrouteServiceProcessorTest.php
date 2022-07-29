@@ -3,13 +3,13 @@
 namespace NavplanTest\Flightroute;
 
 use InvalidArgumentException;
-use Navplan\Flightroute\RestModel\RestCreateFlightrouteRequestConverter;
-use Navplan\Flightroute\RestModel\RestCreateSharedFlightrouteRequestConverter;
-use Navplan\Flightroute\RestModel\RestDeleteFlightrouteRequestConverter;
-use Navplan\Flightroute\RestModel\RestReadFlightrouteRequestConverter;
-use Navplan\Flightroute\RestModel\RestReadSharedFlightrouteRequestConverter;
-use Navplan\Flightroute\RestModel\RestUpdateFlightrouteRequestConverter;
-use Navplan\Flightroute\RestService\FlightrouteController;
+use Navplan\Flightroute\Rest\Controller\FlightrouteController;
+use Navplan\Flightroute\Rest\Converter\RestCreateFlightrouteRequestConverter;
+use Navplan\Flightroute\Rest\Converter\RestCreateSharedFlightrouteRequestConverter;
+use Navplan\Flightroute\Rest\Converter\RestDeleteFlightrouteRequestConverter;
+use Navplan\Flightroute\Rest\Converter\RestReadFlightrouteRequestConverter;
+use Navplan\Flightroute\Rest\Converter\RestReadSharedFlightrouteRequestConverter;
+use Navplan\Flightroute\Rest\Converter\RestUpdateFlightrouteRequestConverter;
 use Navplan\User\DomainService\TokenService;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\MockFlightrouteRepo;
