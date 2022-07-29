@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Aerodrome\Mocks;
 
-use Navplan\Aerodrome\DomainModel\AirportRadio;
+use Navplan\Aerodrome\Domain\Model\AirportRadio;
 
 
 class DummyAirportRadio2 {

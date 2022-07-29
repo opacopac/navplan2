@@ -3,7 +3,7 @@
 namespace Navplan\OpenAip\ApiAdapter\Model;
 
 use InvalidArgumentException;
-use Navplan\Aerodrome\DomainModel\AirportType;
+use Navplan\Aerodrome\Domain\Model\AirportType;
 
 
 class OpenAipAirportTypeConverter {

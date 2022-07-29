@@ -2,7 +2,7 @@
 
 namespace NavplanTest\OpenAip\Api\Model;
 
-use Navplan\Aerodrome\DomainModel\AirportType;
+use Navplan\Aerodrome\Domain\Model\AirportType;
 use Navplan\Common\DomainModel\AltitudeReference;
 use Navplan\Common\DomainModel\AltitudeUnit;
 use Navplan\Common\DomainModel\Position2d;

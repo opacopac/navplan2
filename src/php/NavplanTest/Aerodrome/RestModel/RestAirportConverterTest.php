@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Airport\RestModel;
 
-use Navplan\Aerodrome\RestModel\RestAirportConverter;
+use Navplan\Aerodrome\Rest\Converter\RestAirportConverter;
 use NavplanTest\Aerodrome\Mocks\DummyAirport1;
 use PHPUnit\Framework\TestCase;
 

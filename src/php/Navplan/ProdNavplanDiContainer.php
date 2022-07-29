@@ -96,7 +96,8 @@ class ProdNavplanDiContainer
         if (!isset($this->aerodromeDiContainer)) {
             $this->aerodromeDiContainer = new ProdAerodromeDiContainer(
                 $this->getPersistenceDiContainer()->getDbService(),
-                $this->getSystemDiContainer()->getScreenLogger()
+                $this->getSystemDiContainer()->getScreenLogger(),
+                $this->getSystemDiContainer()->getHttpService()
             );
         }
 

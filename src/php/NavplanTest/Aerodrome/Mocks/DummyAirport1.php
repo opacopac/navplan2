@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Aerodrome\Mocks;
 
-use Navplan\Aerodrome\DomainModel\Airport;
+use Navplan\Aerodrome\Domain\Model\Airport;
 use Navplan\Common\DomainModel\Length;
 use Navplan\Common\DomainModel\LengthUnit;
 use Navplan\Common\DomainModel\Position2d;

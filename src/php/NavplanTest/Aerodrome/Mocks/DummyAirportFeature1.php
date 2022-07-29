@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Aerodrome\Mocks;
 
-use Navplan\Aerodrome\DomainModel\AirportFeature;
+use Navplan\Aerodrome\Domain\Model\AirportFeature;
 
 
 class DummyAirportFeature1 {

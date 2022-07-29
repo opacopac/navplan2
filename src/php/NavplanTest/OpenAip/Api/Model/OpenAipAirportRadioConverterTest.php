@@ -2,7 +2,7 @@
 
 namespace NavplanTest\OpenAip\Api\Model;
 
-use Navplan\Aerodrome\DomainModel\AirportRadioType;
+use Navplan\Aerodrome\Domain\Model\AirportRadioType;
 use Navplan\Common\DomainModel\Frequency;
 use Navplan\Common\DomainModel\FrequencyUnit;
 use Navplan\OpenAip\ApiAdapter\Model\OpenAipAirportRadioConverter;

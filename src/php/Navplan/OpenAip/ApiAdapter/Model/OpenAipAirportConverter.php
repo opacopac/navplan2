@@ -2,7 +2,7 @@
 
 namespace Navplan\OpenAip\ApiAdapter\Model;
 
-use Navplan\Aerodrome\DomainModel\Airport;
+use Navplan\Aerodrome\Domain\Model\Airport;
 
 
 class OpenAipAirportConverter {

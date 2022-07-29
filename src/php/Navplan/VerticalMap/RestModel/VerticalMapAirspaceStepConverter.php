@@ -19,7 +19,7 @@ class VerticalMapAirspaceStepConverter {
      * @param VerticalMapAirspaceStep[] $vmAirspaceSteps
      * @return array
      */
-    public static function listToRest(array $vmAirspaceSteps): array {
+    public static function toRestList(array $vmAirspaceSteps): array {
         return array_map(
             function ($asStep) { return self::toRest($asStep); },
             $vmAirspaceSteps

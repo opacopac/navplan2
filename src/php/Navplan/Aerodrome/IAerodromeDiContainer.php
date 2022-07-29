@@ -2,13 +2,16 @@
 
 namespace Navplan\Aerodrome;
 
-use Navplan\Aerodrome\DomainService\IAirportChartService;
-use Navplan\Aerodrome\DomainService\IAirportCircuitService;
-use Navplan\Aerodrome\DomainService\IAirportService;
-use Navplan\Aerodrome\DomainService\IReportingPointService;
+use Navplan\Aerodrome\Domain\Service\IAirportChartService;
+use Navplan\Aerodrome\Domain\Service\IAirportCircuitService;
+use Navplan\Aerodrome\Domain\Service\IAirportService;
+use Navplan\Aerodrome\Domain\Service\IReportingPointService;
+use Navplan\Common\Rest\Controller\IRestController;
 
 
 interface IAerodromeDiContainer {
+    function getAirportController(): IRestController;
+
     function getAirportService(): IAirportService;
 
     function getAirportCircuitService(): IAirportCircuitService;

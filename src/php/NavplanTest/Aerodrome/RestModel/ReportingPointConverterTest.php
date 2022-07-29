@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Aerodrome\RestService;
 
-use Navplan\Aerodrome\RestModel\RestReportingPointConverter;
+use Navplan\Aerodrome\Rest\Converter\RestReportingPointConverter;
 use NavplanTest\Aerodrome\Mocks\DummyReportingPoint1;
 use PHPUnit\Framework\TestCase;
 

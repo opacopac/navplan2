@@ -24,7 +24,7 @@ class WebcamController {
             case self::ACTION_GET_WEBCAMS_BY_EXTENT:
                 $extent = RestExtent2dConverter::fromArgs($args);
                 $adList = $webcamService->searchByExtent($extent);
-                $httpService->sendArrayResponse(RestWebcamConverter::listToRest($adList));
+                $httpService->sendArrayResponse(RestWebcamConverter::toRestList($adList));
                 break;
             default:
                 throw new InvalidArgumentException("no or unknown action '" . $action . "'");

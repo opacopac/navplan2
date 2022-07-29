@@ -3,7 +3,7 @@
 namespace NavplanTest\Aerodrome\Mocks;
 
 use InvalidArgumentException;
-use Navplan\Aerodrome\DomainService\IAirportRepo;
+use Navplan\Aerodrome\Domain\Service\IAirportRepo;
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
 

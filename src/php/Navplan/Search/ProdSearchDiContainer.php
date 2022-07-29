@@ -2,8 +2,8 @@
 
 namespace Navplan\Search;
 
-use Navplan\Aerodrome\DomainService\IAirportService;
-use Navplan\Aerodrome\DomainService\IReportingPointService;
+use Navplan\Aerodrome\Domain\Service\IAirportService;
+use Navplan\Aerodrome\Domain\Service\IReportingPointService;
 use Navplan\Enroute\Domain\Service\IAirspaceService;
 use Navplan\Enroute\Domain\Service\INavaidService;
 use Navplan\Geoname\DomainService\IGeonameService;

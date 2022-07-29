@@ -17,7 +17,7 @@ class RestWebcamConverter {
     }
 
 
-    public static function listToRest(array $webcamList): array {
+    public static function toRestList(array $webcamList): array {
         return array_map(function ($webcam) { return self::toRest($webcam); }, $webcamList);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace NavplanTest\OpenAip\Api\Model;
 
-use Navplan\Aerodrome\DomainModel\AirportRunwayOperations;
+use Navplan\Aerodrome\Domain\Model\AirportRunwayOperations;
 use Navplan\Common\DomainModel\Length;
 use Navplan\OpenAip\ApiAdapter\Model\OpenAipAirportRunwayConverter;
 use PHPUnit\Framework\TestCase;

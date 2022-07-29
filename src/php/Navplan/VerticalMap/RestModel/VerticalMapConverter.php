@@ -14,9 +14,9 @@ class VerticalMapConverter {
             "mapWidth" => RestLengthConverter::toRest($verticalMap->mapWidth, 0),
             "heightUnit" => LengthUnit::FT->value,
             "widthUnit" => LengthUnit::M->value,
-            "terrainSteps" => VerticalMapTerrainStepConverter::listToRest($verticalMap->terrainSteps),
-            "waypointSteps" => VerticalMapWaypointStepConverter::listToRest($verticalMap->waypointSteps),
-            "vmAirspaces" => VerticalMapAirspaceConverter::listToRest($verticalMap->vmAirspaces)
+            "terrainSteps" => VerticalMapTerrainStepConverter::toRestList($verticalMap->terrainSteps),
+            "waypointSteps" => VerticalMapWaypointStepConverter::toRestList($verticalMap->waypointSteps),
+            "vmAirspaces" => VerticalMapAirspaceConverter::toRestList($verticalMap->vmAirspaces)
         );
     }
 }

@@ -20,12 +20,12 @@ class TerrainController {
             case HttpRequestMethod::GET:
                 $request = RestReadElevationRequest::fromRest($httpService->getGetArgs());
                 $pos3dList = $terrainService->readRouteElevations($request->positions);
-                $httpService->sendArrayResponse(RestPosition3dConverter::listToRest($pos3dList));
+                $httpService->sendArrayResponse(RestPosition3dConverter::toRestList($pos3dList));
                 break;
             case HttpRequestMethod::POST:
                 $request = RestReadRouteElevationsRequest::fromArgs($httpService->getPostArgs());
                 $pos3dList = $terrainService->readRouteElevations($request->waypointPosList);
-                $httpService->sendArrayResponse(RestPosition3dConverter::listToRest($pos3dList));
+                $httpService->sendArrayResponse(RestPosition3dConverter::toRestList($pos3dList));
                 break;
             default:
                 throw new InvalidArgumentException('unknown request method');

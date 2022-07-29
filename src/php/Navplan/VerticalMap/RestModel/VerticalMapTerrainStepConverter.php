@@ -18,7 +18,7 @@ class VerticalMapTerrainStepConverter {
      * @param VerticalMapTerrainStep[] $vmTerrainSteps
      * @return array
      */
-    public static function listToRest(array $vmTerrainSteps): array {
+    public static function toRestList(array $vmTerrainSteps): array {
         return array_map(
             function ($terrainStep) {
                 return self::toRest($terrainStep);

@@ -3,7 +3,7 @@
 namespace Navplan\OpenAip\ApiAdapter\Model;
 
 use InvalidArgumentException;
-use Navplan\Aerodrome\DomainModel\AirportRadioType;
+use Navplan\Aerodrome\Domain\Model\AirportRadioType;
 
 
 class OpenAipAirportRadioTypeConverter {

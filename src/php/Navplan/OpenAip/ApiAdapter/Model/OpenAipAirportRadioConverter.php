@@ -2,7 +2,7 @@
 
 namespace Navplan\OpenAip\ApiAdapter\Model;
 
-use Navplan\Aerodrome\DomainModel\AirportRadio;
+use Navplan\Aerodrome\Domain\Model\AirportRadio;
 
 
 class OpenAipAirportRadioConverter {

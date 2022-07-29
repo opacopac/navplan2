@@ -3,7 +3,7 @@
 namespace NavplanTest\Aerodrome\Mocks;
 
 
-use Navplan\Aerodrome\DomainModel\AirportRunway;
+use Navplan\Aerodrome\Domain\Model\AirportRunway;
 use Navplan\Common\DomainModel\Length;
 use Navplan\Common\DomainModel\LengthUnit;
 

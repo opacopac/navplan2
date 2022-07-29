@@ -18,7 +18,7 @@ class VerticalMapWaypointStepConverter {
      * @param VerticalMapWaypointStep[] $vmWaypointSteps
      * @return array
      */
-    public static function listToRest(array $vmWaypointSteps): array {
+    public static function toRestList(array $vmWaypointSteps): array {
         return array_map(
             function ($wpStep) {
                 return self::toRest($wpStep);

@@ -14,7 +14,7 @@ class RestPosition3dConverter {
     }
 
 
-    public static function listToRest(array $pos3dList, ?int $roundPosToDigits = NULL, ?int $roundAltToDigits = NULL): array {
+    public static function toRestList(array $pos3dList, ?int $roundPosToDigits = NULL, ?int $roundAltToDigits = NULL): array {
         return array_map(
             function ($pos3d) use ($roundPosToDigits, $roundAltToDigits) {
                 return self::toRest($pos3d, $roundPosToDigits, $roundAltToDigits);

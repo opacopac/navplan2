@@ -14,12 +14,12 @@ class VerticalMapAirspaceConverter {
             "airspaceName" => $vmAirspace->airspace->name,
             "altBottom" => RestAltitudeConverter::toRest($vmAirspace->airspace->alt_bottom),
             "altTop" => RestAltitudeConverter::toRest($vmAirspace->airspace->alt_top),
-            "airspaceSteps" => VerticalMapAirspaceStepConverter::listToRest($vmAirspace->airspaceSteps)
+            "airspaceSteps" => VerticalMapAirspaceStepConverter::toRestList($vmAirspace->airspaceSteps)
         );
     }
 
 
-    public static function listToRest(array $vmAirspaces): array {
+    public static function toRestList(array $vmAirspaces): array {
         return array_map(
             function ($vmAirspace) { return self::toRest($vmAirspace); },
             $vmAirspaces

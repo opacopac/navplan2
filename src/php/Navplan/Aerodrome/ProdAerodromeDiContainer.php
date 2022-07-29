@@ -2,20 +2,24 @@
 
 namespace Navplan\Aerodrome;
 
-use Navplan\Aerodrome\DbRepo\DbAirportChartRepo;
-use Navplan\Aerodrome\DbRepo\DbAirportCircuitRepo;
-use Navplan\Aerodrome\DbRepo\DbAirportRepo;
-use Navplan\Aerodrome\DbRepo\DbReportingPointRepo;
-use Navplan\Aerodrome\DomainService\IAirportChartService;
-use Navplan\Aerodrome\DomainService\IAirportCircuitService;
-use Navplan\Aerodrome\DomainService\IAirportService;
-use Navplan\Aerodrome\DomainService\IReportingPointService;
+use Navplan\Aerodrome\Domain\Service\IAirportChartService;
+use Navplan\Aerodrome\Domain\Service\IAirportCircuitService;
+use Navplan\Aerodrome\Domain\Service\IAirportService;
+use Navplan\Aerodrome\Domain\Service\IReportingPointService;
+use Navplan\Aerodrome\Persistence\Repo\DbAirportChartRepo;
+use Navplan\Aerodrome\Persistence\Repo\DbAirportCircuitRepo;
+use Navplan\Aerodrome\Persistence\Repo\DbAirportRepo;
+use Navplan\Aerodrome\Persistence\Repo\DbReportingPointRepo;
+use Navplan\Aerodrome\Rest\Controller\AirportController;
+use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\System\DomainService\IDbService;
+use Navplan\System\DomainService\IHttpService;
 use Navplan\System\DomainService\ILoggingService;
 
 
 class ProdAerodromeDiContainer implements IAerodromeDiContainer
 {
+    private IRestController $airportController;
     private IAirportService $airportService;
     private IAirportChartService $airportChartService;
     private IAirportCircuitService $airportCircuitService;
@@ -24,8 +28,24 @@ class ProdAerodromeDiContainer implements IAerodromeDiContainer
 
     public function __construct(
         private IDbService $dbService,
-        private ILoggingService $loggingService
+        private ILoggingService $loggingService,
+        private IHttpService $httpService
     ) {
+    }
+
+
+    public function getAirportController(): IRestController {
+        if (!isset($this->airportController)) {
+            $this->airportController = new AirportController(
+                $this->httpService,
+                $this->getAirportService(),
+                $this->getAirportCircuitService(),
+                $this->getAirportChartService(),
+                $this->getReportingPointService()
+            );
+        }
+
+        return $this->airportController;
     }
 
 

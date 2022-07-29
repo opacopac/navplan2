@@ -2,7 +2,7 @@
 
 namespace Navplan\OpenAip\ZoomLevelSorter;
 
-use Navplan\Aerodrome\DbModel\DbTableAirport;
+use Navplan\Aerodrome\Persistence\Model\DbTableAirport;
 use Navplan\System\DomainModel\IDbResult;
 use Navplan\System\DomainService\IDbService;
 
