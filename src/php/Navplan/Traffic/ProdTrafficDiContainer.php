@@ -2,6 +2,7 @@
 
 namespace Navplan\Traffic;
 
+use Navplan\Config\ProdConfigDiContainer;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\DomainService\IFileService;
 use Navplan\System\DomainService\ILoggingService;
@@ -27,6 +28,9 @@ use Navplan\Traffic\UseCase\ReadTrafficDetails\ReadTrafficDetailsUc;
 
 
 class ProdTrafficDiContainer implements ITrafficDiContainer {
+    private const OGN_LISTENER_STARTER_PATH = __DIR__;
+    private const OGN_LISTENER_STARTER_FILE = "OgnListenerStarter.php";
+
     private IAdsbexConfigService $adsbexConfigService;
     private IAdsbexService $adsbexRepo;
     private IOgnService $ognRepo;
@@ -48,11 +52,21 @@ class ProdTrafficDiContainer implements ITrafficDiContainer {
     }
 
 
+    public function getAdsbexConfigService(): IAdsbexConfigService {
+        if (!isset($this->adsbexConfigService)) {
+            $this->adsbexConfigService = new ProdConfigDiContainer();
+        }
+
+        return $this->adsbexConfigService;
+    }
+
+
     public function getAdsbexRepo(): IAdsbexService {
         if (!isset($this->adsbexRepo)) {
             $this->adsbexRepo = new AdsbexService(
                 $this->fileService,
-                $this->timeService
+                $this->timeService,
+                $this->getAdsbexConfigService()
             );
         }
 
@@ -65,7 +79,9 @@ class ProdTrafficDiContainer implements ITrafficDiContainer {
             $this->ognRepo = new OgnService(
                 $this->getOgnListenerRepo(),
                 $this->procService,
-                $this->loggingService
+                $this->loggingService,
+                self::OGN_LISTENER_STARTER_PATH,
+                self::OGN_LISTENER_STARTER_FILE
             );
         }
 
@@ -132,5 +148,4 @@ class ProdTrafficDiContainer implements ITrafficDiContainer {
 
         return $this->readTrafficDetailsUc;
     }
-
 }

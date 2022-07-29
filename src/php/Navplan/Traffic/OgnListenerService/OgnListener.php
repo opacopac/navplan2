@@ -2,7 +2,7 @@
 
 namespace Navplan\Traffic\OgnListenerService;
 
-use http\Exception\InvalidArgumentException;
+use InvalidArgumentException;
 use Navplan\System\DomainService\ILoggingService;
 use Navplan\System\DomainService\ITimeService;
 use Navplan\Traffic\OgnListenerModel\OgnTrafficFilter;

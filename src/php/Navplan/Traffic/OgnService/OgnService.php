@@ -12,15 +12,12 @@ use Navplan\Traffic\OgnListenerService\IOgnListenerRepo;
 
 
 class OgnService implements IOgnService {
-    // TODO: inject
-    private const OGN_LISTENER_PATH = "../OgnListenerService/";
-    private const OGN_LISTENER_STARTER = "OgnListenerStarter.php";
-
-
     public function __construct(
         private IOgnListenerRepo $ognListenerRepo,
         private IProcService $procService,
-        private ILoggingService $logger
+        private ILoggingService $logger,
+        private string $ognListenerStarterPath,
+        private string $ognListenerStarterFile
     ) {
     }
 
@@ -43,11 +40,11 @@ class OgnService implements IOgnService {
 
     private function startListener(int $sessionId, Time $maxAge) {
         $this->procService->startBackgroundProcess(
-            "php -q " . self::OGN_LISTENER_PATH . self::OGN_LISTENER_STARTER . " " . $sessionId . " " . $maxAge->getValue(TimeUnit::S),
+            "php -q " . $this->ognListenerStarterPath . $this->ognListenerStarterFile . " " . $sessionId . " " . $maxAge->getValue(TimeUnit::S),
             null,
             null,
             null,
-            realpath(self::OGN_LISTENER_PATH),
+            realpath($this->ognListenerStarterPath),
             null,
             null
         );
