@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Enroute\Persistence\Service;
+namespace Navplan\Enroute\Persistence\Query;
 
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\GeoHelper;
-use Navplan\Enroute\Domain\Service\IAirspaceSearchByExtentQuery;
+use Navplan\Enroute\Domain\Query\IAirspaceSearchByExtentQuery;
 use Navplan\Enroute\Persistence\Model\DbTableAirspace;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
@@ -34,6 +34,7 @@ class DbAirspaceSearchByExtentQuery implements IAirspaceSearchByExtentQuery {
         $query .= "  air." . DbTableAirspace::COL_DIAMETER . " > " . $minDiameterDeg;
         $query .= "    AND";
         $query .= "  (" . $zoom . " >= det.zoommin AND " . $zoom . "<= det.zoommax)";
+
         $result = $this->dbService->execMultiResultQuery($query, "error searching airspaces by extent");
 
         return DbAirspaceSearchQueryCommon::fromDbResult($result);

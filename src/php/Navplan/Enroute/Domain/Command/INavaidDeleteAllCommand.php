@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Enroute\Domain\Service;
+namespace Navplan\Enroute\Domain\Command;
 
 
-interface IAirspaceDeleteAllCommand {
+interface INavaidDeleteAllCommand {
     /**
      * @return bool
      */

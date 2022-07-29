@@ -3,6 +3,7 @@
 namespace Navplan\Search;
 
 use Navplan\ProdNavplanDiContainer;
+use Navplan\Search\RestService\SearchController;
 
 require_once __DIR__ . "/../RestServiceBootstrap.php";
 

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Search;
+namespace Navplan\Search\RestService;
 
 use InvalidArgumentException;
 use Navplan\Search\DomainService\ISearchService;

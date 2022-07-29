@@ -7,15 +7,19 @@ use Navplan\OpenAip\Config\IOpenAipConfigService;
 use Navplan\System\MySqlDb\DbCredentials;
 use Navplan\System\MySqlDb\IDbConfigService;
 use Navplan\Traffic\AdsbexService\IAdsbexConfigService;
+use Navplan\User\DomainModel\TokenConfig;
+use Navplan\User\DomainService\ITokenConfigService;
 
 
-interface IConfigDiContainer extends IDbConfigService, IOpenAipConfigService, IAdsbexConfigService, INotamConfigService
+interface IConfigDiContainer extends IDbConfigService, IOpenAipConfigService, IAdsbexConfigService, INotamConfigService, ITokenConfigService
 {
-    public function getCredentials(): DbCredentials;
+    function getCredentials(): DbCredentials;
 
-    public function getOpenAipClientIdToken(): string;
+    function getOpenAipClientIdToken(): string;
 
-    public function getAdsbExchangeApiKey(): string;
+    function getAdsbExchangeApiKey(): string;
 
-    public function getIcaoApiKey(): string;
+    function getIcaoApiKey(): string;
+
+    function getTokenConfig(): TokenConfig;
 }

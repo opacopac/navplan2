@@ -4,6 +4,7 @@ namespace Navplan\Config;
 
 use Navplan\Config\IniFile\Service\IniFileConfigService;
 use Navplan\System\MySqlDb\DbCredentials;
+use Navplan\User\DomainModel\TokenConfig;
 
 
 class ProdConfigDiContainer implements IConfigDiContainer
@@ -34,6 +35,11 @@ class ProdConfigDiContainer implements IConfigDiContainer
 
     public function getIcaoApiKey(): string {
         return $this->getConfigService()->getIcaoApiKey();
+    }
+
+
+    function getTokenConfig(): TokenConfig {
+        return $this->getConfigService()->getTokenConfig();
     }
 
 

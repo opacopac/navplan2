@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Enroute\Persistence\Service;
+namespace Navplan\Enroute\Persistence\Command;
 
-use Navplan\Enroute\Domain\Service\IAirspaceDeleteAllCommand;
+use Navplan\Enroute\Domain\Command\IAirspaceDeleteAllCommand;
 use Navplan\Enroute\Persistence\Model\DbTableAirspace;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\DomainService\ILoggingService;

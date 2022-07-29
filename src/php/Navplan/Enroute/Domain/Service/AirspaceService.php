@@ -2,12 +2,16 @@
 
 namespace Navplan\Enroute\Domain\Service;
 
-
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
+use Navplan\Enroute\Domain\Command\IAirspaceDeleteAllCommand;
+use Navplan\Enroute\Domain\Command\IAirspaceInsertAllCommand;
+use Navplan\Enroute\Domain\Query\IAirspaceSearchByExtentQuery;
+use Navplan\Enroute\Domain\Query\IAirspaceSearchByPositionQuery;
+use Navplan\Enroute\Domain\Query\IAirspaceSearchByRouteQuery;
 
 
-class AirspaceServiceImpl implements IAirspaceService {
+class AirspaceService implements IAirspaceService {
     public function __construct(
         private IAirspaceSearchByExtentQuery $searchByExtentQuery,
         private IAirspaceSearchByRouteQuery $searchByRouteQuery,

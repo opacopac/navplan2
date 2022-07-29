@@ -108,7 +108,8 @@ class ProdNavplanDiContainer
         if (!isset($this->enrouteDiContainer)) {
             $this->enrouteDiContainer = new ProdEnrouteDiContainer(
                 $this->getSystemDiContainer()->getScreenLogger(),
-                $this->getPersistenceDiContainer()->getDbService()
+                $this->getPersistenceDiContainer()->getDbService(),
+                $this->getSystemDiContainer()->getHttpService()
             );
         }
 
@@ -270,7 +271,8 @@ class ProdNavplanDiContainer
         if (!isset($this->userDiContainer)) {
             $this->userDiContainer = new ProdUserDiContainer(
                 $this->getPersistenceDiContainer()->getDbService(),
-                $this->getSystemDiContainer()->getMailService()
+                $this->getSystemDiContainer()->getMailService(),
+                $this->getConfigDiContainer()
             );
         }
 

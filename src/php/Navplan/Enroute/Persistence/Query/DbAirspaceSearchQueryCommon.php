@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Enroute\Persistence\Service;
+namespace Navplan\Enroute\Persistence\Query;
 
 use Navplan\Common\DomainModel\Altitude;
 use Navplan\Common\DomainModel\AltitudeReference;

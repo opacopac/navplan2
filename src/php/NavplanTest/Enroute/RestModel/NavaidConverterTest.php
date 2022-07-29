@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Enroute\RestModel;
 
-use Navplan\Enroute\Rest\Model\RestNavaidConverter;
+use Navplan\Enroute\Rest\Converter\RestNavaidConverter;
 use NavplanTest\Enroute\Mocks\DummyNavaid1;
 use PHPUnit\Framework\TestCase;
 

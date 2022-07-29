@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Enroute\Persistence\Service;
+namespace Navplan\Enroute\Persistence\Command;
 
-use Navplan\Enroute\Domain\Service\IAirspaceInsertAllCommand;
+use Navplan\Enroute\Domain\Command\IAirspaceInsertAllCommand;
 use Navplan\Enroute\Persistence\Model\DbTableAirspace;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\DomainService\ILoggingService;
@@ -33,6 +33,7 @@ class DbAirspaceInsertAllCommand implements IAirspaceInsertAllCommand {
                 DbTableAirspace::COL_POLYGON,
                 DbTableAirspace::COL_EXTENT,
             ]) . ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ST_GeomFromText(?))";
+
         $statement = $this->dbService->prepareStatement($query);
 
         foreach ($airspaces as $airspace) {

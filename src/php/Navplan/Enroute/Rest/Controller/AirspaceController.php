@@ -1,31 +1,36 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Enroute\Rest\Service;
+namespace Navplan\Enroute\Rest\Controller;
 
 use InvalidArgumentException;
+use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Common\RestModel\RestExtent2dConverter;
 use Navplan\Enroute\Domain\Service\IAirspaceService;
-use Navplan\Enroute\Rest\Model\RestAirspaceConverter;
+use Navplan\Enroute\Rest\Converter\RestAirspaceConverter;
 use Navplan\System\DomainService\IHttpService;
 
 
-class AirspaceController {
+class AirspaceController implements IRestController {
     const ARG_ACTION = "action";
     const ACTION_GET_AIRSPACES_BY_EXTENT = "getAirspacesByExtent";
 
 
-    public static function processRequest(
-        IAirspaceService $airspaceService,
-        IHttpService $httpService
+    public function __construct(
+        private IAirspaceService $airspaceService,
+        private IHttpService $httpService
     ) {
-        $args = $httpService->getGetArgs();
+    }
+
+
+    public function processRequest() {
+        $args = $this->httpService->getGetArgs();
         $action = $args[self::ARG_ACTION] ?? NULL;
         switch ($action) {
             case self::ACTION_GET_AIRSPACES_BY_EXTENT:
                 $extent = RestExtent2dConverter::fromArgs($args);
                 $zoom = intval($args["zoom"]);
-                $adList = $airspaceService->searchByExtent($extent, $zoom);
-                $httpService->sendArrayResponse(RestAirspaceConverter::listToRest($adList));
+                $adList = $this->airspaceService->searchByExtent($extent, $zoom);
+                $this->httpService->sendArrayResponse(RestAirspaceConverter::toRestList($adList));
                 break;
             default:
                 throw new InvalidArgumentException("no or unknown action '" . $action . "'");

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Enroute\Rest\Model;
+namespace Navplan\Enroute\Rest\Converter;
 
 use Navplan\Common\RestModel\RestAltitudeConverter;
 use Navplan\Common\RestModel\RestFrequencyConverter;
@@ -24,7 +24,7 @@ class RestNavaidConverter {
     }
 
 
-    public static function listToRest(array $navaidList): array {
+    public static function toRestList(array $navaidList): array {
         return array_map(function ($navaid) { return self::toRest($navaid); }, $navaidList);
     }
 }
