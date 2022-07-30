@@ -11,11 +11,6 @@ class MySqlDbResult implements IDbResult {
     }
 
 
-    private function getResult(): mysqli_result {
-        return $this->result;
-    }
-
-
     public function getNumRows(): int {
         return $this->getResult()->num_rows;
     }
@@ -23,5 +18,10 @@ class MySqlDbResult implements IDbResult {
 
     public function fetch_assoc(): ?array {
         return $this->getResult()->fetch_assoc();
+    }
+
+
+    private function getResult(): mysqli_result {
+        return $this->result;
     }
 }

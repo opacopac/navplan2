@@ -4,7 +4,14 @@ namespace Navplan\Flightroute\Domain\Service;
 
 use InvalidArgumentException;
 use Navplan\Common\StringNumberHelper;
+use Navplan\Flightroute\Domain\Command\IFlightrouteAddCommand;
+use Navplan\Flightroute\Domain\Command\IFlightrouteDeleteCommand;
+use Navplan\Flightroute\Domain\Command\IFlightrouteUpdateCommand;
 use Navplan\Flightroute\Domain\Model\Flightroute;
+use Navplan\Flightroute\Domain\Query\IFlightrouteByHashQuery;
+use Navplan\Flightroute\Domain\Query\IFlightrouteByIdQuery;
+use Navplan\Flightroute\Domain\Query\IFlightrouteByShareIdQuery;
+use Navplan\Flightroute\Domain\Query\IFlightrouteListQuery;
 use Navplan\User\DomainModel\User;
 use Navplan\User\DomainService\ITokenService;
 use Navplan\User\DomainService\IUserRepo;
@@ -12,9 +19,15 @@ use Navplan\User\DomainService\IUserRepo;
 
 class FlightrouteService implements IFlightrouteService {
     public function __construct(
-        public ITokenService $tokenService,
-        public IUserRepo $userRepo,
-        public IFlightrouteRepo $flightrouteRepo
+        private ITokenService $tokenService,
+        private IUserRepo $userRepo,
+        private IFlightrouteListQuery $flightrouteListQuery,
+        private IFlightrouteByIdQuery $flightrouteByIdQuery,
+        private IFlightrouteByShareIdQuery $flightrouteByShareIdQuery,
+        private IFlightrouteByHashQuery $flightrouteByHashQuery,
+        private IFlightrouteAddCommand $flightrouteAddCommand,
+        private IFlightrouteDeleteCommand $flightrouteDeleteCommand,
+        private IFlightrouteUpdateCommand $flightrouteUpdateCommand
     ) {
     }
 
@@ -22,14 +35,14 @@ class FlightrouteService implements IFlightrouteService {
     public function create(Flightroute $flightroute, string $token): Flightroute {
         $user = $this->getUser($token);
 
-        return $this->flightrouteRepo->add($flightroute, $user);
+        return $this->flightrouteAddCommand->add($flightroute, $user);
     }
 
 
     public function createShared(Flightroute $flightroute): Flightroute {
         // check for existing flightroute
         $hash = hash("md5", serialize($flightroute));
-        $existingFlightroute = $this->flightrouteRepo->readByHash($hash);
+        $existingFlightroute = $this->flightrouteByHashQuery->readByHash($hash);
         if ($existingFlightroute !== NULL) {
             return $existingFlightroute;
         }
@@ -38,13 +51,13 @@ class FlightrouteService implements IFlightrouteService {
         $flightroute->shareId = StringNumberHelper::createRandomString(10);
         $flightroute->hash = $hash;
 
-        return $this->flightrouteRepo->add($flightroute, NULL);
+        return $this->flightrouteAddCommand->add($flightroute, NULL);
     }
 
 
     function delete(int $flightrouteId, string $token): bool {
         $user = $this->getUser($token);
-        $this->flightrouteRepo->delete($flightrouteId, $user);
+        $this->flightrouteDeleteCommand->delete($flightrouteId, $user);
 
         return true; // TODO
     }
@@ -53,26 +66,26 @@ class FlightrouteService implements IFlightrouteService {
     function read(int $flightrouteId, string $token): Flightroute {
         $user = $this->getUser($token);
 
-        return $this->flightrouteRepo->read($flightrouteId, $user);
+        return $this->flightrouteByIdQuery->read($flightrouteId, $user);
     }
 
 
     function readList(string $token): array {
         $user = $this->getUser($token);
 
-        return $this->flightrouteRepo->readList($user);
+        return $this->flightrouteListQuery->readList($user);
     }
 
 
     function readShared(string $shareId): Flightroute {
-        return $this->flightrouteRepo->readByShareId($shareId);
+        return $this->flightrouteByShareIdQuery->readByShareId($shareId);
     }
 
 
     function update(Flightroute $flightroute, string $token): Flightroute {
         $user = $this->getUser($token);
 
-        return $this->flightrouteRepo->update($flightroute, $user);
+        return $this->flightrouteUpdateCommand->update($flightroute, $user);
     }
 
 
