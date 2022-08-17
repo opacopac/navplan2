@@ -5,6 +5,7 @@ namespace Navplan\MeteoDwd\DomainModel;
 use Navplan\Common\DomainModel\Angle;
 use Navplan\Common\DomainModel\AngleUnit;
 use Navplan\Common\DomainModel\Speed;
+use Navplan\Common\DomainModel\SpeedUnit;
 
 
 class WindInfo {
@@ -16,7 +17,7 @@ class WindInfo {
     }
 
 
-    public static function fromSpeedENGusts(float|null $speedE, float|null $speedN, float|null $gust, int $unit): ?WindInfo {
+    public static function fromSpeedENGusts(float|null $speedE, float|null $speedN, float|null $gust, SpeedUnit $unit): ?WindInfo {
         if ($speedE === null || $speedN === null) {
             return null;
         }
