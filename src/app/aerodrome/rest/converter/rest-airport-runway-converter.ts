@@ -1,5 +1,5 @@
 import {AirportRunway} from '../../domain/model/airport-runway';
-import {IRestAirportRunway} from './i-rest-airport-runway';
+import {IRestAirportRunway} from '../model/i-rest-airport-runway';
 import {RestLengthConverter} from '../../../geo-physics/rest/model/rest-length-converter';
 
 

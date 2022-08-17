@@ -1,6 +1,6 @@
 import {Flightroute} from '../../domain/model/flightroute';
 import {Aircraft} from '../../domain/model/aircraft';
-import {IRestFlightroute} from './i-rest-flightroute';
+import {IRestFlightroute} from '../model/i-rest-flightroute';
 import {RestWaypointConverter} from './rest-waypoint-converter';
 import {RestSpeedConverter} from '../../../geo-physics/rest/model/rest-speed-converter';
 import {RestConsumptionConverter} from '../../../geo-physics/rest/model/rest-consumption-converter';

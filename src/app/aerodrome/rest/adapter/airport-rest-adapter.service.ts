@@ -7,15 +7,15 @@ import {LoggingService} from '../../../system/domain/service/logging/logging.ser
 import {Extent2d} from '../../../geo-physics/domain/model/geometry/extent2d';
 import {ShortAirport} from '../../domain/model/short-airport';
 import {IRestShortAirport} from '../model/i-rest-short-airport';
-import {RestShortAirportConverter} from '../model/rest-short-airport-converter';
+import {RestShortAirportConverter} from '../converter/rest-short-airport-converter';
 import {Airport} from '../../domain/model/airport';
 import {IRestAirport} from '../model/i-rest-airport';
-import {RestAirportConverter} from '../model/rest-airport-converter';
+import {RestAirportConverter} from '../converter/rest-airport-converter';
 import {IAirportRepoService} from '../../domain/service/i-airport-repo.service';
 
 
 @Injectable()
-export class AirportRestService implements IAirportRepoService {
+export class AirportRestAdapterService implements IAirportRepoService {
     constructor(private http: HttpClient) {
     }
 

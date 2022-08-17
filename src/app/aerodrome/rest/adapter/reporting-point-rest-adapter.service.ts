@@ -6,14 +6,14 @@ import {environment} from '../../../../environments/environment';
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {Extent2d} from '../../../geo-physics/domain/model/geometry/extent2d';
 import {IRestReportingpoint} from '../model/i-rest-reportingpoint';
-import {RestReportingpointConverter} from '../model/rest-reportingpoint-converter';
-import {RestReportingsectorConverter} from '../model/rest-reportingsector-converter';
+import {RestReportingpointConverter} from '../converter/rest-reportingpoint-converter';
+import {RestReportingsectorConverter} from '../converter/rest-reportingsector-converter';
 import {ReportingPointsAndSectors} from '../../domain/model/reporting-points-and-sectors';
 import {IReportingPointRepoService} from '../../domain/service/i-reporting-point-repo.service';
 
 
 @Injectable()
-export class ReportingPointRestService implements IReportingPointRepoService {
+export class ReportingPointRestAdapterService implements IReportingPointRepoService {
     constructor(private http: HttpClient) {
     }
 

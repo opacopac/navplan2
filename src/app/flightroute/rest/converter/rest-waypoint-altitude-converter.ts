@@ -1,5 +1,5 @@
 import {WaypointAltitude} from '../../domain/model/waypoint-altitude';
-import {IRestWaypointAltitude} from './i-rest-waypoint-altitude';
+import {IRestWaypointAltitude} from '../model/i-rest-waypoint-altitude';
 import {RestAltitudeConverter} from '../../../geo-physics/rest/model/rest-altitude-converter';
 
 

@@ -1,5 +1,5 @@
 import {FlightrouteListEntry} from '../../domain/model/flightroute-list-entry';
-import {IRestFlightrouteListEntry} from './i-rest-flightroute-list-entry';
+import {IRestFlightrouteListEntry} from '../model/i-rest-flightroute-list-entry';
 
 
 export class RestFlightrouteListEntryConverter {

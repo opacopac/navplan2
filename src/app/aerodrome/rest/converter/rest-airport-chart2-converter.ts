@@ -1,6 +1,6 @@
 import {AirportChart} from '../../domain/model/airport-chart';
 import {RestExtent2dConverter} from '../../../geo-physics/rest/model/rest-extent2d-converter';
-import {IRestAirportChart2} from './i-rest-airport-chart2';
+import {IRestAirportChart2} from '../model/i-rest-airport-chart2';
 
 
 export class RestAirportChart2Converter {

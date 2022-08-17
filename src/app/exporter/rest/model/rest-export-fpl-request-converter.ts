@@ -1,5 +1,5 @@
 import {Flightroute} from '../../../flightroute/domain/model/flightroute';
-import {RestFlightrouteConverter} from '../../../flightroute/rest/model/rest-flightroute-converter';
+import {RestFlightrouteConverter} from '../../../flightroute/rest/converter/rest-flightroute-converter';
 import {IRestExportFplRequest} from './i-rest-export-fpl-request';
 
 

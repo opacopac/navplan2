@@ -6,14 +6,14 @@ import {environment} from '../../../../environments/environment';
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {AirportChart} from '../../domain/model/airport-chart';
 import {IRestAirportChart} from '../model/i-rest-airport-chart';
-import {RestAirportChartConverter} from '../model/rest-airport-chart-converter';
+import {RestAirportChartConverter} from '../converter/rest-airport-chart-converter';
 import {IAirportChartRepoService} from '../../domain/service/i-airport-chart-repo.service';
-import {RestAirportChart2Converter} from '../model/rest-airport-chart2-converter';
+import {RestAirportChart2Converter} from '../converter/rest-airport-chart2-converter';
 import {IRestAirportChart2} from '../model/i-rest-airport-chart2';
 
 
 @Injectable()
-export class AirportChartRestService implements IAirportChartRepoService {
+export class AirportChartRestAdapter implements IAirportChartRepoService {
     constructor(private http: HttpClient) {
     }
 

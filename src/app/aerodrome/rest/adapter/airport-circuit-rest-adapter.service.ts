@@ -6,13 +6,13 @@ import {environment} from '../../../../environments/environment';
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {Extent2d} from '../../../geo-physics/domain/model/geometry/extent2d';
 import {AirportCircuit} from '../../domain/model/airport-circuit';
-import {RestAirportCircuitConverter} from '../model/rest-airport-circuit-converter';
+import {RestAirportCircuitConverter} from '../converter/rest-airport-circuit-converter';
 import {IRestAirportCircuit} from '../model/i-rest-airport-circuit';
 import {IAirportCircuitRepoService} from '../../domain/service/i-airport-circuit-repo.service';
 
 
 @Injectable()
-export class AirportCircuitRestService implements IAirportCircuitRepoService {
+export class AirportCircuitRestAdapterService implements IAirportCircuitRepoService {
     constructor(private http: HttpClient) {
     }
 

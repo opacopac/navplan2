@@ -1,5 +1,5 @@
 import {Airport} from '../../domain/model/airport';
-import {IRestAirport} from './i-rest-airport';
+import {IRestAirport} from '../model/i-rest-airport';
 import {Position2dConverter} from '../../../geo-physics/rest/model/position2d-converter';
 import {RestAirportRadioConverter} from './rest-airport-radio-converter';
 import {RestAirportRunwayConverter} from './rest-airport-runway-converter';

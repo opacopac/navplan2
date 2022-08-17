@@ -1,5 +1,5 @@
 import {AirportRadio} from '../../domain/model/airport-radio';
-import {IRestAirportRadio} from './i-rest-airport-radio';
+import {IRestAirportRadio} from '../model/i-rest-airport-radio';
 import {RestFrequencyConverter} from '../../../geo-physics/rest/model/rest-frequency-converter';
 
 

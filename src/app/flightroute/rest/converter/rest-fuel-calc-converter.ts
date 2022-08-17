@@ -1,5 +1,5 @@
 import {Flightroute} from '../../domain/model/flightroute';
-import {IRestFuelCalc} from './i-rest-fuel-calc';
+import {IRestFuelCalc} from '../model/i-rest-fuel-calc';
 import {RestTimeConverter} from '../../../geo-physics/rest/model/rest-time-converter';
 import {RestVolumeConverter} from '../../../geo-physics/rest/model/rest-volume-converter';
 

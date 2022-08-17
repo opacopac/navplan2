@@ -1,4 +1,4 @@
-import {IRestAirportCircuit} from './i-rest-airport-circuit';
+import {IRestAirportCircuit} from '../model/i-rest-airport-circuit';
 import {AirportCircuit} from '../../domain/model/airport-circuit';
 import {MultiLineString} from '../../../geo-physics/domain/model/geometry/multi-line-string';
 

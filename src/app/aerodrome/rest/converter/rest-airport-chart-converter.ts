@@ -1,5 +1,5 @@
 import {AirportChart} from '../../domain/model/airport-chart';
-import {IRestAirportChart} from './i-rest-airport-chart';
+import {IRestAirportChart} from '../model/i-rest-airport-chart';
 import {OlGeometry} from '../../../base-map/view/ol-model/ol-geometry';
 
 

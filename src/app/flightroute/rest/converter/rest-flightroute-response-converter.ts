@@ -1,5 +1,5 @@
 import {Flightroute} from '../../domain/model/flightroute';
-import {IRestFlightrouteResponse} from './i-rest-flightroute-response';
+import {IRestFlightrouteResponse} from '../model/i-rest-flightroute-response';
 import {RestFlightrouteConverter} from './rest-flightroute-converter';
 
 

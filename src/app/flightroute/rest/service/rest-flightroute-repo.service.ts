@@ -9,8 +9,8 @@ import {User} from '../../../user/domain/model/user';
 import {Flightroute} from '../../domain/model/flightroute';
 import {IRestFlightrouteListResponse} from '../model/i-rest-flightroute-list-response';
 import {IRestFlightrouteResponse} from '../model/i-rest-flightroute-response';
-import {RestFlightrouteResponseConverter} from '../model/rest-flightroute-response-converter';
-import {RestFlightrouteListConverter} from '../model/rest-flightroute-list-converter';
+import {RestFlightrouteResponseConverter} from '../converter/rest-flightroute-response-converter';
+import {RestFlightrouteListConverter} from '../converter/rest-flightroute-list-converter';
 import {IFlightrouteRepoService} from '../../domain/service/i-flightroute-repo.service';
 
 

@@ -1,6 +1,6 @@
 import {Waypoint} from '../../domain/model/waypoint';
 import {WaypointType} from '../../domain/model/waypoint-type';
-import {IRestWaypoint} from './i-rest-waypoint';
+import {IRestWaypoint} from '../model/i-rest-waypoint';
 import {Position2dConverter} from '../../../geo-physics/rest/model/position2d-converter';
 import {RestWaypointAltitudeConverter} from './rest-waypoint-altitude-converter';
 

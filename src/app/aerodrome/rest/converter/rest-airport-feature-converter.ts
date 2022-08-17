@@ -1,5 +1,5 @@
 import {AirportFeature} from '../../domain/model/airport-feature';
-import {IRestAirportFeature} from './i-rest-airport-feature';
+import {IRestAirportFeature} from '../model/i-rest-airport-feature';
 import {AirportFeatureType} from '../../domain/model/airport-feature-type';
 
 

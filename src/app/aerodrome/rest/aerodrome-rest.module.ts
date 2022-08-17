@@ -1,8 +1,8 @@
 import {NgModule} from '@angular/core';
-import {AirportRestService} from './service/airport-rest.service';
-import {AirportCircuitRestService} from './service/airport-circuit-rest.service';
-import {ReportingPointRestService} from './service/reporting-point-rest.service';
-import {AirportChartRestService} from './service/airport-chart-rest.service';
+import {AirportRestAdapterService} from './adapter/airport-rest-adapter.service';
+import {AirportCircuitRestAdapterService} from './adapter/airport-circuit-rest-adapter.service';
+import {ReportingPointRestAdapterService} from './adapter/reporting-point-rest-adapter.service';
+import {AirportChartRestAdapter} from './adapter/airport-chart-rest-adapter.service';
 import {IAirportRepoService} from '../domain/service/i-airport-repo.service';
 import {IAirportCircuitRepoService} from '../domain/service/i-airport-circuit-repo.service';
 import {IAirportChartRepoService} from '../domain/service/i-airport-chart-repo.service';
@@ -17,10 +17,10 @@ import {IReportingPointRepoService} from '../domain/service/i-reporting-point-re
     exports: [
     ],
     providers: [
-        { provide: IAirportRepoService, useClass: AirportRestService },
-        { provide: IAirportCircuitRepoService, useClass: AirportCircuitRestService },
-        { provide: IAirportChartRepoService, useClass: AirportChartRestService },
-        { provide: IReportingPointRepoService, useClass: ReportingPointRestService },
+        { provide: IAirportRepoService, useClass: AirportRestAdapterService },
+        { provide: IAirportCircuitRepoService, useClass: AirportCircuitRestAdapterService },
+        { provide: IAirportChartRepoService, useClass: AirportChartRestAdapter },
+        { provide: IReportingPointRepoService, useClass: ReportingPointRestAdapterService },
     ]
 })
 export class AerodromeRestModule {}

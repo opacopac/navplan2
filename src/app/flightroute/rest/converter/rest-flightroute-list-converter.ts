@@ -1,5 +1,5 @@
 import {FlightrouteListEntry} from '../../domain/model/flightroute-list-entry';
-import {IRestFlightrouteListResponse} from './i-rest-flightroute-list-response';
+import {IRestFlightrouteListResponse} from '../model/i-rest-flightroute-list-response';
 import {RestFlightrouteListEntryConverter} from './rest-flightroute-list-entry-converter';
 
 
