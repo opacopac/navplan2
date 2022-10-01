@@ -28,6 +28,7 @@ class OpenAipAltitudeConverter {
 
     private static function convertUnit(int $value): AltitudeUnit {
         return match ($value) {
+            0 => AltitudeUnit::M,
             1 => AltitudeUnit::FT,
             6 => AltitudeUnit::FL,
             default => throw new InvalidArgumentException("error converting openaip altitude unit " . $value),
