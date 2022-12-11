@@ -12,6 +12,7 @@ import {MessageActions} from '../../../message/state/ngrx/message.actions';
 import {Message} from '../../../message/domain/model/message';
 import {FlightrouteActions} from './flightroute.actions';
 import {IFlightrouteService} from '../../domain/service/i-flightroute.service';
+import {FlightrouteListActions} from './flightroute-list.actions';
 
 
 @Injectable()
@@ -43,10 +44,9 @@ export class FlightRouteCrudEffects {
 
     saveFlightrouteAction$ = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteCrudActions.save),
-        switchMap(() => this.flightroute$),
-        withLatestFrom(this.currentUser$),
-        filter(([flightroute, currentUser]) => flightroute !== undefined && currentUser !== undefined),
-        switchMap(([flightroute, currentUser]) => this.flightrouteService.saveFlightroute(flightroute, currentUser).pipe(
+        withLatestFrom(this.flightroute$, this.currentUser$),
+        filter(([action, flightroute, currentUser]) => flightroute !== undefined && currentUser !== undefined),
+        switchMap(([action, flightroute, currentUser]) => this.flightrouteService.saveFlightroute(flightroute, currentUser).pipe(
             map(route => [
                 FlightrouteActions.update({ flightroute: route }),
                 MessageActions.showMessage({
@@ -65,10 +65,9 @@ export class FlightRouteCrudEffects {
 
     saveDuplicateFlightrouteAction$ = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteCrudActions.saveDuplicate),
-        switchMap(() => this.flightroute$),
-        withLatestFrom(this.currentUser$),
-        filter(([flightroute, currentUser]) => flightroute !== undefined && currentUser !== undefined),
-        switchMap(([flightroute, currentUser]) => this.flightrouteService.duplicateFlightroute(flightroute, currentUser).pipe(
+        withLatestFrom(this.flightroute$, this.currentUser$),
+        filter(([action, flightroute, currentUser]) => flightroute !== undefined && currentUser !== undefined),
+        switchMap(([action, flightroute, currentUser]) => this.flightrouteService.duplicateFlightroute(flightroute, currentUser).pipe(
             map(route => [
                 FlightrouteActions.update({ flightroute: route }),
                 MessageActions.showMessage({
@@ -90,12 +89,18 @@ export class FlightRouteCrudEffects {
         withLatestFrom(this.currentUser$),
         filter(([action, currentUser]) => action.flightrouteId > 0 && currentUser !== undefined),
         switchMap(([action, currentUser]) => this.flightrouteService.deleteFlightroute(action.flightrouteId, currentUser).pipe(
-            map(() => MessageActions.showMessage({
-                message: Message.success('Flight route deleted successfully.')
-            })),
-            catchError(error => of(MessageActions.showMessage({
-                message: Message.error('Error deleting flight route', error)
-            })))
+            map(() => [
+                FlightrouteListActions.readList(),
+                MessageActions.showMessage({
+                    message: Message.success('Flight route deleted successfully.')
+                }),
+            ]),
+            catchError(error => [
+                of(MessageActions.showMessage({
+                    message: Message.error('Error deleting flight route', error)
+                }))
+            ])
         )),
+        switchMap((actions) => actions)
     ));
 }

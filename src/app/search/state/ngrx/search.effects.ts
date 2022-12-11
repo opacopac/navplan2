@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Action, select, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, throwError} from 'rxjs';
-import {catchError, debounceTime, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
+import {catchError, debounceTime, filter, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {SearchActions} from './search.actions';
 import {getCurrentUser} from '../../../user/state/ngrx/user.selectors';
 import {User} from '../../../user/domain/model/user';
@@ -37,6 +37,7 @@ export class SearchEffects {
                 0,
                 999 // TODO
             ).pipe(
+                tap(result => LoggingService.logAction('show position search results', result)),
                 map(result => SearchActions.showPositionSearchResults({
                     positionSearchResults: result,
                     clickPos: action.clickPos

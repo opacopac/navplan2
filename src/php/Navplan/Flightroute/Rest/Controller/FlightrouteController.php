@@ -79,7 +79,7 @@ class FlightrouteController implements IRestController {
                 // delete flightroute
                 $request = RestDeleteFlightrouteRequest::fromRest($this->httpService->getGetArgs());
                 $success = $this->flightrouteService->delete($request->flightrouteId, $request->token);
-                $this->httpService->sendArrayResponse(RestSuccessResponse::toRest()); // TODO: always success
+                $this->httpService->sendArrayResponse(RestSuccessResponse::toRest($success));
                 break;
             default:
                 throw new InvalidArgumentException('unknown request');

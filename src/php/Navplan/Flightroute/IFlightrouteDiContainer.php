@@ -3,10 +3,10 @@
 namespace Navplan\Flightroute;
 
 use Navplan\Common\Rest\Controller\IRestController;
-use Navplan\Flightroute\Domain\Command\IFlightrouteAddCommand;
+use Navplan\Flightroute\Domain\Command\IFlightrouteCreateCommand;
 use Navplan\Flightroute\Domain\Command\IFlightrouteDeleteCommand;
 use Navplan\Flightroute\Domain\Command\IFlightrouteUpdateCommand;
-use Navplan\Flightroute\Domain\Command\IWaypointsAddCommand;
+use Navplan\Flightroute\Domain\Command\IWaypointsCreateCommand;
 use Navplan\Flightroute\Domain\Command\IWaypointsDeleteCommand;
 use Navplan\Flightroute\Domain\Query\IFlightrouteByHashQuery;
 use Navplan\Flightroute\Domain\Query\IFlightrouteByIdQuery;
@@ -29,7 +29,7 @@ interface IFlightrouteDiContainer {
 
     function getFlightrouteByHashQuery(): IFlightrouteByHashQuery;
 
-    function getFlightrouteAddCommand(): IFlightrouteAddCommand;
+    function getFlightrouteAddCommand(): IFlightrouteCreateCommand;
 
     function getFlightrouteDeleteCommand(): IFlightrouteDeleteCommand;
 
@@ -37,7 +37,7 @@ interface IFlightrouteDiContainer {
 
     function getWaypointsByFlightrouteQuery(): IWaypointsByFlightrouteQuery;
 
-    function getWaypointsAddCommand(): IWaypointsAddCommand;
+    function getWaypointsAddCommand(): IWaypointsCreateCommand;
 
     function getWaypointsDeleteCommand(): IWaypointsDeleteCommand;
 }

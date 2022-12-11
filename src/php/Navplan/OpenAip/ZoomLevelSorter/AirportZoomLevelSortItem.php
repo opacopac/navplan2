@@ -79,8 +79,8 @@ class AirportZoomLevelSortItem implements IZoomLevelSortItem {
         }
 
         // sort level 2: airport type
-        $aTypePrio = self::AIRPORT_TYPE_PRIO[$a["type"]];
-        $bTypePrio = self::AIRPORT_TYPE_PRIO[$b["type"]];
+        $aTypePrio = self::AIRPORT_TYPE_PRIO[$a["type"]] ?? 0;
+        $bTypePrio = self::AIRPORT_TYPE_PRIO[$b["type"]] ?? 0;
         if ($aTypePrio != $bTypePrio) {
             return $aTypePrio - $bTypePrio;
         }

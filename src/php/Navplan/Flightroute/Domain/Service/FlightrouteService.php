@@ -4,7 +4,7 @@ namespace Navplan\Flightroute\Domain\Service;
 
 use InvalidArgumentException;
 use Navplan\Common\StringNumberHelper;
-use Navplan\Flightroute\Domain\Command\IFlightrouteAddCommand;
+use Navplan\Flightroute\Domain\Command\IFlightrouteCreateCommand;
 use Navplan\Flightroute\Domain\Command\IFlightrouteDeleteCommand;
 use Navplan\Flightroute\Domain\Command\IFlightrouteUpdateCommand;
 use Navplan\Flightroute\Domain\Model\Flightroute;
@@ -25,7 +25,7 @@ class FlightrouteService implements IFlightrouteService {
         private IFlightrouteByIdQuery $flightrouteByIdQuery,
         private IFlightrouteByShareIdQuery $flightrouteByShareIdQuery,
         private IFlightrouteByHashQuery $flightrouteByHashQuery,
-        private IFlightrouteAddCommand $flightrouteAddCommand,
+        private IFlightrouteCreateCommand $flightrouteAddCommand,
         private IFlightrouteDeleteCommand $flightrouteDeleteCommand,
         private IFlightrouteUpdateCommand $flightrouteUpdateCommand
     ) {
@@ -33,9 +33,9 @@ class FlightrouteService implements IFlightrouteService {
 
 
     public function create(Flightroute $flightroute, string $token): Flightroute {
-        $user = $this->getUser($token);
+        $user = $this->getUserOrThrow($token);
 
-        return $this->flightrouteAddCommand->add($flightroute, $user);
+        return $this->flightrouteAddCommand->create($flightroute, $user);
     }
 
 
@@ -51,12 +51,12 @@ class FlightrouteService implements IFlightrouteService {
         $flightroute->shareId = StringNumberHelper::createRandomString(10);
         $flightroute->hash = $hash;
 
-        return $this->flightrouteAddCommand->add($flightroute, NULL);
+        return $this->flightrouteAddCommand->create($flightroute, NULL);
     }
 
 
     function delete(int $flightrouteId, string $token): bool {
-        $user = $this->getUser($token);
+        $user = $this->getUserOrThrow($token);
         $this->flightrouteDeleteCommand->delete($flightrouteId, $user);
 
         return true; // TODO
@@ -64,14 +64,14 @@ class FlightrouteService implements IFlightrouteService {
 
 
     function read(int $flightrouteId, string $token): Flightroute {
-        $user = $this->getUser($token);
+        $user = $this->getUserOrThrow($token);
 
         return $this->flightrouteByIdQuery->read($flightrouteId, $user);
     }
 
 
     function readList(string $token): array {
-        $user = $this->getUser($token);
+        $user = $this->getUserOrThrow($token);
 
         return $this->flightrouteListQuery->readList($user);
     }
@@ -83,13 +83,13 @@ class FlightrouteService implements IFlightrouteService {
 
 
     function update(Flightroute $flightroute, string $token): Flightroute {
-        $user = $this->getUser($token);
+        $user = $this->getUserOrThrow($token);
 
         return $this->flightrouteUpdateCommand->update($flightroute, $user);
     }
 
 
-    private function getUser(string $token): User {
+    private function getUserOrThrow(string $token): User {
         $email = $this->tokenService->getEmailFromToken($token);
         if (!$email) {
             throw new InvalidArgumentException('invalid token');

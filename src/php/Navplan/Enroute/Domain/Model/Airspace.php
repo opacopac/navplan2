@@ -24,6 +24,7 @@ class Airspace {
     }
 
 
+    // TODO: temporary for bw-compatibility to navplan v1
     public static function getCategoryString(AirspaceClass $class, AirspaceType $type): string {
         return match ($type) {
             AirspaceType::CTR,
@@ -33,7 +34,13 @@ class Airspace {
             AirspaceType::PROHIBITED,
             AirspaceType::RESTRICTED,
             AirspaceType::RMZ,
-            AirspaceType::TMZ => $type->value,
+            AirspaceType::TMZ,
+            AirspaceType::ATZ
+                => $type->value,
+            AirspaceType::MATZ => AirspaceType::ATZ->value,
+            AirspaceType::LOW_ALT_RESTRICTION => AirspaceType::RESTRICTED->value,
+            AirspaceType::SPORT_RECREATION => 'SPORT',
+            AirspaceType::AIRWAY => AirspaceClass::D->value,
             default => match ($class) {
                 AirspaceClass::A,
                 AirspaceClass::B,

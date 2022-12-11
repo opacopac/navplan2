@@ -4,9 +4,9 @@ namespace Navplan\Flightroute\Rest\Converter;
 
 
 class RestSuccessResponse {
-    public static function toRest(): array  {
+    public static function toRest(bool $success): array  {
         return array(
-            "success" => 1
+            "success" => $success ? 1 : 0
         );
     }
 }

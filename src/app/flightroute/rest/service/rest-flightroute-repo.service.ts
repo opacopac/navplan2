@@ -12,6 +12,8 @@ import {IRestFlightrouteResponse} from '../model/i-rest-flightroute-response';
 import {RestFlightrouteResponseConverter} from '../converter/rest-flightroute-response-converter';
 import {RestFlightrouteListConverter} from '../converter/rest-flightroute-list-converter';
 import {IFlightrouteRepoService} from '../../domain/service/i-flightroute-repo.service';
+import {RestFlightrouteConverter} from '../converter/rest-flightroute-converter';
+import {IRestSuccessResponse} from '../model/i-rest-success-response';
 
 
 @Injectable()
@@ -58,19 +60,36 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
 
 
     public saveFlightroute(flightroute: Flightroute, user: User): Observable<Flightroute> {
-        return of(undefined);
+        const requestBody = {
+            navplan: RestFlightrouteConverter.toRest(flightroute),
+            token: user.token
+        };
+        return this.http
+            .post<IRestFlightrouteResponse>(environment.flightrouteServiceUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+                map(response => RestFlightrouteConverter.fromRest(response.body.navplan))
+            );
     }
 
 
     public duplicateFlightroute(flightroute: Flightroute, user: User): Observable<Flightroute> {
-        // return $http.post(navplanBaseUrl, obj2json({ globalData: globalData }));
-        return of(undefined);
+        // TODO
+        flightroute.id = -1;
+        return this.saveFlightroute(flightroute, user);
     }
 
 
-    public deleteFlightroute(flightrouteId: number, user: User): Observable<void> {
-        // return $http.delete(navplanBaseUrlGet + '&id=' + navplan_id);
-        return of(undefined);
+    public deleteFlightroute(flightrouteId: number, user: User): Observable<boolean> {
+        const url = environment.flightrouteServiceUrl + '?id=' + flightrouteId + '&token=' + user.token;
+
+        return this.http
+            .delete<IRestSuccessResponse>(url, {observe: 'response'})
+            .pipe(
+                map((response) => response.body.success),
+                catchError(err => {
+                    LoggingService.logResponseError('ERROR reading flight route', err);
+                    return throwError(err);
+                })
+            );
     }
 
     // endregion

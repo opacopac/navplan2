@@ -51,4 +51,10 @@ export class LoggingService {
         console.error(message);
         console.error(response); // TODO
     }
+
+
+    public static logAction(message: string, object: object) {
+        console.log(message);
+        console.log(object);
+    }
 }

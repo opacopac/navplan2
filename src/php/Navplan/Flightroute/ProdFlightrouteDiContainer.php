@@ -3,10 +3,10 @@
 namespace Navplan\Flightroute;
 
 use Navplan\Common\Rest\Controller\IRestController;
-use Navplan\Flightroute\Domain\Command\IFlightrouteAddCommand;
+use Navplan\Flightroute\Domain\Command\IFlightrouteCreateCommand;
 use Navplan\Flightroute\Domain\Command\IFlightrouteDeleteCommand;
 use Navplan\Flightroute\Domain\Command\IFlightrouteUpdateCommand;
-use Navplan\Flightroute\Domain\Command\IWaypointsAddCommand;
+use Navplan\Flightroute\Domain\Command\IWaypointsCreateCommand;
 use Navplan\Flightroute\Domain\Command\IWaypointsDeleteCommand;
 use Navplan\Flightroute\Domain\Query\IFlightrouteByHashQuery;
 use Navplan\Flightroute\Domain\Query\IFlightrouteByIdQuery;
@@ -15,10 +15,10 @@ use Navplan\Flightroute\Domain\Query\IFlightrouteListQuery;
 use Navplan\Flightroute\Domain\Query\IWaypointsByFlightrouteQuery;
 use Navplan\Flightroute\Domain\Service\FlightrouteService;
 use Navplan\Flightroute\Domain\Service\IFlightrouteService;
-use Navplan\Flightroute\Persistence\Command\DbFlightrouteAddCommand;
+use Navplan\Flightroute\Persistence\Command\DbFlightrouteCreateCommand;
 use Navplan\Flightroute\Persistence\Command\DbFlightrouteDeleteCommand;
 use Navplan\Flightroute\Persistence\Command\DbFlightrouteUpdateCommand;
-use Navplan\Flightroute\Persistence\Command\DbWaypointsAddCommand;
+use Navplan\Flightroute\Persistence\Command\DbWaypointsCreateCommand;
 use Navplan\Flightroute\Persistence\Command\DbWaypointsDeleteCommand;
 use Navplan\Flightroute\Persistence\Query\DbFlightrouteByHashQuery;
 use Navplan\Flightroute\Persistence\Query\DbFlightrouteByIdQuery;
@@ -39,11 +39,11 @@ class ProdFlightrouteDiContainer implements IFlightrouteDiContainer {
     private IFlightrouteByIdQuery $flightrouteByIdQuery;
     private IFlightrouteByShareIdQuery $flightrouteByShareIdQuery;
     private IFlightrouteByHashQuery $flightrouteByHashQuery;
-    private IFlightrouteAddCommand $flightrouteAddCommand;
+    private IFlightrouteCreateCommand $flightrouteAddCommand;
     private IFlightrouteDeleteCommand $flightrouteDeleteCommand;
     private IFlightrouteUpdateCommand $flightrouteUpdateCommand;
     private IWaypointsByFlightrouteQuery $waypointsByFlightrouteQuery;
-    private IWaypointsAddCommand $waypointsAddCommand;
+    private IWaypointsCreateCommand $waypointsAddCommand;
     private IWaypointsDeleteCommand $waypointsDeleteCommand;
 
 
@@ -134,9 +134,9 @@ class ProdFlightrouteDiContainer implements IFlightrouteDiContainer {
     }
 
 
-    public function getFlightrouteAddCommand(): IFlightrouteAddCommand {
+    public function getFlightrouteAddCommand(): IFlightrouteCreateCommand {
         if (!isset($this->flightrouteAddCommand)) {
-            $this->flightrouteAddCommand = new DbFlightrouteAddCommand(
+            $this->flightrouteAddCommand = new DbFlightrouteCreateCommand(
                 $this->dbService,
                 $this->getWaypointsAddCommand()
             );
@@ -182,9 +182,9 @@ class ProdFlightrouteDiContainer implements IFlightrouteDiContainer {
     }
 
 
-    public function getWaypointsAddCommand(): IWaypointsAddCommand {
+    public function getWaypointsAddCommand(): IWaypointsCreateCommand {
         if (!isset($this->waypointsAddCommand)) {
-            $this->waypointsAddCommand = new DbWaypointsAddCommand(
+            $this->waypointsAddCommand = new DbWaypointsCreateCommand(
                 $this->dbService
             );
         }

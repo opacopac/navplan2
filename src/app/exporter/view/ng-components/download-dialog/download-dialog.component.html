@@ -1,7 +1,7 @@
 <h2 mat-dialog-title>Download</h2>
 <mat-dialog-content class="mat-typography">
     <p>
-        File: <a href="{{ this.downloadUrl }}" type="{{ this.mimeType }}"
+        File: <a id="download_link" href="{{ this.downloadUrl }}" type="{{ this.mimeType }}"
                  download="{{ this.filename }}" target="_blank">{{ this.filename }}</a> (click to download)
     </p>
 </mat-dialog-content>

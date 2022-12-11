@@ -5,6 +5,6 @@ namespace Navplan\Flightroute\Domain\Command;
 use Navplan\Flightroute\Domain\Model\Flightroute;
 
 
-interface IWaypointsAddCommand {
-    function addWaypointsAndAlternate(Flightroute $flightroute);
+interface IWaypointsCreateCommand {
+    function createWaypointsAndAlternate(Flightroute $flightroute);
 }

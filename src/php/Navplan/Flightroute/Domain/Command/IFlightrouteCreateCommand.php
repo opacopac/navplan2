@@ -6,6 +6,6 @@ use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\User\DomainModel\User;
 
 
-interface IFlightrouteAddCommand {
-    function add(Flightroute $flightroute, ?User $user): Flightroute;
+interface IFlightrouteCreateCommand {
+    function create(Flightroute $flightroute, ?User $user): Flightroute;
 }

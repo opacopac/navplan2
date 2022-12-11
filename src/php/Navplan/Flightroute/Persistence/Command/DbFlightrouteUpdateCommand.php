@@ -3,7 +3,7 @@
 namespace Navplan\Flightroute\Persistence\Command;
 
 use Navplan\Flightroute\Domain\Command\IFlightrouteUpdateCommand;
-use Navplan\Flightroute\Domain\Command\IWaypointsAddCommand;
+use Navplan\Flightroute\Domain\Command\IWaypointsCreateCommand;
 use Navplan\Flightroute\Domain\Command\IWaypointsDeleteCommand;
 use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Flightroute\Persistence\Model\DbTableFlightroute;
@@ -16,7 +16,7 @@ class DbFlightrouteUpdateCommand implements IFlightrouteUpdateCommand {
     public function __construct(
         private IDbService $dbService,
         private IWaypointsDeleteCommand $deleteWaypointsCommand,
-        private IWaypointsAddCommand $addWaypointsCommand
+        private IWaypointsCreateCommand $addWaypointsCommand
     ) {
     }
 
@@ -28,7 +28,7 @@ class DbFlightrouteUpdateCommand implements IFlightrouteUpdateCommand {
 
         // update waypoints
         $this->deleteWaypointsCommand->deleteWaypoints($flightroute->id);
-        $this->addWaypointsCommand->addWaypointsAndAlternate($flightroute);
+        $this->addWaypointsCommand->createWaypointsAndAlternate($flightroute);
 
         return $flightroute;
     }

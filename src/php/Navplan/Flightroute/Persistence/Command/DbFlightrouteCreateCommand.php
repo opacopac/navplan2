@@ -2,8 +2,8 @@
 
 namespace Navplan\Flightroute\Persistence\Command;
 
-use Navplan\Flightroute\Domain\Command\IFlightrouteAddCommand;
-use Navplan\Flightroute\Domain\Command\IWaypointsAddCommand;
+use Navplan\Flightroute\Domain\Command\IFlightrouteCreateCommand;
+use Navplan\Flightroute\Domain\Command\IWaypointsCreateCommand;
 use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Flightroute\Persistence\Model\DbTableFlightroute;
 use Navplan\System\DomainService\IDbService;
@@ -11,22 +11,22 @@ use Navplan\System\MySqlDb\DbHelper;
 use Navplan\User\DomainModel\User;
 
 
-class DbFlightrouteAddCommand implements IFlightrouteAddCommand {
+class DbFlightrouteCreateCommand implements IFlightrouteCreateCommand {
     public function __construct(
         private IDbService $dbService,
-        private IWaypointsAddCommand $addWaypointsCommand
+        private IWaypointsCreateCommand $addWaypointsCommand
     ) {
     }
 
 
-    public function add(Flightroute $flightroute, ?User $user): Flightroute {
+    public function create(Flightroute $flightroute, ?User $user): Flightroute {
         // create route
         $query = $this->getFlightrouteInsertSql($flightroute, $user?->id);
         $this->dbService->execCUDQuery($query, "error creating flightroute");
         $flightroute->id = $this->dbService->getInsertId();
 
         // waypoints & alternate
-        $this->addWaypointsCommand->addWaypointsAndAlternate($flightroute);
+        $this->addWaypointsCommand->createWaypointsAndAlternate($flightroute);
 
         return $flightroute;
     }

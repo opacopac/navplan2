@@ -32,7 +32,7 @@ export class FlightrouteService implements IFlightrouteService {
     }
 
 
-    public deleteFlightroute(flightrouteId: number, user: User): Observable<void> {
+    public deleteFlightroute(flightrouteId: number, user: User): Observable<boolean> {
         return this.flightrouteRepo.deleteFlightroute(flightrouteId, user);
     }
 

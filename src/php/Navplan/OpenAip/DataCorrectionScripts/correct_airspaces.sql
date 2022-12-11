@@ -1,14 +1,16 @@
-update openaip_airspace2 set type = 'FIZ' where name = 'FIZ SAMEDAN 135.325';
+update openaip_airspace2 set type = 'FIZ', category = 'FIZ' where name = 'FIZ SAMEDAN';
 
 delete from openaip_airspace2
 where name in (
-    'CTR BALE PARTIE FRANCAISE',
+    'BALE-MULHOUSE 1',
+    'BALE-MULHOUSE 2',
+    'TMA LFSB ZURICH-AZ3',
     'LUGANO CTR',
     'TMA GENEVE PARTIE 1',
     'TMA GENEVE PARTIE 2',
     'TMA GENEVE PARTIE 3',
     'TMA GENEVE PARTIE 4',
-    'TMA GENEVE PARTIE 4.1 ST CLAUDE NORD AUTORISATION GENEVE DELTA 119.175 - ATIS 124.750 - VEILLE RADIO',
+   ' TMA GENEVE PARTIE 4.1 ST CLAUDE NORD AUTORISATION GENEVE DELTA 119.175 - ATIS 124.750 - VEILLE RADIO 125.025',
     'TMA GENEVE PARTIE 6',
     'TMA GENEVE PARTIE 7',
     'TMA GENEVE PARTIE 8',
@@ -16,5 +18,15 @@ where name in (
     'TMA GENEVE PARTIE 10',
     'TMA MILANO SWISS SEC1',
     'TMA MILANO SWISS SEC2',
-    'TMA MILANO SWISS SEC3'
+    'TMA MILANO SWISS SEC3',
+    'TMA LSZH 1',
+    'TMA LSZH 2',
+    'TMA LSZH 3',
+    'TMA LSZH 6',
+    'TMA LSZH 8',
+    'TMA LSZH 9',
+    'TMA LSZH 10',
+    'TMA LSZH 11',
+    'TMA LSZH 12',
+    'TMA LSZH 13'
 );

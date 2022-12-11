@@ -2,7 +2,7 @@
 
 namespace Navplan\Flightroute\Persistence\Command;
 
-use Navplan\Flightroute\Domain\Command\IWaypointsAddCommand;
+use Navplan\Flightroute\Domain\Command\IWaypointsCreateCommand;
 use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Flightroute\Domain\Model\Waypoint;
 use Navplan\Flightroute\Persistence\Model\DbTableFlightrouteWaypoints;
@@ -10,14 +10,14 @@ use Navplan\System\DomainService\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
 
 
-class DbWaypointsAddCommand implements IWaypointsAddCommand {
+class DbWaypointsCreateCommand implements IWaypointsCreateCommand {
     public function __construct(
         private IDbService $dbService
     ) {
     }
 
 
-    public function addWaypointsAndAlternate(Flightroute $flightroute) {
+    public function createWaypointsAndAlternate(Flightroute $flightroute) {
         // waypoints
         for ($i = 0; $i < count($flightroute->waypoinList); $i++) {
             $wp = $flightroute->waypoinList[$i];
@@ -63,7 +63,7 @@ class DbWaypointsAddCommand implements IWaypointsAddCommand {
             DbHelper::getDbStringValue($this->dbService, $waypoint->airportIcao),
             DbHelper::getDbFloatValue($waypoint->position->latitude),
             DbHelper::getDbFloatValue($waypoint->position->longitude),
-            DbHelper::getDbIntValue((int) $waypoint->wpAltitude->altitude->getHeightAmsl()->getFt()),
+            DbHelper::getDbIntValue((int) $waypoint->wpAltitude?->altitude?->getHeightAmsl()->getFt()),
             DbHelper::getDbBoolValue($waypoint->wpAltitude->isMinAlt),
             DbHelper::getDbBoolValue($waypoint->wpAltitude->isMaxAlt),
             DbHelper::getDbBoolValue($waypoint->wpAltitude->isAltAtLegStart),
@@ -71,6 +71,7 @@ class DbWaypointsAddCommand implements IWaypointsAddCommand {
             DbHelper::getDbStringValue($this->dbService, $waypoint->suppInfo),
             DbHelper::getDbBoolValue($waypoint->isAlternate)
         ));
+        $query .= ")";
 
         return $query;
     }

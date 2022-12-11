@@ -29,6 +29,7 @@ export class OlOverlayAirspaceComponent implements OnInit {
             case 'UIR':
             case 'GLIDING':
             case 'WAVE':
+            case 'SPORT':
                 return 'airspace-overlay-green';
             default:
                 return 'airspace-overlay-blue';
@@ -66,6 +67,7 @@ export class OlOverlayAirspaceComponent implements OnInit {
             case 'GLIDING':
             case 'WAVE':
             case 'UIR':
+            case 'SPORT':
                 return 'airspace-class-green';
             default:
                 return 'airspace-class-blue';
@@ -89,6 +91,7 @@ export class OlOverlayAirspaceComponent implements OnInit {
             case 'UIR':
             case 'GLIDING':
             case 'WAVE':
+            case 'SPORT':
                 return 'airspace-name-green';
             default:
                 return 'airspace-name-blue';

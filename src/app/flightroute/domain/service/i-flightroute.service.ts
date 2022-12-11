@@ -13,7 +13,7 @@ export abstract class IFlightrouteService {
 
     public abstract duplicateFlightroute(flightroute: Flightroute, user: User): Observable<Flightroute>;
 
-    public abstract deleteFlightroute(flightrouteId: number, user: User): Observable<void>;
+    public abstract deleteFlightroute(flightrouteId: number, user: User): Observable<boolean>;
 
     public abstract createSharedFlightroute(flightroute: Flightroute): Observable<string>;
 

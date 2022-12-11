@@ -37,12 +37,14 @@ export class OlAirspace {
             case 'TMZ':
             case 'RMZ':
             case 'FIZ':
+            case 'ATZ':
                 return OlAirspaceStyle.TMZ_RMZ_FIZ;
             case 'FIR':
             case 'UIR':
                 return OlAirspaceStyle.FIR_UIR;
             case 'GLIDING':
             case 'WAVE':
+            case 'SPORT':
                 return OlAirspaceStyle.GLD;
             default:
                 return undefined;
