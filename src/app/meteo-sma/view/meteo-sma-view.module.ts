@@ -1,7 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {MeteoSmaContainerComponent} from './ng-components/meteo-sma-container/meteo-sma-container.component';
-import {MeteoSmaButtonComponent} from './ng-components/meteo-sma-button/meteo-sma-button.component';
 import {MeteoSmaDomainModule} from '../domain/meteo-sma-domain.module';
 import {MeteoSmaRestModule} from '../rest/meteo-sma-rest.module';
 import {MeteoSmaStateModule} from '../state/meteo-sma-state.module';
@@ -19,12 +17,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
         MeteoSmaStateModule,
     ],
     declarations: [
-        MeteoSmaButtonComponent,
-        MeteoSmaContainerComponent
     ],
     exports: [
-        MeteoSmaButtonComponent,
-        MeteoSmaContainerComponent
     ],
     providers: [
     ]

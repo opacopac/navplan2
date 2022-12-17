@@ -26,7 +26,7 @@
 
 .vertical-map-button-pos {
     position: absolute;
-    bottom: 238px;
+    bottom: 172px;
     left: 10px;
     z-index: 20;
 }
@@ -39,21 +39,14 @@
     z-index: 20;
 }
 
-.meteo-sma-button-pos {
-    position: absolute;
-    bottom: 172px;
-    left: 10px;
-    z-index: 20;
-}
-
-.meteo-dwd-button-pos {
+.meteo-button-pos {
     position: absolute;
     bottom: 106px;
     left: 10px;
     z-index: 20;
 }
 
-.meteo-dwd-container-pos {
+.meteo-container-pos {
     position: absolute;
     bottom: 40px;
     left: 70px;

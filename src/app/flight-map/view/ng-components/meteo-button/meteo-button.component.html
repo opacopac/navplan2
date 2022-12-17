@@ -1,8 +1,7 @@
 <button mat-fab
         matTooltip="show/hide weather forecast"
         matTooltipPosition="right"
-        color="{{ this.getStatusCLass(this.meteoDwdState$ | async) }}"
-        (click)="this.onDwdMeteoButtonClicked()">
-    <!--<i class="fas fa-cloud"></i>-->
+        color="{{ this.getStatusCLass(this.showMeteoLayer$ | async) }}"
+        (click)="this.onMeteoButtonClicked()">
     <i class="fas fa-cloud-sun-rain meteo-dwd-button-icon"></i>
 </button>

@@ -1,11 +1,11 @@
 import {MeteoSmaActions} from './meteo-sma.actions';
 import {createReducer, on} from '@ngrx/store';
 import {MeteoSmaState} from '../../domain/model/meteo-sma-state';
-import {MeteoSmaButtonStatus} from '../../domain/model/meteo-sma-button-status';
+import {MeteoSmaStatus} from '../../domain/model/meteo-sma-status';
 
 
 const initialState: MeteoSmaState = {
-    buttonStatus: MeteoSmaButtonStatus.OFF,
+    status: MeteoSmaStatus.OFF,
     zoom: undefined,
     smaMeasurements: [],
 };
@@ -13,23 +13,23 @@ const initialState: MeteoSmaState = {
 
 export const meteoSmaReducer = createReducer(
     initialState,
-    on(MeteoSmaActions.read, (state, action) => ({
+    on(MeteoSmaActions.open, (state, action) => ({
         ...state,
-        buttonStatus: MeteoSmaButtonStatus.WAITING,
+        status: MeteoSmaStatus.WAITING,
     })),
     on(MeteoSmaActions.readSuccess, (state, action) => ({
         ...state,
-        buttonStatus: MeteoSmaButtonStatus.CURRENT,
+        status: MeteoSmaStatus.CURRENT,
         smaMeasurements: action.smaMeasurements,
         zoom: action.zoom
     })),
     on(MeteoSmaActions.readError, (state) => ({
         ...state,
-        buttonStatus: MeteoSmaButtonStatus.ERROR,
+        status: MeteoSmaStatus.ERROR,
     })),
     on(MeteoSmaActions.close, (state) => ({
         ...state,
-        buttonStatus: MeteoSmaButtonStatus.OFF,
+        status: MeteoSmaStatus.OFF,
         smaMeasurements: []
     })),
 );

@@ -3,4 +3,6 @@ import {FlightMapState} from './flight-map-state';
 
 
 export const getFlightMapState = createFeatureSelector<FlightMapState>('flightMapState');
-export const getFlightMapOverlay = createSelector(getFlightMapState, state => state.showOverlay);
+export const getFlightMapShowOverlay = createSelector(getFlightMapState, state => state.showMapOverlay);
+export const getFlightMapShowMeteoLayer = createSelector(getFlightMapState, state => state.showMeteoLayer);
+export const getFlightMapMeteoLayer = createSelector(getFlightMapState, state => state.meteoLayer);

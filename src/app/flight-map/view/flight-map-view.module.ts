@@ -25,6 +25,8 @@ import {SearchViewModule} from '../../search/view/search-view.module';
 import {LocationViewModule} from '../../location/location-view/location-view.module';
 import {BaseMapViewModule} from '../../base-map/view/base-map-view.module';
 import {MeteoDwdViewModule} from '../../meteo-dwd/view/meteo-dwd-view.module';
+import {MeteoContainerComponent} from './ng-components/meteo-container/meteo-container.component';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
     declarations: [
@@ -33,6 +35,7 @@ import {MeteoDwdViewModule} from '../../meteo-dwd/view/meteo-dwd-view.module';
         OlOverlayMeteogramComponent,
         OlOverlayWindyiframeComponent,
         OlOverlayWaypointComponent,
+        MeteoContainerComponent
     ],
     imports: [
         CommonModule,
@@ -56,6 +59,7 @@ import {MeteoDwdViewModule} from '../../meteo-dwd/view/meteo-dwd-view.module';
         UserViewModule,
         VerticalMapViewModule,
         WebcamViewModule,
+        MatButtonModule,
     ],
     providers: [
     ]

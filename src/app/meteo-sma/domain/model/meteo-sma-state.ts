@@ -1,9 +1,9 @@
 import {SmaMeasurement} from './sma-measurement';
-import {MeteoSmaButtonStatus} from './meteo-sma-button-status';
+import {MeteoSmaStatus} from './meteo-sma-status';
 
 
 export interface MeteoSmaState {
-    buttonStatus: MeteoSmaButtonStatus;
+    status: MeteoSmaStatus;
     zoom: number;
     smaMeasurements: SmaMeasurement[];
 }

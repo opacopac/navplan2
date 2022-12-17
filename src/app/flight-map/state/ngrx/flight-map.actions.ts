@@ -4,6 +4,7 @@ import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d'
 import {MetarTaf} from '../../../metar-taf/domain/model/metar-taf';
 import {Notam} from '../../../notam/domain/model/notam';
 import {Waypoint} from '../../../flightroute/domain/model/waypoint';
+import {MeteoLayer} from '../../domain/model/meteo-layer';
 
 
 export class FlightMapActions {
@@ -19,5 +20,14 @@ export class FlightMapActions {
 
     public static readonly hideOverlay = createAction(
         '[FlightMapEffects] Hide map overlay',
+    );
+
+    public static readonly toggleMeteoLayer = createAction(
+        '[FlightMapPage] Toggle meteo layer',
+    );
+
+    public static readonly selectMeteoLayer = createAction(
+        '[FlightMapPage] Select meteo layer',
+        props<{ meteoLayer: MeteoLayer }>()
     );
 }

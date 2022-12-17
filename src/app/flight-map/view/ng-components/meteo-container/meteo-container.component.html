@@ -1,18 +1,9 @@
 <div>
     <div class="flex-col weather-layer-button-div">
-        <!--<mat-form-field appearance="fill">
-            <mat-label>Favorite food</mat-label>
-            <mat-select [(ngModel)]="selectedValue" name="food">
-                <mat-option *ngFor="let food of foods" [value]="food.value">
-                    {{food.viewValue}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>-->
-
-        <!--<button
+        <button
             mat-raised-button
             class="{{ getStationsButtonClass() | async }}"
-            (click)="onWeatherForecastSelected()"><i class="fas fa-thermometer-half"></i> Stations</button>-->
+            (click)="onStationsSelected()"><i class="fas fa-thermometer-half"></i> Stations</button>
         <button
             mat-raised-button
             class="{{ getWeatherButtonClass() | async }}"
@@ -22,5 +13,7 @@
             class="{{ getWindButtonClass() | async }}"
             (click)="onWindForecastSelected()"><i class="fas fa-wind"></i> Wind</button>
     </div>
-    <app-meteo-dwd-timeline></app-meteo-dwd-timeline>
+    <div class="{{ getTimeLineClass() | async }}">
+        <app-meteo-dwd-timeline></app-meteo-dwd-timeline>
+    </div>
 </div>

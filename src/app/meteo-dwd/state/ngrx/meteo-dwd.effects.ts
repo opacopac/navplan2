@@ -6,7 +6,6 @@ import {MeteoDwdActions} from './meteo-dwd.actions';
 import {Observable} from 'rxjs';
 import {MeteoDwdState} from '../model/meteo-dwd-state';
 import {getMeteoDwdState} from './meteo-dwd.selectors';
-import {MeteoDwdButtonStatus} from '../../domain/model/meteo-dwd-button-status';
 import {IMeteoDwdService} from '../../domain/service/i-meteo-dwd.service';
 import {GridDefinition} from '../../domain/model/grid-definition';
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
@@ -30,19 +29,6 @@ export class MeteoDwdEffects {
         private readonly meteoDwdService: IMeteoDwdService
     ) {
     }
-
-
-    toggleAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(MeteoDwdActions.toggle),
-        withLatestFrom(this.meteoDwdstate$),
-        map(([action, meteoDwdState]) => {
-            if (meteoDwdState.buttonStatus === MeteoDwdButtonStatus.OFF) {
-                return MeteoDwdActions.open();
-            } else {
-                return MeteoDwdActions.close();
-            }
-        })
-    ));
 
 
     readForecastRunAction$: Observable<Action> = createEffect(() => this.actions$.pipe(

@@ -1,12 +1,12 @@
 import {MeteoDwdActions} from './meteo-dwd.actions';
 import {createReducer, on} from '@ngrx/store';
 import {MeteoDwdState} from '../model/meteo-dwd-state';
-import {MeteoDwdButtonStatus} from '../../domain/model/meteo-dwd-button-status';
+import {MeteoDwdStatus} from '../../domain/model/meteo-dwd-status';
 import {MeteoDwdLayer} from '../../domain/model/meteo-dwd-layer';
 
 
 const initialState: MeteoDwdState = {
-    buttonStatus: MeteoDwdButtonStatus.OFF,
+    status: MeteoDwdStatus.OFF,
     showLayer: undefined,
     forecastRun: undefined,
     selectedStep: 1,
@@ -21,13 +21,13 @@ export const meteoDwdReducer = createReducer(
 
     on(MeteoDwdActions.open, (state) => ({
         ...state,
-        buttonStatus: MeteoDwdButtonStatus.CURRENT,
+        buttonStatus: MeteoDwdStatus.CURRENT,
         showLayer: MeteoDwdLayer.WeatherLayer,
     })),
 
     on(MeteoDwdActions.close, (state) => ({
         ...state,
-        buttonStatus: MeteoDwdButtonStatus.OFF,
+        buttonStatus: MeteoDwdStatus.OFF,
         showLayer: undefined,
     })),
 

@@ -6,7 +6,7 @@ import {getFlightroute} from '../../../../state/ngrx/flightroute.selectors';
 import {Flightroute} from '../../../../domain/model/flightroute';
 import {Waypoint} from '../../../../domain/model/waypoint';
 import {WaypointActions} from '../../../../state/ngrx/waypoints.actions';
-import {getFlightMapOverlay} from '../../../../../flight-map/state/ngrx/flight-map.selectors';
+import {getFlightMapShowOverlay} from '../../../../../flight-map/state/ngrx/flight-map.selectors';
 import {EditWaypointDialogComponent} from '../../flightroute-page/edit-waypoint-dialog/edit-waypoint-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 
@@ -31,7 +31,7 @@ export class WaypointButtonContainerComponent implements OnInit {
     ) {
         this.flightroute$ = this.appStore.pipe(select(getFlightroute));
         this.waypoint$ = this.appStore.pipe(
-            select(getFlightMapOverlay),
+            select(getFlightMapShowOverlay),
             map(overlay => overlay.waypoint)
         );
 

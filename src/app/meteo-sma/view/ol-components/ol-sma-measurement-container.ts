@@ -5,7 +5,7 @@ import {Angle} from '../../../geo-physics/domain/model/quantities/angle';
 import {OlSmaMeasurementGreyBg} from './ol-sma-measurement-grey-bg';
 import {MeteoSmaState} from '../../domain/model/meteo-sma-state';
 import {OlSmaMeasurementDetailBox} from './ol-sma-measurement-detail-box';
-import {MeteoSmaButtonStatus} from '../../domain/model/meteo-sma-button-status';
+import {MeteoSmaStatus} from '../../domain/model/meteo-sma-status';
 import {OlSmaMeasurementSmallBox} from './ol-sma-measurement-small-box';
 
 
@@ -22,7 +22,7 @@ export class OlSmaMeasurementContainer {
         this.meteoSmaStateSubscription = this.meteoSmaState$.subscribe(state => {
             this.clearFeatures();
 
-            if (state.buttonStatus === MeteoSmaButtonStatus.CURRENT) {
+            if (state.status === MeteoSmaStatus.CURRENT) {
                 this.drawFeatures(state, mapRotation);
             }
         });

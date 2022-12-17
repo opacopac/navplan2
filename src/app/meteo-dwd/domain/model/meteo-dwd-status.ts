@@ -1,4 +1,4 @@
-export enum MeteoSmaButtonStatus {
+export enum MeteoDwdStatus {
     OFF,
     WAITING,
     CURRENT,

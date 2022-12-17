@@ -24,6 +24,9 @@ import {FlightMapStateService} from './flight-map-state.service';
 import {WaypointActions} from '../../../flightroute/state/ngrx/waypoints.actions';
 import {IAirportService} from '../../../aerodrome/domain/service/i-airport.service';
 import {INotamService} from '../../../notam/domain/service/i-notam.service';
+import {MeteoSmaActions} from '../../../meteo-sma/state/ngrx/meteo-sma.actions';
+import {MeteoLayer} from '../../domain/model/meteo-layer';
+import {MeteoDwdActions} from '../../../meteo-dwd/state/ngrx/meteo-dwd.actions';
 
 
 @Injectable()
@@ -44,6 +47,62 @@ export class FlightMapEffects {
     ) {
         this.date = config.getDate();
     }
+
+
+    toggleMeteoAction$ = createEffect(() => this.actions$.pipe(
+        ofType(FlightMapActions.toggleMeteoLayer),
+        withLatestFrom(this.flightMapState$),
+        switchMap(([action, flightMapState]) => {
+            const returnActions = [];
+
+            if (flightMapState.showMeteoLayer) {
+                switch (flightMapState.meteoLayer) {
+                    case MeteoLayer.SmaStationsLayer:
+                        returnActions.push(FlightMapActions.selectMeteoLayer({ meteoLayer: MeteoLayer.SmaStationsLayer }));
+                        break;
+                    case MeteoLayer.DwdWeatherLayer:
+                        returnActions.push(FlightMapActions.selectMeteoLayer({ meteoLayer: MeteoLayer.DwdWeatherLayer }));
+                        break;
+                    case MeteoLayer.DwdWindLayer:
+                        returnActions.push(FlightMapActions.selectMeteoLayer({ meteoLayer: MeteoLayer.DwdWindLayer }));
+                        break;
+                }
+            } else {
+                returnActions.push(MeteoSmaActions.close());
+                returnActions.push(MeteoDwdActions.close());
+            }
+
+            return returnActions;
+        })
+    ));
+
+
+    selectMeteoLayerAction$ = createEffect(() => this.actions$.pipe(
+        ofType(FlightMapActions.selectMeteoLayer),
+        withLatestFrom(this.flightMapState$),
+        switchMap(([action, flightMapState]) => {
+            const returnActions = [];
+
+            switch (action.meteoLayer) {
+                case MeteoLayer.SmaStationsLayer:
+                    returnActions.push(MeteoDwdActions.close());
+                    returnActions.push(MeteoSmaActions.open());
+                    break;
+                case MeteoLayer.DwdWeatherLayer:
+                    returnActions.push(MeteoSmaActions.close());
+                    returnActions.push(MeteoDwdActions.open());
+                    returnActions.push(MeteoDwdActions.selectWeatherForecast());
+                    break;
+                case MeteoLayer.DwdWindLayer:
+                    returnActions.push(MeteoSmaActions.close());
+                    returnActions.push(MeteoDwdActions.open());
+                    returnActions.push(MeteoDwdActions.selectWindForecast());
+                    break;
+            }
+
+            return returnActions;
+        })
+    ));
 
 
     // region map moved/clicked
@@ -84,7 +143,7 @@ export class FlightMapEffects {
             }
 
             // close map item overlay, if previously open and no map item clicked
-            if (flightMapState.showOverlay.dataItem && !action.dataItem) {
+            if (flightMapState.showMapOverlay.dataItem && !action.dataItem) {
                 returnActions.push(FlightMapActions.hideOverlay());
             }
 
@@ -94,7 +153,7 @@ export class FlightMapEffects {
             }
 
             // perform position search, if no map item clicked and no position search results active and no overlay active
-            if (!action.dataItem && !searchState.positionSearchState.clickPos && !flightMapState.showOverlay.dataItem) {
+            if (!action.dataItem && !searchState.positionSearchState.clickPos && !flightMapState.showMapOverlay.dataItem) {
                 returnActions.push(SearchActions.searchByPosition({
                     clickPos: action.clickPos,
                     zoom: action.zoom
@@ -133,7 +192,7 @@ export class FlightMapEffects {
     hideOverlayAction$ = createEffect(() => this.actions$.pipe(
         ofType(BaseMapActions.mapClicked),
         withLatestFrom(this.flightMapState$),
-        filter(([action, flightMapState]) => flightMapState.showOverlay.dataItem !== undefined),
+        filter(([action, flightMapState]) => flightMapState.showMapOverlay.dataItem !== undefined),
         map(() => FlightMapActions.hideOverlay())
     ));
 

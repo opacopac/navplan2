@@ -1,5 +1,5 @@
 .weather-layer-button-div {
-    width: 120px;
+    width: 100px;
 }
 
 .weather-button {
@@ -15,3 +15,11 @@
     background-color: rgba(128, 128, 128, 0.9);
     /*color: white;*/
 }
+
+.timeline-show {
+}
+
+.timeline-hide {
+    visibility: hidden;
+}
+

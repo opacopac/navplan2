@@ -1,6 +1,9 @@
 import {OverlayState} from './overlay-state';
+import {MeteoLayer} from '../../domain/model/meteo-layer';
 
 
 export interface FlightMapState {
-    showOverlay: OverlayState;
+    showMapOverlay: OverlayState;
+    showMeteoLayer: boolean;
+    meteoLayer: MeteoLayer;
 }

@@ -30,7 +30,7 @@ import {
 } from '../../../../traffic/view/ng-components/ol-overlay-traffic/ol-overlay-traffic.component';
 import {Observable} from 'rxjs/internal/Observable';
 import {Subscription} from 'rxjs/internal/Subscription';
-import {getFlightMapOverlay} from '../../../state/ngrx/flight-map.selectors';
+import {getFlightMapShowMeteoLayer, getFlightMapShowOverlay} from '../../../state/ngrx/flight-map.selectors';
 import {OlAirportContainer} from '../../../../aerodrome/view/ol-components/airport/ol-airport-container';
 import {
     OlAirportCircuitContainer
@@ -66,7 +66,6 @@ import {OlVectorLayer} from '../../../../base-map/view/ol-model/ol-vector-layer'
 import {getVerticalMapState} from '../../../../vertical-map/state/ngrx/vertical-map.selectors';
 import {VerticalMapButtonStatus} from '../../../../vertical-map/domain/model/vertical-map-button-status';
 import {getMeteoSmaState} from '../../../../meteo-sma/state/ngrx/meteo-sma.selectors';
-import {MeteoSmaButtonStatus} from '../../../../meteo-sma/domain/model/meteo-sma-button-status';
 import {OlSmaMeasurementContainer} from '../../../../meteo-sma/view/ol-components/ol-sma-measurement-container';
 import {
     OlOverlayAirspaceStructureComponent
@@ -75,7 +74,6 @@ import {OlDwdForecastContainer} from '../../../../meteo-dwd/view/ol-components/o
 import {
     getMeteoDwdLayer,
     getMeteoDwdMapTilesUrl,
-    getMeteoDwdState,
     getMeteoDwdWeatherGrid,
     getMeteoDwdWindGrid
 } from '../../../../meteo-dwd/state/ngrx/meteo-dwd.selectors';
@@ -112,11 +110,8 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
     private olSmaMeasurementsContainer: OlSmaMeasurementContainer;
     private olDwdForecastContainer: OlDwdForecastContainer;
     private flightroute$ = this.appStore.pipe(select(getFlightroute));
-    private readonly showOverlay$: Observable<OverlayState> = this.appStore.pipe(select(getFlightMapOverlay));
-    private readonly meteoSmaState$ = this.appStore.pipe(select(getMeteoSmaState));
-    public readonly showMeteoSmaMeasurements$ = this.meteoSmaState$.pipe(map(state => state.buttonStatus === MeteoSmaButtonStatus.CURRENT));
-    private readonly meteoDwdState$ = this.appStore.pipe(select(getMeteoDwdState));
-    public readonly showMeteoDwdForecasts$ = this.meteoDwdState$.pipe(map(state => state.showLayer !== undefined));
+    private readonly showOverlay$: Observable<OverlayState> = this.appStore.pipe(select(getFlightMapShowOverlay));
+    public readonly showMeteoLayer$: Observable<boolean> = this.appStore.pipe(select(getFlightMapShowMeteoLayer));
     private readonly verticalMapState$ = this.appStore.pipe(select(getVerticalMapState));
     public readonly showVerticalMapButton$ = this.flightroute$.pipe(map(route => route.waypoints.length >= 2));
     public readonly showVerticalMap$ = this.verticalMapState$.pipe(map(state => state.buttonStatus === VerticalMapButtonStatus.CURRENT));

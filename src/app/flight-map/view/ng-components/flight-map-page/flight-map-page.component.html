@@ -21,10 +21,8 @@
 <app-traffic-button class="traffic-button-pos"></app-traffic-button>
 <app-layer-button class="layer-button-pos"></app-layer-button>
 <app-layer-selection class="layer-selection-pos" *ngIf="this.showBaseMapSelection$ | async"></app-layer-selection>
-<app-meteo-dwd-button class="meteo-dwd-button-pos"></app-meteo-dwd-button>
-<app-meteo-dwd-container class="meteo-dwd-container-pos" *ngIf="this.showMeteoDwdForecasts$ | async"></app-meteo-dwd-container>
-<app-meteo-sma-button class="meteo-sma-button-pos"></app-meteo-sma-button>
-<app-meteo-sma-container *ngIf="this.showMeteoSmaMeasurements$ | async"></app-meteo-sma-container>
+<app-meteo-button class="meteo-button-pos"></app-meteo-button>
+<app-meteo-container class="meteo-container-pos" *ngIf="this.showMeteoLayer$ | async"></app-meteo-container>
 <app-vertical-map-button class="vertical-map-button-pos" *ngIf="this.showVerticalMapButton$ | async"></app-vertical-map-button>
 <app-vertical-map class="vertical-map-pos" *ngIf="(this.showVerticalMap$ | async)"></app-vertical-map>
 <app-flighttimer></app-flighttimer>
