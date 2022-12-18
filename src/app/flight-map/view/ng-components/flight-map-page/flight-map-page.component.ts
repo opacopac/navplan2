@@ -74,8 +74,8 @@ import {OlDwdForecastContainer} from '../../../../meteo-dwd/view/ol-components/o
 import {
     getMeteoDwdLayer,
     getMeteoDwdMapTilesUrl,
-    getMeteoDwdWeatherGrid,
-    getMeteoDwdWindGrid
+    getMeteoDwdWeatherValues,
+    getMeteoDwdWindValues
 } from '../../../../meteo-dwd/state/ngrx/meteo-dwd.selectors';
 import {IMeteoDwdService} from '../../../../meteo-dwd/domain/service/i-meteo-dwd.service';
 import {OlDwdForecastMapTileLayer} from '../../../../meteo-dwd/view/ol-components/ol-dwd-forecast-map-tile-layer';
@@ -336,8 +336,8 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
             dwdForecastWeatherIconLayer,
             dwdForecastWindIconLayer,
             this.appStore.pipe(select(getMeteoDwdLayer)),
-            this.appStore.pipe(select(getMeteoDwdWeatherGrid)),
-            this.appStore.pipe(select(getMeteoDwdWindGrid)),
+            this.appStore.pipe(select(getMeteoDwdWeatherValues)),
+            this.appStore.pipe(select(getMeteoDwdWindValues)),
             this.appStore.pipe(select(getMeteoDwdMapTilesUrl)),
         );
     }

@@ -1,13 +1,15 @@
 import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
 import {Angle} from '../../../geo-physics/domain/model/quantities/angle';
 import {DataItem, DataItemType} from '../../../common/model/data-item';
+import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
 
 
 export class WindInfo extends DataItem{
     constructor(
         public speed: Speed,
         public dir: Angle,
-        public gust: Speed
+        public gust: Speed,
+        public pos: Position2d
     ) {
         super();
     }

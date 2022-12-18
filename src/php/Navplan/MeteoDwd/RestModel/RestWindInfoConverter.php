@@ -3,6 +3,7 @@
 namespace Navplan\MeteoDwd\RestModel;
 
 use Navplan\Common\Rest\Converter\RestAngleConverter;
+use Navplan\Common\Rest\Converter\RestPosition2dConverter;
 use Navplan\Common\Rest\Converter\RestSpeedConverter;
 use Navplan\MeteoDwd\DomainModel\WindInfo;
 
@@ -28,7 +29,8 @@ class RestWindInfoConverter {
         return [
             RestSpeedConverter::toRest($windInfo->speed),
             RestAngleConverter::toRest($windInfo->dir),
-            RestSpeedConverter::toRest($windInfo->gustSpeed)
+            RestSpeedConverter::toRest($windInfo->gustSpeed),
+            RestPosition2dConverter::toRest($windInfo->pos)
         ];
     }
 }

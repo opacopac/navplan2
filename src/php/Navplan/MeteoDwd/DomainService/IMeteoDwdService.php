@@ -5,9 +5,9 @@ namespace Navplan\MeteoDwd\DomainService;
 use Navplan\MeteoDwd\DomainModel\ForecastRun;
 use Navplan\MeteoDwd\DomainModel\ForecastStep;
 use Navplan\MeteoDwd\DomainModel\GridDefinition;
-use Navplan\MeteoDwd\DomainModel\WeatherGrid;
+use Navplan\MeteoDwd\DomainModel\WeatherInfo;
 use Navplan\MeteoDwd\DomainModel\WeatherModelConfig;
-use Navplan\MeteoDwd\DomainModel\WindInfoGrid;
+use Navplan\MeteoDwd\DomainModel\WindInfo;
 
 
 interface IMeteoDwdService {
@@ -16,9 +16,19 @@ interface IMeteoDwdService {
      */
     function readAvailableForecasts(): array;
 
-    function readWindSpeedDirGrid(ForecastStep $forecastTime, GridDefinition $grid): WindInfoGrid;
+    /**
+     * @param ForecastStep $forecastTime
+     * @param GridDefinition $grid
+     * @return WeatherInfo[]
+     */
+    function readWeatherGrid(ForecastStep $forecastTime, GridDefinition $grid): array;
 
-    function readWeatherGrid(ForecastStep $forecastTime, GridDefinition $grid): WeatherGrid;
+    /**
+     * @param ForecastStep $forecastTime
+     * @param GridDefinition $grid
+     * @return WindInfo[]
+     */
+    function readWindSpeedDirGrid(ForecastStep $forecastTime, GridDefinition $grid): array;
 
     function getIconD2ModelConfig(): WeatherModelConfig;
 }

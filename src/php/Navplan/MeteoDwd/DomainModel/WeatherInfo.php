@@ -3,12 +3,14 @@
 namespace Navplan\MeteoDwd\DomainModel;
 
 use Navplan\Common\DomainModel\Altitude;
+use Navplan\Common\DomainModel\Position2d;
 
 
 class WeatherInfo {
     public function __construct(
         public ?int $wwValue,
         public ?Altitude $ceiling,
+        public Position2d $pos
     ) {
     }
 }

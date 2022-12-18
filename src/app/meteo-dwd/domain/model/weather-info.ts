@@ -1,11 +1,13 @@
 import {DataItem, DataItemType} from '../../../common/model/data-item';
 import {Altitude} from '../../../geo-physics/domain/model/geometry/altitude';
+import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
 
 
 export class WeatherInfo extends DataItem {
     public constructor(
         public wwValue: number,
-        public ceiling: Altitude
+        public ceiling: Altitude,
+        public pos: Position2d
     ) {
         super();
     }

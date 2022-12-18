@@ -1,7 +1,5 @@
 import {Observable, Subscription} from 'rxjs';
 import {OlVectorLayer} from '../../../base-map/view/ol-model/ol-vector-layer';
-import {ValueGrid} from '../../domain/model/value-grid';
-import {ValueGridIterator} from '../../domain/model/value-grid-iterator';
 import {Angle} from '../../../geo-physics/domain/model/quantities/angle';
 import {WeatherInfo} from '../../domain/model/weather-info';
 import {OlDwdForecastWeatherIcon} from './ol-dwd-forecast-weather-icon';
@@ -13,9 +11,9 @@ export class OlDwdForecastWeatherIconLayer {
 
     constructor(
         private readonly weatherLayer: OlVectorLayer,
-        windGrid$: Observable<ValueGrid<WeatherInfo>>
+        wwValues$: Observable<WeatherInfo[]>
     ) {
-        this.weatherGridSubscription = windGrid$.subscribe((wwGrid) => {
+        this.weatherGridSubscription = wwValues$.subscribe((wwGrid) => {
             this.clearFeatures();
             this.drawFeatures(wwGrid);
         });
@@ -28,20 +26,16 @@ export class OlDwdForecastWeatherIconLayer {
     }
 
 
-    private drawFeatures(weatherGrid: ValueGrid<WeatherInfo>) {
-        if (weatherGrid) {
-            const iterator = new ValueGridIterator(weatherGrid);
-
-            while (iterator.next()) {
-                if (iterator.value && iterator.value.wwValue != null) {
-                    OlDwdForecastWeatherIcon.draw(
-                        iterator.value,
-                        iterator.pos,
-                        Angle.createZero(), // TODO
-                        this.weatherLayer
-                    );
-                }
-            }
+    private drawFeatures(weatherValues: WeatherInfo[]) {
+        if (weatherValues) {
+            weatherValues.forEach(weatherInfo => {
+                OlDwdForecastWeatherIcon.draw(
+                    weatherInfo,
+                    weatherInfo.pos,
+                    Angle.createZero(), // TODO
+                    this.weatherLayer
+                );
+            });
         }
     }
 

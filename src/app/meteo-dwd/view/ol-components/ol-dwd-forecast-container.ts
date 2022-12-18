@@ -1,5 +1,4 @@
 import {Observable, Subscription} from 'rxjs';
-import {ValueGrid} from '../../domain/model/value-grid';
 import {WindInfo} from '../../domain/model/wind-info';
 import {OlVectorLayer} from '../../../base-map/view/ol-model/ol-vector-layer';
 import {OlDwdForecastWindIconLayer} from './ol-dwd-forecast-wind-icon-layer';
@@ -21,8 +20,8 @@ export class OlDwdForecastContainer {
         private readonly dwdWeatherIconLayer: OlVectorLayer,
         private readonly dwdWindIconLayer: OlVectorLayer,
         private readonly showLayer$: Observable<MeteoDwdLayer>,
-        private readonly meteoDwdWeatherGrid$: Observable<ValueGrid<WeatherInfo>>,
-        private readonly meteoDwdWindGrid$: Observable<ValueGrid<WindInfo>>,
+        private readonly meteoDwdWeatherValues: Observable<WeatherInfo[]>,
+        private readonly meteoDwdWindValues$: Observable<WindInfo[]>,
         private readonly meteoDwdMapTilesUrl$: Observable<string>
     ) {
         this.showLayerSubscription = this.showLayer$.subscribe(showLayer => {
@@ -35,12 +34,12 @@ export class OlDwdForecastContainer {
 
         this.weatherIconLayer = new OlDwdForecastWeatherIconLayer(
             this.dwdWeatherIconLayer,
-            this.meteoDwdWeatherGrid$
+            this.meteoDwdWeatherValues
         );
 
         this.windIconLayer = new OlDwdForecastWindIconLayer(
             this.dwdWindIconLayer,
-            this.meteoDwdWindGrid$
+            this.meteoDwdWindValues$
         );
     }
 

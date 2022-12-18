@@ -67,7 +67,7 @@ export class MeteoDwdEffects {
 
             return this.meteoDwdService.readWeatherGrid(meteoDwdState.forecastRun, meteoDwdState.selectedStep, grid);
         }),
-        map(weatherGrid => MeteoDwdActions.readWeatherGridSuccess({ weatherGrid: weatherGrid }))
+        map(weatherValues => MeteoDwdActions.readWeatherValuesSuccess({ weatherValues: weatherValues }))
     ));
 
 
@@ -82,7 +82,7 @@ export class MeteoDwdEffects {
 
             return this.meteoDwdService.readWindGrid(meteoDwdState.forecastRun, meteoDwdState.selectedStep, grid);
         }),
-        map(windGrid => MeteoDwdActions.readWindGridSuccess({ windGrid: windGrid }))
+        map(windValues => MeteoDwdActions.readWindValuesSuccess({ windValues: windValues }))
     ));
 
 

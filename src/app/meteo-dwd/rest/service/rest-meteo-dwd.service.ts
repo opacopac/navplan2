@@ -2,22 +2,21 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
 import {IMeteoDwdService} from '../../domain/service/i-meteo-dwd.service';
-import {ValueGrid} from '../../domain/model/value-grid';
 import {WindInfo} from '../../domain/model/wind-info';
 import {Observable, shareReplay, throwError} from 'rxjs';
-import {IRestWindInfoGrid} from '../model/i-rest-wind-info-grid';
-import {RestWindInfoGridConverter} from '../model/rest-wind-info-grid-converter';
 import {catchError, map} from 'rxjs/operators';
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {GridDefinition} from '../../domain/model/grid-definition';
-import {IRestWeatherInfoGrid} from '../model/i-rest-weather-info-grid';
-import {RestWeatherInfoGridConverter} from '../model/rest-weather-info-grid-converter';
 import {WeatherInfo} from '../../domain/model/weather-info';
 import {ForecastRun} from '../../domain/model/forecast-run';
 import {IRestForecastRun} from '../model/i-rest-forecast-run';
 import {RestForecastRunConverter} from '../model/rest-forecast-run-converter';
 import {StringnumberHelper} from '../../../system/domain/service/stringnumber/stringnumber-helper';
 import {WeatherModelType} from '../../domain/model/weather-model-type';
+import {IRestWindInfo} from '../model/i-rest-wind-info';
+import {RestWindInfoConverter} from '../model/rest-wind-info-converter';
+import {RestWeatherInfoConverter} from '../model/rest-weather-info-converter';
+import {IRestWeatherInfo} from '../model/i-rest-weather-info';
 
 
 @Injectable()
@@ -50,26 +49,26 @@ export class RestMeteoDwdService implements IMeteoDwdService {
     }
 
 
-    public readWeatherGrid(forecast: ForecastRun, step: number, grid: GridDefinition): Observable<ValueGrid<WeatherInfo>> {
-        const url = this.getRestServiceUrl('readWwGrid', forecast, grid, step);
+    public readWeatherGrid(forecast: ForecastRun, step: number, grid: GridDefinition): Observable<WeatherInfo[]> {
+        const url = this.getRestServiceUrl('readWwValues', forecast, grid, step);
 
-        return this.http.get<IRestWeatherInfoGrid>(url).pipe(
-            map(response => RestWeatherInfoGridConverter.fromRest(response)),
+        return this.http.get<IRestWeatherInfo[]>(url).pipe(
+            map(response => RestWeatherInfoConverter.fromRestList(response)),
             catchError(error => {
-                LoggingService.logResponseError('ERROR reading ww grid!', error);
+                LoggingService.logResponseError('ERROR reading ww values!', error);
                 return throwError(error);
             }),
         );
     }
 
 
-    public readWindGrid(forecast: ForecastRun, step: number, grid: GridDefinition): Observable<ValueGrid<WindInfo>> {
-        const url = this.getRestServiceUrl('readWindGrid', forecast, grid, step);
+    public readWindGrid(forecast: ForecastRun, step: number, grid: GridDefinition): Observable<WindInfo[]> {
+        const url = this.getRestServiceUrl('readWindValues', forecast, grid, step);
 
-        return this.http.get<IRestWindInfoGrid>(url).pipe(
-            map(response => RestWindInfoGridConverter.fromRest(response)),
+        return this.http.get<IRestWindInfo[]>(url).pipe(
+            map(response => RestWindInfoConverter.fromRestList(response)),
             catchError(error => {
-                LoggingService.logResponseError('ERROR reading wind speed/dir grid!', error);
+                LoggingService.logResponseError('ERROR reading wind speed/dir values!', error);
                 return throwError(error);
             }),
         );

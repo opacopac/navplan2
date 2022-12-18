@@ -3,6 +3,7 @@
 namespace Navplan\MeteoDwd\RestModel;
 
 use Navplan\Common\Rest\Converter\RestAltitudeConverter;
+use Navplan\Common\Rest\Converter\RestPosition2dConverter;
 use Navplan\MeteoDwd\DomainModel\WeatherInfo;
 
 
@@ -27,6 +28,7 @@ class RestWeatherInfoConverter {
         return [
             $weatherInfo->wwValue,
             RestAltitudeConverter::toRest($weatherInfo->ceiling),
+            RestPosition2dConverter::toRest($weatherInfo->pos)
         ];
     }
 }

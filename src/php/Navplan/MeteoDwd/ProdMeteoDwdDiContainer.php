@@ -8,7 +8,7 @@ use Navplan\System\DomainService\IFileService;
 
 
 class ProdMeteoDwdDiContainer implements IMeteoDwdDiContainer {
-    private const METEO_DWD_BASE_DIR = __DIR__ . "/../../../meteo_dwd/"; // TODO
+    private const METEO_DWD_BASE_DIR = __DIR__ . "/../../../../meteo_dwd/"; // TODO
 
     private IMeteoDwdService $meteoDwdService;
 

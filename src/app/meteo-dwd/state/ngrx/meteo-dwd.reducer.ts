@@ -11,8 +11,8 @@ const initialState: MeteoDwdState = {
     forecastRun: undefined,
     selectedStep: 1,
     mapTilesUrl: '',
-    weatherGrid: undefined,
-    windGrid: undefined
+    weatherValues: undefined,
+    windValues: undefined
 };
 
 
@@ -90,13 +90,13 @@ export const meteoDwdReducer = createReducer(
         mapTilesUrl: action.mapTilesUrl,
     })),
 
-    on(MeteoDwdActions.readWeatherGridSuccess, (state, action) => ({
+    on(MeteoDwdActions.readWeatherValuesSuccess, (state, action) => ({
         ...state,
-        weatherGrid: action.weatherGrid,
+        weatherValues: action.weatherValues,
     })),
 
-    on(MeteoDwdActions.readWindGridSuccess, (state, action) => ({
+    on(MeteoDwdActions.readWindValuesSuccess, (state, action) => ({
         ...state,
-        windGrid: action.windGrid,
+        windValues: action.windValues,
     })),
 );

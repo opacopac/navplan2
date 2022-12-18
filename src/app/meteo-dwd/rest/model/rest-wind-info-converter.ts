@@ -2,6 +2,7 @@ import {IRestWindInfo} from './i-rest-wind-info';
 import {WindInfo} from '../../domain/model/wind-info';
 import {RestSpeedConverter} from '../../../geo-physics/rest/model/rest-speed-converter';
 import {RestAngleConverter} from '../../../geo-physics/rest/model/rest-angle-converter';
+import {Position2dConverter} from '../../../geo-physics/rest/model/position2d-converter';
 
 
 export class RestWindInfoConverter {
@@ -18,7 +19,8 @@ export class RestWindInfoConverter {
         return new WindInfo(
             RestSpeedConverter.fromRest(restWindInfo[0]),
             RestAngleConverter.fromRest(restWindInfo[1]),
-            RestSpeedConverter.fromRest(restWindInfo[2])
+            RestSpeedConverter.fromRest(restWindInfo[2]),
+            Position2dConverter.fromRest(restWindInfo[3])
         );
     }
 }

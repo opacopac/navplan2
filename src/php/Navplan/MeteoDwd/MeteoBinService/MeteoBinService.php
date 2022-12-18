@@ -14,12 +14,10 @@ use Navplan\MeteoDwd\DomainModel\ForecastStep;
 use Navplan\MeteoDwd\DomainModel\GridDefinition;
 use Navplan\MeteoDwd\DomainModel\IconGridDefinition;
 use Navplan\MeteoDwd\DomainModel\ValueGrid;
-use Navplan\MeteoDwd\DomainModel\WeatherGrid;
 use Navplan\MeteoDwd\DomainModel\WeatherInfo;
 use Navplan\MeteoDwd\DomainModel\WeatherModelConfig;
 use Navplan\MeteoDwd\DomainModel\WeatherModelType;
 use Navplan\MeteoDwd\DomainModel\WindInfo;
-use Navplan\MeteoDwd\DomainModel\WindInfoGrid;
 use Navplan\MeteoDwd\DomainService\IMeteoDwdService;
 use Navplan\MeteoDwd\MeteoBinModel\MeteoBinWeatherInfoConverter;
 use Navplan\MeteoDwd\MeteoBinModel\MeteoBinWindInfoConverter;
@@ -80,7 +78,7 @@ class MeteoBinService implements IMeteoDwdService {
     public function readWindSpeedDirGrid(
         ForecastStep $forecastTime,
         GridDefinition $grid
-    ): WindInfoGrid {
+    ): array {
         list($windValuesE, $windValuesN, $gustValues) = $this->readWindSpeedENValuesFromFile($forecastTime, $grid);
 
         $windSpeedDirValues = [];
@@ -92,11 +90,11 @@ class MeteoBinService implements IMeteoDwdService {
                 $value_e = $windValuesE->interpolateByLonLat($pos);
                 $value_n = $windValuesN->interpolateByLonLat($pos);
                 $value_gust = $gustValues->interpolateByLonLat($pos);
-                $windSpeedDirValues[] = WindInfo::fromSpeedENGusts($value_e, $value_n, $value_gust, SpeedUnit::KT);
+                $windSpeedDirValues[] = WindInfo::fromSpeedENGusts($value_e, $value_n, $value_gust, SpeedUnit::KT, $pos);
             }
         }
 
-        return new WindInfoGrid($grid, $windSpeedDirValues);
+        return $windSpeedDirValues;
     }
 
 
@@ -136,7 +134,7 @@ class MeteoBinService implements IMeteoDwdService {
     }
 
 
-    public function readWeatherGrid(ForecastStep $forecastStep, GridDefinition $grid): WeatherGrid {
+    public function readWeatherGrid(ForecastStep $forecastStep, GridDefinition $grid): array {
         $step = StringNumberHelper::zeroPad($forecastStep->step, 3);
         $fileName = $this->iconD2BaseDir . $forecastStep->run . "/" . $step . self::METEOBIN_WW_PATH;
 
@@ -157,7 +155,8 @@ class MeteoBinService implements IMeteoDwdService {
 
                     $wwValues[] = new WeatherInfo(
                         MeteoBinWeatherInfoConverter::wwFromBinValue($rawContent[$icon_idx]),
-                        MeteoBinWeatherInfoConverter::ceilingFtFromBinValue($rawContent[$icon_idx + 1])
+                        MeteoBinWeatherInfoConverter::ceilingFtFromBinValue($rawContent[$icon_idx + 1]),
+                        $pos
                     );
                 } else {
                     $wwValues[] = null;
@@ -165,7 +164,7 @@ class MeteoBinService implements IMeteoDwdService {
             }
         }
 
-        return new WeatherGrid($grid, $wwValues);
+        return $wwValues;
     }
 
 
