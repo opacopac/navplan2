@@ -18,7 +18,7 @@ class ValueGrid {
     }
 
 
-    public function getValueByXy(int $x, int $y): float|null {
+    public function getValue(int $x, int $y): float|null {
         if ($x < 0 || $y < 0 || $x >= $this->gridDefinition->width || $y >= $this->gridDefinition->height) {
             return null;
         }
@@ -35,8 +35,8 @@ class ValueGrid {
 
 
     public function interpolateByLonLat(Position2d $pos): float|null {
-        $x = $this->gridDefinition->getXbyLon($pos->longitude);
-        $y = $this->gridDefinition->getYbyLat($pos->latitude);
+        $x = $this->gridDefinition->getX($pos->longitude);
+        $y = $this->gridDefinition->getY($pos->latitude);
 
         $x_floor = (int) floor($x);
         $y_floor = (int) floor($y);
@@ -48,13 +48,13 @@ class ValueGrid {
         }
 
         if ($x_floor == $x_ceil || $y_floor == $y_ceil) {
-            return $this->getValueByXy($x_floor, $y_floor);
+            return $this->getValue($x_floor, $y_floor);
         }
 
-        $val_tl = $this->getValueByXy($x_floor, $y_floor);
-        $val_tr = $this->getValueByXy($x_ceil, $y_floor);
-        $val_bl = $this->getValueByXy($x_floor, $y_ceil);
-        $val_br = $this->getValueByXy($x_ceil, $y_ceil);
+        $val_tl = $this->getValue($x_floor, $y_floor);
+        $val_tr = $this->getValue($x_ceil, $y_floor);
+        $val_bl = $this->getValue($x_floor, $y_ceil);
+        $val_br = $this->getValue($x_ceil, $y_ceil);
         $val_t = $this->interpolateValue($val_tl, $x_ceil - $x, $val_tr, $x - $x_floor);
         $val_b = $this->interpolateValue($val_bl, $x_ceil - $x, $val_br, $x - $x_floor);
         $val = $this->interpolateValue($val_t, $y_ceil - $y, $val_b, $y - $y_floor);

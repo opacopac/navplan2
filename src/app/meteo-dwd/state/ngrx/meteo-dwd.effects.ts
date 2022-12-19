@@ -17,7 +17,8 @@ import {MeteoDwdLayer} from '../../domain/model/meteo-dwd-layer';
 
 @Injectable()
 export class MeteoDwdEffects {
-    private readonly GRID_SPACING_PX = 100;
+    private readonly GRID_SPACING_PX_X = 100;
+    private readonly GRID_SPACING_PX_Y = 86;
 
     private readonly meteoDwdstate$: Observable<MeteoDwdState> = this.appStore.pipe(select(getMeteoDwdState));
     private readonly mapState$: Observable<BaseMapState> = this.appStore.pipe(select(getMapState));
@@ -87,12 +88,13 @@ export class MeteoDwdEffects {
 
 
     private getGridDefinition(mapState: BaseMapState): GridDefinition {
-        const gridWidth = Math.floor(mapState.widthPx / this.GRID_SPACING_PX);
-        const gridHeight = Math.floor(mapState.heightPx / this.GRID_SPACING_PX);
+        const gridWidth = Math.floor(mapState.widthPx / this.GRID_SPACING_PX_X);
+        const gridHeight = Math.floor(mapState.heightPx / this.GRID_SPACING_PX_Y);
         const stepLat = (mapState.extent.maxLon - mapState.extent.minLon) / gridWidth;
         const stepLon = (mapState.extent.maxLat - mapState.extent.minLat) / gridHeight;
         const minPos = new Position2d(mapState.extent.minLon + stepLon / 2, mapState.extent.minLat + stepLat / 2);
+        const offset = stepLat / 2;
 
-        return new GridDefinition(gridWidth, gridHeight, minPos, stepLon, stepLat);
+        return new GridDefinition(gridWidth, gridHeight, minPos, stepLon, stepLat, offset);
     }
 }

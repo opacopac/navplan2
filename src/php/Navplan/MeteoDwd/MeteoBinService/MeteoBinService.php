@@ -83,9 +83,9 @@ class MeteoBinService implements IMeteoDwdService {
 
         $windSpeedDirValues = [];
         for ($y = 0; $y < $grid->height; $y++) {
-            $lat = $grid->getLatByY($y);
+            $lat = $grid->getLat($y);
             for ($x = 0; $x < $grid->width; $x++) {
-                $lon = $grid->getLonByX($x);
+                $lon = $grid->getLonWithOffset($x, $y);
                 $pos = new Position2d($lon, $lat);
                 $value_e = $windValuesE->interpolateByLonLat($pos);
                 $value_n = $windValuesN->interpolateByLonLat($pos);
@@ -143,14 +143,14 @@ class MeteoBinService implements IMeteoDwdService {
 
         $wwValues = [];
         for ($y = 0; $y < $grid->height; $y++) {
-            $lat = $grid->getLatByY($y);
+            $lat = $grid->getLat($y);
             for ($x = 0; $x < $grid->width; $x++) {
-                $lon = $grid->getLonByX($x);
+                $lon = $grid->getLonWithOffset($x, $y);
                 $pos = new Position2d($lon, $lat);
 
                 if ($iconD2Grid->extent->containsPos($pos)) {
-                    $icon_x = (int) $iconD2Grid->getXbyLon($lon);
-                    $icon_y = (int) $iconD2Grid->getYbyLat($lat);
+                    $icon_x = (int) $iconD2Grid->getX($lon);
+                    $icon_y = (int) $iconD2Grid->getY($lat);
                     $icon_idx = ($icon_x + $icon_y * $iconD2Grid->width) * 2;
 
                     $wwValues[] = new WeatherInfo(

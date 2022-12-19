@@ -11,7 +11,8 @@ export class GridDefinition {
         public height: number,
         public minPos: Position2d,
         public stepLon: number,
-        public stepLat: number
+        public stepLat: number,
+        public oddRowLonOffset: number
     ) {
         if (width <= 0 || height <= 0) {
             throw new Error('width / height must be positive numbers');
@@ -23,25 +24,5 @@ export class GridDefinition {
             minPos.longitude + width * stepLon,
             minPos.latitude + height * stepLat
         );
-    }
-
-
-    public getXbyLon(lon: number): number {
-        return (lon - this.extent.minPos.longitude) / this.stepLon;
-    }
-
-
-    public getYbyLat(lat: number): number {
-        return (lat - this.extent.minPos.latitude) / this.stepLat;
-    }
-
-
-    public getLonByX(x: number): number {
-        return this.extent.minPos.longitude + x * this.stepLon;
-    }
-
-
-    public getLatByY(y: number): number {
-        return this.extent.minPos.latitude + y * this.stepLat;
     }
 }

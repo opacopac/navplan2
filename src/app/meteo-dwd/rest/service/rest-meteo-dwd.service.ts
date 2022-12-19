@@ -112,6 +112,7 @@ export class RestMeteoDwdService implements IMeteoDwdService {
             + '&minlat=' + grid.minPos.latitude
             + '&steplon=' + grid.stepLon
             + '&steplat=' + grid.stepLat
+            + '&oddRowOffset=' + grid.oddRowLonOffset
             + '&step=' + this.getStepStrPart(step)
             + '&run=' + this.getLatestForecastStrPart(forecast);
     }
