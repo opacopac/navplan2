@@ -20,16 +20,12 @@ class WindInfo {
 
 
     public static function fromSpeedENGusts(
-        float|null $speedE,
-        float|null $speedN,
+        float $speedE,
+        float $speedN,
         float|null $gust,
         SpeedUnit $unit,
         Position2d $pos
-    ): ?WindInfo {
-        if ($speedE === null || $speedN === null) {
-            return null;
-        }
-
+    ): WindInfo {
         $speed = round(sqrt($speedE * $speedE + $speedN * $speedN), 1);
         $deg = round(atan2($speedN, $speedE) / pi() * 180, 1);
         $dir = (360 - $deg + 270) % 360;

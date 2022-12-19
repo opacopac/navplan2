@@ -90,7 +90,10 @@ class MeteoBinService implements IMeteoDwdService {
                 $value_e = $windValuesE->interpolateByLonLat($pos);
                 $value_n = $windValuesN->interpolateByLonLat($pos);
                 $value_gust = $gustValues->interpolateByLonLat($pos);
-                $windSpeedDirValues[] = WindInfo::fromSpeedENGusts($value_e, $value_n, $value_gust, SpeedUnit::KT, $pos);
+
+                if ($value_e !== null && $value_n !== null) {
+                    $windSpeedDirValues[] = WindInfo::fromSpeedENGusts($value_e, $value_n, $value_gust, SpeedUnit::KT, $pos);
+                }
             }
         }
 
@@ -153,13 +156,12 @@ class MeteoBinService implements IMeteoDwdService {
                     $icon_y = (int) $iconD2Grid->getY($lat);
                     $icon_idx = ($icon_x + $icon_y * $iconD2Grid->width) * 2;
 
-                    $wwValues[] = new WeatherInfo(
-                        MeteoBinWeatherInfoConverter::wwFromBinValue($rawContent[$icon_idx]),
-                        MeteoBinWeatherInfoConverter::ceilingFtFromBinValue($rawContent[$icon_idx + 1]),
-                        $pos
-                    );
-                } else {
-                    $wwValues[] = null;
+                    $wwValue = MeteoBinWeatherInfoConverter::wwFromBinValue($rawContent[$icon_idx]);
+                    $ceiling = MeteoBinWeatherInfoConverter::ceilingFtFromBinValue($rawContent[$icon_idx + 1]);
+
+                    if ($wwValue !== null) {
+                        $wwValues[] = new WeatherInfo($wwValue, $ceiling, $pos);
+                    }
                 }
             }
         }
