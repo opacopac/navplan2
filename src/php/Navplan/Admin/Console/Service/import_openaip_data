@@ -1,0 +1,5 @@
+/usr/local/php81/bin/php ConsoleAdminService.php --importNavaids
+/usr/local/php81/bin/php ConsoleAdminService.php --importAirspaces
+/usr/local/php81/bin/php ConsoleAdminService.php --importAirports
+
+echo "IMPORTANT: run correction sql scripts (OpenAip\DataCorrectionScripts\) manually"
