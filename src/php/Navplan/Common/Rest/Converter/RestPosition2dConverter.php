@@ -21,4 +21,16 @@ class RestPosition2dConverter {
             StringNumberHelper::parseFloatOrError($args, 1),
         );
     }
+
+
+    /**
+     * @param array $args
+     * @return Position2d[]
+     */
+    public static function fromRestList(array $args): array {
+        return array_map(
+            function ($pos) { return self::fromRest($pos); },
+            $args
+        );
+    }
 }

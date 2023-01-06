@@ -12,10 +12,4 @@ interface ITerrainService {
      * @return Position3d[]
      */
     function readElevations(array $positionList): array;
-
-    /**
-     * @param Position2d[] $waypointPosList
-     * @return Position3d[]
-     */
-    function readRouteElevations(array $waypointPosList): array;
 }

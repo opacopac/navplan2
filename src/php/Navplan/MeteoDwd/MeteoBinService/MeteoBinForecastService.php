@@ -4,11 +4,8 @@ namespace Navplan\MeteoDwd\MeteoBinService;
 
 use DateTime;
 use DateTimeZone;
-use Navplan\Common\DomainModel\Time;
-use Navplan\Common\DomainModel\TimeUnit;
 use Navplan\MeteoDwd\DomainModel\ForecastRun;
 use Navplan\MeteoDwd\DomainModel\WeatherModelConfig;
-use Navplan\MeteoDwd\DomainModel\WeatherModelType;
 use Navplan\MeteoDwd\DomainService\IMeteoDwdForecastService;
 use Navplan\System\DomainModel\FileServiceException;
 use Navplan\System\DomainService\IFileService;
@@ -44,7 +41,7 @@ class MeteoBinForecastService implements IMeteoDwdForecastService {
                     return null;
                 }
                 $startTime = DateTime::createFromFormat("YmdH", $matches[1], new DateTimeZone('UTC'));
-                $modelConfig = $this->getIconD2ModelConfig(); // TODO
+                $modelConfig = WeatherModelConfig::getIconD2ModelConfig(); // TODO: dynamic
 
                 return new ForecastRun($startTime, $modelConfig);
             },
@@ -59,11 +56,5 @@ class MeteoBinForecastService implements IMeteoDwdForecastService {
         }
 
         return $forecastRuns;
-    }
-
-
-    // TODO
-    public function getIconD2ModelConfig(): WeatherModelConfig {
-        return new WeatherModelConfig(WeatherModelType::ICON_D2, 2, 48, new Time(1, TimeUnit::H));
     }
 }

@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use Navplan\Common\DomainModel\AltitudeReference;
 use Navplan\Common\DomainModel\Length;
 use Navplan\Common\DomainModel\LengthUnit;
+use Navplan\Common\DomainModel\Line2d;
 use Navplan\Common\DomainModel\LineInterval2d;
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\Common\DomainModel\Position3d;
@@ -34,21 +35,22 @@ class VerticalMapService implements IVerticalMapService {
     }
 
 
-    public function getRouteVerticalMap(array $waypointPositions): VerticalMap {
-        $mapWidthM = $this->calcTotalDistM($waypointPositions);
-        $stepSizeM = max(self::TERRAIN_RESOLUTION_M, $mapWidthM / self::TERRAIN_MAX_STEPS);
+    public function getRouteVerticalMap(Line2d $waypoints): VerticalMap {
+        $minStepSize = Length::fromM(self::TERRAIN_RESOLUTION_M);
+        $mapWidthM = $waypoints->calcTotalDist()->getM();
 
         // terain
-        $terrainStepPosList = $this->calcTerainStepPosList($waypointPositions, $stepSizeM);
+        $terrainStepPosList = $waypoints->subdividePosList($minStepSize, self::TERRAIN_MAX_STEPS);
         $terrainElevationList = $this->terrainService->readElevations($terrainStepPosList);
-        $terrainSteps = $this->createVmTerrainSteps($terrainElevationList, Length::fromM($stepSizeM));
+        $stepSize = Length::fromM(max(self::TERRAIN_RESOLUTION_M, $mapWidthM / self::TERRAIN_MAX_STEPS)); // TODO: duplicated in Line2d
+        $terrainSteps = $this->createVmTerrainSteps($terrainElevationList, $stepSize);
         $maxTerrainElevation = $this->getMaxTerrainHeight($terrainSteps);
 
         // waypoints
-        $wpSteps = $this->createWaypointSteps($waypointPositions, $maxTerrainElevation);
+        $wpSteps = $this->createWaypointSteps($waypoints->position2dList, $maxTerrainElevation);
 
         // airspaces
-        $airspaceCandidates = $this->airspaceService->searchByRouteIntersection($waypointPositions);
+        $airspaceCandidates = $this->airspaceService->searchByRouteIntersection($waypoints->position2dList);
         $vmAirspaces = $this->createVmAirspaces($airspaceCandidates, $wpSteps, $terrainSteps);
 
         //TODO: notam
@@ -60,51 +62,6 @@ class VerticalMapService implements IVerticalMapService {
             $wpSteps,
             $vmAirspaces
         );
-    }
-
-
-    /**
-     * @param Position2d[] $positionList
-     * @return float
-     */
-    private function calcTotalDistM(array $positionList): float {
-        $routeDist = 0;
-        for ($i = 0; $i < count($positionList) - 1; $i++) {
-            $routeDist += GeoHelper::calcHaversineDistance($positionList[$i], $positionList[$i + 1])->getValue(LengthUnit::M);
-        }
-
-        return $routeDist;
-    }
-
-
-    /**
-     * @param Position2d[] $wpPosList
-     * @param float $stepSizeM
-     * @return Position2d[]
-     */
-    private function calcTerainStepPosList(array $wpPosList, float $stepSizeM): array {
-        $terrainStepPositions = [];
-
-        for ($i = 0; $i < count($wpPosList) - 1; $i++) {
-            $pos1 = $wpPosList[$i];
-            $pos2 = $wpPosList[$i + 1];
-            $legDistM = GeoHelper::calcHaversineDistance($pos1, $pos2)->getValue(LengthUnit::M);
-            $steps = ceil($legDistM / $stepSizeM);
-            $stepSize = $legDistM / $steps;
-            $deltaLon = ($pos2->longitude - $pos1->longitude) / $legDistM * $stepSize;
-            $deltaLat = ($pos2->latitude - $pos1->latitude) / $legDistM * $stepSize;
-
-            for ($j = 0; $j < $steps; $j++) {
-                $terrainStepPositions[] = new Position2d(
-                    $pos1->longitude + $j * $deltaLon,
-                    $pos1->latitude + $j * $deltaLat
-                );
-            }
-        }
-
-        $terrainStepPositions[] = $wpPosList[count($wpPosList) - 1]; // "manually" add last pos
-
-        return $terrainStepPositions;
     }
 
 

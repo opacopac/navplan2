@@ -3,7 +3,6 @@
 namespace Navplan\MeteoDwd\DomainService;
 
 use Navplan\MeteoDwd\DomainModel\ForecastRun;
-use Navplan\MeteoDwd\DomainModel\WeatherModelConfig;
 
 
 interface IMeteoDwdForecastService {
@@ -11,6 +10,4 @@ interface IMeteoDwdForecastService {
      * @return ForecastRun[]
      */
     function readAvailableForecasts(): array;
-
-    function getIconD2ModelConfig(): WeatherModelConfig;
 }

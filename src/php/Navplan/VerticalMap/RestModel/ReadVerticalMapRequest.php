@@ -3,27 +3,25 @@
 namespace Navplan\VerticalMap\RestModel;
 
 use InvalidArgumentException;
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Line2d;
+use Navplan\Common\Rest\Converter\RestLine2dConverter;
 
 
 class ReadVerticalMapRequest {
-    /**
-     * @param Position2d[] $wpPositions
-     */
-    public function __construct(public array $wpPositions) {
+    const ARG_POSITIONS = "positions";
+
+
+    public function __construct(public Line2d $route) {
     }
 
 
     public static function fromArgs(array $args): ReadVerticalMapRequest {
-        if (!$args || !$args["positions"] || count($args["positions"]) < 2) {
-            throw new InvalidArgumentException("ERROR: parameter 'positions' missing or less than 2 positions!");
+        if (!$args || !$args[self::ARG_POSITIONS] || count($args[self::ARG_POSITIONS]) < 2) {
+            throw new InvalidArgumentException("ERROR: parameter '" . self::ARG_POSITIONS . "' missing or less than 2 positions!");
         }
 
         return new ReadVerticalMapRequest(
-            array_map(
-                function ($posPair) { return new Position2d($posPair[0], $posPair[1]); },
-                $args["positions"]
-            )
+            RestLine2dConverter::fromRest($args[self::ARG_POSITIONS])
         );
     }
 }

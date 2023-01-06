@@ -2,6 +2,7 @@
 
 namespace Navplan\MeteoDwd;
 
+use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\MeteoDwd\DomainService\IMeteoDwdForecastService;
 use Navplan\MeteoDwd\DomainService\IMeteoDwdVerticalCloudService;
 use Navplan\MeteoDwd\DomainService\IMeteoDwdWeatherService;
@@ -10,12 +11,15 @@ use Navplan\MeteoDwd\MeteoBinService\MeteoBinForecastService;
 use Navplan\MeteoDwd\MeteoBinService\MeteoBinVerticalCloudService;
 use Navplan\MeteoDwd\MeteoBinService\MeteoBinWeatherService;
 use Navplan\MeteoDwd\MeteoBinService\MeteoBinWindService;
+use Navplan\MeteoDwd\RestService\MeteoDwdController;
 use Navplan\System\DomainService\IFileService;
+use Navplan\System\DomainService\IHttpService;
 
 
 class ProdMeteoDwdDiContainer implements IMeteoDwdDiContainer {
     private const METEO_DWD_BASE_DIR = __DIR__ . "/../../../../meteo_dwd/"; // TODO: config
 
+    private IRestController $meteoDwdRestController;
     private IMeteoDwdForecastService $forecastService;
     private IMeteoDwdWeatherService $weatherService;
     private IMeteoDwdWindService $windService;
@@ -24,7 +28,23 @@ class ProdMeteoDwdDiContainer implements IMeteoDwdDiContainer {
 
     public function __construct(
         private IFileService $fileService,
+        private IHttpService $httpService
     ) {
+    }
+
+
+    public function getMeteoDwdController(): IRestController {
+        if (!isset($this->meteoDwdRestController)) {
+            $this->meteoDwdRestController = new MeteoDwdController(
+                $this->getMeteoDwdForecastService(),
+                $this->getMeteoDwdWeatherService(),
+                $this->getMeteoDwdWindService(),
+                $this->getMeteoDwdVerticalCloudService(),
+                $this->httpService
+            );
+        }
+
+        return $this->meteoDwdRestController;
     }
 
 
