@@ -11,12 +11,12 @@ import {WeatherInfo} from '../../domain/model/weather-info';
 import {ForecastRun} from '../../domain/model/forecast-run';
 import {IRestForecastRun} from '../model/i-rest-forecast-run';
 import {RestForecastRunConverter} from '../model/rest-forecast-run-converter';
-import {StringnumberHelper} from '../../../system/domain/service/stringnumber/stringnumber-helper';
 import {WeatherModelType} from '../../domain/model/weather-model-type';
 import {IRestWindInfo} from '../model/i-rest-wind-info';
 import {RestWindInfoConverter} from '../model/rest-wind-info-converter';
 import {RestWeatherInfoConverter} from '../model/rest-weather-info-converter';
 import {IRestWeatherInfo} from '../model/i-rest-weather-info';
+import {RestForecastStepConverter} from '../model/rest-forecast-step-converter';
 
 
 @Injectable()
@@ -77,8 +77,8 @@ export class RestMeteoDwdService implements IMeteoDwdService {
 
     public getWeatherMapTilesUrl(forecast: ForecastRun, step: number): string {
         const modelStr = this.getUrlPartByModel(forecast.model.modelType);
-        const stepStr = this.getStepStrPart(step);
-        const fcStr = this.getLatestForecastStrPart(forecast);
+        const stepStr = RestForecastStepConverter.toRest(step);
+        const fcStr = RestForecastRunConverter.toRest(forecast);
 
         return environment.meteoDwdMapTilesUrl + modelStr + '/' + fcStr + '/' + stepStr + '/clct_precip/{z}/{x}/{y}.png';
     }
@@ -86,8 +86,8 @@ export class RestMeteoDwdService implements IMeteoDwdService {
 
     public getWindMapTilesUrl(forecast: ForecastRun, step: number): string {
         const modelStr = this.getUrlPartByModel(forecast.model.modelType);
-        const stepStr = this.getStepStrPart(step);
-        const fcStr = this.getLatestForecastStrPart(forecast);
+        const stepStr = RestForecastStepConverter.toRest(step);
+        const fcStr = RestForecastRunConverter.toRest(forecast);
 
         return environment.meteoDwdMapTilesUrl + modelStr + '/' + fcStr + '/' + stepStr + '/wind/{z}/{x}/{y}.png';
     }
@@ -113,20 +113,7 @@ export class RestMeteoDwdService implements IMeteoDwdService {
             + '&steplon=' + grid.stepLon
             + '&steplat=' + grid.stepLat
             + '&oddRowOffset=' + grid.oddRowLonOffset
-            + '&step=' + this.getStepStrPart(step)
-            + '&run=' + this.getLatestForecastStrPart(forecast);
-    }
-
-
-    private getLatestForecastStrPart(forecast: ForecastRun): string {
-        return forecast.startTime.getUTCFullYear()
-            + StringnumberHelper.zeroPad(forecast.startTime.getUTCMonth() + 1, 2)
-            + StringnumberHelper.zeroPad(forecast.startTime.getUTCDate(), 2)
-            + StringnumberHelper.zeroPad(forecast.startTime.getUTCHours(), 2);
-    }
-
-
-    private getStepStrPart(step: number): string {
-        return StringnumberHelper.zeroPad(step, 3);
+            + '&step=' + RestForecastStepConverter.toRest(step)
+            + '&run=' + RestForecastRunConverter.toRest(forecast);
     }
 }

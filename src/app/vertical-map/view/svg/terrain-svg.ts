@@ -1,6 +1,7 @@
 import {SvgPolygonElement} from '../../../common/svg/svg-polygon-element';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {VerticalMap} from '../../domain/model/vertical-map';
+import {VerticalMapPointSvg} from './vertical-map-point-svg';
 
 
 export class TerrainSvg {
@@ -9,7 +10,7 @@ export class TerrainSvg {
 
         // point bottom left
         points.push(
-            TerrainSvg.getPoint(
+            VerticalMapPointSvg.create(
                 Length.createZero(),
                 Length.createZero(),
                 verticalMap.mapWidth,
@@ -22,7 +23,7 @@ export class TerrainSvg {
         // terrain altitude points
         for (let i = 0; i < verticalMap.terrainSteps.length; i++) {
             points.push(
-                TerrainSvg.getPoint(
+                VerticalMapPointSvg.create(
                     verticalMap.terrainSteps[i].horDist,
                     verticalMap.terrainSteps[i].elevationAmsl,
                     verticalMap.mapWidth,
@@ -35,7 +36,7 @@ export class TerrainSvg {
 
         // point top right
         points.push(
-            TerrainSvg.getPoint(
+            VerticalMapPointSvg.create(
                 verticalMap.mapWidth,
                 verticalMap.terrainSteps[verticalMap.terrainSteps.length - 1].elevationAmsl,
                 verticalMap.mapWidth,
@@ -47,7 +48,7 @@ export class TerrainSvg {
 
         // point bottom right
         points.push(
-            TerrainSvg.getPoint(
+            VerticalMapPointSvg.create(
                 verticalMap.mapWidth,
                 Length.createZero(),
                 verticalMap.mapWidth,
@@ -61,20 +62,5 @@ export class TerrainSvg {
             points,
             'fill:lime; stroke:darkgreen; stroke-width:0.5px'
         );
-    }
-
-
-    private static getPoint(
-        dist: Length,
-        height: Length,
-        maxdistance: Length,
-        maxelevation: Length,
-        imageWidthPx: number,
-        imageHeightPx: number
-    ): [number, number] {
-        const x = Math.round(dist.m / maxdistance.m * imageWidthPx);
-        const y = Math.round((maxelevation.ft - height.ft) / maxelevation.ft * imageHeightPx);
-
-        return [x, y];
     }
 }

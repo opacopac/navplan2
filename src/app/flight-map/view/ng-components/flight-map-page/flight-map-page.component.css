@@ -33,7 +33,7 @@
 
 .vertical-map-pos {
     position: absolute;
-    bottom: 40px;
+    bottom: 100px;
     left: 70px;
     right: 10px;
     z-index: 20;

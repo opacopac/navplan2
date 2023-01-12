@@ -8,6 +8,9 @@ import {RestVerticalMapConverter} from '../model/rest-vertical-map-converter';
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {IRestVerticalMapResponse} from '../model/i-rest-vertical-map-response';
 import {IVerticalMapRepoService} from '../../domain/service/i-vertical-map-repo.service';
+import {ForecastSelection} from '../../domain/model/forecast-selection';
+import {RestForecastRunConverter} from '../../../meteo-dwd/rest/model/rest-forecast-run-converter';
+import {RestForecastStepConverter} from '../../../meteo-dwd/rest/model/rest-forecast-step-converter';
 
 
 @Injectable()
@@ -16,10 +19,12 @@ export class RestVerticalMapRepoService implements IVerticalMapRepoService {
     }
 
 
-    readVerticalMap(wpPositions: [number, number][]): Observable<VerticalMap> {
+    readVerticalMap(wpPositions: [number, number][], fcSelection: ForecastSelection): Observable<VerticalMap> {
         const requestBody = {
             action: 'readvmap',
-            positions: wpPositions
+            positions: wpPositions,
+            run: RestForecastRunConverter.toRest(fcSelection.forecastRun),
+            step: RestForecastStepConverter.toRest(fcSelection.forecastStep)
         };
         return this.http
             .post<IRestVerticalMapResponse>(

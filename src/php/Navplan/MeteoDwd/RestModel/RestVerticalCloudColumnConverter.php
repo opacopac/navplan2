@@ -2,7 +2,7 @@
 
 namespace Navplan\MeteoDwd\RestModel;
 
-use Navplan\Common\Rest\Converter\RestPosition2dConverter;
+use Navplan\Common\Rest\Converter\RestLengthConverter;
 use Navplan\MeteoDwd\DomainModel\VerticalCloudColumn;
 
 
@@ -25,7 +25,7 @@ class RestVerticalCloudColumnConverter {
         }
 
         return [
-            RestPosition2dConverter::toRest($verticlCloudCol->position),
+            RestLengthConverter::toRest($verticlCloudCol->horDist),
             RestVerticalCloudLevelConverter::toRestList($verticlCloudCol->cloudLevels)
         ];
     }

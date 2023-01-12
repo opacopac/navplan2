@@ -2,12 +2,12 @@
 
 namespace Navplan\MeteoDwd\DomainModel;
 
+use Navplan\Common\DomainModel\Length;
 
-use Navplan\Common\DomainModel\Position2d;
 
 class VerticalCloudColumn {
     public function __construct(
-        public Position2d $position,
+        public Length $horDist,
         /**
          * @var VerticalCloudLevel[]
          */

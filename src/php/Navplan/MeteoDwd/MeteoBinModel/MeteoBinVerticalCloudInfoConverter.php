@@ -3,7 +3,7 @@
 namespace Navplan\MeteoDwd\MeteoBinModel;
 
 use Navplan\Common\DomainModel\Altitude;
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\DomainModel\Length;
 use Navplan\MeteoDwd\DomainModel\VerticalCloudColumn;
 use Navplan\MeteoDwd\DomainModel\VerticalCloudLevel;
 
@@ -12,14 +12,14 @@ class MeteoBinVerticalCloudInfoConverter {
     private const NONE_VALUE = 0xFF;
 
 
-    public static function verticalCloudColumnFrom(string $binValues, Position2d $pos): VerticalCloudColumn {
+    public static function verticalCloudColumnFrom(string $binValues, Length $horDist): VerticalCloudColumn {
         $verticalCloudLevels = [];
 
         for ($i = 0; $i < strlen($binValues); $i += 2) {
             $verticalCloudLevels[] = self::verticalCloudLevelFrom($binValues[$i], $binValues[$i + 1]);
         }
 
-        return new VerticalCloudColumn($pos, $verticalCloudLevels);
+        return new VerticalCloudColumn($horDist, $verticalCloudLevels);
     }
 
 

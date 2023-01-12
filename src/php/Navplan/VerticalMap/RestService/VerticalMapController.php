@@ -28,7 +28,7 @@ class VerticalMapController implements IRestController {
         switch ($action) {
             case self::ACTION_READ_VMAP:
                 $request = ReadVerticalMapRequest::fromArgs($postArgs);
-                $verticalMap = $this->verticalMapService->getRouteVerticalMap($request->route);
+                $verticalMap = $this->verticalMapService->getRouteVerticalMap($request->route, $request->forecastStep);
                 $response = new ReadVerticalMapResponse($verticalMap);
                 $this->httpService->sendArrayResponse($response->toRest());
                 break;

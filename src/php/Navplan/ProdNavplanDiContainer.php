@@ -300,7 +300,8 @@ class ProdNavplanDiContainer
             $this->verticalMapDiContainer = new ProdVerticalMapDiContainer(
                 $this->getTerrainDiContainer()->getTerrainService(),
                 $this->getEnrouteDiContainer()->getAirspaceService(),
-                $this->getSystemDiContainer()->getHttpService()
+                $this->getMeteoDwdDiContainer()->getMeteoDwdVerticalCloudService(),
+                $this->getSystemDiContainer()->getHttpService(),
             );
         }
 

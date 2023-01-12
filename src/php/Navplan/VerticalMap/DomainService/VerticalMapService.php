@@ -13,6 +13,8 @@ use Navplan\Common\DomainModel\Position3d;
 use Navplan\Common\GeoHelper;
 use Navplan\Enroute\Domain\Model\Airspace;
 use Navplan\Enroute\Domain\Service\IAirspaceService;
+use Navplan\MeteoDwd\DomainModel\ForecastStep;
+use Navplan\MeteoDwd\DomainService\IMeteoDwdVerticalCloudService;
 use Navplan\Terrain\DomainService\ITerrainService;
 use Navplan\VerticalMap\DomainModel\VerticalMap;
 use Navplan\VerticalMap\DomainModel\VerticalMapAirspace;
@@ -24,26 +26,25 @@ use Navplan\VerticalMap\DomainModel\VerticalMapWaypointStep;
 class VerticalMapService implements IVerticalMapService {
     const TERRAIN_RESOLUTION_M = 100;
     const TERRAIN_MAX_STEPS = 500;
-    const MAX_MAP_HEIGHT_ABOVE_MAX_ELEVATION_FT = 4000;
+    const CLOUD_RESOLUTION_M = 2200; // TODO: from model
+    const CLOUD_MAX_STEPS = 250;
+    const MAX_MAP_HEIGHT_ABOVE_MAX_ELEVATION_FT = 5000;
     const WAYPOINT_HEIGHT_ABOVE_MAX_ELEVATION_FT = 2000;
 
 
     public function __construct(
         private ITerrainService  $terrainService,
-        private IAirspaceService $airspaceService
+        private IAirspaceService $airspaceService,
+        private IMeteoDwdVerticalCloudService $verticalCloudService
     ) {
     }
 
 
-    public function getRouteVerticalMap(Line2d $waypoints): VerticalMap {
-        $minStepSize = Length::fromM(self::TERRAIN_RESOLUTION_M);
-        $mapWidthM = $waypoints->calcTotalDist()->getM();
-
+    public function getRouteVerticalMap(Line2d $waypoints, ?ForecastStep $forecastStep): VerticalMap {
         // terain
-        $terrainStepPosList = $waypoints->subdividePosList($minStepSize, self::TERRAIN_MAX_STEPS);
+        $terrainStepPosList = $waypoints->subdividePosList(Length::fromM(self::TERRAIN_RESOLUTION_M), self::TERRAIN_MAX_STEPS);
         $terrainElevationList = $this->terrainService->readElevations($terrainStepPosList);
-        $stepSize = Length::fromM(max(self::TERRAIN_RESOLUTION_M, $mapWidthM / self::TERRAIN_MAX_STEPS)); // TODO: duplicated in Line2d
-        $terrainSteps = $this->createVmTerrainSteps($terrainElevationList, $stepSize);
+        $terrainSteps = $this->createVmTerrainSteps($terrainElevationList);
         $maxTerrainElevation = $this->getMaxTerrainHeight($terrainSteps);
 
         // waypoints
@@ -55,22 +56,28 @@ class VerticalMapService implements IVerticalMapService {
 
         //TODO: notam
 
+        // vertical clouds
+        if ($forecastStep !== null) {
+            $vertCloudSteps = $waypoints->subdividePosList(Length::fromM(self::CLOUD_RESOLUTION_M), self::CLOUD_MAX_STEPS);
+            $verticalCloudInfo = $this->verticalCloudService->readVerticalCloudInfo($forecastStep, $vertCloudSteps);
+        }
+
         return new VerticalMap(
             $maxTerrainElevation->add(Length::fromFt(self::MAX_MAP_HEIGHT_ABOVE_MAX_ELEVATION_FT)),
-            Length::fromM($mapWidthM),
+            $waypoints->calcTotalDist(),
             $terrainSteps,
             $wpSteps,
-            $vmAirspaces
+            $vmAirspaces,
+            $verticalCloudInfo ?? null
         );
     }
 
 
     /**
      * @param Position3d[] $terrainElevationList
-     * @param Length $stepDist
      * @return VerticalMapTerrainStep[]
      */
-    private function createVmTerrainSteps(array $terrainElevationList, Length $stepDist): array {
+    private function createVmTerrainSteps(array $terrainElevationList): array {
         $terrainSteps = [];
         $maxElevationFt = 0;
         for ($i = 0; $i < count($terrainElevationList); $i++) {
@@ -78,7 +85,8 @@ class VerticalMapService implements IVerticalMapService {
             if ($elevation->getFt() > $maxElevationFt) {
                 $maxElevationFt = $elevation->getFt();
             }
-            $terrainSteps[] = new VerticalMapTerrainStep($elevation, $stepDist->mult($i));
+            $horDist = GeoHelper::calcHaversineDistance($terrainElevationList[0], $terrainElevationList[$i]);
+            $terrainSteps[] = new VerticalMapTerrainStep($elevation, $horDist);
         }
 
         return $terrainSteps;

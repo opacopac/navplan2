@@ -5,6 +5,7 @@ import {Flightroute} from '../../../flightroute/domain/model/flightroute';
 import {tap} from 'rxjs/operators';
 import {IVerticalMapService} from './i-vertical-map.service';
 import {IVerticalMapRepoService} from './i-vertical-map-repo.service';
+import {ForecastSelection} from '../model/forecast-selection';
 
 
 @Injectable()
@@ -13,9 +14,10 @@ export class VerticalMapService implements IVerticalMapService {
     }
 
 
-    readVerticalMap(flightroute: Flightroute): Observable<VerticalMap> {
+    public readVerticalMap(flightroute: Flightroute, fcSelection: ForecastSelection): Observable<VerticalMap> {
         return this.restService.readVerticalMap(
-            flightroute.waypoints.map(wp => wp.position.toArray())
+            flightroute.waypoints.map(wp => wp.position.toArray()),
+            fcSelection
         ).pipe(
             // link to waypoints
             tap(vm => {

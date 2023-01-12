@@ -7,6 +7,7 @@ import {TerrainSvg} from './terrain-svg';
 import {AirspaceSvg} from './airspace-svg';
 import {FlightRouteSvg} from './flight-route-svg';
 import {VerticalMap} from '../../domain/model/vertical-map';
+import {VerticalCloudsSvg} from './vertical-clouds-svg';
 
 
 export class VerticalMapSvg {
@@ -31,6 +32,7 @@ export class VerticalMapSvg {
         svg.appendChild(this.createFilterDefs());
         svg.appendChild(TerrainSvg.create(verticalMap, imageWidthPx, imageHeightPx));
         svg.appendChild(AirspaceSvg.create(verticalMap, imageWidthPx, imageHeightPx));
+        svg.appendChild(VerticalCloudsSvg.create(verticalMap, imageWidthPx, imageHeightPx));
         svg.appendChild(GridSvg.create(verticalMap.mapHeight));
         svg.appendChild(FlightRouteSvg.create(verticalMap, imageWidthPx, imageHeightPx, wpClickCallback));
 

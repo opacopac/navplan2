@@ -5,13 +5,18 @@ namespace Navplan\VerticalMap\RestModel;
 use InvalidArgumentException;
 use Navplan\Common\DomainModel\Line2d;
 use Navplan\Common\Rest\Converter\RestLine2dConverter;
+use Navplan\MeteoDwd\DomainModel\ForecastStep;
+use Navplan\MeteoDwd\RestModel\RestForecastStepConverter;
 
 
 class ReadVerticalMapRequest {
     const ARG_POSITIONS = "positions";
 
 
-    public function __construct(public Line2d $route) {
+    public function __construct(
+        public Line2d $route,
+        public ?ForecastStep $forecastStep
+    ) {
     }
 
 
@@ -21,7 +26,8 @@ class ReadVerticalMapRequest {
         }
 
         return new ReadVerticalMapRequest(
-            RestLine2dConverter::fromRest($args[self::ARG_POSITIONS])
+            RestLine2dConverter::fromRest($args[self::ARG_POSITIONS]),
+            RestForecastStepConverter::fromRest($args)
         );
     }
 }

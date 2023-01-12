@@ -30,6 +30,7 @@ class Line2d implements IGeometry2d {
 
     /**
      * @param Length $minStepSize
+     * @param int $maxSteps
      * @return Position2d[]
      */
     public function subdividePosList(Length $minStepSize, int $maxSteps): array {

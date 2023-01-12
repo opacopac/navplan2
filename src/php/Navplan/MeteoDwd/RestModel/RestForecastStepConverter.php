@@ -11,7 +11,11 @@ class RestForecastStepConverter {
     const ARG_RUN = "run";
 
 
-    public static function fromRest(array $args): ForecastStep {
+    public static function fromRest(array $args): ?ForecastStep {
+        if (!isset($args[self::ARG_RUN]) || !isset($args[self::ARG_INTERVAL])) {
+            return null;
+        }
+
         return new ForecastStep(
             StringNumberHelper::parseStringOrError($args, self::ARG_RUN),
             StringNumberHelper::parseIntOrError($args, self::ARG_INTERVAL)

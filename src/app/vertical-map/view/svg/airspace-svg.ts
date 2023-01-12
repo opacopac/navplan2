@@ -1,10 +1,10 @@
-import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {SvgRectangleElement} from '../../../common/svg/svg-rectangle-element';
 import {SvgTextElement} from '../../../common/svg/svg-text-element';
 import {SvgGroupElement} from '../../../common/svg/svg-group-element';
 import {SvgPolygonElement} from '../../../common/svg/svg-polygon-element';
 import {SvgTitleElement} from '../../../common/svg/svg-title-element';
 import {VerticalMap} from '../../domain/model/vertical-map';
+import {VerticalMapPointSvg} from './vertical-map-point-svg';
 
 
 export class AirspaceSvg {
@@ -29,7 +29,7 @@ export class AirspaceSvg {
             // upper heights
             for (let j = 0; j < vmAirspace.airspaceSteps.length; j++) {
                 points.push(
-                    this.getPointArray(
+                    VerticalMapPointSvg.create(
                         vmAirspace.airspaceSteps[j].horDist,
                         vmAirspace.airspaceSteps[j].topAltAmsl,
                         verticalMap.mapWidth,
@@ -43,7 +43,7 @@ export class AirspaceSvg {
             // lower heights
             for (let j = vmAirspace.airspaceSteps.length - 1; j >= 0; j--) {
                 points.push(
-                    this.getPointArray(
+                    VerticalMapPointSvg.create(
                         vmAirspace.airspaceSteps[j].horDist,
                         vmAirspace.airspaceSteps[j].botAltAmsl,
                         verticalMap.mapWidth,
@@ -65,7 +65,7 @@ export class AirspaceSvg {
             );
 
             // category label
-            const ptBottomLeft = this.getPointArray(
+            const ptBottomLeft = VerticalMapPointSvg.create(
                 vmAirspace.airspaceSteps[0].horDist,
                 vmAirspace.airspaceSteps[0].botAltAmsl,
                 verticalMap.mapWidth,
@@ -189,20 +189,5 @@ export class AirspaceSvg {
             'bold',
             'translate(0 4)'
         ));
-    }
-
-
-    private static getPointArray(
-        dist: Length,
-        height: Length,
-        maxdistance: Length,
-        maxelevation: Length,
-        imageWidthPx: number,
-        imageHeightPx: number
-    ): [number, number] {
-        const x = Math.round(dist.m / maxdistance.m * imageWidthPx);
-        const y = Math.round((maxelevation.m - height.m) / maxelevation.m * imageHeightPx);
-
-        return [x, y];
     }
 }
