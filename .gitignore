@@ -59,6 +59,7 @@ Thumbs.db
 /src/php/meteoretriever/tmp
 *.grib2
 /maptiles/
+/terraintiles/
 /logs/
 /data_import/
 /adcharts/

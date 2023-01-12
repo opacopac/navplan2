@@ -46,10 +46,10 @@ class Line2d implements IGeometry2d {
             $deltaLon = ($pos2->longitude - $pos1->longitude) / $legDistM * $stepSize;
             $deltaLat = ($pos2->latitude - $pos1->latitude) / $legDistM * $stepSize;
 
-            for ($i = 0; $i < $steps; $i++) {
+            for ($j = 0; $j < $steps; $j++) {
                 $subDivPosList[] = new Position2d(
-                    $pos1->longitude + $i * $deltaLon,
-                    $pos1->latitude + $i * $deltaLat
+                    $pos1->longitude + $j * $deltaLon,
+                    $pos1->latitude + $j * $deltaLat
                 );
             }
         }

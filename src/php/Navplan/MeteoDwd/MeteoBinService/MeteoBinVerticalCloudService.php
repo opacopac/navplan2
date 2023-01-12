@@ -2,6 +2,7 @@
 
 namespace Navplan\MeteoDwd\MeteoBinService;
 
+use Navplan\Common\DomainModel\Length;
 use Navplan\Common\GeoHelper;
 use Navplan\Common\StringNumberHelper;
 use Navplan\MeteoDwd\DomainModel\ForecastStep;
@@ -32,13 +33,16 @@ class MeteoBinVerticalCloudService implements IMeteoDwdVerticalCloudService  {
         $file = $this->openMeteoBinFile($forecastStep);
 
         $verticalCloudColumns = [];
+        $horDist = Length::createZero();
         for ($i = 0; $i < count($posList); $i++) {
+            if ($i > 0) {
+                $horDist = $horDist->add(GeoHelper::calcHaversineDistance($posList[$i - 1], $posList[$i]));
+            }
             $x = floor($iconD2Grid->getX($posList[$i]->longitude));
             $y = floor($iconD2Grid->getY($posList[$i]->latitude));
             $seekPos = (int) ($iconD2Grid->width * $y + $x) * self::BYTES_PER_POS;
             if ($file->fseek($seekPos) === 0) {
                 $rawBytes = $file->fread(self::BYTES_PER_POS);
-                $horDist = GeoHelper::calcHaversineDistance($posList[0], $posList[$i]);
                 $verticalCloudColumns[] = MeteoBinVerticalCloudInfoConverter::verticalCloudColumnFrom($rawBytes, $horDist);
             };
         }

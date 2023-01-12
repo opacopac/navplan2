@@ -80,12 +80,15 @@ class VerticalMapService implements IVerticalMapService {
     private function createVmTerrainSteps(array $terrainElevationList): array {
         $terrainSteps = [];
         $maxElevationFt = 0;
+        $horDist = Length::createZero();
         for ($i = 0; $i < count($terrainElevationList); $i++) {
             $elevation = $terrainElevationList[$i]->altitude->getHeightAmsl();
             if ($elevation->getFt() > $maxElevationFt) {
                 $maxElevationFt = $elevation->getFt();
             }
-            $horDist = GeoHelper::calcHaversineDistance($terrainElevationList[0], $terrainElevationList[$i]);
+            if ($i > 0) {
+                $horDist = $horDist->add(GeoHelper::calcHaversineDistance($terrainElevationList[$i - 1], $terrainElevationList[$i]));
+            }
             $terrainSteps[] = new VerticalMapTerrainStep($elevation, $horDist);
         }
 
@@ -202,6 +205,7 @@ class VerticalMapService implements IVerticalMapService {
         array $terrainSteps
     ): array {
         $vmAirspaceSteps = [];
+        // TODO
         if ($airspace->alt_bottom->reference === AltitudeReference::GND || $airspace->alt_top->reference === AltitudeReference::GND) {
             foreach ($terrainSteps as $terrainStep) {
                 if ($terrainStep->horDist->isGtThan($horDistOut)) {
