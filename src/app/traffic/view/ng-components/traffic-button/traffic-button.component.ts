@@ -30,14 +30,14 @@ export class TrafficButtonComponent implements OnInit {
     public getStatusCLass(trafficStatus: TrafficServiceStatus): string {
         switch (trafficStatus) {
             case TrafficServiceStatus.CURRENT:
-                return 'mapoverlay-status-ok';
+                return 'mapbutton-status-ok';
             case TrafficServiceStatus.WAITING:
-                return 'mapoverlay-status-warn';
+                return 'mapbutton-status-warn';
             case TrafficServiceStatus.ERROR:
-                return 'mapoverlay-status-error';
+                return 'mapbutton-status-error';
             case TrafficServiceStatus.OFF:
             default:
-                return 'mapoverlay-primary';
+                return 'mapbutton-primary';
         }
     }
 }

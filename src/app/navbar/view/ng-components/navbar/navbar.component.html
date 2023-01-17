@@ -10,7 +10,7 @@
     <!-- menu for large screens -->
     <div fxLayout="row" fxFlex="grow" fxShow="true" fxHide.lt-md="true">
         <button mat-button routerLink="./map" title="Map"><i class="fas fa-map"></i>&nbsp;&nbsp;Map</button>
-        <button mat-button routerLink="./prep/route" title="Flight Preparation"><i class="fas fa-calculator"></i>&nbsp;&nbsp;Flight Prep</button>
+        <button mat-button routerLink="./prep/route" title="Flight Preparation"><i class="fas fa-calculator"></i>&nbsp;&nbsp;Plan</button>
         <!--<button mat-button [mat-menu-trigger-for]="flightPrep" title="Flight Preparation"><i class="fas fa-calculator"></i>&nbsp;&nbsp;Flight Prep</button>
         <mat-menu #flightPrep="matMenu">
             <div fxLayout="column" fxLayoutAlign="start start">
@@ -50,7 +50,7 @@
 <!-- vertical menu for small screens -->
 <mat-menu #verticalMenu="matMenu">
     <button mat-menu-item routerLink="./map" title="Map"><i class="fas fa-map"></i>&nbsp;&nbsp;Map</button>
-    <button mat-menu-item routerLink="./prep/route" title="Flight Preparation"><i class="fas fa-calculator"></i>&nbsp;&nbsp;Flight Prep</button>
+    <button mat-menu-item routerLink="./prep/route" title="Flight Preparation"><i class="fas fa-calculator"></i>&nbsp;&nbsp;Plan</button>
     <!--<button mat-menu-item [mat-menu-trigger-for]="flightPrepSm" title="Flight Preparation"><i class="fas fa-calculator"></i>&nbsp;&nbsp;Flight Prep</button>
     <mat-menu #flightPrepSm="matMenu">
         <div fxLayout="column" fxLayoutAlign="start start">

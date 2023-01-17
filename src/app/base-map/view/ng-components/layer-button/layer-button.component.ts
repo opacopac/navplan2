@@ -29,7 +29,7 @@ export class LayerButtonComponent implements OnInit {
 
     public getStatusCLass(showBaseMapSelection: boolean): string {
         return showBaseMapSelection
-            ? 'mapoverlay-status-ok'
-            : 'mapoverlay-primary';
+            ? 'mapbutton-status-ok'
+            : 'mapbutton-primary';
     }
 }

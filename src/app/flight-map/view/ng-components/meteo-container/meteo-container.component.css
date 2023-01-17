@@ -1,25 +1,6 @@
-.weather-layer-button-div {
-    width: 100px;
-}
-
-.weather-button {
-    margin-bottom: 10px;
-}
-
-.button-selected {
-    background-color: rgba(224, 224, 224, 0.9);
-    /*color: white;*/
-}
-
-.button-not-selected {
-    background-color: rgba(128, 128, 128, 0.9);
-    /*color: white;*/
-}
-
 .timeline-show {
 }
 
 .timeline-hide {
     visibility: hidden;
 }
-

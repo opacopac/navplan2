@@ -31,14 +31,14 @@ export class LocationButtonComponent implements OnInit {
     public getStatusCLass(locationStatus: LocationServiceStatus): string {
         switch (locationStatus) {
             case LocationServiceStatus.CURRENT:
-                return 'mapoverlay-status-ok';
+                return 'mapbutton-status-ok';
             case LocationServiceStatus.WAITING:
-                return 'mapoverlay-status-warn';
+                return 'mapbutton-status-warn';
             case LocationServiceStatus.ERROR:
-                return 'mapoverlay-status-error';
+                return 'mapbutton-status-error';
             case LocationServiceStatus.OFF:
             default:
-                return 'mapoverlay-primary';
+                return 'mapbutton-primary';
         }
     }
 }

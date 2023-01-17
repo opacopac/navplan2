@@ -31,14 +31,14 @@ export class VerticalMapButtonComponent implements OnInit {
     public getStatusCLass(vmState: VerticalMapState): string {
         switch (vmState.buttonStatus) {
             case VerticalMapButtonStatus.CURRENT:
-                return 'mapoverlay-status-ok';
+                return 'mapbutton-status-ok';
             case VerticalMapButtonStatus.WAITING:
-                return 'mapoverlay-status-warn';
+                return 'mapbutton-status-warn';
             case VerticalMapButtonStatus.ERROR:
                 return 'mapoverlay-status-readError';
             case VerticalMapButtonStatus.OFF:
             default:
-                return 'mapoverlay-primary';
+                return 'mapbutton-primary';
         }
     }
 }

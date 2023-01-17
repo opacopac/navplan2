@@ -1,7 +1,35 @@
-<button mat-fab
-        matTooltip="show/hide weather forecast"
-        matTooltipPosition="right"
-        color="{{ this.getStatusCLass(this.showMeteoLayer$ | async) }}"
-        (click)="this.onMeteoButtonClicked()">
-    <i class="fas fa-cloud-sun-rain meteo-dwd-button-icon"></i>
-</button>
+<div>
+    <div *ngIf="this.showMeteoLayer$ | async" class="meteo-layer-button-container">
+        <button
+            mat-mini-fab
+            matTooltip="Station Measurements"
+            matTooltipPosition="right"
+            color="{{ this.getStationsButtonClass(this.meteoLayer$ | async) }}"
+            (click)="onStationsSelected()">
+            <i class="fas fa-thermometer-half"></i>
+        </button>
+        <button
+            mat-mini-fab
+            matTooltip="Clouds & Precipitation Forecast"
+            matTooltipPosition="right"
+            color="{{ this.getWeatherButtonClass(this.meteoLayer$ | async) }}"
+            (click)="onWeatherForecastSelected()">
+            <i class="fas fa-cloud"></i>
+        </button>
+        <button
+            mat-mini-fab
+            matTooltip="Wind Forecast"
+            matTooltipPosition="right"
+            color="{{ this.getWindButtonClass(this.meteoLayer$ | async) }}"
+            (click)="onWindForecastSelected()">
+            <i class="fas fa-wind"></i>
+        </button>
+    </div>
+    <button mat-fab
+            matTooltip="show/hide meteo layers"
+            matTooltipPosition="right"
+            color="{{ this.getMeteoButtonStatusCLass(this.showMeteoLayer$ | async) }}"
+            (click)="this.onMeteoButtonClicked()">
+        <i class="fas fa-cloud-sun-rain meteo-dwd-button-icon"></i>
+    </button>
+</div>
