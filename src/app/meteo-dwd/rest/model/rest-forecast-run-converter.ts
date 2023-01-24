@@ -21,6 +21,10 @@ export class RestForecastRunConverter {
 
 
     public static toRest(forecast: ForecastRun): string {
+        if (!forecast) {
+            return null;
+        }
+
         return forecast.startTime.getUTCFullYear()
             + StringnumberHelper.zeroPad(forecast.startTime.getUTCMonth() + 1, 2)
             + StringnumberHelper.zeroPad(forecast.startTime.getUTCDate(), 2)

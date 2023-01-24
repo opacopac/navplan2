@@ -23,8 +23,8 @@ export class RestVerticalMapRepoService implements IVerticalMapRepoService {
         const requestBody = {
             action: 'readvmap',
             positions: wpPositions,
-            run: RestForecastRunConverter.toRest(fcSelection.forecastRun),
-            step: RestForecastStepConverter.toRest(fcSelection.forecastStep)
+            run: fcSelection ? RestForecastRunConverter.toRest(fcSelection.forecastRun) : null,
+            step: fcSelection ? RestForecastStepConverter.toRest(fcSelection.forecastStep) : null
         };
         return this.http
             .post<IRestVerticalMapResponse>(

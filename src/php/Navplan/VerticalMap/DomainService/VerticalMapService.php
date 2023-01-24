@@ -68,7 +68,7 @@ class VerticalMapService implements IVerticalMapService {
             $terrainSteps,
             $wpSteps,
             $vmAirspaces,
-            $verticalCloudInfo ?? null
+            $verticalCloudInfo ?? []
         );
     }
 

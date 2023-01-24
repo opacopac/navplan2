@@ -13,6 +13,7 @@ import {IVerticalMapService} from '../../domain/service/i-vertical-map.service';
 import {MeteoDwdState} from '../../../meteo-dwd/state/model/meteo-dwd-state';
 import {getMeteoDwdState} from '../../../meteo-dwd/state/ngrx/meteo-dwd.selectors';
 import {ForecastSelection} from '../../domain/model/forecast-selection';
+import {MeteoDwdStatus} from '../../../meteo-dwd/domain/model/meteo-dwd-status';
 
 
 @Injectable()
@@ -83,7 +84,7 @@ export class VerticalMapEffects {
 
 
     private static convertForecastSelection(state: MeteoDwdState): ForecastSelection {
-        if (state.showLayer === null || state.forecastRun === null || state.selectedStep === null) {
+        if (state.status !== MeteoDwdStatus.CURRENT || state.showLayer === null || state.forecastRun === null || state.selectedStep === null) {
             return null;
         }
 

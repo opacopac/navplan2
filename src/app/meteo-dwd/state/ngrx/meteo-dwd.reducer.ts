@@ -21,13 +21,13 @@ export const meteoDwdReducer = createReducer(
 
     on(MeteoDwdActions.open, (state) => ({
         ...state,
-        buttonStatus: MeteoDwdStatus.CURRENT,
+        status: MeteoDwdStatus.CURRENT,
         showLayer: MeteoDwdLayer.WeatherLayer,
     })),
 
     on(MeteoDwdActions.close, (state) => ({
         ...state,
-        buttonStatus: MeteoDwdStatus.OFF,
+        status: MeteoDwdStatus.OFF,
         showLayer: undefined,
     })),
 
