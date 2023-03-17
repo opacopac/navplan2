@@ -28,7 +28,7 @@ export class OlWaypoint {
         const mt = wp ? wp.mt : undefined;
         const nextMt = nextWp ? nextWp.mt : undefined;
         let rot_deg, rot_rad: number;
-        let align: string;
+        let align: CanvasTextAlign;
         let rotateWithView = true;
 
         if (mt && nextMt) {

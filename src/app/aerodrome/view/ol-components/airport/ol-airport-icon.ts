@@ -1,7 +1,6 @@
 import {environment} from '../../../../../environments/environment';
 import {AirportType} from '../../../domain/model/airport-type';
 import {Icon} from 'ol/style';
-import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 
 
 export class OlAirportIcon {
@@ -52,8 +51,8 @@ export class OlAirportIcon {
 
         return new Icon(({
             anchor: [0.5, 0.5],
-            anchorXUnits: IconAnchorUnits.FRACTION,
-            anchorYUnits: IconAnchorUnits.FRACTION,
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'fraction',
             scale: 1,
             opacity: 0.9,
             src: src,

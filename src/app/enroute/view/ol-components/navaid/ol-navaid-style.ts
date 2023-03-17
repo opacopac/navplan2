@@ -48,8 +48,6 @@ export class OlNavaidStyle {
         return new Style({
             image: icon,
             text: new Text({
-                // textAlign: align,
-                // textBaseline: baseline,
                 font: 'bold 14px Calibri,sans-serif',
                 text: navaid.kuerzel,
                 fill: this.FILL,

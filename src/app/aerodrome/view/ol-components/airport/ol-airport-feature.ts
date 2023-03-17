@@ -1,6 +1,5 @@
 import {Icon, Style} from 'ol/style';
 import {environment} from '../../../../../environments/environment';
-import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import {ShortAirport} from '../../../domain/model/short-airport';
 import {AirportFeatureType} from '../../../domain/model/airport-feature-type';
 import {OlVectorLayer} from '../../../../base-map/view/ol-model/ol-vector-layer';
@@ -31,8 +30,8 @@ export class OlAirportFeature {
         return new Style({
             image: new Icon(({
                 anchor: [45, 16],
-                anchorXUnits: IconAnchorUnits.PIXELS,
-                anchorYUnits: IconAnchorUnits.PIXELS,
+                anchorXUnits: 'pixels',
+                anchorYUnits: 'pixels',
                 scale: 1,
                 rotateWithView: false,
                 opacity: 0.8,

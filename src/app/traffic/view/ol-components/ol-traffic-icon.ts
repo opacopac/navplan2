@@ -1,7 +1,6 @@
 import {environment} from '../../../../environments/environment';
 import {TrafficAircraftType} from '../../domain/model/traffic-aircraft-type';
 import {Icon} from 'ol/style';
-import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import {Angle} from '../../../geo-physics/domain/model/quantities/angle';
 
 
@@ -11,8 +10,8 @@ export class OlTrafficIcon {
 
         return new Icon({
             anchor: [0.5, 0.5],
-            anchorXUnits: IconAnchorUnits.FRACTION,
-            anchorYUnits: IconAnchorUnits.FRACTION,
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'fraction',
             scale: 1,
             opacity: 1.00,
             rotation: Angle.deg2rad(rotation),

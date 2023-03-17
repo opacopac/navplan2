@@ -2,7 +2,6 @@ import {Icon, Style} from 'ol/style';
 import {MetarTaf} from '../../domain/model/metar-taf';
 import {environment} from '../../../../environments/environment';
 import {Angle} from '../../../geo-physics/domain/model/quantities/angle';
-import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 
 
 export class OlMetarWindStyle {
@@ -37,8 +36,8 @@ export class OlMetarWindStyle {
         return new Style({
             image: new Icon(({
                 anchor: [fakeX, fakeY],
-                anchorXUnits: IconAnchorUnits.PIXELS,
-                anchorYUnits: IconAnchorUnits.PIXELS,
+                anchorXUnits: 'pixels',
+                anchorYUnits: 'pixels',
                 scale: 1,
                 rotation: rot,
                 rotateWithView: false,

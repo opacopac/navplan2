@@ -1,7 +1,6 @@
 import {environment} from '../../../../../environments/environment';
 import {NavaidType} from '../../../domain/model/navaid-type';
 import {Icon} from 'ol/style';
-import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 
 
 export class OlNavaidIcon {
@@ -18,8 +17,8 @@ export class OlNavaidIcon {
 
         return new Icon(({
             anchor: [0.5, 0.5],
-            anchorXUnits: IconAnchorUnits.FRACTION,
-            anchorYUnits: IconAnchorUnits.FRACTION,
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'fraction',
             opacity: 0.9,
             src: src
         }));

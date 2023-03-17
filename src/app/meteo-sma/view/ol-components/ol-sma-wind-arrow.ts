@@ -40,8 +40,6 @@ export class OlSmaWindArrow {
                 rotateWithView: true
             }),
             text: new Text({
-                // textAlign: align,
-                // textBaseline: baseline,
                 font: 'bold 15px Calibri,sans-serif',
                 text: Math.round(smaMeasurement.windSpeed ? smaMeasurement.windSpeed.kt : 0) + 'kt',
                 fill: new Fill({color: '#FFFFFF'}),

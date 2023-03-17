@@ -3,7 +3,6 @@ import {environment} from '../../../../environments/environment';
 import {GeodesyHelper} from '../../../geo-physics/domain/service/geometry/geodesy-helper';
 import {Position4d} from '../../../geo-physics/domain/model/geometry/position4d';
 import {Angle} from '../../../geo-physics/domain/model/quantities/angle';
-import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import {OlVectorLayer} from '../../../base-map/view/ol-model/ol-vector-layer';
 import {OlFeature} from '../../../base-map/view/ol-model/ol-feature';
 import {OlGeometry} from '../../../base-map/view/ol-model/ol-geometry';
@@ -39,8 +38,8 @@ export class OlOwnPlane {
         return new Style({
             image: new Icon({
                 anchor: [0.5, 0.5],
-                anchorXUnits: IconAnchorUnits.FRACTION,
-                anchorYUnits: IconAnchorUnits.FRACTION,
+                anchorXUnits: 'pixels',
+                anchorYUnits: 'pixels',
                 scale: 1,
                 opacity: 1.00,
                 rotation: Angle.deg2rad(rotation),

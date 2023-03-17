@@ -1,6 +1,5 @@
 import {environment} from '../../../../../environments/environment';
 import {Icon} from 'ol/style';
-import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 
 
 export class OlReportingPointIcon {
@@ -38,8 +37,8 @@ export class OlReportingPointIcon {
 
         return new Icon(({
             anchor: [0.5, 0.5],
-            anchorXUnits: IconAnchorUnits.FRACTION,
-            anchorYUnits: IconAnchorUnits.FRACTION,
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'fraction',
             scale: 1,
             opacity: 0.9,
             src: src

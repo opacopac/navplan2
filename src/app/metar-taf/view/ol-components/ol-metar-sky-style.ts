@@ -1,7 +1,6 @@
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {environment} from '../../../../environments/environment';
 import {MetarTaf} from '../../domain/model/metar-taf';
-import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 
 
 export class OlMetarSkyStyle {
@@ -35,14 +34,13 @@ export class OlMetarSkyStyle {
         return new Style({
             image: new Icon(({
                 anchor: [-24, 20],
-                anchorXUnits: IconAnchorUnits.PIXELS,
-                anchorYUnits: IconAnchorUnits.PIXELS,
+                anchorXUnits: 'pixels',
+                anchorYUnits: 'pixels',
                 scale: 1,
                 src: src
             })),
             text: new Text({
                 textAlign: 'end',
-                textBaseline: 'baseline',
                 font: '13px Calibri,sans-serif',
                 text: wx_cond,
                 fill: new Fill({color: '#000000'}),

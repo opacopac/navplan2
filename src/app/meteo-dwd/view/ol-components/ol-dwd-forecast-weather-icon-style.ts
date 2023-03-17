@@ -1,7 +1,6 @@
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {environment} from '../../../../environments/environment';
 import {Angle} from '../../../geo-physics/domain/model/quantities/angle';
-import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import {WeatherInfo} from '../../domain/model/weather-info';
 import {StringnumberHelper} from '../../../system/domain/service/stringnumber/stringnumber-helper';
 
@@ -24,8 +23,8 @@ export class OlDwdForecastWeatherIconStyle {
         return new Style({
             image: new Icon(({
                 anchor: [fakeX, fakeY],
-                anchorXUnits: IconAnchorUnits.PIXELS,
-                anchorYUnits: IconAnchorUnits.PIXELS,
+                anchorXUnits: 'pixels',
+                anchorYUnits: 'pixels',
                 scale: 1,
                 rotation: rot,
                 rotateWithView: false,

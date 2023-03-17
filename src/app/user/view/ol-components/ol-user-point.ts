@@ -1,7 +1,6 @@
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {UserPoint} from '../../domain/model/user-point';
 import {OlUserpointIcon} from './ol-userpoint-icon';
-import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import {OlVectorLayer} from '../../../base-map/view/ol-model/ol-vector-layer';
 import {OlGeometry} from '../../../base-map/view/ol-model/ol-geometry';
 import {OlFeature} from '../../../base-map/view/ol-model/ol-feature';
@@ -25,8 +24,8 @@ export class OlUserPoint {
         return new Style({
             image: new Icon(({
                 anchor: [0.5, 0.5],
-                anchorXUnits: IconAnchorUnits.FRACTION,
-                anchorYUnits: IconAnchorUnits.FRACTION,
+                anchorXUnits: 'fraction',
+                anchorYUnits: 'fraction',
                 scale: 1,
                 opacity: 0.9,
                 src: src
