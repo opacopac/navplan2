@@ -3,7 +3,7 @@
 }
 
 ::ng-deep .mat-autocomplete-panel {
-    max-height: 75vh !important;
+    max-height: 75% !important;
 }
 
 .route-comments {

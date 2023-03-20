@@ -1,5 +1,5 @@
 .overlay-tab-content {
-    max-height: 30vh;
+    max-height: 30%;
     overflow-y: auto;
 }
 /deep/ .mat-tab-label {
