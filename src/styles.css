@@ -70,10 +70,14 @@ button.btn-lg {
     font-size: large;
 }
 
-/*.mat-fab.mat-status-inactive {
-    background-color: #003C88;
-    color: white;
-}*/
+.mat-fab {
+    height: 50px !important;
+    width: 50px !important;
+}
+
+.mat-button-wrapper {
+    padding: 0 !important;
+}
 
 .mat-fab.mat-mapbutton-primary,
 .mat-mini-fab.mat-mapbutton-primary {

@@ -12,14 +12,14 @@
 
 .location-button-pos {
     position: absolute;
-    top: 132px;
+    top: 120px;
     left: 10px;
     z-index: 20;
 }
 
 .traffic-button-pos {
     position: absolute;
-    top: 198px;
+    top: 180px;
     left: 10px;
     z-index: 20;
 }
@@ -41,7 +41,7 @@
 
 .meteo-button-pos {
     position: absolute;
-    bottom: 172px;
+    bottom: 160px;
     left: 10px;
     z-index: 20;
 }
@@ -56,7 +56,7 @@
 
 .layer-button-pos {
     position: absolute;
-    bottom: 106px;
+    bottom: 100px;
     left: 10px;
     z-index: 20;
 }
