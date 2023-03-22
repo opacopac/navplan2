@@ -1,10 +1,6 @@
 <mat-toolbar color="primary" class="mat-elevation-z6" fxLayout="row">
-    <!-- menu button for small screens -->
-    <div fxShow="true" fxHide.gt-sm="true">
-        <button mat-icon-button [matMenuTriggerFor]="verticalMenu"><h1><i class="fas fa-bars"></i></h1></button>
-    </div>
-
-    <!-- title -->
+    <!-- logo & title-->
+    <span><a href="/"><img src="assets/icon/traffic_plane.svg" class="logo" alt=""/></a></span>
     <span><a mat-button href="/"><h1>NAVPLAN.CH</h1></a></span>
 
     <!-- menu for large screens -->
@@ -36,6 +32,7 @@
         <button mat-button title="Clear current Route and Track" (click)="this.onClearClick.emit()"><i class="fas fa-eraser"></i>&nbsp;&nbsp;Clear</button>
         <button mat-button title="Search" (click)="this.onShowSearchClick.emit()"><i class="fas fa-search"></i></button>
     </div>
+
     <!-- right part of menu -->
     <div fxLayout="row" fxFlexAlign="end none" fxShow="true" fxHide.lt-md="true">
         <button mat-button *ngIf="this.currentUser; else noCurrentUser" [matMenuTriggerFor]="userMenu" title="User Profile"><i class="fas fa-user"></i>&nbsp;&nbsp;{{ this.currentUser.email }}</button>
@@ -45,6 +42,14 @@
         <button mat-icon-button routerLink="./settings" title="Edit Settings"><i class="fas fa-cog"></i></button>
         <button mat-icon-button routerLink="./about" title="About"><i class="fas fa-info-circle"></i></button>
     </div>
+
+    <!-- menu button for small screens -->
+    <div fxLayout="row" fxFlex="grow" fxShow="true" fxHide.gt-sm="true">
+    </div>
+    <div fxLayout="row" fxFlexAlign="end none" fxShow="true" fxHide.gt-sm="true">
+        <button mat-icon-button [matMenuTriggerFor]="verticalMenu"><h1><i class="fas fa-bars"></i></h1></button>
+    </div>
+
 </mat-toolbar>
 
 <!-- vertical menu for small screens -->

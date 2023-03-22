@@ -81,8 +81,9 @@ button.btn-lg {
 
 .mat-fab.mat-mapbutton-primary,
 .mat-mini-fab.mat-mapbutton-primary {
-    background-color: rgba(0, 60, 109, 0.6);
-    /*background-color: rgba(69, 90, 100, 0.8);*/
+    /*background-color: rgba(0, 60, 109, 0.6);*/
+    /*background-color: rgba(38, 50, 56, 0.6);*/
+    background-color: rgba(84, 110, 122, 0.7);
     color: white;
 }
 

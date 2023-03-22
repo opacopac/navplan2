@@ -3,3 +3,10 @@
     top: 0;
     height: 54px;
 }
+
+.logo {
+    height: 32px;
+    width:  32px;
+    rotate: 45deg;
+    vertical-align: middle;
+}
