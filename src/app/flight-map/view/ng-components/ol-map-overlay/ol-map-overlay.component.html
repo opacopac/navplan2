@@ -41,12 +41,12 @@
                 </mat-tab>
 
                 <!-- meteo tab -->
-                <mat-tab>
+                <mat-tab *ngIf="this.airport">
                     <ng-template mat-tab-label>
                         <i class="fas fa-cloud"></i>
                     </ng-template>
                     <app-metar-taf *ngIf="this.airport" [metarTaf]="this.metarTaf"></app-metar-taf>
-                    <app-ol-overlay-windyiframe *ngIf="this.position" [position]="this.position"></app-ol-overlay-windyiframe>
+                    <!--<app-ol-overlay-windyiframe *ngIf="this.position" [position]="this.position"></app-ol-overlay-windyiframe>-->
                 </mat-tab>
 
                 <!-- notam tab -->
