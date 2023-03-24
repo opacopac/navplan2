@@ -75,6 +75,10 @@ button.btn-lg {
     width: 50px !important;
 }
 
+.mat-button {
+    font-weight: normal;
+}
+
 .mat-button-wrapper {
     padding: 0 !important;
 }
