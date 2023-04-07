@@ -11,7 +11,7 @@ class VerticalWindColumn {
         /**
          * @var VerticalWindLevel[]
          */
-        public array $windLevels≤
+        public array $windLevels
     ) {
     }
 }
