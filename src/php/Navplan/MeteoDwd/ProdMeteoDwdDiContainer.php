@@ -5,10 +5,12 @@ namespace Navplan\MeteoDwd;
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\MeteoDwd\DomainService\IMeteoDwdForecastService;
 use Navplan\MeteoDwd\DomainService\IMeteoDwdVerticalCloudService;
+use Navplan\MeteoDwd\DomainService\IMeteoDwdVerticalWindService;
 use Navplan\MeteoDwd\DomainService\IMeteoDwdWeatherService;
 use Navplan\MeteoDwd\DomainService\IMeteoDwdWindService;
 use Navplan\MeteoDwd\MeteoBinService\MeteoBinForecastService;
 use Navplan\MeteoDwd\MeteoBinService\MeteoBinVerticalCloudService;
+use Navplan\MeteoDwd\MeteoBinService\MeteoBinVerticalWindService;
 use Navplan\MeteoDwd\MeteoBinService\MeteoBinWeatherService;
 use Navplan\MeteoDwd\MeteoBinService\MeteoBinWindService;
 use Navplan\MeteoDwd\RestService\MeteoDwdController;
@@ -24,6 +26,7 @@ class ProdMeteoDwdDiContainer implements IMeteoDwdDiContainer {
     private IMeteoDwdWeatherService $weatherService;
     private IMeteoDwdWindService $windService;
     private IMeteoDwdVerticalCloudService $verticalCloudService;
+    private IMeteoDwdVerticalWindService $verticalWindService;
 
 
     public function __construct(
@@ -40,6 +43,7 @@ class ProdMeteoDwdDiContainer implements IMeteoDwdDiContainer {
                 $this->getMeteoDwdWeatherService(),
                 $this->getMeteoDwdWindService(),
                 $this->getMeteoDwdVerticalCloudService(),
+                $this->getMeteoDwdVerticalWindService(),
                 $this->httpService
             );
         }
@@ -93,5 +97,17 @@ class ProdMeteoDwdDiContainer implements IMeteoDwdDiContainer {
         }
 
         return $this->verticalCloudService;
+    }
+
+
+    function getMeteoDwdVerticalWindService(): IMeteoDwdVerticalWindService {
+        if (!isset($this->verticalWindService)) {
+            $this->verticalWindService = new MeteoBinVerticalWindService(
+                $this->fileService,
+                self::METEO_DWD_BASE_DIR
+            );
+        }
+
+        return $this->verticalWindService;
     }
 }
