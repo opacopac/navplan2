@@ -1,7 +1,7 @@
 import {RestLengthConverter} from '../../../geo-physics/rest/model/rest-length-converter';
-import { IRestVerticalWindColumn } from './i-rest-vertical-wind-column';
-import { VerticalWindColumn } from '../../domain/model/vertical-wind-column';
-import { RestVerticalWindLevelConverter } from './rest-vertical-wind-level-converter';
+import {IRestVerticalWindColumn} from './i-rest-vertical-wind-column';
+import {VerticalWindColumn} from '../../domain/model/vertical-wind-column';
+import {RestVerticalWindLevelConverter} from './rest-vertical-wind-level-converter';
 
 
 export class RestVerticalWindColumnConverter {

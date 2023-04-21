@@ -3,6 +3,7 @@ import {VerticalMapTerrainStep} from './vertical-map-terrain-step';
 import {VerticalMapAirspace} from './vertical-map-airspace';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {VerticalCloudColumn} from '../../../meteo-dwd/domain/model/vertical-cloud-column';
+import {VerticalWindColumn} from '../../../meteo-dwd/domain/model/vertical-wind-column';
 
 
 export class VerticalMap {
@@ -12,7 +13,8 @@ export class VerticalMap {
         public waypointSteps: VerticalMapWaypointStep[],
         public terrainSteps: VerticalMapTerrainStep[],
         public vmAirspaces: VerticalMapAirspace[],
-        public verticalCloudColumns: VerticalCloudColumn[]
+        public verticalCloudColumns: VerticalCloudColumn[],
+        public verticalWindColumns: VerticalWindColumn[]
     ) {
     }
 }

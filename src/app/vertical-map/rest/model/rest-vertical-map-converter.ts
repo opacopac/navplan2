@@ -6,6 +6,7 @@ import {RestLengthConverter} from '../../../geo-physics/rest/model/rest-length-c
 import {RestVerticalMapAirspaceConverter} from './rest-vertical-map-airspace-converter';
 import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-unit';
 import {RestVerticalCloudColumnConverter} from '../../../meteo-dwd/rest/model/rest-vertical-cloud-column-converter';
+import {RestVerticalWindColumnConverter} from '../../../meteo-dwd/rest/model/rest-vertical-wind-column-converter';
 
 
 export class RestVerticalMapConverter {
@@ -20,7 +21,8 @@ export class RestVerticalMapConverter {
             RestVerticalMapWaypointStepConverter.fromRestList(verticalMap.waypointSteps, heightUnit, widthUnit),
             RestVerticalMapTerrainStepConverter.fromRestList(verticalMap.terrainSteps, heightUnit, widthUnit),
             RestVerticalMapAirspaceConverter.fromRestList(verticalMap.vmAirspaces, heightUnit, widthUnit),
-            RestVerticalCloudColumnConverter.fromRestList(verticalMap.verticalCloudColumns)
+            RestVerticalCloudColumnConverter.fromRestList(verticalMap.verticalCloudColumns),
+            RestVerticalWindColumnConverter.fromRestList(verticalMap.verticalWindColumns)
         );
     }
 }
