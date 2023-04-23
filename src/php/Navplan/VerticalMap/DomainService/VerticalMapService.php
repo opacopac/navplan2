@@ -14,6 +14,7 @@ use Navplan\Common\GeoHelper;
 use Navplan\Enroute\Domain\Model\Airspace;
 use Navplan\Enroute\Domain\Service\IAirspaceService;
 use Navplan\MeteoDwd\DomainModel\ForecastStep;
+use Navplan\MeteoDwd\DomainModel\WeatherModelLayer;
 use Navplan\MeteoDwd\DomainService\IMeteoDwdVerticalCloudService;
 use Navplan\Terrain\DomainService\ITerrainService;
 use Navplan\VerticalMap\DomainModel\VerticalMap;
@@ -40,7 +41,7 @@ class VerticalMapService implements IVerticalMapService {
     }
 
 
-    public function getRouteVerticalMap(Line2d $waypoints, ?ForecastStep $forecastStep): VerticalMap {
+    public function getRouteVerticalMap(Line2d $waypoints, ?ForecastStep $forecastStep, ?int $layer): VerticalMap {
         // terain
         $terrainStepPosList = $waypoints->subdividePosList(Length::fromM(self::TERRAIN_RESOLUTION_M), self::TERRAIN_MAX_STEPS);
         $terrainElevationList = $this->terrainService->readElevations($terrainStepPosList);
@@ -57,13 +58,13 @@ class VerticalMapService implements IVerticalMapService {
         //TODO: notam
 
         // vertical clouds
-        if ($forecastStep !== null) {
+        if ($forecastStep !== null && $layer === WeatherModelLayer::CLOUDS) {
             $vertCloudSteps = $waypoints->subdividePosList(Length::fromM(self::CLOUD_RESOLUTION_M), self::CLOUD_MAX_STEPS);
             $verticalCloudInfo = $this->verticalCloudService->readVerticalCloudInfo($forecastStep, $vertCloudSteps);
         }
 
         // vertical wind
-        if ($forecastStep !== null) {
+        if ($forecastStep !== null && $layer === WeatherModelLayer::WIND) {
             // TODO
             $verticalWindInfo = [];
         }

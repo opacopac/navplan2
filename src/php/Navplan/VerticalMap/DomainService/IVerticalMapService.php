@@ -8,5 +8,5 @@ use Navplan\VerticalMap\DomainModel\VerticalMap;
 
 
 interface IVerticalMapService {
-    public function getRouteVerticalMap(Line2d $waypoints, ?ForecastStep $forecastStep): VerticalMap;
+    public function getRouteVerticalMap(Line2d $waypoints, ?ForecastStep $forecastStep, ?int $layer): VerticalMap;
 }
