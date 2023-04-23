@@ -5,6 +5,7 @@ namespace Navplan\VerticalMap\RestModel;
 use Navplan\Common\DomainModel\LengthUnit;
 use Navplan\Common\Rest\Converter\RestLengthConverter;
 use Navplan\MeteoDwd\RestModel\RestVerticalCloudColumnConverter;
+use Navplan\MeteoDwd\RestModel\RestVerticalWindColumnConverter;
 use Navplan\VerticalMap\DomainModel\VerticalMap;
 
 
@@ -18,7 +19,8 @@ class VerticalMapConverter {
             "terrainSteps" => VerticalMapTerrainStepConverter::toRestList($verticalMap->terrainSteps),
             "waypointSteps" => VerticalMapWaypointStepConverter::toRestList($verticalMap->waypointSteps),
             "vmAirspaces" => VerticalMapAirspaceConverter::toRestList($verticalMap->vmAirspaces),
-            "verticalCloudColumns" => RestVerticalCloudColumnConverter::toRestList($verticalMap->verticalCloudColumns)
+            "verticalCloudColumns" => RestVerticalCloudColumnConverter::toRestList($verticalMap->verticalCloudColumns),
+            "verticalWindColumns" => RestVerticalWindColumnConverter::toRestList($verticalMap->verticalWindColumns)
         );
     }
 }

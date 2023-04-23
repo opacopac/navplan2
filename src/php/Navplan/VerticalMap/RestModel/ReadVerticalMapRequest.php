@@ -18,7 +18,7 @@ class ReadVerticalMapRequest {
     public function __construct(
         public Line2d $route,
         public ?ForecastStep $forecastStep,
-        public ?WeatherModelLayer $layer
+        public ?int $layer
     ) {
     }
 

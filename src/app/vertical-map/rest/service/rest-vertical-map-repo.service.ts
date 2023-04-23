@@ -8,9 +8,10 @@ import {RestVerticalMapConverter} from '../model/rest-vertical-map-converter';
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {IRestVerticalMapResponse} from '../model/i-rest-vertical-map-response';
 import {IVerticalMapRepoService} from '../../domain/service/i-vertical-map-repo.service';
-import {ForecastSelection} from '../../domain/model/forecast-selection';
+import {ForecastSelection} from '../../../meteo-dwd/domain/model/forecast-selection';
 import {RestForecastRunConverter} from '../../../meteo-dwd/rest/model/rest-forecast-run-converter';
 import {RestForecastStepConverter} from '../../../meteo-dwd/rest/model/rest-forecast-step-converter';
+import { RestMeteoDwdLayerConverter } from '../../../meteo-dwd/rest/model/rest-meteo-dwd-layer-converter';
 
 
 @Injectable()
@@ -25,7 +26,7 @@ export class RestVerticalMapRepoService implements IVerticalMapRepoService {
             positions: wpPositions,
             run: fcSelection ? RestForecastRunConverter.toRest(fcSelection.forecastRun) : null,
             step: fcSelection ? RestForecastStepConverter.toRest(fcSelection.forecastStep) : null,
-            layer: fcSelection ? fcSelection.layer : null
+            layer: fcSelection ? RestMeteoDwdLayerConverter.toRest(fcSelection.layer) : null
         };
         return this.http
             .post<IRestVerticalMapResponse>(

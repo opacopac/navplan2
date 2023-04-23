@@ -1,5 +1,5 @@
-import {MeteoDwdLayer} from '../../../meteo-dwd/domain/model/meteo-dwd-layer';
-import {ForecastRun} from '../../../meteo-dwd/domain/model/forecast-run';
+import {MeteoDwdLayer} from './meteo-dwd-layer';
+import {ForecastRun} from './forecast-run';
 
 
 export class ForecastSelection {

@@ -12,7 +12,7 @@ import {VerticalMapButtonStatus} from '../../domain/model/vertical-map-button-st
 import {IVerticalMapService} from '../../domain/service/i-vertical-map.service';
 import {MeteoDwdState} from '../../../meteo-dwd/state/model/meteo-dwd-state';
 import {getMeteoDwdState} from '../../../meteo-dwd/state/ngrx/meteo-dwd.selectors';
-import {ForecastSelection} from '../../domain/model/forecast-selection';
+import {ForecastSelection} from '../../../meteo-dwd/domain/model/forecast-selection';
 import {MeteoDwdStatus} from '../../../meteo-dwd/domain/model/meteo-dwd-status';
 
 

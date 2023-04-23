@@ -62,13 +62,20 @@ class VerticalMapService implements IVerticalMapService {
             $verticalCloudInfo = $this->verticalCloudService->readVerticalCloudInfo($forecastStep, $vertCloudSteps);
         }
 
+        // vertical wind
+        if ($forecastStep !== null) {
+            // TODO
+            $verticalWindInfo = [];
+        }
+
         return new VerticalMap(
             $maxTerrainElevation->add(Length::fromFt(self::MAX_MAP_HEIGHT_ABOVE_MAX_ELEVATION_FT)),
             $waypoints->calcTotalDist(),
             $terrainSteps,
             $wpSteps,
             $vmAirspaces,
-            $verticalCloudInfo ?? []
+            $verticalCloudInfo ?? [],
+            $verticalWindInfo ?? []
         );
     }
 

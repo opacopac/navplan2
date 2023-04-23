@@ -9,4 +9,13 @@ export class RestForecastStepConverter {
 
         return StringnumberHelper.zeroPad(step, 3);
     }
+
+
+    public static fromRest(restStep: string): number {
+        if (!restStep) {
+            return null;
+        }
+
+        return Number.parseInt(restStep, 10);
+    }
 }

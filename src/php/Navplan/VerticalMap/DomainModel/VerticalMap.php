@@ -14,6 +14,7 @@ class VerticalMap {
      * @param VerticalMapWaypointStep[] $waypointSteps
      * @param VerticalMapAirspace[] $vmAirspaces
      * @param VerticalCloudColumn[] $verticalCloudColumns
+     * @param VerticalWindColumn[] $verticalWindColumns
      */
     public function __construct(
         public Length $mapHeight,
@@ -21,7 +22,8 @@ class VerticalMap {
         public array $terrainSteps,
         public array $waypointSteps,
         public array $vmAirspaces,
-        public array $verticalCloudColumns
+        public array $verticalCloudColumns,
+        public array $verticalWindColumns
     ) {
     }
 }
