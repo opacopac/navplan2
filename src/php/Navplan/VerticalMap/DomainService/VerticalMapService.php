@@ -16,6 +16,7 @@ use Navplan\Enroute\Domain\Service\IAirspaceService;
 use Navplan\MeteoDwd\DomainModel\ForecastStep;
 use Navplan\MeteoDwd\DomainModel\WeatherModelLayer;
 use Navplan\MeteoDwd\DomainService\IMeteoDwdVerticalCloudService;
+use Navplan\MeteoDwd\DomainService\IMeteoDwdVerticalWindService;
 use Navplan\Terrain\DomainService\ITerrainService;
 use Navplan\VerticalMap\DomainModel\VerticalMap;
 use Navplan\VerticalMap\DomainModel\VerticalMapAirspace;
@@ -27,8 +28,8 @@ use Navplan\VerticalMap\DomainModel\VerticalMapWaypointStep;
 class VerticalMapService implements IVerticalMapService {
     const TERRAIN_RESOLUTION_M = 100;
     const TERRAIN_MAX_STEPS = 500;
-    const CLOUD_RESOLUTION_M = 2200; // TODO: from model
-    const CLOUD_MAX_STEPS = 250;
+    const WEATHER_RESOLUTION_M = 2200; // TODO: from model
+    const WEATHER_MAX_STEPS = 250;
     const MAX_MAP_HEIGHT_ABOVE_MAX_ELEVATION_FT = 5000;
     const WAYPOINT_HEIGHT_ABOVE_MAX_ELEVATION_FT = 2000;
 
@@ -36,7 +37,8 @@ class VerticalMapService implements IVerticalMapService {
     public function __construct(
         private ITerrainService  $terrainService,
         private IAirspaceService $airspaceService,
-        private IMeteoDwdVerticalCloudService $verticalCloudService
+        private IMeteoDwdVerticalCloudService $verticalCloudService,
+        private IMeteoDwdVerticalWindService $verticalWindService
     ) {
     }
 
@@ -59,14 +61,14 @@ class VerticalMapService implements IVerticalMapService {
 
         // vertical clouds
         if ($forecastStep !== null && $layer === WeatherModelLayer::CLOUDS) {
-            $vertCloudSteps = $waypoints->subdividePosList(Length::fromM(self::CLOUD_RESOLUTION_M), self::CLOUD_MAX_STEPS);
+            $vertCloudSteps = $waypoints->subdividePosList(Length::fromM(self::WEATHER_RESOLUTION_M), self::WEATHER_MAX_STEPS);
             $verticalCloudInfo = $this->verticalCloudService->readVerticalCloudInfo($forecastStep, $vertCloudSteps);
         }
 
         // vertical wind
         if ($forecastStep !== null && $layer === WeatherModelLayer::WIND) {
-            // TODO
-            $verticalWindInfo = [];
+            $verticalWindSteps = $waypoints->subdividePosList(Length::fromM(self::WEATHER_RESOLUTION_M), self::WEATHER_MAX_STEPS);
+            $verticalWindInfo = $this->verticalWindService->readVerticalWindInfo($forecastStep, $verticalWindSteps);
         }
 
         return new VerticalMap(

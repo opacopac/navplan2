@@ -301,6 +301,7 @@ class ProdNavplanDiContainer
                 $this->getTerrainDiContainer()->getTerrainService(),
                 $this->getEnrouteDiContainer()->getAirspaceService(),
                 $this->getMeteoDwdDiContainer()->getMeteoDwdVerticalCloudService(),
+                $this->getMeteoDwdDiContainer()->getMeteoDwdVerticalWindService(),
                 $this->getSystemDiContainer()->getHttpService(),
             );
         }
