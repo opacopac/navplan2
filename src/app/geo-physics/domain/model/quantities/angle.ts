@@ -8,6 +8,16 @@ export class Angle extends AbstractQuantity<Angle, AngleUnit> {
     }
 
 
+    public static fromDeg(angleDeg: number) {
+        return new Angle(angleDeg, AngleUnit.DEG);
+    }
+
+
+    public static fromRad(angleRad: number) {
+        return new Angle(angleRad, AngleUnit.RAD);
+    }
+
+
     public static convert(
         value: number,
         unit: AngleUnit,

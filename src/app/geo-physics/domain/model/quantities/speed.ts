@@ -4,6 +4,11 @@ import {SpeedUnit} from './speed-unit';
 
 
 export class Speed extends AbstractQuantity<Speed, SpeedUnit> {
+    public static fromKt(speedKt: number) {
+        return new Speed(speedKt, SpeedUnit.KT);
+    }
+
+
     public static convertSpeed(
         value: number,
         unit: SpeedUnit,
