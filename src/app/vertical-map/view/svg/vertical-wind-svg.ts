@@ -7,7 +7,8 @@ import {SvgImageElement} from '../../../common/svg/svg-image-element';
 
 export class VerticalWindSvg {
     public static create(verticalMap: VerticalMap, imageWidthPx: number, imageHeightPx: number): SVGElement {
-        const MIN_SPACE_HEIGHT_PX = 20;
+        const MIN_SPACE_HEIGHT_PX = 30;
+        const ICON_HALF_SIZE_PX = 34 / 2;
         const svg = SvgGroupElement.create();
 
         let lastHeightPx;
@@ -17,18 +18,17 @@ export class VerticalWindSvg {
             for (let j = verticalMap.verticalWindColumns[i].windLevels.length - 1; j > 0; j--) {
                 const windLevel = verticalMap.verticalWindColumns[i].windLevels[j];
                 const xy = VerticalMapPointSvg.create(
-                    verticalMap.verticalWindColumns[i + 1].horDist,
+                    verticalMap.verticalWindColumns[i].horDist,
                     windLevel.alt.getHeightAmsl(),
                     verticalMap.mapWidth,
                     verticalMap.mapHeight,
                     imageWidthPx,
                     imageHeightPx
                 );
-
                 if (lastHeightPx === null || Math.abs(xy[1] - lastHeightPx) >= MIN_SPACE_HEIGHT_PX) {
                     const windIcon = WindIcon.createFrom(windLevel.speed, windLevel.direction);
-                    const transform = 'rotate(' + (windIcon.rot.deg + 180) + ',' + (xy[0] + 17) + ',' + (xy[1] + 17) + ')';
-                    const svgImage = SvgImageElement.create(xy[0] + '', xy[1] + '', undefined, undefined, windIcon.src, transform);
+                    const transform = 'rotate(' + (windIcon.rot.deg + 180) + ',' + xy[0] + ',' + xy[1] + ')';
+                    const svgImage = SvgImageElement.create(xy[0] - ICON_HALF_SIZE_PX + '', xy[1] - ICON_HALF_SIZE_PX + '', undefined, undefined, windIcon.src, transform);
                     svg.appendChild(svgImage);
 
                     lastHeightPx = xy[1];
