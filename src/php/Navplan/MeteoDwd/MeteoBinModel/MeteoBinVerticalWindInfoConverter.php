@@ -40,13 +40,15 @@ class MeteoBinVerticalWindInfoConverter {
 
         $valueWindUMps = ord($binValueWindU) - 128;
         $valueWindVMps = ord($binValueWindV) - 128;
-        $speedMps = sqrt($valueWindUMps * $valueWindUMps + $valueWindVMps * $valueWindVMps);
-        $directionDeg = $speedMps > 0 ? rad2deg(atan2($valueWindVMps, $valueWindUMps)) : 0;
+
+        $speedKt = round(sqrt($valueWindUMps * $valueWindUMps + $valueWindVMps * $valueWindVMps), 1);
+        $directionDeg = round(atan2($valueWindVMps, $valueWindUMps) / pi() * 180, 1);
+        $directionDeg2 = (360 - $directionDeg + 270) % 360;
 
         return new VerticalWindLevel(
             Altitude::fromFtAmsl($valueAlt * 100),
-            new Angle($directionDeg, AngleUnit::DEG),
-            new Speed($speedMps, SpeedUnit::MPS)
+            new Angle($directionDeg2, AngleUnit::DEG),
+            new Speed($speedKt, SpeedUnit::KT)
         );
     }
 }
