@@ -10,22 +10,23 @@ use Navplan\MeteoDwd\DomainModel\GridDefinition;
 use Navplan\MeteoDwd\DomainModel\IconGridDefinition;
 use Navplan\MeteoDwd\DomainModel\ValueGrid;
 use Navplan\MeteoDwd\DomainModel\WindInfo;
+use Navplan\MeteoDwd\DomainService\IMeteoDwdConfigService;
 use Navplan\MeteoDwd\DomainService\IMeteoDwdWindService;
 use Navplan\MeteoDwd\MeteoBinModel\MeteoBinWindInfoConverter;
 use Navplan\System\DomainService\IFileService;
 
 
 class MeteoBinWindService implements IMeteoDwdWindService {
-    public const METEOBIN_WIND_PATH = "/wind/WIND_D2.meteobin"; // TODO: config
+    public const METEOBIN_WIND_PATH = "/wind/WIND_D2.meteobin";
 
     private string $iconD2BaseDir;
 
 
     public function __construct(
         private IFileService $fileService,
-        private string $meteoDwdBaseDir
+        private IMeteoDwdConfigService $configService
     ) {
-        $this->iconD2BaseDir = $this->meteoDwdBaseDir . MeteoBinForecastService::ICON_D2_DIR;
+        $this->iconD2BaseDir = $this->configService->getMeteoDwdBaseDir() . MeteoBinForecastService::ICON_D2_DIR;
     }
 
 

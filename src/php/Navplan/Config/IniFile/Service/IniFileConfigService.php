@@ -3,21 +3,26 @@
 namespace Navplan\Config\IniFile\Service;
 
 use InvalidArgumentException;
+use Navplan\MeteoDwd\DomainService\IMeteoDwdConfigService;
 use Navplan\Notam\DomainService\INotamConfigService;
 use Navplan\OpenAip\Config\IOpenAipConfigService;
 use Navplan\System\MySqlDb\DbCredentials;
 use Navplan\System\MySqlDb\IDbConfigService;
+use Navplan\Terrain\DomainService\ITerrainConfigService;
 use Navplan\Traffic\AdsbexService\IAdsbexConfigService;
 use Navplan\User\DomainModel\TokenConfig;
 use Navplan\User\DomainService\ITokenConfigService;
 
 
-class IniFileConfigService implements IDbConfigService, ITokenConfigService, IOpenAipConfigService, IAdsbexConfigService, INotamConfigService {
+class IniFileConfigService implements IDbConfigService, ITokenConfigService, IOpenAipConfigService, IAdsbexConfigService,
+    INotamConfigService, IMeteoDwdConfigService, ITerrainConfigService {
     private readonly DbCredentials $credentials;
     private readonly TokenConfig $tokenConfig;
     private readonly string $icaoApiKey;
     private readonly string $adsbExchangeApiKey;
     private readonly string $openAipClientIdToken;
+    private readonly string $meteoDwdBaseDir;
+    private readonly string $terrainTilesBaseDir;
 
 
     public function __construct(string $iniFile) {
@@ -39,6 +44,8 @@ class IniFileConfigService implements IDbConfigService, ITokenConfigService, IOp
         $this->icaoApiKey = $iniValues['icao_api_key'];
         $this->adsbExchangeApiKey = $iniValues['adsbexchange_api_key'];
         $this->openAipClientIdToken = $iniValues['openaip_client_id_token'];
+        $this->meteoDwdBaseDir = $iniValues['meteo_dwd_base_dir'];
+        $this->terrainTilesBaseDir = $iniValues['terrain_tiles_base_dir'];
     }
 
 
@@ -64,5 +71,15 @@ class IniFileConfigService implements IDbConfigService, ITokenConfigService, IOp
 
     public function getOpenAipClientIdToken(): string {
         return $this->openAipClientIdToken;
+    }
+
+
+    public function getMeteoDwdBaseDir(): string {
+        return $this->meteoDwdBaseDir;
+    }
+
+
+    public function getTerrainTilesBaseDir(): string {
+        return $this->terrainTilesBaseDir;
     }
 }

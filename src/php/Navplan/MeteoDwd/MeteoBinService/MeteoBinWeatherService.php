@@ -8,22 +8,23 @@ use Navplan\MeteoDwd\DomainModel\ForecastStep;
 use Navplan\MeteoDwd\DomainModel\GridDefinition;
 use Navplan\MeteoDwd\DomainModel\IconGridDefinition;
 use Navplan\MeteoDwd\DomainModel\WeatherInfo;
+use Navplan\MeteoDwd\DomainService\IMeteoDwdConfigService;
 use Navplan\MeteoDwd\DomainService\IMeteoDwdWeatherService;
 use Navplan\MeteoDwd\MeteoBinModel\MeteoBinWeatherInfoConverter;
 use Navplan\System\DomainService\IFileService;
 
 
 class MeteoBinWeatherService implements IMeteoDwdWeatherService {
-    private const METEOBIN_WW_PATH = "/clct_precip/WW_D2.meteobin"; // TODO: config
+    private const METEOBIN_WW_PATH = "/clct_precip/WW_D2.meteobin";
 
     private string $iconD2BaseDir;
 
 
     public function __construct(
         private IFileService $fileService,
-        private string $meteoDwdBaseDir
+        private IMeteoDwdConfigService $configService
     ) {
-        $this->iconD2BaseDir = $this->meteoDwdBaseDir . MeteoBinForecastService::ICON_D2_DIR;
+        $this->iconD2BaseDir = $this->configService->getMeteoDwdBaseDir() . MeteoBinForecastService::ICON_D2_DIR;
     }
 
 

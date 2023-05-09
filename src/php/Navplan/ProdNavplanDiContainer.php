@@ -160,7 +160,8 @@ class ProdNavplanDiContainer
         if (!isset($this->meteoDwdDiContainer)) {
             $this->meteoDwdDiContainer = new ProdMeteoDwdDiContainer(
                 $this->getSystemDiContainer()->getFileService(),
-                $this->getSystemDiContainer()->getHttpService()
+                $this->getSystemDiContainer()->getHttpService(),
+                $this->getConfigDiContainer()
             );
         }
 
@@ -247,7 +248,8 @@ class ProdNavplanDiContainer
     public function getTerrainDiContainer(): ITerrainDiContainer {
         if (!isset($this->terrainDiContainer)) {
             $this->terrainDiContainer = new ProdTerrainDiContainer(
-                $this->getSystemDiContainer()->getFileService()
+                $this->getSystemDiContainer()->getFileService(),
+                $this->getConfigDiContainer()
             );
         }
 

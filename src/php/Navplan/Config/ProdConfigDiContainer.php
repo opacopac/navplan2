@@ -43,6 +43,15 @@ class ProdConfigDiContainer implements IConfigDiContainer
     }
 
 
+    function getMeteoDwdBaseDir(): string {
+        return $this->getConfigService()->getMeteoDwdBaseDir();
+    }
+
+    function getTerrainTilesBaseDir(): string {
+        return $this->getConfigService()->getTerrainTilesBaseDir();
+    }
+
+
     private function getConfigService(): IniFileConfigService {
         if (!isset($this->configService)) {
             $this->configService = new IniFileConfigService(self::CONFIG_FILE);

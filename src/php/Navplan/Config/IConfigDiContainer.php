@@ -2,24 +2,16 @@
 
 namespace Navplan\Config;
 
+use Navplan\MeteoDwd\DomainService\IMeteoDwdConfigService;
 use Navplan\Notam\DomainService\INotamConfigService;
 use Navplan\OpenAip\Config\IOpenAipConfigService;
-use Navplan\System\MySqlDb\DbCredentials;
 use Navplan\System\MySqlDb\IDbConfigService;
+use Navplan\Terrain\DomainService\ITerrainConfigService;
 use Navplan\Traffic\AdsbexService\IAdsbexConfigService;
-use Navplan\User\DomainModel\TokenConfig;
 use Navplan\User\DomainService\ITokenConfigService;
 
 
-interface IConfigDiContainer extends IDbConfigService, IOpenAipConfigService, IAdsbexConfigService, INotamConfigService, ITokenConfigService
+interface IConfigDiContainer extends IDbConfigService, IOpenAipConfigService, IAdsbexConfigService, INotamConfigService,
+    ITokenConfigService, IMeteoDwdConfigService, ITerrainConfigService
 {
-    function getCredentials(): DbCredentials;
-
-    function getOpenAipClientIdToken(): string;
-
-    function getAdsbExchangeApiKey(): string;
-
-    function getIcaoApiKey(): string;
-
-    function getTokenConfig(): TokenConfig;
 }

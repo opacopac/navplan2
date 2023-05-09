@@ -6,14 +6,15 @@ use Navplan\Common\DomainModel\Altitude;
 use Navplan\Common\DomainModel\Position3d;
 use Navplan\System\DomainModel\IFile;
 use Navplan\System\DomainService\IFileService;
+use Navplan\Terrain\DomainService\ITerrainConfigService;
 use Navplan\Terrain\DomainService\ITerrainRepo;
 use Navplan\Terrain\FileModel\TerrainPos;
 
 
 class FileTerrainRepo implements ITerrainRepo {
     public function __construct(
-        private IFileService $fileService,
-        private string $terrainTileBaseDir
+        private readonly IFileService $fileService,
+        private readonly ITerrainConfigService $configService
     ) {
     }
 
@@ -30,7 +31,7 @@ class FileTerrainRepo implements ITerrainRepo {
         $filePosMap = array();
         for ($i = 0; $i < count($position2dList); $i++) {
             $pos = $position2dList[$i];
-            $filePath = SrtmTileReader::getTerrainFilePath($pos, $this->terrainTileBaseDir);
+            $filePath = SrtmTileReader::getTerrainFilePath($pos, $this->configService->getTerrainTilesBaseDir());
             $terrainPos = new TerrainPos($i, $pos, $filePath);
             if (array_key_exists($filePath, $filePosMap)) {
                 $filePosMap[$filePath][] = $terrainPos;

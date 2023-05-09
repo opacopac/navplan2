@@ -3,19 +3,19 @@
 namespace Navplan\Terrain;
 
 use Navplan\System\DomainService\IFileService;
+use Navplan\Terrain\DomainService\ITerrainConfigService;
 use Navplan\Terrain\DomainService\ITerrainService;
 use Navplan\Terrain\DomainService\TerrainService;
 use Navplan\Terrain\FileService\FileTerrainRepo;
 
 
 class ProdTerrainDiContainer implements ITerrainDiContainer {
-    private const TERRAIN_TILE_BASE_DIR = __DIR__ . '/../../../../terraintiles/';
-
     private ITerrainService $terrainService;
 
 
     public function __construct(
-        private IFileService $fileService
+        private readonly IFileService $fileService,
+        private readonly ITerrainConfigService $configService
     ) {
     }
 
@@ -25,7 +25,7 @@ class ProdTerrainDiContainer implements ITerrainDiContainer {
             $this->terrainService = new TerrainService(
                 new FileTerrainRepo(
                     $this->fileService,
-                    self::TERRAIN_TILE_BASE_DIR
+                    $this->configService
                 )
             );
         }
