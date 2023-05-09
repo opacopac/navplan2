@@ -12,29 +12,32 @@ export class VerticalWindSvg {
         const MIN_SPACE_HEIGHT_PX = 30; // TODO
         const ICON_HALF_SIZE_PX = 34 / 2; // TODO
         const svg = SvgGroupElement.create();
-        const halfHorDist = new Length((verticalMap.verticalWindColumns[1].horDist.m - verticalMap.verticalWindColumns[0].horDist.m) / 2, LengthUnit.M);
 
-        let lastHeightPx;
-        for (let i = 0; i < verticalMap.verticalWindColumns.length - 1; i++) {
-            lastHeightPx = null;
+        if (verticalMap.verticalWindColumns.length >= 2) {
+            const halfHorDist = new Length((verticalMap.verticalWindColumns[1].horDist.m - verticalMap.verticalWindColumns[0].horDist.m) / 2, LengthUnit.M);
 
-            for (let j = verticalMap.verticalWindColumns[i].windLevels.length - 1; j > 0; j--) {
-                const windLevel = verticalMap.verticalWindColumns[i].windLevels[j];
-                const xy = VerticalMapPointSvg.create(
-                    verticalMap.verticalWindColumns[i].horDist.add(halfHorDist),
-                    windLevel.alt.getHeightAmsl(),
-                    verticalMap.mapWidth,
-                    verticalMap.mapHeight,
-                    imageWidthPx,
-                    imageHeightPx
-                );
-                if (lastHeightPx === null || Math.abs(xy[1] - lastHeightPx) >= MIN_SPACE_HEIGHT_PX) {
-                    const windIcon = WindIcon.createFrom(windLevel.speed, windLevel.direction);
-                    const transform = 'rotate(' + windIcon.rot.deg + ',' + xy[0] + ',' + xy[1] + ')';
-                    const svgImage = SvgImageElement.create(xy[0] - ICON_HALF_SIZE_PX + '', xy[1] - ICON_HALF_SIZE_PX + '', undefined, undefined, windIcon.src, transform);
-                    svg.appendChild(svgImage);
+            let lastHeightPx;
+            for (let i = 0; i < verticalMap.verticalWindColumns.length - 1; i++) {
+                lastHeightPx = null;
 
-                    lastHeightPx = xy[1];
+                for (let j = verticalMap.verticalWindColumns[i].windLevels.length - 1; j > 0; j--) {
+                    const windLevel = verticalMap.verticalWindColumns[i].windLevels[j];
+                    const xy = VerticalMapPointSvg.create(
+                        verticalMap.verticalWindColumns[i].horDist.add(halfHorDist),
+                        windLevel.alt.getHeightAmsl(),
+                        verticalMap.mapWidth,
+                        verticalMap.mapHeight,
+                        imageWidthPx,
+                        imageHeightPx
+                    );
+                    if (lastHeightPx === null || Math.abs(xy[1] - lastHeightPx) >= MIN_SPACE_HEIGHT_PX) {
+                        const windIcon = WindIcon.createFrom(windLevel.speed, windLevel.direction);
+                        const transform = 'rotate(' + windIcon.rot.deg + ',' + xy[0] + ',' + xy[1] + ')';
+                        const svgImage = SvgImageElement.create(xy[0] - ICON_HALF_SIZE_PX + '', xy[1] - ICON_HALF_SIZE_PX + '', undefined, undefined, windIcon.src, transform);
+                        svg.appendChild(svgImage);
+
+                        lastHeightPx = xy[1];
+                    }
                 }
             }
         }
