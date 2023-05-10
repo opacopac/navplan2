@@ -11,7 +11,7 @@ use RuntimeException;
 
 
 class OgnListener implements IOgnListener {
-    private const OGN_HOSTS = ['glidern1.glidernet.org', 'glidern2.glidernet.org', 'glidern3.glidernet.org', 'glidern4.glidernet.org', 'glidern5.glidernet.org'];
+    private const OGN_HOSTS = ['glidern1.glidernet.org', 'glidern2.glidernet.org', 'glidern3.glidernet.org', 'glidern4.glidernet.org', 'glidern5.glidernet.org']; // TODO: config
     private const OGN_PORT = 14580;
     private const OGN_USER = 'NAVPLN02';
     private const OGN_SOFTWARE = 'navplan.ch';
@@ -22,9 +22,9 @@ class OgnListener implements IOgnListener {
 
 
     public function __construct(
-        private IOgnListenerRepo $ognListenerRepo,
-        private ITimeService $timeService,
-        private ILoggingService $logger
+        private readonly IOgnListenerRepo $ognListenerRepo,
+        private readonly ITimeService $timeService,
+        private readonly ILoggingService $logger
     ) {
     }
 

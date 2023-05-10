@@ -12,8 +12,8 @@ class LoggingService implements ILoggingService {
 
 
     public function __construct(
-        private ITimeService $timeService,
-        private int $logLevel,
+        private readonly ITimeService $timeService,
+        private readonly int $logLevel,
         ?string $logfileName = null
     ) {
         if ($logfileName != null) {

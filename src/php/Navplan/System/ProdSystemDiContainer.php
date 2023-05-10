@@ -102,10 +102,11 @@ class ProdSystemDiContainer implements ISystemDiContainer
 
     public function getFileLogger(): ILoggingService {
         if (!isset($this->fileLogger)) {
+            $logFile = $this->systemConfig->getLogDir() . $this->systemConfig->getLogFile();
             $this->fileLogger = new LoggingService(
                 $this->getTimeService(),
                 $this->systemConfig->getLogLevel(),
-                $this->systemConfig->getLogFile()
+                $logFile
             );
         }
 
