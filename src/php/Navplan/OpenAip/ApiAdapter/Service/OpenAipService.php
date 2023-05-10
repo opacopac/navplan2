@@ -5,12 +5,12 @@ namespace Navplan\OpenAip\ApiAdapter\Service;
 use Navplan\OpenAip\ApiAdapter\Model\OpenAipAirportResponseConverter;
 use Navplan\OpenAip\ApiAdapter\Model\OpenAipAirspaceResponseConverter;
 use Navplan\OpenAip\ApiAdapter\Model\OpenAipNavaidResponseConverter;
-use Navplan\OpenAip\Config\IOpenAipConfigService;
+use Navplan\OpenAip\Config\IOpenAipConfig;
 
 
 class OpenAipService implements IOpenAipService {
     private const CLIENT_ID_HEADER = 'x-openaip-client-id';
-    private const OPEN_AIP_BASE_URL = 'https://api.core.openaip.net/api/';
+    private const OPEN_AIP_BASE_URL = 'https://api.core.openaip.net/api/'; // TODO: config
     private const AIRPORTS_URL_SUFFIX = 'airports';
     private const AIRSPACES_URL_SUFFIX = 'airspaces';
     private const NAVAIDS_URL_SUFFIX = 'navaids';
@@ -18,7 +18,7 @@ class OpenAipService implements IOpenAipService {
 
 
     public function __construct(
-        private IOpenAipConfigService $openAipConfigService,
+        private readonly IOpenAipConfig $openAipConfig,
     ) {
     }
 
@@ -58,7 +58,7 @@ class OpenAipService implements IOpenAipService {
         $opts = array(
             'http' => array(
                 'method' => "GET",
-                'header' => self::CLIENT_ID_HEADER . ": " . $this->openAipConfigService->getOpenAipClientIdToken() . "\r\n"
+                'header' => self::CLIENT_ID_HEADER . ": " . $this->openAipConfig->getOpenAipClientIdToken() . "\r\n"
             )
         );
 

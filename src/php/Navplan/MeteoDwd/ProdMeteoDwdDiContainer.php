@@ -3,7 +3,7 @@
 namespace Navplan\MeteoDwd;
 
 use Navplan\Common\Rest\Controller\IRestController;
-use Navplan\MeteoDwd\DomainService\IMeteoDwdConfigService;
+use Navplan\MeteoDwd\DomainService\IMeteoDwdConfig;
 use Navplan\MeteoDwd\DomainService\IMeteoDwdForecastService;
 use Navplan\MeteoDwd\DomainService\IMeteoDwdVerticalCloudService;
 use Navplan\MeteoDwd\DomainService\IMeteoDwdVerticalWindService;
@@ -31,7 +31,7 @@ class ProdMeteoDwdDiContainer implements IMeteoDwdDiContainer {
     public function __construct(
         private readonly IFileService $fileService,
         private readonly IHttpService $httpService,
-        private readonly IMeteoDwdConfigService $configService
+        private readonly IMeteoDwdConfig $meteoDwdConfig
     ) {
     }
 
@@ -56,7 +56,7 @@ class ProdMeteoDwdDiContainer implements IMeteoDwdDiContainer {
         if (!isset($this->forecastService)) {
             $this->forecastService = new MeteoBinForecastService(
                 $this->fileService,
-                $this->configService
+                $this->meteoDwdConfig
             );
         }
 
@@ -68,7 +68,7 @@ class ProdMeteoDwdDiContainer implements IMeteoDwdDiContainer {
         if (!isset($this->weatherService)) {
             $this->weatherService = new MeteoBinWeatherService(
                 $this->fileService,
-                $this->configService
+                $this->meteoDwdConfig
             );
         }
 
@@ -80,7 +80,7 @@ class ProdMeteoDwdDiContainer implements IMeteoDwdDiContainer {
         if (!isset($this->windService)) {
             $this->windService = new MeteoBinWindService(
                 $this->fileService,
-                $this->configService
+                $this->meteoDwdConfig
             );
         }
 
@@ -92,7 +92,7 @@ class ProdMeteoDwdDiContainer implements IMeteoDwdDiContainer {
         if (!isset($this->verticalCloudService)) {
             $this->verticalCloudService = new MeteoBinVerticalCloudService(
                 $this->fileService,
-                $this->configService
+                $this->meteoDwdConfig
             );
         }
 
@@ -104,7 +104,7 @@ class ProdMeteoDwdDiContainer implements IMeteoDwdDiContainer {
         if (!isset($this->verticalWindService)) {
             $this->verticalWindService = new MeteoBinVerticalWindService(
                 $this->fileService,
-                $this->configService
+                $this->meteoDwdConfig
             );
         }
 

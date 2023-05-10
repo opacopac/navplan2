@@ -3,6 +3,6 @@
 namespace Navplan\OpenAip\Config;
 
 
-interface IOpenAipConfigService {
+interface IOpenAipConfig {
     function getOpenAipClientIdToken(): string;
 }

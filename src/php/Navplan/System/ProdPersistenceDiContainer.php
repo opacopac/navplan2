@@ -3,7 +3,7 @@
 namespace Navplan\System;
 
 use Navplan\System\DomainService\IDbService;
-use Navplan\System\MySqlDb\IDbConfigService;
+use Navplan\System\MySqlDb\IDbConfig;
 use Navplan\System\MySqlDb\MySqlDbService;
 
 
@@ -13,8 +13,8 @@ class ProdPersistenceDiContainer implements IPersistenceDiContainer
 
 
     public function __construct(
-        private ISystemDiContainer $systemDiContainer,
-        private IDbConfigService $dbConfigService
+        private readonly ISystemDiContainer $systemDiContainer,
+        private readonly IDbConfig $dbConfig
     ) {
     }
 
@@ -25,7 +25,7 @@ class ProdPersistenceDiContainer implements IPersistenceDiContainer
                 $this->systemDiContainer->getScreenLogger()
             );
             $this->dbService->init2(
-                $this->dbConfigService->getCredentials()
+                $this->dbConfig->getCredentials()
             );
         }
 

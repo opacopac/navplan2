@@ -3,23 +3,23 @@
 namespace Navplan\Config\IniFile\Service;
 
 use InvalidArgumentException;
-use Navplan\MeteoDwd\DomainService\IMeteoDwdConfigService;
-use Navplan\Notam\DomainService\INotamConfigService;
-use Navplan\OpenAip\Config\IOpenAipConfigService;
+use Navplan\MeteoDwd\DomainService\IMeteoDwdConfig;
+use Navplan\Notam\DomainService\INotamConfig;
+use Navplan\OpenAip\Config\IOpenAipConfig;
 use Navplan\System\DomainModel\LogLevel;
-use Navplan\System\DomainService\ISystemConfigService;
+use Navplan\System\DomainService\ISystemConfig;
 use Navplan\System\MySqlDb\DbCredentials;
-use Navplan\System\MySqlDb\IDbConfigService;
-use Navplan\Terrain\DomainService\ITerrainConfigService;
-use Navplan\Traffic\AdsbexService\IAdsbexConfigService;
-use Navplan\User\DomainModel\TokenConfig;
-use Navplan\User\DomainService\ITokenConfigService;
+use Navplan\System\MySqlDb\IDbConfig;
+use Navplan\Terrain\DomainService\ITerrainConfig;
+use Navplan\Traffic\AdsbexService\IAdsbexConfig;
+use Navplan\User\DomainModel\TokenCredentials;
+use Navplan\User\DomainService\ITokenConfig;
 
 
-class IniFileConfigService implements IDbConfigService, ITokenConfigService, IOpenAipConfigService, IAdsbexConfigService,
-    INotamConfigService, IMeteoDwdConfigService, ITerrainConfigService, ISystemConfigService {
+class IniFileConfig implements IDbConfig, ITokenConfig, IOpenAipConfig, IAdsbexConfig,
+    INotamConfig, IMeteoDwdConfig, ITerrainConfig, ISystemConfig {
     private readonly DbCredentials $credentials;
-    private readonly TokenConfig $tokenConfig;
+    private readonly TokenCredentials $tokenCredentials;
     private readonly string $icaoApiKey;
     private readonly string $adsbExchangeApiKey;
     private readonly string $openAipClientIdToken;
@@ -43,7 +43,7 @@ class IniFileConfigService implements IDbConfigService, ITokenConfigService, IOp
             $iniValues['db']['pw'],
             $iniValues['db']['name']
         );
-        $this->tokenConfig = new TokenConfig(
+        $this->tokenCredentials = new TokenCredentials(
             $iniValues['jwt']['secret'],
             $iniValues['jwt']['issuer']
         );
@@ -64,8 +64,8 @@ class IniFileConfigService implements IDbConfigService, ITokenConfigService, IOp
     }
 
 
-    public function getTokenConfig(): TokenConfig {
-        return $this->tokenConfig;
+    public function getTokenCredentials(): TokenCredentials {
+        return $this->tokenCredentials;
     }
 
 

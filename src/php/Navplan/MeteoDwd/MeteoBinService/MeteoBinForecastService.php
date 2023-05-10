@@ -6,7 +6,7 @@ use DateTime;
 use DateTimeZone;
 use Navplan\MeteoDwd\DomainModel\ForecastRun;
 use Navplan\MeteoDwd\DomainModel\WeatherModelConfig;
-use Navplan\MeteoDwd\DomainService\IMeteoDwdConfigService;
+use Navplan\MeteoDwd\DomainService\IMeteoDwdConfig;
 use Navplan\MeteoDwd\DomainService\IMeteoDwdForecastService;
 use Navplan\System\DomainModel\FileServiceException;
 use Navplan\System\DomainService\IFileService;
@@ -19,10 +19,10 @@ class MeteoBinForecastService implements IMeteoDwdForecastService {
 
 
     public function __construct(
-        private IFileService $fileService,
-        private IMeteoDwdConfigService $configService
+        private readonly IFileService $fileService,
+        private readonly IMeteoDwdConfig $meteoDwdConfig
     ) {
-        $this->iconD2BaseDir = $this->configService->getMeteoDwdBaseDir() . self::ICON_D2_DIR;
+        $this->iconD2BaseDir = $this->meteoDwdConfig->getMeteoDwdBaseDir() . self::ICON_D2_DIR;
     }
 
 

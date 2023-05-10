@@ -3,6 +3,6 @@
 namespace Navplan\System\MySqlDb;
 
 
-interface IDbConfigService {
+interface IDbConfig {
     function getCredentials(): DbCredentials;
 }

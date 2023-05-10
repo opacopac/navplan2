@@ -9,7 +9,7 @@ use Navplan\System\DomainService\ILoggingService;
 use Navplan\System\DomainService\IProcService;
 use Navplan\System\DomainService\ITimeService;
 use Navplan\Traffic\AdsbexService\AdsbexService;
-use Navplan\Traffic\AdsbexService\IAdsbexConfigService;
+use Navplan\Traffic\AdsbexService\IAdsbexConfig;
 use Navplan\Traffic\DomainService\IAdsbexService;
 use Navplan\Traffic\DomainService\IOgnService;
 use Navplan\Traffic\DomainService\ITrafficDetailRepo;
@@ -28,10 +28,10 @@ use Navplan\Traffic\UseCase\ReadTrafficDetails\ReadTrafficDetailsUc;
 
 
 class ProdTrafficDiContainer implements ITrafficDiContainer {
-    private const OGN_LISTENER_STARTER_PATH = __DIR__;
-    private const OGN_LISTENER_STARTER_FILE = "OgnListenerStarter.php";
+    private const OGN_LISTENER_STARTER_PATH = __DIR__; // TODO: config
+    private const OGN_LISTENER_STARTER_FILE = "OgnListenerStarter.php"; // TODO: config
 
-    private IAdsbexConfigService $adsbexConfigService;
+    private IAdsbexConfig $adsbexConfig;
     private IAdsbexService $adsbexRepo;
     private IOgnService $ognRepo;
     private IOgnListenerRepo $ognListenerRepo;
@@ -43,21 +43,21 @@ class ProdTrafficDiContainer implements ITrafficDiContainer {
 
 
     public function __construct(
-        private IFileService $fileService,
-        private ITimeService $timeService,
-        private IProcService $procService,
-        private ILoggingService $loggingService,
-        private IDbService $dbService
+        private readonly IFileService $fileService,
+        private readonly ITimeService $timeService,
+        private readonly IProcService $procService,
+        private readonly ILoggingService $loggingService,
+        private readonly IDbService $dbService
     ) {
     }
 
 
-    public function getAdsbexConfigService(): IAdsbexConfigService {
-        if (!isset($this->adsbexConfigService)) {
-            $this->adsbexConfigService = new ProdConfigDiContainer();
+    public function getAdsbexConfig(): IAdsbexConfig {
+        if (!isset($this->adsbexConfig)) {
+            $this->adsbexConfig = new ProdConfigDiContainer();
         }
 
-        return $this->adsbexConfigService;
+        return $this->adsbexConfig;
     }
 
 
@@ -66,7 +66,7 @@ class ProdTrafficDiContainer implements ITrafficDiContainer {
             $this->adsbexRepo = new AdsbexService(
                 $this->fileService,
                 $this->timeService,
-                $this->getAdsbexConfigService()
+                $this->getAdsbexConfig()
             );
         }
 

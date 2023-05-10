@@ -16,9 +16,9 @@ class AdsbexService implements IAdsbexService {
 
 
     public function __construct(
-        private IFileService $fileService,
-        private ITimeService $timeService,
-        private IAdsbexConfigService $adsbexConfigService
+        private readonly IFileService $fileService,
+        private readonly ITimeService $timeService,
+        private readonly IAdsbexConfig $adsbexConfig
     ) {
     }
 
@@ -34,7 +34,7 @@ class AdsbexService implements IAdsbexService {
         $opts = array(
             "http" => array(
                 "method" => "GET",
-                "header" => "api-auth: " . $this->adsbexConfigService->getAdsbExchangeApiKey() . "\r\n",
+                "header" => "api-auth: " . $this->adsbexConfig->getAdsbExchangeApiKey() . "\r\n",
             )
         );
         $context = stream_context_create($opts);

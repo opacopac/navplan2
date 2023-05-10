@@ -3,6 +3,6 @@
 namespace Navplan\Traffic\AdsbexService;
 
 
-interface IAdsbexConfigService {
+interface IAdsbexConfig {
     function getAdsbExchangeApiKey(): string;
 }

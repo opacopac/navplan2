@@ -15,7 +15,7 @@ class FileServiceTest extends TestCase {
 
 
     protected function setUp(): void {
-        $this->fileService = FileService::getInstance();
+        $this->fileService = new FileService(null); // TODO
         $this->tmpFile = tmpfile();
         $this->tmpFileName = stream_get_meta_data($this->tmpFile)['uri'];
     }

@@ -6,7 +6,7 @@ use Navplan\System\DomainService\IDbService;
 use Navplan\System\DomainService\IMailService;
 use Navplan\User\DbRepo\DbUserPointRepo;
 use Navplan\User\DbRepo\DbUserRepo;
-use Navplan\User\DomainService\ITokenConfigService;
+use Navplan\User\DomainService\ITokenConfig;
 use Navplan\User\DomainService\ITokenService;
 use Navplan\User\DomainService\IUserPointRepo;
 use Navplan\User\DomainService\IUserRepo;
@@ -44,9 +44,9 @@ class ProdUserDiContainer implements IUserDiContainer {
 
 
     public function __construct(
-        private IDbService $dbService,
-        private IMailService $mailService,
-        private ITokenConfigService $tokenConfigService
+        private readonly IDbService $dbService,
+        private readonly IMailService $mailService,
+        private readonly ITokenConfig $tokenCredentials
     ) {
     }
 
@@ -72,7 +72,7 @@ class ProdUserDiContainer implements IUserDiContainer {
     public function getTokenService(): ITokenService {
         if (!isset($this->tokenService)) {
             $this->tokenService = new TokenService(
-                $this->tokenConfigService->getTokenConfig()
+                $this->tokenCredentials->getTokenCredentials()
             );
         }
 

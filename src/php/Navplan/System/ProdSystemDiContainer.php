@@ -9,10 +9,10 @@ use Navplan\System\DomainService\IImageService;
 use Navplan\System\DomainService\ILoggingService;
 use Navplan\System\DomainService\IMailService;
 use Navplan\System\DomainService\IProcService;
-use Navplan\System\DomainService\ISystemConfigService;
+use Navplan\System\DomainService\ISystemConfig;
 use Navplan\System\DomainService\ITimeService;
 use Navplan\System\Imagick\ImagickService;
-use Navplan\System\MySqlDb\IDbConfigService;
+use Navplan\System\MySqlDb\IDbConfig;
 use Navplan\System\MySqlDb\MySqlDbService;
 use Navplan\System\Posix\FileService;
 use Navplan\System\Posix\HttpService;
@@ -36,8 +36,8 @@ class ProdSystemDiContainer implements ISystemDiContainer
 
 
     public function __construct(
-        private readonly ISystemConfigService $systemConfigService,
-        private readonly IDbConfigService $dbConfigService
+        private readonly ISystemConfig $systemConfig,
+        private readonly IDbConfig $dbConfig
     ) {
     }
 
@@ -53,7 +53,7 @@ class ProdSystemDiContainer implements ISystemDiContainer
 
     public function getFileService(): IFileService {
         if (!isset($this->fileService)) {
-            $this->fileService = new FileService($this->systemConfigService);
+            $this->fileService = new FileService($this->systemConfig);
         }
 
         return $this->fileService;
@@ -91,7 +91,7 @@ class ProdSystemDiContainer implements ISystemDiContainer
         if (!isset($this->screenLogger)) {
             $this->screenLogger = new LoggingService(
                 $this->getTimeService(),
-                $this->systemConfigService->getLogLevel(),
+                $this->systemConfig->getLogLevel(),
                 null
             );
         }
@@ -104,8 +104,8 @@ class ProdSystemDiContainer implements ISystemDiContainer
         if (!isset($this->fileLogger)) {
             $this->fileLogger = new LoggingService(
                 $this->getTimeService(),
-                $this->systemConfigService->getLogLevel(),
-                $this->systemConfigService->getLogFile()
+                $this->systemConfig->getLogLevel(),
+                $this->systemConfig->getLogFile()
             );
         }
 
@@ -118,7 +118,7 @@ class ProdSystemDiContainer implements ISystemDiContainer
             $this->dbService = new MySqlDbService(
                 $this->getScreenLogger()
             );
-            $credentials = $this->dbConfigService->getCredentials();
+            $credentials = $this->dbConfig->getCredentials();
             $this->dbService->init(
                 $credentials->host,
                 $credentials->user,

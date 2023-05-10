@@ -3,7 +3,7 @@
 namespace Navplan\Terrain;
 
 use Navplan\System\DomainService\IFileService;
-use Navplan\Terrain\DomainService\ITerrainConfigService;
+use Navplan\Terrain\DomainService\ITerrainConfig;
 use Navplan\Terrain\DomainService\ITerrainService;
 use Navplan\Terrain\DomainService\TerrainService;
 use Navplan\Terrain\FileService\FileTerrainRepo;
@@ -15,7 +15,7 @@ class ProdTerrainDiContainer implements ITerrainDiContainer {
 
     public function __construct(
         private readonly IFileService $fileService,
-        private readonly ITerrainConfigService $configService
+        private readonly ITerrainConfig $terrainConfig
     ) {
     }
 
@@ -25,7 +25,7 @@ class ProdTerrainDiContainer implements ITerrainDiContainer {
             $this->terrainService = new TerrainService(
                 new FileTerrainRepo(
                     $this->fileService,
-                    $this->configService
+                    $this->terrainConfig
                 )
             );
         }

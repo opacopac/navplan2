@@ -3,6 +3,6 @@
 namespace Navplan\Notam\DomainService;
 
 
-interface INotamConfigService {
+interface INotamConfig {
     function getIcaoApiKey(): string;
 }

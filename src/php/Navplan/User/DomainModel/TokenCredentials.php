@@ -3,7 +3,7 @@
 namespace Navplan\User\DomainModel;
 
 
-class TokenConfig {
+class TokenCredentials {
     public function __construct(
         public string $jwt_secret,
         public string $jwt_issuer

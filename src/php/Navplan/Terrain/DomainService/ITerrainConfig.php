@@ -3,6 +3,6 @@
 namespace Navplan\Terrain\DomainService;
 
 
-interface ITerrainConfigService {
+interface ITerrainConfig {
     function getTerrainTilesBaseDir(): string;
 }

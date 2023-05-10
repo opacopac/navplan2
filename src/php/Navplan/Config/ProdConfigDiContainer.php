@@ -2,16 +2,16 @@
 
 namespace Navplan\Config;
 
-use Navplan\Config\IniFile\Service\IniFileConfigService;
+use Navplan\Config\IniFile\Service\IniFileConfig;
 use Navplan\System\MySqlDb\DbCredentials;
-use Navplan\User\DomainModel\TokenConfig;
+use Navplan\User\DomainModel\TokenCredentials;
 
 
 class ProdConfigDiContainer implements IConfigDiContainer
 {
     public const CONFIG_FILE = __DIR__ . "/../../config/navplan_prod.ini";
 
-    private IniFileConfigService $configService;
+    private IniFileConfig $iniFileConfig;
 
 
     public function __construct() {
@@ -19,65 +19,65 @@ class ProdConfigDiContainer implements IConfigDiContainer
 
 
     public function getCredentials(): DbCredentials {
-        return $this->getConfigService()->getCredentials();
+        return $this->getIniFileConfig()->getCredentials();
     }
 
 
     public function getOpenAipClientIdToken(): string {
-        return $this->getConfigService()->getOpenAipClientIdToken();
+        return $this->getIniFileConfig()->getOpenAipClientIdToken();
     }
 
 
     public function getAdsbExchangeApiKey(): string {
-        return $this->getConfigService()->getAdsbExchangeApiKey();
+        return $this->getIniFileConfig()->getAdsbExchangeApiKey();
     }
 
 
     public function getIcaoApiKey(): string {
-        return $this->getConfigService()->getIcaoApiKey();
+        return $this->getIniFileConfig()->getIcaoApiKey();
     }
 
 
-    function getTokenConfig(): TokenConfig {
-        return $this->getConfigService()->getTokenConfig();
+    function getTokenCredentials(): TokenCredentials {
+        return $this->getIniFileConfig()->getTokenCredentials();
     }
 
 
     function getMeteoDwdBaseDir(): string {
-        return $this->getConfigService()->getMeteoDwdBaseDir();
+        return $this->getIniFileConfig()->getMeteoDwdBaseDir();
     }
 
 
     function getTerrainTilesBaseDir(): string {
-        return $this->getConfigService()->getTerrainTilesBaseDir();
+        return $this->getIniFileConfig()->getTerrainTilesBaseDir();
     }
 
 
     function getTempDir(): string {
-        return $this->getConfigService()->getTempDir();
+        return $this->getIniFileConfig()->getTempDir();
     }
 
 
     function getLogDir(): string {
-        return $this->getConfigService()->getLogDir();
+        return $this->getIniFileConfig()->getLogDir();
     }
 
 
     function getLogFile(): string {
-        return $this->getConfigService()->getLogFile();
+        return $this->getIniFileConfig()->getLogFile();
     }
 
 
     function getLogLevel(): int {
-        return $this->getConfigService()->getLogLevel();
+        return $this->getIniFileConfig()->getLogLevel();
     }
 
 
-    private function getConfigService(): IniFileConfigService {
-        if (!isset($this->configService)) {
-            $this->configService = new IniFileConfigService(self::CONFIG_FILE);
+    private function getIniFileConfig(): IniFileConfig {
+        if (!isset($this->iniFileConfig)) {
+            $this->iniFileConfig = new IniFileConfig(self::CONFIG_FILE);
         }
 
-        return $this->configService;
+        return $this->iniFileConfig;
     }
 }

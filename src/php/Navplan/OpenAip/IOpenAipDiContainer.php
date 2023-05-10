@@ -3,12 +3,12 @@
 namespace Navplan\OpenAip;
 
 use Navplan\OpenAip\ApiAdapter\Service\IOpenAipService;
-use Navplan\OpenAip\Config\IOpenAipConfigService;
+use Navplan\OpenAip\Config\IOpenAipConfig;
 use Navplan\OpenAip\Importer\Service\IOpenAipImporter;
 
 
 interface IOpenAipDiContainer {
-    function getNotamConfigService(): IOpenAipConfigService;
+    function getOpenAipConfig(): IOpenAipConfig;
 
     function getOpenAipImporter(): IOpenAipImporter;
 

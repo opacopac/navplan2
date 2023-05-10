@@ -4,28 +4,28 @@ namespace Navplan\Notam;
 
 use Navplan\Config\ProdConfigDiContainer;
 use Navplan\Notam\DbService\DbNotamRepo;
-use Navplan\Notam\DomainService\INotamConfigService;
+use Navplan\Notam\DomainService\INotamConfig;
 use Navplan\Notam\DomainService\INotamService;
 use Navplan\System\DomainService\IDbService;
 
 
 class ProdNotamDiContainer implements INotamDiContainer {
-    private INotamConfigService $notamConfigService;
+    private INotamConfig $notamConfig;
     private INotamService $notamService;
 
 
     public function __construct(
-        private IDbService $dbService
+        private readonly IDbService $dbService
     ) {
     }
 
 
-    function getNotamConfigService(): INotamConfigService {
-        if (!isset($this->notamConfigService)) {
-            $this->notamConfigService = new ProdConfigDiContainer();
+    function getNotamConfig(): INotamConfig {
+        if (!isset($this->notamConfig)) {
+            $this->notamConfig = new ProdConfigDiContainer();
         }
 
-        return $this->notamConfigService;
+        return $this->notamConfig;
     }
 
 

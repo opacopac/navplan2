@@ -3,7 +3,7 @@
 namespace Navplan\System\DomainService;
 
 
-interface ISystemConfigService {
+interface ISystemConfig {
     function getTempDir(): string;
 
     function getLogDir(): string;

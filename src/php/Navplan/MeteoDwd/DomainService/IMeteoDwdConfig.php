@@ -3,6 +3,6 @@
 namespace Navplan\MeteoDwd\DomainService;
 
 
-interface IMeteoDwdConfigService {
+interface IMeteoDwdConfig {
     function getMeteoDwdBaseDir(): string;
 }

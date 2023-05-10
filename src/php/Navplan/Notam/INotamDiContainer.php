@@ -2,12 +2,12 @@
 
 namespace Navplan\Notam;
 
-use Navplan\Notam\DomainService\INotamConfigService;
+use Navplan\Notam\DomainService\INotamConfig;
 use Navplan\Notam\DomainService\INotamService;
 
 
 interface INotamDiContainer {
-    function getNotamConfigService(): INotamConfigService;
+    function getNotamConfig(): INotamConfig;
 
     function getNotamService(): INotamService;
 }

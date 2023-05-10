@@ -2,17 +2,17 @@
 
 namespace Navplan\Config;
 
-use Navplan\MeteoDwd\DomainService\IMeteoDwdConfigService;
-use Navplan\Notam\DomainService\INotamConfigService;
-use Navplan\OpenAip\Config\IOpenAipConfigService;
-use Navplan\System\DomainService\ISystemConfigService;
-use Navplan\System\MySqlDb\IDbConfigService;
-use Navplan\Terrain\DomainService\ITerrainConfigService;
-use Navplan\Traffic\AdsbexService\IAdsbexConfigService;
-use Navplan\User\DomainService\ITokenConfigService;
+use Navplan\MeteoDwd\DomainService\IMeteoDwdConfig;
+use Navplan\Notam\DomainService\INotamConfig;
+use Navplan\OpenAip\Config\IOpenAipConfig;
+use Navplan\System\DomainService\ISystemConfig;
+use Navplan\System\MySqlDb\IDbConfig;
+use Navplan\Terrain\DomainService\ITerrainConfig;
+use Navplan\Traffic\AdsbexService\IAdsbexConfig;
+use Navplan\User\DomainService\ITokenConfig;
 
 
-interface IConfigDiContainer extends IDbConfigService, IOpenAipConfigService, IAdsbexConfigService, INotamConfigService,
-    ITokenConfigService, IMeteoDwdConfigService, ITerrainConfigService, ISystemConfigService
+interface IConfigDiContainer extends IDbConfig, IOpenAipConfig, IAdsbexConfig, INotamConfig,
+    ITokenConfig, IMeteoDwdConfig, ITerrainConfig, ISystemConfig
 {
 }

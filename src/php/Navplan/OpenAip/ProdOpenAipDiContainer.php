@@ -8,7 +8,7 @@ use Navplan\Enroute\Domain\Service\IAirspaceService;
 use Navplan\Enroute\Domain\Service\INavaidService;
 use Navplan\OpenAip\ApiAdapter\Service\IOpenAipService;
 use Navplan\OpenAip\ApiAdapter\Service\OpenAipService;
-use Navplan\OpenAip\Config\IOpenAipConfigService;
+use Navplan\OpenAip\Config\IOpenAipConfig;
 use Navplan\OpenAip\Importer\Service\IOpenAipImporter;
 use Navplan\OpenAip\Importer\Service\OpenAipImporter;
 use Navplan\System\DomainService\IDbService;
@@ -17,7 +17,7 @@ use Navplan\System\DomainService\ILoggingService;
 
 class ProdOpenAipDiContainer implements IOpenAipDiContainer
 {
-    private IOpenAipConfigService $openAipConfigService;
+    private IOpenAipConfig $openAipConfig;
     private IOpenAipImporter $openAipImporter;
     private IOpenAipService $openAipApiService;
 
@@ -32,12 +32,12 @@ class ProdOpenAipDiContainer implements IOpenAipDiContainer
     }
 
 
-    function getNotamConfigService(): IOpenAipConfigService {
-        if (!isset($this->openAipConfigService)) {
-            $this->openAipConfigService = new ProdConfigDiContainer();
+    function getOpenAipConfig(): IOpenAipConfig {
+        if (!isset($this->openAipConfig)) {
+            $this->openAipConfig = new ProdConfigDiContainer();
         }
 
-        return $this->openAipConfigService;
+        return $this->openAipConfig;
     }
 
 
@@ -62,7 +62,7 @@ class ProdOpenAipDiContainer implements IOpenAipDiContainer
     {
         if (!isset($this->openAipApiService)) {
             $this->openAipApiService = new OpenAipService(
-                $this->getNotamConfigService()
+                $this->getOpenAipConfig()
             );
         }
 

@@ -7,27 +7,15 @@ use Navplan\Common\StringNumberHelper;
 use Navplan\System\DomainModel\FileServiceException;
 use Navplan\System\DomainModel\IFile;
 use Navplan\System\DomainService\IFileService;
-use Navplan\System\DomainService\ISystemConfigService;
+use Navplan\System\DomainService\ISystemConfig;
 
 
 class FileService implements IFileService {
     const TMP_DIR_PREFIX = 'tmpdl_';
     const TMP_DIR_TIMEOUT_SEC = 300;
 
-    private static ?IFileService $instance = NULL;
-
-
-    public static function getInstance(): IFileService {
-        if (!isset(static::$instance)) {
-            static::$instance = new static;
-        }
-
-        return static::$instance;
-    }
-
-
     public function __construct(
-        private ISystemConfigService $configService
+        private readonly ISystemConfig $systemConfig
     ) {
     }
 
@@ -88,7 +76,7 @@ class FileService implements IFileService {
 
 
     public function getTempDirBase(): string {
-        return $this->configService->getTempDir();
+        return $this->systemConfig->getTempDir();
     }
 
 

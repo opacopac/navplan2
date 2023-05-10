@@ -8,7 +8,7 @@ use Navplan\MeteoDwd\DomainModel\ForecastStep;
 use Navplan\MeteoDwd\DomainModel\GridDefinition;
 use Navplan\MeteoDwd\DomainModel\IconGridDefinition;
 use Navplan\MeteoDwd\DomainModel\WeatherInfo;
-use Navplan\MeteoDwd\DomainService\IMeteoDwdConfigService;
+use Navplan\MeteoDwd\DomainService\IMeteoDwdConfig;
 use Navplan\MeteoDwd\DomainService\IMeteoDwdWeatherService;
 use Navplan\MeteoDwd\MeteoBinModel\MeteoBinWeatherInfoConverter;
 use Navplan\System\DomainService\IFileService;
@@ -21,10 +21,10 @@ class MeteoBinWeatherService implements IMeteoDwdWeatherService {
 
 
     public function __construct(
-        private IFileService $fileService,
-        private IMeteoDwdConfigService $configService
+        private readonly IFileService $fileService,
+        private readonly IMeteoDwdConfig $meteoDwdConfig
     ) {
-        $this->iconD2BaseDir = $this->configService->getMeteoDwdBaseDir() . MeteoBinForecastService::ICON_D2_DIR;
+        $this->iconD2BaseDir = $this->meteoDwdConfig->getMeteoDwdBaseDir() . MeteoBinForecastService::ICON_D2_DIR;
     }
 
 
