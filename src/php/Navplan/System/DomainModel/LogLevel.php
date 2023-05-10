@@ -12,14 +12,25 @@ class LogLevel {
     const DEBUG = 4;
 
 
-    public static function toString(int $logLevel): string {
-        switch($logLevel) {
-            case self::ERROR: return 'ERROR';
-            case self::WARNING: return 'WARNING';
-            case self::INFO: return 'INFO';
-            case self::DEBUG: return 'DEBUG';
-            default: throw new InvalidArgumentException('unknown log level: ' . $logLevel);
-        }
+    public static function fromString(string $logLevelStr): int {
+        return match (strtoupper($logLevelStr)) {
+            'ERROR' => self::ERROR,
+            'WARNING' => self::WARNING,
+            'INFO' => self::INFO,
+            'DEBUG' => self::DEBUG,
+            default => throw new InvalidArgumentException('unknown log level: ' . $logLevelStr),
+        };
+    }
+
+
+    public static function toString(int $logLevelInt): string {
+        return match ($logLevelInt) {
+            self::ERROR => 'ERROR',
+            self::WARNING => 'WARNING',
+            self::INFO => 'INFO',
+            self::DEBUG => 'DEBUG',
+            default => throw new InvalidArgumentException('unknown log level: ' . $logLevelInt),
+        };
     }
 
 

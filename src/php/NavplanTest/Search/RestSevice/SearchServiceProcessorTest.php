@@ -22,8 +22,7 @@ class SearchServiceProcessorTest extends TestCase {
 
 
     private function getHttpService(): ?MockHttpService {
-        $service = $this->config->getSystemServiceFactory()->getHttpService();
-        return $service instanceof MockHttpService ? $service : NULL;
+        return new MockHttpService();
     }
 
 

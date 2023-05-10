@@ -2,24 +2,12 @@
 
 namespace Navplan\System\Posix;
 
-use http\Exception\RuntimeException;
 use Navplan\System\DomainService\IProcService;
+use RuntimeException;
 
 
 class ProcService implements IProcService {
-    private static $instance = NULL;
-
-
-    public static function getInstance(): IProcService {
-        if (!isset(static::$instance)) {
-            static::$instance = new static;
-        }
-
-        return static::$instance;
-    }
-
-
-    private function __construct() {
+    public function __construct() {
     }
 
 

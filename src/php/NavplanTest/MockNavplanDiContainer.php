@@ -18,7 +18,6 @@ use Navplan\System\DomainService\IFileService;
 use Navplan\System\DomainService\IHttpService;
 use Navplan\System\DomainService\IMailService;
 use Navplan\System\DomainService\IProcService;
-use Navplan\System\DomainService\ISystemServiceFactory;
 use Navplan\System\DomainService\ITimeService;
 use Navplan\Terrain\DomainService\ITerrainRepo;
 use Navplan\Traffic\DomainService\IAdsbexService;
@@ -40,7 +39,6 @@ use NavplanTest\System\Mock\MockFileService;
 use NavplanTest\System\Mock\MockHttpService;
 use NavplanTest\System\Mock\MockMailService;
 use NavplanTest\System\Mock\MockProcService;
-use NavplanTest\System\Mock\MockSystemServiceFactory;
 use NavplanTest\System\Mock\MockTimeService;
 use NavplanTest\Terrain\Mocks\MockTerrainRepo;
 use NavplanTest\Traffic\Mocks\MockAdsbexService;
@@ -54,7 +52,6 @@ use NavplanTest\Webcam\Mocks\MockWebcamRepo;
 
 class MockNavplanDiContainer extends ProdNavplanDiContainer {
     // system
-    public MockSystemServiceFactory $systemServiceFactory;
     public MockHttpService $httpService;
     public MockFileService $fileService;
     public MockMailService $mailService;
@@ -91,12 +88,11 @@ class MockNavplanDiContainer extends ProdNavplanDiContainer {
     public function __construct() {
         parent::__construct();
 
-        $this->systemServiceFactory = new MockSystemServiceFactory();
-        $this->httpService = $this->systemServiceFactory->getHttpService();
-        $this->fileService = $this->systemServiceFactory->getFileService();
-        $this->mailService = $this->systemServiceFactory->getMailService();
-        $this->timeService = $this->systemServiceFactory->getTimeService();
-        $this->procService = $this->systemServiceFactory->getProcService();
+        $this->httpService = new MockHttpService();
+        $this->fileService = new MockFileService();
+        $this->mailService = new MockMailService();
+        $this->timeService = new MockTimeService();
+        $this->procService = new MockProcService();
         $this->dbService = new MockDbService();
         $this->flightrouteRepo = new MockFlightrouteRepo();
         $this->geonameRepo = new MockGeonameRepo();
@@ -118,11 +114,6 @@ class MockNavplanDiContainer extends ProdNavplanDiContainer {
 
 
     // region system
-
-    public function getSystemServiceFactory(): ISystemServiceFactory {
-        return $this->systemServiceFactory;
-    }
-
 
     public function getHttpService(): IHttpService {
         return $this->httpService;

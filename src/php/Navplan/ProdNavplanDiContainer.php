@@ -27,7 +27,7 @@ use Navplan\OpenAip\ProdOpenAipDiContainer;
 use Navplan\Search\ISearchDiContainer;
 use Navplan\Search\ProdSearchDiContainer;
 use Navplan\System\IPersistenceDiContainer;
-use Navplan\System\ISystemDiContainer2;
+use Navplan\System\ISystemDiContainer;
 use Navplan\System\ProdPersistenceDiContainer;
 use Navplan\System\ProdSystemDiContainer;
 use Navplan\Terrain\ITerrainDiContainer;
@@ -57,7 +57,7 @@ class ProdNavplanDiContainer
     private INotamDiContainer $notamDiContainer;
     private IOpenAipDiContainer $openAipDiContainer;
     private ISearchDiContainer $searchDiContainer;
-    private ISystemDiContainer2 $systemDiContainer;
+    private ISystemDiContainer $systemDiContainer;
     private IPersistenceDiContainer $persistenceDiContainer;
     private ITerrainDiContainer $terrainDiContainer;
     private ITrackDiContainer $trackDiContainer;
@@ -224,9 +224,12 @@ class ProdNavplanDiContainer
     }
 
 
-    public function getSystemDiContainer(): ISystemDiContainer2 {
+    public function getSystemDiContainer(): ISystemDiContainer {
         if (!isset($this->systemDiContainer)) {
-            $this->systemDiContainer = new ProdSystemDiContainer();
+            $this->systemDiContainer = new ProdSystemDiContainer(
+                $this->getConfigDiContainer(),
+                $this->getConfigDiContainer()
+            );
         }
 
         return $this->systemDiContainer;

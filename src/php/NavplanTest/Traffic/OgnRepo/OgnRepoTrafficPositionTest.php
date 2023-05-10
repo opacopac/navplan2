@@ -3,7 +3,6 @@
 namespace NavplanTest\Traffic\OgnRepo;
 
 use Navplan\Traffic\OgnRepo\OgnDbRepoTrafficPositionConverter;
-use NavplanTest\System\Mock\MockSystemServiceFactory;
 use NavplanTest\System\Mock\MockTimeService;
 use NavplanTest\Traffic\Mocks\DummyOgnDumpFile12345;
 use NavplanTest\Traffic\Mocks\DummyOgnTrafficPosition1;
@@ -19,8 +18,7 @@ class OgnRepoTrafficPositionTest extends TestCase {
 
 
     protected function setUp(): void {
-        $systemServiceFactory = new MockSystemServiceFactory();
-        $this->timeService = $systemServiceFactory->getTimeService();
+        $this->timeService = new MockTimeService();
     }
 
     public function test_fromResponse() {

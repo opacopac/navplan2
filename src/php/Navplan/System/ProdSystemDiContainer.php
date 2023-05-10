@@ -2,7 +2,6 @@
 
 namespace Navplan\System;
 
-use Navplan\System\DomainModel\LogLevel;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\DomainService\IFileService;
 use Navplan\System\DomainService\IHttpService;
@@ -10,24 +9,21 @@ use Navplan\System\DomainService\IImageService;
 use Navplan\System\DomainService\ILoggingService;
 use Navplan\System\DomainService\IMailService;
 use Navplan\System\DomainService\IProcService;
-use Navplan\System\DomainService\ISystemServiceFactory;
+use Navplan\System\DomainService\ISystemConfigService;
 use Navplan\System\DomainService\ITimeService;
 use Navplan\System\Imagick\ImagickService;
+use Navplan\System\MySqlDb\IDbConfigService;
 use Navplan\System\MySqlDb\MySqlDbService;
+use Navplan\System\Posix\FileService;
+use Navplan\System\Posix\HttpService;
 use Navplan\System\Posix\LoggingService;
-use Navplan\System\Posix\SystemServiceFactory;
+use Navplan\System\Posix\MailService;
+use Navplan\System\Posix\ProcService;
+use Navplan\System\Posix\TimeService;
 
 
-class ProdSystemDiContainer implements ISystemDiContainer2
+class ProdSystemDiContainer implements ISystemDiContainer
 {
-    public const TMP_DIR = __DIR__ . "/../../../../tmp/"; // TODO
-
-    private const LOG_LEVEL = LogLevel::INFO;
-    private const LOG_DIR = __DIR__ . "/../../../../logs/";
-    private const LOG_FILE = self::LOG_DIR . "navplan.log";
-
-
-    private ISystemServiceFactory $systemServiceFactory;
     private IHttpService $httpService;
     private IFileService $fileService;
     private IMailService $mailService;
@@ -39,22 +35,16 @@ class ProdSystemDiContainer implements ISystemDiContainer2
     private IImageService $imageService;
 
 
-    public function __construct() {
-    }
-
-
-    public function getSystemServiceFactory(): ISystemServiceFactory {
-        if (!isset($this->systemServiceFactory)) {
-            $this->systemServiceFactory = new SystemServiceFactory();
-        }
-
-        return $this->systemServiceFactory;
+    public function __construct(
+        private readonly ISystemConfigService $systemConfigService,
+        private readonly IDbConfigService $dbConfigService
+    ) {
     }
 
 
     public function getHttpService(): IHttpService {
         if (!isset($this->httpService)) {
-            $this->httpService = $this->getSystemServiceFactory()->getHttpService();
+            $this->httpService = new HttpService();
         }
 
         return $this->httpService;
@@ -63,7 +53,7 @@ class ProdSystemDiContainer implements ISystemDiContainer2
 
     public function getFileService(): IFileService {
         if (!isset($this->fileService)) {
-            $this->fileService = $this->getSystemServiceFactory()->getFileService();
+            $this->fileService = new FileService($this->systemConfigService);
         }
 
         return $this->fileService;
@@ -72,7 +62,7 @@ class ProdSystemDiContainer implements ISystemDiContainer2
 
     public function getMailService(): IMailService {
         if (!isset($this->mailService)) {
-            $this->mailService = $this->getSystemServiceFactory()->getMailService();
+            $this->mailService = new MailService();
         }
 
         return $this->mailService;
@@ -81,7 +71,7 @@ class ProdSystemDiContainer implements ISystemDiContainer2
 
     public function getTimeService(): ITimeService {
         if (!isset($this->timeService)) {
-            $this->timeService = $this->getSystemServiceFactory()->getTimeService();
+            $this->timeService = new TimeService();
         }
 
         return $this->timeService;
@@ -90,7 +80,7 @@ class ProdSystemDiContainer implements ISystemDiContainer2
 
     public function getProcService(): IProcService {
         if (!isset($this->procService)) {
-            $this->procService = $this->getSystemServiceFactory()->getProcService();
+            $this->procService = new ProcService();
         }
 
         return $this->procService;
@@ -101,7 +91,7 @@ class ProdSystemDiContainer implements ISystemDiContainer2
         if (!isset($this->screenLogger)) {
             $this->screenLogger = new LoggingService(
                 $this->getTimeService(),
-                self::LOG_LEVEL,
+                $this->systemConfigService->getLogLevel(),
                 null
             );
         }
@@ -114,8 +104,8 @@ class ProdSystemDiContainer implements ISystemDiContainer2
         if (!isset($this->fileLogger)) {
             $this->fileLogger = new LoggingService(
                 $this->getTimeService(),
-                self::LOG_LEVEL,
-                self::LOG_FILE
+                $this->systemConfigService->getLogLevel(),
+                $this->systemConfigService->getLogFile()
             );
         }
 
@@ -124,13 +114,17 @@ class ProdSystemDiContainer implements ISystemDiContainer2
 
 
     public function getDbService(): IDbService {
-        global $db_host, $db_user, $db_pw, $db_name;
-
         if (!isset($this->dbService)) {
             $this->dbService = new MySqlDbService(
                 $this->getScreenLogger()
             );
-            $this->dbService->init($db_host, $db_user, $db_pw, $db_name);
+            $credentials = $this->dbConfigService->getCredentials();
+            $this->dbService->init(
+                $credentials->host,
+                $credentials->user,
+                $credentials->pw,
+                $credentials->database
+            );
         }
 
         return $this->dbService;

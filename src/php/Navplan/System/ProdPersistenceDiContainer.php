@@ -13,7 +13,7 @@ class ProdPersistenceDiContainer implements IPersistenceDiContainer
 
 
     public function __construct(
-        private ISystemDiContainer2 $systemDiContainer,
+        private ISystemDiContainer $systemDiContainer,
         private IDbConfigService $dbConfigService
     ) {
     }

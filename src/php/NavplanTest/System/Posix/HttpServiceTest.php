@@ -15,7 +15,7 @@ class HttpServiceTest extends TestCase {
 
 
     protected function setUp(): void {
-        $this->httpService = HttpService::getInstance();
+        $this->httpService = new HttpService();
         $this->httpServiceMock = new MockHttpService();
     }
 

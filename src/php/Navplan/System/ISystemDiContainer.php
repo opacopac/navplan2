@@ -8,13 +8,10 @@ use Navplan\System\DomainService\IImageService;
 use Navplan\System\DomainService\ILoggingService;
 use Navplan\System\DomainService\IMailService;
 use Navplan\System\DomainService\IProcService;
-use Navplan\System\DomainService\ISystemServiceFactory;
 use Navplan\System\DomainService\ITimeService;
 
 
-interface ISystemDiContainer2 {
-    function getSystemServiceFactory(): ISystemServiceFactory;
-
+interface ISystemDiContainer {
     function getHttpService(): IHttpService;
 
     function getFileService(): IFileService;

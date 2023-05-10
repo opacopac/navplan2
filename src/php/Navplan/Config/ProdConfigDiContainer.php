@@ -47,8 +47,29 @@ class ProdConfigDiContainer implements IConfigDiContainer
         return $this->getConfigService()->getMeteoDwdBaseDir();
     }
 
+
     function getTerrainTilesBaseDir(): string {
         return $this->getConfigService()->getTerrainTilesBaseDir();
+    }
+
+
+    function getTempDir(): string {
+        return $this->getConfigService()->getTempDir();
+    }
+
+
+    function getLogDir(): string {
+        return $this->getConfigService()->getLogDir();
+    }
+
+
+    function getLogFile(): string {
+        return $this->getConfigService()->getLogFile();
+    }
+
+
+    function getLogLevel(): int {
+        return $this->getConfigService()->getLogLevel();
     }
 
 

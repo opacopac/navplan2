@@ -7,11 +7,10 @@ use Navplan\Common\StringNumberHelper;
 use Navplan\System\DomainModel\FileServiceException;
 use Navplan\System\DomainModel\IFile;
 use Navplan\System\DomainService\IFileService;
-use Navplan\System\ProdSystemDiContainer;
+use Navplan\System\DomainService\ISystemConfigService;
 
 
 class FileService implements IFileService {
-    const TMP_DIR_BASE = ProdSystemDiContainer::TMP_DIR; // TODO
     const TMP_DIR_PREFIX = 'tmpdl_';
     const TMP_DIR_TIMEOUT_SEC = 300;
 
@@ -27,7 +26,9 @@ class FileService implements IFileService {
     }
 
 
-    private function __construct() {
+    public function __construct(
+        private ISystemConfigService $configService
+    ) {
     }
 
 
@@ -87,7 +88,7 @@ class FileService implements IFileService {
 
 
     public function getTempDirBase(): string {
-        return self::TMP_DIR_BASE;
+        return $this->configService->getTempDir();
     }
 
 
@@ -95,7 +96,7 @@ class FileService implements IFileService {
         $this->cleanUpTempDirs();
 
         $tmpDir = self::TMP_DIR_PREFIX . StringNumberHelper::createRandomString(20);
-        mkdir(self::TMP_DIR_BASE . $tmpDir);
+        mkdir($this->getTempDirBase() . $tmpDir);
 
         return $tmpDir;
     }
@@ -107,11 +108,11 @@ class FileService implements IFileService {
 
 
     private function cleanUpTempDirs() {
-        $tmpDirEntries = scandir(self::TMP_DIR_BASE);
+        $tmpDirEntries = scandir($this->getTempDirBase());
 
         // iterate trough tmp dirs
         foreach ($tmpDirEntries as $tmpDir) {
-            $tmpDirPath = self::TMP_DIR_BASE . $tmpDir;
+            $tmpDirPath = $this->getTempDirBase() . $tmpDir;
 
             if (!is_dir($tmpDirPath) || !str_starts_with($tmpDir, self::TMP_DIR_PREFIX)) {
                 continue;

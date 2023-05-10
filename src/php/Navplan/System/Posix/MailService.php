@@ -6,21 +6,10 @@ use Navplan\System\DomainService\IMailService;
 
 
 class MailService implements IMailService {
-    const NAVPLAN_EMAIL_FROM = "info@navplan.ch";
-
-    private static $instance = NULL;
+    const NAVPLAN_EMAIL_FROM = "info@navplan.ch"; // TODO: config
 
 
-    public static function getInstance(): MailService {
-        if (!isset(static::$instance)) {
-            static::$instance = new static;
-        }
-
-        return static::$instance;
-    }
-
-
-    private function __construct() {
+    public function __construct() {
     }
 
 
