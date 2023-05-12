@@ -28,11 +28,11 @@ class FileService implements IFileService {
             // TODO: handle warnings (currently suppressed with @ operator)
             $result = @file_get_contents($filename, $use_include_path, $context);
         } catch (Exception $ex) {
-            throw new FileServiceException('error reading file or stream', 0, $ex);
+            throw new FileServiceException('error reading file or stream ' . $filename, 0, $ex);
         }
 
         if ($result === FALSE) {
-            throw new FileServiceException('error reading file or stream');
+            throw new FileServiceException('error reading file or stream ' . $filename);
         } else {
             return $result;
         }

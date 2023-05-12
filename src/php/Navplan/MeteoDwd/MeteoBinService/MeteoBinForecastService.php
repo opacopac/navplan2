@@ -32,7 +32,7 @@ class MeteoBinForecastService implements IMeteoDwdForecastService {
      */
     function readAvailableForecasts(): array {
         $subDirs = $this->fileService->glob($this->iconD2BaseDir . '*' , GLOB_ONLYDIR);
-        if ($subDirs === false) {
+        if ($subDirs === false || count($subDirs) === 0) {
             throw new FileServiceException("error reading base directory '" . $this->iconD2BaseDir . "'");
         }
 
