@@ -5,6 +5,10 @@ import {AngleUnit} from '../../../geo-physics/domain/model/quantities/angle-unit
 
 
 export class WindIcon {
+    public static ICON_HEIGHT = 34;
+    public static ICON_WIDTH = 34;
+
+
     public constructor(
         public src: string,
         public rot: Angle
