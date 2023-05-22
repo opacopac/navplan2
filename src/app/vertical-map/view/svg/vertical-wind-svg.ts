@@ -29,7 +29,7 @@ export class VerticalWindSvg {
                         imageHeightPx
                     );
 
-                    if (xy[1] < 0) {
+                    if (xy[1] < -WindIcon.ICON_HEIGHT / 2) {
                         break;
                     }
 
