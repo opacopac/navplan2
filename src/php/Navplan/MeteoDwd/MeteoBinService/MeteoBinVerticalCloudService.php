@@ -3,10 +3,13 @@
 namespace Navplan\MeteoDwd\MeteoBinService;
 
 use Navplan\Common\DomainModel\Length;
+use Navplan\Common\DomainModel\Position2d;
 use Navplan\Common\GeoHelper;
 use Navplan\Common\StringNumberHelper;
+use Navplan\MeteoDwd\DomainModel\ForecastRun;
 use Navplan\MeteoDwd\DomainModel\ForecastStep;
 use Navplan\MeteoDwd\DomainModel\IconGridDefinition;
+use Navplan\MeteoDwd\DomainModel\WeatherModelConfig;
 use Navplan\MeteoDwd\DomainService\IMeteoDwdConfig;
 use Navplan\MeteoDwd\DomainService\IMeteoDwdVerticalCloudService;
 use Navplan\MeteoDwd\MeteoBinModel\MeteoBinVerticalCloudInfoConverter;
@@ -46,6 +49,22 @@ class MeteoBinVerticalCloudService implements IMeteoDwdVerticalCloudService  {
                 $rawBytes = $file->fread(self::BYTES_PER_POS);
                 $verticalCloudColumns[] = MeteoBinVerticalCloudInfoConverter::verticalCloudColumnFrom($rawBytes, $horDist);
             };
+        }
+
+        return $verticalCloudColumns;
+    }
+
+
+    public function readPositionalVerticalCloudInfo(ForecastRun $forecastRun, Position2d $pos): array {
+        $weatherModel = WeatherModelConfig::getIconD2ModelConfig(); // TODO
+        $verticalCloudColumns = [];
+        for ($i = $weatherModel->minStep; $i <= $weatherModel->maxStep; $i++) {
+            $forecastStepString = StringNumberHelper::zeroPad($i, 3); // TODO
+            $forecastStep = new ForecastStep($forecastStepString, $i);
+            $singleVerticalCloudColumn = $this->readVerticalCloudInfo($forecastStep, [$pos]);
+            if (count($singleVerticalCloudColumn) > 0) {
+                $verticalCloudColumns[] = $singleVerticalCloudColumn[0];
+            }
         }
 
         return $verticalCloudColumns;

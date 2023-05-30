@@ -3,6 +3,7 @@
 namespace Navplan\MeteoDwd\DomainService;
 
 use Navplan\Common\DomainModel\Position2d;
+use Navplan\MeteoDwd\DomainModel\ForecastRun;
 use Navplan\MeteoDwd\DomainModel\ForecastStep;
 use Navplan\MeteoDwd\DomainModel\VerticalCloudColumn;
 
@@ -14,4 +15,11 @@ interface IMeteoDwdVerticalCloudService {
      * @return VerticalCloudColumn[]
      */
     function readVerticalCloudInfo(ForecastStep $forecastStep, array $posList): array;
+
+    /**
+     * @param ForecastRun $forecastRun
+     * @param Position2d $pos
+     * @return VerticalCloudColumn[]
+     */
+    function readPositionalVerticalCloudInfo(ForecastRun $forecastRun, Position2d $pos): array;
 }
