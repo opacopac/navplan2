@@ -2,7 +2,7 @@
 
 namespace Navplan\MeteoSma\DataImport;
 
-use Navplan\MeteoSma\DomainService\IMeteoSmaService;
+use Navplan\MeteoSma\Domain\Service\IMeteoSmaService;
 use Navplan\System\DomainService\IFileService;
 
 

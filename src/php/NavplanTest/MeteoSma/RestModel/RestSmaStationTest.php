@@ -2,7 +2,7 @@
 
 namespace NavplanTest\MeteoSma\RestModel;
 
-use Navplan\MeteoSma\RestModel\RestSmaStationConverter;
+use Navplan\MeteoSma\Rest\Model\RestSmaStationConverter;
 use NavplanTest\MeteoSma\Mocks\DummySmaStation1;
 use NavplanTest\MeteoSma\Mocks\DummySmaStation2;
 use PHPUnit\Framework\TestCase;

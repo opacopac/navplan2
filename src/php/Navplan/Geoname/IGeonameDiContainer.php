@@ -2,7 +2,7 @@
 
 namespace Navplan\Geoname;
 
-use Navplan\Geoname\DomainService\IGeonameService;
+use Navplan\Geoname\Domain\Service\IGeonameService;
 
 
 interface IGeonameDiContainer {

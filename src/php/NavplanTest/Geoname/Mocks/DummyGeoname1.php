@@ -4,7 +4,7 @@ namespace NavplanTest\Geoname\Mocks;
 
 use Navplan\Common\DomainModel\Altitude;
 use Navplan\Common\DomainModel\Position2d;
-use Navplan\Geoname\DomainModel\Geoname;
+use Navplan\Geoname\Domain\Model\Geoname;
 
 
 class DummyGeoname1 {

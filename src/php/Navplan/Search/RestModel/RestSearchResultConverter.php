@@ -7,7 +7,7 @@ use Navplan\Aerodrome\Rest\Converter\RestAirportConverter;
 use Navplan\Aerodrome\Rest\Converter\RestReportingPointConverter;
 use Navplan\Enroute\Rest\Converter\RestAirspaceConverter;
 use Navplan\Enroute\Rest\Converter\RestNavaidConverter;
-use Navplan\Geoname\RestModel\RestGeonameConverter;
+use Navplan\Geoname\Rest\Model\RestGeonameConverter;
 use Navplan\Notam\RestModel\RestNotamConverter;
 use Navplan\Search\DomainModel\SearchResult;
 use Navplan\User\RestModel\UserPointConverter;

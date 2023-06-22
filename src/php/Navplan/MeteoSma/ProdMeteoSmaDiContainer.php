@@ -2,8 +2,8 @@
 
 namespace Navplan\MeteoSma;
 
-use Navplan\MeteoSma\DbService\DbMeteoSmaRepo;
-use Navplan\MeteoSma\DomainService\IMeteoSmaService;
+use Navplan\MeteoSma\Domain\Service\IMeteoSmaService;
+use Navplan\MeteoSma\Persistence\Service\DbMeteoSmaRepo;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\DomainService\ITimeService;
 

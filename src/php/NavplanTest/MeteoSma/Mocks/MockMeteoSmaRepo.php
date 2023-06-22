@@ -3,7 +3,7 @@
 namespace NavplanTest\MeteoSma\Mocks;
 
 use Navplan\Common\DomainModel\Extent2d;
-use Navplan\MeteoSma\DomainService\IMeteoSmaRepo;
+use Navplan\MeteoSma\Domain\Service\IMeteoSmaRepo;
 
 
 class MockMeteoSmaRepo implements IMeteoSmaRepo {

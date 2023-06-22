@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Meteo\RestService;
 
-use Navplan\MeteoSma\RestService\MeteoSmaController;
+use Navplan\MeteoSma\Rest\Service\MeteoSmaController;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement1;
 use NavplanTest\MeteoSma\Mocks\MockMeteoSmaRepo;
 use NavplanTest\MockNavplanDiContainer;

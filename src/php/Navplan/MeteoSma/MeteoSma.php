@@ -2,7 +2,7 @@
 
 namespace Navplan\MeteoSma;
 
-use Navplan\MeteoSma\RestService\MeteoSmaController;
+use Navplan\MeteoSma\Rest\Service\MeteoSmaController;
 use Navplan\ProdNavplanDiContainer;
 
 require_once __DIR__ . "/../RestServiceBootstrap.php";

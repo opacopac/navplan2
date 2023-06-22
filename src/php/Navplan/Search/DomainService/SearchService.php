@@ -6,7 +6,7 @@ use Navplan\Aerodrome\Domain\Service\IAirportService;
 use Navplan\Aerodrome\Domain\Service\IReportingPointService;
 use Navplan\Enroute\Domain\Service\IAirspaceService;
 use Navplan\Enroute\Domain\Service\INavaidService;
-use Navplan\Geoname\DomainService\IGeonameService;
+use Navplan\Geoname\Domain\Service\IGeonameService;
 use Navplan\Notam\DomainService\INotamService;
 use Navplan\Search\DomainModel\SearchByPositionQuery;
 use Navplan\Search\DomainModel\SearchByTextQuery;

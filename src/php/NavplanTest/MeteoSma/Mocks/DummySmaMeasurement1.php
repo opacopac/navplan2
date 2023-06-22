@@ -5,7 +5,7 @@ namespace NavplanTest\MeteoSma\Mocks;
 use Navplan\Common\DomainModel\Time;
 use Navplan\Common\DomainModel\Timestamp;
 use Navplan\Common\DomainModel\TimeUnit;
-use Navplan\MeteoSma\DomainModel\SmaMeasurement;
+use Navplan\MeteoSma\Domain\Model\SmaMeasurement;
 
 
 class DummySmaMeasurement1

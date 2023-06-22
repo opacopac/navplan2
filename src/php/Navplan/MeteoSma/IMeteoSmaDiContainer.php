@@ -2,7 +2,7 @@
 
 namespace Navplan\MeteoSma;
 
-use Navplan\MeteoSma\DomainService\IMeteoSmaService;
+use Navplan\MeteoSma\Domain\Service\IMeteoSmaService;
 
 
 interface IMeteoSmaDiContainer {

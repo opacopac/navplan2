@@ -2,9 +2,9 @@
 
 namespace Navplan\Geoname;
 
-use Navplan\Geoname\DbRepo\DbGeonameRepo;
-use Navplan\Geoname\DomainService\GeonameService;
-use Navplan\Geoname\DomainService\IGeonameService;
+use Navplan\Geoname\Domain\Service\GeonameService;
+use Navplan\Geoname\Domain\Service\IGeonameService;
+use Navplan\Geoname\Persistence\Repo\DbGeonameRepo;
 use Navplan\System\DomainService\IDbService;
 use Navplan\Terrain\DomainService\ITerrainService;
 
