@@ -11,4 +11,9 @@ class ForecastRun {
         public WeatherModelConfig $modelConfig
     ) {
     }
+
+
+    public function getName(): string {
+        return $this->startTime->format('YmdH');
+    }
 }

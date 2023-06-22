@@ -62,7 +62,7 @@ class VerticalMapService implements IVerticalMapService {
         // vertical clouds
         if ($forecastStep !== null && $layer === WeatherModelLayer::CLOUDS) {
             $vertCloudSteps = $waypoints->subdividePosList(Length::fromM(self::WEATHER_RESOLUTION_M), self::WEATHER_MAX_STEPS);
-            $verticalCloudInfo = $this->verticalCloudService->readVerticalCloudInfo($forecastStep, $vertCloudSteps);
+            $verticalCloudInfo = $this->verticalCloudService->readVerticalClouds($forecastStep, $vertCloudSteps);
         }
 
         // vertical wind

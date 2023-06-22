@@ -5,7 +5,7 @@ namespace Navplan\MeteoDwd\DomainModel;
 
 class ForecastStep {
     public function __construct(
-        public string $run,
+        public string $runName,
         public int $step
     ) {
     }

@@ -54,7 +54,7 @@ class MeteoBinVerticalWindService implements IMeteoDwdVerticalWindService  {
 
     private function openMeteoBinFile(ForecastStep $forecastStep): IFile {
         $step = StringNumberHelper::zeroPad($forecastStep->step, 3);
-        $fileName = $this->iconD2BaseDir . $forecastStep->run . "/" . $step . self::METEOBIN_VERTICAL_WIND_PATH;
+        $fileName = $this->iconD2BaseDir . $forecastStep->runName . "/" . $step . self::METEOBIN_VERTICAL_WIND_PATH;
 
         return $this->fileService->fopen($fileName, "r");
     }

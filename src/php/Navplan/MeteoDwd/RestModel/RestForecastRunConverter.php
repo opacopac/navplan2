@@ -4,6 +4,7 @@ namespace Navplan\MeteoDwd\RestModel;
 
 use Navplan\Common\Rest\Converter\RestDateConverter;
 use Navplan\MeteoDwd\DomainModel\ForecastRun;
+use Navplan\MeteoDwd\DomainModel\WeatherModelConfig;
 
 
 class RestForecastRunConverter {
@@ -27,6 +28,14 @@ class RestForecastRunConverter {
         return array(
             self::ARG_START_TIME => RestDateConverter::toRest($forecastRun->startTime),
             self::ARG_MODEL => RestWeatherModelConfigConverter::toRest($forecastRun->modelConfig)
+        );
+    }
+
+
+    public static function fromRest(string $args): ForecastRun {
+        return new ForecastRun(
+            RestDateConverter::fromRest($args), // TODO: args
+            WeatherModelConfig::getIconD2ModelConfig() // TODO
         );
     }
 }

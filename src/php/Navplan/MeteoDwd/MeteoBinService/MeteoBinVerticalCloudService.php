@@ -3,15 +3,14 @@
 namespace Navplan\MeteoDwd\MeteoBinService;
 
 use Navplan\Common\DomainModel\Length;
-use Navplan\Common\DomainModel\Position2d;
 use Navplan\Common\GeoHelper;
 use Navplan\Common\StringNumberHelper;
-use Navplan\MeteoDwd\DomainModel\ForecastRun;
 use Navplan\MeteoDwd\DomainModel\ForecastStep;
 use Navplan\MeteoDwd\DomainModel\IconGridDefinition;
-use Navplan\MeteoDwd\DomainModel\WeatherModelConfig;
 use Navplan\MeteoDwd\DomainService\IMeteoDwdConfig;
 use Navplan\MeteoDwd\DomainService\IMeteoDwdVerticalCloudService;
+use Navplan\MeteoDwd\DomainService\ReadPosVerticalCloudsRequest;
+use Navplan\MeteoDwd\DomainService\ReadPosVerticalCloudsResponse;
 use Navplan\MeteoDwd\MeteoBinModel\MeteoBinVerticalCloudInfoConverter;
 use Navplan\System\DomainModel\IFile;
 use Navplan\System\DomainService\IFileService;
@@ -32,7 +31,7 @@ class MeteoBinVerticalCloudService implements IMeteoDwdVerticalCloudService  {
     }
 
 
-    public function readVerticalCloudInfo(ForecastStep $forecastStep, array $posList): array {
+    public function readVerticalClouds(ForecastStep $forecastStep, array $posList): array {
         $iconD2Grid = IconGridDefinition::getIconD2Grid();
         $file = $this->openMeteoBinFile($forecastStep);
 
@@ -55,25 +54,26 @@ class MeteoBinVerticalCloudService implements IMeteoDwdVerticalCloudService  {
     }
 
 
-    public function readPositionalVerticalCloudInfo(ForecastRun $forecastRun, Position2d $pos): array {
-        $weatherModel = WeatherModelConfig::getIconD2ModelConfig(); // TODO
+    public function readPositionalVerticalClouds(ReadPosVerticalCloudsRequest $request): ReadPosVerticalCloudsResponse {
+        $forecastRun = $request->forecastRun;
+        $pos = $request->pos;
+
         $verticalCloudColumns = [];
-        for ($i = $weatherModel->minStep; $i <= $weatherModel->maxStep; $i++) {
-            $forecastStepString = StringNumberHelper::zeroPad($i, 3); // TODO
-            $forecastStep = new ForecastStep($forecastStepString, $i);
-            $singleVerticalCloudColumn = $this->readVerticalCloudInfo($forecastStep, [$pos]);
+        for ($i = $forecastRun->modelConfig->minStep; $i <= $forecastRun->modelConfig->maxStep; $i++) {
+            $forecastStep = new ForecastStep($forecastRun->getName(), $i);
+            $singleVerticalCloudColumn = $this->readVerticalClouds($forecastStep, [$pos]);
             if (count($singleVerticalCloudColumn) > 0) {
                 $verticalCloudColumns[] = $singleVerticalCloudColumn[0];
             }
         }
 
-        return $verticalCloudColumns;
+        return new ReadPosVerticalCloudsResponse($verticalCloudColumns);
     }
 
 
     private function openMeteoBinFile(ForecastStep $forecastStep): IFile {
         $step = StringNumberHelper::zeroPad($forecastStep->step, 3);
-        $fileName = $this->iconD2BaseDir . $forecastStep->run . "/" . $step . self::METEOBIN_VERTICAL_CLOUDS_PATH;
+        $fileName = $this->iconD2BaseDir . $forecastStep->runName . "/" . $step . self::METEOBIN_VERTICAL_CLOUDS_PATH;
 
         return $this->fileService->fopen($fileName, "r");
     }

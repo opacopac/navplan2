@@ -30,7 +30,7 @@ class MeteoBinWeatherService implements IMeteoDwdWeatherService {
 
     public function readWeatherInfo(ForecastStep $forecastStep, GridDefinition $grid): array {
         $step = StringNumberHelper::zeroPad($forecastStep->step, 3);
-        $fileName = $this->iconD2BaseDir . $forecastStep->run . "/" . $step . self::METEOBIN_WW_PATH;
+        $fileName = $this->iconD2BaseDir . $forecastStep->runName . "/" . $step . self::METEOBIN_WW_PATH;
 
         $rawContent = $this->fileService->fileGetContents($fileName);
         $iconD2Grid = IconGridDefinition::getIconD2Grid();

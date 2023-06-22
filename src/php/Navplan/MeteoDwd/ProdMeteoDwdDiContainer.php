@@ -42,8 +42,6 @@ class ProdMeteoDwdDiContainer implements IMeteoDwdDiContainer {
                 $this->getMeteoDwdForecastService(),
                 $this->getMeteoDwdWeatherService(),
                 $this->getMeteoDwdWindService(),
-                $this->getMeteoDwdVerticalCloudService(),
-                $this->getMeteoDwdVerticalWindService(),
                 $this->httpService
             );
         }
