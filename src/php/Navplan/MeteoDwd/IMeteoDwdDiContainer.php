@@ -3,11 +3,11 @@
 namespace Navplan\MeteoDwd;
 
 use Navplan\Common\Rest\Controller\IRestController;
-use Navplan\MeteoDwd\DomainService\IMeteoDwdForecastService;
-use Navplan\MeteoDwd\DomainService\IMeteoDwdVerticalCloudService;
-use Navplan\MeteoDwd\DomainService\IMeteoDwdVerticalWindService;
-use Navplan\MeteoDwd\DomainService\IMeteoDwdWeatherService;
-use Navplan\MeteoDwd\DomainService\IMeteoDwdWindService;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdForecastService;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalCloudService;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalWindService;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdWeatherService;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdWindService;
 
 
 interface IMeteoDwdDiContainer {

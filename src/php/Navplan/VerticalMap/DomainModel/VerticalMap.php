@@ -3,7 +3,7 @@
 namespace Navplan\VerticalMap\DomainModel;
 
 use Navplan\Common\DomainModel\Length;
-use Navplan\MeteoDwd\DomainModel\VerticalCloudColumn;
+use Navplan\MeteoDwd\Domain\Model\VerticalCloudColumn;
 
 
 class VerticalMap {

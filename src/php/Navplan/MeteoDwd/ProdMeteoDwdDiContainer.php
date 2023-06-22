@@ -3,18 +3,18 @@
 namespace Navplan\MeteoDwd;
 
 use Navplan\Common\Rest\Controller\IRestController;
-use Navplan\MeteoDwd\DomainService\IMeteoDwdConfig;
-use Navplan\MeteoDwd\DomainService\IMeteoDwdForecastService;
-use Navplan\MeteoDwd\DomainService\IMeteoDwdVerticalCloudService;
-use Navplan\MeteoDwd\DomainService\IMeteoDwdVerticalWindService;
-use Navplan\MeteoDwd\DomainService\IMeteoDwdWeatherService;
-use Navplan\MeteoDwd\DomainService\IMeteoDwdWindService;
-use Navplan\MeteoDwd\MeteoBinService\MeteoBinForecastService;
-use Navplan\MeteoDwd\MeteoBinService\MeteoBinVerticalCloudService;
-use Navplan\MeteoDwd\MeteoBinService\MeteoBinVerticalWindService;
-use Navplan\MeteoDwd\MeteoBinService\MeteoBinWeatherService;
-use Navplan\MeteoDwd\MeteoBinService\MeteoBinWindService;
-use Navplan\MeteoDwd\RestService\MeteoDwdController;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdConfig;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdForecastService;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalCloudService;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalWindService;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdWeatherService;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdWindService;
+use Navplan\MeteoDwd\MeteoBin\Service\MeteoBinForecastService;
+use Navplan\MeteoDwd\MeteoBin\Service\MeteoBinVerticalCloudService;
+use Navplan\MeteoDwd\MeteoBin\Service\MeteoBinVerticalWindService;
+use Navplan\MeteoDwd\MeteoBin\Service\MeteoBinWeatherService;
+use Navplan\MeteoDwd\MeteoBin\Service\MeteoBinWindService;
+use Navplan\MeteoDwd\Rest\Service\MeteoDwdController;
 use Navplan\System\DomainService\IFileService;
 use Navplan\System\DomainService\IHttpService;
 

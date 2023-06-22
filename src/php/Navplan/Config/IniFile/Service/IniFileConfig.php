@@ -3,7 +3,7 @@
 namespace Navplan\Config\IniFile\Service;
 
 use InvalidArgumentException;
-use Navplan\MeteoDwd\DomainService\IMeteoDwdConfig;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdConfig;
 use Navplan\Notam\DomainService\INotamConfig;
 use Navplan\OpenAip\Config\IOpenAipConfig;
 use Navplan\System\DomainModel\LogLevel;
