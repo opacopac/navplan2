@@ -2,18 +2,25 @@
 
 namespace Navplan\MeteoDwd\RestService;
 
-use Navplan\MeteoDwd\Rest\Service\RestReadPosVerticalCloudsRequestConverter;
-use Navplan\MeteoDwd\Rest\Service\RestReadPosVerticalCloudsResponseConverter;
+use Navplan\Common\Rest\Converter\RestPosition2dConverter;
+use Navplan\MeteoDwd\Rest\Model\RestForecastRunConverter;
+use Navplan\MeteoDwd\Rest\Model\RestVerticalCloudColumnConverter;
 use Navplan\ProdNavplanDiContainer;
 
 require_once __DIR__ . "/../../../RestServiceBootstrap.php";
+
+const ARG_POS_LAT = "lat";
+const ARG_POS_LON = "lon";
+const ARG_FORECAST_RUN = "forecastrun";
 
 
 $diContainer = new ProdNavplanDiContainer();
 $httpService = $diContainer->getSystemDiContainer()->getHttpService();
 $verticalCloudService = $diContainer->getMeteoDwdDiContainer()->getMeteoDwdVerticalCloudService();
-$args = $httpService->getGetArgs();
 
-$request = RestReadPosVerticalCloudsRequestConverter::fromRest($args);
-$response = $verticalCloudService->readPositionalVerticalClouds($request);
-$httpService->sendArrayResponse(RestReadPosVerticalCloudsResponseConverter::toRest($response));
+$args = $httpService->getGetArgs();
+$forecastRun = RestForecastRunConverter::fromRest($args[ARG_FORECAST_RUN]);
+$pos = RestPosition2dConverter::fromRest([$args[ARG_POS_LON], $args[ARG_POS_LAT]]);
+
+$verticalCloudColumns = $verticalCloudService->readPositionalVerticalClouds($forecastRun, $pos);
+$httpService->sendArrayResponse(RestVerticalCloudColumnConverter::toRestList($verticalCloudColumns));
