@@ -6,7 +6,7 @@ use Navplan\MeteoDwd\Rest\Service\RestReadPosVerticalCloudsRequestConverter;
 use Navplan\MeteoDwd\Rest\Service\RestReadPosVerticalCloudsResponseConverter;
 use Navplan\ProdNavplanDiContainer;
 
-require_once __DIR__ . "/../../RestServiceBootstrap.php";
+require_once __DIR__ . "/../../../RestServiceBootstrap.php";
 
 
 $diContainer = new ProdNavplanDiContainer();
