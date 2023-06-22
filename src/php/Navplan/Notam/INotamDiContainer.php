@@ -2,8 +2,8 @@
 
 namespace Navplan\Notam;
 
-use Navplan\Notam\DomainService\INotamConfig;
-use Navplan\Notam\DomainService\INotamService;
+use Navplan\Notam\Domain\Service\INotamConfig;
+use Navplan\Notam\Domain\Service\INotamService;
 
 
 interface INotamDiContainer {

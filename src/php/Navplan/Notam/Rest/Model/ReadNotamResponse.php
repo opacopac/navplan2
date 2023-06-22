@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Notam\RestModel;
+namespace Navplan\Notam\Rest\Model;
 
 
 class ReadNotamResponse {

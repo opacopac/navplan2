@@ -7,7 +7,7 @@ use Navplan\Common\DomainModel\Circle2d;
 use Navplan\Common\DomainModel\Length;
 use Navplan\Common\DomainModel\LengthUnit;
 use Navplan\Common\DomainModel\Position2d;
-use Navplan\Notam\DomainModel\NotamGeometry;
+use Navplan\Notam\Domain\Model\NotamGeometry;
 
 
 class DummyNotamGeometry1 {

@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Notam\RestModel;
 
-use Navplan\Notam\RestModel\RestNotamConverter;
+use Navplan\Notam\Rest\Model\RestNotamConverter;
 use NavplanTest\Notam\Mocks\DummyNotam1;
 use NavplanTest\Notam\Mocks\DummyNotam2;
 use NavplanTest\Notam\Mocks\DummyNotam3;

@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Notam\DbModel;
+namespace Navplan\Notam\Persistence\Model;
 
 use Navplan\Common\StringNumberHelper;
-use Navplan\Notam\DomainModel\Notam;
+use Navplan\Notam\Domain\Model\Notam;
 
 
 class DbNotamConverter {

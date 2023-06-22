@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Notam\DomainService;
+namespace Navplan\Notam\Domain\Service;
 
 
 interface INotamConfig {

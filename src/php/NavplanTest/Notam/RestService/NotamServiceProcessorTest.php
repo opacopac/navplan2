@@ -3,8 +3,8 @@
 namespace NavplanTest\Notam\RestService;
 
 use InvalidArgumentException;
+use Navplan\Notam\Rest\Service\NotamController;
 use Navplan\Notam\RestModel\ReadNotamByExtentRequestConverter;
-use Navplan\Notam\RestService\NotamController;
 use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\Notam\Mocks\DummyNotam1;
 use NavplanTest\Notam\Mocks\MockNotamRepo;

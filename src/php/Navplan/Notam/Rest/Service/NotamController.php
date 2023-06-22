@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Notam\RestService;
+namespace Navplan\Notam\Rest\Service;
 
 use InvalidArgumentException;
-use Navplan\Notam\DomainService\INotamService;
-use Navplan\Notam\RestModel\ReadNotamByExtentRequest;
-use Navplan\Notam\RestModel\ReadNotamByIcaoRequest;
-use Navplan\Notam\RestModel\ReadNotamByPositionRequest;
-use Navplan\Notam\RestModel\ReadNotamResponse;
+use Navplan\Notam\Domain\Service\INotamService;
+use Navplan\Notam\Rest\Model\ReadNotamByExtentRequest;
+use Navplan\Notam\Rest\Model\ReadNotamByIcaoRequest;
+use Navplan\Notam\Rest\Model\ReadNotamByPositionRequest;
+use Navplan\Notam\Rest\Model\ReadNotamResponse;
 use Navplan\System\DomainService\IHttpService;
 
 

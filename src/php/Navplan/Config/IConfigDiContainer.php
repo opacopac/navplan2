@@ -3,7 +3,7 @@
 namespace Navplan\Config;
 
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdConfig;
-use Navplan\Notam\DomainService\INotamConfig;
+use Navplan\Notam\Domain\Service\INotamConfig;
 use Navplan\OpenAip\Config\IOpenAipConfig;
 use Navplan\System\DomainService\ISystemConfig;
 use Navplan\System\MySqlDb\IDbConfig;

@@ -11,7 +11,7 @@ use Navplan\Enroute\Domain\Service\INavaidService;
 use Navplan\Flightroute\Domain\Service\IFlightrouteRepo;
 use Navplan\Geoname\Domain\Service\IGeonameRepo;
 use Navplan\MeteoSma\Domain\Service\IMeteoSmaRepo;
-use Navplan\Notam\DomainService\INotamRepo;
+use Navplan\Notam\Domain\Service\INotamRepo;
 use Navplan\ProdNavplanDiContainer;
 use Navplan\System\DomainService\IDbService;
 use Navplan\System\DomainService\IFileService;

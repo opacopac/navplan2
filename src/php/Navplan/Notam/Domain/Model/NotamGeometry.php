@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Notam\DomainModel;
+namespace Navplan\Notam\Domain\Model;
 
 use Navplan\Common\DomainModel\Altitude;
 use Navplan\Common\DomainModel\IGeometry2d;

@@ -5,7 +5,7 @@ namespace NavplanTest\Notam\Mocks;
 use InvalidArgumentException;
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
-use Navplan\Notam\DomainService\INotamRepo;
+use Navplan\Notam\Domain\Service\INotamRepo;
 
 
 class MockNotamRepo implements INotamRepo {

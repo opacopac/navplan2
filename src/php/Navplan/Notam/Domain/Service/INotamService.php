@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Notam\DomainService;
+namespace Navplan\Notam\Domain\Service;
 
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
-use Navplan\Notam\DomainModel\Notam;
+use Navplan\Notam\Domain\Model\Notam;
 
 
 interface INotamService {

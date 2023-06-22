@@ -4,7 +4,7 @@ namespace Navplan\Config\IniFile\Service;
 
 use InvalidArgumentException;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdConfig;
-use Navplan\Notam\DomainService\INotamConfig;
+use Navplan\Notam\Domain\Service\INotamConfig;
 use Navplan\OpenAip\Config\IOpenAipConfig;
 use Navplan\System\DomainModel\LogLevel;
 use Navplan\System\DomainService\ISystemConfig;

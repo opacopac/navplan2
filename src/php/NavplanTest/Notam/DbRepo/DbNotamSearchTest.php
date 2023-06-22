@@ -4,8 +4,8 @@ namespace NavplanTest\Notam\DbRepo;
 
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
-use Navplan\Notam\DbService\DbNotamRepo;
-use Navplan\Notam\DomainModel\Notam;
+use Navplan\Notam\Domain\Model\Notam;
+use Navplan\Notam\Persistence\Service\DbNotamRepo;
 use NavplanTest\Notam\Mocks\DummyNotam1;
 use NavplanTest\Notam\Mocks\DummyNotam2;
 use NavplanTest\Notam\Mocks\DummyNotam3;

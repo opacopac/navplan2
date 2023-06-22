@@ -4,7 +4,7 @@ namespace Navplan\Notam;
 
 require_once __DIR__ . "/../RestServiceBootstrap.php";
 
-use Navplan\Notam\RestService\NotamController;
+use Navplan\Notam\Rest\Service\NotamController;
 use Navplan\ProdNavplanDiContainer;
 
 

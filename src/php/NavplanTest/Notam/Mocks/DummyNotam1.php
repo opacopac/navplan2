@@ -6,8 +6,8 @@ use Navplan\Common\DomainModel\Circle2d;
 use Navplan\Common\DomainModel\Length;
 use Navplan\Common\DomainModel\LengthUnit;
 use Navplan\Common\DomainModel\Position2d;
-use Navplan\Notam\DomainModel\Notam;
-use Navplan\Notam\DomainModel\NotamGeometry;
+use Navplan\Notam\Domain\Model\Notam;
+use Navplan\Notam\Domain\Model\NotamGeometry;
 
 class DummyNotam1 {
     public static function create(): Notam {

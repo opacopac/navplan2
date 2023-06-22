@@ -4,8 +4,8 @@ namespace NavplanTest\Notam\Mocks;
 
 use Navplan\Common\DomainModel\Altitude;
 use Navplan\Common\DomainModel\Ring2d;
-use Navplan\Notam\DomainModel\Notam;
-use Navplan\Notam\DomainModel\NotamGeometry;
+use Navplan\Notam\Domain\Model\Notam;
+use Navplan\Notam\Domain\Model\NotamGeometry;
 
 class DummyNotam3
 {

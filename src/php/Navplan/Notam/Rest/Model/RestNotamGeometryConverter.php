@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Notam\RestModel;
+namespace Navplan\Notam\Rest\Model;
 
 use InvalidArgumentException;
 use Navplan\Common\DomainModel\Circle2d;
@@ -9,7 +9,7 @@ use Navplan\Common\DomainModel\MultiRing2d;
 use Navplan\Common\DomainModel\Ring2d;
 use Navplan\Common\Rest\Converter\RestAltitudeConverter;
 use Navplan\Common\Rest\Converter\RestCircle2dConverter;
-use Navplan\Notam\DomainModel\NotamGeometry;
+use Navplan\Notam\Domain\Model\NotamGeometry;
 
 
 class RestNotamGeometryConverter {

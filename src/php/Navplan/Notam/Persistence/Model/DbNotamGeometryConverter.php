@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Notam\DbModel;
+namespace Navplan\Notam\Persistence\Model;
 
 use Navplan\Common\DomainModel\Altitude;
 use Navplan\Common\DomainModel\AltitudeReference;
@@ -12,7 +12,7 @@ use Navplan\Common\DomainModel\LengthUnit;
 use Navplan\Common\DomainModel\MultiRing2d;
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\Common\DomainModel\Ring2d;
-use Navplan\Notam\DomainModel\NotamGeometry;
+use Navplan\Notam\Domain\Model\NotamGeometry;
 
 
 class DbNotamGeometryConverter {
