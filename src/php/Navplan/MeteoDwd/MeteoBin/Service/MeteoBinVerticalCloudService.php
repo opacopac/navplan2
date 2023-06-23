@@ -9,6 +9,7 @@ use Navplan\Common\StringNumberHelper;
 use Navplan\MeteoDwd\Domain\Model\ForecastRun;
 use Navplan\MeteoDwd\Domain\Model\ForecastStep;
 use Navplan\MeteoDwd\Domain\Model\IconGridDefinition;
+use Navplan\MeteoDwd\Domain\Model\VerticalCloudColumnStep;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdConfig;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalCloudService;
 use Navplan\MeteoDwd\MeteoBin\Model\MeteoBinVerticalCloudInfoConverter;
@@ -55,16 +56,22 @@ class MeteoBinVerticalCloudService implements IMeteoDwdVerticalCloudService  {
 
 
     public function readPositionalVerticalClouds(ForecastRun $forecastRun, Position2d $pos): array {
-        $verticalCloudColumns = [];
+        $verticalCloudColumnSteps = [];
         for ($i = $forecastRun->modelConfig->minStep; $i <= $forecastRun->modelConfig->maxStep; $i++) {
+            // TODO: temp
+            if ($i > 11) {
+                break;
+            }
+
             $forecastStep = new ForecastStep($forecastRun->getName(), $i);
             $singleVerticalCloudColumn = $this->readVerticalClouds($forecastStep, [$pos]);
             if (count($singleVerticalCloudColumn) > 0) {
-                $verticalCloudColumns[] = $singleVerticalCloudColumn[0];
+                $verticalCloudColumn = $singleVerticalCloudColumn[0];
+                $verticalCloudColumnSteps[] = new VerticalCloudColumnStep($forecastStep, $verticalCloudColumn->cloudLevels);
             }
         }
 
-        return $verticalCloudColumns;
+        return $verticalCloudColumnSteps;
     }
 
 

@@ -22,5 +22,5 @@ $args = $httpService->getGetArgs();
 $forecastRun = RestForecastRunConverter::fromRest($args[ARG_FORECAST_RUN]);
 $pos = RestPosition2dConverter::fromRest([$args[ARG_POS_LON], $args[ARG_POS_LAT]]);
 
-$verticalCloudColumns = $verticalCloudService->readPositionalVerticalClouds($forecastRun, $pos);
-$httpService->sendArrayResponse(RestVerticalCloudColumnConverter::toRestList($verticalCloudColumns));
+$verticalCloudColumnSteps = $verticalCloudService->readPositionalVerticalClouds($forecastRun, $pos);
+$httpService->sendArrayResponse(RestVerticalCloudColumnConverter::toRestList($verticalCloudColumnSteps));

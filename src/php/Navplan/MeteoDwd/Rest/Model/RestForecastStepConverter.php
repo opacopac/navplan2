@@ -21,4 +21,12 @@ class RestForecastStepConverter {
             StringNumberHelper::parseIntOrError($args, self::ARG_INTERVAL)
         );
     }
+
+
+    public static function toRest(ForecastStep $forecastStep): array {
+        return [
+            self::ARG_RUN => $forecastStep->runName,
+            self::ARG_INTERVAL => $forecastStep->step
+        ];
+    }
 }
