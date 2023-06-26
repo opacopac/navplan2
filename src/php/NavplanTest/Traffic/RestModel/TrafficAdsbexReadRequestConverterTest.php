@@ -3,7 +3,7 @@
 namespace NavplanTest\Traffic\RestModel;
 
 use InvalidArgumentException;
-use Navplan\Traffic\RestModel\RestTrafficAdsbexReadRequestConverter;
+use Navplan\Traffic\Rest\Model\RestTrafficAdsbexReadRequestConverter;
 use PHPUnit\Framework\TestCase;
 
 

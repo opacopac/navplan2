@@ -2,7 +2,7 @@
 
 namespace NavplanTest\User\UseCase;
 
-use Navplan\User\DomainService\TokenService;
+use Navplan\User\Domain\Service\TokenService;
 use Navplan\User\UseCase\ResetPw\ResetPwRequest;
 use Navplan\User\UseCase\ResetPw\ResetPwUc;
 use NavplanTest\MockNavplanDiContainer;

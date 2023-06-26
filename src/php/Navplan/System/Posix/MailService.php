@@ -2,7 +2,7 @@
 
 namespace Navplan\System\Posix;
 
-use Navplan\System\DomainService\IMailService;
+use Navplan\System\Domain\Service\IMailService;
 
 
 class MailService implements IMailService {

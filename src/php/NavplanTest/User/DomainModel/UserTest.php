@@ -2,7 +2,7 @@
 
 namespace NavplanTest\User\DomainModel;
 
-use Navplan\User\DomainModel\User;
+use Navplan\User\Domain\Model\User;
 use PHPUnit\Framework\TestCase;
 
 

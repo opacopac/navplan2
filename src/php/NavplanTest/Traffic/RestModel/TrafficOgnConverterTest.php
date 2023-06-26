@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Traffic\RestModel;
 
-use Navplan\Traffic\RestModel\RestTrafficOgnConverter;
+use Navplan\Traffic\Rest\Model\RestTrafficOgnConverter;
 use NavplanTest\Traffic\Mocks\DummyOgnTraffic1;
 use NavplanTest\Traffic\Mocks\DummyOgnTraffic2;
 use NavplanTest\Traffic\Mocks\DummyOgnTraffic3;

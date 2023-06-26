@@ -2,7 +2,7 @@
 
 namespace NavplanTest\IcaoChartCh\Mocks;
 
-use Navplan\System\DomainModel\IImage;
+use Navplan\System\Domain\Model\IImage;
 
 
 class SpyImage implements IImage {

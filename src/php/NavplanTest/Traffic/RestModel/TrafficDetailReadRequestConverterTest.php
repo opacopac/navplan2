@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Traffic\RestModel;
 
-use Navplan\Traffic\RestModel\RestTrafficDetailReadRequestConverter;
+use Navplan\Traffic\Rest\Model\RestTrafficDetailReadRequestConverter;
 use NavplanTest\Traffic\Mocks\DummyTrafficDetailResult1;
 use PHPUnit\Framework\TestCase;
 

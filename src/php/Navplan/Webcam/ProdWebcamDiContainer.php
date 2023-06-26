@@ -2,7 +2,7 @@
 
 namespace Navplan\Webcam;
 
-use Navplan\System\DomainService\IDbService;
+use Navplan\System\Domain\Service\IDbService;
 use Navplan\Webcam\Domain\Service\IWebcamService;
 use Navplan\Webcam\Persistence\Service\DbWebcamRepo;
 

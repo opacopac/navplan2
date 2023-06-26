@@ -3,7 +3,7 @@
 namespace NavplanTest\User\RestModel;
 
 use InvalidArgumentException;
-use Navplan\User\RestModel\SendLostPwRequestConverter;
+use Navplan\User\Rest\Model\SendLostPwRequestConverter;
 use PHPUnit\Framework\TestCase;
 
 

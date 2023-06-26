@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Traffic\TrafficDetailRepo;
 
-use Navplan\Traffic\TrafficDetailRepo\DbTrafficDetailRepo;
+use Navplan\Traffic\TrafficDetail\Service\DbTrafficDetailRepo;
 use NavplanTest\System\Mock\MockDbService;
 use NavplanTest\Traffic\Mocks\DummyBasestationTrafficDetail1;
 use NavplanTest\Traffic\Mocks\DummyIcaoAcTypeTrafficDetail2;

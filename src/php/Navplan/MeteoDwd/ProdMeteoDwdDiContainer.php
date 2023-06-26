@@ -15,8 +15,8 @@ use Navplan\MeteoDwd\MeteoBin\Service\MeteoBinVerticalWindService;
 use Navplan\MeteoDwd\MeteoBin\Service\MeteoBinWeatherService;
 use Navplan\MeteoDwd\MeteoBin\Service\MeteoBinWindService;
 use Navplan\MeteoDwd\Rest\Service\MeteoDwdController;
-use Navplan\System\DomainService\IFileService;
-use Navplan\System\DomainService\IHttpService;
+use Navplan\System\Domain\Service\IFileService;
+use Navplan\System\Domain\Service\IHttpService;
 
 
 class ProdMeteoDwdDiContainer implements IMeteoDwdDiContainer {

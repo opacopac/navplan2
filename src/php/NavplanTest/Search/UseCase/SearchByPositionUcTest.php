@@ -3,10 +3,10 @@
 namespace NavplanTest\Search\UseCase;
 
 use Navplan\Common\DomainModel\Position2d;
-use Navplan\Search\DomainModel\SearchByPositionQuery;
-use Navplan\Search\DomainModel\SearchItemType;
+use Navplan\Search\Domain\Model\SearchByPositionQuery;
+use Navplan\Search\Domain\Model\SearchItemType;
 use Navplan\Search\UseCase\SearchByPosition\SearchByPositionUc;
-use Navplan\User\DomainService\TokenService;
+use Navplan\User\Domain\Service\TokenService;
 use NavplanTest\Aerodrome\Mocks\DummyReportingPoint1;
 use NavplanTest\Aerodrome\Mocks\DummyReportingSector1;
 use NavplanTest\Aerodrome\Mocks\MockReportingPointRepo;

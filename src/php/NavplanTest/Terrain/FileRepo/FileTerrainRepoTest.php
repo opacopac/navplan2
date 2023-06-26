@@ -6,7 +6,7 @@ use Navplan\Common\DomainModel\AltitudeReference;
 use Navplan\Common\DomainModel\AltitudeUnit;
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\Common\DomainModel\Position3d;
-use Navplan\Terrain\FileService\FileTerrainRepo;
+use Navplan\Terrain\File\Service\FileTerrainRepo;
 use NavplanTest\System\Mock\MockFile;
 use NavplanTest\System\Mock\MockFileService;
 use PHPUnit\Framework\TestCase;

@@ -2,9 +2,9 @@
 
 namespace Navplan\Traffic\UseCase\ReadTrafficDetails;
 
-use Navplan\Traffic\DomainModel\TrafficAddressType;
-use Navplan\Traffic\DomainModel\TrafficDetail;
-use Navplan\Traffic\DomainService\ITrafficDetailRepo;
+use Navplan\Traffic\Domain\Model\TrafficAddressType;
+use Navplan\Traffic\Domain\Model\TrafficDetail;
+use Navplan\Traffic\Domain\Service\ITrafficDetailRepo;
 
 
 class ReadTrafficDetailsUc implements IReadTrafficDetailsUc {

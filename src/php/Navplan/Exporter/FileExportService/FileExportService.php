@@ -12,8 +12,8 @@ use Navplan\Exporter\Domain\Model\ExportFile;
 use Navplan\Exporter\Domain\Service\IExportService;
 use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Flightroute\Domain\Model\FuelCalc;
-use Navplan\System\DomainService\IFileService;
-use Navplan\Track\DomainModel\Track;
+use Navplan\System\Domain\Service\IFileService;
+use Navplan\Track\Domain\Model\Track;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 

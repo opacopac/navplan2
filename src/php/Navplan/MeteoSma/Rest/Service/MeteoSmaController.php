@@ -5,7 +5,7 @@ namespace Navplan\MeteoSma\Rest\Service;
 use Navplan\MeteoSma\Domain\Service\IMeteoSmaService;
 use Navplan\MeteoSma\Rest\Model\RestReadSmaMeasurementsRequest;
 use Navplan\MeteoSma\Rest\Model\RestReadSmaMeasurementsResponse;
-use Navplan\System\DomainService\IHttpService;
+use Navplan\System\Domain\Service\IHttpService;
 
 
 class MeteoSmaController {

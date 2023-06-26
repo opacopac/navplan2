@@ -5,7 +5,7 @@ namespace Navplan\System\MySqlDb;
 use Exception;
 use mysqli;
 use mysqli_result;
-use Navplan\System\DomainModel\DbException;
+use Navplan\System\Domain\Model\DbException;
 
 
 class DbConnection

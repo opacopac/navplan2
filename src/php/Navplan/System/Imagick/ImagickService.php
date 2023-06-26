@@ -3,9 +3,9 @@
 namespace Navplan\System\Imagick;
 
 use Navplan\Common\DomainModel\Angle;
-use Navplan\System\DomainModel\IDrawable;
-use Navplan\System\DomainModel\IImage;
-use Navplan\System\DomainService\IImageService;
+use Navplan\System\Domain\Model\IDrawable;
+use Navplan\System\Domain\Model\IImage;
+use Navplan\System\Domain\Service\IImageService;
 
 
 class ImagickService implements IImageService {

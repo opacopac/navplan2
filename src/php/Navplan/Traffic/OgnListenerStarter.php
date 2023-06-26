@@ -3,6 +3,7 @@
 namespace Navplan\Traffic\OgnListenerService;
 
 use Navplan\ProdNavplanDiContainer;
+use Navplan\Traffic\Ogn\Service\OgnListener;
 
 require_once __DIR__ . "/../ConsoleBootstrap.php";
 

@@ -2,8 +2,8 @@
 
 namespace NavplanTest\User\Mocks;
 
-use Navplan\User\DomainModel\User;
-use Navplan\User\DomainService\TokenService;
+use Navplan\User\Domain\Model\User;
+use Navplan\User\Domain\Service\TokenService;
 
 
 class DummyUser1 {

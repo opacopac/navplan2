@@ -2,7 +2,7 @@
 
 namespace Navplan\OpenAip\ZoomLevelSorter;
 
-use Navplan\System\DomainModel\IDbResult;
+use Navplan\System\Domain\Model\IDbResult;
 
 
 interface IZoomLevelSortItem {

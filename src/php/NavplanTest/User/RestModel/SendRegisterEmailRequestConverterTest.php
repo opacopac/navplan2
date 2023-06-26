@@ -3,7 +3,7 @@
 namespace NavplanTest\User\RestModel;
 
 use InvalidArgumentException;
-use Navplan\User\RestModel\SendRegisterEmailRequestConverter;
+use Navplan\User\Rest\Model\SendRegisterEmailRequestConverter;
 use PHPUnit\Framework\TestCase;
 
 

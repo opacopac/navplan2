@@ -3,7 +3,7 @@
 namespace NavplanTest\Search\Mocks;
 
 use Navplan\Common\DomainModel\Position2d;
-use Navplan\Search\DomainModel\SearchByPositionQuery;
+use Navplan\Search\Domain\Model\SearchByPositionQuery;
 
 
 class DummySearchByPositionQuery1 {

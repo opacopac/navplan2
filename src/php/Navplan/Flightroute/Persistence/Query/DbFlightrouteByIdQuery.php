@@ -6,9 +6,9 @@ use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Flightroute\Domain\Query\IFlightrouteByIdQuery;
 use Navplan\Flightroute\Domain\Query\IWaypointsByFlightrouteQuery;
 use Navplan\Flightroute\Persistence\Model\DbTableFlightroute;
-use Navplan\System\DomainService\IDbService;
+use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
-use Navplan\User\DomainModel\User;
+use Navplan\User\Domain\Model\User;
 
 
 class DbFlightrouteByIdQuery implements IFlightrouteByIdQuery {

@@ -2,9 +2,9 @@
 
 namespace Navplan\User\UseCase\Login;
 
-use Navplan\User\DomainModel\User;
-use Navplan\User\DomainService\ITokenService;
-use Navplan\User\DomainService\IUserRepo;
+use Navplan\User\Domain\Model\User;
+use Navplan\User\Domain\Service\ITokenService;
+use Navplan\User\Domain\Service\IUserRepo;
 use Navplan\User\UseCase\UserResponse;
 
 

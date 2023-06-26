@@ -2,7 +2,7 @@
 
 namespace Navplan\Search;
 
-use Navplan\Search\DomainService\ISearchService;
+use Navplan\Search\Domain\Service\ISearchService;
 
 
 interface ISearchDiContainer {

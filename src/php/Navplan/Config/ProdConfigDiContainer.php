@@ -4,7 +4,7 @@ namespace Navplan\Config;
 
 use Navplan\Config\IniFile\Service\IniFileConfig;
 use Navplan\System\MySqlDb\DbCredentials;
-use Navplan\User\DomainModel\TokenCredentials;
+use Navplan\User\Domain\Model\TokenCredentials;
 
 
 class ProdConfigDiContainer implements IConfigDiContainer

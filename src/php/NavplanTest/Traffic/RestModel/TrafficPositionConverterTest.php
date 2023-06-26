@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Traffic\RestModel;
 
-use Navplan\Traffic\RestModel\RestTrafficPositionConverter;
+use Navplan\Traffic\Rest\Model\RestTrafficPositionConverter;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTrafficPosition1;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTrafficPosition2;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTrafficPosition3;

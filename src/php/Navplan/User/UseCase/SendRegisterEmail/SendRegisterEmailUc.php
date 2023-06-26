@@ -2,10 +2,10 @@
 
 namespace Navplan\User\UseCase\SendRegisterEmail;
 
-use Navplan\System\DomainService\IMailService;
-use Navplan\User\DomainModel\User;
-use Navplan\User\DomainService\ITokenService;
-use Navplan\User\DomainService\IUserRepo;
+use Navplan\System\Domain\Service\IMailService;
+use Navplan\User\Domain\Model\User;
+use Navplan\User\Domain\Service\ITokenService;
+use Navplan\User\Domain\Service\IUserRepo;
 use Navplan\User\UseCase\UserResponse;
 
 

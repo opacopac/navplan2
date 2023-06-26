@@ -7,8 +7,8 @@ require_once __DIR__ . "/../../RestServiceBootstrap.php";
 use Navplan\Common\GeoHelper;
 use Navplan\Common\StringNumberHelper;
 use Navplan\ProdNavplanDiContainer;
-use Navplan\System\DomainService\IDbService;
-use Navplan\System\DomainService\ILoggingService;
+use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Domain\Service\ILoggingService;
 use Navplan\System\MySqlDb\DbHelper;
 
 

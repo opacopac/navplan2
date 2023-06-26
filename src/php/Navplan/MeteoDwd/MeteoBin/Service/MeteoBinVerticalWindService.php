@@ -10,8 +10,8 @@ use Navplan\MeteoDwd\Domain\Model\IconGridDefinition;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdConfig;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalWindService;
 use Navplan\MeteoDwd\MeteoBin\Model\MeteoBinVerticalWindInfoConverter;
-use Navplan\System\DomainModel\IFile;
-use Navplan\System\DomainService\IFileService;
+use Navplan\System\Domain\Model\IFile;
+use Navplan\System\Domain\Service\IFileService;
 
 
 class MeteoBinVerticalWindService implements IMeteoDwdVerticalWindService  {

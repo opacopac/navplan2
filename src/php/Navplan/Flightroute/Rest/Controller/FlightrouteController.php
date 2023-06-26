@@ -16,8 +16,8 @@ use Navplan\Flightroute\Rest\Converter\RestReadFlightrouteRequest;
 use Navplan\Flightroute\Rest\Converter\RestReadSharedFlightrouteRequest;
 use Navplan\Flightroute\Rest\Converter\RestSuccessResponse;
 use Navplan\Flightroute\Rest\Converter\RestUpdateFlightrouteRequest;
-use Navplan\System\DomainModel\HttpRequestMethod;
-use Navplan\System\DomainService\IHttpService;
+use Navplan\System\Domain\Model\HttpRequestMethod;
+use Navplan\System\Domain\Service\IHttpService;
 
 
 class FlightrouteController implements IRestController {

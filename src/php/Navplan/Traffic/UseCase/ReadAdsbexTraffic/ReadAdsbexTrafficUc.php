@@ -3,7 +3,7 @@
 namespace Navplan\Traffic\UseCase\ReadAdsbexTraffic;
 
 use Navplan\Common\GeoHelper;
-use Navplan\Traffic\DomainService\IAdsbexService;
+use Navplan\Traffic\Domain\Service\IAdsbexService;
 
 
 class ReadAdsbexTrafficUc implements IReadAdsbexTrafficUc {

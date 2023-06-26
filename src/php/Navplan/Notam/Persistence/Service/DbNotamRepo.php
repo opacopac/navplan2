@@ -8,8 +8,8 @@ use Navplan\Common\GeoHelper;
 use Navplan\Notam\Domain\Model\Notam;
 use Navplan\Notam\Domain\Service\INotamRepo;
 use Navplan\Notam\Persistence\Model\DbNotamConverter;
-use Navplan\System\DomainModel\IDbResult;
-use Navplan\System\DomainService\IDbService;
+use Navplan\System\Domain\Model\IDbResult;
+use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
 
 

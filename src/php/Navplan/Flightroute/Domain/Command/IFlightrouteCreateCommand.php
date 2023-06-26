@@ -3,7 +3,7 @@
 namespace Navplan\Flightroute\Domain\Command;
 
 use Navplan\Flightroute\Domain\Model\Flightroute;
-use Navplan\User\DomainModel\User;
+use Navplan\User\Domain\Model\User;
 
 
 interface IFlightrouteCreateCommand {

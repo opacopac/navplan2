@@ -2,7 +2,7 @@
 
 namespace NavplanTest\User\Mocks;
 
-use Navplan\User\DomainService\IUserRepoFactory;
+use Navplan\User\Domain\Service\IUserRepoFactory;
 
 
 class MockUserRepoFactory implements IUserRepoFactory {

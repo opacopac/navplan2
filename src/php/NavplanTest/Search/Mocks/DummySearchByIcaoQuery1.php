@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Search\Mocks;
 
-use Navplan\Search\DomainModel\SearchByIcaoQuery;
+use Navplan\Search\Domain\Model\SearchByIcaoQuery;
 
 
 class DummySearchByIcaoQuery1 {

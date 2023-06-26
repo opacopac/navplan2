@@ -4,7 +4,7 @@ namespace NavplanTest\Terrain\Mocks;
 
 use Navplan\Common\DomainModel\Altitude;
 use Navplan\Common\DomainModel\Position3d;
-use Navplan\Terrain\DomainService\ITerrainRepo;
+use Navplan\Terrain\Domain\Service\ITerrainRepo;
 
 
 class MockTerrainRepo implements ITerrainRepo {

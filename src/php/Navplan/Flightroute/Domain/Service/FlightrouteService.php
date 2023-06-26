@@ -12,9 +12,9 @@ use Navplan\Flightroute\Domain\Query\IFlightrouteByHashQuery;
 use Navplan\Flightroute\Domain\Query\IFlightrouteByIdQuery;
 use Navplan\Flightroute\Domain\Query\IFlightrouteByShareIdQuery;
 use Navplan\Flightroute\Domain\Query\IFlightrouteListQuery;
-use Navplan\User\DomainModel\User;
-use Navplan\User\DomainService\ITokenService;
-use Navplan\User\DomainService\IUserRepo;
+use Navplan\User\Domain\Model\User;
+use Navplan\User\Domain\Service\ITokenService;
+use Navplan\User\Domain\Service\IUserRepo;
 
 
 class FlightrouteService implements IFlightrouteService {

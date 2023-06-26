@@ -12,8 +12,8 @@ use Navplan\MeteoDwd\Rest\Model\RestForecastStepConverter;
 use Navplan\MeteoDwd\Rest\Model\RestGridDefinitionConverter;
 use Navplan\MeteoDwd\Rest\Model\RestWeatherInfoConverter;
 use Navplan\MeteoDwd\Rest\Model\RestWindInfoConverter;
-use Navplan\System\DomainModel\HttpRequestMethod;
-use Navplan\System\DomainService\IHttpService;
+use Navplan\System\Domain\Model\HttpRequestMethod;
+use Navplan\System\Domain\Service\IHttpService;
 
 
 class MeteoDwdController implements IRestController {

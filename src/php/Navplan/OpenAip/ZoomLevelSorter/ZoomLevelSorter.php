@@ -3,7 +3,7 @@
 namespace Navplan\OpenAip\ZoomLevelSorter;
 
 
-use Navplan\System\DomainService\ILoggingService;
+use Navplan\System\Domain\Service\ILoggingService;
 
 class ZoomLevelSorter {
     const MAX_ZOOM = 14;

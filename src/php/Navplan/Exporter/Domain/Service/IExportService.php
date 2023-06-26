@@ -5,7 +5,7 @@ namespace Navplan\Exporter\Domain\Service;
 use Navplan\Exporter\Domain\Model\ExportFile;
 use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Flightroute\Domain\Model\FuelCalc;
-use Navplan\Track\DomainModel\Track;
+use Navplan\Track\Domain\Model\Track;
 
 
 interface IExportService {

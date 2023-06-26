@@ -2,11 +2,11 @@
 
 namespace Navplan\Track;
 
-use Navplan\System\DomainService\IDbService;
-use Navplan\Track\DbService\DbTrackRepo;
-use Navplan\Track\DomainService\ITrackService;
-use Navplan\Track\DomainService\TrackService;
-use Navplan\User\DomainService\ITokenService;
+use Navplan\System\Domain\Service\IDbService;
+use Navplan\Track\Domain\Service\ITrackService;
+use Navplan\Track\Domain\Service\TrackService;
+use Navplan\Track\Persistence\Service\DbTrackRepo;
+use Navplan\User\Domain\Service\ITokenService;
 
 
 class ProdTrackDiContainer implements ITrackDiContainer {

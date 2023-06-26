@@ -6,8 +6,8 @@ use Navplan\Aerodrome\Domain\Model\AirportRadio;
 use Navplan\Aerodrome\Domain\Model\AirportRadioType;
 use Navplan\Common\DomainModel\Frequency;
 use Navplan\Common\DomainModel\FrequencyUnit;
-use Navplan\System\DomainModel\IDbStatement;
-use Navplan\System\DomainService\IDbService;
+use Navplan\System\Domain\Model\IDbStatement;
+use Navplan\System\Domain\Service\IDbService;
 
 
 class DbAirportRadioConverter {

@@ -6,7 +6,7 @@ use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Flightroute\Domain\Query\IFlightrouteByHashQuery;
 use Navplan\Flightroute\Domain\Query\IWaypointsByFlightrouteQuery;
 use Navplan\Flightroute\Persistence\Model\DbTableFlightroute;
-use Navplan\System\DomainService\IDbService;
+use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
 
 

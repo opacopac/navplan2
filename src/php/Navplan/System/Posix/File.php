@@ -3,7 +3,7 @@
 namespace Navplan\System\Posix;
 
 use InvalidArgumentException;
-use Navplan\System\DomainModel\IFile;
+use Navplan\System\Domain\Model\IFile;
 
 
 class File implements IFile {

@@ -3,7 +3,7 @@
 namespace Navplan\User;
 
 use Navplan\ProdNavplanDiContainer;
-use Navplan\User\RestService\UserController;
+use Navplan\User\Rest\Service\UserController;
 
 include_once __DIR__ . "/../RestServiceBootstrap.php";
 

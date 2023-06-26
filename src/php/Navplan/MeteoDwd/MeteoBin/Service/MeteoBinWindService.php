@@ -13,7 +13,7 @@ use Navplan\MeteoDwd\Domain\Model\WindInfo;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdConfig;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdWindService;
 use Navplan\MeteoDwd\MeteoBin\Model\MeteoBinWindInfoConverter;
-use Navplan\System\DomainService\IFileService;
+use Navplan\System\Domain\Service\IFileService;
 
 
 class MeteoBinWindService implements IMeteoDwdWindService {

@@ -2,13 +2,13 @@
 
 namespace Navplan\System;
 
-use Navplan\System\DomainService\IFileService;
-use Navplan\System\DomainService\IHttpService;
-use Navplan\System\DomainService\IImageService;
-use Navplan\System\DomainService\ILoggingService;
-use Navplan\System\DomainService\IMailService;
-use Navplan\System\DomainService\IProcService;
-use Navplan\System\DomainService\ITimeService;
+use Navplan\System\Domain\Service\IFileService;
+use Navplan\System\Domain\Service\IHttpService;
+use Navplan\System\Domain\Service\IImageService;
+use Navplan\System\Domain\Service\ILoggingService;
+use Navplan\System\Domain\Service\IMailService;
+use Navplan\System\Domain\Service\IProcService;
+use Navplan\System\Domain\Service\ITimeService;
 
 
 interface ISystemDiContainer {

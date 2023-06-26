@@ -3,7 +3,7 @@
 namespace Navplan\Aerodrome\Persistence\Model;
 
 use Navplan\Aerodrome\Domain\Model\AirportChart;
-use Navplan\System\DomainModel\IDbResult;
+use Navplan\System\Domain\Model\IDbResult;
 
 
 class DbAirportChartConverter {

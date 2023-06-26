@@ -2,15 +2,15 @@
 
 namespace Navplan\User;
 
-use Navplan\System\DomainService\IDbService;
-use Navplan\System\DomainService\IMailService;
-use Navplan\User\DbRepo\DbUserPointRepo;
-use Navplan\User\DbRepo\DbUserRepo;
-use Navplan\User\DomainService\ITokenConfig;
-use Navplan\User\DomainService\ITokenService;
-use Navplan\User\DomainService\IUserPointRepo;
-use Navplan\User\DomainService\IUserRepo;
-use Navplan\User\DomainService\TokenService;
+use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Domain\Service\IMailService;
+use Navplan\User\Domain\Service\ITokenConfig;
+use Navplan\User\Domain\Service\ITokenService;
+use Navplan\User\Domain\Service\IUserPointRepo;
+use Navplan\User\Domain\Service\IUserRepo;
+use Navplan\User\Domain\Service\TokenService;
+use Navplan\User\Persistence\Service\DbUserPointRepo;
+use Navplan\User\Persistence\Service\DbUserRepo;
 use Navplan\User\UseCase\AutoLogin\AutoLoginUc;
 use Navplan\User\UseCase\AutoLogin\IAutoLoginUc;
 use Navplan\User\UseCase\Login\ILoginUc;

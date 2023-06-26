@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Traffic\RestModel;
 
-use Navplan\Traffic\RestModel\RestTrafficOgnListResponseConverter;
+use Navplan\Traffic\Rest\Model\RestTrafficOgnListResponseConverter;
 use NavplanTest\Traffic\Mocks\DummyOgnTraffic1;
 use NavplanTest\Traffic\Mocks\DummyOgnTraffic2;
 use PHPUnit\Framework\TestCase;

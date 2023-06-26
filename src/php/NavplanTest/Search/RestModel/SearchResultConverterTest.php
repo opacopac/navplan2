@@ -2,10 +2,10 @@
 
 namespace NavplanTest\Search\RestModel;
 
-use Navplan\Search\DomainModel\SearchItemType;
-use Navplan\Search\DomainModel\SearchResult;
-use Navplan\Search\RestModel\RestSearchItemTypeConverter;
-use Navplan\Search\RestModel\RestSearchResultConverter;
+use Navplan\Search\Domain\Model\SearchItemType;
+use Navplan\Search\Domain\Model\SearchResult;
+use Navplan\Search\Rest\Model\RestSearchItemTypeConverter;
+use Navplan\Search\Rest\Model\RestSearchResultConverter;
 use NavplanTest\Aerodrome\Mocks\DummyAirport1;
 use NavplanTest\Aerodrome\Mocks\DummyReportingPoint1;
 use NavplanTest\Aerodrome\Mocks\DummyReportingSector1;

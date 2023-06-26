@@ -15,7 +15,7 @@ use Navplan\Aerodrome\Rest\Converter\RestReportingPointConverter;
 use Navplan\Aerodrome\Rest\Converter\RestShortAirportConverter;
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Common\Rest\Converter\RestExtent2dConverter;
-use Navplan\System\DomainService\IHttpService;
+use Navplan\System\Domain\Service\IHttpService;
 
 
 class AirportController implements IRestController {

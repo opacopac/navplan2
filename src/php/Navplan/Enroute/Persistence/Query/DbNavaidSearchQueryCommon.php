@@ -11,7 +11,7 @@ use Navplan\Common\DomainModel\FrequencyUnit;
 use Navplan\Enroute\Domain\Model\Navaid;
 use Navplan\Enroute\Domain\Model\NavaidType;
 use Navplan\Enroute\Persistence\Model\DbTableNavaid;
-use Navplan\System\DomainModel\IDbResult;
+use Navplan\System\Domain\Model\IDbResult;
 
 
 class DbNavaidSearchQueryCommon {

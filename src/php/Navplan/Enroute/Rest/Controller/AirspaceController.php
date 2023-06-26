@@ -7,7 +7,7 @@ use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Common\Rest\Converter\RestExtent2dConverter;
 use Navplan\Enroute\Domain\Service\IAirspaceService;
 use Navplan\Enroute\Rest\Converter\RestAirspaceConverter;
-use Navplan\System\DomainService\IHttpService;
+use Navplan\System\Domain\Service\IHttpService;
 
 
 class AirspaceController implements IRestController {

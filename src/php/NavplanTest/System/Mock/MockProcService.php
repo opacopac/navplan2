@@ -3,7 +3,7 @@
 namespace NavplanTest\System\Mock;
 
 use http\Exception\BadMethodCallException;
-use Navplan\System\DomainService\IProcService;
+use Navplan\System\Domain\Service\IProcService;
 
 
 class MockProcService implements IProcService {

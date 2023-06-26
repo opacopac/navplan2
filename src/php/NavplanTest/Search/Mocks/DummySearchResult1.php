@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Search\Mocks;
 
-use Navplan\Search\DomainModel\SearchResult;
+use Navplan\Search\Domain\Model\SearchResult;
 use NavplanTest\Aerodrome\Mocks\DummyAirport1;
 use NavplanTest\Aerodrome\Mocks\DummyReportingPoint1;
 use NavplanTest\Aerodrome\Mocks\DummyReportingSector1;

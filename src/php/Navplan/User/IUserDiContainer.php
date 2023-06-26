@@ -2,9 +2,9 @@
 
 namespace Navplan\User;
 
-use Navplan\User\DomainService\ITokenService;
-use Navplan\User\DomainService\IUserPointRepo;
-use Navplan\User\DomainService\IUserRepo;
+use Navplan\User\Domain\Service\ITokenService;
+use Navplan\User\Domain\Service\IUserPointRepo;
+use Navplan\User\Domain\Service\IUserRepo;
 use Navplan\User\UseCase\AutoLogin\IAutoLoginUc;
 use Navplan\User\UseCase\Login\ILoginUc;
 use Navplan\User\UseCase\Register\IRegisterUc;

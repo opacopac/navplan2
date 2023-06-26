@@ -2,7 +2,7 @@
 
 namespace NavplanTest\User\RestModel;
 
-use Navplan\User\DomainModel\UserPoint;
+use Navplan\User\Domain\Model\UserPoint;
 use Navplan\User\RestService\UserPointConverter;
 use NavplanTest\User\Mocks\DummyUserPoint1;
 use NavplanTest\User\Mocks\DummyUserPoint2;

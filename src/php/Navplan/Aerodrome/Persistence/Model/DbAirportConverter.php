@@ -9,8 +9,8 @@ use Navplan\Common\DomainModel\Altitude;
 use Navplan\Common\DomainModel\AltitudeReference;
 use Navplan\Common\DomainModel\AltitudeUnit;
 use Navplan\Common\GeoHelper;
-use Navplan\System\DomainModel\IDbStatement;
-use Navplan\System\DomainService\IDbService;
+use Navplan\System\Domain\Model\IDbStatement;
+use Navplan\System\Domain\Service\IDbService;
 
 
 class DbAirportConverter {

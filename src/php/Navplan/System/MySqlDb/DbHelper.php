@@ -4,7 +4,7 @@ namespace Navplan\System\MySqlDb;
 
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
-use Navplan\System\DomainService\IDbService;
+use Navplan\System\Domain\Service\IDbService;
 
 
 class DbHelper {

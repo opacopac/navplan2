@@ -5,8 +5,8 @@ namespace Navplan\Enroute\Persistence\Command;
 use Navplan\Common\GeoHelper;
 use Navplan\Enroute\Domain\Command\INavaidInsertAllCommand;
 use Navplan\Enroute\Persistence\Model\DbTableNavaid;
-use Navplan\System\DomainService\IDbService;
-use Navplan\System\DomainService\ILoggingService;
+use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Domain\Service\ILoggingService;
 use Throwable;
 
 

@@ -3,7 +3,7 @@
 namespace NavplanTest\Traffic\RestService;
 
 use InvalidArgumentException;
-use Navplan\Traffic\RestService\TrafficController;
+use Navplan\Traffic\Rest\Service\TrafficController;
 use NavplanTest\MockNavplanDiContainer;
 use NavplanTest\System\Mock\MockHttpService;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTraffic1;

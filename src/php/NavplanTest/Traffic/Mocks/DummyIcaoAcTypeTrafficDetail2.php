@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Traffic\Mocks;
 
-use Navplan\Traffic\DomainModel\TrafficDetail;
+use Navplan\Traffic\Domain\Model\TrafficDetail;
 
 
 class DummyIcaoAcTypeTrafficDetail2 {

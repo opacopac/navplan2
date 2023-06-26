@@ -2,7 +2,7 @@
 
 namespace Navplan\System\MySqlDb;
 
-use Navplan\System\DomainService\IDbService;
+use Navplan\System\Domain\Service\IDbService;
 
 
 interface IDbDiContainer {

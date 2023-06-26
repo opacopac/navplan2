@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Traffic\RestModel;
 
-use Navplan\Traffic\RestModel\RestTrafficAdsbexConverter;
+use Navplan\Traffic\Rest\Model\RestTrafficAdsbexConverter;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTraffic1;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTraffic2;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTraffic3;

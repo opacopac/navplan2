@@ -3,7 +3,7 @@
 namespace NavplanTest\System\Posix;
 
 use InvalidArgumentException;
-use Navplan\System\DomainService\IHttpService;
+use Navplan\System\Domain\Service\IHttpService;
 use Navplan\System\Posix\HttpService;
 use NavplanTest\System\Mock\MockHttpService;
 use PHPUnit\Framework\TestCase;

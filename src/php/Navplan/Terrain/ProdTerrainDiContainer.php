@@ -2,11 +2,11 @@
 
 namespace Navplan\Terrain;
 
-use Navplan\System\DomainService\IFileService;
-use Navplan\Terrain\DomainService\ITerrainConfig;
-use Navplan\Terrain\DomainService\ITerrainService;
-use Navplan\Terrain\DomainService\TerrainService;
-use Navplan\Terrain\FileService\FileTerrainRepo;
+use Navplan\System\Domain\Service\IFileService;
+use Navplan\Terrain\Domain\Service\ITerrainConfig;
+use Navplan\Terrain\Domain\Service\ITerrainService;
+use Navplan\Terrain\Domain\Service\TerrainService;
+use Navplan\Terrain\File\Service\FileTerrainRepo;
 
 
 class ProdTerrainDiContainer implements ITerrainDiContainer {

@@ -2,7 +2,7 @@
 
 namespace Navplan\Terrain;
 
-use Navplan\Terrain\DomainService\ITerrainService;
+use Navplan\Terrain\Domain\Service\ITerrainService;
 
 
 interface ITerrainDiContainer {

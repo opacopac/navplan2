@@ -3,8 +3,8 @@
 namespace NavplanTest\Search\RestService;
 
 use InvalidArgumentException;
-use Navplan\Search\RestModel\RestSearchByPositionQueryConverter;
-use Navplan\Search\RestModel\RestSearchByTextQueryConverter;
+use Navplan\Search\Rest\Model\RestSearchByPositionQueryConverter;
+use Navplan\Search\Rest\Model\RestSearchByTextQueryConverter;
 use Navplan\Search\RestService\SearchServiceController;
 use NavplanTest\Aerodrome\Mocks\DummyReportingPoint1;
 use NavplanTest\Aerodrome\Mocks\MockReportingPointRepo;

@@ -26,10 +26,10 @@ use Navplan\Flightroute\Persistence\Query\DbFlightrouteByShareIdQuery;
 use Navplan\Flightroute\Persistence\Query\DbFlightrouteListQuery;
 use Navplan\Flightroute\Persistence\Query\DbWaypointsByFlightrouteQuery;
 use Navplan\Flightroute\Rest\Controller\FlightrouteController;
-use Navplan\System\DomainService\IDbService;
-use Navplan\System\DomainService\IHttpService;
-use Navplan\User\DomainService\ITokenService;
-use Navplan\User\DomainService\IUserRepo;
+use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Domain\Service\IHttpService;
+use Navplan\User\Domain\Service\ITokenService;
+use Navplan\User\Domain\Service\IUserRepo;
 
 
 class ProdFlightrouteDiContainer implements IFlightrouteDiContainer {

@@ -2,9 +2,9 @@
 
 namespace Navplan\Traffic\UseCase\ReadOgnTraffic;
 
-use Navplan\Traffic\DomainModel\TrafficOgn;
-use Navplan\Traffic\DomainModel\TrafficPosition;
-use Navplan\Traffic\DomainService\IOgnService;
+use Navplan\Traffic\Domain\Model\TrafficOgn;
+use Navplan\Traffic\Domain\Model\TrafficPosition;
+use Navplan\Traffic\Domain\Service\IOgnService;
 
 
 class ReadOgnTrafficUc implements IReadOgnTrafficUc {

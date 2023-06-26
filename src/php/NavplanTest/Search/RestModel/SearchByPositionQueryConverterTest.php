@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Search\RestModel;
 
-use Navplan\Search\DomainModel\SearchItemType;
-use Navplan\Search\RestModel\RestSearchByPositionQueryConverter;
+use Navplan\Search\Domain\Model\SearchItemType;
+use Navplan\Search\Rest\Model\RestSearchByPositionQueryConverter;
 use PHPUnit\Framework\TestCase;
 
 

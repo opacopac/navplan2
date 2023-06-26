@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Common;
 
-use Navplan\User\DomainService\TokenService;
+use Navplan\User\Domain\Service\TokenService;
 use Navplan\User\UseCase\AutoLogin\AutoLoginRequest;
 use Navplan\User\UseCase\AutoLogin\AutoLoginUc;
 use NavplanTest\MockNavplanDiContainer;

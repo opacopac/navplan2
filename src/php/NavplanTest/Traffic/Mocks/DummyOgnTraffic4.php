@@ -2,10 +2,10 @@
 
 namespace NavplanTest\Traffic\Mocks;
 
-use Navplan\Traffic\DomainModel\TrafficAcType;
-use Navplan\Traffic\DomainModel\TrafficAddress;
-use Navplan\Traffic\DomainModel\TrafficAddressType;
-use Navplan\Traffic\DomainModel\TrafficOgn;
+use Navplan\Traffic\Domain\Model\TrafficAcType;
+use Navplan\Traffic\Domain\Model\TrafficAddress;
+use Navplan\Traffic\Domain\Model\TrafficAddressType;
+use Navplan\Traffic\Domain\Model\TrafficOgn;
 
 
 class DummyOgnTraffic4 {

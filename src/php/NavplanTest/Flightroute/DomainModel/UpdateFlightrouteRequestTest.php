@@ -3,7 +3,7 @@
 namespace NavplanTest\Flightroute\DomainModel;
 
 use Navplan\Flightroute\UseCase\UpdateFlightroute\RestUpdateFlightrouteRequest;
-use Navplan\User\DomainService\TokenService;
+use Navplan\User\Domain\Service\TokenService;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\MockNavplanDiContainer;
 use PHPUnit\Framework\TestCase;

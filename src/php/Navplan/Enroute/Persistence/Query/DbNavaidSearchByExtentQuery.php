@@ -5,7 +5,7 @@ namespace Navplan\Enroute\Persistence\Query;
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Enroute\Domain\Query\INavaidSearchByExtentQuery;
 use Navplan\Enroute\Persistence\Model\DbTableNavaid;
-use Navplan\System\DomainService\IDbService;
+use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
 
 

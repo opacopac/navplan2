@@ -4,7 +4,7 @@ namespace NavplanTest\Traffic\Mocks;
 
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Time;
-use Navplan\Traffic\DomainService\IOgnService;
+use Navplan\Traffic\Domain\Service\IOgnService;
 
 
 class MockOgnService implements IOgnService {

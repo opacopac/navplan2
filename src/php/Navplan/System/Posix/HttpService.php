@@ -3,7 +3,7 @@
 namespace Navplan\System\Posix;
 
 use InvalidArgumentException;
-use Navplan\System\DomainService\IHttpService;
+use Navplan\System\Domain\Service\IHttpService;
 
 
 class HttpService implements IHttpService {

@@ -12,9 +12,9 @@ use Navplan\Aerodrome\Persistence\Repo\DbAirportRepo;
 use Navplan\Aerodrome\Persistence\Repo\DbReportingPointRepo;
 use Navplan\Aerodrome\Rest\Controller\AirportController;
 use Navplan\Common\Rest\Controller\IRestController;
-use Navplan\System\DomainService\IDbService;
-use Navplan\System\DomainService\IHttpService;
-use Navplan\System\DomainService\ILoggingService;
+use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Domain\Service\IHttpService;
+use Navplan\System\Domain\Service\ILoggingService;
 
 
 class ProdAerodromeDiContainer implements IAerodromeDiContainer

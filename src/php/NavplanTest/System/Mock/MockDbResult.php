@@ -2,7 +2,7 @@
 
 namespace NavplanTest\System\Mock;
 
-use Navplan\System\DomainModel\IDbResult;
+use Navplan\System\Domain\Model\IDbResult;
 
 
 class MockDbResult implements IDbResult

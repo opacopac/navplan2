@@ -3,8 +3,8 @@
 namespace Navplan\System\MySqlDb;
 
 use mysqli;
-use Navplan\System\DomainModel\DbException;
-use Navplan\System\DomainModel\IDbResult;
+use Navplan\System\Domain\Model\DbException;
+use Navplan\System\Domain\Model\IDbResult;
 
 
 class DbService

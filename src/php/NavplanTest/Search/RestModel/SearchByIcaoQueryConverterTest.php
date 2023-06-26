@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Search\RestModel;
 
-use Navplan\Search\DomainModel\SearchItemType;
-use Navplan\Search\RestModel\RestSearchByIcaoQueryConverter;
+use Navplan\Search\Domain\Model\SearchItemType;
+use Navplan\Search\Rest\Model\RestSearchByIcaoQueryConverter;
 use PHPUnit\Framework\TestCase;
 
 

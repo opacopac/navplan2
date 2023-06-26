@@ -4,8 +4,8 @@ namespace Navplan\Enroute\Persistence\Command;
 
 use Navplan\Enroute\Domain\Command\IAirspaceInsertAllCommand;
 use Navplan\Enroute\Persistence\Model\DbTableAirspace;
-use Navplan\System\DomainService\IDbService;
-use Navplan\System\DomainService\ILoggingService;
+use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Domain\Service\ILoggingService;
 use Throwable;
 
 

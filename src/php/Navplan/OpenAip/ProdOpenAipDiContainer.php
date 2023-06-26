@@ -11,8 +11,8 @@ use Navplan\OpenAip\ApiAdapter\Service\OpenAipService;
 use Navplan\OpenAip\Config\IOpenAipConfig;
 use Navplan\OpenAip\Importer\Service\IOpenAipImporter;
 use Navplan\OpenAip\Importer\Service\OpenAipImporter;
-use Navplan\System\DomainService\IDbService;
-use Navplan\System\DomainService\ILoggingService;
+use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Domain\Service\ILoggingService;
 
 
 class ProdOpenAipDiContainer implements IOpenAipDiContainer

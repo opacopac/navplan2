@@ -6,14 +6,14 @@ use InvalidArgumentException;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdConfig;
 use Navplan\Notam\Domain\Service\INotamConfig;
 use Navplan\OpenAip\Config\IOpenAipConfig;
-use Navplan\System\DomainModel\LogLevel;
-use Navplan\System\DomainService\ISystemConfig;
+use Navplan\System\Domain\Model\LogLevel;
+use Navplan\System\Domain\Service\ISystemConfig;
 use Navplan\System\MySqlDb\DbCredentials;
 use Navplan\System\MySqlDb\IDbConfig;
-use Navplan\Terrain\DomainService\ITerrainConfig;
-use Navplan\Traffic\AdsbexService\IAdsbexConfig;
-use Navplan\User\DomainModel\TokenCredentials;
-use Navplan\User\DomainService\ITokenConfig;
+use Navplan\Terrain\Domain\Service\ITerrainConfig;
+use Navplan\Traffic\Adsbex\Service\IAdsbexConfig;
+use Navplan\User\Domain\Model\TokenCredentials;
+use Navplan\User\Domain\Service\ITokenConfig;
 
 
 class IniFileConfig implements IDbConfig, ITokenConfig, IOpenAipConfig, IAdsbexConfig,

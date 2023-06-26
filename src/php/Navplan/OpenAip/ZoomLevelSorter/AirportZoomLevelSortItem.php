@@ -3,8 +3,8 @@
 namespace Navplan\OpenAip\ZoomLevelSorter;
 
 use Navplan\Aerodrome\Persistence\Model\DbTableAirport;
-use Navplan\System\DomainModel\IDbResult;
-use Navplan\System\DomainService\IDbService;
+use Navplan\System\Domain\Model\IDbResult;
+use Navplan\System\Domain\Service\IDbService;
 
 
 class AirportZoomLevelSortItem implements IZoomLevelSortItem {

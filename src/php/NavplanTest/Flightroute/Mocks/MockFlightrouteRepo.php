@@ -4,7 +4,7 @@ namespace NavplanTest\Flightroute\Mocks;
 
 use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Flightroute\Domain\Service\IFlightrouteRepo;
-use Navplan\User\DomainModel\User;
+use Navplan\User\Domain\Model\User;
 
 
 class MockFlightrouteRepo implements IFlightrouteRepo {

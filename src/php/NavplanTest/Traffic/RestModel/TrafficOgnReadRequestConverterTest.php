@@ -4,7 +4,7 @@ namespace NavplanTest\Traffic\RestModel;
 
 use InvalidArgumentException;
 use Navplan\Common\DomainModel\TimeUnit;
-use Navplan\Traffic\RestModel\RestTrafficOgnReadRequestConverter;
+use Navplan\Traffic\Rest\Model\RestTrafficOgnReadRequestConverter;
 use PHPUnit\Framework\TestCase;
 
 

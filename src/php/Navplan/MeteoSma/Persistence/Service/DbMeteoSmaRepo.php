@@ -6,8 +6,8 @@ use Navplan\Common\DomainModel\Extent2d;
 use Navplan\MeteoSma\Domain\Service\IMeteoSmaRepo;
 use Navplan\MeteoSma\Persistence\Model\DbSmaMeasurementConverter;
 use Navplan\MeteoSma\Persistence\Model\DbSmaStationConverter;
-use Navplan\System\DomainService\IDbService;
-use Navplan\System\DomainService\ITimeService;
+use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Domain\Service\ITimeService;
 
 
 class DbMeteoSmaRepo implements IMeteoSmaRepo {

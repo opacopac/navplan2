@@ -3,7 +3,7 @@
 namespace NavplanTest\User\RestModel;
 
 use InvalidArgumentException;
-use Navplan\User\RestModel\AutoLoginRequestConverter;
+use Navplan\User\Rest\Model\AutoLoginRequestConverter;
 use PHPUnit\Framework\TestCase;
 
 

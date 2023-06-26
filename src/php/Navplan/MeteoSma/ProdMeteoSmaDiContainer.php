@@ -4,8 +4,8 @@ namespace Navplan\MeteoSma;
 
 use Navplan\MeteoSma\Domain\Service\IMeteoSmaService;
 use Navplan\MeteoSma\Persistence\Service\DbMeteoSmaRepo;
-use Navplan\System\DomainService\IDbService;
-use Navplan\System\DomainService\ITimeService;
+use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Domain\Service\ITimeService;
 
 
 class ProdMeteoSmaDiContainer implements IMeteoSmaDiContainer {

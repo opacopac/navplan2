@@ -3,7 +3,7 @@
 namespace Navplan\Traffic;
 
 use Navplan\ProdNavplanDiContainer;
-use Navplan\Traffic\RestService\TrafficController;
+use Navplan\Traffic\Rest\Service\TrafficController;
 
 require_once __DIR__ . "/../RestServiceBootstrap.php";
 

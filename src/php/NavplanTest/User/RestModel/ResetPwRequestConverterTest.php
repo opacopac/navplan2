@@ -3,7 +3,7 @@
 namespace NavplanTest\User\RestModel;
 
 use InvalidArgumentException;
-use Navplan\User\RestModel\ResetPwRequestConverter;
+use Navplan\User\Rest\Model\ResetPwRequestConverter;
 use PHPUnit\Framework\TestCase;
 
 

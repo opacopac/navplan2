@@ -2,9 +2,9 @@
 
 namespace NavplanTest\Traffic\DomainModel;
 
-use Navplan\Traffic\DomainModel\TrafficAddress;
-use Navplan\Traffic\DomainModel\TrafficAddressType;
-use Navplan\Traffic\DomainModel\TrafficDetail;
+use Navplan\Traffic\Domain\Model\TrafficAddress;
+use Navplan\Traffic\Domain\Model\TrafficAddressType;
+use Navplan\Traffic\Domain\Model\TrafficDetail;
 use NavplanTest\Traffic\Mocks\DummyTrafficDetailResult1;
 use PHPUnit\Framework\TestCase;
 

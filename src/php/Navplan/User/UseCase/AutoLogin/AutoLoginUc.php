@@ -2,7 +2,7 @@
 
 namespace Navplan\User\UseCase\AutoLogin;
 
-use Navplan\User\DomainService\ITokenService;
+use Navplan\User\Domain\Service\ITokenService;
 use Navplan\User\UseCase\UserResponse;
 
 

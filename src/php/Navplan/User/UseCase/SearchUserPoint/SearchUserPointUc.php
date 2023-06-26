@@ -5,8 +5,8 @@ namespace Navplan\User\UseCase\SearchUserPoint;
 use InvalidArgumentException;
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
-use Navplan\User\DomainService\ITokenService;
-use Navplan\User\DomainService\IUserPointRepo;
+use Navplan\User\Domain\Service\ITokenService;
+use Navplan\User\Domain\Service\IUserPointRepo;
 
 
 class SearchUserPointUc implements ISearchUserPointUc {

@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Traffic\Mocks;
 
-use Navplan\Traffic\DomainService\ITrafficDetailRepo;
+use Navplan\Traffic\Domain\Service\ITrafficDetailRepo;
 
 
 class MockTrafficDetailRepo implements ITrafficDetailRepo {

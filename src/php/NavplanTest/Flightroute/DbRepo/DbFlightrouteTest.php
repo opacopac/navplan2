@@ -4,7 +4,7 @@ namespace NavplanTest\Flightroute\DbRepo;
 
 use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Flightroute\Persistence\Repo\DbFlightrouteConverter;
-use Navplan\User\DomainService\ITokenService;
+use Navplan\User\Domain\Service\ITokenService;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute2;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute3;

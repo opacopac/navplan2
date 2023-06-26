@@ -4,7 +4,7 @@ namespace NavplanTest\Flightroute\UseCase;
 
 use InvalidArgumentException;
 use Navplan\Flightroute\UseCase\CreateFlightroute\CreateFlightrouteRequest;
-use Navplan\User\DomainService\TokenService;
+use Navplan\User\Domain\Service\TokenService;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\MockFlightrouteRepo;
 use NavplanTest\MockNavplanDiContainer;

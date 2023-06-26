@@ -3,8 +3,8 @@
 namespace Navplan\System\MySqlDb;
 
 use mysqli_stmt;
-use Navplan\System\DomainModel\IDbStatement;
-use Navplan\System\DomainService\ILoggingService;
+use Navplan\System\Domain\Model\IDbStatement;
+use Navplan\System\Domain\Service\ILoggingService;
 
 
 class MySqlDbStatement implements IDbStatement {

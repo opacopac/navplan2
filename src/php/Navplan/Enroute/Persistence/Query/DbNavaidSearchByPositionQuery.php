@@ -5,7 +5,7 @@ namespace Navplan\Enroute\Persistence\Query;
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\Enroute\Domain\Query\INavaidSearchByPositionQuery;
 use Navplan\Enroute\Persistence\Model\DbTableNavaid;
-use Navplan\System\DomainService\IDbService;
+use Navplan\System\Domain\Service\IDbService;
 
 
 class DbNavaidSearchByPositionQuery implements INavaidSearchByPositionQuery {

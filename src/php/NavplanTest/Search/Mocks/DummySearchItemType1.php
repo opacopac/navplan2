@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Search\Mocks;
 
-use Navplan\Search\DomainModel\SearchItemType;
+use Navplan\Search\Domain\Model\SearchItemType;
 
 
 class DummySearchItemType1 {

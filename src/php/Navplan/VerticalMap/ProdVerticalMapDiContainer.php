@@ -6,11 +6,11 @@ use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Enroute\Domain\Service\IAirspaceService;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalCloudService;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalWindService;
-use Navplan\System\DomainService\IHttpService;
-use Navplan\Terrain\DomainService\ITerrainService;
-use Navplan\VerticalMap\DomainService\IVerticalMapService;
-use Navplan\VerticalMap\DomainService\VerticalMapService;
-use Navplan\VerticalMap\RestService\VerticalMapController;
+use Navplan\System\Domain\Service\IHttpService;
+use Navplan\Terrain\Domain\Service\ITerrainService;
+use Navplan\VerticalMap\Domain\Service\IVerticalMapService;
+use Navplan\VerticalMap\Domain\Service\VerticalMapService;
+use Navplan\VerticalMap\Rest\Service\VerticalMapController;
 
 
 class ProdVerticalMapDiContainer implements IVerticalMapDiContainer {

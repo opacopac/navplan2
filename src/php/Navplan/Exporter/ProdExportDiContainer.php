@@ -11,8 +11,8 @@ use Navplan\Exporter\Builder\NavplanPdfBuilder;
 use Navplan\Exporter\Domain\Service\IExportService;
 use Navplan\Exporter\FileExportService\FileExportService;
 use Navplan\Exporter\Rest\Controller\ExporterController;
-use Navplan\System\DomainService\IFileService;
-use Navplan\System\DomainService\IHttpService;
+use Navplan\System\Domain\Service\IFileService;
+use Navplan\System\Domain\Service\IHttpService;
 
 
 class ProdExportDiContainer implements IExporterDiContainer {

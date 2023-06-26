@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Traffic\TrafficDetailRepo;
 
-use Navplan\Traffic\TrafficDetailRepo\DbTrafficDetailConverter;
+use Navplan\Traffic\TrafficDetail\Model\DbTrafficDetailConverter;
 use NavplanTest\Traffic\Mocks\DummyBasestationTrafficDetail1;
 use NavplanTest\Traffic\Mocks\DummyBasestationTrafficDetail2;
 use NavplanTest\Traffic\Mocks\DummyIcaoAcTypeTrafficDetail1;

@@ -10,7 +10,7 @@ use Navplan\Flightroute\Rest\Converter\RestDeleteFlightrouteRequestConverter;
 use Navplan\Flightroute\Rest\Converter\RestReadFlightrouteRequestConverter;
 use Navplan\Flightroute\Rest\Converter\RestReadSharedFlightrouteRequestConverter;
 use Navplan\Flightroute\Rest\Converter\RestUpdateFlightrouteRequestConverter;
-use Navplan\User\DomainService\TokenService;
+use Navplan\User\Domain\Service\TokenService;
 use NavplanTest\Flightroute\Mocks\DummyFlightroute1;
 use NavplanTest\Flightroute\Mocks\MockFlightrouteRepo;
 use NavplanTest\MockNavplanDiContainer;

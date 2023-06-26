@@ -6,7 +6,7 @@ use Navplan\Config\ProdConfigDiContainer;
 use Navplan\Notam\Domain\Service\INotamConfig;
 use Navplan\Notam\Domain\Service\INotamService;
 use Navplan\Notam\Persistence\Service\DbNotamRepo;
-use Navplan\System\DomainService\IDbService;
+use Navplan\System\Domain\Service\IDbService;
 
 
 class ProdNotamDiContainer implements INotamDiContainer {

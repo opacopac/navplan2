@@ -17,9 +17,9 @@ use Navplan\Aerodrome\Persistence\Model\DbTableAirportRadio;
 use Navplan\Aerodrome\Persistence\Model\DbTableAirportRunway;
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
-use Navplan\System\DomainModel\IDbResult;
-use Navplan\System\DomainService\IDbService;
-use Navplan\System\DomainService\ILoggingService;
+use Navplan\System\Domain\Model\IDbResult;
+use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Domain\Service\ILoggingService;
 use Navplan\System\MySqlDb\DbHelper;
 use Throwable;
 

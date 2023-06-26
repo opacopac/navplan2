@@ -2,7 +2,7 @@
 
 namespace Navplan\Track;
 
-use Navplan\Track\DomainService\ITrackService;
+use Navplan\Track\Domain\Service\ITrackService;
 
 
 interface ITrackDiContainer {

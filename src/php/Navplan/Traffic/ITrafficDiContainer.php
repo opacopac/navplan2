@@ -2,11 +2,11 @@
 
 namespace Navplan\Traffic;
 
-use Navplan\Traffic\AdsbexService\IAdsbexConfig;
-use Navplan\Traffic\DomainService\IAdsbexService;
-use Navplan\Traffic\DomainService\IOgnService;
-use Navplan\Traffic\DomainService\ITrafficDetailRepo;
-use Navplan\Traffic\OgnListenerService\IOgnListenerRepo;
+use Navplan\Traffic\Adsbex\Service\IAdsbexConfig;
+use Navplan\Traffic\Domain\Service\IAdsbexService;
+use Navplan\Traffic\Domain\Service\IOgnService;
+use Navplan\Traffic\Domain\Service\ITrafficDetailRepo;
+use Navplan\Traffic\Ogn\Service\IOgnListenerRepo;
 use Navplan\Traffic\UseCase\ReadAdsbexTraffic\IReadAdsbexTrafficUc;
 use Navplan\Traffic\UseCase\ReadAdsbexTrafficWithDetails\IReadAdsbexTrafficWithDetailsUc;
 use Navplan\Traffic\UseCase\ReadOgnTraffic\IReadOgnTrafficUc;

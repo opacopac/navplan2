@@ -3,7 +3,7 @@
 namespace NavplanTest\Search\Mocks;
 
 use Navplan\Common\DomainModel\Extent2d;
-use Navplan\Search\DomainModel\SearchByExtentQuery;
+use Navplan\Search\Domain\Model\SearchByExtentQuery;
 
 
 class DummySearchByExtentQuery1 {

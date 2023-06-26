@@ -2,7 +2,7 @@
 
 namespace Navplan\System\Posix;
 
-use Navplan\System\DomainService\ITimeService;
+use Navplan\System\Domain\Service\ITimeService;
 
 
 class TimeService implements ITimeService {

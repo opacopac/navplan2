@@ -8,8 +8,8 @@ use Navplan\Aerodrome\Domain\Model\AirportRunwayType;
 use Navplan\Common\DomainModel\Length;
 use Navplan\Common\DomainModel\LengthUnit;
 use Navplan\Common\StringNumberHelper;
-use Navplan\System\DomainModel\IDbStatement;
-use Navplan\System\DomainService\IDbService;
+use Navplan\System\Domain\Model\IDbStatement;
+use Navplan\System\Domain\Service\IDbService;
 
 
 class DbAirportRunwayConverter {

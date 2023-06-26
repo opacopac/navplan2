@@ -7,8 +7,8 @@ use Navplan\Aerodrome\Domain\Service\IReportingPointRepo;
 use Navplan\Aerodrome\Persistence\Model\DbReportingPointConverter;
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
-use Navplan\System\DomainModel\IDbResult;
-use Navplan\System\DomainService\IDbService;
+use Navplan\System\Domain\Model\IDbResult;
+use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
 
 

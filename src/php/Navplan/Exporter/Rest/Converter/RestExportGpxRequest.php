@@ -4,8 +4,8 @@ namespace Navplan\Exporter\Rest\Converter;
 
 use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Flightroute\Rest\Converter\RestFlightrouteConverter;
-use Navplan\Track\DomainModel\Track;
-use Navplan\Track\RestModel\RestTrackConverter;
+use Navplan\Track\Domain\Model\Track;
+use Navplan\Track\Rest\Model\RestTrackConverter;
 
 
 class RestExportGpxRequest {

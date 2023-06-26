@@ -2,7 +2,7 @@
 
 namespace Navplan\Flightroute\Domain\Command;
 
-use Navplan\User\DomainModel\User;
+use Navplan\User\Domain\Model\User;
 
 
 interface IFlightrouteDeleteCommand {

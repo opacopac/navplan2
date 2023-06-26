@@ -4,11 +4,11 @@ namespace Navplan\System\MySqlDb;
 
 use Exception;
 use mysqli;
-use Navplan\System\DomainModel\DbException;
-use Navplan\System\DomainModel\IDbResult;
-use Navplan\System\DomainModel\IDbStatement;
-use Navplan\System\DomainService\IDbService;
-use Navplan\System\DomainService\ILoggingService;
+use Navplan\System\Domain\Model\DbException;
+use Navplan\System\Domain\Model\IDbResult;
+use Navplan\System\Domain\Model\IDbStatement;
+use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Domain\Service\ILoggingService;
 
 
 class MySqlDbService implements IDbService {

@@ -8,7 +8,7 @@ use Navplan\Notam\Rest\Model\ReadNotamByExtentRequest;
 use Navplan\Notam\Rest\Model\ReadNotamByIcaoRequest;
 use Navplan\Notam\Rest\Model\ReadNotamByPositionRequest;
 use Navplan\Notam\Rest\Model\ReadNotamResponse;
-use Navplan\System\DomainService\IHttpService;
+use Navplan\System\Domain\Service\IHttpService;
 
 
 class NotamController {

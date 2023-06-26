@@ -7,7 +7,7 @@ use Navplan\Common\DomainModel\Timestamp;
 use Navplan\Common\DomainModel\TimeUnit;
 use Navplan\Common\StringNumberHelper;
 use Navplan\MeteoSma\Domain\Model\SmaMeasurement;
-use Navplan\System\DomainService\ITimeService;
+use Navplan\System\Domain\Service\ITimeService;
 
 
 class DbSmaMeasurementConverter {

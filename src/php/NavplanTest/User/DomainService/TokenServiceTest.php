@@ -2,7 +2,7 @@
 
 namespace NavplanTest\User\DomainService;
 
-use Navplan\User\DomainService\TokenService;
+use Navplan\User\Domain\Service\TokenService;
 use NavplanTest\MockNavplanDiContainer;
 use PHPUnit\Framework\TestCase;
 

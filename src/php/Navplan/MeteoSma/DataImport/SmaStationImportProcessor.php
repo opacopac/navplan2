@@ -3,7 +3,7 @@
 namespace Navplan\MeteoSma\DataImport;
 
 use Navplan\MeteoSma\Domain\Service\IMeteoSmaService;
-use Navplan\System\DomainService\IFileService;
+use Navplan\System\Domain\Service\IFileService;
 
 
 class SmaStationImportProcessor {

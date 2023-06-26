@@ -13,8 +13,8 @@ use Navplan\MeteoDwd\Domain\Model\VerticalCloudColumnStep;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdConfig;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalCloudService;
 use Navplan\MeteoDwd\MeteoBin\Model\MeteoBinVerticalCloudInfoConverter;
-use Navplan\System\DomainModel\IFile;
-use Navplan\System\DomainService\IFileService;
+use Navplan\System\Domain\Model\IFile;
+use Navplan\System\Domain\Service\IFileService;
 
 
 class MeteoBinVerticalCloudService implements IMeteoDwdVerticalCloudService  {

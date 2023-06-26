@@ -5,8 +5,8 @@ namespace NavplanTest\Traffic\Mocks;
 use Navplan\Common\DomainModel\Altitude;
 use Navplan\Common\DomainModel\Position4d;
 use Navplan\Common\DomainModel\Timestamp;
-use Navplan\Traffic\DomainModel\TrafficPosition;
-use Navplan\Traffic\DomainModel\TrafficPositionMethod;
+use Navplan\Traffic\Domain\Model\TrafficPosition;
+use Navplan\Traffic\Domain\Model\TrafficPositionMethod;
 
 
 class DummyAdsbexTrafficPosition2 {

@@ -3,10 +3,10 @@
 namespace NavplanTest\Search\UseCase;
 
 use Navplan\Common\DomainModel\Altitude;
-use Navplan\Search\DomainModel\SearchByTextQuery;
-use Navplan\Search\DomainModel\SearchItemType;
+use Navplan\Search\Domain\Model\SearchByTextQuery;
+use Navplan\Search\Domain\Model\SearchItemType;
 use Navplan\Search\UseCase\SearchByText\SearchByTextUc;
-use Navplan\User\DomainService\TokenService;
+use Navplan\User\Domain\Service\TokenService;
 use NavplanTest\Geoname\Mocks\DummyGeoname1;
 use NavplanTest\Geoname\Mocks\DummyGeoname2;
 use NavplanTest\Geoname\Mocks\MockGeonameRepo;

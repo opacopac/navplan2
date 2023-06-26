@@ -7,7 +7,7 @@ use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Common\Rest\Converter\RestExtent2dConverter;
 use Navplan\Enroute\Domain\Service\INavaidService;
 use Navplan\Enroute\Rest\Converter\RestNavaidConverter;
-use Navplan\System\DomainService\IHttpService;
+use Navplan\System\Domain\Service\IHttpService;
 
 
 class NavaidController implements IRestController {

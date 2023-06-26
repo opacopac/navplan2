@@ -5,7 +5,7 @@ namespace Navplan\Enroute\Persistence\Query;
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\Enroute\Domain\Query\IAirspaceSearchByPositionQuery;
 use Navplan\Enroute\Persistence\Model\DbTableAirspace;
-use Navplan\System\DomainService\IDbService;
+use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
 
 

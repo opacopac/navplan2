@@ -2,7 +2,7 @@
 
 namespace NavplanTest\System\Mock;
 
-use Navplan\System\DomainService\IHttpService;
+use Navplan\System\Domain\Service\IHttpService;
 use Navplan\System\Posix\HttpService;
 
 

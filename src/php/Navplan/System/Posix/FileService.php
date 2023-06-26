@@ -4,10 +4,10 @@ namespace Navplan\System\Posix;
 
 use Exception;
 use Navplan\Common\StringNumberHelper;
-use Navplan\System\DomainModel\FileServiceException;
-use Navplan\System\DomainModel\IFile;
-use Navplan\System\DomainService\IFileService;
-use Navplan\System\DomainService\ISystemConfig;
+use Navplan\System\Domain\Model\FileServiceException;
+use Navplan\System\Domain\Model\IFile;
+use Navplan\System\Domain\Service\IFileService;
+use Navplan\System\Domain\Service\ISystemConfig;
 
 
 class FileService implements IFileService {

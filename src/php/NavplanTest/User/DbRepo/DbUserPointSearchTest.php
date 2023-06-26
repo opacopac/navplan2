@@ -2,8 +2,8 @@
 
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
-use Navplan\User\DbRepo\DbUserPointRepo;
-use Navplan\User\DomainModel\UserPoint;
+use Navplan\User\Domain\Model\UserPoint;
+use Navplan\User\Persistence\Service\DbUserPointRepo;
 use NavplanTest\System\Mock\MockDbService;
 use NavplanTest\User\Mocks\DummyUserPoint1;
 use NavplanTest\User\Mocks\DummyUserPoint2;

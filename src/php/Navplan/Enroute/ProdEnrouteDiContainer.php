@@ -29,9 +29,9 @@ use Navplan\Enroute\Persistence\Query\DbNavaidSearchByPositionQuery;
 use Navplan\Enroute\Persistence\Query\DbNavaidSearchByTextQuery;
 use Navplan\Enroute\Rest\Controller\AirspaceController;
 use Navplan\Enroute\Rest\Controller\NavaidController;
-use Navplan\System\DomainService\IDbService;
-use Navplan\System\DomainService\IHttpService;
-use Navplan\System\DomainService\ILoggingService;
+use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Domain\Service\IHttpService;
+use Navplan\System\Domain\Service\ILoggingService;
 
 
 class ProdEnrouteDiContainer implements IEnrouteDiContainer {

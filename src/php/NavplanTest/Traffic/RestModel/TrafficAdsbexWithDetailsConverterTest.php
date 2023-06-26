@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Traffic\RestModel;
 
-use Navplan\Traffic\RestModel\RestTrafficAdsbexWithDetailsConverter;
+use Navplan\Traffic\Rest\Model\RestTrafficAdsbexWithDetailsConverter;
 use NavplanTest\Traffic\Mocks\DummyAdsbexTrafficWithDetails1;
 use PHPUnit\Framework\TestCase;
 

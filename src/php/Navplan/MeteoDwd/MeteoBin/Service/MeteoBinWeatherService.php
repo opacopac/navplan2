@@ -11,7 +11,7 @@ use Navplan\MeteoDwd\Domain\Model\WeatherInfo;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdConfig;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdWeatherService;
 use Navplan\MeteoDwd\MeteoBin\Model\MeteoBinWeatherInfoConverter;
-use Navplan\System\DomainService\IFileService;
+use Navplan\System\Domain\Service\IFileService;
 
 
 class MeteoBinWeatherService implements IMeteoDwdWeatherService {

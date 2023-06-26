@@ -7,7 +7,7 @@ use Navplan\Aerodrome\Domain\Model\AirportChart2;
 use Navplan\Aerodrome\Domain\Service\IAirportChartRepo;
 use Navplan\Aerodrome\Persistence\Model\DbAirportChart2Converter;
 use Navplan\Aerodrome\Persistence\Model\DbAirportChartConverter;
-use Navplan\System\DomainService\IDbService;
+use Navplan\System\Domain\Service\IDbService;
 
 
 class DbAirportChartRepo implements IAirportChartRepo {

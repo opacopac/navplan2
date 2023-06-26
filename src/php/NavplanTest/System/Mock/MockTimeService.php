@@ -2,7 +2,7 @@
 
 namespace NavplanTest\System\Mock;
 
-use Navplan\System\DomainService\ITimeService;
+use Navplan\System\Domain\Service\ITimeService;
 
 
 class MockTimeService implements ITimeService {

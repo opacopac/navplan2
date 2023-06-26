@@ -3,7 +3,7 @@
 namespace Navplan\VerticalMap;
 
 use Navplan\Common\Rest\Controller\IRestController;
-use Navplan\VerticalMap\DomainService\IVerticalMapService;
+use Navplan\VerticalMap\Domain\Service\IVerticalMapService;
 
 
 interface IVerticalMapDiContainer {

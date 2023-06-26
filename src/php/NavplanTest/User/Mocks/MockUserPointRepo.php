@@ -5,7 +5,7 @@ namespace NavplanTest\User\Mocks;
 use InvalidArgumentException;
 use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\DomainModel\Position2d;
-use Navplan\User\DomainService\IUserPointRepo;
+use Navplan\User\Domain\Service\IUserPointRepo;
 
 
 class MockUserPointRepo implements IUserPointRepo {

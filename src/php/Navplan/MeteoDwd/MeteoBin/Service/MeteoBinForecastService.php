@@ -8,8 +8,8 @@ use Navplan\MeteoDwd\Domain\Model\ForecastRun;
 use Navplan\MeteoDwd\Domain\Model\WeatherModelConfig;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdConfig;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdForecastService;
-use Navplan\System\DomainModel\FileServiceException;
-use Navplan\System\DomainService\IFileService;
+use Navplan\System\Domain\Model\FileServiceException;
+use Navplan\System\Domain\Service\IFileService;
 
 
 class MeteoBinForecastService implements IMeteoDwdForecastService {

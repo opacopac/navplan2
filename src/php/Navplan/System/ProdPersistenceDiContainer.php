@@ -2,7 +2,7 @@
 
 namespace Navplan\System;
 
-use Navplan\System\DomainService\IDbService;
+use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\MySqlDb\IDbConfig;
 use Navplan\System\MySqlDb\MySqlDbService;
 

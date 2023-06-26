@@ -6,7 +6,7 @@ use Navplan\Common\DomainModel\Extent2d;
 use Navplan\Common\GeoHelper;
 use Navplan\Enroute\Domain\Query\IAirspaceSearchByExtentQuery;
 use Navplan\Enroute\Persistence\Model\DbTableAirspace;
-use Navplan\System\DomainService\IDbService;
+use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
 
 

@@ -4,7 +4,7 @@ include "../php/helper.php";
 
 include_once __DIR__ . "/../php/Navplan/Db/MySqlDb/DbService.php";
 
-use Navplan\System\DomainModel\DbException;
+use Navplan\System\Domain\Model\DbException;
 use Navplan\System\MySqlDb\DbService;
 
 

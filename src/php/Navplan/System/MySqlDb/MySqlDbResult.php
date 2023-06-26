@@ -3,7 +3,7 @@
 namespace Navplan\System\MySqlDb;
 
 use mysqli_result;
-use Navplan\System\DomainModel\IDbResult;
+use Navplan\System\Domain\Model\IDbResult;
 
 
 class MySqlDbResult implements IDbResult {

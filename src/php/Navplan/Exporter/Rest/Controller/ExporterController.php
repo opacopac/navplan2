@@ -11,7 +11,7 @@ use Navplan\Exporter\Rest\Converter\RestExportFplRequest;
 use Navplan\Exporter\Rest\Converter\RestExportGpxRequest;
 use Navplan\Exporter\Rest\Converter\RestExportKmlRequest;
 use Navplan\Exporter\Rest\Converter\RestExportPdfRequest;
-use Navplan\System\DomainService\IHttpService;
+use Navplan\System\Domain\Service\IHttpService;
 
 
 class ExporterController implements IRestController {

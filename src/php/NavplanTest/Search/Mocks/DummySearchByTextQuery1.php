@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Search\Mocks;
 
-use Navplan\Search\DomainModel\SearchByTextQuery;
+use Navplan\Search\Domain\Model\SearchByTextQuery;
 
 
 class DummySearchByTextQuery1 {

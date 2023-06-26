@@ -2,9 +2,9 @@
 
 namespace Navplan\System\Posix;
 
-use Navplan\System\DomainModel\LogLevel;
-use Navplan\System\DomainService\ILoggingService;
-use Navplan\System\DomainService\ITimeService;
+use Navplan\System\Domain\Model\LogLevel;
+use Navplan\System\Domain\Service\ILoggingService;
+use Navplan\System\Domain\Service\ITimeService;
 
 
 class LoggingService implements ILoggingService {

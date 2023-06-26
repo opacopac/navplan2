@@ -5,7 +5,7 @@ namespace Navplan\Geoname\Domain\Service;
 use Navplan\Common\DomainModel\Altitude;
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\Geoname\Domain\Model\Geoname;
-use Navplan\Terrain\DomainService\ITerrainService;
+use Navplan\Terrain\Domain\Service\ITerrainService;
 
 
 class GeonameService implements IGeonameService {

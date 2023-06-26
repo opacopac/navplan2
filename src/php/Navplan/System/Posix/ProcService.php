@@ -2,7 +2,7 @@
 
 namespace Navplan\System\Posix;
 
-use Navplan\System\DomainService\IProcService;
+use Navplan\System\Domain\Service\IProcService;
 use RuntimeException;
 
 

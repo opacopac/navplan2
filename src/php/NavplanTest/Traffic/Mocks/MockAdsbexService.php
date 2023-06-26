@@ -4,7 +4,7 @@ namespace NavplanTest\Traffic\Mocks;
 
 use Navplan\Common\DomainModel\Length;
 use Navplan\Common\DomainModel\Position2d;
-use Navplan\Traffic\DomainService\IAdsbexService;
+use Navplan\Traffic\Domain\Service\IAdsbexService;
 
 
 class MockAdsbexService implements IAdsbexService {

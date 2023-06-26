@@ -5,8 +5,8 @@ namespace Navplan\System\Imagick;
 use Imagick;
 use ImagickPixel;
 use InvalidArgumentException;
-use Navplan\System\DomainModel\Color;
-use Navplan\System\DomainModel\IDrawable;
+use Navplan\System\Domain\Model\Color;
+use Navplan\System\Domain\Model\IDrawable;
 
 
 class ImagickDrawable implements IDrawable {

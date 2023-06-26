@@ -4,9 +4,9 @@ namespace Navplan\Flightroute\Persistence\Query;
 
 use Navplan\Flightroute\Domain\Query\IFlightrouteListQuery;
 use Navplan\Flightroute\Persistence\Model\DbTableFlightroute;
-use Navplan\System\DomainService\IDbService;
+use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
-use Navplan\User\DomainModel\User;
+use Navplan\User\Domain\Model\User;
 
 
 class DbFlightrouteListQuery implements IFlightrouteListQuery {

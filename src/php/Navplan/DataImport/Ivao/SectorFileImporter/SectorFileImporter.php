@@ -7,7 +7,7 @@ use Navplan\Aerodrome\Domain\Service\IAirportCircuitService;
 use Navplan\Common\DomainModel\Line2d;
 use Navplan\Common\DomainModel\Position2d;
 use Navplan\Common\GeoHelper;
-use Navplan\System\DomainService\ILoggingService;
+use Navplan\System\Domain\Service\ILoggingService;
 
 
 class SectorFileImporter {

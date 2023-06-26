@@ -4,7 +4,7 @@
 namespace Navplan\Exporter\Builder;
 
 use Navplan\Flightroute\Domain\Model\Flightroute;
-use Navplan\Track\DomainModel\Track;
+use Navplan\Track\Domain\Model\Track;
 
 
 class NavplanKmlBuilder {
