@@ -3,7 +3,7 @@
 namespace NavplanTest\Aerodrome\DbRepo;
 
 use Navplan\Aerodrome\Persistence\Repo\DbAirportRepo;
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\Domain\Model\Position2d;
 use NavplanTest\Aerodrome\Mocks\DummyAirport1;
 use NavplanTest\Aerodrome\Mocks\DummyAirportFeature1;
 use NavplanTest\Aerodrome\Mocks\DummyAirportRadio1;

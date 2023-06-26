@@ -2,8 +2,8 @@
 
 namespace Navplan\Common\Rest\Converter;
 
-use Navplan\Common\DomainModel\Consumption;
-use Navplan\Common\DomainModel\ConsumptionUnit;
+use Navplan\Common\Domain\Model\Consumption;
+use Navplan\Common\Domain\Model\ConsumptionUnit;
 use Navplan\Common\StringNumberHelper;
 
 

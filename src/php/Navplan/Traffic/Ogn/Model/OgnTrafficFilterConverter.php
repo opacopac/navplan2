@@ -2,7 +2,7 @@
 
 namespace Navplan\Traffic\Ogn\Model;
 
-use Navplan\Common\DbModel\DbExtent2dConverter;
+use Navplan\Common\Persistence\Model\DbExtent2dConverter;
 
 
 class OgnTrafficFilterConverter {

@@ -3,7 +3,7 @@
 namespace Navplan\Aerodrome\Persistence\Model;
 
 use Navplan\Aerodrome\Domain\Model\AirportCircuit;
-use Navplan\Common\DbModel\DbLine2dConverter;
+use Navplan\Common\Persistence\Model\DbLine2dConverter;
 
 
 class DbAirportCircuitConverter {

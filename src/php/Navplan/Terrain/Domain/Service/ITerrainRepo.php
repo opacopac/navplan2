@@ -3,8 +3,8 @@
 namespace Navplan\Terrain\Domain\Service;
 
 
-use Navplan\Common\DomainModel\Position2d;
-use Navplan\Common\DomainModel\Position3d;
+use Navplan\Common\Domain\Model\Position2d;
+use Navplan\Common\Domain\Model\Position3d;
 
 interface ITerrainRepo {
     /**

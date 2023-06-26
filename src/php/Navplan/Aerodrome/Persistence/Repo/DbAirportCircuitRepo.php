@@ -5,9 +5,9 @@ namespace Navplan\Aerodrome\Persistence\Repo;
 use Navplan\Aerodrome\Domain\Model\AirportCircuit;
 use Navplan\Aerodrome\Domain\Service\IAirportCircuitRepo;
 use Navplan\Aerodrome\Persistence\Model\DbAirportCircuitConverter;
-use Navplan\Common\DbModel\DbLine2dConverter;
-use Navplan\Common\DbModel\DbRing2dConverter;
-use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\Domain\Model\Extent2d;
+use Navplan\Common\Persistence\Model\DbLine2dConverter;
+use Navplan\Common\Persistence\Model\DbRing2dConverter;
 use Navplan\System\Domain\Model\IDbResult;
 use Navplan\System\Domain\Service\IDbService;
 

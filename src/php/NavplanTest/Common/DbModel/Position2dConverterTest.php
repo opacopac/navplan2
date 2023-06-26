@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Common\DbModel;
 
-use Navplan\Common\DbModel\DbPosition2dConverter;
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\Domain\Model\Position2d;
+use Navplan\Common\Persistence\Model\DbPosition2dConverter;
 use PHPUnit\Framework\TestCase;
 
 

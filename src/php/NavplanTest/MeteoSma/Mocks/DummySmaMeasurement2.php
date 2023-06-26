@@ -2,7 +2,7 @@
 
 namespace NavplanTest\MeteoSma\Mocks;
 
-use Navplan\Common\DomainModel\Timestamp;
+use Navplan\Common\Domain\Model\Timestamp;
 use Navplan\MeteoSma\Domain\Model\SmaMeasurement;
 
 

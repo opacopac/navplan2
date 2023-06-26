@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Common\DomainModel;
 
-use Navplan\Common\DomainModel\MultiRing2d;
+use Navplan\Common\Domain\Model\MultiRing2d;
 use PHPUnit\Framework\TestCase;
 
 

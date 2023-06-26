@@ -2,11 +2,11 @@
 
 namespace Navplan\MeteoDwd\Domain\Model;
 
-use Navplan\Common\DomainModel\Angle;
-use Navplan\Common\DomainModel\AngleUnit;
-use Navplan\Common\DomainModel\Position2d;
-use Navplan\Common\DomainModel\Speed;
-use Navplan\Common\DomainModel\SpeedUnit;
+use Navplan\Common\Domain\Model\Angle;
+use Navplan\Common\Domain\Model\AngleUnit;
+use Navplan\Common\Domain\Model\Position2d;
+use Navplan\Common\Domain\Model\Speed;
+use Navplan\Common\Domain\Model\SpeedUnit;
 
 
 class WindInfo {

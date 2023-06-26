@@ -3,8 +3,8 @@
 namespace Navplan\OpenAip\ApiAdapter\Model;
 
 use InvalidArgumentException;
-use Navplan\Common\DomainModel\Length;
-use Navplan\Common\DomainModel\LengthUnit;
+use Navplan\Common\Domain\Model\Length;
+use Navplan\Common\Domain\Model\LengthUnit;
 
 
 class OpenAipLengthConverter {

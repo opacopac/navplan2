@@ -2,9 +2,9 @@
 
 namespace NavplanTest\Traffic\UseCase;
 
-use Navplan\Common\DomainModel\Extent2d;
-use Navplan\Common\DomainModel\Time;
-use Navplan\Common\DomainModel\TimeUnit;
+use Navplan\Common\Domain\Model\Extent2d;
+use Navplan\Common\Domain\Model\Time;
+use Navplan\Common\Domain\Model\TimeUnit;
 use Navplan\Traffic\DomainModel\TrafficOgnReadRequest;
 use Navplan\Traffic\UseCase\ReadOgnTraffic\ReadOgnTrafficUc;
 use NavplanTest\MockNavplanDiContainer;

@@ -2,7 +2,7 @@
 
 namespace Navplan\MeteoSma\Persistence\Service;
 
-use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\MeteoSma\Domain\Service\IMeteoSmaRepo;
 use Navplan\MeteoSma\Persistence\Model\DbSmaMeasurementConverter;
 use Navplan\MeteoSma\Persistence\Model\DbSmaStationConverter;

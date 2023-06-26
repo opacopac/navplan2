@@ -2,7 +2,7 @@
 
 namespace NavplanTest\OpenAip\Api\Model;
 
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\Domain\Model\Position2d;
 use Navplan\OpenAip\ApiAdapter\Model\OpenAipPolygonConverter;
 use PHPUnit\Framework\TestCase;
 

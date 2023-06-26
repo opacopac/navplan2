@@ -2,7 +2,7 @@
 
 namespace NavplanTest\MeteoSma\UseCase;
 
-use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\MeteoSma\UseCase\ReadSmaMeasurements\ReadSmaMeasurementsRequest;
 use Navplan\MeteoSma\UseCase\ReadSmaMeasurements\ReadSmaMeasurementsUc;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement1;

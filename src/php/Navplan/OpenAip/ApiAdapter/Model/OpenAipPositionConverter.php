@@ -2,7 +2,7 @@
 
 namespace Navplan\OpenAip\ApiAdapter\Model;
 
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\Domain\Model\Position2d;
 
 
 class OpenAipPositionConverter {

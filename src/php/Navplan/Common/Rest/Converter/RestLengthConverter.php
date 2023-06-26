@@ -2,7 +2,7 @@
 
 namespace Navplan\Common\Rest\Converter;
 
-use Navplan\Common\DomainModel\Length;
+use Navplan\Common\Domain\Model\Length;
 
 
 class RestLengthConverter {

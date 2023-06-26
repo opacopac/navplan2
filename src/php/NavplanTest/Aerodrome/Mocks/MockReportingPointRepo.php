@@ -4,8 +4,8 @@ namespace NavplanTest\Aerodrome\Mocks;
 
 use InvalidArgumentException;
 use Navplan\Aerodrome\Domain\Service\IReportingPointRepo;
-use Navplan\Common\DomainModel\Extent2d;
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\Domain\Model\Extent2d;
+use Navplan\Common\Domain\Model\Position2d;
 
 
 class MockReportingPointRepo implements IReportingPointRepo {

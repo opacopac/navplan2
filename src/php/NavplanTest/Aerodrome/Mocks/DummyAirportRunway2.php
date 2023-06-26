@@ -4,8 +4,8 @@ namespace NavplanTest\Aerodrome\Mocks;
 
 
 use Navplan\Aerodrome\Domain\Model\AirportRunway;
-use Navplan\Common\DomainModel\Length;
-use Navplan\Common\DomainModel\LengthUnit;
+use Navplan\Common\Domain\Model\Length;
+use Navplan\Common\Domain\Model\LengthUnit;
 
 
 class DummyAirportRunway2 {

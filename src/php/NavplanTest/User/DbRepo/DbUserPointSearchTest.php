@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
-use Navplan\Common\DomainModel\Extent2d;
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\Domain\Model\Extent2d;
+use Navplan\Common\Domain\Model\Position2d;
 use Navplan\User\Domain\Model\UserPoint;
 use Navplan\User\Persistence\Service\DbUserPointRepo;
 use NavplanTest\System\Mock\MockDbService;

@@ -3,7 +3,7 @@
 namespace NavplanTest\Common\DomainModel;
 
 use InvalidArgumentException;
-use Navplan\Common\DomainModel\AltitudeReference;
+use Navplan\Common\Domain\Model\AltitudeReference;
 use PHPUnit\Framework\TestCase;
 
 

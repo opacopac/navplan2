@@ -2,7 +2,7 @@
 
 namespace Navplan\Traffic\Ogn\Service;
 
-use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\ITimeService;
 use Navplan\Traffic\Ogn\Model\OgnTrafficConverter;

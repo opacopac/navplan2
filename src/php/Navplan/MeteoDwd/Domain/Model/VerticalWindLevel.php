@@ -2,9 +2,9 @@
 
 namespace Navplan\MeteoDwd\Domain\Model;
 
-use Navplan\Common\DomainModel\Altitude;
-use Navplan\Common\DomainModel\Angle;
-use Navplan\Common\DomainModel\Speed;
+use Navplan\Common\Domain\Model\Altitude;
+use Navplan\Common\Domain\Model\Angle;
+use Navplan\Common\Domain\Model\Speed;
 
 class VerticalWindLevel {
     public function __construct(

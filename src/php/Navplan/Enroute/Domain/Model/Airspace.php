@@ -2,8 +2,8 @@
 
 namespace Navplan\Enroute\Domain\Model;
 
-use Navplan\Common\DomainModel\Altitude;
-use Navplan\Common\DomainModel\Ring2d;
+use Navplan\Common\Domain\Model\Altitude;
+use Navplan\Common\Domain\Model\Ring2d;
 
 
 class Airspace {

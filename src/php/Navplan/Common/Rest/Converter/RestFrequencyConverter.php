@@ -2,8 +2,8 @@
 
 namespace Navplan\Common\Rest\Converter;
 
-use Navplan\Common\DomainModel\Frequency;
-use Navplan\Common\DomainModel\FrequencyUnit;
+use Navplan\Common\Domain\Model\Frequency;
+use Navplan\Common\Domain\Model\FrequencyUnit;
 use Navplan\Common\StringNumberHelper;
 
 

@@ -2,7 +2,7 @@
 
 namespace Navplan\MeteoDwd\Domain\Model;
 
-use Navplan\Common\DomainModel\Length;
+use Navplan\Common\Domain\Model\Length;
 
 
 class VerticalCloudColumn {

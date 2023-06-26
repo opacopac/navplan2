@@ -3,9 +3,9 @@
 namespace NavplanTest\Aerodrome\Mocks;
 
 use Navplan\Aerodrome\Domain\Model\Airport;
-use Navplan\Common\DomainModel\Length;
-use Navplan\Common\DomainModel\LengthUnit;
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\Domain\Model\Length;
+use Navplan\Common\Domain\Model\LengthUnit;
+use Navplan\Common\Domain\Model\Position2d;
 use NavplanTest\Webcam\Mocks\DummyWebcam1;
 
 

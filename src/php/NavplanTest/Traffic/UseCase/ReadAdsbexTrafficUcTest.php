@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Traffic\UseCase;
 
-use Navplan\Common\DomainModel\Extent2d;
-use Navplan\Common\DomainModel\LengthUnit;
+use Navplan\Common\Domain\Model\Extent2d;
+use Navplan\Common\Domain\Model\LengthUnit;
 use Navplan\Traffic\DomainModel\TrafficAdsbexReadRequest;
 use Navplan\Traffic\UseCase\ReadAdsbexTraffic\ReadAdsbexTrafficUc;
 use NavplanTest\MockNavplanDiContainer;

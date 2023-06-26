@@ -3,8 +3,8 @@
 namespace NavplanTest\Aerodrome\DbRepo;
 
 use Navplan\Aerodrome\Persistence\Repo\DbReportingPointRepo;
-use Navplan\Common\DomainModel\Extent2d;
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\Domain\Model\Extent2d;
+use Navplan\Common\Domain\Model\Position2d;
 use NavplanTest\Aerodrome\Mocks\DummyReportingPoint1;
 use NavplanTest\Aerodrome\Mocks\DummyReportingSector1;
 use NavplanTest\System\Mock\MockDbService;

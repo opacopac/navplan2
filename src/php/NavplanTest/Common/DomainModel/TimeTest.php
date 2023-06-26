@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Common\DomainModel;
 
-use Navplan\Common\DomainModel\Time;
-use Navplan\Common\DomainModel\TimeUnit;
+use Navplan\Common\Domain\Model\Time;
+use Navplan\Common\Domain\Model\TimeUnit;
 use PHPUnit\Framework\TestCase;
 
 

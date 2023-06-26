@@ -2,10 +2,10 @@
 
 namespace Navplan\Flightroute\Persistence\Query;
 
-use Navplan\Common\DbModel\DbPosition2dConverter;
-use Navplan\Common\DomainModel\Altitude;
-use Navplan\Common\DomainModel\AltitudeReference;
-use Navplan\Common\DomainModel\AltitudeUnit;
+use Navplan\Common\Domain\Model\Altitude;
+use Navplan\Common\Domain\Model\AltitudeReference;
+use Navplan\Common\Domain\Model\AltitudeUnit;
+use Navplan\Common\Persistence\Model\DbPosition2dConverter;
 use Navplan\Common\StringNumberHelper;
 use Navplan\Flightroute\Domain\Model\Waypoint;
 use Navplan\Flightroute\Domain\Model\WaypointAltitude;

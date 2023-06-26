@@ -2,7 +2,7 @@
 
 namespace Navplan\Common\Rest\Converter;
 
-use Navplan\Common\DomainModel\Timestamp;
+use Navplan\Common\Domain\Model\Timestamp;
 
 
 class RestTimestampConverter {

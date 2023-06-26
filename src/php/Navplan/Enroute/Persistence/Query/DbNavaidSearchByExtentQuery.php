@@ -2,7 +2,7 @@
 
 namespace Navplan\Enroute\Persistence\Query;
 
-use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Enroute\Domain\Query\INavaidSearchByExtentQuery;
 use Navplan\Enroute\Persistence\Model\DbTableNavaid;
 use Navplan\System\Domain\Service\IDbService;

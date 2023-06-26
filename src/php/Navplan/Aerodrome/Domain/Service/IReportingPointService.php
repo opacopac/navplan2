@@ -3,8 +3,8 @@
 namespace Navplan\Aerodrome\Domain\Service;
 
 use Navplan\Aerodrome\Domain\Model\ReportingPoint;
-use Navplan\Common\DomainModel\Extent2d;
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\Domain\Model\Extent2d;
+use Navplan\Common\Domain\Model\Position2d;
 
 
 interface IReportingPointService {

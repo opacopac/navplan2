@@ -4,7 +4,7 @@ namespace Navplan\MeteoDwd\Domain\Model;
 
 
 use InvalidArgumentException;
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\Domain\Model\Position2d;
 
 class ValueGrid {
     public function __construct(

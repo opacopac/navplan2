@@ -3,7 +3,7 @@
 namespace Navplan\Aerodrome\Domain\Model;
 
 
-use Navplan\Common\DomainModel\Frequency;
+use Navplan\Common\Domain\Model\Frequency;
 
 class AirportRadio {
     public function __construct(

@@ -2,8 +2,8 @@
 
 namespace Navplan\Common\Rest\Converter;
 
-use Navplan\Common\DomainModel\Time;
-use Navplan\Common\DomainModel\TimeUnit;
+use Navplan\Common\Domain\Model\Time;
+use Navplan\Common\Domain\Model\TimeUnit;
 use Navplan\Common\StringNumberHelper;
 
 

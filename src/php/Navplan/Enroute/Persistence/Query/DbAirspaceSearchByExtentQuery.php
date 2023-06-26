@@ -2,7 +2,7 @@
 
 namespace Navplan\Enroute\Persistence\Query;
 
-use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Common\GeoHelper;
 use Navplan\Enroute\Domain\Query\IAirspaceSearchByExtentQuery;
 use Navplan\Enroute\Persistence\Model\DbTableAirspace;

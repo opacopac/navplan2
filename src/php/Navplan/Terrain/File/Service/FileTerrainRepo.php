@@ -2,8 +2,8 @@
 
 namespace Navplan\Terrain\File\Service;
 
-use Navplan\Common\DomainModel\Altitude;
-use Navplan\Common\DomainModel\Position3d;
+use Navplan\Common\Domain\Model\Altitude;
+use Navplan\Common\Domain\Model\Position3d;
 use Navplan\System\Domain\Model\IFile;
 use Navplan\System\Domain\Service\IFileService;
 use Navplan\Terrain\Domain\Service\ITerrainConfig;

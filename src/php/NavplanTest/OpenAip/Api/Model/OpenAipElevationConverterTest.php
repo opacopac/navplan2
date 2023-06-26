@@ -2,8 +2,8 @@
 
 namespace NavplanTest\OpenAip\Api\Model;
 
-use Navplan\Common\DomainModel\AltitudeReference;
-use Navplan\Common\DomainModel\AltitudeUnit;
+use Navplan\Common\Domain\Model\AltitudeReference;
+use Navplan\Common\Domain\Model\AltitudeUnit;
 use Navplan\OpenAip\ApiAdapter\Model\OpenAipElevationConverter;
 use PHPUnit\Framework\TestCase;
 

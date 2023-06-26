@@ -4,8 +4,8 @@ namespace Navplan\Aerodrome\Persistence\Model;
 
 use Navplan\Aerodrome\Domain\Model\AirportRadio;
 use Navplan\Aerodrome\Domain\Model\AirportRadioType;
-use Navplan\Common\DomainModel\Frequency;
-use Navplan\Common\DomainModel\FrequencyUnit;
+use Navplan\Common\Domain\Model\Frequency;
+use Navplan\Common\Domain\Model\FrequencyUnit;
 use Navplan\System\Domain\Model\IDbStatement;
 use Navplan\System\Domain\Service\IDbService;
 

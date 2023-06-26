@@ -2,10 +2,10 @@
 
 namespace NavplanTest\Common\RestModel;
 
-use Navplan\Common\DomainModel\Circle2d;
-use Navplan\Common\DomainModel\Length;
-use Navplan\Common\DomainModel\LengthUnit;
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\Domain\Model\Circle2d;
+use Navplan\Common\Domain\Model\Length;
+use Navplan\Common\Domain\Model\LengthUnit;
+use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Common\Rest\Converter\RestCircle2dConverter;
 use Navplan\Common\Rest\Converter\RestLengthConverter;
 use PHPUnit\Framework\TestCase;

@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Webcam\DbRepo;
 
-use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Webcam\Persistence\Service\DbWebcamRepo;
 use NavplanTest\System\Mock\MockDbService;
 use NavplanTest\Webcam\Mocks\DummyWebcam1;

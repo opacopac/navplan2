@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Geoname\DbRepo;
 
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Geoname\Domain\Model\Geoname;
 use Navplan\Geoname\Persistence\Repo\DbGeonameRepo;
 use NavplanTest\Geoname\Mocks\DummyGeoname1;

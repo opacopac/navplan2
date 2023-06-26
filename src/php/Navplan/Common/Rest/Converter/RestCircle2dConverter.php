@@ -2,7 +2,7 @@
 
 namespace Navplan\Common\Rest\Converter;
 
-use Navplan\Common\DomainModel\Circle2d;
+use Navplan\Common\Domain\Model\Circle2d;
 
 
 class RestCircle2dConverter {

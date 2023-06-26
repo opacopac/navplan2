@@ -2,9 +2,9 @@
 
 namespace Navplan\Traffic\Adsbex\Service;
 
-use Navplan\Common\DomainModel\Length;
-use Navplan\Common\DomainModel\LengthUnit;
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\Domain\Model\Length;
+use Navplan\Common\Domain\Model\LengthUnit;
+use Navplan\Common\Domain\Model\Position2d;
 use Navplan\System\Domain\Service\IFileService;
 use Navplan\System\Domain\Service\ITimeService;
 use Navplan\Traffic\Adsbex\Model\AdsbexTrafficConverter;

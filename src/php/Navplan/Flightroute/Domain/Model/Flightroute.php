@@ -2,8 +2,8 @@
 
 namespace Navplan\Flightroute\Domain\Model;
 
-use Navplan\Common\DomainModel\Consumption;
-use Navplan\Common\DomainModel\Speed;
+use Navplan\Common\Domain\Model\Consumption;
+use Navplan\Common\Domain\Model\Speed;
 
 
 class Flightroute {

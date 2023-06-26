@@ -2,7 +2,7 @@
 
 namespace NavplanTest\MeteoSma\DomainModel;
 
-use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\MeteoSma\UseCase\ReadSmaMeasurements\ReadSmaMeasurementsRequest;
 use PHPUnit\Framework\TestCase;
 

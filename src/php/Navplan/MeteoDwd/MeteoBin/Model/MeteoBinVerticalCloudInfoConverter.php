@@ -2,8 +2,8 @@
 
 namespace Navplan\MeteoDwd\MeteoBin\Model;
 
-use Navplan\Common\DomainModel\Altitude;
-use Navplan\Common\DomainModel\Length;
+use Navplan\Common\Domain\Model\Altitude;
+use Navplan\Common\Domain\Model\Length;
 use Navplan\MeteoDwd\Domain\Model\VerticalCloudColumn;
 use Navplan\MeteoDwd\Domain\Model\VerticalCloudLevel;
 

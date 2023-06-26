@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Traffic\Mocks;
 
-use Navplan\Common\DomainModel\Length;
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\Domain\Model\Length;
+use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Traffic\Domain\Service\IAdsbexService;
 
 

@@ -2,7 +2,7 @@
 
 namespace Navplan\Enroute\Domain\Query;
 
-use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Enroute\Domain\Model\Navaid;
 
 

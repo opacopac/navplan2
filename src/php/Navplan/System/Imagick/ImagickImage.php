@@ -4,7 +4,7 @@ namespace Navplan\System\Imagick;
 
 use Imagick;
 use ImagickPixel;
-use Navplan\Common\DomainModel\Angle;
+use Navplan\Common\Domain\Model\Angle;
 use Navplan\System\Domain\Model\Color;
 use Navplan\System\Domain\Model\IImage;
 

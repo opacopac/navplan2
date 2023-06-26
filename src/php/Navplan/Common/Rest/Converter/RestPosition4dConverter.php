@@ -2,7 +2,7 @@
 
 namespace Navplan\Common\Rest\Converter;
 
-use Navplan\Common\DomainModel\Position4d;
+use Navplan\Common\Domain\Model\Position4d;
 
 
 class RestPosition4dConverter {

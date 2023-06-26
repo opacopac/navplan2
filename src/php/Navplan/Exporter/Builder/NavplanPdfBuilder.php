@@ -4,7 +4,7 @@ namespace Navplan\Exporter\Builder;
 
 require_once __DIR__ . "/../../../vendor/setasign/fpdf/rotation.php";
 
-use Navplan\Common\DomainModel\Consumption;
+use Navplan\Common\Domain\Model\Consumption;
 use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Flightroute\Domain\Model\FuelCalc;
 use Navplan\Flightroute\Domain\Model\Waypoint;

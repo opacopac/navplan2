@@ -2,7 +2,7 @@
 
 namespace Navplan\Flightroute\Domain\Model;
 
-use Navplan\Common\DomainModel\Altitude;
+use Navplan\Common\Domain\Model\Altitude;
 
 
 class WaypointAltitude {

@@ -2,7 +2,7 @@
 
 namespace Navplan\Webcam\Persistence\Model;
 
-use Navplan\Common\DbModel\DbPosition2dConverter;
+use Navplan\Common\Persistence\Model\DbPosition2dConverter;
 use Navplan\Webcam\Domain\Model\Webcam;
 
 

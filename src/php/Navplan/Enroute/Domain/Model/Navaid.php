@@ -2,9 +2,9 @@
 
 namespace Navplan\Enroute\Domain\Model;
 
-use Navplan\Common\DomainModel\Altitude;
-use Navplan\Common\DomainModel\Frequency;
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\Domain\Model\Altitude;
+use Navplan\Common\Domain\Model\Frequency;
+use Navplan\Common\Domain\Model\Position2d;
 
 
 class Navaid {

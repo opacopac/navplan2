@@ -2,9 +2,9 @@
 
 namespace NavplanTest\Traffic\AdsbexRepo;
 
-use Navplan\Common\DomainModel\Length;
-use Navplan\Common\DomainModel\LengthUnit;
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\Domain\Model\Length;
+use Navplan\Common\Domain\Model\LengthUnit;
+use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Traffic\Adsbex\Service\AdsbexService;
 use NavplanTest\System\Mock\MockFileService;
 use NavplanTest\Traffic\Mocks\DummyAdsbexResponse123;

@@ -3,7 +3,7 @@
 namespace NavplanTest\Geoname\Mocks;
 
 use InvalidArgumentException;
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Geoname\Domain\Service\IGeonameRepo;
 
 

@@ -3,9 +3,9 @@
 namespace NavplanTest\OpenAip\Api\Model;
 
 use Navplan\Aerodrome\Domain\Model\AirportType;
-use Navplan\Common\DomainModel\AltitudeReference;
-use Navplan\Common\DomainModel\AltitudeUnit;
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\Domain\Model\AltitudeReference;
+use Navplan\Common\Domain\Model\AltitudeUnit;
+use Navplan\Common\Domain\Model\Position2d;
 use Navplan\OpenAip\ApiAdapter\Model\OpenAipAirportConverter;
 use PHPUnit\Framework\TestCase;
 

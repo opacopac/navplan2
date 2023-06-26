@@ -2,7 +2,7 @@
 
 namespace Navplan\MeteoDwd\MeteoBin\Service;
 
-use Navplan\Common\DomainModel\Length;
+use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\GeoHelper;
 use Navplan\Common\StringNumberHelper;
 use Navplan\MeteoDwd\Domain\Model\ForecastStep;

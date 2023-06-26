@@ -3,7 +3,7 @@
 namespace Navplan\Aerodrome\Persistence\Model;
 
 use Navplan\Aerodrome\Domain\Model\ShortAirport;
-use Navplan\Common\DbModel\DbPosition2dConverter;
+use Navplan\Common\Persistence\Model\DbPosition2dConverter;
 
 
 class DbShortAirportConverter {

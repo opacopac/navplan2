@@ -2,7 +2,7 @@
 
 namespace Navplan\Webcam\Domain\Service;
 
-use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Webcam\Domain\Model\Webcam;
 
 

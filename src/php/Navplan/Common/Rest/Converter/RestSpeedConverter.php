@@ -2,8 +2,8 @@
 
 namespace Navplan\Common\Rest\Converter;
 
-use Navplan\Common\DomainModel\Speed;
-use Navplan\Common\DomainModel\SpeedUnit;
+use Navplan\Common\Domain\Model\Speed;
+use Navplan\Common\Domain\Model\SpeedUnit;
 use Navplan\Common\StringNumberHelper;
 
 

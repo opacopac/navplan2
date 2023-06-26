@@ -2,8 +2,8 @@
 
 namespace Navplan\Common\Rest\Converter;
 
-use Navplan\Common\DomainModel\Volume;
-use Navplan\Common\DomainModel\VolumeUnit;
+use Navplan\Common\Domain\Model\Volume;
+use Navplan\Common\Domain\Model\VolumeUnit;
 use Navplan\Common\StringNumberHelper;
 
 

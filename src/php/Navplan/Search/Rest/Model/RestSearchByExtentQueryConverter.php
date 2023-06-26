@@ -2,7 +2,7 @@
 
 namespace Navplan\Search\Rest\Model;
 
-use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Common\StringNumberHelper;
 use Navplan\Search\Domain\Model\SearchByExtentQuery;
 

@@ -2,12 +2,12 @@
 
 namespace Navplan\MeteoDwd\MeteoBin\Model;
 
-use Navplan\Common\DomainModel\Altitude;
-use Navplan\Common\DomainModel\Angle;
-use Navplan\Common\DomainModel\AngleUnit;
-use Navplan\Common\DomainModel\Length;
-use Navplan\Common\DomainModel\Speed;
-use Navplan\Common\DomainModel\SpeedUnit;
+use Navplan\Common\Domain\Model\Altitude;
+use Navplan\Common\Domain\Model\Angle;
+use Navplan\Common\Domain\Model\AngleUnit;
+use Navplan\Common\Domain\Model\Length;
+use Navplan\Common\Domain\Model\Speed;
+use Navplan\Common\Domain\Model\SpeedUnit;
 use Navplan\MeteoDwd\Domain\Model\VerticalWindColumn;
 use Navplan\MeteoDwd\Domain\Model\VerticalWindLevel;
 

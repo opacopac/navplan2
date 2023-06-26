@@ -2,8 +2,8 @@
 
 namespace Navplan\Flightroute\Domain\Model;
 
-use Navplan\Common\DomainModel\Time;
-use Navplan\Common\DomainModel\Volume;
+use Navplan\Common\Domain\Model\Time;
+use Navplan\Common\Domain\Model\Volume;
 
 
 class FuelCalc {

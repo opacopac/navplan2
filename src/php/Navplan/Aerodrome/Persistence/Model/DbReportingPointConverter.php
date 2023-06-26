@@ -3,10 +3,10 @@
 namespace Navplan\Aerodrome\Persistence\Model;
 
 use Navplan\Aerodrome\Domain\Model\ReportingPoint;
-use Navplan\Common\DbModel\DbPosition2dConverter;
-use Navplan\Common\DomainModel\Length;
-use Navplan\Common\DomainModel\LengthUnit;
-use Navplan\Common\DomainModel\Ring2d;
+use Navplan\Common\Domain\Model\Length;
+use Navplan\Common\Domain\Model\LengthUnit;
+use Navplan\Common\Domain\Model\Ring2d;
+use Navplan\Common\Persistence\Model\DbPosition2dConverter;
 use Navplan\Common\StringNumberHelper;
 
 

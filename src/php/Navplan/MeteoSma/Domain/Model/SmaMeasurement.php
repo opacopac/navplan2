@@ -2,8 +2,8 @@
 
 namespace Navplan\MeteoSma\Domain\Model;
 
-use Navplan\Common\DomainModel\Time;
-use Navplan\Common\DomainModel\Timestamp;
+use Navplan\Common\Domain\Model\Time;
+use Navplan\Common\Domain\Model\Timestamp;
 
 
 class SmaMeasurement {

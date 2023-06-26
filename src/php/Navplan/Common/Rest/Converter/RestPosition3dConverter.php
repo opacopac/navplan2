@@ -2,7 +2,7 @@
 
 namespace Navplan\Common\Rest\Converter;
 
-use Navplan\Common\DomainModel\Position3d;
+use Navplan\Common\Domain\Model\Position3d;
 
 
 class RestPosition3dConverter {

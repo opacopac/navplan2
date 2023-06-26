@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Notam\UseCase;
 
-use Navplan\Common\DomainModel\Extent2d;
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\Domain\Model\Extent2d;
+use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Notam\DomainModel\ReadNotamByExtentRequest;
 use Navplan\Notam\UseCase\SearchNotam\SearchNotamUc;
 use NavplanTest\MockNavplanDiContainer;

@@ -3,7 +3,7 @@
 namespace Navplan\OpenAip\ApiAdapter\Model;
 
 use InvalidArgumentException;
-use Navplan\Common\DomainModel\FrequencyUnit;
+use Navplan\Common\Domain\Model\FrequencyUnit;
 
 
 class OpenAipFrequencyUnitConverter {

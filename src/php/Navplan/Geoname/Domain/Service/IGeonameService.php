@@ -2,7 +2,7 @@
 
 namespace Navplan\Geoname\Domain\Service;
 
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Geoname\Domain\Model\Geoname;
 
 

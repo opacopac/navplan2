@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Common\DomainModel;
 
-use Navplan\Common\DomainModel\Timestamp;
+use Navplan\Common\Domain\Model\Timestamp;
 use PHPUnit\Framework\TestCase;
 
 

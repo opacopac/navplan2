@@ -2,8 +2,8 @@
 
 namespace Navplan\MeteoDwd\MeteoBin\Service;
 
-use Navplan\Common\DomainModel\Position2d;
-use Navplan\Common\DomainModel\SpeedUnit;
+use Navplan\Common\Domain\Model\Position2d;
+use Navplan\Common\Domain\Model\SpeedUnit;
 use Navplan\Common\StringNumberHelper;
 use Navplan\MeteoDwd\Domain\Model\ForecastStep;
 use Navplan\MeteoDwd\Domain\Model\GridDefinition;

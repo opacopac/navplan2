@@ -2,8 +2,8 @@
 
 namespace Navplan\Common\Rest\Converter;
 
-use Navplan\Common\DomainModel\Position2d;
-use Navplan\Common\DomainModel\Ring2d;
+use Navplan\Common\Domain\Model\Position2d;
+use Navplan\Common\Domain\Model\Ring2d;
 
 
 class RestRing2dConverter {

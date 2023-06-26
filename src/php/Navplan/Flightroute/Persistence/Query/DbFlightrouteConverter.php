@@ -2,10 +2,10 @@
 
 namespace Navplan\Flightroute\Persistence\Query;
 
-use Navplan\Common\DomainModel\Consumption;
-use Navplan\Common\DomainModel\ConsumptionUnit;
-use Navplan\Common\DomainModel\Speed;
-use Navplan\Common\DomainModel\SpeedUnit;
+use Navplan\Common\Domain\Model\Consumption;
+use Navplan\Common\Domain\Model\ConsumptionUnit;
+use Navplan\Common\Domain\Model\Speed;
+use Navplan\Common\Domain\Model\SpeedUnit;
 use Navplan\Common\StringNumberHelper;
 use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Flightroute\Persistence\Model\DbTableFlightroute;

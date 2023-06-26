@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Common\DomainModel;
 
-use Navplan\Common\DomainModel\Altitude;
-use Navplan\Common\DomainModel\Position3d;
+use Navplan\Common\Domain\Model\Altitude;
+use Navplan\Common\Domain\Model\Position3d;
 use PHPUnit\Framework\TestCase;
 
 

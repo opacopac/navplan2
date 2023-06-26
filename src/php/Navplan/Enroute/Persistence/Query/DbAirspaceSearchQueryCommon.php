@@ -2,10 +2,10 @@
 
 namespace Navplan\Enroute\Persistence\Query;
 
-use Navplan\Common\DomainModel\Altitude;
-use Navplan\Common\DomainModel\AltitudeReference;
-use Navplan\Common\DomainModel\AltitudeUnit;
-use Navplan\Common\DomainModel\Ring2d;
+use Navplan\Common\Domain\Model\Altitude;
+use Navplan\Common\Domain\Model\AltitudeReference;
+use Navplan\Common\Domain\Model\AltitudeUnit;
+use Navplan\Common\Domain\Model\Ring2d;
 use Navplan\Enroute\Domain\Model\Airspace;
 use Navplan\Enroute\Persistence\Model\DbTableAirspace;
 use Navplan\System\Domain\Model\IDbResult;

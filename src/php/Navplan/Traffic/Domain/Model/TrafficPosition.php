@@ -2,8 +2,8 @@
 
 namespace Navplan\Traffic\Domain\Model;
 
-use Navplan\Common\DomainModel\Position4d;
-use Navplan\Common\DomainModel\Timestamp;
+use Navplan\Common\Domain\Model\Position4d;
+use Navplan\Common\Domain\Model\Timestamp;
 
 
 class TrafficPosition {

@@ -2,7 +2,7 @@
 
 namespace Navplan\Traffic\Ogn\Model;
 
-use Navplan\Common\DomainModel\Position3d;
+use Navplan\Common\Domain\Model\Position3d;
 
 
 class OgnTrafficMessage {

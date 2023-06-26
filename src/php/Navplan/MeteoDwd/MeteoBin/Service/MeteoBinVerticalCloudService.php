@@ -2,8 +2,8 @@
 
 namespace Navplan\MeteoDwd\MeteoBin\Service;
 
-use Navplan\Common\DomainModel\Length;
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\Domain\Model\Length;
+use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Common\GeoHelper;
 use Navplan\Common\StringNumberHelper;
 use Navplan\MeteoDwd\Domain\Model\ForecastRun;

@@ -2,7 +2,7 @@
 
 namespace Navplan\Common\Rest\Converter;
 
-use Navplan\Common\DomainModel\Angle;
+use Navplan\Common\Domain\Model\Angle;
 
 
 class RestAngleConverter {

@@ -2,7 +2,7 @@
 
 namespace Navplan\MeteoSma\Domain\Service;
 
-use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\MeteoSma\Domain\Model\SmaMeasurement;
 use Navplan\MeteoSma\Domain\Model\SmaStation;
 

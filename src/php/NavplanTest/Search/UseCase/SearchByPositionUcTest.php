@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Search\UseCase;
 
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Search\Domain\Model\SearchByPositionQuery;
 use Navplan\Search\Domain\Model\SearchItemType;
 use Navplan\Search\UseCase\SearchByPosition\SearchByPositionUc;

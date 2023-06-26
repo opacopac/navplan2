@@ -2,16 +2,16 @@
 
 namespace Navplan\Notam\Persistence\Model;
 
-use Navplan\Common\DomainModel\Altitude;
-use Navplan\Common\DomainModel\AltitudeReference;
-use Navplan\Common\DomainModel\AltitudeUnit;
-use Navplan\Common\DomainModel\Circle2d;
-use Navplan\Common\DomainModel\IGeometry2d;
-use Navplan\Common\DomainModel\Length;
-use Navplan\Common\DomainModel\LengthUnit;
-use Navplan\Common\DomainModel\MultiRing2d;
-use Navplan\Common\DomainModel\Position2d;
-use Navplan\Common\DomainModel\Ring2d;
+use Navplan\Common\Domain\Model\Altitude;
+use Navplan\Common\Domain\Model\AltitudeReference;
+use Navplan\Common\Domain\Model\AltitudeUnit;
+use Navplan\Common\Domain\Model\Circle2d;
+use Navplan\Common\Domain\Model\IGeometry2d;
+use Navplan\Common\Domain\Model\Length;
+use Navplan\Common\Domain\Model\LengthUnit;
+use Navplan\Common\Domain\Model\MultiRing2d;
+use Navplan\Common\Domain\Model\Position2d;
+use Navplan\Common\Domain\Model\Ring2d;
 use Navplan\Notam\Domain\Model\NotamGeometry;
 
 

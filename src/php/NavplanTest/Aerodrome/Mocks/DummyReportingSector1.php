@@ -3,7 +3,7 @@
 namespace NavplanTest\Aerodrome\Mocks;
 
 use Navplan\Aerodrome\Domain\Model\ReportingPoint;
-use Navplan\Common\DomainModel\Ring2d;
+use Navplan\Common\Domain\Model\Ring2d;
 
 
 class DummyReportingSector1 {

@@ -2,7 +2,7 @@
 
 namespace Navplan\System\Domain\Service;
 
-use Navplan\Common\DomainModel\Angle;
+use Navplan\Common\Domain\Model\Angle;
 use Navplan\System\Domain\Model\IDrawable;
 use Navplan\System\Domain\Model\IImage;
 

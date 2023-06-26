@@ -2,7 +2,7 @@
 
 namespace Navplan\OpenAip\ApiAdapter\Model;
 
-use Navplan\Common\DomainModel\Frequency;
+use Navplan\Common\Domain\Model\Frequency;
 
 
 class OpenAipFrequencyConverter {

@@ -2,9 +2,9 @@
 
 namespace NavplanTest\Common\DbModel;
 
-use Navplan\Common\DbModel\DbLine2dConverter;
-use Navplan\Common\DomainModel\Line2d;
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\Domain\Model\Line2d;
+use Navplan\Common\Domain\Model\Position2d;
+use Navplan\Common\Persistence\Model\DbLine2dConverter;
 use PHPUnit\Framework\TestCase;
 
 

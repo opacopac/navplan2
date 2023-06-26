@@ -2,7 +2,7 @@
 
 namespace Navplan\Terrain\File\Model;
 
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\Domain\Model\Position2d;
 
 
 class TerrainPos {

@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Common\RestModel;
 
-use Navplan\Common\DomainModel\Length;
-use Navplan\Common\DomainModel\LengthUnit;
+use Navplan\Common\Domain\Model\Length;
+use Navplan\Common\Domain\Model\LengthUnit;
 use Navplan\Common\Rest\Converter\RestLengthConverter;
 use PHPUnit\Framework\TestCase;
 

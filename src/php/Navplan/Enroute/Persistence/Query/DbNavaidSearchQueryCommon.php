@@ -2,12 +2,12 @@
 
 namespace Navplan\Enroute\Persistence\Query;
 
-use Navplan\Common\DbModel\DbPosition2dConverter;
-use Navplan\Common\DomainModel\Altitude;
-use Navplan\Common\DomainModel\AltitudeReference;
-use Navplan\Common\DomainModel\AltitudeUnit;
-use Navplan\Common\DomainModel\Frequency;
-use Navplan\Common\DomainModel\FrequencyUnit;
+use Navplan\Common\Domain\Model\Altitude;
+use Navplan\Common\Domain\Model\AltitudeReference;
+use Navplan\Common\Domain\Model\AltitudeUnit;
+use Navplan\Common\Domain\Model\Frequency;
+use Navplan\Common\Domain\Model\FrequencyUnit;
+use Navplan\Common\Persistence\Model\DbPosition2dConverter;
 use Navplan\Enroute\Domain\Model\Navaid;
 use Navplan\Enroute\Domain\Model\NavaidType;
 use Navplan\Enroute\Persistence\Model\DbTableNavaid;

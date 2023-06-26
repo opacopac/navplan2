@@ -2,7 +2,7 @@
 
 namespace Navplan\Geoname\Persistence\Repo;
 
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Geoname\Domain\Service\IGeonameRepo;
 use Navplan\Geoname\Persistence\Model\DbGeonameConverter;
 use Navplan\System\Domain\Model\IDbResult;

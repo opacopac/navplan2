@@ -2,9 +2,9 @@
 
 namespace Navplan\MeteoDwd\Domain\Model;
 
-use Navplan\Common\DomainModel\Length;
-use Navplan\Common\DomainModel\Time;
-use Navplan\Common\DomainModel\TimeUnit;
+use Navplan\Common\Domain\Model\Length;
+use Navplan\Common\Domain\Model\Time;
+use Navplan\Common\Domain\Model\TimeUnit;
 
 
 class WeatherModelConfig {

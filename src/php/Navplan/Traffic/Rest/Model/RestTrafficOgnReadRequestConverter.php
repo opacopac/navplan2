@@ -3,9 +3,9 @@
 namespace Navplan\Traffic\Rest\Model;
 
 use InvalidArgumentException;
-use Navplan\Common\DomainModel\Extent2d;
-use Navplan\Common\DomainModel\Time;
-use Navplan\Common\DomainModel\TimeUnit;
+use Navplan\Common\Domain\Model\Extent2d;
+use Navplan\Common\Domain\Model\Time;
+use Navplan\Common\Domain\Model\TimeUnit;
 use Navplan\Common\StringNumberHelper;
 use Navplan\Traffic\UseCase\ReadOgnTraffic\TrafficOgnReadRequest;
 

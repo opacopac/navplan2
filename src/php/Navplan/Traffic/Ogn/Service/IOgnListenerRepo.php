@@ -2,7 +2,7 @@
 
 namespace Navplan\Traffic\Ogn\Service;
 
-use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Traffic\Ogn\Model\OgnTrafficFilter;
 use Navplan\Traffic\Ogn\Model\OgnTrafficMessage;
 

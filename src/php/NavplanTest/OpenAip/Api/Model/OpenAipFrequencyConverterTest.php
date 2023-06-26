@@ -2,7 +2,7 @@
 
 namespace NavplanTest\OpenAip\Api\Model;
 
-use Navplan\Common\DomainModel\FrequencyUnit;
+use Navplan\Common\Domain\Model\FrequencyUnit;
 use Navplan\OpenAip\ApiAdapter\Model\OpenAipFrequencyConverter;
 use PHPUnit\Framework\TestCase;
 

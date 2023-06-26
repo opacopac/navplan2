@@ -2,9 +2,9 @@
 
 namespace Navplan\Traffic\Ogn\Service;
 
-use Navplan\Common\DomainModel\Extent2d;
-use Navplan\Common\DomainModel\Time;
-use Navplan\Common\DomainModel\TimeUnit;
+use Navplan\Common\Domain\Model\Extent2d;
+use Navplan\Common\Domain\Model\Time;
+use Navplan\Common\Domain\Model\TimeUnit;
 use Navplan\System\Domain\Service\ILoggingService;
 use Navplan\System\Domain\Service\IProcService;
 use Navplan\Traffic\Domain\Service\IOgnService;

@@ -2,9 +2,9 @@
 
 namespace NavplanTest\Common;
 
-use Navplan\Common\DomainModel\LengthUnit;
-use Navplan\Common\DomainModel\LineInterval2d;
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\Domain\Model\LengthUnit;
+use Navplan\Common\Domain\Model\LineInterval2d;
+use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Common\GeoHelper;
 use PHPUnit\Framework\TestCase;
 

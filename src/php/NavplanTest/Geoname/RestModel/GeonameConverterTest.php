@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Geoname\RestModel;
 
-use Navplan\Common\DomainModel\AltitudeReference;
-use Navplan\Common\DomainModel\AltitudeUnit;
+use Navplan\Common\Domain\Model\AltitudeReference;
+use Navplan\Common\Domain\Model\AltitudeUnit;
 use Navplan\Geoname\Rest\Model\RestGeonameConverter;
 use NavplanTest\Geoname\Mocks\DummyGeoname1;
 use PHPUnit\Framework\TestCase;

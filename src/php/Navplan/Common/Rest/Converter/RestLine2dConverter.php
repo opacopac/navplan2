@@ -2,8 +2,8 @@
 
 namespace Navplan\Common\Rest\Converter;
 
-use Navplan\Common\DomainModel\Line2d;
-use Navplan\Common\DomainModel\Position2d;
+use Navplan\Common\Domain\Model\Line2d;
+use Navplan\Common\Domain\Model\Position2d;
 
 
 class RestLine2dConverter {

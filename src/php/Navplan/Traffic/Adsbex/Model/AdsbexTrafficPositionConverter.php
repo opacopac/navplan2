@@ -2,9 +2,9 @@
 
 namespace Navplan\Traffic\Adsbex\Model;
 
-use Navplan\Common\DomainModel\Altitude;
-use Navplan\Common\DomainModel\Position4d;
-use Navplan\Common\DomainModel\Timestamp;
+use Navplan\Common\Domain\Model\Altitude;
+use Navplan\Common\Domain\Model\Position4d;
+use Navplan\Common\Domain\Model\Timestamp;
 use Navplan\System\Domain\Service\ITimeService;
 use Navplan\Traffic\Domain\Model\TrafficPosition;
 use Navplan\Traffic\Domain\Model\TrafficPositionMethod;

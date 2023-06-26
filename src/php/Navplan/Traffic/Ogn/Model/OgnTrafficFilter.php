@@ -2,7 +2,7 @@
 
 namespace Navplan\Traffic\Ogn\Model;
 
-use Navplan\Common\DomainModel\Extent2d;
+use Navplan\Common\Domain\Model\Extent2d;
 
 
 class OgnTrafficFilter {

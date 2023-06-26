@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Common\DomainModel;
 
-use Navplan\Common\DomainModel\Angle;
-use Navplan\Common\DomainModel\AngleUnit;
+use Navplan\Common\Domain\Model\Angle;
+use Navplan\Common\Domain\Model\AngleUnit;
 use PHPUnit\Framework\TestCase;
 
 
