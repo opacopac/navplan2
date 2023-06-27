@@ -3,7 +3,7 @@
 namespace Navplan\MeteoDwd\Domain\Model;
 
 
-class VerticalCloudColumnStep {
+class CloudMeteogramStep {
     public function __construct(
         public ForecastStep $forecastStep,
         /**

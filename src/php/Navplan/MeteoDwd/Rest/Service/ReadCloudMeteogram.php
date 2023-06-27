@@ -3,8 +3,8 @@
 namespace Navplan\MeteoDwd\RestService;
 
 use Navplan\Common\Rest\Converter\RestPosition2dConverter;
+use Navplan\MeteoDwd\Rest\Model\RestCloudMeteogramStepConverter;
 use Navplan\MeteoDwd\Rest\Model\RestForecastRunConverter;
-use Navplan\MeteoDwd\Rest\Model\RestVerticalCloudColumnStepConverter;
 use Navplan\ProdNavplanDiContainer;
 
 require_once __DIR__ . "/../../../RestServiceBootstrap.php";
@@ -22,5 +22,5 @@ $args = $httpService->getGetArgs();
 $forecastRun = RestForecastRunConverter::fromRest($args[ARG_FORECAST_RUN]);
 $pos = RestPosition2dConverter::fromRest([$args[ARG_POS_LON], $args[ARG_POS_LAT]]);
 
-$verticalCloudColumnSteps = $verticalCloudService->readPositionalVerticalClouds($forecastRun, $pos);
-$httpService->sendArrayResponse(RestVerticalCloudColumnStepConverter::toRestList($verticalCloudColumnSteps));
+$verticalCloudColumnSteps = $verticalCloudService->readCloudMeteoGramSteps($forecastRun, $pos);
+$httpService->sendArrayResponse(RestCloudMeteogramStepConverter::toRestList($verticalCloudColumnSteps));
