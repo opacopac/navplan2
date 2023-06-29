@@ -53,7 +53,9 @@
                     <ng-template mat-tab-label>
                         <i class="fas fa-cloud"></i>
                     </ng-template>
-                    <app-meteogram [position]="this.position"></app-meteogram>
+                    <ng-template matTabContent>
+                        <app-meteogram [position]="this.position"></app-meteogram>
+                    </ng-template>
                 </mat-tab>
 
                 <!-- notam tab -->
