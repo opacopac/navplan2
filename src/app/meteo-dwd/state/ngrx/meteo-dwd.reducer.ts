@@ -12,7 +12,8 @@ const initialState: MeteoDwdState = {
     selectedStep: 1,
     mapTilesUrl: '',
     weatherValues: undefined,
-    windValues: undefined
+    windValues: undefined,
+    meteogramSteps: undefined
 };
 
 

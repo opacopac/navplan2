@@ -87,6 +87,16 @@ export class MeteoDwdEffects {
     ));
 
 
+    readMeteogramAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
+        ofType(MeteoDwdActions.readCloudMeteogram),
+        withLatestFrom(this.meteoDwdstate$),
+        switchMap(([action, meteoDwdState]) => {
+            return this.meteoDwdService.readCloudMeteoGram(meteoDwdState.forecastRun, action.position);
+        }),
+        map(cloudMeteogramSteps => MeteoDwdActions.readCloudMeteogramSuccess({ cloudMeteogramSteps: cloudMeteogramSteps }))
+    ));
+
+
     private getGridDefinition(mapState: BaseMapState): GridDefinition {
         const gridWidth = Math.floor(mapState.widthPx / this.GRID_SPACING_PX_X);
         const gridHeight = Math.floor(mapState.heightPx / this.GRID_SPACING_PX_Y);

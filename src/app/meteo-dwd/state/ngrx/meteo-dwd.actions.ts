@@ -2,6 +2,8 @@ import {createAction, props} from '@ngrx/store';
 import {WindInfo} from '../../domain/model/wind-info';
 import {WeatherInfo} from '../../domain/model/weather-info';
 import {ForecastRun} from '../../domain/model/forecast-run';
+import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
+import {CloudMeteogramStep} from '../../domain/model/cloud-meteogram-step';
 
 
 export class MeteoDwdActions {
@@ -52,5 +54,15 @@ export class MeteoDwdActions {
     public static readonly readWindValuesSuccess = createAction(
         '[MeteoDwdEffects] Read wind values success',
         props<{ windValues: WindInfo[] }>()
+    );
+
+    public static readonly readCloudMeteogram = createAction(
+        '[TBD] Read cloud meteogram',
+        props<{ position: Position2d }>()
+    );
+
+    public static readonly readCloudMeteogramSuccess = createAction(
+        '[MeteoDwdEffects] Read cloud meteogram success',
+        props<{ cloudMeteogramSteps: CloudMeteogramStep[] }>()
     );
 }

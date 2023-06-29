@@ -12,6 +12,7 @@ import {MatSliderModule} from '@angular/material/slider';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
+import {MeteogramComponent} from './ng-components/meteogram/meteogram.component';
 
 
 @NgModule({
@@ -30,11 +31,13 @@ import {MatInputModule} from '@angular/material/input';
     ],
     declarations: [
         MeteoButtonComponent,
-        MeteoDwdTimelineComponent
+        MeteoDwdTimelineComponent,
+        MeteogramComponent
     ],
     exports: [
         MeteoButtonComponent,
-        MeteoDwdTimelineComponent
+        MeteoDwdTimelineComponent,
+        MeteogramComponent
     ],
     providers: [
     ]

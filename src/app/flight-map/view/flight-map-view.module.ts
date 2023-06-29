@@ -1,7 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {OlOverlayMeteogramComponent} from './ng-components/ol-overlay-meteogram/ol-overlay-meteogram.component';
-import {OlOverlayWindyiframeComponent} from './ng-components/ol-overlay-windyiframe/ol-overlay-windyiframe.component';
 import {FlightMapPageComponent} from './ng-components/flight-map-page/flight-map-page.component';
 import {FlightTimerViewModule} from '../../flight-timer/view/flight-timer-view.module';
 import {OlOverlayWaypointComponent} from './ng-components/ol-overlay-waypoint/ol-overlay-waypoint.component';
@@ -32,8 +30,6 @@ import {MatButtonModule} from '@angular/material/button';
     declarations: [
         FlightMapPageComponent,
         OlMapOverlayComponent,
-        OlOverlayMeteogramComponent,
-        OlOverlayWindyiframeComponent,
         OlOverlayWaypointComponent,
         MeteoContainerComponent
     ],
@@ -61,8 +57,7 @@ import {MatButtonModule} from '@angular/material/button';
         WebcamViewModule,
         MatButtonModule,
     ],
-    providers: [
-    ]
+    providers: []
 })
 export class FlightMapViewModule {
 }

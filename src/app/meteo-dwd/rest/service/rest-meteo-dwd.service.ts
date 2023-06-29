@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
 import {IMeteoDwdService} from '../../domain/service/i-meteo-dwd.service';
 import {WindInfo} from '../../domain/model/wind-info';
-import {Observable, shareReplay, throwError} from 'rxjs';
+import {Observable, of, shareReplay, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {GridDefinition} from '../../domain/model/grid-definition';
@@ -17,6 +17,10 @@ import {RestWindInfoConverter} from '../model/rest-wind-info-converter';
 import {RestWeatherInfoConverter} from '../model/rest-weather-info-converter';
 import {IRestWeatherInfo} from '../model/i-rest-weather-info';
 import {RestForecastStepConverter} from '../model/rest-forecast-step-converter';
+import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
+import {CloudMeteogramStep} from '../../domain/model/cloud-meteogram-step';
+import {IRestCloudMeteogramStep} from '../model/i-rest-cloud-meteogram-step';
+import {RestCloudMeteogramStepConverter} from '../model/rest-cloud-meteogram-step-converter';
 
 
 @Injectable()
@@ -75,10 +79,32 @@ export class RestMeteoDwdService implements IMeteoDwdService {
     }
 
 
+    readCloudMeteoGram(forecast: ForecastRun, position: Position2d): Observable<CloudMeteogramStep[]> {
+        if (!forecast) {
+            return of([]);
+        }
+
+        const url = environment.cloudMeteogramServiceUrl
+            + '?forecastrun=' + forecast.getName()
+            + '&minstep=' + forecast.model.minStep
+            + '&maxstep=' + forecast.model.maxStep
+            + '&lon=' + position.longitude
+            + '&lat=' + position.latitude;
+
+        return this.http.get<IRestCloudMeteogramStep[]>(url).pipe(
+            map(response => RestCloudMeteogramStepConverter.fromRestList(response)),
+            catchError(error => {
+                LoggingService.logResponseError('ERROR reading cloud meteogram!', error);
+                return throwError(error);
+            }),
+        );
+    }
+
+
     public getWeatherMapTilesUrl(forecast: ForecastRun, step: number): string {
         const modelStr = this.getUrlPartByModel(forecast.model.modelType);
         const stepStr = RestForecastStepConverter.toRest(step);
-        const fcStr = RestForecastRunConverter.toRest(forecast);
+        const fcStr = forecast.getName();
 
         return environment.meteoDwdMapTilesUrl + modelStr + '/' + fcStr + '/' + stepStr + '/clct_precip/{z}/{x}/{y}.png';
     }
@@ -87,7 +113,7 @@ export class RestMeteoDwdService implements IMeteoDwdService {
     public getWindMapTilesUrl(forecast: ForecastRun, step: number): string {
         const modelStr = this.getUrlPartByModel(forecast.model.modelType);
         const stepStr = RestForecastStepConverter.toRest(step);
-        const fcStr = RestForecastRunConverter.toRest(forecast);
+        const fcStr = forecast.getName();
 
         return environment.meteoDwdMapTilesUrl + modelStr + '/' + fcStr + '/' + stepStr + '/wind/{z}/{x}/{y}.png';
     }
@@ -114,6 +140,6 @@ export class RestMeteoDwdService implements IMeteoDwdService {
             + '&steplat=' + grid.stepLat
             + '&oddRowOffset=' + grid.oddRowLonOffset
             + '&step=' + RestForecastStepConverter.toRest(step)
-            + '&run=' + RestForecastRunConverter.toRest(forecast);
+            + '&run=' + forecast.getName();
     }
 }

@@ -3,15 +3,14 @@
 namespace Navplan\MeteoDwd\MeteoBin\Service;
 
 use Navplan\Common\Domain\Model\Length;
-use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Common\GeoHelper;
 use Navplan\Common\StringNumberHelper;
 use Navplan\MeteoDwd\Domain\Model\CloudMeteogramStep;
-use Navplan\MeteoDwd\Domain\Model\ForecastRun;
 use Navplan\MeteoDwd\Domain\Model\ForecastStep;
 use Navplan\MeteoDwd\Domain\Model\IconGridDefinition;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdConfig;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalCloudService;
+use Navplan\MeteoDwd\Domain\Service\ReadCloudMeteogramRequest;
 use Navplan\MeteoDwd\MeteoBin\Model\MeteoBinVerticalCloudInfoConverter;
 use Navplan\System\Domain\Model\IFile;
 use Navplan\System\Domain\Service\IFileService;
@@ -55,16 +54,16 @@ class MeteoBinVerticalCloudService implements IMeteoDwdVerticalCloudService  {
     }
 
 
-    public function readCloudMeteoGramSteps(ForecastRun $forecastRun, Position2d $pos): array {
+    public function readCloudMeteoGramSteps(ReadCloudMeteogramRequest $request): array {
         $cloudMeteogramSteps = [];
-        for ($i = $forecastRun->modelConfig->minStep; $i <= $forecastRun->modelConfig->maxStep; $i++) {
+        for ($i = $request->minStep; $i <= $request->maxStep; $i++) {
             // TODO: temp
             if ($i > 11) {
                 break;
             }
 
-            $forecastStep = new ForecastStep($forecastRun->getName(), $i);
-            $singleVerticalCloudColumn = $this->readVerticalClouds($forecastStep, [$pos]);
+            $forecastStep = new ForecastStep($request->fcName, $i);
+            $singleVerticalCloudColumn = $this->readVerticalClouds($forecastStep, [$request->pos]);
             if (count($singleVerticalCloudColumn) > 0) {
                 $verticalCloudColumn = $singleVerticalCloudColumn[0];
                 $cloudMeteogramSteps[] = new CloudMeteogramStep($forecastStep, $verticalCloudColumn->cloudLevels);

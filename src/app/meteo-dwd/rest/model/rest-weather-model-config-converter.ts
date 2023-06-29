@@ -13,4 +13,18 @@ export class RestWeatherModelConfigConverter {
             RestTimeConverter.fromRest(restConfig.steplen)
         );
     }
+
+
+    public static toRest(config: WeatherModelConfig): IRestWeatherModelConfig {
+        if (!config) {
+            return null;
+        }
+
+        return {
+            model: WeatherModelType[config.modelType],
+            minstep: config.minStep,
+            maxstep: config.maxStep,
+            steplen: RestTimeConverter.toRest(config.stepLength)
+        };
+    }
 }
