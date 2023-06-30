@@ -40,21 +40,14 @@
                     <app-ol-overlay-airport-radio-tab [airport]="this.airport"></app-ol-overlay-airport-radio-tab>
                 </mat-tab>
 
-                <!-- metar/taf tab -->
-                <mat-tab *ngIf="this.airport">
-                    <ng-template mat-tab-label>
-                        <i class="fas fa-cloud-sun-rain"></i>
-                    </ng-template>
-                    <app-metar-taf *ngIf="this.airport" [metarTaf]="this.metarTaf"></app-metar-taf>
-                </mat-tab>
-
-                <!-- metepgram tab -->
+                <!-- meteo tab -->
                 <mat-tab>
                     <ng-template mat-tab-label>
                         <i class="fas fa-cloud"></i>
                     </ng-template>
                     <ng-template matTabContent>
                         <app-meteogram [position]="this.position"></app-meteogram>
+                        <app-metar-taf *ngIf="this.airport" [metarTaf]="this.metarTaf"></app-metar-taf>
                     </ng-template>
                 </mat-tab>
 

@@ -100,4 +100,9 @@ export const meteoDwdReducer = createReducer(
         ...state,
         windValues: action.windValues,
     })),
+
+    on(MeteoDwdActions.readCloudMeteogramSuccess, (state, action) => ({
+        ...state,
+        meteogramSteps: action.cloudMeteogramSteps,
+    })),
 );
