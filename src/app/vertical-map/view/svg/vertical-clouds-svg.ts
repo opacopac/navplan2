@@ -1,38 +1,24 @@
-import {VerticalMap} from '../../domain/model/vertical-map';
 import {SvgRectangleElement} from '../../../common/svg/svg-rectangle-element';
 import {SvgGroupElement} from '../../../common/svg/svg-group-element';
-import {VerticalMapPointSvg} from './vertical-map-point-svg';
+import {ImageDimensionsSvg} from '../../../common/svg/image-dimensions-svg';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-unit';
+import {VerticalCloudColumn} from '../../../meteo-dwd/domain/model/vertical-cloud-column';
 
 
 export class VerticalCloudsSvg {
-    public static create(verticalMap: VerticalMap, imageWidthPx: number, imageHeightPx: number): SVGElement {
+    public static create(verticalCloudColumns: VerticalCloudColumn[], imgDim: ImageDimensionsSvg): SVGElement {
         const svg = SvgGroupElement.create();
 
-        for (let i = 0; i < verticalMap.verticalCloudColumns.length - 1; i++) {
+        for (let i = 0; i < verticalCloudColumns.length - 1; i++) {
             let lastHeight = new Length(30000, LengthUnit.FT); // TODO
 
-            for (const cloudLevel of verticalMap.verticalCloudColumns[i].cloudLevels) {
+            for (const cloudLevel of verticalCloudColumns[i].cloudLevels) {
                 if (cloudLevel.cloudPercent > 0) {
                     const color = this.getCloudColor(cloudLevel.cloudPercent);
                     const style = 'fill:' + color + ';stroke-width:0';
-                    const xy0 = VerticalMapPointSvg.create(
-                        verticalMap.verticalCloudColumns[i].horDist,
-                        lastHeight,
-                        verticalMap.mapWidth,
-                        verticalMap.mapHeight,
-                        imageWidthPx,
-                        imageHeightPx
-                    );
-                    const xy1 = VerticalMapPointSvg.create(
-                        verticalMap.verticalCloudColumns[i + 1].horDist,
-                        cloudLevel.alt.getHeightAmsl(),
-                        verticalMap.mapWidth,
-                        verticalMap.mapHeight,
-                        imageWidthPx,
-                        imageHeightPx
-                    );
+                    const xy0 = imgDim.calcXy(verticalCloudColumns[i].horDist, lastHeight);
+                    const xy1 = imgDim.calcXy(verticalCloudColumns[i + 1].horDist, cloudLevel.alt.getHeightAmsl());
                     const width = (xy1[0] - xy0[0]) + '';
                     const height = (xy1[1] - xy0[1]) + '';
                     const cloudRect = SvgRectangleElement.create(xy0[0] + '', xy0[1] + '', width, height, style);

@@ -1,62 +1,26 @@
 import {SvgPolygonElement} from '../../../common/svg/svg-polygon-element';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
-import {VerticalMap} from '../../domain/model/vertical-map';
-import {VerticalMapPointSvg} from './vertical-map-point-svg';
+import {ImageDimensionsSvg} from '../../../common/svg/image-dimensions-svg';
+import {VerticalMapTerrainStep} from '../../domain/model/vertical-map-terrain-step';
 
 
 export class TerrainSvg {
-    public static create(verticalMap: VerticalMap, imageWidthPx: number, imageHeightPx: number): SVGPolygonElement {
+    public static create(terrainSteps: VerticalMapTerrainStep[], imgDim: ImageDimensionsSvg): SVGPolygonElement {
         const points: [number, number][] = [];
 
         // point bottom left
-        points.push(
-            VerticalMapPointSvg.create(
-                Length.createZero(),
-                Length.createZero(),
-                verticalMap.mapWidth,
-                verticalMap.mapHeight,
-                imageWidthPx,
-                imageHeightPx
-            )
-        );
+        points.push(imgDim.calcXy(Length.createZero(), Length.createZero()));
 
         // terrain altitude points
-        for (let i = 0; i < verticalMap.terrainSteps.length; i++) {
-            points.push(
-                VerticalMapPointSvg.create(
-                    verticalMap.terrainSteps[i].horDist,
-                    verticalMap.terrainSteps[i].elevationAmsl,
-                    verticalMap.mapWidth,
-                    verticalMap.mapHeight,
-                    imageWidthPx,
-                    imageHeightPx
-                )
-            );
+        for (let i = 0; i < terrainSteps.length; i++) {
+            points.push(imgDim.calcXy(terrainSteps[i].horDist, terrainSteps[i].elevationAmsl));
         }
 
         // point top right
-        points.push(
-            VerticalMapPointSvg.create(
-                verticalMap.mapWidth,
-                verticalMap.terrainSteps[verticalMap.terrainSteps.length - 1].elevationAmsl,
-                verticalMap.mapWidth,
-                verticalMap.mapHeight,
-                imageWidthPx,
-                imageHeightPx
-            )
-        );
+        points.push(imgDim.calcXy(imgDim.maxWidth, terrainSteps[terrainSteps.length - 1].elevationAmsl));
 
         // point bottom right
-        points.push(
-            VerticalMapPointSvg.create(
-                verticalMap.mapWidth,
-                Length.createZero(),
-                verticalMap.mapWidth,
-                verticalMap.mapHeight,
-                imageWidthPx,
-                imageHeightPx
-            )
-        );
+        points.push(imgDim.calcXy(imgDim.maxWidth, Length.createZero()));
 
         return SvgPolygonElement.create(
             points,

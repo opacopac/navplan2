@@ -9,6 +9,7 @@ import {FlightRouteSvg} from './flight-route-svg';
 import {VerticalMap} from '../../domain/model/vertical-map';
 import {VerticalCloudsSvg} from './vertical-clouds-svg';
 import {VerticalWindSvg} from './vertical-wind-svg';
+import {ImageDimensionsSvg} from '../../../common/svg/image-dimensions-svg';
 
 
 export class VerticalMapSvg {
@@ -23,6 +24,13 @@ export class VerticalMapSvg {
         imageHeightPx: number,
         wpClickCallback: (Waypoint) => void
     ): SVGSVGElement {
+        const imgDim = new ImageDimensionsSvg(
+            verticalMap.mapWidth,
+            verticalMap.mapHeight,
+            imageWidthPx,
+            imageHeightPx
+        );
+
         const svg = SvgElement.create(
             imageWidthPx.toString(),
             imageHeightPx.toString(),
@@ -31,12 +39,12 @@ export class VerticalMapSvg {
         );
 
         svg.appendChild(this.createFilterDefs());
-        svg.appendChild(TerrainSvg.create(verticalMap, imageWidthPx, imageHeightPx));
-        svg.appendChild(AirspaceSvg.create(verticalMap, imageWidthPx, imageHeightPx));
-        svg.appendChild(VerticalCloudsSvg.create(verticalMap, imageWidthPx, imageHeightPx));
-        svg.appendChild(VerticalWindSvg.create(verticalMap, imageWidthPx, imageHeightPx));
+        svg.appendChild(TerrainSvg.create(verticalMap.terrainSteps, imgDim));
+        svg.appendChild(AirspaceSvg.create(verticalMap.vmAirspaces, imgDim));
+        svg.appendChild(VerticalCloudsSvg.create(verticalMap.verticalCloudColumns, imgDim));
+        svg.appendChild(VerticalWindSvg.create(verticalMap.verticalWindColumns, imgDim));
         svg.appendChild(GridSvg.create(verticalMap.mapHeight));
-        svg.appendChild(FlightRouteSvg.create(verticalMap, imageWidthPx, imageHeightPx, wpClickCallback));
+        svg.appendChild(FlightRouteSvg.create(verticalMap.waypointSteps, imgDim, wpClickCallback));
 
         return svg;
     }

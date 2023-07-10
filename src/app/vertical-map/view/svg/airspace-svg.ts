@@ -3,20 +3,19 @@ import {SvgTextElement} from '../../../common/svg/svg-text-element';
 import {SvgGroupElement} from '../../../common/svg/svg-group-element';
 import {SvgPolygonElement} from '../../../common/svg/svg-polygon-element';
 import {SvgTitleElement} from '../../../common/svg/svg-title-element';
-import {VerticalMap} from '../../domain/model/vertical-map';
-import {VerticalMapPointSvg} from './vertical-map-point-svg';
+import {ImageDimensionsSvg} from '../../../common/svg/image-dimensions-svg';
+import {VerticalMapAirspace} from '../../domain/model/vertical-map-airspace';
 
 
 export class AirspaceSvg {
     public static create(
-        verticalMap: VerticalMap,
-        imageWidthPx: number,
-        imageHeightPx: number
+        vmAirspaces: VerticalMapAirspace[],
+        imgDim: ImageDimensionsSvg
     ): SVGElement {
         const airspaceSvg = SvgGroupElement.create();
 
         // sort airspaces top down (lower ones, e.g. CTR will be drawn "in front" of higher ones)
-        const sortedVmAirspaces = [...verticalMap.vmAirspaces].sort((a, b) => {
+        const sortedVmAirspaces = [...vmAirspaces].sort((a, b) => {
             return b.airspaceSteps[0].botAltAmsl?.ft - a.airspaceSteps[0].botAltAmsl?.ft;
         });
 
@@ -29,13 +28,9 @@ export class AirspaceSvg {
             // upper heights
             for (let j = 0; j < vmAirspace.airspaceSteps.length; j++) {
                 points.push(
-                    VerticalMapPointSvg.create(
+                    imgDim.calcXy(
                         vmAirspace.airspaceSteps[j].horDist,
-                        vmAirspace.airspaceSteps[j].topAltAmsl,
-                        verticalMap.mapWidth,
-                        verticalMap.mapHeight,
-                        imageWidthPx,
-                        imageHeightPx
+                        vmAirspace.airspaceSteps[j].topAltAmsl
                     )
                 );
             }
@@ -43,13 +38,9 @@ export class AirspaceSvg {
             // lower heights
             for (let j = vmAirspace.airspaceSteps.length - 1; j >= 0; j--) {
                 points.push(
-                    VerticalMapPointSvg.create(
+                    imgDim.calcXy(
                         vmAirspace.airspaceSteps[j].horDist,
-                        vmAirspace.airspaceSteps[j].botAltAmsl,
-                        verticalMap.mapWidth,
-                        verticalMap.mapHeight,
-                        imageWidthPx,
-                        imageHeightPx
+                        vmAirspace.airspaceSteps[j].botAltAmsl
                     )
                 );
             }
@@ -65,13 +56,9 @@ export class AirspaceSvg {
             );
 
             // category label
-            const ptBottomLeft = VerticalMapPointSvg.create(
+            const ptBottomLeft = imgDim.calcXy(
                 vmAirspace.airspaceSteps[0].horDist,
-                vmAirspace.airspaceSteps[0].botAltAmsl,
-                verticalMap.mapWidth,
-                verticalMap.mapHeight,
-                imageWidthPx,
-                imageHeightPx
+                vmAirspace.airspaceSteps[0].botAltAmsl
             );
             if (ptBottomLeft[1] > 0) {
                 this.addAirspaceCategory(airspaceSvg, ptBottomLeft, vmAirspace.airspaceCategory);
