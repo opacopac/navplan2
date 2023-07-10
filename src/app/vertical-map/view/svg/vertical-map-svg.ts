@@ -2,7 +2,7 @@ import {SvgElement} from '../../../common/svg/svg-element';
 import {SvgFilterElement} from '../../../common/svg/svg-filter-element';
 import {SvgFeFloodElement} from '../../../common/svg/svg-fe-flood-element';
 import {SvgFeCompositeElement} from '../../../common/svg/svg-fe-composite-element';
-import {GridSvg} from './grid-svg';
+import {GridSvg} from '../../../meteo-dwd/view/svg/grid-svg';
 import {TerrainSvg} from './terrain-svg';
 import {AirspaceSvg} from './airspace-svg';
 import {FlightRouteSvg} from './flight-route-svg';
