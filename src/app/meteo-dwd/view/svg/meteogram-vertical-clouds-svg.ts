@@ -15,7 +15,7 @@ export class MeteogramVerticalClouds {
 
             for (const cloudLevel of steps[i].cloudLevels) {
                 if (cloudLevel.cloudPercent > 0) {
-                    const color = this.getCloudColor(cloudLevel.cloudPercent);
+                    const color = MeteogramVerticalClouds.getCloudColor(cloudLevel.cloudPercent);
                     const style = 'fill:' + color + ';stroke-width:0';
                     const xy0 = imgDim.calcXy(new Length(steps[i].forecastStep, LengthUnit.M), lastHeight);
                     const xy1 = imgDim.calcXy(new Length(steps[i + 1].forecastStep, LengthUnit.M), cloudLevel.alt.getHeightAmsl());
@@ -33,7 +33,7 @@ export class MeteogramVerticalClouds {
     }
 
 
-    private static getCloudColor(cloudPercent: number): string {
+    public static getCloudColor(cloudPercent: number): string {
         if (cloudPercent < 5) {
             return 'rgba(0, 0, 0, 0.0)';
         } else if (cloudPercent < 20) {
