@@ -93,7 +93,7 @@ export class MeteoDwdEffects {
         switchMap(([action, meteoDwdState]) => {
             return this.meteoDwdService.readCloudMeteoGram(meteoDwdState.forecastRun, action.position);
         }),
-        map(cloudMeteogramSteps => MeteoDwdActions.readCloudMeteogramSuccess({ cloudMeteogramSteps: cloudMeteogramSteps }))
+        map(response => MeteoDwdActions.readCloudMeteogramSuccess({ cloudMeteogram: response }))
     ));
 
 

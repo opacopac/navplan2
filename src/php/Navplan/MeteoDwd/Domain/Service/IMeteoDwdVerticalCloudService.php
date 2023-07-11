@@ -3,7 +3,6 @@
 namespace Navplan\MeteoDwd\Domain\Service;
 
 use Navplan\Common\Domain\Model\Position2d;
-use Navplan\MeteoDwd\Domain\Model\CloudMeteogramStep;
 use Navplan\MeteoDwd\Domain\Model\ForecastStep;
 use Navplan\MeteoDwd\Domain\Model\VerticalCloudColumn;
 
@@ -18,7 +17,7 @@ interface IMeteoDwdVerticalCloudService {
 
     /**
      * @param ReadCloudMeteogramRequest $request
-     * @return CloudMeteogramStep[]
+     * @return ReadCloudMeteogramResponse
      */
-    function readCloudMeteoGramSteps(ReadCloudMeteogramRequest $request): array;
+    function readCloudMeteoGramSteps(ReadCloudMeteogramRequest $request): ReadCloudMeteogramResponse;
 }

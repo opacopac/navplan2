@@ -18,9 +18,9 @@ import {RestWeatherInfoConverter} from '../model/rest-weather-info-converter';
 import {IRestWeatherInfo} from '../model/i-rest-weather-info';
 import {RestForecastStepConverter} from '../model/rest-forecast-step-converter';
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
-import {CloudMeteogramStep} from '../../domain/model/cloud-meteogram-step';
-import {IRestCloudMeteogramStep} from '../model/i-rest-cloud-meteogram-step';
-import {RestCloudMeteogramStepConverter} from '../model/rest-cloud-meteogram-step-converter';
+import {RestCloudMeteogramConverter} from '../model/rest-cloud-meteogram-converter';
+import {IRestCloudMeteogram} from '../model/i-rest-cloud-meteogram';
+import {CloudMeteogram} from '../../domain/model/cloud-meteogram';
 
 
 @Injectable()
@@ -79,9 +79,9 @@ export class RestMeteoDwdService implements IMeteoDwdService {
     }
 
 
-    readCloudMeteoGram(forecast: ForecastRun, position: Position2d): Observable<CloudMeteogramStep[]> {
+    readCloudMeteoGram(forecast: ForecastRun, position: Position2d): Observable<CloudMeteogram> {
         if (!forecast) {
-            return of([]);
+            return of(undefined);
         }
 
         const url = environment.cloudMeteogramServiceUrl
@@ -91,8 +91,8 @@ export class RestMeteoDwdService implements IMeteoDwdService {
             + '&lon=' + position.longitude
             + '&lat=' + position.latitude;
 
-        return this.http.get<IRestCloudMeteogramStep[]>(url).pipe(
-            map(response => RestCloudMeteogramStepConverter.fromRestList(response)),
+        return this.http.get<IRestCloudMeteogram>(url).pipe(
+            map(response => RestCloudMeteogramConverter.fromRest(response)),
             catchError(error => {
                 LoggingService.logResponseError('ERROR reading cloud meteogram!', error);
                 return throwError(error);

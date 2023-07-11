@@ -4,7 +4,7 @@ import {GridDefinition} from '../model/grid-definition';
 import {WeatherInfo} from '../model/weather-info';
 import {ForecastRun} from '../model/forecast-run';
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
-import {CloudMeteogramStep} from '../model/cloud-meteogram-step';
+import {CloudMeteogram} from '../model/cloud-meteogram';
 
 
 export abstract class IMeteoDwdService {
@@ -14,7 +14,7 @@ export abstract class IMeteoDwdService {
 
     public abstract readWindGrid(forecast: ForecastRun, step: number, grid: GridDefinition): Observable<WindInfo[]>;
 
-    public abstract readCloudMeteoGram(forecast: ForecastRun, position: Position2d): Observable<CloudMeteogramStep[]>;
+    public abstract readCloudMeteoGram(forecast: ForecastRun, position: Position2d): Observable<CloudMeteogram>;
 
     public abstract getWeatherMapTilesUrl(forecast: ForecastRun, step: number): string;
 

@@ -17,6 +17,7 @@ use Navplan\MeteoDwd\MeteoBin\Service\MeteoBinWindService;
 use Navplan\MeteoDwd\Rest\Service\MeteoDwdController;
 use Navplan\System\Domain\Service\IFileService;
 use Navplan\System\Domain\Service\IHttpService;
+use Navplan\Terrain\Domain\Service\ITerrainService;
 
 
 class ProdMeteoDwdDiContainer implements IMeteoDwdDiContainer {
@@ -31,6 +32,7 @@ class ProdMeteoDwdDiContainer implements IMeteoDwdDiContainer {
     public function __construct(
         private readonly IFileService $fileService,
         private readonly IHttpService $httpService,
+        private readonly ITerrainService $terrainService,
         private readonly IMeteoDwdConfig $meteoDwdConfig
     ) {
     }
@@ -90,7 +92,8 @@ class ProdMeteoDwdDiContainer implements IMeteoDwdDiContainer {
         if (!isset($this->verticalCloudService)) {
             $this->verticalCloudService = new MeteoBinVerticalCloudService(
                 $this->fileService,
-                $this->meteoDwdConfig
+                $this->meteoDwdConfig,
+                $this->terrainService
             );
         }
 

@@ -1,11 +1,11 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
-import {Store, select} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {MeteoDwdActions} from '../../../state/ngrx/meteo-dwd.actions';
-import { CloudMeteogramStep } from '../../../domain/model/cloud-meteogram-step';
-import { getMeteogramSteps } from '../../../state/ngrx/meteo-dwd.selectors';
-import { Observable, Subscription } from 'rxjs';
-import { CloudMeteogramSvg } from '../../svg/cloud-meteogram-svg';
+import {getCloudMeteogram} from '../../../state/ngrx/meteo-dwd.selectors';
+import {Observable, Subscription} from 'rxjs';
+import {CloudMeteogramSvg} from '../../svg/cloud-meteogram-svg';
+import {CloudMeteogram} from '../../../domain/model/cloud-meteogram';
 
 
 @Component({
@@ -15,9 +15,9 @@ import { CloudMeteogramSvg } from '../../svg/cloud-meteogram-svg';
 })
 export class MeteogramComponent implements OnInit {
     @ViewChild('container') container: ElementRef;
-    private readonly meteogramSteps$: Observable<CloudMeteogramStep[]> = this.appStore.pipe(select(getMeteogramSteps));
+    private readonly cloudMeteogram$: Observable<CloudMeteogram> = this.appStore.pipe(select(getCloudMeteogram));
     private readonly meteogramStepsSubscription: Subscription;
-    private currentMeteogramSteps: CloudMeteogramStep[];
+    private currentMeteogram: CloudMeteogram;
 
 
     @Input() set position(pos: Position2d) {
@@ -28,7 +28,7 @@ export class MeteogramComponent implements OnInit {
 
 
     constructor(private appStore: Store<any>) {
-        this.meteogramStepsSubscription = this.meteogramSteps$.subscribe(steps => this.onMeteogramStepsChanged(steps));
+        this.meteogramStepsSubscription = this.cloudMeteogram$.subscribe(meteogram => this.onMeteogramChanged(meteogram));
     }
 
 
@@ -36,8 +36,8 @@ export class MeteogramComponent implements OnInit {
     }
 
 
-    private onMeteogramStepsChanged(steps: CloudMeteogramStep[]): void {
-        this.currentMeteogramSteps = steps;
+    private onMeteogramChanged(meteogram: CloudMeteogram): void {
+        this.currentMeteogram = meteogram;
 
         if (this.container) {
             this.redrawSvg();
@@ -46,9 +46,9 @@ export class MeteogramComponent implements OnInit {
 
 
     public redrawSvg() {
-        if (this.currentMeteogramSteps) {
+        if (this.currentMeteogram) {
             const svg = CloudMeteogramSvg.create(
-                this.currentMeteogramSteps,
+                this.currentMeteogram,
                 this.container.nativeElement.clientWidth,
                 this.container.nativeElement.clientHeight
             );

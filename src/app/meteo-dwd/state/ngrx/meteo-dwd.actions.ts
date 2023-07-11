@@ -3,7 +3,7 @@ import {WindInfo} from '../../domain/model/wind-info';
 import {WeatherInfo} from '../../domain/model/weather-info';
 import {ForecastRun} from '../../domain/model/forecast-run';
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
-import {CloudMeteogramStep} from '../../domain/model/cloud-meteogram-step';
+import {CloudMeteogram} from '../../domain/model/cloud-meteogram';
 
 
 export class MeteoDwdActions {
@@ -63,6 +63,6 @@ export class MeteoDwdActions {
 
     public static readonly readCloudMeteogramSuccess = createAction(
         '[MeteoDwdEffects] Read cloud meteogram success',
-        props<{ cloudMeteogramSteps: CloudMeteogramStep[] }>()
+        props<{ cloudMeteogram: CloudMeteogram }>()
     );
 }

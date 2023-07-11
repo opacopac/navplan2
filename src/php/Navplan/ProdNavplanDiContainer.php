@@ -161,6 +161,7 @@ class ProdNavplanDiContainer
             $this->meteoDwdDiContainer = new ProdMeteoDwdDiContainer(
                 $this->getSystemDiContainer()->getFileService(),
                 $this->getSystemDiContainer()->getHttpService(),
+                $this->getTerrainDiContainer()->getTerrainService(),
                 $this->getConfigDiContainer()
             );
         }

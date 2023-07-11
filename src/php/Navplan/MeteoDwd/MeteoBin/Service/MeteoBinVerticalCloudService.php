@@ -11,9 +11,11 @@ use Navplan\MeteoDwd\Domain\Model\IconGridDefinition;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdConfig;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalCloudService;
 use Navplan\MeteoDwd\Domain\Service\ReadCloudMeteogramRequest;
+use Navplan\MeteoDwd\Domain\Service\ReadCloudMeteogramResponse;
 use Navplan\MeteoDwd\MeteoBin\Model\MeteoBinVerticalCloudInfoConverter;
 use Navplan\System\Domain\Model\IFile;
 use Navplan\System\Domain\Service\IFileService;
+use Navplan\Terrain\Domain\Service\ITerrainService;
 
 
 class MeteoBinVerticalCloudService implements IMeteoDwdVerticalCloudService  {
@@ -25,7 +27,8 @@ class MeteoBinVerticalCloudService implements IMeteoDwdVerticalCloudService  {
 
     public function __construct(
         private readonly IFileService $fileService,
-        private readonly IMeteoDwdConfig $meteoDwdConfig
+        private readonly IMeteoDwdConfig $meteoDwdConfig,
+        private readonly ITerrainService $terrainService
     ) {
         $this->iconD2BaseDir = $this->meteoDwdConfig->getMeteoDwdBaseDir() . MeteoBinForecastService::ICON_D2_DIR;
     }
@@ -54,7 +57,7 @@ class MeteoBinVerticalCloudService implements IMeteoDwdVerticalCloudService  {
     }
 
 
-    public function readCloudMeteoGramSteps(ReadCloudMeteogramRequest $request): array {
+    public function readCloudMeteoGramSteps(ReadCloudMeteogramRequest $request): ReadCloudMeteogramResponse {
         $cloudMeteogramSteps = [];
         for ($i = $request->minStep; $i <= $request->maxStep; $i++) {
             $forecastStep = new ForecastStep($request->fcName, $i);
@@ -65,7 +68,9 @@ class MeteoBinVerticalCloudService implements IMeteoDwdVerticalCloudService  {
             }
         }
 
-        return $cloudMeteogramSteps;
+        $altitude = $this->terrainService->readElevations([$request->pos])[0]->altitude;
+
+        return new ReadCloudMeteogramResponse($altitude->getHeightAmsl(), $cloudMeteogramSteps);
     }
 
 
