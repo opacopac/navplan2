@@ -5,7 +5,7 @@ namespace Navplan\MeteoDwd\Domain\Model;
 
 class CloudMeteogramStep {
     public function __construct(
-        public ForecastStep $forecastStep,
+        public int $forecastStep,
         /**
          * @var VerticalCloudLevel[]
          */

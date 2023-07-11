@@ -24,7 +24,7 @@ class RestCloudMeteogramStepConverter {
         }
 
         return [
-            RestForecastStepConverter::toRest($cloudMeteogramStep->forecastStep),
+            $cloudMeteogramStep->forecastStep,
             RestVerticalCloudLevelConverter::toRestList($cloudMeteogramStep->cloudLevels)
         ];
     }

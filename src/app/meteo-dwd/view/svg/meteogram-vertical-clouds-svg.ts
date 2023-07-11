@@ -17,8 +17,10 @@ export class MeteogramVerticalClouds {
                 if (cloudLevel.cloudPercent > 0) {
                     const color = MeteogramVerticalClouds.getCloudColor(cloudLevel.cloudPercent);
                     const style = 'fill:' + color + ';stroke-width:0';
-                    const xy0 = imgDim.calcXy(new Length(steps[i].forecastStep, LengthUnit.M), lastHeight);
-                    const xy1 = imgDim.calcXy(new Length(steps[i + 1].forecastStep, LengthUnit.M), cloudLevel.alt.getHeightAmsl());
+                    const fcStep1 = steps[i].forecastStep;
+                    const fcStep2 = steps[i + 1].forecastStep;
+                    const xy0 = imgDim.calcXy(new Length(fcStep1, LengthUnit.M), lastHeight);
+                    const xy1 = imgDim.calcXy(new Length(fcStep2, LengthUnit.M), cloudLevel.alt.getHeightAmsl());
                     const width = (xy1[0] - xy0[0]) + '';
                     const height = (xy1[1] - xy0[1]) + '';
                     const cloudRect = SvgRectangleElement.create(xy0[0] + '', xy0[1] + '', width, height, style);

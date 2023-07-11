@@ -66,7 +66,7 @@ class MeteoBinVerticalCloudService implements IMeteoDwdVerticalCloudService  {
             $singleVerticalCloudColumn = $this->readVerticalClouds($forecastStep, [$request->pos]);
             if (count($singleVerticalCloudColumn) > 0) {
                 $verticalCloudColumn = $singleVerticalCloudColumn[0];
-                $cloudMeteogramSteps[] = new CloudMeteogramStep($forecastStep, $verticalCloudColumn->cloudLevels);
+                $cloudMeteogramSteps[] = new CloudMeteogramStep($forecastStep->step, $verticalCloudColumn->cloudLevels);
             }
         }
 
