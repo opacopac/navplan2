@@ -57,11 +57,6 @@ class MeteoBinVerticalCloudService implements IMeteoDwdVerticalCloudService  {
     public function readCloudMeteoGramSteps(ReadCloudMeteogramRequest $request): array {
         $cloudMeteogramSteps = [];
         for ($i = $request->minStep; $i <= $request->maxStep; $i++) {
-            // TODO: temp
-            if ($i > 11) {
-                break;
-            }
-
             $forecastStep = new ForecastStep($request->fcName, $i);
             $singleVerticalCloudColumn = $this->readVerticalClouds($forecastStep, [$request->pos]);
             if (count($singleVerticalCloudColumn) > 0) {
