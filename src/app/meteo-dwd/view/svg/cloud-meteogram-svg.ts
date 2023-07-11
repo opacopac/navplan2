@@ -4,7 +4,7 @@ import {MeteogramTerrainSvg} from './meteogram-terrain-svg';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-unit';
 import {ImageDimensionsSvg} from '../../../common/svg/image-dimensions-svg';
-import {GridSvg} from './grid-svg';
+import {HeightGridSvg} from './height-grid-svg';
 import {MeteogramVerticalClouds} from './meteogram-vertical-clouds-svg';
 
 
@@ -30,7 +30,7 @@ export class CloudMeteogramSvg {
 
         svg.appendChild(MeteogramTerrainSvg.create(new Length(1670, LengthUnit.FT), imgDim)); // TODO
         svg.appendChild(MeteogramVerticalClouds.create(steps, imgDim));
-        svg.appendChild(GridSvg.create(imgDim.maxHeight));
+        svg.appendChild(HeightGridSvg.create(imgDim.maxHeight));
 
         return svg;
     }

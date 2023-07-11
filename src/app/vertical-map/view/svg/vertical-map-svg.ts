@@ -2,7 +2,7 @@ import {SvgElement} from '../../../common/svg/svg-element';
 import {SvgFilterElement} from '../../../common/svg/svg-filter-element';
 import {SvgFeFloodElement} from '../../../common/svg/svg-fe-flood-element';
 import {SvgFeCompositeElement} from '../../../common/svg/svg-fe-composite-element';
-import {GridSvg} from '../../../meteo-dwd/view/svg/grid-svg';
+import {HeightGridSvg} from '../../../meteo-dwd/view/svg/height-grid-svg';
 import {TerrainSvg} from './terrain-svg';
 import {AirspaceSvg} from './airspace-svg';
 import {FlightRouteSvg} from './flight-route-svg';
@@ -43,7 +43,7 @@ export class VerticalMapSvg {
         svg.appendChild(AirspaceSvg.create(verticalMap.vmAirspaces, imgDim));
         svg.appendChild(VerticalCloudsSvg.create(verticalMap.verticalCloudColumns, imgDim));
         svg.appendChild(VerticalWindSvg.create(verticalMap.verticalWindColumns, imgDim));
-        svg.appendChild(GridSvg.create(verticalMap.mapHeight));
+        svg.appendChild(HeightGridSvg.create(verticalMap.mapHeight));
         svg.appendChild(FlightRouteSvg.create(verticalMap.waypointSteps, imgDim, wpClickCallback));
 
         return svg;

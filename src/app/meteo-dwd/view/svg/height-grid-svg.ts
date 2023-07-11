@@ -4,7 +4,7 @@ import {SvgGroupElement} from '../../../common/svg/svg-group-element';
 import {SvgTextElement} from '../../../common/svg/svg-text-element';
 
 
-export class GridSvg {
+export class HeightGridSvg {
     private static readonly GRID_ELEVATION_MAIN_STEP_FT = 5000;
     private static readonly GRID_ELEVATION_MINOR_STEP_FT = 1000;
 
