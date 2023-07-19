@@ -16,16 +16,18 @@ export class WidthGridFcStepsSvg {
 
         for (let i = 0; i < steps.length; i++) {
             const widthPercent = 100 * i / steps.length;
-            const stepHour = fcRun.getStepDateTime(steps[i].forecastStep).getHours();
-            if (this.GRID_MAJOR_STEP_H.includes(stepHour)) {
+            const stepTime = fcRun.getStepDateTime(steps[i].forecastStep);
+            if (this.GRID_MAJOR_STEP_H.includes(stepTime.getHours())) {
                 const gridLine = this.createGridLine(widthPercent + offsetPercent, false);
                 svg.appendChild(gridLine);
-            } else if (this.GRID_MINOR_STEP_H.includes(stepHour)) {
+
+                const dateTxt = stepTime.toLocaleDateString();
+                const label = this.createGridLabel(widthPercent + offsetPercent, dateTxt);
+                svg.appendChild(label);
+            } else if (this.GRID_MINOR_STEP_H.includes(stepTime.getHours())) {
                 const gridLine = this.createGridLine(widthPercent + offsetPercent, true);
                 svg.appendChild(gridLine);
             }
-            /*const label = this.createGridLabel(stepPercent, labelText);
-            svg.appendChild(label);*/
         }
 
 
@@ -48,11 +50,11 @@ export class WidthGridFcStepsSvg {
     }
 
 
-    private static createGridLabel(elevationPercent, text): SVGTextElement {
+    private static createGridLabel(widthPercent: number, text): SVGTextElement {
         return SvgTextElement.create(
             text,
-            '5',
-            elevationPercent.toString() + '%',
+            widthPercent.toString() + '%',
+            '100%',
             'stroke:none; fill:green;',
             'start',
             'Calibri,sans-serif',
