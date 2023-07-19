@@ -6,11 +6,14 @@ import {ImageDimensionsSvg} from '../../../common/svg/image-dimensions-svg';
 import {HeightGridSvg} from './height-grid-svg';
 import {MeteogramVerticalClouds} from './meteogram-vertical-clouds-svg';
 import {CloudMeteogram} from '../../domain/model/cloud-meteogram';
+import {WidthGridFcStepsSvg} from './width-grid-fc-steps-svg';
+import {ForecastRun} from '../../domain/model/forecast-run';
 
 
 export class CloudMeteogramSvg {
     public static create(
         cloudMeteogram: CloudMeteogram,
+        fcRun: ForecastRun,
         imageWidthPx: number,
         imageHeightPx: number
     ): SVGSVGElement {
@@ -31,6 +34,7 @@ export class CloudMeteogramSvg {
         svg.appendChild(MeteogramTerrainSvg.create(cloudMeteogram.elevation, imgDim));
         svg.appendChild(MeteogramVerticalClouds.create(cloudMeteogram.steps, imgDim));
         svg.appendChild(HeightGridSvg.create(imgDim.maxHeight));
+        svg.appendChild(WidthGridFcStepsSvg.create(fcRun, cloudMeteogram.steps));
 
         return svg;
     }

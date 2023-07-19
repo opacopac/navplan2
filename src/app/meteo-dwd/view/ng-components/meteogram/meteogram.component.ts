@@ -2,10 +2,12 @@ import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
 import {select, Store} from '@ngrx/store';
 import {MeteoDwdActions} from '../../../state/ngrx/meteo-dwd.actions';
-import {getCloudMeteogram} from '../../../state/ngrx/meteo-dwd.selectors';
+import {getCloudMeteogram, getMeteoDwdForecastRun} from '../../../state/ngrx/meteo-dwd.selectors';
 import {Observable, Subscription} from 'rxjs';
 import {CloudMeteogramSvg} from '../../svg/cloud-meteogram-svg';
 import {CloudMeteogram} from '../../../domain/model/cloud-meteogram';
+import {withLatestFrom} from 'rxjs/operators';
+import {ForecastRun} from '../../../domain/model/forecast-run';
 
 
 @Component({
@@ -15,9 +17,12 @@ import {CloudMeteogram} from '../../../domain/model/cloud-meteogram';
 })
 export class MeteogramComponent implements OnInit {
     @ViewChild('container') container: ElementRef;
-    private readonly cloudMeteogram$: Observable<CloudMeteogram> = this.appStore.pipe(select(getCloudMeteogram));
+    private readonly cloudMeteogram$: Observable<[CloudMeteogram, ForecastRun]> = this.appStore.pipe(
+        select(getCloudMeteogram),
+        withLatestFrom(this.appStore.pipe(select(getMeteoDwdForecastRun)))
+    );
     private readonly meteogramStepsSubscription: Subscription;
-    private currentMeteogram: CloudMeteogram;
+    private currentMeteogram: [CloudMeteogram, ForecastRun];
 
 
     @Input() set position(pos: Position2d) {
@@ -28,7 +33,7 @@ export class MeteogramComponent implements OnInit {
 
 
     constructor(private appStore: Store<any>) {
-        this.meteogramStepsSubscription = this.cloudMeteogram$.subscribe(meteogram => this.onMeteogramChanged(meteogram));
+        this.meteogramStepsSubscription = this.cloudMeteogram$.subscribe(meteogramFcRun => this.onMeteogramChanged(meteogramFcRun));
     }
 
 
@@ -36,8 +41,8 @@ export class MeteogramComponent implements OnInit {
     }
 
 
-    private onMeteogramChanged(meteogram: CloudMeteogram): void {
-        this.currentMeteogram = meteogram;
+    private onMeteogramChanged(meteogramFcRun: [CloudMeteogram, ForecastRun]): void {
+        this.currentMeteogram = meteogramFcRun;
 
         if (this.container) {
             this.redrawSvg();
@@ -48,7 +53,8 @@ export class MeteogramComponent implements OnInit {
     public redrawSvg() {
         if (this.currentMeteogram) {
             const svg = CloudMeteogramSvg.create(
-                this.currentMeteogram,
+                this.currentMeteogram[0],
+                this.currentMeteogram[1],
                 this.container.nativeElement.clientWidth,
                 this.container.nativeElement.clientHeight
             );

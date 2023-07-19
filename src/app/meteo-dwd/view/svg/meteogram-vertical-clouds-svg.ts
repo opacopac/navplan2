@@ -10,13 +10,13 @@ export class MeteogramVerticalClouds {
     public static create(steps: CloudMeteogramStep[], imgDim: ImageDimensionsSvg): SVGElement {
         const svg = SvgGroupElement.create();
 
-        for (let i = 0; i < steps.length - 1; i++) {
+        for (let i = 0; i < steps.length; i++) {
             CloudColumnSvg.draw(
                 svg,
                 steps[i].cloudLevels,
                 imgDim,
-                new Length(steps[i].forecastStep, LengthUnit.M),
-                new Length(steps[i + 1].forecastStep, LengthUnit.M)
+                new Length(i, LengthUnit.M),
+                new Length(i + 1, LengthUnit.M)
             );
         }
 
