@@ -33,7 +33,7 @@ export class MeteoDwdEffects {
 
 
     readForecastRunAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(MeteoDwdActions.open),
+        ofType(MeteoDwdActions.open, MeteoDwdActions.readAvailableForecastRuns),
         switchMap(action => this.meteoDwdService.readAvailableForecasts()),
         map(runs => MeteoDwdActions.readAvailableForecastRunsSuccess({ forecastRuns: runs }))
     ));

@@ -36,6 +36,10 @@ export class MeteoDwdActions {
         props<{ step: number }>()
     );
 
+    public static readonly readAvailableForecastRuns = createAction(
+        '[MeteoDwdEffects] Read Available Forecast Runs',
+    );
+
     public static readonly readAvailableForecastRunsSuccess = createAction(
         '[MeteoDwdEffects] Read Available Forecast Runs success',
         props<{ forecastRuns: ForecastRun[] }>()

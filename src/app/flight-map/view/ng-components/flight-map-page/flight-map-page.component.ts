@@ -79,6 +79,7 @@ import {
 } from '../../../../meteo-dwd/state/ngrx/meteo-dwd.selectors';
 import {IMeteoDwdService} from '../../../../meteo-dwd/domain/service/i-meteo-dwd.service';
 import {OlDwdForecastMapTileLayer} from '../../../../meteo-dwd/view/ol-components/ol-dwd-forecast-map-tile-layer';
+import {MeteoDwdActions} from '../../../../meteo-dwd/state/ngrx/meteo-dwd.actions';
 
 
 @Component({
@@ -149,6 +150,8 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
             this.mapOverlayAirspaceContainerComponent.closeOverlay();
             this.mapOverlayComponent?.showOverlay(overlayState);
         });
+
+        this.appStore.dispatch(MeteoDwdActions.readAvailableForecastRuns());
     }
 
 
