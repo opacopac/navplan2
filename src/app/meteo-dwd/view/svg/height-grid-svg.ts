@@ -17,7 +17,8 @@ export class HeightGridSvg {
         // major lines
         for (let i = 0; i <= maxelevation_ft; i += this.GRID_ELEVATION_MAIN_STEP_FT) {
             const elevationPercent = 100 * (1 - i / maxelevation_ft);
-            const labelText = (i === 0) ? i + ' ft (AMSL)' : i + ' ft';
+            // const labelText = (i === 0) ? i + ' ft (AMSL)' : i + ' ft';
+            const labelText = i + ' ft';
             svg.appendChild(this.createGridLine(elevationPercent, false));
             const label = this.createGridLabel(elevationPercent, labelText);
             svg.appendChild(label);

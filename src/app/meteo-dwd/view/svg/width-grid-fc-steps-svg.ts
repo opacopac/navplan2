@@ -7,7 +7,7 @@ import {CloudMeteogramStep} from '../../domain/model/cloud-meteogram-step';
 
 export class WidthGridFcStepsSvg {
     private static readonly GRID_MAJOR_STEP_H = [0];
-    private static readonly GRID_MINOR_STEP_H = [3, 6, 9, 12, 15, 18, 21];
+    private static readonly GRID_MINOR_STEP_H = [6, 12, 18];
 
 
     public static create(fcRun: ForecastRun, steps: CloudMeteogramStep[]): SVGGElement {
@@ -27,9 +27,12 @@ export class WidthGridFcStepsSvg {
             } else if (this.GRID_MINOR_STEP_H.includes(stepTime.getHours())) {
                 const gridLine = this.createGridLine(widthPercent + offsetPercent, true);
                 svg.appendChild(gridLine);
+
+                const hourText = stepTime.getHours().toString() + ':00';
+                const label = this.createGridLabel(widthPercent + offsetPercent, hourText);
+                svg.appendChild(label);
             }
         }
-
 
 
         return svg;
