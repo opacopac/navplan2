@@ -13,10 +13,12 @@ export class WidthGridFcStepsSvg {
     public static create(fcRun: ForecastRun, steps: CloudMeteogramStep[]): SVGGElement {
         const svg = SvgGroupElement.create();
         const offsetPercent = 100 / steps.length / 2;
+        const now = new Date();
 
         for (let i = 0; i < steps.length; i++) {
             const widthPercent = 100 * i / steps.length;
             const stepTime = fcRun.getStepDateTime(steps[i].forecastStep);
+
             if (this.GRID_MAJOR_STEP_H.includes(stepTime.getHours())) {
                 const gridLine = this.createGridLine(widthPercent + offsetPercent, false);
                 svg.appendChild(gridLine);
@@ -32,10 +34,29 @@ export class WidthGridFcStepsSvg {
                 const label = this.createGridLabel(widthPercent + offsetPercent, hourText);
                 svg.appendChild(label);
             }
+
+            if (stepTime.getDate() === now.getDate() && stepTime.getHours() === now.getHours()) {
+                const minuteOffsetPercent = offsetPercent * 2 * (now.getMinutes() / 60);
+                const currentTimeLine = this.createCurrentTimeLine(widthPercent + minuteOffsetPercent);
+                svg.appendChild(currentTimeLine);
+            }
         }
 
-
         return svg;
+    }
+
+
+    private static createCurrentTimeLine(widthPercent: number): SVGLineElement {
+        return SvgLineElement.create(
+            widthPercent.toString() + '%',
+            widthPercent.toString() + '%',
+            '0%',
+            '100%',
+            'stroke:red; stroke-width:1px;',
+            'non-scaling-stroke',
+            'crispEdges',
+            undefined
+        );
     }
 
 
