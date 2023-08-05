@@ -2,6 +2,7 @@
 
 namespace Navplan\MeteoGram;
 
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdPrecipRepo;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalCloudRepo;
 use Navplan\MeteoGram\Domain\Service\CloudMeteoGramService;
 use Navplan\MeteoGram\Domain\Service\ICloudMeteoGramService;
@@ -14,6 +15,7 @@ class ProdMeteoGramDiContainer implements IMeteoGramDiContainer {
 
     public function __construct(
         private readonly IMeteoDwdVerticalCloudRepo $verticalCloudRepo,
+        private readonly IMeteoDwdPrecipRepo $precipRepo,
         private readonly ITerrainService $terrainService
     ) {
     }
@@ -24,6 +26,7 @@ class ProdMeteoGramDiContainer implements IMeteoGramDiContainer {
         if (!isset($this->cloudMeteoGramService)) {
             $this->cloudMeteoGramService = new CloudMeteoGramService(
                 $this->verticalCloudRepo,
+                $this->precipRepo,
                 $this->terrainService
             );
         }

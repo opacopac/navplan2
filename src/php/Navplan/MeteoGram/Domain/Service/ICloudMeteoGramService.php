@@ -3,10 +3,12 @@
 namespace Navplan\MeteoGram\Domain\Service;
 
 
+use Navplan\MeteoGram\Domain\Model\CloudMeteogram;
+
 interface ICloudMeteoGramService {
     /**
      * @param ReadCloudMeteogramRequest $request
-     * @return ReadCloudMeteogramResponse
+     * @return CloudMeteogram
      */
-    function readCloudMeteoGram(ReadCloudMeteogramRequest $request): ReadCloudMeteogramResponse;
+    function readCloudMeteoGram(ReadCloudMeteogramRequest $request): CloudMeteogram;
 }

@@ -11,7 +11,8 @@ class CloudMeteogramStep {
         /**
          * @var VerticalCloudLevel[]
          */
-        public array $cloudLevels
+        public array $cloudLevels,
+        public int $precipMmPerHour
     ) {
     }
 }

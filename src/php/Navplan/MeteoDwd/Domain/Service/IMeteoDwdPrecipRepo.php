@@ -13,10 +13,4 @@ interface IMeteoDwdPrecipRepo {
      * @return int[]
      */
     function readPrecip(ForecastStep $forecastStep, array $posList): array;
-
-    /**
-     * @param ReadCloudMeteogramRequest $request
-     * @return int[]
-     */
-    function readMeteoGramPrecip(ReadCloudMeteogramRequest $request): array;
 }

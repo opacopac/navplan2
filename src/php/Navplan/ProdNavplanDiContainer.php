@@ -176,6 +176,7 @@ class ProdNavplanDiContainer
         if (!isset($this->meteoGramDiContainer)) {
             $this->meteoGramDiContainer = new ProdMeteoGramDiContainer(
                 $this->getMeteoDwdDiContainer()->getMeteoDwdVerticalCloudRepo(),
+                $this->getMeteoDwdDiContainer()->getMeteoDwdPrecipRepo(),
                 $this->getTerrainDiContainer()->getTerrainService()
             );
         }

@@ -15,8 +15,9 @@ export class RestCloudMeteogramStepConverter {
         }
 
         return new CloudMeteogramStep(
-            cloudMeteogramStep[0],
-            RestVerticalCloudLevelConverter.fromRestList(cloudMeteogramStep[1])
+            cloudMeteogramStep.step,
+            RestVerticalCloudLevelConverter.fromRestList(cloudMeteogramStep.cloudLevels),
+            cloudMeteogramStep.precipMmPerHour
         );
     }
 }

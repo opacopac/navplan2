@@ -7,7 +7,6 @@ use Navplan\MeteoDwd\Domain\Model\ForecastStep;
 use Navplan\MeteoDwd\Domain\Model\IconGridDefinition;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdConfig;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdPrecipRepo;
-use Navplan\MeteoDwd\Domain\Service\ReadCloudMeteogramRequest;
 use Navplan\MeteoDwd\MeteoBin\Model\MeteoBinPrecipConverter;
 use Navplan\System\Domain\Model\IFile;
 use Navplan\System\Domain\Service\IFileService;
@@ -41,20 +40,6 @@ class MeteoBinPrecipRepo implements IMeteoDwdPrecipRepo {
                 $rawByte = $file->fread(self::BYTES_PER_POS);
                 $precipMmPerHour[] = MeteoBinPrecipConverter::precipFrom($rawByte);
             };
-        }
-
-        return $precipMmPerHour;
-    }
-
-
-    public function readMeteoGramPrecip(ReadCloudMeteogramRequest $request): array {
-        $precipMmPerHour = [];
-        for ($i = $request->minStep; $i <= $request->maxStep; $i++) {
-            $forecastStep = new ForecastStep($request->fcName, $i);
-            $singlePrecip = $this->readPrecip($forecastStep, [$request->pos]);
-            if (count($singlePrecip) > 0) {
-                $precipMmPerHour = $singlePrecip[0];
-            }
         }
 
         return $precipMmPerHour;

@@ -3,7 +3,9 @@
 namespace Navplan\MeteoGram\Domain\Service;
 
 use Navplan\MeteoDwd\Domain\Model\ForecastStep;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdPrecipRepo;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalCloudRepo;
+use Navplan\MeteoGram\Domain\Model\CloudMeteogram;
 use Navplan\MeteoGram\Domain\Model\CloudMeteogramStep;
 use Navplan\Terrain\Domain\Service\ITerrainService;
 
@@ -11,24 +13,32 @@ use Navplan\Terrain\Domain\Service\ITerrainService;
 class CloudMeteoGramService implements ICloudMeteoGramService  {
     public function __construct(
         private readonly IMeteoDwdVerticalCloudRepo $verticalCloudRepo,
+        private readonly IMeteoDwdPrecipRepo $precipRepo,
         private readonly ITerrainService $terrainService
     ) {
     }
 
 
-    public function readCloudMeteoGram(ReadCloudMeteogramRequest $request): ReadCloudMeteogramResponse {
+    public function readCloudMeteoGram(ReadCloudMeteogramRequest $request): CloudMeteogram {
         $cloudMeteogramSteps = [];
         for ($i = $request->minStep; $i <= $request->maxStep; $i++) {
             $forecastStep = new ForecastStep($request->fcName, $i);
+
             $singleVerticalCloudColumn = $this->verticalCloudRepo->readVerticalClouds($forecastStep, [$request->pos]);
-            if (count($singleVerticalCloudColumn) > 0) {
-                $verticalCloudColumn = $singleVerticalCloudColumn[0];
-                $cloudMeteogramSteps[] = new CloudMeteogramStep($forecastStep->step, $verticalCloudColumn->cloudLevels);
-            }
+            $verticalCloudColumn = count($singleVerticalCloudColumn) > 0 ? $singleVerticalCloudColumn[0] : [];
+
+            $singlePrecip = $this->precipRepo->readPrecip($forecastStep, [$request->pos]);
+            $precipMmPerHour = count($singlePrecip) > 0 ? $singlePrecip[0] : 0;
+
+            $cloudMeteogramSteps[] = new CloudMeteogramStep(
+                $forecastStep->step,
+                $verticalCloudColumn->cloudLevels,
+                $precipMmPerHour
+            );
         }
 
         $altitude = $this->terrainService->readElevations([$request->pos])[0]->altitude;
 
-        return new ReadCloudMeteogramResponse($altitude->getHeightAmsl(), $cloudMeteogramSteps);
+        return new CloudMeteogram($altitude->getHeightAmsl(), $cloudMeteogramSteps);
     }
 }

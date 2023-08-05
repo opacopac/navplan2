@@ -7,6 +7,11 @@ use Navplan\MeteoGram\Domain\Model\CloudMeteogramStep;
 
 
 class RestCloudMeteogramStepConverter {
+    const ARG_FC_STEP = "step";
+    const ARG_CLOUD_LEVELS = "cloudLevels";
+    const ARG_PRECIP = "precipMmPerHour";
+
+
     /**
      * @param CloudMeteogramStep[] $cloudMeteogramSteps
      * @return array
@@ -25,8 +30,9 @@ class RestCloudMeteogramStepConverter {
         }
 
         return [
-            $cloudMeteogramStep->forecastStep,
-            RestVerticalCloudLevelConverter::toRestList($cloudMeteogramStep->cloudLevels)
+            self::ARG_FC_STEP => $cloudMeteogramStep->forecastStep,
+            self::ARG_CLOUD_LEVELS => RestVerticalCloudLevelConverter::toRestList($cloudMeteogramStep->cloudLevels),
+            self::ARG_PRECIP => $cloudMeteogramStep->precipMmPerHour
         ];
     }
 }

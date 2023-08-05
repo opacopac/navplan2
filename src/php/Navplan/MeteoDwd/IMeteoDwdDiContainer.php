@@ -4,6 +4,7 @@ namespace Navplan\MeteoDwd;
 
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdForecastRepo;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdPrecipRepo;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalCloudRepo;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalWindRepo;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdWeatherRepo;
@@ -18,6 +19,8 @@ interface IMeteoDwdDiContainer {
     function getMeteoDwdWeatherRepo(): IMeteoDwdWeatherRepo;
 
     function getMeteoDwdWindRepo(): IMeteoDwdWindRepo;
+
+    function getMeteoDwdPrecipRepo(): IMeteoDwdPrecipRepo;
 
     function getMeteoDwdVerticalCloudRepo(): IMeteoDwdVerticalCloudRepo;
 
