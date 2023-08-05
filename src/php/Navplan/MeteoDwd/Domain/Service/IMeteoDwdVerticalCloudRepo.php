@@ -7,17 +7,11 @@ use Navplan\MeteoDwd\Domain\Model\ForecastStep;
 use Navplan\MeteoDwd\Domain\Model\VerticalCloudColumn;
 
 
-interface IMeteoDwdVerticalCloudService {
+interface IMeteoDwdVerticalCloudRepo {
     /**
      * @param ForecastStep $forecastStep
      * @param Position2d[] $posList
      * @return VerticalCloudColumn[]
      */
     function readVerticalClouds(ForecastStep $forecastStep, array $posList): array;
-
-    /**
-     * @param ReadCloudMeteogramRequest $request
-     * @return ReadCloudMeteogramResponse
-     */
-    function readCloudMeteoGramSteps(ReadCloudMeteogramRequest $request): ReadCloudMeteogramResponse;
 }

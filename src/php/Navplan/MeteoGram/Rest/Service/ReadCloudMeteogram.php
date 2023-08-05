@@ -2,8 +2,8 @@
 
 namespace Navplan\MeteoDwd\RestService;
 
-use Navplan\MeteoDwd\Rest\Model\RestReadCloudMeteogramRequestConverter;
-use Navplan\MeteoDwd\Rest\Model\RestReadCloudMeteogramResponseConverter;
+use Navplan\MeteoGram\Rest\Model\RestReadCloudMeteogramRequestConverter;
+use Navplan\MeteoGram\Rest\Model\RestReadCloudMeteogramResponseConverter;
 use Navplan\ProdNavplanDiContainer;
 
 require_once __DIR__ . "/../../../RestServiceBootstrap.php";
@@ -11,9 +11,9 @@ require_once __DIR__ . "/../../../RestServiceBootstrap.php";
 
 $diContainer = new ProdNavplanDiContainer();
 $httpService = $diContainer->getSystemDiContainer()->getHttpService();
-$verticalCloudService = $diContainer->getMeteoDwdDiContainer()->getMeteoDwdVerticalCloudService();
+$meteoGramService = $diContainer->getMeteoGramDiContainer()->getCloudMeteoGramService();
 
 $args = $httpService->getGetArgs();
 $request = RestReadCloudMeteogramRequestConverter::fromRest($args);
-$response = $verticalCloudService->readCloudMeteoGramSteps($request);
+$response = $meteoGramService->readCloudMeteoGram($request);
 $httpService->sendArrayResponse(RestReadCloudMeteogramResponseConverter::toRest($response));

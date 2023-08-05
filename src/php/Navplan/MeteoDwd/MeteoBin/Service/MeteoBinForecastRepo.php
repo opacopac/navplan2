@@ -7,12 +7,12 @@ use DateTimeZone;
 use Navplan\MeteoDwd\Domain\Model\ForecastRun;
 use Navplan\MeteoDwd\Domain\Model\WeatherModelConfig;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdConfig;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdForecastService;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdForecastRepo;
 use Navplan\System\Domain\Model\FileServiceException;
 use Navplan\System\Domain\Service\IFileService;
 
 
-class MeteoBinForecastService implements IMeteoDwdForecastService {
+class MeteoBinForecastRepo implements IMeteoDwdForecastRepo {
     public const ICON_D2_DIR = "icon-d2/";
 
     private string $iconD2BaseDir;

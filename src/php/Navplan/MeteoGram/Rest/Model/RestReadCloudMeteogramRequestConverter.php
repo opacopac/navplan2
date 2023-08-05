@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\MeteoDwd\Rest\Model;
+namespace Navplan\MeteoGram\Rest\Model;
 
 use Navplan\Common\Rest\Converter\RestPosition2dConverter;
 use Navplan\Common\StringNumberHelper;
-use Navplan\MeteoDwd\Domain\Service\ReadCloudMeteogramRequest;
+use Navplan\MeteoGram\Domain\Service\ReadCloudMeteogramRequest;
 
 
 class RestReadCloudMeteogramRequestConverter {

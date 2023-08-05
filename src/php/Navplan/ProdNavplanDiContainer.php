@@ -18,6 +18,8 @@ use Navplan\Geoname\IGeonameDiContainer;
 use Navplan\Geoname\ProdGeonameDiContainer;
 use Navplan\MeteoDwd\IMeteoDwdDiContainer;
 use Navplan\MeteoDwd\ProdMeteoDwdDiContainer;
+use Navplan\MeteoGram\IMeteoGramDiContainer;
+use Navplan\MeteoGram\ProdMeteoGramDiContainer;
 use Navplan\MeteoSma\IMeteoSmaDiContainer;
 use Navplan\MeteoSma\ProdMeteoSmaDiContainer;
 use Navplan\Notam\INotamDiContainer;
@@ -53,6 +55,7 @@ class ProdNavplanDiContainer
     private IFlightrouteDiContainer $flightrouteDiContainer;
     private IGeonameDiContainer $geonameDiContainer;
     private IMeteoDwdDiContainer $meteoDwdDiContainer;
+    private IMeteoGramDiContainer $meteoGramDiContainer;
     private IMeteoSmaDiContainer $meteoSmaDiContainer;
     private INotamDiContainer $notamDiContainer;
     private IOpenAipDiContainer $openAipDiContainer;
@@ -161,12 +164,23 @@ class ProdNavplanDiContainer
             $this->meteoDwdDiContainer = new ProdMeteoDwdDiContainer(
                 $this->getSystemDiContainer()->getFileService(),
                 $this->getSystemDiContainer()->getHttpService(),
-                $this->getTerrainDiContainer()->getTerrainService(),
                 $this->getConfigDiContainer()
             );
         }
 
         return $this->meteoDwdDiContainer;
+    }
+
+
+    function getMeteoGramDiContainer(): IMeteoGramDiContainer {
+        if (!isset($this->meteoGramDiContainer)) {
+            $this->meteoGramDiContainer = new ProdMeteoGramDiContainer(
+                $this->getMeteoDwdDiContainer()->getMeteoDwdVerticalCloudRepo(),
+                $this->getTerrainDiContainer()->getTerrainService()
+            );
+        }
+
+        return $this->meteoGramDiContainer;
     }
 
 
@@ -306,8 +320,8 @@ class ProdNavplanDiContainer
             $this->verticalMapDiContainer = new ProdVerticalMapDiContainer(
                 $this->getTerrainDiContainer()->getTerrainService(),
                 $this->getEnrouteDiContainer()->getAirspaceService(),
-                $this->getMeteoDwdDiContainer()->getMeteoDwdVerticalCloudService(),
-                $this->getMeteoDwdDiContainer()->getMeteoDwdVerticalWindService(),
+                $this->getMeteoDwdDiContainer()->getMeteoDwdVerticalCloudRepo(),
+                $this->getMeteoDwdDiContainer()->getMeteoDwdVerticalWindRepo(),
                 $this->getSystemDiContainer()->getHttpService(),
             );
         }

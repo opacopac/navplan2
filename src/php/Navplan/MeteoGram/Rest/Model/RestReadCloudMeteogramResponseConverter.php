@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\MeteoDwd\Rest\Model;
+namespace Navplan\MeteoGram\Rest\Model;
 
 use Navplan\Common\Rest\Converter\RestLengthConverter;
-use Navplan\MeteoDwd\Domain\Service\ReadCloudMeteogramResponse;
+use Navplan\MeteoGram\Domain\Service\ReadCloudMeteogramResponse;
 
 
 class RestReadCloudMeteogramResponseConverter {

@@ -4,35 +4,33 @@ namespace Navplan\MeteoDwd;
 
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdConfig;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdForecastService;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalCloudService;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalWindService;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdWeatherService;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdWindService;
-use Navplan\MeteoDwd\MeteoBin\Service\MeteoBinForecastService;
-use Navplan\MeteoDwd\MeteoBin\Service\MeteoBinVerticalCloudService;
-use Navplan\MeteoDwd\MeteoBin\Service\MeteoBinVerticalWindService;
-use Navplan\MeteoDwd\MeteoBin\Service\MeteoBinWeatherService;
-use Navplan\MeteoDwd\MeteoBin\Service\MeteoBinWindService;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdForecastRepo;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalCloudRepo;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalWindRepo;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdWeatherRepo;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdWindRepo;
+use Navplan\MeteoDwd\MeteoBin\Service\MeteoBinForecastRepo;
+use Navplan\MeteoDwd\MeteoBin\Service\MeteoBinVerticalCloudRepo;
+use Navplan\MeteoDwd\MeteoBin\Service\MeteoBinVerticalWindRepo;
+use Navplan\MeteoDwd\MeteoBin\Service\MeteoBinWeatherRepo;
+use Navplan\MeteoDwd\MeteoBin\Service\MeteoBinWindRepo;
 use Navplan\MeteoDwd\Rest\Service\MeteoDwdController;
 use Navplan\System\Domain\Service\IFileService;
 use Navplan\System\Domain\Service\IHttpService;
-use Navplan\Terrain\Domain\Service\ITerrainService;
 
 
 class ProdMeteoDwdDiContainer implements IMeteoDwdDiContainer {
     private IRestController $meteoDwdRestController;
-    private IMeteoDwdForecastService $forecastService;
-    private IMeteoDwdWeatherService $weatherService;
-    private IMeteoDwdWindService $windService;
-    private IMeteoDwdVerticalCloudService $verticalCloudService;
-    private IMeteoDwdVerticalWindService $verticalWindService;
+    private IMeteoDwdForecastRepo $forecastRepo;
+    private IMeteoDwdWeatherRepo $weatherRepo;
+    private IMeteoDwdWindRepo $windRepo;
+    private IMeteoDwdVerticalCloudRepo $verticalCloudRepo;
+    private IMeteoDwdVerticalWindRepo $verticalWindRepo;
 
 
     public function __construct(
         private readonly IFileService $fileService,
         private readonly IHttpService $httpService,
-        private readonly ITerrainService $terrainService,
         private readonly IMeteoDwdConfig $meteoDwdConfig
     ) {
     }
@@ -41,9 +39,9 @@ class ProdMeteoDwdDiContainer implements IMeteoDwdDiContainer {
     public function getMeteoDwdController(): IRestController {
         if (!isset($this->meteoDwdRestController)) {
             $this->meteoDwdRestController = new MeteoDwdController(
-                $this->getMeteoDwdForecastService(),
-                $this->getMeteoDwdWeatherService(),
-                $this->getMeteoDwdWindService(),
+                $this->getMeteoDwdForecastRepo(),
+                $this->getMeteoDwdWeatherRepo(),
+                $this->getMeteoDwdWindRepo(),
                 $this->httpService
             );
         }
@@ -52,63 +50,62 @@ class ProdMeteoDwdDiContainer implements IMeteoDwdDiContainer {
     }
 
 
-    public function getMeteoDwdForecastService(): IMeteoDwdForecastService {
-        if (!isset($this->forecastService)) {
-            $this->forecastService = new MeteoBinForecastService(
+    public function getMeteoDwdForecastRepo(): IMeteoDwdForecastRepo {
+        if (!isset($this->forecastRepo)) {
+            $this->forecastRepo = new MeteoBinForecastRepo(
                 $this->fileService,
                 $this->meteoDwdConfig
             );
         }
 
-        return $this->forecastService;
+        return $this->forecastRepo;
     }
 
 
-    public function getMeteoDwdWeatherService(): IMeteoDwdWeatherService {
-        if (!isset($this->weatherService)) {
-            $this->weatherService = new MeteoBinWeatherService(
+    public function getMeteoDwdWeatherRepo(): IMeteoDwdWeatherRepo {
+        if (!isset($this->weatherRepo)) {
+            $this->weatherRepo = new MeteoBinWeatherRepo(
                 $this->fileService,
                 $this->meteoDwdConfig
             );
         }
 
-        return $this->weatherService;
+        return $this->weatherRepo;
     }
 
 
-    public function getMeteoDwdWindService(): IMeteoDwdWindService {
-        if (!isset($this->windService)) {
-            $this->windService = new MeteoBinWindService(
+    public function getMeteoDwdWindRepo(): IMeteoDwdWindRepo {
+        if (!isset($this->windRepo)) {
+            $this->windRepo = new MeteoBinWindRepo(
                 $this->fileService,
                 $this->meteoDwdConfig
             );
         }
 
-        return $this->windService;
+        return $this->windRepo;
     }
 
 
-    function getMeteoDwdVerticalCloudService(): IMeteoDwdVerticalCloudService {
-        if (!isset($this->verticalCloudService)) {
-            $this->verticalCloudService = new MeteoBinVerticalCloudService(
-                $this->fileService,
-                $this->meteoDwdConfig,
-                $this->terrainService
-            );
-        }
-
-        return $this->verticalCloudService;
-    }
-
-
-    function getMeteoDwdVerticalWindService(): IMeteoDwdVerticalWindService {
-        if (!isset($this->verticalWindService)) {
-            $this->verticalWindService = new MeteoBinVerticalWindService(
+    function getMeteoDwdVerticalCloudRepo(): IMeteoDwdVerticalCloudRepo {
+        if (!isset($this->verticalCloudRepo)) {
+            $this->verticalCloudRepo = new MeteoBinVerticalCloudRepo(
                 $this->fileService,
                 $this->meteoDwdConfig
             );
         }
 
-        return $this->verticalWindService;
+        return $this->verticalCloudRepo;
+    }
+
+
+    function getMeteoDwdVerticalWindRepo(): IMeteoDwdVerticalWindRepo {
+        if (!isset($this->verticalWindRepo)) {
+            $this->verticalWindRepo = new MeteoBinVerticalWindRepo(
+                $this->fileService,
+                $this->meteoDwdConfig
+            );
+        }
+
+        return $this->verticalWindRepo;
     }
 }

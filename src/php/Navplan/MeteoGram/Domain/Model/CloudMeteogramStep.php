@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\MeteoDwd\Domain\Model;
+namespace Navplan\MeteoGram\Domain\Model;
+
+use Navplan\MeteoDwd\Domain\Model\VerticalCloudLevel;
 
 
 class CloudMeteogramStep {

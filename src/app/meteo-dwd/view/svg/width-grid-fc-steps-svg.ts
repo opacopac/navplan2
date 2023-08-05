@@ -12,7 +12,7 @@ export class WidthGridFcStepsSvg {
 
     public static create(fcRun: ForecastRun, steps: CloudMeteogramStep[]): SVGGElement {
         const svg = SvgGroupElement.create();
-        const offsetPercent = 100 / steps.length / 2;
+        const stepWidthPercent = 100 / steps.length;
         const now = new Date();
 
         for (let i = 0; i < steps.length; i++) {
@@ -20,23 +20,23 @@ export class WidthGridFcStepsSvg {
             const stepTime = fcRun.getStepDateTime(steps[i].forecastStep);
 
             if (this.GRID_MAJOR_STEP_H.includes(stepTime.getHours())) {
-                const gridLine = this.createGridLine(widthPercent + offsetPercent, false);
+                const gridLine = this.createGridLine(widthPercent, false);
                 svg.appendChild(gridLine);
 
                 const dateTxt = stepTime.toLocaleDateString();
-                const label = this.createGridLabel(widthPercent + offsetPercent, dateTxt);
+                const label = this.createGridLabel(widthPercent, dateTxt);
                 svg.appendChild(label);
             } else if (this.GRID_MINOR_STEP_H.includes(stepTime.getHours())) {
-                const gridLine = this.createGridLine(widthPercent + offsetPercent, true);
+                const gridLine = this.createGridLine(widthPercent, true);
                 svg.appendChild(gridLine);
 
                 const hourText = stepTime.getHours().toString() + ':00';
-                const label = this.createGridLabel(widthPercent + offsetPercent, hourText);
+                const label = this.createGridLabel(widthPercent, hourText);
                 svg.appendChild(label);
             }
 
             if (stepTime.getDate() === now.getDate() && stepTime.getHours() === now.getHours()) {
-                const minuteOffsetPercent = offsetPercent * 2 * (now.getMinutes() / 60);
+                const minuteOffsetPercent = stepWidthPercent * (now.getMinutes() / 60);
                 const currentTimeLine = this.createCurrentTimeLine(widthPercent + minuteOffsetPercent);
                 svg.appendChild(currentTimeLine);
             }

@@ -4,8 +4,8 @@ namespace Navplan\VerticalMap;
 
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Enroute\Domain\Service\IAirspaceService;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalCloudService;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalWindService;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalCloudRepo;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalWindRepo;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\Terrain\Domain\Service\ITerrainService;
 use Navplan\VerticalMap\Domain\Service\IVerticalMapService;
@@ -21,8 +21,8 @@ class ProdVerticalMapDiContainer implements IVerticalMapDiContainer {
     public function __construct(
         private ITerrainService $terrainService,
         private IAirspaceService $airspaceService,
-        private IMeteoDwdVerticalCloudService $verticalCloudService,
-        private IMeteoDwdVerticalWindService $verticalWindService,
+        private IMeteoDwdVerticalCloudRepo $verticalCloudRepo,
+        private IMeteoDwdVerticalWindRepo $verticalWindRepo,
         private IHttpService $httpService
     ) {
     }
@@ -45,8 +45,8 @@ class ProdVerticalMapDiContainer implements IVerticalMapDiContainer {
             $this->verticalMapService = new VerticalMapService(
                 $this->terrainService,
                 $this->airspaceService,
-                $this->verticalCloudService,
-                $this->verticalWindService
+                $this->verticalCloudRepo,
+                $this->verticalWindRepo
             );
         }
 

@@ -7,11 +7,11 @@ use Navplan\MeteoDwd\Domain\Model\GridDefinition;
 use Navplan\MeteoDwd\Domain\Model\WeatherInfo;
 
 
-interface IMeteoDwdWeatherService {
+interface IMeteoDwdWeatherRepo {
     /**
-     * @param ForecastStep $forecastTime
+     * @param ForecastStep $forecastStep
      * @param GridDefinition $grid
      * @return WeatherInfo[]
      */
-    function readWeatherInfo(ForecastStep $forecastTime, GridDefinition $grid): array;
+    function readWeatherInfo(ForecastStep $forecastStep, GridDefinition $grid): array;
 }

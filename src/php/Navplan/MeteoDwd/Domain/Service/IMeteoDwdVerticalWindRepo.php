@@ -7,7 +7,7 @@ use Navplan\MeteoDwd\Domain\Model\ForecastStep;
 use Navplan\MeteoDwd\Domain\Model\VerticalWindColumn;
 
 
-interface IMeteoDwdVerticalWindService {
+interface IMeteoDwdVerticalWindRepo {
     /**
      * @param ForecastStep $forecastStep
      * @param Position2d[] $posList

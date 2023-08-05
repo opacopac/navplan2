@@ -15,8 +15,8 @@ use Navplan\Enroute\Domain\Model\Airspace;
 use Navplan\Enroute\Domain\Service\IAirspaceService;
 use Navplan\MeteoDwd\Domain\Model\ForecastStep;
 use Navplan\MeteoDwd\Domain\Model\WeatherModelLayer;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalCloudService;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalWindService;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalCloudRepo;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalWindRepo;
 use Navplan\Terrain\Domain\Service\ITerrainService;
 use Navplan\VerticalMap\Domain\Model\VerticalMap;
 use Navplan\VerticalMap\Domain\Model\VerticalMapAirspace;
@@ -37,8 +37,8 @@ class VerticalMapService implements IVerticalMapService {
     public function __construct(
         private ITerrainService  $terrainService,
         private IAirspaceService $airspaceService,
-        private IMeteoDwdVerticalCloudService $verticalCloudService,
-        private IMeteoDwdVerticalWindService $verticalWindService
+        private IMeteoDwdVerticalCloudRepo $verticalCloudRepo,
+        private IMeteoDwdVerticalWindRepo $verticalWindRepo
     ) {
     }
 
@@ -62,13 +62,13 @@ class VerticalMapService implements IVerticalMapService {
         // vertical clouds
         if ($forecastStep !== null && $layer === WeatherModelLayer::CLOUDS) {
             $vertCloudSteps = $waypoints->subdividePosList(Length::fromM(self::WEATHER_RESOLUTION_M), self::WEATHER_MAX_STEPS);
-            $verticalCloudInfo = $this->verticalCloudService->readVerticalClouds($forecastStep, $vertCloudSteps);
+            $verticalCloudInfo = $this->verticalCloudRepo->readVerticalClouds($forecastStep, $vertCloudSteps);
         }
 
         // vertical wind
         if ($forecastStep !== null && $layer === WeatherModelLayer::WIND) {
             $verticalWindSteps = $waypoints->subdividePosList(Length::fromM(self::WEATHER_RESOLUTION_M), self::WEATHER_MAX_STEPS);
-            $verticalWindInfo = $this->verticalWindService->readVerticalWindInfo($forecastStep, $verticalWindSteps);
+            $verticalWindInfo = $this->verticalWindRepo->readVerticalWindInfo($forecastStep, $verticalWindSteps);
         }
 
         return new VerticalMap(

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\MeteoDwd\Domain\Service;
+namespace Navplan\MeteoGram\Domain\Service;
 
 use Navplan\Common\Domain\Model\Position2d;
 

@@ -1,8 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\MeteoDwd\Rest\Model;
+namespace Navplan\MeteoGram\Rest\Model;
 
-use Navplan\MeteoDwd\Domain\Model\CloudMeteogramStep;
+use Navplan\MeteoDwd\Rest\Model\RestVerticalCloudLevelConverter;
+use Navplan\MeteoGram\Domain\Model\CloudMeteogramStep;
 
 
 class RestCloudMeteogramStepConverter {

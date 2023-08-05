@@ -11,12 +11,12 @@ use Navplan\MeteoDwd\Domain\Model\IconGridDefinition;
 use Navplan\MeteoDwd\Domain\Model\ValueGrid;
 use Navplan\MeteoDwd\Domain\Model\WindInfo;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdConfig;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdWindService;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdWindRepo;
 use Navplan\MeteoDwd\MeteoBin\Model\MeteoBinWindInfoConverter;
 use Navplan\System\Domain\Service\IFileService;
 
 
-class MeteoBinWindService implements IMeteoDwdWindService {
+class MeteoBinWindRepo implements IMeteoDwdWindRepo {
     public const METEOBIN_WIND_PATH = "/wind/WIND_D2.meteobin";
 
     private string $iconD2BaseDir;
@@ -26,7 +26,7 @@ class MeteoBinWindService implements IMeteoDwdWindService {
         private readonly IFileService $fileService,
         private readonly IMeteoDwdConfig $meteoDwdConfig
     ) {
-        $this->iconD2BaseDir = $this->meteoDwdConfig->getMeteoDwdBaseDir() . MeteoBinForecastService::ICON_D2_DIR;
+        $this->iconD2BaseDir = $this->meteoDwdConfig->getMeteoDwdBaseDir() . MeteoBinForecastRepo::ICON_D2_DIR;
     }
 
 

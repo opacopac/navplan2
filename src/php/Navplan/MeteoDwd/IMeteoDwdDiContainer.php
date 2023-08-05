@@ -3,23 +3,23 @@
 namespace Navplan\MeteoDwd;
 
 use Navplan\Common\Rest\Controller\IRestController;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdForecastService;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalCloudService;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalWindService;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdWeatherService;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdWindService;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdForecastRepo;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalCloudRepo;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalWindRepo;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdWeatherRepo;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdWindRepo;
 
 
 interface IMeteoDwdDiContainer {
     function getMeteoDwdController(): IRestController;
 
-    function getMeteoDwdForecastService(): IMeteoDwdForecastService;
+    function getMeteoDwdForecastRepo(): IMeteoDwdForecastRepo;
 
-    function getMeteoDwdWeatherService(): IMeteoDwdWeatherService;
+    function getMeteoDwdWeatherRepo(): IMeteoDwdWeatherRepo;
 
-    function getMeteoDwdWindService(): IMeteoDwdWindService;
+    function getMeteoDwdWindRepo(): IMeteoDwdWindRepo;
 
-    function getMeteoDwdVerticalCloudService(): IMeteoDwdVerticalCloudService;
+    function getMeteoDwdVerticalCloudRepo(): IMeteoDwdVerticalCloudRepo;
 
-    function getMeteoDwdVerticalWindService(): IMeteoDwdVerticalWindService;
+    function getMeteoDwdVerticalWindRepo(): IMeteoDwdVerticalWindRepo;
 }

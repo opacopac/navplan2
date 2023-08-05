@@ -5,7 +5,7 @@ namespace Navplan\MeteoDwd\Domain\Service;
 use Navplan\MeteoDwd\Domain\Model\ForecastRun;
 
 
-interface IMeteoDwdForecastService {
+interface IMeteoDwdForecastRepo {
     /**
      * @return ForecastRun[]
      */

@@ -4,9 +4,9 @@ namespace Navplan\MeteoDwd\Rest\Service;
 
 use InvalidArgumentException;
 use Navplan\Common\Rest\Controller\IRestController;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdForecastService;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdWeatherService;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdWindService;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdForecastRepo;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdWeatherRepo;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdWindRepo;
 use Navplan\MeteoDwd\Rest\Model\RestForecastRunConverter;
 use Navplan\MeteoDwd\Rest\Model\RestForecastStepConverter;
 use Navplan\MeteoDwd\Rest\Model\RestGridDefinitionConverter;
@@ -24,9 +24,9 @@ class MeteoDwdController implements IRestController {
 
 
     public function __construct(
-        private readonly IMeteoDwdForecastService $forecastService,
-        private readonly IMeteoDwdWeatherService $weatherService,
-        private readonly IMeteoDwdWindService $windService,
+        private readonly IMeteoDwdForecastRepo $forecastService,
+        private readonly IMeteoDwdWeatherRepo $weatherService,
+        private readonly IMeteoDwdWindRepo $windService,
         private readonly IHttpService $httpService
     ) {
     }

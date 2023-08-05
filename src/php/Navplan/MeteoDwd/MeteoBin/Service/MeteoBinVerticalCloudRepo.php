@@ -5,20 +5,16 @@ namespace Navplan\MeteoDwd\MeteoBin\Service;
 use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\GeoHelper;
 use Navplan\Common\StringNumberHelper;
-use Navplan\MeteoDwd\Domain\Model\CloudMeteogramStep;
 use Navplan\MeteoDwd\Domain\Model\ForecastStep;
 use Navplan\MeteoDwd\Domain\Model\IconGridDefinition;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdConfig;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalCloudService;
-use Navplan\MeteoDwd\Domain\Service\ReadCloudMeteogramRequest;
-use Navplan\MeteoDwd\Domain\Service\ReadCloudMeteogramResponse;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalCloudRepo;
 use Navplan\MeteoDwd\MeteoBin\Model\MeteoBinVerticalCloudInfoConverter;
 use Navplan\System\Domain\Model\IFile;
 use Navplan\System\Domain\Service\IFileService;
-use Navplan\Terrain\Domain\Service\ITerrainService;
 
 
-class MeteoBinVerticalCloudService implements IMeteoDwdVerticalCloudService  {
+class MeteoBinVerticalCloudRepo implements IMeteoDwdVerticalCloudRepo  {
     private const METEOBIN_VERTICAL_CLOUDS_PATH = "/vertical_clouds/VERTICAL_CLOUDS_D2.meteobin";
     private const BYTES_PER_POS = 41 * 2;
 
@@ -27,10 +23,9 @@ class MeteoBinVerticalCloudService implements IMeteoDwdVerticalCloudService  {
 
     public function __construct(
         private readonly IFileService $fileService,
-        private readonly IMeteoDwdConfig $meteoDwdConfig,
-        private readonly ITerrainService $terrainService
+        private readonly IMeteoDwdConfig $meteoDwdConfig
     ) {
-        $this->iconD2BaseDir = $this->meteoDwdConfig->getMeteoDwdBaseDir() . MeteoBinForecastService::ICON_D2_DIR;
+        $this->iconD2BaseDir = $this->meteoDwdConfig->getMeteoDwdBaseDir() . MeteoBinForecastRepo::ICON_D2_DIR;
     }
 
 
@@ -54,23 +49,6 @@ class MeteoBinVerticalCloudService implements IMeteoDwdVerticalCloudService  {
         }
 
         return $verticalCloudColumns;
-    }
-
-
-    public function readCloudMeteoGramSteps(ReadCloudMeteogramRequest $request): ReadCloudMeteogramResponse {
-        $cloudMeteogramSteps = [];
-        for ($i = $request->minStep; $i <= $request->maxStep; $i++) {
-            $forecastStep = new ForecastStep($request->fcName, $i);
-            $singleVerticalCloudColumn = $this->readVerticalClouds($forecastStep, [$request->pos]);
-            if (count($singleVerticalCloudColumn) > 0) {
-                $verticalCloudColumn = $singleVerticalCloudColumn[0];
-                $cloudMeteogramSteps[] = new CloudMeteogramStep($forecastStep->step, $verticalCloudColumn->cloudLevels);
-            }
-        }
-
-        $altitude = $this->terrainService->readElevations([$request->pos])[0]->altitude;
-
-        return new ReadCloudMeteogramResponse($altitude->getHeightAmsl(), $cloudMeteogramSteps);
     }
 
 

@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\MeteoDwd\Domain\Service;
+namespace Navplan\MeteoGram\Domain\Service;
 
 use Navplan\Common\Domain\Model\Length;
-use Navplan\MeteoDwd\Domain\Model\CloudMeteogramStep;
+use Navplan\MeteoGram\Domain\Model\CloudMeteogramStep;
 
 
 class ReadCloudMeteogramResponse {

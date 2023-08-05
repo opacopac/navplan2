@@ -8,13 +8,13 @@ use Navplan\Common\StringNumberHelper;
 use Navplan\MeteoDwd\Domain\Model\ForecastStep;
 use Navplan\MeteoDwd\Domain\Model\IconGridDefinition;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdConfig;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalWindService;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalWindRepo;
 use Navplan\MeteoDwd\MeteoBin\Model\MeteoBinVerticalWindInfoConverter;
 use Navplan\System\Domain\Model\IFile;
 use Navplan\System\Domain\Service\IFileService;
 
 
-class MeteoBinVerticalWindService implements IMeteoDwdVerticalWindService  {
+class MeteoBinVerticalWindRepo implements IMeteoDwdVerticalWindRepo  {
     private const METEOBIN_VERTICAL_WIND_PATH = "/vertical_wind/VERTICAL_WIND_D2.meteobin";
     private const BYTES_PER_POS = 41 * 3;
 
@@ -25,7 +25,7 @@ class MeteoBinVerticalWindService implements IMeteoDwdVerticalWindService  {
         private readonly IFileService $fileService,
         private readonly IMeteoDwdConfig $meteoDwdConfig
     ) {
-        $this->iconD2BaseDir = $this->meteoDwdConfig->getMeteoDwdBaseDir() . MeteoBinForecastService::ICON_D2_DIR;
+        $this->iconD2BaseDir = $this->meteoDwdConfig->getMeteoDwdBaseDir() . MeteoBinForecastRepo::ICON_D2_DIR;
     }
 
 

@@ -7,7 +7,7 @@ use Navplan\MeteoDwd\Domain\Model\GridDefinition;
 use Navplan\MeteoDwd\Domain\Model\WindInfo;
 
 
-interface IMeteoDwdWindService {
+interface IMeteoDwdWindRepo {
     /**
      * @param ForecastStep $forecastTime
      * @param GridDefinition $grid

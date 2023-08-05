@@ -9,12 +9,12 @@ use Navplan\MeteoDwd\Domain\Model\GridDefinition;
 use Navplan\MeteoDwd\Domain\Model\IconGridDefinition;
 use Navplan\MeteoDwd\Domain\Model\WeatherInfo;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdConfig;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdWeatherService;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdWeatherRepo;
 use Navplan\MeteoDwd\MeteoBin\Model\MeteoBinWeatherInfoConverter;
 use Navplan\System\Domain\Service\IFileService;
 
 
-class MeteoBinWeatherService implements IMeteoDwdWeatherService {
+class MeteoBinWeatherRepo implements IMeteoDwdWeatherRepo {
     private const METEOBIN_WW_PATH = "/clct_precip/WW_D2.meteobin";
 
     private string $iconD2BaseDir;
@@ -24,7 +24,7 @@ class MeteoBinWeatherService implements IMeteoDwdWeatherService {
         private readonly IFileService $fileService,
         private readonly IMeteoDwdConfig $meteoDwdConfig
     ) {
-        $this->iconD2BaseDir = $this->meteoDwdConfig->getMeteoDwdBaseDir() . MeteoBinForecastService::ICON_D2_DIR;
+        $this->iconD2BaseDir = $this->meteoDwdConfig->getMeteoDwdBaseDir() . MeteoBinForecastRepo::ICON_D2_DIR;
     }
 
 
