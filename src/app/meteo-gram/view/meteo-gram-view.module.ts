@@ -10,7 +10,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MeteoGramRestModule} from '../rest/meteo-gram-rest.module';
 import {MeteoGramDomainModule} from '../domain/meteo-gram-domain.module';
 import {MeteogramComponent} from './ng-components/meteogram/meteogram.component';
-import {MeteoDwdStateModule} from '../../meteo-dwd/state/meteo-dwd-state.module';
+import {MeteoGramStateModule} from '../state/meteo-gram-state.module';
 
 
 @NgModule({
@@ -20,7 +20,7 @@ import {MeteoDwdStateModule} from '../../meteo-dwd/state/meteo-dwd-state.module'
         MatTooltipModule,
         MeteoGramDomainModule,
         MeteoGramRestModule,
-        MeteoDwdStateModule,
+        MeteoGramStateModule,
         MatButtonToggleModule,
         MatSliderModule,
         MatMenuModule,

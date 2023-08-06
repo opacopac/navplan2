@@ -11,10 +11,10 @@ class RestCloudMeteogramConverter {
     const ARG_STEPS = "steps";
 
 
-    public static function toRest(CloudMeteogram $response): array {
+    public static function toRest(CloudMeteogram $cloudMeteogram): array {
         return [
-            self::ARG_ELEVATION => RestLengthConverter::toRest($response->heightAmsl),
-            self::ARG_STEPS => RestCloudMeteogramStepConverter::toRestList($response->cloudMeteogramSteps)
+            self::ARG_ELEVATION => RestLengthConverter::toRest($cloudMeteogram->heightAmsl),
+            self::ARG_STEPS => RestCloudMeteogramStepConverter::toRestList($cloudMeteogram->cloudMeteogramSteps)
         ];
     }
 }
