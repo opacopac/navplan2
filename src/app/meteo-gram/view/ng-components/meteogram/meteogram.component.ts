@@ -1,13 +1,14 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
 import {select, Store} from '@ngrx/store';
-import {MeteoDwdActions} from '../../../../meteo-dwd/state/ngrx/meteo-dwd.actions';
-import {getCloudMeteogram, getMeteoDwdForecastRun} from '../../../../meteo-dwd/state/ngrx/meteo-dwd.selectors';
+import {getMeteoDwdForecastRun} from '../../../../meteo-dwd/state/ngrx/meteo-dwd.selectors';
 import {Observable, Subscription} from 'rxjs';
 import {CloudMeteogramSvg} from '../../svg/cloud-meteogram-svg';
 import {CloudMeteogram} from '../../../domain/model/cloud-meteogram';
 import {withLatestFrom} from 'rxjs/operators';
 import {ForecastRun} from '../../../../meteo-dwd/domain/model/forecast-run';
+import {MeteoGramActions} from '../../../state/ngrx/meteo-gram.actions';
+import {getCloudMeteogram} from '../../../state/ngrx/meteo-gram.selectors';
 
 
 @Component({
@@ -27,7 +28,7 @@ export class MeteogramComponent implements OnInit {
 
     @Input() set position(pos: Position2d) {
         if (pos) {
-            this.appStore.dispatch(MeteoDwdActions.readCloudMeteogram({position: pos}));
+            this.appStore.dispatch(MeteoGramActions.readCloudMeteogram({position: pos}));
         }
     }
 

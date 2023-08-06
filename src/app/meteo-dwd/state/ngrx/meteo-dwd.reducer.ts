@@ -12,8 +12,7 @@ const initialState: MeteoDwdState = {
     selectedStep: 1,
     mapTilesUrl: '',
     weatherValues: undefined,
-    windValues: undefined,
-    cloudMeteogram: undefined
+    windValues: undefined
 };
 
 
@@ -99,11 +98,5 @@ export const meteoDwdReducer = createReducer(
     on(MeteoDwdActions.readWindValuesSuccess, (state, action) => ({
         ...state,
         windValues: action.windValues,
-    })),
-
-    // TODO: move to own module
-    on(MeteoDwdActions.readCloudMeteogramSuccess, (state, action) => ({
-        ...state,
-        cloudMeteogram: action.cloudMeteogram,
     })),
 );
