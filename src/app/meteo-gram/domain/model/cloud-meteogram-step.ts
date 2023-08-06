@@ -1,4 +1,4 @@
-import {VerticalCloudLevel} from './vertical-cloud-level';
+import {VerticalCloudLevel} from '../../../meteo-dwd/domain/model/vertical-cloud-level';
 
 
 export class CloudMeteogramStep {

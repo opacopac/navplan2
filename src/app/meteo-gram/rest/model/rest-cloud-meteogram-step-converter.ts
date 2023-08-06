@@ -1,4 +1,4 @@
-import {RestVerticalCloudLevelConverter} from './rest-vertical-cloud-level-converter';
+import {RestVerticalCloudLevelConverter} from '../../../meteo-dwd/rest/model/rest-vertical-cloud-level-converter';
 import {IRestCloudMeteogramStep} from './i-rest-cloud-meteogram-step';
 import {CloudMeteogramStep} from '../../domain/model/cloud-meteogram-step';
 

@@ -3,7 +3,7 @@ import {WindInfo} from '../../domain/model/wind-info';
 import {WeatherInfo} from '../../domain/model/weather-info';
 import {MeteoDwdLayer} from '../../domain/model/meteo-dwd-layer';
 import {ForecastRun} from '../../domain/model/forecast-run';
-import {CloudMeteogram} from '../../domain/model/cloud-meteogram';
+import {CloudMeteogram} from '../../../meteo-gram/domain/model/cloud-meteogram';
 
 
 export interface MeteoDwdState {
@@ -14,5 +14,5 @@ export interface MeteoDwdState {
     mapTilesUrl: string;
     weatherValues: WeatherInfo[];
     windValues: WindInfo[];
-    cloudMeteogram: CloudMeteogram;
+    cloudMeteogram: CloudMeteogram; // TODO: move to own module
 }

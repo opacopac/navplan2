@@ -1,7 +1,7 @@
 import {SvgLineElement} from '../../../common/svg/svg-line-element';
 import {SvgGroupElement} from '../../../common/svg/svg-group-element';
 import {SvgTextElement} from '../../../common/svg/svg-text-element';
-import {ForecastRun} from '../../domain/model/forecast-run';
+import {ForecastRun} from '../../../meteo-dwd/domain/model/forecast-run';
 import {CloudMeteogramStep} from '../../domain/model/cloud-meteogram-step';
 
 

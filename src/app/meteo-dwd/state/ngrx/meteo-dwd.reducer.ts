@@ -101,6 +101,7 @@ export const meteoDwdReducer = createReducer(
         windValues: action.windValues,
     })),
 
+    // TODO: move to own module
     on(MeteoDwdActions.readCloudMeteogramSuccess, (state, action) => ({
         ...state,
         cloudMeteogram: action.cloudMeteogram,

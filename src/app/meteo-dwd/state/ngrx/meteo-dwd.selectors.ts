@@ -9,4 +9,4 @@ export const getMeteoDwdWeatherValues = createSelector(getMeteoDwdState, state =
 export const getMeteoDwdMapTilesUrl = createSelector(getMeteoDwdState, state => state.mapTilesUrl);
 export const getMeteoDwdForecastRun = createSelector(getMeteoDwdState, state => state.forecastRun);
 export const getMeteoDwdSelectedStep = createSelector(getMeteoDwdState, state => state.selectedStep);
-export const getCloudMeteogram = createSelector(getMeteoDwdState, state => state.cloudMeteogram);
+export const getCloudMeteogram = createSelector(getMeteoDwdState, state => state.cloudMeteogram); // TODO: move to own module

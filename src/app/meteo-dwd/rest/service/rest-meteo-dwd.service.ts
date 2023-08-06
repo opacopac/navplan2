@@ -18,9 +18,9 @@ import {RestWeatherInfoConverter} from '../model/rest-weather-info-converter';
 import {IRestWeatherInfo} from '../model/i-rest-weather-info';
 import {RestForecastStepConverter} from '../model/rest-forecast-step-converter';
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
-import {RestCloudMeteogramConverter} from '../model/rest-cloud-meteogram-converter';
-import {IRestCloudMeteogram} from '../model/i-rest-cloud-meteogram';
-import {CloudMeteogram} from '../../domain/model/cloud-meteogram';
+import {RestCloudMeteogramConverter} from '../../../meteo-gram/rest/model/rest-cloud-meteogram-converter';
+import {IRestCloudMeteogram} from '../../../meteo-gram/rest/model/i-rest-cloud-meteogram';
+import {CloudMeteogram} from '../../../meteo-gram/domain/model/cloud-meteogram';
 
 
 @Injectable()

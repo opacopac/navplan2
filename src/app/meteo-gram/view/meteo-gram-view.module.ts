@@ -2,16 +2,15 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {MeteoDwdDomainModule} from '../domain/meteo-dwd-domain.module';
-import {MeteoButtonComponent} from '../../flight-map/view/ng-components/meteo-button/meteo-button.component';
-import {MeteoDwdStateModule} from '../state/meteo-dwd-state.module';
-import {MeteoDwdTimelineComponent} from './ng-components/meteo-dwd-timeline/meteo-dwd-timeline.component';
-import {MeteoDwdRestModule} from '../rest/meteo-dwd-rest.module';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
+import {MeteoGramRestModule} from '../rest/meteo-gram-rest.module';
+import {MeteoGramDomainModule} from '../domain/meteo-gram-domain.module';
+import {MeteogramComponent} from './ng-components/meteogram/meteogram.component';
+import {MeteoDwdStateModule} from '../../meteo-dwd/state/meteo-dwd-state.module';
 
 
 @NgModule({
@@ -19,8 +18,8 @@ import {MatInputModule} from '@angular/material/input';
         CommonModule,
         MatButtonModule,
         MatTooltipModule,
-        MeteoDwdDomainModule,
-        MeteoDwdRestModule,
+        MeteoGramDomainModule,
+        MeteoGramRestModule,
         MeteoDwdStateModule,
         MatButtonToggleModule,
         MatSliderModule,
@@ -29,15 +28,13 @@ import {MatInputModule} from '@angular/material/input';
         MatInputModule,
     ],
     declarations: [
-        MeteoButtonComponent,
-        MeteoDwdTimelineComponent,
+        MeteogramComponent
     ],
     exports: [
-        MeteoButtonComponent,
-        MeteoDwdTimelineComponent,
+        MeteogramComponent
     ],
     providers: [
     ]
 })
-export class MeteoDwdViewModule {
+export class MeteoGramViewModule {
 }

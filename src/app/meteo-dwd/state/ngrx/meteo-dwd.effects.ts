@@ -87,6 +87,7 @@ export class MeteoDwdEffects {
     ));
 
 
+    // TODO: move to own module
     readMeteogramAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(MeteoDwdActions.readCloudMeteogram),
         withLatestFrom(this.meteoDwdstate$),

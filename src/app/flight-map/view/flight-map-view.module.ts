@@ -25,6 +25,7 @@ import {BaseMapViewModule} from '../../base-map/view/base-map-view.module';
 import {MeteoDwdViewModule} from '../../meteo-dwd/view/meteo-dwd-view.module';
 import {MeteoContainerComponent} from './ng-components/meteo-container/meteo-container.component';
 import {MatButtonModule} from '@angular/material/button';
+import {MeteoGramViewModule} from '../../meteo-gram/view/meteo-gram-view.module';
 
 @NgModule({
     declarations: [
@@ -48,6 +49,7 @@ import {MatButtonModule} from '@angular/material/button';
         MetarTafViewModule,
         MeteoSmaViewModule,
         MeteoDwdViewModule,
+        MeteoGramViewModule,
         NotamViewModule,
         SearchViewModule,
         TrackViewModule,

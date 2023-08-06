@@ -4,7 +4,7 @@ import {GridDefinition} from '../model/grid-definition';
 import {WeatherInfo} from '../model/weather-info';
 import {ForecastRun} from '../model/forecast-run';
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
-import {CloudMeteogram} from '../model/cloud-meteogram';
+import {CloudMeteogram} from '../../../meteo-gram/domain/model/cloud-meteogram';
 
 
 export abstract class IMeteoDwdService {

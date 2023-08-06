@@ -1,4 +1,4 @@
-import {IRestVerticalCloudLevel} from './i-rest-vertical-cloud-level';
+import {IRestVerticalCloudLevel} from '../../../meteo-dwd/rest/model/i-rest-vertical-cloud-level';
 
 
 export interface IRestCloudMeteogramStep {

@@ -1,13 +1,13 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
 import {select, Store} from '@ngrx/store';
-import {MeteoDwdActions} from '../../../state/ngrx/meteo-dwd.actions';
-import {getCloudMeteogram, getMeteoDwdForecastRun} from '../../../state/ngrx/meteo-dwd.selectors';
+import {MeteoDwdActions} from '../../../../meteo-dwd/state/ngrx/meteo-dwd.actions';
+import {getCloudMeteogram, getMeteoDwdForecastRun} from '../../../../meteo-dwd/state/ngrx/meteo-dwd.selectors';
 import {Observable, Subscription} from 'rxjs';
 import {CloudMeteogramSvg} from '../../svg/cloud-meteogram-svg';
 import {CloudMeteogram} from '../../../domain/model/cloud-meteogram';
 import {withLatestFrom} from 'rxjs/operators';
-import {ForecastRun} from '../../../domain/model/forecast-run';
+import {ForecastRun} from '../../../../meteo-dwd/domain/model/forecast-run';
 
 
 @Component({
