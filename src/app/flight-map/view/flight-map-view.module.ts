@@ -32,7 +32,7 @@ import {MeteoGramViewModule} from '../../meteo-gram/view/meteo-gram-view.module'
         FlightMapPageComponent,
         OlMapOverlayComponent,
         OlOverlayWaypointComponent,
-        MeteoContainerComponent
+        MeteoContainerComponent,
     ],
     imports: [
         CommonModule,

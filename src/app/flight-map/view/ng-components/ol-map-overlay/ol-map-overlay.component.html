@@ -47,6 +47,7 @@
                     </ng-template>
                     <ng-template matTabContent>
                         <app-meteogram [position]="this.position"></app-meteogram>
+                        <app-precip-temp-graph [position]="this.position"></app-precip-temp-graph>
                         <app-metar-taf *ngIf="this.airport" [metarTaf]="this.metarTaf"></app-metar-taf>
                     </ng-template>
                 </mat-tab>

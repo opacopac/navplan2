@@ -10,7 +10,7 @@ export class WidthGridFcStepsSvg {
     private static readonly GRID_MINOR_STEP_H = [6, 12, 18];
 
 
-    public static create(fcRun: ForecastRun, steps: CloudMeteogramStep[]): SVGGElement {
+    public static create(fcRun: ForecastRun, steps: CloudMeteogramStep[], showLabels: boolean): SVGGElement {
         const svg = SvgGroupElement.create();
         const stepWidthPercent = 100 / steps.length;
         const now = new Date();
@@ -23,16 +23,20 @@ export class WidthGridFcStepsSvg {
                 const gridLine = this.createGridLine(widthPercent, false);
                 svg.appendChild(gridLine);
 
-                const dateTxt = stepTime.toLocaleDateString();
-                const label = this.createGridLabel(widthPercent, dateTxt);
-                svg.appendChild(label);
+                if (showLabels) {
+                    const dateTxt = stepTime.toLocaleDateString();
+                    const label = this.createGridLabel(widthPercent, dateTxt);
+                    svg.appendChild(label);
+                }
             } else if (this.GRID_MINOR_STEP_H.includes(stepTime.getHours())) {
                 const gridLine = this.createGridLine(widthPercent, true);
                 svg.appendChild(gridLine);
 
-                const hourText = stepTime.getHours().toString() + ':00';
-                const label = this.createGridLabel(widthPercent, hourText);
-                svg.appendChild(label);
+                if (showLabels) {
+                    const hourText = stepTime.getHours().toString() + ':00';
+                    const label = this.createGridLabel(widthPercent, hourText);
+                    svg.appendChild(label);
+                }
             }
 
             if (stepTime.getDate() === now.getDate() && stepTime.getHours() === now.getHours()) {
