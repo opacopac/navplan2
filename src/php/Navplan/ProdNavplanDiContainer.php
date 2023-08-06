@@ -178,6 +178,7 @@ class ProdNavplanDiContainer
                 $this->getSystemDiContainer()->getHttpService(),
                 $this->getMeteoDwdDiContainer()->getMeteoDwdVerticalCloudRepo(),
                 $this->getMeteoDwdDiContainer()->getMeteoDwdPrecipRepo(),
+                $this->getMeteoDwdDiContainer()->getMeteoDwdTempRepo(),
                 $this->getTerrainDiContainer()->getTerrainService()
             );
         }

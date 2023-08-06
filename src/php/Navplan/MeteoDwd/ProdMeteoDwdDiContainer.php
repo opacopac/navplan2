@@ -6,12 +6,14 @@ use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdConfig;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdForecastRepo;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdPrecipRepo;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdTempRepo;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalCloudRepo;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalWindRepo;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdWeatherRepo;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdWindRepo;
 use Navplan\MeteoDwd\MeteoBin\Service\MeteoBinForecastRepo;
 use Navplan\MeteoDwd\MeteoBin\Service\MeteoBinPrecipRepo;
+use Navplan\MeteoDwd\MeteoBin\Service\MeteoBinTempRepo;
 use Navplan\MeteoDwd\MeteoBin\Service\MeteoBinVerticalCloudRepo;
 use Navplan\MeteoDwd\MeteoBin\Service\MeteoBinVerticalWindRepo;
 use Navplan\MeteoDwd\MeteoBin\Service\MeteoBinWeatherRepo;
@@ -27,6 +29,7 @@ class ProdMeteoDwdDiContainer implements IMeteoDwdDiContainer {
     private IMeteoDwdWeatherRepo $weatherRepo;
     private IMeteoDwdWindRepo $windRepo;
     private IMeteoDwdPrecipRepo $precipRepo;
+    private IMeteoDwdTempRepo $tempRepo;
     private IMeteoDwdVerticalCloudRepo $verticalCloudRepo;
     private IMeteoDwdVerticalWindRepo $verticalWindRepo;
 
@@ -99,6 +102,18 @@ class ProdMeteoDwdDiContainer implements IMeteoDwdDiContainer {
         }
 
         return $this->precipRepo;
+    }
+
+
+    public function getMeteoDwdTempRepo(): IMeteoDwdTempRepo {
+        if (!isset($this->tempRepo)) {
+            $this->tempRepo = new MeteoBinTempRepo(
+                $this->fileService,
+                $this->meteoDwdConfig
+            );
+        }
+
+        return $this->tempRepo;
     }
 
 

@@ -2,8 +2,11 @@
 
 namespace Navplan\MeteoGram\Domain\Service;
 
+use Navplan\Common\Domain\Model\Temperature;
+use Navplan\Common\Domain\Model\TemperatureUnit;
 use Navplan\MeteoDwd\Domain\Model\ForecastStep;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdPrecipRepo;
+use Navplan\MeteoDwd\Domain\Service\IMeteoDwdTempRepo;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalCloudRepo;
 use Navplan\MeteoGram\Domain\Model\CloudMeteogram;
 use Navplan\MeteoGram\Domain\Model\CloudMeteogramStep;
@@ -14,6 +17,7 @@ class CloudMeteoGramService implements ICloudMeteoGramService  {
     public function __construct(
         private readonly IMeteoDwdVerticalCloudRepo $verticalCloudRepo,
         private readonly IMeteoDwdPrecipRepo $precipRepo,
+        private readonly IMeteoDwdTempRepo $tempRepo,
         private readonly ITerrainService $terrainService
     ) {
     }
@@ -30,10 +34,14 @@ class CloudMeteoGramService implements ICloudMeteoGramService  {
             $singlePrecip = $this->precipRepo->readPrecip($forecastStep, [$request->pos]);
             $precipMmPerHour = count($singlePrecip) > 0 ? $singlePrecip[0] : 0;
 
+            $singleTemp = $this->tempRepo->readTemp($forecastStep, [$request->pos]);
+            $temp = count($singleTemp) > 0 ? new Temperature($singleTemp[0], TemperatureUnit::C) : null;
+
             $cloudMeteogramSteps[] = new CloudMeteogramStep(
                 $forecastStep->step,
                 $verticalCloudColumn->cloudLevels,
-                $precipMmPerHour
+                $precipMmPerHour,
+                $temp
             );
         }
 

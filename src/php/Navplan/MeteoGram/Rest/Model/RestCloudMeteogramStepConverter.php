@@ -2,6 +2,7 @@
 
 namespace Navplan\MeteoGram\Rest\Model;
 
+use Navplan\Common\Rest\Converter\RestTemperatureConverter;
 use Navplan\MeteoDwd\Rest\Model\RestVerticalCloudLevelConverter;
 use Navplan\MeteoGram\Domain\Model\CloudMeteogramStep;
 
@@ -10,6 +11,7 @@ class RestCloudMeteogramStepConverter {
     const ARG_FC_STEP = "step";
     const ARG_CLOUD_LEVELS = "cloudLevels";
     const ARG_PRECIP = "precipMmPerHour";
+    const ARG_TEMP = "temperature";
 
 
     /**
@@ -32,7 +34,8 @@ class RestCloudMeteogramStepConverter {
         return [
             self::ARG_FC_STEP => $cloudMeteogramStep->forecastStep,
             self::ARG_CLOUD_LEVELS => RestVerticalCloudLevelConverter::toRestList($cloudMeteogramStep->cloudLevels),
-            self::ARG_PRECIP => $cloudMeteogramStep->precipMmPerHour
+            self::ARG_PRECIP => $cloudMeteogramStep->precipMmPerHour,
+            self::ARG_TEMP => RestTemperatureConverter::toRest($cloudMeteogramStep->temperature)
         ];
     }
 }

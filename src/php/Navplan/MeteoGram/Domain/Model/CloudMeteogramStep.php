@@ -2,6 +2,7 @@
 
 namespace Navplan\MeteoGram\Domain\Model;
 
+use Navplan\Common\Domain\Model\Temperature;
 use Navplan\MeteoDwd\Domain\Model\VerticalCloudLevel;
 
 
@@ -12,7 +13,8 @@ class CloudMeteogramStep {
          * @var VerticalCloudLevel[]
          */
         public array $cloudLevels,
-        public int $precipMmPerHour
+        public int $precipMmPerHour,
+        public ?Temperature $temperature
     ) {
     }
 }
