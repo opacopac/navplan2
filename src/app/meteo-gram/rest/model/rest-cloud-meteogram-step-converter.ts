@@ -1,6 +1,7 @@
 import {RestVerticalCloudLevelConverter} from '../../../meteo-dwd/rest/model/rest-vertical-cloud-level-converter';
 import {IRestCloudMeteogramStep} from './i-rest-cloud-meteogram-step';
 import {CloudMeteogramStep} from '../../domain/model/cloud-meteogram-step';
+import {RestTemperatureConverter} from '../../../geo-physics/rest/model/rest-temperature-converter';
 
 
 export class RestCloudMeteogramStepConverter {
@@ -17,7 +18,8 @@ export class RestCloudMeteogramStepConverter {
         return new CloudMeteogramStep(
             cloudMeteogramStep.step,
             RestVerticalCloudLevelConverter.fromRestList(cloudMeteogramStep.cloudLevels),
-            cloudMeteogramStep.precipMmPerHour
+            cloudMeteogramStep.precipMmPerHour,
+            RestTemperatureConverter.fromRest(cloudMeteogramStep.temperature)
         );
     }
 }

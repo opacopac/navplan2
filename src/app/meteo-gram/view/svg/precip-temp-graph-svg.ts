@@ -7,6 +7,7 @@ import {ForecastRun} from '../../../meteo-dwd/domain/model/forecast-run';
 import {PrecipBarsSvg} from './precip-bars-svg';
 import {WidthGridFcStepsSvg} from './width-grid-fc-steps-svg';
 import {PrecipTempGridSvg} from './precip-temp-grid-svg';
+import {TemmpGraphSvg} from './temp-graph-svg';
 
 
 export class PrecipTempGraphSvg {
@@ -31,6 +32,7 @@ export class PrecipTempGraphSvg {
         );
 
         svg.appendChild(PrecipBarsSvg.create(cloudMeteogram.steps));
+        svg.appendChild(TemmpGraphSvg.create(cloudMeteogram.steps));
         svg.appendChild(PrecipTempGridSvg.create());
         svg.appendChild(WidthGridFcStepsSvg.create(fcRun, cloudMeteogram.steps, false));
 
