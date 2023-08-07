@@ -1,28 +1,29 @@
 import {SvgGroupElement} from '../../../common/svg/svg-group-element';
 import {CloudMeteogramStep} from '../../domain/model/cloud-meteogram-step';
 import {SvgRectangleElement} from '../../../common/svg/svg-rectangle-element';
+import {PrecipitationUnit} from '../../../geo-physics/domain/model/quantities/precipitation-unit';
 
 
 export class PrecipBarsSvg {
-    public static create(steps: CloudMeteogramStep[], maxPrecipMm: number): SVGElement {
+    public static create(steps: CloudMeteogramStep[], maxPrecip: number, precipUnit: PrecipitationUnit): SVGElement {
         const svg = SvgGroupElement.create();
         const stepWidthProc = 100 / steps.length;
         const barWidthProc = stepWidthProc / 1.5;
         const barStepOffsetX = (stepWidthProc - barWidthProc) / 2;
 
         for (let i = 0; i < steps.length; i++) {
-            const precipMmPerHour = steps[i].precipMmPerHour;
-            if (precipMmPerHour === 0) {
+            const precip = steps[i].precip.getValue(precipUnit);
+            if (precip === 0) {
                 continue;
             }
 
-            const barHeightProc = this.getPrecipBarHeight(precipMmPerHour, maxPrecipMm);
+            const barHeightProc = this.getPrecipBarHeight(precip, maxPrecip);
             const precipBar = SvgRectangleElement.create(
                 i * 100 / steps.length + barStepOffsetX + '%',
                 (100 - barHeightProc) + '%',
                 barWidthProc + '%',
                 barHeightProc + '%',
-                'fill:' + this.getPrecipColor(precipMmPerHour) + ';stroke-width:0'
+                'fill:' + this.getPrecipColor(precip) + ';stroke-width:0'
             );
             svg.appendChild(precipBar);
         }

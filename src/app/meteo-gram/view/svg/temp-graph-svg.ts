@@ -12,7 +12,7 @@ export class TemmpGraphSvg {
         let lastTemp: Temperature;
 
         for (let i = 0; i < steps.length; i++) {
-            const currentTemp = steps[i].temperature;
+            const currentTemp = steps[i].temp;
             if (lastTemp !== undefined) {
                 const line = SvgLineElement.create(
                     (i - 1) * stepWidthProc + '%',

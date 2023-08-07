@@ -6,6 +6,7 @@ import {WidthGridFcStepsSvg} from './width-grid-fc-steps-svg';
 import {PrecipTempGridSvg} from './precip-temp-grid-svg';
 import {TemmpGraphSvg} from './temp-graph-svg';
 import {TemperatureUnit} from '../../../geo-physics/domain/model/quantities/temperature-unit';
+import {PrecipitationUnit} from '../../../geo-physics/domain/model/quantities/precipitation-unit';
 
 
 export class PrecipTempGraphSvg {
@@ -21,13 +22,16 @@ export class PrecipTempGraphSvg {
             'none',
             'map-terrain-svg'
         );
+        // TODO
+        const tempUnit = TemperatureUnit.C;
+        const precipUnit = PrecipitationUnit.MM;
 
-        const minMaxTemp = this.calcMinMaxDisplayTemp(cloudMeteogram, TemperatureUnit.C); // TODO
-        const maxPrecipMm = this.calcMaxDisplayPrecip(cloudMeteogram);
+        const minMaxTemp = this.calcMinMaxDisplayTemp(cloudMeteogram, tempUnit);
+        const maxPrecipMm = this.calcMaxDisplayPrecip(cloudMeteogram, precipUnit);
 
-        svg.appendChild(TemmpGraphSvg.create(cloudMeteogram.steps, minMaxTemp, TemperatureUnit.C)); // TODO
-        svg.appendChild(PrecipBarsSvg.create(cloudMeteogram.steps, maxPrecipMm));
-        svg.appendChild(PrecipTempGridSvg.create(minMaxTemp, maxPrecipMm, TemperatureUnit.C)); // TODO
+        svg.appendChild(TemmpGraphSvg.create(cloudMeteogram.steps, minMaxTemp, tempUnit));
+        svg.appendChild(PrecipBarsSvg.create(cloudMeteogram.steps, maxPrecipMm, precipUnit));
+        svg.appendChild(PrecipTempGridSvg.create(minMaxTemp, maxPrecipMm, tempUnit));
         svg.appendChild(WidthGridFcStepsSvg.create(fcRun, cloudMeteogram.steps, false));
 
         return svg;
@@ -36,7 +40,7 @@ export class PrecipTempGraphSvg {
 
     private static calcMinMaxDisplayTemp(cloudMeteogram: CloudMeteogram, tempUnit: TemperatureUnit): [number, number] {
         const ascendingTemps = cloudMeteogram.steps
-            .map(step => step.temperature.getValue(tempUnit))
+            .map(step => step.temp.getValue(tempUnit))
             .sort((a, b) => a - b);
         const minTemp = ascendingTemps[0] - 2;
         const maxTemp = ascendingTemps[ascendingTemps.length - 1] + 2;
@@ -48,9 +52,9 @@ export class PrecipTempGraphSvg {
     }
 
 
-    private static calcMaxDisplayPrecip(cloudMeteogram: CloudMeteogram): number {
+    private static calcMaxDisplayPrecip(cloudMeteogram: CloudMeteogram, precipUnit: PrecipitationUnit): number {
         const maxPrecip = cloudMeteogram.steps
-            .map(step => step.precipMmPerHour)
+            .map(step => step.precip.getValue(precipUnit))
             .reduce((a, b) => Math.max(a, b));
 
         return Math.max(4,  Math.ceil(maxPrecip / 4) * 4);

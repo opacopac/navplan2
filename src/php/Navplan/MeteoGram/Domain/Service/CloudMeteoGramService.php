@@ -2,6 +2,7 @@
 
 namespace Navplan\MeteoGram\Domain\Service;
 
+use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\Temperature;
 use Navplan\Common\Domain\Model\TemperatureUnit;
 use Navplan\MeteoDwd\Domain\Model\ForecastStep;
@@ -32,7 +33,7 @@ class CloudMeteoGramService implements ICloudMeteoGramService  {
             $verticalCloudColumn = count($singleVerticalCloudColumn) > 0 ? $singleVerticalCloudColumn[0] : [];
 
             $singlePrecip = $this->precipRepo->readPrecip($forecastStep, [$request->pos]);
-            $precipMmPerHour = count($singlePrecip) > 0 ? $singlePrecip[0] : 0;
+            $precipPerHour = count($singlePrecip) > 0 ? $singlePrecip[0] : Length::fromM(0);
 
             $singleTemp = $this->tempRepo->readTemp($forecastStep, [$request->pos]);
             $temp = count($singleTemp) > 0 ? new Temperature($singleTemp[0], TemperatureUnit::C) : null;
@@ -40,7 +41,7 @@ class CloudMeteoGramService implements ICloudMeteoGramService  {
             $cloudMeteogramSteps[] = new CloudMeteogramStep(
                 $forecastStep->step,
                 $verticalCloudColumn->cloudLevels,
-                $precipMmPerHour,
+                $precipPerHour,
                 $temp
             );
         }
