@@ -1,29 +1,26 @@
 import {SvgLineElement} from '../../../common/svg/svg-line-element';
 import {SvgGroupElement} from '../../../common/svg/svg-group-element';
 import {SvgTextElement} from '../../../common/svg/svg-text-element';
+import {TemperatureUnit} from '../../../geo-physics/domain/model/quantities/temperature-unit';
 
 
 export class PrecipTempGridSvg {
     private static readonly GRID_STEP_WIDTH_PROC = 25;
-    private static readonly GRID_MIN_PRECIP_MM = 0;
-    private static readonly GRID_MAX_PRECIP_MM = 40;
-    private static readonly GRID_MIN_TEMP_C = 0;
-    private static readonly GRID_MAX_TEMP_C = 40;
 
 
-    public static create(): SVGGElement {
+    public static create(minMaxTemp: [number, number], maxPrecipMm: number, tempUnit: TemperatureUnit): SVGGElement {
         const svg = SvgGroupElement.create();
 
         for (let i = 0; i < 100; i += this.GRID_STEP_WIDTH_PROC) {
             const y = 100 - i;
             svg.appendChild(this.createGridLine(y, true));
 
-            const tempC = i / 100 * this.GRID_MAX_TEMP_C + this.GRID_MIN_TEMP_C;
+            const tempC = i / 100 * (minMaxTemp[1] - minMaxTemp[0]) + minMaxTemp[0];
             const tempLabelText = tempC + ' °C';
             const tempLabel = this.createTempLabel(y, tempLabelText);
             svg.appendChild(tempLabel);
 
-            const precipMm = i / 100 * this.GRID_MAX_PRECIP_MM + this.GRID_MIN_PRECIP_MM;
+            const precipMm = i / 100 * maxPrecipMm;
             const precipLabelText = precipMm + ' mm/h';
             const precipLabel = this.createPrecipLabel(y, precipLabelText);
             svg.appendChild(precipLabel);
@@ -54,6 +51,7 @@ export class PrecipTempGridSvg {
             heightProc.toString() + '%',
             'stroke:none; fill:red;',
             'start',
+            undefined,
             'Calibri,sans-serif',
             '10px',
             'normal',
@@ -69,6 +67,7 @@ export class PrecipTempGridSvg {
             heightProc.toString() + '%',
             'stroke:none; fill:blue;',
             'end',
+            undefined,
             'Calibri,sans-serif',
             '10px',
             'normal',

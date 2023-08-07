@@ -63,6 +63,7 @@ export class HeightGridSvg {
             elevationPercent.toString() + '%',
             'stroke:none; fill:green;',
             'start',
+            undefined,
             'Calibri,sans-serif',
             '10px',
             'normal',

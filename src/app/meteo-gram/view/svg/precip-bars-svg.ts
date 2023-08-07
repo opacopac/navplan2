@@ -4,7 +4,7 @@ import {SvgRectangleElement} from '../../../common/svg/svg-rectangle-element';
 
 
 export class PrecipBarsSvg {
-    public static create(steps: CloudMeteogramStep[]): SVGElement {
+    public static create(steps: CloudMeteogramStep[], maxPrecipMm: number): SVGElement {
         const svg = SvgGroupElement.create();
         const stepWidthProc = 100 / steps.length;
         const barWidthProc = stepWidthProc / 1.5;
@@ -16,7 +16,7 @@ export class PrecipBarsSvg {
                 continue;
             }
 
-            const barHeightProc = this.getPrecipBarHeight(precipMmPerHour);
+            const barHeightProc = this.getPrecipBarHeight(precipMmPerHour, maxPrecipMm);
             const precipBar = SvgRectangleElement.create(
                 i * 100 / steps.length + barStepOffsetX + '%',
                 (100 - barHeightProc) + '%',
@@ -31,9 +31,9 @@ export class PrecipBarsSvg {
     }
 
 
-    public static getPrecipBarHeight(precipMmPerHour: number): number {
+    public static getPrecipBarHeight(precipMmPerHour: number, maxPrecipMm: number): number {
         if (precipMmPerHour > 0) {
-            return Math.max(5, precipMmPerHour / 40 * 100);
+            return Math.max(5, precipMmPerHour / maxPrecipMm * 100);
         } else {
             return 0;
         }

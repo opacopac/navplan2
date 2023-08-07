@@ -85,6 +85,7 @@ export class WidthGridFcStepsSvg {
             '100%',
             'stroke:none; fill:green;',
             'start',
+            undefined,
             'Calibri,sans-serif',
             '10px',
             'normal',

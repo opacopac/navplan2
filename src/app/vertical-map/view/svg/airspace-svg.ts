@@ -171,6 +171,7 @@ export class AirspaceSvg {
             Math.round(y - height / 2).toString(),
             'stroke:none; fill:#FFFFFF;',
             'middle',
+            undefined,
             'Calibri,sans-serif',
             '14px',
             'bold',

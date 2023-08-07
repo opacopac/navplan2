@@ -8,6 +8,7 @@ export class SvgTextElement {
         y: string,
         style?: string,
         textAnchor?: string,
+        alignmentBaseline?: string,
         fontFamily?: string,
         fontSize?: string,
         fontWeight?: string,
@@ -23,6 +24,9 @@ export class SvgTextElement {
         }
         if (textAnchor !== undefined) {
             element.setAttribute('text-anchor', textAnchor);
+        }
+        if (alignmentBaseline !== undefined) {
+            element.setAttribute('alignment-baseline', alignmentBaseline);
         }
         if (fontFamily !== undefined) {
             element.setAttribute('font-family', fontFamily);
