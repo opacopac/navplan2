@@ -83,7 +83,7 @@ export class WidthGridFcStepsSvg {
             text,
             widthPercent.toString() + '%',
             '100%',
-            'stroke:none; fill:green;',
+            'fill:green; stroke:white; stroke-width: 1px; paint-order: stroke;',
             'start',
             undefined,
             'Calibri,sans-serif',
