@@ -6,4 +6,6 @@
     border-top-style: none;
     border-width: 1px;
     border-color: green;
+    background: whitesmoke; /* For browsers that do not support gradients */
+    background: linear-gradient(lightgray, whitesmoke); /* Standard syntax */
 }

@@ -4,7 +4,7 @@ import {ForecastRun} from '../../../meteo-dwd/domain/model/forecast-run';
 import {PrecipBarsSvg} from './precip-bars-svg';
 import {WidthGridFcStepsSvg} from './width-grid-fc-steps-svg';
 import {PrecipTempGridSvg} from './precip-temp-grid-svg';
-import {TemmpGraphSvg} from './temp-graph-svg';
+import {TempLineSvg} from './temp-line-svg';
 import {TemperatureUnit} from '../../../geo-physics/domain/model/quantities/temperature-unit';
 import {PrecipitationUnit} from '../../../geo-physics/domain/model/quantities/precipitation-unit';
 
@@ -29,7 +29,7 @@ export class PrecipTempGraphSvg {
         const minMaxTemp = this.calcMinMaxDisplayTemp(cloudMeteogram, tempUnit);
         const maxPrecipMm = this.calcMaxDisplayPrecip(cloudMeteogram, precipUnit);
 
-        svg.appendChild(TemmpGraphSvg.create(cloudMeteogram.steps, minMaxTemp, tempUnit));
+        svg.appendChild(TempLineSvg.create(cloudMeteogram.steps, minMaxTemp, tempUnit));
         svg.appendChild(PrecipBarsSvg.create(cloudMeteogram.steps, maxPrecipMm, precipUnit));
         svg.appendChild(PrecipTempGridSvg.create(minMaxTemp, maxPrecipMm, tempUnit));
         svg.appendChild(WidthGridFcStepsSvg.create(fcRun, cloudMeteogram.steps, false));

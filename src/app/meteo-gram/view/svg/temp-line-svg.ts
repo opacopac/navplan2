@@ -5,7 +5,7 @@ import {TemperatureUnit} from '../../../geo-physics/domain/model/quantities/temp
 import {Temperature} from '../../../geo-physics/domain/model/quantities/temperature';
 
 
-export class TemmpGraphSvg {
+export class TempLineSvg {
     public static create(steps: CloudMeteogramStep[], minMaxTemp: [number, number], tempUnit: TemperatureUnit): SVGElement {
         const svg = SvgGroupElement.create();
         const stepWidthProc = 100 / steps.length;
@@ -15,8 +15,8 @@ export class TemmpGraphSvg {
             const currentTemp = steps[i].temp;
             if (lastTemp !== undefined) {
                 const line = SvgLineElement.create(
-                    (i - 1) * stepWidthProc + '%',
-                    i * stepWidthProc + '%',
+                    (i - 1) * stepWidthProc + stepWidthProc / 2 + '%',
+                    i * stepWidthProc + stepWidthProc / 2 + '%',
                     this.calcY(lastTemp.getValue(tempUnit), minMaxTemp) + '%',
                     this.calcY(currentTemp.getValue(tempUnit), minMaxTemp) + '%',
                     'stroke:red; stroke-width:2px;',

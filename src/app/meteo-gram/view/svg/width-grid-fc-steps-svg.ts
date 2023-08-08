@@ -16,32 +16,32 @@ export class WidthGridFcStepsSvg {
         const now = new Date();
 
         for (let i = 0; i < steps.length; i++) {
-            const widthPercent = 100 * i / steps.length;
+            const xPercent = 100 * i / steps.length + stepWidthPercent / 2;
             const stepTime = fcRun.getStepDateTime(steps[i].forecastStep);
 
             if (this.GRID_MAJOR_STEP_H.includes(stepTime.getHours())) {
-                const gridLine = this.createGridLine(widthPercent, false);
+                const gridLine = this.createGridLine(xPercent, false);
                 svg.appendChild(gridLine);
 
                 if (showLabels) {
                     const dateTxt = stepTime.toLocaleDateString();
-                    const label = this.createGridLabel(widthPercent, dateTxt);
+                    const label = this.createGridLabel(xPercent, dateTxt);
                     svg.appendChild(label);
                 }
             } else if (this.GRID_MINOR_STEP_H.includes(stepTime.getHours())) {
-                const gridLine = this.createGridLine(widthPercent, true);
+                const gridLine = this.createGridLine(xPercent, true);
                 svg.appendChild(gridLine);
 
                 if (showLabels) {
                     const hourText = stepTime.getHours().toString() + ':00';
-                    const label = this.createGridLabel(widthPercent, hourText);
+                    const label = this.createGridLabel(xPercent, hourText);
                     svg.appendChild(label);
                 }
             }
 
             if (stepTime.getDate() === now.getDate() && stepTime.getHours() === now.getHours()) {
                 const minuteOffsetPercent = stepWidthPercent * (now.getMinutes() / 60);
-                const currentTimeLine = this.createCurrentTimeLine(widthPercent + minuteOffsetPercent);
+                const currentTimeLine = this.createCurrentTimeLine(xPercent + minuteOffsetPercent);
                 svg.appendChild(currentTimeLine);
             }
         }
@@ -83,7 +83,7 @@ export class WidthGridFcStepsSvg {
             .setText(text)
             .setX(widthPercent.toString() + '%')
             .setY('100%')
-            .setStyle('fill:green; stroke:white; stroke-width: 1px; paint-order: stroke;')
+            .setStyle('fill:green; stroke:white; stroke-width: 2px; paint-order: stroke;')
             .setTextAnchor('start')
             .setFontFamily('Calibri,sans-serif')
             .setFontSize('10px')

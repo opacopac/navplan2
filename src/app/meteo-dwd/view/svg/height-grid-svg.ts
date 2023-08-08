@@ -61,7 +61,7 @@ export class HeightGridSvg {
             .setText(text)
             .setX('5')
             .setY(elevationPercent.toString() + '%')
-            .setStyle('fill:green; stroke:white; stroke-width: 1px; paint-order: stroke;')
+            .setStyle('fill:green; stroke:white; stroke-width: 2px; paint-order: stroke;')
             .setTextAnchor('start')
             .setFontFamily('Calibri,sans-serif')
             .setFontSize('10px')

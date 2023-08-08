@@ -36,7 +36,7 @@ export class PrecipTempGridSvg {
             '100%',
             elevationPercent.toString() + '%',
             elevationPercent.toString() + '%',
-            'stroke:green; stroke-width:1px;',
+            'stroke:gray; stroke-width:1px;',
             'non-scaling-stroke',
             'crispEdges',
             isDashed ? '1, 2' : undefined
