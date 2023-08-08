@@ -1,7 +1,7 @@
 import {SvgGroupElement} from '../../../common/svg/svg-group-element';
 import {SvgLineElement} from '../../../common/svg/svg-line-element';
-import {SvgCircleElement} from '../../../common/svg/svg-circle-element';
-import {SvgTextElement} from '../../../common/svg/svg-text-element';
+import {SvgCircleElementBuilder} from '../../../common/svg/svg-circle-element-builder';
+import {SvgTextElementBuilder} from '../../../common/svg/svg-text-element-builder';
 import {Waypoint} from '../../../flightroute/domain/model/waypoint';
 import {ImageDimensionsSvg} from '../../../common/svg/image-dimensions-svg';
 import {VerticalMapWaypointStep} from '../../domain/model/vertical-map-waypoint-step';
@@ -57,13 +57,13 @@ export class FlightRouteSvg {
         waypoint: Waypoint,
         clickCallback: (Waypoint) => void
     ) {
-        const dot = SvgCircleElement.create(
-            cxProc.toString() + '%',
-            cy.toString(),
-            '6',
-            'stroke:#FF00FF; stroke-width:0px; fill:rgba(255, 0, 255, 1.0); cursor: pointer',
-            'crispEdges'
-        );
+        const dot = SvgCircleElementBuilder.builder()
+            .setCx(cxProc.toString() + '%')
+            .setCy(cy.toString())
+            .setR('6')
+            .setStyle('stroke:#FF00FF; stroke-width:0px; fill:rgba(255, 0, 255, 1.0); cursor: pointer')
+            .setShapeRendering('crispEdges')
+            .build();
 
         if (clickCallback) {
             dot.addEventListener('click', function() { clickCallback(waypoint); });
@@ -117,34 +117,31 @@ export class FlightRouteSvg {
         }
 
         // glow around label
-        svg.appendChild(
-            SvgTextElement.create(
-                waypoint.checkpoint,
-                xProc.toString() + '%',
-                y.toString(),
-                'stroke:#FFFFFF; stroke-width:5px; fill:#FFFFFF; cursor: pointer',
-                textAnchor,
-                undefined,
-                'Calibri,sans-serif',
-                '15px',
-                'bold',
-                'translate(' + transformX + ', -15)'
-            )
+        svg.appendChild(SvgTextElementBuilder.builder()
+            .setText(waypoint.checkpoint)
+            .setX(xProc.toString() + '%')
+            .setY(y.toString())
+            .setStyle('stroke:#FFFFFF; stroke-width:5px; fill:#FFFFFF; cursor: pointer')
+            .setTextAnchor(textAnchor)
+            .setFontFamily('Calibri,sans-serif')
+            .setFontSize('15px')
+            .setFontWeight('bold')
+            .setTransform('translate(' + transformX + ', -15)')
+            .build()
         );
 
         // label
-        const label = SvgTextElement.create(
-            waypoint.checkpoint,
-            xProc.toString() + '%',
-            y.toString(),
-            'stroke:none; fill:#660066; cursor: pointer',
-            textAnchor,
-            undefined,
-            'Calibri,sans-serif',
-            '15px',
-            'bold',
-            'translate(' + transformX + ', -15)'
-        );
+        const label = SvgTextElementBuilder.builder()
+            .setText(waypoint.checkpoint)
+            .setX(xProc.toString() + '%')
+            .setY(y.toString())
+            .setStyle('stroke:none; fill:#660066; cursor: pointer')
+            .setTextAnchor(textAnchor)
+            .setFontFamily('Calibri,sans-serif')
+            .setFontSize('15px')
+            .setFontWeight('bold')
+            .setTransform('translate(' + transformX + ', -15)')
+            .build();
 
         if (clickCallback) {
             label.addEventListener('click', function() { clickCallback(waypoint); });

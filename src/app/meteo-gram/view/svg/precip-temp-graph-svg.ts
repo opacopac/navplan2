@@ -42,11 +42,11 @@ export class PrecipTempGraphSvg {
         const ascendingTemps = cloudMeteogram.steps
             .map(step => step.temp.getValue(tempUnit))
             .sort((a, b) => a - b);
-        const minTemp = ascendingTemps[0] - 2;
-        const maxTemp = ascendingTemps[ascendingTemps.length - 1] + 2;
-        const tempStepDisplay = Math.ceil((maxTemp - minTemp) / 4); // TODO
-        const minTempDisplay = Math.floor(minTemp);
-        const maxTempDisplay = minTempDisplay + 4 * tempStepDisplay; // TODO
+        const minTemp = ascendingTemps[0];
+        const maxTemp = ascendingTemps[ascendingTemps.length - 1];
+        const tempStepDisplay = tempUnit === TemperatureUnit.C ? 5 : 10; // TODO
+        const minTempDisplay = Math.floor(minTemp / tempStepDisplay) * tempStepDisplay;
+        const maxTempDisplay = minTempDisplay + 4 * tempStepDisplay;
 
         return [minTempDisplay, maxTempDisplay];
     }

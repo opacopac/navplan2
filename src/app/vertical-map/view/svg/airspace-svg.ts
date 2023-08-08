@@ -1,5 +1,5 @@
 import {SvgRectangleElement} from '../../../common/svg/svg-rectangle-element';
-import {SvgTextElement} from '../../../common/svg/svg-text-element';
+import {SvgTextElementBuilder} from '../../../common/svg/svg-text-element-builder';
 import {SvgGroupElement} from '../../../common/svg/svg-group-element';
 import {SvgPolygonElement} from '../../../common/svg/svg-polygon-element';
 import {SvgTitleElement} from '../../../common/svg/svg-title-element';
@@ -165,17 +165,17 @@ export class AirspaceSvg {
             'fill:' + color + ';stroke-width:0'
         ));
 
-        svg.appendChild(SvgTextElement.create(
-            text,
-            Math.round(x + width / 2).toString(),
-            Math.round(y - height / 2).toString(),
-            'stroke:none; fill:#FFFFFF;',
-            'middle',
-            undefined,
-            'Calibri,sans-serif',
-            '14px',
-            'bold',
-            'translate(0 4)'
-        ));
+        svg.appendChild(SvgTextElementBuilder.builder()
+            .setText(text)
+            .setX(Math.round(x + width / 2).toString())
+            .setY(Math.round(y - height / 2).toString())
+            .setStyle('stroke:none; fill:#FFFFFF;')
+            .setTextAnchor('middle')
+            .setFontFamily('Calibri,sans-serif')
+            .setFontSize('14px')
+            .setFontWeight('bold')
+            .setTransform('translate(0 4)')
+            .build()
+        );
     }
 }

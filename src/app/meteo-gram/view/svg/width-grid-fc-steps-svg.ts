@@ -1,6 +1,6 @@
 import {SvgLineElement} from '../../../common/svg/svg-line-element';
 import {SvgGroupElement} from '../../../common/svg/svg-group-element';
-import {SvgTextElement} from '../../../common/svg/svg-text-element';
+import {SvgTextElementBuilder} from '../../../common/svg/svg-text-element-builder';
 import {ForecastRun} from '../../../meteo-dwd/domain/model/forecast-run';
 import {CloudMeteogramStep} from '../../domain/model/cloud-meteogram-step';
 
@@ -79,17 +79,16 @@ export class WidthGridFcStepsSvg {
 
 
     private static createGridLabel(widthPercent: number, text): SVGTextElement {
-        return SvgTextElement.create(
-            text,
-            widthPercent.toString() + '%',
-            '100%',
-            'fill:green; stroke:white; stroke-width: 1px; paint-order: stroke;',
-            'start',
-            undefined,
-            'Calibri,sans-serif',
-            '10px',
-            'normal',
-            'translate(3, -3)'
-        );
+        return SvgTextElementBuilder.builder()
+            .setText(text)
+            .setX(widthPercent.toString() + '%')
+            .setY('100%')
+            .setStyle('fill:green; stroke:white; stroke-width: 1px; paint-order: stroke;')
+            .setTextAnchor('start')
+            .setFontFamily('Calibri,sans-serif')
+            .setFontSize('10px')
+            .setFontWeight('normal')
+            .setTransform('translate(3, -3)')
+            .build();
     }
 }

@@ -1,6 +1,6 @@
 import {SvgLineElement} from '../../../common/svg/svg-line-element';
 import {SvgGroupElement} from '../../../common/svg/svg-group-element';
-import {SvgTextElement} from '../../../common/svg/svg-text-element';
+import {SvgTextElementBuilder} from '../../../common/svg/svg-text-element-builder';
 import {TemperatureUnit} from '../../../geo-physics/domain/model/quantities/temperature-unit';
 
 
@@ -45,33 +45,31 @@ export class PrecipTempGridSvg {
 
 
     private static createTempLabel(heightProc, text): SVGTextElement {
-        return SvgTextElement.create(
-            text,
-            '5',
-            heightProc.toString() + '%',
-            'fill:red; stroke:white; stroke-width: 1px; paint-order: stroke;',
-            'start',
-            undefined,
-            'Calibri,sans-serif',
-            '10px',
-            'normal',
-            'translate(3, -3)'
-        );
+        return SvgTextElementBuilder.builder()
+            .setText(text)
+            .setX('5')
+            .setY(heightProc.toString() + '%')
+            .setStyle('fill:red; stroke:white; stroke-width: 2px; paint-order: stroke;')
+            .setTextAnchor('start')
+            .setFontFamily('Calibri,sans-serif')
+            .setFontSize('10px')
+            .setFontWeight('normal')
+            .setTransform('translate(0, -3)')
+            .build();
     }
 
 
     private static createPrecipLabel(heightProc, text): SVGTextElement {
-        return SvgTextElement.create(
-            text,
-            '100%',
-            heightProc.toString() + '%',
-            'fill:blue; stroke:white; stroke-width: 1px; paint-order: stroke;',
-            'end',
-            undefined,
-            'Calibri,sans-serif',
-            '10px',
-            'normal',
-            'translate(-8, -3)'
-        );
+        return SvgTextElementBuilder.builder()
+            .setText(text)
+            .setX('100%')
+            .setY(heightProc.toString() + '%')
+            .setStyle('fill:blue; stroke:white; stroke-width: 2px; paint-order: stroke;')
+            .setTextAnchor('end')
+            .setFontFamily('Calibri,sans-serif')
+            .setFontSize('10px')
+            .setFontWeight('normal')
+            .setTransform('translate(-5, -3)')
+            .build();
     }
 }

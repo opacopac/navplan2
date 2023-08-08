@@ -1,7 +1,7 @@
 import {SvgLineElement} from '../../../common/svg/svg-line-element';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {SvgGroupElement} from '../../../common/svg/svg-group-element';
-import {SvgTextElement} from '../../../common/svg/svg-text-element';
+import {SvgTextElementBuilder} from '../../../common/svg/svg-text-element-builder';
 
 
 export class HeightGridSvg {
@@ -57,17 +57,16 @@ export class HeightGridSvg {
 
 
     private static createGridLabel(elevationPercent, text): SVGTextElement {
-        return SvgTextElement.create(
-            text,
-            '5',
-            elevationPercent.toString() + '%',
-            'fill:green; stroke:white; stroke-width: 1px; paint-order: stroke;',
-            'start',
-            undefined,
-            'Calibri,sans-serif',
-            '10px',
-            'normal',
-            'translate(3, -3)'
-        );
+        return SvgTextElementBuilder.builder()
+            .setText(text)
+            .setX('5')
+            .setY(elevationPercent.toString() + '%')
+            .setStyle('fill:green; stroke:white; stroke-width: 1px; paint-order: stroke;')
+            .setTextAnchor('start')
+            .setFontFamily('Calibri,sans-serif')
+            .setFontSize('10px')
+            .setFontWeight('normal')
+            .setTransform('translate(0, -3)')
+            .build();
     }
 }
