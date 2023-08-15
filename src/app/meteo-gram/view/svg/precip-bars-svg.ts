@@ -2,6 +2,7 @@ import {SvgGroupElement} from '../../../common/svg/svg-group-element';
 import {CloudMeteogramStep} from '../../domain/model/cloud-meteogram-step';
 import {SvgRectangleElement} from '../../../common/svg/svg-rectangle-element';
 import {PrecipitationUnit} from '../../../geo-physics/domain/model/quantities/precipitation-unit';
+import {SvgTitleElement} from '../../../common/svg/svg-title-element';
 
 
 export class PrecipBarsSvg {
@@ -26,6 +27,10 @@ export class PrecipBarsSvg {
                 'fill:' + this.getPrecipColor(precip) + ';stroke-width:0'
             );
             svg.appendChild(precipBar);
+
+            const unitText = precipUnit === PrecipitationUnit.MM ? 'mm/h' : 'in/h';
+            const title = SvgTitleElement.create(precip.toFixed(1) + unitText);
+            precipBar.appendChild(title);
         }
 
         return svg;
@@ -44,9 +49,9 @@ export class PrecipBarsSvg {
     public static getPrecipColor(precipMmPerHour: number): string {
         if (precipMmPerHour < 0.1) {
             return 'rgba(0, 0, 0, 0.0)'; // transparent
-        } else if (precipMmPerHour <= 1) {
+        } else if (precipMmPerHour < 1.0) {
             return 'rgba(0, 192, 255, 1.0)'; // light blue
-        } else if (precipMmPerHour <= 40) {
+        } else if (precipMmPerHour < 40.0) {
             return 'rgba(0, 0, 255, 1.0)'; // blue
         } else {
             return 'rgba(172, 0, 219, 1.0)'; // purple

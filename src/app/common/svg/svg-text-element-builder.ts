@@ -7,6 +7,7 @@ export class SvgTextElementBuilder {
     private y: string;
     private style: string;
     private textAnchor: string;
+    private dominantBaseline: string;
     private fontFamily: string;
     private fontSize: string;
     private fontWeight: string;
@@ -29,6 +30,9 @@ export class SvgTextElementBuilder {
         }
         if (this.textAnchor !== undefined) {
             element.setAttribute('text-anchor', this.textAnchor);
+        }
+        if (this.dominantBaseline !== undefined) {
+            element.setAttribute('dominant-baseline', this.dominantBaseline);
         }
         if (this.fontFamily !== undefined) {
             element.setAttribute('font-family', this.fontFamily);
@@ -73,6 +77,12 @@ export class SvgTextElementBuilder {
 
     public setTextAnchor(textAnchor: string): SvgTextElementBuilder {
         this.textAnchor = textAnchor;
+        return this;
+    }
+
+
+    public setDominantBaseline(dominantBaseline: string): SvgTextElementBuilder {
+        this.dominantBaseline = dominantBaseline;
         return this;
     }
 

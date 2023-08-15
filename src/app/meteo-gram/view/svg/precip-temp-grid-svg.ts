@@ -51,10 +51,10 @@ export class PrecipTempGridSvg {
             .setY(heightProc.toString() + '%')
             .setStyle('fill:red; stroke:white; stroke-width: 2px; paint-order: stroke;')
             .setTextAnchor('start')
+            .setTransform('translate(0, -2)')
             .setFontFamily('Calibri,sans-serif')
             .setFontSize('10px')
             .setFontWeight('normal')
-            .setTransform('translate(0, -3)')
             .build();
     }
 
@@ -69,7 +69,7 @@ export class PrecipTempGridSvg {
             .setFontFamily('Calibri,sans-serif')
             .setFontSize('10px')
             .setFontWeight('normal')
-            .setTransform('translate(-5, -3)')
+            .setTransform('translate(-5, -2)')
             .build();
     }
 }

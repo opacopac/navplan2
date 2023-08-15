@@ -15,7 +15,7 @@ export class HeightGridSvg {
         const showMinorLabels = maxelevation_ft / this.GRID_ELEVATION_MAIN_STEP_FT < 2.5;
 
         // major lines
-        for (let i = 0; i <= maxelevation_ft; i += this.GRID_ELEVATION_MAIN_STEP_FT) {
+        for (let i = 0; i < maxelevation_ft; i += this.GRID_ELEVATION_MAIN_STEP_FT) {
             const elevationPercent = 100 * (1 - i / maxelevation_ft);
             // const labelText = (i === 0) ? i + ' ft (AMSL)' : i + ' ft';
             const labelText = i + ' ft';
@@ -25,7 +25,7 @@ export class HeightGridSvg {
         }
 
         // minor lines
-        for (let i = 0; i <= maxelevation_ft; i += this.GRID_ELEVATION_MINOR_STEP_FT) {
+        for (let i = this.GRID_ELEVATION_MINOR_STEP_FT; i < maxelevation_ft; i += this.GRID_ELEVATION_MINOR_STEP_FT) {
             if (i % this.GRID_ELEVATION_MAIN_STEP_FT === 0) {
                 continue;
             }
