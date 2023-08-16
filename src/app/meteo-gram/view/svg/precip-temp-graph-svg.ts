@@ -7,6 +7,7 @@ import {PrecipTempGridSvg} from './precip-temp-grid-svg';
 import {TempLineSvg} from './temp-line-svg';
 import {TemperatureUnit} from '../../../geo-physics/domain/model/quantities/temperature-unit';
 import {PrecipitationUnit} from '../../../geo-physics/domain/model/quantities/precipitation-unit';
+import {CloudMeteogramStep} from '../../domain/model/cloud-meteogram-step';
 
 
 export class PrecipTempGraphSvg {
@@ -26,7 +27,7 @@ export class PrecipTempGraphSvg {
         const tempUnit = TemperatureUnit.C;
         const precipUnit = PrecipitationUnit.MM;
 
-        const minMaxTemp = this.calcMinMaxDisplayTemp(cloudMeteogram, tempUnit);
+        const minMaxTemp = this.calcMinMaxDisplayTemp(cloudMeteogram.steps, tempUnit);
         const maxPrecipMm = this.calcMaxDisplayPrecip(cloudMeteogram, precipUnit);
 
         svg.appendChild(TempLineSvg.create(cloudMeteogram.steps, minMaxTemp, tempUnit));
@@ -38,8 +39,8 @@ export class PrecipTempGraphSvg {
     }
 
 
-    private static calcMinMaxDisplayTemp(cloudMeteogram: CloudMeteogram, tempUnit: TemperatureUnit): [number, number] {
-        const ascendingTemps = cloudMeteogram.steps
+    private static calcMinMaxDisplayTemp(cloudMeteogramSteps: CloudMeteogramStep[], tempUnit: TemperatureUnit): [number, number] {
+        const ascendingTemps = cloudMeteogramSteps
             .map(step => step.temp.getValue(tempUnit))
             .sort((a, b) => a - b);
         const minTemp = ascendingTemps[0];

@@ -30,7 +30,7 @@
     "@ngrx/store": "^13.2.0",
     "@ngrx/store-devtools": "^13.2.0",
     "codelyzer": "^6.0.2",
-    "ol": "^7.3.0",
+    "ol": "^7.5.1",
     "ol-mapbox-style": "^10.3.4",
     "postcss": "^8.4.19",
     "rxjs": "^7.8.0",
