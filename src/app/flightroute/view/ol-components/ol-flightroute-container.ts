@@ -8,7 +8,7 @@ import {Store} from '@ngrx/store';
 import {Angle} from '../../../geo-physics/domain/model/quantities/angle';
 import {WaypointActions} from '../../state/ngrx/waypoints.actions';
 import {OlVectorLayer} from '../../../base-map/view/ol-model/ol-vector-layer';
-import {OlMap} from '../../../base-map/view/ol-model/ol-map';
+import {IBaseMap} from '../../../base-map/domain/model/i-base-map';
 
 
 export class OlFlightrouteContainer {
@@ -20,14 +20,14 @@ export class OlFlightrouteContainer {
     constructor(
         private readonly flightrouteLayer: OlVectorLayer,
         flightroute$: Observable<Flightroute>,
-        private olMap: OlMap,
+        private baseMap: IBaseMap,
         snapToLayers: OlVectorLayer[],
         private readonly store: Store<any>,
         mapRotation: Angle
     ) {
         this.flightrouteSubscription = flightroute$.subscribe(flightroute => {
             this.destroyFeatures();
-            this.drawFeatures(flightroute, olMap, snapToLayers, mapRotation);
+            this.drawFeatures(flightroute, baseMap, snapToLayers, mapRotation);
             // re-subscribe to route line events
             this.routeLineModifiedSubscription = this.olRouteLine.onRouteLineModifiedEnd
                 .subscribe(routeLineMod => this.emitRouteLineModifiedAction(routeLineMod));
@@ -42,10 +42,10 @@ export class OlFlightrouteContainer {
     }
 
 
-    private drawFeatures(flightroute: Flightroute, olMap: OlMap, snapToLayers: OlVectorLayer[], mapRotation: Angle) {
+    private drawFeatures(flightroute: Flightroute, baseMap: IBaseMap, snapToLayers: OlVectorLayer[], mapRotation: Angle) {
         if (flightroute) {
             // route
-            this.olRouteLine = new OlRouteLine(flightroute, olMap, this.flightrouteLayer, snapToLayers); // TODO
+            this.olRouteLine = new OlRouteLine(flightroute, baseMap, this.flightrouteLayer, snapToLayers); // TODO
 
             // route to alternate
             OlAlternateLine.draw(flightroute, this.flightrouteLayer);
@@ -87,13 +87,13 @@ export class OlFlightrouteContainer {
             this.store.dispatch(WaypointActions.insertByPos({
                 newPosition: routeLineMod.newPos,
                 index: routeLineMod.index,
-                zoom: this.olMap.map.getView().getZoom() // TODO
+                zoom: this.baseMap.getZoom()
             }));
         } else {
             this.store.dispatch(WaypointActions.replaceByPos({
                 newPosition: routeLineMod.newPos,
                 index: routeLineMod.index,
-                zoom: this.olMap.map.getView().getZoom() // TODO
+                zoom: this.baseMap.getZoom()
             }));
         }
     }

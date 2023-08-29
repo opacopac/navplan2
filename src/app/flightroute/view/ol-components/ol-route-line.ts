@@ -9,6 +9,7 @@ import {ModifyEvent} from 'ol/interaction/Modify';
 import {OlVectorLayer} from '../../../base-map/view/ol-model/ol-vector-layer';
 import {OlFeature} from '../../../base-map/view/ol-model/ol-feature';
 import {OlGeometry} from '../../../base-map/view/ol-model/ol-geometry';
+import {IBaseMap} from '../../../base-map/domain/model/i-base-map';
 import {OlMap} from '../../../base-map/view/ol-model/ol-map';
 
 
@@ -31,7 +32,7 @@ export class OlRouteLine {
 
     public constructor(
         private readonly flightroute: Flightroute,
-        private readonly olMap: OlMap,
+        private readonly baseMap: IBaseMap,
         layer: OlVectorLayer,
         snapToLayers: OlVectorLayer[]
     ) {
@@ -51,7 +52,8 @@ export class OlRouteLine {
         this.lineFeature.feature.getGeometry().un('change', this.onModifyChange.bind(this));
         this.lineFeature.feature.getGeometry().un('modifyend', this.onModifyEnd.bind(this));*/
 
-        this.olMap.map.removeInteraction(this.modifyInteraction); // TODO
+        (this.baseMap as OlMap).map.removeInteraction(this.modifyInteraction); // TODO
+
         this.removeSnapInteractions();
     }
 
@@ -63,7 +65,7 @@ export class OlRouteLine {
             }, // no delete condition
             features: new Collection([this.lineFeature.feature])
         });
-        this.olMap.map.addInteraction(this.modifyInteraction); // TODO
+        (this.baseMap as OlMap).map.addInteraction(this.modifyInteraction); // TODO
 
         // add listeners
         this.modifyInteraction.on('modifystart', (event) => {
@@ -89,14 +91,14 @@ export class OlRouteLine {
                 edge: true,
             });
             this.snapInteractions.push(snapInt);
-            this.olMap.map.addInteraction(snapInt); // TODO
+            (this.baseMap as OlMap).map.addInteraction(snapInt); // TODO
         });
     }
 
 
     private removeSnapInteractions() {
         this.snapInteractions.forEach((interaction) => {
-            this.olMap.map.removeInteraction(interaction); // TODO
+            (this.baseMap as OlMap).map.removeInteraction(interaction); // TODO
         });
     }
 

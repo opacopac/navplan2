@@ -26,9 +26,10 @@ import {ArrayHelper} from '../../../system/domain/service/array/array-helper';
 import ImageLayer from 'ol/layer/Image';
 import Projection from 'ol/proj/Projection';
 import {OlLayer} from './ol-layer';
+import {IBaseMap} from '../../domain/model/i-base-map';
 
 
-export class OlMap {
+export class OlMap implements IBaseMap {
     private static readonly DEFAULT_BASE_LAYER = MapBaseLayerType.OPENTOPOMAP;
     private static readonly HIT_TOLERANCE_PIXELS = 10;
     private static readonly IMAGE_LAYER_FIRST_INDEX = 1;
@@ -41,7 +42,7 @@ export class OlMap {
     private readonly _mapMove$ = new Subject<void>();
 
 
-    public get mapClick(): Observable<[Position2d, DataItem]> {
+    public get mapClick$(): Observable<[Position2d, DataItem]> {
         return this._mapClick$;
     }
 
@@ -85,14 +86,14 @@ export class OlMap {
     }
 
 
-    private addInteractions() {
+    private addInteractions(): void {
         this.map.addInteraction(
             new MouseWheelZoom({ constrainResolution: true })
         );
     }
 
 
-    private initMapEvents() {
+    private initMapEvents(): void {
         this.map.on('singleclick', this.onSingleClick.bind(this));
         this.map.on('pointermove', this.onPointerMove.bind(this));
         this.map.on('moveend', this.onMoveEnd.bind(this));
@@ -100,7 +101,7 @@ export class OlMap {
     }
 
 
-    public uninit() {
+    public uninit(): void {
         this.map.un('singleclick', this.onSingleClick.bind(this));
         this.map.un('pointermove', this.onPointerMove.bind(this));
         this.map.un('moveend', this.onMoveEnd.bind(this));
@@ -144,17 +145,17 @@ export class OlMap {
 
     // region map event handler
 
-    private onMoveEnd(event: MapEvent) {
+    private onMoveEnd(event: MapEvent): void {
         this._mapMove$.next();
     }
 
 
-    private onMapRotation(event: ObjectEvent) {
+    private onMapRotation(event: ObjectEvent): void {
         this._mapMove$.next();
     }
 
 
-    private onSingleClick(event: MapBrowserEvent<UIEvent>) {
+    private onSingleClick(event: MapBrowserEvent<UIEvent>): void {
         const dataItem = this.getDataItemAtPixel(event.pixel, true);
         const eventPos = event.coordinate;
         const clickPos = OlGeometry.getPosFromMercator([eventPos[0], eventPos[1]]);
@@ -163,7 +164,7 @@ export class OlMap {
     }
 
 
-    private onPointerMove(event: MapBrowserEvent<UIEvent>) {
+    private onPointerMove(event: MapBrowserEvent<UIEvent>): void {
         if (event.dragging) {
             return;
         }
@@ -222,7 +223,7 @@ export class OlMap {
 
     // region image
 
-    public showImage(showImageState: ShowImageState) {
+    public showImage(showImageState: ShowImageState): void {
         if (!showImageState) {
             return;
         }
@@ -279,7 +280,7 @@ export class OlMap {
     }
 
 
-    private fitInView(extent: Extent2d) {
+    private fitInView(extent: Extent2d): void {
         const oversizeExtent = extent.getOversizeExtent(1.1);
         this.map.getView().fit(OlGeometry.getExtentAsMercator(oversizeExtent));
     }
@@ -289,7 +290,7 @@ export class OlMap {
 
     // region base layer
 
-    public changeBaseLayer(baseLayerType: MapBaseLayerType) {
+    public changeBaseLayer(baseLayerType: MapBaseLayerType): void {
         if (baseLayerType >= 0 && this.map && this.map.getLayers().getLength() > 0) {
             this.baseLayer = OlBaselayerFactory.create(baseLayerType);
 

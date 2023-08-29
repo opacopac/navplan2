@@ -12,6 +12,7 @@ import {Subscription} from 'rxjs/internal/Subscription';
 import {ShowImageState} from '../../../state/state-model/show-image-state';
 import {OlMap} from '../../ol-model/ol-map';
 import {OlLayer} from '../../ol-model/ol-layer';
+import {IBaseMap} from '../../../domain/model/i-base-map';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
 
     @ViewChild('container') container: ElementRef;
 
-    private olMap: OlMap;
+    private baseMap: IBaseMap;
     private readonly zoom$: Observable<number> = this.appStore.pipe(select(getMapZoom));
     private readonly showImage$: Observable<ShowImageState> = this.appStore.pipe(select(getShowImage));
     private readonly zoomSubscription: Subscription;
@@ -48,12 +49,12 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
         position: Position2d,
         zoom: number,
         mapRotation: Angle
-    ): OlMap {
-        this.olMap = new OlMap(this.MAP_HTML_ID, featureLayers, mapOverlays, position, zoom, mapRotation);
-        this.mapMovedSubscription = this.olMap.mapMove$.subscribe(() => this.onMapMoved());
-        this.mapClickedSubscription = this.olMap.mapClick.subscribe(([clickPos, dataItem]) => this.onSingleClick(clickPos, dataItem));
+    ): IBaseMap {
+        this.baseMap = new OlMap(this.MAP_HTML_ID, featureLayers, mapOverlays, position, zoom, mapRotation);
+        this.mapMovedSubscription = this.baseMap.mapMove$.subscribe(() => this.onMapMoved());
+        this.mapClickedSubscription = this.baseMap.mapClick$.subscribe(([clickPos, dataItem]) => this.onSingleClick(clickPos, dataItem));
 
-        return this.olMap;
+        return this.baseMap;
     }
 
 
@@ -64,10 +65,10 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
     public ngOnDestroy() {
         this.zoomSubscription.unsubscribe();
 
-        if (this.olMap) {
+        if (this.baseMap) {
             this.mapMovedSubscription.unsubscribe();
-            this.olMap.uninit();
-            this.olMap = undefined;
+            this.baseMap.uninit();
+            this.baseMap = undefined;
         }
     }
 
@@ -75,10 +76,10 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
     private onMapMoved() {
         this.appStore.dispatch(
             BaseMapActions.mapMoved({
-                position: this.olMap.getMapPosition(),
-                zoom: this.olMap.getZoom(),
-                rotation: this.olMap.getRotation(),
-                extent: this.olMap.getExtent(),
+                position: this.baseMap.getMapPosition(),
+                zoom: this.baseMap.getZoom(),
+                rotation: this.baseMap.getRotation(),
+                extent: this.baseMap.getExtent(),
                 widthPx: this.container.nativeElement.clientWidth,
                 heightPx: this.container.nativeElement.clientHeight
             })
@@ -91,29 +92,29 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
             BaseMapActions.mapClicked({
                 clickPos: clickPos,
                 dataItem: dataItem,
-                zoom: this.olMap.getZoom()
+                zoom: this.baseMap.getZoom()
             })
         );
     }
 
 
     private setZoom(zoom: number): void {
-        if (this.olMap && this.olMap.getZoom() !== zoom) {
-            this.olMap.setZoom(zoom);
+        if (this.baseMap && this.baseMap.getZoom() !== zoom) {
+            this.baseMap.setZoom(zoom);
         }
     }
 
 
     private showImage(showImageState: ShowImageState): void {
-        if (this.olMap) {
-            this.olMap.showImage(showImageState);
+        if (this.baseMap) {
+            this.baseMap.showImage(showImageState);
         }
     }
 
 
     private changeBaseLayer(mapBaseLayerType: MapBaseLayerType): void {
-        if (this.olMap) {
-            this.olMap.changeBaseLayer(mapBaseLayerType);
+        if (this.baseMap) {
+            this.baseMap.changeBaseLayer(mapBaseLayerType);
         }
     }
 }
