@@ -137,6 +137,11 @@ button.btn-lg {
 
 
 /* region: OPENLAYERS */
+.ol-attribution button {
+    color: white;
+    background-color: #546e7a;
+    opacity: 0.75;
+}
 
 .ol-attribution li {
     display: table;
@@ -150,6 +155,12 @@ button.btn-lg {
 .ol-attribution ul {
     color: inherit;
     text-shadow: none;
+}
+
+.ol-full-screen button {
+    color: white;
+    background-color: #546e7a;
+    opacity: 0.75;
 }
 
 .ol-overlay-container {
