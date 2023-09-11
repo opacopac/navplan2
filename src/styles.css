@@ -84,29 +84,29 @@ button.btn-lg {
 }
 
 .mat-fab.mat-mapbutton-primary,
-.mat-mini-fab.mat-mapbutton-primary {
-    /*background-color: rgba(0, 60, 109, 0.6);*/
-    /*background-color: rgba(38, 50, 56, 0.6);*/
-    background-color: rgba(84, 110, 122, 0.7);
+.mat-mini-fab.mat-mapbutton-primary,
+.ol-attribution button,
+.ol-full-screen button {
     color: white;
+    background-color: rgba(84, 110, 122, 0.7);
 }
 
 .mat-fab.mat-mapbutton-status-ok,
 .mat-mini-fab.mat-mapbutton-status-ok {
-    background-color: rgba(0, 128, 0, 0.8);
     color: white;
+    background-color: rgba(0, 128, 0, 0.8);
 }
 
 .mat-fab.mat-mapbutton-status-warn,
 .mat-mini-fab.mat-mapbutton-status-warn {
-    background-color: rgba(255, 165, 0, 0.8);
     color: white;
+    background-color: rgba(255, 165, 0, 0.8);
 }
 
 .mat-fab.mat-mapbutton-status-error,
 .mat-mini-fab.mat-mapbutton-status-error {
-    background-color: rgba(255, 0, 0, 0.8);
     color: white;
+    background-color: rgba(255, 0, 0, 0.8);
 }
 
 /* TODO */
@@ -137,12 +137,6 @@ button.btn-lg {
 
 
 /* region: OPENLAYERS */
-.ol-attribution button {
-    color: white;
-    background-color: #546e7a;
-    opacity: 0.75;
-}
-
 .ol-attribution li {
     display: table;
 }
@@ -155,12 +149,6 @@ button.btn-lg {
 .ol-attribution ul {
     color: inherit;
     text-shadow: none;
-}
-
-.ol-full-screen button {
-    color: white;
-    background-color: #546e7a;
-    opacity: 0.75;
 }
 
 .ol-overlay-container {
