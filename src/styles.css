@@ -91,6 +91,12 @@ button.btn-lg {
     background-color: rgba(84, 110, 122, 0.7);
 }
 
+.mat-fab.mat-mapbutton-primary:hover,
+.mat-mini-fab.mat-mapbutton-primary:hover {
+    color: rgba(51, 51, 51, 0.7);;
+}
+
+
 .mat-fab.mat-mapbutton-status-ok,
 .mat-mini-fab.mat-mapbutton-status-ok {
     color: white;

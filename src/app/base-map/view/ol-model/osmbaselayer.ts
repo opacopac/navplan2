@@ -1,6 +1,7 @@
 import TileLayer from 'ol/layer/Tile';
 import XYZ from 'ol/source/XYZ';
 import {OlBaseLayer} from './ol-base-layer';
+import {MapBaseLayerType} from '../../domain/model/map-base-layer-type';
 
 
 export class Osmbaselayer {
@@ -12,6 +13,6 @@ export class Osmbaselayer {
             })
         });
 
-        return new OlBaseLayer(layer);
+        return new OlBaseLayer(MapBaseLayerType.OSM, layer);
     }
 }

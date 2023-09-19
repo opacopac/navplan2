@@ -1,6 +1,7 @@
 import TileLayer from 'ol/layer/Tile';
 import XYZ from 'ol/source/XYZ';
 import {OlBaseLayer} from './ol-base-layer';
+import {MapBaseLayerType} from '../../domain/model/map-base-layer-type';
 
 
 const MIN_ZOOM = 0;
@@ -22,7 +23,7 @@ export class Mapzenbaselayer {
             })
         });
 
-        return new OlBaseLayer(layer);
+        return new OlBaseLayer(MapBaseLayerType.MAPZEN, layer);
     }
 
 

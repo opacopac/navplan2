@@ -3,6 +3,7 @@ import {VectorTile} from 'ol/source';
 import {MVT} from 'ol/format';
 import {applyStyle} from 'ol-mapbox-style';
 import {OlBaseLayer} from './ol-base-layer';
+import {MapBaseLayerType} from '../../domain/model/map-base-layer-type';
 
 
 export class SwisstopoLightbaseBaselayer {
@@ -25,6 +26,6 @@ export class SwisstopoLightbaseBaselayer {
             });
         });
 
-        return new OlBaseLayer(layer);
+        return new OlBaseLayer(MapBaseLayerType.SWISSTOPO_LIGHTBASE, layer);
     }
 }
