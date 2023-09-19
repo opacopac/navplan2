@@ -32,7 +32,7 @@ export class OlSmaMeasurementSmallBox {
                 anchorYUnits: 'pixels',
                 opacity: 0.9,
                 img: smallBoxImage,
-                imgSize : [smallBoxImage.width, smallBoxImage.height],
+                size : [smallBoxImage.width, smallBoxImage.height],
                 scale: displayScale
             })
         });

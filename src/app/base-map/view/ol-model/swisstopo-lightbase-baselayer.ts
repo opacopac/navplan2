@@ -1,9 +1,8 @@
-import VectorTileLayer from 'ol/layer/VectorTile';
 import {VectorTile} from 'ol/source';
-import {MVT} from 'ol/format';
-import {applyStyle} from 'ol-mapbox-style';
 import {OlBaseLayer} from './ol-base-layer';
 import {MapBaseLayerType} from '../../domain/model/map-base-layer-type';
+import VectorTileLayer from 'ol/layer/VectorTile';
+import {MVT} from 'ol/format';
 
 
 export class SwisstopoLightbaseBaselayer {
@@ -22,7 +21,7 @@ export class SwisstopoLightbaseBaselayer {
 
         fetch(this.STYLE_URL).then(function(response) {
             response.json().then(function(glStyle) {
-                applyStyle(layer, glStyle, 'swissmaptiles');
+                // applyStyle(layer, glStyle, 'swissmaptiles');
             });
         });
 

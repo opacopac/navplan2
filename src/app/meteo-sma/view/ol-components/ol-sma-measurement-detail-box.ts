@@ -1,4 +1,3 @@
-import {Icon, Style} from 'ol/style';
 import {SmaMeasurement} from '../../domain/model/sma-measurement';
 import {OlVectorLayer} from '../../../base-map/view/ol-model/ol-vector-layer';
 import {OlFeature} from '../../../base-map/view/ol-model/ol-feature';
@@ -7,6 +6,7 @@ import {OlSmaMeasurementHelper} from './ol-sma-measurement-helper';
 import {StringnumberHelper} from '../../../system/domain/service/stringnumber/stringnumber-helper';
 import {DatetimeHelper} from '../../../system/domain/service/datetime/datetime-helper';
 import {Angle} from '../../../geo-physics/domain/model/quantities/angle';
+import {Icon, Style} from 'ol/style';
 
 
 export class OlSmaMeasurementDetailBox {
@@ -33,7 +33,7 @@ export class OlSmaMeasurementDetailBox {
                 anchor: anchor,
                 opacity: 0.9,
                 img: detailBoxImage,
-                imgSize : [detailBoxImage.width, detailBoxImage.height],
+                size: [detailBoxImage.width, detailBoxImage.height],
                 scale: displayScale
             })
         });

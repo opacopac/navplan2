@@ -34,7 +34,7 @@ export class OlSmaWindArrow {
                 anchor: [0.5, 0.0],
                 opacity: 1.0,
                 img: windArrowImage,
-                imgSize : [windArrowImage.width, windArrowImage.height],
+                size : [windArrowImage.width, windArrowImage.height],
                 scale: displayScale,
                 rotation: windDir.rad,
                 rotateWithView: true
