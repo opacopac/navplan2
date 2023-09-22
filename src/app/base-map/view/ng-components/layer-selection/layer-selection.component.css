@@ -4,19 +4,32 @@
     /*opacity: 90%;*/
     width: fit-content;
     border-radius: 5px;
-}
-
-.layer-selection-radio-group {
     display: flex;
     flex-direction: column;
+}
+
+.layer-selection-section {
+    display: flex;
+    flex-direction: column;
+    margin: 5px 0;
+}
+
+.mapbg-selection-radio-group {
+    display: flex;
+    flex-direction: row;
     margin: 15px 0;
     align-items: flex-start;
 }
 
-.layer-selection-radio-button {
+.mapbg-selection-radio-button {
     margin: 5px;
 }
 
 .layer-selection-label {
     font-size: 16px;
+}
+
+ul {
+    list-style-type: none;
+    margin-top: 4px;
 }

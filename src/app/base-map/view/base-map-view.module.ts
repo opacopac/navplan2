@@ -10,6 +10,7 @@ import {LayerButtonComponent} from './ng-components/layer-button/layer-button.co
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {LayerSelectionComponent} from './ng-components/layer-selection/layer-selection.component';
 import {MatRadioModule} from '@angular/material/radio';
+import { MatCheckbox, MatCheckboxModule } from '@angular/material/checkbox';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import {MatRadioModule} from '@angular/material/radio';
         BaseMapStateModule,
         MatTooltipModule,
         MatRadioModule,
+        MatCheckboxModule
     ],
     declarations: [
         OlMapContainerComponent,

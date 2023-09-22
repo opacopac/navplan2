@@ -25,7 +25,7 @@ export class LayerSelectionComponent implements OnInit {
     }
 
 
-    public onLayerSelected(change: MatRadioChange) {
+    public onMapBgSelected(change: MatRadioChange) {
         const layerName: string = change.value;
         const layer: MapBaseLayerType = MapBaseLayerType[layerName];
         this.appStore.dispatch(BaseMapActions.baseLayerSelected({ mapBaseLayerType: layer }));
