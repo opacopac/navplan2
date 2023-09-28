@@ -45,6 +45,7 @@ Thumbs.db
 /src/php/config.php
 /src/php/config_test.php
 /src/php/config/
+/navplan_backend/php-app/config/
 
 # data files
 /src/data_import/openaip_airports/*
@@ -68,6 +69,7 @@ Thumbs.db
 # 3rd party php
 /vendor
 /src/php/vendor
+/navplan_backend/php-app/vendor/
 composer.lock
 
 # misc
@@ -81,3 +83,4 @@ navplan2.iml
 /src/charts/
 /src/data_import/ivao_sectorfile/
 /.angular/cache/
+

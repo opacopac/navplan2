@@ -2,8 +2,8 @@
 
 namespace NavplanTest\MeteoGrib2\Mocks\Section1;
 
-use Navplan\MeteoGrib2\Domain\Section1\Origin;
 use Navplan\MeteoGrib2\Domain\Section1\IdentificationSection;
+use Navplan\MeteoGrib2\Domain\Section1\Origin;
 use Navplan\MeteoGrib2\Domain\Section1\TableVersion;
 
 

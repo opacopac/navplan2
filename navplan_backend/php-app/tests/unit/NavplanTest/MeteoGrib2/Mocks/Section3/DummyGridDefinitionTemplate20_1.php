@@ -2,8 +2,8 @@
 
 namespace NavplanTest\MeteoGrib2\Mocks\Section3;
 
-use Navplan\MeteoGrib2\Domain\Section3\LatLon;
 use Navplan\MeteoGrib2\Domain\Section3\GridDefinitionTemplate20;
+use Navplan\MeteoGrib2\Domain\Section3\LatLon;
 
 
 class DummyGridDefinitionTemplate20_1 {
