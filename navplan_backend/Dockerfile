@@ -8,6 +8,7 @@ RUN apt-get update && \
 
 COPY php-app/src /var/www/html/php
 COPY php-app/vendor/ /var/www/html/php/vendor
+COPY php-app/config /var/www/html/php/config
 
 EXPOSE 80
 
