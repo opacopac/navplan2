@@ -67,8 +67,6 @@ Thumbs.db
 /meteo_dwd/
 
 # 3rd party php
-/vendor
-/src/php/vendor
 /navplan_backend/php-app/vendor/
 composer.lock
 

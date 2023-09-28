@@ -7,6 +7,7 @@ RUN apt-get update && \
     docker-php-ext-enable imagick
 
 COPY php-app/src /var/www/html/php
+COPY php-app/vendor/ /var/www/html/php/vendor
 
 EXPOSE 80
 
