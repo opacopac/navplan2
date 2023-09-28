@@ -4,7 +4,7 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 const PROD_WEBSITE_BASE_URL = 'https://www.navplan.ch/v2/';
-const WEBSITE_BASE_URL = 'http://localhost/navplan2/';
+const WEBSITE_BASE_URL = 'http://localhost:8080/';
 
 export const environment = {
     production: false,
