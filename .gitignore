@@ -46,6 +46,7 @@ Thumbs.db
 /src/php/config_test.php
 /src/php/config/
 /navplan_backend/php-app/config/
+.env
 
 # data files
 /src/data_import/openaip_airports/*

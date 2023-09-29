@@ -1,0 +1,28 @@
+version: '3'
+services:
+  navplan_persistence:
+    build:
+      context: ./navplan_persistence
+    container_name: navplan_persistence
+    env_file:
+      - .env
+    ports:
+      - "3306:3306"
+
+  navplan_backend:
+    build:
+      context: ./navplan_backend
+    container_name: navplan_backend
+    ports:
+      - "8080:80"
+    depends_on:
+      - navplan_persistence
+
+#  navplan_frontend:
+#    build:
+#      context: ./navplan_frontend
+#    container_name: navplan_frontend
+#    ports:
+#      - "4200:4200"
+
+# TBD: add network configurations, volumes, and other options as needed

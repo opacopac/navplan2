@@ -1,8 +1,3 @@
 FROM mariadb:10.6
 
-ENV MYSQL_ROOT_PASSWORD=your_password
-ENV MYSQL_DATABASE=your_database
-ENV MYSQL_USER=your_user
-ENV MYSQL_PASSWORD=your_password
-
 EXPOSE 3306
