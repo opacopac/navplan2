@@ -47,6 +47,7 @@ Thumbs.db
 /src/php/config/
 /navplan_backend/php-app/config/
 .env
+/secrets/
 
 # data files
 /src/data_import/openaip_airports/*
@@ -82,4 +83,3 @@ navplan2.iml
 /src/charts/
 /src/data_import/ivao_sectorfile/
 /.angular/cache/
-
