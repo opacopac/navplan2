@@ -6,11 +6,10 @@ services:
         container_name: navplan_persistence
         environment:
             MARIADB_ROOT_PASSWORD_FILE: /run/secrets/db_root_pw
-            MARIADB_USER_FILE: /run/secrets/db_navplan_user
+            MARIADB_USER: tschanz_navfpl
             MARIADB_PASSWORD_FILE: /run/secrets/db_navplan_pw
         secrets:
             - db_root_pw
-            - db_navplan_user
             - db_navplan_pw
         ports:
             - "3306:3306"
@@ -34,7 +33,5 @@ services:
 secrets:
     db_root_pw:
         file: ./secrets/db_root_pw.txt
-    db_navplan_user:
-        file: ./secrets/db_navplan_user.txt
     db_navplan_pw:
         file: ./secrets/db_navplan_pw.txt
