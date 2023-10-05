@@ -1,0 +1,92 @@
+<mat-toolbar color="primary" class="mat-elevation-z6" fxLayout="row">
+    <!-- logo & title-->
+    <span><a href="/"><img src="../../../../../assets/icon/traffic_plane.svg" class="logo" alt=""/></a></span>
+    <span><a mat-button href="/"><h1>NAVPLAN.CH</h1></a></span>
+
+    <!-- menu for large screens -->
+    <div fxLayout="row" fxFlex="grow" fxShow="true" fxHide.lt-md="true">
+        <button mat-button routerLink="./map" title="Map"><i class="fas fa-map"></i>&nbsp;&nbsp;Map</button>
+        <button mat-button routerLink="./prep/route" title="Flight Preparation"><i class="fas fa-calculator"></i>&nbsp;&nbsp;Plan</button>
+        <!--<button mat-button [mat-menu-trigger-for]="flightPrep" title="Flight Preparation"><i class="fas fa-calculator"></i>&nbsp;&nbsp;Flight Prep</button>
+        <mat-menu #flightPrep="matMenu">
+            <div fxLayout="column" fxLayoutAlign="start start">
+                <button mat-button routerLink="./prep/route"><i class="fas fa-route"></i>&nbsp;&nbsp;Route</button>
+                <button mat-button routerLink="./prep/fuel"><i class="fas fa-tint"></i>&nbsp;&nbsp;Fuel</button>
+                <button mat-button routerLink="./prep/wnb"><i class="fas fa-balance-scale"></i>&nbsp;&nbsp;W&amp;B</button>
+                <button mat-button routerLink="./prep/perf"><i class="fas fa-plane-departure"></i>&nbsp;&nbsp;Performance</button>
+                <button mat-button routerLink="./prep/meteo"><i class="fas fa-cloud"></i>&nbsp;&nbsp;Meteo</button>
+                <button mat-button routerLink="./prep/notam"><i class="fas fa-exclamation-triangle"></i>&nbsp;&nbsp;Notams</button>
+            </div>
+        </mat-menu>-->
+        <button mat-button *ngIf="this.currentUser" routerLink="./tracks" title="Recorded Tracks"><i class="fas fa-paw"></i>&nbsp;&nbsp;Tracks</button>
+        <button mat-button id="btn_export" [mat-menu-trigger-for]="navplanExport" title="Export / Share"><i class="fas fa-share"></i>&nbsp;&nbsp;Export</button>
+        <mat-menu #navplanExport="matMenu">
+            <div fxLayout="column" fxLayoutAlign="start start">
+                <button mat-button id="btn_export_pdf" (click)="this.onExportPdfClick.emit()"><i class="far fa-file-pdf"></i>&nbsp;&nbsp;PDF</button>
+                <button mat-button id="btn_export_excel" (click)="this.onExportExcelClick.emit()"><i class="far fa-file-excel"></i>&nbsp;&nbsp;Excel</button>
+                <button mat-button id="btn_export_kml" (click)="this.onExportKmlClick.emit()"><i class="fas fa-globe"></i>&nbsp;&nbsp;KML (Google Earth)</button>
+                <button mat-button id="btn_export_gpx" (click)="this.onExportGpxClick.emit()"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;GPX (Airnav Pro, SkyDemon, etc.)</button>
+                <button mat-button id="btn_export_fpl" (click)="this.onExportFplClick.emit()"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;FPL (Garmin, Foreflight, etc.)</button>
+            </div>
+        </mat-menu>
+        <button mat-button title="Clear current Route and Track" (click)="this.onClearClick.emit()"><i class="fas fa-eraser"></i>&nbsp;&nbsp;Clear</button>
+        <button mat-button title="Search" (click)="this.onShowSearchClick.emit()"><i class="fas fa-search"></i></button>
+    </div>
+
+    <!-- right part of menu -->
+    <div fxLayout="row" fxFlexAlign="end none" fxShow="true" fxHide.lt-md="true">
+        <button mat-button *ngIf="this.currentUser; else noCurrentUser" [matMenuTriggerFor]="userMenu" title="User Profile"><i class="fas fa-user"></i>&nbsp;&nbsp;{{ this.currentUser.email }}</button>
+        <ng-template #noCurrentUser>
+            <button mat-button routerLink="./login" title="Login / Register"><span><i class="fas fa-user"></i></span></button>
+        </ng-template>
+        <button mat-icon-button routerLink="./settings" title="Edit Settings"><i class="fas fa-cog"></i></button>
+        <button mat-icon-button routerLink="./about" title="About"><i class="fas fa-info-circle"></i></button>
+    </div>
+
+    <!-- menu button for small screens -->
+    <div fxLayout="row" fxFlex="grow" fxShow="true" fxHide.gt-sm="true">
+    </div>
+    <div fxLayout="row" fxFlexAlign="end none" fxShow="true" fxHide.gt-sm="true">
+        <button mat-icon-button [matMenuTriggerFor]="verticalMenu"><h1><i class="fas fa-bars"></i></h1></button>
+    </div>
+
+</mat-toolbar>
+
+<!-- vertical menu for small screens -->
+<mat-menu #verticalMenu="matMenu">
+    <button mat-menu-item routerLink="./map" title="Map"><i class="fas fa-map"></i>&nbsp;&nbsp;Map</button>
+    <button mat-menu-item routerLink="./prep/route" title="Flight Preparation"><i class="fas fa-calculator"></i>&nbsp;&nbsp;Plan</button>
+    <!--<button mat-menu-item [mat-menu-trigger-for]="flightPrepSm" title="Flight Preparation"><i class="fas fa-calculator"></i>&nbsp;&nbsp;Flight Prep</button>
+    <mat-menu #flightPrepSm="matMenu">
+        <div fxLayout="column" fxLayoutAlign="start start">
+            <button mat-button routerLink="./prep/route"><i class="fas fa-route"></i>&nbsp;&nbsp;Route</button>
+            <button mat-button routerLink="./prep/fuel"><i class="fas fa-tint"></i>&nbsp;&nbsp;Fuel</button>
+            <button mat-button routerLink="./prep/wnb"><i class="fas fa-balance-scale"></i>&nbsp;&nbsp;W&amp;B</button>
+            <button mat-button routerLink="./prep/perf"><i class="fas fa-plane-departure"></i>&nbsp;&nbsp;Performance</button>
+            <button mat-button routerLink="./prep/meteo"><i class="fas fa-cloud"></i>&nbsp;&nbsp;Meteo</button>
+            <button mat-button routerLink="./prep/notam"><i class="fas fa-exclamation-triangle"></i>&nbsp;&nbsp;Notams</button>
+        </div>
+    </mat-menu>-->
+    <button mat-menu-item *ngIf="this.currentUser" routerLink="./tracks" title="Recorded Tracks"><i class="fas fa-paw"></i>&nbsp;&nbsp;Tracks</button>
+    <button mat-menu-item routerLink="./map" title="Clear current Route and Track"><i class="fas fa-eraser"></i>&nbsp;&nbsp;Clear</button>
+    <button mat-menu-item [mat-menu-trigger-for]="navplanExportSm" title="Export"><i class="fas fa-share"></i>&nbsp;&nbsp;Export</button>
+    <mat-menu #navplanExportSm="matMenu">
+        <div fxLayout="column" fxLayoutAlign="start start">
+            <button mat-button (click)="this.onExportPdfClick.emit()"><i class="far fa-file-pdf"></i>&nbsp;&nbsp;PDF</button>
+            <button mat-button (click)="this.onExportExcelClick.emit()"><i class="far fa-file-excel"></i>&nbsp;&nbsp;Excel</button>
+            <button mat-button (click)="this.onExportKmlClick.emit()"><i class="fas fa-globe"></i>&nbsp;&nbsp;KML (Google Earth)</button>
+            <button mat-button (click)="this.onExportGpxClick.emit()"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;GPX (Airnav Pro, SkyDemon, etc.)</button>
+            <button mat-button (click)="this.onExportFplClick.emit()"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;FPL (Garmin, Foreflight, etc.)</button>
+        </div>
+    </mat-menu>
+    <button mat-menu-item title="Search" (click)="this.onShowSearchClick.emit()"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</button>
+    <button mat-menu-item *ngIf="this.currentUser; else noCurrentUserSmall" [matMenuTriggerFor]="userMenu" title="User Profile"><i class="fas fa-user"></i>&nbsp;&nbsp;{{ this.currentUser.email }}</button>
+    <ng-template #noCurrentUserSmall><button mat-menu-item routerLink="./login" title="Login or Register"><i class="fas fa-user"></i>&nbsp;&nbsp;Log In</button></ng-template>
+    <button mat-menu-item routerLink="./settings" title="Edit Settings"><i class="fas fa-cog"></i>&nbsp;&nbsp;Settings</button>
+    <button mat-menu-item routerLink="./about" title="About"><i class="fas fa-info-circle"></i>&nbsp;&nbsp;About</button>
+</mat-menu>
+
+<mat-menu #userMenu="matMenu">
+    <button mat-menu-item routerLink="./userprofile">User Profile</button>
+    <button mat-menu-item (click)="this.onLogoffClick.emit()">Log Out</button>
+</mat-menu>

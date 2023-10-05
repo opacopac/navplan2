@@ -6,7 +6,7 @@
 /out-tsc
 
 # dependencies
-/node_modules
+/navplan_frontend/angular-app/node_modules/
 
 # IDEs and editors
 /.idea
@@ -77,9 +77,11 @@ devsbb/
 navplan2.iml
 /src/php/Navplan/MeteoDwd/asdf.php
 /.phpunit.result.cache
-/.browserslistrc
+/navplan_frontend/angular-app/.browserslistrc
 /src/tmp/
 /src/logs/
 /src/charts/
 /src/data_import/ivao_sectorfile/
 /.angular/cache/
+/navplan_frontend/angular-app/.angular/
+/navplan_frontend/angular-app/dist/
