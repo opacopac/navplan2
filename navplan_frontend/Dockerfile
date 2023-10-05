@@ -25,7 +25,7 @@ RUN ng build
 FROM nginx:latest
 
 # Copy the built Angular app from the build container to the Nginx web root
-COPY --from=build /app/dist/* /usr/share/nginx/html
+COPY --from=build /app/dist/ /usr/share/nginx/html
 
 # Expose port 80 for serving the application
 EXPOSE 80
