@@ -19,7 +19,7 @@ COPY angular-app/*.js ./
 COPY angular-app/src ./src
 
 # Build the Angular app for production
-RUN ng build
+RUN ng build --configuration=development
 
 # Use Nginx as the web server
 FROM nginx:latest
