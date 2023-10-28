@@ -12,9 +12,15 @@ services:
             - db_root_pw
             - db_navplan_pw
         ports:
-            - "3306:3306"
+            - "3307:3306"
         volumes:
             - navplan_data:/var/lib/mysql
+
+    phpmyadmin:
+        image: phpmyadmin
+        container_name: phpmyadmin
+        ports:
+            - 8081:80
 
     navplan_backend:
         build:
