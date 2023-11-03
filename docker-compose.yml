@@ -19,6 +19,8 @@ services:
     phpmyadmin:
         image: phpmyadmin
         container_name: phpmyadmin
+        environment:
+            PMA_HOST: navplan_persistence
         ports:
             - 8081:80
 
