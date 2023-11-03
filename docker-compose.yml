@@ -12,7 +12,7 @@ services:
             - db_root_pw
             - db_navplan_pw
         ports:
-            - "3307:3306"
+            - 3307:3306
         volumes:
             - navplan_data:/var/lib/mysql
 
@@ -29,7 +29,7 @@ services:
             context: ./navplan_backend
         container_name: navplan_backend
         ports:
-            - "8080:80"
+            - 8080:80
         depends_on:
             - navplan_persistence
 
@@ -38,7 +38,7 @@ services:
             context: ./navplan_frontend
         container_name: navplan_frontend
         ports:
-            - "4200:80"
+            - 4200:80
         depends_on:
             - navplan_backend
 volumes:
