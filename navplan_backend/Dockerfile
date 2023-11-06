@@ -1,17 +1,38 @@
 FROM php:8.2-apache
 
-RUN apt-get update && \
-    apt-get install -y \
-    libmagickwand-dev && \
-    pecl install imagick && \
-    docker-php-ext-enable imagick && \
-    docker-php-ext-install mysqli && \
-    docker-php-ext-enable mysqli
-#    docker-php-ext-install mysqli pdo pdo_mysql
+WORKDIR /var/www/html/php
+
+# Install system dependencies
+RUN apt-get update
+
+# Install ImageMagick dependencies
+RUN apt-get install -y libmagickwand-dev
+
+# Install the Imagick extension
+RUN pecl install imagick
+RUN docker-php-ext-enable imagick
+
+# Install GD dependencies
+RUN apt-get install -y libjpeg-dev libfreetype6-dev libpng-dev
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
+RUN docker-php-ext-install -j$(nproc) gd
+
+# Install MySQLi extension
+RUN docker-php-ext-install mysqli
+RUN docker-php-ext-enable mysqli
+
+# Install libzip and the Zip extension
+RUN apt-get install -y libzip-dev
+RUN docker-php-ext-install zip
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 COPY php-app/src /var/www/html/php
-COPY php-app/vendor/ /var/www/html/php/vendor
 COPY php-app/config /var/www/html/php/config
+#COPY php-app/vendor/ /var/www/html/php/vendor
+COPY php-app/composer.json /var/www/html/php/composer.json
+COPY php-app/composer.lock /var/www/html/php/composer.lock
+RUN composer update
 
 EXPOSE 80
 
