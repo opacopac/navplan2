@@ -29,7 +29,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 COPY php-app/src /var/www/html/php
 COPY php-app/config /var/www/html/php/config
-#COPY php-app/vendor/ /var/www/html/php/vendor
+
 COPY php-app/composer.json /var/www/html/php/composer.json
 COPY php-app/composer.lock /var/www/html/php/composer.lock
 RUN composer update
