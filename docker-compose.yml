@@ -23,6 +23,8 @@ services:
             PMA_HOST: navplan_persistence
         ports:
             - 8081:80
+        depends_on:
+            - navplan_persistence
 
     navplan_backend:
         build:
