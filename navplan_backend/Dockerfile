@@ -5,7 +5,9 @@ RUN apt-get update && \
     libmagickwand-dev && \
     pecl install imagick && \
     docker-php-ext-enable imagick && \
-    docker-php-ext-install mysqli pdo pdo_mysql
+    docker-php-ext-install mysqli && \
+    docker-php-ext-enable mysqli
+#    docker-php-ext-install mysqli pdo pdo_mysql
 
 COPY php-app/src /var/www/html/php
 COPY php-app/vendor/ /var/www/html/php/vendor
