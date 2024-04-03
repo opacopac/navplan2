@@ -12,7 +12,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular-devkit/build-angular": "^17.3.2",
+    "@angular-devkit/build-angular": "^17.2.3",
     "@angular/animations": "^15.2.10",
     "@angular/cdk": "^14.2.7",
     "@angular/common": "^15.2.10",
@@ -29,7 +29,7 @@
     "@ngrx/schematics": "^13.2.0",
     "@ngrx/store": "^13.2.0",
     "@ngrx/store-devtools": "^13.2.0",
-    "codelyzer": "^6.0.2",
+    "codelyzer": "^0.0.28",
     "ol": "^8.1.0",
     "ol-mapbox-style": "^10.3.4",
     "postcss": "^8.4.19",
@@ -51,7 +51,7 @@
     "karma-coverage-istanbul-reporter": "~3.0.3",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "^2.0.0",
-    "protractor": "~7.0.0",
+    "protractor": "^3.3.0",
     "ts-node": "~10.9.1",
     "tslint": "~6.1.3"
   }
