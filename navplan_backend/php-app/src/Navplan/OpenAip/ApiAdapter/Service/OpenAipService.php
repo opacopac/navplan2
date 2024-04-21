@@ -23,9 +23,8 @@ class OpenAipService implements IOpenAipService {
     }
 
 
-
-    public function readAirports(int $page = 1): OpenAipReadAirportResponse {
-        $url = self::OPEN_AIP_BASE_URL . self::AIRPORTS_URL_SUFFIX . "?limit=" . self::MAX_RESULTS_PER_PAGE . "&page=" . $page;
+    public function readAirports(int $page = 1, OpenAipImportFilter $importFilter = null): OpenAipReadAirportResponse {
+        $url = $this->buildUrl(self::AIRPORTS_URL_SUFFIX, $page, $importFilter);
         $context = $this->getHttpContext();
         $rawResponse = file_get_contents($url, false, $context);
         $jsonResponse = json_decode($rawResponse, true, JSON_NUMERIC_CHECK);
@@ -34,8 +33,8 @@ class OpenAipService implements IOpenAipService {
     }
 
 
-    public function readAirspaces(int $page = 1): OpenAipReadAirspacesResponse {
-        $url = self::OPEN_AIP_BASE_URL . self::AIRSPACES_URL_SUFFIX . "?limit=" . self::MAX_RESULTS_PER_PAGE . "&page=" . $page;
+    public function readAirspaces(int $page = 1, OpenAipImportFilter $importFilter = null): OpenAipReadAirspacesResponse {
+        $url = $this->buildUrl(self::AIRSPACES_URL_SUFFIX, $page, $importFilter);
         $context = $this->getHttpContext();
         $rawResponse = file_get_contents($url, false, $context);
         $jsonResponse = json_decode($rawResponse, true, JSON_NUMERIC_CHECK);
@@ -44,13 +43,26 @@ class OpenAipService implements IOpenAipService {
     }
 
 
-    public function readNavaids(int $page = 1): OpenAipReadNavaidsResponse {
-        $url = self::OPEN_AIP_BASE_URL . self::NAVAIDS_URL_SUFFIX . "?limit=" . self::MAX_RESULTS_PER_PAGE . "&page=" . $page;
+    public function readNavaids(int $page = 1, OpenAipImportFilter $importFilter = null): OpenAipReadNavaidsResponse {
+        $url = $this->buildUrl(self::NAVAIDS_URL_SUFFIX, $page, $importFilter);
         $context = $this->getHttpContext();
         $rawResponse = file_get_contents($url, false, $context);
         $jsonResponse = json_decode($rawResponse, true, JSON_NUMERIC_CHECK);
 
         return OpenAipNavaidResponseConverter::fromRest($jsonResponse);
+    }
+
+
+    private function buildUrl(string $urlSuffix, int $page, OpenAipImportFilter $importFilter = null) {
+        $url = self::OPEN_AIP_BASE_URL . $urlSuffix . "?limit=" . self::MAX_RESULTS_PER_PAGE . "&page=" . $page;
+
+        if ($importFilter != null) {
+            if ($importFilter->country != null) {
+                $url .= "&country=" . $importFilter->country;
+            }
+        }
+
+        return $url;
     }
 
 
