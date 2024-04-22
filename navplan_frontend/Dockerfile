@@ -4,8 +4,8 @@ FROM node:latest as build
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the package.json and package-lock.json files
-COPY angular-app/package*.json ./
+# Copy the package.json file
+COPY angular-app/package.json ./
 
 # Install Angular CLI globally
 RUN npm install -g @angular/cli
@@ -18,7 +18,7 @@ COPY angular-app/*.json ./
 COPY angular-app/*.js ./
 COPY angular-app/src ./src
 
-# Build the Angular app for production
+# Build the Angular app
 RUN ng build --configuration=development
 
 # Use Nginx as the web server
