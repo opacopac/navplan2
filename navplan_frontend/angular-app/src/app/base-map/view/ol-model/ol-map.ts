@@ -11,7 +11,7 @@ import {Pixel} from 'ol/pixel';
 import {OlFeature} from './ol-feature';
 import {Geometry} from 'ol/geom';
 import VectorLayer from 'ol/layer/Vector';
-import {ImageStatic, Vector} from 'ol/source';
+import {ImageStatic} from 'ol/source';
 import TileLayer from 'ol/layer/Tile';
 import XYZ from 'ol/source/XYZ';
 import VectorTileLayer from 'ol/layer/VectorTile';
@@ -27,6 +27,7 @@ import ImageLayer from 'ol/layer/Image';
 import Projection from 'ol/proj/Projection';
 import {OlLayer} from './ol-layer';
 import {IBaseMap} from '../../domain/model/i-base-map';
+import VectorSource from 'ol/source/Vector';
 
 
 export class OlMap implements IBaseMap {
@@ -88,7 +89,7 @@ export class OlMap implements IBaseMap {
 
     private addInteractions(): void {
         this.map.addInteraction(
-            new MouseWheelZoom({ constrainResolution: true })
+            new MouseWheelZoom({constrainResolution: true})
         );
     }
 
@@ -184,7 +185,7 @@ export class OlMap implements IBaseMap {
     private getDataItemAtPixel(pixel: Pixel, onlyClickable: boolean): DataItem {
         const olFeatures = this.map.getFeaturesAtPixel(
             pixel,
-            { layerFilter: this.isClickableLayer.bind(this), hitTolerance: OlMap.HIT_TOLERANCE_PIXELS }
+            {layerFilter: this.isClickableLayer.bind(this), hitTolerance: OlMap.HIT_TOLERANCE_PIXELS}
         );
         if (!olFeatures) {
             return undefined;
@@ -208,7 +209,7 @@ export class OlMap implements IBaseMap {
     }
 
 
-    private isClickableLayer(layer: VectorLayer<Vector<Geometry>> | TileLayer<XYZ> | VectorTileLayer): boolean {
+    private isClickableLayer(layer: VectorLayer<VectorSource<Feature<Geometry>>> | TileLayer<XYZ> | VectorTileLayer): boolean {
         return layer !== this.baseLayer.layer; // TODO
         /*return (layer === this.routeItemsLayer ||
             layer === this.nonrouteItemsLayer ||

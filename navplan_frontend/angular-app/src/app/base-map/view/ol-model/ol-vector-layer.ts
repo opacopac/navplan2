@@ -5,10 +5,12 @@ import {OlFeature} from './ol-feature';
 import VectorImageLayer from 'ol/layer/VectorImage';
 import {OlLayer} from './ol-layer';
 import BaseLayer from 'ol/layer/Base';
+import VectorSource from 'ol/source/Vector';
+import {Feature} from 'ol';
 
 
 export class OlVectorLayer implements OlLayer {
-    public readonly vectorLayer: VectorLayer<Vector<Geometry>> | VectorImageLayer<Vector<Geometry>>;
+    public readonly vectorLayer: VectorLayer<VectorSource<Feature<Geometry>>> | VectorImageLayer<VectorSource<Feature<Geometry>>>;
 
 
     public constructor(vectorImage: boolean = false) {
