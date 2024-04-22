@@ -47,8 +47,8 @@ export class OlPositionSearchItem {
             text: new Text({
                 font: 'bold 20px Calibri,sans-serif',
                 text: name,
-                fill: new Fill( { color: '#660066' } ),
-                stroke: new Stroke( {color: '#FFFFFF', width: 20 } ),
+                fill: new Fill({color: '#660066'}),
+                stroke: new Stroke({color: '#FFFFFF', width: 20}),
                 offsetX: offsetX,
                 offsetY: offsetY
             })
@@ -60,10 +60,10 @@ export class OlPositionSearchItem {
         return new Style({
             image: new RegularShape({
                 points: 1,
-                radius1: LABEL_DIST_PIXEL,
+                radius: LABEL_DIST_PIXEL,
                 radius2: -POINT_RADIUS_PIXEL,
                 angle: labelRotAngle.rad,
-                stroke : new Stroke({
+                stroke: new Stroke({
                     color: '#000000',
                     width: 3
                 })
