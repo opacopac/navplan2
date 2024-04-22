@@ -1,3 +1,3 @@
-GRANT SELECT, INSERT, UPDATE, DELETE ON tschanz_navplan.* TO 'tschanz_navfpl'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE, DROP ON tschanz_navplan.* TO 'tschanz_navfpl'@'%';
 
 FLUSH PRIVILEGES;

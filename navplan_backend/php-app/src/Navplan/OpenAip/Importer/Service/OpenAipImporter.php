@@ -6,6 +6,7 @@ use Navplan\Aerodrome\Domain\Service\IAirportService;
 use Navplan\Enroute\Domain\Service\IAirspaceService;
 use Navplan\Enroute\Domain\Service\INavaidService;
 use Navplan\OpenAip\ApiAdapter\Service\IOpenAipService;
+use Navplan\OpenAip\ApiAdapter\Service\OpenAipImportFilter;
 use Navplan\OpenAip\Importer\Model\ImportResult;
 use Navplan\OpenAip\ZoomLevelSorter\AirportZoomLevelSortItem;
 use Navplan\OpenAip\ZoomLevelSorter\AirspaceDetaillevelCreator;
@@ -16,6 +17,9 @@ use Navplan\System\Domain\Service\ILoggingService;
 
 
 class OpenAipImporter implements IOpenAipImporter {
+    private ?OpenAipImportFilter $importFilter = null;
+
+
     public function __construct(
         private IOpenAipService $openAipApiService,
         private IAirportService $airportService,
@@ -24,6 +28,11 @@ class OpenAipImporter implements IOpenAipImporter {
         private ILoggingService $loggingService,
         private IDbService $dbService
     ) {
+    }
+
+
+    public function setImportFilter(?OpenAipImportFilter $importFilter): void {
+        $this->importFilter = $importFilter;
     }
 
 
@@ -38,7 +47,7 @@ class OpenAipImporter implements IOpenAipImporter {
         $page = 1;
         do {
             $this->loggingService->info("reading page " . $page . " from openaip...");
-            $response = $this->openAipApiService->readAirports($page);
+            $response = $this->openAipApiService->readAirports($page, $this->importFilter);
             $this->loggingService->info("successfully read page " . $response->page . "/" . $response->totalPages);
             $airportCount += count($response->items);
 
@@ -72,7 +81,7 @@ class OpenAipImporter implements IOpenAipImporter {
         $page = 1;
         do {
             $this->loggingService->info("reading page " . $page . " from openaip...");
-            $response = $this->openAipApiService->readAirspaces($page);
+            $response = $this->openAipApiService->readAirspaces($page, $this->importFilter);
             $this->loggingService->info("successfully read page " . $response->page . "/" . $response->totalPages);
             $airspaceCount += count($response->items);
 
@@ -103,7 +112,7 @@ class OpenAipImporter implements IOpenAipImporter {
         $page = 1;
         do {
             $this->loggingService->info("reading page " . $page . " from openaip...");
-            $response = $this->openAipApiService->readNavaids($page);
+            $response = $this->openAipApiService->readNavaids($page, $this->importFilter);
             $this->loggingService->info("successfully read page " . $response->page . "/" . $response->totalPages);
             $navaidCount += count($response->items);
 

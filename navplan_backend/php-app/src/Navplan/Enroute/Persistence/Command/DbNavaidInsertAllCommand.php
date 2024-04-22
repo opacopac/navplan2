@@ -23,6 +23,7 @@ class DbNavaidInsertAllCommand implements INavaidInsertAllCommand {
                 DbTableNavaid::COL_TYPE,
                 DbTableNavaid::COL_KUERZEL,
                 DbTableNavaid::COL_NAME,
+                DbTableNavaid::COL_COUNTRY,
                 DbTableNavaid::COL_LONGITUDE,
                 DbTableNavaid::COL_LATITUDE,
                 DbTableNavaid::COL_ELEVATION,
@@ -31,7 +32,7 @@ class DbNavaidInsertAllCommand implements INavaidInsertAllCommand {
                 DbTableNavaid::COL_TRUENORTH,
                 DbTableNavaid::COL_GEOHASH,
                 DbTableNavaid::COL_LONLAT
-            ]) . ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ST_GeomFromText(?))";
+            ]) . ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ST_GeomFromText(?))";
 
         $statement = $this->dbService->prepareStatement($query);
 
@@ -41,11 +42,13 @@ class DbNavaidInsertAllCommand implements INavaidInsertAllCommand {
                 $elevation = $navaid->elevation->getHeightAmsl()->getM();
                 $geoHash = GeoHelper::calcGeoHash($navaid->position->longitude, $navaid->position->latitude, 14); // TODO
                 $lonlat = "POINT(" . $navaid->position->longitude . " " . $navaid->position->latitude . ")";
+                $country = "XX"; // TODO
 
-                $statement->bind_param("sssdddsdiss",
+                $statement->bind_param("ssssdddsdiss",
                     $type,
                     $navaid->kuerzel,
                     $navaid->name,
+                    $country,
                     $navaid->position->longitude,
                     $navaid->position->latitude,
                     $elevation,
