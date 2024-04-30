@@ -4,8 +4,8 @@ FROM node:latest as build
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the package.json file and package-lock.json
-COPY angular-app/package*.json ./
+# Copy the package.json file
+COPY angular-app/package.json ./
 
 # Install Angular CLI globally
 RUN npm install -g @angular/cli
