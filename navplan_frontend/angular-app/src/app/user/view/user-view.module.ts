@@ -37,7 +37,6 @@ import {UserDomainModule} from '../domain/user-domain.module';
 import {UserRestModule} from '../rest/user-rest.module';
 import {UserStateModule} from '../state/user-state.module';
 import {MatCardModule} from '@angular/material/card';
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -53,7 +52,6 @@ import {GeoPhysicsDomainModule} from '../../geo-physics/domain/geo-physics-domai
     imports: [
         CommonModule,
         RouterModule,
-        FlexLayoutModule,
         ReactiveFormsModule,
         MatCardModule,
         MatFormFieldModule,
@@ -86,7 +84,7 @@ import {GeoPhysicsDomainModule} from '../../geo-physics/domain/geo-physics-domai
         OlOverlayUserpointHeaderComponent,
         OlOverlayUserpointInfoTabComponent
     ],
-    providers: [
-    ]
+    providers: []
 })
-export class UserViewModule {}
+export class UserViewModule {
+}

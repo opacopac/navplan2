@@ -1,5 +1,5 @@
 <form [formGroup]="registerForm" *ngIf="!this.isInvalidToken">
-    <div fxLayout="column">
+    <div class="main-container">
         <mat-form-field appearance="fill">
             <mat-label>E-Mail</mat-label>
             <input matInput
@@ -26,16 +26,19 @@
                    required>
             <mat-error>Password is required (min. 6 characters)</mat-error>
         </mat-form-field>
-        <mat-error *ngIf="this.registerForm.errors?.passwordMismatch && (password2.value && password2.value.length > 0)">Passwords must be identical</mat-error>
-        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+        <mat-error
+            *ngIf="this.registerForm.errors?.passwordMismatch && (password2.value && password2.value.length > 0)">
+            Passwords must be identical
+        </mat-error>
+        <div class="buttons-container">
             <button mat-raised-button
                     color="primary"
                     (click)="this.onCreateAccount.emit([this.tokenString, password.value, rememberMe.checked])"
                     [disabled]="this.registerForm.invalid">Create Account
             </button>
             <mat-checkbox
-                    #rememberMe
-                    formControlName="rememberMe">remember me
+                #rememberMe
+                formControlName="rememberMe">remember me
             </mat-checkbox>
         </div>
     </div>

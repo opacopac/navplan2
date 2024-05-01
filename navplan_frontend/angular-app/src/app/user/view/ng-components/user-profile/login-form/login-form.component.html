@@ -1,5 +1,5 @@
 <form [formGroup]="loginForm">
-    <div fxLayout="column">
+    <div class="main-container">
         <mat-form-field appearance="fill">
             <mat-label>E-Mail</mat-label>
             <input matInput
@@ -21,15 +21,16 @@
         <p fxFlexAlign="end" style="margin-right: 20px">
             <a href="#/forgotpw">I forgot my password</a>
         </p>
-        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+        <div class="buttons-container">
             <button mat-raised-button
                     color="primary"
                     (click)="this.onLoginClick.emit([email.value, password.value, rememberMe.checked])"
                     [disabled]="this.loginForm.invalid" routerLink="/map">Log In
             </button>
             <mat-checkbox
-                    #rememberMe
-                    formControlName="rememberMe">remember me</mat-checkbox>
+                #rememberMe
+                formControlName="rememberMe">remember me
+            </mat-checkbox>
         </div>
     </div>
 </form>

@@ -1,5 +1,5 @@
 <form [formGroup]="changePwForm" *ngIf="this.currentUser">
-    <div fxLayout="column">
+    <div class="main-container">
         <mat-form-field appearance="fill">
             <mat-label>E-Mail</mat-label>
             <input matInput
@@ -35,7 +35,7 @@
             <mat-error>Password is required (min. 6 characters)</mat-error>
         </mat-form-field>
         <mat-error
-                *ngIf="this.changePwForm.errors?.passwordMismatch && (newPassword2.value && newPassword2.value.length > 0)">
+            *ngIf="this.changePwForm.errors?.passwordMismatch && (newPassword2.value && newPassword2.value.length > 0)">
             New passwords must be identical!
         </mat-error>
         <div>
