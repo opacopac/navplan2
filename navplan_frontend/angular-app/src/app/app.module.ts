@@ -18,7 +18,6 @@ import {FlightPrepViewModule} from './flight-prep/view/flight-prep-view.module';
 import {ExporterViewModule} from './exporter/view/exporter-view.module';
 import {TrackViewModule} from './track/view/track-view.module';
 import {UserViewModule} from './user/view/user-view.module';
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {MessageViewModule} from './message/view/message-view.module';
 
 
@@ -32,7 +31,6 @@ import {MessageViewModule} from './message/view/message-view.module';
         BrowserModule,
         HttpClientModule,
         HttpClientJsonpModule,
-        FlexLayoutModule,
         StoreModule.forRoot({'appState': appReducer}),
         EffectsModule.forRoot([AppEffects]),
         StoreDevtoolsModule.instrument({
