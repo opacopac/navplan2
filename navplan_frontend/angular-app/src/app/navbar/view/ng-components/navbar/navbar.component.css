@@ -9,15 +9,20 @@
     height: 54px;
 }
 
-.mat-toolbar h1 {
-    font-weight: normal;
-}
-
 .logo {
     height: 32px;
     width: 32px;
     rotate: 45deg;
     vertical-align: middle;
+}
+
+.mat-toolbar h1 {
+    font-weight: normal;
+    font-size: 20px;
+}
+
+.mat-toolbar a {
+    text-decoration: none;
 }
 
 .menu-buttons-left-lg {
