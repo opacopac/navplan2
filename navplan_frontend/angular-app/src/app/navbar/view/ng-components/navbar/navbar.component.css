@@ -1,3 +1,8 @@
+.main-container {
+    display: flex;
+    flex-direction: row;
+}
+
 .mat-toolbar.mat-primary {
     position: sticky;
     top: 0;
@@ -10,7 +15,53 @@
 
 .logo {
     height: 32px;
-    width:  32px;
+    width: 32px;
     rotate: 45deg;
     vertical-align: middle;
+}
+
+.menu-buttons-left-lg {
+    display: flex;
+    flex-grow: 1;
+}
+
+.export-menu-button {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.menu-buttons-right-lg {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
+.menu-buttons-sm {
+    display: flex;
+    flex-grow: 1;
+}
+
+.open-vertical-menu-button {
+    justify-content: flex-start;
+}
+
+@media (max-width: 960px) {
+    .menu-buttons-left-lg {
+        display: none;
+    }
+
+    .menu-buttons-right-lg {
+        display: none;
+    }
+}
+
+@media (min-width: 960px) {
+    .menu-buttons-sm {
+        display: none;
+    }
+
+    .open-vertical-menu-button {
+        display: none;
+    }
 }
