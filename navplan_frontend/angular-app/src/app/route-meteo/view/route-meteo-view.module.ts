@@ -10,7 +10,6 @@ import {RouteMeteoTableComponent} from './ng-components/route-meteo-table/route-
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {ReactiveFormsModule} from '@angular/forms';
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {MetarTafViewModule} from '../../metar-taf/view/metar-taf-view.module';
 
 
@@ -25,7 +24,6 @@ import {MetarTafViewModule} from '../../metar-taf/view/metar-taf-view.module';
         MatFormFieldModule,
         MatInputModule,
         ReactiveFormsModule,
-        FlexLayoutModule,
         MetarTafViewModule,
     ],
     declarations: [
@@ -35,9 +33,8 @@ import {MetarTafViewModule} from '../../metar-taf/view/metar-taf-view.module';
     exports: [
         RouteMeteoContainerComponent
     ],
-    providers: [
-    ],
-    entryComponents: [
-    ],
+    providers: [],
+    entryComponents: [],
 })
-export class RouteMeteoViewModule {}
+export class RouteMeteoViewModule {
+}
