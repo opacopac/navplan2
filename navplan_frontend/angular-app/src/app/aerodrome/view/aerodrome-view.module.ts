@@ -30,8 +30,8 @@ import {
 import {AerodromeDomainModule} from '../domain/aerodrome-domain.module';
 import {AerodromeStateModule} from '../state/aerodrome-state.module';
 import {AerodromeRestModule} from '../rest/aerodrome-rest.module';
-import {MatLegacyCardModule as MatCardModule} from '@angular/material/legacy-card';
-import {MatLegacyTableModule as MatTableModule} from '@angular/material/legacy-table';
+import {MatCardModule} from '@angular/material/card';
+import {MatTableModule} from '@angular/material/table';
 import {GeoPhysicsDomainModule} from '../../geo-physics/domain/geo-physics-domain.module';
 import {MetarTafViewModule} from '../../metar-taf/view/metar-taf-view.module';
 

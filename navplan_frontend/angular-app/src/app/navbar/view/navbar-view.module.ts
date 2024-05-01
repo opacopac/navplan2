@@ -2,12 +2,12 @@ import {NgModule} from '@angular/core';
 import {NavbarComponent} from './ng-components/navbar/navbar.component';
 import {NavbarContainerComponent} from './ng-components/navbar-container/navbar-container.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatLegacyButtonModule as MatButtonModule} from '@angular/material/legacy-button';
+import {MatButtonModule} from '@angular/material/button';
 import {RouterModule} from '@angular/router';
-import {MatLegacyMenuModule as MatMenuModule} from '@angular/material/legacy-menu';
+import {MatMenuModule} from '@angular/material/menu';
 import {CommonModule} from '@angular/common';
 import {ClearDialogComponent} from './ng-components/clear-dialog/clear-dialog.component';
-import {MatLegacyDialogModule as MatDialogModule} from '@angular/material/legacy-dialog';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule({

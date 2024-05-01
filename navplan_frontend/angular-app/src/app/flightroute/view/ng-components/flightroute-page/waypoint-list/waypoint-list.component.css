@@ -2,11 +2,11 @@
     width: 100%;
 }
 
-th.mat-header-cell {
+th.mat-mdc-header-cell {
     font-weight: bold;
 }
 
-tr.mat-footer-row {
+tr.mat-mdc-footer-row {
     font-weight: bold;
 }
 

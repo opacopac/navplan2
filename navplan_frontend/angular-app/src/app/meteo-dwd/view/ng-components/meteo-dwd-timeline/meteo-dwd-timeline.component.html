@@ -1,16 +1,15 @@
 <div #container class="meteo-dwd-timeline flex-row">
     <button mat-button (click)="onPreviousStepClicked(); $event.preventDefault()"><i class="fas fa-angle-left"></i></button>
     <button mat-button (click)="onNextStepClicked(); $event.preventDefault()"><i class="fas fa-angle-right"></i></button>
+    <!-- TODO: The 'tickInterval' property no longer exists -->
     <mat-slider
         #slider
         thumbLabel="true"
         [displayWith]="formatLabel"
-        tickInterval="{{ getStepInterval() | async }}"
         step="{{ getStepInterval() | async }}"
         min="{{ getMinStep() | async }}"
         max="{{ getMaxStep() | async }}"
         aria-label="units"
         class="meteo-dwd-timeline-slider"
-        (input)="onIntervalSelected($event)"
-    ></mat-slider>
+     #ngSlider><input matSliderThumb (input)="onIntervalSelected({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})" #ngSliderThumb="matSliderThumb" /></mat-slider>
 </div>

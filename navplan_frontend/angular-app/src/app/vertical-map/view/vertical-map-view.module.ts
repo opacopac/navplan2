@@ -5,8 +5,8 @@ import {VerticalMapRestModule} from '../rest/vertical-map-rest.module';
 import {VerticalMapButtonComponent} from './ng-components/vertical-map-button/vertical-map-button.component';
 import {VerticalMapComponent} from './ng-components/vertical-map/vertical-map.component';
 import {VerticalMapStateModule} from '../state/vertical-map-state.module';
-import {MatLegacyButtonModule as MatButtonModule} from '@angular/material/legacy-button';
-import {MatLegacyTooltipModule as MatTooltipModule} from '@angular/material/legacy-tooltip';
+import {MatButtonModule} from '@angular/material/button';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 @NgModule({

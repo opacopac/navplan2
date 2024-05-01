@@ -5,8 +5,8 @@ import {TrackDomainModule} from '../domain/track-domain.module';
 import {TrackRestModule} from '../rest/track-rest.module';
 import {TracksPageComponent} from './ng-components/tracks-page/tracks-page.component';
 import {TrackListComponent} from './ng-components/track-list/track-list.component';
-import {MatLegacyTableModule as MatTableModule} from '@angular/material/legacy-table';
-import {MatLegacyButtonModule as MatButtonModule} from '@angular/material/legacy-button';
+import {MatTableModule} from '@angular/material/table';
+import {MatButtonModule} from '@angular/material/button';
 
 
 @NgModule({

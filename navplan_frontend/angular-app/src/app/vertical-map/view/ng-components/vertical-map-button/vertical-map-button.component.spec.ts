@@ -1,6 +1,6 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {VerticalMapButtonComponent} from './vertical-map-button.component';
-import {MatLegacyButtonModule as MatButtonModule} from '@angular/material/legacy-button';
+import {MatButtonModule} from '@angular/material/button';
 
 
 xdescribe('VerticalMapButtonComponent', () => {

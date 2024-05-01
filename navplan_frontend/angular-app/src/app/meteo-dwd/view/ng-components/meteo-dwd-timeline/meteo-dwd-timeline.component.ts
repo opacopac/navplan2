@@ -4,7 +4,7 @@ import {Observable, Subscription} from 'rxjs';
 import {getMeteoDwdForecastRun, getMeteoDwdSelectedStep} from '../../../state/ngrx/meteo-dwd.selectors';
 import {MeteoDwdActions} from '../../../state/ngrx/meteo-dwd.actions';
 import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
-import {MatLegacySlider as MatSlider, MatLegacySliderChange as MatSliderChange} from '@angular/material/legacy-slider';
+import {MatSlider, MatSliderChange} from '@angular/material/slider';
 import {DatetimeHelper} from '../../../../system/domain/service/datetime/datetime-helper';
 import {ForecastRun} from '../../../domain/model/forecast-run';
 import {filter, map} from 'rxjs/operators';
@@ -98,7 +98,7 @@ export class MeteoDwdTimelineComponent implements OnInit, OnDestroy {
 
     public onIntervalSelected(event: MatSliderChange) {
         this.appStore.dispatch(
-            MeteoDwdActions.selectStep({ step: event.value })
+            MeteoDwdActions.selectStep({step: event.value})
         );
     }
 
@@ -109,8 +109,8 @@ export class MeteoDwdTimelineComponent implements OnInit, OnDestroy {
 
 
     private updateSelectedStep(selectedStep: number) {
-        if (this.slider && this.slider.value !== selectedStep) {
-            this.slider.value = selectedStep;
+        if (this.slider && this.slider.step !== selectedStep) {
+            this.slider.step = selectedStep;
         }
     }
 }

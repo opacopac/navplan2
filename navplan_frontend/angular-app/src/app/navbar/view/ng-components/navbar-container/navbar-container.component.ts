@@ -7,7 +7,7 @@ import {SearchActions} from '../../../../search/state/ngrx/search.actions';
 import {LogoutUserAction} from '../../../../user/state/ngrx/user.actions';
 import {ExporterActions} from '../../../../exporter/state/ngrx/exporter.actions';
 import {ClearDialogComponent} from '../clear-dialog/clear-dialog.component';
-import {MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
+import {MatDialog} from '@angular/material/dialog';
 
 
 @Component({

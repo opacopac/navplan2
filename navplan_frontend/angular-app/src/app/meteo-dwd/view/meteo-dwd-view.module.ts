@@ -1,17 +1,17 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {MatLegacyButtonModule as MatButtonModule} from '@angular/material/legacy-button';
-import {MatLegacyTooltipModule as MatTooltipModule} from '@angular/material/legacy-tooltip';
+import {MatButtonModule} from '@angular/material/button';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import {MeteoDwdDomainModule} from '../domain/meteo-dwd-domain.module';
 import {MeteoButtonComponent} from '../../flight-map/view/ng-components/meteo-button/meteo-button.component';
 import {MeteoDwdStateModule} from '../state/meteo-dwd-state.module';
 import {MeteoDwdTimelineComponent} from './ng-components/meteo-dwd-timeline/meteo-dwd-timeline.component';
 import {MeteoDwdRestModule} from '../rest/meteo-dwd-rest.module';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
-import {MatLegacySliderModule as MatSliderModule} from '@angular/material/legacy-slider';
-import {MatLegacyMenuModule as MatMenuModule} from '@angular/material/legacy-menu';
-import {MatLegacySelectModule as MatSelectModule} from '@angular/material/legacy-select';
-import {MatLegacyInputModule as MatInputModule} from '@angular/material/legacy-input';
+import {MatSliderModule} from '@angular/material/slider';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatSelectModule} from '@angular/material/select';
+import {MatInputModule} from '@angular/material/input';
 
 
 @NgModule({

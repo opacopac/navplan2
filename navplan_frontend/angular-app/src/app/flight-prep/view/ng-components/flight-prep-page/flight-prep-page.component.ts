@@ -2,7 +2,7 @@ import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/c
 import {ActivatedRoute, Router} from '@angular/router';
 import {map} from 'rxjs/operators';
 import {Observable, Subscription} from 'rxjs';
-import {MatLegacyTabGroup as MatTabGroup} from '@angular/material/legacy-tabs';
+import {MatTabGroup} from '@angular/material/tabs';
 
 
 @Component({

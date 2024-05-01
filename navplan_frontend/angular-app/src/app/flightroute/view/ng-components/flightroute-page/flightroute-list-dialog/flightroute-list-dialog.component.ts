@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {FlightrouteListEntry} from '../../../../domain/model/flightroute-list-entry';
-import {MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
+import {MatDialogRef} from '@angular/material/dialog';
 import {FlightrouteListActions} from '../../../../state/ngrx/flightroute-list.actions';
 import {FlightrouteCrudActions} from '../../../../state/ngrx/flightroute-crud.actions';
 import {getFlightrouteList} from '../../../../state/ngrx/flightroute.selectors';

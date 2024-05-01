@@ -6,6 +6,6 @@
     background-color: #41669c;
 }
 
-.selected-row > .mat-cell {
+.selected-row > .mat-mdc-cell {
     color: white;
 }

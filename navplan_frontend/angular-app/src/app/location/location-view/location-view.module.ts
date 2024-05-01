@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {MatLegacyButtonModule as MatButtonModule} from '@angular/material/legacy-button';
-import {MatLegacyTooltipModule as MatTooltipModule} from '@angular/material/legacy-tooltip';
+import {MatButtonModule} from '@angular/material/button';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import {LocationDomainModule} from '../location-domain/location-domain.module';
 import {LocationStateModule} from '../location-state/location-state.module';
 import {LocationButtonComponent} from './ng-components/location-button/location-button.component';

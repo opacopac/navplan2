@@ -1,5 +1,5 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Waypoint} from '../../../../domain/model/waypoint';
 import {EditWaypointFormComponent} from '../edit-waypoint-form/edit-waypoint-form.component';
 

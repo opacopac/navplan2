@@ -12,7 +12,7 @@ import {Notam} from '../../../../notam/domain/model/notam';
 import {Waypoint} from '../../../../flightroute/domain/model/waypoint';
 import Overlay from 'ol/Overlay';
 import {OverlayState} from '../../../state/ngrx/overlay-state';
-import {MatLegacyTabGroup as MatTabGroup} from '@angular/material/legacy-tabs';
+import {MatTabGroup} from '@angular/material/tabs';
 import {OlGeometry} from '../../../../base-map/view/ol-model/ol-geometry';
 import {timer} from 'rxjs';
 import {tap} from 'rxjs/operators';

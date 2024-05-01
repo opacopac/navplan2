@@ -1,10 +1,10 @@
-table.mat-table {
+table.mat-mdc-table {
     width: 100%;
 }
-.mat-row:nth-child(even), .mat-header-cell {
+.mat-mdc-row:nth-child(even), .mat-mdc-header-cell {
     background-color: rgb(249, 249, 249);
 }
 
-.mat-row:nth-child(odd) {
+.mat-mdc-row:nth-child(odd) {
     background-color: white;
 }
