@@ -9,7 +9,7 @@ import {
 } from './ng-components/ol-overlay-navaid-info-tab/ol-overlay-navaid-info-tab.component';
 import {EnrouteRestModule} from '../rest/enroute-rest.module';
 import {EnrouteStateModule} from '../state/enroute-state.module';
-import {MatCardModule} from '@angular/material/card';
+import {MatLegacyCardModule as MatCardModule} from '@angular/material/legacy-card';
 import {GeoPhysicsDomainModule} from '../../geo-physics/domain/geo-physics-domain.module';
 
 

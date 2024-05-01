@@ -4,7 +4,7 @@ import {MapOverlayNotamTabComponent} from './ng-components/map-overlay-notam-tab
 import {NotamDomainModule} from '../domain/notam-domain.module';
 import {NotamRestModule} from '../rest/notam-rest.module';
 import {NotamStateModule} from '../state/notam-state.module';
-import {MatTableModule} from '@angular/material/table';
+import {MatLegacyTableModule as MatTableModule} from '@angular/material/legacy-table';
 import {MatIconModule} from '@angular/material/icon';
 
 

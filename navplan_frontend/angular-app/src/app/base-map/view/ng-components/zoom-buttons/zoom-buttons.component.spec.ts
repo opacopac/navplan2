@@ -1,6 +1,6 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {ZoomButtonsComponent} from './zoom-buttons.component';
-import {MatButtonModule} from '@angular/material/button';
+import {MatLegacyButtonModule as MatButtonModule} from '@angular/material/legacy-button';
 
 
 xdescribe('ZoomButtonsComponent', () => {

@@ -5,9 +5,9 @@ import {TrafficRestModule} from '../rest/traffic-rest.module';
 import {TrafficStateModule} from '../state/traffic-state.module';
 import {OlOverlayTrafficComponent} from './ng-components/ol-overlay-traffic/ol-overlay-traffic.component';
 import {TrafficButtonComponent} from './ng-components/traffic-button/traffic-button.component';
-import {MatCardModule} from '@angular/material/card';
-import {MatButtonModule} from '@angular/material/button';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatLegacyCardModule as MatCardModule} from '@angular/material/legacy-card';
+import {MatLegacyButtonModule as MatButtonModule} from '@angular/material/legacy-button';
+import {MatLegacyTooltipModule as MatTooltipModule} from '@angular/material/legacy-tooltip';
 
 
 @NgModule({

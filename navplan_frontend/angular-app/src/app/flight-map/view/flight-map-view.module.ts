@@ -15,8 +15,8 @@ import {WebcamViewModule} from '../../webcam/view/webcam-view.module';
 import {TrackViewModule} from '../../track/view/track-view.module';
 import {VerticalMapViewModule} from '../../vertical-map/view/vertical-map-view.module';
 import {FlightMapStateModule} from '../state/flight-map-state.module';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatCardModule} from '@angular/material/card';
+import {MatLegacyTabsModule as MatTabsModule} from '@angular/material/legacy-tabs';
+import {MatLegacyCardModule as MatCardModule} from '@angular/material/legacy-card';
 import {UserViewModule} from '../../user/view/user-view.module';
 import {TrafficViewModule} from '../../traffic/view/traffic-view.module';
 import {SearchViewModule} from '../../search/view/search-view.module';
@@ -24,7 +24,7 @@ import {LocationViewModule} from '../../location/location-view/location-view.mod
 import {BaseMapViewModule} from '../../base-map/view/base-map-view.module';
 import {MeteoDwdViewModule} from '../../meteo-dwd/view/meteo-dwd-view.module';
 import {MeteoContainerComponent} from './ng-components/meteo-container/meteo-container.component';
-import {MatButtonModule} from '@angular/material/button';
+import {MatLegacyButtonModule as MatButtonModule} from '@angular/material/legacy-button';
 import {MeteoGramViewModule} from '../../meteo-gram/view/meteo-gram-view.module';
 
 @NgModule({

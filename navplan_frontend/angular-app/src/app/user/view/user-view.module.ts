@@ -36,13 +36,13 @@ import {
 import {UserDomainModule} from '../domain/user-domain.module';
 import {UserRestModule} from '../rest/user-rest.module';
 import {UserStateModule} from '../state/user-state.module';
-import {MatCardModule} from '@angular/material/card';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
+import {MatLegacyCardModule as MatCardModule} from '@angular/material/legacy-card';
+import {MatLegacyFormFieldModule as MatFormFieldModule} from '@angular/material/legacy-form-field';
+import {MatLegacyInputModule as MatInputModule} from '@angular/material/legacy-input';
 import {ReactiveFormsModule} from '@angular/forms';
-import {MatButtonModule} from '@angular/material/button';
+import {MatLegacyButtonModule as MatButtonModule} from '@angular/material/legacy-button';
 import {MatIconModule} from '@angular/material/icon';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatLegacyCheckboxModule as MatCheckboxModule} from '@angular/material/legacy-checkbox';
 import {RouterModule} from '@angular/router';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {GeoPhysicsDomainModule} from '../../geo-physics/domain/geo-physics-domain.module';

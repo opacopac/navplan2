@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Subscription} from 'rxjs';
 import {getExporterState} from '../../../state/ngrx/exporter.selectors';
-import {MatDialog} from '@angular/material/dialog';
+import {MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
 import {DownloadDialogComponent} from '../download-dialog/download-dialog.component';
 import {ExporterState} from '../../../state/state-model/exporter-state';
 

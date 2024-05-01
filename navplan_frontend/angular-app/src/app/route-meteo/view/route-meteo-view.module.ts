@@ -4,11 +4,11 @@ import {RouteMeteoContainerComponent} from './ng-components/route-meteo-containe
 import {FlightrouteStateModule} from '../../flightroute/state/flightroute-state.module';
 import {RouteMeteoStateModule} from '../state/route-meteo-state.module';
 import {RouteMeteoDomainModule} from '../domain/route-meteo-domain.module';
-import {MatTableModule} from '@angular/material/table';
-import {MatButtonModule} from '@angular/material/button';
+import {MatLegacyTableModule as MatTableModule} from '@angular/material/legacy-table';
+import {MatLegacyButtonModule as MatButtonModule} from '@angular/material/legacy-button';
 import {RouteMeteoTableComponent} from './ng-components/route-meteo-table/route-meteo-table.component';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
+import {MatLegacyFormFieldModule as MatFormFieldModule} from '@angular/material/legacy-form-field';
+import {MatLegacyInputModule as MatInputModule} from '@angular/material/legacy-input';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MetarTafViewModule} from '../../metar-taf/view/metar-taf-view.module';
 

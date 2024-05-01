@@ -8,8 +8,8 @@ import {ExporterStateModule} from '../state/exporter-state.module';
 import {
     FlightrouteExportButtonsComponent
 } from './ng-components/flightroute-export-buttons/flightroute-export-buttons.component';
-import {MatButtonModule} from '@angular/material/button';
-import {MatDialogModule} from '@angular/material/dialog';
+import {MatLegacyButtonModule as MatButtonModule} from '@angular/material/legacy-button';
+import {MatLegacyDialogModule as MatDialogModule} from '@angular/material/legacy-dialog';
 
 
 @NgModule({

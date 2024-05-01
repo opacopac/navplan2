@@ -8,7 +8,7 @@ import {Waypoint} from '../../../../domain/model/waypoint';
 import {WaypointActions} from '../../../../state/ngrx/waypoints.actions';
 import {getFlightMapShowOverlay} from '../../../../../flight-map/state/ngrx/flight-map.selectors';
 import {EditWaypointDialogComponent} from '../../flightroute-page/edit-waypoint-dialog/edit-waypoint-dialog.component';
-import {MatDialog} from '@angular/material/dialog';
+import {MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
 
 
 @Component({

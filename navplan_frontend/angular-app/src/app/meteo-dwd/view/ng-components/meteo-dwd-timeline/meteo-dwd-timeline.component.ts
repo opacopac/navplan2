@@ -4,7 +4,7 @@ import {Observable, Subscription} from 'rxjs';
 import {getMeteoDwdForecastRun, getMeteoDwdSelectedStep} from '../../../state/ngrx/meteo-dwd.selectors';
 import {MeteoDwdActions} from '../../../state/ngrx/meteo-dwd.actions';
 import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
-import {MatSlider, MatSliderChange} from '@angular/material/slider';
+import {MatLegacySlider as MatSlider, MatLegacySliderChange as MatSliderChange} from '@angular/material/legacy-slider';
 import {DatetimeHelper} from '../../../../system/domain/service/datetime/datetime-helper';
 import {ForecastRun} from '../../../domain/model/forecast-run';
 import {filter, map} from 'rxjs/operators';

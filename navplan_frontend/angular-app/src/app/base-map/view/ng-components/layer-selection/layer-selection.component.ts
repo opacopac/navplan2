@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {getSelectedMapBaseLayerType} from '../../../state/ngrx/base-map.selectors';
 import {MapBaseLayerType} from '../../../domain/model/map-base-layer-type';
-import {MatRadioChange} from '@angular/material/radio';
+import {MatLegacyRadioChange as MatRadioChange} from '@angular/material/legacy-radio';
 import {BaseMapActions} from '../../../state/ngrx/base-map.actions';
 
 
