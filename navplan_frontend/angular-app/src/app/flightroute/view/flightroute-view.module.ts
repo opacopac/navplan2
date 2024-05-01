@@ -45,7 +45,6 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatSelectModule} from '@angular/material/select';
-import {FlexModule} from '@angular/flex-layout';
 import {MatCardModule} from '@angular/material/card';
 import {FuelCalcContainerComponent} from './ng-components/fuel-calc/fuel-calc-container/fuel-calc-container.component';
 import {FuelCalcTableComponent} from './ng-components/fuel-calc/fuel-calc-table/fuel-calc-table.component';
@@ -63,7 +62,6 @@ import {FuelCalcTableComponent} from './ng-components/fuel-calc/fuel-calc-table/
         MatButtonToggleModule,
         MatSelectModule,
         MatCardModule,
-        FlexModule,
         FlightrouteDomainModule,
         FlightrouteRestModule,
         FlightrouteStateModule,
@@ -93,9 +91,8 @@ import {FuelCalcTableComponent} from './ng-components/fuel-calc/fuel-calc-table/
         FlightrouteContainerComponent,
         FuelCalcContainerComponent
     ],
-    providers: [
-    ],
-    entryComponents: [
-    ],
+    providers: [],
+    entryComponents: [],
 })
-export class FlightrouteViewModule {}
+export class FlightrouteViewModule {
+}
