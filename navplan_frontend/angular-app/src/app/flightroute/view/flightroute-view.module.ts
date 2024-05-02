@@ -91,8 +91,7 @@ import {FuelCalcTableComponent} from './ng-components/fuel-calc/fuel-calc-table/
         FlightrouteContainerComponent,
         FuelCalcContainerComponent
     ],
-    providers: [],
-    entryComponents: [],
+    providers: []
 })
 export class FlightrouteViewModule {
 }

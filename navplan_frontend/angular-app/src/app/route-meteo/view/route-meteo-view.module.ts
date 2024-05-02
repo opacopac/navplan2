@@ -33,8 +33,7 @@ import {MetarTafViewModule} from '../../metar-taf/view/metar-taf-view.module';
     exports: [
         RouteMeteoContainerComponent
     ],
-    providers: [],
-    entryComponents: [],
+    providers: []
 })
 export class RouteMeteoViewModule {
 }

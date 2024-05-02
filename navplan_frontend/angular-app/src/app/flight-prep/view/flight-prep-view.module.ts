@@ -21,9 +21,7 @@ import {FlightrouteViewModule} from '../../flightroute/view/flightroute-view.mod
     exports: [
         FlightPrepPageComponent
     ],
-    providers: [
-    ],
-    entryComponents: [
-    ],
+    providers: []
 })
-export class FlightPrepViewModule {}
+export class FlightPrepViewModule {
+}

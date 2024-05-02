@@ -10,13 +10,9 @@ import {RouteMeteoEffects} from './ngrx/route-meteo.effects';
         StoreModule.forFeature('routeMeteoState', routeMeteoReducer),
         EffectsModule.forFeature([RouteMeteoEffects]),
     ],
-    declarations: [
-    ],
-    exports: [
-    ],
-    providers: [
-    ],
-    entryComponents: [
-    ],
+    declarations: [],
+    exports: [],
+    providers: []
 })
-export class RouteMeteoStateModule {}
+export class RouteMeteoStateModule {
+}
