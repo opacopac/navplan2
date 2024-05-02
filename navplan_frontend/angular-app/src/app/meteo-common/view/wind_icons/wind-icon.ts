@@ -23,7 +23,7 @@ export class WindIcon {
     ): WindIcon {
         let src = environment.iconBaseUrl;
         let rot = windDir ? new Angle(windDir.deg + 90 + screenRotation.deg, AngleUnit.DEG) : Angle.createZero();
-        const windRangesKt = [[0, '0'], [2, '1-2'], [7, '5'], [12, '10'], [17, '15'], [22, '20'], [27, '25'], [32, '30'],
+        const windRangesKt: [number, string][] = [[0, '0'], [2, '1-2'], [7, '5'], [12, '10'], [17, '15'], [22, '20'], [27, '25'], [32, '30'],
             [37, '35'], [42, '40'], [47, '45'], [55, '50'], [65, '60'], [75, '70'], [85, '80'], [95, '90'], [105, '100']];
 
 
