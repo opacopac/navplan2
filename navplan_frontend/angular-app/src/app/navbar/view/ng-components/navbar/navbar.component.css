@@ -1,6 +1,7 @@
 .main-container {
     display: flex;
     flex-direction: row;
+    gap: 10px;
 }
 
 .mat-toolbar.mat-primary {
@@ -27,6 +28,7 @@
 
 .menu-buttons-left-lg {
     display: flex;
+    gap: 15px;
     flex-grow: 1;
 }
 
@@ -39,7 +41,6 @@
 .menu-buttons-right-lg {
     display: flex;
     justify-content: flex-end;
-    align-items: flex-start;
 }
 
 .menu-buttons-sm {
@@ -51,7 +52,7 @@
     justify-content: flex-start;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 799px) {
     .menu-buttons-left-lg {
         display: none;
     }
@@ -61,12 +62,22 @@
     }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 800px) {
     .menu-buttons-sm {
         display: none;
     }
 
     .open-vertical-menu-button {
         display: none;
+    }
+}
+
+@media (max-width: 1280px) {
+    .button-text {
+        display: none;
+    }
+
+    .menu-buttons-left-lg {
+        gap: 0;
     }
 }
