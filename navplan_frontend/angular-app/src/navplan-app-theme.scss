@@ -263,3 +263,4 @@ $navplan-app-theme-dense: mat.define-light-theme((
 @include mat.all-component-themes($navplan-app-theme-dense);
 @include mat.button-theme($navplan-app-theme);
 @include mat.icon-theme($navplan-app-theme);
+@include mat.tabs-theme($navplan-app-theme);
