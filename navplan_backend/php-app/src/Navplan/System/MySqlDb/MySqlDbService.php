@@ -126,6 +126,8 @@ class MySqlDbService implements IDbService
      */
     public function execSingleResultQuery(string $query, bool $allowZeroResults = true, string $errorMessage = "error executing single result query"): IDbResult
     {
+        $this->logQuery($query);
+
         $this->autoOpen();
 
         $result = $this->connection->query($query);
@@ -148,6 +150,8 @@ class MySqlDbService implements IDbService
      */
     public function execMultiResultQuery(string $query, string $errorMessage = "error executing multi result query"): IDbResult
     {
+        $this->logQuery($query);
+
         $this->autoOpen();
 
         $result = $this->connection->query($query);
@@ -167,6 +171,8 @@ class MySqlDbService implements IDbService
      */
     public function execCUDQuery(string $query, string $errorMessage = "error executing query"): bool
     {
+        $this->logQuery($query);
+
         $this->autoOpen();
 
         $result = $this->connection->query($query);
@@ -232,5 +238,11 @@ class MySqlDbService implements IDbService
         $this->loggingService->debug('DB query: ' . $query);
 
         throw $exception;
+    }
+
+
+    private function logQuery(string $query): void
+    {
+        $this->loggingService->debug('Executing DB query: ' . $query);
     }
 }
