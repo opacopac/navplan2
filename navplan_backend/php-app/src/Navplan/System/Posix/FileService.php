@@ -7,32 +7,37 @@ use Navplan\Common\StringNumberHelper;
 use Navplan\System\Domain\Model\FileServiceException;
 use Navplan\System\Domain\Model\IFile;
 use Navplan\System\Domain\Service\IFileService;
+use Navplan\System\Domain\Service\ILoggingService;
 use Navplan\System\Domain\Service\ISystemConfig;
 
 
-class FileService implements IFileService {
+class FileService implements IFileService
+{
     const TMP_DIR_PREFIX = 'tmpdl_';
     const TMP_DIR_TIMEOUT_SEC = 300;
 
     public function __construct(
-        private readonly ISystemConfig $systemConfig
-    ) {
+        private readonly ISystemConfig $systemConfig,
+        private readonly ILoggingService $loggingService
+    )
+    {
     }
 
 
     /**
      * @throws FileServiceException
      */
-    public function fileGetContents(string $filename, bool $use_include_path = FALSE, $context = NULL): string {
+    public function fileGetContents(string $filename, bool $use_include_path = FALSE, $context = NULL): string
+    {
         try {
             // TODO: handle warnings (currently suppressed with @ operator)
             $result = @file_get_contents($filename, $use_include_path, $context);
         } catch (Exception $ex) {
-            throw new FileServiceException('error reading file or stream ' . $filename, 0, $ex);
+            $this->logAndThrowException('error reading file or stream ' . $filename, $ex);
         }
 
         if ($result === FALSE) {
-            throw new FileServiceException('error reading file or stream ' . $filename);
+            $this->logAndThrowException('error reading file or stream ' . $filename);
         } else {
             return $result;
         }
@@ -42,45 +47,50 @@ class FileService implements IFileService {
     /**
      * @throws FileServiceException
      */
-    public function filePutContents(string $filename, $data, int $flags = 0, $context = null): int {
+    public function filePutContents(string $filename, $data, int $flags = 0, $context = null): int
+    {
         try {
             $result = file_put_contents($filename, $data, $flags, $context);
         } catch (Exception $ex) {
-            throw new FileServiceException('error writing file or stream', 0, $ex);
+            $this->logAndThrowException('error writing file or stream', $ex);
         }
 
         if ($result === FALSE) {
-            throw new FileServiceException('error writing file or stream');
+            $this->logAndThrowException('error writing file or stream');
         } else {
             return $result;
         }
     }
 
 
-    public function file_exists(string $filename): bool {
+    public function file_exists(string $filename): bool
+    {
         return file_exists($filename);
     }
 
 
-    public function fopen(string $filename, string $mode): ?IFile {
+    public function fopen(string $filename, string $mode): ?IFile
+    {
         $file = fopen($filename, $mode);
 
         return $file === FALSE ? NULL : new File($file);
     }
 
 
-    public function shell_exec(string $cmd): ?string {
+    public function shell_exec(string $cmd): ?string
+    {
         return shell_exec($cmd);
     }
 
 
-
-    public function getTempDirBase(): string {
+    public function getTempDirBase(): string
+    {
         return $this->systemConfig->getTempDir();
     }
 
 
-    public function createTempDir(): string {
+    public function createTempDir(): string
+    {
         $this->cleanUpTempDirs();
 
         $tmpDir = self::TMP_DIR_PREFIX . StringNumberHelper::createRandomString(20);
@@ -90,12 +100,14 @@ class FileService implements IFileService {
     }
 
 
-    public function glob(string $directory, int $flags): array|false {
+    public function glob(string $directory, int $flags): array|false
+    {
         return glob($directory, $flags);
     }
 
 
-    private function cleanUpTempDirs() {
+    private function cleanUpTempDirs()
+    {
         $tmpDirEntries = scandir($this->getTempDirBase());
 
         // iterate trough tmp dirs
@@ -122,14 +134,30 @@ class FileService implements IFileService {
                 $tmpFilePath = $tmpDirPath . "/" . $tmpFile;
 
                 if (!unlink($tmpFilePath)) {
-                    throw new FileServiceException("ERROR: while deleting temp file '" . $tmpFilePath . "'");
+                    $this->logAndThrowException("ERROR: while deleting temp file '" . $tmpFilePath . "'");
                 }
             }
 
             // remove tmp dir
             if (!rmdir($tmpDirPath)) {
-                throw new FileServiceException("ERROR: while deleting temp dir '" . $tmpDirPath . "'");
+                $this->logAndThrowException("ERROR: while deleting temp dir '" . $tmpDirPath . "'");
             }
+        }
+    }
+
+
+    /**
+     * @throws FileServiceException
+     */
+    private function logAndThrowException(string $msg, Exception $ex = NULL): void
+    {
+        $logMsg = $ex ? $msg . ': ' . $ex->getMessage() : $msg;
+        $this->loggingService->error($logMsg);
+
+        if ($ex !== NULL) {
+            throw new FileServiceException($msg, 0, $ex);
+        } else {
+            throw new FileServiceException($msg);
         }
     }
 }

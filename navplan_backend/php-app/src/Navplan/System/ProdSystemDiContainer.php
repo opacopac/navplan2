@@ -38,11 +38,13 @@ class ProdSystemDiContainer implements ISystemDiContainer
     public function __construct(
         private readonly ISystemConfig $systemConfig,
         private readonly IDbConfig $dbConfig
-    ) {
+    )
+    {
     }
 
 
-    public function getHttpService(): IHttpService {
+    public function getHttpService(): IHttpService
+    {
         if (!isset($this->httpService)) {
             $this->httpService = new HttpService();
         }
@@ -51,25 +53,33 @@ class ProdSystemDiContainer implements ISystemDiContainer
     }
 
 
-    public function getFileService(): IFileService {
+    public function getFileService(): IFileService
+    {
         if (!isset($this->fileService)) {
-            $this->fileService = new FileService($this->systemConfig);
+            $this->fileService = new FileService(
+                $this->systemConfig,
+                $this->getScreenLogger()
+            );
         }
 
         return $this->fileService;
     }
 
 
-    public function getMailService(): IMailService {
+    public function getMailService(): IMailService
+    {
         if (!isset($this->mailService)) {
-            $this->mailService = new MailService();
+            $this->mailService = new MailService(
+                $this->getFileLogger()
+            );
         }
 
         return $this->mailService;
     }
 
 
-    public function getTimeService(): ITimeService {
+    public function getTimeService(): ITimeService
+    {
         if (!isset($this->timeService)) {
             $this->timeService = new TimeService();
         }
@@ -78,7 +88,8 @@ class ProdSystemDiContainer implements ISystemDiContainer
     }
 
 
-    public function getProcService(): IProcService {
+    public function getProcService(): IProcService
+    {
         if (!isset($this->procService)) {
             $this->procService = new ProcService();
         }
@@ -87,7 +98,8 @@ class ProdSystemDiContainer implements ISystemDiContainer
     }
 
 
-    public function getScreenLogger(): ILoggingService {
+    public function getScreenLogger(): ILoggingService
+    {
         if (!isset($this->screenLogger)) {
             $this->screenLogger = new LoggingService(
                 $this->getTimeService(),
@@ -100,7 +112,8 @@ class ProdSystemDiContainer implements ISystemDiContainer
     }
 
 
-    public function getFileLogger(): ILoggingService {
+    public function getFileLogger(): ILoggingService
+    {
         if (!isset($this->fileLogger)) {
             $logFile = $this->systemConfig->getLogDir() . $this->systemConfig->getLogFile();
             $this->fileLogger = new LoggingService(
@@ -114,7 +127,8 @@ class ProdSystemDiContainer implements ISystemDiContainer
     }
 
 
-    public function getDbService(): IDbService {
+    public function getDbService(): IDbService
+    {
         if (!isset($this->dbService)) {
             $this->dbService = new MySqlDbService(
                 $this->getScreenLogger()
@@ -132,7 +146,8 @@ class ProdSystemDiContainer implements ISystemDiContainer
     }
 
 
-    public function getImageService(): IImageService {
+    public function getImageService(): IImageService
+    {
         if (!isset($this->imageService)) {
             $this->imageService = new ImagickService();
         }

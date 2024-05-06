@@ -10,7 +10,8 @@ use Navplan\User\Domain\Service\IUserRepo;
 use Navplan\User\UseCase\UserResponse;
 
 
-class SendRegisterEmailUc implements ISendRegisterEmailUc {
+class SendRegisterEmailUc implements ISendRegisterEmailUc
+{
     const NAVPLAN_BASE_URL = "https://www.navplan.ch/v2/#";
 
 
@@ -19,11 +20,13 @@ class SendRegisterEmailUc implements ISendRegisterEmailUc {
         private ITokenService $tokenService,
         private IMailService $mailService,
         private ILoggingService $loggingService
-    ) {
+    )
+    {
     }
 
 
-    public function sendRegisterEmail(SendRegisterEmailRequest $request): UserResponse {
+    public function sendRegisterEmail(SendRegisterEmailRequest $request): UserResponse
+    {
         if (!User::checkEmailFormat($request->email)) {
             return new UserResponse(-1, 'error: invalid email format');
         }
@@ -40,7 +43,8 @@ class SendRegisterEmailUc implements ISendRegisterEmailUc {
     }
 
 
-    private function sendActivationEmail(string $email, string $token): bool {
+    private function sendActivationEmail(string $email, string $token): bool
+    {
         $activateUrl = self::NAVPLAN_BASE_URL . '/register/' . $token; // TODO -> config
         $subject = "Welcome to Navplan.ch";
         $message = '
@@ -55,7 +59,7 @@ class SendRegisterEmailUc implements ISendRegisterEmailUc {
             </body>
             </html>';
 
-        $this->loggingService->info('send activation email to ' . $email . ' with activate url ' . $activateUrl);
+        $this->loggingService->info('sending activation email...');
 
         return $this->mailService->sendEmail($email, $subject, $message);
     }
