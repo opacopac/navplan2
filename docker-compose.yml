@@ -34,6 +34,8 @@ services:
             - 8080:80
         depends_on:
             - navplan_persistence
+        volumes:
+            - navplan_data:/var/log/navplan
 
     navplan_frontend:
         build:

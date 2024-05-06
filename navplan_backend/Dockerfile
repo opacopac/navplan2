@@ -38,3 +38,9 @@ RUN composer update
 EXPOSE 80
 
 CMD ["apache2-foreground"]
+
+# Create log directory
+RUN mkdir -p /var/log/navplan/
+
+# Set permissions for log directory and file
+RUN chmod -R 777 /var/log/navplan/

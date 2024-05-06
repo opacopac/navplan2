@@ -2,6 +2,7 @@
 
 namespace Navplan\User\UseCase\SendRegisterEmail;
 
+use Navplan\System\Domain\Service\ILoggingService;
 use Navplan\System\Domain\Service\IMailService;
 use Navplan\User\Domain\Model\User;
 use Navplan\User\Domain\Service\ITokenService;
@@ -16,7 +17,8 @@ class SendRegisterEmailUc implements ISendRegisterEmailUc {
     public function __construct(
         private IUserRepo $userRepo,
         private ITokenService $tokenService,
-        private IMailService $mailService
+        private IMailService $mailService,
+        private ILoggingService $loggingService
     ) {
     }
 
@@ -52,6 +54,8 @@ class SendRegisterEmailUc implements ISendRegisterEmailUc {
               <p><a href="' . $activateUrl . '">Create Account</a></p>
             </body>
             </html>';
+
+        $this->loggingService->info('send activation email to ' . $email . ' with activate url ' . $activateUrl);
 
         return $this->mailService->sendEmail($email, $subject, $message);
     }

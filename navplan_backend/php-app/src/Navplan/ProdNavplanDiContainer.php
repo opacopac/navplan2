@@ -310,7 +310,8 @@ class ProdNavplanDiContainer
             $this->userDiContainer = new ProdUserDiContainer(
                 $this->getPersistenceDiContainer()->getDbService(),
                 $this->getSystemDiContainer()->getMailService(),
-                $this->getConfigDiContainer()
+                $this->getConfigDiContainer(),
+                $this->getSystemDiContainer()->getFileLogger()
             );
         }
 

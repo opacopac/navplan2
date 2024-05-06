@@ -3,6 +3,7 @@
 namespace Navplan\User;
 
 use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Domain\Service\ILoggingService;
 use Navplan\System\Domain\Service\IMailService;
 use Navplan\User\Domain\Service\ITokenConfig;
 use Navplan\User\Domain\Service\ITokenService;
@@ -46,7 +47,8 @@ class ProdUserDiContainer implements IUserDiContainer {
     public function __construct(
         private readonly IDbService $dbService,
         private readonly IMailService $mailService,
-        private readonly ITokenConfig $tokenCredentials
+        private readonly ITokenConfig $tokenCredentials,
+        private readonly ILoggingService $loggingService
     ) {
     }
 
@@ -106,7 +108,8 @@ class ProdUserDiContainer implements IUserDiContainer {
             $this->sendRegisterEmailUc = new SendRegisterEmailUc(
                 $this->getUserRepo(),
                 $this->getTokenService(),
-                $this->mailService
+                $this->mailService,
+                $this->loggingService
             );
         }
 
