@@ -14,7 +14,7 @@ $maxAgeSec = intval($argv[2]);
 $ognListenerService = new OgnListener(
     $diContainer->getTrafficDiContainer()->getOgnListenerRepo(),
     $diContainer->getSystemDiContainer()->getTimeService(),
-    $diContainer->getSystemDiContainer()->getFileLogger()
+    $diContainer->getSystemDiContainer()->getLoggingService()
 );
 
 $ognListenerService->start($sessionId, $maxAgeSec);

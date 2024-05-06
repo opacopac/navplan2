@@ -22,7 +22,7 @@ class ProdPersistenceDiContainer implements IPersistenceDiContainer
     public function getDbService(): IDbService {
         if (!isset($this->dbService)) {
             $this->dbService = new MySqlDbService(
-                $this->systemDiContainer->getScreenLogger()
+                $this->systemDiContainer->getLoggingService()
             );
             $this->dbService->init2(
                 $this->dbConfig->getCredentials()

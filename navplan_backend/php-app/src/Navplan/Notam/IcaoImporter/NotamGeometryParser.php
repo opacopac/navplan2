@@ -14,7 +14,7 @@ use Navplan\System\MySqlDb\DbHelper;
 
 $diContainer = new ProdNavplanDiContainer();
 $parser = new NotamGeometryParser(
-    $diContainer->getScreenLogger(),
+    $diContainer->getSystemDiContainer()->getLoggingService(),
     $diContainer->getDbService()
 );
 if (isset($_GET["testnotamid"])) {

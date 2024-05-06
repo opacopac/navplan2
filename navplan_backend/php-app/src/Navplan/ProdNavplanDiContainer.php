@@ -99,7 +99,7 @@ class ProdNavplanDiContainer
         if (!isset($this->aerodromeDiContainer)) {
             $this->aerodromeDiContainer = new ProdAerodromeDiContainer(
                 $this->getPersistenceDiContainer()->getDbService(),
-                $this->getSystemDiContainer()->getScreenLogger(),
+                $this->getSystemDiContainer()->getLoggingService(),
                 $this->getSystemDiContainer()->getHttpService()
             );
         }
@@ -111,7 +111,7 @@ class ProdNavplanDiContainer
     public function getEnrouteDiContainer(): IEnrouteDiContainer {
         if (!isset($this->enrouteDiContainer)) {
             $this->enrouteDiContainer = new ProdEnrouteDiContainer(
-                $this->getSystemDiContainer()->getScreenLogger(),
+                $this->getSystemDiContainer()->getLoggingService(),
                 $this->getPersistenceDiContainer()->getDbService(),
                 $this->getSystemDiContainer()->getHttpService()
             );
@@ -216,7 +216,7 @@ class ProdNavplanDiContainer
                 $this->getAerodromeDiContainer()->getAirportService(),
                 $this->getEnrouteDiContainer()->getAirspaceService(),
                 $this->getEnrouteDiContainer()->getNavaidService(),
-                $this->getSystemDiContainer()->getScreenLogger(),
+                $this->getSystemDiContainer()->getLoggingService(),
                 $this->getPersistenceDiContainer()->getDbService()
             );
         }
@@ -296,7 +296,7 @@ class ProdNavplanDiContainer
                 $this->getSystemDiContainer()->getFileService(),
                 $this->getSystemDiContainer()->getTimeService(),
                 $this->getSystemDiContainer()->getProcService(),
-                $this->getSystemDiContainer()->getFileLogger(),
+                $this->getSystemDiContainer()->getLoggingService(),
                 $this->getPersistenceDiContainer()->getDbService()
             );
         }
@@ -311,7 +311,7 @@ class ProdNavplanDiContainer
                 $this->getPersistenceDiContainer()->getDbService(),
                 $this->getSystemDiContainer()->getMailService(),
                 $this->getConfigDiContainer(),
-                $this->getSystemDiContainer()->getFileLogger()
+                $this->getSystemDiContainer()->getLoggingService()
             );
         }
 

@@ -10,7 +10,7 @@ require_once __DIR__ . "/../../ConsoleBootstrap.php";
 $diContainer = new ProdNavplanDiContainer();
 $circuitImporter = new SectorFileImporter(
     $diContainer->getAirportCircuitService(),
-    $diContainer->getScreenLogger()
+    $diContainer->getSystemDiContainer()->getLoggingService()
 );
 
 $circuitImporter->import("Switzerland.sct");

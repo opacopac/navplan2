@@ -29,7 +29,6 @@ class ProdSystemDiContainer implements ISystemDiContainer
     private IMailService $mailService;
     private ITimeService $timeService;
     private IProcService $procService;
-    private ILoggingService $screenLogger;
     private ILoggingService $fileLogger;
     private IDbService $dbService;
     private IImageService $imageService;
@@ -58,7 +57,7 @@ class ProdSystemDiContainer implements ISystemDiContainer
         if (!isset($this->fileService)) {
             $this->fileService = new FileService(
                 $this->systemConfig,
-                $this->getScreenLogger()
+                $this->getLoggingService()
             );
         }
 
@@ -70,7 +69,7 @@ class ProdSystemDiContainer implements ISystemDiContainer
     {
         if (!isset($this->mailService)) {
             $this->mailService = new MailService(
-                $this->getFileLogger()
+                $this->getLoggingService()
             );
         }
 
@@ -98,21 +97,7 @@ class ProdSystemDiContainer implements ISystemDiContainer
     }
 
 
-    public function getScreenLogger(): ILoggingService
-    {
-        if (!isset($this->screenLogger)) {
-            $this->screenLogger = new LoggingService(
-                $this->getTimeService(),
-                $this->systemConfig->getLogLevel(),
-                null
-            );
-        }
-
-        return $this->screenLogger;
-    }
-
-
-    public function getFileLogger(): ILoggingService
+    public function getLoggingService(): ILoggingService
     {
         if (!isset($this->fileLogger)) {
             $logFile = $this->systemConfig->getLogDir() . $this->systemConfig->getLogFile();
@@ -131,7 +116,7 @@ class ProdSystemDiContainer implements ISystemDiContainer
     {
         if (!isset($this->dbService)) {
             $this->dbService = new MySqlDbService(
-                $this->getScreenLogger()
+                $this->getLoggingService()
             );
             $credentials = $this->dbConfig->getCredentials();
             $this->dbService->init(

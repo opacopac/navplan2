@@ -13,7 +13,7 @@ use Navplan\System\MySqlDb\DbHelper;
 
 $diContainer = new ProdNavplanDiContainer();
 $retriever = new NotamRetriever(
-    $diContainer->getScreenLogger(),
+    $diContainer->getSystemDiContainer()->getLoggingService(),
     $diContainer->getDbService()
 );
 $retriever->go();

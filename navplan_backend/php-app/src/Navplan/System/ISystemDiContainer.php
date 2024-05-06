@@ -22,9 +22,7 @@ interface ISystemDiContainer {
 
     function getProcService(): IProcService;
 
-    function getScreenLogger(): ILoggingService;
-
-    function getFileLogger(): ILoggingService;
+    function getLoggingService(): ILoggingService;
 
     function getImageService(): IImageService;
 }
