@@ -3,7 +3,7 @@
 <!-- aircraft consumption -->
 <form class="fuel-form" [formGroup]="fuelForm">
     <!-- aircraft consumption -->
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" color="accent">
         <mat-label>Fuel Consumption</mat-label>
         <input matInput
                #aircraftConsumption
@@ -16,7 +16,7 @@
     </mat-form-field>
 
     <!-- extra time -->
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" color="accent">
         <mat-label>Extra Time</mat-label>
         <input matInput
                #extraTime
@@ -31,5 +31,5 @@
 
 <!-- fuel calc table -->
 <app-fuel-calc-table
-        [routeFuel]="this.routeFuel$ | async">
+    [routeFuel]="this.routeFuel$ | async">
 </app-fuel-calc-table>
