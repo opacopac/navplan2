@@ -2,6 +2,10 @@
 
 namespace NavplanTest\Traffic\Ogn\Service;
 
+use Navplan\Common\Domain\Model\Altitude;
+use Navplan\Common\Domain\Model\AltitudeReference;
+use Navplan\Common\Domain\Model\AltitudeUnit;
+use Navplan\Common\Domain\Model\Position3d;
 use Navplan\Traffic\Ogn\Model\OgnAprsMessageParser;
 use PHPUnit\Framework\TestCase;
 
@@ -25,7 +29,15 @@ class OgnAprsMessageParserTest extends TestCase
         $result = $parser->parse($aprsMsg);
 
         // then
+        $expectedAlt = new Altitude(16, AltitudeUnit::FT, AltitudeReference::MSL);
+        $expectedPos = new Position3d(10.155116666666666, 53.51156666666667, $expectedAlt);
+
         $this->assertNotNull($result);
+        $this->assertEquals("BOBERG", $result->receiver);
         $this->assertEquals("DD95E5", $result->address);
+        $this->assertEquals("FLARM", $result->addressType);
+        $this->assertEquals("GLIDER", $result->acType);
+        $this->assertEquals("1715292043", $result->timestamp);
+        $this->assertEquals($expectedPos, $result->position);
     }
 }
