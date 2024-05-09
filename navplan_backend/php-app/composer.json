@@ -10,5 +10,8 @@
         "phpoffice/phpspreadsheet": "^1.24",
         "setasign/fpdf": "^1.8",
         "rbdwllr/reallysimplejwt": "^5.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.5"
     }
 }
