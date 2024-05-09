@@ -6,7 +6,7 @@ namespace Navplan\Traffic\Ogn\Model;
 class OgnAprsMessageParser
 {
     public const PATTERN_APRS = "^(?P<callsign>.+?)>"
-    . "(?P<protocol>(APRS|OGFLR|OGNSKY)),.+,"
+    . "(?P<protocol>\w+),.+,"
     . "(?P<receiver>.+?):\/"
     . "(?P<time>\d{6})+h"
     . "(?P<latitude>\d{4}\.\d{2})"
@@ -24,18 +24,8 @@ class OgnAprsMessageParser
     . "(?P<longitude_enhancement>\d))!)?\s"
     . "(?P<comment>.*)$";
 
-    public const PATTERN_APRS_COMMENT = "id(?P<details>\w{2})(?P<id>\w+?)\s"
-    . "(?P<climb_rate>[+-]\d+?)fpm\s"
-    . "(?P<turn_rate>[+-][\d.]+?)rot\s"
-    . "(?:FL(?P<flight_level>[\d.]+)\s)?"
-    . "(?P<signal>[\d.]+?)dB\s"
-    . "(?P<errors>\d+)e\s"
-    . "(?P<frequency_offset>[+-][\d.]+?)kHz\s?"
-    . "(?:gps(?P<gps_accuracy>\d+x\d+)\s?)?"
-    . "(?:s(?P<flarm_software_version>[\d.]+)\s?)?"
-    . "(?:h(?P<flarm_hardware_version>[\dA-F]{2})\s?)?"
-    . "(?:r(?P<flarm_id>[\dA-F]+)\s?)?"
-    . "(?:hear(?P<proximity>.+))?";
+    public const PATTERN_GENERIC_COMMENT = "id(?P<details>\w{2})(?P<id>\w+?)(\s.*|$)";
+
 
     public function parse(string $aprsMsg): ?OgnTrafficMessage
     {
@@ -44,13 +34,10 @@ class OgnAprsMessageParser
             return NULL;
         }
 
-
-        switch ($matches["protocol"]) {
-            case "APRS":
-                preg_match('/' . self::PATTERN_APRS_COMMENT . '/', $matches["comment"], $matches2);
-                return OgnTrafficMessageConverter::fromAprsMessage($matches, $matches2); // TODO: move code here
-            default:
-                return NULL;
+        preg_match('/' . self::PATTERN_GENERIC_COMMENT . '/', $matches["comment"], $matches2);
+        if (!isset($matches2["id"])) {
+            return NULL;
         }
+        return OgnTrafficMessageConverter::fromAprsMessage($matches, $matches2); // TODO: move code here
     }
 }
