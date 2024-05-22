@@ -6,8 +6,10 @@ use InvalidArgumentException;
 use Navplan\Enroute\Domain\Model\AirspaceType;
 
 
-class OpenAipAirspaceTypeConverter {
-    public static function fromRest(int $restAirspaceType): AirspaceType {
+class OpenAipAirspaceTypeConverter
+{
+    public static function fromRest(int $restAirspaceType): AirspaceType
+    {
         return match ($restAirspaceType) {
             0 => AirspaceType::OTHER,
             1 => AirspaceType::RESTRICTED,
@@ -39,6 +41,10 @@ class OpenAipAirspaceTypeConverter {
             27 => AirspaceType::ACC,
             28 => AirspaceType::SPORT_RECREATION,
             29 => AirspaceType::LOW_ALT_RESTRICTION,
+            30 => AirspaceType::MRT,
+            31 => AirspaceType::TFR,
+            32 => AirspaceType::VFR_SECTOR,
+            33 => AirspaceType::FIS_SECTOR,
             default => throw new InvalidArgumentException("unknown airspace type '" . $restAirspaceType . "'"),
         };
     }

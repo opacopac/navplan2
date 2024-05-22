@@ -3,7 +3,8 @@
 namespace Navplan\Enroute\Domain\Model;
 
 
-enum AirspaceType: string {
+enum AirspaceType: string
+{
     case OTHER = "OTHER";
     case RESTRICTED = "RESTRICTED";
     case DANGER = "DANGER";
@@ -34,5 +35,9 @@ enum AirspaceType: string {
     case ACC = "ACC";
     case SPORT_RECREATION = "SPORT_RECREATION";
     case LOW_ALT_RESTRICTION = "LOW_ALT_RESTRICTION";
+    case MRT = "MRT";
+    case TFR = "TFR";
+    case VFR_SECTOR = "VFR_SECTOR";
+    case FIS_SECTOR = "FIS_SECTOR";
     case FIZ = "FIZ"; // own
 }

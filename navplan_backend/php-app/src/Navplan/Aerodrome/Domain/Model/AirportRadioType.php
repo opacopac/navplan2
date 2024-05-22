@@ -28,4 +28,5 @@ enum AirportRadioType: string {
     case TOWER = "TOWER";
     case UNICOM = "UNICOM";
     case VOLMET = "VOLMET";
+    case AFIS = "AFIS";
 }

@@ -31,6 +31,7 @@ class OpenAipAirportRadioTypeConverter {
             19 => AirportRadioType::AWOS,
             20 => AirportRadioType::LIGHTS,
             21 => AirportRadioType::VOLMET,
+            22 => AirportRadioType::AFIS,
             default => throw new InvalidArgumentException("unknown airport radio type '" . $restRadioType . "'"),
         };
     }
