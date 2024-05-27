@@ -71,7 +71,7 @@ class OpenAipImporter implements IOpenAipImporter {
 
 
     public function importAirspaces(): ImportResult {
-        $this->loggingService->info("importing airports...");
+        $this->loggingService->info("importing airspaces...");
 
         $this->loggingService->info("deleting existing airspaces from db...");
         $this->airspaceService->deleteAll();

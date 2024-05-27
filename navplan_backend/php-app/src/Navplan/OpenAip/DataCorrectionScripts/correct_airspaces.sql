@@ -1,6 +1,6 @@
 update openaip_airspace2 set type = 'FIZ', category = 'FIZ' where name = 'FIZ SAMEDAN 135.325';
 
-delete from openaip_airspace2
+/*delete from openaip_airspace2
 where name in (
     'BALE-MULHOUSE 1',
     'BALE-MULHOUSE 2',
@@ -30,3 +30,4 @@ where name in (
     'TMA LSZH 12',
     'TMA LSZH 13'
 );
+*/
