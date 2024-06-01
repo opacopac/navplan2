@@ -8,7 +8,7 @@ import {MatTabGroup} from '@angular/material/tabs';
 @Component({
     selector: 'app-flight-prep-page',
     templateUrl: './flight-prep-page.component.html',
-    styleUrls: ['./flight-prep-page.component.css'],
+    styleUrls: ['./flight-prep-page.component.scss'],
 })
 export class FlightPrepPageComponent implements OnInit, AfterViewInit, OnDestroy {
     public readonly tab$: Observable<string>;

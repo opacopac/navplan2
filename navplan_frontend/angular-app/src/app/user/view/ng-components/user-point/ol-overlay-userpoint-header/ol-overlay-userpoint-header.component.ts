@@ -6,7 +6,7 @@ import {OlUserpointIcon} from '../../../ol-components/ol-userpoint-icon';
 @Component({
     selector: 'app-ol-overlay-userpoint-header',
     templateUrl: './ol-overlay-userpoint-header.component.html',
-    styleUrls: ['./ol-overlay-userpoint-header.component.css']
+    styleUrls: ['./ol-overlay-userpoint-header.component.scss']
 })
 export class OlOverlayUserpointHeaderComponent implements OnInit {
     @Input() public userpoint: UserPoint;

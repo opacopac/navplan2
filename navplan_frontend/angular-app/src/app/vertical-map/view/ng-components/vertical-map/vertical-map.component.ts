@@ -10,7 +10,7 @@ import {VerticalMapSvg} from '../../svg/vertical-map-svg';
 @Component({
     selector: 'app-vertical-map',
     templateUrl: './vertical-map.component.html',
-    styleUrls: ['./vertical-map.component.css']
+    styleUrls: ['./vertical-map.component.scss']
 })
 export class VerticalMapComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild('container') container: ElementRef;

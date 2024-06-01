@@ -8,7 +8,7 @@ import {IWmmService} from '../../../../geo-physics/domain/service/wmm/i-wmm.serv
 @Component({
     selector: 'app-ol-overlay-geoname-info-tab',
     templateUrl: './ol-overlay-geoname-info-tab.component.html',
-    styleUrls: ['./ol-overlay-geoname-info-tab.component.css']
+    styleUrls: ['./ol-overlay-geoname-info-tab.component.scss']
 })
 export class OlOverlayGeonameInfoTabComponent implements OnInit {
     @Input() public geoname: Geoname;

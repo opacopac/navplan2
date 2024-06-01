@@ -6,7 +6,7 @@ import {StringnumberHelper} from '../../../../system/domain/service/stringnumber
 @Component({
     selector: 'app-map-overlay-notam-tab',
     templateUrl: './map-overlay-notam-tab.component.html',
-    styleUrls: ['./map-overlay-notam-tab.component.css']
+    styleUrls: ['./map-overlay-notam-tab.component.scss']
 })
 export class MapOverlayNotamTabComponent implements OnInit {
     @Input() notams: Notam[];

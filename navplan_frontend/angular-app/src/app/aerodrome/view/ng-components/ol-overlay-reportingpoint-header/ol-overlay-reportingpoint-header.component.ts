@@ -6,7 +6,7 @@ import {OlReportingPointIcon} from '../../ol-components/reporting-point-sector/o
 @Component({
     selector: 'app-ol-overlay-reportingpoint-header',
     templateUrl: './ol-overlay-reportingpoint-header.component.html',
-    styleUrls: ['./ol-overlay-reportingpoint-header.component.css']
+    styleUrls: ['./ol-overlay-reportingpoint-header.component.scss']
 })
 export class OlOverlayReportingpointHeaderComponent implements OnInit {
     @Input() public reportingpoint: ReportingPoint;

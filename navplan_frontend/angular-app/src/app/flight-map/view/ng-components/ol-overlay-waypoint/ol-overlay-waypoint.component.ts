@@ -9,7 +9,7 @@ import {IWmmService} from '../../../../geo-physics/domain/service/wmm/i-wmm.serv
 @Component({
     selector: 'app-ol-overlay-waypoint',
     templateUrl: './ol-overlay-waypoint.component.html',
-    styleUrls: ['./ol-overlay-waypoint.component.css']
+    styleUrls: ['./ol-overlay-waypoint.component.scss']
 })
 export class OlOverlayWaypointComponent extends OlOverlayBaseComponent implements OnInit {
     @ViewChild('container') container: ElementRef;

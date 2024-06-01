@@ -8,7 +8,7 @@ import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length
 @Component({
     selector: 'app-ol-overlay-reportingsector-info-tab',
     templateUrl: './ol-overlay-reportingsector-info-tab.component.html',
-    styleUrls: ['./ol-overlay-reportingsector-info-tab.component.css']
+    styleUrls: ['./ol-overlay-reportingsector-info-tab.component.scss']
 })
 export class OlOverlayReportingsectorInfoTabComponent implements OnInit {
     @Input() public reportingsector: ReportingSector;

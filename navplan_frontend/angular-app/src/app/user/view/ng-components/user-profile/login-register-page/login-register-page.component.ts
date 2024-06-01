@@ -8,7 +8,7 @@ import {LoginUserAction, SendRegisterEmailAction} from '../../../../state/ngrx/u
 @Component({
     selector: 'app-login-register-page',
     templateUrl: './login-register-page.component.html',
-    styleUrls: ['./login-register-page.component.css']
+    styleUrls: ['./login-register-page.component.scss']
 })
 export class LoginRegisterPageComponent implements OnInit {
     public currentUser$: Observable<User>;

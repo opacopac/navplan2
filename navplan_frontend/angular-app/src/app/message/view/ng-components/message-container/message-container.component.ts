@@ -12,7 +12,7 @@ const AUTO_DISMISS_TIME_MS = 4000;
 @Component({
     selector: 'app-message-container',
     templateUrl: './message-container.component.html',
-    styleUrls: ['./message-container.component.css']
+    styleUrls: ['./message-container.component.scss']
 })
 export class MessageContainerComponent implements OnInit, OnDestroy {
     public readonly currentMessage$ = this.appStore.pipe(select(getCurrentMessage));

@@ -7,7 +7,7 @@ import {StringnumberHelper} from '../../../../system/domain/service/stringnumber
 @Component({
     selector: 'app-metar-taf',
     templateUrl: './metar-taf.component.html',
-    styleUrls: ['./metar-taf.component.css']
+    styleUrls: ['./metar-taf.component.scss']
 })
 export class MetarTafComponent implements OnInit {
     @Input() metarTaf: MetarTaf;

@@ -8,7 +8,7 @@ import {MeteoLayer} from '../../../domain/model/meteo-layer';
 @Component({
     selector: 'app-meteo-button',
     templateUrl: './meteo-button.component.html',
-    styleUrls: ['./meteo-button.component.css']
+    styleUrls: ['./meteo-button.component.scss']
 })
 export class MeteoButtonComponent implements OnInit {
     public readonly showMeteoLayer$ = this.appStore.pipe(select(getFlightMapShowMeteoLayer));

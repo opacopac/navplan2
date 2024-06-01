@@ -6,7 +6,7 @@ import {AirportRunway} from '../../../domain/model/airport-runway';
 @Component({
     selector: 'app-ol-overlay-airport-runway-tab',
     templateUrl: './ol-overlay-airport-runway-tab.component.html',
-    styleUrls: ['./ol-overlay-airport-runway-tab.component.css']
+    styleUrls: ['./ol-overlay-airport-runway-tab.component.scss']
 })
 export class OlOverlayAirportRunwayTabComponent implements OnInit {
     @Input() airport: Airport;

@@ -6,7 +6,7 @@ import {AltitudeReference} from '../../../../geo-physics/domain/model/geometry/a
 @Component({
     selector: 'app-ol-overlay-airspace',
     templateUrl: './ol-overlay-airspace.component.html',
-    styleUrls: ['./ol-overlay-airspace.component.css']
+    styleUrls: ['./ol-overlay-airspace.component.scss']
 })
 export class OlOverlayAirspaceComponent implements OnInit {
     @Input() airspace: Airspace;

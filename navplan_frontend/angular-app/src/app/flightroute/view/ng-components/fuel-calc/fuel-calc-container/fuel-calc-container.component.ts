@@ -15,7 +15,7 @@ import {FlightrouteActions} from '../../../../state/ngrx/flightroute.actions';
 @Component({
     selector: 'app-fuel-calc-container',
     templateUrl: './fuel-calc-container.component.html',
-    styleUrls: ['./fuel-calc-container.component.css']
+    styleUrls: ['./fuel-calc-container.component.scss']
 })
 export class FuelCalcContainerComponent implements OnInit, OnDestroy {
     public flightroute$: Observable<Flightroute>;

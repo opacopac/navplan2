@@ -6,7 +6,7 @@ import {Frequency} from '../../../../geo-physics/domain/model/quantities/frequen
 @Component({
     selector: 'app-ol-overlay-airport-radio-tab',
     templateUrl: './ol-overlay-airport-radio-tab.component.html',
-    styleUrls: ['./ol-overlay-airport-radio-tab.component.css']
+    styleUrls: ['./ol-overlay-airport-radio-tab.component.scss']
 })
 export class OlOverlayAirportRadioTabComponent implements OnInit {
     @Input() airport: Airport;

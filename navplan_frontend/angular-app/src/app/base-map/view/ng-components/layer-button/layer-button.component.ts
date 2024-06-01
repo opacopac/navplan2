@@ -8,7 +8,7 @@ import {Observable} from 'rxjs';
 @Component({
     selector: 'app-layer-button',
     templateUrl: './layer-button.component.html',
-    styleUrls: ['./layer-button.component.css']
+    styleUrls: ['./layer-button.component.scss']
 })
 export class LayerButtonComponent implements OnInit {
     public showBaseMapSelection$: Observable<boolean> = this.appStore.pipe(select(getShowBaseMapSelection));

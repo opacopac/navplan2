@@ -7,7 +7,7 @@ import {getLostPwEmailSentTo} from '../../../../state/ngrx/user.selectors';
 @Component({
     selector: 'app-forgot-pw-step1-page',
     templateUrl: './forgot-pw-step1-page.component.html',
-    styleUrls: ['./forgot-pw-step1-page.component.css']
+    styleUrls: ['./forgot-pw-step1-page.component.scss']
 })
 export class ForgotPwStep1PageComponent implements OnInit {
     public lostPwEmailSentTo$: Observable<string>;

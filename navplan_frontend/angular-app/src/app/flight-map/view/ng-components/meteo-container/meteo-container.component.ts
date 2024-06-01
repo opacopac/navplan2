@@ -9,7 +9,7 @@ import {getFlightMapMeteoLayer} from '../../../state/ngrx/flight-map.selectors';
 @Component({
     selector: 'app-meteo-container',
     templateUrl: './meteo-container.component.html',
-    styleUrls: ['./meteo-container.component.css']
+    styleUrls: ['./meteo-container.component.scss']
 })
 export class MeteoContainerComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly meteoLayer$ = this.appStore.pipe(select(getFlightMapMeteoLayer));

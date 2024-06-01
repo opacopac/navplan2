@@ -13,7 +13,7 @@ import {MatDialog} from '@angular/material/dialog';
 @Component({
     selector: 'app-navbar-container',
     templateUrl: './navbar-container.component.html',
-    styleUrls: ['./navbar-container.component.css']
+    styleUrls: ['./navbar-container.component.scss']
 })
 export class NavbarContainerComponent implements OnInit {
     public readonly currentUser$: Observable<User>;

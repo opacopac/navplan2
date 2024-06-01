@@ -6,7 +6,7 @@ import {OlNavaidIcon} from '../../ol-components/navaid/ol-navaid-icon';
 @Component({
     selector: 'app-ol-overlay-navaid-header',
     templateUrl: './ol-overlay-navaid-header.component.html',
-    styleUrls: ['./ol-overlay-navaid-header.component.css']
+    styleUrls: ['./ol-overlay-navaid-header.component.scss']
 })
 export class OlOverlayNavaidHeaderComponent implements OnInit {
     @Input() public navaid: Navaid;

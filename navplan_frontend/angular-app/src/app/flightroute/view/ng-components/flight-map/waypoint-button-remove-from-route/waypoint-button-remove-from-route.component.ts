@@ -5,7 +5,7 @@ import {Waypoint} from '../../../../domain/model/waypoint';
 @Component({
     selector: 'app-waypoint-button-remove-from-route',
     templateUrl: './waypoint-button-remove-from-route.component.html',
-    styleUrls: ['./waypoint-button-remove-from-route.component.css']
+    styleUrls: ['./waypoint-button-remove-from-route.component.scss']
 })
 export class WaypointButtonRemoveFromRouteComponent implements OnInit {
     @Input() public waypoint: Waypoint;

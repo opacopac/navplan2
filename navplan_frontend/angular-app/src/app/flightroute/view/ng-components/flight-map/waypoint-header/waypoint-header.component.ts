@@ -5,7 +5,7 @@ import {Waypoint} from '../../../../domain/model/waypoint';
 @Component({
     selector: 'app-waypoint-header',
     templateUrl: './waypoint-header.component.html',
-    styleUrls: ['./waypoint-header.component.css']
+    styleUrls: ['./waypoint-header.component.scss']
 })
 export class WaypointHeaderComponent implements OnInit {
     @Input() public waypoint: Waypoint;

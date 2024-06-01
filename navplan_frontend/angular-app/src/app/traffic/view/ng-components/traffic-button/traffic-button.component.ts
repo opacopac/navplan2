@@ -8,7 +8,7 @@ import {TrafficServiceStatus} from '../../../domain/model/traffic-service-status
 @Component({
     selector: 'app-traffic-button',
     templateUrl: './traffic-button.component.html',
-    styleUrls: ['./traffic-button.component.css']
+    styleUrls: ['./traffic-button.component.scss']
 })
 export class TrafficButtonComponent implements OnInit {
     public trafficStatus$ = this.appStore.pipe(select(getTrafficStatus));

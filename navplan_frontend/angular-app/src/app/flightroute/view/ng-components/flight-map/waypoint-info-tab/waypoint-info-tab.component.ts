@@ -7,7 +7,7 @@ import {IWmmService} from '../../../../../geo-physics/domain/service/wmm/i-wmm.s
 @Component({
     selector: 'app-waypoint-info-tab',
     templateUrl: './waypoint-info-tab.component.html',
-    styleUrls: ['./waypoint-info-tab.component.css']
+    styleUrls: ['./waypoint-info-tab.component.scss']
 })
 export class WaypointInfoTabComponent implements OnInit {
     @Input() public waypoint: Waypoint;

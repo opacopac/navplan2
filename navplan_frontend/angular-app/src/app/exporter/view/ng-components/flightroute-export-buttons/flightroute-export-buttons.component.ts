@@ -6,7 +6,7 @@ import {ExporterActions} from '../../../state/ngrx/exporter.actions';
 @Component({
     selector: 'app-flightroute-export-buttons',
     templateUrl: './flightroute-export-buttons.component.html',
-    styleUrls: ['./flightroute-export-buttons.component.css']
+    styleUrls: ['./flightroute-export-buttons.component.scss']
 })
 export class FlightrouteExportButtonsComponent implements OnInit {
     constructor(private appStore: Store<any>) {

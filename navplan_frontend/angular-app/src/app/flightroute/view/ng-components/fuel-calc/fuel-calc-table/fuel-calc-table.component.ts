@@ -17,7 +17,7 @@ interface FuelDataSourceRow {
 @Component({
     selector: 'app-fuel-calc-table',
     templateUrl: './fuel-calc-table.component.html',
-    styleUrls: ['./fuel-calc-table.component.css']
+    styleUrls: ['./fuel-calc-table.component.scss']
 })
 export class FuelCalcTableComponent implements OnInit, OnChanges {
     @Input() set routeFuel(value: RouteFuel) {

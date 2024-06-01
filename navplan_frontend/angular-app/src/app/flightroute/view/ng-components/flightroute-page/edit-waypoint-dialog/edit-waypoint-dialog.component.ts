@@ -7,7 +7,7 @@ import {EditWaypointFormComponent} from '../edit-waypoint-form/edit-waypoint-for
 @Component({
     selector: 'app-edit-waypoint-container',
     templateUrl: './edit-waypoint-dialog.component.html',
-    styleUrls: ['./edit-waypoint-dialog.component.css']
+    styleUrls: ['./edit-waypoint-dialog.component.scss']
 })
 export class EditWaypointDialogComponent implements OnInit, OnDestroy {
 

@@ -9,7 +9,7 @@ import {Message} from '../../../../message/domain/model/message';
 @Component({
   selector: 'app-settings-page',
   templateUrl: './settings-page.component.html',
-  styleUrls: ['./settings-page.component.css']
+  styleUrls: ['./settings-page.component.scss']
 })
 export class SettingsPageComponent implements OnInit {
     settingsForm: FormGroup;

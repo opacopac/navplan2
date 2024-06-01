@@ -14,7 +14,7 @@ import {SearchActions} from '../../../state/ngrx/search.actions';
 @Component({
     selector: 'app-search-container',
     templateUrl: './search-container.component.html',
-    styleUrls: ['./search-container.component.css']
+    styleUrls: ['./search-container.component.scss']
 })
 export class SearchContainerComponent implements OnInit {
     public searchIsActive$: Observable<boolean>;

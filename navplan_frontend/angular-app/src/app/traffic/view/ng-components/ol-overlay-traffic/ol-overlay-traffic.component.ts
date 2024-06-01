@@ -29,7 +29,7 @@ const TRAFFIC_TYPE_DESCRIPTION = {
 @Component({
     selector: 'app-ol-overlay-traffic',
     templateUrl: './ol-overlay-traffic.component.html',
-    styleUrls: ['./ol-overlay-traffic.component.css']
+    styleUrls: ['./ol-overlay-traffic.component.scss']
 })
 export class OlOverlayTrafficComponent extends OlOverlayBaseComponent implements OnInit {
     public traffic: Traffic;

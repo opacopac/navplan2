@@ -10,7 +10,7 @@ import {BaseMapActions} from '../../../state/ngrx/base-map.actions';
 @Component({
     selector: 'app-layer-selection',
     templateUrl: './layer-selection.component.html',
-    styleUrls: ['./layer-selection.component.css']
+    styleUrls: ['./layer-selection.component.scss']
 })
 export class LayerSelectionComponent implements OnInit {
     public readonly baseMapType$: Observable<MapBaseLayerType> = this.appStore.pipe(select(getSelectedMapBaseLayerType));

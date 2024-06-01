@@ -8,7 +8,7 @@ import {IWmmService} from '../../../../geo-physics/domain/service/wmm/i-wmm.serv
 @Component({
     selector: 'app-ol-overlay-navaid-info-tab',
     templateUrl: './ol-overlay-navaid-info-tab.component.html',
-    styleUrls: ['./ol-overlay-navaid-info-tab.component.css']
+    styleUrls: ['./ol-overlay-navaid-info-tab.component.scss']
 })
 export class OlOverlayNavaidInfoTabComponent implements OnInit {
     @Input() public navaid: Navaid;

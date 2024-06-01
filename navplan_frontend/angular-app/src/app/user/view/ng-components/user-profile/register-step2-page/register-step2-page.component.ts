@@ -9,7 +9,7 @@ import {RegisterUserAction} from '../../../../state/ngrx/user.actions';
 @Component({
     selector: 'app-register-step2-page',
     templateUrl: './register-step2-page.component.html',
-    styleUrls: ['./register-step2-page.component.css']
+    styleUrls: ['./register-step2-page.component.scss']
 })
 export class RegisterStep2PageComponent implements OnInit {
     public token$: Observable<string>;

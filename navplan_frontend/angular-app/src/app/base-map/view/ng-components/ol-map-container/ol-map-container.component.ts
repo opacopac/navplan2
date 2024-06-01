@@ -18,7 +18,7 @@ import {IBaseMap} from '../../../domain/model/i-base-map';
 @Component({
     selector: 'app-ol-map-container',
     templateUrl: './ol-map-container.component.html',
-    styleUrls: ['./ol-map-container.component.css']
+    styleUrls: ['./ol-map-container.component.scss']
 })
 export class OlMapContainerComponent implements OnInit, OnDestroy {
     public readonly MAP_HTML_ID = 'map';

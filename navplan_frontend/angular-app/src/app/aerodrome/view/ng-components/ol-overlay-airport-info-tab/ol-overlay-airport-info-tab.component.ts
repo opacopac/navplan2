@@ -8,7 +8,7 @@ import {IWmmService} from '../../../../geo-physics/domain/service/wmm/i-wmm.serv
 @Component({
     selector: 'app-ol-overlay-airport-info-tab',
     templateUrl: './ol-overlay-airport-info-tab.component.html',
-    styleUrls: ['./ol-overlay-airport-info-tab.component.css']
+    styleUrls: ['./ol-overlay-airport-info-tab.component.scss']
 })
 export class OlOverlayAirportInfoTabComponent implements OnInit {
     @Input() public airport: Airport;

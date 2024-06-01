@@ -8,7 +8,7 @@ import {AirportChartActions} from '../../../../aerodrome/state/ngrx/airport-char
 @Component({
     selector: 'app-clear-dialog',
     templateUrl: './clear-dialog.component.html',
-    styleUrls: ['./clear-dialog.component.css']
+    styleUrls: ['./clear-dialog.component.scss']
 })
 export class ClearDialogComponent implements OnInit {
     public constructor(private appStore: Store<any>) {

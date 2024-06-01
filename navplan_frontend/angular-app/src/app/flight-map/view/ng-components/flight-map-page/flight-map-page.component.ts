@@ -84,7 +84,7 @@ import {MeteoDwdActions} from '../../../../meteo-dwd/state/ngrx/meteo-dwd.action
 @Component({
     selector: 'app-flight-map-page',
     templateUrl: './flight-map-page.component.html',
-    styleUrls: ['./flight-map-page.component.css']
+    styleUrls: ['./flight-map-page.component.scss']
 })
 export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(OlMapContainerComponent) mapContainer: OlMapContainerComponent;

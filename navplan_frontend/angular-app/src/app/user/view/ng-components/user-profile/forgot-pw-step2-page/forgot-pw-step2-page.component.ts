@@ -9,7 +9,7 @@ import {ResetPwAction} from '../../../../state/ngrx/user.actions';
 @Component({
     selector: 'app-forgot-pw-step2-page',
     templateUrl: './forgot-pw-step2-page.component.html',
-    styleUrls: ['./forgot-pw-step2-page.component.css']
+    styleUrls: ['./forgot-pw-step2-page.component.scss']
 })
 export class ForgotPwStep2PageComponent implements OnInit {
     public token$: Observable<string>;

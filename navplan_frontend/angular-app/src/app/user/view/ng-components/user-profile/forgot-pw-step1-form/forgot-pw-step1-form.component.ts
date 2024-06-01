@@ -4,7 +4,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 @Component({
     selector: 'app-forgot-pw-step1-form',
     templateUrl: './forgot-pw-step1-form.component.html',
-    styleUrls: ['./forgot-pw-step1-form.component.css']
+    styleUrls: ['./forgot-pw-step1-form.component.scss']
 })
 export class ForgotPwStep1FormComponent implements OnInit {
     @Input() lostPwEmailSentTo: string;

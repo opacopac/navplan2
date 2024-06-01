@@ -14,7 +14,7 @@ import {PrecipTempGraphSvg} from '../../svg/precip-temp-graph-svg';
 @Component({
     selector: 'app-precip-temp-graph',
     templateUrl: './precip-temp-graph.component.html',
-    styleUrls: ['./precip-temp-graph.component.css']
+    styleUrls: ['./precip-temp-graph.component.scss']
 })
 export class PrecipTempGraphComponent implements OnInit {
     @ViewChild('container') container: ElementRef;

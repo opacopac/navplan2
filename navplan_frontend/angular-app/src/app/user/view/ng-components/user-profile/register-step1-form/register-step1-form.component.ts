@@ -5,7 +5,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 @Component({
     selector: 'app-register-step1-form',
     templateUrl: './register-step1-form.component.html',
-    styleUrls: ['./register-step1-form.component.css']
+    styleUrls: ['./register-step1-form.component.scss']
 })
 export class RegisterStep1FormComponent implements OnInit {
     @Input() registerEmailSentTo: string;

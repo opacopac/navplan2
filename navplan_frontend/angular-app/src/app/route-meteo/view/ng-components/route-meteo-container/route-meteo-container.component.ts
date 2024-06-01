@@ -11,7 +11,7 @@ import {getFlightroute} from '../../../../flightroute/state/ngrx/flightroute.sel
 @Component({
     selector: 'app-route-meteo-container',
     templateUrl: './route-meteo-container.component.html',
-    styleUrls: ['./route-meteo-container.component.css']
+    styleUrls: ['./route-meteo-container.component.scss']
 })
 export class RouteMeteoContainerComponent implements OnInit {
     public readonly routeMeteoState$ = this.appStore.select(getRouteMeteoState);

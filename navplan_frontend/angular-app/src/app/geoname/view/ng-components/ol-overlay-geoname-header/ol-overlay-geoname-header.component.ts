@@ -5,7 +5,7 @@ import {Geoname} from '../../../domain/model/geoname';
 @Component({
     selector: 'app-ol-overlay-geoname-header',
     templateUrl: './ol-overlay-geoname-header.component.html',
-    styleUrls: ['./ol-overlay-geoname-header.component.css']
+    styleUrls: ['./ol-overlay-geoname-header.component.scss']
 })
 export class OlOverlayGeonameHeaderComponent implements OnInit {
     @Input() public geoname: Geoname;

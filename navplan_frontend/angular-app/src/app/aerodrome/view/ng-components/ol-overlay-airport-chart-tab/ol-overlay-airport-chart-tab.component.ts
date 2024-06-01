@@ -8,7 +8,7 @@ import {AirportChartActions} from '../../../state/ngrx/airport-chart/airport-cha
 @Component({
     selector: 'app-ol-overlay-airport-chart-tab',
     templateUrl: './ol-overlay-airport-chart-tab.component.html',
-    styleUrls: ['./ol-overlay-airport-chart-tab.component.css']
+    styleUrls: ['./ol-overlay-airport-chart-tab.component.scss']
 })
 export class OlOverlayAirportChartTabComponent implements OnInit {
     @Input() airport: Airport;

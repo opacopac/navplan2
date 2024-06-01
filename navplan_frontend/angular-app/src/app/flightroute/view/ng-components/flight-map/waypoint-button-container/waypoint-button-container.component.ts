@@ -14,7 +14,7 @@ import {MatDialog} from '@angular/material/dialog';
 @Component({
     selector: 'app-waypoint-button-container',
     templateUrl: './waypoint-button-container.component.html',
-    styleUrls: ['./waypoint-button-container.component.css']
+    styleUrls: ['./waypoint-button-container.component.scss']
 })
 export class WaypointButtonContainerComponent implements OnInit {
     public readonly flightroute$: Observable<Flightroute>;

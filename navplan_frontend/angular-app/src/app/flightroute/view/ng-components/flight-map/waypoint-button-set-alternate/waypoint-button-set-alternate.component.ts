@@ -5,7 +5,7 @@ import {Waypoint} from '../../../../domain/model/waypoint';
 @Component({
     selector: 'app-waypoint-button-set-alternate',
     templateUrl: './waypoint-button-set-alternate.component.html',
-    styleUrls: ['./waypoint-button-set-alternate.component.css']
+    styleUrls: ['./waypoint-button-set-alternate.component.scss']
 })
 export class WaypointButtonSetAlternateComponent implements OnInit {
     @Input() public waypoint: Waypoint;

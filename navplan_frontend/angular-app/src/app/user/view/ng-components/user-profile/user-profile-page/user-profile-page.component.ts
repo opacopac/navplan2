@@ -9,7 +9,7 @@ import {User} from '../../../../domain/model/user';
 @Component({
   selector: 'app-user-profile-page',
   templateUrl: './user-profile-page.component.html',
-  styleUrls: ['./user-profile-page.component.css']
+  styleUrls: ['./user-profile-page.component.scss']
 })
 export class UserProfilePageComponent implements OnInit {
     public currentUser$: Observable<User>;

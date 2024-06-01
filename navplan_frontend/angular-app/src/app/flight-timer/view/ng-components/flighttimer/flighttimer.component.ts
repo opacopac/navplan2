@@ -7,7 +7,7 @@ import {select, Store} from '@ngrx/store';
 @Component({
     selector: 'app-flighttimer',
     templateUrl: './flighttimer.component.html',
-    styleUrls: ['./flighttimer.component.css']
+    styleUrls: ['./flighttimer.component.scss']
 })
 export class FlighttimerComponent implements OnInit {
     public locationIsWatching$ = this.appStore.pipe(select(getLocationIsWatching));

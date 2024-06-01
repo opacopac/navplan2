@@ -10,7 +10,7 @@ import {AltitudeReference} from '../../../../../geo-physics/domain/model/geometr
 @Component({
     selector: 'app-edit-waypoint-form',
     templateUrl: './edit-waypoint-form.component.html',
-    styleUrls: ['./edit-waypoint-form.component.css']
+    styleUrls: ['./edit-waypoint-form.component.scss']
 })
 export class EditWaypointFormComponent implements OnInit, OnChanges {
     @Input() editWaypoint: Waypoint;

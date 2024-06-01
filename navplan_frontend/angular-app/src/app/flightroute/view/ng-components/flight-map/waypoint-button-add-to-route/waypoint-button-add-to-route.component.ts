@@ -6,7 +6,7 @@ import {Waypoint} from '../../../../domain/model/waypoint';
 @Component({
     selector: 'app-waypoint-button-add-to-route',
     templateUrl: './waypoint-button-add-to-route.component.html',
-    styleUrls: ['./waypoint-button-add-to-route.component.css']
+    styleUrls: ['./waypoint-button-add-to-route.component.scss']
 })
 export class WaypointButtonAddToRouteComponent implements OnInit, OnChanges {
     @Input() public waypoint: Waypoint;

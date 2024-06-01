@@ -9,7 +9,7 @@ import {OlAirportRunwayIcon} from '../../ol-components/airport/ol-airport-runway
 @Component({
     selector: 'app-ol-overlay-airport-header',
     templateUrl: './ol-overlay-airport-header.component.html',
-    styleUrls: ['./ol-overlay-airport-header.component.css']
+    styleUrls: ['./ol-overlay-airport-header.component.scss']
 })
 export class OlOverlayAirportHeaderComponent  {
     @Input() public airport: Airport;

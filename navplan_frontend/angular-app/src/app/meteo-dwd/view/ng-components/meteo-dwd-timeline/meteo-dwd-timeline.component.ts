@@ -13,7 +13,7 @@ import {filter, map} from 'rxjs/operators';
 @Component({
     selector: 'app-meteo-dwd-timeline',
     templateUrl: './meteo-dwd-timeline.component.html',
-    styleUrls: ['./meteo-dwd-timeline.component.css']
+    styleUrls: ['./meteo-dwd-timeline.component.scss']
 })
 export class MeteoDwdTimelineComponent implements OnInit, OnDestroy {
     @ViewChild('container') container: ElementRef;

@@ -21,7 +21,7 @@ import {tap} from 'rxjs/operators';
 @Component({
     selector: 'app-ol-map-overlay',
     templateUrl: './ol-map-overlay.component.html',
-    styleUrls: ['./ol-map-overlay.component.css']
+    styleUrls: ['./ol-map-overlay.component.scss']
 })
 export class OlMapOverlayComponent implements AfterViewInit {
     @ViewChild('container') container: ElementRef;

@@ -9,7 +9,7 @@ import {VerticalMapState} from '../../../state/state-model/vertical-map-state';
 @Component({
     selector: 'app-vertical-map-button',
     templateUrl: './vertical-map-button.component.html',
-    styleUrls: ['./vertical-map-button.component.css']
+    styleUrls: ['./vertical-map-button.component.scss']
 })
 export class VerticalMapButtonComponent implements OnInit {
     public vmState$ = this.appStore.pipe(select(getVerticalMapState));

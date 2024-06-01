@@ -15,7 +15,7 @@ export const identicalPasswordsValidator: ValidatorFn = (form: FormGroup): Valid
 @Component({
     selector: 'app-forgot-pw-step2-form',
     templateUrl: './forgot-pw-step2-form.component.html',
-    styleUrls: ['./forgot-pw-step2-form.component.css']
+    styleUrls: ['./forgot-pw-step2-form.component.scss']
 })
 export class ForgotPwStep2FormComponent implements OnInit, OnChanges {
     @Input() tokenString: string;

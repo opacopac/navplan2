@@ -14,7 +14,7 @@ export const identicalPasswordsValidator: ValidatorFn = (form: FormGroup): Valid
 @Component({
     selector: 'app-user-profile-form',
     templateUrl: './user-profile-form.component.html',
-    styleUrls: ['./user-profile-form.component.css']
+    styleUrls: ['./user-profile-form.component.scss']
 })
 export class UserProfileFormComponent implements OnInit, OnChanges {
     @Input() public currentUser: User;

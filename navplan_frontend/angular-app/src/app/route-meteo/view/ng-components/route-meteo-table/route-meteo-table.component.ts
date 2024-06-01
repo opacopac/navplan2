@@ -5,7 +5,7 @@ import {RouteMetarTaf} from '../../../domain/model/route-metar-taf';
 @Component({
     selector: 'app-route-meteo-table',
     templateUrl: './route-meteo-table.component.html',
-    styleUrls: ['./route-meteo-table.component.css']
+    styleUrls: ['./route-meteo-table.component.scss']
 })
 export class RouteMeteoTableComponent implements OnInit {
     @Input() public routeMetarTafList: RouteMetarTaf[];

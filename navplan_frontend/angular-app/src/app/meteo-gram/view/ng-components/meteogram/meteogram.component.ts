@@ -14,7 +14,7 @@ import {getCloudMeteogram} from '../../../state/ngrx/meteo-gram.selectors';
 @Component({
     selector: 'app-meteogram',
     templateUrl: './meteogram.component.html',
-    styleUrls: ['./meteogram.component.css']
+    styleUrls: ['./meteogram.component.scss']
 })
 export class MeteogramComponent implements OnInit {
     @ViewChild('container') container: ElementRef;

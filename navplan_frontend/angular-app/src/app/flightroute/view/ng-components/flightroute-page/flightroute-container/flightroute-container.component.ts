@@ -24,7 +24,7 @@ import {FlightrouteActions} from '../../../../state/ngrx/flightroute.actions';
 @Component({
     selector: 'app-flightroute-container',
     templateUrl: './flightroute-container.component.html',
-    styleUrls: ['./flightroute-container.component.css']
+    styleUrls: ['./flightroute-container.component.scss']
 })
 export class FlightrouteContainerComponent implements OnInit, OnDestroy {
     public currentUser$: Observable<User>;

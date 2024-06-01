@@ -4,7 +4,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 @Component({
     selector: 'app-zoom-buttons',
     templateUrl: './zoom-buttons.component.html',
-    styleUrls: ['./zoom-buttons.component.css']
+    styleUrls: ['./zoom-buttons.component.scss']
 })
 export class ZoomButtonsComponent implements OnInit {
     @Output() zoomInClick = new EventEmitter<null>();

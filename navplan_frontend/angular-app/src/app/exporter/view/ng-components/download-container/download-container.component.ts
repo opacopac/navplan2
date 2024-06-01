@@ -10,7 +10,7 @@ import {ExporterState} from '../../../state/state-model/exporter-state';
 @Component({
     selector: 'app-download-container',
     templateUrl: './download-container.component.html',
-    styleUrls: ['./download-container.component.css']
+    styleUrls: ['./download-container.component.scss']
 })
 export class DownloadContainerComponent implements OnInit, OnDestroy {
     public readonly exporterState$ = this.appStore.pipe(select(getExporterState));

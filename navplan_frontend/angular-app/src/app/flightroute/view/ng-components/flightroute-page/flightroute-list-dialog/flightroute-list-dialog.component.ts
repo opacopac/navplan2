@@ -11,7 +11,7 @@ import {getFlightrouteList} from '../../../../state/ngrx/flightroute.selectors';
 @Component({
     selector: 'app-flightroute-list-dialog',
     templateUrl: './flightroute-list-dialog.component.html',
-    styleUrls: ['./flightroute-list-dialog.component.css']
+    styleUrls: ['./flightroute-list-dialog.component.scss']
 })
 export class FlightrouteListDialogComponent implements OnInit, OnDestroy {
     public readonly flightrouteList$: Observable<FlightrouteListEntry[]>;

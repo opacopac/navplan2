@@ -10,7 +10,7 @@ import {PositionSearchState} from '../../../domain/model/position-search-state';
 @Component({
     selector: 'app-ol-overlay-airspace-structure',
     templateUrl: './ol-overlay-airspace-structure.component.html',
-    styleUrls: ['./ol-overlay-airspace-structure.component.css']
+    styleUrls: ['./ol-overlay-airspace-structure.component.scss']
 })
 export class OlOverlayAirspaceStructureComponent extends OlOverlayBaseComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('container') container: ElementRef;
