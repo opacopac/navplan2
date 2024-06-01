@@ -77,7 +77,6 @@ import {
     getMeteoDwdWeatherValues,
     getMeteoDwdWindValues
 } from '../../../../meteo-dwd/state/ngrx/meteo-dwd.selectors';
-import {IMeteoDwdService} from '../../../../meteo-dwd/domain/service/i-meteo-dwd.service';
 import {OlDwdForecastMapTileLayer} from '../../../../meteo-dwd/view/ol-components/ol-dwd-forecast-map-tile-layer';
 import {MeteoDwdActions} from '../../../../meteo-dwd/state/ngrx/meteo-dwd.actions';
 
@@ -121,7 +120,6 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
 
     constructor(
         private readonly appStore: Store<any>,
-        private readonly meteoDwdService: IMeteoDwdService
     ) {
     }
 
