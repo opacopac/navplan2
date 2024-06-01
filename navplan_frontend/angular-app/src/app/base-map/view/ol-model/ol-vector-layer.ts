@@ -10,7 +10,7 @@ import {Feature} from 'ol';
 
 
 export class OlVectorLayer implements OlLayer {
-    public readonly vectorLayer: VectorLayer<VectorSource<Feature<Geometry>>> | VectorImageLayer<VectorSource<Feature<Geometry>>>;
+    public readonly vectorLayer: VectorLayer<Feature<Geometry>> | VectorImageLayer<Feature<Geometry>>;
 
 
     public constructor(vectorImage: boolean = false) {

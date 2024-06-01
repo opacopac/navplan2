@@ -28,6 +28,7 @@ import Projection from 'ol/proj/Projection';
 import {OlLayer} from './ol-layer';
 import {IBaseMap} from '../../domain/model/i-base-map';
 import VectorSource from 'ol/source/Vector';
+import { FeatureLike } from 'ol/Feature';
 
 
 export class OlMap implements IBaseMap {
@@ -209,7 +210,7 @@ export class OlMap implements IBaseMap {
     }
 
 
-    private isClickableLayer(layer: VectorLayer<VectorSource<Feature<Geometry>>> | TileLayer<XYZ> | VectorTileLayer): boolean {
+    private isClickableLayer(layer: VectorLayer<Feature<Geometry>> | TileLayer<XYZ> | VectorTileLayer<FeatureLike>): boolean {
         return layer !== this.baseLayer.layer; // TODO
         /*return (layer === this.routeItemsLayer ||
             layer === this.nonrouteItemsLayer ||
