@@ -19,7 +19,7 @@ import {MouseWheelZoom} from 'ol/interaction';
 import {MapBaseLayerType} from '../../domain/model/map-base-layer-type';
 import Overlay from 'ol/Overlay';
 import {OlBaselayerFactory} from '../ol-service/ol-baselayer-factory';
-import {Attribution, FullScreen, Rotate, ScaleLine} from 'ol/control';
+import {Attribution, Rotate, ScaleLine} from 'ol/control';
 import {OlBaseLayer} from './ol-base-layer';
 import {ShowImageState} from '../../state/state-model/show-image-state';
 import {ArrayHelper} from '../../../system/domain/service/array/array-helper';
@@ -27,8 +27,7 @@ import ImageLayer from 'ol/layer/Image';
 import Projection from 'ol/proj/Projection';
 import {OlLayer} from './ol-layer';
 import {IBaseMap} from '../../domain/model/i-base-map';
-import VectorSource from 'ol/source/Vector';
-import { FeatureLike } from 'ol/Feature';
+import {FeatureLike} from 'ol/Feature';
 
 
 export class OlMap implements IBaseMap {
@@ -70,7 +69,6 @@ export class OlMap implements IBaseMap {
             target: mapHtmlId,
             controls: [
                 new Attribution(),
-                new FullScreen(),
                 new ScaleLine(),
                 new Rotate()
             ],

@@ -6,3 +6,4 @@ export const getFlightMapState = createFeatureSelector<FlightMapState>('flightMa
 export const getFlightMapShowOverlay = createSelector(getFlightMapState, state => state.showMapOverlay);
 export const getFlightMapShowMeteoLayer = createSelector(getFlightMapState, state => state.showMeteoLayer);
 export const getFlightMapMeteoLayer = createSelector(getFlightMapState, state => state.meteoLayer);
+export const getFlightMapShowFullScreen = createSelector(getFlightMapState, state => state.showFullScreen);

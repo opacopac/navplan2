@@ -26,6 +26,7 @@ import {MeteoDwdViewModule} from '../../meteo-dwd/view/meteo-dwd-view.module';
 import {MeteoContainerComponent} from './ng-components/meteo-container/meteo-container.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MeteoGramViewModule} from '../../meteo-gram/view/meteo-gram-view.module';
+import {FullScreenButtonComponent} from './ng-components/full-screen-button/full-screen-button.component';
 
 @NgModule({
     declarations: [
@@ -33,6 +34,7 @@ import {MeteoGramViewModule} from '../../meteo-gram/view/meteo-gram-view.module'
         OlMapOverlayComponent,
         OlOverlayWaypointComponent,
         MeteoContainerComponent,
+        FullScreenButtonComponent
     ],
     imports: [
         CommonModule,

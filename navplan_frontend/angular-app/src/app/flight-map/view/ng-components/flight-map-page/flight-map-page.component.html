@@ -11,18 +11,21 @@
 </div>
 <!-- search box -->
 <app-search-container></app-search-container>
-<!-- buttons -->
+<!-- buttons left -->
 <app-zoom-buttons
-        class="zoom-buttons-pos"
-        (zoomInClick)="this.onZoomInClicked()"
-        (zoomOutClick)="this.onZoomOutClicked()">
+    class="zoom-buttons-pos"
+    (zoomInClick)="this.onZoomInClicked()"
+    (zoomOutClick)="this.onZoomOutClicked()">
 </app-zoom-buttons>
 <app-location-button class="location-button-pos"></app-location-button>
 <app-traffic-button class="traffic-button-pos"></app-traffic-button>
-<app-layer-button class="layer-button-pos"></app-layer-button>
-<app-layer-selection class="layer-selection-pos" *ngIf="this.showBaseMapSelection$ | async"></app-layer-selection>
 <app-meteo-button class="meteo-button-pos"></app-meteo-button>
 <app-meteo-container class="meteo-container-pos" *ngIf="this.showMeteoLayer$ | async"></app-meteo-container>
-<app-vertical-map-button class="vertical-map-button-pos" *ngIf="this.showVerticalMapButton$ | async"></app-vertical-map-button>
+<app-vertical-map-button class="vertical-map-button-pos"
+                         *ngIf="this.showVerticalMapButton$ | async"></app-vertical-map-button>
 <app-vertical-map class="vertical-map-pos" *ngIf="(this.showVerticalMap$ | async)"></app-vertical-map>
 <app-flighttimer></app-flighttimer>
+<!-- buttons right -->
+<app-full-screen-button class="full-screen-button-pos"></app-full-screen-button>
+<app-layer-button class="layer-button-pos"></app-layer-button>
+<app-layer-selection class="layer-selection-pos" *ngIf="this.showBaseMapSelection$ | async"></app-layer-selection>

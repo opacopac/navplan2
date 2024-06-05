@@ -1,6 +1,6 @@
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Store} from '@ngrx/store';
-import {filter, map, switchMap, take, withLatestFrom} from 'rxjs/operators';
+import {filter, map, switchMap, take, tap, withLatestFrom} from 'rxjs/operators';
 import {combineLatest, Observable, of, pipe} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {BaseMapActions} from '../../../base-map/state/ngrx/base-map.actions';
@@ -47,6 +47,25 @@ export class FlightMapEffects {
     ) {
         this.date = config.getDate();
     }
+
+
+    toggleFullScreenAction$ = createEffect(() => this.actions$.pipe(
+        ofType(FlightMapActions.toggleFullScreen),
+        withLatestFrom(this.flightMapState$),
+        tap(([action, flightMapState]) => {
+            if (flightMapState.showFullScreen) {
+                const elem = document.getElementById('app-content-container'); // TODO
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }),
+        switchMap(() => [])
+    ));
 
 
     toggleMeteoAction$ = createEffect(() => this.actions$.pipe(

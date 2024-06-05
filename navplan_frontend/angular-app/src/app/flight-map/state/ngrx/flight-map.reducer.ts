@@ -14,6 +14,7 @@ const initialState: FlightMapState = {
         notams: [],
         tabIndex: 0
     },
+    showFullScreen: false,
     showMeteoLayer: false,
     meteoLayer: MeteoLayer.SmaStationsLayer
 };
@@ -37,6 +38,10 @@ export const flightMapReducer = createReducer(
     on(FlightMapActions.hideOverlay, (state) => ({
         ...state,
         showMapOverlay: initialState.showMapOverlay
+    })),
+    on(FlightMapActions.toggleFullScreen, (state) => ({
+        ...state,
+        showFullScreen: !state.showFullScreen
     })),
     on(FlightMapActions.toggleMeteoLayer, (state) => ({
         ...state,

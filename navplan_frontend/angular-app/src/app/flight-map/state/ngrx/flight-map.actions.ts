@@ -22,6 +22,10 @@ export class FlightMapActions {
         '[FlightMapEffects] Hide map overlay',
     );
 
+    public static readonly toggleFullScreen = createAction(
+        '[FlightMapPage] Toggle full screen',
+    );
+
     public static readonly toggleMeteoLayer = createAction(
         '[FlightMapPage] Toggle meteo layer',
     );
