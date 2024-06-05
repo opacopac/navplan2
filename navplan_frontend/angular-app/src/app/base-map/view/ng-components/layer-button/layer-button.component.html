@@ -1,7 +1,8 @@
-<button mat-fab
+<button mat-mini-fab
         matTooltip="select map layer"
         matTooltipPosition="right"
         color="{{ this.getStatusCLass(this.showBaseMapSelection$ | async) }}"
-        (click)="this.onVerticalMapClicked()">
+        (click)="this.onVerticalMapClicked()"
+        class="layer-button">
     <i class="fas fa-layer-group"></i>
 </button>
