@@ -11,6 +11,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {LayerSelectionComponent} from './ng-components/layer-selection/layer-selection.component';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {AttributionsButtonComponent} from './ng-components/attributions-button/attributions-button.component';
+import {AttributionsContentComponent} from './ng-components/attributions-content/attributions-content.component';
 
 
 @NgModule({
@@ -28,6 +30,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
         ZoomButtonsComponent,
         LayerButtonComponent,
         LayerSelectionComponent,
+        AttributionsButtonComponent,
+        AttributionsContentComponent,
         OlOverlayButtonCloseComponent,
     ],
     exports: [
@@ -35,8 +39,10 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
         ZoomButtonsComponent,
         LayerButtonComponent,
         LayerSelectionComponent,
+        AttributionsButtonComponent,
+        AttributionsContentComponent,
     ],
-    providers: [
-    ]
+    providers: []
 })
-export class BaseMapViewModule {}
+export class BaseMapViewModule {
+}

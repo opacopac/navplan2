@@ -9,6 +9,7 @@ import {
     getMapPosition,
     getMapRotation,
     getMapZoom,
+    getShowAttributions,
     getShowBaseMapSelection
 } from '../../../../base-map/state/ngrx/base-map.selectors';
 import {OlMetarContainer} from '../../../../metar-taf/view/ol-components/ol-metar-container';
@@ -116,6 +117,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
     public readonly showVerticalMapButton$ = this.flightroute$.pipe(map(route => route.waypoints.length >= 2));
     public readonly showVerticalMap$ = this.verticalMapState$.pipe(map(state => state.buttonStatus === VerticalMapButtonStatus.CURRENT));
     public readonly showBaseMapSelection$ = this.appStore.pipe(select(getShowBaseMapSelection));
+    public readonly showAttributions$ = this.appStore.pipe(select(getShowAttributions));
 
 
     constructor(

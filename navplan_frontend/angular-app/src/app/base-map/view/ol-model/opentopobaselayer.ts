@@ -9,20 +9,19 @@ const MAX_ZOOM = 17;
 const BASE_URLS_OTM = ['//a.tile.opentopomap.org/', '//b.tile.opentopomap.org/', '//c.tile.opentopomap.org/'];
 // const BASE_URLS_OTM = [ '//opentopomap.org/' ];
 const BASE_URL_LOCAL = '//www.navplan.ch/maptiles/';
-// const BASE_URL_LOCAL = 'maptiles/';
 
+// const BASE_URL_LOCAL = 'maptiles/';
 
 
 export class Opentopobaselayer {
 
-    public static createBaseLayer(attributions: string[]): OlBaseLayer {
+    public static createBaseLayer(): OlBaseLayer {
         const layer = new TileLayer({
             source: new XYZ({
                 tileUrlFunction: Opentopobaselayer.getTileUrl,
                 minZoom: MIN_ZOOM,
                 maxZoom: MAX_ZOOM,
                 crossOrigin: null,
-                attributions: attributions
             })
         });
 

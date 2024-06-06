@@ -13,46 +13,26 @@ import {SwisstopoGliderBaselayer} from '../ol-model/swisstopo-glider-baselayer';
 
 export class OlBaselayerFactory {
     public static create(layer: MapBaseLayerType): OlBaseLayer {
-        const attributions = OlBaselayerFactory.getAttributions();
-
         switch (layer) {
             case MapBaseLayerType.OSM:
-                return Osmbaselayer.createBaseLayer(attributions);
+                return Osmbaselayer.createBaseLayer();
             case MapBaseLayerType.MAPBOX:
-                return Mapboxbaselayer.createBaseLayer(attributions);
+                return Mapboxbaselayer.createBaseLayer();
             case MapBaseLayerType.MAPZEN:
-                return Mapzenbaselayer.createBaseLayer(attributions);
+                return Mapzenbaselayer.createBaseLayer();
             case MapBaseLayerType.SWISSTOPO_LIGHTBASE:
-                return SwisstopoLightbaseBaselayer.createBaseLayer(attributions);
+                return SwisstopoLightbaseBaselayer.createBaseLayer();
             case MapBaseLayerType.SWISSTOPO_PIXCOL:
-                return SwisstopoPixcolBaselayer.createBaseLayer(attributions);
+                return SwisstopoPixcolBaselayer.createBaseLayer();
             case MapBaseLayerType.SWISSTOPO_IMAGE:
-                return SwisstopoImageBaselayer.createBaseLayer(attributions);
+                return SwisstopoImageBaselayer.createBaseLayer();
             case MapBaseLayerType.SWISSTOPO_ICAO:
-                return SwisstopoIcaoBaselayer.createBaseLayer(attributions);
+                return SwisstopoIcaoBaselayer.createBaseLayer();
             case MapBaseLayerType.SWISSTOPO_GLIDER:
-                return SwisstopoGliderBaselayer.createBaseLayer(attributions);
+                return SwisstopoGliderBaselayer.createBaseLayer();
             case MapBaseLayerType.OPENTOPOMAP:
             default:
-                return Opentopobaselayer.createBaseLayer(attributions);
+                return Opentopobaselayer.createBaseLayer();
         }
-    }
-
-
-    private static getAttributions(): string[] {
-        return [
-            'Map Data: &copy; <a href="https://openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors <a href="https://creativecommons.org/licenses/by-sa/2.0/" target="_blank">(CC-BY-SA)</a>',
-            'Map Background #1: <a href="http://www.opentopomap.org/" target="_blank">OpenTopoMap</a> <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank">(CC-BY-SA)</a>',
-            'Map Background #2: &copy; <a href="https://www.swisstopo.admin.ch/" target="_blank">swisstopo</a>',
-            'Elevation Data: <a href="https://lta.cr.usgs.gov/SRTM" target="_blank">SRTM</a>',
-            'Aviation Data: <a href="http://www.openaip.net/" target="_blank">openAIP</a> <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank">(BY-NC-SA)</a>',
-            'Traffic Data: <a href="http://wiki.glidernet.org/about" target="_blank">Open Glider Network</a> | <a href="http://www.ADSBexchange.com/" target="_blank">ADSBexchange</a>',
-            'Aerodrome Charts: <a href="http://www.avare.ch/" target="_blank">Avare.ch</a>',
-            'METAR/TAF Data: <a href="https://www.aviationweather.gov/" target="_blank">NOAA - Aviation Weather Center</a>',
-            'Weather Forecast Data: <a href="https://www.dwd.de/" target="_blank">DWD - Deutscher Wetterdienst</a>',
-            'NOTAM Data: <a href="https://www.icao.int/safety/iStars/pages/intro.aspx" target="_blank">ICAO - iSTARS API Data Service</a>',
-            'Geographical Data: <a href="http://www.geonames.org/" target="_blank">GeoNames</a> <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">(CC-BY)</a>',
-            'Links to Webcams: all images are digital property of the webcam owners. check the reference for details.'
-        ];
     }
 }

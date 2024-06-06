@@ -70,7 +70,21 @@
 
 .layer-selection-pos {
     position: absolute;
-    bottom: 35px;
+    bottom: 50px;
+    right: 45px;
+    z-index: 30;
+}
+
+.attributions-button-pos {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    z-index: 20;
+}
+
+.attributions-content-pos {
+    position: absolute;
+    bottom: 5px;
     right: 45px;
     z-index: 30;
 }

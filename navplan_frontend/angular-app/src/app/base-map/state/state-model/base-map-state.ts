@@ -14,5 +14,6 @@ export interface BaseMapState {
     heightPx: number;
     baseMapType: MapBaseLayerType;
     showImage: ShowImageState;
+    showAttributions: boolean;
     showBaseMapSelection: boolean;
 }

@@ -6,11 +6,10 @@ import {MapBaseLayerType} from '../../domain/model/map-base-layer-type';
 
 
 export class SwisstopoGliderBaselayer {
-    static createBaseLayer(attributions: string[]): OlBaseLayer {
+    static createBaseLayer(): OlBaseLayer {
         const layer = new TileLayer({
             source: new XYZ({
                 url: environment.mapTilesGliderChartUrl + '{z}/{x}/{y}.png',
-                attributions: attributions,
                 maxZoom: 13
             })
         });

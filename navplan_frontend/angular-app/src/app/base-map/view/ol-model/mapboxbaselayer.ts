@@ -13,14 +13,13 @@ const ACCESS_TOKEN_NAVPLAN_BRANCH = 'pk.eyJ1Ijoib3BhY29wYWMiLCJhIjoiY2oxYjZ6aDQx
 
 export class Mapboxbaselayer {
 
-    public static createBaseLayer(attributions: string[]): OlBaseLayer {
+    public static createBaseLayer(): OlBaseLayer {
         const layer = new TileLayer({
             source: new XYZ({
                 tileUrlFunction: Mapboxbaselayer.getTileUrl,
                 minZoom: MIN_ZOOM,
                 maxZoom: MAX_ZOOM,
                 crossOrigin: null,
-                attributions: attributions
             })
         });
 

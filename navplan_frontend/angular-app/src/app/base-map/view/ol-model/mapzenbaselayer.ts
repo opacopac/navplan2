@@ -12,14 +12,13 @@ const API_KEY = 'mapzen-ECzH36f';
 
 export class Mapzenbaselayer {
 
-    public static createBaseLayer(attributions: string[]): OlBaseLayer {
+    public static createBaseLayer(): OlBaseLayer {
         const layer = new TileLayer({
             source: new XYZ({
                 tileUrlFunction: Mapzenbaselayer.getTileUrl,
                 minZoom: MIN_ZOOM,
                 maxZoom: MAX_ZOOM,
                 crossOrigin: null,
-                attributions: attributions
             })
         });
 

@@ -17,12 +17,26 @@ export class BaseMapActions {
 
     public static readonly mapMoved = createAction(
         '[Base Map] map moved / zoomed / rotated',
-        props<{ position: Position2d, zoom: number, rotation: Angle, extent: Extent2d, widthPx: number, heightPx: number }>()
+        props<{
+            position: Position2d,
+            zoom: number,
+            rotation: Angle,
+            extent: Extent2d,
+            widthPx: number,
+            heightPx: number
+        }>()
     );
 
     public static readonly mapMovedDebounced = createAction(
         '[Base Map] debounced map moved / zoomed / rotated',
-        props<{ position: Position2d, zoom: number, rotation: Angle, extent: Extent2d, widthPx: number, heightPx: number }>()
+        props<{
+            position: Position2d,
+            zoom: number,
+            rotation: Angle,
+            extent: Extent2d,
+            widthPx: number,
+            heightPx: number
+        }>()
     );
 
     public static readonly mapClicked = createAction(
@@ -42,6 +56,10 @@ export class BaseMapActions {
 
     public static readonly closeAllImages = createAction(
         '[Base Map] close all images',
+    );
+
+    public static readonly toggleAttributions = createAction(
+        '[Base Map] toggle attributions',
     );
 
     public static readonly toggleMapBaseLayerSelection = createAction(

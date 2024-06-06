@@ -19,7 +19,7 @@ import {MouseWheelZoom} from 'ol/interaction';
 import {MapBaseLayerType} from '../../domain/model/map-base-layer-type';
 import Overlay from 'ol/Overlay';
 import {OlBaselayerFactory} from '../ol-service/ol-baselayer-factory';
-import {Attribution, Rotate, ScaleLine} from 'ol/control';
+import {ScaleLine} from 'ol/control';
 import {OlBaseLayer} from './ol-base-layer';
 import {ShowImageState} from '../../state/state-model/show-image-state';
 import {ArrayHelper} from '../../../system/domain/service/array/array-helper';
@@ -68,9 +68,7 @@ export class OlMap implements IBaseMap {
         this.map = new Map({
             target: mapHtmlId,
             controls: [
-                new Attribution(),
-                new ScaleLine(),
-                new Rotate()
+                new ScaleLine()
             ],
             layers: allLayers,
             overlays: mapOverlays,
