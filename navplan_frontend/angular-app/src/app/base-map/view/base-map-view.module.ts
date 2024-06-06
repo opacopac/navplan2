@@ -6,9 +6,13 @@ import {ZoomButtonsComponent} from './ng-components/zoom-buttons/zoom-buttons.co
 import {BaseMapDomainModule} from '../domain/base-map-domain.module';
 import {BaseMapStateModule} from '../state/base-map-state.module';
 import {OlOverlayButtonCloseComponent} from './ng-components/ol-overlay-button-close/ol-overlay-button-close.component';
-import {LayerButtonComponent} from './ng-components/layer-button/layer-button.component';
+import {
+    MapLayerSelectionButtonComponent
+} from '../../flight-map/view/ng-components/map-layer-selection-button/map-layer-selection-button.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {LayerSelectionComponent} from './ng-components/layer-selection/layer-selection.component';
+import {
+    MapLayerSelectionContentComponent
+} from '../../flight-map/view/ng-components/map-layer-selection-content/map-layer-selection-content.component';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {AttributionsButtonComponent} from './ng-components/attributions-button/attributions-button.component';
@@ -28,8 +32,8 @@ import {AttributionsContentComponent} from './ng-components/attributions-content
     declarations: [
         OlMapContainerComponent,
         ZoomButtonsComponent,
-        LayerButtonComponent,
-        LayerSelectionComponent,
+        MapLayerSelectionButtonComponent,
+        MapLayerSelectionContentComponent,
         AttributionsButtonComponent,
         AttributionsContentComponent,
         OlOverlayButtonCloseComponent,
@@ -37,8 +41,8 @@ import {AttributionsContentComponent} from './ng-components/attributions-content
     exports: [
         OlMapContainerComponent,
         ZoomButtonsComponent,
-        LayerButtonComponent,
-        LayerSelectionComponent,
+        MapLayerSelectionButtonComponent,
+        MapLayerSelectionContentComponent,
         AttributionsButtonComponent,
         AttributionsContentComponent,
     ],

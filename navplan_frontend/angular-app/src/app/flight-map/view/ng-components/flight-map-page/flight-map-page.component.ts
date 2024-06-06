@@ -10,7 +10,6 @@ import {
     getMapRotation,
     getMapZoom,
     getShowAttributions,
-    getShowBaseMapSelection
 } from '../../../../base-map/state/ngrx/base-map.selectors';
 import {OlMetarContainer} from '../../../../metar-taf/view/ol-components/ol-metar-container';
 import {OlNotamContainer} from '../../../../notam/view/ol-components/ol-notam-container';
@@ -31,7 +30,11 @@ import {
 } from '../../../../traffic/view/ng-components/ol-overlay-traffic/ol-overlay-traffic.component';
 import {Observable} from 'rxjs/internal/Observable';
 import {Subscription} from 'rxjs/internal/Subscription';
-import {getFlightMapShowMeteoLayer, getFlightMapShowOverlay} from '../../../state/ngrx/flight-map.selectors';
+import {
+    getFlightMapShowMeteoLayer,
+    getFlightMapShowOverlay,
+    getShowMapLayerSelection
+} from '../../../state/ngrx/flight-map.selectors';
 import {OlAirportContainer} from '../../../../aerodrome/view/ol-components/airport/ol-airport-container';
 import {
     OlAirportCircuitContainer
@@ -116,7 +119,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
     private readonly verticalMapState$ = this.appStore.pipe(select(getVerticalMapState));
     public readonly showVerticalMapButton$ = this.flightroute$.pipe(map(route => route.waypoints.length >= 2));
     public readonly showVerticalMap$ = this.verticalMapState$.pipe(map(state => state.buttonStatus === VerticalMapButtonStatus.CURRENT));
-    public readonly showBaseMapSelection$ = this.appStore.pipe(select(getShowBaseMapSelection));
+    public readonly showMapLayerSelection$ = this.appStore.pipe(select(getShowMapLayerSelection));
     public readonly showAttributions$ = this.appStore.pipe(select(getShowAttributions));
 
 

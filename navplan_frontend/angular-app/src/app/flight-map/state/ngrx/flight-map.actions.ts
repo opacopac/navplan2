@@ -15,7 +15,14 @@ export class FlightMapActions {
 
     public static readonly showOverlaySuccess = createAction(
         '[FlightMapEffects] Show map overlay success',
-        props<{ dataItem: DataItem, waypoints: Waypoint[], clickPos: Position2d, metarTaf?: MetarTaf, notams: Notam[], tabIndex: number }>()
+        props<{
+            dataItem: DataItem,
+            waypoints: Waypoint[],
+            clickPos: Position2d,
+            metarTaf?: MetarTaf,
+            notams: Notam[],
+            tabIndex: number
+        }>()
     );
 
     public static readonly hideOverlay = createAction(
@@ -24,6 +31,10 @@ export class FlightMapActions {
 
     public static readonly toggleFullScreen = createAction(
         '[FlightMapPage] Toggle full screen',
+    );
+
+    public static readonly toggleMapLayerSelection = createAction(
+        '[FlightMapPage] toggle map layer selection',
     );
 
     public static readonly toggleMeteoLayer = createAction(

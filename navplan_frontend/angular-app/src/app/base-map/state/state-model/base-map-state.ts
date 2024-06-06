@@ -15,5 +15,4 @@ export interface BaseMapState {
     baseMapType: MapBaseLayerType;
     showImage: ShowImageState;
     showAttributions: boolean;
-    showBaseMapSelection: boolean;
 }

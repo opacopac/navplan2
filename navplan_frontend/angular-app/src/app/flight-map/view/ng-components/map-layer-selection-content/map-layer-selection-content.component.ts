@@ -1,18 +1,18 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
-import {getSelectedMapBaseLayerType} from '../../../state/ngrx/base-map.selectors';
-import {MapBaseLayerType} from '../../../domain/model/map-base-layer-type';
+import {getSelectedMapBaseLayerType} from '../../../../base-map/state/ngrx/base-map.selectors';
+import {MapBaseLayerType} from '../../../../base-map/domain/model/map-base-layer-type';
 import {MatRadioChange} from '@angular/material/radio';
-import {BaseMapActions} from '../../../state/ngrx/base-map.actions';
+import {BaseMapActions} from '../../../../base-map/state/ngrx/base-map.actions';
 
 
 @Component({
-    selector: 'app-layer-selection',
-    templateUrl: './layer-selection.component.html',
-    styleUrls: ['./layer-selection.component.scss']
+    selector: 'app-map-layer-selection-content',
+    templateUrl: './map-layer-selection-content.component.html',
+    styleUrls: ['./map-layer-selection-content.component.scss']
 })
-export class LayerSelectionComponent implements OnInit {
+export class MapLayerSelectionContentComponent implements OnInit {
     public readonly baseMapType$: Observable<MapBaseLayerType> = this.appStore.pipe(select(getSelectedMapBaseLayerType));
     public readonly MapBaseLayerType: MapBaseLayerType;
 
@@ -28,6 +28,6 @@ export class LayerSelectionComponent implements OnInit {
     public onMapBgSelected(change: MatRadioChange) {
         const layerName: string = change.value;
         const layer: MapBaseLayerType = MapBaseLayerType[layerName];
-        this.appStore.dispatch(BaseMapActions.baseLayerSelected({ mapBaseLayerType: layer }));
+        this.appStore.dispatch(BaseMapActions.baseLayerSelected({mapBaseLayerType: layer}));
     }
 }

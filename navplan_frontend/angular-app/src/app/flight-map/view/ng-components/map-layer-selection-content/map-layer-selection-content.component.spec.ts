@@ -1,20 +1,20 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {LayerSelectionComponent} from './layer-selection.component';
+import {MapLayerSelectionContentComponent} from './map-layer-selection-content.component';
 
 describe('LayerSelectionComponent', () => {
-  let component: LayerSelectionComponent;
-  let fixture: ComponentFixture<LayerSelectionComponent>;
+  let component: MapLayerSelectionContentComponent;
+  let fixture: ComponentFixture<MapLayerSelectionContentComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LayerSelectionComponent ]
+      declarations: [ MapLayerSelectionContentComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LayerSelectionComponent);
+    fixture = TestBed.createComponent(MapLayerSelectionContentComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

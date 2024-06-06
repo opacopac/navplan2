@@ -17,7 +17,6 @@ const initialState: BaseMapState = {
     baseMapType: MapBaseLayerType.OPENTOPOMAP,
     showImage: {imageId: undefined, imageUrl: undefined, extent: undefined, opacity: undefined, fitInView: true},
     showAttributions: false,
-    showBaseMapSelection: false
 };
 
 
@@ -80,11 +79,6 @@ export const baseMapReducer = createReducer(
     on(BaseMapActions.toggleAttributions, (state, action) => ({
         ...state,
         showAttributions: !state.showAttributions
-    })),
-
-    on(BaseMapActions.toggleMapBaseLayerSelection, (state, action) => ({
-        ...state,
-        showBaseMapSelection: !state.showBaseMapSelection
     })),
 
     on(BaseMapActions.baseLayerSelected, (state, action) => ({

@@ -62,10 +62,6 @@ export class BaseMapActions {
         '[Base Map] toggle attributions',
     );
 
-    public static readonly toggleMapBaseLayerSelection = createAction(
-        '[Base Map] toggle map base layer selection',
-    );
-
     public static readonly baseLayerSelected = createAction(
         '[Base Map] base map layer selected',
         props<{ mapBaseLayerType: MapBaseLayerType }>()
