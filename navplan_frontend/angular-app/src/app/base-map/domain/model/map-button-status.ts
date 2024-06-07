@@ -1,6 +1,6 @@
 export enum MapButtonStatus {
     OFF,
     ON,
-    WAITING,
+    WARNING,
     ERROR,
 }

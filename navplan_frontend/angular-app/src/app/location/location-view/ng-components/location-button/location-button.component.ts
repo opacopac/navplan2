@@ -3,6 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {LocationActions} from '../../../location-state/ngrx/location.actions';
 import {getLocationIsWatching, getLocationStatus} from '../../../location-state/ngrx/location.selectors';
 import {LocationServiceStatus} from '../../../location-domain/model/location-service-status';
+import {MapButtonStatus} from '../../../../base-map/domain/model/map-button-status';
 
 
 @Component({
@@ -28,17 +29,17 @@ export class LocationButtonComponent implements OnInit {
     }
 
 
-    public getStatusCLass(locationStatus: LocationServiceStatus): string {
+    public getButtonStatus(locationStatus: LocationServiceStatus): MapButtonStatus {
         switch (locationStatus) {
             case LocationServiceStatus.CURRENT:
-                return 'mapbutton-status-ok';
+                return MapButtonStatus.ON;
             case LocationServiceStatus.WAITING:
-                return 'mapbutton-status-warn';
+                return MapButtonStatus.WARNING;
             case LocationServiceStatus.ERROR:
-                return 'mapbutton-status-error';
+                return MapButtonStatus.ERROR;
             case LocationServiceStatus.OFF:
             default:
-                return 'mapbutton-primary';
+                return MapButtonStatus.OFF;
         }
     }
 }

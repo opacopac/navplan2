@@ -36,7 +36,7 @@ export class MapStatusButtonComponent implements OnInit {
         switch (this.buttonStatus) {
             case MapButtonStatus.ON:
                 return 'mapbutton-status-ok';
-            case MapButtonStatus.WAITING:
+            case MapButtonStatus.WARNING:
                 return 'mapbutton-status-warn';
             case MapButtonStatus.ERROR:
                 return 'mapbutton-status-error';

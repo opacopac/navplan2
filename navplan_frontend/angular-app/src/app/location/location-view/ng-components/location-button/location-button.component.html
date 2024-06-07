@@ -1,7 +1,9 @@
-<button mat-fab
-        matTooltip="start/stop tracking own position"
-        matTooltipPosition="right"
-        color="{{ this.getStatusCLass(this.locationStatus$ | async) }}"
-        (click)="this.onLocationClicked()">
+<app-map-status-button
+    [buttonFormat]="'large'"
+    [tooltipText]="'start/stop tracking own position'"
+    [tooltipPosition]="'right'"
+    [buttonStatus]="this.getButtonStatus(this.locationStatus$ | async)"
+    (buttonClickedEventEmitter)="this.onLocationClicked()"
+>
     <i class="fas fa-location-arrow"></i>
-</button>
+</app-map-status-button>

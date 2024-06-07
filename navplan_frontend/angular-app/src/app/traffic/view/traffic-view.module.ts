@@ -8,6 +8,7 @@ import {TrafficButtonComponent} from './ng-components/traffic-button/traffic-but
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {BaseMapViewModule} from '../../base-map/view/base-map-view.module';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
         TrafficDomainModule,
         TrafficRestModule,
         TrafficStateModule,
+        BaseMapViewModule,
     ],
     declarations: [
         OlOverlayTrafficComponent,

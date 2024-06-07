@@ -5,6 +5,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {LocationDomainModule} from '../location-domain/location-domain.module';
 import {LocationStateModule} from '../location-state/location-state.module';
 import {LocationButtonComponent} from './ng-components/location-button/location-button.component';
+import {BaseMapViewModule} from '../../base-map/view/base-map-view.module';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import {LocationButtonComponent} from './ng-components/location-button/location-
         MatButtonModule,
         MatTooltipModule,
         LocationDomainModule,
-        LocationStateModule
+        LocationStateModule,
+        BaseMapViewModule
     ],
     declarations: [
         LocationButtonComponent,

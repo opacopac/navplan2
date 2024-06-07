@@ -1,7 +1,9 @@
-<button mat-fab
-        matTooltip="show/hide traffic"
-        matTooltipPosition="right"
-        color="{{ this.getStatusCLass(this.trafficStatus$ | async) }}"
-        (click)="this.onToggleTrafficClicked()">
+<app-map-status-button
+    [buttonFormat]="'large'"
+    [tooltipText]="'show/hide traffic'"
+    [tooltipPosition]="'right'"
+    [buttonStatus]="this.getButtonStatus(this.trafficStatus$ | async)"
+    (buttonClickedEventEmitter)="this.onToggleTrafficClicked()"
+>
     <i class="fas fa-plane"></i>
-</button>
+</app-map-status-button>
