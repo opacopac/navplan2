@@ -12,6 +12,7 @@ import {MatSliderModule} from '@angular/material/slider';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
+import {BaseMapViewModule} from '../../base-map/view/base-map-view.module';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import {MatInputModule} from '@angular/material/input';
         MatMenuModule,
         MatSelectModule,
         MatInputModule,
+        BaseMapViewModule,
     ],
     declarations: [
         MeteoButtonComponent,

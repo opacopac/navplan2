@@ -1,8 +1,9 @@
-<app-small-map-button
+<app-map-status-button
+    [buttonFormat]="'small_square'"
     [tooltipText]="'show full screen'"
     [tooltipPosition]="'left'"
-    [isButtonPressed]="this.showFullScreen$ | async"
+    [toggleOnOff]="this.showFullScreen$ | async"
     (buttonClickedEventEmitter)="this.onButtonClicked()"
 >
     <i class="{{ this.getIconClass(this.showFullScreen$ | async) }}"></i>
-</app-small-map-button>
+</app-map-status-button>

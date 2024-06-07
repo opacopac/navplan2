@@ -1,0 +1,32 @@
+<button mat-fab
+        *ngIf="this.buttonFormat === 'large'"
+        [matTooltip]="this.tooltipText"
+        [matTooltipPosition]="this.tooltipPosition"
+        [color]="this.getColor()"
+        (click)="this.onButtonClick()"
+        class="map-button-large"
+>
+    <ng-container *ngTemplateOutlet="contentTpl"></ng-container>
+</button>
+<button mat-mini-fab
+        *ngIf="this.buttonFormat === 'small_round'"
+        [matTooltip]="this.tooltipText"
+        [matTooltipPosition]="this.tooltipPosition"
+        [color]="this.getColor()"
+        (click)="this.onButtonClick()"
+>
+    <ng-container *ngTemplateOutlet="contentTpl"></ng-container>
+</button>
+<button mat-mini-fab
+        *ngIf="this.buttonFormat === 'small_square'"
+        [matTooltip]="this.tooltipText"
+        [matTooltipPosition]="this.tooltipPosition"
+        [color]="this.getColor()"
+        (click)="this.onButtonClick()"
+        class="button-small-square"
+>
+    <ng-container *ngTemplateOutlet="contentTpl"></ng-container>
+</button>
+<ng-template #contentTpl>
+    <ng-content></ng-content>
+</ng-template>

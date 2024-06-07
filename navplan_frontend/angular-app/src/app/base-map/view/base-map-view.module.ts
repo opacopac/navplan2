@@ -16,8 +16,8 @@ import {
 import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {AttributionsContentComponent} from './ng-components/attributions-content/attributions-content.component';
-import {SmallMapButtonComponent} from './ng-components/small-map-button/small-map-button.component';
 import {AttributionsButtonComponent} from './ng-components/attributions-button/attributions-button-component.component';
+import {MapStatusButtonComponent} from './ng-components/map-status-button/map-status-button.component';
 
 
 @NgModule({
@@ -33,20 +33,20 @@ import {AttributionsButtonComponent} from './ng-components/attributions-button/a
     declarations: [
         AttributionsButtonComponent,
         AttributionsContentComponent,
+        MapStatusButtonComponent,
         MapLayerSelectionButtonComponent,
         MapLayerSelectionContentComponent,
         OlMapContainerComponent,
         OlOverlayButtonCloseComponent,
-        SmallMapButtonComponent,
         ZoomButtonsComponent,
     ],
     exports: [
         AttributionsButtonComponent,
         AttributionsContentComponent,
+        MapStatusButtonComponent,
         MapLayerSelectionButtonComponent,
         MapLayerSelectionContentComponent,
         OlMapContainerComponent,
-        SmallMapButtonComponent,
         ZoomButtonsComponent,
     ],
     providers: []

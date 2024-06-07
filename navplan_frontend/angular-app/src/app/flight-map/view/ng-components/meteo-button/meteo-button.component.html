@@ -1,35 +1,40 @@
 <div>
     <div *ngIf="this.showMeteoLayer$ | async" class="meteo-layer-button-container">
-        <button
-            mat-mini-fab
-            matTooltip="Station Measurements"
-            matTooltipPosition="right"
-            color="{{ this.getStationsButtonClass(this.meteoLayer$ | async) }}"
-            (click)="onStationsSelected()">
+        <app-map-status-button
+            [buttonFormat]="'small_round'"
+            [tooltipText]="'Station Measurements'"
+            [tooltipPosition]="'right'"
+            [toggleOnOff]="(this.meteoLayer$ | async) === MeteoLayer.SmaStationsLayer"
+            (buttonClickedEventEmitter)="this.onStationsSelected()"
+        >
             <i class="fas fa-thermometer-half"></i>
-        </button>
-        <button
-            mat-mini-fab
-            matTooltip="Clouds & Precipitation Forecast"
-            matTooltipPosition="right"
-            color="{{ this.getWeatherButtonClass(this.meteoLayer$ | async) }}"
-            (click)="onWeatherForecastSelected()">
+        </app-map-status-button>
+        <app-map-status-button
+            [buttonFormat]="'small_round'"
+            [tooltipText]="'Clouds & Precipitation Forecast'"
+            [tooltipPosition]="'right'"
+            [toggleOnOff]="(this.meteoLayer$ | async) === MeteoLayer.DwdWeatherLayer"
+            (buttonClickedEventEmitter)="this.onWeatherForecastSelected()"
+        >
             <i class="fas fa-cloud"></i>
-        </button>
-        <button
-            mat-mini-fab
-            matTooltip="Wind Forecast"
-            matTooltipPosition="right"
-            color="{{ this.getWindButtonClass(this.meteoLayer$ | async) }}"
-            (click)="onWindForecastSelected()">
+        </app-map-status-button>
+        <app-map-status-button
+            [buttonFormat]="'small_round'"
+            [tooltipText]="'Wind Forecast'"
+            [tooltipPosition]="'right'"
+            [toggleOnOff]="(this.meteoLayer$ | async) === MeteoLayer.DwdWindLayer"
+            (buttonClickedEventEmitter)="this.onWindForecastSelected()"
+        >
             <i class="fas fa-wind"></i>
-        </button>
+        </app-map-status-button>
     </div>
-    <button mat-fab
-            matTooltip="show/hide meteo layers"
-            matTooltipPosition="right"
-            color="{{ this.getMeteoButtonStatusCLass(this.showMeteoLayer$ | async) }}"
-            (click)="this.onMeteoButtonClicked()">
+    <app-map-status-button
+        [buttonFormat]="'large'"
+        [tooltipText]="'show/hide meteo layers'"
+        [tooltipPosition]="'right'"
+        [toggleOnOff]="this.showMeteoLayer$ | async"
+        (buttonClickedEventEmitter)="this.onMeteoButtonClicked()"
+    >
         <i class="fas fa-cloud-sun-rain meteo-dwd-button-icon"></i>
-    </button>
+    </app-map-status-button>
 </div>

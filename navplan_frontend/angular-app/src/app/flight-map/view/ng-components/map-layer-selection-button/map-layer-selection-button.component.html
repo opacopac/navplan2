@@ -1,8 +1,9 @@
-<app-small-map-button
+<app-map-status-button
+    [buttonFormat]="'small_square'"
     [tooltipText]="'select map layers'"
     [tooltipPosition]="'left'"
-    [isButtonPressed]="this.showMapLayerSelection$ | async"
+    [toggleOnOff]="this.showMapLayerSelection$ | async"
     (buttonClickedEventEmitter)="this.onButtonClicked()"
 >
     <i class="fas fa-layer-group"></i>
-</app-small-map-button>
+</app-map-status-button>
