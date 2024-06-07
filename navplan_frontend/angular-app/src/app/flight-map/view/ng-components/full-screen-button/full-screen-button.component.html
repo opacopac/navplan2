@@ -1,8 +1,8 @@
-<button mat-mini-fab
-        matTooltip="select map layer"
-        matTooltipPosition="right"
-        color="{{ this.getButtonStatusCLass(this.showFullScreen$ | async) }}"
-        (click)="this.onButtonClicked()"
-        class="full-screen-button">
+<app-small-map-button
+    [tooltipText]="'show full screen'"
+    [tooltipPosition]="'left'"
+    [isButtonPressed]="this.showFullScreen$ | async"
+    (buttonClickedEventEmitter)="this.onButtonClicked()"
+>
     <i class="{{ this.getIconClass(this.showFullScreen$ | async) }}"></i>
-</button>
+</app-small-map-button>

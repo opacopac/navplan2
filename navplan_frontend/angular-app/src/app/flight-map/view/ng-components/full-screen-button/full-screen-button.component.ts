@@ -27,11 +27,6 @@ export class FullScreenButtonComponent implements OnInit {
     }
 
 
-    public getButtonStatusCLass(showFullScreen: boolean): string {
-        return showFullScreen ? 'mapbutton-status-ok' : 'mapbutton-primary';
-    }
-
-
     public getIconClass(showFullScreen: boolean): string {
         return showFullScreen ? 'fas fa-compress' : 'fas fa-expand';
     }

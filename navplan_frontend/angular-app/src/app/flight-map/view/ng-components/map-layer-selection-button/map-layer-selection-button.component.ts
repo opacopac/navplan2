@@ -22,14 +22,7 @@ export class MapLayerSelectionButtonComponent implements OnInit {
     }
 
 
-    public onVerticalMapClicked() {
+    public onButtonClicked() {
         this.appStore.dispatch(FlightMapActions.toggleMapLayerSelection());
-    }
-
-
-    public getStatusCLass(showMapLayerSelection: boolean): string {
-        return showMapLayerSelection
-            ? 'mapbutton-status-ok'
-            : 'mapbutton-primary';
     }
 }

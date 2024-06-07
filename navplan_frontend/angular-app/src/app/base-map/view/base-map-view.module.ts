@@ -23,31 +23,31 @@ import {AttributionsButtonComponent} from './ng-components/attributions-button/a
 @NgModule({
     imports: [
         CommonModule,
-        MatButtonModule,
         BaseMapDomainModule,
         BaseMapStateModule,
-        MatTooltipModule,
+        MatButtonModule,
+        MatCheckboxModule,
         MatRadioModule,
-        MatCheckboxModule
+        MatTooltipModule,
     ],
     declarations: [
-        OlMapContainerComponent,
-        ZoomButtonsComponent,
-        MapLayerSelectionButtonComponent,
-        MapLayerSelectionContentComponent,
-        AttributionsButtonComponent,
         AttributionsButtonComponent,
         AttributionsContentComponent,
+        MapLayerSelectionButtonComponent,
+        MapLayerSelectionContentComponent,
+        OlMapContainerComponent,
         OlOverlayButtonCloseComponent,
         SmallMapButtonComponent,
+        ZoomButtonsComponent,
     ],
     exports: [
-        OlMapContainerComponent,
-        ZoomButtonsComponent,
-        MapLayerSelectionButtonComponent,
-        MapLayerSelectionContentComponent,
         AttributionsButtonComponent,
         AttributionsContentComponent,
+        MapLayerSelectionButtonComponent,
+        MapLayerSelectionContentComponent,
+        OlMapContainerComponent,
+        SmallMapButtonComponent,
+        ZoomButtonsComponent,
     ],
     providers: []
 })
