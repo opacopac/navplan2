@@ -1,0 +1,8 @@
+<app-small-map-button
+    [tooltipText]="'show attributions'"
+    [tooltipPosition]="'left'"
+    [isButtonPressed]="this.showAttributions$ | async"
+    (buttonClickedEventEmitter)="this.onButtonClicked()"
+>
+    <i class="fas fa-info"></i>
+</app-small-map-button>

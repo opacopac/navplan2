@@ -15,8 +15,9 @@ import {
 } from '../../flight-map/view/ng-components/map-layer-selection-content/map-layer-selection-content.component';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import {AttributionsButtonComponent} from './ng-components/attributions-button/attributions-button.component';
 import {AttributionsContentComponent} from './ng-components/attributions-content/attributions-content.component';
+import {SmallMapButtonComponent} from './ng-components/small-map-button/small-map-button.component';
+import {AttributionsButtonComponent} from './ng-components/attributions-button/attributions-button-component.component';
 
 
 @NgModule({
@@ -35,8 +36,10 @@ import {AttributionsContentComponent} from './ng-components/attributions-content
         MapLayerSelectionButtonComponent,
         MapLayerSelectionContentComponent,
         AttributionsButtonComponent,
+        AttributionsButtonComponent,
         AttributionsContentComponent,
         OlOverlayButtonCloseComponent,
+        SmallMapButtonComponent,
     ],
     exports: [
         OlMapContainerComponent,

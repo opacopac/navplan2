@@ -7,8 +7,8 @@ import {Observable} from 'rxjs';
 
 @Component({
     selector: 'app-attributions-button',
-    templateUrl: './attributions-button.component.html',
-    styleUrls: ['./attributions-button.component.scss']
+    templateUrl: './attributions-button-component.component.html',
+    styleUrls: ['./attributions-button-component.component.scss']
 })
 export class AttributionsButtonComponent implements OnInit {
     public showAttributions$: Observable<boolean> = this.appStore.pipe(select(getShowAttributions));
@@ -24,12 +24,5 @@ export class AttributionsButtonComponent implements OnInit {
 
     public onButtonClicked() {
         this.appStore.dispatch(BaseMapActions.toggleAttributions());
-    }
-
-
-    public getStatusCLass(showAttributions: boolean): string {
-        return showAttributions
-            ? 'mapbutton-status-ok'
-            : 'mapbutton-primary';
     }
 }
