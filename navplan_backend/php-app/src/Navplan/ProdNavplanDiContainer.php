@@ -23,6 +23,7 @@ use Navplan\MeteoGram\ProdMeteoGramDiContainer;
 use Navplan\MeteoSma\IMeteoSmaDiContainer;
 use Navplan\MeteoSma\ProdMeteoSmaDiContainer;
 use Navplan\Navaid\INavaidDiContainer;
+use Navplan\Navaid\ProdNavaidDiContainer;
 use Navplan\Notam\INotamDiContainer;
 use Navplan\Notam\ProdNotamDiContainer;
 use Navplan\OpenAip\IOpenAipDiContainer;
@@ -73,11 +74,13 @@ class ProdNavplanDiContainer
     private IExporterDiContainer $exporterDiContainer;
 
 
-    public function __construct() {
+    public function __construct()
+    {
     }
 
 
-    public function getConfigDiContainer(): IConfigDiContainer {
+    public function getConfigDiContainer(): IConfigDiContainer
+    {
         if (!isset($this->configDiContainer)) {
             $this->configDiContainer = new ProdConfigDiContainer();
         }
@@ -86,7 +89,8 @@ class ProdNavplanDiContainer
     }
 
 
-    public function getAdminDiContainer(): IAdminDiContainer {
+    public function getAdminDiContainer(): IAdminDiContainer
+    {
         if (!isset($this->adminDiContainer)) {
             $this->adminDiContainer = new ProdAdminDiContainer(
                 $this->getOpenAipDiContainer()->getOpenAipImporter()
@@ -97,7 +101,8 @@ class ProdNavplanDiContainer
     }
 
 
-    public function getAerodromeDiContainer(): IAerodromeDiContainer {
+    public function getAerodromeDiContainer(): IAerodromeDiContainer
+    {
         if (!isset($this->aerodromeDiContainer)) {
             $this->aerodromeDiContainer = new ProdAerodromeDiContainer(
                 $this->getPersistenceDiContainer()->getDbService(),
@@ -110,7 +115,8 @@ class ProdNavplanDiContainer
     }
 
 
-    public function getAirspaceDiContainer(): IAirspaceDiContainer {
+    public function getAirspaceDiContainer(): IAirspaceDiContainer
+    {
         if (!isset($this->airspaceDiContainer)) {
             $this->airspaceDiContainer = new ProdAirspaceDiContainer(
                 $this->getSystemDiContainer()->getLoggingService(),
@@ -123,9 +129,10 @@ class ProdNavplanDiContainer
     }
 
 
-    public function getNavaidDiContainer(): INavaidDiContainer {
+    public function getNavaidDiContainer(): INavaidDiContainer
+    {
         if (!isset($this->navaidDiContainer)) {
-            $this->navaidDiContainer = new ProdNavplanDiContainer(
+            $this->navaidDiContainer = new ProdNavaidDiContainer(
                 $this->getSystemDiContainer()->getLoggingService(),
                 $this->getPersistenceDiContainer()->getDbService(),
                 $this->getSystemDiContainer()->getHttpService()
@@ -136,7 +143,8 @@ class ProdNavplanDiContainer
     }
 
 
-    public function getExportDiContainer(): IExporterDiContainer {
+    public function getExportDiContainer(): IExporterDiContainer
+    {
         if (!isset($this->exporterDiContainer)) {
             $this->exporterDiContainer = new ProdExportDiContainer(
                 $this->getSystemDiContainer()->getFileService(),
@@ -148,7 +156,8 @@ class ProdNavplanDiContainer
     }
 
 
-    public function getFlightrouteDiContainer(): IFlightrouteDiContainer {
+    public function getFlightrouteDiContainer(): IFlightrouteDiContainer
+    {
         if (!isset($this->flightrouteDiContainer)) {
             $this->flightrouteDiContainer = new ProdFlightrouteDiContainer(
                 $this->getUserDiContainer()->getTokenService(),
@@ -162,7 +171,8 @@ class ProdNavplanDiContainer
     }
 
 
-    function getGeonameDiContainer(): IGeonameDiContainer {
+    function getGeonameDiContainer(): IGeonameDiContainer
+    {
         if (!isset($this->geonameDiContainer)) {
             $this->geonameDiContainer = new ProdGeonameDiContainer(
                 $this->getPersistenceDiContainer()->getDbService(),
@@ -174,7 +184,8 @@ class ProdNavplanDiContainer
     }
 
 
-    function getMeteoDwdDiContainer(): IMeteoDwdDiContainer {
+    function getMeteoDwdDiContainer(): IMeteoDwdDiContainer
+    {
         if (!isset($this->meteoDwdDiContainer)) {
             $this->meteoDwdDiContainer = new ProdMeteoDwdDiContainer(
                 $this->getSystemDiContainer()->getFileService(),
@@ -187,7 +198,8 @@ class ProdNavplanDiContainer
     }
 
 
-    function getMeteoGramDiContainer(): IMeteoGramDiContainer {
+    function getMeteoGramDiContainer(): IMeteoGramDiContainer
+    {
         if (!isset($this->meteoGramDiContainer)) {
             $this->meteoGramDiContainer = new ProdMeteoGramDiContainer(
                 $this->getSystemDiContainer()->getHttpService(),
@@ -202,7 +214,8 @@ class ProdNavplanDiContainer
     }
 
 
-    public function getMeteoSmaDiContainer(): IMeteoSmaDiContainer {
+    public function getMeteoSmaDiContainer(): IMeteoSmaDiContainer
+    {
         if (!isset($this->meteoSmaDiContainer)) {
             $this->meteoSmaDiContainer = new ProdMeteoSmaDiContainer(
                 $this->getPersistenceDiContainer()->getDbService(),
@@ -214,7 +227,8 @@ class ProdNavplanDiContainer
     }
 
 
-    public function getNotamDiContainer(): INotamDiContainer {
+    public function getNotamDiContainer(): INotamDiContainer
+    {
         if (!isset($this->notamDiContainer)) {
             $this->notamDiContainer = new ProdNotamDiContainer(
                 $this->getPersistenceDiContainer()->getDbService()
@@ -225,7 +239,8 @@ class ProdNavplanDiContainer
     }
 
 
-    public function getOpenAipDiContainer(): IOpenAipDiContainer {
+    public function getOpenAipDiContainer(): IOpenAipDiContainer
+    {
         if (!isset($this->openAipDiContainer)) {
             $this->openAipDiContainer = new ProdOpenAipDiContainer(
                 $this->getAerodromeDiContainer()->getAirportService(),
@@ -240,7 +255,8 @@ class ProdNavplanDiContainer
     }
 
 
-    public function getSearchDiContainer(): ISearchDiContainer {
+    public function getSearchDiContainer(): ISearchDiContainer
+    {
         if (!isset($this->searchDiContainer)) {
             $this->searchDiContainer = new ProdSearchDiContainer(
                 $this->getUserDiContainer()->getSearchUserPointUc(),
@@ -257,7 +273,8 @@ class ProdNavplanDiContainer
     }
 
 
-    public function getSystemDiContainer(): ISystemDiContainer {
+    public function getSystemDiContainer(): ISystemDiContainer
+    {
         if (!isset($this->systemDiContainer)) {
             $this->systemDiContainer = new ProdSystemDiContainer(
                 $this->getConfigDiContainer(),
@@ -269,7 +286,8 @@ class ProdNavplanDiContainer
     }
 
 
-    public function getPersistenceDiContainer(): IPersistenceDiContainer {
+    public function getPersistenceDiContainer(): IPersistenceDiContainer
+    {
         if (!isset($this->persistenceDiContainer)) {
             $this->persistenceDiContainer = new ProdPersistenceDiContainer(
                 $this->getSystemDiContainer(),
@@ -281,7 +299,8 @@ class ProdNavplanDiContainer
     }
 
 
-    public function getTerrainDiContainer(): ITerrainDiContainer {
+    public function getTerrainDiContainer(): ITerrainDiContainer
+    {
         if (!isset($this->terrainDiContainer)) {
             $this->terrainDiContainer = new ProdTerrainDiContainer(
                 $this->getSystemDiContainer()->getFileService(),
@@ -293,7 +312,8 @@ class ProdNavplanDiContainer
     }
 
 
-    public function getTrackDiContainer(): ITrackDiContainer {
+    public function getTrackDiContainer(): ITrackDiContainer
+    {
         if (!isset($this->trackDiContainer)) {
             $this->trackDiContainer = new ProdTrackDiContainer(
                 $this->getUserDiContainer()->getTokenService(),
@@ -305,7 +325,8 @@ class ProdNavplanDiContainer
     }
 
 
-    public function getTrafficDiContainer(): ITrafficDiContainer {
+    public function getTrafficDiContainer(): ITrafficDiContainer
+    {
         if (!isset($this->trafficDiContainer)) {
             $this->trafficDiContainer = new ProdTrafficDiContainer(
                 $this->getSystemDiContainer()->getFileService(),
@@ -320,7 +341,8 @@ class ProdNavplanDiContainer
     }
 
 
-    public function getUserDiContainer(): IUserDiContainer {
+    public function getUserDiContainer(): IUserDiContainer
+    {
         if (!isset($this->userDiContainer)) {
             $this->userDiContainer = new ProdUserDiContainer(
                 $this->getPersistenceDiContainer()->getDbService(),
@@ -334,7 +356,8 @@ class ProdNavplanDiContainer
     }
 
 
-    public function getVerticalMapDiContainer(): IVerticalMapDiContainer {
+    public function getVerticalMapDiContainer(): IVerticalMapDiContainer
+    {
         if (!isset($this->verticalMapDiContainer)) {
             $this->verticalMapDiContainer = new ProdVerticalMapDiContainer(
                 $this->getTerrainDiContainer()->getTerrainService(),
@@ -349,7 +372,8 @@ class ProdNavplanDiContainer
     }
 
 
-    public function getWebcamDiContainer(): IWebcamDiContainer {
+    public function getWebcamDiContainer(): IWebcamDiContainer
+    {
         if (!isset($this->webcamDiContainer)) {
             $this->webcamDiContainer = new ProdWebcamDiContainer(
                 $this->getPersistenceDiContainer()->getDbService()
