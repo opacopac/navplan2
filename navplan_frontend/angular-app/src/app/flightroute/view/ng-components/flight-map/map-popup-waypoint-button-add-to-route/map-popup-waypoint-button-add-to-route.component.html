@@ -1,8 +1,8 @@
 <button mat-mini-fab (click)="this.onAddSelectedWaypointClicked()" [ngStyle]="{'margin-bottom.px': 0}">
     <i class="fas fa-plus"></i>
 </button>&nbsp;
-<mat-form-field class="form-container">
-    <mat-select [(value)]="this.addAfterIndex" placeholder="Add to Route" class="dropdown">
+<mat-form-field class="form-field" style="margin-bottom: -10px;">
+    <mat-select [(value)]="this.addAfterIndex" placeholder="Add to Route">
         <mat-option value="0">
             at the start
         </mat-option>
