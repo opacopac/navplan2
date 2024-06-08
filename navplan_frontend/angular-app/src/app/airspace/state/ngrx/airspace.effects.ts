@@ -5,10 +5,10 @@ import {AirspaceActions} from './airspace.actions';
 import {Observable, pipe} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {getAirspaceState} from './airspace.selectors';
-import {AirspaceState} from '../../state-model/airspace-state';
-import {environment} from '../../../../../environments/environment';
-import {IAirspaceRepo} from '../../../domain/service/i-airspace-repo';
-import {BaseMapActions} from '../../../../base-map/state/ngrx/base-map.actions';
+import {AirspaceState} from '../state-model/airspace-state';
+import {environment} from '../../../../environments/environment';
+import {IAirspaceRepo} from '../../domain/service/i-airspace-repo';
+import {BaseMapActions} from '../../../base-map/state/ngrx/base-map.actions';
 
 
 @Injectable()

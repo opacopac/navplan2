@@ -7,7 +7,7 @@ import {RestUserpointConverter} from '../../../user/rest/model/rest-userpoint-co
 import {RestGeonameConverter} from '../../../geoname/rest/model/rest-geoname-converter';
 import {RestAirportCircuitConverter} from '../../../aerodrome/rest/converter/rest-airport-circuit-converter';
 import {IRestSearchResponse} from './i-rest-search-response';
-import {RestAirspaceConverter} from '../../../enroute/rest/model/rest-airspace-converter';
+import {RestAirspaceConverter} from '../../../airspace/rest/model/rest-airspace-converter';
 
 
 export class RestSearchResponseConverter {

@@ -3,10 +3,10 @@ import {filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {NavaidActions} from './navaid.actions';
 import {Store} from '@ngrx/store';
-import {INavaidRepo} from '../../../domain/service/i-navaid-repo';
+import {INavaidRepo} from '../../domain/service/i-navaid-repo';
 import {getNavaidState} from './navaid.selectors';
-import {environment} from '../../../../../environments/environment';
-import {BaseMapActions} from '../../../../base-map/state/ngrx/base-map.actions';
+import {environment} from '../../../../environments/environment';
+import {BaseMapActions} from '../../../base-map/state/ngrx/base-map.actions';
 
 
 @Injectable()

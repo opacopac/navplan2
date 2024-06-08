@@ -1,5 +1,5 @@
-import {environment} from '../../../../../environments/environment';
-import {NavaidType} from '../../../domain/model/navaid-type';
+import {environment} from '../../../../environments/environment';
+import {NavaidType} from '../../domain/model/navaid-type';
 import {Icon} from 'ol/style';
 
 

@@ -10,7 +10,7 @@ import {AerodromeViewModule} from '../../aerodrome/view/aerodrome-view.module';
 import {GeonameViewModule} from '../../geoname/view/geoname-view.module';
 import {MeteoSmaViewModule} from '../../meteo-sma/view/meteo-sma-view.module';
 import {NotamViewModule} from '../../notam/view/notam-view.module';
-import {EnrouteViewModule} from '../../enroute/view/enroute-view.module';
+import {NavaidViewModule} from '../../enroute/view/navaid-view.module';
 import {WebcamViewModule} from '../../webcam/view/webcam-view.module';
 import {TrackViewModule} from '../../track/view/track-view.module';
 import {VerticalMapViewModule} from '../../vertical-map/view/vertical-map-view.module';
@@ -28,6 +28,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MeteoGramViewModule} from '../../meteo-gram/view/meteo-gram-view.module';
 import {FullScreenButtonComponent} from './ng-components/full-screen-button/full-screen-button.component';
 import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.module';
+import {AirspaceViewModule} from '../../airspace/view/airspace-view.module';
 
 @NgModule({
     declarations: [
@@ -41,7 +42,8 @@ import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.modu
         AerodromeViewModule,
         BaseMapViewModule,
         CommonModule,
-        EnrouteViewModule,
+        NavaidViewModule,
+        AirspaceViewModule,
         FlightMapStateModule,
         FlightTimerViewModule,
         FlightrouteViewModule,

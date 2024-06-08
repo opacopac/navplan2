@@ -1,5 +1,5 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {AirspaceState} from '../../state-model/airspace-state';
+import {AirspaceState} from '../state-model/airspace-state';
 
 
 export const getAirspaceState = createFeatureSelector<AirspaceState>('airspaceState');

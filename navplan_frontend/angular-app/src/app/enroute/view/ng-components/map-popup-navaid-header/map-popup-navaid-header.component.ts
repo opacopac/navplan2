@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Navaid} from '../../../domain/model/navaid';
-import {OlNavaidIcon} from '../../ol-components/navaid/ol-navaid-icon';
+import {OlNavaidIcon} from '../../ol-components/ol-navaid-icon';
 
 
 @Component({

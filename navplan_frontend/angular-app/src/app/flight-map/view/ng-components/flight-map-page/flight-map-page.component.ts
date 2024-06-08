@@ -44,8 +44,8 @@ import {
 import {
     OlReportingSectorContainer
 } from '../../../../aerodrome/view/ol-components/reporting-point-sector/ol-reporting-sector-container';
-import {OlAirspaceContainer} from '../../../../enroute/view/ol-components/airspace/ol-airspace-container';
-import {OlNavaidContainer} from '../../../../enroute/view/ol-components/navaid/ol-navaid-container';
+import {OlAirspaceContainer} from '../../../../airspace/view/ol-components/ol-airspace-container';
+import {OlNavaidContainer} from '../../../../enroute/view/ol-components/ol-navaid-container';
 import {OlWebcamContainer} from '../../../../webcam/view/ol-components/ol-webcam-container';
 import {
     OlAirportChartContainer
@@ -54,8 +54,8 @@ import {OlPositionSearchContainer} from '../../../../search/view/ol-components/o
 import {getPositionSearchState} from '../../../../search/state/ngrx/search.selectors';
 import {getWebcams} from '../../../../webcam/state/ngrx/webcam.selectors';
 import {getMetarTafs} from '../../../../metar-taf/state/ngrx/metar-taf.selectors';
-import {getAirspaces} from '../../../../enroute/state/ngrx/airspace/airspace.selectors';
-import {getNavaids} from '../../../../enroute/state/ngrx/navaid/navaid.selectors';
+import {getAirspaces} from '../../../../airspace/state/ngrx/airspace.selectors';
+import {getNavaids} from '../../../../enroute/state/ngrx/navaid.selectors';
 import {getAirports} from '../../../../aerodrome/state/ngrx/airport/airport.selectors';
 import {
     getReportingPoints,
@@ -72,7 +72,7 @@ import {getMeteoSmaState} from '../../../../meteo-sma/state/ngrx/meteo-sma.selec
 import {OlSmaMeasurementContainer} from '../../../../meteo-sma/view/ol-components/ol-sma-measurement-container';
 import {
     MapOverlayAirspaceStructureComponent
-} from '../../../../enroute/view/ng-components/map-overlay-airspace-structure/map-overlay-airspace-structure.component';
+} from '../../../../airspace/view/ng-components/map-overlay-airspace-structure/map-overlay-airspace-structure.component';
 import {OlDwdForecastContainer} from '../../../../meteo-dwd/view/ol-components/ol-dwd-forecast-container';
 import {
     getMeteoDwdLayer,

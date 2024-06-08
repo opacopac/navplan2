@@ -1,6 +1,6 @@
 import {createReducer, on} from '@ngrx/store';
 import {AirspaceActions} from './airspace.actions';
-import {AirspaceState} from '../../state-model/airspace-state';
+import {AirspaceState} from '../state-model/airspace-state';
 
 
 const initialState: AirspaceState = {

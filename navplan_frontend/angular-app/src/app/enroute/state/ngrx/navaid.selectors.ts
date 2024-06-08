@@ -1,5 +1,5 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {NavaidState} from '../../state-model/navaid-state';
+import {NavaidState} from '../state-model/navaid-state';
 
 
 export const getNavaidState = createFeatureSelector<NavaidState>('navaidState');

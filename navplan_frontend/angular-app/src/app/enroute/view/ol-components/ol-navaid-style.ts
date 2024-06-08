@@ -1,7 +1,7 @@
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
-import {Navaid} from '../../../domain/model/navaid';
+import {Navaid} from '../../domain/model/navaid';
 import {OlNavaidIcon} from './ol-navaid-icon';
-import {NavaidType} from '../../../domain/model/navaid-type';
+import {NavaidType} from '../../domain/model/navaid-type';
 
 
 export class OlNavaidStyle {

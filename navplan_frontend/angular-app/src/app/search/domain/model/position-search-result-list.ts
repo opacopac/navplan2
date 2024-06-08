@@ -1,4 +1,4 @@
-import {Airspace} from '../../../enroute/domain/model/airspace';
+import {Airspace} from '../../../airspace/domain/model/airspace';
 import {Notam} from '../../../notam/domain/model/notam';
 import {IPointSearchResult} from './i-point-search-result';
 import {AirportSearchResult} from './airport-search-result';
