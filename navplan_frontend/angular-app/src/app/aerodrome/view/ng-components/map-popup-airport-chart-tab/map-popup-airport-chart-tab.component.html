@@ -1,23 +1,28 @@
-<table mat-table *ngIf="this.airport.hasCharts" [dataSource]="this.airport.charts">
-    <ng-container matColumnDef="filename">
-        <th mat-header-cell *matHeaderCellDef>Chart</th>
-        <td mat-cell class="clickable" *matCellDef="let chart" (click)="onChartClicked(chart.id)"><i class="far fa-file"></i></td>
-    </ng-container>
+<div class="chart-container">
+    <table mat-table *ngIf="this.airport.hasCharts" [dataSource]="this.airport.charts">
+        <ng-container matColumnDef="filename">
+            <th mat-header-cell *matHeaderCellDef>Chart</th>
+            <td mat-cell class="clickable" *matCellDef="let chart" (click)="onChartClicked(chart.id)"><i
+                class="far fa-file"></i></td>
+        </ng-container>
 
-    <ng-container matColumnDef="type">
-        <th mat-header-cell *matHeaderCellDef>Type</th>
-        <td mat-cell class="clickable" *matCellDef="let chart" (click)="onChartClicked(chart.id)">{{ chart.type }}</td>
-    </ng-container>
+        <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef>Type</th>
+            <td mat-cell class="clickable" *matCellDef="let chart" (click)="onChartClicked(chart.id)">{{ chart.type }}
+            </td>
+        </ng-container>
 
-    <ng-container matColumnDef="source">
-        <th mat-header-cell *matHeaderCellDef>Source</th>
-        <td mat-cell *matCellDef="let chart">&copy; by <a href="{{ this.getChartSourceUrl(chart) }}"
-            target="_blank">{{ this.getChartSourceName(chart) }}</a></td>
-    </ng-container>
+        <ng-container matColumnDef="source">
+            <th mat-header-cell *matHeaderCellDef>Source</th>
+            <td mat-cell *matCellDef="let chart">&copy; by <a href="{{ this.getChartSourceUrl(chart) }}"
+                                                              target="_blank">{{ this.getChartSourceName(chart) }}</a>
+            </td>
+        </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="this.getChartColumns()"></tr>
-    <tr mat-row *matRowDef="let row; columns: this.getChartColumns()"></tr>
-</table>
-<div *ngIf="!this.airport.hasCharts">
-    <p><em>No charts available</em></p>
+        <tr mat-header-row *matHeaderRowDef="this.getChartColumns()"></tr>
+        <tr mat-row *matRowDef="let row; columns: this.getChartColumns()"></tr>
+    </table>
+    <div *ngIf="!this.airport.hasCharts">
+        <p><em>No charts available</em></p>
+    </div>
 </div>

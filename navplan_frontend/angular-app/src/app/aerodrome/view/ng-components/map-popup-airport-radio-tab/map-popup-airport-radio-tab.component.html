@@ -1,18 +1,19 @@
-<table mat-table *ngIf="this.airport.hasRadios" [dataSource]="this.airport.radios">
-    <ng-container matColumnDef="type">
-        <th mat-header-cell *matHeaderCellDef>Type</th>
-        <td mat-cell *matCellDef="let radio">{{ radio.description ? radio.description : radio.type }}</td>
-    </ng-container>
+<div class="radio-container">
+    <table mat-table *ngIf="this.airport.hasRadios" [dataSource]="this.airport.radios">
+        <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef>Type</th>
+            <td mat-cell *matCellDef="let radio">{{ radio.description ? radio.description : radio.type }}</td>
+        </ng-container>
 
-    <ng-container matColumnDef="frequency">
-        <th mat-header-cell *matHeaderCellDef>Frequency</th>
-        <td mat-cell *matCellDef="let radio">{{ this.getFrequencyString(radio.frequency) }}</td>
-    </ng-container>
+        <ng-container matColumnDef="frequency">
+            <th mat-header-cell *matHeaderCellDef>Frequency</th>
+            <td mat-cell *matCellDef="let radio">{{ this.getFrequencyString(radio.frequency) }}</td>
+        </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="this.getRadioColumns()"></tr>
-    <tr mat-row *matRowDef="let row; columns: this.getRadioColumns();"></tr>
-</table>
-<div *ngIf="!this.airport.hasRadios">
-    <p><em>No radio info available</em></p>
+        <tr mat-header-row *matHeaderRowDef="this.getRadioColumns()"></tr>
+        <tr mat-row *matRowDef="let row; columns: this.getRadioColumns();"></tr>
+    </table>
+    <div *ngIf="!this.airport.hasRadios">
+        <p><em>No radio info available</em></p>
+    </div>
 </div>
-
