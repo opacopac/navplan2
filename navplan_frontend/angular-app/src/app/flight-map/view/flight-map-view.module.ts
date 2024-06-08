@@ -2,8 +2,8 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FlightMapPageComponent} from './ng-components/flight-map-page/flight-map-page.component';
 import {FlightTimerViewModule} from '../../flight-timer/view/flight-timer-view.module';
-import {OlOverlayWaypointComponent} from './ng-components/ol-overlay-waypoint/ol-overlay-waypoint.component';
-import {OlMapOverlayComponent} from './ng-components/ol-map-overlay/ol-map-overlay.component';
+import {MapPopupWaypointComponent} from './ng-components/map-popup-waypoint/map-popup-waypoint.component';
+import {MapPopupComponent} from './ng-components/map-popup/map-popup.component';
 import {MetarTafViewModule} from '../../metar-taf/view/metar-taf-view.module';
 import {FlightrouteViewModule} from '../../flightroute/view/flightroute-view.module';
 import {AerodromeViewModule} from '../../aerodrome/view/aerodrome-view.module';
@@ -32,23 +32,25 @@ import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.modu
 @NgModule({
     declarations: [
         FlightMapPageComponent,
-        OlMapOverlayComponent,
-        OlOverlayWaypointComponent,
+        FullScreenButtonComponent,
+        MapPopupComponent,
+        MapPopupWaypointComponent,
         MeteoContainerComponent,
-        FullScreenButtonComponent
     ],
     imports: [
-        CommonModule,
-        MatTabsModule,
-        MatCardModule,
         AerodromeViewModule,
         BaseMapViewModule,
+        CommonModule,
         EnrouteViewModule,
         FlightMapStateModule,
         FlightTimerViewModule,
         FlightrouteViewModule,
         GeonameViewModule,
+        GeoPhysicsViewModule,
         LocationViewModule,
+        MatButtonModule,
+        MatTabsModule,
+        MatCardModule,
         MetarTafViewModule,
         MeteoSmaViewModule,
         MeteoDwdViewModule,
@@ -60,8 +62,6 @@ import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.modu
         UserViewModule,
         VerticalMapViewModule,
         WebcamViewModule,
-        MatButtonModule,
-        GeoPhysicsViewModule,
     ],
     providers: []
 })

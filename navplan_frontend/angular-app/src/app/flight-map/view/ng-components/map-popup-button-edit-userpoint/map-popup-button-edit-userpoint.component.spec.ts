@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {OlOverlayButtonEditUserpointComponent} from './ol-overlay-button-edit-userpoint.component';
+import {MapPopupButtonEditUserpointComponent} from './map-popup-button-edit-userpoint.component';
 
 
 xdescribe('MapOverlayButtonEditUserpointComponent', () => {
-    let component: OlOverlayButtonEditUserpointComponent;
-    let fixture: ComponentFixture<OlOverlayButtonEditUserpointComponent>;
+    let component: MapPopupButtonEditUserpointComponent;
+    let fixture: ComponentFixture<MapPopupButtonEditUserpointComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [OlOverlayButtonEditUserpointComponent]
+            declarations: [MapPopupButtonEditUserpointComponent]
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(OlOverlayButtonEditUserpointComponent);
+        fixture = TestBed.createComponent(MapPopupButtonEditUserpointComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

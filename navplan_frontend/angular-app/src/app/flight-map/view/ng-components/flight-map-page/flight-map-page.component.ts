@@ -63,7 +63,7 @@ import {
 } from '../../../../aerodrome/state/ngrx/reporting-point-sector/reporting-point-sector.selectors';
 import {getAirportCircuits} from '../../../../aerodrome/state/ngrx/airport-circuit/airport-circuit.selectors';
 import {getAirportCharts} from '../../../../aerodrome/state/ngrx/airport-chart/airport-chart.selectors';
-import {OlMapOverlayComponent} from '../ol-map-overlay/ol-map-overlay.component';
+import {MapPopupComponent} from '../map-popup/map-popup.component';
 import {OverlayState} from '../../../state/ngrx/overlay-state';
 import {OlVectorLayer} from '../../../../base-map/view/ol-model/ol-vector-layer';
 import {getVerticalMapState} from '../../../../vertical-map/state/ngrx/vertical-map.selectors';
@@ -91,7 +91,7 @@ import {MeteoDwdActions} from '../../../../meteo-dwd/state/ngrx/meteo-dwd.action
 })
 export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(OlMapContainerComponent) mapContainer: OlMapContainerComponent;
-    @ViewChild(OlMapOverlayComponent) mapOverlayComponent: OlMapOverlayComponent;
+    @ViewChild(MapPopupComponent) mapOverlayComponent: MapPopupComponent;
     @ViewChild(OlOverlayTrafficComponent) mapOverlayTrafficComponent: OlOverlayTrafficComponent;
     @ViewChild(OlOverlayAirspaceStructureComponent) mapOverlayAirspaceContainerComponent: OlOverlayAirspaceStructureComponent;
     private showOverlaySubscription: Subscription;

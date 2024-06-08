@@ -19,11 +19,11 @@ import {tap} from 'rxjs/operators';
 
 
 @Component({
-    selector: 'app-ol-map-overlay',
-    templateUrl: './ol-map-overlay.component.html',
-    styleUrls: ['./ol-map-overlay.component.scss']
+    selector: 'app-map-popup',
+    templateUrl: './map-popup.component.html',
+    styleUrls: ['./map-popup.component.scss']
 })
-export class OlMapOverlayComponent implements AfterViewInit {
+export class MapPopupComponent implements AfterViewInit {
     @ViewChild('container') container: ElementRef;
     @ViewChild('tabGroup') tabGroup: MatTabGroup;
     public olOverlay: Overlay;

@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {OlMapOverlayComponent} from './ol-map-overlay.component';
+import {MapPopupComponent} from './map-popup.component';
 
 
 xdescribe('OlMapOverlayComponent', () => {
-    let component: OlMapOverlayComponent;
-    let fixture: ComponentFixture<OlMapOverlayComponent>;
+    let component: MapPopupComponent;
+    let fixture: ComponentFixture<MapPopupComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [OlMapOverlayComponent]
+            declarations: [MapPopupComponent]
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(OlMapOverlayComponent);
+        fixture = TestBed.createComponent(MapPopupComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

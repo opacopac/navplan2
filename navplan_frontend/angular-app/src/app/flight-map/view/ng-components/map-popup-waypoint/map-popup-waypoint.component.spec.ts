@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {OlOverlayWaypointComponent} from './ol-overlay-waypoint.component';
+import {MapPopupWaypointComponent} from './map-popup-waypoint.component';
 
 
 xdescribe('MapOverlayWaypointComponent', () => {
-    let component: OlOverlayWaypointComponent;
-    let fixture: ComponentFixture<OlOverlayWaypointComponent>;
+    let component: MapPopupWaypointComponent;
+    let fixture: ComponentFixture<MapPopupWaypointComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [OlOverlayWaypointComponent]
+            declarations: [MapPopupWaypointComponent]
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(OlOverlayWaypointComponent);
+        fixture = TestBed.createComponent(MapPopupWaypointComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

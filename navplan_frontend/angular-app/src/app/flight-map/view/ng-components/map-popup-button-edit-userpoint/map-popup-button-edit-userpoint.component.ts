@@ -3,11 +3,11 @@ import {Waypoint} from '../../../../flightroute/domain/model/waypoint';
 
 
 @Component({
-    selector: 'app-ol-overlay-button-edit-userpoint',
-    templateUrl: './ol-overlay-button-edit-userpoint.component.html',
-    styleUrls: ['./ol-overlay-button-edit-userpoint.component.scss']
+    selector: 'app-map-popup-button-edit-userpoint',
+    templateUrl: './map-popup-button-edit-userpoint.component.html',
+    styleUrls: ['./map-popup-button-edit-userpoint.component.scss']
 })
-export class OlOverlayButtonEditUserpointComponent implements OnInit {
+export class MapPopupButtonEditUserpointComponent implements OnInit {
     @Input() public waypoint: Waypoint;
     @Output() public editUserpointClick: EventEmitter<Waypoint> = new EventEmitter<Waypoint>();
 

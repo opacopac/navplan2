@@ -5,11 +5,11 @@ import {OlOverlayBaseComponent} from '../../../../base-map/view/ng-components/ol
 
 
 @Component({
-    selector: 'app-ol-overlay-waypoint',
-    templateUrl: './ol-overlay-waypoint.component.html',
-    styleUrls: ['./ol-overlay-waypoint.component.scss']
+    selector: 'app-map-popup-waypoint',
+    templateUrl: './map-popup-waypoint.component.html',
+    styleUrls: ['./map-popup-waypoint.component.scss']
 })
-export class OlOverlayWaypointComponent extends OlOverlayBaseComponent implements OnInit {
+export class MapPopupWaypointComponent extends OlOverlayBaseComponent implements OnInit {
     @ViewChild('container') container: ElementRef;
     public waypoint: Waypoint;
 
