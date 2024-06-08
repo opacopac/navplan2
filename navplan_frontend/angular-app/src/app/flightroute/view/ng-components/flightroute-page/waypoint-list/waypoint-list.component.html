@@ -58,11 +58,13 @@
         <ng-container matColumnDef="icons">
             <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let entry" class="delete-icon-container">
-                <button mat-icon-button
-                        matTooltip="Remove Waypoint"
-                        (click)="this.onRemoveWaypointClick.emit(entry.wp)">
+                <app-icon-button
+                    [tooltipText]="'Remove Waypoint'"
+                    [tooltipPosition]="'above'"
+                    (buttonClickedEventEmitter)="this.onRemoveWaypointClick.emit(entry.wp)"
+                >
                     <i class="fas fa-trash"></i>
-                </button>
+                </app-icon-button>
             </td>
             <td mat-footer-cell *matFooterCellDef>
                 <!-- reverse waypoints button -->

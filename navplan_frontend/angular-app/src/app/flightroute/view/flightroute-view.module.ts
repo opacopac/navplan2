@@ -53,11 +53,13 @@ import {MatCardModule} from '@angular/material/card';
 import {FuelCalcContainerComponent} from './ng-components/fuel-calc/fuel-calc-container/fuel-calc-container.component';
 import {FuelCalcTableComponent} from './ng-components/fuel-calc/fuel-calc-table/fuel-calc-table.component';
 import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.module';
+import {CommonViewModule} from '../../common/view/common-view.module';
 
 
 @NgModule({
     imports: [
         CommonModule,
+        CommonViewModule,
         ReactiveFormsModule,
         MatTableModule,
         MatButtonModule,

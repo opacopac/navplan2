@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Waypoint} from '../../../../domain/model/waypoint';
 import {Flightroute} from '../../../../domain/model/flightroute';
-import {ButtonColor, ButtonSize} from '../../../../../common/directives/button-base/button-base.directive';
 import {WaypointType} from '../../../../domain/model/waypoint-type';
 import {TimeUnit} from '../../../../../geo-physics/domain/model/quantities/time-unit';
 import {LengthUnit} from '../../../../../geo-physics/domain/model/quantities/length-unit';
@@ -33,8 +32,6 @@ export class WaypointListComponent implements OnInit, OnDestroy {
     @Output() onRemoveWaypointClick = new EventEmitter<Waypoint>();
     @Output() onReverseWaypointsClick = new EventEmitter<null>();
     public visibleColumns = ['freq', 'callsign', 'checkpoint', 'alt', 'mt', 'dist', 'eet', 'remarks', 'icons'];
-    public ButtonSize = ButtonSize;
-    public ButtonColor = ButtonColor;
     public console = console;
     public wpDataSource: WaypointListDataSourceRow[] = [];
     private _flightroute: Flightroute;

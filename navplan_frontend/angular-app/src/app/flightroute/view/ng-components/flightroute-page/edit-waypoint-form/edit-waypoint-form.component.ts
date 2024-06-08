@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Waypoint} from '../../../../domain/model/waypoint';
-import {ButtonColor, ButtonSize} from '../../../../../common/directives/button-base/button-base.directive';
 import {Altitude} from '../../../../../geo-physics/domain/model/geometry/altitude';
 import {AltitudeUnit} from '../../../../../geo-physics/domain/model/geometry/altitude-unit';
 import {AltitudeReference} from '../../../../../geo-physics/domain/model/geometry/altitude-reference';
@@ -17,8 +16,6 @@ export class EditWaypointFormComponent implements OnInit, OnChanges {
     @Output() onSaveClick: EventEmitter<[Waypoint, Waypoint]> = new EventEmitter<[Waypoint, Waypoint]>();
     @Output() onCancelClick: EventEmitter<null> = new EventEmitter<null>();
     public editWpForm: FormGroup;
-    public ButtonSize = ButtonSize;
-    public ButtonColor = ButtonColor;
 
 
     constructor(public formBuilder: FormBuilder) {

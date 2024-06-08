@@ -1,0 +1,11 @@
+<div class="button-container">
+    <button mat-icon-button
+            class="icon-button"
+            color="primary"
+            [matTooltip]="this.tooltipText"
+            [matTooltipPosition]="this.tooltipPosition"
+            (click)="this.onButtonClick()"
+    >
+        <ng-content></ng-content>
+    </button>
+</div>
