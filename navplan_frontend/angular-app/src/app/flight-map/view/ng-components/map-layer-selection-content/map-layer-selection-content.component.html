@@ -6,18 +6,14 @@
             (change)="this.onMapBgSelected($event)"
             aria-labelledby="mapbg-selection-radio-group-label"
             class="mapbg-selection-radio-group">
-            <div>
-                <mat-radio-button class="mapbg-selection-radio-button" value="OPENTOPOMAP">OpenTopoMap (default)</mat-radio-button>
-            </div>
-            <div>
-                <mat-radio-button class="mapbg-selection-radio-button" value="SWISSTOPO_ICAO">Aeronautical Chart ICAO Switzerland (swisstopo)</mat-radio-button>
-            </div>
-            <div>
-                <mat-radio-button class="mapbg-selection-radio-button" value="SWISSTOPO_GLIDER">Glider Chart Switzerland (swisstopo)</mat-radio-button>
-            </div>
-            <div>
-                <mat-radio-button class="mapbg-selection-radio-button" value="SWISSTOPO_IMAGE">Aerial Images (swisstopo)</mat-radio-button>
-            </div>
+            <mat-radio-button
+                *ngFor="let entry of this.mapLayerTypesAndDescriptions"
+                class="mapbg-selection-radio-button"
+                value="{{ entry[0] }}"
+                [checked]="(this.baseMapType$ | async) === entry[0]"
+            >
+                {{ entry[1] }}
+            </mat-radio-button>
         </mat-radio-group>
     </div>
     <!-- map layers -->
@@ -27,11 +23,17 @@
         <mat-checkbox>Reporting Points / Sectors</mat-checkbox>
         <mat-checkbox>AD Circuits</mat-checkbox>
         <mat-checkbox>Airspaces</mat-checkbox>
-            <ul>
-                <li><mat-checkbox>Cat A-G</mat-checkbox></li>
-                <li><mat-checkbox>Glider</mat-checkbox></li>
-                <li><mat-checkbox>P, D, X</mat-checkbox></li>
-            </ul>
+        <ul>
+            <li>
+                <mat-checkbox>Cat A-G</mat-checkbox>
+            </li>
+            <li>
+                <mat-checkbox>Glider</mat-checkbox>
+            </li>
+            <li>
+                <mat-checkbox>P, D, X</mat-checkbox>
+            </li>
+        </ul>
         <mat-checkbox>NOTAM</mat-checkbox>
         <mat-checkbox>Webcams</mat-checkbox>
     </div>

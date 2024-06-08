@@ -14,7 +14,13 @@ import {BaseMapActions} from '../../../../base-map/state/ngrx/base-map.actions';
 })
 export class MapLayerSelectionContentComponent implements OnInit {
     public readonly baseMapType$: Observable<MapBaseLayerType> = this.appStore.pipe(select(getSelectedMapBaseLayerType));
-    public readonly MapBaseLayerType: MapBaseLayerType;
+    protected readonly MapBaseLayerType = MapBaseLayerType;
+    protected readonly mapLayerTypesAndDescriptions = [
+        [MapBaseLayerType.OPENTOPOMAP, 'OpenTopoMap (default)'],
+        [MapBaseLayerType.SWISSTOPO_IMAGE, 'Aerial Images (swisstopo)'],
+        [MapBaseLayerType.SWISSTOPO_ICAO, 'Aeronautical Chart ICAO Switzerland (swisstopo)'],
+        [MapBaseLayerType.SWISSTOPO_GLIDER, 'Glider Chart Switzerland (swisstopo)']
+    ];
 
 
     constructor(private appStore: Store<any>) {
@@ -26,8 +32,7 @@ export class MapLayerSelectionContentComponent implements OnInit {
 
 
     public onMapBgSelected(change: MatRadioChange) {
-        const layerName: string = change.value;
-        const layer: MapBaseLayerType = MapBaseLayerType[layerName];
-        this.appStore.dispatch(BaseMapActions.baseLayerSelected({mapBaseLayerType: layer}));
+        const mapLayerType = parseInt(change.value, 10);
+        this.appStore.dispatch(BaseMapActions.baseLayerSelected({ mapBaseLayerType: mapLayerType }));
     }
 }

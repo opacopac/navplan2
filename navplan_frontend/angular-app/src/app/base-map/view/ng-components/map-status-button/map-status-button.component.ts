@@ -31,8 +31,6 @@ export class MapStatusButtonComponent implements OnInit {
 
 
     public getColor(): string {
-        console.log(this.buttonStatus);
-
         switch (this.buttonStatus) {
             case MapButtonStatus.ON:
                 return 'mapbutton-status-ok';
