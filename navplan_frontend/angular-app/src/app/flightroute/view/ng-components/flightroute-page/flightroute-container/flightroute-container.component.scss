@@ -1,7 +1,7 @@
 @use '@angular/material' as mat;
 
 .flightroute-form {
-    margin-top: 10px;
+    margin-top: 20px;
     @include mat.form-field-density(-3);
 }
 
