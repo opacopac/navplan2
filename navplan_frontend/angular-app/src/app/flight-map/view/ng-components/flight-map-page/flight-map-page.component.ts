@@ -71,8 +71,8 @@ import {VerticalMapButtonStatus} from '../../../../vertical-map/domain/model/ver
 import {getMeteoSmaState} from '../../../../meteo-sma/state/ngrx/meteo-sma.selectors';
 import {OlSmaMeasurementContainer} from '../../../../meteo-sma/view/ol-components/ol-sma-measurement-container';
 import {
-    OlOverlayAirspaceStructureComponent
-} from '../../../../search/view/ng-components/ol-overlay-airspace-structure/ol-overlay-airspace-structure.component';
+    MapOverlayAirspaceStructureComponent
+} from '../../../../enroute/view/ng-components/map-overlay-airspace-structure/map-overlay-airspace-structure.component';
 import {OlDwdForecastContainer} from '../../../../meteo-dwd/view/ol-components/ol-dwd-forecast-container';
 import {
     getMeteoDwdLayer,
@@ -93,7 +93,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
     @ViewChild(OlMapContainerComponent) mapContainer: OlMapContainerComponent;
     @ViewChild(MapPopupComponent) mapOverlayComponent: MapPopupComponent;
     @ViewChild(OlOverlayTrafficComponent) mapOverlayTrafficComponent: OlOverlayTrafficComponent;
-    @ViewChild(OlOverlayAirspaceStructureComponent) mapOverlayAirspaceContainerComponent: OlOverlayAirspaceStructureComponent;
+    @ViewChild(MapOverlayAirspaceStructureComponent) mapOverlayAirspaceContainerComponent: MapOverlayAirspaceStructureComponent;
     private showOverlaySubscription: Subscription;
     private olAirportContainer: OlAirportContainer;
     private olAirportChartContainer: OlAirportChartContainer;

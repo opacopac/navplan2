@@ -10,6 +10,10 @@ import {EnrouteStateModule} from '../state/enroute-state.module';
 import {MatCardModule} from '@angular/material/card';
 import {GeoPhysicsDomainModule} from '../../geo-physics/domain/geo-physics-domain.module';
 import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.module';
+import {
+    MapOverlayAirspaceStructureComponent
+} from './ng-components/map-overlay-airspace-structure/map-overlay-airspace-structure.component';
+import {MapOverlayAirspaceComponent} from './ng-components/map-overlay-airspace/map-overlay-airspace.component';
 
 
 @NgModule({
@@ -23,14 +27,17 @@ import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.modu
         GeoPhysicsViewModule,
     ],
     declarations: [
+        MapOverlayAirspaceComponent,
+        MapOverlayAirspaceStructureComponent,
         MapPopupNavaidHeaderComponent,
-        MapPopupNavaidInfoTabComponent
+        MapPopupNavaidInfoTabComponent,
     ],
     exports: [
+        MapOverlayAirspaceStructureComponent,
         MapPopupNavaidHeaderComponent,
-        MapPopupNavaidInfoTabComponent
+        MapPopupNavaidInfoTabComponent,
     ],
-    providers: [
-    ]
+    providers: []
 })
-export class EnrouteViewModule {}
+export class EnrouteViewModule {
+}

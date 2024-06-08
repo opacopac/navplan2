@@ -1,14 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Airspace} from '../../../../enroute/domain/model/airspace';
+import {Airspace} from '../../../domain/model/airspace';
 import {AltitudeReference} from '../../../../geo-physics/domain/model/geometry/altitude-reference';
 
 
 @Component({
-    selector: 'app-ol-overlay-airspace',
-    templateUrl: './ol-overlay-airspace.component.html',
-    styleUrls: ['./ol-overlay-airspace.component.scss']
+    selector: 'app-map-overlay-airspace',
+    templateUrl: './map-overlay-airspace.component.html',
+    styleUrls: ['./map-overlay-airspace.component.scss']
 })
-export class OlOverlayAirspaceComponent implements OnInit {
+export class MapOverlayAirspaceComponent implements OnInit {
     @Input() airspace: Airspace;
     @Input() isSimplified: boolean;
     @Input() showToggle: boolean;

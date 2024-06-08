@@ -1,18 +1,18 @@
 import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Airspace} from '../../../../enroute/domain/model/airspace';
+import {Airspace} from '../../../domain/model/airspace';
 import {OlOverlayBaseComponent} from '../../../../base-map/view/ng-components/ol-overlay-base.component';
 import {Store} from '@ngrx/store';
 import {Observable, Subscription} from 'rxjs';
-import {getPositionSearchState} from '../../../state/ngrx/search.selectors';
-import {PositionSearchState} from '../../../domain/model/position-search-state';
+import {getPositionSearchState} from '../../../../search/state/ngrx/search.selectors';
+import {PositionSearchState} from '../../../../search/domain/model/position-search-state';
 
 
 @Component({
-    selector: 'app-ol-overlay-airspace-structure',
-    templateUrl: './ol-overlay-airspace-structure.component.html',
-    styleUrls: ['./ol-overlay-airspace-structure.component.scss']
+    selector: 'app-map-overlay-airspace-structure',
+    templateUrl: './map-overlay-airspace-structure.component.html',
+    styleUrls: ['./map-overlay-airspace-structure.component.scss']
 })
-export class OlOverlayAirspaceStructureComponent extends OlOverlayBaseComponent implements OnInit, AfterViewInit, OnDestroy {
+export class MapOverlayAirspaceStructureComponent extends OlOverlayBaseComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('container') container: ElementRef;
     public airspaceList: Airspace[];
     public groupedAirspaceList: Airspace[];

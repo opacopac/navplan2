@@ -7,10 +7,6 @@ import {MatIconModule} from '@angular/material/icon';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SearchBoxComponent} from './ng-components/search-box/search-box.component';
 import {SearchContainerComponent} from './ng-components/search-container/search-container.component';
-import {
-    OlOverlayAirspaceStructureComponent
-} from './ng-components/ol-overlay-airspace-structure/ol-overlay-airspace-structure.component';
-import {OlOverlayAirspaceComponent} from './ng-components/ol-overlay-airspace/ol-overlay-airspace.component';
 import {SearchDomainModule} from '../domain/search-domain.module';
 import {SearchRestModule} from '../rest/search-rest.module';
 import {SearchStateModule} from '../state/search-state.module';
@@ -33,14 +29,11 @@ import {MatButtonModule} from '@angular/material/button';
     declarations: [
         SearchBoxComponent,
         SearchContainerComponent,
-        OlOverlayAirspaceStructureComponent,
-        OlOverlayAirspaceComponent,
     ],
     exports: [
         SearchContainerComponent,
-        OlOverlayAirspaceStructureComponent
     ],
-    providers: [
-    ]
+    providers: []
 })
-export class SearchViewModule {}
+export class SearchViewModule {
+}
