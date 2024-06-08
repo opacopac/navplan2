@@ -25,8 +25,8 @@ import {
     OlMapContainerComponent
 } from '../../../../base-map/view/ng-components/ol-map-container/ol-map-container.component';
 import {
-    OlOverlayTrafficComponent
-} from '../../../../traffic/view/ng-components/ol-overlay-traffic/ol-overlay-traffic.component';
+    MapPopupTrafficComponent
+} from '../../../../traffic/view/ng-components/map-popup-traffic/map-popup-traffic.component';
 import {Observable} from 'rxjs/internal/Observable';
 import {Subscription} from 'rxjs/internal/Subscription';
 import {
@@ -92,7 +92,7 @@ import {MeteoDwdActions} from '../../../../meteo-dwd/state/ngrx/meteo-dwd.action
 export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(OlMapContainerComponent) mapContainer: OlMapContainerComponent;
     @ViewChild(MapPopupComponent) mapOverlayComponent: MapPopupComponent;
-    @ViewChild(OlOverlayTrafficComponent) mapOverlayTrafficComponent: OlOverlayTrafficComponent;
+    @ViewChild(MapPopupTrafficComponent) mapOverlayTrafficComponent: MapPopupTrafficComponent;
     @ViewChild(MapOverlayAirspaceStructureComponent) mapOverlayAirspaceContainerComponent: MapOverlayAirspaceStructureComponent;
     private showOverlaySubscription: Subscription;
     private olAirportContainer: OlAirportContainer;

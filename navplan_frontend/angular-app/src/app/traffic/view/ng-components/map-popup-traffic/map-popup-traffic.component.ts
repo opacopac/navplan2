@@ -27,11 +27,11 @@ const TRAFFIC_TYPE_DESCRIPTION = {
 
 
 @Component({
-    selector: 'app-ol-overlay-traffic',
-    templateUrl: './ol-overlay-traffic.component.html',
-    styleUrls: ['./ol-overlay-traffic.component.scss']
+    selector: 'app-map-popup-traffic',
+    templateUrl: './map-popup-traffic.component.html',
+    styleUrls: ['./map-popup-traffic.component.scss']
 })
-export class OlOverlayTrafficComponent extends OlOverlayBaseComponent implements OnInit {
+export class MapPopupTrafficComponent extends OlOverlayBaseComponent implements OnInit {
     public traffic: Traffic;
     @ViewChild('container') container: ElementRef;
 
