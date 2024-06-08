@@ -2,7 +2,7 @@
 
 namespace Navplan\OpenAip\ApiAdapter\Service;
 
-use Navplan\Enroute\Domain\Model\Navaid;
+use Navplan\Navaid\Domain\Model\Navaid;
 
 
 class OpenAipReadNavaidsResponse {

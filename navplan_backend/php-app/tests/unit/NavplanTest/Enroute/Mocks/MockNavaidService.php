@@ -5,7 +5,7 @@ namespace NavplanTest\Enroute\Mocks;
 use InvalidArgumentException;
 use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Common\Domain\Model\Position2d;
-use Navplan\Enroute\Domain\Service\INavaidService;
+use Navplan\Navaid\Domain\Service\INavaidService;
 
 
 class MockNavaidService implements INavaidService {

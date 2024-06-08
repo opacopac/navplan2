@@ -5,7 +5,7 @@ namespace Navplan\OpenAip;
 use Navplan\Aerodrome\Domain\Service\IAirportService;
 use Navplan\Airspace\Domain\Service\IAirspaceService;
 use Navplan\Config\ProdConfigDiContainer;
-use Navplan\Enroute\Domain\Service\INavaidService;
+use Navplan\Navaid\Domain\Service\INavaidService;
 use Navplan\OpenAip\ApiAdapter\Service\IOpenAipService;
 use Navplan\OpenAip\ApiAdapter\Service\OpenAipService;
 use Navplan\OpenAip\Config\IOpenAipConfig;
