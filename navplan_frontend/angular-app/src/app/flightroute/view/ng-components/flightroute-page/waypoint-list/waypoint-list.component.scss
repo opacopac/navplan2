@@ -1,14 +1,17 @@
+@use '@angular/material' as mat;
+
 .waypoints-table {
     width: 100%;
+    @include mat.table-density(-3);
 }
 
-th.mat-mdc-header-cell {
+/*th.mat-mdc-header-cell {
     font-weight: bold;
 }
 
 tr.mat-mdc-footer-row {
     font-weight: bold;
-}
+}*/
 
 .fa-trash {
     color: #dd0000;

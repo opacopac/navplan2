@@ -1,9 +1,7 @@
-<h3>Flight Route</h3>
-
 <form class="flightroute-form" [formGroup]="flightrouteForm">
     <div class="flex-row">
         <!-- flightroute name  -->
-        <mat-form-field appearance="fill" color="accent">
+        <mat-form-field appearance="outline" color="accent">
             <mat-label>Route Name</mat-label>
             <input matInput
                    #routeName
@@ -44,7 +42,7 @@
     <!-- aircraft speed -->
     <div>
         <!-- aircraft speed -->
-        <mat-form-field appearance="fill" color="accent">
+        <mat-form-field appearance="outline" color="accent">
             <mat-label>Ground Speed</mat-label>
             <input matInput
                    #aircraftSpeed
@@ -68,7 +66,7 @@
     </app-waypoint-list>
 
     <!-- comments -->
-    <mat-form-field appearance="fill" class="route-comments">
+    <mat-form-field appearance="outline" class="route-comments">
         <mat-label>Comments</mat-label>
         <textarea matInput
                   #routeComments

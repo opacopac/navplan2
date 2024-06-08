@@ -1,0 +1,6 @@
+@use '@angular/material' as mat;
+
+.fuel-form {
+    margin-top: 10px;
+    @include mat.form-field-density(-1);
+}

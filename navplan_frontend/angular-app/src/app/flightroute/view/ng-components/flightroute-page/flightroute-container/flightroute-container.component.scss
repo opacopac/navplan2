@@ -1,21 +1,12 @@
-.flightroute-form {
-    width: 100%;
-}
+@use '@angular/material' as mat;
 
-/*TODO(mdc-migration): The following rule targets internal classes of autocomplete that may no longer apply for the MDC version.*/
-::ng-deep .mat-autocomplete-panel {
-    max-height: 75% !important;
+.flightroute-form {
+    margin-top: 10px;
+    @include mat.form-field-density(-3);
 }
 
 .route-comments {
-    /*order: 2;
-    flex: 2 2 70%;*/
     width: 100%;
-}
-
-.route-fuel {
-    /*order: 1;
-    flex: 1 1 30%;*/
 }
 
 .button-load {
