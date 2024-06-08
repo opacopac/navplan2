@@ -1,3 +1,9 @@
+@use '@angular/material' as mat;
+
 button.mat-mdc-mini-fab {
     background-color: green;
+}
+
+.form-container {
+    @include mat.form-field-density(-3);
 }
