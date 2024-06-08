@@ -1,5 +1,5 @@
 import {IRestAirport} from '../../../aerodrome/rest/model/i-rest-airport';
-import {IRestNavaid} from '../../../enroute/rest/model/i-rest-navaid';
+import {IRestNavaid} from '../../../navaid/rest/model/i-rest-navaid';
 import {IRestAirspace} from '../../../airspace/rest/model/i-rest-airspace';
 import {IRestReportingpoint} from '../../../aerodrome/rest/model/i-rest-reportingpoint';
 import {IRestUserpoint} from '../../../user/rest/model/i-rest-userpoint';

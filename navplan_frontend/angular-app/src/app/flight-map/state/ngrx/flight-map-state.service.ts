@@ -6,7 +6,7 @@ import {getAirportState} from '../../../aerodrome/state/ngrx/airport/airport.sel
 import {
     getReportingPointSectorState
 } from '../../../aerodrome/state/ngrx/reporting-point-sector/reporting-point-sector.selectors';
-import {getNavaidState} from '../../../enroute/state/ngrx/navaid.selectors';
+import {getNavaidState} from '../../../navaid/state/ngrx/navaid.selectors';
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
 import {DataItem} from '../../../common/model/data-item';
 import {Waypoint} from '../../../flightroute/domain/model/waypoint';

@@ -1,6 +1,6 @@
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
 import {IPointSearchResult} from './i-point-search-result';
-import {Navaid} from '../../../enroute/domain/model/navaid';
+import {Navaid} from '../../../navaid/domain/model/navaid';
 import {DataItem} from '../../../common/model/data-item';
 
 

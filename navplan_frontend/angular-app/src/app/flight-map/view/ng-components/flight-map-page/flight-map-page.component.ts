@@ -45,7 +45,7 @@ import {
     OlReportingSectorContainer
 } from '../../../../aerodrome/view/ol-components/reporting-point-sector/ol-reporting-sector-container';
 import {OlAirspaceContainer} from '../../../../airspace/view/ol-components/ol-airspace-container';
-import {OlNavaidContainer} from '../../../../enroute/view/ol-components/ol-navaid-container';
+import {OlNavaidContainer} from '../../../../navaid/view/ol-components/ol-navaid-container';
 import {OlWebcamContainer} from '../../../../webcam/view/ol-components/ol-webcam-container';
 import {
     OlAirportChartContainer
@@ -55,7 +55,7 @@ import {getPositionSearchState} from '../../../../search/state/ngrx/search.selec
 import {getWebcams} from '../../../../webcam/state/ngrx/webcam.selectors';
 import {getMetarTafs} from '../../../../metar-taf/state/ngrx/metar-taf.selectors';
 import {getAirspaces} from '../../../../airspace/state/ngrx/airspace.selectors';
-import {getNavaids} from '../../../../enroute/state/ngrx/navaid.selectors';
+import {getNavaids} from '../../../../navaid/state/ngrx/navaid.selectors';
 import {getAirports} from '../../../../aerodrome/state/ngrx/airport/airport.selectors';
 import {
     getReportingPoints,

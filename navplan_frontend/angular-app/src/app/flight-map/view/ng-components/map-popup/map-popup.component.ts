@@ -3,7 +3,7 @@ import {Position2d} from '../../../../geo-physics/domain/model/geometry/position
 import {MetarTaf} from '../../../../metar-taf/domain/model/metar-taf';
 import {DataItem} from '../../../../common/model/data-item';
 import {Airport} from '../../../../aerodrome/domain/model/airport';
-import {Navaid} from '../../../../enroute/domain/model/navaid';
+import {Navaid} from '../../../../navaid/domain/model/navaid';
 import {Geoname} from '../../../../geoname/domain/model/geoname';
 import {ReportingPoint} from '../../../../aerodrome/domain/model/reporting-point';
 import {ReportingSector} from '../../../../aerodrome/domain/model/reporting-sector';

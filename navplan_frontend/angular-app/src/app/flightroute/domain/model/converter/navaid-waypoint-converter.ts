@@ -1,5 +1,5 @@
 import {WaypointType} from '../waypoint-type';
-import {Navaid} from '../../../../enroute/domain/model/navaid';
+import {Navaid} from '../../../../navaid/domain/model/navaid';
 import {Waypoint} from '../waypoint';
 import {WaypointAltitude} from '../waypoint-altitude';
 

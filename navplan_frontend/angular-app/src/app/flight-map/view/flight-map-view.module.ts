@@ -10,7 +10,7 @@ import {AerodromeViewModule} from '../../aerodrome/view/aerodrome-view.module';
 import {GeonameViewModule} from '../../geoname/view/geoname-view.module';
 import {MeteoSmaViewModule} from '../../meteo-sma/view/meteo-sma-view.module';
 import {NotamViewModule} from '../../notam/view/notam-view.module';
-import {NavaidViewModule} from '../../enroute/view/navaid-view.module';
+import {NavaidViewModule} from '../../navaid/view/navaid-view.module';
 import {WebcamViewModule} from '../../webcam/view/webcam-view.module';
 import {TrackViewModule} from '../../track/view/track-view.module';
 import {VerticalMapViewModule} from '../../vertical-map/view/vertical-map-view.module';

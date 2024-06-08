@@ -1,5 +1,5 @@
 import {UserPoint} from '../../../user/domain/model/user-point';
-import {Navaid} from '../../../enroute/domain/model/navaid';
+import {Navaid} from '../../../navaid/domain/model/navaid';
 import {Airport} from '../../../aerodrome/domain/model/airport';
 import {ReportingPoint} from '../../../aerodrome/domain/model/reporting-point';
 import {ReportingSector} from '../../../aerodrome/domain/model/reporting-sector';

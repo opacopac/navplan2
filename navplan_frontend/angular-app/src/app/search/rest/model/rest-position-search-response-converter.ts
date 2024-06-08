@@ -1,5 +1,5 @@
 import {RestAirportConverter} from '../../../aerodrome/rest/converter/rest-airport-converter';
-import {RestNavaidConverter} from '../../../enroute/rest/model/rest-navaid-converter';
+import {RestNavaidConverter} from '../../../navaid/rest/model/rest-navaid-converter';
 import {RestReportingpointConverter} from '../../../aerodrome/rest/converter/rest-reportingpoint-converter';
 import {RestUserpointConverter} from '../../../user/rest/model/rest-userpoint-converter';
 import {RestGeonameConverter} from '../../../geoname/rest/model/rest-geoname-converter';
