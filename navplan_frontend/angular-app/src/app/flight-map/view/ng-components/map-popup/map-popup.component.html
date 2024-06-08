@@ -1,12 +1,12 @@
 <div #container class="ol-popup">
     <mat-card appearance="outlined">
-        <app-ol-overlay-airport-header *ngIf="this.airport" [airport]="this.airport"></app-ol-overlay-airport-header>
-        <app-ol-overlay-reportingpoint-header *ngIf="this.reportingPoint" [reportingpoint]="this.reportingPoint"></app-ol-overlay-reportingpoint-header>
-        <app-ol-overlay-reportingsector-header *ngIf="this.reportingSector" [reportingsector]="this.reportingSector"></app-ol-overlay-reportingsector-header>
-        <app-ol-overlay-navaid-header *ngIf="this.navaid" [navaid]="this.navaid"></app-ol-overlay-navaid-header>
-        <app-ol-overlay-geoname-header *ngIf="this.geoname" [geoname]="this.geoname"></app-ol-overlay-geoname-header>
-        <app-ol-overlay-userpoint-header *ngIf="this.userPoint" [userpoint]="this.userPoint"></app-ol-overlay-userpoint-header>
-        <app-waypoint-header *ngIf="this.waypointItem" [waypoint]="this.waypointItem"></app-waypoint-header>
+        <app-map-popup-airport-header *ngIf="this.airport" [airport]="this.airport"></app-map-popup-airport-header>
+        <app-map-popup-reportingpoint-header *ngIf="this.reportingPoint" [reportingpoint]="this.reportingPoint"></app-map-popup-reportingpoint-header>
+        <app-map-popup-reportingsector-header *ngIf="this.reportingSector" [reportingsector]="this.reportingSector"></app-map-popup-reportingsector-header>
+        <app-map-popup-navaid-header *ngIf="this.navaid" [navaid]="this.navaid"></app-map-popup-navaid-header>
+        <app-map-popup-geoname-header *ngIf="this.geoname" [geoname]="this.geoname"></app-map-popup-geoname-header>
+        <app-map-popup-userpoint-header *ngIf="this.userPoint" [userpoint]="this.userPoint"></app-map-popup-userpoint-header>
+        <app-map-popup-waypoint-header *ngIf="this.waypointItem" [waypoint]="this.waypointItem"></app-map-popup-waypoint-header>
 
         <mat-card-content>
             <mat-tab-group #tabGroup mat-stretch-tabs="false" headerPosition="below" animationDuration="0ms" color="accent">
@@ -15,13 +15,13 @@
                     <ng-template mat-tab-label>
                         <i class="fas fa-info"></i>
                     </ng-template>
-                    <app-ol-overlay-airport-info-tab *ngIf="this.airport" [airport]="this.airport"></app-ol-overlay-airport-info-tab>
-                    <app-ol-overlay-reportingpoint-info-tab *ngIf="this.reportingPoint" [reportingpoint]="this.reportingPoint"></app-ol-overlay-reportingpoint-info-tab>
-                    <app-ol-overlay-reportingsector-info-tab *ngIf="this.reportingSector" [reportingsector]="this.reportingSector"></app-ol-overlay-reportingsector-info-tab>
-                    <app-ol-overlay-navaid-info-tab *ngIf="this.navaid" [navaid]="this.navaid"></app-ol-overlay-navaid-info-tab>
-                    <app-ol-overlay-geoname-info-tab *ngIf="this.geoname" [geoname]="this.geoname"></app-ol-overlay-geoname-info-tab>
-                    <app-ol-overlay-userpoint-info-tab *ngIf="this.userPoint" [userpoint]="this.userPoint"></app-ol-overlay-userpoint-info-tab>
-                    <app-waypoint-info-tab *ngIf="this.waypointItem" [waypoint]="this.waypointItem"></app-waypoint-info-tab>
+                    <app-map-popup-airport-info-tab *ngIf="this.airport" [airport]="this.airport"></app-map-popup-airport-info-tab>
+                    <app-map-popup-reportingpoint-info-tab *ngIf="this.reportingPoint" [reportingpoint]="this.reportingPoint"></app-map-popup-reportingpoint-info-tab>
+                    <app-map-popup-reportingsector-info-tab *ngIf="this.reportingSector" [reportingsector]="this.reportingSector"></app-map-popup-reportingsector-info-tab>
+                    <app-map-popup-navaid-info-tab *ngIf="this.navaid" [navaid]="this.navaid"></app-map-popup-navaid-info-tab>
+                    <app-map-popup-geoname-info-tab *ngIf="this.geoname" [geoname]="this.geoname"></app-map-popup-geoname-info-tab>
+                    <app-map-popup-userpoint-info-tab *ngIf="this.userPoint" [userpoint]="this.userPoint"></app-map-popup-userpoint-info-tab>
+                    <app-map-popup-waypoint-info-tab *ngIf="this.waypointItem" [waypoint]="this.waypointItem"></app-map-popup-waypoint-info-tab>
                 </mat-tab>
 
                 <!-- airport runway tab -->
@@ -29,7 +29,7 @@
                     <ng-template mat-tab-label>
                         <i class="fas fa-road"></i>
                     </ng-template>
-                    <app-ol-overlay-airport-runway-tab [airport]="this.airport"></app-ol-overlay-airport-runway-tab>
+                    <app-map-popup-airport-runway-tab [airport]="this.airport"></app-map-popup-airport-runway-tab>
                 </mat-tab>
 
                 <!-- airport radio tab -->
@@ -37,7 +37,7 @@
                     <ng-template mat-tab-label>
                         <i class="fas fa-broadcast-tower"></i>
                     </ng-template>
-                    <app-ol-overlay-airport-radio-tab [airport]="this.airport"></app-ol-overlay-airport-radio-tab>
+                    <app-map-popup-airport-radio-tab [airport]="this.airport"></app-map-popup-airport-radio-tab>
                 </mat-tab>
 
                 <!-- meteo tab -->
@@ -46,9 +46,9 @@
                         <i class="fas fa-cloud"></i>
                     </ng-template>
                     <ng-template matTabContent>
-                        <app-meteogram [position]="this.position"></app-meteogram>
-                        <app-precip-temp-graph [position]="this.position"></app-precip-temp-graph>
-                        <app-metar-taf *ngIf="this.airport" [metarTaf]="this.metarTaf"></app-metar-taf>
+                        <app-map-popup-meteogram [position]="this.position"></app-map-popup-meteogram>
+                        <app-map-popup-precip-temp-graph [position]="this.position"></app-map-popup-precip-temp-graph>
+                        <app-map-popup-metar-taf *ngIf="this.airport" [metarTaf]="this.metarTaf"></app-map-popup-metar-taf>
                     </ng-template>
                 </mat-tab>
 
@@ -57,7 +57,7 @@
                     <ng-template mat-tab-label>
                         <i class="fas fa-exclamation-triangle"></i>
                     </ng-template>
-                    <app-map-overlay-notam-tab [notams]="this.notams"></app-map-overlay-notam-tab>
+                    <app-map-popup-notam-tab [notams]="this.notams"></app-map-popup-notam-tab>
                 </mat-tab>
 
                 <!-- charts tab -->
@@ -65,10 +65,10 @@
                     <ng-template mat-tab-label>
                         <i class="fas fa-map"></i>
                     </ng-template>
-                    <app-ol-overlay-airport-chart-tab [airport]="this.airport"></app-ol-overlay-airport-chart-tab>
+                    <app-map-popup-airport-chart-tab [airport]="this.airport"></app-map-popup-airport-chart-tab>
                 </mat-tab>
             </mat-tab-group>
         </mat-card-content>
-        <app-waypoint-button-container></app-waypoint-button-container>
+        <app-map-popup-waypoint-button-container></app-map-popup-waypoint-button-container>
     </mat-card>
 </div>

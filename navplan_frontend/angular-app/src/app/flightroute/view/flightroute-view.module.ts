@@ -1,25 +1,29 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {
-    WaypointButtonContainerComponent
-} from './ng-components/flight-map/waypoint-button-container/waypoint-button-container.component';
+    MapPopupWaypointButtonContainerComponent
+} from './ng-components/flight-map/map-popup-waypoint-button-container/map-popup-waypoint-button-container.component';
 import {
-    WaypointButtonAddToRouteComponent
-} from './ng-components/flight-map/waypoint-button-add-to-route/waypoint-button-add-to-route.component';
+    MapPopupWaypointButtonAddToRouteComponent
+} from './ng-components/flight-map/map-popup-waypoint-button-add-to-route/map-popup-waypoint-button-add-to-route.component';
 import {
-    WaypointButtonEditWaypointComponent
-} from './ng-components/flight-map/waypoint-button-edit-waypoint/waypoint-button-edit-waypoint.component';
+    MapPopupButtonEditWaypointComponent
+} from './ng-components/flight-map/map-popup-waypoint-button-edit-waypoint/map-popup-button-edit-waypoint.component';
 import {
-    WaypointButtonRemoveAlternateComponent
-} from './ng-components/flight-map/waypoint-button-remove-alternate/waypoint-button-remove-alternate.component';
+    MapPopupWaypointButtonRemoveAlternateComponent
+} from './ng-components/flight-map/map-popup-waypoint-button-remove-alternate/map-popup-waypoint-button-remove-alternate.component';
 import {
-    WaypointButtonRemoveFromRouteComponent
-} from './ng-components/flight-map/waypoint-button-remove-from-route/waypoint-button-remove-from-route.component';
+    MapPopupWaypointButtonRemoveFromRouteComponent
+} from './ng-components/flight-map/map-popup-waypoint-button-remove-from-route/map-popup-waypoint-button-remove-from-route.component';
 import {
-    WaypointButtonSetAlternateComponent
-} from './ng-components/flight-map/waypoint-button-set-alternate/waypoint-button-set-alternate.component';
-import {WaypointHeaderComponent} from './ng-components/flight-map/waypoint-header/waypoint-header.component';
-import {WaypointInfoTabComponent} from './ng-components/flight-map/waypoint-info-tab/waypoint-info-tab.component';
+    MapPopupWaypointButtonSetAlternateComponent
+} from './ng-components/flight-map/map-popup-waypoint-button-set-alternate/map-popup-waypoint-button-set-alternate.component';
+import {
+    MapPopupWaypointHeaderComponent
+} from './ng-components/flight-map/map-popup-waypoint-header/map-popup-waypoint-header.component';
+import {
+    MapPopupWaypointInfoTabComponent
+} from './ng-components/flight-map/map-popup-waypoint-info-tab/map-popup-waypoint-info-tab.component';
 import {FlightrouteStateModule} from '../state/flightroute-state.module';
 import {FlightrouteDomainModule} from '../domain/flightroute-domain.module';
 import {FlightrouteRestModule} from '../rest/flightroute-rest.module';
@@ -69,14 +73,14 @@ import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.modu
         GeoPhysicsViewModule,
     ],
     declarations: [
-        WaypointButtonContainerComponent,
-        WaypointButtonAddToRouteComponent,
-        WaypointButtonEditWaypointComponent,
-        WaypointButtonRemoveAlternateComponent,
-        WaypointButtonRemoveFromRouteComponent,
-        WaypointButtonSetAlternateComponent,
-        WaypointHeaderComponent,
-        WaypointInfoTabComponent,
+        MapPopupWaypointButtonContainerComponent,
+        MapPopupWaypointButtonAddToRouteComponent,
+        MapPopupButtonEditWaypointComponent,
+        MapPopupWaypointButtonRemoveAlternateComponent,
+        MapPopupWaypointButtonRemoveFromRouteComponent,
+        MapPopupWaypointButtonSetAlternateComponent,
+        MapPopupWaypointHeaderComponent,
+        MapPopupWaypointInfoTabComponent,
         EditWaypointDialogComponent,
         EditWaypointFormComponent,
         FlightrouteContainerComponent,
@@ -87,9 +91,9 @@ import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.modu
         FuelCalcTableComponent,
     ],
     exports: [
-        WaypointButtonContainerComponent,
-        WaypointInfoTabComponent,
-        WaypointHeaderComponent,
+        MapPopupWaypointButtonContainerComponent,
+        MapPopupWaypointInfoTabComponent,
+        MapPopupWaypointHeaderComponent,
         FlightrouteContainerComponent,
         FuelCalcContainerComponent
     ],

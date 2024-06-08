@@ -1,0 +1,31 @@
+<div class="main-container">
+    <app-map-popup-waypoint-button-add-to-route
+        *ngIf="this.isAddable$ | async"
+        [waypoint]="this.waypoint$ | async"
+        [flightroute]="this.flightroute$ | async"
+        (insertWaypointClick)="this.onInsertWaypointAt($event)">
+    </app-map-popup-waypoint-button-add-to-route>
+    <app-map-popup-waypoint-button-edit-waypoint
+        *ngIf="this.isWaypointInFlightroute$ | async"
+        class="spacer-bottom"
+        [waypoint]="this.waypoint$ | async"
+        (editWaypointClick)="this.onEditWaypoint($event)">
+    </app-map-popup-waypoint-button-edit-waypoint>
+    <app-map-popup-waypoint-button-remove-from-route
+        *ngIf="this.isWaypointInFlightroute$ | async"
+        class="spacer-bottom"
+        [waypoint]="this.waypoint$ | async"
+        (removeWaypointClick)="this.onDeleteWaypoint($event)">
+    </app-map-popup-waypoint-button-remove-from-route>
+    <app-map-popup-waypoint-button-set-alternate
+        *ngIf="!(this.isAlternateWaypoint$ | async) && (this.isAlternateEligible$ | async)"
+        class="spacer-bottom"
+        [waypoint]="this.waypoint$ | async"
+        (setAlternateClick)="this.onSetAlternate($event)">
+    </app-map-popup-waypoint-button-set-alternate>
+    <app-map-popup-waypoint-button-remove-alternate
+        *ngIf="(this.isAlternateWaypoint$ | async)"
+        class="spacer-bottom"
+        (removeAlternateClick)="this.onSetAlternate(undefined)">
+    </app-map-popup-waypoint-button-remove-alternate>
+</div>

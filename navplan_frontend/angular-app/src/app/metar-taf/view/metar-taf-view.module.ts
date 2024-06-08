@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {MetarTafDomainModule} from '../domain/metar-taf-domain.module';
 import {MetarTafRestModule} from '../rest/metar-taf-rest.module';
 import {MetarTafStateModule} from '../state/metar-taf-state.module';
-import {MetarTafComponent} from './ng-components/metar-taf/metar-taf.component';
+import {MapPopupMetarTafComponent} from './ng-components/map-popup-metar-taf/map-popup-metar-taf.component';
 import {CommonModule} from '@angular/common';
 
 
@@ -14,10 +14,10 @@ import {CommonModule} from '@angular/common';
         CommonModule,
     ],
     declarations: [
-        MetarTafComponent
+        MapPopupMetarTafComponent
     ],
     exports: [
-        MetarTafComponent
+        MapPopupMetarTafComponent
     ],
     providers: [
     ]

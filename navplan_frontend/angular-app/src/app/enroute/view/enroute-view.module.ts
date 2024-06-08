@@ -1,12 +1,10 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {EnrouteDomainModule} from '../domain/enroute-domain.module';
+import {MapPopupNavaidHeaderComponent} from './ng-components/map-popup-navaid-header/map-popup-navaid-header.component';
 import {
-    OlOverlayNavaidHeaderComponent
-} from './ng-components/ol-overlay-navaid-header/ol-overlay-navaid-header.component';
-import {
-    OlOverlayNavaidInfoTabComponent
-} from './ng-components/ol-overlay-navaid-info-tab/ol-overlay-navaid-info-tab.component';
+    MapPopupNavaidInfoTabComponent
+} from './ng-components/map-popup-navaid-info-tab/map-popup-navaid-info-tab.component';
 import {EnrouteRestModule} from '../rest/enroute-rest.module';
 import {EnrouteStateModule} from '../state/enroute-state.module';
 import {MatCardModule} from '@angular/material/card';
@@ -25,12 +23,12 @@ import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.modu
         GeoPhysicsViewModule,
     ],
     declarations: [
-        OlOverlayNavaidHeaderComponent,
-        OlOverlayNavaidInfoTabComponent
+        MapPopupNavaidHeaderComponent,
+        MapPopupNavaidInfoTabComponent
     ],
     exports: [
-        OlOverlayNavaidHeaderComponent,
-        OlOverlayNavaidInfoTabComponent
+        MapPopupNavaidHeaderComponent,
+        MapPopupNavaidInfoTabComponent
     ],
     providers: [
     ]

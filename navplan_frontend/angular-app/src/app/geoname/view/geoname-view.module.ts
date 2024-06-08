@@ -1,11 +1,11 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {
-    OlOverlayGeonameHeaderComponent
-} from './ng-components/ol-overlay-geoname-header/ol-overlay-geoname-header.component';
+    MapPopupGeonameHeaderComponent
+} from './ng-components/map-popup-geoname-header/map-popup-geoname-header.component';
 import {
-    OlOverlayGeonameInfoTabComponent
-} from './ng-components/ol-overlay-geoname-info-tab/ol-overlay-geoname-info-tab.component';
+    MapPopupGeonameInfoTabComponent
+} from './ng-components/map-popup-geoname-info-tab/map-popup-geoname-info-tab.component';
 import {MatCardModule} from '@angular/material/card';
 import {GeoPhysicsDomainModule} from '../../geo-physics/domain/geo-physics-domain.module';
 import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.module';
@@ -19,12 +19,12 @@ import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.modu
         GeoPhysicsViewModule,
     ],
     declarations: [
-        OlOverlayGeonameHeaderComponent,
-        OlOverlayGeonameInfoTabComponent
+        MapPopupGeonameHeaderComponent,
+        MapPopupGeonameInfoTabComponent
     ],
     exports: [
-        OlOverlayGeonameHeaderComponent,
-        OlOverlayGeonameInfoTabComponent
+        MapPopupGeonameHeaderComponent,
+        MapPopupGeonameInfoTabComponent
     ],
 })
 export class GeonameViewModule {

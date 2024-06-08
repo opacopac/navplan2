@@ -1,32 +1,32 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {
-    OlOverlayAirportHeaderComponent
-} from './ng-components/ol-overlay-airport-header/ol-overlay-airport-header.component';
+    MapPopupAirportHeaderComponent
+} from './ng-components/map-popup-airport-header/map-popup-airport-header.component';
 import {
-    OlOverlayAirportChartTabComponent
-} from './ng-components/ol-overlay-airport-chart-tab/ol-overlay-airport-chart-tab.component';
+    MapPopupAirportChartTabComponent
+} from './ng-components/map-popup-airport-chart-tab/map-popup-airport-chart-tab.component';
 import {
-    OlOverlayAirportInfoTabComponent
-} from './ng-components/ol-overlay-airport-info-tab/ol-overlay-airport-info-tab.component';
+    MapPopupAirportInfoTabComponent
+} from './ng-components/map-popup-airport-info-tab/map-popup-airport-info-tab.component';
 import {
-    OlOverlayAirportRunwayTabComponent
-} from './ng-components/ol-overlay-airport-runway-tab/ol-overlay-airport-runway-tab.component';
+    MapPopupAirportRunwayTabComponent
+} from './ng-components/map-popup-airport-runway-tab/map-popup-airport-runway-tab.component';
 import {
-    OlOverlayAirportRadioTabComponent
-} from './ng-components/ol-overlay-airport-radio-tab/ol-overlay-airport-radio-tab.component';
+    MapPopupAirportRadioTabComponent
+} from './ng-components/map-popup-airport-radio-tab/map-popup-airport-radio-tab.component';
 import {
-    OlOverlayReportingpointHeaderComponent
-} from './ng-components/ol-overlay-reportingpoint-header/ol-overlay-reportingpoint-header.component';
+    MapPopupReportingpointHeaderComponent
+} from './ng-components/map-popup-reportingpoint-header/map-popup-reportingpoint-header.component';
 import {
-    OlOverlayReportingpointInfoTabComponent
-} from './ng-components/ol-overlay-reportingpoint-info-tab/ol-overlay-reportingpoint-info-tab.component';
+    MapPopupReportingpointInfoTabComponent
+} from './ng-components/map-popup-reportingpoint-info-tab/map-popup-reportingpoint-info-tab.component';
 import {
-    OlOverlayReportingsectorHeaderComponent
-} from './ng-components/ol-overlay-reportingsector-header/ol-overlay-reportingsector-header.component';
+    MapPopupReportingsectorHeaderComponent
+} from './ng-components/map-popup-reportingsector-header/map-popup-reportingsector-header.component';
 import {
-    OlOverlayReportingsectorInfoTabComponent
-} from './ng-components/ol-overlay-reportingsector-info-tab/ol-overlay-reportingsector-info-tab.component';
+    MapPopupReportingsectorInfoTabComponent
+} from './ng-components/map-popup-reportingsector-info-tab/map-popup-reportingsector-info-tab.component';
 import {AerodromeDomainModule} from '../domain/aerodrome-domain.module';
 import {AerodromeStateModule} from '../state/aerodrome-state.module';
 import {AerodromeRestModule} from '../rest/aerodrome-rest.module';
@@ -52,26 +52,26 @@ import {MatIcon} from '@angular/material/icon';
         MatIcon,
     ],
     declarations: [
-        OlOverlayAirportHeaderComponent,
-        OlOverlayAirportInfoTabComponent,
-        OlOverlayAirportRunwayTabComponent,
-        OlOverlayAirportRadioTabComponent,
-        OlOverlayAirportChartTabComponent,
-        OlOverlayReportingpointHeaderComponent,
-        OlOverlayReportingpointInfoTabComponent,
-        OlOverlayReportingsectorHeaderComponent,
-        OlOverlayReportingsectorInfoTabComponent,
+        MapPopupAirportHeaderComponent,
+        MapPopupAirportInfoTabComponent,
+        MapPopupAirportRunwayTabComponent,
+        MapPopupAirportRadioTabComponent,
+        MapPopupAirportChartTabComponent,
+        MapPopupReportingpointHeaderComponent,
+        MapPopupReportingpointInfoTabComponent,
+        MapPopupReportingsectorHeaderComponent,
+        MapPopupReportingsectorInfoTabComponent,
     ],
     exports: [
-        OlOverlayAirportHeaderComponent,
-        OlOverlayAirportInfoTabComponent,
-        OlOverlayAirportRunwayTabComponent,
-        OlOverlayAirportRadioTabComponent,
-        OlOverlayAirportChartTabComponent,
-        OlOverlayReportingpointHeaderComponent,
-        OlOverlayReportingpointInfoTabComponent,
-        OlOverlayReportingsectorHeaderComponent,
-        OlOverlayReportingsectorInfoTabComponent,
+        MapPopupAirportHeaderComponent,
+        MapPopupAirportInfoTabComponent,
+        MapPopupAirportRunwayTabComponent,
+        MapPopupAirportRadioTabComponent,
+        MapPopupAirportChartTabComponent,
+        MapPopupReportingpointHeaderComponent,
+        MapPopupReportingpointInfoTabComponent,
+        MapPopupReportingsectorHeaderComponent,
+        MapPopupReportingsectorInfoTabComponent,
     ],
     providers: []
 })

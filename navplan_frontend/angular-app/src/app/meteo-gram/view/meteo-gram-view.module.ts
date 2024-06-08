@@ -9,9 +9,11 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
 import {MeteoGramRestModule} from '../rest/meteo-gram-rest.module';
 import {MeteoGramDomainModule} from '../domain/meteo-gram-domain.module';
-import {PrecipTempGraphComponent} from './ng-components/precip_temp_graph/precip-temp-graph.component';
+import {
+    MapPopupPrecipTempGraphComponent
+} from './ng-components/map-popup-precip-temp-graph/map-popup-precip-temp-graph.component';
 import {MeteoGramStateModule} from '../state/meteo-gram-state.module';
-import {MeteogramComponent} from './ng-components/meteogram/meteogram.component';
+import {MapPopupMeteogramComponent} from './ng-components/map-popup-meteogram/map-popup-meteogram.component';
 
 
 @NgModule({
@@ -29,12 +31,12 @@ import {MeteogramComponent} from './ng-components/meteogram/meteogram.component'
         MatInputModule,
     ],
     declarations: [
-        MeteogramComponent,
-        PrecipTempGraphComponent
+        MapPopupMeteogramComponent,
+        MapPopupPrecipTempGraphComponent
     ],
     exports: [
-        MeteogramComponent,
-        PrecipTempGraphComponent
+        MapPopupMeteogramComponent,
+        MapPopupPrecipTempGraphComponent
     ],
     providers: [
     ]
