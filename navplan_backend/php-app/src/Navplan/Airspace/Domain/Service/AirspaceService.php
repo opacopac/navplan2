@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Enroute\Domain\Service;
+namespace Navplan\Airspace\Domain\Service;
 
+use Navplan\Airspace\Domain\Command\IAirspaceDeleteAllCommand;
+use Navplan\Airspace\Domain\Command\IAirspaceInsertAllCommand;
+use Navplan\Airspace\Domain\Query\IAirspaceSearchByExtentQuery;
+use Navplan\Airspace\Domain\Query\IAirspaceSearchByPositionQuery;
+use Navplan\Airspace\Domain\Query\IAirspaceSearchByRouteQuery;
 use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Common\Domain\Model\Position2d;
-use Navplan\Enroute\Domain\Command\IAirspaceDeleteAllCommand;
-use Navplan\Enroute\Domain\Command\IAirspaceInsertAllCommand;
-use Navplan\Enroute\Domain\Query\IAirspaceSearchByExtentQuery;
-use Navplan\Enroute\Domain\Query\IAirspaceSearchByPositionQuery;
-use Navplan\Enroute\Domain\Query\IAirspaceSearchByRouteQuery;
 
 
 class AirspaceService implements IAirspaceService {

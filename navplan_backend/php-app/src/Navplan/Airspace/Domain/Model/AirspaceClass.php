@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Enroute\Domain\Model;
+namespace Navplan\Airspace\Domain\Model;
 
 
 enum AirspaceClass: string {

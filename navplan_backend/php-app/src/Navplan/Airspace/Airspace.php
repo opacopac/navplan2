@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Enroute;
+namespace Navplan\Airspace;
 
 use Navplan\ProdNavplanDiContainer;
 
@@ -8,6 +8,6 @@ require_once __DIR__ . "/../RestServiceBootstrap.php";
 
 
 $diContainer = new ProdNavplanDiContainer();
-$controller = $diContainer->getEnrouteDiContainer()->getAirspaceController();
+$controller = $diContainer->getAirspaceDiContainer()->getAirspaceController();
 
 $controller->processRequest();

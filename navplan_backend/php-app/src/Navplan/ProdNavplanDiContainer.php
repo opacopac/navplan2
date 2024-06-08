@@ -6,6 +6,8 @@ use Navplan\Admin\IAdminDiContainer;
 use Navplan\Admin\ProdAdminDiContainer;
 use Navplan\Aerodrome\IAerodromeDiContainer;
 use Navplan\Aerodrome\ProdAerodromeDiContainer;
+use Navplan\Airspace\IAirspaceDiContainer;
+use Navplan\Airspace\ProdAirspaceDiContainer;
 use Navplan\Config\IConfigDiContainer;
 use Navplan\Config\ProdConfigDiContainer;
 use Navplan\Enroute\IEnrouteDiContainer;
@@ -51,6 +53,7 @@ class ProdNavplanDiContainer
     private IConfigDiContainer $configDiContainer;
     private IAdminDiContainer $adminDiContainer;
     private IAerodromeDiContainer $aerodromeDiContainer;
+    private IAirspaceDiContainer $airspaceDiContainer;
     private IEnrouteDiContainer $enrouteDiContainer;
     private IFlightrouteDiContainer $flightrouteDiContainer;
     private IGeonameDiContainer $geonameDiContainer;
@@ -105,6 +108,19 @@ class ProdNavplanDiContainer
         }
 
         return $this->aerodromeDiContainer;
+    }
+
+
+    public function getAirspaceDiContainer(): IAirspaceDiContainer {
+        if (!isset($this->airspaceDiContainer)) {
+            $this->airspaceDiContainer = new ProdAirspaceDiContainer(
+                $this->getSystemDiContainer()->getLoggingService(),
+                $this->getPersistenceDiContainer()->getDbService(),
+                $this->getSystemDiContainer()->getHttpService()
+            );
+        }
+
+        return $this->airspaceDiContainer;
     }
 
 
@@ -214,7 +230,7 @@ class ProdNavplanDiContainer
         if (!isset($this->openAipDiContainer)) {
             $this->openAipDiContainer = new ProdOpenAipDiContainer(
                 $this->getAerodromeDiContainer()->getAirportService(),
-                $this->getEnrouteDiContainer()->getAirspaceService(),
+                $this->getAirspaceDiContainer()->getAirspaceService(),
                 $this->getEnrouteDiContainer()->getNavaidService(),
                 $this->getSystemDiContainer()->getLoggingService(),
                 $this->getPersistenceDiContainer()->getDbService()
@@ -229,7 +245,7 @@ class ProdNavplanDiContainer
         if (!isset($this->searchDiContainer)) {
             $this->searchDiContainer = new ProdSearchDiContainer(
                 $this->getUserDiContainer()->getSearchUserPointUc(),
-                $this->getEnrouteDiContainer()->getAirspaceService(),
+                $this->getAirspaceDiContainer()->getAirspaceService(),
                 $this->getNotamDiContainer()->getNotamService(),
                 $this->getAerodromeDiContainer()->getAirportService(),
                 $this->getAerodromeDiContainer()->getReportingPointService(),
@@ -323,7 +339,7 @@ class ProdNavplanDiContainer
         if (!isset($this->verticalMapDiContainer)) {
             $this->verticalMapDiContainer = new ProdVerticalMapDiContainer(
                 $this->getTerrainDiContainer()->getTerrainService(),
-                $this->getEnrouteDiContainer()->getAirspaceService(),
+                $this->getAirspaceDiContainer()->getAirspaceService(),
                 $this->getMeteoDwdDiContainer()->getMeteoDwdVerticalCloudRepo(),
                 $this->getMeteoDwdDiContainer()->getMeteoDwdVerticalWindRepo(),
                 $this->getSystemDiContainer()->getHttpService(),

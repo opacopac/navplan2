@@ -2,12 +2,12 @@
 
 namespace NavplanTest\OpenAip\Api\Model;
 
+use Navplan\Airspace\Domain\Model\AirspaceClass;
+use Navplan\Airspace\Domain\Model\AirspaceType;
 use Navplan\Common\Domain\Model\Altitude;
 use Navplan\Common\Domain\Model\AltitudeReference;
 use Navplan\Common\Domain\Model\AltitudeUnit;
 use Navplan\Common\Domain\Model\Ring2d;
-use Navplan\Enroute\Domain\Model\AirspaceClass;
-use Navplan\Enroute\Domain\Model\AirspaceType;
 use Navplan\OpenAip\ApiAdapter\Model\OpenAipAirspaceConverter;
 use PHPUnit\Framework\TestCase;
 

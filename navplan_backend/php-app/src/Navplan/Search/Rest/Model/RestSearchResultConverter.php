@@ -5,7 +5,7 @@ namespace Navplan\Search\Rest\Model;
 use Navplan\Aerodrome\Rest\Converter\RestAirportCircuitConverter;
 use Navplan\Aerodrome\Rest\Converter\RestAirportConverter;
 use Navplan\Aerodrome\Rest\Converter\RestReportingPointConverter;
-use Navplan\Enroute\Rest\Converter\RestAirspaceConverter;
+use Navplan\Airspace\Rest\Converter\RestAirspaceConverter;
 use Navplan\Enroute\Rest\Converter\RestNavaidConverter;
 use Navplan\Geoname\Rest\Model\RestGeonameConverter;
 use Navplan\Notam\Rest\Model\RestNotamConverter;

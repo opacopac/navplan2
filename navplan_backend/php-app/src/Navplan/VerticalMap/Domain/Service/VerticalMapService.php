@@ -3,6 +3,8 @@
 namespace Navplan\VerticalMap\Domain\Service;
 
 use InvalidArgumentException;
+use Navplan\Airspace\Domain\Model\Airspace;
+use Navplan\Airspace\Domain\Service\IAirspaceService;
 use Navplan\Common\Domain\Model\AltitudeReference;
 use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\LengthUnit;
@@ -11,8 +13,6 @@ use Navplan\Common\Domain\Model\LineInterval2d;
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Common\Domain\Model\Position3d;
 use Navplan\Common\GeoHelper;
-use Navplan\Enroute\Domain\Model\Airspace;
-use Navplan\Enroute\Domain\Service\IAirspaceService;
 use Navplan\MeteoDwd\Domain\Model\ForecastStep;
 use Navplan\MeteoDwd\Domain\Model\WeatherModelLayer;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalCloudRepo;

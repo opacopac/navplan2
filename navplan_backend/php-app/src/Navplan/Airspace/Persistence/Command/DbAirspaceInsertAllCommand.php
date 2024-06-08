@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Enroute\Persistence\Command;
+namespace Navplan\Airspace\Persistence\Command;
 
-use Navplan\Enroute\Domain\Command\IAirspaceInsertAllCommand;
-use Navplan\Enroute\Persistence\Model\DbTableAirspace;
+use Navplan\Airspace\Domain\Command\IAirspaceInsertAllCommand;
+use Navplan\Airspace\Persistence\Model\DbTableAirspace;
 use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\ILoggingService;
 use Throwable;

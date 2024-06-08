@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Enroute\Persistence\Query;
+namespace Navplan\Airspace\Persistence\Query;
 
+use Navplan\Airspace\Domain\Model\Airspace;
+use Navplan\Airspace\Persistence\Model\DbTableAirspace;
 use Navplan\Common\Domain\Model\Altitude;
 use Navplan\Common\Domain\Model\AltitudeReference;
 use Navplan\Common\Domain\Model\AltitudeUnit;
 use Navplan\Common\Domain\Model\Ring2d;
-use Navplan\Enroute\Domain\Model\Airspace;
-use Navplan\Enroute\Persistence\Model\DbTableAirspace;
 use Navplan\System\Domain\Model\IDbResult;
 
 

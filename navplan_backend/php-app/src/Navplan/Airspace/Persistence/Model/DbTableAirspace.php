@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Enroute\Persistence\Model;
+namespace Navplan\Airspace\Persistence\Model;
 
 
 class DbTableAirspace {

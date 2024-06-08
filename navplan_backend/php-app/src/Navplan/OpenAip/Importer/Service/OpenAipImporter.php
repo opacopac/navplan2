@@ -3,7 +3,7 @@
 namespace Navplan\OpenAip\Importer\Service;
 
 use Navplan\Aerodrome\Domain\Service\IAirportService;
-use Navplan\Enroute\Domain\Service\IAirspaceService;
+use Navplan\Airspace\Domain\Service\IAirspaceService;
 use Navplan\Enroute\Domain\Service\INavaidService;
 use Navplan\OpenAip\ApiAdapter\Service\IOpenAipService;
 use Navplan\OpenAip\ApiAdapter\Service\OpenAipImportFilter;

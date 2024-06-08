@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Enroute\Domain\Query;
+namespace Navplan\Airspace\Domain\Query;
 
+use Navplan\Airspace\Domain\Model\Airspace;
 use Navplan\Common\Domain\Model\Position2d;
-use Navplan\Enroute\Domain\Model\Airspace;
 
 
 interface IAirspaceSearchByRouteQuery {

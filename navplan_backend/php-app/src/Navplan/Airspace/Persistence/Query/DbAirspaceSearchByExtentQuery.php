@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Enroute\Persistence\Query;
+namespace Navplan\Airspace\Persistence\Query;
 
+use Navplan\Airspace\Domain\Query\IAirspaceSearchByExtentQuery;
+use Navplan\Airspace\Persistence\Model\DbTableAirspace;
 use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Common\GeoHelper;
-use Navplan\Enroute\Domain\Query\IAirspaceSearchByExtentQuery;
-use Navplan\Enroute\Persistence\Model\DbTableAirspace;
 use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
 

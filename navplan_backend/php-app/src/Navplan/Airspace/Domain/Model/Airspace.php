@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Enroute\Domain\Model;
+namespace Navplan\Airspace\Domain\Model;
 
 use Navplan\Common\Domain\Model\Altitude;
 use Navplan\Common\Domain\Model\Ring2d;

@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Enroute\Rest\Controller;
+namespace Navplan\Airspace\Rest\Controller;
 
 use InvalidArgumentException;
+use Navplan\Airspace\Domain\Service\IAirspaceService;
+use Navplan\Airspace\Rest\Converter\RestAirspaceConverter;
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Common\Rest\Converter\RestExtent2dConverter;
-use Navplan\Enroute\Domain\Service\IAirspaceService;
-use Navplan\Enroute\Rest\Converter\RestAirspaceConverter;
 use Navplan\System\Domain\Service\IHttpService;
 
 

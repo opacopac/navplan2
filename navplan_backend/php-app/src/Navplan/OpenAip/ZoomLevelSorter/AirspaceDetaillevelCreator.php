@@ -2,8 +2,8 @@
 
 namespace Navplan\OpenAip\ZoomLevelSorter;
 
+use Navplan\Airspace\Persistence\Model\DbTableAirspace;
 use Navplan\Common\GeoHelper;
-use Navplan\Enroute\Persistence\Model\DbTableAirspace;
 use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\ILoggingService;
 

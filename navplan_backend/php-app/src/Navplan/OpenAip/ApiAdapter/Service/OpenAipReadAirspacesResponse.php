@@ -2,7 +2,7 @@
 
 namespace Navplan\OpenAip\ApiAdapter\Service;
 
-use Navplan\Enroute\Domain\Model\Airspace;
+use Navplan\Airspace\Domain\Model\Airspace;
 
 
 class OpenAipReadAirspacesResponse {

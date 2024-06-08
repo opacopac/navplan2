@@ -2,9 +2,9 @@
 
 namespace NavplanTest\Enroute\Mocks;
 
+use Navplan\Airspace\Domain\Model\Airspace;
 use Navplan\Common\Domain\Model\Altitude;
 use Navplan\Common\Domain\Model\Ring2d;
-use Navplan\Enroute\Domain\Model\Airspace;
 
 
 class DummyAirspace1 {

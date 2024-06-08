@@ -2,8 +2,8 @@
 
 namespace Navplan\VerticalMap;
 
+use Navplan\Airspace\Domain\Service\IAirspaceService;
 use Navplan\Common\Rest\Controller\IRestController;
-use Navplan\Enroute\Domain\Service\IAirspaceService;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalCloudRepo;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalWindRepo;
 use Navplan\System\Domain\Service\IHttpService;

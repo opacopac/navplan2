@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Enroute\Domain\Service;
+namespace Navplan\Airspace\Domain\Service;
 
+use Navplan\Airspace\Domain\Model\Airspace;
 use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Common\Domain\Model\Position2d;
-use Navplan\Enroute\Domain\Model\Airspace;
 
 
 interface IAirspaceService {

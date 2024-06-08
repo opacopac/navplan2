@@ -3,7 +3,7 @@
 namespace Navplan\OpenAip\ApiAdapter\Model;
 
 use InvalidArgumentException;
-use Navplan\Enroute\Domain\Model\AirspaceType;
+use Navplan\Airspace\Domain\Model\AirspaceType;
 
 
 class OpenAipAirspaceTypeConverter

@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Enroute\Domain\Command;
+namespace Navplan\Airspace\Domain\Command;
 
-use Navplan\Enroute\Domain\Model\Airspace;
+use Navplan\Airspace\Domain\Model\Airspace;
 
 
 interface IAirspaceInsertAllCommand {

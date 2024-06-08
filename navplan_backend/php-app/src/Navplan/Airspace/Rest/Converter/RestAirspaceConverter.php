@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Enroute\Rest\Converter;
+namespace Navplan\Airspace\Rest\Converter;
 
+use Navplan\Airspace\Domain\Model\Airspace;
 use Navplan\Common\Rest\Converter\RestAltitudeConverter;
 use Navplan\Common\Rest\Converter\RestRing2dConverter;
-use Navplan\Enroute\Domain\Model\Airspace;
 
 
 class RestAirspaceConverter {

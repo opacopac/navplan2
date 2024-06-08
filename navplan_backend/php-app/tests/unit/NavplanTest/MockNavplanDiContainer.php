@@ -6,7 +6,7 @@ require_once __DIR__ . "/../config_test.php";
 
 use Navplan\Aerodrome\Domain\Service\IAirportRepo;
 use Navplan\Aerodrome\Domain\Service\IReportingPointRepo;
-use Navplan\Enroute\Domain\Service\IAirspaceService;
+use Navplan\Airspace\Domain\Service\IAirspaceService;
 use Navplan\Enroute\Domain\Service\INavaidService;
 use Navplan\Flightroute\Domain\Service\IFlightrouteRepo;
 use Navplan\Geoname\Domain\Service\IGeonameRepo;

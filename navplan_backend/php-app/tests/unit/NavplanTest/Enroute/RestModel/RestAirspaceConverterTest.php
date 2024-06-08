@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Enroute\RestModel;
 
-use Navplan\Enroute\Rest\Converter\RestAirspaceConverter;
+use Navplan\Airspace\Rest\Converter\RestAirspaceConverter;
 use NavplanTest\Enroute\Mocks\DummyAirspace1;
 use PHPUnit\Framework\TestCase;
 
