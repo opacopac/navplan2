@@ -21,7 +21,7 @@ use Navplan\System\Domain\Service\IHttpService;
 use Navplan\System\Domain\Service\ILoggingService;
 
 
-class ProdEnrouteDiContainer implements IEnrouteDiContainer
+class ProdNavaidDiContainer implements INavaidDiContainer
 {
     private IRestController $navaidController;
     private INavaidService $navaidService;

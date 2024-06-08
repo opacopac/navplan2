@@ -22,8 +22,7 @@ use Navplan\MeteoGram\IMeteoGramDiContainer;
 use Navplan\MeteoGram\ProdMeteoGramDiContainer;
 use Navplan\MeteoSma\IMeteoSmaDiContainer;
 use Navplan\MeteoSma\ProdMeteoSmaDiContainer;
-use Navplan\Navaid\IEnrouteDiContainer;
-use Navplan\Navaid\ProdEnrouteDiContainer;
+use Navplan\Navaid\INavaidDiContainer;
 use Navplan\Notam\INotamDiContainer;
 use Navplan\Notam\ProdNotamDiContainer;
 use Navplan\OpenAip\IOpenAipDiContainer;
@@ -54,7 +53,7 @@ class ProdNavplanDiContainer
     private IAdminDiContainer $adminDiContainer;
     private IAerodromeDiContainer $aerodromeDiContainer;
     private IAirspaceDiContainer $airspaceDiContainer;
-    private IEnrouteDiContainer $enrouteDiContainer;
+    private INavaidDiContainer $navaidDiContainer;
     private IFlightrouteDiContainer $flightrouteDiContainer;
     private IGeonameDiContainer $geonameDiContainer;
     private IMeteoDwdDiContainer $meteoDwdDiContainer;
@@ -124,16 +123,16 @@ class ProdNavplanDiContainer
     }
 
 
-    public function getEnrouteDiContainer(): IEnrouteDiContainer {
-        if (!isset($this->enrouteDiContainer)) {
-            $this->enrouteDiContainer = new ProdEnrouteDiContainer(
+    public function getNavaidDiContainer(): INavaidDiContainer {
+        if (!isset($this->navaidDiContainer)) {
+            $this->navaidDiContainer = new ProdNavplanDiContainer(
                 $this->getSystemDiContainer()->getLoggingService(),
                 $this->getPersistenceDiContainer()->getDbService(),
                 $this->getSystemDiContainer()->getHttpService()
             );
         }
 
-        return $this->enrouteDiContainer;
+        return $this->navaidDiContainer;
     }
 
 
@@ -231,7 +230,7 @@ class ProdNavplanDiContainer
             $this->openAipDiContainer = new ProdOpenAipDiContainer(
                 $this->getAerodromeDiContainer()->getAirportService(),
                 $this->getAirspaceDiContainer()->getAirspaceService(),
-                $this->getEnrouteDiContainer()->getNavaidService(),
+                $this->getNavaidDiContainer()->getNavaidService(),
                 $this->getSystemDiContainer()->getLoggingService(),
                 $this->getPersistenceDiContainer()->getDbService()
             );
@@ -249,7 +248,7 @@ class ProdNavplanDiContainer
                 $this->getNotamDiContainer()->getNotamService(),
                 $this->getAerodromeDiContainer()->getAirportService(),
                 $this->getAerodromeDiContainer()->getReportingPointService(),
-                $this->getEnrouteDiContainer()->getNavaidService(),
+                $this->getNavaidDiContainer()->getNavaidService(),
                 $this->getGeonameDiContainer()->getGeonameService(),
             );
         }

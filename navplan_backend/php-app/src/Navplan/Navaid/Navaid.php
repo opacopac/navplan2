@@ -8,6 +8,6 @@ require_once __DIR__ . "/../RestServiceBootstrap.php";
 
 
 $diContainer = new ProdNavplanDiContainer();
-$controller = $diContainer->getEnrouteDiContainer()->getNavaidController();
+$controller = $diContainer->getNavaidDiContainer()->getNavaidController();
 
 $controller->processRequest();

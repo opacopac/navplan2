@@ -11,7 +11,7 @@ use Navplan\Navaid\Domain\Query\INavaidSearchByTextQuery;
 use Navplan\Navaid\Domain\Service\INavaidService;
 
 
-interface IEnrouteDiContainer
+interface INavaidDiContainer
 {
     function getNavaidController(): IRestController;
 
