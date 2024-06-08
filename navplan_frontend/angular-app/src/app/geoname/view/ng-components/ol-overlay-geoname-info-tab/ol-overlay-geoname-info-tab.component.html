@@ -1,3 +1,3 @@
-<p>Position: {{ this.getPositionString() }}</p>
-<p>Variation: {{ this.getVariationString() }}</p>
-<p *ngIf="!this.geoname.elevation.isZero()">Elevation: {{ this.getElevationString() }}</p>
+<app-map-overlay-position [position]="this.geoname.position"></app-map-overlay-position>
+<app-map-overlay-elevation [altitude]="this.geoname.elevation"></app-map-overlay-elevation>
+<app-map-overlay-variation [position]="this.geoname.position"></app-map-overlay-variation>

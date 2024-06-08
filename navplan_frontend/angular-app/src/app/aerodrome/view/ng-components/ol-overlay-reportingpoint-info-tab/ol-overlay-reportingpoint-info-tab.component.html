@@ -1,4 +1,4 @@
-<p>{{ this.getPositionString() }}</p>
+<app-map-overlay-position [position]="this.reportingpoint.position"></app-map-overlay-position>
 <p *ngIf="this.reportingpoint.alt_min || this.reportingpoint.alt_max">
     Altitude:
     {{ this.reportingpoint.alt_min ? 'min. ' + this.getElevationString(this.reportingpoint.alt_min) : '' }}

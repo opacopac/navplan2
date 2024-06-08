@@ -10,8 +10,8 @@
             </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content class="card-body">
-            <p>{{ this.getPositionString(this.waypoint.position) }}</p>
-            <p>VAR: {{ this.getVariationString(this.waypoint.position) }}</p>
+            <app-map-overlay-position [position]="this.waypoint.position"></app-map-overlay-position>
+            <app-map-overlay-variation [position]="this.waypoint.position"></app-map-overlay-variation>
             <p *ngIf="this.waypoint.wpAlt.alt">
                 Altitude:
                 {{ (this.waypoint.wpAlt.isminalt ? 'min. ' : 'max. ') + this.waypoint.wpAlt.alt.getHeightAmsl().ft + 'ft' }}

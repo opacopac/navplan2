@@ -46,6 +46,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {RouterModule} from '@angular/router';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {GeoPhysicsDomainModule} from '../../geo-physics/domain/geo-physics-domain.module';
+import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.module';
 
 
 @NgModule({
@@ -64,6 +65,7 @@ import {GeoPhysicsDomainModule} from '../../geo-physics/domain/geo-physics-domai
         UserRestModule,
         UserStateModule,
         GeoPhysicsDomainModule,
+        GeoPhysicsViewModule,
     ],
     declarations: [
         LoginRegisterPageComponent,

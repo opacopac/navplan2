@@ -1,5 +1,5 @@
 import {IRestPosition2d} from '../../../geo-physics/rest/model/i-rest-position2d';
-import {IRestLength} from '../../../geo-physics/rest/model/i-rest-length';
+import {IRestAltitude} from '../../../geo-physics/rest/model/i-rest-altitude';
 
 
 export interface IRestGeoname {
@@ -13,5 +13,5 @@ export interface IRestGeoname {
     admin2: string;
     population: number;
     position: IRestPosition2d;
-    elevation: IRestLength;
+    elevation: IRestAltitude;
 }

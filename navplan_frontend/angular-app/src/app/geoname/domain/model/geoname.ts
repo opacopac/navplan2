@@ -1,7 +1,7 @@
 import {DataItem, DataItemType} from '../../../common/model/data-item';
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
-import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {StringnumberHelper} from '../../../system/domain/service/stringnumber/stringnumber-helper';
+import {Altitude} from '../../../geo-physics/domain/model/geometry/altitude';
 
 
 // region description strings
@@ -717,7 +717,7 @@ export class Geoname extends DataItem {
         public admin2: string,
         public population: number,
         public position: Position2d,
-        public elevation: Length
+        public elevation: Altitude
     ) {
         super();
     }

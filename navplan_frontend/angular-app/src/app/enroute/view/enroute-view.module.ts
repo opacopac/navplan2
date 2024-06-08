@@ -11,6 +11,7 @@ import {EnrouteRestModule} from '../rest/enroute-rest.module';
 import {EnrouteStateModule} from '../state/enroute-state.module';
 import {MatCardModule} from '@angular/material/card';
 import {GeoPhysicsDomainModule} from '../../geo-physics/domain/geo-physics-domain.module';
+import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.module';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import {GeoPhysicsDomainModule} from '../../geo-physics/domain/geo-physics-domai
         EnrouteRestModule,
         EnrouteStateModule,
         GeoPhysicsDomainModule,
+        GeoPhysicsViewModule,
     ],
     declarations: [
         OlOverlayNavaidHeaderComponent,

@@ -1,5 +1,5 @@
-<p>{{ this.getPositionString() }}</p>
-<p>Variation: {{ this.getVariationString() }}</p>
-<p>Elevation: {{ this.getElevationString() }}</p>
+<app-map-overlay-position [position]="this.navaid.position"></app-map-overlay-position>
+<app-map-overlay-elevation [altitude]="navaid.elevation"></app-map-overlay-elevation>
+<app-map-overlay-variation [position]="this.navaid.position"></app-map-overlay-variation>
 <p>Frequency: {{ this.navaid.frequency.getValueString() }} {{ this.navaid.frequency.getUnitString() }}</p>
 <p>Morse: <span [innerHtml]="this.getMorseString()"></span></p>

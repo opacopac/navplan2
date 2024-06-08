@@ -27,6 +27,7 @@ import {MeteoContainerComponent} from './ng-components/meteo-container/meteo-con
 import {MatButtonModule} from '@angular/material/button';
 import {MeteoGramViewModule} from '../../meteo-gram/view/meteo-gram-view.module';
 import {FullScreenButtonComponent} from './ng-components/full-screen-button/full-screen-button.component';
+import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.module';
 
 @NgModule({
     declarations: [
@@ -60,6 +61,7 @@ import {FullScreenButtonComponent} from './ng-components/full-screen-button/full
         VerticalMapViewModule,
         WebcamViewModule,
         MatButtonModule,
+        GeoPhysicsViewModule,
     ],
     providers: []
 })

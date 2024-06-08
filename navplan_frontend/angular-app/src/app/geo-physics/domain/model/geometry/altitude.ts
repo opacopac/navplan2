@@ -30,6 +30,11 @@ export class Altitude implements Clonable<Altitude> {
     }
 
 
+    public isZero(): boolean {
+        return this.value === 0;
+    }
+
+
     public isEqual(alt: Altitude): boolean|undefined {
         if (this.reference === alt.reference && this.unit === alt.unit) {
             return this.value === alt.value;

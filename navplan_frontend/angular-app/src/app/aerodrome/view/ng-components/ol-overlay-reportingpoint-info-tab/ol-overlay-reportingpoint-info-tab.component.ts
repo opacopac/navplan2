@@ -18,11 +18,6 @@ export class OlOverlayReportingpointInfoTabComponent implements OnInit {
     }
 
 
-    public getPositionString(): string {
-        return StringnumberHelper.getDmsString(this.reportingpoint.position);
-    }
-
-
     public getElevationString(elevation: Length): string {
         return StringnumberHelper.getLengthString(elevation, LengthUnit.FT); // TODO
     }

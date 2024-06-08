@@ -1,9 +1,7 @@
 import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
 import {Waypoint} from '../../../../flightroute/domain/model/waypoint';
-import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 import {OlOverlayBaseComponent} from '../../../../base-map/view/ng-components/ol-overlay-base.component';
-import {IWmmService} from '../../../../geo-physics/domain/service/wmm/i-wmm.service';
 
 
 @Component({
@@ -18,7 +16,6 @@ export class OlOverlayWaypointComponent extends OlOverlayBaseComponent implement
 
     public constructor(
         cdRef: ChangeDetectorRef,
-        private wmmService: IWmmService
     ) {
         super(cdRef);
     }
@@ -37,16 +34,5 @@ export class OlOverlayWaypointComponent extends OlOverlayBaseComponent implement
         this.waypoint = waypoint;
         this.setPosition(waypoint ? waypoint.position : undefined);
         this.markForCheck();
-    }
-
-
-    public getPositionString(pos: Position2d): string {
-        return StringnumberHelper.getDmsString(pos);
-    }
-
-
-    public getVariationString(pos: Position2d): string {
-        const magVar = this.wmmService.calcMagneticVariation(pos);
-        return StringnumberHelper.getEWString(magVar, 1);
     }
 }

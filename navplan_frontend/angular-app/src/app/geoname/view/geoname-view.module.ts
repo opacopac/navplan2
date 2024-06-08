@@ -8,6 +8,7 @@ import {
 } from './ng-components/ol-overlay-geoname-info-tab/ol-overlay-geoname-info-tab.component';
 import {MatCardModule} from '@angular/material/card';
 import {GeoPhysicsDomainModule} from '../../geo-physics/domain/geo-physics-domain.module';
+import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.module';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import {GeoPhysicsDomainModule} from '../../geo-physics/domain/geo-physics-domai
         CommonModule,
         MatCardModule,
         GeoPhysicsDomainModule,
+        GeoPhysicsViewModule,
     ],
     declarations: [
         OlOverlayGeonameHeaderComponent,

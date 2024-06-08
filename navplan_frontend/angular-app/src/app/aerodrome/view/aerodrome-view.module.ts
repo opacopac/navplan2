@@ -34,6 +34,8 @@ import {MatCardModule} from '@angular/material/card';
 import {MatTableModule} from '@angular/material/table';
 import {GeoPhysicsDomainModule} from '../../geo-physics/domain/geo-physics-domain.module';
 import {MetarTafViewModule} from '../../metar-taf/view/metar-taf-view.module';
+import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.module';
+import {MatIcon} from '@angular/material/icon';
 
 
 @NgModule({
@@ -45,7 +47,9 @@ import {MetarTafViewModule} from '../../metar-taf/view/metar-taf-view.module';
         AerodromeRestModule,
         AerodromeStateModule,
         GeoPhysicsDomainModule,
+        GeoPhysicsViewModule,
         MetarTafViewModule,
+        MatIcon,
     ],
     declarations: [
         OlOverlayAirportHeaderComponent,
@@ -69,7 +73,7 @@ import {MetarTafViewModule} from '../../metar-taf/view/metar-taf-view.module';
         OlOverlayReportingsectorHeaderComponent,
         OlOverlayReportingsectorInfoTabComponent,
     ],
-    providers: [
-    ]
+    providers: []
 })
-export class AerodromeViewModule {}
+export class AerodromeViewModule {
+}
