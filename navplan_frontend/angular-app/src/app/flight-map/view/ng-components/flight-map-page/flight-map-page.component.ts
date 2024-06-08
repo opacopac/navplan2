@@ -1,6 +1,5 @@
 import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {BaseMapActions} from '../../../../base-map/state/ngrx/base-map.actions';
 import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
 import {Angle} from '../../../../geo-physics/domain/model/quantities/angle';
 import {combineLatest} from 'rxjs';
@@ -178,20 +177,6 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         this.olDwdForecastContainer.destroy();
 
         this.showOverlaySubscription.unsubscribe();
-    }
-
-    // endregion
-
-
-    // region events
-
-    public onZoomInClicked() {
-        this.appStore.dispatch(BaseMapActions.zoomIn());
-    }
-
-
-    public onZoomOutClicked() {
-        this.appStore.dispatch(BaseMapActions.zoomOut());
     }
 
     // endregion

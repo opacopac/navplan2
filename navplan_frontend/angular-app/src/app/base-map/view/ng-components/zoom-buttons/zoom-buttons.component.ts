@@ -1,4 +1,6 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {BaseMapActions} from '../../../state/ngrx/base-map.actions';
+import {Store} from '@ngrx/store';
 
 
 @Component({
@@ -7,14 +9,20 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
     styleUrls: ['./zoom-buttons.component.scss']
 })
 export class ZoomButtonsComponent implements OnInit {
-    @Output() zoomInClick = new EventEmitter<null>();
-    @Output() zoomOutClick = new EventEmitter<null>();
-
-
-    constructor() {
+    constructor(private appStore: Store<any>) {
     }
 
 
     ngOnInit() {
+    }
+
+
+    public onZoomInClicked() {
+        this.appStore.dispatch(BaseMapActions.zoomIn());
+    }
+
+
+    public onZoomOutClicked() {
+        this.appStore.dispatch(BaseMapActions.zoomOut());
     }
 }

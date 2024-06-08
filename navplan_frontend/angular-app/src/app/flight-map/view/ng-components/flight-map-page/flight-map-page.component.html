@@ -12,11 +12,7 @@
 <!-- search box -->
 <app-search-container></app-search-container>
 <!-- buttons left -->
-<app-zoom-buttons
-    class="zoom-buttons-pos"
-    (zoomInClick)="this.onZoomInClicked()"
-    (zoomOutClick)="this.onZoomOutClicked()">
-</app-zoom-buttons>
+<app-zoom-buttons class="zoom-buttons-pos"></app-zoom-buttons>
 <app-location-button class="location-button-pos"></app-location-button>
 <app-traffic-button class="traffic-button-pos"></app-traffic-button>
 <app-meteo-button class="meteo-button-pos"></app-meteo-button>
@@ -28,6 +24,8 @@
 <!-- buttons right -->
 <app-full-screen-button class="full-screen-button-pos"></app-full-screen-button>
 <app-map-layer-selection-button class="map-layer-selection-button-pos"></app-map-layer-selection-button>
-<app-map-layer-selection-content class="map-layer-selection-content-pos" *ngIf="this.showMapLayerSelection$ | async"></app-map-layer-selection-content>
+<app-map-layer-selection-content class="map-layer-selection-content-pos"
+                                 *ngIf="this.showMapLayerSelection$ | async"></app-map-layer-selection-content>
 <app-attributions-button class="attributions-button-pos"></app-attributions-button>
-<app-attributions-content class="attributions-content-pos" *ngIf="this.showAttributions$ | async"></app-attributions-content>
+<app-attributions-content class="attributions-content-pos"
+                          *ngIf="this.showAttributions$ | async"></app-attributions-content>
