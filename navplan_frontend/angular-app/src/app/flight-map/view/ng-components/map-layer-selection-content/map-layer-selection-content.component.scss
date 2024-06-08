@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 .layer-selection-container {
     background-color: rgba(224, 224, 224, 0.9);
     padding: 5px;
@@ -12,17 +14,17 @@
     display: flex;
     flex-direction: column;
     margin: 5px 0;
+    @include mat.radio-density(-3);
+    @include mat.checkbox-density(-3);
 }
 
 .mapbg-selection-radio-group {
     display: flex;
-    flex-direction: row;
-    margin: 15px 0;
-    align-items: flex-start;
+    flex-direction: column;
 }
 
 .mapbg-selection-radio-button {
-    margin: 5px;
+    margin-left: 5px;
 }
 
 .layer-selection-label {
