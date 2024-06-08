@@ -8,9 +8,9 @@ use Navplan\Search\Rest\Model\RestSearchByTextQueryConverter;
 use Navplan\Search\RestService\SearchServiceController;
 use NavplanTest\Aerodrome\Mocks\DummyReportingPoint1;
 use NavplanTest\Aerodrome\Mocks\MockReportingPointRepo;
-use NavplanTest\Enroute\Mocks\DummyNavaid1;
-use NavplanTest\Enroute\Mocks\MockNavaidService;
 use NavplanTest\MockNavplanDiContainer;
+use NavplanTest\Navaid\Mocks\DummyNavaid1;
+use NavplanTest\Navaid\Mocks\MockNavaidService;
 use NavplanTest\System\Mock\MockHttpService;
 use PHPUnit\Framework\TestCase;
 

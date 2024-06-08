@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\Enroute\DomainModel;
+namespace NavplanTest\Navaid\DomainModel;
 
-use NavplanTest\Enroute\Mocks\DummyNavaid1;
+use NavplanTest\Navaid\Mocks\DummyNavaid1;
 use PHPUnit\Framework\TestCase;
 
 

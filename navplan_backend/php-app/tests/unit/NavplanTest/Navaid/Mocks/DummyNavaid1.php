@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\Enroute\Mocks;
+namespace NavplanTest\Navaid\Mocks;
 
 use Navplan\Common\Domain\Model\Altitude;
 use Navplan\Common\Domain\Model\AltitudeReference;

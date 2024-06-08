@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\Enroute\DomainModel;
+namespace NavplanTest\Airspace\DomainModel;
 
-use NavplanTest\Enroute\Mocks\DummyAirspace1;
+use NavplanTest\Airspace\Mocks\DummyAirspace1;
 use PHPUnit\Framework\TestCase;
 
 

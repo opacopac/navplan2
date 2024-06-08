@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\Enroute\RestModel;
+namespace NavplanTest\Navaid\RestModel;
 
 use Navplan\Navaid\Rest\Converter\RestNavaidConverter;
-use NavplanTest\Enroute\Mocks\DummyNavaid1;
+use NavplanTest\Navaid\Mocks\DummyNavaid1;
 use PHPUnit\Framework\TestCase;
 
 
