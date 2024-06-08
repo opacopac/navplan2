@@ -5,13 +5,9 @@
     @include mat.table-density(-3);
 }
 
-/*th.mat-mdc-header-cell {
-    font-weight: bold;
+.delete-icon-container {
+    @include mat.icon-button-density(-5);
 }
-
-tr.mat-mdc-footer-row {
-    font-weight: bold;
-}*/
 
 .fa-trash {
     color: #dd0000;

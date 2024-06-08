@@ -1,3 +1,10 @@
+@use '@angular/material' as mat;
+
+.flightroute-list-container {
+    @include mat.table-density(-3);
+}
+
+
 table {
     width: 100%;
 }
