@@ -1,9 +1,16 @@
+.mat-mdc-fab {
+    height: 50px !important;
+    width: 50px !important;
+}
+
 .zoom-in-button {
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
+    font-size: large;
 }
 
 .zoom-out-button {
     border-top-left-radius: 0 !important;
     border-top-right-radius: 0 !important;
+    font-size: large;
 }

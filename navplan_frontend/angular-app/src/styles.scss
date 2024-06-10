@@ -35,11 +35,6 @@ iframe {
     flex-direction: row;
 }
 
-.flex-col {
-    display: flex;
-    flex-direction: column;
-}
-
 .mat-mdc-form-field {
     flex: auto;
     margin-right: 20px;
@@ -65,24 +60,6 @@ td.mat-mdc-cell {
 
 
 /* region: BUTTONS */
-
-button.btn-lg {
-    font-size: large;
-}
-
-.mat-mdc-fab {
-    height: 50px !important;
-    width: 50px !important;
-}
-
-.mat-mdc-button {
-    font-weight: normal;
-}
-
-/* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
-.mat-button-wrapper {
-    padding: 0 !important;
-}
 
 .mat-mdc-fab.mat-mapbutton-primary,
 .mat-mdc-mini-fab.mat-mapbutton-primary,
@@ -116,11 +93,6 @@ button.btn-lg {
     background-color: rgba(255, 0, 0, 0.8);
 }
 
-/* TODO */
-.map-overlay-button {
-    margin-bottom: 0.3125rem;
-}
-
 /* endregion */
 
 
@@ -143,21 +115,7 @@ button.btn-lg {
 /* endregion */
 
 
-/* region: OPENLAYERS */
-.ol-attribution li {
-    display: table;
-}
-
-.ol-attribution:not(.ol-collapsed) {
-    align-items: end;
-    background: rgba(255, 255, 255, 0.9)
-}
-
-.ol-attribution ul {
-    color: inherit;
-    text-shadow: none;
-}
-
+/* region OPENLAYERS */
 .ol-overlay-container {
     width: 100%;
 }
