@@ -1,0 +1,66 @@
+<div class="unit-settings-container">
+
+    <!-- altitude -->
+    <label id="altitude-unit-group-label">Altitude Units</label>
+    <mat-radio-group
+        aria-labelledby="altitude-unit-group-label"
+        color="accent"
+        (change)="this.onAltitudeUnitSelected($event)"
+    >
+        <mat-radio-button
+            *ngFor="let entry of this.altitudeUnitValueAndDescription"
+            value="{{ entry[0] }}}"
+            [checked]="(this.selectedAltitudeUnit$ | async) === entry[0]"
+        >
+            {{ entry[1] }}
+        </mat-radio-button>
+    </mat-radio-group>
+
+    <!-- distance -->
+    <label id="distance-unit-group-label">Distance Units</label>
+    <mat-radio-group
+        aria-labelledby="distance-unit-group-label"
+        color="accent"
+        (change)="this.onDistanceUnitSelected($event)"
+    >
+        <mat-radio-button
+            *ngFor="let entry of this.distanceUnitValueAndDescription"
+            value="{{ entry[0] }}}"
+            [checked]="(this.selectedDistanceUnit$ | async) === entry[0]"
+        >
+            {{ entry[1] }}
+        </mat-radio-button>
+    </mat-radio-group>
+
+    <!-- speed -->
+    <label id="speed-unit-group-label">Speed Units</label>
+    <mat-radio-group
+        aria-labelledby="speed-unit-group-label"
+        color="accent"
+        (change)="this.onSpeedUnitSelected($event)"
+    >
+        <mat-radio-button
+            *ngFor="let entry of this.speedUnitValueAndDescription"
+            value="{{ entry[0] }}}"
+            [checked]="(this.selectedSpeedUnit$ | async) === entry[0]"
+        >
+            {{ entry[1] }}
+        </mat-radio-button>
+    </mat-radio-group>
+
+    <!-- consumption -->
+    <label id="consumption-unit-group-label">Speed Units</label>
+    <mat-radio-group
+        aria-labelledby="consumption-unit-group-label"
+        color="accent"
+        (change)="this.onConsumptionUnitSelected($event)"
+    >
+        <mat-radio-button
+            *ngFor="let entry of this.consumptionUnitValueAndDescription"
+            value="{{ entry[0] }}}"
+            [checked]="(this.selectedConsumptionUnit$ | async) === entry[0]"
+        >
+            {{ entry[1] }}
+        </mat-radio-button>
+    </mat-radio-group>
+</div>

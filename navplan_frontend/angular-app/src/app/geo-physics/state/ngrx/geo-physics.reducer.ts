@@ -1,0 +1,39 @@
+import {createReducer, on} from '@ngrx/store';
+import {GeoPhysicsState} from './geo-physics-state';
+import {AltitudeUnit} from '../../domain/model/geometry/altitude-unit';
+import {GeoPhysicsActions} from './geo-physics.actions';
+import {LengthUnit} from '../../domain/model/quantities/length-unit';
+import {SpeedUnit} from '../../domain/model/quantities/speed-unit';
+import {ConsumptionUnit} from '../../domain/model/quantities/consumption-unit';
+
+
+const initialState: GeoPhysicsState = {
+    altitudeUnit: AltitudeUnit.FT,
+    distanceUnit: LengthUnit.NM,
+    speedUnit: SpeedUnit.KT,
+    consumptionUnit: ConsumptionUnit.L_PER_H
+};
+
+
+export const geoPhysicsReducer = createReducer(
+    initialState,
+    on(GeoPhysicsActions.altitudeUnitSelected, (state, action) => ({
+        ...state,
+        altitudeUnit: action.altitudeUnit
+    })),
+
+    on(GeoPhysicsActions.distanceUnitSelected, (state, action) => ({
+        ...state,
+        distanceUnit: action.distanceUnit
+    })),
+
+    on(GeoPhysicsActions.speedUnitSelected, (state, action) => ({
+        ...state,
+        speedUnit: action.speedUnit
+    })),
+
+    on(GeoPhysicsActions.consumptionUnitSelected, (state, action) => ({
+        ...state,
+        consumptionUnit: action.consumptionUnit
+    }))
+);
