@@ -27,18 +27,28 @@ export class Length extends AbstractQuantity<Length, LengthUnit> implements Clon
                 switch (convertToUnit) {
                     case LengthUnit.FT: return value * Length.FT_PER_NM;
                     case LengthUnit.M: return value * Length.M_PER_NM;
+                    case LengthUnit.KM: return value * Length.M_PER_NM / 1000;
                     default: return undefined;
                 }
             case LengthUnit.FT:
                 switch (convertToUnit) {
                     case LengthUnit.NM: return value / Length.FT_PER_NM;
                     case LengthUnit.M: return value / Length.FT_PER_M;
+                    case LengthUnit.KM: return value / Length.FT_PER_M / 1000;
                     default: return undefined;
                 }
             case LengthUnit.M:
                 switch (convertToUnit) {
                     case LengthUnit.NM: return value / Length.M_PER_NM;
                     case LengthUnit.FT: return value * Length.FT_PER_M;
+                    case LengthUnit.KM: return value / 1000;
+                    default: return undefined;
+                }
+            case LengthUnit.KM:
+                switch (convertToUnit) {
+                    case LengthUnit.NM: return value * 1000 / Length.M_PER_NM;
+                    case LengthUnit.FT: return value * 1000 * Length.FT_PER_M;
+                    case LengthUnit.M: return value * 1000;
                     default: return undefined;
                 }
             default: return undefined;
@@ -61,6 +71,11 @@ export class Length extends AbstractQuantity<Length, LengthUnit> implements Clon
     }
 
 
+    public get km(): number {
+        return this.getValue(LengthUnit.KM);
+    }
+
+
     public getValue(asUnit: LengthUnit): number {
         return Length.convert(this.value, this.unit, asUnit);
     }
@@ -71,6 +86,7 @@ export class Length extends AbstractQuantity<Length, LengthUnit> implements Clon
             case LengthUnit.FT: return 'ft';
             case LengthUnit.M: return 'm';
             case LengthUnit.NM: return 'NM';
+            case LengthUnit.KM: return 'km';
         }
     }
 

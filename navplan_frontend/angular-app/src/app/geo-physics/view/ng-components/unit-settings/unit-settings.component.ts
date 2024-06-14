@@ -31,6 +31,7 @@ export class UnitSettingsComponent implements OnInit {
     ];
     protected readonly distanceUnitValueAndDescription = [
         [LengthUnit.NM, 'NM'],
+        [LengthUnit.KM, 'km'],
         [LengthUnit.M, 'm']
     ];
     protected readonly speedUnitValueAndDescription = [
