@@ -13,7 +13,7 @@
                 <!-- info tab -->
                 <mat-tab>
                     <ng-template mat-tab-label>
-                        <i class="fas fa-info"></i>
+                        <i class="fa-solid fa-info"></i>
                     </ng-template>
                     <app-map-popup-airport-info-tab *ngIf="this.airport" [airport]="this.airport"></app-map-popup-airport-info-tab>
                     <app-map-popup-reportingpoint-info-tab *ngIf="this.reportingPoint" [reportingpoint]="this.reportingPoint"></app-map-popup-reportingpoint-info-tab>
@@ -27,7 +27,7 @@
                 <!-- airport runway tab -->
                 <mat-tab *ngIf="this.airport">
                     <ng-template mat-tab-label>
-                        <i class="fas fa-road"></i>
+                        <i class="fa-solid fa-road"></i>
                     </ng-template>
                     <app-map-popup-airport-runway-tab [airport]="this.airport"></app-map-popup-airport-runway-tab>
                 </mat-tab>
@@ -35,7 +35,7 @@
                 <!-- airport radio tab -->
                 <mat-tab *ngIf="this.airport">
                     <ng-template mat-tab-label>
-                        <i class="fas fa-broadcast-tower"></i>
+                        <i class="fa-solid fa-broadcast-tower"></i>
                     </ng-template>
                     <app-map-popup-airport-radio-tab [airport]="this.airport"></app-map-popup-airport-radio-tab>
                 </mat-tab>
@@ -43,7 +43,7 @@
                 <!-- meteo tab -->
                 <mat-tab>
                     <ng-template mat-tab-label>
-                        <i class="fas fa-cloud"></i>
+                        <i class="fa-solid fa-cloud"></i>
                     </ng-template>
                     <ng-template matTabContent>
                         <app-map-popup-meteogram [position]="this.position"></app-map-popup-meteogram>
@@ -55,7 +55,7 @@
                 <!-- notam tab -->
                 <mat-tab *ngIf="this.notams && this.notams.length > 0">
                     <ng-template mat-tab-label>
-                        <i class="fas fa-exclamation-triangle"></i>
+                        <i class="fa-solid fa-exclamation-triangle"></i>
                     </ng-template>
                     <app-map-popup-notam-tab [notams]="this.notams"></app-map-popup-notam-tab>
                 </mat-tab>
@@ -63,7 +63,7 @@
                 <!-- charts tab -->
                 <mat-tab *ngIf="this.airport">
                     <ng-template mat-tab-label>
-                        <i class="fas fa-map"></i>
+                        <i class="fa-solid fa-map"></i>
                     </ng-template>
                     <app-map-popup-airport-chart-tab [airport]="this.airport"></app-map-popup-airport-chart-tab>
                 </mat-tab>

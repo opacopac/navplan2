@@ -63,7 +63,7 @@
                     [tooltipPosition]="'above'"
                     (buttonClickedEventEmitter)="this.onRemoveWaypointClick.emit(entry.wp)"
                 >
-                    <i class="fas fa-trash"></i>
+                    <i class="fa-solid fa-trash"></i>
                 </app-icon-button>
             </td>
             <td mat-footer-cell *matFooterCellDef>
@@ -73,7 +73,7 @@
                     type="button"
                     matTooltip="Reverse Waypoint Order"
                     [disabled]="this.flightroute.waypoints.length < 2"
-                    (click)="this.onReverseWaypointsClick.emit()"><i class="fas fa-sort"></i> Reverse Waypoints
+                    (click)="this.onReverseWaypointsClick.emit()"><i class="fa-solid fa-sort"></i> Reverse Waypoints
                 </button>
             </td>
         </ng-container>
@@ -81,7 +81,7 @@
         <!-- secondary row: supp_info -->
         <ng-container matColumnDef="supp_info_icon">
             <td mat-cell *matCellDef="let entry" [attr.colspan]="1" align="right">
-                <small><i class="fas fa-info-circle"></i></small>&nbsp;
+                <small><i class="fa-solid fa-info-circle"></i></small>&nbsp;
             </td>
         </ng-container>
 

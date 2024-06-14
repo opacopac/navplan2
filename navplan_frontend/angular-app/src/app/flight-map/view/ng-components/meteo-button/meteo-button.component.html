@@ -7,7 +7,7 @@
             [toggleOnOff]="(this.meteoLayer$ | async) === MeteoLayer.SmaStationsLayer"
             (buttonClickedEventEmitter)="this.onStationsSelected()"
         >
-            <i class="fas fa-thermometer-half"></i>
+            <i class="fa-solid fa-thermometer-half"></i>
         </app-map-status-button>
         <app-map-status-button
             [buttonFormat]="'small_round'"
@@ -16,7 +16,7 @@
             [toggleOnOff]="(this.meteoLayer$ | async) === MeteoLayer.DwdWeatherLayer"
             (buttonClickedEventEmitter)="this.onWeatherForecastSelected()"
         >
-            <i class="fas fa-cloud"></i>
+            <i class="fa-solid fa-cloud"></i>
         </app-map-status-button>
         <app-map-status-button
             [buttonFormat]="'small_round'"
@@ -25,7 +25,7 @@
             [toggleOnOff]="(this.meteoLayer$ | async) === MeteoLayer.DwdWindLayer"
             (buttonClickedEventEmitter)="this.onWindForecastSelected()"
         >
-            <i class="fas fa-wind"></i>
+            <i class="fa-solid fa-wind"></i>
         </app-map-status-button>
     </div>
     <app-map-status-button
@@ -35,6 +35,6 @@
         [toggleOnOff]="this.showMeteoLayer$ | async"
         (buttonClickedEventEmitter)="this.onMeteoButtonClicked()"
     >
-        <i class="fas fa-cloud-sun-rain meteo-dwd-button-icon"></i>
+        <i class="fa-solid fa-cloud-sun-rain meteo-dwd-button-icon"></i>
     </app-map-status-button>
 </div>

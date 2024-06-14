@@ -19,7 +19,7 @@
                 matTooltip="Load Route"
                 [disabled]="!(this.currentUser$ | async)"
                 (click)="this.onLoadFlightrouteClick()">
-            <i class="fas fa-folder-open"></i>
+            <i class="fa-solid fa-folder-open"></i>
         </button>
         <button mat-mini-fab
                 color="accent"
@@ -27,7 +27,7 @@
                 matTooltip="Save Route"
                 [disabled]="!(this.currentUser$ | async) || !(routeName.value && routeName.value.length > 0)"
                 (click)="this.onSaveFlightrouteClick()">
-            <i class="fas fa-download"></i>
+            <i class="fa-solid fa-download"></i>
         </button>
         <button mat-mini-fab
                 color="accent"
@@ -35,7 +35,7 @@
                 matTooltip="Save Copy of Route"
                 [disabled]="!(this.currentUser$ | async) || !(routeName.value && routeName.value.length > 0) || !((this.loadedFlightrouteId$ | async) > 0)"
                 (click)="this.onSaveFlightrouteCopyClick()">
-            <i class="fas fa-copy"></i>
+            <i class="fa-solid fa-copy"></i>
         </button>
     </div>
 

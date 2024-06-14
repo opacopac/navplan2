@@ -5,63 +5,63 @@
 
     <!-- menu for large screens -->
     <div class="menu-buttons-left-lg">
-        <button mat-button routerLink="./map" title="Map"><i class="fas fa-map"></i><span class="button-text">&nbsp;&nbsp;Map</span></button>
+        <button mat-button routerLink="./map" title="Map"><i class="fa-solid fa-map"></i><span class="button-text">&nbsp;&nbsp;Map</span></button>
         <button mat-button routerLink="./prep/route" title="Flight Preparation"><i class="fa-solid fa-list-check"></i><span class="button-text">&nbsp;&nbsp;Plan</span></button>
-        <button mat-button *ngIf="this.currentUser" routerLink="./tracks" title="Recorded Tracks"><i class="fas fa-paw"></i><span class="button-text">&nbsp;&nbsp;Tracks</span></button>
-        <button mat-button id="btn_export" [mat-menu-trigger-for]="navplanExport" title="Export / Share"><i class="fas fa-share"></i><span class="button-text">&nbsp;&nbsp;Export</span></button>
+        <button mat-button *ngIf="this.currentUser" routerLink="./tracks" title="Recorded Tracks"><i class="fa-solid fa-paw"></i><span class="button-text">&nbsp;&nbsp;Tracks</span></button>
+        <button mat-button id="btn_export" [mat-menu-trigger-for]="navplanExport" title="Export / Share"><i class="fa-solid fa-share"></i><span class="button-text">&nbsp;&nbsp;Export</span></button>
         <mat-menu #navplanExport="matMenu">
             <div class="export-menu-button">
-                <button mat-button id="btn_export_pdf" (click)="this.onExportPdfClick.emit()"><i class="far fa-file-pdf"></i>&nbsp;&nbsp;PDF</button>
-                <button mat-button id="btn_export_excel" (click)="this.onExportExcelClick.emit()"><i class="far fa-file-excel"></i>&nbsp;&nbsp;Excel</button>
-                <button mat-button id="btn_export_kml" (click)="this.onExportKmlClick.emit()"><i class="fas fa-globe"></i>&nbsp;&nbsp;KML (Google Earth)</button>
-                <button mat-button id="btn_export_gpx" (click)="this.onExportGpxClick.emit()"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;GPX (Airnav Pro, SkyDemon, etc.)</button>
-                <button mat-button id="btn_export_fpl" (click)="this.onExportFplClick.emit()"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;FPL (Garmin, Foreflight, etc.)</button>
+                <button mat-button id="btn_export_pdf" (click)="this.onExportPdfClick.emit()"><i class="fa-regular fa-file-pdf"></i>&nbsp;&nbsp;PDF</button>
+                <button mat-button id="btn_export_excel" (click)="this.onExportExcelClick.emit()"><i class="fa-regular fa-file-excel"></i>&nbsp;&nbsp;Excel</button>
+                <button mat-button id="btn_export_kml" (click)="this.onExportKmlClick.emit()"><i class="fa-solid fa-globe"></i>&nbsp;&nbsp;KML (Google Earth)</button>
+                <button mat-button id="btn_export_gpx" (click)="this.onExportGpxClick.emit()"><i class="fa-solid fa-map-marker-alt"></i>&nbsp;&nbsp;GPX (Airnav Pro, SkyDemon, etc.)</button>
+                <button mat-button id="btn_export_fpl" (click)="this.onExportFplClick.emit()"><i class="fa-solid fa-map-marker-alt"></i>&nbsp;&nbsp;FPL (Garmin, Foreflight, etc.)</button>
             </div>
         </mat-menu>
-        <button mat-button title="Clear current Route and Track" (click)="this.onClearClick.emit()"><i class="fas fa-eraser"></i><span class="button-text">&nbsp;&nbsp;Clear</span></button>
-        <button mat-button title="Search" (click)="this.onShowSearchClick.emit()"><i class="fas fa-search"></i></button>
+        <button mat-button title="Clear current Route and Track" (click)="this.onClearClick.emit()"><i class="fa-solid fa-eraser"></i><span class="button-text">&nbsp;&nbsp;Clear</span></button>
+        <button mat-button title="Search" (click)="this.onShowSearchClick.emit()"><i class="fa-solid fa-search"></i></button>
     </div>
 
     <!-- right part of menu -->
     <div class="menu-buttons-right-lg">
-        <button mat-button *ngIf="this.currentUser; else noCurrentUser" [matMenuTriggerFor]="userMenu" title="User Profile"><i class="fas fa-user"></i><span class="button-text">&nbsp;&nbsp;{{ this.currentUser.email }}</span></button>
+        <button mat-button *ngIf="this.currentUser; else noCurrentUser" [matMenuTriggerFor]="userMenu" title="User Profile"><i class="fa-solid fa-user"></i><span class="button-text">&nbsp;&nbsp;{{ this.currentUser.email }}</span></button>
         <ng-template #noCurrentUser>
-            <button mat-button routerLink="./login" title="Login / Register"><span><i class="fas fa-user"></i></span></button>
+            <button mat-button routerLink="./login" title="Login / Register"><span><i class="fa-solid fa-user"></i></span></button>
         </ng-template>
-        <button mat-button routerLink="./settings" title="Edit Settings"><i class="fas fa-cog"></i></button>
-        <button mat-button routerLink="./about" title="About"><i class="fas fa-info-circle"></i></button>
+        <button mat-button routerLink="./settings" title="Edit Settings"><i class="fa-solid fa-cog"></i></button>
+        <button mat-button routerLink="./about" title="About"><i class="fa-solid fa-info-circle"></i></button>
     </div>
 
     <!-- menu button for small screens -->
     <div class="menu-buttons-sm">
     </div>
     <div class="open-vertical-menu-button">
-        <button mat-button [matMenuTriggerFor]="verticalMenu"><h1><i class="fas fa-bars"></i></h1></button>
+        <button mat-button [matMenuTriggerFor]="verticalMenu"><h1><i class="fa-solid fa-bars"></i></h1></button>
     </div>
 
 </mat-toolbar>
 
 <!-- vertical menu for small screens -->
 <mat-menu #verticalMenu="matMenu">
-    <button mat-menu-item routerLink="./map" title="Map"><i class="fas fa-map"></i>&nbsp;&nbsp;Map</button>
-    <button mat-menu-item routerLink="./prep/route" title="Flight Preparation"><i class="fas fa-tasks"></i>&nbsp;&nbsp;Plan</button>
-    <button mat-menu-item *ngIf="this.currentUser" routerLink="./tracks" title="Recorded Tracks"><i class="fas fa-paw"></i>&nbsp;&nbsp;Tracks</button>
-    <button mat-menu-item routerLink="./map" title="Clear current Route and Track"><i class="fas fa-eraser"></i>&nbsp;&nbsp;Clear</button>
-    <button mat-menu-item [mat-menu-trigger-for]="navplanExportSm" title="Export"><i class="fas fa-share"></i>&nbsp;&nbsp;Export</button>
+    <button mat-menu-item routerLink="./map" title="Map"><i class="fa-solid fa-map"></i>&nbsp;&nbsp;Map</button>
+    <button mat-menu-item routerLink="./prep/route" title="Flight Preparation"><i class="fa-solid fa-tasks"></i>&nbsp;&nbsp;Plan</button>
+    <button mat-menu-item *ngIf="this.currentUser" routerLink="./tracks" title="Recorded Tracks"><i class="fa-solid fa-paw"></i>&nbsp;&nbsp;Tracks</button>
+    <button mat-menu-item routerLink="./map" title="Clear current Route and Track"><i class="fa-solid fa-eraser"></i>&nbsp;&nbsp;Clear</button>
+    <button mat-menu-item [mat-menu-trigger-for]="navplanExportSm" title="Export"><i class="fa-solid fa-share"></i>&nbsp;&nbsp;Export</button>
     <mat-menu #navplanExportSm="matMenu">
         <div class="export-menu-button">
-            <button mat-button (click)="this.onExportPdfClick.emit()"><i class="far fa-file-pdf"></i>&nbsp;&nbsp;PDF</button>
-            <button mat-button (click)="this.onExportExcelClick.emit()"><i class="far fa-file-excel"></i>&nbsp;&nbsp;Excel</button>
-            <button mat-button (click)="this.onExportKmlClick.emit()"><i class="fas fa-globe"></i>&nbsp;&nbsp;KML (Google Earth)</button>
-            <button mat-button (click)="this.onExportGpxClick.emit()"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;GPX (Airnav Pro, SkyDemon, etc.)</button>
-            <button mat-button (click)="this.onExportFplClick.emit()"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;FPL (Garmin, Foreflight, etc.)</button>
+            <button mat-button (click)="this.onExportPdfClick.emit()"><i class="fa-regular fa-file-pdf"></i>&nbsp;&nbsp;PDF</button>
+            <button mat-button (click)="this.onExportExcelClick.emit()"><i class="fa-regular fa-file-excel"></i>&nbsp;&nbsp;Excel</button>
+            <button mat-button (click)="this.onExportKmlClick.emit()"><i class="fa-solid fa-globe"></i>&nbsp;&nbsp;KML (Google Earth)</button>
+            <button mat-button (click)="this.onExportGpxClick.emit()"><i class="fa-solid fa-map-marker-alt"></i>&nbsp;&nbsp;GPX (Airnav Pro, SkyDemon, etc.)</button>
+            <button mat-button (click)="this.onExportFplClick.emit()"><i class="fa-solid fa-map-marker-alt"></i>&nbsp;&nbsp;FPL (Garmin, Foreflight, etc.)</button>
         </div>
     </mat-menu>
-    <button mat-menu-item title="Search" (click)="this.onShowSearchClick.emit()"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</button>
-    <button mat-menu-item *ngIf="this.currentUser; else noCurrentUserSmall" [matMenuTriggerFor]="userMenu" title="User Profile"><i class="fas fa-user"></i>&nbsp;&nbsp;{{ this.currentUser.email }}</button>
-    <ng-template #noCurrentUserSmall><button mat-menu-item routerLink="./login" title="Login or Register"><i class="fas fa-user"></i>&nbsp;&nbsp;Log In</button></ng-template>
-    <button mat-menu-item routerLink="./settings" title="Edit Settings"><i class="fas fa-cog"></i>&nbsp;&nbsp;Settings</button>
-    <button mat-menu-item routerLink="./about" title="About"><i class="fas fa-info-circle"></i>&nbsp;&nbsp;About</button>
+    <button mat-menu-item title="Search" (click)="this.onShowSearchClick.emit()"><i class="fa-solid fa-search"></i>&nbsp;&nbsp;Search</button>
+    <button mat-menu-item *ngIf="this.currentUser; else noCurrentUserSmall" [matMenuTriggerFor]="userMenu" title="User Profile"><i class="fa-solid fa-user"></i>&nbsp;&nbsp;{{ this.currentUser.email }}</button>
+    <ng-template #noCurrentUserSmall><button mat-menu-item routerLink="./login" title="Login or Register"><i class="fa-solid fa-user"></i>&nbsp;&nbsp;Log In</button></ng-template>
+    <button mat-menu-item routerLink="./settings" title="Edit Settings"><i class="fa-solid fa-cog"></i>&nbsp;&nbsp;Settings</button>
+    <button mat-menu-item routerLink="./about" title="About"><i class="fa-solid fa-info-circle"></i>&nbsp;&nbsp;About</button>
 </mat-menu>
 
 <mat-menu #userMenu="matMenu">
