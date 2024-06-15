@@ -12,6 +12,8 @@ import {
 import {LengthUnit} from '../../../domain/model/quantities/length-unit';
 import {SpeedUnit} from '../../../domain/model/quantities/speed-unit';
 import {ConsumptionUnit} from '../../../domain/model/quantities/consumption-unit';
+import { Length } from '../../../domain/model/quantities/length';
+import { Speed } from '../../../domain/model/quantities/speed';
 
 
 @Component({
@@ -25,20 +27,20 @@ export class UnitSettingsComponent implements OnInit {
     public readonly selectedSpeedUnit$: Observable<SpeedUnit> = this.appStore.pipe(select(getSelectedSpeedUnit));
     public readonly selectedConsumptionUnit$: Observable<ConsumptionUnit> = this.appStore.pipe(select(getSelectedConsumptionUnit));
     protected readonly altitudeUnitValueAndDescription = [
-        [LengthUnit.FT, 'ft'], // TODO: use Length.getUnitString
-        [LengthUnit.M, 'm']
+        [LengthUnit.FT, Length.getUnitString(LengthUnit.FT)],
+        [LengthUnit.M, Length.getUnitString(LengthUnit.M)]
     ];
     protected readonly distanceUnitValueAndDescription = [
-        [LengthUnit.NM, 'NM'],
-        [LengthUnit.KM, 'km'],
-        [LengthUnit.M, 'm']
+        [LengthUnit.NM, Length.getUnitString(LengthUnit.NM)],
+        [LengthUnit.KM, Length.getUnitString(LengthUnit.KM)],
+        [LengthUnit.M, Length.getUnitString(LengthUnit.M)]
     ];
     protected readonly speedUnitValueAndDescription = [
-        [SpeedUnit.KT, 'kt'],
-        [SpeedUnit.KMH, 'km/h']
+        [SpeedUnit.KT, Speed.getUnitString(SpeedUnit.KT)],
+        [SpeedUnit.KMH, Speed.getUnitString(SpeedUnit.KMH)],
     ];
     protected readonly consumptionUnitValueAndDescription = [
-        [ConsumptionUnit.L_PER_H, 'l/h'],
+        [ConsumptionUnit.L_PER_H, 'l/h'], // TODO
         [ConsumptionUnit.GAL_PER_H, 'gal/h']
     ];
 
