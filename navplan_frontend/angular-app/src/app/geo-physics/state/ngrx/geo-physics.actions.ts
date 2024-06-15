@@ -8,7 +8,7 @@ import {SpeedUnit} from '../../domain/model/quantities/speed-unit';
 export class GeoPhysicsActions {
     public static readonly altitudeUnitSelected = createAction(
         '[UnitSettings] Select altitude unit',
-        props<{ altitudeUnit: AltitudeUnit }>()
+        props<{ altitudeUnit: LengthUnit }>()
     );
 
     public static readonly distanceUnitSelected = createAction(

@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {MatRadioChange} from '@angular/material/radio';
-import {AltitudeUnit} from '../../../domain/model/geometry/altitude-unit';
 import {select, Store} from '@ngrx/store';
 import {GeoPhysicsActions} from '../../../state/ngrx/geo-physics.actions';
 import {Observable} from 'rxjs';
@@ -21,13 +20,13 @@ import {ConsumptionUnit} from '../../../domain/model/quantities/consumption-unit
     styleUrls: ['./unit-settings.component.scss']
 })
 export class UnitSettingsComponent implements OnInit {
-    public readonly selectedAltitudeUnit$: Observable<AltitudeUnit> = this.appStore.pipe(select(getSelectedAltitudeUnit));
+    public readonly selectedAltitudeUnit$: Observable<LengthUnit> = this.appStore.pipe(select(getSelectedAltitudeUnit));
     public readonly selectedDistanceUnit$: Observable<LengthUnit> = this.appStore.pipe(select(getSelectedDistanceUnit));
     public readonly selectedSpeedUnit$: Observable<SpeedUnit> = this.appStore.pipe(select(getSelectedSpeedUnit));
     public readonly selectedConsumptionUnit$: Observable<ConsumptionUnit> = this.appStore.pipe(select(getSelectedConsumptionUnit));
     protected readonly altitudeUnitValueAndDescription = [
-        [AltitudeUnit.FT, 'ft'],
-        [AltitudeUnit.M, 'm']
+        [LengthUnit.FT, 'ft'], // TODO: use Length.getUnitString
+        [LengthUnit.M, 'm']
     ];
     protected readonly distanceUnitValueAndDescription = [
         [LengthUnit.NM, 'NM'],

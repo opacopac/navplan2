@@ -1,9 +1,10 @@
-import {interval, Observable, Subscription} from 'rxjs';
+import {combineLatest, interval, Observable, Subscription} from 'rxjs';
 import {OlTraffic} from './ol-traffic';
 import {Traffic} from '../../domain/model/traffic';
 import {debounce, switchMap} from 'rxjs/operators';
 import {TrafficState} from '../../state/state-model/traffic-state';
 import {OlVectorLayer} from '../../../base-map/view/ol-model/ol-vector-layer';
+import { LengthUnit } from '../../../geo-physics/domain/model/quantities/length-unit';
 
 
 const UPDATE_TRAFFIC_DISPLAY_DEBOUNCE_MS = 1000;
@@ -14,7 +15,8 @@ export class OlTrafficContainer {
 
     constructor(
         private readonly trafficLayer: OlVectorLayer,
-        trafficState$: Observable<TrafficState>
+        trafficState$: Observable<TrafficState>,
+        altitudeUnit$: Observable<LengthUnit>
     ) {
         const debounceTime$: Observable<number> = trafficState$.pipe(
             switchMap(trafficState => interval(
@@ -26,13 +28,17 @@ export class OlTrafficContainer {
         const debouncedTrafficState$ = trafficState$.pipe(
             debounce(() => debounceTime$)
         );
-        this.trafficSubscription = debouncedTrafficState$.subscribe((trafficState) => {
-            this.clearFeatures();
-            if (trafficState.isWatching) {
-                this.drawFeatures(Array.from(trafficState.trafficMap.values()));
-            }
-        });
-    }
+        this.trafficSubscription = combineLatest([debouncedTrafficState$, altitudeUnit$])
+            .subscribe(([trafficState, altitudeUnit]) => {
+                this.clearFeatures();
+                if (trafficState.isWatching) {
+                    this.drawFeatures(
+                        Array.from(trafficState.trafficMap.values()),
+                        altitudeUnit
+                    );
+                }
+            });
+   }
 
 
     public destroy() {
@@ -41,10 +47,10 @@ export class OlTrafficContainer {
     }
 
 
-    private drawFeatures(trafficList: Traffic[]) {
+    private drawFeatures(trafficList: Traffic[], altitudeUnit: LengthUnit) {
         if (trafficList) {
             trafficList.forEach(traffic => {
-                const olTraffic = new OlTraffic(traffic);
+                const olTraffic = new OlTraffic(traffic, altitudeUnit);
                 olTraffic.draw(this.trafficLayer);
             });
         }

@@ -2,7 +2,8 @@ import {Fill, Stroke, Style, Text} from 'ol/style';
 import {Traffic} from '../../domain/model/traffic';
 import {TrafficAircraftType} from '../../domain/model/traffic-aircraft-type';
 import {OlTrafficIcon} from './ol-traffic-icon';
-import {AltitudeUnit} from '../../../geo-physics/domain/model/geometry/altitude-unit';
+import { LengthUnit } from '../../../geo-physics/domain/model/quantities/length-unit';
+import { Length } from '../../../geo-physics/domain/model/quantities/length';
 
 
 export class OlTrafficStyle {
@@ -11,7 +12,10 @@ export class OlTrafficStyle {
     private static readonly STROKE = new Stroke({color: '#FFFFFF', width: 2});
 
 
-    public static getTrafficStyle(traffic: Traffic) {
+    public static getTrafficStyle(
+        traffic: Traffic,
+        altitudeUnit: LengthUnit
+    ) {
         const position = traffic.getCurrentPosition().position;
         if (!position) {
             return undefined;
@@ -25,9 +29,9 @@ export class OlTrafficStyle {
             traffic.registration = '';
         }
 
-        if (position.hasAltitude() && position.altitude.value > 0) {
-            heighttext = Math.round(position.altitude.value).toString() + ' '
-                + AltitudeUnit[position.altitude.unit].toLowerCase(); // ' ft'; // TODO: einstellbar
+        if (position.hasAltitude() && !position.altitude.isZero()) {
+            const heightAmsl = Math.round(position.altitude.getHeightAmsl().getValue(altitudeUnit));
+            heighttext = heightAmsl.toString() + ' ' + Length.getUnitString(altitudeUnit);
         }
 
         let rotWithView = true;

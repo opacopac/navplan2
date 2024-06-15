@@ -1,6 +1,5 @@
 import {createReducer, on} from '@ngrx/store';
 import {GeoPhysicsState} from './geo-physics-state';
-import {AltitudeUnit} from '../../domain/model/geometry/altitude-unit';
 import {GeoPhysicsActions} from './geo-physics.actions';
 import {LengthUnit} from '../../domain/model/quantities/length-unit';
 import {SpeedUnit} from '../../domain/model/quantities/speed-unit';
@@ -8,7 +7,7 @@ import {ConsumptionUnit} from '../../domain/model/quantities/consumption-unit';
 
 
 const initialState: GeoPhysicsState = {
-    altitudeUnit: AltitudeUnit.FT,
+    altitudeUnit: LengthUnit.FT,
     distanceUnit: LengthUnit.NM,
     speedUnit: SpeedUnit.KT,
     consumptionUnit: ConsumptionUnit.L_PER_H

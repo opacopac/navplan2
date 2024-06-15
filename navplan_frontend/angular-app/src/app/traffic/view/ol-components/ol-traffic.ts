@@ -4,13 +4,17 @@ import {OlVectorLayer} from '../../../base-map/view/ol-model/ol-vector-layer';
 import {OlFeature} from '../../../base-map/view/ol-model/ol-feature';
 import {OlGeometry} from '../../../base-map/view/ol-model/ol-geometry';
 import {OlTrafficStyle} from './ol-traffic-style';
+import { LengthUnit } from '../../../geo-physics/domain/model/quantities/length-unit';
 
 
 export class OlTraffic {
     public olDotTrailFeature: OlTrafficTrail;
 
 
-    constructor(private readonly traffic: Traffic) {
+    constructor(
+        private readonly traffic: Traffic,
+        private readonly altitudeUnit: LengthUnit
+    ) {
         this.olDotTrailFeature = new OlTrafficTrail(this.traffic);
     }
 
@@ -21,7 +25,7 @@ export class OlTraffic {
 
         // traffic feature
         const olTrafficFeature = new OlFeature(this.traffic, true);
-        olTrafficFeature.setStyle(OlTrafficStyle.getTrafficStyle(this.traffic));
+        olTrafficFeature.setStyle(OlTrafficStyle.getTrafficStyle(this.traffic, this.altitudeUnit));
         olTrafficFeature.setGeometry(OlGeometry.fromPoint(this.traffic.getCurrentPosition().position));
         trafficLayer.addFeature(olTrafficFeature);
 
