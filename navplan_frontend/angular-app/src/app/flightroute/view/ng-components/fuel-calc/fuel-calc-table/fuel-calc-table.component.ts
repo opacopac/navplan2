@@ -23,8 +23,9 @@ export class FuelCalcTableComponent implements OnInit, OnChanges {
     @Input() set routeFuel(value: RouteFuel) {
         this.fuelDataSource = this.calcFuelDataSource(value);
     }
-    public fuelDataSource: FuelDataSourceRow[] = [];
-    public Number = Number;
+
+    @Input() fuelUnit: VolumeUnit;
+    protected fuelDataSource: FuelDataSourceRow[] = [];
 
 
     constructor() {
@@ -52,7 +53,7 @@ export class FuelCalcTableComponent implements OnInit, OnChanges {
 
     public formatFuel(fuel: Volume): string {
         if (fuel) {
-            return '' + Math.ceil(fuel.getValue(VolumeUnit.L)); // TODO
+            return '' + Math.ceil(fuel.getValue(this.fuelUnit));
         } else {
             return '';
         }
@@ -93,6 +94,6 @@ export class FuelCalcTableComponent implements OnInit, OnChanges {
 
 
     private createFuelDataSourceRow(title: string, time: Time, fuel: Volume, isBlock = false): FuelDataSourceRow {
-        return { title: title, time: time, fuel: fuel, isBlock: isBlock };
+        return {title: title, time: time, fuel: fuel, isBlock: isBlock};
     }
 }

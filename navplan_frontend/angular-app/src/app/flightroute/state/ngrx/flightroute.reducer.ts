@@ -10,9 +10,7 @@ import {createReducer, on} from '@ngrx/store';
 import {SharedFlightRouteActions} from './shared-flight-route.actions';
 import {WaypointActions} from './waypoints.actions';
 import {ArrayHelper} from '../../../system/domain/service/array/array-helper';
-import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-unit';
 import {SpeedUnit} from '../../../geo-physics/domain/model/quantities/speed-unit';
-import {VolumeUnit} from '../../../geo-physics/domain/model/quantities/volume-unit';
 import {ConsumptionUnit} from '../../../geo-physics/domain/model/quantities/consumption-unit';
 import {FlightrouteActions} from './flightroute.actions';
 import {FlightrouteListActions} from './flightroute-list.actions';
@@ -25,19 +23,14 @@ const initialState: FlightrouteState = {
         '',
         '',
         new Aircraft(
-            new Speed(100, SpeedUnit.KT),
-            new Consumption(20, ConsumptionUnit.L_PER_H)
+            new Speed(100, SpeedUnit.KT), // TODO: initial values from default aircraft
+            new Consumption(25, ConsumptionUnit.L_PER_H)
         ),
         [],
         undefined,
         new Time(0, TimeUnit.M)
     ),
-    showShareId: undefined,
-    distanceUnit: LengthUnit.NM,
-    speedUnit: SpeedUnit.KT,
-    altitudeUnit: LengthUnit.FT,
-    fuelUnit: VolumeUnit.L,
-    consumptionUnit: ConsumptionUnit.L_PER_H
+    showShareId: undefined
 };
 
 
@@ -90,7 +83,7 @@ export const flightRouteReducer = createReducer(
 
     on(FlightrouteActions.updateExtraTime, (state, action) => {
         const newFlightroute = state.flightroute.clone();
-        newFlightroute.extraTime = new Time(action.extraTimeMinutesValue, TimeUnit.M);
+        newFlightroute.extraTime = action.extraTime;
         FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
         return {
             ...state,
@@ -100,7 +93,7 @@ export const flightRouteReducer = createReducer(
 
     on(FlightrouteActions.updateAircraftSpeed, (state, action) => {
         const newAircraft = state.flightroute.aircraft.clone();
-        newAircraft.speed = new Speed(action.aircraftSpeedValue, state.speedUnit);
+        newAircraft.speed = action.aircraftSpeed;
         const newFlightroute = state.flightroute.clone();
         newFlightroute.aircraft = newAircraft;
         FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
@@ -112,7 +105,7 @@ export const flightRouteReducer = createReducer(
 
     on(FlightrouteActions.updateAircraftConsumption, (state, action) => {
         const newAircraft = state.flightroute.aircraft.clone();
-        newAircraft.consumption = new Consumption(action.aircraftConsumptionValue, state.consumptionUnit);
+        newAircraft.consumption = action.aircraftConsumption;
         const newFlightroute = state.flightroute.clone();
         newFlightroute.aircraft = newAircraft;
         FlightrouteCalcHelper.calcFlightRoute(newFlightroute);

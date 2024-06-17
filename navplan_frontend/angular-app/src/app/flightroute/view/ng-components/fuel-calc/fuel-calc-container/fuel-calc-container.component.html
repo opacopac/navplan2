@@ -1,32 +1,13 @@
-<form class="fuel-form" [formGroup]="fuelForm">
-    <!-- aircraft consumption -->
-    <mat-form-field appearance="outline" color="accent">
-        <mat-label>Fuel Consumption</mat-label>
-        <input matInput
-               #aircraftConsumption
-               type="number"
-               formControlName="aircraftConsumption"
-               maxlength="3"
-               size="3"
-               (input)="this.aircraftConsumption$.next(Number(aircraftConsumption.value))">
-        <span matSuffix>l/h</span>
-    </mat-form-field>
-
-    <!-- extra time -->
-    <mat-form-field appearance="outline" color="accent">
-        <mat-label>Extra Time</mat-label>
-        <input matInput
-               #extraTime
-               type="number"
-               formControlName="extraTime"
-               maxlength="3"
-               size="3"
-               (input)="this.extraTime$.next(Number(extraTime.value))">
-        <span matSuffix>min</span>
-    </mat-form-field>
-</form>
-
-<!-- fuel calc table -->
+<app-fuel-calc-input-fields
+    [aircraftConsumption]="this.aircraftConsumption$ | async"
+    [consumptionUnit]="this.consumptionUnit$ | async"
+    [extraTime]="this.extraTime$ | async"
+    (aircraftConsumptionChange)="this.onAircraftConsumptionChange($event)"
+    (extraTimeChange)="this.onExtraTimeChange($event)"
+>
+</app-fuel-calc-input-fields>
 <app-fuel-calc-table
-    [routeFuel]="this.routeFuel$ | async">
+    [routeFuel]="this.routeFuel$ | async"
+    [fuelUnit]="this.fuelUnit$ | async"
+>
 </app-fuel-calc-table>

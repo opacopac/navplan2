@@ -1,5 +1,8 @@
 import {createAction, props} from '@ngrx/store';
 import {Flightroute} from '../../domain/model/flightroute';
+import {Time} from '../../../geo-physics/domain/model/quantities/time';
+import {Consumption} from '../../../geo-physics/domain/model/quantities/consumption';
+import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
 
 
 export class FlightrouteActions {
@@ -10,17 +13,17 @@ export class FlightrouteActions {
 
     public static readonly updateAircraftSpeed = createAction(
         '[Flightroute Page] Update aircraft speed',
-        props<{ aircraftSpeedValue: number }>()
+        props<{ aircraftSpeed: Speed }>()
     );
 
     public static readonly updateAircraftConsumption = createAction(
         '[Flightroute Page] Update aircraft consumption',
-        props<{ aircraftConsumptionValue: number }>()
+        props<{ aircraftConsumption: Consumption }>()
     );
 
     public static readonly updateExtraTime = createAction(
         '[Flightroute Page] Update extra time',
-        props<{ extraTimeMinutesValue: number }>()
+        props<{ extraTime: Time }>()
     );
 
     public static readonly updateTitle = createAction(

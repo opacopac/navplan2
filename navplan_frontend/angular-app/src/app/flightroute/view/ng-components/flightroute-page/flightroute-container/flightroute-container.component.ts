@@ -189,7 +189,7 @@ export class FlightrouteContainerComponent implements OnInit, OnDestroy {
         this.aircraftSpeedSubscription = this.aircraftSpeed$
             .pipe(debounceTime(500))
             .subscribe(speed => this.appStore.dispatch(
-                FlightrouteActions.updateAircraftSpeed({ aircraftSpeedValue: speed })
+                FlightrouteActions.updateAircraftSpeed({ aircraftSpeed: new Speed(speed, SpeedUnit.KT) }) // TODO: speed unit from settings
             ));
     }
 

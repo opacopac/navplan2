@@ -54,6 +54,9 @@ import {FuelCalcContainerComponent} from './ng-components/fuel-calc/fuel-calc-co
 import {FuelCalcTableComponent} from './ng-components/fuel-calc/fuel-calc-table/fuel-calc-table.component';
 import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.module';
 import {CommonViewModule} from '../../common/view/common-view.module';
+import {
+    FuelCalcInputFieldsComponent
+} from './ng-components/fuel-calc/fuel-calc-input-fields/fuel-calc-input-fields.component';
 
 
 @NgModule({
@@ -75,6 +78,14 @@ import {CommonViewModule} from '../../common/view/common-view.module';
         GeoPhysicsViewModule,
     ],
     declarations: [
+        EditWaypointDialogComponent,
+        EditWaypointFormComponent,
+        FlightrouteContainerComponent,
+        FlightrouteListComponent,
+        FlightrouteListDialogComponent,
+        FuelCalcContainerComponent,
+        FuelCalcTableComponent,
+        FuelCalcInputFieldsComponent,
         MapPopupWaypointButtonContainerComponent,
         MapPopupWaypointButtonAddToRouteComponent,
         MapPopupButtonEditWaypointComponent,
@@ -83,21 +94,15 @@ import {CommonViewModule} from '../../common/view/common-view.module';
         MapPopupWaypointButtonSetAlternateComponent,
         MapPopupWaypointHeaderComponent,
         MapPopupWaypointInfoTabComponent,
-        EditWaypointDialogComponent,
-        EditWaypointFormComponent,
-        FlightrouteContainerComponent,
-        FlightrouteListComponent,
-        FlightrouteListDialogComponent,
         WaypointListComponent,
-        FuelCalcContainerComponent,
-        FuelCalcTableComponent,
     ],
     exports: [
+        FlightrouteContainerComponent,
+        FuelCalcContainerComponent,
+        FuelCalcInputFieldsComponent,
         MapPopupWaypointButtonContainerComponent,
         MapPopupWaypointInfoTabComponent,
         MapPopupWaypointHeaderComponent,
-        FlightrouteContainerComponent,
-        FuelCalcContainerComponent
     ],
     providers: []
 })

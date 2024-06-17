@@ -4,27 +4,54 @@ import {ConsumptionUnit} from './consumption-unit';
 
 
 export class Consumption extends AbstractQuantity<Consumption, ConsumptionUnit> {
+    public static unitsAndDescriptions = [
+        [ ConsumptionUnit.L_PER_H, Consumption.getUnitString(ConsumptionUnit.L_PER_H) ],
+        [ ConsumptionUnit.GAL_PER_H, Consumption.getUnitString(ConsumptionUnit.GAL_PER_H) ],
+    ];
+
+
+    public static getUnitString(unit: ConsumptionUnit): string {
+        switch (unit) {
+            case ConsumptionUnit.L_PER_H:
+                return 'l/h';
+            case ConsumptionUnit.GAL_PER_H:
+                return 'gal/h';
+            default:
+                return '';
+        }
+    }
+
+
     public static convertConsumption(
         value: number,
         unit: ConsumptionUnit,
         convertToUnit: ConsumptionUnit): number {
-        if (unit === convertToUnit) { return value; }
-        if (value === undefined) { return undefined; }
+        if (unit === convertToUnit) {
+            return value;
+        }
+        if (value === undefined) {
+            return undefined;
+        }
 
         switch (unit) {
             case ConsumptionUnit.L_PER_H:
                 switch (convertToUnit) {
-                    case ConsumptionUnit.GAL_PER_H: return value / Volume.L_PER_GAL;
-                    default: return undefined;
+                    case ConsumptionUnit.GAL_PER_H:
+                        return value / Volume.L_PER_GAL;
+                    default:
+                        return undefined;
                 }
 
             case ConsumptionUnit.GAL_PER_H:
                 switch (convertToUnit) {
-                    case ConsumptionUnit.L_PER_H: return value * Volume.L_PER_GAL;
-                    default: return undefined;
+                    case ConsumptionUnit.L_PER_H:
+                        return value * Volume.L_PER_GAL;
+                    default:
+                        return undefined;
                 }
 
-            default: return undefined;
+            default:
+                return undefined;
         }
     }
 

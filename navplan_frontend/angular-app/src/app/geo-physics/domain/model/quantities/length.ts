@@ -7,6 +7,12 @@ export class Length extends AbstractQuantity<Length, LengthUnit> implements Clon
     public static readonly FT_PER_M = 3.2808;
     public static readonly M_PER_NM = 1852;
     public static readonly FT_PER_NM = Length.FT_PER_M * Length.M_PER_NM;
+    public static readonly unitsAndDescriptions = [
+        [LengthUnit.FT, Length.getUnitString(LengthUnit.FT)],
+        [LengthUnit.M, Length.getUnitString(LengthUnit.M)],
+        [LengthUnit.NM, Length.getUnitString(LengthUnit.NM)],
+        [LengthUnit.KM, Length.getUnitString(LengthUnit.KM)]
+    ];
 
 
     public static getUnitString(unit: LengthUnit): string {

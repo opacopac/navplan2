@@ -40,7 +40,7 @@
         (change)="this.onSpeedUnitSelected($event)"
     >
         <mat-radio-button
-            *ngFor="let entry of this.speedUnitValueAndDescription"
+            *ngFor="let entry of Speed.unitsAndDescriptions"
             value="{{ entry[0] }}}"
             [checked]="(this.selectedSpeedUnit$ | async) === entry[0]"
         >
@@ -56,7 +56,7 @@
         (change)="this.onVolumeUnitSelected($event)"
     >
         <mat-radio-button
-            *ngFor="let entry of this.fuelUnitValueAndDescription"
+            *ngFor="let entry of Volume.unitsAndDescriptions"
             value="{{ entry[0] }}}"
             [checked]="(this.selectedFuelUnit$ | async) === entry[0]"
         >

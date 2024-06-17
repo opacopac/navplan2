@@ -23,27 +23,17 @@ import {Volume} from '../../../domain/model/quantities/volume';
     styleUrls: ['./unit-settings.component.scss']
 })
 export class UnitSettingsComponent implements OnInit {
-    public readonly selectedAltitudeUnit$: Observable<LengthUnit> = this.appStore.pipe(select(getSelectedAltitudeUnit));
-    public readonly selectedDistanceUnit$: Observable<LengthUnit> = this.appStore.pipe(select(getSelectedDistanceUnit));
-    public readonly selectedSpeedUnit$: Observable<SpeedUnit> = this.appStore.pipe(select(getSelectedSpeedUnit));
-    public readonly selectedFuelUnit$: Observable<VolumeUnit> = this.appStore.pipe(select(getFuelUnit));
-    protected readonly altitudeUnitValueAndDescription = [
-        [LengthUnit.FT, Length.getUnitString(LengthUnit.FT)],
-        [LengthUnit.M, Length.getUnitString(LengthUnit.M)]
-    ];
-    protected readonly distanceUnitValueAndDescription = [
-        [LengthUnit.NM, Length.getUnitString(LengthUnit.NM)],
-        [LengthUnit.KM, Length.getUnitString(LengthUnit.KM)],
-        [LengthUnit.M, Length.getUnitString(LengthUnit.M)]
-    ];
-    protected readonly speedUnitValueAndDescription = [
-        [SpeedUnit.KT, Speed.getUnitString(SpeedUnit.KT)],
-        [SpeedUnit.KMH, Speed.getUnitString(SpeedUnit.KMH)],
-    ];
-    protected readonly fuelUnitValueAndDescription = [
-        [VolumeUnit.L, Volume.getUnitString(VolumeUnit.L)],
-        [VolumeUnit.GAL, Volume.getUnitString(VolumeUnit.GAL)]
-    ];
+    protected readonly selectedAltitudeUnit$: Observable<LengthUnit> = this.appStore.pipe(select(getSelectedAltitudeUnit));
+    protected readonly selectedDistanceUnit$: Observable<LengthUnit> = this.appStore.pipe(select(getSelectedDistanceUnit));
+    protected readonly selectedSpeedUnit$: Observable<SpeedUnit> = this.appStore.pipe(select(getSelectedSpeedUnit));
+    protected readonly selectedFuelUnit$: Observable<VolumeUnit> = this.appStore.pipe(select(getFuelUnit));
+    protected readonly Volume = Volume;
+    protected readonly Speed = Speed;
+    protected readonly Length = Length;
+    protected readonly altitudeUnitValueAndDescription = Length.unitsAndDescriptions
+        .filter(u => u[0] === LengthUnit.FT || u[0] === LengthUnit.M);
+    protected readonly distanceUnitValueAndDescription = Length.unitsAndDescriptions
+        .filter(u => u[0] === LengthUnit.NM || u[0] === LengthUnit.KM);
 
 
     constructor(private appStore: Store<any>) {

@@ -1,0 +1,29 @@
+<form class="fuel-form">
+    <!-- aircraft consumption -->
+    <mat-form-field appearance="outline" color="accent">
+        <mat-label>Fuel Consumption</mat-label>
+        <input matInput
+               #aircraftConsumptionInput
+               type="number"
+               maxlength="3"
+               size="3"
+               (input)="this.onAircraftConsumptionChange(aircraftConsumptionInput.value)"
+               [value]="this.aircraftConsumptionValue"
+        >
+        <span matSuffix>{{ Consumption.getUnitString(this.consumptionUnit) }}</span>
+    </mat-form-field>
+
+    <!-- extra time -->
+    <mat-form-field appearance="outline" color="accent">
+        <mat-label>Extra Time</mat-label>
+        <input matInput
+               #extraTimeInput
+               type="number"
+               maxlength="3"
+               size="3"
+               (input)="this.onExtraTimeChange(extraTimeInput.value)"
+               [value]="this.extraTimeValue"
+        >
+        <span matSuffix>min</span>
+    </mat-form-field>
+</form>

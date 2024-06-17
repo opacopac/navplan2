@@ -7,3 +7,4 @@ export const getSelectedAltitudeUnit = createSelector(getGeoPhysicsState, state 
 export const getSelectedDistanceUnit = createSelector(getGeoPhysicsState, state => state.distanceUnit);
 export const getSelectedSpeedUnit = createSelector(getGeoPhysicsState, state => state.speedUnit);
 export const getFuelUnit = createSelector(getGeoPhysicsState, state => state.fuelUnit);
+export const getConsumptionUnit = createSelector(getGeoPhysicsState, state => state.consumptionUnit);

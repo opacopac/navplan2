@@ -4,6 +4,12 @@ import {SpeedUnit} from './speed-unit';
 
 
 export class Speed extends AbstractQuantity<Speed, SpeedUnit> {
+    public static readonly unitsAndDescriptions = [
+        [SpeedUnit.KT, Speed.getUnitString(SpeedUnit.KT)],
+        [SpeedUnit.KMH, Speed.getUnitString(SpeedUnit.KMH)],
+    ];
+
+
     public static getUnitString(unit: SpeedUnit): string {
         switch (unit) {
             case SpeedUnit.KT: return 'kt';
