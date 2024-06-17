@@ -1,5 +1,5 @@
 <div class="main-container">
-    <mat-form-field appearance="fill" color="accent" class="max-radius-field">
+    <mat-form-field appearance="outline" color="accent" class="max-radius-field">
         <mat-label>Max. distance</mat-label>
         <input matInput
                #maxRadius
@@ -8,7 +8,7 @@
                size="3"
                [value]="String(this.maxRadiusValue$ | async)"
                (change)="this.onMaxRadiusChanged(Number(maxRadius.value))">
-        <span matSuffix>{{ this.maxRadiusUnit$ | async }}</span>
+        <span matTextSuffix>{{ this.maxRadiusUnit$ | async }}</span>
     </mat-form-field>
 
     <h3>Departure {{ this.startWp$ | async }}</h3>

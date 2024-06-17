@@ -52,7 +52,7 @@
                    size="3"
                    (input)="this.aircraftSpeed$.next(Number(aircraftSpeed.value))"
             />
-            <span matSuffix>kt</span>
+            <span matTextSuffix>kt</span>
             <mat-error *ngIf="this.flightrouteForm.controls.aircraftSpeed.invalid">Value must be a positive number!</mat-error>
         </mat-form-field>
     </div>
