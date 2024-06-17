@@ -1,8 +1,7 @@
 import {createAction, props} from '@ngrx/store';
-import {AltitudeUnit} from '../../domain/model/geometry/altitude-unit';
 import {LengthUnit} from '../../domain/model/quantities/length-unit';
-import {ConsumptionUnit} from '../../domain/model/quantities/consumption-unit';
 import {SpeedUnit} from '../../domain/model/quantities/speed-unit';
+import {VolumeUnit} from '../../domain/model/quantities/volume-unit';
 
 
 export class GeoPhysicsActions {
@@ -21,8 +20,8 @@ export class GeoPhysicsActions {
         props<{ speedUnit: SpeedUnit }>()
     );
 
-    public static readonly consumptionUnitSelected = createAction(
-        '[UnitSettings] Select consumption unit',
-        props<{ consumptionUnit: ConsumptionUnit }>()
+    public static readonly fuelUnitSelected = createAction(
+        '[UnitSettings] Select fuel unit',
+        props<{ fuelUnit: VolumeUnit }>()
     );
 }

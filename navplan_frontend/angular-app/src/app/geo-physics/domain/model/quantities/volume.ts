@@ -7,25 +7,46 @@ export class Volume extends AbstractQuantity<Volume, VolumeUnit> implements Clon
     public static readonly L_PER_GAL = 3.78541;
 
 
+    public static getUnitString(unit: VolumeUnit): string {
+        switch (unit) {
+            case VolumeUnit.L:
+                return 'l';
+            case VolumeUnit.GAL:
+                return 'gal';
+            default:
+                return '';
+        }
+    }
+
+
     public static convertVolume(
         value: number,
         unit: VolumeUnit,
         convertToUnit: VolumeUnit): number {
-        if (unit === convertToUnit) { return value; }
-        if (value === undefined) { return undefined; }
+        if (unit === convertToUnit) {
+            return value;
+        }
+        if (value === undefined) {
+            return undefined;
+        }
 
         switch (unit) {
             case VolumeUnit.L:
                 switch (convertToUnit) {
-                    case VolumeUnit.GAL: return value / Volume.L_PER_GAL;
-                    default: return undefined;
+                    case VolumeUnit.GAL:
+                        return value / Volume.L_PER_GAL;
+                    default:
+                        return undefined;
                 }
             case VolumeUnit.GAL:
                 switch (convertToUnit) {
-                    case VolumeUnit.L: return value * Volume.L_PER_GAL;
-                    default: return undefined;
+                    case VolumeUnit.L:
+                        return value * Volume.L_PER_GAL;
+                    default:
+                        return undefined;
                 }
-            default: return undefined;
+            default:
+                return undefined;
         }
     }
 

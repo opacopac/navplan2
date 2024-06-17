@@ -48,17 +48,17 @@
         </mat-radio-button>
     </mat-radio-group>
 
-    <!-- consumption -->
-    <label id="consumption-unit-group-label">Fuel Consumption Units</label>
+    <!-- fuel -->
+    <label id="consumption-unit-group-label">Fuel Units</label>
     <mat-radio-group
         aria-labelledby="consumption-unit-group-label"
         color="accent"
-        (change)="this.onConsumptionUnitSelected($event)"
+        (change)="this.onVolumeUnitSelected($event)"
     >
         <mat-radio-button
-            *ngFor="let entry of this.consumptionUnitValueAndDescription"
+            *ngFor="let entry of this.fuelUnitValueAndDescription"
             value="{{ entry[0] }}}"
-            [checked]="(this.selectedConsumptionUnit$ | async) === entry[0]"
+            [checked]="(this.selectedFuelUnit$ | async) === entry[0]"
         >
             {{ entry[1] }}
         </mat-radio-button>

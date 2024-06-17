@@ -1,4 +1,7 @@
+@use '@angular/material' as mat;
+
 .unit-settings-container {
     display: flex;
     flex-direction: column;
+    @include mat.table-density(-3);
 }
