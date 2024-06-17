@@ -8,7 +8,7 @@
                maxlength="3"
                size="3"
                (input)="this.onAircraftConsumptionChange(aircraftConsumptionInput.value)"
-               [value]="this.aircraftConsumptionValue"
+               [value]="this.getAircaftConsumptionString()"
         >
         <span matSuffix>{{ Consumption.getUnitString(this.consumptionUnit) }}</span>
     </mat-form-field>
@@ -22,7 +22,7 @@
                maxlength="3"
                size="3"
                (input)="this.onExtraTimeChange(extraTimeInput.value)"
-               [value]="this.extraTimeValue"
+               [value]="this.getExtraTimeString()"
         >
         <span matSuffix>min</span>
     </mat-form-field>

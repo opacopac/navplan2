@@ -10,21 +10,13 @@ import {Time} from '../../../../../geo-physics/domain/model/quantities/time';
     styleUrls: ['./fuel-calc-input-fields.component.scss']
 })
 export class FuelCalcInputFieldsComponent implements OnInit {
+    @Input() aircraftConsumption: Consumption;
     @Input() consumptionUnit: ConsumptionUnit;
-
-    @Input() set aircraftConsumption(value: Consumption) {
-        this.aircraftConsumptionValue = value && !value.isZero() ? value.getValue(this.consumptionUnit).toString() : '';
-    }
-
-    @Input() set extraTime(value: Time) {
-        this.extraTimeValue = value && !value.isZero() ? value.min.toString() : '';
-    }
+    @Input() extraTime: Time;
 
     @Output() aircraftConsumptionChange = new EventEmitter<Consumption>();
     @Output() extraTimeChange = new EventEmitter<Time>();
 
-    protected aircraftConsumptionValue: string;
-    protected extraTimeValue: string;
     protected readonly Consumption = Consumption;
 
 
@@ -33,6 +25,20 @@ export class FuelCalcInputFieldsComponent implements OnInit {
 
 
     ngOnInit() {
+    }
+
+
+    protected getAircaftConsumptionString(): string {
+        return this.aircraftConsumption && !this.aircraftConsumption.isZero()
+            ? this.aircraftConsumption.getValue(this.consumptionUnit).toString()
+            : '';
+    }
+
+
+    protected getExtraTimeString(): string {
+        return this.extraTime && !this.extraTime.isZero()
+            ? this.extraTime.getValue(TimeUnit.M).toString()
+            : '';
     }
 
 
