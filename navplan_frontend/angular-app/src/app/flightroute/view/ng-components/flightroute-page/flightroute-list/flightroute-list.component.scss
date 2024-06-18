@@ -1,7 +1,6 @@
 @use '@angular/material' as mat;
 
 .flightroute-list-container {
-    @include mat.table-density(-3);
 }
 
 
@@ -10,7 +9,6 @@ table {
 }
 
 .mat-mdc-form-field {
-    font-size: 14px;
     width: 100%;
 }
 

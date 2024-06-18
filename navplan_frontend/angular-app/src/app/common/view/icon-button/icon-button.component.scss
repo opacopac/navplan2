@@ -1,7 +1,6 @@
 @use '@angular/material' as mat;
 
 .button-container {
-    @include mat.icon-button-density(-3);
 }
 
 .icon-button {

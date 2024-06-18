@@ -2,11 +2,9 @@
 
 .waypoints-table {
     width: 100%;
-    @include mat.table-density(-3);
 }
 
 .delete-icon-container {
-    @include mat.icon-button-density(-3);
 }
 
 .fa-trash {

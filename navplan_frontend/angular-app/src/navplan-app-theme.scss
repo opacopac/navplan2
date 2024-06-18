@@ -43,7 +43,7 @@ $grey-palette: (
     )
 );
 
-$dark-secondary-text: rgba(#333333, 0.87);
+/*$dark-secondary-text: rgba(#333333, 0.87);
 $light-secondary-text: white;
 
 $blue-grey-palette: (
@@ -77,7 +77,7 @@ $blue-grey-palette: (
         A400: $light-secondary-text,
         A700: $light-secondary-text,
     )
-);
+);*/
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
@@ -85,10 +85,8 @@ $blue-grey-palette: (
 //$candy-app-primary: mat.define-palette(mat.$indigo-palette);
 //$candy-app-accent: mat.define-palette(mat.$blue-gray-palette);
 
-//$navplan-app-primary: mat.define-palette(mat.$pink-palette);
-//$navplan-app-accent: mat.define-palette(mat.$orange-palette);
 $navplan-app-primary: mat.define-palette($grey-palette, 100, 100, 700);
-$navplan-app-accent: mat.define-palette($blue-grey-palette, 700, 400, 800);
+$navplan-app-accent: mat.define-palette(mat.$blue-grey-palette, 700, 400, 800);
 
 // The warn palette is optional (defaults to red).
 $navplan-app-warn: mat.define-palette(mat.$red-palette);
@@ -108,14 +106,16 @@ $navplan-app-theme-dense: mat.define-light-theme((
         accent: $navplan-app-accent,
         warn: $navplan-app-warn,
     ),
-    density: 0
+    density: -3
 ));
 
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include mat.all-component-themes($navplan-app-theme-dense);
-@include mat.button-theme($navplan-app-theme);
-@include mat.icon-theme($navplan-app-theme);
-@include mat.tabs-theme($navplan-app-theme);
+@include mat.all-component-themes($navplan-app-theme);
+@include mat.form-field-theme($navplan-app-theme-dense);
+@include mat.table-theme($navplan-app-theme-dense);
+@include mat.icon-button-theme($navplan-app-theme-dense);
+@include mat.radio-theme($navplan-app-theme-dense);
+@include mat.checkbox-theme($navplan-app-theme-dense);
