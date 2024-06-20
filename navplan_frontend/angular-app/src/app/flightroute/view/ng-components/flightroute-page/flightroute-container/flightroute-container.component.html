@@ -1,43 +1,15 @@
 <form class="flightroute-form" [formGroup]="flightrouteForm">
-    <div class="flex-row">
-        <!-- flightroute name  -->
-        <mat-form-field appearance="outline" color="accent">
-            <mat-label>Route Name</mat-label>
-            <input matInput
-                   #routeName
-                   type="text"
-                   maxlength="50"
-                   formControlName="flightrouteName"
-                   (input)="this.routeName$.next(routeName.value)"
-            />
-        </mat-form-field>
-
-        <!-- load / save / save copy buttons -->
-        <button mat-mini-fab
-                color="accent"
-                class="inline-button button-load"
-                matTooltip="Load Route"
-                [disabled]="!(this.currentUser$ | async)"
-                (click)="this.onLoadFlightrouteClick()">
-            <i class="fa-solid fa-folder-open"></i>
-        </button>
-        <button mat-mini-fab
-                color="accent"
-                class="inline-button button-save"
-                matTooltip="Save Route"
-                [disabled]="!(this.currentUser$ | async) || !(routeName.value && routeName.value.length > 0)"
-                (click)="this.onSaveFlightrouteClick()">
-            <i class="fa-solid fa-download"></i>
-        </button>
-        <button mat-mini-fab
-                color="accent"
-                class="inline-button button-copy"
-                matTooltip="Save Copy of Route"
-                [disabled]="!(this.currentUser$ | async) || !(routeName.value && routeName.value.length > 0) || !((this.loadedFlightrouteId$ | async) > 0)"
-                (click)="this.onSaveFlightrouteCopyClick()">
-            <i class="fa-solid fa-copy"></i>
-        </button>
-    </div>
+    <!-- flighroute name / load / save / save copy buttons -->
+    <app-flightroute-name-load-save
+        [flightrouteName]="this.flightrouteName$ | async"
+        [flightrouteId]="this.flightrouteId$ | async"
+        [isUserLoggedIn]="this.isUserLoggedIn$ | async"
+        (flightrouteNameChange)="this.onFlightrouteNameChanged($event)"
+        (loadFlightrouteClick)="this.onLoadFlightrouteClick()"
+        (saveFlightrouteClick)="this.onSaveFlightrouteClick()"
+        (saveFlightrouteCopyClick)="this.onSaveFlightrouteCopyClick()"
+    >
+    </app-flightroute-name-load-save>
 
     <!-- aircraft speed -->
     <div>
@@ -50,32 +22,39 @@
                    formControlName="aircraftSpeed"
                    maxlength="3"
                    size="3"
-                   (input)="this.aircraftSpeed$.next(Number(aircraftSpeed.value))"
+                   [value]="(this.aircraftSpeed$ | async).value"
+                   (input)="this.onAircraftSpeedChanged(aircraftSpeed.value)"
             />
             <span matTextSuffix>kt</span>
-            <mat-error *ngIf="this.flightrouteForm.controls.aircraftSpeed.invalid">Value must be a positive number!</mat-error>
+            <mat-error *ngIf="this.flightrouteForm.controls.aircraftSpeed.invalid">
+                Value must be a positive number!
+            </mat-error>
         </mat-form-field>
     </div>
 
     <!-- waypoint list -->
     <app-waypoint-list
-            [flightroute]="this.loadedFlightroute$ | async"
-            (onEditWaypointClick)="this.onEditWaypointClick($event)"
-            (onRemoveWaypointClick)="this.onRemoveWaypointClick($event)"
-            (onReverseWaypointsClick)="this.onReverseWaypointsClick()">
+        [flightroute]="this.loadedFlightroute$ | async"
+        (onEditWaypointClick)="this.onEditWaypointClick($event)"
+        (onRemoveWaypointClick)="this.onRemoveWaypointClick($event)"
+        (onReverseWaypointsClick)="this.onReverseWaypointsClick()"
+    >
     </app-waypoint-list>
 
     <!-- comments -->
-    <mat-form-field appearance="outline" class="route-comments">
+    <mat-form-field appearance="outline" color="accent" class="route-comments">
         <mat-label>Comments</mat-label>
-        <textarea matInput
-                  #routeComments
-                  formControlName="flightrouteComments"
-                  cdkTextareaAutosize
-                  cdkAutosizeMinRows="3"
-                  cdkAutosizeMaxRows="6"
-                  maxlength="2048"
-                  (input)="this.routeComments$.next(routeComments.value)">
+        <textarea
+            matInput
+            #routeComments
+            formControlName="flightrouteComments"
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="3"
+            cdkAutosizeMaxRows="6"
+            maxlength="2048"
+            [value]="this.routeComments$ | async"
+            (input)="this.onFlightrouteCommentsChanged(routeComments.value)"
+        >
         </textarea>
     </mat-form-field>
 </form>

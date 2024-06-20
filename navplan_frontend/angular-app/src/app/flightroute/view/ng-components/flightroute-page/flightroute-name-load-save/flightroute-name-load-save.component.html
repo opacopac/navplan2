@@ -1,0 +1,47 @@
+<div class="flex-row">
+    <!-- flightroute name  -->
+    <mat-form-field appearance="outline" color="accent">
+        <mat-label>Route Name</mat-label>
+        <input
+            matInput
+            #routeName
+            required
+            type="text"
+            maxlength="50"
+            [value]="this.flightrouteName"
+            (input)="this.onFlightrouteNameChange(routeName.value)"
+        />
+    </mat-form-field>
+
+    <!-- load / save / save copy buttons -->
+    <button
+        mat-mini-fab
+        color="accent"
+        class="inline-button button-load"
+        matTooltip="Load Route"
+        [disabled]="!this.isLoadButtonEnabled()"
+        (click)="this.onLoadFlightrouteClick()"
+    >
+        <i class="fa-solid fa-folder-open"></i>
+    </button>
+    <button
+        mat-mini-fab
+        color="accent"
+        class="inline-button button-save"
+        matTooltip="Save Route"
+        [disabled]="!this.isSaveButtonEnabled()"
+        (click)="this.onSaveFlightrouteClick()"
+    >
+        <i class="fa-solid fa-download"></i>
+    </button>
+    <button
+        mat-mini-fab
+        color="accent"
+        class="inline-button button-copy"
+        matTooltip="Save Copy of Route"
+        [disabled]="!this.isSaveCopyButtonEnabled()"
+        (click)="this.onSaveFlightrouteCopyClick()"
+    >
+        <i class="fa-solid fa-copy"></i>
+    </button>
+</div>

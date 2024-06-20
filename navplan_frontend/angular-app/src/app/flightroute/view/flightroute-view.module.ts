@@ -57,6 +57,9 @@ import {CommonViewModule} from '../../common/view/common-view.module';
 import {
     FuelCalcInputFieldsComponent
 } from './ng-components/fuel-calc/fuel-calc-input-fields/fuel-calc-input-fields.component';
+import {
+    FlightrouteNameLoadSaveComponent
+} from './ng-components/flightroute-page/flightroute-name-load-save/flightroute-name-load-save.component';
 
 
 @NgModule({
@@ -83,6 +86,7 @@ import {
         FlightrouteContainerComponent,
         FlightrouteListComponent,
         FlightrouteListDialogComponent,
+        FlightrouteNameLoadSaveComponent,
         FuelCalcContainerComponent,
         FuelCalcTableComponent,
         FuelCalcInputFieldsComponent,
