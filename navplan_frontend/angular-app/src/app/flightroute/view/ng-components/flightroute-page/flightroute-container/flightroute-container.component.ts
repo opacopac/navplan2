@@ -25,11 +25,11 @@ import {getSelectedSpeedUnit} from '../../../../../geo-physics/state/ngrx/geo-ph
 export class FlightrouteContainerComponent implements OnInit {
     protected readonly currentUser$ = this.appStore.pipe(select(getCurrentUser));
     protected readonly isUserLoggedIn$ = this.currentUser$.pipe(map(user => user != null));
-    protected readonly loadedFlightroute$ = this.appStore.pipe(select(getFlightroute));
-    protected readonly flightrouteName$ = this.loadedFlightroute$.pipe(map(flightroute => flightroute.title));
-    protected readonly flightrouteId$ = this.loadedFlightroute$.pipe(map(flightroute => flightroute.id));
-    protected readonly routeComments$ = this.loadedFlightroute$.pipe(map(flightroute => flightroute.comments));
-    protected readonly aircraftSpeed$ = this.loadedFlightroute$.pipe(map(flightroute => flightroute.aircraft.speed));
+    protected readonly currentFlightroute$ = this.appStore.pipe(select(getFlightroute));
+    protected readonly flightrouteName$ = this.currentFlightroute$.pipe(map(flightroute => flightroute.title));
+    protected readonly flightrouteId$ = this.currentFlightroute$.pipe(map(flightroute => flightroute.id));
+    protected readonly routeComments$ = this.currentFlightroute$.pipe(map(flightroute => flightroute.comments));
+    protected readonly aircraftSpeed$ = this.currentFlightroute$.pipe(map(flightroute => flightroute.aircraft.speed));
     protected readonly speedUnit$ = this.appStore.pipe(select(getSelectedSpeedUnit));
     public flightrouteForm: FormGroup;
     public Number = Number;
