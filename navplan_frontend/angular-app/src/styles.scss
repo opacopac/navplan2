@@ -50,8 +50,24 @@ iframe {
 
 /* region FORMS */
 
+// vertically center text in mat input element
 input.mat-mdc-input-element {
     line-height: 24px !important;
+}
+
+
+// hide arrows in number input field
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+// hide arrows in number input field
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
 }
 
 /* endregion */
