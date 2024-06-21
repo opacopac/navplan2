@@ -1,5 +1,4 @@
-<form class="flightroute-form">
-    <!-- flighroute name / load / save -->
+<div class="flightroute-form">
     <app-flightroute-name-load-save
         [flightrouteName]="this.flightrouteName$ | async"
         [flightrouteId]="this.flightrouteId$ | async"
@@ -10,14 +9,12 @@
         (saveFlightrouteCopyClick)="this.onSaveFlightrouteCopyClick()"
     />
 
-    <!-- aircraft speed -->
     <app-flightroute-aircraft-speed
         [speedUnit]="this.speedUnit$ | async"
         [aircraftSpeed]="this.aircraftSpeed$ | async"
         (aircraftSpeedChanged)="this.onAircraftSpeedChanged($event)"
     />
 
-    <!-- waypoint list -->
     <app-waypoint-list
         [flightroute]="this.currentFlightroute$ | async"
         (onEditWaypointClick)="this.onEditWaypointClick($event)"
@@ -25,20 +22,8 @@
         (onReverseWaypointsClick)="this.onReverseWaypointsClick()"
     />
 
-    <!-- comments -->
-    <mat-form-field appearance="outline" color="accent" class="route-comments">
-        <mat-label>Comments</mat-label>
-        <textarea
-            matInput
-            #routeComments
-            formControlName="flightrouteComments"
-            cdkTextareaAutosize
-            cdkAutosizeMinRows="3"
-            cdkAutosizeMaxRows="6"
-            maxlength="2048"
-            [value]="this.routeComments$ | async"
-            (input)="this.onFlightrouteCommentsChanged(routeComments.value)"
-        >
-        </textarea>
-    </mat-form-field>
-</form>
+    <app-flightroute-comments
+        [routeComments]="this.routeComments$ | async"
+        (routeCommentsChanged)="this.onFlightrouteCommentsChanged($event)"
+    />
+</div>

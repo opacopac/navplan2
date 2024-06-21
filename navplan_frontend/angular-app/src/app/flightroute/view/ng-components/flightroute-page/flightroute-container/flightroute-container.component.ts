@@ -43,37 +43,32 @@ export class FlightrouteContainerComponent implements OnInit {
     }
 
 
-    public onFlightrouteNameChanged(name: string) {
+    protected onFlightrouteNameChanged(name: string) {
         this.appStore.dispatch(FlightrouteActions.updateTitle({title: name}));
     }
 
 
-    public onFlightrouteCommentsChanged(comments: string) {
-        this.appStore.dispatch(FlightrouteActions.updateComments({comments: comments}));
-    }
-
-
-    public onAircraftSpeedChanged(speed: Speed) {
+    protected onAircraftSpeedChanged(speed: Speed) {
         this.appStore.dispatch(FlightrouteActions.updateAircraftSpeed({aircraftSpeed: speed}));
     }
 
 
-    public onLoadFlightrouteClick() {
+    protected onLoadFlightrouteClick() {
         this.dialog.open(FlightrouteListDialogComponent);
     }
 
 
-    public onSaveFlightrouteClick() {
+    protected onSaveFlightrouteClick() {
         this.appStore.dispatch(FlightrouteCrudActions.save());
     }
 
 
-    public onSaveFlightrouteCopyClick() {
+    protected onSaveFlightrouteCopyClick() {
         this.appStore.dispatch(FlightrouteCrudActions.saveDuplicate());
     }
 
 
-    public onEditWaypointClick(editWaypoint: Waypoint) {
+    protected onEditWaypointClick(editWaypoint: Waypoint) {
         const dialogRef = this.dialog.open(EditWaypointDialogComponent, {
             // height: '800px',
             // width: '600px',
@@ -91,14 +86,19 @@ export class FlightrouteContainerComponent implements OnInit {
     }
 
 
-    public onRemoveWaypointClick(waypoint: Waypoint) {
+    protected onRemoveWaypointClick(waypoint: Waypoint) {
         this.appStore.dispatch(WaypointActions.delete({
             waypoint: waypoint
         }));
     }
 
 
-    public onReverseWaypointsClick() {
+    protected onReverseWaypointsClick() {
         this.appStore.dispatch(WaypointActions.reverse());
+    }
+
+
+    protected onFlightrouteCommentsChanged(comments: string) {
+        this.appStore.dispatch(FlightrouteActions.updateComments({comments: comments}));
     }
 }

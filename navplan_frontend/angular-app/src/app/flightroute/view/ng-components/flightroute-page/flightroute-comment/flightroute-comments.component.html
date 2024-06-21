@@ -1,0 +1,15 @@
+<div class="flex-row route-comments">
+    <mat-form-field appearance="outline" color="accent">
+        <mat-label>Comments</mat-label>
+        <textarea
+            matInput
+            #routeCommentsInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="3"
+            cdkAutosizeMaxRows="6"
+            maxlength="1024"
+            [value]="this.routeComments"
+            (input)="this.onRouteCommentsChanged(routeCommentsInput.value)"
+        ></textarea>
+    </mat-form-field>
+</div>

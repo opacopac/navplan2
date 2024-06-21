@@ -63,6 +63,9 @@ import {
 import {
     FlightrouteAircraftSpeedComponent
 } from './ng-components/flightroute-page/flightroute-aircraft-speed/flightroute-aircraft-speed.component';
+import {
+    FlightrouteCommentsComponent
+} from './ng-components/flightroute-page/flightroute-comment/flightroute-comments.component';
 
 
 @NgModule({
@@ -87,10 +90,11 @@ import {
         EditWaypointDialogComponent,
         EditWaypointFormComponent,
         FlightrouteContainerComponent,
+        FlightrouteAircraftSpeedComponent,
+        FlightrouteCommentsComponent,
         FlightrouteListComponent,
         FlightrouteListDialogComponent,
         FlightrouteNameLoadSaveComponent,
-        FlightrouteAircraftSpeedComponent,
         FuelCalcContainerComponent,
         FuelCalcTableComponent,
         FuelCalcInputFieldsComponent,
