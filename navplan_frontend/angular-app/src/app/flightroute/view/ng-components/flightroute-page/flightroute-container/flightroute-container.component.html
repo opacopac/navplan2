@@ -15,7 +15,7 @@
         (aircraftSpeedChanged)="this.onAircraftSpeedChanged($event)"
     />
 
-    <app-waypoint-list
+    <app-flightroute-waypoint-list
         [flightroute]="this.currentFlightroute$ | async"
         (onEditWaypointClick)="this.onEditWaypointClick($event)"
         (onRemoveWaypointClick)="this.onRemoveWaypointClick($event)"
