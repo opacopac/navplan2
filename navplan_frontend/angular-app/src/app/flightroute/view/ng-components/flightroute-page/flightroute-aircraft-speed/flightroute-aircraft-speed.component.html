@@ -1,0 +1,20 @@
+<div>
+    <mat-form-field appearance="outline" color="accent">
+        <mat-label>Ground Speed</mat-label>
+        <input
+            matInput
+            #aircraftSpeed
+            required
+            type="number"
+            formControlName="aircraftSpeed"
+            maxlength="3"
+            size="3"
+            [value]="this.getAircraftSpeedValue()"
+            (input)="this.onAircraftSpeedChanged(aircraftSpeed.value)"
+        />
+        <span matTextSuffix>{{ Speed.getUnitString(this.speedUnit) }}</span>
+        <mat-error *ngIf="this.isValidAircraftSpeed(aircraftSpeed.value)">
+            Value must be a positive number!
+        </mat-error>
+    </mat-form-field>
+</div>

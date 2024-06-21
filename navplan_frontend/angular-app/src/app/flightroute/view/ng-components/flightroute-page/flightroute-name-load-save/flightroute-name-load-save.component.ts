@@ -20,37 +20,44 @@ export class FlightrouteNameLoadSaveComponent implements OnInit {
     }
 
 
-    public isLoadButtonEnabled(): boolean {
+    protected isLoadButtonEnabled(): boolean {
         return this.isUserLoggedIn;
     }
 
 
-    public isSaveButtonEnabled(): boolean {
+    protected isSaveButtonEnabled(): boolean {
         return this.isUserLoggedIn && this.flightrouteName.length > 0;
     }
 
 
-    public isSaveCopyButtonEnabled(): boolean {
+    protected isSaveCopyButtonEnabled(): boolean {
         return this.isSaveButtonEnabled() && this.flightrouteId > 0;
     }
 
 
-    public onFlightrouteNameChange(name: string) {
-        this.flightrouteNameChange.emit(name);
+    protected onFlightrouteNameChange(name: string) {
+        if (this.isValidFlightrouteName(name)) {
+            this.flightrouteNameChange.emit(name);
+        }
     }
 
 
-    public onLoadFlightrouteClick() {
+    protected onLoadFlightrouteClick() {
         this.loadFlightrouteClick.emit();
     }
 
 
-    public onSaveFlightrouteClick() {
+    protected onSaveFlightrouteClick() {
         this.saveFlightrouteClick.emit();
     }
 
 
-    public onSaveFlightrouteCopyClick() {
+    protected onSaveFlightrouteCopyClick() {
         this.saveFlightrouteCopyClick.emit();
+    }
+
+
+    protected isValidFlightrouteName(value: string) {
+        return value && value.length > 0 && value.length <= 50;
     }
 }

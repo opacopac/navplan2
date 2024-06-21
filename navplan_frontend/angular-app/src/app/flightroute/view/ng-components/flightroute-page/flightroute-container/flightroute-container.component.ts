@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {select, Store} from '@ngrx/store';
 import {map} from 'rxjs/operators';
@@ -12,7 +11,6 @@ import {EditWaypointDialogComponent} from '../edit-waypoint-dialog/edit-waypoint
 import {FlightrouteListActions} from '../../../../state/ngrx/flightroute-list.actions';
 import {FlightrouteCrudActions} from '../../../../state/ngrx/flightroute-crud.actions';
 import {WaypointActions} from '../../../../state/ngrx/waypoints.actions';
-import {SpeedUnit} from '../../../../../geo-physics/domain/model/quantities/speed-unit';
 import {FlightrouteActions} from '../../../../state/ngrx/flightroute.actions';
 import {getSelectedSpeedUnit} from '../../../../../geo-physics/state/ngrx/geo-physics.selectors';
 
@@ -31,17 +29,12 @@ export class FlightrouteContainerComponent implements OnInit {
     protected readonly routeComments$ = this.currentFlightroute$.pipe(map(flightroute => flightroute.comments));
     protected readonly aircraftSpeed$ = this.currentFlightroute$.pipe(map(flightroute => flightroute.aircraft.speed));
     protected readonly speedUnit$ = this.appStore.pipe(select(getSelectedSpeedUnit));
-    public flightrouteForm: FormGroup;
-    public Number = Number;
-    public console = console;
 
 
     constructor(
         private appStore: Store<any>,
-        private formBuilder: FormBuilder,
         private dialog: MatDialog,
     ) {
-        this.initForm();
     }
 
 
@@ -60,8 +53,7 @@ export class FlightrouteContainerComponent implements OnInit {
     }
 
 
-    public onAircraftSpeedChanged(speedValue: string) {
-        const speed = new Speed(parseInt(speedValue, 10), SpeedUnit.KT); // TODO
+    public onAircraftSpeedChanged(speed: Speed) {
         this.appStore.dispatch(FlightrouteActions.updateAircraftSpeed({aircraftSpeed: speed}));
     }
 
@@ -108,16 +100,5 @@ export class FlightrouteContainerComponent implements OnInit {
 
     public onReverseWaypointsClick() {
         this.appStore.dispatch(WaypointActions.reverse());
-    }
-
-
-    private initForm() {
-        this.flightrouteForm = this.formBuilder.group({
-            'loadedFlightrouteId': -1,
-            'flightrouteName': ['', Validators.maxLength(50)],
-            'aircraftSpeed': ['', [Validators.required, Validators.maxLength(3)]],
-            'aircraftConsumption': ['', [Validators.required, Validators.maxLength(2)]],
-            'flightrouteComments': ['', [Validators.maxLength(2048)]]
-        });
     }
 }

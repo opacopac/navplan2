@@ -1,5 +1,5 @@
-<form class="flightroute-form" [formGroup]="flightrouteForm">
-    <!-- flighroute name / load / save / save copy buttons -->
+<div class="flightroute-form">
+    <!-- flighroute name / load / save -->
     <app-flightroute-name-load-save
         [flightrouteName]="this.flightrouteName$ | async"
         [flightrouteId]="this.flightrouteId$ | async"
@@ -8,29 +8,14 @@
         (loadFlightrouteClick)="this.onLoadFlightrouteClick()"
         (saveFlightrouteClick)="this.onSaveFlightrouteClick()"
         (saveFlightrouteCopyClick)="this.onSaveFlightrouteCopyClick()"
-    >
-    </app-flightroute-name-load-save>
+    />
 
     <!-- aircraft speed -->
-    <div>
-        <!-- aircraft speed -->
-        <mat-form-field appearance="outline" color="accent">
-            <mat-label>Ground Speed</mat-label>
-            <input matInput
-                   #aircraftSpeed
-                   type="number"
-                   formControlName="aircraftSpeed"
-                   maxlength="3"
-                   size="3"
-                   [value]="(this.aircraftSpeed$ | async).value"
-                   (input)="this.onAircraftSpeedChanged(aircraftSpeed.value)"
-            />
-            <span matTextSuffix>kt</span>
-            <mat-error *ngIf="this.flightrouteForm.controls.aircraftSpeed.invalid">
-                Value must be a positive number!
-            </mat-error>
-        </mat-form-field>
-    </div>
+    <app-flightroute-aircraft-speed
+        [speedUnit]="this.speedUnit$ | async"
+        [aircraftSpeed]="this.aircraftSpeed$ | async"
+        (aircraftSpeedChanged)="this.onAircraftSpeedChanged($event)"
+    />
 
     <!-- waypoint list -->
     <app-waypoint-list
@@ -38,8 +23,7 @@
         (onEditWaypointClick)="this.onEditWaypointClick($event)"
         (onRemoveWaypointClick)="this.onRemoveWaypointClick($event)"
         (onReverseWaypointsClick)="this.onReverseWaypointsClick()"
-    >
-    </app-waypoint-list>
+    />
 
     <!-- comments -->
     <mat-form-field appearance="outline" color="accent" class="route-comments">
@@ -57,4 +41,4 @@
         >
         </textarea>
     </mat-form-field>
-</form>
+</div>
