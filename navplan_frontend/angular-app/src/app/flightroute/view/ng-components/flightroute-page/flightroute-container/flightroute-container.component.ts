@@ -22,7 +22,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
     styleUrls: ['./flightroute-container.component.scss']
 })
 export class FlightrouteContainerComponent implements OnInit {
-    public flightrouteForm: FormGroup;
+    public flightrouteForm!: FormGroup;
 
     protected readonly currentUser$ = this.appStore.pipe(select(getCurrentUser));
     protected readonly isUserLoggedIn$ = this.currentUser$.pipe(map(user => user != null));

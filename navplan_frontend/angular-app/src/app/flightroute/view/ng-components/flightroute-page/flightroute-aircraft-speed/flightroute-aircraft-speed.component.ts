@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Speed} from '../../../../../geo-physics/domain/model/quantities/speed';
 import {SpeedUnit} from '../../../../../geo-physics/domain/model/quantities/speed-unit';
-import {FormGroupDirective} from '@angular/forms';
+import {FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
 
 
 @Component({
@@ -14,7 +14,7 @@ export class FlightrouteAircraftSpeedComponent implements OnInit {
     @Input() public speedUnit: SpeedUnit;
     @Output() public aircraftSpeedChanged = new EventEmitter<Speed>();
 
-    public aircraftSpeedForm: any;
+    public aircraftSpeedForm: FormGroup;
 
     protected readonly Speed = Speed;
 
@@ -25,9 +25,9 @@ export class FlightrouteAircraftSpeedComponent implements OnInit {
 
     ngOnInit() {
         this.aircraftSpeedForm = this.parentForm.form;
-        /*this.aircraftSpeedForm.addControl(
-            'aircraftSpeedInput', new FormControl('', [Validators.required, Validators.min(1)])
-        );*/
+        this.aircraftSpeedForm.addControl(
+            'aircraftSpeedInput', new FormControl(null, [Validators.required, Validators.min(1)])
+        );
     }
 
 
