@@ -13,6 +13,7 @@ import {FlightrouteCrudActions} from '../../../../state/ngrx/flightroute-crud.ac
 import {WaypointActions} from '../../../../state/ngrx/waypoints.actions';
 import {FlightrouteActions} from '../../../../state/ngrx/flightroute.actions';
 import {getSelectedSpeedUnit} from '../../../../../geo-physics/state/ngrx/geo-physics.selectors';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 
 @Component({
@@ -21,6 +22,8 @@ import {getSelectedSpeedUnit} from '../../../../../geo-physics/state/ngrx/geo-ph
     styleUrls: ['./flightroute-container.component.scss']
 })
 export class FlightrouteContainerComponent implements OnInit {
+    public flightrouteForm: FormGroup;
+
     protected readonly currentUser$ = this.appStore.pipe(select(getCurrentUser));
     protected readonly isUserLoggedIn$ = this.currentUser$.pipe(map(user => user != null));
     protected readonly currentFlightroute$ = this.appStore.pipe(select(getFlightroute));
@@ -34,11 +37,14 @@ export class FlightrouteContainerComponent implements OnInit {
     constructor(
         private appStore: Store<any>,
         private dialog: MatDialog,
+        private formBuilder: FormBuilder
     ) {
     }
 
 
     ngOnInit() {
+        this.flightrouteForm = this.formBuilder.group({});
+
         this.appStore.dispatch(FlightrouteListActions.readList());
     }
 

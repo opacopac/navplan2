@@ -1,14 +1,7 @@
 @use '@angular/material' as mat;
 
 .waypoints-table {
-    width: 100%;
-}
-
-.delete-icon-container {
-}
-
-.fa-trash {
-    color: #dd0000;
+    /*width: 100%;*/
 }
 
 .fa-info-circle {
@@ -23,6 +16,10 @@ u {
     text-decoration: underline;
 }
 
+.even_row,
+.mat-mdc-header-cell {
+    background-color: rgb(249, 249, 249);
+}
 
 .supp_info_row {
     height: initial;
@@ -30,9 +27,9 @@ u {
 }
 
 .orig_dest_row {
-    background-color: #dbe3f0;
+    //background-color: #dbe3f0;
 }
 
 .alt_row {
-    background-color: #ffebcc;
+    background-color: #cccccc;
 }

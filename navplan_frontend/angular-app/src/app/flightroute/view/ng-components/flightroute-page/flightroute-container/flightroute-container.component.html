@@ -1,4 +1,4 @@
-<div class="flightroute-form">
+<form [formGroup]="flightrouteForm" class="flightroute-form">
     <app-flightroute-name-load-save
         [flightrouteName]="this.flightrouteName$ | async"
         [flightrouteId]="this.flightrouteId$ | async"
@@ -26,4 +26,4 @@
         [routeComments]="this.routeComments$ | async"
         (routeCommentsChanged)="this.onFlightrouteCommentsChanged($event)"
     />
-</div>
+</form>
