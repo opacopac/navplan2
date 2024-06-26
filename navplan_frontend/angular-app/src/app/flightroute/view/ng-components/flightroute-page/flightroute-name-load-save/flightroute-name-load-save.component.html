@@ -1,9 +1,10 @@
-<div class="flex-row">
+<div class="flex-row" [formGroup]="this.flightrouteNameFormGroup">
     <!-- flightroute name  -->
     <mat-form-field appearance="outline" color="accent">
         <mat-label>Route Name</mat-label>
         <input
             matInput
+            formControlName="flightrouteNameInput"
             #routeName
             required
             type="text"
@@ -11,7 +12,9 @@
             [value]="this.flightrouteName"
             (input)="this.onFlightrouteNameChange(routeName.value)"
         />
-        <mat-error *ngIf="!this.isValidFlightrouteName(routeName.value)">Name must be between 1 and 50 characters!</mat-error>
+        @if (this.flightrouteNameFormGroup.invalid) {
+            <mat-error>Name must be between 1 and 50 characters!</mat-error>
+        }
     </mat-form-field>
 
     <!-- load / save / save copy buttons -->

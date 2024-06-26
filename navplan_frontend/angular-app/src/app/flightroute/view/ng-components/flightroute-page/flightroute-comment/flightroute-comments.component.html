@@ -1,8 +1,9 @@
-<div class="flex-row route-comments">
+<div class="flex-row route-comments" [formGroup]="this.flightrouteCommentsFormGroup">
     <mat-form-field appearance="outline" color="accent">
         <mat-label>Comments</mat-label>
         <textarea
             matInput
+            formControlName="flightrouteCommentsInput"
             #routeCommentsInput
             cdkTextareaAutosize
             cdkAutosizeMinRows="3"
@@ -11,5 +12,8 @@
             [value]="this.routeComments"
             (input)="this.onRouteCommentsChanged(routeCommentsInput.value)"
         ></textarea>
+        @if (this.flightrouteCommentsFormGroup.invalid) {
+            <mat-error>Comments can have max. 1024 characters!</mat-error>
+        }
     </mat-form-field>
 </div>

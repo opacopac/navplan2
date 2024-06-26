@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
 
 
 @Component({
@@ -15,8 +16,17 @@ export class FlightrouteNameLoadSaveComponent implements OnInit {
     @Output() public saveFlightrouteClick = new EventEmitter<null>();
     @Output() public saveFlightrouteCopyClick = new EventEmitter<null>();
 
+    public flightrouteNameFormGroup: FormGroup;
+
+    constructor(public parentForm: FormGroupDirective) {
+    }
 
     ngOnInit() {
+        this.flightrouteNameFormGroup = this.parentForm.form;
+        this.flightrouteNameFormGroup.addControl(
+            'flightrouteNameInput', new FormControl(null, [Validators.required,
+                Validators.minLength(1), Validators.maxLength(50)])
+        );
     }
 
 

@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
 
 
 @Component({
@@ -11,11 +12,16 @@ export class FlightrouteCommentsComponent implements OnInit {
     @Output() public routeCommentsChanged = new EventEmitter<string>();
 
 
-    constructor() {
+    public flightrouteCommentsFormGroup: FormGroup;
+
+    constructor(public parentForm: FormGroupDirective) {
     }
 
-
     ngOnInit() {
+        this.flightrouteCommentsFormGroup = this.parentForm.form;
+        this.flightrouteCommentsFormGroup.addControl(
+            'flightrouteCommentsInput', new FormControl(null, [Validators.maxLength(1024)])
+        );
     }
 
 

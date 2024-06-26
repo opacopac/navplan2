@@ -1,4 +1,4 @@
-<div [formGroup]="this.aircraftSpeedForm">
+<div [formGroup]="this.aircraftSpeedFormGroup">
     <mat-form-field appearance="outline" color="accent">
         <mat-label>Ground Speed Speed</mat-label>
         <input
@@ -13,8 +13,8 @@
             (input)="this.onAircraftSpeedChanged(aircraftSpeed.value)"
         />
         <span matTextSuffix>{{ Speed.getUnitString(this.speedUnit) }}</span>
-        @if (this.aircraftSpeedForm.invalid) {
-            <mat-error class="error-hint">Value must be a positive number!</mat-error>
+        @if (this.aircraftSpeedFormGroup.invalid) {
+            <mat-error>Value must be a whole positive number!</mat-error>
         }
     </mat-form-field>
 </div>

@@ -14,7 +14,7 @@ export class FlightrouteAircraftSpeedComponent implements OnInit {
     @Input() public speedUnit: SpeedUnit;
     @Output() public aircraftSpeedChanged = new EventEmitter<Speed>();
 
-    public aircraftSpeedForm: FormGroup;
+    public aircraftSpeedFormGroup: FormGroup;
 
     protected readonly Speed = Speed;
 
@@ -24,9 +24,10 @@ export class FlightrouteAircraftSpeedComponent implements OnInit {
 
 
     ngOnInit() {
-        this.aircraftSpeedForm = this.parentForm.form;
-        this.aircraftSpeedForm.addControl(
-            'aircraftSpeedInput', new FormControl(null, [Validators.required, Validators.min(1)])
+        this.aircraftSpeedFormGroup = this.parentForm.form;
+        this.aircraftSpeedFormGroup.addControl(
+            'aircraftSpeedInput', new FormControl(null, [Validators.required,
+                Validators.min(1), Validators.pattern('^[0-9]+$')])
         );
     }
 
