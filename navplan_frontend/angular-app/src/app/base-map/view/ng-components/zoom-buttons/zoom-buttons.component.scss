@@ -14,3 +14,12 @@
     border-top-right-radius: 0 !important;
     font-size: large;
 }
+
+.mat-mdc-fab.mat-mapbutton-primary {
+    color: white;
+    background-color: rgba(84, 110, 122, 0.7);
+}
+
+.mat-mdc-fab.mat-mapbutton-primary:hover {
+    color: rgba(51, 51, 51, 0.7);;
+}

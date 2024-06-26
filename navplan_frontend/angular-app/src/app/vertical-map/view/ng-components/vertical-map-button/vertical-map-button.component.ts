@@ -4,6 +4,7 @@ import {VerticalMapButtonStatus} from '../../../domain/model/vertical-map-button
 import {select, Store} from '@ngrx/store';
 import {getVerticalMapState} from '../../../state/ngrx/vertical-map.selectors';
 import {VerticalMapState} from '../../../state/state-model/vertical-map-state';
+import {ButtonStatus} from '../../../../common/model/button-status';
 
 
 @Component({
@@ -28,17 +29,17 @@ export class VerticalMapButtonComponent implements OnInit {
     }
 
 
-    public getStatusCLass(vmState: VerticalMapState): string {
+    public getButtonStatus(vmState: VerticalMapState): ButtonStatus {
         switch (vmState.buttonStatus) {
             case VerticalMapButtonStatus.CURRENT:
-                return 'mapbutton-status-ok';
+                return ButtonStatus.ON;
             case VerticalMapButtonStatus.WAITING:
-                return 'mapbutton-status-warn';
+                return ButtonStatus.WARNING;
             case VerticalMapButtonStatus.ERROR:
-                return 'mapoverlay-status-readError';
+                return ButtonStatus.ERROR;
             case VerticalMapButtonStatus.OFF:
             default:
-                return 'mapbutton-primary';
+                return ButtonStatus.OFF;
         }
     }
 }

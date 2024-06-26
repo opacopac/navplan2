@@ -1,7 +1,9 @@
-<button mat-fab
-        matTooltip="show/hide vertical map"
-        matTooltipPosition="right"
-        color="{{ this.getStatusCLass(this.vmState$ | async) }}"
-        (click)="this.onVerticalMapClicked()">
+<app-status-button
+    [buttonFormat]="'large'"
+    [tooltipText]="'show/hide vertical map'"
+    [tooltipPosition]="'right'"
+    [buttonStatus]="this.getButtonStatus(this.vmState$ | async)"
+    (buttonClickedEventEmitter)="this.onVerticalMapClicked()"
+>
     <i class="fa-solid fa-chart-area vertical-map-button-icon"></i>
-</button>
+</app-status-button>
