@@ -20,7 +20,7 @@ export class FlightrouteCommentsComponent implements OnInit {
     ngOnInit() {
         this.flightrouteCommentsFormGroup = this.parentForm.form;
         this.flightrouteCommentsFormGroup.addControl(
-            'flightrouteCommentsInput', new FormControl(null, [Validators.maxLength(1024)])
+            'flightrouteCommentsInput', new FormControl(this.routeComments, [Validators.maxLength(1024)])
         );
     }
 

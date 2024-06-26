@@ -1,0 +1,39 @@
+.mat-mdc-fab {
+    height: 50px !important;
+    width: 50px !important;
+}
+
+.button-small-square {
+    border-radius: 8px !important;
+    scale: 70%;
+}
+
+.mat-mdc-fab.mat-button-primary,
+.mat-mdc-mini-fab.mat-button-primary,
+{
+    color: white;
+    background-color: rgba(84, 110, 122, 0.7);
+}
+
+.mat-mdc-fab.mat-button-primary:hover,
+.mat-mdc-mini-fab.mat-button-primary:hover {
+    color: rgba(51, 51, 51, 0.7);;
+}
+
+.mat-mdc-fab.mat-button-status-ok,
+.mat-mdc-mini-fab.mat-button-status-ok {
+    color: white;
+    background-color: rgba(0, 128, 0, 0.8);
+}
+
+.mat-mdc-fab.mat-button-status-warn,
+.mat-mdc-mini-fab.mat-button-status-warn {
+    color: white;
+    background-color: rgba(255, 165, 0, 0.8);
+}
+
+.mat-mdc-fab.mat-button-status-error,
+.mat-mdc-mini-fab.mat-button-status-error {
+    color: white;
+    background-color: rgba(255, 0, 0, 0.8);
+}

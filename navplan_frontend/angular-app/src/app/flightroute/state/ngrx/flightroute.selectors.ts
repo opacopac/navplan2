@@ -4,4 +4,4 @@ import {FlightrouteState} from '../state-model/flightroute-state';
 
 export const getFlightrouteState = createFeatureSelector<FlightrouteState>('flightrouteState');
 export const getFlightrouteList = createSelector(getFlightrouteState, state => state.flightrouteList);
-export const getFlightroute = createSelector(getFlightrouteState, routeState => routeState.flightroute);
+export const getFlightroute = createSelector(getFlightrouteState, state => state.flightroute);

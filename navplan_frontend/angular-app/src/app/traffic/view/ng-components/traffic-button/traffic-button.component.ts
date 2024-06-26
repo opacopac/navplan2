@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {TrafficActions} from '../../../state/ngrx/traffic.actions';
 import {getTrafficStatus} from '../../../state/ngrx/traffic.selectors';
 import {TrafficServiceStatus} from '../../../domain/model/traffic-service-status';
-import {MapButtonStatus} from '../../../../base-map/domain/model/map-button-status';
+import {ButtonStatus} from '../../../../common/model/button-status';
 
 
 @Component({
@@ -28,17 +28,17 @@ export class TrafficButtonComponent implements OnInit {
     }
 
 
-    public getButtonStatus(trafficStatus: TrafficServiceStatus): MapButtonStatus {
+    public getButtonStatus(trafficStatus: TrafficServiceStatus): ButtonStatus {
         switch (trafficStatus) {
             case TrafficServiceStatus.CURRENT:
-                return MapButtonStatus.ON;
+                return ButtonStatus.ON;
             case TrafficServiceStatus.WAITING:
-                return MapButtonStatus.WARNING;
+                return ButtonStatus.WARNING;
             case TrafficServiceStatus.ERROR:
-                return MapButtonStatus.ERROR;
+                return ButtonStatus.ERROR;
             case TrafficServiceStatus.OFF:
             default:
-                return MapButtonStatus.OFF;
+                return ButtonStatus.OFF;
         }
     }
 }

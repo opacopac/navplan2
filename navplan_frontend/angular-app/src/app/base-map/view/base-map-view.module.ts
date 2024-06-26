@@ -17,7 +17,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {AttributionsContentComponent} from './ng-components/attributions-content/attributions-content.component';
 import {AttributionsButtonComponent} from './ng-components/attributions-button/attributions-button-component.component';
-import {MapStatusButtonComponent} from './ng-components/map-status-button/map-status-button.component';
+import {CommonViewModule} from '../../common/view/common-view.module';
 
 
 @NgModule({
@@ -29,11 +29,11 @@ import {MapStatusButtonComponent} from './ng-components/map-status-button/map-st
         MatCheckboxModule,
         MatRadioModule,
         MatTooltipModule,
+        CommonViewModule,
     ],
     declarations: [
         AttributionsButtonComponent,
         AttributionsContentComponent,
-        MapStatusButtonComponent,
         MapLayerSelectionButtonComponent,
         MapLayerSelectionContentComponent,
         OlMapContainerComponent,
@@ -43,7 +43,6 @@ import {MapStatusButtonComponent} from './ng-components/map-status-button/map-st
     exports: [
         AttributionsButtonComponent,
         AttributionsContentComponent,
-        MapStatusButtonComponent,
         MapLayerSelectionButtonComponent,
         MapLayerSelectionContentComponent,
         OlMapContainerComponent,

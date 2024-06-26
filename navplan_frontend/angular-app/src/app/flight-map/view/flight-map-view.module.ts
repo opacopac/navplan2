@@ -29,6 +29,7 @@ import {MeteoGramViewModule} from '../../meteo-gram/view/meteo-gram-view.module'
 import {FullScreenButtonComponent} from './ng-components/full-screen-button/full-screen-button.component';
 import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.module';
 import {AirspaceViewModule} from '../../airspace/view/airspace-view.module';
+import {CommonViewModule} from '../../common/view/common-view.module';
 
 @NgModule({
     declarations: [
@@ -64,6 +65,7 @@ import {AirspaceViewModule} from '../../airspace/view/airspace-view.module';
         UserViewModule,
         VerticalMapViewModule,
         WebcamViewModule,
+        CommonViewModule,
     ],
     providers: []
 })

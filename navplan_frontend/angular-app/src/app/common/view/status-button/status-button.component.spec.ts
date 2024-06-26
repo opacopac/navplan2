@@ -1,15 +1,15 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {MapStatusButtonComponent} from './map-status-button.component';
+import {StatusButtonComponent} from './status-button.component';
 import {MatButtonModule} from '@angular/material/button';
 
 
 xdescribe('LayerButtonComponent', () => {
-    let component: MapStatusButtonComponent;
-    let fixture: ComponentFixture<MapStatusButtonComponent>;
+    let component: StatusButtonComponent;
+    let fixture: ComponentFixture<StatusButtonComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [MapStatusButtonComponent],
+            declarations: [StatusButtonComponent],
             imports: [
                 MatButtonModule
             ]
@@ -18,7 +18,7 @@ xdescribe('LayerButtonComponent', () => {
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(MapStatusButtonComponent);
+        fixture = TestBed.createComponent(StatusButtonComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

@@ -72,6 +72,15 @@ export const flightRouteReducer = createReducer(
     })),
 
     // FlightRouteParameterActions
+    on(FlightrouteActions.updateTitle, (state, action) => {
+        const newFlightroute = state.flightroute.clone();
+        newFlightroute.title = action.title;
+        return {
+            ...state,
+            flightroute: newFlightroute
+        };
+    }),
+
     on(FlightrouteActions.updateComments, (state, action) => {
         const newFlightroute = state.flightroute.clone();
         newFlightroute.comments = action.comments;

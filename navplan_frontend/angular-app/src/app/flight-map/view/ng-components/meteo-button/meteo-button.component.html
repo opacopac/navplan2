@@ -1,6 +1,6 @@
 <div>
     <div *ngIf="this.showMeteoLayer$ | async" class="meteo-layer-button-container">
-        <app-map-status-button
+        <app-status-button
             [buttonFormat]="'small_round'"
             [tooltipText]="'Station Measurements'"
             [tooltipPosition]="'right'"
@@ -8,8 +8,8 @@
             (buttonClickedEventEmitter)="this.onStationsSelected()"
         >
             <i class="fa-solid fa-thermometer-half"></i>
-        </app-map-status-button>
-        <app-map-status-button
+        </app-status-button>
+        <app-status-button
             [buttonFormat]="'small_round'"
             [tooltipText]="'Clouds & Precipitation Forecast'"
             [tooltipPosition]="'right'"
@@ -17,8 +17,8 @@
             (buttonClickedEventEmitter)="this.onWeatherForecastSelected()"
         >
             <i class="fa-solid fa-cloud"></i>
-        </app-map-status-button>
-        <app-map-status-button
+        </app-status-button>
+        <app-status-button
             [buttonFormat]="'small_round'"
             [tooltipText]="'Wind Forecast'"
             [tooltipPosition]="'right'"
@@ -26,9 +26,9 @@
             (buttonClickedEventEmitter)="this.onWindForecastSelected()"
         >
             <i class="fa-solid fa-wind"></i>
-        </app-map-status-button>
+        </app-status-button>
     </div>
-    <app-map-status-button
+    <app-status-button
         [buttonFormat]="'large'"
         [tooltipText]="'show/hide meteo layers'"
         [tooltipPosition]="'right'"
@@ -36,5 +36,5 @@
         (buttonClickedEventEmitter)="this.onMeteoButtonClicked()"
     >
         <i class="fa-solid fa-cloud-sun-rain meteo-dwd-button-icon"></i>
-    </app-map-status-button>
+    </app-status-button>
 </div>

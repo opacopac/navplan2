@@ -9,6 +9,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {BaseMapViewModule} from '../../base-map/view/base-map-view.module';
+import {CommonViewModule} from '../../common/view/common-view.module';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import {BaseMapViewModule} from '../../base-map/view/base-map-view.module';
         TrafficRestModule,
         TrafficStateModule,
         BaseMapViewModule,
+        CommonViewModule,
     ],
     declarations: [
         MapPopupTrafficComponent,

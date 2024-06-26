@@ -24,7 +24,7 @@ export class FlightrouteNameLoadSaveComponent implements OnInit {
     ngOnInit() {
         this.flightrouteNameFormGroup = this.parentForm.form;
         this.flightrouteNameFormGroup.addControl(
-            'flightrouteNameInput', new FormControl(null, [Validators.required,
+            'flightrouteNameInput', new FormControl(this.flightrouteName, [Validators.required,
                 Validators.minLength(1), Validators.maxLength(50)])
         );
     }
@@ -36,7 +36,7 @@ export class FlightrouteNameLoadSaveComponent implements OnInit {
 
 
     protected isSaveButtonEnabled(): boolean {
-        return this.isUserLoggedIn && this.flightrouteName.length > 0;
+        return this.isUserLoggedIn && this.flightrouteName.length > 0 && !this.parentForm.invalid;
     }
 
 

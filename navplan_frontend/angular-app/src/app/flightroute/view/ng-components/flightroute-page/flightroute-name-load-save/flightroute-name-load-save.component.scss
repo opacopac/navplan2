@@ -14,3 +14,10 @@
     background-color: #41669c;
     color: white;
 }
+
+.button-load:disabled,
+.button-save:disabled,
+.button-copy:disabled {
+    background-color: gray;
+    color: white;
+}
