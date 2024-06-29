@@ -22,7 +22,7 @@
         class="inline-button"
         [color]="ButtonColor.GREEN"
         [tooltipText]="'Load Route'"
-        [tooltipPosition]="'above'"
+        [tooltipPosition]="TooltipPosition.ABOVE"
         [disabled]="!this.isLoadButtonEnabled()"
         (click)="this.onLoadFlightrouteClick()"
     >
@@ -32,7 +32,7 @@
         class="inline-button"
         [color]="ButtonColor.BLUE"
         [tooltipText]="'Save Route'"
-        [tooltipPosition]="'above'"
+        [tooltipPosition]="TooltipPosition.ABOVE"
         [disabled]="!this.isSaveButtonEnabled()"
         (click)="this.onSaveFlightrouteClick()"
     >
@@ -42,7 +42,7 @@
         class="inline-button"
         [color]="ButtonColor.BLUE"
         [tooltipText]="'Save Copy of Route'"
-        [tooltipPosition]="'above'"
+        [tooltipPosition]="TooltipPosition.ABOVE"
         [disabled]="!this.isSaveCopyButtonEnabled()"
         (click)="this.onSaveFlightrouteCopyClick()"
     >

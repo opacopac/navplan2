@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
 import {ButtonColor} from '../../../../../common/model/button-color';
+import {TooltipPosition} from '../../../../../common/model/tooltip-position';
 
 
 @Component({
@@ -20,6 +21,7 @@ export class FlightrouteNameLoadSaveComponent implements OnInit {
     public flightrouteNameFormGroup: FormGroup;
 
     protected readonly ButtonColor = ButtonColor;
+    protected readonly TooltipPosition = TooltipPosition;
 
 
     constructor(public parentForm: FormGroupDirective) {
