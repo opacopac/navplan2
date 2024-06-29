@@ -24,7 +24,7 @@
         [tooltipText]="'Load Route'"
         [tooltipPosition]="'above'"
         [disabled]="!this.isLoadButtonEnabled()"
-        (click)="this.onLoadFlightrouteClick()"
+        (buttonClicked)="this.onLoadFlightrouteClick()"
     >
         <i class="fa-solid fa-folder-open"></i>
     </app-mini-fab-button>
@@ -34,7 +34,7 @@
         [tooltipText]="'Save Route'"
         [tooltipPosition]="'above'"
         [disabled]="!this.isSaveButtonEnabled()"
-        (click)="this.onSaveFlightrouteClick()"
+        (buttonClicked)="this.onSaveFlightrouteClick()"
     >
         <i class="fa-solid fa-download"></i>
     </app-mini-fab-button>
@@ -44,7 +44,7 @@
         [tooltipText]="'Save Copy of Route'"
         [tooltipPosition]="'above'"
         [disabled]="!this.isSaveCopyButtonEnabled()"
-        (click)="this.onSaveFlightrouteCopyClick()"
+        (buttonClicked)="this.onSaveFlightrouteCopyClick()"
     >
         <i class="fa-solid fa-copy"></i>
     </app-mini-fab-button>

@@ -11,7 +11,7 @@ export class IconButtonComponent implements OnInit {
     @Input() public color: ButtonColor;
     @Input() public tooltipText: string;
     @Input() public tooltipPosition: TooltipPosition;
-    @Output() public click = new EventEmitter<void>();
+    @Output() public buttonClicked = new EventEmitter<void>();
 
 
     constructor() {
@@ -38,6 +38,6 @@ export class IconButtonComponent implements OnInit {
 
 
     public onButtonClick(): void {
-        this.click.emit();
+        this.buttonClicked.emit();
     }
 }

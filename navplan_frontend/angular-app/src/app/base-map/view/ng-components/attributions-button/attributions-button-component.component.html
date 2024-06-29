@@ -3,7 +3,7 @@
     [tooltipText]="'show attributions'"
     [tooltipPosition]="'left'"
     [toggleOnOff]="this.showAttributions$ | async"
-    (click)="this.onButtonClicked()"
+    (buttonClicked)="this.onButtonClicked()"
 >
     <i class="fa-solid fa-info"></i>
 </app-status-button>

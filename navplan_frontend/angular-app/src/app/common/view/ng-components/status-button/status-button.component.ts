@@ -12,7 +12,7 @@ export class StatusButtonComponent implements OnInit {
     @Input() public tooltipText: string;
     @Input() public tooltipPosition: TooltipPosition;
     @Input() public buttonStatus: ButtonStatus = ButtonStatus.OFF;
-    @Output() public click = new EventEmitter<void>();
+    @Output() public buttonClicked = new EventEmitter<void>();
 
     @Input() set toggleOnOff(status: boolean) {
         if (status) {
@@ -47,6 +47,6 @@ export class StatusButtonComponent implements OnInit {
 
 
     public onButtonClick(): void {
-        this.click.emit();
+        this.buttonClicked.emit();
     }
 }

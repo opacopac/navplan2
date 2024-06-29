@@ -62,7 +62,7 @@
                     [color]="ButtonColor.RED"
                     [tooltipText]="'Remove Waypoint'"
                     [tooltipPosition]="'above'"
-                    (click)="this.onRemoveWaypointClick.emit(entry.wp)"
+                    (buttonClicked)="this.onRemoveWaypointClick.emit(entry.wp)"
                 >
                     <i class="fa-solid fa-trash"></i>
                 </app-icon-button>
