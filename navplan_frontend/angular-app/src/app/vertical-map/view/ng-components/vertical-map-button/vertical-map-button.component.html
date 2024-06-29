@@ -3,7 +3,7 @@
     [tooltipText]="'show/hide vertical map'"
     [tooltipPosition]="'right'"
     [buttonStatus]="this.getButtonStatus(this.vmState$ | async)"
-    (buttonClickedEventEmitter)="this.onVerticalMapClicked()"
+    (click)="this.onVerticalMapClicked()"
 >
     <i class="fa-solid fa-chart-area vertical-map-button-icon"></i>
 </app-status-button>

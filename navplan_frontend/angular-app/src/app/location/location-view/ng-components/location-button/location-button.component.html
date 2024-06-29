@@ -3,7 +3,7 @@
     [tooltipText]="'start/stop tracking own position'"
     [tooltipPosition]="'right'"
     [buttonStatus]="this.getButtonStatus(this.locationStatus$ | async)"
-    (buttonClickedEventEmitter)="this.onLocationClicked()"
+    (click)="this.onLocationClicked()"
 >
     <i class="fa-solid fa-location-arrow"></i>
 </app-status-button>

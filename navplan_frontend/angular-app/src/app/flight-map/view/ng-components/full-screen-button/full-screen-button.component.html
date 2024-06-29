@@ -3,7 +3,7 @@
     [tooltipText]="'show full screen'"
     [tooltipPosition]="'left'"
     [toggleOnOff]="this.showFullScreen$ | async"
-    (buttonClickedEventEmitter)="this.onButtonClicked()"
+    (click)="this.onButtonClicked()"
 >
     <i class="{{ this.getIconClass(this.showFullScreen$ | async) }}"></i>
 </app-status-button>

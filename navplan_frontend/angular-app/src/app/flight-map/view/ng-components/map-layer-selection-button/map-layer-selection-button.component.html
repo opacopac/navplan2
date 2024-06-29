@@ -3,7 +3,7 @@
     [tooltipText]="'select map layers'"
     [tooltipPosition]="'left'"
     [toggleOnOff]="this.showMapLayerSelection$ | async"
-    (buttonClickedEventEmitter)="this.onButtonClicked()"
+    (click)="this.onButtonClicked()"
 >
     <i class="fa-solid fa-layer-group"></i>
 </app-status-button>

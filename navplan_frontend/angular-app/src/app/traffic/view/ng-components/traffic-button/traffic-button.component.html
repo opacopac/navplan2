@@ -3,7 +3,7 @@
     [tooltipText]="'show/hide traffic'"
     [tooltipPosition]="'right'"
     [buttonStatus]="this.getButtonStatus(this.trafficStatus$ | async)"
-    (buttonClickedEventEmitter)="this.onToggleTrafficClicked()"
+    (click)="this.onToggleTrafficClicked()"
 >
     <i class="fa-solid fa-plane"></i>
 </app-status-button>

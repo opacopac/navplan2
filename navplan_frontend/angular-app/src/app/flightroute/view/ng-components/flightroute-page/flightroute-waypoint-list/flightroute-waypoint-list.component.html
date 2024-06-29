@@ -61,7 +61,7 @@
                 <app-trash-icon-button
                     [tooltipText]="'Remove Waypoint'"
                     [tooltipPosition]="'above'"
-                    (buttonClickedEventEmitter)="this.onRemoveWaypointClick.emit(entry.wp)"
+                    (click)="this.onRemoveWaypointClick.emit(entry.wp)"
                 />
             </td>
             <td mat-footer-cell *matFooterCellDef>

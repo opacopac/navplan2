@@ -9,7 +9,7 @@ import {TooltipPosition} from '@angular/material/tooltip';
 export class IconButtonComponent implements OnInit {
     @Input() public tooltipText: string;
     @Input() public tooltipPosition: TooltipPosition;
-    @Output() public buttonClickedEventEmitter = new EventEmitter<void>();
+    @Output() public click = new EventEmitter<void>();
 
 
     constructor() {
@@ -21,6 +21,6 @@ export class IconButtonComponent implements OnInit {
 
 
     public onButtonClick(): void {
-        this.buttonClickedEventEmitter.emit();
+        this.click.emit();
     }
 }
