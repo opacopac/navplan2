@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {TooltipPosition} from '@angular/material/tooltip';
+import {ButtonColor} from '../../model/button-color';
 
 @Component({
     selector: 'app-icon-button',
@@ -7,6 +8,7 @@ import {TooltipPosition} from '@angular/material/tooltip';
     styleUrls: ['./icon-button.component.scss']
 })
 export class IconButtonComponent implements OnInit {
+    @Input() public color: ButtonColor;
     @Input() public tooltipText: string;
     @Input() public tooltipPosition: TooltipPosition;
     @Output() public click = new EventEmitter<void>();
@@ -17,6 +19,21 @@ export class IconButtonComponent implements OnInit {
 
 
     ngOnInit() {
+    }
+
+
+    protected getColor(): string {
+        switch (this.color) {
+            case ButtonColor.GREEN:
+                return 'button-green';
+            case ButtonColor.ORANGE:
+                return 'button-orange';
+            case ButtonColor.RED:
+                return 'button-red';
+            case ButtonColor.BLUE:
+            default:
+                return 'button-blue';
+        }
     }
 
 

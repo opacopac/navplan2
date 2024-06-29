@@ -6,3 +6,27 @@
 .icon-button {
     scale: 70%;
 }
+
+.mat-mdc-icon-button.mat-button-green {
+    color: green;
+}
+
+.mat-mdc-icon-button.mat-button-orange {
+    color: darkorange;
+}
+
+.mat-mdc-icon-button.mat-button-red {
+    color: #f44336;
+}
+
+.mat-mdc-icon-button.mat-button-blue {
+    color: #41669c;
+}
+
+.mat-mdc-icon-button.mat-button-green:disabled,
+.mat-mdc-icon-button.mat-button-orange:disabled,
+.mat-mdc-icon-button.mat-button-red:disabled,
+.mat-mdc-icon-button.mat-button-blue:disabled
+{
+    color: gray;
+}

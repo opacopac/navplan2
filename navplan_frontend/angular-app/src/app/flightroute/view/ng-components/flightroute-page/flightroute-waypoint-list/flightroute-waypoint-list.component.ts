@@ -4,6 +4,7 @@ import {Flightroute} from '../../../../domain/model/flightroute';
 import {WaypointType} from '../../../../domain/model/waypoint-type';
 import {TimeUnit} from '../../../../../geo-physics/domain/model/quantities/time-unit';
 import {LengthUnit} from '../../../../../geo-physics/domain/model/quantities/length-unit';
+import {ButtonColor} from '../../../../../common/view/model/button-color';
 
 
 interface WaypointListDataSourceRow {
@@ -34,9 +35,9 @@ export class FlightrouteWaypointListComponent implements OnInit, OnDestroy {
     @Output() onRemoveWaypointClick = new EventEmitter<Waypoint>();
     @Output() onReverseWaypointsClick = new EventEmitter<null>();
 
-    public visibleColumns = ['freq', 'callsign', 'checkpoint', 'alt', 'mt', 'dist', 'eet', 'remarks', 'icons'];
-    public console = console;
-    public wpDataSource: WaypointListDataSourceRow[] = [];
+    protected visibleColumns = ['freq', 'callsign', 'checkpoint', 'alt', 'mt', 'dist', 'eet', 'remarks', 'icons'];
+    protected wpDataSource: WaypointListDataSourceRow[] = [];
+    protected readonly ButtonColor = ButtonColor;
 
     private _flightroute: Flightroute;
 

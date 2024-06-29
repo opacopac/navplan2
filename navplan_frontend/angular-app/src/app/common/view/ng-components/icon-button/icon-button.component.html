@@ -1,7 +1,7 @@
 <div class="button-container">
     <button mat-icon-button
             class="icon-button"
-            color="primary"
+            [color]="this.getColor()"
             [matTooltip]="this.tooltipText"
             [matTooltipPosition]="this.tooltipPosition"
             (click)="this.onButtonClick()"
