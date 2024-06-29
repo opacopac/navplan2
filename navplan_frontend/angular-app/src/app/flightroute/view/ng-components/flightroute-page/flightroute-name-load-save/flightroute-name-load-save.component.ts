@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
+import {ButtonColor} from '../../../../../common/model/button-color';
 
 
 @Component({
@@ -17,6 +18,9 @@ export class FlightrouteNameLoadSaveComponent implements OnInit {
     @Output() public saveFlightrouteCopyClick = new EventEmitter<null>();
 
     public flightrouteNameFormGroup: FormGroup;
+
+    protected readonly ButtonColor = ButtonColor;
+
 
     constructor(public parentForm: FormGroupDirective) {
     }

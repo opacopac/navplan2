@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ButtonColor} from '../../model/button-color';
 
 @Component({
     selector: 'app-mini-fab-button',
@@ -6,7 +7,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
     styleUrls: ['./mini-fab-button.component.scss']
 })
 export class MiniFabButtonComponent implements OnInit {
-    @Input() public color: 'red' | 'green' | 'blue' | 'orange';
+    @Input() public color: ButtonColor;
     @Input() public disabled: boolean;
     @Input() public tooltipText: string;
     @Input() public tooltipPosition: 'left' | 'right' | 'above' | 'below' | 'before' | 'after';
@@ -23,16 +24,15 @@ export class MiniFabButtonComponent implements OnInit {
 
     public getColor(): string {
         switch (this.color) {
-            case 'green':
+            case ButtonColor.GREEN:
                 return 'button-green';
-            case 'blue':
-                return 'button-blue';
-            case 'orange':
+            case ButtonColor.ORANGE:
                 return 'button-orange';
-            case 'red':
+            case ButtonColor.RED:
                 return 'button-red';
+            case ButtonColor.BLUE:
             default:
-                return 'accent';
+                return 'button-blue';
         }
     }
 

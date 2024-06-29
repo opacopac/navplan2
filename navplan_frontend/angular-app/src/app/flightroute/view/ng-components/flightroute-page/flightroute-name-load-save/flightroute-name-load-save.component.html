@@ -20,7 +20,7 @@
     <!-- load / save / save copy buttons -->
     <app-mini-fab-button
         class="inline-button"
-        [color]="'green'"
+        [color]="ButtonColor.GREEN"
         [tooltipText]="'Load Route'"
         [tooltipPosition]="'above'"
         [disabled]="!this.isLoadButtonEnabled()"
@@ -30,7 +30,7 @@
     </app-mini-fab-button>
     <app-mini-fab-button
         class="inline-button"
-        [color]="'blue'"
+        [color]="ButtonColor.BLUE"
         [tooltipText]="'Save Route'"
         [tooltipPosition]="'above'"
         [disabled]="!this.isSaveButtonEnabled()"
@@ -40,7 +40,7 @@
     </app-mini-fab-button>
     <app-mini-fab-button
         class="inline-button"
-        [color]="'blue'"
+        [color]="ButtonColor.BLUE"
         [tooltipText]="'Save Copy of Route'"
         [tooltipPosition]="'above'"
         [disabled]="!this.isSaveCopyButtonEnabled()"
