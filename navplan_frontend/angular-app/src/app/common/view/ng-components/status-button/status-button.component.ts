@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ButtonStatus} from '../../model/button-status';
+import {TooltipPosition} from '@angular/material/tooltip';
 
 @Component({
     selector: 'app-status-button',
@@ -9,7 +10,7 @@ import {ButtonStatus} from '../../model/button-status';
 export class StatusButtonComponent implements OnInit {
     @Input() public buttonFormat: 'small_square' | 'small_round' | 'large' = 'large';
     @Input() public tooltipText: string;
-    @Input() public tooltipPosition: 'left' | 'right' | 'above' | 'below' | 'before' | 'after';
+    @Input() public tooltipPosition: TooltipPosition;
     @Input() public buttonStatus: ButtonStatus = ButtonStatus.OFF;
     @Output() public buttonClickedEventEmitter = new EventEmitter<void>();
 

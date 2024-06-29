@@ -4,7 +4,6 @@ import {Flightroute} from '../../../../domain/model/flightroute';
 import {WaypointType} from '../../../../domain/model/waypoint-type';
 import {TimeUnit} from '../../../../../geo-physics/domain/model/quantities/time-unit';
 import {LengthUnit} from '../../../../../geo-physics/domain/model/quantities/length-unit';
-import {TooltipPosition} from '../../../../../common/view/model/tooltip-position';
 
 
 interface WaypointListDataSourceRow {
@@ -26,6 +25,7 @@ export class FlightrouteWaypointListComponent implements OnInit, OnDestroy {
         this._flightroute = flightroute;
         this.wpDataSource = this.calcWaypointDataSource(flightroute);
     }
+
     get flightroute(): Flightroute {
         return this._flightroute;
     }
@@ -37,8 +37,6 @@ export class FlightrouteWaypointListComponent implements OnInit, OnDestroy {
     public visibleColumns = ['freq', 'callsign', 'checkpoint', 'alt', 'mt', 'dist', 'eet', 'remarks', 'icons'];
     public console = console;
     public wpDataSource: WaypointListDataSourceRow[] = [];
-
-    protected readonly TooltipPosition = TooltipPosition;
 
     private _flightroute: Flightroute;
 

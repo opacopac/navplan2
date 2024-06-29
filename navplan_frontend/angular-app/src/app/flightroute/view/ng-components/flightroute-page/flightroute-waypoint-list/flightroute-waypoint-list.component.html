@@ -60,7 +60,7 @@
             <td mat-cell *matCellDef="let entry">
                 <app-trash-icon-button
                     [tooltipText]="'Remove Waypoint'"
-                    [tooltipPosition]="TooltipPosition.ABOVE"
+                    [tooltipPosition]="'above'"
                     (buttonClickedEventEmitter)="this.onRemoveWaypointClick.emit(entry.wp)"
                 />
             </td>

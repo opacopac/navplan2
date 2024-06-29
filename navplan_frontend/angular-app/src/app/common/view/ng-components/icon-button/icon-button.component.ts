@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {TooltipPosition} from '../../model/tooltip-position';
-import {NgTooltipPosition} from '../ng-tooltip-position';
+import {TooltipPosition} from '@angular/material/tooltip';
 
 @Component({
     selector: 'app-icon-button',
@@ -11,8 +10,6 @@ export class IconButtonComponent implements OnInit {
     @Input() public tooltipText: string;
     @Input() public tooltipPosition: TooltipPosition;
     @Output() public buttonClickedEventEmitter = new EventEmitter<void>();
-
-    protected readonly NgTooltipPosition = NgTooltipPosition;
 
 
     constructor() {

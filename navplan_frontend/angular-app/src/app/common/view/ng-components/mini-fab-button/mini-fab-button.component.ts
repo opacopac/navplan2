@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ButtonColor} from '../../model/button-color';
-import {TooltipPosition} from '../../model/tooltip-position';
-import {NgTooltipPosition} from '../ng-tooltip-position';
+import {TooltipPosition} from '@angular/material/tooltip';
 
 @Component({
     selector: 'app-mini-fab-button',
@@ -14,8 +13,6 @@ export class MiniFabButtonComponent implements OnInit {
     @Input() public tooltipText: string;
     @Input() public tooltipPosition: TooltipPosition;
     @Output() public click = new EventEmitter<void>();
-
-    protected readonly NgTooltipPosition = NgTooltipPosition;
 
 
     constructor() {

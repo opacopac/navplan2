@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {TooltipPosition} from '../../model/tooltip-position';
+import {TooltipPosition} from '@angular/material/tooltip';
 
 @Component({
     selector: 'app-trash-icon-button',
