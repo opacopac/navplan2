@@ -11,7 +11,7 @@ export class MiniFabButtonComponent implements OnInit {
     @Input() public disabled: boolean;
     @Input() public tooltipText: string;
     @Input() public tooltipPosition: 'left' | 'right' | 'above' | 'below' | 'before' | 'after';
-    @Output() public buttonClickedEventEmitter = new EventEmitter<void>();
+    @Output() public click = new EventEmitter<void>();
 
 
     constructor() {
@@ -38,6 +38,6 @@ export class MiniFabButtonComponent implements OnInit {
 
 
     public onButtonClick(): void {
-        this.buttonClickedEventEmitter.emit();
+        this.click.emit();
     }
 }
