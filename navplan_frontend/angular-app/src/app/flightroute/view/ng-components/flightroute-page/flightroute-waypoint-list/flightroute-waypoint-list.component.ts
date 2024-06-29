@@ -4,6 +4,7 @@ import {Flightroute} from '../../../../domain/model/flightroute';
 import {WaypointType} from '../../../../domain/model/waypoint-type';
 import {TimeUnit} from '../../../../../geo-physics/domain/model/quantities/time-unit';
 import {LengthUnit} from '../../../../../geo-physics/domain/model/quantities/length-unit';
+import {TooltipPosition} from '../../../../../common/view/model/tooltip-position';
 
 
 interface WaypointListDataSourceRow {
@@ -28,12 +29,17 @@ export class FlightrouteWaypointListComponent implements OnInit, OnDestroy {
     get flightroute(): Flightroute {
         return this._flightroute;
     }
+
     @Output() onEditWaypointClick = new EventEmitter<Waypoint>();
     @Output() onRemoveWaypointClick = new EventEmitter<Waypoint>();
     @Output() onReverseWaypointsClick = new EventEmitter<null>();
+
     public visibleColumns = ['freq', 'callsign', 'checkpoint', 'alt', 'mt', 'dist', 'eet', 'remarks', 'icons'];
     public console = console;
     public wpDataSource: WaypointListDataSourceRow[] = [];
+
+    protected readonly TooltipPosition = TooltipPosition;
+
     private _flightroute: Flightroute;
 
 
@@ -49,7 +55,7 @@ export class FlightrouteWaypointListComponent implements OnInit, OnDestroy {
     }
 
 
-    public getAltText(wp: Waypoint): string {
+    protected getAltText(wp: Waypoint): string {
         if (!wp || !wp.wpAlt || !wp.wpAlt.alt) {
             return '';
         } else {
@@ -58,7 +64,7 @@ export class FlightrouteWaypointListComponent implements OnInit, OnDestroy {
     }
 
 
-    public getAltStyle(wp: Waypoint): string {
+    protected getAltStyle(wp: Waypoint): string {
         let deco = '';
         if (wp.wpAlt.isminalt) {
             deco += 'underline';
@@ -70,12 +76,12 @@ export class FlightrouteWaypointListComponent implements OnInit, OnDestroy {
     }
 
 
-    public getTotalDist(lengthUnit: LengthUnit = LengthUnit.NM): number {
+    protected getTotalDist(lengthUnit: LengthUnit = LengthUnit.NM): number {
         return Math.ceil(this.flightroute.tripDist.getValue(lengthUnit));
     }
 
 
-    public getTotalEet(timeUnit: TimeUnit = TimeUnit.M): number {
+    protected getTotalEet(timeUnit: TimeUnit = TimeUnit.M): number {
         return Math.ceil(this.flightroute.fuel.tripTime.getValue(timeUnit));
     }
 

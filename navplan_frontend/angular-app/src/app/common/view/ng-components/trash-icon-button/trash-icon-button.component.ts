@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {TooltipPosition} from '../../model/tooltip-position';
 
 @Component({
     selector: 'app-trash-icon-button',
@@ -7,7 +8,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 })
 export class TrashIconButtonComponent implements OnInit {
     @Input() public tooltipText: string;
-    @Input() public tooltipPosition: 'left' | 'right' | 'above' | 'below' | 'before' | 'after';
+    @Input() public tooltipPosition: TooltipPosition;
     @Output() public buttonClickedEventEmitter = new EventEmitter<void>();
 
 
