@@ -18,38 +18,8 @@
     </mat-form-field>
 
     <!-- load / save / save copy buttons -->
-    <button
-        mat-mini-fab
-        color="accent"
-        class="inline-button button-load"
-        matTooltip="Load Route"
-        [disabled]="!this.isLoadButtonEnabled()"
-        (click)="this.onLoadFlightrouteClick()"
-    >
-        <i class="fa-solid fa-folder-open"></i>
-    </button>
-    <button
-        mat-mini-fab
-        color="accent"
-        class="inline-button button-save"
-        matTooltip="Save Route"
-        [disabled]="!this.isSaveButtonEnabled()"
-        (click)="this.onSaveFlightrouteClick()"
-    >
-        <i class="fa-solid fa-download"></i>
-    </button>
-    <button
-        mat-mini-fab
-        color="accent"
-        class="inline-button button-copy"
-        matTooltip="Save Copy of Route"
-        [disabled]="!this.isSaveCopyButtonEnabled()"
-        (click)="this.onSaveFlightrouteCopyClick()"
-    >
-        <i class="fa-solid fa-copy"></i>
-    </button>
-    <!-- TODO -->
     <app-mini-fab-button
+        class="inline-button"
         [color]="'green'"
         [tooltipText]="'Load Route'"
         [tooltipPosition]="'above'"
@@ -59,6 +29,7 @@
         <i class="fa-solid fa-folder-open"></i>
     </app-mini-fab-button>
     <app-mini-fab-button
+        class="inline-button"
         [color]="'blue'"
         [tooltipText]="'Save Route'"
         [tooltipPosition]="'above'"
@@ -68,6 +39,7 @@
         <i class="fa-solid fa-download"></i>
     </app-mini-fab-button>
     <app-mini-fab-button
+        class="inline-button"
         [color]="'blue'"
         [tooltipText]="'Save Copy of Route'"
         [tooltipPosition]="'above'"
