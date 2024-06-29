@@ -105,7 +105,7 @@ export class RestUserRepoService implements IUserRepoService {
             action: 'register',
             token: token,
             password: password,
-            rememberme: rememberMe,
+            rememberme: rememberMe ? '1' : '0',
         };
         return this.http
             .post<IRestTokenResponse>(environment.userServiceUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
@@ -163,7 +163,7 @@ export class RestUserRepoService implements IUserRepoService {
             action: 'resetpassword',
             token: token,
             password: newPassword,
-            rememberme: rememberMe
+            rememberme: rememberMe ? '1' : '0'
         };
         return this.http
             .post<IRestTokenResponse>(environment.userServiceUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
