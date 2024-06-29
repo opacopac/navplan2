@@ -3,7 +3,6 @@
 .flightroute-list-container {
 }
 
-
 table {
     width: 100%;
 }
@@ -12,18 +11,8 @@ table {
     width: 100%;
 }
 
-th.mat-mdc-header-cell {
-    font-weight: bold;
-}
 
-.fa-upload {
-    color: darkgreen;
-}
-
-.fa-copy {
-    color: #41669c;
-}
-
-.fa-trash {
-    color: #dd0000;
+.button-cell {
+    display: flex;
+    flex-direction: row;
 }

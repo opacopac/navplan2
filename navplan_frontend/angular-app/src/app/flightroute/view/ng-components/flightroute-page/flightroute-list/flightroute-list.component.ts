@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} fr
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {FlightrouteListEntry} from '../../../../domain/model/flightroute-list-entry';
+import {ButtonColor} from '../../../../../common/view/model/button-color';
 
 
 export interface ListEntry {
@@ -23,6 +24,8 @@ export class FlightrouteListComponent implements OnInit, OnChanges {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     public dataSource: MatTableDataSource<ListEntry>;
     public visibleColumns = ['name', 'icons'];
+
+    protected readonly ButtonColor = ButtonColor;
 
 
     constructor() {
