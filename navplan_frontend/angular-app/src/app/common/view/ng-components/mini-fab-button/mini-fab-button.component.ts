@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ButtonColor} from '../../model/button-color';
 import {TooltipPosition} from '../../model/tooltip-position';
-import {NgTooltipPosition} from '../../model/ng-tooltip-position';
+import {NgTooltipPosition} from '../ng-tooltip-position';
 
 @Component({
     selector: 'app-mini-fab-button',

@@ -1,4 +1,4 @@
-import {TooltipPosition} from './tooltip-position';
+import {TooltipPosition} from '../model/tooltip-position';
 
 export class NgTooltipPosition {
     public static getValue(position: TooltipPosition): 'left' | 'right' | 'above' | 'below' | 'before' | 'after' {
