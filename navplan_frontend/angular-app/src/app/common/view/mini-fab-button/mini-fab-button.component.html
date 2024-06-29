@@ -1,0 +1,10 @@
+<button
+    mat-mini-fab
+    [color]="this.getColor()"
+    [matTooltip]="this.tooltipText"
+    [matTooltipPosition]="this.tooltipPosition"
+    [disabled]="this.disabled"
+    (click)="this.onButtonClick()"
+>
+    <ng-content></ng-content>
+</button>

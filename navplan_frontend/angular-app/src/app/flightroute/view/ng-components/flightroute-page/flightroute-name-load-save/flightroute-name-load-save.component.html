@@ -48,4 +48,32 @@
     >
         <i class="fa-solid fa-copy"></i>
     </button>
+    <!-- TODO -->
+    <app-mini-fab-button
+        [color]="'green'"
+        [tooltipText]="'Load Route'"
+        [tooltipPosition]="'above'"
+        [disabled]="!this.isLoadButtonEnabled()"
+        (click)="this.onLoadFlightrouteClick()"
+    >
+        <i class="fa-solid fa-folder-open"></i>
+    </app-mini-fab-button>
+    <app-mini-fab-button
+        [color]="'blue'"
+        [tooltipText]="'Save Route'"
+        [tooltipPosition]="'above'"
+        [disabled]="!this.isSaveButtonEnabled()"
+        (click)="this.onSaveFlightrouteClick()"
+    >
+        <i class="fa-solid fa-download"></i>
+    </app-mini-fab-button>
+    <app-mini-fab-button
+        [color]="'blue'"
+        [tooltipText]="'Save Copy of Route'"
+        [tooltipPosition]="'above'"
+        [disabled]="!this.isSaveCopyButtonEnabled()"
+        (click)="this.onSaveFlightrouteCopyClick()"
+    >
+        <i class="fa-solid fa-copy"></i>
+    </app-mini-fab-button>
 </div>

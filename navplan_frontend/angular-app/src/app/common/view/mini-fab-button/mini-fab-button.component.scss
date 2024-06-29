@@ -1,0 +1,30 @@
+@use '@angular/material' as mat;
+
+.mat-mdc-mini-fab.mat-button-green {
+    color: white;
+    background-color: green;
+}
+
+.mat-mdc-mini-fab.mat-button-orange {
+    color: white;
+    background-color: darkorange;
+}
+
+.mat-mdc-mini-fab.mat-button-red {
+    color: white;
+    background-color: #f44336;
+}
+
+.mat-mdc-mini-fab.mat-button-blue {
+    color: white;
+    background-color: #41669c;
+}
+
+.mat-mdc-mini-fab.mat-button-green:disabled,
+.mat-mdc-mini-fab.mat-button-orange:disabled,
+.mat-mdc-mini-fab.mat-button-red:disabled,
+.mat-mdc-mini-fab.mat-button-blue:disabled
+{
+    color: white;
+    background-color: gray;
+}
