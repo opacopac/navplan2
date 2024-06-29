@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
-import {ButtonColor} from '../../../../../common/model/button-color';
-import {TooltipPosition} from '../../../../../common/model/tooltip-position';
+import {ButtonColor} from '../../../../../common/view/model/button-color';
+import {TooltipPosition} from '../../../../../common/view/model/tooltip-position';
 
 
 @Component({

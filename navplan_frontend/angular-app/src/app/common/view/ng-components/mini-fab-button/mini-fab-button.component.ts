@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ButtonColor} from '../../model/button-color';
 import {TooltipPosition} from '../../model/tooltip-position';
+import {NgTooltipPosition} from '../../model/ng-tooltip-position';
 
 @Component({
     selector: 'app-mini-fab-button',
@@ -13,6 +14,8 @@ export class MiniFabButtonComponent implements OnInit {
     @Input() public tooltipText: string;
     @Input() public tooltipPosition: TooltipPosition;
     @Output() public click = new EventEmitter<void>();
+
+    protected readonly NgTooltipPosition = NgTooltipPosition;
 
 
     constructor() {
@@ -34,25 +37,6 @@ export class MiniFabButtonComponent implements OnInit {
             case ButtonColor.BLUE:
             default:
                 return 'button-blue';
-        }
-    }
-
-
-    protected getTooltipPosition(): 'left' | 'right' | 'above' | 'below' | 'before' | 'after' {
-        switch (this.tooltipPosition) {
-            case TooltipPosition.LEFT:
-                return 'left';
-            case TooltipPosition.RIGHT:
-                return 'right';
-            case TooltipPosition.ABOVE:
-                return 'above';
-            case TooltipPosition.BELOW:
-                return 'below';
-            case TooltipPosition.BEFORE:
-                return 'before';
-            case TooltipPosition.AFTER:
-            default:
-                return 'after';
         }
     }
 

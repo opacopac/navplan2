@@ -4,7 +4,7 @@ import {VerticalMapButtonStatus} from '../../../domain/model/vertical-map-button
 import {select, Store} from '@ngrx/store';
 import {getVerticalMapState} from '../../../state/ngrx/vertical-map.selectors';
 import {VerticalMapState} from '../../../state/state-model/vertical-map-state';
-import {ButtonStatus} from '../../../../common/model/button-status';
+import {ButtonStatus} from '../../../../common/view/model/button-status';
 
 
 @Component({

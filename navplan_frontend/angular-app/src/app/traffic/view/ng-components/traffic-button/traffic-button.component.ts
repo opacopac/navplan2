@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {TrafficActions} from '../../../state/ngrx/traffic.actions';
 import {getTrafficStatus} from '../../../state/ngrx/traffic.selectors';
 import {TrafficServiceStatus} from '../../../domain/model/traffic-service-status';
-import {ButtonStatus} from '../../../../common/model/button-status';
+import {ButtonStatus} from '../../../../common/view/model/button-status';
 
 
 @Component({

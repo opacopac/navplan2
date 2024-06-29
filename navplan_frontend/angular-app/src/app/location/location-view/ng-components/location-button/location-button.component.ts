@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {LocationActions} from '../../../location-state/ngrx/location.actions';
 import {getLocationIsWatching, getLocationStatus} from '../../../location-state/ngrx/location.selectors';
 import {LocationServiceStatus} from '../../../location-domain/model/location-service-status';
-import {ButtonStatus} from '../../../../common/model/button-status';
+import {ButtonStatus} from '../../../../common/view/model/button-status';
 
 
 @Component({
