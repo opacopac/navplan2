@@ -1,8 +1,10 @@
 <div class="table-responsive" *ngIf="this.flightroute">
-    <table mat-table
-           multiTemplateDataRows
-           class="waypoints-table"
-           [dataSource]="this.wpDataSource">
+    <table
+        mat-table
+        multiTemplateDataRows
+        class="waypoints-table"
+        [dataSource]="this.wpDataSource"
+    >
 
         <ng-container matColumnDef="freq">
             <th mat-header-cell *matHeaderCellDef>Freq</th>
@@ -70,6 +72,7 @@
             <td mat-footer-cell *matFooterCellDef>
                 <!-- reverse waypoints button -->
                 <button
+                    class="reverse-button"
                     mat-raised-button
                     type="button"
                     matTooltip="Reverse Waypoint Order"
@@ -121,23 +124,36 @@
             </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="this.visibleColumns" class="even_row"></tr>
-        <tr mat-row *matRowDef="let entry; columns: ['alt_indent', 'alt_title']" [hidden]="!entry.isAlternate"></tr>
+        <tr mat-header-row
+            *matHeaderRowDef="this.visibleColumns"
+            class="even_row"
+        ></tr>
+        <tr mat-row
+            *matRowDef="let entry; columns: ['alt_indent', 'alt_title']"
+            [hidden]="!entry.isAlternate"
+        ></tr>
         <tr mat-row
             *matRowDef="let entry; let index = dataIndex; columns: this.visibleColumns"
-            [ngClass]="{ 'alt_row': (entry.isAlternate), 'even_row': ((index / 2) % 2 == 1) }"
+            [ngClass]="{ 'alt_row': (entry.isAlternate), 'even_row': index % 2 == 1 }"
             class="clickable"
             (click)="this.onEditWaypointClick.emit(entry.wp)"
         ></tr>
-        <tr mat-row *matRowDef="let entry; columns: ['supp_info_icon', 'supp_info_text']" class="supp_info_row"
+        <tr mat-row
+            *matRowDef="let entry; columns: ['supp_info_icon', 'supp_info_text']"
+            class="supp_info_row"
             [hidden]="!entry.wp.supp_info"
         ></tr>
-        <tr mat-row *matRowDef="let entry; columns: ['subtot_ident', 'subtot_eet']"
+        <tr mat-row
+            *matRowDef="let entry; columns: ['subtot_ident', 'subtot_eet']"
             [hidden]="!entry.isDestinationAirport"
         ></tr>
-        <tr mat-footer-row *matFooterRowDef="['no_entry']"
+        <tr mat-footer-row
+            *matFooterRowDef="['no_entry']"
             [hidden]="this.flightroute && this.flightroute.waypoints.length > 0"
         ></tr>
-        <tr mat-footer-row *matFooterRowDef="this.visibleColumns"></tr>
+        <tr mat-footer-row
+            *matFooterRowDef="this.visibleColumns"
+        ></tr>
+
     </table>
 </div>

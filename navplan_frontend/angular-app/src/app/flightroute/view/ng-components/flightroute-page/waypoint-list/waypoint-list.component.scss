@@ -16,8 +16,7 @@ u {
     text-decoration: underline;
 }
 
-.even_row,
-.mat-mdc-header-cell {
+.even_row {
     background-color: rgb(249, 249, 249);
 }
 
@@ -32,4 +31,8 @@ u {
 
 .alt_row {
     background-color: #cccccc;
+}
+
+app-icon-button {
+    float: right;
 }

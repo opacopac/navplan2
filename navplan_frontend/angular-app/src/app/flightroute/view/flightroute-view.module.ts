@@ -40,9 +40,7 @@ import {FlightrouteListComponent} from './ng-components/flightroute-page/flightr
 import {
     FlightrouteListDialogComponent
 } from './ng-components/flightroute-page/flightroute-list-dialog/flightroute-list-dialog.component';
-import {
-    FlightrouteWaypointListComponent
-} from './ng-components/flightroute-page/flightroute-waypoint-list/flightroute-waypoint-list.component';
+import {WaypointListComponent} from './ng-components/flightroute-page/waypoint-list/waypoint-list.component';
 import {MatTableModule} from '@angular/material/table';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
@@ -108,7 +106,7 @@ import {
         MapPopupWaypointButtonSetAlternateComponent,
         MapPopupWaypointHeaderComponent,
         MapPopupWaypointInfoTabComponent,
-        FlightrouteWaypointListComponent,
+        WaypointListComponent,
     ],
     exports: [
         FlightrouteContainerComponent,
