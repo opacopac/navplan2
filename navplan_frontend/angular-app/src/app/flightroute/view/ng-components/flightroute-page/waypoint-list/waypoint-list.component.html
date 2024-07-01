@@ -77,8 +77,8 @@
                     type="button"
                     matTooltip="Reverse Waypoint Order"
                     matTooltipPosition="above"
-                    [disabled]="this.flightroute.waypoints.length < 2"
-                    (click)="this.onReverseWaypointsClick.emit()"><i class="fa-solid fa-sort"></i> Reverse Waypoints
+                    *ngIf="this.flightroute.waypoints.length >= 2"
+                    (click)="this.onReverseWaypointsClick.emit()"><i class="fa-solid fa-arrows-up-down"></i> Reverse Waypoints
                 </button>
             </td>
         </ng-container>

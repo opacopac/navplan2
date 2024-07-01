@@ -4,6 +4,7 @@ import {Waypoint} from '../../../../domain/model/waypoint';
 import {Altitude} from '../../../../../geo-physics/domain/model/geometry/altitude';
 import {AltitudeUnit} from '../../../../../geo-physics/domain/model/geometry/altitude-unit';
 import {AltitudeReference} from '../../../../../geo-physics/domain/model/geometry/altitude-reference';
+import {ButtonColor} from '../../../../../common/view/model/button-color';
 
 
 @Component({
@@ -83,4 +84,6 @@ export class EditWaypointFormComponent implements OnInit, OnChanges {
                 Validators.maxLength(255)]
         });
     }
+
+    protected readonly ButtonColor = ButtonColor;
 }

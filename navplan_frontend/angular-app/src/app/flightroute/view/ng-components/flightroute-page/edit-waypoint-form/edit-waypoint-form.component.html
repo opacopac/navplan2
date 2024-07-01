@@ -65,11 +65,14 @@
                        placeholder="Supplemental Info (separate line)"
                        maxlength="255"/>
             </mat-form-field>
-            <button mat-icon-button
-                    (click)="this.onDeleteSuppInfoClicked()"
-                    title="delete supplemental info">
+            <app-icon-button
+                [color]="ButtonColor.RED"
+                tooltipText="delete supplemental info"
+                tooltipPosition="above"
+                (buttonClicked)="this.onDeleteSuppInfoClicked()"
+            >
                 <i class="fa-solid fa-eraser"></i>
-            </button>
+            </app-icon-button>
         </div>
     </div>
     <div>
