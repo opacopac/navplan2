@@ -16,7 +16,9 @@ export class EditWaypointFormComponent implements OnInit, OnChanges {
     @Input() editWaypoint: Waypoint;
     @Output() onSaveClick: EventEmitter<[Waypoint, Waypoint]> = new EventEmitter<[Waypoint, Waypoint]>();
     @Output() onCancelClick: EventEmitter<null> = new EventEmitter<null>();
-    public editWpForm: FormGroup;
+
+    protected editWpForm: FormGroup;
+    protected readonly ButtonColor = ButtonColor;
 
 
     constructor(public formBuilder: FormBuilder) {
@@ -84,6 +86,4 @@ export class EditWaypointFormComponent implements OnInit, OnChanges {
                 Validators.maxLength(255)]
         });
     }
-
-    protected readonly ButtonColor = ButtonColor;
 }

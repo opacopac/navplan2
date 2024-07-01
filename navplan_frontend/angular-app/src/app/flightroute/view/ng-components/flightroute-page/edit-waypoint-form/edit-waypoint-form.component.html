@@ -1,39 +1,45 @@
 <h3>Edit Waypoint</h3>
 <form [formGroup]="editWpForm">
     <div class="modal-body">
-        <mat-form-field color="accent" class="flex-row">
-            <input matInput
-                   type="text"
-                   formControlName="checkpoint"
-                   placeholder="Checkpoint"
-                   maxlength="30"
+        <mat-form-field color="accent" class="flex-row" appearance="outline">
+            <mat-label>Checkpoint</mat-label>
+            <input
+                matInput
+                type="text"
+                formControlName="checkpoint"
+                maxlength="30"
+                required
             />
         </mat-form-field>
-        <mat-form-field color="accent" class="flex-row">
-            <input matInput
-                   type="text"
-                   formControlName="freq"
-                   placeholder="Frequency"
-                   maxlength="7"
+        <mat-form-field color="accent" class="flex-row" appearance="outline">
+            <mat-label>Frequency</mat-label>
+            <input
+                matInput
+                type="text"
+                formControlName="freq"
+                maxlength="7"
             />
         </mat-form-field>
-        <mat-form-field color="accent" class="flex-row">
-            <input matInput
-                   type="text"
-                   formControlName="callsign"
-                   placeholder="Callsign"
-                   maxlength="10"/>
+        <mat-form-field color="accent" class="flex-row" appearance="outline">
+            <mat-label>Callsign</mat-label>
+            <input
+                matInput
+                type="text"
+                formControlName="callsign"
+                maxlength="10"
+            />
         </mat-form-field>
         <div class="flex-row">
-            <mat-form-field color="accent">
-                <input matInput
-                       #alt
-                       type="text"
-                       formControlName="alt"
-                       placeholder="Altitude"
-                       maxlength="5"
-                       min="0"
-                       max="99999"
+            <mat-form-field color="accent" appearance="outline">
+                <mat-label>Altitude</mat-label>
+                <input
+                    matInput
+                    #alt
+                    type="text"
+                    formControlName="alt"
+                    maxlength="5"
+                    min="0"
+                    max="99999"
                 />
                 <mat-error *ngIf="alt.invalid">Value must be a positive number!</mat-error>
             </mat-form-field>
@@ -49,21 +55,24 @@
                 </mat-button-toggle-group>
             </div>
         </div>
-        <mat-form-field color="accent" class="flex-row">
-            <input matInput
-                   type="text"
-                   formControlName="remark"
-                   placeholder="Remarks"
-                   maxlength="50"
+        <mat-form-field color="accent" class="flex-row" appearance="outline">
+            <mat-label>Remarks</mat-label>
+            <input
+                matInput
+                type="text"
+                formControlName="remark"
+                maxlength="50"
             />
         </mat-form-field>
         <div class="flex-row">
-            <mat-form-field color="accent">
-                <input matInput
-                       type="text"
-                       formControlName="supp_info"
-                       placeholder="Supplemental Info (separate line)"
-                       maxlength="255"/>
+            <mat-form-field color="accent" appearance="outline">
+                <mat-label>Supplemental Info</mat-label>
+                <input
+                    matInput
+                    type="text"
+                    formControlName="supp_info"
+                    maxlength="255"
+                />
             </mat-form-field>
             <app-icon-button
                 [color]="ButtonColor.RED"
