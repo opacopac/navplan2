@@ -10,6 +10,9 @@
                 maxlength="30"
                 required
             />
+            @if (this.editWpForm.invalid) {
+                <mat-error>Checkpoint is mandatory (max. 30 characters)!</mat-error>
+            }
         </mat-form-field>
         <mat-form-field color="accent" class="flex-row" appearance="outline">
             <mat-label>Frequency</mat-label>
@@ -41,7 +44,9 @@
                     min="0"
                     max="99999"
                 />
-                <mat-error *ngIf="alt.invalid">Value must be a positive number!</mat-error>
+                @if (this.editWpForm.invalid) {
+                    <mat-error>Value must be a positive whole number!</mat-error>
+                }
             </mat-form-field>
             <div>
                 <mat-button-toggle-group [multiple]="true" formControlName="isminmaxalt">
