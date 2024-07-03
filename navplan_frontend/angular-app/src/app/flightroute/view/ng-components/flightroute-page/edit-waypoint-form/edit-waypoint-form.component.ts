@@ -46,7 +46,8 @@ export class EditWaypointFormComponent implements OnInit, OnChanges {
         newWp.checkpoint = this.editWpForm.get('checkpoint').value;
         newWp.remark = this.editWpForm.get('remark').value;
         newWp.supp_info = this.editWpForm.get('supp_info').value;
-        newWp.wpAlt.alt = new Altitude(parseInt(this.editWpForm.get('alt').value, 10), AltitudeUnit.FT, AltitudeReference.MSL);
+        const altValue = parseInt(this.editWpForm.get('alt').value, 10);
+        newWp.wpAlt.alt = isNaN(altValue) ? undefined :  new Altitude(altValue, AltitudeUnit.FT, AltitudeReference.MSL); // TODO: unit
         newWp.wpAlt.isminalt = this.editWpForm.get('isminmaxalt').value.includes('min');
         newWp.wpAlt.ismaxalt = this.editWpForm.get('isminmaxalt').value.includes('max');
         newWp.wpAlt.isaltatlegstart = this.editWpForm.get('isaltatlegstart').value === 'true';
@@ -72,7 +73,7 @@ export class EditWaypointFormComponent implements OnInit, OnChanges {
                 editWaypoint ? editWaypoint.callsign : '',
                 Validators.maxLength(10)],
             'alt': [
-                (editWaypoint && editWaypoint.wpAlt.alt) ? editWaypoint.wpAlt.alt.getHeightAmsl().ft : '',
+                (editWaypoint && editWaypoint.wpAlt.alt) ? editWaypoint.wpAlt.alt.getHeightAmsl().ft : '', // TODO: unit
                 [Validators.maxLength(5), Validators.pattern('^[0-9]+$'), Validators.min(0), Validators.max(99999)]],
             'isminmaxalt': [
                 editWaypoint ? [editWaypoint.wpAlt.isminalt ? 'min' : '', editWaypoint.wpAlt.ismaxalt ? 'max' : ''] : []],
