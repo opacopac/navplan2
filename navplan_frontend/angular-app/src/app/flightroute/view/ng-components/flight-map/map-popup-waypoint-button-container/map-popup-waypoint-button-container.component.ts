@@ -1,14 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {combineLatest, Observable} from 'rxjs';
+import {combineLatest} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {getFlightroute} from '../../../../state/ngrx/flightroute.selectors';
-import {Flightroute} from '../../../../domain/model/flightroute';
 import {Waypoint} from '../../../../domain/model/waypoint';
 import {WaypointActions} from '../../../../state/ngrx/waypoints.actions';
 import {getFlightMapShowOverlay} from '../../../../../flight-map/state/ngrx/flight-map.selectors';
 import {EditWaypointDialogComponent} from '../../flightroute-page/edit-waypoint-dialog/edit-waypoint-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import {getSelectedAltitudeUnit} from '../../../../../geo-physics/state/ngrx/geo-physics.selectors';
 
 
 @Component({
@@ -17,51 +17,42 @@ import {MatDialog} from '@angular/material/dialog';
     styleUrls: ['./map-popup-waypoint-button-container.component.scss']
 })
 export class MapPopupWaypointButtonContainerComponent implements OnInit {
-    public readonly flightroute$: Observable<Flightroute>;
-    public readonly waypoint$: Observable<Waypoint>;
-    public readonly isAddable$: Observable<boolean>;
-    public readonly isWaypointInFlightroute$: Observable<boolean>;
-    public readonly isAlternateWaypoint$: Observable<boolean>;
-    public readonly isAlternateEligible$: Observable<boolean>;
+    protected readonly flightroute$ = this.appStore.pipe(select(getFlightroute));
+    protected readonly waypoint$ = this.appStore.pipe(
+        select(getFlightMapShowOverlay),
+        map(overlay => overlay.waypoint)
+    );
+    protected readonly isAddable$ = combineLatest([
+        this.flightroute$,
+        this.waypoint$]
+    ).pipe(
+        map(([route, wp]) => !route.containsWaypoint(wp) || route.waypoints.length > 1)
+    );
+    protected readonly isWaypointInFlightroute$ = combineLatest([
+        this.flightroute$,
+        this.waypoint$]
+    ).pipe(
+        map(([route, wp]) => route.containsWaypoint(wp))
+    );
+    protected readonly isAlternateWaypoint$ = combineLatest([
+        this.flightroute$,
+        this.waypoint$]
+    ).pipe(
+        map(([route, wp]) => route.isAlternateWaypoint(wp))
+    );
+    protected readonly isAlternateEligible$ = combineLatest([
+        this.flightroute$,
+        this.waypoint$]
+    ).pipe(
+        map(([route, wp]) => route.isALternateEligible(wp))
+    );
+    protected readonly altitudeUnit$ = this.appStore.pipe(select(getSelectedAltitudeUnit));
 
 
     public constructor(
         private appStore: Store<any>,
         private dialog: MatDialog,
     ) {
-        this.flightroute$ = this.appStore.pipe(select(getFlightroute));
-        this.waypoint$ = this.appStore.pipe(
-            select(getFlightMapShowOverlay),
-            map(overlay => overlay.waypoint)
-        );
-
-        this.isAddable$ = combineLatest([
-            this.flightroute$,
-            this.waypoint$
-        ]).pipe(
-            map(([route, wp]) => !route.containsWaypoint(wp) || route.waypoints.length > 1)
-        );
-
-        this.isWaypointInFlightroute$ = combineLatest([
-            this.flightroute$,
-            this.waypoint$
-        ]).pipe(
-            map(([route, wp]) => route.containsWaypoint(wp))
-        );
-
-        this.isAlternateWaypoint$ = combineLatest([
-            this.flightroute$,
-            this.waypoint$
-        ]).pipe(
-            map(([route, wp]) => route.isAlternateWaypoint(wp))
-        );
-
-        this.isAlternateEligible$ = combineLatest([
-            this.flightroute$,
-            this.waypoint$
-        ]).pipe(
-            map(([route, wp]) => route.isALternateEligible(wp))
-        );
     }
 
 
@@ -95,7 +86,7 @@ export class MapPopupWaypointButtonContainerComponent implements OnInit {
         const dialogRef = this.dialog.open(EditWaypointDialogComponent, {
             // height: '800px',
             // width: '600px',
-            data: waypoint
+            data: {editWaypoint: waypoint, altitudeUnit$: this.altitudeUnit$}
         });
 
         dialogRef.afterClosed().subscribe((oldNewWp) => {
