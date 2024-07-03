@@ -44,6 +44,7 @@
                     min="0"
                     max="99999"
                 />
+                <span matTextSuffix>{{ this.getAltUnitText() }}</span>
                 @if (this.editWpForm.invalid) {
                     <mat-error>Value must be a positive whole number!</mat-error>
                 }

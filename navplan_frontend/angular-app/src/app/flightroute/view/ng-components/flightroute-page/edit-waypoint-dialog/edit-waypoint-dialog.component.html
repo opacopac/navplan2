@@ -1,6 +1,7 @@
 <app-edit-waypoint-form
     class="waypoint-form"
     [editWaypoint]="this.editWaypoint"
+    [altitudeUnit]="this.getAltitudeUnit()"
     (onSaveClick)="this.onSaveClick($event)"
     (onCancelClick)="this.onCancelClick()">
 </app-edit-waypoint-form>

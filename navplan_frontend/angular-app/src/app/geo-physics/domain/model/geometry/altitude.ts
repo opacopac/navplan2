@@ -21,6 +21,39 @@ export class Altitude implements Clonable<Altitude> {
     }
 
 
+    public static getUnitString(unit: AltitudeUnit): string {
+        switch (unit) {
+            case AltitudeUnit.FT: return 'ft';
+            case AltitudeUnit.M: return 'm';
+            case AltitudeUnit.FL: return 'FL';
+        }
+    }
+
+
+    public static fromLengthUnit(
+        value: number,
+        unit: LengthUnit,
+        reference: AltitudeReference
+    ): Altitude {
+        switch (unit) {
+            case LengthUnit.FT:
+                return new Altitude(
+                    value,
+                    AltitudeUnit.FT,
+                    reference
+                );
+            case LengthUnit.M:
+                return new Altitude(
+                    value,
+                    AltitudeUnit.M,
+                    reference
+                );
+            default:
+                throw new Error('unsupported length unit');
+        }
+    }
+
+
     public clone(): Altitude {
         return new Altitude(
             this.value,
