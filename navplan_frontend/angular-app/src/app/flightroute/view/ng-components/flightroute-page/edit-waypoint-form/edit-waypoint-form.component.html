@@ -74,12 +74,14 @@
                 <mat-label>Supplemental Info</mat-label>
                 <input
                     matInput
+                    #suppInfo
                     type="text"
                     formControlName="supp_info"
                     maxlength="255"
                 />
             </mat-form-field>
             <app-icon-button
+                [disabled]="!this.editWpForm.get('supp_info').value"
                 [color]="ButtonColor.RED"
                 tooltipText="delete supplemental info"
                 tooltipPosition="above"

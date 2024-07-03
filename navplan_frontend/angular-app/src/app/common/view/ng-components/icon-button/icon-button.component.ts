@@ -9,6 +9,7 @@ import {ButtonColor} from '../../model/button-color';
 })
 export class IconButtonComponent implements OnInit {
     @Input() public color: ButtonColor;
+    @Input() public disabled: boolean;
     @Input() public tooltipText: string;
     @Input() public tooltipPosition: TooltipPosition;
     @Output() public buttonClicked = new EventEmitter<void>();

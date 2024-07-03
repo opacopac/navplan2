@@ -1,6 +1,7 @@
 <button mat-icon-button
         class="icon-button"
         [color]="this.getColor()"
+        [disabled]="this.disabled"
         [matTooltip]="this.tooltipText"
         [matTooltipPosition]="this.tooltipPosition"
         (click)="this.onButtonClick()"
