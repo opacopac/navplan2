@@ -5,6 +5,7 @@ import {WaypointType} from '../../../../domain/model/waypoint-type';
 import {TimeUnit} from '../../../../../geo-physics/domain/model/quantities/time-unit';
 import {LengthUnit} from '../../../../../geo-physics/domain/model/quantities/length-unit';
 import {ButtonColor} from '../../../../../common/view/model/button-color';
+import {Length} from '../../../../../geo-physics/domain/model/quantities/length';
 
 
 interface WaypointListDataSourceRow {
@@ -31,6 +32,7 @@ export class WaypointListComponent implements OnInit, OnDestroy {
         return this._flightroute;
     }
 
+    @Input() altitudeUnit: LengthUnit;
     @Output() onEditWaypointClick = new EventEmitter<Waypoint>();
     @Output() onRemoveWaypointClick = new EventEmitter<Waypoint>();
     @Output() onReverseWaypointsClick = new EventEmitter<null>();
@@ -38,6 +40,7 @@ export class WaypointListComponent implements OnInit, OnDestroy {
     protected visibleColumns = ['freq', 'callsign', 'checkpoint', 'alt', 'mt', 'dist', 'eet', 'remarks', 'icons'];
     protected wpDataSource: WaypointListDataSourceRow[] = [];
     protected readonly ButtonColor = ButtonColor;
+    protected readonly Length = Length;
 
     private _flightroute: Flightroute;
 
@@ -58,7 +61,8 @@ export class WaypointListComponent implements OnInit, OnDestroy {
         if (!wp || !wp.wpAlt || !wp.wpAlt.alt) {
             return '';
         } else {
-            return wp.wpAlt.alt.getHeightAmsl().ft.toString();
+            const altValue = wp.wpAlt.alt.getHeightAmsl().getValue(this.altitudeUnit);
+            return Math.round(altValue).toString();
         }
     }
 

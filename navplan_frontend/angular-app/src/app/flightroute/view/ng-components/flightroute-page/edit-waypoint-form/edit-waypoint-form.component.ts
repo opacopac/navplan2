@@ -80,7 +80,7 @@ export class EditWaypointFormComponent implements OnInit, OnChanges {
                 editWaypoint ? editWaypoint.callsign : '',
                 Validators.maxLength(10)],
             'alt': [
-                (editWaypoint && editWaypoint.wpAlt.alt) ? editWaypoint.wpAlt.alt.getHeightAmsl().getValue(this.altitudeUnit) : '',
+                (editWaypoint && editWaypoint.wpAlt.alt) ? Math.round(editWaypoint.wpAlt.alt.getHeightAmsl().getValue(this.altitudeUnit)) : '',
                 [Validators.maxLength(5), Validators.pattern('^[0-9]+$'), Validators.min(0), Validators.max(99999)]],
             'isminmaxalt': [
                 editWaypoint ? [editWaypoint.wpAlt.isminalt ? 'min' : '', editWaypoint.wpAlt.ismaxalt ? 'max' : ''] : []],

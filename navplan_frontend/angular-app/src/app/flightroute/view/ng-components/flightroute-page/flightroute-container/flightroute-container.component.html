@@ -17,6 +17,7 @@
 
     <app-flightroute-waypoint-list
         [flightroute]="this.currentFlightroute$ | async"
+        [altitudeUnit]="this.altitudeUnit$ | async"
         (onEditWaypointClick)="this.onEditWaypointClick($event)"
         (onRemoveWaypointClick)="this.onRemoveWaypointClick($event)"
         (onReverseWaypointsClick)="this.onReverseWaypointsClick()"
