@@ -9,7 +9,7 @@ import {Waypoint} from '../../../../domain/model/waypoint';
 })
 export class MapPopupButtonEditWaypointComponent implements OnInit {
     @Input() public waypoint: Waypoint;
-    @Output() public editWaypointClick: EventEmitter<Waypoint> = new EventEmitter<Waypoint>();
+    @Output() public editWaypointClick = new EventEmitter<Waypoint>();
 
 
     ngOnInit() {

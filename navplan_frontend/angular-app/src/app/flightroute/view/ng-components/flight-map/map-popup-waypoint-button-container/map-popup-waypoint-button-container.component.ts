@@ -86,7 +86,7 @@ export class MapPopupWaypointButtonContainerComponent implements OnInit {
         const dialogRef = this.dialog.open(EditWaypointDialogComponent, {
             // height: '800px',
             // width: '600px',
-            data: {editWaypoint: waypoint, altitudeUnit$: this.altitudeUnit$}
+            data: { editWaypoint: waypoint, altitudeUnit$: this.altitudeUnit$ }
         });
 
         dialogRef.afterClosed().subscribe((oldNewWp) => {
