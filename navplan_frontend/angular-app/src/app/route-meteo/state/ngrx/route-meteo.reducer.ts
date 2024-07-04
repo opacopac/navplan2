@@ -7,8 +7,8 @@ import {RouteMetarTafSet} from '../../domain/model/route-metar-taf-set';
 
 
 const initialState: RouteMeteoState = {
-    maxMeteoRadius: new Length(30, LengthUnit.NM),
-    routeMetarTafs: new RouteMetarTafSet([], [], [], []),
+    maxMeteoRadius: new Length(25, LengthUnit.NM),
+    routeMetarTafs: new RouteMetarTafSet([]),
 };
 
 

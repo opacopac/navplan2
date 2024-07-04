@@ -11,30 +11,8 @@
         <span matTextSuffix>{{ this.maxRadiusUnit$ | async }}</span>
     </mat-form-field>
 
-    <!--<h3>Departure {{ this.startWp$ | async }}</h3>
     <app-route-meteo-table
-        [routeMetarTafList]="this.startMetarTafs$ | async"
-        [showDistance]="true"
-        [noDataText]="'(empty)'">
-    </app-route-meteo-table>
-
-    <h3>Destination {{ this.endWp$ | async }}</h3>
-    <app-route-meteo-table
-        [routeMetarTafList]="this.endMetarTafs$ | async"
-        [showDistance]="true"
-        [noDataText]="'(empty)'">
-    </app-route-meteo-table>
-
-    <h3>Alternate {{ this.altWp$ | async }}</h3>
-    <app-route-meteo-table
-        [routeMetarTafList]="this.alternateMetarTafs$ | async"
-        [showDistance]="true"
-        [noDataText]="'(empty)'">
-    </app-route-meteo-table>
-
-    <h3>Route</h3>-->
-    <app-route-meteo-table
-        [routeMetarTafList]="this.enRouteMetarTafs$ | async"
+        [routeMetarTafList]="this.routeMetarTafs$ | async"
         [showDistance]="false"
         [noDataText]="'(empty)'">
     </app-route-meteo-table>

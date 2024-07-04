@@ -8,7 +8,6 @@ import {getRouteMeteoState} from './route-meteo.selectors';
 import {RouteMeteoState} from '../state-model/route-meteo-state';
 import {Flightroute} from '../../../flightroute/domain/model/flightroute';
 import {getFlightroute} from '../../../flightroute/state/ngrx/flightroute.selectors';
-import {IMetarTafService} from '../../../metar-taf/domain/service/i-metar-taf.service';
 import {IRouteMeteoService} from '../../domain/service/i-route-meteo.service';
 
 
@@ -21,7 +20,6 @@ export class RouteMeteoEffects {
     constructor(
         private readonly actions$: Actions,
         private readonly appStore: Store<any>,
-        private readonly metarTafService: IMetarTafService,
         private readonly routeMeteoService: IRouteMeteoService,
     ) {
     }
@@ -35,7 +33,7 @@ export class RouteMeteoEffects {
             route,
             meteoState.maxMeteoRadius
         ).pipe(
-            map(routeMetarTafs => RouteMeteoActions.updateSuccess({ routeMetarTafs: routeMetarTafs }))
+            map(routeMetarTafs => RouteMeteoActions.updateSuccess({routeMetarTafs: routeMetarTafs}))
         ))
     ));
 }

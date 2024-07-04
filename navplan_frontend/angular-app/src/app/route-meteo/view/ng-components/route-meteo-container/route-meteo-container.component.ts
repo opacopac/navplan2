@@ -5,7 +5,6 @@ import {getRouteMeteoState} from '../../../state/ngrx/route-meteo.selectors';
 import {map} from 'rxjs/operators';
 import {Length} from '../../../../geo-physics/domain/model/quantities/length';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
-import {getFlightroute} from '../../../../flightroute/state/ngrx/flightroute.selectors';
 
 
 @Component({
@@ -15,16 +14,9 @@ import {getFlightroute} from '../../../../flightroute/state/ngrx/flightroute.sel
 })
 export class RouteMeteoContainerComponent implements OnInit {
     public readonly routeMeteoState$ = this.appStore.select(getRouteMeteoState);
-    public readonly startMetarTafs$ = this.routeMeteoState$.pipe(map(rms => rms.routeMetarTafs.startMetarTafs));
-    public readonly endMetarTafs$ = this.routeMeteoState$.pipe(map(rms => rms.routeMetarTafs.endMetarTafs));
-    public readonly alternateMetarTafs$ = this.routeMeteoState$.pipe(map(rms => rms.routeMetarTafs.altMetarTafs));
-    public readonly enRouteMetarTafs$ = this.routeMeteoState$.pipe(map(rms => rms.routeMetarTafs.enRouteMetarTafs));
+    public readonly routeMetarTafs$ = this.routeMeteoState$.pipe(map(rms => rms.routeMetarTafs.routeMetarTafs));
     public readonly maxRadiusValue$ = this.routeMeteoState$.pipe(map(rms => rms.maxMeteoRadius.value));
     public readonly maxRadiusUnit$ = this.routeMeteoState$.pipe(map(rms => rms.maxMeteoRadius.getUnitString()));
-    public readonly flightRoute$ = this.appStore.select(getFlightroute);
-    public readonly startWp$ = this.flightRoute$.pipe(map(route => route.waypoints.length > 0 ? route.waypoints[0].checkpoint : ''));
-    public readonly endWp$ = this.flightRoute$.pipe(map(route => route.waypoints.length > 1 ? route.waypoints[route.waypoints.length - 1].checkpoint : ''));
-    public readonly altWp$ = this.flightRoute$.pipe(map(route => route.alternate ? route.alternate.checkpoint : ''));
     public readonly Number = Number;
     public readonly String = String;
 
@@ -44,7 +36,7 @@ export class RouteMeteoContainerComponent implements OnInit {
 
     public onMaxRadiusChanged(maxRadValue: number): void {
         const newMaxRadius = new Length(maxRadValue, LengthUnit.NM);
-        this.appStore.dispatch(RouteMeteoActions.maxRadiusChanged({ maxRadius: newMaxRadius }));
+        this.appStore.dispatch(RouteMeteoActions.maxRadiusChanged({maxRadius: newMaxRadius}));
     }
 }
 
