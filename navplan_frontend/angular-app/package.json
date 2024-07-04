@@ -25,10 +25,10 @@
     "@angular/platform-browser": "^18.0.6",
     "@angular/platform-browser-dynamic": "^18.0.6",
     "@angular/router": "^18.0.6",
-    "@ngrx/effects": "^17.2.0",
-    "@ngrx/schematics": "^17.2.0",
-    "@ngrx/store": "^17.2.0",
-    "@ngrx/store-devtools": "^17.2.0",
+    "@ngrx/effects": "^18.0.1",
+    "@ngrx/schematics": "^18.0.1",
+    "@ngrx/store": "^18.0.1",
+    "@ngrx/store-devtools": "^18.0.1",
     "codelyzer": "^6.0.2",
     "core-js": "^3.37.0",
     "ol": "^9.1.0",
@@ -37,7 +37,8 @@
     "rxjs": "^7.8.1",
     "tslib": "^2.6.2",
     "typescript": "^5.4.5",
-    "zone.js": "~0.14.5"
+    "zone.js": "~0.14.5",
+    "@ngrx/operators": "^18.0.0"
   },
   "devDependencies": {
     "@types/jasmine": "~5.1.4",
