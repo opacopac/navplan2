@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {HttpClientJsonpModule, HttpClientModule} from '@angular/common/http';
+import {provideHttpClient, withInterceptorsFromDi, withJsonpSupport} from '@angular/common/http';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
@@ -21,17 +21,15 @@ import {UserViewModule} from './user/view/user-view.module';
 import {MessageViewModule} from './message/view/message-view.module';
 
 
-@NgModule({
-    declarations: [
+@NgModule({ declarations: [
         AppComponent,
     ],
-    imports: [
-        AppRoutingModule,
+    bootstrap: [
+        AppComponent
+    ], imports: [AppRoutingModule,
         RouterModule,
         BrowserModule,
-        HttpClientModule,
-        HttpClientJsonpModule,
-        StoreModule.forRoot({'appState': appReducer}),
+        StoreModule.forRoot({ 'appState': appReducer }),
         EffectsModule.forRoot([AppEffects]),
         StoreDevtoolsModule.instrument({
             maxAge: 25, // Retains last 25 states
@@ -46,12 +44,6 @@ import {MessageViewModule} from './message/view/message-view.module';
         NavbarViewModule,
         SettingsViewModule,
         TrackViewModule,
-        UserViewModule,
-    ],
-    providers: [],
-    bootstrap: [
-        AppComponent
-    ]
-})
+        UserViewModule], providers: [provideHttpClient(withInterceptorsFromDi(), withJsonpSupport())] })
 export class AppModule {
 }
