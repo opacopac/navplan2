@@ -1,6 +1,10 @@
 <div *ngIf="this.flightrouteList && this.flightrouteList.length > 0" class="flightroute-list-container">
-    <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    <mat-form-field appearance="outline">
+        <input
+            matInput
+            (keyup)="applyFilter($event.target.value)"
+            placeholder="Filter"
+        >
     </mat-form-field>
 
     <table mat-table
@@ -25,7 +29,7 @@
                     [tooltipPosition]="'above'"
                     (buttonClicked)="this.onLoadRouteClick.emit(entry.id)"
                 >
-                   <i class="fa-solid fa-upload"></i>
+                    <i class="fa-solid fa-upload"></i>
                 </app-icon-button>
                 <app-icon-button
                     [color]="ButtonColor.BLUE"
@@ -33,7 +37,7 @@
                     [tooltipPosition]="'above'"
                     (buttonClicked)="this.onDuplicateRouteClick.emit(entry.id)"
                 >
-                   <i class="fa-solid fa-copy"></i>
+                    <i class="fa-solid fa-copy"></i>
                 </app-icon-button>
                 <app-icon-button
                     [color]="ButtonColor.RED"
@@ -41,7 +45,7 @@
                     [tooltipPosition]="'above'"
                     (buttonClicked)="this.onDeleteRouteClick.emit(entry.id)"
                 >
-                   <i class="fa-solid fa-trash"></i>
+                    <i class="fa-solid fa-trash"></i>
                 </app-icon-button>
             </td>
         </ng-container>
@@ -56,7 +60,8 @@
     <mat-paginator
         [pageSize]="10"
         [pageSizeOptions]="[5, 10, 25, 100]"
-        showFirstLastButtons></mat-paginator>
+        showFirstLastButtons
+    ></mat-paginator>
 </div>
 
 <div *ngIf="!this.flightrouteList || this.flightrouteList.length == 0">
