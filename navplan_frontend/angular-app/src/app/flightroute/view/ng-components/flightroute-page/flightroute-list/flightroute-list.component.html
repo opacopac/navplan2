@@ -51,16 +51,19 @@
         </ng-container>
 
         <tr mat-header-row
-            *matHeaderRowDef="this.visibleColumns"></tr>
+            *matHeaderRowDef="this.visibleColumns"
+            class="header-row"
+        ></tr>
         <tr mat-row
-            class="{{ this.flightrouteList?.id === routeListEntry?.id ? 'selected-row' : '' }}"
-            *matRowDef="let routeListEntry; columns: this.visibleColumns"></tr>
+            *matRowDef="let routeListEntry; let even = even; columns: this.visibleColumns"
+            [ngClass]="{ 'odd-row': !even, 'selected-row': this.flightrouteList?.id === routeListEntry?.id }"
+        ></tr>
     </table>
 
     <mat-paginator
         [pageSize]="10"
         [pageSizeOptions]="[5, 10, 25, 100]"
-        showFirstLastButtons
+        showFirstLastButtons="true"
     ></mat-paginator>
 </div>
 
