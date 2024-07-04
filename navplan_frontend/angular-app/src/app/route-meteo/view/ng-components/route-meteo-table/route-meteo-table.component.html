@@ -6,7 +6,8 @@
     <ng-container matColumnDef="site">
         <th mat-header-cell *matHeaderCellDef>Station</th>
         <td mat-cell *matCellDef="let routeMetarTaf">
-            <p>{{ routeMetarTaf.metarTaf.siteName }}</p>
+            <p>{{ routeMetarTaf.metarTaf.ad_icao }}</p>
+            <p><i>{{ routeMetarTaf.metarTaf.siteName }}</i></p>
         </td>
     </ng-container>
     <ng-container matColumnDef="dist">
