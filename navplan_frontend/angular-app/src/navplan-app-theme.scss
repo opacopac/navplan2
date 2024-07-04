@@ -85,14 +85,14 @@ $blue-grey-palette: (
 //$candy-app-primary: mat.define-palette(mat.$indigo-palette);
 //$candy-app-accent: mat.define-palette(mat.$blue-gray-palette);
 
-$navplan-app-primary: mat.define-palette($grey-palette, 100, 100, 700);
-$navplan-app-accent: mat.define-palette(mat.$blue-grey-palette, 700, 400, 800);
+$navplan-app-primary: mat.m2-define-palette($grey-palette, 100, 100, 700);
+$navplan-app-accent: mat.m2-define-palette(mat.$m2-blue-grey-palette, 700, 400, 800);
 
 // The warn palette is optional (defaults to red).
-$navplan-app-warn: mat.define-palette(mat.$red-palette);
+$navplan-app-warn: mat.m2-define-palette(mat.$m2-red-palette);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$navplan-app-theme: mat.define-light-theme((
+$navplan-app-theme: mat.m2-define-light-theme((
     color: (
         primary: $navplan-app-primary,
         accent: $navplan-app-accent,
@@ -100,7 +100,7 @@ $navplan-app-theme: mat.define-light-theme((
     )
 ));
 
-$navplan-app-theme-dense: mat.define-light-theme((
+$navplan-app-theme-dense: mat.m2-define-light-theme((
     color: (
         primary: $navplan-app-primary,
         accent: $navplan-app-accent,
