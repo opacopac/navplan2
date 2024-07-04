@@ -5,9 +5,6 @@ import {ExporterDomainModule} from '../domain/exporter-domain.module';
 import {DownloadContainerComponent} from './ng-components/download-container/download-container.component';
 import {DownloadDialogComponent} from './ng-components/download-dialog/download-dialog.component';
 import {ExporterStateModule} from '../state/exporter-state.module';
-import {
-    FlightrouteExportButtonsComponent
-} from './ng-components/flightroute-export-buttons/flightroute-export-buttons.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
 
@@ -24,14 +21,12 @@ import {MatDialogModule} from '@angular/material/dialog';
     declarations: [
         DownloadContainerComponent,
         DownloadDialogComponent,
-        FlightrouteExportButtonsComponent
 
     ],
     exports: [
         DownloadContainerComponent,
-        FlightrouteExportButtonsComponent
     ],
-    providers: [
-    ],
+    providers: [],
 })
-export class ExporterViewModule {}
+export class ExporterViewModule {
+}
