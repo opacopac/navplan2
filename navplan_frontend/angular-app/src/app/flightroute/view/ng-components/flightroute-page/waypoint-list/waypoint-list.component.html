@@ -127,7 +127,7 @@
 
         <tr mat-header-row
             *matHeaderRowDef="this.visibleColumns"
-            class="even_row"
+            class="header-row"
         ></tr>
         <tr mat-row
             *matRowDef="let entry; columns: ['alt_indent', 'alt_title']"
@@ -135,13 +135,13 @@
         ></tr>
         <tr mat-row
             *matRowDef="let entry; let index = dataIndex; columns: this.visibleColumns"
-            [ngClass]="{ 'alt_row': (entry.isAlternate), 'even_row': index % 2 == 1 }"
+            [ngClass]="{ 'alt_row': (entry.isAlternate), 'odd-row': index % 2 === 1 }"
             class="clickable"
             (click)="this.onEditWaypointClick.emit(entry.wp)"
         ></tr>
         <tr mat-row
             *matRowDef="let entry; columns: ['supp_info_icon', 'supp_info_text']"
-            class="supp_info_row"
+            class="supp-info-row"
             [hidden]="!entry.wp.supp_info"
         ></tr>
         <tr mat-row

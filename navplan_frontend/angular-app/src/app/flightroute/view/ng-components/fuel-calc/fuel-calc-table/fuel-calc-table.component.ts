@@ -26,6 +26,7 @@ export class FuelCalcTableComponent implements OnInit, OnChanges {
 
     @Input() fuelUnit: VolumeUnit;
     protected fuelDataSource: FuelDataSourceRow[] = [];
+    protected visibleColumns = ['fuelCalc', 'time', 'fuel'];
 
 
     constructor() {
@@ -41,7 +42,7 @@ export class FuelCalcTableComponent implements OnInit, OnChanges {
     }
 
 
-    public formatTime(time: Time): string {
+    protected formatTime(time: Time): string {
         if (time && time.min > 0) {
             const hm = time.getHourMinutes();
             return StringnumberHelper.zeroPad(hm[0], 2) + ':' + StringnumberHelper.zeroPad(hm[1], 2);
@@ -51,7 +52,7 @@ export class FuelCalcTableComponent implements OnInit, OnChanges {
     }
 
 
-    public formatFuel(fuel: Volume): string {
+    protected formatFuel(fuel: Volume): string {
         if (fuel) {
             return '' + Math.ceil(fuel.getValue(this.fuelUnit));
         } else {
@@ -60,7 +61,7 @@ export class FuelCalcTableComponent implements OnInit, OnChanges {
     }
 
 
-    private calcFuelDataSource(routeFuel: RouteFuel): FuelDataSourceRow[] {
+    protected calcFuelDataSource(routeFuel: RouteFuel): FuelDataSourceRow[] {
         const fuelDataSource: FuelDataSourceRow[] = [];
 
         fuelDataSource.push(this.createFuelDataSourceRow(
