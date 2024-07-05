@@ -1,29 +1,35 @@
 <form [formGroup]="resetPwForm" *ngIf="!this.isInvalidToken">
     <div class="main-container">
-        <mat-form-field appearance="fill">
+        <mat-form-field color="accent" appearance="outline">
             <mat-label>E-Mail</mat-label>
-            <input matInput
-                   type="email"
-                   formControlName="email"
-                   [readonly]="true">
+            <input
+                matInput
+                type="email"
+                formControlName="email"
+                [readonly]="true"
+            />
             <mat-icon matSuffix><i class="fa-solid fa-check"></i></mat-icon>
         </mat-form-field>
-        <mat-form-field appearance="fill">
+        <mat-form-field color="accent" appearance="outline">
             <mat-label>New Password</mat-label>
-            <input matInput
-                   type="password"
-                   formControlName="password"
-                   #password
-                   required>
+            <input
+                matInput
+                type="password"
+                formControlName="password"
+                #password
+                required
+            />
             <mat-error>Password is required (min. 6 characters)</mat-error>
         </mat-form-field>
-        <mat-form-field appearance="fill">
+        <mat-form-field color="accent" appearance="outline">
             <mat-label>Repeat New Password</mat-label>
-            <input matInput
-                   type="password"
-                   formControlName="password2"
-                   #password2
-                   required>
+            <input
+                matInput
+                type="password"
+                formControlName="password2"
+                #password2
+                required
+            />
             <mat-error>Password is required (min. 6 characters)</mat-error>
         </mat-form-field>
         <mat-error
@@ -31,14 +37,19 @@
             Passwords must be identical
         </mat-error>
         <div class="buttons-container">
-            <button mat-raised-button
-                    color="primary"
-                    (click)="this.onResetPwClick.emit([this.tokenString, password.value, rememberMe.checked])"
-                    [disabled]="this.resetPwForm.invalid">Change Password
+            <button
+                mat-raised-button
+                color="accent"
+                (click)="this.onResetPwClick.emit([this.tokenString, password.value, rememberMe.checked])"
+                [disabled]="this.resetPwForm.invalid"
+            >
+                Change Password
             </button>
             <mat-checkbox
                 #rememberMe
-                formControlName="rememberMe">remember me
+                formControlName="rememberMe"
+            >
+                remember me
             </mat-checkbox>
         </div>
     </div>

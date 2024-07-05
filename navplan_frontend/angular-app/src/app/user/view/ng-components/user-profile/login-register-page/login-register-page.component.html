@@ -5,8 +5,8 @@
                 <mat-panel-title><strong>Log In</strong></mat-panel-title>
             </mat-expansion-panel-header>
             <app-login-form
-                    [currentUser]="this.currentUser$ | async"
-                    (onLoginClick)="this.onLoginClick($event)">
+                [currentUser]="this.currentUser$ | async"
+                (onLoginClick)="this.onLoginClick($event)">
             </app-login-form>
         </mat-expansion-panel>
         <mat-expansion-panel>
@@ -14,8 +14,8 @@
                 <mat-panel-title><strong>Create New Account</strong></mat-panel-title>
             </mat-expansion-panel-header>
             <app-register-step1-form
-                    [registerEmailSentTo]="this.registerEmailSentTo$ | async"
-                    (onSendRegisterEmailClick)="this.onSendRegisterEmailClick($event)">
+                [registerEmailSentTo]="this.registerEmailSentTo$ | async"
+                (onSendRegisterEmailClick)="this.onSendRegisterEmailClick($event)">
             </app-register-step1-form>
         </mat-expansion-panel>
     </mat-accordion>

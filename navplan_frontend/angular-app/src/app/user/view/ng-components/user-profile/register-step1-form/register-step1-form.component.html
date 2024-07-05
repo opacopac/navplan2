@@ -1,24 +1,30 @@
 <form [formGroup]="registerForm">
     <div class="main-container">
-        <mat-form-field appearance="fill">
+        <mat-form-field color="accent" appearance="outline">
             <mat-label>E-Mail</mat-label>
-            <input matInput
-                   type="email"
-                   formControlName="email"
-                   #email
-                   required>
+            <input
+                matInput
+                type="email"
+                formControlName="email"
+                #email
+                required
+            />
             <mat-error>Not a valid email</mat-error>
         </mat-form-field>
         <div>
-            <button mat-raised-button
-                    color="primary"
-                    (click)="this.onSendRegisterEmailClick.emit(email.value)"
-                    [disabled]="this.registerForm.invalid">Verify E-Mail
+            <button
+                mat-raised-button
+                color="accent"
+                (click)="this.onSendRegisterEmailClick.emit(email.value)"
+                [disabled]="this.registerForm.invalid"
+            >
+                Verify E-Mail
             </button>
         </div>
     </div>
 </form>
 <!-- message if register email has been sent successfully -->
 <mat-error *ngIf="this.registerEmailSentTo">
-    <p>An email has just been sent to <strong>{{ this.registerEmailSentTo }}</strong>. Please check your inbox and use the enclosed activation link to finish the registration.</p>
+    <p>An email has just been sent to <strong>{{ this.registerEmailSentTo }}</strong>. Please check your inbox and use
+        the enclosed activation link to finish the registration.</p>
 </mat-error>

@@ -1,31 +1,38 @@
 <form [formGroup]="loginForm">
     <div class="main-container">
-        <mat-form-field appearance="fill">
+        <mat-form-field color="accent" appearance="outline">
             <mat-label>E-Mail</mat-label>
-            <input matInput
-                   #email
-                   type="email"
-                   formControlName="email"
-                   required>
+            <input
+                matInput
+                #email
+                type="email"
+                formControlName="email"
+                required
+            />
             <mat-error>Not a valid email</mat-error>
         </mat-form-field>
-        <mat-form-field appearance="fill">
+        <mat-form-field color="accent" appearance="outline">
             <mat-label>Password</mat-label>
-            <input matInput
-                   #password
-                   type="password"
-                   formControlName="password"
-                   required>
+            <input
+                matInput
+                #password
+                type="password"
+                formControlName="password"
+                required
+            />
             <mat-error>Required</mat-error>
         </mat-form-field>
         <p fxFlexAlign="end" style="margin-right: 20px">
             <a href="#/forgotpw">I forgot my password</a>
         </p>
         <div class="buttons-container">
-            <button mat-raised-button
-                    color="primary"
-                    (click)="this.onLoginClick.emit([email.value, password.value, rememberMe.checked])"
-                    [disabled]="this.loginForm.invalid" routerLink="/map">Log In
+            <button
+                mat-raised-button
+                color="accent"
+                (click)="this.onLoginClick.emit([email.value, password.value, rememberMe.checked])"
+                [disabled]="this.loginForm.invalid" routerLink="/map"
+            >
+                Log In
             </button>
             <mat-checkbox
                 #rememberMe

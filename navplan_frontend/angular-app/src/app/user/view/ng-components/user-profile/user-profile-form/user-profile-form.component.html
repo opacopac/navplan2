@@ -1,37 +1,45 @@
 <form [formGroup]="changePwForm" *ngIf="this.currentUser">
     <div class="main-container">
-        <mat-form-field appearance="fill">
+        <mat-form-field color="accent" appearance="outline">
             <mat-label>E-Mail</mat-label>
-            <input matInput
-                   type="email"
-                   formControlName="email"
-                   [readonly]="true">
+            <input
+                matInput
+                type="email"
+                formControlName="email"
+                [readonly]="true"
+            />
         </mat-form-field>
-        <mat-form-field appearance="fill">
+        <mat-form-field color="accent" appearance="outline">
             <mat-label>Old Password</mat-label>
-            <input matInput
-                   type="password"
-                   formControlName="oldPassword"
-                   #oldPassword
-                   required>
+            <input
+                matInput
+                type="password"
+                formControlName="oldPassword"
+                #oldPassword
+                required
+            />
             <mat-error>Password is required (min. 6 characters)</mat-error>
         </mat-form-field>
-        <mat-form-field appearance="fill">
+        <mat-form-field color="accent" appearance="outline">
             <mat-label>New Password</mat-label>
-            <input matInput
-                   type="password"
-                   formControlName="newPassword"
-                   #newPassword
-                   required>
+            <input
+                matInput
+                type="password"
+                formControlName="newPassword"
+                #newPassword
+                required
+            />
             <mat-error>Password is required (min. 6 characters)</mat-error>
         </mat-form-field>
-        <mat-form-field appearance="fill">
+        <mat-form-field color="accent" appearance="outline">
             <mat-label>Repeat New Password</mat-label>
-            <input matInput
-                   type="password"
-                   formControlName="newPassword2"
-                   #newPassword2
-                   required>
+            <input
+                matInput
+                type="password"
+                formControlName="newPassword2"
+                #newPassword2
+                required
+            />
             <mat-error>Password is required (min. 6 characters)</mat-error>
         </mat-form-field>
         <mat-error
@@ -39,10 +47,13 @@
             New passwords must be identical!
         </mat-error>
         <div>
-            <button mat-raised-button
-                    color="primary"
-                    (click)="this.onChangePwClick.emit([this.currentUser, oldPassword.value, newPassword.value])"
-                    [disabled]="this.changePwForm.invalid">Change Password
+            <button
+                mat-raised-button
+                color="accent"
+                (click)="this.onChangePwClick.emit([this.currentUser, oldPassword.value, newPassword.value])"
+                [disabled]="this.changePwForm.invalid"
+            >
+                Change Password
             </button>
         </div>
     </div>
