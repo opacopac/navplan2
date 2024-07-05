@@ -3,7 +3,7 @@ import {Store} from '@ngrx/store';
 import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {RegisterUserAction} from '../../../../state/ngrx/user.actions';
+import {RegisterActions} from '../../../../state/ngrx/register.actions';
 
 
 @Component({
@@ -30,6 +30,10 @@ export class RegisterStep2PageComponent implements OnInit {
 
 
     public onCreateAccount([token, password, rememberMe]: [string, string, boolean]) {
-        this.appStore.dispatch(new RegisterUserAction(token, password, rememberMe));
+        this.appStore.dispatch(RegisterActions.userRegister({
+            token: token,
+            password: password,
+            rememberMe: rememberMe
+        }));
     }
 }

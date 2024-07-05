@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {ActivatedRoute} from '@angular/router';
 import {map} from 'rxjs/operators';
-import {ResetPwAction} from '../../../../state/ngrx/user.actions';
+import {LostPwActions} from '../../../../state/ngrx/lost-pw.actions';
 
 
 @Component({
@@ -30,6 +30,10 @@ export class ForgotPwStep2PageComponent implements OnInit {
 
 
     public onResetPwClick([token, password, rememberMe]: [string, string, boolean]) {
-        this.appStore.dispatch(new ResetPwAction(token, password, rememberMe));
+        this.appStore.dispatch(LostPwActions.userResetPw({
+            token: token,
+            newPassword: password,
+            rememberMe: rememberMe
+        }));
     }
 }

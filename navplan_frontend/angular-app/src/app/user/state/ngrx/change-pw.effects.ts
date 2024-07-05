@@ -1,12 +1,11 @@
 import {Injectable} from '@angular/core';
-import {Action} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {Observable, of} from 'rxjs';
+import {of} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
-import {ChangePwAction, ChangePwErrorAction, ChangePwSuccessAction, UserActionTypes} from './user.actions';
 import {IUserService} from '../../domain/service/i-user.service';
 import {MessageActions} from '../../../message/state/ngrx/message.actions';
 import {Message} from '../../../message/domain/model/message';
+import {ChangePwActions} from './change-pw.actions';
 
 
 @Injectable()
@@ -18,31 +17,27 @@ export class ChangePwEffects {
     }
 
 
-    changePw$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(UserActionTypes.USER_CHANGE_PW),
-        switchMap((action: ChangePwAction) => this.userService.updatePassword(action.token, action.oldPassword, action.newPassword).pipe(
-            map(() => new ChangePwSuccessAction()),
-            catchError(error => of(new ChangePwErrorAction(error)))
+    changePw$ = createEffect(() => this.actions$.pipe(
+        ofType(ChangePwActions.userChangePw),
+        switchMap(action => this.userService.updatePassword(action.token, action.oldPassword, action.newPassword).pipe(
+            map(() => ChangePwActions.userChangePwSuccess()),
+            catchError(error => of(ChangePwActions.userChangePwError({error: error})))
         ))
     ));
 
 
-    changePwSuccess$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(UserActionTypes.USER_CHANGE_PW_SUCCESS),
-        map((action: ChangePwErrorAction) => {
-            return MessageActions.showMessage({
-                message: Message.success('Password successfully changed!')
-            });
-        })
+    changePwSuccess$ = createEffect(() => this.actions$.pipe(
+        ofType(ChangePwActions.userChangePwSuccess),
+        map(action => MessageActions.showMessage({
+            message: Message.success('Password successfully changed!')
+        }))
     ));
 
 
-    changePwError$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(UserActionTypes.USER_CHANGE_PW_ERROR),
-        map((action: ChangePwErrorAction) => {
-            return MessageActions.showMessage({
-                message: Message.error('Error while changing password.', action.error)
-            });
-        })
+    changePwError$ = createEffect(() => this.actions$.pipe(
+        ofType(ChangePwActions.userChangePwError),
+        map(action => MessageActions.showMessage({
+            message: Message.error('Error while changing password.', action.error)
+        }))
     ));
 }

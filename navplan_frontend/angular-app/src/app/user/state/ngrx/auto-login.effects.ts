@@ -1,20 +1,14 @@
 import {Router} from '@angular/router';
 import {Injectable} from '@angular/core';
-import {Action} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {Observable, of} from 'rxjs';
+import {of} from 'rxjs';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
-import {
-    AutoLoginUserAction,
-    AutoLoginUserErrorAction,
-    AutoLoginUserSuccessAction,
-    UserActionTypes
-} from './user.actions';
 import {ClientstorageHelper} from '../../../system/domain/service/clientstorage/clientstorage-helper';
 import {LoginEffects} from './login.effects';
 import {IUserService} from '../../domain/service/i-user.service';
 import {MessageActions} from '../../../message/state/ngrx/message.actions';
 import {Message} from '../../../message/domain/model/message';
+import {AutoLoginActions} from './auto-login.actions';
 
 
 @Injectable()
@@ -28,36 +22,30 @@ export class AutoLoginEffects {
     }
 
 
-
-    autoLoginUser$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(UserActionTypes.USER_AUTOLOGIN),
-        switchMap((action: AutoLoginUserAction) => this.userService.autoLogin(action.token).pipe(
-            map(user => new AutoLoginUserSuccessAction(user)),
-            catchError(error => of(new AutoLoginUserErrorAction(error)))
+    autoLoginUser$ = createEffect(() => this.actions$.pipe(
+        ofType(AutoLoginActions.userAutoLogin),
+        switchMap(action => this.userService.autoLogin(action.token).pipe(
+            map(user => AutoLoginActions.userAutoLoginSuccess({user: user})),
+            catchError(error => of(AutoLoginActions.userAutoLoginError({error: error})))
         ))
     ));
 
 
-
-    autoLoginUserSuccess$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(UserActionTypes.USER_AUTOLOGIN_SUCCESS),
-        map(action => action as AutoLoginUserSuccessAction),
-        tap((action: AutoLoginUserSuccessAction) => {
+    autoLoginUserSuccess$ = createEffect(() => this.actions$.pipe(
+        ofType(AutoLoginActions.userAutoLoginSuccess),
+        tap(action => {
             this.router.navigate([LoginEffects.ROUTE_URL_MAP]);
         }),
-        map((action: AutoLoginUserSuccessAction) => {
-            return MessageActions.showMessage({
-                message: Message.success('Welcome ' + action.user.email + '!')
-            });
-        })
+        map(action => MessageActions.showMessage({
+            message: Message.success('Welcome ' + action.user.email + '!')
+        }))
     ));
 
 
-
-    autoLoginUserError$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(UserActionTypes.USER_AUTOLOGIN_ERROR),
-        tap((action: AutoLoginUserErrorAction) => {
+    autoLoginUserError$ = createEffect(() => this.actions$.pipe(
+        ofType(AutoLoginActions.userAutoLoginError),
+        tap(action => {
             this.clientStorageService.deletePersistedToken();
         })
-    ), { dispatch: false });
+    ), {dispatch: false});
 }

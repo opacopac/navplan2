@@ -3,7 +3,8 @@ import {Observable} from 'rxjs';
 import {User} from '../../../../domain/model/user';
 import {select, Store} from '@ngrx/store';
 import {getCurrentUser, getRegisterEmailSentTo} from '../../../../state/ngrx/user.selectors';
-import {LoginUserAction, SendRegisterEmailAction} from '../../../../state/ngrx/user.actions';
+import {RegisterActions} from '../../../../state/ngrx/register.actions';
+import {LoginActions} from '../../../../state/ngrx/login.actions';
 
 @Component({
     selector: 'app-login-register-page',
@@ -26,13 +27,15 @@ export class LoginRegisterPageComponent implements OnInit {
 
 
     public onLoginClick([email, password, rememberMe]: [string, string, boolean]) {
-        this.appStore.dispatch(
-            new LoginUserAction(email, password, rememberMe)
-        );
+        this.appStore.dispatch(LoginActions.userLogin({
+            email: email,
+            password: password,
+            rememberMe: rememberMe
+        }));
     }
 
 
     public onSendRegisterEmailClick(email: string) {
-        this.appStore.dispatch(new SendRegisterEmailAction(email));
+        this.appStore.dispatch(RegisterActions.sendRegisterEmail({email: email}));
     }
 }

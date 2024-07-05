@@ -4,10 +4,10 @@ import {User} from '../../../../user/domain/model/user';
 import {select, Store} from '@ngrx/store';
 import {getCurrentUser} from '../../../../user/state/ngrx/user.selectors';
 import {SearchActions} from '../../../../search/state/ngrx/search.actions';
-import {LogoutUserAction} from '../../../../user/state/ngrx/user.actions';
 import {ExporterActions} from '../../../../exporter/state/ngrx/exporter.actions';
 import {ClearDialogComponent} from '../clear-dialog/clear-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import {LogoutActions} from '../../../../user/state/ngrx/logout.actions';
 
 
 @Component({
@@ -37,7 +37,7 @@ export class NavbarContainerComponent implements OnInit {
 
 
     public onLogoffClick() {
-        this.appStore.dispatch(new LogoutUserAction());
+        this.appStore.dispatch(LogoutActions.userLogout());
     }
 
 

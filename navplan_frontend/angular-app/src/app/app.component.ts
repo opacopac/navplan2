@@ -3,8 +3,8 @@ import {ClientstorageHelper} from './system/domain/service/clientstorage/clients
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {getCurrentUser} from './user/state/ngrx/user.selectors';
-import {AutoLoginUserAction} from './user/state/ngrx/user.actions';
 import {User} from './user/domain/model/user';
+import {AutoLoginActions} from './user/state/ngrx/auto-login.actions';
 
 
 @Component({
@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
         // auto login "remembered" user
         const persistedToken = this.clientstorageService.getPersistedToken();
         if (persistedToken) {
-            this.appStore.dispatch(new AutoLoginUserAction(persistedToken));
+            this.appStore.dispatch(AutoLoginActions.userAutoLogin({token: persistedToken}));
         }
     }
 }

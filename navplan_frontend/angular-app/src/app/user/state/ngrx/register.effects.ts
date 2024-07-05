@@ -1,22 +1,13 @@
 import {Router} from '@angular/router';
 import {Injectable} from '@angular/core';
-import {Action} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {Observable, of} from 'rxjs';
+import {of} from 'rxjs';
 import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
-import {
-    RegisterUserAction,
-    RegisterUserErrorAction,
-    RegisterUserSuccessAction,
-    SendRegisterEmailAction,
-    SendRegisterEmailErrorAction,
-    SendRegisterEmailSuccessAction,
-    UserActionTypes,
-} from './user.actions';
 import {ClientstorageHelper} from '../../../system/domain/service/clientstorage/clientstorage-helper';
 import {IUserService} from '../../domain/service/i-user.service';
 import {MessageActions} from '../../../message/state/ngrx/message.actions';
 import {Message} from '../../../message/domain/model/message';
+import {RegisterActions} from './register.actions';
 
 
 @Injectable()
@@ -34,34 +25,28 @@ export class RegisterEffects {
 
     // region registration - step 1
 
-    sendRegisterEmail$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(UserActionTypes.USER_SEND_REGISTER_EMAIL),
-        switchMap((action: SendRegisterEmailAction) => this.userService.sendRegisterEmail(action.email).pipe(
-            map(email => new SendRegisterEmailSuccessAction(email)),
-            catchError(error => of(new SendRegisterEmailErrorAction(error)))
+    sendRegisterEmail$ = createEffect(() => this.actions$.pipe(
+        ofType(RegisterActions.sendRegisterEmail),
+        switchMap(action => this.userService.sendRegisterEmail(action.email).pipe(
+            map(email => RegisterActions.sendRegisterEmailSuccess({email: email})),
+            catchError(error => of(RegisterActions.sendRegisterEmailError({error: error})))
         ))
     ));
 
 
-
-    sendRegisterEmailSuccess$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(UserActionTypes.USER_SEND_REGISTER_EMAIL_SUCCESS),
-        map((action: SendRegisterEmailSuccessAction) => {
-            return MessageActions.showMessage({
-                message: Message.success('Verification email successfully sent to ' + action.email + '!')
-            });
-        })
+    sendRegisterEmailSuccess$ = createEffect(() => this.actions$.pipe(
+        ofType(RegisterActions.sendRegisterEmailSuccess),
+        map(action => MessageActions.showMessage({
+            message: Message.success('Verification email successfully sent to ' + action.email + '!')
+        }))
     ));
 
 
-
-    sendRegisterEmailError$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(UserActionTypes.USER_SEND_REGISTER_EMAIL_ERROR),
-        map((action: SendRegisterEmailErrorAction) => {
-            return MessageActions.showMessage({
-                message: Message.error('Error while sending verification email.', action.error)
-            });
-        })
+    sendRegisterEmailError$ = createEffect(() => this.actions$.pipe(
+        ofType(RegisterActions.sendRegisterEmailError),
+        map(action => MessageActions.showMessage({
+            message: Message.error('Error while sending verification email.', action.error)
+        }))
     ));
 
     // endregion
@@ -69,38 +54,32 @@ export class RegisterEffects {
 
     // region registration - step 2
 
-    registerUser$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(UserActionTypes.USER_REGISTER),
-        mergeMap((action: RegisterUserAction) => this.userService.register(action.token, action.password, action.rememberMe).pipe(
-            map((user) => new RegisterUserSuccessAction(user, action.rememberMe)),
-            catchError(error => of(new RegisterUserErrorAction(error)))
+    registerUser$ = createEffect(() => this.actions$.pipe(
+        ofType(RegisterActions.userRegister),
+        mergeMap(action => this.userService.register(action.token, action.password, action.rememberMe).pipe(
+            map(user => RegisterActions.userRegisterSuccess({user: user, rememberMe: action.rememberMe})),
+            catchError(error => of(RegisterActions.userRegisterError({error: error})))
         ))
     ));
 
 
-
-    registerUserSuccess$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(UserActionTypes.USER_REGISTER_SUCCESS),
-        tap((action: RegisterUserSuccessAction) => {
+    registerUserSuccess$ = createEffect(() => this.actions$.pipe(
+        ofType(RegisterActions.userRegisterSuccess),
+        tap(action => {
             this.clientStorageService.persistToken(action.user.token, action.rememberMe);
             this.router.navigate(['/map']);
         }),
-        map((action: RegisterUserSuccessAction) => {
-            return MessageActions.showMessage({
-                message: Message.success('Welcome ' + action.user.email + '!')
-            });
-        })
+        map(action => MessageActions.showMessage({
+            message: Message.success('Welcome ' + action.user.email + '!')
+        }))
     ));
 
 
-
-    registerUserError$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(UserActionTypes.USER_REGISTER_ERROR),
-        map((action: RegisterUserErrorAction) => {
-            return MessageActions.showMessage({
-                message: Message.error('Error during registration.', action.error)
-            });
-        })
+    registerUserError$ = createEffect(() => this.actions$.pipe(
+        ofType(RegisterActions.userRegisterError),
+        map(action => MessageActions.showMessage({
+            message: Message.error('Error during registration.', action.error)
+        }))
     ));
 
     // endregion

@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {SendLostPwEmailAction} from '../../../../state/ngrx/user.actions';
 import {Observable} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import {getLostPwEmailSentTo} from '../../../../state/ngrx/user.selectors';
+import {LostPwActions} from '../../../../state/ngrx/lost-pw.actions';
 
 @Component({
     selector: 'app-forgot-pw-step1-page',
@@ -21,6 +21,6 @@ export class ForgotPwStep1PageComponent implements OnInit {
     }
 
     public onSendLostPwEmailClick(email: string) {
-        this.appStore.dispatch(new SendLostPwEmailAction(email));
+        this.appStore.dispatch(LostPwActions.sendLostPwEmail({email: email}));
     }
 }

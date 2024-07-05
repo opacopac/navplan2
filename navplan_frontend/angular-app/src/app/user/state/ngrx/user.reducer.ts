@@ -1,5 +1,10 @@
-import {UserActions, UserActionTypes} from './user.actions';
 import {UserState} from '../state-model/user-state';
+import {createReducer, on} from '@ngrx/store';
+import {LoginActions} from './login.actions';
+import {AutoLoginActions} from './auto-login.actions';
+import {RegisterActions} from './register.actions';
+import {LostPwActions} from './lost-pw.actions';
+import {LogoutActions} from './logout.actions';
 
 
 export const initialState: UserState = {
@@ -9,44 +14,42 @@ export const initialState: UserState = {
 };
 
 
-export function userReducer(state: UserState = initialState, action: UserActions): UserState {
-    switch (action.type) {
-        case UserActionTypes.USER_LOGIN_SUCCESS:
-        case UserActionTypes.USER_AUTOLOGIN_SUCCESS:
-        case UserActionTypes.USER_REGISTER_SUCCESS:
-        case UserActionTypes.USER_RESET_PW_SUCCESS:
-            return {
-                ...state,
-                currentUser: action.user,
-                registerEmailSentTo: undefined,
-                lostPwEmailSentTo: undefined,
-            };
+export const userReducer = createReducer(
+    initialState,
+    on(
+        LoginActions.userLoginSuccess,
+        AutoLoginActions.userAutoLoginSuccess,
+        RegisterActions.userRegisterSuccess,
+        LostPwActions.userResetPwSuccess,
+        (state, action) => ({
+            ...state,
+            currentUser: action.user,
+            registerEmailSentTo: undefined,
+            lostPwEmailSentTo: undefined,
+        })
+    ),
 
-        case UserActionTypes.USER_LOGOUT:
-        case UserActionTypes.USER_AUTOLOGIN_ERROR:
-        case UserActionTypes.USER_LOGIN_ERROR:
-        case UserActionTypes.USER_REGISTER_ERROR:
-        case UserActionTypes.USER_RESET_PW_ERROR:
-            return {
-                ...state,
-                currentUser: undefined,
-                registerEmailSentTo: undefined,
-                lostPwEmailSentTo: undefined,
-            };
+    on(
+        LogoutActions.userLogout,
+        AutoLoginActions.userAutoLoginError,
+        LoginActions.userLoginError,
+        RegisterActions.userRegisterError,
+        LostPwActions.userResetPwError,
+        (state) => ({
+            ...state,
+            currentUser: undefined,
+            registerEmailSentTo: undefined,
+            lostPwEmailSentTo: undefined,
+        })
+    ),
 
-        case UserActionTypes.USER_SEND_REGISTER_EMAIL_SUCCESS:
-            return {
-                ...state,
-                registerEmailSentTo: action.email
-            };
+    on(RegisterActions.sendRegisterEmailSuccess, (state, action) => ({
+        ...state,
+        registerEmailSentTo: action.email,
+    })),
 
-        case UserActionTypes.USER_SEND_LOST_PW_EMAIL_SUCCESS:
-            return {
-                ...state,
-                lostPwEmailSentTo: action.email
-            };
-
-        default:
-            return state;
-    }
-}
+    on(LostPwActions.sendLostPwEmailSuccess, (state, action) => ({
+        ...state,
+        lostPwEmailSentTo: action.email,
+    }))
+);

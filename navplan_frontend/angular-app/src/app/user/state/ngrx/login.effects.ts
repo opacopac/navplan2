@@ -1,14 +1,13 @@
 import {Router} from '@angular/router';
 import {Injectable} from '@angular/core';
-import {Action} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {Observable, of} from 'rxjs';
+import {of} from 'rxjs';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
-import {LoginUserAction, LoginUserErrorAction, LoginUserSuccessAction, UserActionTypes} from './user.actions';
 import {ClientstorageHelper} from '../../../system/domain/service/clientstorage/clientstorage-helper';
 import {IUserService} from '../../domain/service/i-user.service';
 import {MessageActions} from '../../../message/state/ngrx/message.actions';
 import {Message} from '../../../message/domain/model/message';
+import {LoginActions} from './login.actions';
 
 
 @Injectable()
@@ -25,37 +24,32 @@ export class LoginEffects {
     }
 
 
-
-    loginUser$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(UserActionTypes.USER_LOGIN),
-        switchMap((action: LoginUserAction) => this.userService.login(action.email, action.password, action.rememberMe).pipe(
-            map(user => new LoginUserSuccessAction(user, action.rememberMe)),
-            catchError(error => of(new LoginUserErrorAction(error)))
+    loginUser$ = createEffect(() => this.actions$.pipe(
+        ofType(LoginActions.userLogin),
+        switchMap(action => this.userService.login(action.email, action.password, action.rememberMe).pipe(
+            map(user => LoginActions.userLoginSuccess({user: user, rememberMe: action.rememberMe})),
+            catchError(error => of(LoginActions.userLoginError({error: error})))
         ))
     ));
 
 
-
-    loginUserSuccess$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(UserActionTypes.USER_LOGIN_SUCCESS),
-        tap((action: LoginUserSuccessAction) => {
+    loginUserSuccess$ = createEffect(() => this.actions$.pipe(
+        ofType(LoginActions.userLoginSuccess),
+        tap(action => {
             this.clientStorageService.persistToken(action.user.token, action.rememberMe);
             this.router.navigate([LoginEffects.ROUTE_URL_MAP]);
         }),
-        map((action: LoginUserSuccessAction) => {
-            return MessageActions.showMessage({ message: Message.success('Welcome ' + action.user.email + '!') });
-        })
+        map(action => MessageActions.showMessage(
+            {message: Message.success('Welcome ' + action.user.email + '!')}
+        ))
     ));
 
 
-
-    loginUserError$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(UserActionTypes.USER_LOGIN_ERROR),
-        tap((action: LoginUserErrorAction) => {
-            this.clientStorageService.deletePersistedToken();
-        }),
-        map((action: LoginUserErrorAction) => {
-            return MessageActions.showMessage({ message: Message.error('Error while logging in.', action.error) });
-        }),
+    loginUserError$ = createEffect(() => this.actions$.pipe(
+        ofType(LoginActions.userLoginError),
+        tap(action => this.clientStorageService.deletePersistedToken()),
+        map(action => MessageActions.showMessage(
+            {message: Message.error('Error while logging in.', action.error)}
+        )),
     ));
 }
