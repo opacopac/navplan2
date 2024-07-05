@@ -26,7 +26,8 @@ class DbUserRepo implements IUserRepo {
         $email = $this->dbService->escapeString($email);
         $pw_hash = password_hash($password, PASSWORD_BCRYPT);
         $pw_hash = $this->dbService->escapeString($pw_hash);
-        $query = "INSERT INTO users (token, email, pw_hash) VALUES ('DUMMY','" . $email . "','" . $pw_hash . "')";
+        $dummyToken = $this->dbService->escapeString(md5(uniqid())); // dummy token for bw-compatibility in DB, not actually used for authentication
+        $query = "INSERT INTO users (token, email, pw_hash) VALUES ('" . $dummyToken . "','" . $email . "','" . $pw_hash . "')";
         $this->dbService->execCUDQuery($query, "error creating user");
     }
 
@@ -46,6 +47,7 @@ class DbUserRepo implements IUserRepo {
 
 
     public function updatePassword(string $email, string $newPassword) {
+        $email = $this->dbService->escapeString($email);
         $newpw_hash = password_hash($newPassword, PASSWORD_BCRYPT);
         $newpw_hash = $this->dbService->escapeString($newpw_hash);
         $query = "UPDATE users SET pw_hash='" . $newpw_hash . "' WHERE email='" . $email . "'";
