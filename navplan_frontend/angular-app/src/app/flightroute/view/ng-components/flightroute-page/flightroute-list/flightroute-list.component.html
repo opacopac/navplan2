@@ -1,5 +1,5 @@
 <div *ngIf="this.flightrouteList && this.flightrouteList.length > 0" class="flightroute-list-container">
-    <mat-form-field appearance="outline">
+    <mat-form-field>
         <input
             matInput
             (keyup)="applyFilter($event.target.value)"

@@ -1,6 +1,6 @@
 <form [formGroup]="resetPwForm" *ngIf="!this.isInvalidToken">
     <div class="main-container">
-        <mat-form-field appearance="outline">
+        <mat-form-field>
             <mat-label>E-Mail</mat-label>
             <input
                 matInput
@@ -10,7 +10,7 @@
             />
             <mat-icon matSuffix><i class="fa-solid fa-check"></i></mat-icon>
         </mat-form-field>
-        <mat-form-field appearance="outline">
+        <mat-form-field>
             <mat-label>New Password</mat-label>
             <input
                 matInput
@@ -21,7 +21,7 @@
             />
             <mat-error>Password is required (min. 6 characters)</mat-error>
         </mat-form-field>
-        <mat-form-field appearance="outline">
+        <mat-form-field>
             <mat-label>Repeat New Password</mat-label>
             <input
                 matInput

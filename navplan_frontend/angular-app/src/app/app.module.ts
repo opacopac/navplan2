@@ -19,17 +19,21 @@ import {ExporterViewModule} from './exporter/view/exporter-view.module';
 import {TrackViewModule} from './track/view/track-view.module';
 import {UserViewModule} from './user/view/user-view.module';
 import {MessageViewModule} from './message/view/message-view.module';
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
 
 
-@NgModule({ declarations: [
+@NgModule({
+    declarations: [
         AppComponent,
     ],
     bootstrap: [
         AppComponent
-    ], imports: [AppRoutingModule,
+    ],
+    imports: [
+        AppRoutingModule,
         RouterModule,
         BrowserModule,
-        StoreModule.forRoot({ 'appState': appReducer }),
+        StoreModule.forRoot({'appState': appReducer}),
         EffectsModule.forRoot([AppEffects]),
         StoreDevtoolsModule.instrument({
             maxAge: 25, // Retains last 25 states
@@ -44,6 +48,12 @@ import {MessageViewModule} from './message/view/message-view.module';
         NavbarViewModule,
         SettingsViewModule,
         TrackViewModule,
-        UserViewModule], providers: [provideHttpClient(withInterceptorsFromDi(), withJsonpSupport())] })
+        UserViewModule
+    ],
+    providers: [
+        provideHttpClient(withInterceptorsFromDi(), withJsonpSupport()),
+        {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}
+    ]
+})
 export class AppModule {
 }
