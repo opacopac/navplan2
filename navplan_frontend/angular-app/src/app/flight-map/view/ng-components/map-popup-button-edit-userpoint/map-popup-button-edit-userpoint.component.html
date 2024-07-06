@@ -12,7 +12,11 @@
             class="glyphicon glyphicon-edit"></i></button>
     Edit my User Point
 </p>-->
-
-<button mat-mini-fab (click)="this.editUserpointClick.emit(this.waypoint)">
+<app-mini-fab-button
+    [color]="ButtonColor.BLUE"
+    (buttonClicked)="this.editUserpointClick.emit(this.waypoint)"
+>
     <i class="fa-solid fa-edit"></i>
-</button>&nbsp;Edit User Point
+</app-mini-fab-button>
+&nbsp;
+Edit User Point

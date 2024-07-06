@@ -30,6 +30,9 @@ import {FullScreenButtonComponent} from './ng-components/full-screen-button/full
 import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.module';
 import {AirspaceViewModule} from '../../airspace/view/airspace-view.module';
 import {CommonViewModule} from '../../common/view/common-view.module';
+import {
+    MapPopupButtonEditUserpointComponent
+} from './ng-components/map-popup-button-edit-userpoint/map-popup-button-edit-userpoint.component';
 
 @NgModule({
     declarations: [
@@ -38,6 +41,7 @@ import {CommonViewModule} from '../../common/view/common-view.module';
         MapPopupComponent,
         MapPopupWaypointComponent,
         MeteoContainerComponent,
+        MapPopupButtonEditUserpointComponent,
     ],
     imports: [
         AerodromeViewModule,
