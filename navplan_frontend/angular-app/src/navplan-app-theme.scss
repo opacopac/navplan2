@@ -85,8 +85,8 @@ $blue-grey-palette: (
 //$candy-app-primary: mat.define-palette(mat.$indigo-palette);
 //$candy-app-accent: mat.define-palette(mat.$blue-gray-palette);
 
-$navplan-app-primary: mat.m2-define-palette($grey-palette, 100, 100, 700);
-$navplan-app-accent: mat.m2-define-palette(mat.$m2-blue-grey-palette, 700, 400, 800);
+$navplan-app-primary: mat.m2-define-palette(mat.$m2-blue-grey-palette, 700, 400, 800);
+$navplan-app-accent: mat.m2-define-palette($grey-palette, 100, 100, 700);
 
 // The warn palette is optional (defaults to red).
 $navplan-app-warn: mat.m2-define-palette(mat.$m2-red-palette);

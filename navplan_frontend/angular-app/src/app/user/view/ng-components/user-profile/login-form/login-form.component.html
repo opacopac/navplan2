@@ -1,6 +1,6 @@
 <form [formGroup]="loginForm">
     <div class="main-container">
-        <mat-form-field color="accent" appearance="outline">
+        <mat-form-field appearance="outline">
             <mat-label>E-Mail</mat-label>
             <input
                 matInput
@@ -11,7 +11,7 @@
             />
             <mat-error>Not a valid email</mat-error>
         </mat-form-field>
-        <mat-form-field color="accent" appearance="outline">
+        <mat-form-field appearance="outline">
             <mat-label>Password</mat-label>
             <input
                 matInput
@@ -28,7 +28,6 @@
         <div class="buttons-container">
             <button
                 mat-raised-button
-                color="accent"
                 (click)="this.onLoginClick.emit([email.value, password.value, rememberMe.checked])"
                 [disabled]="this.loginForm.invalid" routerLink="/map"
             >

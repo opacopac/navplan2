@@ -4,7 +4,8 @@
     gap: 10px;
 }
 
-.mat-toolbar.mat-primary {
+.mat-toolbar.mat-primary,
+.mat-toolbar.mat-accent {
     position: sticky;
     top: 0;
     height: 54px;

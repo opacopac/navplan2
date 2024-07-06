@@ -1,6 +1,6 @@
 <form [formGroup]="lostPwStep1Form">
     <div class="main-container">
-        <mat-form-field color="accent" appearance="outline">
+        <mat-form-field appearance="outline">
             <mat-label>E-Mail</mat-label>
             <input
                 matInput
@@ -14,7 +14,6 @@
         <div>
             <button
                 mat-raised-button
-                color="accent"
                 (click)="this.onSendLostPwEmailEmailClick.emit(email.value)"
                 [disabled]="this.lostPwStep1Form.invalid"
             >

@@ -1,7 +1,7 @@
 <h3>Edit Waypoint</h3>
 <form [formGroup]="editWpForm">
     <div class="modal-body">
-        <mat-form-field color="accent" class="flex-row" appearance="outline">
+        <mat-form-field class="flex-row" appearance="outline">
             <mat-label>Checkpoint</mat-label>
             <input
                 matInput
@@ -14,7 +14,7 @@
                 <mat-error>Checkpoint is mandatory (max. 30 characters)!</mat-error>
             }
         </mat-form-field>
-        <mat-form-field color="accent" class="flex-row" appearance="outline">
+        <mat-form-field class="flex-row" appearance="outline">
             <mat-label>Frequency</mat-label>
             <input
                 matInput
@@ -23,7 +23,7 @@
                 maxlength="7"
             />
         </mat-form-field>
-        <mat-form-field color="accent" class="flex-row" appearance="outline">
+        <mat-form-field class="flex-row" appearance="outline">
             <mat-label>Callsign</mat-label>
             <input
                 matInput
@@ -33,7 +33,7 @@
             />
         </mat-form-field>
         <div class="flex-row">
-            <mat-form-field color="accent" appearance="outline">
+            <mat-form-field appearance="outline">
                 <mat-label>Altitude</mat-label>
                 <input
                     matInput
@@ -61,7 +61,7 @@
                 </mat-button-toggle-group>
             </div>
         </div>
-        <mat-form-field color="accent" class="flex-row" appearance="outline">
+        <mat-form-field class="flex-row" appearance="outline">
             <mat-label>Remarks</mat-label>
             <input
                 matInput
@@ -71,7 +71,7 @@
             />
         </mat-form-field>
         <div class="flex-row">
-            <mat-form-field color="accent" appearance="outline">
+            <mat-form-field appearance="outline">
                 <mat-label>Supplemental Info</mat-label>
                 <input
                     matInput
@@ -93,7 +93,6 @@
     </div>
     <div>
         <button mat-raised-button
-                color="accent"
                 type="submit"
                 class="inline-button"
                 (click)="this.onSaveClicked()"
@@ -101,7 +100,7 @@
             Save
         </button>
         <button mat-raised-button
-                color="primary"
+                color="accent"
                 type="button"
                 class="inline-button"
                 (click)="this.onCancelClicked()">
