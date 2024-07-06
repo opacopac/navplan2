@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Waypoint} from '../../../../domain/model/waypoint';
+import {ButtonColor} from '../../../../../common/view/model/button-color';
 
 
 @Component({
@@ -14,4 +15,6 @@ export class MapPopupWaypointButtonSetAlternateComponent implements OnInit {
 
     ngOnInit() {
     }
+
+    protected readonly ButtonColor = ButtonColor;
 }

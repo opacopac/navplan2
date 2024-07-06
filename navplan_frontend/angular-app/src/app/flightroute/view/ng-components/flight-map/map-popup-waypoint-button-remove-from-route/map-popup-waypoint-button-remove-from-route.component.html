@@ -1,3 +1,8 @@
-<button mat-mini-fab (click)="this.removeWaypointClick.emit(this.waypoint)">
+<app-mini-fab-button
+    [color]="ButtonColor.RED"
+    (click)="this.removeWaypointClick.emit(this.waypoint)"
+>
     <i class="fa-solid fa-trash"></i>
-</button>&nbsp;Remove from Route
+</app-mini-fab-button>
+&nbsp;
+Remove from Route

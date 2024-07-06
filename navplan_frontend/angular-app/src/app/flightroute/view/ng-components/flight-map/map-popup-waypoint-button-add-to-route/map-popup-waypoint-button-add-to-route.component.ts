@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {Flightroute} from '../../../../domain/model/flightroute';
 import {Waypoint} from '../../../../domain/model/waypoint';
+import {ButtonColor} from '../../../../../common/view/model/button-color';
 
 
 @Component({
@@ -12,7 +13,8 @@ export class MapPopupWaypointButtonAddToRouteComponent implements OnInit, OnChan
     @Input() public waypoint: Waypoint;
     @Input() public flightroute: Flightroute;
     @Output() public insertWaypointClick: EventEmitter<[Waypoint, number]> = new EventEmitter<[Waypoint, number]>();
-    public addAfterIndex: string;
+    protected addAfterIndex: string;
+    protected readonly ButtonColor = ButtonColor;
 
 
     ngOnInit() {

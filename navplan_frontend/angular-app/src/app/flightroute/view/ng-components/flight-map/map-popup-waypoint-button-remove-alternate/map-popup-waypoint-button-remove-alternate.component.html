@@ -1,3 +1,8 @@
-<button mat-mini-fab (click)="this.removeAlternateClick.emit(null)">
+<app-mini-fab-button
+    [color]="ButtonColor.RED"
+    (click)="this.removeAlternateClick.emit(null)"
+>
     <i class="fa-solid fa-trash"></i>
-</button> Remove Alternate
+</app-mini-fab-button>
+&nbsp;
+Remove Alternate

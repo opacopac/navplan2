@@ -92,18 +92,23 @@
         </div>
     </div>
     <div>
-        <button mat-raised-button
-                type="submit"
-                class="inline-button"
-                (click)="this.onSaveClicked()"
-                [disabled]="this.editWpForm.invalid">
-            Save
+        <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            class="inline-button"
+            (click)="this.onSaveClicked()"
+            [disabled]="this.editWpForm.invalid"
+        >
+            Apply
         </button>
-        <button mat-raised-button
-                color="accent"
-                type="button"
-                class="inline-button"
-                (click)="this.onCancelClicked()">
+        <button
+            mat-raised-button
+            color="accent"
+            type="button"
+            class="inline-button"
+            (click)="this.onCancelClicked()"
+        >
             Cancel
         </button>
     </div>
