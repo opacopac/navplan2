@@ -3,6 +3,7 @@
         [routeMaxMeteoRadius]="this.maxRadius$ | async"
         [distanceUnit]="this.distanceUnit$"
         (onMaxRadiusChanged)="this.onMaxRadiusChanged($event)"
+        class="max-radius-field"
     ></app-route-meteo-radius>
 
     <app-route-meteo-table
