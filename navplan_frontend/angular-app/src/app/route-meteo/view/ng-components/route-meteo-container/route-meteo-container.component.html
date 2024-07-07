@@ -1,19 +1,14 @@
 <div class="main-container">
-    <mat-form-field class="max-radius-field">
-        <mat-label>Max. distance from route</mat-label>
-        <input matInput
-               #maxRadius
-               type="number"
-               maxlength="3"
-               size="3"
-               [value]="String(this.maxRadiusValue$ | async)"
-               (change)="this.onMaxRadiusChanged(Number(maxRadius.value))">
-        <span matTextSuffix>{{ this.maxRadiusUnit$ | async }}</span>
-    </mat-form-field>
+    <app-route-meteo-radius
+        [routeMaxMeteoRadius]="this.maxRadius$ | async"
+        [distanceUnit]="this.distanceUnit$"
+        (onMaxRadiusChanged)="this.onMaxRadiusChanged($event)"
+    ></app-route-meteo-radius>
 
     <app-route-meteo-table
         [routeMetarTafList]="this.routeMetarTafs$ | async"
         [showDistance]="false"
-        [noDataText]="'(empty)'">
-    </app-route-meteo-table>
+        [noDataText]="'(empty)'"
+        [distanceUnit]="this.distanceUnit$"
+    ></app-route-meteo-table>
 </div>

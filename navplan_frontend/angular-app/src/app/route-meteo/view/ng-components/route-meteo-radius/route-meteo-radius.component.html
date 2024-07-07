@@ -1,0 +1,13 @@
+<mat-form-field class="max-radius-field">
+    <mat-label>Max. distance from route</mat-label>
+    <input
+        matInput
+        #maxRadius
+        type="number"
+        maxlength="3"
+        size="3"
+        [value]="this.getRadiusValue()"
+        (change)="this.onMaxRadiusChanged(maxRadius.value)"
+    />
+    <span matTextSuffix>{{ this.getRadiusUnit() }}</span>
+</mat-form-field>

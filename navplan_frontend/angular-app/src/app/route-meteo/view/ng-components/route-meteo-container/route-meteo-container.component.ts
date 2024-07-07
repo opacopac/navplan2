@@ -4,7 +4,7 @@ import {RouteMeteoActions} from '../../../state/ngrx/route-meteo.actions';
 import {getRouteMeteoState} from '../../../state/ngrx/route-meteo.selectors';
 import {map} from 'rxjs/operators';
 import {Length} from '../../../../geo-physics/domain/model/quantities/length';
-import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
+import { getSelectedDistanceUnit } from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
 
 
 @Component({
@@ -15,8 +15,8 @@ import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length
 export class RouteMeteoContainerComponent implements OnInit {
     public readonly routeMeteoState$ = this.appStore.select(getRouteMeteoState);
     public readonly routeMetarTafs$ = this.routeMeteoState$.pipe(map(rms => rms.routeMetarTafs.routeMetarTafs));
-    public readonly maxRadiusValue$ = this.routeMeteoState$.pipe(map(rms => rms.maxMeteoRadius.value));
-    public readonly maxRadiusUnit$ = this.routeMeteoState$.pipe(map(rms => rms.maxMeteoRadius.getUnitString()));
+    public readonly maxRadius$ = this.routeMeteoState$.pipe(map(rms => rms.maxMeteoRadius));
+    public readonly distanceUnit$ = this.appStore.select(getSelectedDistanceUnit);
     public readonly Number = Number;
     public readonly String = String;
 
@@ -34,9 +34,8 @@ export class RouteMeteoContainerComponent implements OnInit {
     }
 
 
-    public onMaxRadiusChanged(maxRadValue: number): void {
-        const newMaxRadius = new Length(maxRadValue, LengthUnit.NM);
-        this.appStore.dispatch(RouteMeteoActions.maxRadiusChanged({maxRadius: newMaxRadius}));
+    public onMaxRadiusChanged(radius: Length): void {
+        this.appStore.dispatch(RouteMeteoActions.maxRadiusChanged({maxRadius: radius}));
     }
 }
 

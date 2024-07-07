@@ -7,6 +7,7 @@ import {RouteMeteoDomainModule} from '../domain/route-meteo-domain.module';
 import {MatTableModule} from '@angular/material/table';
 import {MatButtonModule} from '@angular/material/button';
 import {RouteMeteoTableComponent} from './ng-components/route-meteo-table/route-meteo-table.component';
+import {RouteMeteoRadiusComponent} from './ng-components/route-meteo-radius/route-meteo-radius.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -28,7 +29,8 @@ import {MetarTafViewModule} from '../../metar-taf/view/metar-taf-view.module';
     ],
     declarations: [
         RouteMeteoContainerComponent,
-        RouteMeteoTableComponent
+        RouteMeteoTableComponent,
+        RouteMeteoRadiusComponent
     ],
     exports: [
         RouteMeteoContainerComponent

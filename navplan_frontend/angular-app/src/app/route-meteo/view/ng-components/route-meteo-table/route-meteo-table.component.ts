@@ -1,5 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {RouteMetarTaf} from '../../../domain/model/route-metar-taf';
+import { LengthUnit } from '../../../../geo-physics/domain/model/quantities/length-unit';
+import { Length } from '../../../../geo-physics/domain/model/quantities/length';
 
 
 @Component({
@@ -11,6 +13,7 @@ export class RouteMeteoTableComponent implements OnInit {
     @Input() public routeMetarTafList: RouteMetarTaf[];
     @Input() public showDistance: boolean;
     @Input() public noDataText: string;
+    @Input() public distanceUnit: LengthUnit;
 
 
     constructor() {
@@ -27,6 +30,9 @@ export class RouteMeteoTableComponent implements OnInit {
 
 
     public getDistanceText(routeMetarTaf: RouteMetarTaf): string {
-        return Math.round(routeMetarTaf.distance.nm) + ' NM'; // TODO
+        const value = Math.round(routeMetarTaf.distance.getValue(this.distanceUnit));
+        const unit = Length.getUnitString(this.distanceUnit);
+
+        return value + ' ' + unit;
     }
 }
