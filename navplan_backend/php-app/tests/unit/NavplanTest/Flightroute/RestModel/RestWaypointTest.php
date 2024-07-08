@@ -28,7 +28,7 @@ class RestWaypointTest extends TestCase {
 
     public function test_fromArgs() {
         $wpRest = DummyWaypoint1::createRestArgs();
-        $wp = RestWaypointConverter::fromRest($wpRest);
+        $wp = RestWaypointConverter::fromRest($wpRest, false);
 
         $this->assertEqualRestValues($wpRest, $wp);
     }

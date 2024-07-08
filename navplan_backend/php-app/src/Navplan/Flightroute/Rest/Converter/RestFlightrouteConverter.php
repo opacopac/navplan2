@@ -21,10 +21,10 @@ class RestFlightrouteConverter {
             NULL,
             isset($args["waypoints"]) ?
             array_map(
-                function ($wpArgs) { return RestWaypointConverter::fromRest($wpArgs); },
+                function ($wpArgs) { return RestWaypointConverter::fromRest($wpArgs, false); },
                 $args["waypoints"]
             ) : [],
-            isset($args["alternate"]) ? RestWaypointConverter::fromRest($args["alternate"]) : NULL
+            isset($args["alternate"]) ? RestWaypointConverter::fromRest($args["alternate"], true) : NULL
         );
     }
 

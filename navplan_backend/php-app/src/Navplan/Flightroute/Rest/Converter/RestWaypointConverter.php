@@ -8,7 +8,7 @@ use Navplan\Flightroute\Domain\Model\Waypoint;
 
 
 class RestWaypointConverter {
-    public static function fromRest(array $args): Waypoint {
+    public static function fromRest(array $args, bool $isAlternate): Waypoint {
         return new Waypoint(
             StringNumberHelper::parseStringOrError($args, "type"),
             StringNumberHelper::parseStringOrError($args, "freq"),
@@ -22,7 +22,7 @@ class RestWaypointConverter {
             StringNumberHelper::parseStringOrNull($args, "supp_info"),
             RestPosition2dConverter::fromRest($args["pos"]),
             StringNumberHelper::parseStringOrNull($args, "airport_icao"),
-            FALSE
+            $isAlternate
         );
     }
 
