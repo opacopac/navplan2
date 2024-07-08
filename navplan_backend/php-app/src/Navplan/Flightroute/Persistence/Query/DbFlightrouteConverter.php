@@ -13,16 +13,20 @@ use Navplan\System\Domain\Model\IDbResult;
 
 
 class DbFlightrouteConverter {
+    private static int $fallbackAcSpeedKt = 100;
+    private static int $fallbackAcConsumptionLPerH = 20;
+    private static int $fallbackExtraFuelMin = 0;
+
     public static function fromDbRow(array $row): Flightroute {
         $acSpeed = StringNumberHelper::isNullOrEmpty($row, DbTableFlightroute::COL_AC_SPEED)
-            ? NULL
+            ? new Speed(self::$fallbackAcSpeedKt, SpeedUnit::KT)
             : new Speed(StringNumberHelper::parseFloatOrZero($row, DbTableFlightroute::COL_AC_SPEED), SpeedUnit::KT);
         $acConsumption = StringNumberHelper::isNullOrEmpty($row, DbTableFlightroute::COL_AC_CONSUMPTION)
-            ? NULL
+            ? new Consumption(self::$fallbackAcConsumptionLPerH, ConsumptionUnit::L_PER_H)
             : new Consumption(StringNumberHelper::parseFloatOrZero($row, DbTableFlightroute::COL_AC_CONSUMPTION), ConsumptionUnit::L_PER_H);
         $extraFuel = StringNumberHelper::isNullOrEmpty($row, DbTableFlightroute::COL_EXTRA_FUEL)
-            ? NULL
-            : StringNumberHelper::parseFloatOrZero($row, DbTableFlightroute::COL_EXTRA_FUEL);
+            ? self::$fallbackExtraFuelMin
+            : StringNumberHelper::parseIntOrZero($row, DbTableFlightroute::COL_EXTRA_FUEL);
 
         return new Flightroute(
             intval($row[DbTableFlightroute::COL_ID]),

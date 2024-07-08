@@ -25,7 +25,7 @@ class DbFlightrouteTest extends TestCase {
         $this->assertEquals($dbResult["title"], $flightroute->title);
         $this->assertEquals($dbResult["aircraft_speed"], $flightroute->aircraftSpeed);
         $this->assertEquals($dbResult["aircraft_consumption"], $flightroute->aircraftConsumption);
-        $this->assertEquals($dbResult["extra_fuel"], $flightroute->extraFuelL);
+        $this->assertEquals($dbResult["extra_fuel"], $flightroute->extraFuelMin);
         $this->assertEquals($dbResult["comments"], $flightroute->comments);
     }
 

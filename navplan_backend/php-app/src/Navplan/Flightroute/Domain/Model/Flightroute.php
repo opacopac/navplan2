@@ -10,9 +10,9 @@ class Flightroute {
     public function __construct(
         public ?int $id,
         public string $title,
-        public ?Speed $aircraftSpeed,
-        public ?Consumption $aircraftConsumption,
-        public ?float $extraFuelL,
+        public Speed $aircraftSpeed,
+        public Consumption $aircraftConsumption,
+        public int $extraFuelMin,
         public ?string $comments,
         public ?string $shareId,
         public ?string $hash,

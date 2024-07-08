@@ -64,17 +64,29 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
             navplan: RestFlightrouteConverter.toRest(flightroute),
             token: user.token
         };
-        return this.http
-            .post<IRestFlightrouteResponse>(environment.flightrouteServiceUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
-                map(response => RestFlightrouteConverter.fromRest(response.body.navplan))
-            );
+        if (flightroute.id > 0) {
+            return this.http
+                .put<IRestFlightrouteResponse>(environment.flightrouteServiceUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+                    map(response => RestFlightrouteConverter.fromRest(response.body.navplan))
+                );
+        } else {
+            return this.http
+                .post<IRestFlightrouteResponse>(environment.flightrouteServiceUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+                    map(response => RestFlightrouteConverter.fromRest(response.body.navplan))
+                );
+        }
     }
 
 
     public duplicateFlightroute(flightroute: Flightroute, user: User): Observable<Flightroute> {
-        // TODO
-        flightroute.id = -1;
-        return this.saveFlightroute(flightroute, user);
+        const requestBody = {
+            navplan: RestFlightrouteConverter.toRest(flightroute),
+            token: user.token
+        };
+        return this.http
+            .post<IRestFlightrouteResponse>(environment.flightrouteServiceUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+                map(response => RestFlightrouteConverter.fromRest(response.body.navplan))
+            );
     }
 
 

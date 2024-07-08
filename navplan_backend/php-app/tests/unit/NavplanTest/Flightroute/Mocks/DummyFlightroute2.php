@@ -2,6 +2,10 @@
 
 namespace NavplanTest\Flightroute\Mocks;
 
+use Navplan\Common\Domain\Model\Consumption;
+use Navplan\Common\Domain\Model\ConsumptionUnit;
+use Navplan\Common\Domain\Model\Speed;
+use Navplan\Common\Domain\Model\SpeedUnit;
 use Navplan\Flightroute\Domain\Model\Flightroute;
 
 
@@ -10,9 +14,9 @@ class DummyFlightroute2 {
         return new Flightroute(
             112,
             "Lausanne (Hinweg direkt)",
-            100.0,
-            36.0,
-            100.0,
+            new Speed(100.0, SpeedUnit::KT),
+            new Consumption(36.0, ConsumptionUnit::L_PER_H),
+            100,
             "circuits and then vfr to lausanne outbound route W Benzin für 3 - 4 circuits (30'), Hinweg (50'), Rückweg (65'), Alt (20'), Res (45') = 126 Liter",
             NULL,
             NULL,

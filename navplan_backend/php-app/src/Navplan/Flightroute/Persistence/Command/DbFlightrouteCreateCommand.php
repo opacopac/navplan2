@@ -48,9 +48,9 @@ class DbFlightrouteCreateCommand implements IFlightrouteCreateCommand {
         $query .= join(", ", [
             DbHelper::getDbIntValue($userId),
             DbHelper::getDbStringValue($this->dbService, $flightroute->title),
-            DbHelper::getDbFloatValue($flightroute->aircraftSpeed->getKt(), "''"),
-            DbHelper::getDbFloatValue($flightroute->aircraftConsumption->getLph(), "''"),
-            DbHelper::getDbFloatValue($flightroute->extraFuelL, "''"),
+            DbHelper::getDbFloatValue($flightroute->aircraftSpeed->getKt()),
+            DbHelper::getDbFloatValue($flightroute->aircraftConsumption->getLph()),
+            DbHelper::getDbIntValue($flightroute->extraFuelMin),
             DbHelper::getDbStringValue($this->dbService, $flightroute->comments),
             DbHelper::getDbStringValue($this->dbService, $flightroute->shareId),
             DbHelper::getDbStringValue($this->dbService, $flightroute->hash)

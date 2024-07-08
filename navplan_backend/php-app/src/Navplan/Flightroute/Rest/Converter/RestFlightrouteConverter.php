@@ -12,10 +12,10 @@ class RestFlightrouteConverter {
     public static function fromRest(array $args): Flightroute {
         return new Flightroute(
             StringNumberHelper::parseIntOrNull($args, "id"),
-            StringNumberHelper::parseStringOrNull($args, "title"),
+            StringNumberHelper::parseStringOrError($args, "title"),
             RestSpeedConverter::fromRest($args["aircraft_speed"]),
             RestConsumptionConverter::fromRest($args["aircraft_consumption"]),
-            StringNumberHelper::parseFloatOrNull($args, "extra_fuel"),
+            StringNumberHelper::parseIntOrZero($args, "extra_fuel"),
             StringNumberHelper::parseStringOrNull($args, "comments"),
             StringNumberHelper::parseIntOrNull($args, "shareid"),
             NULL,
@@ -35,7 +35,7 @@ class RestFlightrouteConverter {
             "title" => $flightroute->title,
             "aircraft_speed" => RestSpeedConverter::toRest($flightroute->aircraftSpeed),
             "aircraft_consumption" => RestConsumptionConverter::toRest($flightroute->aircraftConsumption),
-            "extra_fuel" => $flightroute->extraFuelL,
+            "extra_fuel" => $flightroute->extraFuelMin,
             "comments" => $flightroute->comments,
             "waypoints" => array_map(
                 function ($wp) { return RestWaypointConverter::toRest($wp); },
