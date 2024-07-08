@@ -36,14 +36,13 @@
                 <input
                     matInput
                     #alt
-                    type="text"
+                    type="number"
                     formControlName="alt"
-                    maxlength="5"
                     min="0"
                     max="99999"
                 />
                 <span matTextSuffix>{{ this.getAltUnitText() }}</span>
-                <mat-error>Value must be a positive whole number!</mat-error>
+                <mat-error>Value must be a positive whole number between 0 and 99999!</mat-error>
             </mat-form-field>
             <div>
                 <mat-button-toggle-group [multiple]="true" formControlName="isminmaxalt">

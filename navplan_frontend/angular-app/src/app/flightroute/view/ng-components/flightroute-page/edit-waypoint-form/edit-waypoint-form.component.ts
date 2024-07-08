@@ -71,27 +71,41 @@ export class EditWaypointFormComponent implements OnInit, OnChanges {
     private initForm(editWaypoint: Waypoint) {
         this.editWpForm = this.formBuilder.group({
             'checkpoint': [
-                editWaypoint ? editWaypoint.checkpoint : '',
-                [Validators.required, Validators.maxLength(30)]],
+                editWaypoint ? editWaypoint.checkpoint : '', [
+                    Validators.required,
+                    Validators.maxLength(30)
+                ]
+            ],
             'freq': [
                 editWaypoint ? editWaypoint.freq : '',
-                Validators.maxLength(7)],
+                Validators.maxLength(7),
+            ],
             'callsign': [
                 editWaypoint ? editWaypoint.callsign : '',
-                Validators.maxLength(10)],
+                Validators.maxLength(10)
+            ],
             'alt': [
-                (editWaypoint && editWaypoint.wpAlt.alt) ? Math.round(editWaypoint.wpAlt.alt.getHeightAmsl().getValue(this.altitudeUnit)) : '',
-                [Validators.maxLength(5), Validators.pattern('^[0-9]+$'), Validators.min(0), Validators.max(99999)]],
+                (editWaypoint && editWaypoint.wpAlt.alt) ? Math.round(editWaypoint.wpAlt.alt.getHeightAmsl().getValue(this.altitudeUnit)) : '', [
+                    Validators.min(0),
+                    Validators.max(99999),
+                    Validators.maxLength(5),
+                    Validators.pattern('^[0-9]+$'),
+                ]
+            ],
             'isminmaxalt': [
-                editWaypoint ? [editWaypoint.wpAlt.isminalt ? 'min' : '', editWaypoint.wpAlt.ismaxalt ? 'max' : ''] : []],
+                editWaypoint ? [editWaypoint.wpAlt.isminalt ? 'min' : '', editWaypoint.wpAlt.ismaxalt ? 'max' : ''] : []
+            ],
             'isaltatlegstart': [
-                (editWaypoint && editWaypoint.wpAlt.isaltatlegstart) ? 'true' : 'false'],
+                (editWaypoint && editWaypoint.wpAlt.isaltatlegstart) ? 'true' : 'false'
+            ],
             'remark': [
                 editWaypoint ? editWaypoint.remark : '',
-                Validators.maxLength(50)],
+                Validators.maxLength(50)
+            ],
             'supp_info': [
                 editWaypoint ? editWaypoint.supp_info : '',
-                Validators.maxLength(255)]
+                Validators.maxLength(255)
+            ]
         });
     }
 }
