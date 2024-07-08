@@ -4,11 +4,13 @@
         matInput
         #maxRadius
         type="number"
-        maxlength="3"
-        size="3"
+        required
+        min="1"
+        max="150"
+        [formControl]="maxRadiusForm"
         [value]="this.getRadiusValue()"
-        (change)="this.onMaxRadiusChanged(maxRadius.value)"
+        (change)="maxRadiusForm.valid ? this.onMaxRadiusChanged(maxRadius.value) : {}"
     />
     <span matTextSuffix>{{ this.getRadiusUnit() }}</span>
-    <mat-error>Value must be a positive number!</mat-error>
+    <mat-error>Value must be a positive number between 1 and 150!</mat-error>
 </mat-form-field>

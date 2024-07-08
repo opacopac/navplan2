@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Length} from '../../../../geo-physics/domain/model/quantities/length';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
+import {FormControl, Validators} from '@angular/forms';
 
 
 @Component({
@@ -13,12 +14,20 @@ export class RouteMeteoRadiusComponent implements OnInit {
     @Input() public distanceUnit: LengthUnit;
     @Output() public radiusChanged = new EventEmitter<Length>();
 
+    protected maxRadiusForm: FormControl;
+
 
     constructor() {
     }
 
 
     ngOnInit(): void {
+        const initialValue = this.routeMaxMeteoRadius.getValue(this.distanceUnit).toString();
+        this.maxRadiusForm = new FormControl(initialValue, [
+            Validators.required,
+            Validators.min(1),
+            Validators.max(150)
+        ]);
     }
 
 
@@ -37,6 +46,4 @@ export class RouteMeteoRadiusComponent implements OnInit {
         const radius = new Length(value, this.distanceUnit);
         this.radiusChanged.emit(radius);
     }
-
-    protected readonly isNaN = isNaN;
 }
