@@ -14,7 +14,7 @@ export class RouteMeteoRadiusComponent implements OnInit {
     @Input() public distanceUnit: LengthUnit;
     @Output() public radiusChanged = new EventEmitter<Length>();
 
-    protected maxRadiusForm: FormControl;
+    protected maxRadiusInput: FormControl;
 
 
     constructor() {
@@ -23,7 +23,7 @@ export class RouteMeteoRadiusComponent implements OnInit {
 
     ngOnInit(): void {
         const initialValue = this.routeMaxMeteoRadius.getValue(this.distanceUnit).toString();
-        this.maxRadiusForm = new FormControl(initialValue, [
+        this.maxRadiusInput = new FormControl(initialValue, [
             Validators.required,
             Validators.min(1),
             Validators.max(150)

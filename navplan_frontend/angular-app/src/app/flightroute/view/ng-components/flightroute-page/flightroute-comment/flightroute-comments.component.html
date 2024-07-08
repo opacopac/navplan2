@@ -12,8 +12,6 @@
             [value]="this.routeComments"
             (input)="this.onRouteCommentsChanged(routeCommentsInput.value)"
         ></textarea>
-        @if (this.flightrouteCommentsFormGroup.invalid) {
-            <mat-error>Comments can have max. 1024 characters!</mat-error>
-        }
+        <mat-error>Comments can have max. 1024 characters!</mat-error>
     </mat-form-field>
 </div>

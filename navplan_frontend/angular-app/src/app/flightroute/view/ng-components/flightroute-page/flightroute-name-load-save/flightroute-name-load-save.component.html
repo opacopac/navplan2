@@ -10,11 +10,9 @@
             type="text"
             maxlength="50"
             [value]="this.flightrouteName"
-            (input)="this.onFlightrouteNameChange(routeName.value)"
+            (change)="this.onFlightrouteNameChange(routeName.value)"
         />
-        @if (this.flightrouteNameFormGroup.invalid) {
-            <mat-error>Name must be between 1 and 50 characters!</mat-error>
-        }
+        <mat-error>Name must be between 1 and 50 characters!</mat-error>
     </mat-form-field>
 
     <!-- load / save / save copy buttons -->

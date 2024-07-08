@@ -26,8 +26,11 @@ export class FlightrouteAircraftSpeedComponent implements OnInit {
     ngOnInit() {
         this.aircraftSpeedFormGroup = this.parentForm.form;
         this.aircraftSpeedFormGroup.addControl(
-            'aircraftSpeedInput', new FormControl(this.getAircraftSpeedValue(), [Validators.required,
-                Validators.min(1), Validators.pattern('^[0-9]+$')])
+            'aircraftSpeedInput', new FormControl(this.getAircraftSpeedValue(), [
+                Validators.required,
+                Validators.min(1),
+                Validators.max(999),
+                Validators.pattern('^[0-9]+$')])
         );
     }
 

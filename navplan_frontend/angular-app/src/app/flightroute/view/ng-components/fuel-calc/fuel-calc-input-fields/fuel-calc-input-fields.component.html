@@ -1,29 +1,37 @@
 <form class="fuel-form">
-    <!-- aircraft consumption -->
+    <!-- fuel consumption -->
     <mat-form-field>
         <mat-label>Fuel Consumption</mat-label>
         <input matInput
-               #aircraftConsumptionInput
+               #consumption
                type="number"
-               maxlength="3"
                size="3"
-               (input)="this.onAircraftConsumptionChange(aircraftConsumptionInput.value)"
+               required
+               min="1"
+               max="999"
+               [formControl]="this.consumptionInput"
+               (input)="this.consumptionInput.valid ? this.onAircraftConsumptionChange(consumption.value) : {}"
                [value]="this.getAircaftConsumptionString()"
         >
         <span matTextSuffix>{{ Consumption.getUnitString(this.consumptionUnit) }}</span>
+        <mat-error>Value must be a positive number between 1 and 999!</mat-error>
     </mat-form-field>
 
     <!-- extra time -->
     <mat-form-field>
         <mat-label>Extra Time</mat-label>
         <input matInput
-               #extraTimeInput
+               #extraTime
                type="number"
-               maxlength="3"
                size="3"
-               (input)="this.onExtraTimeChange(extraTimeInput.value)"
+               required
+               min="0"
+               max="999"
+               [formControl]="this.extraTimeInput"
+               (input)="this.extraTimeInput.valid ? this.onExtraTimeChange(extraTime.value) : {}"
                [value]="this.getExtraTimeString()"
         >
         <span matTextSuffix>min</span>
+        <mat-error>Value must be a number between 0 and 999!</mat-error>
     </mat-form-field>
 </form>

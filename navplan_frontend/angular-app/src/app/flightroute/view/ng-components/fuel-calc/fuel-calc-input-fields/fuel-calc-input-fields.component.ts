@@ -3,6 +3,7 @@ import {Consumption} from '../../../../../geo-physics/domain/model/quantities/co
 import {ConsumptionUnit} from '../../../../../geo-physics/domain/model/quantities/consumption-unit';
 import {TimeUnit} from '../../../../../geo-physics/domain/model/quantities/time-unit';
 import {Time} from '../../../../../geo-physics/domain/model/quantities/time';
+import {FormControl, Validators} from '@angular/forms';
 
 @Component({
     selector: 'app-fuel-calc-input-fields',
@@ -18,6 +19,8 @@ export class FuelCalcInputFieldsComponent implements OnInit {
     @Output() extraTimeChange = new EventEmitter<Time>();
 
     protected readonly Consumption = Consumption;
+    protected consumptionInput: FormControl;
+    protected extraTimeInput: FormControl;
 
 
     constructor() {
@@ -25,6 +28,16 @@ export class FuelCalcInputFieldsComponent implements OnInit {
 
 
     ngOnInit() {
+        this.consumptionInput = new FormControl(this.getAircaftConsumptionString(), [
+            Validators.required,
+            Validators.min(1),
+            Validators.max(999)
+        ]);
+        this.extraTimeInput = new FormControl(this.getExtraTimeString(), [
+            Validators.required,
+            Validators.min(0),
+            Validators.max(999)
+        ]);
     }
 
 
@@ -36,9 +49,9 @@ export class FuelCalcInputFieldsComponent implements OnInit {
 
 
     protected getExtraTimeString(): string {
-        return this.extraTime && !this.extraTime.isZero()
+        return this.extraTime
             ? this.extraTime.getValue(TimeUnit.M).toString()
-            : '';
+            : '0';
     }
 
 

@@ -3,18 +3,17 @@
         <mat-label>Ground Speed Speed</mat-label>
         <input
             matInput
-            formControlName="aircraftSpeedInput"
             #aircraftSpeed
-            required
+            formControlName="aircraftSpeedInput"
             type="number"
-            maxlength="3"
             size="3"
+            required
+            min="1"
+            max="999"
             [value]="this.getAircraftSpeedValue()"
             (input)="this.onAircraftSpeedChanged(aircraftSpeed.value)"
         />
         <span matTextSuffix>{{ Speed.getUnitString(this.speedUnit) }}</span>
-        @if (this.aircraftSpeedFormGroup.invalid) {
-            <mat-error>Value must be a whole positive number!</mat-error>
-        }
+        <mat-error>Value must be a whole positive number between 1 and 999!</mat-error>
     </mat-form-field>
 </div>
