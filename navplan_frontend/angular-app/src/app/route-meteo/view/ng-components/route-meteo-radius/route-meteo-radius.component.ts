@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Length} from '../../../../geo-physics/domain/model/quantities/length';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 
@@ -37,4 +37,6 @@ export class RouteMeteoRadiusComponent implements OnInit {
         const radius = new Length(value, this.distanceUnit);
         this.radiusChanged.emit(radius);
     }
+
+    protected readonly isNaN = isNaN;
 }

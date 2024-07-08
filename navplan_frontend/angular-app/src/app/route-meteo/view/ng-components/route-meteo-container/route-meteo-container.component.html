@@ -1,8 +1,8 @@
 <div class="main-container">
     <app-route-meteo-radius
         [routeMaxMeteoRadius]="this.maxRadius$ | async"
-        [distanceUnit]="this.distanceUnit$"
-        (onMaxRadiusChanged)="this.onMaxRadiusChanged($event)"
+        [distanceUnit]="this.distanceUnit$ | async"
+        (radiusChanged)="this.onMaxRadiusChanged($event)"
         class="max-radius-field"
     ></app-route-meteo-radius>
 
@@ -10,6 +10,6 @@
         [routeMetarTafList]="this.routeMetarTafs$ | async"
         [showDistance]="false"
         [noDataText]="'(empty)'"
-        [distanceUnit]="this.distanceUnit$"
+        [distanceUnit]="this.distanceUnit$ | async"
     ></app-route-meteo-table>
 </div>

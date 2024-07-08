@@ -10,4 +10,5 @@
         (change)="this.onMaxRadiusChanged(maxRadius.value)"
     />
     <span matTextSuffix>{{ this.getRadiusUnit() }}</span>
+    <mat-error>Value must be a positive number!</mat-error>
 </mat-form-field>
