@@ -1,6 +1,6 @@
 import {Aircraft} from './aircraft';
 import {Waypoint} from './waypoint';
-import {RouteFuel} from './routefuel';
+import {RouteFuel} from '../../../plan-fuel/domain/model/routefuel';
 import {Clonable} from '../../../system/domain/model/clonable';
 import {Time} from '../../../geo-physics/domain/model/quantities/time';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';

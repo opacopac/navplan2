@@ -50,13 +50,8 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCardModule} from '@angular/material/card';
-import {FuelCalcContainerComponent} from './ng-components/fuel-calc/fuel-calc-container/fuel-calc-container.component';
-import {FuelCalcTableComponent} from './ng-components/fuel-calc/fuel-calc-table/fuel-calc-table.component';
 import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.module';
 import {CommonViewModule} from '../../common/view/common-view.module';
-import {
-    FuelCalcInputFieldsComponent
-} from './ng-components/fuel-calc/fuel-calc-input-fields/fuel-calc-input-fields.component';
 import {
     FlightrouteNameLoadSaveComponent
 } from './ng-components/flightroute-page/flightroute-name-load-save/flightroute-name-load-save.component';
@@ -95,9 +90,6 @@ import {
         FlightrouteListComponent,
         FlightrouteListDialogComponent,
         FlightrouteNameLoadSaveComponent,
-        FuelCalcContainerComponent,
-        FuelCalcTableComponent,
-        FuelCalcInputFieldsComponent,
         MapPopupWaypointButtonContainerComponent,
         MapPopupWaypointButtonAddToRouteComponent,
         MapPopupButtonEditWaypointComponent,
@@ -110,8 +102,6 @@ import {
     ],
     exports: [
         FlightrouteContainerComponent,
-        FuelCalcContainerComponent,
-        FuelCalcInputFieldsComponent,
         MapPopupWaypointButtonContainerComponent,
         MapPopupWaypointInfoTabComponent,
         MapPopupWaypointHeaderComponent,

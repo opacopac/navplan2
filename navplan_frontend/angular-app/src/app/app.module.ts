@@ -14,7 +14,7 @@ import {appReducer} from './app.reducer';
 import {AppEffects} from './app.effects';
 import {NavbarViewModule} from './navbar/view/navbar-view.module';
 import {SettingsViewModule} from './settings/view/settings-view.module';
-import {FlightPrepViewModule} from './flight-prep/view/flight-prep-view.module';
+import {PlanViewModule} from './plan/view/plan-view.module';
 import {ExporterViewModule} from './exporter/view/exporter-view.module';
 import {TrackViewModule} from './track/view/track-view.module';
 import {UserViewModule} from './user/view/user-view.module';
@@ -43,7 +43,7 @@ import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
         AboutViewModule,
         ExporterViewModule,
         FlightMapViewModule,
-        FlightPrepViewModule,
+        PlanViewModule,
         MessageViewModule,
         NavbarViewModule,
         SettingsViewModule,

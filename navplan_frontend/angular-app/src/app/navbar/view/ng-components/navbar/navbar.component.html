@@ -6,7 +6,7 @@
     <!-- menu for large screens -->
     <div class="menu-buttons-left-lg">
         <button mat-button routerLink="./map" title="Map"><i class="fa-solid fa-map"></i><span class="button-text">&nbsp;&nbsp;Map</span></button>
-        <button mat-button routerLink="./prep/route" title="Flight Preparation"><i class="fa-solid fa-list-check"></i><span class="button-text">&nbsp;&nbsp;Plan</span></button>
+        <button mat-button routerLink="./plan/route" title="Flight Preparation"><i class="fa-solid fa-list-check"></i><span class="button-text">&nbsp;&nbsp;Plan</span></button>
         <button mat-button *ngIf="this.currentUser" routerLink="./tracks" title="Recorded Tracks"><i class="fa-solid fa-paw"></i><span class="button-text">&nbsp;&nbsp;Tracks</span></button>
         <button mat-button id="btn_export" [mat-menu-trigger-for]="navplanExport" title="Export / Share"><i class="fa-solid fa-share"></i><span class="button-text">&nbsp;&nbsp;Export</span></button>
         <mat-menu #navplanExport="matMenu">
@@ -44,7 +44,7 @@
 <!-- vertical menu for small screens -->
 <mat-menu #verticalMenu="matMenu">
     <button mat-menu-item routerLink="./map" title="Map"><i class="fa-solid fa-map"></i>&nbsp;&nbsp;Map</button>
-    <button mat-menu-item routerLink="./prep/route" title="Flight Preparation"><i class="fa-solid fa-tasks"></i>&nbsp;&nbsp;Plan</button>
+    <button mat-menu-item routerLink="./plan/route" title="Flight Preparation"><i class="fa-solid fa-tasks"></i>&nbsp;&nbsp;Plan</button>
     <button mat-menu-item *ngIf="this.currentUser" routerLink="./tracks" title="Recorded Tracks"><i class="fa-solid fa-paw"></i>&nbsp;&nbsp;Tracks</button>
     <button mat-menu-item routerLink="./map" title="Clear current Route and Track"><i class="fa-solid fa-eraser"></i>&nbsp;&nbsp;Clear</button>
     <button mat-menu-item [mat-menu-trigger-for]="navplanExportSm" title="Export"><i class="fa-solid fa-share"></i>&nbsp;&nbsp;Export</button>

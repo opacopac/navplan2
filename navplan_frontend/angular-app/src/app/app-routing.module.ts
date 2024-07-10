@@ -19,24 +19,25 @@ import {
 import {
     ForgotPwStep2PageComponent
 } from './user/view/ng-components/user-profile/forgot-pw-step2-page/forgot-pw-step2-page.component';
-import {FlightPrepPageComponent} from './flight-prep/view/ng-components/flight-prep-page/flight-prep-page.component';
+import {PlanPageComponent} from './plan/view/ng-components/plan-page/plan-page.component';
 
 const routes: Routes = [
-    { path: '', redirectTo: 'map', pathMatch: 'full' },
-    { path: 'map', component: FlightMapPageComponent },
-    { path: 'prep/:tab', component: FlightPrepPageComponent },
-    { path: 'tracks', component: TracksPageComponent },
-    { path: 'login', component: LoginRegisterPageComponent },
-    { path: 'register/:token', component: RegisterStep2PageComponent },
-    { path: 'userprofile', component: UserProfilePageComponent },
-    { path: 'forgotpw', component: ForgotPwStep1PageComponent },
-    { path: 'resetpw/:token', component: ForgotPwStep2PageComponent },
-    { path: 'settings', component: SettingsPageComponent },
-    { path: 'about', component: AboutPageComponent }
+    {path: '', redirectTo: 'map', pathMatch: 'full'},
+    {path: 'map', component: FlightMapPageComponent},
+    {path: 'plan/:tab', component: PlanPageComponent},
+    {path: 'tracks', component: TracksPageComponent},
+    {path: 'login', component: LoginRegisterPageComponent},
+    {path: 'register/:token', component: RegisterStep2PageComponent},
+    {path: 'userprofile', component: UserProfilePageComponent},
+    {path: 'forgotpw', component: ForgotPwStep1PageComponent},
+    {path: 'resetpw/:token', component: ForgotPwStep2PageComponent},
+    {path: 'settings', component: SettingsPageComponent},
+    {path: 'about', component: AboutPageComponent}
 ];
 
 @NgModule({
-    imports: [ RouterModule.forRoot(routes, { useHash: true }) ],
-    exports: [ RouterModule ]
+    imports: [RouterModule.forRoot(routes, {useHash: true})],
+    exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

@@ -1,6 +1,6 @@
 import {Flightroute} from '../../../flightroute/domain/model/flightroute';
 import {RestFlightrouteConverter} from '../../../flightroute/rest/converter/rest-flightroute-converter';
-import {RestFuelCalcConverter} from '../../../flightroute/rest/converter/rest-fuel-calc-converter';
+import {RestFuelCalcConverter} from '../../../plan-fuel/rest/converter/rest-fuel-calc-converter';
 import {IRestExportExcelRequest} from './i-rest-export-excel-request';
 
 
