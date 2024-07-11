@@ -6,6 +6,8 @@ import {Angle} from '../../../geo-physics/domain/model/quantities/angle';
 import {OlVectorLayer} from '../../../base-map/view/ol-model/ol-vector-layer';
 import {AngleUnit} from '../../../geo-physics/domain/model/quantities/angle-unit';
 import {IPointSearchResult} from '../../domain/model/i-point-search-result';
+import {TextSearchState} from '../../domain/model/text-search-state';
+import {SearchItemSearchResult} from '../../domain/model/search-item-search-result';
 
 
 const MAX_POINTS = 6;
@@ -13,15 +15,21 @@ const MAX_POINTS = 6;
 
 export class OlPositionSearchContainer {
     private readonly positionSearchSubscription: Subscription;
+    private readonly textSearchSubscription: Subscription;
 
 
     constructor(
         private readonly positionSearchLayer: OlVectorLayer,
-        positionSearchState$: Observable<PositionSearchState>
+        positionSearchState$: Observable<PositionSearchState>,
+        textSearchState$: Observable<TextSearchState>
     ) {
         this.positionSearchSubscription = positionSearchState$.subscribe((posSearchState) => {
             this.clearFeatures();
-            this.drawFeatures(posSearchState);
+            this.drawPositionSearchFeatures(posSearchState);
+        });
+        this.textSearchSubscription = textSearchState$.subscribe((textSearchState) => {
+            this.clearFeatures();
+            this.drawTextSearchFeatures(textSearchState);
         });
     }
 
@@ -32,7 +40,7 @@ export class OlPositionSearchContainer {
     }
 
 
-    private drawFeatures(posSearchState: PositionSearchState) {
+    private drawPositionSearchFeatures(posSearchState: PositionSearchState) {
         if (posSearchState && posSearchState.positionSearchResults) {
             const sortedItemsAngles = this.calcLabelPositions(posSearchState.positionSearchResults.getPointResults());
             const sortedItems = sortedItemsAngles[0];
@@ -41,6 +49,16 @@ export class OlPositionSearchContainer {
             for (let i = 0; i < sortedItems.length; i++) {
                 OlPositionSearchItem.draw(sortedItems[i], labelAngles[i], this.positionSearchLayer);
             }
+        }
+    }
+
+
+    private drawTextSearchFeatures(textSearchState: TextSearchState) {
+        if (textSearchState && textSearchState.selectedSearchResult) {
+            const searchItem = new SearchItemSearchResult(textSearchState.selectedSearchResult);
+            const labelAngle = Angle.fromDeg(-45);
+
+            OlPositionSearchItem.draw(searchItem, labelAngle, this.positionSearchLayer);
         }
     }
 
@@ -67,12 +85,16 @@ export class OlPositionSearchContainer {
 
         // create top/bottom partitions
         const pointsT = pointSearchResult.slice(0).sort(
-            function(a: IPointSearchResult, b: IPointSearchResult) { return b.getPosition().latitude - a.getPosition().latitude; });
+            function (a: IPointSearchResult, b: IPointSearchResult) {
+                return b.getPosition().latitude - a.getPosition().latitude;
+            });
         const pointsB = pointsT.splice(numPointsT, numPointsB);
 
         // create top left/right partitions
         const pointsTL = pointsT.slice(0).sort(
-            function(a: IPointSearchResult, b: IPointSearchResult) { return a.getPosition().longitude - b.getPosition().longitude; });
+            function (a: IPointSearchResult, b: IPointSearchResult) {
+                return a.getPosition().longitude - b.getPosition().longitude;
+            });
         const pointsTR = pointsTL.splice(numPointsTL, numPointsTR);
 
         this.sortQuadrantClockwise(pointsTL, true, true);
@@ -103,10 +125,11 @@ export class OlPositionSearchContainer {
             return;
         }
 
-        const center = { latitude: undefined, longitude: undefined };
+        const center = {latitude: undefined, longitude: undefined};
 
-        pointSearchResults.sort(function(a: IPointSearchResult, b: IPointSearchResult) {
-            return a.getPosition().latitude - b.getPosition().latitude; }); // bottom to top
+        pointSearchResults.sort(function (a: IPointSearchResult, b: IPointSearchResult) {
+            return a.getPosition().latitude - b.getPosition().latitude;
+        }); // bottom to top
 
         if (isTopQuadrant) {
             center.latitude = pointSearchResults[0].getPosition().latitude - 0.1;
@@ -114,8 +137,9 @@ export class OlPositionSearchContainer {
             center.latitude = pointSearchResults[pointSearchResults.length - 1].getPosition().latitude + 0.1;
         }
 
-        pointSearchResults.sort(function(a: IPointSearchResult, b: IPointSearchResult) {
-            return a.getPosition().longitude - b.getPosition().longitude; }); // left to right
+        pointSearchResults.sort(function (a: IPointSearchResult, b: IPointSearchResult) {
+            return a.getPosition().longitude - b.getPosition().longitude;
+        }); // left to right
 
         if (isLeftQuadrant) {
             center.longitude = pointSearchResults[pointSearchResults.length - 1].getPosition().longitude + 0.1;
@@ -123,7 +147,7 @@ export class OlPositionSearchContainer {
             center.longitude = pointSearchResults[0].getPosition().longitude - 0.1;
         }
 
-        pointSearchResults.sort(function(a: IPointSearchResult, b: IPointSearchResult) {
+        pointSearchResults.sort(function (a: IPointSearchResult, b: IPointSearchResult) {
             return Math.atan2(b.getPosition().latitude - center.latitude, b.getPosition().longitude - center.longitude)
                 - Math.atan2(a.getPosition().latitude - center.latitude, a.getPosition().longitude - center.longitude);
         });

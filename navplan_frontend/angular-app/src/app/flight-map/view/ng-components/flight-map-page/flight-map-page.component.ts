@@ -51,7 +51,7 @@ import {
     OlAirportChartContainer
 } from '../../../../aerodrome/view/ol-components/airport-chart/ol-airport-chart-container';
 import {OlPositionSearchContainer} from '../../../../search/view/ol-components/ol-position-search-container';
-import {getPositionSearchState} from '../../../../search/state/ngrx/search.selectors';
+import {getPositionSearchState, getTextSearchState} from '../../../../search/state/ngrx/search.selectors';
 import {getWebcams} from '../../../../webcam/state/ngrx/webcam.selectors';
 import {getMetarTafs} from '../../../../metar-taf/state/ngrx/metar-taf.selectors';
 import {getAirspaces} from '../../../../airspace/state/ngrx/airspace.selectors';
@@ -307,7 +307,8 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         );
         this.olPositionSearchContainer = new OlPositionSearchContainer(
             pointSearchLayer,
-            this.appStore.pipe(select(getPositionSearchState))
+            this.appStore.pipe(select(getPositionSearchState)),
+            this.appStore.pipe(select(getTextSearchState))
         );
         this.olTraffic = new OlTrafficContainer(
             trafficLayer,

@@ -4,8 +4,16 @@ import {createReducer, on} from '@ngrx/store';
 
 
 const initialSearchState: SearchState = {
-    textSearchState: {isActive: false, searchResults: undefined, selectedResultIndex: undefined},
-    positionSearchState: {positionSearchResults: undefined, clickPos: undefined},
+    textSearchState: {
+        isActive: false,
+        searchResults: undefined,
+        selectedResultIndex: undefined,
+        selectedSearchResult: undefined
+    },
+    positionSearchState: {
+        positionSearchResults: undefined,
+        clickPos: undefined
+    },
 };
 
 
@@ -16,7 +24,8 @@ export const searchReducer = createReducer(
         textSearchState: {
             isActive: !state.textSearchState.isActive,
             searchResults: !state.textSearchState.isActive ? state.textSearchState.searchResults : undefined,
-            selectedResultIndex: !state.textSearchState.isActive ? state.textSearchState.selectedResultIndex : undefined
+            selectedResultIndex: !state.textSearchState.isActive ? state.textSearchState.selectedResultIndex : undefined,
+            selectedSearchResult: !state.textSearchState.isActive ? state.textSearchState.selectedSearchResult : undefined
         }
     })),
     on(SearchActions.showTextSearchResults, (state, action) => ({
@@ -24,7 +33,8 @@ export const searchReducer = createReducer(
         textSearchState: {
             isActive: true,
             searchResults: action.searchResults,
-            selectedResultIndex: undefined
+            selectedResultIndex: undefined,
+            selectedSearchResult: undefined
         }
     })),
     on(SearchActions.previousTextSearchResult, (state) => {
@@ -45,7 +55,8 @@ export const searchReducer = createReducer(
             textSearchState: {
                 isActive: true,
                 searchResults: state.textSearchState.searchResults,
-                selectedResultIndex: prevIndex
+                selectedResultIndex: prevIndex,
+                selectedSearchResult: undefined
             }
         };
     }),
@@ -67,16 +78,27 @@ export const searchReducer = createReducer(
             textSearchState: {
                 isActive: true,
                 searchResults: state.textSearchState.searchResults,
-                selectedResultIndex: nextIndex
+                selectedResultIndex: nextIndex,
+                selectedSearchResult: undefined
             }
         };
     }),
+    on(SearchActions.selectTextSearchResult, (state, action) => ({
+        ...state,
+        textSearchState: {
+            isActive: true,
+            searchResults: state.textSearchState.searchResults,
+            selectedResultIndex: state.textSearchState.selectedResultIndex,
+            selectedSearchResult: action.searchItem
+        }
+    })),
     on(SearchActions.hideTextSearchResults, (state) => ({
         ...state,
         textSearchState: {
             isActive: true,
             searchResults: undefined,
-            selectedResultIndex: undefined
+            selectedResultIndex: undefined,
+            selectedSearchResult: undefined
         }
     })),
     on(SearchActions.showPositionSearchResults, (state, action) => ({

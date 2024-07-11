@@ -1,9 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {
-    getIsTextSearchActive,
-    getTextSearchResults,
-    getTextSearchSelectedResultIndex
-} from '../../../state/ngrx/search.selectors';
+import {getIsTextSearchActive, getTextSearchResults} from '../../../state/ngrx/search.selectors';
 import {select, Store} from '@ngrx/store';
 import {SearchItem} from '../../../domain/model/search-item';
 import {SearchActions} from '../../../state/ngrx/search.actions';
@@ -17,7 +13,6 @@ import {SearchActions} from '../../../state/ngrx/search.actions';
 export class SearchContainerComponent implements OnInit {
     protected isTextSearchActive$ = this.appStore.pipe(select(getIsTextSearchActive));
     protected searchResults$ = this.appStore.pipe(select(getTextSearchResults));
-    protected selectedIndex$ = this.appStore.pipe(select(getTextSearchSelectedResultIndex));
 
 
     constructor(private appStore: Store<any>) {
