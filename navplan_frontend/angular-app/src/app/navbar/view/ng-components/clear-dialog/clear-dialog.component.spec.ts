@@ -1,15 +1,15 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, TestBed} from '@angular/core/testing';
 import {StoreModule} from '@ngrx/store';
-import {MessageContainerComponent} from './clear-dialog.component';
+import {ClearDialogComponent} from './clear-dialog.component';
 
 
-xdescribe('MessageContainerComponent', () => {
-    let component: MessageContainerComponent;
-    let fixture: ComponentFixture<MessageContainerComponent>;
+xdescribe('ClearDialogComponent', () => {
+    let component: ClearDialogComponent;
+    let fixture: ComponentFixture<ClearDialogComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(fakeAsync(() => {
         TestBed.configureTestingModule({
-            declarations: [MessageContainerComponent],
+            declarations: [ClearDialogComponent],
             imports: [
                 StoreModule.forRoot({}),
             ]
@@ -18,7 +18,7 @@ xdescribe('MessageContainerComponent', () => {
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(MessageContainerComponent);
+        fixture = TestBed.createComponent(ClearDialogComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

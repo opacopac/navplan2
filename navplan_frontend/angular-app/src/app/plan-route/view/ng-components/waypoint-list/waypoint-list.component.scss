@@ -1,0 +1,34 @@
+@use '../../../../../../node_modules/@angular/material/index' as mat;
+
+.waypoints-table {
+    /*width: 100%;*/
+}
+
+.fa-info-circle {
+    color: #41669c;
+}
+
+.reverse-button {
+    float: right;
+}
+
+u {
+    text-decoration: underline;
+}
+
+.supp-info-row {
+    height: initial;
+    background-color: #eeeeee;
+}
+
+.origin_destination_row {
+    background-color: #dbe3f0;
+}
+
+.alternate_row {
+    background-color: #ffebcc;
+}
+
+app-icon-button {
+    float: right;
+}

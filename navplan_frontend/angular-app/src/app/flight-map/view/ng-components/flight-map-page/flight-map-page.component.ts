@@ -15,7 +15,7 @@ import {OlNotamContainer} from '../../../../notam/view/ol-components/ol-notam-co
 import {getNotamList} from '../../../../notam/state/ngrx/notam.selectors';
 import {OlTrackContainer} from '../../../../track/view/ol-components/ol-track-container';
 import {getShowTrack} from '../../../../track/state/ngrx/track.selectors';
-import {OlFlightrouteContainer} from '../../../../flightroute/view/ol-components/ol-flightroute-container';
+import {OlFlightrouteContainer} from '../../ol-components/ol-flightroute-container';
 import {getFlightroute} from '../../../../flightroute/state/ngrx/flightroute.selectors';
 import {OlTrafficContainer} from '../../../../traffic/view/ol-components/ol-traffic-container';
 import {getTrafficState} from '../../../../traffic/state/ngrx/traffic.selectors';
@@ -82,7 +82,7 @@ import {
 } from '../../../../meteo-dwd/state/ngrx/meteo-dwd.selectors';
 import {OlDwdForecastMapTileLayer} from '../../../../meteo-dwd/view/ol-components/ol-dwd-forecast-map-tile-layer';
 import {MeteoDwdActions} from '../../../../meteo-dwd/state/ngrx/meteo-dwd.actions';
-import { getSelectedAltitudeUnit } from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
+import {getSelectedAltitudeUnit} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
 
 
 @Component({

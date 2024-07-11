@@ -19,7 +19,7 @@ import {
 import {
     ForgotPwStep2PageComponent
 } from './user/view/ng-components/user-profile/forgot-pw-step2-page/forgot-pw-step2-page.component';
-import {PlanPageComponent} from './plan/view/ng-components/plan-page/plan-page.component';
+import {PlanPageComponent} from './plan-route/view/ng-components/plan-page/plan-page.component';
 
 const routes: Routes = [
     {path: '', redirectTo: 'map', pathMatch: 'full'},
