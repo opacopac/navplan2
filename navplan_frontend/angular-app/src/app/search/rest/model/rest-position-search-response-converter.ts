@@ -23,7 +23,8 @@ export class RestPositionSearchResponseConverter {
             response.userpoints.map(restUserpoint => new UserPointSearchResult(RestUserpointConverter.fromRest(restUserpoint))),
             response.geonames.map(restGeoname => new GeonameSearchResult(RestGeonameConverter.fromRest(restGeoname))),
             response.airspaces.map(restAirspace => RestAirspaceConverter.fromRest(restAirspace)),
-            response.notams.map(restNotam => RestNotamConverter.fromRest(restNotam))
+            response.notams.map(restNotam => RestNotamConverter.fromRest(restNotam)),
+            []
         );
     }
 }

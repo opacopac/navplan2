@@ -6,6 +6,7 @@ import {NavaidSearchResult} from './navaid-search-result';
 import {ReportingPointSearchResult} from './reporting-point-search-result';
 import {UserPointSearchResult} from './user-point-search-result';
 import {GeonameSearchResult} from './geoname-search-result';
+import {SearchItemSearchResult} from './generic-search-result';
 
 
 export class PositionSearchResultList {
@@ -17,6 +18,7 @@ export class PositionSearchResultList {
         public geonameResults: GeonameSearchResult[],
         public airspaceResults: Airspace[],
         public notamResults: Notam[],
+        public searchItemResults: SearchItemSearchResult[]
     ) {
     }
 
@@ -27,7 +29,8 @@ export class PositionSearchResultList {
             ...this.navaidResults,
             ...this.reportingPointResults,
             ...this.userPointResults,
-            ...this.geonameResults
+            ...this.geonameResults,
+            ...this.searchItemResults
         ];
     }
 

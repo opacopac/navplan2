@@ -5,7 +5,7 @@ import {SearchItem} from './search-item';
 
 
 export class SearchItemSearchResult implements IPointSearchResult {
-    constructor(private searchItem: SearchItem) {
+    constructor(public searchItem: SearchItem) {
     }
 
 

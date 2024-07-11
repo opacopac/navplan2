@@ -6,8 +6,6 @@ import {Angle} from '../../../geo-physics/domain/model/quantities/angle';
 import {OlVectorLayer} from '../../../base-map/view/ol-model/ol-vector-layer';
 import {AngleUnit} from '../../../geo-physics/domain/model/quantities/angle-unit';
 import {IPointSearchResult} from '../../domain/model/i-point-search-result';
-import {TextSearchState} from '../../domain/model/text-search-state';
-import {SearchItemSearchResult} from '../../domain/model/search-item-search-result';
 
 
 const MAX_POINTS = 6;
@@ -15,21 +13,15 @@ const MAX_POINTS = 6;
 
 export class OlPositionSearchContainer {
     private readonly positionSearchSubscription: Subscription;
-    private readonly textSearchSubscription: Subscription;
 
 
     constructor(
         private readonly positionSearchLayer: OlVectorLayer,
-        positionSearchState$: Observable<PositionSearchState>,
-        textSearchState$: Observable<TextSearchState>
+        positionSearchState$: Observable<PositionSearchState>
     ) {
         this.positionSearchSubscription = positionSearchState$.subscribe((posSearchState) => {
             this.clearFeatures();
             this.drawPositionSearchFeatures(posSearchState);
-        });
-        this.textSearchSubscription = textSearchState$.subscribe((textSearchState) => {
-            this.clearFeatures();
-            this.drawTextSearchFeatures(textSearchState);
         });
     }
 
@@ -49,16 +41,6 @@ export class OlPositionSearchContainer {
             for (let i = 0; i < sortedItems.length; i++) {
                 OlPositionSearchItem.draw(sortedItems[i], labelAngles[i], this.positionSearchLayer);
             }
-        }
-    }
-
-
-    private drawTextSearchFeatures(textSearchState: TextSearchState) {
-        if (textSearchState && textSearchState.selectedSearchResult) {
-            const searchItem = new SearchItemSearchResult(textSearchState.selectedSearchResult);
-            const labelAngle = Angle.fromDeg(-45);
-
-            OlPositionSearchItem.draw(searchItem, labelAngle, this.positionSearchLayer);
         }
     }
 
