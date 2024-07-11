@@ -32,8 +32,10 @@ export class IconButtonComponent implements OnInit {
             case ButtonColor.RED:
                 return 'button-red';
             case ButtonColor.BLUE:
-            default:
                 return 'button-blue';
+            case ButtonColor.GRAY:
+            default:
+                return 'button-gray';
         }
     }
 

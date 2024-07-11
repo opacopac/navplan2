@@ -64,26 +64,25 @@
                 maxlength="50"
             />
         </mat-form-field>
-        <div class="flex-row">
-            <mat-form-field>
-                <mat-label>Supplemental Info</mat-label>
-                <input
-                    matInput
-                    type="text"
-                    formControlName="supp_info"
-                    maxlength="255"
-                />
-            </mat-form-field>
+        <mat-form-field class="flex-row">
+            <mat-label>Supplemental Info</mat-label>
+            <input
+                matInput
+                type="text"
+                formControlName="supp_info"
+                maxlength="255"
+            />
             <app-icon-button
+                matSuffix
                 [disabled]="!this.editWpForm.get('supp_info').value"
-                [color]="ButtonColor.RED"
+                [color]="ButtonColor.GRAY"
                 tooltipText="delete supplemental info"
                 tooltipPosition="above"
                 (buttonClicked)="this.onDeleteSuppInfoClicked()"
             >
                 <i class="fa-solid fa-eraser"></i>
             </app-icon-button>
-        </div>
+        </mat-form-field>
     </div>
     <div>
         <button

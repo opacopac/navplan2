@@ -20,11 +20,17 @@
     background-color: #41669c;
 }
 
+.mat-mdc-mini-fab.mat-button-gray {
+    color: white;
+    background-color: gray;
+}
+
 .mat-mdc-mini-fab.mat-button-green:disabled,
 .mat-mdc-mini-fab.mat-button-orange:disabled,
 .mat-mdc-mini-fab.mat-button-red:disabled,
-.mat-mdc-mini-fab.mat-button-blue:disabled
+.mat-mdc-mini-fab.mat-button-blue:disabled,
+.mat-mdc-mini-fab.mat-button-gray:disabled
 {
     color: white;
-    background-color: gray;
+    background-color: darkgray;
 }

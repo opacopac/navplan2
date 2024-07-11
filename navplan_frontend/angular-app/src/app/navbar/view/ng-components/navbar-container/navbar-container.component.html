@@ -1,7 +1,7 @@
 <app-navbar
         [currentUser]="this.currentUser$ | async"
         (onLogoffClick)="this.onLogoffClick()"
-        (onShowSearchClick)="this.onShowSearchClick()"
+        (onShowSearchClick)="this.onToggleSearchClick()"
         (onExportPdfClick)="this.onExportPdfClick()"
         (onExportExcelClick)="this.onExportExcelClick()"
         (onExportKmlClick)="this.onExportKmlClick()"

@@ -20,10 +20,15 @@
     color: #41669c;
 }
 
+.mat-mdc-icon-button.mat-button-gray {
+    color: gray;
+}
+
 .mat-mdc-icon-button.mat-button-green:disabled,
 .mat-mdc-icon-button.mat-button-orange:disabled,
 .mat-mdc-icon-button.mat-button-red:disabled,
-.mat-mdc-icon-button.mat-button-blue:disabled
+.mat-mdc-icon-button.mat-button-blue:disabled,
+.mat-mdc-icon-button.mat-button-gray:disabled
 {
-    color: gray;
+    color: darkgray;
 }

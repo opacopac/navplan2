@@ -1,12 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {
-    getTextSearchIsActive,
+    getIsTextSearchActive,
     getTextSearchResults,
     getTextSearchSelectedResultIndex
 } from '../../../state/ngrx/search.selectors';
 import {select, Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
-import {SearchItemList} from '../../../domain/model/search-item-list';
 import {SearchItem} from '../../../domain/model/search-item';
 import {SearchActions} from '../../../state/ngrx/search.actions';
 
@@ -17,17 +15,13 @@ import {SearchActions} from '../../../state/ngrx/search.actions';
     styleUrls: ['./search-container.component.scss']
 })
 export class SearchContainerComponent implements OnInit {
-    public searchIsActive$: Observable<boolean>;
-    public searchResults$: Observable<SearchItemList>;
-    public selectedIndex$: Observable<number>;
+    protected isTextSearchActive$ = this.appStore.pipe(select(getIsTextSearchActive));
+    protected searchResults$ = this.appStore.pipe(select(getTextSearchResults));
+    protected selectedIndex$ = this.appStore.pipe(select(getTextSearchSelectedResultIndex));
 
 
     constructor(private appStore: Store<any>) {
-        this.searchIsActive$ = this.appStore.pipe(select(getTextSearchIsActive));
-        this.searchResults$ = this.appStore.pipe(select(getTextSearchResults));
-        this.selectedIndex$ = this.appStore.pipe(select(getTextSearchSelectedResultIndex));
     }
-
 
 
     ngOnInit() {
@@ -35,12 +29,12 @@ export class SearchContainerComponent implements OnInit {
 
 
     public onSearchInputChange(query: string) {
-        this.appStore.dispatch(SearchActions.searchByText({ query: query }));
+        this.appStore.dispatch(SearchActions.searchByText({query: query}));
     }
 
 
     public onSearchButtonClick(query: string) {
-        this.appStore.dispatch(SearchActions.searchByText({ query: query }));
+        this.appStore.dispatch(SearchActions.searchByText({query: query}));
     }
 
 
@@ -50,6 +44,6 @@ export class SearchContainerComponent implements OnInit {
 
 
     public onResultSelected(result: SearchItem) {
-        this.appStore.dispatch(SearchActions.selectTextSearchResult({ searchItem: result }));
+        this.appStore.dispatch(SearchActions.selectTextSearchResult({searchItem: result}));
     }
 }

@@ -6,11 +6,8 @@ import {PositionSearchResultList} from '../../domain/model/position-search-resul
 
 
 export class SearchActions {
-    public static readonly showTextSearchField = createAction(
-        '[Navbar] Show text search field',
-    );
-    public static readonly hideTextSearchField = createAction(
-        '[Search box] Hide text search field',
+    public static readonly toggleTextSearchField = createAction(
+        '[Navbar] Toggle text search field',
     );
     public static readonly searchByText = createAction(
         '[Search box] Search by text',

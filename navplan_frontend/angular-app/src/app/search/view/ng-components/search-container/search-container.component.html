@@ -1,4 +1,4 @@
-<div class="searchcontainer" *ngIf="this.searchIsActive$ | async">
+<div class="searchcontainer" *ngIf="this.isTextSearchActive$ | async">
     <app-search-box
             [searchResults]="this.searchResults$ | async"
             (onSearchInputChange)="this.onSearchInputChange($event)"

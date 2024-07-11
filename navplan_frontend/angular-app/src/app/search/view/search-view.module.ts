@@ -11,6 +11,7 @@ import {SearchDomainModule} from '../domain/search-domain.module';
 import {SearchRestModule} from '../rest/search-rest.module';
 import {SearchStateModule} from '../state/search-state.module';
 import {MatButtonModule} from '@angular/material/button';
+import {CommonViewModule} from '../../common/view/common-view.module';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import {MatButtonModule} from '@angular/material/button';
         SearchRestModule,
         SearchStateModule,
         MatButtonModule,
+        CommonViewModule,
     ],
     declarations: [
         SearchBoxComponent,

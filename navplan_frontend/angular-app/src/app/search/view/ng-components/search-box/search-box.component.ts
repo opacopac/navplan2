@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {SearchItem} from '../../../domain/model/search-item';
 import {SearchItemList} from '../../../domain/model/search-item-list';
+import {ButtonColor} from '../../../../common/view/model/button-color';
 
 
 @Component({
@@ -14,6 +15,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     @Output() public onSearchButtonClick: EventEmitter<string> = new EventEmitter<string>();
     @Output() public onSearchInputBlur: EventEmitter<null> = new EventEmitter<null>();
     @Output() public onResultSelected: EventEmitter<SearchItem> = new EventEmitter<SearchItem>();
+
+    protected readonly ButtonColor = ButtonColor;
 
 
     constructor() {
