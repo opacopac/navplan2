@@ -1,34 +1,29 @@
 <div class="search-container">
-    <div class="input-group">
-        <mat-form-field class="search-field" subscriptSizing="dynamic">
-            <input
-                #query
-                matInput
-                [matAutocomplete]="auto"
-                type="text"
-                placeholder="search for AD, navaid, city, coordinates"
-                (input)="this.onSearchInputChange.emit(query.value)"
-                (blur)="this.onSearchInputBlur.emit()"
-            />
-            <mat-icon matPrefix>search</mat-icon>
-            <app-icon-button
-                matSuffix
-                [color]="ButtonColor.GRAY"
-                [disabled]="!query.value"
-                (click)="query.value=''"
-            >
-                <i class="fa-solid fa-eraser"></i>
-            </app-icon-button>
-            <mat-autocomplete
-                #auto="matAutocomplete"
-                [displayWith]="getDisplayName"
-                (optionSelected)="this.onResultSelected.emit($event.option.value)">
-                <mat-option
-                    *ngFor="let result of this.searchResults?.items; let idx = index"
-                    [value]="result">
-                    {{ this.getDisplayName(result) }}
-                </mat-option>
-            </mat-autocomplete>
-        </mat-form-field>
-    </div>
+    <mat-form-field class="search-field" subscriptSizing="dynamic">
+        <input
+            #query
+            matInput
+            [matAutocomplete]="auto"
+            type="text"
+            placeholder="search for AD, navaid, city, coordinates"
+            (input)="this.onSearchInputChange.emit(query.value)"
+        />
+        <mat-icon matPrefix>search</mat-icon>
+        <app-icon-button
+            matSuffix
+            [color]="ButtonColor.GRAY"
+            [disabled]="!query.value"
+            (click)="query.value=''"
+        >
+            <i class="fa-solid fa-eraser"></i>
+        </app-icon-button>
+        <mat-autocomplete
+            #auto="matAutocomplete"
+            [displayWith]="getDisplayName"
+            (optionSelected)="this.onResultSelected.emit($event.option.value)">
+            @for (result of this.searchResults?.items; track result) {
+                <mat-option [value]="result">{{ this.getDisplayName(result) }}</mat-option>
+            }
+        </mat-autocomplete>
+    </mat-form-field>
 </div>
