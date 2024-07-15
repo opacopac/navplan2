@@ -1,9 +1,8 @@
 <div class="searchcontainer" *ngIf="this.isTextSearchActive$ | async">
     <app-search-box
-            [searchResults]="this.searchResults$ | async"
-            (onSearchInputChange)="this.onSearchInputChange($event)"
-            (onSearchButtonClick)="this.onSearchButtonClick($event)"
-            (onResultSelected)="this.onResultSelected($event)"
-            (onSearchInputBlur)="this.onSearchInputBlur()">
-    </app-search-box>
+        [searchResults]="this.searchResults$ | async"
+        (onSearchInputChange)="this.onSearchInputChange($event)"
+        (onSearchButtonClick)="this.onSearchButtonClick($event)"
+        (onResultSelected)="this.onResultSelected($event)"
+    />
 </div>

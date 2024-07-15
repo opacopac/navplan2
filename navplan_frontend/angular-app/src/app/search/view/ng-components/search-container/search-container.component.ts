@@ -33,11 +33,6 @@ export class SearchContainerComponent implements OnInit {
     }
 
 
-    public onSearchInputBlur() {
-        this.appStore.dispatch(SearchActions.hideTextSearchResults());
-    }
-
-
     public onResultSelected(result: SearchItem) {
         this.appStore.dispatch(SearchActions.selectTextSearchResult({searchItem: result}));
     }
