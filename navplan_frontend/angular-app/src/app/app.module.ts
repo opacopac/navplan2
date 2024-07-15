@@ -20,6 +20,7 @@ import {UserViewModule} from './user/view/user-view.module';
 import {MessageViewModule} from './message/view/message-view.module';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
 import {PlanRouteViewModule} from './plan-route/view/plan-route-view.module';
+import {SearchViewModule} from './search/view/search-view.module';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import {PlanRouteViewModule} from './plan-route/view/plan-route-view.module';
         NavbarViewModule,
         SettingsViewModule,
         TrackViewModule,
-        UserViewModule
+        UserViewModule,
+        SearchViewModule
     ],
     providers: [
         provideHttpClient(withInterceptorsFromDi(), withJsonpSupport()),

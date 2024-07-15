@@ -19,16 +19,16 @@
             >
                 <i class="fa-solid fa-eraser"></i>
             </app-icon-button>
+            <mat-autocomplete
+                #auto="matAutocomplete"
+                [displayWith]="getDisplayName"
+                (optionSelected)="this.onResultSelected.emit($event.option.value)">
+                <mat-option
+                    *ngFor="let result of this.searchResults?.items; let idx = index"
+                    [value]="result">
+                    {{ this.getDisplayName(result) }}
+                </mat-option>
+            </mat-autocomplete>
         </mat-form-field>
-        <mat-autocomplete
-            #auto="matAutocomplete"
-            [displayWith]="getDisplayName"
-            (optionSelected)="this.onResultSelected.emit($event.option.value)">
-            <mat-option
-                *ngFor="let result of this.searchResults?.items; let idx = index"
-                [value]="result">
-                {{ this.getDisplayName(result) }}
-            </mat-option>
-        </mat-autocomplete>
     </div>
 </div>
