@@ -15,9 +15,9 @@ export class BaseMapActions {
         '[Base Map Buttons] zoom out'
     );
 
-    public static readonly centerPosition = createAction(
-        '[Base Map] center to position',
-        props<{ position: Position2d }>()
+    public static readonly setMapPosition = createAction(
+        '[Base Map] set map position',
+        props<{ position: Position2d, zoom: number|null }>()
     );
 
     public static readonly mapMoved = createAction(

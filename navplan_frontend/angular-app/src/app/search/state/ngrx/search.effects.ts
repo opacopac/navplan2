@@ -72,7 +72,7 @@ export class SearchEffects {
                 positionSearchResults: this.searchService.convertToPositionSearchResultList(action.searchItem),
                 clickPos: action.searchItem.getPosition(),
             }),
-            BaseMapActions.centerPosition({position: action.searchItem.getPosition()})
+            BaseMapActions.setMapPosition({position: action.searchItem.getPosition(), zoom: 11}),
         ])
     ));
 }
