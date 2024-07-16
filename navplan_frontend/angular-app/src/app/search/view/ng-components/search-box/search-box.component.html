@@ -8,7 +8,7 @@
         (input)="this.onSearchInputChange.emit(query.value)"
     />
     <mat-icon matPrefix>search</mat-icon>
-    <mat-icon matSuffix (click)="query.value=''">close</mat-icon>
+    <mat-icon matSuffix (click)="this.onSearchResultsCleared.emit(); this.query.value = '';">close</mat-icon>
     <mat-autocomplete
         #auto="matAutocomplete"
         [displayWith]="getDisplayName"

@@ -9,6 +9,7 @@ import {LoggingService} from '../../../system/domain/service/logging/logging.ser
 import {ISearchService} from '../../domain/service/i-search.service';
 import {OlGeometry} from '../../../base-map/view/ol-model/ol-geometry';
 import {BaseMapActions} from '../../../base-map/state/ngrx/base-map.actions';
+import {FlightMapActions} from '../../../flight-map/state/ngrx/flight-map.actions';
 
 
 const MIN_QUERY_LENGTH = 3;
@@ -72,6 +73,7 @@ export class SearchEffects {
                 positionSearchResults: this.searchService.convertToPositionSearchResultList(action.searchItem),
                 clickPos: action.searchItem.getPosition(),
             }),
+            FlightMapActions.hideOverlay(),
             BaseMapActions.setMapPosition({position: action.searchItem.getPosition(), zoom: 11}),
         ])
     ));

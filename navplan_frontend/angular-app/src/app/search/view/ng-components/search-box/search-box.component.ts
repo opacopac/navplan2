@@ -13,8 +13,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     @Input() public searchResults: SearchItemList;
     @Output() public onSearchInputChange: EventEmitter<string> = new EventEmitter<string>();
     @Output() public onSearchButtonClick: EventEmitter<string> = new EventEmitter<string>();
-    @Output() public onSearchInputBlur: EventEmitter<null> = new EventEmitter<null>();
     @Output() public onResultSelected: EventEmitter<SearchItem> = new EventEmitter<SearchItem>();
+    @Output() public onSearchResultsCleared: EventEmitter<void> = new EventEmitter<void>();
 
     protected readonly ButtonColor = ButtonColor;
 
@@ -46,7 +46,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     }
 
 
-    public getDisplayName(searchItem: SearchItem): string {
+    protected getDisplayName(searchItem: SearchItem): string {
         return searchItem ? searchItem.getSearchResultName() : undefined;
     }
 }

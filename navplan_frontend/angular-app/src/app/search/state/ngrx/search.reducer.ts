@@ -78,7 +78,7 @@ export const searchReducer = createReducer(
             selectedSearchResult: action.searchItem
         }
     })),
-    on(SearchActions.hideTextSearchResults, (state) => ({
+    on(SearchActions.clearTextSearchResults, (state) => ({
         ...state,
         textSearchState: {
             searchResults: undefined,

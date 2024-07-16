@@ -24,8 +24,8 @@ export class SearchActions {
         '[Search box] Select text search result',
         props<{ searchItem: SearchItem }>()
     );
-    public static readonly hideTextSearchResults = createAction(
-        '[Search box] Hide text search results',
+    public static readonly clearTextSearchResults = createAction(
+        '[Search box] Clear text search results',
     );
     public static readonly searchByPosition = createAction(
         '[Flight Map] Search by position',

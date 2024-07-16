@@ -22,17 +22,21 @@ export class SearchContainerComponent implements OnInit {
     }
 
 
-    public onSearchInputChange(query: string) {
+    protected onSearchInputChange(query: string) {
         this.appStore.dispatch(SearchActions.searchByText({query: query}));
     }
 
 
-    public onSearchButtonClick(query: string) {
+    protected onSearchButtonClick(query: string) {
         this.appStore.dispatch(SearchActions.searchByText({query: query}));
     }
 
 
-    public onResultSelected(result: SearchItem) {
+    protected onResultSelected(result: SearchItem) {
         this.appStore.dispatch(SearchActions.selectTextSearchResult({searchItem: result}));
+    }
+
+    protected onSearchResultsCleared() {
+        this.appStore.dispatch(SearchActions.clearTextSearchResults());
     }
 }
