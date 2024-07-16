@@ -6,9 +6,6 @@ import {PositionSearchResultList} from '../../domain/model/position-search-resul
 
 
 export class SearchActions {
-    public static readonly toggleTextSearchField = createAction(
-        '[Navbar] Toggle text search field',
-    );
     public static readonly searchByText = createAction(
         '[Search box] Search by text',
         props<{ query: string }>()

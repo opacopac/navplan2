@@ -3,7 +3,6 @@ import {Observable} from 'rxjs';
 import {User} from '../../../../user/domain/model/user';
 import {select, Store} from '@ngrx/store';
 import {getCurrentUser} from '../../../../user/state/ngrx/user.selectors';
-import {SearchActions} from '../../../../search/state/ngrx/search.actions';
 import {ExporterActions} from '../../../../exporter/state/ngrx/exporter.actions';
 import {ClearDialogComponent} from '../clear-dialog/clear-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
@@ -28,11 +27,6 @@ export class NavbarContainerComponent implements OnInit {
 
 
     ngOnInit() {
-    }
-
-
-    public onToggleSearchClick() {
-        this.appStore.dispatch(SearchActions.toggleTextSearchField());
     }
 
 

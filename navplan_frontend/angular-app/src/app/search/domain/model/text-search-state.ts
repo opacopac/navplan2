@@ -3,7 +3,6 @@ import {SearchItem} from './search-item';
 
 
 export interface TextSearchState {
-    isActive: boolean;
     searchResults: SearchItemList;
     selectedResultIndex: number;
     selectedSearchResult: SearchItem;

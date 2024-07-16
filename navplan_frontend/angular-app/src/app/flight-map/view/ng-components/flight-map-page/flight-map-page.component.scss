@@ -3,6 +3,15 @@
     height: 100%;
 }
 
+.search-container {
+    position: absolute;
+    top: 10px;
+    left: 70px;
+    width: 1000px;
+    max-width: calc(100% - 120px);
+    z-index: 20;
+}
+
 .zoom-buttons-pos {
     position: absolute;
     top: 10px;

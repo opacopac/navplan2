@@ -5,7 +5,6 @@ import {createReducer, on} from '@ngrx/store';
 
 const initialSearchState: SearchState = {
     textSearchState: {
-        isActive: false,
         searchResults: undefined,
         selectedResultIndex: undefined,
         selectedSearchResult: undefined
@@ -19,19 +18,9 @@ const initialSearchState: SearchState = {
 
 export const searchReducer = createReducer(
     initialSearchState,
-    on(SearchActions.toggleTextSearchField, (state) => ({
-        ...state,
-        textSearchState: {
-            isActive: !state.textSearchState.isActive,
-            searchResults: !state.textSearchState.isActive ? state.textSearchState.searchResults : undefined,
-            selectedResultIndex: !state.textSearchState.isActive ? state.textSearchState.selectedResultIndex : undefined,
-            selectedSearchResult: !state.textSearchState.isActive ? state.textSearchState.selectedSearchResult : undefined
-        }
-    })),
     on(SearchActions.showTextSearchResults, (state, action) => ({
         ...state,
         textSearchState: {
-            isActive: true,
             searchResults: action.searchResults,
             selectedResultIndex: undefined,
             selectedSearchResult: undefined
@@ -53,7 +42,6 @@ export const searchReducer = createReducer(
         return {
             ...state,
             textSearchState: {
-                isActive: true,
                 searchResults: state.textSearchState.searchResults,
                 selectedResultIndex: prevIndex,
                 selectedSearchResult: undefined
@@ -76,7 +64,6 @@ export const searchReducer = createReducer(
         return {
             ...state,
             textSearchState: {
-                isActive: true,
                 searchResults: state.textSearchState.searchResults,
                 selectedResultIndex: nextIndex,
                 selectedSearchResult: undefined
@@ -86,7 +73,6 @@ export const searchReducer = createReducer(
     on(SearchActions.selectTextSearchResult, (state, action) => ({
         ...state,
         textSearchState: {
-            isActive: true,
             searchResults: state.textSearchState.searchResults,
             selectedResultIndex: state.textSearchState.selectedResultIndex,
             selectedSearchResult: action.searchItem
@@ -95,7 +81,6 @@ export const searchReducer = createReducer(
     on(SearchActions.hideTextSearchResults, (state) => ({
         ...state,
         textSearchState: {
-            isActive: true,
             searchResults: undefined,
             selectedResultIndex: undefined,
             selectedSearchResult: undefined

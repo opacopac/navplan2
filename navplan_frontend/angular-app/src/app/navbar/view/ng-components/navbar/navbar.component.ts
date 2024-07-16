@@ -9,7 +9,6 @@ import {User} from '../../../../user/domain/model/user';
 })
 export class NavbarComponent implements OnInit {
     @Input() currentUser: User;
-    @Output() onShowSearchClick: EventEmitter<null> = new EventEmitter<null>();
     @Output() onLogoffClick: EventEmitter<null> = new EventEmitter<null>();
     @Output() onExportPdfClick: EventEmitter<null> = new EventEmitter<null>();
     @Output() onExportExcelClick: EventEmitter<null> = new EventEmitter<null>();

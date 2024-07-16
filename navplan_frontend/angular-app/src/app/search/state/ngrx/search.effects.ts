@@ -64,14 +64,14 @@ export class SearchEffects {
     ));
 
 
+    // TODO: center map?
     textSearchResultSelected$ = createEffect(() => this.actions$.pipe(
         ofType(SearchActions.selectTextSearchResult),
         switchMap(action => [
             SearchActions.showPositionSearchResults({
                 positionSearchResults: this.searchService.convertToPositionSearchResultList(action.searchItem),
                 clickPos: action.searchItem.getPosition(),
-            }),
-            SearchActions.toggleTextSearchField()
+            })
         ])
     ));
 }

@@ -19,7 +19,6 @@
             </div>
         </mat-menu>
         <button mat-button title="Clear current Route and Track" (click)="this.onClearClick.emit()"><i class="fa-solid fa-eraser"></i><span class="button-text">&nbsp;&nbsp;Clear</span></button>
-        <button mat-button title="Search" (click)="this.onShowSearchClick.emit()"><i class="fa-solid fa-search"></i></button>
     </div>
 
     <!-- right part of menu -->
@@ -57,7 +56,6 @@
             <button mat-button (click)="this.onExportFplClick.emit()"><i class="fa-solid fa-map-marker-alt"></i>&nbsp;&nbsp;FPL (Garmin, Foreflight, etc.)</button>
         </div>
     </mat-menu>
-    <button mat-menu-item title="Search" (click)="this.onShowSearchClick.emit()"><i class="fa-solid fa-search"></i>&nbsp;&nbsp;Search</button>
     <button mat-menu-item *ngIf="this.currentUser; else noCurrentUserSmall" [matMenuTriggerFor]="userMenu" title="User Profile"><i class="fa-solid fa-user"></i>&nbsp;&nbsp;{{ this.currentUser.email }}</button>
     <ng-template #noCurrentUserSmall><button mat-menu-item routerLink="./login" title="Login or Register"><i class="fa-solid fa-user"></i>&nbsp;&nbsp;Log In</button></ng-template>
     <button mat-menu-item routerLink="./settings" title="Edit Settings"><i class="fa-solid fa-cog"></i>&nbsp;&nbsp;Settings</button>
