@@ -8,6 +8,7 @@ import {getCurrentUser} from '../../../user/state/ngrx/user.selectors';
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {ISearchService} from '../../domain/service/i-search.service';
 import {OlGeometry} from '../../../base-map/view/ol-model/ol-geometry';
+import {BaseMapActions} from '../../../base-map/state/ngrx/base-map.actions';
 
 
 const MIN_QUERY_LENGTH = 3;
@@ -64,14 +65,14 @@ export class SearchEffects {
     ));
 
 
-    // TODO: center map?
     textSearchResultSelected$ = createEffect(() => this.actions$.pipe(
         ofType(SearchActions.selectTextSearchResult),
         switchMap(action => [
             SearchActions.showPositionSearchResults({
                 positionSearchResults: this.searchService.convertToPositionSearchResultList(action.searchItem),
                 clickPos: action.searchItem.getPosition(),
-            })
+            }),
+            BaseMapActions.centerPosition({position: action.searchItem.getPosition()})
         ])
     ));
 }

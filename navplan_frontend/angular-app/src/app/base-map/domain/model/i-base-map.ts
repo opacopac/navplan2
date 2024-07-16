@@ -17,6 +17,8 @@ export interface IBaseMap {
 
     setZoom(zoom: number): void;
 
+    setPosition(position: Position2d): void;
+
     getMapPosition(): Position2d;
 
     getRotation(): Angle;

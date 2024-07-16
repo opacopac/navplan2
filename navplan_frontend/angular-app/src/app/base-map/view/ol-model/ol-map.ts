@@ -120,6 +120,11 @@ export class OlMap implements IBaseMap {
     }
 
 
+    public setPosition(position: Position2d): void {
+        this.map.getView().setCenter(OlGeometry.getMercator(position));
+    }
+
+
     public getMapPosition(): Position2d {
         const mercPos = this.map.getView().getCenter();
 

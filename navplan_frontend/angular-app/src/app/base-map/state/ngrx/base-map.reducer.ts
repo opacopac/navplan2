@@ -33,6 +33,11 @@ export const baseMapReducer = createReducer(
         zoom: state.zoom > 0 ? state.zoom - 1 : state.zoom
     })),
 
+    on(BaseMapActions.centerPosition, (state, action) => ({
+        ...state,
+        position: action.position
+    })),
+
     on(BaseMapActions.mapMoved, (state, action) => ({
         ...state,
         position: action.position,

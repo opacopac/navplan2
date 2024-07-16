@@ -6,7 +6,12 @@ import {BaseMapActions} from '../../../state/ngrx/base-map.actions';
 import {Angle} from '../../../../geo-physics/domain/model/quantities/angle';
 import Overlay from 'ol/Overlay';
 import {MapBaseLayerType} from '../../../domain/model/map-base-layer-type';
-import {getMapZoom, getSelectedMapBaseLayerType, getShowImage} from '../../../state/ngrx/base-map.selectors';
+import {
+    getMapPosition,
+    getMapZoom,
+    getSelectedMapBaseLayerType,
+    getShowImage
+} from '../../../state/ngrx/base-map.selectors';
 import {Observable} from 'rxjs';
 import {Subscription} from 'rxjs/internal/Subscription';
 import {ShowImageState} from '../../../state/state-model/show-image-state';
@@ -27,8 +32,10 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
 
     private baseMap: IBaseMap;
     private readonly zoom$: Observable<number> = this.appStore.pipe(select(getMapZoom));
+    private readonly position$: Observable<Position2d> = this.appStore.pipe(select(getMapPosition));
     private readonly showImage$: Observable<ShowImageState> = this.appStore.pipe(select(getShowImage));
     private readonly zoomSubscription: Subscription;
+    private readonly positionSubscription: Subscription;
     private readonly showImageSubscription: Subscription;
     private readonly selectedBaseLayerType$: Observable<MapBaseLayerType> = this.appStore.pipe(select(getSelectedMapBaseLayerType));
     private readonly selectedBaseLayerTypeSubscription: Subscription;
@@ -38,6 +45,7 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
 
     public constructor(private appStore: Store<any>) {
         this.zoomSubscription = this.zoom$.subscribe(zoom => this.setZoom(zoom));
+        this.positionSubscription = this.position$.subscribe(position => this.setPosition(position));
         this.showImageSubscription = this.showImage$.subscribe(imageState => this.showImage(imageState));
         this.selectedBaseLayerTypeSubscription = this.selectedBaseLayerType$.subscribe(layerType => this.changeBaseLayer(layerType));
     }
@@ -101,6 +109,13 @@ export class OlMapContainerComponent implements OnInit, OnDestroy {
     private setZoom(zoom: number): void {
         if (this.baseMap && this.baseMap.getZoom() !== zoom) {
             this.baseMap.setZoom(zoom);
+        }
+    }
+
+
+    private setPosition(position: Position2d): void {
+        if (this.baseMap && this.baseMap.getMapPosition() !== position) {
+            this.baseMap.setPosition(position);
         }
     }
 
