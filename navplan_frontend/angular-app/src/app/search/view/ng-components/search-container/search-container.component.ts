@@ -3,6 +3,7 @@ import {getTextSearchResults} from '../../../state/ngrx/search.selectors';
 import {select, Store} from '@ngrx/store';
 import {SearchItem} from '../../../domain/model/search-item';
 import {SearchActions} from '../../../state/ngrx/search.actions';
+import {getFlightMapShowFullScreen} from '../../../../flight-map/state/ngrx/flight-map.selectors';
 
 
 @Component({
@@ -12,6 +13,7 @@ import {SearchActions} from '../../../state/ngrx/search.actions';
 })
 export class SearchContainerComponent implements OnInit {
     protected searchResults$ = this.appStore.pipe(select(getTextSearchResults));
+    protected isFullScreen$ = this.appStore.pipe(select(getFlightMapShowFullScreen));
 
 
     constructor(private appStore: Store<any>) {

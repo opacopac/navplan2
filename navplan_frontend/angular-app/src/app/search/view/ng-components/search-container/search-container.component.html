@@ -1,4 +1,4 @@
-<app-search-box
+<app-search-box *ngIf="!(this.isFullScreen$ | async)"
     [searchResults]="this.searchResults$ | async"
     (onSearchInputChange)="this.onSearchInputChange($event)"
     (onSearchButtonClick)="this.onSearchButtonClick($event)"
