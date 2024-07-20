@@ -7,11 +7,6 @@
 .fa-info-circle {
     color: #41669c;
 }
-
-.reverse-button {
-    float: right;
-}
-
 u {
     text-decoration: underline;
 }
@@ -31,4 +26,13 @@ u {
 
 app-icon-button {
     float: right;
+}
+
+.reverse-button-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end
+}
+
+.reverse-button {
 }

@@ -1,4 +1,4 @@
-<div class="table-responsive" *ngIf="this.flightroute">
+<div *ngIf="this.flightroute">
     <table
         mat-table
         multiTemplateDataRows
@@ -9,19 +9,16 @@
         <ng-container matColumnDef="freq">
             <th mat-header-cell *matHeaderCellDef>Freq</th>
             <td mat-cell *matCellDef="let entry">{{ entry.wp.freq }}</td>
-            <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
 
         <ng-container matColumnDef="callsign">
             <th mat-header-cell *matHeaderCellDef>Callsign</th>
             <td mat-cell *matCellDef="let entry">{{ entry.wp.callsign }}</td>
-            <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
 
         <ng-container matColumnDef="checkpoint">
             <th mat-header-cell *matHeaderCellDef>Checkpoint</th>
             <td mat-cell *matCellDef="let entry">{{ entry.wp.checkpoint }}</td>
-            <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
 
         <ng-container matColumnDef="alt">
@@ -30,31 +27,26 @@
                 <span *ngIf="entry.wp.wpAlt.isaltatlegstart">&#8739;</span>
                 <span [style.text-decoration]="this.getAltStyle(entry.wp)">{{ this.getAltText(entry.wp) }}</span>
             </td>
-            <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
 
         <ng-container matColumnDef="mt">
             <th mat-header-cell *matHeaderCellDef>MT</th>
             <td mat-cell *matCellDef="let entry">{{ entry.wp.mtText }}</td>
-            <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
 
         <ng-container matColumnDef="dist">
             <th mat-header-cell *matHeaderCellDef>Dist</th>
             <td mat-cell *matCellDef="let entry">{{ entry.wp.distText }}</td>
-            <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
 
         <ng-container matColumnDef="eet">
             <th mat-header-cell *matHeaderCellDef>EET</th>
             <td mat-cell *matCellDef="let entry">{{ entry.wp.eetText }}</td>
-            <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
 
         <ng-container matColumnDef="remarks">
             <th mat-header-cell *matHeaderCellDef>Remarks</th>
             <td mat-cell *matCellDef="let entry">{{ entry.wp.remark }}</td>
-            <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
 
         <ng-container matColumnDef="icons">
@@ -68,19 +60,6 @@
                 >
                     <i class="fa-solid fa-trash"></i>
                 </app-icon-button>
-            </td>
-            <td mat-footer-cell *matFooterCellDef>
-                <!-- reverse waypoints button -->
-                <button
-                    class="reverse-button"
-                    mat-raised-button
-                    type="button"
-                    matTooltip="Reverse Waypoint Order"
-                    matTooltipPosition="above"
-                    *ngIf="this.flightroute.waypoints.length >= 2"
-                    (click)="this.onReverseWaypointsClick.emit()"><i class="fa-solid fa-arrows-up-down"></i> Reverse
-                    Waypoints
-                </button>
             </td>
         </ng-container>
 
@@ -157,9 +136,19 @@
             *matFooterRowDef="['no_entry']"
             [hidden]="this.flightroute && this.flightroute.waypoints.length > 0"
         ></tr>
-        <tr mat-footer-row
-            *matFooterRowDef="this.visibleColumns"
-        ></tr>
 
     </table>
+    <!-- reverse waypoints button -->
+    <div class="reverse-button-container">
+        <button
+            class="reverse-button"
+            mat-raised-button
+            type="button"
+            matTooltip="Reverse Waypoint Order"
+            matTooltipPosition="above"
+            *ngIf="this.flightroute.waypoints.length >= 2"
+            (click)="this.onReverseWaypointsClick.emit()"><i class="fa-solid fa-arrows-up-down"></i> Reverse
+            Waypoints
+        </button>
+    </div>
 </div>
