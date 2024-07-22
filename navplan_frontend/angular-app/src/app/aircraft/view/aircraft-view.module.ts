@@ -18,6 +18,9 @@ import {
 import {
     AircraftDetailsContainerComponent
 } from './ng-components/aircraft-details-container/aircraft-details-container.component';
+import {AircraftDomainModule} from '../domain/aircraft-domain.module';
+import {AircraftRestModule} from '../rest/aircraft-rest.module';
+import {AircraftStateModule} from '../state/aircraft-state.module';
 
 
 @NgModule({
@@ -25,6 +28,9 @@ import {
         CommonModule,
         CommonViewModule,
         ReactiveFormsModule,
+        AircraftDomainModule,
+        AircraftRestModule,
+        AircraftStateModule,
         MatTableModule,
         MatButtonModule,
         MatInputModule,

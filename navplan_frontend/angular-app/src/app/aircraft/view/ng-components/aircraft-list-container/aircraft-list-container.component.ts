@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Store} from '@ngrx/store';
+import {AircraftActions} from '../../../state/ngrx/aircraft.actions';
 
 
 @Component({
@@ -7,10 +9,11 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./aircraft-list-container.component.scss'],
 })
 export class AircraftListContainerComponent implements OnInit {
-    constructor() {
+    constructor(private appStore: Store<any>) {
     }
 
 
     ngOnInit() {
+        this.appStore.dispatch(AircraftActions.readList());
     }
 }

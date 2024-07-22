@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
-import { User } from '../../../user/domain/model/user';
-import { IAircraftRepoService } from '../../domain/service/i-aircraft.service';
-import { AircraftListEntry } from '../../domain/model/aircraft-list-entry';
-import { Aircraft } from '../../domain/model/aircraft';
-import { Speed } from '../../../geo-physics/domain/model/quantities/speed';
-import { SpeedUnit } from '../../../geo-physics/domain/model/quantities/speed-unit';
-import { Consumption } from '../../../geo-physics/domain/model/quantities/consumption';
-import { ConsumptionUnit } from '../../../geo-physics/domain/model/quantities/consumption-unit';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable, of} from 'rxjs';
+import {User} from '../../../user/domain/model/user';
+import {AircraftListEntry} from '../../domain/model/aircraft-list-entry';
+import {Aircraft} from '../../domain/model/aircraft';
+import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
+import {SpeedUnit} from '../../../geo-physics/domain/model/quantities/speed-unit';
+import {Consumption} from '../../../geo-physics/domain/model/quantities/consumption';
+import {ConsumptionUnit} from '../../../geo-physics/domain/model/quantities/consumption-unit';
+import {IAircraftRepoService} from '../../domain/service/i-aircraft-repo.service';
 
 
 @Injectable()
@@ -22,9 +22,9 @@ export class RestAircraftRepoService implements IAircraftRepoService {
 
     public readAircraftList(user: User): Observable<AircraftListEntry[]> {
         const mockAircraftList = [
-            new AircraftListEntry(1, "HB-KGO", "BR23", new Speed(100, SpeedUnit.KT), new Consumption(25, ConsumptionUnit.L_PER_H)),
-            new AircraftListEntry(1, "HB-KGP", "BR23", new Speed(100, SpeedUnit.KT), new Consumption(25, ConsumptionUnit.L_PER_H)),
-            new AircraftListEntry(1, "HB-KGN", "BR23", new Speed(100, SpeedUnit.KT), new Consumption(25, ConsumptionUnit.L_PER_H)),
+            new AircraftListEntry(1, 'HB-KGO', 'BR23', new Speed(100, SpeedUnit.KT), new Consumption(25, ConsumptionUnit.L_PER_H)),
+            new AircraftListEntry(1, 'HB-KGP', 'BR23', new Speed(100, SpeedUnit.KT), new Consumption(25, ConsumptionUnit.L_PER_H)),
+            new AircraftListEntry(1, 'HB-KGN', 'BR23', new Speed(100, SpeedUnit.KT), new Consumption(25, ConsumptionUnit.L_PER_H)),
         ];
 
         return of(mockAircraftList);
@@ -47,7 +47,7 @@ export class RestAircraftRepoService implements IAircraftRepoService {
     // region aircraft CRUD
 
     public readAircraft(aircraftId: number, user: User): Observable<Aircraft> {
-        const mockAircraft = new Aircraft(1, "HB-KGO", "BR23");
+        const mockAircraft = new Aircraft(1, 'HB-KGO', 'BR23');
         return of(mockAircraft);
 
         /*const url = environment.flightrouteServiceUrl + '?id=' + flightrouteId + '&token=' + user.token;

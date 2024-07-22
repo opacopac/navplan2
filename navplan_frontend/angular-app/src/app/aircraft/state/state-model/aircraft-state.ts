@@ -1,6 +1,5 @@
-import { Aircraft } from "../../domain/model/aircraft";
-import { AircraftListEntry } from "../../domain/model/aircraft-list-entry";
-
+import {AircraftListEntry} from '../../domain/model/aircraft-list-entry';
+import {Aircraft} from '../../domain/model/aircraft';
 
 export interface AircraftState {
     aircraftList: AircraftListEntry[];
