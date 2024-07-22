@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {RegisterStep2PageComponent} from './register-step2-page.component';
 
 
@@ -6,12 +6,12 @@ xdescribe('RegisterStep2PageComponent', () => {
     let component: RegisterStep2PageComponent;
     let fixture: ComponentFixture<RegisterStep2PageComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(async () => {
         TestBed.configureTestingModule({
             declarations: [RegisterStep2PageComponent]
         })
             .compileComponents();
-    }));
+    });
 
     beforeEach(() => {
         fixture = TestBed.createComponent(RegisterStep2PageComponent);

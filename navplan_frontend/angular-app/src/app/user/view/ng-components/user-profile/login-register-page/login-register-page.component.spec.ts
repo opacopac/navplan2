@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {LoginRegisterPageComponent} from './login-register-page.component';
 
 
@@ -6,12 +6,12 @@ xdescribe('LoginRegisterPageComponent', () => {
     let component: LoginRegisterPageComponent;
     let fixture: ComponentFixture<LoginRegisterPageComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(async () => {
         TestBed.configureTestingModule({
             declarations: [LoginRegisterPageComponent]
         })
             .compileComponents();
-    }));
+    });
 
     beforeEach(() => {
         fixture = TestBed.createComponent(LoginRegisterPageComponent);

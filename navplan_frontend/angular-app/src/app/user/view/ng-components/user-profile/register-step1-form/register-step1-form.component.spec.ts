@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {RegisterStep1FormComponent} from './register-step1-form.component';
 
 
@@ -6,12 +6,12 @@ xdescribe('RegisterStep1FormComponent', () => {
     let component: RegisterStep1FormComponent;
     let fixture: ComponentFixture<RegisterStep1FormComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(async () => {
         TestBed.configureTestingModule({
             declarations: [RegisterStep1FormComponent]
         })
             .compileComponents();
-    }));
+    });
 
     beforeEach(() => {
         fixture = TestBed.createComponent(RegisterStep1FormComponent);

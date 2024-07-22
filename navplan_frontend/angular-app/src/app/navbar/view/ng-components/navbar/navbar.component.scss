@@ -27,6 +27,10 @@
     text-decoration: none;
 }
 
+.button-active {
+    background: rgba(84, 110, 122, 0.15);
+}
+
 .menu-buttons-left-lg {
     display: flex;
     gap: 15px;

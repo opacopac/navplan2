@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {AircraftPageComponent} from './aircraft-page.component';
 
 
@@ -6,12 +6,12 @@ xdescribe('AircraftPageComponent', () => {
     let component: AircraftPageComponent;
     let fixture: ComponentFixture<AircraftPageComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(async () => {
         TestBed.configureTestingModule({
             declarations: [AircraftPageComponent]
         })
             .compileComponents();
-    }));
+    });
 
     beforeEach(() => {
         fixture = TestBed.createComponent(AircraftPageComponent);

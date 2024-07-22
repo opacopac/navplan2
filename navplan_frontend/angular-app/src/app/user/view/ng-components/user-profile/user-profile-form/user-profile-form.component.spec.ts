@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {UserProfileFormComponent} from './user-profile-form.component';
 
 
@@ -6,12 +6,12 @@ xdescribe('UserProfileFormComponent', () => {
     let component: UserProfileFormComponent;
     let fixture: ComponentFixture<UserProfileFormComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(async() => {
         TestBed.configureTestingModule({
             declarations: [UserProfileFormComponent]
         })
             .compileComponents();
-    }));
+    });
 
     beforeEach(() => {
         fixture = TestBed.createComponent(UserProfileFormComponent);

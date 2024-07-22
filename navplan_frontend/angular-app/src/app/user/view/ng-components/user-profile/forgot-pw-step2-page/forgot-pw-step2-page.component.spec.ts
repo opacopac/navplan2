@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {ForgotPwStep2PageComponent} from './forgot-pw-step2-page.component';
 
 
@@ -6,12 +6,12 @@ xdescribe('ForgotPwStep2PageComponent', () => {
     let component: ForgotPwStep2PageComponent;
     let fixture: ComponentFixture<ForgotPwStep2PageComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(async () => {
         TestBed.configureTestingModule({
             declarations: [ForgotPwStep2PageComponent]
         })
             .compileComponents();
-    }));
+    });
 
     beforeEach(() => {
         fixture = TestBed.createComponent(ForgotPwStep2PageComponent);

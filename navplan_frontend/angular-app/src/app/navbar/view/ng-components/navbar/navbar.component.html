@@ -5,10 +5,10 @@
 
     <!-- menu for large screens -->
     <div class="menu-buttons-left-lg">
-        <button mat-button routerLink="./map" title="Map"><i class="fa-solid fa-map"></i><span class="button-text">&nbsp;&nbsp;Map</span></button>
-        <button mat-button routerLink="./aircraft/hangar" title="Aircraft"><i class="fa-solid fa-plane"></i><span class="button-text">&nbsp;&nbsp;Aircraft</span></button>
-        <button mat-button routerLink="./plan/route" title="Flight Preparation"><i class="fa-solid fa-list-check"></i><span class="button-text">&nbsp;&nbsp;Plan</span></button>
-        <button mat-button *ngIf="this.currentUser" routerLink="./tracks" title="Recorded Tracks"><i class="fa-solid fa-paw"></i><span class="button-text">&nbsp;&nbsp;Tracks</span></button>
+        <button mat-button routerLink="./map" routerLinkActive="button-active" title="Map"><i class="fa-solid fa-map"></i><span class="button-text">&nbsp;&nbsp;Map</span></button>
+        <button mat-button routerLink="./aircraft/hangar" routerLinkActive="button-active" title="Aircraft"><i class="fa-solid fa-plane-up"></i><span class="button-text">&nbsp;&nbsp;Aircraft</span></button>
+        <button mat-button routerLink="./plan/route" routerLinkActive="button-active" title="Flight Preparation"><i class="fa-solid fa-list-check"></i><span class="button-text">&nbsp;&nbsp;Plan</span></button>
+        <button mat-button *ngIf="this.currentUser" routerLink="./tracks" routerLinkActive="button-active" title="Recorded Tracks"><i class="fa-solid fa-paw"></i><span class="button-text">&nbsp;&nbsp;Tracks</span></button>
         <button mat-button id="btn_export" [mat-menu-trigger-for]="navplanExport" title="Export / Share"><i class="fa-solid fa-share"></i><span class="button-text">&nbsp;&nbsp;Export</span></button>
         <mat-menu #navplanExport="matMenu">
             <div class="export-menu-button">
@@ -28,8 +28,8 @@
         <ng-template #noCurrentUser>
             <button mat-button routerLink="./login" title="Login / Register"><span><i class="fa-solid fa-user"></i></span></button>
         </ng-template>
-        <button mat-button routerLink="./settings" title="Edit Settings"><i class="fa-solid fa-cog"></i></button>
-        <button mat-button routerLink="./about" title="About"><i class="fa-solid fa-info-circle"></i></button>
+        <button mat-button routerLink="./settings" routerLinkActive="button-active" title="Edit Settings"><i class="fa-solid fa-cog"></i></button>
+        <button mat-button routerLink="./about" routerLinkActive="button-active" title="About"><i class="fa-solid fa-info-circle"></i></button>
     </div>
 
     <!-- menu button for small screens -->
@@ -44,7 +44,7 @@
 <!-- vertical menu for small screens -->
 <mat-menu #verticalMenu="matMenu">
     <button mat-menu-item routerLink="./map" title="Map"><i class="fa-solid fa-map"></i>&nbsp;&nbsp;Map</button>
-    <button mat-menu-item routerLink="./aircraft/hangar" title="Aircraft"><i class="fa-solid fa-plane"></i>&nbsp;&nbsp;Aircraft</button>
+    <button mat-menu-item routerLink="./aircraft/hangar" title="Aircraft"><i class="fa-solid fa-plane-up"></i>&nbsp;&nbsp;Aircraft</button>
     <button mat-menu-item routerLink="./plan/route" title="Flight Preparation"><i class="fa-solid fa-tasks"></i>&nbsp;&nbsp;Plan</button>
     <button mat-menu-item *ngIf="this.currentUser" routerLink="./tracks" title="Recorded Tracks"><i class="fa-solid fa-paw"></i>&nbsp;&nbsp;Tracks</button>
     <button mat-menu-item routerLink="./map" title="Clear current Route and Track"><i class="fa-solid fa-eraser"></i>&nbsp;&nbsp;Clear</button>
