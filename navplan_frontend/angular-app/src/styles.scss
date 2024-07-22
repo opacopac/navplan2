@@ -86,6 +86,15 @@ tr.odd-row {
     background-color: rgb(249, 249, 249);
 }
 
+tr.selected-row {
+    background-color: #41669c;
+}
+
+tr.selected-row > .mat-mdc-cell {
+    color: white;
+}
+
+
 /* endregion */
 
 

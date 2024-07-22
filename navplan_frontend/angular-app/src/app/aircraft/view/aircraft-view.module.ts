@@ -21,6 +21,7 @@ import {
 import {AircraftDomainModule} from '../domain/aircraft-domain.module';
 import {AircraftRestModule} from '../rest/aircraft-rest.module';
 import {AircraftStateModule} from '../state/aircraft-state.module';
+import {AircraftListComponent} from './ng-components/aircraft-list/aircraft-list.component';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import {AircraftStateModule} from '../state/aircraft-state.module';
     declarations: [
         AircraftPageComponent,
         AircraftListContainerComponent,
+        AircraftListComponent,
         AircraftDetailsContainerComponent
     ],
     exports: [],

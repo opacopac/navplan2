@@ -1,3 +1,7 @@
-<div>
-    TODO
-</div>
+<app-aircraft-list
+    [aircraftList]="this.aircraftList$ | async"
+    [currentAircraft]="currentAircraft$ | async"
+    (onSelectAircraftClick)="this.onAircraftSelected($event)"
+    (onDuplicateAircraftClick)="this.onAircraftDuplicated($event)"
+    (onDeleteAircraftClick)="this.onAircraftDeleted($event)"
+/>
