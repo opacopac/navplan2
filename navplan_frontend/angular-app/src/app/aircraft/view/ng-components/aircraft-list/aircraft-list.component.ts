@@ -26,7 +26,7 @@ export class AircraftListComponent implements OnInit, OnChanges {
     @Output() onDeleteAircraftClick = new EventEmitter<number>();
     @ViewChild(MatPaginator) paginator: MatPaginator;
     protected dataSource: MatTableDataSource<ListEntry>;
-    protected visibleColumns = ['registration', 'model', 'icons'];
+    protected visibleColumns = ['registration', 'type', 'icons'];
 
     protected readonly ButtonColor = ButtonColor;
 
