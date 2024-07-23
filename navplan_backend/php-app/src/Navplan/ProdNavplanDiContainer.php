@@ -6,6 +6,8 @@ use Navplan\Admin\IAdminDiContainer;
 use Navplan\Admin\ProdAdminDiContainer;
 use Navplan\Aerodrome\IAerodromeDiContainer;
 use Navplan\Aerodrome\ProdAerodromeDiContainer;
+use Navplan\Aircraft\Rest\IAircraftDiContainer;
+use Navplan\Aircraft\Rest\ProdAircraftDiContainer;
 use Navplan\Airspace\IAirspaceDiContainer;
 use Navplan\Airspace\ProdAirspaceDiContainer;
 use Navplan\Config\IConfigDiContainer;
@@ -53,6 +55,7 @@ class ProdNavplanDiContainer
     private IConfigDiContainer $configDiContainer;
     private IAdminDiContainer $adminDiContainer;
     private IAerodromeDiContainer $aerodromeDiContainer;
+    private IAircraftDiContainer $aircraftDiContainer;
     private IAirspaceDiContainer $airspaceDiContainer;
     private INavaidDiContainer $navaidDiContainer;
     private IFlightrouteDiContainer $flightrouteDiContainer;
@@ -112,6 +115,21 @@ class ProdNavplanDiContainer
         }
 
         return $this->aerodromeDiContainer;
+    }
+
+
+    public function getAircraftDiContainer(): IAircraftDiContainer
+    {
+        if (!isset($this->aircraftDiContainer)) {
+            $this->aircraftDiContainer = new ProdAircraftDiContainer(
+                $this->getUserDiContainer()->getTokenService(),
+                $this->getUserDiContainer()->getUserRepo(),
+                $this->getPersistenceDiContainer()->getDbService(),
+                $this->getSystemDiContainer()->getHttpService()
+            );
+        }
+
+        return $this->aircraftDiContainer;
     }
 
 

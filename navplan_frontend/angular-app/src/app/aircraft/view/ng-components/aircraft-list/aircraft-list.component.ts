@@ -9,7 +9,7 @@ import {Aircraft} from '../../../domain/model/aircraft';
 export interface ListEntry {
     id: number;
     registration: string;
-    model: string;
+    type: string;
 }
 
 

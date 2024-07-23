@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 
 @Component({
     selector: 'app-aircraft-details-container',
     templateUrl: './aircraft-details-container.component.html',
-    styleUrls: ['./aircraft-lisdetailst-container.component.scss'],
+    styleUrls: ['./aircraft-details-container.component.scss'],
 })
 export class AircraftDetailsContainerComponent implements OnInit {
     constructor() {

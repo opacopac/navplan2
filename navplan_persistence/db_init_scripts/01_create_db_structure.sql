@@ -81,12 +81,14 @@ CREATE TABLE IF NOT EXISTS `ad_charts2` (
 
 CREATE TABLE IF NOT EXISTS `aircraft` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) UNSIGNED DEFAULT NULL,
   `registration` varchar(10) NOT NULL,
   `type` varchar(10) NOT NULL,
   `speed` int(10) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   KEY `registration` (`registration`),
-  KEY `type` (`type`)
+  KEY `type` (`type`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 -- --------------------------------------------------------
