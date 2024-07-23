@@ -6,7 +6,7 @@
     <!-- menu for large screens -->
     <div class="menu-buttons-left-lg">
         <button mat-button routerLink="./map" routerLinkActive="button-active" title="Map"><i class="fa-solid fa-map"></i><span class="button-text">&nbsp;&nbsp;Map</span></button>
-        <button mat-button routerLink="./aircraft/hangar" routerLinkActive="button-active" title="Aircraft"><i class="fa-solid fa-plane-up"></i><span class="button-text">&nbsp;&nbsp;Aircraft</span></button>
+        <button mat-button routerLink="./aircraft/hangar" routerLinkActive="button-active" title="Aircraft"><i class="fa-solid fa-plane-up"></i><span class="button-text">&nbsp;&nbsp;{{ this.getAircraftText() }}</span></button>
         <button mat-button routerLink="./plan/route" routerLinkActive="button-active" title="Flight Preparation"><i class="fa-solid fa-list-check"></i><span class="button-text">&nbsp;&nbsp;Plan</span></button>
         <button mat-button *ngIf="this.currentUser" routerLink="./tracks" routerLinkActive="button-active" title="Recorded Tracks"><i class="fa-solid fa-paw"></i><span class="button-text">&nbsp;&nbsp;Tracks</span></button>
         <button mat-button id="btn_export" [mat-menu-trigger-for]="navplanExport" title="Export / Share"><i class="fa-solid fa-share"></i><span class="button-text">&nbsp;&nbsp;Export</span></button>

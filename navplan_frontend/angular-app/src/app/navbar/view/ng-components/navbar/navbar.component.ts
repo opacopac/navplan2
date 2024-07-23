@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {User} from '../../../../user/domain/model/user';
+import {Aircraft} from '../../../../aircraft/domain/model/aircraft';
 
 
 @Component({
@@ -9,6 +10,7 @@ import {User} from '../../../../user/domain/model/user';
 })
 export class NavbarComponent implements OnInit {
     @Input() currentUser: User;
+    @Input() currentAircraft: Aircraft;
     @Output() onLogoffClick: EventEmitter<null> = new EventEmitter<null>();
     @Output() onExportPdfClick: EventEmitter<null> = new EventEmitter<null>();
     @Output() onExportExcelClick: EventEmitter<null> = new EventEmitter<null>();
@@ -23,5 +25,10 @@ export class NavbarComponent implements OnInit {
 
 
     ngOnInit() {
+    }
+
+
+    protected getAircraftText(): string {
+        return this.currentAircraft ? this.currentAircraft.registration : 'Aircraft';
     }
 }

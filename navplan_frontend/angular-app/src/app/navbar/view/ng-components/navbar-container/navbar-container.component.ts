@@ -1,12 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
-import {User} from '../../../../user/domain/model/user';
 import {select, Store} from '@ngrx/store';
 import {getCurrentUser} from '../../../../user/state/ngrx/user.selectors';
 import {ExporterActions} from '../../../../exporter/state/ngrx/exporter.actions';
 import {ClearDialogComponent} from '../clear-dialog/clear-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {LogoutActions} from '../../../../user/state/ngrx/logout.actions';
+import {getCurrentAircraft} from '../../../../aircraft/state/ngrx/aircraft.selectors';
 
 
 @Component({
@@ -15,14 +14,14 @@ import {LogoutActions} from '../../../../user/state/ngrx/logout.actions';
     styleUrls: ['./navbar-container.component.scss']
 })
 export class NavbarContainerComponent implements OnInit {
-    public readonly currentUser$: Observable<User>;
+    public readonly currentUser$ = this.appStore.pipe(select(getCurrentUser));
+    public readonly currentAircraft$ = this.appStore.pipe(select(getCurrentAircraft));
 
 
     constructor(
         private appStore: Store<any>,
         private dialog: MatDialog
     ) {
-        this.currentUser$ = this.appStore.pipe(select(getCurrentUser));
     }
 
 
