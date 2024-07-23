@@ -23,8 +23,8 @@ export class RestAircraftRepoService implements IAircraftRepoService {
     public readAircraftList(user: User): Observable<AircraftListEntry[]> {
         const mockAircraftList = [
             new AircraftListEntry(1, 'HB-KGO', 'BR23', new Speed(100, SpeedUnit.KT), new Consumption(25, ConsumptionUnit.L_PER_H)),
-            new AircraftListEntry(1, 'HB-KGP', 'BR23', new Speed(100, SpeedUnit.KT), new Consumption(25, ConsumptionUnit.L_PER_H)),
-            new AircraftListEntry(1, 'HB-KGN', 'BR23', new Speed(100, SpeedUnit.KT), new Consumption(25, ConsumptionUnit.L_PER_H)),
+            new AircraftListEntry(2, 'HB-KGP', 'BR23', new Speed(100, SpeedUnit.KT), new Consumption(25, ConsumptionUnit.L_PER_H)),
+            new AircraftListEntry(3, 'HB-KGN', 'BR23', new Speed(100, SpeedUnit.KT), new Consumption(25, ConsumptionUnit.L_PER_H)),
         ];
 
         return of(mockAircraftList);

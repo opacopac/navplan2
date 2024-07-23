@@ -16,4 +16,9 @@ export const aircraftReducer = createReducer(
         ...state,
         aircraftList: action.aircraftList
     })),
+
+    on(AircraftActions.selectAircraftSuccess, (state, action) => ({
+        ...state,
+        currentAircraft: action.aircraft
+    }))
 );

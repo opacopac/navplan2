@@ -37,4 +37,18 @@ export class AircraftEffects {
             })))
         ))
     ));
+
+    readAircraftAction$ = createEffect(() => this.actions$.pipe(
+        ofType(AircraftActions.selectAircraft),
+        withLatestFrom(this.userState$),
+        switchMap(([action, userState]) => this.aircraftService.readAircraft(
+            action.aircraftId,
+            userState.currentUser
+        ).pipe(
+            map(aircraft => AircraftActions.selectAircraftSuccess({aircraft: aircraft})),
+            catchError(error => of(MessageActions.showMessage({
+                message: Message.error('Error reading aircraft: ', error)
+            })))
+        ))
+    ));
 }

@@ -23,13 +23,16 @@ export class AircraftListContainerComponent implements OnInit {
 
 
     protected onAircraftSelected(aircraftId: number) {
+        this.appStore.dispatch(AircraftActions.selectAircraft({aircraftId: aircraftId}));
     }
 
 
     protected onAircraftDuplicated(aircraftId: number) {
+        this.appStore.dispatch(AircraftActions.duplicateAircraft({aircraftId: aircraftId}));
     }
 
 
     protected onAircraftDeleted(aircraftId: number) {
+        this.appStore.dispatch(AircraftActions.deleteAircraft({aircraftId: aircraftId}));
     }
 }
