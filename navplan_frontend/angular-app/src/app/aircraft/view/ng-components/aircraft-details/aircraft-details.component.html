@@ -1,0 +1,60 @@
+<form *ngIf="this.currentAircraft">
+    <div class="aircraft-form-content">
+        <!-- registration -->
+        <mat-form-field>
+            <mat-label>Registration</mat-label>
+            <input
+                matInput
+                [formControl]="this.registrationInput"
+                type="string"
+                required
+            />
+        </mat-form-field>
+
+        <!-- aircraft type -->
+        <mat-form-field>
+            <mat-label>ICAO Type</mat-label>
+            <input
+                matInput
+                [formControl]="this.typeInput"
+                type="string"
+                required
+            />
+        </mat-form-field>
+
+        <!-- speed -->
+        <mat-form-field>
+            <mat-label>Cruise Speed</mat-label>
+            <input matInput
+                   type="number"
+                   [formControl]="this.speedInput"
+                   required
+                   size="3"
+                   min="1"
+                   max="999"
+            >
+            <span matTextSuffix>{{ Speed.getUnitString(this.speedUnit) }}</span>
+            <mat-error>Value must be a positive number between 1 and 999!</mat-error>
+        </mat-form-field>
+
+        <!-- fuel consumption -->
+        <mat-form-field>
+            <mat-label>Fuel Consumption</mat-label>
+            <input matInput
+                   #consumption
+                   type="number"
+                   [formControl]="this.consumptionInput"
+                   required
+                   size="3"
+                   min="1"
+                   max="999"
+            >
+            <span matTextSuffix>{{ Consumption.getUnitString(this.consumptionUnit) }}</span>
+            <mat-error>Value must be a positive number between 1 and 999!</mat-error>
+        </mat-form-field>
+    </div>
+</form>
+
+<div *ngIf="!this.currentAircraft">
+    <i>No Aircraft selected</i>
+</div>

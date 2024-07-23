@@ -22,6 +22,7 @@ import {AircraftDomainModule} from '../domain/aircraft-domain.module';
 import {AircraftRestModule} from '../rest/aircraft-rest.module';
 import {AircraftStateModule} from '../state/aircraft-state.module';
 import {AircraftListComponent} from './ng-components/aircraft-list/aircraft-list.component';
+import {AircraftDetailsComponent} from './ng-components/aircraft-details/aircraft-details.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import {AircraftListComponent} from './ng-components/aircraft-list/aircraft-list
         AircraftPageComponent,
         AircraftListContainerComponent,
         AircraftListComponent,
-        AircraftDetailsContainerComponent
+        AircraftDetailsContainerComponent,
+        AircraftDetailsComponent
     ],
     exports: [],
     providers: []
