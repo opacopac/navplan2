@@ -1,5 +1,10 @@
 <form *ngIf="this.currentAircraft">
     <div class="aircraft-form-content">
+        <mat-radio-group color="primary">
+            <mat-radio-button>Airplane</mat-radio-button>
+            <mat-radio-button>Helicopter</mat-radio-button>
+        </mat-radio-group>
+
         <!-- registration -->
         <mat-form-field>
             <mat-label>Registration</mat-label>

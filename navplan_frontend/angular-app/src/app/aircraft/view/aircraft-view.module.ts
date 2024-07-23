@@ -23,6 +23,7 @@ import {AircraftRestModule} from '../rest/aircraft-rest.module';
 import {AircraftStateModule} from '../state/aircraft-state.module';
 import {AircraftListComponent} from './ng-components/aircraft-list/aircraft-list.component';
 import {AircraftDetailsComponent} from './ng-components/aircraft-details/aircraft-details.component';
+import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
 
 
 @NgModule({
@@ -45,6 +46,8 @@ import {AircraftDetailsComponent} from './ng-components/aircraft-details/aircraf
         MatTabGroup,
         MatTabLabel,
         MatTabContent,
+        MatRadioButton,
+        MatRadioGroup,
     ],
     declarations: [
         AircraftPageComponent,
