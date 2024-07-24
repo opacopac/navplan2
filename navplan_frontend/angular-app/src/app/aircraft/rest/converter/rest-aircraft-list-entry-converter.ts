@@ -6,8 +6,9 @@ export class RestAircraftListEntryConverter {
     public static fromRest(restListEntry: IRestAircraftListEntry): AircraftListEntry {
         return new AircraftListEntry(
             restListEntry.id,
+            restListEntry.vehicleType,
             restListEntry.registration,
-            restListEntry.type
+            restListEntry.icaoType
         );
     }
 }

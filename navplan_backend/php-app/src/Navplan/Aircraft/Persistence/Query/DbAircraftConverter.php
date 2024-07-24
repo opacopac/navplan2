@@ -4,6 +4,12 @@ namespace Navplan\Aircraft\Persistence\Query;
 
 use Navplan\Aircraft\Domain\Model\Aircraft;
 use Navplan\Aircraft\Persistence\Model\DbTableAircraft;
+use Navplan\Common\Domain\Model\ConsumptionUnit;
+use Navplan\Common\Domain\Model\SpeedUnit;
+use Navplan\Common\Domain\Model\WeightUnit;
+use Navplan\Common\Persistence\Model\DbConsumptionConverter;
+use Navplan\Common\Persistence\Model\DbSpeedConverter;
+use Navplan\Common\Persistence\Model\DbWeightConverter;
 use Navplan\System\Domain\Model\IDbResult;
 
 
@@ -13,8 +19,14 @@ class DbAircraftConverter
     {
         return new Aircraft(
             intval($row[DbTableAircraft::COL_ID]),
+            $row[DbTableAircraft::COL_VEHICLE_TYPE],
             $row[DbTableAircraft::COL_REGISTRATION],
-            $row[DbTableAircraft::COL_TYPE],
+            $row[DbTableAircraft::COL_ICAO_TYPE],
+            DbSpeedConverter::fromDbRow($row, DbTableAircraft::COL_CRUISE_SPEED, SpeedUnit::KT),
+            DbConsumptionConverter::fromDbRow($row, DbTableAircraft::COL_CRUISE_FUEL, ConsumptionUnit::L_PER_H),
+            $row[DbTableAircraft::COL_FUEL_TYPE],
+            DbWeightConverter::fromDbRow($row, DbTableAircraft::COL_MTOW, WeightUnit::KG),
+            DbWeightConverter::fromDbRow($row, DbTableAircraft::COL_BEW, WeightUnit::KG)
         );
     }
 
@@ -25,11 +37,11 @@ class DbAircraftConverter
      */
     public static function fromDbResult(IDbResult $result): array
     {
-        $routes = [];
+        $aircrafts = [];
         while ($row = $result->fetch_assoc()) {
-            $routes[] = DbAircraftConverter::fromDbRow($row);
+            $aircrafts[] = DbAircraftConverter::fromDbRow($row);
         }
 
-        return $routes;
+        return $aircrafts;
     }
 }

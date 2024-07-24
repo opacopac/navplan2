@@ -41,15 +41,21 @@ export class AircraftDetailsComponent implements OnInit {
         this.registrationInput = new FormControl(this.currentAircraft.registration, [
             Validators.required
         ]);
-        this.typeInput = new FormControl(this.currentAircraft.type, [
+        this.typeInput = new FormControl(this.currentAircraft.icaoType, [
             Validators.required
         ]);
-        this.speedInput = new FormControl('', [ //this.currentAircraft.speed, [
+        const speedValue = this.currentAircraft.cruiseSpeed
+            ? this.currentAircraft.cruiseSpeed.getValue(this.speedUnit).toString()
+            : '';
+        this.speedInput = new FormControl(speedValue, [
             Validators.required,
             Validators.min(1),
             Validators.max(999)
         ]);
-        this.consumptionInput = new FormControl('', [ //this.currentAircraft.consumption, [
+        const consumptionValue = this.currentAircraft.cruiseFuel
+            ? this.currentAircraft.cruiseFuel.getValue(this.consumptionUnit).toString()
+            : '';
+        this.consumptionInput = new FormControl(consumptionValue, [
             Validators.required,
             Validators.min(1),
             Validators.max(999)

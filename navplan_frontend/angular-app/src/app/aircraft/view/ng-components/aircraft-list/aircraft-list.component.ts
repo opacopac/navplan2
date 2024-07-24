@@ -8,8 +8,9 @@ import {Aircraft} from '../../../domain/model/aircraft';
 
 export interface ListEntry {
     id: number;
+    vehicleType: string;
     registration: string;
-    type: string;
+    icaoType: string;
 }
 
 
@@ -26,7 +27,7 @@ export class AircraftListComponent implements OnInit, OnChanges {
     @Output() onDeleteAircraftClick = new EventEmitter<number>();
     @ViewChild(MatPaginator) paginator: MatPaginator;
     protected dataSource: MatTableDataSource<ListEntry>;
-    protected visibleColumns = ['registration', 'type', 'icons'];
+    protected visibleColumns = ['vehicleType', 'registration', 'icaoType', 'icons'];
 
     protected readonly ButtonColor = ButtonColor;
 
@@ -45,7 +46,17 @@ export class AircraftListComponent implements OnInit, OnChanges {
     }
 
 
-    public applyFilter(filterValue: string) {
+    protected applyFilter(filterValue: string) {
         this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
+
+
+    protected getAircraftIconClass(aircraft: AircraftListEntry): string {
+        switch (aircraft.vehicleType) {
+            case 'HELICOPTER': return 'fa-solid fa-helicopter';
+            case 'AIRPLANE':
+            default:
+                return 'fa-solid fa-plane';
+        }
     }
 }

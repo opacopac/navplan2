@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {AircraftListComponent} from './aircraft-list.component';
 
 
@@ -6,12 +6,12 @@ xdescribe('FlightrouteListComponent', () => {
     let component: AircraftListComponent;
     let fixture: ComponentFixture<AircraftListComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(async () => {
         TestBed.configureTestingModule({
             declarations: [AircraftListComponent]
         })
             .compileComponents();
-    }));
+    });
 
     beforeEach(() => {
         fixture = TestBed.createComponent(AircraftListComponent);

@@ -1,5 +1,6 @@
 export interface IRestAircraftListEntry {
     id: number;
+    vehicleType: string;
     registration: string;
-    type: string;
+    icaoType: string;
 }
