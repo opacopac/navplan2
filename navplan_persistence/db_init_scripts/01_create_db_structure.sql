@@ -79,17 +79,43 @@ CREATE TABLE IF NOT EXISTS `ad_charts2` (
 -- Table structure for table `aircraft`
 --
 
-CREATE TABLE IF NOT EXISTS `aircraft` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) UNSIGNED DEFAULT NULL,
-  `registration` varchar(10) NOT NULL,
-  `type` varchar(10) NOT NULL,
-  `speed` int(10) UNSIGNED NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `registration` (`registration`),
-  KEY `type` (`type`),
-  KEY `user_id` (`user_id`)
+CREATE TABLE `aircraft` (
+                            `id` int(10) UNSIGNED NOT NULL,
+                            `user_id` int(10) UNSIGNED NOT NULL,
+                            `vehicle_type` varchar(20) NOT NULL,
+                            `registration` varchar(10) NOT NULL,
+                            `icao_type` varchar(10) NOT NULL,
+                            `speed_kt` int(10) UNSIGNED NOT NULL,
+                            `fuel_l_per_h` int(10) UNSIGNED NOT NULL,
+                            `fuel_type` varchar(20) DEFAULT NULL,
+                            `bew_kg` int(11) DEFAULT NULL,
+                            `mtow_kg` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+
+--
+-- Indizes der exportierten Tabellen
+--
+
+--
+-- Indizes für die Tabelle `aircraft`
+--
+ALTER TABLE `aircraft`
+    ADD PRIMARY KEY (`id`),
+    ADD KEY `registration` (`registration`),
+    ADD KEY `type` (`icao_type`),
+    ADD KEY `user_id` (`user_id`);
+
+--
+-- AUTO_INCREMENT für exportierte Tabellen
+--
+
+--
+-- AUTO_INCREMENT für Tabelle `aircraft`
+--
+ALTER TABLE `aircraft`
+    MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+COMMIT;
+
 
 -- --------------------------------------------------------
 
