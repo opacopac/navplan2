@@ -61,4 +61,14 @@ export class AircraftDetailsComponent implements OnInit {
             Validators.max(999)
         ]);
     }
+
+
+    protected isAirplane(): boolean {
+        return this.currentAircraft.vehicleType === 'AIRPLANE';
+    }
+
+
+    protected isHelicopter(): boolean {
+        return this.currentAircraft.vehicleType === 'HELICOPTER';
+    }
 }
