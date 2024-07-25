@@ -23,7 +23,7 @@ import {AircraftRestModule} from '../rest/aircraft-rest.module';
 import {AircraftStateModule} from '../state/aircraft-state.module';
 import {AircraftListComponent} from './ng-components/aircraft-list/aircraft-list.component';
 import {AircraftDetailsComponent} from './ng-components/aircraft-details/aircraft-details.component';
-import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
+import {MatRadioModule} from '@angular/material/radio';
 import {
     AircraftPerformanceContainerComponent
 } from './ng-components/aircraft-performance-container/aircraft-performance-container.component';
@@ -34,6 +34,7 @@ import {AircraftPerformanceComponent} from './ng-components/aircraft-performance
 import {
     AircraftWeightAndBalanceComponent
 } from './ng-components/aircraft-weight-and-balance/aircraft-weight-and-balance.component';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 
 @NgModule({
@@ -56,8 +57,8 @@ import {
         MatTabGroup,
         MatTabLabel,
         MatTabContent,
-        MatRadioButton,
-        MatRadioGroup,
+        MatRadioModule,
+        MatExpansionModule,
     ],
     declarations: [
         AircraftPageComponent,

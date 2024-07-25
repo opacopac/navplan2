@@ -1,5 +1,35 @@
 <div *ngIf="this.currentAircraft">
-    TODO
+    <p>Aircraft: {{ this.currentAircraft.registration }}</p>
+    <mat-accordion>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>Takeoff Ground Roll</mat-panel-title>
+                <mat-panel-description><i class="fa-solid fa-plane-departure"></i></mat-panel-description>
+            </mat-expansion-panel-header>
+            <p>TODO</p>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>Takeoff Distance to 50 ft</mat-panel-title>
+                <mat-panel-description><i class="fa-solid fa-plane-departure"></i></mat-panel-description>
+            </mat-expansion-panel-header>
+            <p>TODO</p>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>Landing Distance from 50 ft</mat-panel-title>
+                <mat-panel-description><i class="fa-solid fa-plane-arrival"></i></mat-panel-description>
+            </mat-expansion-panel-header>
+            <p>TODO</p>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>Landing Ground Roll</mat-panel-title>
+                <mat-panel-description><i class="fa-solid fa-plane-arrival"></i></mat-panel-description>
+            </mat-expansion-panel-header>
+            <p>TODO</p>
+        </mat-expansion-panel>
+    </mat-accordion>
 </div>
 
 <div *ngIf="!this.currentAircraft">
