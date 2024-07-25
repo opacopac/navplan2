@@ -24,6 +24,16 @@ import {AircraftStateModule} from '../state/aircraft-state.module';
 import {AircraftListComponent} from './ng-components/aircraft-list/aircraft-list.component';
 import {AircraftDetailsComponent} from './ng-components/aircraft-details/aircraft-details.component';
 import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
+import {
+    AircraftPerformanceContainerComponent
+} from './ng-components/aircraft-performance-container/aircraft-performance-container.component';
+import {
+    AircraftWeightAndBalanceContainerComponent
+} from './ng-components/aircraft-weight-and-balance-container/aircraft-weight-and-balance-container.component';
+import {AircraftPerformanceComponent} from './ng-components/aircraft-performance/aircraft-performance.component';
+import {
+    AircraftWeightAndBalanceComponent
+} from './ng-components/aircraft-weight-and-balance/aircraft-weight-and-balance.component';
 
 
 @NgModule({
@@ -54,7 +64,11 @@ import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
         AircraftListContainerComponent,
         AircraftListComponent,
         AircraftDetailsContainerComponent,
-        AircraftDetailsComponent
+        AircraftDetailsComponent,
+        AircraftPerformanceContainerComponent,
+        AircraftPerformanceComponent,
+        AircraftWeightAndBalanceContainerComponent,
+        AircraftWeightAndBalanceComponent
     ],
     exports: [],
     providers: []

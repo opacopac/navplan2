@@ -1,11 +1,11 @@
 <div class="content-container">
-    <mat-tab-group #tabGroup mat-stretch-tabs="false"  animationDuration="0ms">
+    <mat-tab-group #tabGroup mat-stretch-tabs="false" animationDuration="0ms">
         <mat-tab>
             <ng-template matTabLabel>
                 <i class="fa-solid fa-warehouse"></i>&nbsp;&nbsp;Hangar
             </ng-template>
             <ng-template matTabContent>
-                <app-aircraft-list-container></app-aircraft-list-container>
+                <app-aircraft-list-container/>
             </ng-template>
         </mat-tab>
         <mat-tab>
@@ -13,7 +13,7 @@
                 <i class="fa-solid fa-plane-up"></i>&nbsp;&nbsp;Aircraft
             </ng-template>
             <ng-template matTabContent>
-                <app-aircraft-details-container></app-aircraft-details-container>
+                <app-aircraft-details-container/>
             </ng-template>
         </mat-tab>
         <mat-tab>
@@ -21,7 +21,7 @@
                 <i class="fa-solid fa-balance-scale"></i>&nbsp;&nbsp;W&B
             </ng-template>
             <ng-template matTabContent>
-                TODO
+                <app-aircraft-performance-container/>
             </ng-template>
         </mat-tab>
         <mat-tab>
@@ -29,7 +29,7 @@
                 <i class="fa-solid fa-plane-departure"></i>&nbsp;&nbsp;Performance
             </ng-template>
             <ng-template matTabContent>
-                TODO
+                <app-aircraft-weight-and-balance-container/>
             </ng-template>
         </mat-tab>
     </mat-tab-group>
