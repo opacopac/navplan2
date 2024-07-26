@@ -2,5 +2,6 @@ export enum LengthUnit {
     NM,
     FT,
     M,
-    KM
+    KM,
+    IN
 }
