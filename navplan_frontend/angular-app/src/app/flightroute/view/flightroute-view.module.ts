@@ -8,10 +8,10 @@ import {EditWaypointFormComponent} from './ng-components/edit-waypoint-form/edit
 import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.module';
 import {CommonViewModule} from '../../common/view/common-view.module';
 import {ReactiveFormsModule} from '@angular/forms';
-import {MatError, MatFormField, MatLabel, MatSuffix} from '@angular/material/form-field';
-import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-toggle';
-import {MatInput} from '@angular/material/input';
-import {MatButton} from '@angular/material/button';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
 
 
 @NgModule({
@@ -23,14 +23,10 @@ import {MatButton} from '@angular/material/button';
         FlightrouteStateModule,
         GeoPhysicsViewModule,
         ReactiveFormsModule,
-        MatFormField,
-        MatButtonToggleGroup,
-        MatButtonToggle,
-        MatInput,
-        MatSuffix,
-        MatLabel,
-        MatError,
-        MatButton,
+        MatFormFieldModule,
+        MatButtonToggleModule,
+        MatInputModule,
+        MatButtonModule,
     ],
     declarations: [
         EditWaypointDialogComponent,

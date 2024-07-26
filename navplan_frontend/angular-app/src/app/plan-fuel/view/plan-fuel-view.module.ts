@@ -7,9 +7,9 @@ import {CommonViewModule} from '../../common/view/common-view.module';
 import {FuelCalcInputFieldsComponent} from './ng-components/fuel-calc-input-fields/fuel-calc-input-fields.component';
 import {FuelCalcTableComponent} from './ng-components/fuel-calc-table/fuel-calc-table.component';
 import {FuelCalcContainerComponent} from './ng-components/fuel-calc-container/fuel-calc-container.component';
-import {MatFormField} from '@angular/material/form-field';
+import {MatFormFieldModule} from '@angular/material/form-field';
 import {ReactiveFormsModule} from '@angular/forms';
-import {MatTable, MatTableModule} from '@angular/material/table';
+import {MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
@@ -29,8 +29,7 @@ import {MatSelectModule} from '@angular/material/select';
         MatButtonToggleModule,
         MatSelectModule,
         MatCardModule,
-        MatFormField,
-        MatTable,
+        MatFormFieldModule,
     ],
     declarations: [
         FuelCalcContainerComponent,

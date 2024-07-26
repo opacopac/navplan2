@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {MatTab, MatTabContent, MatTabGroup, MatTabLabel} from '@angular/material/tabs';
+import {MatTabsModule} from '@angular/material/tabs';
 import {MatButtonModule} from '@angular/material/button';
 import {CommonViewModule} from '../../common/view/common-view.module';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -53,10 +53,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
         MatButtonToggleModule,
         MatSelectModule,
         MatCardModule,
-        MatTab,
-        MatTabGroup,
-        MatTabLabel,
-        MatTabContent,
+        MatTabsModule,
         MatRadioModule,
         MatExpansionModule,
     ],

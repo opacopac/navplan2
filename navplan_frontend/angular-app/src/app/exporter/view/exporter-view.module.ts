@@ -21,7 +21,6 @@ import {MatDialogModule} from '@angular/material/dialog';
     declarations: [
         DownloadContainerComponent,
         DownloadDialogComponent,
-
     ],
     exports: [
         DownloadContainerComponent,

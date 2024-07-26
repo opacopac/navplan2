@@ -35,7 +35,7 @@ import {MatTableModule} from '@angular/material/table';
 import {GeoPhysicsDomainModule} from '../../geo-physics/domain/geo-physics-domain.module';
 import {MetarTafViewModule} from '../../metar-taf/view/metar-taf-view.module';
 import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.module';
-import {MatIcon} from '@angular/material/icon';
+import {MatIconModule} from '@angular/material/icon';
 
 
 @NgModule({
@@ -49,7 +49,7 @@ import {MatIcon} from '@angular/material/icon';
         GeoPhysicsDomainModule,
         GeoPhysicsViewModule,
         MetarTafViewModule,
-        MatIcon,
+        MatIconModule,
     ],
     declarations: [
         MapPopupAirportHeaderComponent,

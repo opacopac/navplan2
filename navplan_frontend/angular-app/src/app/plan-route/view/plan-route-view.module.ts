@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {PlanPageComponent} from './ng-components/plan-page/plan-page.component';
-import {MatTab, MatTabContent, MatTabGroup, MatTabLabel} from '@angular/material/tabs';
+import {MatTabsModule} from '@angular/material/tabs';
 import {PlanMeteoViewModule} from '../../plan-meteo/view/plan-meteo-view.module';
 import {ExporterViewModule} from '../../exporter/view/exporter-view.module';
 import {FlightrouteViewModule} from '../../flightroute/view/flightroute-view.module';
@@ -48,10 +48,7 @@ import {MatCardModule} from '@angular/material/card';
         PlanMeteoViewModule,
         ExporterViewModule,
         TrafficViewModule,
-        MatTab,
-        MatTabGroup,
-        MatTabLabel,
-        MatTabContent,
+        MatTabsModule
     ],
     declarations: [
         PlanPageComponent,

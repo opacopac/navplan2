@@ -6,7 +6,7 @@ import {MapOverlayVariationComponent} from './ng-components/map-overlay-variatio
 import {MapOverlayPositionComponent} from './ng-components/map-overlay-position/map-overlay-position.component';
 import {MapOverlayElevationComponent} from './ng-components/map-overlay-elevation/map-overlay-elevation.component';
 import {UnitSettingsComponent} from './ng-components/unit-settings/unit-settings.component';
-import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
+import {MatRadioModule} from '@angular/material/radio';
 import {GeoPhysicsStateModule} from '../state/geo-physics-state.module';
 
 
@@ -16,8 +16,7 @@ import {GeoPhysicsStateModule} from '../state/geo-physics-state.module';
         MatCardModule,
         GeoPhysicsDomainModule,
         GeoPhysicsStateModule,
-        MatRadioGroup,
-        MatRadioButton,
+        MatRadioModule,
     ],
     declarations: [
         MapOverlayElevationComponent,
