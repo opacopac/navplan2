@@ -1,0 +1,28 @@
+<div *ngIf="this.distancePerformanceTable">
+    <p>Takeoff Weight: {{ this.distancePerformanceTable.takeoffWeight.getValue(this.weightUnit) }}</p>
+
+    <table mat-table [dataSource]="distancePerformanceTable.distanceValues" class="mat-table">
+        <!-- Altitude Column -->
+        <ng-container matColumnDef="altitude">
+            <th mat-header-cell *matHeaderCellDef> Altitude</th>
+            <td mat-cell
+                *matCellDef="let element; let i = index;"> {{ this.distancePerformanceTable.altitudeSteps[i] }}
+            </td>
+        </ng-container>
+
+        <!-- Dynamic Temperature Columns -->
+        <ng-container
+            *ngFor="let temp of this.distancePerformanceTable.temperatureSteps"
+            [matColumnDef]="temp.toString()"
+        >
+            <th mat-header-cell *matHeaderCellDef> {{ temp }}</th>
+            <td mat-cell
+                *matCellDef="let element; let i = index;"> {{ element[this.distancePerformanceTable.temperatureSteps.indexOf(temp)] }}
+            </td>
+        </ng-container>
+
+        <!-- Header and Row Definitions -->
+        <tr mat-header-row *matHeaderRowDef="this.displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: this.displayedColumns;"></tr>
+    </table>
+</div>

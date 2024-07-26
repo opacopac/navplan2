@@ -35,6 +35,9 @@ import {
     AircraftWeightAndBalanceComponent
 } from './ng-components/aircraft-weight-and-balance/aircraft-weight-and-balance.component';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {
+    AircraftWeightAndBalanceTableComponent
+} from './ng-components/aircraft-weight-and-balance-table/aircraft-weight-and-balance-table.component';
 
 
 @NgModule({
@@ -66,7 +69,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
         AircraftPerformanceContainerComponent,
         AircraftPerformanceComponent,
         AircraftWeightAndBalanceContainerComponent,
-        AircraftWeightAndBalanceComponent
+        AircraftWeightAndBalanceComponent,
+        AircraftWeightAndBalanceTableComponent
     ],
     exports: [],
     providers: []

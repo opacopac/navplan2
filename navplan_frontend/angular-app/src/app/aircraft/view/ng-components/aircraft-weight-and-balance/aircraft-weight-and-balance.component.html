@@ -6,7 +6,11 @@
                 <mat-panel-title>Takeoff Ground Roll</mat-panel-title>
                 <mat-panel-description><i class="fa-solid fa-plane-departure"></i></mat-panel-description>
             </mat-expansion-panel-header>
-            <p>TODO</p>
+            <app-aircraft-weight-and-balance-table
+                [speedUnit]="this.speedUnit"
+                [weightUnit]="this.weightUnit"
+                [distancePerformanceTable]="this.currentAircraft.perfTakeoffGroundRoll"
+            />
         </mat-expansion-panel>
         <mat-expansion-panel>
             <mat-expansion-panel-header>
