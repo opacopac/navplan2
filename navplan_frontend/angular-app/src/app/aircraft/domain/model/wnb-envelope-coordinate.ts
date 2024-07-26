@@ -1,10 +1,10 @@
 import {Weight} from '../../../geo-physics/domain/model/quantities/weight';
-import {Moment} from '../../../geo-physics/domain/model/quantities/moment';
+import {Length} from '../../../geo-physics/domain/model/quantities/length';
 
 export class WnbEnvelopeCoordinate {
     constructor(
         public weight: Weight,
-        public moment: Moment,
+        public armCg: Length,
     ) {
     }
 }
