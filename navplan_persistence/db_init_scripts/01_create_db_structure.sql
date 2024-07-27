@@ -120,6 +120,35 @@ COMMIT;
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `aircraft_weight_items`
+--
+
+CREATE TABLE `aircraft_weight_items` (
+                                         `id` int(11) NOT NULL,
+                                         `aircraft_id` int(11) NOT NULL,
+                                         `type` varchar(20) NOT NULL,
+                                         `name` varchar(100) NOT NULL,
+                                         `arm_m` float NOT NULL,
+                                         `max_weight_kg` float DEFAULT NULL,
+                                         `max_fuel_l` float DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+
+--
+-- Indizes der exportierten Tabellen
+--
+
+--
+-- Indizes für die Tabelle `aircraft_weight_items`
+--
+ALTER TABLE `aircraft_weight_items`
+    ADD PRIMARY KEY (`id`),
+    ADD KEY `aircraft_id` (`aircraft_id`);
+COMMIT;
+
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `basestation_aircrafts`
 --
 

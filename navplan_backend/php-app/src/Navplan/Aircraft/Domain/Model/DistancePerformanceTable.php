@@ -14,7 +14,7 @@ class DistancePerformanceTable
      * @param Length[] $altitudeSteps
      * @param PerformanceTableTemperatureReference $temperatureReference
      * @param Temperature[] $temperatureSteps
-     * @param Length[] $distanceValues
+     * @param Length[][] $distanceValues
      * @param DistancePerformanceCorrectionFactors $correctionFactors
      */
     public function __construct(
