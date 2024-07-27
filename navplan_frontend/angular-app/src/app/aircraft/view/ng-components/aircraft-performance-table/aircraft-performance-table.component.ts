@@ -20,20 +20,34 @@ export class AircraftPerformanceTableComponent implements OnInit {
     @Input() temperatureUnit: TemperatureUnit;
     @Input() distanceUnit: LengthUnit;
     
-
-
     protected displayedColumns: string[] = [];
+    protected displayedValues: string[][] = [];
 
     constructor() {
     }
 
 
     ngOnInit() {
+        this.calcDisplayedColumns;
+        this.calcDisplayedValues;
+    }
+
+
+    private calcDisplayedColumns() {
         this.displayedColumns = ['altitudes'];
 
         for (let i = 0; i < this.distancePerformanceTable.distanceValues.length; i++) {
             this.displayedColumns.push['temp_' + i];
         }
+    }
+
+
+    private calcDisplayedValues() {
+        this.displayedValues = [
+            ['1', '2', '3', '4', '5'],
+            ['1', '2', '3', '4', '5'],
+            ['1', '2', '3', '4', '5']
+        ]
     }
 
 

@@ -1,25 +1,14 @@
 <div *ngIf="this.distancePerformanceTable">
     <p>Takeoff Weight: {{ this.distancePerformanceTable.takeoffWeight.getValue(this.weightUnit) }}</p>
 
-    <table mat-table [dataSource]="this.distancePerformanceTable.distanceValues" class="mat-table">
-        <!-- left column -->
-        <ng-container matColumnDef="altitudes">
-            <th mat-header-cell *matHeaderCellDef></th>
-            <td mat-cell *matCellDef="let element; let rowIdx = index;">
-                {{ this.getAltitudeTitle(rowIdx) }}
-            </td>
+    <table mat-table [dataSource]="this.displayedValues" class="mat-table">
+        <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+            <td mat-cell *matCellDef="let element">{{ element[displayedColumns.indexOf(column)] }}</td>
         </ng-container>
-
-        <!-- Temperature Columns -->
-        <ng-container *ngFor="let col of this.displayedColumns; let colIdx = index" matColumnDef="{{ col }}">
-            <th mat-header-cell *matHeaderCellDef>{{ this.getTemperatureTitle(coldIdx) }}</th>
-            <td mat-cell *matCellDef="let element; let rowIdx = index;">
-                {{ this.getDistanceText(element) }}
-            </td>
-        </ng-container>
-
-        <!-- Header and Row Definitions -->
-        <tr mat-header-row *matHeaderRowDef="this.displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: this.displayedColumns;"></tr>
+        <!-- Header Row -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <!-- Data Rows -->
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>        
     </table>
 </div>
