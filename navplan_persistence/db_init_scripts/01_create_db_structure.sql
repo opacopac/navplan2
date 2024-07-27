@@ -185,6 +185,32 @@ COMMIT;
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `aircraft_wnb_envelopes`
+--
+
+CREATE TABLE `aircraft_wnb_envelopes` (
+                                          `id` int(11) NOT NULL,
+                                          `aircraft_id` int(11) NOT NULL,
+                                          `name` varchar(100) NOT NULL,
+                                          `coordinates_kg_m` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`coordinates_kg_m`))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+
+--
+-- Indizes der exportierten Tabellen
+--
+
+--
+-- Indizes für die Tabelle `aircraft_wnb_envelopes`
+--
+ALTER TABLE `aircraft_wnb_envelopes`
+    ADD PRIMARY KEY (`id`),
+    ADD KEY `aircraft_id` (`aircraft_id`);
+COMMIT;
+
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `basestation_aircrafts`
 --
 
