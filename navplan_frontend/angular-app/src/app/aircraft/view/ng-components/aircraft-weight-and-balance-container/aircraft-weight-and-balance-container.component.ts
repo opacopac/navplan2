@@ -15,7 +15,7 @@ import {WeightUnit} from '../../../../geo-physics/domain/model/quantities/weight
 export class AircraftWeightAndBalanceContainerComponent implements OnInit {
     protected readonly currentAircraft$ = this.appStore.pipe(select(getCurrentAircraft));
     protected readonly speedUnit$: Observable<SpeedUnit> = this.appStore.pipe(select(getSelectedSpeedUnit));
-    protected readonly weightUnit$ = of(WeightUnit.KG);
+    protected readonly weightUnit$ = of(WeightUnit.KG); // TODO
 
 
     constructor(private appStore: Store<any>) {

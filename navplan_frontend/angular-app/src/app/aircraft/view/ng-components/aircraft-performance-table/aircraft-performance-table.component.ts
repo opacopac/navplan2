@@ -5,11 +5,11 @@ import {WeightUnit} from '../../../../geo-physics/domain/model/quantities/weight
 
 
 @Component({
-    selector: 'app-aircraft-weight-and-balance-table',
-    templateUrl: './aircraft-weight-and-balance-table.component.html',
-    styleUrls: ['./aircraft-weight-and-balance-table.component.scss']
+    selector: 'app-aircraft-performance-table',
+    templateUrl: './aircraft-performance-table.component.html',
+    styleUrls: ['./aircraft-performance-table.component.scss']
 })
-export class AircraftWeightAndBalanceTableComponent implements OnInit {
+export class AircraftPerformanceTableComponent implements OnInit {
     @Input() distancePerformanceTable: DistancePerformanceTable;
     @Input() speedUnit: SpeedUnit;
     @Input() weightUnit: WeightUnit;
