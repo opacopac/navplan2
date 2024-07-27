@@ -28,10 +28,10 @@ class DbWnbEnvelopeConverter
      */
     private static function parseCoordinates(string $jsonString): array
     {
-        return array_map(function ($jsonCoord) {
+        return array_map(function ($coord) {
             return new WnbEnvelopeCoordinate(
-                new Weight(floatval(trim($jsonCoord[0])), WeightUnit::KG),
-                new Length(floatval(trim($jsonCoord[1])), LengthUnit::M)
+                new Weight($coord[0], WeightUnit::KG),
+                new Length($coord[1], LengthUnit::M)
             );
         }, json_decode($jsonString, true));
     }
