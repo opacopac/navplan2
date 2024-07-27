@@ -13,8 +13,8 @@ class WeightItem
         public WeightItemType $type,
         public string $name,
         public Length $arm,
-        public Weight $maxWeight,
-        public Volume $maxFuel
+        public ?Weight $maxWeight,
+        public ?Volume $maxFuel
     )
     {
     }

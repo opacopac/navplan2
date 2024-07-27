@@ -374,19 +374,4 @@ class StringNumberHelper
 
         return implode($separator, $string);
     }
-
-
-    /***
-     * @param string $jsonString
-     * @return float[]
-     */
-    public static function getFloatListFromJson(string $jsonString): array
-    {
-        return array_map(
-            function ($val) {
-                return floatval(trim($val));
-            },
-            json_decode($jsonString)
-        );
-    }
 }

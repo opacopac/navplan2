@@ -12,7 +12,6 @@ use Navplan\Common\Domain\Model\Temperature;
 use Navplan\Common\Domain\Model\TemperatureUnit;
 use Navplan\Common\Domain\Model\Weight;
 use Navplan\Common\Domain\Model\WeightUnit;
-use Navplan\Common\StringNumberHelper;
 
 
 class DbDistancePerformanceTableConverter
@@ -42,7 +41,7 @@ class DbDistancePerformanceTableConverter
     {
         return array_map(function ($value) {
             return new Length($value, LengthUnit::FT);
-        }, StringNumberHelper::getFloatListFromJson($jsonString));
+        }, json_decode($jsonString));
     }
 
 
@@ -54,7 +53,7 @@ class DbDistancePerformanceTableConverter
     {
         return array_map(function ($value) {
             return new Temperature($value, TemperatureUnit::C);
-        }, StringNumberHelper::getFloatListFromJson($jsonString));
+        }, json_decode($jsonString));
     }
 
 
