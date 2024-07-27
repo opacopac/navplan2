@@ -77,16 +77,16 @@ class DbAircraftByIdQuery implements IAircraftByIdQuery
             $type = $row[DbTableAircraftPerfDist::COL_TYPE];
             $table = DbDistancePerformanceTableConverter::fromDbRow($row);
             switch ($type) {
-                case PerfDistTableType::TKOFF_ROLL:
+                case PerfDistTableType::TKOFF_ROLL->value:
                     $aircraft->perfTakeoffGroundRoll = $table;
                     break;
-                case PerfDistTableType::TKOFF_50FT:
+                case PerfDistTableType::TKOFF_50FT->value:
                     $aircraft->perfTakeoffDist50ft = $table;
                     break;
-                case PerfDistTableType::LANDING_ROLL:
+                case PerfDistTableType::LANDING_ROLL->value:
                     $aircraft->perfLandingGroundRoll = $table;
                     break;
-                case PerfDistTableType::LANDING_50FT:
+                case PerfDistTableType::LANDING_50FT->value:
                     $aircraft->perfLandingDist50ft = $table;
                     break;
             }
