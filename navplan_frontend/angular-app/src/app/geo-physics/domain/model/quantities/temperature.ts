@@ -4,6 +4,23 @@ import {TemperatureUnit} from './temperature-unit';
 
 
 export class Temperature extends AbstractQuantity<Temperature, TemperatureUnit> implements Clonable<Temperature> {
+    public static readonly unitsAndDescriptions = [
+        [TemperatureUnit.C, Temperature.getUnitString(TemperatureUnit.C)],
+        [TemperatureUnit.F, Temperature.getUnitString(TemperatureUnit.F)],
+        [TemperatureUnit.K, Temperature.getUnitString(TemperatureUnit.K)],
+    ];
+
+
+    public static getUnitString(unit: TemperatureUnit): string {
+        switch (unit) {
+            case TemperatureUnit.C: return '°C';
+            case TemperatureUnit.F: return '°F';
+            case TemperatureUnit.K: return 'K';
+            default: return '';
+        }
+    }
+
+
     public static convertTemperature(
         value: number,
         unit: TemperatureUnit,
