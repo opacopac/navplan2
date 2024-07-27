@@ -18,4 +18,14 @@ export class RestTemperatureConverter {
             TemperatureUnit[temp.unit]
         ];
     }
+
+
+    public static fromRestList(restTempList: IRestTemperature[]): Temperature[] {
+        return restTempList.map(restTemp => RestTemperatureConverter.fromRest(restTemp));
+    }
+
+
+    public static toRestList(tempList: Temperature[]): IRestTemperature[] {
+        return tempList.map(temp => RestTemperatureConverter.toRest(temp));
+    }
 }
