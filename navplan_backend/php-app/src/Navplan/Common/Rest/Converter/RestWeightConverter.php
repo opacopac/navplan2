@@ -33,4 +33,24 @@ class RestWeightConverter
             WeightUnit::from(StringNumberHelper::parseStringOrError($args, 1)),
         );
     }
+
+
+    public static function toRestList(array $weightList): array {
+        return array_map(
+            function ($weight) { return self::toRest($weight); },
+            $weightList
+        );
+    }
+
+
+    /**
+     * @param array $args
+     * @return Weight[]
+     */
+    public static function fromRestList(array $args): array {
+        return array_map(
+            function ($weight) { return self::fromRest($weight); },
+            $args
+        );
+    }
 }

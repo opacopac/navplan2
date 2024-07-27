@@ -24,7 +24,7 @@ class Aircraft
      * @param DistancePerformanceTable|null $perfLandingGroundRoll
      * @param DistancePerformanceTable|null $perfLandingDist50ft
      * @param WeightItem[] $wnbWeightItems
-     * @param WnbEnvelopeCoordinate[] $wnbEnvelopes
+     * @param WnbEnvelope[] $wnbEnvelopes
      */
     public function __construct(
         public int $id,

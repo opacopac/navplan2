@@ -41,4 +41,24 @@ class RestWeightItemConverter
             self::KEY_MAX_FUEL => RestVolumeConverter::toRest($weightItem->maxFuel)
         );
     }
+
+
+    public static function toRestList(array $envelopeList): array {
+        return array_map(
+            function ($envelope) { return self::toRest($envelope); },
+            $envelopeList
+        );
+    }
+
+
+    /**
+     * @param array $args
+     * @return WeightItem[]
+     */
+    public static function fromRestList(array $args): array {
+        return array_map(
+            function ($weightItem) { return self::fromRest($weightItem); },
+            $args
+        );
+    }
 }

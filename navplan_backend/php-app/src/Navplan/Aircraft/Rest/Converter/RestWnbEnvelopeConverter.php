@@ -27,4 +27,31 @@ class RestWnbEnvelopeConverter
             self::KEY_COORDINATES => RestWnbEnvelopeCoordinateConverter::toRestList($envelope->coordinates)
         );
     }
+
+
+    public static function toRestList(array $envelopeList): array
+    {
+        return array_map(
+            function ($envelope) {
+                return self::toRest($envelope);
+            },
+            $envelopeList
+        );
+    }
+
+
+    /**
+     * @param array $args
+     * @return WnbEnvelope[]
+     */
+    public static function fromRestList(array $args): array
+    {
+        return array_map(
+            function ($envelope) {
+                return self::fromRest($envelope);
+            },
+            $args
+        );
+    }
+
 }

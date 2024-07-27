@@ -45,8 +45,8 @@ class RestAircraftConverter
             RestDistancePerformanceTableConverter::fromRest($args[self::KEY_PERF_TAKEOFF_DIST_50FT]),
             RestDistancePerformanceTableConverter::fromRest($args[self::KEY_PERF_LANDING_GROUND_ROLL]),
             RestDistancePerformanceTableConverter::fromRest($args[self::KEY_PERF_LANDING_DIST_50FT]),
-            [], // TODO
-            []
+            RestWeightItemConverter::fromRestList($args[self::KEY_WNB_WEIGHT_ITEMS]),
+            RestWnbEnvelopeConverter::fromRestList($args[self::KEY_WNB_ENVELOPES])
         );
     }
 
@@ -67,8 +67,8 @@ class RestAircraftConverter
             self::KEY_PERF_TAKEOFF_DIST_50FT => RestDistancePerformanceTableConverter::toRest($aircraft->perfTakeoffDist50ft),
             self::KEY_PERF_LANDING_GROUND_ROLL => RestDistancePerformanceTableConverter::toRest($aircraft->perfLandingGroundRoll),
             self::KEY_PERF_LANDING_DIST_50FT => RestDistancePerformanceTableConverter::toRest($aircraft->perfLandingDist50ft),
-            self::KEY_WNB_WEIGHT_ITEMS => [], // TODO
-            self::KEY_WNB_ENVELOPES => []
+            self::KEY_WNB_WEIGHT_ITEMS => RestWeightItemConverter::toRestList($aircraft->wnbWeightItems),
+            self::KEY_WNB_ENVELOPES => RestWnbEnvelopeConverter::toRestList($aircraft->wnbEnvelopes)
         );
     }
 

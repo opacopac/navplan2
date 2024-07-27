@@ -52,7 +52,12 @@ class RestDistancePerformanceTableConverter
             self::KEY_ALTITUDE_STEPS => RestLengthConverter::toRestList($table->altitudeSteps),
             self::KEY_TEMPERATURE_REFERENCE => $table->temperatureReference?->value,
             self::KEY_TEMPERATURE_STEPS => RestTemperatureConverter::toRestList($table->temperatureSteps),
-            self::KEY_DISTANCE_VALUES => RestLengthConverter::toRestList($table->distanceValues),
+            self::KEY_DISTANCE_VALUES => array_map(
+                function ($length) {
+                    return RestLengthConverter::toRestList($length);
+                },
+                $table->distanceValues
+            )
         );
     }
 }
