@@ -3,7 +3,8 @@
 namespace Navplan\Aircraft\Persistence\Model;
 
 
-class DbTableAircraft {
+class DbTableAircraft
+{
     public const TABLE_NAME = "aircraft";
     public const COL_ID = "id";
     public const COL_ID_USER = "user_id";
