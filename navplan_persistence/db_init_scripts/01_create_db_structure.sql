@@ -116,6 +116,42 @@ ALTER TABLE `aircraft`
     MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 COMMIT;
 
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `aircraft_perf_dist`
+--
+
+CREATE TABLE `aircraft_perf_dist` (
+                                      `id` int(11) NOT NULL,
+                                      `aircraft_id` int(11) NOT NULL,
+                                      `type` varchar(20) NOT NULL,
+                                      `tkoff_weight_kg` float NOT NULL,
+                                      `alt_ref` varchar(20) NOT NULL,
+                                      `alt_steps_ft` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`alt_steps_ft`)),
+                                      `temp_ref` varchar(20) NOT NULL,
+                                      `temp_steps_c` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`temp_steps_c`)),
+                                      `distances_m` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`distances_m`)),
+                                      `grass_rwy_inc_perc` float NOT NULL,
+                                      `wet_rwy_inc_perc` float NOT NULL,
+                                      `headwind_dec_perc` float NOT NULL,
+                                      `headwind_dec_per_speed_kt` float NOT NULL,
+                                      `tailwind_inc_perc` float NOT NULL,
+                                      `tailwind_inc_per_speed_kt` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+
+--
+-- Indizes der exportierten Tabellen
+--
+
+--
+-- Indizes für die Tabelle `aircraft_perf_dist`
+--
+ALTER TABLE `aircraft_perf_dist`
+    ADD PRIMARY KEY (`id`),
+    ADD KEY `aircraft_id` (`aircraft_id`);
+COMMIT;
+
 
 -- --------------------------------------------------------
 
