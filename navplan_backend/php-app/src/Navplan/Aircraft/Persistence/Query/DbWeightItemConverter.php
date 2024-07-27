@@ -14,7 +14,7 @@ use Navplan\Common\Domain\Model\WeightUnit;
 use Navplan\System\Domain\Model\IDbResult;
 
 
-class DbWeightItemsConverter
+class DbWeightItemConverter
 {
     public static function fromDbRow(array $row): WeightItem
     {
@@ -40,7 +40,7 @@ class DbWeightItemsConverter
     {
         $weightItem = [];
         while ($row = $result->fetch_assoc()) {
-            $weightItem[] = DbWeightItemsConverter::fromDbRow($row);
+            $weightItem[] = DbWeightItemConverter::fromDbRow($row);
         }
 
         return $weightItem;

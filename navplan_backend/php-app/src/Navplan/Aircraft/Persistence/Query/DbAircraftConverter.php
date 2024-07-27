@@ -29,7 +29,7 @@ class DbAircraftConverter
             StringNumberHelper::isNullOrEmpty($row, DbTableAircraft::COL_FUEL_TYPE) ? null : FuelType::from($row[DbTableAircraft::COL_FUEL_TYPE]),
             DbWeightConverter::fromDbRow($row, DbTableAircraft::COL_MTOW, WeightUnit::KG),
             DbWeightConverter::fromDbRow($row, DbTableAircraft::COL_BEW, WeightUnit::KG),
-            null, // TODO
+            null,
             null,
             null,
             null,
