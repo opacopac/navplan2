@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `ad_charts2` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `aircraft`
+-- Tabellenstruktur für Tabelle `aircraft`
 --
 
 CREATE TABLE `aircraft` (
@@ -85,11 +85,11 @@ CREATE TABLE `aircraft` (
                             `vehicle_type` varchar(20) NOT NULL,
                             `registration` varchar(10) NOT NULL,
                             `icao_type` varchar(10) NOT NULL,
-                            `speed_kt` int(10) UNSIGNED NOT NULL,
-                            `fuel_l_per_h` int(10) UNSIGNED NOT NULL,
+                            `speed_kt` float UNSIGNED NOT NULL,
+                            `fuel_l_per_h` float UNSIGNED NOT NULL,
                             `fuel_type` varchar(20) DEFAULT NULL,
-                            `bew_kg` int(11) DEFAULT NULL,
-                            `mtow_kg` int(11) DEFAULT NULL
+                            `bew_kg` float UNSIGNED DEFAULT NULL,
+                            `mtow_kg` float UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 --
@@ -123,21 +123,21 @@ COMMIT;
 --
 
 CREATE TABLE `aircraft_perf_dist` (
-                                      `id` int(11) NOT NULL,
-                                      `aircraft_id` int(11) NOT NULL,
+                                      `id` int(11) UNSIGNED NOT NULL,
+                                      `aircraft_id` int(11) UNSIGNED NOT NULL,
                                       `type` varchar(20) NOT NULL,
-                                      `tkoff_weight_kg` float NOT NULL,
+                                      `tkoff_weight_kg` float UNSIGNED NOT NULL,
                                       `alt_ref` varchar(20) NOT NULL,
                                       `alt_steps_ft` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`alt_steps_ft`)),
                                       `temp_ref` varchar(20) NOT NULL,
                                       `temp_steps_c` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`temp_steps_c`)),
                                       `distances_m` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`distances_m`)),
-                                      `grass_rwy_inc_perc` float NOT NULL,
-                                      `wet_rwy_inc_perc` float NOT NULL,
-                                      `headwind_dec_perc` float NOT NULL,
-                                      `headwind_dec_per_speed_kt` float NOT NULL,
-                                      `tailwind_inc_perc` float NOT NULL,
-                                      `tailwind_inc_per_speed_kt` float NOT NULL
+                                      `grass_rwy_inc_perc` float UNSIGNED NOT NULL,
+                                      `wet_rwy_inc_perc` float UNSIGNED NOT NULL,
+                                      `headwind_dec_perc` float UNSIGNED NOT NULL,
+                                      `headwind_dec_per_speed_kt` float UNSIGNED NOT NULL,
+                                      `tailwind_inc_perc` float UNSIGNED NOT NULL,
+                                      `tailwind_inc_per_speed_kt` float UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 --
@@ -150,6 +150,16 @@ CREATE TABLE `aircraft_perf_dist` (
 ALTER TABLE `aircraft_perf_dist`
     ADD PRIMARY KEY (`id`),
     ADD KEY `aircraft_id` (`aircraft_id`);
+
+--
+-- AUTO_INCREMENT für exportierte Tabellen
+--
+
+--
+-- AUTO_INCREMENT für Tabelle `aircraft_perf_dist`
+--
+ALTER TABLE `aircraft_perf_dist`
+    MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 
@@ -160,13 +170,13 @@ COMMIT;
 --
 
 CREATE TABLE `aircraft_weight_items` (
-                                         `id` int(11) NOT NULL,
-                                         `aircraft_id` int(11) NOT NULL,
+                                         `id` int(11) UNSIGNED NOT NULL,
+                                         `aircraft_id` int(11) UNSIGNED NOT NULL,
                                          `type` varchar(20) NOT NULL,
                                          `name` varchar(100) NOT NULL,
-                                         `arm_m` float NOT NULL,
-                                         `max_weight_kg` float DEFAULT NULL,
-                                         `max_fuel_l` float DEFAULT NULL
+                                         `arm_m` float UNSIGNED NOT NULL,
+                                         `max_weight_kg` float UNSIGNED DEFAULT NULL,
+                                         `max_fuel_l` float UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 --
@@ -179,6 +189,16 @@ CREATE TABLE `aircraft_weight_items` (
 ALTER TABLE `aircraft_weight_items`
     ADD PRIMARY KEY (`id`),
     ADD KEY `aircraft_id` (`aircraft_id`);
+
+--
+-- AUTO_INCREMENT für exportierte Tabellen
+--
+
+--
+-- AUTO_INCREMENT für Tabelle `aircraft_weight_items`
+--
+ALTER TABLE `aircraft_weight_items`
+    MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 
@@ -189,8 +209,8 @@ COMMIT;
 --
 
 CREATE TABLE `aircraft_wnb_envelopes` (
-                                          `id` int(11) NOT NULL,
-                                          `aircraft_id` int(11) NOT NULL,
+                                          `id` int(11) UNSIGNED NOT NULL,
+                                          `aircraft_id` int(11) UNSIGNED NOT NULL,
                                           `name` varchar(100) NOT NULL,
                                           `coordinates_kg_m` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`coordinates_kg_m`))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
@@ -205,6 +225,16 @@ CREATE TABLE `aircraft_wnb_envelopes` (
 ALTER TABLE `aircraft_wnb_envelopes`
     ADD PRIMARY KEY (`id`),
     ADD KEY `aircraft_id` (`aircraft_id`);
+
+--
+-- AUTO_INCREMENT für exportierte Tabellen
+--
+
+--
+-- AUTO_INCREMENT für Tabelle `aircraft_wnb_envelopes`
+--
+ALTER TABLE `aircraft_wnb_envelopes`
+    MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 
