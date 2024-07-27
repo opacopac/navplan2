@@ -12,6 +12,7 @@ import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-un
 import {PerformanceTableTemperatureReference} from '../../domain/model/performance-table-temperature-reference';
 import {Temperature} from '../../../geo-physics/domain/model/quantities/temperature';
 import {TemperatureUnit} from '../../../geo-physics/domain/model/quantities/temperature-unit';
+import {FuelType} from '../../domain/model/fuel-type';
 
 
 export class RestAircraftConverter {
@@ -38,7 +39,7 @@ export class RestAircraftConverter {
             restAircraft.icaoType,
             RestSpeedConverter.fromRest(restAircraft.cruiseSpeed),
             RestConsumptionConverter.fromRest(restAircraft.cruiseFuel),
-            restAircraft.fuelType,
+            restAircraft.fuelType ? FuelType[restAircraft.fuelType] : null,
             RestWeightConverter.fromRest(restAircraft.mtow),
             RestWeightConverter.fromRest(restAircraft.bew),
             this.mockDistTable, // TODO

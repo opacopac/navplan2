@@ -22,8 +22,12 @@ class RestDistancePerformanceTableConverter
     const KEY_CORRECTION_FACTORS = "correctionFactors";
 
 
-    public static function fromRest(array $args): DistancePerformanceTable
+    public static function fromRest(array $args): ?DistancePerformanceTable
     {
+        if (!$args) {
+            return NULL;
+        }
+
         return new DistancePerformanceTable(
             RestWeightConverter::fromRest($args[self::KEY_TAKEOFF_WEIGHT]),
             PerformanceTableAltitudeReference::from(StringNumberHelper::parseStringOrError($args, self::KEY_ALTITUDE_REFERENCE)),
@@ -36,8 +40,12 @@ class RestDistancePerformanceTableConverter
     }
 
 
-    public static function toRest(DistancePerformanceTable $table): array
+    public static function toRest(?DistancePerformanceTable $table): ?array
     {
+        if (!$table) {
+            return NULL;
+        }
+
         return array(
             self::KEY_TAKEOFF_WEIGHT => RestWeightConverter::toRest($table->takeoffWeight),
             self::KEY_ALTITUDE_REFERENCE => $table->altitudeReference?->value,
