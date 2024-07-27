@@ -7,8 +7,10 @@ use Navplan\Common\Domain\Model\TemperatureUnit;
 use Navplan\Common\StringNumberHelper;
 
 
-class RestTemperatureConverter {
-    public static function toRest(?Temperature $temp): ?array {
+class RestTemperatureConverter
+{
+    public static function toRest(?Temperature $temp): ?array
+    {
         if (!$temp) {
             return NULL;
         }
@@ -20,7 +22,8 @@ class RestTemperatureConverter {
     }
 
 
-    public static function fromRest(?array $args): ?Temperature {
+    public static function fromRest(?array $args): ?Temperature
+    {
         if (!$args) {
             return NULL;
         }
@@ -28,6 +31,36 @@ class RestTemperatureConverter {
         return new Temperature(
             StringNumberHelper::parseFloatOrError($args, 0),
             TemperatureUnit::from(StringNumberHelper::parseStringOrError($args, 1)),
+        );
+    }
+
+
+    /**
+     * @param array $args
+     * @return Temperature[]
+     */
+    public static function fromRestList(array $args): array
+    {
+        return array_map(
+            function ($temp) {
+                return self::fromRest($temp);
+            },
+            $args
+        );
+    }
+
+
+    /**
+     * @param Temperature[] $tempList
+     * @return array
+     */
+    public static function toRestList(array $tempList): array
+    {
+        return array_map(
+            function ($temp) {
+                return self::toRest($temp);
+            },
+            $tempList
         );
     }
 }

@@ -12,7 +12,7 @@ export class DistancePerformanceTable {
         public altitudeSteps: Length[],
         public temperatureReference: PerformanceTableTemperatureReference,
         public temperatureSteps: Temperature[],
-        public distanceValues: Length[][],
+        public distanceValues: Length[],
         public correctionFactors: DistancePerformanceCorrectionFactors
     ) {
     }

@@ -5,9 +5,9 @@ export class DistancePerformanceCorrectionFactors {
         public grassRwyIncPercent: number,
         public wetRwyIncPercent: number,
         public headwindDecPercent: number,
-        public headwindDecPerDelta: Speed,
+        public headwindDecPerSpeed: Speed,
         public tailwindIncPercent: number,
-        public tailwindIncPerDelta: Speed,
+        public tailwindIncPerSpeed: Speed,
     ) {
     }
 }

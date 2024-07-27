@@ -10,9 +10,9 @@ class DistancePerformanceCorrectionFactors
         public float $grassRwyIncPercent,
         public float $wetRwyIncPercent,
         public float $headwindDecPercent,
-        public Speed $headwindDecPerDelta,
+        public Speed $headwindDecPerSpeed,
         public float $tailwindIncPercent,
-        public Speed $tailwindIncPerDelta,
+        public Speed $tailwindIncPerSpeed,
     )
     {
     }

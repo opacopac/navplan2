@@ -3,6 +3,7 @@
 namespace Navplan\Aircraft\Persistence\Query;
 
 use Navplan\Aircraft\Domain\Model\Aircraft;
+use Navplan\Aircraft\Domain\Model\FuelType;
 use Navplan\Aircraft\Persistence\Model\DbTableAircraft;
 use Navplan\Common\Domain\Model\ConsumptionUnit;
 use Navplan\Common\Domain\Model\SpeedUnit;
@@ -10,6 +11,7 @@ use Navplan\Common\Domain\Model\WeightUnit;
 use Navplan\Common\Persistence\Model\DbConsumptionConverter;
 use Navplan\Common\Persistence\Model\DbSpeedConverter;
 use Navplan\Common\Persistence\Model\DbWeightConverter;
+use Navplan\Common\StringNumberHelper;
 use Navplan\System\Domain\Model\IDbResult;
 
 
@@ -24,9 +26,15 @@ class DbAircraftConverter
             $row[DbTableAircraft::COL_ICAO_TYPE],
             DbSpeedConverter::fromDbRow($row, DbTableAircraft::COL_CRUISE_SPEED, SpeedUnit::KT),
             DbConsumptionConverter::fromDbRow($row, DbTableAircraft::COL_CRUISE_FUEL, ConsumptionUnit::L_PER_H),
-            $row[DbTableAircraft::COL_FUEL_TYPE],
+            StringNumberHelper::isNullOrEmpty($row, DbTableAircraft::COL_FUEL_TYPE) ? null : FuelType::from($row[DbTableAircraft::COL_FUEL_TYPE]),
             DbWeightConverter::fromDbRow($row, DbTableAircraft::COL_MTOW, WeightUnit::KG),
-            DbWeightConverter::fromDbRow($row, DbTableAircraft::COL_BEW, WeightUnit::KG)
+            DbWeightConverter::fromDbRow($row, DbTableAircraft::COL_BEW, WeightUnit::KG),
+            null, // TODO
+            null,
+            null,
+            null,
+            [],
+            []
         );
     }
 

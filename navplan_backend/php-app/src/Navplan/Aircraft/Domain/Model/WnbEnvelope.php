@@ -2,15 +2,16 @@
 
 namespace Navplan\Aircraft\Domain\Model;
 
-use Navplan\Common\Domain\Model\Length;
-use Navplan\Common\Domain\Model\Weight;
-
 
 class WnbEnvelope
 {
+    /**
+     * @param string $name
+     * @param WnbEnvelopeCoordinate[] $coordinates
+     */
     public function __construct(
-        public Weight $weight,
-        public Length $armCg
+        public string $name,
+        public array $coordinates
     )
     {
     }
