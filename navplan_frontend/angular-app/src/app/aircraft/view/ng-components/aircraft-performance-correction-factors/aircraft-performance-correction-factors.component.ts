@@ -30,19 +30,19 @@ export class AircraftPerformanceCorrectionFactorsComponent implements OnInit {
     ngOnInit() {
         this.grassRwyCorrInput = new FormControl(this.correctionFactors.grassRwyIncPercent ?? 0, [
             Validators.required,
-            Validators.min(1),
+            Validators.min(0),
             Validators.max(999)
         ]);
 
         this.wetRwyCorrInput = new FormControl(this.correctionFactors.wetRwyIncPercent ?? 0, [
             Validators.required,
-            Validators.min(1),
+            Validators.min(0),
             Validators.max(999)
         ]);
 
         this.headwindCorrInput = new FormControl(this.correctionFactors.headwindDecPercent ?? 0, [
             Validators.required,
-            Validators.min(1),
+            Validators.min(0),
             Validators.max(999)
         ]);
 
@@ -57,7 +57,7 @@ export class AircraftPerformanceCorrectionFactorsComponent implements OnInit {
 
         this.tailwindCorrInput = new FormControl(this.correctionFactors.tailwindIncPercent ?? 0, [
             Validators.required,
-            Validators.min(1),
+            Validators.min(0),
             Validators.max(999)
         ]);
 
