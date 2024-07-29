@@ -83,7 +83,7 @@ export class Speed extends AbstractQuantity<Speed, SpeedUnit> {
     }
 
 
-    public getValueAndUnit(asUnit: SpeedUnit, roundToDigits: number, separator = ''): string {
+    public getValueAndUnit(asUnit: SpeedUnit, roundToDigits: number, separator = ' '): string {
         return StringnumberHelper.roundToDigits(this.getValue(asUnit), roundToDigits) + separator + this.getUnitString();
     }
 

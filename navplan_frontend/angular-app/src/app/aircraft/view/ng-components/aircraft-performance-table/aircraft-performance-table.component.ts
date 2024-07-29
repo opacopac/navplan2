@@ -4,6 +4,7 @@ import {DistancePerformanceTable} from '../../../domain/model/distance-performan
 import {WeightUnit} from '../../../../geo-physics/domain/model/quantities/weight-unit';
 import {TemperatureUnit} from '../../../../geo-physics/domain/model/quantities/temperature-unit';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
+import {PerformanceTableAltitudeReference} from '../../../domain/model/performance-table-altitude-reference';
 
 
 @Component({
@@ -45,9 +46,23 @@ export class AircraftPerformanceTableComponent implements OnInit {
     }
 
 
+    protected getTakeoffWeightText(): string {
+        return this.distancePerformanceTable
+            .takeoffWeight
+            .getValueAndUnit(this.weightUnit, 0);
+    }
+
+
     protected getTemperatureTitle(colIdx: number): string {
         if (colIdx === 0) {
-            return '';
+            switch (this.distancePerformanceTable.altitudeReference) {
+                case PerformanceTableAltitudeReference.FIELD_ALTITUDE:
+                    return 'Field Alt.';
+                case PerformanceTableAltitudeReference.PRESSURE_ALTITUDE:
+                    return 'Pressure Alt.';
+                default:
+                    throw new Error('unknown altitude reference');
+            }
         }
 
         return this.distancePerformanceTable

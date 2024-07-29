@@ -78,8 +78,8 @@ export class Weight extends AbstractQuantity<Weight, WeightUnit> {
     }
 
 
-    public getValueAndUnit(asUnit: WeightUnit, roundToDigits = 0): string {
-        return StringnumberHelper.roundToDigits(this.getValue(asUnit), roundToDigits) + ' ' + this.getUnitString();
+    public getValueAndUnit(asUnit: WeightUnit, roundToDigits = 0, separator = ' '): string {
+        return StringnumberHelper.roundToDigits(this.getValue(asUnit), roundToDigits) + separator + this.getUnitString();
     }
 
 

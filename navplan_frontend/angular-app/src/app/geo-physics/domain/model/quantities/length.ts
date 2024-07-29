@@ -158,7 +158,7 @@ export class Length extends AbstractQuantity<Length, LengthUnit> implements Clon
     }
 
 
-    public getValueAndUnit(asUnit: LengthUnit, roundToDigits: number, separator = ''): string {
+    public getValueAndUnit(asUnit: LengthUnit, roundToDigits: number, separator = ' '): string {
         return StringnumberHelper.roundToDigits(this.getValue(asUnit), roundToDigits) + separator + this.getUnitString();
     }
 

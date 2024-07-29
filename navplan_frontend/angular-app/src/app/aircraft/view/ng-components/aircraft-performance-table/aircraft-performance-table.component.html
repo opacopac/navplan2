@@ -1,7 +1,10 @@
-<div *ngIf="this.distancePerformanceTable">
-    <p>Takeoff Weight: {{ this.distancePerformanceTable.takeoffWeight.getValue(this.weightUnit) }}</p>
+<div *ngIf="this.distancePerformanceTable" class="perf-table">
+    <p>Takeoff Weight: {{ this.getTakeoffWeightText() }}</p>
 
-    <table mat-table [dataSource]="this.distancePerformanceTable.distanceValues" class="mat-table">
+    <table
+        mat-table
+        [dataSource]="this.distancePerformanceTable.distanceValues"
+    >
         <ng-container *ngFor="let column of this.displayedColumns; let colIdx = index" [matColumnDef]="column">
             <th mat-header-cell
                 *matHeaderCellDef
@@ -10,7 +13,7 @@
             </th>
             <td mat-cell
                 *matCellDef="let element; let rowIdx = index"
-                [ngClass]="{ 'header-row': colIdx === 0 }"
+                [ngClass]="{ 'header-cell': colIdx === 0 }"
             >
                 {{ this.getDistanceText(rowIdx, colIdx) }}
             </td>
@@ -24,4 +27,7 @@
             [ngClass]="{ 'odd-row': !even }"
         ></tr>
     </table>
+</div>
+<div *ngIf="!this.distancePerformanceTable" class="perf-table">
+    <p>No performance data available.</p>
 </div>

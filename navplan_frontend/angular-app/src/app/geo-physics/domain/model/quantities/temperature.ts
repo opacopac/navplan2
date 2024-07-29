@@ -85,7 +85,7 @@ export class Temperature extends AbstractQuantity<Temperature, TemperatureUnit> 
     }
 
 
-    public getValueAndUnit(asUnit: TemperatureUnit, roundToDigits: number, separator = ''): string {
+    public getValueAndUnit(asUnit: TemperatureUnit, roundToDigits: number, separator = ' '): string {
         return StringnumberHelper.roundToDigits(this.getValue(asUnit), roundToDigits) + separator + this.getUnitString();
     }
 
