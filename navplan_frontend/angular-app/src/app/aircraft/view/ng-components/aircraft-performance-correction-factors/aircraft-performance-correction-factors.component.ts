@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-unit';
 import {DistancePerformanceCorrectionFactors} from '../../../domain/model/distance-performance-correction-factors';
 import {FormControl} from '@angular/forms';
+import {Speed} from '../../../../geo-physics/domain/model/quantities/speed';
 
 
 @Component({
@@ -25,4 +26,6 @@ export class AircraftPerformanceCorrectionFactorsComponent implements OnInit {
 
     ngOnInit() {
     }
+
+    protected readonly Speed = Speed;
 }

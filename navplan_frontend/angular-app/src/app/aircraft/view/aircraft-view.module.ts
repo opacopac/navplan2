@@ -41,6 +41,7 @@ import {
 import {
     AircraftPerformanceCorrectionFactorsComponent
 } from './ng-components/aircraft-performance-correction-factors/aircraft-performance-correction-factors.component';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 
 @NgModule({
@@ -62,6 +63,7 @@ import {
         MatTabsModule,
         MatRadioModule,
         MatExpansionModule,
+        MatGridListModule,
     ],
     declarations: [
         AircraftPageComponent,

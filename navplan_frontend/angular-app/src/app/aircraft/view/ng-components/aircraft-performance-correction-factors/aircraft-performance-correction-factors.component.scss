@@ -1,4 +1,17 @@
 .correction-factors-container {
-    display: flex;
-    flex-direction: column;
+}
+
+.label {
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+    margin-right: 10px;
+}
+
+.for-each-text {
+    display: inline-block;
+    width: 80px;
+}
+
+.of-wind-text {
 }

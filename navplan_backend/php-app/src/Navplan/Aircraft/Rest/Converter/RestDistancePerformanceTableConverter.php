@@ -57,7 +57,8 @@ class RestDistancePerformanceTableConverter
                     return RestLengthConverter::toRestList($length);
                 },
                 $table->distanceValues
-            )
+            ),
+            self::KEY_CORRECTION_FACTORS => RestDistancePerformanceCorrectionFactorsConverter::toRest($table->correctionFactors)
         );
     }
 }
