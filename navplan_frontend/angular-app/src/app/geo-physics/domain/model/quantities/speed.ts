@@ -1,6 +1,7 @@
 import {AbstractQuantity} from './abstract-quantity';
 import {Length} from './length';
 import {SpeedUnit} from './speed-unit';
+import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 
 
 export class Speed extends AbstractQuantity<Speed, SpeedUnit> {
@@ -74,6 +75,16 @@ export class Speed extends AbstractQuantity<Speed, SpeedUnit> {
 
     public getValue(asUnit: SpeedUnit): number {
         return Speed.convertSpeed(this.value, this.unit, asUnit);
+    }
+
+
+    public getUnitString(): string {
+        return Speed.getUnitString(this.unit);
+    }
+
+
+    public getValueAndUnit(asUnit: SpeedUnit, roundToDigits: number, separator = ''): string {
+        return StringnumberHelper.roundToDigits(this.getValue(asUnit), roundToDigits) + separator + this.getUnitString();
     }
 
 

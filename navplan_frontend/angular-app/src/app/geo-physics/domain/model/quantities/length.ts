@@ -1,6 +1,7 @@
 import {Clonable} from '../../../../system/domain/model/clonable';
 import {AbstractQuantity} from './abstract-quantity';
 import {LengthUnit} from './length-unit';
+import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 
 
 export class Length extends AbstractQuantity<Length, LengthUnit> implements Clonable<Length> {
@@ -154,6 +155,11 @@ export class Length extends AbstractQuantity<Length, LengthUnit> implements Clon
 
     public getUnitString(): string {
         return Length.getUnitString(this.unit);
+    }
+
+
+    public getValueAndUnit(asUnit: LengthUnit, roundToDigits: number, separator = ''): string {
+        return StringnumberHelper.roundToDigits(this.getValue(asUnit), roundToDigits) + separator + this.getUnitString();
     }
 
 

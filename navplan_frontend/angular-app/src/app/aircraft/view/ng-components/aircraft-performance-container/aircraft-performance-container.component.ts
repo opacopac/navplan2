@@ -3,9 +3,10 @@ import {select, Store} from '@ngrx/store';
 import {getCurrentAircraft} from '../../../state/ngrx/aircraft.selectors';
 import {Observable, of} from 'rxjs';
 import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-unit';
-import {getSelectedSpeedUnit} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
+import {getSelectedAltitudeUnit, getSelectedSpeedUnit} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
 import {WeightUnit} from '../../../../geo-physics/domain/model/quantities/weight-unit';
-import { TemperatureUnit } from '../../../../geo-physics/domain/model/quantities/temperature-unit';
+import {TemperatureUnit} from '../../../../geo-physics/domain/model/quantities/temperature-unit';
+import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 
 
 @Component({
@@ -18,6 +19,8 @@ export class AircraftPerformanceContainerComponent implements OnInit {
     protected readonly speedUnit$: Observable<SpeedUnit> = this.appStore.pipe(select(getSelectedSpeedUnit));
     protected readonly weightUnit$ = of(WeightUnit.KG); // TODO
     protected readonly temperatureUnit$ = of(TemperatureUnit.C); // TODO
+    protected readonly distanceUnit$ = of(LengthUnit.M); // TODO
+    protected readonly altitudeUnit$ = this.appStore.pipe(select(getSelectedAltitudeUnit));
 
 
     constructor(private appStore: Store<any>) {

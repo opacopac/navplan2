@@ -1,5 +1,6 @@
 import {AbstractQuantity} from './abstract-quantity';
 import {WeightUnit} from './weight-unit';
+import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 
 
 export class Weight extends AbstractQuantity<Weight, WeightUnit> {
@@ -69,6 +70,16 @@ export class Weight extends AbstractQuantity<Weight, WeightUnit> {
 
     public getValue(asUnit: WeightUnit): number {
         return Weight.convertWeight(this.value, this.unit, asUnit);
+    }
+
+
+    public getUnitString(): string {
+        return Weight.getUnitString(this.unit);
+    }
+
+
+    public getValueAndUnit(asUnit: WeightUnit, roundToDigits = 0): string {
+        return StringnumberHelper.roundToDigits(this.getValue(asUnit), roundToDigits) + ' ' + this.getUnitString();
     }
 
 

@@ -2,10 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-unit';
 import {DistancePerformanceTable} from '../../../domain/model/distance-performance-table';
 import {WeightUnit} from '../../../../geo-physics/domain/model/quantities/weight-unit';
-import { TemperatureUnit } from '../../../../geo-physics/domain/model/quantities/temperature-unit';
-import { Temperature } from '../../../../geo-physics/domain/model/quantities/temperature';
-import { Length } from '../../../../geo-physics/domain/model/quantities/length';
-import { LengthUnit } from '../../../../geo-physics/domain/model/quantities/length-unit';
+import {TemperatureUnit} from '../../../../geo-physics/domain/model/quantities/temperature-unit';
+import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 
 
 @Component({
@@ -19,61 +17,59 @@ export class AircraftPerformanceTableComponent implements OnInit {
     @Input() weightUnit: WeightUnit;
     @Input() temperatureUnit: TemperatureUnit;
     @Input() distanceUnit: LengthUnit;
-    
+    @Input() altitudeUnit: LengthUnit;
+
     protected displayedColumns: string[] = [];
-    protected displayedValues: string[][] = [];
 
     constructor() {
     }
 
 
     ngOnInit() {
-        this.calcDisplayedColumns;
-        this.calcDisplayedValues;
+        this.calcDisplayedColumns();
     }
 
 
     private calcDisplayedColumns() {
+        if (!this.distancePerformanceTable || !this.distancePerformanceTable.distanceValues
+            || this.distancePerformanceTable.distanceValues.length < 1
+        ) {
+            return;
+        }
+
         this.displayedColumns = ['altitudes'];
 
-        for (let i = 0; i < this.distancePerformanceTable.distanceValues.length; i++) {
-            this.displayedColumns.push['temp_' + i];
+        for (let i = 0; i < this.distancePerformanceTable.distanceValues[0].length; i++) {
+            this.displayedColumns.push('temp_' + i);
         }
     }
 
 
-    private calcDisplayedValues() {
-        this.displayedValues = [
-            ['1', '2', '3', '4', '5'],
-            ['1', '2', '3', '4', '5'],
-            ['1', '2', '3', '4', '5']
-        ]
-    }
-
-
-    protected getTemperatureTitle(index: number): string {     
-        if (index = 0) {
+    protected getTemperatureTitle(colIdx: number): string {
+        if (colIdx === 0) {
             return '';
-        }           
+        }
 
         return this.distancePerformanceTable
-            .temperatureSteps[index - 1]
-            .getValue(this.temperatureUnit) + Temperature.getUnitString(this.temperatureUnit)
+            .temperatureSteps[colIdx - 1]
+            .getValueAndUnit(this.temperatureUnit, 0);
     }
 
 
-    protected getAltitudeTitle(index: number): string {     
-        if (index = 0) {
-            return '';
-        }           
-        
+    protected getAltitudeTitle(rowIdx: number): string {
         return this.distancePerformanceTable
-            .altitudeSteps[index - 1]
-            .getValue(this.distanceUnit) + Length.getUnitString(this.distanceUnit)
+            .altitudeSteps[rowIdx]
+            .getValueAndUnit(this.altitudeUnit, 0);
     }
 
 
-    protected getDistanceText(distance: Length): string {
-        return distance.getValue(this.distanceUnit) + Length.getUnitString(this.distanceUnit);
+    protected getDistanceText(rowIdx: number, colIdx: number): string {
+        if (colIdx === 0) {
+            return this.getAltitudeTitle(rowIdx);
+        }
+
+        return this.distancePerformanceTable
+            .distanceValues[rowIdx][colIdx - 1]
+            .getValueAndUnit(this.distanceUnit, 0);
     }
 }
