@@ -27,6 +27,11 @@
             [ngClass]="{ 'odd-row': !even }"
         ></tr>
     </table>
+
+    <app-aircraft-performance-correction-factors
+        [correctionFactors]="this.distancePerformanceTable.correctionFactors"
+        [speedUnit]="this.speedUnit"
+    />
 </div>
 <div *ngIf="!this.distancePerformanceTable" class="perf-table">
     <p>No performance data available.</p>

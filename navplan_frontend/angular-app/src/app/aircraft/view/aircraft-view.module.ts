@@ -38,6 +38,9 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {
     AircraftPerformanceTableComponent
 } from './ng-components/aircraft-performance-table/aircraft-performance-table.component';
+import {
+    AircraftPerformanceCorrectionFactorsComponent
+} from './ng-components/aircraft-performance-correction-factors/aircraft-performance-correction-factors.component';
 
 
 @NgModule({
@@ -69,6 +72,7 @@ import {
         AircraftPerformanceContainerComponent,
         AircraftPerformanceComponent,
         AircraftPerformanceTableComponent,
+        AircraftPerformanceCorrectionFactorsComponent,
         AircraftWeightAndBalanceContainerComponent,
         AircraftWeightAndBalanceComponent,
     ],

@@ -1,0 +1,39 @@
+<div *ngIf="this.correctionFactors" class="correction-factors-container">
+    <p>Correction Factors</p>
+    <mat-form-field>
+        <mat-label>Grass RWY</mat-label>
+        <input
+            matInput
+            [formControl]="this.grassRwyCorrInput"
+            type="number"
+            required
+        />
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Wet RWY</mat-label>
+        <input
+            matInput
+            [formControl]="this.wetRwyCorrInput"
+            type="number"
+            required
+        />
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Headwind</mat-label>
+        <input
+            matInput
+            [formControl]="this.headwindCorrInput"
+            type="number"
+            required
+        />
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Tailwind</mat-label>
+        <input
+            matInput
+            [formControl]="this.tailwindCorrInput"
+            type="number"
+            required
+        />
+    </mat-form-field>
+</div>
