@@ -20,13 +20,13 @@ export class DistancePerformanceTable {
 
     public clone(): DistancePerformanceTable {
         return new DistancePerformanceTable(
-            this.takeoffWeight.clone(),
+            this.takeoffWeight?.clone(),
             this.altitudeReference,
-            this.altitudeSteps.map(step => step.clone()),
+            this.altitudeSteps?.map(step => step.clone()),
             this.temperatureReference,
-            this.temperatureSteps.map(step => step.clone()),
-            this.distanceValues.map(row => row.map(value => value.clone())),
-            this.correctionFactors.clone()
+            this.temperatureSteps?.map(step => step.clone()),
+            this.distanceValues?.map(row => row.map(value => value.clone())),
+            this.correctionFactors?.clone()
         );
     }
 }

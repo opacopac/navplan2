@@ -11,7 +11,7 @@ export class WnbEnvelope {
     public clone(): WnbEnvelope {
         return new WnbEnvelope(
             this.name,
-            this.coordinates.map(c => c.clone())
+            this.coordinates?.map(c => c.clone())
         );
     }
 }

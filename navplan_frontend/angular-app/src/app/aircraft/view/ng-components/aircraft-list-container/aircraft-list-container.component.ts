@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {AircraftActions} from '../../../state/ngrx/aircraft.actions';
+import {AircraftCrudActions} from '../../../state/ngrx/aircraft-crud-actions';
 import {getAircraftList, getCurrentAircraft} from '../../../state/ngrx/aircraft.selectors';
+import {AircraftListActions} from '../../../state/ngrx/aircraft-list.actions';
 
 
 @Component({
@@ -18,21 +19,21 @@ export class AircraftListContainerComponent implements OnInit {
 
 
     ngOnInit() {
-        this.appStore.dispatch(AircraftActions.readList());
+        this.appStore.dispatch(AircraftListActions.readList());
     }
 
 
     protected onAircraftSelected(aircraftId: number) {
-        this.appStore.dispatch(AircraftActions.selectAircraft({aircraftId: aircraftId}));
+        this.appStore.dispatch(AircraftListActions.selectAircraft({aircraftId: aircraftId}));
     }
 
 
     protected onAircraftDuplicated(aircraftId: number) {
-        this.appStore.dispatch(AircraftActions.duplicateAircraft({aircraftId: aircraftId}));
+        this.appStore.dispatch(AircraftCrudActions.duplicateAircraft({aircraftId: aircraftId}));
     }
 
 
     protected onAircraftDeleted(aircraftId: number) {
-        this.appStore.dispatch(AircraftActions.deleteAircraft({aircraftId: aircraftId}));
+        this.appStore.dispatch(AircraftCrudActions.deleteAircraft({aircraftId: aircraftId}));
     }
 }

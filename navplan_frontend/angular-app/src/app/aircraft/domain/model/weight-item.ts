@@ -18,9 +18,9 @@ export class WeightItem {
         return new WeightItem(
             this.type,
             this.name,
-            this.arm.clone(),
-            this.maxWeight.clone(),
-            this.maxFuel.clone()
+            this.arm?.clone(),
+            this.maxWeight?.clone(),
+            this.maxFuel?.clone()
         );
     }
 }

@@ -17,9 +17,9 @@ export class DistancePerformanceCorrectionFactors {
             this.grassRwyIncPercent,
             this.wetRwyIncPercent,
             this.headwindDecPercent,
-            this.headwindDecPerSpeed.clone(),
+            this.headwindDecPerSpeed?.clone(),
             this.tailwindIncPercent,
-            this.tailwindIncPerSpeed.clone()
+            this.tailwindIncPerSpeed?.clone()
         );
     }
 }

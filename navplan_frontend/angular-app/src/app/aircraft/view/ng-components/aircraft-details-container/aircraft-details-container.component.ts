@@ -7,7 +7,7 @@ import {getConsumptionUnit, getSelectedSpeedUnit} from '../../../../geo-physics/
 import {VehicleType} from '../../../domain/model/vehicle-type';
 import {Speed} from '../../../../geo-physics/domain/model/quantities/speed';
 import {Consumption} from '../../../../geo-physics/domain/model/quantities/consumption';
-import {AircraftActions} from '../../../state/ngrx/aircraft.actions';
+import {AircraftDetailsActions} from '../../../state/ngrx/aircraft-details-actions';
 
 
 @Component({
@@ -29,13 +29,32 @@ export class AircraftDetailsContainerComponent implements OnInit {
     }
 
 
-    protected onSaveAircraftDetailsClicked($event: {
-        vehicleType: VehicleType;
-        regisration: string;
-        icaoType: string;
-        cruiseSpeed: Speed;
-        cruiseFuel: Consumption
-    }) {
-        this.appStore.dispatch(AircraftActions.saveAircraftDetails($event));
+    protected onVehicleTypeChange(vehicleType: VehicleType) {
+        this.appStore.dispatch(AircraftDetailsActions.changeVehicleType({vehicleType: vehicleType}));
+    }
+
+
+    protected onRegistrationChange(registration: string) {
+        this.appStore.dispatch(AircraftDetailsActions.changeRegistration({registration: registration}));
+    }
+
+
+    protected onIcaoTypeChange(icaoType: string) {
+        this.appStore.dispatch(AircraftDetailsActions.changeIcaoType({icaoType: icaoType}));
+    }
+
+
+    protected onCruiseSpeedChange(cruiseSpeed: Speed) {
+        this.appStore.dispatch(AircraftDetailsActions.changeCruiseSpeed({cruiseSpeed: cruiseSpeed}));
+    }
+
+
+    protected onCruiseFuelChange(cruiseFuel: Consumption) {
+        this.appStore.dispatch(AircraftDetailsActions.changeCruiseConumption({cruiseFuel: cruiseFuel}));
+    }
+
+
+    protected onSaveAircraftDetailsClicked() {
+        this.appStore.dispatch(AircraftDetailsActions.saveAircraftDetails());
     }
 }

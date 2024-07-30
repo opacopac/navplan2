@@ -33,17 +33,17 @@ export class Aircraft {
             this.vehicleType,
             this.registration,
             this.icaoType,
-            this.cruiseSpeed.clone(),
-            this.cruiseFuel.clone(),
+            this.cruiseSpeed?.clone(),
+            this.cruiseFuel?.clone(),
             this.fuelType,
-            this.mtow.clone(),
-            this.bew.clone(),
-            this.perfTakeoffGroundRoll.clone(),
-            this.perfTakeoffDist50ft.clone(),
-            this.perfLandingGroundRoll.clone(),
-            this.perfLandingDist50ft.clone(),
-            this.wnbWeightItems.map(wi => wi.clone()),
-            this.wnbEnvelopes.map(we => we.clone())
+            this.mtow?.clone(),
+            this.bew?.clone(),
+            this.perfTakeoffGroundRoll?.clone(),
+            this.perfTakeoffDist50ft?.clone(),
+            this.perfLandingGroundRoll?.clone(),
+            this.perfLandingDist50ft?.clone(),
+            this.wnbWeightItems?.map(wi => wi.clone()),
+            this.wnbEnvelopes?.map(we => we.clone())
         );
     }
 }

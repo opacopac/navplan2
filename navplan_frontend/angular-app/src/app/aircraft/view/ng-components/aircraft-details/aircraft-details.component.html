@@ -1,6 +1,12 @@
 <form *ngIf="this.currentAircraft" [formGroup]="this.aircraftDetailsForm">
     <div class="aircraft-form-content">
-        <mat-radio-group color="primary" formControlName="vehicleType">
+
+        <!-- vehicle type -->
+        <mat-radio-group
+            color="primary"
+            formControlName="vehicleType"
+            (change)="this.onVehicleTypeChanged()"
+        >
             <mat-radio-button [value]="VehicleType.AIRPLANE">Airplane</mat-radio-button>
             <mat-radio-button [value]="VehicleType.HELICOPTER">Helicopter</mat-radio-button>
         </mat-radio-group>
@@ -13,6 +19,7 @@
                 formControlName="registration"
                 type="string"
                 required
+                (change)="this.onRegistrationChanged()"
             />
         </mat-form-field>
 
@@ -24,6 +31,7 @@
                 formControlName="icaoType"
                 type="string"
                 required
+                (change)="this.onIcaoTypeChanged()"
             />
         </mat-form-field>
 
@@ -32,11 +40,12 @@
             <mat-label>Cruise Speed</mat-label>
             <input
                 matInput
-                formControlName="speed"
+                formControlName="cruiseSpeed"
                 type="number"
                 required
                 min="1"
                 max="999"
+                (change)="this.onCruiseSpeedChanged()"
             >
             <span matTextSuffix>{{ Speed.getUnitString(this.speedUnit) }}</span>
             <mat-error>Value must be a positive number between 1 and 999!</mat-error>
@@ -44,14 +53,15 @@
 
         <!-- fuel consumption -->
         <mat-form-field>
-            <mat-label>Fuel Consumption</mat-label>
+            <mat-label>Cruise Fuel Consumption</mat-label>
             <input
                 matInput
-                formControlName="consumption"
+                formControlName="cruiseFuel"
                 type="number"
                 required
                 min="1"
                 max="999"
+                (change)="this.onCruiseFuelChanged()"
             >
             <span matTextSuffix>{{ Consumption.getUnitString(this.consumptionUnit) }}</span>
             <mat-error>Value must be a positive number between 1 and 999!</mat-error>
@@ -61,12 +71,13 @@
             <button
                 mat-raised-button
                 color="primary"
-                (submit)="this.onSaveAircraftDetailsClicked()"
                 [disabled]="this.aircraftDetailsForm.invalid"
+                (click)="this.onSaveAircraftDetailsClicked()"
             >
                 Save
             </button>
         </p>
+
     </div>
 </form>
 

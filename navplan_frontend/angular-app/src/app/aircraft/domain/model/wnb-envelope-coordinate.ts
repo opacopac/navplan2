@@ -11,8 +11,8 @@ export class WnbEnvelopeCoordinate {
 
     public clone(): WnbEnvelopeCoordinate {
         return new WnbEnvelopeCoordinate(
-            this.weight.clone(),
-            this.armCg.clone()
+            this.weight?.clone(),
+            this.armCg?.clone()
         );
     }
 }

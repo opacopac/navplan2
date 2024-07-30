@@ -8,7 +8,7 @@ import {getUserState} from '../../../user/state/ngrx/user.selectors';
 import {MessageActions} from '../../../message/state/ngrx/message.actions';
 import {Message} from '../../../message/domain/model/message';
 import {IAircraftService} from '../../domain/service/i-aircraft.service';
-import {AircraftActions} from './aircraft.actions';
+import {AircraftListActions} from './aircraft-list.actions';
 
 
 @Injectable()
@@ -25,13 +25,13 @@ export class AircraftEffects {
 
 
     readAircraftListAction$ = createEffect(() => this.actions$.pipe(
-        ofType(AircraftActions.readList),
+        ofType(AircraftListActions.readList),
         withLatestFrom(this.userState$),
         filter(([action, userState]) => userState.currentUser !== undefined),
         switchMap(([action, userState]) => this.aircraftService.readAircraftList(
             userState.currentUser
         ).pipe(
-            map(aircraftList => AircraftActions.showList({aircraftList: aircraftList})),
+            map(aircraftList => AircraftListActions.showList({aircraftList: aircraftList})),
             catchError(error => of(MessageActions.showMessage({
                 message: Message.error('Error reading aircraft list: ', error)
             })))
@@ -39,13 +39,13 @@ export class AircraftEffects {
     ));
 
     readAircraftAction$ = createEffect(() => this.actions$.pipe(
-        ofType(AircraftActions.selectAircraft),
+        ofType(AircraftListActions.selectAircraft),
         withLatestFrom(this.userState$),
         switchMap(([action, userState]) => this.aircraftService.readAircraft(
             action.aircraftId,
             userState.currentUser
         ).pipe(
-            map(aircraft => AircraftActions.selectAircraftSuccess({aircraft: aircraft})),
+            map(aircraft => AircraftListActions.selectAircraftSuccess({aircraft: aircraft})),
             catchError(error => of(MessageActions.showMessage({
                 message: Message.error('Error reading aircraft: ', error)
             })))

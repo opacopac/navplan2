@@ -17,13 +17,12 @@ export class AircraftDetailsComponent implements OnInit {
     @Input() currentAircraft: Aircraft;
     @Input() speedUnit: SpeedUnit;
     @Input() consumptionUnit: ConsumptionUnit;
-    @Output() onSaveAircraftClick = new EventEmitter<{
-        vehicleType: VehicleType,
-        regisration: string,
-        icaoType: string,
-        cruiseSpeed: Speed,
-        cruiseFuel: Consumption
-    }>();
+    @Output() onVehicleTypeChange = new EventEmitter<VehicleType>();
+    @Output() onRegistrationChange = new EventEmitter<string>();
+    @Output() onIcaoTypeChange = new EventEmitter<string>();
+    @Output() onCruiseSpeedChange = new EventEmitter<Speed>();
+    @Output() onCruiseFuelChange = new EventEmitter<Consumption>();
+    @Output() onSaveAircraftClick = new EventEmitter<void>();
 
     protected readonly VehicleType = VehicleType;
     protected readonly Speed = Speed;
@@ -46,7 +45,7 @@ export class AircraftDetailsComponent implements OnInit {
             'icaoType': [this.currentAircraft.icaoType, [
                 Validators.required
             ]],
-            'speed': [this.currentAircraft.cruiseSpeed
+            'cruiseSpeed': [this.currentAircraft.cruiseSpeed
                 ? this.currentAircraft.cruiseSpeed.getValue(this.speedUnit).toString()
                 : '',
                 [
@@ -55,7 +54,7 @@ export class AircraftDetailsComponent implements OnInit {
                     Validators.max(999)
                 ]
             ],
-            'consumption': [this.currentAircraft.cruiseFuel
+            'cruiseFuel': [this.currentAircraft.cruiseFuel
                 ? this.currentAircraft.cruiseFuel.getValue(this.consumptionUnit).toString()
                 : '',
                 [
@@ -68,21 +67,46 @@ export class AircraftDetailsComponent implements OnInit {
     }
 
 
+    protected onVehicleTypeChanged() {
+        if (this.aircraftDetailsForm.controls['vehicleType'].valid) {
+            this.onVehicleTypeChange.emit(this.aircraftDetailsForm.value.vehicleType);
+        }
+    }
+
+
+    protected onRegistrationChanged() {
+        if (this.aircraftDetailsForm.controls['registration'].valid) {
+            this.onRegistrationChange.emit(this.aircraftDetailsForm.value.registration);
+        }
+    }
+
+
+    protected onIcaoTypeChanged() {
+        if (this.aircraftDetailsForm.controls['icaoType'].valid) {
+            this.onIcaoTypeChange.emit(this.aircraftDetailsForm.value.icaoType);
+        }
+    }
+
+
+    protected onCruiseSpeedChanged() {
+        if (this.aircraftDetailsForm.controls['cruiseSpeed'].valid) {
+            const speed = new Speed(this.aircraftDetailsForm.value.cruiseSpeed, this.speedUnit);
+            this.onCruiseSpeedChange.emit(speed);
+        }
+    }
+
+
+    protected onCruiseFuelChanged() {
+        if (this.aircraftDetailsForm.controls['cruiseFuel'].valid) {
+            const fuel = new Consumption(this.aircraftDetailsForm.value.cruiseFuel, this.consumptionUnit);
+            this.onCruiseFuelChange.emit(fuel);
+        }
+    }
+
+
     protected onSaveAircraftDetailsClicked() {
         if (this.aircraftDetailsForm.valid) {
-            this.onSaveAircraftClick.emit({
-                vehicleType: this.aircraftDetailsForm.value.vehicleType,
-                regisration: this.aircraftDetailsForm.value.registration,
-                icaoType: this.aircraftDetailsForm.value.icaoType,
-                cruiseSpeed: new Speed(
-                    parseInt(this.aircraftDetailsForm.value.speed, 10),
-                    this.speedUnit
-                ),
-                cruiseFuel: new Consumption(
-                    parseInt(this.aircraftDetailsForm.value.consumption, 10),
-                    this.consumptionUnit
-                )
-            });
+            this.onSaveAircraftClick.emit();
         }
     }
 }
