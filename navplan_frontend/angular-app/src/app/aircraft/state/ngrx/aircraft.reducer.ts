@@ -13,6 +13,8 @@ const initialState: AircraftState = {
 export const aircraftReducer = createReducer(
     initialState,
 
+    // aircraft list actions
+
     on(AircraftListActions.showList, (state, action) => ({
         ...state,
         aircraftList: action.aircraftList
@@ -22,6 +24,9 @@ export const aircraftReducer = createReducer(
         ...state,
         currentAircraft: action.aircraft
     })),
+
+
+    // aircraft details actions
 
     on(AircraftDetailsActions.changeVehicleType, (state, action) => {
         const newAircraft = state.currentAircraft.clone();

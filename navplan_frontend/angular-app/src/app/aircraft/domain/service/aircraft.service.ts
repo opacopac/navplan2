@@ -21,4 +21,9 @@ export class AircraftService implements IAircraftService {
     public readAircraft(aircraftId: number, user: User): Observable<Aircraft> {
         return this.aircraftRepo.readAircraft(aircraftId, user);
     }
+
+
+    public saveAircraft(aircraft: Aircraft, user: User): Observable<Aircraft> {
+        return this.aircraftRepo.saveAircraft(aircraft, user);
+    }
 }

@@ -2,6 +2,7 @@ import {createAction, props} from '@ngrx/store';
 import {VehicleType} from '../../domain/model/vehicle-type';
 import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
 import {Consumption} from '../../../geo-physics/domain/model/quantities/consumption';
+import {Aircraft} from '../../domain/model/aircraft';
 
 
 export class AircraftDetailsActions {
@@ -32,5 +33,10 @@ export class AircraftDetailsActions {
 
     public static readonly saveAircraftDetails = createAction(
         '[Aircraft Details] Save aircraft'
+    );
+
+    public static readonly saveAircraftDetailsSuccess = createAction(
+        '[Aircraft Details] Save aircraft details Success',
+        props<{ aircraft: Aircraft }>()
     );
 }

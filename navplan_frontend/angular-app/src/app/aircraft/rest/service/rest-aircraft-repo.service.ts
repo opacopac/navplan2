@@ -12,6 +12,7 @@ import {RestAircraftListConverter} from '../converter/rest-aircraft-list-convert
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {IRestAircraftResponse} from '../model/i-rest-aircraft-response';
 import {RestAircraftResponseConverter} from '../converter/rest-aircraft-response-converter';
+import {RestAircraftConverter} from '../converter/rest-aircraft-converter';
 
 
 @Injectable()
@@ -54,6 +55,25 @@ export class RestAircraftRepoService implements IAircraftRepoService {
                     return throwError(err);
                 })
             );
+    }
+
+
+    public saveAircraft(aircraft: Aircraft, user: User): Observable<Aircraft> {
+        const requestBody = {
+            aircraft: RestAircraftConverter.toRest(aircraft),
+            token: user.token
+        };
+        if (aircraft.id > 0) {
+            return this.http
+                .put<IRestAircraftResponse>(environment.aircraftServiceUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+                    map(response => RestAircraftConverter.fromRest(response.body.aircraft))
+                );
+        } else {
+            return this.http
+                .post<IRestAircraftResponse>(environment.aircraftServiceUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+                    map(response => RestAircraftConverter.fromRest(response.body.aircraft))
+                );
+        }
     }
 
     // endregion

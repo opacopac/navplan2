@@ -9,9 +9,9 @@ export abstract class IAircraftService {
 
     public abstract readAircraft(aircraftId: number, user: User): Observable<Aircraft>;
 
-    /*public abstract saveFlightroute(flightroute: Flightroute, user: User): Observable<Flightroute>;
+    public abstract saveAircraft(aircraft: Aircraft, user: User): Observable<Aircraft>;
 
-    public abstract duplicateFlightroute(flightroute: Flightroute, user: User): Observable<Flightroute>;
+    /*public abstract duplicateFlightroute(flightroute: Flightroute, user: User): Observable<Flightroute>;
 
     public abstract deleteFlightroute(flightrouteId: number, user: User): Observable<boolean>;
 

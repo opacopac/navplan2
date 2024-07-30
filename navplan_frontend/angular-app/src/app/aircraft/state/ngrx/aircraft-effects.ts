@@ -9,10 +9,14 @@ import {MessageActions} from '../../../message/state/ngrx/message.actions';
 import {Message} from '../../../message/domain/model/message';
 import {IAircraftService} from '../../domain/service/i-aircraft.service';
 import {AircraftListActions} from './aircraft-list.actions';
+import {AircraftDetailsActions} from './aircraft-details-actions';
+import {AircraftState} from '../state-model/aircraft-state';
+import {getAircraftState} from './aircraft.selectors';
 
 
 @Injectable()
 export class AircraftEffects {
+    private readonly aircraftState$: Observable<AircraftState> = this.appStore.select(getAircraftState);
     private readonly userState$: Observable<UserState> = this.appStore.select(getUserState);
 
 
@@ -49,6 +53,21 @@ export class AircraftEffects {
             catchError(error => of(MessageActions.showMessage({
                 message: Message.error('Error reading aircraft: ', error)
             })))
+        ))
+    ));
+
+    saveAircraftAction$ = createEffect(() => this.actions$.pipe(
+        ofType(AircraftDetailsActions.saveAircraftDetails),
+        withLatestFrom(this.aircraftState$, this.userState$),
+        switchMap(([action, aircraftState, userState]) => this.aircraftService.saveAircraft(
+            aircraftState.currentAircraft,
+            userState.currentUser
+        ).pipe(
+            map(aircraft => AircraftDetailsActions.saveAircraftDetailsSuccess({aircraft: aircraft})),
+            catchError(error => of(MessageActions.showMessage({
+                message: Message.error('Error saving aircraft: ', error)
+            }))
+            )
         ))
     ));
 }
