@@ -6,7 +6,7 @@ import {StringnumberHelper} from '../../../system/domain/service/stringnumber/st
 import {TimeUnit} from '../../../geo-physics/domain/model/quantities/time-unit';
 import {WaypointType} from '../model/waypoint-type';
 import {Time} from '../../../geo-physics/domain/model/quantities/time';
-import {RouteFuel} from '../../../plan-fuel/domain/model/routefuel';
+import {RouteFuel} from '../model/routefuel';
 import {Volume} from '../../../geo-physics/domain/model/quantities/volume';
 import {Consumption} from '../../../geo-physics/domain/model/quantities/consumption';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';

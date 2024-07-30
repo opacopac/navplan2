@@ -19,9 +19,8 @@ import {TrackViewModule} from './track/view/track-view.module';
 import {UserViewModule} from './user/view/user-view.module';
 import {MessageViewModule} from './message/view/message-view.module';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
-import {PlanRouteViewModule} from './plan-route/view/plan-route-view.module';
 import {SearchViewModule} from './search/view/search-view.module';
-import { AircraftViewModule } from './aircraft/view/aircraft-view.module';
+import {AircraftViewModule} from './aircraft/view/aircraft-view.module';
 
 
 @NgModule({
@@ -46,7 +45,6 @@ import { AircraftViewModule } from './aircraft/view/aircraft-view.module';
         ExporterViewModule,
         FlightMapViewModule,
         AircraftViewModule,
-        PlanRouteViewModule,
         MessageViewModule,
         NavbarViewModule,
         SettingsViewModule,

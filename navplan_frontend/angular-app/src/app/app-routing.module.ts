@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { SettingsPageComponent } from './settings/view/ng-components/settings-page/settings-page.component';
-import { AboutPageComponent } from './about/view/ng-components/about-page/about-page.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {SettingsPageComponent} from './settings/view/ng-components/settings-page/settings-page.component';
+import {AboutPageComponent} from './about/view/ng-components/about-page/about-page.component';
 import {
     UserProfilePageComponent
 } from './user/view/ng-components/user-profile/user-profile-page/user-profile-page.component';
-import { FlightMapPageComponent } from './flight-map/view/ng-components/flight-map-page/flight-map-page.component';
-import { TracksPageComponent } from './track/view/ng-components/tracks-page/tracks-page.component';
+import {FlightMapPageComponent} from './flight-map/view/ng-components/flight-map-page/flight-map-page.component';
+import {TracksPageComponent} from './track/view/ng-components/tracks-page/tracks-page.component';
 import {
     LoginRegisterPageComponent
 } from './user/view/ng-components/user-profile/login-register-page/login-register-page.component';
@@ -19,8 +19,8 @@ import {
 import {
     ForgotPwStep2PageComponent
 } from './user/view/ng-components/user-profile/forgot-pw-step2-page/forgot-pw-step2-page.component';
-import { PlanPageComponent } from './plan-route/view/ng-components/plan-page/plan-page.component';
-import { AircraftPageComponent } from './aircraft/view/ng-components/aircraft-page/aircraft-page.component';
+import {PlanPageComponent} from './flightroute/view/ng-components/plan-page/plan-page.component';
+import {AircraftPageComponent} from './aircraft/view/ng-components/aircraft-page/aircraft-page.component';
 
 const routes: Routes = [
     { path: '', redirectTo: 'map', pathMatch: 'full' },

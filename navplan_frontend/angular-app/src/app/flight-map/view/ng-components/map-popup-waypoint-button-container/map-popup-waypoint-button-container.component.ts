@@ -8,7 +8,7 @@ import {WaypointActions} from '../../../../flightroute/state/ngrx/waypoints.acti
 import {getFlightMapShowOverlay} from '../../../state/ngrx/flight-map.selectors';
 import {
     EditWaypointDialogComponent
-} from '../../../../flightroute/view/ng-components/edit-waypoint-dialog/edit-waypoint-dialog.component';
+} from '../../../../flightroute/view/ng-components/common/edit-waypoint-dialog/edit-waypoint-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {getSelectedAltitudeUnit} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
 
