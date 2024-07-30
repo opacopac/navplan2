@@ -7,4 +7,12 @@ export class WnbEnvelopeCoordinate {
         public armCg: Length,
     ) {
     }
+
+
+    public clone(): WnbEnvelopeCoordinate {
+        return new WnbEnvelopeCoordinate(
+            this.weight.clone(),
+            this.armCg.clone()
+        );
+    }
 }

@@ -7,13 +7,14 @@ import {FuelType} from '../../domain/model/fuel-type';
 import {RestDistancePerformanceTableConverter} from './rest-distance-performance-table-converter';
 import {RestWeightItemConverter} from './rest-weight-item-converter';
 import {RestWnbEnvelopeConverter} from './rest-wnb-envelope-converter';
+import {VehicleType} from '../../domain/model/vehicle-type';
 
 
 export class RestAircraftConverter {
     public static fromRest(restAircraft: IRestAircraft): Aircraft {
         return new Aircraft(
             restAircraft.id,
-            restAircraft.vehicleType,
+            VehicleType[restAircraft.vehicleType],
             restAircraft.registration,
             restAircraft.icaoType,
             RestSpeedConverter.fromRest(restAircraft.cruiseSpeed),
@@ -34,7 +35,7 @@ export class RestAircraftConverter {
     public static toRest(aircraft: Aircraft): IRestAircraft {
         return {
             id: aircraft.id,
-            vehicleType: aircraft.vehicleType,
+            vehicleType: VehicleType[aircraft.vehicleType],
             registration: aircraft.registration,
             icaoType: aircraft.icaoType,
             cruiseSpeed: RestSpeedConverter.toRest(aircraft.cruiseSpeed),

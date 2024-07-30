@@ -12,4 +12,15 @@ export class WeightItem {
         public maxFuel: Volume,
     ) {
     }
+
+
+    public clone(): WeightItem {
+        return new WeightItem(
+            this.type,
+            this.name,
+            this.arm.clone(),
+            this.maxWeight.clone(),
+            this.maxFuel.clone()
+        );
+    }
 }

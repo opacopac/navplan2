@@ -83,6 +83,11 @@ export class Weight extends AbstractQuantity<Weight, WeightUnit> {
     }
 
 
+    public clone(): Weight {
+        return new Weight(this.value, this.unit);
+    }
+
+
     protected createInstance(value: number, unit: WeightUnit): Weight {
         return new Weight(value, unit);
     }

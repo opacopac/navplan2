@@ -1,16 +1,8 @@
 <form *ngIf="this.currentAircraft" [formGroup]="this.aircraftDetailsForm">
     <div class="aircraft-form-content">
-        <mat-radio-group color="primary">
-            <mat-radio-button
-                [checked]="this.isHelicopter()"
-            >
-                Airplane
-            </mat-radio-button>
-            <mat-radio-button
-                [checked]="this.isAirplane()"
-            >
-                Helicopter
-            </mat-radio-button>
+        <mat-radio-group color="primary" formControlName="vehicleType">
+            <mat-radio-button [value]="VehicleType.AIRPLANE">Airplane</mat-radio-button>
+            <mat-radio-button [value]="VehicleType.HELICOPTER">Helicopter</mat-radio-button>
         </mat-radio-group>
 
         <!-- registration -->
@@ -29,7 +21,7 @@
             <mat-label>ICAO Type Designator</mat-label>
             <input
                 matInput
-                formControlName="type"
+                formControlName="icaoType"
                 type="string"
                 required
             />

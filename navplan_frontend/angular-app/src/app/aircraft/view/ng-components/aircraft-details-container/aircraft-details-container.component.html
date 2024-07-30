@@ -3,5 +3,6 @@
         [currentAircraft]="this.currentAircraft$ | async"
         [speedUnit]="this.speedUnit$ | async"
         [consumptionUnit]="this.consumptionUnit$ | async"
+        (onSaveAircraftClick)="this.onSaveAircraftDetailsClicked($event)"
     />
 </div>

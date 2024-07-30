@@ -10,4 +10,16 @@ export class DistancePerformanceCorrectionFactors {
         public tailwindIncPerSpeed: Speed,
     ) {
     }
+
+
+    public clone() {
+        return new DistancePerformanceCorrectionFactors(
+            this.grassRwyIncPercent,
+            this.wetRwyIncPercent,
+            this.headwindDecPercent,
+            this.headwindDecPerSpeed.clone(),
+            this.tailwindIncPercent,
+            this.tailwindIncPerSpeed.clone()
+        );
+    }
 }

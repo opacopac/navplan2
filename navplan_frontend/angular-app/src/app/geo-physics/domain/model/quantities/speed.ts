@@ -88,6 +88,11 @@ export class Speed extends AbstractQuantity<Speed, SpeedUnit> {
     }
 
 
+    public clone(): Speed {
+        return new Speed(this.value, this.unit);
+    }
+
+
     protected createInstance(value: number, unit: SpeedUnit): Speed {
         return new Speed(value, unit);
     }

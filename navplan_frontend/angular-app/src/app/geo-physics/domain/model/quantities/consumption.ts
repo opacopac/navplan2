@@ -61,6 +61,11 @@ export class Consumption extends AbstractQuantity<Consumption, ConsumptionUnit> 
     }
 
 
+    public clone(): Consumption {
+        return new Consumption(this.value, this.unit);
+    }
+
+
     protected createInstance(value: number, unit: ConsumptionUnit): Consumption {
         return new Consumption(value, unit);
     }

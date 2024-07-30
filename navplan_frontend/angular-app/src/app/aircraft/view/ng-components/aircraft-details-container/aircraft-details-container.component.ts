@@ -4,6 +4,10 @@ import {getCurrentAircraft} from '../../../state/ngrx/aircraft.selectors';
 import {Observable} from 'rxjs';
 import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-unit';
 import {getConsumptionUnit, getSelectedSpeedUnit} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
+import {VehicleType} from '../../../domain/model/vehicle-type';
+import {Speed} from '../../../../geo-physics/domain/model/quantities/speed';
+import {Consumption} from '../../../../geo-physics/domain/model/quantities/consumption';
+import {AircraftActions} from '../../../state/ngrx/aircraft.actions';
 
 
 @Component({
@@ -22,5 +26,16 @@ export class AircraftDetailsContainerComponent implements OnInit {
 
 
     ngOnInit() {
+    }
+
+
+    protected onSaveAircraftDetailsClicked($event: {
+        vehicleType: VehicleType;
+        regisration: string;
+        icaoType: string;
+        cruiseSpeed: Speed;
+        cruiseFuel: Consumption
+    }) {
+        this.appStore.dispatch(AircraftActions.saveAircraftDetails($event));
     }
 }

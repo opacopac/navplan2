@@ -5,6 +5,7 @@ import {Consumption} from '../../../../geo-physics/domain/model/quantities/consu
 import {Speed} from '../../../../geo-physics/domain/model/quantities/speed';
 import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-unit';
 import {ConsumptionUnit} from '../../../../geo-physics/domain/model/quantities/consumption-unit';
+import {VehicleType} from '../../../domain/model/vehicle-type';
 
 
 @Component({
@@ -16,8 +17,15 @@ export class AircraftDetailsComponent implements OnInit {
     @Input() currentAircraft: Aircraft;
     @Input() speedUnit: SpeedUnit;
     @Input() consumptionUnit: ConsumptionUnit;
-    @Output() onSaveAircraftClick = new EventEmitter<Aircraft>();
+    @Output() onSaveAircraftClick = new EventEmitter<{
+        vehicleType: VehicleType,
+        regisration: string,
+        icaoType: string,
+        cruiseSpeed: Speed,
+        cruiseFuel: Consumption
+    }>();
 
+    protected readonly VehicleType = VehicleType;
     protected readonly Speed = Speed;
     protected readonly Consumption = Consumption;
     protected aircraftDetailsForm: FormGroup;
@@ -29,10 +37,13 @@ export class AircraftDetailsComponent implements OnInit {
 
     ngOnInit() {
         this.aircraftDetailsForm = this.formBuilder.group({
+            'vehicleType': [this.currentAircraft.vehicleType, [
+                Validators.required
+            ]],
             'registration': [this.currentAircraft.registration, [
                 Validators.required
             ]],
-            'type': [this.currentAircraft.icaoType, [
+            'icaoType': [this.currentAircraft.icaoType, [
                 Validators.required
             ]],
             'speed': [this.currentAircraft.cruiseSpeed
@@ -57,19 +68,21 @@ export class AircraftDetailsComponent implements OnInit {
     }
 
 
-    protected isAirplane(): boolean {
-        return this.currentAircraft.vehicleType === 'AIRPLANE';
-    }
-
-
-    protected isHelicopter(): boolean {
-        return this.currentAircraft.vehicleType === 'HELICOPTER';
-    }
-
-
     protected onSaveAircraftDetailsClicked() {
         if (this.aircraftDetailsForm.valid) {
-            this.onSaveAircraftClick.emit(null); // TODO
+            this.onSaveAircraftClick.emit({
+                vehicleType: this.aircraftDetailsForm.value.vehicleType,
+                regisration: this.aircraftDetailsForm.value.registration,
+                icaoType: this.aircraftDetailsForm.value.icaoType,
+                cruiseSpeed: new Speed(
+                    parseInt(this.aircraftDetailsForm.value.speed, 10),
+                    this.speedUnit
+                ),
+                cruiseFuel: new Consumption(
+                    parseInt(this.aircraftDetailsForm.value.consumption, 10),
+                    this.consumptionUnit
+                )
+            });
         }
     }
 }

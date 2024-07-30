@@ -1,6 +1,9 @@
 import {createAction, props} from '@ngrx/store';
 import {AircraftListEntry} from '../../domain/model/aircraft-list-entry';
 import {Aircraft} from '../../domain/model/aircraft';
+import {VehicleType} from '../../domain/model/vehicle-type';
+import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
+import {Consumption} from '../../../geo-physics/domain/model/quantities/consumption';
 
 
 export class AircraftActions {
@@ -24,8 +27,18 @@ export class AircraftActions {
     );
 
     public static readonly createAircraft = createAction(
-        '[Aircraft List] Create aircraft',
-        props<{ aircraft: Aircraft }>()
+        '[Aircraft List] Create aircraft'
+    );
+
+    public static readonly saveAircraftDetails = createAction(
+        '[Aircraft Details] Save aircraft details',
+        props<{
+            vehicleType: VehicleType,
+            regisration: string,
+            icaoType: string,
+            cruiseSpeed: Speed,
+            cruiseFuel: Consumption,
+        }>()
     );
 
     public static readonly duplicateAircraft = createAction(
