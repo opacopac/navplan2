@@ -11,7 +11,7 @@ class Aircraft
 {
     /**
      * @param int $id
-     * @param string $vehicleType
+     * @param VehicleType $vehicleType
      * @param string $registration
      * @param string $icaoType
      * @param Speed $cruiseSpeed
@@ -28,7 +28,7 @@ class Aircraft
      */
     public function __construct(
         public int $id,
-        public string $vehicleType,
+        public VehicleType $vehicleType,
         public string $registration,
         public string $icaoType,
         public Speed $cruiseSpeed,

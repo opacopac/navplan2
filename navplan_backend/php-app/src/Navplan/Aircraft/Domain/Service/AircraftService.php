@@ -2,22 +2,24 @@
 
 namespace Navplan\Aircraft\Domain\Service;
 
-use InvalidArgumentException;
+use Navplan\Aircraft\Domain\Command\IAircraftCreateCommand;
+use Navplan\Aircraft\Domain\Command\IAircraftDeleteCommand;
+use Navplan\Aircraft\Domain\Command\IAircraftUpdateCommand;
 use Navplan\Aircraft\Domain\Model\Aircraft;
 use Navplan\Aircraft\Domain\Query\IAircraftByIdQuery;
 use Navplan\Aircraft\Domain\Query\IAircraftListQuery;
-use Navplan\User\Domain\Model\User;
-use Navplan\User\Domain\Service\ITokenService;
-use Navplan\User\Domain\Service\IUserRepo;
+use Navplan\User\Domain\Service\IUserService;
 
 
 class AircraftService implements IAircraftService
 {
     public function __construct(
-        private ITokenService $tokenService,
-        private IUserRepo $userRepo,
+        private IUserService $userService,
         private IAircraftListQuery $aircraftListQuery,
-        private IAircraftByIdQuery $aircraftByIdQuery
+        private IAircraftByIdQuery $aircraftByIdQuery,
+        private IAircraftCreateCommand $aircraftCreateCommand,
+        private IAircraftUpdateCommand $aircraftUpdateCommand,
+        private IAircraftDeleteCommand $aircraftDeleteCommand
     )
     {
     }
@@ -25,31 +27,39 @@ class AircraftService implements IAircraftService
 
     function readList(string $token): array
     {
-        $user = $this->getUserOrThrow($token);
+        $user = $this->userService->getUserOrThrow($token);
 
-        return $this->aircraftListQuery->readList($user);
+        return $this->aircraftListQuery->readList($user->id);
     }
 
 
     function read(int $aircraftId, string $token): Aircraft
     {
-        $user = $this->getUserOrThrow($token);
+        $user = $this->userService->getUserOrThrow($token);
 
-        return $this->aircraftByIdQuery->read($aircraftId, $user);
+        return $this->aircraftByIdQuery->read($aircraftId, $user->id);
     }
 
 
-    private function getUserOrThrow(string $token): User {
-        $email = $this->tokenService->getEmailFromToken($token);
-        if (!$email) {
-            throw new InvalidArgumentException('invalid token');
-        }
+    public function create(Aircraft $aircraft, string $token): Aircraft
+    {
+        $user = $this->userService->getUserOrThrow($token);
 
-        $user = $this->userRepo->readUser($email);
-        if (!$user) {
-            throw new InvalidArgumentException('user not found');
-        }
+        return $this->aircraftCreateCommand->create($aircraft, $user->id);
+    }
 
-        return $user;
+
+    function update(Aircraft $aircraft, string $token): Aircraft
+    {
+        $user = $this->userService->getUserOrThrow($token);
+
+        return $this->aircraftUpdateCommand->update($aircraft, $user->id);
+    }
+
+    function delete(int $aircraftId, string $token): bool
+    {
+        $user = $this->userService->getUserOrThrow($token);
+
+        return $this->aircraftDeleteCommand->delete($aircraftId, $user->id);
     }
 }

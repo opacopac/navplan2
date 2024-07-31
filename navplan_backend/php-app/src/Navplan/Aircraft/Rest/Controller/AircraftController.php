@@ -5,10 +5,14 @@ namespace Navplan\Aircraft\Rest\Controller;
 use InvalidArgumentException;
 use Navplan\Aircraft\Domain\Service\IAircraftService;
 use Navplan\Aircraft\Rest\Converter\RestAircraftResponse;
+use Navplan\Aircraft\Rest\Converter\RestCreateAircraftRequest;
+use Navplan\Aircraft\Rest\Converter\RestDeleteAircraftRequest;
 use Navplan\Aircraft\Rest\Converter\RestReadAircraftListRequest;
 use Navplan\Aircraft\Rest\Converter\RestReadAircraftListResponse;
 use Navplan\Aircraft\Rest\Converter\RestReadAircraftRequest;
+use Navplan\Aircraft\Rest\Converter\RestUpdateAircraftRequest;
 use Navplan\Common\Rest\Controller\IRestController;
+use Navplan\Flightroute\Rest\Converter\RestSuccessResponse;
 use Navplan\System\Domain\Model\HttpRequestMethod;
 use Navplan\System\Domain\Service\IHttpService;
 
@@ -28,13 +32,13 @@ class AircraftController implements IRestController
         switch ($this->httpService->getRequestMethod()) {
             case HttpRequestMethod::GET:
                 if ($this->httpService->hasGetArg(RestReadAircraftRequest::ARG_ID)) {
-                    // read flightroute
+                    // read aircraft
                     $request = RestReadAircraftRequest::fromRest($this->httpService->getGetArgs());
                     $aircraft = $this->aircraftService->read($request->aircraftId, $request->token);
                     $response = new RestAircraftResponse($aircraft);
                     $this->httpService->sendArrayResponse($response->toRest());
                 } else {
-                    // read flightroute list
+                    // read aircraft list
                     $request = RestReadAircraftListRequest::fromRest($this->httpService->getGetArgs());
                     $aircraftList = $this->aircraftService->readList($request->token);
                     $response = new RestReadAircraftListResponse($aircraftList);
@@ -42,34 +46,24 @@ class AircraftController implements IRestController
                 }
                 break;
             case HttpRequestMethod::POST:
-                /*if ($this->httpService->hasPostArg(RestCreateSharedFlightrouteRequestConverter::ARG_CREATE_SHARED)
-                    && $this->httpService->getPostArgs()[RestCreateSharedFlightrouteRequestConverter::ARG_CREATE_SHARED] === TRUE
-                ) {
-                    // create shared flightroute
-                    $request = RestCreateSharedFlightrouteRequest::fromRest($this->httpService->getPostArgs());
-                    $flightroute = $this->aircraftService->createShared($request->flightroute);
-                    $response = new RestFlightrouteResponse($flightroute);
-                    $this->httpService->sendArrayResponse($response->toRest());
-                } else {
-                    // create flightroute
-                    $request = RestCreateFlightrouteRequest::fromRest($this->httpService->getPostArgs());
-                    $flightroute = $this->aircraftService->create($request->flightroute, $request->token);
-                    $response = new RestFlightrouteResponse($flightroute);
-                    $this->httpService->sendArrayResponse($response->toRest());
-                }*/
+                // create aircraft
+                $request = RestCreateAircraftRequest::fromRest($this->httpService->getPostArgs());
+                $aircraft = $this->aircraftService->create($request->aircraft, $request->token);
+                $response = new RestAircraftResponse($aircraft);
+                $this->httpService->sendArrayResponse($response->toRest());
                 break;
             case HttpRequestMethod::PUT:
-                // update flightroute
-                /*$request = RestUpdateFlightrouteRequest::fromRest($this->httpService->getPostArgs());
-                $flightroute = $this->aircraftService->update($request->flightroute, $request->token);
-                $response = new RestFlightrouteResponse($flightroute);
-                $this->httpService->sendArrayResponse($response->toRest());*/
+                // update aircraft
+                $request = RestUpdateAircraftRequest::fromRest($this->httpService->getPostArgs());
+                $aircraft = $this->aircraftService->update($request->aircraft, $request->token);
+                $response = new RestAircraftResponse($aircraft);
+                $this->httpService->sendArrayResponse($response->toRest());
                 break;
             case HttpRequestMethod::DELETE:
-                // delete flightroute
-                /*$request = RestDeleteFlightrouteRequest::fromRest($this->httpService->getGetArgs());
-                $success = $this->aircraftService->delete($request->flightrouteId, $request->token);
-                $this->httpService->sendArrayResponse(RestSuccessResponse::toRest($success));*/
+                // delete aircraft
+                $request = RestDeleteAircraftRequest::fromRest($this->httpService->getGetArgs());
+                $success = $this->aircraftService->delete($request->aircraftId, $request->token);
+                $this->httpService->sendArrayResponse(RestSuccessResponse::toRest($success));
                 break;
             default:
                 throw new InvalidArgumentException('unknown request');

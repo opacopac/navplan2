@@ -2,18 +2,27 @@
 
 namespace Navplan\Aircraft\Rest;
 
+use Navplan\Aircraft\Domain\Command\IAircraftCreateCommand;
+use Navplan\Aircraft\Domain\Command\IAircraftDeleteCommand;
+use Navplan\Aircraft\Domain\Command\IAircraftUpdateCommand;
+use Navplan\Aircraft\Domain\Command\IDistancePerformanceTableCreateCommand;
+use Navplan\Aircraft\Domain\Command\IDistancePerformanceTableDeleteCommand;
 use Navplan\Aircraft\Domain\Query\IAircraftByIdQuery;
 use Navplan\Aircraft\Domain\Query\IAircraftListQuery;
 use Navplan\Aircraft\Domain\Service\AircraftService;
 use Navplan\Aircraft\Domain\Service\IAircraftService;
+use Navplan\Aircraft\Persistence\Command\DbAircraftCreateCommand;
+use Navplan\Aircraft\Persistence\Command\DbAircraftDeleteCommand;
+use Navplan\Aircraft\Persistence\Command\DbAircraftUpdateCommand;
+use Navplan\Aircraft\Persistence\Command\DbDistancePerformanceTableCreateCommand;
+use Navplan\Aircraft\Persistence\Command\DbDistancePerformanceTableDeleteCommand;
 use Navplan\Aircraft\Persistence\Query\DbAircraftByIdQuery;
 use Navplan\Aircraft\Persistence\Query\DbAircraftListQuery;
 use Navplan\Aircraft\Rest\Controller\AircraftController;
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
-use Navplan\User\Domain\Service\ITokenService;
-use Navplan\User\Domain\Service\IUserRepo;
+use Navplan\User\Domain\Service\IUserService;
 
 
 class ProdAircraftDiContainer implements IAircraftDiContainer
@@ -22,11 +31,15 @@ class ProdAircraftDiContainer implements IAircraftDiContainer
     private IAircraftService $aircraftService;
     private IAircraftListQuery $aircraftListQuery;
     private IAircraftByIdQuery $aircraftByIdQuery;
+    private IAircraftCreateCommand $aircraftCreateCommand;
+    private IAircraftUpdateCommand $aircraftUpdateCommand;
+    private IAircraftDeleteCommand $aircraftDeleteCommand;
+    private IDistancePerformanceTableCreateCommand $distancePerformanceTableCreateCommand;
+    private IDistancePerformanceTableDeleteCommand $distancePerformanceTableDeleteCommand;
 
 
     public function __construct(
-        private ITokenService $tokenService,
-        private IUserRepo $userRepo,
+        private IUserService $userService,
         private IDbService $dbService,
         private IHttpService $httpService
     )
@@ -51,10 +64,11 @@ class ProdAircraftDiContainer implements IAircraftDiContainer
     {
         if (!isset($this->aircraftService)) {
             $this->aircraftService = new AircraftService(
-                $this->tokenService,
-                $this->userRepo,
+                $this->userService,
                 $this->getAircraftListQuery(),
-                $this->getAircraftByIdQuery()
+                $this->getAircraftByIdQuery(),
+                $this->getAircraftCreateCommand(),
+                $this->getAircraftUpdateCommand()
             );
         }
 
@@ -83,5 +97,69 @@ class ProdAircraftDiContainer implements IAircraftDiContainer
         }
 
         return $this->aircraftByIdQuery;
+    }
+
+
+    public function getAircraftCreateCommand(): IAircraftCreateCommand
+    {
+        if (!isset($this->aircraftCreateCommand)) {
+            $this->aircraftCreateCommand = new DbAircraftCreateCommand(
+                $this->dbService,
+                $this->getDistancePerformanceTableCreateCommand()
+            );
+        }
+
+        return $this->aircraftCreateCommand;
+    }
+
+
+    public function getAircraftUpdateCommand(): IAircraftUpdateCommand
+    {
+        if (!isset($this->aircraftUpdateCommand)) {
+            $this->aircraftUpdateCommand = new DbAircraftUpdateCommand(
+                $this->dbService,
+                $this->getDistancePerformanceTableCreateCommand(),
+                $this->getDistancePerformanceTableDeleteCommand()
+            );
+        }
+
+        return $this->aircraftUpdateCommand;
+    }
+
+
+    public function getAircraftDeleteCommand(): IAircraftDeleteCommand
+    {
+        if (!isset($this->aircraftDeleteCommand)) {
+            $this->aircraftDeleteCommand = new DbAircraftDeleteCommand(
+                $this->dbService,
+                $this->getDistancePerformanceTableDeleteCommand()
+            );
+        }
+
+        return $this->aircraftDeleteCommand;
+    }
+
+
+    public function getDistancePerformanceTableCreateCommand(): IDistancePerformanceTableCreateCommand
+    {
+        if (!isset($this->distancePerformanceTableCreateCommand)) {
+            $this->distancePerformanceTableCreateCommand = new DbDistancePerformanceTableCreateCommand(
+                $this->dbService
+            );
+        }
+
+        return $this->distancePerformanceTableCreateCommand;
+    }
+
+
+    public function getDistancePerformanceTableDeleteCommand(): IDistancePerformanceTableDeleteCommand
+    {
+        if (!isset($this->distancePerformanceTableDeleteCommand)) {
+            $this->distancePerformanceTableDeleteCommand = new DbDistancePerformanceTableDeleteCommand(
+                $this->dbService
+            );
+        }
+
+        return $this->distancePerformanceTableDeleteCommand;
     }
 }

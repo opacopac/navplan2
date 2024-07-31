@@ -4,6 +4,7 @@ namespace Navplan\Aircraft\Rest\Converter;
 
 use Navplan\Aircraft\Domain\Model\Aircraft;
 use Navplan\Aircraft\Domain\Model\FuelType;
+use Navplan\Aircraft\Domain\Model\VehicleType;
 use Navplan\Common\Rest\Converter\RestConsumptionConverter;
 use Navplan\Common\Rest\Converter\RestSpeedConverter;
 use Navplan\Common\Rest\Converter\RestWeightConverter;
@@ -33,7 +34,7 @@ class RestAircraftConverter
     {
         return new Aircraft(
             StringNumberHelper::parseIntOrNull($args, self::KEY_ID),
-            StringNumberHelper::parseStringOrError($args, self::KEY_VEHICLE_TYPE),
+            VehicleType::from(StringNumberHelper::parseStringOrError($args, self::KEY_VEHICLE_TYPE)),
             StringNumberHelper::parseStringOrError($args, self::KEY_REGISTRATION),
             StringNumberHelper::parseStringOrError($args, self::KEY_ICAO_TYPE),
             RestSpeedConverter::fromRest($args[self::KEY_CRUISE_SPEED]),
@@ -55,7 +56,7 @@ class RestAircraftConverter
     {
         return array(
             self::KEY_ID => $aircraft->id,
-            self::KEY_VEHICLE_TYPE => $aircraft->vehicleType,
+            self::KEY_VEHICLE_TYPE => $aircraft->vehicleType->value,
             self::KEY_REGISTRATION => $aircraft->registration,
             self::KEY_ICAO_TYPE => $aircraft->icaoType,
             self::KEY_CRUISE_SPEED => RestSpeedConverter::toRest($aircraft->cruiseSpeed),
@@ -77,7 +78,7 @@ class RestAircraftConverter
     {
         return array(
             self::KEY_ID => $aircraft->id,
-            self::KEY_VEHICLE_TYPE => $aircraft->vehicleType,
+            self::KEY_VEHICLE_TYPE => $aircraft->vehicleType->value,
             self::KEY_REGISTRATION => $aircraft->registration,
             self::KEY_ICAO_TYPE => $aircraft->icaoType,
         );

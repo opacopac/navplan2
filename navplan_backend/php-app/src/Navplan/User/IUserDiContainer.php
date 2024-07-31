@@ -5,6 +5,7 @@ namespace Navplan\User;
 use Navplan\User\Domain\Service\ITokenService;
 use Navplan\User\Domain\Service\IUserPointRepo;
 use Navplan\User\Domain\Service\IUserRepo;
+use Navplan\User\Domain\Service\IUserService;
 use Navplan\User\UseCase\AutoLogin\IAutoLoginUc;
 use Navplan\User\UseCase\Login\ILoginUc;
 use Navplan\User\UseCase\Register\IRegisterUc;
@@ -15,12 +16,15 @@ use Navplan\User\UseCase\SendRegisterEmail\ISendRegisterEmailUc;
 use Navplan\User\UseCase\UpdatePw\IUpdatePwUc;
 
 
-interface IUserDiContainer {
+interface IUserDiContainer
+{
     function getUserRepo(): IUserRepo;
 
     function getUserPointRepo(): IUserPointRepo;
 
     function getTokenService(): ITokenService;
+
+    function getUserService(): IUserService;
 
     function getLoginUc(): ILoginUc;
 

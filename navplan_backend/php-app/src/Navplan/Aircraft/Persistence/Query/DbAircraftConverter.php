@@ -4,6 +4,7 @@ namespace Navplan\Aircraft\Persistence\Query;
 
 use Navplan\Aircraft\Domain\Model\Aircraft;
 use Navplan\Aircraft\Domain\Model\FuelType;
+use Navplan\Aircraft\Domain\Model\VehicleType;
 use Navplan\Aircraft\Persistence\Model\DbTableAircraft;
 use Navplan\Common\Domain\Model\ConsumptionUnit;
 use Navplan\Common\Domain\Model\SpeedUnit;
@@ -21,7 +22,7 @@ class DbAircraftConverter
     {
         return new Aircraft(
             intval($row[DbTableAircraft::COL_ID]),
-            $row[DbTableAircraft::COL_VEHICLE_TYPE],
+            VehicleType::from($row[DbTableAircraft::COL_VEHICLE_TYPE]),
             $row[DbTableAircraft::COL_REGISTRATION],
             $row[DbTableAircraft::COL_ICAO_TYPE],
             DbSpeedConverter::fromDbRow($row, DbTableAircraft::COL_CRUISE_SPEED, SpeedUnit::KT),

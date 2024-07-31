@@ -11,7 +11,6 @@ use Navplan\Aircraft\Persistence\Model\DbTableAircraftWnbEnvelopes;
 use Navplan\Aircraft\Persistence\Model\PerfDistTableType;
 use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
-use Navplan\User\Domain\Model\User;
 
 
 class DbAircraftByIdQuery implements IAircraftByIdQuery
@@ -23,11 +22,11 @@ class DbAircraftByIdQuery implements IAircraftByIdQuery
     }
 
 
-    public function read(int $aircraftId, User $user): ?Aircraft
+    public function read(int $aircraftId, int $userId): ?Aircraft
     {
         $query = "SELECT * FROM " . DbTableAircraft::TABLE_NAME;
         $query .= " WHERE " . DbTableAircraft::COL_ID . "=" . DbHelper::getDbIntValue($aircraftId);
-        $query .= " AND " . DbTableAircraft::COL_ID_USER . "=" . DbHelper::getDbIntValue($user->id);
+        $query .= " AND " . DbTableAircraft::COL_ID_USER . "=" . DbHelper::getDbIntValue($userId);
 
         $result = $this->dbService->execSingleResultQuery($query, true, "error reading aircraft");
 

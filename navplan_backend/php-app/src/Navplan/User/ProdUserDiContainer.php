@@ -9,7 +9,9 @@ use Navplan\User\Domain\Service\ITokenConfig;
 use Navplan\User\Domain\Service\ITokenService;
 use Navplan\User\Domain\Service\IUserPointRepo;
 use Navplan\User\Domain\Service\IUserRepo;
+use Navplan\User\Domain\Service\IUserService;
 use Navplan\User\Domain\Service\TokenService;
+use Navplan\User\Domain\Service\UserService;
 use Navplan\User\Persistence\Service\DbUserPointRepo;
 use Navplan\User\Persistence\Service\DbUserRepo;
 use Navplan\User\UseCase\AutoLogin\AutoLoginUc;
@@ -34,6 +36,7 @@ class ProdUserDiContainer implements IUserDiContainer {
     private IUserRepo $userRepo;
     private IUserPointRepo $userPointRepo;
     private ITokenService $tokenService;
+    private IUserService $userService;
     private ILoginUc $loginUc;
     private IAutoLoginUc $autologinUc;
     private ISendRegisterEmailUc $sendRegisterEmailUc;
@@ -79,6 +82,18 @@ class ProdUserDiContainer implements IUserDiContainer {
         }
 
         return $this->tokenService;
+    }
+
+
+    public function getUserService(): IUserService {
+        if (!isset($this->userService)) {
+            $this->userService = new UserService(
+                $this->getTokenService(),
+                $this->getUserRepo()
+            );
+        }
+
+        return $this->userService;
     }
 
 
