@@ -68,7 +68,8 @@ class ProdAircraftDiContainer implements IAircraftDiContainer
                 $this->getAircraftListQuery(),
                 $this->getAircraftByIdQuery(),
                 $this->getAircraftCreateCommand(),
-                $this->getAircraftUpdateCommand()
+                $this->getAircraftUpdateCommand(),
+                $this->getAircraftDeleteCommand()
             );
         }
 
