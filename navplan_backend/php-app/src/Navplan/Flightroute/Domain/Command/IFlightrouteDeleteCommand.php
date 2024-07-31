@@ -2,9 +2,8 @@
 
 namespace Navplan\Flightroute\Domain\Command;
 
-use Navplan\User\Domain\Model\User;
 
-
-interface IFlightrouteDeleteCommand {
-    function delete(int $flightrouteId, User $user);
+interface IFlightrouteDeleteCommand
+{
+    function delete(int $flightrouteId, int $userId);
 }

@@ -9,21 +9,23 @@ use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Flightroute\Persistence\Model\DbTableFlightroute;
 use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
-use Navplan\User\Domain\Model\User;
 
 
-class DbFlightrouteUpdateCommand implements IFlightrouteUpdateCommand {
+class DbFlightrouteUpdateCommand implements IFlightrouteUpdateCommand
+{
     public function __construct(
         private IDbService $dbService,
         private IWaypointsDeleteCommand $deleteWaypointsCommand,
         private IWaypointsCreateCommand $addWaypointsCommand
-    ) {
+    )
+    {
     }
 
 
-    public function update(Flightroute $flightroute, User $user): Flightroute {
+    public function update(Flightroute $flightroute, int $userId): Flightroute
+    {
         // update route
-        $query = $this->getUpdateSql($flightroute, $user->id);
+        $query = $this->getUpdateSql($flightroute, $userId);
         $this->dbService->execCUDQuery($query, "error updating flightroute");
 
         // update waypoints
@@ -34,7 +36,8 @@ class DbFlightrouteUpdateCommand implements IFlightrouteUpdateCommand {
     }
 
 
-    public function getUpdateSql(Flightroute $flightroute, int $userId): string {
+    public function getUpdateSql(Flightroute $flightroute, int $userId): string
+    {
         $query = "UPDATE " . DbTableFlightroute::TABLE_NAME . " SET ";
         $query .= join(", ", [
             DbTableFlightroute::COL_TITLE . "=" . DbHelper::getDbStringValue($this->dbService, $flightroute->title),

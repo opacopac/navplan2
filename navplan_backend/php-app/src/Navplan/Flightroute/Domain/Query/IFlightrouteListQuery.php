@@ -3,13 +3,13 @@
 namespace Navplan\Flightroute\Domain\Query;
 
 use Navplan\Flightroute\Domain\Model\Flightroute;
-use Navplan\User\Domain\Model\User;
 
 
-interface IFlightrouteListQuery {
+interface IFlightrouteListQuery
+{
     /**
-     * @param User $user
+     * @param int $userId
      * @return Flightroute[]
      */
-    function readList(User $user): array;
+    function readList(int $userId): array;
 }

@@ -8,20 +8,22 @@ use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Flightroute\Persistence\Model\DbTableFlightroute;
 use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
-use Navplan\User\Domain\Model\User;
 
 
-class DbFlightrouteCreateCommand implements IFlightrouteCreateCommand {
+class DbFlightrouteCreateCommand implements IFlightrouteCreateCommand
+{
     public function __construct(
         private IDbService $dbService,
         private IWaypointsCreateCommand $addWaypointsCommand
-    ) {
+    )
+    {
     }
 
 
-    public function create(Flightroute $flightroute, ?User $user): Flightroute {
+    public function create(Flightroute $flightroute, ?int $userId): Flightroute
+    {
         // create route
-        $query = $this->getFlightrouteInsertSql($flightroute, $user?->id);
+        $query = $this->getFlightrouteInsertSql($flightroute, $userId);
         $this->dbService->execCUDQuery($query, "error creating flightroute");
         $flightroute->id = $this->dbService->getInsertId();
 
@@ -32,7 +34,8 @@ class DbFlightrouteCreateCommand implements IFlightrouteCreateCommand {
     }
 
 
-    private function getFlightrouteInsertSql(Flightroute $flightroute, ?int $userId): string {
+    private function getFlightrouteInsertSql(Flightroute $flightroute, ?int $userId): string
+    {
         $query = "INSERT INTO " . DbTableFlightroute::TABLE_NAME . " (";
         $query .= join(",", [
             DbTableFlightroute::COL_ID_USER,

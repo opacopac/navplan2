@@ -3,9 +3,9 @@
 namespace Navplan\Flightroute\Domain\Command;
 
 use Navplan\Flightroute\Domain\Model\Flightroute;
-use Navplan\User\Domain\Model\User;
 
 
-interface IFlightrouteCreateCommand {
-    function create(Flightroute $flightroute, ?User $user): Flightroute;
+interface IFlightrouteCreateCommand
+{
+    function create(Flightroute $flightroute, ?int $userId): Flightroute;
 }

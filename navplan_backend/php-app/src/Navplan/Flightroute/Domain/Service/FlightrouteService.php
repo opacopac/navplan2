@@ -34,7 +34,7 @@ class FlightrouteService implements IFlightrouteService
     {
         $user = $this->userService->getUserOrThrow($token);
 
-        return $this->flightrouteAddCommand->create($flightroute, $user);
+        return $this->flightrouteAddCommand->create($flightroute, $user->id);
     }
 
 
@@ -58,7 +58,7 @@ class FlightrouteService implements IFlightrouteService
     function delete(int $flightrouteId, string $token): bool
     {
         $user = $this->userService->getUserOrThrow($token);
-        $this->flightrouteDeleteCommand->delete($flightrouteId, $user);
+        $this->flightrouteDeleteCommand->delete($flightrouteId, $user->id);
 
         return true; // TODO
     }
@@ -68,7 +68,7 @@ class FlightrouteService implements IFlightrouteService
     {
         $user = $this->userService->getUserOrThrow($token);
 
-        return $this->flightrouteByIdQuery->read($flightrouteId, $user);
+        return $this->flightrouteByIdQuery->read($flightrouteId, $user->id);
     }
 
 
@@ -76,7 +76,7 @@ class FlightrouteService implements IFlightrouteService
     {
         $user = $this->userService->getUserOrThrow($token);
 
-        return $this->flightrouteListQuery->readList($user);
+        return $this->flightrouteListQuery->readList($user->id);
     }
 
 
@@ -90,6 +90,6 @@ class FlightrouteService implements IFlightrouteService
     {
         $user = $this->userService->getUserOrThrow($token);
 
-        return $this->flightrouteUpdateCommand->update($flightroute, $user);
+        return $this->flightrouteUpdateCommand->update($flightroute, $user->id);
     }
 }

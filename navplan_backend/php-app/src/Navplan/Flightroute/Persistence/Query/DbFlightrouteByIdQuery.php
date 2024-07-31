@@ -8,21 +8,23 @@ use Navplan\Flightroute\Domain\Query\IWaypointsByFlightrouteQuery;
 use Navplan\Flightroute\Persistence\Model\DbTableFlightroute;
 use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
-use Navplan\User\Domain\Model\User;
 
 
-class DbFlightrouteByIdQuery implements IFlightrouteByIdQuery {
+class DbFlightrouteByIdQuery implements IFlightrouteByIdQuery
+{
     public function __construct(
         private IDbService $dbService,
         private IWaypointsByFlightrouteQuery $waypointsByFlightrouteQuery
-    ) {
+    )
+    {
     }
 
 
-    public function read(int $flightrouteId, User $user): ?Flightroute {
+    public function read(int $flightrouteId, int $userId): ?Flightroute
+    {
         $query = "SELECT * FROM " . DbTableFlightroute::TABLE_NAME;
         $query .= " WHERE " . DbTableFlightroute::COL_ID . "=" . DbHelper::getDbIntValue($flightrouteId);
-        $query .= " AND " . DbTableFlightroute::COL_ID_USER . "=" . DbHelper::getDbIntValue($user->id);
+        $query .= " AND " . DbTableFlightroute::COL_ID_USER . "=" . DbHelper::getDbIntValue($userId);
 
         $result = $this->dbService->execSingleResultQuery($query, true, "error reading flightroute");
 
