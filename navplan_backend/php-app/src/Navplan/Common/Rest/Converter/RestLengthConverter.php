@@ -55,4 +55,32 @@ class RestLengthConverter
             $lengthList
         );
     }
+
+
+    /**
+     * @param array $args
+     * @return Length[][]
+     */
+    public static function fromRestArray(array $args): array {
+        return array_map(
+            function ($lengthList) {
+                return self::fromRestList($lengthList);
+            },
+            $args
+        );
+    }
+
+
+    /**
+     * @param Length[][] $lengthArray
+     * @return array
+     */
+    public static function toRestArray(array $lengthArray): array {
+        return array_map(
+            function ($lengthList) {
+                return self::toRestList($lengthList);
+            },
+            $lengthArray
+        );
+    }
 }

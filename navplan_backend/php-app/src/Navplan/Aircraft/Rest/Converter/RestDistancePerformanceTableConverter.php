@@ -31,10 +31,10 @@ class RestDistancePerformanceTableConverter
         return new DistancePerformanceTable(
             RestWeightConverter::fromRest($args[self::KEY_TAKEOFF_WEIGHT]),
             PerformanceTableAltitudeReference::from(StringNumberHelper::parseStringOrError($args, self::KEY_ALTITUDE_REFERENCE)),
-            RestLengthConverter::toRestList($args[self::KEY_ALTITUDE_STEPS]),
+            RestLengthConverter::fromRestList($args[self::KEY_ALTITUDE_STEPS]),
             PerformanceTableTemperatureReference::from(StringNumberHelper::parseStringOrError($args, self::KEY_TEMPERATURE_REFERENCE)),
             RestTemperatureConverter::fromRestList($args[self::KEY_TEMPERATURE_STEPS]),
-            RestLengthConverter::toRestList($args[self::KEY_DISTANCE_VALUES]),
+            RestLengthConverter::fromRestArray($args[self::KEY_DISTANCE_VALUES]),
             RestDistancePerformanceCorrectionFactorsConverter::fromRest($args[self::KEY_CORRECTION_FACTORS])
         );
     }
@@ -52,12 +52,7 @@ class RestDistancePerformanceTableConverter
             self::KEY_ALTITUDE_STEPS => RestLengthConverter::toRestList($table->altitudeSteps),
             self::KEY_TEMPERATURE_REFERENCE => $table->temperatureReference?->value,
             self::KEY_TEMPERATURE_STEPS => RestTemperatureConverter::toRestList($table->temperatureSteps),
-            self::KEY_DISTANCE_VALUES => array_map(
-                function ($length) {
-                    return RestLengthConverter::toRestList($length);
-                },
-                $table->distanceValues
-            ),
+            self::KEY_DISTANCE_VALUES => RestLengthConverter::toRestArray($table->distanceValues),
             self::KEY_CORRECTION_FACTORS => RestDistancePerformanceCorrectionFactorsConverter::toRest($table->correctionFactors)
         );
     }
