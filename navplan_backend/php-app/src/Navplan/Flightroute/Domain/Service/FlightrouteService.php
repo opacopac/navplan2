@@ -2,7 +2,6 @@
 
 namespace Navplan\Flightroute\Domain\Service;
 
-use InvalidArgumentException;
 use Navplan\Common\StringNumberHelper;
 use Navplan\Flightroute\Domain\Command\IFlightrouteCreateCommand;
 use Navplan\Flightroute\Domain\Command\IFlightrouteDeleteCommand;
@@ -12,15 +11,13 @@ use Navplan\Flightroute\Domain\Query\IFlightrouteByHashQuery;
 use Navplan\Flightroute\Domain\Query\IFlightrouteByIdQuery;
 use Navplan\Flightroute\Domain\Query\IFlightrouteByShareIdQuery;
 use Navplan\Flightroute\Domain\Query\IFlightrouteListQuery;
-use Navplan\User\Domain\Model\User;
-use Navplan\User\Domain\Service\ITokenService;
-use Navplan\User\Domain\Service\IUserRepo;
+use Navplan\User\Domain\Service\IUserService;
 
 
-class FlightrouteService implements IFlightrouteService {
+class FlightrouteService implements IFlightrouteService
+{
     public function __construct(
-        private ITokenService $tokenService,
-        private IUserRepo $userRepo,
+        private IUserService $userService,
         private IFlightrouteListQuery $flightrouteListQuery,
         private IFlightrouteByIdQuery $flightrouteByIdQuery,
         private IFlightrouteByShareIdQuery $flightrouteByShareIdQuery,
@@ -28,18 +25,21 @@ class FlightrouteService implements IFlightrouteService {
         private IFlightrouteCreateCommand $flightrouteAddCommand,
         private IFlightrouteDeleteCommand $flightrouteDeleteCommand,
         private IFlightrouteUpdateCommand $flightrouteUpdateCommand
-    ) {
+    )
+    {
     }
 
 
-    public function create(Flightroute $flightroute, string $token): Flightroute {
-        $user = $this->getUserOrThrow($token);
+    public function create(Flightroute $flightroute, string $token): Flightroute
+    {
+        $user = $this->userService->getUserOrThrow($token);
 
         return $this->flightrouteAddCommand->create($flightroute, $user);
     }
 
 
-    public function createShared(Flightroute $flightroute): Flightroute {
+    public function createShared(Flightroute $flightroute): Flightroute
+    {
         // check for existing flightroute
         $hash = hash("md5", serialize($flightroute));
         $existingFlightroute = $this->flightrouteByHashQuery->readByHash($hash);
@@ -55,51 +55,41 @@ class FlightrouteService implements IFlightrouteService {
     }
 
 
-    function delete(int $flightrouteId, string $token): bool {
-        $user = $this->getUserOrThrow($token);
+    function delete(int $flightrouteId, string $token): bool
+    {
+        $user = $this->userService->getUserOrThrow($token);
         $this->flightrouteDeleteCommand->delete($flightrouteId, $user);
 
         return true; // TODO
     }
 
 
-    function read(int $flightrouteId, string $token): Flightroute {
-        $user = $this->getUserOrThrow($token);
+    function read(int $flightrouteId, string $token): Flightroute
+    {
+        $user = $this->userService->getUserOrThrow($token);
 
         return $this->flightrouteByIdQuery->read($flightrouteId, $user);
     }
 
 
-    function readList(string $token): array {
-        $user = $this->getUserOrThrow($token);
+    function readList(string $token): array
+    {
+        $user = $this->userService->getUserOrThrow($token);
 
         return $this->flightrouteListQuery->readList($user);
     }
 
 
-    function readShared(string $shareId): Flightroute {
+    function readShared(string $shareId): Flightroute
+    {
         return $this->flightrouteByShareIdQuery->readByShareId($shareId);
     }
 
 
-    function update(Flightroute $flightroute, string $token): Flightroute {
-        $user = $this->getUserOrThrow($token);
+    function update(Flightroute $flightroute, string $token): Flightroute
+    {
+        $user = $this->userService->getUserOrThrow($token);
 
         return $this->flightrouteUpdateCommand->update($flightroute, $user);
-    }
-
-
-    private function getUserOrThrow(string $token): User {
-        $email = $this->tokenService->getEmailFromToken($token);
-        if (!$email) {
-            throw new InvalidArgumentException('invalid token');
-        }
-
-        $user = $this->userRepo->readUser($email);
-        if (!$user) {
-            throw new InvalidArgumentException('user not found');
-        }
-
-        return $user;
     }
 }

@@ -177,8 +177,7 @@ class ProdNavplanDiContainer
     {
         if (!isset($this->flightrouteDiContainer)) {
             $this->flightrouteDiContainer = new ProdFlightrouteDiContainer(
-                $this->getUserDiContainer()->getTokenService(),
-                $this->getUserDiContainer()->getUserRepo(),
+                $this->getUserDiContainer()->getUserService(),
                 $this->getPersistenceDiContainer()->getDbService(),
                 $this->getSystemDiContainer()->getHttpService()
             );

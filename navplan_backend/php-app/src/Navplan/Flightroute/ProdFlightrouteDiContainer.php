@@ -28,11 +28,11 @@ use Navplan\Flightroute\Persistence\Query\DbWaypointsByFlightrouteQuery;
 use Navplan\Flightroute\Rest\Controller\FlightrouteController;
 use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
-use Navplan\User\Domain\Service\ITokenService;
-use Navplan\User\Domain\Service\IUserRepo;
+use Navplan\User\Domain\Service\IUserService;
 
 
-class ProdFlightrouteDiContainer implements IFlightrouteDiContainer {
+class ProdFlightrouteDiContainer implements IFlightrouteDiContainer
+{
     private IRestController $flightrouteController;
     private IFlightrouteService $flightrouteService;
     private IFlightrouteListQuery $flightrouteListQuery;
@@ -48,15 +48,16 @@ class ProdFlightrouteDiContainer implements IFlightrouteDiContainer {
 
 
     public function __construct(
-        private ITokenService $tokenService,
-        private IUserRepo $userRepo,
+        private IUserService $userService,
         private IDbService $dbService,
         private IHttpService $httpService
-    ) {
+    )
+    {
     }
 
 
-    public function getFlightrouteController(): IRestController {
+    public function getFlightrouteController(): IRestController
+    {
         if (!isset($this->flightrouteController)) {
             $this->flightrouteController = new FlightrouteController(
                 $this->getFlightrouteService(),
@@ -68,11 +69,11 @@ class ProdFlightrouteDiContainer implements IFlightrouteDiContainer {
     }
 
 
-    public function getFlightrouteService(): IFlightrouteService {
+    public function getFlightrouteService(): IFlightrouteService
+    {
         if (!isset($this->flightrouteService)) {
             $this->flightrouteService = new FlightrouteService(
-                $this->tokenService,
-                $this->userRepo,
+                $this->userService,
                 $this->getFlightrouteListQuery(),
                 $this->getFlightrouteByIdQuery(),
                 $this->getFlightrouteByShareIdQuery(),
@@ -87,7 +88,8 @@ class ProdFlightrouteDiContainer implements IFlightrouteDiContainer {
     }
 
 
-    public function getFlightrouteListQuery(): IFlightrouteListQuery {
+    public function getFlightrouteListQuery(): IFlightrouteListQuery
+    {
         if (!isset($this->flightrouteListQuery)) {
             $this->flightrouteListQuery = new DbFlightrouteListQuery(
                 $this->dbService
@@ -98,7 +100,8 @@ class ProdFlightrouteDiContainer implements IFlightrouteDiContainer {
     }
 
 
-    public function getFlightrouteByIdQuery(): IFlightrouteByIdQuery {
+    public function getFlightrouteByIdQuery(): IFlightrouteByIdQuery
+    {
         if (!isset($this->flightrouteByIdQuery)) {
             $this->flightrouteByIdQuery = new DbFlightrouteByIdQuery(
                 $this->dbService,
@@ -110,7 +113,8 @@ class ProdFlightrouteDiContainer implements IFlightrouteDiContainer {
     }
 
 
-    public function getFlightrouteByShareIdQuery(): IFlightrouteByShareIdQuery {
+    public function getFlightrouteByShareIdQuery(): IFlightrouteByShareIdQuery
+    {
         if (!isset($this->flightrouteByShareIdQuery)) {
             $this->flightrouteByShareIdQuery = new DbFlightrouteByShareIdQuery(
                 $this->dbService,
@@ -122,7 +126,8 @@ class ProdFlightrouteDiContainer implements IFlightrouteDiContainer {
     }
 
 
-    public function getFlightrouteByHashQuery(): IFlightrouteByHashQuery {
+    public function getFlightrouteByHashQuery(): IFlightrouteByHashQuery
+    {
         if (!isset($this->flightrouteByHashQuery)) {
             $this->flightrouteByHashQuery = new DbFlightrouteByHashQuery(
                 $this->dbService,
@@ -134,7 +139,8 @@ class ProdFlightrouteDiContainer implements IFlightrouteDiContainer {
     }
 
 
-    public function getFlightrouteAddCommand(): IFlightrouteCreateCommand {
+    public function getFlightrouteAddCommand(): IFlightrouteCreateCommand
+    {
         if (!isset($this->flightrouteAddCommand)) {
             $this->flightrouteAddCommand = new DbFlightrouteCreateCommand(
                 $this->dbService,
@@ -146,7 +152,8 @@ class ProdFlightrouteDiContainer implements IFlightrouteDiContainer {
     }
 
 
-    public function getFlightrouteDeleteCommand(): IFlightrouteDeleteCommand {
+    public function getFlightrouteDeleteCommand(): IFlightrouteDeleteCommand
+    {
         if (!isset($this->flightrouteDeleteCommand)) {
             $this->flightrouteDeleteCommand = new DbFlightrouteDeleteCommand(
                 $this->dbService,
@@ -158,7 +165,8 @@ class ProdFlightrouteDiContainer implements IFlightrouteDiContainer {
     }
 
 
-    public function getFlightrouteUpdateCommand(): IFlightrouteUpdateCommand {
+    public function getFlightrouteUpdateCommand(): IFlightrouteUpdateCommand
+    {
         if (!isset($this->flightrouteUpdateCommand)) {
             $this->flightrouteUpdateCommand = new DbFlightrouteUpdateCommand(
                 $this->dbService,
@@ -171,7 +179,8 @@ class ProdFlightrouteDiContainer implements IFlightrouteDiContainer {
     }
 
 
-    public function getWaypointsByFlightrouteQuery(): IWaypointsByFlightrouteQuery {
+    public function getWaypointsByFlightrouteQuery(): IWaypointsByFlightrouteQuery
+    {
         if (!isset($this->waypointsByFlightrouteQuery)) {
             $this->waypointsByFlightrouteQuery = new DbWaypointsByFlightrouteQuery(
                 $this->dbService
@@ -182,7 +191,8 @@ class ProdFlightrouteDiContainer implements IFlightrouteDiContainer {
     }
 
 
-    public function getWaypointsAddCommand(): IWaypointsCreateCommand {
+    public function getWaypointsAddCommand(): IWaypointsCreateCommand
+    {
         if (!isset($this->waypointsAddCommand)) {
             $this->waypointsAddCommand = new DbWaypointsCreateCommand(
                 $this->dbService
@@ -193,7 +203,8 @@ class ProdFlightrouteDiContainer implements IFlightrouteDiContainer {
     }
 
 
-    public function getWaypointsDeleteCommand(): IWaypointsDeleteCommand {
+    public function getWaypointsDeleteCommand(): IWaypointsDeleteCommand
+    {
         if (!isset($this->waypointsDeleteCommand)) {
             $this->waypointsDeleteCommand = new DbWaypointsDeleteCommand(
                 $this->dbService
