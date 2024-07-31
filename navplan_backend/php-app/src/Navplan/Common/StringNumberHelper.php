@@ -161,6 +161,26 @@ class StringNumberHelper
     }
 
 
+    public static function parseArrayOrNull(array $array, string $key): ?array
+    {
+        if (!isset($array[$key])) {
+            return NULL;
+        }
+
+        return $array[$key];
+    }
+
+
+    public static function parseArrayOrError(array $array, string $key): array
+    {
+        if (!isset($array[$key])) {
+            throw new InvalidArgumentException("argument '" . $key . "' is missing");
+        }
+
+        return $array[$key];
+    }
+
+
     /***
      * @param $num
      * @return mixed

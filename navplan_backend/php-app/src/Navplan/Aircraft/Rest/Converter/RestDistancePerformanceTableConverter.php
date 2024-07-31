@@ -22,7 +22,7 @@ class RestDistancePerformanceTableConverter
     const KEY_CORRECTION_FACTORS = "correctionFactors";
 
 
-    public static function fromRest(array $args): ?DistancePerformanceTable
+    public static function fromRest(?array $args): ?DistancePerformanceTable
     {
         if (!$args) {
             return NULL;
