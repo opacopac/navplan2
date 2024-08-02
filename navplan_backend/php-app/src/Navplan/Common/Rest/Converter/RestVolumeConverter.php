@@ -22,7 +22,7 @@ class RestVolumeConverter
     }
 
 
-    public static function fromRest(array $args): ?Volume
+    public static function fromRest(?array $args): ?Volume
     {
         if (!$args) {
             return NULL;

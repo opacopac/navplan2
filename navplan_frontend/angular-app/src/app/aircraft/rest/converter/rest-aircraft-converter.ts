@@ -40,7 +40,7 @@ export class RestAircraftConverter {
             icaoType: aircraft.icaoType,
             cruiseSpeed: RestSpeedConverter.toRest(aircraft.cruiseSpeed),
             cruiseFuel: RestConsumptionConverter.toRest(aircraft.cruiseFuel),
-            fuelType: aircraft.fuelType,
+            fuelType: aircraft.fuelType ? FuelType[aircraft.fuelType] : null,
             mtow: RestWeightConverter.toRest(aircraft.mtow),
             bew: RestWeightConverter.toRest(aircraft.bew),
             perfTakeoffGroundRoll: RestDistancePerformanceTableConverter.toRest(aircraft.perfTakeoffGroundRoll),

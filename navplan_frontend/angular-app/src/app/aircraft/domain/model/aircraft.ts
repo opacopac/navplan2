@@ -5,6 +5,7 @@ import {DistancePerformanceTable} from './distance-performance-table';
 import {WeightItem} from './weight-item';
 import {WnbEnvelope} from './wnb-envelope';
 import {VehicleType} from './vehicle-type';
+import { FuelType } from './fuel-type';
 
 export class Aircraft {
     constructor(
@@ -14,7 +15,7 @@ export class Aircraft {
         public icaoType: string,
         public cruiseSpeed: Speed,
         public cruiseFuel: Consumption,
-        public fuelType: string,
+        public fuelType: FuelType,
         public mtow: Weight,
         public bew: Weight,
         public perfTakeoffGroundRoll: DistancePerformanceTable,

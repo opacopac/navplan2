@@ -19,20 +19,28 @@ class RestWeightItemConverter
     const KEY_MAX_FUEL = "maxFuel";
 
 
-    public static function fromRest(array $args): WeightItem
+    public static function fromRest(?array $args): ?WeightItem
     {
+        if (!$args) {
+            return null;
+        }
+
         return new WeightItem(
             WeightItemType::from(StringNumberHelper::parseStringOrError($args, self::KEY_TYPE)),
             StringNumberHelper::parseStringOrError($args, self::KEY_NAME),
             RestLengthConverter::fromRest($args[self::KEY_ARM]),
-            RestWeightConverter::fromRest($args[self::KEY_MAX_WEIGHT]),
-            RestVolumeConverter::fromRest($args[self::KEY_MAX_FUEL])
+            RestWeightConverter::fromRest(StringNumberHelper::parseArrayOrNull($args, self::KEY_MAX_WEIGHT)),
+            RestVolumeConverter::fromRest(StringNumberHelper::parseArrayOrNull($args, self::KEY_MAX_FUEL)),
         );
     }
 
 
-    public static function toRest(WeightItem $weightItem): array
+    public static function toRest(?WeightItem $weightItem): ?array
     {
+        if (!$weightItem) {
+            return null;
+        }
+
         return array(
             self::KEY_TYPE => $weightItem->type->value,
             self::KEY_NAME => $weightItem->name,
