@@ -71,5 +71,14 @@ export const aircraftReducer = createReducer(
             ...state,
             currentAircraft: newAircraft
         };
+    }),
+
+    on(AircraftDetailsActions.changeFuelType, (state, action) => {
+        const newAircraft = state.currentAircraft.clone();
+        newAircraft.fuelType = action.fuelType;
+        return {
+            ...state,
+            currentAircraft: newAircraft
+        };
     })
 );

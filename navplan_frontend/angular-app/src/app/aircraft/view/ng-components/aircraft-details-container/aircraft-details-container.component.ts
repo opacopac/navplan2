@@ -8,6 +8,7 @@ import {VehicleType} from '../../../domain/model/vehicle-type';
 import {Speed} from '../../../../geo-physics/domain/model/quantities/speed';
 import {Consumption} from '../../../../geo-physics/domain/model/quantities/consumption';
 import {AircraftDetailsActions} from '../../../state/ngrx/aircraft-details-actions';
+import { FuelType } from '../../../domain/model/fuel-type';
 
 
 @Component({
@@ -51,6 +52,11 @@ export class AircraftDetailsContainerComponent implements OnInit {
 
     protected onCruiseFuelChange(cruiseFuel: Consumption) {
         this.appStore.dispatch(AircraftDetailsActions.changeCruiseConumption({cruiseFuel: cruiseFuel}));
+    }
+
+
+    protected onFuelTypeChange(fuelType: FuelType) {
+        this.appStore.dispatch(AircraftDetailsActions.changeFuelType({fuelType: fuelType}));
     }
 
 

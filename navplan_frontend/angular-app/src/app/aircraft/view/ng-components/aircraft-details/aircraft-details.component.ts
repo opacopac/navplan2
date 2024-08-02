@@ -6,6 +6,7 @@ import {Speed} from '../../../../geo-physics/domain/model/quantities/speed';
 import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-unit';
 import {ConsumptionUnit} from '../../../../geo-physics/domain/model/quantities/consumption-unit';
 import {VehicleType} from '../../../domain/model/vehicle-type';
+import { FuelType } from '../../../domain/model/fuel-type';
 
 
 @Component({
@@ -22,9 +23,11 @@ export class AircraftDetailsComponent implements OnInit {
     @Output() onIcaoTypeChange = new EventEmitter<string>();
     @Output() onCruiseSpeedChange = new EventEmitter<Speed>();
     @Output() onCruiseFuelChange = new EventEmitter<Consumption>();
+    @Output() onFuelTypeChange = new EventEmitter<FuelType>();
     @Output() onSaveAircraftClick = new EventEmitter<void>();
 
     protected readonly VehicleType = VehicleType;
+    protected readonly FuelType = FuelType;
     protected readonly Speed = Speed;
     protected readonly Consumption = Consumption;
     protected aircraftDetailsForm: FormGroup;
@@ -62,7 +65,8 @@ export class AircraftDetailsComponent implements OnInit {
                     Validators.min(1),
                     Validators.max(999)
                 ]
-            ]
+            ],
+            'fuelType': [this.currentAircraft.fuelType ?? '', []]
         });
     }
 
@@ -100,6 +104,17 @@ export class AircraftDetailsComponent implements OnInit {
         if (this.aircraftDetailsForm.controls['cruiseFuel'].valid) {
             const fuel = new Consumption(this.aircraftDetailsForm.value.cruiseFuel, this.consumptionUnit);
             this.onCruiseFuelChange.emit(fuel);
+        }
+    }
+
+
+    protected onFuelTypeChanged() {
+        if (this.aircraftDetailsForm.controls['fuelType'].valid) {
+            if (this.aircraftDetailsForm.value.fuelType === '') {
+                this.onFuelTypeChange.emit(null);
+            } else {
+                this.onFuelTypeChange.emit(this.aircraftDetailsForm.value.fuelType);
+            }
         }
     }
 

@@ -67,6 +67,19 @@
             <mat-error>Value must be a positive number between 1 and 999!</mat-error>
         </mat-form-field>
 
+        <!-- fuel type -->
+        <mat-form-field>
+            <mat-label>Fuel Type</mat-label>
+            <mat-select
+                formControlName="fuelType"
+                (selectionChange)="this.onFuelTypeChanged()"
+            >
+                <mat-option value="" selected>(select)</mat-option>
+                <mat-option [value]="FuelType.MOGAS">MOGAS</mat-option>
+                <mat-option [value]="FuelType.AVGAS">AVGAS</mat-option>
+            </mat-select>
+        </mat-form-field>
+
         <p>
             <button
                 mat-raised-button
