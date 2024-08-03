@@ -1,9 +1,16 @@
-.wnb-table {
+.wnb-table-container {
     margin-left: 10px;
     margin-right: 10px;
 }
 
+.add-item-button {
+    text-align: right;
+}
 
 .button-cell {
     text-align: right;
+}
+
+.no-entry-cell {
+    text-align: center;
 }

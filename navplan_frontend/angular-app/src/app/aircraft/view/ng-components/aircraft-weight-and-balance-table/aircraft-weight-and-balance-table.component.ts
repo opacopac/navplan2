@@ -16,6 +16,7 @@ export class AircraftWeightAndBalanceTableComponent implements OnInit {
     @Input() weightItems: WeightItem[];
     @Input() weightUnit: WeightUnit;
     @Input() lengthUnit: LengthUnit;
+    @Output() addWeightItem = new EventEmitter<WeightItem>();
     @Output() deleteWeightItem = new EventEmitter<number>();
 
     protected readonly ButtonColor = ButtonColor;
@@ -57,7 +58,12 @@ export class AircraftWeightAndBalanceTableComponent implements OnInit {
     }
 
 
-    protected onDeleteWeightItemClick(weightItem: WeightItem) {
+    protected onDeleteWeightItemClick(weightItemIndex: number) {
+        this.deleteWeightItem.emit(weightItemIndex);
+    }
+
+
+    protected onAddWeightItemClick() {
         // TODO
     }
 }

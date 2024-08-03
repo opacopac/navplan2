@@ -1,15 +1,21 @@
-<div *ngIf="this.weightItems" class="wnb-table">
-    <table
-        mat-table
-        [dataSource]="this.weightItems"
-    >
-        <!-- item icon column -->
+<div class="wnb-table-container">
+    <p class="add-item-button">
+        <button
+            mat-raised-button
+            color="accent"
+            (click)="this.onAddWeightItemClick()"
+        >
+            <i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add Weight Item
+        </button>
+    </p>
+    <table mat-table [dataSource]="this.weightItems">
+        <!-- type column -->
         <ng-container matColumnDef="type">
             <th mat-header-cell *matHeaderCellDef class="header-cell">&nbsp;</th>
             <td mat-cell *matCellDef="let entry"><i class="{{ this.getWeightItemTypeIcon(entry.type) }}"></i></td>
         </ng-container>
 
-        <!-- item name column -->
+        <!-- name column -->
         <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef class="header-cell">Item</th>
             <td mat-cell *matCellDef="let entry">{{ entry.name }}</td>
@@ -21,36 +27,40 @@
             <td mat-cell *matCellDef="let entry">{{ this.getArmText(entry.arm) }}</td>
         </ng-container>
 
-        <!-- edit / delete icons column -->
+        <!-- icons column -->
         <ng-container matColumnDef="icons">
             <th mat-header-cell *matHeaderCellDef>&nbsp;</th>
-            <td mat-cell *matCellDef="let entry" class="button-cell">
+            <td mat-cell *matCellDef="let entry; let idx = index" class="button-cell">
                 <app-icon-button
                     [color]="ButtonColor.RED"
                     tooltipText="Remove Waypoint"
                     tooltipPosition="above"
-                    (buttonClicked)="this.onDeleteWeightItemClick(entry)"
+                    (buttonClicked)="this.onDeleteWeightItemClick(idx)"
                 >
                     <i class="fa-solid fa-trash"></i>
                 </app-icon-button>
             </td>
         </ng-container>
 
+        <!-- no entry -->
+        <ng-container matColumnDef="no_entry">
+            <td mat-footer-cell *matFooterCellDef [attr.colspan]="4" class="no-entry-cell">
+                <i>No weight items configured.</i>
+            </td>
+        </ng-container>
 
         <!-- row definition -->
-        <tr mat-header-row
-            *matHeaderRowDef="this.displayedColumns"
-            class="header-row"
-        ></tr>
+        <tr mat-header-row *matHeaderRowDef="this.displayedColumns" class="header-row"></tr>
         <tr mat-row
             *matRowDef="let entry; columns: this.displayedColumns; let even = even"
             [ngClass]="{ 'odd-row': !even }"
             class="clickable"
             (click)="this.onEditWeightItemClick(entry)"
         ></tr>
-    </table>
-</div>
 
-<div *ngIf="!this.weightItems" class="wnb-table">
-    <p>No weight items configured.</p>
+        <tr mat-footer-row
+            *matFooterRowDef="['no_entry']"
+            [hidden]="this.weightItems && this.weightItems.length > 0"
+        ></tr>
+    </table>
 </div>

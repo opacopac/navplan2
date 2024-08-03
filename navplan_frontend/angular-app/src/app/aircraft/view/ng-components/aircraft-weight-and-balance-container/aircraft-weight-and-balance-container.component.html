@@ -3,5 +3,9 @@
         [currentAircraft]="this.currentAircraft$ | async"
         [weightUnit]="this.weightUnit$ | async"
         [lengthUnit]="this.lengthUnit$ | async"
+        (changeBew)="this.onChangeBew($event)"
+        (changeMtow)="this.onChangeMtow($event)"
+        (addWeightItem)="this.onAddWeightItem($event)"
+        (deleteWeightItem)="this.onDeleteWeightItem($event)"
     />
 </div>

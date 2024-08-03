@@ -1,7 +1,7 @@
 <div *ngIf="this.currentAircraft" class="wnb-container">
     <p>Aircraft: {{ this.currentAircraft.registration }}</p>
     <!-- mtow -->
-    <div>
+    <div class="weight-fields">
         <mat-form-field>
             <mat-label>MTOW</mat-label>
             <input matInput
@@ -11,6 +11,7 @@
                    size="5"
                    min="1"
                    max="99999"
+                   (change)="this.onMtowChange()"
             >
             <span matTextSuffix>{{ Weight.getUnitString(this.weightUnit) }}</span>
             <mat-error>Value must be a positive number between 1 and 99999!</mat-error>
@@ -26,6 +27,7 @@
                    size="5"
                    min="1"
                    max="99999"
+                   (change)="onBewChange()"
             >
             <span matTextSuffix>{{ Weight.getUnitString(this.weightUnit) }}</span>
             <mat-error>Value must be a positive number between 1 and 99999!</mat-error>
@@ -36,6 +38,8 @@
     <app-aircraft-weight-and-balance-table
         [weightItems]="this.currentAircraft.wnbWeightItems"
         [lengthUnit]="this.lengthUnit"
+        (addWeightItem)="this.addWeightItem.emit($event)"
+        (deleteWeightItem)="this.deleteWeightItem.emit($event)"
     />
 </div>
 
