@@ -26,6 +26,19 @@ iframe {
     cursor: pointer;
 }
 
+/* region COLORS */
+
+:root {
+    --navplan-color-blue: #41669c;
+    --navplan-color-green: green;
+    --navplan-color-orange: darkorange;
+    --navplan-color-red: #cc0000;
+    --navplan-color-gray: gray;
+    --navplan-color-disabled-bg: darkgray;
+}
+
+/* endregion */
+
 
 /* region FLEXBOX */
 
@@ -104,18 +117,37 @@ tr.selected-row > .mat-mdc-cell {
 
 /* region SNACKBAR */
 
-.success-snack-bar {
-    color: white;
-    /*background-color: #455a64;*/
+.success-snack-bar.mat-mdc-snack-bar-container {
+    .mdc-snackbar__surface {
+        background: var(--navplan-color-blue);
+
+        .mat-mdc-button {
+            color: white !important;
+        }
+    }
+
+    .mat-mdc-snack-bar-label.mdc-snackbar__label {
+        color: white;
+        font-weight: 500;
+        white-space: pre-wrap
+    }
 }
 
-.error-snack-bar {
-    color: white;
-    background-color: #d50000
-}
 
-.mat-mdc-snack-bar-action {
-    color: white !important;
+.error-snack-bar.mat-mdc-snack-bar-container {
+    .mdc-snackbar__surface {
+        background: darkred;
+
+        .mat-mdc-button {
+            color: white !important;
+        }
+    }
+
+    .mat-mdc-snack-bar-label.mdc-snackbar__label {
+        color: white;
+        font-weight: 500;
+        white-space: pre-wrap
+    }
 }
 
 /* endregion */

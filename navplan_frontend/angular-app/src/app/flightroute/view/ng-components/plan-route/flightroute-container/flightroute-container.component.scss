@@ -10,21 +10,21 @@
 }
 
 .button-load {
-    background-color: green;
+    background-color: var(--navplan-color-green);
     color: white;
 }
 
 .button-delete {
-    background-color: #cc0000;
+    background-color: var(--navplan-color-red);
     color: white;
 }
 
 .button-save {
-    background-color: #41669c;
+    background-color: var(--navplan-color-blue);
     color: white;
 }
 
 .button-copy {
-    background-color: #41669c;
+    background-color: var(--navplan-color-blue);
     color: white;
 }

@@ -21,8 +21,8 @@ export class MessageContainerComponent implements OnInit, OnDestroy {
 
     constructor(
         private appStore: Store<any>,
-        public snackBar: MatSnackBar) {
-
+        public snackBar: MatSnackBar
+    ) {
         this.currentMessageSubscription = this.currentMessage$.subscribe((msg) => {
             if (msg) {
                 this.showSnackBar(msg);
@@ -45,12 +45,14 @@ export class MessageContainerComponent implements OnInit, OnDestroy {
             this.snackBar.open(
                 message.messageText,
                 undefined,
-                { duration: AUTO_DISMISS_TIME_MS, panelClass: 'success-snack-bar' });
+                {duration: AUTO_DISMISS_TIME_MS, panelClass: 'success-snack-bar'}
+            );
         } else {
             this.snackBar.open(
                 message.messageText,
                 'Close',
-                { panelClass: 'error-snack-bar' });
+                {panelClass: 'error-snack-bar'}
+            );
         }
     }
 }

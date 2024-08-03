@@ -5,23 +5,23 @@
 }
 
 .mat-mdc-icon-button.mat-button-green {
-    color: green;
+    color: var(--navplan-color-green);
 }
 
 .mat-mdc-icon-button.mat-button-orange {
-    color: darkorange;
+    color: var(--navplan-color-orange);
 }
 
 .mat-mdc-icon-button.mat-button-red {
-    color: #f44336;
+    color: var(--navplan-color-red);
 }
 
 .mat-mdc-icon-button.mat-button-blue {
-    color: #41669c;
+    color: var(--navplan-color-blue);
 }
 
 .mat-mdc-icon-button.mat-button-gray {
-    color: gray;
+    color: var(--navplan-color-gray);
 }
 
 .mat-mdc-icon-button.mat-button-green:disabled,
@@ -30,5 +30,5 @@
 .mat-mdc-icon-button.mat-button-blue:disabled,
 .mat-mdc-icon-button.mat-button-gray:disabled
 {
-    color: darkgray;
+    color: var(--navplan-color-disabled-bg);
 }

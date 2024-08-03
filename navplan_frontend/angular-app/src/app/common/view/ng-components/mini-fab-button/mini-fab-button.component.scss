@@ -2,27 +2,27 @@
 
 .mat-mdc-mini-fab.mat-button-green {
     color: white;
-    background-color: green;
+    background-color: var(--navplan-color-green);
 }
 
 .mat-mdc-mini-fab.mat-button-orange {
     color: white;
-    background-color: darkorange;
+    background-color: var(--navplan-color-orange);
 }
 
 .mat-mdc-mini-fab.mat-button-red {
     color: white;
-    background-color: #f44336;
+    background-color: var(--navplan-color-red);
 }
 
 .mat-mdc-mini-fab.mat-button-blue {
     color: white;
-    background-color: #41669c;
+    background-color: var(--navplan-color-blue);
 }
 
 .mat-mdc-mini-fab.mat-button-gray {
     color: white;
-    background-color: gray;
+    background-color: var(--navplan-color-gray);
 }
 
 .mat-mdc-mini-fab.mat-button-green:disabled,
@@ -32,5 +32,5 @@
 .mat-mdc-mini-fab.mat-button-gray:disabled
 {
     color: white;
-    background-color: darkgray;
+    background-color: var(--navplan-color-disabled-bg);
 }
