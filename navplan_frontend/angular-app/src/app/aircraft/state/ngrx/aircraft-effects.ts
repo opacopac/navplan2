@@ -56,14 +56,19 @@ export class AircraftEffects {
         ))
     ));
 
-    saveAircraftAction$ = createEffect(() => this.actions$.pipe(
+    saveAircraftDetailsAction$ = createEffect(() => this.actions$.pipe(
         ofType(AircraftDetailsActions.saveAircraftDetails),
         withLatestFrom(this.aircraftState$, this.userState$),
         switchMap(([action, aircraftState, userState]) => this.aircraftService.saveAircraft(
             aircraftState.currentAircraft,
             userState.currentUser
         ).pipe(
-            map(aircraft => AircraftDetailsActions.saveAircraftDetailsSuccess({aircraft: aircraft})),
+            switchMap(aircraft => [
+                AircraftDetailsActions.saveAircraftDetailsSuccess({aircraft: aircraft}),
+                MessageActions.showMessage({
+                    message: Message.success('Aircraft details saved successfully.')
+                })
+            ]),
             catchError(error => of(MessageActions.showMessage({
                 message: Message.error('Error saving aircraft: ', error)
             }))
