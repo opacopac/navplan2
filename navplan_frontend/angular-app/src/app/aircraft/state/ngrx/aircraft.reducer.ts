@@ -2,6 +2,7 @@ import {createReducer, on} from '@ngrx/store';
 import {AircraftState} from '../state-model/aircraft-state';
 import {AircraftListActions} from './aircraft-list.actions';
 import {AircraftDetailsActions} from './aircraft-details-actions';
+import {AircraftWnbActions} from './aircraft-wnb-actions';
 
 
 const initialState: AircraftState = {
@@ -13,7 +14,7 @@ const initialState: AircraftState = {
 export const aircraftReducer = createReducer(
     initialState,
 
-    // aircraft list actions
+    // region aircraft list actions
 
     on(AircraftListActions.showList, (state, action) => ({
         ...state,
@@ -25,8 +26,10 @@ export const aircraftReducer = createReducer(
         currentAircraft: action.aircraft
     })),
 
+    // endregion
 
-    // aircraft details actions
+
+    // region aircraft details actions
 
     on(AircraftDetailsActions.changeVehicleType, (state, action) => {
         const newAircraft = state.currentAircraft.clone();
@@ -80,5 +83,48 @@ export const aircraftReducer = createReducer(
             ...state,
             currentAircraft: newAircraft
         };
-    })
+    }),
+
+    // endregion
+
+
+    // region aircraft weight and balance actions
+
+    on(AircraftWnbActions.changeBew, (state, action) => {
+        const newAircraft = state.currentAircraft.clone();
+        newAircraft.bew = action.bew;
+        return {
+            ...state,
+            currentAircraft: newAircraft
+        };
+    }),
+
+    on(AircraftWnbActions.changeMtow, (state, action) => {
+        const newAircraft = state.currentAircraft.clone();
+        newAircraft.mtow = action.mtow;
+        return {
+            ...state,
+            currentAircraft: newAircraft
+        };
+    }),
+
+    on(AircraftWnbActions.addWeightItem, (state, action) => {
+        const newAircraft = state.currentAircraft.clone();
+        newAircraft.wnbWeightItems.push(action.weightItem);
+        return {
+            ...state,
+            currentAircraft: newAircraft
+        };
+    }),
+
+    on(AircraftWnbActions.deleteWeightItem, (state, action) => {
+        const newAircraft = state.currentAircraft.clone();
+        newAircraft.wnbWeightItems.splice(action.weightItemIndex, 1);
+        return {
+            ...state,
+            currentAircraft: newAircraft
+        };
+    }),
+
+    // endregion
 );
