@@ -12,10 +12,7 @@ import {FlightrouteListActions} from '../../../../state/ngrx/flightroute-list.ac
 import {FlightrouteCrudActions} from '../../../../state/ngrx/flightroute-crud.actions';
 import {WaypointActions} from '../../../../state/ngrx/waypoints.actions';
 import {FlightrouteActions} from '../../../../state/ngrx/flightroute.actions';
-import {
-    getSelectedAltitudeUnit,
-    getSelectedSpeedUnit
-} from '../../../../../geo-physics/state/ngrx/geo-physics.selectors';
+import {getAltitudeUnit, getSpeedUnit} from '../../../../../geo-physics/state/ngrx/geo-physics.selectors';
 import {FormBuilder, FormGroup} from '@angular/forms';
 
 
@@ -34,8 +31,8 @@ export class FlightrouteContainerComponent implements OnInit {
     protected readonly flightrouteId$ = this.currentFlightroute$.pipe(map(flightroute => flightroute.id));
     protected readonly routeComments$ = this.currentFlightroute$.pipe(map(flightroute => flightroute.comments));
     protected readonly aircraftSpeed$ = this.currentFlightroute$.pipe(map(flightroute => flightroute.aircraft.speed));
-    protected readonly speedUnit$ = this.appStore.pipe(select(getSelectedSpeedUnit));
-    protected readonly altitudeUnit$ = this.appStore.pipe(select(getSelectedAltitudeUnit));
+    protected readonly speedUnit$ = this.appStore.pipe(select(getSpeedUnit));
+    protected readonly altitudeUnit$ = this.appStore.pipe(select(getAltitudeUnit));
 
 
     constructor(

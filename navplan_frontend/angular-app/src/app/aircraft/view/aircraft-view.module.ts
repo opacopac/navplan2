@@ -42,6 +42,9 @@ import {
     AircraftPerformanceCorrectionFactorsComponent
 } from './ng-components/aircraft-performance-correction-factors/aircraft-performance-correction-factors.component';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {
+    AircraftWeightAndBalanceTableComponent
+} from './ng-components/aircraft-weight-and-balance-table/aircraft-weight-and-balance-table.component';
 
 
 @NgModule({
@@ -77,6 +80,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
         AircraftPerformanceCorrectionFactorsComponent,
         AircraftWeightAndBalanceContainerComponent,
         AircraftWeightAndBalanceComponent,
+        AircraftWeightAndBalanceTableComponent,
     ],
     exports: [],
     providers: []

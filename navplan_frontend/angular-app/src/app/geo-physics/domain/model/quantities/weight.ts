@@ -6,11 +6,6 @@ import {StringnumberHelper} from '../../../../system/domain/service/stringnumber
 export class Weight extends AbstractQuantity<Weight, WeightUnit> {
     public static readonly LBS_PER_KG = 2.20462;
 
-    public static readonly unitsAndDescriptions = [
-        [WeightUnit.KG, Weight.getUnitString(WeightUnit.KG)],
-        [WeightUnit.LBS, Weight.getUnitString(WeightUnit.LBS)],
-    ];
-
 
     public static getUnitString(unit: WeightUnit): string {
         switch (unit) {

@@ -5,10 +5,6 @@ import {MomentUnit} from './moment-unit';
 
 export class Moment extends AbstractQuantity<Moment, MomentUnit> implements Clonable<Moment> {
     public static readonly INLBS_PER_KGM = 86.796109862;
-    public static readonly unitsAndDescriptions = [
-        [MomentUnit.KGM, Moment.getUnitString(MomentUnit.KGM)],
-        [MomentUnit.INLBS, Moment.getUnitString(MomentUnit.INLBS)]
-    ];
 
 
     public static getUnitString(unit: MomentUnit): string {

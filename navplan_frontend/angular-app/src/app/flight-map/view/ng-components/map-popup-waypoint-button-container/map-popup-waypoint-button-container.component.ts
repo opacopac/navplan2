@@ -10,7 +10,7 @@ import {
     EditWaypointDialogComponent
 } from '../../../../flightroute/view/ng-components/common/edit-waypoint-dialog/edit-waypoint-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
-import {getSelectedAltitudeUnit} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
+import {getAltitudeUnit} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
 
 
 @Component({
@@ -48,7 +48,7 @@ export class MapPopupWaypointButtonContainerComponent implements OnInit {
     ).pipe(
         map(([route, wp]) => route.isALternateEligible(wp))
     );
-    protected readonly altitudeUnit$ = this.appStore.pipe(select(getSelectedAltitudeUnit));
+    protected readonly altitudeUnit$ = this.appStore.pipe(select(getAltitudeUnit));
 
 
     public constructor(

@@ -5,14 +5,20 @@ import {LengthUnit} from '../../domain/model/quantities/length-unit';
 import {SpeedUnit} from '../../domain/model/quantities/speed-unit';
 import {VolumeUnit} from '../../domain/model/quantities/volume-unit';
 import {ConsumptionUnit} from '../../domain/model/quantities/consumption-unit';
+import {WeightUnit} from '../../domain/model/quantities/weight-unit';
+import {TemperatureUnit} from '../../domain/model/quantities/temperature-unit';
 
 
 const initialState: GeoPhysicsState = {
     altitudeUnit: LengthUnit.FT,
-    distanceUnit: LengthUnit.NM,
+    routeDistanceUnit: LengthUnit.NM,
     speedUnit: SpeedUnit.KT,
     fuelUnit: VolumeUnit.L,
-    consumptionUnit: ConsumptionUnit.L_PER_H
+    fuelConsumptionUnit: ConsumptionUnit.L_PER_H,
+    weightUnit: WeightUnit.KG,
+    wnbLengthUnit: LengthUnit.M,
+    performanceDistanceUnit: LengthUnit.M,
+    temperatureUnit: TemperatureUnit.C,
 };
 
 
@@ -20,12 +26,12 @@ export const geoPhysicsReducer = createReducer(
     initialState,
     on(GeoPhysicsActions.altitudeUnitSelected, (state, action) => ({
         ...state,
-        altitudeUnit: action.altitudeUnit
+        altitudeUnit: action.lengthUnit
     })),
 
-    on(GeoPhysicsActions.distanceUnitSelected, (state, action) => ({
+    on(GeoPhysicsActions.routeDistanceUnitSelected, (state, action) => ({
         ...state,
-        distanceUnit: action.distanceUnit
+        routeDistanceUnit: action.lengthUnit
     })),
 
     on(GeoPhysicsActions.speedUnitSelected, (state, action) => ({
@@ -37,5 +43,25 @@ export const geoPhysicsReducer = createReducer(
         ...state,
         fuelUnit: action.fuelUnit,
         consumptionUnit: action.fuelUnit === VolumeUnit.L ? ConsumptionUnit.L_PER_H : ConsumptionUnit.GAL_PER_H
+    })),
+
+    on(GeoPhysicsActions.weightUnitSelected, (state, action) => ({
+        ...state,
+        weightUnit: action.weightUnit
+    })),
+
+    on(GeoPhysicsActions.wnbLengthUnitSelected, (state, action) => ({
+        ...state,
+        wnbLengthUnit: action.lengthUnit
+    })),
+
+    on(GeoPhysicsActions.performanceDistanceUnitSelected, (state, action) => ({
+        ...state,
+        performanceDistanceUnit: action.lengthUnit
+    })),
+
+    on(GeoPhysicsActions.temperatureUnitSelected, (state, action) => ({
+        ...state,
+        temperatureUnit: action.temperatureUnit
     }))
 );

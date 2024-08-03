@@ -4,7 +4,7 @@ import {RouteMeteoActions} from '../../../../state/ngrx/route-meteo.actions';
 import {getRouteMeteoState} from '../../../../state/ngrx/route-meteo.selectors';
 import {map} from 'rxjs/operators';
 import {Length} from '../../../../../geo-physics/domain/model/quantities/length';
-import {getSelectedDistanceUnit} from '../../../../../geo-physics/state/ngrx/geo-physics.selectors';
+import {getRouteDistanceUnit} from '../../../../../geo-physics/state/ngrx/geo-physics.selectors';
 
 
 @Component({
@@ -16,7 +16,7 @@ export class RouteMeteoContainerComponent implements OnInit {
     public readonly routeMeteoState$ = this.appStore.select(getRouteMeteoState);
     public readonly routeMetarTafs$ = this.routeMeteoState$.pipe(map(rms => rms.routeMetarTafs.routeMetarTafs));
     public readonly maxRadius$ = this.routeMeteoState$.pipe(map(rms => rms.maxMeteoRadius));
-    public readonly distanceUnit$ = this.appStore.select(getSelectedDistanceUnit);
+    public readonly distanceUnit$ = this.appStore.select(getRouteDistanceUnit);
     public readonly Number = Number;
     public readonly String = String;
 

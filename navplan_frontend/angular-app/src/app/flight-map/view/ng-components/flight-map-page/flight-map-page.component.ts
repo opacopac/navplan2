@@ -82,7 +82,7 @@ import {
 } from '../../../../meteo-dwd/state/ngrx/meteo-dwd.selectors';
 import {OlDwdForecastMapTileLayer} from '../../../../meteo-dwd/view/ol-components/ol-dwd-forecast-map-tile-layer';
 import {MeteoDwdActions} from '../../../../meteo-dwd/state/ngrx/meteo-dwd.actions';
-import {getSelectedAltitudeUnit} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
+import {getAltitudeUnit} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
 
 
 @Component({
@@ -312,7 +312,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         this.olTraffic = new OlTrafficContainer(
             trafficLayer,
             this.appStore.pipe(select(getTrafficState)),
-            this.appStore.pipe(select(getSelectedAltitudeUnit))
+            this.appStore.pipe(select(getAltitudeUnit))
         );
         this.olOwnPlane = new OlOwnPlaneContainer(
             ownPlaneLayer,

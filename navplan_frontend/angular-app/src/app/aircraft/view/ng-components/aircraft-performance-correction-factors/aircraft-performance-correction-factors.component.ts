@@ -3,6 +3,7 @@ import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-u
 import {DistancePerformanceCorrectionFactors} from '../../../domain/model/distance-performance-correction-factors';
 import {FormControl, Validators} from '@angular/forms';
 import {Speed} from '../../../../geo-physics/domain/model/quantities/speed';
+import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 
 
 @Component({
@@ -47,7 +48,7 @@ export class AircraftPerformanceCorrectionFactorsComponent implements OnInit {
         ]);
 
         const headwindPerSpeedValue = this.correctionFactors.headwindDecPerSpeed
-            ? this.correctionFactors.headwindDecPerSpeed.getValue(this.speedUnit)
+            ? StringnumberHelper.roundToDigits(this.correctionFactors.headwindDecPerSpeed.getValue(this.speedUnit), 0)
             : 1;
         this.headwindPerSpeedInput = new FormControl(headwindPerSpeedValue, [
             Validators.required,
@@ -62,7 +63,7 @@ export class AircraftPerformanceCorrectionFactorsComponent implements OnInit {
         ]);
 
         const tailwindPerSpeedValue = this.correctionFactors.tailwindIncPerSpeed
-            ? this.correctionFactors.tailwindIncPerSpeed.getValue(this.speedUnit)
+            ? StringnumberHelper.roundToDigits(this.correctionFactors.tailwindIncPerSpeed.getValue(this.speedUnit), 0)
             : 1;
         this.tailwindPerSpeedInput = new FormControl(tailwindPerSpeedValue, [
             Validators.required,

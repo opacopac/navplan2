@@ -3,12 +3,12 @@ import {select, Store} from '@ngrx/store';
 import {getCurrentAircraft} from '../../../state/ngrx/aircraft.selectors';
 import {Observable} from 'rxjs';
 import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-unit';
-import {getConsumptionUnit, getSelectedSpeedUnit} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
+import {getConsumptionUnit, getSpeedUnit} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
 import {VehicleType} from '../../../domain/model/vehicle-type';
 import {Speed} from '../../../../geo-physics/domain/model/quantities/speed';
 import {Consumption} from '../../../../geo-physics/domain/model/quantities/consumption';
 import {AircraftDetailsActions} from '../../../state/ngrx/aircraft-details-actions';
-import { FuelType } from '../../../domain/model/fuel-type';
+import {FuelType} from '../../../domain/model/fuel-type';
 
 
 @Component({
@@ -18,7 +18,7 @@ import { FuelType } from '../../../domain/model/fuel-type';
 })
 export class AircraftDetailsContainerComponent implements OnInit {
     protected readonly currentAircraft$ = this.appStore.pipe(select(getCurrentAircraft));
-    protected readonly speedUnit$: Observable<SpeedUnit> = this.appStore.pipe(select(getSelectedSpeedUnit));
+    protected readonly speedUnit$: Observable<SpeedUnit> = this.appStore.pipe(select(getSpeedUnit));
     protected readonly consumptionUnit$ = this.appStore.pipe(select(getConsumptionUnit));
 
 

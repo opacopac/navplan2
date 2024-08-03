@@ -31,7 +31,12 @@
             <mat-error>Value must be a positive number between 1 and 99999!</mat-error>
         </mat-form-field>
     </div>
-    TODO
+
+    <!-- weight items -->
+    <app-aircraft-weight-and-balance-table
+        [weightItems]="this.currentAircraft.wnbWeightItems"
+        [lengthUnit]="this.lengthUnit"
+    />
 </div>
 
 <div *ngIf="!this.currentAircraft">

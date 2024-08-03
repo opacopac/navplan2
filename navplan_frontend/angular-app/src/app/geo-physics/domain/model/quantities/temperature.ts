@@ -5,11 +5,6 @@ import {StringnumberHelper} from '../../../../system/domain/service/stringnumber
 
 
 export class Temperature extends AbstractQuantity<Temperature, TemperatureUnit> implements Clonable<Temperature> {
-    public static readonly unitsAndDescriptions = [
-        [TemperatureUnit.C, Temperature.getUnitString(TemperatureUnit.C)],
-        [TemperatureUnit.F, Temperature.getUnitString(TemperatureUnit.F)],
-        [TemperatureUnit.K, Temperature.getUnitString(TemperatureUnit.K)],
-    ];
 
 
     public static getUnitString(unit: TemperatureUnit): string {
@@ -86,7 +81,7 @@ export class Temperature extends AbstractQuantity<Temperature, TemperatureUnit> 
 
 
     public getValueAndUnit(asUnit: TemperatureUnit, roundToDigits: number, separator = ' '): string {
-        return StringnumberHelper.roundToDigits(this.getValue(asUnit), roundToDigits) + separator + this.getUnitString();
+        return StringnumberHelper.roundToDigits(this.getValue(asUnit), roundToDigits) + separator + Temperature.getUnitString(asUnit);
     }
 
 

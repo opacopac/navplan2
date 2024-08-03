@@ -6,7 +6,8 @@ import {Speed} from '../../../../geo-physics/domain/model/quantities/speed';
 import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-unit';
 import {ConsumptionUnit} from '../../../../geo-physics/domain/model/quantities/consumption-unit';
 import {VehicleType} from '../../../domain/model/vehicle-type';
-import { FuelType } from '../../../domain/model/fuel-type';
+import {FuelType} from '../../../domain/model/fuel-type';
+import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 
 
 @Component({
@@ -49,7 +50,7 @@ export class AircraftDetailsComponent implements OnInit {
                 Validators.required
             ]],
             'cruiseSpeed': [this.currentAircraft.cruiseSpeed
-                ? this.currentAircraft.cruiseSpeed.getValue(this.speedUnit).toString()
+                ? StringnumberHelper.roundToDigits(this.currentAircraft.cruiseSpeed.getValue(this.speedUnit), 0).toString()
                 : '',
                 [
                     Validators.required,
@@ -58,7 +59,7 @@ export class AircraftDetailsComponent implements OnInit {
                 ]
             ],
             'cruiseFuel': [this.currentAircraft.cruiseFuel
-                ? this.currentAircraft.cruiseFuel.getValue(this.consumptionUnit).toString()
+                ? StringnumberHelper.roundToDigits(this.currentAircraft.cruiseFuel.getValue(this.consumptionUnit), 0).toString()
                 : '',
                 [
                     Validators.required,

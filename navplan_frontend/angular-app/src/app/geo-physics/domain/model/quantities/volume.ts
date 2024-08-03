@@ -5,10 +5,6 @@ import {VolumeUnit} from './volume-unit';
 
 export class Volume extends AbstractQuantity<Volume, VolumeUnit> implements Clonable<Volume> {
     public static readonly L_PER_GAL = 3.78541;
-    public static unitsAndDescriptions = [
-        [ VolumeUnit.L, Volume.getUnitString(VolumeUnit.L) ],
-        [ VolumeUnit.GAL, Volume.getUnitString(VolumeUnit.GAL) ],
-    ];
 
 
     public static getUnitString(unit: VolumeUnit): string {

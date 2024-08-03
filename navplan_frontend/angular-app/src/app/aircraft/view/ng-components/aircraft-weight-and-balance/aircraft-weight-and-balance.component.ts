@@ -1,10 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Aircraft} from '../../../domain/model/aircraft';
-import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-unit';
 import {WeightUnit} from '../../../../geo-physics/domain/model/quantities/weight-unit';
 import {Speed} from '../../../../geo-physics/domain/model/quantities/speed';
 import {Weight} from '../../../../geo-physics/domain/model/quantities/weight';
 import {FormControl, Validators} from '@angular/forms';
+import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
+import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 
 
 export interface ListEntry {
@@ -21,8 +22,8 @@ export interface ListEntry {
 })
 export class AircraftWeightAndBalanceComponent implements OnInit {
     @Input() currentAircraft: Aircraft;
-    @Input() speedUnit: SpeedUnit;
     @Input() weightUnit: WeightUnit;
+    @Input() lengthUnit: LengthUnit;
 
     protected mtowInput: FormControl;
     protected bewInput: FormControl;
@@ -35,7 +36,7 @@ export class AircraftWeightAndBalanceComponent implements OnInit {
 
     ngOnInit() {
         const mtowValue = this.currentAircraft.mtow
-            ? this.currentAircraft.mtow.getValue(this.weightUnit).toString()
+            ? StringnumberHelper.roundToDigits(this.currentAircraft.mtow.getValue(this.weightUnit), 0).toString()
             : '';
         this.mtowInput = new FormControl(mtowValue, [
             Validators.required,
@@ -43,7 +44,7 @@ export class AircraftWeightAndBalanceComponent implements OnInit {
             Validators.max(99999)
         ]);
         const bewValue = this.currentAircraft.bew
-            ? this.currentAircraft.bew.getValue(this.weightUnit).toString()
+            ? StringnumberHelper.roundToDigits(this.currentAircraft.bew.getValue(this.weightUnit), 0).toString()
             : '';
         this.bewInput = new FormControl(bewValue, [
             Validators.required,

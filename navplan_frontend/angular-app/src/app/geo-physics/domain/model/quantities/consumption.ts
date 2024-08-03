@@ -4,12 +4,6 @@ import {ConsumptionUnit} from './consumption-unit';
 
 
 export class Consumption extends AbstractQuantity<Consumption, ConsumptionUnit> {
-    public static unitsAndDescriptions = [
-        [ ConsumptionUnit.L_PER_H, Consumption.getUnitString(ConsumptionUnit.L_PER_H) ],
-        [ ConsumptionUnit.GAL_PER_H, Consumption.getUnitString(ConsumptionUnit.GAL_PER_H) ],
-    ];
-
-
     public static getUnitString(unit: ConsumptionUnit): string {
         switch (unit) {
             case ConsumptionUnit.L_PER_H:

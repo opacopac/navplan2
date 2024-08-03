@@ -9,13 +9,6 @@ export class Length extends AbstractQuantity<Length, LengthUnit> implements Clon
     public static readonly M_PER_NM = 1852;
     public static readonly FT_PER_NM = Length.FT_PER_M * Length.M_PER_NM;
     public static readonly IN_PER_FT = 12;
-    public static readonly unitsAndDescriptions = [
-        [LengthUnit.FT, Length.getUnitString(LengthUnit.FT)],
-        [LengthUnit.M, Length.getUnitString(LengthUnit.M)],
-        [LengthUnit.NM, Length.getUnitString(LengthUnit.NM)],
-        [LengthUnit.KM, Length.getUnitString(LengthUnit.KM)],
-        [LengthUnit.IN, Length.getUnitString(LengthUnit.IN)]
-    ];
 
 
     public static getUnitString(unit: LengthUnit): string {
@@ -159,7 +152,7 @@ export class Length extends AbstractQuantity<Length, LengthUnit> implements Clon
 
 
     public getValueAndUnit(asUnit: LengthUnit, roundToDigits: number, separator = ' '): string {
-        return StringnumberHelper.roundToDigits(this.getValue(asUnit), roundToDigits) + separator + this.getUnitString();
+        return StringnumberHelper.roundToDigits(this.getValue(asUnit), roundToDigits) + separator + Length.getUnitString(asUnit);
     }
 
 
