@@ -17,6 +17,7 @@ export class AircraftWnbEditItemDialogComponent implements OnInit, OnDestroy {
         private dialogRef: MatDialogRef<AircraftWnbEditItemFormComponent>,
         @Inject(MAT_DIALOG_DATA) public data: {
             weightItem: WeightItem;
+            allowAircraftType: boolean;
             wnbLengthUnit: LengthUnit;
             weightUnit: WeightUnit;
             volumeUnit: VolumeUnit;
@@ -39,7 +40,7 @@ export class AircraftWnbEditItemDialogComponent implements OnInit, OnDestroy {
 
 
     protected onSaveClicked(newWeightItem: WeightItem) {
-        this.dialogRef.close([this.data.weightItem, newWeightItem]);
+        this.dialogRef.close(newWeightItem);
     }
 
 

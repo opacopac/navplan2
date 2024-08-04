@@ -9,6 +9,7 @@ import {Weight} from '../../../../geo-physics/domain/model/quantities/weight';
 import {Volume} from '../../../../geo-physics/domain/model/quantities/volume';
 import {FuelType} from '../../../domain/model/fuel-type';
 import {WeightItemType} from '../../../domain/model/weight-item-type';
+import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 
 
 @Component({
@@ -18,6 +19,7 @@ import {WeightItemType} from '../../../domain/model/weight-item-type';
 })
 export class AircraftWnbEditItemFormComponent implements OnInit, OnChanges {
     @Input() weightItem: WeightItem;
+    @Input() allowAircraftType: boolean;
     @Input() wnbLengthUnit: LengthUnit;
     @Input() weightUnit: WeightUnit;
     @Input() volumeUnit: VolumeUnit;
@@ -51,7 +53,6 @@ export class AircraftWnbEditItemFormComponent implements OnInit, OnChanges {
     }
 
 
-
     protected getSaveButtonText() {
         return this.weightItem ? 'Apply' : 'Add';
     }
@@ -82,31 +83,42 @@ export class AircraftWnbEditItemFormComponent implements OnInit, OnChanges {
     private initForm(weightItem: WeightItem) {
         this.editWeightItemForm = this.formBuilder.group({
             'type': [
-                weightItem ? weightItem.type : null, [
+                weightItem ? weightItem.type : null,
+                [
                     Validators.required
                 ]
             ],
             'name': [
-                weightItem ? weightItem.name : '', [
+                weightItem ? weightItem.name : '',
+                [
                     Validators.required,
                     Validators.maxLength(30)
                 ]
             ],
             'arm': [
-                (weightItem && weightItem.arm) ? weightItem.arm.getValue(this.wnbLengthUnit) : '', [
+                (weightItem && weightItem.arm)
+                    ? StringnumberHelper.roundToDigits(weightItem.arm.getValue(this.wnbLengthUnit), 3)
+                    : '',
+                [
                     Validators.required,
                     Validators.min(-99999),
                     Validators.max(99999),
                 ]
             ],
             'maxWeight': [
-                (weightItem && weightItem.maxWeight) ? weightItem.maxWeight.getValue(this.weightUnit) : '', [
+                (weightItem && weightItem.maxWeight)
+                    ? StringnumberHelper.roundToDigits(weightItem.maxWeight.getValue(this.weightUnit), 3)
+                    : '',
+                [
                     Validators.min(1),
                     Validators.max(99999),
                 ]
             ],
             'maxFuel': [
-                (weightItem && weightItem.maxFuel) ? weightItem.maxFuel.getValue(this.volumeUnit) : '', [
+                (weightItem && weightItem.maxFuel)
+                    ? StringnumberHelper.roundToDigits(weightItem.maxFuel.getValue(this.volumeUnit), 3)
+                    : '',
+                [
                     Validators.min(1),
                     Validators.max(99999),
                 ]

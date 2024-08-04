@@ -24,4 +24,9 @@ export class AircraftWnbActions {
         '[Aircraft W&B] Add weight item',
         props<{ weightItem: WeightItem }>()
     );
+
+    public static readonly editWeightItem = createAction(
+        '[Aircraft W&B] Edit weight item',
+        props<{ weightItem: WeightItem, weightItemIndex: number }>()
+    );
 }

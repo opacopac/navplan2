@@ -39,6 +39,7 @@
         [weightItems]="this.currentAircraft.wnbWeightItems"
         [lengthUnit]="this.lengthUnit"
         (addWeightItem)="this.addWeightItem.emit($event)"
+        (editWeightItem)="this.editWeightItem.emit($event)"
         (deleteWeightItem)="this.deleteWeightItem.emit($event)"
     />
 </div>

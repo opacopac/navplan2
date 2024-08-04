@@ -28,6 +28,7 @@ export class AircraftWnbComponent implements OnInit {
     @Output() changeMtow = new EventEmitter<Weight>();
     @Output() changeBew = new EventEmitter<Weight>();
     @Output() addWeightItem = new EventEmitter<WeightItem>();
+    @Output() editWeightItem = new EventEmitter<[WeightItem, number]>();
     @Output() deleteWeightItem = new EventEmitter<number>();
 
     protected mtowInput: FormControl;

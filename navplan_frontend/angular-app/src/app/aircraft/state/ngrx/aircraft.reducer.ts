@@ -111,6 +111,17 @@ export const aircraftReducer = createReducer(
     on(AircraftWnbActions.addWeightItem, (state, action) => {
         const newAircraft = state.currentAircraft.clone();
         newAircraft.wnbWeightItems.push(action.weightItem);
+        newAircraft.wnbWeightItems.sort((a, b) => a.type - b.type);
+        return {
+            ...state,
+            currentAircraft: newAircraft
+        };
+    }),
+
+    on(AircraftWnbActions.editWeightItem, (state, action) => {
+        const newAircraft = state.currentAircraft.clone();
+        newAircraft.wnbWeightItems[action.weightItemIndex] = action.weightItem;
+        newAircraft.wnbWeightItems.sort((a, b) => a.type - b.type);
         return {
             ...state,
             currentAircraft: newAircraft

@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {AircraftWnbEditItemFormComponent} from './aircraft-wnb-edit-item-form.component';
 
 
@@ -6,12 +6,12 @@ xdescribe('EditWaypointFormComponent', () => {
     let component: AircraftWnbEditItemFormComponent;
     let fixture: ComponentFixture<AircraftWnbEditItemFormComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(async () => {
         TestBed.configureTestingModule({
             declarations: [AircraftWnbEditItemFormComponent]
         })
             .compileComponents();
-    }));
+    });
 
     beforeEach(() => {
         fixture = TestBed.createComponent(AircraftWnbEditItemFormComponent);

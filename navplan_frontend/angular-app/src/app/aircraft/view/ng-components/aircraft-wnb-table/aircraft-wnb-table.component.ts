@@ -24,6 +24,7 @@ export class AircraftWnbTableComponent implements OnInit {
     @Input() lengthUnit: LengthUnit;
     @Input() volumeUnit: VolumeUnit;
     @Output() addWeightItem = new EventEmitter<WeightItem>();
+    @Output() editWeightItem = new EventEmitter<[WeightItem, number]>();
     @Output() deleteWeightItem = new EventEmitter<number>();
 
     protected readonly ButtonColor = ButtonColor;
@@ -64,7 +65,7 @@ export class AircraftWnbTableComponent implements OnInit {
 
 
     protected onEditWeightItemClick(weightItem: WeightItem) {
-        // TODO
+        this.openDialog(weightItem);
     }
 
 
@@ -74,22 +75,36 @@ export class AircraftWnbTableComponent implements OnInit {
 
 
     protected onAddWeightItemClick() {
+        this.openDialog(null);
+    }
+
+
+    private openDialog(weightItem: WeightItem) {
         const dialogRef = this.dialog.open(AircraftWnbEditItemDialogComponent, {
             // height: '800px',
             width: '600px',
             data: {
-                weightItem: null,
+                weightItem: weightItem,
+                allowAircraftType: !this.hasAircraftTypeItem(),
                 wnbLengthUnit: this.lengthUnit,
                 weightUnit: this.weightUnit,
                 volumeUnit: this.volumeUnit,
-                formBuilder: this.formBuilder // TODO
             }
         });
 
-        dialogRef.afterClosed().subscribe((oldNewWeightItem) => {
-            if (oldNewWeightItem) {
-                this.addWeightItem.emit(oldNewWeightItem[1]);
+        dialogRef.afterClosed().subscribe((newWeightItem) => {
+            if (newWeightItem) {
+                if (weightItem) {
+                    this.editWeightItem.emit([newWeightItem, this.weightItems.indexOf(weightItem)]);
+                } else {
+                    this.addWeightItem.emit(newWeightItem);
+                }
             }
         });
+    }
+
+
+    private hasAircraftTypeItem(): boolean {
+        return this.weightItems.some(item => item.type === WeightItemType.AIRCRAFT);
     }
 }

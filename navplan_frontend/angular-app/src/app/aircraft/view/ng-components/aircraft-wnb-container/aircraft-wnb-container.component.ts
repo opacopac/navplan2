@@ -44,6 +44,16 @@ export class AircraftWnbContainerComponent implements OnInit {
     }
 
 
+    protected onEditWeightItem(weightItemAndIndex: [WeightItem, number]) {
+        this.appStore.dispatch(
+            AircraftWnbActions.editWeightItem({
+                weightItem: weightItemAndIndex[0],
+                weightItemIndex: weightItemAndIndex[1]
+            })
+        );
+    }
+
+
     protected onDeleteWeightItem(weightItemIndex: number) {
         this.appStore.dispatch(
             AircraftWnbActions.deleteWeightItem({weightItemIndex: weightItemIndex})
