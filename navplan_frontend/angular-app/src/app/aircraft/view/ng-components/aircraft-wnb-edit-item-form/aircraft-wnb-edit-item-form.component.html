@@ -1,6 +1,6 @@
 <form [formGroup]="editWeightItemForm">
     <div class="weight-item-form-content">
-        <mat-form-field>
+        <mat-form-field class="flex-row">
             <mat-label>Type</mat-label>
             <mat-select
                 formControlName="type"
@@ -26,7 +26,7 @@
             />
             <mat-error>Name is mandatory (max. 30 characters)!</mat-error>
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field class="flex-row">
             <mat-label>Arm</mat-label>
             <input
                 matInput
@@ -39,7 +39,7 @@
             <span matTextSuffix>{{ Length.getUnitString(this.wnbLengthUnit) }}</span>
             <mat-error>Value must be a positive or negative number!</mat-error>
         </mat-form-field>
-        <mat-form-field *ngIf="!this.isTypeFuel()">
+        <mat-form-field *ngIf="!this.isTypeFuel()" class="flex-row">
             <mat-label>Max. Weight</mat-label>
             <input
                 matInput
@@ -51,7 +51,7 @@
             <span matTextSuffix>{{ Weight.getUnitString(this.weightUnit) }}</span>
             <mat-error>Value must be a positive number between 1 and 99999!</mat-error>
         </mat-form-field>
-        <mat-form-field *ngIf="this.isTypeFuel()">
+        <mat-form-field *ngIf="this.isTypeFuel()" class="flex-row">
             <mat-label>Max. Fuel</mat-label>
             <input
                 matInput
