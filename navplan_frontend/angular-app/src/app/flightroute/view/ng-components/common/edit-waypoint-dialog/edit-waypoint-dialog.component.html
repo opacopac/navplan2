@@ -1,7 +1,10 @@
-<app-edit-waypoint-form
-    class="waypoint-form"
-    [editWaypoint]="this.data.editWaypoint"
-    [altitudeUnit]="this.data.altitudeUnit$ | async"
-    (onSaveClick)="this.onSaveClick($event)"
-    (onCancelClick)="this.onCancelClick()">
-</app-edit-waypoint-form>
+<h1 mat-dialog-title>Edit Waypoint</h1>
+<mat-dialog-content>
+    <app-edit-waypoint-form
+        class="waypoint-form"
+        [editWaypoint]="this.data.editWaypoint"
+        [altitudeUnit]="this.data.altitudeUnit$ | async"
+        (onSaveClick)="this.onSaveClick($event)"
+        (onCancelClick)="this.onCancelClick()">
+    </app-edit-waypoint-form>
+</mat-dialog-content>

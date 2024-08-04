@@ -8,11 +8,11 @@ import {WeightItem} from '../../../domain/model/weight-item';
 
 
 @Component({
-    selector: 'app-aircraft-weight-and-balance-container',
-    templateUrl: './aircraft-weight-and-balance-container.component.html',
-    styleUrls: ['./aircraft-weight-and-balance-container.component.scss'],
+    selector: 'app-aircraft-wnb-container',
+    templateUrl: './aircraft-wnb-container.component.html',
+    styleUrls: ['./aircraft-wnb-container.component.scss'],
 })
-export class AircraftWeightAndBalanceContainerComponent implements OnInit {
+export class AircraftWnbContainerComponent implements OnInit {
     protected readonly currentAircraft$ = this.appStore.pipe(select(getCurrentAircraft));
     protected readonly weightUnit$ = this.appStore.pipe(select(getWeightUnit));
     protected readonly lengthUnit$ = this.appStore.pipe(select(getWnbLengthUnit));

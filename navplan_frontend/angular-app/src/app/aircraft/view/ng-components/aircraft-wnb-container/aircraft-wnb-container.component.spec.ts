@@ -1,5 +1,5 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {AircraftListContainerComponent} from './aircraft-weight-and-balance-container.component';
+import {AircraftListContainerComponent} from './aircraft-wnb-container.component';
 
 
 xdescribe('AircraftListContainerComponent', () => {

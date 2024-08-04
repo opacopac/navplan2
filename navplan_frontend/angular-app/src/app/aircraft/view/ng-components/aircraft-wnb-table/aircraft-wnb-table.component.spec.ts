@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {AircraftWeightAndBalanceTableComponent} from './aircraft-weight-and-balance-table.component';
+import {AircraftWnbTableComponent} from './aircraft-wnb-table.component';
 
 
 xdescribe('FlightrouteListComponent', () => {
-    let component: AircraftWeightAndBalanceTableComponent;
-    let fixture: ComponentFixture<AircraftWeightAndBalanceTableComponent>;
+    let component: AircraftWnbTableComponent;
+    let fixture: ComponentFixture<AircraftWnbTableComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [AircraftWeightAndBalanceTableComponent]
+            declarations: [AircraftWnbTableComponent]
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(AircraftWeightAndBalanceTableComponent);
+        fixture = TestBed.createComponent(AircraftWnbTableComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

@@ -35,7 +35,7 @@
     </div>
 
     <!-- weight items -->
-    <app-aircraft-weight-and-balance-table
+    <app-aircraft-wnb-table
         [weightItems]="this.currentAircraft.wnbWeightItems"
         [lengthUnit]="this.lengthUnit"
         (addWeightItem)="this.addWeightItem.emit($event)"

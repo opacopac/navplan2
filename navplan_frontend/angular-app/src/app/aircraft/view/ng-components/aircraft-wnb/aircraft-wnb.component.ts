@@ -17,11 +17,11 @@ export interface ListEntry {
 
 
 @Component({
-    selector: 'app-aircraft-weight-and-balance',
-    templateUrl: './aircraft-weight-and-balance.component.html',
-    styleUrls: ['./aircraft-weight-and-balance.component.scss']
+    selector: 'app-aircraft-wnb',
+    templateUrl: './aircraft-wnb.component.html',
+    styleUrls: ['./aircraft-wnb.component.scss']
 })
-export class AircraftWeightAndBalanceComponent implements OnInit {
+export class AircraftWnbComponent implements OnInit {
     @Input() currentAircraft: Aircraft;
     @Input() weightUnit: WeightUnit;
     @Input() lengthUnit: LengthUnit;

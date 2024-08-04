@@ -5,17 +5,24 @@ import {WeightItem} from '../../../domain/model/weight-item';
 import {ButtonColor} from '../../../../common/view/model/button-color';
 import {WeightItemType} from '../../../domain/model/weight-item-type';
 import {Length} from '../../../../geo-physics/domain/model/quantities/length';
+import {
+    AircraftWnbEditItemDialogComponent
+} from '../aircraft-wnb-edit-item-dialog/aircraft-wnb-edit-item-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
+import {VolumeUnit} from '../../../../geo-physics/domain/model/quantities/volume-unit';
+import {FormBuilder} from '@angular/forms';
 
 
 @Component({
-    selector: 'app-aircraft-weight-and-balance-table',
-    templateUrl: './aircraft-weight-and-balance-table.component.html',
-    styleUrls: ['./aircraft-weight-and-balance-table.component.scss']
+    selector: 'app-aircraft-wnb-table',
+    templateUrl: './aircraft-wnb-table.component.html',
+    styleUrls: ['./aircraft-wnb-table.component.scss']
 })
-export class AircraftWeightAndBalanceTableComponent implements OnInit {
+export class AircraftWnbTableComponent implements OnInit {
     @Input() weightItems: WeightItem[];
     @Input() weightUnit: WeightUnit;
     @Input() lengthUnit: LengthUnit;
+    @Input() volumeUnit: VolumeUnit;
     @Output() addWeightItem = new EventEmitter<WeightItem>();
     @Output() deleteWeightItem = new EventEmitter<number>();
 
@@ -23,7 +30,10 @@ export class AircraftWeightAndBalanceTableComponent implements OnInit {
     protected displayedColumns: string[] = ['type', 'name', 'arm', 'icons'];
 
 
-    constructor() {
+    constructor(
+        private dialog: MatDialog,
+        public formBuilder: FormBuilder
+    ) {
     }
 
 
@@ -64,6 +74,22 @@ export class AircraftWeightAndBalanceTableComponent implements OnInit {
 
 
     protected onAddWeightItemClick() {
-        // TODO
+        const dialogRef = this.dialog.open(AircraftWnbEditItemDialogComponent, {
+            // height: '800px',
+            width: '600px',
+            data: {
+                weightItem: null,
+                wnbLengthUnit: this.lengthUnit,
+                weightUnit: this.weightUnit,
+                volumeUnit: this.volumeUnit,
+                formBuilder: this.formBuilder // TODO
+            }
+        });
+
+        dialogRef.afterClosed().subscribe((oldNewWeightItem) => {
+            if (oldNewWeightItem) {
+                this.addWeightItem.emit(oldNewWeightItem[1]);
+            }
+        });
     }
 }

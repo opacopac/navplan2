@@ -27,13 +27,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import {
     AircraftPerformanceContainerComponent
 } from './ng-components/aircraft-performance-container/aircraft-performance-container.component';
-import {
-    AircraftWeightAndBalanceContainerComponent
-} from './ng-components/aircraft-weight-and-balance-container/aircraft-weight-and-balance-container.component';
 import {AircraftPerformanceComponent} from './ng-components/aircraft-performance/aircraft-performance.component';
-import {
-    AircraftWeightAndBalanceComponent
-} from './ng-components/aircraft-weight-and-balance/aircraft-weight-and-balance.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {
     AircraftPerformanceTableComponent
@@ -43,8 +37,15 @@ import {
 } from './ng-components/aircraft-performance-correction-factors/aircraft-performance-correction-factors.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {
-    AircraftWeightAndBalanceTableComponent
-} from './ng-components/aircraft-weight-and-balance-table/aircraft-weight-and-balance-table.component';
+    AircraftWnbEditItemDialogComponent
+} from './ng-components/aircraft-wnb-edit-item-dialog/aircraft-wnb-edit-item-dialog.component';
+import {
+    AircraftWnbEditItemFormComponent
+} from './ng-components/aircraft-wnb-edit-item-form/aircraft-wnb-edit-item-form.component';
+import {AircraftWnbContainerComponent} from './ng-components/aircraft-wnb-container/aircraft-wnb-container.component';
+import {AircraftWnbComponent} from './ng-components/aircraft-wnb/aircraft-wnb.component';
+import {AircraftWnbTableComponent} from './ng-components/aircraft-wnb-table/aircraft-wnb-table.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule({
@@ -67,6 +68,7 @@ import {
         MatRadioModule,
         MatExpansionModule,
         MatGridListModule,
+        MatDialogModule,
     ],
     declarations: [
         AircraftPageComponent,
@@ -78,9 +80,11 @@ import {
         AircraftPerformanceComponent,
         AircraftPerformanceTableComponent,
         AircraftPerformanceCorrectionFactorsComponent,
-        AircraftWeightAndBalanceContainerComponent,
-        AircraftWeightAndBalanceComponent,
-        AircraftWeightAndBalanceTableComponent,
+        AircraftWnbContainerComponent,
+        AircraftWnbComponent,
+        AircraftWnbTableComponent,
+        AircraftWnbEditItemDialogComponent,
+        AircraftWnbEditItemFormComponent,
     ],
     exports: [],
     providers: []
