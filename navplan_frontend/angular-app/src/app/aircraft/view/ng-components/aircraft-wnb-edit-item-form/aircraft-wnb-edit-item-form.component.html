@@ -5,6 +5,7 @@
             <mat-select
                 formControlName="type"
                 required
+                (selectionChange)="this.onTypeChanged()"
             >
                 <mat-option value="" selected>(select)</mat-option>
                 <mat-option [value]="WeightItemType.AIRCRAFT" [disabled]="!this.allowAircraftType">AIRCRAFT</mat-option>
@@ -23,6 +24,7 @@
                 formControlName="name"
                 maxlength="30"
                 required
+                [disabled]="this.isTypeAircraft()"
             />
             <mat-error>Name is mandatory (max. 30 characters)!</mat-error>
         </mat-form-field>
@@ -39,7 +41,7 @@
             <span matTextSuffix>{{ Length.getUnitString(this.wnbLengthUnit) }}</span>
             <mat-error>Value must be a positive or negative number!</mat-error>
         </mat-form-field>
-        <mat-form-field *ngIf="!this.isTypeFuel()" class="flex-row">
+        <mat-form-field *ngIf="!this.isTypeFuel() && !this.isTypeAircraft()" class="flex-row">
             <mat-label>Max. Weight</mat-label>
             <input
                 matInput

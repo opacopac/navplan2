@@ -47,8 +47,21 @@ export class AircraftWnbEditItemFormComponent implements OnInit, OnChanges {
     }
 
 
+    protected onTypeChanged() {
+        if (this.getType() === WeightItemType.AIRCRAFT) {
+            this.editWeightItemForm.get('name').setValue('Empty Aircraft');
+        }
+    }
+
+
+    protected isTypeAircraft(): boolean {
+        const value = this.getType();
+        return value !== null && value === WeightItemType.AIRCRAFT;
+    }
+
+
     protected isTypeFuel(): boolean {
-        const value = this.editWeightItemForm.get('type').value;
+        const value = this.getType();
         return value !== null && value === WeightItemType.FUEL;
     }
 
@@ -124,5 +137,10 @@ export class AircraftWnbEditItemFormComponent implements OnInit, OnChanges {
                 ]
             ]
         });
+    }
+
+
+    private getType(): WeightItemType {
+        return this.editWeightItemForm.get('type').value;
     }
 }
