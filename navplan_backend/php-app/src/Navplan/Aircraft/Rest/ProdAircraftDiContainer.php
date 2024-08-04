@@ -7,6 +7,8 @@ use Navplan\Aircraft\Domain\Command\IAircraftDeleteCommand;
 use Navplan\Aircraft\Domain\Command\IAircraftUpdateCommand;
 use Navplan\Aircraft\Domain\Command\IDistancePerformanceTableCreateCommand;
 use Navplan\Aircraft\Domain\Command\IDistancePerformanceTableDeleteCommand;
+use Navplan\Aircraft\Domain\Command\IWeightItemCreateCommand;
+use Navplan\Aircraft\Domain\Command\IWeightItemDeleteCommand;
 use Navplan\Aircraft\Domain\Query\IAircraftByIdQuery;
 use Navplan\Aircraft\Domain\Query\IAircraftListQuery;
 use Navplan\Aircraft\Domain\Service\AircraftService;
@@ -16,6 +18,8 @@ use Navplan\Aircraft\Persistence\Command\DbAircraftDeleteCommand;
 use Navplan\Aircraft\Persistence\Command\DbAircraftUpdateCommand;
 use Navplan\Aircraft\Persistence\Command\DbDistancePerformanceTableCreateCommand;
 use Navplan\Aircraft\Persistence\Command\DbDistancePerformanceTableDeleteCommand;
+use Navplan\Aircraft\Persistence\Command\DbWeightItemCreateCommand;
+use Navplan\Aircraft\Persistence\Command\DbWeightItemDeleteCommand;
 use Navplan\Aircraft\Persistence\Query\DbAircraftByIdQuery;
 use Navplan\Aircraft\Persistence\Query\DbAircraftListQuery;
 use Navplan\Aircraft\Rest\Controller\AircraftController;
@@ -34,6 +38,8 @@ class ProdAircraftDiContainer implements IAircraftDiContainer
     private IAircraftCreateCommand $aircraftCreateCommand;
     private IAircraftUpdateCommand $aircraftUpdateCommand;
     private IAircraftDeleteCommand $aircraftDeleteCommand;
+    private IWeightItemCreateCommand $weightItemCreateCommand;
+    private IWeightItemDeleteCommand $weightItemDeleteCommand;
     private IDistancePerformanceTableCreateCommand $distancePerformanceTableCreateCommand;
     private IDistancePerformanceTableDeleteCommand $distancePerformanceTableDeleteCommand;
 
@@ -106,7 +112,8 @@ class ProdAircraftDiContainer implements IAircraftDiContainer
         if (!isset($this->aircraftCreateCommand)) {
             $this->aircraftCreateCommand = new DbAircraftCreateCommand(
                 $this->dbService,
-                $this->getDistancePerformanceTableCreateCommand()
+                $this->getWeightItemCreateCommand(),
+                $this->getDistancePerformanceTableCreateCommand(),
             );
         }
 
@@ -119,6 +126,8 @@ class ProdAircraftDiContainer implements IAircraftDiContainer
         if (!isset($this->aircraftUpdateCommand)) {
             $this->aircraftUpdateCommand = new DbAircraftUpdateCommand(
                 $this->dbService,
+                $this->getWeightItemCreateCommand(),
+                $this->getWeightItemDeleteCommand(),
                 $this->getDistancePerformanceTableCreateCommand(),
                 $this->getDistancePerformanceTableDeleteCommand()
             );
@@ -133,11 +142,36 @@ class ProdAircraftDiContainer implements IAircraftDiContainer
         if (!isset($this->aircraftDeleteCommand)) {
             $this->aircraftDeleteCommand = new DbAircraftDeleteCommand(
                 $this->dbService,
+                $this->getWeightItemDeleteCommand(),
                 $this->getDistancePerformanceTableDeleteCommand()
             );
         }
 
         return $this->aircraftDeleteCommand;
+    }
+
+
+    public function getWeightItemCreateCommand(): IWeightItemCreateCommand
+    {
+        if (!isset($this->weightItemCreateCommand)) {
+            $this->weightItemCreateCommand = new DbWeightItemCreateCommand(
+                $this->dbService
+            );
+        }
+
+        return $this->weightItemCreateCommand;
+    }
+
+
+    public function getWeightItemDeleteCommand(): IWeightItemDeleteCommand
+    {
+        if (!isset($this->weightItemDeleteCommand)) {
+            $this->weightItemDeleteCommand = new DbWeightItemDeleteCommand(
+                $this->dbService
+            );
+        }
+
+        return $this->weightItemDeleteCommand;
     }
 
 

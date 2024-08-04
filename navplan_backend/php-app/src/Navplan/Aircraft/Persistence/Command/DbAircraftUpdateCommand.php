@@ -5,6 +5,8 @@ namespace Navplan\Aircraft\Persistence\Command;
 use Navplan\Aircraft\Domain\Command\IAircraftUpdateCommand;
 use Navplan\Aircraft\Domain\Command\IDistancePerformanceTableCreateCommand;
 use Navplan\Aircraft\Domain\Command\IDistancePerformanceTableDeleteCommand;
+use Navplan\Aircraft\Domain\Command\IWeightItemCreateCommand;
+use Navplan\Aircraft\Domain\Command\IWeightItemDeleteCommand;
 use Navplan\Aircraft\Domain\Model\Aircraft;
 use Navplan\Aircraft\Persistence\Model\DbTableAircraft;
 use Navplan\Aircraft\Persistence\Model\PerfDistTableType;
@@ -16,6 +18,8 @@ class DbAircraftUpdateCommand implements IAircraftUpdateCommand
 {
     public function __construct(
         private IDbService $dbService,
+        private IWeightItemCreateCommand $weightItemCreateCommand,
+        private IWeightItemDeleteCommand $weightItemDeleteCommand,
         private IDistancePerformanceTableCreateCommand $distancePerformanceTableCreateCommand,
         private IDistancePerformanceTableDeleteCommand $distancePerformanceTableDeleteCommand
     )
@@ -26,9 +30,13 @@ class DbAircraftUpdateCommand implements IAircraftUpdateCommand
     public
     function update(Aircraft $aircraft, int $userId): Aircraft
     {
-        // update route
+        // update aircraft
         $query = $this->getUpdateSql($aircraft, $userId);
         $this->dbService->execCUDQuery($query, "error updating aircraft");
+
+        // update w&b
+        $this->weightItemDeleteCommand->deleteByAircraft($aircraft->id);
+        $this->weightItemCreateCommand->create($aircraft->id, $aircraft->wnbWeightItems);
 
         // update distance performance tables
         $this->distancePerformanceTableDeleteCommand->deleteByAircraft($aircraft->id);
