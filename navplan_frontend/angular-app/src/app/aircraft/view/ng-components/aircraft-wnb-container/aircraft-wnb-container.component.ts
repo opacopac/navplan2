@@ -5,6 +5,7 @@ import {getWeightUnit, getWnbLengthUnit} from '../../../../geo-physics/state/ngr
 import {Weight} from '../../../../geo-physics/domain/model/quantities/weight';
 import {AircraftWnbActions} from '../../../state/ngrx/aircraft-wnb-actions';
 import {WeightItem} from '../../../domain/model/weight-item';
+import {AircraftCrudActions} from '../../../state/ngrx/aircraft-crud-actions';
 
 
 @Component({
@@ -57,6 +58,13 @@ export class AircraftWnbContainerComponent implements OnInit {
     protected onDeleteWeightItem(weightItemIndex: number) {
         this.appStore.dispatch(
             AircraftWnbActions.deleteWeightItem({weightItemIndex: weightItemIndex})
+        );
+    }
+
+
+    protected onSaveAircraftWnb() {
+        this.appStore.dispatch(
+            AircraftCrudActions.saveAircraft()
         );
     }
 }

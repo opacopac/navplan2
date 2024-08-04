@@ -9,7 +9,6 @@ export class AircraftWnbActions {
         props<{ mtow: Weight }>()
     );
 
-
     public static readonly changeBew = createAction(
         '[Aircraft W&B] Change BEW',
         props<{ bew: Weight }>()

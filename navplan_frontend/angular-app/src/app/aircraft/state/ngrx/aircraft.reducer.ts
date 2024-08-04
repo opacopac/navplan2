@@ -3,6 +3,7 @@ import {AircraftState} from '../state-model/aircraft-state';
 import {AircraftListActions} from './aircraft-list.actions';
 import {AircraftDetailsActions} from './aircraft-details-actions';
 import {AircraftWnbActions} from './aircraft-wnb-actions';
+import {AircraftCrudActions} from './aircraft-crud-actions';
 
 
 const initialState: AircraftState = {
@@ -22,6 +23,16 @@ export const aircraftReducer = createReducer(
     })),
 
     on(AircraftListActions.selectAircraftSuccess, (state, action) => ({
+        ...state,
+        currentAircraft: action.aircraft
+    })),
+
+    // endregion
+
+
+    // region aircraft crud actions
+
+    on(AircraftCrudActions.saveAircraftSuccess, (state, action) => ({
         ...state,
         currentAircraft: action.aircraft
     })),

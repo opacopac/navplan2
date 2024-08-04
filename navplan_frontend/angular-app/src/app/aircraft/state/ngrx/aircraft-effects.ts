@@ -9,9 +9,9 @@ import {MessageActions} from '../../../message/state/ngrx/message.actions';
 import {Message} from '../../../message/domain/model/message';
 import {IAircraftService} from '../../domain/service/i-aircraft.service';
 import {AircraftListActions} from './aircraft-list.actions';
-import {AircraftDetailsActions} from './aircraft-details-actions';
 import {AircraftState} from '../state-model/aircraft-state';
 import {getAircraftState} from './aircraft.selectors';
+import {AircraftCrudActions} from './aircraft-crud-actions';
 
 
 @Injectable()
@@ -56,22 +56,22 @@ export class AircraftEffects {
         ))
     ));
 
-    saveAircraftDetailsAction$ = createEffect(() => this.actions$.pipe(
-        ofType(AircraftDetailsActions.saveAircraftDetails),
+    saveAircraftAction$ = createEffect(() => this.actions$.pipe(
+        ofType(AircraftCrudActions.saveAircraft),
         withLatestFrom(this.aircraftState$, this.userState$),
         switchMap(([action, aircraftState, userState]) => this.aircraftService.saveAircraft(
             aircraftState.currentAircraft,
             userState.currentUser
         ).pipe(
             switchMap(aircraft => [
-                AircraftDetailsActions.saveAircraftDetailsSuccess({aircraft: aircraft}),
+                AircraftCrudActions.saveAircraftSuccess({aircraft: aircraft}),
                 MessageActions.showMessage({
-                    message: Message.success('Aircraft details saved successfully.')
+                    message: Message.success('Aircraft saved successfully.')
                 })
             ]),
             catchError(error => of(MessageActions.showMessage({
-                message: Message.error('Error saving aircraft: ', error)
-            }))
+                    message: Message.error('Error saving aircraft: ', error)
+                }))
             )
         ))
     ));

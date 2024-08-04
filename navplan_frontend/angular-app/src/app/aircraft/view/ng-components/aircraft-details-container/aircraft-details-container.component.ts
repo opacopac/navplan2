@@ -9,6 +9,7 @@ import {Speed} from '../../../../geo-physics/domain/model/quantities/speed';
 import {Consumption} from '../../../../geo-physics/domain/model/quantities/consumption';
 import {AircraftDetailsActions} from '../../../state/ngrx/aircraft-details-actions';
 import {FuelType} from '../../../domain/model/fuel-type';
+import {AircraftCrudActions} from '../../../state/ngrx/aircraft-crud-actions';
 
 
 @Component({
@@ -61,6 +62,6 @@ export class AircraftDetailsContainerComponent implements OnInit {
 
 
     protected onSaveAircraftDetailsClicked() {
-        this.appStore.dispatch(AircraftDetailsActions.saveAircraftDetails());
+        this.appStore.dispatch(AircraftCrudActions.saveAircraft());
     }
 }

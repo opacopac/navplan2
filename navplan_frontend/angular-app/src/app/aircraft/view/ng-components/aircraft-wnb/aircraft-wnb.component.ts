@@ -30,6 +30,7 @@ export class AircraftWnbComponent implements OnInit {
     @Output() addWeightItem = new EventEmitter<WeightItem>();
     @Output() editWeightItem = new EventEmitter<[WeightItem, number]>();
     @Output() deleteWeightItem = new EventEmitter<number>();
+    @Output() saveAircraftWnb = new EventEmitter<void>();
 
     protected mtowInput: FormControl;
     protected bewInput: FormControl;
@@ -72,6 +73,18 @@ export class AircraftWnbComponent implements OnInit {
         if (this.mtowInput.valid) {
             const mtowValue = this.mtowInput.value;
             this.changeMtow.emit(new Weight(mtowValue, this.weightUnit));
+        }
+    }
+
+
+    protected isValidWnbForm(): boolean {
+        return this.mtowInput.valid && this.bewInput.valid;
+    }
+
+
+    protected onSaveAircraftWnbClicked() {
+        if (this.isValidWnbForm()) {
+            this.saveAircraftWnb.emit();
         }
     }
 }

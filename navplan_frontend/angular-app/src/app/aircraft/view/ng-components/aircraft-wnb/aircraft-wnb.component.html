@@ -42,6 +42,18 @@
         (editWeightItem)="this.editWeightItem.emit($event)"
         (deleteWeightItem)="this.deleteWeightItem.emit($event)"
     />
+
+    <!-- save button -->
+    <p>
+        <button
+            mat-raised-button
+            color="primary"
+            [disabled]="!this.isValidWnbForm()"
+            (click)="this.onSaveAircraftWnbClicked()"
+        >
+            Save
+        </button>
+    </p>
 </div>
 
 <div *ngIf="!this.currentAircraft">
