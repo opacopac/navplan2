@@ -49,17 +49,33 @@ class AircraftService implements IAircraftService
     }
 
 
-    function update(Aircraft $aircraft, string $token): Aircraft
+
+    public function duplicate(int $aircraftId, string $token): Aircraft
+    {
+        $user = $this->userService->getUserOrThrow($token);
+        $newAircraft = $this->aircraftByIdQuery->read($aircraftId, $user->id);
+        $newAircraft->id = 0;
+        $newAircraft->registration .= '(2)';
+
+        return $this->create($newAircraft, $token);
+    }
+
+
+
+    public function update(Aircraft $aircraft, string $token): Aircraft
     {
         $user = $this->userService->getUserOrThrow($token);
 
         return $this->aircraftUpdateCommand->update($aircraft, $user->id);
     }
 
-    function delete(int $aircraftId, string $token): bool
+
+    public function delete(int $aircraftId, string $token): bool
     {
         $user = $this->userService->getUserOrThrow($token);
 
-        return $this->aircraftDeleteCommand->delete($aircraftId, $user->id);
+        $this->aircraftDeleteCommand->delete($aircraftId, $user->id);
+
+        return true; // TODO
     }
 }

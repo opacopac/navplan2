@@ -18,6 +18,8 @@ interface IAircraftService
 
     function create(Aircraft $aircraft, string $token): Aircraft;
 
+    function duplicate(int $aircraftId, string $token): Aircraft;
+
     function update(Aircraft $aircraft, string $token): Aircraft;
 
     function delete(int $aircraftId, string $token): bool;

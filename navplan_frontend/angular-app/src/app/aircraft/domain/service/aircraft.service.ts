@@ -26,4 +26,14 @@ export class AircraftService implements IAircraftService {
     public saveAircraft(aircraft: Aircraft, user: User): Observable<Aircraft> {
         return this.aircraftRepo.saveAircraft(aircraft, user);
     }
+
+
+    public duplicateAircraft(aircraftId: number, user: User): Observable<Aircraft> {
+        return this.aircraftRepo.duplicateAircraft(aircraftId, user);
+    }
+
+
+    public deleteAircraft(aircraftId: number, user: User): Observable<boolean> {
+        return this.aircraftRepo.deleteAircraft(aircraftId, user);
+    }
 }

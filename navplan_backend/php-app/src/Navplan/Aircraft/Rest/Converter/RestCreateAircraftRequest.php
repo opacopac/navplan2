@@ -9,7 +9,7 @@ use Navplan\Common\StringNumberHelper;
 class RestCreateAircraftRequest
 {
     public const ARG_TOKEN = "token";
-    public const ARG_ROUTE = "aircraft";
+    public const ARG_AIRCRAFT = "aircraft";
 
 
     public function __construct(
@@ -23,7 +23,7 @@ class RestCreateAircraftRequest
     public static function fromRest(array $args): RestCreateAircraftRequest
     {
         return new RestCreateAircraftRequest(
-            RestAircraftConverter::fromRest($args[self::ARG_ROUTE]),
+            RestAircraftConverter::fromRest($args[self::ARG_AIRCRAFT]),
             StringNumberHelper::parseStringOrError($args, self::ARG_TOKEN)
         );
     }

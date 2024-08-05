@@ -11,11 +11,7 @@ export abstract class IAircraftService {
 
     public abstract saveAircraft(aircraft: Aircraft, user: User): Observable<Aircraft>;
 
-    /*public abstract duplicateFlightroute(flightroute: Flightroute, user: User): Observable<Flightroute>;
+    public abstract duplicateAircraft(aircraftId: number, user: User): Observable<Aircraft>;
 
-    public abstract deleteFlightroute(flightrouteId: number, user: User): Observable<boolean>;
-
-    public abstract createSharedFlightroute(flightroute: Flightroute): Observable<string>;
-
-    public abstract readSharedFlightroute(shareId: string): Observable<Flightroute>;*/
+    public abstract deleteAircraft(aircraftId: number, user: User): Observable<boolean>;
 }

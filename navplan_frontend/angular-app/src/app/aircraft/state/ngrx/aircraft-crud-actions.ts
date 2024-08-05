@@ -12,7 +12,7 @@ export class AircraftCrudActions {
     );
 
     public static readonly saveAircraftSuccess = createAction(
-        '[Aircraft Details/W&B/Performance] Save aircraft Success',
+        '[Aircraft Details/W&B/Performance] Save aircraft success',
         props<{ aircraft: Aircraft }>()
     );
 
@@ -23,6 +23,11 @@ export class AircraftCrudActions {
 
     public static readonly deleteAircraft = createAction(
         '[Aircraft List] Delete aircraft',
+        props<{ aircraftId: number }>()
+    );
+
+    public static readonly deleteAircraftSuccess = createAction(
+        '[Aircraft List] Delete aircraft success',
         props<{ aircraftId: number }>()
     );
 }

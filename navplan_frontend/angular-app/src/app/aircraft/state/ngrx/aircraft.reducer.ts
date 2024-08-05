@@ -37,6 +37,11 @@ export const aircraftReducer = createReducer(
         currentAircraft: action.aircraft
     })),
 
+    on(AircraftCrudActions.deleteAircraftSuccess, (state, action) => ({
+        ...state,
+        currentAircraft: action.aircraftId !== state.currentAircraft.id ? state.currentAircraft : undefined
+    })),
+
     // endregion
 
 

@@ -7,6 +7,7 @@ use Navplan\Aircraft\Domain\Service\IAircraftService;
 use Navplan\Aircraft\Rest\Converter\RestAircraftResponse;
 use Navplan\Aircraft\Rest\Converter\RestCreateAircraftRequest;
 use Navplan\Aircraft\Rest\Converter\RestDeleteAircraftRequest;
+use Navplan\Aircraft\Rest\Converter\RestDuplicateAircraftRequest;
 use Navplan\Aircraft\Rest\Converter\RestReadAircraftListRequest;
 use Navplan\Aircraft\Rest\Converter\RestReadAircraftListResponse;
 use Navplan\Aircraft\Rest\Converter\RestReadAircraftRequest;
@@ -46,11 +47,19 @@ class AircraftController implements IRestController
                 }
                 break;
             case HttpRequestMethod::POST:
-                // create aircraft
-                $request = RestCreateAircraftRequest::fromRest($this->httpService->getPostArgs());
-                $aircraft = $this->aircraftService->create($request->aircraft, $request->token);
-                $response = new RestAircraftResponse($aircraft);
-                $this->httpService->sendArrayResponse($response->toRest());
+                if ($this->httpService->hasPostArg(RestDuplicateAircraftRequest::ARG_ID)) {
+                    // duplicate aircraft
+                    $request = RestDuplicateAircraftRequest::fromRest($this->httpService->getPostArgs());
+                    $aircraft = $this->aircraftService->duplicate($request->aircraftId, $request->token);
+                    $response = new RestAircraftResponse($aircraft);
+                    $this->httpService->sendArrayResponse($response->toRest());
+                } else {
+                    // create aircraft
+                    $request = RestCreateAircraftRequest::fromRest($this->httpService->getPostArgs());
+                    $aircraft = $this->aircraftService->create($request->aircraft, $request->token);
+                    $response = new RestAircraftResponse($aircraft);
+                    $this->httpService->sendArrayResponse($response->toRest());
+                }
                 break;
             case HttpRequestMethod::PUT:
                 // update aircraft

@@ -13,6 +13,7 @@ import {LoggingService} from '../../../system/domain/service/logging/logging.ser
 import {IRestAircraftResponse} from '../model/i-rest-aircraft-response';
 import {RestAircraftResponseConverter} from '../converter/rest-aircraft-response-converter';
 import {RestAircraftConverter} from '../converter/rest-aircraft-converter';
+import {IRestSuccessResponse} from '../../../flightroute/rest/model/i-rest-success-response';
 
 
 @Injectable()
@@ -66,14 +67,56 @@ export class RestAircraftRepoService implements IAircraftRepoService {
         if (aircraft.id > 0) {
             return this.http
                 .put<IRestAircraftResponse>(environment.aircraftServiceUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
-                    map(response => RestAircraftConverter.fromRest(response.body.aircraft))
+                    map(response => RestAircraftConverter.fromRest(response.body.aircraft)),
+                    catchError(err => {
+                        LoggingService.logResponseError('ERROR updating aircraft', err);
+                        return throwError(err);
+                    })
                 );
         } else {
             return this.http
-                .post<IRestAircraftResponse>(environment.aircraftServiceUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
-                    map(response => RestAircraftConverter.fromRest(response.body.aircraft))
-                );
+                .post<IRestAircraftResponse>(environment.aircraftServiceUrl, JSON.stringify(requestBody), {observe: 'response'})
+                .pipe(
+                    map(response => RestAircraftConverter.fromRest(response.body.aircraft)),
+                    catchError(err => {
+                        LoggingService.logResponseError('ERROR creating aircraft', err);
+                        return throwError(err);
+                    })
+            );
         }
+    }
+
+
+    public duplicateAircraft(aircraftId: number, user: User): Observable<Aircraft> {
+        const requestBody = {
+            id: aircraftId,
+            token: user.token
+        };
+        return this.http
+            .post<IRestAircraftResponse>(environment.aircraftServiceUrl, JSON.stringify(requestBody), {observe: 'response'})
+            .pipe(
+                map(response => RestAircraftConverter.fromRest(response.body.aircraft)),
+                catchError(err => {
+                    LoggingService.logResponseError('ERROR duplicating aircraft', err);
+                    return throwError(err);
+                })
+            );
+    }
+
+
+
+    public deleteAircraft(aircraftId: number, user: User): Observable<boolean> {
+        const url = environment.aircraftServiceUrl + '?id=' + aircraftId + '&token=' + user.token;
+
+        return this.http
+            .delete<IRestSuccessResponse>(url, {observe: 'response'})
+            .pipe(
+                map(response => response.body.success),
+                catchError(err => {
+                    LoggingService.logResponseError('ERROR deleting aircraft', err);
+                    return throwError(err);
+                })
+            );
     }
 
     // endregion

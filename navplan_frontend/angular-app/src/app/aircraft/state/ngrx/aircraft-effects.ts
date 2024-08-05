@@ -70,9 +70,48 @@ export class AircraftEffects {
                 })
             ]),
             catchError(error => of(MessageActions.showMessage({
-                    message: Message.error('Error saving aircraft: ', error)
-                }))
-            )
+                message: Message.error('Error saving aircraft: ', error)
+            })))
+        ))
+    ));
+
+    duplicateAircraftAction$ = createEffect(() => this.actions$.pipe(
+        ofType(AircraftCrudActions.duplicateAircraft),
+        withLatestFrom(this.userState$),
+        switchMap(([action, userState]) => this.aircraftService.duplicateAircraft(
+            action.aircraftId,
+            userState.currentUser
+        ).pipe(
+            switchMap(aircraft => [
+                AircraftCrudActions.saveAircraftSuccess({aircraft: aircraft}),
+                AircraftListActions.readList(),
+                MessageActions.showMessage({
+                    message: Message.success('Aircraft duplicated successfully.')
+                })
+            ]),
+            catchError(error => of(MessageActions.showMessage({
+                message: Message.error('Error duplicating aircraft: ', error)
+            })))
+        ))
+    ));
+
+    deleteAircraftAction$ = createEffect(() => this.actions$.pipe(
+        ofType(AircraftCrudActions.deleteAircraft),
+        withLatestFrom(this.userState$),
+        switchMap(([action, userState]) => this.aircraftService.deleteAircraft(
+            action.aircraftId,
+            userState.currentUser
+        ).pipe(
+            switchMap((success) => [
+                AircraftCrudActions.deleteAircraftSuccess({aircraftId: action.aircraftId}),
+                AircraftListActions.readList(),
+                MessageActions.showMessage({
+                    message: Message.success('Aircraft deleted successfully.')
+                })
+            ]),
+            catchError(error => of(MessageActions.showMessage({
+                message: Message.error('Error deleting aircraft: ', error)
+            })))
         ))
     ));
 }

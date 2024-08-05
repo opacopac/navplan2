@@ -73,7 +73,7 @@ class DbAircraftCreateCommand implements IAircraftCreateCommand
             DbHelper::getDbStringValue($this->dbService, $aircraft->icaoType),
             DbHelper::getDbFloatValue($aircraft->cruiseSpeed->getKt()),
             DbHelper::getDbFloatValue($aircraft->cruiseFuel->getLph()),
-            DbHelper::getDbIntValue($aircraft->fuelType?->value),
+            DbHelper::getDbStringValue($this->dbService, $aircraft->fuelType?->value),
             DbHelper::getDbFloatValue($aircraft->bew?->getKg()),
             DbHelper::getDbFloatValue($aircraft->mtow?->getKg())
         ]);
