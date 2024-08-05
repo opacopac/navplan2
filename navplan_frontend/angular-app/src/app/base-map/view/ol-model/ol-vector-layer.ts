@@ -1,16 +1,13 @@
 import VectorLayer from 'ol/layer/Vector';
 import {Vector} from 'ol/source';
-import {Geometry} from 'ol/geom';
 import {OlFeature} from './ol-feature';
 import VectorImageLayer from 'ol/layer/VectorImage';
 import {OlLayer} from './ol-layer';
 import BaseLayer from 'ol/layer/Base';
-import VectorSource from 'ol/source/Vector';
-import {Feature} from 'ol';
 
 
 export class OlVectorLayer implements OlLayer {
-    public readonly vectorLayer: VectorLayer<Feature<Geometry>> | VectorImageLayer<Feature<Geometry>>;
+    public readonly vectorLayer: VectorLayer | VectorImageLayer;
 
 
     public constructor(vectorImage: boolean = false) {
