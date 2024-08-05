@@ -10,7 +10,7 @@ export interface GeoPhysicsState {
     altitudeUnit: LengthUnit;
     routeDistanceUnit: LengthUnit;
     speedUnit: SpeedUnit;
-    fuelUnit: VolumeUnit;
+    volumeUnit: VolumeUnit;
     fuelConsumptionUnit: ConsumptionUnit;
     weightUnit: WeightUnit;
     wnbLengthUnit: LengthUnit;

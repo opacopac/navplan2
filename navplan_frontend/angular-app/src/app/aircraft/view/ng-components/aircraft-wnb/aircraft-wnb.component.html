@@ -37,7 +37,9 @@
     <!-- weight items -->
     <app-aircraft-wnb-table
         [weightItems]="this.currentAircraft.wnbWeightItems"
-        [lengthUnit]="this.lengthUnit"
+        [lengthUnit]="this.wnbLengthUnit"
+        [weightUnit]="this.weightUnit"
+        [volumeUnit]="this.volumeUnit"
         (addWeightItem)="this.addWeightItem.emit($event)"
         (editWeightItem)="this.editWeightItem.emit($event)"
         (deleteWeightItem)="this.deleteWeightItem.emit($event)"

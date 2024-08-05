@@ -7,6 +7,7 @@ import {FormControl, Validators} from '@angular/forms';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 import {WeightItem} from '../../../domain/model/weight-item';
+import {VolumeUnit} from '../../../../geo-physics/domain/model/quantities/volume-unit';
 
 
 export interface ListEntry {
@@ -23,8 +24,9 @@ export interface ListEntry {
 })
 export class AircraftWnbComponent implements OnInit {
     @Input() currentAircraft: Aircraft;
+    @Input() wnbLengthUnit: LengthUnit;
     @Input() weightUnit: WeightUnit;
-    @Input() lengthUnit: LengthUnit;
+    @Input() volumeUnit: VolumeUnit;
     @Output() changeMtow = new EventEmitter<Weight>();
     @Output() changeBew = new EventEmitter<Weight>();
     @Output() addWeightItem = new EventEmitter<WeightItem>();

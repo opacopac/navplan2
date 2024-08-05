@@ -18,13 +18,13 @@ export class RestWeightItemConverter {
     }
 
 
-    public static toRest(aircraft: WeightItem): IRestWeightItem {
+    public static toRest(weightItem: WeightItem): IRestWeightItem {
         return {
-            type: WeightItemType[aircraft.type],
-            name: aircraft.name,
-            arm: RestLengthConverter.toRest(aircraft.arm),
-            maxWeight: RestWeightConverter.toRest(aircraft.maxWeight),
-            maxFuel: RestVolumeConverter.toRest(aircraft.maxFuel)
+            type: WeightItemType[weightItem.type],
+            name: weightItem.name,
+            arm: RestLengthConverter.toRest(weightItem.arm),
+            maxWeight: RestWeightConverter.toRest(weightItem.maxWeight),
+            maxFuel: RestVolumeConverter.toRest(weightItem.maxFuel)
         };
     }
 
@@ -34,7 +34,7 @@ export class RestWeightItemConverter {
     }
 
 
-    public static toRestList(aircrafts: WeightItem[]): IRestWeightItem[] {
-        return aircrafts.map(aircraft => RestWeightItemConverter.toRest(aircraft));
+    public static toRestList(weightItems: WeightItem[]): IRestWeightItem[] {
+        return weightItems.map(weightItem => RestWeightItemConverter.toRest(weightItem));
     }
 }

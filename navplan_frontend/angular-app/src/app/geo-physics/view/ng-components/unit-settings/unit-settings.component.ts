@@ -5,11 +5,11 @@ import {GeoPhysicsActions} from '../../../state/ngrx/geo-physics.actions';
 import {Observable} from 'rxjs';
 import {
     getAltitudeUnit,
-    getFuelUnit,
     getPerformanceDistanceUnit,
     getRouteDistanceUnit,
     getSpeedUnit,
     getTemperatureUnit,
+    getVolumeUnit,
     getWeightUnit,
     getWnbLengthUnit
 } from '../../../state/ngrx/geo-physics.selectors';
@@ -40,7 +40,7 @@ export class UnitSettingsComponent implements OnInit {
     protected readonly altitudeUnit$: Observable<LengthUnit> = this.appStore.pipe(select(getAltitudeUnit));
     protected readonly routeDistanceUnit$: Observable<LengthUnit> = this.appStore.pipe(select(getRouteDistanceUnit));
     protected readonly speedUnit$: Observable<SpeedUnit> = this.appStore.pipe(select(getSpeedUnit));
-    protected readonly fuelUnit$: Observable<VolumeUnit> = this.appStore.pipe(select(getFuelUnit));
+    protected readonly fuelUnit$: Observable<VolumeUnit> = this.appStore.pipe(select(getVolumeUnit));
     protected readonly weightUnit$: Observable<WeightUnit> = this.appStore.pipe(select(getWeightUnit));
     protected readonly wnbLengthUnit$: Observable<LengthUnit> = this.appStore.pipe(select(getWnbLengthUnit));
     protected readonly performanceDistanceUnit$: Observable<LengthUnit> = this.appStore.pipe(select(getPerformanceDistanceUnit));

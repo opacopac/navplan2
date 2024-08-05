@@ -1,6 +1,7 @@
 import {Clonable} from '../../../../system/domain/model/clonable';
 import {AbstractQuantity} from './abstract-quantity';
 import {VolumeUnit} from './volume-unit';
+import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 
 
 export class Volume extends AbstractQuantity<Volume, VolumeUnit> implements Clonable<Volume> {
@@ -53,6 +54,16 @@ export class Volume extends AbstractQuantity<Volume, VolumeUnit> implements Clon
 
     public getValue(asUnit: VolumeUnit): number {
         return Volume.convertVolume(this.value, this.unit, asUnit);
+    }
+
+
+    public getUnitString(): string {
+        return Volume.getUnitString(this.unit);
+    }
+
+
+    public getValueAndUnit(asUnit: VolumeUnit, roundToDigits = 0, separator = ' '): string {
+        return StringnumberHelper.roundToDigits(this.getValue(asUnit), roundToDigits) + separator + this.getUnitString();
     }
 
 

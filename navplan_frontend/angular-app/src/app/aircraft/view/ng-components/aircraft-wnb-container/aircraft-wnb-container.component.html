@@ -1,8 +1,9 @@
 <div class="aircraft-wnb-container">
     <app-aircraft-wnb
         [currentAircraft]="this.currentAircraft$ | async"
+        [wnbLengthUnit]="this.wnbLengthUnit$ | async"
         [weightUnit]="this.weightUnit$ | async"
-        [lengthUnit]="this.lengthUnit$ | async"
+        [volumeUnit]="this.volumeUnit$ | async"
         (changeBew)="this.onChangeBew($event)"
         (changeMtow)="this.onChangeMtow($event)"
         (addWeightItem)="this.onAddWeightItem($event)"

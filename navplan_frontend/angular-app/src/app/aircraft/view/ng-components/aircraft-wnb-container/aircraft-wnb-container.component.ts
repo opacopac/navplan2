@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {getCurrentAircraft} from '../../../state/ngrx/aircraft.selectors';
-import {getWeightUnit, getWnbLengthUnit} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
+import {getVolumeUnit, getWeightUnit, getWnbLengthUnit} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
 import {Weight} from '../../../../geo-physics/domain/model/quantities/weight';
 import {AircraftWnbActions} from '../../../state/ngrx/aircraft-wnb-actions';
 import {WeightItem} from '../../../domain/model/weight-item';
@@ -15,8 +15,9 @@ import {AircraftCrudActions} from '../../../state/ngrx/aircraft-crud-actions';
 })
 export class AircraftWnbContainerComponent implements OnInit {
     protected readonly currentAircraft$ = this.appStore.pipe(select(getCurrentAircraft));
+    protected readonly wnbLengthUnit$ = this.appStore.pipe(select(getWnbLengthUnit));
     protected readonly weightUnit$ = this.appStore.pipe(select(getWeightUnit));
-    protected readonly lengthUnit$ = this.appStore.pipe(select(getWnbLengthUnit));
+    protected readonly volumeUnit$ = this.appStore.pipe(select(getVolumeUnit));
 
 
     constructor(private appStore: Store<any>) {

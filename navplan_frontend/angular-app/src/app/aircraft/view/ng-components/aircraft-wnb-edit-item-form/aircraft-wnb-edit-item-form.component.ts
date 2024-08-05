@@ -73,8 +73,8 @@ export class AircraftWnbEditItemFormComponent implements OnInit, OnChanges {
 
     protected onSaveClicked() {
         if (this.editWeightItemForm.valid) {
-            const maxWeightValue = parseInt(this.editWeightItemForm.get('maxWeight').value, 10);
-            const maxFuelValue = parseInt(this.editWeightItemForm.get('maxFuel').value, 10);
+            const maxWeightValue = parseFloat(this.editWeightItemForm.get('maxWeight').value);
+            const maxFuelValue = parseFloat(this.editWeightItemForm.get('maxFuel').value);
             const newWeightItem = new WeightItem(
                 this.editWeightItemForm.get('type').value,
                 this.editWeightItemForm.get('name').value,

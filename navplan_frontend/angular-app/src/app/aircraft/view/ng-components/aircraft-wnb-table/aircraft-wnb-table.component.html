@@ -27,6 +27,12 @@
             <td mat-cell *matCellDef="let entry">{{ this.getArmText(entry.arm) }}</td>
         </ng-container>
 
+        <!-- max weight column -->
+        <ng-container matColumnDef="max">
+            <th mat-header-cell *matHeaderCellDef class="header-cell">Max.</th>
+            <td mat-cell *matCellDef="let entry">{{ this.maxText(entry) }}</td>
+        </ng-container>
+
         <!-- icons column -->
         <ng-container matColumnDef="icons">
             <th mat-header-cell *matHeaderCellDef>&nbsp;</th>

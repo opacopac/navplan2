@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {map} from 'rxjs/operators';
 import {getFlightroute} from '../../../../state/ngrx/flightroute.selectors';
 import {FlightrouteActions} from '../../../../state/ngrx/flightroute.actions';
-import {getConsumptionUnit, getFuelUnit} from '../../../../../geo-physics/state/ngrx/geo-physics.selectors';
+import {getConsumptionUnit, getVolumeUnit} from '../../../../../geo-physics/state/ngrx/geo-physics.selectors';
 import {Consumption} from '../../../../../geo-physics/domain/model/quantities/consumption';
 import {Time} from '../../../../../geo-physics/domain/model/quantities/time';
 
@@ -18,7 +18,7 @@ export class FuelCalcContainerComponent implements OnInit {
     protected readonly routeFuel$ = this.flightroute$.pipe(map(flightroute => flightroute.fuel));
     protected readonly aircraftConsumption$ = this.flightroute$.pipe(map(flightroute => flightroute.aircraft.consumption));
     protected readonly extraTime$ = this.flightroute$.pipe(map(flightroute => flightroute.extraTime));
-    protected readonly fuelUnit$ = this.appStore.pipe(select(getFuelUnit));
+    protected readonly fuelUnit$ = this.appStore.pipe(select(getVolumeUnit));
     protected readonly consumptionUnit$ = this.appStore.pipe(select(getConsumptionUnit));
 
 

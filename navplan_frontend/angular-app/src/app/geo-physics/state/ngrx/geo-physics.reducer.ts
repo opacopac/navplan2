@@ -13,7 +13,7 @@ const initialState: GeoPhysicsState = {
     altitudeUnit: LengthUnit.FT,
     routeDistanceUnit: LengthUnit.NM,
     speedUnit: SpeedUnit.KT,
-    fuelUnit: VolumeUnit.L,
+    volumeUnit: VolumeUnit.L,
     fuelConsumptionUnit: ConsumptionUnit.L_PER_H,
     weightUnit: WeightUnit.KG,
     wnbLengthUnit: LengthUnit.M,
