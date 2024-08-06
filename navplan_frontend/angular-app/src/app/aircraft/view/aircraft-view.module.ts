@@ -92,7 +92,9 @@ import {AircraftPickerComponent} from './ng-components/aircraft-picker/aircraft-
         AircraftWnbEditItemDialogComponent,
         AircraftWnbEditItemFormComponent,
     ],
-    exports: [],
+    exports: [
+        AircraftPickerContainerComponent
+    ],
     providers: []
 })
 export class AircraftViewModule {

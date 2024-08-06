@@ -1,13 +1,16 @@
-<app-fuel-calc-input-fields
-    [aircraftConsumption]="this.aircraftConsumption$ | async"
-    [consumptionUnit]="this.consumptionUnit$ | async"
-    [extraTime]="this.extraTime$ | async"
-    (aircraftConsumptionChange)="this.onAircraftConsumptionChange($event)"
-    (extraTimeChange)="this.onExtraTimeChange($event)"
->
-</app-fuel-calc-input-fields>
-<app-fuel-calc-table
-    [routeFuel]="this.routeFuel$ | async"
-    [fuelUnit]="this.fuelUnit$ | async"
->
-</app-fuel-calc-table>
+<div class="fuel-container">
+    <app-aircraft-picker-container/>
+    <app-fuel-calc-input-fields
+        [aircraftConsumption]="this.aircraftConsumption$ | async"
+        [consumptionUnit]="this.consumptionUnit$ | async"
+        [extraTime]="this.extraTime$ | async"
+        (aircraftConsumptionChange)="this.onAircraftConsumptionChange($event)"
+        (extraTimeChange)="this.onExtraTimeChange($event)"
+    >
+    </app-fuel-calc-input-fields>
+    <app-fuel-calc-table
+        [routeFuel]="this.routeFuel$ | async"
+        [fuelUnit]="this.fuelUnit$ | async"
+    >
+    </app-fuel-calc-table>
+</div>

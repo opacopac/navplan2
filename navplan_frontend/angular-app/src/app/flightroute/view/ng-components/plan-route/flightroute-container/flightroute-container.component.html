@@ -1,4 +1,12 @@
 <form [formGroup]="this.flightrouteForm" class="flightroute-form">
+    <app-aircraft-picker-container/>
+
+    <app-flightroute-aircraft-speed
+        [speedUnit]="this.speedUnit$ | async"
+        [aircraftSpeed]="this.aircraftSpeed$ | async"
+        (aircraftSpeedChanged)="this.onAircraftSpeedChanged($event)"
+    />
+
     <app-flightroute-name-load-save
         [flightrouteName]="this.flightrouteName$ | async"
         [flightrouteId]="this.flightrouteId$ | async"
@@ -7,12 +15,6 @@
         (loadFlightrouteClick)="this.onLoadFlightrouteClick()"
         (saveFlightrouteClick)="this.onSaveFlightrouteClick()"
         (saveFlightrouteCopyClick)="this.onSaveFlightrouteCopyClick()"
-    />
-
-    <app-flightroute-aircraft-speed
-        [speedUnit]="this.speedUnit$ | async"
-        [aircraftSpeed]="this.aircraftSpeed$ | async"
-        (aircraftSpeedChanged)="this.onAircraftSpeedChanged($event)"
     />
 
     <app-flightroute-waypoint-list

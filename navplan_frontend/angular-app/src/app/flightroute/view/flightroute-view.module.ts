@@ -49,6 +49,7 @@ import {
 } from './ng-components/plan-fuel/fuel-calc-input-fields/fuel-calc-input-fields.component';
 import {FuelCalcTableComponent} from './ng-components/plan-fuel/fuel-calc-table/fuel-calc-table.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import {AircraftViewModule} from '../../aircraft/view/aircraft-view.module';
 
 
 @NgModule({
@@ -73,6 +74,7 @@ import {MatDialogModule} from '@angular/material/dialog';
         MatTabsModule,
         MetarTafViewModule,
         MatDialogModule,
+        AircraftViewModule,
     ],
     declarations: [
         EditWaypointDialogComponent,
