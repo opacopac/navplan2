@@ -37,23 +37,33 @@ export class AircraftEffects {
         switchMap(([action, userState]) => this.aircraftService.readAircraftList(
             userState.currentUser
         ).pipe(
-            map(aircraftList => AircraftListActions.showList({aircraftList: aircraftList})),
+            map(aircraftList => AircraftListActions.readListSuccessful({aircraftList: aircraftList})),
             catchError(error => of(MessageActions.showMessage({
                 message: Message.error('Error reading aircraft list: ', error)
             })))
         ))
     ));
 
-    readAircraftAction$ = createEffect(() => this.actions$.pipe(
+    pickAircraftAction$ = createEffect(() => this.actions$.pipe(
+        ofType(AircraftListActions.pickAircraft),
+        tap(() => this.router.navigate(['/aircraft/hangar'])),
+    ), {dispatch: false});
+
+    selectAircraftAction$ = createEffect(() => this.actions$.pipe(
         ofType(AircraftListActions.selectAircraft),
         withLatestFrom(this.userState$),
         switchMap(([action, userState]) => this.aircraftService.readAircraft(
             action.aircraftId,
             userState.currentUser
         ).pipe(
-            map(aircraft => AircraftListActions.selectAircraftSuccess({aircraft: aircraft})),
+            switchMap(aircraft => [
+                AircraftListActions.selectAircraftSuccess({aircraft: aircraft}),
+                MessageActions.showMessage({
+                    message: Message.success('Aircraft ' + aircraft.registration +  ' selected.')
+                })
+            ]),
             catchError(error => of(MessageActions.showMessage({
-                message: Message.error('Error reading aircraft: ', error)
+                message: Message.error('Error selecting aircraft: ', error)
             })))
         ))
     ));
@@ -65,10 +75,15 @@ export class AircraftEffects {
             action.aircraftId,
             userState.currentUser
         ).pipe(
-            map(aircraft => AircraftListActions.selectAircraftSuccess({aircraft: aircraft})),
+            switchMap(aircraft => [
+                AircraftListActions.selectAircraftSuccess({aircraft: aircraft}),
+                MessageActions.showMessage({
+                    message: Message.success('Aircraft ' + aircraft.registration +  ' selected.')
+                })
+            ]),
             tap(() => this.router.navigate(['/aircraft/aircraft'])),
             catchError(error => of(MessageActions.showMessage({
-                message: Message.error('Error reading/edit aircraft: ', error)
+                message: Message.error('Error edit aircraft: ', error)
             })))
         ))
     ));

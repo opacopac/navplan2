@@ -17,7 +17,7 @@ export const aircraftReducer = createReducer(
 
     // region aircraft list actions
 
-    on(AircraftListActions.showList, (state, action) => ({
+    on(AircraftListActions.readListSuccessful, (state, action) => ({
         ...state,
         aircraftList: action.aircraftList
     })),

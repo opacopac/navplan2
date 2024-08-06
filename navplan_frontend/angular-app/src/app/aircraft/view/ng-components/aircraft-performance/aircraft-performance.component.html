@@ -1,5 +1,6 @@
+<app-aircraft-picker-container/>
+
 <div *ngIf="this.currentAircraft">
-    <p>Aircraft: {{ this.currentAircraft.registration }}</p>
     <mat-accordion displayMode="flat" multi="true">
         <mat-expansion-panel>
             <mat-expansion-panel-header>
@@ -58,8 +59,4 @@
             />
         </mat-expansion-panel>
     </mat-accordion>
-</div>
-
-<div *ngIf="!this.currentAircraft">
-    <i>No Aircraft selected</i>
 </div>

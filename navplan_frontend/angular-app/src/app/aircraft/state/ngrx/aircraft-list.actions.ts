@@ -8,8 +8,8 @@ export class AircraftListActions {
         '[Aircraft Page] Read aircraft list'
     );
 
-    public static readonly showList = createAction(
-        '[Aircraft Effects] Show aircraft list',
+    public static readonly readListSuccessful = createAction(
+        '[Aircraft Effects] Read aircraft list successful',
         props<{ aircraftList: AircraftListEntry[] }>()
     );
 
@@ -26,5 +26,9 @@ export class AircraftListActions {
     public static readonly editAircraft = createAction(
         '[Aircraft List] Edit aircraft',
         props<{ aircraftId: number }>()
+    );
+
+    public static readonly pickAircraft = createAction(
+        '[Misc Pages] Pick aircraft'
     );
 }

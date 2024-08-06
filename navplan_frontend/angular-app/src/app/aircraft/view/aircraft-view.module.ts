@@ -46,6 +46,10 @@ import {AircraftWnbContainerComponent} from './ng-components/aircraft-wnb-contai
 import {AircraftWnbComponent} from './ng-components/aircraft-wnb/aircraft-wnb.component';
 import {AircraftWnbTableComponent} from './ng-components/aircraft-wnb-table/aircraft-wnb-table.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import {
+    AircraftPickerContainerComponent
+} from './ng-components/aircraft-picker-container/aircraft-picker-container.component';
+import {AircraftPickerComponent} from './ng-components/aircraft-picker/aircraft-picker.component';
 
 
 @NgModule({
@@ -76,6 +80,8 @@ import {MatDialogModule} from '@angular/material/dialog';
         AircraftListComponent,
         AircraftDetailsContainerComponent,
         AircraftDetailsComponent,
+        AircraftPickerContainerComponent,
+        AircraftPickerComponent,
         AircraftPerformanceContainerComponent,
         AircraftPerformanceComponent,
         AircraftPerformanceTableComponent,

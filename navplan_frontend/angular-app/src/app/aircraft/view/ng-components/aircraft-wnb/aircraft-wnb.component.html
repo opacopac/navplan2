@@ -1,5 +1,6 @@
+<app-aircraft-picker-container/>
+
 <div *ngIf="this.currentAircraft" class="wnb-container">
-    <p>Aircraft: {{ this.currentAircraft.registration }}</p>
     <!-- mtow -->
     <div class="weight-fields">
         <mat-form-field>
@@ -56,8 +57,4 @@
             Save
         </button>
     </p>
-</div>
-
-<div *ngIf="!this.currentAircraft">
-    <i>No Aircraft selected</i>
 </div>
