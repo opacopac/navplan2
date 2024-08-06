@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
-import {catchError, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
+import {catchError, filter, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {UserState} from '../../../user/state/state-model/user-state';
 import {getUserState} from '../../../user/state/ngrx/user.selectors';
 import {MessageActions} from '../../../message/state/ngrx/message.actions';
@@ -12,6 +12,7 @@ import {AircraftListActions} from './aircraft-list.actions';
 import {AircraftState} from '../state-model/aircraft-state';
 import {getAircraftState} from './aircraft.selectors';
 import {AircraftCrudActions} from './aircraft-crud-actions';
+import {Router} from '@angular/router';
 
 
 @Injectable()
@@ -22,6 +23,7 @@ export class AircraftEffects {
 
     constructor(
         private readonly actions$: Actions,
+        private readonly router: Router,
         private readonly appStore: Store<any>,
         private readonly aircraftService: IAircraftService
     ) {
@@ -52,6 +54,21 @@ export class AircraftEffects {
             map(aircraft => AircraftListActions.selectAircraftSuccess({aircraft: aircraft})),
             catchError(error => of(MessageActions.showMessage({
                 message: Message.error('Error reading aircraft: ', error)
+            })))
+        ))
+    ));
+
+    editAircraftAction$ = createEffect(() => this.actions$.pipe(
+        ofType(AircraftListActions.editAircraft),
+        withLatestFrom(this.userState$),
+        switchMap(([action, userState]) => this.aircraftService.readAircraft(
+            action.aircraftId,
+            userState.currentUser
+        ).pipe(
+            map(aircraft => AircraftListActions.selectAircraftSuccess({aircraft: aircraft})),
+            tap(() => this.router.navigate(['/aircraft/aircraft'])),
+            catchError(error => of(MessageActions.showMessage({
+                message: Message.error('Error reading/edit aircraft: ', error)
             })))
         ))
     ));

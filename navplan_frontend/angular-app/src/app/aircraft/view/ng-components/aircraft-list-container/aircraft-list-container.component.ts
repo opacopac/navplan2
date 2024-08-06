@@ -28,6 +28,11 @@ export class AircraftListContainerComponent implements OnInit {
     }
 
 
+    protected onAircraftEdited(aircraftId: number) {
+        this.appStore.dispatch(AircraftListActions.editAircraft({aircraftId: aircraftId}));
+    }
+
+
     protected onAircraftDuplicated(aircraftId: number) {
         this.appStore.dispatch(AircraftCrudActions.duplicateAircraft({aircraftId: aircraftId}));
     }

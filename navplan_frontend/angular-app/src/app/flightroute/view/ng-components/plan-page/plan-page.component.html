@@ -1,5 +1,10 @@
 <div class="content-container">
-    <mat-tab-group #tabGroup mat-stretch-tabs="false"  animationDuration="0ms">
+    <mat-tab-group
+        #tabGroup
+        mat-stretch-tabs="false"
+        animationDuration="0ms"
+        (selectedTabChange)="onTabChange($event)"
+    >
         <!-- info tab -->
         <mat-tab>
             <ng-template matTabLabel>

@@ -2,6 +2,7 @@
     [aircraftList]="this.aircraftList$ | async"
     [currentAircraft]="currentAircraft$ | async"
     (onSelectAircraftClick)="this.onAircraftSelected($event)"
+    (onEditAircraftClick)="this.onAircraftEdited($event)"
     (onDuplicateAircraftClick)="this.onAircraftDuplicated($event)"
     (onDeleteAircraftClick)="this.onAircraftDeleted($event)"
 />

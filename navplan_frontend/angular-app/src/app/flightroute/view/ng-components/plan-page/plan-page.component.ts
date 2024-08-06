@@ -2,7 +2,7 @@ import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/c
 import {ActivatedRoute, Router} from '@angular/router';
 import {map} from 'rxjs/operators';
 import {Observable, Subscription} from 'rxjs';
-import {MatTabGroup} from '@angular/material/tabs';
+import {MatTabChangeEvent, MatTabGroup} from '@angular/material/tabs';
 
 
 @Component({
@@ -11,9 +11,19 @@ import {MatTabGroup} from '@angular/material/tabs';
     styleUrls: ['./plan-page.component.scss'],
 })
 export class PlanPageComponent implements OnInit, AfterViewInit, OnDestroy {
+    @ViewChild('tabGroup') public tabGroup: MatTabGroup;
+
     public readonly tab$: Observable<string>;
     public tabSubscription: Subscription;
-    @ViewChild('tabGroup') public tabGroup: MatTabGroup;
+
+    private tabMap: { [key: number]: string } = {
+        0: 'route',
+        1: 'fuel',
+        2: 'wnb',
+        3: 'perf',
+        4: 'meteo',
+        5: 'notam'
+    };
 
 
     constructor(
@@ -33,7 +43,7 @@ export class PlanPageComponent implements OnInit, AfterViewInit, OnDestroy {
     ngAfterViewInit() {
         this.tabSubscription = this.tab$.subscribe(tab => {
             if (this.tabGroup) {
-                this.tabGroup.selectedIndex = this.getIndex(tab);
+                this.tabGroup.selectedIndex = this.getTabIndex(tab);
             }
         });
     }
@@ -44,16 +54,22 @@ export class PlanPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
 
-    private getIndex(tab: string): number {
-        switch (tab) {
-            case 'fuel': return 1;
-            case 'wnb': return 2;
-            case 'perf': return 3;
-            case 'meteo': return 4;
-            case 'notam': return 5;
-            case 'route':
-            default:
-                return 0;
+    protected onTabChange($event: MatTabChangeEvent) {
+        const tabLabel = this.tabMap[$event.index];
+        if (tabLabel) {
+            this.router.navigate(['/plan', tabLabel]);
         }
+    }
+
+
+    private getTabIndex(tab: string): number {
+        const tabIndex = Object.values(this.tabMap).indexOf(tab);
+        return tabIndex >= 0 ? tabIndex : 0;
+    }
+
+
+    private getTabKey(tabIndex: number): string {
+        const tabKey = this.tabMap[tabIndex];
+        return tabKey ? tabKey : this.tabMap[0];
     }
 }

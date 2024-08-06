@@ -22,4 +22,9 @@ export class AircraftListActions {
         '[Aircraft Effects] Select aircraft success',
         props<{ aircraft: Aircraft }>()
     );
+
+    public static readonly editAircraft = createAction(
+        '[Aircraft List] Edit aircraft',
+        props<{ aircraftId: number }>()
+    );
 }

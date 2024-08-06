@@ -23,6 +23,7 @@ export class AircraftListComponent implements OnInit, OnChanges {
     @Input() aircraftList: AircraftListEntry[];
     @Input() currentAircraft: Aircraft;
     @Output() onSelectAircraftClick = new EventEmitter<number>();
+    @Output() onEditAircraftClick = new EventEmitter<number>();
     @Output() onDuplicateAircraftClick = new EventEmitter<number>();
     @Output() onDeleteAircraftClick = new EventEmitter<number>();
     @ViewChild(MatPaginator) paginator: MatPaginator;

@@ -47,6 +47,14 @@
             <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let entry" class="button-cell">
                 <app-icon-button
+                    [color]="ButtonColor.GREEN"
+                    [tooltipText]="'Edit Aircraft'"
+                    [tooltipPosition]="'above'"
+                    (buttonClicked)="this.onEditAircraftClick.emit(entry.id)"
+                >
+                    <i class="fa-solid fa-pencil"></i>
+                </app-icon-button>
+                <app-icon-button
                     [color]="ButtonColor.BLUE"
                     [tooltipText]="'Duplicate Aircraft'"
                     [tooltipPosition]="'above'"
