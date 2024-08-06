@@ -44,6 +44,10 @@ export class AircraftWnbComponent implements OnInit {
 
 
     ngOnInit() {
+        if (!this.currentAircraft) {
+            return;
+        }
+
         const mtowValue = this.currentAircraft.mtow
             ? StringnumberHelper.roundToDigits(this.currentAircraft.mtow.getValue(this.weightUnit), 0).toString()
             : '';

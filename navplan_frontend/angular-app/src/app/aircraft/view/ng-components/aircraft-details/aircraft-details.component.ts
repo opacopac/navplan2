@@ -39,6 +39,10 @@ export class AircraftDetailsComponent implements OnInit {
 
 
     ngOnInit() {
+        if (!this.currentAircraft) {
+            return;
+        }
+
         this.aircraftDetailsForm = this.formBuilder.group({
             'vehicleType': [this.currentAircraft.vehicleType, [
                 Validators.required

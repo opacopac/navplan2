@@ -27,17 +27,20 @@ export class AircraftWnbContainerComponent implements OnInit {
     ngOnInit() {
     }
 
+
     protected onChangeBew(bew: Weight) {
         this.appStore.dispatch(
             AircraftWnbActions.changeBew({bew: bew})
         );
     }
 
+
     protected onChangeMtow(mtow: Weight) {
         this.appStore.dispatch(
             AircraftWnbActions.changeMtow({mtow: mtow})
         );
     }
+
 
     protected onAddWeightItem(weightItem: WeightItem) {
         this.appStore.dispatch(
