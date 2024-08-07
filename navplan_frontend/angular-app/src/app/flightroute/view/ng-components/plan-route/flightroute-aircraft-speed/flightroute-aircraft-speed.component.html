@@ -1,19 +1,34 @@
 <div [formGroup]="this.aircraftSpeedFormGroup">
     <mat-form-field>
-        <mat-label>Ground Speed Speed</mat-label>
+        <mat-label>Ground Speed</mat-label>
         <input
             matInput
-            #aircraftSpeed
-            formControlName="aircraftSpeedInput"
+            #routeSpeed
+            formControlName="routeSpeedInput"
             type="number"
             size="3"
             required
             min="1"
             max="999"
-            [value]="this.getAircraftSpeedValue()"
-            (input)="this.onAircraftSpeedChanged(aircraftSpeed.value)"
+            [value]="this.getRouteSpeedValue()"
+            (input)="this.onRouteSpeedChanged(routeSpeed.value)"
         />
         <span matTextSuffix>{{ Speed.getUnitString(this.speedUnit) }}</span>
         <mat-error>Value must be a whole positive number between 1 and 999!</mat-error>
     </mat-form-field>
+    <mat-button-toggle-group [hideSingleSelectionIndicator]="true">
+        <mat-button-toggle
+            [checked]="!this.useAircraftSpeed"
+            (change)="onEditSpeedClicked()"
+        >
+            <i class="fa-solid fa-pencil"></i>
+        </mat-button-toggle>
+        <mat-button-toggle
+            [checked]="this.useAircraftSpeed"
+            [disabled]="!this.selectedAircraftSpeed"
+            (change)="onUseAircraftSpeedClicked()"
+        >
+            <i class="fa-solid fa-plane"></i>
+        </mat-button-toggle>
+    </mat-button-toggle-group>
 </div>

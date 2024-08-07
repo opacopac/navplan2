@@ -50,6 +50,7 @@ import {
 import {FuelCalcTableComponent} from './ng-components/plan-fuel/fuel-calc-table/fuel-calc-table.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {AircraftViewModule} from '../../aircraft/view/aircraft-view.module';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 
 @NgModule({
@@ -75,6 +76,7 @@ import {AircraftViewModule} from '../../aircraft/view/aircraft-view.module';
         MetarTafViewModule,
         MatDialogModule,
         AircraftViewModule,
+        MatSlideToggleModule,
     ],
     declarations: [
         EditWaypointDialogComponent,

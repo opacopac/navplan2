@@ -119,3 +119,4 @@ $navplan-app-theme-dense: mat.m2-define-light-theme((
 @include mat.icon-button-theme($navplan-app-theme-dense);
 @include mat.radio-theme($navplan-app-theme-dense);
 @include mat.checkbox-theme($navplan-app-theme-dense);
+@include mat.button-toggle-theme($navplan-app-theme-dense);

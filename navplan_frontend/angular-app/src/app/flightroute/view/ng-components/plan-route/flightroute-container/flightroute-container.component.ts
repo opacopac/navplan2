@@ -14,6 +14,7 @@ import {WaypointActions} from '../../../../state/ngrx/waypoints.actions';
 import {FlightrouteActions} from '../../../../state/ngrx/flightroute.actions';
 import {getAltitudeUnit, getSpeedUnit} from '../../../../../geo-physics/state/ngrx/geo-physics.selectors';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {getCurrentAircraft} from '../../../../../aircraft/state/ngrx/aircraft.selectors';
 
 
 @Component({
@@ -30,7 +31,8 @@ export class FlightrouteContainerComponent implements OnInit {
     protected readonly flightrouteName$ = this.currentFlightroute$.pipe(map(flightroute => flightroute.title));
     protected readonly flightrouteId$ = this.currentFlightroute$.pipe(map(flightroute => flightroute.id));
     protected readonly routeComments$ = this.currentFlightroute$.pipe(map(flightroute => flightroute.comments));
-    protected readonly aircraftSpeed$ = this.currentFlightroute$.pipe(map(flightroute => flightroute.aircraft.speed));
+    protected readonly routeSpeed$ = this.currentFlightroute$.pipe(map(flightroute => flightroute.aircraft.speed));
+    protected readonly selectedAircraftSpeed$ = this.appStore.pipe(select(getCurrentAircraft)).pipe(map(aircraft => aircraft?.cruiseSpeed));
     protected readonly speedUnit$ = this.appStore.pipe(select(getSpeedUnit));
     protected readonly altitudeUnit$ = this.appStore.pipe(select(getAltitudeUnit));
 
@@ -55,7 +57,7 @@ export class FlightrouteContainerComponent implements OnInit {
     }
 
 
-    protected onAircraftSpeedChanged(speed: Speed) {
+    protected onRouteSpeedChanged(speed: Speed) {
         this.appStore.dispatch(FlightrouteActions.updateAircraftSpeed({aircraftSpeed: speed}));
     }
 

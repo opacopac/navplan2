@@ -3,8 +3,9 @@
 
     <app-flightroute-aircraft-speed
         [speedUnit]="this.speedUnit$ | async"
-        [aircraftSpeed]="this.aircraftSpeed$ | async"
-        (aircraftSpeedChanged)="this.onAircraftSpeedChanged($event)"
+        [routeSpeed]="this.routeSpeed$ | async"
+        [selectedAircraftSpeed]="this.selectedAircraftSpeed$ | async"
+        (routeSpeedChanged)="this.onRouteSpeedChanged($event)"
     />
 
     <app-flightroute-name-load-save
