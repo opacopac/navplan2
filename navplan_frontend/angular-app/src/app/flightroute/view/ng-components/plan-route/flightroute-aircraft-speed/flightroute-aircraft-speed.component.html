@@ -1,5 +1,5 @@
 <div [formGroup]="this.aircraftSpeedFormGroup">
-    <mat-form-field>
+    <mat-form-field [class]="this.useAircraftSpeed ? 'input-disabled' : ''">
         <mat-label>Ground Speed</mat-label>
         <input
             matInput
