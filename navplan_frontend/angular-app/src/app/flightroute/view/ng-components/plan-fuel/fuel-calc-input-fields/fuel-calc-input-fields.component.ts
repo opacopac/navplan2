@@ -4,6 +4,7 @@ import {ConsumptionUnit} from '../../../../../geo-physics/domain/model/quantitie
 import {TimeUnit} from '../../../../../geo-physics/domain/model/quantities/time-unit';
 import {Time} from '../../../../../geo-physics/domain/model/quantities/time';
 import {FormControl, Validators} from '@angular/forms';
+import {Aircraft} from '../../../../../aircraft/domain/model/aircraft';
 
 @Component({
     selector: 'app-fuel-calc-input-fields',
@@ -12,10 +13,12 @@ import {FormControl, Validators} from '@angular/forms';
 })
 export class FuelCalcInputFieldsComponent implements OnInit {
     @Input() aircraftConsumption: Consumption;
+    @Input() useAircraftConsumptionValue: boolean;
     @Input() consumptionUnit: ConsumptionUnit;
+    @Input() selectedAircraft: Aircraft;
     @Input() extraTime: Time;
-
     @Output() aircraftConsumptionChange = new EventEmitter<Consumption>();
+    @Output() useAircraftConsumptionValueChange = new EventEmitter<boolean>();
     @Output() extraTimeChange = new EventEmitter<Time>();
 
     protected readonly Consumption = Consumption;
@@ -59,6 +62,11 @@ export class FuelCalcInputFieldsComponent implements OnInit {
         const value = parseInt(valueString, 10);
         const consumption = new Consumption(value, this.consumptionUnit);
         this.aircraftConsumptionChange.emit(consumption);
+    }
+
+
+    protected onUseAircraftConsumptionChanged(useAircraftConsumption: boolean) {
+        this.useAircraftConsumptionValueChange.emit(useAircraftConsumption);
     }
 
 

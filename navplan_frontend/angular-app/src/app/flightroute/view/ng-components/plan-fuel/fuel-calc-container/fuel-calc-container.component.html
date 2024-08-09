@@ -1,12 +1,12 @@
 <div class="fuel-container">
-    <app-aircraft-picker-container
-        [showRegistration]="false"
-    />
     <app-fuel-calc-input-fields
         [aircraftConsumption]="this.aircraftConsumption$ | async"
+        [selectedAircraft]="this.selectedAircaft$ | async"
+        [useAircraftConsumptionValue]="this.useAircraftConsumptionValue$ | async"
         [consumptionUnit]="this.consumptionUnit$ | async"
         [extraTime]="this.extraTime$ | async"
         (aircraftConsumptionChange)="this.onAircraftConsumptionChange($event)"
+        (useAircraftConsumptionValueChange)="this.onUseAircraftConsumptionChanged($event)"
         (extraTimeChange)="this.onExtraTimeChange($event)"
     >
     </app-fuel-calc-input-fields>
