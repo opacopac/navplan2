@@ -33,7 +33,7 @@ export class FuelCalcContainerComponent implements OnInit {
 
 
     protected onAircraftConsumptionChange(consumption: Consumption) {
-        this.appStore.dispatch(FlightrouteActions.updateAircraftConsumption({aircraftConsumption: consumption}));
+        this.appStore.dispatch(FlightrouteActions.updateCruiseConsumption({cruiseConsumption: consumption}));
     }
 
 

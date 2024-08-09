@@ -1,5 +1,5 @@
 <div [formGroup]="this.aircraftSpeedFormGroup">
-    <mat-form-field [class]="this.useAircraftSpeed ? 'input-disabled' : ''">
+    <mat-form-field [class]="this.isDisabled ? 'input-disabled' : ''">
         <mat-label>Ground Speed</mat-label>
         <input
             matInput
@@ -16,19 +16,4 @@
         <span matTextSuffix>{{ Speed.getUnitString(this.speedUnit) }}</span>
         <mat-error>Value must be a whole positive number between 1 and 999!</mat-error>
     </mat-form-field>
-    <mat-button-toggle-group [hideSingleSelectionIndicator]="true">
-        <mat-button-toggle
-            [checked]="!this.useAircraftSpeed"
-            (change)="onEditSpeedClicked()"
-        >
-            <i class="fa-solid fa-pencil"></i>
-        </mat-button-toggle>
-        <mat-button-toggle
-            [checked]="this.useAircraftSpeed"
-            [disabled]="!this.selectedAircraftSpeed"
-            (change)="onUseAircraftSpeedClicked()"
-        >
-            <i class="fa-solid fa-plane"></i>
-        </mat-button-toggle>
-    </mat-button-toggle-group>
 </div>

@@ -1,9 +1,9 @@
 <div class="aircraft-selected-container">
-    Aircraft:&nbsp;
-    <span *ngIf="this.currentAircraft">
+    {{ this.labelText }}&nbsp;
+    <span *ngIf="this.currentAircraft && this.showRegistration">
         {{ this.currentAircraft.registration }}
     </span>
-    <span *ngIf="!this.currentAircraft">
+    <span *ngIf="!this.currentAircraft && this.showRegistration">
         <i>(not selected)</i>
     </span>
     <app-icon-button

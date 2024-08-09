@@ -14,6 +14,7 @@ import {SpeedUnit} from '../../../geo-physics/domain/model/quantities/speed-unit
 import {ConsumptionUnit} from '../../../geo-physics/domain/model/quantities/consumption-unit';
 import {FlightrouteActions} from './flightroute.actions';
 import {FlightrouteListActions} from './flightroute-list.actions';
+import {AircraftListActions} from '../../../aircraft/state/ngrx/aircraft-list.actions';
 
 
 const initialState: FlightrouteState = {
@@ -30,6 +31,9 @@ const initialState: FlightrouteState = {
         undefined,
         new Time(0, TimeUnit.M)
     ),
+    selectedAircraft: undefined,
+    useAircraftSpeedValue: false,
+    useAircraftConsumptionValue: false,
     showShareId: undefined
 };
 
@@ -45,11 +49,20 @@ export const flightRouteReducer = createReducer(
 
     // FlightrouteActions
     on(FlightrouteActions.update, (state, action) => {
+        const newRouteAircraft = action.flightroute.aircraft.clone();
+        newRouteAircraft.speed = state.useAircraftSpeedValue
+            ? state.selectedAircraft.cruiseSpeed
+            : newRouteAircraft.speed;
+        newRouteAircraft.consumption = state.useAircraftConsumptionValue
+            ? state.selectedAircraft.cruiseFuel
+            : newRouteAircraft.consumption;
         const newFlightroute = action.flightroute.clone();
+        newFlightroute.aircraft = newRouteAircraft;
         FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
+
         return {
             ...state,
-            flightroute: newFlightroute
+            flightroute: newFlightroute,
         };
     }),
 
@@ -100,11 +113,11 @@ export const flightRouteReducer = createReducer(
         };
     }),
 
-    on(FlightrouteActions.updateAircraftSpeed, (state, action) => {
-        const newAircraft = state.flightroute.aircraft.clone();
-        newAircraft.speed = action.aircraftSpeed;
+    on(FlightrouteActions.updateCruiseSpeed, (state, action) => {
+        const newRouteAircraft = state.flightroute.aircraft.clone();
+        newRouteAircraft.speed = action.cruiseSpeed;
         const newFlightroute = state.flightroute.clone();
-        newFlightroute.aircraft = newAircraft;
+        newFlightroute.aircraft = newRouteAircraft;
         FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
         return {
             ...state,
@@ -112,15 +125,65 @@ export const flightRouteReducer = createReducer(
         };
     }),
 
-    on(FlightrouteActions.updateAircraftConsumption, (state, action) => {
-        const newAircraft = state.flightroute.aircraft.clone();
-        newAircraft.consumption = action.aircraftConsumption;
+    on(FlightrouteActions.updateCruiseConsumption, (state, action) => {
+        const newRouteAircraft = state.flightroute.aircraft.clone();
+        newRouteAircraft.consumption = action.cruiseConsumption;
         const newFlightroute = state.flightroute.clone();
-        newFlightroute.aircraft = newAircraft;
+        newFlightroute.aircraft = newRouteAircraft;
         FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
         return {
             ...state,
             flightroute: newFlightroute
+        };
+    }),
+
+    // AircraftActions
+    on(AircraftListActions.selectAircraftSuccess, (state, action) => {
+        const newRouteAircraft = state.flightroute.aircraft.clone();
+        newRouteAircraft.speed = action.aircraft.cruiseSpeed;
+        newRouteAircraft.consumption = action.aircraft.cruiseFuel;
+        const newFlightroute = state.flightroute.clone();
+        newFlightroute.aircraft = newRouteAircraft;
+        FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
+
+        return {
+            ...state,
+            flightroute: newFlightroute,
+            useAircraftSpeedValue: true,
+            useAircraftConsumptionValue: true,
+            selectedAircraft: action.aircraft,
+        };
+    }),
+
+    on(FlightrouteActions.updateUseAircraftSpeedValue, (state, action) => {
+        const newRouteAircraft = state.flightroute.aircraft.clone();
+        newRouteAircraft.speed = action.useAircraftSpeed
+            ? state.selectedAircraft?.cruiseSpeed
+            : newRouteAircraft.speed;
+        const newFlightroute = state.flightroute.clone();
+        newFlightroute.aircraft = newRouteAircraft;
+        FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
+
+        return {
+            ...state,
+            flightroute: newFlightroute,
+            useAircraftSpeedValue: action.useAircraftSpeed
+        };
+    }),
+
+    on(FlightrouteActions.updateUseAircraftConsumptionValue, (state, action) => {
+        const newRouteAircraft = state.flightroute.aircraft.clone();
+        newRouteAircraft.consumption = action.useAircraftConsumption
+            ? state.selectedAircraft?.cruiseFuel
+            : newRouteAircraft.consumption;
+        const newFlightroute = state.flightroute.clone();
+        newFlightroute.aircraft = newRouteAircraft;
+        FlightrouteCalcHelper.calcFlightRoute(newFlightroute);
+
+        return {
+            ...state,
+            flightroute: newFlightroute,
+            useAircraftConsumptionValue: action.useAircraftConsumption
         };
     }),
 

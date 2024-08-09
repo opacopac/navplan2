@@ -13,13 +13,12 @@ import {ButtonColor} from '../../../../../common/view/model/button-color';
 export class FlightrouteAircraftSpeedComponent implements OnInit {
     @Input() public routeSpeed: Speed;
     @Input() public speedUnit: SpeedUnit;
-    @Input() public selectedAircraftSpeed: Speed;
+    @Input() public isDisabled: boolean;
     @Output() public routeSpeedChanged = new EventEmitter<Speed>();
     @ViewChild('routeSpeed') routeSpeedElement: ElementRef;
 
     public aircraftSpeedFormGroup: FormGroup;
 
-    protected useAircraftSpeed = false;
     protected readonly ButtonColor = ButtonColor;
     protected readonly Speed = Speed;
 
@@ -29,11 +28,6 @@ export class FlightrouteAircraftSpeedComponent implements OnInit {
 
 
     ngOnInit() {
-        if (this.selectedAircraftSpeed) {
-            this.useAircraftSpeed = true;
-            this.routeSpeed = this.selectedAircraftSpeed;
-        }
-
         this.aircraftSpeedFormGroup = this.parentForm.form;
         this.aircraftSpeedFormGroup.addControl(
             'routeSpeedInput', new FormControl(this.getRouteSpeedValue(), [
@@ -54,23 +48,7 @@ export class FlightrouteAircraftSpeedComponent implements OnInit {
     }
 
 
-    protected onUseAircraftSpeedClicked() {
-        this.useAircraftSpeed = true;
-        this.routeSpeedElement.nativeElement.disabled = true;
-        this.routeSpeed = this.selectedAircraftSpeed;
-        this.routeSpeedChanged.emit(this.routeSpeed);
-    }
-
-
-    protected onEditSpeedClicked() {
-        this.useAircraftSpeed = false;
-        this.routeSpeedElement.nativeElement.disabled = false;
-        this.routeSpeedElement.nativeElement.focus();
-    }
-
-
     protected onRouteSpeedChanged(valueString: string) {
-        this.useAircraftSpeed = false;
         if (this.isValidRouteSpeed(valueString)) {
             const valueInt = parseInt(valueString, 10);
             const speed = new Speed(valueInt, this.speedUnit);

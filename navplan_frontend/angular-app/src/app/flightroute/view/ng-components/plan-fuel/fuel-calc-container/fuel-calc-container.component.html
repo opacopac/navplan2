@@ -1,5 +1,7 @@
 <div class="fuel-container">
-    <app-aircraft-picker-container/>
+    <app-aircraft-picker-container
+        [showRegistration]="false"
+    />
     <app-fuel-calc-input-fields
         [aircraftConsumption]="this.aircraftConsumption$ | async"
         [consumptionUnit]="this.consumptionUnit$ | async"

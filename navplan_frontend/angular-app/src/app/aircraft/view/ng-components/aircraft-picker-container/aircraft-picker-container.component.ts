@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {getCurrentAircraft} from '../../../state/ngrx/aircraft.selectors';
 import {AircraftListActions} from '../../../state/ngrx/aircraft-list.actions';
@@ -10,6 +10,9 @@ import {AircraftListActions} from '../../../state/ngrx/aircraft-list.actions';
     styleUrls: ['./aircraft-picker-container.component.scss']
 })
 export class AircraftPickerContainerComponent implements OnInit {
+    @Input() public labelText: string;
+    @Input() public showRegistration: boolean;
+
     protected readonly currentAircraft$ = this.appStore.pipe(select(getCurrentAircraft));
 
     constructor(private appStore: Store<any>) {

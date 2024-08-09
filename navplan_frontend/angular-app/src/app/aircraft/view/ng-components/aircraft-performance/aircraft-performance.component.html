@@ -1,4 +1,7 @@
-<app-aircraft-picker-container/>
+<app-aircraft-picker-container
+    [labelText]="'Aircraft:'"
+    [showRegistration]="true"
+/>
 
 <div *ngIf="this.currentAircraft">
     <mat-accordion displayMode="flat" multi="true">

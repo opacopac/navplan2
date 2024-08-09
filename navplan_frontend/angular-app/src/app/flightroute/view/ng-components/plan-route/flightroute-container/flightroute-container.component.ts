@@ -2,7 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {select, Store} from '@ngrx/store';
 import {map} from 'rxjs/operators';
-import {getFlightroute} from '../../../../state/ngrx/flightroute.selectors';
+import {
+    getFlightroute,
+    getUseAircraftConsumptionValue,
+    getUseAircraftSpeedValue
+} from '../../../../state/ngrx/flightroute.selectors';
 import {getCurrentUser} from '../../../../../user/state/ngrx/user.selectors';
 import {Waypoint} from '../../../../domain/model/waypoint';
 import {Speed} from '../../../../../geo-physics/domain/model/quantities/speed';
@@ -32,7 +36,9 @@ export class FlightrouteContainerComponent implements OnInit {
     protected readonly flightrouteId$ = this.currentFlightroute$.pipe(map(flightroute => flightroute.id));
     protected readonly routeComments$ = this.currentFlightroute$.pipe(map(flightroute => flightroute.comments));
     protected readonly routeSpeed$ = this.currentFlightroute$.pipe(map(flightroute => flightroute.aircraft.speed));
-    protected readonly selectedAircraftSpeed$ = this.appStore.pipe(select(getCurrentAircraft)).pipe(map(aircraft => aircraft?.cruiseSpeed));
+    protected readonly selectedAircraft$ = this.appStore.pipe(select(getCurrentAircraft));
+    protected readonly useAircraftSpeedValue$ = this.appStore.pipe(select(getUseAircraftSpeedValue));
+    protected readonly useAircraftConsumptionValue$ = this.appStore.pipe(select(getUseAircraftConsumptionValue));
     protected readonly speedUnit$ = this.appStore.pipe(select(getSpeedUnit));
     protected readonly altitudeUnit$ = this.appStore.pipe(select(getAltitudeUnit));
 
@@ -52,13 +58,18 @@ export class FlightrouteContainerComponent implements OnInit {
     }
 
 
-    protected onFlightrouteNameChanged(name: string) {
-        this.appStore.dispatch(FlightrouteActions.updateTitle({title: name}));
+    protected onRouteSpeedChanged(speed: Speed) {
+        this.appStore.dispatch(FlightrouteActions.updateCruiseSpeed({cruiseSpeed: speed}));
     }
 
 
-    protected onRouteSpeedChanged(speed: Speed) {
-        this.appStore.dispatch(FlightrouteActions.updateAircraftSpeed({aircraftSpeed: speed}));
+    protected onUseAircraftSpeedChanged(useAircraftSpeed: boolean) {
+        this.appStore.dispatch(FlightrouteActions.updateUseAircraftSpeedValue({useAircraftSpeed: useAircraftSpeed}));
+    }
+
+
+    protected onFlightrouteNameChanged(name: string) {
+        this.appStore.dispatch(FlightrouteActions.updateTitle({title: name}));
     }
 
 

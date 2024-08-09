@@ -11,14 +11,24 @@ export class FlightrouteActions {
         props<{ flightroute: Flightroute }>()
     );
 
-    public static readonly updateAircraftSpeed = createAction(
-        '[Flightroute Page] Update aircraft speed',
-        props<{ aircraftSpeed: Speed }>()
+    public static readonly updateCruiseSpeed = createAction(
+        '[Flightroute Page] Update cruise speed',
+        props<{ cruiseSpeed: Speed }>()
     );
 
-    public static readonly updateAircraftConsumption = createAction(
-        '[Flightroute Page] Update aircraft consumption',
-        props<{ aircraftConsumption: Consumption }>()
+    public static readonly updateUseAircraftSpeedValue = createAction(
+        '[Flightroute Page] Update use aircraft speed value',
+        props<{ useAircraftSpeed: boolean }>()
+    );
+
+    public static readonly updateCruiseConsumption = createAction(
+        '[Flightroute Page] Update cruise consumption',
+        props<{ cruiseConsumption: Consumption }>()
+    );
+
+    public static readonly updateUseAircraftConsumptionValue = createAction(
+        '[Flightroute Page] Update use aircraft consumption value',
+        props<{ useAircraftConsumption: boolean }>()
     );
 
     public static readonly updateExtraTime = createAction(

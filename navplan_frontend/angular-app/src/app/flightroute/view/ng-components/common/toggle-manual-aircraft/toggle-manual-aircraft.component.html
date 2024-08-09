@@ -1,0 +1,15 @@
+<mat-button-toggle-group [hideSingleSelectionIndicator]="true">
+    <mat-button-toggle
+        [checked]="!this.useAircraft"
+        (change)="onEditManualClicked()"
+    >
+        <i class="fa-solid fa-pencil"></i>
+    </mat-button-toggle>
+    <mat-button-toggle
+        [checked]="this.useAircraft"
+        [disabled]="!this.selectedAircraft"
+        (change)="onUseAircraftClicked()"
+    >
+        <i class="fa-solid fa-plane"></i> {{ this.getAircraftName() }}
+    </mat-button-toggle>
+</mat-button-toggle-group>

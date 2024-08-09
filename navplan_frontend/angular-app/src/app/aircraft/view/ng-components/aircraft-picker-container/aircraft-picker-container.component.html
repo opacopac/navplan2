@@ -1,4 +1,6 @@
 <app-aircraft-picker
     [currentAircraft]="this.currentAircraft$ | async"
+    [labelText]="this.labelText"
+    [showRegistration]="this.showRegistration"
     (searchAircraftClicked)="this.onSearchAircraftClicked()"
 />
