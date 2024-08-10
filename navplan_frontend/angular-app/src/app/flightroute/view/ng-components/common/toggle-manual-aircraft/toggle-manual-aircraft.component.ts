@@ -42,4 +42,6 @@ export class ToggleManualAircraft implements OnInit {
             return '(not selected)';
         }
     }
+
+    protected readonly Aircraft = Aircraft;
 }

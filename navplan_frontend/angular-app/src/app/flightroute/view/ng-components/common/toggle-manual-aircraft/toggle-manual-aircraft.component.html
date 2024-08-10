@@ -1,11 +1,15 @@
 <mat-button-toggle-group [hideSingleSelectionIndicator]="true">
     <mat-button-toggle
+        matTooltip="Set value manually"
+        matTooltipPosition="above"
         [checked]="!this.useAircraft"
         (change)="onEditManualClicked()"
     >
         <i class="fa-solid fa-pencil"></i>
     </mat-button-toggle>
     <mat-button-toggle
+        matTooltip="Use value from aircraft"
+        matTooltipPosition="above"
         [checked]="this.useAircraft"
         [disabled]="!this.selectedAircraft"
         (change)="onUseAircraftClicked()"

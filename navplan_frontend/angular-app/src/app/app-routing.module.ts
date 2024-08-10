@@ -25,7 +25,9 @@ import {AircraftPageComponent} from './aircraft/view/ng-components/aircraft-page
 const routes: Routes = [
     { path: '', redirectTo: 'map', pathMatch: 'full' },
     { path: 'map', component: FlightMapPageComponent },
+    { path: 'aircraft', component: AircraftPageComponent },
     { path: 'aircraft/:tab', component: AircraftPageComponent },
+    { path: 'plan', component: PlanPageComponent },
     { path: 'plan/:tab', component: PlanPageComponent },
     { path: 'tracks', component: TracksPageComponent },
     { path: 'login', component: LoginRegisterPageComponent },
