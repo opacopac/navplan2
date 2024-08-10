@@ -62,7 +62,7 @@
         <!-- no entry -->
         <ng-container matColumnDef="no_entry">
             <td mat-footer-cell *matFooterCellDef [attr.colspan]="5" class="no-entry-cell">
-                <i>No aircraft selected.</i>
+                <i>No weight items configured.</i>
             </td>
         </ng-container>
 
@@ -70,7 +70,10 @@
         <tr mat-header-row *matHeaderRowDef="this.displayedColumns" class="header-row"></tr>
         <tr mat-row
             *matRowDef="let entry; columns: this.displayedColumns; let even = even"
-            [ngClass]="{ 'odd-row': !even }"
+            [ngClass]="{
+                'subtitle-row': PlanWnbService.isSummaryTypeItem(entry.type),
+                'odd-row': !even
+            }"
         ></tr>
 
         <tr mat-footer-row

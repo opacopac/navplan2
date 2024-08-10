@@ -26,6 +26,8 @@ export const planWnbReducer = createReducer(
         };
     }),
 
+    // TODO: aircraft wnb updates
+
     // Plan WnB Actions
     on(PlanWnbActions.weightOfItemChanged, (state, action) => {
         const newWeightItems = state.weightItems.map(wi => {

@@ -30,6 +30,7 @@ export class PlanWnbTableComponent implements OnInit {
     protected readonly Weight = Weight;
     protected readonly Volume = Volume;
     protected readonly ButtonColor = ButtonColor;
+    protected readonly PlanWnbService = PlanWnbService;
     protected displayedColumns: string[] = ['type', 'name', 'weight', 'arm', 'moment'];
 
 

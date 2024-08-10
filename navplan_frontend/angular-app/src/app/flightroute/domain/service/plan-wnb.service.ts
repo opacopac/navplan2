@@ -59,6 +59,10 @@ export class PlanWnbService {
 
 
     public static createWnbWeightItemsFromAircraft(aircraft: Aircraft): WeightItem[] {
+        if (!aircraft || !aircraft.wnbWeightItems || aircraft.wnbWeightItems.length === 0) {
+            return [];
+        }
+
         const newWeightItems = aircraft.wnbWeightItems
             .map(wi => {
                 const newWi = wi.clone();
@@ -72,8 +76,31 @@ export class PlanWnbService {
 
         newWeightItems.push(this.calcZeroFuelWeightItem(newWeightItems));
         newWeightItems.push(this.calcTakeoffWeightItem(newWeightItems, aircraft.fuelType));
+        newWeightItems.sort((a, b) => this.getSortWeight(a.type) - this.getSortWeight(b.type));
 
         return newWeightItems;
+    }
+
+
+    private static getSortWeight(weightItemType: WeightItemType): number {
+        switch (weightItemType) {
+            case WeightItemType.AIRCRAFT:
+                return 1;
+            case WeightItemType.PERSON:
+                return 2;
+            case WeightItemType.BAGGAGE:
+                return 3;
+            case WeightItemType.CUSTOM:
+                return 4;
+            case WeightItemType.ZERO_FUEL_WEIGHT:
+                return 5;
+            case WeightItemType.FUEL:
+                return 6;
+            case WeightItemType.TAKEOFF_WEIGHT:
+                return 7;
+            default:
+                return 8;
+        }
     }
 
 
