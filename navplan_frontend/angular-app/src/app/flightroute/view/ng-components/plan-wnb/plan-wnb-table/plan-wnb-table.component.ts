@@ -10,7 +10,8 @@ import {WeightItem} from '../../../../../aircraft/domain/model/weight-item';
 import {Weight} from '../../../../../geo-physics/domain/model/quantities/weight';
 import {StringnumberHelper} from '../../../../../system/domain/service/stringnumber/stringnumber-helper';
 import {Volume} from '../../../../../geo-physics/domain/model/quantities/volume';
-import {Consumption} from '../../../../../geo-physics/domain/model/quantities/consumption';
+import {WeightItemType} from '../../../../../aircraft/domain/model/weight-item-type';
+import {PlanWnbService} from '../../../../domain/service/plan-wnb.service';
 
 
 @Component({
@@ -27,7 +28,7 @@ export class PlanWnbTableComponent implements OnInit {
     @Output() weightItemChanged = new EventEmitter<[WeightItem, Weight, Volume]>();
 
     protected readonly Weight = Weight;
-    protected readonly Consumption = Consumption;
+    protected readonly Volume = Volume;
     protected readonly ButtonColor = ButtonColor;
     protected displayedColumns: string[] = ['type', 'name', 'weight', 'arm', 'moment'];
 
@@ -43,12 +44,45 @@ export class PlanWnbTableComponent implements OnInit {
     }
 
 
+    protected showWeightText(type: WeightItemType): boolean {
+        return PlanWnbService.isSummaryTypeItem(type) || type === WeightItemType.AIRCRAFT;
+    }
+
+
+    protected showWeightInput(type: WeightItemType): boolean {
+        return PlanWnbService.isWeightTypeItem(type) && type !== WeightItemType.AIRCRAFT;
+    }
+
+
+    protected showFuelInput(type: WeightItemType): boolean {
+        return PlanWnbService.isFuelTypeItem(type);
+    }
+
+
+    protected getWeightText(weight: Weight) {
+        if (!weight) {
+            return '';
+        }
+
+        return weight.getValueAndUnit(this.weightUnit, 0);
+    }
+
+
     protected getWeightValue(weight: Weight): number {
         if (!weight) {
             return 0;
         }
 
         return Math.round(weight.getValue(this.weightUnit));
+    }
+
+
+    protected getFuelValue(fuel: Volume): number {
+        if (!fuel) {
+            return 0;
+        }
+
+        return Math.round(fuel.getValue(this.volumeUnit));
     }
 
 

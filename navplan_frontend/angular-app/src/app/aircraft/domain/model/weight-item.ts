@@ -11,6 +11,7 @@ export class WeightItem {
         public maxWeight: Weight,
         public maxFuel: Volume,
         public weight: Weight,
+        public fuel: Volume
     ) {
     }
 
@@ -22,7 +23,19 @@ export class WeightItem {
             this.arm?.clone(),
             this.maxWeight?.clone(),
             this.maxFuel?.clone(),
-            this.weight?.clone()
+            this.weight?.clone(),
+            this.fuel?.clone()
         );
+    }
+
+
+    public applyValuesFrom(weightItem: WeightItem): void {
+        this.type = weightItem.type;
+        this.name = weightItem.name;
+        this.arm = weightItem.arm;
+        this.maxWeight = weightItem.maxWeight;
+        this.maxFuel = weightItem.maxFuel;
+        this.weight = weightItem.weight;
+        this.fuel = weightItem.fuel;
     }
 }

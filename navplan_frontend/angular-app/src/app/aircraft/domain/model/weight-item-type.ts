@@ -4,4 +4,6 @@ export enum WeightItemType {
     PERSON,
     BAGGAGE,
     CUSTOM,
+    ZERO_FUEL_WEIGHT,
+    TAKEOFF_WEIGHT,
 }

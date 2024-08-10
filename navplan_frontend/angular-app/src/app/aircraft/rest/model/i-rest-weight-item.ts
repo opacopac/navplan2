@@ -9,4 +9,5 @@ export interface IRestWeightItem {
     maxWeight: IRestWeight;
     maxFuel: IRestVolume;
     weight: IRestWeight;
+    fuel: IRestVolume;
 }
