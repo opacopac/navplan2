@@ -29,13 +29,18 @@ export const planWnbReducer = createReducer(
     // Plan WnB Actions
     on(PlanWnbActions.weightOfItemChanged, (state, action) => {
         const newWeightItems = state.weightItems.map(wi => {
-            const newWi = wi.clone();
             if (wi === action.weightItem) {
-                newWi.weight = action.newWeight;
-                newWi.fuel = action.newFuel;
+                const newWi = wi.clone();
+                if (PlanWnbService.isWeightTypeItem(newWi.type)) {
+                    newWi.weight = action.newWeight;
+                } else if (PlanWnbService.isFuelTypeItem(newWi.type)) {
+                    newWi.fuel = action.newFuel;
+                    newWi.weight = PlanWnbService.calcFuelWeight(newWi.fuel, state.fuelType);
+                }
+                return newWi;
+            } else {
+                return wi;
             }
-
-            return newWi;
         });
         PlanWnbService.reCalcSummaryWeightItems(newWeightItems, state.fuelType);
 

@@ -7,6 +7,7 @@ import {VolumeUnit} from '../../../geo-physics/domain/model/quantities/volume-un
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-unit';
 import {FuelType} from '../../../aircraft/domain/model/fuel-type';
+import {Volume} from '../../../geo-physics/domain/model/quantities/volume';
 
 
 export class PlanWnbService {
@@ -15,21 +16,13 @@ export class PlanWnbService {
     }
 
 
-    public static calcFuelWeight(weightItem: WeightItem, fuelType: FuelType, weightUnit: WeightUnit): WeightItem {
+    public static calcFuelWeight(fuel: Volume, fuelType: FuelType): Weight {
         switch (fuelType) {
             case FuelType.MOGAS:
             case FuelType.AVGAS:
             default:
-                if (weightItem.fuel) {
-                    weightItem.weight = new Weight(weightItem.fuel.getValue(VolumeUnit.L) * 0.72, weightUnit);
-                }
-                if (weightItem.maxFuel) {
-                    weightItem.maxWeight = new Weight(weightItem.maxFuel.getValue(VolumeUnit.L) * 0.72, weightUnit);
-                }
-                break;
+                return new Weight(fuel.getValue(VolumeUnit.L) * 0.72, WeightUnit.KG);
         }
-
-        return weightItem;
     }
 
 
@@ -55,11 +48,11 @@ export class PlanWnbService {
     public static reCalcSummaryWeightItems(weightItems: WeightItem[], fuelType: FuelType): void {
         weightItems.forEach(wi => {
             if (wi.type === WeightItemType.ZERO_FUEL_WEIGHT) {
-                wi.applyValuesFrom(this.calcZeroFuelWeightItem(weightItems));
+                weightItems[weightItems.indexOf(wi)] = this.calcZeroFuelWeightItem(weightItems);
             }
 
             if (wi.type === WeightItemType.TAKEOFF_WEIGHT) {
-                wi.applyValuesFrom(this.calcTakeoffWeightItem(weightItems, fuelType));
+                weightItems[weightItems.indexOf(wi)] = this.calcTakeoffWeightItem(weightItems, fuelType);
             }
         });
     }
@@ -114,13 +107,16 @@ export class PlanWnbService {
         const lengthUnit = LengthUnit.M;
         const fuelWeightValue = weightItems
             .filter(wi => this.isFuelTypeItem(wi.type) && wi.fuel)
-            .map(wi => this.calcFuelWeight(wi, fuelType, weightUnit))
-            .map(wi => wi.weight.getValue(weightUnit))
+            .map(wi => this.calcFuelWeight(wi.fuel, fuelType))
+            .map(w => w.getValue(weightUnit))
             .reduce((sum, cur) => sum + cur, 0);
         const fuelMomentValue = weightItems
             .filter(wi => this.isFuelTypeItem(wi.type) && wi.fuel)
-            .map(wi => this.calcFuelWeight(wi, fuelType, weightUnit))
-            .map(wi => this.calcMoment(wi, weightUnit, lengthUnit))
+            .map(wi => ({
+                weight: this.calcFuelWeight(wi.fuel, fuelType),
+                arm: wi.arm
+            }))
+            .map(wArm => wArm.weight.getValue(weightUnit) * wArm.arm.getValue(lengthUnit))
             .reduce((sum, cur) => sum + cur, 0);
 
         const zeroFuelWeightItem = weightItems.find(wi => wi.type === WeightItemType.ZERO_FUEL_WEIGHT);
