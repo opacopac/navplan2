@@ -27,22 +27,4 @@
             [showRegistration]="false"
         />
     </div>
-
-    <!-- extra time -->
-    <mat-form-field>
-        <mat-label>Extra Time</mat-label>
-        <input matInput
-               #extraTime
-               type="number"
-               size="3"
-               required
-               min="0"
-               max="999"
-               [formControl]="this.extraTimeInput"
-               (input)="this.extraTimeInput.valid ? this.onExtraTimeChange(extraTime.value) : {}"
-               [value]="this.getExtraTimeString()"
-        >
-        <span matTextSuffix>min</span>
-        <mat-error>Value must be a number between 0 and 999!</mat-error>
-    </mat-form-field>
 </form>

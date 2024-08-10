@@ -1,16 +1,17 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {RouteFuel} from '../../../../domain/model/routefuel';
 import {StringnumberHelper} from '../../../../../system/domain/service/stringnumber/stringnumber-helper';
 import {Time} from '../../../../../geo-physics/domain/model/quantities/time';
 import {Volume} from '../../../../../geo-physics/domain/model/quantities/volume';
 import {VolumeUnit} from '../../../../../geo-physics/domain/model/quantities/volume-unit';
+import {TimeUnit} from '../../../../../geo-physics/domain/model/quantities/time-unit';
 
 
 interface FuelDataSourceRow {
+    type: string;
     title: string;
     time: Time;
     fuel: Volume;
-    isBlock: boolean;
 }
 
 
@@ -19,12 +20,16 @@ interface FuelDataSourceRow {
     templateUrl: './fuel-calc-table.component.html',
     styleUrls: ['./fuel-calc-table.component.scss']
 })
-export class FuelCalcTableComponent implements OnInit, OnChanges {
+export class FuelCalcTableComponent implements OnInit {
     @Input() set routeFuel(value: RouteFuel) {
         this.fuelDataSource = this.calcFuelDataSource(value);
     }
 
     @Input() fuelUnit: VolumeUnit;
+    @Output() extraTimeChanged = new EventEmitter<Time>();
+
+    protected readonly Time = Time;
+    protected readonly TimeUnit = TimeUnit;
     protected fuelDataSource: FuelDataSourceRow[] = [];
     protected visibleColumns = ['fuelCalc', 'time', 'fuel'];
 
@@ -34,11 +39,6 @@ export class FuelCalcTableComponent implements OnInit, OnChanges {
 
 
     ngOnInit() {
-    }
-
-
-    ngOnChanges() {
-        // this.fuelDataSource = this.calcFuelDataSource(this.routeFuel);
     }
 
 
@@ -54,10 +54,29 @@ export class FuelCalcTableComponent implements OnInit, OnChanges {
 
     protected formatFuel(fuel: Volume): string {
         if (fuel) {
-            return '' + Math.ceil(fuel.getValue(this.fuelUnit));
+            return fuel.getValueAndUnit(this.fuelUnit, 0); // TODO: ceil
         } else {
             return '';
         }
+    }
+
+
+    protected showTimeInput(type: string) {
+        return type === 'extra';
+    }
+
+
+    protected getTimeValue(time: Time): number {
+        return time ? time.min : 0;
+    }
+
+    protected onTimeValueChanged(reserveTimeString: string) {
+        let extraTimeMinValue = parseInt(reserveTimeString, 10);
+        if (isNaN(extraTimeMinValue) || extraTimeMinValue < 0) {
+            extraTimeMinValue = 0;
+        }
+        const extraTime = new Time(extraTimeMinValue, TimeUnit.M);
+        this.extraTimeChanged.emit(extraTime);
     }
 
 
@@ -65,36 +84,41 @@ export class FuelCalcTableComponent implements OnInit, OnChanges {
         const fuelDataSource: FuelDataSourceRow[] = [];
 
         fuelDataSource.push(this.createFuelDataSourceRow(
+            'trip',
             'Trip',
             routeFuel ? routeFuel.tripTime : undefined,
             routeFuel ? routeFuel.tripFuel : undefined));
         fuelDataSource.push(this.createFuelDataSourceRow(
+            'alt',
             'Alternate',
             routeFuel ? routeFuel.alternateTime : undefined,
             routeFuel ? routeFuel.alternateFuel : undefined));
         fuelDataSource.push(this.createFuelDataSourceRow(
+            'reserve',
             'Reserve',
             routeFuel ? routeFuel.reserveTime : undefined,
             routeFuel ? routeFuel.reserveFuel : undefined));
         fuelDataSource.push(this.createFuelDataSourceRow(
+            'min',
             'Minimum',
             routeFuel ? routeFuel.minimumTime : undefined,
             routeFuel ? routeFuel.minimumFuel : undefined));
         fuelDataSource.push(this.createFuelDataSourceRow(
+            'extra',
             'Extra fuel',
             routeFuel ? routeFuel.extraTime : undefined,
             routeFuel ? routeFuel.extraFuel : undefined));
         fuelDataSource.push(this.createFuelDataSourceRow(
+            'block',
             'Block fuel',
             routeFuel ? routeFuel.blockTime : undefined,
-            routeFuel ? routeFuel.blockFuel : undefined,
-            true));
+            routeFuel ? routeFuel.blockFuel : undefined));
 
         return fuelDataSource;
     }
 
 
-    private createFuelDataSourceRow(title: string, time: Time, fuel: Volume, isBlock = false): FuelDataSourceRow {
-        return {title: title, time: time, fuel: fuel, isBlock: isBlock};
+    private createFuelDataSourceRow(type: string, title: string, time: Time, fuel: Volume): FuelDataSourceRow {
+        return {type: type, title: title, time: time, fuel: fuel};
     }
 }

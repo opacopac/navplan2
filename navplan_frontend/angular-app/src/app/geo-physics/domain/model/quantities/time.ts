@@ -4,6 +4,22 @@ import {AbstractQuantity} from './abstract-quantity';
 
 
 export class Time extends AbstractQuantity<Time, TimeUnit> implements Clonable<Time> {
+    public static getUnitString(unit: TimeUnit): string {
+        switch (unit) {
+            case TimeUnit.MS:
+                return 'ms';
+            case TimeUnit.S:
+                return 's';
+            case TimeUnit.M:
+                return 'min';
+            case TimeUnit.H:
+                return 'h';
+            default:
+                return '';
+        }
+    }
+
+
     public static convertTime(
         value: number,
         unit: TimeUnit,

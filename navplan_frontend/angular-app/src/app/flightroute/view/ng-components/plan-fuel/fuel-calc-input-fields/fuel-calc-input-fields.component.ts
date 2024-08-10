@@ -1,8 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Consumption} from '../../../../../geo-physics/domain/model/quantities/consumption';
 import {ConsumptionUnit} from '../../../../../geo-physics/domain/model/quantities/consumption-unit';
-import {TimeUnit} from '../../../../../geo-physics/domain/model/quantities/time-unit';
-import {Time} from '../../../../../geo-physics/domain/model/quantities/time';
 import {FormControl, Validators} from '@angular/forms';
 import {Aircraft} from '../../../../../aircraft/domain/model/aircraft';
 
@@ -16,14 +14,11 @@ export class FuelCalcInputFieldsComponent implements OnInit {
     @Input() useAircraftConsumptionValue: boolean;
     @Input() consumptionUnit: ConsumptionUnit;
     @Input() selectedAircraft: Aircraft;
-    @Input() extraTime: Time;
     @Output() aircraftConsumptionChange = new EventEmitter<Consumption>();
     @Output() useAircraftConsumptionValueChange = new EventEmitter<boolean>();
-    @Output() extraTimeChange = new EventEmitter<Time>();
 
     protected readonly Consumption = Consumption;
     protected consumptionInput: FormControl;
-    protected extraTimeInput: FormControl;
 
 
     constructor() {
@@ -36,25 +31,12 @@ export class FuelCalcInputFieldsComponent implements OnInit {
             Validators.min(1),
             Validators.max(999)
         ]);
-        this.extraTimeInput = new FormControl(this.getExtraTimeString(), [
-            Validators.required,
-            Validators.min(0),
-            Validators.max(999)
-        ]);
     }
-
 
     protected getAircaftConsumptionString(): string {
         return this.aircraftConsumption && !this.aircraftConsumption.isZero()
             ? this.aircraftConsumption.getValue(this.consumptionUnit).toString()
             : '';
-    }
-
-
-    protected getExtraTimeString(): string {
-        return this.extraTime
-            ? this.extraTime.getValue(TimeUnit.M).toString()
-            : '0';
     }
 
 
@@ -67,12 +49,5 @@ export class FuelCalcInputFieldsComponent implements OnInit {
 
     protected onUseAircraftConsumptionChanged(useAircraftConsumption: boolean) {
         this.useAircraftConsumptionValueChange.emit(useAircraftConsumption);
-    }
-
-
-    protected onExtraTimeChange(valueString: string) {
-        const value = parseInt(valueString, 10);
-        const extraTime = new Time(value, TimeUnit.M);
-        this.extraTimeChange.emit(extraTime);
     }
 }
