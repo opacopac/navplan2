@@ -113,8 +113,9 @@ export class PlanWnbService {
         const weightUnit = WeightUnit.KG;
         const lengthUnit = LengthUnit.M;
         const fuelWeightValue = weightItems
-            .filter(wi => this.isFuelTypeItem(wi.type) && wi.weight)
-            .map(wi => this.calcMoment(wi, weightUnit, lengthUnit))
+            .filter(wi => this.isFuelTypeItem(wi.type) && wi.fuel)
+            .map(wi => this.calcFuelWeight(wi, fuelType, weightUnit))
+            .map(wi => wi.weight.getValue(weightUnit))
             .reduce((sum, cur) => sum + cur, 0);
         const fuelMomentValue = weightItems
             .filter(wi => this.isFuelTypeItem(wi.type) && wi.fuel)
@@ -125,7 +126,7 @@ export class PlanWnbService {
         const zeroFuelWeightItem = weightItems.find(wi => wi.type === WeightItemType.ZERO_FUEL_WEIGHT);
 
         const takeoffWeightValue = fuelWeightValue + zeroFuelWeightItem.weight.getValue(weightUnit);
-        const takeoffMoment = fuelMomentValue + zeroFuelWeightItem.weight.getValue(weightUnit);
+        const takeoffMoment = fuelMomentValue + this.calcMoment(zeroFuelWeightItem, weightUnit, lengthUnit);
         const takeoffArmValue = takeoffMoment / takeoffWeightValue;
 
         return new WeightItem(
