@@ -1,0 +1,14 @@
+<div class="wnb-container">
+    <app-aircraft-picker-container
+        labelText="Aircraft:"
+        showRegistration="true"
+    />
+    <app-plan-wnb-table
+        [weightItems]="this.weightItems$ | async"
+        [routeFuel]="this.routeFuel$ | async"
+        [lengthUnit]="this.lengthUnit$ | async"
+        [weightUnit]="this.weightUnit$ | async"
+        [volumeUnit]="this.volumeUnit$ | async"
+        (weightItemChanged)="this.onWeightItemChanged($event)"
+    />
+</div>

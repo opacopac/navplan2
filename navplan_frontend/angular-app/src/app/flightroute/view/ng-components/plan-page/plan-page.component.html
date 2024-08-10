@@ -5,13 +5,12 @@
         animationDuration="0ms"
         (selectedTabChange)="onTabChange($event)"
     >
-        <!-- info tab -->
         <mat-tab>
             <ng-template matTabLabel>
                 <i class="fa-solid fa-route"></i>&nbsp;&nbsp;Route
             </ng-template>
             <ng-template matTabContent>
-                <app-flightroute-container></app-flightroute-container>
+                <app-flightroute-container />
             </ng-template>
         </mat-tab>
         <mat-tab>
@@ -19,7 +18,7 @@
                 <i class="fa-solid fa-tint"></i>&nbsp;&nbsp;Fuel
             </ng-template>
             <ng-template matTabContent>
-                <app-fuel-calc-container></app-fuel-calc-container>
+                <app-fuel-calc-container />
             </ng-template>
         </mat-tab>
         <mat-tab>
@@ -27,7 +26,7 @@
                 <i class="fa-solid fa-balance-scale"></i>&nbsp;&nbsp;W&B
             </ng-template>
             <ng-template matTabContent>
-                TODO
+                <app-plan-wnb-container />
             </ng-template>
         </mat-tab>
         <mat-tab>
@@ -43,7 +42,7 @@
                 <i class="fa-solid fa-cloud"></i>&nbsp;&nbsp;Meteo
             </ng-template>
             <ng-template matTabContent>
-                <app-route-meteo-container></app-route-meteo-container>
+                <app-route-meteo-container />
             </ng-template>
         </mat-tab>
         <mat-tab>

@@ -80,7 +80,8 @@ export class AircraftWnbEditItemFormComponent implements OnInit, OnChanges {
                 this.editWeightItemForm.get('name').value,
                 new Length(this.editWeightItemForm.get('arm').value, this.wnbLengthUnit),
                 isNaN(maxWeightValue) ? null : new Weight(maxWeightValue, this.weightUnit),
-                isNaN(maxFuelValue) ? null : new Volume(maxFuelValue, this.volumeUnit)
+                isNaN(maxFuelValue) ? null : new Volume(maxFuelValue, this.volumeUnit),
+                null
             );
 
             this.onSaveClick.emit(newWeightItem);

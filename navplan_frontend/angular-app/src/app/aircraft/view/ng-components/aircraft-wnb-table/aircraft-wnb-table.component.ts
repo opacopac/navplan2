@@ -42,23 +42,6 @@ export class AircraftWnbTableComponent implements OnInit {
     }
 
 
-    protected getWeightItemTypeIcon(type: WeightItemType) {
-        switch (type) {
-            case WeightItemType.AIRCRAFT:
-                return 'fa-solid fa-plane';
-            case WeightItemType.FUEL:
-                return 'fa-solid fa-droplet';
-            case WeightItemType.PERSON:
-                return 'fa-solid fa-person';
-            case WeightItemType.BAGGAGE:
-                return 'fa-solid fa-suitcase';
-            case WeightItemType.CUSTOM:
-                return 'fa-solid fa-weight-hanging';
-        }
-        return '';
-    }
-
-
     protected getArmText(arm: Length): string {
         return arm.getValueAndUnit(this.lengthUnit, 3);
     }

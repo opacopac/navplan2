@@ -9,5 +9,4 @@ export interface FlightrouteState {
     selectedAircraft: Aircraft;
     useAircraftSpeedValue: boolean;
     useAircraftConsumptionValue: boolean;
-    showShareId: string;
 }

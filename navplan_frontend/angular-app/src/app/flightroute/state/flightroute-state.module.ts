@@ -8,11 +8,13 @@ import {FlightRouteListEffects} from './ngrx/flightroute-list-effects.service';
 import {FlightRouteCrudEffects} from './ngrx/flightroute-crud-effects.service';
 import {routeMeteoReducer} from './ngrx/route-meteo.reducer';
 import {RouteMeteoEffects} from './ngrx/route-meteo.effects';
+import {planWnbReducer} from './ngrx/plan-wnb.reducer';
 
 
 @NgModule({
     imports: [
         StoreModule.forFeature('flightrouteState', flightRouteReducer),
+        StoreModule.forFeature('planWnbState', planWnbReducer),
         StoreModule.forFeature('routeMeteoState', routeMeteoReducer),
         EffectsModule.forFeature([
             FlightRouteListEffects,

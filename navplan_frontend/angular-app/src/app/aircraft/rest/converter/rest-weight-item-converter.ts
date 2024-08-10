@@ -13,7 +13,8 @@ export class RestWeightItemConverter {
             restWeightItem.name,
             RestLengthConverter.fromRest(restWeightItem.arm),
             RestWeightConverter.fromRest(restWeightItem.maxWeight),
-            RestVolumeConverter.fromRest(restWeightItem.maxFuel)
+            RestVolumeConverter.fromRest(restWeightItem.maxFuel),
+            RestWeightConverter.fromRest(restWeightItem.weight),
         );
     }
 
@@ -24,7 +25,8 @@ export class RestWeightItemConverter {
             name: weightItem.name,
             arm: RestLengthConverter.toRest(weightItem.arm),
             maxWeight: RestWeightConverter.toRest(weightItem.maxWeight),
-            maxFuel: RestVolumeConverter.toRest(weightItem.maxFuel)
+            maxFuel: RestVolumeConverter.toRest(weightItem.maxFuel),
+            weight: RestWeightConverter.toRest(weightItem.weight),
         };
     }
 

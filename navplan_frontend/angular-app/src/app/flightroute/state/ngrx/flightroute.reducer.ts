@@ -34,7 +34,6 @@ const initialState: FlightrouteState = {
     selectedAircraft: undefined,
     useAircraftSpeedValue: false,
     useAircraftConsumptionValue: false,
-    showShareId: undefined
 };
 
 

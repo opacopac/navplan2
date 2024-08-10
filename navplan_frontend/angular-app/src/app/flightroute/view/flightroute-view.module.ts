@@ -52,6 +52,8 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {AircraftViewModule} from '../../aircraft/view/aircraft-view.module';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {ToggleManualAircraft} from './ng-components/common/toggle-manual-aircraft/toggle-manual-aircraft.component';
+import {PlanWnbContainerComponent} from './ng-components/plan-wnb/plan-wnb-container/plan-wnb-container.component';
+import {PlanWnbTableComponent} from './ng-components/plan-wnb/plan-wnb-table/plan-wnb-table.component';
 
 
 @NgModule({
@@ -94,6 +96,8 @@ import {ToggleManualAircraft} from './ng-components/common/toggle-manual-aircraf
         FuelCalcContainerComponent,
         FuelCalcInputFieldsComponent,
         FuelCalcTableComponent,
+        PlanWnbContainerComponent,
+        PlanWnbTableComponent,
         RouteMeteoContainerComponent,
         RouteMeteoTableComponent,
         RouteMeteoRadiusComponent
