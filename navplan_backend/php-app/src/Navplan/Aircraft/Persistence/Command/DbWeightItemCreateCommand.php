@@ -36,6 +36,8 @@ class DbWeightItemCreateCommand implements IWeightItemCreateCommand
                 DbTableAircraftWeightItems::COL_ARM_M,
                 DbTableAircraftWeightItems::COL_MAX_WEIGHT_KG,
                 DbTableAircraftWeightItems::COL_MAX_FUEL_L,
+                DbTableAircraftWeightItems::COL_DEFAULT_WEIGHT_KG,
+                DbTableAircraftWeightItems::COL_DEFAULT_FUEL_L
             ]);
         $query .= ") VALUES (";
         $query .= join(",", array(
@@ -44,7 +46,9 @@ class DbWeightItemCreateCommand implements IWeightItemCreateCommand
             DbHelper::getDbStringValue($this->dbService, $weightItem->name),
             DbHelper::getDbFloatValue($weightItem->arm->getM()),
             DbHelper::getDbFloatValue($weightItem->maxWeight?->getKg()),
-            DbHelper::getDbFloatValue($weightItem->maxFuel?->getL())
+            DbHelper::getDbFloatValue($weightItem->maxFuel?->getL()),
+            DbHelper::getDbFloatValue($weightItem->defaultWeight?->getKg()),
+            DbHelper::getDbFloatValue($weightItem->defaultFuel?->getL())
         ));
         $query .= ")";
 

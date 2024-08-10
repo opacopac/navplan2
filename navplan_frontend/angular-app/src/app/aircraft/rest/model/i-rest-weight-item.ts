@@ -8,6 +8,8 @@ export interface IRestWeightItem {
     arm: IRestLength;
     maxWeight: IRestWeight;
     maxFuel: IRestVolume;
+    defaultWeight: IRestWeight;
+    defaultFuel: IRestVolume;
     weight: IRestWeight;
     fuel: IRestVolume;
 }

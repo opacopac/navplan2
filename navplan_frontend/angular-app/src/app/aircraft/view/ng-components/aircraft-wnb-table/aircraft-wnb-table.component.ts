@@ -28,7 +28,7 @@ export class AircraftWnbTableComponent implements OnInit {
     @Output() deleteWeightItem = new EventEmitter<number>();
 
     protected readonly ButtonColor = ButtonColor;
-    protected displayedColumns: string[] = ['type', 'name', 'arm', 'max', 'icons'];
+    protected displayedColumns: string[] = ['type', 'name', 'arm', 'max', 'default', 'icons'];
 
 
     constructor(
@@ -52,6 +52,17 @@ export class AircraftWnbTableComponent implements OnInit {
             return entry.maxWeight.getValueAndUnit(this.weightUnit, 3);
         } else if (entry.maxFuel) {
             return entry.maxFuel.getValueAndUnit(this.volumeUnit, 3);
+        } else {
+            return '-';
+        }
+    }
+
+
+    protected defaultText(entry: WeightItem): string {
+        if (entry.defaultWeight) {
+            return entry.defaultWeight.getValueAndUnit(this.weightUnit, 3);
+        } else if (entry.defaultFuel) {
+            return entry.defaultFuel.getValueAndUnit(this.volumeUnit, 3);
         } else {
             return '-';
         }

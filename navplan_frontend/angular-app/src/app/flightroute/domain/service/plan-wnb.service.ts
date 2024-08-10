@@ -67,9 +67,17 @@ export class PlanWnbService {
             .map(wi => {
                 const newWi = wi.clone();
 
-                if (newWi.type === WeightItemType.AIRCRAFT) {
+                if (wi.type === WeightItemType.AIRCRAFT) {
                     newWi.weight = aircraft.bew;
-                } // else: set default values
+                } else {
+                    if (wi.defaultWeight) {
+                        newWi.weight = wi.defaultWeight;
+                    }
+                    if (wi.defaultFuel) {
+                        newWi.fuel = wi.defaultFuel;
+                        newWi.weight = this.calcFuelWeight(wi.defaultFuel, aircraft.fuelType);
+                    }
+                }
 
                 return newWi;
             });
@@ -123,6 +131,8 @@ export class PlanWnbService {
             new Length(zeroFuelArmValue, lengthUnit),
             null,
             null,
+            null,
+            null,
             new Weight(zeroFuelWeightValue, weightUnit),
             null
         );
@@ -156,6 +166,8 @@ export class PlanWnbService {
             WeightItemType.TAKEOFF_WEIGHT,
             'Takeoff Weight',
             new Length(takeoffArmValue, lengthUnit),
+            null,
+            null,
             null,
             null,
             new Weight(takeoffWeightValue, weightUnit),

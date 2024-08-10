@@ -75,12 +75,16 @@ export class AircraftWnbEditItemFormComponent implements OnInit, OnChanges {
         if (this.editWeightItemForm.valid) {
             const maxWeightValue = parseInt(this.editWeightItemForm.get('maxWeight').value, 10);
             const maxFuelValue = parseInt(this.editWeightItemForm.get('maxFuel').value, 10);
+            const defaultWeightValue = parseInt(this.editWeightItemForm.get('defaultWeight').value, 10);
+            const defaultFuelValue = parseInt(this.editWeightItemForm.get('defaultFuel').value, 10);
             const newWeightItem = new WeightItem(
                 this.editWeightItemForm.get('type').value,
                 this.editWeightItemForm.get('name').value,
                 new Length(this.editWeightItemForm.get('arm').value, this.wnbLengthUnit),
                 isNaN(maxWeightValue) ? null : new Weight(maxWeightValue, this.weightUnit),
                 isNaN(maxFuelValue) ? null : new Volume(maxFuelValue, this.volumeUnit),
+                isNaN(defaultWeightValue) ? null : new Weight(defaultWeightValue, this.weightUnit),
+                isNaN(defaultFuelValue) ? null : new Volume(defaultFuelValue, this.volumeUnit),
                 null,
                 null
             );
@@ -135,6 +139,24 @@ export class AircraftWnbEditItemFormComponent implements OnInit, OnChanges {
                     : '',
                 [
                     Validators.min(1),
+                    Validators.max(99999),
+                ]
+            ],
+            'defaultWeight': [
+                (weightItem && weightItem.defaultWeight)
+                    ? StringnumberHelper.roundToDigits(weightItem.defaultWeight.getValue(this.weightUnit), 3)
+                    : '',
+                [
+                    Validators.min(0),
+                    Validators.max(99999),
+                ]
+            ],
+            'defaultFuel': [
+                (weightItem && weightItem.defaultFuel)
+                    ? StringnumberHelper.roundToDigits(weightItem.defaultFuel.getValue(this.volumeUnit), 3)
+                    : '',
+                [
+                    Validators.min(0),
                     Validators.max(99999),
                 ]
             ]

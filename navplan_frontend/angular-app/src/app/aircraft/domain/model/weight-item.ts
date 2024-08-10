@@ -10,6 +10,8 @@ export class WeightItem {
         public arm: Length,
         public maxWeight: Weight,
         public maxFuel: Volume,
+        public defaultWeight: Weight,
+        public defaultFuel: Volume,
         public weight: Weight,
         public fuel: Volume
     ) {
@@ -23,6 +25,8 @@ export class WeightItem {
             this.arm?.clone(),
             this.maxWeight?.clone(),
             this.maxFuel?.clone(),
+            this.defaultWeight?.clone(),
+            this.defaultFuel?.clone(),
             this.weight?.clone(),
             this.fuel?.clone()
         );

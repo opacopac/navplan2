@@ -14,7 +14,9 @@ class WeightItem
         public string $name,
         public Length $arm,
         public ?Weight $maxWeight,
-        public ?Volume $maxFuel
+        public ?Volume $maxFuel,
+        public ?Weight $defaultWeight,
+        public ?Volume $defaultFuel
     )
     {
     }

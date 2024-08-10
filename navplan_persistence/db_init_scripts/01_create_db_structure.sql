@@ -176,7 +176,9 @@ CREATE TABLE `aircraft_weight_items` (
                                          `name` varchar(100) NOT NULL,
                                          `arm_m` float UNSIGNED NOT NULL,
                                          `max_weight_kg` float UNSIGNED DEFAULT NULL,
-                                         `max_fuel_l` float UNSIGNED DEFAULT NULL
+                                         `max_fuel_l` float UNSIGNED DEFAULT NULL,
+                                         `default_weight_kg` float UNSIGNED DEFAULT NULL,
+                                         `default_fuel_l` float UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 --

@@ -27,6 +27,12 @@ class DbWeightItemConverter
                 : null,
             $row[DbTableAircraftWeightItems::COL_MAX_FUEL_L]
                 ? new Volume(floatval($row[DbTableAircraftWeightItems::COL_MAX_FUEL_L]), VolumeUnit::L)
+                : null,
+            $row[DbTableAircraftWeightItems::COL_DEFAULT_WEIGHT_KG]
+                ? new Weight(floatval($row[DbTableAircraftWeightItems::COL_DEFAULT_WEIGHT_KG]), WeightUnit::KG)
+                : null,
+            $row[DbTableAircraftWeightItems::COL_DEFAULT_FUEL_L]
+                ? new Volume(floatval($row[DbTableAircraftWeightItems::COL_DEFAULT_FUEL_L]), VolumeUnit::L)
                 : null
         );
     }
