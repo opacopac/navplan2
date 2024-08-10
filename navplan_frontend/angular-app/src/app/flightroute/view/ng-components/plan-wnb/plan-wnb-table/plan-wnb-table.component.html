@@ -71,7 +71,7 @@
         <tr mat-row
             *matRowDef="let entry; columns: this.displayedColumns; let even = even"
             [ngClass]="{
-                'subtitle-row': PlanWnbService.isSummaryTypeItem(entry.type),
+                'bold-row': PlanWnbService.isSummaryTypeItem(entry.type),
                 'odd-row': !even
             }"
         ></tr>

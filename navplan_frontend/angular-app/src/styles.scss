@@ -104,6 +104,12 @@ tr.odd-row {
     background-color: rgb(249, 249, 249);
 }
 
+tr.header-row,
+tr.bold-row {
+    font-weight: 500;
+}
+
+td.bold-cell,
 td.header-cell {
     font-weight: 500;
 }
@@ -114,10 +120,6 @@ tr.selected-row {
 
 tr.selected-row > .mat-mdc-cell {
     //color: white;
-}
-
-tr.bold-row {
-    font-weight: 500;
 }
 
 
