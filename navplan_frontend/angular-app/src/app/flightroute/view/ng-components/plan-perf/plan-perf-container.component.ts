@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {getFlightroute} from '../../../../state/ngrx/flightroute.selectors';
+import {getFlightroute} from '../../../state/ngrx/flightroute.selectors';
 import {
     getWeightUnit,
     getWnbLengthUnit
-} from '../../../../../geo-physics/state/ngrx/geo-physics.selectors';
-import {Consumption} from '../../../../../geo-physics/domain/model/quantities/consumption';
-import {getCurrentAircraft} from '../../../../../aircraft/state/ngrx/aircraft.selectors';
+} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
+import {Consumption} from '../../../../geo-physics/domain/model/quantities/consumption';
+import {getCurrentAircraft} from '../../../../aircraft/state/ngrx/aircraft.selectors';
 
 @Component({
     selector: 'app-plan-perf-container',
