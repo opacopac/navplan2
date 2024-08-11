@@ -1,3 +1,9 @@
 .fuel-container {
-    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.fuel-consumption-line {
+    display: inline-flex;
+    align-items: baseline;
 }
