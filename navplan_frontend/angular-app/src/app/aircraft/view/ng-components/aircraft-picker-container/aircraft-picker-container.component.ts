@@ -29,11 +29,6 @@ export class AircraftPickerContainerComponent implements OnInit {
     }
 
 
-    /*protected onSearchAircraftClicked() {
-        this.appStore.dispatch(AircraftListActions.pickAircraft());
-    }*/
-
-
     protected onSearchAircraftClicked() {
         this.appStore.dispatch(AircraftListActions.readList());
 
