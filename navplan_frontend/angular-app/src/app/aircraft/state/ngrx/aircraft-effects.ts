@@ -44,11 +44,6 @@ export class AircraftEffects {
         ))
     ));
 
-    pickAircraftAction$ = createEffect(() => this.actions$.pipe(
-        ofType(AircraftListActions.pickAircraft),
-        tap(() => this.router.navigate(['/aircraft/hangar'])),
-    ), {dispatch: false});
-
     selectAircraftAction$ = createEffect(() => this.actions$.pipe(
         ofType(AircraftListActions.selectAircraft),
         withLatestFrom(this.userState$),

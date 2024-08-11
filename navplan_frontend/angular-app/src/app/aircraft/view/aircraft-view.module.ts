@@ -53,6 +53,8 @@ import {AircraftPickerComponent} from './ng-components/aircraft-picker/aircraft-
 import {
     AircraftWeightItemTypeIcon
 } from './ng-components/aircraft-weight-item-type-icon/aircraft-weight-item-type-icon.component';
+import {AircraftPickerDialog} from './ng-components/aircraft-picker-dialog/aircraft-picker-dialog.component';
+import {AircraftPickerListComponent} from './ng-components/aircraft-picker-list/aircraft-picker-list.component';
 
 
 @NgModule({
@@ -85,6 +87,8 @@ import {
         AircraftDetailsComponent,
         AircraftPickerContainerComponent,
         AircraftPickerComponent,
+        AircraftPickerDialog,
+        AircraftPickerListComponent,
         AircraftPerformanceContainerComponent,
         AircraftPerformanceComponent,
         AircraftPerformanceTableComponent,

@@ -7,7 +7,7 @@ import {Observable} from 'rxjs';
 
 
 @Component({
-    selector: 'app-edit-waypoint-container',
+    selector: 'app-edit-waypoint-dialog',
     templateUrl: './edit-waypoint-dialog.component.html',
     styleUrls: ['./edit-waypoint-dialog.component.scss']
 })

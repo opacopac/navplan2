@@ -27,8 +27,4 @@ export class AircraftListActions {
         '[Aircraft List] Edit aircraft',
         props<{ aircraftId: number }>()
     );
-
-    public static readonly pickAircraft = createAction(
-        '[Misc Pages] Pick aircraft'
-    );
 }

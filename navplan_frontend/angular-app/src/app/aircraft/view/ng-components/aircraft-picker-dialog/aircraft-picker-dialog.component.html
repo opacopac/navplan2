@@ -1,0 +1,20 @@
+<h3 mat-dialog-title>Select Aircraft</h3>
+<mat-dialog-content>
+    <app-aircraft-picker-list
+        class="aircraft-list"
+        [aircraftList]="this.data.aircraftList$ | async"
+        [currentAircraft]="this.data.currentAircraft$ | async"
+        (onSelectAircraftClick)="this.onSelectClick($event)"
+    ></app-aircraft-picker-list>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button
+        mat-raised-button
+        color="accent"
+        type="button"
+        class="inline-button"
+        (click)="this.onCancelClick()"
+    >
+        Cancel
+    </button>
+</mat-dialog-actions>
