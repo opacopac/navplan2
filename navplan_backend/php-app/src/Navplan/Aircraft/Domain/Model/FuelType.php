@@ -7,4 +7,5 @@ enum FuelType: string
 {
     case MOGAS = "MOGAS";
     case AVGAS = "AVGAS";
+    case JET = "JET";
 }

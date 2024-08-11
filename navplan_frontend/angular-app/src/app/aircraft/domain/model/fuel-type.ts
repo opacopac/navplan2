@@ -1,4 +1,5 @@
 export enum FuelType {
     MOGAS,
-    AVGAS
+    AVGAS,
+    JET
 }

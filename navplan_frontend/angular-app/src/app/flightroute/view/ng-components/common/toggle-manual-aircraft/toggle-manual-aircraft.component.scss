@@ -2,3 +2,11 @@
     display: inline-flex;
     align-items: center;
 }
+
+.active {
+    color: var(--navplan-color-blue);
+}
+
+.inactive {
+    color: var(--navplan-color-disabled-bg);
+}

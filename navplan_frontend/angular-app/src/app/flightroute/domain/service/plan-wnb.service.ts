@@ -11,6 +11,11 @@ import {Volume} from '../../../geo-physics/domain/model/quantities/volume';
 
 
 export class PlanWnbService {
+    public static readonly AVGAS_DENSITY_KG_PER_L = 0.72;
+    public static readonly MOGAS_DENSITY_KG_PER_L = 0.72;
+    public static readonly JET_DENSITY_KG_PER_L = 0.8;
+
+
     public static calcMoment(weightItem: WeightItem, weightUnit: WeightUnit, lengthUnit: LengthUnit): number {
         return weightItem.weight.getValue(weightUnit) * weightItem.arm.getValue(lengthUnit);
     }
@@ -18,10 +23,13 @@ export class PlanWnbService {
 
     public static calcFuelWeight(fuel: Volume, fuelType: FuelType): Weight {
         switch (fuelType) {
+            case FuelType.JET:
+                return new Weight(fuel.getValue(VolumeUnit.L) * this.JET_DENSITY_KG_PER_L, WeightUnit.KG);
             case FuelType.MOGAS:
+                return new Weight(fuel.getValue(VolumeUnit.L) * this.MOGAS_DENSITY_KG_PER_L, WeightUnit.KG);
             case FuelType.AVGAS:
             default:
-                return new Weight(fuel.getValue(VolumeUnit.L) * 0.72, WeightUnit.KG);
+                return new Weight(fuel.getValue(VolumeUnit.L) * this.AVGAS_DENSITY_KG_PER_L, WeightUnit.KG);
         }
     }
 

@@ -5,7 +5,7 @@
         [checked]="!this.useAircraft"
         (change)="onEditManualClicked()"
     >
-        <i class="fa-solid fa-pencil"></i>
+        <i class="fa-solid fa-pencil {{ this.useAircraft ? 'inactive' : 'active' }}"></i>
     </mat-button-toggle>
     <mat-button-toggle
         matTooltip="Use value from aircraft"
@@ -14,6 +14,6 @@
         [disabled]="!this.selectedAircraft"
         (change)="onUseAircraftClicked()"
     >
-        <i class="fa-solid fa-plane"></i> {{ this.getAircraftName() }}
+        <i class="fa-solid fa-plane {{ this.useAircraft ? 'active' : 'inactive' }}"></i> {{ this.getAircraftName() }}
     </mat-button-toggle>
 </mat-button-toggle-group>
