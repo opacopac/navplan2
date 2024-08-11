@@ -1,7 +1,7 @@
 <div class="wnb-container">
     <app-aircraft-picker-container
         labelText="Aircraft:"
-        showRegistration="true"
+        [showRegistration]="true"
     />
     <app-plan-wnb-table
         *ngIf="this.currentAircraft$ | async"
