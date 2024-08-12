@@ -29,6 +29,10 @@ export class PlanWnbContainerComponent implements OnInit {
     protected readonly weightUnit$ = this.appStore.pipe(select(getWeightUnit));
     protected readonly lengthUnit$ = this.appStore.pipe(select(getWnbLengthUnit));
     protected readonly volumeUnit$ = this.appStore.pipe(select(getVolumeUnit));
+    protected readonly envelope$ = this.currentAircraft$.pipe(map(aircraft => aircraft && aircraft.wnbEnvelopes.length > 0
+        ? aircraft.wnbEnvelopes[0]
+        : null
+    )); // TODO
 
 
     constructor(

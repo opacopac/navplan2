@@ -55,6 +55,7 @@ import {
 } from './ng-components/aircraft-weight-item-type-icon/aircraft-weight-item-type-icon.component';
 import {AircraftPickerDialog} from './ng-components/aircraft-picker-dialog/aircraft-picker-dialog.component';
 import {AircraftPickerListComponent} from './ng-components/aircraft-picker-list/aircraft-picker-list.component';
+import {AircraftWnbEnvelope} from './ng-components/aircraft-wnb-envelope/aircraft-wnb-envelope.component';
 
 
 @NgModule({
@@ -99,10 +100,12 @@ import {AircraftPickerListComponent} from './ng-components/aircraft-picker-list/
         AircraftWnbEditItemDialogComponent,
         AircraftWnbEditItemFormComponent,
         AircraftWeightItemTypeIcon,
+        AircraftWnbEnvelope,
     ],
     exports: [
         AircraftPickerContainerComponent,
-        AircraftWeightItemTypeIcon
+        AircraftWeightItemTypeIcon,
+        AircraftWnbEnvelope
     ],
     providers: []
 })

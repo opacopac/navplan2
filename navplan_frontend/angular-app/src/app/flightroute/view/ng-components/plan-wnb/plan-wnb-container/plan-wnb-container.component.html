@@ -12,4 +12,7 @@
         [volumeUnit]="this.volumeUnit$ | async"
         (weightItemChanged)="this.onWeightItemChanged($event)"
     />
+    <app-aircraft-wnb-envelope
+        [envelope]="this.envelope$ | async"
+    />
 </div>
