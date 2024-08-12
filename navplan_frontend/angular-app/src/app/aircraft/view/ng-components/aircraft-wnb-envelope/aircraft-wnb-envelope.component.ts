@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {WnbEnvelope} from '../../../domain/model/wnb-envelope';
 import {WnbEnvelopeSvg} from '../../svg/wnb-envelope-svg';
 
@@ -8,7 +8,7 @@ import {WnbEnvelopeSvg} from '../../svg/wnb-envelope-svg';
     templateUrl: './aircraft-wnb-envelope.component.html',
     styleUrls: ['./aircraft-wnb-envelope.component.scss']
 })
-export class AircraftWnbEnvelope implements OnInit {
+export class AircraftWnbEnvelope implements OnInit, AfterViewInit {
     @Input() envelope: WnbEnvelope;
     @ViewChild('container') container: ElementRef;
 
@@ -18,6 +18,10 @@ export class AircraftWnbEnvelope implements OnInit {
 
 
     ngOnInit(): void {
+    }
+
+
+    ngAfterViewInit(): void {
         this.redrawSvg();
     }
 

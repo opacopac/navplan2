@@ -1,6 +1,7 @@
 import {SvgElement} from '../../../common/svg/svg-element';
 import {WnbEnvelope} from '../../domain/model/wnb-envelope';
 import {WnbImageDimensionsSvg} from './wnb-image-dimensions-svg';
+import {WnbEnvelopeContourSvg} from './wnb-envelope-contour-svg';
 
 
 export class WnbEnvelopeSvg {
@@ -9,7 +10,6 @@ export class WnbEnvelopeSvg {
         imageWidthPx: number,
         imageHeightPx: number
     ): SVGSVGElement {
-        const numPoints = envelope.coordinates.length;
         const imgDim = new WnbImageDimensionsSvg(
             envelope.getMinArm(),
             envelope.getMaxArm(),
@@ -26,10 +26,7 @@ export class WnbEnvelopeSvg {
             'wnb-envelope-svg'
         );
 
-        /*svg.appendChild(MeteogramTerrainSvg.create(cloudMeteogram.elevation, imgDim));
-        svg.appendChild(MeteogramVerticalClouds.create(cloudMeteogram.steps, imgDim));
-        svg.appendChild(HeightGridSvg.create(imgDim.maxHeight));
-        svg.appendChild(WidthGridFcStepsSvg.create(fcRun, cloudMeteogram.steps, true));*/
+        svg.appendChild(WnbEnvelopeContourSvg.create(envelope.coordinates, imgDim));
 
         return svg;
     }
