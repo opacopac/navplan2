@@ -19,6 +19,11 @@ export class Weight extends AbstractQuantity<Weight, WeightUnit> {
     }
 
 
+    public static createZero(): Weight {
+        return new Weight(0, WeightUnit.KG);
+    }
+
+
     public static convertWeight(
         value: number,
         unit: WeightUnit,

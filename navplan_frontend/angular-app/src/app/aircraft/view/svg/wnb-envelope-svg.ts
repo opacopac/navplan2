@@ -8,6 +8,8 @@ import {WeightUnit} from '../../../geo-physics/domain/model/quantities/weight-un
 import {Weight} from '../../../geo-physics/domain/model/quantities/weight';
 import {WnbEnvelopeCoordinate} from '../../domain/model/wnb-envelope-coordinate';
 import {WnbEnvelopeDotSvg} from './wnb-envelope-dot-svg';
+import {WnbWeightGridSvg} from './wnb-weight-grid-svg';
+import {WnbArmGridSvg} from './wnb-arm-grid-svg';
 
 
 export class WnbEnvelopeSvg {
@@ -36,6 +38,8 @@ export class WnbEnvelopeSvg {
         );
 
         svg.appendChild(WnbEnvelopeContourSvg.create(envelope.coordinates, imgDim));
+        svg.appendChild(WnbWeightGridSvg.create(imgDim));
+        svg.appendChild(WnbArmGridSvg.create(imgDim));
         svg.appendChild(WnbEnvelopeDotSvg.create(zeroFuelWnbCoordinate, imgDim, 'Zero Fuel', false));
         svg.appendChild(WnbEnvelopeDotSvg.create(takeoffWnbCoordinate, imgDim, 'Takeoff', true));
 
