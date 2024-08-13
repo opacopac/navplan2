@@ -17,7 +17,7 @@ export class WnbEnvelopeContourSvg {
 
         return SvgPolygonElement.create(
             points,
-            'fill:lime; stroke:darkgreen; stroke-width:3px'
+            'fill:none; stroke:#455a64; stroke-width:2px'
         );
     }
 }

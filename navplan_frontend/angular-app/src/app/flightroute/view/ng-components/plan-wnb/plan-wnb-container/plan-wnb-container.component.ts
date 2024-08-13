@@ -14,6 +14,8 @@ import {Weight} from '../../../../../geo-physics/domain/model/quantities/weight'
 import {PlanWnbActions} from '../../../../state/ngrx/plan-wnb.actions';
 import {Volume} from '../../../../../geo-physics/domain/model/quantities/volume';
 import {getCurrentAircraft} from '../../../../../aircraft/state/ngrx/aircraft.selectors';
+import {WeightItemType} from '../../../../../aircraft/domain/model/weight-item-type';
+import {WnbEnvelopeCoordinate} from '../../../../../aircraft/domain/model/wnb-envelope-coordinate';
 
 @Component({
     selector: 'app-plan-wnb-container',
@@ -24,6 +26,14 @@ export class PlanWnbContainerComponent implements OnInit {
     protected readonly Consumption = Consumption;
     protected readonly currentAircraft$ = this.appStore.pipe(select(getCurrentAircraft));
     protected readonly weightItems$ = this.appStore.pipe(select(getPlanWnbWeightItems));
+    protected readonly zeroFuelCoordinate$ = this.weightItems$.pipe(
+        map(items => items.find(wi => wi.type === WeightItemType.ZERO_FUEL_WEIGHT)),
+        map(wi => new WnbEnvelopeCoordinate(wi.weight, wi.arm))
+    );
+    protected readonly takeoffCoordinate$ = this.weightItems$.pipe(
+        map(items => items.find(wi => wi.type === WeightItemType.TAKEOFF_WEIGHT)),
+        map(wi => new WnbEnvelopeCoordinate(wi.weight, wi.arm))
+    );
     protected readonly flightroute$ = this.appStore.pipe(select(getFlightroute));
     protected readonly routeFuel$ = this.flightroute$.pipe(map(flightroute => flightroute.fuel.blockFuel));
     protected readonly weightUnit$ = this.appStore.pipe(select(getWeightUnit));

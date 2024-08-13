@@ -13,9 +13,11 @@
         (weightItemChanged)="this.onWeightItemChanged($event)"
     />
     <div *ngIf="this.envelope$ | async">
-        <p>{{ (this.envelope$ | async).name }}</p>
+        <p>Envelope &quot;{{ (this.envelope$ | async).name }}&quot;</p>
         <app-aircraft-wnb-envelope
             [envelope]="this.envelope$ | async"
+            [zeroFuelWnbCoordinate]="this.zeroFuelCoordinate$ | async"
+            [takeoffWnbCoordinate]="this.takeoffCoordinate$ | async"
         />
     </div>
 </div>

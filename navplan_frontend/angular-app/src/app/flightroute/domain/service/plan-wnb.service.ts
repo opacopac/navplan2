@@ -135,7 +135,7 @@ export class PlanWnbService {
 
         return new WeightItem(
             WeightItemType.ZERO_FUEL_WEIGHT,
-            'Zero Fuel Weight',
+            'Zero Fuel',
             new Length(zeroFuelArmValue, lengthUnit),
             null,
             null,
@@ -172,7 +172,7 @@ export class PlanWnbService {
 
         return new WeightItem(
             WeightItemType.TAKEOFF_WEIGHT,
-            'Takeoff Weight',
+            'Takeoff',
             new Length(takeoffArmValue, lengthUnit),
             null,
             null,

@@ -1,6 +1,7 @@
-import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {WnbEnvelope} from '../../../domain/model/wnb-envelope';
 import {WnbEnvelopeSvg} from '../../svg/wnb-envelope-svg';
+import {WnbEnvelopeCoordinate} from '../../../domain/model/wnb-envelope-coordinate';
 
 
 @Component({
@@ -8,8 +9,10 @@ import {WnbEnvelopeSvg} from '../../svg/wnb-envelope-svg';
     templateUrl: './aircraft-wnb-envelope.component.html',
     styleUrls: ['./aircraft-wnb-envelope.component.scss']
 })
-export class AircraftWnbEnvelope implements OnInit, AfterViewInit {
+export class AircraftWnbEnvelope implements OnInit, AfterViewInit, OnChanges {
     @Input() envelope: WnbEnvelope;
+    @Input() zeroFuelWnbCoordinate: WnbEnvelopeCoordinate;
+    @Input() takeoffWnbCoordinate: WnbEnvelopeCoordinate
     @ViewChild('container') container: ElementRef;
 
 
@@ -26,6 +29,11 @@ export class AircraftWnbEnvelope implements OnInit, AfterViewInit {
     }
 
 
+    ngOnChanges(changes: SimpleChanges): void {
+        this.redrawSvg();
+    }
+
+
     public redrawSvg() {
         if (!this.container) {
             return;
@@ -34,6 +42,8 @@ export class AircraftWnbEnvelope implements OnInit, AfterViewInit {
         if (this.envelope) {
             const svg = WnbEnvelopeSvg.create(
                 this.envelope,
+                this.zeroFuelWnbCoordinate,
+                this.takeoffWnbCoordinate,
                 this.container.nativeElement.clientWidth,
                 this.container.nativeElement.clientHeight
             );
