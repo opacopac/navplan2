@@ -9,16 +9,20 @@ import {Length} from '../../../geo-physics/domain/model/quantities/length';
 
 
 export class WnbWeightGridSvg {
-    public static create(imgDim: WnbImageDimensionsSvg): SVGGElement {
+    public static create(imgDim: WnbImageDimensionsSvg, weightUnit: WeightUnit): SVGGElement {
         const svg = SvgGroupElement.create();
-        const weightMarksKg = AxisHelperSvg.calculateScaleMarks(imgDim.minHeight.kg, imgDim.maxHeight.kg, 10);
+        const weightMarks = AxisHelperSvg.calculateScaleMarks(
+            imgDim.minHeight.getValue(weightUnit),
+            imgDim.maxHeight.getValue(weightUnit),
+            10
+        );
 
-        weightMarksKg.forEach(markKg => {
-            const weight = new Weight(markKg, WeightUnit.KG);
+        weightMarks.forEach(markKg => {
+            const weight = new Weight(markKg, weightUnit);
             const point = imgDim.calcXy(Length.createZero(), weight);
             svg.appendChild(this.createGridLine(point[1], true));
 
-            const label = weight.kg.toString() + ' kg'; // TODO
+            const label = weight.getValueAndUnit(weightUnit, 0);
             svg.appendChild(this.createGridLabel(point[1], label));
         });
 

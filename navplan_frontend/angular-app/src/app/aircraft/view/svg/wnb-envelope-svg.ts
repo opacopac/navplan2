@@ -19,6 +19,8 @@ export class WnbEnvelopeSvg {
         envelope: WnbEnvelope,
         zeroFuelWnbCoordinate: WnbEnvelopeCoordinate,
         takeoffWnbCoordinate: WnbEnvelopeCoordinate,
+        weightUnit: WeightUnit,
+        lengthUnit: LengthUnit,
         imageWidthPx: number,
         imageHeightPx: number
     ): SVGSVGElement {
@@ -38,10 +40,14 @@ export class WnbEnvelopeSvg {
         );
 
         svg.appendChild(WnbEnvelopeContourSvg.create(envelope.coordinates, imgDim));
-        svg.appendChild(WnbWeightGridSvg.create(imgDim));
-        svg.appendChild(WnbArmGridSvg.create(imgDim));
-        svg.appendChild(WnbEnvelopeDotSvg.create(zeroFuelWnbCoordinate, imgDim, 'Zero Fuel', false));
-        svg.appendChild(WnbEnvelopeDotSvg.create(takeoffWnbCoordinate, imgDim, 'Takeoff', true));
+        svg.appendChild(WnbWeightGridSvg.create(imgDim, weightUnit));
+        svg.appendChild(WnbArmGridSvg.create(imgDim, lengthUnit));
+        if (zeroFuelWnbCoordinate) {
+            svg.appendChild(WnbEnvelopeDotSvg.create(zeroFuelWnbCoordinate, imgDim, 'Zero Fuel', false));
+        }
+        if (takeoffWnbCoordinate) {
+            svg.appendChild(WnbEnvelopeDotSvg.create(takeoffWnbCoordinate, imgDim, 'Takeoff', true));
+        }
 
         return svg;
     }

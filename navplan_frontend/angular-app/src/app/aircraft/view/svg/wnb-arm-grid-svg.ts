@@ -9,16 +9,20 @@ import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-un
 
 
 export class WnbArmGridSvg {
-    public static create(imgDim: WnbImageDimensionsSvg): SVGGElement {
+    public static create(imgDim: WnbImageDimensionsSvg, lengthUnit: LengthUnit): SVGGElement {
         const svg = SvgGroupElement.create();
-        const lengthMarksM = AxisHelperSvg.calculateScaleMarks(imgDim.minWidth.m, imgDim.maxWidth.m, 10);
+        const lengthMarks = AxisHelperSvg.calculateScaleMarks(
+            imgDim.minWidth.getValue(lengthUnit),
+            imgDim.maxWidth.getValue(lengthUnit),
+            10
+        );
 
-        lengthMarksM.forEach(markM => {
-            const length = new Length(markM, LengthUnit.M);
+        lengthMarks.forEach(mark => {
+            const length = new Length(mark, lengthUnit);
             const point = imgDim.calcXy(length, Weight.createZero());
             svg.appendChild(this.createGridLine(point[0], true));
 
-            const label = length.m.toString() + ' m'; // TODO
+            const label = length.getValueAndUnit(lengthUnit, 3);
             svg.appendChild(this.createGridLabel(point[0], label));
         });
 

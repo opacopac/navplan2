@@ -2,6 +2,8 @@ import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, SimpleCh
 import {WnbEnvelope} from '../../../domain/model/wnb-envelope';
 import {WnbEnvelopeSvg} from '../../svg/wnb-envelope-svg';
 import {WnbEnvelopeCoordinate} from '../../../domain/model/wnb-envelope-coordinate';
+import {WeightUnit} from '../../../../geo-physics/domain/model/quantities/weight-unit';
+import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 
 
 @Component({
@@ -12,7 +14,9 @@ import {WnbEnvelopeCoordinate} from '../../../domain/model/wnb-envelope-coordina
 export class AircraftWnbEnvelope implements OnInit, AfterViewInit, OnChanges {
     @Input() envelope: WnbEnvelope;
     @Input() zeroFuelWnbCoordinate: WnbEnvelopeCoordinate;
-    @Input() takeoffWnbCoordinate: WnbEnvelopeCoordinate
+    @Input() takeoffWnbCoordinate: WnbEnvelopeCoordinate;
+    @Input() weightUnit: WeightUnit;
+    @Input() lengthUnit: LengthUnit;
     @ViewChild('container') container: ElementRef;
 
 
@@ -44,6 +48,8 @@ export class AircraftWnbEnvelope implements OnInit, AfterViewInit, OnChanges {
                 this.envelope,
                 this.zeroFuelWnbCoordinate,
                 this.takeoffWnbCoordinate,
+                this.weightUnit,
+                this.lengthUnit,
                 this.container.nativeElement.clientWidth,
                 this.container.nativeElement.clientHeight
             );
