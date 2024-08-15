@@ -1,0 +1,8 @@
+<div *ngIf="this.envelope">
+    <app-aircraft-wnb-envelope
+        [envelope]="this.envelope"
+        [weightUnit]="this.weightUnit"
+        [lengthUnit]="this.lengthUnit"
+        (envelopeClicked)="this.onEnvelopeClicked($event)"
+    />
+</div>

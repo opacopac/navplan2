@@ -22,7 +22,8 @@ export class WnbEnvelopeSvg {
         weightUnit: WeightUnit,
         lengthUnit: LengthUnit,
         imageWidthPx: number,
-        imageHeightPx: number
+        imageHeightPx: number,
+        clickCallback: ([Length, Weight]) => void
     ): SVGSVGElement {
         const imgDim = this.calcImgDimensions(
             envelope,
@@ -38,6 +39,10 @@ export class WnbEnvelopeSvg {
             'none',
             'wnb-envelope-svg'
         );
+        svg.onclick = ($event) => {
+            const coord = this.getClickCoordinates($event, svg, imgDim);
+            clickCallback(coord);
+        };
 
         svg.appendChild(WnbEnvelopeContourSvg.create(envelope.coordinates, imgDim));
         svg.appendChild(WnbWeightGridSvg.create(imgDim, weightUnit));
@@ -60,16 +65,25 @@ export class WnbEnvelopeSvg {
         imageWidthPx: number,
         imageHeightPx: number
     ): WnbImageDimensionsSvg {
-        const minArmM = Math.min(envelope.getMinArm().m, zeroFuelWnbCoordinate.armCg.m, takeoffWnbCoordinate.armCg.m);
-        const maxArmM = Math.max(envelope.getMaxArm().m, zeroFuelWnbCoordinate.armCg.m, takeoffWnbCoordinate.armCg.m);
+        let minArmM = envelope.getMinArm().m;
+        minArmM = zeroFuelWnbCoordinate ? Math.min(minArmM, zeroFuelWnbCoordinate.armCg.m) : minArmM;
+        minArmM = takeoffWnbCoordinate ? Math.min(minArmM, takeoffWnbCoordinate.armCg.m) : minArmM;
+        let maxArmM = envelope.getMaxArm().m;
+        maxArmM = zeroFuelWnbCoordinate ? Math.max(maxArmM, zeroFuelWnbCoordinate.armCg.m) : maxArmM;
+        maxArmM = takeoffWnbCoordinate ? Math.max(maxArmM, takeoffWnbCoordinate.armCg.m) : maxArmM;
         const diffArmM = maxArmM - minArmM;
         const minEnvArm = new Length(minArmM - diffArmM * this.BORDER_FACTOR, LengthUnit.M);
         const maxEnvArm = new Length(maxArmM + diffArmM * this.BORDER_FACTOR, LengthUnit.M);
-        const minWeightKg = Math.min(envelope.getMinWeight().kg, zeroFuelWnbCoordinate.weight.kg, zeroFuelWnbCoordinate.weight.kg);
-        const maxWeightKg = Math.max(envelope.getMaxWeight().kg, zeroFuelWnbCoordinate.weight.kg, zeroFuelWnbCoordinate.weight.kg);
+
+        let minWeightKg = envelope.getMinWeight().kg;
+        minWeightKg = zeroFuelWnbCoordinate ? Math.min(minWeightKg, zeroFuelWnbCoordinate.weight.kg) : minWeightKg;
+        minWeightKg = takeoffWnbCoordinate ? Math.min(minWeightKg, takeoffWnbCoordinate.weight.kg) : minWeightKg;
+        let maxWeightKg = envelope.getMaxWeight().kg;
+        maxWeightKg = zeroFuelWnbCoordinate ? Math.max(maxWeightKg, zeroFuelWnbCoordinate.weight.kg) : maxWeightKg;
+        maxWeightKg = takeoffWnbCoordinate ? Math.max(maxWeightKg, takeoffWnbCoordinate.weight.kg) : maxWeightKg;
         const diffWeightKg = maxWeightKg - minWeightKg;
         const minEnvWeight = new Weight(minWeightKg - diffWeightKg * this.BORDER_FACTOR, WeightUnit.KG);
-        const maxEnvWeight = new Weight(maxWeightKg + diffWeightKg * this.BORDER_FACTOR, WeightUnit.KG)
+        const maxEnvWeight = new Weight(maxWeightKg + diffWeightKg * this.BORDER_FACTOR, WeightUnit.KG);
 
         return new WnbImageDimensionsSvg(
             minEnvArm,
@@ -79,5 +93,22 @@ export class WnbEnvelopeSvg {
             imageWidthPx,
             imageHeightPx
         );
+    }
+
+
+    private static getClickCoordinates(event: MouseEvent, svg: SVGSVGElement, imgDim: WnbImageDimensionsSvg): [Length, Weight] {
+        const rect = svg.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        const diffArmM = imgDim.maxWidth.m - imgDim.minWidth.m;
+        const clickArmM = diffArmM / imgDim.imageWidthPx * x + imgDim.minWidth.m;
+        const clickArm = new Length(clickArmM, LengthUnit.M);
+
+        const diffHeightKg = imgDim.maxHeight.kg - imgDim.minHeight.kg;
+        const clickWeightKg = imgDim.maxHeight.kg - diffHeightKg / imgDim.imageHeightPx * y;
+        const clickWeight = new Weight(clickWeightKg, WeightUnit.KG);
+
+        return [clickArm, clickWeight];
     }
 }

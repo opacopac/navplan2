@@ -1,9 +1,22 @@
-import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    ElementRef,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    SimpleChanges,
+    ViewChild
+} from '@angular/core';
 import {WnbEnvelope} from '../../../domain/model/wnb-envelope';
 import {WnbEnvelopeSvg} from '../../svg/wnb-envelope-svg';
 import {WnbEnvelopeCoordinate} from '../../../domain/model/wnb-envelope-coordinate';
 import {WeightUnit} from '../../../../geo-physics/domain/model/quantities/weight-unit';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
+import {Weight} from '../../../../geo-physics/domain/model/quantities/weight';
+import {Length} from '../../../../geo-physics/domain/model/quantities/length';
 
 
 @Component({
@@ -17,6 +30,7 @@ export class AircraftWnbEnvelope implements OnInit, AfterViewInit, OnChanges {
     @Input() takeoffWnbCoordinate: WnbEnvelopeCoordinate;
     @Input() weightUnit: WeightUnit;
     @Input() lengthUnit: LengthUnit;
+    @Output() envelopeClicked = new EventEmitter<[Length, Weight]>();
     @ViewChild('container') container: ElementRef;
 
 
@@ -51,12 +65,16 @@ export class AircraftWnbEnvelope implements OnInit, AfterViewInit, OnChanges {
                 this.weightUnit,
                 this.lengthUnit,
                 this.container.nativeElement.clientWidth,
-                this.container.nativeElement.clientHeight
+                this.container.nativeElement.clientHeight,
+                (coordinates) => this.onSvgClicked(coordinates)
             );
 
-            this.container.nativeElement.innerHTML = svg.outerHTML;
-        } else {
-            this.container.nativeElement.innerHTML = '';
+            this.container.nativeElement.appendChild(svg);
         }
+    }
+
+
+    private onSvgClicked(coordinates: [Length, Weight]) {
+        this.envelopeClicked.emit(coordinates);
     }
 }

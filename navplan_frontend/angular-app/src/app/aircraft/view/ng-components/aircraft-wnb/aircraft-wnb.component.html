@@ -50,6 +50,12 @@
         (deleteWeightItem)="this.deleteWeightItem.emit($event)"
     />
 
+    <app-aircraft-wnb-edit-envelope
+        [envelope]="this.currentAircraft.wnbEnvelopes[0]"
+        [lengthUnit]="this.wnbLengthUnit"
+        [weightUnit]="this.weightUnit"
+    />
+
     <!-- save button -->
     <p>
         <button
