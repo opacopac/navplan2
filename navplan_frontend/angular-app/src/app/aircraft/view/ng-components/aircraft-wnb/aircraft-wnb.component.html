@@ -51,9 +51,11 @@
     />
 
     <app-aircraft-wnb-edit-envelope
-        [envelope]="this.currentAircraft.wnbEnvelopes[0]"
+        *ngFor="let envelope of this.currentAircraft.wnbEnvelopes"
+        [envelope]="envelope"
         [lengthUnit]="this.wnbLengthUnit"
         [weightUnit]="this.weightUnit"
+        (coordinateAdded)="this.onEnvelopeCoordinateAdded($event)"
     />
 
     <!-- save button -->

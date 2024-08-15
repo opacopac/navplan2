@@ -1,6 +1,8 @@
 import {createAction, props} from '@ngrx/store';
 import {Weight} from '../../../geo-physics/domain/model/quantities/weight';
 import {WeightItem} from '../../domain/model/weight-item';
+import {WnbEnvelopeCoordinate} from '../../domain/model/wnb-envelope-coordinate';
+import {WnbEnvelope} from '../../domain/model/wnb-envelope';
 
 
 export class AircraftWnbActions {
@@ -27,5 +29,11 @@ export class AircraftWnbActions {
     public static readonly editWeightItem = createAction(
         '[Aircraft W&B] Edit weight item',
         props<{ weightItem: WeightItem, weightItemIndex: number }>()
+    );
+
+
+    public static readonly addEnvelopeCoordinate = createAction(
+        '[Aircraft W&B] Add envelope coordinate',
+        props<{ envelope: WnbEnvelope, coordinate: WnbEnvelopeCoordinate }>()
     );
 }

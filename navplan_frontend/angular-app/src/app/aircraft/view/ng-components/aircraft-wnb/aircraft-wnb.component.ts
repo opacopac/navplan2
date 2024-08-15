@@ -8,6 +8,8 @@ import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length
 import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 import {WeightItem} from '../../../domain/model/weight-item';
 import {VolumeUnit} from '../../../../geo-physics/domain/model/quantities/volume-unit';
+import {WnbEnvelopeCoordinate} from '../../../domain/model/wnb-envelope-coordinate';
+import {WnbEnvelope} from '../../../domain/model/wnb-envelope';
 
 
 export interface ListEntry {
@@ -32,6 +34,7 @@ export class AircraftWnbComponent implements OnInit {
     @Output() addWeightItem = new EventEmitter<WeightItem>();
     @Output() editWeightItem = new EventEmitter<[WeightItem, number]>();
     @Output() deleteWeightItem = new EventEmitter<number>();
+    @Output() envelopeCoordinateAdded = new EventEmitter<[WnbEnvelope, WnbEnvelopeCoordinate]>();
     @Output() saveAircraftWnb = new EventEmitter<void>();
 
     protected mtowInput: FormControl;
@@ -85,6 +88,11 @@ export class AircraftWnbComponent implements OnInit {
 
     protected isValidWnbForm(): boolean {
         return this.mtowInput.valid && this.bewInput.valid;
+    }
+
+
+    protected onEnvelopeCoordinateAdded(envCoord: [WnbEnvelope, WnbEnvelopeCoordinate]) {
+        this.envelopeCoordinateAdded.emit(envCoord);
     }
 
 

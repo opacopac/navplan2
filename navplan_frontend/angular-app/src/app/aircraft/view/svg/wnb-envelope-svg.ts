@@ -23,7 +23,7 @@ export class WnbEnvelopeSvg {
         lengthUnit: LengthUnit,
         imageWidthPx: number,
         imageHeightPx: number,
-        clickCallback: ([Length, Weight]) => void
+        clickCallback: (WnbEnvelopeCoordinate) => void
     ): SVGSVGElement {
         const imgDim = this.calcImgDimensions(
             envelope,
@@ -96,7 +96,7 @@ export class WnbEnvelopeSvg {
     }
 
 
-    private static getClickCoordinates(event: MouseEvent, svg: SVGSVGElement, imgDim: WnbImageDimensionsSvg): [Length, Weight] {
+    private static getClickCoordinates(event: MouseEvent, svg: SVGSVGElement, imgDim: WnbImageDimensionsSvg): WnbEnvelopeCoordinate {
         const rect = svg.getBoundingClientRect();
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
@@ -109,6 +109,6 @@ export class WnbEnvelopeSvg {
         const clickWeightKg = imgDim.maxHeight.kg - diffHeightKg / imgDim.imageHeightPx * y;
         const clickWeight = new Weight(clickWeightKg, WeightUnit.KG);
 
-        return [clickArm, clickWeight];
+        return new WnbEnvelopeCoordinate(clickWeight, clickArm);
     }
 }

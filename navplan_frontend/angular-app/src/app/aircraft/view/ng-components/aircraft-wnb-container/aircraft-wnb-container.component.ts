@@ -6,6 +6,8 @@ import {Weight} from '../../../../geo-physics/domain/model/quantities/weight';
 import {AircraftWnbActions} from '../../../state/ngrx/aircraft-wnb-actions';
 import {WeightItem} from '../../../domain/model/weight-item';
 import {AircraftCrudActions} from '../../../state/ngrx/aircraft-crud-actions';
+import {WnbEnvelopeCoordinate} from '../../../domain/model/wnb-envelope-coordinate';
+import {WnbEnvelope} from '../../../domain/model/wnb-envelope';
 
 
 @Component({
@@ -69,6 +71,15 @@ export class AircraftWnbContainerComponent implements OnInit {
     protected onSaveAircraftWnb() {
         this.appStore.dispatch(
             AircraftCrudActions.saveAircraft()
+        );
+    }
+
+    onEnvelopeCoordinateAdded(envCoord: [WnbEnvelope, WnbEnvelopeCoordinate]) {
+        this.appStore.dispatch(
+            AircraftWnbActions.addEnvelopeCoordinate({
+                envelope: envCoord[0],
+                coordinate: envCoord[1]
+            })
         );
     }
 }

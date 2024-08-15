@@ -15,8 +15,6 @@ import {WnbEnvelopeSvg} from '../../svg/wnb-envelope-svg';
 import {WnbEnvelopeCoordinate} from '../../../domain/model/wnb-envelope-coordinate';
 import {WeightUnit} from '../../../../geo-physics/domain/model/quantities/weight-unit';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
-import {Weight} from '../../../../geo-physics/domain/model/quantities/weight';
-import {Length} from '../../../../geo-physics/domain/model/quantities/length';
 
 
 @Component({
@@ -30,7 +28,7 @@ export class AircraftWnbEnvelope implements OnInit, AfterViewInit, OnChanges {
     @Input() takeoffWnbCoordinate: WnbEnvelopeCoordinate;
     @Input() weightUnit: WeightUnit;
     @Input() lengthUnit: LengthUnit;
-    @Output() envelopeClicked = new EventEmitter<[Length, Weight]>();
+    @Output() envelopeClicked = new EventEmitter<WnbEnvelopeCoordinate>();
     @ViewChild('container') container: ElementRef;
 
 
@@ -74,7 +72,7 @@ export class AircraftWnbEnvelope implements OnInit, AfterViewInit, OnChanges {
     }
 
 
-    private onSvgClicked(coordinates: [Length, Weight]) {
+    private onSvgClicked(coordinates: WnbEnvelopeCoordinate) {
         this.envelopeClicked.emit(coordinates);
     }
 }
