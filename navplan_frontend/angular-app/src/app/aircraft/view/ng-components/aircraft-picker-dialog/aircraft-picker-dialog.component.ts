@@ -11,7 +11,7 @@ import {Observable} from 'rxjs';
     templateUrl: './aircraft-picker-dialog.component.html',
     styleUrls: ['./aircraft-picker-dialog.component.scss']
 })
-export class AircraftPickerDialog implements OnInit, OnDestroy {
+export class AircraftPickerDialogComponent implements OnInit, OnDestroy {
     constructor(
         private dialogRef: MatDialogRef<AircraftPickerListComponent>,
         @Inject(MAT_DIALOG_DATA) public data: {

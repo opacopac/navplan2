@@ -7,7 +7,7 @@ import {WeightItemType} from '../../../domain/model/weight-item-type';
     templateUrl: './aircraft-weight-item-type-icon.component.html',
     styleUrls: ['./aircraft-weight-item-type-icon.component.scss']
 })
-export class AircraftWeightItemTypeIcon implements OnInit {
+export class AircraftWeightItemTypeIconComponent implements OnInit {
     @Input() weightItemType: WeightItemType;
 
     constructor() {

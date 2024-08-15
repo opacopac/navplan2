@@ -51,14 +51,20 @@ import {
 } from './ng-components/aircraft-picker-container/aircraft-picker-container.component';
 import {AircraftPickerComponent} from './ng-components/aircraft-picker/aircraft-picker.component';
 import {
-    AircraftWeightItemTypeIcon
+    AircraftWeightItemTypeIconComponent
 } from './ng-components/aircraft-weight-item-type-icon/aircraft-weight-item-type-icon.component';
-import {AircraftPickerDialog} from './ng-components/aircraft-picker-dialog/aircraft-picker-dialog.component';
+import {AircraftPickerDialogComponent} from './ng-components/aircraft-picker-dialog/aircraft-picker-dialog.component';
 import {AircraftPickerListComponent} from './ng-components/aircraft-picker-list/aircraft-picker-list.component';
-import {AircraftWnbEnvelope} from './ng-components/aircraft-wnb-envelope/aircraft-wnb-envelope.component';
+import {AircraftWnbEnvelopeComponent} from './ng-components/aircraft-wnb-envelope/aircraft-wnb-envelope.component';
 import {
     AircraftWnbEditEnvelopeComponent
 } from './ng-components/aircraft-wnb-edit-envelope-container/aircraft-wnb-edit-envelope.component';
+import {
+    AircraftWnbEditEnvelopeCoordinateDialogComponent
+} from './ng-components/aircraft-wnb-edit-envelope-coordinate-dialog/aircraft-wnb-edit-envelope-coordinate-dialog.component';
+import {
+    AircraftWnbEditEnvelopeCoordinateFormComponent
+} from './ng-components/aircraft-wnb-edit-envelope-coordinate-form/aircraft-wnb-edit-envelope-coordinate-form.component';
 
 
 @NgModule({
@@ -91,7 +97,7 @@ import {
         AircraftDetailsComponent,
         AircraftPickerContainerComponent,
         AircraftPickerComponent,
-        AircraftPickerDialog,
+        AircraftPickerDialogComponent,
         AircraftPickerListComponent,
         AircraftPerformanceContainerComponent,
         AircraftPerformanceComponent,
@@ -102,14 +108,16 @@ import {
         AircraftWnbTableComponent,
         AircraftWnbEditItemDialogComponent,
         AircraftWnbEditItemFormComponent,
-        AircraftWeightItemTypeIcon,
-        AircraftWnbEnvelope,
-        AircraftWnbEditEnvelopeComponent
+        AircraftWeightItemTypeIconComponent,
+        AircraftWnbEnvelopeComponent,
+        AircraftWnbEditEnvelopeComponent,
+        AircraftWnbEditEnvelopeCoordinateDialogComponent,
+        AircraftWnbEditEnvelopeCoordinateFormComponent
     ],
     exports: [
         AircraftPickerContainerComponent,
-        AircraftWeightItemTypeIcon,
-        AircraftWnbEnvelope
+        AircraftWeightItemTypeIconComponent,
+        AircraftWnbEnvelopeComponent
     ],
     providers: []
 })

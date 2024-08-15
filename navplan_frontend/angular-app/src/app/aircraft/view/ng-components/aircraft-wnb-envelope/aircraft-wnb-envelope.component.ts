@@ -22,7 +22,7 @@ import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length
     templateUrl: './aircraft-wnb-envelope.component.html',
     styleUrls: ['./aircraft-wnb-envelope.component.scss']
 })
-export class AircraftWnbEnvelope implements OnInit, AfterViewInit, OnChanges {
+export class AircraftWnbEnvelopeComponent implements OnInit, AfterViewInit, OnChanges {
     @Input() envelope: WnbEnvelope;
     @Input() zeroFuelWnbCoordinate: WnbEnvelopeCoordinate;
     @Input() takeoffWnbCoordinate: WnbEnvelopeCoordinate;

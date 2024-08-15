@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {getAircraftList, getCurrentAircraft} from '../../../state/ngrx/aircraft.selectors';
 import {MatDialog} from '@angular/material/dialog';
-import {AircraftPickerDialog} from '../aircraft-picker-dialog/aircraft-picker-dialog.component';
+import {AircraftPickerDialogComponent} from '../aircraft-picker-dialog/aircraft-picker-dialog.component';
 import {AircraftListActions} from '../../../state/ngrx/aircraft-list.actions';
 
 
@@ -32,7 +32,7 @@ export class AircraftPickerContainerComponent implements OnInit {
     protected onSearchAircraftClicked() {
         this.appStore.dispatch(AircraftListActions.readList());
 
-        const dialogRef = this.dialog.open(AircraftPickerDialog, {
+        const dialogRef = this.dialog.open(AircraftPickerDialogComponent, {
             // height: '800px',
             // width: '600px',
             data: {

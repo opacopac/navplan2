@@ -1,0 +1,11 @@
+<h3 mat-dialog-title>{{ this.getDialogTitle() }}</h3>
+<mat-dialog-content>
+    <app-aircraft-wnb-edit-envelope-coordinate-form
+        class="weight-item-form"
+        [coordinate]="this.data.coordinate"
+        [weightUnit]="this.data.weightUnit"
+        [lengthUnit]="this.data.lengthUnit"
+        (onSaveClick)="this.onSaveClicked($event)"
+        (onCancelClick)="this.onCancelClicked()"
+    />
+</mat-dialog-content>

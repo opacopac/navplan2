@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {AircraftPickerDialog} from './aircraft-picker-dialog.component';
+import {AircraftPickerDialogComponent} from './aircraft-picker-dialog.component';
 
 
 xdescribe('EditWaypointDialogComponent', () => {
-    let component: AircraftPickerDialog;
-    let fixture: ComponentFixture<AircraftPickerDialog>;
+    let component: AircraftPickerDialogComponent;
+    let fixture: ComponentFixture<AircraftPickerDialogComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [AircraftPickerDialog]
+            declarations: [AircraftPickerDialogComponent]
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(AircraftPickerDialog);
+        fixture = TestBed.createComponent(AircraftPickerDialogComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

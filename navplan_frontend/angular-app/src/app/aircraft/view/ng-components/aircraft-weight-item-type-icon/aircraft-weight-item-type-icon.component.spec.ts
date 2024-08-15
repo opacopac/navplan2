@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {AircraftWeightItemTypeIcon} from './aircraft-weight-item-type-icon.component';
+import {AircraftWeightItemTypeIconComponent} from './aircraft-weight-item-type-icon.component';
 
 
 xdescribe('FlightrouteListComponent', () => {
-    let component: AircraftWeightItemTypeIcon;
-    let fixture: ComponentFixture<AircraftWeightItemTypeIcon>;
+    let component: AircraftWeightItemTypeIconComponent;
+    let fixture: ComponentFixture<AircraftWeightItemTypeIconComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [AircraftWeightItemTypeIcon]
+            declarations: [AircraftWeightItemTypeIconComponent]
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(AircraftWeightItemTypeIcon);
+        fixture = TestBed.createComponent(AircraftWeightItemTypeIconComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

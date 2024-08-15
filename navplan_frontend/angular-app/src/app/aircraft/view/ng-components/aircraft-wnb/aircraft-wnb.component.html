@@ -50,13 +50,16 @@
         (deleteWeightItem)="this.deleteWeightItem.emit($event)"
     />
 
-    <app-aircraft-wnb-edit-envelope
-        *ngFor="let envelope of this.currentAircraft.wnbEnvelopes"
-        [envelope]="envelope"
-        [lengthUnit]="this.wnbLengthUnit"
-        [weightUnit]="this.weightUnit"
-        (coordinateAdded)="this.onEnvelopeCoordinateAdded($event)"
-    />
+    <!-- envelopes -->
+    <div *ngFor="let envelope of this.currentAircraft.wnbEnvelopes">
+        <p>{{ envelope.name }}</p>
+        <app-aircraft-wnb-edit-envelope
+            [envelope]="envelope"
+            [lengthUnit]="this.wnbLengthUnit"
+            [weightUnit]="this.weightUnit"
+            (coordinateAdded)="this.onEnvelopeCoordinateAdded($event)"
+        />
+    </div>
 
     <!-- save button -->
     <p>

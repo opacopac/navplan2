@@ -3,6 +3,10 @@ import {WeightUnit} from '../../../../geo-physics/domain/model/quantities/weight
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 import {WnbEnvelope} from '../../../domain/model/wnb-envelope';
 import {WnbEnvelopeCoordinate} from '../../../domain/model/wnb-envelope-coordinate';
+import {
+    AircraftWnbEditEnvelopeCoordinateDialogComponent
+} from '../aircraft-wnb-edit-envelope-coordinate-dialog/aircraft-wnb-edit-envelope-coordinate-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
     selector: 'app-aircraft-wnb-edit-envelope',
@@ -16,7 +20,9 @@ export class AircraftWnbEditEnvelopeComponent implements OnInit {
     @Output() public coordinateAdded = new EventEmitter<[WnbEnvelope, WnbEnvelopeCoordinate]>();
 
 
-    constructor() {
+    constructor(
+        private dialog: MatDialog,
+    ) {
     }
 
 
@@ -25,6 +31,25 @@ export class AircraftWnbEditEnvelopeComponent implements OnInit {
 
 
     protected onEnvelopeClicked(coord: WnbEnvelopeCoordinate) {
-        this.coordinateAdded.emit([this.envelope, coord]);
+        this.openDialog(coord);
+    }
+
+
+    private openDialog(coordinate: WnbEnvelopeCoordinate) {
+        const dialogRef = this.dialog.open(AircraftWnbEditEnvelopeCoordinateDialogComponent, {
+            // height: '800px',
+            width: '600px',
+            data: {
+                coordinate: coordinate,
+                lengthUnit: this.lengthUnit,
+                weightUnit: this.weightUnit,
+            }
+        });
+
+        dialogRef.afterClosed().subscribe((newCoordinate) => {
+            if (newCoordinate) {
+                this.coordinateAdded.emit([this.envelope, newCoordinate]);
+            }
+        });
     }
 }

@@ -1,0 +1,52 @@
+<form [formGroup]="editCoordinateForm">
+    <div class="coordinate-form-content">
+        <mat-form-field class="flex-row">
+            <mat-label>Arm</mat-label>
+            <input
+                matInput
+                type="number"
+                formControlName="arm"
+                required
+                min="-99999"
+                max="99999"
+            >
+            <span matTextSuffix>{{ Length.getUnitString(this.lengthUnit) }}</span>
+            <mat-error>Value must be a positive or negative number!</mat-error>
+        </mat-form-field>
+        <mat-form-field class="flex-row">
+            <mat-label>Weight</mat-label>
+            <input
+                matInput
+                type="number"
+                formControlName="weight"
+                required
+                min="1"
+                max="99999"
+            >
+            <span matTextSuffix>{{ Weight.getUnitString(this.weightUnit) }}</span>
+            <mat-error>Value must be a positive number between 1 and 99999!</mat-error>
+        </mat-form-field>
+
+    </div>
+    <div>
+        <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            class="inline-button"
+            (click)="this.onSaveClicked()"
+            [disabled]="this.editCoordinateForm.invalid"
+        >
+            {{ this.getSaveButtonText() }}
+        </button>
+        <button
+            mat-raised-button
+            color="accent"
+            type="button"
+            class="inline-button"
+            (click)="this.onCancelClicked()"
+        >
+            Cancel
+        </button>
+    </div>
+</form>
