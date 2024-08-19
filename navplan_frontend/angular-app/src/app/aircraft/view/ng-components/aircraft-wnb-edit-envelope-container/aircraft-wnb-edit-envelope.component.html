@@ -3,6 +3,8 @@
         [envelope]="this.envelope"
         [weightUnit]="this.weightUnit"
         [lengthUnit]="this.lengthUnit"
-        (envelopeClicked)="this.onEnvelopeClicked($event)"
+        [isEditable]="true"
+        (addEnvelopeCoordinateClicked)="this.onAddEnvelopeCoordinateClicked($event)"
+        (editEnvelopeCoordinateClicked)="this.onEditEnvelopeCoordinateClicked($event)"
     />
 </div>

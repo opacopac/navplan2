@@ -28,7 +28,9 @@ export class AircraftWnbEnvelopeComponent implements OnInit, AfterViewInit, OnCh
     @Input() takeoffWnbCoordinate: WnbEnvelopeCoordinate;
     @Input() weightUnit: WeightUnit;
     @Input() lengthUnit: LengthUnit;
-    @Output() envelopeClicked = new EventEmitter<WnbEnvelopeCoordinate>();
+    @Input() isEditable: boolean;
+    @Output() addEnvelopeCoordinateClicked = new EventEmitter<WnbEnvelopeCoordinate>();
+    @Output() editEnvelopeCoordinateClicked = new EventEmitter<WnbEnvelopeCoordinate>();
     @ViewChild('container') container: ElementRef;
 
 
@@ -64,7 +66,9 @@ export class AircraftWnbEnvelopeComponent implements OnInit, AfterViewInit, OnCh
                 this.lengthUnit,
                 this.container.nativeElement.clientWidth,
                 this.container.nativeElement.clientHeight,
-                (coordinates) => this.onSvgClicked(coordinates)
+                this.isEditable,
+                (coordinates) => this.onAddCoordinateClicked(coordinates),
+                (coordinates) => this.onEditCoordinateClicked(coordinates)
             );
 
             this.container.nativeElement.appendChild(svg);
@@ -72,7 +76,12 @@ export class AircraftWnbEnvelopeComponent implements OnInit, AfterViewInit, OnCh
     }
 
 
-    private onSvgClicked(coordinates: WnbEnvelopeCoordinate) {
-        this.envelopeClicked.emit(coordinates);
+    private onAddCoordinateClicked(coordinates: WnbEnvelopeCoordinate) {
+        this.addEnvelopeCoordinateClicked.emit(coordinates);
+    }
+
+
+    private onEditCoordinateClicked(coordinates: WnbEnvelopeCoordinate) {
+        this.editEnvelopeCoordinateClicked.emit(coordinates);
     }
 }

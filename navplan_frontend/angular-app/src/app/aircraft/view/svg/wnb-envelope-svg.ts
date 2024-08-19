@@ -23,7 +23,9 @@ export class WnbEnvelopeSvg {
         lengthUnit: LengthUnit,
         imageWidthPx: number,
         imageHeightPx: number,
-        clickCallback: (WnbEnvelopeCoordinate) => void
+        isEditable: boolean,
+        addClickCallback: (WnbEnvelopeCoordinate) => void,
+        editClickCallback: (WnbEnvelopeCoordinate) => void
     ): SVGSVGElement {
         const imgDim = this.calcImgDimensions(
             envelope,
@@ -39,19 +41,27 @@ export class WnbEnvelopeSvg {
             'none',
             'wnb-envelope-svg'
         );
-        svg.onclick = ($event) => {
-            const coord = this.getClickCoordinates($event, svg, imgDim);
-            clickCallback(coord);
-        };
+        if (addClickCallback) {
+            svg.onclick = (event: MouseEvent) => {
+                const coord = this.getClickCoordinates(event, svg, imgDim);
+                addClickCallback(coord);
+            };
+        }
 
         svg.appendChild(WnbEnvelopeContourSvg.create(envelope.coordinates, imgDim));
         svg.appendChild(WnbWeightGridSvg.create(imgDim, weightUnit));
         svg.appendChild(WnbArmGridSvg.create(imgDim, lengthUnit));
         if (zeroFuelWnbCoordinate) {
-            svg.appendChild(WnbEnvelopeDotSvg.create(zeroFuelWnbCoordinate, imgDim, 'Zero Fuel', false));
+            svg.appendChild(WnbEnvelopeDotSvg.create(zeroFuelWnbCoordinate, imgDim, 'Zero Fuel', false, null));
         }
         if (takeoffWnbCoordinate) {
-            svg.appendChild(WnbEnvelopeDotSvg.create(takeoffWnbCoordinate, imgDim, 'Takeoff', true));
+            svg.appendChild(WnbEnvelopeDotSvg.create(takeoffWnbCoordinate, imgDim, 'Takeoff', true, null));
+        }
+        if (isEditable) {
+            envelope.coordinates.forEach(coord => {
+                const label = coord.weight.getValueAndUnit(weightUnit, 0) + ' / ' + coord.armCg.getValueAndUnit(lengthUnit, 3);
+                svg.appendChild(WnbEnvelopeDotSvg.create(coord, imgDim, label, true, editClickCallback));
+            });
         }
 
         return svg;

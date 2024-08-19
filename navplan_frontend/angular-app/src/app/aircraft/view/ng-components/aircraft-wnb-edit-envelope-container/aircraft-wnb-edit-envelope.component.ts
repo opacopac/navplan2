@@ -30,16 +30,22 @@ export class AircraftWnbEditEnvelopeComponent implements OnInit {
     }
 
 
-    protected onEnvelopeClicked(coord: WnbEnvelopeCoordinate) {
-        this.openDialog(coord);
+    protected onAddEnvelopeCoordinateClicked(coord: WnbEnvelopeCoordinate) {
+        this.openDialog(coord, true);
     }
 
 
-    private openDialog(coordinate: WnbEnvelopeCoordinate) {
+    protected onEditEnvelopeCoordinateClicked(coord: WnbEnvelopeCoordinate) {
+        this.openDialog(coord, false);
+    }
+
+
+    private openDialog(coordinate: WnbEnvelopeCoordinate, isNewCoordinate: boolean) {
         const dialogRef = this.dialog.open(AircraftWnbEditEnvelopeCoordinateDialogComponent, {
             // height: '800px',
             width: '600px',
             data: {
+                isNewCoordinate: isNewCoordinate,
                 coordinate: coordinate,
                 lengthUnit: this.lengthUnit,
                 weightUnit: this.weightUnit,

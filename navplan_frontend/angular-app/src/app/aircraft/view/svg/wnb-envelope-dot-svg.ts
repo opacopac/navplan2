@@ -10,16 +10,26 @@ export class WnbEnvelopeDotSvg {
         dotCoordinate: WnbEnvelopeCoordinate,
         imgDim: WnbImageDimensionsSvg,
         label: string,
-        isFilled: boolean
+        isFilled: boolean,
+        clickCallback: (WnbEnvelopeCoordinate) => void
     ): SVGGElement {
-        const svg = SvgGroupElement.create();
         const dotPoint = imgDim.calcXy(dotCoordinate.armCg, dotCoordinate.weight);
+        const labelSvg = this.createLabel(dotPoint, label);
         const circleStyle = isFilled
             ? 'fill:#78909c; stroke:#455a64; stroke-width:2px'
             : 'fill:none; stroke:#455a64; stroke-width:2px';
+        const circleSvg = this.createCircle(dotPoint, circleStyle);
+        if (clickCallback) {
+            circleSvg.onmouseover = () => svg.style.cursor = 'pointer';
+            circleSvg.onclick = (event: MouseEvent) => {
+                event.stopPropagation();
+                clickCallback(dotCoordinate);
+            };
+        }
 
-        svg.appendChild(this.createCircle(dotPoint, circleStyle));
-        svg.appendChild(this.createLabel(dotPoint, label));
+        const svg = SvgGroupElement.create();
+        svg.appendChild(circleSvg);
+        svg.appendChild(labelSvg);
 
         return svg;
     }
