@@ -163,5 +163,27 @@ export const aircraftReducer = createReducer(
         };
     }),
 
+    on(AircraftWnbActions.updateEnvelopeCoordinate, (state, action) => {
+        const envIdx = state.currentAircraft.wnbEnvelopes.findIndex(e => e === action.envelope);
+        const coordIdx = state.currentAircraft.wnbEnvelopes[envIdx].coordinates.findIndex(c => c === action.oldCoordinate);
+        const newAircraft = state.currentAircraft.clone();
+        newAircraft.wnbEnvelopes[envIdx].coordinates[coordIdx] = action.newCoordinate;
+        return {
+            ...state,
+            currentAircraft: newAircraft
+        };
+    }),
+
+    on(AircraftWnbActions.deleteEnvelopeCoordinate, (state, action) => {
+        const envIdx = state.currentAircraft.wnbEnvelopes.findIndex(e => e === action.envelope);
+        const coordIdx = state.currentAircraft.wnbEnvelopes[envIdx].coordinates.findIndex(c => c === action.coordinate);
+        const newAircraft = state.currentAircraft.clone();
+        newAircraft.wnbEnvelopes[envIdx].coordinates.splice(coordIdx, 1);
+        return {
+            ...state,
+            currentAircraft: newAircraft
+        };
+    })
+
     // endregion
 );

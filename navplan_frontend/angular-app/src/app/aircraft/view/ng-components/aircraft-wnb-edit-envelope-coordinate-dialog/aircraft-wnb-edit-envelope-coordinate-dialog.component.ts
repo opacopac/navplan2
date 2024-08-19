@@ -45,7 +45,7 @@ export class AircraftWnbEditEnvelopeCoordinateDialogComponent implements OnInit,
 
 
     protected onUpdateClicked(coordinate: WnbEnvelopeCoordinate) {
-        this.dialogRef.close({action: 'update', coordinate: coordinate});
+        this.dialogRef.close({action: 'update', oldCoordinate: this.data.coordinate, newCoordinate: coordinate});
     }
 
 

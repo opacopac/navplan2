@@ -40,7 +40,7 @@ export class AircraftWnbActions {
 
     public static readonly updateEnvelopeCoordinate = createAction(
         '[Aircraft W&B] Update envelope coordinate',
-        props<{ envelope: WnbEnvelope, coordinate: WnbEnvelopeCoordinate }>()
+        props<{ envelope: WnbEnvelope, oldCoordinate: WnbEnvelopeCoordinate, newCoordinate: WnbEnvelopeCoordinate }>()
     );
 
 
