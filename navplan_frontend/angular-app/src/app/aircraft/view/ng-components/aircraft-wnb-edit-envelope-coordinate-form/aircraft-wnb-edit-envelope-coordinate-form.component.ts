@@ -14,10 +14,13 @@ import {WnbEnvelopeCoordinate} from '../../../domain/model/wnb-envelope-coordina
     styleUrls: ['./aircraft-wnb-edit-envelope-coordinate-form.component.scss']
 })
 export class AircraftWnbEditEnvelopeCoordinateFormComponent implements OnInit, OnChanges {
+    @Input() isNewCoordinate: boolean;
     @Input() coordinate: WnbEnvelopeCoordinate;
     @Input() lengthUnit: LengthUnit;
     @Input() weightUnit: WeightUnit;
-    @Output() onSaveClick = new EventEmitter<WnbEnvelopeCoordinate>();
+    @Output() onAddCoordinateClick = new EventEmitter<WnbEnvelopeCoordinate>();
+    @Output() onEditCoordinateClick = new EventEmitter<WnbEnvelopeCoordinate>();
+    @Output() onDeleteCoordinateClick = new EventEmitter<WnbEnvelopeCoordinate>();
     @Output() onCancelClick = new EventEmitter<null>();
 
     protected editCoordinateForm: FormGroup;
@@ -40,7 +43,7 @@ export class AircraftWnbEditEnvelopeCoordinateFormComponent implements OnInit, O
 
 
     protected getSaveButtonText() {
-        return this.coordinate ? 'Apply' : 'Add';
+        return this.isNewCoordinate ? 'Add' : 'Update';
     }
 
 
@@ -53,8 +56,17 @@ export class AircraftWnbEditEnvelopeCoordinateFormComponent implements OnInit, O
                 isNaN(armValue) ? null : new Length(armValue, this.lengthUnit),
             );
 
-            this.onSaveClick.emit(envCoordinate);
+            if (this.isNewCoordinate) {
+                this.onAddCoordinateClick.emit(envCoordinate);
+            } else {
+                this.onEditCoordinateClick.emit(envCoordinate);
+            }
         }
+    }
+
+
+    protected onDeleteClicked() {
+        this.onDeleteCoordinateClick.emit(this.coordinate);
     }
 
 

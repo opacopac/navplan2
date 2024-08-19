@@ -58,6 +58,8 @@
             [lengthUnit]="this.wnbLengthUnit"
             [weightUnit]="this.weightUnit"
             (coordinateAdded)="this.onEnvelopeCoordinateAdded($event)"
+            (coordinateUpdated)="this.onEnvelopeCoordinateUpdated($event)"
+            (coordinateDeleted)="this.onEnvelopeCoordinateDeleted($event)"
         />
     </div>
 

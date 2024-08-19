@@ -17,6 +17,7 @@ export class AircraftWnbEditEnvelopeCoordinateDialogComponent implements OnInit,
     constructor(
         private dialogRef: MatDialogRef<AircraftWnbEditEnvelopeCoordinateFormComponent>,
         @Inject(MAT_DIALOG_DATA) public data: {
+            isNewCoordinate: boolean;
             coordinate: WnbEnvelopeCoordinate
             lengthUnit: LengthUnit;
             weightUnit: WeightUnit;
@@ -34,12 +35,22 @@ export class AircraftWnbEditEnvelopeCoordinateDialogComponent implements OnInit,
 
 
     protected getDialogTitle(): string {
-        return this.data.coordinate ? 'Edit Coordinate' : 'Add Coordinate';
+        return this.data.isNewCoordinate ? 'Add Coordinate' : 'Edit Coordinate';
     }
 
 
-    protected onSaveClicked(newCoordinate: WnbEnvelopeCoordinate) {
-        this.dialogRef.close(newCoordinate);
+    protected onAddClicked(coordinate: WnbEnvelopeCoordinate) {
+        this.dialogRef.close({action: 'add', coordinate: coordinate});
+    }
+
+
+    protected onUpdateClicked(coordinate: WnbEnvelopeCoordinate) {
+        this.dialogRef.close({action: 'update', coordinate: coordinate});
+    }
+
+
+    protected onDeleteClicked($event: WnbEnvelopeCoordinate) {
+        this.dialogRef.close({action: 'delete', coordinate: $event});
     }
 
 

@@ -2,10 +2,13 @@
 <mat-dialog-content>
     <app-aircraft-wnb-edit-envelope-coordinate-form
         class="weight-item-form"
+        [isNewCoordinate]="this.data.isNewCoordinate"
         [coordinate]="this.data.coordinate"
         [weightUnit]="this.data.weightUnit"
         [lengthUnit]="this.data.lengthUnit"
-        (onSaveClick)="this.onSaveClicked($event)"
+        (onAddCoordinateClick)="this.onAddClicked($event)"
+        (onEditCoordinateClick)="this.onUpdateClicked($event)"
+        (onDeleteCoordinateClick)="this.onDeleteClicked($event)"
         (onCancelClick)="this.onCancelClicked()"
     />
 </mat-dialog-content>

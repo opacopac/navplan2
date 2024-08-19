@@ -36,4 +36,16 @@ export class AircraftWnbActions {
         '[Aircraft W&B] Add envelope coordinate',
         props<{ envelope: WnbEnvelope, coordinate: WnbEnvelopeCoordinate }>()
     );
+
+
+    public static readonly updateEnvelopeCoordinate = createAction(
+        '[Aircraft W&B] Update envelope coordinate',
+        props<{ envelope: WnbEnvelope, coordinate: WnbEnvelopeCoordinate }>()
+    );
+
+
+    public static readonly deleteEnvelopeCoordinate = createAction(
+        '[Aircraft W&B] Delete envelope coordinate',
+        props<{ envelope: WnbEnvelope, coordinate: WnbEnvelopeCoordinate }>()
+    );
 }
