@@ -16,6 +16,7 @@ import {WnbEnvelopeCoordinate} from '../../../domain/model/wnb-envelope-coordina
 export class AircraftWnbEditEnvelopeCoordinateFormComponent implements OnInit, OnChanges {
     @Input() isNewCoordinate: boolean;
     @Input() coordinate: WnbEnvelopeCoordinate;
+    @Input() coordinateCount: number;
     @Input() lengthUnit: LengthUnit;
     @Input() weightUnit: WeightUnit;
     @Output() onAddCoordinateClick = new EventEmitter<WnbEnvelopeCoordinate>();
@@ -97,6 +98,14 @@ export class AircraftWnbEditEnvelopeCoordinateFormComponent implements OnInit, O
                     Validators.max(99999),
                 ]
             ],
+            'insertAfter': [
+                this.coordinateCount + 1,
+                [
+                    Validators.required,
+                    Validators.min(1),
+                    Validators.max(this.coordinateCount + 1),
+                ]
+            ]
         });
     }
 }

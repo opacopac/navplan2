@@ -59,7 +59,10 @@ export class WnbEnvelopeSvg {
         }
         if (isEditable) {
             envelope.coordinates.forEach(coord => {
-                const label = coord.weight.getValueAndUnit(weightUnit, 0) + ' / ' + coord.armCg.getValueAndUnit(lengthUnit, 3);
+                const label =
+                    (envelope.coordinates.indexOf(coord) + 1) + ') '
+                    + coord.weight.getValueAndUnit(weightUnit, 0) + ' / '
+                    + coord.armCg.getValueAndUnit(lengthUnit, 3);
                 svg.appendChild(WnbEnvelopeDotSvg.create(coord, imgDim, label, true, editClickCallback));
             });
         }

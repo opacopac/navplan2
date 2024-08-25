@@ -18,7 +18,8 @@ export class AircraftWnbEditEnvelopeCoordinateDialogComponent implements OnInit,
         private dialogRef: MatDialogRef<AircraftWnbEditEnvelopeCoordinateFormComponent>,
         @Inject(MAT_DIALOG_DATA) public data: {
             isNewCoordinate: boolean;
-            coordinate: WnbEnvelopeCoordinate
+            coordinate: WnbEnvelopeCoordinate;
+            coordinateCount: number;
             lengthUnit: LengthUnit;
             weightUnit: WeightUnit;
         },

@@ -26,7 +26,16 @@
             <span matTextSuffix>{{ Weight.getUnitString(this.weightUnit) }}</span>
             <mat-error>Value must be a positive number between 1 and 99999!</mat-error>
         </mat-form-field>
-
+        <mat-form-field class="flex-row" *ngIf="this.isNewCoordinate">
+            <mat-label>Insert after</mat-label>
+            <mat-select formControlName="insertAfter">
+                <mat-option value="0">At the beginning</mat-option>
+                <mat-option *ngFor="let i of [].constructor(this.coordinateCount - 1); let idx = index" [value]="idx">
+                    {{ idx + 1 }}
+                </mat-option>
+                <mat-option [value]="this.coordinateCount">At the end</mat-option>
+            </mat-select>
+        </mat-form-field>
     </div>
     <div>
         <button
