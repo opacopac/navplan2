@@ -58,14 +58,14 @@ iframe {
     margin-right: 10px !important;
 }
 
+.float-right {
+    float: right;
+}
+
 /* endregion */
 
 
 /* region FORMS */
-
-.float-right {
-    float: right;
-}
 
 // vertically center text in mat input element
 input.mat-mdc-input-element {
