@@ -63,6 +63,10 @@ iframe {
 
 /* region FORMS */
 
+.float-right {
+    float: right;
+}
+
 // vertically center text in mat input element
 input.mat-mdc-input-element {
     line-height: 24px !important;

@@ -40,17 +40,6 @@
             {{ this.getSaveButtonText() }}
         </button>
         <button
-            *ngIf="!this.isNewCoordinate"
-            mat-raised-button
-            color="primary"
-            type="submit"
-            class="inline-button"
-            (click)="this.onDeleteClicked()"
-            [disabled]="this.editCoordinateForm.invalid"
-        >
-            Delete
-        </button>
-        <button
             mat-raised-button
             color="accent"
             type="button"
@@ -58,6 +47,17 @@
             (click)="this.onCancelClicked()"
         >
             Cancel
+        </button>
+        <button
+            *ngIf="!this.isNewCoordinate"
+            mat-raised-button
+            color="warn"
+            type="submit"
+            class="inline-button float-right"
+            (click)="this.onDeleteClicked()"
+            [disabled]="this.editCoordinateForm.invalid"
+        >
+            <i class="fa-regular fa-trash-can"></i>&nbsp;Delete
         </button>
     </div>
 </form>
