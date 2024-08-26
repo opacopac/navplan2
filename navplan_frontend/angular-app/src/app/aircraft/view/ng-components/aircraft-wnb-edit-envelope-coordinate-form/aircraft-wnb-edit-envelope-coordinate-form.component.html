@@ -30,16 +30,15 @@
             *ngIf="this.isNewCoordinate && this.coordinateList && this.coordinateList.length > 0"
             class="flex-row"
         >
-            <mat-label>Insert after</mat-label>
-            <mat-select formControlName="insertAfterIndex">
-                <mat-option value="0">At the beginning</mat-option>
+            <mat-label>Position</mat-label>
+            <mat-select formControlName="insertAtIndex">
+                <mat-option value="0">at the beginning</mat-option>
                 <mat-option
                     *ngFor="let coord of this.coordinateList; let idx = index"
                     [value]="idx + 1"
                 >
-                    {{ this.getInsertAfterText(coord) }}
+                    {{ this.getInsertAtIndexText(coord) }}
                 </mat-option>
-                <mat-option [value]="this.coordinateList.length + 1">At the end</mat-option>
             </mat-select>
         </mat-form-field>
     </div>

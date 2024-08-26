@@ -34,7 +34,7 @@ export class AircraftWnbActions {
 
     public static readonly addEnvelopeCoordinate = createAction(
         '[Aircraft W&B] Add envelope coordinate',
-        props<{ envelope: WnbEnvelope, coordinate: WnbEnvelopeCoordinate }>()
+        props<{ envelope: WnbEnvelope, coordinate: WnbEnvelopeCoordinate, insertAtIndex: number }>()
     );
 
 

@@ -17,7 +17,7 @@ export class AircraftWnbEditEnvelopeComponent implements OnInit {
     @Input() public lengthUnit: LengthUnit;
     @Input() public weightUnit: WeightUnit;
     @Input() public envelope: WnbEnvelope;
-    @Output() public coordinateAdded = new EventEmitter<[WnbEnvelope, WnbEnvelopeCoordinate]>();
+    @Output() public coordinateAdded = new EventEmitter<[WnbEnvelope, WnbEnvelopeCoordinate, number]>();
     @Output() public coordinateUpdated = new EventEmitter<[WnbEnvelope, WnbEnvelopeCoordinate, WnbEnvelopeCoordinate]>();
     @Output() public coordinateDeleted = new EventEmitter<[WnbEnvelope, WnbEnvelopeCoordinate]>();
 
@@ -57,7 +57,7 @@ export class AircraftWnbEditEnvelopeComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe((result) => {
             if (result && result.action === 'add') {
-                this.coordinateAdded.emit([this.envelope, result.coordinate]);
+                this.coordinateAdded.emit([this.envelope, result.coordinate, result.insertAtIndex]);
             } else if (result && result.action === 'update') {
                 this.coordinateUpdated.emit([this.envelope, result.oldCoordinate, result.newCoordinate]);
             } else if (result && result.action === 'delete') {

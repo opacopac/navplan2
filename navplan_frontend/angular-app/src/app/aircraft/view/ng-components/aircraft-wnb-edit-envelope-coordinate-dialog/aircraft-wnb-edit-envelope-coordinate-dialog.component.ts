@@ -40,8 +40,8 @@ export class AircraftWnbEditEnvelopeCoordinateDialogComponent implements OnInit,
     }
 
 
-    protected onAddClicked(coordinate: WnbEnvelopeCoordinate) {
-        this.dialogRef.close({action: 'add', coordinate: coordinate});
+    protected onAddClicked(coordAndIndex: [WnbEnvelopeCoordinate, number]) {
+        this.dialogRef.close({action: 'add', coordinate: coordAndIndex[0], insertAtIndex: coordAndIndex[1]});
     }
 
 

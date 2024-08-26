@@ -74,11 +74,12 @@ export class AircraftWnbContainerComponent implements OnInit {
         );
     }
 
-    protected onEnvelopeCoordinateAdded(envCoord: [WnbEnvelope, WnbEnvelopeCoordinate]) {
+    protected onEnvelopeCoordinateAdded($event: [WnbEnvelope, WnbEnvelopeCoordinate, number]) {
         this.appStore.dispatch(
             AircraftWnbActions.addEnvelopeCoordinate({
-                envelope: envCoord[0],
-                coordinate: envCoord[1]
+                envelope: $event[0],
+                coordinate: $event[1],
+                insertAtIndex: $event[2]
             })
         );
     }

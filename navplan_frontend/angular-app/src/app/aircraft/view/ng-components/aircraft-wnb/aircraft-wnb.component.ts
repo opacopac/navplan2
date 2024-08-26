@@ -34,7 +34,7 @@ export class AircraftWnbComponent implements OnInit {
     @Output() addWeightItem = new EventEmitter<WeightItem>();
     @Output() editWeightItem = new EventEmitter<[WeightItem, number]>();
     @Output() deleteWeightItem = new EventEmitter<number>();
-    @Output() envelopeCoordinateAdded = new EventEmitter<[WnbEnvelope, WnbEnvelopeCoordinate]>();
+    @Output() envelopeCoordinateAdded = new EventEmitter<[WnbEnvelope, WnbEnvelopeCoordinate, number]>();
     @Output() envelopeCoordinateUpdated = new EventEmitter<[WnbEnvelope, WnbEnvelopeCoordinate, WnbEnvelopeCoordinate]>();
     @Output() envelopeCoordinateDeleted = new EventEmitter<[WnbEnvelope, WnbEnvelopeCoordinate]>();
     @Output() saveAircraftWnb = new EventEmitter<void>();
@@ -93,8 +93,8 @@ export class AircraftWnbComponent implements OnInit {
     }
 
 
-    protected onEnvelopeCoordinateAdded(envCoord: [WnbEnvelope, WnbEnvelopeCoordinate]) {
-        this.envelopeCoordinateAdded.emit(envCoord);
+    protected onEnvelopeCoordinateAdded($event: [WnbEnvelope, WnbEnvelopeCoordinate, number]) {
+        this.envelopeCoordinateAdded.emit($event);
     }
 
 

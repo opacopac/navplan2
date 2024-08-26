@@ -19,7 +19,7 @@ export class AircraftWnbEditEnvelopeCoordinateFormComponent implements OnInit, O
     @Input() coordinateList: WnbEnvelopeCoordinate[];
     @Input() lengthUnit: LengthUnit;
     @Input() weightUnit: WeightUnit;
-    @Output() onAddCoordinateClick = new EventEmitter<WnbEnvelopeCoordinate>();
+    @Output() onAddCoordinateClick = new EventEmitter<[WnbEnvelopeCoordinate, number]>();
     @Output() onEditCoordinateClick = new EventEmitter<WnbEnvelopeCoordinate>();
     @Output() onDeleteCoordinateClick = new EventEmitter<WnbEnvelopeCoordinate>();
     @Output() onCancelClick = new EventEmitter<null>();
@@ -43,13 +43,16 @@ export class AircraftWnbEditEnvelopeCoordinateFormComponent implements OnInit, O
     }
 
 
-    protected getInsertAfterText(coord: WnbEnvelopeCoordinate): string {
+    protected getInsertAtIndexText(coord: WnbEnvelopeCoordinate): string {
         const index = this.coordinateList.indexOf(coord);
-        const text = (index + 1).toString() + ') '
+        if (index === this.coordinateList.length - 1) {
+            return 'at the end';
+        }
+
+        return 'after '
+            + (index + 1).toString() + ') '
             + coord.weight.getValueAndUnit(this.weightUnit, 0) + ' / '
             + coord.armCg.getValueAndUnit(this.lengthUnit, 3);
-
-        return text;
     }
 
 
@@ -68,7 +71,8 @@ export class AircraftWnbEditEnvelopeCoordinateFormComponent implements OnInit, O
             );
 
             if (this.isNewCoordinate) {
-                this.onAddCoordinateClick.emit(envCoordinate);
+                const insertAtIndexValue = parseInt(this.editCoordinateForm.get('insertAtIndex').value, 10);
+                this.onAddCoordinateClick.emit([envCoordinate, insertAtIndexValue]);
             } else {
                 this.onEditCoordinateClick.emit(envCoordinate);
             }
@@ -87,7 +91,7 @@ export class AircraftWnbEditEnvelopeCoordinateFormComponent implements OnInit, O
 
 
     private initForm(coordinate: WnbEnvelopeCoordinate) {
-        const insertAfterIndexValue = this.coordinateList ? this.coordinateList.length + 1 : 1;
+        const insertAtIndexValue = this.coordinateList ? this.coordinateList.length : 0;
         this.editCoordinateForm = this.formBuilder.group({
             'arm': [
                 (coordinate && coordinate.armCg)
@@ -109,12 +113,12 @@ export class AircraftWnbEditEnvelopeCoordinateFormComponent implements OnInit, O
                     Validators.max(99999),
                 ]
             ],
-            'insertAfterIndex': [
-                insertAfterIndexValue,
+            'insertAtIndex': [
+                insertAtIndexValue,
                 [
                     Validators.required,
-                    Validators.min(1),
-                    Validators.max(insertAfterIndexValue),
+                    Validators.min(0),
+                    Validators.max(insertAtIndexValue),
                 ]
             ]
         });
