@@ -52,7 +52,7 @@
 
     <!-- envelopes -->
     <div *ngFor="let envelope of this.currentAircraft.wnbEnvelopes">
-        <p>{{ envelope.name }}</p>
+        <p>Envelope &quot;{{ envelope.name }}&quot;</p>
         <app-aircraft-wnb-edit-envelope
             [envelope]="envelope"
             [lengthUnit]="this.wnbLengthUnit"
