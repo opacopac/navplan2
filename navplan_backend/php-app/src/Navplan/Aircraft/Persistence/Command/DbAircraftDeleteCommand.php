@@ -5,6 +5,7 @@ namespace Navplan\Aircraft\Persistence\Command;
 use Navplan\Aircraft\Domain\Command\IAircraftDeleteCommand;
 use Navplan\Aircraft\Domain\Command\IDistancePerformanceTableDeleteCommand;
 use Navplan\Aircraft\Domain\Command\IWeightItemDeleteCommand;
+use Navplan\Aircraft\Domain\Command\IWnbEnvelopeDeleteCommand;
 use Navplan\Aircraft\Persistence\Model\DbTableAircraft;
 use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
@@ -15,6 +16,7 @@ class DbAircraftDeleteCommand implements IAircraftDeleteCommand
     public function __construct(
         private IDbService $dbService,
         private IWeightItemDeleteCommand $weightItemDeleteCommand,
+        private IWnbEnvelopeDeleteCommand $wnbEnvelopeDeleteCommand,
         private IDistancePerformanceTableDeleteCommand $distancePerformanceTableDeleteCommand
     )
     {
@@ -26,8 +28,11 @@ class DbAircraftDeleteCommand implements IAircraftDeleteCommand
         // delete performance tables
         $this->distancePerformanceTableDeleteCommand->deleteByAircraft($aircraftId);
 
-        // delete w&b
+        // delete w&b items
         $this->weightItemDeleteCommand->deleteByAircraft($aircraftId);
+
+        // delete wnb envelopes
+        $this->wnbEnvelopeDeleteCommand->deleteByAircraft($aircraftId);
 
         $query = "DELETE FROM " . DbTableAircraft::TABLE_NAME;
         $query .= " WHERE " . DbTableAircraft::COL_ID . "=" . DbHelper::getDbIntValue($aircraftId);

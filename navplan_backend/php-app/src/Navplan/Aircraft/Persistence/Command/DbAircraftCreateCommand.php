@@ -5,6 +5,7 @@ namespace Navplan\Aircraft\Persistence\Command;
 use Navplan\Aircraft\Domain\Command\IAircraftCreateCommand;
 use Navplan\Aircraft\Domain\Command\IDistancePerformanceTableCreateCommand;
 use Navplan\Aircraft\Domain\Command\IWeightItemCreateCommand;
+use Navplan\Aircraft\Domain\Command\IWnbEnvelopeCreateCommand;
 use Navplan\Aircraft\Domain\Model\Aircraft;
 use Navplan\Aircraft\Persistence\Model\DbTableAircraft;
 use Navplan\Aircraft\Persistence\Model\PerfDistTableType;
@@ -17,6 +18,7 @@ class DbAircraftCreateCommand implements IAircraftCreateCommand
     public function __construct(
         private IDbService $dbService,
         private IWeightItemCreateCommand $weightItemCreateCommand,
+        private IWnbEnvelopeCreateCommand $wnbEnvelopeCreateCommand,
         private IDistancePerformanceTableCreateCommand $distancePerformanceTableCreateCommand,
     )
     {
@@ -30,8 +32,11 @@ class DbAircraftCreateCommand implements IAircraftCreateCommand
         $this->dbService->execCUDQuery($query, "error creating aircraft");
         $aircraft->id = $this->dbService->getInsertId();
 
-        // create w&b
+        // create w&b weight items
         $this->weightItemCreateCommand->create($aircraft->id, $aircraft->wnbWeightItems);
+
+        // create w&b envelopes
+        $this->wnbEnvelopeCreateCommand->create($aircraft->id, $aircraft->wnbEnvelopes);
 
         // create distance performance tables
         if ($aircraft->perfTakeoffGroundRoll) {

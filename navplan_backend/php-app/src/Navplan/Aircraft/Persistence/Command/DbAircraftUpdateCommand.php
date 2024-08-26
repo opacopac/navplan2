@@ -7,6 +7,8 @@ use Navplan\Aircraft\Domain\Command\IDistancePerformanceTableCreateCommand;
 use Navplan\Aircraft\Domain\Command\IDistancePerformanceTableDeleteCommand;
 use Navplan\Aircraft\Domain\Command\IWeightItemCreateCommand;
 use Navplan\Aircraft\Domain\Command\IWeightItemDeleteCommand;
+use Navplan\Aircraft\Domain\Command\IWnbEnvelopeCreateCommand;
+use Navplan\Aircraft\Domain\Command\IWnbEnvelopeDeleteCommand;
 use Navplan\Aircraft\Domain\Model\Aircraft;
 use Navplan\Aircraft\Persistence\Model\DbTableAircraft;
 use Navplan\Aircraft\Persistence\Model\PerfDistTableType;
@@ -20,6 +22,8 @@ class DbAircraftUpdateCommand implements IAircraftUpdateCommand
         private IDbService $dbService,
         private IWeightItemCreateCommand $weightItemCreateCommand,
         private IWeightItemDeleteCommand $weightItemDeleteCommand,
+        private IWnbEnvelopeCreateCommand $wnbEnvelopeCreateCommand,
+        private IWnbEnvelopeDeleteCommand $wnbEnvelopeDeleteCommand,
         private IDistancePerformanceTableCreateCommand $distancePerformanceTableCreateCommand,
         private IDistancePerformanceTableDeleteCommand $distancePerformanceTableDeleteCommand
     )
@@ -34,9 +38,13 @@ class DbAircraftUpdateCommand implements IAircraftUpdateCommand
         $query = $this->getUpdateSql($aircraft, $userId);
         $this->dbService->execCUDQuery($query, "error updating aircraft");
 
-        // update w&b
+        // update w&b weight items
         $this->weightItemDeleteCommand->deleteByAircraft($aircraft->id);
         $this->weightItemCreateCommand->create($aircraft->id, $aircraft->wnbWeightItems);
+
+        // update w&b envelopes
+        $this->wnbEnvelopeDeleteCommand->deleteByAircraft($aircraft->id);
+        $this->wnbEnvelopeCreateCommand->create($aircraft->id, $aircraft->wnbEnvelopes);
 
         // update distance performance tables
         $this->distancePerformanceTableDeleteCommand->deleteByAircraft($aircraft->id);

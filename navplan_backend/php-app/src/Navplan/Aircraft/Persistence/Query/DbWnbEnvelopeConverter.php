@@ -9,10 +9,26 @@ use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\LengthUnit;
 use Navplan\Common\Domain\Model\Weight;
 use Navplan\Common\Domain\Model\WeightUnit;
+use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\MySqlDb\DbHelper;
 
 
 class DbWnbEnvelopeConverter
 {
+    /**
+     * @param WnbEnvelopeCoordinate[] $wnbEnvelopeCoordinates
+     * @return string
+     */
+    public static function toDbString(IDbService $dbService, array $wnbEnvelopeCoordinates): string
+    {
+        $json = json_encode(array_map(function ($coord) {
+            return [$coord->weight->getKg(), $coord->armCg->getM()];
+        }, $wnbEnvelopeCoordinates));
+
+        return DbHelper::getDbStringValue($dbService, $json);
+    }
+
+
     public static function fromDbRow(array $row): WnbEnvelope
     {
         return new WnbEnvelope(
