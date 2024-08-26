@@ -19,7 +19,7 @@ export class AircraftWnbEditEnvelopeCoordinateDialogComponent implements OnInit,
         @Inject(MAT_DIALOG_DATA) public data: {
             isNewCoordinate: boolean;
             coordinate: WnbEnvelopeCoordinate;
-            coordinateCount: number;
+            coordinateList: WnbEnvelopeCoordinate[];
             lengthUnit: LengthUnit;
             weightUnit: WeightUnit;
         },

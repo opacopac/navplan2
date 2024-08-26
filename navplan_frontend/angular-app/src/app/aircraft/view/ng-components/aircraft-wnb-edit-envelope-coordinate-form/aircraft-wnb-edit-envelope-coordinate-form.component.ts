@@ -16,7 +16,7 @@ import {WnbEnvelopeCoordinate} from '../../../domain/model/wnb-envelope-coordina
 export class AircraftWnbEditEnvelopeCoordinateFormComponent implements OnInit, OnChanges {
     @Input() isNewCoordinate: boolean;
     @Input() coordinate: WnbEnvelopeCoordinate;
-    @Input() coordinateCount: number;
+    @Input() coordinateList: WnbEnvelopeCoordinate[];
     @Input() lengthUnit: LengthUnit;
     @Input() weightUnit: WeightUnit;
     @Output() onAddCoordinateClick = new EventEmitter<WnbEnvelopeCoordinate>();
@@ -40,6 +40,16 @@ export class AircraftWnbEditEnvelopeCoordinateFormComponent implements OnInit, O
 
     ngOnChanges() {
         this.initForm(this.coordinate);
+    }
+
+
+    protected getInsertAfterText(coord: WnbEnvelopeCoordinate): string {
+        const index = this.coordinateList.indexOf(coord);
+        const text = (index + 1).toString() + ') '
+            + coord.weight.getValueAndUnit(this.weightUnit, 0) + ' / '
+            + coord.armCg.getValueAndUnit(this.lengthUnit, 3);
+
+        return text;
     }
 
 
@@ -99,11 +109,11 @@ export class AircraftWnbEditEnvelopeCoordinateFormComponent implements OnInit, O
                 ]
             ],
             'insertAfter': [
-                this.coordinateCount + 1,
+                this.coordinateList ? this.coordinateList.length + 1 : 1,
                 [
                     Validators.required,
                     Validators.min(1),
-                    Validators.max(this.coordinateCount + 1),
+                    Validators.max(this.coordinateList ? this.coordinateList.length + 1 : 1),
                 ]
             ]
         });

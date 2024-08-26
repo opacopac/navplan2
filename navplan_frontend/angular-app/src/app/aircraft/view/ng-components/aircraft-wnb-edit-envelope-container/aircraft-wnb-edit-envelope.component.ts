@@ -49,7 +49,7 @@ export class AircraftWnbEditEnvelopeComponent implements OnInit {
             data: {
                 isNewCoordinate: isNewCoordinate,
                 coordinate: coordinate,
-                coordinateCount: this.envelope.coordinates.length,
+                coordinateList: this.envelope.coordinates,
                 lengthUnit: this.lengthUnit,
                 weightUnit: this.weightUnit,
             }
