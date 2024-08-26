@@ -87,6 +87,7 @@ export class AircraftWnbEditEnvelopeCoordinateFormComponent implements OnInit, O
 
 
     private initForm(coordinate: WnbEnvelopeCoordinate) {
+        const insertAfterIndexValue = this.coordinateList ? this.coordinateList.length + 1 : 1;
         this.editCoordinateForm = this.formBuilder.group({
             'arm': [
                 (coordinate && coordinate.armCg)
@@ -108,12 +109,12 @@ export class AircraftWnbEditEnvelopeCoordinateFormComponent implements OnInit, O
                     Validators.max(99999),
                 ]
             ],
-            'insertAfter': [
-                this.coordinateList ? this.coordinateList.length + 1 : 1,
+            'insertAfterIndex': [
+                insertAfterIndexValue,
                 [
                     Validators.required,
                     Validators.min(1),
-                    Validators.max(this.coordinateList ? this.coordinateList.length + 1 : 1),
+                    Validators.max(insertAfterIndexValue),
                 ]
             ]
         });

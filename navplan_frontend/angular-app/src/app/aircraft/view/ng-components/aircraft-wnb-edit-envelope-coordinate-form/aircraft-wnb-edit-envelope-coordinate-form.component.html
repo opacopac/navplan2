@@ -31,14 +31,15 @@
             class="flex-row"
         >
             <mat-label>Insert after</mat-label>
-            <mat-select formControlName="insertAfter">
+            <mat-select formControlName="insertAfterIndex">
                 <mat-option value="0">At the beginning</mat-option>
                 <mat-option
                     *ngFor="let coord of this.coordinateList; let idx = index"
-                    [value]="idx"
+                    [value]="idx + 1"
                 >
                     {{ this.getInsertAfterText(coord) }}
                 </mat-option>
+                <mat-option [value]="this.coordinateList.length + 1">At the end</mat-option>
             </mat-select>
         </mat-form-field>
     </div>
