@@ -4,6 +4,10 @@ import {WeightUnit} from '../../../../geo-physics/domain/model/quantities/weight
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 import {WnbEnvelopeCoordinate} from '../../../domain/model/wnb-envelope-coordinate';
 import {WnbEnvelope} from '../../../domain/model/wnb-envelope';
+import {
+    AircraftWnbEditEnvelopeDefinitionDialogComponent
+} from '../aircraft-wnb-edit-envelope-definition-dialog/aircraft-wnb-edit-envelope-definition-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 
 export interface ListEntry {
@@ -27,7 +31,9 @@ export class AircraftWnbEnvelopeListComponent implements OnInit {
     @Output() envelopeCoordinateUpdated = new EventEmitter<[WnbEnvelope, WnbEnvelopeCoordinate, WnbEnvelopeCoordinate]>();
     @Output() envelopeCoordinateDeleted = new EventEmitter<[WnbEnvelope, WnbEnvelopeCoordinate]>();
 
-    constructor() {
+    constructor(
+        private dialog: MatDialog,
+    ) {
     }
 
 
@@ -36,7 +42,12 @@ export class AircraftWnbEnvelopeListComponent implements OnInit {
 
 
     protected onAddEnvelopeClick() {
-        // TODO open dialog
+        this.openDialog(null, true);
+    }
+
+
+    protected onEditEnvelopeDefinitionClick(envelope: WnbEnvelope) {
+        this.openDialog(envelope, false);
     }
 
 
@@ -52,5 +63,29 @@ export class AircraftWnbEnvelopeListComponent implements OnInit {
 
     protected onEnvelopeCoordinateDeleted($event: [WnbEnvelope, WnbEnvelopeCoordinate]) {
         this.envelopeCoordinateDeleted.emit($event);
+    }
+
+
+    private openDialog(envelope: WnbEnvelope, isNewEnvelope: boolean) {
+        const dialogRef = this.dialog.open(AircraftWnbEditEnvelopeDefinitionDialogComponent, {
+            // height: '800px',
+            width: '600px',
+            data: {
+                isNewEnvelope: isNewEnvelope,
+                envelope: envelope,
+                lengthUnit: this.wnbLengthUnit,
+                weightUnit: this.weightUnit,
+            }
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result && result.action === 'add') {
+                this.addEnvelope.emit(envelope);
+            } else if (result && result.action === 'update') {
+                // this.coordinateUpdated.emit([this.envelope, result.oldCoordinate, result.newCoordinate]);
+            } else if (result && result.action === 'delete') {
+                // this.coordinateDeleted.emit([this.envelope, result.coordinate]);
+            }
+        });
     }
 }
