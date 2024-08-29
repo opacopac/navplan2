@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {AircraftWnbComponent} from './aircraft-wnb.component';
+import {AircraftWnbEnvelopeListComponent} from './aircraft-wnb-envelope-list.component';
 
 
 xdescribe('FlightrouteListComponent', () => {
-    let component: AircraftWnbComponent;
-    let fixture: ComponentFixture<AircraftWnbComponent>;
+    let component: AircraftWnbEnvelopeListComponent;
+    let fixture: ComponentFixture<AircraftWnbEnvelopeListComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [AircraftWnbComponent]
+            declarations: [AircraftWnbEnvelopeListComponent]
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(AircraftWnbComponent);
+        fixture = TestBed.createComponent(AircraftWnbEnvelopeListComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

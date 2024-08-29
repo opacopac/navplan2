@@ -1,0 +1,14 @@
+<h3 mat-dialog-title>{{ this.getDialogTitle() }}</h3>
+<mat-dialog-content>
+    <app-aircraft-wnb-edit-envelope-definition-form
+        class="weight-item-form"
+        [isNewEnvelope]="this.data.isNewEnvelope"
+        [envelope]="this.data.envelope"
+        [weightUnit]="this.data.weightUnit"
+        [lengthUnit]="this.data.lengthUnit"
+        (onCreateClick)="this.onAddClicked($event)"
+        (onUpdateClick)="this.onUpdateClicked($event)"
+        (onDeleteClick)="this.onDeleteClicked($event)"
+        (onCancelClick)="this.onCancelClicked()"
+    />
+</mat-dialog-content>

@@ -43,7 +43,6 @@ import {
     AircraftWnbEditItemFormComponent
 } from './ng-components/aircraft-wnb-edit-item-form/aircraft-wnb-edit-item-form.component';
 import {AircraftWnbContainerComponent} from './ng-components/aircraft-wnb-container/aircraft-wnb-container.component';
-import {AircraftWnbComponent} from './ng-components/aircraft-wnb/aircraft-wnb.component';
 import {AircraftWnbTableComponent} from './ng-components/aircraft-wnb-table/aircraft-wnb-table.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {
@@ -55,7 +54,6 @@ import {
 } from './ng-components/aircraft-weight-item-type-icon/aircraft-weight-item-type-icon.component';
 import {AircraftPickerDialogComponent} from './ng-components/aircraft-picker-dialog/aircraft-picker-dialog.component';
 import {AircraftPickerListComponent} from './ng-components/aircraft-picker-list/aircraft-picker-list.component';
-import {AircraftWnbEnvelopeComponent} from './ng-components/aircraft-wnb-envelope/aircraft-wnb-envelope.component';
 import {
     AircraftWnbEditEnvelopeComponent
 } from './ng-components/aircraft-wnb-edit-envelope-container/aircraft-wnb-edit-envelope.component';
@@ -65,6 +63,21 @@ import {
 import {
     AircraftWnbEditEnvelopeCoordinateFormComponent
 } from './ng-components/aircraft-wnb-edit-envelope-coordinate-form/aircraft-wnb-edit-envelope-coordinate-form.component';
+import {
+    AircraftWnbWeightFieldsComponent
+} from './ng-components/aircraft-wnb-weight-fields/aircraft-wnb-weight-fields.component';
+import {
+    AircraftWnbEnvelopeListComponent
+} from './ng-components/aircraft-wnb-envelope-list/aircraft-wnb-envelope-list.component';
+import {
+    AircraftWnbEnvelopeChartComponent
+} from './ng-components/aircraft-wnb-envelope-chart/aircraft-wnb-envelope-chart.component';
+import {
+    AircraftWnbEditEnvelopeDefinitionFormComponent
+} from './ng-components/aircraft-wnb-edit-envelope-definition-form/aircraft-wnb-edit-envelope-definition-form.component';
+import {
+    AircraftWnbEditEnvelopeDefinitionDialogComponent
+} from './ng-components/aircraft-wnb-edit-envelope-definition-dialog/aircraft-wnb-edit-envelope-definition-dialog.component';
 
 
 @NgModule({
@@ -104,20 +117,23 @@ import {
         AircraftPerformanceTableComponent,
         AircraftPerformanceCorrectionFactorsComponent,
         AircraftWnbContainerComponent,
-        AircraftWnbComponent,
+        AircraftWnbWeightFieldsComponent,
         AircraftWnbTableComponent,
+        AircraftWnbEnvelopeListComponent,
         AircraftWnbEditItemDialogComponent,
         AircraftWnbEditItemFormComponent,
         AircraftWeightItemTypeIconComponent,
-        AircraftWnbEnvelopeComponent,
+        AircraftWnbEnvelopeChartComponent,
         AircraftWnbEditEnvelopeComponent,
+        AircraftWnbEditEnvelopeDefinitionDialogComponent,
+        AircraftWnbEditEnvelopeDefinitionFormComponent,
         AircraftWnbEditEnvelopeCoordinateDialogComponent,
         AircraftWnbEditEnvelopeCoordinateFormComponent
     ],
     exports: [
         AircraftPickerContainerComponent,
         AircraftWeightItemTypeIconComponent,
-        AircraftWnbEnvelopeComponent
+        AircraftWnbEnvelopeChartComponent
     ],
     providers: []
 })

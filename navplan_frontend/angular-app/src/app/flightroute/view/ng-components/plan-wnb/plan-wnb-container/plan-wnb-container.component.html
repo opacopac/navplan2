@@ -14,7 +14,7 @@
     />
     <div *ngIf="this.envelope$ | async">
         <p>W&B Envelope &quot;{{ (this.envelope$ | async).name }}&quot;</p>
-        <app-aircraft-wnb-envelope
+        <app-aircraft-wnb-envelope-chart
             [envelope]="this.envelope$ | async"
             [zeroFuelWnbCoordinate]="this.zeroFuelCoordinate$ | async"
             [takeoffWnbCoordinate]="this.takeoffCoordinate$ | async"

@@ -68,9 +68,9 @@ export class AircraftWnbContainerComponent implements OnInit {
     }
 
 
-    protected onSaveAircraftWnb() {
+    protected onAddEnvelope($event: WnbEnvelope) {
         this.appStore.dispatch(
-            AircraftCrudActions.saveAircraft()
+            AircraftWnbActions.addEnvelope({ envelope: $event })
         );
     }
 
@@ -100,6 +100,13 @@ export class AircraftWnbContainerComponent implements OnInit {
                 envelope: $event[0],
                 coordinate: $event[1]
             })
+        );
+    }
+
+
+    protected onSaveAircraftWnb() {
+        this.appStore.dispatch(
+            AircraftCrudActions.saveAircraft()
         );
     }
 }

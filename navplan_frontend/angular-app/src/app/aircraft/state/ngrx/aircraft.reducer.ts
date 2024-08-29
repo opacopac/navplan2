@@ -153,6 +153,15 @@ export const aircraftReducer = createReducer(
         };
     }),
 
+    on(AircraftWnbActions.addEnvelope, (state, action) => {
+        const newAircraft = state.currentAircraft.clone();
+        newAircraft.wnbEnvelopes.push(action.envelope);
+        return {
+            ...state,
+            currentAircraft: newAircraft
+        };
+    }),
+
     on(AircraftWnbActions.addEnvelopeCoordinate, (state, action) => {
         const envIdx = state.currentAircraft.wnbEnvelopes.findIndex(e => e === action.envelope);
         const newAircraft = state.currentAircraft.clone();

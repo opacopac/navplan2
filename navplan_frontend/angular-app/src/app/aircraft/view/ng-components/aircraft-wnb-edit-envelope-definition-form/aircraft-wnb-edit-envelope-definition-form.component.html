@@ -1,0 +1,58 @@
+<form [formGroup]="editForm">
+    <div class="form-content">
+
+        <!-- envelope name -->
+        <mat-form-field class="flex-row">
+            <mat-label>Name</mat-label>
+            <input
+                matInput
+                type="text"
+                formControlName="name"
+                required
+            >
+        </mat-form-field>
+
+        <!-- axis type -->
+        <mat-form-field>
+            <mat-label>Diagram Axis</mat-label>
+            <mat-select
+                formControlName="axisType"
+            >
+                <mat-option [value]="WnbEnvelopeAxisType.WEIGHT_ARM" selected>Weight - Arm</mat-option>
+                <mat-option [value]="WnbEnvelopeAxisType.WEIGHT_MOMENT">Weight - Moment</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div>
+        <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            class="inline-button"
+            (click)="this.onSaveClicked()"
+            [disabled]="this.editForm.invalid"
+        >
+            {{ this.getSaveButtonText() }}
+        </button>
+        <button
+            mat-raised-button
+            color="accent"
+            type="button"
+            class="inline-button"
+            (click)="this.onCancelClicked()"
+        >
+            Cancel
+        </button>
+        <button
+            *ngIf="!this.isNewEnvelope"
+            mat-raised-button
+            color="warn"
+            type="submit"
+            class="inline-button float-right"
+            (click)="this.onDeleteClicked()"
+            [disabled]="this.editForm.invalid"
+        >
+            <i class="fa-regular fa-trash-can"></i>&nbsp;Delete
+        </button>
+    </div>
+</form>

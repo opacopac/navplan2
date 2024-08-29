@@ -1,17 +1,48 @@
 <div class="aircraft-wnb-container">
-    <app-aircraft-wnb
-        [currentAircraft]="this.currentAircraft$ | async"
-        [wnbLengthUnit]="this.wnbLengthUnit$ | async"
-        [weightUnit]="this.weightUnit$ | async"
-        [volumeUnit]="this.volumeUnit$ | async"
-        (changeBew)="this.onChangeBew($event)"
-        (changeMtow)="this.onChangeMtow($event)"
-        (addWeightItem)="this.onAddWeightItem($event)"
-        (editWeightItem)="this.onEditWeightItem($event)"
-        (deleteWeightItem)="this.onDeleteWeightItem($event)"
-        (envelopeCoordinateAdded)="this.onEnvelopeCoordinateAdded($event)"
-        (envelopeCoordinateUpdated)="this.onEnvelopeCoordinateUpdated($event)"
-        (envelopeCoordinateDeleted)="this.onEnvelopeCoordinateDeleted($event)"
-        (saveAircraftWnb)="this.onSaveAircraftWnb()"
+    <app-aircraft-picker-container
+        labelText="Aircraft:"
+        [showRegistration]="true"
     />
+    <div *ngIf="this.currentAircraft$ | async">
+        <!-- weight fields -->
+        <app-aircraft-wnb-weight-fields
+            [currentAircraft]="this.currentAircraft$ | async"
+            [weightUnit]="this.weightUnit$ | async"
+            (changeBew)="this.onChangeBew($event)"
+            (changeMtow)="this.onChangeMtow($event)"
+        ></app-aircraft-wnb-weight-fields>
+
+        <!-- weight items -->
+        <app-aircraft-wnb-table
+            [weightItems]="(this.currentAircraft$ | async)?.wnbWeightItems"
+            [lengthUnit]="this.wnbLengthUnit$ | async"
+            [weightUnit]="this.weightUnit$ | async"
+            [volumeUnit]="this.volumeUnit$ | async"
+            (addWeightItem)="this.onAddWeightItem($event)"
+            (editWeightItem)="this.onEditWeightItem($event)"
+            (deleteWeightItem)="this.onDeleteWeightItem($event)"
+        />
+
+        <!-- envelope list -->
+        <app-aircraft-wnb-envelope-list
+            [currentAircraft]="this.currentAircraft$ | async"
+            [wnbLengthUnit]="this.wnbLengthUnit$ | async"
+            [weightUnit]="this.weightUnit$ | async"
+            (addEnvelope)="this.onAddEnvelope($event)"
+            (envelopeCoordinateAdded)="this.onEnvelopeCoordinateAdded($event)"
+            (envelopeCoordinateUpdated)="this.onEnvelopeCoordinateUpdated($event)"
+            (envelopeCoordinateDeleted)="this.onEnvelopeCoordinateDeleted($event)"
+        ></app-aircraft-wnb-envelope-list>
+
+        <!-- save button -->
+        <p>
+            <button
+                mat-raised-button
+                color="primary"
+                (click)="this.onSaveAircraftWnb()"
+            >
+                Save
+            </button>
+        </p>
+    </div>
 </div>

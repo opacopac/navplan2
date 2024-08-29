@@ -1,0 +1,23 @@
+<p class="add-envelope-button">
+    <button
+        mat-raised-button
+        color="accent"
+        (click)="this.onAddEnvelopeClick()"
+    >
+        <i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add W&B Envelope
+    </button>
+</p>
+<div *ngFor="let envelope of this.currentAircraft.wnbEnvelopes">
+    <p>Envelope &quot;{{ envelope.name }}&quot;</p>
+    <app-aircraft-wnb-edit-envelope
+        [envelope]="envelope"
+        [lengthUnit]="this.wnbLengthUnit"
+        [weightUnit]="this.weightUnit"
+        (coordinateAdded)="this.onEnvelopeCoordinateAdded($event)"
+        (coordinateUpdated)="this.onEnvelopeCoordinateUpdated($event)"
+        (coordinateDeleted)="this.onEnvelopeCoordinateDeleted($event)"
+    />
+</div>
+<div *ngIf="this.currentAircraft.wnbEnvelopes.length === 0">
+    <i>No envelopes defined yet.</i>
+</div>
