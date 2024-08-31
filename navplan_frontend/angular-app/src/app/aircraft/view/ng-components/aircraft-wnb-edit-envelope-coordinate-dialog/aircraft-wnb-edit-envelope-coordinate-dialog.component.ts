@@ -3,9 +3,6 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 import {WeightUnit} from '../../../../geo-physics/domain/model/quantities/weight-unit';
 import {WnbEnvelopeCoordinate} from '../../../domain/model/wnb-envelope-coordinate';
-import {
-    AircraftWnbEditEnvelopeCoordinateFormComponent
-} from '../aircraft-wnb-edit-envelope-coordinate-form/aircraft-wnb-edit-envelope-coordinate-form.component';
 
 
 @Component({
@@ -15,7 +12,7 @@ import {
 })
 export class AircraftWnbEditEnvelopeCoordinateDialogComponent implements OnInit, OnDestroy {
     constructor(
-        private dialogRef: MatDialogRef<AircraftWnbEditEnvelopeCoordinateFormComponent>,
+        private dialogRef: MatDialogRef<AircraftWnbEditEnvelopeCoordinateDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: {
             isNewCoordinate: boolean;
             coordinate: WnbEnvelopeCoordinate;

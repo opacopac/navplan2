@@ -2,9 +2,6 @@ import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 import {WeightUnit} from '../../../../geo-physics/domain/model/quantities/weight-unit';
-import {
-    AircraftWnbEditEnvelopeCoordinateFormComponent
-} from '../aircraft-wnb-edit-envelope-coordinate-form/aircraft-wnb-edit-envelope-coordinate-form.component';
 import {WnbEnvelope} from '../../../domain/model/wnb-envelope';
 
 
@@ -15,7 +12,7 @@ import {WnbEnvelope} from '../../../domain/model/wnb-envelope';
 })
 export class AircraftWnbEditEnvelopeDefinitionDialogComponent implements OnInit, OnDestroy {
     constructor(
-        private dialogRef: MatDialogRef<AircraftWnbEditEnvelopeCoordinateFormComponent>,
+        private dialogRef: MatDialogRef<AircraftWnbEditEnvelopeDefinitionDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: {
             isNewEnvelope: boolean;
             envelope: WnbEnvelope;

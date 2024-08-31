@@ -5,6 +5,7 @@ import {IconButtonComponent} from './ng-components/icon-button/icon-button.compo
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {StatusButtonComponent} from './ng-components/status-button/status-button.component';
 import {MiniFabButtonComponent} from './ng-components/mini-fab-button/mini-fab-button.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule({
@@ -12,6 +13,7 @@ import {MiniFabButtonComponent} from './ng-components/mini-fab-button/mini-fab-b
         CommonModule,
         MatButtonModule,
         MatTooltipModule,
+        MatDialogModule,
     ],
     declarations: [
         IconButtonComponent,
