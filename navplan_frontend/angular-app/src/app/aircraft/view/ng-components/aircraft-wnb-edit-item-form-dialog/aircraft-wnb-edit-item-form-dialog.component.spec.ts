@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {AircraftWnbEditItemDialogComponent} from './aircraft-wnb-edit-item-dialog.component';
+import {AircraftWnbEditItemFormDialogComponent} from './aircraft-wnb-edit-item-form-dialog.component';
 
 
 xdescribe('EditWaypointDialogComponent', () => {
-    let component: AircraftWnbEditItemDialogComponent;
-    let fixture: ComponentFixture<AircraftWnbEditItemDialogComponent>;
+    let component: AircraftWnbEditItemFormDialogComponent;
+    let fixture: ComponentFixture<AircraftWnbEditItemFormDialogComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [AircraftWnbEditItemDialogComponent]
+            declarations: [AircraftWnbEditItemFormDialogComponent]
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(AircraftWnbEditItemDialogComponent);
+        fixture = TestBed.createComponent(AircraftWnbEditItemFormDialogComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

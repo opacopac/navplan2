@@ -5,12 +5,11 @@ import {WeightItem} from '../../../domain/model/weight-item';
 import {ButtonColor} from '../../../../common/view/model/button-color';
 import {WeightItemType} from '../../../domain/model/weight-item-type';
 import {Length} from '../../../../geo-physics/domain/model/quantities/length';
-import {
-    AircraftWnbEditItemDialogComponent
-} from '../aircraft-wnb-edit-item-dialog/aircraft-wnb-edit-item-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {VolumeUnit} from '../../../../geo-physics/domain/model/quantities/volume-unit';
-import {FormBuilder} from '@angular/forms';
+import {
+    AircraftWnbEditItemFormDialogComponent
+} from '../aircraft-wnb-edit-item-form-dialog/aircraft-wnb-edit-item-form-dialog.component';
 
 
 @Component({
@@ -32,8 +31,7 @@ export class AircraftWnbTableComponent implements OnInit {
 
 
     constructor(
-        private dialog: MatDialog,
-        public formBuilder: FormBuilder
+        private dialog: MatDialog
     ) {
     }
 
@@ -85,7 +83,7 @@ export class AircraftWnbTableComponent implements OnInit {
 
 
     private openDialog(weightItem: WeightItem) {
-        const dialogRef = this.dialog.open(AircraftWnbEditItemDialogComponent, {
+        const dialogRef = this.dialog.open(AircraftWnbEditItemFormDialogComponent, {
             // height: '800px',
             width: '600px',
             data: {

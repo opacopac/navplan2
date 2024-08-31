@@ -1,31 +1,24 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Component, Inject, OnChanges, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {WeightItem} from '../../../domain/model/weight-item';
+import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 import {WeightUnit} from '../../../../geo-physics/domain/model/quantities/weight-unit';
 import {VolumeUnit} from '../../../../geo-physics/domain/model/quantities/volume-unit';
-import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 import {Length} from '../../../../geo-physics/domain/model/quantities/length';
+import {WeightItemType} from '../../../domain/model/weight-item-type';
 import {Weight} from '../../../../geo-physics/domain/model/quantities/weight';
 import {Volume} from '../../../../geo-physics/domain/model/quantities/volume';
-import {FuelType} from '../../../domain/model/fuel-type';
-import {WeightItemType} from '../../../domain/model/weight-item-type';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
+import {FuelType} from '../../../domain/model/fuel-type';
 
 
 @Component({
-    selector: 'app-aircraft-wnb-edit-item-form',
-    templateUrl: './aircraft-wnb-edit-item-form.component.html',
-    styleUrls: ['./aircraft-wnb-edit-item-form.component.scss']
+    selector: 'app-aircraft-wnb-edit-item-form-dialog',
+    templateUrl: './aircraft-wnb-edit-item-form-dialog.component.html',
+    styleUrls: ['./aircraft-wnb-edit-item-form-dialog.component.scss']
 })
-export class AircraftWnbEditItemFormComponent implements OnInit, OnChanges {
-    @Input() weightItem: WeightItem;
-    @Input() allowAircraftType: boolean;
-    @Input() wnbLengthUnit: LengthUnit;
-    @Input() weightUnit: WeightUnit;
-    @Input() volumeUnit: VolumeUnit;
-    @Output() onSaveClick = new EventEmitter<WeightItem>();
-    @Output() onCancelClick = new EventEmitter<null>();
-
+export class AircraftWnbEditItemFormDialogComponent implements OnInit, OnChanges {
     protected editWeightItemForm: FormGroup;
     protected readonly FuelType = FuelType;
     protected readonly WeightItemType = WeightItemType;
@@ -34,16 +27,32 @@ export class AircraftWnbEditItemFormComponent implements OnInit, OnChanges {
     protected readonly Length = Length;
 
 
-    constructor(public formBuilder: FormBuilder) {
+    constructor(
+        public formBuilder: FormBuilder,
+        private dialogRef: MatDialogRef<AircraftWnbEditItemFormDialogComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: {
+            weightItem: WeightItem;
+            allowAircraftType: boolean;
+            wnbLengthUnit: LengthUnit;
+            weightUnit: WeightUnit;
+            volumeUnit: VolumeUnit;
+        },
+    ) {
     }
 
 
     ngOnInit() {
+        this.initForm(this.data.weightItem);
     }
 
 
     ngOnChanges() {
-        this.initForm(this.weightItem);
+        this.initForm(this.data.weightItem);
+    }
+
+
+    protected getDialogTitle(): string {
+        return this.data.weightItem ? 'Edit weight item' : 'Add weight item';
     }
 
 
@@ -67,7 +76,7 @@ export class AircraftWnbEditItemFormComponent implements OnInit, OnChanges {
 
 
     protected getSaveButtonText() {
-        return this.weightItem ? 'Apply' : 'Add';
+        return this.data.weightItem ? 'Apply' : 'Add';
     }
 
 
@@ -80,22 +89,22 @@ export class AircraftWnbEditItemFormComponent implements OnInit, OnChanges {
             const newWeightItem = new WeightItem(
                 this.editWeightItemForm.get('type').value,
                 this.editWeightItemForm.get('name').value,
-                new Length(this.editWeightItemForm.get('arm').value, this.wnbLengthUnit),
-                isNaN(maxWeightValue) ? null : new Weight(maxWeightValue, this.weightUnit),
-                isNaN(maxFuelValue) ? null : new Volume(maxFuelValue, this.volumeUnit),
-                isNaN(defaultWeightValue) ? null : new Weight(defaultWeightValue, this.weightUnit),
-                isNaN(defaultFuelValue) ? null : new Volume(defaultFuelValue, this.volumeUnit),
+                new Length(this.editWeightItemForm.get('arm').value, this.data.wnbLengthUnit),
+                isNaN(maxWeightValue) ? null : new Weight(maxWeightValue, this.data.weightUnit),
+                isNaN(maxFuelValue) ? null : new Volume(maxFuelValue, this.data.volumeUnit),
+                isNaN(defaultWeightValue) ? null : new Weight(defaultWeightValue, this.data.weightUnit),
+                isNaN(defaultFuelValue) ? null : new Volume(defaultFuelValue, this.data.volumeUnit),
                 null,
                 null
             );
 
-            this.onSaveClick.emit(newWeightItem);
+            this.dialogRef.close(newWeightItem);
         }
     }
 
 
     protected onCancelClicked() {
-        this.onCancelClick.emit();
+        this.dialogRef.close();
     }
 
 
@@ -116,7 +125,7 @@ export class AircraftWnbEditItemFormComponent implements OnInit, OnChanges {
             ],
             'arm': [
                 (weightItem && weightItem.arm)
-                    ? StringnumberHelper.roundToDigits(weightItem.arm.getValue(this.wnbLengthUnit), 3)
+                    ? StringnumberHelper.roundToDigits(weightItem.arm.getValue(this.data.wnbLengthUnit), 3)
                     : '',
                 [
                     Validators.required,
@@ -126,7 +135,7 @@ export class AircraftWnbEditItemFormComponent implements OnInit, OnChanges {
             ],
             'maxWeight': [
                 (weightItem && weightItem.maxWeight)
-                    ? StringnumberHelper.roundToDigits(weightItem.maxWeight.getValue(this.weightUnit), 3)
+                    ? StringnumberHelper.roundToDigits(weightItem.maxWeight.getValue(this.data.weightUnit), 3)
                     : '',
                 [
                     Validators.min(1),
@@ -135,7 +144,7 @@ export class AircraftWnbEditItemFormComponent implements OnInit, OnChanges {
             ],
             'maxFuel': [
                 (weightItem && weightItem.maxFuel)
-                    ? StringnumberHelper.roundToDigits(weightItem.maxFuel.getValue(this.volumeUnit), 3)
+                    ? StringnumberHelper.roundToDigits(weightItem.maxFuel.getValue(this.data.volumeUnit), 3)
                     : '',
                 [
                     Validators.min(1),
@@ -144,7 +153,7 @@ export class AircraftWnbEditItemFormComponent implements OnInit, OnChanges {
             ],
             'defaultWeight': [
                 (weightItem && weightItem.defaultWeight)
-                    ? StringnumberHelper.roundToDigits(weightItem.defaultWeight.getValue(this.weightUnit), 3)
+                    ? StringnumberHelper.roundToDigits(weightItem.defaultWeight.getValue(this.data.weightUnit), 3)
                     : '',
                 [
                     Validators.min(0),
@@ -153,7 +162,7 @@ export class AircraftWnbEditItemFormComponent implements OnInit, OnChanges {
             ],
             'defaultFuel': [
                 (weightItem && weightItem.defaultFuel)
-                    ? StringnumberHelper.roundToDigits(weightItem.defaultFuel.getValue(this.volumeUnit), 3)
+                    ? StringnumberHelper.roundToDigits(weightItem.defaultFuel.getValue(this.data.volumeUnit), 3)
                     : '',
                 [
                     Validators.min(0),
