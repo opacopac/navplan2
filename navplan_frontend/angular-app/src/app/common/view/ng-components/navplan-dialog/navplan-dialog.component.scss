@@ -1,0 +1,9 @@
+@use '../../../../../../node_modules/@angular/material/index' as mat;
+
+.action-buttons {
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    display: flex;
+    flex-direction: row;
+}

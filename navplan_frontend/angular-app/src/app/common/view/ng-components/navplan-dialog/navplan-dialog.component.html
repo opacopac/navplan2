@@ -1,0 +1,37 @@
+<h3 mat-dialog-title>{{ this.title }}</h3>
+<div mat-dialog-content>
+    <ng-content></ng-content>
+</div>
+<div mat-dialog-actions class="action-buttons">
+    <button
+        *ngIf="this.saveButtonText"
+        mat-raised-button
+        color="primary"
+        type="submit"
+        class="inline-button"
+        (click)="this.onSaveClicked()"
+        [disabled]="!this.isFormValid"
+    >
+        {{ this.saveButtonText }}
+    </button>
+    <button
+        *ngIf="this.cancelButtonText"
+        mat-raised-button
+        color="accent"
+        type="button"
+        class="inline-button"
+        (click)="this.onCancelClicked()"
+    >
+        {{ this.cancelButtonText }}
+    </button>
+    <button
+        *ngIf="this.deleteButtonText"
+        mat-raised-button
+        color="warn"
+        type="submit"
+        class="inline-button float-right"
+        (click)="this.onDeleteClicked()"
+    >
+        <i class="fa-regular fa-trash-can"></i>&nbsp;{{ this.deleteButtonText }}
+    </button>
+</div>

@@ -4,10 +4,10 @@ import {WeightUnit} from '../../../../geo-physics/domain/model/quantities/weight
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 import {WnbEnvelopeCoordinate} from '../../../domain/model/wnb-envelope-coordinate';
 import {WnbEnvelope} from '../../../domain/model/wnb-envelope';
+import {MatDialog} from '@angular/material/dialog';
 import {
     AircraftWnbEditEnvelopeDefinitionDialogComponent
 } from '../aircraft-wnb-edit-envelope-definition-dialog/aircraft-wnb-edit-envelope-definition-dialog.component';
-import {MatDialog} from '@angular/material/dialog';
 
 
 export interface ListEntry {
@@ -26,7 +26,7 @@ export class AircraftWnbEnvelopeListComponent implements OnInit {
     @Input() currentAircraft: Aircraft;
     @Input() wnbLengthUnit: LengthUnit;
     @Input() weightUnit: WeightUnit;
-    @Output() addEnvelope = new EventEmitter<WnbEnvelope>();
+    @Output() envelopeAdded = new EventEmitter<WnbEnvelope>();
     @Output() envelopeCoordinateAdded = new EventEmitter<[WnbEnvelope, WnbEnvelopeCoordinate, number]>();
     @Output() envelopeCoordinateUpdated = new EventEmitter<[WnbEnvelope, WnbEnvelopeCoordinate, WnbEnvelopeCoordinate]>();
     @Output() envelopeCoordinateDeleted = new EventEmitter<[WnbEnvelope, WnbEnvelopeCoordinate]>();
@@ -80,7 +80,7 @@ export class AircraftWnbEnvelopeListComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe((result) => {
             if (result && result.action === 'add') {
-                this.addEnvelope.emit(envelope);
+                this.envelopeAdded.emit(result.envelope);
             } else if (result && result.action === 'update') {
                 // this.coordinateUpdated.emit([this.envelope, result.oldCoordinate, result.newCoordinate]);
             } else if (result && result.action === 'delete') {

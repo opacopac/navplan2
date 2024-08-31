@@ -28,7 +28,7 @@
             [currentAircraft]="this.currentAircraft$ | async"
             [wnbLengthUnit]="this.wnbLengthUnit$ | async"
             [weightUnit]="this.weightUnit$ | async"
-            (addEnvelope)="this.onAddEnvelope($event)"
+            (envelopeAdded)="this.onEnvelopeAdded($event)"
             (envelopeCoordinateAdded)="this.onEnvelopeCoordinateAdded($event)"
             (envelopeCoordinateUpdated)="this.onEnvelopeCoordinateUpdated($event)"
             (envelopeCoordinateDeleted)="this.onEnvelopeCoordinateDeleted($event)"

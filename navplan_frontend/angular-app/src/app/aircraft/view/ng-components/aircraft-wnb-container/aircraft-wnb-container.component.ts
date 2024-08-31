@@ -68,7 +68,7 @@ export class AircraftWnbContainerComponent implements OnInit {
     }
 
 
-    protected onAddEnvelope($event: WnbEnvelope) {
+    protected onEnvelopeAdded($event: WnbEnvelope) {
         this.appStore.dispatch(
             AircraftWnbActions.addEnvelope({ envelope: $event })
         );
