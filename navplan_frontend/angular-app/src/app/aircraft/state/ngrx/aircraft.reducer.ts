@@ -32,6 +32,11 @@ export const aircraftReducer = createReducer(
 
     // region aircraft crud actions
 
+    on(AircraftCrudActions.createNewAircraft, (state, action) => ({
+        ...state,
+        currentAircraft: action.aircraft
+    })),
+
     on(AircraftCrudActions.saveAircraftSuccess, (state, action) => ({
         ...state,
         currentAircraft: action.aircraft

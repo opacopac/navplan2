@@ -4,7 +4,8 @@ import {Aircraft} from '../../domain/model/aircraft';
 
 export class AircraftCrudActions {
     public static readonly createNewAircraft = createAction(
-        '[Aircraft List] Create aircraft'
+        '[Aircraft List] Create aircraft',
+        props<{ aircraft: Aircraft }>()
     );
 
     public static readonly saveAircraft = createAction(

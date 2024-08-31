@@ -4,6 +4,7 @@ import {AircraftCrudActions} from '../../../state/ngrx/aircraft-crud-actions';
 import {getAircraftList, getCurrentAircraft} from '../../../state/ngrx/aircraft.selectors';
 import {AircraftListActions} from '../../../state/ngrx/aircraft-list.actions';
 import { getConsumptionUnit, getSpeedUnit } from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
+import { Aircraft } from '../../../domain/model/aircraft';
 
 
 @Component({
@@ -23,6 +24,11 @@ export class AircraftListContainerComponent implements OnInit {
 
     ngOnInit() {
         this.appStore.dispatch(AircraftListActions.readList());
+    }
+
+
+    protected onAddAircraft(aircraft: Aircraft) {
+        this.appStore.dispatch(AircraftCrudActions.createNewAircraft({aircraft: aircraft}));
     }
 
 
