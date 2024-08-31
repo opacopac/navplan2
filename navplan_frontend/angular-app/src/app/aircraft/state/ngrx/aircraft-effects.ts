@@ -44,6 +44,16 @@ export class AircraftEffects {
         ))
     ));
 
+    createNewAircraftAction$ = createEffect(() => this.actions$.pipe(
+        ofType(AircraftCrudActions.createNewAircraft),
+        switchMap(action => [
+            AircraftCrudActions.saveAircraftSuccess({aircraft: action.aircraft}),
+            MessageActions.showMessage({
+                message: Message.success('New aircraft created.')
+            })
+        ])
+    ));
+
     selectAircraftAction$ = createEffect(() => this.actions$.pipe(
         ofType(AircraftListActions.selectAircraft),
         withLatestFrom(this.userState$),
