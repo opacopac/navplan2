@@ -5,9 +5,37 @@ import {DistancePerformanceTable} from './distance-performance-table';
 import {WeightItem} from './weight-item';
 import {WnbEnvelope} from './wnb-envelope';
 import {VehicleType} from './vehicle-type';
-import { FuelType } from './fuel-type';
+import {FuelType} from './fuel-type';
 
 export class Aircraft {
+    public static createMinimal(
+        vehicleType: VehicleType,
+        registration: string,
+        icaoType: string,
+        cruiseSpeed: Speed,
+        cruiseFuel: Consumption,
+        fuelType: FuelType
+    ): Aircraft {
+        return new Aircraft(
+            0,
+            vehicleType,
+            registration,
+            icaoType,
+            cruiseSpeed,
+            cruiseFuel,
+            fuelType,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            [],
+            []
+        );
+    }
+
+
     constructor(
         public id: number,
         public vehicleType: VehicleType,

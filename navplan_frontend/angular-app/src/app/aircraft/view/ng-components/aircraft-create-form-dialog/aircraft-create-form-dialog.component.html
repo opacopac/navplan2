@@ -1,0 +1,88 @@
+<app-form-dialog
+    title="Create New Aircraft"
+    [isFormValid]="this.createForm?.valid"
+    saveButtonText="Create"
+    cancelButtonText="Cancel"
+    [showDeleteButton]="false"
+    (saveClicked)="this.onSaveClicked()"
+    (cancelClicked)="this.onCancelClicked()"
+>
+    <form [formGroup]="createForm">
+        <div class="form-content">
+
+            <!-- vehicle type -->
+            <mat-radio-group
+                color="primary"
+                formControlName="vehicleType"
+            >
+                <mat-radio-button [value]="VehicleType.AIRPLANE">Airplane</mat-radio-button>
+                <mat-radio-button [value]="VehicleType.HELICOPTER">Helicopter</mat-radio-button>
+            </mat-radio-group>
+
+            <!-- registration -->
+            <mat-form-field>
+                <mat-label>Registration</mat-label>
+                <input
+                    matInput
+                    formControlName="registration"
+                    type="string"
+                    required
+                />
+            </mat-form-field>
+
+            <!-- aircraft type -->
+            <mat-form-field>
+                <mat-label>ICAO Type Designator</mat-label>
+                <input
+                    matInput
+                    formControlName="icaoType"
+                    type="string"
+                    required
+                />
+            </mat-form-field>
+
+            <!-- speed -->
+            <mat-form-field>
+                <mat-label>Cruise Speed</mat-label>
+                <input
+                    matInput
+                    formControlName="cruiseSpeed"
+                    type="number"
+                    required
+                    min="1"
+                    max="999"
+                >
+                <span matTextSuffix>{{ Speed.getUnitString(this.data.speedUnit) }}</span>
+                <mat-error>Value must be a positive number between 1 and 999!</mat-error>
+            </mat-form-field>
+
+            <!-- fuel consumption -->
+            <mat-form-field>
+                <mat-label>Cruise Fuel Consumption</mat-label>
+                <input
+                    matInput
+                    formControlName="cruiseFuel"
+                    type="number"
+                    required
+                    min="1"
+                    max="999"
+                >
+                <span matTextSuffix>{{ Consumption.getUnitString(this.data.consumptionUnit) }}</span>
+                <mat-error>Value must be a positive number between 1 and 999!</mat-error>
+            </mat-form-field>
+
+            <!-- fuel type -->
+            <mat-form-field>
+                <mat-label>Fuel Type</mat-label>
+                <mat-select
+                    formControlName="fuelType"
+                >
+                    <mat-option value="" selected>(select)</mat-option>
+                    <mat-option [value]="FuelType.MOGAS">MOGAS</mat-option>
+                    <mat-option [value]="FuelType.AVGAS">AVGAS</mat-option>
+                    <mat-option [value]="FuelType.JET">JET</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </form>
+</app-form-dialog>

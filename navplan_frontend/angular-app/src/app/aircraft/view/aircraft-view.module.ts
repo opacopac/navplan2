@@ -69,6 +69,9 @@ import {
 import {
     AircraftWnbEditItemFormDialogComponent
 } from './ng-components/aircraft-wnb-edit-item-form-dialog/aircraft-wnb-edit-item-form-dialog.component';
+import {
+    AircraftCreateFormDialogComponent
+} from './ng-components/aircraft-create-form-dialog/aircraft-create-form-dialog.component';
 
 
 @NgModule({
@@ -97,6 +100,7 @@ import {
         AircraftPageComponent,
         AircraftListContainerComponent,
         AircraftListComponent,
+        AircraftCreateFormDialogComponent,
         AircraftDetailsContainerComponent,
         AircraftDetailsComponent,
         AircraftPickerContainerComponent,
