@@ -6,8 +6,8 @@ import {WnbEnvelopeCoordinate} from '../../../domain/model/wnb-envelope-coordina
 import {WnbEnvelope} from '../../../domain/model/wnb-envelope';
 import {MatDialog} from '@angular/material/dialog';
 import {
-    AircraftWnbEditEnvelopeDefinitionDialogComponent
-} from '../aircraft-wnb-edit-envelope-definition-dialog/aircraft-wnb-edit-envelope-definition-dialog.component';
+    AircraftWnbEditEnvelopeDefinitionFormDialogComponent
+} from '../aircraft-wnb-edit-envelope-definition-form-dialog/aircraft-wnb-edit-envelope-definition-form-dialog.component';
 
 
 export interface ListEntry {
@@ -67,7 +67,7 @@ export class AircraftWnbEnvelopeListComponent implements OnInit {
 
 
     private openDialog(envelope: WnbEnvelope, isNewEnvelope: boolean) {
-        const dialogRef = this.dialog.open(AircraftWnbEditEnvelopeDefinitionDialogComponent, {
+        const dialogRef = this.dialog.open(AircraftWnbEditEnvelopeDefinitionFormDialogComponent, {
             // height: '800px',
             width: '600px',
             data: {

@@ -10,11 +10,11 @@ import {StringnumberHelper} from '../../../../system/domain/service/stringnumber
 
 
 @Component({
-    selector: 'app-aircraft-wnb-edit-envelope-coordinate-dialog',
-    templateUrl: './aircraft-wnb-edit-envelope-coordinate-dialog.component.html',
-    styleUrls: ['./aircraft-wnb-edit-envelope-coordinate-dialog.component.scss']
+    selector: 'app-aircraft-wnb-edit-envelope-coordinate-form-dialog',
+    templateUrl: './aircraft-wnb-edit-envelope-coordinate-form-dialog.component.html',
+    styleUrls: ['./aircraft-wnb-edit-envelope-coordinate-form-dialog.component.scss']
 })
-export class AircraftWnbEditEnvelopeCoordinateDialogComponent implements OnInit, OnChanges {
+export class AircraftWnbEditEnvelopeCoordinateFormDialogComponent implements OnInit, OnChanges {
     protected editCoordinateForm: FormGroup;
     protected readonly Weight = Weight;
     protected readonly Length = Length;
@@ -22,7 +22,7 @@ export class AircraftWnbEditEnvelopeCoordinateDialogComponent implements OnInit,
 
     constructor(
         public formBuilder: FormBuilder,
-        private dialogRef: MatDialogRef<AircraftWnbEditEnvelopeCoordinateDialogComponent>,
+        private dialogRef: MatDialogRef<AircraftWnbEditEnvelopeCoordinateFormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: {
             isNewCoordinate: boolean;
             coordinate: WnbEnvelopeCoordinate;

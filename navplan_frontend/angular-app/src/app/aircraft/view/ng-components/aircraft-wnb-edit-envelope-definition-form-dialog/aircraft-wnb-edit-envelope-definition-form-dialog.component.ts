@@ -8,18 +8,18 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 
 @Component({
-    selector: 'app-aircraft-wnb-edit-envelope-definition-dialog',
-    templateUrl: './aircraft-wnb-edit-envelope-definition-dialog.component.html',
-    styleUrls: ['./aircraft-wnb-edit-envelope-definition-dialog.component.scss']
+    selector: 'app-aircraft-wnb-edit-envelope-definition-form-dialog',
+    templateUrl: './aircraft-wnb-edit-envelope-definition-form-dialog.component.html',
+    styleUrls: ['./aircraft-wnb-edit-envelope-definition-form-dialog.component.scss']
 })
-export class AircraftWnbEditEnvelopeDefinitionDialogComponent implements OnInit, OnChanges {
+export class AircraftWnbEditEnvelopeDefinitionFormDialogComponent implements OnInit, OnChanges {
     protected readonly WnbEnvelopeAxisType = WnbEnvelopeAxisType;
     protected editForm: FormGroup;
 
 
     constructor(
         public formBuilder: FormBuilder,
-        private dialogRef: MatDialogRef<AircraftWnbEditEnvelopeDefinitionDialogComponent>,
+        private dialogRef: MatDialogRef<AircraftWnbEditEnvelopeDefinitionFormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: {
             isNewEnvelope: boolean;
             envelope: WnbEnvelope;

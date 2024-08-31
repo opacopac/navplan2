@@ -67,11 +67,11 @@ import {
     AircraftWnbEnvelopeChartComponent
 } from './ng-components/aircraft-wnb-envelope-chart/aircraft-wnb-envelope-chart.component';
 import {
-    AircraftWnbEditEnvelopeDefinitionDialogComponent
-} from './ng-components/aircraft-wnb-edit-envelope-definition-dialog/aircraft-wnb-edit-envelope-definition-dialog.component';
+    AircraftWnbEditEnvelopeDefinitionFormDialogComponent
+} from './ng-components/aircraft-wnb-edit-envelope-definition-form-dialog/aircraft-wnb-edit-envelope-definition-form-dialog.component';
 import {
-    AircraftWnbEditEnvelopeCoordinateDialogComponent
-} from './ng-components/aircraft-wnb-edit-envelope-coordinate-dialog/aircraft-wnb-edit-envelope-coordinate-dialog.component';
+    AircraftWnbEditEnvelopeCoordinateFormDialogComponent
+} from './ng-components/aircraft-wnb-edit-envelope-coordinate-form-dialog/aircraft-wnb-edit-envelope-coordinate-form-dialog.component';
 
 
 @NgModule({
@@ -119,8 +119,8 @@ import {
         AircraftWeightItemTypeIconComponent,
         AircraftWnbEnvelopeChartComponent,
         AircraftWnbEditEnvelopeComponent,
-        AircraftWnbEditEnvelopeCoordinateDialogComponent,
-        AircraftWnbEditEnvelopeDefinitionDialogComponent
+        AircraftWnbEditEnvelopeCoordinateFormDialogComponent,
+        AircraftWnbEditEnvelopeDefinitionFormDialogComponent
     ],
     exports: [
         AircraftPickerContainerComponent,

@@ -5,8 +5,8 @@ import {WnbEnvelope} from '../../../domain/model/wnb-envelope';
 import {WnbEnvelopeCoordinate} from '../../../domain/model/wnb-envelope-coordinate';
 import {MatDialog} from '@angular/material/dialog';
 import {
-    AircraftWnbEditEnvelopeCoordinateDialogComponent
-} from '../aircraft-wnb-edit-envelope-coordinate-dialog/aircraft-wnb-edit-envelope-coordinate-dialog.component';
+    AircraftWnbEditEnvelopeCoordinateFormDialogComponent
+} from '../aircraft-wnb-edit-envelope-coordinate-form-dialog/aircraft-wnb-edit-envelope-coordinate-form-dialog.component';
 
 @Component({
     selector: 'app-aircraft-wnb-edit-envelope',
@@ -43,7 +43,7 @@ export class AircraftWnbEditEnvelopeComponent implements OnInit {
 
 
     private openDialog(coordinate: WnbEnvelopeCoordinate, isNewCoordinate: boolean) {
-        const dialogRef = this.dialog.open(AircraftWnbEditEnvelopeCoordinateDialogComponent, {
+        const dialogRef = this.dialog.open(AircraftWnbEditEnvelopeCoordinateFormDialogComponent, {
             // height: '800px',
             width: '600px',
             data: {
