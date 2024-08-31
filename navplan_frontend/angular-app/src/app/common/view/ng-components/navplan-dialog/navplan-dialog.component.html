@@ -8,7 +8,6 @@
         mat-raised-button
         color="primary"
         type="submit"
-        class="inline-button"
         (click)="this.onSaveClicked()"
         [disabled]="!this.isFormValid"
     >
@@ -19,7 +18,6 @@
         mat-raised-button
         color="accent"
         type="button"
-        class="inline-button"
         (click)="this.onCancelClicked()"
     >
         {{ this.cancelButtonText }}
@@ -29,7 +27,7 @@
         mat-raised-button
         color="warn"
         type="submit"
-        class="inline-button float-right"
+        class="align-right"
         (click)="this.onDeleteClicked()"
     >
         <i class="fa-regular fa-trash-can"></i>&nbsp;{{ this.deleteButtonText }}
