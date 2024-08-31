@@ -2,6 +2,18 @@
     margin-top: 20px;
 }
 
+.filter-and-button-row {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.add-aircraft-button {
+    margin-top: 20px;
+    text-align: right !important;
+}
+
 table {
     width: 100%;
 }

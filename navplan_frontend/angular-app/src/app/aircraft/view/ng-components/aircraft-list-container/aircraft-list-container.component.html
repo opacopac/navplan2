@@ -1,6 +1,8 @@
 <app-aircraft-list
     [aircraftList]="this.aircraftList$ | async"
-    [currentAircraft]="currentAircraft$ | async"
+    [currentAircraft]="this.currentAircraft$ | async"
+    [speedUnit]="this.speedUnit$ | async"
+    [consumptionUnit]="this.consumptionUnit$ | async"
     (onSelectAircraftClick)="this.onAircraftSelected($event)"
     (onEditAircraftClick)="this.onAircraftEdited($event)"
     (onDuplicateAircraftClick)="this.onAircraftDuplicated($event)"

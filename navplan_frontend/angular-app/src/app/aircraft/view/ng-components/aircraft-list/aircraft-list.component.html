@@ -1,12 +1,27 @@
 <div *ngIf="this.aircraftList && this.aircraftList.length > 0" class="aircraft-list-container">
-    <mat-form-field>
-        <input
-            matInput
-            (keyup)="applyFilter($event.target.value)"
-            placeholder="Filter"
-        >
-    </mat-form-field>
+    <div class="filter-and-button-row">
+        <!-- filter aircraft list -->
+        <mat-form-field>
+            <input
+                matInput
+                (keyup)="applyFilter($event.target.value)"
+                placeholder="Filter"
+            >
+        </mat-form-field>
 
+        <!-- add aircraft button -->
+        <span class="add-aircraft-button">
+            <button
+                mat-raised-button
+                color="accent"
+                (click)="this.onAddAircraftClick()"
+            >
+                <i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add Aircraft
+            </button>
+        </span>    
+    </div>
+
+    <!-- aircraft list -->
     <table mat-table
            [dataSource]="this.dataSource">
 
