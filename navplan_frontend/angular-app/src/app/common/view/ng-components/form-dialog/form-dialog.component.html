@@ -4,7 +4,6 @@
 </div>
 <div mat-dialog-actions class="action-buttons">
     <button
-        *ngIf="this.saveButtonText"
         mat-raised-button
         color="primary"
         type="submit"
@@ -14,7 +13,6 @@
         {{ this.saveButtonText }}
     </button>
     <button
-        *ngIf="this.cancelButtonText"
         mat-raised-button
         color="accent"
         type="button"
@@ -23,7 +21,7 @@
         {{ this.cancelButtonText }}
     </button>
     <button
-        *ngIf="this.deleteButtonText"
+        *ngIf="this.showDeleteButton"
         mat-raised-button
         color="warn"
         type="submit"

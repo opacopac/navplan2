@@ -1,15 +1,15 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {NavplanDialogComponent} from './navplan-dialog.component';
+import {FormDialogComponent} from './form-dialog.component';
 import {MatButtonModule} from '@angular/material/button';
 
 
 xdescribe('LayerButtonComponent', () => {
-    let component: NavplanDialogComponent;
-    let fixture: ComponentFixture<NavplanDialogComponent>;
+    let component: FormDialogComponent;
+    let fixture: ComponentFixture<FormDialogComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [NavplanDialogComponent],
+            declarations: [FormDialogComponent],
             imports: [
                 MatButtonModule
             ]
@@ -18,7 +18,7 @@ xdescribe('LayerButtonComponent', () => {
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(NavplanDialogComponent);
+        fixture = TestBed.createComponent(FormDialogComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

@@ -6,7 +6,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {StatusButtonComponent} from './ng-components/status-button/status-button.component';
 import {MiniFabButtonComponent} from './ng-components/mini-fab-button/mini-fab-button.component';
 import {MatDialogModule} from '@angular/material/dialog';
-import {NavplanDialogComponent} from './ng-components/navplan-dialog/navplan-dialog.component';
+import {FormDialogComponent} from './ng-components/form-dialog/form-dialog.component';
 
 
 @NgModule({
@@ -20,13 +20,13 @@ import {NavplanDialogComponent} from './ng-components/navplan-dialog/navplan-dia
         IconButtonComponent,
         MiniFabButtonComponent,
         StatusButtonComponent,
-        NavplanDialogComponent,
+        FormDialogComponent,
     ],
     exports: [
         IconButtonComponent,
         StatusButtonComponent,
         MiniFabButtonComponent,
-        NavplanDialogComponent,
+        FormDialogComponent,
     ],
     providers: []
 })

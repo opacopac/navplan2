@@ -1,9 +1,10 @@
-<app-navplan-dialog
+<app-form-dialog
     [title]="this.getDialogTitle()"
     [isFormValid]="this.editForm?.valid"
     [saveButtonText]="this.getSaveButtonText()"
     cancelButtonText="Cancel"
     deleteButtonText="Delete"
+    [showDeleteButton]="!this.data.isNewEnvelope"
     (saveClicked)="this.onSaveClicked()"
     (cancelClicked)="this.onCancelClicked()"
     (deleteClicked)="this.onDeleteClicked()"
@@ -34,4 +35,4 @@
             </mat-form-field>
         </div>
     </form>
-</app-navplan-dialog>
+</app-form-dialog>

@@ -3,10 +3,10 @@ import {WeightUnit} from '../../../../geo-physics/domain/model/quantities/weight
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 import {WnbEnvelope} from '../../../domain/model/wnb-envelope';
 import {WnbEnvelopeCoordinate} from '../../../domain/model/wnb-envelope-coordinate';
+import {MatDialog} from '@angular/material/dialog';
 import {
     AircraftWnbEditEnvelopeCoordinateDialogComponent
 } from '../aircraft-wnb-edit-envelope-coordinate-dialog/aircraft-wnb-edit-envelope-coordinate-dialog.component';
-import {MatDialog} from '@angular/material/dialog';
 
 @Component({
     selector: 'app-aircraft-wnb-edit-envelope',

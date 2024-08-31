@@ -1,15 +1,57 @@
-<h3 mat-dialog-title>{{ this.getDialogTitle() }}</h3>
-<mat-dialog-content>
-    <app-aircraft-wnb-edit-envelope-coordinate-form
-        class="weight-item-form"
-        [isNewCoordinate]="this.data.isNewCoordinate"
-        [coordinate]="this.data.coordinate"
-        [coordinateList]="this.data.coordinateList"
-        [weightUnit]="this.data.weightUnit"
-        [lengthUnit]="this.data.lengthUnit"
-        (onAddCoordinateClick)="this.onAddClicked($event)"
-        (onEditCoordinateClick)="this.onUpdateClicked($event)"
-        (onDeleteCoordinateClick)="this.onDeleteClicked($event)"
-        (onCancelClick)="this.onCancelClicked()"
-    />
-</mat-dialog-content>
+<app-form-dialog
+    [title]="this.getDialogTitle()"
+    [isFormValid]="this.editCoordinateForm?.valid"
+    [saveButtonText]="this.getSaveButtonText()"
+    cancelButtonText="Cancel"
+    deleteButtonText="Delete"
+    [showDeleteButton]="!this.data.isNewCoordinate"
+    (saveClicked)="this.onSaveClicked()"
+    (cancelClicked)="this.onCancelClicked()"
+    (deleteClicked)="this.onDeleteClicked()"
+>
+    <form [formGroup]="editCoordinateForm">
+        <div class="coordinate-form-content">
+            <mat-form-field class="flex-row">
+                <mat-label>Arm</mat-label>
+                <input
+                    matInput
+                    type="number"
+                    formControlName="arm"
+                    required
+                    min="-99999"
+                    max="99999"
+                >
+                <span matTextSuffix>{{ Length.getUnitString(this.data.lengthUnit) }}</span>
+                <mat-error>Value must be a positive or negative number!</mat-error>
+            </mat-form-field>
+            <mat-form-field class="flex-row">
+                <mat-label>Weight</mat-label>
+                <input
+                    matInput
+                    type="number"
+                    formControlName="weight"
+                    required
+                    min="1"
+                    max="99999"
+                >
+                <span matTextSuffix>{{ Weight.getUnitString(this.data.weightUnit) }}</span>
+                <mat-error>Value must be a positive number between 1 and 99999!</mat-error>
+            </mat-form-field>
+            <mat-form-field
+                *ngIf="this.data.isNewCoordinate && this.data.coordinateList && this.data.coordinateList.length > 0"
+                class="flex-row"
+            >
+                <mat-label>Position</mat-label>
+                <mat-select formControlName="insertAtIndex">
+                    <mat-option value="0">at the beginning</mat-option>
+                    <mat-option
+                        *ngFor="let coord of this.data.coordinateList; let idx = index"
+                        [value]="idx + 1"
+                    >
+                        {{ this.getInsertAtIndexText(coord) }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </form>
+</app-form-dialog>

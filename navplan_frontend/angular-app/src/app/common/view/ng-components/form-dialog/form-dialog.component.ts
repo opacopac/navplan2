@@ -1,16 +1,17 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
-    selector: 'app-navplan-dialog',
-    templateUrl: './navplan-dialog.component.html',
-    styleUrls: ['./navplan-dialog.component.scss']
+    selector: 'app-form-dialog',
+    templateUrl: './form-dialog.component.html',
+    styleUrls: ['./form-dialog.component.scss']
 })
-export class NavplanDialogComponent implements OnInit {
+export class FormDialogComponent implements OnInit {
     @Input() public title: string;
     @Input() public isFormValid: boolean;
     @Input() public saveButtonText: string;
     @Input() public cancelButtonText: string;
     @Input() public deleteButtonText: string;
+    @Input() public showDeleteButton: boolean;
     @Output() public saveClicked = new EventEmitter<void>();
     @Output() public cancelClicked = new EventEmitter<void>();
     @Output() public deleteClicked = new EventEmitter<void>();
