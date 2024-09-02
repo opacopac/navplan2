@@ -1,0 +1,10 @@
+<div class="aircraft-performance-container">
+    <app-aircraft-performance-accordion
+        [currentAircraft]="this.currentAircraft$ | async"
+        [speedUnit]="this.speedUnit$ | async"
+        [weightUnit]="this.weightUnit$ | async"
+        [temperatureUnit]="this.temperatureUnit$ | async"
+        [distanceUnit]="this.distanceUnit$ | async"
+        [altitudeUnit]="this.altitudeUnit$ | async"
+    />
+</div>

@@ -1,0 +1,110 @@
+<div *ngIf="this.aircraftList && this.aircraftList.length > 0" class="aircraft-list-container">
+    <div class="filter-and-button-row">
+        <!-- filter aircraft list -->
+        <mat-form-field>
+            <input
+                matInput
+                (keyup)="applyFilter($event.target.value)"
+                placeholder="Filter"
+            >
+        </mat-form-field>
+
+        <!-- add new aircraft button -->
+        <span class="add-aircraft-button">
+            <button
+                mat-raised-button
+                color="accent"
+                (click)="this.onAddAircraftClick()"
+            >
+                <i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add New Aircraft
+            </button>
+        </span>
+    </div>
+
+    <!-- aircraft list -->
+    <table mat-table
+           [dataSource]="this.dataSource">
+
+        <ng-container matColumnDef="vehicleType">
+            <th mat-header-cell *matHeaderCellDef>&nbsp;</th>
+            <td mat-cell
+                *matCellDef="let entry"
+                class="clickable"
+                (click)="this.onSelectAircraftClick.emit(entry.id)"
+            >
+                <i class="{{ this.getAircraftIconClass(entry) }}"></i>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="registration">
+            <th mat-header-cell *matHeaderCellDef>Registration</th>
+            <td mat-cell
+                *matCellDef="let entry"
+                class="clickable"
+                (click)="this.onSelectAircraftClick.emit(entry.id)"
+            >
+                {{ entry.registration }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="icaoType">
+            <th mat-header-cell *matHeaderCellDef>Type</th>
+            <td mat-cell
+                *matCellDef="let entry"
+                class="clickable"
+                (click)="this.onSelectAircraftClick.emit(entry.id)"
+            >
+                {{ entry.icaoType }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="icons">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let entry" class="button-cell">
+                <app-icon-button
+                    [color]="ButtonColor.GREEN"
+                    [tooltipText]="'Edit Aircraft Details'"
+                    [tooltipPosition]="'above'"
+                    (buttonClicked)="this.onEditAircraftClick.emit(entry.id)"
+                >
+                    <i class="fa-solid fa-pencil"></i>
+                </app-icon-button>
+                <app-icon-button
+                    [color]="ButtonColor.BLUE"
+                    [tooltipText]="'Duplicate Aircraft'"
+                    [tooltipPosition]="'above'"
+                    (buttonClicked)="this.onDuplicateAircraftClick.emit(entry.id)"
+                >
+                    <i class="fa-solid fa-copy"></i>
+                </app-icon-button>
+                <app-icon-button
+                    [color]="ButtonColor.RED"
+                    [tooltipText]="'Delete Aircraft'"
+                    [tooltipPosition]="'above'"
+                    (buttonClicked)="this.onDeleteAircraftClick.emit(entry.id)"
+                >
+                    <i class="fa-solid fa-trash"></i>
+                </app-icon-button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row
+            *matHeaderRowDef="this.visibleColumns"
+            class="header-row"
+        ></tr>
+        <tr mat-row
+            *matRowDef="let listEntry; let even = even; columns: this.visibleColumns"
+            [ngClass]="{ 'odd-row': !even, 'selected-row': this.currentAircraft?.id === listEntry?.id }"
+        ></tr>
+    </table>
+
+    <mat-paginator
+        [pageSize]="10"
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        showFirstLastButtons="true"
+    ></mat-paginator>
+</div>
+
+<div *ngIf="!this.aircraftList || this.aircraftList.length == 0">
+    <i>No Saved Aircrafts</i>
+</div>

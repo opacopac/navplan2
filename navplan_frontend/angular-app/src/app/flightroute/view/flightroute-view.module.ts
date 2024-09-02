@@ -19,7 +19,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatCardModule} from '@angular/material/card';
 import {ExporterViewModule} from '../../exporter/view/exporter-view.module';
 import {MatTabsModule} from '@angular/material/tabs';
-import {PlanPageComponent} from './ng-components/plan-page/plan-page.component';
+import {PlanTabsComponent} from './ng-components/plan-tabs/plan-tabs.component';
 import {
     FlightrouteContainerComponent
 } from './ng-components/plan-route/flightroute-container/flightroute-container.component';
@@ -54,7 +54,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {ToggleManualAircraft} from './ng-components/common/toggle-manual-aircraft/toggle-manual-aircraft.component';
 import {PlanWnbContainerComponent} from './ng-components/plan-wnb/plan-wnb-container/plan-wnb-container.component';
 import {PlanWnbTableComponent} from './ng-components/plan-wnb/plan-wnb-table/plan-wnb-table.component';
-import { PlanPerfContainerComponent } from './ng-components/plan-perf/plan-perf-container.component';
+import {PlanPerfContainerComponent} from './ng-components/plan-perf/plan-perf-container.component';
 
 
 @NgModule({
@@ -86,7 +86,7 @@ import { PlanPerfContainerComponent } from './ng-components/plan-perf/plan-perf-
         EditWaypointDialogComponent,
         EditWaypointFormComponent,
         ToggleManualAircraft,
-        PlanPageComponent,
+        PlanTabsComponent,
         FlightrouteContainerComponent,
         FlightrouteAircraftSpeedComponent,
         FlightrouteCommentsComponent,
@@ -105,7 +105,7 @@ import { PlanPerfContainerComponent } from './ng-components/plan-perf/plan-perf-
         RouteMeteoRadiusComponent
     ],
     exports: [
-        PlanPageComponent,
+        PlanTabsComponent,
         RouteMeteoContainerComponent
     ],
     providers: []

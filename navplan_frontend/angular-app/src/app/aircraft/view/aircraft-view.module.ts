@@ -11,67 +11,75 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCardModule} from '@angular/material/card';
-import {AircraftPageComponent} from './ng-components/aircraft-page/aircraft-page.component';
+import {AircraftTabsComponent} from './ng-components/aircraft-tabs/aircraft-tabs.component';
 import {
     AircraftListContainerComponent
-} from './ng-components/aircraft-list-container/aircraft-list-container.component';
+} from './ng-components/aircraft-hangar/aircraft-list-container/aircraft-list-container.component';
 import {
-    AircraftDetailsContainerComponent
-} from './ng-components/aircraft-details-container/aircraft-details-container.component';
+    AircraftDetailsPageComponent
+} from './ng-components/aircraft-details/aircraft-details-page/aircraft-details-page.component';
 import {AircraftDomainModule} from '../domain/aircraft-domain.module';
 import {AircraftRestModule} from '../rest/aircraft-rest.module';
 import {AircraftStateModule} from '../state/aircraft-state.module';
-import {AircraftListComponent} from './ng-components/aircraft-list/aircraft-list.component';
-import {AircraftDetailsComponent} from './ng-components/aircraft-details/aircraft-details.component';
+import {AircraftListComponent} from './ng-components/aircraft-hangar/aircraft-list/aircraft-list.component';
+import {
+    AircraftDetailsFormComponent
+} from './ng-components/aircraft-details/aircraft-details-form/aircraft-details-form.component';
 import {MatRadioModule} from '@angular/material/radio';
 import {
-    AircraftPerformanceContainerComponent
-} from './ng-components/aircraft-performance-container/aircraft-performance-container.component';
-import {AircraftPerformanceComponent} from './ng-components/aircraft-performance/aircraft-performance.component';
+    AircraftPerformancePageComponent
+} from './ng-components/aircraft-performance/aircraft-performance-page/aircraft-performance-page.component';
+import {
+    AircraftPerformanceAccordionComponent
+} from './ng-components/aircraft-performance/aircraft-performance-accordion/aircraft-performance-accordion.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {
     AircraftPerformanceTableComponent
-} from './ng-components/aircraft-performance-table/aircraft-performance-table.component';
+} from './ng-components/aircraft-performance/aircraft-performance-table/aircraft-performance-table.component';
 import {
     AircraftPerformanceCorrectionFactorsComponent
-} from './ng-components/aircraft-performance-correction-factors/aircraft-performance-correction-factors.component';
+} from './ng-components/aircraft-performance/aircraft-performance-correction-factors/aircraft-performance-correction-factors.component';
 import {MatGridListModule} from '@angular/material/grid-list';
-import {AircraftWnbContainerComponent} from './ng-components/aircraft-wnb-container/aircraft-wnb-container.component';
-import {AircraftWnbTableComponent} from './ng-components/aircraft-wnb-table/aircraft-wnb-table.component';
+import {AircraftWnbPageComponent} from './ng-components/aircraft-wnb/aircraft-wnb-page/aircraft-wnb-page.component';
+import {AircraftWnbTableComponent} from './ng-components/aircraft-wnb/aircraft-wnb-table/aircraft-wnb-table.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {
     AircraftPickerContainerComponent
-} from './ng-components/aircraft-picker-container/aircraft-picker-container.component';
-import {AircraftPickerComponent} from './ng-components/aircraft-picker/aircraft-picker.component';
+} from './ng-components/aircraft-common/aircraft-picker-container/aircraft-picker-container.component';
+import {AircraftPickerComponent} from './ng-components/aircraft-common/aircraft-picker/aircraft-picker.component';
 import {
     AircraftWeightItemTypeIconComponent
-} from './ng-components/aircraft-weight-item-type-icon/aircraft-weight-item-type-icon.component';
-import {AircraftPickerDialogComponent} from './ng-components/aircraft-picker-dialog/aircraft-picker-dialog.component';
-import {AircraftPickerListComponent} from './ng-components/aircraft-picker-list/aircraft-picker-list.component';
+} from './ng-components/aircraft-wnb/aircraft-weight-item-type-icon/aircraft-weight-item-type-icon.component';
+import {
+    AircraftPickerDialogComponent
+} from './ng-components/aircraft-common/aircraft-picker-dialog/aircraft-picker-dialog.component';
+import {
+    AircraftPickerListComponent
+} from './ng-components/aircraft-common/aircraft-picker-list/aircraft-picker-list.component';
 import {
     AircraftWnbEditEnvelopeComponent
-} from './ng-components/aircraft-wnb-edit-envelope-container/aircraft-wnb-edit-envelope.component';
+} from './ng-components/aircraft-wnb/aircraft-wnb-edit-envelope-container/aircraft-wnb-edit-envelope.component';
 import {
     AircraftWnbWeightFieldsComponent
-} from './ng-components/aircraft-wnb-weight-fields/aircraft-wnb-weight-fields.component';
+} from './ng-components/aircraft-wnb/aircraft-wnb-weight-fields/aircraft-wnb-weight-fields.component';
 import {
     AircraftWnbEnvelopeListComponent
-} from './ng-components/aircraft-wnb-envelope-list/aircraft-wnb-envelope-list.component';
+} from './ng-components/aircraft-wnb/aircraft-wnb-envelope-list/aircraft-wnb-envelope-list.component';
 import {
     AircraftWnbEnvelopeChartComponent
-} from './ng-components/aircraft-wnb-envelope-chart/aircraft-wnb-envelope-chart.component';
+} from './ng-components/aircraft-wnb/aircraft-wnb-envelope-chart/aircraft-wnb-envelope-chart.component';
 import {
     AircraftWnbEditEnvelopeDefinitionFormDialogComponent
-} from './ng-components/aircraft-wnb-edit-envelope-definition-form-dialog/aircraft-wnb-edit-envelope-definition-form-dialog.component';
+} from './ng-components/aircraft-wnb/aircraft-wnb-edit-envelope-definition-form-dialog/aircraft-wnb-edit-envelope-definition-form-dialog.component';
 import {
     AircraftWnbEditEnvelopeCoordinateFormDialogComponent
-} from './ng-components/aircraft-wnb-edit-envelope-coordinate-form-dialog/aircraft-wnb-edit-envelope-coordinate-form-dialog.component';
+} from './ng-components/aircraft-wnb/aircraft-wnb-edit-envelope-coordinate-form-dialog/aircraft-wnb-edit-envelope-coordinate-form-dialog.component';
 import {
     AircraftWnbEditItemFormDialogComponent
-} from './ng-components/aircraft-wnb-edit-item-form-dialog/aircraft-wnb-edit-item-form-dialog.component';
+} from './ng-components/aircraft-wnb/aircraft-wnb-edit-item-form-dialog/aircraft-wnb-edit-item-form-dialog.component';
 import {
     AircraftCreateFormDialogComponent
-} from './ng-components/aircraft-create-form-dialog/aircraft-create-form-dialog.component';
+} from './ng-components/aircraft-hangar/aircraft-create-form-dialog/aircraft-create-form-dialog.component';
 
 
 @NgModule({
@@ -97,21 +105,21 @@ import {
         MatDialogModule,
     ],
     declarations: [
-        AircraftPageComponent,
+        AircraftTabsComponent,
         AircraftListContainerComponent,
         AircraftListComponent,
         AircraftCreateFormDialogComponent,
-        AircraftDetailsContainerComponent,
-        AircraftDetailsComponent,
+        AircraftDetailsPageComponent,
+        AircraftDetailsFormComponent,
         AircraftPickerContainerComponent,
         AircraftPickerComponent,
         AircraftPickerDialogComponent,
         AircraftPickerListComponent,
-        AircraftPerformanceContainerComponent,
-        AircraftPerformanceComponent,
+        AircraftPerformancePageComponent,
+        AircraftPerformanceAccordionComponent,
         AircraftPerformanceTableComponent,
         AircraftPerformanceCorrectionFactorsComponent,
-        AircraftWnbContainerComponent,
+        AircraftWnbPageComponent,
         AircraftWnbWeightFieldsComponent,
         AircraftWnbTableComponent,
         AircraftWnbEnvelopeListComponent,

@@ -19,16 +19,16 @@ import {
 import {
     ForgotPwStep2PageComponent
 } from './user/view/ng-components/user-profile/forgot-pw-step2-page/forgot-pw-step2-page.component';
-import {PlanPageComponent} from './flightroute/view/ng-components/plan-page/plan-page.component';
-import {AircraftPageComponent} from './aircraft/view/ng-components/aircraft-page/aircraft-page.component';
+import {PlanTabsComponent} from './flightroute/view/ng-components/plan-tabs/plan-tabs.component';
+import {AircraftTabsComponent} from './aircraft/view/ng-components/aircraft-tabs/aircraft-tabs.component';
 
 const routes: Routes = [
     { path: '', redirectTo: 'map', pathMatch: 'full' },
     { path: 'map', component: FlightMapPageComponent },
-    { path: 'plan', component: PlanPageComponent },
-    { path: 'plan/:tab', component: PlanPageComponent },
-    { path: 'aircraft', component: AircraftPageComponent },
-    { path: 'aircraft/:tab', component: AircraftPageComponent },
+    { path: 'plan', component: PlanTabsComponent },
+    { path: 'plan/:tab', component: PlanTabsComponent },
+    { path: 'aircraft', component: AircraftTabsComponent },
+    { path: 'aircraft/:tab', component: AircraftTabsComponent },
     { path: 'tracks', component: TracksPageComponent },
     { path: 'login', component: LoginRegisterPageComponent },
     { path: 'register/:token', component: RegisterStep2PageComponent },
