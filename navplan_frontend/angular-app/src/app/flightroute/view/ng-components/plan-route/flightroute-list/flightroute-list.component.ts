@@ -3,6 +3,10 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {FlightrouteListEntry} from '../../../../domain/model/flightroute-list-entry';
 import {ButtonColor} from '../../../../../common/view/model/button-color';
+import {MatDialog} from '@angular/material/dialog';
+import {
+    FlightrouteDeleteConfirmDialogComponent
+} from '../flightroute-delete-confirm-dialog/flightroute-delete-confirm-dialog.component';
 
 
 export interface ListEntry {
@@ -18,9 +22,9 @@ export interface ListEntry {
 })
 export class FlightrouteListComponent implements OnInit, OnChanges {
     @Input() flightrouteList: FlightrouteListEntry[];
-    @Output() onLoadRouteClick = new EventEmitter<number>();
-    @Output() onDeleteRouteClick = new EventEmitter<number>();
-    @Output() onDuplicateRouteClick = new EventEmitter<number>();
+    @Output() loadRouteClicked = new EventEmitter<number>();
+    @Output() deleteRouteClicked = new EventEmitter<number>();
+    @Output() duplicateRouteClicked = new EventEmitter<number>();
     @ViewChild(MatPaginator) paginator: MatPaginator;
     public dataSource: MatTableDataSource<ListEntry>;
     public visibleColumns = ['name', 'icons'];
@@ -28,7 +32,9 @@ export class FlightrouteListComponent implements OnInit, OnChanges {
     protected readonly ButtonColor = ButtonColor;
 
 
-    constructor() {
+    constructor(
+        private dialog: MatDialog,
+    ) {
     }
 
 
@@ -44,5 +50,21 @@ export class FlightrouteListComponent implements OnInit, OnChanges {
 
     public applyFilter(filterValue: string) {
         this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
+
+
+    protected onDeleteRouteClicked(flightroute: FlightrouteListEntry) {
+        const dialogRef = this.dialog.open(FlightrouteDeleteConfirmDialogComponent, {
+            width: '400px',
+            data: {
+                flightroute: flightroute
+            }
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result && result.confirmDeletion) {
+                this.deleteRouteClicked.emit(flightroute.id);
+            }
+        });
     }
 }

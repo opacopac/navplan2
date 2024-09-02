@@ -55,6 +55,9 @@ import {ToggleManualAircraft} from './ng-components/common/toggle-manual-aircraf
 import {PlanWnbContainerComponent} from './ng-components/plan-wnb/plan-wnb-container/plan-wnb-container.component';
 import {PlanWnbTableComponent} from './ng-components/plan-wnb/plan-wnb-table/plan-wnb-table.component';
 import {PlanPerfContainerComponent} from './ng-components/plan-perf/plan-perf-container.component';
+import {
+    FlightrouteDeleteConfirmDialogComponent
+} from './ng-components/plan-route/flightroute-delete-confirm-dialog/flightroute-delete-confirm-dialog.component';
 
 
 @NgModule({
@@ -92,6 +95,7 @@ import {PlanPerfContainerComponent} from './ng-components/plan-perf/plan-perf-co
         FlightrouteCommentsComponent,
         FlightrouteListComponent,
         FlightrouteListDialogComponent,
+        FlightrouteDeleteConfirmDialogComponent,
         FlightrouteNameLoadSaveComponent,
         WaypointListComponent,
         FuelCalcContainerComponent,

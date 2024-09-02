@@ -15,7 +15,7 @@
             <td mat-cell
                 *matCellDef="let entry"
                 class="clickable"
-                (click)="this.onLoadRouteClick.emit(entry.id)">
+                (click)="this.loadRouteClicked.emit(entry.id)">
                 {{ entry.title }}
             </td>
         </ng-container>
@@ -27,7 +27,7 @@
                     [color]="ButtonColor.GREEN"
                     [tooltipText]="'Load Route'"
                     [tooltipPosition]="'above'"
-                    (buttonClicked)="this.onLoadRouteClick.emit(entry.id)"
+                    (buttonClicked)="this.loadRouteClicked.emit(entry.id)"
                 >
                     <i class="fa-solid fa-upload"></i>
                 </app-icon-button>
@@ -35,7 +35,7 @@
                     [color]="ButtonColor.BLUE"
                     [tooltipText]="'Duplicate Route'"
                     [tooltipPosition]="'above'"
-                    (buttonClicked)="this.onDuplicateRouteClick.emit(entry.id)"
+                    (buttonClicked)="this.duplicateRouteClicked.emit(entry.id)"
                 >
                     <i class="fa-solid fa-copy"></i>
                 </app-icon-button>
@@ -43,7 +43,7 @@
                     [color]="ButtonColor.RED"
                     [tooltipText]="'Delete Route'"
                     [tooltipPosition]="'above'"
-                    (buttonClicked)="this.onDeleteRouteClick.emit(entry.id)"
+                    (buttonClicked)="this.onDeleteRouteClicked(entry)"
                 >
                     <i class="fa-solid fa-trash"></i>
                 </app-icon-button>

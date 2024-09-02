@@ -3,9 +3,9 @@
 
     <app-flightroute-list
         [flightrouteList]="this.flightrouteList$ | async"
-        (onLoadRouteClick)="this.onLoadRouteClick($event)"
-        (onDuplicateRouteClick)="this.onDuplicateRouteClick($event)"
-        (onDeleteRouteClick)="this.onDeleteRouteClick($event)">
+        (loadRouteClicked)="this.onLoadRouteClick($event)"
+        (duplicateRouteClicked)="this.onDuplicateRouteClick($event)"
+        (deleteRouteClicked)="this.onDeleteRouteClick($event)">
     </app-flightroute-list>
 
     <div>
