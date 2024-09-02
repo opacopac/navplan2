@@ -8,11 +8,11 @@ import {Aircraft} from '../../../../domain/model/aircraft';
 
 
 @Component({
-    selector: 'app-aircraft-page',
-    templateUrl: './aircraft-page.component.html',
-    styleUrls: ['./aircraft-page.component.scss'],
+    selector: 'app-aircraft-hangar-page',
+    templateUrl: './aircraft-hangar-page.component.html',
+    styleUrls: ['./aircraft-hangar-page.component.scss'],
 })
-export class AircraftPageComponent implements OnInit {
+export class AircraftHangarPageComponent implements OnInit {
     protected readonly aircraftList$ = this.appStore.pipe(select(getAircraftList));
     protected readonly currentAircraft$ = this.appStore.pipe(select(getCurrentAircraft));
     protected readonly speedUnit$ = this.appStore.pipe(select(getSpeedUnit));

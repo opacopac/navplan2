@@ -12,7 +12,9 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCardModule} from '@angular/material/card';
 import {AircraftTabsComponent} from './ng-components/aircraft-tabs/aircraft-tabs.component';
-import {AircraftPageComponent} from './ng-components/aircraft-hangar/aircraft-page/aircraft-page.component';
+import {
+    AircraftHangarPageComponent
+} from './ng-components/aircraft-hangar/aircraft-hangar-page/aircraft-hangar-page.component';
 import {
     AircraftDetailsPageComponent
 } from './ng-components/aircraft-details/aircraft-details-page/aircraft-details-page.component';
@@ -104,7 +106,7 @@ import {
     ],
     declarations: [
         AircraftTabsComponent,
-        AircraftPageComponent,
+        AircraftHangarPageComponent,
         AircraftListComponent,
         AircraftCreateFormDialogComponent,
         AircraftDetailsPageComponent,
