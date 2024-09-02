@@ -80,6 +80,9 @@ import {
 import {
     AircraftCreateFormDialogComponent
 } from './ng-components/aircraft-hangar/aircraft-create-form-dialog/aircraft-create-form-dialog.component';
+import {
+    AircraftDeleteConfirmDialogComponent
+} from './ng-components/aircraft-hangar/aircraft-delete-confirm-dialog/aircraft-delete-confirm-dialog.component';
 
 
 @NgModule({
@@ -109,6 +112,7 @@ import {
         AircraftHangarPageComponent,
         AircraftListComponent,
         AircraftCreateFormDialogComponent,
+        AircraftDeleteConfirmDialogComponent,
         AircraftDetailsPageComponent,
         AircraftDetailsFormComponent,
         AircraftPickerContainerComponent,

@@ -8,6 +8,9 @@ import {MatDialog} from '@angular/material/dialog';
 import {SpeedUnit} from '../../../../../geo-physics/domain/model/quantities/speed-unit';
 import {ConsumptionUnit} from '../../../../../geo-physics/domain/model/quantities/consumption-unit';
 import {AircraftCreateFormDialogComponent} from '../aircraft-create-form-dialog/aircraft-create-form-dialog.component';
+import {
+    AircraftDeleteConfirmDialogComponent
+} from '../aircraft-delete-confirm-dialog/aircraft-delete-confirm-dialog.component';
 
 
 export interface ListEntry {
@@ -29,10 +32,10 @@ export class AircraftListComponent implements OnInit, OnChanges {
     @Input() speedUnit: SpeedUnit;
     @Input() consumptionUnit: ConsumptionUnit;
     @Output() aircraftAdded = new EventEmitter<Aircraft>();
-    @Output() onSelectAircraftClick = new EventEmitter<number>();
-    @Output() onEditAircraftClick = new EventEmitter<number>();
-    @Output() onDuplicateAircraftClick = new EventEmitter<number>();
-    @Output() onDeleteAircraftClick = new EventEmitter<number>();
+    @Output() selectAircraftClick = new EventEmitter<number>();
+    @Output() editAircraftClick = new EventEmitter<number>();
+    @Output() duplicateAircraftClick = new EventEmitter<number>();
+    @Output() deleteAircraftClick = new EventEmitter<number>();
     @ViewChild(MatPaginator) paginator: MatPaginator;
     protected dataSource: MatTableDataSource<ListEntry>;
     protected visibleColumns = ['vehicleType', 'registration', 'icaoType', 'icons'];
@@ -84,6 +87,22 @@ export class AircraftListComponent implements OnInit, OnChanges {
         dialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 this.aircraftAdded.emit(result.aircraft);
+            }
+        });
+    }
+
+
+    protected onDeleteAircraftClick(aircraft: AircraftListEntry) {
+        const dialogRef = this.dialog.open(AircraftDeleteConfirmDialogComponent, {
+            width: '400px',
+            data: {
+                aircraft: aircraft
+            }
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result && result.confirmDeletion) {
+                this.deleteAircraftClick.emit(aircraft.id);
             }
         });
     }

@@ -4,7 +4,7 @@
         <mat-form-field>
             <input
                 matInput
-                (keyup)="applyFilter($event.target.value)"
+                (keyup)="this.applyFilter($event.target.value)"
                 placeholder="Filter"
             >
         </mat-form-field>
@@ -30,7 +30,7 @@
             <td mat-cell
                 *matCellDef="let entry"
                 class="clickable"
-                (click)="this.onSelectAircraftClick.emit(entry.id)"
+                (click)="this.selectAircraftClick.emit(entry.id)"
             >
                 <i class="{{ this.getAircraftIconClass(entry) }}"></i>
             </td>
@@ -41,7 +41,7 @@
             <td mat-cell
                 *matCellDef="let entry"
                 class="clickable"
-                (click)="this.onSelectAircraftClick.emit(entry.id)"
+                (click)="this.selectAircraftClick.emit(entry.id)"
             >
                 {{ entry.registration }}
             </td>
@@ -52,7 +52,7 @@
             <td mat-cell
                 *matCellDef="let entry"
                 class="clickable"
-                (click)="this.onSelectAircraftClick.emit(entry.id)"
+                (click)="this.selectAircraftClick.emit(entry.id)"
             >
                 {{ entry.icaoType }}
             </td>
@@ -65,7 +65,7 @@
                     [color]="ButtonColor.GREEN"
                     [tooltipText]="'Edit Aircraft Details'"
                     [tooltipPosition]="'above'"
-                    (buttonClicked)="this.onEditAircraftClick.emit(entry.id)"
+                    (buttonClicked)="this.editAircraftClick.emit(entry.id)"
                 >
                     <i class="fa-solid fa-pencil"></i>
                 </app-icon-button>
@@ -73,7 +73,7 @@
                     [color]="ButtonColor.BLUE"
                     [tooltipText]="'Duplicate Aircraft'"
                     [tooltipPosition]="'above'"
-                    (buttonClicked)="this.onDuplicateAircraftClick.emit(entry.id)"
+                    (buttonClicked)="this.duplicateAircraftClick.emit(entry.id)"
                 >
                     <i class="fa-solid fa-copy"></i>
                 </app-icon-button>
@@ -81,7 +81,7 @@
                     [color]="ButtonColor.RED"
                     [tooltipText]="'Delete Aircraft'"
                     [tooltipPosition]="'above'"
-                    (buttonClicked)="this.onDeleteAircraftClick.emit(entry.id)"
+                    (buttonClicked)="this.onDeleteAircraftClick(entry)"
                 >
                     <i class="fa-solid fa-trash"></i>
                 </app-icon-button>

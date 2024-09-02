@@ -4,8 +4,8 @@
     [speedUnit]="this.speedUnit$ | async"
     [consumptionUnit]="this.consumptionUnit$ | async"
     (aircraftAdded)="this.onAddAircraft($event)"
-    (onSelectAircraftClick)="this.onAircraftSelected($event)"
-    (onEditAircraftClick)="this.onAircraftEdited($event)"
-    (onDuplicateAircraftClick)="this.onAircraftDuplicated($event)"
-    (onDeleteAircraftClick)="this.onAircraftDeleted($event)"
+    (selectAircraftClick)="this.onAircraftSelected($event)"
+    (editAircraftClick)="this.onAircraftEdited($event)"
+    (duplicateAircraftClick)="this.onAircraftDuplicated($event)"
+    (deleteAircraftClick)="this.onAircraftDeleted($event)"
 />

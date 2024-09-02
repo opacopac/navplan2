@@ -1,0 +1,10 @@
+<app-confirm-dialog
+    title="Delete Aircraft"
+    okButtonText="Delete"
+    cancelButtonText="Cancel"
+    [showCancelButton]="true"
+    (okClicked)="this.onOkClicked()"
+    (cancelClicked)="this.onCancelClicked()"
+>
+    Are you sure you want to delete the aircraft {{ this.data.aircraft.registration }}?
+</app-confirm-dialog>
