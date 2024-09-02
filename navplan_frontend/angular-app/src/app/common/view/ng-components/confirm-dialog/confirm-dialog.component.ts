@@ -8,6 +8,8 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 export class ConfirmDialogComponent implements OnInit {
     @Input() public title: string;
     @Input() public okButtonText: string;
+    @Input() public okButtonColor: string;
+    @Input() public okButtonIconClass: string;
     @Input() public cancelButtonText: string;
     @Input() public showCancelButton: boolean;
     @Output() public okClicked = new EventEmitter<void>();

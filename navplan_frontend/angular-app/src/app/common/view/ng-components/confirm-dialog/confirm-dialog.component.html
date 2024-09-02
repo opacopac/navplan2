@@ -5,10 +5,13 @@
 <div mat-dialog-actions class="action-buttons">
     <button
         mat-raised-button
-        color="primary"
         type="submit"
+        [color]="this.okButtonColor"
         (click)="this.onOkClicked()"
     >
+        <span
+            *ngIf="this.okButtonIconClass"
+        ><i class="{{ this.okButtonIconClass }}"></i>&nbsp;</span>
         {{ this.okButtonText }}
     </button>
     <button
