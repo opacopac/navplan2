@@ -22,6 +22,10 @@ export class WnbEnvelope {
 
 
     public getMinArm(): Length {
+        if (this.coordinates.length === 0) {
+            return null;
+        }
+
         return this.coordinates
             .map(c => c.armCg)
             .reduce((minArm, currArm) => minArm.m < currArm.m ? minArm : currArm);
@@ -29,6 +33,10 @@ export class WnbEnvelope {
 
 
     public getMaxArm(): Length {
+        if (this.coordinates.length === 0) {
+            return null;
+        }
+
         return this.coordinates
             .map(c => c.armCg)
             .reduce((maxArm, currArm) => maxArm.m > currArm.m ? maxArm : currArm);
@@ -36,6 +44,10 @@ export class WnbEnvelope {
 
 
     public getMinWeight(): Weight {
+        if (this.coordinates.length === 0) {
+            return null;
+        }
+
         return this.coordinates
             .map(c => c.weight)
             .reduce((minWeight, currWeight) => minWeight.kg < currWeight.kg ? minWeight : currWeight);
@@ -43,6 +55,10 @@ export class WnbEnvelope {
 
 
     public getMaxWeight(): Weight {
+        if (this.coordinates.length === 0) {
+            return null;
+        }
+
         return this.coordinates
             .map(c => c.weight)
             .reduce((maxWeight, currWeight) => maxWeight.kg > currWeight.kg ? maxWeight : currWeight);

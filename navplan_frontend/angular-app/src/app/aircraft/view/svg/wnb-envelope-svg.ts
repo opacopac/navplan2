@@ -14,6 +14,12 @@ import {WnbArmGridSvg} from './wnb-arm-grid-svg';
 
 export class WnbEnvelopeSvg {
     private static readonly BORDER_FACTOR = 0.10;
+    private static readonly MIN_ARM_FALLBACK = Length.createZero();
+    private static readonly MAX_ARM_FALLBACK = new Length(3, LengthUnit.M);
+    private static readonly MIN_WEIGHT_FALLBACK = Weight.createZero();
+    private static readonly MAX_WEIGHT_FALLBACK = new Weight(3000, WeightUnit.KG);
+    private static readonly DIFF_ARM_FALLBACK_M = 1;
+    private static readonly DIFF_WEIGHT_FALLBACK_KG = 1000;
 
     public static create(
         envelope: WnbEnvelope,
@@ -48,7 +54,9 @@ export class WnbEnvelopeSvg {
             };
         }
 
-        svg.appendChild(WnbEnvelopeContourSvg.create(envelope.coordinates, imgDim));
+        if (envelope.coordinates.length > 0) {
+            svg.appendChild(WnbEnvelopeContourSvg.create(envelope.coordinates, imgDim));
+        }
         svg.appendChild(WnbWeightGridSvg.create(imgDim, weightUnit));
         svg.appendChild(WnbArmGridSvg.create(imgDim, lengthUnit));
         if (zeroFuelWnbCoordinate) {
@@ -78,23 +86,37 @@ export class WnbEnvelopeSvg {
         imageWidthPx: number,
         imageHeightPx: number
     ): WnbImageDimensionsSvg {
-        let minArmM = envelope.getMinArm().m;
+        const minArmCoordinate = envelope.getMinArm();
+        let minArmM = minArmCoordinate ? minArmCoordinate.m : this.MIN_ARM_FALLBACK.m;
         minArmM = zeroFuelWnbCoordinate ? Math.min(minArmM, zeroFuelWnbCoordinate.armCg.m) : minArmM;
         minArmM = takeoffWnbCoordinate ? Math.min(minArmM, takeoffWnbCoordinate.armCg.m) : minArmM;
-        let maxArmM = envelope.getMaxArm().m;
+
+        const maxArmCoordinate = envelope.getMaxArm();
+        let maxArmM = maxArmCoordinate ? maxArmCoordinate.m : this.MAX_ARM_FALLBACK.m;
         maxArmM = zeroFuelWnbCoordinate ? Math.max(maxArmM, zeroFuelWnbCoordinate.armCg.m) : maxArmM;
         maxArmM = takeoffWnbCoordinate ? Math.max(maxArmM, takeoffWnbCoordinate.armCg.m) : maxArmM;
-        const diffArmM = maxArmM - minArmM;
+
+        let diffArmM = maxArmM - minArmM;
+        if (diffArmM === 0) {
+            diffArmM = this.DIFF_ARM_FALLBACK_M;
+        }
         const minEnvArm = new Length(minArmM - diffArmM * this.BORDER_FACTOR, LengthUnit.M);
         const maxEnvArm = new Length(maxArmM + diffArmM * this.BORDER_FACTOR, LengthUnit.M);
 
-        let minWeightKg = envelope.getMinWeight().kg;
+        const minWeightCoordinate = envelope.getMinWeight();
+        let minWeightKg = minWeightCoordinate ? minWeightCoordinate.kg : this.MIN_WEIGHT_FALLBACK.kg;
         minWeightKg = zeroFuelWnbCoordinate ? Math.min(minWeightKg, zeroFuelWnbCoordinate.weight.kg) : minWeightKg;
         minWeightKg = takeoffWnbCoordinate ? Math.min(minWeightKg, takeoffWnbCoordinate.weight.kg) : minWeightKg;
-        let maxWeightKg = envelope.getMaxWeight().kg;
+
+        const maxWeightCoordinate = envelope.getMaxWeight();
+        let maxWeightKg = maxWeightCoordinate ? maxWeightCoordinate.kg : this.MAX_WEIGHT_FALLBACK.kg;
         maxWeightKg = zeroFuelWnbCoordinate ? Math.max(maxWeightKg, zeroFuelWnbCoordinate.weight.kg) : maxWeightKg;
         maxWeightKg = takeoffWnbCoordinate ? Math.max(maxWeightKg, takeoffWnbCoordinate.weight.kg) : maxWeightKg;
-        const diffWeightKg = maxWeightKg - minWeightKg;
+
+        let diffWeightKg = maxWeightKg - minWeightKg;
+        if (diffWeightKg === 0) {
+            diffWeightKg = this.DIFF_WEIGHT_FALLBACK_KG;
+        }
         const minEnvWeight = new Weight(minWeightKg - diffWeightKg * this.BORDER_FACTOR, WeightUnit.KG);
         const maxEnvWeight = new Weight(maxWeightKg + diffWeightKg * this.BORDER_FACTOR, WeightUnit.KG);
 
