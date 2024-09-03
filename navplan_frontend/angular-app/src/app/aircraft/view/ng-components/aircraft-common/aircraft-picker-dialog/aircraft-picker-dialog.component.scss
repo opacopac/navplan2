@@ -1,3 +1,12 @@
 .aircraft-list {
     margin: 20px;
 }
+
+.action-buttons {
+    margin-bottom: 20px;
+    margin-left: 16px;
+    margin-right: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
