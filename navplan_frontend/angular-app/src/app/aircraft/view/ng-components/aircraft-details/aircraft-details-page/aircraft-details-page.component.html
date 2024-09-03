@@ -1,4 +1,12 @@
 <div class="aircraft-details-container">
+    <!-- aircraft picker -->
+    <app-aircraft-picker-container
+        *ngIf="!(this.currentAircraft$ | async)"
+        labelText="Aircraft:"
+        [showRegistration]="true"
+    />
+
+    <!-- details form -->
     <app-aircraft-details-form
         [currentAircraft]="this.currentAircraft$ | async"
         [speedUnit]="this.speedUnit$ | async"

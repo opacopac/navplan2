@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {Aircraft} from '../../../../domain/model/aircraft';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Consumption} from '../../../../../geo-physics/domain/model/quantities/consumption';
@@ -15,7 +15,7 @@ import {StringnumberHelper} from '../../../../../system/domain/service/stringnum
     templateUrl: './aircraft-details-form.component.html',
     styleUrls: ['./aircraft-details-form.component.scss']
 })
-export class AircraftDetailsFormComponent implements OnInit {
+export class AircraftDetailsFormComponent implements OnInit, OnChanges {
     @Input() currentAircraft: Aircraft;
     @Input() speedUnit: SpeedUnit;
     @Input() consumptionUnit: ConsumptionUnit;
@@ -39,6 +39,16 @@ export class AircraftDetailsFormComponent implements OnInit {
 
 
     ngOnInit() {
+        this.initForm();
+    }
+
+
+    ngOnChanges() {
+        this.initForm();
+    }
+
+
+    private initForm() {
         if (!this.currentAircraft) {
             return;
         }
