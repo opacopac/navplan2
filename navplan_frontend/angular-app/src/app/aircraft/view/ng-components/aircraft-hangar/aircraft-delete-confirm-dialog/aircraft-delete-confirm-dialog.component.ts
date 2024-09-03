@@ -24,7 +24,7 @@ export class AircraftDeleteConfirmDialogComponent implements OnInit {
     }
 
 
-    protected onOkClicked() {
+    protected onDeleteClicked() {
         this.dialogRef.close({confirmDeletion: true});
     }
 

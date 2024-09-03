@@ -6,13 +6,10 @@
     <button
         mat-raised-button
         type="submit"
-        [color]="this.okButtonColor"
-        (click)="this.onOkClicked()"
+        color="warn"
+        (click)="this.onDeleteClicked()"
     >
-        <span
-            *ngIf="this.okButtonIconClass"
-        ><i class="{{ this.okButtonIconClass }}"></i>&nbsp;</span>
-        {{ this.okButtonText }}
+        <i class="fa-regular fa-trash-can"></i>&nbsp;Delete
     </button>
     <button
         mat-raised-button
@@ -20,6 +17,6 @@
         type="button"
         (click)="this.onCancelClicked()"
     >
-        {{ this.cancelButtonText }}
+        Cancel
     </button>
 </div>

@@ -1,12 +1,7 @@
-<app-confirm-dialog
+<app-confirm-delete-dialog
     title="Delete Flight Route '{{ this.data.flightroute.title }}'"
-    okButtonText="Delete"
-    okButtonColor="warn"
-    okButtonIconClass="fa-regular fa-trash-can"
-    cancelButtonText="Cancel"
-    [showCancelButton]="true"
-    (okClicked)="this.onOkClicked()"
+    (deleteClicked)="this.onDeleteClicked()"
     (cancelClicked)="this.onCancelClicked()"
 >
     Are you sure you want to delete the flight route &quot;{{ this.data.flightroute.title }}&quot;?
-</app-confirm-dialog>
+</app-confirm-delete-dialog>

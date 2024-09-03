@@ -7,7 +7,7 @@ import {StatusButtonComponent} from './ng-components/status-button/status-button
 import {MiniFabButtonComponent} from './ng-components/mini-fab-button/mini-fab-button.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {FormDialogComponent} from './ng-components/form-dialog/form-dialog.component';
-import {ConfirmDialogComponent} from './ng-components/confirm-dialog/confirm-dialog.component';
+import {ConfirmDeleteDialogComponent} from './ng-components/confirm-delete-dialog/confirm-delete-dialog.component';
 
 
 @NgModule({
@@ -21,14 +21,14 @@ import {ConfirmDialogComponent} from './ng-components/confirm-dialog/confirm-dia
         IconButtonComponent,
         MiniFabButtonComponent,
         StatusButtonComponent,
-        ConfirmDialogComponent,
+        ConfirmDeleteDialogComponent,
         FormDialogComponent,
     ],
     exports: [
         IconButtonComponent,
         StatusButtonComponent,
         MiniFabButtonComponent,
-        ConfirmDialogComponent,
+        ConfirmDeleteDialogComponent,
         FormDialogComponent,
     ],
     providers: []
