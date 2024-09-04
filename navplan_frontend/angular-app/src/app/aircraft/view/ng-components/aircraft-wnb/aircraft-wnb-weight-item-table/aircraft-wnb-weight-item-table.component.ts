@@ -8,16 +8,16 @@ import {Length} from '../../../../../geo-physics/domain/model/quantities/length'
 import {MatDialog} from '@angular/material/dialog';
 import {VolumeUnit} from '../../../../../geo-physics/domain/model/quantities/volume-unit';
 import {
-    AircraftWnbEditItemFormDialogComponent
-} from '../aircraft-wnb-edit-item-form-dialog/aircraft-wnb-edit-item-form-dialog.component';
+    AircraftWnbEditWeightItemFormDialogComponent
+} from '../aircraft-wnb-edit-weight-item-form-dialog/aircraft-wnb-edit-weight-item-form-dialog.component';
 
 
 @Component({
-    selector: 'app-aircraft-wnb-table',
-    templateUrl: './aircraft-wnb-table.component.html',
-    styleUrls: ['./aircraft-wnb-table.component.scss']
+    selector: 'app-aircraft-wnb-weight-item-table',
+    templateUrl: './aircraft-wnb-weight-item-table.component.html',
+    styleUrls: ['./aircraft-wnb-weight-item-table.component.scss']
 })
-export class AircraftWnbTableComponent implements OnInit {
+export class AircraftWnbWeightItemTableComponent implements OnInit {
     @Input() weightItems: WeightItem[];
     @Input() weightUnit: WeightUnit;
     @Input() lengthUnit: LengthUnit;
@@ -27,7 +27,7 @@ export class AircraftWnbTableComponent implements OnInit {
     @Output() deleteWeightItem = new EventEmitter<number>();
 
     protected readonly ButtonColor = ButtonColor;
-    protected displayedColumns: string[] = ['type', 'name', 'arm', 'max', 'default', 'icons'];
+    protected displayedColumns: string[] = ['type', 'name', 'armLong', 'armLat', 'maxWeight', 'defaultWeight', 'icons'];
 
 
     constructor(
@@ -83,7 +83,7 @@ export class AircraftWnbTableComponent implements OnInit {
 
 
     private openDialog(weightItem: WeightItem) {
-        const dialogRef = this.dialog.open(AircraftWnbEditItemFormDialogComponent, {
+        const dialogRef = this.dialog.open(AircraftWnbEditWeightItemFormDialogComponent, {
             // height: '800px',
             width: '600px',
             data: {

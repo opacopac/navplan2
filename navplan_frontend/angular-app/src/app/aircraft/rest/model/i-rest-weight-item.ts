@@ -5,7 +5,8 @@ import {IRestVolume} from '../../../geo-physics/rest/model/i-rest-volume';
 export interface IRestWeightItem {
     type: string;
     name: string;
-    arm: IRestLength;
+    armLong: IRestLength;
+    armLat: IRestLength;
     maxWeight: IRestWeight;
     maxFuel: IRestVolume;
     defaultWeight: IRestWeight;

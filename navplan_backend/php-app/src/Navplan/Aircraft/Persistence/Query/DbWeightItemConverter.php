@@ -21,7 +21,8 @@ class DbWeightItemConverter
         return new WeightItem(
             WeightItemType::from($row[DbTableAircraftWeightItems::COL_TYPE]),
             $row[DbTableAircraftWeightItems::COL_NAME],
-            new Length(floatval($row[DbTableAircraftWeightItems::COL_ARM_M]), LengthUnit::M),
+            new Length(floatval($row[DbTableAircraftWeightItems::COL_ARM_LONG_M]), LengthUnit::M),
+            new Length(floatval($row[DbTableAircraftWeightItems::COL_ARM_LAT_M]), LengthUnit::M),
             $row[DbTableAircraftWeightItems::COL_MAX_WEIGHT_KG]
                 ? new Weight(floatval($row[DbTableAircraftWeightItems::COL_MAX_WEIGHT_KG]), WeightUnit::KG)
                 : null,

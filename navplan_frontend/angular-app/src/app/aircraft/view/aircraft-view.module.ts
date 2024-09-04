@@ -41,7 +41,9 @@ import {
 } from './ng-components/aircraft-performance/aircraft-performance-correction-factors/aircraft-performance-correction-factors.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {AircraftWnbPageComponent} from './ng-components/aircraft-wnb/aircraft-wnb-page/aircraft-wnb-page.component';
-import {AircraftWnbTableComponent} from './ng-components/aircraft-wnb/aircraft-wnb-table/aircraft-wnb-table.component';
+import {
+    AircraftWnbWeightItemTableComponent
+} from './ng-components/aircraft-wnb/aircraft-wnb-weight-item-table/aircraft-wnb-weight-item-table.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {
     AircraftPickerContainerComponent
@@ -75,8 +77,8 @@ import {
     AircraftWnbEditEnvelopeCoordinateFormDialogComponent
 } from './ng-components/aircraft-wnb/aircraft-wnb-edit-envelope-coordinate-form-dialog/aircraft-wnb-edit-envelope-coordinate-form-dialog.component';
 import {
-    AircraftWnbEditItemFormDialogComponent
-} from './ng-components/aircraft-wnb/aircraft-wnb-edit-item-form-dialog/aircraft-wnb-edit-item-form-dialog.component';
+    AircraftWnbEditWeightItemFormDialogComponent
+} from './ng-components/aircraft-wnb/aircraft-wnb-edit-weight-item-form-dialog/aircraft-wnb-edit-weight-item-form-dialog.component';
 import {
     AircraftCreateFormDialogComponent
 } from './ng-components/aircraft-hangar/aircraft-create-form-dialog/aircraft-create-form-dialog.component';
@@ -125,9 +127,9 @@ import {
         AircraftPerformanceCorrectionFactorsComponent,
         AircraftWnbPageComponent,
         AircraftWnbWeightFieldsComponent,
-        AircraftWnbTableComponent,
+        AircraftWnbWeightItemTableComponent,
         AircraftWnbEnvelopeListComponent,
-        AircraftWnbEditItemFormDialogComponent,
+        AircraftWnbEditWeightItemFormDialogComponent,
         AircraftWeightItemTypeIconComponent,
         AircraftWnbEnvelopeChartComponent,
         AircraftWnbEditEnvelopeComponent,

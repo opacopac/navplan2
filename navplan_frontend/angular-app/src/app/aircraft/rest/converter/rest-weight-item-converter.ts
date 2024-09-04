@@ -11,7 +11,8 @@ export class RestWeightItemConverter {
         return new WeightItem(
             WeightItemType[restWeightItem.type],
             restWeightItem.name,
-            RestLengthConverter.fromRest(restWeightItem.arm),
+            RestLengthConverter.fromRest(restWeightItem.armLong),
+            RestLengthConverter.fromRest(restWeightItem.armLat),
             RestWeightConverter.fromRest(restWeightItem.maxWeight),
             RestVolumeConverter.fromRest(restWeightItem.maxFuel),
             RestWeightConverter.fromRest(restWeightItem.defaultWeight),
@@ -26,7 +27,8 @@ export class RestWeightItemConverter {
         return {
             type: WeightItemType[weightItem.type],
             name: weightItem.name,
-            arm: RestLengthConverter.toRest(weightItem.arm),
+            armLong: RestLengthConverter.toRest(weightItem.armLong),
+            armLat: RestLengthConverter.toRest(weightItem.armLat),
             maxWeight: RestWeightConverter.toRest(weightItem.maxWeight),
             maxFuel: RestVolumeConverter.toRest(weightItem.maxFuel),
             defaultWeight: RestWeightConverter.toRest(weightItem.defaultWeight),

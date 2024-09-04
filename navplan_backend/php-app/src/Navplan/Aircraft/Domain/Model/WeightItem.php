@@ -12,7 +12,8 @@ class WeightItem
     public function __construct(
         public WeightItemType $type,
         public string $name,
-        public Length $arm,
+        public Length $armLong,
+        public Length $armLat,
         public ?Weight $maxWeight,
         public ?Volume $maxFuel,
         public ?Weight $defaultWeight,

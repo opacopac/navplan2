@@ -16,8 +16,13 @@ export class PlanWnbService {
     public static readonly JET_DENSITY_KG_PER_L = 0.8;
 
 
-    public static calcMoment(weightItem: WeightItem, weightUnit: WeightUnit, lengthUnit: LengthUnit): number {
-        return weightItem.weight.getValue(weightUnit) * weightItem.arm.getValue(lengthUnit);
+    public static calcMomentLong(weightItem: WeightItem, weightUnit: WeightUnit, lengthUnit: LengthUnit): number {
+        return weightItem.weight.getValue(weightUnit) * weightItem.armLong.getValue(lengthUnit);
+    }
+
+
+    public static calcMomentLat(weightItem: WeightItem, weightUnit: WeightUnit, lengthUnit: LengthUnit): number {
+        return weightItem.weight.getValue(weightUnit) * weightItem.armLat.getValue(lengthUnit);
     }
 
 
@@ -123,20 +128,25 @@ export class PlanWnbService {
     private static calcZeroFuelWeightItem(weightItems: WeightItem[]): WeightItem {
         const weightUnit = WeightUnit.KG;
         const lengthUnit = LengthUnit.M;
-        const zeroFuelWeightValue = weightItems
-            .filter(wi => this.isWeightTypeItem(wi.type) && wi.weight)
+        const relevantWeightItems = weightItems
+            .filter(wi => this.isWeightTypeItem(wi.type) && wi.weight);
+        const zeroFuelWeightValue = relevantWeightItems
             .map(wi => wi.weight.getValue(weightUnit))
             .reduce((sum, cur) => sum + cur, 0);
-        const zeroFuelMomentValue = weightItems
-            .filter(wi => this.isWeightTypeItem(wi.type) && wi.weight)
-            .map(wi => this.calcMoment(wi, weightUnit, lengthUnit))
+        const zeroFuelMomentValueLong = relevantWeightItems
+            .map(wi => this.calcMomentLong(wi, weightUnit, lengthUnit))
             .reduce((sum, cur) => sum + cur, 0);
-        const zeroFuelArmValue = zeroFuelMomentValue / zeroFuelWeightValue;
+        const zeroFuelArmValueLong = zeroFuelMomentValueLong / zeroFuelWeightValue;
+        const zeroFuelMonentValueLat = relevantWeightItems
+            .map(wi => this.calcMomentLat(wi, weightUnit, lengthUnit))
+            .reduce((sum, cur) => sum + cur, 0);
+        const zeroFuelArmValueLat = zeroFuelMonentValueLat / zeroFuelWeightValue;
 
         return new WeightItem(
             WeightItemType.ZERO_FUEL_WEIGHT,
             'Zero Fuel',
-            new Length(zeroFuelArmValue, lengthUnit),
+            new Length(zeroFuelArmValueLong, lengthUnit),
+            new Length(zeroFuelArmValueLat, lengthUnit),
             null,
             null,
             null,
@@ -150,30 +160,38 @@ export class PlanWnbService {
     private static calcTakeoffWeightItem(weightItems: WeightItem[], fuelType: FuelType): WeightItem {
         const weightUnit = WeightUnit.KG;
         const lengthUnit = LengthUnit.M;
-        const fuelWeightValue = weightItems
-            .filter(wi => this.isFuelTypeItem(wi.type) && wi.fuel)
+        const fuelWeightItems = weightItems
+            .filter(wi => this.isFuelTypeItem(wi.type) && wi.fuel);
+        const fuelWeightValue = fuelWeightItems
             .map(wi => this.calcFuelWeight(wi.fuel, fuelType))
             .map(w => w.getValue(weightUnit))
             .reduce((sum, cur) => sum + cur, 0);
-        const fuelMomentValue = weightItems
-            .filter(wi => this.isFuelTypeItem(wi.type) && wi.fuel)
+        const fuelMomentValueLong = fuelWeightItems
             .map(wi => ({
                 weight: this.calcFuelWeight(wi.fuel, fuelType),
-                arm: wi.arm
+                armLong: wi.armLong
             }))
-            .map(wArm => wArm.weight.getValue(weightUnit) * wArm.arm.getValue(lengthUnit))
+            .map(wArm => wArm.weight.getValue(weightUnit) * wArm.armLong.getValue(lengthUnit))
             .reduce((sum, cur) => sum + cur, 0);
-
         const zeroFuelWeightItem = weightItems.find(wi => wi.type === WeightItemType.ZERO_FUEL_WEIGHT);
-
         const takeoffWeightValue = fuelWeightValue + zeroFuelWeightItem.weight.getValue(weightUnit);
-        const takeoffMoment = fuelMomentValue + this.calcMoment(zeroFuelWeightItem, weightUnit, lengthUnit);
-        const takeoffArmValue = takeoffMoment / takeoffWeightValue;
+        const takeoffMomentLong = fuelMomentValueLong + this.calcMomentLong(zeroFuelWeightItem, weightUnit, lengthUnit);
+        const takeoffArmValueLong = takeoffMomentLong / takeoffWeightValue;
+        const fuelMomentValueLat = fuelWeightItems
+            .map(wi => ({
+                weight: this.calcFuelWeight(wi.fuel, fuelType),
+                armLat: wi.armLat
+            }))
+            .map(wArm => wArm.weight.getValue(weightUnit) * wArm.armLat.getValue(lengthUnit))
+            .reduce((sum, cur) => sum + cur, 0);
+        const takeoffMomentLat = fuelMomentValueLat + this.calcMomentLat(zeroFuelWeightItem, weightUnit, lengthUnit);
+        const takeoffArmValueLat = takeoffMomentLat / takeoffWeightValue;
 
         return new WeightItem(
             WeightItemType.TAKEOFF_WEIGHT,
             'Takeoff',
-            new Length(takeoffArmValue, lengthUnit),
+            new Length(takeoffArmValueLong, lengthUnit),
+            new Length(takeoffArmValueLat, lengthUnit),
             null,
             null,
             null,

@@ -28,11 +28,11 @@ export class PlanWnbContainerComponent implements OnInit {
     protected readonly weightItems$ = this.appStore.pipe(select(getPlanWnbWeightItems));
     protected readonly zeroFuelCoordinate$ = this.weightItems$.pipe(
         map(items => items.find(wi => wi.type === WeightItemType.ZERO_FUEL_WEIGHT)),
-        map(wi => new WnbEnvelopeCoordinate(wi.weight, wi.arm))
+        map(wi => new WnbEnvelopeCoordinate(wi.weight, wi.armLong))
     );
     protected readonly takeoffCoordinate$ = this.weightItems$.pipe(
         map(items => items.find(wi => wi.type === WeightItemType.TAKEOFF_WEIGHT)),
-        map(wi => new WnbEnvelopeCoordinate(wi.weight, wi.arm))
+        map(wi => new WnbEnvelopeCoordinate(wi.weight, wi.armLong))
     );
     protected readonly flightroute$ = this.appStore.pipe(select(getFlightroute));
     protected readonly routeFuel$ = this.flightroute$.pipe(map(flightroute => flightroute.fuel.blockFuel));

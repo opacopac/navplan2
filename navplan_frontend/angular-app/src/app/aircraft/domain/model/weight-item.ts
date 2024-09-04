@@ -7,7 +7,8 @@ export class WeightItem {
     constructor(
         public type: WeightItemType,
         public name: string,
-        public arm: Length,
+        public armLong: Length,
+        public armLat: Length,
         public maxWeight: Weight,
         public maxFuel: Volume,
         public defaultWeight: Weight,
@@ -22,7 +23,8 @@ export class WeightItem {
         return new WeightItem(
             this.type,
             this.name,
-            this.arm?.clone(),
+            this.armLong?.clone(),
+            this.armLat?.clone(),
             this.maxWeight?.clone(),
             this.maxFuel?.clone(),
             this.defaultWeight?.clone(),

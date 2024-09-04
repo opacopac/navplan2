@@ -9,6 +9,7 @@
 >
     <form [formGroup]="this.editWeightItemForm">
         <div class="weight-item-form-content">
+            <!-- type -->
             <mat-form-field class="flex-row">
                 <mat-label>Type</mat-label>
                 <mat-select
@@ -25,6 +26,8 @@
                 </mat-select>
                 <mat-error>Type is mandatory!</mat-error>
             </mat-form-field>
+
+            <!-- name -->
             <mat-form-field class="flex-row">
                 <mat-label>Name</mat-label>
                 <input
@@ -37,12 +40,14 @@
                 />
                 <mat-error>Name is mandatory (max. 30 characters)!</mat-error>
             </mat-form-field>
+
+            <!-- longitudinal arm -->
             <mat-form-field class="flex-row">
-                <mat-label>Arm</mat-label>
+                <mat-label>Arm (Longitudinal)</mat-label>
                 <input
                     matInput
                     type="number"
-                    formControlName="arm"
+                    formControlName="armLong"
                     required
                     min="-99999"
                     max="99999"
@@ -50,6 +55,23 @@
                 <span matTextSuffix>{{ Length.getUnitString(this.data.wnbLengthUnit) }}</span>
                 <mat-error>Value must be a positive or negative number!</mat-error>
             </mat-form-field>
+
+            <!-- lateral arm -->
+            <mat-form-field class="flex-row">
+                <mat-label>Arm (Lateral)</mat-label>
+                <input
+                    matInput
+                    type="number"
+                    formControlName="armLat"
+                    required
+                    min="-99999"
+                    max="99999"
+                >
+                <span matTextSuffix>{{ Length.getUnitString(this.data.wnbLengthUnit) }}</span>
+                <mat-error>Value must be a positive or negative number!</mat-error>
+            </mat-form-field>
+
+            <!-- max weight -->
             <mat-form-field *ngIf="!this.isTypeFuel() && !this.isTypeAircraft()" class="flex-row">
                 <mat-label>Max. Weight</mat-label>
                 <input
@@ -62,6 +84,8 @@
                 <span matTextSuffix>{{ Weight.getUnitString(this.data.weightUnit) }}</span>
                 <mat-error>Value must be a positive number between 1 and 99999!</mat-error>
             </mat-form-field>
+
+            <!-- max fuel -->
             <mat-form-field *ngIf="this.isTypeFuel()" class="flex-row">
                 <mat-label>Max. Fuel</mat-label>
                 <input
@@ -74,6 +98,8 @@
                 <span matTextSuffix>{{ Volume.getUnitString(this.data.volumeUnit) }}</span>
                 <mat-error>Value must be a positive number between 1 and 99999!</mat-error>
             </mat-form-field>
+
+            <!-- default weight -->
             <mat-form-field *ngIf="!this.isTypeFuel() && !this.isTypeAircraft()" class="flex-row">
                 <mat-label>Default Weight</mat-label>
                 <input
@@ -86,6 +112,8 @@
                 <span matTextSuffix>{{ Weight.getUnitString(this.data.weightUnit) }}</span>
                 <mat-error>Value must be a number between 0 and 99999!</mat-error>
             </mat-form-field>
+
+            <!-- default fuel -->
             <mat-form-field *ngIf="this.isTypeFuel()" class="flex-row">
                 <mat-label>Default Fuel</mat-label>
                 <input

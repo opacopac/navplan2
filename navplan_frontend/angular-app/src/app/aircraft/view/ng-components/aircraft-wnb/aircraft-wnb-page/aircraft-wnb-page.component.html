@@ -14,7 +14,7 @@
         ></app-aircraft-wnb-weight-fields>
 
         <!-- weight items -->
-        <app-aircraft-wnb-table
+        <app-aircraft-wnb-weight-item-table
             [weightItems]="(this.currentAircraft$ | async)?.wnbWeightItems"
             [lengthUnit]="this.wnbLengthUnit$ | async"
             [weightUnit]="this.weightUnit$ | async"

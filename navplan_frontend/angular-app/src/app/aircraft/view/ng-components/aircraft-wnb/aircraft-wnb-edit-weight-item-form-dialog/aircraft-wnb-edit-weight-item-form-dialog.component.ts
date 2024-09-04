@@ -14,11 +14,11 @@ import {FuelType} from '../../../../domain/model/fuel-type';
 
 
 @Component({
-    selector: 'app-aircraft-wnb-edit-item-form-dialog',
-    templateUrl: './aircraft-wnb-edit-item-form-dialog.component.html',
-    styleUrls: ['./aircraft-wnb-edit-item-form-dialog.component.scss']
+    selector: 'app-aircraft-wnb-edit-weight-item-form-dialog',
+    templateUrl: './aircraft-wnb-edit-weight-item-form-dialog.component.html',
+    styleUrls: ['./aircraft-wnb-edit-weight-item-form-dialog.component.scss']
 })
-export class AircraftWnbEditItemFormDialogComponent implements OnInit, OnChanges {
+export class AircraftWnbEditWeightItemFormDialogComponent implements OnInit, OnChanges {
     protected editWeightItemForm: FormGroup;
     protected readonly FuelType = FuelType;
     protected readonly WeightItemType = WeightItemType;
@@ -29,7 +29,7 @@ export class AircraftWnbEditItemFormDialogComponent implements OnInit, OnChanges
 
     constructor(
         public formBuilder: FormBuilder,
-        private dialogRef: MatDialogRef<AircraftWnbEditItemFormDialogComponent>,
+        private dialogRef: MatDialogRef<AircraftWnbEditWeightItemFormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: {
             weightItem: WeightItem;
             allowAircraftType: boolean;
@@ -89,7 +89,8 @@ export class AircraftWnbEditItemFormDialogComponent implements OnInit, OnChanges
             const newWeightItem = new WeightItem(
                 this.editWeightItemForm.get('type').value,
                 this.editWeightItemForm.get('name').value,
-                new Length(this.editWeightItemForm.get('arm').value, this.data.wnbLengthUnit),
+                new Length(this.editWeightItemForm.get('armLong').value, this.data.wnbLengthUnit),
+                new Length(this.editWeightItemForm.get('armLat').value, this.data.wnbLengthUnit),
                 isNaN(maxWeightValue) ? null : new Weight(maxWeightValue, this.data.weightUnit),
                 isNaN(maxFuelValue) ? null : new Volume(maxFuelValue, this.data.volumeUnit),
                 isNaN(defaultWeightValue) ? null : new Weight(defaultWeightValue, this.data.weightUnit),
@@ -123,10 +124,20 @@ export class AircraftWnbEditItemFormDialogComponent implements OnInit, OnChanges
                     Validators.maxLength(30)
                 ]
             ],
-            'arm': [
-                (weightItem && weightItem.arm)
-                    ? StringnumberHelper.roundToDigits(weightItem.arm.getValue(this.data.wnbLengthUnit), 3)
+            'armLong': [
+                (weightItem && weightItem.armLong)
+                    ? StringnumberHelper.roundToDigits(weightItem.armLong.getValue(this.data.wnbLengthUnit), 3)
                     : '',
+                [
+                    Validators.required,
+                    Validators.min(-99999),
+                    Validators.max(99999),
+                ]
+            ],
+            'armLat': [
+                (weightItem && weightItem.armLat)
+                    ? StringnumberHelper.roundToDigits(weightItem.armLat.getValue(this.data.wnbLengthUnit), 3)
+                    : 0,
                 [
                     Validators.required,
                     Validators.min(-99999),

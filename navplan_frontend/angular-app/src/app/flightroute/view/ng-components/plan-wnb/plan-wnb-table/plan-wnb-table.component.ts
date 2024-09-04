@@ -97,11 +97,11 @@ export class PlanWnbTableComponent implements OnInit {
 
 
     protected getMomentText(weightItem: WeightItem): string {
-        if (!weightItem || !weightItem.weight || !weightItem.arm) {
+        if (!weightItem || !weightItem.weight || !weightItem.armLong) {
             return '';
         }
 
-        const moment = weightItem.weight.getValue(this.weightUnit) * weightItem.arm.getValue(this.lengthUnit);
+        const moment = weightItem.weight.getValue(this.weightUnit) * weightItem.armLong.getValue(this.lengthUnit);
         const momentUnit = Weight.getUnitString(this.weightUnit) + ' ' + Length.getUnitString(this.lengthUnit);
 
         return StringnumberHelper.roundToDigits(moment, 3) + ' ' + momentUnit;
