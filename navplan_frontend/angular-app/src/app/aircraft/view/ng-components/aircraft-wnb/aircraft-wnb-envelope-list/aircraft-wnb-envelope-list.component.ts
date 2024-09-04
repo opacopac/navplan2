@@ -8,13 +8,8 @@ import {MatDialog} from '@angular/material/dialog';
 import {
     AircraftWnbEditEnvelopeDefinitionFormDialogComponent
 } from '../aircraft-wnb-edit-envelope-definition-form-dialog/aircraft-wnb-edit-envelope-definition-form-dialog.component';
-
-
-export interface ListEntry {
-    id: number;
-    registration: string;
-    type: string;
-}
+import {WnbEnvelopeArmDirection} from '../../../../domain/model/wnb-envelope-arm-direction';
+import {ButtonColor} from '../../../../../common/view/model/button-color';
 
 
 @Component({
@@ -27,9 +22,14 @@ export class AircraftWnbEnvelopeListComponent implements OnInit {
     @Input() wnbLengthUnit: LengthUnit;
     @Input() weightUnit: WeightUnit;
     @Output() envelopeAdded = new EventEmitter<WnbEnvelope>();
+    @Output() envelopeUpdated = new EventEmitter<[WnbEnvelope, WnbEnvelope]>();
+    @Output() envelopeDeleted = new EventEmitter<WnbEnvelope>();
     @Output() envelopeCoordinateAdded = new EventEmitter<[WnbEnvelope, WnbEnvelopeCoordinate, number]>();
     @Output() envelopeCoordinateUpdated = new EventEmitter<[WnbEnvelope, WnbEnvelopeCoordinate, WnbEnvelopeCoordinate]>();
     @Output() envelopeCoordinateDeleted = new EventEmitter<[WnbEnvelope, WnbEnvelopeCoordinate]>();
+
+    protected readonly ButtonColor = ButtonColor;
+
 
     constructor(
         private dialog: MatDialog,
@@ -38,6 +38,14 @@ export class AircraftWnbEnvelopeListComponent implements OnInit {
 
 
     ngOnInit() {
+    }
+
+
+    protected getEnvelopeTitle(envelope: WnbEnvelope): string {
+        return envelope.name
+            + ' ('
+            + ((envelope.armDirection === WnbEnvelopeArmDirection.LONGITUDINAL) ? 'Longitudinal' : 'Lateral')
+            + ')';
     }
 
 
@@ -82,9 +90,9 @@ export class AircraftWnbEnvelopeListComponent implements OnInit {
             if (result && result.action === 'add') {
                 this.envelopeAdded.emit(result.envelope);
             } else if (result && result.action === 'update') {
-                // this.coordinateUpdated.emit([this.envelope, result.oldCoordinate, result.newCoordinate]);
+                this.envelopeUpdated.emit([result.oldEnvelope, result.newEnvelope]);
             } else if (result && result.action === 'delete') {
-                // this.coordinateDeleted.emit([this.envelope, result.coordinate]);
+                this.envelopeDeleted.emit(result.envelope);
             }
         });
     }

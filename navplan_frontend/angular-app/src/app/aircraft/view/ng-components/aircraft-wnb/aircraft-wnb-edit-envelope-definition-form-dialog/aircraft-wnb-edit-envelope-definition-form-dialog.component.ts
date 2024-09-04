@@ -57,7 +57,7 @@ export class AircraftWnbEditEnvelopeDefinitionFormDialogComponent implements OnI
             this.editForm.controls['name'].value,
             this.editForm.controls['axisType'].value,
             this.editForm.controls['armDirection'].value,
-            []
+            this.data.envelope ? this.data.envelope.coordinates : []
         );
 
         if (this.data.isNewEnvelope) {

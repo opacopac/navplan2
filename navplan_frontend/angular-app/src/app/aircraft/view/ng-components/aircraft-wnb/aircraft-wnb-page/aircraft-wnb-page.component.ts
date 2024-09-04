@@ -74,9 +74,26 @@ export class AircraftWnbPageComponent implements OnInit {
 
     protected onEnvelopeAdded($event: WnbEnvelope) {
         this.appStore.dispatch(
-            AircraftWnbActions.addEnvelope({ envelope: $event })
+            AircraftWnbActions.addEnvelope({envelope: $event})
         );
     }
+
+
+    protected onEnvelopeUpdated($event: [WnbEnvelope, WnbEnvelope]) {
+        this.appStore.dispatch(
+            AircraftWnbActions.updateEnvelope({
+                oldEnvelope: $event[0],
+                newEnvelope: $event[1]
+            })
+        );
+    }
+
+    protected onEnvelopeDeleted($event: WnbEnvelope) {
+        this.appStore.dispatch(
+            AircraftWnbActions.deleteEnvelope({envelope: $event})
+        );
+    }
+
 
     protected onEnvelopeCoordinateAdded($event: [WnbEnvelope, WnbEnvelopeCoordinate, number]) {
         this.appStore.dispatch(

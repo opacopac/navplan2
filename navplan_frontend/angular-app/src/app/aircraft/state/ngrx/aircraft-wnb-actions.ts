@@ -38,6 +38,18 @@ export class AircraftWnbActions {
     );
 
 
+    public static readonly updateEnvelope = createAction(
+        '[Aircraft W&B] Update envelope',
+        props<{ oldEnvelope: WnbEnvelope, newEnvelope: WnbEnvelope }>()
+    );
+
+
+    public static readonly deleteEnvelope = createAction(
+        '[Aircraft W&B] Delete envelope',
+        props<{ envelope: WnbEnvelope }>()
+    );
+
+
     public static readonly addEnvelopeCoordinate = createAction(
         '[Aircraft W&B] Add envelope coordinate',
         props<{ envelope: WnbEnvelope, coordinate: WnbEnvelopeCoordinate, insertAtIndex: number }>()

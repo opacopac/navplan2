@@ -8,7 +8,12 @@
     </button>
 </p>
 <div *ngFor="let envelope of this.currentAircraft.wnbEnvelopes">
-    <p>Envelope &quot;{{ envelope.name }}&quot;</p>
+    <div>
+        {{ this.getEnvelopeTitle(envelope) }}
+        <app-icon-button [color]="ButtonColor.GREEN" tooltipText="Edit Envelope" tooltipPosition="above" (buttonClicked)="this.onEditEnvelopeDefinitionClick(envelope)">
+            <i class="fa-solid fa-pencil"></i>
+        </app-icon-button>
+    </div>
     <app-aircraft-wnb-edit-envelope
         [envelope]="envelope"
         [lengthUnit]="this.wnbLengthUnit"

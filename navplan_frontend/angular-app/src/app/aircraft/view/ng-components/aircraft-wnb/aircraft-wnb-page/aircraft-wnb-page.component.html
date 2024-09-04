@@ -30,6 +30,8 @@
             [wnbLengthUnit]="this.wnbLengthUnit$ | async"
             [weightUnit]="this.weightUnit$ | async"
             (envelopeAdded)="this.onEnvelopeAdded($event)"
+            (envelopeUpdated)="this.onEnvelopeUpdated($event)"
+            (envelopeDeleted)="this.onEnvelopeDeleted($event)"
             (envelopeCoordinateAdded)="this.onEnvelopeCoordinateAdded($event)"
             (envelopeCoordinateUpdated)="this.onEnvelopeCoordinateUpdated($event)"
             (envelopeCoordinateDeleted)="this.onEnvelopeCoordinateDeleted($event)"
