@@ -3,6 +3,8 @@
 namespace Navplan\Aircraft\Persistence\Query;
 
 use Navplan\Aircraft\Domain\Model\WnbEnvelope;
+use Navplan\Aircraft\Domain\Model\WnbEnvelopeArmDirection;
+use Navplan\Aircraft\Domain\Model\WnbEnvelopeAxisType;
 use Navplan\Aircraft\Domain\Model\WnbEnvelopeCoordinate;
 use Navplan\Aircraft\Persistence\Model\DbTableAircraftWnbEnvelopes;
 use Navplan\Common\Domain\Model\Length;
@@ -33,6 +35,8 @@ class DbWnbEnvelopeConverter
     {
         return new WnbEnvelope(
             $row[DbTableAircraftWnbEnvelopes::COL_NAME],
+            WnbEnvelopeAxisType::from($row[DbTableAircraftWnbEnvelopes::COL_AXIS_TYPE]),
+            WnbEnvelopeArmDirection::from($row[DbTableAircraftWnbEnvelopes::COL_ARM_DIRECTION]),
             self::parseCoordinates($row[DbTableAircraftWnbEnvelopes::COL_COORDINATES_KG_M])
         );
     }

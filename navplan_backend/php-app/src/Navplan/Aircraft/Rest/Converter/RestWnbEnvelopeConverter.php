@@ -3,18 +3,24 @@
 namespace Navplan\Aircraft\Rest\Converter;
 
 use Navplan\Aircraft\Domain\Model\WnbEnvelope;
+use Navplan\Aircraft\Domain\Model\WnbEnvelopeArmDirection;
+use Navplan\Aircraft\Domain\Model\WnbEnvelopeAxisType;
 use Navplan\Common\StringNumberHelper;
 
 
 class RestWnbEnvelopeConverter
 {
     const KEY_NAME = "name";
+    const KEY_AXIS_TYPE = "axisType";
+    const KEY_ARM_DIRECTION = "armDirection";
     const KEY_COORDINATES = "coordinates";
 
     public static function fromRest(array $args): WnbEnvelope
     {
         return new WnbEnvelope(
             StringNumberHelper::parseStringOrError($args, self::KEY_NAME),
+            WnbEnvelopeAxisType::from(StringNumberHelper::parseStringOrError($args, self::KEY_AXIS_TYPE)),
+            WnbEnvelopeArmDirection::from(StringNumberHelper::parseStringOrError($args, self::KEY_ARM_DIRECTION)),
             RestWnbEnvelopeCoordinateConverter::fromRestList($args[self::KEY_COORDINATES])
         );
     }
@@ -24,6 +30,8 @@ class RestWnbEnvelopeConverter
     {
         return array(
             self::KEY_NAME => $envelope->name,
+            self::KEY_AXIS_TYPE => $envelope->axisType->value,
+            self::KEY_ARM_DIRECTION => $envelope->armDirection->value,
             self::KEY_COORDINATES => RestWnbEnvelopeCoordinateConverter::toRestList($envelope->coordinates)
         );
     }

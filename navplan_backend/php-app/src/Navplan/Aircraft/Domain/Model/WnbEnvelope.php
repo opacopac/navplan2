@@ -11,6 +11,8 @@ class WnbEnvelope
      */
     public function __construct(
         public string $name,
+        public WnbEnvelopeAxisType $axisType,
+        public WnbEnvelopeArmDirection $armDirection,
         public array $coordinates
     )
     {

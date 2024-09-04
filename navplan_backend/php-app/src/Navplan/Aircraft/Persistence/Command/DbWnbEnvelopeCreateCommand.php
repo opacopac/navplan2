@@ -33,12 +33,16 @@ class DbWnbEnvelopeCreateCommand implements IWnbEnvelopeCreateCommand
         $query = "INSERT INTO " . DbTableAircraftWnbEnvelopes::TABLE_NAME . " (" . join(",", [
                 DbTableAircraftWnbEnvelopes::COL_ID_AIRCRAFT,
                 DbTableAircraftWnbEnvelopes::COL_NAME,
+                DbTableAircraftWnbEnvelopes::COL_AXIS_TYPE,
+                DbTableAircraftWnbEnvelopes::COL_ARM_DIRECTION,
                 DbTableAircraftWnbEnvelopes::COL_COORDINATES_KG_M
             ]);
         $query .= ") VALUES (";
         $query .= join(",", array(
             DbHelper::getDbIntValue($aircraftId),
             DbHelper::getDbStringValue($this->dbService, $wnbEnvelope->name),
+            DbHelper::getDbStringValue($this->dbService, $wnbEnvelope->axisType->value),
+            DbHelper::getDbStringValue($this->dbService, $wnbEnvelope->armDirection->value),
             DbWnbEnvelopeConverter::toDbString($this->dbService, $wnbEnvelope->coordinates)
         ));
         $query .= ")";

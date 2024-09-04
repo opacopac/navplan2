@@ -2,6 +2,7 @@ import {WnbEnvelope} from '../../domain/model/wnb-envelope';
 import {IRestWnbEnvelope} from '../model/i-rest-wnb-envelope';
 import {RestWnbEnvelopeCoordinateConverter} from './rest-wnb-envelope-coordinate-converter';
 import {WnbEnvelopeAxisType} from '../../domain/model/wnb-envelope-axis-type';
+import {WnbEnvelopeArmDirection} from '../../domain/model/wnb-envelope-arm-direction';
 
 
 export class RestWnbEnvelopeConverter {
@@ -9,6 +10,7 @@ export class RestWnbEnvelopeConverter {
         return new WnbEnvelope(
             restEnvelope.name,
             WnbEnvelopeAxisType[restEnvelope.axisType],
+            WnbEnvelopeArmDirection[restEnvelope.armDirection],
             RestWnbEnvelopeCoordinateConverter.fromRestList(restEnvelope.coordinates),
         );
     }
@@ -18,6 +20,7 @@ export class RestWnbEnvelopeConverter {
         return {
             name: envelope.name,
             axisType: WnbEnvelopeAxisType[envelope.axisType],
+            armDirection: WnbEnvelopeArmDirection[envelope.armDirection],
             coordinates: RestWnbEnvelopeCoordinateConverter.toRestList(envelope.coordinates)
         };
     }
