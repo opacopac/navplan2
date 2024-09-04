@@ -9,7 +9,7 @@
 </p>
 <div *ngFor="let envelope of this.currentAircraft.wnbEnvelopes">
     <div>
-        {{ this.getEnvelopeTitle(envelope) }}
+        {{ envelope.name }} <i>({{ this.getArmDirectionText(envelope.armDirection) }})</i>
         <app-icon-button [color]="ButtonColor.GREEN" tooltipText="Edit Envelope" tooltipPosition="above" (buttonClicked)="this.onEditEnvelopeDefinitionClick(envelope)">
             <i class="fa-solid fa-pencil"></i>
         </app-icon-button>

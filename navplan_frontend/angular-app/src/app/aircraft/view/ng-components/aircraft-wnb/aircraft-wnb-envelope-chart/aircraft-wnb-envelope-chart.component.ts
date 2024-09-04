@@ -7,7 +7,6 @@ import {
     OnChanges,
     OnInit,
     Output,
-    SimpleChanges,
     ViewChild
 } from '@angular/core';
 import {WnbEnvelope} from '../../../../domain/model/wnb-envelope';
@@ -47,7 +46,7 @@ export class AircraftWnbEnvelopeChartComponent implements OnInit, AfterViewInit,
     }
 
 
-    ngOnChanges(changes: SimpleChanges): void {
+    ngOnChanges(): void {
         this.redrawSvg();
     }
 

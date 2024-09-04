@@ -41,11 +41,8 @@ export class AircraftWnbEnvelopeListComponent implements OnInit {
     }
 
 
-    protected getEnvelopeTitle(envelope: WnbEnvelope): string {
-        return envelope.name
-            + ' ('
-            + ((envelope.armDirection === WnbEnvelopeArmDirection.LONGITUDINAL) ? 'Longitudinal' : 'Lateral')
-            + ')';
+    protected getArmDirectionText(armDirection: WnbEnvelopeArmDirection) {
+        return armDirection === WnbEnvelopeArmDirection.LONGITUDINAL ? 'Longitudinal' : 'Lateral';
     }
 
 

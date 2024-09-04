@@ -12,10 +12,10 @@
         [volumeUnit]="this.volumeUnit$ | async"
         (weightItemChanged)="this.onWeightItemChanged($event)"
     />
-    <div *ngIf="this.envelope$ | async">
-        <p>W&B Envelope &quot;{{ (this.envelope$ | async).name }}&quot;</p>
+    <div *ngFor="let envelope of this.envelopes$ | async">
+        {{ envelope.name }} <i>({{ this.getArmDirectionText(envelope.armDirection) }})</i>
         <app-aircraft-wnb-envelope-chart
-            [envelope]="this.envelope$ | async"
+            [envelope]="envelope"
             [zeroFuelWnbCoordinate]="this.zeroFuelCoordinate$ | async"
             [takeoffWnbCoordinate]="this.takeoffCoordinate$ | async"
             [weightUnit]="this.weightUnit$ | async"
