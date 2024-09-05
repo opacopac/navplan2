@@ -58,7 +58,7 @@
         <mat-radio-button
             *ngFor="let entry of this.fuelUnits"
             [value]="entry"
-            [checked]="(this.fuelUnit$ | async) === entry"
+            [checked]="(this.volumeUnit$ | async) === entry"
         >
             {{ Volume.getUnitString(entry) }}
         </mat-radio-button>

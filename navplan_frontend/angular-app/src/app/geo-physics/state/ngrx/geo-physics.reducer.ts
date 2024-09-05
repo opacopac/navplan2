@@ -39,10 +39,10 @@ export const geoPhysicsReducer = createReducer(
         speedUnit: action.speedUnit
     })),
 
-    on(GeoPhysicsActions.fuelUnitSelected, (state, action) => ({
+    on(GeoPhysicsActions.volumeUnitSelected, (state, action) => ({
         ...state,
-        fuelUnit: action.fuelUnit,
-        consumptionUnit: action.fuelUnit === VolumeUnit.L ? ConsumptionUnit.L_PER_H : ConsumptionUnit.GAL_PER_H
+        volumeUnit: action.volumeUnit,
+        consumptionUnit: action.volumeUnit === VolumeUnit.L ? ConsumptionUnit.L_PER_H : ConsumptionUnit.GAL_PER_H
     })),
 
     on(GeoPhysicsActions.weightUnitSelected, (state, action) => ({

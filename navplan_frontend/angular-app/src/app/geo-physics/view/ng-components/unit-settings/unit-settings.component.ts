@@ -40,7 +40,7 @@ export class UnitSettingsComponent implements OnInit {
     protected readonly altitudeUnit$: Observable<LengthUnit> = this.appStore.pipe(select(getAltitudeUnit));
     protected readonly routeDistanceUnit$: Observable<LengthUnit> = this.appStore.pipe(select(getRouteDistanceUnit));
     protected readonly speedUnit$: Observable<SpeedUnit> = this.appStore.pipe(select(getSpeedUnit));
-    protected readonly fuelUnit$: Observable<VolumeUnit> = this.appStore.pipe(select(getVolumeUnit));
+    protected readonly volumeUnit$: Observable<VolumeUnit> = this.appStore.pipe(select(getVolumeUnit));
     protected readonly weightUnit$: Observable<WeightUnit> = this.appStore.pipe(select(getWeightUnit));
     protected readonly wnbLengthUnit$: Observable<LengthUnit> = this.appStore.pipe(select(getWnbLengthUnit));
     protected readonly performanceDistanceUnit$: Observable<LengthUnit> = this.appStore.pipe(select(getPerformanceDistanceUnit));
@@ -83,7 +83,7 @@ export class UnitSettingsComponent implements OnInit {
 
     protected onVolumeUnitSelected($event: MatRadioChange) {
         const value = parseInt($event.value, 10);
-        this.appStore.dispatch(GeoPhysicsActions.fuelUnitSelected({fuelUnit: value}));
+        this.appStore.dispatch(GeoPhysicsActions.volumeUnitSelected({volumeUnit: value}));
     }
 
 

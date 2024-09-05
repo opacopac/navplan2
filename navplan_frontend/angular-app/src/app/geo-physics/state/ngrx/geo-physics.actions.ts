@@ -22,9 +22,9 @@ export class GeoPhysicsActions {
         props<{ speedUnit: SpeedUnit }>()
     );
 
-    public static readonly fuelUnitSelected = createAction(
-        '[UnitSettings] Select fuel unit',
-        props<{ fuelUnit: VolumeUnit }>()
+    public static readonly volumeUnitSelected = createAction(
+        '[UnitSettings] Select volume unit',
+        props<{ volumeUnit: VolumeUnit }>()
     );
 
     public static readonly weightUnitSelected = createAction(

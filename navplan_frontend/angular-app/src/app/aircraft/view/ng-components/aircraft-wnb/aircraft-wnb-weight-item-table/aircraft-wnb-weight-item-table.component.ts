@@ -47,9 +47,9 @@ export class AircraftWnbWeightItemTableComponent implements OnInit {
 
     protected maxText(entry: WeightItem): string {
         if (entry.maxWeight) {
-            return entry.maxWeight.getValueAndUnit(this.weightUnit, 3);
+            return entry.maxWeight.getValueAndUnit(this.weightUnit, 0);
         } else if (entry.maxFuel) {
-            return entry.maxFuel.getValueAndUnit(this.volumeUnit, 3);
+            return entry.maxFuel.getValueAndUnit(this.volumeUnit, 0);
         } else {
             return '-';
         }
@@ -58,9 +58,9 @@ export class AircraftWnbWeightItemTableComponent implements OnInit {
 
     protected defaultText(entry: WeightItem): string {
         if (entry.defaultWeight) {
-            return entry.defaultWeight.getValueAndUnit(this.weightUnit, 3);
+            return entry.defaultWeight.getValueAndUnit(this.weightUnit, 0);
         } else if (entry.defaultFuel) {
-            return entry.defaultFuel.getValueAndUnit(this.volumeUnit, 3);
+            return entry.defaultFuel.getValueAndUnit(this.volumeUnit, 0);
         } else {
             return '-';
         }

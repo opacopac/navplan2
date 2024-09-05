@@ -146,7 +146,7 @@ export class AircraftWnbEditWeightItemFormDialogComponent implements OnInit, OnC
             ],
             'maxWeight': [
                 (weightItem && weightItem.maxWeight)
-                    ? StringnumberHelper.roundToDigits(weightItem.maxWeight.getValue(this.data.weightUnit), 3)
+                    ? StringnumberHelper.roundToDigits(weightItem.maxWeight.getValue(this.data.weightUnit), 0)
                     : '',
                 [
                     Validators.min(1),
@@ -155,7 +155,7 @@ export class AircraftWnbEditWeightItemFormDialogComponent implements OnInit, OnC
             ],
             'maxFuel': [
                 (weightItem && weightItem.maxFuel)
-                    ? StringnumberHelper.roundToDigits(weightItem.maxFuel.getValue(this.data.volumeUnit), 3)
+                    ? StringnumberHelper.roundToDigits(weightItem.maxFuel.getValue(this.data.volumeUnit), 0)
                     : '',
                 [
                     Validators.min(1),
@@ -164,7 +164,7 @@ export class AircraftWnbEditWeightItemFormDialogComponent implements OnInit, OnC
             ],
             'defaultWeight': [
                 (weightItem && weightItem.defaultWeight)
-                    ? StringnumberHelper.roundToDigits(weightItem.defaultWeight.getValue(this.data.weightUnit), 3)
+                    ? StringnumberHelper.roundToDigits(weightItem.defaultWeight.getValue(this.data.weightUnit), 0)
                     : '',
                 [
                     Validators.min(0),
@@ -173,7 +173,7 @@ export class AircraftWnbEditWeightItemFormDialogComponent implements OnInit, OnC
             ],
             'defaultFuel': [
                 (weightItem && weightItem.defaultFuel)
-                    ? StringnumberHelper.roundToDigits(weightItem.defaultFuel.getValue(this.data.volumeUnit), 3)
+                    ? StringnumberHelper.roundToDigits(weightItem.defaultFuel.getValue(this.data.volumeUnit), 0)
                     : '',
                 [
                     Validators.min(0),
