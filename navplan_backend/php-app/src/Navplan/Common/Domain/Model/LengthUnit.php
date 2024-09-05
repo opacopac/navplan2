@@ -7,4 +7,6 @@ enum LengthUnit: string {
     case M = "M";
     case FT = "FT";
     case NM = "NM";
+    case KM = "KM";
+    case IN = "IN";
 }

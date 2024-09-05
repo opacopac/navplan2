@@ -9,7 +9,6 @@ class Length {
     const FT_PER_M = 3.28084;
     const M_PER_NM = 1852;
     const FT_PER_NM = self::FT_PER_M * self::M_PER_NM;
-    const MM_PER_INCH = 25.4;
 
 
     public static function createZero(): Length {
@@ -46,18 +45,40 @@ class Length {
                 switch ($targetUnit) {
                     case LengthUnit::FT: return $value * self::FT_PER_NM;
                     case LengthUnit::M: return $value * self::M_PER_NM;
+                    case LengthUnit::KM: return $value * self::M_PER_NM / 1000;
+                    case LengthUnit::IN: return $value * self::FT_PER_NM * 12;
                     default: throw new InvalidArgumentException('unknown target unit "' . $targetUnit->value);
                 }
             case LengthUnit::FT:
                 switch ($targetUnit) {
                     case LengthUnit::NM: return $value / self::FT_PER_NM;
                     case LengthUnit::M: return $value / self::FT_PER_M;
+                    case LengthUnit::KM: return $value / self::FT_PER_M / 1000;
+                    case LengthUnit::IN: return $value * 12;
                     default: throw new InvalidArgumentException('unknown target unit "' . $targetUnit->value);
                 }
             case LengthUnit::M:
                 switch ($targetUnit) {
                     case LengthUnit::NM: return $value / self::M_PER_NM;
                     case LengthUnit::FT: return $value * self::FT_PER_M;
+                    case LengthUnit::KM: return $value / 1000;
+                    case LengthUnit::IN: return $value * self::FT_PER_M * 12;
+                    default: throw new InvalidArgumentException('unknown target unit "' . $targetUnit->value);
+                }
+            case LengthUnit::KM:
+                switch ($targetUnit) {
+                    case LengthUnit::M: return $value * 1000;
+                    case LengthUnit::FT: return $value * self::FT_PER_M * 1000;
+                    case LengthUnit::NM: return $value * self::M_PER_NM / 1000;
+                    case LengthUnit::IN: return $value * self::FT_PER_M * 12 * 1000;
+                    default: throw new InvalidArgumentException('unknown target unit "' . $targetUnit->value);
+                }
+            case LengthUnit::IN:
+                switch ($targetUnit) {
+                    case LengthUnit::M: return $value / self::FT_PER_M / 12;
+                    case LengthUnit::FT: return $value / 12;
+                    case LengthUnit::NM: return $value / self::FT_PER_NM / 12;
+                    case LengthUnit::KM: return $value / self::FT_PER_M / 12 / 1000;
                     default: throw new InvalidArgumentException('unknown target unit "' . $targetUnit->value);
                 }
             default: throw new InvalidArgumentException('unknown source unit "' . $targetUnit->value);
