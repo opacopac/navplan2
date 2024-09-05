@@ -56,6 +56,8 @@ export class AircraftWnbEnvelopeChartComponent implements OnInit, AfterViewInit,
             return;
         }
 
+        this.container.nativeElement.innerHTML = '';
+
         if (this.envelope) {
             const svg = WnbEnvelopeSvg.create(
                 this.envelope,
