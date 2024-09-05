@@ -25,15 +25,26 @@ import {WnbEnvelopeArmDirection} from '../../../../../aircraft/domain/model/wnb-
 })
 export class PlanWnbContainerComponent implements OnInit {
     protected readonly Consumption = Consumption;
+    protected readonly WnbEnvelopeArmDirection = WnbEnvelopeArmDirection;
     protected readonly currentAircraft$ = this.appStore.pipe(select(getCurrentAircraft));
     protected readonly weightItems$ = this.appStore.pipe(select(getPlanWnbWeightItems));
-    protected readonly zeroFuelCoordinate$ = this.weightItems$.pipe(
-        map(items => items.find(wi => wi.type === WeightItemType.ZERO_FUEL_WEIGHT)),
+    protected readonly zeroFuelWeight$ = this.weightItems$.pipe(
+        map(items => items.find(wi => wi.type === WeightItemType.ZERO_FUEL_WEIGHT))
+    );
+    protected readonly zeroFuelCoordinateLong$ = this.zeroFuelWeight$.pipe(
         map(wi => new WnbEnvelopeCoordinate(wi.weight, wi.armLong))
     );
-    protected readonly takeoffCoordinate$ = this.weightItems$.pipe(
-        map(items => items.find(wi => wi.type === WeightItemType.TAKEOFF_WEIGHT)),
+    protected readonly zeroFuelCoordinateLat$ = this.zeroFuelWeight$.pipe(
+        map(wi => new WnbEnvelopeCoordinate(wi.weight, wi.armLat))
+    );
+    protected readonly takeoffWeight$ = this.weightItems$.pipe(
+        map(items => items.find(wi => wi.type === WeightItemType.TAKEOFF_WEIGHT))
+    );
+    protected readonly takeoffCoordinateLong$ = this.takeoffWeight$.pipe(
         map(wi => new WnbEnvelopeCoordinate(wi.weight, wi.armLong))
+    );
+    protected readonly takeoffCoordinateLat$ = this.takeoffWeight$.pipe(
+        map(wi => new WnbEnvelopeCoordinate(wi.weight, wi.armLat))
     );
     protected readonly envelopes$ = this.currentAircraft$.pipe(map(aircraft => aircraft ? aircraft.wnbEnvelopes : []));
     protected readonly flightroute$ = this.appStore.pipe(select(getFlightroute));

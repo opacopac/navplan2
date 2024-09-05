@@ -16,8 +16,12 @@
         {{ envelope.name }} <i>({{ this.getArmDirectionText(envelope.armDirection) }})</i>
         <app-aircraft-wnb-envelope-chart
             [envelope]="envelope"
-            [zeroFuelWnbCoordinate]="this.zeroFuelCoordinate$ | async"
-            [takeoffWnbCoordinate]="this.takeoffCoordinate$ | async"
+            [zeroFuelWnbCoordinate]="envelope.armDirection === WnbEnvelopeArmDirection.LONGITUDINAL
+                ? (this.zeroFuelCoordinateLong$ | async)
+                : (this.zeroFuelCoordinateLat$ | async)"
+            [takeoffWnbCoordinate]="envelope.armDirection === WnbEnvelopeArmDirection.LONGITUDINAL
+                ? (this.takeoffCoordinateLong$ | async)
+                : (this.takeoffCoordinateLat$ | async)"
             [weightUnit]="this.weightUnit$ | async"
             [lengthUnit]="this.lengthUnit$ | async"
             [isEditable]="false"
