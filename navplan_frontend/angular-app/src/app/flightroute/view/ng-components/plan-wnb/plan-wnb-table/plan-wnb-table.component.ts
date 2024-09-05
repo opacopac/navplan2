@@ -3,7 +3,6 @@ import {WeightUnit} from '../../../../../geo-physics/domain/model/quantities/wei
 import {LengthUnit} from '../../../../../geo-physics/domain/model/quantities/length-unit';
 import {ButtonColor} from '../../../../../common/view/model/button-color';
 import {Length} from '../../../../../geo-physics/domain/model/quantities/length';
-import {MatDialog} from '@angular/material/dialog';
 import {VolumeUnit} from '../../../../../geo-physics/domain/model/quantities/volume-unit';
 import {FormBuilder} from '@angular/forms';
 import {WeightItem} from '../../../../../aircraft/domain/model/weight-item';
@@ -31,11 +30,10 @@ export class PlanWnbTableComponent implements OnInit {
     protected readonly Volume = Volume;
     protected readonly ButtonColor = ButtonColor;
     protected readonly PlanWnbService = PlanWnbService;
-    protected displayedColumns: string[] = ['type', 'name', 'weight', 'arm', 'moment'];
+    protected displayedColumns: string[] = ['type', 'name', 'weight', 'armLong', 'armLat', 'momentLong', 'momentLat'];
 
 
     constructor(
-        private dialog: MatDialog,
         public formBuilder: FormBuilder
     ) {
     }
@@ -96,7 +94,7 @@ export class PlanWnbTableComponent implements OnInit {
     }
 
 
-    protected getMomentText(weightItem: WeightItem): string {
+    protected getMomentLongText(weightItem: WeightItem): string {
         if (!weightItem || !weightItem.weight || !weightItem.armLong) {
             return '';
         }
@@ -104,7 +102,19 @@ export class PlanWnbTableComponent implements OnInit {
         const moment = weightItem.weight.getValue(this.weightUnit) * weightItem.armLong.getValue(this.lengthUnit);
         const momentUnit = Weight.getUnitString(this.weightUnit) + ' ' + Length.getUnitString(this.lengthUnit);
 
-        return StringnumberHelper.roundToDigits(moment, 3) + ' ' + momentUnit;
+        return StringnumberHelper.roundToDigits(moment, 0) + ' ' + momentUnit;
+    }
+
+
+    protected getMomentLatText(weightItem: WeightItem): string {
+        if (!weightItem || !weightItem.weight || !weightItem.armLat) {
+            return '';
+        }
+
+        const moment = weightItem.weight.getValue(this.weightUnit) * weightItem.armLat.getValue(this.lengthUnit);
+        const momentUnit = Weight.getUnitString(this.weightUnit) + ' ' + Length.getUnitString(this.lengthUnit);
+
+        return StringnumberHelper.roundToDigits(moment, 0) + ' ' + momentUnit;
     }
 
 

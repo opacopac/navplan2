@@ -47,16 +47,28 @@
             </td>
         </ng-container>
 
-        <!-- arm column -->
-        <ng-container matColumnDef="arm">
-            <th mat-header-cell *matHeaderCellDef class="header-cell">Arm</th>
-            <td mat-cell *matCellDef="let entry">{{ this.getArmText(entry.arm) }}</td>
+        <!-- longitudinal arm column -->
+        <ng-container matColumnDef="armLong">
+            <th mat-header-cell *matHeaderCellDef class="header-cell">Arm (long.)</th>
+            <td mat-cell *matCellDef="let entry">{{ this.getArmText(entry.armLong) }}</td>
         </ng-container>
 
-        <!-- moment column -->
-        <ng-container matColumnDef="moment">
-            <th mat-header-cell *matHeaderCellDef class="header-cell">Moment</th>
-            <td mat-cell *matCellDef="let entry">{{ this.getMomentText(entry) }}</td>
+        <!-- lateral arm column -->
+        <ng-container matColumnDef="armLat">
+            <th mat-header-cell *matHeaderCellDef class="header-cell">Arm (lat.)</th>
+            <td mat-cell *matCellDef="let entry">{{ this.getArmText(entry.armLat) }}</td>
+        </ng-container>
+
+        <!-- longitudinal moment column -->
+        <ng-container matColumnDef="momentLong">
+            <th mat-header-cell *matHeaderCellDef class="header-cell">Moment (long.)</th>
+            <td mat-cell *matCellDef="let entry">{{ this.getMomentLongText(entry) }}</td>
+        </ng-container>
+
+        <!-- lateral moment column -->
+        <ng-container matColumnDef="momentLat">
+            <th mat-header-cell *matHeaderCellDef class="header-cell">Moment (long.)</th>
+            <td mat-cell *matCellDef="let entry">{{ this.getMomentLatText(entry) }}</td>
         </ng-container>
 
         <!-- no entry -->
