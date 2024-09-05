@@ -45,7 +45,7 @@ export class AircraftWnbWeightItemTableComponent implements OnInit {
     }
 
 
-    protected maxText(entry: WeightItem): string {
+    protected maxWeightText(entry: WeightItem): string {
         if (entry.maxWeight) {
             return entry.maxWeight.getValueAndUnit(this.weightUnit, 0);
         } else if (entry.maxFuel) {
@@ -56,7 +56,7 @@ export class AircraftWnbWeightItemTableComponent implements OnInit {
     }
 
 
-    protected defaultText(entry: WeightItem): string {
+    protected defaultWeightText(entry: WeightItem): string {
         if (entry.defaultWeight) {
             return entry.defaultWeight.getValueAndUnit(this.weightUnit, 0);
         } else if (entry.defaultFuel) {
