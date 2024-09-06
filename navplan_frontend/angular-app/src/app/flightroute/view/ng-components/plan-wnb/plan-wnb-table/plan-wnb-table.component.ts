@@ -11,6 +11,7 @@ import {StringnumberHelper} from '../../../../../system/domain/service/stringnum
 import {Volume} from '../../../../../geo-physics/domain/model/quantities/volume';
 import {WeightItemType} from '../../../../../aircraft/domain/model/weight-item-type';
 import {PlanWnbService} from '../../../../domain/service/plan-wnb.service';
+import {VehicleType} from '../../../../../aircraft/domain/model/vehicle-type';
 
 
 @Component({
@@ -20,6 +21,7 @@ import {PlanWnbService} from '../../../../domain/service/plan-wnb.service';
 })
 export class PlanWnbTableComponent implements OnInit {
     @Input() weightItems: WeightItem[];
+    @Input() vehicleType: VehicleType;
     @Input() routeFuel: Volume;
     @Input() weightUnit: WeightUnit;
     @Input() lengthUnit: LengthUnit;

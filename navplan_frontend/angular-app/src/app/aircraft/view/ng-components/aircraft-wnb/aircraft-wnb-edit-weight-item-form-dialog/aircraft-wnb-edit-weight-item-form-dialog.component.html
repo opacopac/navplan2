@@ -43,7 +43,7 @@
 
             <!-- longitudinal arm -->
             <mat-form-field class="flex-row">
-                <mat-label>Arm (Longitudinal)</mat-label>
+                <mat-label>Arm {{ this.data.vehicleType === VehicleType.HELICOPTER ? '(Longitudinal)' : '' }}</mat-label>
                 <input
                     matInput
                     type="number"
@@ -57,7 +57,7 @@
             </mat-form-field>
 
             <!-- lateral arm -->
-            <mat-form-field class="flex-row">
+            <mat-form-field class="flex-row" *ngIf="this.data.vehicleType === VehicleType.HELICOPTER">
                 <mat-label>Arm (Lateral)</mat-label>
                 <input
                     matInput

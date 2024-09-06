@@ -15,7 +15,8 @@
 
         <!-- weight items -->
         <app-aircraft-wnb-weight-item-table
-            [weightItems]="(this.currentAircraft$ | async)?.wnbWeightItems"
+            [vehicleType]="this.vehicleType$ | async"
+            [weightItems]="this.wnbWeightItems$ | async"
             [lengthUnit]="this.wnbLengthUnit$ | async"
             [weightUnit]="this.weightUnit$ | async"
             [volumeUnit]="this.volumeUnit$ | async"

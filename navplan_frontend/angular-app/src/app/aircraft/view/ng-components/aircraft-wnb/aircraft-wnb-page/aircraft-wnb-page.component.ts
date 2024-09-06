@@ -21,6 +21,8 @@ import {WnbEnvelope} from '../../../../domain/model/wnb-envelope';
 })
 export class AircraftWnbPageComponent implements OnInit {
     protected readonly currentAircraft$ = this.appStore.pipe(select(getCurrentAircraft));
+    protected readonly vehicleType$ = this.currentAircraft$.pipe(select(aircraft => aircraft.vehicleType));
+    protected readonly wnbWeightItems$ = this.currentAircraft$.pipe(select(aircraft => aircraft.wnbWeightItems));
     protected readonly wnbLengthUnit$ = this.appStore.pipe(select(getWnbLengthUnit));
     protected readonly weightUnit$ = this.appStore.pipe(select(getWeightUnit));
     protected readonly volumeUnit$ = this.appStore.pipe(select(getVolumeUnit));

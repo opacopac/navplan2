@@ -10,6 +10,7 @@ import {VolumeUnit} from '../../../../../geo-physics/domain/model/quantities/vol
 import {
     AircraftWnbEditWeightItemFormDialogComponent
 } from '../aircraft-wnb-edit-weight-item-form-dialog/aircraft-wnb-edit-weight-item-form-dialog.component';
+import {VehicleType} from '../../../../domain/model/vehicle-type';
 
 
 @Component({
@@ -18,6 +19,7 @@ import {
     styleUrls: ['./aircraft-wnb-weight-item-table.component.scss']
 })
 export class AircraftWnbWeightItemTableComponent implements OnInit {
+    @Input() vehicleType: VehicleType;
     @Input() weightItems: WeightItem[];
     @Input() weightUnit: WeightUnit;
     @Input() lengthUnit: LengthUnit;
@@ -27,7 +29,9 @@ export class AircraftWnbWeightItemTableComponent implements OnInit {
     @Output() deleteWeightItem = new EventEmitter<number>();
 
     protected readonly ButtonColor = ButtonColor;
-    protected displayedColumns: string[] = ['type', 'name', 'armLong', 'armLat', 'maxWeight', 'defaultWeight', 'icons'];
+
+    private aircraftColumns: string[] = ['type', 'name', 'armLong', 'maxWeight', 'defaultWeight', 'icons'];
+    private heliColumns: string[] = ['type', 'name', 'armLong', 'armLat', 'maxWeight', 'defaultWeight', 'icons'];
 
 
     constructor(
@@ -37,6 +41,16 @@ export class AircraftWnbWeightItemTableComponent implements OnInit {
 
 
     ngOnInit() {
+    }
+
+
+    protected getDisplayColumns(): string[] {
+        return this.vehicleType === VehicleType.HELICOPTER ? this.heliColumns : this.aircraftColumns;
+    }
+
+
+    protected getArmLongTitle(): string {
+        return this.vehicleType === VehicleType.HELICOPTER ? 'Arm (long.)' : 'Arm';
     }
 
 
@@ -88,6 +102,7 @@ export class AircraftWnbWeightItemTableComponent implements OnInit {
             width: '600px',
             data: {
                 weightItem: weightItem,
+                vehicleType: this.vehicleType,
                 allowAircraftType: !this.hasAircraftTypeItem(),
                 wnbLengthUnit: this.lengthUnit,
                 weightUnit: this.weightUnit,

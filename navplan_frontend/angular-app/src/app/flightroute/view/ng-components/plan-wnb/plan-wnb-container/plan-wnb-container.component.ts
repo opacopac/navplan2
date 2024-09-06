@@ -17,6 +17,7 @@ import {getCurrentAircraft} from '../../../../../aircraft/state/ngrx/aircraft.se
 import {WeightItemType} from '../../../../../aircraft/domain/model/weight-item-type';
 import {WnbEnvelopeCoordinate} from '../../../../../aircraft/domain/model/wnb-envelope-coordinate';
 import {WnbEnvelopeArmDirection} from '../../../../../aircraft/domain/model/wnb-envelope-arm-direction';
+import {VehicleType} from '../../../../../aircraft/domain/model/vehicle-type';
 
 @Component({
     selector: 'app-plan-wnb-container',
@@ -27,6 +28,9 @@ export class PlanWnbContainerComponent implements OnInit {
     protected readonly Consumption = Consumption;
     protected readonly WnbEnvelopeArmDirection = WnbEnvelopeArmDirection;
     protected readonly currentAircraft$ = this.appStore.pipe(select(getCurrentAircraft));
+    protected readonly vehicleType$ = this.currentAircraft$.pipe(
+        map(aircraft => aircraft ? aircraft.vehicleType : VehicleType.AIRPLANE)
+    );
     protected readonly weightItems$ = this.appStore.pipe(select(getPlanWnbWeightItems));
     protected readonly zeroFuelWeight$ = this.weightItems$.pipe(
         map(items => items.find(wi => wi.type === WeightItemType.ZERO_FUEL_WEIGHT))

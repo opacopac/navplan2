@@ -5,6 +5,7 @@
     />
     <app-plan-wnb-table
         *ngIf="this.currentAircraft$ | async"
+        [vehicleType]="this.vehicleType$ | async"
         [weightItems]="this.weightItems$ | async"
         [routeFuel]="this.routeFuel$ | async"
         [lengthUnit]="this.lengthUnit$ | async"

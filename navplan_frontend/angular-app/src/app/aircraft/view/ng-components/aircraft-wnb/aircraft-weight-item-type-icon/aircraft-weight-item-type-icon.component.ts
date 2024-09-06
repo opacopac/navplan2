@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {WeightItemType} from '../../../../domain/model/weight-item-type';
+import {VehicleType} from '../../../../domain/model/vehicle-type';
 
 
 @Component({
@@ -9,6 +10,7 @@ import {WeightItemType} from '../../../../domain/model/weight-item-type';
 })
 export class AircraftWeightItemTypeIconComponent implements OnInit {
     @Input() weightItemType: WeightItemType;
+    @Input() vehicleType: VehicleType;
 
     constructor() {
     }
@@ -21,7 +23,7 @@ export class AircraftWeightItemTypeIconComponent implements OnInit {
     protected getWeightItemTypeIcon(type: WeightItemType) {
         switch (type) {
             case WeightItemType.AIRCRAFT:
-                return 'fa-solid fa-plane';
+                return this.vehicleType === VehicleType.HELICOPTER ? 'fa-solid fa-helicopter' : 'fa-solid fa-plane';
             case WeightItemType.FUEL:
                 return 'fa-solid fa-droplet';
             case WeightItemType.PERSON:

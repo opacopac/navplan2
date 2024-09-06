@@ -11,6 +11,7 @@ import {Volume} from '../../../../../geo-physics/domain/model/quantities/volume'
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {StringnumberHelper} from '../../../../../system/domain/service/stringnumber/stringnumber-helper';
 import {FuelType} from '../../../../domain/model/fuel-type';
+import {VehicleType} from '../../../../domain/model/vehicle-type';
 
 
 @Component({
@@ -20,8 +21,9 @@ import {FuelType} from '../../../../domain/model/fuel-type';
 })
 export class AircraftWnbEditWeightItemFormDialogComponent implements OnInit, OnChanges {
     protected editWeightItemForm: FormGroup;
-    protected readonly FuelType = FuelType;
     protected readonly WeightItemType = WeightItemType;
+    protected readonly VehicleType = VehicleType;
+    protected readonly FuelType = FuelType;
     protected readonly Weight = Weight;
     protected readonly Volume = Volume;
     protected readonly Length = Length;
@@ -32,6 +34,7 @@ export class AircraftWnbEditWeightItemFormDialogComponent implements OnInit, OnC
         private dialogRef: MatDialogRef<AircraftWnbEditWeightItemFormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: {
             weightItem: WeightItem;
+            vehicleType: VehicleType;
             allowAircraftType: boolean;
             wnbLengthUnit: LengthUnit;
             weightUnit: WeightUnit;
