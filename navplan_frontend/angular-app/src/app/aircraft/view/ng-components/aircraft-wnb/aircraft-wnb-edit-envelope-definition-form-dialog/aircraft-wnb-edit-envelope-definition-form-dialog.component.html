@@ -31,17 +31,12 @@
                 >
                     <mat-option [value]="WnbEnvelopeAxisType.WEIGHT_ARM">Weight - Arm</mat-option>
                     <mat-option [value]="WnbEnvelopeAxisType.WEIGHT_MOMENT">Weight - Moment</mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            <!-- arm direction -->
-            <mat-form-field class="flex-row">
-                <mat-label>Arm Direction</mat-label>
-                <mat-select
-                    formControlName="armDirection"
-                >
-                    <mat-option [value]="WnbEnvelopeArmDirection.LONGITUDINAL">Longitudinal (Front - Back)</mat-option>
-                    <mat-option [value]="WnbEnvelopeArmDirection.LATERAL">Lateral (Left - Right)</mat-option>
+                    <mat-option
+                        [value]="WnbEnvelopeAxisType.ARM_LAT_ARM_LONG"
+                        *ngIf="this.data.vehicleType === VehicleType.HELICOPTER"
+                    >
+                        Lateral Arm - Longitudinal Arm
+                    </mat-option>
                 </mat-select>
             </mat-form-field>
         </div>

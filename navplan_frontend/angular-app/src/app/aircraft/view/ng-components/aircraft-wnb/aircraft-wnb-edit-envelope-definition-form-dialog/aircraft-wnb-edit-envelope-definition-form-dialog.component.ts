@@ -5,7 +5,7 @@ import {WeightUnit} from '../../../../../geo-physics/domain/model/quantities/wei
 import {WnbEnvelope} from '../../../../domain/model/wnb-envelope';
 import {WnbEnvelopeAxisType} from '../../../../domain/model/wnb-envelope-axis-type';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {WnbEnvelopeArmDirection} from '../../../../domain/model/wnb-envelope-arm-direction';
+import {VehicleType} from '../../../../domain/model/vehicle-type';
 
 
 @Component({
@@ -15,7 +15,7 @@ import {WnbEnvelopeArmDirection} from '../../../../domain/model/wnb-envelope-arm
 })
 export class AircraftWnbEditEnvelopeDefinitionFormDialogComponent implements OnInit, OnChanges {
     protected readonly WnbEnvelopeAxisType = WnbEnvelopeAxisType;
-    protected readonly WnbEnvelopeArmDirection = WnbEnvelopeArmDirection;
+    protected readonly VehicleType = VehicleType;
     protected editForm: FormGroup;
 
 
@@ -25,6 +25,7 @@ export class AircraftWnbEditEnvelopeDefinitionFormDialogComponent implements OnI
         @Inject(MAT_DIALOG_DATA) public data: {
             isNewEnvelope: boolean;
             envelope: WnbEnvelope;
+            vehicleType: VehicleType;
             lengthUnit: LengthUnit;
             weightUnit: WeightUnit;
         }
@@ -56,7 +57,6 @@ export class AircraftWnbEditEnvelopeDefinitionFormDialogComponent implements OnI
         const newEnvelope = new WnbEnvelope(
             this.editForm.controls['name'].value,
             this.editForm.controls['axisType'].value,
-            this.editForm.controls['armDirection'].value,
             this.data.envelope ? this.data.envelope.coordinates : []
         );
 
@@ -92,14 +92,6 @@ export class AircraftWnbEditEnvelopeDefinitionFormDialogComponent implements OnI
                 (envelope)
                     ? envelope.axisType
                     : WnbEnvelopeAxisType.WEIGHT_ARM,
-                [
-                    Validators.required
-                ]
-            ],
-            'armDirection': [
-                (envelope)
-                    ? envelope.armDirection
-                    : WnbEnvelopeArmDirection.LONGITUDINAL,
                 [
                     Validators.required
                 ]

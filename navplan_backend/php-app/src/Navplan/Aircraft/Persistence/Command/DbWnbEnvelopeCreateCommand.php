@@ -34,7 +34,6 @@ class DbWnbEnvelopeCreateCommand implements IWnbEnvelopeCreateCommand
                 DbTableAircraftWnbEnvelopes::COL_ID_AIRCRAFT,
                 DbTableAircraftWnbEnvelopes::COL_NAME,
                 DbTableAircraftWnbEnvelopes::COL_AXIS_TYPE,
-                DbTableAircraftWnbEnvelopes::COL_ARM_DIRECTION,
                 DbTableAircraftWnbEnvelopes::COL_COORDINATES_KG_M
             ]);
         $query .= ") VALUES (";
@@ -42,7 +41,6 @@ class DbWnbEnvelopeCreateCommand implements IWnbEnvelopeCreateCommand
             DbHelper::getDbIntValue($aircraftId),
             DbHelper::getDbStringValue($this->dbService, $wnbEnvelope->name),
             DbHelper::getDbStringValue($this->dbService, $wnbEnvelope->axisType->value),
-            DbHelper::getDbStringValue($this->dbService, $wnbEnvelope->armDirection->value),
             DbWnbEnvelopeConverter::toDbString($this->dbService, $wnbEnvelope->coordinates)
         ));
         $query .= ")";

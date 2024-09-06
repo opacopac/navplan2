@@ -14,15 +14,15 @@
         (weightItemChanged)="this.onWeightItemChanged($event)"
     />
     <div *ngFor="let envelope of this.envelopes$ | async">
-        {{ envelope.name }} <i>({{ this.getArmDirectionText(envelope.armDirection) }})</i>
+        {{ envelope.name }}
         <app-aircraft-wnb-envelope-chart
             [envelope]="envelope"
-            [zeroFuelWnbCoordinate]="envelope.armDirection === WnbEnvelopeArmDirection.LONGITUDINAL
-                ? (this.zeroFuelCoordinateLong$ | async)
-                : (this.zeroFuelCoordinateLat$ | async)"
-            [takeoffWnbCoordinate]="envelope.armDirection === WnbEnvelopeArmDirection.LONGITUDINAL
-                ? (this.takeoffCoordinateLong$ | async)
-                : (this.takeoffCoordinateLat$ | async)"
+            [zeroFuelWnbCoordinate]="envelope.axisType === WnbEnvelopeAxisType.ARM_LAT_ARM_LONG
+                ? (this.zeroFuelCoordinateLat$ | async)
+                : (this.zeroFuelCoordinateLong$ | async)"
+            [takeoffWnbCoordinate]="envelope.axisType === WnbEnvelopeAxisType.ARM_LAT_ARM_LONG
+                ? (this.takeoffCoordinateLat$ | async)
+                : (this.takeoffCoordinateLong$ | async)"
             [weightUnit]="this.weightUnit$ | async"
             [lengthUnit]="this.lengthUnit$ | async"
             [isEditable]="false"

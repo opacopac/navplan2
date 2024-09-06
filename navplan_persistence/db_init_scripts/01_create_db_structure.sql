@@ -216,7 +216,6 @@ CREATE TABLE `aircraft_wnb_envelopes` (
                                           `aircraft_id` int(11) UNSIGNED NOT NULL,
                                           `name` varchar(100) NOT NULL,
                                           `axis_type` varchar(20) NOT NULL,
-                                          `arm_direction` varchar(20) NOT NULL,
                                           `coordinates_kg_m` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`coordinates_kg_m`))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 

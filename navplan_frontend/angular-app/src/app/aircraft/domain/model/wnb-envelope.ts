@@ -2,13 +2,11 @@ import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {Weight} from '../../../geo-physics/domain/model/quantities/weight';
 import {WnbEnvelopeAxisType} from './wnb-envelope-axis-type';
 import {WnbEnvelopeCoordinate} from './wnb-envelope-coordinate';
-import {WnbEnvelopeArmDirection} from './wnb-envelope-arm-direction';
 
 export class WnbEnvelope {
     constructor(
         public name: string,
         public axisType: WnbEnvelopeAxisType,
-        public armDirection: WnbEnvelopeArmDirection,
         public coordinates: WnbEnvelopeCoordinate[],
     ) {
     }
@@ -18,7 +16,6 @@ export class WnbEnvelope {
         return new WnbEnvelope(
             this.name,
             this.axisType,
-            this.armDirection,
             this.coordinates?.map(c => c.clone())
         );
     }

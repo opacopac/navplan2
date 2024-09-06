@@ -8,8 +8,8 @@ import {MatDialog} from '@angular/material/dialog';
 import {
     AircraftWnbEditEnvelopeDefinitionFormDialogComponent
 } from '../aircraft-wnb-edit-envelope-definition-form-dialog/aircraft-wnb-edit-envelope-definition-form-dialog.component';
-import {WnbEnvelopeArmDirection} from '../../../../domain/model/wnb-envelope-arm-direction';
 import {ButtonColor} from '../../../../../common/view/model/button-color';
+import {VehicleType} from '../../../../domain/model/vehicle-type';
 
 
 @Component({
@@ -38,11 +38,6 @@ export class AircraftWnbEnvelopeListComponent implements OnInit {
 
 
     ngOnInit() {
-    }
-
-
-    protected getArmDirectionText(armDirection: WnbEnvelopeArmDirection) {
-        return armDirection === WnbEnvelopeArmDirection.LONGITUDINAL ? 'Longitudinal' : 'Lateral';
     }
 
 
@@ -78,6 +73,7 @@ export class AircraftWnbEnvelopeListComponent implements OnInit {
             data: {
                 isNewEnvelope: isNewEnvelope,
                 envelope: envelope,
+                vehicleType: this.currentAircraft ? this.currentAircraft.vehicleType : VehicleType.AIRPLANE,
                 lengthUnit: this.wnbLengthUnit,
                 weightUnit: this.weightUnit,
             }

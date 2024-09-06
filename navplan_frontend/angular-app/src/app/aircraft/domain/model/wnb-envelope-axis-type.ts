@@ -1,4 +1,5 @@
 export enum WnbEnvelopeAxisType {
     WEIGHT_ARM,
-    WEIGHT_MOMENT
+    WEIGHT_MOMENT,
+    ARM_LAT_ARM_LONG,
 }

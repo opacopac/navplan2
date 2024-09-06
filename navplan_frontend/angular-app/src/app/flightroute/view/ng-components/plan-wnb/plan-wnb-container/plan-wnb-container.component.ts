@@ -16,8 +16,8 @@ import {Volume} from '../../../../../geo-physics/domain/model/quantities/volume'
 import {getCurrentAircraft} from '../../../../../aircraft/state/ngrx/aircraft.selectors';
 import {WeightItemType} from '../../../../../aircraft/domain/model/weight-item-type';
 import {WnbEnvelopeCoordinate} from '../../../../../aircraft/domain/model/wnb-envelope-coordinate';
-import {WnbEnvelopeArmDirection} from '../../../../../aircraft/domain/model/wnb-envelope-arm-direction';
 import {VehicleType} from '../../../../../aircraft/domain/model/vehicle-type';
+import {WnbEnvelopeAxisType} from '../../../../../aircraft/domain/model/wnb-envelope-axis-type';
 
 @Component({
     selector: 'app-plan-wnb-container',
@@ -26,7 +26,6 @@ import {VehicleType} from '../../../../../aircraft/domain/model/vehicle-type';
 })
 export class PlanWnbContainerComponent implements OnInit {
     protected readonly Consumption = Consumption;
-    protected readonly WnbEnvelopeArmDirection = WnbEnvelopeArmDirection;
     protected readonly currentAircraft$ = this.appStore.pipe(select(getCurrentAircraft));
     protected readonly vehicleType$ = this.currentAircraft$.pipe(
         map(aircraft => aircraft ? aircraft.vehicleType : VehicleType.AIRPLANE)
@@ -68,11 +67,6 @@ export class PlanWnbContainerComponent implements OnInit {
     }
 
 
-    protected getArmDirectionText(armDirection: WnbEnvelopeArmDirection): string {
-        return armDirection === WnbEnvelopeArmDirection.LONGITUDINAL ? 'Longitudinal' : 'Lateral';
-    }
-
-
     protected onWeightItemChanged($event: [WeightItem, Weight, Volume]) {
         this.appStore.dispatch(PlanWnbActions.weightOfItemChanged({
             weightItem: $event[0],
@@ -80,4 +74,6 @@ export class PlanWnbContainerComponent implements OnInit {
             newFuel: $event[2]
         }));
     }
+
+    protected readonly WnbEnvelopeAxisType = WnbEnvelopeAxisType;
 }
