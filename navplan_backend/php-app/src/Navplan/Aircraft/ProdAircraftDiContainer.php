@@ -1,9 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Aircraft\Rest;
+namespace Navplan\Aircraft;
 
 use Navplan\Aircraft\Domain\Command\IAircraftCreateCommand;
 use Navplan\Aircraft\Domain\Command\IAircraftDeleteCommand;
+use Navplan\Aircraft\Domain\Command\IAircraftTypeDesignatorCreateCommand;
+use Navplan\Aircraft\Domain\Command\IAircraftTypeDesignatorDeleteAllCommand;
 use Navplan\Aircraft\Domain\Command\IAircraftUpdateCommand;
 use Navplan\Aircraft\Domain\Command\IDistancePerformanceTableCreateCommand;
 use Navplan\Aircraft\Domain\Command\IDistancePerformanceTableDeleteCommand;
@@ -14,9 +16,13 @@ use Navplan\Aircraft\Domain\Command\IWnbEnvelopeDeleteCommand;
 use Navplan\Aircraft\Domain\Query\IAircraftByIdQuery;
 use Navplan\Aircraft\Domain\Query\IAircraftListQuery;
 use Navplan\Aircraft\Domain\Service\AircraftService;
+use Navplan\Aircraft\Domain\Service\AircraftTypeDesignatorService;
 use Navplan\Aircraft\Domain\Service\IAircraftService;
+use Navplan\Aircraft\Domain\Service\IAircraftTypeDesignatorService;
 use Navplan\Aircraft\Persistence\Command\DbAircraftCreateCommand;
 use Navplan\Aircraft\Persistence\Command\DbAircraftDeleteCommand;
+use Navplan\Aircraft\Persistence\Command\DbAircraftTypeDesignatorCreateCommand;
+use Navplan\Aircraft\Persistence\Command\DbAircraftTypeDesignatorDeleteAllCommand;
 use Navplan\Aircraft\Persistence\Command\DbAircraftUpdateCommand;
 use Navplan\Aircraft\Persistence\Command\DbDistancePerformanceTableCreateCommand;
 use Navplan\Aircraft\Persistence\Command\DbDistancePerformanceTableDeleteCommand;
@@ -48,6 +54,10 @@ class ProdAircraftDiContainer implements IAircraftDiContainer
     private IWnbEnvelopeDeleteCommand $wnbEnvelopeDeleteCommand;
     private IDistancePerformanceTableCreateCommand $distancePerformanceTableCreateCommand;
     private IDistancePerformanceTableDeleteCommand $distancePerformanceTableDeleteCommand;
+    private IAircraftTypeDesignatorService $acTypeDesignatorService;
+    private IAircraftTypeDesignatorCreateCommand $acTypeDesignatorCreateCommand;
+    private IAircraftTypeDesignatorDeleteAllCommand $acTypeDesignatorDeleteAllCommand;
+    private IAircraftTypeDesignationImporter $acTypeDesignationImporter;
 
 
     public function __construct(
@@ -230,5 +240,53 @@ class ProdAircraftDiContainer implements IAircraftDiContainer
         }
 
         return $this->distancePerformanceTableDeleteCommand;
+    }
+
+
+    public function getAircraftTypeDesignatorService(): IAircraftTypeDesignatorService
+    {
+        if (!isset($this->acTypeDesignatorService)) {
+            $this->acTypeDesignatorService = new AircraftTypeDesignatorService(
+                $this->getAircraftTypeDesignatorCreateCommand(),
+                $this->getAircraftTypeDesignatorDeleteAllCommand()
+            );
+        }
+
+        return $this->acTypeDesignatorService;
+    }
+
+    public function getAircraftTypeDesignatorCreateCommand(): IAircraftTypeDesignatorCreateCommand
+    {
+        if (!isset($this->acTypeDesignatorCreateCommand)) {
+            $this->acTypeDesignatorCreateCommand = new DbAircraftTypeDesignatorCreateCommand(
+                $this->dbService
+            );
+        }
+
+        return $this->acTypeDesignatorCreateCommand;
+    }
+
+    public function getAircraftTypeDesignatorDeleteAllCommand(): IAircraftTypeDesignatorDeleteAllCommand
+    {
+        if (!isset($this->acTypeDesignatorDeleteAllCommand)) {
+            $this->acTypeDesignatorDeleteAllCommand = new DbAircraftTypeDesignatorDeleteAllCommand(
+                $this->dbService
+            );
+        }
+
+        return $this->acTypeDesignatorDeleteAllCommand;
+    }
+
+
+    public function getAircraftTypeDesignatorImporter(): IAircraftTypeDesignationImporter
+    {
+        if (!isset($this->acTypeDesignationImporter)) {
+            $this->acTypeDesignationImporter = new AircraftTypeDesignationImporter(
+                $this->getAircraftTypeDesignatorCreateCommand(),
+                $this->getAircraftTypeDesignatorDeleteAllCommand()
+            );
+        }
+
+        return $this->acTypeDesignationImporter;
     }
 }
