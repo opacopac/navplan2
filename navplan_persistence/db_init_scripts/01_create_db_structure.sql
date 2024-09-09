@@ -419,7 +419,9 @@ CREATE TABLE IF NOT EXISTS `icao_aircraft_type` (
   `eng_count` tinyint(4) NOT NULL,
   `wtc` varchar(3) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `designator` (`designator`) USING BTREE
+  KEY `designator` (`designator`) USING BTREE,
+  KEY `model` (`model`) USING BTREE,
+  KEY `manufacturer` (`manufacturer`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 -- --------------------------------------------------------
