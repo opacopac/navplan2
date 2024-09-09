@@ -19,6 +19,8 @@ use Navplan\Aircraft\Domain\Service\AircraftService;
 use Navplan\Aircraft\Domain\Service\AircraftTypeDesignatorService;
 use Navplan\Aircraft\Domain\Service\IAircraftService;
 use Navplan\Aircraft\Domain\Service\IAircraftTypeDesignatorService;
+use Navplan\Aircraft\Importer\Service\AircraftTypeDesignatorImporter;
+use Navplan\Aircraft\Importer\Service\IAircraftTypeDesignatorImporter;
 use Navplan\Aircraft\Persistence\Command\DbAircraftCreateCommand;
 use Navplan\Aircraft\Persistence\Command\DbAircraftDeleteCommand;
 use Navplan\Aircraft\Persistence\Command\DbAircraftTypeDesignatorCreateCommand;
@@ -36,6 +38,7 @@ use Navplan\Aircraft\Rest\Controller\AircraftController;
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
+use Navplan\System\Domain\Service\ILoggingService;
 use Navplan\User\Domain\Service\IUserService;
 
 
@@ -57,13 +60,14 @@ class ProdAircraftDiContainer implements IAircraftDiContainer
     private IAircraftTypeDesignatorService $acTypeDesignatorService;
     private IAircraftTypeDesignatorCreateCommand $acTypeDesignatorCreateCommand;
     private IAircraftTypeDesignatorDeleteAllCommand $acTypeDesignatorDeleteAllCommand;
-    private IAircraftTypeDesignationImporter $acTypeDesignationImporter;
+    private IAircraftTypeDesignatorImporter $acTypeDesignationImporter;
 
 
     public function __construct(
         private IUserService $userService,
         private IDbService $dbService,
-        private IHttpService $httpService
+        private IHttpService $httpService,
+        private ILoggingService $loggingService
     )
     {
     }
@@ -278,12 +282,12 @@ class ProdAircraftDiContainer implements IAircraftDiContainer
     }
 
 
-    public function getAircraftTypeDesignatorImporter(): IAircraftTypeDesignationImporter
+    public function getAircraftTypeDesignatorImporter(): IAircraftTypeDesignatorImporter
     {
         if (!isset($this->acTypeDesignationImporter)) {
-            $this->acTypeDesignationImporter = new AircraftTypeDesignationImporter(
-                $this->getAircraftTypeDesignatorCreateCommand(),
-                $this->getAircraftTypeDesignatorDeleteAllCommand()
+            $this->acTypeDesignationImporter = new AircraftTypeDesignatorImporter(
+                $this->getAircraftTypeDesignatorService(),
+                $this->loggingService
             );
         }
 

@@ -28,7 +28,7 @@ class ImporterAircraftTypeDesignatorConverter
             StringNumberHelper::parseStringOrError($args, self::KEY_MANUFACTURER),
             self::parseAircraftType(StringNumberHelper::parseStringOrError($args, self::KEY_AC_DESCRIPTION)),
             self::parseEngineType(StringNumberHelper::parseStringOrError($args, self::KEY_ENG_TYPE)),
-            StringNumberHelper::parseIntOrError($args, self::KEY_ENG_COUNT),
+            StringNumberHelper::parseIntOrZero($args, self::KEY_ENG_COUNT),
             StringNumberHelper::parseStringOrError($args, self::KEY_WTC)
         );
     }
@@ -49,6 +49,8 @@ class ImporterAircraftTypeDesignatorConverter
                 return AircraftType::SEAPLANE;
             case "Tiltrotor":
                 return AircraftType::TILTROTOR;
+            case "Special":
+                return AircraftType::SPECIAL;
             default:
                 return AircraftType::UNKNOWN;
         }

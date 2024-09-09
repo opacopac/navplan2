@@ -124,7 +124,8 @@ class ProdNavplanDiContainer
             $this->aircraftDiContainer = new ProdAircraftDiContainer(
                 $this->getUserDiContainer()->getUserService(),
                 $this->getPersistenceDiContainer()->getDbService(),
-                $this->getSystemDiContainer()->getHttpService()
+                $this->getSystemDiContainer()->getHttpService(),
+                $this->getSystemDiContainer()->getLoggingService()
             );
         }
 
