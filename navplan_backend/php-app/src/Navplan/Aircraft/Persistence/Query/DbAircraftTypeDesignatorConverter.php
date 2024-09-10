@@ -20,7 +20,7 @@ class DbAircraftTypeDesignatorConverter
             $row[DbTableAircraftTypeDesignator::COL_MANUFACTURER],
             AircraftType::from($row[DbTableAircraftTypeDesignator::COL_AC_TYPE]),
             EngineType::from($row[DbTableAircraftTypeDesignator::COL_ENG_TYPE]),
-            $row[DbTableAircraftTypeDesignator::COL_ENG_COUNT],
+            intval($row[DbTableAircraftTypeDesignator::COL_ENG_COUNT]),
             $row[DbTableAircraftTypeDesignator::COL_WTC]
         );
     }

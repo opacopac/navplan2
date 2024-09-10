@@ -260,6 +260,8 @@ class ProdAircraftDiContainer implements IAircraftDiContainer
                 $this->httpService
             );
         }
+
+        return $this->aircraftTypeDesignatorController;
     }
 
 

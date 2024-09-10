@@ -9,7 +9,8 @@ interface IAircraftTypeDesignatorSearchQuery
 {
     /**
      * @param string $searchText
+     * @param int $maxResults
      * @return AircraftTypeDesignator[]
      */
-    function search(string $searchText): array;
+    function search(string $searchText, int $maxResults): array;
 }

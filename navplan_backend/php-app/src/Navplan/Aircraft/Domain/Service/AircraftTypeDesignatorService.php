@@ -10,6 +10,8 @@ use Navplan\Aircraft\Domain\Query\IAircraftTypeDesignatorSearchQuery;
 
 class AircraftTypeDesignatorService implements IAircraftTypeDesignatorService
 {
+    private const MAX_RESULTS = 10;
+
     public function __construct(
         private IAircraftTypeDesignatorCreateCommand $typeDesignatorCreateCommand,
         private IAircraftTypeDesignatorDeleteAllCommand $typeDesignatorDeleteAllCommand,
@@ -33,6 +35,6 @@ class AircraftTypeDesignatorService implements IAircraftTypeDesignatorService
 
     public function searchByText(string $searchText): array
     {
-        $this->typeDesignatorSearchQuery->search($searchText);
+        return $this->typeDesignatorSearchQuery->search($searchText, self::MAX_RESULTS);
     }
 }
