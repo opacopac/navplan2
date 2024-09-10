@@ -37,6 +37,8 @@ interface IAircraftDiContainer
 
     function getDistancePerformanceTableDeleteCommand(): IDistancePerformanceTableDeleteCommand;
 
+    function getAircraftTypeDesignatorController(): IRestController;
+
     function getAircraftTypeDesignatorService(): IAircraftTypeDesignatorService;
 
     function getAircraftTypeDesignatorCreateCommand(): IAircraftTypeDesignatorCreateCommand;

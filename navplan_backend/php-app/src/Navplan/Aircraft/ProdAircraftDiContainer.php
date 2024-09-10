@@ -15,6 +15,7 @@ use Navplan\Aircraft\Domain\Command\IWnbEnvelopeCreateCommand;
 use Navplan\Aircraft\Domain\Command\IWnbEnvelopeDeleteCommand;
 use Navplan\Aircraft\Domain\Query\IAircraftByIdQuery;
 use Navplan\Aircraft\Domain\Query\IAircraftListQuery;
+use Navplan\Aircraft\Domain\Query\IAircraftTypeDesignatorSearchQuery;
 use Navplan\Aircraft\Domain\Service\AircraftService;
 use Navplan\Aircraft\Domain\Service\AircraftTypeDesignatorService;
 use Navplan\Aircraft\Domain\Service\IAircraftService;
@@ -34,7 +35,9 @@ use Navplan\Aircraft\Persistence\Command\DbWnbEnvelopeCreateCommand;
 use Navplan\Aircraft\Persistence\Command\DbWnbEnvelopeDeleteCommand;
 use Navplan\Aircraft\Persistence\Query\DbAircraftByIdQuery;
 use Navplan\Aircraft\Persistence\Query\DbAircraftListQuery;
+use Navplan\Aircraft\Persistence\Query\DbAircraftTypeDesignatorSearchQuery;
 use Navplan\Aircraft\Rest\Controller\AircraftController;
+use Navplan\Aircraft\Rest\Controller\AircraftTypeDesignatorController;
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
@@ -57,10 +60,12 @@ class ProdAircraftDiContainer implements IAircraftDiContainer
     private IWnbEnvelopeDeleteCommand $wnbEnvelopeDeleteCommand;
     private IDistancePerformanceTableCreateCommand $distancePerformanceTableCreateCommand;
     private IDistancePerformanceTableDeleteCommand $distancePerformanceTableDeleteCommand;
+    private IRestController $aircraftTypeDesignatorController;
     private IAircraftTypeDesignatorService $acTypeDesignatorService;
     private IAircraftTypeDesignatorCreateCommand $acTypeDesignatorCreateCommand;
     private IAircraftTypeDesignatorDeleteAllCommand $acTypeDesignatorDeleteAllCommand;
     private IAircraftTypeDesignatorImporter $acTypeDesignationImporter;
+    private IAircraftTypeDesignatorSearchQuery $acTypeDesignatorSearchQuery;
 
 
     public function __construct(
@@ -247,12 +252,24 @@ class ProdAircraftDiContainer implements IAircraftDiContainer
     }
 
 
+    public function getAircraftTypeDesignatorController(): IRestController
+    {
+        if (!isset($this->aircraftTypeDesignatorController)) {
+            $this->aircraftTypeDesignatorController = new AircraftTypeDesignatorController(
+                $this->getAircraftTypeDesignatorService(),
+                $this->httpService
+            );
+        }
+    }
+
+
     public function getAircraftTypeDesignatorService(): IAircraftTypeDesignatorService
     {
         if (!isset($this->acTypeDesignatorService)) {
             $this->acTypeDesignatorService = new AircraftTypeDesignatorService(
                 $this->getAircraftTypeDesignatorCreateCommand(),
-                $this->getAircraftTypeDesignatorDeleteAllCommand()
+                $this->getAircraftTypeDesignatorDeleteAllCommand(),
+                $this->getAircraftTypeDesignatorSearchQuery()
             );
         }
 
@@ -292,5 +309,17 @@ class ProdAircraftDiContainer implements IAircraftDiContainer
         }
 
         return $this->acTypeDesignationImporter;
+    }
+
+
+    public function getAircraftTypeDesignatorSearchQuery(): IAircraftTypeDesignatorSearchQuery
+    {
+        if (!isset($this->acTypeDesignatorSearchQuery)) {
+            $this->acTypeDesignatorSearchQuery = new DbAircraftTypeDesignatorSearchQuery(
+                $this->dbService
+            );
+        }
+
+        return $this->acTypeDesignatorSearchQuery;
     }
 }

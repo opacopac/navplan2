@@ -10,4 +10,10 @@ interface IAircraftTypeDesignatorService
     function create(AircraftTypeDesignator $typeDesignator): AircraftTypeDesignator;
 
     function deleteAll(): void;
+
+    /**
+     * @param string $searchText
+     * @return AircraftTypeDesignator[]
+     */
+    function searchByText(string $searchText): array;
 }
