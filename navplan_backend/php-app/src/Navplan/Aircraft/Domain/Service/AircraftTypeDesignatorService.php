@@ -10,7 +10,7 @@ use Navplan\Aircraft\Domain\Query\IAircraftTypeDesignatorSearchQuery;
 
 class AircraftTypeDesignatorService implements IAircraftTypeDesignatorService
 {
-    private const MAX_RESULTS = 10;
+    private const MAX_RESULTS = 15;
 
     public function __construct(
         private IAircraftTypeDesignatorCreateCommand $typeDesignatorCreateCommand,

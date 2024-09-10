@@ -19,13 +19,25 @@ class DbAircraftTypeDesignatorSearchQuery implements IAircraftTypeDesignatorSear
 
     public function search(string $searchText, int $maxResults): array
     {
-        $searchText = DbHelper::getDbStringValue($this->dbService, '%' . strtolower(trim($searchText)) . '%');
+        $prefixSearchText = DbHelper::getDbStringValue($this->dbService, strtolower(trim($searchText)) . '%');
+        $fullSearchText = DbHelper::getDbStringValue($this->dbService, '%' . strtolower(trim($searchText)) . '%');
 
-        $query = "SELECT * FROM " . DbTableAircraftTypeDesignator::TABLE_NAME;
-        $query .= " WHERE LOWER(" . DbTableAircraftTypeDesignator::COL_DESIGNATOR . ") LIKE " . $searchText;
-        $query .= " OR LOWER(" . DbTableAircraftTypeDesignator::COL_MODEL . ") LIKE " . $searchText;
-        $query .= " OR LOWER(" . DbTableAircraftTypeDesignator::COL_MANUFACTURER . ") LIKE " . $searchText;
+        $query = "(";
+        $query .= "SELECT * FROM " . DbTableAircraftTypeDesignator::TABLE_NAME;
+        $query .= " WHERE LOWER(" . DbTableAircraftTypeDesignator::COL_DESIGNATOR . ") LIKE " . $prefixSearchText;
         $query .= " ORDER BY " . DbTableAircraftTypeDesignator::COL_DESIGNATOR;
+        $query .= " LIMIT " . $maxResults;
+        $query .= ") UNION (";
+        $query .= "SELECT * FROM " . DbTableAircraftTypeDesignator::TABLE_NAME;
+        $query .= " WHERE LOWER(" . DbTableAircraftTypeDesignator::COL_MODEL . ") LIKE " . $fullSearchText;
+        $query .= " ORDER BY " . DbTableAircraftTypeDesignator::COL_MODEL;
+        $query .= " LIMIT " . $maxResults;
+        $query .= ") UNION (";
+        $query .= "SELECT * FROM " . DbTableAircraftTypeDesignator::TABLE_NAME;
+        $query .= " WHERE LOWER(" . DbTableAircraftTypeDesignator::COL_MANUFACTURER . ") LIKE " . $fullSearchText;
+        $query .= " ORDER BY " . DbTableAircraftTypeDesignator::COL_MANUFACTURER;
+        $query .= " LIMIT " . $maxResults;
+        $query .= ")";
         $query .= " LIMIT " . $maxResults;
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading aircraft type designators");
