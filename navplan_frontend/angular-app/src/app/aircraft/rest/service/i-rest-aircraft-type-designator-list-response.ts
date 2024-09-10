@@ -1,4 +1,4 @@
-import {IRestAircraftTypeDesignator} from './i-rest-aircraft-type-designator';
+import {IRestAircraftTypeDesignator} from '../model/i-rest-aircraft-type-designator';
 
 
 export interface IRestAircraftTypeDesignatorListResponse {

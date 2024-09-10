@@ -1,4 +1,4 @@
-import {IRestAircraftListEntry} from './i-rest-aircraft-list-entry';
+import {IRestAircraftListEntry} from '../model/i-rest-aircraft-list-entry';
 
 
 export interface IRestAircraftListResponse {

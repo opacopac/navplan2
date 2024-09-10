@@ -1,4 +1,4 @@
-import {IRestAircraftListResponse} from '../model/i-rest-aircraft-list-response';
+import {IRestAircraftListResponse} from '../service/i-rest-aircraft-list-response';
 import {AircraftListEntry} from '../../domain/model/aircraft-list-entry';
 import {RestAircraftListEntryConverter} from './rest-aircraft-list-entry-converter';
 

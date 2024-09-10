@@ -6,11 +6,11 @@ import {AircraftListEntry} from '../../domain/model/aircraft-list-entry';
 import {Aircraft} from '../../domain/model/aircraft';
 import {IAircraftRepoService} from '../../domain/service/i-aircraft-repo.service';
 import {environment} from '../../../../environments/environment';
-import {IRestAircraftListResponse} from '../model/i-rest-aircraft-list-response';
+import {IRestAircraftListResponse} from './i-rest-aircraft-list-response';
 import {catchError, map} from 'rxjs/operators';
 import {RestAircraftListConverter} from '../converter/rest-aircraft-list-converter';
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
-import {IRestAircraftResponse} from '../model/i-rest-aircraft-response';
+import {IRestAircraftResponse} from './i-rest-aircraft-response';
 import {RestAircraftResponseConverter} from '../converter/rest-aircraft-response-converter';
 import {RestAircraftConverter} from '../converter/rest-aircraft-converter';
 import {IRestSuccessResponse} from '../../../flightroute/rest/model/i-rest-success-response';
@@ -82,7 +82,7 @@ export class RestAircraftRepoService implements IAircraftRepoService {
                         LoggingService.logResponseError('ERROR creating aircraft', err);
                         return throwError(err);
                     })
-            );
+                );
         }
     }
 
@@ -102,7 +102,6 @@ export class RestAircraftRepoService implements IAircraftRepoService {
                 })
             );
     }
-
 
 
     public deleteAircraft(aircraftId: number, user: User): Observable<boolean> {

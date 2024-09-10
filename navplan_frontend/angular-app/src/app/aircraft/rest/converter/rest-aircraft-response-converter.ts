@@ -1,5 +1,5 @@
 import {RestAircraftConverter} from './rest-aircraft-converter';
-import {IRestAircraftResponse} from '../model/i-rest-aircraft-response';
+import {IRestAircraftResponse} from '../service/i-rest-aircraft-response';
 import {Aircraft} from '../../domain/model/aircraft';
 
 

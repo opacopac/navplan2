@@ -6,7 +6,7 @@ import {catchError, map} from 'rxjs/operators';
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {IAircraftTypeDesignatorRepoService} from '../../domain/service/i-aircraft-type-designator-repo.service';
 import {AircraftTypeDesignator} from '../../domain/model/aircraft-type-designator';
-import {IRestAircraftTypeDesignatorListResponse} from '../model/i-rest-aircraft-type-designator-list-response';
+import {IRestAircraftTypeDesignatorListResponse} from './i-rest-aircraft-type-designator-list-response';
 import {
     RestAircraftTypeDesignatorListResponseConverter
 } from '../converter/rest-aircraft-type-designator-list-response-converter';

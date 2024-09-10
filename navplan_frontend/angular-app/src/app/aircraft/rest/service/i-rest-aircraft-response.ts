@@ -1,4 +1,4 @@
-import {IRestAircraft} from './i-rest-aircraft';
+import {IRestAircraft} from '../model/i-rest-aircraft';
 
 
 export interface IRestAircraftResponse {

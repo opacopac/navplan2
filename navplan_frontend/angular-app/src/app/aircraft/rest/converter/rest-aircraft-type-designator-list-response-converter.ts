@@ -1,4 +1,4 @@
-import {IRestAircraftTypeDesignatorListResponse} from '../model/i-rest-aircraft-type-designator-list-response';
+import {IRestAircraftTypeDesignatorListResponse} from '../service/i-rest-aircraft-type-designator-list-response';
 import {AircraftTypeDesignator} from '../../domain/model/aircraft-type-designator';
 import {RestAircraftTypeDesignatorConverter} from './rest-aircraft-type-designator-converter';
 
