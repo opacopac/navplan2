@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
 import {AutoCompleteResultItem} from '../../model/auto-complete-result-item';
 import {ButtonColor} from '../../model/button-color';
 import {FormControl, Validators} from '@angular/forms';
@@ -21,20 +21,17 @@ export class AutoCompleteComponent<T> implements OnInit, OnDestroy, OnChanges {
 
     protected readonly ButtonColor = ButtonColor;
     protected queryInput: FormControl;
-    private searchResults2: AutoCompleteResultItem<T>[];
 
-    constructor(private cdr: ChangeDetectorRef) {
+    constructor() {
     }
 
 
     ngOnInit() {
         this.initForm();
-        this.searchResults2 = [... this.searchResults];
     }
 
 
     ngOnChanges() {
-        this.searchResults2 = [... this.searchResults];
     }
 
 
@@ -48,7 +45,7 @@ export class AutoCompleteComponent<T> implements OnInit, OnDestroy, OnChanges {
 
 
     protected getSearchResults(): AutoCompleteResultItem<T>[] {
-        return this.searchResults2;
+        return this.searchResults;
     }
 
 
