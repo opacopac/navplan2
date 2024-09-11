@@ -22,7 +22,7 @@
         (optionSelected)="this.query.value = this.getDisplayName($event.option.value); this.onSearchResultSelected($event.option.value)"
         [displayWith]="this.getDisplayName"
     >
-        @for (result of this.searchResults; track result) {
+        @for (result of this.getSearchResults(); track result) {
             <mat-option [value]="result.item">{{ this.getDisplayName(result) }}</mat-option>
         }
     </mat-autocomplete>

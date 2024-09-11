@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {of} from 'rxjs';
-import {catchError, map, switchMap} from 'rxjs/operators';
+import {catchError, debounceTime, map, switchMap} from 'rxjs/operators';
 import {MessageActions} from '../../../message/state/ngrx/message.actions';
 import {Message} from '../../../message/domain/model/message';
 import {IAircraftTypeDesignatorService} from '../../domain/service/i-aircraft-type-designator.service';
@@ -19,6 +19,7 @@ export class AircraftTypeDesignatorEffects {
 
     searchAcTypeDesignatorByTextAction$ = createEffect(() => this.actions$.pipe(
         ofType(AircraftTypeDesignatorActions.searchByTextAction),
+        debounceTime(250),
         switchMap(action => this.acTypeDesignatorService.searchTypeDesignatorByText(
             action.searchText
         ).pipe(

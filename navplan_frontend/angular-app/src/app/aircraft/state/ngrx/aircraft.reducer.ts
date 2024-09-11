@@ -232,7 +232,7 @@ export const aircraftReducer = createReducer(
 
     on(AircraftTypeDesignatorActions.searchByTextSuccessAction, (state, action) => ({
         ...state,
-        acTypeDesignatorSearchResults: {
+        acTypeDesignatorSearchState: {
             searchResults: action.searchResults,
             selectedResultIndex: undefined,
             selectedSearchResult: undefined

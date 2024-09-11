@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {Store} from '@ngrx/store';
-import {of} from 'rxjs';
+import {select, Store} from '@ngrx/store';
 import {AircraftTypeDesignatorActions} from '../../../../state/ngrx/aircraft-type-designator.actions';
 import {AircraftTypeDesignator} from '../../../../domain/model/aircraft-type-designator';
 import {AircraftType} from '../../../../domain/model/aircraft-type';
 import {EngineType} from '../../../../domain/model/engine-type';
 import {AutoCompleteResultItem} from '../../../../../common/view/model/auto-complete-result-item';
+import {getAcTypeDesignatorSearchResults} from '../../../../state/ngrx/aircraft.selectors';
+import {map} from 'rxjs/operators';
 
 
 @Component({
@@ -14,7 +15,10 @@ import {AutoCompleteResultItem} from '../../../../../common/view/model/auto-comp
     styleUrls: ['./aircraft-type-designator-autocomplete.component.scss'],
 })
 export class AircraftTypeDesignatorAutocompleteComponent implements OnInit {
-    protected readonly acTypeDesignatorSearchResults$ = of(this.toSearchResultItems(this.createFakeAircraftTypeDesignatorList())); // this.appStore.pipe(select(getCurrentAircraft));
+    protected readonly acTypeDesignatorSearchResults$ = this.appStore.pipe(
+        select(getAcTypeDesignatorSearchResults),
+        map(acTypeDesignators => this.toSearchResultItems(acTypeDesignators))
+    );
 
 
     constructor(private appStore: Store<any>) {
