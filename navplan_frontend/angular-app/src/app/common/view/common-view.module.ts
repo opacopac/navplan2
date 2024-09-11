@@ -8,6 +8,12 @@ import {MiniFabButtonComponent} from './ng-components/mini-fab-button/mini-fab-b
 import {MatDialogModule} from '@angular/material/dialog';
 import {FormDialogComponent} from './ng-components/form-dialog/form-dialog.component';
 import {ConfirmDeleteDialogComponent} from './ng-components/confirm-delete-dialog/confirm-delete-dialog.component';
+import {AutoCompleteComponent} from './ng-components/auto-complete/auto-complete.component';
+import {MatIconModule} from '@angular/material/icon';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {ReactiveFormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -16,6 +22,11 @@ import {ConfirmDeleteDialogComponent} from './ng-components/confirm-delete-dialo
         MatButtonModule,
         MatTooltipModule,
         MatDialogModule,
+        MatIconModule,
+        MatAutocompleteModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule
     ],
     declarations: [
         IconButtonComponent,
@@ -23,6 +34,7 @@ import {ConfirmDeleteDialogComponent} from './ng-components/confirm-delete-dialo
         StatusButtonComponent,
         ConfirmDeleteDialogComponent,
         FormDialogComponent,
+        AutoCompleteComponent,
     ],
     exports: [
         IconButtonComponent,
@@ -30,6 +42,7 @@ import {ConfirmDeleteDialogComponent} from './ng-components/confirm-delete-dialo
         MiniFabButtonComponent,
         ConfirmDeleteDialogComponent,
         FormDialogComponent,
+        AutoCompleteComponent,
     ],
     providers: []
 })

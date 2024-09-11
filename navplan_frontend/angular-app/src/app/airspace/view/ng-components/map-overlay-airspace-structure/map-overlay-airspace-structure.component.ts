@@ -4,7 +4,7 @@ import {OlOverlayBaseComponent} from '../../../../base-map/view/ng-components/ol
 import {Store} from '@ngrx/store';
 import {Observable, Subscription} from 'rxjs';
 import {getPositionSearchState} from '../../../../search/state/ngrx/search.selectors';
-import {PositionSearchState} from '../../../../search/domain/model/position-search-state';
+import {PositionSearchState} from '../../../../search/state/state-model/position-search-state';
 
 
 @Component({

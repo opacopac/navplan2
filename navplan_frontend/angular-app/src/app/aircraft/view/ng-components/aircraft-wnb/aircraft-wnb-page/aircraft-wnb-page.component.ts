@@ -7,9 +7,9 @@ import {
     getWnbLengthUnit
 } from '../../../../../geo-physics/state/ngrx/geo-physics.selectors';
 import {Weight} from '../../../../../geo-physics/domain/model/quantities/weight';
-import {AircraftWnbActions} from '../../../../state/ngrx/aircraft-wnb-actions';
+import {AircraftWnbActions} from '../../../../state/ngrx/aircraft-wnb.actions';
 import {WeightItem} from '../../../../domain/model/weight-item';
-import {AircraftCrudActions} from '../../../../state/ngrx/aircraft-crud-actions';
+import {AircraftCrudActions} from '../../../../state/ngrx/aircraft-crud.actions';
 import {WnbEnvelopeCoordinate} from '../../../../domain/model/wnb-envelope-coordinate';
 import {WnbEnvelope} from '../../../../domain/model/wnb-envelope';
 

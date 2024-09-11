@@ -1,5 +1,5 @@
-import {TextSearchState} from '../../domain/model/text-search-state';
-import {PositionSearchState} from '../../domain/model/position-search-state';
+import {TextSearchState} from './text-search-state';
+import {PositionSearchState} from './position-search-state';
 
 
 export interface SearchState {

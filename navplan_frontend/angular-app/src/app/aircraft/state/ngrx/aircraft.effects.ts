@@ -11,7 +11,7 @@ import {IAircraftService} from '../../domain/service/i-aircraft.service';
 import {AircraftListActions} from './aircraft-list.actions';
 import {AircraftState} from '../state-model/aircraft-state';
 import {getAircraftState} from './aircraft.selectors';
-import {AircraftCrudActions} from './aircraft-crud-actions';
+import {AircraftCrudActions} from './aircraft-crud.actions';
 import {Router} from '@angular/router';
 
 

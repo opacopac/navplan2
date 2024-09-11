@@ -1,0 +1,29 @@
+<mat-form-field class="autocomplete-form-field" subscriptSizing="dynamic">
+    <mat-label>{{ this.labelText }}</mat-label>
+    <input
+        #query
+        matInput
+        type="text"
+        [formControl]="this.queryInput"
+        [matAutocomplete]="auto"
+        [required]="this.isMandatory"
+        [placeholder]="this.searchInputPlaceholderText"
+        (input)="this.onSearchInputChanged(query.value)"
+    />
+    <mat-icon matPrefix>search</mat-icon>
+    <mat-icon
+        matSuffix
+        (click)="this.onSearchResultsCleared(); this.query.value = '';"
+    >
+        close
+    </mat-icon>
+    <mat-autocomplete
+        #auto="matAutocomplete"
+        (optionSelected)="this.query.value = this.getDisplayName($event.option.value); this.onSearchResultSelected($event.option.value)"
+        [displayWith]="this.getDisplayName"
+    >
+        @for (result of this.searchResults; track result) {
+            <mat-option [value]="result.item">{{ this.getDisplayName(result) }}</mat-option>
+        }
+    </mat-autocomplete>
+</mat-form-field>

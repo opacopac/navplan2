@@ -85,6 +85,9 @@ import {
 import {
     AircraftDeleteConfirmDialogComponent
 } from './ng-components/aircraft-hangar/aircraft-delete-confirm-dialog/aircraft-delete-confirm-dialog.component';
+import {
+    AircraftTypeDesignatorAutocompleteComponent
+} from './ng-components/aircraft-details/aircraft-type-designator-autocomplete/aircraft-type-designator-autocomplete.component';
 
 
 @NgModule({
@@ -117,6 +120,7 @@ import {
         AircraftDeleteConfirmDialogComponent,
         AircraftDetailsPageComponent,
         AircraftDetailsFormComponent,
+        AircraftTypeDesignatorAutocompleteComponent,
         AircraftPickerContainerComponent,
         AircraftPickerComponent,
         AircraftPickerDialogComponent,

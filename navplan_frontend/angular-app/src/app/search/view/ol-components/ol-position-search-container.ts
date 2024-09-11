@@ -1,6 +1,6 @@
 import {Observable, Subscription} from 'rxjs';
 import {OlPositionSearchItem} from './ol-position-search-item';
-import {PositionSearchState} from '../../domain/model/position-search-state';
+import {PositionSearchState} from '../../state/state-model/position-search-state';
 import {StringnumberHelper} from '../../../system/domain/service/stringnumber/stringnumber-helper';
 import {Angle} from '../../../geo-physics/domain/model/quantities/angle';
 import {OlVectorLayer} from '../../../base-map/view/ol-model/ol-vector-layer';

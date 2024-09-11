@@ -1,14 +1,20 @@
 import {createReducer, on} from '@ngrx/store';
 import {AircraftState} from '../state-model/aircraft-state';
 import {AircraftListActions} from './aircraft-list.actions';
-import {AircraftDetailsActions} from './aircraft-details-actions';
-import {AircraftWnbActions} from './aircraft-wnb-actions';
-import {AircraftCrudActions} from './aircraft-crud-actions';
+import {AircraftDetailsActions} from './aircraft-details.actions';
+import {AircraftWnbActions} from './aircraft-wnb.actions';
+import {AircraftCrudActions} from './aircraft-crud.actions';
+import {AircraftTypeDesignatorActions} from './aircraft-type-designator.actions';
 
 
 const initialState: AircraftState = {
     aircraftList: [],
-    currentAircraft: undefined
+    currentAircraft: undefined,
+    acTypeDesignatorSearchState: {
+        searchResults: undefined,
+        selectedResultIndex: undefined,
+        selectedSearchResult: undefined,
+    }
 };
 
 
@@ -217,7 +223,21 @@ export const aircraftReducer = createReducer(
             ...state,
             currentAircraft: newAircraft
         };
-    })
+    }),
+
+    // endregion
+
+
+    // region aircraft type designator
+
+    on(AircraftTypeDesignatorActions.searchByTextSuccessAction, (state, action) => ({
+        ...state,
+        acTypeDesignatorSearchResults: {
+            searchResults: action.searchResults,
+            selectedResultIndex: undefined,
+            selectedSearchResult: undefined
+        }
+    })),
 
     // endregion
 );
