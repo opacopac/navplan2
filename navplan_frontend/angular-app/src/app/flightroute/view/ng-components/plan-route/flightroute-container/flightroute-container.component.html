@@ -1,5 +1,5 @@
 <form [formGroup]="this.flightrouteForm" class="tab-page-container">
-    <div class="route-speed-line">
+    <div class="route-speed-row">
         <app-flightroute-aircraft-speed
             [speedUnit]="this.speedUnit$ | async"
             [routeSpeed]="this.routeSpeed$ | async"
@@ -7,6 +7,7 @@
             (routeSpeedChanged)="this.onRouteSpeedChanged($event)"
         />
         <app-toggle-manual-aircraft
+            class="manual-aircraft-toggle"
             [selectedAircraft]="this.selectedAircraft$ | async"
             [useAircraft]="this.useAircraftSpeedValue$ | async"
             (useAircraftValueChanged)="this.onUseAircraftSpeedChanged($event)"

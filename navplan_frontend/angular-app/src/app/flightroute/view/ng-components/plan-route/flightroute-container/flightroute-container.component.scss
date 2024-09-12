@@ -1,9 +1,13 @@
 @use '../../../../../../../node_modules/@angular/material/index' as mat;
 @import "styles";
 
-.route-speed-line {
+.route-speed-row {
     display: inline-flex;
     align-items: baseline;
+}
+
+.manual-aircraft-toggle {
+    margin-left: 10px;
 }
 
 .route-comments {

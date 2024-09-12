@@ -19,6 +19,7 @@
             <mat-error>Value must be a positive number between 1 and 999!</mat-error>
         </mat-form-field>
         <app-toggle-manual-aircraft
+            class="manual-aircraft-toggle"
             [selectedAircraft]="this.selectedAircraft"
             [useAircraft]="this.useAircraftConsumptionValue"
             (useAircraftValueChanged)="this.onUseAircraftConsumptionChanged($event)"
