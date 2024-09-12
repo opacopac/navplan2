@@ -1,4 +1,6 @@
+@import "styles";
+
 button.mat-mdc-mini-fab {
-    background-color: var(--navplan-color-red);
+    background-color: $navplan-color-red;
     margin-right: 5px;
 }

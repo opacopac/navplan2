@@ -1,28 +1,30 @@
 @use '../../../../../../node_modules/@angular/material/index' as mat;
+@import "styles";
+
 
 .mat-mdc-mini-fab.mat-button-green {
     color: white;
-    background-color: var(--navplan-color-green);
+    background-color: $navplan-color-green;
 }
 
 .mat-mdc-mini-fab.mat-button-orange {
     color: white;
-    background-color: var(--navplan-color-orange);
+    background-color: $navplan-color-orange;
 }
 
 .mat-mdc-mini-fab.mat-button-red {
     color: white;
-    background-color: var(--navplan-color-red);
+    background-color: $navplan-color-red;
 }
 
 .mat-mdc-mini-fab.mat-button-blue {
     color: white;
-    background-color: var(--navplan-color-blue);
+    background-color: $navplan-color-blue;
 }
 
 .mat-mdc-mini-fab.mat-button-gray {
     color: white;
-    background-color: var(--navplan-color-gray);
+    background-color: $navplan-color-gray;
 }
 
 .mat-mdc-mini-fab.mat-button-green:disabled,
@@ -32,5 +34,5 @@
 .mat-mdc-mini-fab.mat-button-gray:disabled
 {
     color: white;
-    background-color: var(--navplan-color-disabled-bg);
+    background-color: $navplan-color-disabled-bg;
 }

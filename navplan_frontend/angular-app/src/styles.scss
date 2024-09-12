@@ -33,14 +33,12 @@ iframe {
 
 /* region COLORS */
 
-:root {
-    --navplan-color-blue: #41669c;
-    --navplan-color-green: green;
-    --navplan-color-orange: darkorange;
-    --navplan-color-red: #cc0000;
-    --navplan-color-gray: gray;
-    --navplan-color-disabled-bg: darkgray;
-}
+$navplan-color-blue: #41669c;
+$navplan-color-green: green;
+$navplan-color-orange: darkorange;
+$navplan-color-red: #cc0000;
+$navplan-color-gray: gray;
+$navplan-color-disabled-bg: darkgray;
 
 /* endregion */
 

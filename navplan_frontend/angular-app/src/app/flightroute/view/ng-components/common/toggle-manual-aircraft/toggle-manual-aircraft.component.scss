@@ -1,12 +1,14 @@
+@import "styles";
+
 .button-text {
     display: inline-flex;
     align-items: center;
 }
 
 .active {
-    color: var(--navplan-color-blue);
+    color: $navplan-color-blue;
 }
 
 .inactive {
-    color: var(--navplan-color-disabled-bg);
+    color: $navplan-color-disabled-bg;
 }

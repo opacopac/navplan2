@@ -1,11 +1,12 @@
 @use '../../../../../../../node_modules/@angular/material/index' as mat;
+@import "styles";
 
 .waypoints-table {
     /*width: 100%;*/
 }
 
 .fa-info-circle {
-    color: var(--navplan-color-blue);
+    color: $navplan-color-blue;
 }
 u {
     text-decoration: underline;

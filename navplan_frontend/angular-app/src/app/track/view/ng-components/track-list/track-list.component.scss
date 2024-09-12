@@ -1,9 +1,11 @@
+@import "styles";
+
 .track-list {
     width: 100%;
 }
 
 .selected-row {
-    background-color: var(--navplan-color-blue);
+    background-color: $navplan-color-blue;
 }
 
 .selected-row > .mat-mdc-cell {

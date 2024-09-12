@@ -1,8 +1,5 @@
 @use '../../../../../../../node_modules/@angular/material/index' as mat;
-
-.flightroute-form {
-    margin-top: 20px;
-}
+@import "styles";
 
 .route-speed-line {
     display: inline-flex;
@@ -15,21 +12,21 @@
 }
 
 .button-load {
-    background-color: var(--navplan-color-green);
+    background-color: $navplan-color-green;
     color: white;
 }
 
 .button-delete {
-    background-color: var(--navplan-color-red);
+    background-color: $navplan-color-red;
     color: white;
 }
 
 .button-save {
-    background-color: var(--navplan-color-blue);
+    background-color: $navplan-color-blue;
     color: white;
 }
 
 .button-copy {
-    background-color: var(--navplan-color-blue);
+    background-color: $navplan-color-blue;
     color: white;
 }

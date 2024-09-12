@@ -1,27 +1,28 @@
 @use '../../../../../../node_modules/@angular/material/index' as mat;
+@import "styles";
 
 .icon-button {
     scale: 70%;
 }
 
 .mat-mdc-icon-button.mat-button-green {
-    color: var(--navplan-color-green);
+    color: $navplan-color-green;
 }
 
 .mat-mdc-icon-button.mat-button-orange {
-    color: var(--navplan-color-orange);
+    color: $navplan-color-orange;
 }
 
 .mat-mdc-icon-button.mat-button-red {
-    color: var(--navplan-color-red);
+    color: $navplan-color-red;
 }
 
 .mat-mdc-icon-button.mat-button-blue {
-    color: var(--navplan-color-blue);
+    color: $navplan-color-blue;
 }
 
 .mat-mdc-icon-button.mat-button-gray {
-    color: var(--navplan-color-gray);
+    color: $navplan-color-gray;
 }
 
 .mat-mdc-icon-button.mat-button-green:disabled,
@@ -30,5 +31,5 @@
 .mat-mdc-icon-button.mat-button-blue:disabled,
 .mat-mdc-icon-button.mat-button-gray:disabled
 {
-    color: var(--navplan-color-disabled-bg);
+    color: $navplan-color-disabled-bg;
 }
