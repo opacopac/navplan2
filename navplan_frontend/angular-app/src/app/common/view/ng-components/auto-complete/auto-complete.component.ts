@@ -39,8 +39,13 @@ export class AutoCompleteComponent<T> implements OnInit, OnDestroy, OnChanges {
     }
 
 
-    protected getDisplayName(item: AutoCompleteResultItem<T>): string {
-        return item ? item.displayName : '(none)';
+    protected getResultDisplayName(item: AutoCompleteResultItem<T>): string {
+        return item ? item.resultDisplayName : '';
+    }
+
+
+    protected getSelectedDisplayName(item: AutoCompleteResultItem<T>): string {
+        return item ? item.selectedDisplayName : '';
     }
 
 
@@ -56,8 +61,8 @@ export class AutoCompleteComponent<T> implements OnInit, OnDestroy, OnChanges {
     }
 
 
-    protected onSearchResultSelected(selectedItem: T) {
-        this.searchResultSelected.emit(selectedItem);
+    protected onSearchResultSelected(selectedItem: AutoCompleteResultItem<T>) {
+        this.searchResultSelected.emit(selectedItem.item);
     }
 
 

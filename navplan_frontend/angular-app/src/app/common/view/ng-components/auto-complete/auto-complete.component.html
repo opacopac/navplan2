@@ -19,11 +19,11 @@
     </mat-icon>
     <mat-autocomplete
         #auto="matAutocomplete"
-        (optionSelected)="this.query.value = this.getDisplayName($event.option.value); this.onSearchResultSelected($event.option.value)"
-        [displayWith]="this.getDisplayName"
+        (optionSelected)="this.onSearchResultSelected($event.option.value)"
+        [displayWith]="this.getSelectedDisplayName"
     >
         @for (result of this.getSearchResults(); track result) {
-            <mat-option [value]="result.item">{{ this.getDisplayName(result) }}</mat-option>
+            <mat-option [value]="result">{{ this.getResultDisplayName(result) }}</mat-option>
         }
     </mat-autocomplete>
 </mat-form-field>

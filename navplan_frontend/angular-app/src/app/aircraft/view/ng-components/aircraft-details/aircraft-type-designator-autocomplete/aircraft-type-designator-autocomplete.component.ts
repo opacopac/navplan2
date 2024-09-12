@@ -46,7 +46,8 @@ export class AircraftTypeDesignatorAutocompleteComponent implements OnInit {
         return acTypeDesignators
             ? acTypeDesignators.map(typeDesignator => new AutoCompleteResultItem(
                 typeDesignator,
-                typeDesignator.designator + ' - ' + typeDesignator.model + ' - ' + typeDesignator.manufacturer + ''
+                typeDesignator.designator + ' (' + typeDesignator.manufacturer + ' ' + typeDesignator.model + ')',
+                typeDesignator.designator
             ))
             : [];
     }
