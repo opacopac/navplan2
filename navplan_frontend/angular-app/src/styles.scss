@@ -9,17 +9,23 @@ iframe {
     border: 0;
 }
 
-.content-container,
-.content-container-topspacing {
+.tabs-container {
+    box-sizing: border-box;
     width: 100%;
     max-width: 1000px;
     margin: auto; /* center content */
-    padding-left: 20px;
     padding-right: 20px;
+    padding-left: 20px;
 }
 
-.content-container-topspacing {
+.page-container {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1000px;
+    margin: auto; /* center content */
     margin-top: 30px;
+    padding-right: 20px;
+    padding-left: 20px;
 }
 
 .clickable {
@@ -40,6 +46,15 @@ iframe {
 /* endregion */
 
 
+/* region media sizes */
+
+$navplan-media-s: 600px;
+$navplan-media-sm: 650px;
+$navplan-media-m: 800px;
+$navplan-media-l: 1280px;
+
+/* endregion */
+
 /* region FLEXBOX */
 
 .flex-row {
@@ -50,7 +65,7 @@ iframe {
 
 .mat-mdc-form-field {
     flex: auto;
-    margin-right: 20px;
+    //margin-right: 20px;
 }
 
 .inline-button {
@@ -60,6 +75,29 @@ iframe {
 
 .float-right {
     float: right;
+}
+
+/* endregion */
+
+
+/* region TABS / BUTTONS */
+
+@media (max-width: $navplan-media-s) {
+    .mdc-tab {
+        min-width: 32px !important;
+        padding: 0 20px !important;
+    }
+}
+
+/* endregion */
+
+
+/* region BUTTONS */
+
+@media (max-width: $navplan-media-m) {
+    .mdc-button {
+        min-width: 48px !important;
+    }
 }
 
 /* endregion */

@@ -1,4 +1,4 @@
-<div class="content-container">
+<div class="tabs-container">
     <mat-tab-group
         #tabGroup
         mat-stretch-tabs="false"
@@ -7,7 +7,7 @@
     >
         <mat-tab>
             <ng-template matTabLabel>
-                <i class="fa-solid fa-warehouse"></i>&nbsp;&nbsp;Hangar
+                <i class="fa-solid fa-warehouse"></i><span class="tab-text">&nbsp;&nbsp;Hangar</span>
             </ng-template>
             <ng-template matTabContent>
                 <app-aircraft-hangar-page/>
@@ -15,7 +15,7 @@
         </mat-tab>
         <mat-tab>
             <ng-template matTabLabel>
-                <i class="fa-solid fa-plane-up"></i>&nbsp;&nbsp;Details
+                <i class="fa-solid fa-plane-up"></i><span class="tab-text">&nbsp;&nbsp;Details</span>
             </ng-template>
             <ng-template matTabContent>
                 <app-aircraft-details-page/>
@@ -23,7 +23,7 @@
         </mat-tab>
         <mat-tab>
             <ng-template matTabLabel>
-                <i class="fa-solid fa-balance-scale"></i>&nbsp;&nbsp;W&B Conf
+                <i class="fa-solid fa-balance-scale"></i><span class="tab-text">&nbsp;&nbsp;W&B Conf</span>
             </ng-template>
             <ng-template matTabContent>
                 <app-aircraft-wnb-page/>
@@ -31,7 +31,7 @@
         </mat-tab>
         <mat-tab>
             <ng-template matTabLabel>
-                <i class="fa-solid fa-plane-departure"></i>&nbsp;&nbsp;Perf Conf
+                <i class="fa-solid fa-plane-departure"></i><span class="tab-text">&nbsp;&nbsp;Perf Conf</span>
             </ng-template>
             <ng-template matTabContent>
                 <app-aircraft-performance-page/>
