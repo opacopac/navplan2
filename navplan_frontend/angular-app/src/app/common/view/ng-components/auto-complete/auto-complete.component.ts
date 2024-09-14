@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {AutoCompleteResultItem} from '../../model/auto-complete-result-item';
 import {ButtonColor} from '../../model/button-color';
 import {FormControl, Validators} from '@angular/forms';
@@ -9,7 +9,8 @@ import {FormControl, Validators} from '@angular/forms';
     templateUrl: './auto-complete.component.html',
     styleUrls: ['./auto-complete.component.scss']
 })
-export class AutoCompleteComponent<T> implements OnInit, OnDestroy, OnChanges {
+export class AutoCompleteComponent<T> implements OnInit, OnChanges {
+    @Input() public initialValue: string;
     @Input() public labelText: string;
     @Input() public isMandatory: boolean;
     @Input() public searchInputPlaceholderText: string;
@@ -32,10 +33,6 @@ export class AutoCompleteComponent<T> implements OnInit, OnDestroy, OnChanges {
 
 
     ngOnChanges() {
-    }
-
-
-    ngOnDestroy() {
     }
 
 
@@ -72,6 +69,6 @@ export class AutoCompleteComponent<T> implements OnInit, OnDestroy, OnChanges {
 
 
     private initForm() {
-        this.queryInput = new FormControl('', this.isMandatory ? [Validators.required] : []);
+        this.queryInput = new FormControl(this.initialValue, this.isMandatory ? [Validators.required] : []);
     }
 }

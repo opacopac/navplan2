@@ -107,6 +107,11 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
     }
 
 
+    protected onIcaoType2Changed(icaoType: string) {
+        this.onIcaoTypeChange.emit(icaoType);
+    }
+
+
     protected onCruiseSpeedChanged() {
         if (this.aircraftDetailsForm.controls['cruiseSpeed'].valid) {
             const speed = new Speed(this.aircraftDetailsForm.value.cruiseSpeed, this.speedUnit);
@@ -135,6 +140,7 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
 
 
     protected onSaveAircraftDetailsClicked() {
+        // TODO: check if icao type is valid
         if (this.aircraftDetailsForm.valid) {
             this.onSaveAircraftClick.emit();
         }

@@ -23,7 +23,7 @@
             />
         </mat-form-field>
 
-        <!-- aircraft type -->
+        <!-- aircraft icao type -->
         <mat-form-field>
             <mat-label>ICAO Type Designator</mat-label>
             <input
@@ -35,8 +35,11 @@
             />
         </mat-form-field>
 
-        <!-- aircraft type dropdown -->
-        <app-aircraft-type-designator-autocomplete style="margin-bottom: 20px;" />
+        <!-- aircraft icao type dropdown -->
+        <app-aircraft-type-designator-autocomplete
+            [icaoType]="this.aircraftDetailsForm.controls.icaoType.value"
+            (icaoTypeChanged)="this.onIcaoType2Changed($event)"
+        />
 
         <!-- speed -->
         <mat-form-field>

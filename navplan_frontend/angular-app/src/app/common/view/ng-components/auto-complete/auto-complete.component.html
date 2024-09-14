@@ -20,7 +20,6 @@
     <mat-autocomplete
         #auto="matAutocomplete"
         (optionSelected)="this.onSearchResultSelected($event.option.value)"
-        [displayWith]="this.getSelectedDisplayName"
     >
         @for (result of this.getSearchResults(); track result) {
             <mat-option [value]="result">{{ this.getResultDisplayName(result) }}</mat-option>

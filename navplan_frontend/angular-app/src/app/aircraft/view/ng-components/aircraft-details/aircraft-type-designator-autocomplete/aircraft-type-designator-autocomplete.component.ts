@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {AircraftTypeDesignatorActions} from '../../../../state/ngrx/aircraft-type-designator.actions';
 import {AircraftTypeDesignator} from '../../../../domain/model/aircraft-type-designator';
 import {AutoCompleteResultItem} from '../../../../../common/view/model/auto-complete-result-item';
-import {getAcTypeDesignatorSearchResults} from '../../../../state/ngrx/aircraft.selectors';
+import {getAcTypeDesignatorSearchResults, getCurrentAircraft} from '../../../../state/ngrx/aircraft.selectors';
 import {map} from 'rxjs/operators';
 
 
@@ -13,6 +13,12 @@ import {map} from 'rxjs/operators';
     styleUrls: ['./aircraft-type-designator-autocomplete.component.scss'],
 })
 export class AircraftTypeDesignatorAutocompleteComponent implements OnInit {
+    @Output() icaoTypeChanged = new EventEmitter<string>();
+
+    protected readonly currentAircraft$ = this.appStore.pipe(select(getCurrentAircraft));
+    protected readonly currentAcIcaoType$ = this.currentAircraft$.pipe(
+        map(aircraft => aircraft ? aircraft.icaoType : null)
+    );
     protected readonly acTypeDesignatorSearchResults$ = this.appStore.pipe(
         select(getAcTypeDesignatorSearchResults),
         map(acTypeDesignators => this.toSearchResultItems(acTypeDesignators))
@@ -33,12 +39,13 @@ export class AircraftTypeDesignatorAutocompleteComponent implements OnInit {
 
 
     protected onSearchResultSelected(acTypeDesignator: AircraftTypeDesignator) {
-        this.appStore.dispatch(AircraftTypeDesignatorActions.searchResultSelectedAction({aircraftTypeDesignator: acTypeDesignator}));
+        this.icaoTypeChanged.emit(acTypeDesignator.designator);
+        //this.appStore.dispatch(AircraftTypeDesignatorActions.searchResultSelectedAction({aircraftTypeDesignator: acTypeDesignator}));
     }
 
 
     protected onSearchResultsCleared() {
-        // TODO: implement
+        this.icaoTypeChanged.emit(null);
     }
 
 
