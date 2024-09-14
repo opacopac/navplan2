@@ -9,8 +9,14 @@
         [required]="this.isMandatory"
         [placeholder]="this.searchInputPlaceholderText"
         (input)="this.onSearchInputChanged(query.value)"
+        (blur)="this.onSearchInputBlurred()"
     />
-    <mat-icon matPrefix>search</mat-icon>
+    <mat-icon
+        matPrefix
+        *ngIf="this.showSearchIcon"
+    >
+        search
+    </mat-icon>
     <mat-icon
         matSuffix
         (click)="this.onSearchResultsCleared(); this.query.value = '';"
@@ -22,7 +28,7 @@
         [displayWith]="this.getSelectedDisplayName"
         (optionSelected)="this.onSearchResultSelected($event.option.value)"
     >
-        @for (result of this.getSearchResults(); track result) {
+        @for (result of this.getSearchResults(); track result.resultDisplayName) {
             <mat-option [value]="result">{{ this.getResultDisplayName(result) }}</mat-option>
         }
     </mat-autocomplete>

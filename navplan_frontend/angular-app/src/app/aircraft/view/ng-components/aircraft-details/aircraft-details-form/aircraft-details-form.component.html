@@ -23,24 +23,12 @@
             />
         </mat-form-field>
 
-        <!-- aircraft icao type -->
-        <mat-form-field>
-            <mat-label>ICAO Type Designator</mat-label>
-            <input
-                matInput
-                formControlName="icaoType"
-                type="string"
-                required
-                (change)="this.onIcaoTypeChanged()"
-            />
-        </mat-form-field>
-
         <!-- aircraft icao type dropdown -->
         <app-aircraft-type-designator-autocomplete
-            [initialAcTypeDesignator]="this.aircraftDetailsForm.controls.icaoType.value"
+            [initialAcTypeDesignator]="this.getCurrentIcaoType()"
             [acTypeDesignatorSearchResults]="this.acTypeDesignatorSearchResults"
             (searchInputChanged)="this.onAcTypeDesignatorSearchInputChanged($event)"
-            (icaoTypeSelected)="this.onIcaoType2Changed($event)"
+            (icaoTypeSelected)="this.onIcaoTypeChanged($event)"
         />
 
         <!-- speed -->
@@ -93,7 +81,7 @@
             <button
                 mat-raised-button
                 color="primary"
-                [disabled]="this.aircraftDetailsForm.invalid"
+                [disabled]="!this.isFormValid()"
                 (click)="this.onSaveAircraftDetailsClicked()"
             >
                 Save

@@ -13,6 +13,7 @@ export class AutoCompleteComponent<T> implements OnInit, OnChanges {
     @Input() public initialValue: AutoCompleteResultItem<T>;
     @Input() public labelText: string;
     @Input() public isMandatory: boolean;
+    @Input() public showSearchIcon: boolean;
     @Input() public searchInputPlaceholderText: string;
     @Input() public minSearchTextLength: number;
     @Input() public searchResults: AutoCompleteResultItem<T>[];
@@ -66,6 +67,12 @@ export class AutoCompleteComponent<T> implements OnInit, OnChanges {
     protected onSearchResultsCleared() {
         this.searchResultsCleared.emit();
     }
+
+
+    protected onSearchInputBlurred() {
+        this.initForm(); // restore previous value
+    }
+
 
 
     private initForm() {

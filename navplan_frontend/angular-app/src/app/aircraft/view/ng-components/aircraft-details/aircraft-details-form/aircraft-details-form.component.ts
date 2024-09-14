@@ -51,41 +51,8 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
     }
 
 
-    private initForm() {
-        if (!this.currentAircraft) {
-            return;
-        }
-
-        this.aircraftDetailsForm = this.formBuilder.group({
-            'vehicleType': [this.currentAircraft.vehicleType, [
-                Validators.required
-            ]],
-            'registration': [this.currentAircraft.registration, [
-                Validators.required
-            ]],
-            'icaoType': [this.currentAircraft.icaoType, [
-                Validators.required
-            ]],
-            'cruiseSpeed': [this.currentAircraft.cruiseSpeed
-                ? StringnumberHelper.roundToDigits(this.currentAircraft.cruiseSpeed.getValue(this.speedUnit), 0).toString()
-                : '',
-                [
-                    Validators.required,
-                    Validators.min(1),
-                    Validators.max(999)
-                ]
-            ],
-            'cruiseFuel': [this.currentAircraft.cruiseFuel
-                ? StringnumberHelper.roundToDigits(this.currentAircraft.cruiseFuel.getValue(this.consumptionUnit), 0).toString()
-                : '',
-                [
-                    Validators.required,
-                    Validators.min(1),
-                    Validators.max(999)
-                ]
-            ],
-            'fuelType': [this.currentAircraft.fuelType ?? '', []]
-        });
+    protected getCurrentIcaoType(): string {
+        return this.currentAircraft && this.currentAircraft.icaoType ? this.currentAircraft.icaoType : '';
     }
 
 
@@ -103,14 +70,12 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
     }
 
 
-    protected onIcaoTypeChanged() {
-        if (this.aircraftDetailsForm.controls['icaoType'].valid) {
-            this.icaoTypeChanged.emit(this.aircraftDetailsForm.value.icaoType);
-        }
+    protected onAcTypeDesignatorSearchInputChanged(searchText: string) {
+        this.acTypeDesignatorSearchInputChanged.emit(searchText);
     }
 
 
-    protected onIcaoType2Changed(icaoType: string) {
+    protected onIcaoTypeChanged(icaoType: string) {
         this.icaoTypeChanged.emit(icaoType);
     }
 
@@ -142,14 +107,54 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
     }
 
 
+    protected isFormValid(): boolean {
+        return this.aircraftDetailsForm.valid && this.isValidIcaoType();
+    }
+
+
+    protected isValidIcaoType(): boolean {
+        return this.currentAircraft && this.getCurrentIcaoType().length > 0;
+    }
+
+
     protected onSaveAircraftDetailsClicked() {
-        // TODO: check if icao type is valid
-        if (this.aircraftDetailsForm.valid) {
+        if (this.isFormValid()) {
             this.saveAircraftClicked.emit();
         }
     }
 
-    protected onAcTypeDesignatorSearchInputChanged(searchText: string) {
-        this.acTypeDesignatorSearchInputChanged.emit(searchText);
+
+    private initForm() {
+        if (!this.currentAircraft) {
+            return;
+        }
+
+        this.aircraftDetailsForm = this.formBuilder.group({
+            'vehicleType': [this.currentAircraft.vehicleType, [
+                Validators.required
+            ]],
+            'registration': [this.currentAircraft.registration, [
+                Validators.required
+            ]],
+            'cruiseSpeed': [this.currentAircraft.cruiseSpeed
+                ? StringnumberHelper.roundToDigits(this.currentAircraft.cruiseSpeed.getValue(this.speedUnit), 0).toString()
+                : '',
+                [
+                    Validators.required,
+                    Validators.min(1),
+                    Validators.max(999)
+                ]
+            ],
+            'cruiseFuel': [this.currentAircraft.cruiseFuel
+                ? StringnumberHelper.roundToDigits(this.currentAircraft.cruiseFuel.getValue(this.consumptionUnit), 0).toString()
+                : '',
+                [
+                    Validators.required,
+                    Validators.min(1),
+                    Validators.max(999)
+                ]
+            ],
+            'fuelType': [this.currentAircraft.fuelType ?? '', []]
+        });
     }
 }
