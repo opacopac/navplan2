@@ -1,7 +1,7 @@
 <app-auto-complete
     class="aircraft-type-designator-autocomplete"
-    [initialValue]="this.currentAcIcaoType$ | async"
-    [searchResults]="this.acTypeDesignatorSearchResults$ | async"
+    [initialValue]="this.getInitialAcTypeDesignator()"
+    [searchResults]="this.acTypeDesignatorSearchResultItems"
     labelText="ICAO Type Designator"
     [isMandatory]="true"
     [minSearchTextLength]="2"

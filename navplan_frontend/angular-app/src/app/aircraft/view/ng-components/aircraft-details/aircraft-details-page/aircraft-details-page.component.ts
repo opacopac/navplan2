@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {getCurrentAircraft} from '../../../../state/ngrx/aircraft.selectors';
+import {getAcTypeDesignatorSearchResults, getCurrentAircraft} from '../../../../state/ngrx/aircraft.selectors';
 import {Observable} from 'rxjs';
 import {SpeedUnit} from '../../../../../geo-physics/domain/model/quantities/speed-unit';
 import {getConsumptionUnit, getSpeedUnit} from '../../../../../geo-physics/state/ngrx/geo-physics.selectors';
@@ -10,6 +10,7 @@ import {Consumption} from '../../../../../geo-physics/domain/model/quantities/co
 import {AircraftDetailsActions} from '../../../../state/ngrx/aircraft-details.actions';
 import {FuelType} from '../../../../domain/model/fuel-type';
 import {AircraftCrudActions} from '../../../../state/ngrx/aircraft-crud.actions';
+import {AircraftTypeDesignatorActions} from '../../../../state/ngrx/aircraft-type-designator.actions';
 
 
 @Component({
@@ -19,6 +20,7 @@ import {AircraftCrudActions} from '../../../../state/ngrx/aircraft-crud.actions'
 })
 export class AircraftDetailsPageComponent implements OnInit {
     protected readonly currentAircraft$ = this.appStore.pipe(select(getCurrentAircraft));
+    protected readonly acTypeDesignatorSearchResults$ = this.appStore.pipe(select(getAcTypeDesignatorSearchResults));
     protected readonly speedUnit$: Observable<SpeedUnit> = this.appStore.pipe(select(getSpeedUnit));
     protected readonly consumptionUnit$ = this.appStore.pipe(select(getConsumptionUnit));
 
@@ -58,6 +60,11 @@ export class AircraftDetailsPageComponent implements OnInit {
 
     protected onFuelTypeChange(fuelType: FuelType) {
         this.appStore.dispatch(AircraftDetailsActions.changeFuelType({fuelType: fuelType}));
+    }
+
+
+    protected onAcTypeDesignatorSearchInputChanged(searchText: string) {
+        this.appStore.dispatch(AircraftTypeDesignatorActions.searchByTextAction({searchText: searchText}));
     }
 
 

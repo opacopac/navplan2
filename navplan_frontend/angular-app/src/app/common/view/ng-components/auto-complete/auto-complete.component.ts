@@ -10,7 +10,7 @@ import {FormControl, Validators} from '@angular/forms';
     styleUrls: ['./auto-complete.component.scss']
 })
 export class AutoCompleteComponent<T> implements OnInit, OnChanges {
-    @Input() public initialValue: string;
+    @Input() public initialValue: AutoCompleteResultItem<T>;
     @Input() public labelText: string;
     @Input() public isMandatory: boolean;
     @Input() public searchInputPlaceholderText: string;

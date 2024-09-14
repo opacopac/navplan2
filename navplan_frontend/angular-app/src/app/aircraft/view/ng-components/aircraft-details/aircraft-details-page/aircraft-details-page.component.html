@@ -9,14 +9,16 @@
     <!-- details form -->
     <app-aircraft-details-form
         [currentAircraft]="this.currentAircraft$ | async"
+        [acTypeDesignatorSearchResults]="this.acTypeDesignatorSearchResults$ | async"
         [speedUnit]="this.speedUnit$ | async"
         [consumptionUnit]="this.consumptionUnit$ | async"
-        (onVehicleTypeChange)="this.onVehicleTypeChange($event)"
-        (onRegistrationChange)="this.onRegistrationChange($event)"
-        (onIcaoTypeChange)="this.onIcaoTypeChange($event)"
-        (onCruiseSpeedChange)="this.onCruiseSpeedChange($event)"
-        (onCruiseFuelChange)="this.onCruiseFuelChange($event)"
-        (onFuelTypeChange)="this.onFuelTypeChange($event)"
-        (onSaveAircraftClick)="this.onSaveAircraftDetailsClicked()"
+        (vehicleTypeChanged)="this.onVehicleTypeChange($event)"
+        (registrationChanged)="this.onRegistrationChange($event)"
+        (icaoTypeChanged)="this.onIcaoTypeChange($event)"
+        (cruiseSpeedChanged)="this.onCruiseSpeedChange($event)"
+        (cruiseFuelChanged)="this.onCruiseFuelChange($event)"
+        (fuelTypeChanged)="this.onFuelTypeChange($event)"
+        (acTypeDesignatorSearchInputChanged)="this.onAcTypeDesignatorSearchInputChanged($event)"
+        (saveAircraftClicked)="this.onSaveAircraftDetailsClicked()"
     />
 </div>

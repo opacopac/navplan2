@@ -1,10 +1,6 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {select, Store} from '@ngrx/store';
-import {AircraftTypeDesignatorActions} from '../../../../state/ngrx/aircraft-type-designator.actions';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {AircraftTypeDesignator} from '../../../../domain/model/aircraft-type-designator';
 import {AutoCompleteResultItem} from '../../../../../common/view/model/auto-complete-result-item';
-import {getAcTypeDesignatorSearchResults, getCurrentAircraft} from '../../../../state/ngrx/aircraft.selectors';
-import {map} from 'rxjs/operators';
 
 
 @Component({
@@ -12,50 +8,67 @@ import {map} from 'rxjs/operators';
     templateUrl: './aircraft-type-designator-autocomplete.component.html',
     styleUrls: ['./aircraft-type-designator-autocomplete.component.scss'],
 })
-export class AircraftTypeDesignatorAutocompleteComponent implements OnInit {
-    @Output() icaoTypeChanged = new EventEmitter<string>();
+export class AircraftTypeDesignatorAutocompleteComponent implements OnInit, OnChanges {
+    @Input() initialAcTypeDesignator: string;
+    @Input() acTypeDesignatorSearchResults: AircraftTypeDesignator[];
+    @Output() icaoTypeSelected = new EventEmitter<string>();
+    @Output() searchInputChanged = new EventEmitter<string>();
 
-    protected readonly currentAircraft$ = this.appStore.pipe(select(getCurrentAircraft));
-    protected readonly currentAcIcaoType$ = this.currentAircraft$.pipe(
-        map(aircraft => aircraft ? aircraft.icaoType : null)
-    );
-    protected readonly acTypeDesignatorSearchResults$ = this.appStore.pipe(
-        select(getAcTypeDesignatorSearchResults),
-        map(acTypeDesignators => this.toSearchResultItems(acTypeDesignators))
-    );
+    protected acTypeDesignatorSearchResultItems: AutoCompleteResultItem<AircraftTypeDesignator>[];
 
 
-    constructor(private appStore: Store<any>) {
+    constructor() {
     }
 
 
     ngOnInit() {
+        this.initSearchResultItems();
+    }
+
+
+    ngOnChanges() {
+        this.initSearchResultItems();
+    }
+
+
+    protected getInitialAcTypeDesignator(): AutoCompleteResultItem<AircraftTypeDesignator> {
+        return new AutoCompleteResultItem(
+            null,
+            this.initialAcTypeDesignator,
+            this.initialAcTypeDesignator
+        );
     }
 
 
     protected onSearchInputChanged(searchText: string) {
-        this.appStore.dispatch(AircraftTypeDesignatorActions.searchByTextAction({searchText: searchText}));
+        this.searchInputChanged.emit(searchText);
     }
 
 
     protected onSearchResultSelected(acTypeDesignator: AircraftTypeDesignator) {
-        this.icaoTypeChanged.emit(acTypeDesignator.designator);
-        //this.appStore.dispatch(AircraftTypeDesignatorActions.searchResultSelectedAction({aircraftTypeDesignator: acTypeDesignator}));
+        this.icaoTypeSelected.emit(acTypeDesignator.designator);
     }
 
 
     protected onSearchResultsCleared() {
-        this.icaoTypeChanged.emit(null);
+        this.icaoTypeSelected.emit(null);
     }
 
 
-    private toSearchResultItems(acTypeDesignators: AircraftTypeDesignator[]): AutoCompleteResultItem<AircraftTypeDesignator>[] {
-        return acTypeDesignators
-            ? acTypeDesignators.map(typeDesignator => new AutoCompleteResultItem(
-                typeDesignator,
-                typeDesignator.designator + ' (' + typeDesignator.manufacturer + ' ' + typeDesignator.model + ')',
-                typeDesignator.designator
-            ))
+    private initSearchResultItems() {
+        this.acTypeDesignatorSearchResultItems = this.acTypeDesignatorSearchResults
+            ? this.acTypeDesignatorSearchResults.map(acTypeDesignator => this.toSearchResultItem(acTypeDesignator))
             : [];
+    }
+
+
+    private toSearchResultItem(acTypeDesignator: AircraftTypeDesignator): AutoCompleteResultItem<AircraftTypeDesignator> {
+        return acTypeDesignator
+            ? new AutoCompleteResultItem(
+                acTypeDesignator,
+                acTypeDesignator.designator + ' (' + acTypeDesignator.manufacturer + ' ' + acTypeDesignator.model + ')',
+                acTypeDesignator.designator
+            )
+            : null;
     }
 }

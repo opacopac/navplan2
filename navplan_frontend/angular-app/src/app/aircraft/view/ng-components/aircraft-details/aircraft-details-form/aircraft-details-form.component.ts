@@ -8,6 +8,7 @@ import {ConsumptionUnit} from '../../../../../geo-physics/domain/model/quantitie
 import {VehicleType} from '../../../../domain/model/vehicle-type';
 import {FuelType} from '../../../../domain/model/fuel-type';
 import {StringnumberHelper} from '../../../../../system/domain/service/stringnumber/stringnumber-helper';
+import {AircraftTypeDesignator} from '../../../../domain/model/aircraft-type-designator';
 
 
 @Component({
@@ -19,13 +20,15 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
     @Input() currentAircraft: Aircraft;
     @Input() speedUnit: SpeedUnit;
     @Input() consumptionUnit: ConsumptionUnit;
-    @Output() onVehicleTypeChange = new EventEmitter<VehicleType>();
-    @Output() onRegistrationChange = new EventEmitter<string>();
-    @Output() onIcaoTypeChange = new EventEmitter<string>();
-    @Output() onCruiseSpeedChange = new EventEmitter<Speed>();
-    @Output() onCruiseFuelChange = new EventEmitter<Consumption>();
-    @Output() onFuelTypeChange = new EventEmitter<FuelType>();
-    @Output() onSaveAircraftClick = new EventEmitter<void>();
+    @Input() acTypeDesignatorSearchResults: AircraftTypeDesignator[];
+    @Output() vehicleTypeChanged = new EventEmitter<VehicleType>();
+    @Output() registrationChanged = new EventEmitter<string>();
+    @Output() icaoTypeChanged = new EventEmitter<string>();
+    @Output() cruiseSpeedChanged = new EventEmitter<Speed>();
+    @Output() cruiseFuelChanged = new EventEmitter<Consumption>();
+    @Output() fuelTypeChanged = new EventEmitter<FuelType>();
+    @Output() acTypeDesignatorSearchInputChanged = new EventEmitter<string>();
+    @Output() saveAircraftClicked = new EventEmitter<void>();
 
     protected readonly VehicleType = VehicleType;
     protected readonly FuelType = FuelType;
@@ -88,34 +91,34 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
 
     protected onVehicleTypeChanged() {
         if (this.aircraftDetailsForm.controls['vehicleType'].valid) {
-            this.onVehicleTypeChange.emit(this.aircraftDetailsForm.value.vehicleType);
+            this.vehicleTypeChanged.emit(this.aircraftDetailsForm.value.vehicleType);
         }
     }
 
 
     protected onRegistrationChanged() {
         if (this.aircraftDetailsForm.controls['registration'].valid) {
-            this.onRegistrationChange.emit(this.aircraftDetailsForm.value.registration);
+            this.registrationChanged.emit(this.aircraftDetailsForm.value.registration);
         }
     }
 
 
     protected onIcaoTypeChanged() {
         if (this.aircraftDetailsForm.controls['icaoType'].valid) {
-            this.onIcaoTypeChange.emit(this.aircraftDetailsForm.value.icaoType);
+            this.icaoTypeChanged.emit(this.aircraftDetailsForm.value.icaoType);
         }
     }
 
 
     protected onIcaoType2Changed(icaoType: string) {
-        this.onIcaoTypeChange.emit(icaoType);
+        this.icaoTypeChanged.emit(icaoType);
     }
 
 
     protected onCruiseSpeedChanged() {
         if (this.aircraftDetailsForm.controls['cruiseSpeed'].valid) {
             const speed = new Speed(this.aircraftDetailsForm.value.cruiseSpeed, this.speedUnit);
-            this.onCruiseSpeedChange.emit(speed);
+            this.cruiseSpeedChanged.emit(speed);
         }
     }
 
@@ -123,7 +126,7 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
     protected onCruiseFuelChanged() {
         if (this.aircraftDetailsForm.controls['cruiseFuel'].valid) {
             const fuel = new Consumption(this.aircraftDetailsForm.value.cruiseFuel, this.consumptionUnit);
-            this.onCruiseFuelChange.emit(fuel);
+            this.cruiseFuelChanged.emit(fuel);
         }
     }
 
@@ -131,9 +134,9 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
     protected onFuelTypeChanged() {
         if (this.aircraftDetailsForm.controls['fuelType'].valid) {
             if (this.aircraftDetailsForm.value.fuelType === '') {
-                this.onFuelTypeChange.emit(null);
+                this.fuelTypeChanged.emit(null);
             } else {
-                this.onFuelTypeChange.emit(this.aircraftDetailsForm.value.fuelType);
+                this.fuelTypeChanged.emit(this.aircraftDetailsForm.value.fuelType);
             }
         }
     }
@@ -142,7 +145,11 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
     protected onSaveAircraftDetailsClicked() {
         // TODO: check if icao type is valid
         if (this.aircraftDetailsForm.valid) {
-            this.onSaveAircraftClick.emit();
+            this.saveAircraftClicked.emit();
         }
+    }
+
+    protected onAcTypeDesignatorSearchInputChanged(searchText: string) {
+        this.acTypeDesignatorSearchInputChanged.emit(searchText);
     }
 }
