@@ -8,7 +8,6 @@ import {ConsumptionUnit} from '../../../../../geo-physics/domain/model/quantitie
 import {VehicleType} from '../../../../domain/model/vehicle-type';
 import {FuelType} from '../../../../domain/model/fuel-type';
 import {StringnumberHelper} from '../../../../../system/domain/service/stringnumber/stringnumber-helper';
-import {AircraftTypeDesignator} from '../../../../domain/model/aircraft-type-designator';
 
 
 @Component({
@@ -20,14 +19,12 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
     @Input() currentAircraft: Aircraft;
     @Input() speedUnit: SpeedUnit;
     @Input() consumptionUnit: ConsumptionUnit;
-    @Input() acTypeDesignatorSearchResults: AircraftTypeDesignator[];
     @Output() vehicleTypeChanged = new EventEmitter<VehicleType>();
     @Output() registrationChanged = new EventEmitter<string>();
     @Output() icaoTypeChanged = new EventEmitter<string>();
     @Output() cruiseSpeedChanged = new EventEmitter<Speed>();
     @Output() cruiseFuelChanged = new EventEmitter<Consumption>();
     @Output() fuelTypeChanged = new EventEmitter<FuelType>();
-    @Output() acTypeDesignatorSearchInputChanged = new EventEmitter<string>();
     @Output() saveAircraftClicked = new EventEmitter<void>();
 
     protected readonly VehicleType = VehicleType;
@@ -51,11 +48,6 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
     }
 
 
-    protected getCurrentIcaoType(): string {
-        return this.currentAircraft && this.currentAircraft.icaoType ? this.currentAircraft.icaoType : '';
-    }
-
-
     protected onVehicleTypeChanged() {
         if (this.aircraftDetailsForm.controls['vehicleType'].valid) {
             this.vehicleTypeChanged.emit(this.aircraftDetailsForm.value.vehicleType);
@@ -70,13 +62,10 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
     }
 
 
-    protected onAcTypeDesignatorSearchInputChanged(searchText: string) {
-        this.acTypeDesignatorSearchInputChanged.emit(searchText);
-    }
-
-
-    protected onIcaoTypeChanged(icaoType: string) {
-        this.icaoTypeChanged.emit(icaoType);
+    protected onIcaoTypeChanged() {
+        if (this.aircraftDetailsForm.controls['icaoType'].valid) {
+            this.icaoTypeChanged.emit(this.aircraftDetailsForm.value.icaoType);
+        }
     }
 
 
@@ -108,12 +97,7 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
 
 
     protected isFormValid(): boolean {
-        return this.aircraftDetailsForm.valid && this.isValidIcaoType();
-    }
-
-
-    protected isValidIcaoType(): boolean {
-        return this.currentAircraft && this.getCurrentIcaoType().length > 0;
+        return this.aircraftDetailsForm.valid;
     }
 
 
@@ -135,6 +119,12 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
             ]],
             'registration': [this.currentAircraft.registration, [
                 Validators.required
+            ]],
+            'icaoType': [this.currentAircraft.icaoType, [
+                Validators.required,
+                Validators.minLength(1),
+                Validators.maxLength(4),
+                Validators.pattern('^[A-Z0-9]*$')
             ]],
             'cruiseSpeed': [this.currentAircraft.cruiseSpeed
                 ? StringnumberHelper.roundToDigits(this.currentAircraft.cruiseSpeed.getValue(this.speedUnit), 0).toString()

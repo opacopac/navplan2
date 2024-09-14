@@ -25,10 +25,9 @@
 
         <!-- aircraft icao type dropdown -->
         <app-aircraft-type-designator-autocomplete
-            [initialAcTypeDesignator]="this.getCurrentIcaoType()"
-            [acTypeDesignatorSearchResults]="this.acTypeDesignatorSearchResults"
-            (searchInputChanged)="this.onAcTypeDesignatorSearchInputChanged($event)"
-            (icaoTypeSelected)="this.onIcaoTypeChanged($event)"
+            formControlName="icaoType"
+            required="true"
+            (change)="this.onIcaoTypeChanged()"
         />
 
         <!-- speed -->

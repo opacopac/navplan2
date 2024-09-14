@@ -7,6 +7,7 @@
         [formControl]="this.queryInput"
         [matAutocomplete]="auto"
         [required]="this.isMandatory"
+        [disabled]="this.isDisabled"
         [placeholder]="this.searchInputPlaceholderText"
         (input)="this.onSearchInputChanged(query.value)"
         (blur)="this.onSearchInputBlurred()"

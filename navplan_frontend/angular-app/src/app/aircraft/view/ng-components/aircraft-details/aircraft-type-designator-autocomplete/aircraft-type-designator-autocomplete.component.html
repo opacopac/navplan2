@@ -1,9 +1,10 @@
 <app-auto-complete
     class="aircraft-type-designator-autocomplete"
     [initialValue]="this.getInitialAcTypeDesignator()"
-    [searchResults]="this.acTypeDesignatorSearchResultItems"
+    [searchResults]="this.acTypeDesignatorSearchResultItems$ | async"
     labelText="ICAO Type Designator"
     [isMandatory]="true"
+    [isDisabled]="this.disabled"
     [showSearchIcon]="false"
     [minSearchTextLength]="2"
     (searchInputChanged)="this.onSearchInputChanged($event)"

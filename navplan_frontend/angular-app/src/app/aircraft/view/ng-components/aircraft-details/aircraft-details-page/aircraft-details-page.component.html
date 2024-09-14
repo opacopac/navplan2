@@ -9,7 +9,6 @@
     <!-- details form -->
     <app-aircraft-details-form
         [currentAircraft]="this.currentAircraft$ | async"
-        [acTypeDesignatorSearchResults]="this.acTypeDesignatorSearchResults$ | async"
         [speedUnit]="this.speedUnit$ | async"
         [consumptionUnit]="this.consumptionUnit$ | async"
         (vehicleTypeChanged)="this.onVehicleTypeChange($event)"
@@ -18,7 +17,6 @@
         (cruiseSpeedChanged)="this.onCruiseSpeedChange($event)"
         (cruiseFuelChanged)="this.onCruiseFuelChange($event)"
         (fuelTypeChanged)="this.onFuelTypeChange($event)"
-        (acTypeDesignatorSearchInputChanged)="this.onAcTypeDesignatorSearchInputChanged($event)"
         (saveAircraftClicked)="this.onSaveAircraftDetailsClicked()"
     />
 </div>
