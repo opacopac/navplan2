@@ -6,7 +6,7 @@
         type="text"
         [formControl]="this.queryInput"
         [matAutocomplete]="auto"
-        [required]="this.isMandatory"
+        [required]="this.isRequired"
         [placeholder]="this.searchInputPlaceholderText"
         (input)="this.onSearchInputChanged(query.value)"
         (blur)="this.onSearchInputBlurred()"
@@ -19,12 +19,12 @@
     </mat-icon>
     <mat-icon
         matSuffix
-        (click)="this.onSearchResultsCleared(); this.query.value = '';"
+        (click)="this.onSearchResultsCleared()"
     >
         close
     </mat-icon>
     @if (!this.isValid) {
-        <mat-error>{{ this.validationErrorText }}</mat-error>
+        <mat-error>Select a value from the search results</mat-error>
     }
     <mat-autocomplete
         #auto="matAutocomplete"

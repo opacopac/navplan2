@@ -33,7 +33,7 @@
             <!-- aircraft type -->
             <app-aircraft-type-designator-autocomplete
                 labelText="ICAO Type Designator"
-                initialValue=""
+                [initialValue]="null"
                 [(icaoType)]="this.aircraftIcaoType"
                 [(isValid)]="this.isAircraftIcaoTypeValid"
             />

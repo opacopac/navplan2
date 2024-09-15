@@ -50,7 +50,9 @@ export class AircraftTypeDesignatorAutocompleteComponent implements OnInit, OnCh
 
 
     protected onSearchInputChanged(searchText: string) {
-        this.appStore.dispatch(AircraftTypeDesignatorActions.searchByTextAction({searchText: searchText}));
+        if (searchText && searchText.length > 1) {
+            this.appStore.dispatch(AircraftTypeDesignatorActions.searchByTextAction({searchText: searchText}));
+        }
         this.isValidChange.emit(false);
     }
 
