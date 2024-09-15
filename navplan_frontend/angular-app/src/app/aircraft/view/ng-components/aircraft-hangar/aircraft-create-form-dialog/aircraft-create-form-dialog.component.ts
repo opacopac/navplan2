@@ -21,6 +21,8 @@ export class AircraftCreateFormDialogComponent implements OnInit, OnChanges {
     protected readonly Consumption = Consumption;
     protected readonly VehicleType = VehicleType;
     protected readonly FuelType = FuelType;
+    protected aircraftIcaoType: string;
+    protected isAircraftIcaoTypeValid: boolean;
 
 
     constructor(
@@ -44,23 +46,30 @@ export class AircraftCreateFormDialogComponent implements OnInit, OnChanges {
     }
 
 
-    protected onSaveClicked() {
-        const newAircraft = Aircraft.createMinimal(
-            this.createForm.controls['vehicleType'].value,
-            this.createForm.controls['registration'].value,
-            this.createForm.controls['icaoType'].value,
-            new Speed(
-                this.createForm.controls['cruiseSpeed'].value,
-                this.data.speedUnit
-            ),
-            new Consumption(
-                this.createForm.controls['cruiseFuel'].value,
-                this.data.consumptionUnit
-            ),
-            this.createForm.controls['fuelType'].value,
-        );
+    protected isFormValid(): boolean {
+        return this.createForm && this.createForm.valid && this.isAircraftIcaoTypeValid;
+    }
 
-        this.dialogRef.close({aircraft: newAircraft});
+
+    protected onSaveClicked() {
+        if (this.isFormValid()) {
+            const newAircraft = Aircraft.createMinimal(
+                this.createForm.controls['vehicleType'].value,
+                this.createForm.controls['registration'].value,
+                this.aircraftIcaoType,
+                new Speed(
+                    this.createForm.controls['cruiseSpeed'].value,
+                    this.data.speedUnit
+                ),
+                new Consumption(
+                    this.createForm.controls['cruiseFuel'].value,
+                    this.data.consumptionUnit
+                ),
+                this.createForm.controls['fuelType'].value,
+            );
+
+            this.dialogRef.close({aircraft: newAircraft});
+        }
     }
 
 
@@ -73,7 +82,6 @@ export class AircraftCreateFormDialogComponent implements OnInit, OnChanges {
         this.createForm = this.formBuilder.group({
             'vehicleType': [VehicleType.AIRPLANE, [Validators.required]],
             'registration': ['', [Validators.required]],
-            'icaoType': ['', [Validators.required]],
             'cruiseSpeed': ['',
                 [
                     Validators.required,

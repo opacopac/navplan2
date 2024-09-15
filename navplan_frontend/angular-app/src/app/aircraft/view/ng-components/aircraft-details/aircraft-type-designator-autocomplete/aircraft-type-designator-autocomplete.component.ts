@@ -13,11 +13,12 @@ import {AircraftTypeDesignatorActions} from '../../../../state/ngrx/aircraft-typ
     styleUrls: ['./aircraft-type-designator-autocomplete.component.scss']
 })
 export class AircraftTypeDesignatorAutocompleteComponent implements OnInit, OnChanges {
-    @Input() initialValue: string;
     @Input() labelText: string;
+    @Input() initialValue: string;
+    @Input() icaoType: string;
     @Input() isValid: boolean;
     @Output() isValidChange = new EventEmitter<boolean>();
-    @Output() icaoTypeChanged = new EventEmitter<string>();
+    @Output() icaoTypeChange = new EventEmitter<string>();
     protected readonly acTypeDesignatorSearchResults$ = this.appStore.pipe(select(getAcTypeDesignatorSearchResults));
     protected readonly acTypeDesignatorSearchResultItems$ = this.acTypeDesignatorSearchResults$.pipe(
         map(acTypeDesignators => acTypeDesignators
@@ -50,6 +51,7 @@ export class AircraftTypeDesignatorAutocompleteComponent implements OnInit, OnCh
 
     protected onSearchInputChanged(searchText: string) {
         this.appStore.dispatch(AircraftTypeDesignatorActions.searchByTextAction({searchText: searchText}));
+        this.isValidChange.emit(false);
     }
 
 
@@ -70,8 +72,9 @@ export class AircraftTypeDesignatorAutocompleteComponent implements OnInit, OnCh
 
 
     private changeIcaoType(icaoType: string) {
+        this.icaoType = icaoType;
         this.isValidChange.emit(this.isIcaoTypeValid(icaoType));
-        this.icaoTypeChanged.emit(icaoType);
+        this.icaoTypeChange.emit(icaoType);
     }
 
 

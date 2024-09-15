@@ -28,7 +28,7 @@
             labelText="ICAO Aircraft Type"
             [initialValue]="this.getInitialIcaoType()"
             [(isValid)]="this.isIcaoTypeValid"
-            (icaoTypeChanged)="this.onIcaoTypeChanged($event)"
+            (icaoTypeChange)="this.onIcaoTypeChanged($event)"
         />
 
         <!-- speed -->

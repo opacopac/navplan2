@@ -12,16 +12,20 @@ export class AutoCompleteComponent<T> implements OnInit, OnChanges {
     @Input() public initialValue: AutoCompleteResultItem<T>;
     @Input() public labelText: string;
     @Input() public isMandatory: boolean;
+    @Input() public validationErrorText: string;
     @Input() public showSearchIcon: boolean;
     @Input() public searchInputPlaceholderText: string;
     @Input() public minSearchTextLength: number;
     @Input() public searchResults: AutoCompleteResultItem<T>[];
+    @Input() public isValid: boolean;
+    @Output() public isValidChange = new EventEmitter<boolean>();
     @Output() public searchInputChanged: EventEmitter<string> = new EventEmitter<string>();
     @Output() public searchResultSelected: EventEmitter<T> = new EventEmitter<T>();
     @Output() public searchResultsCleared: EventEmitter<void> = new EventEmitter<void>();
     @Output() public blur: EventEmitter<void> = new EventEmitter<void>();
 
     protected queryInput: FormControl;
+
 
     constructor() {
     }
@@ -52,6 +56,7 @@ export class AutoCompleteComponent<T> implements OnInit, OnChanges {
 
 
     protected onSearchInputChanged(searchText: string) {
+        this.isValidChange.emit(false);
         if (searchText && searchText.length >= this.minSearchTextLength) {
             this.searchInputChanged.emit(searchText);
         }
@@ -59,18 +64,21 @@ export class AutoCompleteComponent<T> implements OnInit, OnChanges {
 
 
     protected onSearchResultSelected(selectedItem: AutoCompleteResultItem<T>) {
+        this.isValidChange.emit(true);
         this.searchResultSelected.emit(selectedItem.item);
     }
 
 
     protected onSearchResultsCleared() {
+        this.isValidChange.emit(!this.isMandatory);
         this.searchResultsCleared.emit();
     }
 
 
     protected onSearchInputBlurred() {
-        this.initForm(); // restore previous value
-        this.blur.emit();
+        setTimeout(() => {
+            this.blur.emit();
+        }, 250);
     }
 
 

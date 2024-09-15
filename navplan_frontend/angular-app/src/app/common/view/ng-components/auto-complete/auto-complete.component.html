@@ -23,6 +23,9 @@
     >
         close
     </mat-icon>
+    @if (!this.isValid) {
+        <mat-error>{{ this.validationErrorText }}</mat-error>
+    }
     <mat-autocomplete
         #auto="matAutocomplete"
         [displayWith]="this.getSelectedDisplayName"
