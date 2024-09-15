@@ -25,9 +25,10 @@
 
         <!-- aircraft icao type dropdown -->
         <app-aircraft-type-designator-autocomplete
-            formControlName="icaoType"
-            required="true"
-            (change)="this.onIcaoTypeChanged()"
+            labelText="ICAO Aircraft Type"
+            [initialValue]="this.getInitialIcaoType()"
+            [(isValid)]="this.isIcaoTypeValid"
+            (icaoTypeChanged)="this.onIcaoTypeChanged($event)"
         />
 
         <!-- speed -->

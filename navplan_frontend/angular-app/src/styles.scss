@@ -169,7 +169,7 @@ tr.selected-row > .mat-mdc-cell {
 
 .success-snack-bar.mat-mdc-snack-bar-container {
     .mdc-snackbar__surface {
-        background: var(--navplan-color-blue);
+        background: $navplan-color-blue;
 
         .mat-mdc-button {
             color: white !important;

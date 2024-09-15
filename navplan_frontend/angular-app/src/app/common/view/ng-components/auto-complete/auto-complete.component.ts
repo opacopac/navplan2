@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {AutoCompleteResultItem} from '../../model/auto-complete-result-item';
-import {ButtonColor} from '../../model/button-color';
 import {FormControl, Validators} from '@angular/forms';
 
 
@@ -13,7 +12,6 @@ export class AutoCompleteComponent<T> implements OnInit, OnChanges {
     @Input() public initialValue: AutoCompleteResultItem<T>;
     @Input() public labelText: string;
     @Input() public isMandatory: boolean;
-    @Input() public isDisabled: boolean;
     @Input() public showSearchIcon: boolean;
     @Input() public searchInputPlaceholderText: string;
     @Input() public minSearchTextLength: number;
@@ -21,8 +19,8 @@ export class AutoCompleteComponent<T> implements OnInit, OnChanges {
     @Output() public searchInputChanged: EventEmitter<string> = new EventEmitter<string>();
     @Output() public searchResultSelected: EventEmitter<T> = new EventEmitter<T>();
     @Output() public searchResultsCleared: EventEmitter<void> = new EventEmitter<void>();
+    @Output() public blur: EventEmitter<void> = new EventEmitter<void>();
 
-    protected readonly ButtonColor = ButtonColor;
     protected queryInput: FormControl;
 
     constructor() {
@@ -71,9 +69,9 @@ export class AutoCompleteComponent<T> implements OnInit, OnChanges {
 
 
     protected onSearchInputBlurred() {
-        //this.initForm(); // restore previous value
+        this.initForm(); // restore previous value
+        this.blur.emit();
     }
-
 
 
     private initForm() {

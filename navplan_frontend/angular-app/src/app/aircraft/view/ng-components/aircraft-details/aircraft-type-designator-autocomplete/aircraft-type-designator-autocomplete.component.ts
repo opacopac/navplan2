@@ -1,7 +1,6 @@
-import {Component, OnChanges, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {AircraftTypeDesignator} from '../../../../domain/model/aircraft-type-designator';
 import {AutoCompleteResultItem} from '../../../../../common/view/model/auto-complete-result-item';
-import {AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR, ValidationErrors, Validator} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
 import {getAcTypeDesignatorSearchResults} from '../../../../state/ngrx/aircraft.selectors';
 import {map} from 'rxjs/operators';
@@ -11,14 +10,14 @@ import {AircraftTypeDesignatorActions} from '../../../../state/ngrx/aircraft-typ
 @Component({
     selector: 'app-aircraft-type-designator-autocomplete',
     templateUrl: './aircraft-type-designator-autocomplete.component.html',
-    styleUrls: ['./aircraft-type-designator-autocomplete.component.scss'],
-    providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        multi: true,
-        useExisting: AircraftTypeDesignatorAutocompleteComponent,
-    }]
+    styleUrls: ['./aircraft-type-designator-autocomplete.component.scss']
 })
-export class AircraftTypeDesignatorAutocompleteComponent implements OnInit, OnChanges, ControlValueAccessor, Validator {
+export class AircraftTypeDesignatorAutocompleteComponent implements OnInit, OnChanges {
+    @Input() initialValue: string;
+    @Input() labelText: string;
+    @Input() isValid: boolean;
+    @Output() isValidChange = new EventEmitter<boolean>();
+    @Output() icaoTypeChanged = new EventEmitter<string>();
     protected readonly acTypeDesignatorSearchResults$ = this.appStore.pipe(select(getAcTypeDesignatorSearchResults));
     protected readonly acTypeDesignatorSearchResultItems$ = this.acTypeDesignatorSearchResults$.pipe(
         map(acTypeDesignators => acTypeDesignators
@@ -26,12 +25,6 @@ export class AircraftTypeDesignatorAutocompleteComponent implements OnInit, OnCh
             : []
         )
     );
-
-    protected icaoType = '';
-    protected touched = false;
-    protected disabled = false;
-    protected onChange = (icaoType: string) => {};
-    protected onTouched = () => {};
 
 
     constructor(private appStore: Store<any>) {
@@ -46,40 +39,11 @@ export class AircraftTypeDesignatorAutocompleteComponent implements OnInit, OnCh
     }
 
 
-    registerOnChange(fn: (icaoType: string) => {}): void {
-        this.onChange = fn;
-    }
-
-
-    registerOnTouched(fn: () => {}): void {
-        this.onTouched = fn;
-    }
-
-
-    registerOnValidatorChange(fn: () => void): void {
-    }
-
-
-    setDisabledState(isDisabled: boolean): void {
-        this.disabled = isDisabled;
-    }
-
-
-    validate(control: AbstractControl): ValidationErrors | null {
-        return undefined;
-    }
-
-
-    writeValue(icaoType: string): void {
-        this.icaoType = icaoType;
-    }
-
-
     protected getInitialAcTypeDesignator(): AutoCompleteResultItem<AircraftTypeDesignator> {
         return new AutoCompleteResultItem(
             null,
-            this.icaoType,
-            this.icaoType
+            this.initialValue,
+            this.initialValue
         );
     }
 
@@ -90,26 +54,29 @@ export class AircraftTypeDesignatorAutocompleteComponent implements OnInit, OnCh
 
 
     protected onSearchResultSelected(acTypeDesignator: AircraftTypeDesignator) {
-        this.markAsTouched();
-        if (!this.disabled) {
-            this.icaoType = acTypeDesignator.designator;
-            this.onChange(acTypeDesignator.designator);
-        }
+        this.changeIcaoType(acTypeDesignator.designator);
     }
 
 
     protected onSearchResultsCleared() {
-        this.markAsTouched();
-        if (!this.disabled) {
-            this.icaoType = '';
-            this.onChange('');
-        }
+        this.appStore.dispatch(AircraftTypeDesignatorActions.clearSearchResultsAction());
+        this.changeIcaoType('');
     }
 
 
-    private markAsTouched() {
-        this.touched = true;
-        this.onTouched();
+    protected onBlur() {
+        this.appStore.dispatch(AircraftTypeDesignatorActions.clearSearchResultsAction());
+    }
+
+
+    private changeIcaoType(icaoType: string) {
+        this.isValidChange.emit(this.isIcaoTypeValid(icaoType));
+        this.icaoTypeChanged.emit(icaoType);
+    }
+
+
+    private isIcaoTypeValid(icaoType: string): boolean {
+        return icaoType && (icaoType.length > 0) && (icaoType.length <= 4) && /^[A-Z0-9]*$/.test(icaoType);
     }
 
 

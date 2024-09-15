@@ -18,8 +18,7 @@ export class AircraftTypeDesignatorActions {
         props<{ error: string }>()
     );
 
-    public static readonly searchResultSelectedAction = createAction(
-        '[Aircraft Type Designator Dropdown] search result selected',
-        props<{ aircraftTypeDesignator: AircraftTypeDesignator }>()
+    public static readonly clearSearchResultsAction = createAction(
+        '[Aircraft Type Designator Dropdown] clear search results'
     );
 }

@@ -32,6 +32,7 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
     protected readonly Speed = Speed;
     protected readonly Consumption = Consumption;
     protected aircraftDetailsForm: FormGroup;
+    protected isIcaoTypeValid: boolean;
 
 
     constructor(private formBuilder: FormBuilder) {
@@ -45,6 +46,11 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
 
     ngOnChanges() {
         this.initForm();
+    }
+
+
+    protected getInitialIcaoType() {
+        return this.currentAircraft ? this.currentAircraft.icaoType : '';
     }
 
 
@@ -62,10 +68,8 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
     }
 
 
-    protected onIcaoTypeChanged() {
-        if (this.aircraftDetailsForm.controls['icaoType'].valid) {
-            this.icaoTypeChanged.emit(this.aircraftDetailsForm.value.icaoType);
-        }
+    protected onIcaoTypeChanged(icaoType: string) {
+        this.icaoTypeChanged.emit(icaoType);
     }
 
 
@@ -97,8 +101,9 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
 
 
     protected isFormValid(): boolean {
-        return this.aircraftDetailsForm.valid;
+        return this.aircraftDetailsForm.valid && this.isIcaoTypeValid;
     }
+
 
 
     protected onSaveAircraftDetailsClicked() {
@@ -119,12 +124,6 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
             ]],
             'registration': [this.currentAircraft.registration, [
                 Validators.required
-            ]],
-            'icaoType': [this.currentAircraft.icaoType, [
-                Validators.required,
-                Validators.minLength(1),
-                Validators.maxLength(4),
-                Validators.pattern('^[A-Z0-9]*$')
             ]],
             'cruiseSpeed': [this.currentAircraft.cruiseSpeed
                 ? StringnumberHelper.roundToDigits(this.currentAircraft.cruiseSpeed.getValue(this.speedUnit), 0).toString()

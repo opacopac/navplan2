@@ -239,5 +239,14 @@ export const aircraftReducer = createReducer(
         }
     })),
 
+    on(AircraftTypeDesignatorActions.clearSearchResultsAction, (state) => ({
+        ...state,
+        acTypeDesignatorSearchState: {
+            searchResults: undefined,
+            selectedResultIndex: undefined,
+            selectedSearchResult: undefined
+        }
+    }))
+
     // endregion
 );
