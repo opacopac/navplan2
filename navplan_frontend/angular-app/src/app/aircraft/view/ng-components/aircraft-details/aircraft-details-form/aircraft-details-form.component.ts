@@ -105,7 +105,6 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
     }
 
 
-
     protected onSaveAircraftDetailsClicked() {
         if (this.isFormValid()) {
             this.saveAircraftClicked.emit();
@@ -143,7 +142,9 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
                     Validators.max(999)
                 ]
             ],
-            'fuelType': [this.currentAircraft.fuelType ?? '', []]
+            'fuelType': [this.currentAircraft.fuelType ?? '', [
+                Validators.required
+            ]]
         });
     }
 }

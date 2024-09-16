@@ -68,6 +68,7 @@
             <mat-label>Fuel Type</mat-label>
             <mat-select
                 formControlName="fuelType"
+                required
                 (selectionChange)="this.onFuelTypeChanged()"
             >
                 <mat-option value="" selected>(select)</mat-option>
