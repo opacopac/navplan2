@@ -96,6 +96,11 @@ export class AutoCompleteComponent<T> implements OnInit, OnChanges {
     }
 
 
+    protected trackByResult(index: number, item: any): any {
+        return item.resultDisplayName;
+    }
+
+
     private initForm() {
         const validators = this.isRequired ? [Validators.required] : [];
         this.queryInput = new FormControl(this.initialValue, validators);

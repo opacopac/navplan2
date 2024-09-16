@@ -31,8 +31,21 @@
         [displayWith]="this.getSelectedDisplayName"
         (optionSelected)="this.onSearchResultSelected($event.option.value)"
     >
-        @for (result of this.getSearchResults(); track result.resultDisplayName) {
-            <mat-option [value]="result">{{ this.getResultDisplayName(result) }}</mat-option>
-        }
+        <!-- Check if there are search results -->
+        <ng-container *ngIf="(getSearchResults()?.length > 0); else noResults">
+            <mat-option
+                *ngFor="let result of getSearchResults(); trackBy: trackByResult"
+                [value]="result"
+            >
+                {{ this.getResultDisplayName(result) }}
+            </mat-option>
+        </ng-container>
+
+        <!-- Template to display when no results are found -->
+        <ng-template #noResults>
+            <mat-option disabled>
+                No results found
+            </mat-option>
+        </ng-template>
     </mat-autocomplete>
 </mat-form-field>
