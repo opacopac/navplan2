@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {AutoCompleteResultItem} from '../../model/auto-complete-result-item';
-import {FormControl, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
+import {FormControl, Validators} from '@angular/forms';
 
 
 @Component({
@@ -23,12 +23,14 @@ export class AutoCompleteComponent<T> implements OnInit, OnChanges {
 
     protected queryInput: FormControl;
     private _isValid: boolean;
+    private isDirty = false;
 
 
     @Input()
     set isValid(value: boolean) {
         this._isValid = value;
     }
+
     get isValid(): boolean {
         return this._isValid;
     }
@@ -63,18 +65,21 @@ export class AutoCompleteComponent<T> implements OnInit, OnChanges {
 
 
     protected onSearchInputChanged(searchText: string) {
+        this.isDirty = true;
         this.updateIsValid(false);
         this.searchInputChanged.emit(searchText);
     }
 
 
     protected onSearchResultSelected(selectedItem: AutoCompleteResultItem<T>) {
+        this.isDirty = false;
         this.updateIsValid(true);
         this.searchResultSelected.emit(selectedItem.item);
     }
 
 
     protected onSearchResultsCleared() {
+        this.isDirty = false;
         this.queryInput.setValue('');
         this.updateIsValid(!this.isRequired);
         this.searchResultsCleared.emit();
@@ -83,17 +88,16 @@ export class AutoCompleteComponent<T> implements OnInit, OnChanges {
 
     protected onSearchInputBlurred() {
         setTimeout(() => {
+            if (this.isDirty) {
+                this.onSearchResultsCleared();
+            }
             this.blur.emit();
-        }, 250);
+        }, 100);
     }
 
 
     private initForm() {
-        const isValueFromResultsValidator: ValidatorFn = (control: FormControl): ValidationErrors | null => {
-            return !this.isValid ? {'isValueFromResuls': true} : null;
-        };
-        const validators = this.isRequired ? [Validators.required, isValueFromResultsValidator] : [isValueFromResultsValidator];
-
+        const validators = this.isRequired ? [Validators.required] : [];
         this.queryInput = new FormControl(this.initialValue, validators);
     }
 
