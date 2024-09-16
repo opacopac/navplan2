@@ -33,6 +33,9 @@ export class AircraftTypeDesignatorAutocompleteComponent implements OnInit, OnCh
 
 
     ngOnInit() {
+        if (this.initialValue) {
+            this.isValidChange.emit(this.isIcaoTypeValid(this.initialValue));
+        }
     }
 
 
