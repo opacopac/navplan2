@@ -19,7 +19,6 @@ export class AutoCompleteComponent<T> implements OnInit, OnChanges {
     @Output() public searchInputChanged: EventEmitter<string> = new EventEmitter<string>();
     @Output() public searchResultSelected: EventEmitter<T> = new EventEmitter<T>();
     @Output() public searchResultsCleared: EventEmitter<void> = new EventEmitter<void>();
-    @Output() public blur: EventEmitter<void> = new EventEmitter<void>();
 
     protected queryInput: FormControl;
     private _isValid: boolean;
@@ -91,7 +90,6 @@ export class AutoCompleteComponent<T> implements OnInit, OnChanges {
             if (this.isDirty) {
                 this.onSearchResultsCleared();
             }
-            this.blur.emit();
         }, 100);
     }
 

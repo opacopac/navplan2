@@ -71,11 +71,6 @@ export class AircraftTypeDesignatorAutocompleteComponent implements OnInit, OnCh
     }
 
 
-    protected onBlur() {
-        this.appStore.dispatch(AircraftTypeDesignatorActions.clearSearchResultsAction());
-    }
-
-
     private changeIcaoType(icaoType: string) {
         this.icaoType = icaoType;
         this.isValidChange.emit(this.isIcaoTypeValid(icaoType));
