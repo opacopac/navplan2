@@ -12,23 +12,32 @@ export class Pressure extends AbstractQuantity<Pressure, PressureUnit> implement
         unit: PressureUnit,
         convertToUnit: PressureUnit
     ): number {
-        if (unit === convertToUnit) { return value; }
-        if (value === undefined) { return undefined; }
+        if (unit === convertToUnit) {
+            return value;
+        }
+        if (value === undefined) {
+            return undefined;
+        }
 
         switch (unit) {
             case PressureUnit.HPA:
                 switch (convertToUnit) {
-                    case PressureUnit.INHG: return value * Pressure.INHG_PER_HPA;
-                    default: return undefined;
+                    case PressureUnit.INHG:
+                        return value * Pressure.INHG_PER_HPA;
+                    default:
+                        return undefined;
                 }
 
             case PressureUnit.INHG:
                 switch (convertToUnit) {
-                    case PressureUnit.HPA: return value / Pressure.INHG_PER_HPA;
-                    default: return undefined;
+                    case PressureUnit.HPA:
+                        return value / Pressure.INHG_PER_HPA;
+                    default:
+                        return undefined;
                 }
 
-            default: return undefined;
+            default:
+                return undefined;
         }
     }
 
