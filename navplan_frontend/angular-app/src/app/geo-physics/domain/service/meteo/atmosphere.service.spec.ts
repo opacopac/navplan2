@@ -72,7 +72,7 @@ describe('AtmosphereService', () => {
         const isaTemp = AtmosphereService.calcIsaTemperature(pa, oat);
 
         // then
-        expect(isaTemp.c).toBe(oat.c);
+        expect(isaTemp.c).toBe(15);
     });
 
 
@@ -85,6 +85,6 @@ describe('AtmosphereService', () => {
         const isaTemp = AtmosphereService.calcIsaTemperature(pa, oat);
 
         // then
-        expect(isaTemp.c).toBe(oat.c);
+        expect(isaTemp.c).toBe(13);
     });
 });
