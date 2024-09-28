@@ -28,6 +28,13 @@ export class PlanPerformanceService {
         const altIdx = ArrayHelper.findFractionalIndex(pa, performanceTable.altitudeSteps, alt => alt.ft);
         const tempIdx = ArrayHelper.findFractionalIndex(temp, performanceTable.temperatureSteps, temp => temp.c);
 
+        const rollLowerAltLowerTemp = performanceTable.distanceValues[Math.floor(altIdx)][Math.floor(tempIdx)];
+        const rollLowerAltUpperTemp = performanceTable.distanceValues[Math.floor(altIdx)][Math.ceil(tempIdx)];
+        //const rollLower = rollLowerAltLowerTemp + (rollLowerAltUpperTemp - rollLowerAltLowerTemp) * (temp.c - performanceTable.temperatureSteps[Math.floor(tempIdx)].c);
+
+        const rollUpperAltLowerTemp = performanceTable.distanceValues[Math.ceil(altIdx)][Math.floor(tempIdx)];
+        const rollUpperAltUpperTemp = performanceTable.distanceValues[Math.ceil(altIdx)][Math.ceil(tempIdx)];
+
         return Length.createZero();
     }
 }
