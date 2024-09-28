@@ -19,7 +19,7 @@ export class WnbArmGridSvg {
 
         lengthMarks.forEach(mark => {
             const length = new Length(mark, lengthUnit);
-            const point = imgDim.calcXy(length, Weight.createZero());
+            const point = imgDim.calcXy(length, Weight.ofZero());
             svg.appendChild(this.createGridLine(point[0], true));
 
             const label = length.getValueAndUnit(lengthUnit, 3);

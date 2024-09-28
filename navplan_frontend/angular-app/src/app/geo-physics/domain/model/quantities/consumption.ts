@@ -16,6 +16,16 @@ export class Consumption extends AbstractQuantity<Consumption, ConsumptionUnit> 
     }
 
 
+    public static ofLPerH(consumptionLPerH: number): Consumption {
+        return new Consumption(consumptionLPerH, ConsumptionUnit.L_PER_H);
+    }
+
+
+    public static ofGalPerH(consumptionGalPerH: number): Consumption {
+        return new Consumption(consumptionGalPerH, ConsumptionUnit.GAL_PER_H);
+    }
+
+
     public static convertConsumption(
         value: number,
         unit: ConsumptionUnit,

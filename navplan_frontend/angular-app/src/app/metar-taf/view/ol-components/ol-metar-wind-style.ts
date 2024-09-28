@@ -8,7 +8,7 @@ import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
 export class OlMetarWindStyle {
     public static createPointStyle(metarTaf: MetarTaf, mapRotation: Angle): Style {
         const windIcon = WindIcon.createFrom(
-            Speed.fromKt(metarTaf.wind_speed_kt),
+            Speed.ofKt(metarTaf.wind_speed_kt),
             Angle.fromDeg(metarTaf.wind_dir_deg),
             mapRotation
         );

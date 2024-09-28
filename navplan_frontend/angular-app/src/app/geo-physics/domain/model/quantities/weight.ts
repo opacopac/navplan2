@@ -19,7 +19,17 @@ export class Weight extends AbstractQuantity<Weight, WeightUnit> {
     }
 
 
-    public static createZero(): Weight {
+    public static ofKg(weightKg: number): Weight {
+        return new Weight(weightKg, WeightUnit.KG);
+    }
+
+
+    public static ofLbs(weightLbs: number): Weight {
+        return new Weight(weightLbs, WeightUnit.LBS);
+    }
+
+
+    public static ofZero(): Weight {
         return new Weight(0, WeightUnit.KG);
     }
 

@@ -15,8 +15,18 @@ export class Speed extends AbstractQuantity<Speed, SpeedUnit> {
     }
 
 
-    public static fromKt(speedKt: number) {
+    public static ofKt(speedKt: number) {
         return new Speed(speedKt, SpeedUnit.KT);
+    }
+
+
+    public static ofKmh(speedKmh: number) {
+        return new Speed(speedKmh, SpeedUnit.KMH);
+    }
+
+
+    public static ofMps(speedMps: number) {
+        return new Speed(speedMps, SpeedUnit.MPS);
     }
 
 
