@@ -43,7 +43,7 @@ export class PlanPerformanceService {
         const upperRollM = rollUpperAltLowerTemp.m + upperRollDiffM * (isaTemp.c - tempLower.c) / tempDiffC;
 
         const rollDiffM = upperRollM - lowerRollM;
-        const rollM = lowerRollM + rollDiffM * (pa.ft - altLower.ft) / altDiffFt;
+        const rollM = lowerRollM + rollDiffM * (pa.ft - altLower.ft) / altDiffFt; // TODO: div by zero
 
         // TODO correction factors
 
