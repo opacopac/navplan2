@@ -31,7 +31,7 @@ export class MockDistPerfTablesBr23 {
             this.ALT_STEPS,
             PerformanceTableTemperatureReference.ISA_TEMPERATURE,
             this.TEMP_STEPS,
-            this.createTableFromValues([
+            this.mapToLength([
                 [170, 176, 183, 189, 196],
                 [183, 189, 196, 204, 211]
             ]),
@@ -40,7 +40,7 @@ export class MockDistPerfTablesBr23 {
     }
 
 
-    private static createTableFromValues(values: number[][]): Length[][] {
+    private static mapToLength(values: number[][]): Length[][] {
         return values.map(row => row.map(value => Length.ofM(value)));
     }
 }
