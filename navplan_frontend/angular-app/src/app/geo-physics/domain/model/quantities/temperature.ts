@@ -21,6 +21,26 @@ export class Temperature extends AbstractQuantity<Temperature, TemperatureUnit> 
     }
 
 
+    public static ofC(value: number): Temperature {
+        return new Temperature(value, TemperatureUnit.C);
+    }
+
+
+    public static ofF(value: number): Temperature {
+        return new Temperature(value, TemperatureUnit.F);
+    }
+
+
+    public static ofK(value: number): Temperature {
+        return new Temperature(value, TemperatureUnit.K);
+    }
+
+
+    public static ofZero(): Temperature {
+        return new Temperature(0, TemperatureUnit.C);
+    }
+
+
     public static convertTemperature(
         value: number,
         unit: TemperatureUnit,

@@ -10,6 +10,10 @@ import { MockWeightItemsBr23 } from "./mockWeightItemsBr23";
 
 
 export class MockAircraftBr23 {
+    public static MTOW = Weight.ofKg(750);
+    public static BEW = Weight.ofKg(450);
+
+
     public static create() {
         return new Aircraft(
             1,
@@ -19,8 +23,8 @@ export class MockAircraftBr23 {
             Speed.ofKt(100),
             Consumption.ofLPerH(25),
             FuelType.MOGAS,
-            Weight.ofKg(750),
-            Weight.ofKg(450),
+            this.MTOW,
+            this.BEW,
             null, // TODD
             null,
             null,
