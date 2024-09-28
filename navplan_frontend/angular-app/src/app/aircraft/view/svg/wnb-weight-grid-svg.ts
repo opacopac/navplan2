@@ -19,7 +19,7 @@ export class WnbWeightGridSvg {
 
         weightMarks.forEach(markKg => {
             const weight = new Weight(markKg, weightUnit);
-            const point = imgDim.calcXy(Length.createZero(), weight);
+            const point = imgDim.calcXy(Length.ofZero(), weight);
             svg.appendChild(this.createGridLine(point[1], true));
 
             const label = weight.getValueAndUnit(weightUnit, 0);

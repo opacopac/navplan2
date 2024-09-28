@@ -95,7 +95,7 @@ export class Altitude implements Clonable<Altitude> {
     }
 
 
-    public getHeightAmsl(terrainElevation: Length = Length.createZero()): Length {
+    public getHeightAmsl(terrainElevation: Length = Length.ofZero()): Length {
         let lenUnit: LengthUnit;
 
         switch (this.unit) {

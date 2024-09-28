@@ -9,7 +9,7 @@ export class TerrainSvg {
         const points: [number, number][] = [];
 
         // point bottom left
-        points.push(imgDim.calcXy(Length.createZero(), Length.createZero()));
+        points.push(imgDim.calcXy(Length.ofZero(), Length.ofZero()));
 
         // terrain altitude points
         for (let i = 0; i < terrainSteps.length; i++) {
@@ -20,7 +20,7 @@ export class TerrainSvg {
         points.push(imgDim.calcXy(imgDim.maxWidth, terrainSteps[terrainSteps.length - 1].elevationAmsl));
 
         // point bottom right
-        points.push(imgDim.calcXy(imgDim.maxWidth, Length.createZero()));
+        points.push(imgDim.calcXy(imgDim.maxWidth, Length.ofZero()));
 
         return SvgPolygonElement.create(
             points,

@@ -36,7 +36,7 @@ describe('PlanPerformanceService', () => {
 
     it('calculates the correct altitude for standard pressure at sea level', () => {
         // given
-        const elevation = Length.createZero();
+        const elevation = Length.ofZero();
         const qnh = AtmosphereService.getStandardPressure();
         cons distperfTbl = new DistancePerformanceTable(
 

@@ -8,16 +8,16 @@ export class MeteogramTerrainSvg {
         const points: [number, number][] = [];
 
         // point bottom left
-        points.push(imgDimensions.calcXy(Length.createZero(), Length.createZero()));
+        points.push(imgDimensions.calcXy(Length.ofZero(), Length.ofZero()));
 
         // point top left
-        points.push(imgDimensions.calcXy(Length.createZero(), terrainElevation));
+        points.push(imgDimensions.calcXy(Length.ofZero(), terrainElevation));
 
         // point top right
         points.push(imgDimensions.calcXy(imgDimensions.maxWidth, terrainElevation));
 
         // point bottom right
-        points.push(imgDimensions.calcXy(imgDimensions.maxWidth, Length.createZero()));
+        points.push(imgDimensions.calcXy(imgDimensions.maxWidth, Length.ofZero()));
 
         return SvgPolygonElement.create(
             points,

@@ -20,6 +20,21 @@ export class Volume extends AbstractQuantity<Volume, VolumeUnit> implements Clon
     }
 
 
+    public static ofL(value: number): Volume {
+        return new Volume(value, VolumeUnit.L);
+    }
+
+
+    public static ofGal(value: number): Volume {
+        return new Volume(value, VolumeUnit.GAL);
+    }
+
+
+    public static ofZero(): Volume {
+        return new Volume(0, VolumeUnit.L);
+    }
+
+
     public static convertVolume(
         value: number,
         unit: VolumeUnit,

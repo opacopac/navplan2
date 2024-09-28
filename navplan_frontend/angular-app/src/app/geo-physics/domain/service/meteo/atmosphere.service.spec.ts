@@ -11,7 +11,7 @@ describe('AtmosphereService', () => {
 
     it('calculates the correct altitude for standard pressure at sea level', () => {
         // given
-        const elevation = Length.createZero();
+        const elevation = Length.ofZero();
         const qnh = AtmosphereService.getStandardPressure();
 
         // when
@@ -65,7 +65,7 @@ describe('AtmosphereService', () => {
 
     it('calculates the correct isa temperature for std pressure at sea level', () => {
         // given
-        const pa = Length.createZero();
+        const pa = Length.ofZero();
         const oat = AtmosphereService.getStandardTemperature();
 
         // when

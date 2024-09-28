@@ -27,7 +27,32 @@ export class Length extends AbstractQuantity<Length, LengthUnit> implements Clon
     }
 
 
-    public static createZero(): Length {
+    public static ofFt(lengthFt: number): Length {
+        return new Length(lengthFt, LengthUnit.FT);
+    }
+
+
+    public static ofM(lengthM: number): Length {
+        return new Length(lengthM, LengthUnit.M);
+    }
+
+
+    public static ofNm(lengthNm: number): Length {
+        return new Length(lengthNm, LengthUnit.NM);
+    }
+
+
+    public static ofKm(lengthKm: number): Length {
+        return new Length(lengthKm, LengthUnit.KM);
+    }
+
+
+    public static ofIn(lengthIn: number): Length {
+        return new Length(lengthIn, LengthUnit.IN);
+    }
+
+
+    public static ofZero(): Length {
         return new Length(0, LengthUnit.M);
     }
 

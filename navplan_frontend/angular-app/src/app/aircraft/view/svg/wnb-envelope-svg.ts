@@ -14,7 +14,7 @@ import {WnbArmGridSvg} from './wnb-arm-grid-svg';
 
 export class WnbEnvelopeSvg {
     private static readonly BORDER_FACTOR = 0.10;
-    private static readonly MIN_ARM_FALLBACK = Length.createZero();
+    private static readonly MIN_ARM_FALLBACK = Length.ofZero();
     private static readonly MAX_ARM_FALLBACK = new Length(3, LengthUnit.M);
     private static readonly MIN_WEIGHT_FALLBACK = Weight.ofZero();
     private static readonly MAX_WEIGHT_FALLBACK = new Weight(3000, WeightUnit.KG);

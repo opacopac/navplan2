@@ -6,6 +6,7 @@ import { WeightUnit } from "../../../geo-physics/domain/model/quantities/weight-
 import { Aircraft } from "../model/aircraft";
 import { FuelType } from "../model/fuel-type";
 import { VehicleType } from "../model/vehicle-type";
+import { MockWeightItemsBr23 } from "./mockWeightItemsBr23";
 
 
 export class MockAircraftBr23 {
@@ -24,7 +25,7 @@ export class MockAircraftBr23 {
             null,
             null,
             null,
-            [],
+            MockWeightItemsBr23.createAll(),
             []
         );
     }
