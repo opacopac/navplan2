@@ -8,11 +8,13 @@ import { WeightItemType } from "../model/weight-item-type";
 export class MockWeightItemsBr23 {
     public static createAll(): WeightItem[] {
         return [
-            MockWeightItemsBr23.createAircraftItem(),
-            MockWeightItemsBr23.createFuelItem(),
-            MockWeightItemsBr23.createPilotItem(),
-            MockWeightItemsBr23.createPassengerItem(),
-            MockWeightItemsBr23.createBaggageItem(),
+            this.createAircraftItem(),
+            this.createFuelItem(),
+            this.createPilotItem(),
+            this.createPassengerItem(),
+            this.createBaggageLowerAftItem(),
+            this.createBaggageUpperAftItem(),
+            this.createBaggageWingLockerItem(),
         ];
     }
 
@@ -21,7 +23,7 @@ export class MockWeightItemsBr23 {
         return new WeightItem(
             WeightItemType.AIRCRAFT,
             "Aircraft",
-            Length.ofM(1.2), // TODO
+            Length.ofM(1.7364),
             Length.ofZero(),
             null,
             null,
@@ -37,7 +39,7 @@ export class MockWeightItemsBr23 {
         return new WeightItem(
             WeightItemType.FUEL,
             "Fuel Tanks (Wing)",
-            Length.ofM(1.6), // TODO
+            Length.ofM(1.6),
             Length.ofZero(),
             null,
             Volume.ofL(120),
@@ -53,7 +55,7 @@ export class MockWeightItemsBr23 {
         return new WeightItem(
             WeightItemType.PERSON,
             "Pilot",
-            Length.ofM(1.68), // TODO
+            Length.ofM(2.085),
             Length.ofZero(),
             null,
             null,
@@ -69,7 +71,7 @@ export class MockWeightItemsBr23 {
         return new WeightItem(
             WeightItemType.PERSON,
             "Passenger",
-            Length.ofM(1.68), // TODO
+            Length.ofM(2.085),
             Length.ofZero(),
             null,
             null,
@@ -81,13 +83,45 @@ export class MockWeightItemsBr23 {
     }
 
 
-    public static createBaggageItem(): WeightItem {
+    public static createBaggageWingLockerItem(): WeightItem {
         return new WeightItem(
             WeightItemType.BAGGAGE,
             "Wing Lockers",
-            Length.ofM(1.7), // TODO
+            Length.ofM(2.025),
             Length.ofZero(),
             Weight.ofKg(20),
+            null,
+            Weight.ofKg(0),
+            null,
+            null,
+            null
+        );
+    }
+
+
+    public static createBaggageLowerAftItem(): WeightItem {
+        return new WeightItem(
+            WeightItemType.BAGGAGE,
+            "Lower Aft",
+            Length.ofM(2.520),
+            Length.ofZero(),
+            Weight.ofKg(15),
+            null,
+            Weight.ofKg(0),
+            null,
+            null,
+            null
+        );
+    }
+
+
+    public static createBaggageUpperAftItem(): WeightItem {
+        return new WeightItem(
+            WeightItemType.BAGGAGE,
+            "Lower Aft",
+            Length.ofM(2.8),
+            Length.ofZero(),
+            Weight.ofKg(1),
             null,
             Weight.ofKg(0),
             null,

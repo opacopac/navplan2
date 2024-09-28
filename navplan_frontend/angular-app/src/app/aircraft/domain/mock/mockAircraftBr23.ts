@@ -1,13 +1,12 @@
 import { Consumption } from "../../../geo-physics/domain/model/quantities/consumption";
-import { ConsumptionUnit } from "../../../geo-physics/domain/model/quantities/consumption-unit";
 import { Speed } from "../../../geo-physics/domain/model/quantities/speed";
 import { Weight } from "../../../geo-physics/domain/model/quantities/weight";
-import { WeightUnit } from "../../../geo-physics/domain/model/quantities/weight-unit";
 import { Aircraft } from "../model/aircraft";
 import { FuelType } from "../model/fuel-type";
 import { VehicleType } from "../model/vehicle-type";
 import { MockDistPerfTablesBr23 } from "./mockDistPerfTablesBr23";
 import { MockWeightItemsBr23 } from "./mockWeightItemsBr23";
+import { MockWnbEnvelopeBr23 } from "./MockWnbEnvelopeBr23";
 
 
 export class MockAircraftBr23 {
@@ -31,7 +30,7 @@ export class MockAircraftBr23 {
             MockDistPerfTablesBr23.createLandingGroundRoll(),
             MockDistPerfTablesBr23.createLandingGroundRoll(),
             MockWeightItemsBr23.createAll(),
-            []
+            MockWnbEnvelopeBr23.createAll()
         );
     }
 }
