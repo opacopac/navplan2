@@ -6,6 +6,7 @@ import { WeightUnit } from "../../../geo-physics/domain/model/quantities/weight-
 import { Aircraft } from "../model/aircraft";
 import { FuelType } from "../model/fuel-type";
 import { VehicleType } from "../model/vehicle-type";
+import { MockDistPerfTablesBr23 } from "./mockDistPerfTablesBr23";
 import { MockWeightItemsBr23 } from "./mockWeightItemsBr23";
 
 
@@ -25,10 +26,10 @@ export class MockAircraftBr23 {
             FuelType.MOGAS,
             this.MTOW,
             this.BEW,
-            null, // TODD
-            null,
-            null,
-            null,
+            MockDistPerfTablesBr23.createTakeoffGroundRoll(),
+            MockDistPerfTablesBr23.createTakeoffDistance15ft(),
+            MockDistPerfTablesBr23.createLandingGroundRoll(),
+            MockDistPerfTablesBr23.createLandingGroundRoll(),
             MockWeightItemsBr23.createAll(),
             []
         );
