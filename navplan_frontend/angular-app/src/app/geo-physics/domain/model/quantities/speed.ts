@@ -30,6 +30,11 @@ export class Speed extends AbstractQuantity<Speed, SpeedUnit> {
     }
 
 
+    public static ofZero() {
+        return new Speed(0, SpeedUnit.KT);
+    }
+
+
     public static convertSpeed(
         value: number,
         unit: SpeedUnit,
