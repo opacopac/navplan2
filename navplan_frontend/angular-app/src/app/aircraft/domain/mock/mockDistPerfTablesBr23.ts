@@ -32,10 +32,10 @@ export class MockDistPerfTablesBr23 {
             PerformanceTableTemperatureReference.ISA_TEMPERATURE,
             this.TEMP_STEPS,
             this.mapToLength([
-                [395, 428, 466, 506, 550],
-                [462, 506, 552, 606, 666],
-                [550, 608, 672, 746, 832],
-                [670, 749, 844, 954, 1088]
+                [309, 335, 365, 396, 431],
+                [362, 396, 432, 475, 522],
+                [431, 476, 526, 584, 652],
+                [525, 587, 661, 747, 852]
             ]),
             null
         );
@@ -50,10 +50,10 @@ export class MockDistPerfTablesBr23 {
             PerformanceTableTemperatureReference.ISA_TEMPERATURE,
             this.TEMP_STEPS,
             this.mapToLength([
-                [511, 559, 612, 668, 728],
-                [600, 658, 718, 787, 862],
-                [707, 779, 857, 944, 1044],
-                [847, 938, 1044, 1168, 1315]
+                [400, 438, 479, 523, 570],
+                [470, 515, 562, 616, 675],
+                [554, 610, 671, 739, 818],
+                [663, 735, 818, 915, 1030]
             ]),
             null
         );
@@ -68,10 +68,10 @@ export class MockDistPerfTablesBr23 {
             PerformanceTableTemperatureReference.ISA_TEMPERATURE,
             this.TEMP_STEPS,
             this.mapToLength([
-                [453, 470, 489, 507, 524],
-                [487, 507, 525, 545, 564],
-                [524, 545, 567, 587, 607],
-                [565, 588, 610, 632, 654]
+                [362, 376, 391, 405, 419],
+                [389, 405, 420, 436, 451],
+                [419, 436, 453, 469, 485],
+                [452, 470, 488, 505, 523]
             ]),
             null
         );
@@ -86,10 +86,10 @@ export class MockDistPerfTablesBr23 {
             PerformanceTableTemperatureReference.ISA_TEMPERATURE,
             this.TEMP_STEPS,
             this.mapToLength([
-                [170, 176, 183, 189, 196],
-                [183, 189, 196, 204, 211],
-                [196, 204, 211, 219, 228],
-                [211, 219, 228, 236, 245]
+                [136, 141, 146, 151, 157],
+                [146, 151, 157, 163, 169],
+                [157, 163, 169, 175, 182],
+                [169, 175, 182, 189, 196]
             ]),
             null
         );

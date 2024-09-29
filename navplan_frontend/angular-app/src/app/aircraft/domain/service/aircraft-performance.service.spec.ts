@@ -28,7 +28,7 @@ describe('PlanPerformanceService', () => {
         );
 
         // then
-        expect(tkoffRoll.m).toBe(466);
+        expect(tkoffRoll.m).toBe(365);
     });
 
 
@@ -50,7 +50,7 @@ describe('PlanPerformanceService', () => {
         );
 
         // then
-        expect(tkoffRoll.m).toBeCloseTo((466 + 506) / 2, 0);
+        expect(tkoffRoll.m).toBeCloseTo((365 + 396) / 2, 0);
     });
 
 
@@ -72,7 +72,7 @@ describe('PlanPerformanceService', () => {
         );
 
         // then
-        expect(tkoffRoll.m).toBeCloseTo((466 + 552) / 2, 0);
+        expect(tkoffRoll.m).toBeCloseTo((365 + 432) / 2, 0);
     });
 
 
@@ -94,8 +94,8 @@ describe('PlanPerformanceService', () => {
         );
 
         // then
-        const alt0roll = (466 + 506) / 2;
-        const alt1roll = (552 + 606) / 2;
+        const alt0roll = (365 + 396) / 2;
+        const alt1roll = (432 + 475) / 2;
         expect(tkoffRoll.m).toBeCloseTo((alt0roll + alt1roll) / 2, 0);
     });
 });
