@@ -17,7 +17,7 @@ export class PlanPerformanceService {
         performanceTable: DistancePerformanceTable
     ): Length {
         const pa = AtmosphereService.calcPressureAltitude(fieldElevation, qnh);
-        const isaTemp = AtmosphereService.calcIsaTemperature(pa, oat);
+        const isaTemp = AtmosphereService.calcIsaTemperatureDelta(pa, oat);
         const temp = performanceTable.temperatureReference === PerformanceTableTemperatureReference.ISA_TEMPERATURE
             ? isaTemp
             : oat;

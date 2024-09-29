@@ -5,7 +5,7 @@ import {StringnumberHelper} from '../../../../system/domain/service/stringnumber
 
 
 export class Length extends AbstractQuantity<Length, LengthUnit> implements Clonable<Length> {
-    public static readonly FT_PER_M = 3.2808;
+    public static readonly FT_PER_M = 3.28084;
     public static readonly M_PER_NM = 1852;
     public static readonly FT_PER_NM = Length.FT_PER_M * Length.M_PER_NM;
     public static readonly IN_PER_FT = 12;
