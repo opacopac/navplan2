@@ -23,30 +23,44 @@ export class AircraftPerformanceService {
             : oat;
 
         const altIdx = ArrayHelper.findFractionalIndex(pa, performanceTable.altitudeSteps, alt => alt.ft);
-        const altLower = performanceTable.altitudeSteps[Math.floor(altIdx)];
-        const altUpper = performanceTable.altitudeSteps[Math.ceil(altIdx)];
+        const altLowerIdx = Math.floor(altIdx);
+        const altUpperIdx = altLowerIdx + 1;
+
+        if (altUpperIdx >= performanceTable.altitudeSteps.length) {
+            throw new Error('AircraftPerformanceService.calcTakeOffGroundRoll: altitude out of bounds');
+        }
+
+        const altLower = performanceTable.altitudeSteps[altLowerIdx];
+        const altUpper = performanceTable.altitudeSteps[altUpperIdx];
         const altDiffFt = altUpper.ft - altLower.ft;
 
         const tempIdx = ArrayHelper.findFractionalIndex(temp, performanceTable.temperatureSteps, temp => temp.c);
-        const tempLower = performanceTable.temperatureSteps[Math.floor(tempIdx)];
-        const tempUpper = performanceTable.temperatureSteps[Math.ceil(tempIdx)];
+        const tempLowerIdx = Math.floor(tempIdx);
+        const tempUpperIdx = tempLowerIdx + 1; // TODO: check if out of bounds
+
+        if (tempUpperIdx >= performanceTable.temperatureSteps.length) {
+            throw new Error('AircraftPerformanceService.calcTakeOffGroundRoll: temperature out of bounds');
+        }
+
+        const tempLower = performanceTable.temperatureSteps[tempLowerIdx];
+        const tempUpper = performanceTable.temperatureSteps[tempUpperIdx];
         const tempDiffC = tempUpper.c - tempLower.c;
 
-        const rollLowerAltLowerTemp = performanceTable.distanceValues[Math.floor(altIdx)][Math.floor(tempIdx)];
-        const rollLowerAltUpperTemp = performanceTable.distanceValues[Math.floor(altIdx)][Math.ceil(tempIdx)];
-        const lowerRollDiffM = rollLowerAltUpperTemp.m - rollLowerAltLowerTemp.m;
-        const lowerRollM = rollLowerAltLowerTemp.m + lowerRollDiffM * (isaTemp.c - tempLower.c) / tempDiffC;
+        const distLowerAltLowerTemp = performanceTable.distanceValues[altLowerIdx][tempLowerIdx];
+        const distLowerAltUpperTemp = performanceTable.distanceValues[altLowerIdx][tempUpperIdx];
+        const lowerDistDiffM = distLowerAltUpperTemp.m - distLowerAltLowerTemp.m;
+        const lowerDistM = distLowerAltLowerTemp.m + lowerDistDiffM * (isaTemp.c - tempLower.c) / tempDiffC;
 
-        const rollUpperAltLowerTemp = performanceTable.distanceValues[Math.ceil(altIdx)][Math.floor(tempIdx)];
-        const rollUpperAltUpperTemp = performanceTable.distanceValues[Math.ceil(altIdx)][Math.ceil(tempIdx)];
-        const upperRollDiffM = rollUpperAltUpperTemp.m - rollUpperAltLowerTemp.m;
-        const upperRollM = rollUpperAltLowerTemp.m + upperRollDiffM * (isaTemp.c - tempLower.c) / tempDiffC;
+        const distUpperAltLowerTemp = performanceTable.distanceValues[Math.ceil(altIdx)][Math.floor(tempIdx)];
+        const distUpperAltUpperTemp = performanceTable.distanceValues[Math.ceil(altIdx)][Math.ceil(tempIdx)];
+        const upperDistDiffM = distUpperAltUpperTemp.m - distUpperAltLowerTemp.m;
+        const upperDistM = distUpperAltLowerTemp.m + upperDistDiffM * (isaTemp.c - tempLower.c) / tempDiffC;
 
-        const rollDiffM = upperRollM - lowerRollM;
-        const rollM = lowerRollM + rollDiffM * (pa.ft - altLower.ft) / altDiffFt; // TODO: div by zero
+        const distDiffM = upperDistM - lowerDistM;
+        const distM = lowerDistM + distDiffM * (pa.ft - altLower.ft) / altDiffFt;
 
         // TODO correction factors
 
-        return Length.ofM(rollM);
+        return Length.ofM(distM);
     }
 }
