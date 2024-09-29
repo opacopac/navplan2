@@ -1,6 +1,7 @@
 import {AtmosphereService} from './atmosphere.service';
 import {Length} from '../../model/quantities/length';
 import {Pressure} from '../../model/quantities/pressure';
+import { Temperature } from '../../model/quantities/temperature';
 
 
 describe('AtmosphereService', () => {
@@ -47,7 +48,7 @@ describe('AtmosphereService', () => {
 
 
 
-    it('calculates the isa temperature at 0ft, 1000ft, 10000ft', () => {
+    it('calculates the standard temperature at 0ft, 1000ft, 10000ft', () => {
         // given
         const alt0 = Length.ofZero();
         const alt1000 = Length.ofFt(1000);
@@ -63,4 +64,42 @@ describe('AtmosphereService', () => {
         expect(isaTemp1000.c).toBeCloseTo(13.0188, 4);
         expect(isaTemp10000.c).toBeCloseTo(-4.81200, 5);
     });
+
+
+    it('calculates the ISA temperature delta at sea level for 10, 15 20 degrees', () => {
+        // given
+        const alt = Length.ofZero();
+        const oat10 = Temperature.ofC(10);
+        const oat15 = Temperature.ofC(15);
+        const oat20 = Temperature.ofC(20);
+
+        // when
+        const isaTempDelta10 = AtmosphereService.calcIsaTemperatureDelta(alt, oat10);
+        const isaTempDelta15 = AtmosphereService.calcIsaTemperatureDelta(alt, oat15);
+        const isaTempDelta20 = AtmosphereService.calcIsaTemperatureDelta(alt, oat20);
+
+        // then
+        expect(isaTempDelta10.c).toBe(-5);
+        expect(isaTempDelta15.c).toBe(0);
+        expect(isaTempDelta20.c).toBe(5);
+    })
+
+
+    it('calculates the ISA temperature delta at 1670ft for 0, 15 30 degrees', () => {
+        // given
+        const alt = Length.ofFt(1670);
+        const oat10 = Temperature.ofC(0);
+        const oat15 = Temperature.ofC(15);
+        const oat20 = Temperature.ofC(30);
+
+        // when
+        const isaTempDelta10 = AtmosphereService.calcIsaTemperatureDelta(alt, oat10);
+        const isaTempDelta15 = AtmosphereService.calcIsaTemperatureDelta(alt, oat15);
+        const isaTempDelta20 = AtmosphereService.calcIsaTemperatureDelta(alt, oat20);
+
+        // then
+        expect(isaTempDelta10.c).toBeCloseTo(-12, 0);
+        expect(isaTempDelta15.c).toBeCloseTo(3, 0);
+        expect(isaTempDelta20.c).toBeCloseTo(18, 0);
+    })
 });

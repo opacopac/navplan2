@@ -45,7 +45,7 @@ export class AtmosphereService {
     public static calcIsaTemperatureDelta(altitude: Length, oat: Temperature): Temperature {
         const isaTemp = this.calcStandardTemperatureAtAltitude(altitude);
         return new Temperature(
-            oat.c + isaTemp.c - this.STD_ATM_TEMP_SEA_LEVEL_C,
+            oat.c - isaTemp.c,
             TemperatureUnit.C
         );
     }
