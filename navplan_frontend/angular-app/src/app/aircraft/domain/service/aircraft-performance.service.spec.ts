@@ -50,7 +50,7 @@ describe('PlanPerformanceService', () => {
         );
 
         // then
-        expect(tkoffRoll.m).toBe((466 + 506) / 2);
+        expect(tkoffRoll.m).toBeCloseTo((466 + 506) / 2, 0);
     });
 
 
@@ -72,6 +72,30 @@ describe('PlanPerformanceService', () => {
         );
 
         // then
-        expect(tkoffRoll.m).toBe((466 + 552) / 2);
+        expect(tkoffRoll.m).toBeCloseTo((466 + 552) / 2, 0);
+    });
+
+
+    it('it interpolates the ground roll for an intermediate temp & altitude', () => {
+        // given
+        const elevation = Length.ofFt(1000);
+        const qnh = AtmosphereService.getStandardPressureAtSeaLevel();
+        const temp = Temperature.ofC(AtmosphereService.calcStandardTemperatureAtAltitude(elevation).c + 5);
+        const groundRolldistPerfTable = MockDistPerfTablesBr23.createTakeoffGroundRoll();
+        const noCorrectionFactors = MockZeroRwyCorrectionFactors.create();
+
+        // when
+        const tkoffRoll = AircraftPerformanceService.calcTakeOffGroundRoll(
+            elevation,
+            qnh,
+            temp,
+            noCorrectionFactors,
+            groundRolldistPerfTable
+        );
+
+        // then
+        const alt0roll = (466 + 506) / 2;
+        const alt1roll = (552 + 606) / 2;
+        expect(tkoffRoll.m).toBeCloseTo((alt0roll + alt1roll) / 2, 0);
     });
 });

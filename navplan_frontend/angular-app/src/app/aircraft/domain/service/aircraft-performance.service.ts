@@ -25,39 +25,29 @@ export class AircraftPerformanceService {
         const altIdx = ArrayHelper.findFractionalIndex(pa, performanceTable.altitudeSteps, alt => alt.ft);
         const altLowerIdx = Math.floor(altIdx);
         const altUpperIdx = altLowerIdx + 1;
-
         if (altUpperIdx >= performanceTable.altitudeSteps.length) {
             throw new Error('AircraftPerformanceService.calcTakeOffGroundRoll: altitude out of bounds');
         }
 
-        const altLower = performanceTable.altitudeSteps[altLowerIdx];
-        const altUpper = performanceTable.altitudeSteps[altUpperIdx];
-        const altDiffFt = altUpper.ft - altLower.ft;
-
         const tempIdx = ArrayHelper.findFractionalIndex(temp, performanceTable.temperatureSteps, temp => temp.c);
         const tempLowerIdx = Math.floor(tempIdx);
-        const tempUpperIdx = tempLowerIdx + 1; // TODO: check if out of bounds
-
+        const tempUpperIdx = tempLowerIdx + 1;
         if (tempUpperIdx >= performanceTable.temperatureSteps.length) {
             throw new Error('AircraftPerformanceService.calcTakeOffGroundRoll: temperature out of bounds');
         }
 
-        const tempLower = performanceTable.temperatureSteps[tempLowerIdx];
-        const tempUpper = performanceTable.temperatureSteps[tempUpperIdx];
-        const tempDiffC = tempUpper.c - tempLower.c;
-
         const distLowerAltLowerTemp = performanceTable.distanceValues[altLowerIdx][tempLowerIdx];
         const distLowerAltUpperTemp = performanceTable.distanceValues[altLowerIdx][tempUpperIdx];
         const lowerDistDiffM = distLowerAltUpperTemp.m - distLowerAltLowerTemp.m;
-        const lowerDistM = distLowerAltLowerTemp.m + lowerDistDiffM * (isaTemp.c - tempLower.c) / tempDiffC;
+        const lowerDistM = distLowerAltLowerTemp.m + lowerDistDiffM * (tempIdx - tempLowerIdx);
 
-        const distUpperAltLowerTemp = performanceTable.distanceValues[Math.ceil(altIdx)][Math.floor(tempIdx)];
-        const distUpperAltUpperTemp = performanceTable.distanceValues[Math.ceil(altIdx)][Math.ceil(tempIdx)];
+        const distUpperAltLowerTemp = performanceTable.distanceValues[altUpperIdx][tempLowerIdx];
+        const distUpperAltUpperTemp = performanceTable.distanceValues[altUpperIdx][tempUpperIdx];
         const upperDistDiffM = distUpperAltUpperTemp.m - distUpperAltLowerTemp.m;
-        const upperDistM = distUpperAltLowerTemp.m + upperDistDiffM * (isaTemp.c - tempLower.c) / tempDiffC;
+        const upperDistM = distUpperAltLowerTemp.m + upperDistDiffM * (tempIdx - tempLowerIdx);
 
         const distDiffM = upperDistM - lowerDistM;
-        const distM = lowerDistM + distDiffM * (pa.ft - altLower.ft) / altDiffFt;
+        const distM = lowerDistM + distDiffM * (altIdx - altLowerIdx);
 
         // TODO correction factors
 
