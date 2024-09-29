@@ -10,7 +10,7 @@ import {Weight} from '../../../../../geo-physics/domain/model/quantities/weight'
 import {StringnumberHelper} from '../../../../../system/domain/service/stringnumber/stringnumber-helper';
 import {Volume} from '../../../../../geo-physics/domain/model/quantities/volume';
 import {WeightItemType} from '../../../../../aircraft/domain/model/weight-item-type';
-import {PlanWnbService} from '../../../../domain/service/plan-wnb.service';
+import {AircraftWnbService} from '../../../../../aircraft/domain/service/aircraft-wnb.service';
 import {VehicleType} from '../../../../../aircraft/domain/model/vehicle-type';
 
 
@@ -31,7 +31,7 @@ export class PlanWnbTableComponent implements OnInit {
     protected readonly Weight = Weight;
     protected readonly Volume = Volume;
     protected readonly ButtonColor = ButtonColor;
-    protected readonly PlanWnbService = PlanWnbService;
+    protected readonly PlanWnbService = AircraftWnbService;
     protected displayedColumns: string[] = ['type', 'name', 'weight', 'armLong', 'armLat', 'momentLong', 'momentLat'];
 
 
@@ -46,17 +46,17 @@ export class PlanWnbTableComponent implements OnInit {
 
 
     protected showWeightText(type: WeightItemType): boolean {
-        return PlanWnbService.isSummaryTypeItem(type) || type === WeightItemType.AIRCRAFT;
+        return AircraftWnbService.isSummaryTypeItem(type) || type === WeightItemType.AIRCRAFT;
     }
 
 
     protected showWeightInput(type: WeightItemType): boolean {
-        return PlanWnbService.isWeightTypeItem(type) && type !== WeightItemType.AIRCRAFT;
+        return AircraftWnbService.isWeightTypeItem(type) && type !== WeightItemType.AIRCRAFT;
     }
 
 
     protected showFuelInput(type: WeightItemType): boolean {
-        return PlanWnbService.isFuelTypeItem(type);
+        return AircraftWnbService.isFuelTypeItem(type);
     }
 
 

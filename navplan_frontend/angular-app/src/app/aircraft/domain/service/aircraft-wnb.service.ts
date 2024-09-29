@@ -1,16 +1,16 @@
-import {WeightItem} from '../../../aircraft/domain/model/weight-item';
+import {WeightItem} from '../model/weight-item';
 import {Weight} from '../../../geo-physics/domain/model/quantities/weight';
-import {WeightItemType} from '../../../aircraft/domain/model/weight-item-type';
+import {WeightItemType} from '../model/weight-item-type';
 import {WeightUnit} from '../../../geo-physics/domain/model/quantities/weight-unit';
-import {Aircraft} from '../../../aircraft/domain/model/aircraft';
+import {Aircraft} from '../model/aircraft';
 import {VolumeUnit} from '../../../geo-physics/domain/model/quantities/volume-unit';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-unit';
-import {FuelType} from '../../../aircraft/domain/model/fuel-type';
+import {FuelType} from '../model/fuel-type';
 import {Volume} from '../../../geo-physics/domain/model/quantities/volume';
 
 
-export class PlanWnbService {
+export class AircraftWnbService {
     public static readonly AVGAS_DENSITY_KG_PER_L = 0.72;
     public static readonly MOGAS_DENSITY_KG_PER_L = 0.72;
     public static readonly JET_DENSITY_KG_PER_L = 0.8;

@@ -1,14 +1,14 @@
 import { Pressure } from '../../../geo-physics/domain/model/quantities/pressure';
 import { Temperature } from '../../../geo-physics/domain/model/quantities/temperature';
-import { DistancePerformanceTable } from '../../../aircraft/domain/model/distance-performance-table';
+import { DistancePerformanceTable } from '../model/distance-performance-table';
 import { Length } from '../../../geo-physics/domain/model/quantities/length';
 import { AtmosphereService } from '../../../geo-physics/domain/service/meteo/atmosphere.service';
-import { PerformanceTableTemperatureReference } from '../../../aircraft/domain/model/performance-table-temperature-reference';
+import { PerformanceTableTemperatureReference } from '../model/performance-table-temperature-reference';
 import { ArrayHelper } from '../../../system/domain/service/array/array-helper';
 import { RwyCorrectionFactors } from '../model/rwy-correction-factors';
 
 
-export class PlanPerformanceService {
+export class AircraftPerformanceService {
     public static calcTakeOffGroundRoll(
         fieldElevation: Length,
         qnh: Pressure,

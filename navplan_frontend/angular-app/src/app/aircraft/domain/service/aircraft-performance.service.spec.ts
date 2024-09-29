@@ -1,9 +1,9 @@
-import { MockDistPerfTablesBr23 } from '../../../aircraft/domain/mock/mockDistPerfTablesBr23';
+import { MockDistPerfTablesBr23 } from '../mock/mockDistPerfTablesBr23';
 import { Length } from '../../../geo-physics/domain/model/quantities/length';
 import { Temperature } from '../../../geo-physics/domain/model/quantities/temperature';
 import { AtmosphereService } from '../../../geo-physics/domain/service/meteo/atmosphere.service';
 import { MockZeroRwyCorrectionFactors } from '../mock/mock-zero-rwy-correction-factors';
-import { PlanPerformanceService } from './plan-performance.service';
+import { AircraftPerformanceService } from './aircraft-performance.service';
 
 describe('PlanPerformanceService', () => {
     beforeEach(() => {
@@ -19,7 +19,7 @@ describe('PlanPerformanceService', () => {
         const noCorrectionFactors = MockZeroRwyCorrectionFactors.create();
 
         // when
-        const tkoffRoll = PlanPerformanceService.calcTakeOffGroundRoll(
+        const tkoffRoll = AircraftPerformanceService.calcTakeOffGroundRoll(
             elevation,
             qnh,
             temp,
@@ -41,7 +41,7 @@ describe('PlanPerformanceService', () => {
         const noCorrectionFactors = MockZeroRwyCorrectionFactors.create();
 
         // when
-        const tkoffRoll = PlanPerformanceService.calcTakeOffGroundRoll(
+        const tkoffRoll = AircraftPerformanceService.calcTakeOffGroundRoll(
             elevation,
             qnh,
             temp,
@@ -63,7 +63,7 @@ describe('PlanPerformanceService', () => {
         const noCorrectionFactors = MockZeroRwyCorrectionFactors.create();
 
         // when
-        const tkoffRoll = PlanPerformanceService.calcTakeOffGroundRoll(
+        const tkoffRoll = AircraftPerformanceService.calcTakeOffGroundRoll(
             elevation,
             qnh,
             temp,
