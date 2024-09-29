@@ -6,6 +6,7 @@ import { AtmosphereService } from '../../../geo-physics/domain/service/meteo/atm
 import { PerformanceTableTemperatureReference } from '../model/performance-table-temperature-reference';
 import { ArrayHelper } from '../../../system/domain/service/array/array-helper';
 import { RwyCorrectionFactors } from '../model/rwy-correction-factors';
+import { PerformanceTableAltitudeReference } from '../model/performance-table-altitude-reference';
 
 
 export class AircraftPerformanceService {
@@ -18,11 +19,14 @@ export class AircraftPerformanceService {
     ): Length {
         const pa = AtmosphereService.calcPressureAltitude(fieldElevation, qnh);
         const isaTemp = AtmosphereService.calcIsaTemperatureDelta(pa, oat);
+        const alt = performanceTable.altitudeReference === PerformanceTableAltitudeReference.PRESSURE_ALTITUDE
+            ? pa
+            : fieldElevation;
         const temp = performanceTable.temperatureReference === PerformanceTableTemperatureReference.ISA_TEMPERATURE
             ? isaTemp
             : oat;
 
-        const altIdx = ArrayHelper.findFractionalIndex(pa, performanceTable.altitudeSteps, alt => alt.ft);
+        const altIdx = ArrayHelper.findFractionalIndex(alt, performanceTable.altitudeSteps, alt => alt.ft);
         const altLowerIdx = Math.floor(altIdx);
         const altUpperIdx = altLowerIdx + 1;
         if (altUpperIdx >= performanceTable.altitudeSteps.length) {
