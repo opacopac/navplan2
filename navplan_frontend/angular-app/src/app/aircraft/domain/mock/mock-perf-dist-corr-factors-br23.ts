@@ -2,7 +2,7 @@ import { Speed } from "../../../geo-physics/domain/model/quantities/speed";
 import { DistancePerformanceCorrectionFactors } from "../model/distance-performance-correction-factors";
 
 
-export class MockDistPerfCorrFactorsBr23 {
+export class MockPerfDistCorrFactorsBr23 {
     public static createTkoffDistCorrFactors(): DistancePerformanceCorrectionFactors {
         return new DistancePerformanceCorrectionFactors(
             14,

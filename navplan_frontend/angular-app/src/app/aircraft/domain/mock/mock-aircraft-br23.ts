@@ -4,7 +4,7 @@ import { Weight } from "../../../geo-physics/domain/model/quantities/weight";
 import { Aircraft } from "../model/aircraft";
 import { FuelType } from "../model/fuel-type";
 import { VehicleType } from "../model/vehicle-type";
-import { MockDistPerfTablesBr23 } from "./mock-dist-perf-tables-br23";
+import { MockPerfDistTablesBr23 } from "./mock-perf-dist-tables-br23";
 import { MockWeightItemsBr23 } from "./mock-weight-items-br23";
 import { MockWnbEnvelopeBr23 } from "./mock-wnb-envelope-br23";
 
@@ -25,10 +25,10 @@ export class MockAircraftBr23 {
             FuelType.MOGAS,
             this.MTOW,
             this.BEW,
-            MockDistPerfTablesBr23.createTakeoffGroundRoll(),
-            MockDistPerfTablesBr23.createTakeoffDistance15ft(),
-            MockDistPerfTablesBr23.createLandingGroundRoll(),
-            MockDistPerfTablesBr23.createLandingGroundRoll(),
+            MockPerfDistTablesBr23.createTakeoffGroundRoll(),
+            MockPerfDistTablesBr23.createTakeoffDistance15ft(),
+            MockPerfDistTablesBr23.createLandingGroundRoll(),
+            MockPerfDistTablesBr23.createLandingGroundRoll(),
             MockWeightItemsBr23.createAll(),
             MockWnbEnvelopeBr23.createAll()
         );
