@@ -6,50 +6,98 @@ import { AtmosphereService } from '../../../geo-physics/domain/service/meteo/atm
 import { PerformanceTableTemperatureReference } from '../model/performance-table-temperature-reference';
 import { ArrayHelper } from '../../../system/domain/service/array/array-helper';
 import { DistancePerformanceConditions } from '../model/distance-performance-conditions';
+import { DistancePerformanceCorrectionFactors } from '../model/distance-performance-correction-factors';
 
 
 export class AircraftPerformanceService {
-    public static calcTakeOffGroundRoll(
+    public static calcDistance(
         fieldElevation: Length,
         qnh: Pressure,
         oat: Temperature,
-        rwyCorrectionFactors: DistancePerformanceConditions,
-        performanceTable: DistancePerformanceTable
+        distPerfConditions: DistancePerformanceConditions,
+        perfTable: DistancePerformanceTable
     ): Length {
         const pa = AtmosphereService.calcPressureAltitude(fieldElevation, qnh);
         const isaTemp = AtmosphereService.calcIsaTemperatureDelta(pa, oat);
-        const temp = performanceTable.temperatureReference === PerformanceTableTemperatureReference.ISA_TEMPERATURE
+        const temp = perfTable.temperatureReference === PerformanceTableTemperatureReference.ISA_TEMPERATURE
             ? isaTemp
             : oat;
 
-        const altIdx = ArrayHelper.findFractionalIndex(pa, performanceTable.altitudeSteps, alt => alt.ft);
+        const uncorrectedDist = this.calcUncorrectedDistance(
+            pa,
+            temp,
+            perfTable
+        );
+
+        const correctedDist = this.applyCorrectionFactors(
+            uncorrectedDist,
+            distPerfConditions,
+            perfTable.correctionFactors
+        );
+
+        return correctedDist;
+    }
+
+
+    private static calcUncorrectedDistance(
+        pa: Length,
+        temp: Temperature,
+        perfTable: DistancePerformanceTable
+    ) {
+        const altIdx = ArrayHelper.findFractionalIndex(pa, perfTable.altitudeSteps, alt => alt.ft);
         const altLowerIdx = Math.floor(altIdx);
         const altUpperIdx = altLowerIdx + 1;
-        if (altUpperIdx >= performanceTable.altitudeSteps.length) {
+        if (altUpperIdx >= perfTable.altitudeSteps.length) {
             throw new Error('AircraftPerformanceService.calcTakeOffGroundRoll: altitude out of bounds');
         }
 
-        const tempIdx = ArrayHelper.findFractionalIndex(temp, performanceTable.temperatureSteps, temp => temp.c);
+        const tempIdx = ArrayHelper.findFractionalIndex(temp, perfTable.temperatureSteps, temp => temp.c);
         const tempLowerIdx = Math.floor(tempIdx);
         const tempUpperIdx = tempLowerIdx + 1;
-        if (tempUpperIdx >= performanceTable.temperatureSteps.length) {
+        if (tempUpperIdx >= perfTable.temperatureSteps.length) {
             throw new Error('AircraftPerformanceService.calcTakeOffGroundRoll: temperature out of bounds');
         }
 
-        const distLowerAltLowerTemp = performanceTable.distanceValues[altLowerIdx][tempLowerIdx];
-        const distLowerAltUpperTemp = performanceTable.distanceValues[altLowerIdx][tempUpperIdx];
+        const distLowerAltLowerTemp = perfTable.distanceValues[altLowerIdx][tempLowerIdx];
+        const distLowerAltUpperTemp = perfTable.distanceValues[altLowerIdx][tempUpperIdx];
         const lowerDistDiffM = distLowerAltUpperTemp.m - distLowerAltLowerTemp.m;
         const lowerDistM = distLowerAltLowerTemp.m + lowerDistDiffM * (tempIdx - tempLowerIdx);
 
-        const distUpperAltLowerTemp = performanceTable.distanceValues[altUpperIdx][tempLowerIdx];
-        const distUpperAltUpperTemp = performanceTable.distanceValues[altUpperIdx][tempUpperIdx];
+        const distUpperAltLowerTemp = perfTable.distanceValues[altUpperIdx][tempLowerIdx];
+        const distUpperAltUpperTemp = perfTable.distanceValues[altUpperIdx][tempUpperIdx];
         const upperDistDiffM = distUpperAltUpperTemp.m - distUpperAltLowerTemp.m;
         const upperDistM = distUpperAltLowerTemp.m + upperDistDiffM * (tempIdx - tempLowerIdx);
 
         const distDiffM = upperDistM - lowerDistM;
         const distM = lowerDistM + distDiffM * (altIdx - altLowerIdx);
 
-        // TODO correction factors
+        return Length.ofM(distM);
+    }
+
+
+    private static applyCorrectionFactors(
+        uncorrectedDist: Length,
+        distPerfConditions: DistancePerformanceConditions,
+        correctionFactors: DistancePerformanceCorrectionFactors
+    ): Length {
+        let distM = uncorrectedDist.m;
+        
+        if (distPerfConditions.isGrassRwy) {
+            distM = distM + distM * correctionFactors.grassRwyIncPercent / 100;
+        }
+
+        if (distPerfConditions.isWetRwy) {
+            distM = distM + distM * correctionFactors.wetRwyIncPercent / 100;
+        }
+
+        const windKt = distPerfConditions.headwind.kt;
+        if (windKt > 0) {
+            distM = distM - distM * windKt / correctionFactors.headwindDecPerSpeed.kt
+            * correctionFactors.headwindDecPercent / 100;
+        } else if (windKt < 0) {
+            distM = distM + distM * Math.abs(windKt) / correctionFactors.tailwindIncPerSpeed.kt
+            * correctionFactors.tailwindIncPercent / 100;
+        }
 
         return Length.ofM(distM);
     }
