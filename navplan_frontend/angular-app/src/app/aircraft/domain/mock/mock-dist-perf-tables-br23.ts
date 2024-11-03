@@ -3,7 +3,7 @@ import { Temperature } from "../../../geo-physics/domain/model/quantities/temper
 import { DistancePerformanceTable } from "../model/distance-performance-table";
 import { PerformanceTableAltitudeReference } from "../model/performance-table-altitude-reference";
 import { PerformanceTableTemperatureReference } from "../model/performance-table-temperature-reference";
-import { MockAircraftBr23 } from "./mockAircraftBr23";
+import { MockAircraftBr23 } from "./mock-aircraft-br23";
 
 
 export class MockDistPerfTablesBr23 {

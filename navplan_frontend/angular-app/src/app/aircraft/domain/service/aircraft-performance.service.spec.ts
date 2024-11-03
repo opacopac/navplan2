@@ -1,8 +1,8 @@
-import { MockDistPerfTablesBr23 } from '../mock/mockDistPerfTablesBr23';
+import { MockDistPerfTablesBr23 } from '../mock/mock-dist-perf-tables-br23';
 import { Length } from '../../../geo-physics/domain/model/quantities/length';
 import { Temperature } from '../../../geo-physics/domain/model/quantities/temperature';
 import { AtmosphereService } from '../../../geo-physics/domain/service/meteo/atmosphere.service';
-import { MockZeroRwyCorrectionFactors } from '../mock/mock-zero-rwy-correction-factors';
+import { MockZeroDistnacePerformanceConditions } from '../mock/mock-zero-distance-performance-conditions';
 import { AircraftPerformanceService } from './aircraft-performance.service';
 
 describe('PlanPerformanceService', () => {
@@ -16,7 +16,7 @@ describe('PlanPerformanceService', () => {
         const qnh = AtmosphereService.getStandardPressureAtSeaLevel();
         const temp = AtmosphereService.getStandardTemperatureAtSeaLevel();
         const groundRolldistPerfTable = MockDistPerfTablesBr23.createTakeoffGroundRoll();
-        const noCorrectionFactors = MockZeroRwyCorrectionFactors.create();
+        const noCorrectionFactors = MockZeroDistnacePerformanceConditions.create();
 
         // when
         const tkoffRoll = AircraftPerformanceService.calcTakeOffGroundRoll(
@@ -32,13 +32,13 @@ describe('PlanPerformanceService', () => {
     });
 
 
-    it('it interpolates the ground roll for an intermediate temperature', () => {
+    it('interpolates the ground roll for an intermediate temperature', () => {
         // given
         const elevation = Length.ofZero();
         const qnh = AtmosphereService.getStandardPressureAtSeaLevel();
         const temp = AtmosphereService.getStandardTemperatureAtSeaLevel().add(Temperature.ofC(5));
         const groundRolldistPerfTable = MockDistPerfTablesBr23.createTakeoffGroundRoll();
-        const noCorrectionFactors = MockZeroRwyCorrectionFactors.create();
+        const noCorrectionFactors = MockZeroDistnacePerformanceConditions.create();
 
         // when
         const tkoffRoll = AircraftPerformanceService.calcTakeOffGroundRoll(
@@ -54,13 +54,13 @@ describe('PlanPerformanceService', () => {
     });
 
 
-    it('it interpolates the ground roll for an intermediate altitude', () => {
+    it('interpolates the ground roll for an intermediate altitude', () => {
         // given
         const elevation = Length.ofFt(1000);
         const qnh = AtmosphereService.getStandardPressureAtSeaLevel();
         const temp = AtmosphereService.calcStandardTemperatureAtAltitude(elevation);
         const groundRolldistPerfTable = MockDistPerfTablesBr23.createTakeoffGroundRoll();
-        const noCorrectionFactors = MockZeroRwyCorrectionFactors.create();
+        const noCorrectionFactors = MockZeroDistnacePerformanceConditions.create();
 
         // when
         const tkoffRoll = AircraftPerformanceService.calcTakeOffGroundRoll(
@@ -76,13 +76,13 @@ describe('PlanPerformanceService', () => {
     });
 
 
-    it('it interpolates the ground roll for an intermediate temp & altitude', () => {
+    it('interpolates the ground roll for an intermediate temp & altitude', () => {
         // given
         const elevation = Length.ofFt(1000);
         const qnh = AtmosphereService.getStandardPressureAtSeaLevel();
         const temp = Temperature.ofC(AtmosphereService.calcStandardTemperatureAtAltitude(elevation).c + 5);
         const groundRolldistPerfTable = MockDistPerfTablesBr23.createTakeoffGroundRoll();
-        const noCorrectionFactors = MockZeroRwyCorrectionFactors.create();
+        const noCorrectionFactors = MockZeroDistnacePerformanceConditions.create();
 
         // when
         const tkoffRoll = AircraftPerformanceService.calcTakeOffGroundRoll(

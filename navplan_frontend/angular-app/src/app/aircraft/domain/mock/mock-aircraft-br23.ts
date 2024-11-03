@@ -4,9 +4,9 @@ import { Weight } from "../../../geo-physics/domain/model/quantities/weight";
 import { Aircraft } from "../model/aircraft";
 import { FuelType } from "../model/fuel-type";
 import { VehicleType } from "../model/vehicle-type";
-import { MockDistPerfTablesBr23 } from "./mockDistPerfTablesBr23";
-import { MockWeightItemsBr23 } from "./mockWeightItemsBr23";
-import { MockWnbEnvelopeBr23 } from "./mockWnbEnvelopeBr23";
+import { MockDistPerfTablesBr23 } from "./mock-dist-perf-tables-br23";
+import { MockWeightItemsBr23 } from "./mock-weight-items-br23";
+import { MockWnbEnvelopeBr23 } from "./mock-wnb-envelope-br23";
 
 
 export class MockAircraftBr23 {

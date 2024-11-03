@@ -5,8 +5,7 @@ import { Length } from '../../../geo-physics/domain/model/quantities/length';
 import { AtmosphereService } from '../../../geo-physics/domain/service/meteo/atmosphere.service';
 import { PerformanceTableTemperatureReference } from '../model/performance-table-temperature-reference';
 import { ArrayHelper } from '../../../system/domain/service/array/array-helper';
-import { RwyCorrectionFactors } from '../model/rwy-correction-factors';
-import { PerformanceTableAltitudeReference } from '../model/performance-table-altitude-reference';
+import { DistancePerformanceConditions } from '../model/distance-performance-conditions';
 
 
 export class AircraftPerformanceService {
@@ -14,7 +13,7 @@ export class AircraftPerformanceService {
         fieldElevation: Length,
         qnh: Pressure,
         oat: Temperature,
-        rwyCorrectionFactors: RwyCorrectionFactors,
+        rwyCorrectionFactors: DistancePerformanceConditions,
         performanceTable: DistancePerformanceTable
     ): Length {
         const pa = AtmosphereService.calcPressureAltitude(fieldElevation, qnh);
