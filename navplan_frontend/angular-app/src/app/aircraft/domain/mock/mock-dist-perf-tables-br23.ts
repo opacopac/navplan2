@@ -4,6 +4,7 @@ import { DistancePerformanceTable } from "../model/distance-performance-table";
 import { PerformanceTableAltitudeReference } from "../model/performance-table-altitude-reference";
 import { PerformanceTableTemperatureReference } from "../model/performance-table-temperature-reference";
 import { MockAircraftBr23 } from "./mock-aircraft-br23";
+import { MockDistPerfCorrFactorsBr23 } from "./mock-dist-perf-corr-factors-br23";
 
 
 export class MockDistPerfTablesBr23 {
@@ -37,7 +38,7 @@ export class MockDistPerfTablesBr23 {
                 [431, 476, 526, 584, 652],
                 [525, 587, 661, 747, 852]
             ]),
-            null
+            MockDistPerfCorrFactorsBr23.createTkoffDistCorrFactors()
         );
     }
 
@@ -55,7 +56,7 @@ export class MockDistPerfTablesBr23 {
                 [554, 610, 671, 739, 818],
                 [663, 735, 818, 915, 1030]
             ]),
-            null
+            MockDistPerfCorrFactorsBr23.createTkoffDistCorrFactors()
         );
     }
 
@@ -73,7 +74,7 @@ export class MockDistPerfTablesBr23 {
                 [419, 436, 453, 469, 485],
                 [452, 470, 488, 505, 523]
             ]),
-            null
+            MockDistPerfCorrFactorsBr23.createLandDistCorrFactors()
         );
     }
 
@@ -91,7 +92,7 @@ export class MockDistPerfTablesBr23 {
                 [157, 163, 169, 175, 182],
                 [169, 175, 182, 189, 196]
             ]),
-            null
+            MockDistPerfCorrFactorsBr23.createLandDistCorrFactors()
         );
     }
 
