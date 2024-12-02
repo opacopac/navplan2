@@ -1,0 +1,40 @@
+<form class="correction-factors-form" [formGroup]="this.correctionFactorsForm">
+    <div class="correction-factors-form-content">
+        <!-- Grass RWY -->
+        <mat-radio-group
+            color="primary"
+            formControlName="grassRwy"
+            (change)="this.onGrassRwyChanged()"
+        >
+            <mat-radio-button [value]="false">No</mat-radio-button>
+            <mat-radio-button [value]="true">Yes</mat-radio-button>
+        </mat-radio-group>
+
+        <!-- Wet RWY -->
+        <mat-radio-group
+            color="primary"
+            formControlName="wetRwy"
+            (change)="this.onWetRwyChanged()"
+        >
+            <mat-radio-button [value]="false">No</mat-radio-button>
+            <mat-radio-button [value]="true">Yes</mat-radio-button>
+        </mat-radio-group>
+
+        <!-- Rwy Slope -->
+        <mat-form-field>
+            <mat-label>RWY Slope</mat-label>
+            <input
+                matInput
+                formControlName="rwySlope"
+                type="number"
+                required
+                min="-99"
+                max="99"
+                (change)="this.onRwySlopeChanged()"
+            >
+            <span matTextSuffix>%</span>
+            <mat-error>Value must be a number between -99 and 99!</mat-error>
+            <mat-hint>Positive: uphill, negative: downhill</mat-hint>
+        </mat-form-field>
+    </div>
+</form>

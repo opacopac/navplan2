@@ -54,10 +54,22 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {ToggleManualAircraft} from './ng-components/common/toggle-manual-aircraft/toggle-manual-aircraft.component';
 import {PlanWnbContainerComponent} from './ng-components/plan-wnb/plan-wnb-container/plan-wnb-container.component';
 import {PlanWnbTableComponent} from './ng-components/plan-wnb/plan-wnb-table/plan-wnb-table.component';
-import {PlanPerfContainerComponent} from './ng-components/plan-perf/plan-perf-container.component';
+import {PlanPerfContainerComponent} from './ng-components/plan-perf/plan-perf-container/plan-perf-container.component';
 import {
     FlightrouteDeleteConfirmDialogComponent
 } from './ng-components/plan-route/flightroute-delete-confirm-dialog/flightroute-delete-confirm-dialog.component';
+import {
+    PlanPerfCorrectionFactorsComponent
+} from './ng-components/plan-perf/plan-perf-correction-factors/plan-perf-correction-factors.component';
+import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
+import {PlanPerfRunwayComponent} from './ng-components/plan-perf/plan-perf-runway/plan-perf-runway.component';
+import {
+    MatAccordion,
+    MatExpansionPanel,
+    MatExpansionPanelDescription,
+    MatExpansionPanelHeader,
+    MatExpansionPanelTitle
+} from '@angular/material/expansion';
 
 
 @NgModule({
@@ -84,6 +96,13 @@ import {
         MatDialogModule,
         AircraftViewModule,
         MatSlideToggleModule,
+        MatRadioButton,
+        MatRadioGroup,
+        MatAccordion,
+        MatExpansionPanel,
+        MatExpansionPanelDescription,
+        MatExpansionPanelHeader,
+        MatExpansionPanelTitle,
     ],
     declarations: [
         EditWaypointDialogComponent,
@@ -104,6 +123,8 @@ import {
         PlanWnbContainerComponent,
         PlanWnbTableComponent,
         PlanPerfContainerComponent,
+        PlanPerfRunwayComponent,
+        PlanPerfCorrectionFactorsComponent,
         RouteMeteoContainerComponent,
         RouteMeteoTableComponent,
         RouteMeteoRadiusComponent
