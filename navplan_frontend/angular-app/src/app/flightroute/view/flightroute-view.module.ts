@@ -70,6 +70,7 @@ import {
     MatExpansionPanelHeader,
     MatExpansionPanelTitle
 } from '@angular/material/expansion';
+import { PlanPerfDepartureCalculationComponent } from './ng-components/plan-perf/plan-perf-departure-calculation/plan-perf-departure-calculation.component';
 
 
 @NgModule({
@@ -124,6 +125,7 @@ import {
         PlanWnbTableComponent,
         PlanPerfContainerComponent,
         PlanPerfRunwayComponent,
+        PlanPerfDepartureCalculationComponent,
         PlanPerfCorrectionFactorsComponent,
         RouteMeteoContainerComponent,
         RouteMeteoTableComponent,

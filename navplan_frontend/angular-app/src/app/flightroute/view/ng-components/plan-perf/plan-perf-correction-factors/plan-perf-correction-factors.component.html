@@ -1,7 +1,9 @@
 <form class="correction-factors-form" [formGroup]="this.correctionFactorsForm">
     <div class="correction-factors-form-content">
         <!-- Grass RWY -->
+        <label id="grass-rwy-radio-group-label">Grass RWY</label>
         <mat-radio-group
+            aria-labelledby="grass-rwy-radio-group-label"
             color="primary"
             formControlName="grassRwy"
             (change)="this.onGrassRwyChanged()"
@@ -11,7 +13,9 @@
         </mat-radio-group>
 
         <!-- Wet RWY -->
+        <label id="wet-rwy-radio-group-label">Wet RWY</label>
         <mat-radio-group
+            aria-labelledby="wet-rwy-radio-group-label"
             color="primary"
             formControlName="wetRwy"
             (change)="this.onWetRwyChanged()"

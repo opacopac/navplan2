@@ -1,10 +1,11 @@
-<div *ngIf="true"><!-- TODO -->
+<div *ngIf="true">
     <mat-accordion displayMode="flat" multi="true">
         <mat-expansion-panel [expanded]="true">
             <mat-expansion-panel-header>
-                <mat-panel-title><i class="fa-solid fa-road"></i></mat-panel-title>
-                <mat-panel-description>LSZB RWY 14 TODO</mat-panel-description>
+                <mat-panel-title><i class="fa-solid fa-plane-departure"></i></mat-panel-title>
+                <mat-panel-description>BERN-BELP (LSZB) RWY 14</mat-panel-description>
             </mat-expansion-panel-header>
+            <app-plan-perf-departure-calculation />
             <app-plan-perf-correction-factors
                 (grassRwyChanged)="this.onGrassRwyChanged()"
                 (wetRwyChanged)="this.onWetRwyChanged()"
