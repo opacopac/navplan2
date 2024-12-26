@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Airport} from '../../../../aerodrome/domain/model/airport';
 
 @Component({
     selector: 'app-plan-perf-runway',
@@ -6,6 +7,9 @@ import {Component, OnInit} from '@angular/core';
     styleUrls: ['./plan-perf-runway.component.scss']
 })
 export class PlanPerfRunwayComponent implements OnInit {
+    @Input() public airport: Airport;
+
+
     constructor() {
     }
 

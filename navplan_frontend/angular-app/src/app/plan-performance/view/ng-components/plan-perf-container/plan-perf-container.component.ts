@@ -34,7 +34,6 @@ export class PlanPerfContainerComponent implements OnInit {
 
 
     protected onGrassRwyChanged() {
-        // TODO
     }
 
 
