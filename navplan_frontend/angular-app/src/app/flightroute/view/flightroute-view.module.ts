@@ -36,7 +36,6 @@ import {
     FlightrouteNameLoadSaveComponent
 } from './ng-components/plan-route/flightroute-name-load-save/flightroute-name-load-save.component';
 import {WaypointListComponent} from './ng-components/plan-route/waypoint-list/waypoint-list.component';
-import {MetarTafViewModule} from '../../metar-taf/view/metar-taf-view.module';
 import {FuelCalcContainerComponent} from './ng-components/plan-fuel/fuel-calc-container/fuel-calc-container.component';
 import {
     FuelCalcInputFieldsComponent
@@ -57,7 +56,6 @@ import {
     MatExpansionPanelHeader,
     MatExpansionPanelTitle
 } from '@angular/material/expansion';
-import {PlanPerformanceViewModule} from '../../plan-performance/view/plan-performance-view.module';
 
 
 @NgModule({
@@ -80,7 +78,6 @@ import {PlanPerformanceViewModule} from '../../plan-performance/view/plan-perfor
         MatCardModule,
         ExporterViewModule,
         MatTabsModule,
-        MetarTafViewModule,
         MatDialogModule,
         AircraftViewModule,
         MatSlideToggleModule,
@@ -91,7 +88,6 @@ import {PlanPerformanceViewModule} from '../../plan-performance/view/plan-perfor
         MatExpansionPanelDescription,
         MatExpansionPanelHeader,
         MatExpansionPanelTitle,
-        PlanPerformanceViewModule,
     ],
     declarations: [
         EditWaypointDialogComponent,

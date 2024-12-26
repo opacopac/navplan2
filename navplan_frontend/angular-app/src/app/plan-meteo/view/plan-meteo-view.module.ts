@@ -9,12 +9,16 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatTableModule} from '@angular/material/table';
 import {MetarTafViewModule} from '../../metar-taf/view/metar-taf-view.module';
+import {PlanMeteoDomainModule} from '../domain/plan-meteo-domain.module';
+import {PlanMeteoStateModule} from '../state/plan-meteo-state.module';
 
 
 @NgModule({
     imports: [
         CommonModule,
         CommonViewModule,
+        PlanMeteoDomainModule,
+        PlanMeteoStateModule,
         MatFormFieldModule,
         ReactiveFormsModule,
         MatInputModule,

@@ -15,8 +15,8 @@ import {PlanMeteoViewModule} from '../../plan-meteo/view/plan-meteo-view.module'
         CommonViewModule,
         MatTabsModule,
         FlightrouteViewModule,
-        PlanPerformanceViewModule,
         PlanWnbViewModule,
+        PlanPerformanceViewModule,
         PlanMeteoViewModule,
     ],
     declarations: [

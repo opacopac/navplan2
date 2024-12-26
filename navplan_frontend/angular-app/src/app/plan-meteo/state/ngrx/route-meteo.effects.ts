@@ -6,8 +6,8 @@ import {distinct, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {RouteMeteoActions} from './route-meteo.actions';
 import {getRouteMeteoState} from './route-meteo.selectors';
 import {RouteMeteoState} from '../state-model/route-meteo-state';
-import {Flightroute} from '../../domain/model/flightroute';
-import {getFlightroute} from './flightroute.selectors';
+import {Flightroute} from '../../../flightroute/domain/model/flightroute';
+import {getFlightroute} from '../../../flightroute/state/ngrx/flightroute.selectors';
 import {IRouteMeteoService} from '../../domain/service/i-route-meteo.service';
 
 

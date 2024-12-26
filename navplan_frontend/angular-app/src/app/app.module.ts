@@ -21,6 +21,7 @@ import {MessageViewModule} from './message/view/message-view.module';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
 import {SearchViewModule} from './search/view/search-view.module';
 import {AircraftViewModule} from './aircraft/view/aircraft-view.module';
+import {PlanViewModule} from './plan/view/plan-view.module';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import {AircraftViewModule} from './aircraft/view/aircraft-view.module';
         ExporterViewModule,
         FlightMapViewModule,
         AircraftViewModule,
+        PlanViewModule,
         MessageViewModule,
         NavbarViewModule,
         SettingsViewModule,

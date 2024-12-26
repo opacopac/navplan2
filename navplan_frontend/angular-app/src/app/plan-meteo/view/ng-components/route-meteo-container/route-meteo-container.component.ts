@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {RouteMeteoActions} from '../../../../flightroute/state/ngrx/route-meteo.actions';
-import {getRouteMeteoState} from '../../../../flightroute/state/ngrx/route-meteo.selectors';
+import {RouteMeteoActions} from '../../../state/ngrx/route-meteo.actions';
+import {getRouteMeteoState} from '../../../state/ngrx/route-meteo.selectors';
 import {map} from 'rxjs/operators';
 import {Length} from '../../../../geo-physics/domain/model/quantities/length';
 import {getRouteDistanceUnit} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
@@ -19,6 +19,7 @@ export class RouteMeteoContainerComponent implements OnInit {
     public readonly distanceUnit$ = this.appStore.select(getRouteDistanceUnit);
     public readonly Number = Number;
     public readonly String = String;
+
 
     constructor(private appStore: Store<any>) {
     }

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {RouteMetarTaf} from '../../../../flightroute/domain/model/route-metar-taf';
+import {RouteMetarTaf} from '../../../domain/model/route-metar-taf';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 import {Length} from '../../../../geo-physics/domain/model/quantities/length';
 

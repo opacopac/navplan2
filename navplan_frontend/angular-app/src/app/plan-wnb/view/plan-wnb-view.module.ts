@@ -10,12 +10,14 @@ import {PlanWnbContainerComponent} from './ng-components/plan-wnb-container/plan
 import {PlanWnbTableComponent} from './ng-components/plan-wnb-table/plan-wnb-table.component';
 import {MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
+import {PlanWnbStateModule} from '../state/plan-wnb-state.module';
 
 
 @NgModule({
     imports: [
         CommonModule,
         CommonViewModule,
+        PlanWnbStateModule,
         AircraftViewModule,
         MatRadioModule,
         MatFormFieldModule,

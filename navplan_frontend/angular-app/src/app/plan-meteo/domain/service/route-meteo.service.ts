@@ -1,4 +1,4 @@
-import {Flightroute} from '../model/flightroute';
+import {Flightroute} from '../../../flightroute/domain/model/flightroute';
 import {IRouteMeteoService} from './i-route-meteo.service';
 import {LineString} from '../../../geo-physics/domain/model/geometry/line-string';
 import {GeodesyHelper} from '../../../geo-physics/domain/service/geometry/geodesy-helper';
