@@ -19,7 +19,7 @@ import {
 import {
     ForgotPwStep2PageComponent
 } from './user/view/ng-components/user-profile/forgot-pw-step2-page/forgot-pw-step2-page.component';
-import {PlanTabsComponent} from './flightroute/view/ng-components/plan-tabs/plan-tabs.component';
+import {PlanTabsComponent} from './plan/view/ng-components/plan-tabs/plan-tabs.component';
 import {AircraftTabsComponent} from './aircraft/view/ng-components/aircraft-tabs/aircraft-tabs.component';
 
 const routes: Routes = [

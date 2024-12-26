@@ -12,3 +12,4 @@ export const getWnbLengthUnit = createSelector(getGeoPhysicsState, state => stat
 export const getWeightUnit = createSelector(getGeoPhysicsState, state => state.weightUnit);
 export const getTemperatureUnit = createSelector(getGeoPhysicsState, state => state.temperatureUnit);
 export const getPerformanceDistanceUnit = createSelector(getGeoPhysicsState, state => state.performanceDistanceUnit);
+export const getPressureUnit = createSelector(getGeoPhysicsState, state => state.pressureUnit);

@@ -19,7 +19,6 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatCardModule} from '@angular/material/card';
 import {ExporterViewModule} from '../../exporter/view/exporter-view.module';
 import {MatTabsModule} from '@angular/material/tabs';
-import {PlanTabsComponent} from './ng-components/plan-tabs/plan-tabs.component';
 import {
     FlightrouteContainerComponent
 } from './ng-components/plan-route/flightroute-container/flightroute-container.component';
@@ -54,15 +53,10 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {ToggleManualAircraft} from './ng-components/common/toggle-manual-aircraft/toggle-manual-aircraft.component';
 import {PlanWnbContainerComponent} from './ng-components/plan-wnb/plan-wnb-container/plan-wnb-container.component';
 import {PlanWnbTableComponent} from './ng-components/plan-wnb/plan-wnb-table/plan-wnb-table.component';
-import {PlanPerfContainerComponent} from './ng-components/plan-perf/plan-perf-container/plan-perf-container.component';
 import {
     FlightrouteDeleteConfirmDialogComponent
 } from './ng-components/plan-route/flightroute-delete-confirm-dialog/flightroute-delete-confirm-dialog.component';
-import {
-    PlanPerfCorrectionFactorsComponent
-} from './ng-components/plan-perf/plan-perf-correction-factors/plan-perf-correction-factors.component';
 import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
-import {PlanPerfRunwayComponent} from './ng-components/plan-perf/plan-perf-runway/plan-perf-runway.component';
 import {
     MatAccordion,
     MatExpansionPanel,
@@ -70,7 +64,7 @@ import {
     MatExpansionPanelHeader,
     MatExpansionPanelTitle
 } from '@angular/material/expansion';
-import { PlanPerfDepartureCalculationComponent } from './ng-components/plan-perf/plan-perf-departure-calculation/plan-perf-departure-calculation.component';
+import {PlanPerformanceViewModule} from '../../plan-performance/view/plan-performance-view.module';
 
 
 @NgModule({
@@ -104,12 +98,12 @@ import { PlanPerfDepartureCalculationComponent } from './ng-components/plan-perf
         MatExpansionPanelDescription,
         MatExpansionPanelHeader,
         MatExpansionPanelTitle,
+        PlanPerformanceViewModule,
     ],
     declarations: [
         EditWaypointDialogComponent,
         EditWaypointFormComponent,
         ToggleManualAircraft,
-        PlanTabsComponent,
         FlightrouteContainerComponent,
         FlightrouteAircraftSpeedComponent,
         FlightrouteCommentsComponent,
@@ -123,17 +117,15 @@ import { PlanPerfDepartureCalculationComponent } from './ng-components/plan-perf
         FuelCalcTableComponent,
         PlanWnbContainerComponent,
         PlanWnbTableComponent,
-        PlanPerfContainerComponent,
-        PlanPerfRunwayComponent,
-        PlanPerfDepartureCalculationComponent,
-        PlanPerfCorrectionFactorsComponent,
         RouteMeteoContainerComponent,
         RouteMeteoTableComponent,
         RouteMeteoRadiusComponent
     ],
     exports: [
-        PlanTabsComponent,
-        RouteMeteoContainerComponent
+        RouteMeteoContainerComponent,
+        PlanWnbContainerComponent,
+        FuelCalcContainerComponent,
+        FlightrouteContainerComponent
     ],
     providers: []
 })
