@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Length} from '../../../../../geo-physics/domain/model/quantities/length';
-import {LengthUnit} from '../../../../../geo-physics/domain/model/quantities/length-unit';
+import {Length} from '../../../../geo-physics/domain/model/quantities/length';
+import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 import {FormControl, Validators} from '@angular/forms';
 
 

@@ -37,11 +37,6 @@ import {
 } from './ng-components/plan-route/flightroute-name-load-save/flightroute-name-load-save.component';
 import {WaypointListComponent} from './ng-components/plan-route/waypoint-list/waypoint-list.component';
 import {MetarTafViewModule} from '../../metar-taf/view/metar-taf-view.module';
-import {
-    RouteMeteoContainerComponent
-} from './ng-components/plan-meteo/route-meteo-container/route-meteo-container.component';
-import {RouteMeteoTableComponent} from './ng-components/plan-meteo/route-meteo-table/route-meteo-table.component';
-import {RouteMeteoRadiusComponent} from './ng-components/plan-meteo/route-meteo-radius/route-meteo-radius.component';
 import {FuelCalcContainerComponent} from './ng-components/plan-fuel/fuel-calc-container/fuel-calc-container.component';
 import {
     FuelCalcInputFieldsComponent
@@ -112,13 +107,9 @@ import {PlanPerformanceViewModule} from '../../plan-performance/view/plan-perfor
         WaypointListComponent,
         FuelCalcContainerComponent,
         FuelCalcInputFieldsComponent,
-        FuelCalcTableComponent,
-        RouteMeteoContainerComponent,
-        RouteMeteoTableComponent,
-        RouteMeteoRadiusComponent
+        FuelCalcTableComponent
     ],
     exports: [
-        RouteMeteoContainerComponent,
         FuelCalcContainerComponent,
         FlightrouteContainerComponent
     ],
