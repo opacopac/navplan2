@@ -5,6 +5,7 @@ import {PlanTabsComponent} from './ng-components/plan-tabs/plan-tabs.component';
 import {FlightrouteViewModule} from '../../flightroute/view/flightroute-view.module';
 import {MatTabsModule} from '@angular/material/tabs';
 import {PlanPerformanceViewModule} from '../../plan-performance/view/plan-performance-view.module';
+import {PlanWnbViewModule} from '../../plan-wnb/view/plan-wnb-view.module';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import {PlanPerformanceViewModule} from '../../plan-performance/view/plan-perfor
         MatTabsModule,
         FlightrouteViewModule,
         PlanPerformanceViewModule,
+        PlanWnbViewModule,
     ],
     declarations: [
         PlanTabsComponent

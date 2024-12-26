@@ -1,17 +1,17 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {WeightUnit} from '../../../../../geo-physics/domain/model/quantities/weight-unit';
-import {LengthUnit} from '../../../../../geo-physics/domain/model/quantities/length-unit';
-import {ButtonColor} from '../../../../../common/view/model/button-color';
-import {Length} from '../../../../../geo-physics/domain/model/quantities/length';
-import {VolumeUnit} from '../../../../../geo-physics/domain/model/quantities/volume-unit';
+import {WeightUnit} from '../../../../geo-physics/domain/model/quantities/weight-unit';
+import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
+import {ButtonColor} from '../../../../common/view/model/button-color';
+import {Length} from '../../../../geo-physics/domain/model/quantities/length';
+import {VolumeUnit} from '../../../../geo-physics/domain/model/quantities/volume-unit';
 import {FormBuilder} from '@angular/forms';
-import {WeightItem} from '../../../../../aircraft/domain/model/weight-item';
-import {Weight} from '../../../../../geo-physics/domain/model/quantities/weight';
-import {StringnumberHelper} from '../../../../../system/domain/service/stringnumber/stringnumber-helper';
-import {Volume} from '../../../../../geo-physics/domain/model/quantities/volume';
-import {WeightItemType} from '../../../../../aircraft/domain/model/weight-item-type';
-import {AircraftWnbService} from '../../../../../aircraft/domain/service/aircraft-wnb.service';
-import {VehicleType} from '../../../../../aircraft/domain/model/vehicle-type';
+import {WeightItem} from '../../../../aircraft/domain/model/weight-item';
+import {Weight} from '../../../../geo-physics/domain/model/quantities/weight';
+import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
+import {Volume} from '../../../../geo-physics/domain/model/quantities/volume';
+import {WeightItemType} from '../../../../aircraft/domain/model/weight-item-type';
+import {AircraftWnbService} from '../../../../aircraft/domain/service/aircraft-wnb.service';
+import {VehicleType} from '../../../../aircraft/domain/model/vehicle-type';
 
 
 @Component({

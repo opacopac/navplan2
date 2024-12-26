@@ -1,19 +1,14 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CommonViewModule} from '../../common/view/common-view.module';
-import {PlanPerfContainerComponent} from './ng-components/plan-perf-container/plan-perf-container.component';
-import {PlanPerfRunwayComponent} from './ng-components/plan-perf-runway/plan-perf-runway.component';
-import {
-    PlanPerfDepartureCalculationComponent
-} from './ng-components/plan-perf-departure-calculation/plan-perf-departure-calculation.component';
-import {
-    PlanPerfCorrectionFactorsComponent
-} from './ng-components/plan-perf-correction-factors/plan-perf-correction-factors.component';
 import {AircraftViewModule} from '../../aircraft/view/aircraft-view.module';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
+import {PlanWnbContainerComponent} from './ng-components/plan-wnb-container/plan-wnb-container.component';
+import {PlanWnbTableComponent} from './ng-components/plan-wnb-table/plan-wnb-table.component';
+import {MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 
 
@@ -27,18 +22,17 @@ import {MatInputModule} from '@angular/material/input';
         ReactiveFormsModule,
         MatAccordion,
         MatExpansionModule,
+        MatTableModule,
         MatInputModule
     ],
     declarations: [
-        PlanPerfContainerComponent,
-        PlanPerfRunwayComponent,
-        PlanPerfDepartureCalculationComponent,
-        PlanPerfCorrectionFactorsComponent,
+        PlanWnbContainerComponent,
+        PlanWnbTableComponent
     ],
     exports: [
-        PlanPerfContainerComponent,
+        PlanWnbContainerComponent
     ],
     providers: []
 })
-export class PlanPerformanceViewModule {
+export class PlanWnbViewModule {
 }

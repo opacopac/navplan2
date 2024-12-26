@@ -51,8 +51,6 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {AircraftViewModule} from '../../aircraft/view/aircraft-view.module';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {ToggleManualAircraft} from './ng-components/common/toggle-manual-aircraft/toggle-manual-aircraft.component';
-import {PlanWnbContainerComponent} from './ng-components/plan-wnb/plan-wnb-container/plan-wnb-container.component';
-import {PlanWnbTableComponent} from './ng-components/plan-wnb/plan-wnb-table/plan-wnb-table.component';
 import {
     FlightrouteDeleteConfirmDialogComponent
 } from './ng-components/plan-route/flightroute-delete-confirm-dialog/flightroute-delete-confirm-dialog.component';
@@ -115,15 +113,12 @@ import {PlanPerformanceViewModule} from '../../plan-performance/view/plan-perfor
         FuelCalcContainerComponent,
         FuelCalcInputFieldsComponent,
         FuelCalcTableComponent,
-        PlanWnbContainerComponent,
-        PlanWnbTableComponent,
         RouteMeteoContainerComponent,
         RouteMeteoTableComponent,
         RouteMeteoRadiusComponent
     ],
     exports: [
         RouteMeteoContainerComponent,
-        PlanWnbContainerComponent,
         FuelCalcContainerComponent,
         FlightrouteContainerComponent
     ],
