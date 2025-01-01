@@ -5,9 +5,27 @@
         [showRegistration]="true"
     />
     <!-- takeoff performance -->
-    <app-plan-perf-runway/>
+    <app-plan-perf-runway
+        [isDeparture]="true"
+        [altitudeUnit]="this.altitudeUnit$ | async"
+        [performanceDistanceUnit]="this.performanceDistanceUnit$ | async"
+        [speedUnit]="this.speedUnit$ | async"
+        [temperatureUnit]="this.temperatureUnit$ | async"
+    />
     <!-- landing performance -->
-    <app-plan-perf-runway/>
+    <app-plan-perf-runway
+        [isDeparture]="false"
+        [altitudeUnit]="this.altitudeUnit$ | async"
+        [performanceDistanceUnit]="this.performanceDistanceUnit$ | async"
+        [speedUnit]="this.speedUnit$ | async"
+        [temperatureUnit]="this.temperatureUnit$ | async"
+    />
     <!-- alt landing performance -->
-    <app-plan-perf-runway/>
+    <app-plan-perf-runway
+        [isDeparture]="false"
+        [altitudeUnit]="this.altitudeUnit$ | async"
+        [performanceDistanceUnit]="this.performanceDistanceUnit$ | async"
+        [speedUnit]="this.speedUnit$ | async"
+        [temperatureUnit]="this.temperatureUnit$ | async"
+    />
 </div>

@@ -2,15 +2,18 @@
     <mat-accordion displayMode="flat" multi="true">
         <mat-expansion-panel [expanded]="true">
             <mat-expansion-panel-header>
-                <mat-panel-title><i class="fa-solid fa-plane-departure"></i></mat-panel-title>
-                <mat-panel-description>Take Off Performance BERN-BELP (LSZB)</mat-panel-description>
+                <mat-panel-title><i class="{{ this.getTitleIconClass() }}"></i></mat-panel-title>
+                <mat-panel-description>{{ this.getTitleText() }}</mat-panel-description>
             </mat-expansion-panel-header>
-            <app-plan-perf-departure-calculation />
             <app-plan-perf-correction-factors
+                [showWetRwy]="!this.isDeparture"
+                [windSpeedUnit]="this.speedUnit"
                 (grassRwyChanged)="this.onGrassRwyChanged()"
                 (wetRwyChanged)="this.onWetRwyChanged()"
                 (rwySlopeChanged)="this.onRwySlopeChanged()"
+                (rwyWindChanged)="this.onRwyWindChanged()"
             />
+            <app-plan-perf-departure-calculation />
         </mat-expansion-panel>
     </mat-accordion>
 </div>
