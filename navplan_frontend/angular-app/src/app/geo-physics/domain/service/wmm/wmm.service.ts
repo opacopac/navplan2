@@ -1,6 +1,6 @@
 import {IWmmService} from './i-wmm.service';
 import {Injectable} from '@angular/core';
-import {WorldMagneticModel} from '../../model/wmm/WorldMagneticModel';
+import {WorldMagneticModel} from '../../model/wmm/WorldMagneticModel_2020';
 import {DatetimeHelper} from '../../../../system/domain/service/datetime/datetime-helper';
 import {Angle} from '../../model/quantities/angle';
 import {AngleUnit} from '../../model/quantities/angle-unit';
