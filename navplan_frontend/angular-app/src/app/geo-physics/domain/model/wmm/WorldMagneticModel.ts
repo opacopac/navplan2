@@ -34,6 +34,8 @@ email: w.chadwick<at>sky.com
 // 2021-04-19: updated coefficients for 2020-2025
 // source: https://www.ngdc.noaa.gov/geomag/WMM/soft.shtml#
 
+// 2025-01-01: updated coefficients for 2025-2029
+
 export class WorldMagneticModel {
     private coff;
     private c; cd; tc; dp; k;
