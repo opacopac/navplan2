@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-unit';
 import {Speed} from '../../../../geo-physics/domain/model/quantities/speed';
+import {Pressure} from '../../../../geo-physics/domain/model/quantities/pressure';
 
 @Component({
     selector: 'app-plan-perf-correction-factors',
@@ -9,7 +10,7 @@ import {Speed} from '../../../../geo-physics/domain/model/quantities/speed';
     styleUrls: ['./plan-perf-correction-factors.component.scss']
 })
 export class PlanPerfCorrectionFactorsComponent implements OnInit {
-    @Input() windSpeedUnit: SpeedUnit;
+    @Input() speedUnit: SpeedUnit;
     @Input() showWetRwy: boolean;
     @Output() grassRwyChanged = new EventEmitter<boolean>();
     @Output() wetRwyChanged = new EventEmitter<boolean>();
@@ -52,7 +53,7 @@ export class PlanPerfCorrectionFactorsComponent implements OnInit {
     protected onRwyWindChanged() {
         if (this.correctionFactorsForm.controls['rwyWind'].valid && this.correctionFactorsForm.controls['rwyWindDir'].valid) {
             const rwyWindValue = this.correctionFactorsForm.value.rwyWind * (this.correctionFactorsForm.value.rwyWindDir ? 1 : -1);
-            this.rwyWindChanged.emit(new Speed(rwyWindValue, this.windSpeedUnit));
+            this.rwyWindChanged.emit(new Speed(rwyWindValue, this.speedUnit));
         }
     }
 
@@ -88,4 +89,7 @@ export class PlanPerfCorrectionFactorsComponent implements OnInit {
             ]]
         });
     }
+
+    protected readonly Pressure = Pressure;
+    protected readonly Speed = Speed;
 }

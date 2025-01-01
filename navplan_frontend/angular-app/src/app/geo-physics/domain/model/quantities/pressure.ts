@@ -7,6 +7,18 @@ export class Pressure extends AbstractQuantity<Pressure, PressureUnit> implement
     private static readonly INHG_PER_HPA = 0.029529983071445;
 
 
+    public static getUnitString(unit: PressureUnit): string {
+        switch (unit) {
+            case PressureUnit.HPA:
+                return 'hPa';
+            case PressureUnit.INHG:
+                return 'inHg';
+            default:
+                return '';
+        }
+    }
+
+
     public static ofHpa(value: number): Pressure {
         return new Pressure(value, PressureUnit.HPA);
     }

@@ -15,6 +15,9 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
 import {MatInputModule} from '@angular/material/input';
+import {
+    PlanPerfWeatherFactorsComponent
+} from './ng-components/plan-perf-weather-factors/plan-perf-weather-factors.component';
 
 
 @NgModule({
@@ -34,6 +37,7 @@ import {MatInputModule} from '@angular/material/input';
         PlanPerfRunwayComponent,
         PlanPerfDepartureCalculationComponent,
         PlanPerfCorrectionFactorsComponent,
+        PlanPerfWeatherFactorsComponent
     ],
     exports: [
         PlanPerfContainerComponent,

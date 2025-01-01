@@ -1,13 +1,18 @@
 <div *ngIf="true">
     <mat-accordion displayMode="flat" multi="true">
-        <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel [expanded]="this.isDeparture">
             <mat-expansion-panel-header>
                 <mat-panel-title><i class="{{ this.getTitleIconClass() }}"></i></mat-panel-title>
                 <mat-panel-description>{{ this.getTitleText() }}</mat-panel-description>
             </mat-expansion-panel-header>
+            <app-plan-perf-weather-factors
+                [pressureUnit]="this.pressureUnit"
+                [temperatureUnit]="this.temperatureUnit"
+                [altitudeUnit]="this.altitudeUnit"
+            />
             <app-plan-perf-correction-factors
                 [showWetRwy]="!this.isDeparture"
-                [windSpeedUnit]="this.speedUnit"
+                [speedUnit]="this.speedUnit"
                 (grassRwyChanged)="this.onGrassRwyChanged()"
                 (wetRwyChanged)="this.onWetRwyChanged()"
                 (rwySlopeChanged)="this.onRwySlopeChanged()"

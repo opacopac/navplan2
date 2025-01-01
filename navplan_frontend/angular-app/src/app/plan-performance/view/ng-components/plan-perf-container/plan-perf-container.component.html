@@ -7,25 +7,28 @@
     <!-- takeoff performance -->
     <app-plan-perf-runway
         [isDeparture]="true"
+        [pressureUnit]="this.pressureUnit$ | async"
+        [temperatureUnit]="this.temperatureUnit$ | async"
         [altitudeUnit]="this.altitudeUnit$ | async"
         [performanceDistanceUnit]="this.performanceDistanceUnit$ | async"
         [speedUnit]="this.speedUnit$ | async"
-        [temperatureUnit]="this.temperatureUnit$ | async"
     />
     <!-- landing performance -->
     <app-plan-perf-runway
         [isDeparture]="false"
+        [pressureUnit]="this.pressureUnit$ | async"
+        [temperatureUnit]="this.temperatureUnit$ | async"
         [altitudeUnit]="this.altitudeUnit$ | async"
         [performanceDistanceUnit]="this.performanceDistanceUnit$ | async"
         [speedUnit]="this.speedUnit$ | async"
-        [temperatureUnit]="this.temperatureUnit$ | async"
     />
     <!-- alt landing performance -->
     <app-plan-perf-runway
         [isDeparture]="false"
+        [pressureUnit]="this.pressureUnit$ | async"
+        [temperatureUnit]="this.temperatureUnit$ | async"
         [altitudeUnit]="this.altitudeUnit$ | async"
         [performanceDistanceUnit]="this.performanceDistanceUnit$ | async"
         [speedUnit]="this.speedUnit$ | async"
-        [temperatureUnit]="this.temperatureUnit$ | async"
     />
 </div>

@@ -3,6 +3,7 @@ import {Airport} from '../../../../aerodrome/domain/model/airport';
 import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-unit';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 import {TemperatureUnit} from '../../../../geo-physics/domain/model/quantities/temperature-unit';
+import {PressureUnit} from '../../../../geo-physics/domain/model/quantities/pressure-unit';
 
 @Component({
     selector: 'app-plan-perf-runway',
@@ -12,6 +13,7 @@ import {TemperatureUnit} from '../../../../geo-physics/domain/model/quantities/t
 export class PlanPerfRunwayComponent implements OnInit {
     @Input() public airport: Airport;
     @Input() public isDeparture: boolean;
+    @Input() public pressureUnit: PressureUnit;
     @Input() public speedUnit: SpeedUnit;
     @Input() public performanceDistanceUnit: LengthUnit;
     @Input() public altitudeUnit: LengthUnit;
