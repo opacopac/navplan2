@@ -14,6 +14,7 @@
                         formControlName="runway"
                         required
                         [value]="this.airportPerfState.runway"
+                        (selectionChange)="this.onRunwayChanged()"
                     >
                         <mat-option
                             *ngFor="let rwy of this.airportPerfState.airport.runways"
@@ -41,6 +42,7 @@
                 [runwayFactors]="this.airportPerfState.runwayFactors"
                 [showWetRwy]="!this.isDepartureAirport"
                 [speedUnit]="this.speedUnit"
+                (runwayFactorChanged)="this.onRunwayFactorsChanged($event)"
             />
 
             <!-- performance calculation -->

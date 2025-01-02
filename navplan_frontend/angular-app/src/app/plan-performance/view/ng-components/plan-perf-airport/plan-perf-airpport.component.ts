@@ -6,6 +6,7 @@ import {PressureUnit} from '../../../../geo-physics/domain/model/quantities/pres
 import {PlanPerfAirportState} from '../../../state/state-model/plan-perf-airport-state';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {PlanPerfWeatherFactorsState} from '../../../state/state-model/plan-perf-weather-factors-state';
+import {PlanPerfRwyFactorsState} from '../../../state/state-model/plan-perf-rwy-factors-state';
 
 @Component({
     selector: 'app-plan-perf-airport',
@@ -76,6 +77,15 @@ export class PlanPerfAirpportComponent implements OnInit {
         this.airportPerfStateChanged.emit({
             ...this.airportPerfState,
             weatherFactors: $event
+        });
+    }
+
+
+
+    protected onRunwayFactorsChanged($event: PlanPerfRwyFactorsState) {
+        this.airportPerfStateChanged.emit({
+            ...this.airportPerfState,
+            runwayFactors: $event
         });
     }
 
