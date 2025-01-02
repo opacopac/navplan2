@@ -9,6 +9,7 @@ import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
 import {MockRwyLszb32} from '../../../aerodrome/domain/mock/mock-rwy-lszb-32';
 
 
+// TODO: initial state
 const initialState: PlanPerfState = {
     departureAirportState: {
         airport: MockAirportLszb.create(),
@@ -55,8 +56,18 @@ const initialState: PlanPerfState = {
 export const planPerfReducer = createReducer(
     initialState,
 
-    on(PlanPerfActions.selectRunway, (state, action) => ({
+    on(PlanPerfActions.changeDepartureAirportPerformance, (state, action) => ({
         ...state,
-        // departureAirportState: null
+        departureAirportState: action.airportPerformance
     })),
+
+    on(PlanPerfActions.changeDestinationAirportPerformance, (state, action) => ({
+        ...state,
+        destinationAirportState: action.airportPerformance
+    })),
+
+    on(PlanPerfActions.changeAlternateAirportPerformance, (state, action) => ({
+        ...state,
+        alternateAirportState: action.airportPerformance
+    }))
 );

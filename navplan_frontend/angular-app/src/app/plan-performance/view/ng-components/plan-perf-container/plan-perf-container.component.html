@@ -14,6 +14,7 @@
         [altitudeUnit]="this.altitudeUnit$ | async"
         [performanceDistanceUnit]="this.performanceDistanceUnit$ | async"
         [speedUnit]="this.speedUnit$ | async"
+        (airportPerfStateChanged)="this.onDepartureAirportPerformanceChanged($event)"
     />
     <!-- landing performance -->
     <app-plan-perf-airport
@@ -25,6 +26,7 @@
         [altitudeUnit]="this.altitudeUnit$ | async"
         [performanceDistanceUnit]="this.performanceDistanceUnit$ | async"
         [speedUnit]="this.speedUnit$ | async"
+        (airportPerfStateChanged)="this.onDestinationAirportPerformanceChanged($event)"
     />
     <!-- alt landing performance -->
     <app-plan-perf-airport
@@ -36,5 +38,6 @@
         [altitudeUnit]="this.altitudeUnit$ | async"
         [performanceDistanceUnit]="this.performanceDistanceUnit$ | async"
         [speedUnit]="this.speedUnit$ | async"
+        (airportPerfStateChanged)="this.onAlternateAirportPerformanceChanged($event)"
     />
 </div>

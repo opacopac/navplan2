@@ -15,6 +15,8 @@ import {
     getDepartureAirportPerfState,
     getDestinationAirportPerfState
 } from '../../../state/ngrx/plan-perf.selectors';
+import {PlanPerfActions} from '../../../state/ngrx/plan-perf.actions';
+import {PlanPerfAirportState} from '../../../state/state-model/plan-perf-airport-state';
 
 @Component({
     selector: 'app-plan-perf-container',
@@ -43,16 +45,17 @@ export class PlanPerfContainerComponent implements OnInit {
     }
 
 
-    protected onGrassRwyChanged() {
+    protected onDepartureAirportPerformanceChanged($event: PlanPerfAirportState) {
+        this.appStore.dispatch(PlanPerfActions.changeDepartureAirportPerformance({airportPerformance: $event}));
     }
 
 
-    protected onWetRwyChanged() {
-        // TODO
+    protected onDestinationAirportPerformanceChanged($event: PlanPerfAirportState) {
+        this.appStore.dispatch(PlanPerfActions.changeDestinationAirportPerformance({airportPerformance: $event}));
     }
 
 
-    protected onRwySlopeChanged() {
-        // TODO
+    protected onAlternateAirportPerformanceChanged($event: PlanPerfAirportState) {
+        this.appStore.dispatch(PlanPerfActions.changeAlternateAirportPerformance({airportPerformance: $event}));
     }
 }
