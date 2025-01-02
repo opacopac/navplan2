@@ -119,7 +119,7 @@ export class Flightroute implements Clonable<Flightroute> {
     }
 
 
-    public getOriginAirport(): Waypoint {
+    public getOriginWaypoint(): Waypoint {
         for (const wp of this.waypoints) {
             if (this.isOriginAirport(wp)) {
                 return wp;
@@ -130,7 +130,7 @@ export class Flightroute implements Clonable<Flightroute> {
     }
 
 
-    public getDestinationAirport(): Waypoint {
+    public getDestinationWaypoint(): Waypoint {
         for (const wp of this.waypoints) {
             if (this.isDestinationAirport(wp)) {
                 return wp;
@@ -141,7 +141,7 @@ export class Flightroute implements Clonable<Flightroute> {
     }
 
 
-    public getAlternateAirport(): Waypoint {
+    public getAlternateWaypoint(): Waypoint {
         if (this.isAlternateWaypoint(this.alternate)) {
             return this.alternate;
         } else {

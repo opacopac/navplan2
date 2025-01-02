@@ -3,17 +3,15 @@ import {PlanPerfState} from '../state-model/plan-perf-state';
 import {PlanPerfActions} from './plan-perf.actions';
 import {MockAirportLszb} from '../../../aerodrome/domain/mock/mock-airport-lszb';
 import {MockRwyLszb14} from '../../../aerodrome/domain/mock/mock-rwy-lszb-14';
-import {Pressure} from '../../../geo-physics/domain/model/quantities/pressure';
-import {Temperature} from '../../../geo-physics/domain/model/quantities/temperature';
 import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
 import {MockRwyLszb32} from '../../../aerodrome/domain/mock/mock-rwy-lszb-32';
 import {PlanPerfWeatherFactorsState} from '../state-model/plan-perf-weather-factors-state';
+import {AtmosphereService} from '../../../geo-physics/domain/service/meteo/atmosphere.service';
 
 
-// TODO: initial state
 const initialWeatherFactors: PlanPerfWeatherFactorsState = {
-    qnh: Pressure.ofHpa(1013),
-    oat: Temperature.ofC(15),
+    qnh: AtmosphereService.getStandardPressureAtSeaLevel(),
+    oat: AtmosphereService.getStandardTemperatureAtSeaLevel(),
     pressureAltitude: null,
     densityAltitude: null,
     isaTemperature: null
@@ -25,6 +23,7 @@ const initialRunwayFactors = {
     rwyWind: Speed.ofZero(),
     reservePercent: 0
 };
+// TODO: initial ad/rwy/ac state
 const initialState: PlanPerfState = {
     departureAirportState: {
         airport: MockAirportLszb.create(),
@@ -59,6 +58,14 @@ const initialState: PlanPerfState = {
 export const planPerfReducer = createReducer(
     initialState,
 
+    on(PlanPerfActions.changeDepartureAirport, (state, action) => ({
+        ...state,
+        departureAirportState: {
+            ...state.departureAirportState,
+            airport: action.airport
+        }
+    })),
+
     on(PlanPerfActions.changeDepartureAirportRunway, (state, action) => ({
         ...state,
         departureAirportState: {
@@ -83,6 +90,14 @@ export const planPerfReducer = createReducer(
         }
     })),
 
+    on(PlanPerfActions.changeDestinationAirport, (state, action) => ({
+        ...state,
+        destinationAirportState: {
+            ...state.destinationAirportState,
+            airport: action.airport
+        }
+    })),
+
     on(PlanPerfActions.changeDestinationAirportRunway, (state, action) => ({
         ...state,
         destinationAirportState: {
@@ -104,6 +119,15 @@ export const planPerfReducer = createReducer(
         destinationAirportState: {
             ...state.destinationAirportState,
             runwayFactors: action.runwayFactors
+        }
+    })),
+
+
+    on(PlanPerfActions.changeAlternateAirport, (state, action) => ({
+        ...state,
+        alternateAirportState: {
+            ...state.alternateAirportState,
+            airport: action.airport
         }
     })),
 
