@@ -3,6 +3,7 @@ import {IAircraftService} from './service/i-aircraft.service';
 import {AircraftService} from './service/aircraft.service';
 import {AircraftTypeDesignatorService} from './service/aircraft-type-designator.service';
 import {IAircraftTypeDesignatorService} from './service/i-aircraft-type-designator.service';
+import {AircraftPerformanceService} from './service/aircraft-performance.service';
 
 
 @NgModule({
@@ -12,6 +13,7 @@ import {IAircraftTypeDesignatorService} from './service/i-aircraft-type-designat
     providers: [
         {provide: IAircraftService, useClass: AircraftService},
         {provide: IAircraftTypeDesignatorService, useClass: AircraftTypeDesignatorService},
+        AircraftPerformanceService
     ],
 })
 export class AircraftDomainModule {

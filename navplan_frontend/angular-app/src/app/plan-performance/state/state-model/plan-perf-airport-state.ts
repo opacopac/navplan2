@@ -1,11 +1,12 @@
+import {AirportRunway} from '../../../aerodrome/domain/model/airport-runway';
+import {PlanPerfWeatherFactorsState} from './plan-perf-weather-factors-state';
+import {PlanPerfRwyFactorsState} from './plan-perf-rwy-factors-state';
+import {Airport} from '../../../aerodrome/domain/model/airport';
+
 export interface PlanPerfAirportState {
-    runway: string;
-    qnh: number;
-    oat: number;
-    isGrassRwy: boolean;
-    isWetRwy: boolean;
-    rwySlope: number;
-    rwyWind: number;
-    reservePercent: number;
+    airport: Airport;
+    runway: AirportRunway;
+    weatherFactors: PlanPerfWeatherFactorsState;
+    rwyFactors: PlanPerfRwyFactorsState;
     aircraftPerfProfileIdx: number;
 }

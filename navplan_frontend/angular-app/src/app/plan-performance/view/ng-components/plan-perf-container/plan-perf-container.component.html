@@ -5,8 +5,10 @@
         [showRegistration]="true"
     />
     <!-- takeoff performance -->
-    <app-plan-perf-runway
-        [isDeparture]="true"
+    <app-plan-perf-airport
+        [airportPerfState]="this.getDepartureAdPerfState$ | async"
+        [isDepartureAirport]="true"
+        [isAlternate]="false"
         [pressureUnit]="this.pressureUnit$ | async"
         [temperatureUnit]="this.temperatureUnit$ | async"
         [altitudeUnit]="this.altitudeUnit$ | async"
@@ -14,8 +16,10 @@
         [speedUnit]="this.speedUnit$ | async"
     />
     <!-- landing performance -->
-    <app-plan-perf-runway
-        [isDeparture]="false"
+    <app-plan-perf-airport
+        [airportPerfState]="this.getDestinationAdPerfState$ | async"
+        [isDepartureAirport]="false"
+        [isAlternate]="false"
         [pressureUnit]="this.pressureUnit$ | async"
         [temperatureUnit]="this.temperatureUnit$ | async"
         [altitudeUnit]="this.altitudeUnit$ | async"
@@ -23,8 +27,10 @@
         [speedUnit]="this.speedUnit$ | async"
     />
     <!-- alt landing performance -->
-    <app-plan-perf-runway
-        [isDeparture]="false"
+    <app-plan-perf-airport
+        [airportPerfState]="this.getAlternateAdPerfState$ | async"
+        [isDepartureAirport]="false"
+        [isAlternate]="true"
         [pressureUnit]="this.pressureUnit$ | async"
         [temperatureUnit]="this.temperatureUnit$ | async"
         [altitudeUnit]="this.altitudeUnit$ | async"

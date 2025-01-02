@@ -1,24 +1,44 @@
-<div *ngIf="true">
+<div *ngIf="this.airportPerfState && this.airportPerfState.airport">
     <mat-accordion displayMode="flat" multi="true">
-        <mat-expansion-panel [expanded]="this.isDeparture">
+        <mat-expansion-panel [expanded]="this.isDepartureAirport">
             <mat-expansion-panel-header>
                 <mat-panel-title><i class="{{ this.getTitleIconClass() }}"></i></mat-panel-title>
                 <mat-panel-description>{{ this.getTitleText() }}</mat-panel-description>
             </mat-expansion-panel-header>
+
+            <!-- runway selector -->
+            <div>
+                <mat-form-field>
+                    <mat-label>RWY</mat-label>
+                    <mat-select
+                        formControlName="runway"
+                    >
+                        <mat-option *ngFor="let rwy of this.airportPerfState.airport.runways" [value]="rwy">{{ rwy.name }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <span>{{ getElevationString() }}</span>
+            </div>
+
+
+            <!-- weather factors -->
             <app-plan-perf-weather-factors
                 [pressureUnit]="this.pressureUnit"
                 [temperatureUnit]="this.temperatureUnit"
                 [altitudeUnit]="this.altitudeUnit"
             />
+
+            <!-- runway factors -->
             <app-plan-perf-correction-factors
-                [showWetRwy]="!this.isDeparture"
+                [showWetRwy]="!this.isDepartureAirport"
                 [speedUnit]="this.speedUnit"
                 (grassRwyChanged)="this.onGrassRwyChanged()"
                 (wetRwyChanged)="this.onWetRwyChanged()"
                 (rwySlopeChanged)="this.onRwySlopeChanged()"
                 (rwyWindChanged)="this.onRwyWindChanged()"
             />
-            <app-plan-perf-departure-calculation />
+
+            <!-- performance calculation -->
+            <app-plan-perf-departure-calculation/>
         </mat-expansion-panel>
     </mat-accordion>
 </div>

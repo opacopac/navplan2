@@ -10,6 +10,11 @@ import {
     getWeightUnit
 } from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
 import {getCurrentAircraft} from '../../../../aircraft/state/ngrx/aircraft.selectors';
+import {
+    getAlternateAirportPerfState,
+    getDepartureAirportPerfState,
+    getDestinationAirportPerfState
+} from '../../../state/ngrx/plan-perf.selectors';
 
 @Component({
     selector: 'app-plan-perf-container',
@@ -17,6 +22,9 @@ import {getCurrentAircraft} from '../../../../aircraft/state/ngrx/aircraft.selec
     styleUrls: ['./plan-perf-container.component.scss']
 })
 export class PlanPerfContainerComponent implements OnInit {
+    protected readonly getDepartureAdPerfState$ = this.appStore.pipe(select(getDepartureAirportPerfState));
+    protected readonly getDestinationAdPerfState$ = this.appStore.pipe(select(getDestinationAirportPerfState));
+    protected readonly getAlternateAdPerfState$ = this.appStore.pipe(select(getAlternateAirportPerfState));
     protected readonly aircraft$ = this.appStore.pipe(select(getCurrentAircraft));
     protected readonly flightroute$ = this.appStore.pipe(select(getFlightroute));
     protected readonly altitudeUnit$ = this.appStore.pipe(select(getAltitudeUnit));
@@ -27,9 +35,7 @@ export class PlanPerfContainerComponent implements OnInit {
     protected readonly pressureUnit$ = this.appStore.pipe(select(getPressureUnit));
 
 
-    constructor(
-        private appStore: Store<any>
-    ) {
+    constructor(private appStore: Store<any>) {
     }
 
 

@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CommonViewModule} from '../../common/view/common-view.module';
 import {PlanPerfContainerComponent} from './ng-components/plan-perf-container/plan-perf-container.component';
-import {PlanPerfRunwayComponent} from './ng-components/plan-perf-runway/plan-perf-runway.component';
+import {PlanPerfAirpportComponent} from './ng-components/plan-perf-airport/plan-perf-airpport.component';
 import {
     PlanPerfDepartureCalculationComponent
 } from './ng-components/plan-perf-departure-calculation/plan-perf-departure-calculation.component';
@@ -18,23 +18,31 @@ import {MatInputModule} from '@angular/material/input';
 import {
     PlanPerfWeatherFactorsComponent
 } from './ng-components/plan-perf-weather-factors/plan-perf-weather-factors.component';
+import {MatOption} from '@angular/material/autocomplete';
+import {MatSelect} from '@angular/material/select';
+import {PlanPerformanceStateModule} from '../state/plan-performance-state.module';
+import {PlanPerformanceDomainModule} from '../domain/plan-performance-domain.module';
 
 
 @NgModule({
     imports: [
         CommonModule,
         CommonViewModule,
+        PlanPerformanceDomainModule,
+        PlanPerformanceStateModule,
         AircraftViewModule,
         MatRadioModule,
         MatFormFieldModule,
         ReactiveFormsModule,
         MatAccordion,
         MatExpansionModule,
-        MatInputModule
+        MatInputModule,
+        MatOption,
+        MatSelect,
     ],
     declarations: [
         PlanPerfContainerComponent,
-        PlanPerfRunwayComponent,
+        PlanPerfAirpportComponent,
         PlanPerfDepartureCalculationComponent,
         PlanPerfCorrectionFactorsComponent,
         PlanPerfWeatherFactorsComponent
