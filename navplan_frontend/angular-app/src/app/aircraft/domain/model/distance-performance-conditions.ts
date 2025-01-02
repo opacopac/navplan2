@@ -1,4 +1,4 @@
-import { Speed } from "../../../geo-physics/domain/model/quantities/speed";
+import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
 
 
 export class DistancePerformanceConditions {

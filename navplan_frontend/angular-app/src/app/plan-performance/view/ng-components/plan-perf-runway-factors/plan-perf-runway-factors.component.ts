@@ -6,11 +6,11 @@ import {Pressure} from '../../../../geo-physics/domain/model/quantities/pressure
 import {PlanPerfRwyFactorsState} from '../../../state/state-model/plan-perf-rwy-factors-state';
 
 @Component({
-    selector: 'app-plan-perf-correction-factors',
-    templateUrl: './plan-perf-correction-factors.component.html',
-    styleUrls: ['./plan-perf-correction-factors.component.scss']
+    selector: 'app-plan-perf-runway-factors',
+    templateUrl: './plan-perf-runway-factors.component.html',
+    styleUrls: ['./plan-perf-runway-factors.component.scss']
 })
-export class PlanPerfCorrectionFactorsComponent implements OnInit {
+export class PlanPerfRunwayFactorsComponent implements OnInit {
     @Input() runwayFactors: PlanPerfRwyFactorsState;
     @Input() speedUnit: SpeedUnit;
     @Input() showWetRwy: boolean;

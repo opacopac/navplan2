@@ -7,6 +7,7 @@ import {PlanPerfAirportState} from '../../../state/state-model/plan-perf-airport
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {PlanPerfWeatherFactorsState} from '../../../state/state-model/plan-perf-weather-factors-state';
 import {PlanPerfRwyFactorsState} from '../../../state/state-model/plan-perf-rwy-factors-state';
+import {AirportRunway} from '../../../../aerodrome/domain/model/airport-runway';
 
 @Component({
     selector: 'app-plan-perf-airport',
@@ -22,7 +23,9 @@ export class PlanPerfAirpportComponent implements OnInit {
     @Input() public performanceDistanceUnit: LengthUnit;
     @Input() public altitudeUnit: LengthUnit;
     @Input() public temperatureUnit: TemperatureUnit;
-    @Output() public airportPerfStateChanged = new EventEmitter<PlanPerfAirportState>();
+    @Output() public runwayChanged = new EventEmitter<AirportRunway>();
+    @Output() public weatherFactorsChanged = new EventEmitter<PlanPerfWeatherFactorsState>();
+    @Output() public runwayFactorsChanged = new EventEmitter<PlanPerfRwyFactorsState>();
 
     protected airportPerformanceForm: FormGroup;
 
@@ -62,31 +65,20 @@ export class PlanPerfAirpportComponent implements OnInit {
     }
 
 
-
     protected onRunwayChanged() {
         if (this.airportPerformanceForm.controls['runway'].valid) {
-            this.airportPerfStateChanged.emit({
-                ...this.airportPerfState,
-                runway: this.airportPerformanceForm.value.runway
-            });
+            this.runwayChanged.emit(this.airportPerformanceForm.value.runway);
         }
     }
 
 
     protected onWeatherFactoresChanged($event: PlanPerfWeatherFactorsState) {
-        this.airportPerfStateChanged.emit({
-            ...this.airportPerfState,
-            weatherFactors: $event
-        });
+        this.weatherFactorsChanged.emit($event);
     }
 
 
-
     protected onRunwayFactorsChanged($event: PlanPerfRwyFactorsState) {
-        this.airportPerfStateChanged.emit({
-            ...this.airportPerfState,
-            runwayFactors: $event
-        });
+        this.runwayFactorsChanged.emit($event);
     }
 
 

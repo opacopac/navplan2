@@ -16,7 +16,9 @@ import {
     getDestinationAirportPerfState
 } from '../../../state/ngrx/plan-perf.selectors';
 import {PlanPerfActions} from '../../../state/ngrx/plan-perf.actions';
-import {PlanPerfAirportState} from '../../../state/state-model/plan-perf-airport-state';
+import {AirportRunway} from '../../../../aerodrome/domain/model/airport-runway';
+import {PlanPerfWeatherFactorsState} from '../../../state/state-model/plan-perf-weather-factors-state';
+import {PlanPerfRwyFactorsState} from '../../../state/state-model/plan-perf-rwy-factors-state';
 
 @Component({
     selector: 'app-plan-perf-container',
@@ -45,17 +47,47 @@ export class PlanPerfContainerComponent implements OnInit {
     }
 
 
-    protected onDepartureAirportPerformanceChanged($event: PlanPerfAirportState) {
-        this.appStore.dispatch(PlanPerfActions.changeDepartureAirportPerformance({airportPerformance: $event}));
+    protected onDepartureRunwayChanged($event: AirportRunway) {
+        this.appStore.dispatch(PlanPerfActions.changeDepartureAirportRunway({runway: $event}));
     }
 
 
-    protected onDestinationAirportPerformanceChanged($event: PlanPerfAirportState) {
-        this.appStore.dispatch(PlanPerfActions.changeDestinationAirportPerformance({airportPerformance: $event}));
+    protected onDepartureWeatherFactorsChanged($event: PlanPerfWeatherFactorsState) {
+        this.appStore.dispatch(PlanPerfActions.changeDepartureAirportWeatherFactors({weatherFactors: $event}));
     }
 
 
-    protected onAlternateAirportPerformanceChanged($event: PlanPerfAirportState) {
-        this.appStore.dispatch(PlanPerfActions.changeAlternateAirportPerformance({airportPerformance: $event}));
+    protected onDepartureRunwayFactorsChanged($event: PlanPerfRwyFactorsState) {
+        this.appStore.dispatch(PlanPerfActions.changeDepartureAirportRunwayFactors({runwayFactors: $event}));
+    }
+
+
+    protected onDestinationRunwayChanged($event: AirportRunway) {
+        this.appStore.dispatch(PlanPerfActions.changeDestinationAirportRunway({runway: $event}));
+    }
+
+
+    protected onDestinationWeatherFactorsChanged($event: PlanPerfWeatherFactorsState) {
+        this.appStore.dispatch(PlanPerfActions.changeDestinationAirportWeatherFactors({weatherFactors: $event}));
+    }
+
+
+    protected onDestinationRunwayFactorsChanged($event: PlanPerfRwyFactorsState) {
+        this.appStore.dispatch(PlanPerfActions.changeDestinationAirportRunwayFactors({runwayFactors: $event}));
+    }
+
+
+    protected onAlternateRunwayChanged($event: AirportRunway) {
+        this.appStore.dispatch(PlanPerfActions.changeAlternateAirportRunway({runway: $event}));
+    }
+
+
+    protected onAlternateWeatherFactorsChanged($event: PlanPerfWeatherFactorsState) {
+        this.appStore.dispatch(PlanPerfActions.changeAlternateAirportWeatherFactors({weatherFactors: $event}));
+    }
+
+
+    protected onAlternateRunwayFactorsChanged($event: PlanPerfRwyFactorsState) {
+        this.appStore.dispatch(PlanPerfActions.changeAlternateAirportRunwayFactors({runwayFactors: $event}));
     }
 }

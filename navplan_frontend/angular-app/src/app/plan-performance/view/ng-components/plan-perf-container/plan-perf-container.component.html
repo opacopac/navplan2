@@ -14,7 +14,9 @@
         [altitudeUnit]="this.altitudeUnit$ | async"
         [performanceDistanceUnit]="this.performanceDistanceUnit$ | async"
         [speedUnit]="this.speedUnit$ | async"
-        (airportPerfStateChanged)="this.onDepartureAirportPerformanceChanged($event)"
+        (runwayChanged)="this.onDepartureRunwayChanged($event)"
+        (weatherFactorsChanged)="this.onDepartureWeatherFactorsChanged($event)"
+        (runwayFactorsChanged)="this.onDepartureRunwayFactorsChanged($event)"
     />
     <!-- landing performance -->
     <app-plan-perf-airport
@@ -26,7 +28,9 @@
         [altitudeUnit]="this.altitudeUnit$ | async"
         [performanceDistanceUnit]="this.performanceDistanceUnit$ | async"
         [speedUnit]="this.speedUnit$ | async"
-        (airportPerfStateChanged)="this.onDestinationAirportPerformanceChanged($event)"
+        (runwayChanged)="this.onDestinationRunwayChanged($event)"
+        (weatherFactorsChanged)="this.onDestinationWeatherFactorsChanged($event)"
+        (runwayFactorsChanged)="this.onDestinationRunwayFactorsChanged($event)"
     />
     <!-- alt landing performance -->
     <app-plan-perf-airport
@@ -38,6 +42,8 @@
         [altitudeUnit]="this.altitudeUnit$ | async"
         [performanceDistanceUnit]="this.performanceDistanceUnit$ | async"
         [speedUnit]="this.speedUnit$ | async"
-        (airportPerfStateChanged)="this.onAlternateAirportPerformanceChanged($event)"
+        (runwayChanged)="this.onAlternateRunwayChanged($event)"
+        (weatherFactorsChanged)="this.onAlternateWeatherFactorsChanged($event)"
+        (runwayFactorsChanged)="this.onAlternateRunwayFactorsChanged($event)"
     />
 </div>

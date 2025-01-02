@@ -7,8 +7,8 @@ import {
     PlanPerfDepartureCalculationComponent
 } from './ng-components/plan-perf-departure-calculation/plan-perf-departure-calculation.component';
 import {
-    PlanPerfCorrectionFactorsComponent
-} from './ng-components/plan-perf-correction-factors/plan-perf-correction-factors.component';
+    PlanPerfRunwayFactorsComponent
+} from './ng-components/plan-perf-runway-factors/plan-perf-runway-factors.component';
 import {AircraftViewModule} from '../../aircraft/view/aircraft-view.module';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -44,7 +44,7 @@ import {PlanPerformanceDomainModule} from '../domain/plan-performance-domain.mod
         PlanPerfContainerComponent,
         PlanPerfAirpportComponent,
         PlanPerfDepartureCalculationComponent,
-        PlanPerfCorrectionFactorsComponent,
+        PlanPerfRunwayFactorsComponent,
         PlanPerfWeatherFactorsComponent
     ],
     exports: [

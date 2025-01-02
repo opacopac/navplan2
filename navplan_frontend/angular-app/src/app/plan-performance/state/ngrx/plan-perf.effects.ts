@@ -4,7 +4,6 @@ import {Actions} from '@ngrx/effects';
 import {Observable} from 'rxjs';
 import {Flightroute} from '../../../flightroute/domain/model/flightroute';
 import {getFlightroute} from '../../../flightroute/state/ngrx/flightroute.selectors';
-import {AircraftPerformanceService} from '../../../aircraft/domain/service/aircraft-performance.service';
 
 
 @Injectable()
@@ -14,15 +13,13 @@ export class PlanPerfEffects {
 
     constructor(
         private readonly actions$: Actions,
-        private readonly appStore: Store<any>,
-        private readonly performanceService: AircraftPerformanceService,
+        private readonly appStore: Store<any>
     ) {
     }
 
 
-    /*
-    updateRouteMetarTafAction$ = createEffect(() => this.actions$.pipe(
-        ofType(RouteMeteoActions.update, RouteMeteoActions.maxRadiusChanged),
+    /*changeDepartureAirportAction$ = createEffect(() => this.actions$.pipe(
+        ofType(PlanPerfActions.changeDepartureAirportPerformance),
         withLatestFrom(this.flightroute$, this.routeMeteoState$),
         distinct(([action, route, meteoState]) => [route, meteoState]), // TODO: timeout
         switchMap(([action, route, meteoState]) => this.routeMeteoService.getRouteMetarTafs(
@@ -31,6 +28,5 @@ export class PlanPerfEffects {
         ).pipe(
             map(routeMetarTafs => RouteMeteoActions.updateSuccess({routeMetarTafs: routeMetarTafs}))
         ))
-    ));
-    */
+    ));*/
 }

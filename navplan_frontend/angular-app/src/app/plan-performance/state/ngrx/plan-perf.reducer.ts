@@ -11,7 +11,13 @@ import {PlanPerfWeatherFactorsState} from '../state-model/plan-perf-weather-fact
 
 
 // TODO: initial state
-const initialWeatherFactors: PlanPerfWeatherFactorsState = {qnh: Pressure.ofHpa(1013), oat: Temperature.ofC(15)};
+const initialWeatherFactors: PlanPerfWeatherFactorsState = {
+    qnh: Pressure.ofHpa(1013),
+    oat: Temperature.ofC(15),
+    pressureAltitude: null,
+    densityAltitude: null,
+    isaTemperature: null
+};
 const initialRunwayFactors = {
     isGrassRwy: false,
     isWetRwy: false,
@@ -26,6 +32,8 @@ const initialState: PlanPerfState = {
         aircraftPerfProfileIdx: 0,
         weatherFactors: initialWeatherFactors,
         runwayFactors: initialRunwayFactors,
+        tkofPerformance: null,
+        ldaPerformance: null,
     },
     destinationAirportState: {
         airport: MockAirportLszb.create(),
@@ -33,6 +41,8 @@ const initialState: PlanPerfState = {
         aircraftPerfProfileIdx: 0,
         weatherFactors: initialWeatherFactors,
         runwayFactors: initialRunwayFactors,
+        tkofPerformance: null,
+        ldaPerformance: null,
     },
     alternateAirportState: {
         airport: null,
@@ -40,6 +50,8 @@ const initialState: PlanPerfState = {
         aircraftPerfProfileIdx: 0,
         weatherFactors: initialWeatherFactors,
         runwayFactors: initialRunwayFactors,
+        tkofPerformance: null,
+        ldaPerformance: null,
     },
 };
 
@@ -47,18 +59,75 @@ const initialState: PlanPerfState = {
 export const planPerfReducer = createReducer(
     initialState,
 
-    on(PlanPerfActions.changeDepartureAirportPerformance, (state, action) => ({
+    on(PlanPerfActions.changeDepartureAirportRunway, (state, action) => ({
         ...state,
-        departureAirportState: action.airportPerformance
+        departureAirportState: {
+            ...state.departureAirportState,
+            runway: action.runway
+        }
     })),
 
-    on(PlanPerfActions.changeDestinationAirportPerformance, (state, action) => ({
+    on(PlanPerfActions.changeDepartureAirportWeatherFactors, (state, action) => ({
         ...state,
-        destinationAirportState: action.airportPerformance
+        departureAirportState: {
+            ...state.departureAirportState,
+            weatherFactors: action.weatherFactors
+        }
     })),
 
-    on(PlanPerfActions.changeAlternateAirportPerformance, (state, action) => ({
+    on(PlanPerfActions.changeDepartureAirportRunwayFactors, (state, action) => ({
         ...state,
-        alternateAirportState: action.airportPerformance
-    }))
+        departureAirportState: {
+            ...state.departureAirportState,
+            runwayFactors: action.runwayFactors
+        }
+    })),
+
+    on(PlanPerfActions.changeDestinationAirportRunway, (state, action) => ({
+        ...state,
+        destinationAirportState: {
+            ...state.destinationAirportState,
+            runway: action.runway
+        }
+    })),
+
+    on(PlanPerfActions.changeDestinationAirportWeatherFactors, (state, action) => ({
+        ...state,
+        destinationAirportState: {
+            ...state.destinationAirportState,
+            weatherFactors: action.weatherFactors
+        }
+    })),
+
+    on(PlanPerfActions.changeDestinationAirportRunwayFactors, (state, action) => ({
+        ...state,
+        destinationAirportState: {
+            ...state.destinationAirportState,
+            runwayFactors: action.runwayFactors
+        }
+    })),
+
+    on(PlanPerfActions.changeAlternateAirportRunway, (state, action) => ({
+        ...state,
+        alternateAirportState: {
+            ...state.alternateAirportState,
+            runway: action.runway
+        }
+    })),
+
+    on(PlanPerfActions.changeAlternateAirportWeatherFactors, (state, action) => ({
+        ...state,
+        alternateAirportState: {
+            ...state.alternateAirportState,
+            weatherFactors: action.weatherFactors
+        }
+    })),
+
+    on(PlanPerfActions.changeAlternateAirportRunwayFactors, (state, action) => ({
+        ...state,
+        alternateAirportState: {
+            ...state.alternateAirportState,
+            runwayFactors: action.runwayFactors
+        }
+    })),
 );
