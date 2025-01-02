@@ -7,6 +7,6 @@ export interface PlanPerfAirportState {
     airport: Airport;
     runway: AirportRunway;
     weatherFactors: PlanPerfWeatherFactorsState;
-    rwyFactors: PlanPerfRwyFactorsState;
+    runwayFactors: PlanPerfRwyFactorsState;
     aircraftPerfProfileIdx: number;
 }

@@ -1,4 +1,4 @@
-<div *ngIf="this.airportPerfState && this.airportPerfState.airport">
+<form [formGroup]="this.airportPerformanceForm" *ngIf="this.airportPerfState && this.airportPerfState.airport">
     <mat-accordion displayMode="flat" multi="true">
         <mat-expansion-panel [expanded]="this.isDepartureAirport">
             <mat-expansion-panel-header>
@@ -12,8 +12,15 @@
                     <mat-label>RWY</mat-label>
                     <mat-select
                         formControlName="runway"
+                        required
+                        [value]="this.airportPerfState.runway"
                     >
-                        <mat-option *ngFor="let rwy of this.airportPerfState.airport.runways" [value]="rwy">{{ rwy.name }}</mat-option>
+                        <mat-option
+                            *ngFor="let rwy of this.airportPerfState.airport.runways"
+                            [value]="rwy"
+                        >
+                            {{ rwy.name }}
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
                 <span>{{ getElevationString() }}</span>
@@ -22,23 +29,22 @@
 
             <!-- weather factors -->
             <app-plan-perf-weather-factors
+                [weatherFactors]="this.airportPerfState.weatherFactors"
                 [pressureUnit]="this.pressureUnit"
                 [temperatureUnit]="this.temperatureUnit"
                 [altitudeUnit]="this.altitudeUnit"
+                (weatherFactorsChanged)="this.onWeatherFactoresChanged($event)"
             />
 
             <!-- runway factors -->
             <app-plan-perf-correction-factors
+                [runwayFactors]="this.airportPerfState.runwayFactors"
                 [showWetRwy]="!this.isDepartureAirport"
                 [speedUnit]="this.speedUnit"
-                (grassRwyChanged)="this.onGrassRwyChanged()"
-                (wetRwyChanged)="this.onWetRwyChanged()"
-                (rwySlopeChanged)="this.onRwySlopeChanged()"
-                (rwyWindChanged)="this.onRwyWindChanged()"
             />
 
             <!-- performance calculation -->
             <app-plan-perf-departure-calculation/>
         </mat-expansion-panel>
     </mat-accordion>
-</div>
+</form>

@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-unit';
 import {Speed} from '../../../../geo-physics/domain/model/quantities/speed';
 import {Pressure} from '../../../../geo-physics/domain/model/quantities/pressure';
+import {PlanPerfRwyFactorsState} from '../../../state/state-model/plan-perf-rwy-factors-state';
 
 @Component({
     selector: 'app-plan-perf-correction-factors',
@@ -10,14 +11,14 @@ import {Pressure} from '../../../../geo-physics/domain/model/quantities/pressure
     styleUrls: ['./plan-perf-correction-factors.component.scss']
 })
 export class PlanPerfCorrectionFactorsComponent implements OnInit {
+    @Input() runwayFactors: PlanPerfRwyFactorsState;
     @Input() speedUnit: SpeedUnit;
     @Input() showWetRwy: boolean;
-    @Output() grassRwyChanged = new EventEmitter<boolean>();
-    @Output() wetRwyChanged = new EventEmitter<boolean>();
-    @Output() rwySlopeChanged = new EventEmitter<number>();
-    @Output() rwyWindChanged = new EventEmitter<Speed>();
+    @Output() runwayFactorChanged = new EventEmitter<PlanPerfRwyFactorsState>();
 
     protected correctionFactorsForm: FormGroup;
+    protected readonly Pressure = Pressure;
+    protected readonly Speed = Speed;
 
 
     constructor(private formBuilder: FormBuilder) {
@@ -31,13 +32,19 @@ export class PlanPerfCorrectionFactorsComponent implements OnInit {
 
     protected onGrassRwyChanged() {
         if (this.correctionFactorsForm.controls['grassRwy'].valid) {
-            this.grassRwyChanged.emit(this.correctionFactorsForm.value.grassRwy);
+            this.runwayFactorChanged.emit({
+                ...this.runwayFactors,
+                isGrassRwy: this.correctionFactorsForm.value.grassRwy
+            });
         }
     }
 
     protected onWetRwyChanged() {
         if (this.correctionFactorsForm.controls['wetRwy'].valid) {
-            this.grassRwyChanged.emit(this.correctionFactorsForm.value.wetRwy);
+            this.runwayFactorChanged.emit({
+                ...this.runwayFactors,
+                isWetRwy: this.correctionFactorsForm.value.wetRwy
+            });
         }
     }
 
@@ -45,7 +52,10 @@ export class PlanPerfCorrectionFactorsComponent implements OnInit {
     protected onRwySlopeChanged() {
         if (this.correctionFactorsForm.controls['rwySlope'].valid && this.correctionFactorsForm.controls['rwySlopeDir'].valid) {
             const rwySlopePercent = this.correctionFactorsForm.value.rwySlope * (this.correctionFactorsForm.value.rwySlopeDir ? 1 : -1);
-            this.rwySlopeChanged.emit(rwySlopePercent);
+            this.runwayFactorChanged.emit({
+                ...this.runwayFactors,
+                rwySlopePercent: rwySlopePercent
+            });
         }
     }
 
@@ -53,43 +63,53 @@ export class PlanPerfCorrectionFactorsComponent implements OnInit {
     protected onRwyWindChanged() {
         if (this.correctionFactorsForm.controls['rwyWind'].valid && this.correctionFactorsForm.controls['rwyWindDir'].valid) {
             const rwyWindValue = this.correctionFactorsForm.value.rwyWind * (this.correctionFactorsForm.value.rwyWindDir ? 1 : -1);
-            this.rwyWindChanged.emit(new Speed(rwyWindValue, this.speedUnit));
+            this.runwayFactorChanged.emit({
+                ...this.runwayFactors,
+                rwyWind: new Speed(rwyWindValue, this.speedUnit)
+            });
+        }
+    }
+
+
+    protected onReserveChanged() {
+        if (this.correctionFactorsForm.controls['reserve'].valid) {
+            this.runwayFactorChanged.emit({
+                ...this.runwayFactors,
+                reservePercent: this.correctionFactorsForm.value.reserve
+            });
         }
     }
 
 
     private initForm() {
         this.correctionFactorsForm = this.formBuilder.group({
-            'grassRwy': [false, [
+            'grassRwy': [this.runwayFactors.isGrassRwy, [
                 Validators.required
             ]],
-            'wetRwy': [false, [
+            'wetRwy': [this.runwayFactors.isWetRwy, [
                 Validators.required
             ]],
-            'rwySlope': [0, [
+            'rwySlope': [Math.abs(this.runwayFactors.rwySlopePercent), [
                 Validators.required,
                 Validators.min(0),
                 Validators.max(99)
             ]],
-            'rwySlopeDir': [true, [
+            'rwySlopeDir': [this.runwayFactors.rwySlopePercent >= 0, [
                 Validators.required
             ]],
-            'rwyWind': [0, [
+            'rwyWind': [this.runwayFactors.rwyWind.getValue(this.speedUnit), [
                 Validators.required,
                 Validators.min(0),
                 Validators.max(999)
             ]],
-            'rwyWindDir': [true, [
+            'rwyWindDir': [this.runwayFactors.rwyWind.getValue(this.speedUnit) >= 0, [
                 Validators.required
             ]],
-            'reserve': [0, [
+            'reserve': [this.runwayFactors.reservePercent, [
                 Validators.required,
                 Validators.min(0),
                 Validators.max(999)
             ]]
         });
     }
-
-    protected readonly Pressure = Pressure;
-    protected readonly Speed = Speed;
 }

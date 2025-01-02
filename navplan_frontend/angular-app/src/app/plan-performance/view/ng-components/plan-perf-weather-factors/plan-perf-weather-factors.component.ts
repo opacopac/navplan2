@@ -5,6 +5,7 @@ import {Temperature} from '../../../../geo-physics/domain/model/quantities/tempe
 import {PressureUnit} from '../../../../geo-physics/domain/model/quantities/pressure-unit';
 import {TemperatureUnit} from '../../../../geo-physics/domain/model/quantities/temperature-unit';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
+import {PlanPerfWeatherFactorsState} from '../../../state/state-model/plan-perf-weather-factors-state';
 
 @Component({
     selector: 'app-plan-perf-weather-factors',
@@ -12,13 +13,15 @@ import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length
     styleUrls: ['./plan-perf-weather-factors.component.scss']
 })
 export class PlanPerfWeatherFactorsComponent implements OnInit {
+    @Input() weatherFactors: PlanPerfWeatherFactorsState;
     @Input() pressureUnit: PressureUnit;
     @Input() temperatureUnit: TemperatureUnit;
     @Input() altitudeUnit: LengthUnit;
-    @Output() qnhChanged = new EventEmitter<Pressure>();
-    @Output() oatChanged = new EventEmitter<Temperature>();
+    @Output() weatherFactorsChanged = new EventEmitter<PlanPerfWeatherFactorsState>();
 
     protected weatherFactorsForm: FormGroup;
+    protected readonly Pressure = Pressure;
+    protected readonly Temperature = Temperature;
 
 
     constructor(private formBuilder: FormBuilder) {
@@ -32,34 +35,33 @@ export class PlanPerfWeatherFactorsComponent implements OnInit {
 
     protected onQnhChanged() {
         if (this.weatherFactorsForm.controls['qnh'].valid) {
-            const newQnh = new Pressure(this.weatherFactorsForm.value.qnh, this.pressureUnit);
-            this.qnhChanged.emit(newQnh);
+            this.weatherFactorsChanged.emit({
+                ...this.weatherFactors,
+                qnh: new Pressure(this.weatherFactorsForm.value.qnh, this.pressureUnit)
+            });
         }
     }
 
 
     protected onOatChanged() {
         if (this.weatherFactorsForm.controls['oat'].valid) {
-            const newOat = new Temperature(this.weatherFactorsForm.value.oat, this.weatherFactorsForm.value.oatUnit);
-            this.oatChanged.emit(newOat);
+            this.weatherFactorsChanged.emit({
+                ...this.weatherFactors,
+                oat: new Temperature(this.weatherFactorsForm.value.oat, this.temperatureUnit)
+            });
         }
     }
 
 
     private initForm() {
-        // TODO: default values
         this.weatherFactorsForm = this.formBuilder.group({
-            'qnh': [1013, [
+            'qnh': [this.weatherFactors.qnh.getValue(this.pressureUnit), [
                 Validators.required,
                 Validators.min(0),
             ]],
-            'oat': [15, [
+            'oat': [this.weatherFactors.oat.getValue(this.temperatureUnit), [
                 Validators.required,
             ]],
         });
     }
-
-    protected readonly Pressure = Pressure;
-    protected readonly TemperatureUnit = TemperatureUnit;
-    protected readonly Temperature = Temperature;
 }

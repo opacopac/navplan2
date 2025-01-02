@@ -15,7 +15,7 @@ const initialState: PlanPerfState = {
         runway: MockRwyLszb14.create(),
         aircraftPerfProfileIdx: 0,
         weatherFactors: {qnh: Pressure.ofHpa(1013), oat: Temperature.ofC(15)},
-        rwyFactors: {
+        runwayFactors: {
             isGrassRwy: false,
             isWetRwy: false,
             rwySlopePercent: 0,
@@ -28,7 +28,7 @@ const initialState: PlanPerfState = {
         runway: MockRwyLszb32.create(),
         aircraftPerfProfileIdx: 0,
         weatherFactors: {qnh: Pressure.ofHpa(1013), oat: Temperature.ofC(15)},
-        rwyFactors: {
+        runwayFactors: {
             isGrassRwy: false,
             isWetRwy: false,
             rwySlopePercent: 0,
@@ -41,7 +41,7 @@ const initialState: PlanPerfState = {
         runway: null,
         aircraftPerfProfileIdx: 0,
         weatherFactors: {qnh: Pressure.ofHpa(1013), oat: Temperature.ofC(15)},
-        rwyFactors: {
+        runwayFactors: {
             isGrassRwy: false,
             isWetRwy: false,
             rwySlopePercent: 0,
