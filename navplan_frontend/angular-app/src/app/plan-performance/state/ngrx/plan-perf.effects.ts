@@ -28,27 +28,34 @@ export class PlanPerfEffects {
     }
 
 
-    changeFlightRouteAction$ = createEffect(() => this.actions$.pipe(
+    changeFlightRouteActionDeparture$ = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteActions.update, FlightrouteActions.clear),
         withLatestFrom(this.flightroute$),
-        switchMap(([action, flightroute]) => {
-            return [
-                this.loadAirportFromDataItem(flightroute?.getOriginWaypoint()),
-                this.loadAirportFromDataItem(flightroute?.getDestinationWaypoint()),
-                this.loadAirportFromDataItem(flightroute?.getAlternateWaypoint())
-            ];
-        }),
-        switchMap(airports => [
-            PlanPerfActions.changeDepartureAirport({airport: airports[0]}),
-            PlanPerfActions.changeDestinationAirport({airport: airports[1]}),
-            PlanPerfActions.changeAlternateAirport({airport: airports[2]}),
-        ])
+        switchMap(([action, flightroute]) => this.loadAirportFromDataItem(flightroute?.getOriginWaypoint())),
+        switchMap(airport => [PlanPerfActions.changeDepartureAirport({airport})])
+    ));
+
+
+    changeFlightRouteActionDestination$ = createEffect(() => this.actions$.pipe(
+        ofType(FlightrouteActions.update, FlightrouteActions.clear),
+        withLatestFrom(this.flightroute$),
+        switchMap(([action, flightroute]) => this.loadAirportFromDataItem(flightroute?.getDestinationWaypoint())),
+        switchMap(airport => [PlanPerfActions.changeDestinationAirport({airport})])
+    ));
+
+
+    changeFlightRouteActionAlternate$ = createEffect(() => this.actions$.pipe(
+        ofType(FlightrouteActions.update, FlightrouteActions.clear),
+        withLatestFrom(this.flightroute$),
+        switchMap(([action, flightroute]) => this.loadAirportFromDataItem(flightroute?.getAlternateWaypoint())),
+        switchMap(airport => [PlanPerfActions.changeAlternateAirport({airport})])
     ));
 
 
     private loadAirportFromDataItem(waypoint: Waypoint): Observable<Airport> {
-        if (waypoint && waypoint.callsign) {
-            return this.airportService.readAirportByIcao(waypoint.callsign); // TODO
+        if (waypoint && waypoint.checkpoint) {
+            console.log('loadAirportFromDataItem', waypoint.checkpoint);
+            return this.airportService.readAirportByIcao(waypoint.checkpoint); // TODO
         } else {
             return of(null);
         }
