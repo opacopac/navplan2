@@ -4,7 +4,7 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {from, mergeMap, Observable, of, switchMap, toArray} from 'rxjs';
 import {getFlightroute} from '../../../flightroute/state/ngrx/flightroute.selectors';
 import {getCurrentAircraft} from '../../../aircraft/state/ngrx/aircraft.selectors';
-import {filter, map, tap, withLatestFrom} from 'rxjs/operators';
+import {filter, map, withLatestFrom} from 'rxjs/operators';
 import {FlightrouteActions} from '../../../flightroute/state/ngrx/flightroute.actions';
 import {PlanPerfActions} from './plan-perf.actions';
 import {IAirportService} from '../../../aerodrome/domain/service/i-airport.service';
@@ -47,7 +47,6 @@ export class PlanPerfEffects {
             mergeMap(waypoint => this.loadAirportFromDataItem(waypoint.wp).pipe(
                 map(ad => this.calcInitialAirportState(ad, waypoint.type))
             )),
-            tap(wp => console.log('MEEP')),
             toArray(),
             switchMap(adStates => [PlanPerfActions.setAirports({ airportStates: adStates })])
         ))
@@ -98,7 +97,7 @@ export class PlanPerfEffects {
             tkofPerformance: null,
             ldaPerformance: null
         };
-
+        initialAdState.weatherFactors.oat = AtmosphereService.calcStandardTemperatureAtAltitude(airport.elevation.getHeightAmsl());
         initialAdState.weatherFactors = this.calcNewWeatherFactorState(initialAdState);
 
         return initialAdState;
