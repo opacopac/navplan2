@@ -33,6 +33,33 @@ export class PlanPerfWeatherFactorsComponent implements OnInit {
     }
 
 
+    protected getPaValue() {
+        if (this.weatherFactors.pressureAltitude) {
+            return this.weatherFactors.pressureAltitude.getValueAndUnit(this.altitudeUnit, 0);
+        } else {
+            return '-';
+        }
+    }
+
+
+    protected getDaValue() {
+        if (this.weatherFactors.densityAltitude) {
+            return this.weatherFactors.densityAltitude.getValueAndUnit(this.altitudeUnit, 0);
+        } else {
+            return '-';
+        }
+    }
+
+
+    protected getIsaTempValue() {
+        if (this.weatherFactors.isaTemperature) {
+            return this.weatherFactors.isaTemperature.getValueAndUnit(this.temperatureUnit, 0);
+        } else {
+            return '-';
+        }
+    }
+
+
     protected onQnhChanged() {
         if (this.weatherFactorsForm.controls['qnh'].valid) {
             this.weatherFactorsChanged.emit({

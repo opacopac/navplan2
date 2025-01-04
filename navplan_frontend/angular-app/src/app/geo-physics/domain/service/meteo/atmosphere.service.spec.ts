@@ -1,7 +1,7 @@
 import {AtmosphereService} from './atmosphere.service';
 import {Length} from '../../model/quantities/length';
 import {Pressure} from '../../model/quantities/pressure';
-import { Temperature } from '../../model/quantities/temperature';
+import {Temperature} from '../../model/quantities/temperature';
 
 
 describe('AtmosphereService', () => {
@@ -47,7 +47,6 @@ describe('AtmosphereService', () => {
     });
 
 
-
     it('calculates the standard temperature at 0ft, 1000ft, 10000ft', () => {
         // given
         const alt0 = Length.ofZero();
@@ -82,7 +81,7 @@ describe('AtmosphereService', () => {
         expect(isaTempDelta10.c).toBe(-5);
         expect(isaTempDelta15.c).toBe(0);
         expect(isaTempDelta20.c).toBe(5);
-    })
+    });
 
 
     it('calculates the ISA temperature delta at 1670ft for 0, 15 30 degrees', () => {
@@ -101,5 +100,31 @@ describe('AtmosphereService', () => {
         expect(isaTempDelta10.c).toBeCloseTo(-12, 0);
         expect(isaTempDelta15.c).toBeCloseTo(3, 0);
         expect(isaTempDelta20.c).toBeCloseTo(18, 0);
-    })
+    });
+
+
+    it('calculates the density altitude at PA 0ft, ISA Delta Temp 0°C', () => {
+        // given
+        const pa = Length.ofZero();
+        const oat = Temperature.ofZero();
+
+        // when
+        const da = AtmosphereService.calcDensityAltitude(pa, oat);
+
+        // then
+        expect(da.ft).toBe(0);
+    });
+
+
+    it('calculates the density altitude at PA 1443ft, ISA Delta Temp 13.31°C', () => {
+        // given
+        const pa = Length.ofFt(1443);
+        const isaTempDelta = Temperature.ofC(13.31);
+
+        // when
+        const da = AtmosphereService.calcDensityAltitude(pa, isaTempDelta);
+
+        // then
+        expect(da.ft).toBeCloseTo(3025, -1);
+    });
 });

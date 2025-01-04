@@ -4,46 +4,17 @@
         labelText="Aircraft:"
         [showRegistration]="true"
     />
-    <!-- takeoff performance -->
+    <!-- airport performance list -->
     <app-plan-perf-airport
-        [airportPerfState]="this.getDepartureAdPerfState$ | async"
-        [isDepartureAirport]="true"
-        [isAlternate]="false"
+        *ngFor="let adPerfState of this.getAirportPerfStates$ | async; let idx = index"
+        [airportPerfState]="adPerfState"
         [pressureUnit]="this.pressureUnit$ | async"
         [temperatureUnit]="this.temperatureUnit$ | async"
         [altitudeUnit]="this.altitudeUnit$ | async"
         [performanceDistanceUnit]="this.performanceDistanceUnit$ | async"
         [speedUnit]="this.speedUnit$ | async"
-        (runwayChanged)="this.onDepartureRunwayChanged($event)"
-        (weatherFactorsChanged)="this.onDepartureWeatherFactorsChanged($event)"
-        (runwayFactorsChanged)="this.onDepartureRunwayFactorsChanged($event)"
-    />
-    <!-- landing performance -->
-    <app-plan-perf-airport
-        [airportPerfState]="this.getDestinationAdPerfState$ | async"
-        [isDepartureAirport]="false"
-        [isAlternate]="false"
-        [pressureUnit]="this.pressureUnit$ | async"
-        [temperatureUnit]="this.temperatureUnit$ | async"
-        [altitudeUnit]="this.altitudeUnit$ | async"
-        [performanceDistanceUnit]="this.performanceDistanceUnit$ | async"
-        [speedUnit]="this.speedUnit$ | async"
-        (runwayChanged)="this.onDestinationRunwayChanged($event)"
-        (weatherFactorsChanged)="this.onDestinationWeatherFactorsChanged($event)"
-        (runwayFactorsChanged)="this.onDestinationRunwayFactorsChanged($event)"
-    />
-    <!-- alt landing performance -->
-    <app-plan-perf-airport
-        [airportPerfState]="this.getAlternateAdPerfState$ | async"
-        [isDepartureAirport]="false"
-        [isAlternate]="true"
-        [pressureUnit]="this.pressureUnit$ | async"
-        [temperatureUnit]="this.temperatureUnit$ | async"
-        [altitudeUnit]="this.altitudeUnit$ | async"
-        [performanceDistanceUnit]="this.performanceDistanceUnit$ | async"
-        [speedUnit]="this.speedUnit$ | async"
-        (runwayChanged)="this.onAlternateRunwayChanged($event)"
-        (weatherFactorsChanged)="this.onAlternateWeatherFactorsChanged($event)"
-        (runwayFactorsChanged)="this.onAlternateRunwayFactorsChanged($event)"
+        (runwayChanged)="this.onRunwayChanged(idx, $event)"
+        (weatherFactorsChanged)="this.onWeatherFactorsChanged(idx, $event)"
+        (runwayFactorsChanged)="this.onRunwayFactorsChanged(idx, $event)"
     />
 </div>

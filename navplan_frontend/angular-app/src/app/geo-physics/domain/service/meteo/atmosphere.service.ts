@@ -11,6 +11,7 @@ export class AtmosphereService {
     private static readonly TEMP_GRADIENT_K_PER_M = 0.0065;
     private static readonly TEMP_GRADIENT_C_PER_FT = this.TEMP_GRADIENT_K_PER_M / Length.FT_PER_M;
     private static readonly PRESSURE_GRADIENT_FT_PER_HPA = 30;
+    private static readonly PRESSURE_GRADIENT_FT_PER_DELTA_C = 118.8;
 
 
     public static getStandardPressureAtSeaLevel(): Pressure {
@@ -47,6 +48,14 @@ export class AtmosphereService {
         return new Temperature(
             oat.c - isaTemp.c,
             TemperatureUnit.C
+        );
+    }
+
+
+    static calcDensityAltitude(pa: Length, isaTempDelta: Temperature) {
+        return new Length(
+            pa.ft + (isaTempDelta.c * this.PRESSURE_GRADIENT_FT_PER_DELTA_C),
+            LengthUnit.FT
         );
     }
 }

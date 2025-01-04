@@ -1,12 +1,12 @@
-import { Pressure } from '../../../geo-physics/domain/model/quantities/pressure';
-import { Temperature } from '../../../geo-physics/domain/model/quantities/temperature';
-import { DistancePerformanceTable } from '../model/distance-performance-table';
-import { Length } from '../../../geo-physics/domain/model/quantities/length';
-import { AtmosphereService } from '../../../geo-physics/domain/service/meteo/atmosphere.service';
-import { PerformanceTableTemperatureReference } from '../model/performance-table-temperature-reference';
-import { ArrayHelper } from '../../../system/domain/service/array/array-helper';
-import { DistancePerformanceConditions } from '../model/distance-performance-conditions';
-import { DistancePerformanceCorrectionFactors } from '../model/distance-performance-correction-factors';
+import {Pressure} from '../../../geo-physics/domain/model/quantities/pressure';
+import {Temperature} from '../../../geo-physics/domain/model/quantities/temperature';
+import {DistancePerformanceTable} from '../model/distance-performance-table';
+import {Length} from '../../../geo-physics/domain/model/quantities/length';
+import {AtmosphereService} from '../../../geo-physics/domain/service/meteo/atmosphere.service';
+import {PerformanceTableTemperatureReference} from '../model/performance-table-temperature-reference';
+import {ArrayHelper} from '../../../system/domain/service/array/array-helper';
+import {DistancePerformanceConditions} from '../model/distance-performance-conditions';
+import {DistancePerformanceCorrectionFactors} from '../model/distance-performance-correction-factors';
 
 
 export class AircraftPerformanceService {
@@ -18,9 +18,9 @@ export class AircraftPerformanceService {
         perfTable: DistancePerformanceTable
     ): Length {
         const pa = AtmosphereService.calcPressureAltitude(fieldElevation, qnh);
-        const isaTemp = AtmosphereService.calcIsaTemperatureDelta(pa, oat);
-        const temp = perfTable.temperatureReference === PerformanceTableTemperatureReference.ISA_TEMPERATURE
-            ? isaTemp
+        const isaTempDelta = AtmosphereService.calcIsaTemperatureDelta(pa, oat);
+        const temp = perfTable.temperatureReference === PerformanceTableTemperatureReference.ISA_TEMPERATURE_DELTA
+            ? isaTempDelta
             : oat;
 
         const uncorrectedDist = this.calcUncorrectedDistance(
@@ -81,7 +81,7 @@ export class AircraftPerformanceService {
         correctionFactors: DistancePerformanceCorrectionFactors
     ): Length {
         let distM = uncorrectedDist.m;
-        
+
         if (distPerfConditions.isGrassRwy) {
             distM = distM + distM * correctionFactors.grassRwyIncPercent / 100;
         }

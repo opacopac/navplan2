@@ -8,6 +8,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {PlanPerfWeatherFactorsState} from '../../../state/state-model/plan-perf-weather-factors-state';
 import {PlanPerfRwyFactorsState} from '../../../state/state-model/plan-perf-rwy-factors-state';
 import {AirportRunway} from '../../../../aerodrome/domain/model/airport-runway';
+import {PlanPerfAirportType} from '../../../state/state-model/plan-perf-airport-type';
 
 @Component({
     selector: 'app-plan-perf-airport',
@@ -16,7 +17,7 @@ import {AirportRunway} from '../../../../aerodrome/domain/model/airport-runway';
 })
 export class PlanPerfAirpportComponent implements OnInit {
     @Input() public airportPerfState: PlanPerfAirportState;
-    @Input() public isDepartureAirport: boolean;
+    @Input() public airportPerfType: PlanPerfAirportType;
     @Input() public isAlternate: boolean;
     @Input() public pressureUnit: PressureUnit;
     @Input() public speedUnit: SpeedUnit;
@@ -39,8 +40,13 @@ export class PlanPerfAirpportComponent implements OnInit {
     }
 
 
+    protected isDepartureAd(): boolean {
+        return this.airportPerfType === PlanPerfAirportType.DEPARTURE;
+    }
+
+
     protected getTitleIconClass(): string {
-        return this.isDepartureAirport ? 'fas fa-plane-departure' : 'fas fa-plane-arrival';
+        return this.isDepartureAd() ? 'fas fa-plane-departure' : 'fas fa-plane-arrival';
     }
 
 
@@ -50,9 +56,9 @@ export class PlanPerfAirpportComponent implements OnInit {
             airportName += ' (' + this.airportPerfState.airport.icao + ')';
         }
 
-        if (this.isDepartureAirport) {
+        if (this.airportPerfType === PlanPerfAirportType.DEPARTURE) {
             return 'Take Off Performance ' + airportName;
-        } else if (!this.isAlternate) {
+        } else if (this.airportPerfType === PlanPerfAirportType.DESTINATION) {
             return 'Landing Performance ' + airportName;
         } else {
             return 'Alternate Landing Performance ' + airportName;
@@ -60,8 +66,18 @@ export class PlanPerfAirpportComponent implements OnInit {
     }
 
 
-    protected getElevationString() {
-        return 'ELEV ' + this.airportPerfState.airport.elevation.getHeightAmsl().getValueAndUnit(this.altitudeUnit, 0);
+    protected getRwyText(rwy: AirportRunway): string {
+        let rwyName = rwy.name;
+        if (rwy.surface && rwy.surface.length > 0) {
+            rwyName += ' (' + rwy.surface + ')';
+        }
+
+        return rwyName;
+    }
+
+
+    protected getElevationValue() {
+        return this.airportPerfState.airport.elevation.getHeightAmsl().getValueAndUnit(this.altitudeUnit, 0);
     }
 
 

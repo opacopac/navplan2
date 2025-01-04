@@ -1,32 +1,45 @@
 <form class="weather-factors-form" [formGroup]="this.weatherFactorsForm">
     <div class="weather-factors-form-content">
-        <!-- QNH -->
-        <mat-form-field>
-            <mat-label>QNH</mat-label>
-            <input
-                matInput
-                formControlName="qnh"
-                type="number"
-                required
-                min="0"
-                (change)="this.onQnhChanged()"
-            >
-            <span matTextSuffix>{{ Pressure.getUnitString(this.pressureUnit) }}</span>
-            <mat-error>Value must be a positive number!</mat-error>
-        </mat-form-field>
+        <div>
+            <!-- QNH -->
+            <mat-form-field>
+                <mat-label>QNH</mat-label>
+                <input
+                    matInput
+                    formControlName="qnh"
+                    type="number"
+                    required
+                    min="0"
+                    (change)="this.onQnhChanged()"
+                >
+                <span matTextSuffix>{{ Pressure.getUnitString(this.pressureUnit) }}</span>
+                <mat-error>Value must be a positive number!</mat-error>
+            </mat-form-field>
 
-        <!-- OAT -->
-        <mat-form-field>
-            <mat-label>OAT</mat-label>
-            <input
-                matInput
-                formControlName="oat"
-                type="number"
-                required
-                (change)="this.onOatChanged()"
-            >
-            <span matTextSuffix>{{ Temperature.getUnitString(this.temperatureUnit) }}</span>
-            <mat-error>Value is mandatory!</mat-error>
-        </mat-form-field>
+            <!-- PA -->
+            <span>PA: {{ this.getPaValue() }}</span>
+        </div>
+
+        <div>
+            <!-- OAT -->
+            <mat-form-field>
+                <mat-label>OAT</mat-label>
+                <input
+                    matInput
+                    formControlName="oat"
+                    type="number"
+                    required
+                    (change)="this.onOatChanged()"
+                >
+                <span matTextSuffix>{{ Temperature.getUnitString(this.temperatureUnit) }}</span>
+                <mat-error>Value is mandatory!</mat-error>
+            </mat-form-field>
+
+            <!-- DA -->
+            <span>DA: {{ this.getDaValue() }}</span>
+
+            <!-- ISA temp -->
+            <span>ISA Std Temp: {{ this.getIsaTempValue() }}</span>
+        </div>
     </div>
 </form>

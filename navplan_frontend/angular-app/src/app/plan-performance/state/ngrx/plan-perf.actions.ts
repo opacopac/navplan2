@@ -2,78 +2,42 @@ import {createAction, props} from '@ngrx/store';
 import {AirportRunway} from '../../../aerodrome/domain/model/airport-runway';
 import {PlanPerfWeatherFactorsState} from '../state-model/plan-perf-weather-factors-state';
 import {PlanPerfRwyFactorsState} from '../state-model/plan-perf-rwy-factors-state';
-import {Airport} from '../../../aerodrome/domain/model/airport';
+import {PlanPerfAirportState} from '../state-model/plan-perf-airport-state';
 
 
 export class PlanPerfActions {
-    public static readonly changeDepartureAirport = createAction(
-        '[Plan Performance Effects] Change Departure Airport',
-        props<{ airport: Airport }>()
+    public static readonly setAirports = createAction(
+        '[Plan Performance Effects] Set Airports',
+        props<{ airportStates: PlanPerfAirportState[] }>()
     );
 
 
-    public static readonly changeDepartureAirportRunway = createAction(
+    public static readonly changeAirportRunway = createAction(
         '[Plan Performance Tab] Change Departure Airport Runway',
-        props<{ runway: AirportRunway }>()
+        props<{ adIndex: number, runway: AirportRunway }>()
     );
 
 
-    public static readonly changeDepartureAirportWeatherFactors = createAction(
+    public static readonly changeAirportWeatherFactors = createAction(
         '[Plan Performance Tab] Change Departure Airport Weather Factors',
-        props<{ weatherFactors: PlanPerfWeatherFactorsState }>()
+        props<{ adIndex: number, weatherFactors: PlanPerfWeatherFactorsState }>()
     );
 
 
-    public static readonly changeDepartureAirportRunwayFactors = createAction(
+    public static readonly changeAirportWeatherFactorsSuccess = createAction(
+        '[Plan Performance Effects] Change Departure Airport Weather Factors Success',
+        props<{ adIndex: number, weatherFactors: PlanPerfWeatherFactorsState }>()
+    );
+
+
+    public static readonly changeAirportRunwayFactors = createAction(
         '[Plan Performance Tab] Change Departure Airport Runway Factors',
-        props<{ runwayFactors: PlanPerfRwyFactorsState }>()
+        props<{ adIndex: number, runwayFactors: PlanPerfRwyFactorsState }>()
     );
 
 
-    public static readonly changeDestinationAirport = createAction(
-        '[Plan Performance Effects] Change Destination Airport',
-        props<{ airport: Airport }>()
-    );
-
-
-    public static readonly changeDestinationAirportRunway = createAction(
-        '[Plan Performance Tab] Change Destination Airport Runway',
-        props<{ runway: AirportRunway }>()
-    );
-
-
-    public static readonly changeDestinationAirportWeatherFactors = createAction(
-        '[Plan Performance Tab] Change Destination Airport Weather Factors',
-        props<{ weatherFactors: PlanPerfWeatherFactorsState }>()
-    );
-
-
-    public static readonly changeDestinationAirportRunwayFactors = createAction(
-        '[Plan Performance Tab] Change Destination Airport Runway Factors',
-        props<{ runwayFactors: PlanPerfRwyFactorsState }>()
-    );
-
-
-    public static readonly changeAlternateAirport = createAction(
-        '[Plan Performance Effects] Change Alternate Airport',
-        props<{ airport: Airport }>()
-    );
-
-
-    public static readonly changeAlternateAirportRunway = createAction(
-        '[Plan Performance Tab] Change Alternate Runway',
-        props<{ runway: AirportRunway }>()
-    );
-
-
-    public static readonly changeAlternateAirportWeatherFactors = createAction(
-        '[Plan Performance Tab] Change Alternate Airport Weather Factors',
-        props<{ weatherFactors: PlanPerfWeatherFactorsState }>()
-    );
-
-
-    public static readonly changeAlternateAirportRunwayFactors = createAction(
-        '[Plan Performance Tab] Change Alternate Airport Runway Factors',
-        props<{ runwayFactors: PlanPerfRwyFactorsState }>()
+    public static readonly changeAirportRunwayFactorsSuccess = createAction(
+        '[Plan Performance Effects] Change Departure Airport Runway Factors Success',
+        props<{ adIndex: number, runwayFactors: PlanPerfRwyFactorsState }>()
     );
 }

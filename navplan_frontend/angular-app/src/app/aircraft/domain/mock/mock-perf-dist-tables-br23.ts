@@ -1,10 +1,10 @@
-import { Length } from "../../../geo-physics/domain/model/quantities/length";
-import { Temperature } from "../../../geo-physics/domain/model/quantities/temperature";
-import { DistancePerformanceTable } from "../model/distance-performance-table";
-import { PerformanceTableAltitudeReference } from "../model/performance-table-altitude-reference";
-import { PerformanceTableTemperatureReference } from "../model/performance-table-temperature-reference";
-import { MockAircraftBr23 } from "./mock-aircraft-br23";
-import { MockPerfDistCorrFactorsBr23 } from "./mock-perf-dist-corr-factors-br23";
+import {Length} from '../../../geo-physics/domain/model/quantities/length';
+import {Temperature} from '../../../geo-physics/domain/model/quantities/temperature';
+import {DistancePerformanceTable} from '../model/distance-performance-table';
+import {PerformanceTableAltitudeReference} from '../model/performance-table-altitude-reference';
+import {PerformanceTableTemperatureReference} from '../model/performance-table-temperature-reference';
+import {MockAircraftBr23} from './mock-aircraft-br23';
+import {MockPerfDistCorrFactorsBr23} from './mock-perf-dist-corr-factors-br23';
 
 
 export class MockPerfDistTablesBr23 {
@@ -30,7 +30,7 @@ export class MockPerfDistTablesBr23 {
             MockAircraftBr23.MTOW,
             PerformanceTableAltitudeReference.FIELD_ALTITUDE,
             this.ALT_STEPS,
-            PerformanceTableTemperatureReference.ISA_TEMPERATURE,
+            PerformanceTableTemperatureReference.ISA_TEMPERATURE_DELTA,
             this.TEMP_STEPS,
             this.mapToLength([
                 [309, 335, 365, 396, 431],
@@ -48,7 +48,7 @@ export class MockPerfDistTablesBr23 {
             MockAircraftBr23.MTOW,
             PerformanceTableAltitudeReference.FIELD_ALTITUDE,
             this.ALT_STEPS,
-            PerformanceTableTemperatureReference.ISA_TEMPERATURE,
+            PerformanceTableTemperatureReference.ISA_TEMPERATURE_DELTA,
             this.TEMP_STEPS,
             this.mapToLength([
                 [400, 438, 479, 523, 570],
@@ -66,7 +66,7 @@ export class MockPerfDistTablesBr23 {
             MockAircraftBr23.MTOW,
             PerformanceTableAltitudeReference.FIELD_ALTITUDE,
             this.ALT_STEPS,
-            PerformanceTableTemperatureReference.ISA_TEMPERATURE,
+            PerformanceTableTemperatureReference.ISA_TEMPERATURE_DELTA,
             this.TEMP_STEPS,
             this.mapToLength([
                 [362, 376, 391, 405, 419],
@@ -84,7 +84,7 @@ export class MockPerfDistTablesBr23 {
             MockAircraftBr23.MTOW,
             PerformanceTableAltitudeReference.FIELD_ALTITUDE,
             this.ALT_STEPS,
-            PerformanceTableTemperatureReference.ISA_TEMPERATURE,
+            PerformanceTableTemperatureReference.ISA_TEMPERATURE_DELTA,
             this.TEMP_STEPS,
             this.mapToLength([
                 [136, 141, 146, 151, 157],
