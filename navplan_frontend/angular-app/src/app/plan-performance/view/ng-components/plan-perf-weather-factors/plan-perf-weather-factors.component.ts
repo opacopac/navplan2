@@ -6,6 +6,7 @@ import {PressureUnit} from '../../../../geo-physics/domain/model/quantities/pres
 import {TemperatureUnit} from '../../../../geo-physics/domain/model/quantities/temperature-unit';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 import {PlanPerfWeatherFactorsState} from '../../../state/state-model/plan-perf-weather-factors-state';
+import {PlanPerfWeatherCalculationState} from '../../../state/state-model/plan-perf-weather-calculation-state';
 
 @Component({
     selector: 'app-plan-perf-weather-factors',
@@ -14,6 +15,7 @@ import {PlanPerfWeatherFactorsState} from '../../../state/state-model/plan-perf-
 })
 export class PlanPerfWeatherFactorsComponent implements OnInit {
     @Input() weatherFactors: PlanPerfWeatherFactorsState;
+    @Input() weatherCalculation: PlanPerfWeatherCalculationState;
     @Input() pressureUnit: PressureUnit;
     @Input() temperatureUnit: TemperatureUnit;
     @Input() altitudeUnit: LengthUnit;
@@ -34,8 +36,8 @@ export class PlanPerfWeatherFactorsComponent implements OnInit {
 
 
     protected getPaValue() {
-        if (this.weatherFactors.pressureAltitude) {
-            return this.weatherFactors.pressureAltitude.getValueAndUnit(this.altitudeUnit, 0);
+        if (this.weatherCalculation && this.weatherCalculation.pressureAltitude) {
+            return this.weatherCalculation.pressureAltitude.getValueAndUnit(this.altitudeUnit, 0);
         } else {
             return '-';
         }
@@ -43,8 +45,8 @@ export class PlanPerfWeatherFactorsComponent implements OnInit {
 
 
     protected getDaValue() {
-        if (this.weatherFactors.densityAltitude) {
-            return this.weatherFactors.densityAltitude.getValueAndUnit(this.altitudeUnit, 0);
+        if (this.weatherCalculation && this.weatherCalculation.densityAltitude) {
+            return this.weatherCalculation.densityAltitude.getValueAndUnit(this.altitudeUnit, 0);
         } else {
             return '-';
         }
@@ -52,8 +54,8 @@ export class PlanPerfWeatherFactorsComponent implements OnInit {
 
 
     protected getIsaTempValue() {
-        if (this.weatherFactors.isaTemperature) {
-            return this.weatherFactors.isaTemperature.getValueAndUnit(this.temperatureUnit, 0);
+        if (this.weatherCalculation && this.weatherCalculation.isaTemperature) {
+            return this.weatherCalculation.isaTemperature.getValueAndUnit(this.temperatureUnit, 0);
         } else {
             return '-';
         }

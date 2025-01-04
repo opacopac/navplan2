@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, TrackByFunction} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {getFlightroute} from '../../../../flightroute/state/ngrx/flightroute.selectors';
 import {
@@ -16,6 +16,7 @@ import {AirportRunway} from '../../../../aerodrome/domain/model/airport-runway';
 import {PlanPerfWeatherFactorsState} from '../../../state/state-model/plan-perf-weather-factors-state';
 import {PlanPerfRwyFactorsState} from '../../../state/state-model/plan-perf-rwy-factors-state';
 import {PlanPerfAirportType} from '../../../state/state-model/plan-perf-airport-type';
+import {PlanPerfAirportState} from '../../../state/state-model/plan-perf-airport-state';
 
 @Component({
     selector: 'app-plan-perf-container',
@@ -35,12 +36,16 @@ export class PlanPerfContainerComponent implements OnInit {
 
     protected readonly PlanPerfAirportType = PlanPerfAirportType;
 
-
     constructor(private appStore: Store<any>) {
     }
 
 
     ngOnInit() {
+    }
+
+
+    protected trackByAirport(index: number, item: PlanPerfAirportState): TrackByFunction<PlanPerfAirportState> {
+        return (index, item) => item?.airport?.id;
     }
 
 

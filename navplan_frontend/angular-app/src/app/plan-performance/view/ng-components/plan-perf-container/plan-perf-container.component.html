@@ -6,7 +6,7 @@
     />
     <!-- airport performance list -->
     <app-plan-perf-airport
-        *ngFor="let adPerfState of this.getAirportPerfStates$ | async; let idx = index"
+        *ngFor="let adPerfState of this.getAirportPerfStates$ | async; let idx = index;"
         [airportPerfState]="adPerfState"
         [pressureUnit]="this.pressureUnit$ | async"
         [temperatureUnit]="this.temperatureUnit$ | async"

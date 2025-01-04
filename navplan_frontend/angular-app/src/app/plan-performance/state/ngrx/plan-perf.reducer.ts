@@ -1,25 +1,8 @@
 import {createReducer, on} from '@ngrx/store';
 import {PlanPerfState} from '../state-model/plan-perf-state';
 import {PlanPerfActions} from './plan-perf.actions';
-import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
-import {PlanPerfWeatherFactorsState} from '../state-model/plan-perf-weather-factors-state';
-import {AtmosphereService} from '../../../geo-physics/domain/service/meteo/atmosphere.service';
 
 
-export const initialWeatherFactors: PlanPerfWeatherFactorsState = {
-    qnh: AtmosphereService.getStandardPressureAtSeaLevel(),
-    oat: AtmosphereService.getStandardTemperatureAtSeaLevel(),
-    pressureAltitude: null,
-    densityAltitude: null,
-    isaTemperature: null
-};
-export const initialRunwayFactors = {
-    isGrassRwy: false,
-    isWetRwy: false,
-    rwySlopePercent: 0,
-    rwyWind: Speed.ofZero(),
-    reservePercent: 0
-};
 const initialState: PlanPerfState = {
     airportStates: []
 };
@@ -28,7 +11,7 @@ const initialState: PlanPerfState = {
 export const planPerfReducer = createReducer(
         initialState,
 
-        on(PlanPerfActions.setAirports, (state, action) => ({
+        on(PlanPerfActions.updateAirports, (state, action) => ({
             ...state,
             airportStates: action.airportStates
         })),
@@ -41,7 +24,7 @@ export const planPerfReducer = createReducer(
             )
         })),
 
-        on(PlanPerfActions.changeAirportWeatherFactorsSuccess, (state, action) => ({
+        on(PlanPerfActions.changeAirportWeatherFactors, (state, action) => ({
             ...state,
             airportStates: state.airportStates.map((adState, index) => index === action.adIndex
                 ? {...adState, weatherFactors: action.weatherFactors}
@@ -49,12 +32,36 @@ export const planPerfReducer = createReducer(
             )
         })),
 
-        on(PlanPerfActions.changeAirportRunwayFactorsSuccess, (state, action) => ({
+        on(PlanPerfActions.updateAirportWeatherCalculation, (state, action) => ({
+            ...state,
+            airportStates: state.airportStates.map((adState, index) => index === action.adIndex
+                ? {...adState, weatherCalculation: action.weatherCalculation}
+                : adState
+            )
+        })),
+
+        on(PlanPerfActions.changeAirportRunwayFactors, (state, action) => ({
             ...state,
             airportStates: state.airportStates.map((adState, index) => index === action.adIndex
                 ? {...adState, runwayFactors: action.runwayFactors}
                 : adState
             )
         })),
-    )
+
+        on(PlanPerfActions.updateAirportTakeoffPerformance, (state, action) => ({
+            ...state,
+            airportStates: state.airportStates.map((adState, index) => index === action.adIndex
+                ? {...adState, tkofPerformance: action.takeoffPerformance}
+                : adState
+            )
+        })),
+
+        on(PlanPerfActions.updateAirportLandingPerformance, (state, action) => ({
+            ...state,
+            airportStates: state.airportStates.map((adState, index) => index === action.adIndex
+                ? {...adState, ldaPerformance: action.landingPerformance}
+                : adState
+            )
+        })
+    ))
 ;
