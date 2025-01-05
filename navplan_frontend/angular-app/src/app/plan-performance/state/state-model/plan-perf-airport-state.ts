@@ -1,4 +1,3 @@
-import {AirportRunway} from '../../../aerodrome/domain/model/airport-runway';
 import {PlanPerfWeatherFactorsState} from './plan-perf-weather-factors-state';
 import {PlanPerfRwyFactorsState} from './plan-perf-rwy-factors-state';
 import {Airport} from '../../../aerodrome/domain/model/airport';
@@ -10,7 +9,6 @@ import {PlanPerfWeatherCalculationState} from './plan-perf-weather-calculation-s
 export interface PlanPerfAirportState {
     type: PlanPerfAirportType;
     airport: Airport;
-    runway: AirportRunway;
     weatherFactors: PlanPerfWeatherFactorsState;
     weatherCalculation: PlanPerfWeatherCalculationState;
     runwayFactors: PlanPerfRwyFactorsState;

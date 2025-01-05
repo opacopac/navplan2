@@ -4,11 +4,12 @@ import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length
 import {TemperatureUnit} from '../../../../geo-physics/domain/model/quantities/temperature-unit';
 import {PressureUnit} from '../../../../geo-physics/domain/model/quantities/pressure-unit';
 import {PlanPerfAirportState} from '../../../state/state-model/plan-perf-airport-state';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {PlanPerfWeatherFactorsState} from '../../../state/state-model/plan-perf-weather-factors-state';
 import {PlanPerfRwyFactorsState} from '../../../state/state-model/plan-perf-rwy-factors-state';
 import {AirportRunway} from '../../../../aerodrome/domain/model/airport-runway';
 import {PlanPerfAirportType} from '../../../state/state-model/plan-perf-airport-type';
+import {Length} from '../../../../geo-physics/domain/model/quantities/length';
 
 @Component({
     selector: 'app-plan-perf-airport',
@@ -28,6 +29,7 @@ export class PlanPerfAirpportComponent implements OnInit {
     @Output() public runwayFactorsChanged = new EventEmitter<PlanPerfRwyFactorsState>();
 
     protected airportPerformanceForm: FormGroup;
+    protected readonly Length = Length;
 
 
     constructor(private formBuilder: FormBuilder) {
@@ -35,7 +37,6 @@ export class PlanPerfAirpportComponent implements OnInit {
 
 
     ngOnInit() {
-        this.initForm();
     }
 
 
@@ -65,28 +66,6 @@ export class PlanPerfAirpportComponent implements OnInit {
     }
 
 
-    protected getRwyText(rwy: AirportRunway): string {
-        let rwyName = rwy.name;
-        if (rwy.surface && rwy.surface.length > 0) {
-            rwyName += ' (' + rwy.surface + ')';
-        }
-
-        return rwyName;
-    }
-
-
-    protected getElevationValue() {
-        return this.airportPerfState.airport.elevation.getHeightAmsl().getValueAndUnit(this.altitudeUnit, 0);
-    }
-
-
-    protected onRunwayChanged() {
-        if (this.airportPerformanceForm.controls['runway'].valid) {
-            this.runwayChanged.emit(this.airportPerformanceForm.value.runway);
-        }
-    }
-
-
     protected onWeatherFactoresChanged($event: PlanPerfWeatherFactorsState) {
         this.weatherFactorsChanged.emit($event);
     }
@@ -94,19 +73,5 @@ export class PlanPerfAirpportComponent implements OnInit {
 
     protected onRunwayFactorsChanged($event: PlanPerfRwyFactorsState) {
         this.runwayFactorsChanged.emit($event);
-    }
-
-
-    private initForm() {
-        const firstRwy = this.airportPerfState && this.airportPerfState.airport
-        && this.airportPerfState.airport.runways && this.airportPerfState.airport.runways.length > 0
-            ? this.airportPerfState.airport.runways[0]
-            : null;
-
-        this.airportPerformanceForm = this.formBuilder.group({
-            'runway': [firstRwy, [
-                Validators.required,
-            ]]
-        });
     }
 }

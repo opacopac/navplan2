@@ -4,6 +4,7 @@ import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-u
 import {Speed} from '../../../../geo-physics/domain/model/quantities/speed';
 import {Pressure} from '../../../../geo-physics/domain/model/quantities/pressure';
 import {PlanPerfRwyFactorsState} from '../../../state/state-model/plan-perf-rwy-factors-state';
+import {AirportRunway} from '../../../../aerodrome/domain/model/airport-runway';
 
 @Component({
     selector: 'app-plan-perf-runway-factors',
@@ -11,6 +12,7 @@ import {PlanPerfRwyFactorsState} from '../../../state/state-model/plan-perf-rwy-
     styleUrls: ['./plan-perf-runway-factors.component.scss']
 })
 export class PlanPerfRunwayFactorsComponent implements OnInit {
+    @Input() runways: AirportRunway[];
     @Input() runwayFactors: PlanPerfRwyFactorsState;
     @Input() speedUnit: SpeedUnit;
     @Input() showWetRwy: boolean;
@@ -30,6 +32,26 @@ export class PlanPerfRunwayFactorsComponent implements OnInit {
     }
 
 
+    protected getRwyText(rwy: AirportRunway): string {
+        let rwyName = rwy.name;
+        if (rwy.surface && rwy.surface.length > 0) {
+            rwyName += ' (' + rwy.surface + ')';
+        }
+
+        return rwyName;
+    }
+
+
+    protected onRunwayChanged() {
+        if (this.correctionFactorsForm.controls['runway'].valid) {
+            this.runwayFactorChanged.emit({
+                ...this.runwayFactors,
+                runway: this.correctionFactorsForm.value.runway
+            });
+        }
+    }
+
+
     protected onGrassRwyChanged() {
         if (this.correctionFactorsForm.controls['grassRwy'].valid) {
             this.runwayFactorChanged.emit({
@@ -38,6 +60,7 @@ export class PlanPerfRunwayFactorsComponent implements OnInit {
             });
         }
     }
+
 
     protected onWetRwyChanged() {
         if (this.correctionFactorsForm.controls['wetRwy'].valid) {
@@ -83,6 +106,9 @@ export class PlanPerfRunwayFactorsComponent implements OnInit {
 
     private initForm() {
         this.correctionFactorsForm = this.formBuilder.group({
+            'runway': [this.runwayFactors.runway, [
+                Validators.required,
+            ]],
             'grassRwy': [this.runwayFactors.isGrassRwy, [
                 Validators.required
             ]],

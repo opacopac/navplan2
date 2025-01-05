@@ -12,7 +12,6 @@ import {
 import {getCurrentAircraft} from '../../../../aircraft/state/ngrx/aircraft.selectors';
 import {getAirportPerfStates} from '../../../state/ngrx/plan-perf.selectors';
 import {PlanPerfActions} from '../../../state/ngrx/plan-perf.actions';
-import {AirportRunway} from '../../../../aerodrome/domain/model/airport-runway';
 import {PlanPerfWeatherFactorsState} from '../../../state/state-model/plan-perf-weather-factors-state';
 import {PlanPerfRwyFactorsState} from '../../../state/state-model/plan-perf-rwy-factors-state';
 import {PlanPerfAirportType} from '../../../state/state-model/plan-perf-airport-type';
@@ -40,11 +39,6 @@ export class PlanPerfContainerComponent implements OnInit {
 
 
     ngOnInit() {
-    }
-
-
-    protected onRunwayChanged(idx: number, $event: AirportRunway) {
-        this.appStore.dispatch(PlanPerfActions.changeAirportRunway({adIndex: idx, runway: $event}));
     }
 
 

@@ -111,13 +111,14 @@ export class PlanPerfEffects {
         const initialAdState = {
             type: type,
             airport: airport,
-            runway: firstRwy,
             weatherFactors: {
+                elevation: elev,
                 qnh: AtmosphereService.getStandardPressureAtSeaLevel(),
                 oat: AtmosphereService.calcStandardTemperatureAtAltitude(elev)
             },
             weatherCalculation: null,
             runwayFactors: {
+                runway: firstRwy,
                 isGrassRwy: false,
                 isWetRwy: false,
                 rwySlopePercent: 0,
@@ -135,7 +136,7 @@ export class PlanPerfEffects {
 
 
     private createNewWeatherCalculationState(adState: PlanPerfAirportState): PlanPerfWeatherCalculationState {
-        const elev = adState.airport.elevation ? adState.airport.elevation.getHeightAmsl() : Length.ofZero();
+        const elev = adState.weatherFactors.elevation;
         const qnh = adState.weatherFactors.qnh;
         const oat = adState.weatherFactors.oat;
         const pa = AtmosphereService.calcPressureAltitude(elev, qnh);
@@ -157,7 +158,7 @@ export class PlanPerfEffects {
 
 
     private createTakeoffPerformanceConditions(adState: PlanPerfAirportState, aircraft: Aircraft): PlanPerfTakeoffCalculationState {
-        const rwy = adState.runway;
+        const rwy = adState.runwayFactors.runway;
         const tkofGroundRoll = this.calcDistance(aircraft?.perfTakeoffGroundRoll, adState);
         const tkofDist50ft = this.calcDistance(aircraft?.perfTakeoffDist50ft, adState);
         const ldaGroundRoll = this.calcDistance(aircraft?.perfLandingGroundRoll, adState);
@@ -168,13 +169,14 @@ export class PlanPerfEffects {
             tkofLenAvbl: rwy?.tora,
             groundRoll: tkofGroundRoll,
             tkofDist50ft: tkofDist50ft,
-            tkofAbortPoint: tkofAbortPoint
+            tkofAbortPoint: tkofAbortPoint,
+            tkofAbortDist: ldaGroundRoll,
         };
     }
 
 
     private createLandingPerformanceConditions(adState: PlanPerfAirportState, aircraft: Aircraft): PlanPerfLandingCalculationState {
-        const rwy = adState.runway;
+        const rwy = adState.runwayFactors.runway;
         return {
             rwyLength: rwy?.length,
             rwyWidth: rwy?.width,
@@ -187,7 +189,7 @@ export class PlanPerfEffects {
 
     private calcDistance(perfTable: DistancePerformanceTable, adState: PlanPerfAirportState): Length {
         const distPerfCond = this.createDistancePerformanceConditions(adState.runwayFactors);
-        const elev = adState.airport.elevation ? adState.airport.elevation.getHeightAmsl() : Length.ofZero();
+        const elev = adState.weatherFactors.elevation;
         return perfTable ? AircraftPerformanceService.calcDistance(
             elev,
             adState.weatherFactors.qnh,

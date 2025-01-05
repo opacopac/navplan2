@@ -7,6 +7,7 @@ import {TemperatureUnit} from '../../../../geo-physics/domain/model/quantities/t
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 import {PlanPerfWeatherFactorsState} from '../../../state/state-model/plan-perf-weather-factors-state';
 import {PlanPerfWeatherCalculationState} from '../../../state/state-model/plan-perf-weather-calculation-state';
+import {Length} from '../../../../geo-physics/domain/model/quantities/length';
 
 @Component({
     selector: 'app-plan-perf-weather-factors',
@@ -24,6 +25,7 @@ export class PlanPerfWeatherFactorsComponent implements OnInit {
     protected weatherFactorsForm: FormGroup;
     protected readonly Pressure = Pressure;
     protected readonly Temperature = Temperature;
+    protected readonly Length = Length;
 
 
     constructor(private formBuilder: FormBuilder) {
@@ -62,6 +64,16 @@ export class PlanPerfWeatherFactorsComponent implements OnInit {
     }
 
 
+    protected onElevationChanged() {
+        if (this.weatherFactorsForm.controls['elevation'].valid) {
+            this.weatherFactorsChanged.emit({
+                ...this.weatherFactors,
+                elevation: new Length(this.weatherFactorsForm.value.elevation, this.altitudeUnit)
+            });
+        }
+    }
+
+
     protected onQnhChanged() {
         if (this.weatherFactorsForm.controls['qnh'].valid) {
             this.weatherFactorsChanged.emit({
@@ -84,6 +96,10 @@ export class PlanPerfWeatherFactorsComponent implements OnInit {
 
     private initForm() {
         this.weatherFactorsForm = this.formBuilder.group({
+            'elevation': [this.weatherFactors.elevation.getValue(this.altitudeUnit), [
+                Validators.required,
+                Validators.min(0)
+            ]],
             'qnh': [this.weatherFactors.qnh.getValue(this.pressureUnit), [
                 Validators.required,
                 Validators.min(0),

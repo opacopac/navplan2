@@ -1,5 +1,20 @@
 <form class="weather-factors-form" [formGroup]="this.weatherFactorsForm">
     <div class="weather-factors-form-content">
+        <!-- Elevation -->
+        <mat-form-field>
+            <mat-label>ELEV</mat-label>
+            <input
+                matInput
+                formControlName="elevation"
+                type="number"
+                required
+                min="0"
+                (change)="this.onElevationChanged()"
+            >
+            <span matTextSuffix>{{ Length.getUnitString(this.altitudeUnit) }}</span>
+            <mat-error>Value must be a positive number!</mat-error>
+        </mat-form-field>
+        AMSL
         <div>
             <!-- QNH -->
             <mat-form-field>
@@ -19,7 +34,6 @@
             <!-- PA -->
             <span>PA: {{ this.getPaValue() }}</span>
         </div>
-
         <div>
             <!-- OAT -->
             <mat-form-field>
