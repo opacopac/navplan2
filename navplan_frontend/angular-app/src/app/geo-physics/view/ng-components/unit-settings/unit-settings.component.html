@@ -1,130 +1,138 @@
 <div class="unit-settings-container">
 
-    <!-- altitude -->
-    <label id="altitude-unit-group-label">Altitude Units</label>
-    <mat-radio-group
-        color="primary"
-        aria-labelledby="altitude-unit-group-label"
-        (change)="this.onAltitudeUnitSelected($event)"
+  <!-- altitude -->
+  <label id="altitude-unit-group-label">Altitude Units</label>
+  <mat-radio-group
+    color="primary"
+    aria-labelledby="altitude-unit-group-label"
+    (change)="this.onAltitudeUnitSelected($event)"
     >
-        <mat-radio-button
-            *ngFor="let entry of this.altitudeUnits"
-            [value]="entry"
-            [checked]="(this.altitudeUnit$ | async) === entry"
+    @for (entry of this.altitudeUnits; track entry) {
+      <mat-radio-button
+        [value]="entry"
+        [checked]="(this.altitudeUnit$ | async) === entry"
         >
-            {{ Length.getUnitString(entry) }}
-        </mat-radio-button>
-    </mat-radio-group>
+        {{ Length.getUnitString(entry) }}
+      </mat-radio-button>
+    }
+  </mat-radio-group>
 
-    <!-- route distance -->
-    <label id="distance-unit-group-label">Route Distance Units</label>
-    <mat-radio-group
-        color="primary"
-        aria-labelledby="distance-unit-group-label"
-        (change)="this.onRouteDistanceUnitSelected($event)"
+  <!-- route distance -->
+  <label id="distance-unit-group-label">Route Distance Units</label>
+  <mat-radio-group
+    color="primary"
+    aria-labelledby="distance-unit-group-label"
+    (change)="this.onRouteDistanceUnitSelected($event)"
     >
-        <mat-radio-button
-            *ngFor="let entry of this.routeDistanceUnits"
-            [value]="entry"
-            [checked]="(this.routeDistanceUnit$ | async) === entry"
+    @for (entry of this.routeDistanceUnits; track entry) {
+      <mat-radio-button
+        [value]="entry"
+        [checked]="(this.routeDistanceUnit$ | async) === entry"
         >
-            {{ Length.getUnitString(entry) }}
-        </mat-radio-button>
-    </mat-radio-group>
+        {{ Length.getUnitString(entry) }}
+      </mat-radio-button>
+    }
+  </mat-radio-group>
 
-    <!-- speed -->
-    <label id="speed-unit-group-label">Speed Units</label>
-    <mat-radio-group
-        color="primary"
-        aria-labelledby="speed-unit-group-label"
-        (change)="this.onSpeedUnitSelected($event)"
+  <!-- speed -->
+  <label id="speed-unit-group-label">Speed Units</label>
+  <mat-radio-group
+    color="primary"
+    aria-labelledby="speed-unit-group-label"
+    (change)="this.onSpeedUnitSelected($event)"
     >
-        <mat-radio-button
-            *ngFor="let entry of this.speedUnits"
-            [value]="entry"
-            [checked]="(this.speedUnit$ | async) === entry"
+    @for (entry of this.speedUnits; track entry) {
+      <mat-radio-button
+        [value]="entry"
+        [checked]="(this.speedUnit$ | async) === entry"
         >
-            {{ Speed.getUnitString(entry) }}
-        </mat-radio-button>
-    </mat-radio-group>
+        {{ Speed.getUnitString(entry) }}
+      </mat-radio-button>
+    }
+  </mat-radio-group>
 
-    <!-- fuel -->
-    <label id="consumption-unit-group-label">Fuel Units</label>
-    <mat-radio-group
-        color="primary"
-        aria-labelledby="consumption-unit-group-label"
-        (change)="this.onVolumeUnitSelected($event)"
+  <!-- fuel -->
+  <label id="consumption-unit-group-label">Fuel Units</label>
+  <mat-radio-group
+    color="primary"
+    aria-labelledby="consumption-unit-group-label"
+    (change)="this.onVolumeUnitSelected($event)"
     >
-        <mat-radio-button
-            *ngFor="let entry of this.fuelUnits"
-            [value]="entry"
-            [checked]="(this.volumeUnit$ | async) === entry"
+    @for (entry of this.fuelUnits; track entry) {
+      <mat-radio-button
+        [value]="entry"
+        [checked]="(this.volumeUnit$ | async) === entry"
         >
-            {{ Volume.getUnitString(entry) }}
-        </mat-radio-button>
-    </mat-radio-group>
+        {{ Volume.getUnitString(entry) }}
+      </mat-radio-button>
+    }
+  </mat-radio-group>
 
-    <!-- weigth -->
-    <label id="weight-unit-group-label">Weight Units</label>
-    <mat-radio-group
-        color="primary"
-        aria-labelledby="weight-unit-group-label"
-        (change)="this.onWeightUnitSelected($event)"
+  <!-- weigth -->
+  <label id="weight-unit-group-label">Weight Units</label>
+  <mat-radio-group
+    color="primary"
+    aria-labelledby="weight-unit-group-label"
+    (change)="this.onWeightUnitSelected($event)"
     >
-        <mat-radio-button
-            *ngFor="let entry of this.weightUnits"
-            [value]="entry"
-            [checked]="(this.weightUnit$ | async) === entry"
+    @for (entry of this.weightUnits; track entry) {
+      <mat-radio-button
+        [value]="entry"
+        [checked]="(this.weightUnit$ | async) === entry"
         >
-            {{ Weight.getUnitString(entry) }}
-        </mat-radio-button>
-    </mat-radio-group>
+        {{ Weight.getUnitString(entry) }}
+      </mat-radio-button>
+    }
+  </mat-radio-group>
 
-    <!-- w&b length -->
-    <label id="length-unit-group-label">W&B Length Units</label>
-    <mat-radio-group
-        color="primary"
-        aria-labelledby="length-unit-group-label"
-        (change)="this.onWnbLengthUnitSelected($event)"
+  <!-- w&b length -->
+  <label id="length-unit-group-label">W&B Length Units</label>
+  <mat-radio-group
+    color="primary"
+    aria-labelledby="length-unit-group-label"
+    (change)="this.onWnbLengthUnitSelected($event)"
     >
-        <mat-radio-button
-            *ngFor="let entry of this.wnbLengthUnits"
-            [value]="entry"
-            [checked]="(this.wnbLengthUnit$ | async) === entry"
+    @for (entry of this.wnbLengthUnits; track entry) {
+      <mat-radio-button
+        [value]="entry"
+        [checked]="(this.wnbLengthUnit$ | async) === entry"
         >
-            {{ Length.getUnitString(entry) }}
-        </mat-radio-button>
-    </mat-radio-group>
+        {{ Length.getUnitString(entry) }}
+      </mat-radio-button>
+    }
+  </mat-radio-group>
 
-    <!-- performance distance -->
-    <label id="perf-dist-unit-group-label">Performance Distance Units</label>
-    <mat-radio-group
-        color="primary"
-        aria-labelledby="perf-dist-group-label"
-        (change)="this.onPerformanceDistanceUnitSelected($event)"
+  <!-- performance distance -->
+  <label id="perf-dist-unit-group-label">Performance Distance Units</label>
+  <mat-radio-group
+    color="primary"
+    aria-labelledby="perf-dist-group-label"
+    (change)="this.onPerformanceDistanceUnitSelected($event)"
     >
-        <mat-radio-button
-            *ngFor="let entry of this.performanceDistanceUnits"
-            [value]="entry"
-            [checked]="(this.performanceDistanceUnit$ | async) === entry"
+    @for (entry of this.performanceDistanceUnits; track entry) {
+      <mat-radio-button
+        [value]="entry"
+        [checked]="(this.performanceDistanceUnit$ | async) === entry"
         >
-            {{ Length.getUnitString(entry) }}
-        </mat-radio-button>
-    </mat-radio-group>
+        {{ Length.getUnitString(entry) }}
+      </mat-radio-button>
+    }
+  </mat-radio-group>
 
-    <!-- temperature units -->
-    <label id="temp-unit-group-label">Temperature Units</label>
-    <mat-radio-group
-        color="primary"
-        aria-labelledby="temp-unit-group-label"
-        (change)="this.onTemperatureUnitSelected($event)"
+  <!-- temperature units -->
+  <label id="temp-unit-group-label">Temperature Units</label>
+  <mat-radio-group
+    color="primary"
+    aria-labelledby="temp-unit-group-label"
+    (change)="this.onTemperatureUnitSelected($event)"
     >
-        <mat-radio-button
-            *ngFor="let entry of this.temperatureUnits"
-            [value]="entry"
-            [checked]="(this.temperatureUnit$ | async) === entry"
+    @for (entry of this.temperatureUnits; track entry) {
+      <mat-radio-button
+        [value]="entry"
+        [checked]="(this.temperatureUnit$ | async) === entry"
         >
-            {{ Temperature.getUnitString(entry) }}
-        </mat-radio-button>
-    </mat-radio-group>
+        {{ Temperature.getUnitString(entry) }}
+      </mat-radio-button>
+    }
+  </mat-radio-group>
 </div>

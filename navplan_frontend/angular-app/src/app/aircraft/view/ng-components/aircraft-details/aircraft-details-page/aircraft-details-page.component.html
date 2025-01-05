@@ -1,22 +1,23 @@
 <div class="tab-page-container">
-    <!-- aircraft picker -->
+  <!-- aircraft picker -->
+  @if (!(this.currentAircraft$ | async)) {
     <app-aircraft-picker-container
-        *ngIf="!(this.currentAircraft$ | async)"
-        labelText="Aircraft:"
-        [showRegistration]="true"
-    />
+      labelText="Aircraft:"
+      [showRegistration]="true"
+      />
+  }
 
-    <!-- details form -->
-    <app-aircraft-details-form
-        [currentAircraft]="this.currentAircraft$ | async"
-        [speedUnit]="this.speedUnit$ | async"
-        [consumptionUnit]="this.consumptionUnit$ | async"
-        (vehicleTypeChanged)="this.onVehicleTypeChange($event)"
-        (registrationChanged)="this.onRegistrationChange($event)"
-        (icaoTypeChanged)="this.onIcaoTypeChange($event)"
-        (cruiseSpeedChanged)="this.onCruiseSpeedChange($event)"
-        (cruiseFuelChanged)="this.onCruiseFuelChange($event)"
-        (fuelTypeChanged)="this.onFuelTypeChange($event)"
-        (saveAircraftClicked)="this.onSaveAircraftDetailsClicked()"
+  <!-- details form -->
+  <app-aircraft-details-form
+    [currentAircraft]="this.currentAircraft$ | async"
+    [speedUnit]="this.speedUnit$ | async"
+    [consumptionUnit]="this.consumptionUnit$ | async"
+    (vehicleTypeChanged)="this.onVehicleTypeChange($event)"
+    (registrationChanged)="this.onRegistrationChange($event)"
+    (icaoTypeChanged)="this.onIcaoTypeChange($event)"
+    (cruiseSpeedChanged)="this.onCruiseSpeedChange($event)"
+    (cruiseFuelChanged)="this.onCruiseFuelChange($event)"
+    (fuelTypeChanged)="this.onFuelTypeChange($event)"
+    (saveAircraftClicked)="this.onSaveAircraftDetailsClicked()"
     />
-</div>
+  </div>

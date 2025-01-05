@@ -1,87 +1,95 @@
 <div class="wnb-table-container">
-    <table mat-table [dataSource]="this.weightItems">
-        <!-- type column -->
-        <ng-container matColumnDef="type">
-            <th mat-header-cell *matHeaderCellDef class="header-cell">&nbsp;</th>
-            <td mat-cell *matCellDef="let entry">
-                <app-aircraft-weight-item-type-icon [weightItemType]="entry.type" [vehicleType]="this.vehicleType"/>
-            </td>
-        </ng-container>
+  <table mat-table [dataSource]="this.weightItems">
+    <!-- type column -->
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef class="header-cell">&nbsp;</th>
+      <td mat-cell *matCellDef="let entry">
+        <app-aircraft-weight-item-type-icon [weightItemType]="entry.type" [vehicleType]="this.vehicleType"/>
+      </td>
+    </ng-container>
 
-        <!-- name column -->
-        <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef class="header-cell">Item</th>
-            <td mat-cell *matCellDef="let entry">{{ entry.name }}</td>
-        </ng-container>
+    <!-- name column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef class="header-cell">Item</th>
+      <td mat-cell *matCellDef="let entry">{{ entry.name }}</td>
+    </ng-container>
 
-        <!-- weight column -->
-        <ng-container matColumnDef="weight">
-            <th mat-header-cell *matHeaderCellDef class="header-cell">Weight</th>
-            <td mat-cell *matCellDef="let entry; let idx = index">
-                <!-- weight text -->
-                <span *ngIf="this.showWeightText(entry.type)">{{ this.getWeightText(entry.weight) }}</span>
-                <!-- weight input field -->
-                <mat-form-field *ngIf="this.showWeightInput(entry.type)" appearance="outline" class="form-field">
-                    <input
-                        matInput
-                        #weightInput
-                        type="text"
-                        [value]="this.getWeightValue(entry.weight)"
-                        (blur)="this.onWeightItemWeightChanged(entry, weightInput.value)"
-                    />
-                    <span matTextSuffix>{{ Weight.getUnitString(this.weightUnit) }}</span>
-                </mat-form-field>
-                <!-- fuel input field -->
-                <mat-form-field  *ngIf="this.showFuelInput(entry.type)" appearance="outline" class="form-field">
-                    <input
-                        matInput
-                        #fuelInput
-                        type="text"
-                        [value]="this.getFuelValue(entry.fuel)"
-                        (blur)="this.onWeightItemFuelChanged(entry, fuelInput.value)"
-                    />
-                    <span matTextSuffix>{{ Volume.getUnitString(this.volumeUnit) }}</span>
-                </mat-form-field>
-                <!-- fuel in kg -->
-                <span *ngIf="this.showFuelInput(entry.type) && entry.weight"><i>({{ this.getWeightText(entry.weight) }})</i></span>
-            </td>
+    <!-- weight column -->
+    <ng-container matColumnDef="weight">
+      <th mat-header-cell *matHeaderCellDef class="header-cell">Weight</th>
+      <td mat-cell *matCellDef="let entry; let idx = index">
+        <!-- weight text -->
+        @if (this.showWeightText(entry.type)) {
+          <span>{{ this.getWeightText(entry.weight) }}</span>
+        }
+        <!-- weight input field -->
+        @if (this.showWeightInput(entry.type)) {
+          <mat-form-field appearance="outline" class="form-field">
+            <input
+              matInput
+              #weightInput
+              type="text"
+              [value]="this.getWeightValue(entry.weight)"
+              (blur)="this.onWeightItemWeightChanged(entry, weightInput.value)"
+              />
+              <span matTextSuffix>{{ Weight.getUnitString(this.weightUnit) }}</span>
+            </mat-form-field>
+          }
+          <!-- fuel input field -->
+          @if (this.showFuelInput(entry.type)) {
+            <mat-form-field  appearance="outline" class="form-field">
+              <input
+                matInput
+                #fuelInput
+                type="text"
+                [value]="this.getFuelValue(entry.fuel)"
+                (blur)="this.onWeightItemFuelChanged(entry, fuelInput.value)"
+                />
+                <span matTextSuffix>{{ Volume.getUnitString(this.volumeUnit) }}</span>
+              </mat-form-field>
+            }
+            <!-- fuel in kg -->
+            @if (this.showFuelInput(entry.type) && entry.weight) {
+              <span><i>({{ this.getWeightText(entry.weight) }})</i></span>
+            }
+          </td>
         </ng-container>
 
         <!-- longitudinal arm column -->
         <ng-container matColumnDef="armLong">
-            <th mat-header-cell *matHeaderCellDef class="header-cell">Arm (long.)</th>
-            <td mat-cell *matCellDef="let entry">{{ this.getArmText(entry.armLong) }}</td>
+          <th mat-header-cell *matHeaderCellDef class="header-cell">Arm (long.)</th>
+          <td mat-cell *matCellDef="let entry">{{ this.getArmText(entry.armLong) }}</td>
         </ng-container>
 
         <!-- lateral arm column -->
         <ng-container matColumnDef="armLat">
-            <th mat-header-cell *matHeaderCellDef class="header-cell">Arm (lat.)</th>
-            <td mat-cell *matCellDef="let entry">{{ this.getArmText(entry.armLat) }}</td>
+          <th mat-header-cell *matHeaderCellDef class="header-cell">Arm (lat.)</th>
+          <td mat-cell *matCellDef="let entry">{{ this.getArmText(entry.armLat) }}</td>
         </ng-container>
 
         <!-- longitudinal moment column -->
         <ng-container matColumnDef="momentLong">
-            <th mat-header-cell *matHeaderCellDef class="header-cell">Moment (long.)</th>
-            <td mat-cell *matCellDef="let entry">{{ this.getMomentLongText(entry) }}</td>
+          <th mat-header-cell *matHeaderCellDef class="header-cell">Moment (long.)</th>
+          <td mat-cell *matCellDef="let entry">{{ this.getMomentLongText(entry) }}</td>
         </ng-container>
 
         <!-- lateral moment column -->
         <ng-container matColumnDef="momentLat">
-            <th mat-header-cell *matHeaderCellDef class="header-cell">Moment (long.)</th>
-            <td mat-cell *matCellDef="let entry">{{ this.getMomentLatText(entry) }}</td>
+          <th mat-header-cell *matHeaderCellDef class="header-cell">Moment (long.)</th>
+          <td mat-cell *matCellDef="let entry">{{ this.getMomentLatText(entry) }}</td>
         </ng-container>
 
         <!-- no entry -->
         <ng-container matColumnDef="no_entry">
-            <td mat-footer-cell *matFooterCellDef [attr.colspan]="5" class="no-entry-cell">
-                <i>No weight items configured.</i>
-            </td>
+          <td mat-footer-cell *matFooterCellDef [attr.colspan]="5" class="no-entry-cell">
+            <i>No weight items configured.</i>
+          </td>
         </ng-container>
 
         <!-- row definition -->
         <tr mat-header-row *matHeaderRowDef="this.displayedColumns" class="header-row"></tr>
         <tr mat-row
-            *matRowDef="let entry; columns: this.displayedColumns; let even = even"
+          *matRowDef="let entry; columns: this.displayedColumns; let even = even"
             [ngClass]="{
                 'bold-row': PlanWnbService.isSummaryTypeItem(entry.type),
                 'odd-row': !even
@@ -89,8 +97,8 @@
         ></tr>
 
         <tr mat-footer-row
-            *matFooterRowDef="['no_entry']"
-            [hidden]="this.weightItems && this.weightItems.length > 0"
+          *matFooterRowDef="['no_entry']"
+          [hidden]="this.weightItems && this.weightItems.length > 0"
         ></tr>
-    </table>
-</div>
+      </table>
+    </div>

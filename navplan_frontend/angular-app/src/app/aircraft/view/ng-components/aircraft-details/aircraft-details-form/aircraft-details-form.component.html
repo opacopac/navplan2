@@ -1,56 +1,52 @@
-<form *ngIf="this.currentAircraft" [formGroup]="this.aircraftDetailsForm">
+@if (this.currentAircraft) {
+  <form [formGroup]="this.aircraftDetailsForm">
     <div class="aircraft-form-content">
-
-        <!-- vehicle type -->
-        <mat-radio-group
-            color="primary"
-            formControlName="vehicleType"
-            (change)="this.onVehicleTypeChanged()"
+      <!-- vehicle type -->
+      <mat-radio-group
+        color="primary"
+        formControlName="vehicleType"
+        (change)="this.onVehicleTypeChanged()"
         >
-            <mat-radio-button [value]="VehicleType.AIRPLANE">Airplane</mat-radio-button>
-            <mat-radio-button [value]="VehicleType.HELICOPTER">Helicopter</mat-radio-button>
-        </mat-radio-group>
-
-        <!-- registration -->
-        <mat-form-field>
-            <mat-label>Registration</mat-label>
-            <input
-                matInput
-                formControlName="registration"
-                type="string"
-                required
-                (change)="this.onRegistrationChanged()"
-            />
+        <mat-radio-button [value]="VehicleType.AIRPLANE">Airplane</mat-radio-button>
+        <mat-radio-button [value]="VehicleType.HELICOPTER">Helicopter</mat-radio-button>
+      </mat-radio-group>
+      <!-- registration -->
+      <mat-form-field>
+        <mat-label>Registration</mat-label>
+        <input
+          matInput
+          formControlName="registration"
+          type="string"
+          required
+          (change)="this.onRegistrationChanged()"
+          />
         </mat-form-field>
-
         <!-- aircraft icao type dropdown -->
         <app-aircraft-type-designator-autocomplete
-            labelText="ICAO Aircraft Type"
-            [initialValue]="this.getInitialIcaoType()"
-            [(isValid)]="this.isIcaoTypeValid"
-            (icaoTypeChange)="this.onIcaoTypeChanged($event)"
-        />
-
-        <!-- speed -->
-        <mat-form-field>
+          labelText="ICAO Aircraft Type"
+          [initialValue]="this.getInitialIcaoType()"
+          [(isValid)]="this.isIcaoTypeValid"
+          (icaoTypeChange)="this.onIcaoTypeChanged($event)"
+          />
+          <!-- speed -->
+          <mat-form-field>
             <mat-label>Cruise Speed</mat-label>
             <input
-                matInput
-                formControlName="cruiseSpeed"
-                type="number"
-                required
-                min="1"
-                max="999"
-                (change)="this.onCruiseSpeedChanged()"
-            >
-            <span matTextSuffix>{{ Speed.getUnitString(this.speedUnit) }}</span>
-            <mat-error>Value must be a positive number between 1 and 999!</mat-error>
-        </mat-form-field>
-
-        <!-- fuel consumption -->
-        <mat-form-field>
-            <mat-label>Cruise Fuel Consumption</mat-label>
-            <input
+              matInput
+              formControlName="cruiseSpeed"
+              type="number"
+              required
+              min="1"
+              max="999"
+              (change)="this.onCruiseSpeedChanged()"
+              >
+              <span matTextSuffix>{{ Speed.getUnitString(this.speedUnit) }}</span>
+              <mat-error>Value must be a positive number between 1 and 999!</mat-error>
+            </mat-form-field>
+            <!-- fuel consumption -->
+            <mat-form-field>
+              <mat-label>Cruise Fuel Consumption</mat-label>
+              <input
                 matInput
                 formControlName="cruiseFuel"
                 type="number"
@@ -58,36 +54,34 @@
                 min="1"
                 max="999"
                 (change)="this.onCruiseFuelChanged()"
-            >
-            <span matTextSuffix>{{ Consumption.getUnitString(this.consumptionUnit) }}</span>
-            <mat-error>Value must be a positive number between 1 and 999!</mat-error>
-        </mat-form-field>
-
-        <!-- fuel type -->
-        <mat-form-field>
-            <mat-label>Fuel Type</mat-label>
-            <mat-select
-                formControlName="fuelType"
-                required
-                (selectionChange)="this.onFuelTypeChanged()"
-            >
-                <mat-option value="" selected>(select)</mat-option>
-                <mat-option [value]="FuelType.MOGAS">MOGAS</mat-option>
-                <mat-option [value]="FuelType.AVGAS">AVGAS</mat-option>
-                <mat-option [value]="FuelType.JET">JET</mat-option>
-            </mat-select>
-        </mat-form-field>
-
-        <p>
-            <button
-                mat-raised-button
-                color="primary"
-                [disabled]="!this.isFormValid()"
-                (click)="this.onSaveAircraftDetailsClicked()"
-            >
-                Save
-            </button>
-        </p>
-
-    </div>
-</form>
+                >
+                <span matTextSuffix>{{ Consumption.getUnitString(this.consumptionUnit) }}</span>
+                <mat-error>Value must be a positive number between 1 and 999!</mat-error>
+              </mat-form-field>
+              <!-- fuel type -->
+              <mat-form-field>
+                <mat-label>Fuel Type</mat-label>
+                <mat-select
+                  formControlName="fuelType"
+                  required
+                  (selectionChange)="this.onFuelTypeChanged()"
+                  >
+                  <mat-option value="" selected>(select)</mat-option>
+                  <mat-option [value]="FuelType.MOGAS">MOGAS</mat-option>
+                  <mat-option [value]="FuelType.AVGAS">AVGAS</mat-option>
+                  <mat-option [value]="FuelType.JET">JET</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <p>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  [disabled]="!this.isFormValid()"
+                  (click)="this.onSaveAircraftDetailsClicked()"
+                  >
+                  Save
+                </button>
+              </p>
+            </div>
+          </form>
+        }

@@ -1,9 +1,11 @@
 <app-map-overlay-position [position]="this.airport.position"></app-map-overlay-position>
 <app-map-overlay-elevation [altitude]="airport.elevation"></app-map-overlay-elevation>
 <app-map-overlay-variation [position]="this.airport.position"></app-map-overlay-variation>
-<p *ngFor="let webcam of this.airport.webcams">
+@for (webcam of this.airport.webcams; track webcam) {
+  <p>
     {{ webcam.name }}:
     <a href="{{ webcam.url }}" target="_blank">
-        <mat-icon class="webcam-icon">videocam</mat-icon>
+      <mat-icon class="webcam-icon">videocam</mat-icon>
     </a>
-</p>
+  </p>
+}

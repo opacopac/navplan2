@@ -1,40 +1,42 @@
 <div>
-    <div *ngIf="this.showMeteoLayer$ | async" class="meteo-layer-button-container">
-        <app-status-button
-            [buttonFormat]="'small_round'"
-            [tooltipText]="'Station Measurements'"
-            [tooltipPosition]="'right'"
-            [toggleOnOff]="(this.meteoLayer$ | async) === MeteoLayer.SmaStationsLayer"
-            (buttonClicked)="this.onStationsSelected()"
-        >
-            <i class="fa-solid fa-thermometer-half"></i>
-        </app-status-button>
-        <app-status-button
-            [buttonFormat]="'small_round'"
-            [tooltipText]="'Clouds & Precipitation Forecast'"
-            [tooltipPosition]="'right'"
-            [toggleOnOff]="(this.meteoLayer$ | async) === MeteoLayer.DwdWeatherLayer"
-            (buttonClicked)="this.onWeatherForecastSelected()"
-        >
-            <i class="fa-solid fa-cloud"></i>
-        </app-status-button>
-        <app-status-button
-            [buttonFormat]="'small_round'"
-            [tooltipText]="'Wind Forecast'"
-            [tooltipPosition]="'right'"
-            [toggleOnOff]="(this.meteoLayer$ | async) === MeteoLayer.DwdWindLayer"
-            (buttonClicked)="this.onWindForecastSelected()"
-        >
-            <i class="fa-solid fa-wind"></i>
-        </app-status-button>
-    </div>
-    <app-status-button
-        [buttonFormat]="'large'"
-        [tooltipText]="'show/hide meteo layers'"
+  @if (this.showMeteoLayer$ | async) {
+    <div class="meteo-layer-button-container">
+      <app-status-button
+        [buttonFormat]="'small_round'"
+        [tooltipText]="'Station Measurements'"
         [tooltipPosition]="'right'"
-        [toggleOnOff]="this.showMeteoLayer$ | async"
-        (buttonClicked)="this.onMeteoButtonClicked()"
+        [toggleOnOff]="(this.meteoLayer$ | async) === MeteoLayer.SmaStationsLayer"
+        (buttonClicked)="this.onStationsSelected()"
+        >
+        <i class="fa-solid fa-thermometer-half"></i>
+      </app-status-button>
+      <app-status-button
+        [buttonFormat]="'small_round'"
+        [tooltipText]="'Clouds & Precipitation Forecast'"
+        [tooltipPosition]="'right'"
+        [toggleOnOff]="(this.meteoLayer$ | async) === MeteoLayer.DwdWeatherLayer"
+        (buttonClicked)="this.onWeatherForecastSelected()"
+        >
+        <i class="fa-solid fa-cloud"></i>
+      </app-status-button>
+      <app-status-button
+        [buttonFormat]="'small_round'"
+        [tooltipText]="'Wind Forecast'"
+        [tooltipPosition]="'right'"
+        [toggleOnOff]="(this.meteoLayer$ | async) === MeteoLayer.DwdWindLayer"
+        (buttonClicked)="this.onWindForecastSelected()"
+        >
+        <i class="fa-solid fa-wind"></i>
+      </app-status-button>
+    </div>
+  }
+  <app-status-button
+    [buttonFormat]="'large'"
+    [tooltipText]="'show/hide meteo layers'"
+    [tooltipPosition]="'right'"
+    [toggleOnOff]="this.showMeteoLayer$ | async"
+    (buttonClicked)="this.onMeteoButtonClicked()"
     >
-        <i class="fa-solid fa-cloud-sun-rain"></i>
-    </app-status-button>
+    <i class="fa-solid fa-cloud-sun-rain"></i>
+  </app-status-button>
 </div>

@@ -1,11 +1,19 @@
-<p *ngIf="this.reportingsector.alt_min || this.reportingsector.alt_max">
+@if (this.reportingsector.alt_min || this.reportingsector.alt_max) {
+  <p>
     Altitude:
     {{ this.reportingsector.alt_min ? 'min. ' + this.getElevationString(this.reportingsector.alt_min) : '' }}
-    <span *ngIf="this.reportingsector.alt_min && this.reportingsector.alt_max">/</span>
+    @if (this.reportingsector.alt_min && this.reportingsector.alt_max) {
+      <span>/</span>
+    }
     {{ this.reportingsector.alt_max ? 'max. ' + this.getElevationString(this.reportingsector.alt_max) : '' }}
-</p>
-<p *ngIf="this.reportingsector.inbd_comp || this.reportingsector.outbd_comp">
+  </p>
+}
+@if (this.reportingsector.inbd_comp || this.reportingsector.outbd_comp) {
+  <p>
     Compulsory: {{ this.reportingsector.inbd_comp ? 'INBD' : '' }}
-    <span *ngIf="this.reportingsector.inbd_comp && this.reportingsector.outbd_comp">&amp;</span>
+    @if (this.reportingsector.inbd_comp && this.reportingsector.outbd_comp) {
+      <span>&amp;</span>
+    }
     {{ this.reportingsector.outbd_comp ? 'OUTBD' : '' }}
-</p>
+  </p>
+}

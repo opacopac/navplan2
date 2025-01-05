@@ -1,12 +1,20 @@
 <app-map-overlay-position [position]="this.reportingpoint.position"></app-map-overlay-position>
-<p *ngIf="this.reportingpoint.alt_min || this.reportingpoint.alt_max">
+@if (this.reportingpoint.alt_min || this.reportingpoint.alt_max) {
+  <p>
     Altitude:
     {{ this.reportingpoint.alt_min ? 'min. ' + this.getElevationString(this.reportingpoint.alt_min) : '' }}
-    <span *ngIf="this.reportingpoint.alt_min && this.reportingpoint.alt_max">/</span>
+    @if (this.reportingpoint.alt_min && this.reportingpoint.alt_max) {
+      <span>/</span>
+    }
     {{ this.reportingpoint.alt_max ? 'max. ' + this.getElevationString(this.reportingpoint.alt_max) : '' }}
-</p>
-<p *ngIf="this.reportingpoint.inbd_comp || this.reportingpoint.outbd_comp">
+  </p>
+}
+@if (this.reportingpoint.inbd_comp || this.reportingpoint.outbd_comp) {
+  <p>
     Compulsory: {{ this.reportingpoint.inbd_comp ? 'INBD' : '' }}
-    <span *ngIf="this.reportingpoint.inbd_comp && this.reportingpoint.outbd_comp">&amp;</span>
+    @if (this.reportingpoint.inbd_comp && this.reportingpoint.outbd_comp) {
+      <span>&amp;</span>
+    }
     {{ this.reportingpoint.outbd_comp ? 'OUTBD' : '' }}
-</p>
+  </p>
+}

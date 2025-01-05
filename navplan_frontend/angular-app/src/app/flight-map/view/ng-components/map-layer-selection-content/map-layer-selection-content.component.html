@@ -1,40 +1,41 @@
 <div class="layer-selection-container">
-    <!-- map bg -->
-    <div class="layer-selection-section">
-        <label id="mapbg-selection-radio-group-label" class="layer-selection-label">Map Background</label>
-        <mat-radio-group
-            (change)="this.onMapBgSelected($event)"
-            aria-labelledby="mapbg-selection-radio-group-label"
-            class="mapbg-selection-radio-group">
-            <mat-radio-button
-                *ngFor="let entry of this.mapLayerTypesAndDescriptions"
-                class="mapbg-selection-radio-button"
-                value="{{ entry[0] }}"
-                [checked]="(this.baseMapType$ | async) === entry[0]"
-            >
-                {{ entry[1] }}
-            </mat-radio-button>
-        </mat-radio-group>
-    </div>
-    <!-- map layers -->
-    <div class="layer-selection-section">
-        <label id="mapfg-selection-radio-group-label" class="layer-selection-label">Map Layers</label>
-        <mat-checkbox>Airports / Navaids</mat-checkbox>
-        <mat-checkbox>Reporting Points / Sectors</mat-checkbox>
-        <mat-checkbox>AD Circuits</mat-checkbox>
-        <mat-checkbox>Airspaces</mat-checkbox>
-        <ul>
-            <li>
-                <mat-checkbox>Cat A-G</mat-checkbox>
-            </li>
-            <li>
-                <mat-checkbox>Glider</mat-checkbox>
-            </li>
-            <li>
-                <mat-checkbox>P, D, X</mat-checkbox>
-            </li>
-        </ul>
-        <mat-checkbox>NOTAM</mat-checkbox>
-        <mat-checkbox>Webcams</mat-checkbox>
-    </div>
+  <!-- map bg -->
+  <div class="layer-selection-section">
+    <label id="mapbg-selection-radio-group-label" class="layer-selection-label">Map Background</label>
+    <mat-radio-group
+      (change)="this.onMapBgSelected($event)"
+      aria-labelledby="mapbg-selection-radio-group-label"
+      class="mapbg-selection-radio-group">
+      @for (entry of this.mapLayerTypesAndDescriptions; track entry) {
+        <mat-radio-button
+          class="mapbg-selection-radio-button"
+          value="{{ entry[0] }}"
+          [checked]="(this.baseMapType$ | async) === entry[0]"
+          >
+          {{ entry[1] }}
+        </mat-radio-button>
+      }
+    </mat-radio-group>
+  </div>
+  <!-- map layers -->
+  <div class="layer-selection-section">
+    <label id="mapfg-selection-radio-group-label" class="layer-selection-label">Map Layers</label>
+    <mat-checkbox>Airports / Navaids</mat-checkbox>
+    <mat-checkbox>Reporting Points / Sectors</mat-checkbox>
+    <mat-checkbox>AD Circuits</mat-checkbox>
+    <mat-checkbox>Airspaces</mat-checkbox>
+    <ul>
+      <li>
+        <mat-checkbox>Cat A-G</mat-checkbox>
+      </li>
+      <li>
+        <mat-checkbox>Glider</mat-checkbox>
+      </li>
+      <li>
+        <mat-checkbox>P, D, X</mat-checkbox>
+      </li>
+    </ul>
+    <mat-checkbox>NOTAM</mat-checkbox>
+    <mat-checkbox>Webcams</mat-checkbox>
+  </div>
 </div>

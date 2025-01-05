@@ -1,51 +1,52 @@
 <mat-form-field class="autocomplete-form-field" subscriptSizing="dynamic">
-    <mat-label>{{ this.labelText }}</mat-label>
-    <input
-        #query
-        matInput
-        type="text"
-        [formControl]="this.queryInput"
-        [matAutocomplete]="auto"
-        [required]="this.isRequired"
-        [placeholder]="this.searchInputPlaceholderText"
-        (input)="this.onSearchInputChanged(query.value)"
-        (blur)="this.onSearchInputBlurred()"
+  <mat-label>{{ this.labelText }}</mat-label>
+  <input
+    #query
+    matInput
+    type="text"
+    [formControl]="this.queryInput"
+    [matAutocomplete]="auto"
+    [required]="this.isRequired"
+    [placeholder]="this.searchInputPlaceholderText"
+    (input)="this.onSearchInputChanged(query.value)"
+    (blur)="this.onSearchInputBlurred()"
     />
-    <mat-icon
+    @if (this.showSearchIcon) {
+      <mat-icon
         matPrefix
-        *ngIf="this.showSearchIcon"
-    >
+        >
         search
-    </mat-icon>
+      </mat-icon>
+    }
     <mat-icon
-        matSuffix
-        (click)="this.onSearchResultsCleared()"
-    >
-        close
+      matSuffix
+      (click)="this.onSearchResultsCleared()"
+      >
+      close
     </mat-icon>
     @if (!this.isValid) {
-        <mat-error>Search and select an aircraft type designator (or ZZZZ if unknown)</mat-error>
+      <mat-error>Search and select an aircraft type designator (or ZZZZ if unknown)</mat-error>
     }
     <mat-autocomplete
-        #auto="matAutocomplete"
-        [displayWith]="this.getSelectedDisplayName"
-        (optionSelected)="this.onSearchResultSelected($event.option.value)"
-    >
-        <!-- Check if there are search results -->
-        <ng-container *ngIf="(getSearchResults()?.length > 0); else noResults">
-            <mat-option
-                *ngFor="let result of getSearchResults(); trackBy: trackByResult"
-                [value]="result"
+      #auto="matAutocomplete"
+      [displayWith]="this.getSelectedDisplayName"
+      (optionSelected)="this.onSearchResultSelected($event.option.value)"
+      >
+      <!-- Check if there are search results -->
+      @if ((getSearchResults()?.length > 0)) {
+        @for (result of getSearchResults(); track trackByResult($index, result)) {
+          <mat-option
+            [value]="result"
             >
-                {{ this.getResultDisplayName(result) }}
-            </mat-option>
-        </ng-container>
+            {{ this.getResultDisplayName(result) }}
+          </mat-option>
+        }
+      } @else {
+        <mat-option disabled>
+          No results found
+        </mat-option>
+      }
 
-        <!-- Template to display when no results are found -->
-        <ng-template #noResults>
-            <mat-option disabled>
-                No results found
-            </mat-option>
-        </ng-template>
+      <!-- Template to display when no results are found -->
     </mat-autocomplete>
-</mat-form-field>
+  </mat-form-field>

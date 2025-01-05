@@ -1,15 +1,17 @@
-<div *ngIf="this.locationIsWatching$ | async" id="map_timer" class="mapbutton-timer" align="center">
-	<span class="map-currenttime">
-		{{ this.timerService.getCurrentTimeString() }}
-	</span>
-  <br />
-  <button type="button" class="btn btn-secondary" (click)="this.timerService.onTimerClicked()" title="start timer"><span class="fa-regular fa-clock"></span> Timer</button>
-  <br />
-  <span class="map-stoptime">
-		{{ this.timerService.getStopTimeString() }}
-	</span>
-  <br />
-  <span class="map-timer">
-		{{ this.timerService.getElapsedTimeString() }}
-	</span>
-</div>
+@if (this.locationIsWatching$ | async) {
+  <div id="map_timer" class="mapbutton-timer" align="center">
+    <span class="map-currenttime">
+      {{ this.timerService.getCurrentTimeString() }}
+    </span>
+    <br />
+    <button type="button" class="btn btn-secondary" (click)="this.timerService.onTimerClicked()" title="start timer"><span class="fa-regular fa-clock"></span> Timer</button>
+    <br />
+    <span class="map-stoptime">
+      {{ this.timerService.getStopTimeString() }}
+    </span>
+    <br />
+    <span class="map-timer">
+      {{ this.timerService.getElapsedTimeString() }}
+    </span>
+  </div>
+}

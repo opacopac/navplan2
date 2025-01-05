@@ -1,15 +1,19 @@
 <div #container class="airspace-container">
-    <table class="airspace-table">
-        <tr *ngFor="let airspace of this.getAirspaceList()">
-            <td>
-                <div style="position:relative">
-                    <app-map-overlay-airspace [airspace]="airspace"></app-map-overlay-airspace>
-                </div>
-            </td>
-        </tr>
-        <tr *ngIf="this.showToggle">
-            <td><span class="airspace-toggle" (click)="this.onToggle()"><i class="{{ this.getToggleIcon() }}"></i>
-                {{ this.getToggleText() }}</span></td>
-        </tr>
-    </table>
+  <table class="airspace-table">
+    @for (airspace of this.getAirspaceList(); track airspace) {
+      <tr>
+        <td>
+          <div style="position:relative">
+            <app-map-overlay-airspace [airspace]="airspace"></app-map-overlay-airspace>
+          </div>
+        </td>
+      </tr>
+    }
+    @if (this.showToggle) {
+      <tr>
+        <td><span class="airspace-toggle" (click)="this.onToggle()"><i class="{{ this.getToggleIcon() }}"></i>
+      {{ this.getToggleText() }}</span></td>
+    </tr>
+  }
+</table>
 </div>

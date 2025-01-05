@@ -1,72 +1,71 @@
-<div *ngIf="this.flightrouteList && this.flightrouteList.length > 0" class="flightroute-list-container">
+@if (this.flightrouteList && this.flightrouteList.length > 0) {
+  <div class="flightroute-list-container">
     <mat-form-field>
-        <input
-            matInput
-            (keyup)="applyFilter($event.target.value)"
-            placeholder="Filter"
+      <input
+        matInput
+        (keyup)="applyFilter($event.target.value)"
+        placeholder="Filter"
         >
-    </mat-form-field>
-
-    <table mat-table
-           [dataSource]="this.dataSource">
-
+      </mat-form-field>
+      <table mat-table
+        [dataSource]="this.dataSource">
         <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef>Route</th>
-            <td mat-cell
-                *matCellDef="let entry"
-                class="clickable"
-                (click)="this.loadRouteClicked.emit(entry.id)">
-                {{ entry.title }}
-            </td>
+          <th mat-header-cell *matHeaderCellDef>Route</th>
+          <td mat-cell
+            *matCellDef="let entry"
+            class="clickable"
+            (click)="this.loadRouteClicked.emit(entry.id)">
+            {{ entry.title }}
+          </td>
         </ng-container>
-
         <ng-container matColumnDef="icons">
-            <th mat-header-cell *matHeaderCellDef></th>
-            <td mat-cell *matCellDef="let entry" align="right" class="button-cell">
-                <app-icon-button
-                    [color]="ButtonColor.GREEN"
-                    [tooltipText]="'Load Route'"
-                    [tooltipPosition]="'above'"
-                    (buttonClicked)="this.loadRouteClicked.emit(entry.id)"
-                >
-                    <i class="fa-solid fa-upload"></i>
-                </app-icon-button>
-                <app-icon-button
-                    [color]="ButtonColor.BLUE"
-                    [tooltipText]="'Duplicate Route'"
-                    [tooltipPosition]="'above'"
-                    (buttonClicked)="this.duplicateRouteClicked.emit(entry.id)"
-                >
-                    <i class="fa-solid fa-copy"></i>
-                </app-icon-button>
-                <app-icon-button
-                    [color]="ButtonColor.RED"
-                    [tooltipText]="'Delete Route'"
-                    [tooltipPosition]="'above'"
-                    (buttonClicked)="this.onDeleteRouteClicked(entry)"
-                >
-                    <i class="fa-solid fa-trash"></i>
-                </app-icon-button>
-            </td>
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let entry" align="right" class="button-cell">
+            <app-icon-button
+              [color]="ButtonColor.GREEN"
+              [tooltipText]="'Load Route'"
+              [tooltipPosition]="'above'"
+              (buttonClicked)="this.loadRouteClicked.emit(entry.id)"
+              >
+              <i class="fa-solid fa-upload"></i>
+            </app-icon-button>
+            <app-icon-button
+              [color]="ButtonColor.BLUE"
+              [tooltipText]="'Duplicate Route'"
+              [tooltipPosition]="'above'"
+              (buttonClicked)="this.duplicateRouteClicked.emit(entry.id)"
+              >
+              <i class="fa-solid fa-copy"></i>
+            </app-icon-button>
+            <app-icon-button
+              [color]="ButtonColor.RED"
+              [tooltipText]="'Delete Route'"
+              [tooltipPosition]="'above'"
+              (buttonClicked)="this.onDeleteRouteClicked(entry)"
+              >
+              <i class="fa-solid fa-trash"></i>
+            </app-icon-button>
+          </td>
         </ng-container>
-
         <tr mat-header-row
-            *matHeaderRowDef="this.visibleColumns"
-            class="header-row"
+          *matHeaderRowDef="this.visibleColumns"
+          class="header-row"
         ></tr>
         <tr mat-row
-            *matRowDef="let routeListEntry; let even = even; columns: this.visibleColumns"
-            [ngClass]="{ 'odd-row': !even, 'selected-row': this.flightrouteList?.id === routeListEntry?.id }"
+          *matRowDef="let routeListEntry; let even = even; columns: this.visibleColumns"
+          [ngClass]="{ 'odd-row': !even, 'selected-row': this.flightrouteList?.id === routeListEntry?.id }"
         ></tr>
-    </table>
-
-    <mat-paginator
+      </table>
+      <mat-paginator
         [pageSize]="10"
         [pageSizeOptions]="[5, 10, 25, 100]"
         showFirstLastButtons="true"
-    ></mat-paginator>
-</div>
+      ></mat-paginator>
+    </div>
+  }
 
-<div *ngIf="!this.flightrouteList || this.flightrouteList.length == 0">
-    <i>No Saved Routes</i>
-</div>
+  @if (!this.flightrouteList || this.flightrouteList.length == 0) {
+    <div>
+      <i>No Saved Routes</i>
+    </div>
+  }

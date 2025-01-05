@@ -1,9 +1,11 @@
 <mat-card-header class="no-left-margin">
-    <mat-card-title>
-        {{ this.geoname.name }}
-        <span *ngIf="this.getAdminString().length > 0">({{ this.getAdminString() }})</span>
-    </mat-card-title>
-    <mat-card-subtitle>
-        {{ this.getTypeString() }}
-    </mat-card-subtitle>
+  <mat-card-title>
+    {{ this.geoname.name }}
+    @if (this.getAdminString().length > 0) {
+      <span>({{ this.getAdminString() }})</span>
+    }
+  </mat-card-title>
+  <mat-card-subtitle>
+    {{ this.getTypeString() }}
+  </mat-card-subtitle>
 </mat-card-header>

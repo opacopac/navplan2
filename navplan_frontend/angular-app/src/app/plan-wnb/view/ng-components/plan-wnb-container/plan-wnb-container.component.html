@@ -1,31 +1,34 @@
 <div class="wnb-container">
-    <app-aircraft-picker-container
-        labelText="Aircraft:"
-        [showRegistration]="true"
+  <app-aircraft-picker-container
+    labelText="Aircraft:"
+    [showRegistration]="true"
     />
+  @if (this.currentAircraft$ | async) {
     <app-plan-wnb-table
-        *ngIf="this.currentAircraft$ | async"
-        [vehicleType]="this.vehicleType$ | async"
-        [weightItems]="this.weightItems$ | async"
-        [routeFuel]="this.routeFuel$ | async"
-        [lengthUnit]="this.lengthUnit$ | async"
-        [weightUnit]="this.weightUnit$ | async"
-        [volumeUnit]="this.volumeUnit$ | async"
-        (weightItemChanged)="this.onWeightItemChanged($event)"
-    />
-    <div *ngFor="let envelope of this.envelopes$ | async">
-        {{ envelope.name }}
-        <app-aircraft-wnb-envelope-chart
-            [envelope]="envelope"
+      [vehicleType]="this.vehicleType$ | async"
+      [weightItems]="this.weightItems$ | async"
+      [routeFuel]="this.routeFuel$ | async"
+      [lengthUnit]="this.lengthUnit$ | async"
+      [weightUnit]="this.weightUnit$ | async"
+      [volumeUnit]="this.volumeUnit$ | async"
+      (weightItemChanged)="this.onWeightItemChanged($event)"
+      />
+  }
+  @for (envelope of this.envelopes$ | async; track envelope) {
+    <div>
+      {{ envelope.name }}
+      <app-aircraft-wnb-envelope-chart
+        [envelope]="envelope"
             [zeroFuelWnbCoordinate]="envelope.axisType === WnbEnvelopeAxisType.ARM_LAT_ARM_LONG
                 ? (this.zeroFuelCoordinateLat$ | async)
                 : (this.zeroFuelCoordinateLong$ | async)"
             [takeoffWnbCoordinate]="envelope.axisType === WnbEnvelopeAxisType.ARM_LAT_ARM_LONG
                 ? (this.takeoffCoordinateLat$ | async)
                 : (this.takeoffCoordinateLong$ | async)"
-            [weightUnit]="this.weightUnit$ | async"
-            [lengthUnit]="this.lengthUnit$ | async"
-            [isEditable]="false"
+        [weightUnit]="this.weightUnit$ | async"
+        [lengthUnit]="this.lengthUnit$ | async"
+        [isEditable]="false"
         />
     </div>
+  }
 </div>

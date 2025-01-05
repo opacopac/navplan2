@@ -1,46 +1,42 @@
 <div class="runway-container">
+  @if (this.airport.runways && this.airport.runways.length > 0) {
     <table mat-table
-           *ngIf="this.airport.runways && this.airport.runways.length > 0"
-           [dataSource]="this.airport.runways">
-
-        <ng-container matColumnDef="runway">
-            <th mat-header-cell *matHeaderCellDef>Runway</th>
-            <td mat-cell *matCellDef="let runway">{{ runway.name }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="surface">
-            <th mat-header-cell *matHeaderCellDef>Surface</th>
-            <td mat-cell *matCellDef="let runway">{{ runway.surface }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="dimensions">
-            <th mat-header-cell *matHeaderCellDef>Dimensions [m]</th>
-            <td mat-cell *matCellDef="let runway">{{ this.getRwyDimensionsString(runway) }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="tora">
-            <th mat-header-cell *matHeaderCellDef>TORA [m]</th>
-            <td mat-cell *matCellDef="let runway">
-                {{ runway.tora ? runway.tora.m : '-' }}
-            </td>
-        </ng-container>
-
-        <ng-container matColumnDef="lda">
-            <th mat-header-cell *matHeaderCellDef>LDA [m]</th>
-            <td mat-cell *matCellDef="let runway">
-                {{ runway.lda ? runway.lda.m : '-' }}
-            </td>
-        </ng-container>
-
-        <ng-container matColumnDef="papi">
-            <th mat-header-cell *matHeaderCellDef>PAPI</th>
-            <td mat-cell *matCellDef="let runway">{{ runway.papi ? 'y' : '-' }}</td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="this.getRwyColumns()"></tr>
-        <tr mat-row *matRowDef="let row; columns: this.getRwyColumns();"></tr>
+      [dataSource]="this.airport.runways">
+      <ng-container matColumnDef="runway">
+        <th mat-header-cell *matHeaderCellDef>Runway</th>
+        <td mat-cell *matCellDef="let runway">{{ runway.name }}</td>
+      </ng-container>
+      <ng-container matColumnDef="surface">
+        <th mat-header-cell *matHeaderCellDef>Surface</th>
+        <td mat-cell *matCellDef="let runway">{{ runway.surface }}</td>
+      </ng-container>
+      <ng-container matColumnDef="dimensions">
+        <th mat-header-cell *matHeaderCellDef>Dimensions [m]</th>
+        <td mat-cell *matCellDef="let runway">{{ this.getRwyDimensionsString(runway) }}</td>
+      </ng-container>
+      <ng-container matColumnDef="tora">
+        <th mat-header-cell *matHeaderCellDef>TORA [m]</th>
+        <td mat-cell *matCellDef="let runway">
+          {{ runway.tora ? runway.tora.m : '-' }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="lda">
+        <th mat-header-cell *matHeaderCellDef>LDA [m]</th>
+        <td mat-cell *matCellDef="let runway">
+          {{ runway.lda ? runway.lda.m : '-' }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="papi">
+        <th mat-header-cell *matHeaderCellDef>PAPI</th>
+        <td mat-cell *matCellDef="let runway">{{ runway.papi ? 'y' : '-' }}</td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="this.getRwyColumns()"></tr>
+      <tr mat-row *matRowDef="let row; columns: this.getRwyColumns();"></tr>
     </table>
-    <div *ngIf="!this.airport.hasRunways">
-        <p><em>No runway info available</em></p>
+  }
+  @if (!this.airport.hasRunways) {
+    <div>
+      <p><em>No runway info available</em></p>
     </div>
+  }
 </div>

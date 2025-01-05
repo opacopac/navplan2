@@ -1,1 +1,3 @@
-<p *ngIf="this.altitude !== null && !this.altitude.isZero()" >Elevation: {{ this.getElevationString() }}</p>
+@if (this.altitude !== null && !this.altitude.isZero()) {
+  <p >Elevation: {{ this.getElevationString() }}</p>
+}

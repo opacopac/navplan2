@@ -1,17 +1,21 @@
 <div class="aircraft-selected-container">
-    {{ this.labelText }}&nbsp;
-    <span *ngIf="this.currentAircraft && this.showRegistration">
-        {{ this.currentAircraft.registration }}
+  {{ this.labelText }}&nbsp;
+  @if (this.currentAircraft && this.showRegistration) {
+    <span>
+      {{ this.currentAircraft.registration }}
     </span>
-    <span *ngIf="!this.currentAircraft && this.showRegistration">
-        <i>(not selected)</i>
+  }
+  @if (!this.currentAircraft && this.showRegistration) {
+    <span>
+      <i>(not selected)</i>
     </span>
-    <app-icon-button
-        [color]="ButtonColor.BLUE"
-        tooltipText="Select Aircraft"
-        tooltipPosition="above"
-        (buttonClicked)="this.searchAircraftClicked.emit(null)"
+  }
+  <app-icon-button
+    [color]="ButtonColor.BLUE"
+    tooltipText="Select Aircraft"
+    tooltipPosition="above"
+    (buttonClicked)="this.searchAircraftClicked.emit(null)"
     >
-        <i class="fa-solid fa-search"></i>
-    </app-icon-button>
+    <i class="fa-solid fa-search"></i>
+  </app-icon-button>
 </div>

@@ -1,34 +1,37 @@
-<table
+@if (this.routeMetarTafList?.length > 0) {
+  <table
     mat-table
     [dataSource]="this.routeMetarTafList"
-    *ngIf="this.routeMetarTafList?.length > 0"
->
+    >
     <ng-container matColumnDef="site">
-        <th mat-header-cell *matHeaderCellDef>Station</th>
-        <td mat-cell *matCellDef="let routeMetarTaf">
-            <p>{{ routeMetarTaf.metarTaf.ad_icao }}</p>
-            <p><i>{{ routeMetarTaf.metarTaf.siteName }}</i></p>
-        </td>
+      <th mat-header-cell *matHeaderCellDef>Station</th>
+      <td mat-cell *matCellDef="let routeMetarTaf">
+        <p>{{ routeMetarTaf.metarTaf.ad_icao }}</p>
+        <p><i>{{ routeMetarTaf.metarTaf.siteName }}</i></p>
+      </td>
     </ng-container>
     <ng-container matColumnDef="dist">
-        <th mat-header-cell *matHeaderCellDef>Distance</th>
-        <td mat-cell *matCellDef="let routeMetarTaf">
-            <p>{{ this.getDistanceText(routeMetarTaf) }}</p>
-        </td>
+      <th mat-header-cell *matHeaderCellDef>Distance</th>
+      <td mat-cell *matCellDef="let routeMetarTaf">
+        <p>{{ this.getDistanceText(routeMetarTaf) }}</p>
+      </td>
     </ng-container>
     <ng-container matColumnDef="metartaf">
-        <th mat-header-cell *matHeaderCellDef>METAR / TAF</th>
-        <td mat-cell *matCellDef="let routeMetarTaf">
-            <app-map-popup-metar-taf [metarTaf]="routeMetarTaf.metarTaf"></app-map-popup-metar-taf>
-        </td>
+      <th mat-header-cell *matHeaderCellDef>METAR / TAF</th>
+      <td mat-cell *matCellDef="let routeMetarTaf">
+        <app-map-popup-metar-taf [metarTaf]="routeMetarTaf.metarTaf"></app-map-popup-metar-taf>
+      </td>
     </ng-container>
     <tr mat-header-row
-        *matHeaderRowDef="this.getColumnKeys()"
-        class="header-row"
+      *matHeaderRowDef="this.getColumnKeys()"
+      class="header-row"
     ></tr>
     <tr mat-row
-        *matRowDef="let routeMetarTaf; let even = even; columns: this.getColumnKeys()"
-        [ngClass]="{ 'odd-row': !even }"
+      *matRowDef="let routeMetarTaf; let even = even; columns: this.getColumnKeys()"
+      [ngClass]="{ 'odd-row': !even }"
     ></tr>
-</table>
-<p *ngIf="!(this.routeMetarTafList?.length > 0)"><i>{{ this.noDataText }}</i></p>
+  </table>
+}
+@if (!(this.routeMetarTafList?.length > 0)) {
+  <p><i>{{ this.noDataText }}</i></p>
+}

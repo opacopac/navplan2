@@ -1,20 +1,24 @@
 <app-mini-fab-button
-    [color]="ButtonColor.GREEN"
-    (click)="onAddSelectedWaypointClicked()"
->
-    <i class="fa-solid fa-plus"></i>
+  [color]="ButtonColor.GREEN"
+  (click)="onAddSelectedWaypointClicked()"
+  >
+  <i class="fa-solid fa-plus"></i>
 </app-mini-fab-button>
 &nbsp;
 <mat-form-field class="form-field">
-    <mat-select [(value)]="this.addAfterIndex" placeholder="Add to Route">
-        <mat-option value="0">
-            at the start
-        </mat-option>
-        <mat-option *ngFor="let wp of this.flightroute.waypoints; index as idx" value="{{ idx + 1 }}">
-            after {{ wp.checkpoint }}
-        </mat-option>
-        <mat-option *ngIf="this.flightroute.waypoints.length > 0" value="{{ this.flightroute.waypoints.length  + 1 }}">
-            at the end
-        </mat-option>
-    </mat-select>
+  <mat-select [(value)]="this.addAfterIndex" placeholder="Add to Route">
+    <mat-option value="0">
+      at the start
+    </mat-option>
+    @for (wp of this.flightroute.waypoints; track wp; let idx = $index) {
+      <mat-option value="{{ idx + 1 }}">
+        after {{ wp.checkpoint }}
+      </mat-option>
+    }
+    @if (this.flightroute.waypoints.length > 0) {
+      <mat-option value="{{ this.flightroute.waypoints.length  + 1 }}">
+        at the end
+      </mat-option>
+    }
+  </mat-select>
 </mat-form-field>

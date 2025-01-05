@@ -1,10 +1,12 @@
-<div *ngIf="this.envelope">
+@if (this.envelope) {
+  <div>
     <app-aircraft-wnb-envelope-chart
-        [envelope]="this.envelope"
-        [weightUnit]="this.weightUnit"
-        [lengthUnit]="this.lengthUnit"
-        [isEditable]="true"
-        (addEnvelopeCoordinateClicked)="this.onAddEnvelopeCoordinateClicked($event)"
-        (editEnvelopeCoordinateClicked)="this.onEditEnvelopeCoordinateClicked($event)"
-    />
-</div>
+      [envelope]="this.envelope"
+      [weightUnit]="this.weightUnit"
+      [lengthUnit]="this.lengthUnit"
+      [isEditable]="true"
+      (addEnvelopeCoordinateClicked)="this.onAddEnvelopeCoordinateClicked($event)"
+      (editEnvelopeCoordinateClicked)="this.onEditEnvelopeCoordinateClicked($event)"
+      />
+  </div>
+}

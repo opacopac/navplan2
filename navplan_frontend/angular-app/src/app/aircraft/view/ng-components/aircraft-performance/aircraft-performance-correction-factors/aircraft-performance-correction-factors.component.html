@@ -1,81 +1,79 @@
-<div *ngIf="this.correctionFactors" class="correction-factors-container">
+@if (this.correctionFactors) {
+  <div class="correction-factors-container">
     <p>Correction Factors</p>
-
     <div>
-        <label class="label">Grass RWY:</label>
-        <mat-form-field>
-            <mat-label>Increase by</mat-label>
-            <input
-                matInput
-                [formControl]="this.grassRwyCorrInput"
-                type="number"
-                required
-            />
-            <span matTextSuffix>%</span>
+      <label class="label">Grass RWY:</label>
+      <mat-form-field>
+        <mat-label>Increase by</mat-label>
+        <input
+          matInput
+          [formControl]="this.grassRwyCorrInput"
+          type="number"
+          required
+          />
+          <span matTextSuffix>%</span>
         </mat-form-field>
-    </div>
-
-    <div>
+      </div>
+      <div>
         <label class="label">Wet RWY</label>
         <mat-form-field>
-            <mat-label>Increase by</mat-label>
-            <input
-                matInput
-                [formControl]="this.wetRwyCorrInput"
-                type="number"
-                required
+          <mat-label>Increase by</mat-label>
+          <input
+            matInput
+            [formControl]="this.wetRwyCorrInput"
+            type="number"
+            required
             />
             <span matTextSuffix>%</span>
-        </mat-form-field>
-    </div>
-
-    <div>
-        <label class="label">Headwind</label>
-        <mat-form-field>
+          </mat-form-field>
+        </div>
+        <div>
+          <label class="label">Headwind</label>
+          <mat-form-field>
             <mat-label>Decrease by</mat-label>
             <input
-                matInput
-                [formControl]="this.headwindCorrInput"
-                type="number"
-                required
-            />
-            <span matTextSuffix>%</span>
-        </mat-form-field>
-        <mat-form-field class="second-button">
-            <mat-label>for each</mat-label>
-            <input
+              matInput
+              [formControl]="this.headwindCorrInput"
+              type="number"
+              required
+              />
+              <span matTextSuffix>%</span>
+            </mat-form-field>
+            <mat-form-field class="second-button">
+              <mat-label>for each</mat-label>
+              <input
                 matInput
                 [formControl]="this.headwindPerSpeedInput"
                 type="number"
                 required
-            />
-            <span matTextSuffix>{{ Speed.getUnitString(this.speedUnit) }}</span>
-        </mat-form-field>
-        <span class="of-wind-text">of headwind</span>
-    </div>
-
-    <div>
-        <label class="label">Tailwind</label>
-        <mat-form-field>
-            <mat-label>Increase by</mat-label>
-            <input
-                matInput
-                [formControl]="this.tailwindCorrInput"
-                type="number"
-                required
-            />
-            <span matTextSuffix>%</span>
-        </mat-form-field>
-        <mat-form-field class="second-button">
-            <mat-label>for each</mat-label>
-            <input
-                matInput
-                [formControl]="this.tailwindPerSpeedInput"
-                type="number"
-                required
-            />
-            <span matTextSuffix>{{ Speed.getUnitString(this.speedUnit) }}</span>
-        </mat-form-field>
-        <span class="of-wind-text">of tailwind</span>
-    </div>
-</div>
+                />
+                <span matTextSuffix>{{ Speed.getUnitString(this.speedUnit) }}</span>
+              </mat-form-field>
+              <span class="of-wind-text">of headwind</span>
+            </div>
+            <div>
+              <label class="label">Tailwind</label>
+              <mat-form-field>
+                <mat-label>Increase by</mat-label>
+                <input
+                  matInput
+                  [formControl]="this.tailwindCorrInput"
+                  type="number"
+                  required
+                  />
+                  <span matTextSuffix>%</span>
+                </mat-form-field>
+                <mat-form-field class="second-button">
+                  <mat-label>for each</mat-label>
+                  <input
+                    matInput
+                    [formControl]="this.tailwindPerSpeedInput"
+                    type="number"
+                    required
+                    />
+                    <span matTextSuffix>{{ Speed.getUnitString(this.speedUnit) }}</span>
+                  </mat-form-field>
+                  <span class="of-wind-text">of tailwind</span>
+                </div>
+              </div>
+            }

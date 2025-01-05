@@ -1,3 +1,5 @@
 <app-map-overlay-position [position]="this.userpoint.position"></app-map-overlay-position>
 <app-map-overlay-variation [position]="this.userpoint.position"></app-map-overlay-variation>
-<p *ngIf="this.userpoint.remark">Remark: {{ this.userpoint.remark }}</p>
+@if (this.userpoint.remark) {
+  <p>Remark: {{ this.userpoint.remark }}</p>
+}

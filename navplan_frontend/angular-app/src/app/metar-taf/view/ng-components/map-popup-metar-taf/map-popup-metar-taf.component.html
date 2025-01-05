@@ -1,15 +1,23 @@
-<div *ngIf="this.metarTaf" class="metarTaf">
-    <p *ngIf="this.metarTaf.raw_metar">
+@if (this.metarTaf) {
+  <div class="metarTaf">
+    @if (this.metarTaf.raw_metar) {
+      <p>
         METAR {{ this.metarTaf.raw_metar }}
         <br>
-        <small><i>({{ this.getMetarAgeString() }} old)</i></small>
-    </p>
-    <p *ngIf="this.metarTaf.raw_taf" >
-        {{ this.metarTaf.raw_taf }}
-        <br>
-        <small><i>({{ this.getTafAgeString() }} old)</i></small>
-    </p>
-</div>
-<div *ngIf="!this.metarTaf">
-    <p><em>No METAR/TAF available</em></p>
-</div>
+          <small><i>({{ this.getMetarAgeString() }} old)</i></small>
+        </p>
+      }
+      @if (this.metarTaf.raw_taf) {
+        <p >
+          {{ this.metarTaf.raw_taf }}
+          <br>
+            <small><i>({{ this.getTafAgeString() }} old)</i></small>
+          </p>
+        }
+      </div>
+    }
+    @if (!this.metarTaf) {
+      <div>
+        <p><em>No METAR/TAF available</em></p>
+      </div>
+    }

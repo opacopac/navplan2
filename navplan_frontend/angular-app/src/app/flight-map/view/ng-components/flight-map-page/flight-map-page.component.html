@@ -1,13 +1,13 @@
 <!-- base map -->
 <div class="base-map-container">
-    <app-ol-map-container></app-ol-map-container>
+  <app-ol-map-container></app-ol-map-container>
 </div>
 <!-- map overlays -->
 <div style="display: none">
-    <!--<app-ol-overlay-waypoint (close)="this.onOverlayClosed()"></app-ol-overlay-waypoint>-->
-    <app-map-popup></app-map-popup>
-    <app-map-popup-traffic></app-map-popup-traffic>
-    <app-map-overlay-airspace-structure></app-map-overlay-airspace-structure>
+  <!--<app-ol-overlay-waypoint (close)="this.onOverlayClosed()"></app-ol-overlay-waypoint>-->
+  <app-map-popup></app-map-popup>
+  <app-map-popup-traffic></app-map-popup-traffic>
+  <app-map-overlay-airspace-structure></app-map-overlay-airspace-structure>
 </div>
 <!-- search box -->
 <app-search-container class="search-container"></app-search-container>
@@ -16,16 +16,26 @@
 <app-location-button class="location-button-pos"></app-location-button>
 <app-traffic-button class="traffic-button-pos"></app-traffic-button>
 <app-meteo-button class="meteo-button-pos"></app-meteo-button>
-<app-meteo-container class="meteo-container-pos" *ngIf="this.showMeteoLayer$ | async"></app-meteo-container>
-<app-vertical-map-button class="vertical-map-button-pos"
-                         *ngIf="this.showVerticalMapButton$ | async"></app-vertical-map-button>
-<app-vertical-map class="vertical-map-pos" *ngIf="(this.showVerticalMap$ | async)"></app-vertical-map>
+@if (this.showMeteoLayer$ | async) {
+  <app-meteo-container class="meteo-container-pos"></app-meteo-container>
+}
+@if (this.showVerticalMapButton$ | async) {
+  <app-vertical-map-button class="vertical-map-button-pos"
+  ></app-vertical-map-button>
+}
+@if ((this.showVerticalMap$ | async)) {
+  <app-vertical-map class="vertical-map-pos"></app-vertical-map>
+}
 <app-flighttimer></app-flighttimer>
 <!-- buttons right -->
 <app-full-screen-button class="full-screen-button-pos"></app-full-screen-button>
 <app-map-layer-selection-button class="map-layer-selection-button-pos"></app-map-layer-selection-button>
-<app-map-layer-selection-content class="map-layer-selection-content-pos"
-                                 *ngIf="this.showMapLayerSelection$ | async"></app-map-layer-selection-content>
+@if (this.showMapLayerSelection$ | async) {
+  <app-map-layer-selection-content class="map-layer-selection-content-pos"
+  ></app-map-layer-selection-content>
+}
 <app-attributions-button class="attributions-button-pos"></app-attributions-button>
-<app-attributions-content class="attributions-content-pos"
-                          *ngIf="this.showAttributions$ | async"></app-attributions-content>
+@if (this.showAttributions$ | async) {
+  <app-attributions-content class="attributions-content-pos"
+  ></app-attributions-content>
+}
