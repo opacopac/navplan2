@@ -17,7 +17,6 @@ import {PlanPerfAirportType} from '../../../state/state-model/plan-perf-airport-
 })
 export class PlanPerfAirpportComponent implements OnInit {
     @Input() public airportPerfState: PlanPerfAirportState;
-    @Input() public airportPerfType: PlanPerfAirportType;
     @Input() public isAlternate: boolean;
     @Input() public pressureUnit: PressureUnit;
     @Input() public speedUnit: SpeedUnit;
@@ -41,7 +40,7 @@ export class PlanPerfAirpportComponent implements OnInit {
 
 
     protected isDepartureAd(): boolean {
-        return this.airportPerfType === PlanPerfAirportType.DEPARTURE;
+        return this.airportPerfState.type === PlanPerfAirportType.DEPARTURE;
     }
 
 
@@ -56,9 +55,9 @@ export class PlanPerfAirpportComponent implements OnInit {
             airportName += ' (' + this.airportPerfState.airport.icao + ')';
         }
 
-        if (this.airportPerfType === PlanPerfAirportType.DEPARTURE) {
+        if (this.airportPerfState.type === PlanPerfAirportType.DEPARTURE) {
             return 'Take Off Performance ' + airportName;
-        } else if (this.airportPerfType === PlanPerfAirportType.DESTINATION) {
+        } else if (this.airportPerfState.type === PlanPerfAirportType.DESTINATION) {
             return 'Landing Performance ' + airportName;
         } else {
             return 'Alternate Landing Performance ' + airportName;

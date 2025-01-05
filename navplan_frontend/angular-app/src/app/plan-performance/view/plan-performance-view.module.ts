@@ -3,9 +3,7 @@ import {CommonModule} from '@angular/common';
 import {CommonViewModule} from '../../common/view/common-view.module';
 import {PlanPerfContainerComponent} from './ng-components/plan-perf-container/plan-perf-container.component';
 import {PlanPerfAirpportComponent} from './ng-components/plan-perf-airport/plan-perf-airpport.component';
-import {
-    PlanPerfDepartureCalculationComponent
-} from './ng-components/plan-perf-departure-calculation/plan-perf-departure-calculation.component';
+import {PlanPerfCalculationComponent} from './ng-components/plan-perf-calculation/plan-perf-calculation.component';
 import {
     PlanPerfRunwayFactorsComponent
 } from './ng-components/plan-perf-runway-factors/plan-perf-runway-factors.component';
@@ -43,7 +41,7 @@ import {PlanPerformanceDomainModule} from '../domain/plan-performance-domain.mod
     declarations: [
         PlanPerfContainerComponent,
         PlanPerfAirpportComponent,
-        PlanPerfDepartureCalculationComponent,
+        PlanPerfCalculationComponent,
         PlanPerfRunwayFactorsComponent,
         PlanPerfWeatherFactorsComponent
     ],

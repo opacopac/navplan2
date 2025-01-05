@@ -25,4 +25,9 @@ export class AirportRunway {
 
         return this.name.indexOf(dir1txt) === -1;
     }
+
+
+    public isGrass(): boolean {
+        return this.surface === 'GRAS';
+    }
 }

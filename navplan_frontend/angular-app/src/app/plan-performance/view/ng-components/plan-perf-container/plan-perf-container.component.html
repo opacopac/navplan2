@@ -5,7 +5,7 @@
         [showRegistration]="true"
     />
     <!-- airport performance list -->
-    @for (adPerfState of this.getAirportPerfStates$ | async; track $index) {
+    @for (adPerfState of this.getAirportPerfStates$ | async; let idx = $index; track idx) {
         <app-plan-perf-airport
             [airportPerfState]="adPerfState"
             [pressureUnit]="this.pressureUnit$ | async"
@@ -13,9 +13,9 @@
             [altitudeUnit]="this.altitudeUnit$ | async"
             [performanceDistanceUnit]="this.performanceDistanceUnit$ | async"
             [speedUnit]="this.speedUnit$ | async"
-            (runwayChanged)="this.onRunwayChanged($index, $event)"
-            (weatherFactorsChanged)="this.onWeatherFactorsChanged($index, $event)"
-            (runwayFactorsChanged)="this.onRunwayFactorsChanged($index, $event)"
+            (runwayChanged)="this.onRunwayChanged(idx, $event)"
+            (weatherFactorsChanged)="this.onWeatherFactorsChanged(idx, $event)"
+            (runwayFactorsChanged)="this.onRunwayFactorsChanged(idx, $event)"
         />
     }
 </div>
