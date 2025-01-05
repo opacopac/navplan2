@@ -4,7 +4,6 @@ import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length
 import {TemperatureUnit} from '../../../../geo-physics/domain/model/quantities/temperature-unit';
 import {PressureUnit} from '../../../../geo-physics/domain/model/quantities/pressure-unit';
 import {PlanPerfAirportState} from '../../../state/state-model/plan-perf-airport-state';
-import {FormBuilder, FormGroup} from '@angular/forms';
 import {PlanPerfWeatherFactorsState} from '../../../state/state-model/plan-perf-weather-factors-state';
 import {PlanPerfRwyFactorsState} from '../../../state/state-model/plan-perf-rwy-factors-state';
 import {AirportRunway} from '../../../../aerodrome/domain/model/airport-runway';
@@ -28,12 +27,7 @@ export class PlanPerfAirpportComponent implements OnInit {
     @Output() public weatherFactorsChanged = new EventEmitter<PlanPerfWeatherFactorsState>();
     @Output() public runwayFactorsChanged = new EventEmitter<PlanPerfRwyFactorsState>();
 
-    protected airportPerformanceForm: FormGroup;
     protected readonly Length = Length;
-
-
-    constructor(private formBuilder: FormBuilder) {
-    }
 
 
     ngOnInit() {

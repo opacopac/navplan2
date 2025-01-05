@@ -20,6 +20,7 @@ import {MatOption} from '@angular/material/autocomplete';
 import {MatSelect} from '@angular/material/select';
 import {PlanPerformanceStateModule} from '../state/plan-performance-state.module';
 import {PlanPerformanceDomainModule} from '../domain/plan-performance-domain.module';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import {PlanPerformanceDomainModule} from '../domain/plan-performance-domain.mod
         PlanPerformanceStateModule,
         AircraftViewModule,
         MatRadioModule,
+        MatCheckboxModule,
         MatFormFieldModule,
         ReactiveFormsModule,
         MatAccordion,

@@ -1,49 +1,42 @@
 <form class="correction-factors-form" [formGroup]="this.correctionFactorsForm">
     <div class="correction-factors-form-content">
-        <!-- runway selector -->
-        <mat-form-field>
-            <mat-label>RWY</mat-label>
-            <mat-select
-                formControlName="runway"
-                required
-                [value]="this.runwayFactors.runway"
-                (selectionChange)="this.onRunwayChanged()"
-            >
-                @for (rwy of this.runways; track rwy) {
-                    <mat-option
-                        [value]="rwy"
-                    >
-                        {{ this.getRwyText(rwy) }}
-                    </mat-option>
-                }
-            </mat-select>
-        </mat-form-field>
-        <!-- Grass RWY -->
         <div>
-            <label id="grass-rwy-radio-group-label">Grass RWY</label>
-            <mat-radio-group
-                aria-labelledby="grass-rwy-radio-group-label"
+            <!-- runway selector -->
+            <mat-form-field>
+                <mat-label>RWY</mat-label>
+                <mat-select
+                    formControlName="runway"
+                    required
+                    [value]="this.runwayFactors.runway"
+                    (selectionChange)="this.onRunwayChanged()"
+                >
+                    @for (rwy of this.runways; track rwy) {
+                        <mat-option
+                            [value]="rwy"
+                        >
+                            {{ this.getRwyText(rwy) }}
+                        </mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+
+            <!-- Grass RWY -->
+            <label id="grass-rwy-checkbox-label">Grass</label>
+            <mat-checkbox
+                aria-labelledby="grass-rwy-checkbox-label"
                 color="primary"
                 formControlName="grassRwy"
                 (change)="this.onGrassRwyChanged()"
-            >
-                <mat-radio-button [value]="false">No</mat-radio-button>
-                <mat-radio-button [value]="true">Yes</mat-radio-button>
-            </mat-radio-group>
-        </div>
+            />
 
-        <!-- Wet RWY -->
-        <div>
-            <label id="wet-rwy-radio-group-label">Wet RWY</label>
-            <mat-radio-group
-                aria-labelledby="wet-rwy-radio-group-label"
+            <!-- Wet RWY -->
+            <label id="wet-rwy-checkbox-label">Wet</label>
+            <mat-checkbox
+                aria-labelledby="wet-rwy-checkbox-label"
                 color="primary"
                 formControlName="wetRwy"
                 (change)="this.onWetRwyChanged()"
-            >
-                <mat-radio-button [value]="false">No</mat-radio-button>
-                <mat-radio-button [value]="true">Yes</mat-radio-button>
-            </mat-radio-group>
+            />
         </div>
 
         <!-- RWY Slope -->
