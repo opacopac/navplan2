@@ -189,9 +189,8 @@ export class PlanPerfEffects {
 
     private calcDistance(perfTable: DistancePerformanceTable, adState: PlanPerfAirportState): Length {
         const distPerfCond = this.createDistancePerformanceConditions(adState.runwayFactors);
-        const elev = adState.weatherFactors.elevation;
         return perfTable ? AircraftPerformanceService.calcDistance(
-            elev,
+            adState.weatherFactors.elevation,
             adState.weatherFactors.qnh,
             adState.weatherFactors.oat,
             distPerfCond,

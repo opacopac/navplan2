@@ -44,10 +44,14 @@ export class PlanPerfRunwayFactorsComponent implements OnInit {
 
     protected onRunwayChanged() {
         if (this.correctionFactorsForm.controls['runway'].valid) {
+            const rwy = this.correctionFactorsForm.value.runway as AirportRunway;
             this.runwayFactorChanged.emit({
                 ...this.runwayFactors,
-                runway: this.correctionFactorsForm.value.runway
+                runway: rwy,
+                isGrassRwy: rwy.isGrass()
             });
+
+            this.correctionFactorsForm.patchValue({grassRwy: rwy.isGrass()});
         }
     }
 
@@ -109,12 +113,8 @@ export class PlanPerfRunwayFactorsComponent implements OnInit {
             'runway': [this.runwayFactors.runway, [
                 Validators.required,
             ]],
-            'grassRwy': [this.runwayFactors.isGrassRwy, [
-                Validators.required
-            ]],
-            'wetRwy': [this.runwayFactors.isWetRwy, [
-                Validators.required
-            ]],
+            'grassRwy': [this.runwayFactors.isGrassRwy, []],
+            'wetRwy': [this.runwayFactors.isWetRwy, []],
             'rwySlope': [Math.abs(this.runwayFactors.rwySlopePercent), [
                 Validators.required,
                 Validators.min(0),

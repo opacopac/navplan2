@@ -1,5 +1,4 @@
 import {createAction, props} from '@ngrx/store';
-import {AirportRunway} from '../../../aerodrome/domain/model/airport-runway';
 import {PlanPerfWeatherFactorsState} from '../state-model/plan-perf-weather-factors-state';
 import {PlanPerfRwyFactorsState} from '../state-model/plan-perf-rwy-factors-state';
 import {PlanPerfAirportState} from '../state-model/plan-perf-airport-state';
@@ -12,12 +11,6 @@ export class PlanPerfActions {
     public static readonly updateAirports = createAction(
         '[Plan Performance Effects] Update Airports',
         props<{ airportStates: PlanPerfAirportState[] }>()
-    );
-
-
-    public static readonly changeAirportRunway = createAction(
-        '[Plan Performance Tab] Change Airport Runway',
-        props<{ adIndex: number, runway: AirportRunway }>()
     );
 
 
