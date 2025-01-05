@@ -5,16 +5,17 @@
         [showRegistration]="true"
     />
     <!-- airport performance list -->
-    <app-plan-perf-airport
-        *ngFor="let adPerfState of this.getAirportPerfStates$ | async; let idx = index;"
-        [airportPerfState]="adPerfState"
-        [pressureUnit]="this.pressureUnit$ | async"
-        [temperatureUnit]="this.temperatureUnit$ | async"
-        [altitudeUnit]="this.altitudeUnit$ | async"
-        [performanceDistanceUnit]="this.performanceDistanceUnit$ | async"
-        [speedUnit]="this.speedUnit$ | async"
-        (runwayChanged)="this.onRunwayChanged(idx, $event)"
-        (weatherFactorsChanged)="this.onWeatherFactorsChanged(idx, $event)"
-        (runwayFactorsChanged)="this.onRunwayFactorsChanged(idx, $event)"
-    />
+    @for (adPerfState of this.getAirportPerfStates$ | async; track $index) {
+        <app-plan-perf-airport
+            [airportPerfState]="adPerfState"
+            [pressureUnit]="this.pressureUnit$ | async"
+            [temperatureUnit]="this.temperatureUnit$ | async"
+            [altitudeUnit]="this.altitudeUnit$ | async"
+            [performanceDistanceUnit]="this.performanceDistanceUnit$ | async"
+            [speedUnit]="this.speedUnit$ | async"
+            (runwayChanged)="this.onRunwayChanged($index, $event)"
+            (weatherFactorsChanged)="this.onWeatherFactorsChanged($index, $event)"
+            (runwayFactorsChanged)="this.onRunwayFactorsChanged($index, $event)"
+        />
+    }
 </div>
