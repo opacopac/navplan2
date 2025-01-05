@@ -23,6 +23,7 @@ import {PlanPerfRwyFactorsState} from '../state-model/plan-perf-rwy-factors-stat
 import {Aircraft} from '../../../aircraft/domain/model/aircraft';
 import {PlanPerfLandingCalculationState} from '../state-model/plan-perf-landing-calculation-state';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
+import {DistancePerformanceTable} from '../../../aircraft/domain/model/distance-performance-table';
 
 
 @Injectable()
@@ -156,54 +157,43 @@ export class PlanPerfEffects {
 
 
     private createTakeoffPerformanceConditions(adState: PlanPerfAirportState, aircraft: Aircraft): PlanPerfTakeoffCalculationState {
-        const distPerfCond = this.createDistancePerformanceConditions(adState.runwayFactors);
-        const elev = adState.airport.elevation ? adState.airport.elevation.getHeightAmsl() : Length.ofZero();
         const rwy = adState.runway;
+        const tkofGroundRoll = this.calcDistance(aircraft?.perfTakeoffGroundRoll, adState);
+        const tkofDist50ft = this.calcDistance(aircraft?.perfTakeoffDist50ft, adState);
+        const ldaGroundRoll = this.calcDistance(aircraft?.perfLandingGroundRoll, adState);
+        const tkofAbortPoint = (rwy?.length && ldaGroundRoll) ? rwy.length.subtract(ldaGroundRoll) : null;
         return {
             rwyLength: rwy?.length,
             rwyWidth: rwy?.width,
             tkofLenAvbl: rwy?.tora,
-            groundRoll: aircraft?.perfTakeoffGroundRoll ? AircraftPerformanceService.calcDistance(
-                elev,
-                adState.weatherFactors.qnh,
-                adState.weatherFactors.oat,
-                distPerfCond,
-                aircraft.perfTakeoffGroundRoll
-            ) : null,
-            tkofDist50ft: aircraft?.perfTakeoffDist50ft ? AircraftPerformanceService.calcDistance(
-                elev,
-                adState.weatherFactors.qnh,
-                adState.weatherFactors.oat,
-                distPerfCond,
-                aircraft.perfTakeoffDist50ft
-            ) : null,
-            tkofAbortPoint: null
+            groundRoll: tkofGroundRoll,
+            tkofDist50ft: tkofDist50ft,
+            tkofAbortPoint: tkofAbortPoint
         };
     }
 
 
     private createLandingPerformanceConditions(adState: PlanPerfAirportState, aircraft: Aircraft): PlanPerfLandingCalculationState {
-        const distPerfCond = this.createDistancePerformanceConditions(adState.runwayFactors);
-        const elev = adState.airport.elevation ? adState.airport.elevation.getHeightAmsl() : Length.ofZero();
         const rwy = adState.runway;
         return {
             rwyLength: rwy?.length,
             rwyWidth: rwy?.width,
             ldgLenAvbl: rwy?.lda,
-            ldgGroundRoll: aircraft?.perfLandingGroundRoll ? AircraftPerformanceService.calcDistance(
-                adState.airport.elevation.getHeightAmsl(),
-                adState.weatherFactors.qnh,
-                adState.weatherFactors.oat,
-                distPerfCond,
-                aircraft.perfLandingGroundRoll
-            ) : null,
-            ldgDist50ft: aircraft?.perfLandingDist50ft ? AircraftPerformanceService.calcDistance(
-                adState.airport.elevation.getHeightAmsl(),
-                adState.weatherFactors.qnh,
-                adState.weatherFactors.oat,
-                distPerfCond,
-                aircraft.perfLandingDist50ft
-            ) : null
+            ldgGroundRoll: this.calcDistance(aircraft?.perfLandingGroundRoll, adState),
+            ldgDist50ft: this.calcDistance(aircraft?.perfLandingDist50ft, adState),
         };
+    }
+
+
+    private calcDistance(perfTable: DistancePerformanceTable, adState: PlanPerfAirportState): Length {
+        const distPerfCond = this.createDistancePerformanceConditions(adState.runwayFactors);
+        const elev = adState.airport.elevation ? adState.airport.elevation.getHeightAmsl() : Length.ofZero();
+        return perfTable ? AircraftPerformanceService.calcDistance(
+            elev,
+            adState.weatherFactors.qnh,
+            adState.weatherFactors.oat,
+            distPerfCond,
+            perfTable
+        ) : null;
     }
 }
