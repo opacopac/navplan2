@@ -1,4 +1,4 @@
 export enum PerformanceTableTemperatureReference {
     OUTSIDE_TEMPERATURE,
-    ISA_TEMPERATURE_DELTA
+    ISA_TEMPERATURE
 }

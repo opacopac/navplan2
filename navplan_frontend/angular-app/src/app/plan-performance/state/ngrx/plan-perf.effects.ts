@@ -163,7 +163,7 @@ export class PlanPerfEffects {
             rwyLength: rwy?.length,
             rwyWidth: rwy?.width,
             tkofLenAvbl: rwy?.tora,
-            groundRoll: aircraft?.perfLandingGroundRoll ? AircraftPerformanceService.calcDistance(
+            groundRoll: aircraft?.perfTakeoffGroundRoll ? AircraftPerformanceService.calcDistance(
                 elev,
                 adState.weatherFactors.qnh,
                 adState.weatherFactors.oat,
