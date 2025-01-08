@@ -1,4 +1,8 @@
 @if (this.takeoffPerformance) {
+    <app-plan-perf-takeoff-chart
+        [takeoffPerformance]="this.takeoffPerformance"
+        [lengthUnit]="this.performanceDistanceUnit"
+    />
     <ul>
         <li>RWY Length: {{ this.getLengthString(this.takeoffPerformance.rwyLength) }}</li>
         <li>TKOF LEN AVBL: {{ this.getLengthString(this.takeoffPerformance.tkofLenAvbl) }}</li>

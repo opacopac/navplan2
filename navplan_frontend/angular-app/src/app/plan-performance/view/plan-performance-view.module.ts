@@ -21,6 +21,7 @@ import {MatSelect} from '@angular/material/select';
 import {PlanPerformanceStateModule} from '../state/plan-performance-state.module';
 import {PlanPerformanceDomainModule} from '../domain/plan-performance-domain.module';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {PlanPerfTakeoffChartComponent} from './ng-components/plan-perf-takeoff-chart/plan-perf-takeoff-chart.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
         PlanPerfAirpportComponent,
         PlanPerfCalculationComponent,
         PlanPerfRunwayFactorsComponent,
-        PlanPerfWeatherFactorsComponent
+        PlanPerfWeatherFactorsComponent,
+        PlanPerfTakeoffChartComponent
     ],
     exports: [
         PlanPerfContainerComponent,
