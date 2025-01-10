@@ -26,7 +26,7 @@ export class PlanPerfTakeoffChart {
             imageHeightPx.toString()
         );
 
-        svg.appendChild(PlanPerfRunwaySvg.create(takeoffPerformance.rwyLength, takeoffPerformance.rwyWidth, imgDim));
+        svg.appendChild(PlanPerfRunwaySvg.create(takeoffPerformance, imgDim));
 
         return svg;
     }

@@ -3,29 +3,30 @@ import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {ImageDimensionsSvg} from '../../../common/svg/image-dimensions-svg';
 import {SvgGroupElement} from '../../../common/svg/svg-group-element';
 import {SvgLineElement} from '../../../common/svg/svg-line-element';
+import {PlanPerfTakeoffCalculationState} from '../../state/state-model/plan-perf-takeoff-calculation-state';
 
 
 export class PlanPerfRunwaySvg {
-    public static create(rwyLength: Length, rwyWidth: Length, imgDim: ImageDimensionsSvg): SVGGElement {
+    public static create(tkofPerf: PlanPerfTakeoffCalculationState, imgDim: ImageDimensionsSvg): SVGGElement {
         const rwyGroup = SvgGroupElement.create();
 
         const points: [number, number][] = [];
 
         // rwy rectangle
         points.push(this.calcPerspectiveXy(Length.ofZero(), Length.ofZero(), imgDim));
-        points.push(this.calcPerspectiveXy(Length.ofZero(), rwyWidth, imgDim));
-        points.push(this.calcPerspectiveXy(rwyLength, rwyWidth, imgDim));
-        points.push(this.calcPerspectiveXy(rwyLength, Length.ofZero(), imgDim));
+        points.push(this.calcPerspectiveXy(Length.ofZero(), tkofPerf.rwyWidth, imgDim));
+        points.push(this.calcPerspectiveXy(tkofPerf.rwyLength, tkofPerf.rwyWidth, imgDim));
+        points.push(this.calcPerspectiveXy(tkofPerf.rwyLength, Length.ofZero(), imgDim));
         rwyGroup.appendChild(SvgPolygonElement.create(
             points,
             'fill:gray; stroke:black; stroke-width:2px'
         ));
 
         // center line
-        const halfWidth = Length.ofM(rwyWidth.m / 2);
+        const halfWidth = Length.ofM(tkofPerf.rwyWidth.m / 2);
         const offset = Length.ofM(6 + 30 + 12 + 9 + 12);
-        const startXy = this.calcPerspectiveXy(halfWidth.add(offset), halfWidth, imgDim);
-        const endXy = this.calcPerspectiveXy(rwyLength.subtract(offset), halfWidth, imgDim);
+        const startXy = this.calcPerspectiveXy(offset, halfWidth, imgDim);
+        const endXy = this.calcPerspectiveXy(tkofPerf.rwyLength.subtract(offset), halfWidth, imgDim);
         const dashLenOnPx = imgDim.calcXy(Length.ofM(30), Length.ofZero())[0];
         const dashLenOffPx = imgDim.calcXy(Length.ofM(20), Length.ofZero())[0];
         rwyGroup.appendChild(SvgLineElement.create(
@@ -36,7 +37,7 @@ export class PlanPerfRunwaySvg {
             'stroke:white; stroke-width:2px',
             '',
             '',
-            dashLenOnPx.toString() + ',' + dashLenOffPx.toString() // '30, 20'
+            dashLenOnPx.toString() + ',' + dashLenOffPx.toString()
         ));
 
         return rwyGroup;
