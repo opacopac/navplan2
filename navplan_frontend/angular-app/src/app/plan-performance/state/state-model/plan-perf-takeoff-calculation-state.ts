@@ -4,6 +4,7 @@ export interface PlanPerfTakeoffCalculationState {
     rwyLength: Length;
     rwyWidth: Length;
     tkofLenAvbl: Length;
+    ldgLenAvbl: Length;
     tkofDist50ft: Length;
     tkofAbortPoint: Length;
     tkofAbortDist: Length;

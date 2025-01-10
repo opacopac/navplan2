@@ -167,6 +167,7 @@ export class PlanPerfEffects {
             rwyLength: rwy?.length,
             rwyWidth: rwy?.width,
             tkofLenAvbl: rwy?.tora,
+            ldgLenAvbl: rwy?.lda,
             groundRoll: tkofGroundRoll,
             tkofDist50ft: tkofDist50ft,
             tkofAbortPoint: tkofAbortPoint,
@@ -180,6 +181,7 @@ export class PlanPerfEffects {
         return {
             rwyLength: rwy?.length,
             rwyWidth: rwy?.width,
+            tkofLenAvbl: rwy?.tora,
             ldgLenAvbl: rwy?.lda,
             ldgGroundRoll: this.calcDistance(aircraft?.perfLandingGroundRoll, adState),
             ldgDist50ft: this.calcDistance(aircraft?.perfLandingDist50ft, adState),
