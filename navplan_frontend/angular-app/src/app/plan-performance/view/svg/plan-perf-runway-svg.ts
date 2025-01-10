@@ -12,11 +12,10 @@ export class PlanPerfRunwaySvg {
         const points: [number, number][] = [];
 
         // rwy rectangle
-        points.push(imgDim.calcXy(Length.ofZero(), Length.ofZero()));
-        points.push(imgDim.calcXy(rwyWidth, rwyWidth));
-        points.push(imgDim.calcXy(rwyLength.subtract(rwyWidth), rwyWidth));
-        points.push(imgDim.calcXy(rwyLength, Length.ofZero()));
-
+        points.push(this.calcPerspectiveXy(Length.ofZero(), Length.ofZero(), imgDim));
+        points.push(this.calcPerspectiveXy(Length.ofZero(), rwyWidth, imgDim));
+        points.push(this.calcPerspectiveXy(rwyLength, rwyWidth, imgDim));
+        points.push(this.calcPerspectiveXy(rwyLength, Length.ofZero(), imgDim));
         rwyGroup.appendChild(SvgPolygonElement.create(
             points,
             'fill:gray; stroke:black; stroke-width:2px'
@@ -24,9 +23,11 @@ export class PlanPerfRunwaySvg {
 
         // center line
         const halfWidth = Length.ofM(rwyWidth.m / 2);
-        const offset = Length.ofM(50);
-        const startXy = imgDim.calcXy(halfWidth.add(offset), halfWidth);
-        const endXy = imgDim.calcXy(rwyLength.subtract(halfWidth).subtract(offset), halfWidth);
+        const offset = Length.ofM(6 + 30 + 12 + 9 + 12);
+        const startXy = this.calcPerspectiveXy(halfWidth.add(offset), halfWidth, imgDim);
+        const endXy = this.calcPerspectiveXy(rwyLength.subtract(offset), halfWidth, imgDim);
+        const dashLenOnPx = imgDim.calcXy(Length.ofM(30), Length.ofZero())[0];
+        const dashLenOffPx = imgDim.calcXy(Length.ofM(20), Length.ofZero())[0];
         rwyGroup.appendChild(SvgLineElement.create(
             startXy[0].toString(),
             endXy[0].toString(),
@@ -35,9 +36,18 @@ export class PlanPerfRunwaySvg {
             'stroke:white; stroke-width:2px',
             '',
             '',
-            '30, 20'
+            dashLenOnPx.toString() + ',' + dashLenOffPx.toString() // '30, 20'
         ));
 
         return rwyGroup;
+    }
+
+
+    private static calcPerspectiveXy(width: Length, height: Length, imgDim: ImageDimensionsSvg): [number, number] {
+        const xy = imgDim.calcXy(width, height);
+        const y = xy[1];
+        const x = (xy[0] - imgDim.imageWidthPx / 2) * (1 - (imgDim.imageHeightPx - y) / imgDim.imageWidthPx * 2) + imgDim.imageWidthPx / 2;
+
+        return [x, y];
     }
 }
