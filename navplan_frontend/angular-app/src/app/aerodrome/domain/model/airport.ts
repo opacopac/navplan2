@@ -11,7 +11,7 @@ import {AirportChart} from './airport-chart';
 import {Altitude} from '../../../geo-physics/domain/model/geometry/altitude';
 
 
-export class Airport extends DataItem  {
+export class Airport extends DataItem {
     public runways: AirportRunway[];
     public radios: AirportRadio[];
     public webcams: Webcam[];
@@ -97,5 +97,24 @@ export class Airport extends DataItem  {
 
     public get showRunways(): boolean {
         return this.hasRunways && !this.isClosed && !this.isHeliport && !this.isMountainous && !this.isWater;
+    }
+
+
+    public findOppositeRunway(rwy: AirportRunway): AirportRunway {
+        if (rwy == null || this.runways == null) {
+            return null;
+        }
+
+        return this.runways.find(r => {
+            return (r.direction === ((rwy.direction + 180) % 360))
+                && (r.length.equals(rwy.length))
+                && (r.width.equals(rwy.width))
+                && (r.surface === rwy.surface)
+                && ((rwy.name.endsWith('R') && r.name.endsWith('L'))
+                    || (rwy.name.endsWith('L') && r.name.endsWith('R'))
+                    || (rwy.name.endsWith('C') && r.name.endsWith('C'))
+                    || (!rwy.name.endsWith('R') && !rwy.name.endsWith('L') && !rwy.name.endsWith('C'))
+                );
+        });
     }
 }

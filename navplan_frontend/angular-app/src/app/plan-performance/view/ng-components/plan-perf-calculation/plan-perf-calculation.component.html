@@ -4,8 +4,8 @@
         [lengthUnit]="this.performanceDistanceUnit"
     />
     <ul>
-        <li>RWY Length: {{ this.getLengthString(this.takeoffPerformance.rwyLength) }}</li>
-        <li>TKOF LEN AVBL: {{ this.getLengthString(this.takeoffPerformance.tkofLenAvbl) }}</li>
+        <li>RWY Length: {{ this.getLengthString(this.takeoffPerformance.rwy.length) }}</li>
+        <li>TKOF LEN AVBL: {{ this.getLengthString(this.takeoffPerformance.rwy.tora) }}</li>
         <li>TKOF Ground Roll: {{ this.getLengthString(this.takeoffPerformance.groundRoll) }}</li>
         <li>TKOF Distance to 50ft: {{ this.getLengthString(this.takeoffPerformance.tkofDist50ft) }}</li>
         <li>TKOF Abort Point: {{ this.getLengthString(this.takeoffPerformance.tkofAbortPoint) }}</li>
@@ -13,8 +13,8 @@
     </ul>
 } @else if (landingPerformance) {
     <ul>
-        <li>RWY Length: {{ this.getLengthString(this.landingPerformance.rwyLength) }}</li>
-        <li>LDG LEN AVBL: {{ this.getLengthString(this.landingPerformance.ldgLenAvbl) }}</li>
+        <li>RWY Length: {{ this.getLengthString(this.landingPerformance.rwy.length) }}</li>
+        <li>LDG LEN AVBL: {{ this.getLengthString(this.landingPerformance.rwy.lda) }}</li>
         <li>LDG Ground Roll: {{ this.getLengthString(this.landingPerformance.ldgGroundRoll) }}</li>
         <li>LDG Distance to 50ft: {{ this.getLengthString(this.landingPerformance.ldgDist50ft) }}</li>
     </ul>

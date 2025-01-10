@@ -47,6 +47,17 @@ export abstract class AbstractQuantity<Q, U> {
     }
 
 
+    public equals(quantity: AbstractQuantity<Q, U>): boolean {
+        if (!quantity) {
+            return false;
+        } else if (this.unit === quantity.unit) {
+            return this.value === quantity.value;
+        } else {
+            return this.getValue(this.getDefaultUnit()) === quantity.getValue(this.getDefaultUnit());
+        }
+    }
+
+
     protected abstract createInstance(value: number, unit: U): Q;
 
 

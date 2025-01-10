@@ -24,6 +24,7 @@ import {Aircraft} from '../../../aircraft/domain/model/aircraft';
 import {PlanPerfLandingCalculationState} from '../state-model/plan-perf-landing-calculation-state';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {DistancePerformanceTable} from '../../../aircraft/domain/model/distance-performance-table';
+import {AirportRunwayService} from '../../../aerodrome/domain/service/airport-runway.service';
 
 
 @Injectable()
@@ -159,15 +160,15 @@ export class PlanPerfEffects {
 
     private createTakeoffPerformanceConditions(adState: PlanPerfAirportState, aircraft: Aircraft): PlanPerfTakeoffCalculationState {
         const rwy = adState.runwayFactors.runway;
+        const [threshold, oppThreshold] = AirportRunwayService.calcThresholdPoints(adState.airport, rwy);
         const tkofGroundRoll = this.calcDistance(aircraft?.perfTakeoffGroundRoll, adState);
         const tkofDist50ft = this.calcDistance(aircraft?.perfTakeoffDist50ft, adState);
         const ldaGroundRoll = this.calcDistance(aircraft?.perfLandingGroundRoll, adState);
         const tkofAbortPoint = (rwy?.length && ldaGroundRoll) ? rwy.length.subtract(ldaGroundRoll) : null;
         return {
-            rwyLength: rwy?.length,
-            rwyWidth: rwy?.width,
-            tkofLenAvbl: rwy?.tora,
-            ldgLenAvbl: rwy?.lda,
+            rwy: rwy,
+            threshold: threshold,
+            oppThreshold: oppThreshold,
             groundRoll: tkofGroundRoll,
             tkofDist50ft: tkofDist50ft,
             tkofAbortPoint: tkofAbortPoint,
@@ -178,11 +179,11 @@ export class PlanPerfEffects {
 
     private createLandingPerformanceConditions(adState: PlanPerfAirportState, aircraft: Aircraft): PlanPerfLandingCalculationState {
         const rwy = adState.runwayFactors.runway;
+        const [threshold, oppThreshold] = AirportRunwayService.calcThresholdPoints(adState.airport, rwy);
         return {
-            rwyLength: rwy?.length,
-            rwyWidth: rwy?.width,
-            tkofLenAvbl: rwy?.tora,
-            ldgLenAvbl: rwy?.lda,
+            rwy: rwy,
+            threshold: threshold,
+            oppThreshold: oppThreshold,
             ldgGroundRoll: this.calcDistance(aircraft?.perfLandingGroundRoll, adState),
             ldgDist50ft: this.calcDistance(aircraft?.perfLandingDist50ft, adState),
         };

@@ -1,10 +1,10 @@
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
+import {AirportRunway} from '../../../aerodrome/domain/model/airport-runway';
 
 export interface PlanPerfTakeoffCalculationState {
-    rwyLength: Length;
-    rwyWidth: Length;
-    tkofLenAvbl: Length;
-    ldgLenAvbl: Length;
+    rwy: AirportRunway;
+    threshold: Length;
+    oppThreshold: Length;
     tkofDist50ft: Length;
     tkofAbortPoint: Length;
     tkofAbortDist: Length;

@@ -4,6 +4,7 @@ import {PlanPerfTakeoffCalculationState} from '../../state/state-model/plan-perf
 import {ImageDimensionsSvg} from '../../../common/svg/image-dimensions-svg';
 import {PlanPerfRunwaySvg} from './plan-perf-runway-svg';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
+import {PlanPerfTakeoffPathSvg} from './plan-perf-takeoff-path-svg';
 
 
 export class PlanPerfTakeoffChart {
@@ -15,8 +16,8 @@ export class PlanPerfTakeoffChart {
     ): SVGSVGElement {
         const aspectRatio = imageHeightPx / imageWidthPx;
         const imgDim = new ImageDimensionsSvg(
-            takeoffPerformance.rwyLength,
-            Length.ofM(takeoffPerformance.rwyLength.m * aspectRatio),
+            takeoffPerformance.rwy.length,
+            Length.ofM(takeoffPerformance.rwy.length.m * aspectRatio),
             imageWidthPx,
             imageHeightPx,
         );
@@ -27,6 +28,7 @@ export class PlanPerfTakeoffChart {
         );
 
         svg.appendChild(PlanPerfRunwaySvg.create(takeoffPerformance, imgDim));
+        svg.appendChild(PlanPerfTakeoffPathSvg.create(takeoffPerformance, imgDim));
 
         return svg;
     }
