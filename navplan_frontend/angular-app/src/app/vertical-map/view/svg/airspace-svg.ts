@@ -1,10 +1,10 @@
 import {SvgTextBuilder} from '../../../common/svg/svg-text-builder';
 import {SvgGroupElement} from '../../../common/svg/svg-group-element';
-import {SvgPolygonElement} from '../../../common/svg/svg-polygon-element';
 import {SvgTitleElement} from '../../../common/svg/svg-title-element';
 import {ImageDimensionsSvg} from '../../../common/svg/image-dimensions-svg';
 import {VerticalMapAirspace} from '../../domain/model/vertical-map-airspace';
 import {SvgRectangleBuilder} from '../../../common/svg/svg-rectangle-builder';
+import {SvgPolygonBuilder} from '../../../common/svg/svg-polygon-builder';
 
 
 export class AirspaceSvg {
@@ -46,7 +46,9 @@ export class AirspaceSvg {
             }
 
             // polygon
-            const polygon = SvgPolygonElement.create(points);
+            const polygon = SvgPolygonBuilder.builder()
+                .setPoints(points)
+                .build();
             this.setAirspacePolyLineStyle(polygon, vmAirspace.airspaceCategory);
             airspaceSvg.appendChild(polygon);
 

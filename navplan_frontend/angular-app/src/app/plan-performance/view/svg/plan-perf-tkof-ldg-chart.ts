@@ -26,7 +26,8 @@ export class PlanPerfTkofLdgChart {
             imageHeightPx,
         );
         const minXLen = landingPerformance
-            ? Length.ofM(Math.min(0, landingPerformance.threshold.m - (landingPerformance.ldgDist50ft.m - landingPerformance.ldgGroundRoll.m)))
+            ? Length.ofM(Math.min(0, landingPerformance.threshold.m
+                - (landingPerformance.ldgDist50ft.m - landingPerformance.ldgGroundRoll.m)))
             : Length.ofZero();
         const maxXLen = takeoffPerformance
             ? Length.ofM(Math.max(rwy.length.m, takeoffPerformance.tkofDist50ft.m))
