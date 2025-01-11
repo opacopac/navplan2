@@ -13,7 +13,7 @@ export class PlanPerfRunwaySvg {
         rwyGroup.appendChild(this.createRwySvg(rwy, imgDim));
         rwyGroup.appendChild(this.createRwyThresholdSvg(rwy, threshold, false, imgDim));
         rwyGroup.appendChild(this.createRwyThresholdSvg(rwy, oppThreshold, true, imgDim));
-        rwyGroup.appendChild(this.createCenterLineSvg(rwy, imgDim));
+        rwyGroup.appendChild(this.createCenterLineSvg(rwy, threshold, oppThreshold, imgDim));
 
         return rwyGroup;
     }
@@ -52,13 +52,11 @@ export class PlanPerfRunwaySvg {
     }
 
 
-    private static createCenterLineSvg(rwy: AirportRunway, imgDim: ImageDimensionsSvg): SVGGElement {
+    private static createCenterLineSvg(rwy: AirportRunway, threshold: Length, oppThreshold: Length, imgDim: ImageDimensionsSvg): SVGGElement {
         const halfWidth = Length.ofM(rwy.width.m / 2);
         const thresholdNumberLen = Length.ofM(6 + 30 + 12 + 9 + 12);
-        const thresholdBegin = Length.ofM(rwy.length.m - rwy.lda.m);
-        const thresholdEnd = Length.ofM(rwy.tora.m);
-        const startXy = PerspectiveCalculator.calcXy(thresholdBegin.add(thresholdNumberLen), halfWidth, imgDim);
-        const endXy = PerspectiveCalculator.calcXy(thresholdEnd.subtract(thresholdNumberLen), halfWidth, imgDim);
+        const startXy = PerspectiveCalculator.calcXy(threshold.add(thresholdNumberLen), halfWidth, imgDim);
+        const endXy = PerspectiveCalculator.calcXy(oppThreshold.subtract(thresholdNumberLen), halfWidth, imgDim);
         const dashLenOnPx = imgDim.calcXy(Length.ofM(30), Length.ofZero())[0];
         const dashLenOffPx = imgDim.calcXy(Length.ofM(20), Length.ofZero())[0];
 
