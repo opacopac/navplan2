@@ -1,4 +1,3 @@
-import {SvgElement} from '../../../common/svg/svg-element';
 import {CloudMeteogram} from '../../domain/model/cloud-meteogram';
 import {ForecastRun} from '../../../meteo-dwd/domain/model/forecast-run';
 import {PrecipBarsSvg} from './precip-bars-svg';
@@ -8,6 +7,7 @@ import {TempLineSvg} from './temp-line-svg';
 import {TemperatureUnit} from '../../../geo-physics/domain/model/quantities/temperature-unit';
 import {PrecipitationUnit} from '../../../geo-physics/domain/model/quantities/precipitation-unit';
 import {CloudMeteogramStep} from '../../domain/model/cloud-meteogram-step';
+import {SvgBuilder} from '../../../common/svg/svg-builder';
 
 
 export class PrecipTempGraphSvg {
@@ -17,12 +17,11 @@ export class PrecipTempGraphSvg {
         imageWidthPx: number,
         imageHeightPx: number
     ): SVGSVGElement {
-        const svg = SvgElement.create(
-            imageWidthPx.toString(),
-            imageHeightPx.toString(),
-            'none',
-            'map-terrain-svg'
-        );
+        const svg = SvgBuilder.builder()
+            .setWidth(imageWidthPx.toString())
+            .setHeight(imageHeightPx.toString())
+            .setCssClass('map-terrain-svg')
+            .build();
         // TODO
         const tempUnit = TemperatureUnit.C;
         const precipUnit = PrecipitationUnit.MM;
@@ -58,6 +57,6 @@ export class PrecipTempGraphSvg {
             .map(step => step.precip.getValue(precipUnit))
             .reduce((a, b) => Math.max(a, b));
 
-        return Math.max(4,  Math.ceil(maxPrecip / 4) * 4);
+        return Math.max(4, Math.ceil(maxPrecip / 4) * 4);
     }
 }

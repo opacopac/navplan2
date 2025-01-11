@@ -1,4 +1,4 @@
-import {SvgElement} from './svg-element';
+import {SvgBuilder} from './svg-builder';
 
 
 export class SvgFilterElement {
@@ -9,7 +9,7 @@ export class SvgFilterElement {
         width: string,
         height: string
     ): SVGFilterElement {
-        const filter = document.createElementNS(SvgElement.SVG_NS, 'filter');
+        const filter = document.createElementNS(SvgBuilder.SVG_NS, 'filter');
         filter.setAttribute('id', id);
         filter.setAttribute('x', x);
         filter.setAttribute('y', y);

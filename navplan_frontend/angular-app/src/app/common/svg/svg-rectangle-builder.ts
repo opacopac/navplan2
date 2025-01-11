@@ -1,4 +1,4 @@
-import {SvgElement} from './svg-element';
+import {SvgBuilder} from './svg-builder';
 
 
 export class SvgRectangleBuilder {
@@ -73,7 +73,7 @@ export class SvgRectangleBuilder {
 
 
     public build(): SVGRectElement {
-        const rect = document.createElementNS(SvgElement.SVG_NS, 'rect');
+        const rect = document.createElementNS(SvgBuilder.SVG_NS, 'rect');
         rect.setAttribute('x', this.x);
         rect.setAttribute('y', this.y);
         rect.setAttribute('width', this.width);

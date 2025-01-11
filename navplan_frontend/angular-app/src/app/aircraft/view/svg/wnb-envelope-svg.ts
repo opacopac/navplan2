@@ -1,4 +1,3 @@
-import {SvgElement} from '../../../common/svg/svg-element';
 import {WnbEnvelope} from '../../domain/model/wnb-envelope';
 import {WnbImageDimensionsSvg} from './wnb-image-dimensions-svg';
 import {WnbEnvelopeContourSvg} from './wnb-envelope-contour-svg';
@@ -10,6 +9,7 @@ import {WnbEnvelopeCoordinate} from '../../domain/model/wnb-envelope-coordinate'
 import {WnbEnvelopeDotSvg} from './wnb-envelope-dot-svg';
 import {WnbWeightGridSvg} from './wnb-weight-grid-svg';
 import {WnbArmGridSvg} from './wnb-arm-grid-svg';
+import {SvgBuilder} from '../../../common/svg/svg-builder';
 
 
 export class WnbEnvelopeSvg {
@@ -41,12 +41,11 @@ export class WnbEnvelopeSvg {
             imageHeightPx
         );
 
-        const svg = SvgElement.create(
-            imageWidthPx.toString(),
-            imageHeightPx.toString(),
-            'none',
-            'wnb-envelope-svg'
-        );
+        const svg = SvgBuilder.builder()
+            .setWidth(imageWidthPx.toString())
+            .setHeight(imageHeightPx.toString())
+            .setCssClass('wnb-envelope-svg')
+            .build();
         if (addClickCallback) {
             svg.onclick = (event: MouseEvent) => {
                 const coord = this.getClickCoordinates(event, svg, imgDim);

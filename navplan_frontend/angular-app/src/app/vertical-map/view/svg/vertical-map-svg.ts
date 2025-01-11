@@ -1,4 +1,3 @@
-import {SvgElement} from '../../../common/svg/svg-element';
 import {SvgFilterElement} from '../../../common/svg/svg-filter-element';
 import {SvgFeFloodElement} from '../../../common/svg/svg-fe-flood-element';
 import {SvgFeCompositeElement} from '../../../common/svg/svg-fe-composite-element';
@@ -10,6 +9,7 @@ import {VerticalMap} from '../../domain/model/vertical-map';
 import {VerticalCloudsSvg} from './vertical-clouds-svg';
 import {VerticalWindSvg} from './vertical-wind-svg';
 import {ImageDimensionsSvg} from '../../../common/svg/image-dimensions-svg';
+import {SvgBuilder} from '../../../common/svg/svg-builder';
 
 
 export class VerticalMapSvg {
@@ -31,13 +31,11 @@ export class VerticalMapSvg {
             imageHeightPx
         );
 
-        const svg = SvgElement.create(
-            imageWidthPx.toString(),
-            imageHeightPx.toString(),
-            'none',
-            'map-terrain-svg'
-        );
-
+        const svg = SvgBuilder.builder()
+            .setWidth(imageWidthPx.toString())
+            .setHeight(imageHeightPx.toString())
+            .setCssClass('map-terrain-svg')
+            .build();
         svg.appendChild(this.createFilterDefs());
         svg.appendChild(TerrainSvg.create(verticalMap.terrainSteps, imgDim));
         svg.appendChild(AirspaceSvg.create(verticalMap.vmAirspaces, imgDim));
@@ -51,7 +49,7 @@ export class VerticalMapSvg {
 
 
     private static createFilterDefs(): SVGDefsElement {
-        const defs = document.createElementNS(SvgElement.SVG_NS, 'defs');
+        const defs = document.createElementNS(SvgBuilder.SVG_NS, 'defs');
         this.addColorFilter(defs, VerticalMapSvg.ID_TEXTBG_BLUE, '#1780C2');
         this.addColorFilter(defs, VerticalMapSvg.ID_TEXTBG_RED, '#AE1E22');
         this.addColorFilter(defs, VerticalMapSvg.ID_TEXTBG_GREEN, '#009640');

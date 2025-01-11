@@ -1,4 +1,3 @@
-import {SvgElement} from '../../../common/svg/svg-element';
 import {MeteogramTerrainSvg} from '../../../meteo-dwd/view/svg/meteogram-terrain-svg';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-unit';
@@ -8,6 +7,7 @@ import {CloudMeteogram} from '../../domain/model/cloud-meteogram';
 import {WidthGridFcStepsSvg} from './width-grid-fc-steps-svg';
 import {ForecastRun} from '../../../meteo-dwd/domain/model/forecast-run';
 import {MeteogramVerticalClouds} from './meteogram-vertical-clouds-svg';
+import {SvgBuilder} from '../../../common/svg/svg-builder';
 
 
 export class CloudMeteogramSvg {
@@ -24,13 +24,11 @@ export class CloudMeteogramSvg {
             imageHeightPx
         );
 
-        const svg = SvgElement.create(
-            imageWidthPx.toString(),
-            imageHeightPx.toString(),
-            'none',
-            'map-terrain-svg'
-        );
-
+        const svg = SvgBuilder.builder()
+            .setWidth(imageWidthPx.toString())
+            .setHeight(imageHeightPx.toString())
+            .setCssClass('map-terrain-svg')
+            .build();
         svg.appendChild(MeteogramTerrainSvg.create(cloudMeteogram.elevation, imgDim));
         svg.appendChild(MeteogramVerticalClouds.create(cloudMeteogram.steps, imgDim));
         svg.appendChild(HeightGridSvg.create(imgDim.maxHeight));

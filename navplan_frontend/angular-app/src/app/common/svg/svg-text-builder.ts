@@ -1,4 +1,4 @@
-import {SvgElement} from './svg-element';
+import {SvgBuilder} from './svg-builder';
 
 
 export class SvgTextBuilder {
@@ -20,7 +20,7 @@ export class SvgTextBuilder {
 
 
     public build(): SVGTextElement {
-        const element = document.createElementNS(SvgElement.SVG_NS, 'text');
+        const element = document.createElementNS(SvgBuilder.SVG_NS, 'text');
         element.textContent = this.text;
         element.setAttribute('x', this.x);
         element.setAttribute('y', this.y);

@@ -1,4 +1,4 @@
-import {SvgElement} from './svg-element';
+import {SvgBuilder} from './svg-builder';
 
 
 export class SvgImageElement {
@@ -10,7 +10,7 @@ export class SvgImageElement {
         href: string,
         transform: string
     ): SVGImageElement {
-        const img = document.createElementNS(SvgElement.SVG_NS, 'image');
+        const img = document.createElementNS(SvgBuilder.SVG_NS, 'image');
         img.setAttribute('x', x);
         img.setAttribute('y', y);
         img.setAttribute('href', href);

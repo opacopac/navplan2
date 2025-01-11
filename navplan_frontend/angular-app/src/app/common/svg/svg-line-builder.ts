@@ -1,15 +1,15 @@
-import {SvgElement} from './svg-element';
+import {SvgBuilder} from './svg-builder';
 
 
 export class SvgLineBuilder {
-    private x1: string;
-    private x2: string;
-    private y1: string;
-    private y2: string;
-    private style?: string;
-    private vectorEffect?: string;
-    private shapeRenderin?: string;
-    private strokeDashArray?: string;
+    private x1 = '0';
+    private x2 = '0';
+    private y1 = '0';
+    private y2 = '0';
+    private style: string;
+    private vectorEffect: string;
+    private shapeRenderin: string;
+    private strokeDashArray: string;
 
 
     private constructor() {
@@ -17,6 +17,30 @@ export class SvgLineBuilder {
 
     public static builder(): SvgLineBuilder {
         return new SvgLineBuilder();
+    }
+
+
+    public build(): SVGLineElement {
+        const line = document.createElementNS(SvgBuilder.SVG_NS, 'line');
+        line.setAttribute('x1', this.x1);
+        line.setAttribute('x2', this.x2);
+        line.setAttribute('y1', this.y1);
+        line.setAttribute('y2', this.y2);
+
+        if (this.style !== undefined) {
+            line.setAttribute('style', this.style);
+        }
+        if (this.vectorEffect !== undefined) {
+            line.setAttribute('vector-effect', this.vectorEffect);
+        }
+        if (this.shapeRenderin !== undefined) {
+            line.setAttribute('shape-rendering', this.shapeRenderin);
+        }
+        if (this.strokeDashArray !== undefined) {
+            line.setAttribute('stroke-dasharray', this.strokeDashArray);
+        }
+
+        return line;
     }
 
 
@@ -116,29 +140,5 @@ export class SvgLineBuilder {
     public setStrokeDashArrayOnOff(dashLength: number, gapLength: number): SvgLineBuilder {
         this.strokeDashArray = dashLength + ',' + gapLength;
         return this;
-    }
-
-
-    public build(): SVGLineElement {
-        const line = document.createElementNS(SvgElement.SVG_NS, 'line');
-        line.setAttribute('x1', this.x1);
-        line.setAttribute('x2', this.x2);
-        line.setAttribute('y1', this.y1);
-        line.setAttribute('y2', this.y2);
-
-        if (this.style !== undefined) {
-            line.setAttribute('style', this.style);
-        }
-        if (this.vectorEffect !== undefined) {
-            line.setAttribute('vector-effect', this.vectorEffect);
-        }
-        if (this.shapeRenderin !== undefined) {
-            line.setAttribute('shape-rendering', this.shapeRenderin);
-        }
-        if (this.strokeDashArray !== undefined) {
-            line.setAttribute('stroke-dasharray', this.strokeDashArray);
-        }
-
-        return line;
     }
 }

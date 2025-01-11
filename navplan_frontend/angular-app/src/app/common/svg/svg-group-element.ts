@@ -1,8 +1,8 @@
-import {SvgElement} from './svg-element';
+import {SvgBuilder} from './svg-builder';
 
 
 export class SvgGroupElement {
     public static create(): SVGGElement {
-        return document.createElementNS(SvgElement.SVG_NS, 'g');
+        return document.createElementNS(SvgBuilder.SVG_NS, 'g');
     }
 }

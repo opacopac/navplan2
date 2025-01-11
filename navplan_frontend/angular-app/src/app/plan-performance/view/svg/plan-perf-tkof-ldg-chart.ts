@@ -1,4 +1,3 @@
-import {SvgElement} from '../../../common/svg/svg-element';
 import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-unit';
 import {PlanPerfTakeoffCalculationState} from '../../state/state-model/plan-perf-takeoff-calculation-state';
 import {ImageDimensionsSvg} from '../../../common/svg/image-dimensions-svg';
@@ -7,6 +6,7 @@ import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {PlanPerfTakeoffPathSvg} from './plan-perf-takeoff-path-svg';
 import {PlanPerfLandingCalculationState} from '../../state/state-model/plan-perf-landing-calculation-state';
 import {PlanPerfLandingPathSvg} from './plan-perf-landing-path-svg';
+import {SvgBuilder} from '../../../common/svg/svg-builder';
 
 
 export class PlanPerfTkofLdgChart {
@@ -25,11 +25,20 @@ export class PlanPerfTkofLdgChart {
             imageWidthPx,
             imageHeightPx,
         );
+        const minXLen = landingPerformance
+            ? Length.ofM(Math.min(0, landingPerformance.threshold.m + landingPerformance.ldgGroundRoll.m - landingPerformance.ldgDist50ft.m))
+            : Length.ofZero();
+        const maxXLen = takeoffPerformance
+            ? Length.ofM(Math.max(rwy.length.m, takeoffPerformance.tkofDist50ft.m))
+            : rwy.length;
+        const minX = imgDim.calcX(minXLen);
+        const maxX = imgDim.calcX(maxXLen);
 
-        const svg = SvgElement.create(
-            imageWidthPx.toString(),
-            imageHeightPx.toString()
-        );
+        const svg = SvgBuilder.builder()
+            .setWidth(imageWidthPx.toString())
+            .setHeight(imageHeightPx.toString())
+            .setViewBox(minX, 0, maxX - minX, imageHeightPx)
+            .build();
 
         if (takeoffPerformance) {
             svg.appendChild(PlanPerfRunwaySvg.create(rwy, takeoffPerformance.threshold, takeoffPerformance.oppThreshold, imgDim));

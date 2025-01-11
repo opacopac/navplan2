@@ -1,4 +1,4 @@
-import {SvgElement} from './svg-element';
+import {SvgBuilder} from './svg-builder';
 
 
 export class SvgCircleBuilder {
@@ -45,7 +45,7 @@ export class SvgCircleBuilder {
 
 
     public build(): SVGCircleElement {
-        const circle = document.createElementNS(SvgElement.SVG_NS, 'circle');
+        const circle = document.createElementNS(SvgBuilder.SVG_NS, 'circle');
         circle.setAttribute('cx', this.cx);
         circle.setAttribute('cy', this.cy);
         circle.setAttribute('r', this.r);

@@ -11,10 +11,17 @@ export class ImageDimensionsSvg {
     }
 
 
-    public calcXy(width: Length, height: Length): [number, number] {
-        const x = Math.round(width.m / this.maxWidth.m * this.imageWidthPx);
-        const y = Math.round((this.maxHeight.m - height.m) / this.maxHeight.m * this.imageHeightPx);
+    public calcX(x: Length): number {
+        return Math.round(x.m / this.maxWidth.m * this.imageWidthPx);
+    }
 
-        return [x, y];
+
+    public calcY(y: Length): number {
+        return Math.round((this.maxHeight.m - y.m) / this.maxHeight.m * this.imageHeightPx);
+    }
+
+
+    public calcXy(x: Length, y: Length): [number, number] {
+        return [this.calcX(x), this.calcY(y)];
     }
 }

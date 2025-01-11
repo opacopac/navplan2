@@ -1,4 +1,4 @@
-import {SvgElement} from './svg-element';
+import {SvgBuilder} from './svg-builder';
 
 
 export class SvgPolygonElement {
@@ -6,7 +6,7 @@ export class SvgPolygonElement {
         points: [number, number][],
         style?: string,
     ): SVGPolygonElement {
-        const polygon = document.createElementNS(SvgElement.SVG_NS, 'polygon');
+        const polygon = document.createElementNS(SvgBuilder.SVG_NS, 'polygon');
         const pointString = points.map(point => point[0] + ',' + point[1]).join(' ');
         polygon.setAttribute('points', pointString);
 
