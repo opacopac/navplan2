@@ -10,8 +10,8 @@ export class PlanPerfTakeoffPathSvg {
     public static create(tkofPerf: PlanPerfTakeoffCalculationState, imgDim: ImageDimensionsSvg): SVGGElement {
         const rwyGroup = SvgGroupElement.create();
         rwyGroup.appendChild(this.createGroundRollSvg(tkofPerf, imgDim));
-        rwyGroup.appendChild(this.createTkof50ftSvg(tkofPerf, imgDim));
         rwyGroup.appendChild(this.createAbortLineSvg(tkofPerf, imgDim));
+        rwyGroup.appendChild(this.createTkof50ftSvg(tkofPerf, imgDim));
 
         return rwyGroup;
     }
@@ -50,12 +50,14 @@ export class PlanPerfTakeoffPathSvg {
 
 
     private static createAbortLineSvg(tkofPerf: PlanPerfTakeoffCalculationState, imgDim: ImageDimensionsSvg): SVGGElement {
+        const halfWidth = Length.ofM(tkofPerf.rwy.width.m / 2);
         const quaterWidth = Length.ofM(tkofPerf.rwy.width.m / 4);
         const abortPoint = Length.ofM(Math.min(tkofPerf.rwy.tora.m, tkofPerf.rwy.length.m - tkofPerf.tkofAbortDist.m));
         const startXy = PerspectiveCalculator.calcXy(abortPoint, quaterWidth, imgDim);
         const endXy = PerspectiveCalculator.calcXy(abortPoint.add(tkofPerf.tkofAbortDist), quaterWidth, imgDim);
 
-        return SvgLineElement.create(
+        const rwyGroup = SvgGroupElement.create();
+        rwyGroup.appendChild(SvgLineElement.create(
             startXy[0].toString(),
             endXy[0].toString(),
             startXy[1].toString(),
@@ -64,6 +66,29 @@ export class PlanPerfTakeoffPathSvg {
             '',
             '',
             '10,10'
-        );
+        ));
+
+        // cross
+        const c1StartXy = PerspectiveCalculator.calcXy(abortPoint.subtract(halfWidth), Length.ofZero(), imgDim);
+        const c1EndXy = PerspectiveCalculator.calcXy(abortPoint.add(halfWidth), halfWidth, imgDim);
+        rwyGroup.appendChild(SvgLineElement.create(
+            c1StartXy[0].toString(),
+            c1EndXy[0].toString(),
+            c1StartXy[1].toString(),
+            c1EndXy[1].toString(),
+            'stroke:red; stroke-width:2px'
+        ));
+
+        const c2StartXy = PerspectiveCalculator.calcXy(abortPoint.add(halfWidth), Length.ofZero(), imgDim);
+        const c2EndXy = PerspectiveCalculator.calcXy(abortPoint.subtract(halfWidth), halfWidth, imgDim);
+        rwyGroup.appendChild(SvgLineElement.create(
+            c2StartXy[0].toString(),
+            c2EndXy[0].toString(),
+            c2StartXy[1].toString(),
+            c2EndXy[1].toString(),
+            'stroke:red; stroke-width:2px'
+        ));
+
+        return rwyGroup;
     }
 }
