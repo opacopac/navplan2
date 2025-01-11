@@ -21,7 +21,9 @@ import {MatSelect} from '@angular/material/select';
 import {PlanPerformanceStateModule} from '../state/plan-performance-state.module';
 import {PlanPerformanceDomainModule} from '../domain/plan-performance-domain.module';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import {PlanPerfTakeoffChartComponent} from './ng-components/plan-perf-takeoff-chart/plan-perf-takeoff-chart.component';
+import {
+    PlanPerfTkofLdgChartComponent
+} from './ng-components/plan-perf-tkof-ldg-chart/plan-perf-tkof-ldg-chart.component';
 
 
 @NgModule({
@@ -47,7 +49,7 @@ import {PlanPerfTakeoffChartComponent} from './ng-components/plan-perf-takeoff-c
         PlanPerfCalculationComponent,
         PlanPerfRunwayFactorsComponent,
         PlanPerfWeatherFactorsComponent,
-        PlanPerfTakeoffChartComponent
+        PlanPerfTkofLdgChartComponent
     ],
     exports: [
         PlanPerfContainerComponent,

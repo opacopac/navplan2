@@ -1,16 +1,18 @@
 import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {PlanPerfTakeoffCalculationState} from '../../../state/state-model/plan-perf-takeoff-calculation-state';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
-import {PlanPerfTakeoffChart} from '../../svg/plan-perf-takeoff-chart';
+import {PlanPerfTkofLdgChart} from '../../svg/plan-perf-tkof-ldg-chart';
+import {PlanPerfLandingCalculationState} from '../../../state/state-model/plan-perf-landing-calculation-state';
 
 
 @Component({
-    selector: 'app-plan-perf-takeoff-chart',
-    templateUrl: './plan-perf-takeoff-chart.component.html',
-    styleUrls: ['./plan-perf-takeoff-chart.component.scss']
+    selector: 'app-plan-perf-tkof-ldg-chart',
+    templateUrl: './plan-perf-tkof-ldg-chart.component.html',
+    styleUrls: ['./plan-perf-tkof-ldg-chart.component.scss']
 })
-export class PlanPerfTakeoffChartComponent implements OnInit, AfterViewInit, OnChanges {
+export class PlanPerfTkofLdgChartComponent implements OnInit, AfterViewInit, OnChanges {
     @Input() takeoffPerformance: PlanPerfTakeoffCalculationState;
+    @Input() landingPerformance: PlanPerfLandingCalculationState;
     @Input() lengthUnit: LengthUnit;
     @ViewChild('container') container: ElementRef;
 
@@ -40,9 +42,10 @@ export class PlanPerfTakeoffChartComponent implements OnInit, AfterViewInit, OnC
 
         this.container.nativeElement.innerHTML = '';
 
-        if (this.takeoffPerformance) {
-            const svg = PlanPerfTakeoffChart.create(
+        if (this.takeoffPerformance || this.landingPerformance) {
+            const svg = PlanPerfTkofLdgChart.create(
                 this.takeoffPerformance,
+                this.landingPerformance,
                 this.lengthUnit,
                 this.container.nativeElement.clientWidth,
                 this.container.nativeElement.clientHeight,

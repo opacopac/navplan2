@@ -1,5 +1,5 @@
 @if (this.takeoffPerformance) {
-    <app-plan-perf-takeoff-chart
+    <app-plan-perf-tkof-ldg-chart
         [takeoffPerformance]="this.takeoffPerformance"
         [lengthUnit]="this.performanceDistanceUnit"
     />
@@ -12,6 +12,10 @@
         <li>TKOF Abort Dist: {{ this.getLengthString(this.takeoffPerformance.tkofAbortDist) }}</li>
     </ul>
 } @else if (landingPerformance) {
+    <app-plan-perf-tkof-ldg-chart
+        [landingPerformance]="this.landingPerformance"
+        [lengthUnit]="this.performanceDistanceUnit"
+    />
     <ul>
         <li>RWY Length: {{ this.getLengthString(this.landingPerformance.rwy.length) }}</li>
         <li>LDG LEN AVBL: {{ this.getLengthString(this.landingPerformance.rwy.lda) }}</li>

@@ -5,19 +5,23 @@ import {ImageDimensionsSvg} from '../../../common/svg/image-dimensions-svg';
 import {PlanPerfRunwaySvg} from './plan-perf-runway-svg';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {PlanPerfTakeoffPathSvg} from './plan-perf-takeoff-path-svg';
+import {PlanPerfLandingCalculationState} from '../../state/state-model/plan-perf-landing-calculation-state';
+import {PlanPerfLandingPathSvg} from './plan-perf-landing-path-svg';
 
 
-export class PlanPerfTakeoffChart {
+export class PlanPerfTkofLdgChart {
     public static create(
         takeoffPerformance: PlanPerfTakeoffCalculationState,
+        landingPerformance: PlanPerfLandingCalculationState,
         lengthUnit: LengthUnit,
         imageWidthPx: number,
         imageHeightPx: number,
     ): SVGSVGElement {
         const aspectRatio = imageHeightPx / imageWidthPx;
+        const rwy = takeoffPerformance ? takeoffPerformance.rwy : landingPerformance.rwy;
         const imgDim = new ImageDimensionsSvg(
-            takeoffPerformance.rwy.length,
-            Length.ofM(takeoffPerformance.rwy.length.m * aspectRatio),
+            rwy.length,
+            Length.ofM(rwy.length.m * aspectRatio),
             imageWidthPx,
             imageHeightPx,
         );
@@ -27,8 +31,13 @@ export class PlanPerfTakeoffChart {
             imageHeightPx.toString()
         );
 
-        svg.appendChild(PlanPerfRunwaySvg.create(takeoffPerformance, imgDim));
-        svg.appendChild(PlanPerfTakeoffPathSvg.create(takeoffPerformance, imgDim));
+        if (takeoffPerformance) {
+            svg.appendChild(PlanPerfRunwaySvg.create(rwy, takeoffPerformance.threshold, takeoffPerformance.oppThreshold, imgDim));
+            svg.appendChild(PlanPerfTakeoffPathSvg.create(takeoffPerformance, imgDim));
+        } else {
+            svg.appendChild(PlanPerfRunwaySvg.create(rwy, landingPerformance.threshold, landingPerformance.oppThreshold, imgDim));
+            svg.appendChild(PlanPerfLandingPathSvg.create(landingPerformance, imgDim));
+        }
 
         return svg;
     }
