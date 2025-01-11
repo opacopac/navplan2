@@ -1,7 +1,7 @@
 import {SvgElement} from './svg-element';
 
 
-export class SvgCircleElementBuilder {
+export class SvgCircleBuilder {
     private cx: string;
     private cy: string;
     private r: string;
@@ -9,36 +9,36 @@ export class SvgCircleElementBuilder {
     private shapeRendering: string;
 
 
-    public static builder(): SvgCircleElementBuilder {
-        return new SvgCircleElementBuilder();
+    public static builder(): SvgCircleBuilder {
+        return new SvgCircleBuilder();
     }
 
 
-    public setCx(cx: string): SvgCircleElementBuilder {
+    public setCx(cx: string): SvgCircleBuilder {
         this.cx = cx;
         return this;
     }
 
 
-    public setCy(cy: string): SvgCircleElementBuilder {
+    public setCy(cy: string): SvgCircleBuilder {
         this.cy = cy;
         return this;
     }
 
 
-    public setR(r: string): SvgCircleElementBuilder {
+    public setR(r: string): SvgCircleBuilder {
         this.r = r;
         return this;
     }
 
 
-    public setStyle(style: string): SvgCircleElementBuilder {
+    public setStyle(style: string): SvgCircleBuilder {
         this.style = style;
         return this;
     }
 
 
-    public setShapeRendering(shapeRendering: string): SvgCircleElementBuilder {
+    public setShapeRendering(shapeRendering: string): SvgCircleBuilder {
         this.shapeRendering = shapeRendering;
         return this;
     }

@@ -47,6 +47,16 @@ export abstract class AbstractQuantity<Q, U> {
     }
 
 
+    public multiplyBy(factor: number): Q {
+        return this.createInstance(this.value * factor, this.unit);
+    }
+
+
+    public divideBy(divisor: number): Q {
+        return this.createInstance(this.value / divisor, this.unit);
+    }
+
+
     public equals(quantity: AbstractQuantity<Q, U>): boolean {
         if (!quantity) {
             return false;

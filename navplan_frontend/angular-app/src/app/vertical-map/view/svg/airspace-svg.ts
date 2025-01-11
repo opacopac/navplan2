@@ -1,10 +1,10 @@
-import {SvgRectangleElement} from '../../../common/svg/svg-rectangle-element';
-import {SvgTextElementBuilder} from '../../../common/svg/svg-text-element-builder';
+import {SvgTextBuilder} from '../../../common/svg/svg-text-builder';
 import {SvgGroupElement} from '../../../common/svg/svg-group-element';
 import {SvgPolygonElement} from '../../../common/svg/svg-polygon-element';
 import {SvgTitleElement} from '../../../common/svg/svg-title-element';
 import {ImageDimensionsSvg} from '../../../common/svg/image-dimensions-svg';
 import {VerticalMapAirspace} from '../../domain/model/vertical-map-airspace';
+import {SvgRectangleBuilder} from '../../../common/svg/svg-rectangle-builder';
 
 
 export class AirspaceSvg {
@@ -157,15 +157,15 @@ export class AirspaceSvg {
 
 
     private static addText(svg: SVGElement, text: string, x: number, y: number, width: number, height: number, color: string) {
-        svg.appendChild(SvgRectangleElement.create(
-            x.toString(),
-            (y - height).toString(),
-            width.toString(),
-            height.toString(),
-            'fill:' + color + ';stroke-width:0'
-        ));
+        svg.appendChild(SvgRectangleBuilder.builder()
+            .setXy([x, y - height])
+            .setWidth(width.toString())
+            .setHeight(height.toString())
+            .setStyle('fill:' + color + ';stroke-width:0')
+            .build()
+        );
 
-        svg.appendChild(SvgTextElementBuilder.builder()
+        svg.appendChild(SvgTextBuilder.builder()
             .setText(text)
             .setX(Math.round(x + width / 2).toString())
             .setY(Math.round(y - height / 2).toString())

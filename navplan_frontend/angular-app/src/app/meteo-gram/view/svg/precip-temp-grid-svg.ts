@@ -1,7 +1,7 @@
-import {SvgLineElement} from '../../../common/svg/svg-line-element';
 import {SvgGroupElement} from '../../../common/svg/svg-group-element';
-import {SvgTextElementBuilder} from '../../../common/svg/svg-text-element-builder';
+import {SvgTextBuilder} from '../../../common/svg/svg-text-builder';
 import {TemperatureUnit} from '../../../geo-physics/domain/model/quantities/temperature-unit';
+import {SvgLineBuilder} from '../../../common/svg/svg-line-builder';
 
 
 export class PrecipTempGridSvg {
@@ -31,21 +31,21 @@ export class PrecipTempGridSvg {
 
 
     private static createGridLine(elevationPercent: number, isDashed: boolean): SVGLineElement {
-        return SvgLineElement.create(
-            '0%',
-            '100%',
-            elevationPercent.toString() + '%',
-            elevationPercent.toString() + '%',
-            'stroke:gray; stroke-width:1px;',
-            'non-scaling-stroke',
-            'crispEdges',
-            isDashed ? '1, 2' : undefined
-        );
+        return SvgLineBuilder.builder()
+            .setX1Percent(0)
+            .setX2Percent(100)
+            .setY1Percent(elevationPercent)
+            .setY2Percent(elevationPercent)
+            .setStrokeStyle('gray', 1)
+            .setVectorEffectNonScalingStroke()
+            .setShapeRenderingCrispEdges()
+            .setStrokeDashArray(isDashed ? '1, 2' : undefined)
+            .build();
     }
 
 
     private static createTempLabel(heightProc, text): SVGTextElement {
-        return SvgTextElementBuilder.builder()
+        return SvgTextBuilder.builder()
             .setText(text)
             .setX('5')
             .setY(heightProc.toString() + '%')
@@ -60,7 +60,7 @@ export class PrecipTempGridSvg {
 
 
     private static createPrecipLabel(heightProc, text): SVGTextElement {
-        return SvgTextElementBuilder.builder()
+        return SvgTextBuilder.builder()
             .setText(text)
             .setX('100%')
             .setY(heightProc.toString() + '%')

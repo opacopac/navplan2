@@ -1,8 +1,8 @@
-import {SvgRectangleElement} from '../../../common/svg/svg-rectangle-element';
 import {ImageDimensionsSvg} from '../../../common/svg/image-dimensions-svg';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-unit';
 import {VerticalCloudLevel} from '../../domain/model/vertical-cloud-level';
+import {SvgRectangleBuilder} from '../../../common/svg/svg-rectangle-builder';
 
 
 export class CloudColumnSvg {
@@ -17,7 +17,12 @@ export class CloudColumnSvg {
                 const xy1 = imgDim.calcXy(x1, cloudLevel.alt.getHeightAmsl());
                 const width = (xy1[0] - xy0[0]) + '';
                 const height = (xy1[1] - xy0[1]) + '';
-                const cloudRect = SvgRectangleElement.create(xy0[0] + '', xy0[1] + '', width, height, style);
+                const cloudRect = SvgRectangleBuilder.builder()
+                    .setXy(xy0)
+                    .setWidth(width)
+                    .setHeight(height)
+                    .setStyle(style)
+                    .build();
                 svg.appendChild(cloudRect);
             }
 

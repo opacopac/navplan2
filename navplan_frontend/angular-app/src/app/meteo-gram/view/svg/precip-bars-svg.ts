@@ -1,8 +1,8 @@
 import {SvgGroupElement} from '../../../common/svg/svg-group-element';
 import {CloudMeteogramStep} from '../../domain/model/cloud-meteogram-step';
-import {SvgRectangleElement} from '../../../common/svg/svg-rectangle-element';
 import {PrecipitationUnit} from '../../../geo-physics/domain/model/quantities/precipitation-unit';
 import {SvgTitleElement} from '../../../common/svg/svg-title-element';
+import {SvgRectangleBuilder} from '../../../common/svg/svg-rectangle-builder';
 
 
 export class PrecipBarsSvg {
@@ -19,13 +19,13 @@ export class PrecipBarsSvg {
             }
 
             const barHeightProc = this.getPrecipBarHeight(precip, maxPrecip);
-            const precipBar = SvgRectangleElement.create(
-                i * 100 / steps.length + barStepOffsetX + '%',
-                (100 - barHeightProc) + '%',
-                barWidthProc + '%',
-                barHeightProc + '%',
-                'fill:' + this.getPrecipColor(precip) + ';stroke-width:0'
-            );
+            const precipBar = SvgRectangleBuilder.builder()
+                .setXPercent(i * 100 / steps.length + barStepOffsetX)
+                .setYPercent(100 - barHeightProc)
+                .setWidthPercent(barWidthProc)
+                .setHeightPercent(barHeightProc)
+                .setStyle('fill:' + this.getPrecipColor(precip) + ';stroke-width:0')
+                .build();
             svg.appendChild(precipBar);
 
             const unitText = precipUnit === PrecipitationUnit.MM ? 'mm/h' : 'in/h';

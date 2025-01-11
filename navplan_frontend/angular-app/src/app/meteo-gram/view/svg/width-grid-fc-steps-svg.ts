@@ -1,8 +1,8 @@
-import {SvgLineElement} from '../../../common/svg/svg-line-element';
 import {SvgGroupElement} from '../../../common/svg/svg-group-element';
-import {SvgTextElementBuilder} from '../../../common/svg/svg-text-element-builder';
+import {SvgTextBuilder} from '../../../common/svg/svg-text-builder';
 import {ForecastRun} from '../../../meteo-dwd/domain/model/forecast-run';
 import {CloudMeteogramStep} from '../../domain/model/cloud-meteogram-step';
+import {SvgLineBuilder} from '../../../common/svg/svg-line-builder';
 
 
 export class WidthGridFcStepsSvg {
@@ -51,35 +51,34 @@ export class WidthGridFcStepsSvg {
 
 
     private static createCurrentTimeLine(widthPercent: number): SVGLineElement {
-        return SvgLineElement.create(
-            widthPercent.toString() + '%',
-            widthPercent.toString() + '%',
-            '0%',
-            '100%',
-            'stroke:red; stroke-width:1px;',
-            'non-scaling-stroke',
-            'crispEdges',
-            undefined
-        );
+        return SvgLineBuilder.builder()
+            .setX1Percent(widthPercent)
+            .setX2Percent(widthPercent)
+            .setY1Percent(0)
+            .setY2Percent(100)
+            .setStrokeStyle('blue', 1)
+            .setVectorEffectNonScalingStroke()
+            .setShapeRenderingCrispEdges()
+            .build();
     }
 
 
     private static createGridLine(widthPercent: number, isDashed: boolean): SVGLineElement {
-        return SvgLineElement.create(
-            widthPercent.toString() + '%',
-            widthPercent.toString() + '%',
-            '0%',
-            '100%',
-            'stroke:green; stroke-width:1px;',
-            'non-scaling-stroke',
-            'crispEdges',
-            isDashed ? '1, 2' : undefined
-        );
+        return SvgLineBuilder.builder()
+            .setX1Percent(widthPercent)
+            .setX2Percent(widthPercent)
+            .setY1Percent(0)
+            .setY2Percent(100)
+            .setStrokeStyle('green', 1)
+            .setVectorEffectNonScalingStroke()
+            .setShapeRenderingCrispEdges()
+            .setStrokeDashArray(isDashed ? '1, 2' : undefined)
+            .build();
     }
 
 
     private static createGridLabel(widthPercent: number, text): SVGTextElement {
-        return SvgTextElementBuilder.builder()
+        return SvgTextBuilder.builder()
             .setText(text)
             .setX(widthPercent.toString() + '%')
             .setY('100%')

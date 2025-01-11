@@ -1,8 +1,8 @@
 import {SvgGroupElement} from '../../../common/svg/svg-group-element';
 import {CloudMeteogramStep} from '../../domain/model/cloud-meteogram-step';
-import {SvgLineElement} from '../../../common/svg/svg-line-element';
 import {TemperatureUnit} from '../../../geo-physics/domain/model/quantities/temperature-unit';
 import {Temperature} from '../../../geo-physics/domain/model/quantities/temperature';
+import {SvgLineBuilder} from '../../../common/svg/svg-line-builder';
 
 
 export class TempLineSvg {
@@ -14,17 +14,15 @@ export class TempLineSvg {
         for (let i = 0; i < steps.length; i++) {
             const currentTemp = steps[i].temp;
             if (lastTemp !== undefined) {
-                const line = SvgLineElement.create(
-                    (i - 1) * stepWidthProc + stepWidthProc / 2 + '%',
-                    i * stepWidthProc + stepWidthProc / 2 + '%',
-                    this.calcY(lastTemp.getValue(tempUnit), minMaxTemp) + '%',
-                    this.calcY(currentTemp.getValue(tempUnit), minMaxTemp) + '%',
-                    'stroke:red; stroke-width:2px;',
-                    'non-scaling-stroke',
-                    undefined,
-                    undefined
+                svg.appendChild(SvgLineBuilder.builder()
+                    .setX1Percent((i - 1) * stepWidthProc + stepWidthProc / 2)
+                    .setX2Percent(i * stepWidthProc + stepWidthProc / 2)
+                    .setY1Percent(this.calcY(lastTemp.getValue(tempUnit), minMaxTemp))
+                    .setY2Percent(this.calcY(currentTemp.getValue(tempUnit), minMaxTemp))
+                    .setStrokeStyle('red', 2)
+                    .setVectorEffectNonScalingStroke()
+                    .build()
                 );
-                svg.appendChild(line);
             }
 
             lastTemp = currentTemp;

@@ -2,9 +2,9 @@ import {SvgPolygonElement} from '../../../common/svg/svg-polygon-element';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {ImageDimensionsSvg} from '../../../common/svg/image-dimensions-svg';
 import {SvgGroupElement} from '../../../common/svg/svg-group-element';
-import {SvgLineElement} from '../../../common/svg/svg-line-element';
 import {PerspectiveCalculator} from './perspective-calculator';
 import {AirportRunway} from '../../../aerodrome/domain/model/airport-runway';
+import {SvgLineBuilder} from '../../../common/svg/svg-line-builder';
 
 
 export class PlanPerfRunwaySvg {
@@ -39,16 +39,11 @@ export class PlanPerfRunwaySvg {
         const startXy = PerspectiveCalculator.calcXy(threshold, Length.ofZero(), imgDim);
         const endXy = PerspectiveCalculator.calcXy(threshold, rwy.width, imgDim);
 
-        return SvgLineElement.create(
-            startXy[0].toString(),
-            endXy[0].toString(),
-            startXy[1].toString(),
-            endXy[1].toString(),
-            'stroke:white; stroke-width:2px',
-            '',
-            '',
-            ''
-        );
+        return SvgLineBuilder.builder()
+            .setStartXy(startXy)
+            .setEndXy(endXy)
+            .setStrokeStyle('white', 2)
+            .build();
     }
 
 
@@ -60,15 +55,11 @@ export class PlanPerfRunwaySvg {
         const dashLenOnPx = imgDim.calcXy(Length.ofM(30), Length.ofZero())[0];
         const dashLenOffPx = imgDim.calcXy(Length.ofM(20), Length.ofZero())[0];
 
-        return SvgLineElement.create(
-            startXy[0].toString(),
-            endXy[0].toString(),
-            startXy[1].toString(),
-            endXy[1].toString(),
-            'stroke:white; stroke-width:2px',
-            '',
-            '',
-            dashLenOnPx.toString() + ',' + dashLenOffPx.toString()
-        );
+        return SvgLineBuilder.builder()
+            .setStartXy(startXy)
+            .setEndXy(endXy)
+            .setStrokeStyle('white', 2)
+            .setStrokeDashArrayOnOff(dashLenOnPx, dashLenOffPx)
+            .build();
     }
 }

@@ -1,11 +1,11 @@
-import {SvgLineElement} from '../../../common/svg/svg-line-element';
 import {SvgGroupElement} from '../../../common/svg/svg-group-element';
-import {SvgTextElementBuilder} from '../../../common/svg/svg-text-element-builder';
+import {SvgTextBuilder} from '../../../common/svg/svg-text-builder';
 import {WnbImageDimensionsSvg} from './wnb-image-dimensions-svg';
 import {AxisHelperSvg} from '../../../common/svg/axis-helper-svg';
 import {Weight} from '../../../geo-physics/domain/model/quantities/weight';
 import {WeightUnit} from '../../../geo-physics/domain/model/quantities/weight-unit';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
+import {SvgLineBuilder} from '../../../common/svg/svg-line-builder';
 
 
 export class WnbWeightGridSvg {
@@ -31,21 +31,21 @@ export class WnbWeightGridSvg {
 
 
     private static createGridLine(y: number, isDashed: boolean): SVGLineElement {
-        return SvgLineElement.create(
-            '0%',
-            '100%',
-            y.toString(),
-            y.toString(),
-            'stroke:#455a64; stroke-width:1px;',
-            'non-scaling-stroke',
-            'crispEdges',
-            isDashed ? '1, 2' : undefined
-        );
+        return SvgLineBuilder.builder()
+            .setX1Percent(0)
+            .setX2Percent(100)
+            .setY1(y.toString())
+            .setY2(y.toString())
+            .setStrokeStyle('#455a64', 1)
+            .setVectorEffectNonScalingStroke()
+            .setShapeRenderingCrispEdges()
+            .setStrokeDashArray(isDashed ? '1, 2' : undefined)
+            .build();
     }
 
 
     private static createGridLabel(y: number, text: string): SVGTextElement {
-        return SvgTextElementBuilder.builder()
+        return SvgTextBuilder.builder()
             .setText(text)
             .setX('5')
             .setY(y.toString())

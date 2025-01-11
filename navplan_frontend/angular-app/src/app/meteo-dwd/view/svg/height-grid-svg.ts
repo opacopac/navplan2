@@ -1,7 +1,7 @@
-import {SvgLineElement} from '../../../common/svg/svg-line-element';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {SvgGroupElement} from '../../../common/svg/svg-group-element';
-import {SvgTextElementBuilder} from '../../../common/svg/svg-text-element-builder';
+import {SvgTextBuilder} from '../../../common/svg/svg-text-builder';
+import {SvgLineBuilder} from '../../../common/svg/svg-line-builder';
 
 
 export class HeightGridSvg {
@@ -43,21 +43,21 @@ export class HeightGridSvg {
 
 
     private static createGridLine(elevationPercent: number, isDashed: boolean): SVGLineElement {
-        return SvgLineElement.create(
-            '0%',
-            '100%',
-            elevationPercent.toString() + '%',
-            elevationPercent.toString() + '%',
-            'stroke:green; stroke-width:1px;',
-            'non-scaling-stroke',
-            'crispEdges',
-            isDashed ? '1, 2' : undefined
-        );
+        return SvgLineBuilder.builder()
+            .setX1Percent(0)
+            .setX2Percent(100)
+            .setY1Percent(elevationPercent)
+            .setY2Percent(elevationPercent)
+            .setStrokeStyle('green', 1)
+            .setVectorEffectNonScalingStroke()
+            .setShapeRenderingCrispEdges()
+            .setStrokeDashArray(isDashed ? '1, 2' : undefined)
+            .build();
     }
 
 
     private static createGridLabel(elevationPercent, text): SVGTextElement {
-        return SvgTextElementBuilder.builder()
+        return SvgTextBuilder.builder()
             .setText(text)
             .setX('5')
             .setY(elevationPercent.toString() + '%')

@@ -1,7 +1,7 @@
 import {WnbEnvelopeCoordinate} from '../../domain/model/wnb-envelope-coordinate';
 import {WnbImageDimensionsSvg} from './wnb-image-dimensions-svg';
-import {SvgCircleElementBuilder} from '../../../common/svg/svg-circle-element-builder';
-import {SvgTextElementBuilder} from '../../../common/svg/svg-text-element-builder';
+import {SvgCircleBuilder} from '../../../common/svg/svg-circle-builder';
+import {SvgTextBuilder} from '../../../common/svg/svg-text-builder';
 import {SvgGroupElement} from '../../../common/svg/svg-group-element';
 
 
@@ -36,7 +36,7 @@ export class WnbEnvelopeDotSvg {
 
 
     private static createCircle(dotPoint: [number, number], style: string): SVGCircleElement {
-        return SvgCircleElementBuilder.builder()
+        return SvgCircleBuilder.builder()
             .setCx(dotPoint[0].toString())
             .setCy(dotPoint[1].toString())
             .setR('5')
@@ -46,7 +46,7 @@ export class WnbEnvelopeDotSvg {
 
 
     private static createLabel(dotPoint: [number, number], text: string): SVGTextElement {
-        return SvgTextElementBuilder.builder()
+        return SvgTextBuilder.builder()
             .setText(text)
             .setX(dotPoint[0].toString())
             .setY(dotPoint[1].toString())

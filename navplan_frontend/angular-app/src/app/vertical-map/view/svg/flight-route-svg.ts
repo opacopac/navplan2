@@ -1,10 +1,10 @@
 import {SvgGroupElement} from '../../../common/svg/svg-group-element';
-import {SvgLineElement} from '../../../common/svg/svg-line-element';
-import {SvgCircleElementBuilder} from '../../../common/svg/svg-circle-element-builder';
-import {SvgTextElementBuilder} from '../../../common/svg/svg-text-element-builder';
+import {SvgCircleBuilder} from '../../../common/svg/svg-circle-builder';
+import {SvgTextBuilder} from '../../../common/svg/svg-text-builder';
 import {Waypoint} from '../../../flightroute/domain/model/waypoint';
 import {ImageDimensionsSvg} from '../../../common/svg/image-dimensions-svg';
 import {VerticalMapWaypointStep} from '../../domain/model/vertical-map-waypoint-step';
+import {SvgLineBuilder} from '../../../common/svg/svg-line-builder';
 
 
 export class FlightRouteSvg {
@@ -21,16 +21,14 @@ export class FlightRouteSvg {
             const horDistNextPercent = waypointSteps[i + 1].horDist.m / imgDim.maxWidth.m * 100;
 
             // line segment
-            svg.appendChild(
-                SvgLineElement.create(
-                    horDistPercent.toString() + '%',
-                    horDistNextPercent.toString() + '%',
-                    '40',
-                    '40',
-                    'stroke:rgba(255, 0, 255, 1.0); stroke-width:5px;',
-                    undefined,
-                    'crispEdges'
-                )
+            svg.appendChild(SvgLineBuilder.builder()
+                .setX1Percent(horDistPercent)
+                .setX2Percent(horDistNextPercent)
+                .setY1(yOffset[0].toString())
+                .setY2(yOffset[0].toString())
+                .setStrokeStyle('rgba(255, 0, 255, 1.0)', 5)
+                .setShapeRenderingCrispEdges()
+                .build()
             );
 
             this.addRouteDot(svg, horDistPercent, yOffset[0], waypointSteps[i].waypoint, wpClickCallback);
@@ -57,7 +55,7 @@ export class FlightRouteSvg {
         waypoint: Waypoint,
         clickCallback: (Waypoint) => void
     ) {
-        const dot = SvgCircleElementBuilder.builder()
+        const dot = SvgCircleBuilder.builder()
             .setCx(cxProc.toString() + '%')
             .setCy(cy.toString())
             .setR('6')
@@ -66,7 +64,9 @@ export class FlightRouteSvg {
             .build();
 
         if (clickCallback) {
-            dot.addEventListener('click', function() { clickCallback(waypoint); });
+            dot.addEventListener('click', function () {
+                clickCallback(waypoint);
+            });
         }
 
         svg.appendChild(dot);
@@ -79,18 +79,15 @@ export class FlightRouteSvg {
         cy: number,
         heightPx: number
     ) {
-        svg.appendChild(
-            SvgLineElement.create(
-                cxProc.toString() + '%',
-                cxProc.toString() + '%',
-                cy.toString(), // TODO: temp
-                heightPx.toString(), // TODO: temp
-                'stroke:#FF00FF; stroke-width:1px;',
-                undefined,
-                'crispEdges',
-                '3, 5'
-            )
-        );
+        svg.appendChild(SvgLineBuilder.builder()
+            .setX1Percent(cxProc)
+            .setX2Percent(cxProc)
+            .setY1(cy.toString())
+            .setY2(heightPx.toString())
+            .setStrokeStyle('#FF00FF', 1)
+            .setShapeRenderingCrispEdges()
+            .setStrokeDashArrayOnOff(3, 5)
+            .build());
     }
 
 
@@ -117,7 +114,7 @@ export class FlightRouteSvg {
         }
 
         // glow around label
-        svg.appendChild(SvgTextElementBuilder.builder()
+        svg.appendChild(SvgTextBuilder.builder()
             .setText(waypoint.checkpoint)
             .setX(xProc.toString() + '%')
             .setY(y.toString())
@@ -131,7 +128,7 @@ export class FlightRouteSvg {
         );
 
         // label
-        const label = SvgTextElementBuilder.builder()
+        const label = SvgTextBuilder.builder()
             .setText(waypoint.checkpoint)
             .setX(xProc.toString() + '%')
             .setY(y.toString())
@@ -144,7 +141,9 @@ export class FlightRouteSvg {
             .build();
 
         if (clickCallback) {
-            label.addEventListener('click', function() { clickCallback(waypoint); });
+            label.addEventListener('click', function () {
+                clickCallback(waypoint);
+            });
         }
 
         svg.appendChild(label);

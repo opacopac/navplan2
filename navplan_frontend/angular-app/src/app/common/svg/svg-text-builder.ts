@@ -1,7 +1,7 @@
 import {SvgElement} from './svg-element';
 
 
-export class SvgTextElementBuilder {
+export class SvgTextBuilder {
     private text: string;
     private x: string;
     private y: string;
@@ -14,8 +14,8 @@ export class SvgTextElementBuilder {
     private transform: string;
 
 
-    public static builder(): SvgTextElementBuilder {
-        return new SvgTextElementBuilder();
+    public static builder(): SvgTextBuilder {
+        return new SvgTextBuilder();
     }
 
 
@@ -51,61 +51,61 @@ export class SvgTextElementBuilder {
     }
 
 
-    public setText(text: string): SvgTextElementBuilder {
+    public setText(text: string): SvgTextBuilder {
         this.text = text;
         return this;
     }
 
 
-    public setX(x: string): SvgTextElementBuilder {
+    public setX(x: string): SvgTextBuilder {
         this.x = x;
         return this;
     }
 
 
-    public setY(y: string): SvgTextElementBuilder {
+    public setY(y: string): SvgTextBuilder {
         this.y = y;
         return this;
     }
 
 
-    public setStyle(style: string): SvgTextElementBuilder {
+    public setStyle(style: string): SvgTextBuilder {
         this.style = style;
         return this;
     }
 
 
-    public setTextAnchor(textAnchor: string): SvgTextElementBuilder {
+    public setTextAnchor(textAnchor: string): SvgTextBuilder {
         this.textAnchor = textAnchor;
         return this;
     }
 
 
-    public setDominantBaseline(dominantBaseline: string): SvgTextElementBuilder {
+    public setDominantBaseline(dominantBaseline: string): SvgTextBuilder {
         this.dominantBaseline = dominantBaseline;
         return this;
     }
 
 
-    public setFontFamily(fontFamily: string): SvgTextElementBuilder {
+    public setFontFamily(fontFamily: string): SvgTextBuilder {
         this.fontFamily = fontFamily;
         return this;
     }
 
 
-    public setFontSize(fontSize: string): SvgTextElementBuilder {
+    public setFontSize(fontSize: string): SvgTextBuilder {
         this.fontSize = fontSize;
         return this;
     }
 
 
-    public setFontWeight(fontWeight: string): SvgTextElementBuilder {
+    public setFontWeight(fontWeight: string): SvgTextBuilder {
         this.fontWeight = fontWeight;
         return this;
     }
 
 
-    public setTransform(transform: string): SvgTextElementBuilder {
+    public setTransform(transform: string): SvgTextBuilder {
         this.transform = transform;
         return this;
     }
