@@ -14,5 +14,5 @@ export interface PlanPerfAirportState {
     runwayFactors: PlanPerfRwyFactorsState;
     aircraftPerfProfileIdx: number;
     tkofPerformance: PlanPerfTakeoffCalculationState;
-    ldaPerformance: PlanPerfLandingCalculationState;
+    ldgPerformance: PlanPerfLandingCalculationState;
 }

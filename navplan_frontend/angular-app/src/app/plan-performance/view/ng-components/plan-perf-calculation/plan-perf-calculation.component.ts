@@ -3,7 +3,6 @@ import {PlanPerfTakeoffCalculationState} from '../../../state/state-model/plan-p
 import {PlanPerfLandingCalculationState} from '../../../state/state-model/plan-perf-landing-calculation-state';
 import {Length} from '../../../../geo-physics/domain/model/quantities/length';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
-import {PlanPerfRwyFactorsState} from '../../../state/state-model/plan-perf-rwy-factors-state';
 
 @Component({
     selector: 'app-plan-perf-calculation',
@@ -13,7 +12,6 @@ import {PlanPerfRwyFactorsState} from '../../../state/state-model/plan-perf-rwy-
 export class PlanPerfCalculationComponent implements OnInit {
     @Input() takeoffPerformance: PlanPerfTakeoffCalculationState;
     @Input() landingPerformance: PlanPerfLandingCalculationState;
-    @Input() rwyFactors: PlanPerfRwyFactorsState;
     @Input() performanceDistanceUnit: LengthUnit;
 
 

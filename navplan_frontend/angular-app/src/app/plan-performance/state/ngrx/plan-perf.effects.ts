@@ -25,6 +25,8 @@ import {PlanPerfLandingCalculationState} from '../state-model/plan-perf-landing-
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {DistancePerformanceTable} from '../../../aircraft/domain/model/distance-performance-table';
 import {AirportRunwayService} from '../../../aerodrome/domain/service/airport-runway.service';
+import {PlanPerfTakeoffChartState} from '../state-model/plan-perf-takeoff-chart-state';
+import {PlanPerfLandingChartState} from '../state-model/plan-perf-landing-chart-state';
 
 
 @Injectable()
@@ -130,7 +132,7 @@ export class PlanPerfEffects {
             },
             aircraftPerfProfileIdx: null,
             tkofPerformance: null,
-            ldaPerformance: null
+            ldgPerformance: null
         };
         initialAdState.weatherCalculation = this.createNewWeatherCalculationState(initialAdState);
 
@@ -139,7 +141,7 @@ export class PlanPerfEffects {
         }
 
         if (type === PlanPerfAirportType.DESTINATION && aircraft) {
-            initialAdState.ldaPerformance = this.createLandingPerformanceConditions(initialAdState, aircraft);
+            initialAdState.ldgPerformance = this.createLandingPerformanceConditions(initialAdState, aircraft);
         }
 
         return initialAdState;
@@ -176,7 +178,7 @@ export class PlanPerfEffects {
         const tkofDist50ft = this.calcDistance(aircraft?.perfTakeoffDist50ft, adState);
         const ldaGroundRoll = this.calcDistance(aircraft?.perfLandingGroundRoll, adState);
         const tkofAbortPoint = (rwy?.length && ldaGroundRoll) ? rwy.length.subtract(ldaGroundRoll) : null;
-        return {
+        const tkofPerformance = {
             rwy: rwy,
             oppRwy: oppRwy,
             threshold: threshold,
@@ -185,7 +187,11 @@ export class PlanPerfEffects {
             tkofDist50ft: tkofDist50ft,
             tkofAbortPoint: tkofAbortPoint,
             tkofAbortDist: ldaGroundRoll,
+            tkofChartState: null
         };
+        tkofPerformance.tkofChartState = this.createTkofChartState(tkofPerformance);
+
+        return tkofPerformance;
     }
 
 
@@ -193,14 +199,20 @@ export class PlanPerfEffects {
         const rwy = adState.runwayFactors.runway;
         const oppRwy = adState.airport.findOppositeRunway(rwy);
         const [threshold, oppThreshold] = AirportRunwayService.calcThresholdPoints(adState.airport, rwy);
-        return {
+        const ldgGroundRoll = this.calcDistance(aircraft?.perfLandingGroundRoll, adState);
+        const ldgDist50ft = this.calcDistance(aircraft?.perfLandingDist50ft, adState);
+        const ldgPerformance = {
             rwy: rwy,
             oppRwy: oppRwy,
             threshold: threshold,
             oppThreshold: oppThreshold,
-            ldgGroundRoll: this.calcDistance(aircraft?.perfLandingGroundRoll, adState),
-            ldgDist50ft: this.calcDistance(aircraft?.perfLandingDist50ft, adState),
+            ldgGroundRoll: ldgGroundRoll,
+            ldgDist50ft: ldgDist50ft,
+            ldgChartState: null
         };
+        ldgPerformance.ldgChartState = this.createLdgChartState(ldgPerformance, adState.runwayFactors);
+
+        return ldgPerformance;
     }
 
 
@@ -213,5 +225,41 @@ export class PlanPerfEffects {
             distPerfCond,
             perfTable
         ) : null;
+    }
+
+
+    private createTkofChartState(tkofPerf: PlanPerfTakeoffCalculationState): PlanPerfTakeoffChartState {
+        return {
+            tkofGroundRollStart: Length.ofZero(),
+            tkofGroundRollEnd: tkofPerf.groundRoll,
+            tkofDist50ftStart: Length.ofZero(),
+            tkofDist50ftEnd: tkofPerf.tkofDist50ft,
+            tkofAbortPointStart: Length.ofZero(),
+            tkofAbortPoint: tkofPerf.tkofAbortPoint,
+            tkofAbortStop: tkofPerf.tkofAbortPoint.add(tkofPerf.tkofAbortDist),
+            toraStart: Length.ofZero(),
+            toraEnd: tkofPerf.rwy.tora,
+            rwyStart: Length.ofZero(),
+            rwyEnd: tkofPerf.rwy.length,
+            chartStart: Length.ofZero(),
+            chartEnd: Length.ofM(Math.max(tkofPerf.rwy.length.m, tkofPerf.tkofDist50ft.m))
+        };
+    }
+
+
+    private createLdgChartState(ldgPerf: PlanPerfLandingCalculationState, rwyFactors: PlanPerfRwyFactorsState): PlanPerfLandingChartState {
+        const touchDownPoint = ldgPerf.threshold.add(rwyFactors.touchdownAfterThr);
+        return {
+            ldgGroundRollStart: touchDownPoint,
+            ldgGroundRollEnd: touchDownPoint.add(ldgPerf.ldgGroundRoll),
+            ldgDist50ftStart: touchDownPoint.subtract(ldgPerf.ldgDist50ft),
+            ldgDist50ftEnd: touchDownPoint,
+            ldaStart: ldgPerf.threshold,
+            ldaEnd: ldgPerf.threshold.add(ldgPerf.rwy.lda),
+            rwyStart: Length.ofZero(),
+            rwyEnd: ldgPerf.rwy.length,
+            chartStart: Length.ofM(Math.min(0, ldgPerf.ldgDist50ft.m)),
+            chartEnd: Length.ofM(Math.max(ldgPerf.rwy.length.m, touchDownPoint.m + ldgPerf.ldgGroundRoll.m))
+        };
     }
 }

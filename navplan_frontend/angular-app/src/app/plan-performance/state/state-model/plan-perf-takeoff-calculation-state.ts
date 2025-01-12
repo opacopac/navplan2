@@ -1,5 +1,6 @@
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {AirportRunway} from '../../../aerodrome/domain/model/airport-runway';
+import {PlanPerfTakeoffChartState} from './plan-perf-takeoff-chart-state';
 
 export interface PlanPerfTakeoffCalculationState {
     rwy: AirportRunway;
@@ -10,4 +11,5 @@ export interface PlanPerfTakeoffCalculationState {
     tkofAbortPoint: Length;
     tkofAbortDist: Length;
     groundRoll: Length;
+    tkofChartState: PlanPerfTakeoffChartState;
 }

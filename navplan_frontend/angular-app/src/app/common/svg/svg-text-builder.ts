@@ -57,14 +57,14 @@ export class SvgTextBuilder {
     }
 
 
-    public setX(x: string): SvgTextBuilder {
-        this.x = x;
+    public setX(x: string | number): SvgTextBuilder {
+        this.x = x.toString();
         return this;
     }
 
 
-    public setY(y: string): SvgTextBuilder {
-        this.y = y;
+    public setY(y: string | number): SvgTextBuilder {
+        this.y = y.toString();
         return this;
     }
 

@@ -32,8 +32,8 @@ export class WnbArmGridSvg {
 
     private static createGridLine(x: number, isDashed: boolean): SVGLineElement {
         return SvgLineBuilder.builder()
-            .setX1(x.toString())
-            .setX2(x.toString())
+            .setX1(x)
+            .setX2(x)
             .setY1Percent(0)
             .setY2Percent(100)
             .setStrokeStyle('#455a64', 1)
@@ -47,7 +47,7 @@ export class WnbArmGridSvg {
     private static createGridLabel(x: number, text: string): SVGTextElement {
         return SvgTextBuilder.builder()
             .setText(text)
-            .setX(x.toString())
+            .setX(x)
             .setY('100%')
             .setStyle('fill:#455a64; stroke:white; stroke-width: 2px; paint-order: stroke;')
             .setTextAnchor('start')

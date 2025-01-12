@@ -44,8 +44,8 @@ export class SvgLineBuilder {
     }
 
 
-    public setX1(x1: string): SvgLineBuilder {
-        this.x1 = x1;
+    public setX1(x1: string | number): SvgLineBuilder {
+        this.x1 = x1.toString();
         return this;
     }
 
@@ -55,8 +55,8 @@ export class SvgLineBuilder {
     }
 
 
-    public setX2(x2: string): SvgLineBuilder {
-        this.x2 = x2;
+    public setX2(x2: string | number): SvgLineBuilder {
+        this.x2 = x2.toString();
         return this;
     }
 
@@ -66,8 +66,8 @@ export class SvgLineBuilder {
     }
 
 
-    public setY1(y1: string): SvgLineBuilder {
-        this.y1 = y1;
+    public setY1(y1: string | number): SvgLineBuilder {
+        this.y1 = y1.toString();
         return this;
     }
 
@@ -77,8 +77,8 @@ export class SvgLineBuilder {
     }
 
 
-    public setY2(y2: string): SvgLineBuilder {
-        this.y2 = y2;
+    public setY2(y2: string | number): SvgLineBuilder {
+        this.y2 = y2.toString();
         return this;
     }
 
@@ -89,12 +89,12 @@ export class SvgLineBuilder {
 
 
     public setStartXy(xy: [number, number]): SvgLineBuilder {
-        return this.setX1(xy[0].toString()).setY1(xy[1].toString());
+        return this.setX1(xy[0]).setY1(xy[1]);
     }
 
 
     public setEndXy(xy: [number, number]): SvgLineBuilder {
-        return this.setX2(xy[0].toString()).setY2(xy[1].toString());
+        return this.setX2(xy[0]).setY2(xy[1]);
     }
 
 

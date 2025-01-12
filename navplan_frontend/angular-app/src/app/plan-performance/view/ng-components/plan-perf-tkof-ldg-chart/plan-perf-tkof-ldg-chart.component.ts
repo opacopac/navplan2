@@ -3,7 +3,6 @@ import {PlanPerfTakeoffCalculationState} from '../../../state/state-model/plan-p
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 import {PlanPerfTkofLdgChart} from '../../svg/plan-perf-tkof-ldg-chart';
 import {PlanPerfLandingCalculationState} from '../../../state/state-model/plan-perf-landing-calculation-state';
-import {PlanPerfRwyFactorsState} from '../../../state/state-model/plan-perf-rwy-factors-state';
 
 
 @Component({
@@ -14,7 +13,6 @@ import {PlanPerfRwyFactorsState} from '../../../state/state-model/plan-perf-rwy-
 export class PlanPerfTkofLdgChartComponent implements OnInit, AfterViewInit, OnChanges {
     @Input() takeoffPerformance: PlanPerfTakeoffCalculationState;
     @Input() landingPerformance: PlanPerfLandingCalculationState;
-    @Input() rwyFactors: PlanPerfRwyFactorsState;
     @Input() lengthUnit: LengthUnit;
     @ViewChild('container') container: ElementRef;
 
@@ -48,7 +46,6 @@ export class PlanPerfTkofLdgChartComponent implements OnInit, AfterViewInit, OnC
             const svg = PlanPerfTkofLdgChart.create(
                 this.takeoffPerformance,
                 this.landingPerformance,
-                this.rwyFactors,
                 this.lengthUnit,
                 this.container.nativeElement.clientWidth,
                 this.container.nativeElement.clientHeight,

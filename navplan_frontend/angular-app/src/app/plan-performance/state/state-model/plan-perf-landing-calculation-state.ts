@@ -1,5 +1,6 @@
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {AirportRunway} from '../../../aerodrome/domain/model/airport-runway';
+import {PlanPerfLandingChartState} from './plan-perf-landing-chart-state';
 
 export interface PlanPerfLandingCalculationState {
     rwy: AirportRunway;
@@ -8,4 +9,5 @@ export interface PlanPerfLandingCalculationState {
     oppThreshold: Length;
     ldgDist50ft: Length;
     ldgGroundRoll: Length;
+    ldgChartState: PlanPerfLandingChartState;
 }
