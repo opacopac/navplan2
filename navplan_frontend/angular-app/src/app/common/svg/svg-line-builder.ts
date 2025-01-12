@@ -8,7 +8,7 @@ export class SvgLineBuilder {
     private y2 = '0';
     private style: string;
     private vectorEffect: string;
-    private shapeRenderin: string;
+    private shapeRendering: string;
     private strokeDashArray: string;
 
 
@@ -33,8 +33,8 @@ export class SvgLineBuilder {
         if (this.vectorEffect !== undefined) {
             line.setAttribute('vector-effect', this.vectorEffect);
         }
-        if (this.shapeRenderin !== undefined) {
-            line.setAttribute('shape-rendering', this.shapeRenderin);
+        if (this.shapeRendering !== undefined) {
+            line.setAttribute('shape-rendering', this.shapeRendering);
         }
         if (this.strokeDashArray !== undefined) {
             line.setAttribute('stroke-dasharray', this.strokeDashArray);
@@ -121,7 +121,7 @@ export class SvgLineBuilder {
 
 
     public setShapeRendering(shapeRendering: string): SvgLineBuilder {
-        this.shapeRenderin = shapeRendering;
+        this.shapeRendering = shapeRendering;
         return this;
     }
 

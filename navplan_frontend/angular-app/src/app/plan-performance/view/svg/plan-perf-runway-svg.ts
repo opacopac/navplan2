@@ -162,6 +162,7 @@ export class PlanPerfRunwaySvg {
             .addPoint(PerspectiveCalculator.calcXy(startX.add(this.THRESHOLD_STRIPE_LENGTH), startY.add(this.THRESHOLD_STRIPE_WIDTH), imgDim))
             .addPoint(PerspectiveCalculator.calcXy(startX, startY.add(this.THRESHOLD_STRIPE_WIDTH), imgDim))
             .setFillStrokeColorWidth('white', 'none', 0)
+            .setShapeRenderingCrispEdges()
             .build();
     }
 }

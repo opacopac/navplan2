@@ -4,6 +4,7 @@ import {SvgBuilder} from './svg-builder';
 export class SvgPolygonBuilder {
     private points: [number, number][] = [];
     private style: string;
+    private shapeRendering: string;
 
 
     private constructor() {
@@ -48,5 +49,16 @@ export class SvgPolygonBuilder {
 
     public setFillStrokeColorWidth(fillColor: string, strokeColor: string, strokeWidthPx: number): SvgPolygonBuilder {
         return this.setStyle('fill:' + fillColor + '; stroke:' + strokeColor + '; stroke-width:' + strokeWidthPx + 'px');
+    }
+
+
+    public setShapeRendering(shapeRendering: string): SvgPolygonBuilder {
+        this.shapeRendering = shapeRendering;
+        return this;
+    }
+
+
+    public setShapeRenderingCrispEdges(): SvgPolygonBuilder {
+        return this.setShapeRendering('crispEdges');
     }
 }

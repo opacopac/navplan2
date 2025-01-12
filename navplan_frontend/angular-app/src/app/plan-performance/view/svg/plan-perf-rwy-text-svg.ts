@@ -51,6 +51,7 @@ export class PlanPerfRwyTextSvg {
 
         return letterSvg
             .setFillStrokeColorWidth('white', 'none', 0)
+            .setShapeRenderingCrispEdges()
             .build();
     }
 }
