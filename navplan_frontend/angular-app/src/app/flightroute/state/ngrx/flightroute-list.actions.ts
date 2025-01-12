@@ -6,8 +6,8 @@ export class FlightrouteListActions {
     public static readonly readList = createAction(
         '[FlightRoutePage] Read flight route list'
     );
-    public static readonly showList = createAction(
-        '[FlightRouteListEffects] Show flight route list',
+    public static readonly readListSuccess = createAction(
+        '[FlightRouteListEffects] Read flight route list success',
         props<{ flightrouteList: FlightrouteListEntry[] }>()
     );
 }

@@ -3,14 +3,14 @@ import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
 import {Consumption} from '../../../geo-physics/domain/model/quantities/consumption';
 
 
-export class Aircraft implements Clonable<Aircraft> {
+export class AircraftParams implements Clonable<AircraftParams> {
     constructor(
         public speed: Speed,
         public consumption: Consumption) {
     }
 
 
-    clone(): Aircraft {
-        return new Aircraft(this.speed, this.consumption);
+    clone(): AircraftParams {
+        return new AircraftParams(this.speed, this.consumption);
     }
 }

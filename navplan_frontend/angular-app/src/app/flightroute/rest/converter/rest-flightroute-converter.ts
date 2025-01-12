@@ -1,5 +1,5 @@
 import {Flightroute} from '../../domain/model/flightroute';
-import {Aircraft} from '../../domain/model/aircraft';
+import {AircraftParams} from '../../domain/model/aircraftParams';
 import {IRestFlightroute} from '../model/i-rest-flightroute';
 import {RestWaypointConverter} from './rest-waypoint-converter';
 import {RestSpeedConverter} from '../../../geo-physics/rest/model/rest-speed-converter';
@@ -9,7 +9,7 @@ import {RestTimeConverter} from '../../../geo-physics/rest/model/rest-time-conve
 
 export class RestFlightrouteConverter {
     public static fromRest(restFlightroute: IRestFlightroute): Flightroute {
-        const aircraft = new Aircraft(
+        const aircraft = new AircraftParams(
             RestSpeedConverter.fromRest(restFlightroute.aircraft_speed),
             RestConsumptionConverter.fromRest(restFlightroute.aircraft_consumption)
         );
@@ -31,8 +31,8 @@ export class RestFlightrouteConverter {
             id: flightroute.id,
             title: flightroute.title,
             comments: flightroute.comments,
-            aircraft_speed: RestSpeedConverter.toRest(flightroute.aircraft.speed),
-            aircraft_consumption: RestConsumptionConverter.toRest(flightroute.aircraft.consumption),
+            aircraft_speed: RestSpeedConverter.toRest(flightroute.aircraftParams.speed),
+            aircraft_consumption: RestConsumptionConverter.toRest(flightroute.aircraftParams.consumption),
             waypoints: RestWaypointConverter.toRestList(flightroute.waypoints),
             alternate: RestWaypointConverter.toRest(flightroute.alternate),
             extra_fuel: RestTimeConverter.toRest(flightroute.extraTime),

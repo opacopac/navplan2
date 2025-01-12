@@ -19,7 +19,7 @@ import {ConsumptionUnit} from '../../../geo-physics/domain/model/quantities/cons
 export class FlightrouteCalcHelper {
     public static calcFlightRoute(flightroute: Flightroute, lengthUnit: LengthUnit = LengthUnit.NM): Flightroute {
         if (!flightroute) {
-            return;
+            return null;
         }
 
         this.calcWaypointList(flightroute, lengthUnit);
@@ -52,7 +52,7 @@ export class FlightrouteCalcHelper {
             } else {
                 prevWp = undefined;
             }
-            this.calcWaypoint(wps[i], prevWp, flightroute.aircraft.speed, lengthUnit);
+            this.calcWaypoint(wps[i], prevWp, flightroute.aircraftParams.speed, lengthUnit);
         }
     }
 
@@ -63,9 +63,9 @@ export class FlightrouteCalcHelper {
         const wps = flightroute.waypoints;
         const prevWp = wps.length > 0 ? wps[wps.length - 1] : undefined;
         flightroute.alternate.vacTime = new Time(5, TimeUnit.M);
-        flightroute.alternate.eet = this.calcEet(flightroute.alternate, flightroute.aircraft.speed);
+        flightroute.alternate.eet = this.calcEet(flightroute.alternate, flightroute.aircraftParams.speed);
 
-        this.calcWaypoint(flightroute.alternate, prevWp, flightroute.aircraft.speed, lengthUnit);
+        this.calcWaypoint(flightroute.alternate, prevWp, flightroute.aircraftParams.speed, lengthUnit);
     }
 
 
@@ -161,12 +161,12 @@ export class FlightrouteCalcHelper {
         flightroute.fuel.blockTime = this.calcBlockTime(flightroute.fuel);
 
         // fuel
-        flightroute.fuel.tripFuel = this.calcFuel(flightroute.fuel.tripTime, flightroute.aircraft.consumption);
-        flightroute.fuel.alternateFuel = this.calcFuel(flightroute.fuel.alternateTime, flightroute.aircraft.consumption);
-        flightroute.fuel.reserveFuel = this.calcFuel(flightroute.fuel.reserveTime, flightroute.aircraft.consumption);
-        flightroute.fuel.minimumFuel = this.calcFuel(flightroute.fuel.minimumTime, flightroute.aircraft.consumption);
-        flightroute.fuel.extraFuel = this.calcFuel(flightroute.fuel.extraTime, flightroute.aircraft.consumption);
-        flightroute.fuel.blockFuel = this.calcFuel(flightroute.fuel.blockTime, flightroute.aircraft.consumption);
+        flightroute.fuel.tripFuel = this.calcFuel(flightroute.fuel.tripTime, flightroute.aircraftParams.consumption);
+        flightroute.fuel.alternateFuel = this.calcFuel(flightroute.fuel.alternateTime, flightroute.aircraftParams.consumption);
+        flightroute.fuel.reserveFuel = this.calcFuel(flightroute.fuel.reserveTime, flightroute.aircraftParams.consumption);
+        flightroute.fuel.minimumFuel = this.calcFuel(flightroute.fuel.minimumTime, flightroute.aircraftParams.consumption);
+        flightroute.fuel.extraFuel = this.calcFuel(flightroute.fuel.extraTime, flightroute.aircraftParams.consumption);
+        flightroute.fuel.blockFuel = this.calcFuel(flightroute.fuel.blockTime, flightroute.aircraftParams.consumption);
     }
 
 

@@ -1,5 +1,5 @@
 import {Flightroute} from './flightroute';
-import {Aircraft} from './aircraft';
+import {AircraftParams} from './aircraftParams';
 import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
 import {TimeUnit} from '../../../geo-physics/domain/model/quantities/time-unit';
 import {Consumption} from '../../../geo-physics/domain/model/quantities/consumption';
@@ -12,11 +12,11 @@ import {ConsumptionUnit} from '../../../geo-physics/domain/model/quantities/cons
 
 
 describe('Flightroute', () => {
-    let ac1: Aircraft;
+    let ac1: AircraftParams;
     let wp1, wp2, wp3, wp4, alt: Waypoint;
     let route1: Flightroute;
     beforeEach(() => {
-        ac1 = new Aircraft(new Speed(100, SpeedUnit.KT), new Consumption(20, ConsumptionUnit.L_PER_H));
+        ac1 = new AircraftParams(new Speed(100, SpeedUnit.KT), new Consumption(20, ConsumptionUnit.L_PER_H));
         wp1 = new Waypoint(WaypointType.airport, '', '', '', '', '', new Position2d(7, 47), undefined);
         wp2 = new Waypoint(WaypointType.report, '', '', '', '', '', new Position2d(7.5, 47.5), undefined);
         wp3 = new Waypoint(WaypointType.airport, '', '', '', '', '', new Position2d(8, 48), undefined);

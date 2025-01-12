@@ -43,7 +43,7 @@ export class PlanPerfEffects {
 
 
     changeFlightRouteAction$ = createEffect(() => this.actions$.pipe(
-        ofType(FlightrouteActions.update, FlightrouteActions.clear),
+        ofType(FlightrouteActions.update),
         withLatestFrom(this.flightroute$),
         map(([action, flightroute]) => [
             {wp: flightroute?.getOriginWaypoint(), type: PlanPerfAirportType.DEPARTURE},

@@ -35,7 +35,7 @@ export class FlightrouteContainerComponent implements OnInit {
     protected readonly flightrouteName$ = this.currentFlightroute$.pipe(map(flightroute => flightroute.title));
     protected readonly flightrouteId$ = this.currentFlightroute$.pipe(map(flightroute => flightroute.id));
     protected readonly routeComments$ = this.currentFlightroute$.pipe(map(flightroute => flightroute.comments));
-    protected readonly routeSpeed$ = this.currentFlightroute$.pipe(map(flightroute => flightroute.aircraft.speed));
+    protected readonly routeSpeed$ = this.currentFlightroute$.pipe(map(flightroute => flightroute.aircraftParams.speed));
     protected readonly selectedAircraft$ = this.appStore.pipe(select(getCurrentAircraft));
     protected readonly useAircraftSpeedValue$ = this.appStore.pipe(select(getUseAircraftSpeedValue));
     protected readonly useAircraftConsumptionValue$ = this.appStore.pipe(select(getUseAircraftConsumptionValue));

@@ -32,7 +32,7 @@ export class FlightRouteListEffects {
         switchMap(([action, userState]) => this.flightrouteService.readFlightrouteList(
             userState.currentUser
         ).pipe(
-            map(routeList => FlightrouteListActions.showList({ flightrouteList: routeList })),
+            map(routeList => FlightrouteListActions.readListSuccess({ flightrouteList: routeList })),
             catchError(error => of(MessageActions.showMessage({
                 message: Message.error('Error reading flight route list: ', error)
             })))

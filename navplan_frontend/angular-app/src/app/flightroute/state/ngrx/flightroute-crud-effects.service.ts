@@ -34,7 +34,7 @@ export class FlightRouteCrudEffects {
         withLatestFrom(this.currentUser$),
         filter(([action, currentUser]) => action.flightrouteId > 0 && currentUser !== undefined),
         switchMap(([action, currentUser]) => this.flightrouteService.readFlightroute(action.flightrouteId, currentUser).pipe(
-            map(route => FlightrouteActions.update({ flightroute: route })),
+            map(route => FlightrouteActions.recalculate({flightroute: route})),
             catchError(error => of(MessageActions.showMessage({
                 message: Message.error('Error reading flight route', error)
             })))
@@ -48,7 +48,8 @@ export class FlightRouteCrudEffects {
         filter(([action, flightroute, currentUser]) => flightroute !== undefined && currentUser !== undefined),
         switchMap(([action, flightroute, currentUser]) => this.flightrouteService.saveFlightroute(flightroute, currentUser).pipe(
             map(route => [
-                FlightrouteActions.update({ flightroute: route }),
+                FlightrouteListActions.readList(),
+                FlightrouteActions.update({flightroute: route}),
                 MessageActions.showMessage({
                     message: Message.success('Flight route saved successfully.')
                 })
@@ -69,7 +70,8 @@ export class FlightRouteCrudEffects {
         filter(([action, flightroute, currentUser]) => flightroute !== undefined && currentUser !== undefined),
         switchMap(([action, flightroute, currentUser]) => this.flightrouteService.duplicateFlightroute(flightroute, currentUser).pipe(
             map(route => [
-                FlightrouteActions.update({ flightroute: route }),
+                FlightrouteListActions.readList(),
+                FlightrouteActions.update({flightroute: route}),
                 MessageActions.showMessage({
                     message: Message.success('Flight route duplicated successfully.')
                 })

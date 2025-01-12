@@ -49,4 +49,9 @@ export class FlightrouteActions {
     public static readonly clear = createAction(
         '[ClearDialog] Clear flight route',
     );
+
+    public static readonly recalculate = createAction(
+        '[Misc Effects] Recalculate flight route',
+        props<{ flightroute: Flightroute }>()
+    );
 }

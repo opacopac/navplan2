@@ -1,4 +1,4 @@
-import {Aircraft} from './aircraft';
+import {AircraftParams} from './aircraftParams';
 import {Waypoint} from './waypoint';
 import {RouteFuel} from './routefuel';
 import {Clonable} from '../../../system/domain/model/clonable';
@@ -17,7 +17,7 @@ export class Flightroute implements Clonable<Flightroute> {
         public id: number,
         public title: string,
         public comments: string,
-        public aircraft: Aircraft,
+        public aircraftParams: AircraftParams,
         public waypoints: Waypoint[],
         public alternate: Waypoint,
         public extraTime: Time
@@ -30,7 +30,7 @@ export class Flightroute implements Clonable<Flightroute> {
             this.id,
             this.title,
             this.comments,
-            this.aircraft ? this.aircraft.clone() : undefined,
+            this.aircraftParams ? this.aircraftParams.clone() : undefined,
             this.waypoints.map(wp => wp.clone()),
             this.alternate ? this.alternate.clone() : undefined,
             this.extraTime ? this.extraTime.clone() : undefined
