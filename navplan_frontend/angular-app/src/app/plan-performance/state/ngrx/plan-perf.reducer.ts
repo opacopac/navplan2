@@ -51,7 +51,7 @@ export const planPerfReducer = createReducer(
     on(PlanPerfActions.updateAirportLandingPerformance, (state, action) => ({
             ...state,
             airportStates: state.airportStates.map((adState, index) => index === action.adIndex
-                ? {...adState, ldaPerformance: action.landingPerformance}
+                ? {...adState, ldgPerformance: action.landingPerformance}
                 : adState
             )
         })
