@@ -94,6 +94,23 @@
             </mat-radio-group>
         </div>
 
+        <!-- touchdown point -->
+        @if (this.isLanding) {
+            <mat-form-field>
+                <mat-label>Touchdown After THR</mat-label>
+                <input
+                    matInput
+                    formControlName="touchdown"
+                    type="number"
+                    required
+                    min="0"
+                    (change)="this.onTouchdownChanged()"
+                >
+                <span matTextSuffix>{{ Length.getUnitString(this.rwyDistUnit) }}</span>
+                <mat-error>Value must be a positive number!</mat-error>
+            </mat-form-field>
+        }
+
         <!-- Reserve -->
         <mat-form-field>
             <mat-label>Reserve</mat-label>

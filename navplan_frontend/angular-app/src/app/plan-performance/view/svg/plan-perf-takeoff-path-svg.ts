@@ -18,9 +18,9 @@ export class PlanPerfTakeoffPathSvg {
 
 
     private static createGroundRollSvg(tkofPerf: PlanPerfTakeoffCalculationState, imgDim: ImageDimensionsSvg): SVGGElement {
-        const quaterWidth = Length.ofM(tkofPerf.rwy.width.m / 4);
-        const startXy = PerspectiveCalculator.calcXy(Length.ofZero(), quaterWidth, imgDim);
-        const endXy = PerspectiveCalculator.calcXy(tkofPerf.groundRoll, quaterWidth, imgDim);
+        const lineY = tkofPerf.rwy.width.divideBy(2);
+        const startXy = PerspectiveCalculator.calcXy(Length.ofZero(), lineY, imgDim);
+        const endXy = PerspectiveCalculator.calcXy(tkofPerf.groundRoll, lineY, imgDim);
 
         return SvgLineBuilder.builder()
             .setStartXy(startXy)
@@ -31,10 +31,10 @@ export class PlanPerfTakeoffPathSvg {
 
 
     private static createTkof50ftSvg(tkofPerf: PlanPerfTakeoffCalculationState, imgDim: ImageDimensionsSvg): SVGGElement {
-        const rwyQuaterWidth = Length.ofM(tkofPerf.rwy.width.m / 4);
-        const height50ft = Length.ofM(tkofPerf.rwy.width.m * 2);
-        const startXy = PerspectiveCalculator.calcXy(tkofPerf.groundRoll, rwyQuaterWidth, imgDim);
-        const endXyGnd = PerspectiveCalculator.calcXy(tkofPerf.tkofDist50ft, rwyQuaterWidth, imgDim);
+        const lineY = tkofPerf.rwy.width.divideBy(2);
+        const height50ft = tkofPerf.rwy.width.multiplyBy(2);
+        const startXy = PerspectiveCalculator.calcXy(tkofPerf.groundRoll, lineY, imgDim);
+        const endXyGnd = PerspectiveCalculator.calcXy(tkofPerf.tkofDist50ft, lineY, imgDim);
         const endXyAir = imgDim.calcXy(tkofPerf.tkofDist50ft, height50ft);
         const endXy: [number, number] = [endXyGnd[0], endXyAir[1]];
 
@@ -47,12 +47,13 @@ export class PlanPerfTakeoffPathSvg {
 
 
     private static createAbortLineSvg(tkofPerf: PlanPerfTakeoffCalculationState, imgDim: ImageDimensionsSvg): SVGGElement {
-        const rwyHalfWidth = Length.ofM(tkofPerf.rwy.width.m / 2);
-        const rwyQuaterWidth = Length.ofM(tkofPerf.rwy.width.m / 4);
-        const abortStart = Length.ofM(Math.min(tkofPerf.rwy.tora.m, tkofPerf.rwy.length.m - tkofPerf.tkofAbortDist.m));
+        const rwy = tkofPerf.rwy;
+        const rwyWidth = rwy.width;
+        const lineY = rwyWidth.divideBy(2);
+        const abortStart = Length.ofM(Math.min(rwy.tora.m, rwy.length.m - tkofPerf.tkofAbortDist.m));
         const abortStop = abortStart.add(tkofPerf.tkofAbortDist);
-        const startXy = PerspectiveCalculator.calcXy(abortStart, rwyQuaterWidth, imgDim);
-        const endXy = PerspectiveCalculator.calcXy(abortStop, rwyQuaterWidth, imgDim);
+        const startXy = PerspectiveCalculator.calcXy(abortStart, lineY, imgDim);
+        const endXy = PerspectiveCalculator.calcXy(abortStop, lineY, imgDim);
 
         const rwyGroup = SvgGroupElement.create();
         rwyGroup.appendChild(SvgLineBuilder.builder()
@@ -63,18 +64,18 @@ export class PlanPerfTakeoffPathSvg {
             .build());
 
         // cross
-        const crossHalfWidth = Length.ofM(tkofPerf.rwy.width.m / 5 * 2);
-        const crossHalfHeight = Length.ofM(tkofPerf.rwy.width.m / 5);
-        const c1StartXy = PerspectiveCalculator.calcXy(abortStart.subtract(crossHalfWidth), rwyQuaterWidth.subtract(crossHalfHeight), imgDim);
-        const c1EndXy = PerspectiveCalculator.calcXy(abortStart.add(crossHalfWidth), rwyQuaterWidth.add(crossHalfHeight), imgDim);
+        const crossHalfWidth = Length.ofM(rwyWidth.m / 5 * 2);
+        const crossHalfHeight = Length.ofM(rwyWidth.m / 5);
+        const c1StartXy = PerspectiveCalculator.calcXy(abortStart.subtract(crossHalfWidth), lineY.subtract(crossHalfHeight), imgDim);
+        const c1EndXy = PerspectiveCalculator.calcXy(abortStart.add(crossHalfWidth), lineY.add(crossHalfHeight), imgDim);
         rwyGroup.appendChild(SvgLineBuilder.builder()
             .setStartXy(c1StartXy)
             .setEndXy(c1EndXy)
             .setStrokeStyle('red', 2)
             .build());
 
-        const c2StartXy = PerspectiveCalculator.calcXy(abortStart.add(crossHalfWidth), rwyQuaterWidth.subtract(crossHalfHeight), imgDim);
-        const c2EndXy = PerspectiveCalculator.calcXy(abortStart.subtract(crossHalfWidth), rwyQuaterWidth.add(crossHalfHeight), imgDim);
+        const c2StartXy = PerspectiveCalculator.calcXy(abortStart.add(crossHalfWidth), lineY.subtract(crossHalfHeight), imgDim);
+        const c2EndXy = PerspectiveCalculator.calcXy(abortStart.subtract(crossHalfWidth), lineY.add(crossHalfHeight), imgDim);
         rwyGroup.appendChild(SvgLineBuilder.builder()
             .setStartXy(c2StartXy)
             .setEndXy(c2EndXy)
@@ -82,8 +83,8 @@ export class PlanPerfTakeoffPathSvg {
             .build());
 
         // stop line
-        const stopLineStartXy = PerspectiveCalculator.calcXy(abortStop, Length.ofZero(), imgDim);
-        const stopLineEndXy = PerspectiveCalculator.calcXy(abortStop, rwyHalfWidth, imgDim);
+        const stopLineStartXy = PerspectiveCalculator.calcXy(abortStop, rwyWidth.divideBy(4), imgDim);
+        const stopLineEndXy = PerspectiveCalculator.calcXy(abortStop, rwyWidth.multiplyBy(3 / 4), imgDim);
         rwyGroup.appendChild(SvgLineBuilder.builder()
             .setStartXy(stopLineStartXy)
             .setEndXy(stopLineEndXy)

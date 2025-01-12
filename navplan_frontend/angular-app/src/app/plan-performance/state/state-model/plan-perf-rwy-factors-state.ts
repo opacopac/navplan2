@@ -1,5 +1,6 @@
 import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
 import {AirportRunway} from '../../../aerodrome/domain/model/airport-runway';
+import {Length} from '../../../geo-physics/domain/model/quantities/length';
 
 export interface PlanPerfRwyFactorsState {
     runway: AirportRunway;
@@ -7,5 +8,6 @@ export interface PlanPerfRwyFactorsState {
     isWetRwy: boolean;
     rwySlopePercent: number;
     rwyWind: Speed;
+    touchdownAfterThr: Length;
     reservePercent: number;
 }

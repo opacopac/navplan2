@@ -19,13 +19,16 @@
             <app-plan-perf-runway-factors
                 [runways]="this.airportPerfState.airport.runways"
                 [runwayFactors]="this.airportPerfState.runwayFactors"
+                [isLanding]="!this.isDepartureAd()"
                 [speedUnit]="this.speedUnit"
+                [rwyDistUnit]="this.performanceDistanceUnit"
                 (runwayFactorChanged)="this.onRunwayFactorsChanged($event)"
             />
             <!-- performance calculation -->
             <app-plan-perf-calculation
                 [takeoffPerformance]="this.airportPerfState.tkofPerformance"
                 [landingPerformance]="this.airportPerfState.ldaPerformance"
+                [rwyFactors]="this.airportPerfState.runwayFactors"
                 [performanceDistanceUnit]="this.performanceDistanceUnit"
             />
         </mat-expansion-panel>

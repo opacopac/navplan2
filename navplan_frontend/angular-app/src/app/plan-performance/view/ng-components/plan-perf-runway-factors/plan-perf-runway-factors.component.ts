@@ -5,6 +5,8 @@ import {Speed} from '../../../../geo-physics/domain/model/quantities/speed';
 import {Pressure} from '../../../../geo-physics/domain/model/quantities/pressure';
 import {PlanPerfRwyFactorsState} from '../../../state/state-model/plan-perf-rwy-factors-state';
 import {AirportRunway} from '../../../../aerodrome/domain/model/airport-runway';
+import {Length} from '../../../../geo-physics/domain/model/quantities/length';
+import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 
 @Component({
     selector: 'app-plan-perf-runway-factors',
@@ -15,12 +17,14 @@ export class PlanPerfRunwayFactorsComponent implements OnInit {
     @Input() runways: AirportRunway[];
     @Input() runwayFactors: PlanPerfRwyFactorsState;
     @Input() speedUnit: SpeedUnit;
-    @Input() showWetRwy: boolean;
+    @Input() rwyDistUnit: LengthUnit;
+    @Input() isLanding: boolean;
     @Output() runwayFactorChanged = new EventEmitter<PlanPerfRwyFactorsState>();
 
     protected correctionFactorsForm: FormGroup;
     protected readonly Pressure = Pressure;
     protected readonly Speed = Speed;
+    protected readonly Length = Length;
 
 
     constructor(private formBuilder: FormBuilder) {
@@ -98,6 +102,16 @@ export class PlanPerfRunwayFactorsComponent implements OnInit {
     }
 
 
+    protected onTouchdownChanged() {
+        if (this.correctionFactorsForm.controls['touchdown'].valid) {
+            this.runwayFactorChanged.emit({
+                ...this.runwayFactors,
+                touchdownAfterThr: new Length(this.correctionFactorsForm.value.touchdown, this.rwyDistUnit)
+            });
+        }
+    }
+
+
     protected onReserveChanged() {
         if (this.correctionFactorsForm.controls['reserve'].valid) {
             this.runwayFactorChanged.emit({
@@ -130,6 +144,10 @@ export class PlanPerfRunwayFactorsComponent implements OnInit {
             ]],
             'rwyWindDir': [this.runwayFactors.rwyWind.getValue(this.speedUnit) >= 0, [
                 Validators.required
+            ]],
+            'touchdown': [this.runwayFactors.touchdownAfterThr.getValue(this.rwyDistUnit), [
+                Validators.required,
+                Validators.min(0),
             ]],
             'reserve': [this.runwayFactors.reservePercent, [
                 Validators.required,

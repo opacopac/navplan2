@@ -125,6 +125,7 @@ export class PlanPerfEffects {
                 isWetRwy: false,
                 rwySlopePercent: 0,
                 rwyWind: Speed.ofZero(),
+                touchdownAfterThr: Length.ofM(100),
                 reservePercent: 0
             },
             aircraftPerfProfileIdx: null,

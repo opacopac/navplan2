@@ -21,21 +21,26 @@ export class PlanPerfRunwaySvg {
     public static create(rwy: AirportRunway, oppRwy: AirportRunway, threshold: Length, oppThreshold: Length, imgDim: ImageDimensionsSvg): SVGGElement {
         const rwyGroup = SvgGroupElement.create();
         rwyGroup.appendChild(this.createRwySvg(rwy, imgDim));
-        rwyGroup.appendChild(this.createCenterLineSvg(rwy, threshold, oppThreshold, imgDim));
-        rwyGroup.appendChild(this.createThreshold(rwy, threshold, oppThreshold, imgDim));
         rwyGroup.appendChild(this.createRwyDesignator(rwy, oppRwy, threshold, oppThreshold, imgDim));
+        rwyGroup.appendChild(this.createDisplacedThreshold(rwy, threshold, oppThreshold, imgDim));
+
+        if (!rwy.isGrass()) {
+            rwyGroup.appendChild(this.createCenterLineSvg(rwy, threshold, oppThreshold, imgDim));
+            rwyGroup.appendChild(this.createThresholdStripes(rwy, threshold, oppThreshold, imgDim));
+        }
 
         return rwyGroup;
     }
 
 
     private static createRwySvg(rwy: AirportRunway, imgDim: ImageDimensionsSvg): SVGGElement {
+        const fillColor = rwy.isGrass() ? 'darkgreen' : 'gray';
         return SvgPolygonBuilder.builder()
             .addPoint(PerspectiveCalculator.calcXy(Length.ofZero(), Length.ofZero(), imgDim))
             .addPoint(PerspectiveCalculator.calcXy(Length.ofZero(), rwy.width, imgDim))
             .addPoint(PerspectiveCalculator.calcXy(rwy.length, rwy.width, imgDim))
             .addPoint(PerspectiveCalculator.calcXy(rwy.length, Length.ofZero(), imgDim))
-            .setFillStrokeColorWidth('gray', 'black', 2)
+            .setFillStrokeColorWidth(fillColor, 'black', 2)
             .build();
     }
 
@@ -105,11 +110,9 @@ export class PlanPerfRunwaySvg {
     }
 
 
-    private static createThreshold(rwy: AirportRunway, threshold: Length, oppThreshold: Length, imgDim: ImageDimensionsSvg): SVGGElement {
-        const rwyHalfWidth = Length.ofM(rwy.width.m / 2);
+    private static createDisplacedThreshold(rwy: AirportRunway, threshold: Length, oppThreshold: Length, imgDim: ImageDimensionsSvg): SVGGElement {
         const thresholdGroup = SvgGroupElement.create();
 
-        // threshold baseline
         if (threshold.m > 0) {
             const startXy = PerspectiveCalculator.calcXy(threshold, Length.ofZero(), imgDim);
             const endXy = PerspectiveCalculator.calcXy(threshold, rwy.width, imgDim);
@@ -120,7 +123,6 @@ export class PlanPerfRunwaySvg {
                 .build());
         }
 
-        // opposite threshold baseline
         if (oppThreshold.m < rwy.length.m) {
             const startXy = PerspectiveCalculator.calcXy(oppThreshold, Length.ofZero(), imgDim);
             const endXy = PerspectiveCalculator.calcXy(oppThreshold, rwy.width, imgDim);
@@ -130,6 +132,14 @@ export class PlanPerfRunwaySvg {
                 .setStrokeStyle('white', 2)
                 .build());
         }
+
+        return thresholdGroup;
+    }
+
+
+    private static createThresholdStripes(rwy: AirportRunway, threshold: Length, oppThreshold: Length, imgDim: ImageDimensionsSvg): SVGGElement {
+        const rwyHalfWidth = Length.ofM(rwy.width.m / 2);
+        const thresholdGroup = SvgGroupElement.create();
 
         // threshold stripes
         const numStripes = rwy.getThresholdStripeCount();

@@ -5,6 +5,10 @@ import {AirportRunway} from '../model/airport-runway';
 
 export class AirportRunwayService {
     public static calcThresholdPoints(airport: Airport, rwy: AirportRunway): [Length, Length] {
+        if (!rwy) {
+            return [undefined, undefined];
+        }
+
         const oppRwy = airport.findOppositeRunway(rwy);
 
         if (oppRwy && rwy.tora && oppRwy.tora) {

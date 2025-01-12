@@ -1,6 +1,7 @@
 @if (this.takeoffPerformance) {
     <app-plan-perf-tkof-ldg-chart
         [takeoffPerformance]="this.takeoffPerformance"
+        [rwyFactors]="this.rwyFactors"
         [lengthUnit]="this.performanceDistanceUnit"
     />
     <ul>
@@ -14,6 +15,7 @@
 } @else if (landingPerformance) {
     <app-plan-perf-tkof-ldg-chart
         [landingPerformance]="this.landingPerformance"
+        [rwyFactors]="this.rwyFactors"
         [lengthUnit]="this.performanceDistanceUnit"
     />
     <ul>

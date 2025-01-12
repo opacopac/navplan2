@@ -7,12 +7,14 @@ import {PlanPerfTakeoffPathSvg} from './plan-perf-takeoff-path-svg';
 import {PlanPerfLandingCalculationState} from '../../state/state-model/plan-perf-landing-calculation-state';
 import {PlanPerfLandingPathSvg} from './plan-perf-landing-path-svg';
 import {SvgBuilder} from '../../../common/svg/svg-builder';
+import {PlanPerfRwyFactorsState} from '../../state/state-model/plan-perf-rwy-factors-state';
 
 
 export class PlanPerfTkofLdgChart {
     public static create(
         takeoffPerformance: PlanPerfTakeoffCalculationState,
         landingPerformance: PlanPerfLandingCalculationState,
+        rwyFactors: PlanPerfRwyFactorsState,
         lengthUnit: LengthUnit,
         imageWidthPx: number,
         imageHeightPx: number,
@@ -26,28 +28,28 @@ export class PlanPerfTkofLdgChart {
             imageWidthPx,
             imageHeightPx,
         );
-        const minXLen = landingPerformance
-            ? Length.ofM(Math.min(0, landingPerformance.threshold.m
-                - (landingPerformance.ldgDist50ft.m - landingPerformance.ldgGroundRoll.m)))
-            : Length.ofZero();
-        const maxXLen = takeoffPerformance
-            ? Length.ofM(Math.max(rwy.length.m, takeoffPerformance.tkofDist50ft.m))
-            : rwy.length;
-        const minX = imgDim.calcX(minXLen);
-        const maxX = imgDim.calcX(maxXLen);
+        const x1LenM = landingPerformance
+            ? Math.min(0, landingPerformance.threshold.m  + rwyFactors.touchdownAfterThr.m
+                - landingPerformance.ldgDist50ft.m + landingPerformance.ldgGroundRoll.m)
+            : 0;
+        const x2LenM = takeoffPerformance
+            ? Math.max(rwy.length.m, takeoffPerformance.tkofDist50ft.m)
+            : rwy.length.m;
+        const x1 = imgDim.calcX(Length.ofM(x1LenM));
+        const x2 = imgDim.calcX(Length.ofM(x2LenM));
 
         const svg = SvgBuilder.builder()
             .setWidth(imageWidthPx.toString())
             .setHeight(imageHeightPx.toString())
-            .setViewBox(minX, 0, maxX - minX, imageHeightPx)
+            .setViewBox(x1, 0, x2 - x1, imageHeightPx)
             .build();
 
         if (takeoffPerformance) {
             svg.appendChild(PlanPerfRunwaySvg.create(rwy, oppRwy, takeoffPerformance.threshold, takeoffPerformance.oppThreshold, imgDim));
             svg.appendChild(PlanPerfTakeoffPathSvg.create(takeoffPerformance, imgDim));
-        } else {
+        } else if (landingPerformance) {
             svg.appendChild(PlanPerfRunwaySvg.create(rwy, oppRwy, landingPerformance.threshold, landingPerformance.oppThreshold, imgDim));
-            svg.appendChild(PlanPerfLandingPathSvg.create(landingPerformance, imgDim));
+            svg.appendChild(PlanPerfLandingPathSvg.create(landingPerformance, rwyFactors, imgDim));
         }
 
         return svg;
