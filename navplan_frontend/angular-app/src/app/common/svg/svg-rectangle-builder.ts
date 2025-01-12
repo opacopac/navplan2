@@ -17,8 +17,8 @@ export class SvgRectangleBuilder {
     }
 
 
-    public setX(x: string): SvgRectangleBuilder {
-        this.x = x;
+    public setX(x: string | number): SvgRectangleBuilder {
+        this.x = x.toString();
         return this;
     }
 
@@ -28,8 +28,8 @@ export class SvgRectangleBuilder {
     }
 
 
-    public setY(y: string): SvgRectangleBuilder {
-        this.y = y;
+    public setY(y: string | number): SvgRectangleBuilder {
+        this.y = y.toString();
         return this;
     }
 
@@ -40,12 +40,12 @@ export class SvgRectangleBuilder {
 
 
     public setXy(xy: [number, number]): SvgRectangleBuilder {
-        return this.setX(xy[0].toString()).setY(xy[1].toString());
+        return this.setX(xy[0]).setY(xy[1]);
     }
 
 
-    public setWidth(width: string): SvgRectangleBuilder {
-        this.width = width;
+    public setWidth(width: string | number): SvgRectangleBuilder {
+        this.width = width.toString();
         return this;
     }
 
@@ -55,8 +55,8 @@ export class SvgRectangleBuilder {
     }
 
 
-    public setHeight(height: string): SvgRectangleBuilder {
-        this.height = height;
+    public setHeight(height: string | number): SvgRectangleBuilder {
+        this.height = height.toString();
         return this;
     }
 

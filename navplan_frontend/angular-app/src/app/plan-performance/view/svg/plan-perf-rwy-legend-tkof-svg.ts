@@ -6,7 +6,7 @@ import {PlanPerfRwyLegendRowSvg} from './plan-perf-rwy-legend-row-svg';
 import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-unit';
 
 
-export class PlanPerfTkofRwyLegendSvg {
+export class PlanPerfRwyLegendTkofSvg {
     public static create(
         tkofPerf: PlanPerfTakeoffCalculationState,
         distUnit: LengthUnit,
@@ -19,15 +19,15 @@ export class PlanPerfTkofRwyLegendSvg {
 
         // ground roll
         g.appendChild(PlanPerfRwyLegendRowSvg.createLegendEntry(
-            'TKOF Ground Roll: ' + tkofPerf.groundRoll.getValueAndUnit(distUnit, 0),
+            'TKOF GND Roll: ' + tkofPerf.groundRoll.getValueAndUnit(distUnit, 0),
             imgDim.calcX(chartState.tkofGroundRollStart),
             imgDim.calcX(chartState.tkofGroundRollEnd),
             startY,
-            'lawngreen'));
+            'limegreen'));
 
         // tkof dist 50ft
         g.appendChild(PlanPerfRwyLegendRowSvg.createLegendEntry(
-            'TKOF Distance to 50ft: ' + tkofPerf.tkofDist50ft.getValueAndUnit(distUnit, 0),
+            'TKOF Distance 50ft: ' + tkofPerf.tkofDist50ft.getValueAndUnit(distUnit, 0),
             imgDim.calcX(chartState.tkofDist50ftStart),
             imgDim.calcX(chartState.tkofDist50ftEnd),
             startY + PlanPerfRwyLegendRowSvg.LEGEND_ROW_HEIGHT_PX,
@@ -53,7 +53,7 @@ export class PlanPerfTkofRwyLegendSvg {
             imgDim.calcX(chartState.toraStart),
             imgDim.calcX(chartState.toraEnd),
             startY + 3 * PlanPerfRwyLegendRowSvg.LEGEND_ROW_HEIGHT_PX,
-            'darkgray'));
+            'gray'));
 
         // rwy length
         g.appendChild(PlanPerfRwyLegendRowSvg.createLegendEntry(
@@ -61,7 +61,7 @@ export class PlanPerfTkofRwyLegendSvg {
             imgDim.calcX(chartState.rwyStart),
             imgDim.calcX(chartState.rwyEnd),
             startY + 4 * PlanPerfRwyLegendRowSvg.LEGEND_ROW_HEIGHT_PX,
-            'darkgray'));
+            'gray'));
 
         return g;
     }

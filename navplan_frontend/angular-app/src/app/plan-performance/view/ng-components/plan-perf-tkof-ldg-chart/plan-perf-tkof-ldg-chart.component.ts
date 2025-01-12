@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {PlanPerfTakeoffCalculationState} from '../../../state/state-model/plan-perf-takeoff-calculation-state';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
-import {PlanPerfTkofLdgChart} from '../../svg/plan-perf-tkof-ldg-chart';
+import {PlanPerfChartSvg} from '../../svg/plan-perf-chart-svg';
 import {PlanPerfLandingCalculationState} from '../../../state/state-model/plan-perf-landing-calculation-state';
 
 
@@ -43,7 +43,7 @@ export class PlanPerfTkofLdgChartComponent implements OnInit, AfterViewInit, OnC
         this.container.nativeElement.innerHTML = '';
 
         if (this.takeoffPerformance || this.landingPerformance) {
-            const svg = PlanPerfTkofLdgChart.create(
+            const svg = PlanPerfChartSvg.create(
                 this.takeoffPerformance,
                 this.landingPerformance,
                 this.lengthUnit,

@@ -7,7 +7,7 @@ import {PlanPerfTakeoffChartState} from '../../state/state-model/plan-perf-takeo
 import {AirportRunway} from '../../../aerodrome/domain/model/airport-runway';
 
 
-export class PlanPerfTakeoffPathSvg {
+export class PlanPerfPathTkofSvg {
     public static create(chartState: PlanPerfTakeoffChartState, rwy: AirportRunway, imgDim: ImageDimensionsSvg): SVGGElement {
         const rwyGroup = SvgGroupElement.create();
         rwyGroup.appendChild(this.createGroundRollSvg(chartState, rwy, imgDim));
@@ -24,7 +24,7 @@ export class PlanPerfTakeoffPathSvg {
         return SvgLineBuilder.builder()
             .setStartXy(PerspectiveCalculator.calcXy(chartState.tkofGroundRollStart, lineY, imgDim))
             .setEndXy(PerspectiveCalculator.calcXy(chartState.tkofGroundRollEnd, lineY, imgDim))
-            .setStrokeStyle('lawngreen', 2)
+            .setStrokeStyle('limegreen', 2)
             .build();
     }
 

@@ -5,7 +5,7 @@ import {SvgTextBuilder} from '../../../common/svg/svg-text-builder';
 
 export class PlanPerfRwyLegendRowSvg {
     public static readonly LEGEND_ROW_HEIGHT_PX = 30;
-    private static readonly BG_LINE_COLOR = 'lightgray';
+    private static readonly BG_LINE_COLOR = 'gray';
     private static readonly BG_LINE_WIDTH_PX = 2;
     private static readonly TEXT_SIZE = '16px';
 

@@ -3,15 +3,16 @@ import {PlanPerfTakeoffCalculationState} from '../../state/state-model/plan-perf
 import {ImageDimensionsSvg} from '../../../common/svg/image-dimensions-svg';
 import {PlanPerfRunwaySvg} from './plan-perf-runway-svg';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
-import {PlanPerfTakeoffPathSvg} from './plan-perf-takeoff-path-svg';
+import {PlanPerfPathTkofSvg} from './plan-perf-path-tkof-svg';
 import {PlanPerfLandingCalculationState} from '../../state/state-model/plan-perf-landing-calculation-state';
-import {PlanPerfLandingPathSvg} from './plan-perf-landing-path-svg';
+import {PlanPerfPathLdgSvg} from './plan-perf-path-ldg-svg';
 import {SvgBuilder} from '../../../common/svg/svg-builder';
-import {PlanPerfTkofRwyLegendSvg} from './plan-perf-tkof-rwy-legend-svg';
-import {PlanPerfLdgRwyLegendSvg} from './plan-perf-ldg-rwy-legend-svg';
+import {PlanPerfRwyLegendTkofSvg} from './plan-perf-rwy-legend-tkof-svg';
+import {PlanPerfRwyLegendLdgSvg} from './plan-perf-rwy-legend-ldg-svg';
+import {SvgRectangleBuilder} from '../../../common/svg/svg-rectangle-builder';
 
 
-export class PlanPerfTkofLdgChart {
+export class PlanPerfChartSvg {
     public static create(
         takeoffPerformance: PlanPerfTakeoffCalculationState,
         landingPerformance: PlanPerfLandingCalculationState,
@@ -30,14 +31,19 @@ export class PlanPerfTkofLdgChart {
         const imgDim = this.createImgDim(imageWidthPx, imageHeightPx, chartEnd.subtract(chartStart));
         const svg = this.createRootSvg(chartStart, chartEnd, imageWidthPx, imageHeightPx, imgDim);
 
+        // background
+        svg.appendChild(this.createChartBg());
+        svg.appendChild(this.createLegendBg());
+
+        // charts & legends
         if (takeoffPerformance) {
             svg.appendChild(PlanPerfRunwaySvg.create(rwy, oppRwy, takeoffPerformance.threshold, takeoffPerformance.oppThreshold, imgDim));
-            svg.appendChild(PlanPerfTakeoffPathSvg.create(takeoffPerformance.tkofChartState, rwy, imgDim));
-            svg.appendChild(PlanPerfTkofRwyLegendSvg.create(takeoffPerformance, lengthUnit, imgDim));
+            svg.appendChild(PlanPerfPathTkofSvg.create(takeoffPerformance.tkofChartState, rwy, imgDim));
+            svg.appendChild(PlanPerfRwyLegendTkofSvg.create(takeoffPerformance, lengthUnit, imgDim));
         } else if (landingPerformance) {
             svg.appendChild(PlanPerfRunwaySvg.create(rwy, oppRwy, landingPerformance.threshold, landingPerformance.oppThreshold, imgDim));
-            svg.appendChild(PlanPerfLandingPathSvg.create(landingPerformance.ldgChartState, rwy, imgDim));
-            svg.appendChild(PlanPerfLdgRwyLegendSvg.create(landingPerformance, lengthUnit, imgDim));
+            svg.appendChild(PlanPerfPathLdgSvg.create(landingPerformance.ldgChartState, rwy, imgDim));
+            svg.appendChild(PlanPerfRwyLegendLdgSvg.create(landingPerformance, lengthUnit, imgDim));
         }
 
         return svg;
@@ -69,6 +75,28 @@ export class PlanPerfTkofLdgChart {
             .setWidth(imageWidthPx.toString())
             .setHeight(imageHeightPx.toString())
             .setViewBox(x1, 200, x2 - x1, imageHeightPx)
+            .build();
+    }
+
+
+    private static createChartBg(): SVGRectElement {
+        return SvgRectangleBuilder.builder()
+            .setX(0)
+            .setY(200)
+            .setWidthPercent(100)
+            .setHeight(100)
+            .setStyle('fill: white;')
+            .build();
+    }
+
+
+    private static createLegendBg(): SVGRectElement {
+        return SvgRectangleBuilder.builder()
+            .setX(0)
+            .setY(300)
+            .setWidthPercent(100)
+            .setHeight(200)
+            .setStyle('fill: white')
             .build();
     }
 }

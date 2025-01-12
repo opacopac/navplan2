@@ -6,7 +6,7 @@ import {PlanPerfLandingChartState} from '../../state/state-model/plan-perf-landi
 import {AirportRunway} from '../../../aerodrome/domain/model/airport-runway';
 
 
-export class PlanPerfLandingPathSvg {
+export class PlanPerfPathLdgSvg {
     public static create(
         chartState: PlanPerfLandingChartState,
         rwy: AirportRunway,
@@ -51,14 +51,14 @@ export class PlanPerfLandingPathSvg {
         g.appendChild(SvgLineBuilder.builder()
             .setStartXy(PerspectiveCalculator.calcXy(chartState.ldgGroundRollStart, lineY, imgDim))
             .setEndXy(PerspectiveCalculator.calcXy(chartState.ldgGroundRollEnd, lineY, imgDim))
-            .setStrokeStyle('lawngreen', 2)
+            .setStrokeStyle('limegreen', 2)
             .build());
 
         // stop line
         g.appendChild(SvgLineBuilder.builder()
             .setStartXy(PerspectiveCalculator.calcXy(chartState.ldgGroundRollEnd, rwyWidth.divideBy(4), imgDim))
             .setEndXy(PerspectiveCalculator.calcXy(chartState.ldgGroundRollEnd, rwyWidth.multiplyBy(3 / 4), imgDim))
-            .setStrokeStyle('lawngreen', 2)
+            .setStrokeStyle('limegreen', 2)
             .build());
 
         return g;
