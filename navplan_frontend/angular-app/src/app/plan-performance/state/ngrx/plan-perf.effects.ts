@@ -44,17 +44,17 @@ export class PlanPerfEffects {
 
     changeFlightRouteAction$ = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteActions.update),
-        withLatestFrom(this.flightroute$),
-        map(([action, flightroute]) => [
-            {wp: flightroute?.getOriginWaypoint(), type: PlanPerfAirportType.DEPARTURE},
-            {wp: flightroute?.getDestinationWaypoint(), type: PlanPerfAirportType.DESTINATION},
-            {wp: flightroute?.getAlternateWaypoint(), type: PlanPerfAirportType.ALTERNATE}
+        withLatestFrom(this.flightroute$, this.aircraft$),
+        map(([action, flightroute, aircraft]) => [
+            {wp: flightroute?.getOriginWaypoint(), type: PlanPerfAirportType.DEPARTURE, aircraft: aircraft},
+            {wp: flightroute?.getDestinationWaypoint(), type: PlanPerfAirportType.DESTINATION, aircraft: aircraft},
+            {wp: flightroute?.getAlternateWaypoint(), type: PlanPerfAirportType.ALTERNATE, aircraft: aircraft}
         ]),
         mergeMap(waypoints => from(waypoints).pipe(
             filter(waypoint => waypoint.wp != null),
             concatMap(waypoint => this.loadAirportFromDataItem(waypoint.wp).pipe(
                 filter(ad => ad != null),
-                map(ad => this.calcInitialAirportState(ad, waypoint.type))
+                map(ad => this.calcInitialAirportState(ad, waypoint.type, waypoint.aircraft))
             )),
             toArray(),
             switchMap(adStates => [PlanPerfActions.updateAirports({airportStates: adStates})])
@@ -106,7 +106,7 @@ export class PlanPerfEffects {
     }
 
 
-    private calcInitialAirportState(airport: Airport, type: PlanPerfAirportType): PlanPerfAirportState {
+    private calcInitialAirportState(airport: Airport, type: PlanPerfAirportType, aircraft: Aircraft): PlanPerfAirportState {
         const firstRwy = airport.runways && airport.runways.length > 0 ? airport.runways[0] : null;
         const elev = airport.elevation ? airport.elevation.getHeightAmsl() : Length.ofZero();
         const initialAdState = {
@@ -131,6 +131,14 @@ export class PlanPerfEffects {
             ldaPerformance: null
         };
         initialAdState.weatherCalculation = this.createNewWeatherCalculationState(initialAdState);
+
+        if (type === PlanPerfAirportType.DEPARTURE && aircraft) {
+            initialAdState.tkofPerformance = this.createTakeoffPerformanceConditions(initialAdState, aircraft);
+        }
+
+        if (type === PlanPerfAirportType.DESTINATION && aircraft) {
+            initialAdState.ldaPerformance = this.createLandingPerformanceConditions(initialAdState, aircraft);
+        }
 
         return initialAdState;
     }
