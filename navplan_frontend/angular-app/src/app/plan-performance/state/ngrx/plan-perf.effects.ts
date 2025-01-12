@@ -160,6 +160,7 @@ export class PlanPerfEffects {
 
     private createTakeoffPerformanceConditions(adState: PlanPerfAirportState, aircraft: Aircraft): PlanPerfTakeoffCalculationState {
         const rwy = adState.runwayFactors.runway;
+        const oppRwy = adState.airport.findOppositeRunway(rwy);
         const [threshold, oppThreshold] = AirportRunwayService.calcThresholdPoints(adState.airport, rwy);
         const tkofGroundRoll = this.calcDistance(aircraft?.perfTakeoffGroundRoll, adState);
         const tkofDist50ft = this.calcDistance(aircraft?.perfTakeoffDist50ft, adState);
@@ -167,6 +168,7 @@ export class PlanPerfEffects {
         const tkofAbortPoint = (rwy?.length && ldaGroundRoll) ? rwy.length.subtract(ldaGroundRoll) : null;
         return {
             rwy: rwy,
+            oppRwy: oppRwy,
             threshold: threshold,
             oppThreshold: oppThreshold,
             groundRoll: tkofGroundRoll,
@@ -179,9 +181,11 @@ export class PlanPerfEffects {
 
     private createLandingPerformanceConditions(adState: PlanPerfAirportState, aircraft: Aircraft): PlanPerfLandingCalculationState {
         const rwy = adState.runwayFactors.runway;
+        const oppRwy = adState.airport.findOppositeRunway(rwy);
         const [threshold, oppThreshold] = AirportRunwayService.calcThresholdPoints(adState.airport, rwy);
         return {
             rwy: rwy,
+            oppRwy: oppRwy,
             threshold: threshold,
             oppThreshold: oppThreshold,
             ldgGroundRoll: this.calcDistance(aircraft?.perfLandingGroundRoll, adState),

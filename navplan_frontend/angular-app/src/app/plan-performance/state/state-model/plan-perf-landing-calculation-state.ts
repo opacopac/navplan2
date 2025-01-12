@@ -3,6 +3,7 @@ import {AirportRunway} from '../../../aerodrome/domain/model/airport-runway';
 
 export interface PlanPerfLandingCalculationState {
     rwy: AirportRunway;
+    oppRwy: AirportRunway;
     threshold: Length;
     oppThreshold: Length;
     ldgDist50ft: Length;

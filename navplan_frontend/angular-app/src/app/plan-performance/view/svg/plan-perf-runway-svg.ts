@@ -5,18 +5,25 @@ import {PerspectiveCalculator} from './perspective-calculator';
 import {AirportRunway} from '../../../aerodrome/domain/model/airport-runway';
 import {SvgLineBuilder} from '../../../common/svg/svg-line-builder';
 import {SvgPolygonBuilder} from '../../../common/svg/svg-polygon-builder';
+import {PlanPerfRwyTextSvg} from './plan-perf-rwy-text-svg';
 
 
 export class PlanPerfRunwaySvg {
     private static THRESHOLD_STRIPE_OFFSET = Length.ofM(6);
     private static THRESHOLD_STRIPE_LENGTH = Length.ofM(30);
     private static THRESHOLD_STRIPE_WIDTH = Length.ofM(1.8);
+    private static THRESHOLD_DESIGNATOR_OFFSET = Length.ofM(6 + 30 + 12);
+    private static THRESHOLD_DESIGNATOR_WIDTH = Length.ofM(3);
+    private static THRESHOLD_DESIGNATOR_HEIGHT = Length.ofM(9);
+    private static THRESHOLD_DESIGNATOR_CENTER_PADDING = Length.ofM(1);
+    private static THRESHOLD_CENTERLINE_OFFSET = Length.ofM(6 + 30 + 12 + 9 + 12);
 
-    public static create(rwy: AirportRunway, threshold: Length, oppThreshold: Length, imgDim: ImageDimensionsSvg): SVGGElement {
+    public static create(rwy: AirportRunway, oppRwy: AirportRunway, threshold: Length, oppThreshold: Length, imgDim: ImageDimensionsSvg): SVGGElement {
         const rwyGroup = SvgGroupElement.create();
         rwyGroup.appendChild(this.createRwySvg(rwy, imgDim));
         rwyGroup.appendChild(this.createCenterLineSvg(rwy, threshold, oppThreshold, imgDim));
         rwyGroup.appendChild(this.createThreshold(rwy, threshold, oppThreshold, imgDim));
+        rwyGroup.appendChild(this.createRwyDesignator(rwy, oppRwy, threshold, oppThreshold, imgDim));
 
         return rwyGroup;
     }
@@ -35,9 +42,10 @@ export class PlanPerfRunwaySvg {
 
     private static createCenterLineSvg(rwy: AirportRunway, threshold: Length, oppThreshold: Length, imgDim: ImageDimensionsSvg): SVGGElement {
         const rwyHalfWidth = Length.ofM(rwy.width.m / 2);
-        const thresholdNumberLen = Length.ofM(6 + 30 + 12 + 9 + 12); // TODO
-        const startXy = PerspectiveCalculator.calcXy(threshold.add(thresholdNumberLen), rwyHalfWidth, imgDim);
-        const endXy = PerspectiveCalculator.calcXy(oppThreshold.subtract(thresholdNumberLen), rwyHalfWidth, imgDim);
+        const startXy = PerspectiveCalculator.calcXy(
+            threshold.add(PlanPerfRunwaySvg.THRESHOLD_CENTERLINE_OFFSET), rwyHalfWidth, imgDim);
+        const endXy = PerspectiveCalculator.calcXy(
+            oppThreshold.subtract(PlanPerfRunwaySvg.THRESHOLD_CENTERLINE_OFFSET), rwyHalfWidth, imgDim);
         const dashLenOnPx = imgDim.calcXy(Length.ofM(30), Length.ofZero())[0];
         const dashLenOffPx = imgDim.calcXy(Length.ofM(20), Length.ofZero())[0];
 
@@ -47,6 +55,53 @@ export class PlanPerfRunwaySvg {
             .setStrokeStyle('white', 2)
             .setStrokeDashArrayOnOff(dashLenOnPx, dashLenOffPx)
             .build();
+    }
+
+
+    private static createRwyDesignator(
+        rwy: AirportRunway,
+        oppRwy: AirportRunway,
+        threshold: Length,
+        oppThreshold: Length,
+        imgDim: ImageDimensionsSvg
+    ): SVGElement {
+        const g = SvgGroupElement.create();
+        const rwyHalfWidth = Length.ofM(rwy.width.m / 2);
+        const upperNrY = rwyHalfWidth.add(PlanPerfRunwaySvg.THRESHOLD_DESIGNATOR_CENTER_PADDING);
+        const lowerNrY = rwyHalfWidth.subtract(PlanPerfRunwaySvg.THRESHOLD_DESIGNATOR_CENTER_PADDING)
+            .subtract(PlanPerfRunwaySvg.THRESHOLD_DESIGNATOR_WIDTH);
+
+        // threshold designator
+        const upperLetter = rwy.name.substring(0, 1);
+        const lowerLetter = rwy.name.substring(1, 2);
+        const designatorX = threshold.add(PlanPerfRunwaySvg.THRESHOLD_DESIGNATOR_OFFSET);
+        g.appendChild(PlanPerfRwyTextSvg.createLetter(upperLetter, ([x, y]) => PerspectiveCalculator.calcXy(
+            designatorX.add(Length.ofM(9 - y)),
+            upperNrY.add(Length.ofM(3 - x)),
+            imgDim)));
+        g.appendChild(PlanPerfRwyTextSvg.createLetter(lowerLetter, ([x, y]) => PerspectiveCalculator.calcXy(
+            designatorX.add(Length.ofM(9 - y)),
+            lowerNrY.add(Length.ofM(3 - x)),
+            imgDim)));
+
+        // opposite threshold designator
+        if (oppRwy) {
+            const oppLowerLetter = oppRwy.name.substring(0, 1);
+            const oppUpperLetter = oppRwy.name.substring(1, 2);
+            const oppDesignatorX = oppThreshold
+                .subtract(PlanPerfRunwaySvg.THRESHOLD_DESIGNATOR_OFFSET)
+                .subtract(PlanPerfRunwaySvg.THRESHOLD_DESIGNATOR_HEIGHT);
+            g.appendChild(PlanPerfRwyTextSvg.createLetter(oppLowerLetter, ([x, y]) => PerspectiveCalculator.calcXy(
+                oppDesignatorX.add(Length.ofM(y)),
+                lowerNrY.add(Length.ofM(x)),
+                imgDim)));
+            g.appendChild(PlanPerfRwyTextSvg.createLetter(oppUpperLetter, ([x, y]) => PerspectiveCalculator.calcXy(
+                oppDesignatorX.add(Length.ofM(y)),
+                upperNrY.add(Length.ofM(x)),
+                imgDim)));
+        }
+
+        return g;
     }
 
 

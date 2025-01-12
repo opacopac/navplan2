@@ -19,6 +19,7 @@ export class PlanPerfTkofLdgChart {
     ): SVGSVGElement {
         const aspectRatio = imageHeightPx / imageWidthPx;
         const rwy = takeoffPerformance ? takeoffPerformance.rwy : landingPerformance.rwy;
+        const oppRwy = takeoffPerformance ? takeoffPerformance.oppRwy : landingPerformance.oppRwy;
         const imgDim = new ImageDimensionsSvg(
             rwy.length,
             Length.ofM(rwy.length.m * aspectRatio),
@@ -42,10 +43,10 @@ export class PlanPerfTkofLdgChart {
             .build();
 
         if (takeoffPerformance) {
-            svg.appendChild(PlanPerfRunwaySvg.create(rwy, takeoffPerformance.threshold, takeoffPerformance.oppThreshold, imgDim));
+            svg.appendChild(PlanPerfRunwaySvg.create(rwy, oppRwy, takeoffPerformance.threshold, takeoffPerformance.oppThreshold, imgDim));
             svg.appendChild(PlanPerfTakeoffPathSvg.create(takeoffPerformance, imgDim));
         } else {
-            svg.appendChild(PlanPerfRunwaySvg.create(rwy, landingPerformance.threshold, landingPerformance.oppThreshold, imgDim));
+            svg.appendChild(PlanPerfRunwaySvg.create(rwy, oppRwy, landingPerformance.threshold, landingPerformance.oppThreshold, imgDim));
             svg.appendChild(PlanPerfLandingPathSvg.create(landingPerformance, imgDim));
         }
 
