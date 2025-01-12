@@ -44,17 +44,18 @@ export class PlanPerfEffects {
 
     changeFlightRouteAction$ = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteActions.update),
-        withLatestFrom(this.flightroute$, this.aircraft$),
-        map(([action, flightroute, aircraft]) => [
-            {wp: flightroute?.getOriginWaypoint(), type: PlanPerfAirportType.DEPARTURE, aircraft: aircraft},
-            {wp: flightroute?.getDestinationWaypoint(), type: PlanPerfAirportType.DESTINATION, aircraft: aircraft},
-            {wp: flightroute?.getAlternateWaypoint(), type: PlanPerfAirportType.ALTERNATE, aircraft: aircraft}
+        withLatestFrom(this.flightroute$),
+        map(([action, flightroute]) => [
+            {wp: flightroute?.getOriginWaypoint(), type: PlanPerfAirportType.DEPARTURE},
+            {wp: flightroute?.getDestinationWaypoint(), type: PlanPerfAirportType.DESTINATION},
+            {wp: flightroute?.getAlternateWaypoint(), type: PlanPerfAirportType.ALTERNATE}
         ]),
         mergeMap(waypoints => from(waypoints).pipe(
             filter(waypoint => waypoint.wp != null),
             concatMap(waypoint => this.loadAirportFromDataItem(waypoint.wp).pipe(
                 filter(ad => ad != null),
-                map(ad => this.calcInitialAirportState(ad, waypoint.type, waypoint.aircraft))
+                withLatestFrom(this.aircraft$),
+                map(([ad, aircraft]) => this.calcInitialAirportState(ad, waypoint.type, aircraft))
             )),
             toArray(),
             switchMap(adStates => [PlanPerfActions.updateAirports({airportStates: adStates})])
