@@ -1,7 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {PlanPerfTakeoffCalculationState} from '../../../state/state-model/plan-perf-takeoff-calculation-state';
 import {PlanPerfLandingCalculationState} from '../../../state/state-model/plan-perf-landing-calculation-state';
-import {Length} from '../../../../geo-physics/domain/model/quantities/length';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 
 @Component({
@@ -20,10 +19,5 @@ export class PlanPerfCalculationComponent implements OnInit {
 
 
     ngOnInit() {
-    }
-
-
-    protected getLengthString(length: Length): string {
-        return length ? length.getValueAndUnit(this.performanceDistanceUnit, 0) : '-';
     }
 }

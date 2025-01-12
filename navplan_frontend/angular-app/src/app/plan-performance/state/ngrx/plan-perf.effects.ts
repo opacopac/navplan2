@@ -252,14 +252,14 @@ export class PlanPerfEffects {
         return {
             ldgGroundRollStart: touchDownPoint,
             ldgGroundRollEnd: touchDownPoint.add(ldgPerf.ldgGroundRoll),
-            ldgDist50ftStart: touchDownPoint.subtract(ldgPerf.ldgDist50ft),
-            ldgDist50ftEnd: touchDownPoint,
+            ldgDist50ftStart: touchDownPoint.add(ldgPerf.ldgGroundRoll).subtract(ldgPerf.ldgDist50ft),
+            ldgDist50ftEnd: touchDownPoint.add(ldgPerf.ldgGroundRoll),
             ldaStart: ldgPerf.threshold,
             ldaEnd: ldgPerf.threshold.add(ldgPerf.rwy.lda),
             rwyStart: Length.ofZero(),
             rwyEnd: ldgPerf.rwy.length,
-            chartStart: Length.ofM(Math.min(0, ldgPerf.ldgDist50ft.m)),
-            chartEnd: Length.ofM(Math.max(ldgPerf.rwy.length.m, touchDownPoint.m + ldgPerf.ldgGroundRoll.m))
+            chartStart: Length.ofM(Math.min(0, touchDownPoint.add(ldgPerf.ldgGroundRoll).subtract(ldgPerf.ldgDist50ft).m)),
+            chartEnd: Length.ofM(Math.max(ldgPerf.rwy.length.m, touchDownPoint.add(ldgPerf.ldgGroundRoll).m))
         };
     }
 }

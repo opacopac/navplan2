@@ -33,7 +33,7 @@ export class PlanPerfLandingPathSvg {
 
         return SvgLineBuilder.builder()
             .setStartXy(startXy)
-            .setEndXy(PerspectiveCalculator.calcXy(chartState.ldgDist50ftEnd, lineY, imgDim))
+            .setEndXy(PerspectiveCalculator.calcXy(chartState.ldgGroundRollStart, lineY, imgDim))
             .setStrokeStyle('deepskyblue', 2)
             .build();
     }

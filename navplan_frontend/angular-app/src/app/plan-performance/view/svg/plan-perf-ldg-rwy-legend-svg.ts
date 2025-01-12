@@ -23,7 +23,7 @@ export class PlanPerfLdgRwyLegendSvg {
             imgDim.calcX(chartState.ldgGroundRollStart),
             imgDim.calcX(chartState.ldgGroundRollEnd),
             startY,
-            'lawngreen'));
+            'green'));
 
         // ldg dist from 50ft
         g.appendChild(PlanPerfRwyLegendRowSvg.createLegendEntry(
@@ -35,7 +35,7 @@ export class PlanPerfLdgRwyLegendSvg {
 
         // ldg len avbl
         g.appendChild(PlanPerfRwyLegendRowSvg.createLegendEntry(
-            'LDG LEN AVBL: ' + rwy.tora.getValueAndUnit(distUnit, 0),
+            'LDG LEN AVBL: ' + rwy.lda.getValueAndUnit(distUnit, 0),
             imgDim.calcX(chartState.ldaStart),
             imgDim.calcX(chartState.ldaEnd),
             startY + 2 * PlanPerfRwyLegendRowSvg.LEGEND_ROW_HEIGHT_PX,

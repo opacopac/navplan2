@@ -36,9 +36,9 @@ export class PlanPerfRwyLegendRowSvg {
         // start marker
         g.appendChild(SvgLineBuilder.builder()
             .setX1(startX)
-            .setY1(startY + 1)
+            .setY1(startY + 2)
             .setX2(startX)
-            .setY2(endY - 1)
+            .setY2(endY - 2)
             .setStrokeStyle(this.BG_LINE_COLOR, this.BG_LINE_WIDTH_PX)
             .build()
         );
@@ -46,9 +46,9 @@ export class PlanPerfRwyLegendRowSvg {
         // end marker
         g.appendChild(SvgLineBuilder.builder()
             .setX1(endX)
-            .setY1(startY + 1)
+            .setY1(startY + 2)
             .setX2(endX)
-            .setY2(endY - 1)
+            .setY2(endY - 2)
             .setStrokeStyle(this.BG_LINE_COLOR, this.BG_LINE_WIDTH_PX)
             .build()
         );
