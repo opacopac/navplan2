@@ -17,9 +17,17 @@ export class PlanPerfRwyLegendLdgSvg {
         const rwy = ldgPerf.rwy;
         const chartState = ldgPerf.ldgChartState;
 
+        // touch down point
+        g.appendChild(PlanPerfRwyLegendRowSvg.createLegendEntry(
+            ldgPerf.touchdownAfterThr.getValueAndUnit(distUnit, 0),
+            imgDim.calcX(chartState.touchdownOffsetStart),
+            imgDim.calcX(chartState.touchdownOffsetEnd),
+            startY,
+            'gray'));
+
         // ldg ground roll
         g.appendChild(PlanPerfRwyLegendRowSvg.createLegendEntry(
-            'LDG GND Roll: ' + ldgPerf.ldgGroundRoll.getValueAndUnit(distUnit, 0),
+            'GND Roll: ' + ldgPerf.ldgGroundRoll.getValueAndUnit(distUnit, 0),
             imgDim.calcX(chartState.ldgGroundRollStart),
             imgDim.calcX(chartState.ldgGroundRollEnd),
             startY,

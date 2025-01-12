@@ -19,7 +19,7 @@ export class PlanPerfRwyLegendTkofSvg {
 
         // ground roll
         g.appendChild(PlanPerfRwyLegendRowSvg.createLegendEntry(
-            'TKOF GND Roll: ' + tkofPerf.groundRoll.getValueAndUnit(distUnit, 0),
+            'GND Roll: ' + tkofPerf.groundRoll.getValueAndUnit(distUnit, 0),
             imgDim.calcX(chartState.tkofGroundRollStart),
             imgDim.calcX(chartState.tkofGroundRollEnd),
             startY,

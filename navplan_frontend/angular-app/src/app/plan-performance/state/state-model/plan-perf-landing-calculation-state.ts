@@ -9,5 +9,6 @@ export interface PlanPerfLandingCalculationState {
     oppThreshold: Length;
     ldgDist50ft: Length;
     ldgGroundRoll: Length;
+    touchdownAfterThr: Length;
     ldgChartState: PlanPerfLandingChartState;
 }

@@ -5,6 +5,8 @@ export interface PlanPerfLandingChartState {
     ldgDist50ftEnd: Length;
     ldgGroundRollStart: Length;
     ldgGroundRollEnd: Length;
+    touchdownOffsetStart: Length;
+    touchdownOffsetEnd: Length;
     ldaStart: Length;
     ldaEnd: Length;
     rwyStart: Length;

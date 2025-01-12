@@ -208,9 +208,10 @@ export class PlanPerfEffects {
             oppThreshold: oppThreshold,
             ldgGroundRoll: ldgGroundRoll,
             ldgDist50ft: ldgDist50ft,
+            touchdownAfterThr: adState.runwayFactors.touchdownAfterThr,
             ldgChartState: null
         };
-        ldgPerformance.ldgChartState = this.createLdgChartState(ldgPerformance, adState.runwayFactors);
+        ldgPerformance.ldgChartState = this.createLdgChartState(ldgPerformance);
 
         return ldgPerformance;
     }
@@ -247,13 +248,15 @@ export class PlanPerfEffects {
     }
 
 
-    private createLdgChartState(ldgPerf: PlanPerfLandingCalculationState, rwyFactors: PlanPerfRwyFactorsState): PlanPerfLandingChartState {
-        const touchDownPoint = ldgPerf.threshold.add(rwyFactors.touchdownAfterThr);
+    private createLdgChartState(ldgPerf: PlanPerfLandingCalculationState): PlanPerfLandingChartState {
+        const touchDownPoint = ldgPerf.threshold.add(ldgPerf.touchdownAfterThr);
         return {
             ldgGroundRollStart: touchDownPoint,
             ldgGroundRollEnd: touchDownPoint.add(ldgPerf.ldgGroundRoll),
             ldgDist50ftStart: touchDownPoint.add(ldgPerf.ldgGroundRoll).subtract(ldgPerf.ldgDist50ft),
             ldgDist50ftEnd: touchDownPoint.add(ldgPerf.ldgGroundRoll),
+            touchdownOffsetStart: ldgPerf.threshold,
+            touchdownOffsetEnd: touchDownPoint,
             ldaStart: ldgPerf.threshold,
             ldaEnd: ldgPerf.threshold.add(ldgPerf.rwy.lda),
             rwyStart: Length.ofZero(),
