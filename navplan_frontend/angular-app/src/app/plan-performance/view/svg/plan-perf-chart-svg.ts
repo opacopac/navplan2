@@ -13,6 +13,9 @@ import {SvgRectangleBuilder} from '../../../common/svg/svg-rectangle-builder';
 
 
 export class PlanPerfChartSvg {
+    private static readonly RWY_TOP_SIDE_STRIP_WIDTH_PX = 10;
+    private static readonly RWY_BOTTOM_SIDE_STRIP_WIDTH_PX = 15;
+
     public static create(
         takeoffPerformance: PlanPerfTakeoffCalculationState,
         landingPerformance: PlanPerfLandingCalculationState,
@@ -32,7 +35,8 @@ export class PlanPerfChartSvg {
         const svg = this.createRootSvg(chartStart, chartEnd, imageWidthPx, imageHeightPx, imgDim);
 
         // background
-        svg.appendChild(this.createChartBg());
+        const rwyWidthPx = imgDim.calcX(rwy.width);
+        svg.appendChild(this.createChartBg(rwyWidthPx));
         svg.appendChild(this.createLegendBg());
 
         // charts & legends
@@ -79,13 +83,14 @@ export class PlanPerfChartSvg {
     }
 
 
-    private static createChartBg(): SVGRectElement {
+    private static createChartBg(rwyWidthPx: number): SVGRectElement {
+        const sidestripStartY = 300 - rwyWidthPx - this.RWY_TOP_SIDE_STRIP_WIDTH_PX;
         return SvgRectangleBuilder.builder()
             .setX(0)
-            .setY(200)
+            .setY(sidestripStartY)
             .setWidthPercent(100)
-            .setHeight(100)
-            .setStyle('fill: white;')
+            .setHeight(rwyWidthPx + this.RWY_TOP_SIDE_STRIP_WIDTH_PX + this.RWY_BOTTOM_SIDE_STRIP_WIDTH_PX)
+            .setStyle('fill: yellowgreen;')
             .build();
     }
 
@@ -93,9 +98,9 @@ export class PlanPerfChartSvg {
     private static createLegendBg(): SVGRectElement {
         return SvgRectangleBuilder.builder()
             .setX(0)
-            .setY(300)
+            .setY(300 + this.RWY_BOTTOM_SIDE_STRIP_WIDTH_PX)
             .setWidthPercent(100)
-            .setHeight(200)
+            .setHeight(200 - this.RWY_BOTTOM_SIDE_STRIP_WIDTH_PX)
             .setStyle('fill: white')
             .build();
     }
