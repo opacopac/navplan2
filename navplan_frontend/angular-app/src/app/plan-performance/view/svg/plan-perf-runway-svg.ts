@@ -19,7 +19,8 @@ export class PlanPerfRunwaySvg {
     private static THRESHOLD_DESIGNATOR_WIDTH = Length.ofM(3 * PlanPerfRunwaySvg.THRESHOLD_DESIGNATOR_WIDTH_FACTOR);
     private static THRESHOLD_DESIGNATOR_HEIGHT = Length.ofM(9 * PlanPerfRunwaySvg.THRESHOLD_DESIGNATOR_HEIGHT_FACTOR);
     private static THRESHOLD_DESIGNATOR_CENTER_PADDING = Length.ofM(1 * PlanPerfRunwaySvg.THRESHOLD_DESIGNATOR_WIDTH_FACTOR);
-    private static THRESHOLD_CENTERLINE_OFFSET = Length.ofM(6 + 30 + 12 + PlanPerfRunwaySvg.THRESHOLD_DESIGNATOR_HEIGHT.m + 12);
+    private static THRESHOLD_CENTERLINE_OFFSET = Length.ofM(
+        PlanPerfRunwaySvg.THRESHOLD_DESIGNATOR_OFFSET.m + PlanPerfRunwaySvg.THRESHOLD_DESIGNATOR_HEIGHT.m + 12);
 
     public static create(rwy: AirportRunway, oppRwy: AirportRunway, threshold: Length, oppThreshold: Length, imgDim: ImageDimensionsSvg): SVGGElement {
         const rwyGroup = SvgGroupElement.create();
