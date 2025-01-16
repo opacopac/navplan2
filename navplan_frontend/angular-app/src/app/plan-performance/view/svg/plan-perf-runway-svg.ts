@@ -14,7 +14,7 @@ export class PlanPerfRunwaySvg {
     private static THRESHOLD_STRIPE_WIDTH = Length.ofM(1.8);
     private static THRESHOLD_DESIGNATOR_OFFSET = Length.ofM(
         PlanPerfRunwaySvg.THRESHOLD_STRIPE_OFFSET.m + PlanPerfRunwaySvg.THRESHOLD_STRIPE_LENGTH.m + 12);
-    private static THRESHOLD_DESIGNATOR_WIDTH_FACTOR = 1.75;
+    private static THRESHOLD_DESIGNATOR_WIDTH_FACTOR = 1.5;
     private static THRESHOLD_DESIGNATOR_HEIGHT_FACTOR = 2;
     private static THRESHOLD_DESIGNATOR_WIDTH = Length.ofM(3 * PlanPerfRunwaySvg.THRESHOLD_DESIGNATOR_WIDTH_FACTOR);
     private static THRESHOLD_DESIGNATOR_HEIGHT = Length.ofM(9 * PlanPerfRunwaySvg.THRESHOLD_DESIGNATOR_HEIGHT_FACTOR);
