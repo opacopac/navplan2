@@ -90,7 +90,7 @@ export class PlanPerfChartSvg {
             .setY(sidestripStartY)
             .setWidthPercent(100)
             .setHeight(rwyWidthPx + this.RWY_TOP_SIDE_STRIP_WIDTH_PX + this.RWY_BOTTOM_SIDE_STRIP_WIDTH_PX)
-            .setStyle('fill: yellowgreen;')
+            .setStyle('fill: darkgreen;')
             .build();
     }
 

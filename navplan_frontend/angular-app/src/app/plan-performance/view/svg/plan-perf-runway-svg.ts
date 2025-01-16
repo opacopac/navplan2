@@ -34,13 +34,14 @@ export class PlanPerfRunwaySvg {
 
 
     private static createRwySvg(rwy: AirportRunway, imgDim: ImageDimensionsSvg): SVGGElement {
-        const fillColor = rwy.isGrass() ? 'darkgreen' : 'gray';
+        const fillColor = rwy.isGrass() ? 'olivedrab' : 'gray';
+        const borderColor = rwy.isGrass() ? 'darkolivegreen' : 'dimgray';
         return SvgPolygonBuilder.builder()
             .addPoint(PerspectiveCalculator.calcXy(Length.ofZero(), Length.ofZero(), imgDim))
             .addPoint(PerspectiveCalculator.calcXy(Length.ofZero(), rwy.width, imgDim))
             .addPoint(PerspectiveCalculator.calcXy(rwy.length, rwy.width, imgDim))
             .addPoint(PerspectiveCalculator.calcXy(rwy.length, Length.ofZero(), imgDim))
-            .setFillStrokeColorWidth(fillColor, 'black', 2)
+            .setFillStrokeColorWidth(fillColor, borderColor, 2)
             .build();
     }
 
