@@ -86,20 +86,20 @@ export class PlanPerfChartSvg {
     private static createChartBg(rwyWidthPx: number): SVGRectElement {
         const sidestripStartY = 300 - rwyWidthPx - this.RWY_TOP_SIDE_STRIP_WIDTH_PX;
         return SvgRectangleBuilder.builder()
-            .setX(0)
+            .setX(-500) // hack
             .setY(sidestripStartY)
-            .setWidthPercent(100)
+            .setWidthPercent(200) // hack
             .setHeight(rwyWidthPx + this.RWY_TOP_SIDE_STRIP_WIDTH_PX + this.RWY_BOTTOM_SIDE_STRIP_WIDTH_PX)
-            .setStyle('fill: yellowgreen;')
+            .setStyle('fill: darkgreen;')
             .build();
     }
 
 
     private static createLegendBg(): SVGRectElement {
         return SvgRectangleBuilder.builder()
-            .setX(0)
+            .setX(-500) // hack
             .setY(300 + this.RWY_BOTTOM_SIDE_STRIP_WIDTH_PX)
-            .setWidthPercent(100)
+            .setWidthPercent(200) // hack
             .setHeight(200 - this.RWY_BOTTOM_SIDE_STRIP_WIDTH_PX)
             .setStyle('fill: white')
             .build();

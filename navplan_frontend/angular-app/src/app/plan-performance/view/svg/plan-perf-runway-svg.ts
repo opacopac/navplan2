@@ -12,11 +12,15 @@ export class PlanPerfRunwaySvg {
     private static THRESHOLD_STRIPE_OFFSET = Length.ofM(6);
     private static THRESHOLD_STRIPE_LENGTH = Length.ofM(30);
     private static THRESHOLD_STRIPE_WIDTH = Length.ofM(1.8);
-    private static THRESHOLD_DESIGNATOR_OFFSET = Length.ofM(6 + 30 + 12);
-    private static THRESHOLD_DESIGNATOR_WIDTH = Length.ofM(3);
-    private static THRESHOLD_DESIGNATOR_HEIGHT = Length.ofM(9);
-    private static THRESHOLD_DESIGNATOR_CENTER_PADDING = Length.ofM(1);
-    private static THRESHOLD_CENTERLINE_OFFSET = Length.ofM(6 + 30 + 12 + 9 + 12);
+    private static THRESHOLD_DESIGNATOR_OFFSET = Length.ofM(
+        PlanPerfRunwaySvg.THRESHOLD_STRIPE_OFFSET.m + PlanPerfRunwaySvg.THRESHOLD_STRIPE_LENGTH.m + 12);
+    private static THRESHOLD_DESIGNATOR_WIDTH_FACTOR = 1.75;
+    private static THRESHOLD_DESIGNATOR_HEIGHT_FACTOR = 2;
+    private static THRESHOLD_DESIGNATOR_WIDTH = Length.ofM(3 * PlanPerfRunwaySvg.THRESHOLD_DESIGNATOR_WIDTH_FACTOR);
+    private static THRESHOLD_DESIGNATOR_HEIGHT = Length.ofM(9 * PlanPerfRunwaySvg.THRESHOLD_DESIGNATOR_HEIGHT_FACTOR);
+    private static THRESHOLD_DESIGNATOR_CENTER_PADDING = Length.ofM(1 * PlanPerfRunwaySvg.THRESHOLD_DESIGNATOR_WIDTH_FACTOR);
+    private static THRESHOLD_CENTERLINE_OFFSET = Length.ofM(
+        PlanPerfRunwaySvg.THRESHOLD_DESIGNATOR_OFFSET.m + PlanPerfRunwaySvg.THRESHOLD_DESIGNATOR_HEIGHT.m + 12);
 
     public static create(rwy: AirportRunway, oppRwy: AirportRunway, threshold: Length, oppThreshold: Length, imgDim: ImageDimensionsSvg): SVGGElement {
         const rwyGroup = SvgGroupElement.create();
@@ -34,13 +38,14 @@ export class PlanPerfRunwaySvg {
 
 
     private static createRwySvg(rwy: AirportRunway, imgDim: ImageDimensionsSvg): SVGGElement {
-        const fillColor = rwy.isGrass() ? 'darkgreen' : 'gray';
+        const fillColor = rwy.isGrass() ? 'olivedrab' : 'gray';
+        const borderColor = rwy.isGrass() ? 'darkolivegreen' : 'dimgray';
         return SvgPolygonBuilder.builder()
             .addPoint(PerspectiveCalculator.calcXy(Length.ofZero(), Length.ofZero(), imgDim))
             .addPoint(PerspectiveCalculator.calcXy(Length.ofZero(), rwy.width, imgDim))
             .addPoint(PerspectiveCalculator.calcXy(rwy.length, rwy.width, imgDim))
             .addPoint(PerspectiveCalculator.calcXy(rwy.length, Length.ofZero(), imgDim))
-            .setFillStrokeColorWidth(fillColor, 'black', 2)
+            .setFillStrokeColorWidth(fillColor, borderColor, 2)
             .build();
     }
 
@@ -72,21 +77,21 @@ export class PlanPerfRunwaySvg {
     ): SVGElement {
         const g = SvgGroupElement.create();
         const rwyHalfWidth = Length.ofM(rwy.width.m / 2);
-        const upperNrY = rwyHalfWidth.add(PlanPerfRunwaySvg.THRESHOLD_DESIGNATOR_CENTER_PADDING);
-        const lowerNrY = rwyHalfWidth.subtract(PlanPerfRunwaySvg.THRESHOLD_DESIGNATOR_CENTER_PADDING)
-            .subtract(PlanPerfRunwaySvg.THRESHOLD_DESIGNATOR_WIDTH);
+        const upperNrY = rwyHalfWidth.add(this.THRESHOLD_DESIGNATOR_CENTER_PADDING);
+        const lowerNrY = rwyHalfWidth.subtract(this.THRESHOLD_DESIGNATOR_CENTER_PADDING)
+            .subtract(this.THRESHOLD_DESIGNATOR_WIDTH);
 
         // threshold designator
         const upperLetter = rwy.name.substring(0, 1);
         const lowerLetter = rwy.name.substring(1, 2);
-        const designatorX = threshold.add(PlanPerfRunwaySvg.THRESHOLD_DESIGNATOR_OFFSET);
+        const designatorX = threshold.add(this.THRESHOLD_DESIGNATOR_OFFSET);
         g.appendChild(PlanPerfRwyTextSvg.createLetter(upperLetter, ([x, y]) => PerspectiveCalculator.calcXy(
-            designatorX.add(Length.ofM(9 - y)),
-            upperNrY.add(Length.ofM(3 - x)),
+            designatorX.add(this.THRESHOLD_DESIGNATOR_HEIGHT.subtract(Length.ofM(this.THRESHOLD_DESIGNATOR_HEIGHT_FACTOR * y))),
+            upperNrY.add(this.THRESHOLD_DESIGNATOR_WIDTH.subtract(Length.ofM(this.THRESHOLD_DESIGNATOR_WIDTH_FACTOR * x))),
             imgDim)));
         g.appendChild(PlanPerfRwyTextSvg.createLetter(lowerLetter, ([x, y]) => PerspectiveCalculator.calcXy(
-            designatorX.add(Length.ofM(9 - y)),
-            lowerNrY.add(Length.ofM(3 - x)),
+            designatorX.add(this.THRESHOLD_DESIGNATOR_HEIGHT.subtract(Length.ofM(this.THRESHOLD_DESIGNATOR_HEIGHT_FACTOR * y))),
+            lowerNrY.add(this.THRESHOLD_DESIGNATOR_WIDTH.subtract(Length.ofM(this.THRESHOLD_DESIGNATOR_WIDTH_FACTOR * x))),
             imgDim)));
 
         // opposite threshold designator
@@ -94,15 +99,15 @@ export class PlanPerfRunwaySvg {
             const oppLowerLetter = oppRwy.name.substring(0, 1);
             const oppUpperLetter = oppRwy.name.substring(1, 2);
             const oppDesignatorX = oppThreshold
-                .subtract(PlanPerfRunwaySvg.THRESHOLD_DESIGNATOR_OFFSET)
-                .subtract(PlanPerfRunwaySvg.THRESHOLD_DESIGNATOR_HEIGHT);
+                .subtract(this.THRESHOLD_DESIGNATOR_OFFSET)
+                .subtract(this.THRESHOLD_DESIGNATOR_HEIGHT);
             g.appendChild(PlanPerfRwyTextSvg.createLetter(oppLowerLetter, ([x, y]) => PerspectiveCalculator.calcXy(
-                oppDesignatorX.add(Length.ofM(y)),
-                lowerNrY.add(Length.ofM(x)),
+                oppDesignatorX.add(Length.ofM(this.THRESHOLD_DESIGNATOR_HEIGHT_FACTOR * y)),
+                lowerNrY.add(Length.ofM(this.THRESHOLD_DESIGNATOR_WIDTH_FACTOR * x)),
                 imgDim)));
             g.appendChild(PlanPerfRwyTextSvg.createLetter(oppUpperLetter, ([x, y]) => PerspectiveCalculator.calcXy(
-                oppDesignatorX.add(Length.ofM(y)),
-                upperNrY.add(Length.ofM(x)),
+                oppDesignatorX.add(Length.ofM(this.THRESHOLD_DESIGNATOR_HEIGHT_FACTOR * y)),
+                upperNrY.add(Length.ofM(this.THRESHOLD_DESIGNATOR_WIDTH_FACTOR * x)),
                 imgDim)));
         }
 
