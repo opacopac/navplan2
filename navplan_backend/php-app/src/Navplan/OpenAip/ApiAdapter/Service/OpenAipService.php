@@ -8,9 +8,10 @@ use Navplan\OpenAip\ApiAdapter\Model\OpenAipNavaidResponseConverter;
 use Navplan\OpenAip\Config\IOpenAipConfig;
 
 
-class OpenAipService implements IOpenAipService {
-    private const CLIENT_ID_HEADER = 'x-openaip-api-key';
-    private const OPEN_AIP_BASE_URL = 'https://api.core.openaip.net/api/'; // TODO: config
+class OpenAipService implements IOpenAipService
+{
+    private const OPENAIP_API_KEY_HEADER = 'x-openaip-api-key';
+    private const OPENAIP_BASE_URL = 'https://api.core.openaip.net/api/'; // TODO: config
     private const AIRPORTS_URL_SUFFIX = 'airports';
     private const AIRSPACES_URL_SUFFIX = 'airspaces';
     private const NAVAIDS_URL_SUFFIX = 'navaids';
@@ -19,11 +20,13 @@ class OpenAipService implements IOpenAipService {
 
     public function __construct(
         private readonly IOpenAipConfig $openAipConfig,
-    ) {
+    )
+    {
     }
 
 
-    public function readAirports(int $page = 1, OpenAipImportFilter $importFilter = null): OpenAipReadAirportResponse {
+    public function readAirports(int $page = 1, OpenAipImportFilter $importFilter = null): OpenAipReadAirportResponse
+    {
         $url = $this->buildUrl(self::AIRPORTS_URL_SUFFIX, $page, $importFilter);
         $context = $this->getHttpContext();
         $rawResponse = file_get_contents($url, false, $context);
@@ -33,7 +36,8 @@ class OpenAipService implements IOpenAipService {
     }
 
 
-    public function readAirspaces(int $page = 1, OpenAipImportFilter $importFilter = null): OpenAipReadAirspacesResponse {
+    public function readAirspaces(int $page = 1, OpenAipImportFilter $importFilter = null): OpenAipReadAirspacesResponse
+    {
         $url = $this->buildUrl(self::AIRSPACES_URL_SUFFIX, $page, $importFilter);
         $context = $this->getHttpContext();
         $rawResponse = file_get_contents($url, false, $context);
@@ -43,7 +47,8 @@ class OpenAipService implements IOpenAipService {
     }
 
 
-    public function readNavaids(int $page = 1, OpenAipImportFilter $importFilter = null): OpenAipReadNavaidsResponse {
+    public function readNavaids(int $page = 1, OpenAipImportFilter $importFilter = null): OpenAipReadNavaidsResponse
+    {
         $url = $this->buildUrl(self::NAVAIDS_URL_SUFFIX, $page, $importFilter);
         $context = $this->getHttpContext();
         $rawResponse = file_get_contents($url, false, $context);
@@ -53,8 +58,9 @@ class OpenAipService implements IOpenAipService {
     }
 
 
-    private function buildUrl(string $urlSuffix, int $page, OpenAipImportFilter $importFilter = null) {
-        $url = self::OPEN_AIP_BASE_URL . $urlSuffix . "?limit=" . self::MAX_RESULTS_PER_PAGE . "&page=" . $page;
+    private function buildUrl(string $urlSuffix, int $page, OpenAipImportFilter $importFilter = null)
+    {
+        $url = self::OPENAIP_BASE_URL . $urlSuffix . "?limit=" . self::MAX_RESULTS_PER_PAGE . "&page=" . $page;
 
         if ($importFilter != null) {
             if ($importFilter->country != null) {
@@ -66,11 +72,12 @@ class OpenAipService implements IOpenAipService {
     }
 
 
-    private function getHttpContext() {
+    private function getHttpContext()
+    {
         $opts = array(
             'http' => array(
                 'method' => "GET",
-                'header' => self::CLIENT_ID_HEADER . ": " . $this->openAipConfig->getOpenAipApiKey() . "\r\n"
+                'header' => self::OPENAIP_API_KEY_HEADER . ": " . $this->openAipConfig->getOpenAipApiKey() . "\r\n"
             )
         );
 
