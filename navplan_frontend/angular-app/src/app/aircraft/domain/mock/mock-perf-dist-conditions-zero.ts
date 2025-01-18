@@ -1,5 +1,5 @@
-import { Speed } from "../../../geo-physics/domain/model/quantities/speed";
-import { DistancePerformanceConditions } from "../model/distance-performance-conditions";
+import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
+import {DistancePerformanceConditions} from '../model/distance-performance-conditions';
 
 
 export class MockPerfDistConditionsZero {
@@ -7,7 +7,6 @@ export class MockPerfDistConditionsZero {
         return new DistancePerformanceConditions(
             false,
             false,
-            0,
             Speed.ofZero(),
         );
     }

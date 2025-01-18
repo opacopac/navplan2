@@ -1,11 +1,11 @@
-import { MockPerfDistTablesBr23 } from '../mock/mock-perf-dist-tables-br23';
-import { Length } from '../../../geo-physics/domain/model/quantities/length';
-import { Temperature } from '../../../geo-physics/domain/model/quantities/temperature';
-import { AtmosphereService } from '../../../geo-physics/domain/service/meteo/atmosphere.service';
-import { MockPerfDistConditionsZero } from '../mock/mock-perf-dist-conditions-zero';
-import { AircraftPerformanceService } from './aircraft-performance.service';
-import { DistancePerformanceConditions } from '../model/distance-performance-conditions';
-import { Speed } from '../../../geo-physics/domain/model/quantities/speed';
+import {MockPerfDistTablesBr23} from '../mock/mock-perf-dist-tables-br23';
+import {Length} from '../../../geo-physics/domain/model/quantities/length';
+import {Temperature} from '../../../geo-physics/domain/model/quantities/temperature';
+import {AtmosphereService} from '../../../geo-physics/domain/service/meteo/atmosphere.service';
+import {MockPerfDistConditionsZero} from '../mock/mock-perf-dist-conditions-zero';
+import {AircraftPerformanceService} from './aircraft-performance.service';
+import {DistancePerformanceConditions} from '../model/distance-performance-conditions';
+import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
 
 describe('PlanPerformanceService', () => {
     beforeEach(() => {
@@ -108,7 +108,7 @@ describe('PlanPerformanceService', () => {
         const qnh = AtmosphereService.getStandardPressureAtSeaLevel();
         const temp = AtmosphereService.getStandardTemperatureAtSeaLevel();
         const perfDistTable = MockPerfDistTablesBr23.createTakeoffGroundRoll();
-        const perfDistConditions = new DistancePerformanceConditions(true, false, 0, Speed.ofZero());
+        const perfDistConditions = new DistancePerformanceConditions(true, false, Speed.ofZero());
 
         // when
         const tkoffRoll = AircraftPerformanceService.calcDistance(
@@ -130,7 +130,7 @@ describe('PlanPerformanceService', () => {
         const qnh = AtmosphereService.getStandardPressureAtSeaLevel();
         const temp = AtmosphereService.getStandardTemperatureAtSeaLevel();
         const perfDistTable = MockPerfDistTablesBr23.createLandingGroundRoll();
-        const perfDistConditions = new DistancePerformanceConditions(false, true, 0, Speed.ofZero());
+        const perfDistConditions = new DistancePerformanceConditions(false, true, Speed.ofZero());
 
         // when
         const tkoffRoll = AircraftPerformanceService.calcDistance(
@@ -152,7 +152,7 @@ describe('PlanPerformanceService', () => {
         const qnh = AtmosphereService.getStandardPressureAtSeaLevel();
         const temp = AtmosphereService.getStandardTemperatureAtSeaLevel();
         const perfDistTable = MockPerfDistTablesBr23.createTakeoffGroundRoll();
-        const perfDistConditions = new DistancePerformanceConditions(false, false, 0, Speed.ofKt(10));
+        const perfDistConditions = new DistancePerformanceConditions(false, false, Speed.ofKt(10));
 
         // when
         const tkoffRoll = AircraftPerformanceService.calcDistance(
@@ -174,7 +174,7 @@ describe('PlanPerformanceService', () => {
         const qnh = AtmosphereService.getStandardPressureAtSeaLevel();
         const temp = AtmosphereService.getStandardTemperatureAtSeaLevel();
         const perfDistTable = MockPerfDistTablesBr23.createTakeoffGroundRoll();
-        const perfDistConditions = new DistancePerformanceConditions(false, false, 0, Speed.ofKt(-10));
+        const perfDistConditions = new DistancePerformanceConditions(false, false, Speed.ofKt(-10));
 
         // when
         const tkoffRoll = AircraftPerformanceService.calcDistance(

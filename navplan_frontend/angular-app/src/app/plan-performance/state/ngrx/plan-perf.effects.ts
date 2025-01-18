@@ -125,7 +125,6 @@ export class PlanPerfEffects {
                 runway: firstRwy,
                 isGrassRwy: false,
                 isWetRwy: false,
-                rwySlopePercent: 0,
                 rwyWind: Speed.ofZero(),
                 touchdownAfterThr: Length.ofM(100),
                 reservePercent: 0
@@ -164,7 +163,6 @@ export class PlanPerfEffects {
         return new DistancePerformanceConditions(
             rwyFactors.isGrassRwy,
             rwyFactors.isWetRwy,
-            rwyFactors.rwySlopePercent,
             rwyFactors.rwyWind,
         );
     }
@@ -177,7 +175,9 @@ export class PlanPerfEffects {
         const tkofGroundRoll = this.calcDistance(aircraft?.perfTakeoffGroundRoll, adState);
         const tkofDist50ft = this.calcDistance(aircraft?.perfTakeoffDist50ft, adState);
         const ldaGroundRoll = this.calcDistance(aircraft?.perfLandingGroundRoll, adState);
-        const tkofAbortPoint = (rwy?.length && ldaGroundRoll) ? rwy.length.subtract(ldaGroundRoll) : null;
+        const tkofAbortPoint = (rwy?.length && ldaGroundRoll)
+            ? Length.ofM(Math.min(rwy.length.m - ldaGroundRoll.m, rwy.tora.m))
+            : null;
         const tkofPerformance = {
             rwy: rwy,
             oppRwy: oppRwy,

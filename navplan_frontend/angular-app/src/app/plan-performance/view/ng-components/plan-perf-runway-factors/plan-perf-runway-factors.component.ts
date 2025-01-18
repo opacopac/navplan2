@@ -80,17 +80,6 @@ export class PlanPerfRunwayFactorsComponent implements OnInit {
     }
 
 
-    protected onRwySlopeChanged() {
-        if (this.correctionFactorsForm.controls['rwySlope'].valid && this.correctionFactorsForm.controls['rwySlopeDir'].valid) {
-            const rwySlopePercent = this.correctionFactorsForm.value.rwySlope * (this.correctionFactorsForm.value.rwySlopeDir ? 1 : -1);
-            this.runwayFactorChanged.emit({
-                ...this.runwayFactors,
-                rwySlopePercent: rwySlopePercent
-            });
-        }
-    }
-
-
     protected onRwyWindChanged() {
         if (this.correctionFactorsForm.controls['rwyWind'].valid && this.correctionFactorsForm.controls['rwyWindDir'].valid) {
             const rwyWindValue = this.correctionFactorsForm.value.rwyWind * (this.correctionFactorsForm.value.rwyWindDir ? 1 : -1);
@@ -129,14 +118,6 @@ export class PlanPerfRunwayFactorsComponent implements OnInit {
             ]],
             'grassRwy': [this.runwayFactors.isGrassRwy, []],
             'wetRwy': [this.runwayFactors.isWetRwy, []],
-            'rwySlope': [Math.abs(this.runwayFactors.rwySlopePercent), [
-                Validators.required,
-                Validators.min(0),
-                Validators.max(99)
-            ]],
-            'rwySlopeDir': [this.runwayFactors.rwySlopePercent >= 0, [
-                Validators.required
-            ]],
             'rwyWind': [this.runwayFactors.rwyWind.getValue(this.speedUnit), [
                 Validators.required,
                 Validators.min(0),

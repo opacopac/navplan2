@@ -39,34 +39,6 @@
             />
         </div>
 
-        <!-- RWY Slope -->
-        <div>
-            <mat-form-field>
-                <mat-label>RWY Slope</mat-label>
-                <input
-                    matInput
-                    formControlName="rwySlope"
-                    type="number"
-                    required
-                    min="0"
-                    max="99"
-                    (change)="this.onRwySlopeChanged()"
-                >
-                <span matTextSuffix>%</span>
-                <mat-error>Value must be a number between 0 and 99!</mat-error>
-            </mat-form-field>
-
-            <mat-radio-group
-                color="primary"
-                formControlName="rwySlopeDir"
-                (change)="this.onRwySlopeChanged()"
-            >
-                <mat-radio-button [value]="true">up</mat-radio-button>
-                <mat-radio-button [value]="false">down</mat-radio-button>
-            </mat-radio-group>
-        </div>
-
-
         <!-- RWY Wind -->
         <div>
             <mat-form-field>
