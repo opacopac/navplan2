@@ -9,7 +9,7 @@ use Navplan\OpenAip\Config\IOpenAipConfig;
 
 
 class OpenAipService implements IOpenAipService {
-    private const CLIENT_ID_HEADER = 'x-openaip-client-id';
+    private const CLIENT_ID_HEADER = 'x-openaip-api-key';
     private const OPEN_AIP_BASE_URL = 'https://api.core.openaip.net/api/'; // TODO: config
     private const AIRPORTS_URL_SUFFIX = 'airports';
     private const AIRSPACES_URL_SUFFIX = 'airspaces';
