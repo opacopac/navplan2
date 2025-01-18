@@ -23,8 +23,8 @@ class ProdConfigDiContainer implements IConfigDiContainer
     }
 
 
-    public function getOpenAipClientIdToken(): string {
-        return $this->getIniFileConfig()->getOpenAipClientIdToken();
+    public function getOpenAipApiKey(): string {
+        return $this->getIniFileConfig()->getOpenAipApiKey();
     }
 
 

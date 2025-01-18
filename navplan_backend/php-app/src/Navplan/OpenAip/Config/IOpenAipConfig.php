@@ -4,5 +4,5 @@ namespace Navplan\OpenAip\Config;
 
 
 interface IOpenAipConfig {
-    function getOpenAipClientIdToken(): string;
+    function getOpenAipApiKey(): string;
 }

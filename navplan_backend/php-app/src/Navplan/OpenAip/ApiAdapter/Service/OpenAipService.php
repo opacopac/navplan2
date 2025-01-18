@@ -70,7 +70,7 @@ class OpenAipService implements IOpenAipService {
         $opts = array(
             'http' => array(
                 'method' => "GET",
-                'header' => self::CLIENT_ID_HEADER . ": " . $this->openAipConfig->getOpenAipClientIdToken() . "\r\n"
+                'header' => self::CLIENT_ID_HEADER . ": " . $this->openAipConfig->getOpenAipApiKey() . "\r\n"
             )
         );
 

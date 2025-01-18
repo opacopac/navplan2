@@ -22,7 +22,7 @@ class IniFileConfig implements IDbConfig, ITokenConfig, IOpenAipConfig, IAdsbexC
     private readonly TokenCredentials $tokenCredentials;
     private readonly string $icaoApiKey;
     private readonly string $adsbExchangeApiKey;
-    private readonly string $openAipClientIdToken;
+    private readonly string $openAipApiKey;
     private readonly string $meteoDwdBaseDir;
     private readonly string $terrainTilesBaseDir;
     private readonly string $tmpDir;
@@ -49,7 +49,7 @@ class IniFileConfig implements IDbConfig, ITokenConfig, IOpenAipConfig, IAdsbexC
         );
         $this->icaoApiKey = $iniValues['icao_api_key'];
         $this->adsbExchangeApiKey = $iniValues['adsbexchange_api_key'];
-        $this->openAipClientIdToken = $iniValues['openaip_client_id_token'];
+        $this->openAipApiKey = $iniValues['openaip_api_key'];
         $this->meteoDwdBaseDir = $iniValues['meteo_dwd_base_dir'];
         $this->terrainTilesBaseDir = $iniValues['terrain_tiles_base_dir'];
         $this->tmpDir = $iniValues['tmp_dir'];
@@ -79,8 +79,8 @@ class IniFileConfig implements IDbConfig, ITokenConfig, IOpenAipConfig, IAdsbexC
     }
 
 
-    public function getOpenAipClientIdToken(): string {
-        return $this->openAipClientIdToken;
+    public function getOpenAipApiKey(): string {
+        return $this->openAipApiKey;
     }
 
 
