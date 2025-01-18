@@ -5,12 +5,9 @@ namespace Navplan\Aircraft\Persistence\Query;
 use Navplan\Aircraft\Domain\Model\WeightItem;
 use Navplan\Aircraft\Domain\Model\WeightItemType;
 use Navplan\Aircraft\Persistence\Model\DbTableAircraftWeightItems;
-use Navplan\Common\Domain\Model\Length;
-use Navplan\Common\Domain\Model\LengthUnit;
-use Navplan\Common\Domain\Model\Volume;
-use Navplan\Common\Domain\Model\VolumeUnit;
-use Navplan\Common\Domain\Model\Weight;
-use Navplan\Common\Domain\Model\WeightUnit;
+use Navplan\Common\Persistence\Model\DbLengthConverter;
+use Navplan\Common\Persistence\Model\DbVolumeConverter;
+use Navplan\Common\Persistence\Model\DbWeightConverter;
 use Navplan\System\Domain\Model\IDbResult;
 
 
@@ -21,20 +18,12 @@ class DbWeightItemConverter
         return new WeightItem(
             WeightItemType::from($row[DbTableAircraftWeightItems::COL_TYPE]),
             $row[DbTableAircraftWeightItems::COL_NAME],
-            new Length(floatval($row[DbTableAircraftWeightItems::COL_ARM_LONG_M]), LengthUnit::M),
-            new Length(floatval($row[DbTableAircraftWeightItems::COL_ARM_LAT_M]), LengthUnit::M),
-            $row[DbTableAircraftWeightItems::COL_MAX_WEIGHT_KG]
-                ? new Weight(floatval($row[DbTableAircraftWeightItems::COL_MAX_WEIGHT_KG]), WeightUnit::KG)
-                : null,
-            $row[DbTableAircraftWeightItems::COL_MAX_FUEL_L]
-                ? new Volume(floatval($row[DbTableAircraftWeightItems::COL_MAX_FUEL_L]), VolumeUnit::L)
-                : null,
-            $row[DbTableAircraftWeightItems::COL_DEFAULT_WEIGHT_KG]
-                ? new Weight(floatval($row[DbTableAircraftWeightItems::COL_DEFAULT_WEIGHT_KG]), WeightUnit::KG)
-                : null,
-            $row[DbTableAircraftWeightItems::COL_DEFAULT_FUEL_L]
-                ? new Volume(floatval($row[DbTableAircraftWeightItems::COL_DEFAULT_FUEL_L]), VolumeUnit::L)
-                : null
+            DbLengthConverter::fromDbRow($row, DbTableAircraftWeightItems::COL_ARM_LONG, DbTableAircraftWeightItems::COL_ARM_UNIT),
+            DbLengthConverter::fromDbRow($row, DbTableAircraftWeightItems::COL_ARM_LAT, DbTableAircraftWeightItems::COL_ARM_UNIT),
+            DbWeightConverter::fromDbRow($row, DbTableAircraftWeightItems::COL_MAX_WEIGHT, DbTableAircraftWeightItems::COL_WEIGHT_UNIT),
+            DbVolumeConverter::fromDbRow($row, DbTableAircraftWeightItems::COL_MAX_FUEL, DbTableAircraftWeightItems::COL_FUEL_UNIT),
+            DbWeightConverter::fromDbRow($row, DbTableAircraftWeightItems::COL_DEFAULT_WEIGHT, DbTableAircraftWeightItems::COL_WEIGHT_UNIT),
+            DbVolumeConverter::fromDbRow($row, DbTableAircraftWeightItems::COL_DEFAULT_FUEL, DbTableAircraftWeightItems::COL_FUEL_UNIT)
         );
     }
 

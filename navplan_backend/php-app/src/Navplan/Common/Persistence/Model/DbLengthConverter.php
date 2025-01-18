@@ -2,25 +2,25 @@
 
 namespace Navplan\Common\Persistence\Model;
 
-use Navplan\Common\Domain\Model\Weight;
-use Navplan\Common\Domain\Model\WeightUnit;
+use Navplan\Common\Domain\Model\Length;
+use Navplan\Common\Domain\Model\LengthUnit;
 use Navplan\Common\StringNumberHelper;
 
 
-class DbWeightConverter
+class DbLengthConverter
 {
     public static function fromDbRow(
         array $row,
         string $valueColName,
         string $unitColName,
-        ?Weight $defaultWeight = null
-    ): ?Weight
+        ?Length $defaultLength = null
+    ): ?Length
     {
         return StringNumberHelper::isNullOrEmpty($row, $valueColName) || StringNumberHelper::isNullOrEmpty($row, $unitColName)
-            ? $defaultWeight
-            : new Weight(
+            ? $defaultLength
+            : new Length(
                 StringNumberHelper::parseFloatOrZero($row, $valueColName),
-                WeightUnit::from($row[$unitColName])
+                LengthUnit::from($row[$unitColName])
             );
     }
 }

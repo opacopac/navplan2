@@ -33,24 +33,34 @@ class DbWeightItemCreateCommand implements IWeightItemCreateCommand
                 DbTableAircraftWeightItems::COL_ID_AIRCRAFT,
                 DbTableAircraftWeightItems::COL_TYPE,
                 DbTableAircraftWeightItems::COL_NAME,
-                DbTableAircraftWeightItems::COL_ARM_LONG_M,
-                DbTableAircraftWeightItems::COL_ARM_LAT_M,
-                DbTableAircraftWeightItems::COL_MAX_WEIGHT_KG,
-                DbTableAircraftWeightItems::COL_MAX_FUEL_L,
-                DbTableAircraftWeightItems::COL_DEFAULT_WEIGHT_KG,
-                DbTableAircraftWeightItems::COL_DEFAULT_FUEL_L
+                DbTableAircraftWeightItems::COL_ARM_LONG,
+                DbTableAircraftWeightItems::COL_ARM_LAT,
+                DbTableAircraftWeightItems::COL_ARM_UNIT,
+                DbTableAircraftWeightItems::COL_MAX_WEIGHT,
+                DbTableAircraftWeightItems::COL_DEFAULT_WEIGHT,
+                DbTableAircraftWeightItems::COL_WEIGHT_UNIT,
+                DbTableAircraftWeightItems::COL_MAX_FUEL,
+                DbTableAircraftWeightItems::COL_DEFAULT_FUEL,
+                DbTableAircraftWeightItems::COL_FUEL_UNIT
             ]);
         $query .= ") VALUES (";
         $query .= join(",", array(
             DbHelper::getDbIntValue($aircraftId),
             DbHelper::getDbStringValue($this->dbService, $weightItem->type->value),
             DbHelper::getDbStringValue($this->dbService, $weightItem->name),
-            DbHelper::getDbFloatValue($weightItem->armLong->getM()),
-            DbHelper::getDbFloatValue($weightItem->armLat->getM()),
-            DbHelper::getDbFloatValue($weightItem->maxWeight?->getKg()),
-            DbHelper::getDbFloatValue($weightItem->maxFuel?->getL()),
-            DbHelper::getDbFloatValue($weightItem->defaultWeight?->getKg()),
-            DbHelper::getDbFloatValue($weightItem->defaultFuel?->getL())
+            DbHelper::getDbFloatValue($weightItem->armLong->value),
+            DbHelper::getDbFloatValue($weightItem->armLat->value),
+            DbHelper::getDbStringValue($this->dbService, $weightItem->armLong->unit->value),
+            DbHelper::getDbFloatValue($weightItem->maxWeight?->value),
+            DbHelper::getDbFloatValue($weightItem->defaultWeight?->value),
+            DbHelper::getDbStringValue($this->dbService, $weightItem->maxWeight
+                ? $weightItem->maxWeight->unit->value
+                : $weightItem->defaultWeight?->unit->value),
+            DbHelper::getDbFloatValue($weightItem->maxFuel?->value),
+            DbHelper::getDbFloatValue($weightItem->defaultFuel?->value),
+            DbHelper::getDbStringValue($this->dbService, $weightItem->maxFuel
+                ? $weightItem->maxFuel->unit->value
+                : $weightItem->defaultFuel?->unit->value)
         ));
         $query .= ")";
 

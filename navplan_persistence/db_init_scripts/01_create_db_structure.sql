@@ -182,12 +182,15 @@ CREATE TABLE `aircraft_weight_items` (
                                          `aircraft_id` int(11) UNSIGNED NOT NULL,
                                          `type` varchar(20) NOT NULL,
                                          `name` varchar(100) NOT NULL,
-                                         `arm_long_m` float NOT NULL,
-                                         `arm_lat_m` float NOT NULL,
-                                         `max_weight_kg` float UNSIGNED DEFAULT NULL,
-                                         `max_fuel_l` float UNSIGNED DEFAULT NULL,
-                                         `default_weight_kg` float UNSIGNED DEFAULT NULL,
-                                         `default_fuel_l` float UNSIGNED DEFAULT NULL
+                                         `arm_long` float NOT NULL,
+                                         `arm_lat` float NOT NULL,
+                                         `arm_unit` varchar(5) NOT NULL,
+                                         `max_weight` float UNSIGNED DEFAULT NULL,
+                                         `default_weight` float UNSIGNED DEFAULT NULL,
+                                         `weight_unit` varchar(5) DEFAULT NULL,
+                                         `max_fuel` float UNSIGNED DEFAULT NULL,
+                                         `default_fuel` float UNSIGNED DEFAULT NULL,
+                                         `fuel_unit` varchar(5) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 --

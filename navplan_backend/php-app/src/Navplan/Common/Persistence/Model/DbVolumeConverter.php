@@ -2,25 +2,25 @@
 
 namespace Navplan\Common\Persistence\Model;
 
-use Navplan\Common\Domain\Model\Weight;
-use Navplan\Common\Domain\Model\WeightUnit;
+use Navplan\Common\Domain\Model\Volume;
+use Navplan\Common\Domain\Model\VolumeUnit;
 use Navplan\Common\StringNumberHelper;
 
 
-class DbWeightConverter
+class DbVolumeConverter
 {
     public static function fromDbRow(
         array $row,
         string $valueColName,
         string $unitColName,
-        ?Weight $defaultWeight = null
-    ): ?Weight
+        ?Volume $defaultVolume = null
+    ): ?Volume
     {
         return StringNumberHelper::isNullOrEmpty($row, $valueColName) || StringNumberHelper::isNullOrEmpty($row, $unitColName)
-            ? $defaultWeight
-            : new Weight(
+            ? $defaultVolume
+            : new Volume(
                 StringNumberHelper::parseFloatOrZero($row, $valueColName),
-                WeightUnit::from($row[$unitColName])
+                VolumeUnit::from($row[$unitColName])
             );
     }
 }
