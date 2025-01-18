@@ -6,7 +6,7 @@ use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\Weight;
 
 
-class WnbEnvelopeCoordinate
+class WnbLonEnvelopeCoordinate
 {
     public function __construct(
         public Weight $weight,

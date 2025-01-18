@@ -44,7 +44,7 @@ class DbAircraftUpdateCommand implements IAircraftUpdateCommand
 
         // update w&b envelopes
         $this->wnbEnvelopeDeleteCommand->deleteByAircraft($aircraft->id);
-        $this->wnbEnvelopeCreateCommand->create($aircraft->id, $aircraft->wnbEnvelopes);
+        $this->wnbEnvelopeCreateCommand->create($aircraft->id, $aircraft->wnbLonEnvelopes);
 
         // update distance performance tables
         $this->distancePerformanceTableDeleteCommand->deleteByAircraft($aircraft->id);

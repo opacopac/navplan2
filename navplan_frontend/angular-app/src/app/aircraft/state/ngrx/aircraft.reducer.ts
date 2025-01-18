@@ -196,7 +196,7 @@ export const aircraftReducer = createReducer(
     on(AircraftWnbActions.addEnvelopeCoordinate, (state, action) => {
         const envIdx = state.currentAircraft.wnbEnvelopes.findIndex(e => e === action.envelope);
         const newAircraft = state.currentAircraft.clone();
-        newAircraft.wnbEnvelopes[envIdx].coordinates.splice(action.insertAtIndex, 0, action.coordinate);
+        newAircraft.wnbEnvelopes[envIdx].lonEnvelope.splice(action.insertAtIndex, 0, action.coordinate);
         return {
             ...state,
             currentAircraft: newAircraft
@@ -205,9 +205,9 @@ export const aircraftReducer = createReducer(
 
     on(AircraftWnbActions.updateEnvelopeCoordinate, (state, action) => {
         const envIdx = state.currentAircraft.wnbEnvelopes.findIndex(e => e === action.envelope);
-        const coordIdx = state.currentAircraft.wnbEnvelopes[envIdx].coordinates.findIndex(c => c === action.oldCoordinate);
+        const coordIdx = state.currentAircraft.wnbEnvelopes[envIdx].lonEnvelope.findIndex(c => c === action.oldCoordinate);
         const newAircraft = state.currentAircraft.clone();
-        newAircraft.wnbEnvelopes[envIdx].coordinates[coordIdx] = action.newCoordinate;
+        newAircraft.wnbEnvelopes[envIdx].lonEnvelope[coordIdx] = action.newCoordinate;
         return {
             ...state,
             currentAircraft: newAircraft
@@ -216,9 +216,9 @@ export const aircraftReducer = createReducer(
 
     on(AircraftWnbActions.deleteEnvelopeCoordinate, (state, action) => {
         const envIdx = state.currentAircraft.wnbEnvelopes.findIndex(e => e === action.envelope);
-        const coordIdx = state.currentAircraft.wnbEnvelopes[envIdx].coordinates.findIndex(c => c === action.coordinate);
+        const coordIdx = state.currentAircraft.wnbEnvelopes[envIdx].lonEnvelope.findIndex(c => c === action.coordinate);
         const newAircraft = state.currentAircraft.clone();
-        newAircraft.wnbEnvelopes[envIdx].coordinates.splice(coordIdx, 1);
+        newAircraft.wnbEnvelopes[envIdx].lonEnvelope.splice(coordIdx, 1);
         return {
             ...state,
             currentAircraft: newAircraft

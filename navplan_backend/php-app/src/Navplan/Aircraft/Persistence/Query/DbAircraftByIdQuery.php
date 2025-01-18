@@ -60,7 +60,7 @@ class DbAircraftByIdQuery implements IAircraftByIdQuery
         $result = $this->dbService->execMultiResultQuery($query, "error reading aircraft wnb envelopes");
 
         while ($row = $result->fetch_assoc()) {
-            $aircraft->wnbEnvelopes[] = DbWnbEnvelopeConverter::fromDbRow($row);
+            $aircraft->wnbLonEnvelopes[] = DbWnbEnvelopeConverter::fromDbRow($row);
         }
     }
 

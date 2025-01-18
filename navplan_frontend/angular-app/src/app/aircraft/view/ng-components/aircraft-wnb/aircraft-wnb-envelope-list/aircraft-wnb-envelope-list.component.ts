@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Aircraft} from '../../../../domain/model/aircraft';
 import {WeightUnit} from '../../../../../geo-physics/domain/model/quantities/weight-unit';
 import {LengthUnit} from '../../../../../geo-physics/domain/model/quantities/length-unit';
-import {WnbEnvelopeCoordinate} from '../../../../domain/model/wnb-envelope-coordinate';
+import {WnbLonEnvelopeCoordinate} from '../../../../domain/model/wnb-lon-envelope-coordinate';
 import {WnbEnvelope} from '../../../../domain/model/wnb-envelope';
 import {MatDialog} from '@angular/material/dialog';
 import {
@@ -24,9 +24,9 @@ export class AircraftWnbEnvelopeListComponent implements OnInit {
     @Output() envelopeAdded = new EventEmitter<WnbEnvelope>();
     @Output() envelopeUpdated = new EventEmitter<[WnbEnvelope, WnbEnvelope]>();
     @Output() envelopeDeleted = new EventEmitter<WnbEnvelope>();
-    @Output() envelopeCoordinateAdded = new EventEmitter<[WnbEnvelope, WnbEnvelopeCoordinate, number]>();
-    @Output() envelopeCoordinateUpdated = new EventEmitter<[WnbEnvelope, WnbEnvelopeCoordinate, WnbEnvelopeCoordinate]>();
-    @Output() envelopeCoordinateDeleted = new EventEmitter<[WnbEnvelope, WnbEnvelopeCoordinate]>();
+    @Output() envelopeCoordinateAdded = new EventEmitter<[WnbEnvelope, WnbLonEnvelopeCoordinate, number]>();
+    @Output() envelopeCoordinateUpdated = new EventEmitter<[WnbEnvelope, WnbLonEnvelopeCoordinate, WnbLonEnvelopeCoordinate]>();
+    @Output() envelopeCoordinateDeleted = new EventEmitter<[WnbEnvelope, WnbLonEnvelopeCoordinate]>();
 
     protected readonly ButtonColor = ButtonColor;
 
@@ -51,17 +51,17 @@ export class AircraftWnbEnvelopeListComponent implements OnInit {
     }
 
 
-    protected onEnvelopeCoordinateAdded($event: [WnbEnvelope, WnbEnvelopeCoordinate, number]) {
+    protected onEnvelopeCoordinateAdded($event: [WnbEnvelope, WnbLonEnvelopeCoordinate, number]) {
         this.envelopeCoordinateAdded.emit($event);
     }
 
 
-    protected onEnvelopeCoordinateUpdated($event: [WnbEnvelope, WnbEnvelopeCoordinate, WnbEnvelopeCoordinate]) {
+    protected onEnvelopeCoordinateUpdated($event: [WnbEnvelope, WnbLonEnvelopeCoordinate, WnbLonEnvelopeCoordinate]) {
         this.envelopeCoordinateUpdated.emit($event);
     }
 
 
-    protected onEnvelopeCoordinateDeleted($event: [WnbEnvelope, WnbEnvelopeCoordinate]) {
+    protected onEnvelopeCoordinateDeleted($event: [WnbEnvelope, WnbLonEnvelopeCoordinate]) {
         this.envelopeCoordinateDeleted.emit($event);
     }
 

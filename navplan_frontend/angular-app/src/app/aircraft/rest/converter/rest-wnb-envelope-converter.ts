@@ -1,7 +1,8 @@
 import {WnbEnvelope} from '../../domain/model/wnb-envelope';
 import {IRestWnbEnvelope} from '../model/i-rest-wnb-envelope';
-import {RestWnbEnvelopeCoordinateConverter} from './rest-wnb-envelope-coordinate-converter';
+import {RestWnbLonEnvelopeCoordinateConverter} from './rest-wnb-lon-envelope-coordinate-converter';
 import {WnbEnvelopeAxisType} from '../../domain/model/wnb-envelope-axis-type';
+import {RestWnbLatEnvelopeCoordinateConverter} from './rest-wnb-lat-envelope-coordinate-converter';
 
 
 export class RestWnbEnvelopeConverter {
@@ -9,7 +10,8 @@ export class RestWnbEnvelopeConverter {
         return new WnbEnvelope(
             restEnvelope.name,
             WnbEnvelopeAxisType[restEnvelope.axisType],
-            RestWnbEnvelopeCoordinateConverter.fromRestList(restEnvelope.coordinates),
+            RestWnbLonEnvelopeCoordinateConverter.fromRestList(restEnvelope.lonEnvelope),
+            RestWnbLatEnvelopeCoordinateConverter.fromRestList(restEnvelope.latEnvelope)
         );
     }
 
@@ -18,7 +20,8 @@ export class RestWnbEnvelopeConverter {
         return {
             name: envelope.name,
             axisType: WnbEnvelopeAxisType[envelope.axisType],
-            coordinates: RestWnbEnvelopeCoordinateConverter.toRestList(envelope.coordinates)
+            lonEnvelope: RestWnbLonEnvelopeCoordinateConverter.toRestList(envelope.lonEnvelope),
+            latEnvelope: RestWnbLatEnvelopeCoordinateConverter.toRestList(envelope.latEnvelope)
         };
     }
 

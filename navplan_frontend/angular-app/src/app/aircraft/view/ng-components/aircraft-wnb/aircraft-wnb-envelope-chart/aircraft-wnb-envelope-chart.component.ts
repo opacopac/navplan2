@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import {WnbEnvelope} from '../../../../domain/model/wnb-envelope';
 import {WnbEnvelopeSvg} from '../../../svg/wnb-envelope-svg';
-import {WnbEnvelopeCoordinate} from '../../../../domain/model/wnb-envelope-coordinate';
+import {WnbLonEnvelopeCoordinate} from '../../../../domain/model/wnb-lon-envelope-coordinate';
 import {WeightUnit} from '../../../../../geo-physics/domain/model/quantities/weight-unit';
 import {LengthUnit} from '../../../../../geo-physics/domain/model/quantities/length-unit';
 
@@ -23,13 +23,13 @@ import {LengthUnit} from '../../../../../geo-physics/domain/model/quantities/len
 })
 export class AircraftWnbEnvelopeChartComponent implements OnInit, AfterViewInit, OnChanges {
     @Input() envelope: WnbEnvelope;
-    @Input() zeroFuelWnbCoordinate: WnbEnvelopeCoordinate;
-    @Input() takeoffWnbCoordinate: WnbEnvelopeCoordinate;
+    @Input() zeroFuelWnbCoordinate: WnbLonEnvelopeCoordinate;
+    @Input() takeoffWnbCoordinate: WnbLonEnvelopeCoordinate;
     @Input() weightUnit: WeightUnit;
     @Input() lengthUnit: LengthUnit;
     @Input() isEditable: boolean;
-    @Output() addEnvelopeCoordinateClicked = new EventEmitter<WnbEnvelopeCoordinate>();
-    @Output() editEnvelopeCoordinateClicked = new EventEmitter<WnbEnvelopeCoordinate>();
+    @Output() addEnvelopeCoordinateClicked = new EventEmitter<WnbLonEnvelopeCoordinate>();
+    @Output() editEnvelopeCoordinateClicked = new EventEmitter<WnbLonEnvelopeCoordinate>();
     @ViewChild('container') container: ElementRef;
 
 
@@ -77,12 +77,12 @@ export class AircraftWnbEnvelopeChartComponent implements OnInit, AfterViewInit,
     }
 
 
-    private onAddCoordinateClicked(coordinates: WnbEnvelopeCoordinate) {
+    private onAddCoordinateClicked(coordinates: WnbLonEnvelopeCoordinate) {
         this.addEnvelopeCoordinateClicked.emit(coordinates);
     }
 
 
-    private onEditCoordinateClicked(coordinates: WnbEnvelopeCoordinate) {
+    private onEditCoordinateClicked(coordinates: WnbLonEnvelopeCoordinate) {
         this.editEnvelopeCoordinateClicked.emit(coordinates);
     }
 }

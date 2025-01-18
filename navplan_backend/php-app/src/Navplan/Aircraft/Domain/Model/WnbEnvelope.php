@@ -7,12 +7,14 @@ class WnbEnvelope
 {
     /**
      * @param string $name
-     * @param WnbEnvelopeCoordinate[] $coordinates
+     * @param WnbLonEnvelopeCoordinate[] $lonCoordinates
+     * @param WnbLatEnvelopeCoordinate[] $latCoordinates
      */
     public function __construct(
         public string $name,
         public WnbEnvelopeAxisType $axisType,
-        public array $coordinates
+        public array $lonCoordinates,
+        public array $latCoordinates
     )
     {
     }

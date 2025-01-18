@@ -2,26 +2,26 @@
 
 namespace Navplan\Aircraft\Rest\Converter;
 
-use Navplan\Aircraft\Domain\Model\WnbEnvelopeCoordinate;
+use Navplan\Aircraft\Domain\Model\WnbLonEnvelopeCoordinate;
 use Navplan\Common\Rest\Converter\RestLengthConverter;
 use Navplan\Common\Rest\Converter\RestWeightConverter;
 
 
-class RestWnbEnvelopeCoordinateConverter
+class RestWnbLonEnvelopeCoordinateConverter
 {
     const KEY_WEIGHT = "weight";
     const KEY_ARM_CG = "armCg";
 
-    public static function fromRest(array $args): WnbEnvelopeCoordinate
+    public static function fromRest(array $args): WnbLonEnvelopeCoordinate
     {
-        return new WnbEnvelopeCoordinate(
+        return new WnbLonEnvelopeCoordinate(
             RestWeightConverter::fromRest($args[self::KEY_WEIGHT]),
             RestLengthConverter::fromRest($args[self::KEY_ARM_CG])
         );
     }
 
 
-    public static function toRest(WnbEnvelopeCoordinate $coordinate): array
+    public static function toRest(WnbLonEnvelopeCoordinate $coordinate): array
     {
         return array(
             self::KEY_WEIGHT => RestWeightConverter::toRest($coordinate->weight),
@@ -32,7 +32,7 @@ class RestWnbEnvelopeCoordinateConverter
 
     /**
      * @param array $args
-     * @return WnbEnvelopeCoordinate[]
+     * @return WnbLonEnvelopeCoordinate[]
      */
     public static function fromRestList(array $args): array
     {
@@ -46,7 +46,7 @@ class RestWnbEnvelopeCoordinateConverter
 
 
     /**
-     * @param WnbEnvelopeCoordinate[] $coordinateList
+     * @param WnbLonEnvelopeCoordinate[] $coordinateList
      * @return array
      */
     public static function toRestList(array $coordinateList): array

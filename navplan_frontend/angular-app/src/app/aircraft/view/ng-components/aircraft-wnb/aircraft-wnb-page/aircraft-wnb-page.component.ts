@@ -10,7 +10,7 @@ import {Weight} from '../../../../../geo-physics/domain/model/quantities/weight'
 import {AircraftWnbActions} from '../../../../state/ngrx/aircraft-wnb.actions';
 import {WeightItem} from '../../../../domain/model/weight-item';
 import {AircraftCrudActions} from '../../../../state/ngrx/aircraft-crud.actions';
-import {WnbEnvelopeCoordinate} from '../../../../domain/model/wnb-envelope-coordinate';
+import {WnbLonEnvelopeCoordinate} from '../../../../domain/model/wnb-lon-envelope-coordinate';
 import {WnbEnvelope} from '../../../../domain/model/wnb-envelope';
 
 
@@ -97,7 +97,7 @@ export class AircraftWnbPageComponent implements OnInit {
     }
 
 
-    protected onEnvelopeCoordinateAdded($event: [WnbEnvelope, WnbEnvelopeCoordinate, number]) {
+    protected onEnvelopeCoordinateAdded($event: [WnbEnvelope, WnbLonEnvelopeCoordinate, number]) {
         this.appStore.dispatch(
             AircraftWnbActions.addEnvelopeCoordinate({
                 envelope: $event[0],
@@ -107,7 +107,7 @@ export class AircraftWnbPageComponent implements OnInit {
         );
     }
 
-    protected onEnvelopeCoordinateUpdated($event: [WnbEnvelope, WnbEnvelopeCoordinate, WnbEnvelopeCoordinate]) {
+    protected onEnvelopeCoordinateUpdated($event: [WnbEnvelope, WnbLonEnvelopeCoordinate, WnbLonEnvelopeCoordinate]) {
         this.appStore.dispatch(
             AircraftWnbActions.updateEnvelopeCoordinate({
                 envelope: $event[0],
@@ -117,7 +117,7 @@ export class AircraftWnbPageComponent implements OnInit {
         );
     }
 
-    protected onEnvelopeCoordinateDeleted($event: [WnbEnvelope, WnbEnvelopeCoordinate]) {
+    protected onEnvelopeCoordinateDeleted($event: [WnbEnvelope, WnbLonEnvelopeCoordinate]) {
         this.appStore.dispatch(
             AircraftWnbActions.deleteEnvelopeCoordinate({
                 envelope: $event[0],

@@ -11,14 +11,16 @@ class RestWnbEnvelopeConverter
 {
     const KEY_NAME = "name";
     const KEY_AXIS_TYPE = "axisType";
-    const KEY_COORDINATES = "coordinates";
+    const KEY_LAT_ENVELOPE = "latEnvelope";
+    const KEY_LON_ENVELOPE = "lonEnvelope";
 
     public static function fromRest(array $args): WnbEnvelope
     {
         return new WnbEnvelope(
             StringNumberHelper::parseStringOrError($args, self::KEY_NAME),
             WnbEnvelopeAxisType::from(StringNumberHelper::parseStringOrError($args, self::KEY_AXIS_TYPE)),
-            RestWnbEnvelopeCoordinateConverter::fromRestList($args[self::KEY_COORDINATES])
+            RestWnbLonEnvelopeCoordinateConverter::fromRestList($args[self::KEY_LAT_ENVELOPE]),
+            RestWnbLatEnvelopeCoordinateConverter::fromRestList($args[self::KEY_LON_ENVELOPE])
         );
     }
 
@@ -28,7 +30,8 @@ class RestWnbEnvelopeConverter
         return array(
             self::KEY_NAME => $envelope->name,
             self::KEY_AXIS_TYPE => $envelope->axisType->value,
-            self::KEY_COORDINATES => RestWnbEnvelopeCoordinateConverter::toRestList($envelope->coordinates)
+            self::KEY_LAT_ENVELOPE => RestWnbLonEnvelopeCoordinateConverter::toRestList($envelope->lonCoordinates),
+            self::KEY_LON_ENVELOPE => RestWnbLatEnvelopeCoordinateConverter::toRestList($envelope->latCoordinates)
         );
     }
 

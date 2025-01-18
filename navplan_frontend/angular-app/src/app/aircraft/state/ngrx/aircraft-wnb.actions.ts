@@ -1,7 +1,7 @@
 import {createAction, props} from '@ngrx/store';
 import {Weight} from '../../../geo-physics/domain/model/quantities/weight';
 import {WeightItem} from '../../domain/model/weight-item';
-import {WnbEnvelopeCoordinate} from '../../domain/model/wnb-envelope-coordinate';
+import {WnbLonEnvelopeCoordinate} from '../../domain/model/wnb-lon-envelope-coordinate';
 import {WnbEnvelope} from '../../domain/model/wnb-envelope';
 
 
@@ -52,18 +52,18 @@ export class AircraftWnbActions {
 
     public static readonly addEnvelopeCoordinate = createAction(
         '[Aircraft W&B] Add envelope coordinate',
-        props<{ envelope: WnbEnvelope, coordinate: WnbEnvelopeCoordinate, insertAtIndex: number }>()
+        props<{ envelope: WnbEnvelope, coordinate: WnbLonEnvelopeCoordinate, insertAtIndex: number }>()
     );
 
 
     public static readonly updateEnvelopeCoordinate = createAction(
         '[Aircraft W&B] Update envelope coordinate',
-        props<{ envelope: WnbEnvelope, oldCoordinate: WnbEnvelopeCoordinate, newCoordinate: WnbEnvelopeCoordinate }>()
+        props<{ envelope: WnbEnvelope, oldCoordinate: WnbLonEnvelopeCoordinate, newCoordinate: WnbLonEnvelopeCoordinate }>()
     );
 
 
     public static readonly deleteEnvelopeCoordinate = createAction(
         '[Aircraft W&B] Delete envelope coordinate',
-        props<{ envelope: WnbEnvelope, coordinate: WnbEnvelopeCoordinate }>()
+        props<{ envelope: WnbEnvelope, coordinate: WnbLonEnvelopeCoordinate }>()
     );
 }

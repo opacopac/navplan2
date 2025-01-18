@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {WeightUnit} from '../../../../../geo-physics/domain/model/quantities/weight-unit';
 import {LengthUnit} from '../../../../../geo-physics/domain/model/quantities/length-unit';
 import {WnbEnvelope} from '../../../../domain/model/wnb-envelope';
-import {WnbEnvelopeCoordinate} from '../../../../domain/model/wnb-envelope-coordinate';
+import {WnbLonEnvelopeCoordinate} from '../../../../domain/model/wnb-lon-envelope-coordinate';
 import {MatDialog} from '@angular/material/dialog';
 import {
     AircraftWnbEditEnvelopeCoordinateFormDialogComponent
@@ -17,9 +17,9 @@ export class AircraftWnbEditEnvelopeComponent implements OnInit {
     @Input() public lengthUnit: LengthUnit;
     @Input() public weightUnit: WeightUnit;
     @Input() public envelope: WnbEnvelope;
-    @Output() public coordinateAdded = new EventEmitter<[WnbEnvelope, WnbEnvelopeCoordinate, number]>();
-    @Output() public coordinateUpdated = new EventEmitter<[WnbEnvelope, WnbEnvelopeCoordinate, WnbEnvelopeCoordinate]>();
-    @Output() public coordinateDeleted = new EventEmitter<[WnbEnvelope, WnbEnvelopeCoordinate]>();
+    @Output() public coordinateAdded = new EventEmitter<[WnbEnvelope, WnbLonEnvelopeCoordinate, number]>();
+    @Output() public coordinateUpdated = new EventEmitter<[WnbEnvelope, WnbLonEnvelopeCoordinate, WnbLonEnvelopeCoordinate]>();
+    @Output() public coordinateDeleted = new EventEmitter<[WnbEnvelope, WnbLonEnvelopeCoordinate]>();
 
 
     constructor(
@@ -32,24 +32,24 @@ export class AircraftWnbEditEnvelopeComponent implements OnInit {
     }
 
 
-    protected onAddEnvelopeCoordinateClicked(coord: WnbEnvelopeCoordinate) {
+    protected onAddEnvelopeCoordinateClicked(coord: WnbLonEnvelopeCoordinate) {
         this.openDialog(coord, true);
     }
 
 
-    protected onEditEnvelopeCoordinateClicked(coord: WnbEnvelopeCoordinate) {
+    protected onEditEnvelopeCoordinateClicked(coord: WnbLonEnvelopeCoordinate) {
         this.openDialog(coord, false);
     }
 
 
-    private openDialog(coordinate: WnbEnvelopeCoordinate, isNewCoordinate: boolean) {
+    private openDialog(coordinate: WnbLonEnvelopeCoordinate, isNewCoordinate: boolean) {
         const dialogRef = this.dialog.open(AircraftWnbEditEnvelopeCoordinateFormDialogComponent, {
             // height: '800px',
             width: '600px',
             data: {
                 isNewCoordinate: isNewCoordinate,
                 coordinate: coordinate,
-                coordinateList: this.envelope.coordinates,
+                coordinateList: this.envelope.lonEnvelope,
                 lengthUnit: this.lengthUnit,
                 weightUnit: this.weightUnit,
             }

@@ -5,7 +5,7 @@ import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-unit';
 import {WeightUnit} from '../../../geo-physics/domain/model/quantities/weight-unit';
 import {Weight} from '../../../geo-physics/domain/model/quantities/weight';
-import {WnbEnvelopeCoordinate} from '../../domain/model/wnb-envelope-coordinate';
+import {WnbLonEnvelopeCoordinate} from '../../domain/model/wnb-lon-envelope-coordinate';
 import {WnbEnvelopeDotSvg} from './wnb-envelope-dot-svg';
 import {WnbWeightGridSvg} from './wnb-weight-grid-svg';
 import {WnbArmGridSvg} from './wnb-arm-grid-svg';
@@ -23,8 +23,8 @@ export class WnbEnvelopeSvg {
 
     public static create(
         envelope: WnbEnvelope,
-        zeroFuelWnbCoordinate: WnbEnvelopeCoordinate,
-        takeoffWnbCoordinate: WnbEnvelopeCoordinate,
+        zeroFuelWnbCoordinate: WnbLonEnvelopeCoordinate,
+        takeoffWnbCoordinate: WnbLonEnvelopeCoordinate,
         weightUnit: WeightUnit,
         lengthUnit: LengthUnit,
         imageWidthPx: number,
@@ -53,8 +53,8 @@ export class WnbEnvelopeSvg {
             };
         }
 
-        if (envelope.coordinates.length > 0) {
-            svg.appendChild(WnbEnvelopeContourSvg.create(envelope.coordinates, imgDim));
+        if (envelope.lonEnvelope.length > 0) {
+            svg.appendChild(WnbEnvelopeContourSvg.create(envelope.lonEnvelope, imgDim));
         }
         svg.appendChild(WnbWeightGridSvg.create(imgDim, weightUnit));
         svg.appendChild(WnbArmGridSvg.create(imgDim, lengthUnit));
@@ -65,9 +65,9 @@ export class WnbEnvelopeSvg {
             svg.appendChild(WnbEnvelopeDotSvg.create(takeoffWnbCoordinate, imgDim, 'Takeoff', true, null));
         }
         if (isEditable) {
-            envelope.coordinates.forEach(coord => {
+            envelope.lonEnvelope.forEach(coord => {
                 const label =
-                    (envelope.coordinates.indexOf(coord) + 1) + ') '
+                    (envelope.lonEnvelope.indexOf(coord) + 1) + ') '
                     + coord.weight.getValueAndUnit(weightUnit, 0) + ' / '
                     + coord.armCg.getValueAndUnit(lengthUnit, 3);
                 svg.appendChild(WnbEnvelopeDotSvg.create(coord, imgDim, label, true, editClickCallback));
@@ -80,8 +80,8 @@ export class WnbEnvelopeSvg {
 
     private static calcImgDimensions(
         envelope: WnbEnvelope,
-        zeroFuelWnbCoordinate: WnbEnvelopeCoordinate,
-        takeoffWnbCoordinate: WnbEnvelopeCoordinate,
+        zeroFuelWnbCoordinate: WnbLonEnvelopeCoordinate,
+        takeoffWnbCoordinate: WnbLonEnvelopeCoordinate,
         imageWidthPx: number,
         imageHeightPx: number
     ): WnbImageDimensionsSvg {
@@ -130,7 +130,7 @@ export class WnbEnvelopeSvg {
     }
 
 
-    private static getClickCoordinates(event: MouseEvent, svg: SVGSVGElement, imgDim: WnbImageDimensionsSvg): WnbEnvelopeCoordinate {
+    private static getClickCoordinates(event: MouseEvent, svg: SVGSVGElement, imgDim: WnbImageDimensionsSvg): WnbLonEnvelopeCoordinate {
         const rect = svg.getBoundingClientRect();
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
@@ -143,6 +143,6 @@ export class WnbEnvelopeSvg {
         const clickWeightKg = imgDim.maxHeight.kg - diffHeightKg / imgDim.imageHeightPx * y;
         const clickWeight = new Weight(clickWeightKg, WeightUnit.KG);
 
-        return new WnbEnvelopeCoordinate(clickWeight, clickArm);
+        return new WnbLonEnvelopeCoordinate(clickWeight, clickArm);
     }
 }

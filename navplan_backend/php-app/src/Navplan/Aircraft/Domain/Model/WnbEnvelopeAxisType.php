@@ -7,5 +7,4 @@ enum WnbEnvelopeAxisType: string
 {
     case WEIGHT_ARM = "WEIGHT_ARM";
     case WEIGHT_MOMENT = "WEIGHT_MOMENT";
-    case ARM_LAT_ARM_LONG = "ARM_LAT_ARM_LONG";
 }

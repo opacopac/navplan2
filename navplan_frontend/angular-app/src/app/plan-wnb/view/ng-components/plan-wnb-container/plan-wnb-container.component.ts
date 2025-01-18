@@ -11,7 +11,7 @@ import {PlanWnbActions} from '../../../state/ngrx/plan-wnb.actions';
 import {Volume} from '../../../../geo-physics/domain/model/quantities/volume';
 import {getCurrentAircraft} from '../../../../aircraft/state/ngrx/aircraft.selectors';
 import {WeightItemType} from '../../../../aircraft/domain/model/weight-item-type';
-import {WnbEnvelopeCoordinate} from '../../../../aircraft/domain/model/wnb-envelope-coordinate';
+import {WnbLonEnvelopeCoordinate} from '../../../../aircraft/domain/model/wnb-lon-envelope-coordinate';
 import {VehicleType} from '../../../../aircraft/domain/model/vehicle-type';
 import {WnbEnvelopeAxisType} from '../../../../aircraft/domain/model/wnb-envelope-axis-type';
 
@@ -31,19 +31,19 @@ export class PlanWnbContainerComponent implements OnInit {
         map(items => items.find(wi => wi.type === WeightItemType.ZERO_FUEL_WEIGHT))
     );
     protected readonly zeroFuelCoordinateLong$ = this.zeroFuelWeight$.pipe(
-        map(wi => new WnbEnvelopeCoordinate(wi.weight, wi.armLong))
+        map(wi => new WnbLonEnvelopeCoordinate(wi.weight, wi.armLong))
     );
     protected readonly zeroFuelCoordinateLat$ = this.zeroFuelWeight$.pipe(
-        map(wi => new WnbEnvelopeCoordinate(wi.weight, wi.armLat))
+        map(wi => new WnbLonEnvelopeCoordinate(wi.weight, wi.armLat))
     );
     protected readonly takeoffWeight$ = this.weightItems$.pipe(
         map(items => items.find(wi => wi.type === WeightItemType.TAKEOFF_WEIGHT))
     );
     protected readonly takeoffCoordinateLong$ = this.takeoffWeight$.pipe(
-        map(wi => new WnbEnvelopeCoordinate(wi.weight, wi.armLong))
+        map(wi => new WnbLonEnvelopeCoordinate(wi.weight, wi.armLong))
     );
     protected readonly takeoffCoordinateLat$ = this.takeoffWeight$.pipe(
-        map(wi => new WnbEnvelopeCoordinate(wi.weight, wi.armLat))
+        map(wi => new WnbLonEnvelopeCoordinate(wi.weight, wi.armLat))
     );
     protected readonly envelopes$ = this.currentAircraft$.pipe(map(aircraft => aircraft ? aircraft.wnbEnvelopes : []));
     protected readonly flightroute$ = this.appStore.pipe(select(getFlightroute));

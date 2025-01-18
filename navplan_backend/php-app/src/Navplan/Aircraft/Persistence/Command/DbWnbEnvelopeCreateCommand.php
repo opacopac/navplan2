@@ -34,14 +34,20 @@ class DbWnbEnvelopeCreateCommand implements IWnbEnvelopeCreateCommand
                 DbTableAircraftWnbEnvelopes::COL_ID_AIRCRAFT,
                 DbTableAircraftWnbEnvelopes::COL_NAME,
                 DbTableAircraftWnbEnvelopes::COL_AXIS_TYPE,
-                DbTableAircraftWnbEnvelopes::COL_COORDINATES_KG_M
+                DbTableAircraftWnbEnvelopes::COL_LON_ENVELOPE,
+                DbTableAircraftWnbEnvelopes::COL_LAT_ENVELOPE,
+                DbTableAircraftWnbEnvelopes::COL_ARM_UNIT,
+                DbTableAircraftWnbEnvelopes::COL_WEIGHT_UNIT
             ]);
         $query .= ") VALUES (";
         $query .= join(",", array(
             DbHelper::getDbIntValue($aircraftId),
             DbHelper::getDbStringValue($this->dbService, $wnbEnvelope->name),
             DbHelper::getDbStringValue($this->dbService, $wnbEnvelope->axisType->value),
-            DbWnbEnvelopeConverter::toDbString($this->dbService, $wnbEnvelope->coordinates)
+            DbWnbEnvelopeConverter::lonEnvtoDbString($this->dbService, $wnbEnvelope->lonCoordinates),
+            DbWnbEnvelopeConverter::latEnvtoDbString($this->dbService, $wnbEnvelope->latCoordinates),
+            DbHelper::getDbStringValue($this->dbService, $wnbEnvelope->lonCoordinates[0]->armCg->unit->value),
+            DbHelper::getDbStringValue($this->dbService, $wnbEnvelope->lonCoordinates[0]->weight->unit->value),
         ));
         $query .= ")";
 

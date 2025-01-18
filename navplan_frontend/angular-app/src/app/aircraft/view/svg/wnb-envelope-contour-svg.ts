@@ -1,10 +1,10 @@
-import {WnbEnvelopeCoordinate} from '../../domain/model/wnb-envelope-coordinate';
+import {WnbLonEnvelopeCoordinate} from '../../domain/model/wnb-lon-envelope-coordinate';
 import {WnbImageDimensionsSvg} from './wnb-image-dimensions-svg';
 import {SvgPolygonBuilder} from '../../../common/svg/svg-polygon-builder';
 
 
 export class WnbEnvelopeContourSvg {
-    public static create(coordinates: WnbEnvelopeCoordinate[], imgDim: WnbImageDimensionsSvg): SVGPolygonElement {
+    public static create(coordinates: WnbLonEnvelopeCoordinate[], imgDim: WnbImageDimensionsSvg): SVGPolygonElement {
         const polygon = SvgPolygonBuilder.builder();
 
         coordinates.forEach(coord => {

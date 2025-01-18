@@ -36,7 +36,7 @@ class DbAircraftCreateCommand implements IAircraftCreateCommand
         $this->weightItemCreateCommand->create($aircraft->id, $aircraft->wnbWeightItems);
 
         // create w&b envelopes
-        $this->wnbEnvelopeCreateCommand->create($aircraft->id, $aircraft->wnbEnvelopes);
+        $this->wnbEnvelopeCreateCommand->create($aircraft->id, $aircraft->wnbLonEnvelopes);
 
         // create distance performance tables
         if ($aircraft->perfTakeoffGroundRoll) {

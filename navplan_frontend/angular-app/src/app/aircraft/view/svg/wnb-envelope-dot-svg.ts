@@ -1,4 +1,4 @@
-import {WnbEnvelopeCoordinate} from '../../domain/model/wnb-envelope-coordinate';
+import {WnbLonEnvelopeCoordinate} from '../../domain/model/wnb-lon-envelope-coordinate';
 import {WnbImageDimensionsSvg} from './wnb-image-dimensions-svg';
 import {SvgCircleBuilder} from '../../../common/svg/svg-circle-builder';
 import {SvgTextBuilder} from '../../../common/svg/svg-text-builder';
@@ -7,7 +7,7 @@ import {SvgGroupElement} from '../../../common/svg/svg-group-element';
 
 export class WnbEnvelopeDotSvg {
     public static create(
-        dotCoordinate: WnbEnvelopeCoordinate,
+        dotCoordinate: WnbLonEnvelopeCoordinate,
         imgDim: WnbImageDimensionsSvg,
         label: string,
         isFilled: boolean,

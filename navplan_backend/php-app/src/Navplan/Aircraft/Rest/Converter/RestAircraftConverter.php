@@ -69,7 +69,7 @@ class RestAircraftConverter
             self::KEY_PERF_LANDING_GROUND_ROLL => RestDistancePerformanceTableConverter::toRest($aircraft->perfLandingGroundRoll),
             self::KEY_PERF_LANDING_DIST_50FT => RestDistancePerformanceTableConverter::toRest($aircraft->perfLandingDist50ft),
             self::KEY_WNB_WEIGHT_ITEMS => RestWeightItemConverter::toRestList($aircraft->wnbWeightItems),
-            self::KEY_WNB_ENVELOPES => RestWnbEnvelopeConverter::toRestList($aircraft->wnbEnvelopes)
+            self::KEY_WNB_ENVELOPES => RestWnbEnvelopeConverter::toRestList($aircraft->wnbLonEnvelopes)
         );
     }
 

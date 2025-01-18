@@ -4,7 +4,8 @@ namespace Navplan\Aircraft\Persistence\Query;
 
 use Navplan\Aircraft\Domain\Model\WnbEnvelope;
 use Navplan\Aircraft\Domain\Model\WnbEnvelopeAxisType;
-use Navplan\Aircraft\Domain\Model\WnbEnvelopeCoordinate;
+use Navplan\Aircraft\Domain\Model\WnbLatEnvelopeCoordinate;
+use Navplan\Aircraft\Domain\Model\WnbLonEnvelopeCoordinate;
 use Navplan\Aircraft\Persistence\Model\DbTableAircraftWnbEnvelopes;
 use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\LengthUnit;
@@ -17,14 +18,28 @@ use Navplan\System\MySqlDb\DbHelper;
 class DbWnbEnvelopeConverter
 {
     /**
-     * @param WnbEnvelopeCoordinate[] $wnbEnvelopeCoordinates
+     * @param WnbLonEnvelopeCoordinate[] $lonEnvCoordinates
      * @return string
      */
-    public static function toDbString(IDbService $dbService, array $wnbEnvelopeCoordinates): string
+    public static function lonEnvtoDbString(IDbService $dbService, array $lonEnvCoordinates): string
     {
         $json = json_encode(array_map(function ($coord) {
-            return [$coord->weight->getKg(), $coord->armCg->getM()];
-        }, $wnbEnvelopeCoordinates));
+            return [$coord->weight->value, $coord->armCg->value];
+        }, $lonEnvCoordinates));
+
+        return DbHelper::getDbStringValue($dbService, $json);
+    }
+
+
+    /**
+     * @param WnbLatEnvelopeCoordinate[] $latEnvCoordinates
+     * @return string
+     */
+    public static function latEnvtoDbString(IDbService $dbService, array $latEnvCoordinates): string
+    {
+        $json = json_encode(array_map(function ($coord) {
+            return [$coord->latArmCg->value, $coord->lonArmCg->value];
+        }, $latEnvCoordinates));
 
         return DbHelper::getDbStringValue($dbService, $json);
     }
@@ -32,24 +47,47 @@ class DbWnbEnvelopeConverter
 
     public static function fromDbRow(array $row): WnbEnvelope
     {
+        $armUnit = LengthUnit::from($row[DbTableAircraftWnbEnvelopes::COL_ARM_UNIT]);
+        $weightUnit = WeightUnit::from($row[DbTableAircraftWnbEnvelopes::COL_WEIGHT_UNIT]);
+
         return new WnbEnvelope(
             $row[DbTableAircraftWnbEnvelopes::COL_NAME],
             WnbEnvelopeAxisType::from($row[DbTableAircraftWnbEnvelopes::COL_AXIS_TYPE]),
-            self::parseCoordinates($row[DbTableAircraftWnbEnvelopes::COL_COORDINATES_KG_M])
+            self::parseLonCoordinates($row[DbTableAircraftWnbEnvelopes::COL_LON_ENVELOPE], $weightUnit, $armUnit),
+            self::parseLatCoordinates($row[DbTableAircraftWnbEnvelopes::COL_LAT_ENVELOPE], $armUnit)
         );
     }
 
 
     /**
      * @param string $jsonString
-     * @return WnbEnvelopeCoordinate[]
+     * @return WnbLonEnvelopeCoordinate[]
      */
-    private static function parseCoordinates(string $jsonString): array
+    private static function parseLonCoordinates(string $jsonString, WeightUnit $weightUnit, LengthUnit $armUnit): array
     {
-        return array_map(function ($coord) {
-            return new WnbEnvelopeCoordinate(
-                new Weight($coord[0], WeightUnit::KG),
-                new Length($coord[1], LengthUnit::M)
+        return array_map(function ($coord) use ($weightUnit, $armUnit) {
+            return new WnbLonEnvelopeCoordinate(
+                new Weight($coord[0], $weightUnit),
+                new Length($coord[1], $armUnit)
+            );
+        }, json_decode($jsonString, true));
+    }
+
+
+    /**
+     * @param string $jsonString
+     * @return WnbLatEnvelopeCoordinate[]
+     */
+    private static function parseLatCoordinates(?string $jsonString, LengthUnit $armUnit): array
+    {
+        if ($jsonString === NULL) {
+            return [];
+        }
+
+        return array_map(function ($coord) use ($armUnit) {
+            return new WnbLatEnvelopeCoordinate(
+                new Length($coord[0], $armUnit),
+                new Length($coord[1], $armUnit)
             );
         }, json_decode($jsonString, true));
     }

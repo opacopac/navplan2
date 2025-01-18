@@ -2,7 +2,7 @@ import {Component, Inject, OnChanges, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {LengthUnit} from '../../../../../geo-physics/domain/model/quantities/length-unit';
 import {WeightUnit} from '../../../../../geo-physics/domain/model/quantities/weight-unit';
-import {WnbEnvelopeCoordinate} from '../../../../domain/model/wnb-envelope-coordinate';
+import {WnbLonEnvelopeCoordinate} from '../../../../domain/model/wnb-lon-envelope-coordinate';
 import {Length} from '../../../../../geo-physics/domain/model/quantities/length';
 import {Weight} from '../../../../../geo-physics/domain/model/quantities/weight';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -25,8 +25,8 @@ export class AircraftWnbEditEnvelopeCoordinateFormDialogComponent implements OnI
         private dialogRef: MatDialogRef<AircraftWnbEditEnvelopeCoordinateFormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: {
             isNewCoordinate: boolean;
-            coordinate: WnbEnvelopeCoordinate;
-            coordinateList: WnbEnvelopeCoordinate[];
+            coordinate: WnbLonEnvelopeCoordinate;
+            coordinateList: WnbLonEnvelopeCoordinate[];
             lengthUnit: LengthUnit;
             weightUnit: WeightUnit;
         },
@@ -49,7 +49,7 @@ export class AircraftWnbEditEnvelopeCoordinateFormDialogComponent implements OnI
     }
 
 
-    protected getInsertAtIndexText(coord: WnbEnvelopeCoordinate): string {
+    protected getInsertAtIndexText(coord: WnbLonEnvelopeCoordinate): string {
         const index = this.data.coordinateList.indexOf(coord);
         if (index === this.data.coordinateList.length - 1) {
             return 'at the end';
@@ -71,7 +71,7 @@ export class AircraftWnbEditEnvelopeCoordinateFormDialogComponent implements OnI
         if (this.editCoordinateForm.valid) {
             const weightValue = parseInt(this.editCoordinateForm.get('weight').value, 10);
             const armValue = parseFloat(this.editCoordinateForm.get('arm').value);
-            const newCoordinate = new WnbEnvelopeCoordinate(
+            const newCoordinate = new WnbLonEnvelopeCoordinate(
                 isNaN(weightValue) ? null : new Weight(weightValue, this.data.weightUnit),
                 isNaN(armValue) ? null : new Length(armValue, this.data.lengthUnit),
             );
@@ -100,7 +100,7 @@ export class AircraftWnbEditEnvelopeCoordinateFormDialogComponent implements OnI
     }
 
 
-    private initForm(coordinate: WnbEnvelopeCoordinate) {
+    private initForm(coordinate: WnbLonEnvelopeCoordinate) {
         const insertAtIndexValue = this.data.coordinateList ? this.data.coordinateList.length : 0;
         this.editCoordinateForm = this.formBuilder.group({
             'arm': [
